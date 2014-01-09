@@ -26,17 +26,10 @@ class DomainParameterTest < ActiveSupport::TestCase
     assert parameter2.valid?
   end
 
-  def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_domains"
-      role.permissions = ["#{operation}_domains".to_sym]
-      role.save!
-      @one.roles = [role]
-      @one.domains.destroy_all
-      @one.save!
+  def setup_user operation, type = 'domains'
+    super(operation, type) do |user|
+      user.domains.destroy_all
     end
-    User.current = @one
   end
 
   test "user with create permissions should be able to create when permitted" do

@@ -36,18 +36,11 @@ class HostParameterTest < ActiveSupport::TestCase
   end
 
   def setup_user operation, type = "params"
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
-      role.permissions = ["#{operation}_#{type}".to_sym]
-      role.save!
-      @one.roles      = [role]
-      @one.domains.destroy_all
-      @one.hostgroups.destroy_all
-      @one.user_facts.destroy_all
-      @one.save!
+    super(operation, type) do |user|
+      user.domains.destroy_all
+      user.hostgroups.destroy_all
+      user.user_facts.destroy_all
     end
-    User.current = @one
   end
 
   test "user with create permissions should be able to create when permitted" do

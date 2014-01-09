@@ -72,17 +72,10 @@ class DomainTest < ActiveSupport::TestCase
     hosts(:one)
   end
 
-  def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_domains"
-      role.permissions = ["#{operation}_domains".to_sym]
-      @one.roles = [role]
-      role.save!
-      @one.domains.destroy_all
-      @one.save!
+  def setup_user(operation, type = 'domains')
+    super(operation, type) do |user|
+      user.domains.destroy_all
     end
-    User.current = @one
   end
 
   test "user with edit permissions should be able to edit when permitted" do

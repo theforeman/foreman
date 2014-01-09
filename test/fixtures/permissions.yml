@@ -1,0 +1,811 @@
+--- 
+  permissions_001: 
+    id: "272"
+    name: view_architectures
+    resource_type: Architecture
+    created_at: "2013-12-04 08:41:04.321867"
+    updated_at: "2013-12-04 08:41:04.321867"
+  permissions_002: 
+    id: "273"
+    name: create_architectures
+    resource_type: Architecture
+    created_at: "2013-12-04 08:41:04.357689"
+    updated_at: "2013-12-04 08:41:04.357689"
+  permissions_003: 
+    id: "274"
+    name: edit_architectures
+    resource_type: Architecture
+    created_at: "2013-12-04 08:41:04.365371"
+    updated_at: "2013-12-04 08:41:04.365371"
+  permissions_004: 
+    id: "275"
+    name: destroy_architectures
+    resource_type: Architecture
+    created_at: "2013-12-04 08:41:04.373182"
+    updated_at: "2013-12-04 08:41:04.373182"
+  permissions_005: 
+    id: "277"
+    name: view_authenticators
+    resource_type: AuthSourceLdap
+    created_at: "2013-12-04 08:41:04.389686"
+    updated_at: "2013-12-04 08:41:04.389686"
+  permissions_006: 
+    id: "278"
+    name: create_authenticators
+    resource_type: AuthSourceLdap
+    created_at: "2013-12-04 08:41:04.398376"
+    updated_at: "2013-12-04 08:41:04.398376"
+  permissions_007: 
+    id: "279"
+    name: edit_authenticators
+    resource_type: AuthSourceLdap
+    created_at: "2013-12-04 08:41:04.40647"
+    updated_at: "2013-12-04 08:41:04.40647"
+  permissions_008: 
+    id: "280"
+    name: destroy_authenticators
+    resource_type: AuthSourceLdap
+    created_at: "2013-12-04 08:41:04.414794"
+    updated_at: "2013-12-04 08:41:04.414794"
+  permissions_009: 
+    id: "281"
+    name: view_bookmarks
+    resource_type: Bookmark
+    created_at: "2013-12-04 08:41:04.423092"
+    updated_at: "2013-12-04 08:41:04.423092"
+  permissions_010: 
+    id: "282"
+    name: create_bookmarks
+    resource_type: Bookmark
+    created_at: "2013-12-04 08:41:04.431655"
+    updated_at: "2013-12-04 08:41:04.431655"
+  permissions_011: 
+    id: "283"
+    name: edit_bookmarks
+    resource_type: Bookmark
+    created_at: "2013-12-04 08:41:04.439632"
+    updated_at: "2013-12-04 08:41:04.439632"
+  permissions_012: 
+    id: "284"
+    name: destroy_bookmarks
+    resource_type: Bookmark
+    created_at: "2013-12-04 08:41:04.448264"
+    updated_at: "2013-12-04 08:41:04.448264"
+  permissions_013: 
+    id: "285"
+    name: view_compute_resources
+    resource_type: ComputeResource
+    created_at: "2013-12-04 08:41:04.456196"
+    updated_at: "2013-12-04 08:41:04.456196"
+  permissions_014: 
+    id: "286"
+    name: create_compute_resources
+    resource_type: ComputeResource
+    created_at: "2013-12-04 08:41:04.464913"
+    updated_at: "2013-12-04 08:41:04.464913"
+  permissions_015: 
+    id: "287"
+    name: edit_compute_resources
+    resource_type: ComputeResource
+    created_at: "2013-12-04 08:41:04.473288"
+    updated_at: "2013-12-04 08:41:04.473288"
+  permissions_016: 
+    id: "288"
+    name: destroy_compute_resources
+    resource_type: ComputeResource
+    created_at: "2013-12-04 08:41:04.481549"
+    updated_at: "2013-12-04 08:41:04.481549"
+  permissions_017: 
+    id: "295"
+    name: view_templates
+    resource_type: ConfigTemplate
+    created_at: "2013-12-04 08:41:04.540648"
+    updated_at: "2013-12-04 08:41:04.540648"
+  permissions_018: 
+    id: "296"
+    name: create_templates
+    resource_type: ConfigTemplate
+    created_at: "2013-12-04 08:41:04.548631"
+    updated_at: "2013-12-04 08:41:04.548631"
+  permissions_019: 
+    id: "297"
+    name: edit_templates
+    resource_type: ConfigTemplate
+    created_at: "2013-12-04 08:41:04.556639"
+    updated_at: "2013-12-04 08:41:04.556639"
+  permissions_020: 
+    id: "298"
+    name: destroy_templates
+    resource_type: ConfigTemplate
+    created_at: "2013-12-04 08:41:04.564948"
+    updated_at: "2013-12-04 08:41:04.564948"
+  permissions_021: 
+    id: "299"
+    name: deploy_templates
+    resource_type: ConfigTemplate
+    created_at: "2013-12-04 08:41:04.573359"
+    updated_at: "2013-12-04 08:41:04.573359"
+  permissions_022: 
+    id: "300"
+    name: access_dashboard
+    resource_type: 
+    created_at: "2013-12-04 08:41:04.581753"
+    updated_at: "2013-12-04 08:41:04.581753"
+  permissions_023: 
+    id: "301"
+    name: view_domains
+    resource_type: Domain
+    created_at: "2013-12-04 08:41:04.590726"
+    updated_at: "2013-12-04 08:41:04.590726"
+  permissions_024: 
+    id: "302"
+    name: create_domains
+    resource_type: Domain
+    created_at: "2013-12-04 08:41:04.598517"
+    updated_at: "2013-12-04 08:41:04.598517"
+  permissions_025: 
+    id: "303"
+    name: edit_domains
+    resource_type: Domain
+    created_at: "2013-12-04 08:41:04.606731"
+    updated_at: "2013-12-04 08:41:04.606731"
+  permissions_026: 
+    id: "304"
+    name: destroy_domains
+    resource_type: Domain
+    created_at: "2013-12-04 08:41:04.615227"
+    updated_at: "2013-12-04 08:41:04.615227"
+  permissions_027: 
+    id: "305"
+    name: view_environments
+    resource_type: Environment
+    created_at: "2013-12-04 08:41:04.623403"
+    updated_at: "2013-12-04 08:41:04.623403"
+  permissions_028: 
+    id: "306"
+    name: create_environments
+    resource_type: Environment
+    created_at: "2013-12-04 08:41:04.631791"
+    updated_at: "2013-12-04 08:41:04.631791"
+  permissions_029: 
+    id: "307"
+    name: edit_environments
+    resource_type: Environment
+    created_at: "2013-12-04 08:41:04.640671"
+    updated_at: "2013-12-04 08:41:04.640671"
+  permissions_030: 
+    id: "308"
+    name: destroy_environments
+    resource_type: Environment
+    created_at: "2013-12-04 08:41:04.648794"
+    updated_at: "2013-12-04 08:41:04.648794"
+  permissions_031: 
+    id: "309"
+    name: import_environments
+    resource_type: Environment
+    created_at: "2013-12-04 08:41:04.656654"
+    updated_at: "2013-12-04 08:41:04.656654"
+  permissions_032: 
+    id: "310"
+    name: view_external_variables
+    resource_type: LookupKey
+    created_at: "2013-12-04 08:41:04.664806"
+    updated_at: "2013-12-04 08:41:04.664806"
+  permissions_033: 
+    id: "311"
+    name: create_external_variables
+    resource_type: LookupKey
+    created_at: "2013-12-04 08:41:04.673323"
+    updated_at: "2013-12-04 08:41:04.673323"
+  permissions_034: 
+    id: "312"
+    name: edit_external_variables
+    resource_type: LookupKey
+    created_at: "2013-12-04 08:41:04.681526"
+    updated_at: "2013-12-04 08:41:04.681526"
+  permissions_035: 
+    id: "313"
+    name: destroy_external_variables
+    resource_type: LookupKey
+    created_at: "2013-12-04 08:41:04.690155"
+    updated_at: "2013-12-04 08:41:04.690155"
+  permissions_036: 
+    id: "316"
+    name: view_globals
+    resource_type: CommonParameter
+    created_at: "2013-12-04 08:41:04.782155"
+    updated_at: "2013-12-04 08:41:04.782155"
+  permissions_037: 
+    id: "317"
+    name: create_globals
+    resource_type: CommonParameter
+    created_at: "2013-12-04 08:41:04.790219"
+    updated_at: "2013-12-04 08:41:04.790219"
+  permissions_038: 
+    id: "318"
+    name: edit_globals
+    resource_type: CommonParameter
+    created_at: "2013-12-04 08:41:04.799011"
+    updated_at: "2013-12-04 08:41:04.799011"
+  permissions_039: 
+    id: "319"
+    name: destroy_globals
+    resource_type: CommonParameter
+    created_at: "2013-12-04 08:41:04.806569"
+    updated_at: "2013-12-04 08:41:04.806569"
+  permissions_040: 
+    id: "321"
+    name: create_params
+    resource_type: Parameter
+    created_at: "2013-12-04 08:41:04.823716"
+    updated_at: "2013-12-04 08:41:04.823716"
+  permissions_041: 
+    id: "322"
+    name: edit_params
+    resource_type: Parameter
+    created_at: "2013-12-04 08:41:04.831888"
+    updated_at: "2013-12-04 08:41:04.831888"
+  permissions_042: 
+    id: "323"
+    name: destroy_params
+    resource_type: Parameter
+    created_at: "2013-12-04 08:41:04.84007"
+    updated_at: "2013-12-04 08:41:04.84007"
+  permissions_043: 
+    id: "324"
+    name: view_hostgroups
+    resource_type: Hostgroup
+    created_at: "2013-12-04 08:41:04.848067"
+    updated_at: "2013-12-04 08:41:04.848067"
+  permissions_044: 
+    id: "325"
+    name: create_hostgroups
+    resource_type: Hostgroup
+    created_at: "2013-12-04 08:41:04.857019"
+    updated_at: "2013-12-04 08:41:04.857019"
+  permissions_045: 
+    id: "326"
+    name: edit_hostgroups
+    resource_type: Hostgroup
+    created_at: "2013-12-04 08:41:04.865372"
+    updated_at: "2013-12-04 08:41:04.865372"
+  permissions_046: 
+    id: "327"
+    name: destroy_hostgroups
+    resource_type: Hostgroup
+    created_at: "2013-12-04 08:41:04.873653"
+    updated_at: "2013-12-04 08:41:04.873653"
+  permissions_047: 
+    id: "328"
+    name: view_hosts
+    resource_type: Host
+    created_at: "2013-12-04 08:41:04.882031"
+    updated_at: "2013-12-04 08:41:04.882031"
+  permissions_048: 
+    id: "329"
+    name: create_hosts
+    resource_type: Host
+    created_at: "2013-12-04 08:41:04.88986"
+    updated_at: "2013-12-04 08:41:04.88986"
+  permissions_049: 
+    id: "330"
+    name: edit_hosts
+    resource_type: Host
+    created_at: "2013-12-04 08:41:04.898373"
+    updated_at: "2013-12-04 08:41:04.898373"
+  permissions_050: 
+    id: "331"
+    name: destroy_hosts
+    resource_type: Host
+    created_at: "2013-12-04 08:41:04.907008"
+    updated_at: "2013-12-04 08:41:04.907008"
+  permissions_051: 
+    id: "332"
+    name: build_hosts
+    resource_type: Host
+    created_at: "2013-12-04 08:41:04.915297"
+    updated_at: "2013-12-04 08:41:04.915297"
+  permissions_052: 
+    id: "333"
+    name: power_hosts
+    resource_type: Host
+    created_at: "2013-12-04 08:41:04.923204"
+    updated_at: "2013-12-04 08:41:04.923204"
+  permissions_053: 
+    id: "334"
+    name: console_hosts
+    resource_type: Host
+    created_at: "2013-12-04 08:41:04.931564"
+    updated_at: "2013-12-04 08:41:04.931564"
+  permissions_054: 
+    id: "335"
+    name: ipmi_boot
+    resource_type: Host
+    created_at: "2013-12-04 08:41:04.940695"
+    updated_at: "2013-12-04 08:41:04.940695"
+  permissions_055: 
+    id: "336"
+    name: puppetrun_hosts
+    resource_type: Host
+    created_at: "2013-12-04 08:41:04.962776"
+    updated_at: "2013-12-04 08:41:04.962776"
+  permissions_056: 
+    id: "337"
+    name: view_images
+    resource_type: Image
+    created_at: "2013-12-04 08:41:04.982309"
+    updated_at: "2013-12-04 08:41:04.982309"
+  permissions_057: 
+    id: "338"
+    name: create_images
+    resource_type: Image
+    created_at: "2013-12-04 08:41:04.990762"
+    updated_at: "2013-12-04 08:41:04.990762"
+  permissions_058: 
+    id: "339"
+    name: edit_images
+    resource_type: Image
+    created_at: "2013-12-04 08:41:04.998531"
+    updated_at: "2013-12-04 08:41:04.998531"
+  permissions_059: 
+    id: "340"
+    name: destroy_images
+    resource_type: Image
+    created_at: "2013-12-04 08:41:05.00707"
+    updated_at: "2013-12-04 08:41:05.00707"
+  permissions_060: 
+    id: "341"
+    name: view_locations
+    resource_type: Location
+    created_at: "2013-12-04 08:41:05.015645"
+    updated_at: "2013-12-04 08:41:05.015645"
+  permissions_061: 
+    id: "342"
+    name: create_locations
+    resource_type: Location
+    created_at: "2013-12-04 08:41:05.024063"
+    updated_at: "2013-12-04 08:41:05.024063"
+  permissions_062: 
+    id: "343"
+    name: edit_locations
+    resource_type: Location
+    created_at: "2013-12-04 08:41:05.032154"
+    updated_at: "2013-12-04 08:41:05.032154"
+  permissions_063: 
+    id: "344"
+    name: destroy_locations
+    resource_type: Location
+    created_at: "2013-12-04 08:41:05.040216"
+    updated_at: "2013-12-04 08:41:05.040216"
+  permissions_064: 
+    id: "345"
+    name: assign_locations
+    resource_type: Location
+    created_at: "2013-12-04 08:41:05.048684"
+    updated_at: "2013-12-04 08:41:05.048684"
+  permissions_065: 
+    id: "346"
+    name: view_media
+    resource_type: Medium
+    created_at: "2013-12-04 08:41:05.057086"
+    updated_at: "2013-12-04 08:41:05.057086"
+  permissions_066: 
+    id: "347"
+    name: create_media
+    resource_type: Medium
+    created_at: "2013-12-04 08:41:05.065732"
+    updated_at: "2013-12-04 08:41:05.065732"
+  permissions_067: 
+    id: "348"
+    name: edit_media
+    resource_type: Medium
+    created_at: "2013-12-04 08:41:05.073582"
+    updated_at: "2013-12-04 08:41:05.073582"
+  permissions_068: 
+    id: "349"
+    name: destroy_media
+    resource_type: Medium
+    created_at: "2013-12-04 08:41:05.0823"
+    updated_at: "2013-12-04 08:41:05.0823"
+  permissions_069: 
+    id: "350"
+    name: view_models
+    resource_type: Model
+    created_at: "2013-12-04 08:41:05.090697"
+    updated_at: "2013-12-04 08:41:05.090697"
+  permissions_070: 
+    id: "351"
+    name: create_models
+    resource_type: Model
+    created_at: "2013-12-04 08:41:05.098969"
+    updated_at: "2013-12-04 08:41:05.098969"
+  permissions_071: 
+    id: "352"
+    name: edit_models
+    resource_type: Model
+    created_at: "2013-12-04 08:41:05.107244"
+    updated_at: "2013-12-04 08:41:05.107244"
+  permissions_072: 
+    id: "353"
+    name: destroy_models
+    resource_type: Model
+    created_at: "2013-12-04 08:41:05.11531"
+    updated_at: "2013-12-04 08:41:05.11531"
+  permissions_073: 
+    id: "354"
+    name: view_operatingsystems
+    resource_type: Operatingsystem
+    created_at: "2013-12-04 08:41:05.123697"
+    updated_at: "2013-12-04 08:41:05.123697"
+  permissions_074: 
+    id: "355"
+    name: create_operatingsystems
+    resource_type: Operatingsystem
+    created_at: "2013-12-04 08:41:05.132086"
+    updated_at: "2013-12-04 08:41:05.132086"
+  permissions_075: 
+    id: "356"
+    name: edit_operatingsystems
+    resource_type: Operatingsystem
+    created_at: "2013-12-04 08:41:05.140537"
+    updated_at: "2013-12-04 08:41:05.140537"
+  permissions_076: 
+    id: "357"
+    name: destroy_operatingsystems
+    resource_type: Operatingsystem
+    created_at: "2013-12-04 08:41:05.148799"
+    updated_at: "2013-12-04 08:41:05.148799"
+  permissions_077: 
+    id: "358"
+    name: view_organizations
+    resource_type: Organization
+    created_at: "2013-12-04 08:41:05.235498"
+    updated_at: "2013-12-04 08:41:05.235498"
+  permissions_078: 
+    id: "359"
+    name: create_organizations
+    resource_type: Organization
+    created_at: "2013-12-04 08:41:05.248483"
+    updated_at: "2013-12-04 08:41:05.248483"
+  permissions_079: 
+    id: "360"
+    name: edit_organizations
+    resource_type: Organization
+    created_at: "2013-12-04 08:41:05.25688"
+    updated_at: "2013-12-04 08:41:05.25688"
+  permissions_080: 
+    id: "361"
+    name: destroy_organizations
+    resource_type: Organization
+    created_at: "2013-12-04 08:41:05.26538"
+    updated_at: "2013-12-04 08:41:05.26538"
+  permissions_081: 
+    id: "362"
+    name: assign_organizations
+    resource_type: Organization
+    created_at: "2013-12-04 08:41:05.273221"
+    updated_at: "2013-12-04 08:41:05.273221"
+  permissions_082: 
+    id: "363"
+    name: view_ptables
+    resource_type: Ptable
+    created_at: "2013-12-04 08:41:05.281766"
+    updated_at: "2013-12-04 08:41:05.281766"
+  permissions_083: 
+    id: "364"
+    name: create_ptables
+    resource_type: Ptable
+    created_at: "2013-12-04 08:41:05.482882"
+    updated_at: "2013-12-04 08:41:05.482882"
+  permissions_084: 
+    id: "365"
+    name: edit_ptables
+    resource_type: Ptable
+    created_at: "2013-12-04 08:41:05.683037"
+    updated_at: "2013-12-04 08:41:05.683037"
+  permissions_085: 
+    id: "366"
+    name: destroy_ptables
+    resource_type: Ptable
+    created_at: "2013-12-04 08:41:05.762135"
+    updated_at: "2013-12-04 08:41:05.762135"
+  permissions_086: 
+    id: "368"
+    name: view_puppetclasses
+    resource_type: Puppetclass
+    created_at: "2013-12-04 08:41:06.01639"
+    updated_at: "2013-12-04 08:41:06.01639"
+  permissions_087: 
+    id: "369"
+    name: create_puppetclasses
+    resource_type: Puppetclass
+    created_at: "2013-12-04 08:41:06.074428"
+    updated_at: "2013-12-04 08:41:06.074428"
+  permissions_088: 
+    id: "370"
+    name: edit_puppetclasses
+    resource_type: Puppetclass
+    created_at: "2013-12-04 08:41:06.082891"
+    updated_at: "2013-12-04 08:41:06.082891"
+  permissions_089: 
+    id: "371"
+    name: destroy_puppetclasses
+    resource_type: Puppetclass
+    created_at: "2013-12-04 08:41:06.091247"
+    updated_at: "2013-12-04 08:41:06.091247"
+  permissions_090: 
+    id: "372"
+    name: import_puppetclasses
+    resource_type: Puppetclass
+    created_at: "2013-12-04 08:41:06.099309"
+    updated_at: "2013-12-04 08:41:06.099309"
+  permissions_091: 
+    id: "373"
+    name: view_reports
+    resource_type: Report
+    created_at: "2013-12-04 08:41:06.107515"
+    updated_at: "2013-12-04 08:41:06.107515"
+  permissions_092: 
+    id: "374"
+    name: destroy_reports
+    resource_type: Report
+    created_at: "2013-12-04 08:41:06.116056"
+    updated_at: "2013-12-04 08:41:06.116056"
+  permissions_093: 
+    id: "375"
+    name: upload_reports
+    resource_type: Report
+    created_at: "2013-12-04 08:41:06.123783"
+    updated_at: "2013-12-04 08:41:06.123783"
+  permissions_094: 
+    id: "376"
+    name: access_settings
+    resource_type: 
+    created_at: "2013-12-04 08:41:06.132528"
+    updated_at: "2013-12-04 08:41:06.132528"
+  permissions_095: 
+    id: "377"
+    name: view_smart_proxies
+    resource_type: SmartProxy
+    created_at: "2013-12-04 08:41:06.140564"
+    updated_at: "2013-12-04 08:41:06.140564"
+  permissions_096: 
+    id: "378"
+    name: create_smart_proxies
+    resource_type: SmartProxy
+    created_at: "2013-12-04 08:41:06.149029"
+    updated_at: "2013-12-04 08:41:06.149029"
+  permissions_097: 
+    id: "379"
+    name: edit_smart_proxies
+    resource_type: SmartProxy
+    created_at: "2013-12-04 08:41:06.157364"
+    updated_at: "2013-12-04 08:41:06.157364"
+  permissions_098: 
+    id: "380"
+    name: destroy_smart_proxies
+    resource_type: SmartProxy
+    created_at: "2013-12-04 08:41:06.1657"
+    updated_at: "2013-12-04 08:41:06.1657"
+  permissions_099: 
+    id: "381"
+    name: view_smart_proxies_autosign
+    resource_type: SmartProxy
+    created_at: "2013-12-04 08:41:06.173638"
+    updated_at: "2013-12-04 08:41:06.173638"
+  permissions_100: 
+    id: "382"
+    name: create_smart_proxies_autosign
+    resource_type: SmartProxy
+    created_at: "2013-12-04 08:41:06.182425"
+    updated_at: "2013-12-04 08:41:06.182425"
+  permissions_101: 
+    id: "383"
+    name: destroy_smart_proxies_autosign
+    resource_type: SmartProxy
+    created_at: "2013-12-04 08:41:06.190274"
+    updated_at: "2013-12-04 08:41:06.190274"
+  permissions_102: 
+    id: "384"
+    name: view_smart_proxies_puppetca
+    resource_type: SmartProxy
+    created_at: "2013-12-04 08:41:06.198169"
+    updated_at: "2013-12-04 08:41:06.198169"
+  permissions_103: 
+    id: "385"
+    name: edit_smart_proxies_puppetca
+    resource_type: SmartProxy
+    created_at: "2013-12-04 08:41:06.206812"
+    updated_at: "2013-12-04 08:41:06.206812"
+  permissions_104: 
+    id: "386"
+    name: destroy_smart_proxies_puppetca
+    resource_type: SmartProxy
+    created_at: "2013-12-04 08:41:06.216154"
+    updated_at: "2013-12-04 08:41:06.216154"
+  permissions_105: 
+    id: "387"
+    name: view_statistics
+    resource_type: 
+    created_at: "2013-12-04 08:41:06.223528"
+    updated_at: "2013-12-04 08:41:06.223528"
+  permissions_106: 
+    id: "388"
+    name: view_subnets
+    resource_type: Subnet
+    created_at: "2013-12-04 08:41:06.231467"
+    updated_at: "2013-12-04 08:41:06.231467"
+  permissions_107: 
+    id: "389"
+    name: create_subnets
+    resource_type: Subnet
+    created_at: "2013-12-04 08:41:06.24055"
+    updated_at: "2013-12-04 08:41:06.24055"
+  permissions_108: 
+    id: "390"
+    name: edit_subnets
+    resource_type: Subnet
+    created_at: "2013-12-04 08:41:06.248888"
+    updated_at: "2013-12-04 08:41:06.248888"
+  permissions_109: 
+    id: "391"
+    name: destroy_subnets
+    resource_type: Subnet
+    created_at: "2013-12-04 08:41:06.257199"
+    updated_at: "2013-12-04 08:41:06.257199"
+  permissions_110: 
+    id: "392"
+    name: import_subnets
+    resource_type: Subnet
+    created_at: "2013-12-04 08:41:06.265758"
+    updated_at: "2013-12-04 08:41:06.265758"
+  permissions_111: 
+    id: "393"
+    name: view_tasks
+    resource_type: 
+    created_at: "2013-12-04 08:41:06.274449"
+    updated_at: "2013-12-04 08:41:06.274449"
+  permissions_112: 
+    id: "394"
+    name: view_trends
+    resource_type: Trend
+    created_at: "2013-12-04 08:41:06.282474"
+    updated_at: "2013-12-04 08:41:06.282474"
+  permissions_113: 
+    id: "395"
+    name: create_trends
+    resource_type: Trend
+    created_at: "2013-12-04 08:41:06.290854"
+    updated_at: "2013-12-04 08:41:06.290854"
+  permissions_114: 
+    id: "396"
+    name: edit_trends
+    resource_type: Trend
+    created_at: "2013-12-04 08:41:06.299794"
+    updated_at: "2013-12-04 08:41:06.299794"
+  permissions_115: 
+    id: "397"
+    name: destroy_trends
+    resource_type: Trend
+    created_at: "2013-12-04 08:41:06.307322"
+    updated_at: "2013-12-04 08:41:06.307322"
+  permissions_116: 
+    id: "398"
+    name: update_trends
+    resource_type: Trend
+    created_at: "2013-12-04 08:41:06.315986"
+    updated_at: "2013-12-04 08:41:06.315986"
+  permissions_117: 
+    id: "399"
+    name: view_usergroups
+    resource_type: Usergroup
+    created_at: "2013-12-04 08:41:06.323534"
+    updated_at: "2013-12-04 08:41:06.323534"
+  permissions_118: 
+    id: "400"
+    name: create_usergroups
+    resource_type: Usergroup
+    created_at: "2013-12-04 08:41:06.332584"
+    updated_at: "2013-12-04 08:41:06.332584"
+  permissions_119: 
+    id: "401"
+    name: edit_usergroups
+    resource_type: Usergroup
+    created_at: "2013-12-04 08:41:06.341266"
+    updated_at: "2013-12-04 08:41:06.341266"
+  permissions_120: 
+    id: "402"
+    name: destroy_usergroups
+    resource_type: Usergroup
+    created_at: "2013-12-04 08:41:06.34905"
+    updated_at: "2013-12-04 08:41:06.34905"
+  permissions_121: 
+    id: "403"
+    name: view_users
+    resource_type: User
+    created_at: "2013-12-04 08:41:06.358291"
+    updated_at: "2013-12-04 08:41:06.358291"
+  permissions_122: 
+    id: "404"
+    name: create_users
+    resource_type: User
+    created_at: "2013-12-04 08:41:06.366741"
+    updated_at: "2013-12-04 08:41:06.366741"
+  permissions_123: 
+    id: "405"
+    name: edit_users
+    resource_type: User
+    created_at: "2013-12-04 08:41:06.375061"
+    updated_at: "2013-12-04 08:41:06.375061"
+  permissions_124: 
+    id: "406"
+    name: destroy_users
+    resource_type: User
+    created_at: "2013-12-04 08:41:06.38334"
+    updated_at: "2013-12-04 08:41:06.38334"
+  permissions_125: 
+    id: "320"
+    name: edit_classes
+    resource_type: HostClass
+    created_at: "2013-12-04 08:41:04.815942"
+    updated_at: "2013-12-11 09:48:09.672833"
+  permissions_126: 
+    id: "408"
+    name: view_compute_resources_vms
+    resource_type: ComputeResource
+    created_at: "2013-12-11 11:23:54.965532"
+    updated_at: "2013-12-11 11:23:54.965532"
+  permissions_127: 
+    id: "409"
+    name: create_compute_resources_vms
+    resource_type: ComputeResource
+    created_at: "2013-12-11 11:23:54.972197"
+    updated_at: "2013-12-11 11:23:54.972197"
+  permissions_128: 
+    id: "410"
+    name: edit_compute_resources_vms
+    resource_type: ComputeResource
+    created_at: "2013-12-11 11:23:54.979606"
+    updated_at: "2013-12-11 11:23:54.979606"
+  permissions_129: 
+    id: "411"
+    name: destroy_compute_resources_vms
+    resource_type: ComputeResource
+    created_at: "2013-12-11 11:23:54.988796"
+    updated_at: "2013-12-11 11:23:54.988796"
+  permissions_130: 
+    id: "412"
+    name: power_compute_resources_vms
+    resource_type: ComputeResource
+    created_at: "2013-12-11 11:23:54.996808"
+    updated_at: "2013-12-11 11:23:54.996808"
+  permissions_131: 
+    id: "413"
+    name: console_compute_resources_vms
+    resource_type: ComputeResource
+    created_at: "2013-12-11 11:23:55.004963"
+    updated_at: "2013-12-11 11:23:55.004963"
+  permissions_132: 
+    id: "414"
+    name: view_facts
+    resource_type: FactValue
+    created_at: "2013-12-11 11:23:55.027868"
+    updated_at: "2013-12-11 11:23:55.027868"
+  permissions_133: 
+    id: "415"
+    name: upload_facts
+    resource_type: FactValue
+    created_at: "2013-12-11 11:23:55.038552"
+    updated_at: "2013-12-11 11:23:55.038552"
+  permissions_134: 
+    id: "407"
+    name: view_audit_logs
+    resource_type: Audit
+    created_at: "2013-12-11 11:23:54.920553"
+    updated_at: "2014-01-03 15:52:15.267695"
+  permissions_135: 
+    id: "416"
+    name: view_plugins
+    resource_type: 
+    created_at: "2014-01-07 15:09:32.783442"
+    updated_at: "2014-01-07 15:09:32.783442"

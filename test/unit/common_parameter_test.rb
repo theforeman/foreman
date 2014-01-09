@@ -45,7 +45,7 @@ class CommonParameterTest < ActiveSupport::TestCase
   end
 
   def setup_user operation
-    super operation, "global_variables"
+    super operation, "globals"
   end
 
   test "user with create permissions should be able to create" do

@@ -64,17 +64,11 @@ class ReportTest < ActiveSupport::TestCase
     assert Report.with("pending").include?(@r)
   end
 
-  def setup_user operation
-    @one = users(:one)
+  def setup_user operation, type = 'reports'
+    super
     as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_reports"
-      role.permissions = ["#{operation}_reports".to_sym]
-      role.save!
-      @one.roles = [role]
-      @one.save!
       @r.save!
     end
-    User.current = @one
   end
 
   test "user with destroy permissions should be able to destroy" do

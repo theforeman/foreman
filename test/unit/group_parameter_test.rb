@@ -29,16 +29,9 @@ class GroupParameterTest < ActiveSupport::TestCase
   end
 
   def setup_user operation, type = "hostgroups"
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
-      role.permissions = ["#{operation}_#{type}".to_sym]
-      role.save!
-      @one.roles = [role]
-      @one.hostgroups.destroy_all
-      @one.save!
+    super(operation, type) do |user|
+      user.hostgroups.destroy_all
     end
-    User.current = @one
   end
 
   test "user with create permissions should be able to create when permitted" do

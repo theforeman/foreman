@@ -258,6 +258,7 @@ class HostTest < ActiveSupport::TestCase
     User.current    = @one
   end
 
+  # TODO fix filters using new permissions
   def setup_filtered_user
     # Can't use `setup_user_and_host` as it deletes the UserFacts
     @one             = users(:one)
@@ -834,10 +835,13 @@ class HostTest < ActiveSupport::TestCase
     @one = users(:one)
     # add permission for user :one
     as_admin do
+      filter = FactoryGirl.build(:filter)
+      filter.permissions = [ Permission.find_by_name('edit_hosts') ]
+      filter.save!
       role = Role.find_or_create_by_name :name => "testing_role"
-      role.permissions = [:edit_hosts]
+      role.filters = [ filter ]
       role.save!
-      @one.roles = [role]
+      @one.roles = [ role ]
       @one.save!
     end
     h = hosts(:one)
