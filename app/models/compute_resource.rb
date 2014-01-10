@@ -19,6 +19,7 @@ class ComputeResource < ActiveRecord::Base
   validates :provider, :presence => true, :inclusion => { :in => PROVIDERS }
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :id, :complete_value => :true
   before_save :sanitize_url
   has_many_hosts
   has_many :images, :dependent => :destroy
@@ -232,22 +233,6 @@ class ComputeResource < ActiveRecord::Base
   end
 
   private
-
-  def enforce_permissions operation
-    # We get called again with the operation being set to create
-    return true if operation == "edit" and new_record?
-    current = User.current
-    if current.allowed_to?("#{operation}_compute_resources".to_sym)
-      # If you can create compute resources then you can create them anywhere
-      return true if operation == "create"
-      # edit or delete
-      if current.allowed_to?("#{operation}_compute_resources".to_sym)
-        return true if ComputeResource.my_compute_resources.include? self
-      end
-    end
-    errors.add :base, _("You do not have permission to %s this compute resource") % operation
-    false
-  end
 
   def set_attributes_hash
     self.attrs ||= {}

@@ -4,10 +4,11 @@ class ReportsController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
-    @reports = Report.authorized(:view_reports).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page]).includes(:host)
+    report_authorized = Report.authorized(:view_reports).my_reports
+    @reports = report_authorized.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page]).includes(:host)
   rescue => e
     error e.to_s
-    @reports = Report.authorized(:view_reports).search_for("").paginate :page => params[:page]
+    @reports = report_authorized.search_for("").paginate :page => params[:page]
   ensure
     @authorizer = Authorizer.new(User.current, @reports)
   end

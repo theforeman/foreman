@@ -6,7 +6,7 @@ class FactValuesController < ApplicationController
   def index
     base = FactValue.authorized(:view_facts).no_timestamp_facts
     begin
-      values = base.search_for(params[:search], :order => params[:order])
+      values = base.my_facts.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
       values = base.search_for ""

@@ -11,7 +11,7 @@ class HostsController < ApplicationController
 
   add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
+  before_filter :taxonomy_scope, :only => AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   helper :hosts, :reports
 
@@ -63,6 +63,7 @@ class HostsController < ApplicationController
 
   def new
     @host = Host.new :managed => true
+    taxonomy_scope
   end
 
   # Clone the host
@@ -95,6 +96,7 @@ class HostsController < ApplicationController
 
   def edit
     @host = find_by_name(:edit_hosts)
+    taxonomy_scope
     load_vars_for_ajax
   end
 
@@ -587,7 +589,7 @@ class HostsController < ApplicationController
     not_found and return false if (id = params[:id]).blank?
     # determine if we are searching for a numerical id or plain name
 
-    base = Host::Base.authorized(permission, Host)
+    base = Host.authorized(permission, Host)
     if id =~ /^\d+$/
       host = base.find_by_id id.to_i
     else
@@ -616,7 +618,7 @@ class HostsController < ApplicationController
   def find_multiple(permission = :view_hosts)
   # Lets search by name or id and make sure one of them exists first
     if params[:host_names].present? or params[:host_ids].present?
-      hosts = Host::Base.authorized(permission, Host).where("id IN (?) or name IN (?)", params[:host_ids], params[:host_names] )
+      hosts = Host.authorized(permission, Host).where("id IN (?) or name IN (?)", params[:host_ids], params[:host_names] )
       if hosts.empty?
         error _('No hosts were found with that id or name')
         redirect_to(hosts_path) and return false

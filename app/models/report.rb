@@ -32,7 +32,8 @@ class Report < ActiveRecord::Base
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
     unless User.current.admin? and Organization.current.nil? and Location.current.nil?
-      where(:reports => {:host_id => Host.my_hosts.select("hosts.id")})
+      host_ids = Host.authorized(:view_hosts, Host).select("hosts.id").all
+      where(:reports => {:host_id => host_ids})
     end
   }
 
@@ -169,18 +170,6 @@ class Report < ActiveRecord::Base
   end
 
   private
-
-  def enforce_permissions operation
-    # No one can edit a report
-    return false if operation == "edit"
-
-    # Anyone can create a report
-    return true if operation == "create"
-    return true if operation == "destroy" and User.current.allowed_to?(:destroy_reports)
-
-    errors.add(:base, _("You do not have permission to %s this report") % operation)
-    false
-  end
 
   # puppet report status table column name
   def self.report_status

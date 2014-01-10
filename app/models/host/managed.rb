@@ -93,8 +93,6 @@ class Host::Managed < Host::Base
 
   scope :alerts_enabled, lambda { where(:enabled => true) }
 
-  scope :completer_scope, lambda { |opts| my_hosts }
-
   scope :run_distribution, lambda { |fromtime,totime|
     if fromtime.nil? or totime.nil?
       raise ::Foreman.Exception.new(N_("invalid time range"))
@@ -455,11 +453,13 @@ class Host::Managed < Host::Base
   # counts each association of a given host
   # e.g. how many hosts belongs to each os
   # returns sorted hash
-  def self.count_distribution assocication
+  def self.count_distribution association
     output = []
-    group(assocication).count.each do |k,v|
+    data = group("#{Host.table_name}.#{association}_id").reorder('').count
+    associations = association.to_s.camelize.constantize.where(:id => data.keys).all
+    data.each do |k,v|
       begin
-        output << {:label => k.to_label, :data => v }  unless v == 0
+        output << {:label => associations.detect {|a| a.id == k }.to_label, :data => v }  unless v == 0
       rescue
         logger.info "skipped #{k} as it has has no label"
       end
@@ -472,7 +472,7 @@ class Host::Managed < Host::Base
   # e.g. how many hosts belongs to each os
   # returns sorted hash
   def self.count_habtm association
-    counter = Host::Managed.joins(association.tableize.to_sym).group("#{association.tableize.to_sym}.id").count
+    counter = Host::Managed.joins(association.tableize.to_sym).group("#{association.tableize.to_sym}.id").reorder('').count
     #Puppetclass.find(counter.keys.compact)...
     association.camelize.constantize.find(counter.keys.compact).map {|i| {:label=>i.to_label, :data =>counter[i.id]}}
   end
@@ -485,28 +485,6 @@ class Host::Managed < Host::Base
 
   def can_be_built?
     managed? and SETTINGS[:unattended] and capabilities.include?(:build) ? build == false : false
-  end
-
-  def enforce_permissions operation
-    if operation == "edit" and new_record?
-      return true # We get called again with the operation being set to create
-    end
-    current = User.current
-    if (operation == "edit") or operation == "destroy"
-      if current.allowed_to?("#{operation}_hosts".to_sym)
-        return true if Host::Base.my_hosts.include? self
-      end
-    else # create
-      if current.allowed_to?(:create_hosts)
-        # We are unconstrained
-        return true if current.domains.empty? and current.hostgroups.empty?
-        # We are constrained and the constraint is matched
-        return true if (!current.domains.empty?    and current.domains.include?(domain)) or
-        (!current.hostgroups.empty? and current.hostgroups.include?(hostgroup))
-      end
-    end
-    errors.add(:base, _("You do not have permission to %s this host") % operation)
-    false
   end
 
   def jumpstart?

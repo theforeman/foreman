@@ -1,5 +1,4 @@
 class LookupKey < ActiveRecord::Base
-  include Authorization
   include Authorizable
 
   KEY_TYPES = %w( string boolean integer real array hash yaml json )

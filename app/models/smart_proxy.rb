@@ -32,12 +32,6 @@ class SmartProxy < ActiveRecord::Base
     end
   }
 
-  scope :my_proxies, lambda {
-    user       = User.current
-    conditions = user.admin? || user.allowed_to?({ :controller => :smart_proxy, :action => :index }) ? {} : '1 = 0'
-    where(conditions)
-  }
-
   Feature.name_map.each { |f, v| scope "#{f}_proxies".to_sym, where(:features => { :name => v }).joins(:features) }
 
   def hostname

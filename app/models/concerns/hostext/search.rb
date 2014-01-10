@@ -18,16 +18,21 @@ module Hostext
       scoped_search :on => :puppet_status, :offset => Report::METRIC.index("failed_restarts"), :word_size => Report::BIT_NUM, :rename => :'status.failed_restarts'
       scoped_search :on => :puppet_status, :offset => Report::METRIC.index("skipped"),         :word_size => Report::BIT_NUM, :rename => :'status.skipped'
       scoped_search :on => :puppet_status, :offset => Report::METRIC.index("pending"),         :word_size => Report::BIT_NUM, :rename => :'status.pending'
+      scoped_search :on => :owner_id,      :complete_value => true
+      scoped_search :on => :owner_type,    :complete_value => true
 
       scoped_search :in => :model,       :on => :name,    :complete_value => true, :rename => :model
       scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true, :rename => :hostgroup
       scoped_search :in => :hostgroup,   :on => :label,   :complete_value => true, :rename => :hostgroup_fullname
+      scoped_search :in => :hostgroup,   :on => :id,      :complete_value => true, :rename => :hostgroup_id
       scoped_search :in => :domain,      :on => :name,    :complete_value => true, :rename => :domain
+      scoped_search :in => :domain,      :on => :id,      :complete_value => true, :rename => :domain_id
       scoped_search :in => :environment, :on => :name,    :complete_value => true, :rename => :environment
       scoped_search :in => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
       scoped_search :in => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster
       scoped_search :in => :puppet_ca_proxy, :on => :name,    :complete_value => true, :rename => :puppet_ca
       scoped_search :in => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
+      scoped_search :in => :compute_resource, :on => :id,      :complete_value => true, :rename => :compute_resource_id
       scoped_search :in => :image, :on => :name, :complete_value => true
 
       scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
@@ -71,7 +76,7 @@ module Hostext
 
       def search_by_puppetclass(key, operator, value)
         conditions  = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
-        hosts       = Host.my_hosts.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hosts.id').map(&:id)
+        hosts       = Host.authorized(:view_hosts, Host).all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hosts.id').map(&:id)
         host_groups = Hostgroup.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hostgroups.id').map(&:id)
 
         opts = ''
