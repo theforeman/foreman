@@ -63,9 +63,6 @@
       <packagereq type="default">ruby193-rubygem-builder</packagereq>
       <packagereq type="default">ruby193-rubygem-bundler</packagereq>
       <packagereq type="default">ruby193-rubygem-bundler_ext</packagereq>
-      <packagereq type="default">ruby193-rubygem-coffee-rails</packagereq>
-      <packagereq type="default">ruby193-rubygem-coffee-script-source</packagereq>
-      <packagereq type="default">ruby193-rubygem-coffee-script</packagereq>
       <packagereq type="default">ruby193-rubygem-commonjs</packagereq>
       <packagereq type="default">ruby193-rubygem-daemon_controller</packagereq>
       <packagereq type="default">ruby193-rubygem-daemons</packagereq>
