@@ -83,7 +83,6 @@ BuildRequires: %{?scl_prefix}rubygem(ancestry) < 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.23
 BuildRequires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(bundler_ext)
-BuildRequires: %{?scl_prefix}rubygem(coffee-rails) => 3.2.1
 BuildRequires: %{?scl_prefix}rubygem(gettext) >= 1.9.3
 BuildRequires: %{?scl_prefix}rubygem(fast_gettext)
 BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails) >= 0.10.0
@@ -225,8 +224,6 @@ Meta package to install requirements for Google Compute Engine (GCE) support
 Summary: Foreman asset pipeline support
 Group: Applications/system
 Requires: %{name} = %{version}-%{release}
-Requires: %{?scl_prefix}rubygem(coffee-rails) >= 3.2.1
-Requires: %{?scl_prefix}rubygem(coffee-rails) < 3.3
 Requires: %{?scl_prefix}rubygem(jquery-rails) >= 2.0.2
 Requires: %{?scl_prefix}rubygem(jquery-rails) < 2.1
 Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
