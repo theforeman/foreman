@@ -7,7 +7,7 @@ class Filter < ActiveRecord::Base
   attr_accessor :unlimited
 
   belongs_to :role
-  has_many :filterings
+  has_many :filterings, :dependent => :destroy
   has_many :permissions, :through => :filterings
 
   # with proc support, default_scope can no longer be chained

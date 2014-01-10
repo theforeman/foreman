@@ -3,7 +3,7 @@ class Permission < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => { :scope => :resource_type }
 
-  has_many :filterings
+  has_many :filterings, :dependent => :destroy
   has_many :filters, :through => :filterings
 
   def self.resources
