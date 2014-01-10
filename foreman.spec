@@ -35,6 +35,7 @@ Requires: %{?scl_prefix}ruby(release)
 Requires: %{?scl_prefix}ruby(abi) = 1.9.1
 %endif
 %endif
+Requires: %{scl_ruby}
 Requires: %{?scl_prefix}rubygems
 Requires: %{?scl_prefix}facter
 Requires: wget
@@ -118,6 +119,7 @@ BuildRequires: %{?scl_prefix}facter
 BuildRequires: gettext
 BuildRequires: asciidoc
 BuildRequires: %{?scl_prefix}rubygem(rake)
+BuildRequires: %{scl_ruby}
 
 %package cli
 Summary: Foreman CLI
@@ -575,6 +577,7 @@ fi
 - Seed database after DB migration
 - Change twitter-bootstrap-rails to bootstrap-sass
 - Pin fog to 1.19.x
+- Add BR and explicit dependency on Ruby binary, for ruby193-ruby-wrapper
 
 * Tue Nov 12 2013 Sam Kottler <shk@redhat.com> - 1.3.9999-7
 - Add rubygem-unf as a requires for the compute subpackage
