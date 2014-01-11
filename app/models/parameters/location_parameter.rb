@@ -9,7 +9,7 @@ class LocationParameter < Parameter
     return true if operation == "edit" and new_record?
     return true if User.current.allowed_to?("#{operation}_locations".to_sym)
 
-    errors.add(:base, _("You do not have permission to %s this Location parameter") % operation)
+    errors.add(:base, _("You do not have permission to %s this location parameter") % operation)
     false
   end
 

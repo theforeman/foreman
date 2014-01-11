@@ -63,7 +63,7 @@ module Api
       param :domain_id, String, :desc => "id of domain"
       param :operatingsystem_id, String, :desc => "id of operating system"
       param :location_id, String, :desc => "id of location"
-      param :organization_ida, String, :desc => "id of organization"
+      param :organization_id, String, :desc => "id of organization"
       param :parameter, Hash, :required => true do
         param :name, String
         param :value, String

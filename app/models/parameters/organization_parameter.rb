@@ -9,7 +9,7 @@ class OrganizationParameter < Parameter
     return true if operation == "edit" and new_record?
     return true if User.current.allowed_to?("#{operation}_organizations".to_sym)
 
-    errors.add(:base, _("You do not have permission to %s this Organization parameter") % operation)
+    errors.add(:base, _("You do not have permission to %s this organization parameter") % operation)
     false
   end
 
