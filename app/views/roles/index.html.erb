@@ -13,7 +13,7 @@
     <% for role in @roles %>
       <tr>
         <td>
-          <%= content_tag(role.builtin? ? 'em' : 'span', link_to_if_authorized(role.name, :action => 'edit', :id => role)) %>
+          <%= content_tag(role.builtin? ? 'em' : 'span', link_to_if_authorized(role.name, hash_for_edit_role_path(:id => role))) %>
         </td>
         <td>
           <%= action_buttons(
