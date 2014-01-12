@@ -54,3 +54,12 @@ ec2-another:
   password: MyString
   uuid: 234234234324
   type: Foreman::Model::EC2
+
+gce:
+  name: gce123
+  description: yourcompute
+  url: us-central1-a
+  user: MyString
+  password: MyString
+  uuid: 78787878787
+  type: Foreman::Model::GCE
