@@ -5,7 +5,6 @@
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("User") %></a></li>
     <% unless @editing_self %>
       <li><a href="#roles" data-toggle="tab"><%= _("Roles") %></a></li>
-      <li><a href="#filters" data-toggle="tab"><%= _("Filters") %></a></li>
       <% if show_location_tab? %>
         <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
       <% end %>
@@ -38,9 +37,6 @@
         <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user, {:label => _('Roles')} %>
       </div>
 
-      <div class="tab-pane" id="filters">
-        <%= render("filters", :f => f) %>
-      </div>
       <% if show_location_tab? %>
         <div class="tab-pane" id="locations">
           <div class="col-md-2">
