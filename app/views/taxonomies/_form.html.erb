@@ -2,7 +2,8 @@
 <%= form_for taxonomy do |f| %>
     <%= base_errors_for taxonomy %>
     <%= text_f f, :name %>
-    <ul class="nav nav-tabs" data-tabs="tabs">
+  <div class="form-group row">
+    <ul class="nav nav-pills nav-stacked col-md-3" data-tabs="pills">
       <li class="active"><a href="#users" data-toggle="tab"><%= _("Users") %></a></li>
       <li><a href="#smart_proxies" data-toggle="tab"><%= _("Smart Proxies") %></a></li>
       <% if SETTINGS[:unattended] %>
@@ -22,7 +23,7 @@
       <li><a href="#params" data-toggle="tab"><%= _("Parameters") %></a></li>
     </ul>
 
-    <div class="tab-content">
+    <div class="tab-content col-md-9">
       <div class="tab-pane active" id="users">
         <%= checkbox_f(f, :ignore_types, {:label => "", :help_text => _("All Users"), :multiple => true, :onchange => 'ignore_checked(this)'}, "User") %>
         <%= multiple_selects f, :users, User.except_admin, taxonomy.selected_ids[:user_ids],
@@ -108,4 +109,5 @@
 
       <%= submit_or_cancel f %>
     </div>
+  </div>
 <% end %>
