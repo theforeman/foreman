@@ -5,7 +5,7 @@ class FiltersController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
-    @filters = @base.includes(:role).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @filters = @base.includes(:role, :permissions).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new

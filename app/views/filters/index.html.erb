@@ -19,8 +19,7 @@
       <tr>
         <td>
           <%= content_tag('span', link_to_if_authorized(filter.search || _('none'),
-                                                        :action => 'edit',
-                                                        :id => filter)) %>
+                                                        hash_for_edit_filter_path(:id => filter))) %>
         </td>
         <td><%= filter.resource_type %></td>
         <% unless params[:role_id] %>

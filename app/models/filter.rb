@@ -24,6 +24,8 @@ class Filter < ActiveRecord::Base
 
   before_validation :set_unlimited_filter, :if => Proc.new { |o| o.unlimited == '1' }
 
+  validates :search, :presence => true, :unless => Proc.new { |o| o.search.nil? }
+
   def unlimited?
     search.nil?
   end
