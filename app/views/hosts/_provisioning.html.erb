@@ -1,5 +1,5 @@
-<div class="alert alert-success">
-  <a class="close" href="#" data-dismiss="alert">&times;</a>
+<div class="alert alert-success alert-dismissable">
+  <%= alert_close %>
   <% templates.sort{|t,x| t.template_kind <=> x.template_kind}.each do |tmplt| %>
       <div class="form-group">
         <div class="control-label col-md-4"> <%= _("%s Template") % tmplt.template_kind %> </div>

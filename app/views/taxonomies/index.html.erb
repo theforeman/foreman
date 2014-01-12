@@ -3,7 +3,7 @@
 <% title_actions display_link_if_authorized((_("New %s") % taxonomy_title), hash_for_new_taxonomy_path), link_to(_("Mismatches Report"), mismatches_taxonomies_path, :class => 'btn btn-default'), help_path %>
 
 <% if @count_nil_hosts > 0 %>
-<div class="alert alert-message alert-block alert">
+<div class="alert alert-warning alert-block">
     <strong><%= _("Notice:") %></strong>
     <%= n_('There is', 'There are', @count_nil_hosts) %>
     <%= link_to n_("%{count} host with no %{taxonomy_single} assigned", "%{count} hosts with no %{taxonomy_single} assigned", @count_nil_hosts) % {:count => @count_nil_hosts , :taxonomy_single => taxonomy_single }, hosts_path(:search => "not has #{controller_name.singularize}")  %>

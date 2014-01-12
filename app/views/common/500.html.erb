@@ -1,9 +1,7 @@
 <% title _("Oops, we're sorry but something went wrong") %>
 
-<div class="alert alert-message alert-block alert-danger base in fade">
-  <a class="close" href="#" data-dismiss="alert">x</a>
-    <%= h exception.message %>
-</div>
+
+<%= alert :class => 'alert-block alert-danger base in fade', :text => exception.message %>
 
 <p>
   <%= _("If you feel this is an error with Foreman itself, please open a new issue with") %> <%= link_to _("Foreman ticketing system"), "http://theforeman.org/projects/foreman/issues", :rel => "external" %>,
@@ -11,7 +9,7 @@
   <%= link_to_function(_("Full trace"), "$('#backtrace').toggle()")%> <%= _("and relevant log entries.") %>
 </p>
 
-<div id="backtrace" class="alert alert-message alert-block alert-danger base in fade hide">
+<div id="backtrace" class="alert alert-block alert-danger base in fade hide">
   <em><%= exception.class %></em><br>
   <strong><%= exception.message %></strong><br>
   <%= Rails.backtrace_cleaner.clean(exception.backtrace).join("<br>").html_safe %>

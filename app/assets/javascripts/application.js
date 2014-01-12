@@ -25,7 +25,7 @@ function onContentLoad(){
   }
 
   $('.flash.error').each(function(index, item) {
-     if ($('.alert-message.alert-danger.base').length == 0) {
+     if ($('.alert.alert-danger.base').length == 0) {
        if ($('#host-conflicts-modal').length == 0) {
          notify(item, 'error');
        }
@@ -52,7 +52,7 @@ function onContentLoad(){
   }
 
   // highlight tabs with errors
-  $(".tab-content").find(".form-group.error").each(function() {
+  $(".tab-content").find(".form-group.has-error").each(function() {
     var id = $(this).parentsUntil(".tab-content").last().attr("id");
     $("a[href=#"+id+"]").addClass("tab-error");
   })
@@ -170,7 +170,9 @@ function template_info(div, url) {
   $(div).load(url + "?operatingsystem_id=" + os_id + "&hostgroup_id=" + hostgroup_id + "&environment_id=" + env_id+"&provisioning="+build,
               function(response, status, xhr) {
                 if (status == "error") {
-                  $(div).html("<div class='alert alert-warning'><a class='close' data-dismiss='alert'>&times;</a><p>" + _('Sorry but no templates were configured.') + "</p></div>");
+                  $(div).html('<div class="alert alert-warning alert-dismissable">' +
+                  '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                  _('Sorry but no templates were configured.') + '</div>');
                 }
               });
 }

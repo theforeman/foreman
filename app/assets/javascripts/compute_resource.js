@@ -37,7 +37,7 @@ function testConnection(item) {
     success:function (result) {
       var res = $('<div>' + result + '</div>');
       $('#compute_connection').html(res.find("#compute_connection"));
-      $('#compute_connection').prepend(res.find(".alert-message"));
+      $('#compute_connection').prepend(res.find(".alert"));
     },
     complete:function (result) {
       //we need to restore the password field as it is not sent back from the server.

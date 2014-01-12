@@ -70,11 +70,11 @@
 
 
       <div class="tab-pane" id="template_associations">
-        <p id="snippet_message" class="alert alert-message" <%= display? !@config_template.snippet %> ><%= _("Not relevant for snippet") %></p>
+        <p id="snippet_message" class="alert alert-info" <%= display? !@config_template.snippet %> ><%= _("Not relevant for snippet") %></p>
 
         <div id="association" <%= display? @config_template.snippet %> >
-          <div class="alert alert-message alert-success">
-            <a class="close" href="#" data-dismiss="alert">&times;</a>
+          <div class="alert alert-success dismissable">
+            <%= alert_close %>
 
             <h3><%= _("How templates are determined") %><br></h3>
 

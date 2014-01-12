@@ -2,8 +2,8 @@
 
 <% title_actions display_link_if_authorized(_("Add Trend Counter"), hash_for_new_trend_path) %>
 <% if @trends.empty? %>
-  <div class="alert alert-message alert-info">
-    <a class="close" href="#" data-dismiss="alert">&times;</a>
+  <div class="alert alert-info">
+    <%= alert_close %>
 
     <p><strong><%= _("No trend counter defined.") %></strong></p>
 
@@ -13,10 +13,10 @@
 <% end %>
 
 <% if @trends.any? and TrendCounter.unconfigured? %>
- <div class="alert alert-message alert-info">
-    <a class="close" href="#" data-dismiss="alert">&times;</a>
+ <div class="alert alert-info alert-dismissable">
+   <%= alert_close %>
 
-    <p><strong><%= _("No trend counter found.") %></strong></p>
+   <p><strong><%= _("No trend counter found.") %></strong></p>
 
    <p><%= ( _("To start collecting trend data, set a cron job to execute <span class='black'>RAILS_ENV=production bundle exec rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting.puppet_interval).html_safe %>
    </p>
