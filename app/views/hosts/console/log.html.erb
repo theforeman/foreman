@@ -4,10 +4,7 @@
   <% title "#{@console[:name]}" %>
 </div>
 <% if @host && (@host.installed_at.nil? or (@console['timestamp'] - @host.installed_at < 5.minutes)) %>
-  <div class='alert'>
-    <a class="close" href="#" data-dismiss="alert">&times;</a>
-    Console output may be out of date
-  </div>
+  <%= alert :class => 'alert-info', :text => _('Console output may be out of date') %>
 <% end %>
 <pre class="pre-scrollable">
   <code>

@@ -1,9 +1,7 @@
 <div class="row">
   <% if obj.errors[:puppetclasses].any? %>
-    <div class="alert alert-message alert-block alert-danger base in fade">
-      <a class='close' href='#' data-dismiss="alert">×</a>
-      <%= obj.errors[:puppetclasses].map {|e| "<li>#{e}</li>"}.to_s.html_safe %>
-    </div>
+    <%= alert :class => "alert-block alert-danger base in fade",
+              :text => obj.errors[:puppetclasses].map { |e| "<li>#{e}</li>" }.to_s.html_safe %>
   <% end %>
   <div class="col-md-4 classes">
     <h3><%= _('Included Classes') %></h3>
