@@ -2,25 +2,12 @@
 <div class='col-md-12'>
   <table class="table table-bordered table-striped">
     <tr><th colspan="2"><%= _('Properties') %></th></tr>
-    <tr>
-      <td><%= _('Name') %></td>
-      <td><%= @vm.name %></td>
-    </tr>
-
-    <tr>
-      <td><%= _('VCPU(s)') %></td>
-      <td><%= @vm.cores %></td>
-    </tr>
-
-    <tr>
-      <td><%= _('UUID') %></td>
-      <td><%= @vm.identity %></td>
-    </tr>
+    <%= prop :cores, _('VCPU(s)') %>
     <tr>
       <td><%= _('Memory') %></td>
       <td><%= number_to_human_size @vm.memory %> </td>
     </tr>
-
+    <%= prop :identity, _('UUID') %>
     <tr>
       <td><%= _('Display') %></td>
       <td><%= @vm.display[:type] %> (<%= @vm.display[:port] %>)</td>

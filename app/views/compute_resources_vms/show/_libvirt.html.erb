@@ -4,29 +4,15 @@
   <table class="table table-bordered table-striped">
     <tr><th colspan="2"><%= _('Properties') %></th></tr>
     <tr>
-      <td><%= _('Name') %></td>
-      <td><%= @vm.name %></td>
-    </tr>
-
-    <tr>
       <td><%= _('Machine Type') %></td>
       <td><%= @vm.domain_type %> / <%= @vm.arch %></td>
     </tr>
-
-    <tr>
-      <td><%= _('VCPU(s)') %></td>
-      <td><%= @vm.cpus %></td>
-    </tr>
-
-    <tr>
-      <td><%= _('UUID') %></td>
-      <td><%= @vm.uuid %></td>
-    </tr>
+    <%= prop :cpus, _('VCPU(s)') %>
+    <%= prop :uuid, _('UUID') %>
     <tr>
       <td><%= _('Memory') %></td>
       <td><%= number_to_human_size @vm.max_memory_size*1024 %> <%= "(" + _("Allocated") + ": #{number_to_human_size @vm.memory_size*1024})" %></td>
     </tr>
-
     <tr>
       <td><%= _('Display') %></td>
       <td><%= @vm.display[:type] %> (<%= @vm.display[:port] %>)</td>

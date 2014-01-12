@@ -2,9 +2,11 @@ require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   include Taxonomix
   include Encryptable
+  include PowerManager
   encrypts :password
   SUPPORTED_PROVIDERS = %w[Libvirt Ovirt EC2 Vmware Openstack Rackspace GCE]
   PROVIDERS = SUPPORTED_PROVIDERS.reject { |p| !SETTINGS[p.downcase.to_sym] }
+
   audited :except => [:password, :attrs], :allow_mass_assignment => true
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
@@ -56,6 +58,14 @@ class ComputeResource < ActiveRecord::Base
       return "#{STI_PREFIX}::#{p}".constantize.new(args) if p.downcase == provider.downcase
     end
     raise ::Foreman::Exception.new N_("unknown provider")
+  end
+
+  def self.power_actions(vm)
+    if vm && vm.ready?
+      POWER_OFF_ACTIONS
+    else
+      POWER_ON_ACTIONS
+    end
   end
 
   def capabilities

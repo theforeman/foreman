@@ -1,10 +1,6 @@
 module ComputeResourcesHelper
   include LookupKeysHelper
 
-  def show_console_action(state, link)
-    state ? link : ""
-  end
-
   def vm_state vm
     if vm.state == 'PAUSED'
       ' ' + _("Paused")
@@ -23,8 +19,8 @@ module ComputeResourcesHelper
 
   def vm_power_action vm
     opts = hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity)
-    html = vm.ready? ? { :confirm =>_("Are you sure you want to power %{act} %{vm}?") % { :act => action_string(vm).downcase.strip, :vm => vm } , :class => "btn btn-danger" } :
-                       { :class => "btn btn-info" }
+    html = vm.ready? ? { :confirm =>_("Are you sure you want to power %{act} %{vm}?") % { :act => action_string(vm).downcase.strip, :vm => vm } ,
+                         :class => "btn btn-danger" } : { :class => "btn btn-info" }
 
     display_link_if_authorized "Power #{action_string(vm)}", opts, html.merge(:method => :put)
   end

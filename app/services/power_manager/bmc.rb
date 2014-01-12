@@ -12,6 +12,14 @@ module PowerManager
       end # end
     end
 
+    def supported_actions
+      if state && state =~ /running|on/i
+        POWER_OFF_ACTIONS
+      else
+        POWER_ON_ACTIONS
+      end
+    end
+
     private
     attr_reader :proxy
 

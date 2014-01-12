@@ -4,17 +4,15 @@
   </tr>
   <tr>
     <td><%= _('Status') %></td>
-    <td><%= power_status(@host.power.state) %></td>
-  </tr>
-  <tr>
-    <td><%= _('Power') %></td>
-    <td><%= power_actions %></td>
+    <td><%= power_status(@host) %></td>
   </tr>
   <tr>
     <td><%= _('Boot device') %></td>
     <td><%= boot_actions %></td>
   </tr>
 </table>
+
+<div id='power_actions' class='hide'><%= power_actions @host %></div>
 
 <table class="table table-bordered table-striped">
   <tr>

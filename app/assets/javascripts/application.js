@@ -314,14 +314,33 @@ function foreman_url(path) {
 
 $(function() {
   $('*[data-ajax-url]').each(function() {
-    var url = $(this).attr('data-ajax-url');
+    var url = $(this).data('ajax-url');
     $(this).load(url, function(response, status, xhr) {
       if (status == "error") {
         $(this).closest(".tab-content").find("#spinner").html(_('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
       }
+      if ($(this).data('on-complete')){
+        window[$(this).data('on-complete')].call(null, this, status);
+      }
     });
   });
 });
+
+function setPowerState(item, status){
+  if(status=='success') {
+    var place_holder = $('#loading_power_state').parent('.btn-group');
+    var power_actions = $('#power_actions');
+    power_actions.find('.btn-small').removeClass('btn-small');
+    if (power_actions.find('.btn-group').exists()){
+      power_actions.contents().replaceAll(place_holder);
+    }else{
+      power_actions.contents().appendTo(place_holder);
+      $('#loading_power_state').remove();
+    }
+  }else{
+    $('#loading_power_state').text(_('Unknown power state'))
+  }
+}
 
 $.fn.indicator_show = function(){
  $(this).parents('.form-group').find('img').show();
