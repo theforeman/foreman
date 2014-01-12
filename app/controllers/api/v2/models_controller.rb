@@ -10,7 +10,10 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @models = Model.search_for(*search_options).paginate(paginate_options)
+        @models = Model.
+          authorized(:view_models).
+          search_for(*search_options).
+          paginate(paginate_options)
       end
 
       api :GET, "/models/:id/", "Show a model."

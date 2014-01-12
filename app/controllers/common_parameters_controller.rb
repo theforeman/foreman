@@ -3,7 +3,6 @@ class CommonParametersController < ApplicationController
 
   def index
     @common_parameters = CommonParameter.authorized(:view_globals, CommonParameter).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
-    @authorizer = Authorizer.new(User.current, @common_parameters)
   end
 
   def new

@@ -10,7 +10,6 @@ class PuppetclassesController < ApplicationController
     @puppetclasses = Puppetclass.authorized(:view_puppetclasses).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     @host_counter = Host.group(:puppetclass_id).joins(:puppetclasses).where(:puppetclasses => {:id => @puppetclasses.collect(&:id)}).count
     @keys_counter = Puppetclass.joins(:class_params).select('distinct environment_classes.lookup_key_id').group(:name).count
-    @authorizer = Authorizer.new(User.current, @puppetclasses)
     @hostgroups_authorizer = Authorizer.new(User.current, HostgroupClass.find_all_by_puppetclass_id(@puppetclasses.map(&:id)).compact.uniq.map(&:hostgroup_id))
   end
 

@@ -3,8 +3,7 @@ class SmartProxiesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   def index
-    @proxies = SmartProxy.authorized(:view_smart_proxies).includes(:features).paginate :page => params[:page]
-    @authorizer = Authorizer.new(User.current, @proxies)
+    @smart_proxies = SmartProxy.authorized(:view_smart_proxies).includes(:features).paginate :page => params[:page]
   end
 
   def new

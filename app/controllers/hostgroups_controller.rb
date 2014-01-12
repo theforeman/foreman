@@ -4,7 +4,6 @@ class HostgroupsController < ApplicationController
 
   def index
     @hostgroups = Hostgroup.authorized(:view_hostgroups).my_groups.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
-    @authorizer = Authorizer.new(User.current, @hostgroups)
   end
 
   def new

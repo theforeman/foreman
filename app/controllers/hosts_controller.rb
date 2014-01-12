@@ -37,7 +37,6 @@ class HostsController < ApplicationController
         # SQL optimizations queries
         @last_reports = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
         # rendering index page for non index page requests (out of sync hosts etc)
-        @authorizer = Authorizer.new(User.current, @hosts)
         @hostgroup_authorizer = Authorizer.new(User.current, @hosts.map(&:hostgroup_id).compact.uniq)
         render :index if title and (@title = title)
       end

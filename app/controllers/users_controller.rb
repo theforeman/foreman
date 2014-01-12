@@ -10,7 +10,6 @@ class UsersController < ApplicationController
 
   def index
     @users = User.authorized(:view_users).search_for(params[:search], :order => params[:order]).includes(:auth_source).paginate(:page => params[:page])
-    @authorizer = Authorizer.new(User.current, @users)
   end
 
   def new

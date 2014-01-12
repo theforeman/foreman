@@ -4,7 +4,6 @@ class LookupKeysController < ApplicationController
 
   def index
     @lookup_keys = LookupKey.authorized(:view_external_variables).search_for(params[:search], :order => params[:order]).includes(:puppetclass).paginate(:page => params[:page])
-    @authorizer  = Authorizer.new(User.current, @lookup_keys)
     @puppetclass_authorizer = Authorizer.new(User.current, @lookup_keys.map(&:puppetclass_id).compact.uniq)
   end
 

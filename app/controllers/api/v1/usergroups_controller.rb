@@ -10,7 +10,9 @@ module Api
       param :order, String, :desc => "sort results"
 
       def index
-        @usergroups = Usergroup.search_for(*search_options).paginate(paginate_options)
+        @usergroups = Usergroup.
+          authorized(:view_usergroups).
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/usergroups/:id/", "Show a usergroup."

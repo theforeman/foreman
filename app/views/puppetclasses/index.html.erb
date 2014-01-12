@@ -13,7 +13,7 @@
   </tr>
   <% for puppetclass in @puppetclasses %>
     <tr>
-      <td><%=link_to_if_authorized h(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => @authorizer) %></td>
+      <td><%=link_to_if_authorized h(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer) %></td>
       <td>
         <% puppetclass.environments.uniq.each do |environment| %>
           <%= link_to_function environment, 'show_rdoc(this)', :'data-url' => rdoc_classes_path(environment, puppetclass.name) %>
@@ -23,7 +23,7 @@
       <td> <%= link_to host_counter(puppetclass), hosts_path(:search => "class = #{puppetclass.name}")%></td>
       <td><%= @keys_counter[puppetclass.name] || 0 %> </td>
       <td>
-        <%= display_delete_if_authorized hash_for_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => @authorizer),
+        <%= display_delete_if_authorized hash_for_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer),
                                          :confirm => _("Delete %s?") % puppetclass.name %>
       </td>
     </tr>

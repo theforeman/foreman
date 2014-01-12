@@ -5,7 +5,6 @@ class OperatingsystemsController < ApplicationController
   def index
     @operatingsystems = Operatingsystem.authorized(:view_operatingsystems).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     @host_counter     = Host.group(:operatingsystem_id).where(:operatingsystem_id => @operatingsystems.collect(&:id)).count
-    @authorizer       = Authorizer.new(User.current, @operatingsystems)
   end
 
   def new

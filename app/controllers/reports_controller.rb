@@ -5,7 +5,6 @@ class ReportsController < ApplicationController
 
   def index
     @reports = Report.authorized(:view_reports).my_reports.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page]).includes(:host)
-    @authorizer = Authorizer.new(User.current, @reports)
   end
 
   def show

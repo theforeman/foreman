@@ -3,7 +3,6 @@ class UsergroupsController < ApplicationController
 
   def index
     @usergroups = Usergroup.authorized(:view_usergroups).paginate :page => params[:page]
-    @authorizer = Authorizer.new(User.current, @usergroups)
   end
 
   def new

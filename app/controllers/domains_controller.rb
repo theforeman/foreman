@@ -5,7 +5,6 @@ class DomainsController < ApplicationController
   def index
     @domains      = Domain.authorized(:view_domains).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     @host_counter = Host.group(:domain_id).where(:domain_id => @domains.select(&:id)).count
-    @authorizer   = Authorizer.new(User.current, @domains)
   end
 
   def new

@@ -1,7 +1,7 @@
 module Api
   module V1
     class LookupKeysController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_filter(:only => %w{show update destroy}) { find_resource('external_variables') }
       before_filter :setup_search_options, :only => :index
 
       api :GET, "/lookup_keys/", "List all lookup_keys."
@@ -11,7 +11,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @lookup_keys = LookupKey.search_for(*search_options).paginate(paginate_options)
+        @lookup_keys = LookupKey.
+          authorized(:view_external_variables).
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/lookup_keys/:id/", "Show a lookup key."

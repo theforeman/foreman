@@ -7,7 +7,6 @@ class EnvironmentsController < ApplicationController
   def index
     @environments = Environment.authorized(:view_environments).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     @host_counter = Host.group(:environment_id).where(:environment_id => @environments.select(&:id)).count
-    @authorizer   = Authorizer.new(User.current, @environments)
   end
 
   def new

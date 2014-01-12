@@ -7,7 +7,6 @@ class ConfigTemplatesController < ApplicationController
 
   def index
     @config_templates = ConfigTemplate.authorized(:view_templates).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page]).includes(:template_kind, :template_combinations => [:hostgroup, :environment])
-    @authorizer = Authorizer.new(User.current, @config_templates)
   end
 
   def new

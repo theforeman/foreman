@@ -5,7 +5,7 @@ module Api
       include Api::TaxonomyScope
       include Foreman::Renderer
 
-      before_filter :find_resource, :only => [:show, :update, :destroy]
+      before_filter(:only => %w{show update destroy}) { find_resource('templates') }
       before_filter :handle_template_upload, :only => [:create, :update]
       before_filter :process_template_kind, :only => [:create, :update]
       before_filter :process_operatingsystems, :only => [:create, :update]
@@ -17,7 +17,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @config_templates = ConfigTemplate.search_for(*search_options).paginate(paginate_options).
+        @config_templates = ConfigTemplate.
+          authorized(:view_templates).
+          search_for(*search_options).paginate(paginate_options).
           includes(:operatingsystems, :template_combinations, :template_kind)
       end
 
@@ -60,7 +62,7 @@ module Api
       param :version, String, :desc => "template version"
 
       def revision
-        audit = Audit.find(params[:version])
+        audit = Audit.authorized(:view_audit_logs).find(params[:version])
         render :json => audit.revision.template
       end
 
@@ -74,7 +76,7 @@ module Api
       api :GET, "/config_templates/build_pxe_default", "Change the default PXE menu on all configured TFTP servers"
 
       def build_pxe_default
-        status, msg = ConfigTemplate.build_pxe_default(self)
+        status, msg = ConfigTemplate.authorized(:deploy_templates).build_pxe_default(self)
         render :json => msg, :status => status
       end
 

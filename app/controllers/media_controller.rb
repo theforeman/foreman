@@ -4,7 +4,6 @@ class MediaController < ApplicationController
 
   def index
     @media = Medium.authorized(:view_media).includes(:operatingsystems).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
-    @authorizer = Authorizer.new(User.current, @media)
   end
 
   def new

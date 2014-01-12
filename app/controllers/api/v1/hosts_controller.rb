@@ -10,7 +10,10 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @hosts = Host.my_hosts.search_for(*search_options).paginate(paginate_options)
+        @hosts = Host.
+          authorized(:view_hosts).
+          my_hosts.
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/hosts/:id/", "Show a host."
