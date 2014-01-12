@@ -10,7 +10,6 @@ class HostgroupsController < ApplicationController
       values = Hostgroup.authorized(:view_hostgroups).search_for ""
     end
     @hostgroups = values.paginate :page => params[:page]
-    @authorizer = Authorizer.new(User.current, @hostgroups)
   end
 
   def new

@@ -12,7 +12,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        values = Puppetclass.search_for(*search_options).paginate(paginate_options).
+        values = Puppetclass.
+          authorized(:view_puppetclasses).
+          search_for(*search_options).paginate(paginate_options).
           select([:name, :id]).
           includes(:lookup_keys)
         render :json => Puppetclass.classes2hash(values.all)

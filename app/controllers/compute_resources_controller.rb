@@ -11,7 +11,6 @@ class ComputeResourcesController < ApplicationController
       values = ComputeResource.authorized(:view_compute_resources).search_for ""
     end
     @compute_resources = values.paginate :page => params[:page]
-    @authorizer = Authorizer.new(User.current, @compute_resources)
   end
 
   def new

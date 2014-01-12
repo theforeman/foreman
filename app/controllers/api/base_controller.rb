@@ -137,13 +137,14 @@ module Api
     #
     # example:
     # @host = Host.find_resource params[:id]
-    def find_resource
+    def find_resource(controller = controller_name)
       resource = resource_identifying_attributes.find do |key|
         next if key=='id' and params[:id].to_i == 0
         method = "find_by_#{key}"
-        resource_scope.respond_to?(method) and
-          (resource = resource_scope.send method, params[:id]) and
-          break resource
+        if resource_scope.respond_to?(method)
+          authorized_scope = resource_scope.authorized("#{action_permission}_#{controller}")
+          (resource = authorized_scope.send method, params[:id]) and break resource
+        end
       end
 
       if resource
@@ -217,7 +218,10 @@ module Api
           if allowed_nested_id.include?(param)
             resource_identifying_attributes.each do |key|
               find_method = "find_by_#{key}"
-              @nested_obj ||= md[1].classify.constantize.send(find_method, params[param])
+              model = md[1].classify.constantize
+              controller = "#{md[1].pluralize}_#{controller_name}"
+              authorized_scope = model.authorized("#{action_permission}_#{controller}")
+              @nested_obj ||= authorized_scope.send(find_method, params[param])
             end
           else
             # there should be a route error before getting here, but just in case,
@@ -248,5 +252,19 @@ module Api
       []
     end
 
+    def action_permission
+      case params[:action]
+      when 'new', 'create'
+        'create'
+      when 'edit', 'update'
+        'edit'
+      when 'destroy'
+        'destroy'
+      when 'index', 'show'
+        'view'
+      else
+        params[:action]
+      end
+    end
   end
 end

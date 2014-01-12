@@ -12,7 +12,7 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        Audit.unscoped { @audits = Audit.search_for(*search_options).paginate(paginate_options) }
+        Audit.unscoped { @audits = Audit.authorized(:view_audit_logs).search_for(*search_options).paginate(paginate_options) }
       end
 
       api :GET, "/audits/:id/", "Show an audit"

@@ -12,7 +12,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @users = User.search_for(*search_options).paginate(paginate_options)
+        @users = User.
+          authorized(:view_users).
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/users/:id/", "Show an user."

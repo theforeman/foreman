@@ -17,7 +17,6 @@ class UsersController < ApplicationController
       users = base.search_for('', :order => params[:order])
     end
     @users = users.includes(:auth_source).paginate(:page => params[:page])
-    @authorizer = Authorizer.new(User.current, @users)
   end
 
   def new

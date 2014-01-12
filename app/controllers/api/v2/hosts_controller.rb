@@ -7,7 +7,9 @@ module Api
       include Api::TaxonomyScope
       include Foreman::Controller::SmartProxyAuth
 
-      before_filter :find_resource, :except => [:index, :create, :facts]
+      before_filter :find_resource, :except => %w{index create facts}
+      before_filter :permissions_check, :only => %w{power boot puppetrun}
+
       add_puppetmaster_filters :facts
 
       api :GET, "/hosts/", "List all hosts."
@@ -17,7 +19,10 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @hosts = Host.my_hosts.search_for(*search_options).paginate(paginate_options)
+        @hosts = Host.
+          authorized(:view_hosts).
+          my_hosts.
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/hosts/:id/", "Show a host."
@@ -199,6 +204,10 @@ Return value may either be one of the following:
         raise ::Foreman::Exception.new("A problem occurred when detecting host type: #{e.message}")
       end
 
+      def permissions_check
+        permission = "#{params[:action]}_hosts".to_sym
+        deny_access unless Host.authorized(permission).find(@host.id)
+      end
     end
   end
 end

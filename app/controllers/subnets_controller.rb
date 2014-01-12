@@ -3,7 +3,6 @@ class SubnetsController < ApplicationController
 
   def index
     @subnets = Subnet.authorized(:view_subnets).search_for(params[:search], :order => params[:order]).includes(:domains, :dhcp).paginate :page => params[:page]
-    @authorizer = Authorizer.new(User.current, @subnets)
   end
 
   def new

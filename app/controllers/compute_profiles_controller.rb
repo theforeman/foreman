@@ -5,7 +5,6 @@ class ComputeProfilesController < ApplicationController
   def index
     base = ComputeProfile.authorized(:view_compute_profiles)
     @compute_profiles = base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
-    @authorizer = Authorizer.new(User.current, @compute_profiles)
   end
 
   def show

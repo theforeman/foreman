@@ -10,7 +10,6 @@ class ReportsController < ApplicationController
     error e.to_s
     @reports = report_authorized.search_for("").paginate :page => params[:page]
   ensure
-    @authorizer = Authorizer.new(User.current, @reports)
   end
 
   def show

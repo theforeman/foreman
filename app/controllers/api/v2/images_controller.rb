@@ -12,7 +12,10 @@ module Api
       param :compute_resource_id, :identifier, :required => true
 
       def index
-        @images = @compute_resource.images.search_for(*search_options).paginate(paginate_options)
+        @images = @compute_resource.
+          authorized(:view_images).
+          images.
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/compute_resources/:compute_resource_id/images/:id/", "Show an image"
@@ -65,7 +68,7 @@ module Api
       private
 
       def find_compute_resource
-        @compute_resource = ComputeResource.find(params[:compute_resource_id])
+        @compute_resource = ComputeResource.authorized(:view_compute_resources).find(params[:compute_resource_id])
       end
 
     end

@@ -10,7 +10,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @architectures = Architecture.includes(:operatingsystems).
+        @architectures = Architecture.
+          authorized(:view_architectures).
+          includes(:operatingsystems).
           search_for(*search_options).paginate(paginate_options)
       end
 

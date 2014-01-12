@@ -12,12 +12,12 @@
   </tr>
   <% for medium in @media %>
     <tr>
-      <td><%= link_to_if_authorized medium, hash_for_edit_medium_path(:id => medium.id).merge(:auth_object => medium, :authorizer => @authorizer) %></td>
+      <td><%= link_to_if_authorized medium, hash_for_edit_medium_path(:id => medium.id).merge(:auth_object => medium, :authorizer => authorizer) %></td>
       <td><%= medium.path %></td>
       <td><%= lookup_family(medium.os_family) %></td>
       <td><%= medium.operatingsystems.map(&:to_label).to_sentence %></td>
       <td>
-        <%= display_delete_if_authorized hash_for_medium_path(:id => medium).merge(:auth_object => medium, :authorizer => @authorizer),
+        <%= display_delete_if_authorized hash_for_medium_path(:id => medium).merge(:auth_object => medium, :authorizer => authorizer),
                                          :confirm => _("Delete %s?") % medium.name %>
       </td>
     </tr>

@@ -6,7 +6,6 @@ class ArchitecturesController < ApplicationController
     base = Architecture.authorized(:view_architectures)
     base = base.includes(:operatingsystems).search_for(params[:search], :order => params[:order])
     @architectures = base.paginate(:page => params[:page])
-    @authorizer = Authorizer.new(User.current, @architectures)
   end
 
   def new

@@ -37,15 +37,6 @@ class RoleTest < ActiveSupport::TestCase
     role.wont_be :valid?
   end
 
-  it "should ensure length of name is at most 30" do
-    thirty = 'abcdefghijklmnopqrstuvwxyz1234'
-    thirtyone = 'abcdefghijklmnopqrstuvwxyz12345'
-    role = Role.new(:name => thirty)
-    role.must_be :valid?
-    role = Role.new(:name => thirtyone)
-    role.wont_be :valid?
-  end
-
   it "should allow value 'a role name' for name" do
     role = Role.new(:name => "a role name")
     role.must_be :valid?

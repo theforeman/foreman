@@ -4,7 +4,6 @@ class ModelsController < ApplicationController
   def index
     @models  = Model.authorized(:view_models).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     @counter = Host.group(:model_id).where(:model_id => @models.pluck(:id)).count
-    @authorizer = Authorizer.new(User.current, @models)
   end
 
   def new

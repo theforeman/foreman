@@ -2,8 +2,10 @@ class PtablesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   def index
-    @ptables = Ptable.authorized(:view_ptables).includes(:operatingsystems).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
-    @authorizer = Authorizer.new(User.current, @ptables)
+    @ptables = Ptable.
+      authorized(:view_ptables).
+      includes(:operatingsystems).
+      search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new
