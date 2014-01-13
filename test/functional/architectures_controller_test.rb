@@ -11,6 +11,16 @@ class ArchitecturesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  def test_new_submit_button_id
+    get :new, {}, set_session_user
+    assert_select "[data-id='aid_create_architecture']"
+  end
+
+  def test_new_cancel_button_id
+    get :new, {}, set_session_user
+    assert_select "[data-id='aid_architectures']"
+  end
+
   def test_create_invalid
     Architecture.any_instance.stubs(:valid?).returns(false)
     post :create, {}, set_session_user
@@ -26,6 +36,11 @@ class ArchitecturesControllerTest < ActionController::TestCase
   def test_edit
     get :edit, {:id => Architecture.first.name}, set_session_user
     assert_template 'edit'
+  end
+
+  def test_edit_submit_button_id
+    get :edit, {:id => Architecture.first.name}, set_session_user
+    assert_select "[data-id='aid_update_architecture']"
   end
 
   def test_update_invalid

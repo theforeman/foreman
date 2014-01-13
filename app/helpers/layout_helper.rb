@@ -158,11 +158,25 @@ module LayoutHelper
     end
   end
 
+  def form_to_submit_id f
+    object = f.object.respond_to?(:to_model) ? f.object.to_model : f.object
+    key = object ? (object.persisted? ? :update : :create) : :submit
+    model = if object.class.respond_to?(:humanize_class_name)
+              object.class.humanize_class_name.downcase
+            elsif object.class.respond_to?(:model_name)
+              object.class.model_name.human.downcase
+            else
+              f.object_name.to_s
+            end.gsub(/\W+/, '_')
+    "aid_#{key}_#{model}"
+  end
+
   def submit_or_cancel f, overwrite = false, args = { }
     args[:cancel_path] ||= send("#{controller_name}_path")
     content_tag(:div, :class => "form-actions") do
       text    = overwrite ? _("Overwrite") : _("Submit")
       options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
+      options.merge! :'data-id' => form_to_submit_id(f) unless options.has_key?(:'data-id')
       link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " +
       f.submit(text, options)
     end
