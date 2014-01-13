@@ -112,7 +112,7 @@ task :migrate_permissions => :environment do
         # later for hosts
         filters[:domains]    = user.domains.uniq.map { |cr| "id = #{cr.id}" }.join(' or ')
 
-        # hostrgroups
+        # host groups
         filters[:hostgroups] = search = user.hostgroups.uniq.map { |cr| "id = #{cr.id}" }.join(' or ')
         affected             = clones.map(&:filters).flatten.select { |f| f.resource_type == 'Hostgroup' }
         affected.each do |filter|
@@ -144,10 +144,14 @@ task :migrate_permissions => :environment do
         search = user.facts_andor == 'and' ? "(#{search}) and (#{filter})" : "#{search} or (#{filter})" unless filter.blank?
 
         # taxonomies
-        filter = user.organizations.map { |o| "organization_id = #{o.id}" }.join(' or ')
-        search = user.organizations_andor == 'and' ? "(#{search}) and (#{filter})" : "#{search} or (#{filter})" unless filter.blank?
-        filter = user.locations.map { |o| "location_id = #{o.id}" }.join(' or ')
-        search = user.locations_andor == 'and' ? "(#{search}) and (#{filter})" : "#{search} or (#{filter})" unless filter.blank?
+        if Settings[:organizations_enabled]
+          filter = user.organizations.map { |o| "organization_id = #{o.id}" }.join(' or ')
+          search = user.organizations_andor == 'and' ? "(#{search}) and (#{filter})" : "#{search} or (#{filter})" unless filter.blank?
+        end
+        if Settings[:locations_enabled]
+          filter = user.locations.map { |o| "location_id = #{o.id}" }.join(' or ')
+          search = user.locations_andor == 'and' ? "(#{search}) and (#{filter})" : "#{search} or (#{filter})" unless filter.blank?
+        end
 
         # fix first and/or that could appear
         search = search.sub(/^ and /, '') if search.starts_with?(' and ')
