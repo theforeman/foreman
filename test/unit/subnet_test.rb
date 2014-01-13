@@ -86,63 +86,6 @@ class SubnetTest < ActiveSupport::TestCase
     @subnet.save!
   end
 
-  def setup_user operation
-    super operation, "subnets"
-  end
-
-  test "user with create permissions should be able to create" do
-    setup_user "create"
-    record = Subnet.create :name => "dummy2", :network => "1.2.3.4", :mask => "255.255.255.0"
-    assert record.domain_ids = [Domain.first.id]
-    assert record.valid?
-    assert !record.new_record?
-  end
-
-  test "user with view permissions should not be able to create" do
-    setup_user "view"
-    record =  Subnet.new :name => "dummy", :network => "1.2.3.4", :mask => "255.255.255.0"
-    assert record.valid?
-    assert !record.save
-    assert record.new_record?
-  end
-
-  test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy"
-    record = subnets(:two)
-    as_admin do
-      record.domains.destroy_all
-      record.hosts.clear
-      record.interfaces.clear
-    end
-    assert record.destroy
-    assert record.frozen?
-  end
-
-  test "user with edit permissions should not be able to destroy" do
-    setup_user "edit"
-    record =  Subnet.first
-    assert !record.destroy
-    assert !record.frozen?
-  end
-
-  test "user with edit permissions should be able to edit" do
-    setup_user "edit"
-    record      =  Subnet.first
-    record.name = "renamed"
-    assert record.save
-  end
-
-  test "user with destroy permissions should not be able to edit" do
-    setup_user "destroy"
-    record      =  Subnet.first
-    record.name = "renamed"
-    as_admin do
-      record.domains = [domains(:unuseddomain)]
-    end
-    assert !record.save
-    assert record.valid?
-  end
-
   test "from cant be bigger than to range" do
     s      = subnets(:one)
     s.to   = "2.3.4.15"

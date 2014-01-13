@@ -115,7 +115,7 @@ module ApplicationHelper
       user.allowed_to?({:controller => controller_name, :action => action, :id => id}) rescue false
     else
       authorizer = options.delete(:authorizer) || Authorizer.new(user)
-      authorizer.can?(permission, object)
+      authorizer.can?(permission, object) rescue false
     end
   end
 

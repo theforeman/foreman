@@ -123,7 +123,6 @@ task :migrate_permissions => :environment do
         # fact_values for hosts scope
         filters[:facts] = user.user_facts.uniq.map { |uf| "facts.#{uf.fact_name.name} #{uf.operator} #{uf.criteria}" }.join(' or ')
 
-        # Hosts
         search          = ''
 
         # owner_type

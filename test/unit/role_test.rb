@@ -78,6 +78,7 @@ class RoleTest < ActiveSupport::TestCase
         role_ids = Role.where("builtin = #{Role::BUILTIN_ANONYMOUS}").pluck(:id)
         user_ids = UserRole.where(:role_id => role_ids)
         UserRole.where(:role_id => role_ids).destroy_all
+        Filter.where(:role_id => role_ids).destroy_all
         Role.where(:id => role_ids).delete_all
       end
 
@@ -107,6 +108,7 @@ class RoleTest < ActiveSupport::TestCase
         role_ids = Role.where("builtin = #{Role::BUILTIN_DEFAULT_USER}").pluck(:id)
         user_ids = UserRole.where(:role_id => role_ids)
         UserRole.where(:role_id => role_ids).destroy_all
+        Filter.where(:role_id => role_ids).destroy_all
         Role.where(:id => role_ids).delete_all
       end
 
