@@ -15,7 +15,7 @@
   </tr>
   </thead>
   <tbody>
-  <% for filter in @filters %>
+  <% @filters.each do |filter| %>
       <tr>
         <td>
           <%= content_tag('span', link_to_if_authorized(filter.search || _('none'),

@@ -39,18 +39,12 @@
 
       <% if show_location_tab? %>
         <div class="tab-pane" id="locations">
-          <div class="col-md-2">
-            <%= f.select :locations_andor, [[_("must be"), "and"], [_("plus all"), "or"]], {}, :class => "form-control" %>
-          </div>
           <%= multiple_checkboxes f, :locations, @user, Location, :label=>'' %>
         </div>
       <% end %>
 
       <% if show_organization_tab? %>
         <div class="tab-pane" id="organizations">
-          <div class="col-md-2">
-            <%= f.select :organizations_andor, [[_("must be"), "and"], [_("plus all"), "or"]], {}, :class => "form-control" %>
-          </div>
           <%= multiple_checkboxes f, :organizations, @user, Organization, :label=>'' %>
         </div>
       <% end %>

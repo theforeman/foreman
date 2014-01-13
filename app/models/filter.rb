@@ -18,8 +18,8 @@ class Filter < ActiveRecord::Base
   scope :limited, lambda { where("search IS NOT NULL") }
 
   scoped_search :on => :search, :complete_value => true
-  scoped_search :in => :role, :on => :id, :rename => :role
-  scoped_search :in => :role, :on => :name, :rename => :role_name
+  scoped_search :in => :role, :on => :id, :rename => :role_id
+  scoped_search :in => :role, :on => :name, :rename => :role
   scoped_search :in => :permissions, :on => :resource_type, :rename => :resource
 
   before_validation :set_unlimited_filter, :if => Proc.new { |o| o.unlimited == '1' }

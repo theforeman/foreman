@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
   skip_before_filter :authorize, :only => :extlogin
   after_filter       :update_activity_time, :only => :login
+  skip_before_filter :update_admin_flag, :only => :update
 
   def index
     base = User.authorized(:view_users)
@@ -43,6 +44,7 @@ class UsersController < ApplicationController
   def update
     editing_self?
     @user = find_resource(:edit_users)
+    update_admin_flag
     if @user.update_attributes(params[:user])
       update_sub_hostgroups_owners
 
@@ -118,12 +120,6 @@ class UsersController < ApplicationController
     uri                    = session[:original_uri]
     session[:original_uri] = nil
     redirect_to (uri || hosts_path)
-  end
-
-  def update_admin_flag
-    # Only an admin can update admin attribute of another user
-    # this is required, as the admin field is blacklisted above
-    @user.admin = @admin if User.current.admin && !@admin.nil?
   end
 
 end

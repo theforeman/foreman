@@ -4,7 +4,4 @@ class CachedUsergroupMember < ActiveRecord::Base
   belongs_to :user
   belongs_to :usergroup
 
-  def self.build_cache!(attributes)
-    create!(attributes)
-  end
 end

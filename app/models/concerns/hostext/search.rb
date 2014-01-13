@@ -21,13 +21,13 @@ module Hostext
       scoped_search :on => :owner_id,      :complete_value => true
       scoped_search :on => :owner_type,    :complete_value => true
 
-      scoped_search :in => :model,       :on => :name,    :complete_value => true, :rename => :model
-      scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true, :rename => :hostgroup
-      scoped_search :in => :hostgroup,   :on => :label,   :complete_value => true, :rename => :hostgroup_fullname
-      scoped_search :in => :hostgroup,   :on => :id,      :complete_value => true, :rename => :hostgroup_id
-      scoped_search :in => :domain,      :on => :name,    :complete_value => true, :rename => :domain
-      scoped_search :in => :domain,      :on => :id,      :complete_value => true, :rename => :domain_id
-      scoped_search :in => :environment, :on => :name,    :complete_value => true, :rename => :environment
+      scoped_search :in => :model,       :on => :name,    :complete_value => true,  :rename => :model
+      scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true,  :rename => :hostgroup
+      scoped_search :in => :hostgroup,   :on => :label,   :complete_value => true,  :rename => :hostgroup_fullname
+      scoped_search :in => :hostgroup,   :on => :id,      :complete_value => false, :rename => :hostgroup_id, :only_explicit => true
+      scoped_search :in => :domain,      :on => :name,    :complete_value => true,  :rename => :domain
+      scoped_search :in => :domain,      :on => :id,      :complete_value => true,  :rename => :domain_id
+      scoped_search :in => :environment, :on => :name,    :complete_value => true,  :rename => :environment
       scoped_search :in => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
       scoped_search :in => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster
       scoped_search :in => :puppet_ca_proxy, :on => :name,    :complete_value => true, :rename => :puppet_ca

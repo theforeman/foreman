@@ -18,7 +18,7 @@
         <% if report.host.nil? %>
             <td></td>
         <% else %>
-            <td><%= link_to h(report.host), host_reports_path(report.host) %></td>
+            <td><%= link_to report.host, host_reports_path(report.host) %></td>
         <% end %>
       <% end %>
       <td><%= reported_at_column(report) %></td>

@@ -53,4 +53,22 @@ class FiltersController < ApplicationController
   def role_id
     params[:role_id]
   end
+
+  def setup_search_options
+    @original_search_parameter = params[:search]
+    params[:search] ||= ""
+    params.keys.each do |param|
+      if param =~ /role_id$/
+        unless (role = Role.find_by_id(params[param])).blank?
+          query = "role = #{role.name}"
+          params[:search] += query unless params[:search].include? query
+        end
+      elsif param =~ /(\w+)_id$/
+        unless params[param].blank?
+          query = "#{$1} = #{params[param]}"
+          params[:search] += query unless params[:search].include? query
+        end
+      end
+    end
+  end
 end

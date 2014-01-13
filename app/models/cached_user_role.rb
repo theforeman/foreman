@@ -7,7 +7,4 @@ class CachedUserRole < ActiveRecord::Base
   # this UserRole created this cache
   belongs_to :user_role
 
-  def self.build_cache!(attributes)
-    create!(attributes)
-  end
 end

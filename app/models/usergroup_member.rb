@@ -20,12 +20,12 @@ class UsergroupMember < ActiveRecord::Base
   def add_new_cache
     find_all_affected_users.each do |user|
       find_all_user_roles.each do |user_role|
-        CachedUserRole.build_cache!(:user      => user, :role => user_role.role,
-                                    :user_role => user_role)
+        CachedUserRole.create!(:user      => user, :role => user_role.role,
+                               :user_role => user_role)
       end
 
       find_all_usergroups.each do |group|
-        CachedUsergroupMember.build_cache!(:user => user, :usergroup => group)
+        CachedUsergroupMember.create!(:user => user, :usergroup => group)
       end
     end
   end

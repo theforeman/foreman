@@ -1,10 +1,10 @@
 module Api
   module V2
     class UsersController < V2::BaseController
+      before_filter :find_resource, :only => %w{show update destroy}
       include Foreman::Controller::UsersMixin
       include Api::Version2
       include Api::TaxonomyScope
-      before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/users/", "List all users."
       param :search, String, :desc => "filter results"
