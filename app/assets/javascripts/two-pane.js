@@ -97,7 +97,7 @@ function hide_columns(){
   if ($('.two-pane-left').length == 0){
     $('.table-two-pane').wrap( "<div class='row'><div class='col-md-3 two-pane-left'></div></div>");
   }
-  var placeholder = spinner_placeholder(_('Loading'));
+  var placeholder = spinner_placeholder(__('Loading'));
   $('.two-pane-left').after("<div class='col-md-9 two-pane-right'><div class='well'>" + placeholder + "</div></div>");
 
 }
