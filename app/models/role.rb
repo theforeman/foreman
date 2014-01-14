@@ -22,7 +22,7 @@ class Role < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
   scope :givable, lambda { where(:builtin => 0).order(:name) }
-  scope :for_current_user, lambda { User.current.admin? ? {} : where(:id => User.current.role_ids) } # TODO find out whether to remove
+  scope :for_current_user, lambda { User.current.admin? ? {} : where(:id => User.current.role_ids) }
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first
     where("#{compare} builtin = 0")
@@ -81,14 +81,6 @@ class Role < ActiveRecord::Base
     else
       allowed_permissions.include? action
     end
-  end
-
-  # Return all the permissions that can be given to the role
-  # TODO remove when removing old permission views
-  def setable_permissions
-    setable_permissions  = Foreman::AccessControl.permissions - Foreman::AccessControl.public_permissions
-    setable_permissions -= Foreman::AccessControl.loggedin_only_permissions if self.builtin == BUILTIN_ANONYMOUS
-    setable_permissions
   end
 
   # Find all the roles that can be given to a user

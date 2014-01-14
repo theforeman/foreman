@@ -2,7 +2,7 @@ class Authorizer
   attr_accessor :user, :base_collection
 
   def initialize(user, collection = nil)
-    @cache = HashWithIndifferentAccess.new { |h, k| h[k] = {} }
+    @cache = HashWithIndifferentAccess.new { |h, k| h[k] = HashWithIndifferentAccess.new }
     self.user = user
     self.base_collection = collection
   end

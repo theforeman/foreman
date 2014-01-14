@@ -3,7 +3,7 @@ class DomainsController < ApplicationController
   before_filter :find_by_name, :only => %w{edit update destroy}
 
   def index
-    @domains      = Domain.authorized(:view_domains).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @domains      = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     @host_counter = Host.group(:domain_id).where(:domain_id => @domains.select(&:id)).count
   end
 

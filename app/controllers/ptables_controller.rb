@@ -1,10 +1,9 @@
 class PtablesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
 
   def index
-    @ptables = Ptable.
-      authorized(:view_ptables).
-      includes(:operatingsystems).
+    @ptables = resource_base.includes(:operatingsystems).
       search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
@@ -22,11 +21,9 @@ class PtablesController < ApplicationController
   end
 
   def edit
-    @ptable = find_ptable(:edit_ptables)
   end
 
   def update
-    @ptable = find_ptable(:edit_ptables)
     if @ptable.update_attributes(params[:ptable])
       process_success
     else
@@ -35,17 +32,11 @@ class PtablesController < ApplicationController
   end
 
   def destroy
-    @ptable = find_ptable(:destroy_ptables)
     if @ptable.destroy
       process_success
     else
       process_error
     end
-  end
-
-  private
-  def find_ptable(permission = :view_ptables)
-    Ptable.authorized(permission).find(params[:id])
   end
 
 end

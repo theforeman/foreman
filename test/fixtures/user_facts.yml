@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-# TODO remove
-one:
-  user: one
-  fact_name: ipaddress
-  criteria: '10.0.19.33'
-  operator: '='
-  andor: 'and'

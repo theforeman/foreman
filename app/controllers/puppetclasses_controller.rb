@@ -7,7 +7,7 @@ class PuppetclassesController < ApplicationController
   before_filter :store_redirect_to_url, :only => :edit
 
   def index
-    @puppetclasses = Puppetclass.authorized(:view_puppetclasses).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @puppetclasses = resource_base.search_for(params[:search], :order => params[:order]).includes(:environments, :hostgroups).paginate(:page => params[:page])
     @host_counter = Host.group(:puppetclass_id).joins(:puppetclasses).where(:puppetclasses => {:id => @puppetclasses.collect(&:id)}).count
     @keys_counter = Puppetclass.joins(:class_params).select('distinct environment_classes.lookup_key_id').group(:name).count
     @hostgroups_authorizer = Authorizer.new(User.current, HostgroupClass.find_all_by_puppetclass_id(@puppetclasses.map(&:id)).compact.uniq.map(&:hostgroup_id))
@@ -97,7 +97,7 @@ class PuppetclassesController < ApplicationController
 
   def find_by_name
     not_found and return if params[:id].blank?
-    pc = Puppetclass.authorized([action_permission, controller_name].join('_')).includes(:class_params => [:environment_classes, :environments, :lookup_values])
+    pc = resource_base.includes(:class_params => [:environment_classes, :environments, :lookup_values])
     @puppetclass = (params[:id] =~ /\A\d+\Z/) ? pc.find(params[:id]) : pc.find_by_name(params[:id])
     not_found and return unless @puppetclass
   end

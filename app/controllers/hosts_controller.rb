@@ -8,6 +8,12 @@ class HostsController < ApplicationController
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
   AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy}
   BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
+  MULTIPLE_ACTIONS = %w(multiple_parameters, update_multiple_parameters,  select_multiple_hostgroup,
+                        update_multiple_hostgroup, select_multiple_environment, update_multiple_environment,
+                                          multiple_destroy, submit_multiple_destroy, multiple_build,
+                                          submit_multiple_build, multiple_disable, submit_multiple_disable,
+                                          multiple_enable, submit_multiple_enable, multiple_puppetrun,
+                                          update_multiple_puppetrun)
 
   add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
@@ -21,15 +27,19 @@ class HostsController < ApplicationController
 
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
+  before_filter :find_by_name, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun,
+                                         :setBuild, :cancelBuild, :power, :bmc, :ipmi_boot,
+                                         :console, :toggle_manage, :pxe_config,
+                                         :storeconfig_klasses]
+  before_filter :find_multiple, :only => MULTIPLE_ACTIONS
   helper :hosts, :reports
 
   def index (title = nil)
-    base = Host.authorized(:view_hosts, Host)
     begin
-      search = base.search_for(params[:search],:order => params[:order])
+      search = resource_base.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
-      search = base.search_for ''
+      search = resource_base.search_for ''
     end
     respond_to do |format|
       format.html do
@@ -54,7 +64,6 @@ class HostsController < ApplicationController
   end
 
   def show
-    @host = find_by_name(:view_hosts) or return
     respond_to do |format|
       format.html {
         # filter graph time range
@@ -75,7 +84,6 @@ class HostsController < ApplicationController
 
   # Clone the host
   def clone
-    @host = find_by_name(:view_hosts)
     @clone_host = @host
     new = @host.dup
     new.name = nil
@@ -102,13 +110,11 @@ class HostsController < ApplicationController
   end
 
   def edit
-    @host = find_by_name(:edit_hosts)
     taxonomy_scope
     load_vars_for_ajax
   end
 
   def update
-    @host = find_by_name(:edit_hosts)
     forward_url_options
     Taxonomy.no_taxonomy_scope do
       # remove from hash :root_pass and bmc :password if blank?
@@ -130,7 +136,6 @@ class HostsController < ApplicationController
   end
 
   def destroy
-    @host = find_by_name(:destroy_hosts)
     if @host.destroy
       process_success
     else
@@ -178,9 +183,8 @@ class HostsController < ApplicationController
 
   def externalNodes
     certname = params[:name]
-    base = Host.authorized(:view_hosts, Host)
-    @host ||= base.find_by_certname certname
-    @host ||= base.find_by_name certname
+    @host ||= resource_base.find_by_certname certname
+    @host ||= resource_base.find_by_name certname
     not_found and return unless @host
 
     begin
@@ -196,7 +200,6 @@ class HostsController < ApplicationController
   end
 
   def puppetrun
-    @host = find_by_name(:puppetrun_hosts)
     return deny_access unless Setting[:puppetrun]
     if @host.puppetrun!
       notice _("Successfully executed, check log files for more details")
@@ -207,7 +210,6 @@ class HostsController < ApplicationController
   end
 
   def setBuild
-    @host = find_by_name(:build_hosts) or return
     forward_url_options
     if @host.setBuild
       process_success :success_msg => _("Enabled %s for rebuild on next boot") % (@host), :success_redirect => :back
@@ -217,7 +219,6 @@ class HostsController < ApplicationController
   end
 
   def cancelBuild
-    @host = find_by_name(:build_hosts) or return
     if @host.built(false)
       process_success :success_msg =>  _("Canceled pending build for %s") % (@host.name), :success_redirect => :back
     else
@@ -226,7 +227,6 @@ class HostsController < ApplicationController
   end
 
   def power
-    @host = find_by_name(:power_hosts) or return
     return invalid_request unless PowerManager::SUPPORTED_ACTIONS.include?(params[:power_action])
     @host.power.send(params[:power_action].to_sym)
     process_success :success_redirect => :back, :success_msg => _("%{host} is about to %{action}") % { :host => @host, :action => _(params[:power_action].downcase) }
@@ -235,7 +235,6 @@ class HostsController < ApplicationController
   end
 
   def bmc
-    @host = find_by_name(:view_hosts) or return
     render :partial => 'bmc', :locals => { :host => @host }
   rescue ActionView::Template::Error => exception
     origin = exception.try(:original_exception)
@@ -247,7 +246,6 @@ class HostsController < ApplicationController
   end
 
   def ipmi_boot
-    @host = find_by_name(:ipmi_hosts) or return
     device    = params[:ipmi_device]
     device_id = BOOT_DEVICES.stringify_keys[device.downcase] || device
     @host.ipmi_boot(device)
@@ -257,7 +255,6 @@ class HostsController < ApplicationController
   end
 
   def console
-    @host = find_by_name(:console_hosts) or return
     return unless @host.compute_resource
     @console = @host.compute_resource.console @host.uuid
     render case @console[:type]
@@ -273,7 +270,6 @@ class HostsController < ApplicationController
   end
 
   def toggle_manage
-    @host = find_by_name(:edit_hosts) or return
     if @host.toggle! :managed
       if @host.managed
         msg = _("Foreman now manages the build cycle for %s") % (@host.name)
@@ -299,23 +295,19 @@ class HostsController < ApplicationController
   end
 
   def pxe_config
-    @host = find_by_name(:view_hosts) or return
     redirect_to(:controller => "unattended", :action => "pxe_#{@host.operatingsystem.pxe_type}_config", :host_id => @host) if @host
   end
 
   def storeconfig_klasses
-    @host = find_by_name(:view_hosts) or return
   end
 
   # multiple host selection methods
 
   def multiple_parameters
-    @hosts = find_multiple(:edit_hosts)
     @parameters = HostParameter.where(:reference_id => @hosts).select("distinct name")
   end
 
   def update_multiple_parameters
-    @hosts = find_multiple(:edit_hosts)
     if params[:name].empty?
       notice _("No parameters were allocated to the selected hosts, can't mass assign.")
       redirect_to hosts_path and return
@@ -344,11 +336,9 @@ class HostsController < ApplicationController
   end
 
   def select_multiple_hostgroup
-    @hosts = find_multiple(:edit_hosts)
   end
 
   def update_multiple_hostgroup
-    @hosts = find_multiple(:edit_hosts)
     # simple validations
     unless (id=params["hostgroup"]["id"])
       error _('No host group selected!')
@@ -367,11 +357,9 @@ class HostsController < ApplicationController
   end
 
   def select_multiple_environment
-    @hosts = find_multiple(:edit_hosts)
   end
 
   def update_multiple_environment
-    @hosts = find_multiple(:edit_hosts)
     # simple validations
     if (params[:environment].nil?) or (id=params["environment"]["id"]).nil?
       error _('No environment selected!')
@@ -391,15 +379,12 @@ class HostsController < ApplicationController
   end
 
   def multiple_destroy
-    @hosts = find_multiple(:destroy_hosts)
   end
 
   def multiple_build
-    @hosts = find_multiple(:build_hosts)
   end
 
   def submit_multiple_build
-    @hosts = find_multiple(:build_hosts)
     @hosts.delete_if do |host|
       forward_url_options(host)
       host.setBuild
@@ -415,7 +400,6 @@ class HostsController < ApplicationController
   end
 
   def submit_multiple_destroy
-    @hosts = find_multiple(:destroy_hosts)
     # keep all the ones that were not deleted for notification.
     @hosts.delete_if {|host| host.destroy}
 
@@ -429,30 +413,24 @@ class HostsController < ApplicationController
   end
 
   def multiple_disable
-    @hosts = find_multiple(:edit_hosts)
   end
 
   def submit_multiple_disable
-    @hosts = find_multiple(:edit_hosts)
     toggle_hostmode false
   end
 
   def multiple_enable
-    @hosts = find_multiple(:edit_hosts)
   end
 
   def submit_multiple_enable
-    @hosts = find_multiple(:edit_hosts)
     toggle_hostmode
   end
 
   def multiple_puppetrun
-    @hosts = find_multiple(:puppetrun_hosts)
     deny_access unless Setting[:puppetrun]
   end
 
   def update_multiple_puppetrun
-    @hosts = find_multiple(:puppetrun_hosts)
     return deny_access unless Setting[:puppetrun]
     if @hosts.map(&:puppetrun!).uniq == [true]
       notice _("Successfully executed, check reports and/or log files for more details")
@@ -565,6 +543,36 @@ class HostsController < ApplicationController
 
   private
 
+  def resource_base
+    @resource_base ||= Host.authorized(current_permission, Host)
+  end
+
+  def action_permission
+    case params[:action]
+      when 'clone', 'externalNodes', 'bmc', 'pxe_config', 'storeconfig_klasses'
+        :view
+      when 'puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'
+        :puppetrun
+      when 'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build'
+        :build
+      when 'power'
+        :power
+      when 'ipmi_boot'
+        :ipmi
+      when 'console'
+        :console
+      when 'toggle_manager', 'multiple_parameters', 'update_multiple_parameters',
+          'select_multiple_hostgroup', 'update_multiple_hostgroup', 'select_multiple_environment',
+          'update_multiple_environment', 'multiple_disable', 'submit_multiple_disable',
+          'multiple_enable', 'submit_multiple_enable'
+        :edit
+      when 'multiple_destroy', 'submit_multiple_destroy'
+        :destroy
+      else
+        super
+    end
+  end
+
   def refresh_host
     @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params['host_id'])
     if @host
@@ -617,20 +625,19 @@ class HostsController < ApplicationController
     end
   end
 
-  def find_by_name(permission = :view_hosts)
+  def find_by_name
     not_found and return false if (id = params[:id]).blank?
     # determine if we are searching for a numerical id or plain name
 
-    base = Host.authorized(permission, Host)
     if id =~ /^\d+$/
-      host = base.find_by_id id.to_i
+      @host = resource_base.find_by_id id.to_i
     else
-      host = base.find_by_name id.downcase
-      host ||= base.find_by_mac params[:host][:mac] if params[:host] && params[:host][:mac]
+      @host = resource_base.find_by_name id.downcase
+      @host ||= resource_base.find_by_mac params[:host][:mac] if params[:host] && params[:host][:mac]
     end
 
-    not_found and return(false) unless host
-    host
+    not_found and return(false) unless @host
+    @host
   end
 
   def load_vars_for_ajax
@@ -647,11 +654,11 @@ class HostsController < ApplicationController
     end
   end
 
-  def find_multiple(permission = :view_hosts)
+  def find_multiple
   # Lets search by name or id and make sure one of them exists first
     if params[:host_names].present? or params[:host_ids].present?
-      hosts = Host.authorized(permission, Host).where("id IN (?) or name IN (?)", params[:host_ids], params[:host_names] )
-      if hosts.empty?
+      @hosts = resource_base.where("id IN (?) or name IN (?)", params[:host_ids], params[:host_names] )
+      if @hosts.empty?
         error _('No hosts were found with that id or name')
         redirect_to(hosts_path) and return false
       end

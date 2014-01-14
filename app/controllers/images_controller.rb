@@ -1,10 +1,10 @@
 class ImagesController < ApplicationController
   before_filter :find_compute_resource
-  before_filter :find_by_name, :except => [:index, :new, :create]
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
 
   def index
     # Listing images in /hosts/new consumes this method as JSON
-    values = @compute_resource.images.search_for(params[:search], :order => params[:order])
+    values = resource_base.where(:compute_resource_id => @compute_resource.id).search_for(params[:search], :order => params[:order])
     respond_to do |format|
       format.html { @images = values.paginate :page => params[:page] }
       format.json { render :json => values }

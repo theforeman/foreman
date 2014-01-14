@@ -176,10 +176,11 @@ class AuthorizerTest < ActiveSupport::TestCase
 
     auth.stubs(:find_collection).returns([domain1]).times(3)
     assert auth.can?(:view_domain, domain1)
-    refute auth.can?(:view_domain, domain2)
+    refute auth.can?('view_domain', domain2)
     assert auth.can?(:edit_domain, domain1)
-    refute auth.can?(:edit_domain, domain2)
-    refute auth.can?(:view_architectures, architecture) # sincei it's stubbed and returns domain1 only
+    refute auth.can?('edit_domain', domain2)
+    refute auth.can?(:view_architectures, architecture) # since it's stubbed and returns domain1 only
+    refute auth.can?('view_architectures', architecture)
   end
 
   test "#build_scoped_search_condition(filters) for empty set" do

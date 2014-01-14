@@ -1,14 +1,12 @@
 class ComputeProfilesController < ApplicationController
-
   include Foreman::Controller::AutoCompleteSearch
+  before_filter :find_by_name, :only => [:show, :edit, :update, :destroy]
 
   def index
-    base = ComputeProfile.authorized(:view_compute_profiles)
-    @compute_profiles = base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @compute_profiles = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def show
-    @compute_profile = find_compute_profile(:view_compute_profiles)
   end
 
   def new
@@ -16,7 +14,6 @@ class ComputeProfilesController < ApplicationController
   end
 
   def edit
-    @compute_profile = find_compute_profile(:edit_compute_profiles)
   end
 
   def create
@@ -29,7 +26,6 @@ class ComputeProfilesController < ApplicationController
   end
 
   def update
-    @compute_profile = find_compute_profile(:edit_compute_profiles)
     if @compute_profile.update_attributes(params[:compute_profile])
       process_success :success_redirect => compute_profiles_path
     else
@@ -38,7 +34,6 @@ class ComputeProfilesController < ApplicationController
   end
 
   def destroy
-    @compute_profile = find_compute_profile(:destroy_compute_profiles)
     if @compute_profile.destroy
       process_success
     else
@@ -46,10 +41,5 @@ class ComputeProfilesController < ApplicationController
     end
   end
 
-  private
-
-  def find_compute_profile(permission = 'view_compute_profiles')
-    ComputeProfile.authorized(permission).find(params[:id])
-  end
 
 end

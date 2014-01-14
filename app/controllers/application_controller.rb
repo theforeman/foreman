@@ -116,7 +116,7 @@ class ApplicationController < ActionController::Base
   end
 
   def model_of_controller
-    controller_path.singularize.camelize.gsub('/','::').constantize
+    @model_of_controller ||= controller_path.singularize.camelize.gsub('/','::').constantize
   end
 
 
@@ -129,10 +129,16 @@ class ApplicationController < ActionController::Base
     not_found and return if params[:id].blank?
 
     name = controller_name.singularize
-    model = model_of_controller
-    base = model.authorized([action_permission, controller_name].join('_'))
     cond = "find" + (params[:id] =~ /\A\d+(-.+)?\Z/ ? "" : "_by_name")
-    not_found and return unless instance_variable_set("@#{name}", base.send(cond, params[:id]))
+    not_found and return unless instance_variable_set("@#{name}", resource_base.send(cond, params[:id]))
+  end
+
+  def current_permission
+    [action_permission, controller_permission].join('_')
+  end
+
+  def controller_permission
+    controller_name
   end
 
   def action_permission
@@ -146,8 +152,15 @@ class ApplicationController < ActionController::Base
       when 'index', 'show'
         'view'
       else
-        params[:action]
+        raise ::Foreman::Exception, "unknown permission for #{params[:controller]}##{params[:action]}"
     end
+  end
+
+  # not all models includes Authorizable so we detect whether we should apply authorized scope or not
+  def resource_base
+    @resource_base ||= model_of_controller.respond_to?(:authorized) ?
+        model_of_controller.authorized(current_permission) :
+        model_of_controller.scoped
   end
 
   def notice notice
