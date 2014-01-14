@@ -53,7 +53,8 @@ class Operatingsystem < ActiveRecord::Base
                'Gentoo'    => %r{Gentoo}i,
                'Solaris'   => %r{Solaris}i,
                'Freebsd'   => %r{FreeBSD}i,
-               'AIX'       => %r{AIX}i }
+               'AIX'       => %r{AIX}i,
+               'Junos'     => %r{Junos}i }
 
   class Jail < Safemode::Jail
     allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri
