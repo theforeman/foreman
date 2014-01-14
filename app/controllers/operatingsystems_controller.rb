@@ -43,7 +43,6 @@ class OperatingsystemsController < ApplicationController
     else
       process_error
     end
-    @operatingsystem = generalize(@operatingsystem)
   end
 
   private
@@ -52,8 +51,4 @@ class OperatingsystemsController < ApplicationController
     Operatingsystem.authorized(permission).find(params[:id])
   end
   
-  def generalize(os)
-    os.becomes(Operatingsystem).tap { |o| o.type = os.type }
-  end
-
 end
