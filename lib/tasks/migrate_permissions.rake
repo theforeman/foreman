@@ -1,25 +1,22 @@
 desc 'migrate foreman permissions from 1.3 to 1.4'
 task :migrate_permissions => :environment do
-  name = "foreman.#{Time.now.to_i}.sql"
-  `echo changeme | pg_dump -U foreman foreman > #{name}`
-  puts "Backup in file #{name}"
-
-  puts "This script will migrate existing role and permissions to new version"
-  puts "before you continue, please make backup for case something goes wrong!"
+  puts 'This script will migrate existing role and permissions to new version'
+  puts 'before you continue, please make a backup in case something goes wrong!'
   puts
   puts "Every role's permission will be assigned via unlimited filter."
-  puts "For every user having some filters we will create clones of their"
-  puts " roles and convert these old filters to new scoped filters."
+  puts 'For every user having some filters we will create clones of their'
+  puts ' roles and convert these old filters to new scoped filters.'
   puts
-  puts "If you think you can define your permissions better you can delete all"
-  puts "existing roles manually a recreate them with filters according to you needs."
+  puts 'If you think you can define your permissions better you can delete all'
+  puts 'existing roles manually a recreate them with filters according to you needs.'
   puts "However you'll have to run this script then anyway so builtin roles are converted as well."
   puts
-  puts "Ready to continue? (y/N)"
-  input = STDIN.gets.chomp
-  exit(1) unless input == 'y'
+  puts 'Ready to continue? <yes|no>'
+  exit(0) unless $stdin.gets =~ /^yes/
 
-  puts "Ready, steady, go!"
+  backup_prompt
+
+  puts 'Ready, steady, go!'
   begin
     ActiveRecord::Base.transaction do
       # STEP 1 - migrate roles
@@ -174,8 +171,6 @@ task :migrate_permissions => :environment do
       end
     end
 
-    puts "Repeat, your backup is in file #{name}"
-
   rescue => e
     puts "Error occured, transaction rollbacked\n #{e.message} - #{e.backtrace.join("\n")}"
   end
@@ -205,3 +200,25 @@ def clone_filter(filter, role)
   clone.role        = role
   clone.save!
 end
+
+def backup_prompt
+  puts 'Before you continue, would you like to auto-create a backup in case something goes wrong?'
+  puts '<yes|no>'
+  if $stdin.gets =~ /^yes/
+    Rake::Task["db:dump"].invoke
+  else
+    while true
+      puts 'Do you really want to continue without a backup?'
+      puts 'Changes for this task cannot be rollbacked.'
+      puts '<yes|no> - "yes" will start the migration without a backup'
+
+      case $stdin.gets.strip
+      when /\A[yY]es?\Z/
+        return
+      when /\A[nN]o?\Z/
+        Rake::Task["db:dump"].invoke
+      end
+    end
+  end
+end
+

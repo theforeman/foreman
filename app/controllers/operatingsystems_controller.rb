@@ -44,11 +44,4 @@ class OperatingsystemsController < ApplicationController
       process_error
     end
   end
-
-  private
-
-  def find_os(permission = :view_operatingsystems)
-    Operatingsystem.authorized(permission).find(params[:id])
-  end
-  
 end
