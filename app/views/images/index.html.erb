@@ -9,6 +9,7 @@
     <th><%= _("Operating System") %></th>
     <th><%= _("Image|Username") %></th>
     <th><%= _("Image|Uuid") %></th>
+    <th><%= _("Image|User data") %></th>
     <th></th>
   </tr>
   </thead>
@@ -18,6 +19,7 @@
     <td><%= image.operatingsystem %></td>
     <td><%= image.username %></td>
     <td><%= image.uuid %></td>
+    <td><%= image.user_data %></td>
     <td><%= action_buttons(link_to(_('Edit'), edit_compute_resource_image_path(@compute_resource, image)),
      link_to(_('Destroy'), [@compute_resource, image], :confirm => _('Are you sure?'), :method => :delete)) %></td>
   </tr>

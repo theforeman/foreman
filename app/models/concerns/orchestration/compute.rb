@@ -8,7 +8,7 @@ module Orchestration::Compute
   end
 
   def compute?
-    compute_resource_id.present? and compute_attributes.present?
+    compute_resource_id.present? && ( compute_attributes.present? || uuid.present? )
   end
 
   def compute_object
@@ -29,11 +29,13 @@ module Orchestration::Compute
   end
 
   def queue_compute_create
-    queue.create(:name   => _("Set up compute instance %s") % self, :priority => 1,
+    queue.create(:name   => _("Render user data template for %s") % self, :priority => 1,
+                 :action => [self, :setUserData]) if find_image.try(:user_data)
+    queue.create(:name   => _("Set up compute instance %s") % self, :priority => 2,
                  :action => [self, :setCompute])
-    queue.create(:name   => _("Acquire IP address for %s") % self, :priority => 2,
+    queue.create(:name   => _("Acquire IP address for %s") % self, :priority => 3,
                  :action => [self, :setComputeIP]) if compute_resource.provided_attributes.keys.include?(:ip)
-    queue.create(:name   => _("Query instance details for %s") % self, :priority => 3,
+    queue.create(:name   => _("Query instance details for %s") % self, :priority => 4,
                  :action => [self, :setComputeDetails])
     queue.create(:name   => _("Power up compute instance %s") % self, :priority => 1000,
                  :action => [self, :setComputePowerUp]) if compute_attributes[:start] == '1'
@@ -57,6 +59,29 @@ module Orchestration::Compute
     self.vm = compute_resource.create_vm compute_attributes.merge(:name => Setting[:use_shortname_for_vms] ? shortname : name)
   rescue => e
     failure _("Failed to create a compute %{compute_resource} instance %{name}: %{message}\n ") % { :compute_resource => compute_resource, :name => name, :message => e.message }, e.backtrace
+  end
+
+  def setUserData
+    logger.info "Rendering UserData template for #{name}"
+    template   = configTemplate(:kind => "user_data")
+    @host      = self
+    # For some reason this renders as 'built' in spoof view but 'provision' when
+    # actually used. For now, use foreman_url('built') in the template
+    self.compute_attributes[:user_data] = unattended_render(template.template)
+    self.handle_ca
+    return false if errors.any?
+    logger.info "Revoked old certificates and enabled autosign for UserData"
+  end
+
+  def delUserData
+    # Mostly copied from SSHProvision, should probably refactor to have both use a common set of PuppetCA actions
+    compute_attributes.merge!(:user_data => nil) # Unset any badly formatted data
+    # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
+    if puppetca?
+      respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
+    end
+  rescue => e
+    failure _("Failed to remove certificates for %{name}: %{e}") % { :name => name, :e => e }, e.backtrace
   end
 
   def setComputeDetails
@@ -139,11 +164,16 @@ module Orchestration::Compute
     compute_resource.update_required?(old.compute_attributes, compute_attributes.symbolize_keys)
   end
 
-  def validate_compute_provisioning
-    return true if compute_attributes.nil?
+  def find_image
+    return nil if compute_attributes.nil?
     image_uuid = compute_attributes[:image_id] || compute_attributes[:image_ref]
-    return true if image_uuid.blank?
-    img = Image.where(:uuid => image_uuid, :compute_resource_id => compute_resource_id).first
+    return nil if image_uuid.blank?
+    Image.where(:uuid => image_uuid, :compute_resource_id => compute_resource_id).first
+  end
+
+  def validate_compute_provisioning
+    return true if ( compute_attributes.nil? or (compute_attributes[:image_id] || compute_attributes[:image_ref]).blank? )
+    img = find_image
     if img
       self.image = img
     else

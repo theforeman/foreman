@@ -474,12 +474,28 @@ class HostsController < ApplicationController
     render :partial => 'form'
   end
 
-
   def template_used
-    kinds = params[:provisioning] == 'image' ? [TemplateKind.find_by_name('finish')] : TemplateKind.all
+    host  = params[:host]
+    kinds = if params[:provisioning] == 'image'
+              cr     = ComputeResource.find_by_id(host[:compute_resource_id])
+              images = cr.try(:images)
+              if images.nil?
+                [TemplateKind.find_by_name('finish')]
+              else
+                uuid       = host[:compute_attributes][cr.image_param_name]
+                image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
+                [TemplateKind.find_by_name(image_kind)]
+              end
+            else
+              TemplateKind.all
+            end
+
     templates = kinds.map do |kind|
-      ConfigTemplate.find_template({:kind => kind.name, :operatingsystem_id => params[:operatingsystem_id],
-                                   :hostgroup_id => params[:hostgroup_id], :environment_id => params[:environment_id]})
+      ConfigTemplate.find_template({:kind               => kind.name,
+                                    :operatingsystem_id => host[:operatingsystem_id],
+                                    :hostgroup_id       => host[:hostgroup_id],
+                                    :environment_id     => host[:environment_id]
+      })
     end.compact
     return not_found if templates.empty?
     render :partial => "provisioning", :locals => {:templates => templates}
