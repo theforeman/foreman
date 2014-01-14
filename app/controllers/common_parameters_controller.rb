@@ -1,8 +1,9 @@
 class CommonParametersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
 
   def index
-    @common_parameters = CommonParameter.authorized(:view_globals, CommonParameter).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @common_parameters = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new
@@ -19,11 +20,9 @@ class CommonParametersController < ApplicationController
   end
 
   def edit
-    @common_parameter = CommonParameter.authorized(:edit_globals, CommonParameter).find(params[:id])
   end
 
   def update
-    @common_parameter = CommonParameter.authorized(:edit_globals, CommonParameter).find(params[:id])
     if @common_parameter.update_attributes(params[:common_parameter])
       process_success
     else
@@ -32,11 +31,20 @@ class CommonParametersController < ApplicationController
   end
 
   def destroy
-    @common_parameter = CommonParameter.authorized(:destroy_globals, CommonParameter).find(params[:id])
     if @common_parameter.destroy
       process_success
     else
       process_error
     end
+  end
+
+  private
+
+  def controller_permission
+    'globals'
+  end
+
+  def resource_base
+    model_of_controller.authorized(current_permission, CommonParameter)
   end
 end

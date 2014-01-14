@@ -1,8 +1,9 @@
 class UsergroupsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
 
   def index
-    @usergroups = Usergroup.authorized(:view_usergroups).paginate :page => params[:page]
+    @usergroups = resource_base.paginate :page => params[:page]
   end
 
   def new
@@ -19,11 +20,9 @@ class UsergroupsController < ApplicationController
   end
 
   def edit
-    @usergroup = find_by_id(:edit_usergroups)
   end
 
   def update
-    @usergroup = find_by_id(:edit_usergroups)
     if @usergroup.update_attributes(params[:usergroup])
       process_success
     else
@@ -35,7 +34,6 @@ class UsergroupsController < ApplicationController
   end
 
   def destroy
-    @usergroup = find_by_id(:destroy_usergroups)
     if @usergroup.destroy
       process_success
     else

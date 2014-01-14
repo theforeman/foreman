@@ -1,8 +1,9 @@
 class SubnetsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
 
   def index
-    @subnets = Subnet.authorized(:view_subnets).search_for(params[:search], :order => params[:order]).includes(:domains, :dhcp).paginate :page => params[:page]
+    @subnets = resource_base.search_for(params[:search], :order => params[:order]).includes(:domains, :dhcp).paginate :page => params[:page]
   end
 
   def new
@@ -19,11 +20,9 @@ class SubnetsController < ApplicationController
   end
 
   def edit
-    @subnet = find_by_id(:edit_subnets)
   end
 
   def update
-    @subnet = find_by_id(:edit_subnets)
     if @subnet.update_attributes(params[:subnet])
       process_success
     else
@@ -32,7 +31,6 @@ class SubnetsController < ApplicationController
   end
 
   def destroy
-    @subnet = find_by_id(:destroy_subnets)
     if @subnet.destroy
       process_success
     else
@@ -79,12 +77,6 @@ class SubnetsController < ApplicationController
     else
       render :action => "import"
     end
-  end
-
-  private
-
-  def find_by_id(permission = :view_subnets)
-    Subnet.authorized(permission).find(params[:id])
   end
 
 end

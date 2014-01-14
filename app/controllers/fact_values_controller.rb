@@ -4,7 +4,7 @@ class FactValuesController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
-    base = FactValue.authorized(:view_facts).no_timestamp_facts
+    base = resource_base.no_timestamp_facts
     begin
       values = base.my_facts.search_for(params[:search], :order => params[:order])
     rescue => e
@@ -25,6 +25,12 @@ class FactValuesController < ApplicationController
     end
 
     @fact_values = values.no_timestamp_facts.required_fields.paginate :page => params[:page]
+  end
+
+  private
+
+  def controller_permission
+    'facts'
   end
 
 end

@@ -4,13 +4,14 @@ class ConfigTemplatesController < ApplicationController
 
   before_filter :load_history, :only => :edit
   before_filter :handle_template_upload, :only => [:create, :update]
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
 
   def index
     begin
-      values = ConfigTemplate.authorized(:view_templates).search_for(params[:search], :order => params[:order])
+      values = resource_base.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
-      values = ConfigTemplate.authorized(:view_templates).search_for ""
+      values = resource_base.search_for ""
     end
     @config_templates = values.paginate(:page => params[:page]).includes(:template_kind, :template_combinations => [:hostgroup, :environment])
   end
@@ -29,11 +30,9 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def edit
-    @config_template = find_by_id(:edit_templates)
   end
 
   def update
-    @config_template = find_by_id(:edit_templates)
     if @config_template.update_attributes(params[:config_template])
       process_success
     else
@@ -48,7 +47,6 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def destroy
-    @config_template = find_by_id(:destroy_templates)
     if @config_template.destroy
       process_success
     else
@@ -80,7 +78,7 @@ class ConfigTemplatesController < ApplicationController
       :id => template.name, :hostgroup => hostgroup.name
   end
 
-  def find_by_id(permission = :view_templates)
-    ConfigTemplate.authorized(permission).find(params[:id])
+  def controller_permission
+    'templates'
   end
 end

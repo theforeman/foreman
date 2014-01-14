@@ -1,9 +1,9 @@
 class MediaController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_medium, :only => %w{edit update destroy}
+  before_filter :find_by_name, :only => %w{edit update destroy}
 
   def index
-    @media = Medium.authorized(:view_media).includes(:operatingsystems).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @media = resource_base.includes(:operatingsystems).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new
@@ -20,11 +20,9 @@ class MediaController < ApplicationController
   end
 
   def edit
-    @medium = find_medium(:edit_media)
   end
 
   def update
-    @medium = find_medium(:edit_media)
     if @medium.update_attributes(params[:medium])
       process_success
     else
@@ -33,18 +31,11 @@ class MediaController < ApplicationController
   end
 
   def destroy
-    @medium = find_medium(:destroy_media)
     if @medium.destroy
       process_success
     else
       process_error
     end
-  end
-
-  private
-
-  def find_medium(permission = :view_media)
-    Medium.authorized(permission).find(params[:id])
   end
 
 end
