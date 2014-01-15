@@ -1,4 +1,5 @@
 class Image < ActiveRecord::Base
+  include Authorizable
 
   audited :allow_mass_assignment => true
 
