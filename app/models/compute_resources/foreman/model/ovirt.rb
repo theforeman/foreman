@@ -6,6 +6,8 @@ module Foreman::Model
     validates :url, :format => { :with => URI.regexp }
     validates :user, :password, :presence => true
 
+    alias_attribute :datacenter, :uuid
+
     def self.model_name
       ComputeResource.model_name
     end
@@ -95,7 +97,6 @@ module Foreman::Model
       else
         []
       end
-
     end
 
     def storage_domains(opts ={})

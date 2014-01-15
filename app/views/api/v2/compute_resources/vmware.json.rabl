@@ -1,1 +1,1 @@
-attributes :user, :uuid, :server
+attributes :user, :datacenter, :server
