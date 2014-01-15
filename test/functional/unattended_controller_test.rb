@@ -50,6 +50,13 @@ class UnattendedControllerTest < ActionController::TestCase
     assert @response.headers["Content-Type"].match("text/plain")
   end
 
+  test "should set @static when requested" do
+    Setting[:safemode_render]=false
+    @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{hosts(:redhat).mac}"
+    get(:provision, 'static' => 'true')
+    assert_match(%r{static:true}, @response.body)
+  end
+
   test "should support spoof" do
     get :provision, {:spoof => hosts(:ubuntu).ip}, set_session_user
     assert_response :success
