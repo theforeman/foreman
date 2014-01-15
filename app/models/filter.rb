@@ -1,5 +1,6 @@
 class Filter < ActiveRecord::Base
   include Taxonomix
+  include Authorizable
 
   attr_accessible :search, :resource_type, :permission_ids, :role_id, :unlimited,
                   :organization_ids, :location_ids

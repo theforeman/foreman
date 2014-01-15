@@ -5,11 +5,12 @@ class FiltersController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
-    @filters = @base.includes(:role, :permissions).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @filters = resource_base.includes(:role, :permissions).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @roles_authorizer = Authorizer.new(User.current, @filters.map(&:role_id))
   end
 
   def new
-    @filter = @base.build
+    @filter = resource_base.build
   end
 
   def create
@@ -22,11 +23,11 @@ class FiltersController < ApplicationController
   end
 
   def edit
-    @filter = @base.includes(:permissions).find(params[:id])
+    @filter = resource_base.includes(:permissions).find(params[:id])
   end
 
   def update
-    @filter = @base.find(params[:id])
+    @filter = resource_base.find(params[:id])
     if @filter.update_attributes(params[:filter])
       process_success :success_redirect => filters_path(:role_id => @role)
     else
@@ -35,7 +36,7 @@ class FiltersController < ApplicationController
   end
 
   def destroy
-    @filter = @base.find(params[:id])
+    @filter = resource_base.find(params[:id])
     if @filter.destroy
       process_success :success_redirect => filters_path(:role_id => @role)
     else
@@ -47,7 +48,12 @@ class FiltersController < ApplicationController
 
   def find_role
     @role = Role.find_by_id(role_id)
-    @base = @role.present? ? @role.filters : Filter.scoped
+  end
+
+  def resource_base
+    @resource_base ||= @role.present? ?
+        @role.filters.authorized(current_permission) :
+        Filter.scoped.authorized(current_permission)
   end
 
   def role_id
