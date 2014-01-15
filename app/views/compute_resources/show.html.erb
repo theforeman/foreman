@@ -44,7 +44,7 @@
   </div>
   <% if @compute_resource.capabilities.include?(:image) %>
     <div id="images" class="tab-pane">
-      <%= title_actions(display_link_if_authorized(_("New Image"), hash_for_new_compute_resource_image_path(:compute_resource_id => @compute_resource.id), :class => "btn btn-success")) %>
+      <%= title_actions(display_link_if_authorized(_("New Image"), hash_for_new_compute_resource_image_path(:compute_resource_id => @compute_resource.id), :class => "btn btn-success", :data=>{:target=>"full-page"})) %>
       <div id="images_list" data-url=<%= compute_resource_images_path(@compute_resource) %>>
         <p id="spinner">
           <%= image_tag '/assets/spinner.gif' %>
