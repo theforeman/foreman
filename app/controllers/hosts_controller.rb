@@ -8,29 +8,21 @@ class HostsController < ApplicationController
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
   AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy}
   BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
-  MULTIPLE_ACTIONS = %w(multiple_parameters, update_multiple_parameters,  select_multiple_hostgroup,
-                        update_multiple_hostgroup, select_multiple_environment, update_multiple_environment,
-                                          multiple_destroy, submit_multiple_destroy, multiple_build,
-                                          submit_multiple_build, multiple_disable, submit_multiple_disable,
-                                          multiple_enable, submit_multiple_enable, multiple_puppetrun,
-                                          update_multiple_puppetrun)
+  MULTIPLE_ACTIONS = %w(multiple_parameters update_multiple_parameters  select_multiple_hostgroup
+                        update_multiple_hostgroup select_multiple_environment update_multiple_environment
+                        multiple_destroy submit_multiple_destroy multiple_build
+                        submit_multiple_build multiple_disable submit_multiple_disable
+                        multiple_enable submit_multiple_enable multiple_puppetrun
+                        update_multiple_puppetrun multiple_disassociate update_multiple_disassociate)
 
   add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  #before_filter :find_multiple, :only => [:update_multiple_parameters, :multiple_build,
-  #  :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
-  #  :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
-  #  :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun,
-  #  :multiple_puppetrun, :multiple_disassociate, :update_multiple_disassociate]
-  #before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
-  #  storeconfig_klasses clone pxe_config toggle_manage power console bmc ipmi_boot disassociate]
-
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
-  before_filter :set_host_type, :only => [:update]
   before_filter :find_by_name, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun,
                                          :setBuild, :cancelBuild, :power, :bmc, :ipmi_boot,
                                          :console, :toggle_manage, :pxe_config,
-                                         :storeconfig_klasses]
+                                         :storeconfig_klasses, :disassociate]
+  before_filter :set_host_type, :only => [:update]
   before_filter :find_multiple, :only => MULTIPLE_ACTIONS
   helper :hosts, :reports
 
@@ -549,7 +541,8 @@ class HostsController < ApplicationController
 
   def action_permission
     case params[:action]
-      when 'clone', 'externalNodes', 'bmc', 'pxe_config', 'storeconfig_klasses'
+      when 'clone', 'externalNodes', 'bmc', 'pxe_config', 'storeconfig_klasses',
+          'active', 'errors', 'out_of_sync', 'pending', 'disabled'
         :view
       when 'puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'
         :puppetrun
@@ -558,13 +551,15 @@ class HostsController < ApplicationController
       when 'power'
         :power
       when 'ipmi_boot'
-        :ipmi
+        :ipmi_boot
       when 'console'
         :console
-      when 'toggle_manager', 'multiple_parameters', 'update_multiple_parameters',
+      when 'toggle_manage', 'multiple_parameters', 'update_multiple_parameters',
           'select_multiple_hostgroup', 'update_multiple_hostgroup', 'select_multiple_environment',
           'update_multiple_environment', 'multiple_disable', 'submit_multiple_disable',
-          'multiple_enable', 'submit_multiple_enable'
+          'multiple_enable', 'submit_multiple_enable',
+          'update_multiple_organization', 'select_multiple_organization',
+          'update_multiple_location', 'select_multiple_location'
         :edit
       when 'multiple_destroy', 'submit_multiple_destroy'
         :destroy
@@ -667,10 +662,12 @@ class HostsController < ApplicationController
       redirect_to(hosts_path) and return false
     end
 
-    return hosts
+    return @hosts
   rescue => e
     error _("Something went wrong while selecting hosts - %s") % (e)
-    redirect_to hosts_path
+    logger.debug e.message
+    logger.debug e.backtrace.join("\n")
+    redirect_to hosts_path and return false
   end
 
   def toggle_hostmode mode=true

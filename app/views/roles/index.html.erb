@@ -1,5 +1,5 @@
 <% title _("Roles") %>
-<% title_actions link_to(_("New role"), new_role_path) %>
+<% title_actions link_to_if_authorized(_("New role"), hash_for_new_role_path) %>
 
 <table class="table table-bordered table-striped table-two-pane">
   <thead>

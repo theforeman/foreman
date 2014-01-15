@@ -37,19 +37,6 @@ class ComputeResource < ActiveRecord::Base
     end
   }
 
-  scope :my_compute_resources, lambda {
-    user = User.current
-    if user.admin?
-      conditions = { }
-    else
-      conditions = sanitize_sql_for_conditions([" (compute_resources.id in (?))", user.compute_resource_ids])
-      conditions.sub!(/\s*\(\)\s*/, "")
-      conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
-      conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
-    end
-    where(conditions).reorder('type, name')
-  }
-
   # allows to create a specific compute class based on the provider.
   def self.new_provider args
     raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider = args[:provider]

@@ -208,8 +208,6 @@ Foreman::Application.routes.draw do
     end
     resources :roles, :except => [:show] do
       collection do
-        get 'report'
-        post 'report'
         get 'auto_complete_search'
       end
     end

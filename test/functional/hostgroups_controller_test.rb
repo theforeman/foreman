@@ -58,17 +58,8 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert !Hostgroup.exists?(hostgroup.id)
   end
 
-  def setup_user operation
-    @request.session[:user] = users(:one).id
-    @one = users(:one)
-    as_admin do
-      @one.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
-      role = Role.find_or_create_by_name :name => "hostgroups"
-      role.permissions = ["#{operation}_hostgroups".to_sym]
-      role.save!
-      @one.roles << [role]
-      @one.save!
-    end
+  def setup_user operation, type = 'hostgroups'
+    super
   end
 
   test 'user with viewer rights should fail to edit a hostgroup ' do

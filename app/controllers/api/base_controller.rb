@@ -43,8 +43,15 @@ module Api
       @resource_class ||= resource_name.classify.constantize
     end
 
-    def resource_scope
-      @resource_scope ||= resource_class.scoped
+    def resource_scope(controller)
+      @resource_scope ||= begin
+        scope = resource_class.scoped
+        if resource_class.respond_to?(:authorized)
+          scope.authorized("#{action_permission}_#{controller}", resource_class)
+        else
+          scope
+        end
+      end
     end
 
     def api_request?
@@ -143,9 +150,9 @@ module Api
         next if key=='name' and (params[:id] =~ /\A\d+\z/)
         method = "find_by_#{key}"
         id = key=='id' ? params[:id].to_i : params[:id]
-        if resource_scope.respond_to?(method)
-          authorized_scope = resource_scope.authorized("#{action_permission}_#{controller}")
-          (resource = authorized_scope.send method, id) and break resource
+        scope = resource_scope(controller)
+        if scope.respond_to?(method)
+          (resource = scope.send method, id) and break resource
         end
       end
 
@@ -262,10 +269,11 @@ module Api
         'edit'
       when 'destroy'
         'destroy'
-      when 'index', 'show'
+      when 'index', 'show', 'status'
         'view'
-      else
-        params[:action]
+        else
+          p params[:action]
+        raise ::Foreman::Exception, "unknown permission for #{params[:controller]}##{params[:action]}"
       end
     end
   end

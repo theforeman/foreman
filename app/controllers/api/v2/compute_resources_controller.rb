@@ -92,7 +92,7 @@ module Api
       end
 
       def resource_scope
-        ComputeResource.my_compute_resources.authorized(:view_compute_resources)
+        ComputeResource.authorized(:view_compute_resources)
       end
     end
   end

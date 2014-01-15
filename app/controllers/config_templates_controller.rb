@@ -2,9 +2,9 @@ class ConfigTemplatesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Renderer
 
-  before_filter :load_history, :only => :edit
   before_filter :handle_template_upload, :only => [:create, :update]
   before_filter :find_by_name, :only => [:edit, :update, :destroy]
+  before_filter :load_history, :only => :edit
 
   def index
     @config_templates = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page]).includes(:template_kind, :template_combinations => [:hostgroup, :environment])

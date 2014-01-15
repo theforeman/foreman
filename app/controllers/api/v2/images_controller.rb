@@ -12,7 +12,7 @@ module Api
       param :compute_resource_id, :identifier, :required => true
 
       def index
-        base = @compute_resource.authorized(:view_images).images
+        base = @compute_resource.images.authorized(:view_images)
         @images = base.search_for(*search_options).paginate(paginate_options)
         @total = base.count
       end

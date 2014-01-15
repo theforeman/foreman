@@ -1,6 +1,6 @@
 <% title _("Filters") %>
 
-<% title_actions link_to(_("New filter"), new_filter_path(:role_id => @role)) %>
+<% title_actions link_to_if_authorized(_("New filter"), hash_for_new_filter_path(:role_id => @role)) %>
 
 <table class="table table-bordered table-striped">
   <thead>
@@ -19,19 +19,19 @@
       <tr>
         <td>
           <%= content_tag('span', link_to_if_authorized(filter.search || _('none'),
-                                                        hash_for_edit_filter_path(:id => filter))) %>
+                                                        hash_for_edit_filter_path(:id => filter).merge(:auth_object => filter, :authorizer => authorizer))) %>
         </td>
         <td><%= filter.resource_type %></td>
         <% unless params[:role_id] %>
             <td>
-              <%= content_tag('span', link_to_if_authorized(filter.role.name, hash_for_roles_path(:search => "name = #{filter.role.name}"))) %>
+              <%= content_tag('span', link_to_if_authorized(filter.role.name, hash_for_roles_path(:search => "name = #{filter.role.name}").merge(:auth_object => filter.role, :authorizer => @roles_authorizer))) %>
             </td>
         <% end %>
         <td><%= checked_icon filter.unlimited? %></td>
         <td>
           <%= action_buttons(
-                      display_link_if_authorized(_("Edit"), hash_for_edit_filter_path(:id => filter)),
-                      display_delete_if_authorized(hash_for_filter_path(:id => filter),
+                      display_link_if_authorized(_("Edit"), hash_for_edit_filter_path(:id => filter).merge(:auth_object => filter, :authorizer => authorizer)),
+                      display_delete_if_authorized(hash_for_filter_path(:id => filter).merge(:auth_object => filter, :authorizer => authorizer),
                                                                         :confirm => (_("Delete filter?")))
               )
           %>
