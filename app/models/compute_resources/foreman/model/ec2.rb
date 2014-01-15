@@ -8,6 +8,9 @@ module Foreman::Model
     after_create :setup_key_pair
     after_destroy :destroy_key_pair
 
+    alias_attribute :access_key, :user
+    alias_attribute :region, :url
+
     def to_label
       "#{name} (#{region}-#{provider_friendly_name})"
     end
@@ -69,14 +72,6 @@ module Foreman::Model
       errors[:user].empty? and errors[:password].empty? and regions
     rescue Fog::Compute::AWS::Error => e
       errors[:base] << e.message
-    end
-
-    def region= value
-      self.url = value
-    end
-
-    def region
-      @region ||= url.present? ? url : nil
     end
 
     def console(uuid)
