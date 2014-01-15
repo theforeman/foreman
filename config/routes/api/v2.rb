@@ -208,7 +208,13 @@ Foreman::Application.routes.draw do
           resources :media, :only => [:index, :show]
           resources :smart_proxies, :only => [:index, :show]
 
-          # scoped by location AND organization
+          resources :parameters, :except => [:new, :edit] do
+            collection do
+              delete '/', :to => :reset
+            end
+          end
+
+           # scoped by location AND organization
           resources :organizations, :except => [:new, :edit] do
             resources :domains, :only => [:index, :show]
             resources :subnets, :only => [:index, :show]
@@ -237,6 +243,12 @@ Foreman::Application.routes.draw do
           resources :compute_resources, :only => [:index, :show]
           resources :media, :only => [:index, :show]
           resources :smart_proxies, :only => [:index, :show]
+
+          resources :parameters, :except => [:new, :edit] do
+            collection do
+              delete '/', :to => :reset
+            end
+          end
 
           # scoped by location AND organization
           resources :locations, :except => [:new, :edit] do
