@@ -6,7 +6,7 @@ $(document).on('click', ".table-two-pane td a[href$='edit']", function(e) {
 });
 
 $(document).on('click', "#title_action a[href$='new']", function(e) {
-  if ($('.table-two-pane').length) {
+  if ($('.table-two-pane').length && $(this).data('target') != 'full-page') {
     e.preventDefault();
     two_pane_open(this);
   }
