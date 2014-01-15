@@ -12,7 +12,7 @@ myscript:
 
 mystring2:
   name: MyString2
-  template: provision script <%%= foreman_url("finish") %>
+  template: provision script <%%= foreman_url("finish") %> static:<%%= @static.inspect %>
   template_kind: provision
   operatingsystems: centos5_3, redhat, ubuntu1010
 
