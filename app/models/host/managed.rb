@@ -334,13 +334,13 @@ class Host::Managed < Host::Base
     hp = {}
     # read common parameters
     CommonParameter.all.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :common} : p.value] }
-    if SETTINGS[:organizations_enabled]
+    if SETTINGS[:organizations_enabled] && organization
       # read organization parameters
-      organization.parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :os} : p.value] } unless organization.nil?
+      organization.parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :os} : p.value] }
     end
-    if SETTINGS[:locations_enabled]
+    if SETTINGS[:locations_enabled] && location
       # read location parameters
-      location.parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :os} : p.value] } unless location.nil?
+      location.parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :os} : p.value] }
     end
     # read domain parameters
     domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => :domain} : p.value] } unless domain.nil?
