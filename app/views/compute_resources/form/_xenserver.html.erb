@@ -1,0 +1,11 @@
+<%= text_f f, :url, :class => "input-xlarge", :help_block => _("e.g. x.x.x.x") %>
+<%= text_f f, :user %>
+<%= password_f f, :password %>
+
+<% hypervisor = f.object.hypervisor.uuid rescue nil%>
+<% if hypervisor -%>
+  <%= f.hidden_field :uuid, :value => hypervisor %>
+<% end -%>
+<%= link_to_function _("Test Connection"), "testConnection(this)", :class => "btn + #{hypervisor.nil? ? "" : "btn-success"}", :'data-url' => test_connection_compute_resources_path %>
+
+<%= image_tag('/assets/spinner.gif', :id => 'test_connection_indicator', :class => 'hide') %>

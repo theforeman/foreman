@@ -1,0 +1,13 @@
+<div class="fields">
+	<% selected_item = ''
+		if params['host']['compute_attributes'] then
+			selected_item = params['host']['compute_attributes']['templates']['print']
+		end
+	%>
+
+  <div id='nat' class=''>
+    <%= select_f f, :print, compute_resource.templates, :name, :name,
+		     { :include_blank => _("No template"), :selected => selected_item },
+		     { :class => "span2", :label => _("Template") } %>
+  </div>
+</div>

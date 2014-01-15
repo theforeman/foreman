@@ -49,6 +49,10 @@ begin
   require 'fog/rackspace/models/compute_v2/server'
   Fog::Compute::RackspaceV2::Server.send(:include, FogExtensions::RackspaceV2::Server)
 
+  require 'fog/xenserver'
+  require 'fog/xenserver/models/compute/server'
+  Fog::Compute::XenServer::Server.send(:include, FogExtensions::Xenserver::Server)
+
 rescue LoadError
   Rails.logger.info "Fog is not installed - unable to manage compute resources"
 rescue => exception

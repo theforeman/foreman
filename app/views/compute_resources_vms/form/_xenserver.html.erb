@@ -1,0 +1,46 @@
+<% new = f.object  -%>
+<%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
+<!-- %= selectable_f f, :host_cpus, 1..compute_resource.max_cpu_count, { }, :class => "input-mini",:disabled => !new % -->
+<!-- %= selectable_f f, :memory, memory_options(compute_resource.max_memor), { }, :class => "span2", :disabled => !new % -->
+
+<!--Templates -->
+<div class="children_fields">
+  <%= new_child_fields_template(f, :templates, {
+      :object  => compute_resource,
+      :partial => 'compute_resources_vms/form/xenserver/templates', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
+  <%= field_set_tag "VM Template", :id => "xen_templates", :title => _('Template') do -%>
+    <%= f.fields_for :templates do |i| %>
+      <%= render 'compute_resources_vms/form/xenserver/templates', :f => i, :compute_resource => compute_resource %>
+    <% end -%>
+  <% end -%>
+</div>
+
+
+<!--NICS -->
+<div class="children_fields">
+  <%= new_child_fields_template(f, :VIFs, {
+      :object  => compute_resource.new_nic,
+      :partial => 'compute_resources_vms/form/xenserver/network', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
+  <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => _('Networks') do -%>
+    <%= f.fields_for :VIFs do |i| %>
+      <%= render 'compute_resources_vms/form/xenserver/network', :f => i, :compute_resource => compute_resource %>
+    <% end -%>
+    <%= add_child_link '+ ' + _("Add Interface"), :VIFs, { :class => "info", :title => _('add new network interface') } %>
+  <% end -%>
+</div>
+
+<!--Storage-->
+<div class="children_fields">
+  <%= new_child_fields_template(f, :VBDs, {
+      :object  => compute_resource.new_volume,
+      :partial => 'compute_resources_vms/form/xenserver/volume', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
+  <%= field_set_tag "Storage", :id => "storage_volumes", :title => _('Storage') do -%>
+    <%= f.fields_for :VBDs do |i| %>
+      <%= render 'compute_resources_vms/form/xenserver/volume', :f => i, :compute_resource => compute_resource %>
+    <% end -%>
+    <%= add_child_link '+ ' + _("Add Volume"), :VBDs, { :class => "info", :title => _('add new storage volume') } %>
+  <% end -%>
+</div>
+<!--TODO # Move to a helper-->
+<% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine") } if new %>
