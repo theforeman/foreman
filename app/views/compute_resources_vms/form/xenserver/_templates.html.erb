@@ -1,0 +1,8 @@
+<div class="fields">
+  <% templates    = compute_resource.templates -%>
+  <div id='nat' class=''>
+    <%= selectable_f f, :print, templates.map(&:name),
+		     { :include_blank => _("No template") },
+		     { :class => "span2", :label => _("Template") } %>
+  </div>
+</div>
