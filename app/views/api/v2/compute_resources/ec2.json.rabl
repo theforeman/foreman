@@ -1,1 +1,1 @@
-attributes :user, :region
+attributes :access_key, :region

@@ -1,0 +1,1 @@
+attributes :display_type
