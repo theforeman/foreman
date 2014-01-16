@@ -168,7 +168,7 @@ Foreman::Application.routes.draw do
         end
         resources :hosts, :except => [:new, :edit] do
           get :status, :on => :member
-          get :puppetrun, :on => :member
+          put :puppetrun, :on => :member
           put :boot, :on => :member
           put :power, :on => :member
           post :facts, :on => :collection
