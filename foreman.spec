@@ -14,7 +14,7 @@
 %endif
 
 Name:   foreman
-Version: 1.4.0
+Version: 1.5.0
 Release: 0.develop%{?dist}
 Summary:Systems Management web application
 
@@ -566,6 +566,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Thu Jan 16 2014 Dominic Cleal <dcleal@redhat.com> - 1.5.0-0.develop
+- Bump version to 1.5-develop
+
 * Thu Nov 21 2013 Dominic Cleal <dcleal@redhat.com> - 1.4.0-0.develop
 - Bump and change versioning scheme, don't overwrite VERSION (#3712)
 - Pin fog to 1.18.x
