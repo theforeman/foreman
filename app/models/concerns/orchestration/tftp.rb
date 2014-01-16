@@ -108,9 +108,9 @@ module Orchestration::TFTP
     # we switched build mode
     set_tftp = true if old.build? != build?
     # medium or arch changed
-    set_tftp = true if old.medium != medium or old.arch != arch
+    set_tftp = true if old.medium.try(:id) != medium.try(:id) or old.arch.try(:id) != arch.try(:id)
     # operating system changed
-    set_tftp = true if os and old.os and (old.os.name != os.name or old.os != os)
+    set_tftp = true if os and old.os and (old.os.name != os.name or old.os.try(:id) != os.try(:id))
     # MAC address changed
     if mac != old.mac
       set_tftp = true
