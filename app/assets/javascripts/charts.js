@@ -310,16 +310,32 @@ function ext_legend_selected(item){
   flot_time_chart(target, data, {show: false});
 }
 
+function initialize_flots(){
+    var $pie = $(".statistics-pie"),
+        $bar = $(".statistics-bar"),
+        $chart = $(".statistics-chart");
+
+    if ($pie.length) {
+        $pie.flot_pie();
+    }
+
+    if ($bar.length) {
+        $bar.flot_bar();
+    }
+
+    if ($chart.length) {
+        $chart.flot_chart();
+    }
+}
+
 $(function() {
-  $(".statistics-pie").flot_pie();
-  $(".statistics-bar").flot_bar();
-  $(".statistics-chart").flot_chart();
+  initialize_flots();
+
   $(document).on('click', '.reset-zoom', function () {reset_zoom(this)});
   $(document).on('click', '.legend .legendColorBox, .legend .legendLabel', function() { legend_selected(this)});
   $(document).on('click', '#legendContainer .legendColorBox, .legendContainer .legendLabel', function() { ext_legend_selected(this)});
 });
 
 $(window).resize(function() {
-  $(".statistics-bar").flot_bar();
-  $(".statistics-chart").flot_chart();
+  initialize_flots();
 });
