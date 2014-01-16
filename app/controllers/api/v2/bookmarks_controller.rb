@@ -17,13 +17,17 @@ module Api
       def show
       end
 
-      api :POST, "/bookmarks/", "Create a bookmark."
-      param :bookmark, Hash, :required => true do
-        param :name, String, :required => true
-        param :controller, String, :required => true
-        param :query, String, :required => true
-        param :public, :bool
+      def_param_group :bookmark do
+        param :bookmark, Hash, :action_aware => true do
+          param :name, String, :required => true
+          param :controller, String, :required => true
+          param :query, String, :required => true
+          param :public, :bool
+        end
       end
+
+      api :POST, "/bookmarks/", "Create a bookmark."
+      param_group :bookmark, :as => :create
 
       def create
         @bookmark = Bookmark.new(params[:bookmark])
@@ -32,12 +36,7 @@ module Api
 
       api :PUT, "/bookmarks/:id/", "Update a bookmark."
       param :id, :identifier, :required => true
-      param :bookmark, Hash, :required => true do
-        param :name, String
-        param :controller, String
-        param :query, String
-        param :public, :bool
-      end
+      param_group :bookmark
 
       def update
         process_response @bookmark.update_attributes(params[:bookmark])

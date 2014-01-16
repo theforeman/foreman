@@ -24,20 +24,24 @@ module Api
       def show
       end
 
-      api :POST, "/hostgroups/", "Create an hostgroup."
-      param :hostgroup, Hash, :required => true do
-        param :name, String, :required => true
-        param :parent_id, :number
-        param :environment_id, :number
-        param :operatingsystem_id, :number
-        param :architecture_id, :number
-        param :medium_id, :number
-        param :ptable_id, :number
-        param :puppet_ca_proxy_id, :number
-        param :subnet_id, :number
-        param :domain_id, :number
-        param :puppet_proxy_id, :number
+      def_param_group :hostgroup do
+        param :hostgroup, Hash, :action_aware => true do
+          param :name, String, :required => true
+          param :parent_id, :number
+          param :environment_id, :number
+          param :operatingsystem_id, :number
+          param :architecture_id, :number
+          param :medium_id, :number
+          param :ptable_id, :number
+          param :puppet_ca_proxy_id, :number
+          param :subnet_id, :number
+          param :domain_id, :number
+          param :puppet_proxy_id, :number
+        end
       end
+
+      api :POST, "/hostgroups/", "Create an hostgroup."
+      param_group :hostgroup, :as => :create
 
       def create
         @hostgroup = Hostgroup.new(params[:hostgroup])
@@ -46,19 +50,7 @@ module Api
 
       api :PUT, "/hostgroups/:id/", "Update an hostgroup."
       param :id, :identifier, :required => true
-      param :hostgroup, Hash, :required => true do
-        param :name, String
-        param :parent_id, :number
-        param :environment_id, :number
-        param :operatingsystem_id, :number
-        param :architecture_id, :number
-        param :medium_id, :number
-        param :ptable_id, :number
-        param :puppet_ca_proxy_id, :number
-        param :subnet_id, :number
-        param :domain_id, :number
-        param :puppet_proxy_id, :number
-      end
+      param_group :hostgroup
 
       def update
         process_response @hostgroup.update_attributes(params[:hostgroup])

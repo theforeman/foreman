@@ -23,10 +23,14 @@ module Api
       def show
       end
 
-      api :POST, "/environments/", "Create an environment."
-      param :environment, Hash, :required => true do
-        param :name, String, :required => true
+      def_param_group :environment do
+        param :environment, Hash, :action_aware => true do
+          param :name, String, :required => true
+        end
       end
+
+      api :POST, "/environments/", "Create an environment."
+      param_group :environment, :as => :create
 
       def create
         @environment = Environment.new(params[:environment])
@@ -35,9 +39,7 @@ module Api
 
       api :PUT, "/environments/:id/", "Update an environment."
       param :id, :identifier, :required => true
-      param :environment, Hash, :required => true do
-        param :name, String
-      end
+      param_group :environment
 
       def update
         process_response @environment.update_attributes(params[:environment])

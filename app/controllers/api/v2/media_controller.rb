@@ -43,27 +43,26 @@ Available families:
       def show
       end
 
-      api :POST, "/media/", "Create a medium."
-      param :medium, Hash, :required => true do
-        param :name, String, :required => true, :desc => "Name of media"
-        param :path, String, :required => true, :desc => PATH_INFO
-        param :os_family, String, :require => false, :desc => OS_FAMILY_INFO
-        param :operatingsystem_ids, Array, :require => false
+      def_param_group :medium do
+        param :medium, Hash, :action_aware => true do
+          param :name, String, :required => true, :desc => "Name of media"
+          param :path, String, :required => true, :desc => PATH_INFO
+          param :os_family, String, :require => false, :desc => OS_FAMILY_INFO
+          param :operatingsystem_ids, Array, :require => false
+        end
       end
+
+      api :POST, "/media/", "Create a medium."
+      param_group :medium, :as => :create
 
       def create
         @medium = Medium.new(params[:medium])
         process_response @medium.save
       end
 
-      param :id, String, :required => true
-      param :medium, Hash, :required => true do
-        param :name, String, :desc => "Name of media"
-        param :path, String, :desc => PATH_INFO
-        param :os_family, String, :allow_nil => true, :desc => OS_FAMILY_INFO
-        param :operatingsystem_ids, Array, :require => false
-      end
       api :PUT, "/media/:id/", "Update a medium."
+      param :id, String, :required => true
+      param_group :medium
 
       def update
         process_response @medium.update_attributes(params[:medium])

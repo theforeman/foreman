@@ -13,7 +13,7 @@ module Api::V2::TaxonomiesController
   extend Apipie::DSL::Concern
 
   def_param_group :resource do
-    param :resource, Hash, :required => true, :action_aware => true do
+    param :resource, Hash, :action_aware => true do
       param :name, String, :required => true
     end
   end
@@ -45,7 +45,7 @@ module Api::V2::TaxonomiesController
   end
 
   api :POST, '/:resource_id', 'Create :a_resource'
-  param_group :resource
+  param_group :resource, :as => :create
   def create
     @taxonomy = taxonomy_class.new(params[taxonomy_single.to_sym])
     instance_variable_set("@#{taxonomy_single}", @taxonomy)

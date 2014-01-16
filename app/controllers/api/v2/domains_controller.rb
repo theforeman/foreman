@@ -35,6 +35,15 @@ module Api
       def show
       end
 
+      def_param_group :domain do
+        param :domain, Hash, :action_aware => true do
+          param :name, String, :required => true, :desc => "The full DNS Domain name"
+          param :fullname, String, :required => false, :allow_nil => true, :desc => "Full name describing the domain"
+          param :dns_id, :number, :required => false, :allow_nil => true, :desc => "DNS Proxy to use within this domain"
+          param :domain_parameters_attributes, Array, :required => false, :desc => "Array of parameters (name, value)"
+        end
+      end
+
       api :POST, "/domains/", "Create a domain."
       # TRANSLATORS: API documentation - do not translate
       description <<-DOC
@@ -42,12 +51,7 @@ module Api
         and other pages that refer to domains, and also available as
         an external node parameter
       DOC
-      param :domain, Hash, :required => true do
-        param :name, String, :required => true, :desc => "The full DNS Domain name"
-        param :fullname, String, :required => false, :allow_nil => true, :desc => "Full name describing the domain"
-        param :dns_id, :number, :required => false, :allow_nil => true, :desc => "DNS Proxy to use within this domain"
-        param :domain_parameters_attributes, Array, :required => false, :desc => "Array of parameters (name, value)"
-      end
+      param_group :domain, :as => :create
 
       def create
         @domain = Domain.new(params[:domain])
@@ -56,12 +60,7 @@ module Api
 
       api :PUT, "/domains/:id/", "Update a domain."
       param :id, :identifier, :required => true
-      param :domain, Hash, :required => true do
-        param :name, String, :allow_nil => true, :desc => "The full DNS Domain name"
-        param :fullname, String, :allow_nil => true, :desc => "Full name describing the domain"
-        param :dns_id, :number, :allow_nil => true, :desc => "DNS Proxy to use within this domain"
-        param :domain_parameters_attributes, Array, :desc => "Array of parameters (name, value)"
-      end
+      param_group :domain
 
       def update
         process_response @domain.update_attributes(params[:domain])

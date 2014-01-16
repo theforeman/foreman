@@ -19,12 +19,16 @@ module Api
       def show
       end
 
-      api :POST, "/ptables/", "Create a ptable."
-      param :ptable, Hash, :required => true do
-        param :name, String, :required => true
-        param :layout, String, :required => true
-        param :os_family, String, :required => false
+      def_param_group :ptable do
+        param :ptable, Hash, :action_aware => true do
+          param :name, String, :required => true
+          param :layout, String, :required => true
+          param :os_family, String, :required => false
+        end
       end
+
+      api :POST, "/ptables/", "Create a ptable."
+      param_group :ptable, :as => :create
 
       def create
         @ptable = Ptable.new(params[:ptable])
@@ -33,11 +37,7 @@ module Api
 
       api :PUT, "/ptables/:id/", "Update a ptable."
       param :id, String, :required => true
-      param :ptable, Hash, :required => true do
-        param :name, String
-        param :layout, String
-        param :os_family, String
-      end
+      param_group :ptable
 
       def update
         process_response @ptable.update_attributes(params[:ptable])

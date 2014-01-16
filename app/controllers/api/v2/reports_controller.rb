@@ -26,14 +26,18 @@ module Api
       def show
       end
 
-      api :POST, "/reports/", "Create a report."
-      param :report, Hash, :required => true do
-        param :host, String, :required => true, :desc => "Hostname or certname"
-        param :reported_at, String, :required => true, :desc => "UTC time of report"
-        param :status, Hash, :required => true, :desc => "Hash of status type totals"
-        param :metrics, Hash, :required => true, :desc => "Hash of report metrics, can be just {}"
-        param :logs, Array, :desc => "Optional array of log hashes"
+      def_param_group :report do
+        param :report, Hash, :action_aware => true do
+          param :host, String, :required => true, :desc => "Hostname or certname"
+          param :reported_at, String, :required => true, :desc => "UTC time of report"
+          param :status, Hash, :required => true, :desc => "Hash of status type totals"
+          param :metrics, Hash, :required => true, :desc => "Hash of report metrics, can be just {}"
+          param :logs, Array, :desc => "Optional array of log hashes"
+        end
       end
+
+      api :POST, "/reports/", "Create a report."
+      param_group :report, :as => :create
 
       def create
         @report = Report.import(params[:report], detected_proxy.try(:id))
