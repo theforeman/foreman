@@ -109,6 +109,16 @@ Return value may either be one of the following:
         render :json => { :status => @host.host_status }.to_json if @host
       end
 
+      api :PUT, "/hosts/:id/console", "Get console access to the host through its compute resource"
+      param :id, :identifier_dottable, :required => true
+
+      def console
+        return unless @host.compute_resource
+        @console = @host.compute_resource.console @host.uuid
+        @console[:name] ||= URI.parse(Setting[:foreman_url]).host
+        @console = OpenStruct.new @console
+      end
+
       api :PUT, "/hosts/:id/puppetrun", N_("Force a Puppet agent run on the host")
       param :id, :identifier_dottable, :required => true
 
