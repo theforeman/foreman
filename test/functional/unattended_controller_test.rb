@@ -67,6 +67,11 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
+   test "should support spoof using hostname" do
+    get :provision, {:hostname => hosts(:ubuntu).name}, set_session_user
+    assert_response :success
+  end
+
   test "should provide pxe config for redhat" do
     get :PXELinux, {:spoof => hosts(:redhat).ip}, set_session_user
     assert_response :success

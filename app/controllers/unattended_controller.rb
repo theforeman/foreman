@@ -102,14 +102,14 @@ class UnattendedController < ApplicationController
   end
 
   def find_host_by_spoof
-    spoof = params.delete("spoof")
-    return nil if spoof.blank?
+    ip, name = params.delete('spoof'), params.delete('hostname')
+    return nil if ip.blank? && name.blank?
     @spoof = true
-    Host.find_by_ip(spoof)
+    Host.find_by_ip(ip) || Host.find_by_name(name)
   end
 
   def find_host_by_token
-    token = params.delete("token")
+    token = params.delete('token')
     return nil if token.blank?
     # Quirk: ZTP requires the .slax suffix
     if ( result = token.match(/^([a-z0-9-]+)(.slax)$/i) )
