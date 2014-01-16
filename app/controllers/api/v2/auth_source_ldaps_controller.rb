@@ -18,21 +18,25 @@ module Api
       def show
       end
 
-      api :POST, "/auth_source_ldaps/", "Create an auth_source_ldap."
-      param :auth_source_ldap, Hash, :required => true do
-        param :name, String, :required => true
-        param :host, String, :required => true
-        param :port, :number, :desc => "defaults to 389"
-        param :account, String
-        param :base_dn, String
-        param :account_password, String, :desc => "required if onthefly_register is true"
-        param :attr_login, String, :desc => "required if onthefly_register is true"
-        param :attr_firstname, String, :desc => "required if onthefly_register is true"
-        param :attr_lastname, String, :desc => "required if onthefly_register is true"
-        param :attr_mail, String, :desc => "required if onthefly_register is true"
-        param :onthefly_register, :bool
-        param :tls, :bool
+      def_param_group :auth_source_ldap do
+        param :auth_source_ldap, Hash, :action_aware => true do
+          param :name, String, :required => true
+          param :host, String, :required => true
+          param :port, :number, :desc => "defaults to 389"
+          param :account, String
+          param :base_dn, String
+          param :account_password, String, :desc => "required if onthefly_register is true"
+          param :attr_login, String, :desc => "required if onthefly_register is true"
+          param :attr_firstname, String, :desc => "required if onthefly_register is true"
+          param :attr_lastname, String, :desc => "required if onthefly_register is true"
+          param :attr_mail, String, :desc => "required if onthefly_register is true"
+          param :onthefly_register, :bool
+          param :tls, :bool
+        end
       end
+
+      api :POST, "/auth_source_ldaps/", "Create an auth_source_ldap."
+      param_group :auth_source_ldap, :as => :create
 
       def create
         @auth_source_ldap = AuthSourceLdap.new(params[:auth_source_ldap])
@@ -41,20 +45,7 @@ module Api
 
       api :PUT, "/auth_source_ldaps/:id/", "Update an auth_source_ldap."
       param :id, String, :required => true
-      param :auth_source_ldap, Hash, :required => true do
-        param :name, String
-        param :host, String
-        param :port, :number, :desc => "defaults to 389"
-        param :account, String
-        param :base_dn, String
-        param :account_password, String, :desc => "required if onthefly_register is true"
-        param :attr_login, String, :desc => "required if onthefly_register is true"
-        param :attr_firstname, String, :desc => "required if onthefly_register is true"
-        param :attr_lastname, String, :desc => "required if onthefly_register is true"
-        param :attr_mail, String, :desc => "required if onthefly_register is true"
-        param :onthefly_register, :bool
-        param :tls, :bool
-      end
+      param_group :auth_source_ldap
 
       def update
         process_response @auth_source_ldap.update_attributes(params[:auth_source_ldap])

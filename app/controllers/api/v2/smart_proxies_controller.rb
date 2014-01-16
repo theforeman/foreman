@@ -24,11 +24,15 @@ module Api
       def show
       end
 
-      api :POST, "/smart_proxies/", "Create a smart proxy."
-      param :smart_proxy, Hash, :required => true do
-        param :name, String, :required => true
-        param :url, String, :required => true
+      def_param_group :smart_proxy do
+        param :smart_proxy, Hash, :action_aware => true do
+          param :name, String, :required => true
+          param :url, String, :required => true
+        end
       end
+
+      api :POST, "/smart_proxies/", "Create a smart proxy."
+      param_group :smart_proxy, :as => :create
 
       def create
         @smart_proxy = SmartProxy.new(params[:smart_proxy])
@@ -37,10 +41,7 @@ module Api
 
       api :PUT, "/smart_proxies/:id/", "Update a smart proxy."
       param :id, String, :required => true
-      param :smart_proxy, Hash, :required => true do
-        param :name, String
-        param :url, String
-      end
+      param_group :smart_proxy
 
       def update
         process_response @smart_proxy.update_attributes(params[:smart_proxy])

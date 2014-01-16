@@ -23,16 +23,20 @@ module Api
       def show
       end
 
+      def_param_group :image do
+        param :image, Hash, :action_aware => true do
+          param :name, String, :required => true
+          param :username, String, :required => true
+          param :uuid, String, :required => true
+          param :compute_resource_id, :number, :required => true
+          param :architecture_id, :number, :required => true
+          param :operatingsystem_id, :number, :required => true
+        end
+      end
+
       api :POST, "/compute_resources/:compute_resource_id/images/", "Create a image"
       param :compute_resource_id, :identifier, :required => true
-      param :image, Hash, :required => true do
-        param :name, String, :required => true
-        param :username, String, :required => true
-        param :uuid, String, :required => true
-        param :compute_resource_id, :number, :required => true
-        param :architecture_id, :number, :required => true
-        param :operatingsystem_id, :number, :required => true
-      end
+      param_group :image, :as => :create
 
       def create
         @image = @compute_resource.images.new(params[:image])
@@ -42,14 +46,7 @@ module Api
       api :PUT, "/compute_resources/:compute_resource_id/images/:id/", "Update a image."
       param :compute_resource_id, :identifier, :required => true
       param :id, :identifier, :required => true
-      param :image, Hash, :required => true do
-        param :name, String
-        param :username, String
-        param :uuid, String
-        param :compute_resource_id, :number
-        param :architecture_id, :number
-        param :operatingsystem_id, :number
-      end
+      param_group :image
 
       def update
         process_response @image.update_attributes(params[:image])

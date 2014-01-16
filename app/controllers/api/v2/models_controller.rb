@@ -19,13 +19,17 @@ module Api
       def show
       end
 
-      api :POST, "/models/", "Create a model."
-      param :model, Hash, :required => true do
-        param :name, String, :required => true
-        param :info, String, :required => false
-        param :vendor_class, String, :required => false
-        param :hardware_model, String, :required => false
+      def_param_group :model do
+        param :model, Hash, :action_aware => true do
+          param :name, String, :required => true
+          param :info, String, :required => false
+          param :vendor_class, String, :required => false
+          param :hardware_model, String, :required => false
+        end
       end
+
+      api :POST, "/models/", "Create a model."
+      param_group :model, :as => :create
 
       def create
         @model = Model.new(params[:model])
@@ -34,12 +38,7 @@ module Api
 
       api :PUT, "/models/:id/", "Update a model."
       param :id, String, :required => true
-      param :model, Hash, :required => true do
-        param :name, String
-        param :info, String
-        param :vendor_class, String
-        param :hardware_model, String
-      end
+      param_group :model
 
       def update
         process_response @model.update_attributes(params[:model])

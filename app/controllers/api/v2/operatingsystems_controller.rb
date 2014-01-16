@@ -26,15 +26,19 @@ module Api
       def show
       end
 
-      api :POST, "/operatingsystems/", "Create an OS."
-      param :operatingsystem, Hash, :required => true do
-        param :name, /\A(\S+)\Z/, :required => true
-        param :major, String, :required => true
-        param :minor, String, :required => true
-        param :description, String
-        param :family, String
-        param :release_name, String
+      def_param_group :operatingsystem do
+        param :operatingsystem, Hash, :action_aware => true do
+          param :name, /\A(\S+)\Z/, :required => true
+          param :major, String, :required => true
+          param :minor, String, :required => true
+          param :description, String
+          param :family, String
+          param :release_name, String
+        end
       end
+
+      api :POST, "/operatingsystems/", "Create an OS."
+      param_group :operatingsystem, :as => :create
 
       def create
         @operatingsystem = Operatingsystem.new(params[:operatingsystem])
@@ -43,14 +47,7 @@ module Api
 
       api :PUT, "/operatingsystems/:id/", "Update an OS."
       param :id, String, :required => true
-      param :operatingsystem, Hash, :required => true do
-        param :name, /\A(\S+)\Z/
-        param :major, String
-        param :minor, String
-        param :description, String
-        param :family, String
-        param :release_name, String
-      end
+      param_group :operatingsystem
 
       def update
         process_response @operatingsystem.update_attributes(params[:operatingsystem])

@@ -52,10 +52,14 @@ module Api
       def show
       end
 
-      api :POST, "/puppetclasses/", "Create a puppetclass."
-      param :puppetclass, Hash, :required => true do
-        param :name, String, :required => true
+      def_param_group :puppetclass do
+        param :puppetclass, Hash, :action_aware => true do
+          param :name, String, :required => true
+        end
       end
+
+      api :POST, "/puppetclasses/", "Create a puppetclass."
+      param_group :puppetclass, :as => :create
 
       def create
         @puppetclass = Puppetclass.new(params[:puppetclass])
@@ -64,9 +68,7 @@ module Api
 
       api :PUT, "/puppetclasses/:id/", "Update a puppetclass."
       param :id, String, :required => true
-      param :puppetclass, Hash, :required => true do
-        param :name, String
-      end
+      param_group :puppetclass
 
       def update
         process_response @puppetclass.update_attributes(params[:puppetclass])

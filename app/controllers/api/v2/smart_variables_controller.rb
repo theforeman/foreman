@@ -26,17 +26,21 @@ module Api
       def show
       end
 
-      api :POST, '/smart_variables', 'Create a smart variable.'
-      param :smart_variable, Hash, :required => true do
-        param :variable, String, :required => true
-        param :puppetclass_id, :number
-        param :default_value, String
-        param :override_value_order, String
-        param :description, String
-        param :validator_type, String
-        param :validator_rule, String
-        param :variable_type, String
+      def_param_group :smart_variable do
+        param :smart_variable, Hash, :action_aware => true do
+          param :variable, String, :required => true
+          param :puppetclass_id, :number
+          param :default_value, String
+          param :override_value_order, String
+          param :description, String
+          param :validator_type, String
+          param :validator_rule, String
+          param :variable_type, String
+        end
       end
+
+      api :POST, '/smart_variables', 'Create a smart variable.'
+      param_group :smart_variable, :as => :create
 
       def create
         @smart_variable   = LookupKey.new(params[:smart_variable]) unless @puppetclass
@@ -46,16 +50,7 @@ module Api
 
       api :PUT, '/smart_variables/:id', 'Update a smart variable.'
       param :id, :identifier, :required => true
-      param :smart_variable, Hash, :required => true do
-        param :variable, String
-        param :puppetclass_id, :number
-        param :default_value, String
-        param :override_value_order, String
-        param :description, String
-        param :validator_type, String
-        param :validator_rule, String
-        param :variable_type, String
-      end
+      param_group :smart_variable
 
       def update
         @smart_variable.update_attributes!(params[:smart_variable])
