@@ -133,7 +133,8 @@ Return value may either be one of the following:
         resource_class.my_hosts
       end
 
-      api :GET, "/hosts/:id/puppetrun", "Force a puppet run on the agent."
+      api :PUT, "/hosts/:id/puppetrun", "Force a puppet run on the agent."
+      param :id, :identifier_dottable, :required => true
 
       def puppetrun
         return deny_access unless Setting[:puppetrun]
