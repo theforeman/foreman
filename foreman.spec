@@ -15,7 +15,7 @@
 
 Name:   foreman
 Version: 1.4.0
-Release: 0.develop%{?dist}
+Release: 0.1.RC1%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -566,7 +566,8 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
-* Thu Nov 21 2013 Dominic Cleal <dcleal@redhat.com> - 1.4.0-0.develop
+* Thu Jan 16 2014 Dominic Cleal <dcleal@redhat.com> - 1.4.0-0.1.RC1
+- Release 1.4.0-RC1
 - Bump and change versioning scheme, don't overwrite VERSION (#3712)
 - Pin fog to 1.18.x
 - Add new rails3_before_render dependency
