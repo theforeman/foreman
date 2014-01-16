@@ -52,6 +52,13 @@ module Api
       def show
       end
 
+      def_param_group :parameter do
+        param :parameter, Hash, :action_aware => true do
+          param :name, String, :required => true
+          param :value, String, :required => true
+        end
+      end
+
       api :POST, "/hosts/:host_id/parameters/", "Create a nested parameter for host"
       api :POST, "/hostgroups/:hostgroup_id/parameters/", "Create a nested parameter for hostgroup"
       api :POST, "/domains/:domain_id/parameters/", "Create a nested parameter for domain"
@@ -64,10 +71,7 @@ module Api
       param :operatingsystem_id, String, :desc => "id of operating system"
       param :location_id, String, :desc => "id of location"
       param :organization_id, String, :desc => "id of organization"
-      param :parameter, Hash, :required => true do
-        param :name, String
-        param :value, String
-      end
+      param_group :parameter, :as => :create
 
       def create
         @parameter = nested_obj.send(parameters_method).new(params[:parameter])
@@ -87,10 +91,7 @@ module Api
       param :location_id, String, :desc => "id of location"
       param :organization_id, String, :desc => "id of organization"
       param :id, String, :required => true, :desc => "id of parameter"
-      param :parameter, Hash, :required => true do
-        param :name, String
-        param :value, String
-      end
+      param_group :parameter
 
       def update
         process_response @parameter.update_attributes(params[:parameter])

@@ -26,37 +26,42 @@ module Api
       def show
       end
 
-      api :POST, "/hosts/", "Create a host."
-      param :host, Hash, :required => true do
-        param :name, String, :required => true
-        param :environment_id, String
-        param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
-        param :mac, String, :desc => "not required if its a virtual machine"
-        param :architecture_id, :number
-        param :domain_id, :number
-        param :puppet_proxy_id, :number
-        param :puppet_class_ids, Array
-        param :operatingsystem_id, String
-        param :medium_id, :number
-        param :ptable_id, :number
-        param :subnet_id, :number
-        param :compute_resource_id, :number
-        param :sp_subnet_id, :number
-        param :model_id, :number
-        param :hostgroup_id, :number
-        param :owner_id, :number
-        param :puppet_ca_proxy_id, :number
-        param :image_id, :number
-        param :host_parameters_attributes, Array
-        param :build, :bool
-        param :enabled, :bool
-        param :provision_method, String
-        param :managed, :bool
-        param :progress_report_id, String, :desc => 'UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks'
-        param :capabilities, String
-        param :compute_attributes, Hash do
+      def_param_group :host do
+        param :host, Hash, :action_aware => true do
+          param :name, String, :required => true
+          param :environment_id, String
+          param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
+          param :mac, String, :desc => "not required if its a virtual machine"
+          param :architecture_id, :number
+          param :domain_id, :number
+          param :puppet_proxy_id, :number
+          param :puppet_class_ids, Array
+          param :operatingsystem_id, String
+          param :medium_id, :number
+          param :ptable_id, :number
+          param :subnet_id, :number
+          param :compute_resource_id, :number
+          param :sp_subnet_id, :number
+          param :model_id, :number
+          param :hostgroup_id, :number
+          param :owner_id, :number
+          param :puppet_ca_proxy_id, :number
+          param :image_id, :number
+          param :host_parameters_attributes, Array
+          param :build, :bool
+          param :enabled, :bool
+          param :provision_method, String
+          param :managed, :bool
+          param :progress_report_id, String, :desc => 'UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks'
+          param :capabilities, String
+          param :compute_attributes, Hash do
+          end
         end
       end
+
+
+      api :POST, "/hosts/", "Create a host."
+      param_group :host, :as => :create
 
       def create
         @host = Host.new(params[:host])
@@ -67,36 +72,7 @@ module Api
 
       api :PUT, "/hosts/:id/", "Update a host."
       param :id, :identifier, :required => true
-      param :host, Hash, :required => true do
-        param :name, String
-        param :environment_id, String
-        param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
-        param :mac, String, :desc => "not required if its a virtual machine"
-        param :architecture_id, :number
-        param :domain_id, :number
-        param :puppet_proxy_id, :number
-        param :operatingsystem_id, String
-        param :puppet_class_ids, Array
-        param :medium_id, :number
-        param :ptable_id, :number
-        param :subnet_id, :number
-        param :compute_resource_id, :number
-        param :sp_subnet_id, :number
-        param :model_id, :number
-        param :hostgroup_id, :number
-        param :owner_id, :number
-        param :puppet_ca_proxy_id, :number
-        param :image_id, :number
-        param :host_parameters_attributes, Array
-        param :build, :bool
-        param :enabled, :bool
-        param :provision_method, String
-        param :managed, :bool
-        param :progress_report_id, String, :desc => 'UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks'
-        param :capabilities, String
-        param :compute_attributes, Hash do
-        end
-      end
+      param_group :host
 
       def update
         process_response @host.update_attributes(params[:host])

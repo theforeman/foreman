@@ -18,10 +18,14 @@ module Api
       def show
       end
 
-      api :POST, "/roles/", "Create an role."
-      param :role, Hash, :required => true do
-        param :name, String, :required => true
+      def_param_group :role do
+        param :role, Hash, :action_aware => true do
+          param :name, String, :required => true
+        end
       end
+
+      api :POST, "/roles/", "Create an role."
+      param_group :role, :as => :create
 
       def create
         @role = Role.new(params[:role])
@@ -30,9 +34,7 @@ module Api
 
       api :PUT, "/roles/:id/", "Update an role."
       param :id, String, :required => true
-      param :role, Hash, :required => true do
-        param :name, String
-      end
+      param_group :role
 
       def update
         process_response @role.update_attributes(params[:role])

@@ -25,7 +25,7 @@ module Api
       end
 
       def_param_group :os_default_template do
-        param :os_default_template, Hash, :required => true do
+        param :os_default_template, Hash, :action_aware => true do
           param :template_kind_id, :number
           param :config_template_id, :number
         end
@@ -33,7 +33,7 @@ module Api
 
       api :POST, '/operatingsystems/:operatingsystem_id/os_default_templates/', 'Create a os default template for operating system'
       param :operatingsystem_id, String, :desc => 'id of operating system'
-      param_group :os_default_template
+      param_group :os_default_template, :as => :create
 
       def create
         @os_default_template = nested_obj.os_default_templates.new(params[:os_default_template])

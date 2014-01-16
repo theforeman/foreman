@@ -14,6 +14,7 @@ module Api
         render :json =>  { @root_node_name => HostgroupClass.where(:hostgroup_id => hostgroup_id).pluck('puppetclass_id') }
       end
 
+
       api :POST, "/hostgroups/:hostgroup_id/puppetclass_ids", "Add a puppetclass to hostgroup"
       param :hostgroup_id, String, :required => true, :desc => "id of hostgroup"
       param :puppetclass_id, String, :required => true, :desc => "id of puppetclass"
@@ -25,7 +26,7 @@ module Api
 
       api :DELETE, "/hostgroups/:hostgroup_id/puppetclass_ids/:id/", "Remove a puppetclass from hostgroup"
       param :hostgroup_id, String, :required => true, :desc => "id of hostgroup"
-      param :puppetclass_id, String, :required => true, :desc => "id of puppetclass"
+      param :id, String, :required => true, :desc => "id of puppetclass"
 
       def destroy
         @hostgroup_class = HostgroupClass.where(:hostgroup_id => @hostgroup_id, :puppetclass_id => params[:id])

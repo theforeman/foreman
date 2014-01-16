@@ -20,11 +20,15 @@ module Api
       def show
       end
 
-      api :POST, "/architectures/", "Create an architecture."
-      param :architecture, Hash, :required => true do
-        param :name, String, :required => true
-        param :operatingsystem_ids, Array, :desc => "Operatingsystem ID's"
+      def_param_group :architecture do
+        param :architecture, Hash, :action_aware => true do
+          param :name, String, :required => true
+          param :operatingsystem_ids, Array, :desc => "Operatingsystem ID's"
+        end
       end
+
+      api :POST, "/architectures/", "Create an architecture."
+      param_group :architecture, :as => :create
 
       def create
         @architecture = Architecture.new(params[:architecture])
@@ -33,10 +37,7 @@ module Api
 
       api :PUT, "/architectures/:id/", "Update an architecture."
       param :id, :identifier, :required => true
-      param :architecture, Hash, :required => true do
-        param :name, String
-        param :operatingsystem_ids, Array, :desc => "Operatingsystem ID's"
-      end
+      param_group :architecture
 
       def update
         process_response @architecture.update_attributes(params[:architecture])

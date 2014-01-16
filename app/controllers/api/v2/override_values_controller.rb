@@ -29,14 +29,17 @@ module Api
       def show
       end
 
+      def_param_group :override_value do
+        param :override_value, Hash, :action_aware => true do
+          param :match, String
+          param :value, String
+        end
+      end
+
       api :POST, '/smart_variables/:smart_variable_id/override_values', 'Create an override value for a specific smart_variable'
       api :POST, '/smart_class_parameters/:smart_class_parameter_id/override_values', 'Create an override value for a specific smart class parameter'
       param :smart_variable_id, :identifier, :required => false
-      param :smart_class_parameter_id, :identifier, :required => false
-      param :override_value, Hash, :required => true do
-        param :match, String
-        param :value, String
-      end
+      param_group :override_value, :as => :create
 
       def create
         @override_value = @smart.lookup_values.create!(params[:override_value])
@@ -44,12 +47,7 @@ module Api
 
       api :PUT, '/smart_variables/:smart_variable_id/override_values/:id', 'Update an override value for a specific smart_variable'
       api :PUT, '/smart_class_parameters/:smart_class_parameter_id/override_values/:id', 'Update an override value for a specific smart class parameter'
-      param :smart_variable_id, :identifier, :required => false
-      param :smart_class_parameter_id, :identifier, :required => false
-      param :override_value, Hash, :required => true do
-        param :match, String
-        param :value, String
-      end
+      param_group :override_value
 
       def update
         @override_value.update_attributes!(params[:override_value])
@@ -58,8 +56,6 @@ module Api
 
       api :DELETE, '/smart_variables/:smart_variable_id/override_values/:id', 'Delete an override value for a specific smart_variable'
       api :DELETE, '/smart_class_parameters/:smart_class_parameter_id/override_values/:id', 'Delete an override value for a specific smart class parameter'
-      param :smart_variable_id, :identifier, :required => false
-      param :smart_class_parameter_id, :identifier, :required => false
       param :id, :identifier, :required => true
 
       def destroy

@@ -23,20 +23,24 @@ module Api
         @user
       end
 
+      def_param_group :user do
+        param :user, Hash, :action_aware => true do
+          param :login, String, :required => true
+          param :firstname, String, :required => false
+          param :lastname, String, :required => false
+          param :mail, String, :required => true
+          param :admin, :bool, :required => false, :desc => "Is an admin account?"
+          param :password, String, :required => true
+          param :auth_source_id, Integer, :required => true
+        end
+      end
+
       api :POST, "/users/", "Create an user."
       # TRANSLATORS: API documentation - do not translate
       description <<-DOC
         Adds role 'Anonymous' to the user by default
       DOC
-      param :user, Hash, :required => true do
-        param :login, String, :required => true
-        param :firstname, String, :required => false
-        param :lastname, String, :required => false
-        param :mail, String, :required => true
-        param :admin, :bool, :required => false, :desc => "Is an admin account?"
-        param :password, String, :required => true
-        param :auth_source_id, Integer, :required => true
-      end
+      param_group :user, :as => :create
 
       def create
         if @user.save
@@ -53,14 +57,7 @@ module Api
         Only admin can set admin account.
       DOC
       param :id, String, :required => true
-      param :user, Hash, :required => true do
-        param :login, String
-        param :firstname, String, :allow_nil => true
-        param :lastname, String, :allow_nil => true
-        param :mail, String
-        param :admin, :bool, :desc => "Is an admin account?"
-        param :password, String
-      end
+      param_group :user
 
       def update
         if @user.update_attributes(params[:user])
