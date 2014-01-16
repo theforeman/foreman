@@ -45,6 +45,7 @@ Ptable.without_auditing do
   [
     { :name => 'AutoYaST entire SCSI disk', :os_family => 'Suse', :source => 'autoyast/disklayout_scsi.erb' },
     { :name => 'AutoYaST entire virtual disk', :os_family => 'Suse', :source => 'autoyast/disklayout_virtual.erb' },
+    { :name => 'AutoYaST LVM', :os_family => 'Suse', :source => 'autoyast/disklayout_lvm.erb' },
     { :name => 'Jumpstart default', :os_family => 'Solaris', :source => 'jumpstart/disklayout.erb' },
     { :name => 'Jumpstart mirrored', :os_family => 'Solaris', :source => 'jumpstart/disklayout_mirrored.erb' },
     { :name => 'Kickstart default', :os_family => 'Redhat', :source => 'kickstart/disklayout.erb' },
@@ -79,14 +80,18 @@ ConfigTemplate.without_auditing do
     { :name => 'Kickstart RHEL default', :source => 'kickstart/provision_rhel.erb', :template_kind => kinds[:provision] },
     { :name => 'Kickstart default PXELinux', :source => 'kickstart/PXELinux.erb', :template_kind => kinds[:PXELinux] },
     { :name => 'Kickstart default iPXE', :source => 'kickstart/iPXE.erb', :template_kind => kinds[:iPXE] },
+    { :name => 'Kickstart default user data', :source => 'kickstart/userdata.erb', :template_kind => kinds[:user_data] },
     { :name => 'Preseed default', :source => 'preseed/provision.erb', :template_kind => kinds[:provision] },
     { :name => 'Preseed default finish', :source => 'preseed/finish.erb', :template_kind => kinds[:finish] },
     { :name => 'Preseed default PXELinux', :source => 'preseed/PXELinux.erb', :template_kind => kinds[:PXELinux] },
+    { :name => 'Preseed default iPXE', :source => 'preseed/iPXE.erb', :template_kind => kinds[:iPXE] },
+    { :name => 'Preseed default user data', :source => 'preseed/userdata.erb', :template_kind => kinds[:user_data] },
     { :name => 'WAIK default PXELinux', :source => 'waik/PXELinux.erb', :template_kind => kinds[:PXELinux], :operatingsystems => os_windows },
     { :name => "Junos default ZTP config", :source => 'ztp/ZTP.erb', :template_kind => kinds[:ZTP], :operatingsystems => os_junos },
     { :name => "Junos default finish", :source => 'ztp/finish.erb', :template_kind => kinds[:finish], :operatingsystems => os_junos },
     # snippets
     { :name => 'epel', :source => 'snippets/_epel.erb', :snippet => true },
+    { :name => 'fix_hosts', :source => 'snippets/_fix_hosts.erb', :snippet => true },
     { :name => 'http_proxy', :source => 'snippets/_http_proxy.erb', :snippet => true },
     { :name => 'puppet.conf', :source => 'snippets/_puppet.conf.erb', :snippet => true },
     { :name => 'redhat_register', :source => 'snippets/_redhat_register.erb', :snippet => true }

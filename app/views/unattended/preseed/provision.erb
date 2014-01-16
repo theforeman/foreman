@@ -8,6 +8,11 @@ oses:
 - Ubuntu 12.04
 - Ubuntu 13.04
 %>
+<%
+  # safemode renderer does not support unary negation
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || @host.params['force-puppet']
+%>
 # Locale, country and keyboard settings
 d-i debian-installer/locale string en_US
 d-i console-setup/ask_detect boolean false
@@ -18,6 +23,16 @@ d-i console-setup/layoutcode string us
 
 <% if @host.operatingsystem.name == "Debian" && @host.operatingsystem.major.to_i >= 7 -%>
 d-i keymap select us
+<% end -%>
+
+<% if @static -%>
+# Static network configuration.
+d-i netcfg/disable_dhcp boolean true
+d-i netcfg/get_ipaddress string <%= @host.ip %>
+d-i netcfg/get_netmask string <%= @host.subnet.mask %>
+d-i netcfg/get_nameservers string <%= [@host.subnet.dns_primary,@host.subnet.dns_secondary].reject{|n| n.blank?}.join(' ') %>
+d-i netcfg/get_gateway string <%= @host.subnet.gateway %>
+d-i netcfg/confirm_static boolean true
 <% end -%>
 
 # Network configuration
@@ -39,14 +54,11 @@ d-i mirror/udeb/suite string <%= @host.operatingsystem.release_name %>
 
 # Time settings
 d-i clock-setup/utc boolean true
-<% if @host.params['time-zone'] -%>
-d-i time/zone string <%= @host.params['time-zone'] %>
-<% else -%>
-d-i time/zone string UTC
-<% end -%>
+d-i time/zone string <%= @host.params["time-zone"] || "UTC" %>
 
 # NTP
 d-i clock-setup/ntp boolean true
+d-i clock-setup/ntp-server string <%= @host.params["ntp-server"] || "0.debian.pool.ntp.org" %>
 
 # Set alignment for automatic partitioning
 # Choices: cylinder, minimal, optimal
@@ -63,7 +75,7 @@ user-setup-udeb passwd/root-login boolean true
 d-i passwd passwd/make-user boolean false
 user-setup-udeb passwd/make-user boolean false
 
-<% if @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
+<% if puppet_enabled && @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
 # Puppetlabs products
 d-i apt-setup/local0/repository string \
       http://apt.puppetlabs.com <%= @host.operatingsystem.release_name %> main
@@ -81,11 +93,15 @@ d-i apt-setup/local1/key string http://apt.puppetlabs.com/pubkey.gpg
 # Install minimal task set (see tasksel --task-packages minimal)
 tasksel tasksel/first multiselect minimal
 
-<% if @host.operatingsystem.name == "Ubuntu" and @host.operatingsystem.major.to_i == 10 -%>
-  <% puppet_package = "puppet/lucid-backports" -%>
+<% if puppet_enabled %>
+  <% if @host.operatingsystem.name == "Ubuntu" and @host.operatingsystem.major.to_i == 10 -%>
+    <% puppet_package = "puppet/lucid-backports" -%>
 d-i apt-setup/backports boolean true
+  <% else -%>
+    <% puppet_package = "puppet" -%>
+  <% end -%>
 <% else -%>
-  <% puppet_package = "puppet" -%>
+  <% puppet_package = "" -%>
 <% end -%>
 
 # Install some base packages

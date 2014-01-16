@@ -5,6 +5,11 @@ name: Community AutoYaST SLES
 oses:
 - SLES 11
 %>
+<%
+  # safemode renderer does not support unary negation
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || @host.params['force-puppet']
+%>
 <!DOCTYPE profile>
 <profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
   <general>
@@ -52,9 +57,11 @@ oses:
   <software>
     <base>default</base>
     <packages config:type="list">
+<% if puppet_enabled %>
       <package>puppet</package>
-      <package>wget</package>
       <package>rubygem-ruby-augeas</package>
+<% end -%>
+      <package>wget</package>
     </packages>
   </software>
   <users config:type="list">
@@ -78,16 +85,19 @@ oses:
         <notification>Setting up Puppet / Foreman ...</notification>
         <debug config:type="boolean">true</debug>
         <source><![CDATA[
+<% if puppet_enabled %>
           cat > /etc/puppet/puppet.conf << EOF
 <%= snippet "puppet.conf" -%>
 EOF
 if [ -f "/etc/sysconfig/puppet" ]
 then
-/usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= @host.puppetmaster %>/ /etc/sysconfig/puppet
+/usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= @host.puppetmaster.blank? ? "" : @host.puppetmaster %>/ /etc/sysconfig/puppet
 fi
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %> --no-daemonize
-/usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? "" : "--server #{@host.puppetmaster}" %> --no-daemonize
 /sbin/chkconfig puppet on -f
+<% end -%>
+
+/usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
 ]]>
         </source>
       </script>
@@ -98,7 +108,7 @@ fi
   </keyboard>
   <timezone>
     <hwclock>UTC</hwclock>
-    <timezone>Etc/UTC</timezone>
+    <timezone><%= @host.params["time-zone"] || "Etc/UTC" %></timezone>
   </timezone>
   <add-on>
     <add_on_products config:type="list">
@@ -109,6 +119,7 @@ fi
         <product_dir>/</product_dir>
         <name>SuSE-Linux-SDK</name>
       </listentry>
+<% if puppet_enabled %>
       <listentry>
         <media_url><![CDATA[http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_<%= @host.operatingsystem.major %>_SP<%= @host.operatingsystem.minor %>/]]></media_url>
         <name>systemsmanagement_puppet</name>
@@ -129,6 +140,7 @@ fi
           </import_gpg_key>
         </signature-handling>
       </listentry>
+<% end -%>
     </add_on_products>
   </add-on>
 </profile>

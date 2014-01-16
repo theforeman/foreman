@@ -1,0 +1,24 @@
+#!gpxe
+<%#
+kind: iPXE
+name: Community Preseed iPXE
+oses:
+- Debian 6.0
+- Debian 7.0
+- Ubuntu 12.04
+%>
+<% if @host.operatingsystem.name == "Debian" -%>
+<% keyboard_params = "auto=true console-keymaps-at/keymap=us keymap=us domain=#{@host.domain}" -%>
+<% else -%>
+<% keyboard_params = "console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us" -%>
+<% end -%>
+<% kernel, initrd = @host.operatingsystem.boot_files_uri(@host.medium,@host.architecture) -%>
+<% static = @host.token.nil? ? '?static=yes' : '&static=yes' -%>
+
+<%# This template will not function with Safemode set to true.
+    Please disable it in Settings > Provisioning               %>
+
+kernel <%= kernel %> interface=auto url=<%= foreman_url("provision")%><%= static %> ramdisk_size=10800 root=/dev/rd/0 rw auto netcfg/disable_dhcp=true BOOTIF=${netX/mac} hostname=<%= @host.name %> <%= keyboard_params %> locale=en_US netcfg/get_ipaddress=${netX/ip} netcfg/get_netmask=${netX/netmask} netcfg/get_gateway=${netX/gateway} netcfg/get_nameservers=${dns} netcfg/confirm_static=true
+initrd <%= initrd %>
+
+boot

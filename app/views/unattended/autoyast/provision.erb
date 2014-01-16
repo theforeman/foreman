@@ -3,6 +3,11 @@
 kind: provision
 name: Community AutoYaST
 %>
+<%
+  # safemode renderer does not support unary negation
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || @host.params['force-puppet']
+%>
 <!DOCTYPE profile>
 <profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
   <general>
@@ -50,7 +55,9 @@ name: Community AutoYaST
   <software>
     <base>default</base>
     <packages config:type="list">
+<% if puppet_enabled %>
       <package>puppet</package>
+<% end -%>
       <package>wget</package>
     </packages>
   </software>
@@ -75,16 +82,19 @@ name: Community AutoYaST
         <notification>Setting up Puppet / Foreman ...</notification>
         <debug config:type="boolean">true</debug>
         <source><![CDATA[
+<% if puppet_enabled %>
           cat > /etc/puppet/puppet.conf << EOF
 <%= snippet "puppet.conf" -%>
 EOF
 if [ -f "/etc/sysconfig/puppet" ]
 then
-/usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= @host.puppetmaster %>/ /etc/sysconfig/puppet
+/usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= @host.puppetmaster.blank? ? "" : @host.puppetmaster %>/ /etc/sysconfig/puppet
 fi
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %> --no-daemonize
-/usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? "" : "--server #{@host.puppetmaster}" %> --no-daemonize
 /sbin/chkconfig puppet on -f
+<% end -%>
+
+/usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
 ]]>
         </source>
       </script>
@@ -95,6 +105,6 @@ fi
   </keyboard>
   <timezone>
     <hwclock>UTC</hwclock>
-    <timezone>Etc/UTC</timezone>
+    <timezone><%= @host.params["time-zone"] || "Etc/UTC" %></timezone>
   </timezone>
 </profile>
