@@ -32,11 +32,7 @@ FactoryGirl.define do
 
   factory :role do
     sequence(:name) {|n| "role #{n}" }
-    builtin 1
-    permissions [
-                    FactoryGirl.create(:permission),
-                    FactoryGirl.create(:permission),
-                ]
+    builtin 0
   end
 
   factory :user_role do

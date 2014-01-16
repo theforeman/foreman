@@ -137,142 +137,83 @@ class HostsControllerTest < ActionController::TestCase
     refute assigns(:host).mac
   end
 
-  def setup_user_and_host operation
+  def setup_user operation, type = 'hosts', filter = nil
+    super
+  end
+
+  def setup_user_and_host(operation, filter = nil, &block)
+    setup_user operation, 'hosts', filter, &block
+
     as_admin do
-      @one             = users(:one)
-      @one.domains.destroy_all
-      @one.hostgroups.destroy_all
-      @one.user_facts.destroy_all
       @host1           = hosts(:one)
       @host1.owner     = users(:admin)
       @host1.save!
       @host2           = hosts(:two)
       @host2.owner     = users(:admin)
       @host2.save!
-      @one.roles       = [Role.find_by_name('Anonymous'), Role.find_by_name("#{operation.capitalize} hosts")]
     end
     Host.per_page == 1000
     @request.session[:user] = @one.id
   end
 
-  test 'user with edit host rights and domain is set should succeed in viewing host1' do
-    setup_user_and_host "Edit"
+  test 'user with view host rights and domain is set should succeed in viewing host1 but fail for host2' do
+    setup_user_and_host "view", "domain_id = #{domains(:mydomain).id}"
+
     as_admin do
-      @one.domains  = [domains(:mydomain)]
       @host1.update_attribute(:domain, domains(:mydomain))
       @host2.update_attribute(:domain, domains(:yourdomain))
     end
     get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
     assert_match /#{@host1.shortname}/, @response.body
+    refute_match /#{@host2.name}/, @response.body
   end
 
-  test 'user with edit host rights and domain is set should fail to view host2' do
-    setup_user_and_host "Edit"
-    as_admin do
-      @one.domains  = [domains(:mydomain)]
-      @host1.domain = domains(:mydomain)
-      @host2.domain = domains(:yourdomain)
-    end
-    get :index, {}, set_session_user.merge(:user => @one.id)
-    assert_response :success
-    assert @response.body !~ /#{@host2.name}/
-  end
-
-  test 'user with edit host rights and ownership is set should succeed in viewing host1' do
-    setup_user_and_host "Edit"
+  test 'user with view host rights and ownership is set should succeed in viewing host1 but fail for host2' do
+    setup_user_and_host "view", "owner_id = #{users(:one).id} and owner_type = User"
     as_admin do
       @host1.owner = @one
       @host2.owner = users(:two)
-      @one.filter_on_owner = true
-      @one.save!
       @host1.save!
       @host2.save!
     end
     get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
-    assert @response.body =~ /#{@host1.name}/
+    assert_match /#{@host1.name}/, @response.body
+    refute_match /#{@host2.name}/, @response.body
   end
 
-  test 'user with edit host rights and ownership is set should fail to view host2' do
-    setup_user_and_host "Edit"
-    as_admin do
-      @host1.owner = @one
-      @host2.owner = users(:two)
-      @one.filter_on_owner = true
-      @one.save!
-      @host1.save!
-      @host2.save!
-    end
-    get :index, {}, set_session_user.merge(:user => @one.id)
-    assert_response :success
-    assert @response.body !~ /#{@host2.name}/
-  end
-
-  test 'user with edit host rights and hostgroup is set should succeed in viewing host1' do
-    setup_user_and_host "Edit"
+  test 'user with view host rights and hostgroup is set should succeed in viewing host1 but fail for host2' do
+    setup_user_and_host "view", "hostgroup_id = #{hostgroups(:common).id}"
     as_admin do
       @host1.hostgroup = hostgroups(:common)
       @host2.hostgroup = hostgroups(:unusual)
-      @one.hostgroups  = [hostgroups(:common)]
       @host1.save!
       @host2.save!
     end
     get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
-    assert @response.body =~ /#{@host1.name}/
+    assert_match /#{@host1.name}/, @response.body
+    refute_match /#{@host2.name}/, @response.body
   end
 
-  test 'user with edit host rights and hostgroup is set should fail to view host2' do
-    setup_user_and_host "Edit"
-    as_admin do
-      @host1.hostgroup = hostgroups(:common)
-      @host2.hostgroup = hostgroups(:unusual)
-      @one.hostgroups  = [hostgroups(:common)]
-      @host1.save!
-      @host2.save!
-    end
-    get :index, {}, set_session_user.merge(:user => @one.id)
-    assert_response :success
-    assert @response.body !~ /#{@host2.name}/
-  end
-
-  test 'user with edit host rights and facts are set should succeed in viewing host1' do
-    setup_user_and_host "Edit"
+  test 'user with edit host rights and facts are set should succeed in viewing host1 but fail for host2' do
+    setup_user_and_host "view", "facts.architecture = \"x86_64\""
     as_admin do
       fn_id = FactName.find_or_create_by_name("architecture").id
       FactValue.create! :host => @host1, :fact_name_id => fn_id, :value    => "x86_64"
       FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
-      UserFact.create!  :user => @one,   :fact_name_id => fn_id, :criteria => "x86_64", :operator => "=", :andor => "or"
     end
     get :index, {}, set_session_user.merge(:user => @one.id)
     assert_response :success
-    assert @response.body =~ /#{@host1.name}/
-  end
-
-  test 'user with edit host rights and facts are set should fail to view host2' do
-    setup_user_and_host "Edit"
-    as_admin do
-      fn_id = FactName.find_or_create_by_name("architecture").id
-      FactValue.create! :host => @host1, :fact_name_id => fn_id, :value    => "x86_64"
-      FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
-      UserFact.create!  :user => @one,   :fact_name_id => fn_id, :criteria => "x86_64", :operator => "=", :andor => "or"
-    end
-    get :index, {}, set_session_user.merge(:user => @one.id)
-    assert_response :success
-    assert @response.body !~ /#{@host2.name}/
+    assert_match /#{@host1.name}/, @response.body
+    refute_match /#{@host2.name}/, @response.body
   end
 
   test 'user with view host rights should fail to edit host' do
-    setup_user_and_host "View"
+    setup_user_and_host "view"
     get :edit, {:id => @host1.id}, set_session_user.merge(:user => @one.id)
     assert_equal @response.status, 403
-  end
-
-  test 'user with view host rights should should succeed in viewing hosts' do
-    setup_user_and_host "View"
-    get :index, {}, set_session_user.merge(:user => @one.id)
-    assert_response :success
   end
 
   test 'multiple without hosts' do
@@ -295,6 +236,7 @@ class HostsControllerTest < ActionController::TestCase
 
     hostgroup = hostgroups(:unusual)
     post :update_multiple_hostgroup, { :host_ids => hosts.map(&:id), :hostgroup => { :id => hostgroup.id } }, set_session_user
+    assert_response :redirect
 
     # reloads hosts
     hosts.map! {|h| Host.find(h.id)}
@@ -314,6 +256,7 @@ class HostsControllerTest < ActionController::TestCase
 
     hostgroup = hostgroups(:common)
     post :update_multiple_hostgroup, { :host_names => host_names, :hostgroup  => { :id => hostgroup.id} }, set_session_user
+    assert_response :redirect
 
     host_names.each do |name|
       host = Host.find_by_name name

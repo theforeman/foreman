@@ -156,6 +156,21 @@ class RoleTest < ActiveSupport::TestCase
         @role.add_permissions ['does_not_exist']
       end
     end
+
+    it "accespts one permissions instead of array as well" do
+      @role.add_permissions @permission1.name
+      permissions = @role.filters.map { |f| f.filterings.map(&:permission) }.flatten
+
+      assert_equal 1, @role.filters.size
+      assert_includes permissions, Permission.find_by_name(@permission1.name)
+    end
+
+    it "sets search filter to all filters" do
+      search = "id = 1"
+      @role.add_permissions [@permission1.name, @permission2.name.to_sym], :search => search
+      refute @role.filters.any?(&:unlimited?)
+      assert @role.filters.all? { |f| f.search == search }
+    end
   end
 
   describe "#add_permissions!" do
