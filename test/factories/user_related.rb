@@ -14,7 +14,7 @@ FactoryGirl.define do
   end
 
   factory :permission do
-    sequence(:name) {|n| p "view_#{n}" }
+    sequence(:name) {|n| "view_#{n}" }
     resource_type nil
 
     trait :host do

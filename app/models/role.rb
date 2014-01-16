@@ -114,6 +114,26 @@ class Role < ActiveRecord::Base
     anonymous_role
   end
 
+  def add_permissions(permissions)
+    collection = Permission.where(:name => permissions).all
+    raise ArgumentError, 'some permissions were not found' if collection.size != permissions.size
+
+    collection.group_by(&:resource_type).each do |resource_type, grouped_permissions|
+      filter = self.filters.build
+
+      grouped_permissions.each do |permission|
+        filtering = filter.filterings.build
+        filtering.filter = filter
+        filtering.permission = permission
+      end
+    end
+  end
+
+  def add_permissions!(*args)
+    add_permissions(*args)
+    save!
+  end
+
 private
   def allowed_permissions
     @allowed_permissions ||= permission_names + Foreman::AccessControl.public_permissions.map(&:name)

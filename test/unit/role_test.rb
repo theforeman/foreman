@@ -130,6 +130,49 @@ class RoleTest < ActiveSupport::TestCase
       it { subject.must_include(first) }
       it { subject.wont_include(second) }
     end
+  end
 
+  describe "#add_permissions" do
+    setup do
+      @permission1 = FactoryGirl.create(:permission, :name => 'permission1')
+      @permission2 = FactoryGirl.create(:permission, :architecture, :name => 'permission2')
+      @role = FactoryGirl.build(:role, :permissions => [])
+    end
+
+    it "should build filters with assigned permission" do
+      @role.add_permissions [@permission1.name, @permission2.name.to_sym]
+      assert @role.filters.all?(&:unlimited?)
+
+      permissions = @role.filters.map { |f| f.filterings.map(&:permission) }.flatten
+      assert_equal 2, @role.filters.size
+      assert_includes permissions, Permission.find_by_name(@permission1.name)
+      assert_includes permissions, Permission.find_by_name(@permission2.name)
+      # not saved yet
+      assert_empty @role.permissions
+    end
+
+    it "should raise error when given permission does not exist" do
+      assert_raises ArgumentError do
+        @role.add_permissions ['does_not_exist']
+      end
+    end
+  end
+
+  describe "#add_permissions!" do
+    setup do
+      @permission1 = FactoryGirl.create(:permission, :name => 'permission1')
+      @permission2 = FactoryGirl.create(:permission, :architecture, :name => 'permission2')
+      @role = FactoryGirl.build(:role, :permissions => [])
+    end
+
+    it "persists built permissions" do
+      assert @role.add_permissions!([@permission1.name, @permission2.name.to_sym])
+      @role.reload
+
+      permissions = @role.permissions
+      assert_equal 2, @role.filters.size
+      assert_includes permissions, Permission.find_by_name(@permission1.name)
+      assert_includes permissions, Permission.find_by_name(@permission2.name)
+    end
   end
 end
