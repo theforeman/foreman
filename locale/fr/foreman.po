@@ -6,12 +6,12 @@
 # 
 # 
 # Translators:
-# Claer <transiblu@claer.hammock.fr>, 2013
+# Claer <transiblu@claer.hammock.fr>, 2013-2014
 # kyzh <florentin.raud@gmail.com>, 2013
 # domcleal <dcleal@redhat.com>, 2013
 # domcleal <dcleal@redhat.com>, 2013
 # fitzdsl <rvrignaud@gmail.com>, 2013
-# kyzh <florentin.raud@gmail.com>, 2013
+# kyzh <florentin.raud@gmail.com>, 2013-2014
 # fschaer <frederic.schaer@cea.fr>, 2013
 # gchamoul <gael@redhat.com>, 2013
 # gchamoul <gael@redhat.com>, 2013
@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-09 10:42+0000\n"
-"PO-Revision-Date: 2013-12-13 10:50+0000\n"
+"POT-Creation-Date: 2014-01-09 22:53+0000\n"
+"PO-Revision-Date: 2014-01-14 14:23+0000\n"
 "Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -69,6 +69,9 @@ msgid_plural "%s days ago"
 msgstr[0] "Il y a %s jour"
 msgstr[1] "Il y a %s jours"
 
+msgid "%s is an unknown attribute"
+msgstr "%s est un attribut inconnu "
+
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "Il y a %s minute"
@@ -87,10 +90,19 @@ msgid_plural "%s weeks ago"
 msgstr[0] "Il y a %s semaine"
 msgstr[1] "Il y a %s semaines"
 
+msgid "%{cores} Cores and %{memory} memory"
+msgstr ""
+
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
 msgstr[0] "%{count} hôte avec aucune %{taxonomy_single} assignée"
 msgstr[1] "%{count} hôtes avec aucune %{taxonomy_single} assignée"
+
+msgid "%{cpus} CPUs and %{memory} MB memory"
+msgstr ""
+
+msgid "%{cpus} CPUs and %{memory} memory"
+msgstr ""
 
 msgid "%{default_value} is not one of %{validator_rule}"
 msgstr "%{default_value} n'est pas définie dans %{validator_rule}"
@@ -98,8 +110,8 @@ msgstr "%{default_value} n'est pas définie dans %{validator_rule}"
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr "%{e} n'appartient pas à l'environnement %{environment}"
 
-msgid "%{host} is now %{state}"
-msgstr "%{host} est maintenant %{state}"
+msgid "%{host} is about to %{action}"
+msgstr "%{host} est sur ​​le point de %{action}"
 
 msgid "%{host} now boots from %{device}"
 msgstr "%{host} démarre maintenant de puis %{device}"
@@ -142,8 +154,11 @@ msgstr "%{value} n'est pas inclus dans %{rules}"
 msgid "%{vm} is now %{vm_state}"
 msgstr "%{vm} est maintenant %{vm_state}"
 
-msgid "&#8592; Previous"
-msgstr "&#8592; Précédent"
+msgid "&laquo;"
+msgstr "&laquo;"
+
+msgid "&raquo;"
+msgstr "&raquo;"
 
 msgid "'%{host}' could be deleted or '%{resource}' is not responding."
 msgstr "'%{host}' peut avoir été supprimé ou '%{resource}' ne répond pas."
@@ -213,6 +228,9 @@ msgstr "Un script pour calculer dynamiquement la taille désirée. Ex:"
 
 msgid "A user group already exists with this name"
 msgstr "Un groupe d'utilisateurs portant ce nom existe déjà"
+
+msgid "ACK"
+msgstr "Accusé"
 
 msgid "API Key"
 msgstr "Clé API"
@@ -368,6 +386,9 @@ msgstr "Toutes les permissions non publiques ont été mises à jour avec succè
 
 msgid "Allocated"
 msgstr "Alloué"
+
+msgid "Allocation (GB)"
+msgstr "Allocation (GB)"
 
 msgid ""
 "An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy "
@@ -795,6 +816,9 @@ msgstr "Changer votre avatar sur gravatar.com"
 msgid "Changed environments"
 msgstr "Environnements modifiés"
 
+msgid "Chart"
+msgstr "Graphique"
+
 msgid "Chassis"
 msgstr "Chassis"
 
@@ -830,6 +854,10 @@ msgstr "Distribution des classes"
 
 msgid "Classes"
 msgstr "Classes"
+
+msgid ""
+"Click on the link of a compute resource to edit its default VM attributes."
+msgstr ""
 
 msgid "Click to add %s"
 msgstr "Cliquez pour ajouter %s"
@@ -883,6 +911,17 @@ msgid "Compute Resources"
 msgstr "Ressources d'Ordinateur"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Compute attribute"
+msgstr "Attribut d'Ordinateur"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Compute profile"
+msgstr "Profile d'Ordinateur"
+
+msgid "Compute profiles"
+msgstr "Profile d'Ordinateurs"
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
 msgstr "Ressource d'Ordinateur"
 
@@ -891,6 +930,18 @@ msgstr "Ressource d'Ordinateur mise à jour pour %s"
 
 msgid "Compute resources"
 msgstr "Ressources d'Ordinateur"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ComputeAttribute|Name"
+msgstr "Nom"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ComputeAttribute|Vm attrs"
+msgstr "Attributs machines virtuelles"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ComputeProfile|Name"
+msgstr "Nom"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Attrs"
@@ -948,6 +999,9 @@ msgstr "Configuration de l'instance %s par SSH"
 msgid "Conflict - %s"
 msgstr "Conflit - %s"
 
+msgid "Conflicts have been detected"
+msgstr "Des conflits ont été détecté"
+
 msgid "Connected (unencrypted) to: %s"
 msgstr "Connecté (non chiffré) à : %s"
 
@@ -967,9 +1021,9 @@ msgid "Cores"
 msgstr "Cores"
 
 msgid ""
-"Could not find a Configuration Template with the name \"PXE Default File\", "
-"please create one."
-msgstr "Impossible de trouver un Modèle de Configuration avec le nom \"PXE Default File\", merci d'en créer un."
+"Could not find a Configuration Template with the name \"PXELinux global "
+"default\", please create one."
+msgstr "Impossible de trouver un Modèle de Configuration avec le nom \"PXE global default\", merci d'en créer un."
 
 msgid "Create %s"
 msgstr "Créer %s"
@@ -1201,6 +1255,12 @@ msgstr "Éditer les Architectures"
 msgid "Edit Bookmark"
 msgstr "Éditer les Marque-pages"
 
+msgid "Edit Compute profile"
+msgstr "Éditer le profile d'Ordinateur"
+
+msgid "Edit Compute profile: %s"
+msgstr "Éditer le profile d'Ordinateur: %s"
+
 msgid "Edit Domain"
 msgstr "Éditer le Domaine"
 
@@ -1257,6 +1317,9 @@ msgstr "Éditer l'Utilisateur"
 
 msgid "Edit User group"
 msgstr "Éditer les Groupes Utilisateur"
+
+msgid "Edit compute profile on %s"
+msgstr "Éditer le profile d'Ordinateur de %s"
 
 msgid "Edit your host"
 msgstr "Éditer votre hôte"
@@ -1367,6 +1430,9 @@ msgstr "E"
 msgid "Exit Full Screen"
 msgstr "Quitter le mode plein écran"
 
+msgid "Expand nested items"
+msgstr "Étendre les éléments imbriqués"
+
 msgid "Expand the chart"
 msgstr "Étendre le graphique"
 
@@ -1397,8 +1463,20 @@ msgid "Fact value"
 msgstr "Valeur du Fact"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "FactName|Ancestry"
+msgstr "Ancêtre"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "FactName|Compose"
+msgstr "Composer"
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "FactName|Name"
 msgstr "Nom"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "FactName|Short name"
+msgstr "Nom court"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "FactValue|Value"
@@ -1545,9 +1623,6 @@ msgstr "Filtre"
 msgid "Filter %s"
 msgstr "Filtre %s"
 
-msgid "Filter Parameters"
-msgstr "Filtrer les paramètres"
-
 msgid "Filter classes"
 msgstr "Filtrer les classes"
 
@@ -1647,6 +1722,9 @@ msgid ""
 "Foreman, by default, operates in anonymous mode where all operations are "
 "performed without reference to the user who is performing the task."
 msgstr "Par défaut, Foreman opère en mode anonyme, les différentes actions de chaque utilisateur ne sont pas enregistrées."
+
+msgid "Full"
+msgstr "Plein"
 
 msgid "Full name describing the domain"
 msgstr "Nom  complet décrivant le domaine"
@@ -1926,6 +2004,9 @@ msgstr "IP"
 msgid "IP Address"
 msgstr "Adresses IP"
 
+msgid "IP address auto-suggest"
+msgstr "Adresse IP proposée automatiquement"
+
 msgid "IP address for this host"
 msgstr "Adresse IP pour cet hôte"
 
@@ -2055,6 +2136,9 @@ msgstr "Utilisateur ou mot de passe incorrect"
 msgid "Infrastructure"
 msgstr "Infrastructure"
 
+msgid "Inherit from parent"
+msgstr "Hériter d'un parent"
+
 msgid "Installation Media"
 msgstr "Média d'installation"
 
@@ -2161,9 +2245,6 @@ msgstr "Niveau"
 msgid "List of hosts which answer to the provided query"
 msgstr "Liste des hôtes qui répondent à la demande du fournisseur"
 
-msgid "Listing compute resources"
-msgstr "Liste des Ressources d'Ordinateur"
-
 msgid "Load Datacenters"
 msgstr "Charger les Centres de données"
 
@@ -2171,7 +2252,7 @@ msgid "Load Regions"
 msgstr "Charger les régions"
 
 msgid "Load Tenants"
-msgstr "Charger les locataires"
+msgstr "Charger les tenants"
 
 msgid "Load zones"
 msgstr "Zones de charge"
@@ -2517,8 +2598,14 @@ msgstr "Nouvelle entrée Autosignée"
 msgid "New Bookmark"
 msgstr "Nouveau marque-page"
 
+msgid "New Compute Profile"
+msgstr "Nouveau Profile d'Ordinateur"
+
 msgid "New Compute Resource"
 msgstr "Nouvelle Ressource d'Ordinateur"
+
+msgid "New Compute profile"
+msgstr "Nouveau profile d'Ordinateur"
 
 msgid "New Domain"
 msgstr "Nouveau Domaine"
@@ -2577,6 +2664,9 @@ msgstr "Nouvelle classe Puppet"
 msgid "New Role"
 msgstr "Nouveau rôle"
 
+msgid "New Smart Proxy"
+msgstr "Nouveau Smart Proxy"
+
 msgid "New Subnet"
 msgstr "Nouveau sous-réseau"
 
@@ -2601,6 +2691,9 @@ msgstr "Nouvelle architecture"
 msgid "New authentication source"
 msgstr "Nouvelle source d'authentification"
 
+msgid "New compute profile on %s"
+msgstr "Nouveau profile d'Ordinateur pour %s"
+
 msgid "New compute resource"
 msgstr "Nouvelle Ressource d'Ordinateur"
 
@@ -2612,9 +2705,6 @@ msgstr "Nouveau rôle"
 
 msgid "New window"
 msgstr "Nouvelle fenêtre"
-
-msgid "Next &#8594;"
-msgstr "Suivant &#8594;"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Attrs"
@@ -2742,10 +2832,10 @@ msgid "No trend counter found."
 msgstr "Aucun compteur de tendance trouvé"
 
 msgid "No value error"
-msgstr ""
+msgstr "Erreurs, valeur manquante"
 
 msgid "No value warning"
-msgstr ""
+msgstr "Avertissement, valeur manquante"
 
 msgid "None"
 msgstr "Aucun"
@@ -2780,6 +2870,9 @@ msgstr "Note"
 
 msgid "Notice:"
 msgstr "Note :"
+
+msgid "Notices, warnings and errors"
+msgstr "Remarques, avertissements et erreurs"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Notice|Content"
@@ -2835,6 +2928,15 @@ msgstr "Famille du système d'exploitation"
 
 msgid "OS Image"
 msgstr "Image du système d'exploitation"
+
+msgid "OS major version from facter; e.g. 6"
+msgstr "Version majeur du système d'exploitation; par exemple 6"
+
+msgid "OS minor version from facter; e.g. 5"
+msgstr "Version mineur du système d'exploitation; par exemple 5"
+
+msgid "OS name from facter; e.g. RedHat"
+msgstr "Nom du système d'exploitation depuis facter; par exemple RedHat"
 
 msgid "Obsolete"
 msgstr "Obsolète"
@@ -2906,6 +3008,10 @@ msgstr "Systèmes d'exploitations"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem"
 msgstr "Operatingsystem"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Description"
+msgstr "Description"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Major"
@@ -2985,9 +3091,6 @@ msgstr "Désynchronisé"
 
 msgid "Out of sync Hosts"
 msgstr "Hôtes désynchronisés"
-
-msgid "Override Value"
-msgstr "Surcharger la valeur"
 
 msgid "Override a Puppetclass Parameter"
 msgstr "Surcharger un paramètre de la classe Puppet"
@@ -3356,6 +3459,9 @@ msgstr "Suppression:"
 msgid "Removing compute instance %s"
 msgstr "Suppression de l'instance %s"
 
+msgid "Rename"
+msgstr "Renommer"
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Report"
 msgstr "Rapport"
@@ -3395,9 +3501,6 @@ msgstr "Rapporté le"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Report|Status"
 msgstr "Statut"
-
-msgid "Required Parameter"
-msgstr "Paramètres requis"
 
 msgid ""
 "Required parameter without value.<br/><b>Please override!</b> "
@@ -3478,7 +3581,7 @@ msgid "Running on"
 msgstr "Exécution sur"
 
 msgid "Runtime"
-msgstr ""
+msgstr "Exécution"
 
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
 msgstr "Le fichier CA SSL que Foreman utilisera pour communiquer avec ses proxies"
@@ -3535,9 +3638,6 @@ msgstr "Choisir une organisation"
 
 msgid "Select a period"
 msgstr "Choisir une période"
-
-msgid "Select all"
-msgstr "Tout sélectionner"
 
 msgid "Select all items in this page"
 msgstr "Sélectionner tous les éléments de cette page"
@@ -3668,6 +3768,9 @@ msgstr "Afficher les hôtes"
 msgid "Show Trends"
 msgstr "Afficher les tendances"
 
+msgid "Show all %s children fact values"
+msgstr "Afficher tous les facts pour les enfants de %s"
+
 msgid "Show all %s fact values"
 msgstr "Afficher tous les facts pour %s"
 
@@ -3691,6 +3794,9 @@ msgstr "Fermer la session"
 
 msgid "Signo SSO url"
 msgstr "URL de SSO"
+
+msgid "Size"
+msgstr "Taille"
 
 msgid "Size (GB)"
 msgstr "Taille (Go)"
@@ -3843,9 +3949,6 @@ msgstr "À"
 msgid "Subnet|Vlanid"
 msgstr "VLAN id"
 
-msgid "Subscribe to host groups"
-msgstr "Souscrire aux groupes d'hôtes"
-
 msgid "Success"
 msgstr "Succès"
 
@@ -3929,8 +4032,8 @@ msgstr "Nom"
 msgid "Template"
 msgstr "Modèle"
 
-msgid "Template / Hardware Profile to use"
-msgstr "Modèle / Profil Matériel à utiliser"
+msgid "Template / Compute Profile to use"
+msgstr "Modèle / Profile d'Ordinateurs à utiliser"
 
 msgid "Template Diff"
 msgstr "Diff du Modème"
@@ -3956,7 +4059,7 @@ msgid "Templates"
 msgstr "Modèles"
 
 msgid "Tenant"
-msgstr "Locataire"
+msgstr "Tenant"
 
 msgid "Test Connection"
 msgstr "Tester la connexion"
@@ -4143,9 +4246,9 @@ msgid "The selected hosts will execute a build operation on next reboot"
 msgstr "Les hôtes sélectionnés vont procéder à leur installation au prochain redémarrage"
 
 msgid ""
-"The user that is used to ssh into the instance, normally ec2-user, ubuntu, "
-"root etc"
-msgstr "L'utilisateur qui est utilisé pour se connecter en ssh à l'instance. Normalement ec2-user, ubuntu, root, etc"
+"The user that is used to ssh into the instance, normally cloud-user, "
+"ec2-user, ubuntu, root etc"
+msgstr "L'utilisateur qui est utilisé pour se connecter en ssh à l'instance. Normalement cloud-user, ec2-user, ubuntu, root, etc"
 
 msgid "There are two strategies when using host groups."
 msgstr "Il  y a deux stratégies quand on utilise les groupes d'hôtes"
@@ -4548,6 +4651,12 @@ msgstr "VCenter/Serveur"
 msgid "VM"
 msgstr "VM"
 
+msgid "VM Attributes"
+msgstr "Attributs de machine virtuelle"
+
+msgid "VM Attributes (%s)"
+msgstr "Attributs de machine virtuelle (%s)"
+
 msgid "VM already associated with a host"
 msgstr "Cette VM est déjà associée à un hôte"
 
@@ -4572,6 +4681,9 @@ msgstr "Types de validation"
 msgid "Value"
 msgstr "Valeur"
 
+msgid "Value to use when there is no match"
+msgstr "Valeur à utiliser quand il n'y a pas de correspondance"
+
 msgid "Variable"
 msgstr "Variable"
 
@@ -4583,6 +4695,9 @@ msgstr "Vérifier"
 
 msgid "Version"
 msgstr "Version"
+
+msgid "Version %{version}"
+msgstr "Version %{version}"
 
 msgid "Version %{version}  © 2009-%{year} Paul Kelly and %{author}"
 msgstr "Version %{version} © 2009-%{year} Paul Kelly et %{author}"
@@ -4627,6 +4742,9 @@ msgstr "Nous utilisons Redmine comme traqueur de bogues et des nouvelles fonctio
 
 msgid "Welcome"
 msgstr "Bienvenue"
+
+msgid "Welcome to Foreman"
+msgstr "Bienvenue sur Foreman"
 
 msgid ""
 "What ever text(or ERB template) you use in here, would be used as your OS "
@@ -4692,6 +4810,9 @@ msgstr "Vous êtes déjà connecté, suicide ?"
 
 msgid "You are not authorized to perform this action"
 msgstr "Vous n'êtes pas autorisé à effectuer cette opération"
+
+msgid "You are using an unsupported browser."
+msgstr "Vous utilisez un navigateur non supporté."
 
 msgid "You can find details of how to set up the proxy at"
 msgstr "Vous pouvez trouver des détails sur l'implémentation d'un proxy à"
@@ -4875,14 +4996,8 @@ msgstr "le domaine %s possède déjà un sous-réseau avec ce nom"
 msgid "e-mail reporting"
 msgstr "Rapports par courrier électronique"
 
-msgid "e.g. 2"
-msgstr "Ex: 2"
-
-msgid "e.g. 6"
-msgstr "Ex: 6"
-
-msgid "e.g. Red Hat"
-msgstr "Ex: Red Hat"
+msgid "e.g. RHEL 6.5"
+msgstr "par exemple RHEL 6.5"
 
 msgid "e.g. admin@internal"
 msgstr "Ex: admin@interne"
@@ -5121,9 +5236,6 @@ msgstr "Navigateur de classes Puppet"
 msgid "reboot"
 msgstr "redémarrer"
 
-msgid "remove"
-msgstr "supprimer"
-
 msgid "remove network interface"
 msgstr "supprimer l'interface réseau"
 
@@ -5202,6 +5314,9 @@ msgstr "Impossible de signer un certificat qui n'est pas en attente"
 msgid "unknown provider"
 msgstr "fournisseur inconnu"
 
+msgid "unspecified"
+msgstr "indéterminé"
+
 msgid "used (GB)"
 msgstr "utilisé (Go)"
 
@@ -5224,9 +5339,6 @@ msgstr "utilise %{allocation} Go sur %{capacity} Go (%{pool_name} pool de stocka
 
 msgid "valid"
 msgstr "valide"
-
-msgid "value to use when there is no match"
-msgstr "valeur à utiliser quand il n'y a pas de correspondance"
 
 msgid "you may use %s"
 msgstr "Vous pouvez utiliser %s"

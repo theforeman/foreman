@@ -189,6 +189,8 @@ _('Image|Iam role')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Image|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Image|User data')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Image|Username')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Image|Uuid')

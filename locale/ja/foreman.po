@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-09 10:42+0000\n"
-"PO-Revision-Date: 2013-12-10 09:31+0000\n"
+"POT-Creation-Date: 2014-01-09 22:53+0000\n"
+"PO-Revision-Date: 2014-01-10 09:31+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/foreman/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -53,6 +53,9 @@ msgid "%s day ago"
 msgid_plural "%s days ago"
 msgstr[0] "%s 日前"
 
+msgid "%s is an unknown attribute"
+msgstr ""
+
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s 分前"
@@ -68,9 +71,18 @@ msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s 週前"
 
+msgid "%{cores} Cores and %{memory} memory"
+msgstr ""
+
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
 msgstr[0] ""
+
+msgid "%{cpus} CPUs and %{memory} MB memory"
+msgstr ""
+
+msgid "%{cpus} CPUs and %{memory} memory"
+msgstr ""
 
 msgid "%{default_value} is not one of %{validator_rule}"
 msgstr ""
@@ -78,7 +90,7 @@ msgstr ""
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-msgid "%{host} is now %{state}"
+msgid "%{host} is about to %{action}"
 msgstr ""
 
 msgid "%{host} now boots from %{device}"
@@ -122,7 +134,10 @@ msgstr ""
 msgid "%{vm} is now %{vm_state}"
 msgstr ""
 
-msgid "&#8592; Previous"
+msgid "&laquo;"
+msgstr ""
+
+msgid "&raquo;"
 msgstr ""
 
 msgid "'%{host}' could be deleted or '%{resource}' is not responding."
@@ -192,6 +207,9 @@ msgid "A script to dynamically calculate the desired sizes. E.G."
 msgstr ""
 
 msgid "A user group already exists with this name"
+msgstr ""
+
+msgid "ACK"
 msgstr ""
 
 msgid "API Key"
@@ -347,6 +365,9 @@ msgid "All non public permissions successfully updated"
 msgstr ""
 
 msgid "Allocated"
+msgstr ""
+
+msgid "Allocation (GB)"
 msgstr ""
 
 msgid ""
@@ -774,6 +795,9 @@ msgstr ""
 msgid "Changed environments"
 msgstr ""
 
+msgid "Chart"
+msgstr ""
+
 msgid "Chassis"
 msgstr ""
 
@@ -808,6 +832,10 @@ msgid "Class Distribution"
 msgstr ""
 
 msgid "Classes"
+msgstr ""
+
+msgid ""
+"Click on the link of a compute resource to edit its default VM attributes."
 msgstr ""
 
 msgid "Click to add %s"
@@ -862,6 +890,17 @@ msgid "Compute Resources"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Compute attribute"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Compute profile"
+msgstr ""
+
+msgid "Compute profiles"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
 msgstr ""
 
@@ -869,6 +908,18 @@ msgid "Compute resource update for %s"
 msgstr ""
 
 msgid "Compute resources"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ComputeAttribute|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ComputeAttribute|Vm attrs"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ComputeProfile|Name"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -927,6 +978,9 @@ msgstr ""
 msgid "Conflict - %s"
 msgstr ""
 
+msgid "Conflicts have been detected"
+msgstr ""
+
 msgid "Connected (unencrypted) to: %s"
 msgstr ""
 
@@ -946,8 +1000,8 @@ msgid "Cores"
 msgstr ""
 
 msgid ""
-"Could not find a Configuration Template with the name \"PXE Default File\", "
-"please create one."
+"Could not find a Configuration Template with the name \"PXELinux global "
+"default\", please create one."
 msgstr ""
 
 msgid "Create %s"
@@ -1179,6 +1233,12 @@ msgstr ""
 msgid "Edit Bookmark"
 msgstr ""
 
+msgid "Edit Compute profile"
+msgstr ""
+
+msgid "Edit Compute profile: %s"
+msgstr ""
+
 msgid "Edit Domain"
 msgstr ""
 
@@ -1234,6 +1294,9 @@ msgid "Edit User"
 msgstr ""
 
 msgid "Edit User group"
+msgstr ""
+
+msgid "Edit compute profile on %s"
 msgstr ""
 
 msgid "Edit your host"
@@ -1345,6 +1408,9 @@ msgstr ""
 msgid "Exit Full Screen"
 msgstr ""
 
+msgid "Expand nested items"
+msgstr ""
+
 msgid "Expand the chart"
 msgstr ""
 
@@ -1375,7 +1441,19 @@ msgid "Fact value"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "FactName|Ancestry"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "FactName|Compose"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "FactName|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "FactName|Short name"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -1523,9 +1601,6 @@ msgstr ""
 msgid "Filter %s"
 msgstr ""
 
-msgid "Filter Parameters"
-msgstr ""
-
 msgid "Filter classes"
 msgstr ""
 
@@ -1624,6 +1699,9 @@ msgstr ""
 msgid ""
 "Foreman, by default, operates in anonymous mode where all operations are "
 "performed without reference to the user who is performing the task."
+msgstr ""
+
+msgid "Full"
 msgstr ""
 
 msgid "Full name describing the domain"
@@ -1904,6 +1982,9 @@ msgstr ""
 msgid "IP Address"
 msgstr ""
 
+msgid "IP address auto-suggest"
+msgstr ""
+
 msgid "IP address for this host"
 msgstr ""
 
@@ -2033,6 +2114,9 @@ msgstr ""
 msgid "Infrastructure"
 msgstr ""
 
+msgid "Inherit from parent"
+msgstr ""
+
 msgid "Installation Media"
 msgstr ""
 
@@ -2137,9 +2221,6 @@ msgid "Level"
 msgstr ""
 
 msgid "List of hosts which answer to the provided query"
-msgstr ""
-
-msgid "Listing compute resources"
 msgstr ""
 
 msgid "Load Datacenters"
@@ -2495,7 +2576,13 @@ msgstr ""
 msgid "New Bookmark"
 msgstr ""
 
+msgid "New Compute Profile"
+msgstr ""
+
 msgid "New Compute Resource"
+msgstr ""
+
+msgid "New Compute profile"
 msgstr ""
 
 msgid "New Domain"
@@ -2555,6 +2642,9 @@ msgstr ""
 msgid "New Role"
 msgstr ""
 
+msgid "New Smart Proxy"
+msgstr ""
+
 msgid "New Subnet"
 msgstr ""
 
@@ -2579,6 +2669,9 @@ msgstr ""
 msgid "New authentication source"
 msgstr ""
 
+msgid "New compute profile on %s"
+msgstr ""
+
 msgid "New compute resource"
 msgstr ""
 
@@ -2589,9 +2682,6 @@ msgid "New role"
 msgstr ""
 
 msgid "New window"
-msgstr ""
-
-msgid "Next &#8594;"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -2759,6 +2849,9 @@ msgstr ""
 msgid "Notice:"
 msgstr ""
 
+msgid "Notices, warnings and errors"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Notice|Content"
 msgstr ""
@@ -2812,6 +2905,15 @@ msgid "OS Family"
 msgstr ""
 
 msgid "OS Image"
+msgstr ""
+
+msgid "OS major version from facter; e.g. 6"
+msgstr ""
+
+msgid "OS minor version from facter; e.g. 5"
+msgstr ""
+
+msgid "OS name from facter; e.g. RedHat"
 msgstr ""
 
 msgid "Obsolete"
@@ -2883,6 +2985,10 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Description"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -2962,9 +3068,6 @@ msgid "Out of sync"
 msgstr ""
 
 msgid "Out of sync Hosts"
-msgstr ""
-
-msgid "Override Value"
 msgstr ""
 
 msgid "Override a Puppetclass Parameter"
@@ -3334,6 +3437,9 @@ msgstr ""
 msgid "Removing compute instance %s"
 msgstr ""
 
+msgid "Rename"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Report"
 msgstr ""
@@ -3372,9 +3478,6 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Report|Status"
-msgstr ""
-
-msgid "Required Parameter"
 msgstr ""
 
 msgid ""
@@ -3513,9 +3616,6 @@ msgstr ""
 msgid "Select a period"
 msgstr ""
 
-msgid "Select all"
-msgstr ""
-
 msgid "Select all items in this page"
 msgstr ""
 
@@ -3645,6 +3745,9 @@ msgstr ""
 msgid "Show Trends"
 msgstr ""
 
+msgid "Show all %s children fact values"
+msgstr ""
+
 msgid "Show all %s fact values"
 msgstr ""
 
@@ -3667,6 +3770,9 @@ msgid "Sign out"
 msgstr ""
 
 msgid "Signo SSO url"
+msgstr ""
+
+msgid "Size"
 msgstr ""
 
 msgid "Size (GB)"
@@ -3820,9 +3926,6 @@ msgstr ""
 msgid "Subnet|Vlanid"
 msgstr ""
 
-msgid "Subscribe to host groups"
-msgstr ""
-
 msgid "Success"
 msgstr ""
 
@@ -3906,7 +4009,7 @@ msgstr ""
 msgid "Template"
 msgstr ""
 
-msgid "Template / Hardware Profile to use"
+msgid "Template / Compute Profile to use"
 msgstr ""
 
 msgid "Template Diff"
@@ -4120,8 +4223,8 @@ msgid "The selected hosts will execute a build operation on next reboot"
 msgstr ""
 
 msgid ""
-"The user that is used to ssh into the instance, normally ec2-user, ubuntu, "
-"root etc"
+"The user that is used to ssh into the instance, normally cloud-user, "
+"ec2-user, ubuntu, root etc"
 msgstr ""
 
 msgid "There are two strategies when using host groups."
@@ -4524,6 +4627,12 @@ msgstr ""
 msgid "VM"
 msgstr ""
 
+msgid "VM Attributes"
+msgstr ""
+
+msgid "VM Attributes (%s)"
+msgstr ""
+
 msgid "VM already associated with a host"
 msgstr ""
 
@@ -4548,6 +4657,9 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
+msgid "Value to use when there is no match"
+msgstr ""
+
 msgid "Variable"
 msgstr ""
 
@@ -4558,6 +4670,9 @@ msgid "Verify"
 msgstr ""
 
 msgid "Version"
+msgstr ""
+
+msgid "Version %{version}"
 msgstr ""
 
 msgid "Version %{version}  © 2009-%{year} Paul Kelly and %{author}"
@@ -4602,6 +4717,9 @@ msgid ""
 msgstr ""
 
 msgid "Welcome"
+msgstr ""
+
+msgid "Welcome to Foreman"
 msgstr ""
 
 msgid ""
@@ -4667,6 +4785,9 @@ msgid "You are currently logged in, suicidal?"
 msgstr ""
 
 msgid "You are not authorized to perform this action"
+msgstr ""
+
+msgid "You are using an unsupported browser."
 msgstr ""
 
 msgid "You can find details of how to set up the proxy at"
@@ -4851,13 +4972,7 @@ msgstr ""
 msgid "e-mail reporting"
 msgstr ""
 
-msgid "e.g. 2"
-msgstr ""
-
-msgid "e.g. 6"
-msgstr ""
-
-msgid "e.g. Red Hat"
+msgid "e.g. RHEL 6.5"
 msgstr ""
 
 msgid "e.g. admin@internal"
@@ -5096,9 +5211,6 @@ msgstr ""
 msgid "reboot"
 msgstr ""
 
-msgid "remove"
-msgstr ""
-
 msgid "remove network interface"
 msgstr ""
 
@@ -5177,6 +5289,9 @@ msgstr ""
 msgid "unknown provider"
 msgstr ""
 
+msgid "unspecified"
+msgstr ""
+
 msgid "used (GB)"
 msgstr ""
 
@@ -5198,9 +5313,6 @@ msgid ""
 msgstr ""
 
 msgid "valid"
-msgstr ""
-
-msgid "value to use when there is no match"
 msgstr ""
 
 msgid "you may use %s"
