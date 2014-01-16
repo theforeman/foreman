@@ -106,7 +106,7 @@ module Orchestration::TFTP
   def queue_tftp_update
     set_tftp = false
     # we switched build mode
-    set_tftp = true unless old.build? != build?
+    set_tftp = true if old.build? != build?
     # medium or arch changed
     set_tftp = true if old.medium != medium or old.arch != arch
     # operating system changed
