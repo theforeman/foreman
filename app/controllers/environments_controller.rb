@@ -6,7 +6,7 @@ class EnvironmentsController < ApplicationController
 
   def index
     @environments = Environment.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
-    @host_counter = Host.group(:environment_id).where(:environment_id => @environments.pluck(:id)).count
+    @host_counter = Host.group(:environment_id).where(:environment_id => @environments.select(&:id)).count
   end
 
   def new
