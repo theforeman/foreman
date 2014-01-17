@@ -102,6 +102,10 @@ class UsersController < ApplicationController
     redirect_to sso_logout_path || login_users_path
   end
 
+  def extlogout
+    render :extlogout, :layout => 'login'
+  end
+
   private
 
   def find_resource
