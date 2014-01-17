@@ -51,7 +51,7 @@ Foreman::Application.routes.draw do
         get 'multiple_disassociate'
         post 'update_multiple_disassociate'
         get 'auto_complete_search'
-        get 'template_used'
+        post 'template_used'
         get 'active'
         get 'pending'
         get 'out_of_sync'

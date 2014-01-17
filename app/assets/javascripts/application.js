@@ -164,13 +164,18 @@ function template_info(div, url) {
   form = $("form").serialize();
   build = $('input:radio[name$="[provision_method]"]:checked').val();
 
-  $(div).html(spinner_placeholder());
-  $(div).load(url + "?provisioning=" + build + "&" + form,
+  $(div).html(spinner_placeholder())
+
+  // Use a post to avoid request URI too large issues with big forms
+  $.post(url + "?provisioning=" + build,
+              form,
               function(response, status, xhr) {
                 if (status == "error") {
                   $(div).html('<div class="alert alert-warning alert-dismissable">' +
                   '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
                   __('Sorry but no templates were configured.') + '</div>');
+                } else {
+                  $(div).html(response);
                 }
               });
 }
