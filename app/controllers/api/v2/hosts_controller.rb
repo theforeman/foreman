@@ -20,8 +20,7 @@ module Api
 
       def index
         @hosts = Host.
-          authorized(:view_hosts).
-          my_hosts.
+          authorized(:view_hosts, Host).
           search_for(*search_options).paginate(paginate_options)
       end
 
@@ -133,11 +132,6 @@ Return value may either be one of the following:
         render :json => { :status => @host.host_status }.to_json if @host
       end
 
-      # we need to limit resources for a current user
-      def resource_scope
-        resource_class.my_hosts
-      end
-
       api :PUT, "/hosts/:id/puppetrun", "Force a puppet run on the agent."
       param :id, :identifier_dottable, :required => true
 
@@ -186,6 +180,25 @@ Return value may either be one of the following:
       end
 
       private
+
+      def resource_scope(controller)
+        Host.authorized("#{action_permission}_#{controller}", Host)
+      end
+
+      def action_permission
+        case params[:action]
+          when 'puppetrun'
+            :puppetrun
+          when 'power'
+            :power
+          when 'boot'
+            :ipmi_boot
+          when 'console'
+            :console
+          else
+            super
+        end
+      end
 
       # this is required for template generation (such as pxelinux) which is not done via a web request
       def forward_request_url

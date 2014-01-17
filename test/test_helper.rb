@@ -79,8 +79,8 @@ Spork.prefork do
     end
 
     # if a method receieves a block it will be yielded just before user save
-    def setup_user operation, type="", search = nil
-      @one = users(:one)
+    def setup_user operation, type="", search = nil, user = :one
+      @one = users(user)
       as_admin do
         permission = Permission.find_by_name("#{operation}_#{type}") || FactoryGirl.create(:permission, :name => "#{operation}_#{type}")
         filter = FactoryGirl.build(:filter, :search => search)
