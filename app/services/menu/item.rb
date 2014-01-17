@@ -21,7 +21,7 @@ module Menu
     end
 
     def url
-      @context.routes.url_for(url_hash.merge(:only_path=>true))
+      add_relative_path(@context.routes.url_for(url_hash.merge(:only_path=>true)))
     end
 
     def url_hash
@@ -39,5 +39,11 @@ module Menu
       false
     end
 
+    private
+
+    def add_relative_path(path)
+      rurl = @context.config.action_controller.relative_url_root
+      rurl.present? && !path.start_with?(rurl.end_with?('/') ? rurl : "#{rurl}/") ? "#{rurl}#{path}" : path
+    end
   end
 end
