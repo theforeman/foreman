@@ -1,6 +1,6 @@
 See http://theforeman.org for additional information.
 
-Copyright (c) 2009-2013 Ohad Levy and Paul Kelly
+Copyright (c) 2009-2014 Ohad Levy, Paul Kelly, and their respective owners
 
 This program and entire repository is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
