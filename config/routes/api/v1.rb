@@ -71,7 +71,7 @@ Foreman::Application.routes.draw do
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
     end
-
+    match '*other', :to => 'v1/home#route_error', :constraints => ApiConstraints.new(:version => 1)
   end
 
 end
