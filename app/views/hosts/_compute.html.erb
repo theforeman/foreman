@@ -15,5 +15,6 @@
     </div>
   <% end%>
   <%= hidden_field_tag 'capabilities', compute_resource.capabilities %>
+  <%= hidden_field_tag 'provider', compute_resource.provider %>
   <%= content_tag(:div,'', :id => :'supports_update', :data=>{:'supports-update'=> compute_resource.supports_update? || (@host && @host.new_record?)}) %>
 <% end if compute_resource %>

@@ -7,7 +7,7 @@ module Orchestration::SSHProvision
   end
 
   def ssh_provision?
-    compute_attributes.present? && capabilities.include?(:image) && !image.try(:user_data)
+    compute_attributes.present? && capabilities.include?(:image) && !image.try(:user_data) && provision_method == 'image'
   end
 
   protected
@@ -47,6 +47,8 @@ module Orchestration::SSHProvision
       credentials = { :key_data => [compute_resource.key_pair.secret] }
     elsif vm.respond_to?(:password) and vm.password.present?
       credentials = { :password => vm.password, :auth_methods => ["password"] }
+    elsif image.respond_to?(:password) and image.password.present?
+      credentials = { :password => image.password, :auth_methods => ["password"] }
     else
       raise ::Foreman::Exception.new(N_('Unable to find proper authentication method'))
     end

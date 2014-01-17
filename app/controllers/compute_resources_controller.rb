@@ -98,8 +98,6 @@ class ComputeResourcesController < ApplicationController
 
   def template_selected
     compute = @compute_resource.template(params[:template_id])
-    compute.interfaces
-    compute.volumes
     respond_to do |format|
       format.json { render :json => compute }
     end
