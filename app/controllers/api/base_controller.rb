@@ -42,8 +42,15 @@ module Api
       @resource_class ||= resource_name.classify.constantize
     end
 
-    def resource_scope
-      @resource_scope ||= resource_class.scoped
+    def resource_scope(controller)
+      @resource_scope ||= begin
+        scope = resource_class.scoped
+        if resource_class.respond_to?(:authorized)
+          scope.authorized("#{action_permission}_#{controller}")
+        else
+          scope
+        end
+      end
     end
 
     def api_request?
@@ -72,12 +79,8 @@ module Api
 
       raise 'resource have no errors' if resource.errors.empty?
 
-      if resource.permission_failed?
-        deny_access
-      else
-        log_resource_errors resource
-        render_error 'unprocessable_entity', :status => :unprocessable_entity
-      end
+      log_resource_errors resource
+      render_error 'unprocessable_entity', :status => :unprocessable_entity
     end
 
     def process_success(response = nil)
@@ -141,9 +144,9 @@ module Api
       resource = resource_identifying_attributes.find do |key|
         next if key=='id' and params[:id].to_i == 0
         method = "find_by_#{key}"
-        if resource_scope.respond_to?(method)
-          authorized_scope = resource_scope.authorized("#{action_permission}_#{controller}")
-          (resource = authorized_scope.send method, params[:id]) and break resource
+        scope = resource_scope(controller)
+        if scope.respond_to?(method)
+          (resource = scope.send method, params[:id]) and break resource
         end
       end
 

@@ -15,7 +15,6 @@ module Api
 
       def index
         @compute_resources = ComputeResource.
-          my_compute_resources.
           authorized(:view_compute_resources).
           search_for(*search_options).paginate(paginate_options)
       end
@@ -77,10 +76,6 @@ module Api
       param :id, :identifier, :required => true
       def available_images
         @available_images = @compute_resource.available_images
-      end
-
-      def resource_scope
-        resource_class.my_compute_resources
       end
 
     end
