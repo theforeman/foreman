@@ -68,8 +68,8 @@ module Foreman::Model
       vm           = find_vm_by_uuid(uuid)
       floating_ips = vm.all_addresses
       floating_ips.each do |address|
-        client.disassociate_address(uuid, address['ip'])
-        client.release_address(address['id'])
+        client.disassociate_address(uuid, address['ip']) rescue true
+        client.release_address(address['id']) rescue true
       end
       super(uuid)
     rescue ActiveRecord::RecordNotFound
