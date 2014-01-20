@@ -91,9 +91,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def provider_friendly_name
-    list = SETTINGS[:libvirt] ? ["Libvirt"] : []
-    list += %w[ oVirt EC2 VMWare OpenStack Rackspace Google]
-    list[PROVIDERS.index(provider)] rescue ""
+    provider
   end
 
   def image_param_name
