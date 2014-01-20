@@ -78,6 +78,15 @@ module Api
         @available_images = @compute_resource.available_images
       end
 
+      private
+      def action_permission
+        case params[:action]
+          when 'available_images'
+            :view
+          else
+            super
+        end
+      end
     end
   end
 end

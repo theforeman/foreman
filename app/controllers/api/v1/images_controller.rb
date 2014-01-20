@@ -13,8 +13,8 @@ module Api
 
       def index
         @images = @compute_resource.
-          authorized(:view_images).
           images.
+          authorized(:view_images).
           search_for(*search_options).paginate(paginate_options)
       end
 

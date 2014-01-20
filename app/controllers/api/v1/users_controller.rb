@@ -21,7 +21,6 @@ module Api
       param :id, String, :required => true
 
       def show
-        @user
       end
 
       api :POST, "/users/", "Create an user."
