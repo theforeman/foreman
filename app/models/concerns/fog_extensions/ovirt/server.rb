@@ -5,6 +5,8 @@ module FogExtensions
 
       include ActionView::Helpers::NumberHelper
 
+      attr_accessor :image_id
+
       def state
         status
       end
@@ -13,7 +15,7 @@ module FogExtensions
 
       def volumes_attributes=(attrs);  end
 
-     def poweroff
+      def poweroff
         service.vm_action(:id =>id, :action => :shutdown)
       end
 

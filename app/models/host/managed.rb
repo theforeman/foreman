@@ -136,7 +136,7 @@ class Host::Managed < Host::Base
     validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
     validates :ip, :format => {:with => Net::Validations::IP_REGEXP}, :if => Proc.new { |host| host.require_ip_validation? }
     validates :ptable_id, :presence => {:message => N_("cant be blank unless a custom partition has been defined")},
-                          :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
+                          :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and host.provision_method != 'image' and capabilities.include?(:build) }
     validates :serial, :format => {:with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8")},
                        :allow_blank => true, :allow_nil => true
     after_validation :set_compute_attributes
