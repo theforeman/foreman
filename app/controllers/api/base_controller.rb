@@ -4,7 +4,7 @@ module Api
     include Foreman::Controller::Authentication
     include Foreman::ThreadSession::Cleaner
 
-    before_filter :set_default_response_format, :authorize, :add_version_header
+    before_filter :set_default_response_format, :authorize, :add_version_header, :set_gettext_locale
 
     cache_sweeper :topbar_sweeper
 
