@@ -225,6 +225,10 @@ module Foreman::Model
       http.request(request).to_s
     end
 
+    def provider_friendly_name
+      "oVirt"
+    end
+
     private
     def create_interfaces(vm, attrs)
       #first remove all existing interfaces

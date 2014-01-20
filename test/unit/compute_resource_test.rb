@@ -150,4 +150,11 @@ class ComputeResourceTest < ActiveSupport::TestCase
       Foreman::Model::Libvirt.new.send(:create_volumes, {:prefix => 'test', :volumes => [volume]})
     end
   end
+
+  test "friendly provider name" do
+    assert_equal "Libvirt", compute_resources(:one).provider_friendly_name
+    assert_equal "EC2", compute_resources(:ec2).provider_friendly_name
+    assert_equal "OpenStack", compute_resources(:openstack).provider_friendly_name
+  end
+
 end

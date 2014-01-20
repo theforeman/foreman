@@ -97,6 +97,10 @@ module Foreman::Model
       errors[:base] << e.message
     end
 
+    def provider_friendly_name
+      "Google"
+    end
+
     private
     def client
       @client ||= ::Fog::Compute.new(:provider => 'google', :google_project => project, :google_client_email => email, :google_key_location => key_path)
