@@ -9,6 +9,7 @@ Foreman::AccessControl.map do |map|
                    :"api/v2/architectures" => [:index, :show]
     map.permission :create_architectures,
                    :architectures => [:new, :create],
+                   :operatingsystems => [:add_architecture],
                    :"api/v1/architectures" => [:new, :create],
                    :"api/v2/architectures" => [:new, :create]
     map.permission :edit_architectures,

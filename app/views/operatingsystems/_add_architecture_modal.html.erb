@@ -1,0 +1,20 @@
+<div id="add_architecture" class="modal hide">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title"><%= _("Add Architecture") %></h>
+      </div>
+      <div class="modal-body">
+        <%= form_for Architecture.new, :url => '/foreman/operatingsystems/architectures', :html => { :class => 'form-horizontal' } do |f| %>
+          <%= text_f f, :name %>
+          <%= multiple_checkboxes(f, :operatingsystems, Architecture.new, Operatingsystem, :label => _("Operating Systems")) %>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <a class="cancel btn btn-default" data-dismiss="modal"><%= _("Cancel") %></a>
+        <a class="submit btn btn-primary"><%= _("Submit") %></a>
+      </div>
+    </div>
+  </div>
+</div>

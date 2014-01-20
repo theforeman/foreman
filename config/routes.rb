@@ -229,6 +229,7 @@ Foreman::Application.routes.draw do
       end
       collection do
         get 'auto_complete_search'
+        post 'architectures', :action => :add_architecture
       end
     end
     resources :media, :except => [:show] do

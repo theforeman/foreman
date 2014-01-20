@@ -45,6 +45,15 @@ class OperatingsystemsController < ApplicationController
     end
   end
 
+  def add_architecture
+    @architecture = Architecture.new(params[:architecture])
+    if @architecture.save
+      render :json => @architecture
+    else
+      render :json => {:errors => @architecture.errors.full_messages}, :status => 500
+    end
+  end
+
   private
   def find_os
     @operatingsystem = Operatingsystem.find(params[:id])
