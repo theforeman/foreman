@@ -35,7 +35,7 @@ module Foreman
       end
     end
 
-    def snippet name
+    def snippet name, options = {}
       if (template = ConfigTemplate.where(:name => name, :snippet => true).first)
         logger.debug "rendering snippet #{template.name}"
         begin
@@ -44,13 +44,34 @@ module Foreman
           raise "The snippet '#{name}' threw an error: #{exc}"
         end
       else
-        raise "The specified snippet '#{name}' does not exist, or is not a snippet."
+        if options[:silent]
+          nil
+        else
+          raise "The specified snippet '#{name}' does not exist, or is not a snippet."
+        end
       end
     end
 
+    def snippet_if_exists name
+      snippet name, :silent => true
+    end
+
     def unattended_render template
-      allowed_helpers   = [ :foreman_url, :grub_pass, :snippet, :snippets, :ks_console, :root_pass, :multiboot, :jumpstart_path, :install_path,
-                            :miniroot, :media_path]
+      allowed_helpers = [
+        :foreman_url,
+        :grub_pass,
+        :snippet,
+        :snippets,
+        :snippet_if_exists,
+        :ks_console,
+        :root_pass,
+        :multiboot,
+        :jumpstart_path,
+        :install_path,
+        :miniroot,
+        :media_path,
+        :param_true?
+      ]
       allowed_variables = ({:arch => @arch, :host => @host, :osver => @osver, :mediapath => @mediapath, :static => @static,
                            :repos => @repos, :dynamic => @dynamic, :kernel => @kernel, :initrd => @initrd,
                            :preseed_server => @preseed_server, :preseed_path => @preseed_path })
