@@ -19,7 +19,7 @@ Release: 0.develop%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
-License:GPLv3+
+License: GPLv3+ with exceptions
 URL: http://theforeman.org
 Source0: %{name}-%{version}.tar.gz
 
@@ -471,6 +471,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,0755)
 %doc README.md
 %doc VERSION
+%doc LICENSE
 %exclude %{_datadir}/%{name}/bundler.d/*
 %{_datadir}/%{name}
 %exclude %{_datadir}/%{name}/app/assets
