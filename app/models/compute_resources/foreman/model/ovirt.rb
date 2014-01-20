@@ -191,6 +191,10 @@ module Foreman::Model
       Host.my_hosts.where(:mac => vm.mac).first
     end
 
+    def provider_friendly_name
+      "oVirt"
+    end
+
     protected
 
     def bootstrap(args)

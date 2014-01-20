@@ -160,6 +160,10 @@ module Foreman::Model
       Host.my_hosts.where(:mac => vm.mac).first
     end
 
+    def provider_friendly_name
+      "VMWare"
+    end
+
     private
 
     def dc
