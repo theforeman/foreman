@@ -63,6 +63,24 @@ module Api
         LookupKey
       end
 
+      def resource_scope
+        return LookupKey.smart_class_parameters unless (@puppetclass || @environment || @host || @hostgroup)
+        if @puppetclass && @environment
+          LookupKey.smart_class_parameters_for_class(@puppetclass.id, @environment.id)
+        elsif @puppetclass && !@environment
+          environment_ids = @puppetclass.environment_classes.pluck(:environment_id).uniq
+          LookupKey.smart_class_parameters_for_class(@puppetclass.id, environment_ids)
+        elsif !@puppetclass && @environment
+          puppetclass_ids = @environment.environment_classes.pluck(:puppetclass_id).uniq
+          LookupKey.smart_class_parameters_for_class(puppetclass_ids, @environment.id)
+        elsif @host || @hostgroup
+          puppetclass_ids = (@host || @hostgroup).all_puppetclasses.map(&:id)
+          environment_id  = (@host || @hostgroup).environment_id
+          # scope :parameters_for_class uses .override
+          LookupKey.parameters_for_class(puppetclass_ids, environment_id)
+        end
+      end
+
     end
   end
 end
