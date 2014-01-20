@@ -20,14 +20,14 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:hosts)
     hosts = ActiveSupport::JSON.decode(@response.body)
-    assert !hosts.empty?
+    assert_not_empty hosts
   end
 
   test "should show individual record" do
     get :show, { :id => hosts(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    assert_not_empty show_response
   end
 
   test "should create host" do
@@ -73,72 +73,63 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
   end
 
   test "should allow access to restricted user who owns the host" do
-    as_user :restricted do
-      get :show, { :id => hosts(:owned_by_restricted).to_param }
-    end
+    setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    get :show, { :id => hosts(:owned_by_restricted).to_param }
     assert_response :success
   end
 
   test "should allow to update for restricted user who owns the host" do
     disable_orchestration
-    as_user :restricted do
-      put :update, { :id => hosts(:owned_by_restricted).to_param, :host => {} }
-    end
+    setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    put :update, { :id => hosts(:owned_by_restricted).to_param, :host => {} }
     assert_response :success
   end
 
   test "should allow destroy for restricted user who owns the hosts" do
     assert_difference('Host.count', -1) do
-      as_user :restricted do
-        delete :destroy, { :id => hosts(:owned_by_restricted).to_param }
-      end
+      setup_user 'destroy', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+      delete :destroy, { :id => hosts(:owned_by_restricted).to_param }
     end
     assert_response :success
   end
 
   test "should allow show status for restricted user who owns the hosts" do
-    as_user :restricted do
-      get :status, { :id => hosts(:owned_by_restricted).to_param }
-    end
+    setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    get :status, { :id => hosts(:owned_by_restricted).to_param }
     assert_response :success
   end
 
   test "should not allow access to a host out of users hosts scope" do
-    as_user :restricted do
-      get :show, { :id => hosts(:one).to_param }
-    end
+    setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    get :show, { :id => hosts(:one).to_param }
     assert_response :not_found
   end
 
   test "should not list a host out of users hosts scope" do
-    as_user :restricted do
-      get :index, {}
-    end
+    setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    get :index, {}
     assert_response :success
     hosts = ActiveSupport::JSON.decode(@response.body)
     ids = hosts.map { |hash| hash['host']['id'] }
-    assert !ids.include?(hosts(:one).id)
-    assert ids.include?(hosts(:owned_by_restricted).id)
+    refute_includes ids, hosts(:one).id
+    assert_includes ids, hosts(:owned_by_restricted).id
   end
 
   test "should not update host out of users hosts scope" do
-    as_user :restricted do
-      put :update, { :id => hosts(:one).to_param }
-    end
+    setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    put :update, { :id => hosts(:one).to_param }
     assert_response :not_found
   end
 
   test "should not delete hosts out of users hosts scope" do
-    as_user :restricted do
-      delete :destroy, { :id => hosts(:one).to_param }
-    end
+    setup_user 'destroy', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    delete :destroy, { :id => hosts(:one).to_param }
     assert_response :not_found
   end
 
   test "should not show status of hosts out of users hosts scope" do
-    as_user :restricted do
-      get :status, { :id => hosts(:one).to_param }
-    end
+    setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    get :status, { :id => hosts(:one).to_param }
     assert_response :not_found
   end
 

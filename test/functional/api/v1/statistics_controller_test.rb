@@ -7,8 +7,12 @@ class Api::V1::StatisticsControllerTest < ActionController::TestCase
     get :index, { }
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
-    assert !response.empty?
-    assert_equal 'statistics', response.keys.first
+    assert_not response.empty?
+    expected_keys = ["arch_count", "cpu_count", "env_count", "klass_count",
+                     "mem_free", "mem_size", "mem_totfree", "mem_totsize",
+                     "model_count", "os_count", "swap_free", "swap_size"]
+
+    assert_equal expected_keys, response.keys.sort
   end
 
 end

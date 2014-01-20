@@ -108,7 +108,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     get :available_images, { :id => compute_resources(:ec2).to_param }
     assert_response :success
     available_images = ActiveSupport::JSON.decode(@response.body)
-    assert !available_images.empty?
+    assert_not_empty available_images
   end
 
 end

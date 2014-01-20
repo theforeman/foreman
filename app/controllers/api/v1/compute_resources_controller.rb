@@ -11,7 +11,6 @@ module Api
 
       def index
         @compute_resources = ComputeResource.
-          my_compute_resources.
           authorized(:view_compute_resources).
           search_for(*search_options).paginate(paginate_options)
       end
@@ -67,10 +66,6 @@ module Api
 
       def destroy
         process_response @compute_resource.destroy
-      end
-
-      def resource_scope
-        resource_class.my_compute_resources
       end
 
     end

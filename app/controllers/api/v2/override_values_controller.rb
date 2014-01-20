@@ -67,6 +67,7 @@ module Api
         render 'api/v2/override_values/show'
       end
 
+      private
       def find_override_values
         @override_values = @smart.lookup_values.paginate(paginate_options) if @smart
       end

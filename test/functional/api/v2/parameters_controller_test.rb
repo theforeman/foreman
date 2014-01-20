@@ -9,7 +9,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
-    assert !parameters.empty?
+    assert_not_empty parameters
   end
 
   test "should get index for specific domain" do
@@ -17,7 +17,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
-    assert !parameters.empty?
+    assert_not_empty parameters
   end
 
   test "should get index for specific hostgroup" do
@@ -25,7 +25,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
-    assert !parameters.empty?
+    assert_not_empty parameters
   end
 
 
@@ -34,35 +34,35 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
-    assert !parameters.empty?
+    assert_not_empty parameters
   end
 
   test "should show a host parameter" do
     get :show, { :host_id => hosts(:one).to_param, :id => parameters(:host).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    assert_not_empty show_response
   end
 
   test "should show a domain parameter" do
     get :show, {:domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    assert_not_empty show_response
   end
 
   test "should show a hostgroup parameter" do
     get :show, {:hostgroup_id => hostgroups(:common).to_param,:id => parameters(:group).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    assert_not_empty show_response
   end
 
   test "should show an os parameter" do
     get :show, {:operatingsystem_id => operatingsystems(:redhat).to_param,:id => parameters(:os).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    assert_not_empty show_response
   end
 
   test "should show correct parameter if id is name even if name is not unique" do
