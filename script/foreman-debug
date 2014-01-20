@@ -268,19 +268,17 @@ else
   qprintf "%s: %s\n\n" "A debug directory has been created" "$DIR"
 fi
 
-echo "You may want to upload the tarball to our public server via rsync. There is a"
-echo "write only directory (readable only by Foreman core developers) for that. Note"
-echo "the rsync transmission is UNENCRYPTED:"
-echo -e "\nrsync $TARBALL rsync://theforeman.org/debug-incoming\n"
+qprintf "You may want to upload the tarball to our public server via rsync. There is a"
+qprintf "write only directory (readable only by Foreman core developers) for that. Note"
+qprintf "the rsync transmission is UNENCRYPTED:"
+qprintf "\nrsync $TARBALL rsync://theforeman.org/debug-incoming\n"
 
-# offer upload if the shell is interactive
-if tty -s; then
-  if type -p rsync >/dev/null; then
-    read -p "Do you want to do this now? [y/N] " -n 1 -r; echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-      echo "Uploading..."
-      rsync $TARBALL rsync://theforeman.org/debug-incoming
-      echo "The tarball has been uploaded, please contact us on mailing list or IRC."
-    fi
+# offer upload if the shell is interactive and not in quiet mode
+if [ $QUIET -ne 1 ] && tty -s && type -p rsync >/dev/null; then
+  read -p "Do you want to do this now? [y/N] " -n 1 -r; echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "Uploading..."
+    rsync $TARBALL rsync://theforeman.org/debug-incoming
+    echo "The tarball has been uploaded, please contact us on mailing list or IRC."
   fi
 fi
