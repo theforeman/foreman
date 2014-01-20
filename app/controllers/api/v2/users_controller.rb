@@ -22,7 +22,6 @@ module Api
       param :id, String, :required => true
 
       def show
-        @user
       end
 
       def_param_group :user do

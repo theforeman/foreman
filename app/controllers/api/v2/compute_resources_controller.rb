@@ -91,8 +91,19 @@ module Api
         render :available_storage_domains, :layout => 'api/v2/layouts/index_layout'
       end
 
+      private
+
       def resource_scope
         ComputeResource.authorized(:view_compute_resources)
+      end
+      
+      def action_permission
+        case params[:action]
+          when 'available_images'
+            :view
+          else
+            super
+        end
       end
     end
   end

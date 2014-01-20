@@ -5,7 +5,7 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
   test "should get index" do
     get :index
     templates = ActiveSupport::JSON.decode(@response.body)
-    assert !templates.empty?, "Should response with template"
+    assert_not_empty templates
     assert_response :success
   end
 
@@ -13,13 +13,13 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
     get :show, { :id => config_templates(:pxekickstart).to_param }
     assert_response :success
     template = ActiveSupport::JSON.decode(@response.body)
-    assert !template.empty?
+    assert_not_empty template
     assert_equal template["config_template"]["name"], config_templates(:pxekickstart).name
   end
 
   test "should not create invalid" do
     post :create
-    assert_response 422
+    assert_response :unprocessable_entity
   end
 
   test "should create valid" do
@@ -28,13 +28,13 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
     post :create, { :config_template => valid_attrs }
     template = ActiveSupport::JSON.decode(@response.body)
     assert template["config_template"]["name"] == "RandomName"
-    assert_response 200
+    assert_response :success
   end
 
   test "should not update invalid" do
     put :update, { :id              => config_templates(:pxekickstart).to_param,
                    :config_template => { :name => "" } }
-    assert_response 422
+    assert_response :unprocessable_entity
   end
 
   test "should update valid" do
@@ -42,13 +42,13 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
     put :update, { :id              => config_templates(:pxekickstart).to_param,
                    :config_template => { :template => "blah" } }
     template = ActiveSupport::JSON.decode(@response.body)
-    assert_response :ok
+    assert_response :success
   end
 
   test "should not destroy template with associated hosts" do
     config_template = config_templates(:pxekickstart)
     delete :destroy, { :id => config_template.to_param }
-    assert_response 422
+    assert_response :unprocessable_entity
     assert ConfigTemplate.exists?(config_template.id)
   end
 
@@ -57,7 +57,7 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
     config_template.os_default_templates.clear
     delete :destroy, { :id => config_template.to_param }
     template = ActiveSupport::JSON.decode(@response.body)
-    assert_response :ok
+    assert_response :success
     assert !ConfigTemplate.exists?(config_template.id)
   end
 
@@ -65,7 +65,7 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
     ProxyAPI::TFTP.any_instance.stubs(:create_default).returns(true)
     ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
     get :build_pxe_default
-    assert_response 200
+    assert_response :success
   end
 
   test "should add audit comment" do

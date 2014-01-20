@@ -112,8 +112,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
     hosts = ActiveSupport::JSON.decode(@response.body)
     ids = hosts['results'].map { |hash| hash['id'] }
-    assert !ids.include?(hosts(:one).id)
-    assert ids.include?(hosts(:owned_by_restricted).id)
+    refute_includes ids, hosts(:one).id
+    assert_includes ids, hosts(:owned_by_restricted).id
   end
 
   test "should not update host out of users hosts scope" do

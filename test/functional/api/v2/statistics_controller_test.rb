@@ -6,19 +6,12 @@ class Api::V2::StatisticsControllerTest < ActionController::TestCase
     get :index, { }
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
-    assert !response.empty?
-    assert response.keys.include?('os_count')
-    assert response.keys.include?('arch_count')
-    assert response.keys.include?('env_count')
-    assert response.keys.include?('klass_count')
-    assert response.keys.include?('cpu_count')
-    assert response.keys.include?('model_count')
-    assert response.keys.include?('mem_size')
-    assert response.keys.include?('mem_free')
-    assert response.keys.include?('swap_size')
-    assert response.keys.include?('swap_free')
-    assert response.keys.include?('mem_totsize')
-    assert response.keys.include?('mem_totfree')
+    assert_not response.empty?
+    expected_keys = ["arch_count", "cpu_count", "env_count", "klass_count",
+                     "mem_free", "mem_size", "mem_totfree", "mem_totsize",
+                     "model_count", "os_count", "swap_free", "swap_size"]
+
+    assert_equal expected_keys, response.keys.sort
   end
 
 end

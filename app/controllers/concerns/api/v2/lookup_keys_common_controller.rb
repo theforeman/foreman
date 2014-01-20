@@ -69,9 +69,9 @@ module Api::V2::LookupKeysCommonController
 
     def find_smart_variable
       id = params.keys.include?('smart_variable_id') ? params['smart_variable_id'] : params['id']
-      @smart_variable   = LookupKey.authorized(:view_external_variables).smart_class.find_by_id(id.to_i) if id.to_i > 0
+      @smart_variable   = LookupKey.authorized(:view_external_variables).smart_variables.find_by_id(id.to_i) if id.to_i > 0
       @smart_variable ||= (puppet_cond = { :puppetclass_id => @puppetclass.id } if @puppetclass
-                           LookupKey.authorized(:view_external_variables).smart_class.where(puppet_cond).find_by_key(id)
+                           LookupKey.authorized(:view_external_variables).smart_variables.where(puppet_cond).find_by_key(id)
                           )
       @smart_variable
     end

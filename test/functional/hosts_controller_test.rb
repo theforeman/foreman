@@ -409,7 +409,7 @@ class HostsControllerTest < ActionController::TestCase
   def test_set_manage
     @request.env['HTTP_REFERER'] = edit_host_path @host
     assert @host.update_attribute :managed, false
-    assert @host.errors.empty?
+    assert_empty @host.errors
     put :toggle_manage, {:id => @host.name}, set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
     assert flash[:notice] == "Foreman now manages the build cycle for #{@host.name}"
@@ -418,7 +418,7 @@ class HostsControllerTest < ActionController::TestCase
   def test_unset_manage
     @request.env['HTTP_REFERER'] = edit_host_path @host
     assert @host.update_attribute :managed, true
-    assert @host.errors.empty?
+    assert_empty @host.errors
     put :toggle_manage, {:id => @host.name}, set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
     assert flash[:notice] == "Foreman now no longer manages the build cycle for #{@host.name}"
@@ -724,7 +724,7 @@ class HostsControllerTest < ActionController::TestCase
   test "index returns YAML output for rundeck" do
     get :index, {:format => 'yaml', :rundeck => true}, set_session_user
     hosts = YAML.load(@response.body)
-    assert !hosts.empty?
+    assert_not_empty hosts
     host = Host.first
     assert_equal host.os.name, hosts[host.name]["osName"]  # rundeck-specific field
   end

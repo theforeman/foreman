@@ -66,6 +66,15 @@ module Api
         return SmartProxy.authorized(:view_smart_proxies).includes(:features).try(type.downcase+"_proxies") if type.present?
         return SmartProxy.authorized(:view_smart_proxies).includes(:features).scoped
       end
+      
+      def action_permission
+        case params[:action]
+        when 'refresh'
+          :edit
+        else
+          super
+        end
+      end
 
       def check_feature_type
         return if params[:type].nil?
