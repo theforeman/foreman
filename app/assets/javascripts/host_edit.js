@@ -368,8 +368,11 @@ function update_provisioning_image(){
         $.each(result, function() {
           image_options.append($("<option />").val(this.image.uuid).text(this.image.name));
         });
-        if (image_options.find('option').length > 0)
+        if (image_options.find('option').length > 0) {
           image_options.attr('disabled', false);
+          $('#host_compute_attributes_template').val(image_options.val());
+          ovirt_hwpSelected(image_options);
+        }
       }
     })
 }
@@ -496,11 +499,19 @@ $(document).on('submit',"[data-submit='progress_bar']", function() {
 $(document).on('change', '#host_provision_method_build', function () {
   $('#network_provisioning').show();
   $('#image_provisioning').hide();
+  $('#image_selection select').attr('disabled', true);
+  $('#host_compute_attributes_template').attr('disabled', false);
 });
 
 $(document).on('change', '#host_provision_method_image', function () {
   $('#network_provisioning').hide();
   $('#image_provisioning').show();
+  var image_options = $('#image_selection select');
+  image_options.attr('disabled', false);
+  var template_options = $('#host_compute_attributes_template');
+  template_options.attr('disabled', true);
+  template_options.val(image_options.val());
+  ovirt_hwpSelected(image_options);
 });
 
 $(document).on('change', '.interface_domain', function () {
