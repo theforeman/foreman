@@ -15,7 +15,7 @@ module Api
         @fact_values = FactValue.build_facts_hash(values.all)
       end
 
-      def resource_scope
+      def resource_scope(controller = controller_name)
         FactValue.authorized(:view_facts).my_facts.no_timestamp_facts
       end
 

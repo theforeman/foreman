@@ -155,7 +155,7 @@ Return value may either be one of the following:
 
       private
 
-      def resource_scope(controller)
+      def resource_scope(controller = controller_name)
         Host.authorized("#{action_permission}_#{controller}", Host)
       end
 

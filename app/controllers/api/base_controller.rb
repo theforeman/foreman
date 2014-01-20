@@ -43,7 +43,7 @@ module Api
       @resource_class ||= resource_name.classify.constantize
     end
 
-    def resource_scope(controller)
+    def resource_scope(controller = controller_name)
       @resource_scope ||= begin
         scope = resource_class.scoped
         if resource_class.respond_to?(:authorized)
@@ -271,8 +271,7 @@ module Api
         'destroy'
       when 'index', 'show', 'status'
         'view'
-        else
-          p params[:action]
+      else
         raise ::Foreman::Exception, "unknown permission for #{params[:controller]}##{params[:action]}"
       end
     end

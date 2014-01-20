@@ -8,6 +8,9 @@ namespace :db do
       mysql_dump(backup_name, config)
     when 'postgresql'
       postgres_dump(backup_name, config)
+    when 'sqlite'
+      backup_name = "foreman.#{Time.now.to_i}.sqlite_copy"
+      sqlite_dump(backup_name, config)
     else
       puts 'Your database is not supported by Foreman.' and exit(1)
     end
@@ -26,10 +29,14 @@ namespace :db do
 
   def postgres_dump(name, config)
     cmd = "pg_dump #{config['database']} -U #{config['username']} "
-    cmd += " -W #{config['password']}" if config['password'].present?
     cmd += " -h #{config['host']} "    if config['host'].present?
     cmd += " -p #{config['port']} "    if config['port'].present?
     cmd += " > #{name}"
+    system({'PGPASSWORD' => config['password']}, cmd)
+  end
+
+  def sqlite_dump(name, config)
+    cmd = "cp #{config['database']} #{name}"
     system(cmd)
   end
 

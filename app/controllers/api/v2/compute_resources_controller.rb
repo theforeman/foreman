@@ -93,10 +93,6 @@ module Api
 
       private
 
-      def resource_scope
-        ComputeResource.authorized(:view_compute_resources)
-      end
-      
       def action_permission
         case params[:action]
           when 'available_images'

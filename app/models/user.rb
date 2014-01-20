@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   scope :except_admin, lambda {
     includes(:cached_usergroups).
         where(["(#{self.table_name}.admin = ? OR #{self.table_name}.admin IS NULL) AND " +
-                   "(#{Usergroup.table_name}.admin = ? OR #{Usergroup.table_name} IS NULL)",
+                   "(#{Usergroup.table_name}.admin = ? OR #{Usergroup.table_name}.admin IS NULL)",
                false, false])
   }
   scope :only_admin, lambda {
