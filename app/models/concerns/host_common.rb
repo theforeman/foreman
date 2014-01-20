@@ -99,6 +99,10 @@ module HostCommon
     write_attribute(:root_pass, p)
   end
 
+  def param_true? name
+    params.has_key?(name) && LookupKey::TRUE_VALUES.include?(params[name])
+  end
+
   private
 
   # fall back to our puppet proxy in case our puppet ca is not defined/used.
