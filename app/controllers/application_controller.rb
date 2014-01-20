@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
 
   # standard layout to all controllers
   helper 'layout'
+  helper_method :authorizer
 
   before_filter :require_ssl, :require_login
   before_filter :set_gettext_locale_db, :set_gettext_locale
@@ -43,6 +44,10 @@ class ApplicationController < ActionController::Base
   def authorize
     (render :json => { :error => "Authentication error" }, :status => :unauthorized and return) unless User.current.present?
     authorized ? true : deny_access
+  end
+
+  def authorizer
+    @authorizer ||= Authorizer.new(User.current, instance_variable_get("@#{controller_name}"))
   end
 
   def deny_access
@@ -111,7 +116,7 @@ class ApplicationController < ActionController::Base
   end
 
   def model_of_controller
-    controller_path.singularize.camelize.gsub('/','::').constantize
+    @model_of_controller ||= controller_path.singularize.camelize.gsub('/','::').constantize
   end
 
 
@@ -124,10 +129,38 @@ class ApplicationController < ActionController::Base
     not_found and return if params[:id].blank?
 
     name = controller_name.singularize
-    model = model_of_controller
-    # determine if we are searching for a numerical id or plain name
     cond = "find" + (params[:id] =~ /\A\d+(-.+)?\Z/ ? "" : "_by_name")
-    not_found and return unless instance_variable_set("@#{name}", model.send(cond, params[:id]))
+    not_found and return unless instance_variable_set("@#{name}", resource_base.send(cond, params[:id]))
+  end
+
+  def current_permission
+    [action_permission, controller_permission].join('_')
+  end
+
+  def controller_permission
+    controller_name
+  end
+
+  def action_permission
+    case params[:action]
+      when 'new', 'create'
+        'create'
+      when 'edit', 'update'
+        'edit'
+      when 'destroy'
+        'destroy'
+      when 'index', 'show'
+        'view'
+      else
+        raise ::Foreman::Exception, "unknown permission for #{params[:controller]}##{params[:action]}"
+    end
+  end
+
+  # not all models includes Authorizable so we detect whether we should apply authorized scope or not
+  def resource_base
+    @resource_base ||= model_of_controller.respond_to?(:authorized) ?
+        model_of_controller.authorized(current_permission) :
+        model_of_controller.scoped
   end
 
   def notice notice

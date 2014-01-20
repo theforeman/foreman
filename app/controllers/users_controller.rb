@@ -2,18 +2,18 @@ class UsersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::UsersMixin
 
-  before_filter :find_resource, :only => [:edit, :update, :destroy]
   skip_before_filter :require_mail, :only => [:edit, :update, :logout]
   skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
   skip_before_filter :authorize, :only => :extlogin
   after_filter       :update_activity_time, :only => :login
+  skip_before_filter :update_admin_flag, :only => :update
 
   def index
     begin
-      users = User.search_for(params[:search], :order => params[:order])
+      users = resource_base.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
-      users = User.search_for('', :order => params[:order])
+      users = resource_base.search_for('', :order => params[:order])
     end
     @users = users.includes(:auth_source).paginate(:page => params[:page])
   end
@@ -32,6 +32,7 @@ class UsersController < ApplicationController
 
   def edit
     editing_self?
+    @user = find_resource(:edit_users)
     if @user.user_facts.count == 0
       user_fact = @user.user_facts.build :operator => "==", :andor => "or"
       user_fact.fact_name_id = FactName.first.id if FactName.first
@@ -39,6 +40,9 @@ class UsersController < ApplicationController
   end
 
   def update
+    editing_self?
+    @user = find_resource(:edit_users)
+    update_admin_flag
     if @user.update_attributes(params[:user])
       update_sub_hostgroups_owners
 
@@ -49,6 +53,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user = find_resource(:destroy_users)
     if @user == User.current
       notice _("You are currently logged in, suicidal?")
       redirect_to :back and return
@@ -108,8 +113,8 @@ class UsersController < ApplicationController
 
   private
 
-  def find_resource
-    @user ||= User.find(params[:id])
+  def find_resource(permission = :view_users)
+    editing_self? ? User.current : User.authorized(permission).find(params[:id])
   end
 
   def login_user(user)

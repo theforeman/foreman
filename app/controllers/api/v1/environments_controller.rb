@@ -12,7 +12,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @environments = Environment.search_for(*search_options).paginate(paginate_options)
+        @environments = Environment.
+          authorized(:view_environments).
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/environments/:id/", "Show an environment."

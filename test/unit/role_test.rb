@@ -37,15 +37,6 @@ class RoleTest < ActiveSupport::TestCase
     role.wont_be :valid?
   end
 
-  it "should ensure length of name is at most 30" do
-    thirty = 'abcdefghijklmnopqrstuvwxyz1234'
-    thirtyone = 'abcdefghijklmnopqrstuvwxyz12345'
-    role = Role.new(:name => thirty)
-    role.must_be :valid?
-    role = Role.new(:name => thirtyone)
-    role.wont_be :valid?
-  end
-
   it "should allow value 'a role name' for name" do
     role = Role.new(:name => "a role name")
     role.must_be :valid?
@@ -66,25 +57,6 @@ class RoleTest < ActiveSupport::TestCase
     role.must_be :valid?
   end
 
-  def test_add_permission
-    role = Role.find(1)
-    size = role.permissions.size
-    role.add_permission!("apermission", "anotherpermission")
-    role.reload
-    assert role.permissions.include?(:anotherpermission)
-    assert_equal size + 2, role.permissions.size
-  end
-
-  def test_remove_permission
-    role = Role.find(1)
-    size = role.permissions.size
-    perm = role.permissions[0..1]
-    role.remove_permission!(*perm)
-    role.reload
-    assert ! role.permissions.include?(perm[0])
-    assert_equal size - 2, role.permissions.size
-  end
-
   context "System roles" do
     should "return the anonymous role" do
       role = Role.anonymous
@@ -97,6 +69,7 @@ class RoleTest < ActiveSupport::TestCase
         role_ids = Role.where("builtin = #{Role::BUILTIN_ANONYMOUS}").pluck(:id)
         user_ids = UserRole.where(:role_id => role_ids)
         UserRole.where(:role_id => role_ids).destroy_all
+        Filter.where(:role_id => role_ids).destroy_all
         Role.where(:id => role_ids).delete_all
       end
 
@@ -126,6 +99,7 @@ class RoleTest < ActiveSupport::TestCase
         role_ids = Role.where("builtin = #{Role::BUILTIN_DEFAULT_USER}").pluck(:id)
         user_ids = UserRole.where(:role_id => role_ids)
         UserRole.where(:role_id => role_ids).destroy_all
+        Filter.where(:role_id => role_ids).destroy_all
         Role.where(:id => role_ids).delete_all
       end
 
@@ -156,6 +130,64 @@ class RoleTest < ActiveSupport::TestCase
       it { subject.must_include(first) }
       it { subject.wont_include(second) }
     end
+  end
 
+  describe "#add_permissions" do
+    setup do
+      @permission1 = FactoryGirl.create(:permission, :name => 'permission1')
+      @permission2 = FactoryGirl.create(:permission, :architecture, :name => 'permission2')
+      @role = FactoryGirl.build(:role, :permissions => [])
+    end
+
+    it "should build filters with assigned permission" do
+      @role.add_permissions [@permission1.name, @permission2.name.to_sym]
+      assert @role.filters.all?(&:unlimited?)
+
+      permissions = @role.filters.map { |f| f.filterings.map(&:permission) }.flatten
+      assert_equal 2, @role.filters.size
+      assert_includes permissions, Permission.find_by_name(@permission1.name)
+      assert_includes permissions, Permission.find_by_name(@permission2.name)
+      # not saved yet
+      assert_empty @role.permissions
+    end
+
+    it "should raise error when given permission does not exist" do
+      assert_raises ArgumentError do
+        @role.add_permissions ['does_not_exist']
+      end
+    end
+
+    it "accespts one permissions instead of array as well" do
+      @role.add_permissions @permission1.name
+      permissions = @role.filters.map { |f| f.filterings.map(&:permission) }.flatten
+
+      assert_equal 1, @role.filters.size
+      assert_includes permissions, Permission.find_by_name(@permission1.name)
+    end
+
+    it "sets search filter to all filters" do
+      search = "id = 1"
+      @role.add_permissions [@permission1.name, @permission2.name.to_sym], :search => search
+      refute @role.filters.any?(&:unlimited?)
+      assert @role.filters.all? { |f| f.search == search }
+    end
+  end
+
+  describe "#add_permissions!" do
+    setup do
+      @permission1 = FactoryGirl.create(:permission, :name => 'permission1')
+      @permission2 = FactoryGirl.create(:permission, :architecture, :name => 'permission2')
+      @role = FactoryGirl.build(:role, :permissions => [])
+    end
+
+    it "persists built permissions" do
+      assert @role.add_permissions!([@permission1.name, @permission2.name.to_sym])
+      @role.reload
+
+      permissions = @role.permissions
+      assert_equal 2, @role.filters.size
+      assert_includes permissions, Permission.find_by_name(@permission1.name)
+      assert_includes permissions, Permission.find_by_name(@permission2.name)
+    end
   end
 end

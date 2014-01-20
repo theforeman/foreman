@@ -168,6 +168,9 @@ Foreman::Application.routes.draw do
       resources :puppetca, :only => [:index, :update, :destroy]
       resources :autosign, :only => [:index, :new, :create, :destroy]
     end
+    collection do
+      get 'auto_complete_search'
+    end
   end
 
   resources :fact_values, :only => [:index] do
@@ -184,7 +187,11 @@ Foreman::Application.routes.draw do
   end
 
   if SETTINGS[:login]
-    resources :usergroups, :except => [:show]
+    resources :usergroups, :except => [:show] do
+      collection do
+        get 'auto_complete_search'
+      end
+    end
     resources :users, :except => [:show] do
       collection do
         get 'login'
@@ -198,11 +205,17 @@ Foreman::Application.routes.draw do
     end
     resources :roles, :except => [:show] do
       collection do
-        get 'report'
-        post 'report'
         get 'auto_complete_search'
       end
     end
+
+    resources :filters, :except => [:show] do
+      collection do
+        get 'auto_complete_search'
+      end
+    end
+
+    resources :permissions, :only => [:index]
 
     resources :auth_source_ldaps, :except => [:show]
   end

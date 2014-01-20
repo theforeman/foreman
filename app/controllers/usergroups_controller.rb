@@ -1,6 +1,9 @@
 class UsergroupsController < ApplicationController
+  include Foreman::Controller::AutoCompleteSearch
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+
   def index
-    @usergroups = Usergroup.paginate :page => params[:page]
+    @usergroups = resource_base.paginate :page => params[:page]
   end
 
   def new
@@ -17,24 +20,30 @@ class UsergroupsController < ApplicationController
   end
 
   def edit
-    @usergroup = Usergroup.find(params[:id])
   end
 
   def update
-    @usergroup = Usergroup.find(params[:id])
     if @usergroup.update_attributes(params[:usergroup])
       process_success
     else
       process_error
     end
+  rescue Foreman::CyclicGraphException => e
+    @usergroup.errors[:usergroups] = e.record.errors[:base].join(' ')
+    process_error
   end
 
   def destroy
-    @usergroup = Usergroup.find(params[:id])
     if @usergroup.destroy
       process_success
     else
       process_error
     end
+  end
+
+  private
+
+  def find_by_id(permission = :view_usergroups)
+    Usergroup.authorized(permission).find(params[:id])
   end
 end

@@ -12,6 +12,10 @@ class Windows < Operatingsystem
   def url_for_boot(file)
     pxedir + "/" + PXEFILES[file]
   end
+  
+  def self.model_name
+    superclass.model_name
+  end
 
   def self.model_name
     superclass.model_name

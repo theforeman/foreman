@@ -26,7 +26,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @domains = Domain.search_for(*search_options).paginate(paginate_options)
+        @domains = Domain.
+          authorized(:view_domains).
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/domains/:id/", "Show a domain."

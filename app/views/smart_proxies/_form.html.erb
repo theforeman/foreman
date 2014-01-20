@@ -1,5 +1,5 @@
-<%= form_for @proxy do |f| %>
-  <%= base_errors_for @proxy %>
+<%= form_for @smart_proxy do |f| %>
+  <%= base_errors_for @smart_proxy %>
   <% if show_taxonomy_tabs? %>
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab"><%= _("Smart Proxy") %></a></li>
@@ -22,13 +22,13 @@
 
     <% if show_location_tab? %>
       <div class="tab-pane" id="locations">
-        <%= multiple_checkboxes f, :locations, @proxy, Location, { :prefix => "smart_proxy", :label => _("Locations") } %>
+        <%= multiple_checkboxes f, :locations, @smart_proxy, Location, { :prefix => "smart_proxy", :label => _("Locations") } %>
       </div>
     <% end %>
 
     <% if show_organization_tab? %>
       <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @proxy, Organization, { :prefix => "smart_proxy", :label => _("Organizations") } %>
+        <%= multiple_checkboxes f, :organizations, @smart_proxy, Organization, { :prefix => "smart_proxy", :label => _("Organizations") } %>
       </div>
     <% end %>
     </div>

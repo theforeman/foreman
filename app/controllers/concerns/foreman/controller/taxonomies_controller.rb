@@ -128,7 +128,7 @@ module Foreman::Controller::TaxonomiesController
 
   def assign_hosts
     @taxonomy_type = taxonomy_single.classify
-    @hosts = Host.my_hosts.send("no_#{taxonomy_single}").includes(included_associations).search_for(params[:search],:order => params[:order]).paginate(:page => params[:page])
+    @hosts = Host.authorized(:view_hosts, Host).send("no_#{taxonomy_single}").includes(included_associations).search_for(params[:search],:order => params[:order]).paginate(:page => params[:page])
     render "hosts/assign_hosts"
   end
 

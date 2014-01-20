@@ -1,5 +1,5 @@
 class ConfigTemplate < ActiveRecord::Base
-  include Authorization
+  include Authorizable
   include Taxonomix
   audited :allow_mass_assignment => true
   self.auditing_enabled = !(File.basename($0) == "rake" && ARGV.include?("db:migrate"))
@@ -76,16 +76,6 @@ class ConfigTemplate < ActiveRecord::Base
     # fall back to the os default template
     template ||= templates.joins(:os_default_templates).where("os_default_templates.operatingsystem_id" => opts[:operatingsystem_id]).first
     template.is_a?(ConfigTemplate) ? template : nil
-  end
-
-  def enforce_permissions operation
-    # We get called again with the operation being set to create
-    return true if operation == "edit" and new_record?
-
-    return true if User.current and User.current.allowed_to?("#{operation}_templates".to_sym)
-
-    errors.add :base, (_("You do not have permission to %s this template") % operation)
-    false
   end
 
   def self.build_pxe_default(renderer)

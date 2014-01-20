@@ -8,20 +8,20 @@ module Foreman::Controller::TaxonomyMultiple
   end
 
   def select_multiple_organization
-    find_multiple
+    @hosts = find_multiple
   end
 
   def select_multiple_location
-    find_multiple
+    @hosts = find_multiple
   end
 
   def update_multiple_organization
-    find_multiple
+    @hosts = find_multiple
     update_multiple_taxonomies(:organization)
   end
 
   def update_multiple_location
-    find_multiple
+    @hosts = find_multiple
     update_multiple_taxonomies(:location)
   end
 

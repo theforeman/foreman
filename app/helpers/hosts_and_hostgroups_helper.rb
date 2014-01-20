@@ -1,5 +1,5 @@
 module HostsAndHostgroupsHelper
-  def hostgroup_name(hostgroup, max_length = 1000)
+  def hostgroup_name(hostgroup, max_length = 1000, authorizer = nil)
     return if hostgroup.blank?
     options = (hostgroup.label.to_s.size > max_length) ? {:'data-original-title'=> hostgroup.label, :rel=>'twipsy'} : {}
     nesting = hostgroup.label.to_s.gsub(/[^\/]+\/?$/, "")
@@ -8,7 +8,7 @@ module HostsAndHostgroupsHelper
     link_to_if_authorized(
         content_tag(:span,
             content_tag(:span, nesting, :class => "gray") + name, options),
-        hash_for_edit_hostgroup_path(:id => hostgroup))
+        hash_for_edit_hostgroup_path(:id => hostgroup).merge(:auth_object => hostgroup, :authorizer => authorizer))
   end
 
   def model_name host

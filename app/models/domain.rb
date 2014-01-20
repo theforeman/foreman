@@ -1,7 +1,7 @@
 require "resolv"
 # This models a DNS domain and so represents a site.
 class Domain < ActiveRecord::Base
-  include Authorization
+  include Authorizable
   include Taxonomix
   audited :allow_mass_assignment => true
 
@@ -38,25 +38,6 @@ class Domain < ActiveRecord::Base
 
   def to_param
     "#{id}-#{name.parameterize}"
-  end
-
-  def enforce_permissions operation
-    # We get called again with the operation being set to create
-    return true if operation == "edit" and new_record?
-
-    current = User.current
-
-    if current.allowed_to?("#{operation}_domains".to_sym)
-      # If you can create domains then you can create them anywhere
-      return true if operation == "create"
-      # However if you are editing or destroying and you have a domain list then you are constrained
-      if current.domains.empty? or current.domains.map(&:id).include? self.id
-        return true
-      end
-    end
-
-    errors.add(:base, _("You do not have permission to %s this domain") % operation)
-    false
   end
 
   # return the primary name server for our domain based on DNS lookup

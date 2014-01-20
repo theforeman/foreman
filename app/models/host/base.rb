@@ -3,6 +3,7 @@ require 'facts_parser'
 module Host
   class Base < ActiveRecord::Base
     include Foreman::STI
+    include Authorizable
     self.table_name = :hosts
     OWNER_TYPES = %w(User Usergroup)
 

@@ -1,16 +1,17 @@
 class LookupKeysController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_key, :except => :index
   before_filter :setup_search_options, :only => :index
+  before_filter :find_by_key, :only => [:edit, :update, :destroy], :if => Proc.new { params[:id] }
 
   def index
     begin
-      values = LookupKey.search_for(params[:search], :order => params[:order])
+      values = resource_base.search_for(params[:search], :order => params[:order]).includes(:param_classes)
     rescue => e
       error e.to_s
-      values = LookupKey.search_for ""
+      values = resource_base.search_for ""
     end
     @lookup_keys = values.includes(:puppetclass).paginate(:page => params[:page])
+    @puppetclass_authorizer = Authorizer.new(User.current, @lookup_keys.map(&:puppetclass_id).compact.uniq)
   end
 
   def edit
@@ -33,10 +34,14 @@ class LookupKeysController < ApplicationController
   end
 
   private
+
   def find_by_key
-    if params[:id]
-      @lookup_key = LookupKey.find(params[:id])
-      not_found and return if @lookup_key.blank?
-    end
+    @lookup_key = resource_base.find(params[:id])
+    not_found and return if @lookup_key.blank?
+    @lookup_key
+  end
+
+  def controller_permission
+    'external_variables'
   end
 end

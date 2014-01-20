@@ -34,7 +34,9 @@ Available families:
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @media = Medium.search_for(*search_options).paginate(paginate_options)
+        @media = Medium.
+          authorized(:view_media).
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/media/:id/", "Show a medium."

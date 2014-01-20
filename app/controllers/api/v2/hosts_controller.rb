@@ -7,7 +7,9 @@ module Api
       include Api::TaxonomyScope
       include Foreman::Controller::SmartProxyAuth
 
-      before_filter :find_resource, :except => [:index, :create, :facts]
+      before_filter :find_resource, :except => %w{index create facts}
+      before_filter :permissions_check, :only => %w{power boot puppetrun}
+
       add_puppetmaster_filters :facts
 
       api :GET, "/hosts/", "List all hosts."
@@ -17,7 +19,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @hosts = Host.my_hosts.search_for(*search_options).paginate(paginate_options)
+        @hosts = Host.
+          authorized(:view_hosts, Host).
+          search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/hosts/:id/", "Show a host."
@@ -128,11 +132,6 @@ Return value may either be one of the following:
         render :json => { :status => @host.host_status }.to_json if @host
       end
 
-      # we need to limit resources for a current user
-      def resource_scope
-        resource_class.my_hosts
-      end
-
       api :PUT, "/hosts/:id/puppetrun", "Force a puppet run on the agent."
       param :id, :identifier_dottable, :required => true
 
@@ -182,6 +181,25 @@ Return value may either be one of the following:
 
       private
 
+      def resource_scope(controller)
+        Host.authorized("#{action_permission}_#{controller}", Host)
+      end
+
+      def action_permission
+        case params[:action]
+          when 'puppetrun'
+            :puppetrun
+          when 'power'
+            :power
+          when 'boot'
+            :ipmi_boot
+          when 'console'
+            :console
+          else
+            super
+        end
+      end
+
       # this is required for template generation (such as pxelinux) which is not done via a web request
       def forward_request_url
         @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
@@ -199,6 +217,10 @@ Return value may either be one of the following:
         raise ::Foreman::Exception.new("A problem occurred when detecting host type: #{e.message}")
       end
 
+      def permissions_check
+        permission = "#{params[:action]}_hosts".to_sym
+        deny_access unless Host.authorized(permission).find(@host.id)
+      end
     end
   end
 end

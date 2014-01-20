@@ -1,7 +1,7 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
-  include Authorization
+  include Authorizable
   include Foreman::ThreadSession::UserModel
   include Taxonomix
   audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation], :allow_mass_assignment => true
@@ -16,10 +16,16 @@ class User < ActiveRecord::Base
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
   has_many :usergroup_member, :as => :member, :dependent => :destroy
   has_many :usergroups, :through => :usergroup_member
+  has_many :cached_usergroup_members
+  has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
   has_many :direct_hosts, :as => :owner, :class_name => "Host"
   has_and_belongs_to_many :notices, :join_table => 'user_notices'
-  has_many :user_roles, :dependent => :destroy
-  has_many :roles, :through => :user_roles
+  has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
+  has_many :roles, :through => :user_roles, :dependent => :destroy
+  has_many :cached_user_roles, :dependent => :destroy
+  has_many :cached_roles, :through => :cached_user_roles, :source => :role, :uniq => true
+  has_many :filters, :through => :cached_roles
+  has_many :permissions, :through => :filters
   has_and_belongs_to_many :compute_resources, :join_table => "user_compute_resources"
   has_and_belongs_to_many :domains,           :join_table => "user_domains"
   has_many :user_hostgroups, :dependent => :destroy
@@ -28,8 +34,16 @@ class User < ActiveRecord::Base
   has_many :facts, :through => :user_facts, :source => :fact_name
   attr_name :login
 
-  scope :except_admin, lambda { where(:admin => false) }
-  scope :only_admin, lambda { where(:admin => true) }
+  scope :except_admin, lambda {
+    includes(:cached_usergroups).
+        where(["(#{self.table_name}.admin = ? OR #{self.table_name}.admin IS NULL) AND " +
+                   "(#{Usergroup.table_name}.admin = ? OR #{Usergroup.table_name} IS NULL)",
+               false, false])
+  }
+  scope :only_admin, lambda {
+    includes(:cached_usergroups).
+        where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
+  }
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
@@ -57,15 +71,45 @@ class User < ActiveRecord::Base
   scoped_search :on => :firstname, :complete_value => :true
   scoped_search :on => :lastname, :complete_value => :true
   scoped_search :on => :mail, :complete_value => :true
-  scoped_search :on => :admin, :complete_value => {:true => true, :false => false}
+  scoped_search :on => :admin, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_admin
   scoped_search :on => :last_login_on, :complete_value => :true, :only_explicit => true
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
+  scoped_search :in => :cached_usergroups, :on => :name, :rename => :usergroup, :complete_value => true
 
   default_scope lambda {
     with_taxonomy_scope do
       order('firstname')
     end
   }
+
+  def can?(permission, subject = nil)
+    if self.admin?
+      true
+    else
+      @authorizer ||= Authorizer.new(self)
+      @authorizer.can?(permission, subject)
+    end
+  end
+
+  def self.search_by_admin(key, operator, value)
+    value      = value == 'true'
+    value      = !value if operator == '<>'
+    conditions = [self.table_name, Usergroup.table_name].map do |base|
+      "(#{base}.admin = ?" + (value ? ')' : " OR #{base}.admin IS NULL)")
+    end
+    conditions = conditions.join(value ? ' OR ' : ' AND ')
+
+    {
+        :include    => :cached_usergroups,
+        :conditions => sanitize_sql_for_conditions([conditions, value, value])
+    }
+  end
+
+  # note that if you assign user new usergroups which change the admin flag you must save
+  # the record before #admin? will reflect this
+  def admin?
+    read_attribute(:admin) || cached_usergroups.any?(&:admin?)
+  end
 
   def to_label
     (firstname.present? || lastname.present?) ? "#{firstname} #{lastname}" : login
@@ -195,7 +239,7 @@ class User < ActiveRecord::Base
       action[:controller] = action[:controller].to_s.gsub(/::/, "_").sub(/^\//,'').underscore
       return true if editing_self?(action)
     end
-    roles.detect {|role| role.allowed_to?(action)}.present?
+    cached_roles.detect {|role| role.allowed_to?(action)}.present?
   end
 
   def logged?

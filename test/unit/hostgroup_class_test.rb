@@ -18,47 +18,4 @@ class HostgroupClassTest < ActiveSupport::TestCase
       end
     end
   end
-
-  test "non-admin user with permission :edit_hostgroups can add puppetclass to hostgroup" do
-    # role "manager" has permission :edit_classes
-    User.current.roles << [roles(:manager)]
-    assert_difference('HostgroupClass.count') do
-      hostgroup = hostgroups(:common)
-      puppetclass = puppetclasses(:two)
-      assert Hostgroup.my_groups.include?(hostgroup)
-      assert hostgroup.update_attributes :puppetclass_ids => (hostgroup.puppetclass_ids + Array.wrap(puppetclass.id))
-    end
-  end
-
-  test "non-admin user without permission :edit_hostgroups cannot add puppetclass to hostgroup" do
-    # do not assign any role to Current.user
-    assert_difference('HostgroupClass.count', 0) do
-      hostgroup = hostgroups(:common)
-      puppetclass = puppetclasses(:two)
-      assert Hostgroup.my_groups.include?(hostgroup)
-      assert_raises(ActiveRecord::RecordNotSaved) do
-        refute hostgroup.update_attributes :puppetclass_ids => (hostgroup.puppetclass_ids + Array.wrap(puppetclass.id))
-      end
-    end
-  end
-
-  test "non-admin user with permission :edit_hostgroups can remove puppetclass from hostgroup" do
-    # role "manager" has permission :edit_classes
-    User.current.roles << [roles(:manager)]
-    assert_difference('HostgroupClass.count', -1) do
-      hostgroup = hostgroups(:common)
-      assert Hostgroup.my_groups.include?(hostgroup)
-      assert hostgroup.update_attributes :puppetclass_ids => []
-    end
-  end
-
-  test "non-admin user without permission :edit_hostgroups cannot remove puppetclass from hostgroup" do
-    # do not assign any role to Current.user
-    assert_difference('HostgroupClass.count', 0) do
-      hostgroup = hostgroups(:common)
-      puppetclass = puppetclasses(:two)
-      assert Hostgroup.my_groups.include?(hostgroup)
-      refute hostgroup.update_attributes :puppetclass_ids => []
-    end
-  end
 end

@@ -2,6 +2,11 @@ require 'foreman/access_control'
 
 # Permissions
 Foreman::AccessControl.map do |map|
+  map.security_block :public do |map|
+    map.permission :user_logout, { :users => [:logout] }, :public => true
+    map.permission :my_account, { :users => [:edit] }, :public => true
+  end
+
   map.security_block :architectures do |map|
     map.permission :view_architectures,
                    :architectures => [:index, :show, :auto_complete_search],
@@ -191,6 +196,13 @@ Foreman::AccessControl.map do |map|
                                                  :"api/v2/smart_variables" => [:destroy],
                                                  :"api/v2/smart_class_parameters" => [:destroy],
                                                  :"api/v2/override_values" => [:create, :update, :destroy]}
+  end
+
+  map.security_block :filters do |map|
+    map.permission :view_filters,    {:filters => [:index, :auto_complete_search]}
+    map.permission :create_filters,  {:filters => [:new, :create]}
+    map.permission :edit_filters,    {:filters => [:edit, :update], :permissions => [:index]}
+    map.permission :destroy_filters, {:filters => [:destroy]}
   end
 
   map.security_block :global_variables do |map|
@@ -467,8 +479,15 @@ Foreman::AccessControl.map do |map|
                                             }
   end
 
+  map.security_block :roles do |map|
+    map.permission :view_roles,    {:roles => [:index, :auto_complete_search]}
+    map.permission :create_roles,  {:roles => [:new, :create]}
+    map.permission :edit_roles,    {:roles => [:edit, :update]}
+    map.permission :destroy_roles, {:roles => [:destroy]}
+  end
+
   map.security_block :smart_proxies do |map|
-    map.permission :view_smart_proxies,    {:smart_proxies => [:index, :ping],
+    map.permission :view_smart_proxies,    {:smart_proxies => [:index, :ping, :auto_complete_search],
                                           :"api/v1/smart_proxies" => [:index, :show],
                                           :"api/v2/smart_proxies" => [:index, :show]
     }
@@ -544,7 +563,7 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :usergroups do |map|
-    map.permission :view_usergroups,    {:usergroups => [:index, :show],
+    map.permission :view_usergroups,    {:usergroups => [:index, :show, :auto_complete_search],
                                          :"api/v1/usergroups" => [:index, :show],
                                          :"api/v2/usergroups" => [:index, :show]
     }

@@ -1,6 +1,7 @@
 class ComputeProfile < ActiveRecord::Base
 
-  include Authorization
+  include Authorizable
+
   attr_accessible :name
   audited
   has_associated_audits

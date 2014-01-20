@@ -16,8 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AuthSource < ActiveRecord::Base
-  include Authorization
   audited :allow_mass_assignment => true
+
   before_destroy EnsureNotUsedBy.new(:users)
   has_many :users
 

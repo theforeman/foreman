@@ -11,7 +11,10 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @reports = Report.my_reports.includes(:logs => [:source, :message]).
+        @reports = Report.
+          authorized(:view_reports).
+          my_reports.
+          includes(:logs => [:source, :message]).
           search_for(*search_options).paginate(paginate_options)
       end
 
@@ -33,8 +36,8 @@ module Api
 
       def last
         conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
-        max_id = Report.my_reports.where(conditions).maximum(:id)
-        @report = Report.includes(:logs => [:message, :source]).find(max_id)
+        max_id = Report.authorized(:view_reports).my_reports.where(conditions).maximum(:id)
+        @report = Report.authorized(:view_reports).includes(:logs => [:message, :source]).find(max_id)
         render :show
       end
 

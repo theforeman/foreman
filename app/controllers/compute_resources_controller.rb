@@ -2,14 +2,14 @@ class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   AJAX_REQUESTS = %w{template_selected cluster_selected}
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_by_id, :only => [:show, :edit, :update, :destroy, :ping, :associate] + AJAX_REQUESTS
+  before_filter :find_by_name, :only => [:show, :edit, :associate, :update, :destroy, :ping] + AJAX_REQUESTS
 
   def index
     begin
-      values = ComputeResource.my_compute_resources.search_for(params[:search], :order => params[:order])
+      values = resource_base.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
-      values = ComputeResource.my_compute_resources.search_for ""
+      values = resource_base.search_for ""
     end
     @compute_resources = values.paginate :page => params[:page]
   end
@@ -92,7 +92,7 @@ class ComputeResourcesController < ApplicationController
     # cr_id is posted from AJAX function. cr_id is nil if new
     Rails.logger.info "CR_ID IS #{params[:cr_id]}"
     if params[:cr_id].present? && params[:cr_id] != 'null'
-      @compute_resource = ComputeResource.find(params[:cr_id])
+      @compute_resource = ComputeResource.authorized(:edit_compute_resources).find(params[:cr_id])
       params[:compute_resource].delete(:password) if params[:compute_resource][:password].blank?
       @compute_resource.attributes = params[:compute_resource]
     else
@@ -120,9 +120,14 @@ class ComputeResourcesController < ApplicationController
 
   private
 
-  def find_by_id
-    @compute_resource = ComputeResource.find(params[:id])
-    not_found and return unless @compute_resource
-    deny_access and return unless ComputeResource.my_compute_resources.include?(@compute_resource)
+  def action_permission
+    case params[:action]
+      when 'associate'
+        'edit'
+      when 'ping', 'template_selected', 'cluster_selected'
+        'view'
+      else
+        super
+    end
   end
 end

@@ -1,0 +1,134 @@
+manager_1:
+  role_id: 1
+manager_2:
+  role_id: 1
+manager_3:
+  role_id: 1
+manager_4:
+  role_id: 1
+manager_5:
+  role_id: 1
+manager_6:
+  role_id: 1
+manager_7:
+  role_id: 1
+manager_8:
+  role_id: 1
+manager_9:
+  role_id: 1
+manager_10:
+  role_id: 1
+manager_11:
+  role_id: 1
+manager_12:
+  role_id: 1
+manager_13:
+  role_id: 1
+manager_14:
+  role_id: 1
+manager_15:
+  role_id: 1
+manager_16:
+  role_id: 1
+manager_17:
+  role_id: 1
+manager_18:
+  role_id: 1
+manager_19:
+  role_id: 1
+manager_20:
+  role_id: 1
+manager_21:
+  role_id: 1
+manager_22:
+  role_id: 1
+edit_partition_tables_1:
+  role_id: 2
+view_hosts_1:
+  role_id: 3
+edit_hosts_1:
+  role_id: 4
+viewer_1:
+  role_id: 5
+viewer_2:
+  role_id: 5
+viewer_3:
+  role_id: 5
+viewer_4:
+  role_id: 5
+viewer_5:
+  role_id: 5
+viewer_6:
+  role_id: 5
+viewer_7:
+  role_id: 5
+viewer_8:
+  role_id: 5
+viewer_9:
+  role_id: 5
+viewer_10:
+  role_id: 5
+viewer_11:
+  role_id: 5
+viewer_12:
+  role_id: 5
+viewer_13:
+  role_id: 5
+viewer_14:
+  role_id: 5
+viewer_15:
+  role_id: 5
+viewer_16:
+  role_id: 5
+viewer_17:
+  role_id: 5
+viewer_18:
+  role_id: 5
+viewer_19:
+  role_id: 5
+viewer_20:
+  role_id: 5
+viewer_21:
+  role_id: 5
+default_user_1:
+  role_id: 6
+default_user_2:
+  role_id: 6
+default_user_3:
+  role_id: 6
+default_user_4:
+  role_id: 6
+default_user_5:
+  role_id: 6
+default_user_6:
+  role_id: 6
+default_user_7:
+  role_id: 6
+default_user_8:
+  role_id: 6
+default_user_9:
+  role_id: 6
+default_user_10:
+  role_id: 6
+default_user_11:
+  role_id: 6
+default_user_12:
+  role_id: 6
+default_user_13:
+  role_id: 6
+default_user_14:
+  role_id: 6
+default_user_15:
+  role_id: 6
+default_user_16:
+  role_id: 6
+anonymous_1:
+  role_id: 7
+destroy_hosts_1:
+  role_id: 8
+create_hosts_1:
+  role_id: 9
+view_compute_resources_1:
+  role_id: 11
+crud_hosts_1:
+  role_id: 12

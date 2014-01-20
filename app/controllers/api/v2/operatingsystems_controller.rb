@@ -16,6 +16,7 @@ module Api
 
       def index
         @operatingsystems = Operatingsystem.
+          authorized(:view_operatingsystems).
           includes(:media, :architectures, :ptables, :config_templates, :os_default_templates).
           search_for(*search_options).paginate(paginate_options)
       end
@@ -69,8 +70,8 @@ module Api
       param :architecture, String
 
       def bootfiles
-        medium = Medium.find_by_name(params[:medium])
-        arch   = Architecture.find_by_name(params[:architecture])
+        medium = Medium.authorized(:view_media).find_by_name(params[:medium])
+        arch   = Architecture.authorized(:view_architectures).find_by_name(params[:architecture])
         render :json => @operatingsystem.pxe_files(medium, arch)
       rescue => e
         render :json => e.to_s, :status => :unprocessable_entity

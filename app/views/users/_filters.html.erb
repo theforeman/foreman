@@ -37,7 +37,7 @@
       <%= f.fields_for :user_facts do |builder| %>
         <%= render "user_fact", :f => builder %>
       <% end %>
-      <% if authorized_for(params[:controller], params[:action]) %>
+      <% if authorized_for(:controller => params[:controller], :action => params[:action]) %>
         <%= link_to_add_fields('+ ' + _("Add Filter"), f, :user_facts, "user_fact", :title => _("Add a fact filter")) %>
       <% end %>
     </div>

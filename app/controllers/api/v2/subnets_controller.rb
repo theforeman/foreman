@@ -14,7 +14,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @subnets = Subnet.includes(:tftp, :dhcp, :dns).
+        @subnets = Subnet.
+          authorized(:view_subnets).
+          includes(:tftp, :dhcp, :dns).
           search_for(*search_options).paginate(paginate_options)
       end
 
