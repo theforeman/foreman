@@ -70,6 +70,10 @@ module Api
         end
       end
 
+      def render_error(error, options = { })
+        render options.merge(:template => "api/v2/errors/#{error}",
+                             :layout   => 'api/v2/layouts/error_layout')
+      end
     end
   end
 end

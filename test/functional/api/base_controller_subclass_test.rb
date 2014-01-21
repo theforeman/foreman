@@ -4,6 +4,11 @@ class Api::TestableController < Api::V1::BaseController
   def index
     render :text => 'dummy', :status => 200
   end
+
+  def raise_error
+    render_error 'standard_error', :status => :internal_server_error,
+                                   :locals => { :exception => StandardError }
+  end
 end
 
 class Api::TestableControllerTest < ActionController::TestCase
@@ -39,6 +44,13 @@ class Api::TestableControllerTest < ActionController::TestCase
     it "does not set session data for API requests" do
       get :index
       assert_not session[:user]
+    end
+  end
+
+  context 'errors' do
+   test "top level key is error, no metadata included" do
+      get :raise_error
+      assert_equal ['error'], ActiveSupport::JSON.decode(@response.body).keys
     end
   end
 end
