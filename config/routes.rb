@@ -27,6 +27,7 @@ Foreman::Application.routes.draw do
         get 'console'
         get 'bmc'
         put 'ipmi_boot'
+        put 'disassociate'
       end
       collection do
         get 'multiple_actions'
@@ -47,6 +48,8 @@ Foreman::Application.routes.draw do
         post 'submit_multiple_disable'
         get 'multiple_enable'
         post 'submit_multiple_enable'
+        get 'multiple_disassociate'
+        post 'update_multiple_disassociate'
         get 'auto_complete_search'
         get 'template_used'
         get 'active'

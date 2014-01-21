@@ -15,9 +15,9 @@ class HostsController < ApplicationController
     :select_multiple_hostgroup, :select_multiple_environment, :multiple_parameters, :multiple_destroy,
     :multiple_enable, :multiple_disable, :submit_multiple_disable, :submit_multiple_enable, :update_multiple_hostgroup,
     :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun,
-    :multiple_puppetrun]
+    :multiple_puppetrun, :multiple_disassociate, :update_multiple_disassociate]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
-    storeconfig_klasses clone pxe_config toggle_manage power console bmc ipmi_boot]
+    storeconfig_klasses clone pxe_config toggle_manage power console bmc ipmi_boot disassociate]
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   helper :hosts, :reports
@@ -267,6 +267,18 @@ class HostsController < ApplicationController
     end
   end
 
+  def disassociate
+    if @host.uuid.nil? && @host.compute_resource_id.nil?
+      process_error :error_msg => _("Host %s is not associated with a VM") % @host.name, :redirect => :back
+    else
+      @host.uuid = nil
+      @host.compute_resource_id = nil
+      @host.save!(:validate => false) # don't want to trigger callbacks
+      msg = _("%s has been disassociated from VM") % (@host.name)
+      process_success :success_msg => msg, :success_redirect => :back
+    end
+  end
+
   def pxe_config
     redirect_to(:controller => "unattended", :action => "pxe_#{@host.operatingsystem.pxe_type}_config", :host_id => @host) if @host
   end
@@ -410,6 +422,19 @@ class HostsController < ApplicationController
     else
       error _("Some or all hosts execution failed, Please check log files for more information")
     end
+    redirect_back_or_to hosts_path
+  end
+
+  def multiple_disassociate
+  end
+
+  def update_multiple_disassociate
+    @hosts.each do |host|
+      host.uuid = nil
+      host.compute_resource_id = nil
+      host.save(:validate => false)
+    end
+    notice _('Updated hosts: Disassociated from VM')
     redirect_back_or_to hosts_path
   end
 
