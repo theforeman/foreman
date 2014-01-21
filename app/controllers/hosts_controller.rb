@@ -268,11 +268,11 @@ class HostsController < ApplicationController
   end
 
   def disassociate
-    if @host.uuid == NIL && @host.compute_resource_id == NIL
+    if @host.uuid.nil? && @host.compute_resource_id.nil?
       process_error :error_msg => _("Host %s is not associated with a VM") % @host.name, :redirect => :back
     else
-      @host.uuid = NIL
-      @host.compute_resource_id = NIL
+      @host.uuid = nil
+      @host.compute_resource_id = nil
       @host.save!(:validate => false) # don't want to trigger callbacks
       msg = _("%s has been disassociated from VM") % (@host.name)
       process_success :success_msg => msg, :success_redirect => :back
@@ -430,8 +430,8 @@ class HostsController < ApplicationController
 
   def update_multiple_disassociate
     @hosts.each do |host|
-      host.uuid = NIL
-      host.compute_resource_id = NIL
+      host.uuid = nil
+      host.compute_resource_id = nil
       host.save(:validate => false)
     end
     notice _('Updated hosts: Disassociated from VM')
