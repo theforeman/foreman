@@ -16,6 +16,31 @@ class ValidationsTest < ActiveSupport::TestCase
     end
   end
 
+  test "hostname should be valid" do
+    assert_nothing_raised Net::Validations::Error do
+      validate_hostname "this.is.an.example.com"
+    end
+  end
+
+  test "hostname should not be valid" do
+    assert_raise Net::Validations::Error do
+      validate_hostname "-this.is.a.bad.example.com"
+      validate_hostname "this_is_a_bad.example.com"
+    end
+  end
+ 
+
+  describe "hostname normalization" do
+  
+    let(:hostname) { "this.is.an.example.com" }
+
+    test "should normalize incorrect case" do
+      Net::Validations.normalize_hostname("ThIs.Is.An.eXaMPlE.CoM").must_equal(hostname)
+    end
+
+  end
+
+
   describe "mac normalization" do
 
     let(:mac) { "aa:bb:cc:dd:ee:ff" }

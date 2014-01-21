@@ -738,7 +738,6 @@ class Host::Managed < Host::Base
   private
 
   def lookup_value_match
-    normalize_hostname
     "fqdn=#{fqdn}"
   end
 
@@ -766,13 +765,16 @@ class Host::Managed < Host::Base
       # try to assign the domain automatically based on our existing domains from the host FQDN
       self.domain = Domain.all.select{|d| name.match(d.name)}.first rescue nil
     else
-      # if our host is in short name, append the domain name
+      # if we've just updated the domain name, strip off the old one
       if !new_record? and changed_attributes['domain_id'].present?
         old_domain = Domain.find(changed_attributes["domain_id"])
-        self.name.gsub(old_domain.to_s,"")
+        self.name.chomp!("." + old_domain.to_s)
       end
+      # if our host is in short name, append the domain name
       self.name += ".#{domain}" unless name =~ /\./i
     end
+    # A managed host we should know the domain for; and the shortname shouldn't include a period
+    errors.add(:name, _("must not include periods")) if managed? and shortname.include? "."
   end
 
   def assign_hostgroup_attributes attrs = []

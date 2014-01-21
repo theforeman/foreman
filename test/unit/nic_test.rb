@@ -19,7 +19,7 @@ class NicTest < ActiveSupport::TestCase
 
   test "type casting should return the correct class" do
     i = ''
-    i = Nic::Base.create! :ip => "127.2.3.8", :mac => "babbccddeeff", :host => hosts(:one), :name => hosts(:one).name + "!", :type => "Nic::Interface"
+    i = Nic::Base.create! :ip => "127.2.3.8", :mac => "babbccddeeff", :host => hosts(:one), :name => hosts(:one).name, :type => "Nic::Interface"
     assert_equal "Nic::Interface", i.type
   end
 
@@ -27,6 +27,12 @@ class NicTest < ActiveSupport::TestCase
     i = Nic::Base.new :mac => "abccddeeff", :host => hosts(:one)
     assert !i.valid?
     assert i.errors.keys.include?(:mac)
+  end
+
+  test "should fail on invalid dns name" do
+    i = Nic::Managed.new :mac => "dabbccddeeff", :host => hosts(:one), :name => "invalid_dns_name"
+    assert !i.valid?
+    assert i.errors.keys.include?(:name)
   end
 
   test "should fix mac address" do
