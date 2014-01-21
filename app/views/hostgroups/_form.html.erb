@@ -36,7 +36,7 @@
       <% if @environment or @hostgroup.environment %>
         <%= render 'puppetclasses/class_selection', :obj => @hostgroup %>
       <% else %>
-        <%= alert :class => 'alert-warning', :text =>  _('Please select an environment first') %><
+        <%= alert :class => 'alert-warning', :text =>  _('Please select an environment first') %>
       <% end %>
     </div>
 
