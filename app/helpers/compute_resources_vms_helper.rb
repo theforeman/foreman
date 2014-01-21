@@ -1,10 +1,30 @@
 module ComputeResourcesVmsHelper
 
+  def vm_power_actions(vm)
+    power_manager = PowerManager::Virt.new(:vm=>vm)
+    power_manager.supported_actions.each_with_index.map do |action, i|
+      action_name = action.to_s.humanize
+      style = i>0 ? '' : vm.ready? ? 'btn delete': 'btn start'
+      display_link_if_authorized(_(action_name), hash_for_power_host_path(:power_action => action),
+                                 :confirm => _("Are you sure you want to %{act} %{vm}?") % { :act => action_name, :vm => vm },
+                                 :class => style,
+                                 :method => :put)
+    end
+  end
+
+  def vm_console(vm)
+    if vm && vm.ready?
+      link_to_if_authorized(_("Console"), hash_for_console_compute_resource_vm_path(vm), {:class => "btn btn-info"})
+    else
+      link_to(_("Console"), '#', {:disabled=> true, :class => "btn btn-info"})
+    end
+  end
+
   # little helper to help show VM properties
   def prop method, title = nil
     content_tag :tr do
       result = content_tag :td do
-        title || method.to_s.humanize
+        title || _(method.to_s.humanize)
       end
       result += content_tag :td do
         value = @vm.send(method) rescue nil
@@ -65,34 +85,6 @@ module ComputeResourcesVmsHelper
         ds.name
       ]
     end
-  end
-
-  def available_actions(vm)
-    case vm
-    when Fog::Compute::OpenStack::Server
-      openstack_available_actions(vm)
-    else
-      default_available_actions(vm)
-    end
-  end
-
-  def openstack_available_actions(vm)
-    actions = []
-    if vm.state == 'ACTIVE'
-      actions << vm_power_action(vm)
-      actions << vm_pause_action(vm)
-    elsif vm.state == 'PAUSED'
-      actions << vm_pause_action(vm)
-    else
-      actions << vm_power_action(vm)
-    end
-
-    actions << display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity))
-  end
-
-  def default_available_actions(vm)
-    [vm_power_action(vm),
-     display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity))]
   end
 
   def vpc_security_group_hash(security_groups)

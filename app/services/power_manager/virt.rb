@@ -3,9 +3,10 @@ module PowerManager
 
     def initialize(opts = {})
       super(opts)
+      @vm = opts[:vm]
       begin
         timeout(15) do
-          @vm = host.compute_resource.find_vm_by_uuid(host.uuid)
+          @vm ||= host.compute_resource.find_vm_by_uuid(host.uuid)
         end
       rescue Timeout::Error
         raise Foreman::Exception.new(N_("Timeout has occurred while communicating with %s"), host.compute_resource)
@@ -22,6 +23,10 @@ module PowerManager
       vm.state
     end
 
+    def supported_actions
+      ComputeResource::power_actions vm
+    end
+
     (SUPPORTED_ACTIONS - ['state', 'status']).each do |method|
       define_method method do
         vm.send(action_map[method.to_sym])
@@ -36,6 +41,7 @@ module PowerManager
         :on       => 'start',
         :off      => 'stop',
         :soft     => 'reboot',
+        :reboot   => 'reboot',
         :cycle    => 'reset',
         :status   => 'state',
         :start    => 'start',

@@ -17,7 +17,7 @@ class HostsController < ApplicationController
     :update_multiple_environment, :submit_multiple_build, :submit_multiple_destroy, :update_multiple_puppetrun,
     :multiple_puppetrun]
   before_filter :find_by_name, :only => %w[show edit update destroy puppetrun setBuild cancelBuild
-    storeconfig_klasses clone pxe_config toggle_manage power console bmc ipmi_boot]
+    storeconfig_klasses clone pxe_config toggle_manage power console bmc vm ipmi_boot]
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   helper :hosts, :reports
@@ -222,12 +222,15 @@ class HostsController < ApplicationController
   def bmc
     render :partial => 'bmc', :locals => { :host => @host }
   rescue ActionView::Template::Error => exception
-    origin = exception.try(:original_exception)
-    message = (origin || exception).message
-    logger.warn "Failed to fetch bmc information: #{message}"
-    logger.debug "Original exception backtrace:\n" + origin.backtrace.join("\n") if origin.present?
-    logger.debug "Causing backtrace:\n" + exception.backtrace.join("\n")
-    render :text => "Failure: #{message}"
+    process_ajax_error exception, 'fetch bmc information'
+  end
+
+  def vm
+    @vm = @host.compute_resource.find_vm_by_uuid(@host.uuid)
+    @compute_resource = @host.compute_resource
+    render :partial => "compute_resources_vms/details"
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'fetch vm information'
   end
 
   def ipmi_boot

@@ -2,11 +2,10 @@
   <%= render "compute_resources_vms/show/#{@compute_resource.provider.downcase}" %>
 </div>
 
-<%
-  all_actions = available_actions(@vm).push(
-                  show_console_action(@vm.ready?,
-                  link_to_if_authorized(_("Console"), hash_for_console_compute_resource_vm_path, {:disabled => @vm.nil? || !@vm.ready?, :class => "btn btn-info"})),
-                  display_link_if_authorized(_("Associate VM"), hash_for_associate_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.identity), :title=> _("Associate VM to a Foreman host"), :method => :put, :class=>"btn"),
-                  link_to(_("Back"), compute_resource_path(@compute_resource), :class=>'btn btn-default'))
-  title_actions *all_actions
+<%=   title_actions(toolbar_action_buttons(vm_power_actions(@vm)),
+                 vm_console(@vm),
+                 display_link_if_authorized(_("Associate VM"), hash_for_associate_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.identity), :title=> _("Associate VM to a Foreman host"), :method => :put, :class=>"btn"),
+                 display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.identity)),
+                 link_to(_("Back"), compute_resource_path(@compute_resource), :class=>'btn')
+   )
 %>

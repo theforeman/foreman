@@ -13,6 +13,10 @@ module PowerManager
       N_("Unknown")
     end
 
+    def supported_actions
+      []
+    end
+
     def logger
       Rails.logger
     end

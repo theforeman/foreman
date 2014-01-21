@@ -10,6 +10,16 @@ module Foreman::Model
 
     validates :user, :password, :presence => true
 
+    def self.power_actions(vm)
+      if vm && vm.ready?
+        POWER_OFF_ACTIONS << N_('pause')
+      elsif vm.state == 'PAUSED'
+        [N_('resume')]
+      else
+        POWER_ON_ACTIONS
+      end
+    end
+
     def provided_attributes
       super.merge({ :ip => :floating_ip_address })
     end

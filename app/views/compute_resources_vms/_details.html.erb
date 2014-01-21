@@ -1,0 +1,3 @@
+<%= render "compute_resources_vms/show/#{@compute_resource.provider.downcase}" %>
+
+<%= content_tag(:div, toolbar_action_buttons(vm_power_actions(@vm)) + vm_console(@vm) , :id=>'power_actions') %>
