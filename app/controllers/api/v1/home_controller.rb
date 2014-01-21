@@ -14,11 +14,6 @@ module Api
 
       def status
       end
-
-      def route_error
-        render_error 'route_error', :status => :not_found
-      end
-
     end
   end
 end

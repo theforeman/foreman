@@ -323,7 +323,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     facts    = fact_json['facts']
     post :facts, {:name => hostname, :facts => facts}, set_session_user
     assert_response :unprocessable_entity
-    assert_equal 'A stub failure', JSON.parse(response.body)['errors']['foo'].first
+    assert_equal 'A stub failure', JSON.parse(response.body)['error']['errors']['foo'].first
   end
 
   context 'BMC proxy operations' do

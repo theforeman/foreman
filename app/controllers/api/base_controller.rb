@@ -16,7 +16,7 @@ module Api
 
     rescue_from StandardError, :with => lambda { |error|
       logger.error "#{error.message} (#{error.class})\n#{error.backtrace.join("\n")}"
-      render_error 'standard_error', :status => 500, :locals => { :exception => error }
+      render_error 'standard_error', :status => :internal_server_error, :locals => { :exception => error }
     }
 
     rescue_from ScopedSearch::QueryNotSupported,
