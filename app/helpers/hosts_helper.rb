@@ -83,6 +83,7 @@ module HostsHelper
       [_('Delete Hosts'), multiple_destroy_hosts_path],
       [_('Disable Notifications'), multiple_disable_hosts_path],
       [_('Enable Notifications'), multiple_enable_hosts_path],
+      [_('Disassociate Hosts'), multiple_disassociate_hosts_path],
     ]
     actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path]) if SETTINGS[:unattended]
     actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun]

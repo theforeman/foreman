@@ -1,0 +1,5 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<%= form_tag update_multiple_disassociate_hosts_path({:host_ids => params[:host_ids]}) do %>
+  <small><%= _('Disassociate the following hosts from their VMs') %></small>
+<% end %>
