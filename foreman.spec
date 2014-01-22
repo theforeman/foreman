@@ -194,7 +194,8 @@ particular, Amazon EC2, OpenStack and Rackspace.
 %package vmware
 Summary: Foreman vmware support
 Group:  Applications/System
-Requires: %{?scl_prefix}rubygem(rbvmomi)
+Requires: %{?scl_prefix}rubygem(rbvmomi) >= 1.6.0
+Requires: %{?scl_prefix}rubygem(rbvmomi) < 1.7.0
 Requires: %{name} = %{version}-%{release}
 Requires: foreman-compute = %{version}-%{release}
 
