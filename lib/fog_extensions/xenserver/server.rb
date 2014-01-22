@@ -36,16 +36,13 @@ module FogExtensions
       def state
        power_state
       end
-      
-      def display2
-        logger.info("nieeeeeeeeeeeeeeeeeee")
-        return @display_tmp if @display_tmp != nil
-        console = service.consoles.find {|c| c.__vm == reference && c.protocol == rtp}
-        raise "No console found" unless console != nil
-        @display_tmp = {
-          :port => 1789
-        }
-        return @display_tmp
+
+      def custom_template_name
+        template_name
+      end
+
+      def builtin_template_name
+        template_name
       end
 
     end

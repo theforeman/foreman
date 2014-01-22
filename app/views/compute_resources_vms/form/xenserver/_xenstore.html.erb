@@ -1,25 +1,112 @@
+<%
+ip = ''
+gateway = ''
+netmask = ''
+nameserver = ''
+nameserver2 = ''
+
+vmdata = {:ifs =>
+			{'0' => {
+				:ip => '',
+				:gateway => '',
+				:netmask => ''
+			 }
+			},
+		  :nameserver1 => '',
+		  :nameserver2 => '',
+		  :environment => ''
+		}
+
+
+if params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:xenstore] then
+	vmdata = params[:host][:compute_attributes][:xenstore]['vm-data']
+end
+
+ip = vmdata[:ifs]['0'][:ip]
+gateway = vmdata[:ifs]['0'][:gateway]
+netmask = vmdata[:ifs]['0'][:netmast]
+nameserver1 = vmdata[:nameserver1]
+nameserver2 = vmdata[:nameserver2]
+environment = vmdata[:environment]
+
+disabled = 'readonly'
+
+%>
+
 <div class="children_fields">
 
-
 	<div class="fields"/>
-		<div class="control-group  "><label class="control-label" for="print">vm-data/ifs/0/ip</label>
-		<div class="controls"><input id="xenstore-vm-data-ifs-0-ip" type="text" name="host[compute_attributes][xenstore][vm-data][ifs][0][ip]" class="input-mini"></div>
+		<div class="control-group  "><label class="control-label" for="xenstore-vm-data-ifs-0-ip">vm-data/ifs/0/ip</label>
+		<div class="controls"><input <%=disabled%> id="xenstore-vm-data-ifs-0-ip" type="text" name="host[compute_attributes][xenstore][vm-data][ifs][0][ip]" class="input" value="<%=ip%>"></div>
 	</div>
 
-	<%#<div class="control-group  "><label class="control-label" for="print">vm-data/ifs/0/mac</label>%>
-		<%#<div class="controls"><input type="text" name="Example" value="Determinated once we create machine from template" class="input-large"></div>%>
-	<%#</div>%>
-
-	<div class="control-group  "><label class="control-label" for="print">vm-data/ifs/0/gateway</label>
-		<div class="controls"><input id="xenstore-vm-data-ifs-0-gateway" type="text" name="host[compute_attributes][xenstore][vm-data][ifs][0][gateway]" class="input-mini"></div>
+	<div class="control-group  "><label class="control-label" for="xenstore-vm-data-ifs-0-gateway">vm-data/ifs/0/gateway</label>
+		<div class="controls"><input <%=disabled%> id="xenstore-vm-data-ifs-0-gateway" type="text" name="host[compute_attributes][xenstore][vm-data][ifs][0][gateway]" class="input" value="<%=gateway%>"></div>
 	</div>
 
-	<div class="control-group  "><label class="control-label" for="print">vm-data/nameserver1</label>
-		<div class="controls"><input id="xenstore-vm-data-nameserver1" type="text" name="host[compute_attributes][xenstore][vm-data][nameserver1]" class="input-mini"></div>
+	<div class="control-group  "><label class="control-label" for="xenstore-vm-data-ifs-0-netmask">vm-data/ifs/0/netmask</label>
+		<div class="controls"><input <%=disabled%> id="xenstore-vm-data-ifs-0-netmask" type="text" name="host[compute_attributes][xenstore][vm-data][ifs][0][netmask]" class="input" value="<%=netmask%>"></div>
 	</div>
 
-	<div class="control-group  "><label class="control-label" for="print">vm-data/nameserver2</label>
-		<div class="controls"><input id="xenstore-vm-data-nameserver2" type="text" name="host[compute_attributes][xenstore][vm-data][nameserver2]" class="input-mini"></div>
+	<div class="control-group  "><label class="control-label" for="xenstore-vm-data-nameserver1">vm-data/nameserver1</label>
+		<div class="controls"><input <%=disabled%> id="xenstore-vm-data-nameserver1" type="text" name="host[compute_attributes][xenstore][vm-data][nameserver1]" class="input" value="<%=nameserver1%>"></div>
+	</div>
+
+	<div class="control-group  "><label class="control-label" for="xenstore-vm-data-nameserver2">vm-data/nameserver2</label>
+		<div class="controls"><input <%=disabled%> id="xenstore-vm-data-nameserver2" type="text" name="host[compute_attributes][xenstore][vm-data][nameserver2]" class="input" value="<%=nameserver2%>"></div>
+	</div>
+
+	<div class="control-group  "><label class="control-label" for="xenstore-vm-data-environment">vm-data/environment</label>
+		<div class="controls"><input <%=disabled%> id="xenstore-vm-data-environment" type="text" name="host[compute_attributes][xenstore][vm-data][environment]" class="input" value="<%=environment%>"></div>
 	</div>
 
 </div>
+
+
+<script type="text/javascript">
+	function autocomplete_xenstore(subnet_id) {
+		console.log("autocomplete")
+		url = "/subnets/"+subnet_id+"/edit"
+		$.get(url, function(data) {
+			fields = $('#primary', data)
+			$('#xenstore-vm-data-ifs-0-gateway').val( $('#subnet_gateway', fields).val() )
+			$('#xenstore-vm-data-ifs-0-netmask').val( $('#subnet_mask', fields).val() )
+			$('#xenstore-vm-data-nameserver1').val( $('#subnet_dns_primary', fields).val() )
+			$('#xenstore-vm-data-nameserver2').val( $('#subnet_dns_secondary', fields).val() )
+			$('#xenstore-vm-data-ifs-0-ip').val( $('#host_ip').val() )
+			$('#xenstore-vm-data-environment').val( $('#host_environment_id option:selected').text() )
+		})
+	}
+
+	subnet_id = $('#host_subnet_id option:selected').val()
+
+	if (subnet_id) {
+		autocomplete_xenstore(subnet_id)
+	}
+
+	$(document).off('change.xenstore', '#host_subnet_id')
+	$(document).on('change.xenstore', '#host_subnet_id', function(data) {
+		subnet_id = $('option:selected', data.target).val()
+		if (subnet_id) {
+			autocomplete_xenstore(subnet_id)
+		}
+		})
+
+	$('#xenstore-vm-data-environment').val( $('#host_environment_id option:selected').text() )
+
+	$(document).off('change.xenstore', '#host_environment_id')
+	$(document).on('change.xenstore', '#host_environment_id', function(data) {
+		env = $('option:selected', data.target).text()
+		$('#xenstore-vm-data-environment').val( env )
+		})
+
+	$(document).off('click.xenstore', '#compute_resource_tab a')
+	$(document).on('click.xenstore', '#compute_resource_tab a', function(data) {
+		subnet_id = $('#host_subnet_id option:selected').val()
+
+		if (subnet_id) {
+			autocomplete_xenstore(subnet_id)
+		}
+	})
+
+</script>

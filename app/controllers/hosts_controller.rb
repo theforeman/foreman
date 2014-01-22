@@ -89,8 +89,6 @@ class HostsController < ApplicationController
 
   def create
     @host = Host.new(params[:host])
-    params[:host][:compute_attributes][:subnet_id] = params[:host][:subnet_id]
-    params[:host][:compute_attributes][:free_ip] = params[:host][:ip]
     @host.managed = true if (params[:host] && params[:host][:managed].nil?)
     forward_url_options
     if @host.save

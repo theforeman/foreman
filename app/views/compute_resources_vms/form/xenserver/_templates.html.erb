@@ -1,13 +1,28 @@
 <div class="fields">
-	<% selected_item = ''
+	<%
+		selected_item_c = ''
+		selected_item_b = ''
 		if params['host']['compute_attributes'] then
-			selected_item = params['host']['compute_attributes']['templates']['print']
+			selected_item_c = params['host']['compute_attributes']['custom_template_name']
+			selected_item_b = params['host']['compute_attributes']['builtin_template_name']
 		end
 	%>
 
-  <div id='nat' class=''>
-    <%= select_f f, :print, compute_resource.templates, :name, :name,
-		     { :include_blank => _("No template"), :selected => selected_item },
-		     { :class => "span2", :label => _("Template") } %>
+  <div id='templates' class=''>
+  	<label class="control-label" for="host_compute_attributes_custom_template_name">Custom template</label>
+  	<div class="controls">
+	  	<select class="span2" id="host_compute_attributes_custom_template_name" name="host[compute_attributes][custom_template_name]">
+	  	<%= options_for_select([[_("No template"), ""]] + compute_resource.custom_templates.map {|t| [t.name, t.name]}, selected_item_c) %>
+		</select>
+	</div>
+
+    <label class="control-label" for="host_compute_attributes_builtin_template_name">Built-in template</label>
+  	<div class="controls">
+	  	<select class="span2" id="host_compute_attributes_builtin_template_name" name="host[compute_attributes][builtin_template_name]">
+	  	<%= options_for_select([[_("No template"), ""]] + compute_resource.builtin_templates.map {|t| [t.name, t.name]}, selected_item_b) %>
+		</select>
+	</div>
+
   </div>
+
 </div>

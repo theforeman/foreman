@@ -3,8 +3,10 @@ module Foreman::Model
     validates_presence_of :url, :user, :password
 
     def provided_attributes
-      super.merge({:uuid => :reference,
-		   :mac => :mac})
+      super.merge(
+      {:uuid => :reference,
+		   :mac => :mac
+		   })
     end
 
     def capabilities
@@ -29,12 +31,13 @@ module Foreman::Model
     end
 
     def max_cpu_count
-      hypervisor.host_cpus
+      ## 16 is a max number of cpus per vm according to XenServer doc
+      [hypervisor.host_cpus.size, 16].min
     end
 
-    # libvirt reports in KB
     def max_memory
-      hypervisor.memory * 1024
+      xenServerMaxDoc = 128*1024*1024*1024
+      [hypervisor.metrics.memory_total.to_i, xenServerMaxDoc].min
     rescue => e
       logger.debug "unable to figure out free memory, guessing instead due to:#{e}"
       16*1024*1024*1024
@@ -72,92 +75,119 @@ module Foreman::Model
 	    client.servers.templates rescue []
     end
 
+    def custom_templates
+      client.servers.custom_templates rescue []
+    end
+
+    def builtin_templates
+      client.servers.builtin_templates rescue []
+    end
+
     def new_vm attr={ }
-        #file = File.open("/usr/share/foreman/log/avi", 'w')
-        #file.write "#{attr}"
 
       test_connection
       return unless errors.empty?
       opts = vm_instance_defaults.merge(attr.to_hash).symbolize_keys
 
-# convert rails nested_attributes into a plain hash
       [:networks, :volumes].each do |collection|
         nested_attrs = opts.delete("#{collection}_attributes".to_sym)
         opts[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
       end
      opts.reject! { |k, v| v.nil? }
      client.servers.new opts
-#      vm.memory_static_max = opts[:memory_static_max] if opts[:memory_static_max]
-#      vm
     end
 
     def create_vm args = {}
-      template_name = args[:templates][:print]
-      subnet = Subnet.find(args[:subnet_id])
-      vm = client.servers.create :name => args[:name], :template_name => template_name
+      custom_template_name = args[:custom_template_name]
+      builtin_template_name = args[:builtin_template_name]
+      raise "only custom or built-in template can be choosen" if builtin_template_name != "" and custom_template_name != ""
+      raise "custom or built-in template has to be choosen" if builtin_template_name == "" and custom_template_name == ""
+      begin
+        if custom_template_name != ""
+          return create_vm_from_custom args
+        elsif builtin_template_name != ""
+          return create_vm_from_builtin args
+        end
+      rescue => e
+        logger.info e
+        logger.info e.backtrace.join("\n")
+        raise e
+      end
+    end
+
+    def create_vm_from_custom args
+      mem = args[:memory]
+      cpus = args[:vcpus_max]
+      vm = client.servers.create :name => args[:name],
+                                :template_name => args[:custom_template_name],
+                                :memory_static_max  => mem,
+                                :memory_static_min  => mem,
+                                :memory_dynamic_max => mem,
+                                :memory_dynamic_min => mem,
+                                :vcpus_at_startup => cpus,
+                                :vcpus_max => cpus
+
+      logger.info vm
       vm.hard_shutdown
       vm.refresh
-      vm.set_attribute('xenstore_data',
-      'vm-data'=>'',
-       'vm-data/nameserver1'=>subnet.dns_primary,
-       'vm-data/nameserver2'=>subnet.dns_secondary,
-      'vm-data/ifs'=>'',
-       'vm-data/ifs/0'=>'' ,
-       'vm-data/ifs/0/netmask'=>subnet.mask,
-       'vm-data/ifs/0/gateway'=>subnet.gateway,
-       'vm-data/ifs/0/mac'=>vm.vifs.first.mac,
-       'vm-data/ifs/0/ip'=>args[:free_ip]
-      )
-      # vm.set_attribute('xenstore_data', ''=>'')
+      args['xenstore']['vm-data']['ifs']['0']['mac'] = vm.vifs.first.mac
+      xenstore_data = xenstore_hash_flatten(args['xenstore'])
+      vm.set_attribute('xenstore_data',xenstore_data)
+      disks = vm.vbds.select { |vbd| vbd.type == "Disk"}
+      i = 1
+      disks.each do |vbd|
+        vbd.vdi.set_attribute('name-label', "#{args[:name]}-disk#{i}")
+        i+=1
+      end
       vm
     end
 
-    def create_vm_asd args = { }
-	opts = vm_instance_defaults.merge(args.to_hash).symbolize_keys
-	#file = File.open("/usr/share/foreman/log/avi2", 'w')
-	#file.write "args: #{args}\n"
-	host = client.hosts.first
-	net = client.networks.find { |n| n.name == "#{args[:VIFs][:print]}" }
-	storage_repository = client.storage_repositories.find { |sr| sr.name == "#{args[:VBDs][:print]}" }
-      	vdi = client.vdis.create :name => "#{args[:name]}-disk1",
-	                       :storage_repository => storage_repository,
-                              :description => "#{args[:name]}-disk1",
-                              :virtual_size => '8589934592' # ~8GB in bytes
-	mem = (512 * 1024 * 1024).to_s
-      	vm = client.servers.new :name => args[:name],
-				:affinity => host,
-				#:networks => [net],
-				:pv_bootloader => '',
-				:hvm_boot_params => { :order => 'dn' },
-				:HVM_boot_policy => 'BIOS order',
-				:memory_static_max  => mem,
-                                :memory_static_min  => mem,
-                                :memory_dynamic_max => mem,
-                                :memory_dynamic_min => mem
-	#file.write "vm: #{vm.inspect}\n"
-	#file.close
-	vm.save :auto_start => false
-	client.vbds.create :server => vm, :vdi => vdi
-	net_config = {
-		'MAC_autogenerated' => 'True',
-		'VM' => vm.reference,
-		'network' => net.reference,
-		'MAC' => '',
-		'device' => '0',
-		'MTU' => '0',
-		'other_config' => {},
-		'qos_algorithm_type' => 'ratelimit',
-		'qos_algorithm_params' => {}
-		}
-	client.create_vif_custom net_config
-	vm.refresh
-	vm.provision
-	#vm.start
-	vm
+    def create_vm_from_builtin args
+    	opts = vm_instance_defaults.merge(args.to_hash).symbolize_keys
 
-    rescue Fog::Errors::Error => e
-      errors.add(:base, e.to_s)
-      false
+    	host = client.hosts.first
+    	net = client.networks.find { |n| n.name == "#{args[:VIFs][:print]}" }
+    	storage_repository = client.storage_repositories.find { |sr| sr.name == "#{args[:VBDs][:print]}" }
+    	logger.info storage_repository
+    	vdi = client.vdis.create :name => "#{args[:name]}-disk1",
+                       :storage_repository => storage_repository,
+                            :description => "#{args[:name]}-disk1",
+                            :virtual_size => '8589934592' # ~8GB in bytes
+      logger.info vdi
+    	mem = args[:memory]
+    	cpus = args[:vcpus_max]
+    	template = client.servers.builtin_templates.find {|tmp| tmp.name == args[:builtin_template_name]}
+    	vm = client.servers.new :name => args[:name],
+                        			:affinity => host,
+                        			:pv_bootloader => '',
+                        			:hvm_boot_params => { :order => 'dn' },
+                        			:HVM_boot_policy => 'BIOS order',
+                        			:memory_static_max  => mem,
+                              :memory_static_min  => mem,
+                              :memory_dynamic_max => mem,
+                              :memory_dynamic_min => mem,
+                              :vcpus_at_startup => cpus,
+                              :vcpus_max => cpus
+
+    	vm.save :auto_start => false
+    	logger.info client.vbds.create :server => vm, :vdi => vdi
+    	net_config = {
+    		'MAC_autogenerated' => 'True',
+    		'VM' => vm.reference,
+    		'network' => net.reference,
+    		'MAC' => '',
+    		'device' => '0',
+    		'MTU' => '0',
+    		'other_config' => {},
+    		'qos_algorithm_type' => 'ratelimit',
+    		'qos_algorithm_params' => {}
+    		}
+    	logger.info client.create_vif_custom net_config
+    	vm.refresh
+    	logger.info vm.inspect
+    	vm.provision
+    	logger.info vm.inspect
+    	vm
     end
 
     def console uuid
@@ -172,7 +202,7 @@ module Foreman::Model
       fullURL = "#{console.location}&session_id=#{session_ref}"
       tunnel = VNCTunnel.new fullURL
       tunnel.start
-
+      logger.info "VNCTunnel started"
       WsProxy.start(:host => tunnel.host, :host_port => tunnel.port, :password => '').merge(:type => 'vnc', :name=> vm.name)
 
     rescue Error => e
@@ -225,5 +255,17 @@ module Foreman::Model
       raise e
     end
 
+    private
+    def xenstore_hash_flatten(nested_hash, key=nil, keychain=nil, out_hash={})
+      nested_hash.each do |k, v|
+        if v.is_a? Hash then
+          out_hash["#{keychain}#{k}"] = ''
+          xenstore_hash_flatten(v, k, "#{keychain}#{k}/", out_hash)
+        else
+          out_hash["#{keychain}#{k}"] = v
+        end
+      end
+      return out_hash
+    end
   end
 end
