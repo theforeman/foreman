@@ -10,7 +10,7 @@ class HostTest < ActiveSupport::TestCase
   test "should not save without a hostname" do
     host = Host.new
     host.valid?
-    assert_equal "can't be blank", host.errors[:name].first
+    assert host.errors[:name].include?("can't be blank")
   end
 
   test "should not save with invalid hostname" do
