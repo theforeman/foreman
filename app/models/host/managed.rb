@@ -133,7 +133,9 @@ class Host::Managed < Host::Base
     validates :mac, :uniqueness => true, :format => {:with => Net::Validations::MAC_REGEXP}, :unless => Proc.new { |host| host.compute? or !host.managed }
     validates :architecture_id, :operatingsystem_id, :domain_id, :presence => true, :if => Proc.new {|host| host.managed}
     validates :mac, :presence => true, :unless => Proc.new { |host| host.compute? or !host.managed }
-    validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
+    validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
+                          :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
+                          :unless => Proc.new { |host| !host.managed or capabilities.include?(:image) }
     validates :ip, :format => {:with => Net::Validations::IP_REGEXP}, :if => Proc.new { |host| host.require_ip_validation? }
     validates :ptable_id, :presence => {:message => N_("cant be blank unless a custom partition has been defined")},
                           :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and capabilities.include?(:build) }
@@ -608,7 +610,7 @@ class Host::Managed < Host::Base
 
   # no need to store anything in the db if the password is our default
   def root_pass
-    read_attribute(:root_pass) || hostgroup.try(:root_pass) || Setting[:root_pass]
+    read_attribute(:root_pass).blank? ? (hostgroup.try(:root_pass) || Setting[:root_pass]) : read_attribute(:root_pass)
   end
 
   def clone
