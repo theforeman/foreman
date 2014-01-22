@@ -199,6 +199,18 @@ class HostTest < ActiveSupport::TestCase
     assert_nil host
   end
 
+  test "should not save if root password is undefined when the host is managed" do
+    host = Host.new :name => "myfullhost", :managed => true
+    assert !host.valid?
+    assert host.errors[:root_pass].any?
+  end
+
+  test "should save if root password is undefined when the compute resource is image capable" do
+    host = Host.new :name => "myfullhost", :managed => true, :compute_resource_id => compute_resources(:openstack).id
+    host.valid?
+    refute host.errors[:root_pass].any?
+  end
+
   test "should not save if neither ptable or disk are defined when the host is managed" do
     if unattended?
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.4.4.03",
@@ -242,7 +254,7 @@ class HostTest < ActiveSupport::TestCase
     host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
-      :owner_type => "User"
+      :owner_type => "User", :root_pass => "xybxa6JUkz63w"
     assert host.valid?
   end
 
@@ -614,7 +626,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "host os attributes must be associated with the host os" do
-    h = hosts(:redhat)
+    h = hosts(:one)
     h.managed = true
     h.architecture = architectures(:sparc)
     assert !h.os.architectures.include?(h.arch)
@@ -623,7 +635,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "host puppet classes must belong to the host environment" do
-    h = hosts(:redhat)
+    h = hosts(:one)
 
     pc = puppetclasses(:three)
     h.puppetclasses << pc
@@ -642,30 +654,38 @@ class HostTest < ActiveSupport::TestCase
     assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
   end
 
+  test "should not allow short root passwords for managed host" do
+    h = hosts(:one)
+    h.root_pass = "2short"
+    h.valid?
+    assert h.errors[:root_pass].include?("should be 8 characters or more")
+  end
+
   test "should allow to save root pw" do
-    h = hosts(:redhat)
+    h = hosts(:one)
     pw = h.root_pass
-    h.root_pass = "token"
+    h.root_pass = "12345678"
     h.hostgroup = nil
-    assert h.save
+    assert h.save!
     assert_not_equal pw, h.root_pass
   end
 
   test "should allow to revert to default root pw" do
-    h = hosts(:redhat)
-    h.root_pass = "token"
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    h = hosts(:one)
+    h.root_pass = "xybxa6JUkz63w"
     assert h.save
-    h.root_pass = ""
-    assert h.save
+    h.root_pass = nil
+    assert h.save!
     assert_equal h.root_pass, Setting.root_pass
   end
 
   test "should generate a random salt when saving root pw" do
-    h = hosts(:redhat)
+    h = hosts(:one)
     pw = h.root_pass
-    h.root_pass = "token"
     h.hostgroup = nil
-    assert h.save
+    h.root_pass = "xybxa6JUkz63w"
+    assert h.save!
     first = h.root_pass
 
     # Check it's a $.$....$...... enhanced style password
@@ -673,13 +693,13 @@ class HostTest < ActiveSupport::TestCase
     assert first.split('$')[2].size >= 8
 
     # Check it changes
-    h.root_pass = "token"
+    h.root_pass = "12345678"
     assert h.save
     assert_not_equal first.split('$')[2], h.root_pass.split('$')[2]
   end
 
   test "should pass through existing salt when saving root pw" do
-    h = hosts(:redhat)
+    h = hosts(:one)
     pass = "$1$jmUiJ3NW$bT6CdeWZ3a6gIOio5qW0f1"
     h.root_pass = pass
     h.hostgroup = nil
@@ -688,7 +708,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should use hostgroup root password" do
-    h = hosts(:redhat)
+    h = hosts(:one)
     h.root_pass = nil
     h.hostgroup = hostgroups(:common)
     assert h.save
@@ -697,7 +717,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should use a nested hostgroup parent root password" do
-    h = hosts(:redhat)
+    h = hosts(:one)
     h.root_pass = nil
     h.hostgroup = hg = hostgroups(:common)
     assert h.save
@@ -709,7 +729,8 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should use settings root password" do
-    h = hosts(:redhat)
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    h = hosts(:one)
     h.root_pass = nil
     h.hostgroup = nil
     assert h.save

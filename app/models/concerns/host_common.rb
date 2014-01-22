@@ -17,7 +17,8 @@ module HostCommon
     belongs_to :subnet
     belongs_to :compute_profile
 
-    before_save :check_puppet_ca_proxy_is_required?
+    before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
+
     has_many :lookup_values, :finder_sql => Proc.new { LookupValue.where('lookup_values.match' => lookup_value_match).to_sql }, :dependent => :destroy
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
     accepts_nested_attributes_for :lookup_values
@@ -92,11 +93,8 @@ module HostCommon
     super || default_image_file
   end
 
-  # make sure we store an encrypted copy of the password in the database
-  # this password can be use as is in a unix system
-  def root_pass=(pass)
-    p = pass.empty? ? nil : (pass.starts_with?('$') ? pass : pass.crypt("$1$#{SecureRandom.base64(6)}"))
-    write_attribute(:root_pass, p)
+  def crypt_root_pass
+    self.root_pass = root_pass.empty? ? nil : (root_pass.starts_with?('$') ? root_pass : root_pass.crypt("$1$#{SecureRandom.base64(6)}"))
   end
 
   def param_true? name

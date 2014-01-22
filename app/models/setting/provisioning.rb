@@ -11,7 +11,7 @@ class Setting::Provisioning < Setting
 
     self.transaction do
       [
-        self.set('root_pass', N_("Default encrypted root password on provisioned hosts (default is 123123)"), "$1$default$hCkak1kaJPQILNmYbUXhD0"),
+        self.set('root_pass', N_("Default encrypted root password on provisioned hosts"), nil),
         self.set('unattended_url', N_("The URL that hosts will retrieve templates from during build (normally http as many installers don't support https)"), "http://#{Facter.fqdn}"),
         self.set('safemode_render', N_("Enable safe mode config templates rendering (recommended)"), true),
         self.set('ssl_certificate', N_("SSL Certificate path that Foreman would use to communicate with its proxies"), ssl_cert),
