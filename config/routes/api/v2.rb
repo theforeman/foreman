@@ -104,6 +104,11 @@ Foreman::Application.routes.draw do
 
       resources :roles, :except => [:new, :edit]
 
+      resources :filters, :except => [:new, :edit] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+      end
+
       resources :settings, :only => [:index, :show, :update]
 
       resources :smart_variables, :except => [:new, :edit] do
@@ -210,6 +215,7 @@ Foreman::Application.routes.draw do
           resources :compute_resources, :only => [:index, :show]
           resources :media, :only => [:index, :show]
           resources :smart_proxies, :only => [:index, :show]
+          resources :filters, :only => [:index, :show]
 
           resources :parameters, :except => [:new, :edit] do
             collection do
@@ -228,6 +234,7 @@ Foreman::Application.routes.draw do
             resources :compute_resources, :only => [:index, :show]
             resources :media, :only => [:index, :show]
             resources :smart_proxies, :only => [:index, :show]
+            resources :filters, :only => [:index, :show]
           end
 
         end
@@ -246,6 +253,7 @@ Foreman::Application.routes.draw do
           resources :compute_resources, :only => [:index, :show]
           resources :media, :only => [:index, :show]
           resources :smart_proxies, :only => [:index, :show]
+          resources :filters, :only => [:index, :show]
 
           resources :parameters, :except => [:new, :edit] do
             collection do
@@ -264,6 +272,7 @@ Foreman::Application.routes.draw do
             resources :compute_resources, :only => [:index, :show]
             resources :media, :only => [:index, :show]
             resources :smart_proxies, :only => [:index, :show]
+            resources :filters, :only => [:index, :show]
           end
 
         end

@@ -1,19 +1,113 @@
+# we need permissions to be seeded already
+require Rails.root + 'db/seeds.d/20-permissions'
+
+# Fake models to make sure that this migration can be executed even when
+# original models changes later (e.g. add validation on columns that are not
+# present at this moment)
+class FakePermission < ActiveRecord::Base
+  set_table_name 'permissions'
+end
+
+class FakeFilter < ActiveRecord::Base
+  set_table_name 'filters'
+  # we need this for polymorphic relation to work, it has class name hardcoded in AR
+  def self.name
+    'Filter'
+  end
+  belongs_to :role, :class_name => 'FakeRole'
+  has_many :filterings, :dependent => :destroy, :foreign_key => 'filter_id'
+  has_many :permissions, :through => :filterings
+
+  def resource_type
+    @resource_type ||= permissions.first.try(:resource_type)
+  end
+
+  taxonomy_join_table = "taxable_taxonomies"
+  has_many taxonomy_join_table, :dependent => :destroy, :as => :taxable, :foreign_key => 'taxable_id'
+  has_many :locations,     :through => taxonomy_join_table, :source => :taxonomy,
+           :conditions => "taxonomies.type='Location'", :validate => false
+  has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
+           :conditions => "taxonomies.type='Organization'", :validate => false
+
+end
+
+class FakeUserRole < ActiveRecord::Base
+  set_table_name 'user_roles'
+  belongs_to :owner, :polymorphic => true
+  belongs_to :role, :class_name => 'FakeRole'
+end
+
+class FakeRole < ActiveRecord::Base
+  set_table_name 'roles'
+  scope :builtin, lambda { |*args|
+    compare = 'not' if args.first
+    where("#{compare} builtin = 0")
+  }
+
+  has_many :filters, :dependent => :destroy, :class_name => 'FakeFilter', :foreign_key => 'role_id'
+  has_many :permissions, :through => :filters, :class_name => 'FakePermission', :foreign_key => 'permission_id'
+end
+
+class FakeFiltering < ActiveRecord::Base
+  set_table_name 'filterings'
+  belongs_to :filter, :class_name => 'FakeFilter'
+  belongs_to :permission, :class_name => 'FakePermission'
+end
+
+class FakeUser < ActiveRecord::Base
+  set_table_name 'users'
+  # we need this for polymorphic relation to work, it has class name hardcoded in AR
+  def self.name
+    'User'
+  end
+
+  has_and_belongs_to_many :compute_resources, :join_table => "user_compute_resources", :foreign_key => 'user_id'
+  has_and_belongs_to_many :domains, :join_table => "user_domains", :foreign_key => 'user_id'
+  has_many :user_hostgroups, :dependent => :destroy, :foreign_key => 'user_id'
+  has_many :hostgroups, :through => :user_hostgroups
+  has_many :user_facts, :dependent => :destroy, :foreign_key => 'user_id'
+  has_many :facts, :through => :user_facts, :source => :fact_name
+  has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id',
+           :conditions => {:owner_type => 'User'}, :class_name => 'FakeUserRole'
+  has_many :roles, :through => :user_roles, :dependent => :destroy, :class_name => 'FakeRole'
+  taxonomy_join_table = "taxable_taxonomies"
+  has_many taxonomy_join_table, :dependent => :destroy, :as => :taxable, :foreign_key => 'taxable_id'
+  has_many :locations,     :through => taxonomy_join_table, :source => :taxonomy,
+           :conditions => "taxonomies.type='Location'", :validate => false
+  has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
+           :conditions => "taxonomies.type='Organization'", :validate => false
+  has_many :cached_usergroup_members, :foreign_key => 'user_id'
+  has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
+end
+
 class MigratePermissions < ActiveRecord::Migration
   def self.up
-    migrate_roles
-    migrate_user_filters
+    if old_permissions_present
+      migrate_roles
+      migrate_user_filters
+
+      flag = Setting::General.find_or_initialize_by_name('fix_db_cache',
+                                                         :description   => 'Fix DB cache on next Foreman restart',
+                                                         :settings_type => 'boolean', :default => false)
+      flag.update_attributes :value => true
+      Rake::Task['db:migrate'].enhance nil do
+        Rake::Task['fix_db_cache'].invoke
+      end
+    else
+      say 'Skipping migration of permissions, since old permissions are not present'
+    end
   end
 
   # STEP 1 - migrate roles
   # for all role permissions we'll create unlimited filters
   # we'll group permissions into filters by their resource
   def self.migrate_roles
-    roles = Role.all
+    roles = FakeRole.all
     roles.each do |role|
 
       # role without permissions? nothing to do then
       if role.attributes['permissions'].nil?
-        puts "no old permissions found for role '#{role.name}', skipping"
+        say "no old permissions found for role '#{role.name}', skipping"
         next
       end
 
@@ -27,23 +121,23 @@ class MigratePermissions < ActiveRecord::Migration
       end
 
       # filter out unknown permissions, this could be leftovers from an old plugin.
-      role_permissions = Permission.where(:name => permission_names)
+      role_permissions = FakePermission.where(:name => permission_names)
 
       # we group permissions by resource the belong to
       # then create a filter per resource
       # and create a new relation between mapped permission and this filter
       role_permissions.group_by(&:resource_type).each do |resource, permissions|
-        filter      = Filter.new
+        filter = FakeFilter.new
         filter.role = role
         filter.save!
-        puts "Created an unlimited filter for role '#{role.name}'"
+        say "Created an unlimited filter for role '#{role.name}'"
 
         permissions.each do |permission|
-          filtering            = Filtering.new
+          filtering            = FakeFiltering.new
           filtering.filter     = filter
-          filtering.permission = Permission.find_by_name(permission.name)
+          filtering.permission = FakePermission.find_by_name(permission.name)
           filtering.save!
-          puts "... with permission '#{permission.name}'"
+          say "... with permission '#{permission.name}'"
         end
       end
 
@@ -53,9 +147,9 @@ class MigratePermissions < ActiveRecord::Migration
   end
 
   def self.clear_old_permission(role)
-    puts "Clearing old permissions for role '#{role.name}'"
-    if Role.update_all("permissions = NULL", "id = #{role.id}") == 1
-      puts "... OK"
+    say "Clearing old permissions for role '#{role.name}'"
+    if FakeRole.update_all("permissions = NULL", "id = #{role.id}") == 1
+      say "... OK"
     else
       raise "could not clear old permissions for role '#{role.name}'"
     end
@@ -65,28 +159,28 @@ class MigratePermissions < ActiveRecord::Migration
   # for every user having a filter we make copy of all his roles and add filtering scoped searches
   # to corresponding filters
   def self.migrate_user_filters
-    users = User.all
+    users = FakeUser.all
     users.each do |user|
       unless filtered?(user)
-        puts "no filters found for user '#{user.login}', skipping"
+        say "no filters found for user '#{user.login}', skipping"
         next
       end
 
-      puts "Migrating user '#{user.login}'"
-      puts "... cloning all roles"
+      say "Migrating user '#{user.login}'"
+      say "... cloning all roles"
       clones     = user.roles.builtin(false).map { |r| clone_role(r, user) }
       user.roles = clones + user.roles.builtin(true)
-      puts "... done"
+      say "... done"
 
       filters                     = Hash.new { |h, k| h[k] = '' }
 
       # compute resources
-      filters[:compute_resrouces] = search = user.compute_resources.uniq.map { |cr| "id = #{cr.id}" }.join(' or ')
+      filters[:compute_resources] = search = user.compute_resources.uniq.map { |cr| "id = #{cr.id}" }.join(' or ')
       affected                    = clones.map(&:filters).flatten.select { |f| f.resource_type == 'ComputeResource' }
       affected.each do |filter|
         filter.update_attributes :search => search unless search.blank?
       end
-      puts "... compute resource filters applied"
+      say "... compute resource filters applied"
 
       # domains were not limited in old system, to keep it compatible, we don't convert it and use just search string
       # later for hosts
@@ -98,32 +192,36 @@ class MigratePermissions < ActiveRecord::Migration
       affected.each do |filter|
         filter.update_attributes :search => search unless search.blank?
       end
-      puts "... hostgroups filters applied"
+      say "... hostgroups filters applied"
 
       # fact_values for hosts scope
       filters[:facts] = user.user_facts.uniq.map { |uf| "facts.#{uf.fact_name.name} #{uf.operator} #{uf.criteria}" }.join(' or ')
 
-      search = convert_filters_to_search(filters, user)
+      search, orgs, locs = convert_filters_to_search(filters, user)
 
       affected = clones.map(&:filters).flatten.select { |f| f.resource_type == 'Host' }
       affected.each do |filter|
+        filter.organizations = orgs
+        filter.locations = locs
         filter.update_attributes :search => search unless search.blank?
       end
-      puts "... all other filters applied"
+      say "... all other filters applied"
 
-      puts "Removing old filter"
+      say "Removing old filter"
       user.domains           = []
       user.compute_resources = []
       user.hostgroups        = []
       user.facts             = []
       user.filter_on_owner   = false
       user.save!
-      puts "... done"
+      say "... done"
     end
   end
 
   def self.convert_filters_to_search(filters, user)
     search = ''
+    orgs = []
+    locs = []
 
     # owner_type
     if user.filter_on_owner
@@ -145,20 +243,56 @@ class MigratePermissions < ActiveRecord::Migration
 
     # taxonomies
     if SETTINGS[:organizations_enabled]
-      filter = user.organizations.map { |o| "organization_id = #{o.id}" }.join(' or ')
-      search = "(#{search}) #{user.organizations_andor} (#{filter})" unless filter.blank?
+      orgs = user.organizations
     end
     if SETTINGS[:locations_enabled]
-      filter = user.locations.map { |o| "location_id = #{o.id}" }.join(' or ')
-      search = "(#{search}) #{user.locations_andor} (#{filter})" unless filter.blank?
+      locs = user.locations
     end
 
     # fix first and/or that could appear
-    search = search.sub(/^\s*(and|or)\s*/, '')
-    search
+    search = search.sub(/^\(\)\s*(and|or)\s*/, '')
+    [ search, orgs, locs ]
+  end
+
+  def self.filtered?(user)
+    user.compute_resources.present? ||
+        user.domains.present? ||
+        user.hostgroups.present? ||
+        user.facts.present? ||
+        user.filter_on_owner
+  end
+
+  def self.clone_role(role, user)
+    clone      = role.dup
+    clone.name = role.name + "_#{user.login}"
+    clone.save!
+
+    role.filters.each { |f| clone_filter(f, clone) }
+
+    clone.reload
+  end
+
+  def self.clone_filter(filter, role)
+    clone             = filter.dup
+    clone.permissions = filter.permissions
+    clone.role        = role
+    clone.save!
+  end
+
+
+  # To detect whether migration is needed we use existing models
+  # fakes would always indicate that migration is needed
+  def self.old_permissions_present
+    user = User.new
+    Role.column_names.include?('permissions') &&
+        user.respond_to?(:compute_resources) &&
+        user.respond_to?(:domains) &&
+        user.respond_to?(:hostgroups) &&
+        user.respond_to?(:facts) &&
+        user.respond_to?(:filter_on_owner)
   end
 
   def self.down
-
+    say 'Permission data migration is impossible, skipping'
   end
 end

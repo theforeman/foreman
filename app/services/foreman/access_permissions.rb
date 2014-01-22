@@ -200,10 +200,14 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :filters do |map|
-    map.permission :view_filters,    {:filters => [:index, :auto_complete_search]}
-    map.permission :create_filters,  {:filters => [:new, :create]}
-    map.permission :edit_filters,    {:filters => [:edit, :update], :permissions => [:index]}
-    map.permission :destroy_filters, {:filters => [:destroy]}
+    map.permission :view_filters,    {:filters => [:index, :auto_complete_search],
+                                      :'api/v2/filters' => [:index, :show]}
+    map.permission :create_filters,  {:filters => [:new, :create],
+                                      :'api/v2/filters' => [:create]}
+    map.permission :edit_filters,    {:filters => [:edit, :update], :permissions => [:index],
+                                      :'api/v2/filters' => [:update]}
+    map.permission :destroy_filters, {:filters => [:destroy],
+                                      :'api/v2/filters' => [:destroy]}
   end
 
   map.security_block :global_variables do |map|
@@ -482,10 +486,14 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :roles do |map|
-    map.permission :view_roles,    {:roles => [:index, :auto_complete_search]}
-    map.permission :create_roles,  {:roles => [:new, :create]}
-    map.permission :edit_roles,    {:roles => [:edit, :update]}
-    map.permission :destroy_roles, {:roles => [:destroy]}
+    map.permission :view_roles,    {:roles => [:index, :auto_complete_search],
+                                    :'api/v2/roles' => [:index, :show]}
+    map.permission :create_roles,  {:roles => [:new, :create],
+                                    :'api/v2/roles' => [:create]}
+    map.permission :edit_roles,    {:roles => [:edit, :update],
+                                    :'api/v2/roles' => [:update]}
+    map.permission :destroy_roles, {:roles => [:destroy],
+                                    :'api/v2/roles' => [:destroy]}
   end
 
   map.security_block :smart_proxies do |map|
