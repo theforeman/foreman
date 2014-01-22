@@ -164,7 +164,12 @@ module Foreman #:nodoc:
     end
 
     # Defines a permission called name for the given controller=>actions
+    # :options can contain :resource_type key which is the string of resource
+    #   class to which this permissions is related, rest of options is passed
+    #   to AccessControl
     def permission(name, hash, options={})
+      resource_type = options.delete(:resource_type)
+      Permission.find_or_create_by_name_and_resource_type(name, resource_type)
       options.merge!(:security_block => @security_block)
       Foreman::AccessControl.map do |map|
         map.permission name, hash, options
@@ -175,7 +180,7 @@ module Foreman #:nodoc:
     def role(name, permissions)
       Role.transaction do
         role = Role.find_or_create_by_name(name)
-        role.update_attribute :permissions, permissions if role.permissions.empty?
+        role.add_permissions!(permissions) if role.permissions.empty?
       end
     end
 

@@ -54,7 +54,7 @@ class Authorizer
     case name = klass.to_s
       when 'Audited::Adapters::ActiveRecord::Audit'
         'Audit'
-      when 'Host::Managed'
+      when /\AHost::.*\Z/
         'Host'
       when /\AForeman::Model::.*\Z/
         'ComputeResource'
