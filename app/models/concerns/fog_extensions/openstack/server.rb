@@ -5,6 +5,7 @@ module FogExtensions
 
       included do
         alias_method_chain :security_groups, :no_id
+        attr_writer :security_group, :network # floating IP
       end
 
       def to_s
@@ -46,8 +47,16 @@ module FogExtensions
         security_groups_without_no_id
       end
 
-      # dummy place holder for passing down the floating ip network
       def network
+        return @network if @network # in case we didnt submitting the form again after an error.
+        return networks.try(:first).try(:name) if persisted?
+        nil
+      end
+
+      def security_group
+        return @security_group if @security_group # in case we didnt submitting the form again after an error.
+        return security_groups.try(:first).try(:name) if persisted?
+        nil
       end
 
       def reset
