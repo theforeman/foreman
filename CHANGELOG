@@ -1,3 +1,55 @@
+2014-01-23	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.4.0-RC2
+	* refs #3697, #3701 - fix test with multiple validation failures
+
+2014-01-23	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #3697, #3701 - more comprehensive field validations
+
+2014-01-23	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #4032 - Use object.id for comparisons
+
+2014-01-23	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #4161: plugin ActiveRecord models that do no define 'name' method no longer throw NoMethodError when to_s is called
+	* fixes #3931: rbvmomi gem has been pinned to ~> 1.6.0
+	* fixes #3826: no more sql errors when trying to search for environments (also domains, operatingsystems, and models)
+
+2014-01-23	Brad Buckingham <bbuckingham@redhat.com>
+	* fixes #4152 - fix syntax error in _form.html.erb for hosts and hostgroups
+
+2014-01-23	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #3955 - added param_true? and snippet_if_exist template methods
+	* fixes #4115 - added missing LICENSE file
+
+2014-01-23	Joseph Magen <joseph@isratrade.co.il>
+	* fixes #3828 - set language locale for API messages and error responses
+	* fixes #3925 - create apipie param_groups for API v2 to DRY documentation
+
+2014-01-23	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #3920 - prevent 500 ScopedSearch errors on the API, raise UI errors correctly
+	* fixes #359 - hostname spoofing for unattended installation templates
+
+2014-01-20	Joseph Magen <joseph@isratrade.co.il>
+	* fixes #3760 - API v2 define metadata @total for each controller
+	* fixes #4023 - API v2 - compute resources partials should should attribute alias names and not database column names
+	* fixes #3998 - API v2 error on /api/compute_resources, missing gce.json.rabl
+	* fixes #4132 - helper select_f missing option for :multiple => true to increase width
+	* fixes #3867 - Wrong Compute Resource type shown on overview
+
+2014-01-20	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #4139 - fixed quiet flag in foreman-debug
+	* fixes #3940 - extlogout page layout fixed
+	* fixes #3983 - added trends:clean to cron
+
+2014-01-20	Dominic Cleal <dcleal@redhat.com>
+	* Bump copyright, remove spurious file
+
+2014-01-20	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #2231 - hostgroup deletion is restricted to hostgroups without children
+	* fixes #3515 - API handles not found objects with 404
+
+2014-01-20	Ewoud Kohl van Wijngaarden <e.kohlvanwijngaarden@oxilion.nl>
+	* Fixes #4022: Make api puppetrun a PUT for REST standards
+
 2014-01-16	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.4.0-RC1
 	* i18n - extracting new, updating rails, pulling from tx
