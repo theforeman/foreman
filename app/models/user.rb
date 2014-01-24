@@ -13,25 +13,29 @@ class User < ActiveRecord::Base
   after_commit :ensure_default_role
 
   belongs_to :auth_source
+  belongs_to :default_organization, :class_name => 'Organization'
+  belongs_to :default_location,     :class_name => 'Location'
+
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
-  has_many :usergroup_member, :as => :member, :dependent => :destroy
-  has_many :usergroups, :through => :usergroup_member
-  has_many :cached_usergroup_members
-  has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
-  has_many :direct_hosts, :as => :owner, :class_name => "Host"
-  has_and_belongs_to_many :notices, :join_table => 'user_notices'
-  has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
-  has_many :roles, :through => :user_roles, :dependent => :destroy
+  has_many :direct_hosts,      :class_name => 'Host',    :as => :owner
+  has_many :usergroup_member,  :dependent => :destroy,   :as => :member
+  has_many :user_roles,        :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
+  has_many :user_hostgroups,   :dependent => :destroy
+  has_many :user_facts,        :dependent => :destroy
   has_many :cached_user_roles, :dependent => :destroy
-  has_many :cached_roles, :through => :cached_user_roles, :source => :role, :uniq => true
-  has_many :filters, :through => :cached_roles
-  has_many :permissions, :through => :filters
+  has_many :facts,             :through => :user_facts,               :source => :fact_name
+  has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
+  has_many :cached_roles,      :through => :cached_user_roles,        :source => :role, :uniq => true
+  has_many :hostgroups,        :through => :user_hostgroups
+  has_many :usergroups,        :through => :usergroup_member
+  has_many :roles,             :through => :user_roles, :dependent => :destroy
+  has_many :filters,           :through => :cached_roles
+  has_many :permissions,       :through => :filters
+  has_many :cached_usergroup_members
+
+  has_and_belongs_to_many :notices,           :join_table => 'user_notices'
   has_and_belongs_to_many :compute_resources, :join_table => "user_compute_resources"
   has_and_belongs_to_many :domains,           :join_table => "user_domains"
-  has_many :user_hostgroups, :dependent => :destroy
-  has_many :hostgroups, :through => :user_hostgroups
-  has_many :user_facts, :dependent => :destroy
-  has_many :facts, :through => :user_facts, :source => :fact_name
   attr_name :login
 
   scope :except_admin, lambda {
@@ -61,9 +65,9 @@ class User < ActiveRecord::Base
   validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
   validates :firstname, :lastname, :format => {:with => /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/}, :length => {:maximum => 50}, :allow_nil => true
-
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed, :ensure_admin_remains_admin,
-           :ensure_privileges_not_escalated
+           :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion
+
   before_validation :prepare_password, :normalize_mail
   after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.hostgroups.clear}
 
@@ -163,7 +167,7 @@ class User < ActiveRecord::Base
         # update with returned attrs, maybe some info changed in LDAP
         old_hash = user.avatar_hash
         User.as :admin do
-          user.update_attributes(attrs.slice(:firstname, :lastname, :mail, :avatar_hash)) 
+          user.update_attributes(attrs.slice(:firstname, :lastname, :mail, :avatar_hash))
         end if attrs.is_a? Hash
 
         # clean up old avatar if it exists and the image isn't in use by anyone else
@@ -305,6 +309,18 @@ class User < ActiveRecord::Base
     { :owner_id => id }
   end
 
+  def set_current_taxonomies
+    ['location', 'organization'].each do |taxonomy|
+      default_taxonomy = self.send "default_#{taxonomy}"
+      if default_taxonomy.present?
+        taxonomy.classify.constantize.send 'current=', default_taxonomy
+        session["#{taxonomy}_id"] = default_taxonomy.id
+      end
+    end
+
+    TopbarSweeper.expire_cache(self)
+  end
+
   private
 
   def prepare_password
@@ -403,4 +419,17 @@ class User < ActiveRecord::Base
     role = Role.find_by_name('Anonymous')
     self.roles << role unless self.role_ids.include?(role.id)
   end
+
+  def default_location_inclusion
+    unless locations.include?(default_location) || default_location.blank? || self.admin?
+      errors.add :default_location, _("Default locations need to be user locations first")
+    end
+  end
+
+  def default_organization_inclusion
+    unless organizations.include?(default_organization) || default_organization.blank? || self.admin?
+      errors.add :default_organization, _("Default organizations need to be user organizations first")
+    end
+  end
+
 end

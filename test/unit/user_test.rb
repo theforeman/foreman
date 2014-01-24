@@ -451,4 +451,33 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 'authorizer was asked', u.can?(:view_hosts_or_whatever_you_ask)
   end
 
+  test 'default taxonomy inclusion validator' do
+    users(:one).default_location = Location.first
+    users(:one).default_organization = Organization.first
+
+    refute users(:one).valid?
+    assert users(:one).errors.messages.has_key? :default_location
+    assert users(:one).errors.messages.has_key? :default_organization
+  end
+
+  test 'any taxonomy works as default taxonomy for admins' do
+    users(:one).update_attribute(:admin, true)
+    users(:one).default_location = Location.first
+
+    assert users(:one).valid?
+  end
+
+#  Uncomment after users get access to children taxonomies of their current taxonomies.
+#
+#  test 'default taxonomy inclusion validator takes into account inheritance' do
+#    inherited_location     = Location.create(:parent => Location.first, :name => 'inherited_loc')
+#    inherited_organization = Organization.create(:parent => Organization.first, :name => 'inherited_org')
+#    users(:one).update_attribute(:locations, [Location.first])
+#    users(:one).update_attribute(:organizations, [Organization.first])
+#    users(:one).default_location     = Location.find_by_name('inherited_loc')
+#    users(:one).default_organization = Organization.find_by_name('inherited_org')
+#
+#    assert users(:one).valid?
+#  end
+
 end

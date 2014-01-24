@@ -106,6 +106,7 @@ Foreman::Application.configure do |app|
                   taxonomy_edit
                   gettext/all
                   filters
+                  users
                  )
   stylesheets = %w( )
 

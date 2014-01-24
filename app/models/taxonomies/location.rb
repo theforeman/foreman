@@ -4,7 +4,8 @@ class Location < Taxonomy
   has_and_belongs_to_many :organizations
   has_many_hosts :dependent => :nullify
 
-  has_many :location_parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "LocationParameter"
+  has_many :location_parameters, :class_name => 'LocationParameter', :foreign_key => :reference_id, :dependent => :destroy
+  has_many :default_users,       :class_name => 'User',              :foreign_key => :default_location_id
   accepts_nested_attributes_for :location_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
 
   scope :completer_scope, lambda { |opts| my_locations }

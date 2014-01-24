@@ -19,25 +19,29 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create regular user" do
+  test 'should create regular user' do
     post :create, {
       :user => {
-        :login => "foo",
-        :mail => "foo@bar.com",
+        :login          => 'foo',
+        :mail           => 'foo@bar.com',
+        :auth_source_id => auth_sources(:internal).id,
+        :password       => 'changeme'
       }
     }, set_session_user
-    assert_equal @response.status, 200
+    assert_redirected_to users_path
   end
 
-  test "should create admin user" do
+  test 'should create admin user' do
     post :create, {
       :user => {
-        :login => "foo",
-        :admin => true,
-        :mail => "foo@bar.com",
+        :login          => 'foo',
+        :admin          => true,
+        :mail           => 'foo@bar.com',
+        :auth_source_id => auth_sources(:internal).id,
+        :password       => 'changeme'
       }
     }, set_session_user
-    assert_equal @response.status, 200
+    assert_redirected_to users_path
   end
 
   test "should update user" do
@@ -50,7 +54,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to users_path
   end
 
-  def test_one #"should not remove the anonymous role" do
+  test "should not remove the anonymous role" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
     assert user.roles =([roles(:anonymous)])
@@ -89,7 +93,7 @@ class UsersControllerTest < ActionController::TestCase
                  }, set_session_user
     mod_user = User.find_by_id(user.id)
 
-    assert  mod_user.matching_password?("changeme")
+    assert mod_user.matching_password?("changeme")
     assert_template :edit
   end
 
@@ -244,7 +248,7 @@ class UsersControllerTest < ActionController::TestCase
   test 'user without edit permission should not be able to edit another user' do
     User.current = users(:one)
     get :edit, { :id => users(:two) }
-    assert_response 404
+    assert_response :not_found
   end
 
   test 'user with edit permission should be able to edit another user' do
@@ -256,7 +260,7 @@ class UsersControllerTest < ActionController::TestCase
   test 'user without edit permission should not be able to update another user' do
     User.current = users(:one)
     put :update, { :id => users(:two).id, :user => { :firstname => 'test' } }
-    assert_response 403
+    assert_response :forbidden
   end
 
   test 'user with update permission should be able to update another user' do
@@ -294,4 +298,32 @@ class UsersControllerTest < ActionController::TestCase
     refute session[:foo], "session contains 'foo', but should have been reset"
   end
 
+  context 'default taxonomies' do
+    test 'logging in loads default taxonomies' do
+      users(:one).update_attributes(:default_location_id     => taxonomies(:location1).id,
+                                    :default_organization_id => taxonomies(:organization1).id,
+                                    :password                => 'changeme')
+
+      User.expects(:try_to_login).with(users(:one).login, users(:one).password).
+        returns(users(:one).post_successful_login)
+
+      post :login, { :login => { :login => users(:one).login, :password => users(:one).password } }
+      assert_equal session['organization_id'], users(:one).default_organization_id
+      assert_equal session['location_id'],     users(:one).default_location_id
+    end
+
+    test 'users can update their own default taxonomies' do
+      users(:one).update_attributes(:locations     => [taxonomies(:location1)],
+                                    :organizations => [taxonomies(:organization1)])
+
+      put :update, { :id   => users(:one).id,
+                     :user => { :default_location_id     => taxonomies(:location1).id,
+                                :default_organization_id => taxonomies(:organization1).id } }
+      assert_redirected_to users_path
+
+      updated_user = User.find(users(:one).id)
+      assert_equal taxonomies(:location1),     updated_user.default_location
+      assert_equal taxonomies(:organization1), updated_user.default_organization
+    end
+  end
 end
