@@ -32,6 +32,8 @@ module Api
           param :mail, String, :required => true
           param :admin, :bool, :required => false, :desc => "Is an admin account?"
           param :password, String, :required => true
+          param :default_location_id, Integer if SETTINGS[:locations_enabled]
+          param :default_organization_id, Integer if SETTINGS[:organizations_enabled]
           param :auth_source_id, Integer, :required => true
         end
       end

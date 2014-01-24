@@ -1,54 +1,77 @@
+<%= javascript 'users' %>
 <%= form_for @user do |f| %>
   <%= base_errors_for @user %>
 
-  <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab"><%= _("User") %></a></li>
-    <% unless @editing_self %>
-      <li><a href="#roles" data-toggle="tab"><%= _("Roles") %></a></li>
+  <ul class='nav nav-tabs' data-tabs='tabs'>
+    <li class='active'><a href='#primary' data-toggle='tab'><%= _('User') %></a></li>
+    <% unless @editing_self || @user.admin? %>
       <% if show_location_tab? %>
-        <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+        <li><a href='#locations' data-toggle='tab'><%= _('Locations') %></a></li>
       <% end %>
       <% if show_organization_tab? %>
-        <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+        <li><a href='#organizations' data-toggle='tab'><%= _('Organizations') %></a></li>
       <% end %>
+      <li><a href='#roles' data-toggle='tab'><%= _('Roles') %></a></li>
     <% end %>
   </ul>
 
-  <div class="tab-content">
-    <div class="tab-pane active" id="primary">
+  <div class='tab-content'>
+    <div class='tab-pane active' id='primary'>
 
-      <%= text_f f, :login, :disabled => f.object.login == "admin" %>
+      <%= text_f f, :login, :disabled => f.object.login == 'admin' %>
       <%= text_f f, :firstname %>
       <%= text_f f, :lastname %>
       <%= text_f f, :mail %>
-      <%= selectable_f(f, :locale, FastGettext.human_available_locales, {:include_blank => _("Browser locale")}, {:label => "Language"}) %>
 
-      <%= select_f(f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? }, :id, :to_label, {:include_blank => true}, {:onchange => 'auth_source_selected()', :label => _("Authorized by")}) unless @editing_self
-      %>
+      <% if SETTINGS[:location_enabled] %>
+        <%= select_f f, :default_location_id, (@user.admin? ? Location.all : @user.locations), :id, :title,
+                      { :include_blank => true }, { :label => _('Default location') } %>
+      <% end %>
 
-      <div id="password" <%= display? !@user.manage_password? %>>
-        <%= password_f f, :password, :label => _("Password") %>
-        <%= password_f f, :password_confirmation, :label => _("Verify") %>
+      <% if SETTINGS[:organization_enabled] %>
+        <%= select_f f, :default_organization_id,(@user.admin? ? Organization.all : @user.organizations), :id, :title,
+                        { :include_blank => true }, { :label => _('Default organization') } %>
+      <% end %>
+
+      <%= selectable_f(f, :locale, FastGettext.human_available_locales,
+                        { :include_blank => _('Browser locale') } , { :label => _('Language') } ) %>
+
+      <%= select_f(f, :auth_source_id, AuthSource.all.delete_if { |a| a.to_label.nil? } , :id,
+                      :to_label, { :include_blank => true } ,
+                      { :onchange => 'auth_source_selected()',
+                        :label => _('Authorized by') } ) unless @editing_self %>
+
+      <div id='password' <%= display? !@user.manage_password? %>>
+        <%= password_f f, :password, :label => _('Password') %>
+        <%= password_f f, :password_confirmation, :label => _('Verify') %>
       </div>
     </div>
-    <% unless @editing_self %>
-      <div class="tab-pane" id="roles">
+    <% unless @editing_self || @user.admin? %>
+      <div class='tab-pane' id='roles'>
         <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
-        <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user, {:label => _('Roles')} %>
+        <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user,
+                                 { :label => _('Roles') } %>
       </div>
 
       <% if show_location_tab? %>
-        <div class="tab-pane" id="locations">
-          <%= location_selects f, @user.used_or_selected_location_ids, {:disabled => @user.used_location_ids, :label => ''} %>
+        <div class='tab-pane' id='locations'>
+          <%= location_selects(f, @user.used_or_selected_location_ids,
+                               { :disabled => @user.used_location_ids,
+                                 :label    => '' } ,
+                               { :onchange => 'taxonomy_added(this, "location")' } ) %>
         </div>
       <% end %>
 
       <% if show_organization_tab? %>
-        <div class="tab-pane" id="organizations">
-          <%= organization_selects f, @user.used_or_selected_organization_ids, {:disabled => @user.used_organization_ids, :label => ''} %>
+        <div class='tab-pane' id='organizations'>
+          <%= organization_selects(f, @user.used_or_selected_organization_ids,
+                                   { :disabled => @user.used_organization_ids,
+                                     :label => '' },
+                                   { :onchange => 'taxonomy_added(this, "organization")' } ) %>
         </div>
       <% end %>
     <% end %>
   </div>
+
   <%= submit_or_cancel f %>
 <% end %>

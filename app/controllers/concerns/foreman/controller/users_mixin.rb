@@ -17,7 +17,14 @@ module Foreman::Controller::UsersMixin
       @admin = params[:user].has_key?(:admin) ? params[:user].delete(:admin) : nil
       # Remove keys for restricted variables when the user is editing their own account
       if editing_self?
-        params[:user].slice!(:password_confirmation, :password, :mail, :firstname, :lastname, :locale)
+        params[:user].slice!(:password_confirmation,
+                             :password,
+                             :mail,
+                             :firstname,
+                             :lastname,
+                             :locale,
+                             :default_organization_id,
+                             :default_location_id)
 
         # Remove locale from the session when set to "Browser Locale" and editing self
         session.delete(:locale) if params[:user][:locale].try(:empty?)
@@ -43,4 +50,16 @@ module Foreman::Controller::UsersMixin
     sub_hg = Hostgroup.where(:id => hostgroup_ids).map(&:subtree).flatten.reject { |hg| hg.user_ids.include?(@user.id) }
     sub_hg.each { |hg| hg.users << @user }
   end
+
+  def set_current_taxonomies(user)
+    ['location', 'organization'].each do |taxonomy|
+      default_taxonomy = user.send "default_#{taxonomy}"
+      if default_taxonomy.present?
+        taxonomy.classify.constantize.send 'current=', default_taxonomy
+        session["#{taxonomy}_id"] = default_taxonomy.id
+      end
+    end
+  end
+
+  module_function :set_current_taxonomies
 end

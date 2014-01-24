@@ -27,6 +27,16 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     assert_not show_response.empty?
   end
 
+  test "shows default taxonomies on show response" do
+    users(:one).update_attribute :locations, [taxonomies(:location1)]
+    users(:one).update_attribute :default_location, taxonomies(:location1)
+    get :show, { :id => users(:one).id }
+    show_response = ActiveSupport::JSON.decode(@response.body)
+
+    assert_equal taxonomies(:location1).id, show_response['default_location']['location']['id']
+    assert_equal nil, show_response['default_organization']
+  end
+
   test "should update user" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     put :update, { :id => user.id, :user => valid_attrs }
