@@ -44,14 +44,14 @@ uniq-po:
 	done
 
 tx-pull:
-	tx pull -f -r foreman.foreman
+	tx pull -f
 	-git commit -a -m "i18n - extracting new, updating rails, pulling from tx"
 
 update-rails:
-	../script/update-rails-locales.sh
+	-[ -x ../script/update-rails-locales.sh ] && ../script/update-rails-locales.sh
 
 extract-strings:
-	bundle exec rake locale:find
+	bundle exec rake locale:find DOMAIN=$(DOMAIN) SKIP_MODEL=1
 
 tx-update: update-rails tx-pull extract-strings
 	# merging po files is unnecessary when using transifex.com (amend that)

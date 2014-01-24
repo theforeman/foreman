@@ -1,5 +1,7 @@
 require "fileutils"
 
+DOMAIN = ENV['DOMAIN'] || 'foreman'
+
 desc 'Locale specific tasks: locale:find'
 namespace :locale do
 
@@ -29,12 +31,14 @@ namespace :locale do
   task :find_code => ["gettext:find", "gettext:po_to_json"]
 
   desc 'Extract strings from model and from codebase'
-  task :find => [:find_model, :find_code] do
+  find_dependencies = [:find_model, :find_code]
+  find_dependencies.shift if ENV['SKIP_MODEL']
+  task :find => find_dependencies do
     # do not commit PO string merge into git (we are using transifex.com)
     `git checkout -- locale/*/*.po`
 
     # find malformed strings
-    errors = File.open("locale/foreman.pot") {|f| f.grep /(%s.*%s|#\{)/}
+    errors = File.open("locale/#{DOMAIN}.pot") {|f| f.grep /(%s.*%s|#\{)/}
     if errors.count > 0
       errors.each {|e| puts "MALFORMED: #{e}"}
       puts "Malformed strings found: #{errors.count}"
