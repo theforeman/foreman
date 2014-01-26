@@ -115,7 +115,7 @@ Medium.without_auditing do
     { :name => "OpenSUSE mirror", :os_family => "Suse", :path => "http://download.opensuse.org/distribution/$major.$minor/repo/oss", :operatingsystems => os_suse },
     { :name => "Ubuntu mirror", :os_family => "Debian", :path => "http://archive.ubuntu.com/ubuntu/" }
   ].each do |input|
-    next if Medium.find_by_name(input[:name])
+    next if Medium.where(['name = ? OR path = ?',input[:name], input[:path]]).any?
     next if audit_modified? Medium, input[:name]
     m = Medium.create input
     raise "Unable to create medium: #{format_errors m}" if m.nil? || m.errors.any?
