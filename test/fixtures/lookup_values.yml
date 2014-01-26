@@ -29,3 +29,13 @@ four:
   match: hostgroup=Common
   lookup_key: two
   value: 8443
+
+five:
+  match: hostgroup=Parent
+  lookup_key: four
+  value: 8443
+
+six:
+  match: hostgroup=Parent/inherited
+  lookup_key: four
+  value: 8443
