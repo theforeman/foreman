@@ -190,7 +190,7 @@ class HostgroupTest < ActiveSupport::TestCase
     lv = lookup_values(:four)
     lv.match = "hostgroup=#{hostgroup.name}"
     lv.save!
-    assert_equal [lookup_values(:four)], hostgroup.lookup_values
+    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)], hostgroup.lookup_values.sort
   end
 
 end

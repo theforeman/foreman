@@ -19,6 +19,7 @@ class Hostgroup < ActiveRecord::Base
   before_save :remove_duplicated_nested_class
   before_save :set_label, :on => [:create, :update, :destroy]
   after_save :set_other_labels, :on => [:update, :destroy]
+  after_save :update_matchers , :on => :update, :if => Proc.new {|hg| hg.label_changed? }
 
   alias_attribute :os, :operatingsystem
   audited :except => [:label], :allow_mass_assignment => true
@@ -180,6 +181,11 @@ class Hostgroup < ActiveRecord::Base
 
   def remove_duplicated_nested_class
     self.puppetclasses -= ancestors.map(&:puppetclasses).flatten
+  end
+
+  def update_matchers
+    lookup_values = LookupValue.where(:match => "hostgroup=#{label_was}")
+    lookup_values.update_all(:match => "hostgroup=#{label}")
   end
 
 end
