@@ -38,7 +38,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
 
   test "should destroy subnets" do
     assert_difference('Subnet.count', -1) do
-      delete :destroy, { :id => subnets(:three).to_param }
+      delete :destroy, { :id => subnets(:four).to_param }
     end
     assert_response :success
   end

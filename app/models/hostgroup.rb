@@ -25,6 +25,9 @@ class Hostgroup < ActiveRecord::Base
   # attribute used by *_names and *_name methods.  default is :name
   attr_name :label
 
+  nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
+                       :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id
+
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
@@ -132,14 +135,6 @@ class Hostgroup < ActiveRecord::Base
     read_attribute(:root_pass) || nested_root_pw || Setting[:root_pass]
   end
 
-  def inherited_compute_profile_id
-    read_attribute(:compute_profile_id) || nested_compute_profile_id
-  end
-
-  def compute_profile
-    ComputeProfile.find_by_id(inherited_compute_profile_id)
-  end
-
   private
 
   def lookup_value_match
@@ -151,10 +146,6 @@ class Hostgroup < ActiveRecord::Base
       return a.root_pass unless a.root_pass.blank?
     end if ancestry.present?
     nil
-  end
-
-  def nested_compute_profile_id
-    Hostgroup.sort_by_ancestry(ancestors.where('compute_profile_id > 0')).last.try(:compute_profile_id) if ancestry.present?
   end
 
   def remove_duplicated_nested_class

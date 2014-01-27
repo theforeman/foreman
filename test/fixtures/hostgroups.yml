@@ -31,6 +31,16 @@ db:
 parent:
   name: Parent
   label: Parent
+  architecture: x86_64
+  ptable: one
+  environment: global_puppetmaster
+  operatingsystem: centos5_3
+  medium: one
+  puppet_proxy: puppetmaster
+  puppet_ca_proxy: puppetmaster
+  domain: mydomain
+  subnet: three
+  compute_profile: one
   id: 1
 
 inherited:
