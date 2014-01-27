@@ -325,6 +325,13 @@ module ApplicationHelper
     end
   end
 
+  def blank_or_inherit_f(f, attr)
+    return true unless f.object.respond_to?(:parent_id) && f.object.parent_id
+    inherited_value   = f.object.send(attr).try(:name_method)
+    inherited_value ||= _("no value")
+    _("Inherit parent (%s)") % inherited_value
+  end
+
   private
   def edit_inline(object, property, options={})
     name       = "#{type}[#{property}]"

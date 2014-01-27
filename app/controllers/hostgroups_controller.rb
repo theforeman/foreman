@@ -14,10 +14,7 @@ class HostgroupsController < ApplicationController
 
   def nest
     @parent = Hostgroup.find(params[:id])
-    @hostgroup = @parent.dup
-    #overwrite parent_id and name
-    @hostgroup.parent_id = params[:id]
-    @hostgroup.name = ""
+    @hostgroup = Hostgroup.new(:parent_id => @parent.id)
 
     load_vars_for_ajax
     @hostgroup.puppetclasses = @parent.puppetclasses

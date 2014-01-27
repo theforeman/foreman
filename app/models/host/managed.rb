@@ -522,10 +522,10 @@ class Host::Managed < Host::Base
 
   def set_hostgroup_defaults
     return unless hostgroup
-    assign_hostgroup_attributes(%w{environment domain puppet_proxy puppet_ca_proxy compute_profile})
+    assign_hostgroup_attributes(%w{environment_id domain_id puppet_proxy_id puppet_ca_proxy_id compute_profile_id})
     if SETTINGS[:unattended] and (new_record? or managed?)
-      assign_hostgroup_attributes(%w{operatingsystem architecture})
-      assign_hostgroup_attributes(%w{medium ptable subnet}) if capabilities.include?(:build)
+      assign_hostgroup_attributes(%w{operatingsystem_id architecture_id})
+      assign_hostgroup_attributes(%w{medium_id ptable_id subnet_id}) if capabilities.include?(:build)
     end
   end
 
@@ -785,7 +785,8 @@ class Host::Managed < Host::Base
 
   def assign_hostgroup_attributes attrs = []
     attrs.each do |attr|
-      eval("self.#{attr.to_s} ||= hostgroup.#{attr.to_s}")
+      value = hostgroup.send("inherited_#{attr}")
+      self.send("#{attr}=", value) unless send(attr).present?
     end
   end
 

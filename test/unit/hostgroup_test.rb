@@ -193,4 +193,58 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)], hostgroup.lookup_values.sort
   end
 
+  # test NestedAncestryCommon methods generate by class method nested_attribute_for
+  test "respond to nested_attribute_for methods" do
+    hostgroup = hostgroups(:common)
+    [:compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
+     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id].each do |field|
+      assert hostgroup.respond_to?("inherited_#{field}")
+    end
+  end
+
+  test "inherited id value equals field id value if no ancestry" do
+    hostgroup = hostgroups(:common)
+    [:compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
+     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id].each do |field|
+      assert_equal hostgroup.send(field), hostgroup.send("inherited_#{field}")
+    end
+  end
+
+  test "inherited id value equals parent's field id value if the child's value is null" do
+    child = hostgroups(:inherited)
+    parent = hostgroups(:parent)
+    # environment_id is not included in the array below since child value is not null
+    [:compute_profile_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
+     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id].each do |field|
+      assert_equal parent.send(field), child.send("inherited_#{field}")
+    end
+  end
+
+  test "inherited id value does not inherit parent's field id value if the child's value is not null" do
+    child = hostgroups(:inherited)
+    parent = hostgroups(:parent)
+    # only environment_id is overriden in inherited fixture
+    refute_equal parent.environment_id, child.inherited_environment_id
+    assert_equal child.environment_id, child.inherited_environment_id
+  end
+
+  test "inherited object equals parent object if the child's value is null" do
+    child = hostgroups(:inherited)
+    parent = hostgroups(:parent)
+    # methods below do not include _id
+    # environment is not included in the array below since child value is not null
+    [:compute_profile, :domain, :puppet_proxy, :puppet_ca_proxy,
+     :operatingsystem, :architecture, :medium, :ptable, :subnet].each do |field|
+      assert_equal parent.send(field), child.send(field)
+    end
+  end
+
+  test "inherited object does not inherit parent object if the child's value is null" do
+    child = hostgroups(:inherited)
+    parent = hostgroups(:parent)
+    # only environment_id is overriden in inherited fixture
+    refute_equal parent.environment, child.environment
+    assert_equal environments(:production), child.environment
+  end
+
 end

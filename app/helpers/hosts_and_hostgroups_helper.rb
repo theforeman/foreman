@@ -52,7 +52,7 @@ module HostsAndHostgroupsHelper
     proxies = SmartProxy.puppetca_proxies
     return if proxies.count == 0
     select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
-             { :include_blank => true },
+             { :include_blank => blank_or_inherit_f(f, :puppet_ca_proxy) },
              { :label       => _("Puppet CA"),
                :help_inline => _("Use this puppet server as a CA server") }
   end
@@ -63,7 +63,7 @@ module HostsAndHostgroupsHelper
     proxies = SmartProxy.puppet_proxies
     return if proxies.count == 0
     select_f f, :puppet_proxy_id, proxies, :id, :name,
-             { :include_blank => true },
+             { :include_blank => blank_or_inherit_f(f, :puppet_proxy) },
              { :label       => _("Puppet Master"),
                :help_inline => _("Use this puppet server as an initial Puppet Server or to execute puppet runs") }
   end
