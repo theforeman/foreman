@@ -3,6 +3,7 @@ class Hostgroup < ActiveRecord::Base
   include Authorization
   include Taxonomix
   include HostCommon
+  include NestedAncestryCommon
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :hostgroup_classes, :dependent => :destroy
@@ -17,9 +18,6 @@ class Hostgroup < ActiveRecord::Base
   has_many :template_combinations, :dependent => :destroy
   has_many :config_templates, :through => :template_combinations
   before_save :remove_duplicated_nested_class
-  before_save :set_label, :on => [:create, :update, :destroy]
-  after_save :set_other_labels, :on => [:update, :destroy]
-  after_save :update_matchers , :on => :update, :if => Proc.new {|hg| hg.label_changed? }
 
   alias_attribute :os, :operatingsystem
   audited :except => [:label], :allow_mass_assignment => true
@@ -36,7 +34,6 @@ class Hostgroup < ActiveRecord::Base
   }
 
   scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :label, :complete_value => :true
   scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host"
   scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :operators => ['= ', '~ ']
@@ -135,11 +132,6 @@ class Hostgroup < ActiveRecord::Base
     read_attribute(:root_pass) || nested_root_pw || Setting[:root_pass]
   end
 
-  def get_label
-    return name if ancestry.empty?
-    ancestors.map{|a| a.name + "/"}.join + name
-  end
-
   def inherited_compute_profile_id
     read_attribute(:compute_profile_id) || nested_compute_profile_id
   end
@@ -152,20 +144,6 @@ class Hostgroup < ActiveRecord::Base
 
   def lookup_value_match
     "hostgroup=#{to_label}"
-  end
-
-  def set_label
-    self.label = get_label if (name_changed? || ancestry_changed? || label.blank?)
-  end
-
-  def set_other_labels
-    if name_changed? || ancestry_changed?
-      Hostgroup.where("ancestry IS NOT NULL").each do |hostgroup|
-        if hostgroup.path_ids.include?(self.id)
-          hostgroup.update_attributes(:label => hostgroup.get_label)
-        end
-      end
-    end
   end
 
   def nested_root_pw
@@ -181,11 +159,6 @@ class Hostgroup < ActiveRecord::Base
 
   def remove_duplicated_nested_class
     self.puppetclasses -= ancestors.map(&:puppetclasses).flatten
-  end
-
-  def update_matchers
-    lookup_values = LookupValue.where(:match => "hostgroup=#{label_was}")
-    lookup_values.update_all(:match => "hostgroup=#{label}")
   end
 
 end

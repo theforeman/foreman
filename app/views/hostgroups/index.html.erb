@@ -7,9 +7,9 @@
     <th><%= sort :label, :as => _('Hostgroup|Name') %></th>
     <th></th>
   </tr>
-  <% Hostgroup.sort_by_ancestry(@hostgroups).each do |hostgroup| %>
+  <% @hostgroups.each do |hostgroup| %>
     <tr>
-      <td> <%= hostgroup_name hostgroup %> </td>
+      <td> <%= label_with_link(hostgroup) %> </td>
       <td>
         <%= action_buttons(
                     display_link_if_authorized(_('Nest'),    hash_for_nest_hostgroup_path(:id => hostgroup)),

@@ -6,7 +6,7 @@ class HostGroupsHelperTest < ActionView::TestCase
 
   test "should have the full string of the parent class if the child is a substring" do
     test_group = Hostgroup.create(:name => "test/st")
-    assert_match /test\/st/, hostgroup_name(test_group)
-    refute_match /te\/st/, hostgroup_name(test_group)
+    assert_match /test\/st/, label_with_link(test_group)
+    refute_match /te\/st/, label_with_link(test_group)
   end
 end
