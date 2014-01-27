@@ -50,9 +50,10 @@ function testConnection(item) {
 
 function ovirt_templateSelected(item){
   var template = $(item).val();
-  var url = $(item).attr('data-url');
-  $(item).indicator_show();
-  $.ajax({
+  if (template) {
+    var url = $(item).attr('data-url');
+    $(item).indicator_show();
+    $.ajax({
       type:'post',
       url: url,
       data:'template_id=' + template,
@@ -69,6 +70,7 @@ function ovirt_templateSelected(item){
         $('[rel="twipsy"]').tooltip();
       }
     })
+  }
 }
 // fill in the template interfaces.
 function add_network_interface(item){
