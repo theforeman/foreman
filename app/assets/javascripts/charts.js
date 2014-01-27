@@ -241,12 +241,14 @@ function get_pie_chart(div, url) {
         .append('<div class="modal-footer"></div>')
 
     $("#"+div).modal('show');
-    $.getJSON(url, function(data) {
-      var target = $("#"+div+"-body");
-      target.empty();
-      expanded_pie(target, data.values)
-      target.attr('data-url', foreman_url("/hosts?search=facts." + data.name + "~~VAL1~"));
-    });
+    $("#"+div).on('shown.bs.modal', function() {
+      $.getJSON(url, function(data) {
+        var target = $("#"+div+"-body");
+        target.empty();
+        expanded_pie(target, data.values)
+        target.attr('data-url', foreman_url("/hosts?search=facts." + data.name + "~~VAL1~"));
+      })
+    })
   } else {$("#"+div).modal('show');}
 }
 
