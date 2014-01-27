@@ -407,12 +407,15 @@ rm -rf %{buildroot}
 %{scl_rake} -f Rakefile.dist clean
 
 install -d -m0755 %{buildroot}%{_datadir}/%{name}
+install -d -m0755 %{buildroot}%{_datadir}/%{name}/plugins
 install -d -m0755 %{buildroot}%{_sysconfdir}/%{name}
+install -d -m0755 %{buildroot}%{_sysconfdir}/%{name}/plugins
 install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}
 install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}/tmp
 install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}/tmp/pids
 install -d -m0755 %{buildroot}%{_localstatedir}/run/%{name}
 install -d -m0750 %{buildroot}%{_localstatedir}/log/%{name}
+install -d -m0750 %{buildroot}%{_localstatedir}/log/%{name}/plugins
 install -Dp -m0755 script/%{name}-debug %{buildroot}%{_sbindir}/%{name}-debug
 install -Dp -m0755 script/%{name}-rake %{buildroot}%{_sbindir}/%{name}-rake
 install -Dp -m0644 %{confdir}/%{name}.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/%{name}
@@ -462,6 +465,9 @@ ln -sv %{_localstatedir}/log/%{name} %{buildroot}%{_datadir}/%{name}/log
 # Put tmp files in %{_localstatedir}/run/%{name}
 ln -sv %{_localstatedir}/run/%{name} %{buildroot}%{_datadir}/%{name}/tmp
 
+# Symlink plugin settings directory to 
+ln -sv %{_sysconfdir}/%{name}/plugins %{buildroot}%{_datadir}/%{name}/config/settings.plugins.d
+
 # Create VERSION file
 install -pm0644 VERSION %{buildroot}%{_datadir}/%{name}/VERSION
 
@@ -475,6 +481,7 @@ rm -rf %{buildroot}
 %doc LICENSE
 %exclude %{_datadir}/%{name}/bundler.d/*
 %{_datadir}/%{name}
+%{_datadir}/%{name}/plugins
 %exclude %{_datadir}/%{name}/app/assets
 %{_initrddir}/%{name}
 %{_sbindir}/%{name}-debug
@@ -486,6 +493,7 @@ rm -rf %{buildroot}
 %config %{_sysconfdir}/cron.d/%{name}
 %attr(-,%{name},%{name}) %{_localstatedir}/lib/%{name}
 %attr(750,%{name},%{name}) %{_localstatedir}/log/%{name}
+%attr(750,%{name},%{name}) %{_localstatedir}/log/%{name}/plugins
 %attr(-,%{name},%{name}) %{_localstatedir}/run/%{name}
 %attr(-,%{name},root) %{_datadir}/%{name}/config.ru
 %attr(-,%{name},root) %{_datadir}/%{name}/config/environment.rb
