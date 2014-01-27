@@ -16,9 +16,20 @@ module Api::ImportPuppetclassesCommonController
   param :smart_proxy_id, String, :required => false
   param :environment_id, String, :required => false
   param :dryrun, :bool, :required => false
+  param :except, String, :required => false, :desc => "Optional comma-deliminated string containing either 'new,updated,obsolete' used to limit the import_puppetclasses actions"
 
   def import_puppetclasses
     return unless changed_environments
+
+    # @changed is returned from the method above changed_environments
+    # Limit actions by setting @changed[kind] to empty hash {} (no action)
+    # if :except parameter is passed with comma deliminator import_puppetclasses?except=new,obsolete
+    if params[:except].present?
+      kinds = params[:except].split(',')
+      kinds.each do |kind|
+        @changed[kind] = {} if ["new", "obsolete", "updated"].include?(kind)
+      end
+    end
 
     # DRYRUN - /import_puppetclasses?dryrun - do not run PuppetClassImporter
     rabl_template = @environment ? 'show' : 'index'
