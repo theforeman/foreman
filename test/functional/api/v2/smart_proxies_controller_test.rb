@@ -223,4 +223,26 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     end
   end
 
+  test "should NOT delete environment if pass ?except=obsolete" do
+    setup_import_classes
+    as_admin do
+      xyz_environment = Environment.create!(:name => 'xyz')
+    end
+    assert_difference('Environment.count', 0) do
+      post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :except => 'obsolete'}, set_session_user
+    end
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+  end
+
+  test "should NOT add or update puppetclass smart class parameters if pass ?except=new,updated" do
+    setup_import_classes
+    LookupKey.destroy_all
+    assert_difference('LookupKey.count', 0) do
+      post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :except => 'new,updated'}, set_session_user
+    end
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+  end
+
 end
