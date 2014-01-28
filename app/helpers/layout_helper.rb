@@ -99,9 +99,7 @@ module LayoutHelper
     text = options.delete(:text)
     value = options.delete(:value)
     label_tag('', :class=>"radio-inline") do
-      content_tag(:div, :class => "radio") do
-        f.radio_button(attr, value, options) + " #{text} "
-      end
+      f.radio_button(attr, value, options) + " #{text} "
     end
   end
 
