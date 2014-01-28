@@ -57,6 +57,10 @@ printv() {
   [ $QUIET -ne 1 ] && [ $VERBOSE -eq 1 ] && echo $*
 }
 
+clean_stdin() {
+  while read -e -t 0.1; do : ; done
+}
+
 # add outout of the command and redirect possible errors there
 add_cmd() {
   CMD=$1
@@ -78,6 +82,11 @@ add_files() {
     fi
   done
 }
+
+# when running via sosreport close STDIN - http://projects.theforeman.org/issues/4200
+if ps -p $PPID | grep -q sosreport; then
+  exec 0</dev/null
+fi
 
 DIR=""
 NOGENERIC=0
@@ -268,13 +277,14 @@ else
   qprintf "%s: %s\n\n" "A debug directory has been created" "$DIR"
 fi
 
-qprintf "You may want to upload the tarball to our public server via rsync. There is a"
-qprintf "write only directory (readable only by Foreman core developers) for that. Note"
-qprintf "the rsync transmission is UNENCRYPTED:"
-qprintf "\nrsync $TARBALL rsync://theforeman.org/debug-incoming\n"
+qprintf "You may want to upload the tarball to our public server via rsync. There is a\n"
+qprintf "write only directory (readable only by Foreman core developers) for that. Note\n"
+qprintf "the rsync transmission is UNENCRYPTED:\n\n"
+qprintf "  rsync $TARBALL rsync://theforeman.org/debug-incoming\n\n"
 
 # offer upload if the shell is interactive and not in quiet mode
 if [ $QUIET -ne 1 ] && tty -s && type -p rsync >/dev/null; then
+  clean_stdin
   read -p "Do you want to do this now? [y/N] " -n 1 -r; echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "Uploading..."
