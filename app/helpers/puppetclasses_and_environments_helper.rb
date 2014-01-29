@@ -19,6 +19,11 @@ module PuppetclassesAndEnvironmentsHelper
     )
   end
 
+  def import_proxy_link hash, env
+    proxy = SmartProxy.puppet_proxies.first
+    display_link_if_authorized(_("Import #{env} from %s") % proxy.name, hash.merge(:proxy => proxy, :env => env))
+  end
+
   private
   def pretty_print classes
     hash = { }
@@ -33,7 +38,5 @@ module PuppetclassesAndEnvironmentsHelper
     hash.keys.sort.map do |key|
       link_to key,{}, {:remote => true, :rel => "popover", :data => {"content" => hash[key].sort.join('<br>').html_safe, "original-title" => key}}
     end.to_sentence.html_safe
-
   end
-
 end
