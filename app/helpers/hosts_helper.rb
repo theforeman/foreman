@@ -156,7 +156,7 @@ module HostsHelper
 
   def show_templates
     unless SETTINGS[:unattended] and @host.managed?
-      return content_tag(:div, :class =>"alert") do
+      return content_tag(:div, :class =>"alert alert-warning") do
         _("Provisioning Support is disabled or this host is not managed")
       end
     end

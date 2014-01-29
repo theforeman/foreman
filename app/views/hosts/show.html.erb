@@ -26,7 +26,7 @@
       </div>
       <div class="tab-pane" id="metrics">
         <% if @report_summary.size == 0 %>
-            <p><%= _('No puppet activity for this host in the last %s days') % @range %></p>
+            <div class="alert alert-warning"><%= _('No puppet activity for this host in the last %s days') % @range %></div>
         <% else %>
             <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
         <% end %>
