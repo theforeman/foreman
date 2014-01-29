@@ -6,6 +6,7 @@ module Foreman::Controller::Environments
   def import_environments
     begin
       opts      = params[:proxy].blank? ? { } : { :url => SmartProxy.find(params[:proxy]).try(:url) }
+      opts[:env] = params[:env] unless params[:env].blank?
       @importer = PuppetClassImporter.new(opts)
       @changed  = @importer.changes
     rescue => e

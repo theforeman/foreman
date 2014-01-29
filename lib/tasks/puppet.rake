@@ -59,7 +59,7 @@ namespace :puppet do
   namespace :import do
     desc "
     Update puppet environments and classes. Optional batch flag triggers run with no prompting\nUse proxy=<proxy name> to import from or get the first one by default"
-    task :puppet_classes,  [:batch] => :environment do | t, args |
+    task :puppet_classes,  [:batch, :envname] => :environment do | t, args |
       args.batch = args.batch == "true"
 
       proxies = SmartProxy.puppet_proxies
@@ -79,7 +79,7 @@ namespace :puppet do
       # the on-disk puppet installation
       begin
         puts "Evaluating possible changes to your installation" unless args.batch
-        importer = PuppetClassImporter.new({ :url => proxy.url })
+        importer = PuppetClassImporter.new({ :url => proxy.url, :env => args.envname })
         changes  = importer.changes
       rescue => e
         if args.batch
