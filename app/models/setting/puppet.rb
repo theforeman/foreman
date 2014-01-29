@@ -24,7 +24,11 @@ class Setting::Puppet < Setting
         self.set('host_group_matchers_inheritance', N_("Foreman host group matchers will be inherited by children when evaluating smart class parameters"), true),
         self.set('create_new_host_when_facts_are_uploaded', N_("Foreman will create the host when new facts are received"), true),
         self.set('create_new_host_when_report_is_uploaded', N_("Foreman will create the host when a report is received"), true),
-        self.set('legacy_puppet_hostname', N_("Foreman will truncate hostname to 'puppet' if it starts with puppet"), false)
+        self.set('legacy_puppet_hostname', N_("Foreman will truncate hostname to 'puppet' if it starts with puppet"), false),
+        self.set('location_fact', N_("Hosts created after a puppet run will be placed in the location this fact dictates. The content of this fact should be the full label of the location."), 'foreman_location'),
+        self.set('organization_fact', N_("Hosts created after a puppet run will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."), 'foreman_organization'),
+        self.set('default_location', N_("Hosts created after a puppet run that did not send a location fact will be placed in this location"), ''),
+        self.set('default_organization', N_("Hosts created after a puppet run that did not send a organization fact will be placed in this organization"), '')
       ].compact.each { |s| self.create s.update(:category => "Setting::Puppet")}
 
       true

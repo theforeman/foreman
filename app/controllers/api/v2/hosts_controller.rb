@@ -147,7 +147,7 @@ Return value may either be one of the following:
       param :type, String,     :desc => "optional: the STI type of host to create"
 
       def facts
-        @host, state = detect_host_type.importHostAndFacts params[:name], params[:facts], params[:certname], detected_proxy.try(:id)
+        @host, state = detect_host_type.import_host_and_facts params[:name], params[:facts], params[:certname], detected_proxy.try(:id)
         process_response state
       rescue ::Foreman::Exception => e
         render :json => {'message'=>e.to_s}, :status => :unprocessable_entity

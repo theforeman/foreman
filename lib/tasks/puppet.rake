@@ -33,7 +33,7 @@ namespace :puppet do
           next
         end
 
-        if host.populateFieldsFromFacts
+        if host.populate_fields_from_facts
           counter += 1
         else
           $stdout.puts "#{host.hostname}: #{host.errors.full_messages.join(", ")}"
@@ -52,7 +52,7 @@ namespace :puppet do
         puts "Importing #{name}"
         puppet_facts = File.read(yaml)
         facts_stripped_of_class_names = YAML::load(puppet_facts.gsub(/\!ruby\/object.*$/,''))
-        Host.importHostAndFacts facts_stripped_of_class_names['name'], facts_stripped_of_class_names['values'].with_indifferent_access
+        Host.import_host_and_facts facts_stripped_of_class_names['name'], facts_stripped_of_class_names['values'].with_indifferent_access
       end
     end
   end
