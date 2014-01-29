@@ -19,11 +19,11 @@ lang en_US.UTF-8
 selinux --enforcing
 keyboard us
 skipx
-network --bootproto <%= @static ? "static --ip=#{@host.ip} --netmask=#{@host.subnet.mask} --gateway=#{@host.subnet.gateway} --nameserver=#{[@host.subnet.dns_primary,@host.subnet.dns_secondary].reject{|n| n.blank?}.join(',')}" : "dhcp" %> --hostname <%= @host %>
+network --bootproto <%= @static ? "static --ip=#{@host.ip} --netmask=#{@host.subnet.mask} --gateway=#{@host.subnet.gateway} --nameserver=#{[@host.subnet.dns_primary,@host.subnet.dns_secondary].reject{|n| n.blank?}.join(',')}" : 'dhcp' %> --hostname <%= @host %>
 rootpw --iscrypted <%= root_pass %>
-firewall --<%= os_major >= 6 ? "service=" : "" %>ssh
+firewall --<%= os_major >= 6 ? 'service=' : '' %>ssh
 authconfig --useshadow --passalgo=sha256 --kickstart
-timezone <%= @host.params["time-zone"] || "UTC" %>
+timezone <%= @host.params['time-zone'] || 'UTC' %>
 <% if os_major > 4 -%>
 services --disabled autofs,gpm,sendmail,cups,iptables,ip6tables,auditd,arptables_jf,xfs,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd,restorecond,mcstrans,rhnsd,yum-updatesd
 
@@ -88,10 +88,10 @@ exec < /dev/tty3 > /dev/tty3
 (
 #update local time
 echo "updating system time"
-/usr/sbin/ntpdate -sub <%= @host.params["ntp-server"] || "0.fedora.pool.ntp.org" %>
+/usr/sbin/ntpdate -sub <%= @host.params['ntp-server'] || '0.fedora.pool.ntp.org' %>
 /usr/sbin/hwclock --systohc
 
-<%= snippet "redhat_register" %>
+<%= snippet 'redhat_register' %>
 
 # update all the base packages from the updates repository
 yum -t -y -e 0 update
@@ -102,13 +102,13 @@ yum -t -y -e 0 install puppet
 
 echo "Configuring puppet"
 cat > /etc/puppet/puppet.conf << EOF
-<%= snippet "puppet.conf" %>
+<%= snippet 'puppet.conf' %>
 EOF
 
 # Setup puppet to run on system reboot
 /sbin/chkconfig --level 345 puppet on
 
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? "" : "--server #{@host.puppetmaster}" %> --no-daemonize
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
 <% end -%>
 
 sync

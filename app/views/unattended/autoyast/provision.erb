@@ -39,7 +39,7 @@ name: Community AutoYaST
     <configure_dhcp config:type="boolean">false</configure_dhcp>
     <peers config:type="list">
       <peer>
-        <address><%= @host.params["ntp-server"] || "0.opensuse.pool.ntp.org" %></address>
+        <address><%= @host.params['ntp-server'] || '0.opensuse.pool.ntp.org' %></address>
         <initial_sync config:type="boolean">true</initial_sync>
         <options></options>
         <type>server</type>
@@ -84,13 +84,13 @@ name: Community AutoYaST
         <source><![CDATA[
 <% if puppet_enabled %>
           cat > /etc/puppet/puppet.conf << EOF
-<%= snippet "puppet.conf" -%>
+<%= snippet 'puppet.conf' -%>
 EOF
 if [ -f "/etc/sysconfig/puppet" ]
 then
-/usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= @host.puppetmaster.blank? ? "" : @host.puppetmaster %>/ /etc/sysconfig/puppet
+/usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= @host.puppetmaster.blank? ? '' : @host.puppetmaster %>/ /etc/sysconfig/puppet
 fi
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? "" : "--server #{@host.puppetmaster}" %> --no-daemonize
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
 /sbin/chkconfig puppet on -f
 <% end -%>
 
@@ -105,6 +105,6 @@ fi
   </keyboard>
   <timezone>
     <hwclock>UTC</hwclock>
-    <timezone><%= @host.params["time-zone"] || "Etc/UTC" %></timezone>
+    <timezone><%= @host.params['time-zone'] || 'Etc/UTC' %></timezone>
   </timezone>
 </profile>

@@ -41,7 +41,7 @@ EOF
 
 /usr/bin/echo "Configuring puppet"
 cat > /etc/puppet/puppet.conf << EOF
-<%= snippet "puppet.conf" -%>
+<%= snippet 'puppet.conf' -%>
 EOF
 # The x86 version of the puppet package ignores the --config parameter. This should fix that and not hurt other installations
 if [ -f /etc/opt/csw/puppet/puppetd.conf ]

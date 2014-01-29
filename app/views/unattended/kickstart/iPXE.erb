@@ -12,11 +12,12 @@ oses:
 - RedHat 5
 - RedHat 6
 %>
+<% static = @host.token.nil? ? '?static=yes' : '&static=yes' -%>
 
 <%# This template will not function with Safemode set to true.
     Please disable it in Settings > Provisioning               %>
 
-kernel <%= "#{@host.url_for_boot(:kernel)}" %> ks=<%= foreman_url("provision")%>?static=yes ksdevice=<%= @host.mac %> network kssendmac ip=${netX/ip} netmask=${netX/netmask} gateway=${netX/gateway} dns=${dns}
+kernel <%= "#{@host.url_for_boot(:kernel)}" %> ks=<%= foreman_url('provision')%><%= static %> ksdevice=<%= @host.mac %> network kssendmac ip=${netX/ip} netmask=${netX/netmask} gateway=${netX/gateway} dns=${dns}
 initrd <%= "#{@host.url_for_boot(:initrd)}" %>
 
 boot

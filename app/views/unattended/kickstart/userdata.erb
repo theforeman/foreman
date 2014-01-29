@@ -14,7 +14,7 @@ oses:
 #!/bin/bash
 
 <%# Cloud instances frequently have incorrect hosts data %>
-<%= snippet "fix_hosts" %>
+<%= snippet 'fix_hosts' %>
 
 <%
   # safemode renderer does not support unary negation
@@ -24,13 +24,13 @@ oses:
 <% if puppet_enabled %>
 yum install -y puppet
 cat > /etc/puppet/puppet.conf << EOF
-<%= snippet "puppet.conf" %>
+<%= snippet 'puppet.conf' %>
 EOF
 
 # Setup puppet to run on system reboot
 /sbin/chkconfig --level 345 puppet on
 
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag <%= @host.puppetmaster.blank? ? "" : "--server #{@host.puppetmaster}" %> --no-daemonize
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
 <% end -%>
 
 # UserData still needs wget to mark as finished
