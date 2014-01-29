@@ -25,13 +25,13 @@ module Host
       super - [ inheritance_column ]
     end
 
-    def self.importHostAndFacts json
+    def self.import_host_and_facts json
       # noop, overridden by STI descendants
       return self, true
     end
 
     # expect a facts hash
-    def importFacts facts
+    def import_facts facts
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
       raise ::Foreman::Exception.new('Host is pending for Build') if build?
 
@@ -48,7 +48,8 @@ module Host
       FactImporter.importer_for(type).new(self, facts).import!
 
       save(:validate => false)
-      populateFieldsFromFacts(facts)
+      populate_fields_from_facts(facts)
+      set_taxonomies(facts)
 
       # we are saving here with no validations, as we want this process to be as fast
       # as possible, assuming we already have all the right settings in Foreman.
@@ -62,7 +63,7 @@ module Host
       attrs = [:model]
     end
 
-    def populateFieldsFromFacts facts = self.facts_hash
+    def populate_fields_from_facts facts = self.facts_hash
       # we don't import facts for host in build mode
       return if build?
 
@@ -100,6 +101,27 @@ module Host
 
     def normalize_name
       self.name = Net::Validations.normalize_hostname(name) if self.name.present?
+    end
+
+    def set_taxonomies(facts)
+      ['location', 'organization'].each do |taxonomy|
+        next unless SETTINGS["#{taxonomy.pluralize}_enabled".to_sym]
+        taxonomy_class = taxonomy.classify.constantize
+
+        if Setting["#{taxonomy}_fact"].present? && facts.keys.include?("#{taxonomy}_fact")
+          taxonomy_from_fact = taxonomy_class.find_by_title(facts["#{taxonomy}_fact"])
+        else
+          default_taxonomy = taxonomy_class.find_by_title(Setting["default_#{taxonomy}".to_sym])
+        end
+
+        if self.send("#{taxonomy}").present?
+          # Change taxonomy to fact taxonomy if set, otherwise leave it as is
+          self.send("#{taxonomy}=", taxonomy_from_fact) unless taxonomy_from_fact.nil?
+        else
+          # No taxonomy was set, set to fact taxonomy or default taxonomy
+          self.send "#{taxonomy}=", (taxonomy_from_fact || default_taxonomy)
+        end
+      end
     end
   end
 end

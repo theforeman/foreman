@@ -215,3 +215,23 @@ attributes43:
   category: Setting::Provisioning
   default: http://foreman.some.host.fqdn
   description: The URL Foreman should point to in templates etc
+attributes44:
+  name: default_organization
+  category: Setting::Puppet
+  default: 'Organization 1'
+  description: 'Default organization when importing hosts'
+attributes45:
+  name: default_location
+  category: Setting::Puppet
+  default: 'Location 1'
+  description: 'Default location when importing hosts'
+attributes46:
+  name: location_fact
+  category: Setting::Puppet
+  default: 'foreman_location'
+  description: 'Fact to set location from when importing hosts'
+attributes47:
+  name: organization_fact
+  category: Setting::Puppet
+  default: 'foreman_organization'
+  description: 'Fact to set organization from when importing hosts'
