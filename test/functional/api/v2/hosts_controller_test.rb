@@ -11,7 +11,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       :architecture_id     => Architecture.find_by_name('x86_64').id,
       :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,
       :puppet_proxy_id     => smart_proxies(:one).id,
-      :compute_resource_id => compute_resources(:one).id
+      :compute_resource_id => compute_resources(:one).id,
+      :root_pass           => "xybxa6JUkz63w"
     }
   end
 

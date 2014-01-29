@@ -12,8 +12,8 @@ attributes2:
 attributes3:
   name: root_pass
   category: Setting::Provisioning
-  default: xybxa6JUkz63w
-  description: Default root password on provisioned hosts default is 123123
+  default: "--- \n"
+  description: Default root password on provisioned hosts
 attributes4:
   name: safemode_render
   category: Setting::Provisioning

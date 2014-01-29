@@ -50,7 +50,8 @@ class HostsControllerTest < ActionController::TestCase
           :environment_id => environments(:production).id,
           :subnet_id => subnets(:one).id,
           :disk => "empty partition",
-          :puppet_proxy_id => smart_proxies(:puppetmaster).id
+          :puppet_proxy_id => smart_proxies(:puppetmaster).id,
+          :root_pass           => "xybxa6JUkz63w"
         }
       }, set_session_user
     end
