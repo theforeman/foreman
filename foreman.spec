@@ -15,7 +15,7 @@
 
 Name:   foreman
 Version: 1.4.0
-Release: 0.2.RC2%{?dist}
+Release: 1%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -566,6 +566,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Wed Jan 29 2014 Dominic Cleal <dcleal@redhat.com> - 1.4.0-1
+- Release 1.4.0
+
 * Thu Jan 23 2014 Dominic Cleal <dcleal@redhat.com> - 1.4.0-0.2.RC2
 - Release 1.4.0-RC2
 - Remove rails3_before_render dependency

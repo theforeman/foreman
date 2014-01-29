@@ -1,3 +1,39 @@
+2014-01-29	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.4.0
+	* templates - sync from community-templates
+	* i18n - extracting new, updating rails, pulling from tx
+
+2014-01-29	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #4173 - don't update CR attrs when none available, taken from GH-1184
+
+2014-01-29	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #4200 - fixed sosreport integration
+
+2014-01-29	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #4120 - fix border-collapse:collapse tables in Firefox with disappearing lines
+
+2014-01-28	Martin Matuska <martin@matuska.org>
+	* Fixes #4196 "Power ON this machine" disappeared for new VMWare hosts
+
+2014-01-28	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #4178 - updating i18n extracting rake task and makefile
+
+2014-01-28	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4005 - ensure standalone Rabl.render works outside of a controller
+
+2014-01-28	Amos Benari <abenari@redhat.com>
+	* fixes #4189 - Facts charts are not rendered
+
+2014-01-28	Stephen Hoekstra <stephenhoekstra@gmail.com>
+	* fixes #4186 - db:seed fails when install media exists with same URL
+
+2014-01-28	Joseph Magen <jmagen@redhat.com>
+	* fixes #4188 - api/v2/status incorrectly shows api_version: 1
+	* fixes #2866 - Changing a hostgroup name doesn't update associated Smart Variable matchers
+
+2014-01-28	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #3960 - wrap APIv2 errors in an "error" node
+
 2014-01-23	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.4.0-RC2
 	* refs #3697, #3701 - fix test with multiple validation failures
