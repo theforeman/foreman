@@ -109,16 +109,17 @@ function create_editor(item) {
 function set_fullscreen(){
   $('#main').append($("#editor1"));
   $("#editor1")
-     .height($(window).height()-80)
+     .height($(window).height()-50)
      .width($('#content').width())
+     .css('top', 10)
      .addClass('container');
   $('#content').hide();
   $('.navbar').addClass('hidden');
   $('.logo-bar').addClass('hidden');
   $editor.resize();
   $('#main').append($('.exit-fullscreen'));
-  $('.exit-fullscreen').removeClass('hidden');
-  $(window).scrollTop(0);
+  $('.exit-fullscreen').show();
+  $(window).scrollTop();
 }
 
 function exit_fullscreen(){
@@ -129,7 +130,8 @@ function exit_fullscreen(){
   $(".template_text").parent().prepend($("#editor1"))
   $("#editor1")
       .height($(".template_text").height() || '360')
-      .width($(".template_text").width()+10)
+      .width($(".template_text").width()-16)
+      .css('top', -20)
   $(".template_text").hide();
   $editor.resize();
   $('.exit-fullscreen').addClass('hidden');

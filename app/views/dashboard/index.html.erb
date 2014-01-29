@@ -2,7 +2,8 @@
 <div id='dashboard' xmlns="http://www.w3.org/1999/html">
   <%= title_actions _("Generated at %s") % Time.now.to_s(:short) %>
   <div class="row">
-    <div id='status-table' class='stats-well col-md-12'>
+    <div class="col-md-12">
+    <div id='status-table' class='stats-well'>
       <div class="col-md-6">
         <%= render 'status_table' %>
       </div>
@@ -10,9 +11,11 @@
         <%= render_overview(@report, :class => 'statistics-pie small') %>
       </div>
     </div>
+    </div>
   </div>
   <div class="row">
-    <div class="col-md-5 stats-well">
+    <div class="col-md-5">
+    <div class="stats-well">
       <h4 style="text-align: center;"><%= _("Latest Events") %></h4>
       <% events = latest_events %>
       <% if events.empty? %>
@@ -36,9 +39,12 @@
         </table>
       <% end %>
     </div>
-    <div class="col-md-7 stats-well">
+    </div>
+    <div class="col-md-7">
+    <div class="stats-well">
       <h4 style="text-align: center;"><%= n_("Run distribution in the last %s minute", "Run distribution in the last %s minutes", Setting[:puppet_interval]) % Setting[:puppet_interval] %></h4>
       <%= render_run_distribution(@hosts, :class => 'statistics-bar') %>
+    </div>
     </div>
   </div>
 </div>
