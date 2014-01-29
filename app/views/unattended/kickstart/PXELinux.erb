@@ -18,11 +18,11 @@ oses:
 default linux
 label linux
 kernel <%= @kernel %>
-<% if @host.operatingsystem.name == "Fedora" and @host.operatingsystem.major.to_i > 16 -%>
-append initrd=<%= @initrd %> ks=<%= foreman_url("provision")%> ks.device=bootif network ks.sendmac
-<% elsif @host.operatingsystem.name != "Fedora" and @host.operatingsystem.major.to_i >= 7 -%>
-append initrd=<%= @initrd %> ks=<%= foreman_url("provision")%> network ks.sendmac
+<% if @host.operatingsystem.name == 'Fedora' and @host.operatingsystem.major.to_i > 16 -%>
+append initrd=<%= @initrd %> ks=<%= foreman_url('provision')%> ks.device=bootif network ks.sendmac
+<% elsif @host.operatingsystem.name != 'Fedora' and @host.operatingsystem.major.to_i >= 7 -%>
+append initrd=<%= @initrd %> ks=<%= foreman_url('provision')%> network ks.sendmac
 <% else -%>
-append initrd=<%= @initrd %> ks=<%= foreman_url("provision")%> ksdevice=bootif network kssendmac
+append initrd=<%= @initrd %> ks=<%= foreman_url('provision')%> ksdevice=bootif network kssendmac
 <% end -%>
 IPAPPEND 2

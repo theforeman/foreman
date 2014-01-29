@@ -1,20 +1,23 @@
 <%#
 kind: finish
 name: Community Junos Finish
-%>
+-%>
 system {
     host-name <%= @host %>;
-    #time-zone Europe/Berlin;
+    time-zone <%= @host.params['time-zone'] || 'Etc/UTC' %>;
     root-authentication {
         encrypted-password "<%= root_pass %>"; ## SECRET-DATA
     }
-    static-host-mapping {
-        <%= Setting['foreman_url'] %> alias ztpserver;
+    name-server {
+        <%= @host.subnet.dns_primary || '8.8.8.8' %>;
+        <% if @host.subnet.dns_secondary -%>
+        <%= @host.subnet.dns_secondary %>;
+        <% end -%>
     }
-    #name-server {
-    #    10.0.0.1;
-    #    10.10.0.1;
-    #}
+    ntp {
+        boot-server <%= @host.params['ntp-server'] || '0.pool.ntp.org' %>;
+        server <%= @host.params['ntp-server'] || '0.pool.ntp.org' %>;
+    }
     login {
         message "This device was provisioned by using The Foreman!\nSee http://theforeman.org/ for further information.\n";
         class automation {
@@ -132,8 +135,8 @@ vlans {
 groups {
     fmztp {
         apply-macro conf {
-            package jinstall-<%= @host.architecture %>-4200-<%= @host.operatingsystem.major %>R<%= @host.operatingsystem.minor %>-domestic-signed.tgz;
-            puppet jpuppet-<%= @host.architecture %>-1.0R1.1.tgz;
+            package jinstall-ex-4200-<%= @host.operatingsystem.major %>R<%= @host.operatingsystem.minor %>-domestic-signed.tgz;
+            puppet jpuppet-ex-1.0R1.1.tgz;
         }
     }
 }

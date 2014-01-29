@@ -1,25 +1,17 @@
 <%#
 kind: ZTP
 name: Community Junos ZTP Config
-%>
+-%>
 system {
     host-name <%= @host.shortname %>;
     root-authentication {
       encrypted-password "<%= root_pass %>"; ## SECRET-DATA
-    }
-    static-host-mapping {
-        <%= Setting['foreman_url'] %> alias ztpserver;
     }
     services {
         ssh;
         netconf {
             ssh;
         }
-    }
-    ntp {
-        boot-server 0.pool.ntp.org;
-        server 0.pool.ntp.org;
-        server 1.pool.ntp.org;
     }
     syslog {
         user * {
@@ -53,7 +45,7 @@ event-options {
         then {
             execute-commands {
                 commands {
-                    "op url <%= foreman_url("provision")%>.slax";
+                    "op url <%= foreman_url('provision')%>.slax";
                 }
             }
         }
