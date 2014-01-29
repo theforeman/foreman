@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-09 22:53+0000\n"
-"PO-Revision-Date: 2014-01-10 09:31+0000\n"
+"POT-Creation-Date: 2014-01-16 11:56+0000\n"
+"PO-Revision-Date: 2014-01-17 09:29+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -323,38 +323,23 @@ msgstr "Warnung"
 msgid "Alerts disabled"
 msgstr "Warnungen deaktiviert"
 
-msgid "All Compute Resources"
-msgstr "Alle Rechner Ressourcen"
-
-msgid "All Domains"
-msgstr "Alle Domains"
-
-msgid "All Environments"
-msgstr "Alle Umgebungen"
-
-msgid "All Host Groups"
-msgstr "Alle Hostgruppen"
-
-msgid "All Media"
-msgstr "Alle Medien"
-
 msgid "All Puppet Classes for %s"
 msgstr "alle Puppet Klassen für %s"
 
 msgid "All Reports"
 msgstr "Alle Reporte"
 
-msgid "All Smart Proxies"
-msgstr "Alle Smart Proxies"
+msgid "All compute resources"
+msgstr ""
 
-msgid "All Subnets"
-msgstr "Alle Sub-Netze"
+msgid "All domains"
+msgstr ""
 
-msgid "All Templates"
-msgstr "Alle Templates"
+msgid "All environments"
+msgstr ""
 
-msgid "All Users"
-msgstr "Alle Benutzer"
+msgid "All host groups"
+msgstr ""
 
 msgid "All hosts"
 msgstr ""
@@ -364,6 +349,9 @@ msgstr "Alle Host-Daten deren Konfigurationen mit Lokationen und Organisationen 
 
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr "Alle Systeme welche vorher keine %{single} hatten, wurden nun %{name} zugeordnet"
+
+msgid "All media"
+msgstr ""
 
 msgid "All messages"
 msgstr "Alle Meldungen"
@@ -377,6 +365,18 @@ msgstr "Alle Fehlanpassungen zwischen Hosts und Lokationen/Organisationen sind g
 
 msgid "All non public permissions successfully updated"
 msgstr "Alle nicht öffentlichen Rechte wurden erfolgreich aktualisiert"
+
+msgid "All smart proxies"
+msgstr ""
+
+msgid "All subnets"
+msgstr ""
+
+msgid "All templates"
+msgstr ""
+
+msgid "All users"
+msgstr ""
 
 msgid "Allocated"
 msgstr "zugeordnet"
@@ -1008,6 +1008,9 @@ msgstr "Verbinde.."
 msgid "Console"
 msgstr "Konsole"
 
+msgid "Console output may be out of date"
+msgstr ""
+
 msgid "Console passwords"
 msgstr ""
 
@@ -1199,6 +1202,9 @@ msgstr "stimmt nicht mit ausgewähltem Subnetz überein"
 msgid "Does not update ipaddress and MAC values from Puppet facts"
 msgstr "Aktualisiert nicht ipaddress und MAC Werte von Puppet Fakten"
 
+msgid "Does this image support user data input (e.g. via cloud-init)?"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain"
 msgstr "Domäne"
@@ -1318,12 +1324,6 @@ msgstr ""
 msgid "Edit your host"
 msgstr "Bearbeite dein System"
 
-msgid "Editing %s"
-msgstr "Bearbeite %s"
-
-msgid "Editing compute"
-msgstr "Bearbeite Berechnung"
-
 msgid ""
 "Either you didnt generate the puppetdocs (see <a rel=\"external\" "
 "href=\"%{url}\">here</a>) or the class <strong>%{name}</strong> could not be"
@@ -1368,9 +1368,6 @@ msgstr "Aktiviert Unterstützung von puppetrun"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Umgebung"
-
-msgid "Environment configuration"
-msgstr "Umgebungskonfiguration"
 
 msgid "Environment only"
 msgstr "nur für Umgebung"
@@ -2074,6 +2071,10 @@ msgid "Image|Name"
 msgstr "Name"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Image|User data"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Username"
 msgstr "Benutzername"
 
@@ -2651,6 +2652,9 @@ msgstr "neue Partitionstabelle"
 
 msgid "New Proxy"
 msgstr "neuer Proxy"
+
+msgid "New Puppet Environment"
+msgstr ""
 
 msgid "New Puppet class"
 msgstr "neue Puppetklasse"
@@ -3381,6 +3385,9 @@ msgstr ""
 msgid "Puppet environments"
 msgstr ""
 
+msgid "Puppet environments configuration"
+msgstr ""
+
 msgid "Puppet error on %s"
 msgstr "Puppet Fehler auf %s"
 
@@ -3454,6 +3461,9 @@ msgid "Removing compute instance %s"
 msgstr "Entferne Recheninstanz %s"
 
 msgid "Rename"
+msgstr ""
+
+msgid "Render user data template for %s"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -3636,19 +3646,52 @@ msgstr "Wähle einen Zeitraum"
 msgid "Select all items in this page"
 msgstr ""
 
+msgid "Select compute resources"
+msgstr ""
+
+msgid "Select domains"
+msgstr ""
+
 msgid "Select environment"
+msgstr ""
+
+msgid "Select environments"
 msgstr ""
 
 msgid "Select host group"
 msgstr ""
 
+msgid "Select host groups"
+msgstr ""
+
 msgid "Select hosts to assign to %s"
+msgstr ""
+
+msgid "Select locations"
+msgstr ""
+
+msgid "Select media"
+msgstr ""
+
+msgid "Select organizations"
+msgstr ""
+
+msgid "Select smart proxies"
+msgstr ""
+
+msgid "Select subnets"
 msgstr ""
 
 msgid "Select template"
 msgstr "Vorlage auswählen"
 
+msgid "Select templates"
+msgstr ""
+
 msgid "Select the changes you want to realize in Foreman"
+msgstr ""
+
+msgid "Select users"
 msgstr ""
 
 msgid "Selected hosts are now assigned to %s"
@@ -4841,6 +4884,12 @@ msgstr "Du hast keine Berechtigung um den Gruppenparameter zu %s"
 msgid "You do not have permission to %s this host"
 msgstr "Du hast keine Berechtigung um das System zu %s"
 
+msgid "You do not have permission to %s this location parameter"
+msgstr ""
+
+msgid "You do not have permission to %s this organization parameter"
+msgstr ""
+
 msgid "You do not have permission to %s this report"
 msgstr "Du hast keine Berechtigung um den Report zu %s"
 
@@ -4975,6 +5024,9 @@ msgstr "darf keine Leerzeichen enthalten."
 msgid "cant be blank unless a custom partition has been defined"
 msgstr "nach nicht leer sein es sei denn eine spezifische Partition wurde definiert"
 
+msgid "common"
+msgstr ""
+
 msgid "cycle"
 msgstr ""
 
@@ -4983,6 +5035,9 @@ msgstr "scheint kein gültiger NFS Einhängpfad zu sein"
 
 msgid "does not belong to subnet"
 msgstr "gehört nicht zum Subnetz"
+
+msgid "domain"
+msgstr ""
 
 msgid "domain %s already has a subnet with this name"
 msgstr "Domäne %s hat bereits ein Subnetz mit diesem Namen"
@@ -5058,6 +5113,9 @@ msgstr ""
 
 msgid "here"
 msgstr "hier"
+
+msgid "hostgroup"
+msgstr ""
 
 msgid "in %s"
 msgstr "in %s"
@@ -5202,6 +5260,9 @@ msgstr "Organisation"
 
 msgid "organizations"
 msgstr "Organisationen"
+
+msgid "os"
+msgstr ""
 
 msgid "override"
 msgstr "hinwegsetzen"

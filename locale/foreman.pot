@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-16 11:56+0000\n"
+"POT-Creation-Date: 2014-01-29 09:03+0000\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -726,6 +726,9 @@ msgstr ""
 msgid "Canceled pending build for %s"
 msgstr ""
 
+msgid "Cannot delete group %{current} because it has nested groups."
+msgstr ""
+
 msgid "Canvas not supported."
 msgstr ""
 
@@ -1062,9 +1065,6 @@ msgid "Deleted environment"
 msgstr ""
 
 msgid "Deleted environment %{env} and %{pcs}"
-msgstr ""
-
-msgid "Deleting this group will unlink its nested groups and any associated puppet classes and / or parameters"
 msgstr ""
 
 msgid "Deploy on"
@@ -3049,6 +3049,9 @@ msgstr ""
 msgid "Please check the proxy is configured and running on the host."
 msgstr ""
 
+msgid "Please delete all nested groups before deleting it."
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr ""
 
@@ -4895,9 +4898,6 @@ msgstr ""
 msgid "must be integer"
 msgstr ""
 
-msgid "must be lowercase"
-msgstr ""
-
 msgid "must be one of [ %s ]"
 msgstr ""
 
@@ -4908,6 +4908,9 @@ msgid "must be specified if to is defined"
 msgstr ""
 
 msgid "must match"
+msgstr ""
+
+msgid "must not include periods"
 msgstr ""
 
 msgid "must provide a provider"

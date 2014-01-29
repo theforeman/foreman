@@ -6,14 +6,15 @@
 # 
 # 
 # Translators:
+# Fredrik Wendt <fredrik@wendt.se>, 2014
 # johnny Westerlund <johnny.westerlund@gmail.com>, 2013-2014
 # frimik <frimik@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-09 22:53+0000\n"
-"PO-Revision-Date: 2014-01-10 14:10+0000\n"
+"POT-Creation-Date: 2014-01-16 11:56+0000\n"
+"PO-Revision-Date: 2014-01-28 18:00+0000\n"
 "Last-Translator: johnny Westerlund <johnny.westerlund@gmail.com>\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +36,7 @@ msgid "%s Host"
 msgstr "%s Värd"
 
 msgid "%s Parameters updated, see below for more information"
-msgstr "%s Parametrar uppdaterade, see nedan för mer information"
+msgstr "%s Parametrar uppdaterade, se nedan för mer information"
 
 msgid "%s Template"
 msgstr "%s Mall"
@@ -151,10 +152,10 @@ msgid "'%{host}' could be deleted or '%{resource}' is not responding."
 msgstr "'%{host}' kan vara raderad eller så svarar inte '%{resource}'."
 
 msgid "'%{host}' not found on '%{resource}'"
-msgstr "'%{host}' finns inte på '{resource}'"
+msgstr "'%{host}' finns inte på '%{resource}'"
 
 msgid "(optional) IAM Role for Fog to use when creating this image."
-msgstr "(frivillig) IAM roll för Fog att använda när avbilden skapas."
+msgstr "(frivillig) IAM-roll för Fog att använda när avbilden skapas."
 
 msgid "*Clear environment*"
 msgstr "*Rensa miljö*"
@@ -316,38 +317,23 @@ msgstr "Varning"
 msgid "Alerts disabled"
 msgstr "Varningar inaktiverade"
 
-msgid "All Compute Resources"
-msgstr "Alla Beräkningsresurser"
-
-msgid "All Domains"
-msgstr "Alla Domäner"
-
-msgid "All Environments"
-msgstr "Alla Miljöer"
-
-msgid "All Host Groups"
-msgstr "Alla Värdgrupper"
-
-msgid "All Media"
-msgstr "Alla Media"
-
 msgid "All Puppet Classes for %s"
 msgstr "Alla Puppetklasser för %s"
 
 msgid "All Reports"
 msgstr "Alla Rapporter"
 
-msgid "All Smart Proxies"
-msgstr "Alla Smart Proxyer"
+msgid "All compute resources"
+msgstr "Alla beräkningsresurser"
 
-msgid "All Subnets"
-msgstr "Alla Subnät"
+msgid "All domains"
+msgstr "Alla domäner"
 
-msgid "All Templates"
-msgstr "Alla Mallar"
+msgid "All environments"
+msgstr "Alla miljöer"
 
-msgid "All Users"
-msgstr "Alla Användare"
+msgid "All host groups"
+msgstr "Alla värdgrupper"
 
 msgid "All hosts"
 msgstr "Alla värdar"
@@ -357,6 +343,9 @@ msgstr "Alla värdars data matchar konfigurationer för platser och organisation
 
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr "Alla värdar tidigare utan %{single} tilldelas nu %{name}"
+
+msgid "All media"
+msgstr "Alla media"
 
 msgid "All messages"
 msgstr "Alla meddelanden"
@@ -370,6 +359,18 @@ msgstr "Alla felaktigheter mellan värdar och platser/organisationer har åtgär
 
 msgid "All non public permissions successfully updated"
 msgstr "Alla icke allmänna behörigheter har uppdaterats"
+
+msgid "All smart proxies"
+msgstr "Alla smarta proxies"
+
+msgid "All subnets"
+msgstr "Alla subnät"
+
+msgid "All templates"
+msgstr "Alla mallar"
+
+msgid "All users"
+msgstr "Alla användare"
 
 msgid "Allocated"
 msgstr "Tilldelad"
@@ -1001,6 +1002,9 @@ msgstr "Annsluter"
 msgid "Console"
 msgstr "Konsol"
 
+msgid "Console output may be out of date"
+msgstr "Konsolutdatan kan vara föråldrad"
+
 msgid "Console passwords"
 msgstr "Konsollösenord"
 
@@ -1192,6 +1196,9 @@ msgstr "Matchar inte valt Subnät"
 msgid "Does not update ipaddress and MAC values from Puppet facts"
 msgstr "Uppdaterar inte IP-adress samt MAC-adress värden från Puppet fakta"
 
+msgid "Does this image support user data input (e.g. via cloud-init)?"
+msgstr "Stödjer denna bild användardata (såsom via cloud-init)?"
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain"
 msgstr "Domän"
@@ -1311,12 +1318,6 @@ msgstr "Redigera beräkningsprofil på %s"
 msgid "Edit your host"
 msgstr "Redigera Värd"
 
-msgid "Editing %s"
-msgstr "Redigerar %s"
-
-msgid "Editing compute"
-msgstr "Redigerar beräkningsresurs"
-
 msgid ""
 "Either you didnt generate the puppetdocs (see <a rel=\"external\" "
 "href=\"%{url}\">here</a>) or the class <strong>%{name}</strong> could not be"
@@ -1361,9 +1362,6 @@ msgstr "Aktiverar Puppetrun stöd"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Miljö"
-
-msgid "Environment configuration"
-msgstr "Miljökonfiguration"
 
 msgid "Environment only"
 msgstr "Enbart miljö"
@@ -1959,7 +1957,7 @@ msgstr "Värdar som hade genomförda ändringar utan fel"
 msgid ""
 "Hosts that will be trusted in addition to Smart Proxies for access to "
 "fact/report importers and ENC output"
-msgstr "Värdar, utöver Smart Proxies, som är betrodda med åtkomst till fakta/rapportimporterare samt ENC utdata."
+msgstr "Värdar, utöver Smarta Proxies, som är betrodda med åtkomst till fakta/rapportimporterare samt ENC utdata."
 
 msgid "Hosts which didn't run puppet in the last %s"
 msgstr "Värdar, vilka inte körde puppet den senaste %s"
@@ -2065,6 +2063,10 @@ msgstr "Iamroll"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Name"
 msgstr "Namn"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Image|User data"
+msgstr "Bild|Användardata"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Username"
@@ -2644,6 +2646,9 @@ msgstr "Ny Partitionstabell"
 
 msgid "New Proxy"
 msgstr "Ny Proxy"
+
+msgid "New Puppet Environment"
+msgstr "Ny Puppet-miljö"
 
 msgid "New Puppet class"
 msgstr "Ny Puppetklass"
@@ -3302,7 +3307,7 @@ msgid "Provisioning templates"
 msgstr "Provisineringsmallar"
 
 msgid "Proxies"
-msgstr "Proxy"
+msgstr "Proxies"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable"
@@ -3373,6 +3378,9 @@ msgstr "Puppet klassparametrar"
 
 msgid "Puppet environments"
 msgstr "Puppetmiljöer"
+
+msgid "Puppet environments configuration"
+msgstr "Puppetmiljökonfiguration"
 
 msgid "Puppet error on %s"
 msgstr "Puppetfel på %s"
@@ -3448,6 +3456,9 @@ msgstr "Tar bort berkningsinstans %s"
 
 msgid "Rename"
 msgstr "Döp om"
+
+msgid "Render user data template for %s"
+msgstr "Rendrera användardatamall för %s"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Report"
@@ -3629,20 +3640,53 @@ msgstr "Välj en period"
 msgid "Select all items in this page"
 msgstr "Markera alla valbara på denna sida"
 
+msgid "Select compute resources"
+msgstr "Välj beräkningsresurser"
+
+msgid "Select domains"
+msgstr "Välj domäner"
+
 msgid "Select environment"
 msgstr "Välj miljö"
+
+msgid "Select environments"
+msgstr "Välj miljöer"
 
 msgid "Select host group"
 msgstr "Välj värdgrupp"
 
+msgid "Select host groups"
+msgstr "Välj värdgrupper"
+
 msgid "Select hosts to assign to %s"
 msgstr "Välj värdar att tilldela till %s"
+
+msgid "Select locations"
+msgstr "Välj lokationer"
+
+msgid "Select media"
+msgstr "Välj media"
+
+msgid "Select organizations"
+msgstr "Välj organisationer"
+
+msgid "Select smart proxies"
+msgstr "Välj smarta proxies"
+
+msgid "Select subnets"
+msgstr "Välj subnät"
 
 msgid "Select template"
 msgstr "Välj mall"
 
+msgid "Select templates"
+msgstr "Välj mallar"
+
 msgid "Select the changes you want to realize in Foreman"
 msgstr "Markera ändringarna som du vill verkställa i Foreman"
+
+msgid "Select users"
+msgstr "Välj användare"
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "Valda värdar är nu tilldelade %s"
@@ -4834,6 +4878,12 @@ msgstr "Du har inte rättigheter att %s denna gruppparameter"
 msgid "You do not have permission to %s this host"
 msgstr "Du har inte rättigheter att %s denna värd"
 
+msgid "You do not have permission to %s this location parameter"
+msgstr "Du har inte rättigheter att %s denna placeringsparameter"
+
+msgid "You do not have permission to %s this organization parameter"
+msgstr "Du har inte rättigheter att %s denna organisationsparameter"
+
 msgid "You do not have permission to %s this report"
 msgstr "Du har inte rättigheter att %s denna rapport"
 
@@ -4968,6 +5018,9 @@ msgstr "kan inte innehålla blanksteg / mellanslag"
 msgid "cant be blank unless a custom partition has been defined"
 msgstr "kan inte vara tom om inte en egen partitionstabell används"
 
+msgid "common"
+msgstr "gemensam"
+
 msgid "cycle"
 msgstr "period"
 
@@ -4976,6 +5029,9 @@ msgstr "verkar inte vara en korrekt nfsmontering"
 
 msgid "does not belong to subnet"
 msgstr "tillhör inte subnät"
+
+msgid "domain"
+msgstr "domän"
 
 msgid "domain %s already has a subnet with this name"
 msgstr "domänen %s har redan ett subnät med detta namnet"
@@ -5051,6 +5107,9 @@ msgstr "har redan denna roll"
 
 msgid "here"
 msgstr "här"
+
+msgid "hostgroup"
+msgstr "värdgrupp"
 
 msgid "in %s"
 msgstr "i %s"
@@ -5195,6 +5254,9 @@ msgstr "organisation"
 
 msgid "organizations"
 msgstr "organisationer"
+
+msgid "os"
+msgstr "os"
 
 msgid "override"
 msgstr "tvinga"

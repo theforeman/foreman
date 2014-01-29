@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-09 22:53+0000\n"
-"PO-Revision-Date: 2014-01-10 09:31+0000\n"
+"POT-Creation-Date: 2014-01-16 11:56+0000\n"
+"PO-Revision-Date: 2014-01-17 09:29+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/foreman/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -315,38 +315,23 @@ msgstr "Alerta"
 msgid "Alerts disabled"
 msgstr "Alertas deshabilitadas"
 
-msgid "All Compute Resources"
-msgstr "Tódolos Recursos de Computación"
-
-msgid "All Domains"
-msgstr "Tódolos Dominios"
-
-msgid "All Environments"
-msgstr "Tódolos Entornos"
-
-msgid "All Host Groups"
-msgstr "Tódolos Grupos de Equipos"
-
-msgid "All Media"
-msgstr "Tódolos Medios"
-
 msgid "All Puppet Classes for %s"
 msgstr "Tódalas Clases Puppet para %s"
 
 msgid "All Reports"
 msgstr "Tódolos Informes"
 
-msgid "All Smart Proxies"
-msgstr "Tódolos Proxies Intelixentes"
+msgid "All compute resources"
+msgstr ""
 
-msgid "All Subnets"
-msgstr "Tódalas Subredes"
+msgid "All domains"
+msgstr ""
 
-msgid "All Templates"
-msgstr "Tódalas Plantillas"
+msgid "All environments"
+msgstr ""
 
-msgid "All Users"
-msgstr "Tódolos usuarios"
+msgid "All host groups"
+msgstr ""
 
 msgid "All hosts"
 msgstr ""
@@ -356,6 +341,9 @@ msgstr "Toda a información dos equipos coincide coa configuración de ubicació
 
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr "Tódolos equipos previamente sen %{single} foron agora asignados a %{name}"
+
+msgid "All media"
+msgstr ""
 
 msgid "All messages"
 msgstr "Tódalas mensaxes"
@@ -369,6 +357,18 @@ msgstr "Tódalas discordancias entre equipos e lugares/organizacións foron arra
 
 msgid "All non public permissions successfully updated"
 msgstr "Actualizáronse correctamente tódolos permisos privados"
+
+msgid "All smart proxies"
+msgstr ""
+
+msgid "All subnets"
+msgstr ""
+
+msgid "All templates"
+msgstr ""
+
+msgid "All users"
+msgstr ""
 
 msgid "Allocated"
 msgstr "Asignado"
@@ -1000,6 +1000,9 @@ msgstr "Conectando..."
 msgid "Console"
 msgstr "Terminal"
 
+msgid "Console output may be out of date"
+msgstr ""
+
 msgid "Console passwords"
 msgstr ""
 
@@ -1191,6 +1194,9 @@ msgstr "Non coincide coa Subrede seleccionada"
 msgid "Does not update ipaddress and MAC values from Puppet facts"
 msgstr "Non actualizar dirección IP nin MAC cos valores provintes dos datos Puppet"
 
+msgid "Does this image support user data input (e.g. via cloud-init)?"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain"
 msgstr "Dominio"
@@ -1310,12 +1316,6 @@ msgstr ""
 msgid "Edit your host"
 msgstr "Edita tu equipo"
 
-msgid "Editing %s"
-msgstr "Editando %s"
-
-msgid "Editing compute"
-msgstr "Editando Cómputo"
-
 msgid ""
 "Either you didnt generate the puppetdocs (see <a rel=\"external\" "
 "href=\"%{url}\">here</a>) or the class <strong>%{name}</strong> could not be"
@@ -1360,9 +1360,6 @@ msgstr "Habilita ou soporte de execución Puppet"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Entorno"
-
-msgid "Environment configuration"
-msgstr "Configuración de Entorno"
 
 msgid "Environment only"
 msgstr "Solo Entorno"
@@ -2066,6 +2063,10 @@ msgid "Image|Name"
 msgstr "Nome"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Image|User data"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Username"
 msgstr "Usuario"
 
@@ -2643,6 +2644,9 @@ msgstr "Nova tabla de particións"
 
 msgid "New Proxy"
 msgstr "Novo Proxy"
+
+msgid "New Puppet Environment"
+msgstr ""
 
 msgid "New Puppet class"
 msgstr "Nova clase Puppet"
@@ -3373,6 +3377,9 @@ msgstr "Parámetros de Clases Puppet"
 msgid "Puppet environments"
 msgstr "Entornos Puppet"
 
+msgid "Puppet environments configuration"
+msgstr ""
+
 msgid "Puppet error on %s"
 msgstr "Error puppet en %s"
 
@@ -3446,6 +3453,9 @@ msgid "Removing compute instance %s"
 msgstr "Borrar instancia %s"
 
 msgid "Rename"
+msgstr ""
+
+msgid "Render user data template for %s"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -3628,19 +3638,52 @@ msgstr "Seleccionar un período"
 msgid "Select all items in this page"
 msgstr "Seleccionar tódolos obxetos desta páxina"
 
+msgid "Select compute resources"
+msgstr ""
+
+msgid "Select domains"
+msgstr ""
+
 msgid "Select environment"
 msgstr "Seleccionar entorno"
+
+msgid "Select environments"
+msgstr ""
 
 msgid "Select host group"
 msgstr "Seleccionar grupo de equipos"
 
+msgid "Select host groups"
+msgstr ""
+
 msgid "Select hosts to assign to %s"
 msgstr "Seleccionar equipos para asignar a %s"
+
+msgid "Select locations"
+msgstr ""
+
+msgid "Select media"
+msgstr ""
+
+msgid "Select organizations"
+msgstr ""
+
+msgid "Select smart proxies"
+msgstr ""
+
+msgid "Select subnets"
+msgstr ""
 
 msgid "Select template"
 msgstr "Selecciona plantilla"
 
+msgid "Select templates"
+msgstr ""
+
 msgid "Select the changes you want to realize in Foreman"
+msgstr ""
+
+msgid "Select users"
 msgstr ""
 
 msgid "Selected hosts are now assigned to %s"
@@ -4833,6 +4876,12 @@ msgstr "Non tes permiso para %s este parámetro de grupo"
 msgid "You do not have permission to %s this host"
 msgstr "Non tes permiso para %s este equipo"
 
+msgid "You do not have permission to %s this location parameter"
+msgstr ""
+
+msgid "You do not have permission to %s this organization parameter"
+msgstr ""
+
 msgid "You do not have permission to %s this report"
 msgstr "Non tes permiso para %s este informe"
 
@@ -4967,6 +5016,9 @@ msgstr "non pode conter espacios en blanco"
 msgid "cant be blank unless a custom partition has been defined"
 msgstr "non pode estar en branco a menos que definira unha partición personalizada"
 
+msgid "common"
+msgstr ""
+
 msgid "cycle"
 msgstr ""
 
@@ -4975,6 +5027,9 @@ msgstr "parece que non se configurou unha ruta válida para montar o recurso NFS
 
 msgid "does not belong to subnet"
 msgstr "non pertence á subrede"
+
+msgid "domain"
+msgstr ""
 
 msgid "domain %s already has a subnet with this name"
 msgstr "o dominio %s xa ten unha subrede con este nome"
@@ -5050,6 +5105,9 @@ msgstr ""
 
 msgid "here"
 msgstr "aquí"
+
+msgid "hostgroup"
+msgstr ""
 
 msgid "in %s"
 msgstr "en %s"
@@ -5194,6 +5252,9 @@ msgstr "organización"
 
 msgid "organizations"
 msgstr "organizacións"
+
+msgid "os"
+msgstr ""
 
 msgid "override"
 msgstr "sobrescribir"

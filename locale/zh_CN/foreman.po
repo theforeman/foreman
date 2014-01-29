@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-09 22:53+0000\n"
-"PO-Revision-Date: 2014-01-10 09:31+0000\n"
+"POT-Creation-Date: 2014-01-16 11:56+0000\n"
+"PO-Revision-Date: 2014-01-17 09:29+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -310,38 +310,23 @@ msgstr "告警"
 msgid "Alerts disabled"
 msgstr "告警禁用"
 
-msgid "All Compute Resources"
-msgstr "所有的计算机资源"
-
-msgid "All Domains"
-msgstr "所有域"
-
-msgid "All Environments"
-msgstr "所有的环境"
-
-msgid "All Host Groups"
-msgstr "所有的主机组"
-
-msgid "All Media"
-msgstr "所有的介质"
-
 msgid "All Puppet Classes for %s"
 msgstr "%s 所有的puppet 类"
 
 msgid "All Reports"
 msgstr "所有的报告"
 
-msgid "All Smart Proxies"
-msgstr "所有智能代理"
+msgid "All compute resources"
+msgstr ""
 
-msgid "All Subnets"
-msgstr "所有子网"
+msgid "All domains"
+msgstr ""
 
-msgid "All Templates"
-msgstr "所有模板"
+msgid "All environments"
+msgstr ""
 
-msgid "All Users"
-msgstr "所有用户"
+msgid "All host groups"
+msgstr ""
 
 msgid "All hosts"
 msgstr ""
@@ -350,6 +335,9 @@ msgid "All hosts data matches configurations for locations and organizations."
 msgstr "该位置和组织下所有配置的主机"
 
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
+msgstr ""
+
+msgid "All media"
 msgstr ""
 
 msgid "All messages"
@@ -364,6 +352,18 @@ msgstr ""
 
 msgid "All non public permissions successfully updated"
 msgstr "成功更新所有非公开的权限"
+
+msgid "All smart proxies"
+msgstr ""
+
+msgid "All subnets"
+msgstr ""
+
+msgid "All templates"
+msgstr ""
+
+msgid "All users"
+msgstr ""
 
 msgid "Allocated"
 msgstr "已分配"
@@ -994,6 +994,9 @@ msgstr "连接中"
 msgid "Console"
 msgstr "控制台"
 
+msgid "Console output may be out of date"
+msgstr ""
+
 msgid "Console passwords"
 msgstr "控制台密码"
 
@@ -1184,6 +1187,9 @@ msgstr "与选择的子网不匹配"
 msgid "Does not update ipaddress and MAC values from Puppet facts"
 msgstr "不能修改来自Puppet 详情的ip地址和MAC地址"
 
+msgid "Does this image support user data input (e.g. via cloud-init)?"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain"
 msgstr "域"
@@ -1303,12 +1309,6 @@ msgstr ""
 msgid "Edit your host"
 msgstr "编辑主机"
 
-msgid "Editing %s"
-msgstr "%s 编辑中"
-
-msgid "Editing compute"
-msgstr "计算机编辑中"
-
 msgid ""
 "Either you didnt generate the puppetdocs (see <a rel=\"external\" "
 "href=\"%{url}\">here</a>) or the class <strong>%{name}</strong> could not be"
@@ -1353,9 +1353,6 @@ msgstr "启用 Puppetrun 支持"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "环境"
-
-msgid "Environment configuration"
-msgstr "环境设置"
 
 msgid "Environment only"
 msgstr "环境"
@@ -2059,6 +2056,10 @@ msgid "Image|Name"
 msgstr "名称"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Image|User data"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Username"
 msgstr "用户名"
 
@@ -2636,6 +2637,9 @@ msgstr "新建分区表"
 
 msgid "New Proxy"
 msgstr "新建代理"
+
+msgid "New Puppet Environment"
+msgstr ""
 
 msgid "New Puppet class"
 msgstr "新建Puppet类"
@@ -3366,6 +3370,9 @@ msgstr "Puppet 类参数"
 msgid "Puppet environments"
 msgstr "Puppet 环境"
 
+msgid "Puppet environments configuration"
+msgstr ""
+
 msgid "Puppet error on %s"
 msgstr ""
 
@@ -3439,6 +3446,9 @@ msgid "Removing compute instance %s"
 msgstr "删除 %s 的实例"
 
 msgid "Rename"
+msgstr ""
+
+msgid "Render user data template for %s"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -3620,19 +3630,52 @@ msgstr "选择一个时期"
 msgid "Select all items in this page"
 msgstr "选择本页所有对象"
 
+msgid "Select compute resources"
+msgstr ""
+
+msgid "Select domains"
+msgstr ""
+
 msgid "Select environment"
 msgstr "选择环境"
+
+msgid "Select environments"
+msgstr ""
 
 msgid "Select host group"
 msgstr "选择主机组"
 
+msgid "Select host groups"
+msgstr ""
+
 msgid "Select hosts to assign to %s"
+msgstr ""
+
+msgid "Select locations"
+msgstr ""
+
+msgid "Select media"
+msgstr ""
+
+msgid "Select organizations"
+msgstr ""
+
+msgid "Select smart proxies"
+msgstr ""
+
+msgid "Select subnets"
 msgstr ""
 
 msgid "Select template"
 msgstr "选择模板"
 
+msgid "Select templates"
+msgstr ""
+
 msgid "Select the changes you want to realize in Foreman"
+msgstr ""
+
+msgid "Select users"
 msgstr ""
 
 msgid "Selected hosts are now assigned to %s"
@@ -4824,6 +4867,12 @@ msgstr ""
 msgid "You do not have permission to %s this host"
 msgstr ""
 
+msgid "You do not have permission to %s this location parameter"
+msgstr ""
+
+msgid "You do not have permission to %s this organization parameter"
+msgstr ""
+
 msgid "You do not have permission to %s this report"
 msgstr ""
 
@@ -4958,6 +5007,9 @@ msgstr ""
 msgid "cant be blank unless a custom partition has been defined"
 msgstr ""
 
+msgid "common"
+msgstr ""
+
 msgid "cycle"
 msgstr ""
 
@@ -4965,6 +5017,9 @@ msgid "does not appear to be a valid nfs mount path"
 msgstr ""
 
 msgid "does not belong to subnet"
+msgstr ""
+
+msgid "domain"
 msgstr ""
 
 msgid "domain %s already has a subnet with this name"
@@ -5041,6 +5096,9 @@ msgstr ""
 
 msgid "here"
 msgstr "这里"
+
+msgid "hostgroup"
+msgstr ""
 
 msgid "in %s"
 msgstr ""
@@ -5184,6 +5242,9 @@ msgstr "组织"
 
 msgid "organizations"
 msgstr "组织"
+
+msgid "os"
+msgstr ""
 
 msgid "override"
 msgstr "覆盖"
