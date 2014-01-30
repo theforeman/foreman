@@ -143,7 +143,11 @@ Foreman::Application.routes.draw do
       constraints(:id => /[^\/]+/) do
         resources :compute_resources, :except => [:new, :edit] do
           resources :images, :except => [:new, :edit]
+          resources :available_clusters, :only => [] do
+            get :available_networks, :on => :member
+          end
           get :available_images, :on => :member
+          get :available_storage_domains, :on => :member
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         end
