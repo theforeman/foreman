@@ -63,3 +63,12 @@ gce:
   password: MyString
   uuid: 78787878787
   type: Foreman::Model::GCE
+
+ovirt:
+  name: Ovirt
+  description: ovirt resource
+  url: https://myovirt/api
+  user: MyString
+  password: 12345
+  uuid: 1234567891011
+  type: Foreman::Model::Ovirt
