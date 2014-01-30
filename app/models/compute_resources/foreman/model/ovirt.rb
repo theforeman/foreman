@@ -99,6 +99,18 @@ module Foreman::Model
       end
     end
 
+    def available_clusters
+      clusters
+    end
+
+    def available_networks(cluster_id)
+      cluster_networks = networks({:cluster_id => cluster_id})
+    end
+
+    def available_storage_domains
+      storage_domains
+    end
+
     def storage_domains(opts ={})
       client.storage_domains({:role => 'data'}.merge(opts))
     end
