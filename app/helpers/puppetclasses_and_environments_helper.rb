@@ -21,7 +21,7 @@ module PuppetclassesAndEnvironmentsHelper
 
   def import_proxy_link hash, env
     proxy = SmartProxy.puppet_proxies.first
-    display_link_if_authorized(_("Import #{env} from %s") % proxy.name, hash.merge(:proxy => proxy, :env => env))
+    display_link_if_authorized(_("Import %{env} from %{proxy}") % {:env => env, :proxy => proxy.name}, hash.merge(:proxy => proxy, :env => env))
   end
 
   private
