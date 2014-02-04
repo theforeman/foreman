@@ -227,7 +227,7 @@ module Foreman::Model
       http.use_ssl = (ca_url.scheme == 'https')
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       request = Net::HTTP::Get.new(ca_url.path)
-      http.request(request).to_s
+      http.request(request).body
     end
 
     private
