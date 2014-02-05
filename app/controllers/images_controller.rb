@@ -28,6 +28,7 @@ class ImagesController < ApplicationController
   end
 
   def update
+    params[:image].except!(:password) if params[:image][:password].blank?
     if @image.update_attributes(params[:image])
       process_success :success_redirect => compute_resource_path(@compute_resource)
     else

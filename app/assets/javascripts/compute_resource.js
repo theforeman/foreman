@@ -162,6 +162,29 @@ function enable_libvirt_dropdown(item){
   item.show();
 }
 
+function libvirt_image_selected(item){
+  var template = $(item).val();
+  if (template) {
+    var url = $(item).attr('data-url');
+    $(item).indicator_show();
+    $.ajax({
+      type:'post',
+      url: url,
+      data:'template_id=' + template,
+      success: function(result){
+        capacity = $('#storage_volumes').children('.fields').find('[id$=capacity]')[0];
+        if (parseInt(capacity.value.slice(0, -1), 10) < parseInt(result.capacity, 10))
+          capacity.value = result.capacity + 'G';
+        $('#storage_volumes').children('.fields').find('[id$=format_type]')[0].value = 'qcow2';
+      },
+      complete: function(){
+        $(item).indicator_hide();
+        $('[rel="twipsy"]').tooltip();
+      }
+    })
+  }
+}
+
 function ec2_vpcSelected(form){
   sg_select = $('.security_group_ids')
   sg_select.empty();

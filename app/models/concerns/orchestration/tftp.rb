@@ -10,7 +10,7 @@ module Orchestration::TFTP
   end
 
   def tftp?
-    !!(subnet and subnet.tftp?) and (operatingsystem and operatingsystem.pxe_variant) and managed? and capabilities.include?(:build) and provision_method != 'image'
+    !!(subnet and subnet.tftp?) and (operatingsystem and operatingsystem.pxe_variant) and managed? and pxe_build?
   end
 
   def tftp

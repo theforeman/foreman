@@ -6,14 +6,14 @@
 <span id="os_select">
   <%= render 'common/os_selection/architecture', :item => @host %>
 </span>
-<% build_provisioning = f.object.capabilities && f.object.capabilities.include?(:build) && !@host.image %>
+
 <div id='provisioning_method' <%= display? (@host.capabilities.size < 2)  %> >
   <%= field(f, :provision_method, :label => _('Provisioning Method')) do
-      radio_button_f(f, :provision_method, :value=>'build', :checked=> build_provisioning, :text=> _("Network Based"))+
-      radio_button_f(f, :provision_method, :value=>'image', :checked=> !build_provisioning, :text=> _("Image Based"))
+      radio_button_f(f, :provision_method, :value=>'build', :checked=> @host.pxe_build?, :text=> _("Network Based"))+
+      radio_button_f(f, :provision_method, :value=>'image', :checked=> @host.image_build?, :text=> _("Image Based"))
   end %>
 </div>
-<div id='network_provisioning' <%= display? !build_provisioning  %> >
+<div id='network_provisioning' <%= display? !@host.pxe_build? %> >
   <% if @host.new_record? or @host.type_changed? -%>
       <%= checkbox_f f, :build, :checked => true, :help_inline => _("Enable this host for provisioning") %>
   <% end %>
@@ -27,7 +27,7 @@
   <%= password_f f, :root_pass %>
 </div>
 
-<div id='image_provisioning' <%= display? build_provisioning      %> >
+<div id='image_provisioning' <%= display? !@host.image_build? %> >
 
 </div>
 <!-- this section is used for displaying the provisioning scripts-->

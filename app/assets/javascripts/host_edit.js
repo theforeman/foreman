@@ -42,25 +42,28 @@ function computeResourceSelected(item){
 }
 
 function update_capabilities(capabilities){
+  $('#image_provisioning').empty();
+  $('#image_selection').appendTo($('#image_provisioning'));
+  update_provisioning_image();
+  $('#manage_network').empty();
+  $('#subnet_selection').appendTo($('#manage_network'));
+
   var build = (/build/i.test(capabilities));
   var image = (/image/i.test(capabilities));
   if (build){
     $('#manage_network_build').show();
     $('#host_provision_method_build').click();
+    build_provision_method_selected();
   } else {
     $('#manage_network_build').hide();
     $('#host_provision_method_image').click();
+    image_provision_method_selected();
   }
   if(build && image){
     $('#provisioning_method').show();
   }else{
     $('#provisioning_method').hide();
   }
-  $('#image_provisioning').empty();
-  $('#image_selection').appendTo($('#image_provisioning'));
-  update_provisioning_image();
-  $('#manage_network').empty();
-  $('#subnet_selection').appendTo($('#manage_network'));
   multiSelectOnLoad();
 }
 
@@ -369,12 +372,15 @@ function update_provisioning_image(){
           image_options.append($("<option />").val(this.image.uuid).text(this.image.name));
         });
         if (image_options.find('option').length > 0) {
-          image_options.attr('disabled', false);
-          if ($('#host_provision_method_image')[0].checked && $('#provider').val() == 'Ovirt') {
-            var template_select = $('#host_compute_attributes_template');
-            if (template_select.length > 0) {
-              template_select.val(image_options.val());
-              ovirt_templateSelected(image_options);
+          if ($('#host_provision_method_image')[0].checked) {
+            if ($('#provider').val() == 'Libvirt') {
+              libvirt_image_selected(image_options);
+            } else if ($('#provider').val() == 'Ovirt') {
+              var template_select = $('#host_compute_attributes_template');
+              if (template_select.length > 0) {
+                template_select.val(image_options.val());
+                ovirt_templateSelected(image_options);
+              }
             }
           }
         }
@@ -500,21 +506,24 @@ $(document).on('submit',"[data-submit='progress_bar']", function() {
   return false;
 });
 
-
-$(document).on('change', '#host_provision_method_build', function () {
+function build_provision_method_selected() {
   $('#network_provisioning').show();
   $('#image_provisioning').hide();
   $('#image_selection select').attr('disabled', true);
   if ($('#provider').val() == 'Ovirt')
     $('#host_compute_attributes_template').attr('disabled', false);
-});
+}
+$(document).on('change', '#host_provision_method_build', build_provision_method_selected);
 
-$(document).on('change', '#host_provision_method_image', function () {
+function image_provision_method_selected() {
   $('#network_provisioning').hide();
   $('#image_provisioning').show();
+  $('#network_selection select').attr('disabled', true);
   var image_options = $('#image_selection select');
   image_options.attr('disabled', false);
-  if ($('#provider').val() == 'Ovirt') {
+  if ($('#provider').val() == 'Libvirt') {
+    libvirt_image_selected(image_options);
+  } else if ($('#provider').val() == 'Ovirt') {
     var template_options = $('#host_compute_attributes_template');
     if (template_options.length > 0) {
       template_options.attr('disabled', true);
@@ -522,7 +531,8 @@ $(document).on('change', '#host_provision_method_image', function () {
       ovirt_templateSelected(image_options);
     }
   }
-});
+}
+$(document).on('change', '#host_provision_method_image', image_provision_method_selected);
 
 $(document).on('change', '.interface_domain', function () {
   interface_domain_selected(this);
