@@ -901,15 +901,31 @@ class HostTest < ActiveSupport::TestCase
     refute h.require_ip_validation?
   end
 
-  test "with tokens disabled hosts do require an IP" do
+  test "with tokens disabled PXE build hosts do require an IP" do
     h=Host.new :managed => true
+    h.expects(:pxe_build?).returns(true)
+    h.stubs(:image_build?).returns(false)
     assert h.require_ip_validation?
   end
 
   test "tokens disabled doesn't require an IP for image hosts" do
     h=Host.new :managed => true
-    h.stubs(:capabilities).returns([:image])
+    h.expects(:pxe_build?).returns(false)
+    h.expects(:image_build?).returns(true)
+    image = stub()
+    image.expects(:user_data?).returns(false)
+    h.stubs(:image).returns(image)
     refute h.require_ip_validation?
+  end
+
+  test "tokens disabled requires an IP for image hosts with user data" do
+    h=Host.new :managed => true
+    h.expects(:pxe_build?).returns(false)
+    h.expects(:image_build?).returns(true)
+    image = stub()
+    image.expects(:user_data?).returns(true)
+    h.stubs(:image).returns(image)
+    assert h.require_ip_validation?
   end
 
   test "compute attributes are populated by hardware profile from hostgroup" do
@@ -922,6 +938,55 @@ class HostTest < ActiveSupport::TestCase
     # hostgroups(:one) fixture has compute_profiles(:common)
     host = Host.create :name => "myhost", :mac => "aa-bb-cc-dd-ee-ff", :compute_resource_id => compute_resources(:ec2).id, :compute_profile_id => compute_profiles(:two).id
     assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
+  end
+
+  test "#capabilities returns capabilities from compute resource" do
+    host = hosts(:one)
+    host.compute_resource.expects(:capabilities).returns([:build, :image])
+    assert_equal [:build, :image], host.capabilities
+  end
+
+  test "#capabilities on bare metal returns build" do
+    host = hosts(:one)
+    host.compute_resource = nil
+    assert_equal [:build], host.capabilities
+  end
+
+  test "#provision_method cannot be set to invalid type" do
+    host = hosts(:one)
+    host.provision_method = 'foobar'
+    host.stubs(:provision_method_in_capabilities).returns(true)
+    host.valid?
+    assert_equal 'is unknown', host.errors[:provision_method].sort.first
+  end
+
+  test "#provision_method doesn't matter on unmanaged hosts" do
+    host = hosts(:one)
+    host.managed = false
+    host.provision_method = 'foobar'
+    assert host.valid?
+  end
+
+  test "#provision_method must be within capabilities" do
+    host = hosts(:one)
+    host.provision_method = 'image'
+    host.expects(:capabilities).returns([:build])
+    host.valid?
+    assert_equal 'is an unsupported provisioning method', host.errors[:provision_method].sort.first
+  end
+
+  test "#image_build? must be true when provision_method is image" do
+    host = hosts(:one)
+    host.provision_method = 'image'
+    assert host.image_build?
+    refute host.pxe_build?
+  end
+
+  test "#pxe_build? must be true when provision_method is build" do
+    host = hosts(:one)
+    host.provision_method = 'build'
+    assert host.pxe_build?
+    refute host.image_build?
   end
 
   private

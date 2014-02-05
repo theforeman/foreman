@@ -179,8 +179,8 @@ Meta Package to install requirements for ovirt support
 %package compute
 Summary: Foreman Compute Resource support via fog
 Group:  Applications/System
-Requires: %{?scl_prefix}rubygem-fog >= 1.19.0
-Requires: %{?scl_prefix}rubygem-fog < 1.20.0
+Requires: %{?scl_prefix}rubygem-fog >= 1.20.0
+Requires: %{?scl_prefix}rubygem-fog < 1.21.0
 Requires: %{?scl_prefix}rubygem-unf
 Requires: %{name} = %{version}-%{release}
 Obsoletes: foreman-fog < 1.0.0
