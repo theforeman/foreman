@@ -102,10 +102,10 @@ class UnattendedController < ApplicationController
   end
 
   def find_host_by_spoof
-    ip, name = params.delete('spoof'), params.delete('hostname')
-    return nil if ip.blank? && name.blank?
-    @spoof = true
-    Host.find_by_ip(ip) || Host.find_by_name(name)
+    host   = Host.find_by_ip(params.delete('spoof')) if params['spoof'].present?
+    host ||= Host.find_by_name(params.delete('hostname')) if params['hostname'].present?
+    @spoof = host.present?
+    host
   end
 
   def find_host_by_token
