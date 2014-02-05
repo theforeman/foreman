@@ -365,7 +365,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       get :index, {:search => 'my5name.mydomain.net' }
       assert_response :success
       response = ActiveSupport::JSON.decode(@response.body)
-      assert_equal 15, response['total']
+      assert_equal 16, response['total']
       assert_equal  1, response['subtotal']
       assert_equal 'my5name.mydomain.net', response['search']
     end
