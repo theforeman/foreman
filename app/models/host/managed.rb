@@ -113,7 +113,6 @@ class Host::Managed < Host::Base
   # some shortcuts
   alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
-  alias_attribute :fqdn, :name
 
   validates :environment_id, :presence => true
 
@@ -152,6 +151,11 @@ class Host::Managed < Host::Base
 
   def shortname
     domain.nil? ? name : name.chomp("." + domain.name)
+  end
+
+  # we should guarantee the fqdn is always fully qualified
+  def fqdn
+    name.include?('.') ? name : "#{name}.#{domain}"
   end
 
   # method to return the correct owner list for host edit owner select dropbox
@@ -770,8 +774,8 @@ class Host::Managed < Host::Base
         old_domain = Domain.find(changed_attributes["domain_id"])
         self.name.chomp!("." + old_domain.to_s)
       end
-      # if our host is in short name, append the domain name
-      self.name += ".#{domain}" unless name =~ /\./i
+      # name should be fqdn
+      self.name = fqdn
     end
     # A managed host we should know the domain for; and the shortname shouldn't include a period
     errors.add(:name, _("must not include periods")) if managed? and shortname.include? "."
