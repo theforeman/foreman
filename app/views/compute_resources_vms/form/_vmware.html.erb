@@ -27,6 +27,7 @@
       :object  => compute_resource.new_volume,
       :partial => 'compute_resources_vms/form/vmware/volume', :form_builder_attrs => { :compute_resource => compute_resource, :new => new } }) %>
   <%= field_set_tag _("Storage"), :id => "storage_volumes", :title => _('Storage') do %>
+    <%= select_f f, :scsi_controller_type, compute_resource.scsi_controller_types, :first, :last, {}, { :label => _("SCSI controller"), :class => "col-md-2", :disabled => !new } %>
     <%= f.fields_for :volumes do |i| %>
       <%= render 'compute_resources_vms/form/vmware/volume', :f => i, :compute_resource => compute_resource, :new => new %>
     <% end %>
