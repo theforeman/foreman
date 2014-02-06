@@ -127,4 +127,20 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
   end
 
+  test "smart class parameter accepts valid data" do
+    as_admin do
+      lk = LookupValue.new(:value => "---\nfoo:\n  bar: baz", :match => "hostgroup=Common", :lookup_key => lookup_keys(:six))
+      assert lk.valid?
+      assert lk.save!
+    end
+  end
+
+  test "smart class parameter validation detects invalid data" do
+    as_admin do
+      lk = LookupValue.new(:value => "---\n[[\n;", :match => "hostgroup=Common", :lookup_key => lookup_keys(:six))
+      refute lk.valid?
+      assert lk.errors.messages[:value].include? "is invalid yaml"
+    end
+  end
+
 end
