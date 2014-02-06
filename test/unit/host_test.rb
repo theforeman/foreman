@@ -112,6 +112,16 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test "lookup value has right matcher for a host" do
+    assert_difference('LookupValue.where(:lookup_key_id => lookup_keys(:five).id, :match => "fqdn=abc.mydomain.net").count') do 
+      h = Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "2.3.4.3",
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
+        :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+        :environment => environments(:production), :disk => "empty partition",
+        :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:five).id, "value"=>"some_value"}}
+    end
+  end
+
   test "should import facts from json stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now
