@@ -79,7 +79,7 @@ namespace :puppet do
       # the on-disk puppet installation
       begin
         puts "Evaluating possible changes to your installation" unless args.batch
-        importer = PuppetClassImporter.new({ :url => proxy.url, :env => arg.envname })
+        importer = PuppetClassImporter.new({ :url => proxy.url, :env => args.envname })
         changes  = importer.changes
       rescue => e
         if args.batch
