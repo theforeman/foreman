@@ -62,6 +62,19 @@ module Foreman::Model
       }
     end
 
+    def scsi_controller_types
+      {
+        "VirtualLsiLogicController" => "LSI Logic Parallel",
+        "VirtualLsiLogicSASController" => "LSI Logic SAS",
+        "VirtualBusLogicController" => "Bus Logic Parallel",
+        "ParaVirtualSCSIController" => "VMware Paravirtual"
+      }
+    end
+
+    def scsi_controller_default_type
+      "VirtualLsiLogicController"
+    end
+
     def datastores
       dc.datastores.all(:accessible => true)
     end
@@ -208,6 +221,7 @@ module Foreman::Model
         :memory_mb  => 768,
         :interfaces => [new_interface],
         :volumes    => [new_volume],
+        :scsi_controller => { :type => scsi_controller_default_type },
         :datacenter => datacenter
       )
     end
