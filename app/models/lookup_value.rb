@@ -35,11 +35,11 @@ class LookupValue < ActiveRecord::Base
   end
 
   def validate_and_cast_value
-    return true if self.marked_for_destruction?
+    return true if self.marked_for_destruction? or !self.value.is_a? String
     begin
       self.value = lookup_key.cast_validate_value self.value
       true
-    rescue
+    rescue StandardError, SyntaxError => e
       errors.add(:value, _("is invalid %s") % lookup_key.key_type)
       false
     end
