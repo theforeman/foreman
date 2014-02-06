@@ -58,3 +58,12 @@ five_same_name:
   path: 'organization,location'
   override: true
   is_param: true
+
+six:
+  key: yaml_test
+  key_type: yaml
+  validator_rule:
+  default_value: "--- \nfoo: bar\n"
+  path: 'organization,location'
+  override: true
+  is_param: true
