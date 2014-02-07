@@ -8,8 +8,10 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   test "should get edit" do
     organization = Organization.new :name => "organization1"
-    assert organization.save!
-    get :edit, {:id => organization}, set_session_user
+    as_admin do
+      assert organization.save!
+      get :edit, {:id => organization}, set_session_user
+    end
     assert_response :success
   end
 
@@ -26,28 +28,34 @@ class OrganizationsControllerTest < ActionController::TestCase
   test "should not allow saving another organization with same name" do
     name = "organization_dup_name"
     organization = Organization.new :name => name
-    assert organization.save!
+    as_admin do
+      assert organization.save!
+      put :create, {:commit => "Submit", :organization => {:name => name} }, set_session_user
+    end
 
-    put :create, {:commit => "Submit", :organization => {:name => name} }, set_session_user
     assert @response.body.include? "has already been taken"
   end
 
   test "should delete null organization" do
     name = "organization1"
     organization = Organization.new :name => name
-    assert organization.save!
+    as_admin do
+      assert organization.save!
 
-    assert_difference('Organization.count', -1) do
-      delete :destroy, {:id => organization}, set_session_user
-      assert_match /Successfully deleted/, flash[:notice]
+      assert_difference('Organization.count', -1) do
+        delete :destroy, {:id => organization}, set_session_user
+        assert_match /Successfully deleted/, flash[:notice]
+      end
     end
   end
 
   test "should clear the session if the user deleted their current organization" do
-    organization = Organization.create!(:name => "random-house")
-    Organization.current = organization
+    as_admin do
+      organization = Organization.create!(:name => "random-house")
+      Organization.current = organization
 
-    delete :destroy, {:id => organization.id}, set_session_user.merge(:organization_id => organization.id)
+      delete :destroy, {:id => organization.id}, set_session_user.merge(:organization_id => organization.id)
+    end
 
     assert_equal Organization.current, nil
     assert_equal session[:organization_id], nil
@@ -89,7 +97,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_difference "organization.hosts.count", 2 do
       put :assign_selected_hosts, {:id => organization.id,
                                    :organization => {:host_ids => selected_hosts_no_organization_ids}
-                                  }, set_session_user
+      }, set_session_user
     end
     assert_redirected_to :controller => :organizations, :action => :index
     assert_equal flash[:notice], "Selected hosts are now assigned to Organization 1"
@@ -125,18 +133,18 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_difference "Organization.count", 1 do
       post :create, {:organization => {:name => "organization_dup_name",
-                                 :environment_ids => organization_dup.environment_ids,
-                                 :hostgroup_ids => organization_dup.hostgroup_ids,
-                                 :subnet_ids => organization_dup.hostgroup_ids,
-                                 :domain_ids => organization_dup.domain_ids,
-                                 :medium_ids => organization_dup.medium_ids,
-                                 :user_ids => organization_dup.user_ids,
-                                 :smart_proxy_ids => organization_dup.smart_proxy_ids,
-                                 :config_template_ids => organization_dup.config_template_ids,
-                                 :compute_resource_ids => organization_dup.compute_resource_ids,
-                                 :location_ids => organization_dup.location_ids
-                               }
-                   }, set_session_user
+                                       :environment_ids => organization_dup.environment_ids,
+                                       :hostgroup_ids => organization_dup.hostgroup_ids,
+                                       :subnet_ids => organization_dup.hostgroup_ids,
+                                       :domain_ids => organization_dup.domain_ids,
+                                       :medium_ids => organization_dup.medium_ids,
+                                       :user_ids => organization_dup.user_ids,
+                                       :smart_proxy_ids => organization_dup.smart_proxy_ids,
+                                       :config_template_ids => organization_dup.config_template_ids,
+                                       :compute_resource_ids => organization_dup.compute_resource_ids,
+                                       :location_ids => organization_dup.location_ids
+      }
+      }, set_session_user
     end
 
     new_organization = Organization.order(:id).last
