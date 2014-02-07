@@ -3,7 +3,6 @@ require 'test_helper'
 class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   def setup
-#    TODO was 500 since there is not include Authorization in taxonomy.rb
     @location = taxonomies(:location1)
     @location.organization_ids = [taxonomies(:organization1).id]
     Rabl.configuration.use_controller_name_as_json_root = false
@@ -27,8 +26,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should not create invalid location" do
     post :create, { :location => { :name => "" } }
-#    TODO was 500 since there is not include Authorization in taxonomy.rb
-#    assert_response :unprocessable_entity
+    assert_response :unprocessable_entity
   end
 
   test "should create valid location" do
@@ -47,8 +45,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should not update invalid location" do
     put :update, { :id => Location.first.to_param, :location => { :name => "" } }
-#    TODO was 500 since there is not include Authorization
-#    assert_response :unprocessable_entity
+    assert_response :unprocessable_entity
   end
 
   test "should destroy location if hosts do not use it" do
@@ -62,16 +59,17 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_difference('Location.count', 0) do
       delete :destroy, { :id => taxonomies(:location1).to_param }
     end
-#    TODO was 500 since there is not include Authorization in taxonomy.rb
-#    assert_response :unprocessable_entity
+    assert_response :unprocessable_entity
   end
 
   test "should update *_ids. test for domain_ids" do
     # ignore all but Domain
     @location.ignore_types = ["Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
-    @location.save(:validate => false)
-    assert_difference('@location.domains.count', 4) do
-      put :update, { :id => @location.to_param, :location => { :domain_ids => Domain.pluck(:id) } }
+    as_admin do
+      @location.save(:validate => false)
+      assert_difference('@location.domains.count', 4) do
+        put :update, { :id => @location.to_param, :location => { :domain_ids => Domain.pluck(:id) } }
+      end
     end
     assert_response :success
   end
@@ -157,74 +155,83 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should return correct metadata if no params passed" do
-    add_locations
-    get :index, { }
+    as_admin do
+      add_locations
+      get :index, { }
+    end
+
     assert_response :success
+
     response = ActiveSupport::JSON.decode(@response.body)
-    # 2 fixtures + 26 letters = 28
-    assert_equal 28, response['total']
-    assert_equal 28, response['subtotal']
-    assert_equal  1, response['page']
-    assert_equal 20, response['per_page']
-    assert_equal nil, response['search']
-    assert_equal nil, response['sort']['by']
-    assert_equal nil, response['sort']['order']
+    expected_metadata = { 'total'    => 28, 'subtotal' => 28,   'page' => 1,
+                          'per_page' => 20, 'search'   => nil,
+                          'sort' => { 'by' => nil, 'order' => nil } }
+
+    assert_equal expected_metadata, response.except('results')
   end
 
   test "should return correct metadata if page param is passed" do
-    add_locations
-    get :index, {:page => 2 }
+    as_admin do
+      add_locations
+      get :index, {:page => 2 }
+    end
+
     assert_response :success
+
     response = ActiveSupport::JSON.decode(@response.body)
-    assert_equal 28, response['total']
-    assert_equal 28, response['subtotal']
-    assert_equal  2, response['page']
-    assert_equal 20, response['per_page']
-    assert_equal nil, response['search']
-    assert_equal nil, response['sort']['by']
-    assert_equal nil, response['sort']['order']
+    expected_metadata = { 'total'    => 28, 'subtotal' => 28,   'page' => 2,
+                          'per_page' => 20, 'search'   => nil,
+                          'sort' => { 'by' => nil, 'order' => nil } }
+
+    assert_equal expected_metadata, response.except('results')
   end
 
   test "should return correct metadata if per_page param is passed" do
-    add_locations
-    get :index, {:per_page => 10 }
+    as_admin do
+      add_locations
+      get :index, {:per_page => 10 }
+    end
+
     assert_response :success
+
     response = ActiveSupport::JSON.decode(@response.body)
-    assert_equal 28, response['total']
-    assert_equal 28, response['subtotal']
-    assert_equal  1, response['page']
-    assert_equal 10, response['per_page']
-    assert_equal nil, response['search']
-    assert_equal nil, response['sort']['by']
-    assert_equal nil, response['sort']['order']
+    expected_metadata = { 'total'    => 28, 'subtotal' => 28,   'page' => 1,
+                          'per_page' => 10, 'search'   => nil,
+                          'sort' => { 'by' => nil, 'order' => nil } }
+
+    assert_equal expected_metadata, response.except('results')
   end
 
   test "should return correct metadata if search param is passed" do
-    add_locations
-    get :index, {:search => 'Loc' }
+    as_admin do
+      add_locations
+      get :index, {:search => 'Loc' }
+    end
+
     assert_response :success
+
     response = ActiveSupport::JSON.decode(@response.body)
-    assert_equal 28, response['total']
-    assert_equal  2, response['subtotal']
-    assert_equal  1, response['page']
-    assert_equal 20, response['per_page']
-    assert_equal 'Loc', response['search']
-    assert_equal nil, response['sort']['by']
-    assert_equal nil, response['sort']['order']
+    expected_metadata = { 'total'    => 28, 'subtotal' => 2, 'page' => 1,
+                          'per_page' => 20, 'search'   => 'Loc',
+                          'sort' => { 'by' => nil, 'order' => nil } }
+
+    assert_equal expected_metadata, response.except('results')
   end
 
   test "should return correct metadata if order param is passed" do
-    add_locations
-    get :index, {:order => 'name DESC' }
+    as_admin do
+      add_locations
+      get :index, {:order => 'name DESC' }
+    end
+
     assert_response :success
+
     response = ActiveSupport::JSON.decode(@response.body)
-    assert_equal 28, response['total']
-    assert_equal 28, response['subtotal']
-    assert_equal  1, response['page']
-    assert_equal 20, response['per_page']
-    assert_equal nil, response['search']
-    assert_equal 'name', response['sort']['by']
-    assert_equal 'DESC', response['sort']['order']
+    expected_metadata = { 'total'    => 28, 'subtotal' => 28, 'page' => 1,
+                          'per_page' => 20, 'search'   => nil,
+                          'sort' => { 'by' => 'name', 'order' => 'DESC' } }
+
+    assert_equal expected_metadata, response.except('results')
   end
 
 end
