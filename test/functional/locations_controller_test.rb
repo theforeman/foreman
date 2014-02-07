@@ -8,15 +8,20 @@ class LocationsControllerTest < ActionController::TestCase
 
   test "should get edit" do
     location = Location.new :name => "location1"
-    assert location.save!
-    get :edit, {:id => location}, set_session_user
+    as_admin do
+      assert location.save!
+      get :edit, {:id => location}, set_session_user
+    end
     assert_response :success
   end
 
   test "should update location" do
     location = taxonomies(:location2)
 
-    post :update, {:commit => "Submit", :id => location.id, :location => {:name => "New Name"} }, set_session_user
+    as_admin do
+      post :update, {:commit => "Submit", :id => location.id, :location => {:name => "New Name"} }, set_session_user
+    end
+
     updated_location = Location.find_by_id(location.id)
 
     assert_equal "New Name", updated_location.name
@@ -26,28 +31,35 @@ class LocationsControllerTest < ActionController::TestCase
   test "should not allow saving another location with same name" do
     name = "location_dup_name"
     location = Location.new :name => name
-    assert location.save!
 
-    put :create, {:commit => "Submit", :location => {:name => name} }, set_session_user
+    as_admin do
+      assert location.save!
+      put :create, {:commit => "Submit", :location => {:name => name} }, set_session_user
+    end
+
     assert @response.body.include? "has already been taken"
   end
 
   test "should delete null location" do
     name = "location1"
     location = Location.new :name => name
-    assert location.save!
 
-    assert_difference('Location.count', -1) do
-      delete :destroy, {:id => location}, set_session_user
-      assert_match /Successfully deleted/, flash[:notice]
+    as_admin do
+      assert location.save!
+
+      assert_difference('Location.count', -1) do
+        delete :destroy, {:id => location}, set_session_user
+        assert_match /Successfully deleted/, flash[:notice]
+      end
     end
   end
 
   test "should clear the session if the user deleted their current location" do
-    location = Location.create!(:name => "random-location")
-    Location.current = location
-
-    delete :destroy, {:id => location.id}, set_session_user.merge(:location_id => location.id)
+    as_admin do
+      location = Location.create!(:name => "random-location")
+      Location.current = location
+      delete :destroy, {:id => location.id}, set_session_user.merge(:location_id => location.id)
+    end
 
     assert_equal Location.current, nil
     assert_equal session[:location_id], nil

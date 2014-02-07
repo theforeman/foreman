@@ -73,7 +73,7 @@ module Api
 
       raise 'resource have no errors' if resource.errors.empty?
 
-      if resource.permission_failed?
+      if resource.respond_to?(:permission_failed?) && resource.permission_failed?
         deny_access
       else
         log_resource_errors resource
