@@ -14,6 +14,10 @@
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
   }
 
+  .navbar-header-menu > li  {
+    padding-left: 1em;
+  }
+
   .active > a, .open > a {
     @include linear-gradient($hover_gradient_start, $hover_gradient_end);
   }

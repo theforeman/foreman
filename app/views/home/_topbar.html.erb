@@ -7,12 +7,17 @@
         <!--[if IE]></div> <![endif]-->
         <%= link_to "Foreman", root_path %>
       </div>
-
-      <%= render 'home/user_dropdown' if SETTINGS[:login] && User.current %>
+      <% if User.current %>
+        <div>
+          <ul class="nav navbar-nav navbar-right navbar-header-menu navbar-collapse collapse" id="menu4">
+            <%= render_menu :header_menu %>
+            <%= render 'home/user_dropdown' if SETTINGS[:login] %>
+          </ul>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
-
 <div class="navbar navbar-default navbar-inner navbar-fixed-top persist-header">
   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
     <span class="icon-bar"></span>

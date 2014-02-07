@@ -1,6 +1,9 @@
 module Menu
   class Loader
     def self.load
+
+      Manager.map :header_menu
+
       Manager.map :user_menu do |menu|
         menu.item :logout,               :caption => N_('Sign out'),
                   :url_hash => {:controller => '/users', :action => 'logout'}
