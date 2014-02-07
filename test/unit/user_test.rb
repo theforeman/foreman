@@ -43,7 +43,7 @@ class UserTest < ActiveSupport::TestCase
     @user.firstname = "The Riddle?"
     assert !@user.save
 
-    @user.firstname = " _''. - nah"
+    @user.firstname = "C_r'a-z.y( )<,Na=me;>"
     assert @user.save
   end
 
@@ -51,17 +51,17 @@ class UserTest < ActiveSupport::TestCase
     @user.lastname = "it's the JOKER$$$"
     assert !@user.save
 
-    @user.lastname = " _''. - nah"
+    @user.lastname = "C_r'a-z.y( )<,Na=me;>"
     assert @user.save
   end
 
-  test "firstname should not exceed the 30 characters" do
-    @user.firstname = "a" * 31
+  test "firstname should not exceed the 50 characters" do
+    @user.firstname = "a" * 51
     assert !@user.save
   end
 
-  test "lastname should not exceed the 30 characters" do
-    @user.firstname = "a" * 31
+  test "lastname should not exceed the 50 characters" do
+    @user.firstname = "a" * 51
     assert !@user.save
   end
 
