@@ -60,7 +60,7 @@ module ComputeResourcesVmsHelper
     compute.datastores.map do |ds|
       [
         ds.freespace && ds.capacity ?
-          "#{ds.name} (#{_('free')}: #{number_to_human_size(ds.freespace)}, #{_('prov')}: #{number_to_human_size(ds.capacity + (ds.uncommitted ? ds.uncommitted : 0) - ds.freespace)}, #{_('total')}: #{number_to_human_size(ds.capacity)})" :
+          "#{ds.name} (#{_('free')}: #{number_to_human_size(ds.freespace)}, #{_('prov')}: #{number_to_human_size(ds.capacity + (ds.uncommitted || 0) - ds.freespace)}, #{_('total')}: #{number_to_human_size(ds.capacity)})" :
           ds.name,
         ds.name
       ]
