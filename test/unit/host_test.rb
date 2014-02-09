@@ -122,6 +122,42 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test "should be able to add new lookup value on update_attributes" do
+    host = hosts(:redhat) #temp01.yourdomain.net
+    lookup_key = lookup_keys(:three)
+    assert_difference('LookupValue.count') do
+      assert host.update_attributes!(:lookup_values_attributes => {:new_123456 =>
+        {:lookup_key_id => lookup_key.id, :value => true, :match => "fqdn=temp01.yourdomain.net",
+          :_destroy => 'false'}})
+    end
+  end
+
+  test "should be able to delete existing lookup value on update_attributes" do
+    #in fixtures lookup_keys.yml, lookup_values(:one) has hosts(:one) and lookup_keys(:one)
+    host = hosts(:one)
+    lookup_key = lookup_keys(:one)
+    lookup_value = lookup_values(:one)
+    assert_difference('LookupValue.count', -1) do
+      assert host.update_attributes!(:lookup_values_attributes => {'0' =>
+        {:lookup_key_id => lookup_key.id, :value => '8080', :match => "fqdn=temp01.yourdomain.net",
+          :id => lookup_values(:one).id, :_destroy => 'true'}})
+    end
+  end
+
+  test "should be able to update lookup value on update_attributes" do
+    #in fixtures lookup_keys.yml, lookup_values(:one) has hosts(:one) and lookup_keys(:one)
+    host = hosts(:one)
+    lookup_key = lookup_keys(:one)
+    lookup_value = lookup_values(:one)
+    assert_difference('LookupValue.count', 0) do
+      assert host.update_attributes!(:lookup_values_attributes => {'0' =>
+        {:lookup_key_id => lookup_key.id, :value => '80', :match => "fqdn=temp01.yourdomain.net",
+          :id => lookup_values(:one).id, :_destroy => 'false'}})
+    end
+    lookup_value.reload
+    assert_equal 80, lookup_value.value
+  end
+
   test "should import facts from json stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now
