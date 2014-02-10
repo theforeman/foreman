@@ -157,4 +157,9 @@ class ComputeResourceTest < ActiveSupport::TestCase
     assert_equal "OpenStack", compute_resources(:openstack).provider_friendly_name
   end
 
+  test "ensure compute resource with associated profile can get destroyed" do
+    assert_difference('ComputeAttribute.count', -2) do
+      compute_attributes(:one).compute_resource.destroy
+    end
+  end
 end

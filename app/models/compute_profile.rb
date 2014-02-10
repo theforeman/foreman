@@ -6,7 +6,7 @@ class ComputeProfile < ActiveRecord::Base
   has_associated_audits
 
   before_destroy EnsureNotUsedBy.new(:hostgroups)
-  has_many :compute_attributes
+  has_many :compute_attributes, :dependent => :destroy
   has_many :compute_resources, :through => :compute_attributes
   has_many_hosts
   has_many :hostgroups
