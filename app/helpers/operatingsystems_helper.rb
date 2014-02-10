@@ -28,6 +28,8 @@ module OperatingsystemsHelper
       "AIX"
     when /Junos/i
       "Junos"
+    when /OracleLinux/i
+      "OracleLinux"
     else
       return "" if record.family.blank?
       record.family
