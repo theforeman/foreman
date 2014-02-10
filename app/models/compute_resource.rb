@@ -23,7 +23,7 @@ class ComputeResource < ActiveRecord::Base
   has_many_hosts
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
-  has_many :compute_attributes
+  has_many :compute_attributes, :dependent => :destroy
   has_many :compute_profiles, :through => :compute_attributes
   # attribute used by *_names and *_name methods.  default is :name
   attr_name :to_label

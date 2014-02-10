@@ -26,4 +26,9 @@ class ComputeProfileTest < ActiveSupport::TestCase
     assert_equal 2, ComputeProfile.visibles.count
   end
 
+  test "compute profile with associated attributes can be destroyed" do
+    assert_difference('ComputeAttribute.count', -2) do
+      assert compute_attributes(:three).compute_profile.destroy
+    end
+  end
 end
