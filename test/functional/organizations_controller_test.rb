@@ -53,6 +53,21 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal session[:organization_id], nil
   end
 
+  test "should save organization on session expiry" do
+    # login and select an org
+    get :index, {}, set_session_user
+    session[:organization_id] = taxonomies(:organization1).id
+
+    # session is expired, but try to load a page
+    session[:expires_at] = 5.minutes.ago
+    get :index
+  
+    # session is reset, redirected to login, but org id remains
+    assert_redirected_to "/users/login"
+    assert_match /Your session has expired, please login again/, flash[:warning]
+    assert_equal session["organization_id"], taxonomies(:organization1).id
+  end
+
   test "should display a warning if current organization has been deleted" do
     get :index, {}, set_session_user.merge(:organization_id => 1234)
     assert_equal "Organization you had selected as your context has been deleted.", flash[:warning]
