@@ -95,11 +95,6 @@ module Foreman::Model
     def create_vm args = { }
       dc_networks = networks
       args["interfaces_attributes"].each do |key, interface|
-        # Convert interface type to RbVmomi class
-        unless nictypes.has_key? interface["type"]
-          raise "Unknown NIC type: #{interface["type"]}"
-        end
-        interface["type"] = ("RbVmomi::VIM::" + interface["type"]).constantize
         # Convert network id into name
         net = dc_networks.find { |n| n.id == interface["network"] }
         raise "Unknown Network ID: #{interface["network"]}" if net.nil?
