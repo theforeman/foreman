@@ -160,8 +160,11 @@ class ApplicationController < ActionController::Base
 
   def session_expiry
     if session[:expires_at].blank? or (session[:expires_at].utc - Time.now.utc).to_i < 0
+      # Before we expire the session, save the current taxonomies and the originally
+      # requested URL so they can be restored later.
+      save_items = session.to_hash.slice("organization_id", "location_id").merge("original_uri" => request.fullpath)
       expire_session
-      session[:original_uri] = request.fullpath # keep the old request uri that we can redirect later on
+      session.merge!(save_items)
     end
   rescue => e
     logger.warn "failed to determine if user sessions needs to be expired, expiring anyway: #{e}"
