@@ -186,15 +186,15 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def available_networks
-    raise ::Foreman::Exception.new N_("Not implemented for #{provider_friendly_name}")
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
   def available_clusters
-    raise ::Foreman::Exception.new N_("Not implemented for #{provider_friendly_name}")
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
   def available_storage_domains
-    raise ::Foreman::Exception.new N_("Not implemented for #{provider_friendly_name}")
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
   def set_console_password?
