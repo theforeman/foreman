@@ -17,6 +17,7 @@ module Foreman::Model
       client.servers.get(ref)
     rescue Fog::XenServer::RequestFailed => e
       raise(ActiveRecord::RecordNotFound) if e.message.include?('HANDLE_INVALID')
+      raise(ActiveRecord::RecordNotFound) if e.message.include?('VM.get_record: ["SESSION_INVALID"')
       raise e
     end
 
@@ -101,14 +102,25 @@ module Foreman::Model
     def create_vm args = {}
       custom_template_name = args[:custom_template_name]
       builtin_template_name = args[:builtin_template_name]
-      raise "only custom or built-in template can be choosen" if builtin_template_name != "" and custom_template_name != ""
-      raise "custom or built-in template has to be choosen" if builtin_template_name == "" and custom_template_name == ""
+      raise "you can at most one template type" if builtin_template_name != "" and custom_template_name != ""
       begin
+        vm = nil
         if custom_template_name != ""
-          return create_vm_from_custom args
-        elsif builtin_template_name != ""
-          return create_vm_from_builtin args
+          vm = create_vm_from_custom args
+        else
+          vm = create_vm_from_builtin args
         end
+        vm.set_attribute('name_description', "Provisioned by Foreman")
+        cpus = args[:vcpus_max]
+        if vm.vcpus_max.to_i < cpus.to_i 
+          vm.set_attribute('VCPUs_max', cpus)
+          vm.set_attribute('VCPUs_at_startup', cpus)
+        else
+          vm.set_attribute('VCPUs_at_startup', cpus)
+          vm.set_attribute('VCPUs_max', cpus)
+        end
+        vm.refresh
+        return vm
       rescue => e
         logger.info e
         logger.info e.backtrace.join("\n")
@@ -118,26 +130,29 @@ module Foreman::Model
 
     def create_vm_from_custom args
       mem = args[:memory]
-      cpus = args[:vcpus_max]
-      vm = client.servers.create :name => args[:name],
-                                :template_name => args[:custom_template_name]
+      
 
-      logger.info vm
+      vm = client.servers.create :name => args[:name],
+      :template_name => args[:custom_template_name]
+
       vm.hard_shutdown
       vm.refresh
       args['xenstore']['vm-data']['ifs']['0']['mac'] = vm.vifs.first.mac
       xenstore_data = xenstore_hash_flatten(args['xenstore'])
-      logger.info args
-      logger.info "cpus: #{cpus.inspect}"
+
       vm.set_attribute('xenstore_data',xenstore_data)
-      vm.set_attribute('VCPUs_at_startup', cpus)
-      vm.set_attribute('VCPUs_max', cpus)
-      vm.set_attribute('memory_static_max', mem)
-      vm.set_attribute('memory_dynamic_max', mem)
-      vm.set_attribute('memory_dynamic_min', mem)
-      vm.set_attribute('memory_static_min', mem)
-      vm.set_attribute('name_description', "Provisioned by Foreman")
-      
+      if vm.memory_static_max.to_i < mem.to_i
+        vm.set_attribute('memory_static_max', mem)
+        vm.set_attribute('memory_dynamic_max', mem)
+        vm.set_attribute('memory_dynamic_min', mem)
+        vm.set_attribute('memory_static_min', mem)
+      else
+        vm.set_attribute('memory_static_min', mem)
+        vm.set_attribute('memory_dynamic_min', mem)
+        vm.set_attribute('memory_dynamic_max', mem)
+        vm.set_attribute('memory_static_max', mem)
+      end
+
       disks = vm.vbds.select { |vbd| vbd.type == "Disk"}
       i = 1
       disks.each do |vbd|
@@ -149,24 +164,30 @@ module Foreman::Model
 
     def create_vm_from_builtin args
     	opts = vm_instance_defaults.merge(args.to_hash).symbolize_keys
-
     	host = client.hosts.first
     	net = client.networks.find { |n| n.name == "#{args[:VIFs][:print]}" }
     	storage_repository = client.storage_repositories.find { |sr| sr.name == "#{args[:VBDs][:print]}" }
-    	logger.info storage_repository
+    	
+    	gb = 1073741824 #1gb in bytes
+    	size = args[:VBDs][:physical_size].to_i * gb
     	vdi = client.vdis.create :name => "#{args[:name]}-disk1",
-                       :storage_repository => storage_repository,
+                            :storage_repository => storage_repository,
                             :description => "#{args[:name]}-disk1",
-                            :virtual_size => '4294967296' # ~4GB in bytes
-      logger.info vdi
+                            :virtual_size => size.to_s
+
     	mem = args[:memory]
-    	cpus = args[:vcpus_max]
-    	template = client.servers.builtin_templates.find {|tmp| tmp.name == args[:builtin_template_name]}
+    	other_config = {}
+    	if args[:builtin_template_name]
+    	   template = client.servers.builtin_templates.find {|tmp| tmp.name == args[:builtin_template_name]}
+    	   other_config = template.other_config
+    	   other_config.delete "disks"
+    	   other_config.delete "default_template"
+    	end
     	vm = client.servers.new :name => args[:name],
                         			:affinity => host,
                         			:pv_bootloader => '',
                         			:hvm_boot_params => { :order => 'dn' },
-                        			:HVM_boot_policy => 'BIOS order',
+                        			:other_config => other_config,
                         			:memory_static_max  => mem,
                               :memory_static_min  => mem,
                               :memory_dynamic_max => mem,
@@ -187,10 +208,9 @@ module Foreman::Model
     		}
     	client.create_vif_custom net_config
     	vm.refresh
-    	logger.info vm.inspect
-    	vm.provision
-    	vm = client.servers.find {|v| v.name == vm.name}
-    	logger.info vm.inspect
+    	vm.provision 
+    	vm.set_attribute('HVM_boot_policy', 'BIOS order')
+    	vm.refresh
     	vm
     end
 
@@ -235,35 +255,14 @@ module Foreman::Model
     end
 
     def vm_instance_defaults
-      super.merge(
-        :memory     => 768*1024*1024,
-        :boot_order => %w[network hd],
-        :networks       => [new_nic],
-        :storage_repositories    => [new_volume],
-        :display    => { :type => 'vnc', :listen => Setting[:libvirt_default_console_address], :password => random_password, :port => '-1' }
-      )
+      super.merge({})
     end
 
-    def create_storage_repositories args
-      vols = []
-      (storage_repositories = args[:storage_repositories]).each do |vol|
-        vol.name       = "#{args[:prefix]}-disk#{storage_repositories.index(vol)+1}"
-        vol.allocation = "0G"
-        vol.save
-        vols << vol
-      end
-      vols
-    rescue => e
-      logger.debug "Failure detected #{e}: removing already created storage_repositories" if vols.any?
-      vols.each { |vol| vol.destroy }
-      raise e
-    end
 
     private
     def xenstore_hash_flatten(nested_hash, key=nil, keychain=nil, out_hash={})
       nested_hash.each do |k, v|
         if v.is_a? Hash then
-          # out_hash["#{keychain}#{k}"] = ''
           xenstore_hash_flatten(v, k, "#{keychain}#{k}/", out_hash)
         else
           out_hash["#{keychain}#{k}"] = v
