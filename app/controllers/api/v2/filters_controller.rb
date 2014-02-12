@@ -23,7 +23,11 @@ module Api
 
       api :POST, "/filters/", "Create an filter."
       param :filter, Hash, :required => true do
-        param :name, String, :required => true
+        param :role_id, String, :required => true
+        param :search, String
+        param :permission_ids, Array
+        param :organization_ids, Array
+        param :location_ids, Array
       end
 
       def create
@@ -34,7 +38,10 @@ module Api
       api :PUT, "/filters/:id/", "Update an filter."
       param :id, String, :required => true
       param :filter, Hash, :required => true do
-        param :name, String
+        param :search, String
+        param :permission_ids, Array
+        param :organization_ids, Array
+        param :location_ids, Array
       end
 
       def update

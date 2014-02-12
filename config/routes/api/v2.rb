@@ -103,6 +103,7 @@ Foreman::Application.routes.draw do
       end
 
       resources :roles, :except => [:new, :edit]
+      resources :permissions, :only => [:index, :show]
 
       resources :filters, :except => [:new, :edit] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
