@@ -6,14 +6,23 @@ class Api::V1::FactValuesControllerTest < ActionController::TestCase
     get :index, { }
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)
-    assert !fact_values.empty?
+    refute_empty fact_values
   end
 
   test "should get facts for given host only" do
-    get :index, {:host_id => hosts(:one).to_param }
+    get :index, {:host_id => hosts(:one).name }
+    assert_response :success
+    fact_values   = ActiveSupport::JSON.decode(@response.body)
+    expected_hash = FactValue.build_facts_hash(FactValue.where(:host_id => hosts(:one).id))
+    assert_equal expected_hash, fact_values
+  end
+
+  test "should get facts for given host id" do
+    get :index, {:host_id => hosts(:one).id }
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)
-    assert !fact_values.empty?
+    expected_hash = FactValue.build_facts_hash(FactValue.where(:host_id => hosts(:one).id))
+    assert_equal expected_hash, fact_values
   end
 
 end

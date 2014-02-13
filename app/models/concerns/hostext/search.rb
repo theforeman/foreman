@@ -3,6 +3,8 @@ module Hostext
     extend ActiveSupport::Concern
 
     included do
+      include ScopedSearchExtensions
+
       has_many :search_parameters, :class_name => 'Parameter', :foreign_key => :reference_id
       belongs_to :search_users, :class_name => 'User', :foreign_key => :owner_id
 
@@ -128,14 +130,6 @@ module Hostext
         end
         conditions.empty? ? [] : "( #{conditions.join(' OR ')} )"
       end
-
-      def value_to_sql(operator, value)
-        return value                 if operator !~ /LIKE/i
-        return value.tr_s('%*', '%') if (value =~ /%|\*/)
-
-        return "%#{value}%"
-      end
-
     end
   end
 end
