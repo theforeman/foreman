@@ -130,7 +130,7 @@ module Api
 
     # possible keys that should be used to find the resource
     def resource_identifying_attributes
-      %w(id name)
+      %w(name id)
     end
 
     # searches for a resource based on its name and assign it to an instance variable
@@ -140,10 +140,11 @@ module Api
     # @host = Host.find_resource params[:id]
     def find_resource
       resource = resource_identifying_attributes.find do |key|
-        next if key=='id' and params[:id].to_i == 0
+        next if key=='name' and (params[:id] =~ /\A\d+\z/)
         method = "find_by_#{key}"
+        id = key=='id' ? params[:id].to_i : params[:id]
         resource_scope.respond_to?(method) and
-          (resource = resource_scope.send method, params[:id]) and
+          (resource = resource_scope.send method, id) and
           break resource
       end
 
