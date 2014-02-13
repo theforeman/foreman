@@ -31,7 +31,7 @@ class Filter < ActiveRecord::Base
   before_validation :build_taxonomy_search, :nilify_empty_searches
 
   validates :search, :presence => true, :unless => Proc.new { |o| o.search.nil? }
-  validates :role_id, :presence => true
+  validates :role, :presence => true
   validate :same_resource_type_permissions, :not_empty_permissions
 
 
@@ -115,7 +115,7 @@ class Filter < ActiveRecord::Base
   end
 
   def not_empty_permissions
-    errors.add(:permissions, _('You must select at least one permission')) unless self.permissions.present?
+    errors.add(:permissions, _('You must select at least one permission')) if self.permissions.blank? && self.filterings.blank?
   end
 
 end

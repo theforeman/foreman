@@ -26,14 +26,13 @@ def create_filters(role, collection)
   collection.group_by(&:resource_type).each do |resource, permissions|
     filter      = Filter.new
     filter.role = role
-    filter.save!
 
     permissions.each do |permission|
-      filtering            = Filtering.new
-      filtering.filter     = filter
+      filtering            = filter.filterings.build
       filtering.permission = permission
-      filtering.save!
     end
+
+    filter.save!
   end
 end
 
@@ -51,6 +50,6 @@ end
 # now we load all seed files
 Dir.glob(Rails.root + 'db/seeds.d/*.rb').sort.each do |seed|
   puts "Seeding #{seed}"
-  require seed
+  load seed
 end
 puts "All seed files executed"

@@ -136,11 +136,6 @@ class AuthorizerTest < ActiveSupport::TestCase
     refute auth.can?(:edit_domains, domain3)
     assert auth.can?(:edit_domains, domain4)
 
-    # unlimited filter without permission does not add anything
-    filter3 = FactoryGirl.create(:filter, :role => @role)
-    collection = auth.find_collection(Domain)
-    assert_equal [domain2, domain3, domain4], collection
-
     # unlimited filter on Domain permission does add the domain
     filter4 = FactoryGirl.create(:filter, :role => @role, :permissions => [permission1])
     collection = auth.find_collection(Domain)
@@ -228,5 +223,26 @@ class AuthorizerTest < ActiveSupport::TestCase
     result  = auth.build_scoped_search_condition(filters)
 
     assert_equal '(1=1)', result
+  end
+
+  test "#can? with empty base collection set" do
+    domain     = FactoryGirl.create(:domain)
+    permission = Permission.find_by_name('view_domains')
+    filter     = FactoryGirl.create(:filter, :role => @role, :permissions => [permission])
+    auth       = Authorizer.new(@user, [])
+
+    refute auth.can?(:view_domains, domain)
+  end
+
+  test "#can? with excluding base collection set" do
+    permission = Permission.find_by_name('view_domains')
+    filter1    = FactoryGirl.create(:filter, :on_name_starting_with_a,
+                                     :role => @role, :permissions => [permission])
+    domain1    = FactoryGirl.create(:domain, :name => 'a-domain.to-be-found.com')
+    domain2    = FactoryGirl.create(:domain, :name => 'another-domain.to-be-found.com')
+    auth       = Authorizer.new(@user, [domain2])
+
+    refute auth.can?(:view_domains, domain1)
+    assert auth.can?(:view_domains, domain2)
   end
 end

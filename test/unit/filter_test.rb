@@ -31,6 +31,7 @@ class FilterTest < ActiveSupport::TestCase
 
   test "#resource_type for empty permissions collection" do
     f = Factory.build(:filter)
+    f.permissions = []
     assert_nil f.resource_type
   end
 
@@ -39,6 +40,26 @@ class FilterTest < ActiveSupport::TestCase
     f.stub :permissions, [ OpenStruct.new(:resource_type => 'test') ] do
       assert_equal 'test', f.resource_type
     end
+  end
+
+  test "#resource_class known" do
+    f = Factory.build(:filter, :resource_type => 'Bookmark')
+    assert_equal Bookmark, f.resource_class
+  end
+
+  test "#resource_class unknown" do
+    f = Factory.build(:filter, :resource_type => 'BookmarkThatDoesNotExist')
+    assert_nil f.resource_class
+  end
+
+  test "#granular? for unknown resource type" do
+    f = Factory.build(:filter, :resource_type => 'BookmarkThatDoesNotExist')
+    refute f.granular?
+  end
+
+  test "#granular?" do
+    f = Factory.build(:filter, :resource_type => 'Domain')
+    assert f.granular?
   end
 
   test "unlimited filters have nilified search string" do

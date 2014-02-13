@@ -61,6 +61,8 @@ FactoryGirl.define do
 
   factory :filter do
     search nil
+    role { FactoryGirl.create :role }
+    permissions { [ FactoryGirl.create(:permission, :host) ] }
 
     trait :on_name_all do
       search 'name ~ *'

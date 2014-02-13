@@ -125,6 +125,7 @@ class Role < ActiveRecord::Base
 
     collection.group_by(&:resource_type).each do |resource_type, grouped_permissions|
       filter = self.filters.build(:search => search)
+      filter.role ||= self
 
       grouped_permissions.each do |permission|
         filtering = filter.filterings.build

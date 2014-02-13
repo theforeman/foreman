@@ -11,7 +11,7 @@ gem 'rest-client', :require => 'rest_client'
 gem "audited-activerecord", "3.0.0"
 gem "will_paginate", "~> 3.0.2"
 gem "ancestry", "~> 2.0"
-gem 'scoped_search', '>= 2.5'
+gem 'scoped_search', '>= 2.6.2'
 gem 'net-ldap'
 gem 'uuidtools'
 gem "apipie-rails", "~> 0.0.23"
