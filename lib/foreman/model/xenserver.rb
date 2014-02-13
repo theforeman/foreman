@@ -177,7 +177,7 @@ module Foreman::Model
 
     	mem = args[:memory]
     	other_config = {}
-    	if args[:builtin_template_name]
+    	if args[:builtin_template_name] != ""
     	   template = client.servers.builtin_templates.find {|tmp| tmp.name == args[:builtin_template_name]}
     	   other_config = template.other_config
     	   other_config.delete "disks"

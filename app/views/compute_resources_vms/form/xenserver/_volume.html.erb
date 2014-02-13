@@ -1,10 +1,12 @@
 <div class="fields">
-  <%= selectable_f f, :print, compute_resource.storage_pools.map(&:name), { }, :class => "span2", :label => _("Storage Repository") %>
-  <%= text_f f, :physical_size, :class => "input-mini", :label => _("Size (GB)"), 
-		:help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-important' }) %>
-  Size(GB) - This field should be hide in case machine created from template
-  <!--
-  <%= select_f f, :type, %w[RAW QCOW2],:downcase, :to_s, { }, :class => "span2", :label => _("Type"),
-                   :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-important' }) %>
--->
+<%
+	selected = ""
+	size = ""
+	if params && params['host'] && params['host']['compute_attributes'] then
+		selected = params['host']['compute_attributes']['VBDs']['print']
+		size = params['host']['compute_attributes']['VBDs']['physical_size']
+	end
+-%>
+  <%= selectable_f f, :print, compute_resource.storage_pools.map(&:name), {:selected => selected }, :class => "span2", :label => _("Storage Repository") %>
+  <%= text_f f, :physical_size, :class => "input-mini", :label => _("Size (GB)"), :value => size %>
 </div>

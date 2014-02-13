@@ -65,7 +65,6 @@ disabled = 'readonly'
 
 <script type="text/javascript">
 	function autocomplete_xenstore(subnet_id) {
-		console.log("autocomplete")
 		url = "/subnets/"+subnet_id+"/edit"
 		$.get(url, function(data) {
 			fields = $('#primary', data)

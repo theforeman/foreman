@@ -2,7 +2,7 @@
 	<%
 		selected_item_c = ''
 		selected_item_b = ''
-		if params['host']['compute_attributes'] then
+		if params && params['host'] && params['host']['compute_attributes'] then
 			selected_item_c = params['host']['compute_attributes']['custom_template_name']
 			selected_item_b = params['host']['compute_attributes']['builtin_template_name']
 		end

@@ -1,4 +1,9 @@
-<% new = f.object  -%>
+<% new = f.object  
+	hide_raw = ""
+	if params && params['host'] && params['host']['compute_attributes'] && params['host']['compute_attributes']['custom_template_name'] != "" then
+		hide_raw = "display:none;" 
+	end
+-%>
 
 
 <%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
@@ -13,7 +18,7 @@
 </div>
 
 <!-- XenStore Data -->
-<div class="children_fields">
+<div class="children_fields" id="xenserver-xenstore-data">
 	<%= field_set_tag "Xen Store Data", :id => 'xen_store_data', :title => _('Xen Store Data') do -%>
 		<%= render 'compute_resources_vms/form/xenserver/xenstore', :f => f, :compute_resource => compute_resource, :new => new %>
 	<% end %>
@@ -21,7 +26,7 @@
 
 
 <!--Storage-->
-<div class="children_fields" id="xenserver-storage">
+<div class="children_fields xenserver-raw" id="xenserver-storage" style="<%=hide_raw%>">
   <%= new_child_fields_template(f, :VBDs, {
       :object  => compute_resource.new_volume,
       :partial => 'compute_resources_vms/form/xenserver/volume', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
@@ -32,14 +37,32 @@
   <% end -%>
 </div>
 
-<div class="children_fields" id="xenserver-network">
+<div class="children_fields xenserver-raw" id="xenserver-network" style="<%=hide_raw%>">
   <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => _('Networks') do -%>
     <%= f.fields_for :VIFs do |i| %>
       <%= render 'compute_resources_vms/form/xenserver/network', :f => i, :compute_resource => compute_resource %>
     <% end -%>
-    <%= add_child_link '+ ' + _("Add Interface"), :VIFs, { :class => "info", :title => _('add new network interface') } %>
   <% end -%>
 </div>
 
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
 <%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine") } if new %>
+
+
+<script type="text/javascript">
+	
+	$(document).off('change.xenserver', '#host_compute_attributes_custom_template_name')
+	$(document).on('change.xenserver', '#host_compute_attributes_custom_template_name', function(data){
+		if ( $('option:selected', data.target).val() == "") {
+			$('.xenserver-raw').show(1000)
+		} else {
+			$('.xenserver-raw').hide(1000)
+		}
+		
+	})
+	
+	$(document).off('change.xenserver', '#host_compute_attributes_builtin_template_name')
+	$(document).on('change.xenserver', '#host_compute_attributes_builtin_template_name', function(data){
+		$('.xenserver-raw').show(1000)
+	})
+</script>
