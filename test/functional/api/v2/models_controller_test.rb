@@ -44,4 +44,13 @@ class Api::V2::ModelsControllerTest < ActionController::TestCase
     get :index, { :search => 'notarightterm = wrong' }
     assert_response :bad_request
   end
+
+  test "find model by name even if name starts with integer" do
+    model = models(:one)
+    new_model = as_admin { Model.create!(:name => "#{model.id}abcdef") }
+    assert_equal model.id, new_model.name.to_i
+    get :show, { :id => new_model.name }
+    assert assigns(:model).present?
+    assert_equal new_model.id, assigns(:model).id
+  end
 end
