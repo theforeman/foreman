@@ -1,5 +1,6 @@
 class FactValue < ActiveRecord::Base
   include Authorizable
+  include ScopedSearchExtensions
 
   belongs_to_host
   belongs_to :fact_name
@@ -11,8 +12,8 @@ class FactValue < ActiveRecord::Base
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true
   scoped_search :on => :value, :default_order => true
   scoped_search :in => :fact_name, :on => :name, :complete_value => true, :alias => "fact"
-  scoped_search :in => :host, :on => :name, :rename => :host, :complete_value => true
-  scoped_search :in => :hostgroup, :on => :name, :rename => :"host.hostgroup", :complete_value => true
+  scoped_search :in => :host,      :on => :name, :complete_value => true, :rename => :host, :ext_method => :search_by_host
+  scoped_search :in => :hostgroup, :on => :name, :complete_value => true, :rename => :"host.hostgroup"
   scoped_search :in => :fact_name, :on => :short_name, :complete_value => true, :alias => "fact_short_name"
 
   scope :no_timestamp_facts, lambda {
@@ -36,6 +37,19 @@ class FactValue < ActiveRecord::Base
   scope :root_only, with_roots.where(:fact_names => {:ancestry => nil})
 
   validates :fact_name_id, :uniqueness => { :scope => :host_id }
+
+  def self.search_by_host(key, operator, value)
+    search = []
+
+    ['name', 'id'].each do |search_term|
+      conditions = sanitize_sql_for_conditions(["hosts.#{search_term} #{operator} ?", value_to_sql(operator, value)])
+      search     = FactValue.joins(:host).where(conditions).select('fact_values.id').map(&:id).uniq
+      break unless search.empty?
+    end
+
+    return { :conditions => "1=0" } if search.empty?
+    { :conditions => "fact_values.id IN(#{search.join(',')})" }
+  end
 
   # Todo: find a way to filter which values are logged,
   # this generates too much useless data

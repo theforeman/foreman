@@ -1,5 +1,7 @@
 class Puppetclass < ActiveRecord::Base
   include Authorizable
+  include ScopedSearchExtensions
+
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true
@@ -169,14 +171,6 @@ class Puppetclass < ActiveRecord::Base
 
     puppet_classes = (direct + indirect).uniq
     { :conditions => "puppetclasses.id IN(#{puppet_classes.join(',')})" }
-  end
-
-
-  def self.value_to_sql(operator, value)
-    return value                 if operator !~ /LIKE/i
-    return value.tr_s('%*', '%') if (value ~ /%|\*/)
-
-    return "%#{value}%"
   end
 
 end
