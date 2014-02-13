@@ -15,3 +15,7 @@ organization1:
 organization2:
   name: "Organization 2"
   type: "Organization"
+
+empty_organization:
+  name: "Empty Organization"
+  type: "Organization"
