@@ -2,6 +2,8 @@
 <% title "#{@console[:name]}" %>
 <%= title_actions(
         button_group(link_to(_("Ctrl-Alt-Del"), "#", :id => "sendCtrlAltDelButton", :onclick => 'sendCtrlAltDel()', :class => "btn btn-default"),
+                     link_to(_("Troubleshooting"), "http://theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#7.1NoVNC",
+                       :id => "troubleshootingButton", :class => "btn btn-default", :target => "_blank"),
                      if supports_spice_xpi?
                        link_to(_("New window"), "#", :id => "disconnect", :class => "btn btn-default", :onclick => 'connectXPI()', :title => _("Open Spice in a new window"))
                      end,
