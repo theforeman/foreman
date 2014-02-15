@@ -207,6 +207,9 @@ Foreman::Application.routes.draw do
       end
     end
     resources :roles, :except => [:show] do
+      member do
+        get 'clone'
+      end
       collection do
         get 'auto_complete_search'
       end

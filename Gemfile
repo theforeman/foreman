@@ -18,6 +18,7 @@ gem "apipie-rails", "~> 0.0.23"
 gem 'rabl', '>= 0.7.5', '<= 0.9.0'
 gem 'oj'
 gem 'oauth'
+gem 'deep_cloneable'
 gem 'foreigner', '~> 1.4.2'
 
 if RUBY_VERSION =~ /^1\.8/

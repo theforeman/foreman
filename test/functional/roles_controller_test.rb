@@ -19,7 +19,7 @@ require 'test_helper'
 
 class RolesControllerTest < ActionController::TestCase
 
-  def test_get_index
+  test 'get index' do
     get :index, {}, set_session_user
     assert_response :success
     assert_template 'index'
@@ -31,45 +31,45 @@ class RolesControllerTest < ActionController::TestCase
       :content => 'Manager'
   end
 
-  def test_get_new
+  test 'get new' do
     get :new, {}, set_session_user
     assert_response :success
     assert_template 'new'
   end
 
-  def test_post_new_with_validaton_failure
+  test 'empty name validation' do
     post :create, { :role => {:name => ''}}, set_session_user
 
     assert_response :success
     assert_template 'new'
   end
 
-  def test_get_edit
+  test 'get edit goes to right template' do
     get :edit, {:id => 1}, set_session_user
     assert_response :success
     assert_template 'edit'
     assert_equal Role.find(1), assigns(:role)
   end
 
-  def test_post_edit
-    r = FactoryGirl.create(:role)
-    put :update, {:id => r.id, :role => {:name => 'masterManager'}}, set_session_user
+  test 'put edit updates role' do
+    role = FactoryGirl.create(:role)
+    put :update, {:id => role.id, :role => {:name => 'masterManager'}}, set_session_user
 
     assert_redirected_to roles_path
-    r.reload
-    assert_equal 'masterManager', r.name
+    role.reload
+    assert_equal 'masterManager', role.name
   end
 
-  def test_destroy
-    r = FactoryGirl.build(:role, :name => 'ToBeDestroyed')
-    r.add_permissions! :view_ptables
+  test 'delete destroy removes role' do
+    role = FactoryGirl.build(:role, :name => 'ToBeDestroyed')
+    role.add_permissions! :view_ptables
 
-    delete :destroy, {:id => r}, set_session_user
+    delete :destroy, {:id => role}, set_session_user
     assert_redirected_to roles_path
-    assert_nil Role.find_by_id(r.id)
+    assert_nil Role.find_by_id(role.id)
   end
 
-  def test_destroy_role_in_use
+  test 'roles in use cannot be destroyed' do
     users(:one).roles = [roles(:manager)] # make user one a manager
     delete :destroy, {:id => roles(:manager)}, set_session_user
     assert_redirected_to roles_path
@@ -77,4 +77,15 @@ class RolesControllerTest < ActionController::TestCase
     assert_not_nil Role.find_by_id(roles(:manager).id)
   end
 
+  test 'clone' do
+    role = FactoryGirl.build(:role, :name => 'ToBeDestroyed')
+    role.add_permissions! :view_ptables
+
+    get :clone, { :id => role.id } , set_session_user
+    assert_redirected_to roles_path
+
+    cloned_role = Role.find_by_name("#{role.name}_clone")
+    assert_not_nil cloned_role
+    assert_equal cloned_role.permissions, role.permissions
+  end
 end

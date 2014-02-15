@@ -488,7 +488,7 @@ Foreman::AccessControl.map do |map|
   map.security_block :roles do |map|
     map.permission :view_roles,    {:roles => [:index, :auto_complete_search],
                                     :'api/v2/roles' => [:index, :show]}
-    map.permission :create_roles,  {:roles => [:new, :create],
+    map.permission :create_roles,  {:roles => [:new, :create, :clone],
                                     :'api/v2/roles' => [:create]}
     map.permission :edit_roles,    {:roles => [:edit, :update],
                                     :'api/v2/roles' => [:update]}
