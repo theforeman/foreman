@@ -13,7 +13,6 @@ The Foreman repository/package is licensed as follows:
 * vendor/assets/javascripts/jquery.dataTables.min.js is GNU GPL v2/BSD
 * vendor/assets/javascripts/jquery.jeditable.js is MIT licensed
 * vendor/assets/javascripts/jquery.jnotify.js is ASL 2.0 licensed
-* vendor/assets/javascripts/jquery.multi-select.js is WTFPL v2 licensed
 
 Copyright holders for the Foreman project are in the separate file called
 Contributors, holders for code above are:
@@ -32,7 +31,6 @@ Contributors, holders for code above are:
   (c) 2008-2012 Allan Jardine
   (c) 2006-2009 Mika Tuupola, Dylan Verheul
   (c) 2010 Giva, Inc.
-  (c) 2012 Louis Cuny
 
 All rights reserved.
 
@@ -905,19 +903,6 @@ apply, that proxy's public statement of acceptance of any version is
 permanent authorization for you to choose that version for the
 Library.
 
------------------------------------------------------------------------------
-
-           DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-                    Version 2, December 2004
-
- Everyone is permitted to copy and distribute verbatim or modified
- copies of this license document, and changing it is allowed as long
- as the name is changed.
-
-            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-
-  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 -----------------------------------------------------------------------------
 

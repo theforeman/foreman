@@ -112,6 +112,8 @@ BuildRequires: %{?scl_prefix}rubygem(quiet_assets)
 BuildRequires: %{?scl_prefix}rubygem(spice-html5-rails)
 BuildRequires: %{?scl_prefix}rubygem(flot-rails) = 0.0.3
 BuildRequires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
+BuildRequires: %{?scl_prefix}rubygem(multi-select-rails) >= 0.9.10
+BuildRequires: %{?scl_prefix}rubygem(multi-select-rails) < 0.10.0
 BuildRequires: %{?scl_prefix}facter
 BuildRequires: gettext
 BuildRequires: asciidoc
@@ -237,6 +239,8 @@ Requires: %{?scl_prefix}rubygem(uglifier)
 Requires: %{?scl_prefix}rubygem(flot-rails) = 0.0.3
 Requires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
 Requires: %{?scl_prefix}rubygem(gettext) >= 1.9.3
+Requires: %{?scl_prefix}rubygem(multi-select-rails) >= 0.9.10
+Requires: %{?scl_prefix}rubygem(multi-select-rails) < 0.10.0
 
 %description assets
 Meta package to install asset pipeline support.
