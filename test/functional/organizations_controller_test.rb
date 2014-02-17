@@ -69,7 +69,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     # session is expired, but try to load a page
     session[:expires_at] = 5.minutes.ago
     get :index
-  
+
     # session is reset, redirected to login, but org id remains
     assert_redirected_to "/users/login"
     assert_match /Your session has expired, please login again/, flash[:warning]
@@ -165,16 +165,16 @@ class OrganizationsControllerTest < ActionController::TestCase
     new_organization = Organization.unscoped.order(:id).last
     assert_redirected_to :controller => :organizations, :action => :step2, :id => new_organization.id
 
-    assert_equal new_organization.environment_ids, organization.environment_ids
-    assert_equal new_organization.hostgroup_ids, organization.hostgroup_ids
-    assert_equal new_organization.environment_ids, organization.environment_ids
-    assert_equal new_organization.domain_ids, organization.domain_ids
-    assert_equal new_organization.medium_ids, organization.medium_ids
-    assert_equal new_organization.user_ids, organization.user_ids
-    assert_equal new_organization.smart_proxy_ids, organization.smart_proxy_ids
-    assert_equal new_organization.config_template_ids, organization.config_template_ids
-    assert_equal new_organization.compute_resource_ids, organization.compute_resource_ids
-    assert_equal new_organization.location_ids, organization.location_ids
+    assert_equal new_organization.environment_ids.sort, organization.environment_ids.sort
+    assert_equal new_organization.hostgroup_ids.sort, organization.hostgroup_ids.sort
+    assert_equal new_organization.environment_ids.sort, organization.environment_ids.sort
+    assert_equal new_organization.domain_ids.sort, organization.domain_ids.sort
+    assert_equal new_organization.medium_ids.sort, organization.medium_ids.sort
+    assert_equal new_organization.user_ids.sort, organization.user_ids.sort
+    assert_equal new_organization.smart_proxy_ids.sort, organization.smart_proxy_ids.sort
+    assert_equal new_organization.config_template_ids.sort, organization.config_template_ids.sort
+    assert_equal new_organization.compute_resource_ids.sort, organization.compute_resource_ids.sort
+    assert_equal new_organization.location_ids.sort, organization.location_ids.sort
   end
 
   test "should clear out Organization.current" do

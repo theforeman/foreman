@@ -13,3 +13,7 @@ end
 child :usergroups do
   extends "api/v2/usergroups/base"
 end
+
+node do |user|
+  partial("api/v2/taxonomies/children_nodes", :object => user)
+end

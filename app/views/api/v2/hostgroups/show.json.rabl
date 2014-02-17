@@ -13,3 +13,7 @@ end
 child :puppetclasses do
   extends "api/v2/puppetclasses/base"
 end
+
+node do |hostgroup|
+  partial("api/v2/taxonomies/children_nodes", :object => hostgroup)
+end

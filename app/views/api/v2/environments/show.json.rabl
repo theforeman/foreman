@@ -9,3 +9,7 @@ end
 child :puppetclasses do
   extends "api/v2/puppetclasses/base"
 end
+
+node do |environment|
+  partial("api/v2/taxonomies/children_nodes", :object => environment)
+end

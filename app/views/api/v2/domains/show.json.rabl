@@ -9,3 +9,7 @@ end
 child :parameters => :parameters do
   extends "api/v2/parameters/base"
 end
+
+node do |domain|
+  partial("api/v2/taxonomies/children_nodes", :object => domain)
+end

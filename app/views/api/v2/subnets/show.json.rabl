@@ -5,3 +5,7 @@ extends "api/v2/subnets/main"
 child :domains do
   extends "api/v2/domains/base"
 end
+
+node do |subnet|
+  partial("api/v2/taxonomies/children_nodes", :object => subnet)
+end
