@@ -51,7 +51,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain     = FactoryGirl.create(:domain)
     auth       = Authorizer.new(@user)
 
-    assert_include auth.find_collection(Domain, :view_domains), domain
+    assert_include auth.find_collection(Domain, :permission => :view_domains), domain
     assert auth.can?(:view_domains, domain)
   end
 
@@ -62,7 +62,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain     = FactoryGirl.create(:domain)
     auth       = Authorizer.new(@user)
 
-    assert_include auth.find_collection(Domain, :view_domains), domain
+    assert_include auth.find_collection(Domain, :permission => :view_domains), domain
     assert auth.can?(:view_domains, domain)
   end
 
@@ -75,7 +75,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain              = FactoryGirl.create(:domain)
     auth                = Authorizer.new(@user)
 
-    assert_include auth.find_collection(Domain, :view_domains), domain
+    assert_include auth.find_collection(Domain, :permission => :view_domains), domain
     assert auth.can?(:view_domains, domain)
   end
 
@@ -86,7 +86,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain     = FactoryGirl.create(:domain)
     auth       = Authorizer.new(@user)
 
-    assert_not_include auth.find_collection(Domain, :view_domains), domain
+    assert_not_include auth.find_collection(Domain, :permission => :view_domains), domain
     refute auth.can?(:view_domains, domain)
   end
 
@@ -98,7 +98,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain2    = FactoryGirl.create(:domain, :name => 'a-domain.to-be-found.com')
     auth       = Authorizer.new(@user)
 
-    collection = auth.find_collection(Domain, :view_domains)
+    collection = auth.find_collection(Domain, :permission => :view_domains)
     assert_not_include collection, domain1
     assert_include collection, domain2
     refute auth.can?(:view_domains, domain1)
@@ -118,11 +118,11 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain4     = FactoryGirl.create(:domain, :name => 'be_editable.to-be-found.com')
     auth        = Authorizer.new(@user)
 
-    collection = auth.find_collection(Domain, :view_domains)
+    collection = auth.find_collection(Domain, :permission => :view_domains)
     assert_equal [domain2, domain3], collection
-    collection = auth.find_collection(Domain, :edit_domains)
+    collection = auth.find_collection(Domain, :permission => :edit_domains)
     assert_equal [domain4], collection
-    collection = auth.find_collection(Domain, :delete_domains)
+    collection = auth.find_collection(Domain, :permission => :delete_domains)
     assert_equal [], collection
     collection = auth.find_collection(Domain)
     assert_equal [domain2, domain3, domain4], collection
@@ -151,7 +151,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain     = FactoryGirl.create(:domain)
     auth       = Authorizer.new(FactoryGirl.create(:user))
 
-    result = auth.find_collection(Domain, :view_domains)
+    result = auth.find_collection(Domain, :permission => :view_domains)
     assert_not_include result, domain
     assert_kind_of ActiveRecord::Relation, result
     refute auth.can?(:view_domains, domain)
@@ -229,7 +229,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain     = FactoryGirl.create(:domain)
     permission = Permission.find_by_name('view_domains')
     filter     = FactoryGirl.create(:filter, :role => @role, :permissions => [permission])
-    auth       = Authorizer.new(@user, [])
+    auth       = Authorizer.new(@user, :collection => [])
 
     refute auth.can?(:view_domains, domain)
   end
@@ -240,7 +240,7 @@ class AuthorizerTest < ActiveSupport::TestCase
                                      :role => @role, :permissions => [permission])
     domain1    = FactoryGirl.create(:domain, :name => 'a-domain.to-be-found.com')
     domain2    = FactoryGirl.create(:domain, :name => 'another-domain.to-be-found.com')
-    auth       = Authorizer.new(@user, [domain2])
+    auth       = Authorizer.new(@user, :collection => [domain2])
 
     refute auth.can?(:view_domains, domain1)
     assert auth.can?(:view_domains, domain2)

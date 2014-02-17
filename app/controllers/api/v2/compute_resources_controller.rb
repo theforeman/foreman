@@ -95,7 +95,7 @@ module Api
 
       def action_permission
         case params[:action]
-          when 'available_images'
+          when 'available_images', 'available_clusters', 'available_networks', 'available_storage_domains'
             :view
           else
             super

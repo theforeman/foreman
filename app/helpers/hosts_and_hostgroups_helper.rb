@@ -8,7 +8,7 @@ module HostsAndHostgroupsHelper
   end
 
   def accessible_hostgroups
-    hg = (User.current.hostgroups.any? and !User.current.admin?) ? User.current.hostgroups.with_taxonomy_scope_override(@location,@organization) : Hostgroup.with_taxonomy_scope_override(@location,@organization)
+    hg = Hostgroup.with_taxonomy_scope_override(@location,@organization).authorized(:view_hostgroups)
     hg.sort{ |l, r| l.to_label <=> r.to_label }
   end
 
@@ -19,7 +19,7 @@ module HostsAndHostgroupsHelper
   end
 
   def accessible_domains
-    (User.current.domains.any? and !User.current.admin?) ? User.current.domains.with_taxonomy_scope_override(@location,@organization) : Domain.with_taxonomy_scope_override(@location,@organization)
+    Domain.with_taxonomy_scope_override(@location,@organization).authorized(:view_domains)
   end
 
   def domain_subnets(domain=@domain)

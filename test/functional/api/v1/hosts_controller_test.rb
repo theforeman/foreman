@@ -75,6 +75,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
 
   test "should allow access to restricted user who owns the host" do
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    $debug = true
     get :show, { :id => hosts(:owned_by_restricted).to_param }
     assert_response :success
   end

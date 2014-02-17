@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authorizer
-    @authorizer ||= Authorizer.new(User.current, instance_variable_get("@#{controller_name}"))
+    @authorizer ||= Authorizer.new(User.current, :collection => instance_variable_get("@#{controller_name}"))
   end
 
   def deny_access
@@ -152,7 +152,7 @@ class ApplicationController < ActionController::Base
       when 'index', 'show'
         'view'
       else
-        raise ::Foreman::Exception, "unknown permission for #{params[:controller]}##{params[:action]}"
+        raise ::Foreman::Exception.new(N_("unknown permission for %s"), "#{params[:controller]}##{params[:action]}")
     end
   end
 

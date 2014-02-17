@@ -9,4 +9,12 @@ class Permission < ActiveRecord::Base
   def self.resources
     @all_resources ||= Permission.uniq.order(:resource_type).pluck(:resource_type).compact
   end
+
+  def self.resources_with_translations
+    with_translations.sort { |a, b| a.first <=> b.first }
+  end
+
+  def self.with_translations
+    resources.map { |r| [_(r), r] }
+  end
 end

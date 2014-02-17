@@ -1,5 +1,4 @@
 class Hostgroup < ActiveRecord::Base
-  include Authorization
   has_ancestry :orphan_strategy => :restrict
   include Authorizable
   include Taxonomix

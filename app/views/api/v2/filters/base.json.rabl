@@ -1,3 +1,3 @@
 object @filter
 
-attributes :name, :id
+attributes :id

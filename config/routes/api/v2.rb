@@ -102,7 +102,12 @@ Foreman::Application.routes.draw do
         get :last, :on => :collection
       end
 
-      resources :roles, :except => [:new, :edit]
+      resources :roles, :except => [:new, :edit] do
+        resources :filters, :except => [:new, :edit] do
+          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        end
+      end
       resources :permissions, :only => [:index, :show]
 
       resources :filters, :except => [:new, :edit] do

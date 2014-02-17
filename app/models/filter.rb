@@ -20,10 +20,13 @@ class Filter < ActiveRecord::Base
   has_many :filterings, :dependent => :destroy
   has_many :permissions, :through => :filterings
 
+  default_scope lambda { order('role_id') }
   scope :unlimited, lambda { where(:search => nil, :taxonomy_search => nil) }
   scope :limited, lambda { where("search IS NOT NULL OR taxonomy_search IS NOT NULL") }
 
   scoped_search :on => :search, :complete_value => true
+  scoped_search :on => :limited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_limited
+  scoped_search :on => :unlimited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_unlimited
   scoped_search :in => :role, :on => :id, :rename => :role_id
   scoped_search :in => :role, :on => :name, :rename => :role
   scoped_search :in => :permissions, :on => :resource_type, :rename => :resource
@@ -34,6 +37,16 @@ class Filter < ActiveRecord::Base
   validates :role, :presence => true
   validate :same_resource_type_permissions, :not_empty_permissions
 
+  def self.search_by_unlimited(key, operator, value)
+    search_by_limited(key, operator, value == 'true' ? 'false' : 'true')
+  end
+
+  def self.search_by_limited(key, operator, value)
+    value      = value == 'true'
+    value      = !value if operator == '<>'
+    conditions = value ? limited.where_values.join(' AND ') : unlimited.where_values.map(&:to_sql).join(' AND ')
+    { :conditions => conditions }
+  end
 
   def unlimited?
     search.nil? && taxonomy_search.nil?
@@ -71,7 +84,7 @@ class Filter < ActiveRecord::Base
 
   def search_condition
     searches = [self.search, self.taxonomy_search].compact
-    searches = searches.map { |s| parenthize(s) } if searches.size > 1
+    searches = searches.map { |s| parenthesize(s) } if searches.size > 1
     searches.join(' and ')
   end
 
@@ -93,7 +106,7 @@ class Filter < ActiveRecord::Base
     relation = name.pluralize
     taxes = self.send(relation).empty? ? [] : self.send(relation).map { |t| "#{name}_id = #{t.id}" }
     taxes = taxes.join(' or ')
-    parenthize(taxes)
+    parenthesize(taxes)
   end
 
   def nilify_empty_searches
@@ -101,7 +114,7 @@ class Filter < ActiveRecord::Base
     self.taxonomy_search = nil if self.taxonomy_search.empty?
   end
 
-  def parenthize(string)
+  def parenthesize(string)
     if string.blank? || (string.start_with?('(') && string.end_with?(')'))
       string
     else

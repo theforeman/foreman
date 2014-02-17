@@ -17,11 +17,11 @@ class HostsController < ApplicationController
 
   add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :find_by_name, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun,
                                          :setBuild, :cancelBuild, :power, :bmc, :ipmi_boot,
                                          :console, :toggle_manage, :pxe_config,
                                          :storeconfig_klasses, :disassociate]
+  before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   before_filter :find_multiple, :only => MULTIPLE_ACTIONS
   helper :hosts, :reports
@@ -39,7 +39,7 @@ class HostsController < ApplicationController
         # SQL optimizations queries
         @last_reports = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
         # rendering index page for non index page requests (out of sync hosts etc)
-        @hostgroup_authorizer = Authorizer.new(User.current, @hosts.map(&:hostgroup_id).compact.uniq)
+        @hostgroup_authorizer = Authorizer.new(User.current, :collection => @hosts.map(&:hostgroup_id).compact.uniq)
         render :index if title and (@title = title)
       end
       format.yaml do
@@ -71,7 +71,6 @@ class HostsController < ApplicationController
 
   def new
     @host = Host.new :managed => true
-    taxonomy_scope
   end
 
   # Clone the host
@@ -102,7 +101,6 @@ class HostsController < ApplicationController
   end
 
   def edit
-    taxonomy_scope
     load_vars_for_ajax
   end
 

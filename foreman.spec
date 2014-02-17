@@ -452,12 +452,13 @@ ln -sv %{_sysconfdir}/%{name}/$i %{buildroot}%{_datadir}/%{name}/config/$i
 done
 
 # Put db in %{_localstatedir}/lib/%{name}/db
-cp -pr db/migrate db/seeds.rb %{buildroot}%{_datadir}/%{name}
+cp -pr db/migrate db/seeds.rb db/seeds.d %{buildroot}%{_datadir}/%{name}
 mkdir %{buildroot}%{_localstatedir}/lib/%{name}/db
 
 ln -sv %{_localstatedir}/lib/%{name}/db %{buildroot}%{_datadir}/%{name}/db
 ln -sv %{_datadir}/%{name}/migrate %{buildroot}%{_localstatedir}/lib/%{name}/db/migrate
 ln -sv %{_datadir}/%{name}/seeds.rb %{buildroot}%{_localstatedir}/lib/%{name}/db/seeds.rb
+ln -sv %{_datadir}/%{name}/seeds.d %{buildroot}%{_localstatedir}/lib/%{name}/db/seeds.d
 
 # Put HTML %{_localstatedir}/lib/%{name}/public
 cp -pr public %{buildroot}%{_localstatedir}/lib/%{name}/

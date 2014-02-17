@@ -16,4 +16,5 @@ group :test do
   gem 'launchy'
   gem 'spork'
   gem 'factory_girl_rails', '~> 1.2', :require => false
+  gem 'oj'
 end

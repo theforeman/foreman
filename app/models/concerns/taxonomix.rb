@@ -36,22 +36,31 @@ module Taxonomix
       unscoped.with_taxonomy_scope(loc, org, inner_method)
     end
 
-    def used_taxonomy_ids(loc = which_location, org = which_organization, inner_method = which_ancestry_method)
-      @used_taxonomy_ids ||= used_location_ids(loc, inner_method) + used_organization_ids(org, inner_method)
+    def used_taxonomy_ids
+      used_location_ids + used_organization_ids
     end
 
-    def used_location_ids(loc = which_location, inner_method = which_ancestry_method)
-      return [] unless loc && SETTINGS[:locations_enabled]
-      @used_location_ids ||= (loc.send(inner_method) + loc.ancestor_ids).uniq
+    def used_location_ids
+      enforce_default
+      return [] unless which_location && SETTINGS[:locations_enabled]
+      (which_location.send(which_ancestry_method) + which_location.ancestor_ids).uniq
     end
 
-    def used_organization_ids(org = which_organization, inner_method = which_ancestry_method)
-      return [] unless org && SETTINGS[:locations_enabled]
-      @used_organization_ids ||= (org.send(inner_method) + org.ancestor_ids).uniq
+    def used_organization_ids
+      enforce_default
+      return [] unless which_organization && SETTINGS[:organizations_enabled]
+      (which_organization.send(which_ancestry_method) + which_organization.ancestor_ids).uniq
+    end
+
+    # default scope is not called if we just use #scoped therefore we have to enforce quering
+    # to get correct default values
+    def enforce_default
+      if which_ancestry_method.nil?
+        self.scoped.limit(0).all
+      end
     end
 
     def taxable_ids(loc = which_location, org = which_organization, inner_method = which_ancestry_method)
-      return @taxable_ids if @taxable_ids
       if SETTINGS[:locations_enabled] && loc
         inner_ids_loc = if Location.ignore?(self.to_s)
                           self.pluck(:id)
@@ -71,7 +80,7 @@ module Taxonomix
       inner_ids ||= inner_ids_org if inner_ids_org
       # In the case of users we want the taxonomy scope to get both the users of the taxonomy and admins.
       inner_ids << admin_ids if inner_ids && self == User
-      @taxable_ids = inner_ids
+      inner_ids
     end
 
     def inner_select(taxonomy, inner_method = which_ancestry_method)

@@ -19,7 +19,7 @@ namespace :db do
   end
 
   def mysql_dump(name, config)
-    cmd = "mysqldump #{config['database']} -u #{config['username']} "
+    cmd = "mysqldump --opt #{config['database']} -u #{config['username']} "
     cmd += " -p#{config['password']} " if config['password'].present?
     cmd += " -h #{config['host']} "    if config['host'].present?
     cmd += " -P #{config['port']} "    if config['port'].present?
@@ -28,7 +28,7 @@ namespace :db do
   end
 
   def postgres_dump(name, config)
-    cmd = "pg_dump #{config['database']} -U #{config['username']} "
+    cmd = "pg_dump -Fc #{config['database']} -U #{config['username']} "
     cmd += " -h #{config['host']} "    if config['host'].present?
     cmd += " -p #{config['port']} "    if config['port'].present?
     cmd += " > #{name}"
@@ -36,8 +36,7 @@ namespace :db do
   end
 
   def sqlite_dump(name, config)
-    cmd = "cp #{config['database']} #{name}"
-    system(cmd)
+    FileUtils.cp config['database'], name
   end
 
   desc 'Import your database dump'
@@ -48,15 +47,15 @@ namespace :db do
 
     case config['adapter']
     when 'mysql', 'mysql2'
-      mysql_import(ENV['file'])
+      mysql_import(ENV['file'], config)
     when 'postgresql'
-      postgres_import(ENV['file'])
+      postgres_import(ENV['file'], config)
     else
       puts 'Your database dump cannot be imported by Foreman.' and exit(1)
     end
   end
 
-  def mysql_import(file)
+  def mysql_import(file, config)
     cmd = "mysql #{config['database']} -u #{config['username']} "
     cmd += " -p#{config['password']} " if config['password'].present?
     cmd += " -h #{config['host']} "    if config['host'].present?
@@ -65,11 +64,11 @@ namespace :db do
     system(cmd)
   end
 
-  def postgres_import(file)
-    cmd = "psql -d #{config['database']} -U #{config['username']} "
+  def postgres_import(file, config)
+    cmd = "pg_restore -d #{config['database']} -U #{config['username']} "
     cmd += " -h #{config['host']} " if config['host'].present?
     cmd += " -p #{config['port']} " if config['port'].present?
-    cmd += " -f #{file}"
+    cmd += " #{file}"
     system({'PGPASSWORD' => config['password']}, cmd)
     system(cmd)
   end

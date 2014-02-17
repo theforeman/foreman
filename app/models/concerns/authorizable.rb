@@ -16,7 +16,7 @@ module Authorizable
       elsif User.current.admin?
         self.scoped
       else
-        Authorizer.new(User.current).find_collection(resource || self, permission)
+        Authorizer.new(User.current).find_collection(resource || self, :permission => permission)
       end
     }
   end

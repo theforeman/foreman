@@ -272,7 +272,7 @@ module Api
       when 'index', 'show', 'status'
         'view'
       else
-        raise ::Foreman::Exception, "unknown permission for #{params[:controller]}##{params[:action]}"
+        raise ::Foreman::Exception.new(N_("unknown permission for %s"), "#{params[:controller]}##{params[:action]}")
       end
     end
   end

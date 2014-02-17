@@ -3,7 +3,7 @@ class ComputeResourcesVmsController < ApplicationController
   def index
     @compute_resource = find_compute_resource(:view_compute_resources_vms)
     @vms = @compute_resource.vms.all(params[:filters] || {})
-    @authorizer = Authorizer.new(User.current, [@compute_resource])
+    @authorizer = Authorizer.new(User.current, :collection => [@compute_resource])
     respond_to do |format|
       format.html
       format.json { render :json => @vms }

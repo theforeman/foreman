@@ -169,6 +169,7 @@ module Foreman #:nodoc:
     #   to AccessControl
     def permission(name, hash, options={})
       resource_type = options.delete(:resource_type)
+      Permission.first rescue return false
       Permission.find_or_create_by_name_and_resource_type(name, resource_type)
       options.merge!(:security_block => @security_block)
       Foreman::AccessControl.map do |map|
@@ -180,6 +181,7 @@ module Foreman #:nodoc:
     def role(name, permissions)
       Role.transaction do
         role = Role.find_or_create_by_name(name)
+        Permission.first rescue return false
         role.add_permissions!(permissions) if role.permissions.empty?
       end
     end

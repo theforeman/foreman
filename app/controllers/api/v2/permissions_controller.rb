@@ -21,7 +21,7 @@ module Api
         end
       end
 
-      api :GET, "/permissions/:id/", "Show an permission."
+      api :GET, "/permissions/:id/", "Show a permission."
       param :id, :identifier, :required => true
 
       def show
