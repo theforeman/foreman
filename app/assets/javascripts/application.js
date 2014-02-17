@@ -4,12 +4,14 @@
 //= require jquery.ui.autocomplete
 //= require scoped_search
 //= require bootstrap
+//= require multi-select
 //= require charts
 //= require topbar
 //= require two-pane
 //= require vendor
 //= require about
 //= require jquery.extentions
+//= require jquery.multi-select
 //= require settings
 
 $(document).on('ContentLoad', function(){onContentLoad()});
