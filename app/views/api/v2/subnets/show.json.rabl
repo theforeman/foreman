@@ -13,3 +13,7 @@ end
 node do |subnet|
    { :interfaces => partial("api/v2/interfaces/base", :object => subnet.interfaces) }
 end
+
+node do |subnet|
+   partial("api/v2/taxonomies/children_nodes", :object => subnet)
+end

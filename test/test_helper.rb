@@ -20,8 +20,6 @@ Spork.prefork do
   # need to restart spork for it take effect.
 
   ENV["RAILS_ENV"] = "test"
-  SETTINGS[:locations_enabled] = true
-  SETTINGS[:organizations_enabled] = true
   require File.expand_path('../../config/environment', __FILE__)
   require 'rails/test_help'
   require "minitest/autorun"

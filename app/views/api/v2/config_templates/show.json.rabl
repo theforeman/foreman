@@ -19,3 +19,8 @@ end
 child :os_default_templates, :object_root => false do
   extends "api/v2/os_default_templates/base"
 end
+
+node do |config_template|
+   partial("api/v2/taxonomies/children_nodes", :object => config_template)
+end
+
