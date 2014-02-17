@@ -1,7 +1,0 @@
-<%= fields_for item do |f| %>
-  <%= select_f f, :subnet_id, domain_subnets, :id, :title,
-    { :include_blank => domain_subnets.any? ? true : _("No subnets")},
-    { :disabled => domain_subnets.empty?, :'data-url' => SETTINGS[:unattended] ? freeip_subnets_path : '',
-      :label => _("Subnet"), :help_inline => :indicator, :onchange => 'subnet_selected(this);'}
-  %>
-<% end %>

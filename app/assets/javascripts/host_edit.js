@@ -150,7 +150,6 @@ function filter_puppet_classes(item){
   groups.show();
 }
 
-
 function add_puppet_class(item){
   var id = $(item).attr('data-class-id');
   var type = $(item).attr('data-type');
@@ -239,7 +238,6 @@ function location_changed(element) {
   update_form(element);
 }
 
-
 function update_form(element, options) {
   options = options || {};
   var url = $(element).data('url');
@@ -264,31 +262,6 @@ function update_form(element, options) {
   })
 }
 
-function subnet_selected(element){
-  var subnet_id = $(element).val();
-  if (subnet_id == '' || $('#host_ip').size() == 0) return;
-  // We do not query the proxy if the host_ip field is filled in and contains an
-  // IP that is in the selected subnet
-  var drop_text = $(element).children(":selected").text();
-  if (drop_text.length !=0 && drop_text.search(/^.+ \([0-9\.\/]+\)/) != -1) {
-    var details = drop_text.replace(/^.+\(/, "").replace(")","").split("/");
-    if (subnet_contains(details[0], details[1], $('#host_ip').val()))
-      return;
-  }
-  var attrs = attribute_hash(["subnet_id", "host_mac", 'organization_id', 'location_id']);
-  $(element).indicator_show();
-  var url = $(element).data('url');
-  $.ajax({
-    data: attrs,
-    type:'post',
-    url: url,
-    complete: function(){  $(element).indicator_hide();},
-    success: function(data){
-      $('#host_ip').val(data.ip);
-    }
-  })
-}
-
 function subnet_contains(number, cidr, ip){
   var int_ip     = _to_int(ip);
   var int_number = _to_int(number);
@@ -303,22 +276,6 @@ function _to_int(str){
     integer = (integer * 256) + parseInt(nibble[i]);
   }
   return integer;
-}
-
-function domain_selected(element){
-  var attrs   = attribute_hash(['domain_id', 'organization_id', 'location_id']);
-  var url = $(element).data('url');
-  $(element).indicator_show();
-  $.ajax({
-    data: attrs,
-    type:'post',
-    url: url,
-    complete: function(){  $(element).indicator_hide();},
-    success: function(request) {
-      $('#subnet_select').html(request);
-      reload_host_params();
-    }
-  })
 }
 
 function architecture_selected(element){
@@ -492,7 +449,6 @@ $(document).on('submit',"[data-submit='progress_bar']", function() {
   return false;
 });
 
-
 $(document).on('change', '#host_provision_method_build', function () {
   $('#network_provisioning').show();
   $('#image_provisioning').hide();
@@ -517,9 +473,10 @@ $(document).on('change', '.interface_type', function () {
 
 function interface_domain_selected(element) {
   var domain_id = element.value;
-  var subnet_options = $(element).parentsUntil('.fields').parent().find('[id$=_subnet_id]').empty();
+  var subnet_options = (element.id == 'host_domain_id') ?
+                       $('#host_subnet_id') :  $(element).parentsUntil('.fields').parent().find('[id$=_subnet_id]');
 
-  subnet_options.attr('disabled', true);
+  subnet_options.empty().attr('disabled', true);
   if (domain_id == '') {
     subnet_options.append($("<option />").val(null).text(__('No subnets')));
     return false;
@@ -553,6 +510,7 @@ function interface_domain_selected(element) {
         subnet_options.attr('disabled', true);
       }
       $(element).indicator_hide();
+      reload_host_params();
     }
   });
 }
@@ -560,7 +518,8 @@ function interface_domain_selected(element) {
 function interface_subnet_selected(element) {
   var subnet_id = $(element).val();
   if (subnet_id == '') return;
-  var interface_ip = $(element).parentsUntil('.fields').parent().find('input[id$=_ip]')
+  var interface_ip = (element.id == 'host_ip') ?
+                       $('#host_ip') :  $(element).parentsUntil('.fields').parent().find('input[id$=_ip]')
 
   interface_ip.attr('disabled', true);
   $(element).indicator_show();
