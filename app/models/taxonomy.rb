@@ -1,11 +1,9 @@
 class Taxonomy < ActiveRecord::Base
   include Authorization
 
-  audited :allow_mass_assignment => true
-  has_associated_audits
+  include NestedAncestryCommon
 
   serialize :ignore_types, Array
-  validates :name, :presence => true, :uniqueness => {:scope => :type}
 
   belongs_to :user
   before_destroy EnsureNotUsedBy.new(:hosts)
@@ -21,19 +19,16 @@ class Taxonomy < ActiveRecord::Base
   has_many :environments, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Environment'
   has_many :subnets, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Subnet'
 
-  scoped_search :on => :name, :complete_value => true
-
   validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
   before_validation :sanitize_ignored_types
 
-  delegate :import_missing_ids, :to => :tax_host
+  delegate :import_missing_ids, :inherited_ids, :used_and_selected_or_inherited_ids, :selected_or_inherited_ids, :non_inherited_ids,
+           :to => :tax_host
+
+  default_scope lambda { order(:label) }
 
   def to_param
     "#{id.to_s.parameterize}"
-  end
-
-  def to_label
-    name
   end
 
   def self.locations_enabled
@@ -134,7 +129,7 @@ class Taxonomy < ActiveRecord::Base
 
   def sanitize_ignored_types
     self.ignore_types ||= []
-    self.ignore_types = self.ignore_types.compact.uniq
+    self.ignore_types = self.ignore_types.compact.uniq - ["0"]
   end
 
   def tax_host

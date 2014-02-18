@@ -67,7 +67,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     @location.ignore_types = ["Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
     as_admin do
       @location.save(:validate => false)
-      assert_difference('@location.domains.count', 4) do
+      assert_difference('@location.domains.count', 2) do
         put :update, { :id => @location.to_param, :location => { :domain_ids => Domain.pluck(:id) } }
       end
     end
@@ -115,7 +115,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     response = ActiveSupport::JSON.decode(@response.body)
     assert response.kind_of?(Hash)
     assert response['results'].kind_of?(Array)
-    assert_equal ['created_at', 'id', 'name', 'updated_at'], response['results'][0].keys.sort
+    assert_equal ['created_at', 'id', 'label', 'name', 'updated_at'], response['results'][0].keys.sort
   end
 
   test "object name on show defaults to object class name" do
@@ -221,7 +221,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   test "should return correct metadata if order param is passed" do
     as_admin do
       add_locations
-      get :index, {:order => 'name DESC' }
+      get :index, {:order => 'label DESC' }
     end
 
     assert_response :success
@@ -229,7 +229,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     response = ActiveSupport::JSON.decode(@response.body)
     expected_metadata = { 'total'    => 28, 'subtotal' => 28, 'page' => 1,
                           'per_page' => 20, 'search'   => nil,
-                          'sort' => { 'by' => 'name', 'order' => 'DESC' } }
+                          'sort' => { 'by' => 'label', 'order' => 'DESC' } }
 
     assert_equal expected_metadata, response.except('results')
   end

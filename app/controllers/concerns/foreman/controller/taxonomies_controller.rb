@@ -8,7 +8,6 @@ module Foreman::Controller::TaxonomiesController
     skip_before_filter :authorize, :set_taxonomy, :only => %w{select clear}
   end
 
-
   def index
     begin
       values = taxonomy_class.send("my_#{taxonomies_plural}").search_for(params[:search], :order => params[:order])
@@ -33,6 +32,12 @@ module Foreman::Controller::TaxonomiesController
       # we explicitly render here in order to evaluate the view without taxonomy scope
       render 'taxonomies/new'
     end
+  end
+
+  def nest
+    @taxonomy           = taxonomy_class.new
+    @taxonomy.parent_id = params[:id].to_i
+    render 'taxonomies/new'
   end
 
   # cannot name this method "clone" since Object has a clone method and the mixin doesn't overwrite it
@@ -70,8 +75,7 @@ module Foreman::Controller::TaxonomiesController
 
   def update
     result = Taxonomy.no_taxonomy_scope do
-      (params[taxonomy_single.to_sym][:ignore_types] -= ["0"]) if params[taxonomy_single.to_sym][:ignore_types]
-      @taxonomy.update_attributes(params[taxonomy_single.to_sym])
+      @taxonomy.update_attributes(params[taxonomy_single])
     end
     if result
       process_success(:object => @taxonomy)
@@ -87,6 +91,9 @@ module Foreman::Controller::TaxonomiesController
     else
       process_error
     end
+  rescue Ancestry::AncestryException
+    flash[:error] = _('Cannot delete %{current} because it has nested %{sti_name}.') % { :current => @taxonomy.label, :sti_name => @taxonomy.sti_name }
+    process_error
   end
 
   def select

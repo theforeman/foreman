@@ -30,13 +30,13 @@ os:
   operatingsystem: redhat
 
 location:
-  name: location
-  value: value
+  name: loc_param
+  value: abc
   type: LocationParameter
   location: location1
 
 org:
-  name: org
-  value: value
+  name: org_param
+  value: xyz
   type: OrganizationParameter
   organization: organization1

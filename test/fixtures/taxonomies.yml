@@ -2,15 +2,17 @@ location1:
   name: "Location 1"
   type: "Location"
   organizations: organization1
+  label: "Location 1"
 
 location2:
   name: "Location 2"
   type: "Location"
+  label: "Location 2"
 
 organization1:
   name: "Organization 1"
   type: "Organization"
-  locations: location1
+  label: "Organization 1"
 
 organization2:
   name: "Organization 2"

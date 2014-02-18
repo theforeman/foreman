@@ -63,17 +63,7 @@
       <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
     </div>
 
-    <% if show_location_tab? %>
-      <div class="tab-pane" id="locations">
-        <%= location_selects f, @hostgroup.location_ids %>
-      </div>
-    <% end %>
-
-    <% if show_organization_tab? %>
-      <div class="tab-pane" id="organizations">
-        <%= organization_selects f, @hostgroup.organization_ids %>
-      </div>
-    <% end %>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @hostgroup %>
   </div>
 
   <%= submit_or_cancel f %>

@@ -84,9 +84,9 @@ module LayoutHelper
     options.merge!(:size => "col-md-10")
     field(f, attr,options) do
       attr_ids = (attr.to_s.singularize+"_ids").to_sym
-      hidden_fields = f.hidden_field(attr_ids, :multiple => true, :value => '', :id=>'')
-      options[:disabled] ||=[]
-      options[:disabled].each do |disabled_value|
+      hidden_fields = ''
+      html_options["data-useds"] ||= "[]"
+      JSON.parse(html_options["data-useds"]).each do |disabled_value|
         hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value, :id=>'' )
       end
       hidden_fields + f.collection_select(attr_ids, associations.all.sort_by { |a| a.to_s },
