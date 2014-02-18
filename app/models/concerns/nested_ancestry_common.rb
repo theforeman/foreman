@@ -2,11 +2,26 @@ module NestedAncestryCommon
   extend ActiveSupport::Concern
 
   included do
-    before_save :set_label, :on => [:create, :update, :destroy]
+    audited :except => [:label], :allow_mass_assignment => true
+    has_associated_audits
+    has_ancestry :orphan_strategy => :restrict
+
+    before_validation :set_label
     after_save :set_other_labels, :on => [:update, :destroy]
     after_save :update_matchers , :on => :update, :if => Proc.new {|obj| obj.label_changed?}
 
+    validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false }
+    validates :label, :presence => true, :uniqueness => true
+
     scoped_search :on => :label, :complete_value => :true, :default_order => true
+
+    # attribute used by *_names and *_name methods.  default is :name
+    attr_name :label
+  end
+
+  def to_label
+    return label if label
+    get_label
   end
 
   def get_label

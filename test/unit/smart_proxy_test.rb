@@ -44,4 +44,15 @@ def test_should_not_be_modified_if_has_no_leading_slashes
 
     assert_equal proxy.to_s, "puppet.example.com"
   end
+
+  # test taxonomix methods
+  test "should get used location ids for host" do
+    assert_equal ["Puppet", "Puppet CA"], smart_proxies(:puppetmaster).features.pluck(:name).sort
+    assert_equal [taxonomies(:location1).id], smart_proxies(:puppetmaster).used_location_ids
+  end
+
+  test "should get used and selected location ids for host" do
+    assert_equal [taxonomies(:location1).id], smart_proxies(:puppetmaster).used_or_selected_location_ids
+  end
+
 end

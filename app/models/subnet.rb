@@ -46,12 +46,12 @@ class Subnet < ActiveRecord::Base
   end
 
   # Subnets are displayed in the form of their network network/network mask
-  def to_label
+  def network_address
     "#{network}/#{cidr}"
   end
 
-  def title
-    "#{name} (#{to_label})"
+  def to_label
+    "#{name} (#{network_address})"
   end
 
   # Subnets are sorted on their priority value

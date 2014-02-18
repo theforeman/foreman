@@ -29,17 +29,7 @@
         {:include_blank => _("None")}, :label => _("DNS Proxy"), :help_inline => _("DNS Proxy to use within this subnet") %>
     </div>
 
-    <% if show_location_tab? %>
-      <div class="tab-pane" id="locations">
-        <%= multiple_checkboxes f, :locations, @subnet, Location, :label => _("Locations") %>
-      </div>
-    <% end %>
-
-    <% if show_organization_tab? %>
-      <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @subnet, Organization, :label => _("Organizations") %>
-      </div>
-    <% end %>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @subnet %>
 
   </div>
 

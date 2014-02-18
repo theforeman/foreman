@@ -27,20 +27,7 @@
         <%= select_f f, :os_family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Operating System Family"), :label => _("OS Family"), :help_inline => _("The Operating System type") } %>
       </div>
 
-
-    <% if show_taxonomy_tabs? %>
-      <% if show_location_tab? %>
-        <div class="tab-pane" id="locations">
-          <%= multiple_checkboxes f, :locations, @medium, Location, {:label => _("Locations")} %>
-        </div>
-      <% end %>
-
-      <% if show_organization_tab? %>
-        <div class="tab-pane" id="organizations">
-          <%= multiple_checkboxes f, :organizations, @medium, Organization, {:label => _("Organizations")} %>
-        </div>
-      <% end %>
-    <% end %>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @medium %>
 
     <%= submit_or_cancel f %>
 

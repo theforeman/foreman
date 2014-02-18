@@ -29,10 +29,9 @@ class LocationsControllerTest < ActionController::TestCase
   end
 
   test "should not allow saving another location with same name" do
-    name = "location_dup_name"
-    location = Location.new :name => name
-
     as_admin do
+      name = "location_dup_name"
+      location = Location.new :name => name
       assert location.save!
       put :create, {:commit => "Submit", :location => {:name => name} }, set_session_user
     end
@@ -97,7 +96,7 @@ class LocationsControllerTest < ActionController::TestCase
   end
   test "should assign all hosts with no location to selected location and add taxable_taxonomies" do
     location = taxonomies(:location1)
-    assert_difference "location.taxable_taxonomies.count", 15 do
+    assert_difference "location.taxable_taxonomies.count", 7 do
       post :assign_all_hosts, {:id => location.id}, set_session_user
     end
   end
@@ -165,19 +164,19 @@ class LocationsControllerTest < ActionController::TestCase
                    }, set_session_user
     end
 
-    new_location = Location.order(:id).last
+    new_location = Location.unscoped.order(:id).last
     assert_redirected_to :controller => :locations, :action => :step2, :id => new_location.id
 
-    assert_equal new_location.environment_ids, location.environment_ids
-    assert_equal new_location.hostgroup_ids, location.hostgroup_ids
-    assert_equal new_location.environment_ids, location.environment_ids
-    assert_equal new_location.domain_ids, location.domain_ids
-    assert_equal new_location.medium_ids, location.medium_ids
-    assert_equal new_location.user_ids, location.user_ids
-    assert_equal new_location.smart_proxy_ids, location.smart_proxy_ids
-    assert_equal new_location.config_template_ids, location.config_template_ids
-    assert_equal new_location.compute_resource_ids, location.compute_resource_ids
-    assert_equal new_location.organization_ids, location.organization_ids
+    assert_equal new_location.environment_ids.sort, location.environment_ids.sort
+    assert_equal new_location.hostgroup_ids.sort, location.hostgroup_ids.sort
+    assert_equal new_location.environment_ids.sort, location.environment_ids.sort
+    assert_equal new_location.domain_ids.sort, location.domain_ids.sort
+    assert_equal new_location.medium_ids.sort, location.medium_ids.sort
+    assert_equal new_location.user_ids.sort, location.user_ids.sort
+    assert_equal new_location.smart_proxy_ids.sort, location.smart_proxy_ids.sort
+    assert_equal new_location.config_template_ids.sort, location.config_template_ids.sort
+    assert_equal new_location.compute_resource_ids.sort, location.compute_resource_ids.sort
+    assert_equal new_location.organization_ids.sort, location.organization_ids.sort
   end
 
   test "should clear out Location.current" do
@@ -186,6 +185,14 @@ class LocationsControllerTest < ActionController::TestCase
     assert_equal Location.current, nil
     assert_equal session[:location_id], nil
     assert_redirected_to root_url
+  end
+
+  test "should nest a location" do
+    location = taxonomies(:location1)
+    get :nest, {:id => location.id}, set_session_user
+    assert_response :success
+    assert_template 'new'
+    assert_equal location.id, assigns(:taxonomy).parent_id
   end
 
 end

@@ -94,7 +94,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   test "should assign all hosts with no organization to selected organization and add taxable_taxonomies" do
     organization = taxonomies(:organization1)
-    assert_difference "organization.taxable_taxonomies.count", 15 do
+    assert_difference "organization.taxable_taxonomies.count", 9 do
       post :assign_all_hosts, {:id => organization.id}, set_session_user
     end
   end
@@ -162,7 +162,7 @@ class OrganizationsControllerTest < ActionController::TestCase
       }, set_session_user
     end
 
-    new_organization = Organization.order(:id).last
+    new_organization = Organization.unscoped.order(:id).last
     assert_redirected_to :controller => :organizations, :action => :step2, :id => new_organization.id
 
     assert_equal new_organization.environment_ids, organization.environment_ids

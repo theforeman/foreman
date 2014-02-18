@@ -29,7 +29,78 @@ five:
   taxable: production
   taxable_type: "Environment"
 
-fix:
+six:
   taxonomy: organization1
   taxable: production
   taxable_type: "Environment"
+
+seven:
+  taxonomy: location1
+  taxable: mydomain
+  taxable_type: "Domain"
+
+eight:
+  taxonomy: location1
+  taxable: yourdomain
+  taxable_type: "Domain"
+
+nine:
+  taxonomy: organization1
+  taxable: mydomain
+  taxable_type: "Domain"
+
+ten:
+  taxonomy: location1
+  taxable: one
+  taxable_type: "Medium"
+
+eleven:
+  taxonomy: location1
+  taxable: one
+  taxable_type: "ComputeResource"
+
+twelve:
+  taxonomy: organization1
+  taxable: one
+  taxable_type: "ComputeResource"
+
+thirteen:
+  taxonomy: location1
+  taxable: mystring2
+  taxable_type: "ConfigTemplate"
+
+fourteen:
+  taxonomy: organization1
+  taxable: mystring2
+  taxable_type: "ConfigTemplate"
+
+fifteen:
+  taxonomy: location1
+  taxable: two
+  taxable_type: "SmartProxy"
+
+sixteen:
+  taxonomy: organization1
+  taxable: two
+  taxable_type: "SmartProxy"
+
+seventeen:
+  taxonomy: location1
+  taxable: three
+  taxable_type: "SmartProxy"
+
+eighteen:
+  taxonomy: organization1
+  taxable: three
+  taxable_type: "SmartProxy"
+
+
+nineteen:
+  taxonomy: location1
+  taxable: puppetmaster
+  taxable_type: "SmartProxy"
+
+twenty:
+  taxonomy: organization1
+  taxable: puppetmaster
+  taxable_type: "SmartProxy"

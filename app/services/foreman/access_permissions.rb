@@ -340,7 +340,7 @@ Foreman::AccessControl.map do |map|
                                        :"api/v1/locations" => [:index, :show],
                                        :"api/v2/locations" => [:index, :show]
       }
-      map.permission :create_locations, {:locations => [:new, :create, :clone_taxonomy, :step2],
+      map.permission :create_locations, {:locations => [:new, :create, :clone_taxonomy, :step2, :nest],
                                        :"api/v1/locations" => [:create],
                                        :"api/v2/locations" => [:create]
                                      }
@@ -528,7 +528,7 @@ Foreman::AccessControl.map do |map|
                                            :"api/v1/organizations" => [:index, :show],
                                            :"api/v2/organizations" => [:index, :show]
                                          }
-      map.permission :create_organizations, {:organizations => [:new, :create, :clone_taxonomy, :step2],
+      map.permission :create_organizations, {:organizations => [:new, :create, :clone_taxonomy, :step2, :nest],
                                            :"api/v1/organizations" => [:create],
                                            :"api/v2/organizations" => [:create]
       }

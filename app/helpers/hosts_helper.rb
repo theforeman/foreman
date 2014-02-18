@@ -200,8 +200,8 @@ module HostsHelper
       [_("Operating System"), (link_to(host.os.to_label, hosts_path(:search => "os_description = #{host.os.description}")) if host.os)],
       [_("Host group"), (link_to(host.hostgroup, hosts_path(:search => %Q{hostgroup_fullname = "#{host.hostgroup}"})) if host.hostgroup)],
     ]
-    fields += [[_("Location"), (link_to(host.location.name, hosts_path(:search => "location = #{host.location}")) if host.location)]] if SETTINGS[:locations_enabled]
-    fields += [[_("Organization"), (link_to(host.organization.name, hosts_path(:search => "organization = #{host.organization}")) if host.organization)]] if SETTINGS[:organizations_enabled]
+    fields += [[_("Location"), (link_to(host.location.label, hosts_path(:search => "location = #{host.location}")) if host.location)]] if SETTINGS[:locations_enabled]
+    fields += [[_("Organization"), (link_to(host.organization.label, hosts_path(:search => "organization = #{host.organization}")) if host.organization)]] if SETTINGS[:organizations_enabled]
     if SETTINGS[:login]
       if host.owner_type == _("User")
         fields += [[_("Owner"), (link_to(host.owner, hosts_path(:search => "user.login = #{host.owner.login}")) if host.owner)]]

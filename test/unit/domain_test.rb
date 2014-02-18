@@ -157,5 +157,15 @@ class DomainTest < ActiveSupport::TestCase
   test "should query remote nameservers" do
     assert Domain.first.nameservers.empty?
   end
+
+  # test taxonomix methods
+  test "should get used location ids for host" do
+    assert_equal [taxonomies(:location1).id], domains(:mydomain).used_location_ids
+  end
+
+  test "should get used and selected location ids for host" do
+    assert_equal [taxonomies(:location1).id], domains(:mydomain).used_or_selected_location_ids
+  end
+
 end
 
