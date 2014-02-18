@@ -1,37 +1,38 @@
 require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
+
+  setup do
+    User.current = User.admin
+  end
+
   test 'it should not save with an empty name' do
     organization = Organization.new
-    assert !organization.save
+    refute organization.save
   end
 
   test 'it should not save with a blank name' do
-    organization = Organization.new
-    organization.name = " "
-    assert !organization.save
+    organization = Organization.new(:name => '   ')
+    refute organization.save
   end
 
-  test 'it should not save another organization with the same name' do
-    organization = Organization.new
-    organization.name = "organization1"
-    assert organization.save
+  test 'it should not save another organization with the same name if no parent' do
+    organization = Organization.new(:name => 'Organization 1')
+    refute organization.save
+  end
 
-    second_organization = Organization.new
-    second_organization.name = "organization1"
-    assert !second_organization.save
+  test 'name can be the same if parent is different' do
+    assert_difference('Organization.count', 2) do
+      assert subloc1 = Organization.create!(:name => "Department A", :parent_id => taxonomies(:organization1).id)
+      assert subloc2 = Organization.create!(:name => "Department A", :parent_id => taxonomies(:organization2).id)
+      assert_equal 'Organization 1/Department A', subloc1.label
+      assert_equal 'Organization 2/Department A', subloc2.label
+    end
   end
 
   test 'it should show the name for to_s' do
     organization = Organization.new :name => "organization1"
     assert organization.to_s == "organization1"
-  end
-
-    test 'organization is invalid without any taxable_taxonomies' do
-    # no taxable_taxonomies in fixtures
-    # no ignore_types in fixtures
-    organization = taxonomies(:organization1)
-    assert !organization.valid?
   end
 
   test 'organization is valid if ignore all types' do
@@ -72,23 +73,20 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal used_ids[:smart_proxy_ids].sort, smart_proxy_ids.sort
     assert_equal used_ids[:config_template_ids], config_template_ids
     # match to raw fixtures data
-    assert_equal used_ids[:environment_ids].sort, Array(environments(:production).id).sort
-    assert_equal used_ids[:hostgroup_ids].sort, Array.new
-    assert_equal used_ids[:subnet_ids].sort, Array(subnets(:one).id).sort
-    assert_equal used_ids[:domain_ids].sort, Array(domains(:mydomain).id).sort
-    assert_equal used_ids[:medium_ids].sort, Array.new
-    assert_equal used_ids[:compute_resource_ids].sort, Array(compute_resources(:one).id).sort
+    assert_equal used_ids[:environment_ids].sort, [environments(:production).id]
+    assert_equal used_ids[:hostgroup_ids].sort, []
+    assert_equal used_ids[:subnet_ids], [subnets(:one).id]
+    assert_equal used_ids[:domain_ids], [domains(:mydomain).id]
+    assert_equal used_ids[:medium_ids], []
+    assert_equal used_ids[:compute_resource_ids].sort, [compute_resources(:one).id]
     assert_equal used_ids[:user_ids], [users(:restricted).id]
-    assert_equal used_ids[:smart_proxy_ids].sort, Array([smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:puppetmaster).id]).sort
-    assert_equal used_ids[:config_template_ids].sort, Array(config_templates(:mystring2).id).sort
+    assert_equal used_ids[:smart_proxy_ids].sort, [smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:puppetmaster).id].sort
+    assert_equal used_ids[:config_template_ids].sort, [config_templates(:mystring2).id]
   end
 
   test 'it should return selected_ids array of selected values only (when types are not ignored)' do
     organization = taxonomies(:organization1)
     #fixtures for taxable_taxonomies don't work, on has_many :through polymorphic
-    # so I created assocations here.
-    organization.subnet_ids = Array(subnets(:one).id)
-    organization.smart_proxy_ids = Array(smart_proxies(:puppetmaster).id)
     # run selected_ids method
     selected_ids = organization.selected_ids
     # get results from taxable_taxonomies
@@ -102,25 +100,25 @@ class OrganizationTest < ActiveSupport::TestCase
     config_template_ids = organization.config_template_ids
     compute_resource_ids = organization.compute_resource_ids
     # check if they match
-    assert_equal selected_ids[:environment_ids], environment_ids
-    assert_equal selected_ids[:hostgroup_ids], hostgroup_ids
-    assert_equal selected_ids[:subnet_ids], subnet_ids
-    assert_equal selected_ids[:domain_ids], domain_ids
-    assert_equal selected_ids[:medium_ids], medium_ids
-    assert_equal selected_ids[:user_ids], user_ids
-    assert_equal selected_ids[:smart_proxy_ids], smart_proxy_ids
-    assert_equal selected_ids[:config_template_ids], config_template_ids
-    assert_equal selected_ids[:compute_resource_ids], compute_resource_ids
+    assert_equal selected_ids[:environment_ids].sort, environment_ids.sort
+    assert_equal selected_ids[:hostgroup_ids].sort, hostgroup_ids.sort
+    assert_equal selected_ids[:subnet_ids].sort, subnet_ids.sort
+    assert_equal selected_ids[:domain_ids].sort, domain_ids.sort
+    assert_equal selected_ids[:medium_ids].sort, medium_ids.sort
+    assert_equal selected_ids[:user_ids].sort, user_ids.sort
+    assert_equal selected_ids[:smart_proxy_ids].sort, smart_proxy_ids.sort
+    assert_equal selected_ids[:config_template_ids].sort, config_template_ids.sort
+    assert_equal selected_ids[:compute_resource_ids].sort, compute_resource_ids.sort
     # match to manually generated taxable_taxonomies
-    assert_equal selected_ids[:environment_ids], Array(environments(:production).id)
-    assert_equal selected_ids[:hostgroup_ids], Array.new
-    assert_equal selected_ids[:subnet_ids].sort, Array(subnets(:one).id)
-    assert_equal selected_ids[:domain_ids], Array.new
-    assert_equal selected_ids[:medium_ids], Array.new
-    assert_equal selected_ids[:user_ids], Array.new
-    assert_equal selected_ids[:smart_proxy_ids].sort, Array(smart_proxies(:puppetmaster).id)
-    assert_equal selected_ids[:config_template_ids], Array.new
-    assert_equal selected_ids[:compute_resource_ids], Array.new
+    assert_equal selected_ids[:environment_ids], [environments(:production).id]
+    assert_equal selected_ids[:hostgroup_ids], []
+    assert_equal selected_ids[:subnet_ids], [subnets(:one).id]
+    assert_equal selected_ids[:domain_ids], [domains(:mydomain).id]
+    assert_equal selected_ids[:medium_ids], []
+    assert_equal selected_ids[:user_ids], []
+    assert_equal selected_ids[:smart_proxy_ids].sort, [smart_proxies(:puppetmaster).id, smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id].sort
+    assert_equal selected_ids[:config_template_ids], [config_templates(:mystring2).id]
+    assert_equal selected_ids[:compute_resource_ids], [compute_resources(:one).id]
   end
 
   test 'it should return selected_ids array of ALL values (when types are ignored)' do

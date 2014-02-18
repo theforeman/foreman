@@ -1,3 +1,3 @@
 object @taxonomy
 
-attributes :id, :name
+attributes :id, :name, :label

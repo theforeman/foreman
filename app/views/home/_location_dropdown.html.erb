@@ -8,7 +8,7 @@
       <%= content_tag(:li, "", :class=>"divider") %>
     <% end %>
     <% Location.my_locations.each do |location| %>
-      <li><%= link_to(location.name, main_app.select_location_path(location)) %></li>
+      <li><%= link_to(location.label, main_app.select_location_path(location)) %></li>
     <% end %>
   </ul>
 </li>

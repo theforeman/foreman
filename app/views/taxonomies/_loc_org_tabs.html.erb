@@ -1,0 +1,17 @@
+<% if show_location_tab? %>
+  <div class="tab-pane" id="locations">
+    <%= location_selects f, obj.used_or_selected_location_ids,
+            {:disabled => obj.used_location_ids },
+            {'data-descendants' => obj.children_of_selected_location_ids.to_json,
+             'data-useds' => obj.used_location_ids.to_json } %>
+  </div>
+<% end %>
+
+<% if show_organization_tab? %>
+  <div class="tab-pane" id="organizations">
+    <%= organization_selects f, obj.used_or_selected_organization_ids,
+            {:disabled => obj.used_organization_ids },
+            {'data-descendants' => obj.children_of_selected_organization_ids.to_json,
+             'data-useds' => obj.used_organization_ids.to_json } %>
+  </div>
+<% end %>

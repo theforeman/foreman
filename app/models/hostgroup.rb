@@ -1,5 +1,4 @@
 class Hostgroup < ActiveRecord::Base
-  has_ancestry :orphan_strategy => :restrict
   include Authorization
   include Taxonomix
   include HostCommon
@@ -10,8 +9,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :puppetclasses, :through => :hostgroup_classes
   has_many :user_hostgroups, :dependent => :destroy
   has_many :users, :through => :user_hostgroups
-  validates :name, :uniqueness => {:scope => :ancestry, :case_sensitive => false },
-                   :format => { :with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")}
+  validates :name, :format => { :with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")}
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many_hosts
@@ -20,10 +18,7 @@ class Hostgroup < ActiveRecord::Base
   before_save :remove_duplicated_nested_class
 
   alias_attribute :os, :operatingsystem
-  audited :except => [:label], :allow_mass_assignment => true
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
-  # attribute used by *_names and *_name methods.  default is :name
-  attr_name :label
 
   nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
                        :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id
@@ -69,11 +64,6 @@ class Hostgroup < ActiveRecord::Base
 
   def all_puppetclasses
     classes
-  end
-
-  def to_label
-    return label if label
-    get_label
   end
 
   def to_param
@@ -122,11 +112,11 @@ class Hostgroup < ActiveRecord::Base
   def params
     parameters = {}
     # read common parameters
-    CommonParameter.all.each {|p| parameters.update Hash[p.name => p.value] }
+    CommonParameter.scoped.each {|p| parameters.update Hash[p.name => p.value] }
     # read OS parameters
-    operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } unless operatingsystem.nil?
+    operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } if operatingsystem
     # read group parameters only if a host belongs to a group
-    parameters.update self.parameters unless hostgroup.nil?
+    parameters.update self.parameters if hostgroup
     parameters
   end
 
@@ -150,6 +140,12 @@ class Hostgroup < ActiveRecord::Base
 
   def remove_duplicated_nested_class
     self.puppetclasses -= ancestors.map(&:puppetclasses).flatten
+  end
+
+  # overwrite method in taxonomix, since hostgroup has ancestry
+  def used_taxonomy_ids(type)
+    return [] if new_record? && parent_id.blank?
+    Host::Base.where(:hostgroup_id => self.path_ids).pluck(type).compact.uniq
   end
 
 end

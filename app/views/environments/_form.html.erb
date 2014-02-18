@@ -17,17 +17,7 @@
         <%= text_f f, :name %>
       </div>
 
-      <% if show_location_tab? %>
-        <div class="tab-pane" id="locations">
-          <%= multiple_checkboxes f, :locations, @environment, Location, { :prefix => "environment", :label => _("Locations") } %>
-        </div>
-      <% end %>
-
-      <% if show_organization_tab? %>
-        <div class="tab-pane" id="organizations">
-          <%= multiple_checkboxes f, :organizations, @environment, Organization, { :prefix => "environment", :label => _("Organizations") } %>
-        </div>
-      <% end %>
+      <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @environment %>
     </div>
 
   <% else %>

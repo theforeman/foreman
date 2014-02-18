@@ -15,22 +15,46 @@ module Taxonomix
   end
 
   module ClassMethods
-    def with_taxonomy_scope
+
+    # default inner_method includes children (subtree_ids)
+    def with_taxonomy_scope(loc = Location.current, org = Organization.current, inner_method = :subtree_ids)
       scope =  block_given? ? yield : where('1=1')
-      scope = scope.where("#{self.table_name}.id in (#{inner_select(Location.current)}) #{user_conditions}") if SETTINGS[:locations_enabled] && Location.current && !Location.ignore?(self.to_s)
-      scope = scope.where("#{self.table_name}.id in (#{inner_select(Organization.current)}) #{user_conditions}") if SETTINGS[:organizations_enabled] and Organization.current && !Organization.ignore?(self.to_s)
+      if SETTINGS[:locations_enabled] && loc
+        inner_ids_loc = if Location.ignore?(self.to_s)
+                          self.pluck(:id)
+                        else
+                          inner_select(loc, inner_method)
+                        end
+      end
+      if SETTINGS[:organizations_enabled] && org
+        inner_ids_org = if Organization.ignore?(self.to_s)
+                          self.pluck(:id)
+                        else
+                          inner_select(org, inner_method)
+                        end
+      end
+      inner_ids   = inner_ids_loc & inner_ids_org if (inner_ids_loc && inner_ids_org)
+      inner_ids ||= inner_ids_loc if inner_ids_loc
+      inner_ids ||= inner_ids_org if inner_ids_org
+      # In the case of users we want the taxonomy scope to get both the users of the taxonomy and admins.
+      inner_ids << admin_ids if inner_ids && self == User
+      scope = scope.where(:id => inner_ids) if inner_ids
       scope.readonly(false)
     end
 
-    def inner_select taxonomy
-      taxonomy_ids = Array.wrap(taxonomy).map(&:id).join(',')
-      "SELECT taxable_id from taxable_taxonomies WHERE taxable_type = '#{self.name}' AND taxonomy_id in (#{taxonomy_ids}) "
+    # default inner_method includes parents (path_ids)
+    def with_taxonomy_scope_override(loc = nil, org = nil, inner_method = :path_ids)
+      with_taxonomy_scope(loc, org, inner_method)
     end
 
-    # I the case of users we want the taxonomy scope to get both the users of the taxonomy and admins.
-    # This is done here and not in the user class because scopes cannot be chained with OR condition.
-    def user_conditions
-      sanitize_sql_for_conditions([" OR users.admin = ?", true]) if self == User
+    def inner_select(taxonomy, inner_method)
+      # always include ancestor_ids in inner select
+      taxonomy_ids = (taxonomy.send(inner_method) + taxonomy.ancestor_ids).uniq
+      TaxableTaxonomy.where(:taxable_type => self.name, :taxonomy_id => taxonomy_ids).pluck(:taxable_id).compact.uniq
+    end
+
+    def admin_ids
+      User.unscoped.where(:admin => true).pluck(:id) if self == User
     end
   end
 
@@ -60,6 +84,54 @@ module Taxonomix
                          end
     current_taxonomy = klass.current
     Taxonomy.enabled?(taxonomy) && current_taxonomy && !self.send(association).include?(current_taxonomy)
+  end
+
+  def used_location_ids
+    used_taxonomy_ids(:location_id)
+  end
+
+  def used_organization_ids
+    used_taxonomy_ids(:organization_id)
+  end
+
+  def used_or_selected_location_ids
+    (location_ids + used_location_ids).uniq
+  end
+
+  def used_or_selected_organization_ids
+    (organization_ids + used_organization_ids).uniq
+  end
+
+  def children_of_selected_location_ids
+    children_of_selected_taxonomy_ids(:locations)
+  end
+
+  def children_of_selected_organization_ids
+    children_of_selected_taxonomy_ids(:organizations)
+  end
+
+  protected
+
+  def taxonomy_foreign_key_conditions
+    if self.respond_to?(:taxonomy_foreign_conditions)
+      taxonomy_foreign_conditions
+    else
+      { "#{self.class.base_class.to_s.tableize.singularize}_id".to_sym => id }
+    end
+  end
+
+  def used_taxonomy_ids(type)
+    return [] if new_record?
+    Host::Base.where(taxonomy_foreign_key_conditions).pluck(type).uniq.compact
+  end
+
+  def children_of_selected_taxonomy_ids(assoc)
+    return [] if new_record?
+    ids = []
+    send(assoc).each do |tax|
+      ids << tax.descendant_ids
+    end
+    ids.flatten.compact.uniq
   end
 
 end

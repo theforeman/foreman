@@ -162,4 +162,14 @@ class ComputeResourceTest < ActiveSupport::TestCase
       compute_attributes(:one).compute_resource.destroy
     end
   end
+
+  # test taxonomix methods
+  test "should get used location ids for host" do
+    assert_equal [taxonomies(:location1).id], compute_resources(:one).used_location_ids
+  end
+
+  test "should get used and selected location ids for host" do
+    assert_equal [taxonomies(:location1).id], compute_resources(:one).used_or_selected_location_ids
+  end
+
 end

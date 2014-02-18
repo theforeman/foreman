@@ -1,38 +1,23 @@
 <%= form_for @proxy do |f| %>
   <%= base_errors_for @proxy %>
-  <% if show_taxonomy_tabs? %>
-    <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#primary" data-toggle="tab"><%= _("Smart Proxy") %></a></li>
-      <% if show_location_tab? %>
-        <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
-      <% end %>
-
-      <% if show_organization_tab? %>
-        <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
-      <% end %>
-    </ul>
-
-    <div class="tab-content">
-      <div class="tab-pane active" id="primary">
-  <% end %>
-        <%= text_f(f, :name) %>
-        <%= text_f(f, :url, :size => "col-md-8" ) %>
-  <% if show_taxonomy_tabs? %>
-      </div>
-
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Smart Proxy") %></a></li>
     <% if show_location_tab? %>
-      <div class="tab-pane" id="locations">
-        <%= multiple_checkboxes f, :locations, @proxy, Location, { :prefix => "smart_proxy", :label => _("Locations") } %>
-      </div>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
     <% end %>
 
     <% if show_organization_tab? %>
-      <div class="tab-pane" id="organizations">
-        <%= multiple_checkboxes f, :organizations, @proxy, Organization, { :prefix => "smart_proxy", :label => _("Organizations") } %>
-      </div>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
     <% end %>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f(f, :name) %>
+      <%= text_f(f, :url, :size => "col-md-8" ) %>
     </div>
-  <% end %>
 
-  <%= submit_or_cancel f %>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @proxy %>
+
+    <%= submit_or_cancel f %>
+  </div>
 <% end %>

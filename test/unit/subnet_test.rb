@@ -62,7 +62,7 @@ class SubnetTest < ActiveSupport::TestCase
   test "when to_label is applied should show the domain, the mask and network" do
     create_a_domain_with_the_subnet
 
-    assert_equal "123.123.123.1/24", @subnet.to_label
+    assert_equal "valid (123.123.123.1/24)", @subnet.to_label
   end
 
   test "should find the subnet by ip" do

@@ -10,19 +10,19 @@ two:
 
 three:
   name: DNS Proxy
-  url: http://else.where:4567
+  url: http://else.where:45671
   features: dns
 
 puppetmaster:
   name: Puppetmaster Proxy
   url: http://else.where:4567
-  features: puppet, 'puppet ca'
+  features: 'puppet, puppetca'
 
 four:
   name: Unused Proxy
-  url: http://else.where:4567
+  url: http://else.where:45672
 
 bmc:
   name: BMC proxy
-  url: http://else.where:4567
+  url: http://else.where:45673
   features: bmc

@@ -46,7 +46,7 @@
           <div class="col-md-2">
             <%= f.select :locations_andor, [[_("must be"), "and"], [_("plus all"), "or"]], {}, :class => "form-control" %>
           </div>
-          <%= multiple_checkboxes f, :locations, @user, Location, :label=>'' %>
+          <%= location_selects f, @user.used_or_selected_location_ids, {:disabled => @user.used_location_ids, :label => ''} %>
         </div>
       <% end %>
 
@@ -55,7 +55,7 @@
           <div class="col-md-2">
             <%= f.select :organizations_andor, [[_("must be"), "and"], [_("plus all"), "or"]], {}, :class => "form-control" %>
           </div>
-          <%= multiple_checkboxes f, :organizations, @user, Organization, :label=>'' %>
+          <%= organization_selects f, @user.used_or_selected_organization_ids, {:disabled => @user.used_organization_ids, :label => ''} %>
         </div>
       <% end %>
     <% end %>

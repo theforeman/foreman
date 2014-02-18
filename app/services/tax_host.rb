@@ -18,19 +18,12 @@ class TaxHost
 
   # returns a hash of HASH_KEYS used ids by hosts in a given taxonomy
   def used_ids
-    return @used_ids if @used_ids
-    ids         = HashWithIndifferentAccess.new
-    ids.default = []
-    hash_keys.each do |col|
-      ids[col] = self.send(col)
-    end
-    @used_ids = ids
+    @used_ids ||= default_ids_hash(populate_values = true)
   end
 
   def selected_ids
     return @selected_ids if @selected_ids
-    ids         = HashWithIndifferentAccess.new
-    ids.default = []
+    ids = default_ids_hash
     #types NOT ignored - get ids that are selected
     taxonomy.taxable_taxonomies.without(taxonomy.ignore_types).group_by { |d| d[:taxable_type] }.map do |k, v|
       ids["#{k.tableize.singularize}_ids"] = v.map { |i| i[:taxable_id] }
@@ -40,29 +33,45 @@ class TaxHost
       ids["#{taxonomy_type.tableize.singularize}_ids"] = taxonomy_type.constantize.pluck(:id)
     end
 
-    ids["#{opposite_taxonomy_type}_ids"] = taxonomy.send("#{opposite_taxonomy_type}_ids")
+    ids["#{opposite_taxonomy_type}_ids"] = Array(taxonomy.send("#{opposite_taxonomy_type}_ids"))
     @selected_ids                        = ids
   end
 
   def used_and_selected_ids
-    @used_and_selected_ids ||= Hash[hash_keys.map do |col|
+    @used_and_selected_ids ||= HashWithIndifferentAccess.new(Hash[hash_keys.map do |col|
       if taxonomy.ignore?(hash_key_to_class(col))
-        [col, used_ids[col] ] # used_ids only if ignore selected
+        [col, used_ids[col]] # used_ids only if ignore selected
       else
         [col, used_ids[col] & selected_ids[col]] # & operator to intersect COMMON elements of arrays
       end
-    end]
+    end])
+  end
+
+  def inherited_ids
+    return @inherited_ids if @inherited_ids
+    ids = default_ids_hash
+    taxonomy.ancestors.each do |t|
+      ids = union_deep_hashes(ids, t.selected_ids)
+    end
+    @inherited_ids = ids
+  end
+
+  def selected_or_inherited_ids
+    @selected_or_inherited_ids ||= union_deep_hashes(selected_ids, inherited_ids)
+  end
+
+  def used_and_selected_or_inherited_ids
+    @used_and_selected_or_inherited_ids ||= union_deep_hashes(used_and_selected_ids, inherited_ids)
   end
 
   def need_to_be_selected_ids
-    @need_to_be_selected_ids ||= Hash[hash_keys.map do |col|
+    @need_to_be_selected_ids ||= HashWithIndifferentAccess[hash_keys.map do |col|
       if taxonomy.ignore?(hash_key_to_class(col))
-        [col, [] ] # empty array since nothing needs to be selected
+        [col, []] # empty array since nothing needs to be selected
       else
-        [col, used_ids[col] - selected_ids[col]] # - operator find NON-common elements of arrays
+        [col, used_ids[col] - selected_or_inherited_ids[col]] # - operator find NON-common elements of arrays
       end
     end]
-
   end
 
   def missing_ids
@@ -117,10 +126,14 @@ class TaxHost
       taxable_type = hash_key_to_class(key)
       unless array_values.empty?
         found_orphan = true
-        taxonomy.errors.add(taxable_type.tableize, _("You cannot remove %s that are used by hosts.") % taxable_type.tableize.humanize.downcase)
+        taxonomy.errors.add(taxable_type.tableize, _("You cannot remove %s that are used by hosts or inherited.") % taxable_type.tableize.humanize.downcase)
       end
     end
     !found_orphan
+  end
+
+  def non_inherited_ids(v1 = self.selected_ids, v2 = self.inherited_ids)
+    substract_deep_hashes(v1, v2)
   end
 
   private
@@ -178,4 +191,25 @@ class TaxHost
     @need_to_be_selected_ids = @used_and_selected_ids = @used_ids = @selected_ids = @mismatches = @missing_ids = nil
   end
 
+  def union_deep_hashes(h1, h2)
+    h1.merge!(h2) {|k, v1, v2| v1.kind_of?(Array) && v2.kind_of?(Array) ? v1 | v2 : v1 }
+  end
+
+  def substract_deep_hashes(h1, h2)
+    h1.merge!(h2) do |k, v1, v2|
+      if v1.kind_of?(Array) && v2.kind_of?(Array)
+        v1.map(&:to_i) - v2.map(&:to_i) - [0]
+      else
+        v1.map(&:to_i)
+      end
+    end
+  end
+
+  def default_ids_hash(populate_values = false)
+    ids = HashWithIndifferentAccess.new
+    hash_keys.each do |col|
+      ids[col] = populate_values ? Array(self.send(col)) : []
+    end
+    ids
+  end
 end

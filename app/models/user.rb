@@ -245,6 +245,10 @@ class User < ActiveRecord::Base
       options[:id].to_i == self.id
   end
 
+  def taxonomy_foreign_conditions
+    { :owner_id => id }
+  end
+
   private
 
   def prepare_password

@@ -20,7 +20,7 @@ class DeleteOrphanedRecords < ActiveRecord::Migration
     execute "DELETE FROM environment_classes WHERE environment_id NOT IN (SELECT id FROM environments) OR lookup_key_id NOT IN (SELECT id FROM lookup_keys) OR puppetclass_id NOT IN (SELECT id FROM puppetclasses)"
     LookupValue.where("lookup_key_id NOT IN (?)", LookupKey.pluck(:id)).delete_all
     FactValue.where("fact_name_id NOT IN (?) OR host_id NOT IN (?)", FactName.pluck(:id), Host::Base.pluck(:id)).delete_all
-    TaxableTaxonomy.where("taxonomy_id NOT IN (?)", Taxonomy.pluck(:id)).delete_all
+    TaxableTaxonomy.where("taxonomy_id NOT IN (?)", Taxonomy.unscoped.pluck(:id)).delete_all
     HostClass.where("host_id NOT IN (?) OR puppetclass_id NOT IN (?)", Host::Base.pluck(:id), Puppetclass.pluck(:id)).delete_all
     HostgroupClass.where("hostgroup_id NOT IN (?) OR puppetclass_id NOT IN (?)", Hostgroup.pluck(:id), Puppetclass.pluck(:id)).delete_all
     Report.where("host_id NOT IN (?)", Host::Base.pluck(:id)).delete_all
@@ -69,8 +69,8 @@ class DeleteOrphanedRecords < ActiveRecord::Migration
     Host::Base.where("hostgroup_id NOT IN (?)", Hostgroup.pluck(:id)).update_all(:hostgroup_id => nil)
     Host::Base.where("image_id NOT IN (?)", Image.pluck(:id)).update_all(:image_id => nil)
     Host::Base.where("model_id NOT IN (?)", Model.pluck(:id)).update_all(:model_id => nil)
-    Host::Base.where("location_id NOT IN (?)", Location.pluck(:id)).update_all(:location_id => nil)
-    Host::Base.where("organization_id NOT IN (?)", Organization.pluck(:id)).update_all(:organization_id => nil)
+    Host::Base.where("location_id NOT IN (?)", Location.unscoped.pluck(:id)).update_all(:location_id => nil)
+    Host::Base.where("organization_id NOT IN (?)", Organization.unscoped.pluck(:id)).update_all(:organization_id => nil)
   end
 
   def down
