@@ -9,3 +9,7 @@ end
 child :roles, :object_root => false do
   extends "api/v2/roles/base"
 end
+
+child :usergroups, :object_root => false do
+  extends "api/v2/usergroups/base"
+end

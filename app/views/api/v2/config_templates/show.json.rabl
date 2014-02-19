@@ -11,3 +11,11 @@ end
 child :operatingsystems, :object_root => false do
   extends "api/v2/operatingsystems/base"
 end
+
+child :environments, :object_root => false do
+  extends "api/v2/environments/base"
+end
+
+child :os_default_templates, :object_root => false do
+  extends "api/v2/os_default_templates/base"
+end

@@ -16,12 +16,16 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should show location" do
-    get :show, { :id => Location.first.to_param }
+    get :show, { :id => taxonomies(:location1).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
-    #assert *_ids are included in response. Test just for domain_ids
-    assert show_response.any? {|k,v| k == "domain_ids" }
+    #assert child nodes are included in response'
+    NODES = ["users", "smart_proxies", "subnets", "compute_resources", "media", "config_templates",
+             "domains", "environments", "hostgroups", "organizations", "parameters"].sort
+    NODES.sort.each do |node|
+      assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"
+    end
   end
 
   test "should not create invalid location" do

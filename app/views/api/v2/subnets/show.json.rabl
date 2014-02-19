@@ -2,14 +2,14 @@ object @subnet
 
 extends "api/v2/subnets/main"
 
-child :dhcp => :dhcp do
-  extends "api/v2/smart_proxies/base"
+child :domains, :object_root => false do
+  extends "api/v2/domains/base"
 end
 
-child :tftp => :tftp do
-  extends "api/v2/smart_proxies/base"
+child :interfaces, :object_root => false do
+  extends "api/v2/interfaces/base"
 end
 
-child :dns => :dns do
-  extends "api/v2/smart_proxies/base"
+node do |subnet|
+   { :interfaces => partial("api/v2/interfaces/base", :object => subnet.interfaces) }
 end
