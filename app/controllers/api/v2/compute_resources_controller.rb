@@ -73,6 +73,7 @@ module Api
       param :id, :identifier, :required => true
       def available_clusters
         @available_clusters = @compute_resource.available_clusters
+        render :available_clusters, :layout => 'api/v2/layouts/index_layout'
       end
 
       api :GET, "/compute_resources/:id/available_clusters/:cluster_id/available_networks", "List available networks for a compute resource cluster"
@@ -80,12 +81,14 @@ module Api
       param :cluster_id, String, :required => true
       def available_networks
         @available_networks = @compute_resource.available_networks(params[:cluster_id])
+        render :available_networks, :layout => 'api/v2/layouts/index_layout'
       end
 
       api :GET, "/compute_resources/:id/available_storage_domains", "List storage_domains for a compute resource"
       param :id, :identifier, :required => true
       def available_storage_domains
         @available_storage_domains = @compute_resource.available_storage_domains
+        render :available_storage_domains, :layout => 'api/v2/layouts/index_layout'
       end
 
       def resource_scope
