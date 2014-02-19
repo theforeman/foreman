@@ -83,7 +83,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
     #assert child nodes are included in response'
-    NODES = ["locations", "organizations", "parameters", "interfaces", "subnets"]
+    NODES = ["locations", "organizations", "parameters", "subnets"]
     NODES.sort.each do |node|
       assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"
     end

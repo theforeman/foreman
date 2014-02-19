@@ -1,15 +1,15 @@
-  object @host
+object @host
 
 extends "api/v2/hosts/main"
 
-node do |host|
-   { :parameters => partial("api/v2/parameters/base", :object => host.host_parameters) }
+child :host_parameters => :parameters do
+  extends "api/v2/puppetclasses/base"
 end
 
-node do |host|
-   { :interfaces => partial("api/v2/interfaces/base", :object => host.interfaces) }
+child :interfaces => :interfaces do
+  extends "api/v2/interfaces/base"
 end
 
-child :puppetclasses, :object_root => false do
+child :puppetclasses do
   extends "api/v2/puppetclasses/base"
 end
