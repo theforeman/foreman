@@ -5,7 +5,8 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_resource, :only => [:show, :update, :destroy, :available_images]
+      before_filter :find_resource, :only => [:show, :update, :destroy, :available_images,
+                                              :available_networks, :available_clusters, :available_storage_domains]
 
       api :GET, "/compute_resources/", "List all compute resources."
       param :search, String, :desc => "filter results"
@@ -68,10 +69,31 @@ module Api
         @available_images = @compute_resource.available_images
       end
 
+      api :GET, "/compute_resources/:id/available_clusters", "List available clusters for a compute resource"
+      param :id, :identifier, :required => true
+      def available_clusters
+        @available_clusters = @compute_resource.available_clusters
+        render :available_clusters, :layout => 'api/v2/layouts/index_layout'
+      end
+
+      api :GET, "/compute_resources/:id/available_clusters/:cluster_id/available_networks", "List available networks for a compute resource cluster"
+      param :id, :identifier, :required => true
+      param :cluster_id, String, :required => true
+      def available_networks
+        @available_networks = @compute_resource.available_networks(params[:cluster_id])
+        render :available_networks, :layout => 'api/v2/layouts/index_layout'
+      end
+
+      api :GET, "/compute_resources/:id/available_storage_domains", "List storage_domains for a compute resource"
+      param :id, :identifier, :required => true
+      def available_storage_domains
+        @available_storage_domains = @compute_resource.available_storage_domains
+        render :available_storage_domains, :layout => 'api/v2/layouts/index_layout'
+      end
+
       def resource_scope
         ComputeResource.my_compute_resources
       end
-
     end
   end
 end

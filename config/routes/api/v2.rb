@@ -144,6 +144,9 @@ Foreman::Application.routes.draw do
         resources :compute_resources, :except => [:new, :edit] do
           resources :images, :except => [:new, :edit]
           get :available_images, :on => :member
+          get :available_clusters, :on => :member
+          get :available_storage_domains, :on => :member
+          get 'available_clusters/(:cluster_id)/available_networks', :to => 'compute_resources#available_networks', :on => :member
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         end
