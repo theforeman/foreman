@@ -2,11 +2,11 @@ object @puppetclass
 
 extends "api/v2/puppetclasses/main"
 
-child :environments, :object_root => false do
+child :environments do
   extends "api/v2/environments/base"
 end
 
-child :hostgroups, :object_root => false do
+child :hostgroups do
   extends "api/v2/hostgroups/base"
 end
 
@@ -17,4 +17,3 @@ end
 node do |puppetclass|
   { :smart_class_parameters => partial("api/v2/smart_class_parameters/base", :object => puppetclass.class_params) }
 end
-

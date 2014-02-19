@@ -8,6 +8,7 @@ location2:
   name: "Location 2"
   type: "Location"
   label: "Location 2"
+  organizations: organization2
 
 organization1:
   name: "Organization 1"

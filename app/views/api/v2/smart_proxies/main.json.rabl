@@ -4,6 +4,6 @@ extends "api/v2/smart_proxies/base"
 
 attributes :created_at, :updated_at
 
-child :features, :object_root => false do
+child :features do
   attributes :name, :id, :url
 end
