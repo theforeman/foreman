@@ -1,6 +1,7 @@
 <% new = @host ? @host.created_at.nil? : true %>
 <%= text_f f, :name, :disabled => !new if show_vm_name? %>
 <%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new, :label => _('CPUs') %>
+<%= selectable_f f, :corespersocket, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new, :label => _('Cores per socket') %>
 <%= text_f f, :memory_mb, :class => "col-md-2", :disabled => !new, :label => _("Memory (MB)") %>
 <%= selectable_f f, :cluster, compute_resource.clusters, { }, :class => "col-md-2", :disabled => !new, :label => _('Cluster') %>
 <%# selectable_f f, :resource_pool, compute_resource.resource_pools, { }, :class => "col-md-2", :disabled => !new %>

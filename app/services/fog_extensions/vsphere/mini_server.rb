@@ -1,7 +1,7 @@
 module FogExtensions
   module Vsphere
     class MiniServer
-      attr_reader :name, :identity, :cpus, :memory, :state, :path
+      attr_reader :name, :identity, :cpus, :corespersocket, :memory, :state, :path
 
       def initialize (raw, path = nil, uuid = nil)
         hardware  = raw.config.hardware
@@ -9,6 +9,7 @@ module FogExtensions
         @name     = raw.name
         @identity = uuid
         @cpus     = hardware.numCPU
+        @corespersocket = hardware.numCoresPerSocket
         @memory   = hardware.memoryMB * 1024 * 1024
         @state    = raw.runtime.powerState
         @path     = path
