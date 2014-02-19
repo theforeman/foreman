@@ -9,7 +9,7 @@ unless params[:puppetclass_id].present?
 end
 
 unless params[:environment_id].present?
-  child :environments, :object_root => false do
+  child :environments do
     attributes :id, :name
   end
 end

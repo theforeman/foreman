@@ -77,4 +77,16 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     assert_equal assigns(:domains), [domains(:mydomain)]
   end
 
+  test "should show domain with correct child nodes including location and organization" do
+    get :show, { :id => domains(:mydomain).to_param }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+    #assert child nodes are included in response'
+    NODES = ["locations", "organizations", "parameters", "subnets"]
+    NODES.sort.each do |node|
+      assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"
+    end
+  end
+
 end
