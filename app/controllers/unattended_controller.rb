@@ -24,6 +24,7 @@ class UnattendedController < ApplicationController
 
   # We want to find out our requesting host
   before_filter :get_host_details, :allowed_to_install?, :except => :template
+  before_filter :check_host_details, :allowed_to_install?, :except => [:template, :puppet]
   before_filter :handle_ca, :only => PROVISION_URLS
   # load "helper" variables to be available in the templates
   before_filter :load_template_vars, :only => PROVISION_URLS
@@ -66,6 +67,15 @@ class UnattendedController < ApplicationController
   # Using alias_method causes test failures as iPXE method is unknown in an empty DB
   def gPXE; iPXE; end
 
+  def puppet
+    template = ConfigTemplate.find_by_name('puppet.conf')
+    if template.nil?
+      logger.error msg = "unable to find 'puppet.conf' template"
+      render :text => msg, :status => :not_found
+    end
+    safe_render template
+  end
+
   private
 
   def render_template type
@@ -85,6 +95,9 @@ class UnattendedController < ApplicationController
 
   def get_host_details
     @host = find_host_by_spoof || find_host_by_token || find_host_by_ip_or_mac
+  end
+
+  def check_host_details
     unless @host
       logger.info "#{controller_name}: unable to find a host that matches the request from #{request.env['REMOTE_ADDR']}"
       head(:not_found) and return
@@ -126,6 +139,7 @@ class UnattendedController < ApplicationController
     ip = ip.split(',').first
 
     # search for a mac address in any of the RHN provisioning headers
+    # (used in foreman-client-tools in puppet-foreman script too)
     # this section is kickstart only relevant
     mac_list = []
     if request.env['HTTP_X_RHN_PROVISIONING_MAC_0'].present?
