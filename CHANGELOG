@@ -1,3 +1,58 @@
+2014-02-20	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.4.1
+
+2014-02-19	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2270 - Detect all OpenStack IPs and test which allows SSH
+
+2014-02-19	jan kaufman <jan.kaufman@gooddata.com>
+	* fixes #4125 [Openstack] - host with auto assigned IPs can't be deleted
+
+2014-02-19	Amos Benari <abenari@redhat.com>
+	* fixes #3567 Editing an oVirt compute resource can throw errors loading quotas while loading page
+
+2014-02-19	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4268 - don't search for host with nil IP on hostname spoofing
+
+2014-02-19	Sam Kottler <shk@redhat.com>
+	* Fixes #4221: add :dependent => :destroy for compute profiles on compute resource
+
+2014-02-19	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #3845 - user login session ending clears chosen organization
+
+2014-02-19	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #3903 - fixed menu links when relative URLs are set
+
+2014-02-19	Neil Miao <nmiao@redhat.com>
+	* fixes #3596 - validation error when user with hostgroup subscription creates a new hostgroup
+
+2014-02-19	Martin Matuska <martin@matuska.org>
+	* fixes #4159 Thin provisioning for VMware disks in compute profiles can't be saved
+	* fixes #4307 New VMware VM creation does not respect NIC type selection
+	* fixes #3496 vSphere: add support for selectable SCSI controller
+
+2014-02-14	Joseph Magen <joseph@isratrade.co.il>
+	* fixes #3980 - Compute profiles not rendering Openstack attributes correctly
+
+2014-02-14	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #3519 - taxonomies include authorization module
+
+2014-02-14	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #4298 - ldap auth should accept parens in firstname or surname
+	* fixes #2726 - smart class parameter override fails validation
+	* fixes #4234 - cannot edit host's puppet parameters
+
+2014-02-14	karl-ravn <karl.ravn@deltaprojects.se>
+	* fixes #4304 - corrected strange search for host_id parameter
+
+2014-02-14	Amos Benari <abenari@redhat.com>
+	* fixes #4220 dashboard and report-show pages chart-frame is not in place.
+
+2014-02-14	Robert Birnie <rbirnie@gmail.com>
+	* refs #2314 - more choices in memory drop down
+
+2014-02-14	Sam Kottler <shk@redhat.com>
+	* refs #2816: Prevent diff viewer on report page from overflowing to be outside the parent modal
+
 2014-01-29	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.4.0
 	* templates - sync from community-templates
