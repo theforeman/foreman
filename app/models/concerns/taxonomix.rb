@@ -16,9 +16,40 @@ module Taxonomix
 
   module ClassMethods
 
+    attr_accessor :which_ancestry_method, :which_location, :which_organization
+
     # default inner_method includes children (subtree_ids)
     def with_taxonomy_scope(loc = Location.current, org = Organization.current, inner_method = :subtree_ids)
+      self.which_ancestry_method = inner_method
+      self.which_location        = loc
+      self.which_organization    = org
       scope =  block_given? ? yield : where('1=1')
+      scope = scope.where(:id => taxable_ids) if taxable_ids
+      scope.readonly(false)
+    end
+
+    # default inner_method includes parents (path_ids)
+    def with_taxonomy_scope_override(loc = nil, org = nil, inner_method = :path_ids)
+      # need to .unscoped or default_scope {with_taxonomy_scope} overrides inner_method
+      unscoped.with_taxonomy_scope(loc, org, inner_method)
+    end
+
+    def used_taxonomy_ids(loc = which_location, org = which_organization, inner_method = which_ancestry_method)
+      @used_taxonomy_ids ||= used_location_ids(loc, inner_method) + used_organization_ids(org, inner_method)
+    end
+
+    def used_location_ids(loc = which_location, inner_method = which_ancestry_method)
+      return [] unless loc && SETTINGS[:locations_enabled]
+      @used_location_ids ||= (loc.send(inner_method) + loc.ancestor_ids).uniq
+    end
+
+    def used_organization_ids(org = which_organization, inner_method = which_ancestry_method)
+      return [] unless org && SETTINGS[:locations_enabled]
+      @used_organization_ids ||= (org.send(inner_method) + org.ancestor_ids).uniq
+    end
+
+    def taxable_ids(loc = which_location, org = which_organization, inner_method = which_ancestry_method)
+      return @taxable_ids if @taxable_ids
       if SETTINGS[:locations_enabled] && loc
         inner_ids_loc = if Location.ignore?(self.to_s)
                           self.pluck(:id)
@@ -38,16 +69,10 @@ module Taxonomix
       inner_ids ||= inner_ids_org if inner_ids_org
       # In the case of users we want the taxonomy scope to get both the users of the taxonomy and admins.
       inner_ids << admin_ids if inner_ids && self == User
-      scope = scope.where(:id => inner_ids) if inner_ids
-      scope.readonly(false)
+      @taxable_ids = inner_ids
     end
 
-    # default inner_method includes parents (path_ids)
-    def with_taxonomy_scope_override(loc = nil, org = nil, inner_method = :path_ids)
-      with_taxonomy_scope(loc, org, inner_method)
-    end
-
-    def inner_select(taxonomy, inner_method)
+    def inner_select(taxonomy, inner_method = which_ancestry_method)
       # always include ancestor_ids in inner select
       taxonomy_ids = (taxonomy.send(inner_method) + taxonomy.ancestor_ids).uniq
       TaxableTaxonomy.where(:taxable_type => self.name, :taxonomy_id => taxonomy_ids).pluck(:taxable_id).compact.uniq
