@@ -69,7 +69,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     # session is expired, but try to load a page
     session[:expires_at] = 5.minutes.ago
     get :index
-  
+
     # session is reset, redirected to login, but org id remains
     assert_redirected_to "/users/login"
     assert_match /Your session has expired, please login again/, flash[:warning]
@@ -171,7 +171,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal new_organization.domain_ids, organization.domain_ids
     assert_equal new_organization.medium_ids, organization.medium_ids
     assert_equal new_organization.user_ids, organization.user_ids
-    assert_equal new_organization.smart_proxy_ids, organization.smart_proxy_ids
+    assert_equal new_organization.smart_proxy_ids.sort, organization.smart_proxy_ids.sort
     assert_equal new_organization.config_template_ids, organization.config_template_ids
     assert_equal new_organization.compute_resource_ids, organization.compute_resource_ids
     assert_equal new_organization.location_ids, organization.location_ids
