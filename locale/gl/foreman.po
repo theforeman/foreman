@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-16 11:56+0000\n"
-"PO-Revision-Date: 2014-01-17 09:29+0000\n"
+"POT-Creation-Date: 2014-01-29 09:03+0000\n"
+"PO-Revision-Date: 2014-01-30 09:29+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/foreman/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -778,6 +778,9 @@ msgstr "Cancelar petición de construcción para este equipo"
 msgid "Canceled pending build for %s"
 msgstr "Cancelar construcción pendente para %s"
 
+msgid "Cannot delete group %{current} because it has nested groups."
+msgstr ""
+
 msgid "Canvas not supported."
 msgstr "Bordes non soportados"
 
@@ -1122,11 +1125,6 @@ msgstr "Entorno eliminado"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "Eliminado entorno %{env} e %{pcs}"
-
-msgid ""
-"Deleting this group will unlink its nested groups and any associated puppet "
-"classes and / or parameters"
-msgstr "Borrando este grupo eliminaránse tódolos seus grupos asociados, así como calquer clase puppet que esté asociada e/ou parámetros"
 
 msgid "Deploy on"
 msgstr "Desplegar en"
@@ -3207,6 +3205,9 @@ msgstr "Seleccione unha Imaxe, por favor"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Por favor, comproba que o proxy está configurado e executándose no equipo"
 
+msgid "Please delete all nested groups before deleting it."
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr "Por favor, solicita os privilexios requeridos a un administrador de Foreman"
 
@@ -5214,9 +5215,6 @@ msgstr "debe ser booleano"
 msgid "must be integer"
 msgstr "ten que ser un enteiro"
 
-msgid "must be lowercase"
-msgstr "debe ser en minúsculas"
-
 msgid "must be one of [ %s ]"
 msgstr ""
 
@@ -5228,6 +5226,9 @@ msgstr "débese especificar se 'to' está definido"
 
 msgid "must match"
 msgstr "debe concordar"
+
+msgid "must not include periods"
+msgstr ""
 
 msgid "must provide a provider"
 msgstr "débese proporcionar un proveedor"

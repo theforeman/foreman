@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-16 11:56+0000\n"
-"PO-Revision-Date: 2014-01-28 18:00+0000\n"
+"POT-Creation-Date: 2014-01-29 09:03+0000\n"
+"PO-Revision-Date: 2014-02-05 11:27+0000\n"
 "Last-Translator: johnny Westerlund <johnny.westerlund@gmail.com>\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -780,6 +780,9 @@ msgstr "Avbryt byggbegäran för denna värd"
 msgid "Canceled pending build for %s"
 msgstr "Avbröt avvaktande bygge för %s"
 
+msgid "Cannot delete group %{current} because it has nested groups."
+msgstr "Kan inte radera gruppen %{current} eftersom den har nästade grupper."
+
 msgid "Canvas not supported."
 msgstr "Canvas stöds inte."
 
@@ -1124,11 +1127,6 @@ msgstr "Raderad miljö"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "Raderade miljön %{env} och %{pcs}"
-
-msgid ""
-"Deleting this group will unlink its nested groups and any associated puppet "
-"classes and / or parameters"
-msgstr "Radering av denna grupp kommer att bryta dess nästlade gruppmedlemskap samt alla associerade puppetklasser och eller parametrar"
 
 msgid "Deploy on"
 msgstr "Installera på"
@@ -3209,6 +3207,9 @@ msgstr "Vänligen välj en avbildning"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Vänligen kontrollera att proxyn är konfigurerad och körs på värden."
 
+msgid "Please delete all nested groups before deleting it."
+msgstr "Var vänlig och ta bort alla nästade grupper innan du raderar den."
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr "Var vänlig och begär nödvändiga rättigheter från en Foremanadministratör"
 
@@ -5216,9 +5217,6 @@ msgstr "måste vara boolesk"
 msgid "must be integer"
 msgstr "måste vara heltal"
 
-msgid "must be lowercase"
-msgstr "måste vara gemener"
-
 msgid "must be one of [ %s ]"
 msgstr "måste vara en av [ %s ]"
 
@@ -5230,6 +5228,9 @@ msgstr "måste anges om till är definierad"
 
 msgid "must match"
 msgstr "måste matcha"
+
+msgid "must not include periods"
+msgstr "får inte innehålla punkter"
 
 msgid "must provide a provider"
 msgstr "måste tillhandahålla en leverantör"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-29 09:03+0000\n"
+"POT-Creation-Date: 2014-02-21 08:47+0000\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -3412,6 +3412,9 @@ msgid "Running on"
 msgstr ""
 
 msgid "Runtime"
+msgstr ""
+
+msgid "SCSI controller"
 msgstr ""
 
 msgid "SSL CA file that Foreman will use to communicate with its proxies"

@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-16 11:56+0000\n"
-"PO-Revision-Date: 2014-01-27 13:50+0000\n"
-"Last-Translator: francisvm <hackgo@gmail.com>\n"
+"POT-Creation-Date: 2014-01-29 09:03+0000\n"
+"PO-Revision-Date: 2014-01-30 09:29+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -788,6 +788,9 @@ msgstr "Cancelar petición de construcción para este equipo"
 msgid "Canceled pending build for %s"
 msgstr "Cancelar construcción pendiente para %s"
 
+msgid "Cannot delete group %{current} because it has nested groups."
+msgstr ""
+
 msgid "Canvas not supported."
 msgstr "Bordes no soportados"
 
@@ -1132,11 +1135,6 @@ msgstr "Entorno eliminado"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "Eliminado entorno %{env} y %{pcs}"
-
-msgid ""
-"Deleting this group will unlink its nested groups and any associated puppet "
-"classes and / or parameters"
-msgstr "Borrando este grupo se eliminarán todos sus grupos asociados, así como cualquier clase puppet que esté asociada y/o parámetros"
 
 msgid "Deploy on"
 msgstr "Desplegar en"
@@ -3217,6 +3215,9 @@ msgstr "Seleccione una Imagen, por favor"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Por favor, comprueba que el proxy está configurado y ejecutándose en el equipo"
 
+msgid "Please delete all nested groups before deleting it."
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr "Por favor, solicita los privilegios requeridos a un administrador de foreman"
 
@@ -5224,9 +5225,6 @@ msgstr "debe ser booleano"
 msgid "must be integer"
 msgstr "tiene que ser un entero"
 
-msgid "must be lowercase"
-msgstr "debe ser en minúsculas"
-
 msgid "must be one of [ %s ]"
 msgstr "debe ser una de [ %s ]"
 
@@ -5238,6 +5236,9 @@ msgstr "se debe especificar si 'to' está definido"
 
 msgid "must match"
 msgstr "debe concordar"
+
+msgid "must not include periods"
+msgstr ""
 
 msgid "must provide a provider"
 msgstr "se debe proporcionar un proveedor"

@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-16 11:56+0000\n"
-"PO-Revision-Date: 2014-01-24 13:40+0000\n"
+"POT-Creation-Date: 2014-01-29 09:03+0000\n"
+"PO-Revision-Date: 2014-02-13 18:10+0000\n"
 "Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -792,6 +792,9 @@ msgstr "Annuler la demande de construction de cet hôte"
 msgid "Canceled pending build for %s"
 msgstr "Demande de construction de l'hôte %s annulé"
 
+msgid "Cannot delete group %{current} because it has nested groups."
+msgstr "Impossible d'effacer le groupe %{current} car il possède des sous groupes."
+
 msgid "Canvas not supported."
 msgstr "Canevas non supporté."
 
@@ -1136,11 +1139,6 @@ msgstr "Supprimer l'environnement"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "Supprimer l'environnement %{env} et %{pcs}"
-
-msgid ""
-"Deleting this group will unlink its nested groups and any associated puppet "
-"classes and / or parameters"
-msgstr "Supprimer ce groupe va supprimer les liens avec ses groupes imbriqués et toute classe puppet associée et/ou ses paramètres"
 
 msgid "Deploy on"
 msgstr "Déployer sur"
@@ -3221,6 +3219,9 @@ msgstr "Merci de choisir une image"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Merci de vérifier si le proxy est configuré et fonctionnel sur l'hôte."
 
+msgid "Please delete all nested groups before deleting it."
+msgstr "Merci d'effacer tous les sous-groupes avant d'effacer ce groupe"
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr "Demandez à votre administrateur les droits nécessaires"
 
@@ -3256,16 +3257,16 @@ msgid "Plugins"
 msgstr "Greffons"
 
 msgid "Power"
-msgstr "Activer l'alimentation"
+msgstr "Alimentation"
 
 msgid "Power ON this machine"
 msgstr "Allumer cette machine"
 
 msgid "Power up compute instance %s"
-msgstr "Activer l'alimentation de l'instance %s"
+msgstr "Démarrer l'instance %s"
 
 msgid "Power%s"
-msgstr "Activer l'alimentation de %s"
+msgstr "Alimentation : %s"
 
 msgid "Prepare post installation script for %s"
 msgstr "Préparation du script de post-installation pour %s"
@@ -5228,9 +5229,6 @@ msgstr "doit être un booléen"
 msgid "must be integer"
 msgstr "doit être un entier"
 
-msgid "must be lowercase"
-msgstr "doit être en minuscule"
-
 msgid "must be one of [ %s ]"
 msgstr "doit être une des valeurs suivantes [ %s ]"
 
@@ -5242,6 +5240,9 @@ msgstr "doit être spécifié si À est défini"
 
 msgid "must match"
 msgstr "doit correspondre"
+
+msgid "must not include periods"
+msgstr "ne doit pas contenir de caractères point."
 
 msgid "must provide a provider"
 msgstr "devez saisir un fournisseur"

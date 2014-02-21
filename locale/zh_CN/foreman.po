@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-16 11:56+0000\n"
-"PO-Revision-Date: 2014-01-17 09:29+0000\n"
+"POT-Creation-Date: 2014-01-29 09:03+0000\n"
+"PO-Revision-Date: 2014-01-30 09:29+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -772,6 +772,9 @@ msgstr "取消创建主机的操作"
 msgid "Canceled pending build for %s"
 msgstr "取消 %s 创建"
 
+msgid "Cannot delete group %{current} because it has nested groups."
+msgstr ""
+
 msgid "Canvas not supported."
 msgstr "不支持"
 
@@ -1116,11 +1119,6 @@ msgstr "删除环境"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "删除 %{env} 和 %{pcs} 的环境"
-
-msgid ""
-"Deleting this group will unlink its nested groups and any associated puppet "
-"classes and / or parameters"
-msgstr ""
 
 msgid "Deploy on"
 msgstr "部署到"
@@ -3200,6 +3198,9 @@ msgstr "请选择介质"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "请检查代理是否已配置并在此主机上运行"
 
+msgid "Please delete all nested groups before deleting it."
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr ""
 
@@ -5204,9 +5205,6 @@ msgstr "必须是布尔型"
 msgid "must be integer"
 msgstr "必须是整型"
 
-msgid "must be lowercase"
-msgstr "必须小写"
-
 msgid "must be one of [ %s ]"
 msgstr ""
 
@@ -5218,6 +5216,9 @@ msgstr "需增加到预定义列表中"
 
 msgid "must match"
 msgstr "必须匹配"
+
+msgid "must not include periods"
+msgstr ""
 
 msgid "must provide a provider"
 msgstr "必须提供供应者"
