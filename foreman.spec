@@ -15,7 +15,7 @@
 
 Name:   foreman
 Version: 1.4.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -566,6 +566,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Fri Feb 21 2014 Dominic Cleal <dcleal@redhat.com> - 1.4.1-2
+- Rebuild of 1.4.1 with updated translations
+
 * Thu Feb 20 2014 Dominic Cleal <dcleal@redhat.com> - 1.4.1-1
 - Release 1.4.1
 
