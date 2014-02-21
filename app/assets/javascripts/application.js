@@ -163,18 +163,26 @@ function toggleRowGroup(el) {
 }
 
 function template_info(div, url) {
-  form = $("form").serialize();
+  // Ignore method as PUT redirects to host page if used on update
+  form = $("form :input[name!='_method']").serialize();
   build = $('input:radio[name$="[provision_method]"]:checked').val();
 
   $(div).html(spinner_placeholder());
-  $(div).load(url + "?provisioning=" + build + "&" + form,
-              function(response, status, xhr) {
-                if (status == "error") {
-                  $(div).html('<div class="alert alert-warning alert-dismissable">' +
-                  '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
-                  __('Sorry but no templates were configured.') + '</div>');
-                }
-              });
+
+  // Use a post to avoid request URI too large issues with big forms
+  $.ajax({
+    type: "POST",
+    url: url + "?provisioning=" + build,
+    data: form,
+    success: function(response, status, xhr) {
+      $(div).html(response);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $(div).html('<div class="alert alert-warning alert-dismissable">' +
+        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+        __('Sorry but no templates were configured.') + '</div>');
+    }
+  });
 }
 
 //add bookmark dialog

@@ -13,7 +13,7 @@ module Foreman::Model
     end
 
     def capabilities
-      [:build]
+      [:build, :image]
     end
 
     def supports_update?
@@ -122,6 +122,9 @@ module Foreman::Model
     def create_vm(args = {})
       #ovirt doesn't accept '.' in vm name.
       args[:name] = args[:name].parameterize
+      if (image_id = args[:image_id])
+        args.merge!({:template => image_id})
+      end
       vm = super({ :first_boot_dev => 'network', :quota => ovirt_quota }.merge(args))
       begin
         create_interfaces(vm, args[:interfaces_attributes])
