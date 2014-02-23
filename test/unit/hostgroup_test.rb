@@ -157,7 +157,7 @@ class HostgroupTest < ActiveSupport::TestCase
     assert parent_hostgroup.update_attributes(:name => "new_common")
     # check if hostgroup(:db) label changed
     hostgroup.reload
-    assert_equal "new_common/db", hostgroup.label
+    assert_equal "new_common/db", hostgroup.title
   end
 
   test "deleting a hostgroup with children does not change labels" do
@@ -167,7 +167,7 @@ class HostgroupTest < ActiveSupport::TestCase
     hostgroup.parent_id = parent_hostgroup.id
     assert hostgroup.save!
     hostgroup.reload
-    assert_equal "Common/db", hostgroup.label
+    assert_equal "Common/db", hostgroup.title
 
     #attempt to destroy parent hostgroup
     begin
@@ -176,7 +176,7 @@ class HostgroupTest < ActiveSupport::TestCase
     end
     # check if hostgroup(:db) label remains the same
     hostgroup.reload
-    assert_equal "Common/db", hostgroup.label
+    assert_equal "Common/db", hostgroup.title
   end
 
   test "should find associated lookup_values" do

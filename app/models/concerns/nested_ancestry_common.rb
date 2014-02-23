@@ -2,31 +2,39 @@ module NestedAncestryCommon
   extend ActiveSupport::Concern
 
   included do
-    audited :except => [:label], :allow_mass_assignment => true
+    audited :except => [:title], :allow_mass_assignment => true
     has_associated_audits
     has_ancestry :orphan_strategy => :restrict
 
-    before_validation :set_label
-    after_save :set_other_labels, :on => [:update, :destroy]
-    after_save :update_matchers , :on => :update, :if => Proc.new {|obj| obj.label_changed?}
+    before_validation :set_title
+    after_save :set_other_titles, :on => [:update, :destroy]
+    after_save :update_matchers , :on => :update, :if => Proc.new {|obj| obj.title_changed?}
 
     validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false }
-    validates :label, :presence => true, :uniqueness => true
+    validates :title, :presence => true, :uniqueness => true
 
-    scoped_search :on => :label, :complete_value => :true, :default_order => true
+    scoped_search :on => :title, :complete_value => true, :default_order => true
+    # for legacy purposes, keep search on :label
+    scoped_search :on => :title, :complete_value => true, :rename => :label
 
     # attribute used by *_names and *_name methods.  default is :name
-    attr_name :label
+    attr_name :title
   end
 
-  def to_label
-    return label if label
-    get_label
+  # override title getter
+  def title
+    read_attribute(:title) || get_title
   end
+  alias_method :to_label, :title
 
-  def get_label
+  def get_title
     return name if ancestry.empty?
     ancestors.map { |a| a.name + '/' }.join + name
+  end
+  alias_method :get_label, :get_title
+
+  def to_param
+    "#{id}-#{get_title.parameterize}"
   end
 
   module ClassMethods
@@ -71,15 +79,15 @@ module NestedAncestryCommon
 
   private
 
-  def set_label
-    self.label = get_label if (name_changed? || ancestry_changed? || label.blank?)
+  def set_title
+    self.title = get_title if (name_changed? || ancestry_changed? || title.blank?)
   end
 
-  def set_other_labels
+  def set_other_titles
     if name_changed? || ancestry_changed?
       self.class.where('ancestry IS NOT NULL').each do |obj|
         if obj.path_ids.include?(self.id)
-          obj.update_attributes(:label => obj.get_label)
+          obj.update_attributes(:title => obj.get_title)
         end
       end
     end
@@ -90,8 +98,8 @@ module NestedAncestryCommon
   end
 
   def update_matchers
-    lookup_values = LookupValue.where(:match => "#{obj_type}=#{label_was}")
-    lookup_values.update_all(:match => "#{obj_type}=#{label}")
+    lookup_values = LookupValue.where(:match => "#{obj_type}=#{title_was}")
+    lookup_values.update_all(:match => "#{obj_type}=#{title}")
   end
 
 end

@@ -3,8 +3,8 @@ module AncestryHelper
   # this helper is used for hostgroup names and location/organization names.  Both have ancestry
   def label_with_link(obj, max_length = 1000)
     return if obj.blank?
-    options = (obj.label.to_s.size > max_length) ? { :'data-original-title' => obj.label, :rel => 'twipsy' } : {}
-    nesting = obj.label.to_s.gsub(/[^\/]+\/?$/, '')
+    options = (obj.title.to_s.size > max_length) ? { :'data-original-title' => obj.title, :rel => 'twipsy' } : {}
+    nesting = obj.title.to_s.gsub(/[^\/]+\/?$/, '')
     nesting = truncate(nesting, :length => max_length - obj.name.to_s.size) if nesting.to_s.size > 0
     name    = truncate(obj.name, :length => max_length - nesting.to_s.size)
     link_to_if_authorized(

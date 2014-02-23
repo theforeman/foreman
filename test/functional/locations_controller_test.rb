@@ -165,7 +165,7 @@ class LocationsControllerTest < ActionController::TestCase
     end
 
     new_location = Location.unscoped.order(:id).last
-    assert_redirected_to :controller => :locations, :action => :step2, :id => new_location.id
+    assert_redirected_to :controller => :locations, :action => :step2, :id => new_location.to_param
 
     assert_equal new_location.environment_ids.sort, location.environment_ids.sort
     assert_equal new_location.hostgroup_ids.sort, location.hostgroup_ids.sort

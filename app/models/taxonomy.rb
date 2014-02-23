@@ -1,6 +1,5 @@
 class Taxonomy < ActiveRecord::Base
   include Authorization
-
   include NestedAncestryCommon
 
   serialize :ignore_types, Array
@@ -25,11 +24,7 @@ class Taxonomy < ActiveRecord::Base
   delegate :import_missing_ids, :inherited_ids, :used_and_selected_or_inherited_ids, :selected_or_inherited_ids, :non_inherited_ids,
            :to => :tax_host
 
-  default_scope lambda { order(:label) }
-
-  def to_param
-    "#{id.to_s.parameterize}"
-  end
+  default_scope lambda { order(:title) }
 
   def self.locations_enabled
     enabled?(:location)

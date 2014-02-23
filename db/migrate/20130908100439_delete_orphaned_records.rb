@@ -22,7 +22,8 @@ class DeleteOrphanedRecords < ActiveRecord::Migration
     FactValue.where("fact_name_id NOT IN (?) OR host_id NOT IN (?)", FactName.pluck(:id), Host::Base.pluck(:id)).delete_all
     TaxableTaxonomy.where("taxonomy_id NOT IN (?)", Taxonomy.unscoped.pluck(:id)).delete_all
     HostClass.where("host_id NOT IN (?) OR puppetclass_id NOT IN (?)", Host::Base.pluck(:id), Puppetclass.pluck(:id)).delete_all
-    HostgroupClass.where("hostgroup_id NOT IN (?) OR puppetclass_id NOT IN (?)", Hostgroup.pluck(:id), Puppetclass.pluck(:id)).delete_all
+    # .unscoped is needed since the default scope orders by title, but title is not a db field yet.
+    HostgroupClass.where("hostgroup_id NOT IN (?) OR puppetclass_id NOT IN (?)", Hostgroup.unscoped.pluck(:id), Puppetclass.pluck(:id)).delete_all
     Report.where("host_id NOT IN (?)", Host::Base.pluck(:id)).delete_all
     Log.where("message_id NOT IN (?) OR report_id NOT IN (?) OR source_id NOT IN (?)", Message.pluck(:id), Report.pluck(:id), Source.pluck(:id)).delete_all
     Token.where("host_id NOT IN (?)", Host::Base.pluck(:id)).delete_all
@@ -46,16 +47,16 @@ class DeleteOrphanedRecords < ActiveRecord::Migration
     OsDefaultTemplate.where("template_kind_id NOT IN (?)", TemplateKind.pluck(:id)).update_all(:template_kind_id => nil)
     TemplateCombination.where("config_template_id NOT IN (?)", ConfigTemplate.pluck(:id)).update_all(:config_template_id => nil)
     TemplateCombination.where("environment_id NOT IN (?)", Environment.pluck(:id)).update_all(:environment_id => nil)
-    TemplateCombination.where("hostgroup_id NOT IN (?)", Hostgroup.pluck(:id)).update_all(:hostgroup_id => nil)
-    Hostgroup.where("architecture_id NOT IN (?)", Architecture.pluck(:id)).update_all(:architecture_id => nil)
-    Hostgroup.where("domain_id NOT IN (?)", Domain.pluck(:id)).update_all(:domain_id => nil)
-    Hostgroup.where("environment_id NOT IN (?)", Environment.pluck(:id)).update_all(:environment_id => nil)
-    Hostgroup.where("medium_id NOT IN (?)", Medium.pluck(:id)).update_all(:medium_id => nil)
-    Hostgroup.where("operatingsystem_id NOT IN (?)", Operatingsystem.pluck(:id)).update_all(:operatingsystem_id => nil)
-    Hostgroup.where("ptable_id NOT IN (?)", Ptable.pluck(:id)).update_all(:ptable_id => nil)
-    Hostgroup.where("puppet_ca_proxy_id NOT IN (?)", SmartProxy.pluck(:id)).update_all(:puppet_ca_proxy_id => nil)
-    Hostgroup.where("puppet_proxy_id NOT IN (?)", SmartProxy.pluck(:id)).update_all(:puppet_proxy_id => nil)
-    Hostgroup.where("subnet_id NOT IN (?)", Subnet.pluck(:id)).update_all(:subnet_id => nil)
+    TemplateCombination.where("hostgroup_id NOT IN (?)", Hostgroup.unscoped.pluck(:id)).update_all(:hostgroup_id => nil)
+    Hostgroup.unscoped.where("architecture_id NOT IN (?)", Architecture.pluck(:id)).update_all(:architecture_id => nil)
+    Hostgroup.unscoped.where("domain_id NOT IN (?)", Domain.pluck(:id)).update_all(:domain_id => nil)
+    Hostgroup.unscoped.where("environment_id NOT IN (?)", Environment.pluck(:id)).update_all(:environment_id => nil)
+    Hostgroup.unscoped.where("medium_id NOT IN (?)", Medium.pluck(:id)).update_all(:medium_id => nil)
+    Hostgroup.unscoped.where("operatingsystem_id NOT IN (?)", Operatingsystem.pluck(:id)).update_all(:operatingsystem_id => nil)
+    Hostgroup.unscoped.where("ptable_id NOT IN (?)", Ptable.pluck(:id)).update_all(:ptable_id => nil)
+    Hostgroup.unscoped.where("puppet_ca_proxy_id NOT IN (?)", SmartProxy.pluck(:id)).update_all(:puppet_ca_proxy_id => nil)
+    Hostgroup.unscoped.where("puppet_proxy_id NOT IN (?)", SmartProxy.pluck(:id)).update_all(:puppet_proxy_id => nil)
+    Hostgroup.unscoped.where("subnet_id NOT IN (?)", Subnet.pluck(:id)).update_all(:subnet_id => nil)
     Host::Base.where("architecture_id NOT IN (?)", Architecture.pluck(:id)).update_all(:architecture_id => nil)
     Host::Base.where("domain_id NOT IN (?)", Domain.pluck(:id)).update_all(:domain_id => nil)
     Host::Base.where("environment_id NOT IN (?)", Environment.pluck(:id)).update_all(:environment_id => nil)
@@ -66,7 +67,7 @@ class DeleteOrphanedRecords < ActiveRecord::Migration
     Host::Base.where("puppet_proxy_id NOT IN (?)", SmartProxy.pluck(:id)).update_all(:puppet_proxy_id => nil)
     Host::Base.where("subnet_id NOT IN (?)", Subnet.pluck(:id)).update_all(:subnet_id => nil)
     Host::Base.where("compute_resource_id NOT IN (?)", ComputeResource.pluck(:id)).update_all(:compute_resource_id => nil)
-    Host::Base.where("hostgroup_id NOT IN (?)", Hostgroup.pluck(:id)).update_all(:hostgroup_id => nil)
+    Host::Base.where("hostgroup_id NOT IN (?)", Hostgroup.unscoped.pluck(:id)).update_all(:hostgroup_id => nil)
     Host::Base.where("image_id NOT IN (?)", Image.pluck(:id)).update_all(:image_id => nil)
     Host::Base.where("model_id NOT IN (?)", Model.pluck(:id)).update_all(:model_id => nil)
     Host::Base.where("location_id NOT IN (?)", Location.unscoped.pluck(:id)).update_all(:location_id => nil)

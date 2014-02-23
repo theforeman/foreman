@@ -163,7 +163,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     end
 
     new_organization = Organization.unscoped.order(:id).last
-    assert_redirected_to :controller => :organizations, :action => :step2, :id => new_organization.id
+    assert_redirected_to :controller => :organizations, :action => :step2, :id => new_organization.to_param
 
     assert_equal new_organization.environment_ids.sort, organization.environment_ids.sort
     assert_equal new_organization.hostgroup_ids.sort, organization.hostgroup_ids.sort

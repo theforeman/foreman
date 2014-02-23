@@ -5,7 +5,7 @@ module HasManyCommon
     association.to_s.classify.constantize
   end
 
-  # calls method :name or whatever is defined in attr_name :label
+  # calls method :name or whatever is defined in attr_name :title
   def name_method
     send(self.class.attribute_name)
   end
@@ -30,7 +30,7 @@ module HasManyCommon
     # class method in model to overwrite default attribute_name
     # Ex.
     # Class Hostgroup
-    #   attr_name :label
+    #   attr_name :title
     def attr_name(attribute)
       self_class.send(:define_method, "attribute_name") do
         attribute

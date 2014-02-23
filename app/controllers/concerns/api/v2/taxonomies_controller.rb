@@ -65,7 +65,7 @@ module Api::V2::TaxonomiesController
   def destroy
     process_response @taxonomy.destroy
   rescue Ancestry::AncestryException
-    render :json => {:error => {:message => (_('Cannot delete %{current} because it has nested %{sti_name}.') % { :current => @taxonomy.label, :sti_name => @taxonomy.sti_name }) } }
+    render :json => {:error => {:message => (_('Cannot delete %{current} because it has nested %{sti_name}.') % { :current => @taxonomy.title, :sti_name => @taxonomy.sti_name }) } }
   end
 
   private

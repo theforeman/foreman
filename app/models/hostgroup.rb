@@ -27,7 +27,7 @@ class Hostgroup < ActiveRecord::Base
   # include all default scoping here
   default_scope lambda {
     with_taxonomy_scope do
-      order("hostgroups.label")
+      order("hostgroups.title")
     end
   }
 
@@ -64,10 +64,6 @@ class Hostgroup < ActiveRecord::Base
 
   def all_puppetclasses
     classes
-  end
-
-  def to_param
-    "#{id}-#{to_label.parameterize}"
   end
 
   def hostgroup

@@ -25,8 +25,8 @@ class LocationTest < ActiveSupport::TestCase
     assert_difference('Location.count', 2) do
       assert subloc1 = Location.create!(:name => "Building A", :parent_id => taxonomies(:location1).id)
       assert subloc2 = Location.create!(:name => "Building A", :parent_id => taxonomies(:location2).id)
-      assert_equal 'Location 1/Building A', subloc1.label
-      assert_equal 'Location 2/Building A', subloc2.label
+      assert_equal 'Location 1/Building A', subloc1.title
+      assert_equal 'Location 2/Building A', subloc2.title
     end
   end
 
@@ -164,10 +164,10 @@ class LocationTest < ActiveSupport::TestCase
   end
 
   #Location inheritance tests
-  test "inherited location should have correct label" do
+  test "inherited location should have correct path" do
     parent = taxonomies(:location1)
     location = Location.create!(:name => "rack1", :parent_id => parent.id)
-    assert_equal "Location 1/rack1", location.label
+    assert_equal "Location 1/rack1", location.title
   end
 
   test "inherited_ids for inherited location" do
