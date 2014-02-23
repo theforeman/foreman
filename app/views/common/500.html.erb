@@ -1,7 +1,7 @@
 <% title _("Oops, we're sorry but something went wrong") %>
 
 
-<%= alert :class => 'alert-block alert-danger base in fade', :text => exception.message %>
+<%= alert :class => 'alert-block alert-danger base in fade', :text => h(exception.message) %>
 
 <p>
   <%= _("If you feel this is an error with Foreman itself, please open a new issue with") %> <%= link_to _("Foreman ticketing system"), "http://theforeman.org/projects/foreman/issues", :rel => "external" %>,
