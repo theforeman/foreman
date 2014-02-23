@@ -27,7 +27,7 @@ class Hostgroup < ActiveRecord::Base
   # include all default scoping here
   default_scope lambda {
     with_taxonomy_scope do
-      order("hostgroups.label")
+      order("hostgroups.title")
     end
   }
 
@@ -66,10 +66,6 @@ class Hostgroup < ActiveRecord::Base
     classes
   end
 
-  def to_param
-    "#{id}-#{to_label.parameterize}"
-  end
-
   def hostgroup
     self
   end
@@ -89,7 +85,7 @@ class Hostgroup < ActiveRecord::Base
   def inherited_lookup_value key
     ancestors.reverse.each do |hg|
       if(v = LookupValue.where(:lookup_key_id => key.id, :id => hg.lookup_values).first)
-        return v.value, hg.to_label
+        return v.value, hg.to_title
       end
     end if key.path_elements.flatten.include?("hostgroup") && Setting["host_group_matchers_inheritance"]
     return key.default_value, _("Default value")
@@ -128,7 +124,7 @@ class Hostgroup < ActiveRecord::Base
   private
 
   def lookup_value_match
-    "hostgroup=#{to_label}"
+    "hostgroup=#{to_title}"
   end
 
   def nested_root_pw

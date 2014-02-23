@@ -9,14 +9,14 @@ common:
   medium: one
   puppet_proxy: puppetmaster
   domain: mydomain
-  label: Common
+  title: Common
   root_pass: $1$foreman$NW1XVtbk4/XkJqmKNrFWV0
   compute_profile: one
 
 unusual:
   name: Unusual
   puppet_proxy: puppetmaster
-  label: Unusual
+  title: Unusual
 
 db:
   name: db
@@ -26,11 +26,11 @@ db:
   operatingsystem: centos5_3
   medium: one
   puppet_proxy: puppetmaster
-  label: db
+  title: db
 
 parent:
   name: Parent
-  label: Parent
+  title: Parent
   architecture: x86_64
   ptable: one
   environment: global_puppetmaster
@@ -46,5 +46,5 @@ parent:
 inherited:
   name: inherited
   environment: production
-  label: Parent/inherited
+  title: Parent/inherited
   ancestry: 1

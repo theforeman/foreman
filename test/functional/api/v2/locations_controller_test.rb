@@ -119,7 +119,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     response = ActiveSupport::JSON.decode(@response.body)
     assert response.kind_of?(Hash)
     assert response['results'].kind_of?(Array)
-    assert_equal ['created_at', 'id', 'label', 'name', 'updated_at'], response['results'][0].keys.sort
+    assert_equal ['created_at', 'id', 'name', 'title', 'updated_at'], response['results'][0].keys.sort
   end
 
   test "object name on show defaults to object class name" do
@@ -225,7 +225,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   test "should return correct metadata if order param is passed" do
     as_admin do
       add_locations
-      get :index, {:order => 'label DESC' }
+      get :index, {:order => 'title DESC' }
     end
 
     assert_response :success
@@ -233,7 +233,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     response = ActiveSupport::JSON.decode(@response.body)
     expected_metadata = { 'total'    => 28, 'subtotal' => 28, 'page' => 1,
                           'per_page' => 20, 'search'   => nil,
-                          'sort' => { 'by' => 'label', 'order' => 'DESC' } }
+                          'sort' => { 'by' => 'title', 'order' => 'DESC' } }
 
     assert_equal expected_metadata, response.except('results')
   end

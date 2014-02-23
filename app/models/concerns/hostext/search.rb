@@ -21,7 +21,8 @@ module Hostext
 
       scoped_search :in => :model,       :on => :name,    :complete_value => true, :rename => :model
       scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true, :rename => :hostgroup
-      scoped_search :in => :hostgroup,   :on => :label,   :complete_value => true, :rename => :hostgroup_fullname
+      scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true, :rename => :hostgroup_fullname
+      scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true, :rename => :hostgroup_title
       scoped_search :in => :domain,      :on => :name,    :complete_value => true, :rename => :domain
       scoped_search :in => :environment, :on => :name,    :complete_value => true, :rename => :environment
       scoped_search :in => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
@@ -34,8 +35,8 @@ module Hostext
       scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
       scoped_search :in => :search_parameters, :on => :value, :on_key=> :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true
 
-      scoped_search :in => :location, :on => :label, :rename => :location, :complete_value => true         if SETTINGS[:locations_enabled]
-      scoped_search :in => :organization, :on => :label, :rename => :organization, :complete_value => true if SETTINGS[:organizations_enabled]
+      scoped_search :in => :location, :on => :title, :rename => :location, :complete_value => true         if SETTINGS[:locations_enabled]
+      scoped_search :in => :organization, :on => :title, :rename => :organization, :complete_value => true if SETTINGS[:organizations_enabled]
 
       if SETTINGS[:unattended]
         scoped_search :in => :subnet,          :on => :network,     :complete_value => true, :rename => :subnet

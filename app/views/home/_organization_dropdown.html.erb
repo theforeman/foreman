@@ -8,7 +8,7 @@
       <%= content_tag(:li, "", :class => "divider") %>
     <% end %>
     <% Organization.my_organizations.each do |organization| %>
-      <li><%= link_to(organization.label, main_app.select_organization_path(organization)) %></li>
+      <li><%= link_to(organization.title, main_app.select_organization_path(organization)) %></li>
     <% end %>
   </ul>
 </li>

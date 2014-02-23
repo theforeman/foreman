@@ -932,7 +932,7 @@ class HostTest < ActiveSupport::TestCase
     assert hostgroup.save!
 
     # search hosts by hostgroup label
-    hosts = Host.search_for("hostgroup_fullname = #{hostgroup.label}")
+    hosts = Host.search_for("hostgroup_title = #{hostgroup.title}")
     assert_equal hosts.count, 1  #host_db in hosts.yml
     assert_equal hosts.first.hostgroup_id, hostgroup.id
   end

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class LookupKeyTest < ActiveSupport::TestCase
+class LookupValueTest < ActiveSupport::TestCase
 
   def valid_attrs1
     { :match => "fqdn=#{hosts(:one).name}",

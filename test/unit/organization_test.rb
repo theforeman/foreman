@@ -25,8 +25,8 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_difference('Organization.count', 2) do
       assert subloc1 = Organization.create!(:name => "Department A", :parent_id => taxonomies(:organization1).id)
       assert subloc2 = Organization.create!(:name => "Department A", :parent_id => taxonomies(:organization2).id)
-      assert_equal 'Organization 1/Department A', subloc1.label
-      assert_equal 'Organization 2/Department A', subloc2.label
+      assert_equal 'Organization 1/Department A', subloc1.title
+      assert_equal 'Organization 2/Department A', subloc2.title
     end
   end
 

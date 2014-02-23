@@ -65,7 +65,7 @@ class LookupValue < ActiveRecord::Base
   def ensure_hostgroup_exists
     md = match.match(/\Ahostgroup=(.*)/)
     return true unless md
-    return true if Hostgroup.unscoped.find_by_name(md[1]) || Hostgroup.unscoped.find_by_label(md[1]) || host_or_hostgroup.try(:new_record?)
+    return true if Hostgroup.unscoped.find_by_name(md[1]) || Hostgroup.unscoped.find_by_title(md[1]) || host_or_hostgroup.try(:new_record?)
     errors.add(:match, _("%{match} does not match an existing host group") % { :match => match }) and return false
   end
 
@@ -80,7 +80,7 @@ class LookupValue < ActiveRecord::Base
         Host.my_hosts.where(:name => $1).exists? || self.host_or_hostgroup.try(:new_record?)
       when /^hostgroup=(.*)/
         # check if current hostgroup is in our allowed list
-        Hostgroup.my_groups.where(:label => $1).exists? || self.host_or_hostgroup.try(:new_record?)
+        Hostgroup.my_groups.where(:title => $1).exists? || self.host_or_hostgroup.try(:new_record?)
       else
         false
     end

@@ -1,7 +1,7 @@
 <% javascript 'jquery.multi-select' %>
 <%= form_for taxonomy do |f| %>
   <%= base_errors_for taxonomy %>
-  <%= select_f f, :parent_id, taxonomy.class.order(:label), :id, :label, { :include_blank => true }, { :label => _('Parent'), :disabled => true } %>
+  <%= select_f f, :parent_id, taxonomy.class.order(:title), :id, :title, { :include_blank => true }, { :label => _('Parent'), :disabled => true } %>
   <%= text_f f, :name %>
   <div class="form-group row">
     <ul class="nav nav-pills nav-stacked col-md-3" data-tabs="pills">
