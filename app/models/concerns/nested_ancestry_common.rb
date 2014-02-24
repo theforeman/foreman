@@ -21,11 +21,11 @@ module NestedAncestryCommon
     attr_name :title
   end
 
-  def to_title
-    return title if title
-    get_title
+  # override title getter
+  def title
+    read_attribute(:title) || get_title
   end
-  alias_method :to_label, :to_title
+  alias_method :to_label, :title
 
   def get_title
     return name if ancestry.empty?
