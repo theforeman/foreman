@@ -3,6 +3,8 @@ class PuppetClassImporter
   def initialize args = { }
     @foreman_classes = { }
     @proxy_classes   = { }
+    @environment = args[:env]
+
     if args[:proxy]
       @proxy = args[:proxy]
     elsif args[:url]
@@ -18,18 +20,28 @@ class PuppetClassImporter
   def changes
     changes = { 'new' => { }, 'obsolete' => { }, 'updated' => { } }
 
-    actual_environments.each do |env|
+    if @environment.nil?
+      actual_environments.each do |env|
+        new     = new_classes_for(env)
+        old     = removed_classes_for(env)
+        updated = updated_classes_for(env)
+        changes['new'][env] = new if new.any?
+        changes['obsolete'][env] = old if old.any?
+        changes['updated'][env] = updated if updated.any?
+      end
+
+      old_environments.each do |env|
+        changes['obsolete'][env] ||= []
+        changes['obsolete'][env] << "_destroy_" unless actual_environments.include?(env)
+      end
+    else
+      env = @environment
       new     = new_classes_for(env)
       old     = removed_classes_for(env)
       updated = updated_classes_for(env)
       changes['new'][env] = new if new.any?
       changes['obsolete'][env] = old if old.any?
       changes['updated'][env] = updated if updated.any?
-    end
-
-    old_environments.each do |env|
-      changes['obsolete'][env] ||= []
-      changes['obsolete'][env] << "_destroy_" unless actual_environments.include?(env)
     end
     changes
   end
