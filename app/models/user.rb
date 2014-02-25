@@ -75,7 +75,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  validates :login, :presence => true, :uniqueness => {:message => N_("already exists")},
+  validates :login, :presence => true, :uniqueness => {:case_sensitive => false, :message => N_("already exists")},
                     :format => {:with => /\A[[:alnum:]_\-@\.]*\Z/}, :length => {:maximum => 100}
   validates :auth_source_id, :presence => true
   validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
@@ -86,6 +86,7 @@ class User < ActiveRecord::Base
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
            :ensure_last_admin_remains_admin, :hidden_authsource_restricted
   before_validation :prepare_password, :normalize_mail
+  before_save       :set_lower_login
 
   scoped_search :on => :login, :complete_value => :true
   scoped_search :on => :firstname, :complete_value => :true
@@ -245,6 +246,14 @@ class User < ActiveRecord::Base
       end
       return true
     end
+  end
+
+  def self.find_by_login(login)
+    find_by_lower_login(login.to_s.downcase)
+  end
+
+  def set_lower_login
+    self.lower_login = login.downcase unless login.blank?
   end
 
   def matching_password?(pass)
