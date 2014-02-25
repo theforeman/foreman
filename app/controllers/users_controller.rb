@@ -65,7 +65,7 @@ class UsersController < ApplicationController
       if intercept.available? && intercept.authenticated?
         user = intercept.current_user
       else
-        user = User.try_to_login(params[:login]['login'].downcase, params[:login]['password'])
+        user = User.try_to_login(params[:login]['login'], params[:login]['password'])
       end
       if user.nil?
         #failed to authenticate, and/or to generate the account on the fly

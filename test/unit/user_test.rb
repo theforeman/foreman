@@ -39,6 +39,27 @@ class UserTest < ActiveSupport::TestCase
     refute u.valid?
   end
 
+  test "duplicate login should be detected case insensitively" do
+    u1 = User.new :auth_source => auth_sources(:one), :login => "UsEr", :mail  => "foo1@bar.com", :password => "foo"
+    u2 = User.new :auth_source => auth_sources(:one), :login => "user", :mail  => "foo2@bar.com", :password => "foo"
+    assert u1.save
+    refute u2.save
+    assert u2.errors.messages[:login].include? "already exists"
+  end
+
+  test "user should login case insensitively" do
+    user = User.new :auth_source => auth_sources(:internal), :login => "user", :mail  => "foo1@bar.com", :password => "foo"
+    assert user.save!
+    assert_equal user, User.try_to_login("USER", "foo")
+  end
+
+  test "user login should be case aware" do
+    user = User.new :auth_source => auth_sources(:one), :login => "User", :mail  => "foo1@bar.com", :password => "foo"
+    assert user.save
+    assert_equal user.login, "User"
+    assert_equal user.lower_login, "user"
+  end
+
   test "mail should have format" do
     u = User.new :auth_source => auth_sources(:one), :login => "foo", :mail => "bar"
     refute u.valid?
