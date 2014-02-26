@@ -76,4 +76,27 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  test "should show architecture with correct child nodes including operatingsystems" do
+    get :show, { :id => architectures(:x86_64).to_param }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+    #assert child nodes are included in response'
+    NODES = ["operatingsystems"]
+    NODES.sort.each do |node|
+      assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"
+    end
+  end
+
+  test 'should index architecture with correct child nodes including operatingsystems' do
+    get :index, { :id => architectures(:x86_64).to_param }
+    assert_response :success
+    results = ActiveSupport::JSON.decode(@response.body)
+    NODES = ["operatingsystems"]
+    NODES.sort.each do |node|
+      assert results['results'][0].keys.include?(node), "'#{node}' child node should be in response but was not"
+    end
+  end
+
 end
