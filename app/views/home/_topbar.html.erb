@@ -5,7 +5,7 @@
         <!--[if IE]><div class='logo-small'> <![endif]-->
         <%= image_tag("foreman.png") %>
         <!--[if IE]></div> <![endif]-->
-        <%= link_to "Foreman", root_path %>
+        <%= link_to "Foreman", main_app.root_path %>
       </div>
 
       <%= render 'home/user_dropdown' if SETTINGS[:login] && User.current %>
