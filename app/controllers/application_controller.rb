@@ -181,7 +181,7 @@ class ApplicationController < ActionController::Base
     reset_session
     if sso.nil? || !sso.support_expiration?
       flash[:warning] = _("Your session has expired, please login again")
-      redirect_to login_users_path
+      redirect_to main_app.login_users_path
     else
       redirect_to sso.expiration_url
     end
