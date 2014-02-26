@@ -14,4 +14,4 @@
   <strong><%= exception.message %></strong><br>
   <%= Rails.backtrace_cleaner.clean(exception.backtrace).join("<br>").html_safe %>
 </div>
-<p><%= link_to _("Back"), root_path %></p>
+<p><%= link_to _("Back"), main_app.root_path %></p>
