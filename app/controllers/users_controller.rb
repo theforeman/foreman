@@ -65,7 +65,12 @@ class UsersController < ApplicationController
     User.current = nil
     if request.post?
       backup_session_content { reset_session }
-      user = User.try_to_login(params[:login]['login'].downcase, params[:login]['password'])
+      intercept = SSO::FormIntercept.new(self)
+      if intercept.available? && intercept.authenticated?
+        user = intercept.current_user
+      else
+        user = User.try_to_login(params[:login]['login'].downcase, params[:login]['password'])
+      end
       if user.nil?
         #failed to authenticate, and/or to generate the account on the fly
         error _("Incorrect username or password")
