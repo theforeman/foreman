@@ -221,6 +221,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to edit_user_path(User.find_by_login('ares'))
   end
 
+  test "should use intercept if available" do
+    SSO::FormIntercept.any_instance.stubs(:available?).returns(true)
+    SSO::FormIntercept.any_instance.stubs(:authenticated?).returns(true)
+    SSO::FormIntercept.any_instance.stubs(:current_user).returns(User.find_by_login('admin'))
+    post :login, {:login => {:login => 'ares', :password => 'password_that_does_not_match'} }
+    assert_redirected_to hosts_path
+  end
+
   test 'non admin user should edit itself' do
     User.current = users(:one)
     get :edit, { :id => User.current.id }

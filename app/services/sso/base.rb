@@ -36,5 +36,9 @@ module SSO
       raise NotImplementedError, "#{__method__} not implemented for this authentication method"
     end
 
+    def current_user
+      return User.find_by_login(self.user)
+    end
+
   end
 end
