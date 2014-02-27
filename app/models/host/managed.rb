@@ -157,7 +157,7 @@ class Host::Managed < Host::Base
 
   # we should guarantee the fqdn is always fully qualified
   def fqdn
-    name.include?('.') ? name : "#{name}.#{domain}"
+    (name || '').include?('.') ? name : "#{name}.#{domain}"
   end
 
   # method to return the correct owner list for host edit owner select dropbox
