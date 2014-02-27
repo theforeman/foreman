@@ -351,6 +351,12 @@ Foreman::AccessControl.map do |map|
     }
   end
 
+  map.security_block :volumes do |map|
+    map.permission :view_volumes, { :volumes => [:index, :auto_complete_search] } 
+  end
+
+
+
   if SETTINGS[:locations_enabled]
     map.security_block :locations do |map|
       map.permission :view_locations, {:locations =>  [:index, :show, :auto_complete_search, :mismatches],

@@ -1,0 +1,9 @@
+<div class="fields">
+  <div class="form-group">
+    <%= text_f f, :device_name, :class => "col-md-2", :placeholder => _('path, e.g: /dev/vda'),
+                  :help_inline => remove_child_link('X', f, { :title => _('remove block'), :class => 'label label-danger' } ) %>
+    <%= checkbox_f f, :delete_on_termination, :label => _('Ephemeral') %>
+    <%= select_f f, :volume_id, compute_resource.available_volumes, :uuid, :name,
+                    :class => "col-md-2", :placeholder => _("Choose volume/image") %>
+  </div>
+</div>

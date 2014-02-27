@@ -1,0 +1,25 @@
+<% title _("Volumes") %>
+
+<% title_actions display_link_if_authorized(_("Sync volumes"), hash_for_sync_compute_resource_volumes_path(:compute_resource_id => @compute_resource.id), :method => :put) %>
+
+<table class="table table-bordered table-striped" data-table='inline'>
+  <thead>
+  <tr>
+    <th><%= s_("Volume|Name") %></th>
+    <th><%= s_("Volume|Status") %></th>
+    <th><%= s_("Volume|Size") %></th>
+    <th><%= s_("Volume|Availability Zone") %></th>
+  </tr>
+  </thead>
+  <% @volumes.each do |volume| %>
+  <tr>
+    <td><%= volume.name %></td>
+    <td><%= volume.status %></td>
+    <td><%= volume.size %></td>
+    <td><%= volume.availability_zone %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= page_entries_info @volumes %>
+<%= will_paginate     @volumes %>

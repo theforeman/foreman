@@ -6,6 +6,12 @@ module FogExtensions
       included do
         alias_method_chain :security_groups, :no_id
         attr_writer :security_group, :network # floating IP
+
+        def block_device_mapping
+          [ FogExtensions::Openstack::Server::BlockDeviceMapping::Block.new ]
+        end
+
+        def block_device_mapping_attributes=(attrs); end
       end
 
       def to_s
