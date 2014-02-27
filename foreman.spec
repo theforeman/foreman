@@ -514,39 +514,6 @@ getent passwd %{name} >/dev/null || \
 useradd -r -g %{name} -d %{homedir} -s /sbin/nologin -c "Foreman" %{name}
 exit 0
 
-%pretrans
-# Try to handle upgrades from earlier packages. Replacing a directory with a
-# symlink is hampered in rpm by cpio limitations.
-datadir=%{_datadir}/%{name}
-varlibdir=%{_localstatedir}/lib/%{name}
-# remove all active_scaffold left overs
-find $datadir -type d -name "active_scaffold*" 2>/dev/null | xargs rm -rf
-rm -f $datadir/public/javascripts/all.js 2>/dev/null
-
-if [ ! -d $varlibdir/db -a -d $datadir/db -a ! -L $datadir/db ]; then
-  [ -d $varlibdir ] || mkdir -p $varlibdir
-  mv $datadir/db $varlibdir/db && ln -s $varlibdir/db $datadir/db
-  if [ -d $varlibdir/db/migrate -a ! -L $varlibdir/db/migrate -a ! -d $datadir/migrate ]; then
-mv $varlibdir/db/migrate $datadir/migrate && ln -s $datadir/migrate $varlibdir/db/migrate
-  fi
-fi
-
-if [ ! -d $varlibdir/public -a -d $datadir/public -a ! -L $datadir/public ]; then
-  [ -d $varlibdir ] || mkdir -p $varlibdir
-  mv $datadir/public $varlibdir/public && ln -s $varlibdir/public $datadir/public
-fi
-
-varlibdir=%{_localstatedir}/log # /var/log
-if [ ! -d $varlibdir/%{name} -a -d $datadir/log -a ! -L $datadir/log ]; then
-  [ -d $varlibdir ] || mkdir -p $varlibdir
-fi
-
-varlibdir=%{_localstatedir}/run # /var/run
-if [ ! -d $varlibdir/%{name} -a -d $datadir/tmp -a ! -L $datadir/tmp ]; then
-  [ -d $varlibdir ] || mkdir -p $varlibdir
-  mv $datadir/tmp $varlibdir/%{name} && ln -s $varlib/%{name} $datadir/tmp
-fi
-
 %post
 if [ ! -f %{_datadir}/%{name}/config/initializers/local_secret_token.rb ]; then
   touch %{_datadir}/%{name}/config/initializers/local_secret_token.rb
