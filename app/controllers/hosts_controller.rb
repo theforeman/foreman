@@ -469,7 +469,7 @@ class HostsController < ApplicationController
   end
 
   def process_hostgroup
-    @hostgroup = Hostgroup.authorized(:view_hostgroups).find(params[:host][:hostgroup_id]) if params[:host][:hostgroup_id].to_i > 0
+    @hostgroup = Hostgroup.find(params[:host][:hostgroup_id]) if params[:host][:hostgroup_id].to_i > 0
     return head(:not_found) unless @hostgroup
 
     @architecture    = @hostgroup.architecture

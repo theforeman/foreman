@@ -15,6 +15,6 @@ class Permission < ActiveRecord::Base
   end
 
   def self.with_translations
-    resources.map { |r| [_(r), r] }
+    resources.map { |r| [_(Filter.get_resource_class(r).try(:humanize_class_name) || r), r] }
   end
 end

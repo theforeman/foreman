@@ -42,14 +42,19 @@ class FilterTest < ActiveSupport::TestCase
     end
   end
 
-  test "#resource_class known" do
-    f = Factory.build(:filter, :resource_type => 'Bookmark')
-    assert_equal Bookmark, f.resource_class
+  test ".get_resource_class known" do
+    assert_equal Bookmark, Filter.get_resource_class('Bookmark')
   end
 
-  test "#resource_class unknown" do
-    f = Factory.build(:filter, :resource_type => 'BookmarkThatDoesNotExist')
-    assert_nil f.resource_class
+  test ".get_resource_class unknown" do
+    assert_nil Filter.get_resource_class('BookmarkThatDoesNotExist')
+  end
+
+  test "#resource_class" do
+    f = Factory.build(:filter, :resource_type => 'Bookmark')
+    Filter.stub :get_resource_class, Architecture do
+      assert_equal Architecture, f.resource_class
+    end
   end
 
   test "#granular? for unknown resource type" do

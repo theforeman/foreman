@@ -41,9 +41,11 @@ class RolesController < ApplicationController
     new_role = @role.dup :include => [:filters => :permissions]
     new_role.name += '_clone'
     if new_role.save
-      flash[:notice] = "Role #{new_role.name} cloned from role #{@role.name}"
+      flash[:notice] = _("Role %{new_role_name} cloned from role %{role_name}") %
+          { :new_role_name => new_role.name, :role_name => @role.name }
     else
-     flash[:error] = "Role #{@role.name} could not be cloned: #{new_role.errors.full_messages.join(', ')}"
+     flash[:error] = _("Role %{role_name} could not be cloned: %{errors}") %
+         { :role_name => @role.name, :errors => new_role.errors.full_messages.join(', ') }
     end
     redirect_to roles_url
   end

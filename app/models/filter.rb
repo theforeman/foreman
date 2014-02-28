@@ -20,7 +20,7 @@ class Filter < ActiveRecord::Base
   has_many :filterings, :dependent => :destroy
   has_many :permissions, :through => :filterings
 
-  default_scope lambda { order('role_id') }
+  default_scope lambda { order(['role_id', "#{self.table_name}.id"]) }
   scope :unlimited, lambda { where(:search => nil, :taxonomy_search => nil) }
   scope :limited, lambda { where("search IS NOT NULL OR taxonomy_search IS NOT NULL") }
 
@@ -48,6 +48,13 @@ class Filter < ActiveRecord::Base
     { :conditions => conditions }
   end
 
+  def self.get_resource_class(resource_type)
+    resource_type.constantize
+  rescue NameError => e
+    Rails.logger.debug "unknown klass #{resource_type}, ignoring"
+    return nil
+  end
+
   def unlimited?
     search.nil? && taxonomy_search.nil?
   end
@@ -66,10 +73,7 @@ class Filter < ActiveRecord::Base
   end
 
   def resource_class
-    @resource_class ||= resource_type.constantize
-  rescue NameError => e
-    Rails.logger.debug "unknown klass #{resource_type}, ignoring"
-    return nil
+    @resource_class ||= self.class.get_resource_class(resource_type)
   end
 
   # We detect granularity by inclusion of Authorizable module and scoped_search definition

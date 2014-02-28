@@ -23,7 +23,7 @@
                   merge(:auth_object => filter.role, :authorizer => @roles_authorizer))) %>
         </td>
       <% end %>
-      <td><%= _(filter.resource_type || '(Miscellaneous)') %></td>
+      <td><%= _(filter.resource_class.try(:humanize_class_name) || filter.resource_type || '(Miscellaneous)') %></td>
       <td><%= checked_icon filter.unlimited? %></td>
       <td>
         <%= content_tag('span', link_to_if_authorized(filter.search || _('none'),
