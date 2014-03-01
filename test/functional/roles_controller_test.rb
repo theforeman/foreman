@@ -44,6 +44,13 @@ class RolesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  test 'creates role' do
+    post :create, { :role => {:name => 'test role'}}, set_session_user
+
+    assert_redirected_to roles_path
+    assert Role.find_by_name('test role')
+  end
+
   test 'get edit goes to right template' do
     get :edit, {:id => 1}, set_session_user
     assert_response :success
@@ -77,15 +84,28 @@ class RolesControllerTest < ActionController::TestCase
     assert_not_nil Role.find_by_id(roles(:manager).id)
   end
 
-  test 'clone' do
-    role = FactoryGirl.build(:role, :name => 'ToBeDestroyed')
-    role.add_permissions! :view_ptables
+  context 'clone' do
+    setup do
+      @role = FactoryGirl.build(:role, :name => 'ToBeDestroyed')
+      @role.add_permissions! :view_ptables
+    end
 
-    get :clone, { :id => role.id } , set_session_user
-    assert_redirected_to roles_path
+    test 'renders new page with hidden field original_role_id' do
+      get :clone, { :id => @role.id } , set_session_user
+      assert_template 'new'
+    end
 
-    cloned_role = Role.find_by_name("#{role.name}_clone")
-    assert_not_nil cloned_role
-    assert_equal cloned_role.permissions, role.permissions
+    test 'original_role_id is used to create cloned role if set' do
+      params = { :role => {:name => 'clonedrole'},
+                 :original_role_id => @role.id,
+                 :cloned_role => true }
+      post :create, params, set_session_user
+      assert_redirected_to roles_url
+
+      cloned_role = Role.find_by_name('clonedrole')
+      assert_not_nil cloned_role
+      assert_equal @role.permissions, cloned_role.permissions
+    end
   end
+
 end

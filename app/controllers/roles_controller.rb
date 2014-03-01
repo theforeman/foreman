@@ -29,7 +29,8 @@ class RolesController < ApplicationController
   end
 
   def create
-    @role = Role.new(params[:role])
+    @role = role_from_form
+
     if @role.save
       process_success
     else
@@ -38,16 +39,12 @@ class RolesController < ApplicationController
   end
 
   def clone
-    new_role = @role.dup :include => [:filters => :permissions]
-    new_role.name += '_clone'
-    if new_role.save
-      flash[:notice] = _("Role %{new_role_name} cloned from role %{role_name}") %
-          { :new_role_name => new_role.name, :role_name => @role.name }
-    else
-     flash[:error] = _("Role %{role_name} could not be cloned: %{errors}") %
-         { :role_name => @role.name, :errors => new_role.errors.full_messages.join(', ') }
-    end
-    redirect_to roles_url
+    @cloned_role      = true
+    @original_role_id = @role.id
+    flash[:notice] = _("Role cloned from role %{old_name}") %
+                      { :old_name => @role.name }
+    @role = Role.new
+    render :action => :new
   end
 
   def edit
@@ -78,9 +75,22 @@ class RolesController < ApplicationController
   def action_permission
     case params[:action]
       when 'clone'
-        'view'
+        'create'
       else
         super
     end
   end
+
+  def role_from_form
+    if params[:original_role_id].present?
+      new_role = Role.find(params[:original_role_id]).
+                   dup(:include => [:filters => :filterings])
+      new_role.name = params[:role][:name]
+    else
+      new_role = Role.new(params[:role])
+    end
+
+    new_role
+  end
+
 end

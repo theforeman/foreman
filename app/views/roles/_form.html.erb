@@ -2,6 +2,7 @@
   <%= base_errors_for @role %>
 
   <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
+  <%= hidden_field_tag :original_role_id, @original_role_id if @cloned_role %>
 
   <%= submit_or_cancel f %>
 <% end %>
