@@ -3,7 +3,8 @@ Apipie.configure do |config|
   config.app_info = "The Foreman is aimed to be a single address for all machines life cycle management."
   config.copyright = ""
   config.api_base_url = "/api"
-  config.api_controllers_matcher = "#{Rails.root}/app/controllers/api/**/*.rb"
+  config.api_controllers_matcher = ["#{Rails.root}/app/controllers/api/**/*.rb"]
+  config.ignored = []
   config.ignored_by_recorder = %w[]
   config.doc_base_url = "/apidoc"
   config.use_cache = Rails.env.production?
@@ -12,6 +13,9 @@ Apipie.configure do |config|
   config.reload_controllers = Rails.env.development?
   config.markup = Apipie::Markup::Markdown.new if Rails.env.development? and defined? Maruku
   config.default_version = "v1"
+  config.update_checksum = true
+  config.checksum_path = ['/api/', '/apidoc/']
+
 end
 
 # special type of validator: we say that it's not specified
