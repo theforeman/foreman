@@ -1,4 +1,4 @@
-Foreman::Application.configure do
+Foreman::Application.configure do |app|
   # Settings specified here will take precedence over those in config/application.rb
 
   # The production environment is meant for finished, "live" apps.
@@ -112,4 +112,29 @@ Foreman::Application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
+
+  # Adds plugin assets to the application digests hash if a manifest file exists for a plugin
+  config.after_initialize do
+    app.railties.engines.each do |engine|
+      manifest_path = "#{engine.root}/public/assets/#{engine.engine_name}/manifest.yml"
+
+      if File.file?(manifest_path)
+        assets = YAML.load_file(manifest_path)
+
+        assets.each_pair do |file, digest|
+          config.assets.digests[file] = digest
+        end
+      end
+    end
+  end
+
+  # Serve plugin static assets if the application is configured to do so
+  if config.serve_static_assets
+    app.railties.engines.each do |engine|
+      if File.exists?("#{engine.root}/public/assets")
+        app.middleware.use ::ActionDispatch::Static, "#{engine.root}/public"
+      end
+    end
+  end
+
 end
