@@ -11,8 +11,12 @@ module FiltersHelper
         when 'Parameter'
           '' # parameter is only used in API
         else
-          send(type.pluralize.underscore + '_path') + '/auto_complete_search'
+          resource_path(type) + '/auto_complete_search'
       end
     end
+  end
+
+  def resource_path(type)
+    send(type.pluralize.underscore + '_path')
   end
 end
