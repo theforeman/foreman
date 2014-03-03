@@ -1,7 +1,6 @@
 module Api
   module V2
     class RolesController < V2::BaseController
-      before_filter :require_admin
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/roles/", "List all roles."

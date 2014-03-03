@@ -1,8 +1,9 @@
 class ModelsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
 
   def index
-    @models  = Model.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @models       = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     @host_counter = Host.group(:model_id).where(:model_id => @models.select(&:id)).count
   end
 
@@ -20,11 +21,9 @@ class ModelsController < ApplicationController
   end
 
   def edit
-    @model = Model.find(params[:id])
   end
 
   def update
-    @model = Model.find(params[:id])
     if @model.update_attributes(params[:model])
       process_success
     else
@@ -33,11 +32,11 @@ class ModelsController < ApplicationController
   end
 
   def destroy
-    @model = Model.find(params[:id])
     if @model.destroy
       process_success
     else
       process_error
     end
   end
+
 end

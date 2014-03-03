@@ -1,6 +1,6 @@
 class Environment < ActiveRecord::Base
   include Taxonomix
-  include Authorization
+  include Authorizable
 
   before_destroy EnsureNotUsedBy.new(:hosts)
 

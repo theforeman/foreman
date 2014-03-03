@@ -15,7 +15,7 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="smart_proxies">
-          <% if @proxies.empty? %>
+          <% if @smart_proxies.empty? %>
             <p class="ca"><%= _("No smart proxies to show") %></p>
           <% else %>
             <table class="table table-striped">
@@ -24,7 +24,7 @@
                 <th><%= _("Features") %></th>
                 <th><%= _("Status") %></th>
               </tr>
-              <% @proxies.each do |proxy| %>
+              <% @smart_proxies.each do |proxy| %>
                 <tr>
                   <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy.id) %></td>
                   <td><%=h proxy.features.to_sentence %></td>

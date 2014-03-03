@@ -1,9 +1,9 @@
 <% title(_("Edit %s") % @host) %>
 <% if SETTINGS[:unattended] %>
   <% title_actions display_link_if_authorized((@host.managed? ? _("Unmanage host") : _("Manage host")),
-    hash_for_toggle_manage_host_path(:id => @host.name), {:method => :put}),
+    hash_for_toggle_manage_host_path(:id => @host.name).merge(:auth_object => @host, :permission => 'edit_hosts'), {:method => :put}),
     display_link_if_authorized(_("Disassociate host"),
-    hash_for_disassociate_host_path(:id => @host.name), :method => :put) %>
+    hash_for_disassociate_host_path(:id => @host.name).merge(:auth_object => @host, :permission => 'edit_hosts'), :method => :put) %>
 <% end %>
 
 <%= render :partial => 'hosts/form' %>

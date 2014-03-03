@@ -1,5 +1,5 @@
-<%= form_for @proxy do |f| %>
-  <%= base_errors_for @proxy %>
+<%= form_for @smart_proxy do |f| %>
+  <%= base_errors_for @smart_proxy %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Smart Proxy") %></a></li>
     <% if show_location_tab? %>
@@ -16,7 +16,7 @@
       <%= text_f(f, :url, :size => "col-md-8" ) %>
     </div>
 
-    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @proxy %>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @smart_proxy %>
 
     <%= submit_or_cancel f %>
   </div>

@@ -1,8 +1,10 @@
 <%= javascript 'compute_resource', 'lookup_keys'%>
 <% title @compute_resource.name %>
 
-<% title_actions display_link_if_authorized(_("Associate VMs"), hash_for_associate_compute_resource_path(:compute_resource_id => @compute_resource), :title=> _("Associate VMs to Foreman hosts"), :method => :put, :class=>"btn btn-default"),
-   link_to(_('Edit'), edit_compute_resource_path(@compute_resource), :class => "btn btn-default")  %>
+<% title_actions display_link_if_authorized(_("Associate VMs"),
+                                            hash_for_associate_compute_resource_path(:compute_resource_id => @compute_resource).merge(:auth_object => @compute_resource, :permission => 'edit_compute_resources'),
+                                            :title => _("Associate VMs to Foreman hosts"), :method => :put, :class=>"btn btn-default"),
+   link_to_if_authorized(_('Edit'), hash_for_edit_compute_resource_path(@compute_resource).merge(:auth_object => @compute_resource), :class => "btn btn-default")  %>
 
 <ul class="nav nav-tabs" data-tabs="tabs">
   <li class="active"><a href="#primary" data-toggle="tab"><%= _("Compute Resource") %></a></li>

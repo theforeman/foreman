@@ -1,5 +1,6 @@
 class Hostgroup < ActiveRecord::Base
-  include Authorization
+  has_ancestry :orphan_strategy => :restrict
+  include Authorizable
   include Taxonomix
   include HostCommon
   include NestedAncestryCommon
@@ -36,6 +37,7 @@ class Hostgroup < ActiveRecord::Base
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host"
   scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :operators => ['= ', '~ ']
   scoped_search :in => :environment, :on => :name, :complete_value => :true, :rename => :environment
+  scoped_search :on => :id, :complete_value => :true
   if SETTINGS[:unattended]
     scoped_search :in => :architecture, :on => :name, :complete_value => :true, :rename => :architecture
     scoped_search :in => :operatingsystem, :on => :name, :complete_value => true, :rename => :os

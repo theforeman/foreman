@@ -36,7 +36,7 @@ module Api
       end
 
       def find_parent_config_template
-        @config_template = ConfigTemplate.find(params[:config_template_id])
+        @config_template = ConfigTemplate.authorized(:view_templates).find(params[:config_template_id])
         not_found unless @config_template
         @config_template
       end

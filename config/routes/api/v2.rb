@@ -102,7 +102,18 @@ Foreman::Application.routes.draw do
         get :last, :on => :collection
       end
 
-      resources :roles, :except => [:new, :edit]
+      resources :roles, :except => [:new, :edit] do
+        resources :filters, :except => [:new, :edit] do
+          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        end
+      end
+      resources :permissions, :only => [:index, :show]
+
+      resources :filters, :except => [:new, :edit] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+      end
 
       resources :settings, :only => [:index, :show, :update]
 
@@ -210,6 +221,7 @@ Foreman::Application.routes.draw do
           resources :compute_resources, :only => [:index, :show]
           resources :media, :only => [:index, :show]
           resources :smart_proxies, :only => [:index, :show]
+          resources :filters, :only => [:index, :show]
 
           resources :parameters, :except => [:new, :edit] do
             collection do
@@ -228,6 +240,7 @@ Foreman::Application.routes.draw do
             resources :compute_resources, :only => [:index, :show]
             resources :media, :only => [:index, :show]
             resources :smart_proxies, :only => [:index, :show]
+            resources :filters, :only => [:index, :show]
           end
 
         end
@@ -246,6 +259,7 @@ Foreman::Application.routes.draw do
           resources :compute_resources, :only => [:index, :show]
           resources :media, :only => [:index, :show]
           resources :smart_proxies, :only => [:index, :show]
+          resources :filters, :only => [:index, :show]
 
           resources :parameters, :except => [:new, :edit] do
             collection do
@@ -264,6 +278,7 @@ Foreman::Application.routes.draw do
             resources :compute_resources, :only => [:index, :show]
             resources :media, :only => [:index, :show]
             resources :smart_proxies, :only => [:index, :show]
+            resources :filters, :only => [:index, :show]
           end
 
         end

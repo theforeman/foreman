@@ -4,11 +4,12 @@ class FactValuesController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
+    base = resource_base.no_timestamp_facts
     begin
-      values = FactValue.my_facts.search_for(params[:search], :order => params[:order])
+      values = base.my_facts.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
-      values = FactValue.search_for ""
+      values = base.search_for ""
     end
 
     conds = (original_search_parameter || '').split(/AND|OR/i)
@@ -24,6 +25,12 @@ class FactValuesController < ApplicationController
     end
 
     @fact_values = values.no_timestamp_facts.required_fields.paginate :page => params[:page]
+  end
+
+  private
+
+  def controller_permission
+    'facts'
   end
 
 end

@@ -29,6 +29,8 @@ module AuditExtensions
 
     before_save :ensure_username, :ensure_audtiable_and_associated_name
     after_validation :fix_auditable_type
+
+    include Authorizable
   end
 
   private

@@ -9,6 +9,6 @@
     <div class="col-sm-5">
       <%= f.text_field :criteria, :class=>"form-control" %>
     </div>
-    <%= authorized_for(params[:controller], params[:action]) ? link_to_remove_fields('', f, :class=>'btn') : '' %>
+    <%= authorized_for(:controller => params[:controller], :action => params[:action]) ? link_to_remove_fields('', f, :class=>'btn') : '' %>
   </div>
 </div>

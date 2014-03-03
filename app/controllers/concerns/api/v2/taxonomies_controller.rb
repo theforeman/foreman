@@ -100,7 +100,7 @@ module Api::V2::TaxonomiesController
   end
 
   def allowed_nested_id
-    %w(domain_id compute_resource_id subnet_id environment_id hostgroup_id smart_proxy_id user_id medium_id organization_id location_id)
+    %w(domain_id compute_resource_id subnet_id environment_id hostgroup_id smart_proxy_id user_id medium_id organization_id location_id filter_id)
   end
 
 end

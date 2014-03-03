@@ -127,7 +127,7 @@ module Foreman::Model
     end
 
     def associated_host(vm)
-      Host.my_hosts.where(:mac => vm.mac).first
+      Host.authorized(:view_hosts, Host).where(:mac => vm.mac).first
     end
 
     protected

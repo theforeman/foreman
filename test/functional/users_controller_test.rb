@@ -136,7 +136,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a user' do
     get :edit, {:id => User.first.id}
-    assert_response 403
+    assert_response 404
   end
 
   test 'user with viewer rights should succeed in viewing users' do
@@ -233,16 +233,29 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
-  test 'non admin user should not be able to edit another user' do
+  test 'user without edit permission should not be able to edit another user' do
     User.current = users(:one)
     get :edit, { :id => users(:two) }
-    assert_response 403
+    assert_response 404
   end
 
-  test 'non admin user should not be able to update another user' do
+  test 'user with edit permission should be able to edit another user' do
+    setup_user 'edit', 'users'
+    get :edit, { :id => users(:two) }
+    assert_response :success
+  end
+
+  test 'user without edit permission should not be able to update another user' do
     User.current = users(:one)
     put :update, { :id => users(:two).id, :user => { :firstname => 'test' } }
     assert_response 403
+  end
+
+  test 'user with update permission should be able to update another user' do
+    setup_user 'edit', 'users'
+    put :update, { :id => users(:two).id, :user => { :firstname => 'test' } }
+
+    assert_response :redirect
   end
 
 end

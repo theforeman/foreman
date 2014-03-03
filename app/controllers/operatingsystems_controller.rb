@@ -1,9 +1,9 @@
 class OperatingsystemsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_os, :only => %w{edit update destroy bootfiles}
+  before_filter :find_by_name, :only => %w{edit update destroy}
 
   def index
-    @operatingsystems = Operatingsystem.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @operatingsystems = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     @host_counter     = Host.group(:operatingsystem_id).where(:operatingsystem_id => @operatingsystems.collect(&:id)).count
   end
 
@@ -44,10 +44,4 @@ class OperatingsystemsController < ApplicationController
       process_error
     end
   end
-
-  private
-  def find_os
-    @operatingsystem = Operatingsystem.find(params[:id])
-  end
-
 end

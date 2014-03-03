@@ -1,10 +1,9 @@
 class ComputeProfilesController < ApplicationController
-
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_compute_profile, :only => %w{edit show update destroy}
+  before_filter :find_by_name, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @compute_profiles = ComputeProfile.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @compute_profiles = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def show
@@ -42,10 +41,5 @@ class ComputeProfilesController < ApplicationController
     end
   end
 
-  private
-
-  def find_compute_profile
-    @compute_profile = ComputeProfile.find(params[:id])
-  end
 
 end

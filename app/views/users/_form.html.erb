@@ -5,7 +5,6 @@
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("User") %></a></li>
     <% unless @editing_self %>
       <li><a href="#roles" data-toggle="tab"><%= _("Roles") %></a></li>
-      <li><a href="#filters" data-toggle="tab"><%= _("Filters") %></a></li>
       <% if show_location_tab? %>
         <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
       <% end %>
@@ -38,23 +37,14 @@
         <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user, {:label => _('Roles')} %>
       </div>
 
-      <div class="tab-pane" id="filters">
-        <%= render("filters", :f => f) %>
-      </div>
       <% if show_location_tab? %>
         <div class="tab-pane" id="locations">
-          <div class="col-md-2">
-            <%= f.select :locations_andor, [[_("must be"), "and"], [_("plus all"), "or"]], {}, :class => "form-control" %>
-          </div>
           <%= location_selects f, @user.used_or_selected_location_ids, {:disabled => @user.used_location_ids, :label => ''} %>
         </div>
       <% end %>
 
       <% if show_organization_tab? %>
         <div class="tab-pane" id="organizations">
-          <div class="col-md-2">
-            <%= f.select :organizations_andor, [[_("must be"), "and"], [_("plus all"), "or"]], {}, :class => "form-control" %>
-          </div>
           <%= organization_selects f, @user.used_or_selected_organization_ids, {:disabled => @user.used_organization_ids, :label => ''} %>
         </div>
       <% end %>

@@ -11,20 +11,22 @@ module BmcHelper
   def power_actions
     action_buttons(
       (PowerManager::SUPPORTED_ACTIONS - ['state']).map do |action|
-        display_link_if_authorized(_(action.to_s.capitalize), { :action => "power", :id => @host, :power_action => action},
+        display_link_if_authorized(_(action.to_s.capitalize),
+                                   { :action => "power", :id => @host, :power_action => action, :auth_object => @host },
                                    :confirm => _('Are you sure?'), :method => :put)
       end
     )
   end
 
   def boot_actions
-    controller_options = { :action => "ipmi_boot", :id => @host }
+    controller_options = { :action => "ipmi_boot", :id => @host, :auth_object => @host, :permission => 'ipmi_boot' }
 
     confirm = _('Are you sure?')
 
     links = HostsController::BOOT_DEVICES.map do |device,label|
-       display_link_if_authorized(_(label), controller_options.merge(:ipmi_device => device),
-                                  :confirm => confirm, :method => :put)
+      display_link_if_authorized(_(label),
+                                 controller_options.merge(:ipmi_device => device),
+                                 :confirm => confirm, :method => :put)
     end
     action_buttons("Select device", links)
   end

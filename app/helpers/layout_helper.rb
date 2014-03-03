@@ -125,6 +125,20 @@ module LayoutHelper
     end
   end
 
+  def autocomplete_f(f, attr, options = {})
+    field(f, attr, options) do
+      path = options.delete(:path) || send("#{f.object.class.pluralize.underscore}_path")
+      auto_complete_search(attr,
+                           f.object.send(attr).try(:squeeze, " "),
+                           options.merge(
+                               :placeholder => _("Filter") + ' ...',
+                               :path        => path,
+                                :name       => "#{f.object_name}[#{attr}]"
+                          )
+      ).html_safe
+    end
+  end
+
   def field(f, attr, options = {})
     error = f.object.errors[attr] if f && f.object.respond_to?(:errors)
     help_inline = help_inline(options.delete(:help_inline), error)
@@ -132,7 +146,9 @@ module LayoutHelper
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
     size_class = options.delete(:size) || "col-md-4"
     content_tag(:div, :class=> "clearfix") do
-    content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}" do
+    content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
+               :id          => options.delete(:control_group_id) do
+
       label   = options.delete(:label)
       label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
                   s_(clazz.gettext_translation_for_attribute_name attr)) if f

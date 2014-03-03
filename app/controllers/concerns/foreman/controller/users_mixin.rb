@@ -13,7 +13,6 @@ module Foreman::Controller::UsersMixin
   end
 
   def clear_params_on_update
-    find_resource
     if params[:user]
       @admin = params[:user].has_key?(:admin) ? params[:user].delete(:admin) : nil
       # Remove keys for restricted variables when the user is editing their own account

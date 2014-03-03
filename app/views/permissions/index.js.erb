@@ -1,0 +1,20 @@
+var permissions = $('#filter_permission_ids');
+permissions.html("<%= escape_javascript(options_for_select(@permissions.map {|p| [p.name, p.id] })) %>");
+permissions.multiSelect('refresh');
+
+var search = $('#search');
+var path = '<%= escape_javascript(@search_path) %>'
+search.attr('data-url', path);
+search.val('');
+search.catcomplete({source: function( request, response ) {
+    $.getJSON( search.attr('data-url'), { search: request.term }, response );
+}})
+
+<% if @granular %>
+  $('#granular_warning').hide();
+  $('#granular_form').show();
+<% else %>
+  $('#granular_warning').show();
+  $('#granular_form').hide();
+  $('#filter_unlimited').prop('checked', true);
+<% end %>

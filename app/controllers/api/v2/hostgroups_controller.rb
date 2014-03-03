@@ -14,7 +14,9 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @hostgroups = Hostgroup.includes(:hostgroup_classes, :group_parameters).
+        @hostgroups = Hostgroup.
+          authorized(:view_hostgroups).
+          includes(:hostgroup_classes, :group_parameters).
           search_for(*search_options).paginate(paginate_options)
       end
 
