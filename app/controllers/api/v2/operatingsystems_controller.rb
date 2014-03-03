@@ -31,7 +31,7 @@ module Api
         param :operatingsystem, Hash, :action_aware => true do
           param :name, /\A(\S+)\Z/, :required => true
           param :major, String, :required => true
-          param :minor, String, :required => true
+          param :minor, String
           param :description, String
           param :family, String
           param :release_name, String
