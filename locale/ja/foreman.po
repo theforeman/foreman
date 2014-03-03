@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-09 22:53+0000\n"
-"PO-Revision-Date: 2014-01-10 09:31+0000\n"
+"POT-Creation-Date: 2014-02-21 08:47+0000\n"
+"PO-Revision-Date: 2014-02-21 09:33+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/foreman/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -309,37 +309,22 @@ msgstr ""
 msgid "Alerts disabled"
 msgstr ""
 
-msgid "All Compute Resources"
-msgstr ""
-
-msgid "All Domains"
-msgstr ""
-
-msgid "All Environments"
-msgstr ""
-
-msgid "All Host Groups"
-msgstr ""
-
-msgid "All Media"
-msgstr ""
-
 msgid "All Puppet Classes for %s"
 msgstr ""
 
 msgid "All Reports"
 msgstr ""
 
-msgid "All Smart Proxies"
+msgid "All compute resources"
 msgstr ""
 
-msgid "All Subnets"
+msgid "All domains"
 msgstr ""
 
-msgid "All Templates"
+msgid "All environments"
 msgstr ""
 
-msgid "All Users"
+msgid "All host groups"
 msgstr ""
 
 msgid "All hosts"
@@ -349,6 +334,9 @@ msgid "All hosts data matches configurations for locations and organizations."
 msgstr ""
 
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
+msgstr ""
+
+msgid "All media"
 msgstr ""
 
 msgid "All messages"
@@ -362,6 +350,18 @@ msgid ""
 msgstr ""
 
 msgid "All non public permissions successfully updated"
+msgstr ""
+
+msgid "All smart proxies"
+msgstr ""
+
+msgid "All subnets"
+msgstr ""
+
+msgid "All templates"
+msgstr ""
+
+msgid "All users"
 msgstr ""
 
 msgid "Allocated"
@@ -771,6 +771,9 @@ msgstr ""
 msgid "Canceled pending build for %s"
 msgstr ""
 
+msgid "Cannot delete group %{current} because it has nested groups."
+msgstr ""
+
 msgid "Canvas not supported."
 msgstr ""
 
@@ -993,6 +996,9 @@ msgstr ""
 msgid "Console"
 msgstr ""
 
+msgid "Console output may be out of date"
+msgstr ""
+
 msgid "Console passwords"
 msgstr ""
 
@@ -1113,11 +1119,6 @@ msgstr ""
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr ""
 
-msgid ""
-"Deleting this group will unlink its nested groups and any associated puppet "
-"classes and / or parameters"
-msgstr ""
-
 msgid "Deploy on"
 msgstr ""
 
@@ -1181,6 +1182,9 @@ msgid "Does not match selected Subnet"
 msgstr ""
 
 msgid "Does not update ipaddress and MAC values from Puppet facts"
+msgstr ""
+
+msgid "Does this image support user data input (e.g. via cloud-init)?"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -1302,12 +1306,6 @@ msgstr ""
 msgid "Edit your host"
 msgstr ""
 
-msgid "Editing %s"
-msgstr ""
-
-msgid "Editing compute"
-msgstr ""
-
 msgid ""
 "Either you didnt generate the puppetdocs (see <a rel=\"external\" "
 "href=\"%{url}\">here</a>) or the class <strong>%{name}</strong> could not be"
@@ -1351,9 +1349,6 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
-msgstr ""
-
-msgid "Environment configuration"
 msgstr ""
 
 msgid "Environment only"
@@ -2058,6 +2053,10 @@ msgid "Image|Name"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Image|User data"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Username"
 msgstr ""
 
@@ -2636,6 +2635,9 @@ msgstr ""
 msgid "New Proxy"
 msgstr ""
 
+msgid "New Puppet Environment"
+msgstr ""
+
 msgid "New Puppet class"
 msgstr ""
 
@@ -3195,6 +3197,9 @@ msgstr ""
 msgid "Please check the proxy is configured and running on the host."
 msgstr ""
 
+msgid "Please delete all nested groups before deleting it."
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr ""
 
@@ -3365,6 +3370,9 @@ msgstr ""
 msgid "Puppet environments"
 msgstr ""
 
+msgid "Puppet environments configuration"
+msgstr ""
+
 msgid "Puppet error on %s"
 msgstr ""
 
@@ -3438,6 +3446,9 @@ msgid "Removing compute instance %s"
 msgstr ""
 
 msgid "Rename"
+msgstr ""
+
+msgid "Render user data template for %s"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -3560,6 +3571,9 @@ msgstr ""
 msgid "Runtime"
 msgstr ""
 
+msgid "SCSI controller"
+msgstr ""
+
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
 msgstr ""
 
@@ -3619,19 +3633,52 @@ msgstr ""
 msgid "Select all items in this page"
 msgstr ""
 
+msgid "Select compute resources"
+msgstr ""
+
+msgid "Select domains"
+msgstr ""
+
 msgid "Select environment"
+msgstr ""
+
+msgid "Select environments"
 msgstr ""
 
 msgid "Select host group"
 msgstr ""
 
+msgid "Select host groups"
+msgstr ""
+
 msgid "Select hosts to assign to %s"
+msgstr ""
+
+msgid "Select locations"
+msgstr ""
+
+msgid "Select media"
+msgstr ""
+
+msgid "Select organizations"
+msgstr ""
+
+msgid "Select smart proxies"
+msgstr ""
+
+msgid "Select subnets"
 msgstr ""
 
 msgid "Select template"
 msgstr ""
 
+msgid "Select templates"
+msgstr ""
+
 msgid "Select the changes you want to realize in Foreman"
+msgstr ""
+
+msgid "Select users"
 msgstr ""
 
 msgid "Selected hosts are now assigned to %s"
@@ -4823,6 +4870,12 @@ msgstr ""
 msgid "You do not have permission to %s this host"
 msgstr ""
 
+msgid "You do not have permission to %s this location parameter"
+msgstr ""
+
+msgid "You do not have permission to %s this organization parameter"
+msgstr ""
+
 msgid "You do not have permission to %s this report"
 msgstr ""
 
@@ -4957,6 +5010,9 @@ msgstr ""
 msgid "cant be blank unless a custom partition has been defined"
 msgstr ""
 
+msgid "common"
+msgstr ""
+
 msgid "cycle"
 msgstr ""
 
@@ -4964,6 +5020,9 @@ msgid "does not appear to be a valid nfs mount path"
 msgstr ""
 
 msgid "does not belong to subnet"
+msgstr ""
+
+msgid "domain"
 msgstr ""
 
 msgid "domain %s already has a subnet with this name"
@@ -5039,6 +5098,9 @@ msgid "has this role already"
 msgstr ""
 
 msgid "here"
+msgstr ""
+
+msgid "hostgroup"
 msgstr ""
 
 msgid "in %s"
@@ -5145,9 +5207,6 @@ msgstr ""
 msgid "must be integer"
 msgstr ""
 
-msgid "must be lowercase"
-msgstr ""
-
 msgid "must be one of [ %s ]"
 msgstr ""
 
@@ -5158,6 +5217,9 @@ msgid "must be specified if to is defined"
 msgstr ""
 
 msgid "must match"
+msgstr ""
+
+msgid "must not include periods"
 msgstr ""
 
 msgid "must provide a provider"
@@ -5182,6 +5244,9 @@ msgid "organization"
 msgstr ""
 
 msgid "organizations"
+msgstr ""
+
+msgid "os"
 msgstr ""
 
 msgid "override"
