@@ -69,3 +69,13 @@ class IdentifierDottableValidator < Apipie::Validator::BaseValidator
         "dot(.), space, underscore(_), hypen(-) with no leading or trailing space."
   end
 end
+
+require 'digest/md5'
+require 'json'
+
+Apipie.reload_documentation
+all_docs = Apipie.available_versions.inject({}) { |all, version|
+  all[version] = Apipie.to_json(version)
+  all
+}
+Rails.configuration.apipie_apidoc_hash = Digest::MD5.hexdigest(JSON.dump(all_docs))

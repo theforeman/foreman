@@ -132,6 +132,9 @@ module Foreman
     # Catching Invalid JSON Parse Errors with Rack Middleware
     config.middleware.insert_before ActionDispatch::ParamsParser, "Middleware::CatchJsonParseErrors"
 
+    # Add apidoc hash in headers for smarter caching
+    config.middleware.use "Middleware::ApidocHashInHeaders"
+
   end
 
   def self.setup_console
