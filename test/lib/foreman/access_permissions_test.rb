@@ -24,7 +24,7 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     "audits/create", "audits/destroy", "audits/edit", "audits/new", "audits/update",
 
     # Apipie
-    "apipie/apipies/index",
+    "apipie/apipies/index", "apipie/apipies/apipie_checksum",
 
     # API app controller stub
     "api/testable/index", "api/testable/raise_error"

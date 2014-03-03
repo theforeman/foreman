@@ -1,4 +1,6 @@
 require File.expand_path('../boot', __FILE__)
+require 'apipie/middleware/checksum_in_headers'
+
 
 require 'rails/all'
 
@@ -131,6 +133,9 @@ module Foreman
 
     # Catching Invalid JSON Parse Errors with Rack Middleware
     config.middleware.insert_before ActionDispatch::ParamsParser, "Middleware::CatchJsonParseErrors"
+
+    # Add apidoc hash in headers for smarter caching
+    config.middleware.use "Apipie::Middleware::ChecksumInHeaders"
 
   end
 
