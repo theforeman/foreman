@@ -75,7 +75,7 @@ class RolesController < ApplicationController
   def action_permission
     case params[:action]
       when 'clone'
-        'create'
+        'view'
       else
         super
     end
@@ -85,7 +85,8 @@ class RolesController < ApplicationController
     if params[:original_role_id].present?
       new_role = Role.find(params[:original_role_id]).
                    dup(:include => [:filters => :filterings])
-      new_role.name = params[:role][:name]
+      new_role.name    = params[:role][:name]
+      new_role.builtin = false
     else
       new_role = Role.new(params[:role])
     end
