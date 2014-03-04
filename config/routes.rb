@@ -240,14 +240,14 @@ Foreman::Application.routes.draw do
           get 'auto_complete_search'
         end
       end
-    end
 
-    resources :operatingsystems, :except => [:show] do
-      member do
-        get 'bootfiles'
-      end
-      collection do
-        get 'auto_complete_search'
+      resources :operatingsystems, :except => [:show] do
+        member do
+          get 'bootfiles'
+        end
+        collection do
+          get 'auto_complete_search'
+        end
       end
     end
     resources :media, :except => [:show] do

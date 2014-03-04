@@ -74,6 +74,12 @@ module Api
         render :json => e.to_s, :status => :unprocessable_entity
       end
 
+      protected
+
+      def resource_identifying_attributes
+        %w(to_label id)
+      end
+
     end
   end
 end
