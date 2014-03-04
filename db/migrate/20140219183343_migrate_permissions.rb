@@ -86,10 +86,7 @@ class MigratePermissions < ActiveRecord::Migration
       migrate_roles
       migrate_user_filters
 
-      flag = Setting::General.find_or_initialize_by_name('fix_db_cache',
-                                                         :description   => 'Fix DB cache on next Foreman restart',
-                                                         :settings_type => 'boolean', :default => false)
-      flag.update_attributes :value => true
+      CacheManager.set_cache_setting(true)
       Rake::Task['db:migrate'].enhance nil do
         Rake::Task['fix_db_cache'].invoke
       end
