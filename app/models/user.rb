@@ -269,6 +269,7 @@ class User < ActiveRecord::Base
   end
 
   def role_ids_with_change_detection=(roles)
+    roles ||= [] # in API, role_ids is converted to nil if user sent empty array
     @role_ids_changed = roles.uniq.select(&:present?).map(&:to_i).sort != role_ids.sort
     @role_ids_was = role_ids.clone
     self.role_ids_without_change_detection = roles

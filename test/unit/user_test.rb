@@ -318,6 +318,26 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user.role_ids_was, [foobar.id, barfoo.id]
   end
 
+  test "role_ids can be empty array which removes all roles" do
+    user   = users(:one)
+    foobar = Role.find_or_create_by_name :name => "foobar"
+    barfoo = Role.find_or_create_by_name :name => "barfoo"
+    user.roles<< foobar
+
+    user.role_ids = []
+    assert_empty user.roles
+  end
+
+  test "role_ids can be nil resulting in no role" do
+    user   = users(:one)
+    foobar = Role.find_or_create_by_name :name => "foobar"
+    barfoo = Role.find_or_create_by_name :name => "barfoo"
+    user.roles<< foobar
+
+    user.role_ids = nil
+    assert_empty user.roles
+  end
+
   test "admin? detection for user admin flag" do
     admin = FactoryGirl.build(:user, :admin => true)
     assert admin.admin?, 'user admin flag was missed'
