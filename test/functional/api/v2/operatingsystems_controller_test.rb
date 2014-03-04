@@ -21,7 +21,6 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:operatingsystem)
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
-
   end
 
   test "should create os" do
@@ -31,7 +30,6 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:operatingsystem)
   end
-
 
   test "should not create os without version" do
     assert_difference('Operatingsystem.count', 0) do
@@ -70,6 +68,18 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
                    }
     end
     assert_response :success
+  end
+
+  test "should show os if id is fullname" do
+    get :show, { :id => operatingsystems(:redhat).fullname }
+    assert_response :success
+    assert_equal operatingsystems(:redhat), assigns(:operatingsystem)
+  end
+
+  test "should show os if id is description" do
+    get :show, { :id => operatingsystems(:redhat).description }
+    assert_response :success
+    assert_equal operatingsystems(:redhat), assigns(:operatingsystem)
   end
 
 end

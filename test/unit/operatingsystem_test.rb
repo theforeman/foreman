@@ -78,26 +78,55 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "should find by fullname string" do
     str = "Redhat 6.1"
-    os = Operatingsystem.find_by_fullname(str)
+    os = Operatingsystem.find_by_to_label(str)
     assert_equal str, os.fullname
   end
 
-  test "should return os fullnames for method operatingsystem_names" do
+  test "should find by fullname if description does not exist" do
+    str = "centos 5.3"
+    os = Operatingsystem.find_by_to_label(str)
+    assert_equal str, os.to_label
+  end
+
+  test "should set description by setting to_label" do
+    os = operatingsystems(:centos5_3)
+    os.update_attributes(:to_label => "CENTOS 5.3")
+    assert_equal os.description, os.to_label
+  end
+
+  test "should have unique description if not blank to be valid" do
+    os = operatingsystems(:centos5_3)
+    assert os.valid?
+    os.description = "RHEL 6.1"
+    refute os.valid?
+    assert os.errors[:description].include?("has already been taken")
+  end
+
+  test "should return os label (description or fullname) for method operatingsystem_names" do
     medium = media(:one)
     assert_equal 2, medium.operatingsystem_ids.count
     assert_equal 2, medium.operatingsystem_names.count
-    assert_equal ["Redhat 6.1", "centos 5.3"], medium.operatingsystem_names.sort
+    assert_equal ["RHEL 6.1", "centos 5.3"], medium.operatingsystem_names.sort
   end
 
-  test "should add os association by passing fullnames of operatingsystems" do
+  test "should add os association by passing os labels (description or fullname) of operatingsystems" do
     medium = media(:one)
+    medium.operatingsystem_names = ["centos 5.3", "RHEL 6.1", "Ubuntu 10.10"]
+    assert_equal 3, medium.operatingsystem_ids.count
+    assert_equal 3, medium.operatingsystem_names.count
+    assert_equal ["RHEL 6.1", "Ubuntu 10.10", "centos 5.3"], medium.operatingsystem_names.sort
+  end
+
+  test "should add os association by passing os fullname even if description exists" do
+    medium = media(:one)
+    # pass Redhat 6.1 rather than RHEL 6.1
     medium.operatingsystem_names = ["centos 5.3", "Redhat 6.1", "Ubuntu 10.10"]
     assert_equal 3, medium.operatingsystem_ids.count
     assert_equal 3, medium.operatingsystem_names.count
-    assert_equal ["Redhat 6.1", "Ubuntu 10.10", "centos 5.3"], medium.operatingsystem_names.sort
+    assert_equal ["RHEL 6.1", "Ubuntu 10.10", "centos 5.3"], medium.operatingsystem_names.sort
   end
 
-  test "should delete os associations by passing fullnames of operatingsystems" do
+  test "should delete os associations by passing os labels (description or fullname) of operatingsystems" do
     medium = media(:one)
     medium.operatingsystem_names = ["centos 5.3"]
     assert_equal 1, medium.operatingsystem_ids.count

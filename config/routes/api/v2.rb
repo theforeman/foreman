@@ -71,14 +71,16 @@ Foreman::Application.routes.draw do
 
       resources :models, :except => [:new, :edit]
 
-      resources :operatingsystems, :except => [:new, :edit] do
-        get :bootfiles, :on => :member
-        resources :parameters, :except => [:new, :edit] do
-          collection do
-            delete '/', :to => :reset
+      constraints(:id => /[^\/]+/) do
+        resources :operatingsystems, :except => [:new, :edit] do
+          get :bootfiles, :on => :member
+          resources :parameters, :except => [:new, :edit] do
+            collection do
+              delete '/', :to => :reset
+            end
           end
+          resources :os_default_templates, :except => [:new, :edit]
         end
-        resources :os_default_templates, :except => [:new, :edit]
       end
 
       resources :puppetclasses, :except => [:new, :edit] do

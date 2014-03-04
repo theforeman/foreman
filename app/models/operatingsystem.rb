@@ -23,9 +23,10 @@ class Operatingsystem < ActiveRecord::Base
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "OsParameter"
   accepts_nested_attributes_for :os_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
-  attr_name :fullname
+  attr_name :to_label
   validates :minor, :numericality => true, :allow_nil => true, :allow_blank => true
   validates :name, :format => {:with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")}
+  validates :description, :uniqueness => true, :allow_blank => true
   before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
 
@@ -116,23 +117,31 @@ class Operatingsystem < ActiveRecord::Base
 
   # The OS is usually represented as the concatenation of the OS and the revision
   def to_label
-    description.blank? ? to_s : description
+    return description if description.present?
+    fullname
+  end
+
+  # to_label setter updates description and does not try to parse and update major, minor attributes
+  def to_label=(str)
+    self.description = str
   end
 
   def release
     "#{major}#{('.' + minor) unless minor.empty?}"
   end
 
-  def to_s
+  def fullname
     "#{name} #{release}"
   end
 
-  def fullname
-    to_s
+  def to_s
+    fullname
   end
 
-  def self.find_by_fullname(fullname)
-    a = fullname.split(" ")
+  def self.find_by_to_label(str)
+    os = self.find_by_description(str)
+    return os if os
+    a = str.split(" ")
     b = a[1].split('.') if a[1]
     cond = {:name => a[0]}
     cond.merge!(:major => b[0]) if b && b[0]
