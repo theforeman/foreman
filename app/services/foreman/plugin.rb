@@ -179,9 +179,9 @@ module Foreman #:nodoc:
 
     # Add a new role if it doesn't exist
     def role(name, permissions)
+      Permission.first rescue return false
       Role.transaction do
         role = Role.find_or_create_by_name(name)
-        Permission.first rescue return false
         role.add_permissions!(permissions) if role.permissions.empty?
       end
     end
