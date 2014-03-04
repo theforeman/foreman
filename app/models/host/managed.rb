@@ -804,7 +804,8 @@ class Host::Managed < Host::Base
   end
 
   def set_default_user
-    return unless OWNER_TYPES.include?(self.owner_type)
+    return if self.owner_type.present? && !OWNER_TYPES.include?(self.owner_type)
+    self.owner_type ||= 'User'
     self.owner ||= User.current
   end
 
