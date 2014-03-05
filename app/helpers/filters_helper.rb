@@ -17,6 +17,8 @@ module FiltersHelper
   end
 
   def resource_path(type)
+    return '' if type.nil?
+
     send(type.pluralize.underscore + '_path')
   end
 end
