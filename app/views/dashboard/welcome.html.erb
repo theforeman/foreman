@@ -28,7 +28,7 @@
     <p>
       <span class="label label-danger"><%= _('Important') %></span>
       <%= _('Once installed you should head over to') %>
-      <a href=smart_proxies><%= _('Smart Proxies') %></a>
+      <%= link_to _("Smart Proxies"), smart_proxies_path %> 
       <%= _('to point Foreman at it.') %>
     </p>
   </p>
@@ -112,7 +112,7 @@
 
   <p>
     <span class="label label-info"><%= _('Notice') %></span>
-    <%= _('This page will self destruct once data comes in.') %>
+    <%= (_('This page will self destruct once Foreman starts to receive data about your hosts.  You can view this information again by clicking on the "First Use Instructions" link on the %{about} page.') % {:about => link_to("about", :controller => 'about')}).html_safe %>
   </p>
 
 </div>

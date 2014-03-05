@@ -107,17 +107,18 @@
       <ul>
         <li><%= link_to _('Manual'),"http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/", :rel => "external" %></li>
         <li><%= link_to _('Wiki'),"http://projects.theforeman.org", :rel => "external" %></li>
+        <li><%= link_to _("First Use Instructions"), :controller => '/dashboard', :action => 'welcome' %></li>
       </ul>
       <h6><%= _("IRC") %></h6>
-      <%= _("The Foreman community uses on the irc.freenode.net servers. You can get general support in #theforeman, while development chat takes place in #theforeman-dev.")%>
+      <p><%= (_("You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev.") % {:freenode => link_to("freenode", "http://www.freenode.net", :rel => "external")}).html_safe  %></p>
       <h6><%= _("Mailing lists") %></h6>
-      <%= _("Mailing lists are available via Google Groups. Much like IRC, we have a general users (support, Q/A, etc) lists and a development list:") %>
+      <p><%= _("Mailing lists are available via Google Groups. Much like IRC, we have a general users (support, Q/A, etc) lists and a development list:") %></p>
       <ul>
         <li><%= link_to _("Foreman Users"), "http://groups.google.com/group/foreman-users", :rel => "external" %></li>
         <li><%= link_to _("Foreman Developers"), "http://groups.google.com/group/foreman-dev", :rel => "external" %></li>
       </ul>
       <h6><%= _("Issue tracker") %></h6>
-      <%= _("We use Redmine to report and track bugs and feature requests, which can be found here:") %> <%= link_to _("issue tracker"), "http://projects.theforeman.org/projects/foreman/issues", :rel => "external" %>
+      <p><%= _("We use Redmine to report and track bugs and feature requests, which can be found here:") %> <%= link_to _("issue tracker"), "http://projects.theforeman.org/projects/foreman/issues", :rel => "external" %></p>
     </div>
     <div class="stats-well">
       <h4><%= _("System Information") %> </h4>
