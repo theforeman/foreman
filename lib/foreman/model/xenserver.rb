@@ -78,11 +78,13 @@ module Foreman::Model
     end
 
     def custom_templates
-      client.servers.custom_templates rescue []
+      tmps = client.servers.custom_templates.select {|t| t.is_a_snapshot == false} rescue []
+      tmps.sort {|a,b| a.name <=> b.name}
     end
 
     def builtin_templates
-      client.servers.builtin_templates rescue []
+      tmps = client.servers.builtin_templates.select {|t| t.is_a_snapshot == false} rescue []
+      tmps.sort {|a,b| a.name <=> b.name}
     end
 
     def new_vm attr={ }
@@ -102,7 +104,7 @@ module Foreman::Model
     def create_vm args = {}
       custom_template_name = args[:custom_template_name]
       builtin_template_name = args[:builtin_template_name]
-      raise "you can at most one template type" if builtin_template_name != "" and custom_template_name != ""
+      raise "you can select at most one template type" if builtin_template_name != "" and custom_template_name != ""
       begin
         vm = nil
         if custom_template_name != ""
@@ -129,9 +131,10 @@ module Foreman::Model
     end
 
     def create_vm_from_custom args
-      mem = args[:memory]
+      mem_max = args[:memory_max]
+      mem_min = args[:memory_min]
       
-
+      raise "Memory max cannot be lower than Memory min" if mem_min.to_i > mem_max.to_i
       vm = client.servers.create :name => args[:name],
       :template_name => args[:custom_template_name]
 
@@ -141,22 +144,23 @@ module Foreman::Model
       xenstore_data = xenstore_hash_flatten(args['xenstore'])
 
       vm.set_attribute('xenstore_data',xenstore_data)
-      if vm.memory_static_max.to_i < mem.to_i
-        vm.set_attribute('memory_static_max', mem)
-        vm.set_attribute('memory_dynamic_max', mem)
-        vm.set_attribute('memory_dynamic_min', mem)
-        vm.set_attribute('memory_static_min', mem)
+      if vm.memory_static_max.to_i < mem_max.to_i
+        vm.set_attribute('memory_static_max', mem_max)
+        vm.set_attribute('memory_dynamic_max', mem_max)
+        vm.set_attribute('memory_dynamic_min', mem_min)
+        vm.set_attribute('memory_static_min', mem_min)
       else
-        vm.set_attribute('memory_static_min', mem)
-        vm.set_attribute('memory_dynamic_min', mem)
-        vm.set_attribute('memory_dynamic_max', mem)
-        vm.set_attribute('memory_static_max', mem)
+        vm.set_attribute('memory_static_min', mem_min)
+        vm.set_attribute('memory_dynamic_min', mem_min)
+        vm.set_attribute('memory_dynamic_max', mem_max)
+        vm.set_attribute('memory_static_max', mem_max)
       end
 
       disks = vm.vbds.select { |vbd| vbd.type == "Disk"}
-      i = 1
+      disks.sort {|a, b| a.userdevice <=> b.userdevice}
+      i = 0
       disks.each do |vbd|
-        vbd.vdi.set_attribute('name-label', "#{args[:name]}-disk#{i}")
+        vbd.vdi.set_attribute('name-label', "#{args[:name]}_#{i}")
         i+=1
       end
       vm
@@ -175,7 +179,8 @@ module Foreman::Model
                             :description => "#{args[:name]}-disk1",
                             :virtual_size => size.to_s
 
-    	mem = args[:memory]
+    	mem_max = args[:memory_max]
+    	mem_min = args[:memory_min]
     	other_config = {}
     	if args[:builtin_template_name] != ""
     	   template = client.servers.builtin_templates.find {|tmp| tmp.name == args[:builtin_template_name]}
@@ -188,10 +193,10 @@ module Foreman::Model
                         			:pv_bootloader => '',
                         			:hvm_boot_params => { :order => 'dn' },
                         			:other_config => other_config,
-                        			:memory_static_max  => mem,
-                              :memory_static_min  => mem,
-                              :memory_dynamic_max => mem,
-                              :memory_dynamic_min => mem
+                        			:memory_static_max  => mem_max,
+                              :memory_static_min  => mem_min,
+                              :memory_dynamic_max => mem_max,
+                              :memory_dynamic_min => mem_min
 
     	vm.save :auto_start => false
     	client.vbds.create :server => vm, :vdi => vdi

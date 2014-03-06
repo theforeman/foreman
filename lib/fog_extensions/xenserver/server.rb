@@ -12,6 +12,14 @@ module FogExtensions
 
       def volumes_attributes=(attrs); end
 
+      def memory_min
+        memory_static_min.to_i
+      end
+
+      def memory_max
+        memory_static_max.to_i
+      end
+      
       def memory
         memory_static_max.to_i
       end
@@ -23,7 +31,7 @@ module FogExtensions
       def ready?
         running?
       end
-
+      
       def mac
         vifs.first.mac
       end
