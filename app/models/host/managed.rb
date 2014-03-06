@@ -518,7 +518,7 @@ class Host::Managed < Host::Base
       rdecktags += self.params["rundeckfacts"].gsub(/\s+/, '').split(',').map { |rdf| "#{rdf}=" + (facts_hash[rdf] || "undefined") }
     end
     { name => { "description" => comment, "hostname" => name, "nodename" => name,
-      "Environment" => Environment.find(self.environment_id).name,
+      "Environment" => environment.name,
       "osArch" => arch.name, "osFamily" => os.family, "osName" => os.name,
       "osVersion" => os.release, "tags" => rdecktags, "username" => self.params["rundeckuser"] || "root" }
     }
