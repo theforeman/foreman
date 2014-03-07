@@ -149,4 +149,44 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     available_storage_domains = ActiveSupport::JSON.decode(@response.body)
     assert !available_storage_domains.empty?
   end
+
+  test "should get available vmware networks" do
+    network = Object.new
+    network.stubs(:name).returns('test_vmware_network')
+    network.stubs(:id).returns('my11-test35-uuid99')
+
+    Foreman::Model::Vmware.any_instance.stubs(:available_networks).returns([network])
+
+    get :available_networks, { :id => compute_resources(:ovirt).to_param, :cluster_id => '123-456-789' }
+    assert_response :success
+    available_networks = ActiveSupport::JSON.decode(@response.body)
+    assert !available_networks.empty?
+  end
+
+  test "should get available vmware clusters" do
+    cluster = Object.new
+    cluster.stubs(:name).returns('test_vmware_cluster')
+    cluster.stubs(:id).returns('my11-test35-uuid99')
+
+    Foreman::Model::Vmware.any_instance.stubs(:available_clusters).returns([cluster])
+
+    get :available_clusters, { :id => compute_resources(:ovirt).to_param }
+    assert_response :success
+    available_clusters = ActiveSupport::JSON.decode(@response.body)
+    assert !available_clusters.empty?
+  end
+
+  test "should get available vmware storage domains" do
+    storage_domain = Object.new
+    storage_domain.stubs(:name).returns('test_vmware_cluster')
+    storage_domain.stubs(:id).returns('my11-test35-uuid99')
+
+    Foreman::Model::Vmware.any_instance.stubs(:available_storage_domains).returns([storage_domain])
+
+    get :available_storage_domains, { :id => compute_resources(:ovirt).to_param }
+    assert_response :success
+    available_storage_domains = ActiveSupport::JSON.decode(@response.body)
+    assert !available_storage_domains.empty?
+  end
+
 end

@@ -51,8 +51,20 @@ module Foreman::Model
       dc.vm_folders.sort_by{|f| f.path}
     end
 
-    def networks
+    def networks(opts ={})
       dc.networks.all(:accessible => true)
+    end
+
+    def available_clusters
+      clusters
+    end
+
+    def available_networks(cluster_id=nil)
+      networks
+    end
+
+    def available_storage_domains
+      datastores
     end
 
     def nictypes

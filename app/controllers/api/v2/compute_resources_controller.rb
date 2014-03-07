@@ -76,9 +76,10 @@ module Api
         render :available_clusters, :layout => 'api/v2/layouts/index_layout'
       end
 
+      api :GET, "/compute_resources/:id/available_networks", "List available networks for a compute resource"
       api :GET, "/compute_resources/:id/available_clusters/:cluster_id/available_networks", "List available networks for a compute resource cluster"
       param :id, :identifier, :required => true
-      param :cluster_id, String, :required => true
+      param :cluster_id, String
       def available_networks
         @available_networks = @compute_resource.available_networks(params[:cluster_id])
         render :available_networks, :layout => 'api/v2/layouts/index_layout'

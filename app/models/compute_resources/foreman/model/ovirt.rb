@@ -106,7 +106,8 @@ module Foreman::Model
       clusters
     end
 
-    def available_networks(cluster_id)
+    def available_networks(cluster_id=nil)
+      raise ::Foreman::Exception.new(N_('Cluster ID is required to list available networks')) if cluster_id.nil?
       cluster_networks = networks({:cluster_id => cluster_id})
     end
 
