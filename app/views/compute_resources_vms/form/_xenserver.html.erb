@@ -43,7 +43,7 @@
   <% end -%>
 </div>
 
-<div class="children_fields xenserver-raw" id="xenserver-network" style="<%=hide_raw%>">
+<div class="children_fields" id="xenserver-network" style="<%=hide_raw%>">
   <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => _('Networks') do -%>
     <%= f.fields_for :VIFs do |i| %>
       <%= render 'compute_resources_vms/form/xenserver/network', :f => i, :compute_resource => compute_resource %>
