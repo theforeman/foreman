@@ -72,3 +72,12 @@ ovirt:
   password: 12345
   uuid: 1234567891011
   type: Foreman::Model::Ovirt
+
+vmware:
+  name: Vmware
+  description: vmware resource
+  url: https://myvmware/api
+  user: MyString
+  password: 123456
+  uuid: 1234567891011
+  type: Foreman::Model::Vmware
