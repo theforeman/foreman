@@ -2,6 +2,7 @@
 # This file is distributed under the same license as the Foreman.
 #
 # Translators:
+# Flamarion Jorge <jorge.flamarion@gmail.com>, 2014
 #
 #
 # Translators:
@@ -11,7 +12,7 @@ msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-15 10:48+0100\n"
-"PO-Revision-Date: 2014-03-09 17:10-0300\n"
+"PO-Revision-Date: 2014-03-09 18:13-0300\n"
 "Last-Translator: Flamarion Jorge <jorge.flamarion@gmail.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
 "Language: pt_BR\n"
@@ -125,13 +126,13 @@ msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr ""
 
 msgid "*Clear environment*"
-msgstr ""
+msgstr "*Apagar ambiente*"
 
 msgid "*Clear host group*"
-msgstr ""
+msgstr "*Apagar grupo de host*"
 
 msgid "*Inherit from host group*"
-msgstr ""
+msgstr "*Herdar do grupo de host*"
 
 msgid "<b class='select_count'>0</b> selected"
 msgstr ""
@@ -197,7 +198,7 @@ msgid "Access Key"
 msgstr "Chave de acesso"
 
 msgid "Acquire IP address for %s"
-msgstr ""
+msgstr "Opter endereço IP para %s"
 
 msgid "Action"
 msgstr "Ação"
@@ -290,9 +291,8 @@ msgstr "Todos dominios"
 msgid "All Environments"
 msgstr "Todos os ambientes"
 
-#, fuzzy
 msgid "All Host Groups"
-msgstr "Host Group"
+msgstr "Todos grupos de hosts"
 
 msgid "All Media"
 msgstr "Todas as mídias"
@@ -350,7 +350,7 @@ msgid "Any Organization"
 msgstr "Qualquer organização"
 
 msgid "Applicable<br>Operating Systems"
-msgstr ""
+msgstr "Aplicável<br>Sistema Operacional"
 
 msgid "Applied"
 msgstr "Aplicado"
@@ -538,40 +538,40 @@ msgid "Authorized by"
 msgstr "Autorizado por"
 
 msgid "Autosign"
-msgstr ""
+msgstr "Auto-assinar"
 
 msgid "Autosign Entries"
-msgstr ""
+msgstr "Auto-assinar enttradas"
 
 msgid "Autosign entries for %s"
-msgstr ""
+msgstr "Auto-assinar entradas para %s"
 
 msgid "Available Classes"
-msgstr ""
+msgstr "Classes disponíveis"
 
 msgid "Average memory usage"
-msgstr ""
+msgstr "Media do uso de memória"
 
 msgid "Average swap usage"
-msgstr ""
+msgstr "Média do uso de swap"
 
 msgid "BIOS"
-msgstr ""
+msgstr "BIOS"
 
 msgid "BMC"
-msgstr ""
+msgstr "BMC"
 
 msgid "Back"
-msgstr ""
+msgstr "Voltar"
 
 msgid "Back to host"
-msgstr ""
+msgstr "Voltar para o host"
 
 msgid "Back to host list"
-msgstr ""
+msgstr "Voltar para a lista"
 
 msgid "Bare Metal"
-msgstr ""
+msgstr "Bare Metal"
 
 msgid ""
 "Before you can use Foreman for the first time there are a few tasks that "
@@ -585,22 +585,22 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark"
-msgstr ""
+msgstr "Marcador"
 
 msgid "Bookmark this search"
-msgstr ""
+msgstr "Adicionar esta pesquisa à um marcador"
 
 msgid "Bookmark was successfully created."
-msgstr ""
+msgstr "Marcador foi criado com sucesso."
 
 msgid "Bookmark was successfully updated."
-msgstr ""
+msgstr "Marcador foi atualizado com sucesso."
 
 msgid "Bookmarks"
-msgstr ""
+msgstr "Marcadores"
 
 msgid "Bookmarks configuration"
-msgstr ""
+msgstr "Configuração de marcadores"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Controller"
@@ -623,48 +623,47 @@ msgid "Bookmark|Query"
 msgstr "Search query"
 
 msgid "Boot device"
-msgstr ""
+msgstr "Dispositivo de inicialização"
 
 msgid "Bootable"
-msgstr ""
+msgstr "Inicializavel"
 
 msgid "Browse host facts"
-msgstr ""
+msgstr "Navegar pelos fatos do host"
 
 msgid "Browse host reports"
-msgstr ""
+msgstr "Navegar pelos relatórios do host"
 
-#, fuzzy
 msgid "Browser locale"
-msgstr "Email address"
+msgstr "Navegar nas localidades"
 
 msgid "Build"
-msgstr ""
+msgstr "Construir"
 
 msgid "Build Hosts"
-msgstr ""
+msgstr "Construir hosts"
 
 msgid "Build PXE Default"
-msgstr ""
+msgstr "Construir PXE padrão"
 
 msgid "Build from OS image"
-msgstr ""
+msgstr "Construir a partir de uma imagem de SO"
 
 #. host's status: first character of "build"
 msgid "Build|B"
-msgstr ""
+msgstr "Construir|B"
 
 msgid "CDROM"
-msgstr ""
+msgstr "CDROM"
 
 msgid "CPUs"
-msgstr ""
+msgstr "CPUs"
 
 msgid "Can't delete built-in role"
-msgstr ""
+msgstr "Não foi possível apagar role embutida"
 
 msgid "Can't delete internal admin account"
-msgstr ""
+msgstr "Não foi possível apagar conta interna de administrador"
 
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr ""
@@ -680,89 +679,88 @@ msgid "Can't use the same value as the primary interface"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 msgid "Cancel Build"
-msgstr ""
+msgstr "Cancelar construição"
 
 msgid "Cancel build request for this host"
-msgstr ""
+msgstr "Cancelar requisição de construção para este host"
 
 msgid "Canceled pending build for %s"
-msgstr ""
+msgstr "Cancelada pendência de construção para %s"
 
 msgid "Canvas not supported."
-msgstr ""
+msgstr "Sem suporte para Canvas."
 
 msgid "Certificate Name"
-msgstr ""
+msgstr "Nome do certificado"
 
 msgid "Certificates"
-msgstr ""
+msgstr "Certificados"
 
 msgid "Change Environment"
-msgstr ""
+msgstr "Mudar ambiente"
 
 msgid "Change Group"
-msgstr ""
+msgstr "Mudar grupo"
 
 msgid "Change your avatar at gravatar.com"
-msgstr ""
+msgstr "Mude seu avatar em gravatar.com"
 
-#, fuzzy
 msgid "Changed environments"
-msgstr "Environment"
+msgstr "Modificar ambiente"
 
 msgid "Chassis"
-msgstr ""
+msgstr "Chassis"
 
 msgid "Check all"
-msgstr ""
+msgstr "Marcar tudo"
 
 msgid "Check all/Uncheck all"
-msgstr ""
+msgstr "Marcar tudo/Desmarcar tudo"
 
 msgid "Check/Uncheck all"
-msgstr ""
+msgstr "Marcar/Desmarcar tudo"
 
 msgid "Check/Uncheck all %s changes"
-msgstr ""
+msgstr "Marcar/Desmarcar todas %s mudanças"
 
 msgid "Check/Uncheck new"
-msgstr ""
+msgstr "Marcar/Desmarcar novo"
 
 msgid "Check/Uncheck obsolete"
-msgstr ""
+msgstr "Marcar/Desmarcar obsoleto"
 
 msgid "Check/Uncheck updated"
-msgstr ""
+msgstr "Marcar/Desmarcar atualizado"
 
 msgid "Choose a family"
-msgstr ""
+msgstr "Escolher família"
 
 msgid "Choose a provider"
-msgstr ""
+msgstr "Escolher provedor"
 
 msgid "Class Distribution"
-msgstr ""
+msgstr "Distribuição de classes"
 
 msgid "Classes"
-msgstr ""
+msgstr "Classes"
 
 msgid "Click to add %s"
-msgstr ""
+msgstr "Clique para adicionar %s"
 
 msgid "Click to edit"
-msgstr ""
+msgstr "Clique para editar"
 
 msgid "Click to edit.."
-msgstr ""
+msgstr "Clique para editar..."
 
 msgid "Click to remove %s"
-msgstr ""
+msgstr "Clique para remover %s"
 
 msgid "Click to undo adding this class"
-msgstr ""
+msgstr "Clique para desfazer a adição dessa classe"
 
 msgid ""
 "Client SSL certificates are used to identify Smart Proxies accessing fact/"
@@ -771,32 +769,32 @@ msgid ""
 msgstr ""
 
 msgid "Clone"
-msgstr ""
+msgstr "Clonar"
 
 msgid "Clone %s"
-msgstr ""
+msgstr "Clonar %s"
 
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
 msgid "Compute Resource"
-msgstr ""
+msgstr "Recurso de computação"
 
 msgid "Compute Resources"
-msgstr ""
+msgstr "Recursos de computação"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
-msgstr ""
+msgstr "Recurso de computação"
 
 msgid "Compute resource update for %s"
-msgstr ""
+msgstr "Recurso de computação atualizado para %s"
 
 msgid "Compute resources"
-msgstr ""
+msgstr "Recurso de computação"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Attrs"
@@ -827,11 +825,11 @@ msgid "ComputeResource|Uuid"
 msgstr "UUID"
 
 msgid "Config Retrieval"
-msgstr ""
+msgstr "Obter configuração"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
-msgstr "Provisioning template"
+msgstr "Template de configuração"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Name"
@@ -846,28 +844,28 @@ msgid "ConfigTemplate|Template"
 msgstr "Template"
 
 msgid "Configuration"
-msgstr ""
+msgstr "Configuração"
 
 msgid "Configure instance %s via SSH"
-msgstr ""
+msgstr "Configurar instância %s via SSH"
 
 msgid "Conflict - %s"
-msgstr ""
+msgstr "Conflito - %s"
 
 msgid "Connected (unencrypted) to: %s"
-msgstr ""
+msgstr "Conectado (descriptografado) em: %s"
 
 msgid "Connecting (unencrypted) to: %s"
-msgstr ""
+msgstr "Conectando (descriptografado) em: %s"
 
 msgid "Connecting.."
-msgstr ""
+msgstr "Conectando.."
 
 msgid "Console"
-msgstr ""
+msgstr "Console"
 
 msgid "Console passwords"
-msgstr ""
+msgstr "Senhas de console"
 
 msgid ""
 "Could not find a Configuration Template with the name \"PXE Default File\", "
@@ -875,93 +873,92 @@ msgid ""
 msgstr ""
 
 msgid "Create %s"
-msgstr ""
+msgstr "Criar %s"
 
 msgid "Create DHCP Settings for %s"
-msgstr ""
+msgstr "Criar configuração de DHCP para %s"
 
 msgid "Create DNS record for %s"
-msgstr ""
+msgstr "Criar registro de DNS para %s"
 
 msgid "Create Reverse DNS record for %s"
-msgstr ""
+msgstr "Criar registro de DNS reverso para %s"
 
 msgid "Create a Smart Proxy"
-msgstr ""
+msgstr "Criar um Smart Proxy"
 
 msgid "Ctrl-Alt-Del"
-msgstr ""
+msgstr "Ctrl-Alt-Del"
 
 msgid "DHCP Proxy"
-msgstr ""
+msgstr "Proxy DHCP"
 
 msgid "DHCP Proxy to use within this subnet"
-msgstr ""
+msgstr "Proxy DHCP para usar dentro dessa subrede"
 
 msgid "DHCP conflicts removal for %s"
-msgstr ""
+msgstr "Remoção de conflito DHCP para %s"
 
 msgid "DHCP has a lease at %s"
-msgstr ""
+msgstr "DHCP tinha um empréstimo em %s"
 
 msgid "DHCP not supported for this NIC"
-msgstr ""
+msgstr "DHCP não é suportado por esta interface de rede"
 
 msgid "DHCP records %s already exists"
-msgstr ""
+msgstr "Registro DHCP %s já existe"
 
 msgid "DNS"
-msgstr ""
+msgstr "DNS"
 
 msgid "DNS A Records %s already exists"
-msgstr ""
+msgstr "Registro de DNS A %s já existe"
 
 msgid "DNS PTR Records %s already exists"
-msgstr ""
+msgstr "Registro de DNS PTR %s já existe"
 
 msgid "DNS Proxy"
-msgstr ""
+msgstr "Proxy DNS"
 
 msgid "DNS Proxy to use within this domain"
-msgstr ""
+msgstr "Proxy DNS para usar dentro deste domínio"
 
 msgid "DNS Proxy to use within this subnet"
-msgstr ""
+msgstr "Proxy DNS para usar dentro dessa subrede"
 
 msgid "DNS name"
-msgstr ""
+msgstr "Nome DNS"
 
 msgid "Dashboard"
-msgstr ""
+msgstr "Painel"
 
 msgid "Data Store"
-msgstr ""
+msgstr "Data Store"
 
 msgid "Datacenter"
-msgstr ""
+msgstr "Datacenter"
 
 msgid "Default"
-msgstr ""
+msgstr "Padrão"
 
 msgid "Default Puppet server hostname"
-msgstr ""
+msgstr "Nome do servidor Puppet padrão"
 
 msgid ""
 "Default encrypted root password on provisioned hosts (default is 123123)"
 msgstr ""
 
-#, fuzzy
 msgid "Default value"
-msgstr "Default value"
+msgstr "Valor padrão"
 
 msgid "Delete"
-msgstr ""
+msgstr "Apagar"
 
 msgid "Delete %s?"
-msgstr ""
+msgstr "Apagar %s"
 
 msgid "Delete Hosts"
-msgstr ""
+msgstr "Apagar hosts"
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr ""
@@ -976,7 +973,7 @@ msgid "Delete report for %s?"
 msgstr ""
 
 msgid "Deleted environment"
-msgstr ""
+msgstr "Apagar ambiente"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr ""
@@ -987,44 +984,44 @@ msgid ""
 msgstr ""
 
 msgid "Deploy on"
-msgstr ""
+msgstr "Implantar em"
 
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 msgid "Destroy"
-msgstr ""
+msgstr "Destruir"
 
 msgid "Destroyed selected hosts"
-msgstr ""
+msgstr "Destruir hosts selecionados"
 
 msgid "Details"
-msgstr ""
+msgstr "Detalhes"
 
 msgid "Diff View"
-msgstr ""
+msgstr "Visualizar diff"
 
 msgid "Disable Notifications"
-msgstr ""
+msgstr "Desabilitar notificações"
 
 msgid "Disable alerts for selected hosts"
-msgstr ""
+msgstr "Desabilitar alertas para os hosts selecionados"
 
 msgid "Disabled"
-msgstr ""
+msgstr "Desabilitado"
 
 #. host's status: first character of "disabled"
 msgid "Disabled|D"
-msgstr ""
+msgstr "Desabilitado|D"
 
 msgid "Disk"
-msgstr ""
+msgstr "Disco"
 
 msgid "Display"
-msgstr ""
+msgstr "Exibição"
 
 msgid "Display Name"
-msgstr ""
+msgstr "Nome para exibição"
 
 msgid "Display the templates that will be used to provision this host"
 msgstr ""
@@ -1144,9 +1141,8 @@ msgstr ""
 msgid "Edit Subnet"
 msgstr ""
 
-#, fuzzy
 msgid "Edit Template"
-msgstr "Provisioning template"
+msgstr "Editar template"
 
 msgid "Edit Trend %s"
 msgstr ""
@@ -1198,9 +1194,8 @@ msgstr ""
 msgid "Enable this host for provisioning"
 msgstr ""
 
-#, fuzzy
 msgid "Enabled"
-msgstr "Partition Table"
+msgstr "Habilitado"
 
 msgid "Enabled %s for rebuild on next boot"
 msgstr ""
@@ -1547,9 +1542,8 @@ msgstr ""
 msgid "Full trace"
 msgstr ""
 
-#, fuzzy
 msgid "Gateway"
-msgstr "Gateway address"
+msgstr "Gateway"
 
 msgid ""
 "General useful description, for example this kind of hardware needs a "
@@ -1604,9 +1598,8 @@ msgstr ""
 msgid "Host Configuration Status"
 msgstr ""
 
-#, fuzzy
 msgid "Host Groups"
-msgstr "Host Group"
+msgstr "Grupo de hosts"
 
 msgid "Host Parameters"
 msgstr ""
@@ -1623,24 +1616,20 @@ msgstr ""
 msgid "Host group / Environment"
 msgstr ""
 
-#, fuzzy
 msgid "Host group and Environment"
-msgstr "Environment"
+msgstr "Grupo de hosts e ambiente"
 
 msgid "Host group configuration"
 msgstr ""
 
-#, fuzzy
 msgid "Host group hosts"
-msgstr "Host Group"
+msgstr "Host e Grupo de hosts"
 
-#, fuzzy
 msgid "Host group only"
-msgstr "Host Group"
+msgstr "Somente grupo de hosts"
 
-#, fuzzy
 msgid "Host group parameters"
-msgstr "Host Group"
+msgstr "Parâmetros de grupo de host"
 
 msgid "Host groups"
 msgstr ""
@@ -2392,9 +2381,8 @@ msgstr ""
 msgid "New Host"
 msgstr ""
 
-#, fuzzy
 msgid "New Host Group"
-msgstr "Host Group"
+msgstr "Novo grupo de hosts"
 
 msgid "New Image"
 msgstr ""
@@ -2507,9 +2495,8 @@ msgstr ""
 msgid "No changes"
 msgstr ""
 
-#, fuzzy
 msgid "No compute resource to show"
-msgstr "Attributes"
+msgstr "Sem recursos de computação para exibir"
 
 msgid "No domains"
 msgstr ""
@@ -2744,9 +2731,8 @@ msgstr ""
 msgid "Operating Systems"
 msgstr ""
 
-#, fuzzy
 msgid "Operating system"
-msgstr "Name"
+msgstr "Sistema Operacional"
 
 msgid "Operating system default"
 msgstr ""
@@ -3030,9 +3016,8 @@ msgstr ""
 msgid "Provisioning Support is disabled or this host is not managed"
 msgstr ""
 
-#, fuzzy
 msgid "Provisioning Template"
-msgstr "Provisioning template"
+msgstr "Template de provisionamento"
 
 msgid "Provisioning Template content changed %s"
 msgstr ""
@@ -3040,9 +3025,8 @@ msgstr ""
 msgid "Provisioning Templates"
 msgstr ""
 
-#, fuzzy
 msgid "Provisioning templates"
-msgstr "Provisioning templates"
+msgstr "Templates de provisionamento"
 
 msgid "Proxies"
 msgstr ""
@@ -3105,9 +3089,8 @@ msgstr ""
 msgid "Puppet classes and environment importer"
 msgstr ""
 
-#, fuzzy
 msgid "Puppet classes parameters"
-msgstr "Override a Puppet class parameter"
+msgstr "Parâmetros de classes Puppet"
 
 msgid "Puppet environments"
 msgstr ""
@@ -3353,13 +3336,11 @@ msgstr ""
 msgid "Select all items in this page"
 msgstr ""
 
-#, fuzzy
 msgid "Select environment"
-msgstr "Environment"
+msgstr "Selecionar ambiente"
 
-#, fuzzy
 msgid "Select host group"
-msgstr "Host Group"
+msgstr "Selecionar grupo de hosts"
 
 msgid "Select hosts to assign to %s"
 msgstr ""
@@ -3576,7 +3557,6 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
-#, fuzzy
 msgid "Status"
 msgstr "Status"
 
@@ -3684,9 +3664,8 @@ msgstr ""
 msgid "System Information"
 msgstr ""
 
-#, fuzzy
 msgid "System Status"
-msgstr "Status"
+msgstr "Status do sistema"
 
 msgid "TFTP Proxy"
 msgstr ""
@@ -4264,9 +4243,8 @@ msgid "User|Lastname"
 msgstr "Surname"
 
 #. "Table name" or "Table name|Column name" for error messages
-#, fuzzy
 msgid "User|Locale"
-msgstr "Email address"
+msgstr "Usuário|Localização"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Locations andor"
@@ -4290,7 +4268,7 @@ msgstr "Password hash"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password salt"
-msgstr "Password salt"
+msgstr "Usuário|Senha salt"
 
 msgid ""
 "Using the organization system provides a way to group resources together for "
@@ -4757,7 +4735,7 @@ msgstr[1] ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"
-msgstr "English (United States)"
+msgstr "Portuguese (Brazilian)"
 
 msgid "location"
 msgstr ""
@@ -4807,9 +4785,8 @@ msgstr ""
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
-#, fuzzy
 msgid "organization"
-msgstr "Organizations and/or"
+msgstr "organização"
 
 msgid "organizations"
 msgstr ""
