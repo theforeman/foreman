@@ -19,6 +19,12 @@ module FiltersHelper
   def resource_path(type)
     return '' if type.nil?
 
-    send(type.pluralize.underscore + '_path')
+    object_path = type.pluralize.underscore
+    if object_path.include?('/')
+      prefix, suffix = object_path.split('/', 2)
+      send(prefix).send(suffix + '_path')
+    else
+      send("#{object_path}_path")
+    end
   end
 end
