@@ -11,15 +11,16 @@ msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-15 10:48+0100\n"
-"PO-Revision-Date: 2014-03-09 16:51-0300\n"
+"PO-Revision-Date: 2014-03-09 17:10-0300\n"
 "Last-Translator: Flamarion Jorge <jorge.flamarion@gmail.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
-"Language: en\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.6.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "%s - Press Shift-F12 to release the cursor."
 msgstr "%s - Pressione Shift-F12 para liberar o cursor."
@@ -227,42 +228,45 @@ msgid "Add Matcher-Value"
 msgstr "Adicionar valor-validador"
 
 msgid "Add Parameter"
-msgstr ""
+msgstr "Adicionar parâmetro"
 
 msgid "Add Trend Counter"
-msgstr ""
+msgstr "Adicionar contador de tendência"
 
 msgid "Add Variable"
-msgstr ""
+msgstr "Adicionar variável"
 
 msgid "Add Volume"
-msgstr ""
+msgstr "Adicionar volume"
 
 msgid "Add a fact filter"
-msgstr ""
+msgstr "Adicionar um filtro de fato"
 
 msgid "Add combination"
-msgstr ""
+msgstr "Adicionar combinação"
 
 msgid "Add:"
-msgstr ""
+msgstr "Adicionar:"
 
 msgid "Additional Information"
-msgstr ""
+msgstr "Adicionar informação"
 
 msgid "Additional info"
-msgstr ""
+msgstr "Informação adicional"
 
 msgid "Additional information about this host"
-msgstr ""
+msgstr "Informação adicionar sobre este host"
 
 msgid "Additional steps"
-msgstr ""
+msgstr "Passos adicionais"
 
 msgid ""
 "Additionally, you may restrict user permissions based on many criteria, make "
 "sure you check the roles settings tab."
 msgstr ""
+"Adicionalmente você pode restringir permissões de usuários baseados em "
+"muitos critérios, tenha certeza que você marcou a aba de configurações de "
+"permissões."
 
 msgid ""
 "After you have decided on the two primary modes of operation and performed "
@@ -272,44 +276,44 @@ msgid ""
 msgstr ""
 
 msgid "Alert"
-msgstr ""
+msgstr "Alerta"
 
 msgid "Alerts disabled"
-msgstr ""
+msgstr "Alertas desabilitado"
 
 msgid "All Compute Resources"
-msgstr ""
+msgstr "Todos os recursos de computação"
 
 msgid "All Domains"
-msgstr ""
+msgstr "Todos dominios"
 
 msgid "All Environments"
-msgstr ""
+msgstr "Todos os ambientes"
 
 #, fuzzy
 msgid "All Host Groups"
 msgstr "Host Group"
 
 msgid "All Media"
-msgstr ""
+msgstr "Todas as mídias"
 
 msgid "All Puppet Classes for %s"
-msgstr ""
+msgstr "Todas as classes do Puppet para %s"
 
 msgid "All Reports"
-msgstr ""
+msgstr "Todos os relatórios"
 
 msgid "All Smart Proxies"
-msgstr ""
+msgstr "Todos os Smart Proxies"
 
 msgid "All Subnets"
-msgstr ""
+msgstr "Todas subredes"
 
 msgid "All Templates"
-msgstr ""
+msgstr "Todos os templates"
 
 msgid "All Users"
-msgstr ""
+msgstr "Todos usuários"
 
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr ""
@@ -318,7 +322,7 @@ msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr ""
 
 msgid "All messages"
-msgstr ""
+msgstr "Todas mensagens"
 
 msgid "All mismatches between hosts and %s have been fixed"
 msgstr ""
@@ -331,64 +335,64 @@ msgid "All non public permissions successfully updated"
 msgstr ""
 
 msgid "Allocated"
-msgstr ""
+msgstr "Alocado"
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr ""
 
 msgid "Any Context"
-msgstr ""
+msgstr "Qualquer contexto"
 
 msgid "Any Location"
-msgstr ""
+msgstr "Qualquer localização"
 
 msgid "Any Organization"
-msgstr ""
+msgstr "Qualquer organização"
 
 msgid "Applicable<br>Operating Systems"
 msgstr ""
 
 msgid "Applied"
-msgstr ""
+msgstr "Aplicado"
 
 #. initial character of Applied
 msgid "Applied|A"
-msgstr ""
+msgstr "Aplicado|A"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
-msgstr ""
+msgstr "Arquitetura"
 
 msgid "Architecture Distribution"
-msgstr ""
+msgstr "Distribuição de arquitetura"
 
 msgid "Architecture configuration"
-msgstr ""
+msgstr "Configuração de arquiteturas"
 
 msgid "Architectures"
-msgstr ""
+msgstr "Arquiteturas"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Name"
 msgstr "Name"
 
 msgid "Are you sure?"
-msgstr ""
+msgstr "Você tem certeza?"
 
 msgid "Assign All"
-msgstr ""
+msgstr "Associar tudo"
 
 msgid "Assign Hosts to %s"
-msgstr ""
+msgstr "Associar hosts em %s"
 
 msgid "Assign Location"
-msgstr ""
+msgstr "Associar localização"
 
 msgid "Assign Organization"
-msgstr ""
+msgstr "Associar Organização"
 
 msgid "Assign Selected Hosts"
-msgstr ""
+msgstr "Associar hosts selecinados"
 
 msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
 msgid_plural ""
@@ -397,7 +401,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Assign to %s"
-msgstr ""
+msgstr "Associar em %s"
 
 msgid ""
 "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to "
@@ -405,7 +409,7 @@ msgid ""
 msgstr ""
 
 msgid "Association"
-msgstr ""
+msgstr "Associação"
 
 msgid ""
 "At present, authentication is performed against the internal Database or a "
@@ -418,7 +422,7 @@ msgid ""
 msgstr ""
 
 msgid "Audit Comment"
-msgstr ""
+msgstr "Comentário de auditoria"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Adapters::ActiveRecord::Audit|Action"
@@ -465,11 +469,11 @@ msgid "Audited::Adapters::ActiveRecord::Audit|Version"
 msgstr "Version"
 
 msgid "Audits"
-msgstr ""
+msgstr "Auditorias"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Auth source"
-msgstr ""
+msgstr "Fonte de autenticação"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Account"
@@ -520,7 +524,7 @@ msgid "AuthSource|Tls"
 msgstr "TLS"
 
 msgid "Authentication Source Configuration"
-msgstr ""
+msgstr "Configuração de fonte de autenticação"
 
 msgid "Authorize login delegation with REMOTE_USER environment variable"
 msgstr ""
@@ -531,7 +535,7 @@ msgid ""
 msgstr ""
 
 msgid "Authorized by"
-msgstr ""
+msgstr "Autorizado por"
 
 msgid "Autosign"
 msgstr ""
