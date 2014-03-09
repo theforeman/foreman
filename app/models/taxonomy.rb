@@ -25,6 +25,9 @@ class Taxonomy < ActiveRecord::Base
   delegate :import_missing_ids, :inherited_ids, :used_and_selected_or_inherited_ids, :selected_or_inherited_ids, :non_inherited_ids,
            :to => :tax_host
 
+  scoped_search :on => :title, :complete_value => :true, :default_order => true
+  scoped_search :on => :name, :complete_value => :true
+
   default_scope lambda { order(:title) }
 
   def self.locations_enabled

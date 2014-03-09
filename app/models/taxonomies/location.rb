@@ -19,9 +19,6 @@ class Location < Taxonomy
         where(conditions)
       }
 
-  scoped_search :on => :title, :complete_value => :true, :default_order => true
-  scoped_search :on => :name, :complete_value => :true
-
   # returns self and parent parameters as a hash
   def parameters include_source = false
     hash = {}
