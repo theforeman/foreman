@@ -91,8 +91,8 @@ class FactsParserTest < ActiveSupport::TestCase
   test "should set os.major and minor for from AIX facts" do
     @importer = Facts::Parser.new(aix_facts)
     assert_equal 'AIX', @importer.operatingsystem.family
-    assert_equal '6100', @importer.operatingsystem.major
-    assert_equal '0604', @importer.operatingsystem.minor
+    assert_equal '6', @importer.operatingsystem.major
+    assert_equal '1', @importer.operatingsystem.minor
   end
 
   private
