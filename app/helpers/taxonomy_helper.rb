@@ -119,7 +119,7 @@ module TaxonomyHelper
   end
 
   def taxonomy_selects(f, selected_ids, taxonomy, label, options = {}, options_html = {})
-    options[:disabled] = Array.wrap(options[:disabled]) + Array.wrap(taxonomy.current.try(:id))
+    options[:disabled] = Array.wrap(options[:disabled])
     options[:label]    ||= _(label)
     multiple_selects f, label.downcase, taxonomy, selected_ids, options, options_html
   end

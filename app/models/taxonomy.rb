@@ -22,8 +22,8 @@ class Taxonomy < ActiveRecord::Base
   validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
   before_validation :sanitize_ignored_types
 
-  delegate :import_missing_ids, :inherited_ids, :used_and_selected_or_inherited_ids, :selected_or_inherited_ids, :non_inherited_ids,
-           :to => :tax_host
+  delegate :import_missing_ids, :inherited_ids, :used_and_selected_or_inherited_ids, :selected_or_inherited_ids,
+           :non_inherited_ids, :used_or_inherited_ids, :used_ids, :to => :tax_host
 
   default_scope lambda { order(:title) }
 
@@ -120,7 +120,7 @@ class Taxonomy < ActiveRecord::Base
 
   private
 
-  delegate :need_to_be_selected_ids, :used_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans,
+  delegate :need_to_be_selected_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans,
            :to => :tax_host
 
   def sanitize_ignored_types
