@@ -70,7 +70,7 @@ class UsersController < ApplicationController
         login_user(user)
       end
     else
-      if params[:status]
+      if params[:status] && params[:status] == 401
         render :layout => 'login', :status => params[:status]
       else
         render :layout => 'login'
