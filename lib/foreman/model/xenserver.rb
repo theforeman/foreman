@@ -162,7 +162,7 @@ module Foreman::Model
       end
 
       disks = vm.vbds.select { |vbd| vbd.type == "Disk"}
-      disks.sort {|a, b| a.userdevice <=> b.userdevice}
+      disks.sort! {|a, b| a.userdevice <=> b.userdevice}
       i = 0
       disks.each do |vbd|
         vbd.vdi.set_attribute('name-label', "#{args[:name]}_#{i}")
@@ -180,7 +180,7 @@ module Foreman::Model
     	size = args[:VBDs][:physical_size].to_i * gb
     	vdi = client.vdis.create :name => "#{args[:name]}-disk1",
                             :storage_repository => storage_repository,
-                            :description => "#{args[:name]}-disk1",
+                            :description => "#{args[:name]}-disk_1",
                             :virtual_size => size.to_s
 
     	mem_max = args[:memory_max]
