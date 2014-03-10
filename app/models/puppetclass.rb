@@ -31,7 +31,7 @@ class Puppetclass < ActiveRecord::Base
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
   scoped_search :in => :hostgroups,   :on => :name, :complete_value => :true, :rename => "hostgroup"
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host", :ext_method => :search_by_host, :only_explicit => true
-  scoped_search :in => :class_params, :on => :key, :complete_value => :true
+  scoped_search :in => :class_params, :on => :key, :complete_value => :true, :only_explicit => true
 
   scope :not_in_any_environment, includes(:environment_classes).where(:environment_classes => {:environment_id => nil})
 
