@@ -30,7 +30,7 @@ module Facts
           end
         elsif os_name[/AIX/i]
           majoraix, tlaix, spaix, yearaix = orel.split("-")
-          orel = majoraix + "." + tlaix + spaix
+          os = majoraix[0,1] + "." + majoraix[1,1]
         elsif os_name[/JUNOS/i]
           majorjunos, minorjunos = orel.split("R")
           orel = majorjunos + "." + minorjunos
