@@ -16,6 +16,7 @@ module NestedAncestryCommon
     scoped_search :on => :title, :complete_value => true, :default_order => true
     # for legacy purposes, keep search on :label
     scoped_search :on => :title, :complete_value => true, :rename => :label
+    scoped_search :on => :name, :complete_value => :true
 
     # attribute used by *_names and *_name methods.  default is :name
     attr_name :title

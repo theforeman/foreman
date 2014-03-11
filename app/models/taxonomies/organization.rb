@@ -18,6 +18,9 @@ class Organization < Taxonomy
       where(conditions)
     }
 
+  # This scoped search definition intentionally duplicates app/models/concerns/nested_ancestry_common.rb
+  # It's a temporary fix for scoped_search's issue with completing search strings for inherited attributes
+  # See http://projects.theforeman.org/issues/4613 for details
   scoped_search :on => :title, :complete_value => :true, :default_order => true
   scoped_search :on => :name, :complete_value => :true
 
