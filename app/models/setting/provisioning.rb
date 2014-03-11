@@ -5,14 +5,14 @@ class Setting::Provisioning < Setting
     # Check the table exists
     return unless super
 
-    ssl_cert     = "#{SETTINGS[:puppetvardir]}/ssl/certs/#{Facter.fqdn}.pem"
+    ssl_cert     = "#{SETTINGS[:puppetvardir]}/ssl/certs/#{Facter.value(:fqdn)}.pem"
     ssl_ca_file  = "#{SETTINGS[:puppetvardir]}/ssl/certs/ca.pem"
-    ssl_priv_key = "#{SETTINGS[:puppetvardir]}/ssl/private_keys/#{Facter.fqdn}.pem"
+    ssl_priv_key = "#{SETTINGS[:puppetvardir]}/ssl/private_keys/#{Facter.value(:fqdn)}.pem"
 
     self.transaction do
       [
         self.set('root_pass', N_("Default encrypted root password on provisioned hosts"), nil),
-        self.set('unattended_url', N_("URL hosts will retrieve templates from during build (normally http as many installers don't support https)"), "http://#{Facter.fqdn}"),
+        self.set('unattended_url', N_("URL hosts will retrieve templates from during build (normally http as many installers don't support https)"), "http://#{Facter.value(:fqdn)}"),
         self.set('safemode_render', N_("Enable safe mode config templates rendering (recommended)"), true),
         self.set('ssl_certificate', N_("SSL Certificate path that Foreman would use to communicate with its proxies"), ssl_cert),
         self.set('ssl_ca_file', N_( "SSL CA file that Foreman will use to communicate with its proxies"), ssl_ca_file),

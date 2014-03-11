@@ -7,10 +7,10 @@ class Setting::General < Setting
     protocol=SETTINGS[:require_ssl] ? 'https' : 'http'
 
     self.transaction do
-      domain = Facter.domain
+      domain = Facter.value(:domain)
       [
         self.set('administrator', N_("The default administrator email address"), "root@#{domain}"),
-        self.set('foreman_url', N_("URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"), "#{protocol}://#{Facter.fqdn}"),
+        self.set('foreman_url', N_("URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"), "#{protocol}://#{Facter.value(:fqdn)}"),
         self.set('email_reply_address', N_("Email reply address for emails that Foreman is sending"), "Foreman-noreply@#{domain}"),
         self.set('entries_per_page', N_("Number of records shown per page in Foreman"), 20),
         self.set('fix_db_cache', N_('Fix DB cache on next Foreman restart'),false),
