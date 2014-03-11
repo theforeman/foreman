@@ -38,13 +38,18 @@ module Net::DHCP
 
     # Returns an array of record objects which are conflicting with our own
     def conflicts
-      @conflicts ||= [proxy.record(network, mac), proxy.record(network, ip)].delete_if { |c| c == self }.compact
+      conflicts = [proxy.record(network, mac), proxy.record(network, ip)].delete_if { |c| c == self }.compact
+      @conflicts ||= conflicts.uniq {|c| c.attrs}
     end
 
     # Verifies that are record already exists on the dhcp server
     def valid?
       logger.info "Fetching DHCP reservation for #{to_s}"
       self == proxy.record(network, mac)
+    end
+
+    def == other
+      attrs.values_at(:hostname, :mac, :ip, :network) == other.attrs.values_at(:hostname, :mac, :ip, :network)
     end
 
     def attrs

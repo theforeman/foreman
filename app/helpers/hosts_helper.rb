@@ -278,6 +278,10 @@ module HostsHelper
     false
   end
 
+  def has_dhcp_lease_errors? errors
+    errors.include?(:dhcp_lease_error)
+  end
+
   def args_for_compute_resource_partial(host)
     { :arch => host.try(:architecture_id)    || (params[:host] && params[:host][:architecture_id]),
       :os   => host.try(:operatingsystem_id) || (params[:host] && params[:host][:operatingsystem_id])
