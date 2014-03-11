@@ -3,6 +3,8 @@ module FogExtensions
     module Server
       extend ActiveSupport::Concern
 
+      attr_accessor :image_id
+
       def to_s
         name
       end

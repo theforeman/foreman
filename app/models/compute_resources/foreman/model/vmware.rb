@@ -12,7 +12,7 @@ module Foreman::Model
     end
 
     def capabilities
-      [:build]
+      [:build, :image]
     end
 
     def vms(opts = {})
@@ -101,23 +101,7 @@ module Foreman::Model
       errors[:base] << e.message
     end
 
-    def new_vm attr={ }
-      test_connection
-      return unless errors.empty?
-      opts = vm_instance_defaults.merge(attr.to_hash).symbolize_keys
-
-      # convert rails nested_attributes into a plain hash
-      [:interfaces, :volumes].each do |collection|
-        nested_attrs = opts.delete("#{collection}_attributes".to_sym)
-        opts[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
-      end
-
-      opts.reject! { |k, v| v.nil? }
-
-      client.servers.new opts
-    end
-
-    def create_vm args = { }
+    def parse_args args
       dc_networks = networks
       args["interfaces_attributes"].each do |key, interface|
         # Convert network id into name
@@ -126,12 +110,75 @@ module Foreman::Model
         interface["network"] = net.name
       end
 
-      vm = new_vm(args)
-      vm.save
+      # convert rails nested_attributes into a plain hash
+      [:interfaces, :volumes].each do |collection|
+        nested_attrs = args.delete("#{collection}_attributes".to_sym)
+        args[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
+      end
+
+      args.reject! { |k, v| v.nil? }
+      args
+    end
+
+    def create_vm controller_args = { }
+      args = parse_args controller_args.dup
+
+      test_connection
+      return unless errors.empty?
+
+      if args["image_id"]
+        clone_vm(args)
+      else
+        vm = new_vm(args)
+        vm.save
+      end
     rescue Fog::Errors::Error => e
       logger.debug e.backtrace
       errors.add(:base, e.to_s)
       false
+    end
+
+    def new_vm args
+      opts = vm_instance_defaults.merge(args.to_hash).symbolize_keys
+      client.servers.new opts
+    end
+
+    # === Power on
+    #
+    # Foreman will try and start this vm after clone in a seperate request.
+    #
+    # === Clusters
+    #
+    # Fog adaptor is incompatable with foreman because foreman does not have
+    # concept of a resource pool.
+    #
+    #   "resource_pool" => [args["cluster"], "Resources"]
+    #
+    # Fog calls +cluster.resourcePool.find("Resources")+ that actually calls
+    # +searchIndex.FindChild("Resources")+ in RbVmomi that then returns nil
+    # because it has no children.
+    def clone_vm args
+      vm = client.servers.get(args["image_id"], datacenter)
+      path_replace = /\/Datacenters\/#{datacenter}\/vm(\/|)/
+
+      interfaces = client.list_vm_interfaces(args["image_id"])
+      interface = interfaces.detect{|i| i[:name] == "Network adapter 1" }
+      network_adapter_device_key = interface[:key]
+
+      opts = {
+        "dest_folder" => args["path"].gsub(path_replace, ''),
+        "power_on" => false,
+        "start" => args["start"],
+        "name" => args["name"],
+        "numCPUs" => args["cpus"],
+        "memoryMB" => args["memory_mb"],
+        "datastore" => args["volumes"].first["datastore"],
+        "network_label" => args["interfaces"].first["network"],
+        "network_adapter_device_key" => network_adapter_device_key
+      }
+
+      vm.relative_path = vm.folder.path.gsub(path_replace, '')
+      vm.clone(opts)
     end
 
     def server
