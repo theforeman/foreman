@@ -26,3 +26,8 @@ bmc:
   name: BMC proxy
   url: http://else.where:45673
   features: bmc
+
+template:
+  name: TFTP Template Proxy
+  url: http://somewhere.again
+  features: tftp, templates

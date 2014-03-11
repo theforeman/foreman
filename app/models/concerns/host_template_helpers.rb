@@ -33,9 +33,26 @@ module HostTemplateHelpers
     port     = config.port || request.port
     host     = config.host || request.host
 
+    # Only proxy templates if both the proxy and the host support it
+    proxy = @host.subnet.tftp
+    if proxy.features.map(&:name).include?('Templates') and !@host.token.nil?
+      url = begin
+              "http://" + ProxyAPI::Template.new(:url => proxy.url).template_url
+            rescue
+              proxy.url
+            end
+      uri      = URI.parse(url)
+      host     = uri.host
+      port     = uri.port
+      protocol = 'http'
+    end
+
+    # No need to specify port for http connections
+    port = nil if port == 80
+
     url_for :only_path => false, :controller => "/unattended", :action => action,
-      :protocol  => protocol, :host => host, :port => port,
-      :token     => (@host.token.value unless @host.token.nil?)
+            :protocol  => protocol, :host => host, :port => port,
+            :token     => (@host.token.value unless @host.token.nil?)
   end
 
   attr_writer(:url_options)
