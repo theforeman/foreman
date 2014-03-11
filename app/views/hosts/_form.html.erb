@@ -1,5 +1,6 @@
 <%= javascript 'host_edit', 'compute_resource', 'lookup_keys'%>
-<%= render "hosts/conflicts" if has_conflicts?(@host.errors) %>
+<%= render "hosts/dhcp_lease_errors" if has_dhcp_lease_errors?(@host.errors) %>
+<%= render "hosts/conflicts" if (!has_dhcp_lease_errors?(@host.errors) && has_conflicts?(@host.errors)) %>
 <%= render "hosts/progress" %>
 
 <% Taxonomy.as_taxonomy @organization , @location do %>
@@ -123,6 +124,6 @@
     </div>
 
     <%= f.hidden_field :overwrite? %>
-    <%= submit_or_cancel f, @host.overwrite?, :cancel_path => @host %>
+    <%= submit_or_cancel f, @host.overwrite?, :cancel_path => @host.new_record? || !@host.name_changed? ? @host : edit_host_path(@host.name_was) %>
   <% end %>
 <% end %>
