@@ -257,10 +257,12 @@ module LayoutHelper
   end
 
   def alert opts = {}
-    opts[:close] ||= true
+    opts[:close]  = true if opts[:close].nil?
     opts[:header] ||= _("Warning!")
-    opts[:text] ||= _("Alert")
-    content_tag :div, :class => "alert #{opts[:class]} alert-dismissable" do
+    opts[:text]   ||= _("Alert")
+    html_class    = "alert #{opts[:class]} "
+    html_class    += 'alert-dismissable' if opts[:close]
+    content_tag :div, :class => html_class do
       result = "".html_safe
       result += alert_close if opts[:close]
       result += alert_header(opts[:header])
