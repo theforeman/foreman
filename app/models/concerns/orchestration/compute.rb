@@ -5,7 +5,7 @@ module Orchestration::Compute
   extend ActiveSupport::Concern
 
   included do
-    attr_accessor :compute_attributes, :vm, :provision_method
+    attr_accessor :compute_attributes, :vm
     after_validation :validate_compute_provisioning, :queue_compute
     before_destroy :queue_compute_destroy
   end
@@ -25,6 +25,18 @@ module Orchestration::Compute
     end
   end
 
+  def compute_provides?(attr)
+    compute? && compute_resource.provided_attributes.keys.include?(attr)
+  end
+
+  def ip_available?
+    ip.present? || compute_provides?(:ip)
+  end
+
+  def mac_available?
+    mac.present? || compute_provides?(:mac)
+  end
+
   protected
   def queue_compute
     return unless compute? and errors.empty?
@@ -37,7 +49,7 @@ module Orchestration::Compute
     queue.create(:name   => _("Set up compute instance %s") % self, :priority => 2,
                  :action => [self, :setCompute])
     queue.create(:name   => _("Acquire IP address for %s") % self, :priority => 3,
-                 :action => [self, :setComputeIP]) if compute_resource.provided_attributes.keys.include?(:ip)
+                 :action => [self, :setComputeIP]) if compute_provides?(:ip)
     queue.create(:name   => _("Query instance details for %s") % self, :priority => 4,
                  :action => [self, :setComputeDetails])
     queue.create(:name   => _("Power up compute instance %s") % self, :priority => 1000,

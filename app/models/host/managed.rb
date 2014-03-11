@@ -2,6 +2,8 @@ class Host::Managed < Host::Base
   include ReportCommon
   include Hostext::Search
 
+  PROVISION_METHODS = %w[build image]
+
   has_many :host_classes, :dependent => :destroy, :foreign_key => :host_id
   has_many :puppetclasses, :through => :host_classes
   belongs_to :hostgroup
@@ -45,7 +47,8 @@ class Host::Managed < Host::Base
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :location,
       :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
-      :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization
+      :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method,
+      :image_build?, :pxe_build?
   end
 
   attr_reader :cached_host_params
@@ -131,12 +134,14 @@ class Host::Managed < Host::Base
     validates :mac, :presence => true, :unless => Proc.new { |host| host.compute? or !host.managed }
     validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
                           :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
-                          :unless => Proc.new { |host| !host.managed or capabilities.include?(:image) }
+                          :if => Proc.new { |host| host.managed && pxe_build? }
     validates :ip, :format => {:with => Net::Validations::IP_REGEXP}, :if => Proc.new { |host| host.require_ip_validation? }
     validates :ptable_id, :presence => {:message => N_("cant be blank unless a custom partition has been defined")},
-                          :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and host.provision_method != 'image' and capabilities.include?(:build) }
+                          :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and pxe_build? }
     validates :serial, :format => {:with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8")},
                        :allow_blank => true, :allow_nil => true
+    validates :provision_method, :inclusion => {:in => PROVISION_METHODS, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
+    validate :provision_method_in_capabilities
     after_validation :set_compute_attributes
   end
 
@@ -486,7 +491,7 @@ class Host::Managed < Host::Base
   end
 
   def can_be_built?
-    managed? and SETTINGS[:unattended] and capabilities.include?(:build) ? build == false : false
+    managed? and SETTINGS[:unattended] and pxe_build? and !build?
   end
 
   def jumpstart?
@@ -498,7 +503,7 @@ class Host::Managed < Host::Base
     assign_hostgroup_attributes(%w{environment_id domain_id puppet_proxy_id puppet_ca_proxy_id compute_profile_id})
     if SETTINGS[:unattended] and (new_record? or managed?)
       assign_hostgroup_attributes(%w{operatingsystem_id architecture_id})
-      assign_hostgroup_attributes(%w{medium_id ptable_id subnet_id}) if capabilities.include?(:build)
+      assign_hostgroup_attributes(%w{medium_id ptable_id subnet_id}) if pxe_build?
     end
   end
 
@@ -553,10 +558,10 @@ class Host::Managed < Host::Base
     # if it's not managed there's nowhere to specify an IP anyway
     return false unless managed?
     # if the CR will provide an IP, then don't validate yet
-    return false if compute? && compute_resource.provided_attributes.keys.include?(:ip)
+    return false if compute_provides?(:ip)
     ip_for_dns     = (subnet.present? && subnet.dns_id.present?) || (domain.present? && domain.dns_id.present?)
     ip_for_dhcp    = subnet.present? && subnet.dhcp_id.present?
-    ip_for_token   = Setting[:token_duration] == 0 && !capabilities.include?(:image)
+    ip_for_token   = Setting[:token_duration] == 0 && (pxe_build? || (image_build? && image.try(:user_data?)))
     # Any of these conditions will require an IP, so chain with OR
     ip_for_dns or ip_for_dhcp or ip_for_token
   end
@@ -715,6 +720,18 @@ class Host::Managed < Host::Base
     read_attribute(:compute_profile_id) || hostgroup.try(:compute_profile_id)
   end
 
+  def provision_method
+    read_attribute(:provision_method) || capabilities.first.to_s
+  end
+
+  def image_build?
+    self.provision_method == 'image'
+  end
+
+  def pxe_build?
+    self.provision_method == 'build'
+  end
+
   private
 
   def lookup_value_match
@@ -774,7 +791,7 @@ class Host::Managed < Host::Base
         errors.add("#{e}_id".to_sym, _("%{value} does not belong to %{os} operating system") % { :value => value, :os => os })
         status = false
       end
-    end if SETTINGS[:unattended] and managed? and os and capabilities.include?(:build)
+    end if SETTINGS[:unattended] and managed? and os and pxe_build?
 
     puppetclasses.select("puppetclasses.id,puppetclasses.name").uniq.each do |e|
       unless environment.puppetclasses.map(&:id).include?(e.id)
@@ -834,5 +851,9 @@ class Host::Managed < Host::Base
     @tax_organization ||= TaxHost.new(organization, self)
   end
 
+  def provision_method_in_capabilities
+    return unless managed?
+    errors.add(:provision_method, _('is an unsupported provisioning method')) unless capabilities.map(&:to_s).include?(self.provision_method)
+  end
 
 end

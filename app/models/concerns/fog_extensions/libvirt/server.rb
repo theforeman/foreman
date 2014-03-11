@@ -5,6 +5,8 @@ module FogExtensions
 
       include ActionView::Helpers::NumberHelper
 
+      attr_accessor :image_id
+
       def to_s
         name
       end

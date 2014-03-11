@@ -123,8 +123,4 @@ module Orchestration::DNS
     status
   end
 
-  def ip_available?
-    ip.present? || (capabilities.include?(:image) && compute_resource.provided_attributes.keys.include?(:ip))
-  end
-
 end

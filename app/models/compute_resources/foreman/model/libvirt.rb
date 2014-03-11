@@ -17,7 +17,7 @@ module Foreman::Model
     end
 
     def capabilities
-      [:build]
+      [:build, :image]
     end
 
     def find_vm_by_uuid uuid
@@ -77,6 +77,12 @@ module Foreman::Model
       client.networks rescue []
     end
 
+    def template(id)
+      template = client.volumes.get(id)
+      raise Foreman::Exception.new(N_("Unable to find template %s"), id) unless template.persisted?
+      template
+    end
+
     def new_vm attr={ }
       test_connection
       return unless errors.empty?
@@ -90,6 +96,9 @@ module Foreman::Model
 
       opts.reject! { |k, v| v.nil? }
 
+      opts[:boot_order] = %w[hd]
+      opts[:boot_order].unshift 'network' unless attr[:image_id]
+
       vm = client.servers.new opts
       vm.memory = opts[:memory] if opts[:memory]
       vm
@@ -97,7 +106,7 @@ module Foreman::Model
 
     def create_vm args = { }
       vm = new_vm(args)
-      create_volumes :prefix => vm.name, :volumes => vm.volumes
+      create_volumes :prefix => vm.name, :volumes => vm.volumes, :backing_id => args[:image_id]
 
       vm.save
     rescue Fog::Errors::Error => e
@@ -149,7 +158,6 @@ module Foreman::Model
     def vm_instance_defaults
       super.merge(
         :memory     => 768*1024*1024,
-        :boot_order => %w[network hd],
         :nics       => [new_nic],
         :volumes    => [new_volume],
         :display    => {
@@ -163,6 +171,13 @@ module Foreman::Model
 
     def create_volumes args
       args[:volumes].each {|vol| validate_volume_capacity(vol)}
+
+      # if using image creation, the first volume needs a backing disk set
+      if args[:backing_id].present?
+        raise ::Foreman::Exception.new(N_('At least one volume must be specified for image-based provisioning.')) unless args[:volumes].size >= 1
+        args[:volumes].first.backing_volume = template(args[:backing_id])
+      end
+
       begin
         vols = []
         (volumes = args[:volumes]).each do |vol|
