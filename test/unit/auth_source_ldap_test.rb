@@ -159,6 +159,23 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert_equal 'LDAP', @auth_source_ldap.auth_method_name
   end
 
+  test "ldap user should be able to login" do
+    # stubs out all the actual ldap connectivity, but tests the authenticate
+    # method of auth_source_ldap
+    setup_ldap_stubs
+    assert_not_nil AuthSourceLdap.authenticate("test123", "changeme")
+  end
+
+  def setup_ldap_stubs
+    # stub out all the LDAP connectivity
+    entry = Net::LDAP::Entry.new
+    {:givenname=>["test"], :dn=>["uid=test123,cn=users,cn=accounts,dc=example,dc=com"], :mail=>["test123@example.com"], :sn=>["test"]}.each do |k, v|
+      entry[k] = v
+    end
+    AuthSourceLdap.any_instance.stubs(:initialize_ldap_con).returns(stub(:bind => true))
+    AuthSourceLdap.any_instance.stubs(:search_for_user_entries).returns(entry)
+  end
+
   def missing(attr)
     @attributes.each { |k, v| @auth_source_ldap.send k, v unless k == attr }
   end
