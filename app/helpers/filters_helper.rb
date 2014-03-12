@@ -19,6 +19,11 @@ module FiltersHelper
   def resource_path(type)
     return '' if type.nil?
 
-    send(type.pluralize.underscore + '_path')
+    path = type.pluralize.underscore + "_path"
+    if path.include?("/") # handle mounted engines
+      prefix, suffix = path.split('/', 2)
+      return send(prefix).send(suffix) if Rails.application.routes.mounted_helpers.method_defined?(prefix)
+    end
+    send(path.tr("/", "_"))
   end
 end
