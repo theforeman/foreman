@@ -79,8 +79,8 @@ module Hostext
 
       def search_by_puppetclass(key, operator, value)
         conditions  = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
-        hosts       = Host.authorized(:view_hosts, Host).all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hosts.id').map(&:id)
-        host_groups = Hostgroup.all(:conditions => conditions, :joins => :puppetclasses, :select => 'DISTINCT hostgroups.id').map(&:id)
+        hosts       = Host.authorized(:view_hosts, Host).where(conditions).joins(:puppetclasses).uniq.map(&:id)
+        host_groups = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:puppetclasses).uniq.map(&:id)
 
         opts = ''
         opts += "hosts.id IN(#{hosts.join(',')})"             unless hosts.blank?
