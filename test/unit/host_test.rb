@@ -961,6 +961,19 @@ class HostTest < ActiveSupport::TestCase
     assert_equal hosts.first.params['foo'], 'bar'
   end
 
+  test "can search hosts by puppet class" do
+    hosts = Host.search_for("class = base")
+    assert_equal 1, hosts.count
+    assert_equal puppetclasses(:one), hosts.first.puppetclasses.first
+  end
+
+  test "can search hosts by inherited puppet class from a hostgroup" do
+    hosts = Host.search_for("class = vim")
+    assert_equal 1, hosts.count
+    assert_equal 0, hosts.first.puppetclasses.count
+    assert_equal puppetclasses(:four), hosts.first.hostgroup.puppetclasses.first
+  end
+
   test "should update puppet_proxy_id to the id of the validated proxy" do
     sp = smart_proxies(:puppetmaster)
     raw = parse_json_fixture('/facts_with_caps.json')

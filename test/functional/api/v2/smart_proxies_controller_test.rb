@@ -91,6 +91,8 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     as_admin do
       Host::Managed.update_all(:environment_id => nil)
       Hostgroup.update_all(:environment_id => nil)
+      HostClass.destroy_all
+      HostgroupClass.destroy_all
       Puppetclass.destroy_all
       Environment.destroy_all
     end
@@ -106,7 +108,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     # This is the on-disk status
     # and should result in a disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
     envs = HashWithIndifferentAccess.new(:env1 => %w{a b c}, :env2 => %w{a b c})
-    pcs = [HashWithIndifferentAccess.new( "a" => { "name" => "a", "module" => "", "params"=> {'key' => 'special'}  } )]
+    pcs = [HashWithIndifferentAccess.new( "a" => { "name" => "a", "module" => nil, "params"=> {'key' => 'special'}  } )]
     classes = Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
     Environment.expects(:puppetEnvs).returns(envs).at_least(0)
     ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["env1", "env2"])
@@ -190,7 +192,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   test "should update puppetclass smart class parameters" do
     setup_import_classes
     LookupKey.destroy_all
-    assert_difference('LookupKey.count', 2) do
+    assert_difference('LookupKey.count', 1) do
       post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
     end
     assert_response :success
