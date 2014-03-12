@@ -38,6 +38,8 @@ class Hostgroup < ActiveRecord::Base
   scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :operators => ['= ', '~ ']
   scoped_search :in => :environment, :on => :name, :complete_value => :true, :rename => :environment
   scoped_search :on => :id, :complete_value => :true
+  # for legacy purposes, keep search on :label
+  scoped_search :on => :title, :complete_value => true, :rename => :label
   if SETTINGS[:unattended]
     scoped_search :in => :architecture, :on => :name, :complete_value => :true, :rename => :architecture
     scoped_search :in => :operatingsystem, :on => :name, :complete_value => true, :rename => :os
