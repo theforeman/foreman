@@ -123,7 +123,7 @@ class AuthSourceLdap < AuthSource
 
   def attributes_values entry
     Hash[required_ldap_attributes.merge(optional_ldap_attributes).map do |name, value|
-      next if entry[value].empty? and optional_ldap_attributes.keys.include? name
+      next if value.blank? || (entry[value].blank? && optional_ldap_attributes.keys.include?(name))
       if name.eql? :avatar
         [:avatar_hash, store_avatar(entry[value].first)]
       else
