@@ -3,7 +3,8 @@ module Foreman::Controller::TaxonomiesController
 
   included do
     before_filter :find_taxonomy, :only => %w{edit update destroy clone_taxonomy assign_hosts
-                                            assign_selected_hosts assign_all_hosts step2 select}
+                                            assign_selected_hosts assign_all_hosts step2 select
+                                            parent_taxonomy_selected}
     before_filter :count_nil_hosts, :only => %w{index create step2}
     skip_before_filter :authorize, :set_taxonomy, :only => %w{select clear}
   end
@@ -150,6 +151,12 @@ module Foreman::Controller::TaxonomiesController
     @hosts = Host.where(:id => host_ids).update_all(taxonomy_id => @taxonomy.id)
     @taxonomy.import_missing_ids
     redirect_to send("#{taxonomies_plural}_path"), :notice => _("Selected hosts are now assigned to %s") % @taxonomy.name
+  end
+
+  def parent_taxonomy_selected
+    return head(:not_found) unless @taxonomy
+    @taxonomy.parent_id = params[:parent_id]
+    render :partial => "taxonomies/form", :locals => {:taxonomy => @taxonomy}
   end
 
   private

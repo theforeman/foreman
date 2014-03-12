@@ -2,10 +2,10 @@
 
 <%= form_for taxonomy do |f| %>
   <%= base_errors_for taxonomy %>
-  <%= select_f f, :parent_id, taxonomy.class.order(:title), :id, :title, { :include_blank => true },
+  <%= select_f f, :parent_id, taxonomy.class.where("id NOT IN (#{taxonomy.subtree_ids.join(',')})").order(:title), :id, :title, { :include_blank => true },
                   { :label => _('Parent'), :onchange => 'parent_taxonomy_changed(this);',
                     :help_inline => :indicator,
-                    :'data-url' => process_parent_taxonomy_location_path(taxonomy.id)
+                    :'data-url' => parent_taxonomy_selected_location_path(taxonomy.id)
                    } %>
 
   <%= text_f f, :name %>

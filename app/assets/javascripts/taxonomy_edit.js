@@ -15,3 +15,23 @@ function ignore_checked(item){
   $(current_select).multiSelect('refresh');
   multiSelectToolTips();
 }
+
+function parent_taxonomy_changed(element) {
+  var parent_id = $(element).val();
+
+  var url = $(element).data('url');
+  var data = {parent_id: parent_id}
+
+  $(element).indicator_show();
+  $.ajax({
+    type: 'post',
+    url: url,
+    data: data,
+    complete: function(){  $(element).indicator_hide();},
+    success: function(response) {
+      $('form').replaceWith(response);
+      $(document.body).trigger('ContentLoad');
+      multiSelectOnLoad();
+    }
+  })
+}
