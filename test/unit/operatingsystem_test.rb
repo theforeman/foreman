@@ -198,6 +198,14 @@ class OperatingsystemTest < ActiveSupport::TestCase
       assert_equal 'Ubuntu 12.04.3 LTS', Debian.shorten_description("Ubuntu 12.04.3 LTS")
     end
 
+    test "SLES LSB description should be correctly shortened" do
+      assert_equal 'SLES 11', Suse.shorten_description("SUSE Linux Enterprise Server 11 (x86_64)")
+    end
+
+    test "openSUSE LSB description should be correctly shortened" do
+      assert_equal 'openSUSE 11.4', Suse.shorten_description("openSUSE 11.4 (x86_64)")
+    end
+
     test "OSes without a shorten_description method fall back to description" do
       assert_equal 'Arch Linux', Archlinux.shorten_description("Arch Linux")
     end
