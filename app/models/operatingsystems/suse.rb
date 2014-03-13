@@ -18,6 +18,16 @@ class Suse < Operatingsystem
     "SUSE"
   end
 
+  def self.shorten_description description
+    return "" if description.blank?
+    s=description
+    s.gsub!('SUSE Linux Enterprise Server','SLES')
+    s.gsub!(/\(.+?\)/,'')
+    s.squeeze! " "
+    s.strip!
+    s.blank? ? description : s
+  end
+
   def self.model_name
     superclass.model_name
   end
