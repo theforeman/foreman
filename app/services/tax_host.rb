@@ -18,7 +18,7 @@ class TaxHost
 
   # returns a hash of HASH_KEYS used ids by hosts in a given taxonomy
   def used_ids
-    @used_ids ||= default_ids_hash(populate_values = true)
+    @used_ids = default_ids_hash(populate_values = true)
   end
 
   def selected_ids
@@ -62,6 +62,10 @@ class TaxHost
 
   def used_and_selected_or_inherited_ids
     @used_and_selected_or_inherited_ids ||= union_deep_hashes(used_and_selected_ids, inherited_ids)
+  end
+
+  def used_or_inherited_ids
+    @used_or_inherited_ids = union_deep_hashes(used_ids, inherited_ids)
   end
 
   def need_to_be_selected_ids

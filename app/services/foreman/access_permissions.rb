@@ -361,7 +361,7 @@ Foreman::AccessControl.map do |map|
                                        :"api/v1/locations" => [:create],
                                        :"api/v2/locations" => [:create]
                                      }
-      map.permission :edit_locations, {:locations => [:edit, :update, :import_mismatches],
+      map.permission :edit_locations, {:locations => [:edit, :update, :import_mismatches, :parent_taxonomy_selected],
                                        :"api/v1/locations" => [:update],
                                        :"api/v2/locations" => [:update]
       }
@@ -560,7 +560,7 @@ Foreman::AccessControl.map do |map|
                                            :"api/v1/organizations" => [:create],
                                            :"api/v2/organizations" => [:create]
       }
-      map.permission :edit_organizations, {:organizations => [:edit, :update, :import_mismatches],
+      map.permission :edit_organizations, {:organizations => [:edit, :update, :import_mismatches, :parent_taxonomy_selected],
                                            :"api/v1/organizations" => [:update],
                                            :"api/v2/organizations" => [:update]
       }

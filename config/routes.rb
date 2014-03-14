@@ -336,6 +336,7 @@ Foreman::Application.routes.draw do
         get 'assign_hosts'
         post 'assign_all_hosts'
         put 'assign_selected_hosts'
+        post 'parent_taxonomy_selected'
       end
       collection do
         get 'auto_complete_search'
