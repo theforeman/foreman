@@ -40,6 +40,8 @@ class Operatingsystem < ActiveRecord::Base
   scoped_search :on => :minor,       :complete_value => :true
   scoped_search :on => :description, :complete_value => :true
   scoped_search :on => :type,        :complete_value => :true, :rename => "family"
+  scoped_search :on => :hosts_count
+  scoped_search :on => :hostgroups_count
 
   scoped_search :in => :architectures,    :on => :name,  :complete_value => :true, :rename => "architecture"
   scoped_search :in => :media,            :on => :name,  :complete_value => :true, :rename => "medium"

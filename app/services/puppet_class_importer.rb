@@ -250,7 +250,7 @@ class PuppetClassImporter
   def remove_classes_from_foreman env_name, klasses
     env     = find_or_create_env(env_name)
     classes = find_existing_foreman_classes(klasses)
-    env.puppetclasses.delete classes
+    env.puppetclasses.destroy classes
     # remove all old classes from hosts
     HostClass.joins(:host).where(:hosts => { :environment_id => env.id }, :puppetclass_id => classes).destroy_all
     if klasses.include? '_destroy_'

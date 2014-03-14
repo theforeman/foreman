@@ -16,6 +16,12 @@ class HostMailerTest < ActionMailer::TestCase
 
     @options = {}
     @options[:env] = @env
+
+    # HostMailer relies on .size, and Rails looks to the counter_caches
+    # if they exist.  Since fixtures don't populate the counter_caches,
+    # we do it here:
+    Environment.reset_counters(@env, :hosts)
+    @env.reload
   end
 
   test "mail should have the specified recipient" do

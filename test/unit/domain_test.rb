@@ -61,6 +61,22 @@ class DomainTest < ActiveSupport::TestCase
     assert domain.save!
   end
 
+  test "should update hosts_count" do
+    domain = domains(:yourdomain)
+    assert_difference "domain.hosts_count" do
+      hosts(:one).update_attribute(:domain, domain)
+      domain.reload
+    end
+  end
+
+  test "should update hostgroups_count" do
+    domain = domains(:yourdomain)
+    assert_difference "domain.hostgroups_count" do
+      hostgroups(:common).update_attribute(:domain, domain)
+      domain.reload
+    end
+  end
+
 #I must find out how to create a fact_name inside of fact_value
 
 #  test "should counts how many times a fact value exists in this domain" do

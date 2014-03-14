@@ -4,7 +4,6 @@ class OperatingsystemsController < ApplicationController
 
   def index
     @operatingsystems = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
-    @host_counter     = Host.group(:operatingsystem_id).where(:operatingsystem_id => @operatingsystems.collect(&:id)).count
   end
 
   def new

@@ -76,5 +76,4 @@ class PuppetclassTest < ActiveSupport::TestCase
     assert_equal "Puppetclass", "puppetclass".classify
     assert_equal "Puppetclass", "puppetclasses".classify
   end
-
 end

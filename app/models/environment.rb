@@ -23,6 +23,8 @@ class Environment < ActiveRecord::Base
   }
 
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :hosts_count
+  scoped_search :on => :hostgroups_count
 
   def to_param
     name
