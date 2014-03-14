@@ -69,13 +69,6 @@ module Foreman
     config.autoload_paths += %W(#{config.root}/app/models/trends)
     config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
 
-    # Load the following paths only once in development environment
-    # this is useful to keep singletons from reloading.
-    if Rails.env.development?
-      config.autoload_once_paths += Dir["#{config.root}/app/services/foreman"]
-      config.autoload_once_paths += Dir["#{config.root}/app/services/menu"]
-    end
-
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
