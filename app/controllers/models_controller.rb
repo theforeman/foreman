@@ -4,7 +4,6 @@ class ModelsController < ApplicationController
 
   def index
     @models       = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
-    @host_counter = Host.group(:model_id).where(:model_id => @models.select(&:id)).count
   end
 
   def new

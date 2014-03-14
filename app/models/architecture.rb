@@ -11,6 +11,7 @@ class Architecture < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :hosts_count
 
   def to_param
     "#{id}-#{name.parameterize}"

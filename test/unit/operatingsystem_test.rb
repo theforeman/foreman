@@ -203,4 +203,19 @@ class OperatingsystemTest < ActiveSupport::TestCase
     end
   end
 
+  test "should update hosts_count" do
+    os = operatingsystems(:ubuntu1010)
+    assert_difference "os.hosts_count" do
+      hosts(:one).update_attribute(:operatingsystem, os)
+      os.reload
+    end
+  end
+
+  test "should update hostgroups_count" do
+    os = operatingsystems(:ubuntu1010)
+    assert_difference "os.hostgroups_count" do
+      hostgroups(:common).update_attribute(:operatingsystem, os)
+      os.reload
+    end
+  end
 end

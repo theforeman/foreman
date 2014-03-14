@@ -26,4 +26,12 @@ class ModelTest < ActiveSupport::TestCase
     m.hosts << host
     assert !m.destroy
   end
+
+  test "should update hosts_count" do
+    model = Model.create :name => "newmodel"
+    assert_difference "model.hosts_count" do
+      hosts(:one).update_attribute(:model, model)
+      model.reload
+    end
+  end
 end

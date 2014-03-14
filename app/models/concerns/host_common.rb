@@ -6,14 +6,16 @@ module HostCommon
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :architecture
-    belongs_to :environment
-    belongs_to :operatingsystem
+    counter_cache = "#{model_name.split(":").first.pluralize.downcase}_count".to_sym  # e.g. :hosts_count
+
+    belongs_to :architecture,    :counter_cache => counter_cache
+    belongs_to :environment,     :counter_cache => counter_cache
+    belongs_to :operatingsystem, :counter_cache => counter_cache
     belongs_to :medium
     belongs_to :ptable
     belongs_to :puppet_proxy,    :class_name => "SmartProxy"
     belongs_to :puppet_ca_proxy, :class_name => "SmartProxy"
-    belongs_to :domain
+    belongs_to :domain,          :counter_cache => counter_cache
     belongs_to :subnet
     belongs_to :compute_profile
 

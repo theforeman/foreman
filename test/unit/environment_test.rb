@@ -34,4 +34,19 @@ class EnvironmentTest < ActiveSupport::TestCase
     assert_equal env.to_s, env.name
   end
 
+  test "should update hosts_count" do
+    environment = environments(:testing)
+    assert_difference "environment.hosts_count" do
+      hosts(:one).update_attribute(:environment, environment)
+      environment.reload
+    end
+  end
+
+  test "should update hostgroups_count" do
+    environment = environments(:testing)
+    assert_difference "environment.hostgroups_count" do
+      hostgroups(:common).update_attribute(:environment, environment)
+      environment.reload
+    end
+  end
 end
