@@ -3,7 +3,7 @@ require 'uri'
 class HostMailer < ActionMailer::Base
   helper :reports
 
-  default :content_type => "text/html", :from => Setting[:email_reply_address] || "noreply@foreman.exmaple.org"
+  default :content_type => "text/html", :from => Setting[:email_reply_address] || "noreply@foreman.example.org"
   # sends out a summary email of hosts and their metrics (e.g. how many changes failures etc).
 
 
@@ -18,7 +18,7 @@ class HostMailer < ActionMailer::Base
 
     if options[:env]
       hosts = envhosts = options[:env].hosts
-      raise (_("unable to find any hosts for puppet environment=%s") % env) if envhosts.size == 0
+      raise (_("unable to find any hosts for puppet environment=%s") % options[:env]) if envhosts.size == 0
       filter << "Environment=#{options[:env].name}"
     end
     name,value = options[:factname],options[:factvalue]
