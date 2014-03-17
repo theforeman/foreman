@@ -276,20 +276,20 @@ class UnattendedController < ApplicationController
   end
 
   def safe_render template
-    template_name = ""
+    @template_name = 'Unnamed'
     if template.is_a?(String)
       @unsafe_template  = template
     elsif template.is_a?(ConfigTemplate)
       @unsafe_template  = template.template
-      template_name = template.name
+      @template_name = template.name
     else
       raise "unknown template"
     end
 
     begin
-      render :inline => "<%= unattended_render(@unsafe_template).html_safe %>" and return
+      render :inline => "<%= unattended_render(@unsafe_template, @template_name).html_safe %>" and return
     rescue Exception => exc
-      msg = _("There was an error rendering the %s template: ") % (template_name)
+      msg = _("There was an error rendering the %s template: ") % (@template_name)
       render :text => msg + exc.message, :status => 500 and return
     end
   end

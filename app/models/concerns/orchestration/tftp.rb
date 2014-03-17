@@ -70,12 +70,12 @@ module Orchestration::TFTP
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
     @host = self
     if build?
-      pxe_render configTemplate({:kind => os.template_kind}).template
+      pxe_render configTemplate({:kind => os.template_kind})
     else
       if os.template_kind == "PXEGrub"
-        pxe_render ConfigTemplate.find_by_name("PXEGrub default local boot").template
+        pxe_render ConfigTemplate.find_by_name("PXEGrub default local boot")
       else
-        pxe_render ConfigTemplate.find_by_name("PXELinux default local boot").template
+        pxe_render ConfigTemplate.find_by_name("PXELinux default local boot")
       end
     end
   rescue => e
