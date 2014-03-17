@@ -96,8 +96,8 @@ span.btn a{ text-decoration: none; color: #333333}
 }
 
 .well {
-padding: 19px 19px 19px 36px;
-background-color: white;
+  padding: 19px 19px 19px 36px;
+  background-color: white;
 }
 
 .label-default {
@@ -149,5 +149,30 @@ background-color: white;
   /* Workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
   *, *:before, *:after {
     background-clip: padding-box;
+  }
+}
+.smart-var-left{
+  max-height:500px;
+  direction: rtl;
+  float:left;
+  text-align: left;
+  overflow-y: auto;
+  padding-right:0;
+}
+.stacked-content.tab-content {
+  padding: 19px;
+  min-height: 460px;
+  border: 1px solid $primary_gradient_start;
+  @include box-shadow(-2px 0 5px 0px rgba(0, 0, 0, 0.2));
+}
+.nav.nav-pills.nav-stacked .btn.btn-success:hover{
+  background-color: #47a447;
+}
+
+.nav.nav-pills.nav-stacked {
+  padding-right: 0;
+  & > li > a {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
