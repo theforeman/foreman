@@ -155,7 +155,7 @@ class Host::Managed < Host::Base
 
   # we should guarantee the fqdn is always fully qualified
   def fqdn
-    return name if name.blank?
+    return name if name.blank? || ( !SETTINGS[:unattended] && domain.nil? )
     name.include?('.') ? name : "#{name}.#{domain}"
   end
 
@@ -779,7 +779,8 @@ class Host::Managed < Host::Base
       self.name = fqdn
     end
     # A managed host we should know the domain for; and the shortname shouldn't include a period
-    errors.add(:name, _("must not include periods")) if managed? and shortname.include? "."
+    # This only applies for unattended=true, as otherwise the name field includes the domain
+    errors.add(:name, _("must not include periods")) if ( managed? && shortname.include?(".") && SETTINGS[:unattended] )
   end
 
   def assign_hostgroup_attributes attrs = []

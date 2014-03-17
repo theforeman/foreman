@@ -90,6 +90,25 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "my.host.company.com", host.name
   end
 
+  context "when unattended is false" do
+    def setup
+      SETTINGS[:unattended] = false
+    end
+
+    def teardown
+      SETTINGS[:unattended] = true
+    end
+
+    test "should be able to save hosts with full domain" do
+      host = Host.create :name => "myhost.foo", :mac => "aabbccddeeff", :ip => "123.01.02.03"
+      assert_equal "myhost.foo", host.fqdn
+    end
+
+    test "should be able to save hosts with no domain" do
+      host = Host.create :name => "myhost", :mac => "aabbccddeeff", :ip => "123.01.02.03"
+      assert_equal "myhost", host.fqdn
+    end
+  end
 
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
