@@ -1,5 +1,6 @@
 require 'foreman/access_permissions'
 require 'menu/loader'
+require 'foreman/plugin'
 require 'foreman/renderer'
 require 'foreman/controller'
 require 'net'
