@@ -50,7 +50,7 @@ module Foreman
       if (template = ConfigTemplate.where(:name => name, :snippet => true).first)
         logger.debug "rendering snippet #{template.name}"
         begin
-          return unattended_render(template.template)
+          return unattended_render(template)
         rescue Exception => exc
           raise "The snippet '#{name}' threw an error: #{exc}"
         end
@@ -73,11 +73,14 @@ module Foreman
       prefix + text.gsub(/\n/, "\n#{prefix}")
     end
 
-    def unattended_render template
+    def unattended_render template, template_name = nil
+      content = template.respond_to?(:template) ? template.template : template
+      template_name ||= template.respond_to?(:name) ? template.name : 'Unnamed'
       allowed_variables = ALLOWED_VARIABLES.reduce({}) do |mapping, var|
          mapping.update(var => instance_variable_get("@#{var}"))
       end
-      render_safe template, ALLOWED_HELPERS, allowed_variables
+      allowed_variables[:template_name] = template_name
+      render_safe content, ALLOWED_HELPERS, allowed_variables
     end
     alias_method :pxe_render, :unattended_render
 

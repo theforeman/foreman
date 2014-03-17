@@ -36,7 +36,7 @@ module Orchestration::SSHProvision
     template   = configTemplate(:kind => "finish")
     @host      = self
     logger.info "generating template to upload to #{name}"
-    self.template_file = unattended_render_to_temp_file(template.template)
+    self.template_file = unattended_render_to_temp_file(template)
   end
 
   def delSSHProvisionScript; end
