@@ -9,7 +9,7 @@ module LayoutHelper
   end
 
   def button_group *elements
-      content_tag(:div,:class=>"btn-group") { elements.join(" ").html_safe }
+    content_tag(:div,:class=>"btn-group") { elements.join(" ").html_safe }
   end
 
   def search_bar *elements
@@ -133,8 +133,8 @@ module LayoutHelper
                            options.merge(
                                :placeholder => _("Filter") + ' ...',
                                :path        => path,
-                                :name       => "#{f.object_name}[#{attr}]"
-                          )
+                               :name       => "#{f.object_name}[#{attr}]"
+                           )
       ).html_safe
     end
   end
@@ -146,16 +146,16 @@ module LayoutHelper
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
     size_class = options.delete(:size) || "col-md-4"
     content_tag(:div, :class=> "clearfix") do
-    content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
-               :id          => options.delete(:control_group_id) do
+      content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
+                  :id          => options.delete(:control_group_id) do
 
-      label   = options.delete(:label)
-      label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
-                  s_(clazz.gettext_translation_for_attribute_name attr)) if f
-      label_tag(attr, label, :class => "col-md-2 control-label") +
-        content_tag(:div, :class => size_class) do
-          yield.html_safe + help_block.html_safe
-        end.html_safe + help_inline.html_safe
+        label   = options.delete(:label)
+        label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
+            s_(clazz.gettext_translation_for_attribute_name attr)) if f
+        label_tag(attr, label, :class => "col-md-2 control-label") +
+            content_tag(:div, :class => size_class) do
+              yield.html_safe + help_block.html_safe
+            end.html_safe + help_inline.html_safe
       end.html_safe
     end
   end
@@ -187,12 +187,14 @@ module LayoutHelper
 
   def submit_or_cancel f, overwrite = false, args = { }
     args[:cancel_path] ||= send("#{controller_name}_path")
-    content_tag(:div, :class => "form-actions") do
-      text    = overwrite ? _("Overwrite") : _("Submit")
-      options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
-      options.merge! :'data-id' => form_to_submit_id(f) unless options.has_key?(:'data-id')
-      link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " +
-      f.submit(text, options)
+    content_tag(:div, :class => "clearfix") do
+      content_tag(:div, :class => "form-actions") do
+        text    = overwrite ? _("Overwrite") : _("Submit")
+        options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
+        options.merge! :'data-id' => form_to_submit_id(f) unless options.has_key?(:'data-id')
+        link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " +
+            f.submit(text, options)
+      end
     end
   end
 
@@ -272,7 +274,7 @@ module LayoutHelper
   end
 
   def alert_header text
-  "<h4 class='alert-heading'>#{text}</h4>".html_safe
+    "<h4 class='alert-heading'>#{text}</h4>".html_safe
   end
 
   def alert_close

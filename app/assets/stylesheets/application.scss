@@ -7,6 +7,8 @@
  *= require_tree .
  */
 
+@import "mixin";
+
 html { height: 100%; overflow: auto;}
 body { height: 100%;  }
 
@@ -237,9 +239,7 @@ select{padding: initial;}
 .form-group.condensed textarea {
   border-color: #f5f5f5;
   background-color: #f5f5f5;
-  box-shadow: none;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
+  @include box-shadow(none);
   resize: none;
   cursor: text;
 }
@@ -314,9 +314,7 @@ table.table thead .sorting_desc_disabled { background: #f9f9f9 url('sort_desc_di
   min-width: 720px;
   min-height: 400px;
   border: solid #222222 1px;
-  -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  @include box-shadow(5px 5px 5px rgba(0, 0, 0, 0.2));
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;
