@@ -64,7 +64,7 @@ Requires: %{?scl_prefix}rubygem(rabl) >= 0.7.5
 Requires: %{?scl_prefix}rubygem(rake) >= 0.8.3
 Requires: %{?scl_prefix}rubygem(ruby_parser) >= 3.0.0
 Requires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
-Requires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.23
+Requires: %{?scl_prefix}rubygem(apipie-rails) >= 0.1.1
 Requires: %{?scl_prefix}rubygem(bundler_ext)
 Requires: %{?scl_prefix}rubygem(thin)
 Requires: %{?scl_prefix}rubygem(fast_gettext) >= 0.8.0
@@ -80,7 +80,7 @@ Requires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
 Requires: %{?scl_prefix}rubygem(deep_cloneable)
 BuildRequires: %{?scl_prefix}rubygem(ancestry) >= 2.0.0
 BuildRequires: %{?scl_prefix}rubygem(ancestry) < 3.0.0
-BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.0.23
+BuildRequires: %{?scl_prefix}rubygem(apipie-rails) >= 0.1.1
 BuildRequires: %{?scl_prefix}rubygem(audited-activerecord) >= 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(bundler_ext)
 BuildRequires: %{?scl_prefix}rubygem(gettext) >= 1.9.3
@@ -472,7 +472,7 @@ ln -sv %{_localstatedir}/log/%{name} %{buildroot}%{_datadir}/%{name}/log
 # Put tmp files in %{_localstatedir}/run/%{name}
 ln -sv %{_localstatedir}/run/%{name} %{buildroot}%{_datadir}/%{name}/tmp
 
-# Symlink plugin settings directory to 
+# Symlink plugin settings directory to
 ln -sv %{_sysconfdir}/%{name}/plugins %{buildroot}%{_datadir}/%{name}/config/settings.plugins.d
 
 # Create VERSION file
@@ -532,6 +532,7 @@ fi
 # We need to run the db:migrate after the install transaction
 %{foreman_rake} db:migrate >> %{_localstatedir}/log/%{name}/db_migrate.log 2>&1 || :
 %{foreman_rake} db:seed >> %{_localstatedir}/log/%{name}/db_seed.log 2>&1 || :
+%{foreman_rake} apipie:cache >> %{_localstatedir}/log/%{name}/apipie_cache.log 2>&1 || :
 (/sbin/service foreman status && /sbin/service foreman restart) >/dev/null 2>&1
 exit 0
 
