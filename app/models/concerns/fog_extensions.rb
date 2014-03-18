@@ -28,6 +28,10 @@ begin
   require 'fog/ovirt/models/compute/server'
   Fog::Compute::Ovirt::Server.send(:include, FogExtensions::Ovirt::Server)
 
+  require 'fog/fogdocker'
+  require 'fog/fogdocker/models/compute/server'
+  Fog::Compute::Fogdocker::Server.send(:include, FogExtensions::Fogdocker::Server)
+
   require 'fog/ovirt/models/compute/volume'
   Fog::Compute::Ovirt::Volume.send(:include, FogExtensions::Ovirt::Volume)
 

@@ -1,0 +1,35 @@
+<% title @vm.name %>
+<div class='col-md-12'>
+  <table class="table table-bordered table-striped">
+    <tr><th colspan="2"><%= _('Properties') %></th></tr>
+    <tr>
+      <td><%= _('Name') %></td>
+      <td><%= @vm.name %></td>
+    </tr>
+    <tr>
+      <td><%= _('IP Address') %></td>
+      <td><%= @vm.ipaddress %> </td>
+    </tr>
+    <tr>
+      <td><%= _('CPU shares') %></td>
+      <td><%= @vm.cores %></td>
+    </tr>
+    <tr>
+      <td><%= _('UUID') %></td>
+      <td><%= @vm.identity %></td>
+    </tr>
+    <tr>
+      <td><%= _('Memory') %></td>
+      <td><%= number_to_human_size @vm.memory %> </td>
+    </tr>
+    <tr>
+      <td><%= _('Command') %></td>
+      <td><%= @vm.command %> </td>
+    </tr>
+
+    <tr>
+      <td><%= _('Running on') %></td>
+      <td><%= link_to @compute_resource, compute_resource_path(@compute_resource) %></td>
+    </tr>
+  </table>
+</div>
