@@ -258,4 +258,32 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
+  test "#login sets the session user" do
+    post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
+    assert_redirected_to hosts_path
+    assert_equal users(:admin).id, session[:user]
+  end
+
+  test "#login resets the session ID to prevent fixation" do
+    @controller.expects(:reset_session)
+    post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
+  end
+
+  test "#login doesn't escalate privileges in the old session" do
+    old_session = session
+    post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
+    refute old_session.keys.include?(:user), "old session contains user"
+    assert session[:user], "new session doesn't contain user"
+  end
+
+  test "#login retains taxonomy session attributes in new session" do
+    post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}},
+                 {:location_id => taxonomies(:location1).id,
+                  :organization_id => taxonomies(:organization1).id,
+                  :foo => 'bar'}
+    assert_equal taxonomies(:location1).id, session[:location_id]
+    assert_equal taxonomies(:organization1).id, session[:organization_id]
+    refute session[:foo], "session contains 'foo', but should have been reset"
+  end
+
 end
