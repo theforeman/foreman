@@ -65,3 +65,27 @@ function sanitize(value){
     }
     return hash;
 }
+
+$(document).on('click', '.ms-select-all', function () {
+    $(this).closest('.form-group').find('select[multiple]').multiSelect('select_all');
+    return false;
+});
+$(document).on('click', '.ms-deselect-all', function () {
+    // can't use multiSelect('deselect_all') because it is deselecting disabled items too.
+    var ms = $(this).closest('.form-group').find('select[multiple]');
+    ms.find('option:not(":disabled")').prop('selected', false);
+    ms.multiSelect('refresh');
+    return false;
+});
+
+$(document).on('keyup', '.ms-filter', function() {
+    var term = $(this).val().trim();
+    var selectable =   $(this).closest('.ms-selectable').find('.ms-elem-selectable');
+
+    if (term.length > 0) {
+      selectable.addClass('hide');
+      selectable.find('span:icontains('+term+')').parent('li').removeClass('hide');
+    } else {
+      selectable.removeClass('hide');
+    }
+});
