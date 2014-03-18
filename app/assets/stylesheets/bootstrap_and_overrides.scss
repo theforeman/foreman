@@ -41,6 +41,8 @@ $navbar-default-bg: $primary_color;
   left:100%;
   margin-top:-6px;
   margin-left:-1px;
+  max-height: 420px;
+  overflow-y: auto;
 }
 
 .dropdown-submenu:hover > .dropdown-menu {
