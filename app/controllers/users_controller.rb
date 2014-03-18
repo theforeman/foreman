@@ -57,9 +57,9 @@ class UsersController < ApplicationController
   # Called from the login form.
   # Stores the user id in the session and redirects required URL or default homepage
   def login
-    session[:user] = User.current = nil
-    session[:locale] = nil
+    User.current = nil
     if request.post?
+      backup_session_content { reset_session }
       user = User.try_to_login(params[:login]['login'].downcase, params[:login]['password'])
       if user.nil?
         #failed to authenticate, and/or to generate the account on the fly

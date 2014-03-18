@@ -15,9 +15,7 @@ module Foreman::Controller::Authentication
 
       if user.is_a?(User)
         logger.info("Authorized user #{user.login}(#{user.to_label})")
-        User.current = user
-        session[:user] = User.current.id unless api_request?
-        return User.current.present?
+        set_current_user user
       else
         if api_request?
           false
@@ -28,14 +26,11 @@ module Foreman::Controller::Authentication
 
           (redirect_to @available_sso.login_url and return) unless @available_sso.has_rendered
         end
-
       end
-
     else
-      # We assume we always have a user logged in, if authentication is disabled, the user is the built-in admin account.
-      User.current = User.admin
-      session[:user] = User.current.id unless api_request?
-      true
+      # We assume we always have a user logged in
+      # if authentication is disabled, the user is the built-in admin account
+      set_current_user User.admin
     end
   end
 
@@ -54,6 +49,8 @@ module Foreman::Controller::Authentication
     return User.current.admin? if User.current
     return false
   end
+
+  private
 
   def sso_authentication
     if available_sso.present?
@@ -75,5 +72,17 @@ module Foreman::Controller::Authentication
     user
   end
 
-end
+  def set_current_user(user)
+    User.current = user
 
+    # API access shouldn't modify the session, its authentication should be
+    # stateless.  Other successful logins should create new session IDs.
+    unless api_request?
+      backup_session_content { reset_session }
+      session[:user] = user.id
+      update_activity_time
+    end
+    user.present?
+  end
+
+end

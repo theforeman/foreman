@@ -202,7 +202,12 @@ Spork.each_run do
 
     def set_api_user
       return unless self.class.to_s[/api/i]
-      @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(users(:apiadmin).login, "secret")
+      set_basic_auth(users(:apiadmin), "secret")
+    end
+
+    def set_basic_auth(user, password)
+      login = user.is_a?(User) ? user.login : user
+      @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(login, password)
     end
   end
 

@@ -73,7 +73,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     # session is reset, redirected to login, but org id remains
     assert_redirected_to "/users/login"
     assert_match /Your session has expired, please login again/, flash[:warning]
-    assert_equal session["organization_id"], taxonomies(:organization1).id
+    assert_equal session[:organization_id], taxonomies(:organization1).id
   end
 
   test "should display a warning if current organization has been deleted" do

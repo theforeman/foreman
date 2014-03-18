@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :require_ssl, :require_login
   before_filter :set_gettext_locale_db, :set_gettext_locale
-  before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
+  before_filter :session_expiry, :update_activity_time, :unless => proc {|c| !SETTINGS[:login] || c.remote_user_provided? || c.api_request? }
   before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
@@ -160,15 +160,20 @@ class ApplicationController < ActionController::Base
 
   def session_expiry
     if session[:expires_at].blank? or (session[:expires_at].utc - Time.now.utc).to_i < 0
-      # Before we expire the session, save the current taxonomies and the originally
-      # requested URL so they can be restored later.
-      save_items = session.to_hash.slice("organization_id", "location_id").merge("original_uri" => request.fullpath)
-      expire_session
-      session.merge!(save_items)
+      session[:original_uri] = request.fullpath
+      backup_session_content { expire_session }
     end
   rescue => e
     logger.warn "failed to determine if user sessions needs to be expired, expiring anyway: #{e}"
     expire_session
+  end
+
+  # Backs up some state from a user's session around a supplied block, which
+  # will usually expire or reset the session in some way
+  def backup_session_content
+    save_items = session.to_hash.slice('organization_id', 'location_id', 'original_uri').symbolize_keys
+    yield if block_given?
+    session.merge!(save_items)
   end
 
   def update_activity_time

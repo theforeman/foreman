@@ -26,9 +26,10 @@ class Api::TestableControllerTest < ActionController::TestCase
     end
   end
 
-  context "API authentication" do
+  context "API usage when authentication is disabled" do
     setup do
       User.current = nil
+      request.env['HTTP_AUTHORIZATION'] = nil
       SETTINGS[:login] = false
     end
 
@@ -36,7 +37,7 @@ class Api::TestableControllerTest < ActionController::TestCase
       SETTINGS[:login] = true
     end
 
-    it "does not need an username and password when Settings[:login]=false" do
+    it "does not need a username and password" do
       get :index
       assert_response :success
     end
@@ -47,8 +48,36 @@ class Api::TestableControllerTest < ActionController::TestCase
     end
   end
 
+  context "API usage when authentication is enabled" do
+    setup do
+      User.current = nil
+      request.env['HTTP_AUTHORIZATION'] = nil
+      SETTINGS[:login] = true
+    end
+
+    it "requires a username and password" do
+      @controller.stubs(:available_sso).returns(nil)
+      get :index
+      assert_response :unauthorized
+    end
+
+    context "and SSO (plain) authenticates" do
+      setup do
+        @sso = mock('dummy_sso')
+        @sso.stubs(:authenticated?).returns(true)
+        @sso.stubs(:user).returns(users(:admin).login)
+        @controller.stubs(:available_sso).returns(@sso)
+      end
+
+      it "doesn't escalate privileges in the session" do
+        get :index
+        refute session[:user], "session contains user #{session[:user]}"
+      end
+    end
+  end
+
   context 'errors' do
-   test "top level key is error, no metadata included" do
+    test "top level key is error, no metadata included" do
       get :raise_error
       assert_equal ['error'], ActiveSupport::JSON.decode(@response.body).keys
     end
