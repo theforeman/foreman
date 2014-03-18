@@ -67,3 +67,12 @@ six:
   path: 'organization,location'
   override: true
   is_param: true
+
+seven:
+  key: array_test
+  key_type: array
+  validator_rule:
+  default_value: "[{'hostname': 'test.example.com'}]"
+  path: 'organization,location'
+  override: true
+  is_param: true

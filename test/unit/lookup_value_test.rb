@@ -143,4 +143,22 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
   end
 
+  test "should cast and uncast string containing a Hash" do
+    lk1 = LookupValue.new(:value => "---\n  foo: bar", :match => "hostgroup=Common", :lookup_key => lookup_keys(:six))
+    assert lk1.save!
+    assert lk1.value.is_a? Hash
+    assert_equal lk1.value_before_type_cast, "foo: bar\n"
+
+    lk2 = LookupValue.new(:value => "{'foo': 'bar'}", :match => "environment=Production", :lookup_key => lookup_keys(:six))
+    assert lk2.save!
+    assert lk2.value.is_a? Hash
+    assert_equal lk2.value_before_type_cast, "foo: bar\n"
+  end
+
+  test "should cast and uncast string containing an Array" do
+    lk = LookupValue.new(:value => "[{\"foo\":\"bar\"},{\"baz\":\"qux\"},\"baz\"]", :match => "hostgroup=Common", :lookup_key => lookup_keys(:seven))
+    assert lk.save!
+    assert lk.value.is_a? Array
+    assert_equal lk.value_before_type_cast, "[{\"foo\":\"bar\"},{\"baz\":\"qux\"},\"baz\"]"
+  end
 end
