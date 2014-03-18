@@ -109,13 +109,11 @@ class LookupKey < ActiveRecord::Base
 
   def value_before_type_cast val
     case key_type.to_sym
-      when :json
+      when :json, :array
         val = JSON.dump val
       when :yaml, :hash
         val = YAML.dump val
         val.sub!(/\A---\s*$\n/, '')
-      when  :array
-        val = val.inspect
     end unless key_type.blank?
     val
   end
