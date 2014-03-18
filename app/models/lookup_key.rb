@@ -12,7 +12,7 @@ class LookupKey < ActiveRecord::Base
 
   serialize :default_value
 
-  belongs_to :puppetclass, :inverse_of => :lookup_keys
+  belongs_to :puppetclass, :inverse_of => :lookup_keys, :counter_cache => true
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true
   has_many :param_classes, :through => :environment_classes, :source => :puppetclass
