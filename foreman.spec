@@ -426,6 +426,7 @@ install -d -m0750 %{buildroot}%{_localstatedir}/log/%{name}
 install -d -m0750 %{buildroot}%{_localstatedir}/log/%{name}/plugins
 install -Dp -m0755 script/%{name}-debug %{buildroot}%{_sbindir}/%{name}-debug
 install -Dp -m0755 script/%{name}-rake %{buildroot}%{_sbindir}/%{name}-rake
+install -Dp -m0755 script/%{name}-tail %{buildroot}%{_sbindir}/%{name}-tail
 install -Dp -m0644 %{confdir}/%{name}.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -Dp -m0755 %{confdir}/%{name}.init %{buildroot}%{_initrddir}/%{name}
 install -Dp -m0644 %{confdir}/%{name}.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
@@ -442,6 +443,7 @@ install -Dpm0644 %{confdir}/%{name}.gpg %{buildroot}%{_sysconfdir}/pki/rpm-gpg/R
 cp -p Gemfile.in %{buildroot}%{_datadir}/%{name}/Gemfile.in
 cp -p -r app bundler.d config config.ru extras lib locale Rakefile script %{buildroot}%{_datadir}/%{name}
 rm -rf %{buildroot}%{_datadir}/%{name}/extras/{jumpstart,spec}
+
 # remove all test units from produciton release
 find %{buildroot}%{_datadir}/%{name} -type d -name "test" |xargs rm -rf
 
@@ -495,6 +497,7 @@ rm -rf %{buildroot}
 %{_initrddir}/%{name}
 %{_sbindir}/%{name}-debug
 %{_sbindir}/%{name}-rake
+%{_sbindir}/%{name}-tail
 %{_mandir}/man8
 %config(noreplace) %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
