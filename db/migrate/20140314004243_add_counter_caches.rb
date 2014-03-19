@@ -41,9 +41,15 @@ class AddCounterCaches < ActiveRecord::Migration
     # Puppetclasses 
     add_column :puppetclasses, :hosts_count, :integer, :default => 0
     add_column :puppetclasses, :hostgroups_count, :integer, :default => 0
-    Puppetclass.all.each do |p|
-      Puppetclass.reset_counters(p.id, :hosts)
-      Puppetclass.reset_counters(p.id, :hostgroups)
+    # On Rails 3.2.8, reset_counters doesn't work correctly for has_many :through
+    # Seems to be something like https://github.com/rails/rails/issues/4293.
+    # So set the intial counters with increment_counter instead:
+    HostClass.all.each do |hc|
+      Puppetclass.increment_counter(:hosts_count, hc.puppetclass_id) 
+    end
+
+    HostgroupClass.all.each do |hgc|
+      Puppetclass.increment_counter(:hostgroups_count, hgc.puppetclass_id)
     end
     
     add_column :puppetclasses, :lookup_keys_count, :integer, :default => 0
