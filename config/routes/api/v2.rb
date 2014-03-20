@@ -153,6 +153,15 @@ Foreman::Application.routes.draw do
       resources :template_combinations, :only => [:show, :destroy]
       resources :config_groups, :except => [:new, :edit]
 
+      resources :compute_attributes, :only => [:create, :update]
+
+      resources :compute_profiles, :except => [:new, :edit] do
+        resources :compute_attributes, :only => [:create, :update]
+        resources :compute_resources, :except => [:new, :edit] do
+          resources :compute_attributes, :only => [:create, :update]
+        end
+      end
+
       # add "constraint" that unconstrained and allows :id to have dot notation ex. sat.redhat.com
       constraints(:id => /[^\/]+/) do
         resources :compute_resources, :except => [:new, :edit] do
@@ -164,7 +173,12 @@ Foreman::Application.routes.draw do
           get 'available_clusters/(:cluster_id)/available_networks', :to => 'compute_resources#available_networks', :on => :member
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+          resources :compute_attributes, :only => [:create, :update]
+          resources :compute_profiles, :except => [:new, :edit] do
+            resources :compute_attributes, :only => [:create, :update]
+          end
         end
+
         resources :realms, :except => [:new, :edit] do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]

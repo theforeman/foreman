@@ -9,7 +9,6 @@ module Api
 
       before_filter :find_resource, :except => %w{index create facts}
       before_filter :permissions_check, :only => %w{power boot puppetrun}
-
       add_puppetmaster_filters :facts
 
       api :GET, "/hosts/", "List all hosts."
@@ -57,6 +56,7 @@ module Api
           param :managed, :bool
           param :progress_report_id, String, :desc => 'UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks'
           param :capabilities, String
+          param :compute_profile_id, :number
           param :compute_attributes, Hash do
           end
         end
@@ -196,6 +196,8 @@ Return value may either be one of the following:
         permission = "#{params[:action]}_hosts".to_sym
         deny_access unless Host.authorized(permission).find(@host.id)
       end
+
     end
   end
 end
+
