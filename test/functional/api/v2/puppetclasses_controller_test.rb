@@ -9,6 +9,15 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses.empty?
+    assert puppetclasses['results'].kind_of?(Hash)
+  end
+
+  test "should get index with style=list" do
+    get :index, {:style => 'list' }
+    assert_response :success
+    puppetclasses = ActiveSupport::JSON.decode(@response.body)
+    assert !puppetclasses.empty?
+    assert puppetclasses['results'].kind_of?(Array)
   end
 
   test "should create puppetclass" do
@@ -81,7 +90,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :show, { :host_id => hosts(:one).to_param, :id => puppetclasses(:one).id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    refute_empty show_response
   end
 
   test "should show puppetclass for hostgroup" do
@@ -95,7 +104,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :show, { :environment_id => environments(:production), :id => puppetclasses(:one).id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    refute_empty show_response
   end
 
   # CRUD actions - same test as V1
@@ -103,7 +112,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :index, { }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses.empty?
+    refute_empty puppetclasses
   end
 
   # FYI - show puppetclass doesn't work in V1
@@ -111,7 +120,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :show, { :id => puppetclasses(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    refute_empty show_response
   end
 
   test "should create puppetclass" do
