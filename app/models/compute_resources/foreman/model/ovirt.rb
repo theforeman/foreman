@@ -1,3 +1,4 @@
+require 'foreman/exception'
 require 'uri'
 
 module Foreman::Model
@@ -5,6 +6,7 @@ module Foreman::Model
 
     validates :url, :format => { :with => URI.regexp }
     validates :user, :password, :presence => true
+    before_create :update_public_key
 
     alias_attribute :datacenter, :uuid
 
@@ -76,7 +78,10 @@ module Foreman::Model
 
     def test_connection options = {}
       super
-      errors[:url].empty? && datacenters && test_https_required
+      if errors[:url].empty? and errors[:username].empty? and errors[:password].empty?
+        update_public_key options
+        datacenters && test_https_required
+      end
     rescue => e
       case e.message
         when /404/
@@ -181,7 +186,7 @@ module Foreman::Model
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" if vm.status == "down"
       if vm.display[:type] =~ /spice/i
-        xpi_opts = {:name => vm.name, :address => vm.display[:address], :secure_port => vm.display[:secure_port], :ca_cert => cacert, :subject => vm.display[:subject] }
+        xpi_opts = {:name => vm.name, :address => vm.display[:address], :secure_port => vm.display[:secure_port], :ca_cert => public_key, :subject => vm.display[:subject] }
         opts = if vm.display[:secure_port]
                  { :host_port => vm.display[:secure_port], :ssl_target => true }
                else
@@ -215,6 +220,14 @@ module Foreman::Model
       "oVirt"
     end
 
+    def public_key
+      attrs[:public_key]
+    end
+
+    def public_key= key
+      attrs[:public_key] = key
+    end
+
     protected
 
     def bootstrap(args)
@@ -224,22 +237,47 @@ module Foreman::Model
       false
     end
 
-
     def client
-      @client ||= ::Fog::Compute.new(
+      return @client if @client
+      client = ::Fog::Compute.new(
           :provider         => "ovirt",
           :ovirt_username   => user,
           :ovirt_password   => password,
           :ovirt_url        => url,
-          :ovirt_datacenter => uuid
+          :ovirt_datacenter => uuid,
+          :ovirt_ca_cert_store => ca_cert_store(public_key)
       )
+      client.datacenters
+      @client = client
+    rescue => e
+      if e.message =~ /SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed/
+        raise Foreman::FingerprintException.new(
+                  N_("The remote system presented a public key signed by an unidentified certificate authority. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"),
+                  ca_cert)
+      else
+        raise e
+      end
+    end
+
+    def update_public_key options ={}
+      return unless public_key.blank? || options[:force]
+      client
+    rescue Foreman::FingerprintException => e
+      self.public_key = e.fingerprint
     end
 
     def api_version
-      @api_version ||= client.send(:client).api_version
+      @api_version ||= client.api_version
     end
 
-    def cacert
+    def ca_cert_store cert
+      return if cert.blank?
+      OpenSSL::X509::Store.new.add_cert(OpenSSL::X509::Certificate.new(cert))
+    rescue => e
+      raise _("Failed to create X509 certificate, error: %s" % e.message)
+    end
+
+    def ca_cert
       ca_url = URI.parse(url)
       ca_url.path = "/ca.crt"
       http = Net::HTTP.new(ca_url.host, ca_url.port)

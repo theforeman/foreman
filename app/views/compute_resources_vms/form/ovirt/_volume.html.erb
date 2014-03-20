@@ -6,7 +6,7 @@
     <%= f.hidden_field :size_gb if disabled %>
     <%= select_f f, :storage_domain, compute_resource.storage_domains, :id, :name,
                  { }, :label => _('Storage domain'), :disabled => disabled, :class => "col-md-2",
-                 :help_inline=> remove_child_link("X", f, { :method => :'_delete', :title => _('remove volume'), :class => 'label label-important' }) %>
+                 :help_inline=> remove_child_link("X", f, { :method => :'_delete', :title => _('remove volume'), :class => 'label label-danger' }) %>
     <%= f.hidden_field :storage_domain if disabled %>
     <%= f.hidden_field :id %>
     <%= field(f, :bootable, :label => _('Bootable')) do
