@@ -145,7 +145,7 @@ class Host::Managed < Host::Base
                        :allow_blank => true, :allow_nil => true
     validates :provision_method, :inclusion => {:in => PROVISION_METHODS, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
     validate :provision_method_in_capabilities
-    after_validation :set_compute_attributes
+    before_validation :set_compute_attributes, :only => :create
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
