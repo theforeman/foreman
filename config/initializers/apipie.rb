@@ -7,7 +7,7 @@ Apipie.configure do |config|
   config.ignored = []
   config.ignored_by_recorder = %w[]
   config.doc_base_url = "/apidoc"
-  config.use_cache = Rails.env.production?
+  config.use_cache = Rails.env.production? || File.directory?(config.cache_dir)
   config.validate = false
   config.force_dsl = true
   config.reload_controllers = Rails.env.development?
@@ -15,7 +15,11 @@ Apipie.configure do |config|
   config.default_version = "v1"
   config.update_checksum = true
   config.checksum_path = ['/api/', '/apidoc/']
+end
 
+unless Apipie.configuration.use_cache
+  warn "The Apipie cache is turned off.\n" \
+    "  To improve perforance of your API clients turn it on by running 'rake apipie:cache' and restart the server."
 end
 
 # special type of validator: we say that it's not specified
