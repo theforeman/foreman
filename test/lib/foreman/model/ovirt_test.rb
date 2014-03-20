@@ -11,6 +11,7 @@ class OvirtTest < ActiveSupport::TestCase
       :name => :myovirt,
       :user => 'user',
       :password => 'password',
+      :public_key => 'ovirtcacert',
       :url => "#{proto}://ovirt.example.com/"
     )
   end

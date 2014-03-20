@@ -218,7 +218,7 @@ function filter_by_level(item){
     $('.label-info').closest('tr').show();
     $('.label-default').closest('tr').hide();
     $('.label-warning').closest('tr').show();
-    $('.label-important').closest('tr').show();
+    $('.label-danger').closest('tr').show();
   }
   if(level == 'warning'){
     $('.label-info').closest('tr').hide();
