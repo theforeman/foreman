@@ -1,3 +1,3 @@
 object @puppetclass
 
-attributes :id, :name
+attributes :id, :name, :module_name

@@ -8,7 +8,16 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :index, { }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses.empty?
+    refute_empty puppetclasses
+    assert puppetclasses['results'].kind_of?(Hash)
+  end
+
+  test "should get index with style=list" do
+    get :index, {:style => 'list' }
+    assert_response :success
+    puppetclasses = ActiveSupport::JSON.decode(@response.body)
+    refute_empty puppetclasses
+    assert puppetclasses['results'].kind_of?(Array)
   end
 
   test "should create puppetclass" do
@@ -36,21 +45,21 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :index, {:host_id => hosts(:one).to_param }
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)
-    assert !fact_values.empty?
+    refute_empty fact_values
   end
 
   test "should not get puppetclasses for nonexistent host" do
     get :index, {"search" => "host = imaginaryhost.nodomain.what" }
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)
-    assert fact_values['results'].empty?
+    assert_empty fact_values['results']
   end
 
   test "should get puppetclasses for host" do
     get :index, {:host_id => hosts(:one).to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses['results'].empty?
+    refute_empty puppetclasses['results']
     assert_equal 1, puppetclasses['results'].length
   end
 
@@ -58,7 +67,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :index, {:hostgroup_id => hostgroups(:common).to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses['results'].empty?
+    refute_empty puppetclasses['results']
     assert_equal 1, puppetclasses['results'].length
   end
 
@@ -66,7 +75,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :index, {:environment_id => environments(:production).to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses['results'].empty?
+    refute_empty puppetclasses['results']
     assert_equal 3, puppetclasses['results'].length
   end
 
@@ -81,21 +90,21 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :show, { :host_id => hosts(:one).to_param, :id => puppetclasses(:one).id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    refute_empty show_response
   end
 
   test "should show puppetclass for hostgroup" do
     get :show, { :hostgroup_id => hostgroups(:common).to_param, :id => puppetclasses(:one).id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    refute_empty show_response
   end
 
   test "should show puppetclass for environment" do
     get :show, { :environment_id => environments(:production), :id => puppetclasses(:one).id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    refute_empty show_response
   end
 
   # CRUD actions - same test as V1
@@ -103,7 +112,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :index, { }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses.empty?
+    refute_empty puppetclasses
   end
 
   # FYI - show puppetclass doesn't work in V1
@@ -111,7 +120,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :show, { :id => puppetclasses(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    refute_empty show_response
   end
 
   test "should create puppetclass" do

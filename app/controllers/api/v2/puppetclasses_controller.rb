@@ -37,7 +37,12 @@ module Api
                        nested_obj.puppetclasses.count
                    end
         @subtotal = values.count
-        @puppetclasses = Puppetclass.classes2hash_v2(values.paginate(paginate_options))
+        if params[:style] == 'list'
+          @puppetclasses = values
+          render :list
+        else
+          @puppetclasses = Puppetclass.classes2hash_v2(values.paginate(paginate_options))
+        end
       end
 
       api :GET, "/puppetclasses/:id", "Show a puppetclass"
