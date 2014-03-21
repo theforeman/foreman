@@ -28,7 +28,7 @@
     <p>
       <span class="label label-danger"><%= _('Important') %></span>
       <%= _('Once installed you should head over to') %>
-      <%= link_to _("Smart Proxies"), smart_proxies_path %> 
+      <%= link_to _("Smart Proxies"), smart_proxies_path %>
       <%= _('to point Foreman at it.') %>
     </p>
   </p>
@@ -47,19 +47,13 @@
     <% if SETTINGS[:login] %>
       <ul>
         <li>
-          <%= _('For internal Users, simply create a new user at the') %>
-          <%= link_to _("Users"), users_path %>
-          <%= _('page') %>
+          <%= (_('For internal Users, simply create a new user at the %s page') % link_to(_("Users"), users_path)).html_safe %>
         </li>
         <li>
-          <%= _('If you chose to use LDAP authentication then you must provide connection details for your authentication provider on') %>
-          <%= link_to _("LDAP"), new_auth_source_ldap_path %>
-          <%= _('page') %>
+          <%= (_('If you chose to use LDAP authentication then you must provide connection details for your authentication provider on %s page') % link_to(_("LDAP"), new_auth_source_ldap_path)).html_safe %>
         </li>
         <li>
-          <%= _('For Roles and permissions, see the') %>
-          <%= link_to _("Roles"), roles_path %>
-          <%= _('page') %>
+          <%= (_('For Roles and permissions, see the %s page') % link_to(_("Roles"), roles_path)).html_safe %>
         </li>
       </ul>
     <% else %>
