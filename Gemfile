@@ -19,6 +19,8 @@ gem 'rabl', '>= 0.7.5', '<= 0.9.0'
 gem 'oauth'
 gem 'deep_cloneable'
 gem 'foreigner', '~> 1.4.2'
+gem 'turbolinks', '>= 2.2.2'
+gem 'jquery-turbolinks'
 
 if RUBY_VERSION =~ /^1\.8/
   # Older version of safemode for Ruby 1.8, as the latest causes regexp overflows (#2100)
