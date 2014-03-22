@@ -1,4 +1,6 @@
 //= require jquery
+//= require jquery.turbolinks
+//= require turbolinks
 //= require i18n
 //= require jquery_ujs
 //= require jquery.ui.autocomplete
