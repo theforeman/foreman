@@ -15,3 +15,9 @@
 
 # Mark translated strings with X characters (for developers)
 :mark_translated: false
+
+# Local administrative settings for application domain, fqdn, foreman URL,
+# administrator email address etc. If you don't have a Puppet provisioning
+# system you may want to change to setup your project on your local machine.
+:domain: 'localdomain.net'
+:fqdn: 'localhost.localdomain.net'

@@ -5,7 +5,7 @@ class Setting::Auth < Setting
     # Check the table exists
     return unless super
 
-    fqdn = Facter.value(:fqdn)
+    fqdn = Facter.value(:fqdn) || SETTINGS[:fqdn]
     self.transaction do
       [
         self.set('oauth_active', N_("Foreman will use OAuth for API authorization"), false),
