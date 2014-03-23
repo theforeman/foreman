@@ -5,8 +5,8 @@
 :unattended: true
 :login: true
 :require_ssl: false
-:locations_enabled: false
-:organizations_enabled: false
+:locations_enabled: true
+:organizations_enabled: true
 #JSONP or "JSON with padding" is a complement to the base JSON data format.
 #It provides a method to request JSON data from a server in a different domain.
 :support_jsonp: false
@@ -15,3 +15,8 @@
 
 # Mark translated strings with X characters (for developers)
 :mark_translated: false
+
+# Local administrative settings for application domain, fqdn, foreman URL,
+# administrator email address etc.
+:domain: 'localdomain.net'
+:fqdn: 'localhost.localdomain.net'
