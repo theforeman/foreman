@@ -33,10 +33,6 @@ module FogExtensions
         flavor.to_label
       end
 
-      def ip_addresses
-        [public_ip_address, private_ip_address].flatten.compact
-      end
-
     end
   end
 end

@@ -118,7 +118,7 @@ module Orchestration::Compute
     if attrs.keys.include?(:ip)
       logger.info "waiting for instance to acquire ip address"
       vm.wait_for do
-        self.send(attrs[:ip]).present? || self.ip_addresses.present?
+        self.send(attrs[:ip]).present? || (self.public_ip_addresses + self.private_ip_addresses).present?
       end
     end
   rescue => e
@@ -193,7 +193,8 @@ module Orchestration::Compute
     begin
       Timeout::timeout(120) do
         until ip
-          vm.ip_addresses.each do |addr|
+          addresses = vm.public_ip_addresses + vm.private_ip_addresses
+          addresses.each do |addr|
             ip = addresses.find { |addr| ssh_open?(addr) }
           end
           sleep 2
@@ -203,7 +204,7 @@ module Orchestration::Compute
       logger.info "acquisition of ip address timed out"
       # Userdata doesn't require an IP to ssh to, so if we can't
       # reach it, just pick one. SSH will correctly fail for an unreachable IP
-      ip = vm.ip_addresses.first if ip.blank?
+      ip = (vm.public_ip_addresses + vm.private_ip_addresses).first if ip.blank?
     end
     ip
   end
