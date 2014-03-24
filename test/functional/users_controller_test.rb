@@ -245,13 +245,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_response 403
   end
 
-  test 'user with update permission should be able to update another user' do
-    setup_user 'edit', 'users'
-    put :update, { :id => users(:two).id, :user => { :firstname => 'test' } }
-
-    assert_response :redirect
-  end
-
   test "#login sets the session user" do
     post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
     assert_redirected_to hosts_path
