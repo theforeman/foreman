@@ -1,6 +1,3 @@
-require 'socket'
-require 'timeout'
-
 module Orchestration::Compute
   extend ActiveSupport::Concern
 
@@ -96,7 +93,6 @@ module Orchestration::Compute
         # we can't ensure uniqueness of #foreman_attr using normal rails validations as that gets in a later step in the process
         # therefore we must validate its not used already in our db.
         value = vm.send(fog_attr)
-        value ||= find_address if foreman_attr == :ip
         self.send("#{foreman_attr}=", value)
 
         if value.blank? or (other_host = Host.send("find_by_#{foreman_attr}", value))
@@ -117,9 +113,7 @@ module Orchestration::Compute
     attrs = compute_resource.provided_attributes
     if attrs.keys.include?(:ip)
       logger.info "waiting for instance to acquire ip address"
-      vm.wait_for do
-        self.send(attrs[:ip]).present? || (self.public_ip_addresses + self.private_ip_addresses).present?
-      end
+      vm.wait_for { self.send(attrs[:ip]).present? }
     end
   rescue => e
     failure _("Failed to get IP for %{name}: %{e}") % { :name => name, :e => e }, e.backtrace
@@ -185,45 +179,6 @@ module Orchestration::Compute
     else
       failure(_("Selected image does not belong to %s") % compute_resource) and return false
     end
-  end
-
-  def find_address
-    # Loop over the addresses waiting for one to come up
-    ip = nil
-    begin
-      Timeout::timeout(120) do
-        until ip
-          addresses = vm.public_ip_addresses + vm.private_ip_addresses
-          addresses.each do |addr|
-            ip = addresses.find { |addr| ssh_open?(addr) }
-          end
-          sleep 2
-        end
-      end
-    rescue
-      logger.info "acquisition of ip address timed out"
-      # Userdata doesn't require an IP to ssh to, so if we can't
-      # reach it, just pick one. SSH will correctly fail for an unreachable IP
-      ip = (vm.public_ip_addresses + vm.private_ip_addresses).first if ip.blank?
-    end
-    ip
-  end
-
-  def ssh_open? ip
-    begin
-      Timeout::timeout(1) do
-        begin
-          s = TCPSocket.new(ip, 22)
-          s.close
-          return true
-        rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ENETUNREACH
-          return false
-        end
-      end
-    rescue Timeout::Error
-    end
-
-    return false
   end
 
 end
