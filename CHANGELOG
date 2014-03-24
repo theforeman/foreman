@@ -1,3 +1,45 @@
+2014-03-24	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.4.2
+	* Remove test erroneously pulled from develop
+	* fixes #4457 - Session fixation, new session IDs are not generated on login (CVE-2014-0090)
+	* Revert "Fixes #2270 - Detect all OpenStack IPs and test which allows SSH"
+	* Revert "Fixes #4616 - Add a Fog mixin for looking up EC2 IP addresses"
+
+2014-03-24	Joseph Magen <jmagen@redhat.com>
+	* fixes #4456 - XSS on 500 error page and bookmark name causing render error (CVE-2014-0089)
+
+2014-03-24	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* Fixes #4680 - Don't append periods to unqualified unmanaged hosts
+
+2014-03-17	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #4669 - HostMailer summary method refers to undefined variable
+
+2014-03-17	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4314 - ignore default scope ordering on host search by puppet class
+	* fixes #4626 - update Facter calls for 2.0 compatibility
+
+2014-03-17	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #4616 - Add a Fog mixin for looking up EC2 IP addresses
+
+2014-03-12	Jan Pazdziora <jpazdziora@redhat.com>
+	* fixes #3475 - make it possible to force the 401 status.
+	* fixes #4442 - returning nil plays nice with try_to_login.
+
+2014-03-12	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #4565 - puppet class free-text search is now significantly faster
+
+2014-03-12	Tom McKay <thomasmckay@redhat.com>
+	* fixes #4194, #4459 - add main_app to root_path references for isolated engines
+
+2014-03-12	James Jenkins <James@nostrand.local>
+	* fixes #4485 prevents undefined method when cloning a host
+
+2014-03-12	Martin Ducar <martin.ducar@gooddata.com>
+	* fixes #4524 - The logged in user should be the default one in create new hosts
+
+2014-03-12	Jason Montleon <jmontleo@redhat.com>
+	* fixes #4245 - return HTTP body for oVirt SSL CA certificate
+
 2014-02-21	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.4.1-2
 	* i18n - extracting new, updating rails, pulling from tx
