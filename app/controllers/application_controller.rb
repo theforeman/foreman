@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Foreman::Controller::Authentication
+  include Foreman::Controller::Session
   include Foreman::ThreadSession::Cleaner
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -188,40 +189,6 @@ class ApplicationController < ActionController::Base
           params[:search] += query unless params[:search].include? query
         end
       end
-    end
-  end
-
-  def session_expiry
-    if session[:expires_at].blank? or (session[:expires_at].utc - Time.now.utc).to_i < 0
-      session[:original_uri] = request.fullpath
-      backup_session_content { expire_session }
-    end
-  rescue => e
-    logger.warn "failed to determine if user sessions needs to be expired, expiring anyway: #{e}"
-    expire_session
-  end
-
-  # Backs up some state from a user's session around a supplied block, which
-  # will usually expire or reset the session in some way
-  def backup_session_content
-    save_items = session.to_hash.slice('organization_id', 'location_id', 'original_uri').symbolize_keys
-    yield if block_given?
-    session.merge!(save_items)
-  end
-
-  def update_activity_time
-    session[:expires_at] = Setting[:idle_timeout].minutes.from_now.utc
-  end
-
-  def expire_session
-    logger.info "Session for #{current_user} is expired."
-    sso = get_sso_method
-    reset_session
-    if sso.nil? || !sso.support_expiration?
-      flash[:warning] = _("Your session has expired, please login again")
-      redirect_to main_app.login_users_path
-    else
-      redirect_to sso.expiration_url
     end
   end
 

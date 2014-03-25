@@ -2,9 +2,11 @@ module Api
   #TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
     include Foreman::Controller::Authentication
+    include Foreman::Controller::Session
     include Foreman::ThreadSession::Cleaner
 
     before_filter :set_default_response_format, :authorize, :add_version_header, :set_gettext_locale
+    before_filter :session_expiry, :update_activity_time
 
     cache_sweeper :topbar_sweeper
 
