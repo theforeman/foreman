@@ -79,7 +79,7 @@ class ConfigTemplate < ActiveRecord::Base
   end
 
   def self.build_pxe_default(renderer)
-    if (proxies = SmartProxy.tftp_proxies).empty?
+    if (proxies = SmartProxy.with_features("TFTP")).empty?
       error_msg = _("No TFTP proxies defined, can't continue")
     end
 

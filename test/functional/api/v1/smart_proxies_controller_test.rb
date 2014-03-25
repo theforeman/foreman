@@ -14,7 +14,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
 
   test "should get index filtered by type" do
     as_user :admin do
-      get :index, { :type => 'tftp' }
+      get :index, { :type => 'TFTP' }
     end
     assert_response :success
     assert_not_nil assigns(:smart_proxies)
@@ -22,7 +22,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     assert_not smart_proxies.empty?
 
     returned_proxy_ids = smart_proxies.map { |p| p["smart_proxy"]["id"] }
-    expected_proxy_ids = SmartProxy.tftp_proxies.map { |p| p.id }
+    expected_proxy_ids = SmartProxy.with_features("TFTP").map { |p| p.id }
     assert returned_proxy_ids == expected_proxy_ids
   end
 
