@@ -26,6 +26,9 @@ if RUBY_VERSION =~ /^1\.8/
 
   # Used in fog, rbovirt etc.  1.6.0 breaks Ruby 1.8 compatibility.
   gem 'nokogiri', '~> 1.5.0'
+
+  # 10.2.0 breaks Ruby 1.8 compatibility
+  gem 'rake', '< 10.2.0'
 else
   # Newer version of safemode contains fixes for Ruby 1.9
   gem 'safemode', '~> 1.2'
