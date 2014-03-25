@@ -26,6 +26,26 @@ class Api::TestableControllerTest < ActionController::TestCase
     end
   end
 
+  context "API session expiration" do
+    test "request succeeds if no session[:expires_at] is included" do
+      # this would be typical of API initiated directly or from cli
+      get :index
+      assert_response :success
+    end
+
+    test "request fails if session expired" do
+      # this would be typical of API initiated from a web ui session
+      get :index, {}, { :expires_at => 5.days.ago.utc }
+      assert_response :unauthorized
+    end
+
+    test "request succeeds if session has not expired" do
+      # this would be typical of API initiated from a web ui session
+      get :index, {}, { :expires_at => 5.days.from_now.utc }
+      assert_response :success
+    end
+  end
+
   context "API usage when authentication is disabled" do
     setup do
       User.current = nil
