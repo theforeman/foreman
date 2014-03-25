@@ -44,9 +44,13 @@ module Facts
       else
         os = Operatingsystem.find_by_name(os_name) || Operatingsystem.create!(:name => os_name)
       end
-      if facts[:lsbdistdescription] && os.description.blank?
-        family = os.deduce_family || 'Operatingsystem'
-        os.description = family.constantize.shorten_description facts[:lsbdistdescription]
+      if os.description.blank?
+        if os_name == 'SLES'
+          os.description = os_name + ' ' + orel.gsub!('.', ' SP')
+        elsif facts[:lsbdistdescription]
+          family = os.deduce_family || 'Operatingsystem'
+          os.description = family.constantize.shorten_description facts[:lsbdistdescription]
+        end
       end
       os.save!
       os
