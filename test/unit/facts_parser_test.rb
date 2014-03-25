@@ -82,6 +82,11 @@ class FactsParserTest < ActiveSupport::TestCase
     assert_equal "RHEL Server 6.2", @importer.operatingsystem.description
   end
 
+  test "should set description correctly for SLES" do
+    @importer = Facts::Parser.new(sles_facts)
+    assert_equal 'SLES 11 SP3', @importer.operatingsystem.description
+  end
+
   test "should not set description if lsbdistdescription is missing" do
     facts.delete('lsbdistdescription')
     @importer = Facts::Parser.new(facts)
@@ -104,6 +109,10 @@ class FactsParserTest < ActiveSupport::TestCase
 
   def debian_facts
     JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_debian.json')))['facts']
+  end
+
+  def sles_facts
+    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_sles.json')))['facts']
   end
 
   def aix_facts
