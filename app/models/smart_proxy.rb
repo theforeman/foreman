@@ -32,7 +32,14 @@ class SmartProxy < ActiveRecord::Base
     end
   }
 
-  Feature.name_map.each { |f, v| scope "#{f}_proxies".to_sym, where(:features => { :name => v }).joins(:features) }
+  Feature.name_map.each do |f, v|
+    scope "#{f}_proxies".to_sym,
+      lambda {
+        ActiveSupport::Deprecation.warn "Scope 'SmartProxy.#{f}_proxies' has been deprecated. Please use 'SmartProxy.with_features' instead", caller
+        where(:features => { :name => v }).joins(:features)
+      }
+  end
+  scope :with_features, lambda {|*feature_names| where(:features => { :name => feature_names }).joins(:features) }
 
   def hostname
     # This will always match as it is validated
