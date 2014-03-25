@@ -21,7 +21,7 @@ else
     end
     Bundler.require(*Rails.groups(:assets => %w(development test)))
     if SETTINGS[:unattended]
-      %w[fog libvirt ovirt vmware gce].each do |group|
+      %w[fog libvirt ovirt docker vmware gce].each do |group|
         begin
           Bundler.require(group)
         rescue LoadError
@@ -34,6 +34,7 @@ end
 
 SETTINGS[:libvirt] = defined?(::Fog) && defined?(::Libvirt)
 SETTINGS[:ovirt] = defined?(::Fog) && defined?(::OVIRT)
+SETTINGS[:docker] = defined?(::Fog) && defined?(::Docker)
 SETTINGS[:vmware] = defined?(::Fog) && defined?(::RbVmomi)
 SETTINGS[:gce] = defined?(::Fog) && defined?(::Google::APIClient::VERSION)
 SETTINGS[:openstack] = SETTINGS[:rackspace] = SETTINGS[:ec2] = !! defined?(::Fog)
