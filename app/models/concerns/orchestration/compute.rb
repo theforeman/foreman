@@ -128,6 +128,8 @@ module Orchestration::Compute
   def setComputeIP
     attrs = compute_resource.provided_attributes
     if attrs.keys.include?(:ip)
+      logger.info "Waiting for #{name} to become ready"
+      vm.wait_for { self.ready? }
       logger.info "waiting for instance to acquire ip address"
       vm.wait_for do
         self.send(attrs[:ip]).present? || self.ip_addresses.present?
@@ -200,22 +202,28 @@ module Orchestration::Compute
   end
 
   def find_address
+    # We need to return fast for user-data, so that we save the host before
+    # cloud-init finishes, even if the IP is not reachable by Foreman. We do have
+    # to return a real IP though, or Foreman will fail to save the host.
+    return vm.ip_addresses.first if ( vm.ip_addresses.present? && self.compute_attributes[:user_data].present? )
+
     # Loop over the addresses waiting for one to come up
     ip = nil
     begin
       Timeout::timeout(120) do
         until ip
-          vm.ip_addresses.each do |addr|
-            ip = addresses.find { |addr| ssh_open?(addr) }
-          end
+          ip = vm.ip_addresses.find { |addr| ssh_open?(addr) }
           sleep 2
         end
       end
-    rescue
-      logger.info "acquisition of ip address timed out"
-      # Userdata doesn't require an IP to ssh to, so if we can't
-      # reach it, just pick one. SSH will correctly fail for an unreachable IP
+    rescue Timeout::Error
+      # User-data-based images don't need Foreman to connect at all, so we
+      # can return any old ip address here and Foreman won't care. SSH-finish-based
+      # images do require an IP, but it's more accurate to return something here
+      # if we have it, and let the SSH orchestration fail (and notify) for an
+      # unreachable IP
       ip = vm.ip_addresses.first if ip.blank?
+      logger.info "acquisition of ip address timed out, using #{ip}"
     end
     ip
   end
