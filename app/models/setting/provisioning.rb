@@ -5,9 +5,10 @@ class Setting::Provisioning < Setting
     # Check the table exists
     return unless super
 
-    ssl_cert     = "#{SETTINGS[:puppetvardir]}/ssl/certs/#{Facter.value(:fqdn)}.pem"
+    lower_fqdn = Facter.value(:fqdn).downcase
+    ssl_cert     = "#{SETTINGS[:puppetvardir]}/ssl/certs/#{lower_fqdn}.pem"
     ssl_ca_file  = "#{SETTINGS[:puppetvardir]}/ssl/certs/ca.pem"
-    ssl_priv_key = "#{SETTINGS[:puppetvardir]}/ssl/private_keys/#{Facter.value(:fqdn)}.pem"
+    ssl_priv_key = "#{SETTINGS[:puppetvardir]}/ssl/private_keys/#{lower_fqdn}.pem"
 
     self.transaction do
       [
