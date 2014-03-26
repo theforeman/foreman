@@ -4,6 +4,8 @@ module Api
     include Foreman::Controller::Authentication
     include Foreman::ThreadSession::Cleaner
 
+    prepend_before_filter :api_protect_from_forgery
+
     before_filter :set_default_response_format, :authorize, :add_version_header, :set_gettext_locale
 
     cache_sweeper :topbar_sweeper
@@ -56,6 +58,12 @@ module Api
 
     def api_request?
       true
+    end
+
+    def api_protect_from_forgery
+      if session[:user]
+        self.class.protect_from_forgery
+      end
     end
 
     protected
