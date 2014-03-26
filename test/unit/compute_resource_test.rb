@@ -82,6 +82,14 @@ class ComputeResourceTest < ActiveSupport::TestCase
     end
   end
 
+  test "add compute resource" do
+    ComputeResource.register_provider('Best')
+    assert ComputeResource.supported_providers.must_include('Best')
+    refute ComputeResource.providers.wont_include('Best')
+    SETTINGS[:best] = true
+    assert ComputeResource.providers.must_include('Best')
+  end
+
   # test taxonomix methods
   test "should get used location ids for host" do
     assert_equal [taxonomies(:location1).id], compute_resources(:one).used_location_ids

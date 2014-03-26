@@ -41,10 +41,10 @@
                 <th><%= _("Provider") %></th>
                 <th><%= _("Status") %></th>
               </tr>
-              <% ComputeResource::SUPPORTED_PROVIDERS.each do |provider| %>
+              <% ComputeResource.supported_providers.each do |provider| %>
                 <tr>
                   <td><%= provider %></td>
-                  <% if ComputeResource::PROVIDERS.include?(provider) %>
+                  <% if ComputeResource.providers.include?(provider) %>
                     <td><div class="label label-success"><%= _('Installed') %></div></td>
                   <% else %>
                     <td><div class="label label-default"><%= _('Not Installed') %></div></td>

@@ -203,4 +203,12 @@ class PluginTest < ActiveSupport::TestCase
     Foreman::Renderer::ALLOWED_HELPERS.delete(:my_variable)
   end
 
+  def test_add_compute_resource
+    Foreman::Plugin.register :awesome_compute do
+      name 'Awesome compute'
+      compute_resource 'Awesome'
+    end
+    assert ComputeResource.providers.must_include 'Awesome'
+    assert ComputeResource.supported_providers.must_include 'Awesome'
+  end
 end

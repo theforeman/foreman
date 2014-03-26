@@ -4,8 +4,10 @@ class ComputeResource < ActiveRecord::Base
   include Encryptable
   include Authorizable
   encrypts :password
-  SUPPORTED_PROVIDERS = %w[Libvirt Ovirt EC2 Vmware Openstack Rackspace GCE]
-  PROVIDERS = SUPPORTED_PROVIDERS.reject { |p| !SETTINGS[p.downcase.to_sym] }
+
+  class_attribute :supported_providers
+  self.supported_providers = %w[Libvirt Ovirt EC2 Vmware Openstack Rackspace GCE]
+
   audited :except => [:password, :attrs], :allow_mass_assignment => true
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
@@ -16,7 +18,7 @@ class ComputeResource < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
   validates :name, :uniqueness => true, :format => { :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.") }
-  validates :provider, :presence => true, :inclusion => { :in => PROVIDERS }
+  validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :id, :complete_value => :true
@@ -29,6 +31,9 @@ class ComputeResource < ActiveRecord::Base
   # attribute used by *_names and *_name methods.  default is :name
   attr_name :to_label
 
+  # The DB may contain compute resource from disabled plugins - filter them out here
+  scope :live_descendants, lambda { where(:type => self.descendants.map(&:to_s)) unless Rails.env.development? }
+
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
@@ -37,10 +42,19 @@ class ComputeResource < ActiveRecord::Base
     end
   }
 
+  def self.register_provider(provider)
+    return if supported_providers.include? provider
+    supported_providers << provider
+  end
+
+  def self.providers
+    supported_providers.reject { |p| !SETTINGS[p.downcase.to_sym] }
+  end
+
   # allows to create a specific compute class based on the provider.
   def self.new_provider args
-    raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider = args[:provider]
-    PROVIDERS.each do |p|
+    raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider = args.delete(:provider)
+    self.providers.each do |p|
       return "#{STI_PREFIX}::#{p}".constantize.new(args) if p.downcase == provider.downcase
     end
     raise ::Foreman::Exception.new N_("unknown provider")
@@ -136,7 +150,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def provider=(value)
-    if PROVIDERS.include? value
+    if self.class.providers.include? value
       self.type = "#{STI_PREFIX}::#{value}"
     end
   end
