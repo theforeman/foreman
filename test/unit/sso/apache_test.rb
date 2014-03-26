@@ -59,6 +59,21 @@ class ApacheTest < ActiveSupport::TestCase
     assert apache.authenticated?
   end
 
+  def test_authenticated_parses_user_groups
+    Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
+    apache = get_apache_method
+
+    apache.controller.request.env[SSO::Apache::CAS_USERNAME] = 'ares'
+    apache.controller.request.env['REMOTE_USER_GROUP_N']     = 2
+    existing = FactoryGirl.create :usergroup
+    apache.controller.request.env['REMOTE_USER_GROUP_1']     = existing.name
+    apache.controller.request.env['REMOTE_USER_GROUP_2']     = 'does-not-exist-for-sure'
+    User.expects(:find_or_create_external_user).
+        with({:login => 'ares', :groups => [existing.name, 'does-not-exist-for-sure']}, 'apache').
+        returns(true)
+    assert apache.authenticated?
+  end
+
   def test_convert_encoding
     apache = get_apache_method
     assert apache.send(:convert_encoding, 'fó✗@e✗amp✓e.com')
