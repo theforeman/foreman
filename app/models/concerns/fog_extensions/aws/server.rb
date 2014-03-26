@@ -34,7 +34,7 @@ module FogExtensions
       end
 
       def ip_addresses
-        [public_ip_address, private_ip_address].flatten.compact
+        [public_ip_address, private_ip_address].flatten.select(&:present?)
       end
 
     end

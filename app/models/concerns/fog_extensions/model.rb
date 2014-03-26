@@ -18,5 +18,13 @@ module FogExtensions
       attr.delete(:client)
       attr
     end
+
+    def ip_addresses
+      # Returning an empty array here will skips provider-specific
+      # IP address iteration and falls back on `provided_attributes[:ip]`
+      # from Fog itself
+      []
+    end
+
   end
 end
