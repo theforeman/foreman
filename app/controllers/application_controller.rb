@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
     # don't force SSL on localhost
     return true if request.host=~/localhost|127.0.0.1/
     # finally - redirect
-    redirect_to :protocol => 'https' and return if request.protocol != 'https' and not request.ssl?
+    redirect_to :protocol => 'https' and return if request.protocol != 'https://' and not request.ssl?
   end
 
   # This filter is called before FastGettext set_gettext_locale and sets user-defined locale
