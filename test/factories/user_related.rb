@@ -3,6 +3,12 @@ FactoryGirl.define do
     sequence(:name) {|n| "usergroup#{n}" }
   end
 
+  factory :external_usergroup do
+    sequence(:name) {|n| "external_usergroup#{n}" }
+    usergroup { FactoryGirl.create :usergroup }
+    auth_source { FactoryGirl.create :auth_source_external }
+  end
+
   factory :user do
     auth_source { AuthSourceInternal.first }
     password 'password'
