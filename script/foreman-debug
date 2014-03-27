@@ -259,6 +259,14 @@ add_files /etc/{sysconfig,default}/libvirt*
 add_files /etc/sysconfig/pgsql
 add_cmd "foreman-rake plugins" "plugin_list"
 
+# Look for any debug extensions provided by plugins
+if [ -d "/usr/share/foreman/script/foreman-debug.d" ]; then
+  for extension in "/usr/share/foreman/script/foreman-debug.d/*.sh"; do
+    printv "Processing extension $extension"
+    source $extension
+  done
+fi
+
 qprintf "\n\n"
 qprintf "%10s %s\n" "HOSTNAME:" "$(hostname -f 2>/dev/null)"
 qprintf "%10s %s\n" "OS:" "$OS"
