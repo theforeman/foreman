@@ -868,19 +868,30 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "can search hosts by params" do
-    parameter = parameters(:host)
-    hosts = Host.search_for("params.host1 = host1")
-    assert_equal hosts.count, 1
-    assert_equal hosts.first.params['host1'], 'host1'
+    host = FactoryGirl.create(:host, :with_parameter)
+    parameter = host.parameters.first
+    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    assert_equal 1, results.count
+    assert_equal parameter.value, results.first.params[parameter.name]
   end
 
   test "can search hosts by inherited params from a hostgroup" do
-    host = hosts(:one)
-    host.update_attribute(:hostgroup, hostgroups(:inherited))
-    GroupParameter.create( { :name => 'foo', :value => 'bar', :hostgroup => host.hostgroup.parent } )
-    hosts = Host.search_for("params.foo = bar")
-    assert_equal hosts.count, 1
-    assert_equal hosts.first.params['foo'], 'bar'
+    hg = FactoryGirl.create(:hostgroup, :with_parameter)
+    host = FactoryGirl.create(:host, :hostgroup => hg)
+    parameter = hg.group_parameters.first
+    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    assert_equal 1, results.count
+    assert_equal parameter.value, results.first.params[parameter.name]
+  end
+
+  test "can search hosts by inherited params from a parent hostgroup" do
+    parent_hg = FactoryGirl.create(:hostgroup, :with_parameter)
+    hg = FactoryGirl.create(:hostgroup, :parent => parent_hg)
+    host = FactoryGirl.create(:host, :hostgroup => hg)
+    parameter = parent_hg.group_parameters.first
+    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    assert_equal 1, results.count
+    assert_equal parameter.value, results.first.params[parameter.name]
   end
 
   test "can search hosts by puppet class" do
