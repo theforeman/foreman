@@ -884,16 +884,30 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "can search hosts by puppet class" do
-    hosts = Host.search_for("class = base")
-    assert_equal 1, hosts.count
-    assert_equal puppetclasses(:one), hosts.first.puppetclasses.first
+    host = FactoryGirl.create(:host, :with_puppetclass)
+    results = Host.search_for("class = #{host.puppetclasses.first.name}")
+    assert_equal 1, results.count
+    assert_equal host.puppetclasses.first, results.first.puppetclasses.first
   end
 
   test "can search hosts by inherited puppet class from a hostgroup" do
-    hosts = Host.search_for("class = vim")
-    assert_equal 1, hosts.count
-    assert_equal 0, hosts.first.puppetclasses.count
-    assert_equal puppetclasses(:four), hosts.first.hostgroup.puppetclasses.first
+    hg = FactoryGirl.create(:hostgroup, :with_puppetclass)
+    host = FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
+    results = Host.search_for("class = #{hg.puppetclasses.first.name}")
+    assert_equal 1, results.count
+    assert_equal 0, results.first.puppetclasses.count
+    assert_equal hg.puppetclasses.first, results.first.hostgroup.puppetclasses.first
+  end
+
+  test "can search hosts by inherited puppet class from a parent hostgroup" do
+    parent_hg = FactoryGirl.create(:hostgroup, :with_puppetclass)
+    hg = FactoryGirl.create(:hostgroup, :parent => parent_hg)
+    host = FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
+    results = Host.search_for("class = #{parent_hg.puppetclasses.first.name}")
+    assert_equal 1, results.count
+    assert_equal 0, results.first.puppetclasses.count
+    assert_equal 0, results.first.hostgroup.puppetclasses.count
+    assert_equal parent_hg.puppetclasses.first, results.first.hostgroup.parent.puppetclasses.first
   end
 
   test "should update puppet_proxy_id to the id of the validated proxy" do
