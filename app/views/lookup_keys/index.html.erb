@@ -5,7 +5,7 @@
   <tr>
     <th><%= sort :key, :as => _("Variable") %></th>
     <th><%= sort :puppetclass, :as => _("Puppetclass") %></th>
-    <th><%= sort :values_count, :as => _('Number of values') %></th>
+    <th><%= sort :values_count, :as => _('Number of values'), :default => "DESC" %></th>
     <th></th>
   </tr>
 
