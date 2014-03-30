@@ -10,6 +10,7 @@ SYSCONFDIR = ENV['SYSCONFDIR'] || "#{PREFIX}/etc"
 LOCALSTATEDIR = ENV['LOCALSTATEDIR'] || "#{PREFIX}/var"
 SHAREDSTAREDIR = ENV['SHAREDSTAREDIR'] || "#{LOCALSTATEDIR}/lib"
 DATAROOTDIR = DATADIR = ENV['DATAROOTDIR'] || "#{PREFIX}/share"
+DEBUGDIR = ENV['DEBUGDIR'] || "#{DATAROOTDIR}/foreman/script/foreman-debug.d"
 MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
 
 file BUILDDIR do
@@ -36,6 +37,7 @@ task :install => :build do |t|
   mkdir_p "#{MANDIR}/man8"
   cp "#{BUILDDIR}/foreman-rake.8.gz", "#{MANDIR}/man8/"
   cp "#{BUILDDIR}/foreman-debug.8.gz", "#{MANDIR}/man8/"
+  mkdir_p "#{DEBUGDIR}"
 end
 
 task :default => :build
