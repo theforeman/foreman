@@ -103,8 +103,9 @@ Foreman::Application.configure do |app|
                   spice
                   trends
                   charts
-                  taxonomy
+                  taxonomy_edit
                   gettext/all
+                  filters
                  )
   stylesheets = %w( )
 

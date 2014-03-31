@@ -26,8 +26,8 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     # Apipie
     "apipie/apipies/index", "apipie/apipies/apipie_checksum",
 
-    # API app controller stub
-    "api/testable/index", "api/testable/raise_error"
+    # App controller stubs
+    "testable/index", "api/testable/index", "api/testable/raise_error"
   ]
 
   MAY_SKIP_AUTHORIZED = [ "about/index" ]

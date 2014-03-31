@@ -1,7 +1,6 @@
-@mixin box-shadow($top, $left, $blur, $color, $inset:"") {
-  -webkit-box-shadow: $top $left $blur $color #{$inset};
-  -moz-box-shadow: $top $left $blur $color #{$inset};
-  box-shadow: $top $left $blur $color #{$inset};
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow; // iOS <4.3 & Android <4.1
+  box-shadow: $shadow;
 }
 
 @mixin linear_gradient($start_color, $end_color) {

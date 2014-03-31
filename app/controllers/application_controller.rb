@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Foreman::Controller::Authentication
+  include Foreman::Controller::Session
   include Foreman::ThreadSession::Cleaner
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -14,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :require_ssl, :require_login
   before_filter :set_gettext_locale_db, :set_gettext_locale
-  before_filter :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? } if SETTINGS[:login]
+  before_filter :session_expiry, :update_activity_time, :unless => proc {|c| !SETTINGS[:login] || c.remote_user_provided? || c.api_request? }
   before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
@@ -60,7 +61,7 @@ class ApplicationController < ActionController::Base
     # don't force SSL on localhost
     return true if request.host=~/localhost|127.0.0.1/
     # finally - redirect
-    redirect_to :protocol => 'https' and return if request.protocol != 'https' and not request.ssl?
+    redirect_to :protocol => 'https' and return if request.protocol != 'https://' and not request.ssl?
   end
 
   # This filter is called before FastGettext set_gettext_locale and sets user-defined locale
@@ -188,35 +189,6 @@ class ApplicationController < ActionController::Base
           params[:search] += query unless params[:search].include? query
         end
       end
-    end
-  end
-
-  def session_expiry
-    if session[:expires_at].blank? or (session[:expires_at].utc - Time.now.utc).to_i < 0
-      # Before we expire the session, save the current taxonomies and the originally
-      # requested URL so they can be restored later.
-      save_items = session.to_hash.slice("organization_id", "location_id").merge("original_uri" => request.fullpath)
-      expire_session
-      session.merge!(save_items)
-    end
-  rescue => e
-    logger.warn "failed to determine if user sessions needs to be expired, expiring anyway: #{e}"
-    expire_session
-  end
-
-  def update_activity_time
-    session[:expires_at] = Setting[:idle_timeout].minutes.from_now.utc
-  end
-
-  def expire_session
-    logger.info "Session for #{current_user} is expired."
-    sso = get_sso_method
-    reset_session
-    if sso.nil? || !sso.support_expiration?
-      flash[:warning] = _("Your session has expired, please login again")
-      redirect_to main_app.login_users_path
-    else
-      redirect_to sso.expiration_url
     end
   end
 

@@ -11,12 +11,12 @@
   </tr>
   <% for bookmark in @bookmarks %>
     <tr>
-      <td><%= link_to_if_authorized(h(bookmark.name), hash_for_edit_bookmark_path(:id => bookmark)) %></td>
-      <td><%=h bookmark.query %></td>
-      <td><%=h bookmark.controller %></td>
-      <td><%=h bookmark.public %></td>
+      <td><%= link_to_if_authorized(h(bookmark.name), hash_for_edit_bookmark_path(bookmark)) %></td>
+      <td><%= bookmark.query %></td>
+      <td><%= bookmark.controller %></td>
+      <td><%= bookmark.public %></td>
       <td align="right">
-        <%= display_delete_if_authorized hash_for_bookmark_path(:id => bookmark.name), :confirm => _("Delete %s?") % bookmark.name  %>
+        <%= display_delete_if_authorized hash_for_bookmark_path(bookmark), :confirm => _("Delete %s?") % bookmark.name  %>
       </td>
     </tr>
   <% end %>

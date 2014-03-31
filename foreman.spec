@@ -168,7 +168,7 @@ Meta Package to install requirements for virt support
 %package ovirt
 Summary: Foreman ovirt support
 Group:  Applications/System
-Requires: %{?scl_prefix}rubygem(rbovirt) >= 0.0.21
+Requires: %{?scl_prefix}rubygem(rbovirt) >= 0.0.24
 Requires: foreman-compute = %{version}-%{release}
 Requires: %{name} = %{version}-%{release}
 
@@ -181,8 +181,8 @@ Meta Package to install requirements for ovirt support
 %package compute
 Summary: Foreman Compute Resource support via fog
 Group:  Applications/System
-Requires: %{?scl_prefix}rubygem-fog >= 1.20.0
-Requires: %{?scl_prefix}rubygem-fog < 1.21.0
+Requires: %{?scl_prefix}rubygem-fog >= 1.21.0
+Requires: %{?scl_prefix}rubygem-fog < 1.22.0
 Requires: %{?scl_prefix}rubygem-unf
 Requires: %{name} = %{version}-%{release}
 Obsoletes: foreman-fog < 1.0.0

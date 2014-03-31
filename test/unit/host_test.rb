@@ -180,68 +180,111 @@ class HostTest < ActiveSupport::TestCase
   test "should import facts from json stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now
-    assert h.importFacts(JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts'])
+    assert h.import_facts(JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts'])
   end
 
-  test "should import facts from json of a new host when certname is not specified" do
-    refute Host.find_by_name('sinn1636.lan')
-    raw = parse_json_fixture('/facts.json')
-    assert Host.importHostAndFacts(raw['name'], raw['facts'])
-    assert Host.find_by_name('sinn1636.lan')
-  end
-
-  test "should downcase hostname parameter from json of a new host" do
-    raw = parse_json_fixture('/facts_with_caps.json')
-    assert Host.importHostAndFacts(raw['name'], raw['facts'])
-    assert Host.find_by_name('sinn1636.lan')
-  end
-
-  test "should import facts idempotently" do
-    raw = parse_json_fixture('/facts_with_caps.json')
-    assert Host.importHostAndFacts(raw['name'], raw['facts'])
-    value_ids = Host.find_by_name('sinn1636.lan').fact_values.map(&:id)
-    assert Host.importHostAndFacts(raw['name'], raw['facts'])
-    assert_equal value_ids.sort, Host.find_by_name('sinn1636.lan').fact_values.map(&:id).sort
-  end
-
-  test "should find a host by certname not fqdn when provided" do
-    Host.new(:name => 'sinn1636.fail', :certname => 'sinn1636.lan.cert').save(:validate => false)
-    assert Host.find_by_name('sinn1636.fail').ip.nil?
-    # hostname in the json is sinn1636.lan, so if the facts have been updated for
-    # this host, it's a successful identification by certname
-    raw = parse_json_fixture('/facts_with_certname.json')
-    assert Host.importHostAndFacts(raw['name'], raw['facts'], raw['certname'])
-    assert_equal '10.35.27.2', Host.find_by_name('sinn1636.fail').ip
-  end
-
-  test "should update certname when host is found by hostname and certname is provided" do
-    Host.new(:name => 'sinn1636.lan', :certname => 'sinn1636.cert.fail').save(:validate => false)
-    assert_equal 'sinn1636.cert.fail', Host.find_by_name('sinn1636.lan').certname
-    raw = parse_json_fixture('/facts_with_certname.json')
-    assert Host.importHostAndFacts(raw['name'], raw['facts'], raw['certname'])
-    assert_equal 'sinn1636.lan.cert', Host.find_by_name('sinn1636.lan').certname
-  end
-
-  test "host is created when uploading facts if setting is true" do
-    assert_difference 'Host.count' do
-      Setting[:create_new_host_when_facts_are_uploaded] = true
-      raw = parse_json_fixture('/facts_with_certname.json')
-      Host.importHostAndFacts(raw['name'], raw['facts'], raw['certname'])
+  context 'import host and facts' do
+    test 'should import facts from json of a new host when certname is not specified' do
+      refute Host.find_by_name('sinn1636.lan')
+      raw = parse_json_fixture('/facts.json')
+      assert Host.import_host_and_facts(raw['name'], raw['facts'])
       assert Host.find_by_name('sinn1636.lan')
-      Setting[:create_new_host_when_facts_are_uploaded] =
-        Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
     end
-  end
 
-  test "host is not created when uploading facts if setting is false" do
-    Setting[:create_new_host_when_facts_are_uploaded] = false
-    assert_equal false, Setting[:create_new_host_when_facts_are_uploaded]
-    raw = parse_json_fixture('/facts_with_certname.json')
-    assert Host.importHostAndFacts(raw['name'], raw['facts'], raw['certname'])
-    host = Host.find_by_name('sinn1636.lan')
-    Setting[:create_new_host_when_facts_are_uploaded] =
-        Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
-    assert_nil host
+    test 'should downcase hostname parameter from json of a new host' do
+      raw = parse_json_fixture('/facts_with_caps.json')
+      assert Host.import_host_and_facts(raw['name'], raw['facts'])
+      assert Host.find_by_name('sinn1636.lan')
+    end
+
+    test 'should import facts idempotently' do
+      raw = parse_json_fixture('/facts_with_caps.json')
+      assert Host.import_host_and_facts(raw['name'], raw['facts'])
+      value_ids = Host.find_by_name('sinn1636.lan').fact_values.map(&:id)
+      assert Host.import_host_and_facts(raw['name'], raw['facts'])
+      assert_equal value_ids.sort, Host.find_by_name('sinn1636.lan').fact_values.map(&:id).sort
+    end
+
+    test 'should find a host by certname not fqdn when provided' do
+      Host.new(:name => 'sinn1636.fail', :certname => 'sinn1636.lan.cert').save(:validate => false)
+      assert Host.find_by_name('sinn1636.fail').ip.nil?
+      # hostname in the json is sinn1636.lan, so if the facts have been updated for
+      # this host, it's a successful identification by certname
+      raw = parse_json_fixture('/facts_with_certname.json')
+      assert Host.import_host_and_facts(raw['name'], raw['facts'], raw['certname'])
+      assert_equal '10.35.27.2', Host.find_by_name('sinn1636.fail').ip
+    end
+
+    test 'should update certname when host is found by hostname and certname is provided' do
+      Host.new(:name => 'sinn1636.lan', :certname => 'sinn1636.cert.fail').save(:validate => false)
+      assert_equal 'sinn1636.cert.fail', Host.find_by_name('sinn1636.lan').certname
+      raw = parse_json_fixture('/facts_with_certname.json')
+      assert Host.import_host_and_facts(raw['name'], raw['facts'], raw['certname'])
+      assert_equal 'sinn1636.lan.cert', Host.find_by_name('sinn1636.lan').certname
+    end
+
+    test 'host is created when uploading facts if setting is true' do
+      assert_difference 'Host.count' do
+        Setting[:create_new_host_when_facts_are_uploaded] = true
+        raw = parse_json_fixture('/facts_with_certname.json')
+        Host.import_host_and_facts(raw['name'], raw['facts'], raw['certname'])
+        assert Host.find_by_name('sinn1636.lan')
+        Setting[:create_new_host_when_facts_are_uploaded] =
+          Setting.find_by_name('create_new_host_when_facts_are_uploaded').default
+      end
+    end
+
+    test 'host is not created when uploading facts if setting is false' do
+      Setting[:create_new_host_when_facts_are_uploaded] = false
+      assert_equal false, Setting[:create_new_host_when_facts_are_uploaded]
+      raw = parse_json_fixture('/facts_with_certname.json')
+      assert Host.import_host_and_facts(raw['name'], raw['facts'], raw['certname'])
+      host = Host.find_by_name('sinn1636.lan')
+      Setting[:create_new_host_when_facts_are_uploaded] =
+        Setting.find_by_name('create_new_host_when_facts_are_uploaded').default
+      assert_nil host
+    end
+
+    test 'host taxonomies are set to a default when uploading facts' do
+      Setting[:create_new_host_when_facts_are_uploaded] = true
+      raw = parse_json_fixture('/facts.json')
+      Host.import_host_and_facts(raw['name'], raw['facts'])
+
+      assert_equal Setting[:default_location],     Host.find_by_name('sinn1636.lan').location.title
+      assert_equal Setting[:default_organization], Host.find_by_name('sinn1636.lan').organization.title
+    end
+
+    test 'host taxonomies are set to setting[taxonomy_fact] if it exists' do
+      Setting[:create_new_host_when_facts_are_uploaded] = true
+      raw = parse_json_fixture('/facts.json')
+      raw['facts']['location_fact']     = 'Location 2'
+      raw['facts']['organization_fact'] = 'Organization 2'
+      Host.import_host_and_facts(raw['name'], raw['facts'])
+
+      assert_equal 'Location 2',     Host.find_by_name('sinn1636.lan').location.title
+      assert_equal 'Organization 2', Host.find_by_name('sinn1636.lan').organization.title
+    end
+
+    test 'default taxonomies are not assigned to hosts with taxonomies' do
+      Setting[:default_location] = taxonomies(:location1).title
+      raw = parse_json_fixture('/facts.json')
+      Host.import_host_and_facts(raw['name'], raw['facts'])
+      Host.find_by_name('sinn1636.lan').update_attribute(:location, taxonomies(:location2))
+      Host.find_by_name('sinn1636.lan').import_facts(raw['facts'])
+
+      assert_equal taxonomies(:location2), Host.find_by_name('sinn1636.lan').location
+    end
+
+    test 'taxonomies from facts override already existing taxonomies in hosts' do
+      Setting[:create_new_host_when_facts_are_uploaded] = true
+      raw = parse_json_fixture('/facts.json')
+      raw['facts']['location_fact'] = 'Location 2'
+      Host.import_host_and_facts(raw['name'], raw['facts'])
+      Host.find_by_name('sinn1636.lan').update_attribute(:location, taxonomies(:location1))
+      Host.find_by_name('sinn1636.lan').import_facts(raw['facts'])
+
+      assert_equal taxonomies(:location2), Host.find_by_name('sinn1636.lan').location
+    end
   end
 
   test "host is created when receiving a report if setting is true" do
@@ -473,7 +516,7 @@ class HostTest < ActiveSupport::TestCase
     end
     assert_difference('Model.count') do
       facts = JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))
-      h.populateFieldsFromFacts facts['facts']
+      h.populate_fields_from_facts facts['facts']
     end
   end
 
@@ -825,38 +868,63 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "can search hosts by params" do
-    parameter = parameters(:host)
-    hosts = Host.search_for("params.host1 = host1")
-    assert_equal hosts.count, 1
-    assert_equal hosts.first.params['host1'], 'host1'
+    host = FactoryGirl.create(:host, :with_parameter)
+    parameter = host.parameters.first
+    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    assert_equal 1, results.count
+    assert_equal parameter.value, results.first.params[parameter.name]
   end
 
   test "can search hosts by inherited params from a hostgroup" do
-    host = hosts(:one)
-    host.update_attribute(:hostgroup, hostgroups(:inherited))
-    GroupParameter.create( { :name => 'foo', :value => 'bar', :hostgroup => host.hostgroup.parent } )
-    hosts = Host.search_for("params.foo = bar")
-    assert_equal hosts.count, 1
-    assert_equal hosts.first.params['foo'], 'bar'
+    hg = FactoryGirl.create(:hostgroup, :with_parameter)
+    host = FactoryGirl.create(:host, :hostgroup => hg)
+    parameter = hg.group_parameters.first
+    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    assert_equal 1, results.count
+    assert_equal parameter.value, results.first.params[parameter.name]
+  end
+
+  test "can search hosts by inherited params from a parent hostgroup" do
+    parent_hg = FactoryGirl.create(:hostgroup, :with_parameter)
+    hg = FactoryGirl.create(:hostgroup, :parent => parent_hg)
+    host = FactoryGirl.create(:host, :hostgroup => hg)
+    parameter = parent_hg.group_parameters.first
+    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    assert_equal 1, results.count
+    assert_equal parameter.value, results.first.params[parameter.name]
   end
 
   test "can search hosts by puppet class" do
-    hosts = Host.search_for("class = base")
-    assert_equal 1, hosts.count
-    assert_equal puppetclasses(:one), hosts.first.puppetclasses.first
+    host = FactoryGirl.create(:host, :with_puppetclass)
+    results = Host.search_for("class = #{host.puppetclasses.first.name}")
+    assert_equal 1, results.count
+    assert_equal host.puppetclasses.first, results.first.puppetclasses.first
   end
 
   test "can search hosts by inherited puppet class from a hostgroup" do
-    hosts = Host.search_for("class = vim")
-    assert_equal 1, hosts.count
-    assert_equal 0, hosts.first.puppetclasses.count
-    assert_equal puppetclasses(:four), hosts.first.hostgroup.puppetclasses.first
+    hg = FactoryGirl.create(:hostgroup, :with_puppetclass)
+    host = FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
+    results = Host.search_for("class = #{hg.puppetclasses.first.name}")
+    assert_equal 1, results.count
+    assert_equal 0, results.first.puppetclasses.count
+    assert_equal hg.puppetclasses.first, results.first.hostgroup.puppetclasses.first
+  end
+
+  test "can search hosts by inherited puppet class from a parent hostgroup" do
+    parent_hg = FactoryGirl.create(:hostgroup, :with_puppetclass)
+    hg = FactoryGirl.create(:hostgroup, :parent => parent_hg)
+    host = FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
+    results = Host.search_for("class = #{parent_hg.puppetclasses.first.name}")
+    assert_equal 1, results.count
+    assert_equal 0, results.first.puppetclasses.count
+    assert_equal 0, results.first.hostgroup.puppetclasses.count
+    assert_equal parent_hg.puppetclasses.first, results.first.hostgroup.parent.puppetclasses.first
   end
 
   test "should update puppet_proxy_id to the id of the validated proxy" do
     sp = smart_proxies(:puppetmaster)
     raw = parse_json_fixture('/facts_with_caps.json')
-    Host.importHostAndFacts(raw['name'], raw['facts'], nil, sp.id)
+    Host.import_host_and_facts(raw['name'], raw['facts'], nil, sp.id)
     assert_equal sp.id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
   end
 
@@ -864,7 +932,7 @@ class HostTest < ActiveSupport::TestCase
     Host.new(:name => 'sinn1636.lan', :puppet_proxy_id => smart_proxies(:puppetmaster).id).save(:validate => false)
     sp = smart_proxies(:puppetmaster)
     raw = parse_json_fixture('/facts_with_certname.json')
-    assert Host.importHostAndFacts(raw['name'], raw['facts'], nil, sp.id)
+    assert Host.import_host_and_facts(raw['name'], raw['facts'], nil, sp.id)
     assert_equal smart_proxies(:puppetmaster).id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
   end
 
