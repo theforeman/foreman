@@ -135,13 +135,14 @@ module Foreman::Model
       mem_min = args[:memory_min]
       
       raise "Memory max cannot be lower than Memory min" if mem_min.to_i > mem_max.to_i
-      vm = client.servers.create :name => args[:name],
+      vm = client.servers.new :name => args[:name],
       :template_name => args[:custom_template_name]
 
-      vm.hard_shutdown
-      vm.reload
+      vm.save :auto_start => false
+
+      vm.provision
+
       vm.vifs.first.destroy rescue nil
-      vm.reload
       
       create_network(vm, args)
       
