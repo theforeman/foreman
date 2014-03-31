@@ -5,7 +5,8 @@
   <%= select_f f, :parent_id, taxonomy.class.where("id NOT IN (#{taxonomy.subtree_ids.join(',')})").order(:title), :id, :title, { :include_blank => true },
                { :label => _('Parent'), :onchange => 'parent_taxonomy_changed(this);',
                  :help_inline => :indicator,
-                 :'data-url' => parent_taxonomy_selected_location_path(taxonomy.id)
+                 :'data-url' => (controller_name == 'organizations' ? parent_taxonomy_selected_organization_path(taxonomy.id) :
+                                                                      parent_taxonomy_selected_location_path(taxonomy.id))
                } %>
 
   <%= text_f f, :name %>
