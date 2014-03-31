@@ -96,6 +96,7 @@ module Taxonomix
 
   def set_current_taxonomy
     if self.new_record? && self.errors.empty?
+      self.id = nil      #fix for rails 3.2.8 bug that sets id = 1 on after_initialize. This can later be removed.
       self.locations     << Location.current     if add_current_location?
       self.organizations << Organization.current if add_current_organization?
     end

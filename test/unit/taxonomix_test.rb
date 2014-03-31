@@ -1,19 +1,13 @@
 require 'test_helper'
 
 class TaxonomixDummy < ActiveRecord::Base
+  self.table_name = 'environments'
   include Taxonomix
 
   attr_accessor :locations, :organizations
+  after_initialize :set_taxonomies_to_empty
 
-  def new_record?
-    true
-  end
-
-  def errors
-    OpenStruct.new :empty? => true
-  end
-
-  def initialize
+  def set_taxonomies_to_empty
     self.locations = []
     self.organizations = []
   end
