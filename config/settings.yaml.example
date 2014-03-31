@@ -5,8 +5,8 @@
 :unattended: true
 :login: true
 :require_ssl: false
-:locations_enabled: true
-:organizations_enabled: true
+:locations_enabled: false
+:organizations_enabled: false
 #JSONP or "JSON with padding" is a complement to the base JSON data format.
 #It provides a method to request JSON data from a server in a different domain.
 :support_jsonp: false
@@ -17,6 +17,7 @@
 :mark_translated: false
 
 # Local administrative settings for application domain, fqdn, foreman URL,
-# administrator email address etc.
-:domain: 'localdomain.net'
-:fqdn: 'localhost.localdomain.net'
+# administrator email address etc. If you don't have a Puppet provisioning
+# system you may want to uncomment to setup your project on your local machine.
+#:domain: 'localdomain.net'
+#:fqdn: 'localhost.localdomain.net'
