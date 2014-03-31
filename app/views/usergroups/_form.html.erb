@@ -12,6 +12,8 @@
       <%= text_f f, :name %>
       <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup, :label => _("User Groups") %>
       <%= multiple_checkboxes f, :users, @usergroup, User, :label => _("Users") %>
+
+      <%= select_f f, :auth_source_id, AuthSource.all, :id, :to_label %>
     </div>
 
     <div class="tab-pane" id="roles">

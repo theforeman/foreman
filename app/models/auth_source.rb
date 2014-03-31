@@ -20,6 +20,7 @@ class AuthSource < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:users)
   has_many :users
+  has_many :usergroups
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 60 }
 
