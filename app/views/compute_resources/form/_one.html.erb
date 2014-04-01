@@ -1,0 +1,7 @@
+<%= text_f f, :user, :label => _("User") %>
+<%= password_f f, :password, :label => _("Password") %>
+
+<%= text_f f, :url, :size => "col-md-8", :help_block => _("e.g. http://host.example.com:2633/RPC2") %>
+<%= link_to_function _("Test Connection"), "testConnection(this)", :class => "btn + #{@compute_resource.test_connection.is_a?(FalseClass) ? "btn-default" : "btn-success"}", :'data-url' => test_connection_compute_resources_path %>
+
+<%= image_tag('/assets/spinner.gif', :id => 'test_connection_indicator', :class => 'hide') %>

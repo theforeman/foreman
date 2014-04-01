@@ -1,0 +1,19 @@
+<%= select_f f, :template_id, compute_resource.flavors, :id, :to_label, {}, :label => _('Templates') %>
+<%= selectable_f f, :vcpu, 1..8, { :include_blank => _("Template default")}, :label => _('VCPUs') %>
+<%= selectable_f f, :memory,[512, 1024, 2048, 4096] , { :include_blank => _("Template default")}, :class => "col-md-2", :label => _('Memory') %>
+
+<!--NICS -->
+<div class="children_fields">
+  <%= new_child_fields_template(f, :interfaces, {
+      :object  => compute_resource.new_interface,
+      :partial => 'compute_resources_vms/form/one/network', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
+  <%= field_set_tag "Virtual Network", :id => "network_interfaces", :title => _('Networks') do %>
+    <%= f.fields_for :interfaces do |i| %>
+      <%= render 'compute_resources_vms/form/one/network', :f => i, :compute_resource => compute_resource %>
+    <% end %>
+    <%= add_child_link '+ ' + _("Add Interface"), :interfaces, { :class => "info disable-unsupported", :title => _('add new network interface') } %>
+  <% end %>
+</div>
+
+
+

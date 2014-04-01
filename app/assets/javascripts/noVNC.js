@@ -32,10 +32,12 @@ $(function() {
   $D('sendCtrlAltDelButton').style.display = "inline";
   $D('sendCtrlAltDelButton').onclick = sendCtrlAltDel;
 
-  var host = window.location.hostname;
-  var port = $('#vnc').attr('data-port');
-  var password = $('#vnc').attr('data-password');
-  var path = "";
+  var host = $('#vnc').data('host') ? $('#vnc').data('host') : window.location.hostname,
+      port = $('#vnc').data('port'),
+      password = $('#vnc').data('password'),
+      token = $('#vnc').data('token'),
+      path = '?token=' + token;
+console.log(path);
   rfb = new RFB({'target': $D('noVNC_canvas'),
     'encrypt':      false,
     'true_color':   true,

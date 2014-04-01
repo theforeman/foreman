@@ -1,0 +1,37 @@
+<table class="table table-bordered" data-table='inline'>
+  <thead>
+    <tr>
+      <th><%= _('ID') %></th>
+      <th><%= _('Name') %></th>
+      <th><%= _('CPUs') %></th>
+      <th><%= _('Memory') %></th>
+      <th><%= _('IP') %></th>
+      <th><%= _('MAC') %></th>
+      <th><%= _('User') %></th>
+      <th><%= _('Group') %></th>
+      <th><%= _('Status') %></th>
+      <th><%= _('Power') %></th>
+
+
+      <th></th>
+    </tr>
+  </thead>
+  <% @vms.each do |vm| %>
+    <tr>
+      <td><%= vm.uuid %></td>
+      <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.uuid) %></td>
+      <td><%= vm.cpu %></td>
+      <td><%= vm.memory %></td>
+      <td><%= vm.ip %></td>
+      <td><%= vm.mac %></td>
+      <td><%= vm.user %></td>
+      <td><%= vm.group %></td>
+      <td><%= vm.status %></td>
+      <td> <span <%= vm_power_class(vm.ready?) %>> <%= vm_state(vm) %></span> </td>
+      <td>
+      <%= action_buttons(vm_power_action(vm), display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.uuid))) %>
+      </td>
+
+    </tr>
+  <% end %>
+</table>

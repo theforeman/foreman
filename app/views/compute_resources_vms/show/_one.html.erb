@@ -1,0 +1,49 @@
+<% title @vm.name %>
+
+<div class='col-md-12'>
+  <table class="table table-bordered table-striped">
+    <tr><th colspan="2"><%= _('Properties') %></th></tr>
+    <tr>
+      <td><%= _('Name') %></td>
+      <td><%= @vm.name %></td>
+    </tr>
+
+    <tr>
+      <td><%= _('ID') %></td>
+      <td><%= @vm.id %></td>
+    </tr>
+
+    <tr>
+      <td><%= _('Compute Resource') %></td>
+      <td><%= link_to @compute_resource, compute_resource_path(@compute_resource) %></td>
+    </tr>
+
+    <tr>
+      <td><%= _('CPU') %></td>
+      <td><%= @vm.cpu %></td>
+    </tr>
+    <tr>
+      <td><%= _('Memory') %></td>
+      <td><%= @vm.memory %></td>
+    </tr>
+    <tr>
+      <td><%= _('OpenNebula User') %></td>
+      <td><%= @vm.user %></td>
+    </tr>
+    <tr>
+      <td><%= _('Opennebula Group') %></td>
+      <td><%= @vm.group %></td>
+    </tr>
+    <tr>
+      <td><%= _('Status') %></td>
+      <td><%= @vm.status %></td>
+    </tr>
+    <tr>
+      <td><%= _('State') %></td>
+      <td><%= @vm.state %></td>
+    </tr>
+
+
+
+  </table>
+</div>
