@@ -7,6 +7,8 @@ module ProxyAPI
 
     def features
       parse get
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to detect features"))
     end
   end
 end

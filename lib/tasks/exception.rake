@@ -6,11 +6,12 @@ namespace :exception do
   task :codes => :environment do
     wiki = defined? ENV['WIKI']
     exceptions = [
-      ::Foreman::Exception,
-      ::Foreman::WrappedException,
+      'Foreman::Exception',
+      'WrappedException',
+      'ProxyException',
     ]
     result = {}
-    regexp = /raise.*:?:?(#{exceptions.join('|')})(\.new)?\(?N_\(?(["'])([^\3]+?)\3\)?\)?/
+    regexp = /raise.*(#{exceptions.join('|')})(\.new)?.*N_\(?(["'])([^\3]+?)\3\)?\)?/
     Dir['app/**/*rb', 'lib/**/*rb'].each do |path|
       File.open(path) do |f|
         f.grep( /#{regexp}/ ) do |line|
@@ -22,7 +23,7 @@ namespace :exception do
 
     result.keys.sort.each do |k|
       v = result[k]
-      puts "#{k} #{v}"
+      puts " * [[#{k}]] - #{v}"
     end
   end
 

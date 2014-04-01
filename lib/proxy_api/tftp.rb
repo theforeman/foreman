@@ -13,6 +13,8 @@ module ProxyAPI
     # Returns  : Boolean status
     def set mac, args
       parse(post(args, "#{@variant}/#{mac}"))
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to set TFTP boot entry for %s"), mac)
     end
 
     # Deletes a TFTP boot entry
@@ -20,6 +22,8 @@ module ProxyAPI
     # Returns : Boolean status
     def delete mac
       parse(super("#{@variant}/#{mac}"))
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to delete TFTP boot entry for %s"), mac)
     end
 
     # Requests that the proxy download the bootfile from the media's source
@@ -29,6 +33,8 @@ module ProxyAPI
     # Returns    : Boolean status
     def fetch_boot_file args
       parse(post(args, "fetch_boot_file"))
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to fetch TFTP boot file"))
     end
 
     # returns the TFTP boot server for this proxy
@@ -39,6 +45,8 @@ module ProxyAPI
       false
     rescue RestClient::ResourceNotFound
       nil
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to detect TFTP boot server"))
     end
 
     # Create a default pxe menu
@@ -47,6 +55,8 @@ module ProxyAPI
     # Returns    : Boolean status
     def create_default args
       parse(post(args, "create_default"))
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to create default TFTP boot menu"))
     end
 
   end

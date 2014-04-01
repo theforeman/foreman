@@ -11,11 +11,15 @@ module ProxyAPI
     # gets a list of supported providers
     def providers
       parse get("providers")
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to get BMC providers"))
     end
 
     # gets a list of supported providers installed on the proxy
     def providers_installed
       parse get("providers/installed")
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to get installed BMC providers"))
     end
 
     # Perform a boot operation on the bmc device
@@ -32,6 +36,10 @@ module ProxyAPI
       else
         raise NoMethodError
       end
+    rescue NoMethodError => e
+      raise e
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to perform boot BMC operation"))
     end
 
     # Perform a power operation on the bmc device
@@ -50,6 +58,10 @@ module ProxyAPI
       else
         raise NoMethodError
       end
+    rescue NoMethodError => e
+      raise e
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to perform power BMC operation"))
     end
 
     # perform an identify operation on the bmc device
@@ -64,7 +76,10 @@ module ProxyAPI
       else
         raise NoMethodError
       end
-
+    rescue NoMethodError => e
+      raise e
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to perform identify BMC operation"))
     end
 
     # perform a lan get operation on the bmc device
@@ -77,6 +92,10 @@ module ProxyAPI
       else
         raise NoMethodError
       end
+    rescue NoMethodError => e
+      raise e
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to perform lan BMC operation"))
     end
 
     private

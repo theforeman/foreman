@@ -62,9 +62,6 @@ module Orchestration
 
   private
 
-  def proxy_error e
-    e.respond_to?(:message)  ? e.message : e
-  end
   # Handles the actual queue
   # takes care for running the tasks in order
   # if any of them fail, it rollbacks all completed tasks
@@ -96,9 +93,6 @@ module Orchestration
       rescue Net::LeaseConflict => e
         task.status = "failed"
         failure _("DHCP has a lease at %s") % e, e.backtrace
-      rescue RestClient::Exception => e
-        task.status = "failed"
-        failure _("%{task} task failed with the following error: %{e}") % { :task => task.name, :e => proxy_error(e) }, e.backtrace
       rescue => e
         task.status = "failed"
         failure _("%{task} task failed with the following error: %{e}") % { :task => task.name, :e => e }, e.backtrace

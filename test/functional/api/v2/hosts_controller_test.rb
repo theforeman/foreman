@@ -302,7 +302,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     facts    = fact_json['facts']
     post :facts, {:name => hostname, :facts => facts, :type => "Host::Invalid"}, set_session_user
     assert_response :unprocessable_entity
-    assert_equal JSON.parse(response.body)['message'], 'ERF51-2640: A problem occurred when detecting host type: uninitialized constant Host::Invalid'
+    assert JSON.parse(response.body)['message'] =~ /ERF42-2640/
   end
 
   test "when the imported host failed to save, :unprocessable_entity is returned" do
