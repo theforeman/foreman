@@ -30,6 +30,7 @@ class Filter < ActiveRecord::Base
   scoped_search :in => :role, :on => :id, :rename => :role_id
   scoped_search :in => :role, :on => :name, :rename => :role
   scoped_search :in => :permissions, :on => :resource_type, :rename => :resource
+  scoped_search :in => :permissions, :on => :name,          :rename => :permission
 
   before_validation :build_taxonomy_search, :nilify_empty_searches
 
