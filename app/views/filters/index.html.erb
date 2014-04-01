@@ -9,6 +9,7 @@
       <th><%= sort :role, :as => _("Role") %></th>
     <% end %>
     <th><%= sort :resource, :as => s_("Filter|Resource") %></th>
+    <th><%= s_("Filter|Permissions") %></th>
     <th><%= sort :search, :as => s_("Filter|Unlimited") %></th>
     <th><%= sort :search, :as => s_("Filter|Search") %></th>
     <th></th>
@@ -24,6 +25,7 @@
         </td>
       <% end %>
       <td><%= _(filter.resource_class.try(:humanize_class_name) || filter.resource_type || '(Miscellaneous)') %></td>
+      <td><%= filter.permissions.map(&:name).join(', ') %></td>
       <td><%= checked_icon filter.unlimited? %></td>
       <td>
         <%= content_tag('span', link_to_if_authorized(filter.search || _('none'),
