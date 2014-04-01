@@ -25,7 +25,7 @@ module Encryptable
 
     def puts_and_logs(msg)
       logger.info msg
-      puts msg if defined?(Rake) && !Rails.env.test?
+      puts msg if Foreman.in_rake? && !Rails.env.test?
     end
 
     def is_encryptable?(str)

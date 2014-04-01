@@ -110,7 +110,7 @@ class Puppetclass < ActiveRecord::Base
 
       puts "*********Proccessing environment #{env} *************"
       cmd = "puppetdoc --output #{out} --modulepath #{modulepaths} -m rdoc"
-      puts cmd if defined?(Rake)
+      puts cmd if Foreman.in_rake?
       sh cmd do |ok, res|
         if ok
           # Add a link to the class browser

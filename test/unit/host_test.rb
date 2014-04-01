@@ -351,7 +351,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "should not save if IP is not in the right subnet" do
     if unattended?
-      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
+      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03", :ptable => ptables(:one),
         :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one), :managed => true,
         :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first, :puppet_proxy => smart_proxies(:puppetmaster)
       assert !host.valid?
@@ -359,7 +359,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should save if owner_type is User or Usergroup" do
-    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => ptables(:one),
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
       :owner_type => "User", :root_pass => "xybxa6JUkz63w"

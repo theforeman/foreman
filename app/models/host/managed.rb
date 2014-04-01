@@ -138,7 +138,7 @@ class Host::Managed < Host::Base
                           :if => Proc.new { |host| host.managed && pxe_build? }
     validates :ip, :format => {:with => Net::Validations::IP_REGEXP}, :if => Proc.new { |host| host.require_ip_validation? }
     validates :ptable_id, :presence => {:message => N_("cant be blank unless a custom partition has been defined")},
-                          :if => Proc.new { |host| host.managed and host.disk.empty? and not defined?(Rake) and pxe_build? }
+                          :if => Proc.new { |host| host.managed and host.disk.empty? and not Foreman.in_rake? and pxe_build? }
     validates :serial, :format => {:with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8")},
                        :allow_blank => true, :allow_nil => true
     validates :provision_method, :inclusion => {:in => PROVISION_METHODS, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}

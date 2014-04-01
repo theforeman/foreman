@@ -232,7 +232,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def downcase_release_name
-    self.release_name.downcase! unless defined?(Rake) or release_name.nil? or release_name.empty?
+    self.release_name.downcase! unless Foreman.in_rake? or release_name.nil? or release_name.empty?
   end
 
   def boot_files_uri(medium, architecture)

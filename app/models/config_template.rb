@@ -2,7 +2,7 @@ class ConfigTemplate < ActiveRecord::Base
   include Authorizable
   include Taxonomix
   audited :allow_mass_assignment => true
-  self.auditing_enabled = !(File.basename($0) == "rake" && ARGV.include?("db:migrate"))
+  self.auditing_enabled = !Foreman.in_rake?('db:migrate')
   attr_accessible :name, :template, :template_kind, :template_kind_id, :snippet, :template_combinations_attributes, :operatingsystems, :operatingsystem_ids, :audit_comment
   validates :name, :presence => true, :uniqueness => true
   validates :name, :template, :presence => true
