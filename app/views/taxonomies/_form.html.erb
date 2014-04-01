@@ -20,6 +20,7 @@
         <li><a href="#media" data-toggle="tab"><%= _("Media") %></a></li>
         <li><a href="#template" data-toggle="tab"><%= _("Templates") %></a></li>
         <li><a href="#domains" data-toggle="tab"><%= _("Domains") %></a></li>
+        <li><a href="#realms" data-toggle="tab"><%= _("Realms") %></a></li>
       <% end %>
       <li><a href="#environments" data-toggle="tab"><%= _("Environments") %></a></li>
       <li><a href="#hostgroups" data-toggle="tab"><%= _("Host Groups") %></a></li>
@@ -97,7 +98,16 @@
                                 'data-inheriteds' => taxonomy.inherited_ids[:domain_ids].to_json,
                                 'data-useds' => taxonomy.used_ids[:domain_ids].to_json } %>
         </div>
-      <% end %>
+ 
+        <div class="tab-pane" id="realms">
+          <%= checkbox_f(f, :ignore_types, {:label => _("All realms"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Realm") %>
+          <%= multiple_selects f, :realms, Realm, taxonomy.selected_or_inherited_ids[:realm_ids],
+            {:disabled => taxonomy.used_and_selected_or_inherited_ids[:realm_ids], :label => _('Select realms')},
+            {'data-mismatches' => taxonomy.need_to_be_selected_ids[:realm_ids].to_json,
+             'data-inheriteds' => taxonomy.inherited_ids[:realm_ids].to_json,
+             'data-useds' => taxonomy.used_ids[:realm_ids].to_json } %>
+        </div>
+     <% end %>
 
       <div class="tab-pane" id="environments">
         <%= checkbox_f(f, :ignore_types, {:label => _("All environments"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Environment") %>

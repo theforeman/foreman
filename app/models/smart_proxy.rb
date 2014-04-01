@@ -14,6 +14,7 @@ class SmartProxy < ActiveRecord::Base
   has_many :hostgroups,                                       :foreign_key => 'puppet_proxy_id'
   has_many :puppet_ca_hosts, :class_name => 'Host::Managed',  :foreign_key => 'puppet_ca_proxy_id'
   has_many :puppet_ca_hostgroups, :class_name => 'Hostgroup', :foreign_key => 'puppet_ca_proxy_id'
+  has_many :realms,                                           :foreign_key => 'realm_proxy_id'
   URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
   validates :name, :uniqueness => true, :presence => true
   validates :url, :presence => true, :format => { :with => URL_HOSTNAME_MATCH, :message => N_('is invalid - only  http://, https:// are allowed') },
@@ -64,6 +65,7 @@ class SmartProxy < ActiveRecord::Base
     ids << hosts.joins(:subnet).pluck('DISTINCT subnets.tftp_id')
     ids << hosts.joins(:subnet).pluck('DISTINCT subnets.dns_id')
     ids << hosts.joins(:domain).pluck('DISTINCT domains.dns_id')
+    ids << hosts.joins(:realm).pluck('DISTINCT realm_proxy_id')
     ids << hosts.pluck('DISTINCT puppet_proxy_id')
     ids << hosts.pluck('DISTINCT puppet_ca_proxy_id')
     ids << hosts.joins(:hostgroup).pluck('DISTINCT hostgroups.puppet_proxy_id')

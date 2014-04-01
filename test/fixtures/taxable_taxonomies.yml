@@ -94,7 +94,6 @@ eighteen:
   taxable: three
   taxable_type: "SmartProxy"
 
-
 nineteen:
   taxonomy: location1
   taxable: puppetmaster
@@ -104,3 +103,23 @@ twenty:
   taxonomy: organization1
   taxable: puppetmaster
   taxable_type: "SmartProxy"
+
+twentyone:
+  taxonomy: location1
+  taxable: realm
+  taxable_type: "SmartProxy"
+
+twentytwo:
+  taxonomy: organization1
+  taxable: realm
+  taxable_type: "SmartProxy"
+
+twentythree:
+  taxonomy: location1
+  taxable: myrealm
+  taxable_type: Realm
+
+twentyfour:
+  taxonomy: organization1
+  taxable: myrealm
+  taxable_type: Realm

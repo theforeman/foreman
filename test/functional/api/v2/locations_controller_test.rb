@@ -41,7 +41,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should update location on if valid is location" do
-    ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
+    ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource", "Realm"]
     put :update, { :id => @location.to_param, :location => { :name => "New Location", :ignore_types => ignore_types } }
     assert_equal "New Location", Location.find(@location.id).name
     assert_response :success
@@ -68,7 +68,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should update *_ids. test for domain_ids" do
     # ignore all but Domain
-    @location.ignore_types = ["Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
+    @location.ignore_types = ["Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource", "Realm"]
     as_admin do
       @location.save(:validate => false)
       assert_difference('@location.domains.count', 2) do

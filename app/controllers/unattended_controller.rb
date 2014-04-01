@@ -25,6 +25,7 @@ class UnattendedController < ApplicationController
   # We want to find out our requesting host
   before_filter :get_host_details, :allowed_to_install?, :except => :template
   before_filter :handle_ca, :only => PROVISION_URLS
+  before_filter :handle_realm, :only => PROVISION_URLS
   # load "helper" variables to be available in the templates
   before_filter :load_template_vars, :only => PROVISION_URLS
   before_filter :pxe_config, :only => CONFIG_URLS
@@ -160,6 +161,18 @@ class UnattendedController < ApplicationController
     render(:text => _("Failed to clean any old certificates or add the autosign entry. Terminating the build!"), :status => 500) unless @host.handle_ca
     #TODO: Email the user who initiated this build operation.
   end
+
+  # Reset realm OTP. This is run as a before_filter for provisioning templates.
+  def handle_realm
+    # We don't do anything if we are in spoof mode.
+    return true if @spoof
+
+    # This should terminate the before_filter and the action. We return a HTTP
+    # error so the installer knows something is wrong. This is tested with
+    # Anaconda, but maybe Suninstall will choke on it.
+    render(:text => _("Failed to get a new realm OTP. Terminating the build!"), :status => 500) unless @host.handle_realm
+  end
+
 
   def set_content_type
     response.headers['Content-Type'] = 'text/plain'

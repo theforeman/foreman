@@ -36,6 +36,7 @@ module Api
           param :mac, String, :desc => "not required if its a virtual machine"
           param :architecture_id, :number
           param :domain_id, :number
+          param :realm_id, :number
           param :puppet_proxy_id, :number
           param :puppet_class_ids, Array
           param :operatingsystem_id, String

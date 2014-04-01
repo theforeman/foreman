@@ -38,7 +38,7 @@ class LocationTest < ActiveSupport::TestCase
   test 'location is valid if ignore all types' do
     location = taxonomies(:location1)
     location.organization_ids = [taxonomies(:organization1).id]
-    location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
+    location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource", "Realm"]
     assert location.valid?
   end
 
@@ -57,6 +57,7 @@ class LocationTest < ActiveSupport::TestCase
     hostgroup_ids = Host.where(:location_id => location.id).pluck(:hostgroup_id).compact.uniq
     subnet_ids = Host.where(:location_id => location.id).pluck(:subnet_id).compact.uniq
     domain_ids = Host.where(:location_id => location.id).pluck(:domain_id).compact.uniq
+    realm_ids = Host.where(:location_id => location.id).pluck(:realm_id).compact.uniq
     medium_ids = Host.where(:location_id => location.id).pluck(:medium_id).compact.uniq
     compute_resource_ids = Host.where(:location_id => location.id).pluck(:compute_resource_id).compact.uniq
     user_ids = Host.where(:location_id => location.id).where(:owner_type => 'User').pluck(:owner_id).compact.uniq
@@ -67,6 +68,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal used_ids[:hostgroup_ids], hostgroup_ids
     assert_equal used_ids[:subnet_ids], subnet_ids
     assert_equal used_ids[:domain_ids], domain_ids
+    assert_equal used_ids[:realm_ids], realm_ids
     assert_equal used_ids[:medium_ids], medium_ids
     assert_equal used_ids[:compute_resource_ids], compute_resource_ids
     assert_equal used_ids[:user_ids].sort, user_ids.sort
@@ -80,7 +82,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal used_ids[:medium_ids], [media(:one).id]
     assert_equal used_ids[:compute_resource_ids], [compute_resources(:one).id]
     assert_equal used_ids[:user_ids], [users(:restricted).id]
-    assert_equal used_ids[:smart_proxy_ids].sort, [smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:puppetmaster).id].sort
+    assert_equal used_ids[:smart_proxy_ids].sort, [smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:puppetmaster).id, smart_proxies(:realm).id].sort
     assert_equal used_ids[:config_template_ids], [config_templates(:mystring2).id]
   end
 
@@ -115,7 +117,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:domain_ids].sort, [domains(:mydomain).id, domains(:yourdomain).id].sort
     assert_equal selected_ids[:medium_ids], [media(:one).id]
     assert_equal selected_ids[:user_ids], []
-    assert_equal selected_ids[:smart_proxy_ids].sort, [smart_proxies(:puppetmaster).id, smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id].sort
+    assert_equal selected_ids[:smart_proxy_ids].sort, [smart_proxies(:puppetmaster).id, smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:realm).id].sort
     assert_equal selected_ids[:config_template_ids], [config_templates(:mystring2).id]
     assert_equal selected_ids[:compute_resource_ids], [compute_resources(:one).id]
   end
@@ -123,7 +125,7 @@ class LocationTest < ActiveSupport::TestCase
   test 'it should return selected_ids array of ALL values (when types are ignored)' do
     location = taxonomies(:location1)
     # ignore all types
-    location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource"]
+    location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource", "Realm"]
     # run selected_ids method
     selected_ids = location.selected_ids
     # should return all when type is ignored
@@ -131,6 +133,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:hostgroup_ids].sort, Hostgroup.pluck(:id).sort
     assert_equal selected_ids[:subnet_ids].sort, Subnet.pluck(:id).sort
     assert_equal selected_ids[:domain_ids].sort, Domain.pluck(:id).sort
+    assert_equal selected_ids[:realm_ids].sort, Realm.pluck(:id).sort
     assert_equal selected_ids[:medium_ids].sort, Medium.pluck(:id).sort
     assert_equal selected_ids[:user_ids].sort, User.pluck(:id).sort
     assert_equal selected_ids[:smart_proxy_ids].sort, SmartProxy.pluck(:id).sort

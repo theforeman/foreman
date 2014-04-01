@@ -18,6 +18,11 @@ puppetmaster:
   url: http://else.where:4567
   features: 'puppet, puppetca'
 
+realm:
+  name: Realm Proxy
+  url: http://else.where:1337
+  features: realm
+
 four:
   name: Unused Proxy
   url: http://else.where:45672
