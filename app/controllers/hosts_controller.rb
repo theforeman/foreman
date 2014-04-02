@@ -18,7 +18,7 @@ class HostsController < ApplicationController
   add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_by_name, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun,
-                                         :setBuild, :cancelBuild, :power, :bmc, :ipmi_boot,
+                                         :setBuild, :cancelBuild, :power, :bmc, :vm, :ipmi_boot,
                                          :console, :toggle_manage, :pxe_config,
                                          :storeconfig_klasses, :disassociate]
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
@@ -227,12 +227,15 @@ class HostsController < ApplicationController
   def bmc
     render :partial => 'bmc', :locals => { :host => @host }
   rescue ActionView::Template::Error => exception
-    origin = exception.try(:original_exception)
-    message = (origin || exception).message
-    logger.warn "Failed to fetch bmc information: #{message}"
-    logger.debug "Original exception backtrace:\n" + origin.backtrace.join("\n") if origin.present?
-    logger.debug "Causing backtrace:\n" + exception.backtrace.join("\n")
-    render :text => "Failure: #{message}"
+    process_ajax_error exception, 'fetch bmc information'
+  end
+
+  def vm
+    @vm = @host.compute_resource.find_vm_by_uuid(@host.uuid)
+    @compute_resource = @host.compute_resource
+    render :partial => "compute_resources_vms/details"
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'fetch vm information'
   end
 
   def ipmi_boot
@@ -540,7 +543,7 @@ class HostsController < ApplicationController
 
   def action_permission
     case params[:action]
-      when 'clone', 'externalNodes', 'bmc', 'pxe_config', 'storeconfig_klasses',
+      when 'clone', 'externalNodes', 'bmc', 'vm', 'pxe_config', 'storeconfig_klasses',
           'active', 'errors', 'out_of_sync', 'pending', 'disabled'
         :view
       when 'puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'

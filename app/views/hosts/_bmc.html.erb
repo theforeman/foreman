@@ -1,14 +1,10 @@
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= _('Chassis') %></th>
+    <th colspan="2"><%= _('Chassis') %></th>
   </tr>
   <tr>
     <td><%= _('Status') %></td>
     <td><%= power_status(@host.power.state) %></td>
-  </tr>
-  <tr>
-    <td><%= _('Power') %></td>
-    <td><%= power_actions %></td>
   </tr>
   <tr>
     <td><%= _('Boot device') %></td>
@@ -16,9 +12,11 @@
   </tr>
 </table>
 
+<div id='power_actions' class='hide'><%= power_actions %></div>
+
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= _('Network') %></th>
+    <th colspan="2"><%= _('Network') %></th>
   </tr>
   <tr>
     <td><%= _('IP') %></td>

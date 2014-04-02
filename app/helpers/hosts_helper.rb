@@ -225,39 +225,32 @@ module HostsHelper
     s ? ' ' + _("Off") : ' ' + _("On")
   end
 
-  def host_title_actions(host, vm)
+  def host_title_actions(host)
     title_actions(
         button_group(
-            link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host), :title => _("Edit your host")),
+            link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host),
+                                    :title    => _("Edit your host")),
             if host.build
-              link_to_if_authorized(_("Cancel Build"), hash_for_cancelBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
+              link_to_if_authorized(_("Cancel build"), hash_for_cancelBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
                                     :disabled => host.can_be_built?,
-                                    :title                                                                 => _("Cancel build request for this host"))
+                                    :title    => _("Cancel build request for this host"))
             else
               link_to_if_authorized(_("Build"), hash_for_setBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
                                     :disabled => !host.can_be_built?,
-                                    :title                                                       => _("Enable rebuild on next host boot"),
-                                    :confirm                                                     => _("Rebuild %s on next reboot?\nThis would also delete all of its current facts and reports") % host)
+                                    :title    => _("Enable rebuild on next host boot"),
+                                    :confirm  => _("Rebuild %s on next reboot?\nThis would also delete all of its current facts and reports") % host)
             end
         ),
-        if host.compute_resource_id
+        if host.compute_resource_id || host.bmc_available?
           button_group(
-              if vm
-                html_opts = vm.ready? ? {:confirm => _('Are you sure?'), :class => "btn btn-danger"} : {:class => "btn btn-success"}
-                link_to_if_authorized _("Power%s") % state(vm.ready?), hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start).merge(:auth_object => host, :permission => 'power_hosts'),
-                                      html_opts.merge(:method => :put)
-              else
-                link_to(_("Unknown Power State"), '#', :disabled => true, :class => "btn btn-warning")
-              end +
-                  link_to_if_authorized(_("Console"), hash_for_console_host_path().merge(:auth_object => host, :permission => 'console_hosts'),
-                                        {:disabled => vm.nil? || !vm.ready?, :class => "btn btn-info"})
+              link_to(_("Loading power state ..."), '#', :disabled => true, :id => :loading_power_state)
           )
         end,
         button_group(
           if host.try(:puppet_proxy)
             link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_object => host, :permission => 'puppetrun_hosts'),
                                   :disabled => !Setting[:puppetrun],
-                                  :title => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))
+                                  :title    => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))
           end
         ),
         button_group(

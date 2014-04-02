@@ -6,3 +6,12 @@ jQuery.expr[':'].icontains = function(a, i, m) {
 
 // add exists method to any jquery object
 jQuery.fn.exists = function(){return ($(this).length > 0);}
+
+// Store a reference to the original remove method.
+var originalJQueryShowMethod = jQuery.fn.show;
+// Define overriding method.
+jQuery.fn.show = function(){
+    $(this).removeClass('hidden').removeClass('hide')
+    // Execute the original method.
+    return originalJQueryShowMethod.apply( this, arguments );
+}
