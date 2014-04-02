@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-21 08:47+0000\n"
-"PO-Revision-Date: 2014-02-21 09:33+0000\n"
+"POT-Creation-Date: 2014-03-03 16:33+0000\n"
+"PO-Revision-Date: 2014-03-14 10:14+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -53,6 +53,9 @@ msgstr "%s 的控制台不支持"
 msgid "%s day ago"
 msgid_plural "%s days ago"
 msgstr[0] "%s 天前"
+
+msgid "%s has been disassociated from VM"
+msgstr ""
 
 msgid "%s is an unknown attribute"
 msgstr ""
@@ -146,6 +149,9 @@ msgstr "'%{host}' 不能删除或者 '%{resource}' 无响应。"
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' 在'%{resource}'中未发现"
+
+msgid "(Miscellaneous)"
+msgstr ""
 
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr ""
@@ -274,8 +280,14 @@ msgstr "添加详情过滤"
 msgid "Add combination"
 msgstr "添加组合"
 
+msgid "Add permission"
+msgstr ""
+
 msgid "Add:"
 msgstr "添加："
+
+msgid "Adding would cause a cycle!"
+msgstr ""
 
 msgid "Additional Information"
 msgstr "附加信息"
@@ -337,6 +349,9 @@ msgstr "该位置和组织下所有配置的主机"
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr ""
 
+msgid "All items"
+msgstr ""
+
 msgid "All media"
 msgstr ""
 
@@ -349,9 +364,6 @@ msgstr "已修复所有与主机和％S之间的不匹配"
 msgid ""
 "All mismatches between hosts and locations/organizations have been fixed"
 msgstr ""
-
-msgid "All non public permissions successfully updated"
-msgstr "成功更新所有非公开的权限"
 
 msgid "All smart proxies"
 msgstr ""
@@ -735,6 +747,12 @@ msgstr "从系统介质创建"
 msgid "Build|B"
 msgstr "B"
 
+msgid ""
+"By unchecking this you can specify filter using Foreman search syntax in "
+"search field. If filter remains unlimited (this field is checked) it applies"
+" on all resources of the selected type"
+msgstr ""
+
 msgid "CDROM"
 msgstr "光驱"
 
@@ -772,6 +790,9 @@ msgstr "取消创建主机的操作"
 msgid "Canceled pending build for %s"
 msgstr "取消 %s 创建"
 
+msgid "Cannot delete %{current} because it has nested %{sti_name}."
+msgstr ""
+
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr ""
 
@@ -804,12 +825,6 @@ msgstr ""
 
 msgid "Chassis"
 msgstr "机架"
-
-msgid "Check all"
-msgstr "选择所有"
-
-msgid "Check all/Uncheck all"
-msgstr "选择所有/取消所有选择"
 
 msgid "Check/Uncheck all"
 msgstr "选择/取消所有选择"
@@ -1086,9 +1101,8 @@ msgstr "默认"
 msgid "Default Puppet server hostname"
 msgstr "默认puppet服务器名"
 
-msgid ""
-"Default encrypted root password on provisioned hosts (default is 123123)"
-msgstr "默认加密超级用户口令（默认为123123）"
+msgid "Default encrypted root password on provisioned hosts"
+msgstr ""
 
 msgid "Default value"
 msgstr "默认值"
@@ -1111,6 +1125,9 @@ msgstr "删除 %s 的所有趋势记录"
 msgid "Delete autosign entry for %s"
 msgstr "删除 %s 的自动签名"
 
+msgid "Delete filter?"
+msgstr ""
+
 msgid "Delete report for %s?"
 msgstr "删除 %s 的报告"
 
@@ -1125,6 +1142,9 @@ msgstr "部署到"
 
 msgid "Description"
 msgstr "描述"
+
+msgid "Deselect All"
+msgstr ""
 
 msgid "Destroy"
 msgstr "销毁"
@@ -1150,6 +1170,15 @@ msgstr "已禁用"
 #. host's status: first character of "disabled"
 msgid "Disabled|D"
 msgstr "D"
+
+msgid "Disassociate Hosts"
+msgstr ""
+
+msgid "Disassociate host"
+msgstr ""
+
+msgid "Disassociate the selected hosts from their VMs"
+msgstr ""
 
 msgid "Disk"
 msgstr "磁盘"
@@ -1181,9 +1210,6 @@ msgstr "文档"
 
 msgid "Does not match selected Subnet"
 msgstr "与选择的子网不匹配"
-
-msgid "Does not update ipaddress and MAC values from Puppet facts"
-msgstr "不能修改来自Puppet 详情的ip地址和MAC地址"
 
 msgid "Does this image support user data input (e.g. via cloud-init)?"
 msgstr ""
@@ -1250,6 +1276,9 @@ msgstr "编辑域"
 msgid "Edit Environment"
 msgstr "编辑环境"
 
+msgid "Edit Filter"
+msgstr ""
+
 msgid "Edit Global Parameter"
 msgstr "编辑全局参数"
 
@@ -1315,11 +1344,11 @@ msgid ""
 "modulepath associated with <strong>%{environment}</strong>."
 msgstr ""
 
+msgid "Email reply address for emails that Foreman is sending"
+msgstr ""
+
 msgid "Empty environment"
 msgstr "空环境"
-
-msgid "Enable Email alerts per each failed Puppet report"
-msgstr "启用电子邮件警报"
 
 msgid "Enable Notifications"
 msgstr "启用提醒"
@@ -1329,6 +1358,12 @@ msgstr "启用选择主机的告警"
 
 msgid "Enable certificate generation for %s"
 msgstr "为 %s 生成证书"
+
+msgid "Enable email alerts per each failed Puppet report"
+msgstr ""
+
+msgid "Enable puppetrun support"
+msgstr ""
 
 msgid "Enable rebuild on next host boot"
 msgstr "启用开机重建"
@@ -1344,9 +1379,6 @@ msgstr "已启用"
 
 msgid "Enabled %s for rebuild on next boot"
 msgstr "启用 %s 重启后重建"
-
-msgid "Enables Puppetrun support"
-msgstr "启用 Puppetrun 支持"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
@@ -1600,11 +1632,20 @@ msgstr "筛选 %s"
 msgid "Filter classes"
 msgstr "筛选类"
 
-msgid "Filter permissions"
-msgstr ""
-
 msgid "Filters"
 msgstr "筛选"
+
+msgid "Filters and permissions"
+msgstr ""
+
+msgid "Filter|Resource"
+msgstr ""
+
+msgid "Filter|Search"
+msgstr ""
+
+msgid "Filter|Unlimited"
+msgstr ""
 
 msgid "Fingerprint"
 msgstr "指纹"
@@ -1614,6 +1655,9 @@ msgstr "修复与 %s 的不匹配"
 
 msgid "Fix All Mismatches"
 msgstr "修复所有不匹配"
+
+msgid "Fix DB cache on next Foreman restart"
+msgstr ""
 
 msgid "Fix Mismatches"
 msgstr "修复不匹配"
@@ -1671,6 +1715,11 @@ msgid ""
 "node requests made\\n  by machines at that site."
 msgstr ""
 
+msgid ""
+"Foreman host group matchers will be inherited by children when evaluating "
+"smart class parameters"
+msgstr ""
+
 msgid "Foreman now manages the build cycle for %s"
 msgstr ""
 
@@ -1680,7 +1729,13 @@ msgstr ""
 msgid "Foreman report creation time is <em>%s</em>"
 msgstr ""
 
+msgid "Foreman smart variables will be exposed via the ENC yaml output"
+msgstr ""
+
 msgid "Foreman ticketing system"
+msgstr ""
+
+msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr ""
 
 msgid "Foreman will create the host when a report is received"
@@ -1689,7 +1744,64 @@ msgstr ""
 msgid "Foreman will create the host when new facts are received"
 msgstr ""
 
+msgid ""
+"Foreman will default to this puppet environment if it cannot auto detect one"
+msgstr ""
+
+msgid "Foreman will evaluate host smart variables in this order by default"
+msgstr ""
+
+msgid ""
+"Foreman will explicitly set the puppet environment in the ENC yaml output. "
+"This will avoid conflicts between the environment in puppet.conf and the "
+"environment set in Foreman"
+msgstr ""
+
+msgid ""
+"Foreman will map users by username in request-header. If this is set to "
+"false, OAuth requests will have admin rights."
+msgstr ""
+
+msgid "Foreman will parse ERB in parameters value in the ENC output"
+msgstr ""
+
+msgid ""
+"Foreman will query the locally configured resolver instead of the SOA/NS "
+"authorities"
+msgstr ""
+
+msgid ""
+"Foreman will set this as the default Puppet module path if it cannot auto "
+"detect one"
+msgstr ""
+
 msgid "Foreman will truncate hostname to 'puppet' if it starts with puppet"
+msgstr ""
+
+msgid "Foreman will update a host's environment from its facts"
+msgstr ""
+
+msgid ""
+"Foreman will update the host IP with the IP that made the built request"
+msgstr ""
+
+msgid "Foreman will use OAuth for API authorization"
+msgstr ""
+
+msgid "Foreman will use gravatar to display user icons"
+msgstr ""
+
+msgid ""
+"Foreman will use random UUIDs for certificate signing instead of hostnames"
+msgstr ""
+
+msgid ""
+"Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
+msgstr ""
+
+msgid ""
+"Foreman will use the short hostname instead of the FQDN for creating new "
+"virtual machines"
 msgstr ""
 
 msgid ""
@@ -1767,6 +1879,9 @@ msgstr "历史"
 
 msgid "Host"
 msgstr "主机"
+
+msgid "Host %s is not associated with a VM"
+msgstr ""
 
 msgid "Host Architecture"
 msgstr "主机架构"
@@ -2042,6 +2157,9 @@ msgstr "介质编号"
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
 
+msgid "Image to use"
+msgstr ""
+
 msgid "Images"
 msgstr "介质"
 
@@ -2114,7 +2232,7 @@ msgstr "非法用户名或者密码"
 msgid "Infrastructure"
 msgstr ""
 
-msgid "Inherit from parent"
+msgid "Inherit parent (%s)"
 msgstr ""
 
 msgid "Installation Media"
@@ -2591,6 +2709,9 @@ msgstr "新建域"
 msgid "New Environment"
 msgstr "新建环境"
 
+msgid "New Filter"
+msgstr ""
+
 msgid "New Global Parameter"
 msgstr "新建全局参数"
 
@@ -2677,6 +2798,9 @@ msgstr ""
 
 msgid "New compute resource"
 msgstr "新建计算机资源"
+
+msgid "New filter"
+msgstr ""
 
 msgid "New installation medium"
 msgstr "新建安装介质"
@@ -2836,6 +2960,9 @@ msgstr "未授权编辑类"
 msgid "Not implemented"
 msgstr "未实现"
 
+msgid "Not implemented for %s"
+msgstr ""
+
 msgid "Not relevant for snippet"
 msgstr "不相关的片段"
 
@@ -2884,6 +3011,9 @@ msgstr "事件数"
 
 msgid "Number of Hosts"
 msgstr "主机数"
+
+msgid "Number of records shown per page in Foreman"
+msgstr ""
 
 msgid "Number of values"
 msgstr "数值"
@@ -3137,6 +3267,9 @@ msgstr "值"
 msgid "Parent"
 msgstr ""
 
+msgid "Parent is already selected"
+msgstr ""
+
 msgid "Partition Tables"
 msgstr "分区表"
 
@@ -3151,6 +3284,9 @@ msgstr "分区表"
 
 msgid "Password"
 msgstr "密码"
+
+msgid "Password to authenticate with - used for SSH finish step."
+msgstr ""
 
 msgid "Pause"
 msgstr ""
@@ -3174,14 +3310,14 @@ msgstr "挂起的修改"
 msgid "Pending|P"
 msgstr "挂起的"
 
+msgid "Permission"
+msgstr ""
+
 msgid "Permission denied"
 msgstr "权限不足"
 
-msgid "Permissions"
-msgstr "权限"
-
-msgid "Permissions report"
-msgstr "权限报告"
+msgid "Permissions must be of same resource type"
+msgstr ""
 
 msgid "Physical (Bridge)"
 msgstr "物理（桥）"
@@ -3431,6 +3567,11 @@ msgstr "删除参数"
 msgid "Remove Reverse DNS record for %s"
 msgstr ""
 
+msgid ""
+"Remove classes from environments different to the host's environment when a "
+"host and its host group have different environments"
+msgstr ""
+
 msgid "Remove conflicting DNS record for %s"
 msgstr ""
 
@@ -3534,6 +3675,9 @@ msgstr "审核"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
 msgstr "角色"
+
+msgid "Role cloned from role %{old_name}"
+msgstr ""
 
 msgid "Role is in use"
 msgstr "使用的角色"
@@ -3679,6 +3823,9 @@ msgstr ""
 msgid "Select the changes you want to realize in Foreman"
 msgstr ""
 
+msgid "Select this since it belongs to a host"
+msgstr ""
+
 msgid "Select users"
 msgstr ""
 
@@ -3686,6 +3833,17 @@ msgid "Selected hosts are now assigned to %s"
 msgstr ""
 
 msgid "Selected image does not belong to %s"
+msgstr ""
+
+msgid "Selected items"
+msgstr ""
+
+msgid ""
+"Selected resource type does not support granular filtering, therefore you "
+"can't configure granularity"
+msgstr ""
+
+msgid "Selected role"
 msgstr ""
 
 msgid "Selecting a file will override the editor and load the file instead"
@@ -3727,62 +3885,6 @@ msgstr "类型"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Value"
 msgstr "值"
-
-msgid "Should Foreman automate certificate signing upon provisioning new host"
-msgstr ""
-
-msgid "Should Foreman parse ERB to return dynamic parameters?"
-msgstr ""
-
-msgid ""
-"Should Foreman provide puppet environment in ENC yaml output? (this avoids "
-"the mismatch error between puppet.conf and ENC environment)"
-msgstr ""
-
-msgid ""
-"Should Foreman query the locally configured name server or the SOA/NS "
-"authorities"
-msgstr ""
-
-msgid "Should Foreman update a host's environment from its facts"
-msgstr ""
-
-msgid "Should Foreman use gravatar to display user icons"
-msgstr ""
-
-msgid ""
-"Should Foreman use host group ancestors matchers to set puppet classes "
-"parameters values"
-msgstr ""
-
-msgid ""
-"Should Foreman use random UUID's for certificate signing instead of "
-"hostnames"
-msgstr ""
-
-msgid ""
-"Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml "
-"output?"
-msgstr ""
-
-msgid ""
-"Should Foreman use the short hostname instead of the FQDN for creating new "
-"virtual machines"
-msgstr ""
-
-msgid "Should foreman map users by username in request-header"
-msgstr ""
-
-msgid "Should foreman use OAuth for authorization in API"
-msgstr ""
-
-msgid "Should the smart variables be exposed via the ENC yaml output?"
-msgstr ""
-
-msgid ""
-"Should we use the originating IP of the built request to update the host's "
-"IP?"
-msgstr ""
 
 msgid "Show Diff"
 msgstr "显示区别"
@@ -3914,6 +4016,9 @@ msgstr "统计"
 
 msgid "Status"
 msgstr "状态"
+
+msgid "Stop updating IP address and MAC values from Puppet facts"
+msgstr ""
 
 msgid "Storage"
 msgstr "存储"
@@ -4100,9 +4205,6 @@ msgid ""
 "template changes"
 msgstr ""
 
-msgid "The Default path in which Foreman resolves host specific variables"
-msgstr ""
-
 msgid ""
 "The Foreman community uses on the irc.freenode.net servers. You can get "
 "general support in #theforeman, while development chat takes place in "
@@ -4125,27 +4227,6 @@ msgstr ""
 
 msgid "The Operating System type"
 msgstr "操作系统类型"
-
-msgid "The Puppet default module path in case Foreman can't auto detect it"
-msgstr ""
-
-msgid ""
-"The Puppet environment Foreman will default to in case it can't auto detect "
-"it"
-msgstr ""
-
-msgid ""
-"The URL that hosts will retrieve templates from during build (normally http "
-"as many installers don't support https)"
-msgstr ""
-
-msgid ""
-"The URL where your Foreman instance is reachable (see also Provisioning > "
-"unattended_url)"
-msgstr ""
-
-msgid "The amount of records shown per page in Foreman"
-msgstr ""
 
 msgid ""
 "The authentication process currently requires an LDAP provider, such as "
@@ -4174,9 +4255,6 @@ msgid ""
 "The dynamic partitioning style is currently only available for the Red Hat "
 "family of operating systems, all others must provide an explicit list of "
 "partitions and sizes."
-msgstr ""
-
-msgid "The email reply address for emails that Foreman is sending"
 msgstr ""
 
 msgid "The file path where your p12 file is located"
@@ -4313,6 +4391,12 @@ msgid ""
 "configuration by the use of the"
 msgstr ""
 
+msgid "This is inherited from parent"
+msgstr ""
+
+msgid "This is used by a host"
+msgstr ""
+
 msgid ""
 "This might take a while, as all hosts, facts and reports will be destroyed "
 "as well"
@@ -4432,11 +4516,24 @@ msgstr "趋势类型"
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr ""
 
+msgid "Troubleshooting"
+msgstr ""
+
 msgid "Type"
 msgstr "类型"
 
 msgid "URL"
 msgstr "链接"
+
+msgid ""
+"URL hosts will retrieve templates from during build (normally http as many "
+"installers don't support https)"
+msgstr ""
+
+msgid ""
+"URL where your Foreman instance is reachable (see also Provisioning > "
+"unattended_url)"
+msgstr ""
 
 msgid "UUID"
 msgstr "UUID"
@@ -4478,9 +4575,6 @@ msgstr ""
 msgid "Unable to save"
 msgstr "无法保存"
 
-msgid "Uncheck all"
-msgstr "取消所有"
-
 msgid "Undo remove"
 msgstr "撤销删除"
 
@@ -4519,6 +4613,9 @@ msgstr "更新"
 
 msgid "Updated all hosts!"
 msgstr "更新所有主机！"
+
+msgid "Updated hosts: Disassociated from VM"
+msgstr ""
 
 msgid "Updated hosts: changed environment"
 msgstr ""
@@ -4792,11 +4889,6 @@ msgid ""
 msgstr ""
 
 msgid ""
-"When host and host group have different environments should all classes be "
-"included (regardless if they exists or not in the other environment)"
-msgstr ""
-
-msgid ""
 "When operating in unattended mode Foreman will require more information, so "
 "expect more questions, but it will be able to automate host installations "
 "for Red Hat, Debian, SUSE and Solaris operating systems (and their clones), "
@@ -4847,49 +4939,13 @@ msgstr ""
 msgid "You can't change Administrator flag"
 msgstr ""
 
-msgid "You cannot remove %s that are used by hosts."
-msgstr ""
-
-msgid "You do not have permission to %s this Operating System parameter"
-msgstr ""
-
-msgid "You do not have permission to %s this Smart Variable"
-msgstr ""
-
-msgid "You do not have permission to %s this compute resource"
-msgstr ""
-
-msgid "You do not have permission to %s this domain"
-msgstr ""
-
-msgid "You do not have permission to %s this domain parameter"
-msgstr ""
-
-msgid "You do not have permission to %s this group parameter"
-msgstr ""
-
-msgid "You do not have permission to %s this host"
+msgid "You cannot remove %s that are used by hosts or inherited."
 msgstr ""
 
 msgid "You do not have permission to %s this location parameter"
 msgstr ""
 
 msgid "You do not have permission to %s this organization parameter"
-msgstr ""
-
-msgid "You do not have permission to %s this report"
-msgstr ""
-
-msgid "You do not have permission to %s this template"
-msgstr ""
-
-msgid "You do not have permission to %{operation} this %{klass}"
-msgstr ""
-
-msgid "You do not have permission to edit Puppet classes on this host"
-msgstr ""
-
-msgid "You do not have permission to edit Puppet classes on this host group"
 msgstr ""
 
 msgid "You don't seem to have any Hosts, for more information see"
@@ -4953,6 +5009,9 @@ msgstr ""
 msgid ""
 "You must decide how you wish to use the software, and update the primary "
 "settings file <b>config/settings.yaml</b> and the"
+msgstr ""
+
+msgid "You must select at least one permission"
 msgstr ""
 
 msgid ""
@@ -5080,6 +5139,9 @@ msgstr ""
 msgid "failed to save %s"
 msgstr "保存 %s失败"
 
+msgid "filter for %s role"
+msgstr ""
+
 msgid "for more details."
 msgstr "更多的细节。"
 
@@ -5110,7 +5172,7 @@ msgstr ""
 msgid "in domain"
 msgstr "域"
 
-msgid "included already from host group"
+msgid "included already from parent"
 msgstr ""
 
 msgid "invalid"
@@ -5235,6 +5297,12 @@ msgstr "新建"
 msgid "no puppet proxy defined - cant continue"
 msgstr "未定义 puppet proxy - 停止"
 
+msgid "no value"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
 msgid "off"
 msgstr ""
 
@@ -5310,6 +5378,9 @@ msgstr "不少于8个字符"
 msgid "should follow this format: 0,9600n8"
 msgstr "格式参考： 0,9600n8"
 
+msgid "should not be blank - consider setting a global or host group default"
+msgstr ""
+
 msgid "soft"
 msgstr ""
 
@@ -5350,6 +5421,9 @@ msgid "unable to find recipients"
 msgstr ""
 
 msgid "unable to sign a non pending certificate"
+msgstr ""
+
+msgid "unknown permission for %s"
 msgstr ""
 
 msgid "unknown provider"

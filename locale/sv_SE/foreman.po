@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-21 08:47+0000\n"
-"PO-Revision-Date: 2014-02-21 09:33+0000\n"
+"POT-Creation-Date: 2014-03-03 16:33+0000\n"
+"PO-Revision-Date: 2014-03-14 10:14+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -56,6 +56,9 @@ msgid "%s day ago"
 msgid_plural "%s days ago"
 msgstr[0] "%s dag sedan"
 msgstr[1] "%s dagar sedan"
+
+msgid "%s has been disassociated from VM"
+msgstr ""
 
 msgid "%s is an unknown attribute"
 msgstr "%s är ett okänt attribut"
@@ -153,6 +156,9 @@ msgstr "'%{host}' kan vara raderad eller så svarar inte '%{resource}'."
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' finns inte på '%{resource}'"
+
+msgid "(Miscellaneous)"
+msgstr ""
 
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr "(frivillig) IAM-roll för Fog att använda när avbilden skapas."
@@ -281,8 +287,14 @@ msgstr "Lägg till fakta-filter"
 msgid "Add combination"
 msgstr "Lägg till kombination"
 
+msgid "Add permission"
+msgstr ""
+
 msgid "Add:"
 msgstr "Lägg till:"
+
+msgid "Adding would cause a cycle!"
+msgstr ""
 
 msgid "Additional Information"
 msgstr "Ytterliggare information:"
@@ -344,6 +356,9 @@ msgstr "Alla värdars data matchar konfigurationer för platser och organisation
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr "Alla värdar tidigare utan %{single} tilldelas nu %{name}"
 
+msgid "All items"
+msgstr ""
+
 msgid "All media"
 msgstr "Alla media"
 
@@ -356,9 +371,6 @@ msgstr "Alla felaktigheter mellan värdar och %s har åtgärdats"
 msgid ""
 "All mismatches between hosts and locations/organizations have been fixed"
 msgstr "Alla felaktigheter mellan värdar och platser/organisationer har åtgärdats"
-
-msgid "All non public permissions successfully updated"
-msgstr "Alla icke allmänna behörigheter har uppdaterats"
 
 msgid "All smart proxies"
 msgstr "Alla smarta proxies"
@@ -743,6 +755,12 @@ msgstr "Bygg från OS-avbild"
 msgid "Build|B"
 msgstr "B"
 
+msgid ""
+"By unchecking this you can specify filter using Foreman search syntax in "
+"search field. If filter remains unlimited (this field is checked) it applies"
+" on all resources of the selected type"
+msgstr ""
+
 msgid "CDROM"
 msgstr "CDläsare"
 
@@ -780,6 +798,9 @@ msgstr "Avbryt byggbegäran för denna värd"
 msgid "Canceled pending build for %s"
 msgstr "Avbröt avvaktande bygge för %s"
 
+msgid "Cannot delete %{current} because it has nested %{sti_name}."
+msgstr ""
+
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "Kan inte radera gruppen %{current} eftersom den har nästade grupper."
 
@@ -812,12 +833,6 @@ msgstr "Karta"
 
 msgid "Chassis"
 msgstr "Chassi"
-
-msgid "Check all"
-msgstr "Markera samtliga"
-
-msgid "Check all/Uncheck all"
-msgstr "Markera/Avmarkera samtliga"
 
 msgid "Check/Uncheck all"
 msgstr "Markera/Avmarkera samtliga"
@@ -1094,9 +1109,8 @@ msgstr "Standard"
 msgid "Default Puppet server hostname"
 msgstr "Standard Puppet-server värdnamn"
 
-msgid ""
-"Default encrypted root password on provisioned hosts (default is 123123)"
-msgstr "Krypterat standardlösenord för root på provisionerade värdar (standard är 123123)"
+msgid "Default encrypted root password on provisioned hosts"
+msgstr ""
 
 msgid "Default value"
 msgstr "Standardvärde"
@@ -1119,6 +1133,9 @@ msgstr "Radera all trendhistorik för %s"
 msgid "Delete autosign entry for %s"
 msgstr "Radera autosigneringsvärde för %s"
 
+msgid "Delete filter?"
+msgstr ""
+
 msgid "Delete report for %s?"
 msgstr "Radera rapport för %s"
 
@@ -1133,6 +1150,9 @@ msgstr "Installera på"
 
 msgid "Description"
 msgstr "Beskrivning"
+
+msgid "Deselect All"
+msgstr ""
 
 msgid "Destroy"
 msgstr "Förstör"
@@ -1158,6 +1178,15 @@ msgstr "Inaktiverad"
 #. host's status: first character of "disabled"
 msgid "Disabled|D"
 msgstr "D"
+
+msgid "Disassociate Hosts"
+msgstr ""
+
+msgid "Disassociate host"
+msgstr ""
+
+msgid "Disassociate the selected hosts from their VMs"
+msgstr ""
 
 msgid "Disk"
 msgstr "Hårddisk"
@@ -1190,9 +1219,6 @@ msgstr "Dokumentation"
 
 msgid "Does not match selected Subnet"
 msgstr "Matchar inte valt Subnät"
-
-msgid "Does not update ipaddress and MAC values from Puppet facts"
-msgstr "Uppdaterar inte IP-adress samt MAC-adress värden från Puppet fakta"
 
 msgid "Does this image support user data input (e.g. via cloud-init)?"
 msgstr "Stödjer denna bild användardata (såsom via cloud-init)?"
@@ -1259,6 +1285,9 @@ msgstr "Redigera Domän"
 msgid "Edit Environment"
 msgstr "Redigera Miljö"
 
+msgid "Edit Filter"
+msgstr ""
+
 msgid "Edit Global Parameter"
 msgstr "Redigera Globala Parametrar"
 
@@ -1324,11 +1353,11 @@ msgid ""
 "modulepath associated with <strong>%{environment}</strong>."
 msgstr "Antingen så är inte puppetdokumentationen genererad ( se <a rel=\"external\" href=\"%{url}\">here</a>) eller så kunde inte klassen <strong>%{name}</strong> hittas i miljön <strong>%{environment}</strong><br/>. Säkerställ att klassen  <strong>%{name}</strong>s deklaration är nåbar via modulsökvägen som är associerad med <strong>%{environment}</strong>."
 
+msgid "Email reply address for emails that Foreman is sending"
+msgstr ""
+
 msgid "Empty environment"
 msgstr "Tom miljö"
-
-msgid "Enable Email alerts per each failed Puppet report"
-msgstr "Aktivera epostlarm för varje misslyckad Puppetrapport"
 
 msgid "Enable Notifications"
 msgstr "Aktivera Notifieringar"
@@ -1338,6 +1367,12 @@ msgstr "Aktivera larm för valda värdar"
 
 msgid "Enable certificate generation for %s"
 msgstr "Aktivera certifikatgenerering för %s"
+
+msgid "Enable email alerts per each failed Puppet report"
+msgstr ""
+
+msgid "Enable puppetrun support"
+msgstr ""
 
 msgid "Enable rebuild on next host boot"
 msgstr "Aktivera ombygge vid nästa värdstart"
@@ -1353,9 +1388,6 @@ msgstr "Aktiverad"
 
 msgid "Enabled %s for rebuild on next boot"
 msgstr "Aktiverat %s för ombyggning vid nästa värdstart"
-
-msgid "Enables Puppetrun support"
-msgstr "Aktiverar Puppetrun stöd"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
@@ -1609,11 +1641,20 @@ msgstr "Filtrera %s"
 msgid "Filter classes"
 msgstr "Filterklasser"
 
-msgid "Filter permissions"
-msgstr "Filtrera rättigheter"
-
 msgid "Filters"
 msgstr "Filter"
+
+msgid "Filters and permissions"
+msgstr ""
+
+msgid "Filter|Resource"
+msgstr ""
+
+msgid "Filter|Search"
+msgstr ""
+
+msgid "Filter|Unlimited"
+msgstr ""
 
 msgid "Fingerprint"
 msgstr "Fingeravtryck"
@@ -1623,6 +1664,9 @@ msgstr "Rätta %s vid matchningsfel"
 
 msgid "Fix All Mismatches"
 msgstr "Rätta alla matchningsfel"
+
+msgid "Fix DB cache on next Foreman restart"
+msgstr ""
 
 msgid "Fix Mismatches"
 msgstr "Rätta matchningsfel"
@@ -1680,6 +1724,11 @@ msgid ""
 "node requests made\\n  by machines at that site."
 msgstr "Foreman anser en domän och en DNS-zon som samma sak. Det vill säga, om du planerar att hantera en plats där alla maskiner heter <i>hostname</i>.<b>somewhere.com</b>\\n då är domänen <b>somewhere.com</b>.  Detta möjliggör Foreman att associera puppetvariabler med en domän/plats och automatiskt lägga till variabeln till ENC förfrågningar gjorda\\n av maskiner från den domänen/platsen."
 
+msgid ""
+"Foreman host group matchers will be inherited by children when evaluating "
+"smart class parameters"
+msgstr ""
+
 msgid "Foreman now manages the build cycle for %s"
 msgstr "Foreman hanterar nu byggcykeln för %s"
 
@@ -1689,8 +1738,14 @@ msgstr "Foreman hanterar inte längre byggcykeln för %s"
 msgid "Foreman report creation time is <em>%s</em>"
 msgstr "Foremans rapporskapningstid är <em>%s</em>"
 
+msgid "Foreman smart variables will be exposed via the ENC yaml output"
+msgstr ""
+
 msgid "Foreman ticketing system"
 msgstr "Foreman biljettsystem"
+
+msgid "Foreman will automate certificate signing upon provision of new host"
+msgstr ""
 
 msgid "Foreman will create the host when a report is received"
 msgstr "Foreman kommer skapa värden när en rapport tas emot"
@@ -1698,8 +1753,65 @@ msgstr "Foreman kommer skapa värden när en rapport tas emot"
 msgid "Foreman will create the host when new facts are received"
 msgstr "Foreman kommer skapa värden när nya fakta tas emot"
 
+msgid ""
+"Foreman will default to this puppet environment if it cannot auto detect one"
+msgstr ""
+
+msgid "Foreman will evaluate host smart variables in this order by default"
+msgstr ""
+
+msgid ""
+"Foreman will explicitly set the puppet environment in the ENC yaml output. "
+"This will avoid conflicts between the environment in puppet.conf and the "
+"environment set in Foreman"
+msgstr ""
+
+msgid ""
+"Foreman will map users by username in request-header. If this is set to "
+"false, OAuth requests will have admin rights."
+msgstr ""
+
+msgid "Foreman will parse ERB in parameters value in the ENC output"
+msgstr ""
+
+msgid ""
+"Foreman will query the locally configured resolver instead of the SOA/NS "
+"authorities"
+msgstr ""
+
+msgid ""
+"Foreman will set this as the default Puppet module path if it cannot auto "
+"detect one"
+msgstr ""
+
 msgid "Foreman will truncate hostname to 'puppet' if it starts with puppet"
 msgstr "Foreman kommer att trunkera värdnamnet till 'puppet' om det startar med puppet"
+
+msgid "Foreman will update a host's environment from its facts"
+msgstr ""
+
+msgid ""
+"Foreman will update the host IP with the IP that made the built request"
+msgstr ""
+
+msgid "Foreman will use OAuth for API authorization"
+msgstr ""
+
+msgid "Foreman will use gravatar to display user icons"
+msgstr ""
+
+msgid ""
+"Foreman will use random UUIDs for certificate signing instead of hostnames"
+msgstr ""
+
+msgid ""
+"Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
+msgstr ""
+
+msgid ""
+"Foreman will use the short hostname instead of the FQDN for creating new "
+"virtual machines"
+msgstr ""
 
 msgid ""
 "Foreman, by default, operates in anonymous mode where all operations are "
@@ -1776,6 +1888,9 @@ msgstr "Historik"
 
 msgid "Host"
 msgstr "Värd"
+
+msgid "Host %s is not associated with a VM"
+msgstr ""
 
 msgid "Host Architecture"
 msgstr "Värdarkitektur"
@@ -2051,6 +2166,9 @@ msgstr "Avbildningsid"
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "Avbildsid tillhandahållen från beräkningsresursen, t.ex. ami-.."
 
+msgid "Image to use"
+msgstr ""
+
 msgid "Images"
 msgstr "Avbildningar"
 
@@ -2123,8 +2241,8 @@ msgstr "Felaktigt användarnamn eller lösenord"
 msgid "Infrastructure"
 msgstr "Infrastruktur"
 
-msgid "Inherit from parent"
-msgstr "Ärv från förälder"
+msgid "Inherit parent (%s)"
+msgstr ""
 
 msgid "Installation Media"
 msgstr "Installationsmedia"
@@ -2600,6 +2718,9 @@ msgstr "Ny Domän"
 msgid "New Environment"
 msgstr "Ny Miljö"
 
+msgid "New Filter"
+msgstr ""
+
 msgid "New Global Parameter"
 msgstr "Ny Global Parameter"
 
@@ -2686,6 +2807,9 @@ msgstr "Ny beräkningsprofil på %s"
 
 msgid "New compute resource"
 msgstr "Ny beräkningsresurs"
+
+msgid "New filter"
+msgstr ""
 
 msgid "New installation medium"
 msgstr "Nytt installationsmedium"
@@ -2845,6 +2969,9 @@ msgstr "Inte auktoriserad att redigera klasser"
 msgid "Not implemented"
 msgstr "Inte implementerad"
 
+msgid "Not implemented for %s"
+msgstr ""
+
 msgid "Not relevant for snippet"
 msgstr "Inte relevant för remsa"
 
@@ -2893,6 +3020,9 @@ msgstr "Antal Event"
 
 msgid "Number of Hosts"
 msgstr "Antal Värdar"
+
+msgid "Number of records shown per page in Foreman"
+msgstr ""
 
 msgid "Number of values"
 msgstr "Antal värden"
@@ -3146,6 +3276,9 @@ msgstr "Värde"
 msgid "Parent"
 msgstr "Förälder"
 
+msgid "Parent is already selected"
+msgstr ""
+
 msgid "Partition Tables"
 msgstr "Partitiontabell"
 
@@ -3160,6 +3293,9 @@ msgstr "Partitionstabell"
 
 msgid "Password"
 msgstr "Lösenord"
+
+msgid "Password to authenticate with - used for SSH finish step."
+msgstr ""
 
 msgid "Pause"
 msgstr "Paus"
@@ -3183,14 +3319,14 @@ msgstr "Pågående ändringar"
 msgid "Pending|P"
 msgstr "P"
 
+msgid "Permission"
+msgstr ""
+
 msgid "Permission denied"
 msgstr "Tillåts ej"
 
-msgid "Permissions"
-msgstr "Rättigheter"
-
-msgid "Permissions report"
-msgstr "Rättighetsrapport"
+msgid "Permissions must be of same resource type"
+msgstr ""
 
 msgid "Physical (Bridge)"
 msgstr "Fysisk(Brygga)"
@@ -3440,6 +3576,11 @@ msgstr "Ta bort Parameter"
 msgid "Remove Reverse DNS record for %s"
 msgstr "Ta bort baklänges DNS-post för %s"
 
+msgid ""
+"Remove classes from environments different to the host's environment when a "
+"host and its host group have different environments"
+msgstr ""
+
 msgid "Remove conflicting DNS record for %s"
 msgstr "Ta bort konfliktande DNS-post för %s"
 
@@ -3544,6 +3685,9 @@ msgstr "Granska"
 msgid "Role"
 msgstr "Roll"
 
+msgid "Role cloned from role %{old_name}"
+msgstr ""
+
 msgid "Role is in use"
 msgstr "Rollen används"
 
@@ -3583,7 +3727,7 @@ msgid "Runtime"
 msgstr "Exekveringsmiljö"
 
 msgid "SCSI controller"
-msgstr ""
+msgstr "SCSI-kontroller"
 
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
 msgstr "SSL CA-fil som Foreman kommer använda för kommunikation med dess proxies"
@@ -3689,6 +3833,9 @@ msgstr "Välj mallar"
 msgid "Select the changes you want to realize in Foreman"
 msgstr "Markera ändringarna som du vill verkställa i Foreman"
 
+msgid "Select this since it belongs to a host"
+msgstr ""
+
 msgid "Select users"
 msgstr "Välj användare"
 
@@ -3697,6 +3844,17 @@ msgstr "Valda värdar är nu tilldelade %s"
 
 msgid "Selected image does not belong to %s"
 msgstr "Vald avbildning tillhör inte %s"
+
+msgid "Selected items"
+msgstr ""
+
+msgid ""
+"Selected resource type does not support granular filtering, therefore you "
+"can't configure granularity"
+msgstr ""
+
+msgid "Selected role"
+msgstr ""
 
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "Väljs en fil åsidosätts redigeraren och filen laddas istället"
@@ -3737,62 +3895,6 @@ msgstr "Inställningstyp"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Value"
 msgstr "Värde"
-
-msgid "Should Foreman automate certificate signing upon provisioning new host"
-msgstr "Skall Foreman automatisera certifikatsignering vid provisionering av en ny värd"
-
-msgid "Should Foreman parse ERB to return dynamic parameters?"
-msgstr "Skall Foreman tolka ERB för att returnera dynamiska parametrar?"
-
-msgid ""
-"Should Foreman provide puppet environment in ENC yaml output? (this avoids "
-"the mismatch error between puppet.conf and ENC environment)"
-msgstr "Aktivera Foreman puppetmiljö i ENC yaml utdata (detta undviker ett matchningsfel mellan puppet.conf och ENCmiljön)"
-
-msgid ""
-"Should Foreman query the locally configured name server or the SOA/NS "
-"authorities"
-msgstr "Skall Foreman fråga den lokalt konfigurerade namnservern eller SOA/NS auktoriteter"
-
-msgid "Should Foreman update a host's environment from its facts"
-msgstr "Skall Foreman uppdatera en värds miljå från dess fakta"
-
-msgid "Should Foreman use gravatar to display user icons"
-msgstr "Skall Foreman använda gravatar för att visa användarikoner"
-
-msgid ""
-"Should Foreman use host group ancestors matchers to set puppet classes "
-"parameters values"
-msgstr "Skall Foreman använda värdgruppsfäders matchare för att ställa in puppetklassers parametervärden"
-
-msgid ""
-"Should Foreman use random UUID's for certificate signing instead of "
-"hostnames"
-msgstr "Skall Foreman använda slumpade UUID för certifikatsignering istället fär värdnamn"
-
-msgid ""
-"Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml "
-"output?"
-msgstr "Skall Foreman använda det nya formatet (2.6.5+) som svar till Puppet i dess ENC yaml utdata?"
-
-msgid ""
-"Should Foreman use the short hostname instead of the FQDN for creating new "
-"virtual machines"
-msgstr "Skall Foreman använda värdens kortnamn istället för värdens fullständiga DNS-namn vid skapandet av nya virtuella maskiner"
-
-msgid "Should foreman map users by username in request-header"
-msgstr "Skall Foreman mappa användare med hjälp av användarnamnet i förfrågningshuvudet"
-
-msgid "Should foreman use OAuth for authorization in API"
-msgstr "Skall Foreman använda OAuth för auktorisation i API:et"
-
-msgid "Should the smart variables be exposed via the ENC yaml output?"
-msgstr "Skall smarta variabler tillgängliggöras via ENC yaml utdatat"
-
-msgid ""
-"Should we use the originating IP of the built request to update the host's "
-"IP?"
-msgstr "Skall den ursprungliga IP-adressen av byggbegäran användas för att uppdatera värdens IP-adress?"
 
 msgid "Show Diff"
 msgstr "Visa Skillnad"
@@ -3924,6 +4026,9 @@ msgstr "Statistik"
 
 msgid "Status"
 msgstr "Status"
+
+msgid "Stop updating IP address and MAC values from Puppet facts"
+msgstr ""
 
 msgid "Storage"
 msgstr "Lagring"
@@ -4110,9 +4215,6 @@ msgid ""
 "template changes"
 msgstr "Fältet för Granskningskommentar sparas tillsammas med mallen för att dokumentera ändringar i mallen"
 
-msgid "The Default path in which Foreman resolves host specific variables"
-msgstr "Standardsökvägen i vilken Foreman slår upp värdspecifika variabler"
-
 msgid ""
 "The Foreman community uses on the irc.freenode.net servers. You can get "
 "general support in #theforeman, while development chat takes place in "
@@ -4135,27 +4237,6 @@ msgstr "NFS-sökvägen till mediet"
 
 msgid "The Operating System type"
 msgstr "Operativsystemstyp"
-
-msgid "The Puppet default module path in case Foreman can't auto detect it"
-msgstr "Sökvägen till Puppets standardmodul om Foreman inte automatiskt kan hitta den"
-
-msgid ""
-"The Puppet environment Foreman will default to in case it can't auto detect "
-"it"
-msgstr "Puppetmiljö som Foreman faller tillbaka till om det inte automatiskt kan detekteras"
-
-msgid ""
-"The URL that hosts will retrieve templates from during build (normally http "
-"as many installers don't support https)"
-msgstr "URLen som värdar kommer att hämta mallar från under bygge (normalt sett http eftersom många installerare inte stödjer https)"
-
-msgid ""
-"The URL where your Foreman instance is reachable (see also Provisioning > "
-"unattended_url)"
-msgstr "URLen där din Foreman instans är nåbar (se även Provisionering > unattended_url)"
-
-msgid "The amount of records shown per page in Foreman"
-msgstr "Antal resultat som visas per sida i Foreman"
 
 msgid ""
 "The authentication process currently requires an LDAP provider, such as "
@@ -4185,9 +4266,6 @@ msgid ""
 "family of operating systems, all others must provide an explicit list of "
 "partitions and sizes."
 msgstr "Det dynamiska partitionsschemat är för närvarande enbart tillgängligt för operativsystem tillhörande redhat familjen. Andra operativsystem måste tillhandahålla en explicit lista med partitioner och storlekar."
-
-msgid "The email reply address for emails that Foreman is sending"
-msgstr "Svarsadressen för epost som Foreman skickar"
 
 msgid "The file path where your p12 file is located"
 msgstr "Sökvägen till p12-filen"
@@ -4324,6 +4402,12 @@ msgid ""
 "configuration by the use of the"
 msgstr "Denna information är vanligen importerad från en existerande puppetkonfiguration med hjälp av"
 
+msgid "This is inherited from parent"
+msgstr ""
+
+msgid "This is used by a host"
+msgstr ""
+
 msgid ""
 "This might take a while, as all hosts, facts and reports will be destroyed "
 "as well"
@@ -4443,11 +4527,24 @@ msgstr "Trendbara typer"
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr "Trigga en puppetrun på en nod; kräver att puppetrun är aktiverat"
 
+msgid "Troubleshooting"
+msgstr ""
+
 msgid "Type"
 msgstr "Typ"
 
 msgid "URL"
 msgstr "URL"
+
+msgid ""
+"URL hosts will retrieve templates from during build (normally http as many "
+"installers don't support https)"
+msgstr ""
+
+msgid ""
+"URL where your Foreman instance is reachable (see also Provisioning > "
+"unattended_url)"
+msgstr ""
 
 msgid "UUID"
 msgstr "UUID"
@@ -4489,9 +4586,6 @@ msgstr "Misslyckades med att generera utdata. Kolla logfiler\\n"
 msgid "Unable to save"
 msgstr "Misslyckades med att spara"
 
-msgid "Uncheck all"
-msgstr "Avmarkera samtliga"
-
 msgid "Undo remove"
 msgstr "Ångra radering"
 
@@ -4530,6 +4624,9 @@ msgstr "Uppdaterad"
 
 msgid "Updated all hosts!"
 msgstr "Uppdaterade alla värdar!"
+
+msgid "Updated hosts: Disassociated from VM"
+msgstr ""
 
 msgid "Updated hosts: changed environment"
 msgstr "Uppdaterade värdar: ändrad miljö"
@@ -4803,11 +4900,6 @@ msgid ""
 msgstr "Vid redigering av en mall måste en lista med operativsystem anges för vilken denna mall kan användas med. Alternativt kan du begränsa en mall till en lista med Värdgrupper och/eller Miljöer"
 
 msgid ""
-"When host and host group have different environments should all classes be "
-"included (regardless if they exists or not in the other environment)"
-msgstr "När värdar och värdgrupper har olika miljöer skall alla klasser bli inkluderade (oavsett om dom existerar eller inte i den andra miljön) ?"
-
-msgid ""
 "When operating in unattended mode Foreman will require more information, so "
 "expect more questions, but it will be able to automate host installations "
 "for Red Hat, Debian, SUSE and Solaris operating systems (and their clones), "
@@ -4858,50 +4950,14 @@ msgstr "Du kan inte tilldela vissa av rollerna du valde"
 msgid "You can't change Administrator flag"
 msgstr "Du kan inte ändra Administratörsflaggan"
 
-msgid "You cannot remove %s that are used by hosts."
-msgstr "Du kan inte radera %s som används av värdar."
-
-msgid "You do not have permission to %s this Operating System parameter"
-msgstr "Du har inte rättigheter att %s denna Operativsystemsparameter"
-
-msgid "You do not have permission to %s this Smart Variable"
-msgstr "Du har inte rättigheter att %s denna smarta variabel"
-
-msgid "You do not have permission to %s this compute resource"
-msgstr "Du har inte rättigheter att %s denna beräkningsresurs"
-
-msgid "You do not have permission to %s this domain"
-msgstr "Du har inte rättigheter att %s denna domän"
-
-msgid "You do not have permission to %s this domain parameter"
-msgstr "Du har inte rättigheter att %s denna domänparameter"
-
-msgid "You do not have permission to %s this group parameter"
-msgstr "Du har inte rättigheter att %s denna gruppparameter"
-
-msgid "You do not have permission to %s this host"
-msgstr "Du har inte rättigheter att %s denna värd"
+msgid "You cannot remove %s that are used by hosts or inherited."
+msgstr ""
 
 msgid "You do not have permission to %s this location parameter"
 msgstr "Du har inte rättigheter att %s denna placeringsparameter"
 
 msgid "You do not have permission to %s this organization parameter"
 msgstr "Du har inte rättigheter att %s denna organisationsparameter"
-
-msgid "You do not have permission to %s this report"
-msgstr "Du har inte rättigheter att %s denna rapport"
-
-msgid "You do not have permission to %s this template"
-msgstr "Du har inte rättigheter att %s denna mall"
-
-msgid "You do not have permission to %{operation} this %{klass}"
-msgstr "Du har inte rättigheter att %{operation} denna %{klass}"
-
-msgid "You do not have permission to edit Puppet classes on this host"
-msgstr "Du har inte rättigheter att redigera puppetklasser för denna värd"
-
-msgid "You do not have permission to edit Puppet classes on this host group"
-msgstr "Du har inte rättigheter att redigera puppetklasser för denna värdgrupp"
 
 msgid "You don't seem to have any Hosts, for more information see"
 msgstr "Du verkar inte ha några Värdar, för mer information se"
@@ -4965,6 +5021,9 @@ msgid ""
 "You must decide how you wish to use the software, and update the primary "
 "settings file <b>config/settings.yaml</b> and the"
 msgstr "Du måste bestämma hur du vill använda mjukvaran, uppdatera primära inställningsfilen <b>config/settings.yaml</b> och"
+
+msgid "You must select at least one permission"
+msgstr ""
 
 msgid ""
 "You would need to enable login in your settings.yml file first and restart "
@@ -5091,6 +5150,9 @@ msgstr "misslyckades med att bearbeta mallen: %s"
 msgid "failed to save %s"
 msgstr "misslyckades med att spara %s"
 
+msgid "filter for %s role"
+msgstr ""
+
 msgid "for more details."
 msgstr "för mer detaljer."
 
@@ -5121,8 +5183,8 @@ msgstr "i %s"
 msgid "in domain"
 msgstr "i domänen"
 
-msgid "included already from host group"
-msgstr "inkluderas redan från värdgrupp"
+msgid "included already from parent"
+msgstr ""
 
 msgid "invalid"
 msgstr "felaktig"
@@ -5247,6 +5309,12 @@ msgstr "ny"
 msgid "no puppet proxy defined - cant continue"
 msgstr "ingen puppetproxy är definierad - kan inte fortsätta"
 
+msgid "no value"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
 msgid "off"
 msgstr "av"
 
@@ -5322,6 +5390,9 @@ msgstr "måste vara minst 8 tecken"
 msgid "should follow this format: 0,9600n8"
 msgstr "måste följa formatet: 0,9600n8"
 
+msgid "should not be blank - consider setting a global or host group default"
+msgstr ""
+
 msgid "soft"
 msgstr "mjuk"
 
@@ -5363,6 +5434,9 @@ msgstr "hittar inga mottagare"
 
 msgid "unable to sign a non pending certificate"
 msgstr "kan inte signera ett icke pågående certifikat"
+
+msgid "unknown permission for %s"
+msgstr ""
 
 msgid "unknown provider"
 msgstr "okänd leverantör"

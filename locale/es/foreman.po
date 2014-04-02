@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-21 08:47+0000\n"
-"PO-Revision-Date: 2014-02-21 09:33+0000\n"
+"POT-Creation-Date: 2014-03-03 16:33+0000\n"
+"PO-Revision-Date: 2014-03-14 10:14+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -64,6 +64,9 @@ msgid "%s day ago"
 msgid_plural "%s days ago"
 msgstr[0] "Hace %s día"
 msgstr[1] "Hace %s días"
+
+msgid "%s has been disassociated from VM"
+msgstr ""
 
 msgid "%s is an unknown attribute"
 msgstr "%s es un atributo desconocido"
@@ -161,6 +164,9 @@ msgstr "'%{host}' ha podido ser eliminado o '%{resource}' no está respondiendo.
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' no encontrado en '%{resource}'"
+
+msgid "(Miscellaneous)"
+msgstr ""
 
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr "(opcional) Rol IAM para Fog para utilizar cuando se crea esta imagen"
@@ -289,8 +295,14 @@ msgstr "Añadir filtro de datos"
 msgid "Add combination"
 msgstr "Añadir combinación"
 
+msgid "Add permission"
+msgstr ""
+
 msgid "Add:"
 msgstr "Añadir:"
+
+msgid "Adding would cause a cycle!"
+msgstr ""
 
 msgid "Additional Information"
 msgstr "Información adicional"
@@ -352,6 +364,9 @@ msgstr "Toda la información de los equipos coincide con la configuración de ub
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr "Todos los equipos previamente sin %{single} ahora están asignados a %{name}"
 
+msgid "All items"
+msgstr ""
+
 msgid "All media"
 msgstr "Todos los medios"
 
@@ -364,9 +379,6 @@ msgstr "Todas las discordancias entre equipos y %s han sido arregladas"
 msgid ""
 "All mismatches between hosts and locations/organizations have been fixed"
 msgstr "Todas las discordancias entre equipos y lugares/organizaciones han sido arregladas"
-
-msgid "All non public permissions successfully updated"
-msgstr "Todos los permisos privados se han actualizado correctamente"
 
 msgid "All smart proxies"
 msgstr "Todos los \"proxies\" inteligentes"
@@ -751,6 +763,12 @@ msgstr "Crear desde imagen de SO"
 msgid "Build|B"
 msgstr "C"
 
+msgid ""
+"By unchecking this you can specify filter using Foreman search syntax in "
+"search field. If filter remains unlimited (this field is checked) it applies"
+" on all resources of the selected type"
+msgstr ""
+
 msgid "CDROM"
 msgstr "CDROM"
 
@@ -788,6 +806,9 @@ msgstr "Cancelar petición de construcción para este equipo"
 msgid "Canceled pending build for %s"
 msgstr "Cancelar construcción pendiente para %s"
 
+msgid "Cannot delete %{current} because it has nested %{sti_name}."
+msgstr ""
+
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr ""
 
@@ -820,12 +841,6 @@ msgstr "Gráfico"
 
 msgid "Chassis"
 msgstr "Chasis"
-
-msgid "Check all"
-msgstr "Marcar todos"
-
-msgid "Check all/Uncheck all"
-msgstr "Marcar todos/Desmarcar todos"
 
 msgid "Check/Uncheck all"
 msgstr "Marcar/Desmarcar todos"
@@ -1102,9 +1117,8 @@ msgstr "Predeterminado"
 msgid "Default Puppet server hostname"
 msgstr "Nombre de servidor Puppet predeterminado"
 
-msgid ""
-"Default encrypted root password on provisioned hosts (default is 123123)"
-msgstr "Contraseña predeterminada de root cifrada para aprovisionar equipos (contraseña predeterminada: 123123)"
+msgid "Default encrypted root password on provisioned hosts"
+msgstr ""
 
 msgid "Default value"
 msgstr "Valor predeterminado"
@@ -1127,6 +1141,9 @@ msgstr "¿Eliminar todo el historial de tendencias para %s?"
 msgid "Delete autosign entry for %s"
 msgstr "Borrar entrada de autofirmado para %s"
 
+msgid "Delete filter?"
+msgstr ""
+
 msgid "Delete report for %s?"
 msgstr "¿Borrar informe de %s?"
 
@@ -1141,6 +1158,9 @@ msgstr "Desplegar en"
 
 msgid "Description"
 msgstr "Descripción"
+
+msgid "Deselect All"
+msgstr ""
 
 msgid "Destroy"
 msgstr "Destruir"
@@ -1166,6 +1186,15 @@ msgstr "Deshabilitado"
 #. host's status: first character of "disabled"
 msgid "Disabled|D"
 msgstr "D"
+
+msgid "Disassociate Hosts"
+msgstr ""
+
+msgid "Disassociate host"
+msgstr ""
+
+msgid "Disassociate the selected hosts from their VMs"
+msgstr ""
 
 msgid "Disk"
 msgstr "Disco"
@@ -1198,9 +1227,6 @@ msgstr "Documentación"
 
 msgid "Does not match selected Subnet"
 msgstr "No coincide con la Subred seleccionada"
-
-msgid "Does not update ipaddress and MAC values from Puppet facts"
-msgstr "No actualizar dirección IP ni MAC con los valores provenientes de los datos Puppet"
 
 msgid "Does this image support user data input (e.g. via cloud-init)?"
 msgstr "¿Esta imágen supporta inserción de datos de usuario (p.e. vía could-init)?"
@@ -1267,6 +1293,9 @@ msgstr "Editar Dominio"
 msgid "Edit Environment"
 msgstr "Editar Entorno"
 
+msgid "Edit Filter"
+msgstr ""
+
 msgid "Edit Global Parameter"
 msgstr "Editar Parámetro Global"
 
@@ -1332,11 +1361,11 @@ msgid ""
 "modulepath associated with <strong>%{environment}</strong>."
 msgstr "Aunque no hubieras generado los puppetdocs (see <a rel=\"external\" href=\"%{url}\">aquí</a>) o la clase <strong>%{name}</strong> no haya sido encontrada en el entorno <strong>%{environment}</strong><br/>Por favor asegúrate de que la declaración de la clase <strong>%{name}</strong> está accesible en el directorio de módulos asociado con el entorno <strong>%{environment}</strong>."
 
+msgid "Email reply address for emails that Foreman is sending"
+msgstr ""
+
 msgid "Empty environment"
 msgstr "Entorno vacío"
-
-msgid "Enable Email alerts per each failed Puppet report"
-msgstr "Habilitar alertas por correo electrónico para cada informe de Puppet fallido"
 
 msgid "Enable Notifications"
 msgstr "Habilitar Notificaciones"
@@ -1346,6 +1375,12 @@ msgstr "Habilitar alertas para los equipos seleccionados"
 
 msgid "Enable certificate generation for %s"
 msgstr "Habilitar generación de certificado para %s"
+
+msgid "Enable email alerts per each failed Puppet report"
+msgstr ""
+
+msgid "Enable puppetrun support"
+msgstr ""
 
 msgid "Enable rebuild on next host boot"
 msgstr "Habilitar reconstrucción el siguiente arranque"
@@ -1361,9 +1396,6 @@ msgstr "Habilitado"
 
 msgid "Enabled %s for rebuild on next boot"
 msgstr "%s habilitado para ser reconstruido en el siguiente arranque"
-
-msgid "Enables Puppetrun support"
-msgstr "Habilita el soporte de ejecución Puppet"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
@@ -1617,11 +1649,20 @@ msgstr "Filtrar %s"
 msgid "Filter classes"
 msgstr "Clases de filtro"
 
-msgid "Filter permissions"
-msgstr "Filtro de permisos"
-
 msgid "Filters"
 msgstr "Filtros"
+
+msgid "Filters and permissions"
+msgstr ""
+
+msgid "Filter|Resource"
+msgstr ""
+
+msgid "Filter|Search"
+msgstr ""
+
+msgid "Filter|Unlimited"
+msgstr ""
 
 msgid "Fingerprint"
 msgstr "Huella"
@@ -1631,6 +1672,9 @@ msgstr "Corregir %s en discordancias"
 
 msgid "Fix All Mismatches"
 msgstr "Arreglar todas las discordancias"
+
+msgid "Fix DB cache on next Foreman restart"
+msgstr ""
 
 msgid "Fix Mismatches"
 msgstr "Arreglar discordancias"
@@ -1688,6 +1732,11 @@ msgid ""
 "node requests made\\n  by machines at that site."
 msgstr "Foreman considera un dominio y una zona DNS como la misma cosa. Si estás planeando gestionar un sitio donde todas las máquinas tienen un nombre que sigue el patrón <i>hostname</i>.<b>algunaparte.com</b>\\n entonces el dominio será <b>algunaparte.com</b>. Esto le permite a Foreman asociar a una variable puppet el dominio/sitio y automáticamente añadir esta variable a todas las peticiones de nodos externos hechas por máquinas de ese sitio."
 
+msgid ""
+"Foreman host group matchers will be inherited by children when evaluating "
+"smart class parameters"
+msgstr ""
+
 msgid "Foreman now manages the build cycle for %s"
 msgstr "Foreman ahora controla el ciclo de vida de %s"
 
@@ -1697,8 +1746,14 @@ msgstr "Foreman ha dejado de controlar el ciclo de vida de %s"
 msgid "Foreman report creation time is <em>%s</em>"
 msgstr "El tiempo de creación del informe de Foreman es <em>%s</em>"
 
+msgid "Foreman smart variables will be exposed via the ENC yaml output"
+msgstr ""
+
 msgid "Foreman ticketing system"
 msgstr "Sistema de tickets de Foreman"
+
+msgid "Foreman will automate certificate signing upon provision of new host"
+msgstr ""
 
 msgid "Foreman will create the host when a report is received"
 msgstr "Foreman creará el host cuando se reciba un reporte"
@@ -1706,8 +1761,65 @@ msgstr "Foreman creará el host cuando se reciba un reporte"
 msgid "Foreman will create the host when new facts are received"
 msgstr "Foreman creará el equipo cuando se reciban los datos"
 
+msgid ""
+"Foreman will default to this puppet environment if it cannot auto detect one"
+msgstr ""
+
+msgid "Foreman will evaluate host smart variables in this order by default"
+msgstr ""
+
+msgid ""
+"Foreman will explicitly set the puppet environment in the ENC yaml output. "
+"This will avoid conflicts between the environment in puppet.conf and the "
+"environment set in Foreman"
+msgstr ""
+
+msgid ""
+"Foreman will map users by username in request-header. If this is set to "
+"false, OAuth requests will have admin rights."
+msgstr ""
+
+msgid "Foreman will parse ERB in parameters value in the ENC output"
+msgstr ""
+
+msgid ""
+"Foreman will query the locally configured resolver instead of the SOA/NS "
+"authorities"
+msgstr ""
+
+msgid ""
+"Foreman will set this as the default Puppet module path if it cannot auto "
+"detect one"
+msgstr ""
+
 msgid "Foreman will truncate hostname to 'puppet' if it starts with puppet"
 msgstr "Foreman cambiará el nombre de equipo a 'puppet' si éste empieza con puppet"
+
+msgid "Foreman will update a host's environment from its facts"
+msgstr ""
+
+msgid ""
+"Foreman will update the host IP with the IP that made the built request"
+msgstr ""
+
+msgid "Foreman will use OAuth for API authorization"
+msgstr ""
+
+msgid "Foreman will use gravatar to display user icons"
+msgstr ""
+
+msgid ""
+"Foreman will use random UUIDs for certificate signing instead of hostnames"
+msgstr ""
+
+msgid ""
+"Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
+msgstr ""
+
+msgid ""
+"Foreman will use the short hostname instead of the FQDN for creating new "
+"virtual machines"
+msgstr ""
 
 msgid ""
 "Foreman, by default, operates in anonymous mode where all operations are "
@@ -1784,6 +1896,9 @@ msgstr "Historial"
 
 msgid "Host"
 msgstr "Equipo"
+
+msgid "Host %s is not associated with a VM"
+msgstr ""
 
 msgid "Host Architecture"
 msgstr "Arquitectura del Equipo"
@@ -2059,6 +2174,9 @@ msgstr "ID imagen"
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "ID de la imagen facilitado por la instancia, ejemplo: ami-.."
 
+msgid "Image to use"
+msgstr ""
+
 msgid "Images"
 msgstr "Imágenes"
 
@@ -2131,8 +2249,8 @@ msgstr "Nombre de usuario o contraseña incorrectos"
 msgid "Infrastructure"
 msgstr "Infraestructura"
 
-msgid "Inherit from parent"
-msgstr "Heredado del padre"
+msgid "Inherit parent (%s)"
+msgstr ""
 
 msgid "Installation Media"
 msgstr "Medio de Instalación"
@@ -2608,6 +2726,9 @@ msgstr "Nuevo Dominio"
 msgid "New Environment"
 msgstr "Nuevo Entorno"
 
+msgid "New Filter"
+msgstr ""
+
 msgid "New Global Parameter"
 msgstr "Nuevo Parámetro Global"
 
@@ -2694,6 +2815,9 @@ msgstr "Nuevo perfil de cómputo en %s"
 
 msgid "New compute resource"
 msgstr "Nueva instancia"
+
+msgid "New filter"
+msgstr ""
 
 msgid "New installation medium"
 msgstr "Nuevo medio de instalación"
@@ -2853,6 +2977,9 @@ msgstr "No autorizado a editar clases"
 msgid "Not implemented"
 msgstr "No implementado"
 
+msgid "Not implemented for %s"
+msgstr ""
+
 msgid "Not relevant for snippet"
 msgstr "No es relevante para 'snippet'"
 
@@ -2901,6 +3028,9 @@ msgstr "Número de Eventos"
 
 msgid "Number of Hosts"
 msgstr "Número de Equipos"
+
+msgid "Number of records shown per page in Foreman"
+msgstr ""
 
 msgid "Number of values"
 msgstr "Número de Valores"
@@ -3154,6 +3284,9 @@ msgstr "Valor"
 msgid "Parent"
 msgstr "Pariente"
 
+msgid "Parent is already selected"
+msgstr ""
+
 msgid "Partition Tables"
 msgstr "Tablas de Particiones"
 
@@ -3168,6 +3301,9 @@ msgstr "Tablas de partición"
 
 msgid "Password"
 msgstr "Contraseña"
+
+msgid "Password to authenticate with - used for SSH finish step."
+msgstr ""
 
 msgid "Pause"
 msgstr "Pausar"
@@ -3191,14 +3327,14 @@ msgstr "Cambios Pendientes"
 msgid "Pending|P"
 msgstr "P"
 
+msgid "Permission"
+msgstr ""
+
 msgid "Permission denied"
 msgstr "Permiso denegado"
 
-msgid "Permissions"
-msgstr "Permisos"
-
-msgid "Permissions report"
-msgstr "Informe de permisos"
+msgid "Permissions must be of same resource type"
+msgstr ""
 
 msgid "Physical (Bridge)"
 msgstr "Físico (Bridge)"
@@ -3448,6 +3584,11 @@ msgstr "Borrar Parámetro"
 msgid "Remove Reverse DNS record for %s"
 msgstr "Borrar registros DNS inversos para %s"
 
+msgid ""
+"Remove classes from environments different to the host's environment when a "
+"host and its host group have different environments"
+msgstr ""
+
 msgid "Remove conflicting DNS record for %s"
 msgstr "Borrar registros DNS conflictivos de %s"
 
@@ -3551,6 +3692,9 @@ msgstr "Revisar"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
 msgstr "Rol"
+
+msgid "Role cloned from role %{old_name}"
+msgstr ""
 
 msgid "Role is in use"
 msgstr "Roles en uso"
@@ -3697,6 +3841,9 @@ msgstr "Seleccionar plantillas"
 msgid "Select the changes you want to realize in Foreman"
 msgstr "Selecciona los cambios que deseas realizar en Foreman"
 
+msgid "Select this since it belongs to a host"
+msgstr ""
+
 msgid "Select users"
 msgstr "Seleccionar usuarios"
 
@@ -3705,6 +3852,17 @@ msgstr "Los equipos seleccionados han sido asignados a %s"
 
 msgid "Selected image does not belong to %s"
 msgstr "Imagen seleccionada no pertenece a %s"
+
+msgid "Selected items"
+msgstr ""
+
+msgid ""
+"Selected resource type does not support granular filtering, therefore you "
+"can't configure granularity"
+msgstr ""
+
+msgid "Selected role"
+msgstr ""
 
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "La carga de un fichero prevalecerá sobre el editor, se cargará el contenido del fichero"
@@ -3745,62 +3903,6 @@ msgstr "Tipo de opción"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Value"
 msgstr "Valor"
-
-msgid "Should Foreman automate certificate signing upon provisioning new host"
-msgstr "Foreman debería automatizar el firmado de certificado en el aprovisionamiento de un nuevo equipo"
-
-msgid "Should Foreman parse ERB to return dynamic parameters?"
-msgstr "¿Debería Foreman analizar ERB para volver a parámetros dinámicos?"
-
-msgid ""
-"Should Foreman provide puppet environment in ENC yaml output? (this avoids "
-"the mismatch error between puppet.conf and ENC environment)"
-msgstr "¿Debería Foreman proporcionar el entorno puppet en una salida yaml del ENC? (esto evita el desajuste entre puppet.conf y el entorno del ENC)"
-
-msgid ""
-"Should Foreman query the locally configured name server or the SOA/NS "
-"authorities"
-msgstr "Foreman debería preguntar al servidor de nombres local o a las autoridades SOA/NS"
-
-msgid "Should Foreman update a host's environment from its facts"
-msgstr "Foreman debería actualizar el entorno de un equipo utilizando sus datos"
-
-msgid "Should Foreman use gravatar to display user icons"
-msgstr "Foreman debería usar gravatar para mostrar los iconos de usuario"
-
-msgid ""
-"Should Foreman use host group ancestors matchers to set puppet classes "
-"parameters values"
-msgstr "Foreman debería usar los valores de los parámetros de las concordancias de los ascendientes de grupos de usuarios"
-
-msgid ""
-"Should Foreman use random UUID's for certificate signing instead of "
-"hostnames"
-msgstr "Foreman debería usar UUIDs aleatorios para la firma de certificados en lugar de los nombres de equipo"
-
-msgid ""
-"Should Foreman use the new format (2.6.5+) to answer Puppet in its ENC yaml "
-"output?"
-msgstr "¿Debería Foreman usar el nuevo formato (2.6.5+) para responder a Puppet en su salida yaml del ENC?"
-
-msgid ""
-"Should Foreman use the short hostname instead of the FQDN for creating new "
-"virtual machines"
-msgstr "Foreman debería usar el nombre corta del hostname en lugar del FQDN para crear nuevas máquinas virtuales."
-
-msgid "Should foreman map users by username in request-header"
-msgstr "Foreman debería asociar usuarios por nombre de usuario en la cabecera de la petición"
-
-msgid "Should foreman use OAuth for authorization in API"
-msgstr "Foreman debería usar OAuth para la autorización API"
-
-msgid "Should the smart variables be exposed via the ENC yaml output?"
-msgstr "¿Deberían ser visibles las variables inteligentes en las salida YAML de ENC?"
-
-msgid ""
-"Should we use the originating IP of the built request to update the host's "
-"IP?"
-msgstr "¿Se debería utilizar la IP generada en el proceso de creación para actualizar la IP del equipo?"
 
 msgid "Show Diff"
 msgstr "Mostrar diferencias"
@@ -3932,6 +4034,9 @@ msgstr "Estadísticas"
 
 msgid "Status"
 msgstr "Estado"
+
+msgid "Stop updating IP address and MAC values from Puppet facts"
+msgstr ""
 
 msgid "Storage"
 msgstr "Almacenamiento"
@@ -4118,9 +4223,6 @@ msgid ""
 "template changes"
 msgstr "El campo de Comentario de Auditoría es guardado con la auditoría de plantilla en el documento de cambios de plantilla"
 
-msgid "The Default path in which Foreman resolves host specific variables"
-msgstr "La ruta predeterminada donde Foreman resuelve variables específicas de los Equipos"
-
 msgid ""
 "The Foreman community uses on the irc.freenode.net servers. You can get "
 "general support in #theforeman, while development chat takes place in "
@@ -4143,27 +4245,6 @@ msgstr "La ruta NFS al medio de instalación"
 
 msgid "The Operating System type"
 msgstr "El tipo de Sistema Operativo"
-
-msgid "The Puppet default module path in case Foreman can't auto detect it"
-msgstr "La ruta predeterminada de módulos de Puppet en caso de que Foreman no pueda detectarla"
-
-msgid ""
-"The Puppet environment Foreman will default to in case it can't auto detect "
-"it"
-msgstr "El entorno de Puppet que Foreman usará de forma predeterminada en caso de que no pueda detectarlo"
-
-msgid ""
-"The URL that hosts will retrieve templates from during build (normally http "
-"as many installers don't support https)"
-msgstr "La URL de las plantillas que los hosts recibirán durante la construcción (normalmente http ya que muchos instaladores no soportan https)"
-
-msgid ""
-"The URL where your Foreman instance is reachable (see also Provisioning > "
-"unattended_url)"
-msgstr "La URL donde tu Foreman es accesible (ver también Provisioning > unattended_url)"
-
-msgid "The amount of records shown per page in Foreman"
-msgstr "La cantidad de registros mostrados por página en Foreman"
 
 msgid ""
 "The authentication process currently requires an LDAP provider, such as "
@@ -4193,9 +4274,6 @@ msgid ""
 "family of operating systems, all others must provide an explicit list of "
 "partitions and sizes."
 msgstr "El sistema de particionamiento dinámico sólo está disponible actualmente para sistemas operativos basados en Red Hat. Para el resto de sistemas se ha establecer explícitamente una lista de particiones y tamaños."
-
-msgid "The email reply address for emails that Foreman is sending"
-msgstr "La dirección de correo electrónico que usa Foreman para enviar"
 
 msgid "The file path where your p12 file is located"
 msgstr "La ruta donde está ubicado el fichero p12"
@@ -4332,6 +4410,12 @@ msgid ""
 "configuration by the use of the"
 msgstr "Esta información es comúnmente importada desde una configuración predeterminada de Puppet usando"
 
+msgid "This is inherited from parent"
+msgstr ""
+
+msgid "This is used by a host"
+msgstr ""
+
 msgid ""
 "This might take a while, as all hosts, facts and reports will be destroyed "
 "as well"
@@ -4451,11 +4535,24 @@ msgstr "Tipo de Tendencia"
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr "Desencadena una ejecución de Puppet en un nodo. Es necesario que \"Puppet run\" esté habilitado."
 
+msgid "Troubleshooting"
+msgstr ""
+
 msgid "Type"
 msgstr "Tipo"
 
 msgid "URL"
 msgstr "URL"
+
+msgid ""
+"URL hosts will retrieve templates from during build (normally http as many "
+"installers don't support https)"
+msgstr ""
+
+msgid ""
+"URL where your Foreman instance is reachable (see also Provisioning > "
+"unattended_url)"
+msgstr ""
 
 msgid "UUID"
 msgstr "UUID"
@@ -4497,9 +4594,6 @@ msgstr "No se ha podido generar una salida. Comprueba los ficheros de registros\
 msgid "Unable to save"
 msgstr "No se ha podido guardar"
 
-msgid "Uncheck all"
-msgstr "Desmarcar todos"
-
 msgid "Undo remove"
 msgstr "Deshacer borrado"
 
@@ -4538,6 +4632,9 @@ msgstr "Actualizado"
 
 msgid "Updated all hosts!"
 msgstr "¡Todos los equipos actualizados!"
+
+msgid "Updated hosts: Disassociated from VM"
+msgstr ""
 
 msgid "Updated hosts: changed environment"
 msgstr "Equipos actualizados: cambiado el entorno"
@@ -4811,11 +4908,6 @@ msgid ""
 msgstr "Cuando se edita una Plantilla, se debe asignar una lista de Sistemas Operativos con los cuales se puede utilizar la plantilla. Opcionalmente, se puede restringir la plantilla a una lista de Grupos de Equipos y/o Entornos."
 
 msgid ""
-"When host and host group have different environments should all classes be "
-"included (regardless if they exists or not in the other environment)"
-msgstr "Cuando un equipo y el grupo de equipos tienen diferentes entornos, todas las clases deberían ser incluidas (sin tener en cuenta si existen o no en el otro entorno)"
-
-msgid ""
 "When operating in unattended mode Foreman will require more information, so "
 "expect more questions, but it will be able to automate host installations "
 "for Red Hat, Debian, SUSE and Solaris operating systems (and their clones), "
@@ -4866,50 +4958,14 @@ msgstr "No se pueden asignar algunos de los roles que has seleccionado"
 msgid "You can't change Administrator flag"
 msgstr "No se puede cambiar la marca de Administrador"
 
-msgid "You cannot remove %s that are used by hosts."
-msgstr "No se pueden eliminar %s que está siendo utilizados por equipos"
-
-msgid "You do not have permission to %s this Operating System parameter"
-msgstr "No tienes permiso para %s este parámetro de Sistema Operativo"
-
-msgid "You do not have permission to %s this Smart Variable"
-msgstr "No tienes permiso para %s esta Variable Inteligente"
-
-msgid "You do not have permission to %s this compute resource"
-msgstr "No tienes permisos para %s este recurso de computación"
-
-msgid "You do not have permission to %s this domain"
-msgstr "No tienes permiso para %s este dominio"
-
-msgid "You do not have permission to %s this domain parameter"
-msgstr "No tienes permiso para %s este parámetro de dominio"
-
-msgid "You do not have permission to %s this group parameter"
-msgstr "No tienes permiso para %s este parámetro de grupo"
-
-msgid "You do not have permission to %s this host"
-msgstr "No tienes permiso para %s este equipo"
+msgid "You cannot remove %s that are used by hosts or inherited."
+msgstr ""
 
 msgid "You do not have permission to %s this location parameter"
 msgstr "No tienes permiso para %s este parámetro de localización"
 
 msgid "You do not have permission to %s this organization parameter"
 msgstr "No tienes permiso para %s este parámetro de organización"
-
-msgid "You do not have permission to %s this report"
-msgstr "No tienes permiso para %s este informe"
-
-msgid "You do not have permission to %s this template"
-msgstr "No tienes permiso para %s esta plantilla"
-
-msgid "You do not have permission to %{operation} this %{klass}"
-msgstr "No tienes permiso para %{operation} %{klass}"
-
-msgid "You do not have permission to edit Puppet classes on this host"
-msgstr "No se tienen permisos para editar las clases de Puppet en este equipo"
-
-msgid "You do not have permission to edit Puppet classes on this host group"
-msgstr "No se tienen permisos para editar las clases de Puppet en este grupo de equipos"
 
 msgid "You don't seem to have any Hosts, for more information see"
 msgstr "Parece que no existe ningún equipo, para más información mira"
@@ -4973,6 +5029,9 @@ msgid ""
 "You must decide how you wish to use the software, and update the primary "
 "settings file <b>config/settings.yaml</b> and the"
 msgstr "Se puede decidir cómo usar los programas y actualizar el fichero de configuración principal <b>config/settings.yaml</b> y el"
+
+msgid "You must select at least one permission"
+msgstr ""
 
 msgid ""
 "You would need to enable login in your settings.yml file first and restart "
@@ -5099,6 +5158,9 @@ msgstr "Ha fallado el procesamiento de la plantilla: %s"
 msgid "failed to save %s"
 msgstr "No se ha podido guardar %s"
 
+msgid "filter for %s role"
+msgstr ""
+
 msgid "for more details."
 msgstr "para más detalles."
 
@@ -5129,8 +5191,8 @@ msgstr "en %s"
 msgid "in domain"
 msgstr "en dominio"
 
-msgid "included already from host group"
-msgstr "Ya está incluido desde el grupo de equipos"
+msgid "included already from parent"
+msgstr ""
 
 msgid "invalid"
 msgstr "inválido"
@@ -5255,6 +5317,12 @@ msgstr "nuevo"
 msgid "no puppet proxy defined - cant continue"
 msgstr "no se ha definido un proxy de puppet - no se puede continuar"
 
+msgid "no value"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
 msgid "off"
 msgstr "Apagado"
 
@@ -5330,6 +5398,9 @@ msgstr "debería ser 8 o más caracteres"
 msgid "should follow this format: 0,9600n8"
 msgstr "debería seguir el formato: 0,9600n8"
 
+msgid "should not be blank - consider setting a global or host group default"
+msgstr ""
+
 msgid "soft"
 msgstr "ligero"
 
@@ -5371,6 +5442,9 @@ msgstr "no se han encontrado destinatarios"
 
 msgid "unable to sign a non pending certificate"
 msgstr "no se ha podido firmar un certificado no-pendiente de ser firmado"
+
+msgid "unknown permission for %s"
+msgstr ""
 
 msgid "unknown provider"
 msgstr "proveedor desconocido"
