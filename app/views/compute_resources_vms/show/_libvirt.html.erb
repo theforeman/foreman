@@ -41,7 +41,11 @@
     <% @vm.volumes.each do |vol| %>
         <tr>
           <td><%= _('Disk') %></td>
-          <td><%= _("using %{allocation} GB out of %{capacity} GB (%{pool_name} storage pool - %{path})") % { :allocation => vol.allocation, :capacity => vol.capacity, :pool_name => vol.pool_name, :path => vol.path } %></td>
+          <td><%= _("using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool") % { :allocation => vol.allocation, :capacity => vol.capacity, :pool_name => vol.pool_name } %></td>
+        </tr>
+        <tr>
+          <td><%= _('Path') %></td>
+          <td><%= trunc(vol.path, 32) %></td>
         </tr>
     <% end %>
 

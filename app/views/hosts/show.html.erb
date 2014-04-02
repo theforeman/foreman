@@ -1,8 +1,7 @@
 <% javascript 'charts' %>
 <% title @host.to_label, icon(@host.os) + @host.to_label %>
 
-<% @vm = @host.compute_resource.find_vm_by_uuid(@host.uuid) rescue nil %>
-<%= host_title_actions(@host, @vm) %>
+<%= host_title_actions(@host) %>
 <% content_for(:search_bar) {reports_show} %>
 
 <div id="host-show" class="row">
@@ -13,7 +12,7 @@
       <% if SETTINGS[:unattended] %>
         <li><a href="#template" data-toggle="tab"><%= _('Templates') %></a></li>
       <% end %>
-      <%  if @vm %>
+      <%  if @host.compute_resource_id %>
         <li><a href="#vm" data-toggle="tab"><%= _('VM') %></a></li>
       <% end %>
       <% if @host.bmc_available? %>
@@ -34,16 +33,18 @@
       <div class="tab-pane" id="template">
         <%= show_templates %>
       </div>
-      <div class="tab-pane" id="vm">
-        <%  if @vm %>
-          <% @compute_resource = @host.compute_resource %>
-          <%= render("compute_resources_vms/show/#{@host.compute_resource.provider.downcase}") rescue nil %>
-        <% end %>
-      </div>
-      <% if @host.bmc_available? %>
-        <div id="bmc" class="tab-pane" data-ajax-url=<%= bmc_host_path(@host) %>>
+      <%  if @host.compute_resource_id %>
+        <div class="tab-pane" id="vm" data-ajax-url='<%= vm_host_path(@host)%>' data-on-complete='setPowerState'>
           <p id="spinner">
-            <%= image_tag '/assets/spinner.gif' %>
+            <%= image_tag 'spinner.gif' %>
+            <%= _('Loading VM information ...') %>
+          </p>
+        </div>
+      <% end %>
+      <% if @host.bmc_available? %>
+        <div id="bmc" class="tab-pane" data-ajax-url='<%= bmc_host_path(@host) %>' data-on-complete='setPowerState'>
+          <p id="spinner">
+            <%= image_tag 'spinner.gif' %>
             <%= _('Loading BMC information ...') %>
           </p>
         </div>

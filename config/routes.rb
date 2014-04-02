@@ -26,6 +26,7 @@ Foreman::Application.routes.draw do
         put 'power'
         get 'console'
         get 'bmc'
+        get 'vm'
         put 'ipmi_boot'
         put 'disassociate'
       end

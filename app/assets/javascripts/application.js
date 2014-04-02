@@ -324,10 +324,13 @@ function foreman_url(path) {
 
 $(function() {
   $('*[data-ajax-url]').each(function() {
-    var url = $(this).attr('data-ajax-url');
+    var url = $(this).data('ajax-url');
     $(this).load(url, function(response, status, xhr) {
       if (status == "error") {
         $(this).closest(".tab-content").find("#spinner").html(__('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
+      }
+      if ($(this).data('on-complete')){
+        window[$(this).data('on-complete')].call(null, this, status);
       }
     });
   });
@@ -362,17 +365,19 @@ function filter_permissions(item){
   }
 }
 
-// Create a closure so that we can define intermediary
-// method pointers that don't collide with other items
-// in the global name space.
-(function(){
-// Store a reference to the original remove method.
-var originalShowMethod = jQuery.fn.show;
-
-// Define overriding method.
-jQuery.fn.show = function(){
-$(this).removeClass('hidden').removeClass('hide')
-// Execute the original method.
-return originalShowMethod.apply( this, arguments );
+function setPowerState(item, status){
+  if(status=='success') {
+    var place_holder = $('#loading_power_state').parent('.btn-group');
+    var power_actions = $('#power_actions');
+    power_actions.find('.btn-sm').removeClass('btn-sm');
+    if (power_actions.find('.btn-group').exists()){
+      power_actions.contents().replaceAll(place_holder);
+    }else{
+      power_actions.contents().appendTo(place_holder);
+      $('#loading_power_state').remove();
+    }
+  }else{
+    $('#loading_power_state').text(_('Unknown power state'))
+  }
+  $('[rel="twipsy"]').tooltip();
 }
-})();
