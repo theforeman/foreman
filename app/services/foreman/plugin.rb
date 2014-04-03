@@ -197,9 +197,9 @@ module Foreman #:nodoc:
     end
 
     # Add Compute resource
-    def compute_resource(name)
-      SETTINGS[name.downcase.to_sym] = true
-      ComputeResource.register_provider name
+    def compute_resource(provider)
+      SETTINGS[provider.name.split('::').last.downcase.to_sym] = true
+      ComputeResource.register_provider provider
     end
 
   end

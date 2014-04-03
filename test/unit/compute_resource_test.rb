@@ -1,5 +1,7 @@
 require 'test_helper'
 
+module Best; module Provider; class MyBest < ::ComputeResource; end; end; end
+
 class ComputeResourceTest < ActiveSupport::TestCase
   def setup
     User.current = users(:admin)
@@ -83,11 +85,12 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "add compute resource" do
-    ComputeResource.register_provider('Best')
-    assert ComputeResource.supported_providers.must_include('Best')
-    refute ComputeResource.providers.wont_include('Best')
-    SETTINGS[:best] = true
-    assert ComputeResource.providers.must_include('Best')
+    ComputeResource.register_provider(Best::Provider::MyBest)
+    assert ComputeResource.supported_providers.keys.must_include('MyBest')
+    assert ComputeResource.supported_providers.values.must_include('Best::Provider::MyBest')
+    refute ComputeResource.providers.keys.wont_include('MyBest')
+    SETTINGS[:mybest] = true
+    assert ComputeResource.providers.keys.must_include('MyBest')
   end
 
   # test taxonomix methods

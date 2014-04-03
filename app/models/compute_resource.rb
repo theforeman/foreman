@@ -6,19 +6,24 @@ class ComputeResource < ActiveRecord::Base
   encrypts :password
 
   class_attribute :supported_providers
-  self.supported_providers = %w[Libvirt Ovirt EC2 Vmware Openstack Rackspace GCE]
+  self.supported_providers = {
+    'Libvirt'   => 'Foreman::Model::Libvirt',
+    'Ovirt'     => 'Foreman::Model::Ovirt',
+    'EC2'       => 'Foreman::Model::EC2',
+    'Vmware'    => 'Foreman::Model::Vmware',
+    'Openstack' => 'Foreman::Model::Openstack',
+    'Rackspace' => 'Foreman::Model::Rackspace',
+    'GCE'       => 'Foreman::Model::GCE',
+  }
 
   audited :except => [:password, :attrs], :allow_mass_assignment => true
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
-  # to STI avoid namespace issues when loading the class, we append Foreman::Model in our database type column
-  STI_PREFIX= "Foreman::Model"
-
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
   validates :name, :uniqueness => true, :format => { :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.") }
-  validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
+  validates :provider, :presence => true, :inclusion => { :in => proc { self.providers.keys } }
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :id, :complete_value => :true
@@ -43,19 +48,20 @@ class ComputeResource < ActiveRecord::Base
   }
 
   def self.register_provider(provider)
-    return if supported_providers.include? provider
-    supported_providers << provider
+    name = provider.name.split('::').last
+    return if supported_providers.values.include?(provider) || supported_providers.keys.include?(name)
+    supported_providers[name] = provider.name
   end
 
   def self.providers
-    supported_providers.reject { |p| !SETTINGS[p.downcase.to_sym] }
+    supported_providers.reject { |p,c| !SETTINGS[p.downcase.to_sym] }
   end
 
   # allows to create a specific compute class based on the provider.
   def self.new_provider args
     raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider = args.delete(:provider)
-    self.providers.each do |p|
-      return "#{STI_PREFIX}::#{p}".constantize.new(args) if p.downcase == provider.downcase
+    self.providers.each do |p,c|
+      return c.constantize.new(args) if p.downcase == provider.downcase
     end
     raise ::Foreman::Exception.new N_("unknown provider")
   end
@@ -146,12 +152,14 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def provider
-    read_attribute(:type).to_s.gsub("#{STI_PREFIX}::","")
+    read_attribute(:type).to_s.split('::').last
   end
 
   def provider=(value)
-    if self.class.providers.include? value
-      self.type = "#{STI_PREFIX}::#{value}"
+    if self.class.providers.keys.include? value
+      self.type = self.class.providers[value]
+    else
+      raise ::Foreman::Exception.new N_("unknown provider")
     end
   end
 
