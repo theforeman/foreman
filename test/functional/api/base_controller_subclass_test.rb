@@ -102,4 +102,29 @@ class Api::TestableControllerTest < ActionController::TestCase
       assert_equal ['error'], ActiveSupport::JSON.decode(@response.body).keys
     end
   end
+
+  context 'CSRF' do
+    setup do
+      ActionController::Base.allow_forgery_protection = true
+      SETTINGS[:login] = true
+      User.current = nil
+      request.env['HTTP_AUTHORIZATION'] = nil
+    end
+
+    teardown do
+      ActionController::Base.allow_forgery_protection = false
+    end
+
+    it "blocks access without CSRF token when there is a session user" do
+      request.headers['X-CSRF-Token'] = nil
+      post :index, {}, set_session_user
+      assert_response :unauthorized
+    end
+
+    it "works with a CSRF token when there is a session user" do
+      request.headers['X-CSRF-Token'] = 'TEST_TOKEN'
+      post :index, {:authenticity_token => 'TEST_TOKEN'}, set_session_user.merge(:_csrf_token => 'TEST_TOKEN')
+      assert_response :success
+    end
+  end
 end
