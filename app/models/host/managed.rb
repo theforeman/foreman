@@ -48,7 +48,7 @@ class Host::Managed < Host::Base
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :location,
       :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method,
-      :image_build?, :pxe_build?, :otp
+      :image_build?, :pxe_build?, :otp, :realm
   end
 
   attr_reader :cached_host_params

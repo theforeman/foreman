@@ -22,8 +22,6 @@ module Orchestration::Realm
     initialize_realm
     logger.info "Delete realm entry for #{name}"
     @realm_api.delete name
-  rescue => e
-    failure _("Failed to remove %{name}'s realm entry: %{e}") % { :name => name, :e => proxy_error(e) }
   end
 
   # Adds the host to the realm, and sets otp if we get one back
@@ -35,8 +33,9 @@ module Orchestration::Realm
     result = @realm_api.create options
     raise ::Foreman::Exception.new(N_('Realm proxy did not return a one-time password')) unless options[:update] || result.has_key?("randompassword")
     self.otp = result["randompassword"]
+    result
   rescue => e
-    failure _("Failed to create %{name}'s realm entry: %{e}") % { :name => name, :e => proxy_error(e) }
+    failure _("Failed to create %{name}'s realm entry: %{e}") % { :name => name, :e => e }
   end
 
   def update_realm
