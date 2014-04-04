@@ -2,7 +2,7 @@ module Orchestration::DHCP
   extend ActiveSupport::Concern
 
   included do
-    after_validation :queue_dhcp
+    after_validation :dhcp_conflict_detected?, :queue_dhcp
     before_destroy :queue_dhcp_destroy
     validate :ip_belongs_to_subnet?
   end
@@ -70,7 +70,7 @@ module Orchestration::DHCP
 
   def queue_dhcp
     return unless (dhcp? or (old and old.dhcp?)) and orchestration_errors?
-    queue_remove_dhcp_conflicts if dhcp_conflict_detected?
+    queue_remove_dhcp_conflicts
     new_record? ? queue_dhcp_create : queue_dhcp_update
   end
 
@@ -114,8 +114,7 @@ module Orchestration::DHCP
   end
 
   def queue_remove_dhcp_conflicts
-    return unless dhcp? and errors.any? and errors.are_all_conflicts?
-    return unless overwrite?
+    return unless (dhcp? and overwrite?)
     logger.debug "Scheduling DHCP conflicts removal"
     queue.create(:name   => _("DHCP conflicts removal for %s") % self, :priority => 5,
                  :action => [self, :del_dhcp_conflicts]) if dhcp_record and dhcp_record.conflicting?
@@ -136,16 +135,16 @@ module Orchestration::DHCP
   def dhcp_conflict_detected?
     # we can't do any dhcp based validations when our MAC address is defined afterwards (e.g. in vm creation)
     return false if mac.blank? or name.blank?
-
-    # This is an expensive operation and we will only do it if the DNS validation failed. This will ensure
-    # that we report on both DNS and DHCP conflicts when we offer to remove collisions. It retrieves and
-    # caches the conflicting records so we must always do it when overwriting
-    return false unless (errors.any? and errors.are_all_conflicts?) or overwrite?
-
     return false unless dhcp?
-    status = true
-    status = failure(_("DHCP records %s already exists") % dhcp_record.conflicts.to_sentence, nil, :conflict) if dhcp_record and dhcp_record.conflicting?
-    overwrite? ? errors.are_all_conflicts? : status
+
+    if dhcp_record and dhcp_record.conflicting? and (not overwrite?)
+      failure(_("DHCP records %s already exists") % dhcp_record.conflicts.to_sentence, nil, :conflict)
+      return true
+    end
+    false
+  rescue Net::LeaseConflict => e
+    failure(_("DHCP record %s conflicts with an existing reservation") % dhcp_record, nil, :dhcp_lease_error)
+    true
   end
 
 end

@@ -120,6 +120,8 @@ class Host::Managed < Host::Base
     # handles all orchestration of smart proxies.
     include Foreman::Renderer
     include Orchestration
+    # Please note that the order of inclusion of DHCP and DNS orchestration modules is important,
+    # as DHCP validation code relies on DNS code being run first (but it's being run in the opposite order atm)
     include Orchestration::DHCP
     include Orchestration::DNS
     include Orchestration::Compute
