@@ -10,12 +10,12 @@ if [ "$1" == "-l" ]; then
 fi
 
 if [ -z "$1" ]; then
-  tail $opts $(eval echo $(cat $dir/*))
+  tail $opts $(eval echo $(cat $dir/*)) 2>/dev/null
 else
   if [ "$#" -eq 1 ]; then
-    tail $opts $(eval echo $(cat $dir/*-$1))
+    tail $opts $(eval echo $(cat $dir/*-$1)) 2>/dev/null
   else
     args=$(IFS=","; echo "$*")
-    tail $opts $(cat $(eval echo $dir/*-{$args}))
+    tail $opts $(cat $(eval echo $dir/*-{$args})) 2>/dev/null
   fi
 fi
