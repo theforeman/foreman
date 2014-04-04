@@ -186,4 +186,21 @@ class PluginTest < ActiveSupport::TestCase
       end
     end
   end
+
+  def test_register_allowed_template_helpers_and_variables
+    refute_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
+    refute_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
+
+    @klass.register :foo do
+      allowed_template_helpers :my_helper
+      allowed_template_variables :my_variable
+    end
+
+    assert_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
+    assert_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
+  ensure
+    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
+    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_variable)
+  end
+
 end

@@ -186,5 +186,15 @@ module Foreman #:nodoc:
       end
     end
 
+    # List of helper methods allowed for templates in safe mode
+    def allowed_template_helpers(*helpers)
+      Foreman::Renderer::ALLOWED_HELPERS.concat(helpers)
+    end
+
+    # List of variables allowed for templates in safe mode
+    def allowed_template_variables(*variables)
+      Foreman::Renderer::ALLOWED_VARIABLES.concat(variables)
+    end
+
   end
 end

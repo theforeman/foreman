@@ -2,6 +2,17 @@ require 'tempfile'
 
 module Foreman
   module Renderer
+
+    ALLOWED_HELPERS = [ :foreman_url, :grub_pass, :snippet, :snippets,
+			:snippet_if_exists, :ks_console, :root_pass,
+			:multiboot, :jumpstart_path, :install_path, :miniroot,
+			:media_path, :param_true? ]
+
+    ALLOWED_VARIABLES = [ :arch, :host, :osver, :mediapath, :static,
+                          :repos, :dynamic, :kernel, :initrd,
+                          :preseed_server, :preseed_path ]
+
+
     def render_safe template, allowed_methods = [], allowed_vars = {}
 
       if Setting[:safemode_render]
@@ -57,25 +68,10 @@ module Foreman
     end
 
     def unattended_render template
-      allowed_helpers = [
-        :foreman_url,
-        :grub_pass,
-        :snippet,
-        :snippets,
-        :snippet_if_exists,
-        :ks_console,
-        :root_pass,
-        :multiboot,
-        :jumpstart_path,
-        :install_path,
-        :miniroot,
-        :media_path,
-        :param_true?
-      ]
-      allowed_variables = ({:arch => @arch, :host => @host, :osver => @osver, :mediapath => @mediapath, :static => @static,
-                           :repos => @repos, :dynamic => @dynamic, :kernel => @kernel, :initrd => @initrd,
-                           :preseed_server => @preseed_server, :preseed_path => @preseed_path })
-      render_safe template, allowed_helpers, allowed_variables
+      allowed_variables = ALLOWED_VARIABLES.reduce({}) do |mapping, var|
+         mapping.update(var => instance_variable_get("@#{var}"))
+      end
+     render_safe template, ALLOWED_HELPERS, allowed_variables
     end
     alias_method :pxe_render, :unattended_render
 
