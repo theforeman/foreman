@@ -25,7 +25,7 @@ module Api
       api :POST, "/compute_resources/", "Create a compute resource."
       param :compute_resource, Hash, :required => true do
         param :name, String
-        param :provider, String, :desc => "Providers include #{ComputeResource::PROVIDERS.join(', ')}"
+        param :provider, String, :desc => "Providers include #{ComputeResource.providers.keys.join(', ')}"
         param :url, String, :required => true, :desc => "URL for Libvirt, Ovirt, and Openstack"
         param :description, String
         param :user, String, :desc => "Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2."
@@ -46,7 +46,7 @@ module Api
       param :id, String, :required => true
       param :compute_resource, Hash, :required => true do
         param :name, String
-        param :provider, String, :desc => "Providers include #{ComputeResource::PROVIDERS.join(', ')}"
+        param :provider, String, :desc => "Providers include #{ComputeResource.providers.keys.join(', ')}"
         param :url, String, :desc => "URL for Libvirt, Ovirt, and Openstack"
         param :description, String
         param :user, String, :desc => "Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2."

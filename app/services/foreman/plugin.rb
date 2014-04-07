@@ -196,5 +196,11 @@ module Foreman #:nodoc:
       Foreman::Renderer::ALLOWED_VARIABLES.concat(variables)
     end
 
+    # Add Compute resource
+    def compute_resource(provider)
+      SETTINGS[provider.name.split('::').last.downcase.to_sym] = true
+      ComputeResource.register_provider provider
+    end
+
   end
 end

@@ -17,6 +17,8 @@
 
 require 'test_helper'
 
+module Awesome; module Provider; class MyAwesome < ::ComputeResource; end; end; end
+
 class PluginTest < ActiveSupport::TestCase
   def setup
     @klass = Foreman::Plugin
@@ -203,4 +205,15 @@ class PluginTest < ActiveSupport::TestCase
     Foreman::Renderer::ALLOWED_HELPERS.delete(:my_variable)
   end
 
+  def test_add_compute_resource
+    Foreman::Plugin.register :awesome_compute do
+      name 'Awesome compute'
+      compute_resource Awesome::Provider::MyAwesome
+    end
+    assert ComputeResource.providers.keys.must_include 'MyAwesome'
+    assert ComputeResource.providers.values.must_include 'Awesome::Provider::MyAwesome'
+    assert ComputeResource.supported_providers.keys.must_include 'MyAwesome'
+    assert ComputeResource.supported_providers.values.must_include 'Awesome::Provider::MyAwesome'
+    assert SETTINGS[:myawesome]
+  end
 end

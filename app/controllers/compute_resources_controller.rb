@@ -4,8 +4,14 @@ class ComputeResourcesController < ApplicationController
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_by_name, :only => [:show, :edit, :associate, :update, :destroy, :ping] + AJAX_REQUESTS
 
+  #This can happen in development when removing a plugin
+  rescue_from ActiveRecord::SubclassNotFound do |e|
+    type = (e.to_s =~ /\'(Foreman::Model::.*)\'\./) ? $1 : 'STI-Type'
+    render :text => (e.to_s+"<br><b>run ComputeResource.delete_all(:type=>'#{type}') to recover.</b>").html_safe, :status=> 500
+  end
+
   def index
-    @compute_resources = resource_base.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+    @compute_resources = resource_base.live_descendants.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
   end
 
   def new
