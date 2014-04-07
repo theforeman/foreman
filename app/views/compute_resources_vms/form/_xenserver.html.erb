@@ -1,0 +1,74 @@
+<% new = f.object  
+	hide_raw = ""
+	if params && params['host'] && params['host']['compute_attributes'] && params['host']['compute_attributes']['custom_template_name'] != "" then
+		hide_raw = "display:none;" 
+	end
+-%>
+
+<div class="children_fields">
+	<fieldset id="vm_profile">
+		<legend>VM Profile</legend>
+		<div class="fields">
+			<%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
+			<%= selectable_f f, :vcpus_max, 1..compute_resource.max_cpu_count, { }, :class => "input-mini",:disabled => !new, :label=>'vCPUs' %>
+			<%= selectable_f f, :memory_min, memory_options(compute_resource.max_memory), { }, :class => "span2", :disabled => !new %>
+			<%= selectable_f f, :memory_max, memory_options(compute_resource.max_memory), { }, :class => "span2", :disabled => !new %>
+		</div>
+	</fieldset>
+</div>
+<!--Templates -->
+<div class="children_fields">
+  <%= field_set_tag "VM Template", :id => "xen_templates", :title => _('Template') do -%>
+      <%= render 'compute_resources_vms/form/xenserver/templates', :f => f, :compute_resource => compute_resource %>
+  <% end -%>
+</div>
+
+<!-- XenStore Data -->
+<div class="children_fields" id="xenserver-xenstore-data">
+	<%= field_set_tag "Xen Store Data", :id => 'xen_store_data', :title => _('Xen Store Data') do -%>
+		<%= render 'compute_resources_vms/form/xenserver/xenstore', :f => f, :compute_resource => compute_resource, :new => new %>
+	<% end %>
+</div>
+
+
+<!--Storage-->
+<div class="children_fields xenserver-raw" id="xenserver-storage" style="<%=hide_raw%>">
+  <%= new_child_fields_template(f, :VBDs, {
+      :object  => compute_resource.new_volume,
+      :partial => 'compute_resources_vms/form/xenserver/volume', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
+  <%= field_set_tag "Storage", :id => "storage_volumes", :title => _('Storage') do -%>
+    <%= f.fields_for :VBDs do |i| %>
+      <%= render 'compute_resources_vms/form/xenserver/volume', :f => i, :compute_resource => compute_resource %>
+    <% end -%>
+  <% end -%>
+</div>
+
+<div class="children_fields" id="xenserver-network" style="<%=hide_raw%>">
+  <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => _('Networks') do -%>
+    <%= f.fields_for :VIFs do |i| %>
+      <%= render 'compute_resources_vms/form/xenserver/network', :f => i, :compute_resource => compute_resource %>
+    <% end -%>
+  <% end -%>
+</div>
+
+<% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine") } if new %>
+
+
+<script type="text/javascript">
+	
+	$(document).off('change.xenserver', '#host_compute_attributes_custom_template_name')
+	$(document).on('change.xenserver', '#host_compute_attributes_custom_template_name', function(data){
+		if ( $('option:selected', data.target).val() == "") {
+			$('.xenserver-raw').show(1000)
+		} else {
+			$('.xenserver-raw').hide(1000)
+		}
+		
+	})
+	
+	$(document).off('change.xenserver', '#host_compute_attributes_builtin_template_name')
+	$(document).on('change.xenserver', '#host_compute_attributes_builtin_template_name', function(data){
+		$('.xenserver-raw').show(1000)
+	})
+</script>

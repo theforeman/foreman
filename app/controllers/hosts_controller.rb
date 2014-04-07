@@ -259,6 +259,7 @@ class HostsController < ApplicationController
                "hosts/console/log"
            end
   rescue => e
+    logger.info e.backtrace.join("\n")
     process_error :redirect => :back, :error_msg => _("Failed to set console: %s") % (e)
   end
 

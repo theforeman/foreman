@@ -1,0 +1,16 @@
+<div class="fields">
+<%
+	nat    = compute_resource.networks
+	selected = ""
+	if params && params['host'] && params['host']['compute_attributes'] then
+		selected = params['host']['compute_attributes']['VIFs']['print']
+	end
+-%>
+  
+  <div id='nat' class=''>
+    <%= selectable_f f, :print, nat.map(&:name),
+		     { :include_blank => nat.any? ? false : _("No networks"),
+		       :selected => selected },
+		     { :class => "span2", :label => _("Network") } %>
+  </div>
+</div>
