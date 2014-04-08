@@ -30,12 +30,7 @@ module Classification
       return @puppetclass_ids if @puppetclass_ids
       ids = host.host_classes.pluck(:puppetclass_id)
       ids += HostgroupClass.where(:hostgroup_id => hostgroup.path_ids).pluck(:puppetclass_id) if hostgroup
-      @puppetclass_ids = if Setting['remove_classes_not_in_environment']
-                           EnvironmentClass.where(:environment_id => host.environment_id, :puppetclass_id => ids).
-                               pluck('DISTINCT puppetclass_id')
-                         else
-                           ids
-                         end
+      @puppetclass_ids = EnvironmentClass.where(:environment_id => host.environment_id, :puppetclass_id => ids).pluck('DISTINCT puppetclass_id')
     end
 
     def classes

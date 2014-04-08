@@ -20,7 +20,6 @@ class Setting::Puppet < Setting
         self.set('enc_environment', N_("Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"), true),
         self.set('use_uuid_for_certificates', N_("Foreman will use random UUIDs for certificate signing instead of hostnames"), false),
         self.set('update_environment_from_facts', N_("Foreman will update a host's environment from its facts"), false),
-        self.set('remove_classes_not_in_environment', N_("Remove classes from environments different to the host's environment when a host and its host group have different environments"), false),
         self.set('host_group_matchers_inheritance', N_("Foreman host group matchers will be inherited by children when evaluating smart class parameters"), true),
         self.set('create_new_host_when_facts_are_uploaded', N_("Foreman will create the host when new facts are received"), true),
         self.set('create_new_host_when_report_is_uploaded', N_("Foreman will create the host when a report is received"), true),
