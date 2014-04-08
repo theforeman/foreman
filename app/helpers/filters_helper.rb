@@ -23,9 +23,11 @@ module FiltersHelper
     prefix, suffix = path.split('/', 2)
     if path.include?("/") && Rails.application.routes.mounted_helpers.method_defined?(prefix)
       # handle mounted engines
-      send(prefix).send(suffix)
+      engine = send(prefix)
+      engine.send(suffix) if engine.respond_to?(suffix)
     else
-      send(path.tr("/", "_"))
+      path = path.tr("/", "_")
+      send(path) if respond_to?(path)
     end
   end
 end
