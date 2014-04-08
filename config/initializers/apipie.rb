@@ -1,3 +1,5 @@
+require 'find'
+
 Apipie.configure do |config|
   config.app_name = "Foreman"
   config.app_info = "The Foreman is aimed to be a single address for all machines life cycle management."
@@ -17,9 +19,24 @@ Apipie.configure do |config|
   config.checksum_path = ['/api/', '/apidoc/']
 end
 
-unless Apipie.configuration.use_cache
-  warn "The Apipie cache is turned off.\n" \
-    "  To improve performance of your API clients turn it on by running 'rake apipie:cache' and restart the server."
+# check apipie cache in dev mode
+if Apipie.configuration.use_cache
+  cache_name = File.join(Apipie.configuration.cache_dir, Apipie.configuration.doc_base_url + '.json')
+  if File.exists? cache_name
+    target = max = File.mtime(cache_name)
+    roots = Rails.application.railties.engines.collect{ |e| e.root }; roots << Rails.root
+    roots.each do |root|
+      path = "#{root}/app/controllers/api"
+      Find.find(path) { |e| t = File.mtime(e); max = t if t > max } if File.exists?(path)
+    end
+    if ! $ARGV.nil? && $ARGV.first != "apipie:cache" && max > target
+      puts "API controllers newer than Apipie cache! Run apipie:cache rake task to regenerate cache."
+    end
+  else
+    puts "Apipie cache enabled but not present yet. Run apipie:cache rake task to speed up API calls."
+  end
+else
+  puts "The Apipie cache is turned off. Enable it and run apipie:cache rake task to speed up API calls."
 end
 
 # special type of validator: we say that it's not specified
