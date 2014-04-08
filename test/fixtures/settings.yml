@@ -150,11 +150,6 @@ attribute30:
   category: Setting::Auth
   default: "SSL_CLIENT_VERIFY"
   description: "Environment variable containing the verification status of a client SSL certificate"
-attribute31:
-  name: remove_classes_not_in_environment
-  category: Setting::Puppet
-  default: "false"
-  description: "When Host and Hostgroup have different environments should all classes be included (regardless if they exists or not in the other environment)"
 attribute32:
   name: trusted_puppetmaster_hosts
   category: Setting::Auth
