@@ -11,6 +11,7 @@ class Realm < ActiveRecord::Base
   has_many_hosts
   has_many :hostgroups
 
+  scoped_search :on => :hosts_count
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :realm_type, :complete_value => true, :rename => :type
 
