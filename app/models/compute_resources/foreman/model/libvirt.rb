@@ -121,7 +121,7 @@ module Foreman::Model
       # Listen address cannot be updated while the guest is running
       # When we update the display password, we pass the existing listen address
       vm.update_display(:password => password, :listen => vm.display[:listen], :type => vm.display[:type])
-      WsProxy.start(:host => hypervisor.hostname, :host_port => vm.display[:port], :password => password).merge(:type =>  vm.display[:type].downcase, :name=> vm.name)
+      WsProxy.start(:host => URI(self.url).hostname, :host_port => vm.display[:port], :password => password).merge(:type =>  vm.display[:type].downcase, :name=> vm.name)
     rescue ::Libvirt::Error => e
       if e.message =~ /cannot change listen address/
         logger.warn e
