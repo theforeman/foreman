@@ -25,6 +25,7 @@ class Parameter < ActiveRecord::Base
 
   def set_priority
     t = read_attribute(:type)
+    self.reference_id = nil if self.new_record? #fix for rails 3.2.8 bug that sets reference_id = 1 on after_initialize. This can later be removed.
     self.priority = PRIORITY[t.to_s.underscore.to_sym] unless t.blank?
   end
 
