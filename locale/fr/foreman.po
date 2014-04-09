@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 16:33+0000\n"
-"PO-Revision-Date: 2014-03-14 10:14+0000\n"
+"POT-Creation-Date: 2014-04-02 11:48+0100\n"
+"PO-Revision-Date: 2014-04-09 10:00+0000\n"
 "Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -384,6 +384,9 @@ msgid ""
 "All mismatches between hosts and locations/organizations have been fixed"
 msgstr "Toutes les concordances entre hôtes et localisation/organisations ont été corrigées."
 
+msgid "All realms"
+msgstr "Tous les royaumes"
+
 msgid "All smart proxies"
 msgstr "Tous les Smart Proxies"
 
@@ -502,6 +505,9 @@ msgstr "Associer les VMs à des hôtes Foreman"
 
 msgid "Association"
 msgstr "Association"
+
+msgid "At least one volume must be specified for image-based provisioning."
+msgstr "Au moins un volume doit être choisi pour une installation par image."
 
 msgid ""
 "At present, authentication is performed against the internal Database or a "
@@ -773,6 +779,9 @@ msgid ""
 " on all resources of the selected type"
 msgstr "En décochant cette case vous pouvez spécifier dans le champ de recherche, le filtre utilisé par Foreman à l'aide de la syntaxe de recherche. Si le filtre reste illimité (la case reste cochée) cela s'applique sur toutes les ressources associées à ce filtre."
 
+msgid "CA Certificate"
+msgstr "Certificat du CA"
+
 msgid "CDROM"
 msgstr "CDROM"
 
@@ -919,6 +928,9 @@ msgstr "Fermer"
 msgid "Cluster"
 msgstr "Cluster"
 
+msgid "Cluster ID is required to list available networks"
+msgstr "L'ID du cluster est requis pour lister les réseaux disponibles"
+
 msgid "Code"
 msgstr "Code"
 
@@ -1041,6 +1053,9 @@ msgstr "Mot de passe console"
 msgid "Cores"
 msgstr "Cores"
 
+msgid "Cores per socket"
+msgstr "Cores par socket"
+
 msgid ""
 "Could not find a Configuration Template with the name \"PXELinux global "
 "default\", please create one."
@@ -1060,6 +1075,9 @@ msgstr "Créer un enregistrement DNS inverse pour %s"
 
 msgid "Create a Smart Proxy"
 msgstr "Créer un Smart Proxy"
+
+msgid "Create realm entry for %s"
+msgstr "Créer l'entrée du royaume pour %s"
 
 msgid "Ctrl-Alt-Del"
 msgstr "Ctrl-Alt-Del"
@@ -1147,6 +1165,9 @@ msgstr "Supprimer les entrées autosignées pour %s"
 
 msgid "Delete filter?"
 msgstr "Supprimer le filtre?"
+
+msgid "Delete realm entry for %s"
+msgstr "Supprimer l'entrée du royaume %s"
 
 msgid "Delete report for %s?"
 msgstr "Supprimer les rapports concernant %s ?"
@@ -1329,6 +1350,9 @@ msgstr "Éditer le Proxy"
 
 msgid "Edit Puppet Class %s"
 msgstr "Éditer la classe Puppet %s"
+
+msgid "Edit Realm"
+msgstr "Éditer le royaume"
 
 msgid "Edit Roles"
 msgstr "Éditer les Rôles"
@@ -1534,9 +1558,6 @@ msgstr "Redémarrages échoués"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "Impossible de %{action} %{host}: %{e}"
 
-msgid "Failed to add %{name} to autosign file: %{e}"
-msgstr "Échec de l'ajout de l'entrée %{name} au fichier autosign : %{e}"
-
 msgid "Failed to cancel pending build for %s"
 msgstr "Échec de l'annulation de reconstruction pour %s"
 
@@ -1548,13 +1569,16 @@ msgstr "Échec de netoyage des anciens certificats ou d'ajout d'entrée au fichi
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr "Erreur de configuration de %{host} pour démarrer depuis %{device}: %{e}"
 
+msgid "Failed to create %{name}'s realm entry: %{e}"
+msgstr "Impossible de créer l'entrée du royaume %{name} : %{e}"
+
+msgid "Failed to create X509 certificate, error: %s"
+msgstr "Impossible de créer le certificat X509. Erreur : %s"
+
 msgid ""
 "Failed to create a compute %{compute_resource} instance %{name}: "
 "%{message}\\n "
 msgstr "Échec de création de la ressouce %{compute_resource} instance %{name}: %{message}\\n "
-
-msgid "Failed to delete TFTP: %s"
-msgstr "Échec de suppression du fichier TFTP : %s"
 
 msgid "Failed to destroy a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Échec à la destruction de la ressource %{compute_resource} instance %{name}: %{e}"
@@ -1565,9 +1589,6 @@ msgstr "Échec d'activation d'installation de %{host} : %{errors}"
 msgid "Failed to fetch boot files"
 msgstr "Échec de récupération des fichiers de boot"
 
-msgid "Failed to fetch boot files: %s"
-msgstr "Échec de récupération des fichiers de boot : %s"
-
 msgid "Failed to fetch: "
 msgstr "Erreur de récupération :"
 
@@ -1577,6 +1598,9 @@ msgstr "Échec de génération du modèle %{template_kind} : %{e}"
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Échec de récupération de l'adresse IP pour %{name}: %{e}"
 
+msgid "Failed to get a new realm OTP. Terminating the build!"
+msgstr "Impossible d'obtenir un nouveau OTP du royaume. Fin de l'installation!"
+
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - "
 "ignoring"
@@ -1584,6 +1608,9 @@ msgstr "Échec lors de l'import de %{klass} pour %{name} : l'entrée n'existe pa
 
 msgid "Failed to initialize the PuppetCA proxy: %s"
 msgstr "Échec d'initialisation du proxy PuppetCA : %s"
+
+msgid "Failed to initialize the realm proxy: %s"
+msgstr "Impossible d'initialiser le proxy du royaume : %s"
 
 msgid "Failed to launch script on %{name}: %{e}"
 msgstr "Échec de lancement du script sur %{name} : %{e}"
@@ -1601,17 +1628,11 @@ msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Échec de démarrage de la ressource %{compute_resource} instance %{name}: %{e}"
 
-msgid "Failed to remove %{name}'s puppet certificate: %{e}"
-msgstr "Échec de suppression du certificat puppet %{name}"
-
-msgid "Failed to remove %{self} from the autosign file: %{e}"
-msgstr "Échec d'auto suppression du fichier autosign : %{e}"
+msgid "Failed to remove %{name}'s realm entry: %{e}"
+msgstr "Impossible de supprimer l'entrée %{name} du royaume : %{e}"
 
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Échec de suppression de certificats pour %{name}: %{e}"
-
-msgid "Failed to set TFTP: %s"
-msgstr "Échec de création TFTP : %s"
 
 msgid "Failed to set console: %s"
 msgstr "Échec de création de la console : %s"
@@ -1671,6 +1692,9 @@ msgstr "Illimité"
 msgid "Fingerprint"
 msgstr "Empreinte"
 
+msgid "First use instructions"
+msgstr "Instructions initiales"
+
 msgid "Fix %s on Mismatch"
 msgstr "Corriger la concordance de %s "
 
@@ -1692,8 +1716,8 @@ msgstr "Réseau d'adresses IP flottantes"
 msgid "Folder"
 msgstr "Répertoire"
 
-msgid "For Roles and permissions, see the"
-msgstr "Pour les Rôles et permissions, voir"
+msgid "For Roles and permissions, see the %s page"
+msgstr "Pour les rôles et permissions, se reporter à la page %s"
 
 msgid ""
 "For example, if you have copied several Red Hat release disks into a "
@@ -1709,8 +1733,8 @@ msgid ""
 "these are locations. Locations also work nicely when used in tandem with "
 msgstr "Par exemple, il pourait y avoir un centre de données a Roubaix et un à Montreal; Ceux-ci sont des localisations. Les localisations peuvent aussi être utilisées en tandem avec"
 
-msgid "For internal Users, simply create a new user at the"
-msgstr "Pour les utilisateurs internes, créer simplement un nouvel utilisateur au"
+msgid "For internal Users, simply create a new user at the %s page"
+msgstr "Pour les utilisateurs internes, créer simplement un nouvel utilisateur via la page %s"
 
 msgid "Foreman Developers"
 msgstr "Développeurs de Foreman"
@@ -1752,6 +1776,13 @@ msgstr "L'heure de création du rapport Foreman est <em>%s</em>"
 
 msgid "Foreman smart variables will be exposed via the ENC yaml output"
 msgstr "Les Smart Variables vont être exposés via la sortie YAML de l'ENC"
+
+msgid ""
+"Foreman supports automatically creating realm entries for new hosts.  When a"
+" realm is selected for a host, Foreman contacts the relevant realm smart "
+"proxy to create an entry for the host and retrieve it's one-time "
+"registration password."
+msgstr "Foreman supporte automatiquement les entrées des nouveaux hôtes du royaume. Quand un royaume est sélectionné pour un hôte, Foreman contacte le smart proxy correspondant au royaume afin de créer l'entrée de l'hôte et son mot de passe à usage unique d'enrôlement."
 
 msgid "Foreman ticketing system"
 msgstr "Gestionnaire de tickets Foreman"
@@ -1836,6 +1867,9 @@ msgstr "Plein"
 msgid "Full name describing the domain"
 msgstr "Nom  complet décrivant le domaine"
 
+msgid "Full path to backing image used to create new volumes."
+msgstr "Chemin complet de l'image à utiliser pour créer de nouveaux volumes."
+
 msgid "Full screen"
 msgstr "Plein écran"
 
@@ -1844,6 +1878,9 @@ msgstr "Trace complète"
 
 msgid "Gateway"
 msgstr "Passerelle"
+
+msgid "General Settings"
+msgstr "Configuration générale"
 
 msgid ""
 "General useful description, for example this kind of hardware needs a "
@@ -2070,6 +2107,27 @@ msgstr "Hôtes"
 msgid "Hosts Inventory"
 msgstr "Inventaires d'Hôtes"
 
+msgid ""
+"Hosts created after a puppet run that did not send a location fact will be "
+"placed in this location"
+msgstr "Les hôtes créés par un puppet run et qui n'ont envoyés aucune localisation vont être placés dans cette localisation"
+
+msgid ""
+"Hosts created after a puppet run that did not send a organization fact will "
+"be placed in this organization"
+msgstr "Les hôtes créés par un puppet run et qui n'ont envoyés aucune organisation vont être placés dans cette organisation"
+
+msgid ""
+"Hosts created after a puppet run will be placed in the location this fact "
+"dictates. The content of this fact should be the full label of the location."
+msgstr "Les hôtes créés par un puppet run vont être placés dans la localisation décrite par ce fact. Le contenu du fact doit être le label complet de la localisation."
+
+msgid ""
+"Hosts created after a puppet run will be placed in the organization this "
+"fact dictates. The content of this fact should be the full label of the "
+"organization."
+msgstr "Les hôtes créés par un puppet run vont être placés dans l'organisation décrite par ce fact. Le contenu du fact doit être le label complet de l'organisation."
+
 msgid "Hosts in error state"
 msgstr "Hôtes en erreur"
 
@@ -2146,8 +2204,8 @@ msgstr "Si vous envisagez d'utiliser Foreman comme external node classifier, vou
 
 msgid ""
 "If you chose to use LDAP authentication then you must provide connection "
-"details for your authentication provider on"
-msgstr "Si vous choisissez l'authentification LDAP, alors vous devez fournir les informations de connexion pour ce système d'authentification"
+"details for your authentication provider on %s page"
+msgstr "Si vous choisissez une authentification LDAP, alors vous devez saisir les informations du fournisseur d'authentification sur la page %s"
 
 msgid ""
 "If you feel this is an error with Foreman itself, please open a new issue "
@@ -2177,6 +2235,9 @@ msgstr "ID de l'image"
 
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "ID de l'image fournie par les ressouces matérielles, par ex. ami-..."
+
+msgid "Image path"
+msgstr "Chemin des images"
 
 msgid "Image to use"
 msgstr "I'image à utiliser"
@@ -2320,9 +2381,6 @@ msgstr "Public"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
 msgstr "Secret"
-
-msgid "Keys"
-msgstr "Clés"
 
 msgid "Kind"
 msgstr "Genre"
@@ -2784,6 +2842,9 @@ msgstr "Nouvel environnement Puppet"
 msgid "New Puppet class"
 msgstr "Nouvelle classe Puppet"
 
+msgid "New Realm"
+msgstr "Nouveau royaume"
+
 msgid "New Role"
 msgstr "Nouveau rôle"
 
@@ -2822,6 +2883,9 @@ msgstr "Nouvelle Ressource d'Ordinateur"
 
 msgid "New filter"
 msgstr "Nouveau filtre"
+
+msgid "New host"
+msgstr "Nouvel hôte"
 
 msgid "New installation medium"
 msgstr "Nouveau medium d'installation"
@@ -3306,6 +3370,9 @@ msgstr "Tables de partition"
 msgid "Password"
 msgstr "Mot de passe"
 
+msgid "Password should be 8 characters or more"
+msgstr "Le mot de passe doit contenir au moins 8 caractères"
+
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr "Mot de passe pour l'authentification SSH lors de l'étape finale."
 
@@ -3339,6 +3406,9 @@ msgstr "Accès interdit"
 
 msgid "Permissions must be of same resource type"
 msgstr "Les permissions doivent être du même type de ressource"
+
+msgid "Photo attribute"
+msgstr "Attribut Photo"
 
 msgid "Physical (Bridge)"
 msgstr "Physique (Pont)"
@@ -3556,6 +3626,33 @@ msgstr "Interrogation des détails de l'instance pour %s"
 
 msgid "Quota ID"
 msgstr "ID Quota"
+
+msgid "Realm"
+msgstr "Royaume"
+
+msgid "Realm Configuration"
+msgstr "Configuration du royaume"
+
+msgid "Realm name, e.g. EXAMPLE.COM"
+msgstr "Nom du royaume, p. e. EXAMPLE.COM"
+
+msgid "Realm proxy"
+msgstr "Proxy du royaume"
+
+msgid "Realm proxy did not return a one-time password"
+msgstr "Le proxy du royaume n'a retourné aucun mot de passe à usage unique"
+
+msgid "Realm proxy to use within this realm"
+msgstr "Proxy à utiliser pour ce royaume"
+
+msgid "Realm type"
+msgstr "Type de royaume"
+
+msgid "Realms"
+msgstr "Royaumes"
+
+msgid "Realm|Name"
+msgstr "Nom"
 
 msgid ""
 "Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
@@ -3829,6 +3926,9 @@ msgstr "Choisir les médias"
 
 msgid "Select organizations"
 msgstr "Choisir les organisations"
+
+msgid "Select realms"
+msgstr "Choisir le royaume"
 
 msgid "Select smart proxies"
 msgstr "Choisir les Smart Proxies"
@@ -4228,12 +4328,6 @@ msgid ""
 msgstr "Le champ Commentaire d'Audit est sauvé avec l'audit duu modèle lors des changements du modèle"
 
 msgid ""
-"The Foreman community uses on the irc.freenode.net servers. You can get "
-"general support in #theforeman, while development chat takes place in "
-"#theforeman-dev."
-msgstr "La communauté Foreman est accessible sur les serveurs irc.freenode.net. Vous pouvez obtenir un support sur #theforeman, pendant que les conversations concernant le développement est accessible sur le salon #theforeman-dev."
-
-msgid ""
 "The IP address that should be used for the console listen address when "
 "provisioning new virtual machines via Libvirt"
 msgstr "L'adresse IP d'écoute de la console quand on provisionne une nouvelle machine virtuelle avec LibVirt"
@@ -4361,6 +4455,13 @@ msgid ""
 msgstr "Le chemin vers le medium peut être une URL ou un chemin NFS (spécifique à l'architecture).\\n\nPar exemple : <em>http://mirror.centos.org/centos/$version/os/$arch</em> où <strong>$arch</strong> va être remplacé par l'architecture actuelle de l'hôte ; <strong>$version</strong>, <strong>$major</strong> et <strong>$minor</strong>seribt remplacés par la version du système d'exploitation. Les médias Solaris et Debian peuvent aussi utiliser la variable <strong>$release</strong>."
 
 msgid ""
+"The remote system presented a public key signed by an unidentified "
+"certificate authority. If you are sure the remote system is authentic, go to"
+" the compute resource edit page, press the 'Test Connection' or 'Load "
+"Datacenters' button and submit"
+msgstr "Le système distant présenta une clef publique signée par une autorité de certification inconnue. Si vous êtes sûr de l'authenticité du système distant, allez sur la page des Ressources d'Ordinateur, appuyez sur 'Tester la connexion' ou sur 'Charger les Datacenters' puis soumettre les changements."
+
+msgid ""
 "The remote system presented a public key with hash %s but we're expecting a "
 "different hash. If you are sure the remote system is authentic, go to the "
 "compute resource edit page, press the 'Test Connection' or 'Load "
@@ -4424,6 +4525,12 @@ msgid ""
 "This might take a while, as all hosts, facts and reports will be destroyed "
 "as well"
 msgstr "Cette action peut prendre un certain temps, pour tous les hôtes, les rapports et facts vont aussi être supprimés"
+
+msgid ""
+"This page will self destruct once Foreman starts to receive data about your "
+"hosts.  You can view this information again by clicking on the \"First use "
+"instructions\" link on the %{about} page."
+msgstr "Cette page va s'autodétruire dès la réception des premières données d'hôtes par Foreman. Vous pouvez revoir ces informations en cliquant sur le lien \"Instructions initiales\" de la page %{about}."
 
 msgid "This page will self destruct once a report comes in."
 msgstr "Cette page va disparaître dès le premier rapport reçu."
@@ -4545,6 +4652,9 @@ msgstr "Diagnostic de problème"
 msgid "Type"
 msgstr "Type"
 
+msgid "Type of realm, e.g. FreeIPA"
+msgstr "Type de royaume, p. e. FreeIPA"
+
 msgid "URL"
 msgstr "URL"
 
@@ -4572,16 +4682,52 @@ msgstr "Impossible de changer l'adresse d'écoute de l'affichage de la VM, véri
 msgid "Unable to communicate with the proxy: %s"
 msgstr "Impossible de communiquer avec le proxy : %s"
 
+msgid "Unable to create default TFTP boot menu"
+msgstr "Impossible de créer le menu par défaut TFTP"
+
+msgid "Unable to create realm entry"
+msgstr "Impossible de créer l'entrée du royaume"
+
 msgid "Unable to create the anonymous role."
 msgstr "Impossible de créer le rôle anonyme."
 
 msgid "Unable to create the default user role."
 msgstr "Impossible de créer le rôle par défaut des utilisateurs"
 
+msgid "Unable to delete DHCP entry for %s"
+msgstr "Impossible de supprimer l'entrée DHCP pour %s"
+
+msgid "Unable to delete DNS entry"
+msgstr "Impossible de supprimer l'entrée DNS"
+
+msgid "Unable to delete PuppetCA autosign for %s"
+msgstr "Impossible de supprimer l'autosignature PuppetCA pour %s"
+
+msgid "Unable to delete PuppetCA certificate for %s"
+msgstr "Impossible de supprimer le certificat PuppetCA pour %s"
+
+msgid "Unable to delete TFTP boot entry for %s"
+msgstr "Impossible de supprimer l'entrée du menu TFTP pour %s"
+
+msgid "Unable to detect TFTP boot server"
+msgstr "Impossible de détecter le serveur de boot TFTP"
+
+msgid "Unable to detect features"
+msgstr "Impossible de détecter les capacités"
+
 msgid ""
 "Unable to determine the host's boot server. The DHCP smart proxy failed to "
 "provide this information and this subnet is not provided with TFTP services."
 msgstr "Impossible de déterminer le serveur de démarrage de l'hôte. Le Smart Proxy DHCP n'a pas pu fournir cette information et le sous-réseau n'a pas fourni de service TFTP."
+
+msgid "Unable to execute Puppet run"
+msgstr "Impossible d'exécuter Puppet run"
+
+msgid "Unable to fetch TFTP boot file"
+msgstr "Impossible de récupérer le fichier de boot TFTP"
+
+msgid "Unable to find IP address for '%s'"
+msgstr "Impossible de trouver l'adresse IP pour '%s'"
 
 msgid "Unable to find a proxy with BMC feature"
 msgstr "Impossible de trouver un proxy avec la fonctionnalité BMC"
@@ -4589,14 +4735,77 @@ msgstr "Impossible de trouver un proxy avec la fonctionnalité BMC"
 msgid "Unable to find proper authentication method"
 msgstr "Impossible de trouver correctement une méthode d'authentification "
 
+msgid "Unable to find template %s"
+msgstr "Impossible de trouver le modèle %s"
+
 msgid "Unable to find templates as this host has no operating system"
 msgstr "Impossible de trouver le modèle de cet hôte qui n'a pas de système d'exploitation"
 
 msgid "Unable to generate output, Check log files\\n"
 msgstr "Impossible de générer une sortie, vérifiez les fichiers de log\\n"
 
+msgid "Unable to get BMC providers"
+msgstr "Impossible d'obtenir les fournisseurs BMC"
+
+msgid "Unable to get PuppetCA autosign"
+msgstr "Impossible d'obtenir l'autosignature PuppetCA"
+
+msgid "Unable to get PuppetCA certificates"
+msgstr "Impossible d'obtenir les certificats PuppetCA"
+
+msgid "Unable to get classes from Puppet for %s"
+msgstr "Impossible d'obtenir les classes Puppet pour %s"
+
+msgid "Unable to get environment from Puppet"
+msgstr "Impossible d'obtenir l'environnement Puppet"
+
+msgid "Unable to get environments from Puppet"
+msgstr "Impossible d'obtenir les environnements Puppet"
+
+msgid "Unable to get installed BMC providers"
+msgstr "Impossible d'obtenir les fournisseurs BMC"
+
+msgid "Unable to perform boot BMC operation"
+msgstr "Impossible de réaliser l'opération de démarrage BMC"
+
+msgid "Unable to perform identify BMC operation"
+msgstr "Impossible de réaliser l'opération d'identification BMC"
+
+msgid "Unable to perform lan BMC operation"
+msgstr "Impossible de réaliser l'opération lan BMC"
+
+msgid "Unable to perform power BMC operation"
+msgstr "Impossible de réaliser l'opération d'arrêt/démarrage BMC "
+
+msgid "Unable to retrieve DHCP entry for %s"
+msgstr "Impossible de récupérer l'entrée DHCP pour %s"
+
+msgid "Unable to retrieve DHCP subnet"
+msgstr "Impossible de récupérer le sous réseau DHCP"
+
+msgid "Unable to retrieve DHCP subnets"
+msgstr "Impossible de récupérer les sous-réseaux DHCP"
+
+msgid "Unable to retrieve unused IP"
+msgstr "Impossible de récupérer une adresse IP disponible"
+
 msgid "Unable to save"
 msgstr "Impossible de sauver"
+
+msgid "Unable to set DHCP entry"
+msgstr "Impossible de positioner l'entrée DHCP"
+
+msgid "Unable to set DNS entry"
+msgstr "Impossible de positionner l'entrée DNS"
+
+msgid "Unable to set PuppetCA autosign for %s"
+msgstr "Impossible de positionner l'autosignature PuppetCA pour %s"
+
+msgid "Unable to set TFTP boot entry for %s"
+msgstr "Impossible de définir l'entrée de boot TFTP pour %s"
+
+msgid "Unable to sign PuppetCA certificate for %s"
+msgstr "Impossible de signer le certificat PuppetCA pour %s"
 
 msgid "Undo remove"
 msgstr "Annuler la suppression"
@@ -4627,6 +4836,9 @@ msgstr "Format du statut du rapport d'état incorrect"
 
 msgid "Update"
 msgstr "Mise à jour"
+
+msgid "Update realm entry for %s"
+msgstr "Mise à jour de l'entrée du royaume pour %s"
 
 msgid "Update:"
 msgstr "Mise à jour:"
@@ -4831,6 +5043,9 @@ msgstr "Valeur à utiliser quand il n'y a pas de correspondance"
 msgid "Variable"
 msgstr "Variable"
 
+msgid "Variables"
+msgstr "Variables"
+
 msgid "Vendor class"
 msgstr "Famille de produits du fournisseur"
 
@@ -4952,6 +5167,12 @@ msgstr "Vous n'êtes pas autorisé à effectuer cette opération"
 
 msgid "You are using an unsupported browser."
 msgstr "Vous utilisez un navigateur non supporté."
+
+msgid ""
+"You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For"
+" general support, please visit #theforeman and for development specific "
+"related chat, please visit #theforeman-dev."
+msgstr "Vous pouvez contacter l'équipe de The Foremann sur le réseau IRC %{freenode} (irc.freenode.net). Pour du support, merci de visiter #theforeman. Pour la partie développement, veuillez vous rendre sur #theforeman-dev."
 
 msgid "You can find details of how to set up the proxy at"
 msgstr "Vous pouvez trouver des détails sur l'implémentation d'un proxy à"
@@ -5132,6 +5353,9 @@ msgstr "Ex: https://identity.api.rackspacecloud.com/v2.0"
 msgid "e.g. https://ovirt.example.com:8443/api"
 msgstr "Ex: https://ovirt.example.com:8443/api"
 
+msgid "e.g. jpegPhoto"
+msgstr "Par ex. jpegPhoto"
+
 msgid "e.g. karmic, lucid, hw0910 etc"
 msgstr "Ex: karmic, lucid, hw0910, etc"
 
@@ -5167,6 +5391,9 @@ msgstr "filtre pour le rôle %s"
 
 msgid "for more details."
 msgstr "pour plus de détails."
+
+msgid "for proxy"
+msgstr "pour le proxy"
 
 msgid "free (GB)"
 msgstr "libre (Go)"
@@ -5237,6 +5464,9 @@ msgstr "est alphanumérique et ne peut contenir d'espace"
 msgid "is already used by a user account"
 msgstr "est déjà utilisé par un compte utilisateur"
 
+msgid "is an unsupported provisioning method"
+msgstr "est une méthode de provisionnement non supportée"
+
 msgid "is invalid"
 msgstr "est invalide"
 
@@ -5251,6 +5481,9 @@ msgstr "est invalide : %s"
 
 msgid "is not allowed to change"
 msgstr "n'est pas autorisé à être changé"
+
+msgid "is unknown"
+msgstr "est inconnu"
 
 msgid "issue tracker"
 msgstr "traqueur de bogue"
@@ -5345,14 +5578,11 @@ msgstr "OS"
 msgid "override"
 msgstr "surcharger"
 
-msgid "page"
-msgstr "page"
-
 msgid "parameters require an associated domain, host or host group"
 msgstr "les paramètres imposent un domaine associé, hôte ou groupe d'hôtes"
 
 msgid "parsing settings type '%s' from string is not defined"
-msgstr ""
+msgstr "l'analyse du type de settings %s depuis une chaine n'est pas défini"
 
 msgid "pending"
 msgstr "En attente"

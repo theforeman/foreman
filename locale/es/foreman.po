@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 16:33+0000\n"
-"PO-Revision-Date: 2014-03-14 10:14+0000\n"
+"POT-Creation-Date: 2014-04-02 11:48+0100\n"
+"PO-Revision-Date: 2014-04-09 10:00+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -380,6 +380,9 @@ msgid ""
 "All mismatches between hosts and locations/organizations have been fixed"
 msgstr "Todas las discordancias entre equipos y lugares/organizaciones han sido arregladas"
 
+msgid "All realms"
+msgstr ""
+
 msgid "All smart proxies"
 msgstr "Todos los \"proxies\" inteligentes"
 
@@ -498,6 +501,9 @@ msgstr "Asociar Máquinas Virtuales a equipos de Foreman"
 
 msgid "Association"
 msgstr "Asociación"
+
+msgid "At least one volume must be specified for image-based provisioning."
+msgstr ""
 
 msgid ""
 "At present, authentication is performed against the internal Database or a "
@@ -769,6 +775,9 @@ msgid ""
 " on all resources of the selected type"
 msgstr ""
 
+msgid "CA Certificate"
+msgstr ""
+
 msgid "CDROM"
 msgstr "CDROM"
 
@@ -915,6 +924,9 @@ msgstr "Cerrar"
 msgid "Cluster"
 msgstr "Cluster"
 
+msgid "Cluster ID is required to list available networks"
+msgstr ""
+
 msgid "Code"
 msgstr "Código"
 
@@ -1037,6 +1049,9 @@ msgstr "Contraseñas de terminal"
 msgid "Cores"
 msgstr "Núcleos"
 
+msgid "Cores per socket"
+msgstr ""
+
 msgid ""
 "Could not find a Configuration Template with the name \"PXELinux global "
 "default\", please create one."
@@ -1056,6 +1071,9 @@ msgstr "Crear Registros DNS Inversos para %s"
 
 msgid "Create a Smart Proxy"
 msgstr "Crear un Proxy Inteligente"
+
+msgid "Create realm entry for %s"
+msgstr ""
 
 msgid "Ctrl-Alt-Del"
 msgstr "Ctrl-Alt-Del"
@@ -1142,6 +1160,9 @@ msgid "Delete autosign entry for %s"
 msgstr "Borrar entrada de autofirmado para %s"
 
 msgid "Delete filter?"
+msgstr ""
+
+msgid "Delete realm entry for %s"
 msgstr ""
 
 msgid "Delete report for %s?"
@@ -1325,6 +1346,9 @@ msgstr "Editar Proxy"
 
 msgid "Edit Puppet Class %s"
 msgstr "Editar Clase Puppet %s"
+
+msgid "Edit Realm"
+msgstr ""
 
 msgid "Edit Roles"
 msgstr "Editar Roles"
@@ -1530,9 +1554,6 @@ msgstr "Fallos de reinicio"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "Ha fallado al %{action} %{host}: %{e}"
 
-msgid "Failed to add %{name} to autosign file: %{e}"
-msgstr "Fallo al añadir %{name} al fichero de autofirmado: %{e}"
-
 msgid "Failed to cancel pending build for %s"
 msgstr "Fallo al cancelar instalación pendiente de %s"
 
@@ -1544,13 +1565,16 @@ msgstr "Fallo al limpiar certificados antiguos o al añadir la clave de autofirm
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr "Ha fallado la configuración de %{host} para arrancar desde %{device}"
 
+msgid "Failed to create %{name}'s realm entry: %{e}"
+msgstr ""
+
+msgid "Failed to create X509 certificate, error: %s"
+msgstr ""
+
 msgid ""
 "Failed to create a compute %{compute_resource} instance %{name}: "
 "%{message}\\n "
 msgstr "Fallo al crear una instancia %{compute_resource} con el nombre %{name}: %{message}"
-
-msgid "Failed to delete TFTP: %s"
-msgstr "Fallo al borrar TFTP: %s"
 
 msgid "Failed to destroy a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Fallo al destruir una instancia %{compute_resource} con el nombre %{name}: %{e}"
@@ -1561,9 +1585,6 @@ msgstr "Fallo al habilitar la instalación de %{host}: %{errors}"
 msgid "Failed to fetch boot files"
 msgstr "Fallo al recolectar los ficheros de arranque"
 
-msgid "Failed to fetch boot files: %s"
-msgstr "Fallo al recolectar los ficheros de arranque: %s"
-
 msgid "Failed to fetch: "
 msgstr "Fallo al extraer: "
 
@@ -1573,6 +1594,9 @@ msgstr "Fallo al generar el tipo de plantilla %{template_kind}: %{e}"
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Fallo al asignar la IP de ${name}: %{e}"
 
+msgid "Failed to get a new realm OTP. Terminating the build!"
+msgstr ""
+
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - "
 "ignoring"
@@ -1580,6 +1604,9 @@ msgstr "Fallo al importar %{klass} para %{name}: no existe en la base de datos -
 
 msgid "Failed to initialize the PuppetCA proxy: %s"
 msgstr "Fallo al inicializar el proxy PuppetCA: %s"
+
+msgid "Failed to initialize the realm proxy: %s"
+msgstr ""
 
 msgid "Failed to launch script on %{name}: %{e}"
 msgstr "Fallo al ejecutar script en %{name}: %{e}"
@@ -1597,17 +1624,11 @@ msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Fallo al encender una instancia %{compute_resource} con el nombre %{name}: %{e}"
 
-msgid "Failed to remove %{name}'s puppet certificate: %{e}"
-msgstr "Fallo al borrar el certificado puppet de %{name}: %{e}"
-
-msgid "Failed to remove %{self} from the autosign file: %{e}"
-msgstr "Fallo al borrar %{self} del fichero de autofirmado: %{e}"
+msgid "Failed to remove %{name}'s realm entry: %{e}"
+msgstr ""
 
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Fallo al borrar certificados de %{name}: %{e}"
-
-msgid "Failed to set TFTP: %s"
-msgstr "Fallo al establecer TFTP: %s"
 
 msgid "Failed to set console: %s"
 msgstr "Fallo al configurar terminal: %s"
@@ -1667,6 +1688,9 @@ msgstr ""
 msgid "Fingerprint"
 msgstr "Huella"
 
+msgid "First use instructions"
+msgstr ""
+
 msgid "Fix %s on Mismatch"
 msgstr "Corregir %s en discordancias"
 
@@ -1688,8 +1712,8 @@ msgstr "Red IP flotante"
 msgid "Folder"
 msgstr "Carpeta"
 
-msgid "For Roles and permissions, see the"
-msgstr "Para Roles y permisos, ver el"
+msgid "For Roles and permissions, see the %s page"
+msgstr ""
 
 msgid ""
 "For example, if you have copied several Red Hat release disks into a "
@@ -1705,8 +1729,8 @@ msgid ""
 "these are locations. Locations also work nicely when used in tandem with "
 msgstr "Por ejemplo, puede haber un centro de datos en Londres, otro en Virgina; estos son considerados lugares. Usar lugares funciona muy bien si al mismo tiempo se combinan con "
 
-msgid "For internal Users, simply create a new user at the"
-msgstr "Para usuarios internos, solamente crea un nuevo usuario en "
+msgid "For internal Users, simply create a new user at the %s page"
+msgstr ""
 
 msgid "Foreman Developers"
 msgstr "Desarrolladores de Foreman"
@@ -1747,6 +1771,13 @@ msgid "Foreman report creation time is <em>%s</em>"
 msgstr "El tiempo de creación del informe de Foreman es <em>%s</em>"
 
 msgid "Foreman smart variables will be exposed via the ENC yaml output"
+msgstr ""
+
+msgid ""
+"Foreman supports automatically creating realm entries for new hosts.  When a"
+" realm is selected for a host, Foreman contacts the relevant realm smart "
+"proxy to create an entry for the host and retrieve it's one-time "
+"registration password."
 msgstr ""
 
 msgid "Foreman ticketing system"
@@ -1832,6 +1863,9 @@ msgstr "Lleno"
 msgid "Full name describing the domain"
 msgstr "Nombre completo que describe el dominio"
 
+msgid "Full path to backing image used to create new volumes."
+msgstr ""
+
 msgid "Full screen"
 msgstr "Pantalla completa"
 
@@ -1840,6 +1874,9 @@ msgstr "Mensaje completo"
 
 msgid "Gateway"
 msgstr "Puerta de Enlace"
+
+msgid "General Settings"
+msgstr ""
 
 msgid ""
 "General useful description, for example this kind of hardware needs a "
@@ -2066,6 +2103,27 @@ msgstr "Equipos"
 msgid "Hosts Inventory"
 msgstr "Inventario de Equipos"
 
+msgid ""
+"Hosts created after a puppet run that did not send a location fact will be "
+"placed in this location"
+msgstr ""
+
+msgid ""
+"Hosts created after a puppet run that did not send a organization fact will "
+"be placed in this organization"
+msgstr ""
+
+msgid ""
+"Hosts created after a puppet run will be placed in the location this fact "
+"dictates. The content of this fact should be the full label of the location."
+msgstr ""
+
+msgid ""
+"Hosts created after a puppet run will be placed in the organization this "
+"fact dictates. The content of this fact should be the full label of the "
+"organization."
+msgstr ""
+
 msgid "Hosts in error state"
 msgstr "Equipos en estado de error"
 
@@ -2142,8 +2200,8 @@ msgstr "Si estás planeando usar Foreman como un clasificador externo de nodos, 
 
 msgid ""
 "If you chose to use LDAP authentication then you must provide connection "
-"details for your authentication provider on"
-msgstr "Si decides usar autenticación LDAP entonces debes especificar los detalles de conexión de tu proveedor de autenticación"
+"details for your authentication provider on %s page"
+msgstr ""
 
 msgid ""
 "If you feel this is an error with Foreman itself, please open a new issue "
@@ -2173,6 +2231,9 @@ msgstr "ID imagen"
 
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "ID de la imagen facilitado por la instancia, ejemplo: ami-.."
+
+msgid "Image path"
+msgstr ""
 
 msgid "Image to use"
 msgstr ""
@@ -2316,9 +2377,6 @@ msgstr "Pública"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
 msgstr "Contraseña"
-
-msgid "Keys"
-msgstr "Claves"
 
 msgid "Kind"
 msgstr "Clase"
@@ -2780,6 +2838,9 @@ msgstr "Nuevo entorno de Puppet"
 msgid "New Puppet class"
 msgstr "Nueva clase Puppet"
 
+msgid "New Realm"
+msgstr ""
+
 msgid "New Role"
 msgstr "Nuevo Rol"
 
@@ -2817,6 +2878,9 @@ msgid "New compute resource"
 msgstr "Nueva instancia"
 
 msgid "New filter"
+msgstr ""
+
+msgid "New host"
 msgstr ""
 
 msgid "New installation medium"
@@ -3302,6 +3366,9 @@ msgstr "Tablas de partición"
 msgid "Password"
 msgstr "Contraseña"
 
+msgid "Password should be 8 characters or more"
+msgstr ""
+
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
@@ -3334,6 +3401,9 @@ msgid "Permission denied"
 msgstr "Permiso denegado"
 
 msgid "Permissions must be of same resource type"
+msgstr ""
+
+msgid "Photo attribute"
 msgstr ""
 
 msgid "Physical (Bridge)"
@@ -3552,6 +3622,33 @@ msgstr "Detalles de la consulta de la instancia para %s"
 
 msgid "Quota ID"
 msgstr "ID de cuota"
+
+msgid "Realm"
+msgstr ""
+
+msgid "Realm Configuration"
+msgstr ""
+
+msgid "Realm name, e.g. EXAMPLE.COM"
+msgstr ""
+
+msgid "Realm proxy"
+msgstr ""
+
+msgid "Realm proxy did not return a one-time password"
+msgstr ""
+
+msgid "Realm proxy to use within this realm"
+msgstr ""
+
+msgid "Realm type"
+msgstr ""
+
+msgid "Realms"
+msgstr ""
+
+msgid "Realm|Name"
+msgstr ""
 
 msgid ""
 "Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
@@ -3825,6 +3922,9 @@ msgstr "Seleccionar medios"
 
 msgid "Select organizations"
 msgstr "Seleccionar organizaciones"
+
+msgid "Select realms"
+msgstr ""
 
 msgid "Select smart proxies"
 msgstr "Seleccionar proxy inteligente"
@@ -4224,12 +4324,6 @@ msgid ""
 msgstr "El campo de Comentario de Auditoría es guardado con la auditoría de plantilla en el documento de cambios de plantilla"
 
 msgid ""
-"The Foreman community uses on the irc.freenode.net servers. You can get "
-"general support in #theforeman, while development chat takes place in "
-"#theforeman-dev."
-msgstr "La comunidad de usuarios de Foreman usualmente se conecta a los servidores de irc.freenode.org. Puedes conseguir soporte y ayuda en el canal #theforeman, mientras que las charlas acerca de desarrollo tienen lugar en el canal #theforeman-dev."
-
-msgid ""
 "The IP address that should be used for the console listen address when "
 "provisioning new virtual machines via Libvirt"
 msgstr "La dirección IP que debería utilizarse para la dirección de escucha de la terminal cuando se aprovisiona una nueva máquina virtual via Libvirt"
@@ -4357,6 +4451,13 @@ msgid ""
 msgstr "La ruta para el medio, puede ser una URL o un servidor NFS válido (exclusivo de la arquitectura).\\n por ejemplo <em>http://mirror.centos.org/centos/$version/os/$arch</em> cuando <strong>$arch</strong> será sustituído por la arquitectura del SO del host actual <strong>$version</strong>, <strong>$major</strong> y <strong>$minor</strong> y será sustituída por la versión del sistema operativo. Solaris y Debian pueden también usar <strong>$release</strong>."
 
 msgid ""
+"The remote system presented a public key signed by an unidentified "
+"certificate authority. If you are sure the remote system is authentic, go to"
+" the compute resource edit page, press the 'Test Connection' or 'Load "
+"Datacenters' button and submit"
+msgstr ""
+
+msgid ""
 "The remote system presented a public key with hash %s but we're expecting a "
 "different hash. If you are sure the remote system is authentic, go to the "
 "compute resource edit page, press the 'Test Connection' or 'Load "
@@ -4420,6 +4521,12 @@ msgid ""
 "This might take a while, as all hosts, facts and reports will be destroyed "
 "as well"
 msgstr "Esta acción puede tardar un rato, ya que se eliminarán todos los equipos, datos e informes."
+
+msgid ""
+"This page will self destruct once Foreman starts to receive data about your "
+"hosts.  You can view this information again by clicking on the \"First use "
+"instructions\" link on the %{about} page."
+msgstr ""
 
 msgid "This page will self destruct once a report comes in."
 msgstr "Esta página se auto-destruirá cuando empiecen a llegar informes."
@@ -4541,6 +4648,9 @@ msgstr ""
 msgid "Type"
 msgstr "Tipo"
 
+msgid "Type of realm, e.g. FreeIPA"
+msgstr ""
+
 msgid "URL"
 msgstr "URL"
 
@@ -4568,16 +4678,52 @@ msgstr "Incapaz de cambiar la dirección de escucha de la pantalla de la MV, ase
 msgid "Unable to communicate with the proxy: %s"
 msgstr "No ha sido posible establecer una comunicación con el proxy: %s"
 
+msgid "Unable to create default TFTP boot menu"
+msgstr ""
+
+msgid "Unable to create realm entry"
+msgstr ""
+
 msgid "Unable to create the anonymous role."
 msgstr "No ha sido posible crear el rol anónimo."
 
 msgid "Unable to create the default user role."
 msgstr "No ha sido posible crear el rol de usuario predeterminado."
 
+msgid "Unable to delete DHCP entry for %s"
+msgstr ""
+
+msgid "Unable to delete DNS entry"
+msgstr ""
+
+msgid "Unable to delete PuppetCA autosign for %s"
+msgstr ""
+
+msgid "Unable to delete PuppetCA certificate for %s"
+msgstr ""
+
+msgid "Unable to delete TFTP boot entry for %s"
+msgstr ""
+
+msgid "Unable to detect TFTP boot server"
+msgstr ""
+
+msgid "Unable to detect features"
+msgstr ""
+
 msgid ""
 "Unable to determine the host's boot server. The DHCP smart proxy failed to "
 "provide this information and this subnet is not provided with TFTP services."
 msgstr "No ha sido posible determinar el servidor de equipo de arranque. El proxy inteligente DHCP no ha podido proporcionar esta información y la subred no cuenta con servicios TFTP."
+
+msgid "Unable to execute Puppet run"
+msgstr ""
+
+msgid "Unable to fetch TFTP boot file"
+msgstr ""
+
+msgid "Unable to find IP address for '%s'"
+msgstr ""
 
 msgid "Unable to find a proxy with BMC feature"
 msgstr "No se ha encontrado ningún proxy con la característica BCM"
@@ -4585,14 +4731,77 @@ msgstr "No se ha encontrado ningún proxy con la característica BCM"
 msgid "Unable to find proper authentication method"
 msgstr "No se ha podido encontrar un método de autenticación"
 
+msgid "Unable to find template %s"
+msgstr ""
+
 msgid "Unable to find templates as this host has no operating system"
 msgstr "No se han encontrado plantillas y este equipo no tiene sistema operativo"
 
 msgid "Unable to generate output, Check log files\\n"
 msgstr "No se ha podido generar una salida. Comprueba los ficheros de registros\\n"
 
+msgid "Unable to get BMC providers"
+msgstr ""
+
+msgid "Unable to get PuppetCA autosign"
+msgstr ""
+
+msgid "Unable to get PuppetCA certificates"
+msgstr ""
+
+msgid "Unable to get classes from Puppet for %s"
+msgstr ""
+
+msgid "Unable to get environment from Puppet"
+msgstr ""
+
+msgid "Unable to get environments from Puppet"
+msgstr ""
+
+msgid "Unable to get installed BMC providers"
+msgstr ""
+
+msgid "Unable to perform boot BMC operation"
+msgstr ""
+
+msgid "Unable to perform identify BMC operation"
+msgstr ""
+
+msgid "Unable to perform lan BMC operation"
+msgstr ""
+
+msgid "Unable to perform power BMC operation"
+msgstr ""
+
+msgid "Unable to retrieve DHCP entry for %s"
+msgstr ""
+
+msgid "Unable to retrieve DHCP subnet"
+msgstr ""
+
+msgid "Unable to retrieve DHCP subnets"
+msgstr ""
+
+msgid "Unable to retrieve unused IP"
+msgstr ""
+
 msgid "Unable to save"
 msgstr "No se ha podido guardar"
+
+msgid "Unable to set DHCP entry"
+msgstr ""
+
+msgid "Unable to set DNS entry"
+msgstr ""
+
+msgid "Unable to set PuppetCA autosign for %s"
+msgstr ""
+
+msgid "Unable to set TFTP boot entry for %s"
+msgstr ""
+
+msgid "Unable to sign PuppetCA certificate for %s"
+msgstr ""
 
 msgid "Undo remove"
 msgstr "Deshacer borrado"
@@ -4623,6 +4832,9 @@ msgstr "Formato de estado de reporte no soportado"
 
 msgid "Update"
 msgstr "Actualizar"
+
+msgid "Update realm entry for %s"
+msgstr ""
 
 msgid "Update:"
 msgstr "Actualizar:"
@@ -4827,6 +5039,9 @@ msgstr "Valor a utilizar cuando no existen coincidencias"
 msgid "Variable"
 msgstr "Variable"
 
+msgid "Variables"
+msgstr ""
+
 msgid "Vendor class"
 msgstr "Clase de Proveedor"
 
@@ -4948,6 +5163,12 @@ msgstr "No estás autorizado para realizar esta operación"
 
 msgid "You are using an unsupported browser."
 msgstr "Estás usando un navegador no compatible."
+
+msgid ""
+"You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For"
+" general support, please visit #theforeman and for development specific "
+"related chat, please visit #theforeman-dev."
+msgstr ""
 
 msgid "You can find details of how to set up the proxy at"
 msgstr "Puedes encontrar detalles acerca de cómo configurar el proxy en"
@@ -5128,6 +5349,9 @@ msgstr "Ejemplo: https://identity.api.rackspacecloud.com/v2.0"
 msgid "e.g. https://ovirt.example.com:8443/api"
 msgstr "ej https://ovirt.example.com:8443/api"
 
+msgid "e.g. jpegPhoto"
+msgstr ""
+
 msgid "e.g. karmic, lucid, hw0910 etc"
 msgstr "ej karmic, lucid, hw0910 etc"
 
@@ -5163,6 +5387,9 @@ msgstr ""
 
 msgid "for more details."
 msgstr "para más detalles."
+
+msgid "for proxy"
+msgstr ""
 
 msgid "free (GB)"
 msgstr "libre (GB)"
@@ -5233,6 +5460,9 @@ msgstr "Es alfanumérico y no puede contener espacios"
 msgid "is already used by a user account"
 msgstr "ya se está utilizando en una cuenta de usuario"
 
+msgid "is an unsupported provisioning method"
+msgstr ""
+
 msgid "is invalid"
 msgstr "no es válido"
 
@@ -5247,6 +5477,9 @@ msgstr "%s es inválido"
 
 msgid "is not allowed to change"
 msgstr "no se permite modificar"
+
+msgid "is unknown"
+msgstr ""
 
 msgid "issue tracker"
 msgstr "seguimiento de incidencias"
@@ -5340,9 +5573,6 @@ msgstr "so"
 
 msgid "override"
 msgstr "sobrescribir"
-
-msgid "page"
-msgstr "página"
 
 msgid "parameters require an associated domain, host or host group"
 msgstr "los parámetros requieren un dominio asociado, equipo o grupo de equipos"

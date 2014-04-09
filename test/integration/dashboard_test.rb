@@ -32,7 +32,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
   end
 
   test "dashboard link out of sync hosts" do
-    assert_dashboard_link 'Out of sync Hosts'
+    assert_dashboard_link 'Out of sync hosts'
   end
 
   test "dashboard link hosts with no reports" do
