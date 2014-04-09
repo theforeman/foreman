@@ -1,6 +1,6 @@
 <%#
 kind: user_data
-name: Community Preseed UserData
+name: Preseed default user data
 oses:
 - Debian 6.0
 - Debian 7.0
@@ -22,8 +22,12 @@ apt-get install -y puppet
 cat > /etc/puppet/puppet.conf << EOF
 <%= snippet 'puppet.conf' %>
 EOF
+if [ -f "/etc/default/puppet" ]
+then
 /bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
+fi
 /bin/touch /etc/puppet/namespaceauth.conf
+/usr/bin/puppet agent --enable
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
 <% end -%>
 

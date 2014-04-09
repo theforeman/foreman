@@ -1,0 +1,38 @@
+<%#
+kind: finish
+name: FreeBSD (mfsBSD) finish
+oses:
+- FreeBSD 10.0
+%>
+<%
+  # safemode renderer does not support unary negation
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || @host.params['force-puppet']
+%>
+/bin/echo '<%= root_pass %>' | pw usermod root -H 0
+cat >> /etc/rc.conf <<EOF
+hostname="<%= @host %>"
+sshd_enable="YES"
+ntpd_enable="YES"
+EOF
+
+echo ifconfig_`ifconfig -l | cut -d ' ' -f 1`=DHCP >>/etc/rc.conf
+
+echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+
+cp /usr/share/zoneinfo/<%= @host.params['time-zone'] || 'UTC' %> /etc/localtime
+touch /etc/wall_cmos_clock
+adjkerntz -a
+ntpdate <%= @host.params['ntp-server'] || '0.freebsd.pool.ntp.org' %>
+
+<% if puppet_enabled %>
+env ASSUME_ALWAYS_YES=YES pkg bootstrap
+pkg install -y puppet
+echo 'puppet_enable="YES"' >>/etc/rc.conf
+cat > /usr/local/etc/puppet/puppet.conf << EOF
+<%= snippet 'puppet.conf' %>
+EOF
+
+/usr/local/bin/puppet agent --config /usr/local/etc/puppet/puppet.conf --onetime --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
+<% end -%>
+exit 0

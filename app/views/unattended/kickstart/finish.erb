@@ -1,0 +1,61 @@
+<%#
+kind: finish
+name: Kickstart default finish
+oses:
+- CentOS 4
+- CentOS 5
+- CentOS 6
+- CentOS 7
+- Fedora 16
+- Fedora 17
+- Fedora 18
+- Fedora 19
+- Fedora 20
+%>
+<%
+  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  os_major = @host.operatingsystem.major.to_i
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || @host.params['force-puppet']
+%>
+
+<% if rhel_compatible -%>
+<%= snippet "epel" -%>
+<% end -%>
+
+<% if puppet_enabled -%>
+<% if @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
+<% if @host.operatingsystem.name == 'Fedora' -%>
+rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-fedora-<%= os_major -%>.noarch.rpm
+<% else -%>
+rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-<%= os_major -%>.noarch.rpm
+<% end -%>
+<% end -%>
+yum -t -y -e 0 install puppet
+<% end -%>
+
+#update local time
+echo "updating system time"
+/usr/sbin/ntpdate -sub <%= @host.params['ntp-server'] || '0.fedora.pool.ntp.org' %>
+/usr/sbin/hwclock --systohc
+
+<% if @host.respond_to?(:otp) && @host.otp && @host.realm && @host.realm.realm_type == "FreeIPA" -%>
+<%= snippet "freeipa_register" %>
+<% end -%>
+
+# update all the base packages from the updates repository
+yum -t -y -e 0 update
+
+<% if puppet_enabled %>
+echo "Configuring puppet"
+cat > /etc/puppet/puppet.conf << EOF
+<%= snippet 'puppet.conf' %>
+EOF
+
+# Setup puppet to run on system reboot
+/sbin/chkconfig --level 345 puppet on
+
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
+<% end -%>
+
+exit 0

@@ -1,0 +1,34 @@
+<%#
+kind: snippet
+name: freeipa_register
+%>
+# FreeIPA Registration Snippet
+#
+# Optional parameters:
+#
+#   freeipa_opts        When not using SRV records, you may need to specify
+#                       some additional options (--server, --principal, etc)
+#   freeipa_mkhomedir   Automatically make home directories (default: true)
+
+<% if @host.params["freeipa_mkhomedir"] && !@host.param_true?("freeipa_mkhomedir") -%>
+freeipa_mkhomedir=""
+<% else -%>
+freeipa_mkhomedir="--mkhomedir"
+<% end -%>
+
+<% if @host.params["freeipa_opts"] -%>
+freeipa_opts="<%= @host.params["freeipa_opts"] %>"
+<% end -%>
+
+<% if @host.operatingsystem.name == "Fedora" %>
+ipa_client=freeipa-client
+<% else -%>
+ipa_client=ipa-client
+<% end -%>
+
+yum -y install $ipa_client
+
+echo IPA mkhomedir: $freeipa_mkhomedir
+echo IPA additonal opts: $freeipa_opts
+
+/usr/sbin/ipa-client-install -w '<%= @host.otp %>' --realm=<%= @host.realm %> -f -U $freeipa_opts $freeipa_mkhomedir

@@ -1,0 +1,27 @@
+<%#
+kind: user_data
+name: UserData default
+oses:
+- CentOS 4
+- CentOS 5
+- CentOS 6
+- CentOS 7
+- Fedora 16
+- Fedora 17
+- Fedora 18
+- Fedora 19
+- Debian 6.0
+- Debian 7.0
+- Ubuntu 10.04
+- Ubuntu 12.04
+- Ubuntu 13.04
+-%>
+#cloud-config
+hostname: <%= @host.shortname %>
+fqdn: <%= @host %>
+manage_etc_hosts: true
+
+<%# Contact Foreman to confirm instance is built -%>
+phone_home:
+ url: <%= foreman_url('built') %>
+ tries: 10

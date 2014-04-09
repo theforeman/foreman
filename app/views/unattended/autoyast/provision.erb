@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <%#
 kind: provision
-name: Community AutoYaST
+name: AutoYaST default
 %>
 <%
   # safemode renderer does not support unary negation
@@ -58,7 +58,6 @@ name: Community AutoYaST
 <% if puppet_enabled %>
       <package>puppet</package>
 <% end -%>
-      <package>wget</package>
     </packages>
   </software>
   <users config:type="list">
@@ -74,13 +73,22 @@ name: Community AutoYaST
     </user>
   </users>
   <scripts>
-    <post-scripts config:type="list">
+    <chroot-scripts config:type="list">
       <script>
-        <filename>post.sh</filename>
+        <filename>cp-resolv.sh</filename>
+        <chrooted config:type="boolean">false</chrooted>
         <interpreter>shell</interpreter>
-        <network_needed config:type="boolean">true</network_needed>
+        <notification>Copying resolv.conf into chroot ...</notification>
+        <source><![CDATA[
+cp /etc/resolv.conf /mnt/etc
+]]>
+        </source>
+      </script>
+      <script>
+        <filename>foreman.sh</filename>
+        <chrooted config:type="boolean">true</chrooted>
+        <interpreter>shell</interpreter>
         <notification>Setting up Puppet / Foreman ...</notification>
-        <debug config:type="boolean">true</debug>
         <source><![CDATA[
 <% if puppet_enabled %>
           cat > /etc/puppet/puppet.conf << EOF
@@ -94,11 +102,13 @@ fi
 /sbin/chkconfig puppet on -f
 <% end -%>
 
-/usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
+/usr/bin/curl -o /dev/null -k '<%= foreman_url %>'
+
+rm /etc/resolv.conf
 ]]>
         </source>
       </script>
-    </post-scripts>
+    </chroot-scripts>
   </scripts>
   <keyboard>
     <keymap>english-us</keymap>

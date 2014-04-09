@@ -1,6 +1,6 @@
 <%#
 kind: provision
-name: Community Kickstart RHEL
+name: Kickstart RHEL default
 oses:
 - RedHat 4
 - RedHat 5
@@ -23,7 +23,12 @@ network --bootproto <%= @static ? "static --ip=#{@host.ip} --netmask=#{@host.sub
 rootpw --iscrypted <%= root_pass %>
 firewall --<%= os_major >= 6 ? 'service=' : '' %>ssh
 authconfig --useshadow --passalgo=sha256 --kickstart
-timezone <%= @host.params['time-zone'] || 'UTC' %>
+timezone --utc <%= @host.params['time-zone'] || 'UTC' %>
+
+<% if os_major >= 7 && @host.respond_to?(:otp) && @host.otp && @host.realm -%>
+realm join --one-time-password=<%= @host.otp %> <%= @host.realm %>
+<% end -%>
+
 <% if os_major > 4 -%>
 services --disabled autofs,gpm,sendmail,cups,iptables,ip6tables,auditd,arptables_jf,xfs,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd,restorecond,mcstrans,rhnsd,yum-updatesd
 
@@ -92,6 +97,10 @@ echo "updating system time"
 /usr/sbin/hwclock --systohc
 
 <%= snippet 'redhat_register' %>
+
+<% if @host.respond_to?(:otp) && @host.otp && @host.realm && @host.realm.realm_type == "FreeIPA" && os_major <= 6 -%>
+<%= snippet "freeipa_register" %>
+<% end -%>
 
 # update all the base packages from the updates repository
 yum -t -y -e 0 update
