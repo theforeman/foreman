@@ -134,6 +134,7 @@ module Foreman::Model
       if (image_id = args[:image_id])
         args.merge!({:template => image_id})
       end
+      args[:template] = nil if args[:template].blank?
       vm = super({ :first_boot_dev => 'network', :quota => ovirt_quota }.merge(args))
       begin
         create_interfaces(vm, args[:interfaces_attributes])
