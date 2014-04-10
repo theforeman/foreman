@@ -12,7 +12,7 @@ module AuditsHelper
       when 'last_login_on'
         change.to_s(:short)
       when /.*_id$/
-        name.humanize.constantize.find(change).to_label
+        name.classify.gsub('Id','').constantize.find(change).to_label
       else
         change.to_s
     end.truncate(50)
