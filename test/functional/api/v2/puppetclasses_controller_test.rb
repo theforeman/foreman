@@ -60,7 +60,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses['results'].empty?
-    assert_equal 1, puppetclasses['results'].length
+    assert_equal 5, puppetclasses['results'].length
   end
 
   test "should get puppetclasses for hostgroup" do
@@ -68,7 +68,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses['results'].empty?
-    assert_equal 1, puppetclasses['results'].length
+    assert_equal 4, puppetclasses['results'].length
   end
 
   test "should get puppetclasses for environment" do
@@ -76,7 +76,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses['results'].empty?
-    assert_equal 3, puppetclasses['results'].length
+    assert_equal 7, puppetclasses['results'].length
   end
 
   test "should show error if optional nested environment does not exist" do

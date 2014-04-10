@@ -1,28 +1,38 @@
-<div class="row">
   <% if obj.errors[:puppetclasses].any? %>
     <%= alert :class => "alert-block alert-danger base in fade",
               :text => obj.errors[:puppetclasses].map { |e| "<li>#{e}</li>" }.to_s.html_safe %>
   <% end %>
+
+  <%= render("config_groups/config_groups_selection", :obj => obj, :type => obj_type(obj)) if (controller_name != 'config_groups' && ConfigGroup.count > 0) %>
+
+<div class="row">
   <div class="col-md-4 classes">
     <h3><%= _('Included Classes') %></h3>
-    <%# hidden field to ensure that classes gets removed if none are defined %>
-    <%= hidden_field_tag obj.class.model_name.downcase + "[puppetclass_ids][]" %>
+
+    <%= hidden_field_tag "#{type}[puppetclass_ids][]" %>
+
     <ul id="selected_classes">
       <% if authorized_for(:controller => :host_editing, :action => :edit_classes) %>
         <%= render :partial => "puppetclasses/selectedClasses",
-          :collection => obj.puppetclasses ,:as => :klass,
-          :locals => { :type => obj.class.model_name.downcase, :host => obj } %>
+          :collection => obj.individual_puppetclasses ,:as => :klass, :locals => { :type => obj_type(obj), :host => obj } %>
+        <% unless controller_name == 'config_groups' %>
+            <%= render :partial => "puppetclasses/classes_in_groups",
+          :collection => obj.classes_in_groups ,:as => :klass, :locals => { :type => obj_type(obj), :obj => obj } %>
+        <% end %>
       <% else %>
         <% obj.puppetclasses.each do |klass| %>
           <li data-original-title="<%= _('Not authorized to edit classes') %>" rel="twipsy" ><%= h klass.name %></li>
         <% end %>
       <% end %>
     </ul>
-    <ul>
-      <% parent_classes(obj).each do |klass| %>
-        <li data-original-title="<%= _('included already from parent') %>" rel="twipsy" style='color:black;'><%= h klass.name %></li>
+
+    <% if (obj.kind_of?(Host::Base) && obj.hostgroup) || (obj.kind_of?(Hostgroup) && obj.parent) %>
+      <%= content_tag(:ul, :id => 'inherited_ids', :'data-inherited-puppetclass-ids' => obj.parent_classes.map(&:id).to_json) do %>
+        <% obj.parent_classes.each do |klass| %>
+          <li data-original-title="<%= _('included already from parent') %>" rel="twipsy" style='color:black;'><%= h klass.name %></li>
+        <% end %>
       <% end %>
-    </ul>
+    <% end %>
   </div>
 
   <div class="col-md-8">
@@ -34,10 +44,10 @@
     </div>
     <div class="row">
       <%= render "puppetclasses/classes",
-        :puppetclasses => (obj.environment.blank? ? Puppetclass.all : obj.environment.puppetclasses),
-        :selected_puppet_classes => obj.all_puppetclasses,
+        :puppetclasses => obj.available_puppetclasses,
+        :selected_puppet_classes => obj.classes,
         :obj => obj,
-        :type => obj.class.model_name.downcase
+        :type => obj_type(obj)
       %>
     </div>
   </div>

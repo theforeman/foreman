@@ -291,13 +291,20 @@ class Host::Managed < Host::Base
     not enabled?
   end
 
+  # the environment used by #clases nees to be self.environment and not self.parent.environment
+  def parent_classes
+    return [] unless hostgroup
+    hostgroup.classes(environment)
+  end
+
+  def parent_config_groups
+    return [] unless hostgroup
+    hostgroup.all_config_groups
+  end
+
   # returns the list of puppetclasses a host is in.
   def puppetclasses_names
     all_puppetclasses.collect {|c| c.name}
-  end
-
-  def all_puppetclasses
-    hostgroup.nil? ? puppetclasses : (hostgroup.classes + puppetclasses).uniq
   end
 
   # provide information about each node, mainly used for puppet external nodes

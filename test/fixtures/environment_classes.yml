@@ -28,3 +28,28 @@ five:
   puppetclass: three
   environment: testing
   lookup_key_id: nil
+
+five_production:
+  puppetclass: five
+  environment: production
+  lookup_key_id: nil
+
+six_production:
+  puppetclass: six
+  environment: production
+  lookup_key_id: nil
+
+seven_production:
+  puppetclass: seven
+  environment: production
+  lookup_key_id: nil
+
+eight_production:
+  puppetclass: eight
+  environment: production
+  lookup_key_id: nil
+
+nine:
+  puppetclass: three
+  environment: global_puppetmaster
+  lookup_key_id: nil

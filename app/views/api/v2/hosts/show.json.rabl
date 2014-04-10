@@ -13,3 +13,7 @@ end
 child :puppetclasses do
   extends "api/v2/puppetclasses/base"
 end
+
+child :config_groups do
+  extends "api/v2/config_groups/main"
+end
