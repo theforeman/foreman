@@ -363,8 +363,6 @@ class HostsControllerTest < ActionController::TestCase
     one = users(:one)
     one.roles << [roles(:manager)]
     fn  = FactName.create :name =>"architecture"
-    ufact = UserFact.create :user => one, :fact_name => fn, :criteria => "="
-    assert !(ufact.new_record?)
     get :disabled, {:user => one.id}, set_session_user
     assert_response :success
   end

@@ -180,24 +180,6 @@ class UsersControllerTest < ActionController::TestCase
     assert User.current.nil?
   end
 
-  test "should set user as owner of hostgroup children if owner of hostgroup root" do
-    sample_user = users(:one)
-    as_admin do
-      Hostgroup.new(:name => "root").save
-      Hostgroup.new(:name => "first", :parent_id => Hostgroup.find_by_name("root").id).save
-      Hostgroup.new(:name => "second", :parent_id => Hostgroup.find_by_name("first").id).save
-    end
-
-    update_hash = {"user"=>{ "login"         => sample_user.login,
-      "hostgroup_ids" => ["", Hostgroup.find_by_name("root").id.to_s] },
-      "id"            => sample_user.id }
-
-    put :update, update_hash, set_session_user
-
-    assert_equal Hostgroup.find_by_name("first").users.first, sample_user
-    assert_equal Hostgroup.find_by_name("second").users.first, sample_user
-  end
-
   test "should be able to create user without mail and update the mail later" do
      user = User.create :login => "mailess", :mail=> nil, :auth_source => auth_sources(:one)
      user.admin = true

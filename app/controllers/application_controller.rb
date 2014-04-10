@@ -211,10 +211,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  def detect_notices
-    @notices = current_user.notices
-  end
-
   def require_admin
     unless User.current.admin?
       render_403
@@ -351,7 +347,6 @@ class ApplicationController < ActionController::Base
   # We do not include most associations unless we are processing a html page
   def included_associations(include = [])
     include += [:hostgroup, :compute_resource, :operatingsystem, :environment, :model ]
-    include += [:fact_values] if User.current.user_facts.any?
     include
   end
 
