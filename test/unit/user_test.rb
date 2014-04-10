@@ -36,22 +36,22 @@ class UserTest < ActiveSupport::TestCase
     ug = Usergroup.create :name => "foo"
     u  = User.new :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
 
-    assert !u.valid?
+    refute u.valid?
   end
 
   test "mail should have format" do
     u = User.new :auth_source => auth_sources(:one), :login => "foo", :mail => "bar"
-    assert !u.valid?
+    refute u.valid?
   end
 
   test "login size should not exceed the 100 characters" do
     u = User.new :auth_source => auth_sources(:one), :login => "a" * 101, :mail => "foo@bar.com"
-    assert !u.save
+    refute u.save
   end
 
   test "firstname should have the correct format" do
     @user.firstname = "The Riddle?"
-    assert !@user.save
+    refute @user.save
 
     @user.firstname = "C_r'a-z.y( )<,Na=me;>"
     assert @user.save
@@ -62,7 +62,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "lastname should have the correct format" do
     @user.lastname = "it's the JOKER$$$"
-    assert !@user.save
+    refute @user.save
 
     @user.lastname = "C_r'a-z.y( )<,Na=me;>"
     assert @user.save
@@ -73,18 +73,18 @@ class UserTest < ActiveSupport::TestCase
 
   test "firstname should not exceed the 50 characters" do
     @user.firstname = "a" * 51
-    assert !@user.save
+    refute @user.save
   end
 
   test "lastname should not exceed the 50 characters" do
     @user.firstname = "a" * 51
-    assert !@user.save
+    refute @user.save
   end
 
   test "mail should not exceed the 60 characters" do
     u = User.create :auth_source => auth_sources(:one), :login => "foo"
     u.mail = "foo" * 20 + "@bar.com"
-    assert !u.save
+    refute u.save
   end
 
   test "to_label method should return a firstname and the lastname" do
@@ -144,7 +144,7 @@ class UserTest < ActiveSupport::TestCase
     record.password_hash = "asd"
     assert record.save
     assert record.valid?
-    assert !record.new_record?
+    refute record.new_record?
   end
 
   test "non-admin user with create permissions should not be able to create admin" do
@@ -479,7 +479,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal count, User.count
 
     # not existing user without auth source specified
-    assert !User.find_or_create_external_user({:login => 'not_existing_user'}, nil)
+    refute User.find_or_create_external_user({:login => 'not_existing_user'}, nil)
     assert_equal count, User.count
 
     # not existing user with existing AuthSource

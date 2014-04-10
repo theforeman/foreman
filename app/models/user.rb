@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation
   after_save :ensure_default_role
-  before_destroy EnsureNotUsedBy.new(:direct_hosts, :hostgroups), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
+  before_destroy EnsureNotUsedBy.new(:direct_hosts), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
 
   belongs_to :auth_source
   belongs_to :default_organization, :class_name => 'Organization'
@@ -28,22 +28,15 @@ class User < ActiveRecord::Base
   has_many :direct_hosts,      :class_name => 'Host',    :as => :owner
   has_many :usergroup_member,  :dependent => :destroy,   :as => :member
   has_many :user_roles,        :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
-  has_many :user_hostgroups
-  has_many :user_facts,        :dependent => :destroy
   has_many :cached_user_roles, :dependent => :destroy
-  has_many :facts,             :through => :user_facts,               :source => :fact_name
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
   has_many :cached_roles,      :through => :cached_user_roles,        :source => :role, :uniq => true
-  has_many :hostgroups,        :through => :user_hostgroups
   has_many :usergroups,        :through => :usergroup_member, :dependent => :destroy
   has_many :roles,             :through => :user_roles,       :dependent => :destroy
   has_many :filters,           :through => :cached_roles
   has_many :permissions,       :through => :filters
   has_many :cached_usergroup_members
 
-  has_and_belongs_to_many :notices,           :join_table => 'user_notices'
-  has_and_belongs_to_many :compute_resources, :join_table => "user_compute_resources"
-  has_and_belongs_to_many :domains,           :join_table => "user_domains"
   attr_name :login
 
   scope :except_admin, lambda {
@@ -63,8 +56,6 @@ class User < ActiveRecord::Base
   }
   scope :visible,         lambda { except_hidden }
   scope :completer_scope, lambda { |opts| visible }
-
-  accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
   validates :mail, :format => { :with => /\A(([\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+((\.\"[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\")*\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+)*)|(\"[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\"))
                                           @[a-z0-9]+((\.[a-z0-9]+)*|(\-[a-z0-9]+)*)*\z/ix },
@@ -95,7 +86,6 @@ class User < ActiveRecord::Base
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
            :ensure_last_admin_remains_admin, :hidden_authsource_restricted
   before_validation :prepare_password, :normalize_mail
-  after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.hostgroups.clear}
 
   scoped_search :on => :login, :complete_value => :true
   scoped_search :on => :firstname, :complete_value => :true
@@ -301,18 +291,6 @@ class User < ActiveRecord::Base
 
   def logged?
     true
-  end
-
-  # Indicates whether the user has host filtering enabled
-  # Returns : Boolean
-  def filtering?
-    filter_on_owner        or
-    compute_resources.any? or
-    domains.any?           or
-    hostgroups.any?        or
-    facts.any?             or
-    locations.any?         or
-    organizations.any?
   end
 
   # user must be assigned all given roles in order to delegate them

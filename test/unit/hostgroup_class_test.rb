@@ -7,8 +7,6 @@ class HostgroupClassTest < ActiveSupport::TestCase
     User.current = User.find_by_login "one"
     # puppetclasses(:two) needs to be in production environment
     EnvironmentClass.create(:puppetclass_id => puppetclasses(:two).id, :environment_id => environments(:production).id )
-    # add hostgroups(:common) to users(:one) hostgroups
-    UserHostgroup.create(:user_id => User.current.id, :hostgroup_id => hostgroups(:common).id)
   end
 
   test 'when creating a new hostgroup class object, an audit entry needs to be added' do

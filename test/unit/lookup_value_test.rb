@@ -70,9 +70,6 @@ class LookupValueTest < ActiveSupport::TestCase
 
   test "can create lookup value if user has matching hostgroup " do
     user = users(:one)
-    as_admin do
-      assert user.hostgroups << hostgroups(:common)
-    end
     as_user :one do
       lookup_value = LookupValue.new(valid_attrs3)
       assert_difference('LookupValue.count') do

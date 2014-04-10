@@ -23,7 +23,6 @@ class ComputeResource < ActiveRecord::Base
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   before_destroy EnsureNotUsedBy.new(:hosts)
-  has_and_belongs_to_many :users, :join_table => "user_compute_resources"
   validates :name, :presence => true, :uniqueness => true,
             :format => { :with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.") }
   validate :ensure_provider_not_changed, :on => :update

@@ -25,12 +25,5 @@ class DomainParameterTest < ActiveSupport::TestCase
     parameter2 = DomainParameter.create :name => "some_parameter", :value => "value", :reference_id => Domain.last.id
     assert parameter2.valid?
   end
-
-  def setup_user(operation, type = 'domains')
-    super(operation, type) do |user|
-      user.domains.destroy_all
-    end
-  end
-
 end
 

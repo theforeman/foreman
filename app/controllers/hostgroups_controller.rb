@@ -40,9 +40,6 @@ class HostgroupsController < ApplicationController
   def create
     @hostgroup = Hostgroup.new(params[:hostgroup])
     if @hostgroup.save
-      # Add the new hostgroup to the user's filters
-      @hostgroup.users << users_in_ancestors
-      @hostgroup.users << User.current unless User.current.admin? or @hostgroup.users.include?(User.current)
       process_success
     else
       load_vars_for_ajax

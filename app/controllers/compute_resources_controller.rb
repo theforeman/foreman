@@ -25,8 +25,6 @@ class ComputeResourcesController < ApplicationController
     if params[:compute_resource].present? && params[:compute_resource][:provider].present?
       @compute_resource = ComputeResource.new_provider params[:compute_resource]
       if @compute_resource.save
-        # Add the new compute resource to the user's filters
-        @compute_resource.users << User.current
         process_success :success_redirect => @compute_resource
       else
         process_error

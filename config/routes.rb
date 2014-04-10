@@ -197,7 +197,6 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :notices, :only => :destroy
   resources :audits do
     collection do
       get 'auto_complete_search'
