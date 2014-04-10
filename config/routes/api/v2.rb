@@ -151,6 +151,7 @@ Foreman::Application.routes.draw do
       resources :template_kinds, :only => [:index]
 
       resources :template_combinations, :only => [:show, :destroy]
+      resources :config_groups, :except => [:new, :edit]
 
       # add "constraint" that unconstrained and allows :id to have dot notation ex. sat.redhat.com
       constraints(:id => /[^\/]+/) do

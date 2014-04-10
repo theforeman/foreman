@@ -11,3 +11,15 @@ three:
 
 four:
   name: vim
+
+five:
+  name: nagios
+
+six:
+  name: chkmk
+
+seven:
+  name: pam
+
+eight:
+  name: auth

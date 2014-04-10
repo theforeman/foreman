@@ -46,6 +46,7 @@ module Hostext
 
       scoped_search :in => :location, :on => :title, :rename => :location, :complete_value => true         if SETTINGS[:locations_enabled]
       scoped_search :in => :organization, :on => :title, :rename => :organization, :complete_value => true if SETTINGS[:organizations_enabled]
+      scoped_search :in => :config_groups, :on => :name, :complete_value => true, :rename => :config_group, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_config_group
 
       if SETTINGS[:unattended]
         scoped_search :in => :subnet,          :on => :network,     :complete_value => true, :rename => :subnet
@@ -112,6 +113,19 @@ module Hostext
         conditions += " AND " unless conditions.blank? || negate.blank?
         conditions += " NOT(#{negate})" unless negate.blank?
         return {:conditions => conditions}
+      end
+
+      def search_by_config_group(key, operator, value)
+        conditions  = sanitize_sql_for_conditions(["config_groups.name #{operator} ?", value_to_sql(operator, value)])
+        host_ids      = Host::Managed.authorized(:view_hosts, Host).where(conditions).joins(:config_groups).uniq.map(&:id)
+        hostgroup_ids = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:config_groups).uniq.map(&:subtree_ids).flatten.uniq
+
+        opts = ''
+        opts += "hosts.id IN(#{host_ids.join(',')})"             unless host_ids.blank?
+        opts += " OR "                                        unless host_ids.blank? || hostgroup_ids.blank?
+        opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
+        opts = "hosts.id < 0"                                 if host_ids.blank? && hostgroup_ids.blank?
+        return {:conditions => opts, :include => :hostgroup}
       end
 
       private

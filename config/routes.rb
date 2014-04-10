@@ -147,6 +147,10 @@ Foreman::Application.routes.draw do
     end
   end
 
+  resources :config_groups, :except => [:show] do
+    get 'auto_complete_search', :on => :collection
+  end
+
   resources :puppetclasses, :except => [:show] do
     collection do
       get 'import_environments'

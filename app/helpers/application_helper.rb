@@ -373,6 +373,15 @@ module ApplicationHelper
     _("Inherit parent (%s)") % inherited_value
   end
 
+  def obj_type(obj)
+    obj.class.model_name.tableize.singularize
+  end
+
+  def class_in_environment?(environment,puppetclass)
+    return false unless environment
+    environment.puppetclasses.map(&:id).include?(puppetclass.id)
+  end
+
   private
   def edit_inline(object, property, options={})
     name       = "#{type}[#{property}]"

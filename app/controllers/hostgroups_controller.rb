@@ -88,7 +88,7 @@ class HostgroupsController < ApplicationController
 
     @hostgroup ||= Hostgroup.new
     @hostgroup.environment = @environment if @environment
-    render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@hostgroup)}
+    render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@hostgroup), :type => 'hostgroup'}
   end
 
   def process_hostgroup
