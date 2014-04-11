@@ -1,6 +1,38 @@
 <% title _("Audits") %>
 
-<%= render :partial => 'list', :locals =>{:audits => @audits}%>
+<table class="table table-bordered table-striped table-condensed table-two-pane">
+  <tr>
+    <th><%= sort :type, :as => s_("Audit|Type") %></th>
+    <th><%= sort :action, :as => s_("Audit|Action") %></th>
+    <th><%= sort :username, :as => s_("Audit|User") %></th>
+    <th><%= sort :time, :as => s_("Audit|Time") %></th>
+    <th><%= s_("Audit|Details") %></th>
+  </tr>
+  <% for audit in @audits %>
+    <tr>
+      <td><%= link_to(audited_icon(audit), audit_path(audit)) %></td>
+      <td>
+        <%= audit_action_name audit%> <%=link_to(audit_title(audit), audit_path(audit)) %>
+      </td>
+      <td>
+        <% if audit_login? audit %>
+          <%= audit_user(audit)%> <%= link_to(_("Logged-in"), audit_path(audit))  %>
+        <% else %>
+          <%= audit_user(audit) %> <%= audit_remote_address audit %>
+        <% end %>
+      </td>
+      <td><%=h audit_time(audit) %></td>
+      <td>
+        <ul>
+          <% details(audit).each do |item| %>
+            <% next if item.nil? or item.to_s.empty? %>
+            <li><%= item %></li>
+          <% end %>
+        </ul>
+      </td>
+    </tr>
+  <% end %>
+</table>
 
 <%= page_entries_info @audits %>
 <%= will_paginate @audits %>
