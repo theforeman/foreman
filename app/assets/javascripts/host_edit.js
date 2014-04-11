@@ -538,6 +538,12 @@ $(document).on('change', '.interface_domain', function () {
   interface_domain_selected(this);
 });
 
+$(document).on('click', '#suggest_new_ip', function (e) {
+  $('#host_ip').val('')
+  interface_subnet_selected($('#host_subnet_id'));
+  e.preventDefault();
+});
+
 $(document).on('change', '.interface_subnet', function () {
   interface_subnet_selected(this);
 });
