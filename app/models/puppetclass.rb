@@ -10,6 +10,8 @@ class Puppetclass < ActiveRecord::Base
   has_many :hostgroups, :through => :hostgroup_classes
   has_many :host_classes, :dependent => :destroy
   has_many_hosts :through => :host_classes
+  has_many :config_group_classes
+  has_many :config_groups, :through => :config_group_classes
 
   has_many :lookup_keys, :inverse_of => :puppetclass, :dependent => :destroy
   accepts_nested_attributes_for :lookup_keys, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
@@ -33,6 +35,7 @@ class Puppetclass < ActiveRecord::Base
   scoped_search :on => :lookup_keys_count, :rename => :variables_count        # Smart Variables
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
   scoped_search :in => :hostgroups,   :on => :name, :complete_value => :true, :rename => "hostgroup"
+  scoped_search :in => :config_groups,   :on => :name, :complete_value => :true, :rename => "config_group"
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host", :ext_method => :search_by_host, :only_explicit => true
   scoped_search :in => :class_params, :on => :key, :complete_value => :true, :only_explicit => true
 

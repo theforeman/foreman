@@ -107,6 +107,7 @@ Foreman::Application.configure do |app|
                   gettext/all
                   filters
                   users
+                  class_edit
                  )
   stylesheets = %w( )
 

@@ -1,7 +1,7 @@
 module AuditsHelper
 
   MainObjects = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ConfigTemplate ComputeProfile ComputeAttribute
-                   Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark)
+                   Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup)
 
   # lookup the Model representing the numerical id and return its label
   def id_to_label name, change
@@ -12,7 +12,7 @@ module AuditsHelper
       when 'last_login_on'
         change.to_s(:short)
       when /.*_id$/
-        name.humanize.constantize.find(change).to_label
+        name.classify.gsub('Id','').constantize.find(change).to_label
       else
         change.to_s
     end.truncate(50)

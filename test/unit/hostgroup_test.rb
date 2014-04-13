@@ -190,4 +190,101 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal environments(:production), child.environment
   end
 
+  test "classes_in_groups should return the puppetclasses of a config group only if it is in hostgroup environment" do
+    # config_groups(:one) and (:three) belongs to hostgroups(:common)
+    hostgroup = hostgroups(:common)
+    group_classes = hostgroup.classes_in_groups
+    # four classes in config groups
+    assert_equal 4, (config_groups(:one).puppetclasses + config_groups(:three).puppetclasses).uniq.count
+    # but only 3 are in production environment. git is in testing environment
+    assert_equal 3, group_classes.count
+    assert_equal ['chkmk', 'nagios', 'vim'].sort, group_classes.map(&:name).sort
+  end
+
+  test "should return all classes for environment only" do
+    # config_groups(:one) and (:three) belongs to hostgroup(:common)
+    hostgroup = hostgroups(:common)
+    all_classes = hostgroup.classes
+    # three classes from group plus one class directly - base
+    assert_equal 4, all_classes.count
+    assert_equal ['base', 'chkmk', 'nagios', 'vim'].sort, all_classes.map(&:name).sort
+  end
+
+  test "search hostgroups by config group" do
+    config_group = config_groups(:one)
+    hostgroups = Hostgroup.search_for("config_group = #{config_group.name}")
+    assert_equal 3, hostgroups.count
+    assert_equal ["Common", "Parent", "inherited"].sort, hostgroups.map(&:name).sort
+  end
+
+  test "parent_classes should return parent classes if hostgroup has parent and environment are the same" do
+    hostgroup = hostgroups(:inherited)
+    assert hostgroup.parent
+    # update environment for this test to be same as parent
+    hostgroup.parent.update_attribute(:environment_id, hostgroup.environment_id)
+    refute_empty hostgroup.parent_classes
+    assert_equal hostgroup.parent_classes, hostgroup.parent.classes
+  end
+
+  test "parent_classes should not return parent classes that do not match environment" do
+    hostgroup = hostgroups(:inherited)
+    assert hostgroup.parent
+    refute_empty hostgroup.parent_classes
+    refute_equal hostgroup.environment, hostgroup.parent.environment
+    refute_equal hostgroup.parent_classes, hostgroup.parent.classes
+  end
+
+  test "parent_classes should return empty array if hostgroup does not has parent" do
+    hostgroup = hostgroups(:common)
+    assert_nil hostgroup.parent
+    assert_empty hostgroup.parent_classes
+  end
+
+  test "parent_config_groups should return parent config_groups if hostgroup has parent - 2 levels" do
+    hostgroup = hostgroups(:inherited)
+    assert hostgroup.parent
+    assert_equal hostgroup.parent_config_groups, hostgroup.parent.config_groups
+  end
+
+  test "parent_config_groups should return parent config_groups if hostgroup has parent  - 3 levels" do
+    assert hostgroup = Hostgroup.create!(:name => 'third level', :parent_id => hostgroups(:inherited).id)
+    groups = (hostgroup.config_groups + hostgroup.parent.config_groups + hostgroup.parent.parent.config_groups).uniq.sort
+    assert_equal groups, hostgroup.parent_config_groups.sort
+  end
+
+  test "parent_config_groups should return empty array if hostgroup does not has parent" do
+    hostgroup = hostgroups(:common)
+    assert_nil hostgroup.parent
+    assert_empty hostgroup.parent_config_groups
+  end
+
+  test "individual puppetclasses added to hostgroup (that can be removed) does not include classes that are included by config group" do
+    hostgroup = hostgroups(:parent)
+    # update parent to production environment
+    hostgroup.update_attribute(:environment_id, environments(:production).id)
+    # nagios puppetclasses(:five) is also in config_groups(:one) Monitoring
+    hostgroup.puppetclasses << puppetclasses(:five)
+    assert_equal ['git', 'nagios'].sort, hostgroup.puppetclasses.map(&:name).sort
+    assert_equal ['git'], hostgroup.individual_puppetclasses.map(&:name)
+  end
+
+  test "available_puppetclasses should return all if no environment" do
+    hostgroup = hostgroups(:common)
+    hostgroup.update_attribute(:environment_id, nil)
+    assert_equal Puppetclass.scoped, hostgroup.available_puppetclasses
+  end
+
+  test "available_puppetclasses should return environment-specific classes" do
+    hostgroup = hostgroups(:common)
+    refute_equal Puppetclass.scoped, hostgroup.available_puppetclasses
+    assert_equal hostgroup.environment.puppetclasses.sort, hostgroup.available_puppetclasses.sort
+  end
+
+  test "available_puppetclasses should return environment-specific classes (and that are NOT already inherited by parent)" do
+    hostgroup = hostgroups(:inherited)
+    refute_equal Puppetclass.scoped, hostgroup.available_puppetclasses
+    refute_equal hostgroup.environment.puppetclasses.sort, hostgroup.available_puppetclasses.sort
+    assert_equal (hostgroup.environment.puppetclasses - hostgroup.parent_classes).sort, hostgroup.available_puppetclasses.sort
+  end
+
 end

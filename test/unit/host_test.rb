@@ -386,19 +386,19 @@ class HostTest < ActiveSupport::TestCase
     Parameter.destroy_all
     host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
-      :architecture => architectures(:x86_64), :environment => environments(:global_puppetmaster), :disk => "aaa",
+      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa",
       :puppet_proxy => smart_proxies(:puppetmaster)
 
     # dummy external node info
-    nodeinfo = {"environment" => "global_puppetmaster",
+    nodeinfo = {"environment" => "production",
       "parameters"=> {"puppetmaster"=>"puppet", "MYVAR"=>"value", "port" => "80",
-        "ssl_port" => "443", "foreman_env"=> "global_puppetmaster", "owner_name"=>"Admin User",
+        "ssl_port" => "443", "foreman_env"=> "production", "owner_name"=>"Admin User",
         "root_pw"=>"xybxa6JUkz63w", "owner_email"=>"admin@someware.com"},
       "classes"=>["apache", "base"]}
 
     host.importNode nodeinfo
 
-    assert_equal host.info, nodeinfo
+    assert_equal nodeinfo, host.info
   end
 
   test "show be enabled by default" do
@@ -844,7 +844,7 @@ class HostTest < ActiveSupport::TestCase
     assert_equal ['my5name.mydomain.net'], rundeck.keys
     assert_kind_of Hash, rundeck[h.name]
     assert_equal 'my5name.mydomain.net', rundeck[h.name]['hostname']
-    assert_equal ['class=base'], rundeck[h.name]['tags']
+    assert_equal ["class=auth", "class=base", "class=chkmk", "class=nagios", "class=pam"], rundeck[h.name]['tags']
   end
 
   test "#rundeck returns extra facts as tags" do
@@ -1087,6 +1087,92 @@ class HostTest < ActiveSupport::TestCase
     host.provision_method = 'build'
     assert host.pxe_build?
     refute host.image_build?
+  end
+
+  test "classes_in_groups should return the puppetclasses of a config group only if it is in host environment" do
+    # config_groups(:one) and (:two) belongs to hosts(:one)
+    host = hosts(:one)
+    group_classes = host.classes_in_groups
+    # four classes in config groups, all are in same environment
+    assert_equal 4, (config_groups(:one).puppetclasses + config_groups(:two).puppetclasses).uniq.count
+    assert_equal ['chkmk', 'nagios', 'pam', 'auth'].sort, group_classes.map(&:name).sort
+  end
+
+  test "should return all classes for environment only" do
+    # config_groups(:one) and (:two) belongs to hosts(:one)
+    host = hosts(:one)
+    all_classes = host.classes
+    # four classes in config groups plus one manually added
+    assert_equal 5, all_classes.count
+    assert_equal ['base', 'chkmk', 'nagios', 'pam', 'auth'].sort, all_classes.map(&:name).sort
+  end
+
+  test "search hostgroups by config group" do
+    config_group = config_groups(:one)
+    hosts = Host::Managed.search_for("config_group = #{config_group.name}")
+  #  assert_equal 1, hosts.count
+    assert_equal ["my5name.mydomain.net", "sdhcp.mydomain.net"].sort, hosts.map(&:name).sort
+  end
+
+  test "parent_classes should return parent_classes if host has hostgroup and environment are the same" do
+    host = hosts(:sp_dhcp)
+    assert host.hostgroup
+    refute_empty host.parent_classes
+    assert_equal host.parent_classes, host.hostgroup.classes
+  end
+
+  test "parent_classes should not return parent classes that do not match environment" do
+    host = hosts(:sp_dhcp)
+    assert host.hostgroup
+    # update environment of host to be different
+    host.hostgroup.update_attribute(:environment_id, environments(:testing).id)
+    refute_empty host.parent_classes
+    refute_equal host.environment, host.hostgroup.environment
+    refute_equal host.parent_classes, host.hostgroup.classes
+  end
+
+  test "parent_classes should return empty array if host does not have hostgroup" do
+    host = hosts(:one)
+    assert_nil host.hostgroup
+    assert_empty host.parent_classes
+  end
+
+  test "parent_config_groups should return parent config_groups if host has hostgroup" do
+    host = hosts(:sp_dhcp)
+    assert host.hostgroup
+    assert_equal host.parent_config_groups, host.hostgroup.config_groups
+  end
+
+  test "parent_config_groups should return empty array if host has no hostgroup" do
+    host = hosts(:one)
+    refute host.hostgroup
+    assert_empty host.parent_config_groups
+  end
+
+  test "individual puppetclasses added to host (that can be removed) does not include classes that are included by config group" do
+    host = hosts(:one)
+    host.puppetclasses << puppetclasses(:five)
+    assert_equal ['base', 'nagios'].sort, host.puppetclasses.map(&:name).sort
+    assert_equal ['base'], host.individual_puppetclasses.map(&:name)
+  end
+
+  test "available_puppetclasses should return all if no environment" do
+    host = hosts(:one)
+    host.update_attribute(:environment_id, nil)
+    assert_equal Puppetclass.scoped, host.available_puppetclasses
+  end
+
+  test "available_puppetclasses should return environment-specific classes" do
+    host = hosts(:one)
+    refute_equal Puppetclass.scoped, host.available_puppetclasses
+    assert_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
+  end
+
+  test "available_puppetclasses should return environment-specific classes (and that are NOT already inherited by parent)" do
+    host = hosts(:sp_dhcp)
+    refute_equal Puppetclass.scoped, host.available_puppetclasses
+    refute_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
+    assert_equal (host.environment.puppetclasses - host.parent_classes).sort, host.available_puppetclasses.sort
   end
 
   private
