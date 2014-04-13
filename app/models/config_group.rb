@@ -12,6 +12,10 @@ class ConfigGroup < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
 
   scoped_search :on => :name, :complete_value => true
+  scoped_search :on => :hosts_count
+  scoped_search :on => :hostgroups_count
+  scoped_search :on => :config_group_classes_count
+
   default_scope lambda { order('config_groups.name') }
 
   def to_param

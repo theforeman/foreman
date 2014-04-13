@@ -23,7 +23,9 @@ module HostCommon
     before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
 
     has_many :host_config_groups, :as => :host
-    has_many :config_groups, :through => :host_config_groups
+    has_many :config_groups, :through => :host_config_groups, :after_add => :update_config_group_counters,
+                                                              :after_remove => :update_config_group_counters
+
     has_many :config_group_classes, :through => :config_groups
     has_many :group_puppetclasses, :through => :config_groups, :source => :puppetclasses
 
@@ -179,4 +181,18 @@ module HostCommon
   rescue
     true # we don't want to break anything, so just skipping.
   end
+
+  def cnt_hostgroups(config_group)
+    Hostgroup.search_for("config_group=#{config_group.name}").count
+  end
+
+  def cnt_hosts(config_group)
+    Host::Managed.search_for("config_group=#{config_group.name}").count
+  end
+
+  def update_config_group_counters(record)
+    record.update_attribute(:hostgroups_count, cnt_hostgroups(record))
+    record.update_attribute(:hosts_count, cnt_hosts(record))
+  end
+
 end
