@@ -7,19 +7,19 @@
 <table class="table table-bordered table-striped table-two-pane">
   <tr>
     <th><%= sort :name %></th>
-    <th><%=_('Puppet classes') %></th>
-    <th><%=_('Hosts') %></th>
-    <th><%=_('Host groups') %></th>
+    <th><%= sort :config_group_classes_count, :as => _('Puppet classes') %></th>
+    <th><%= sort :hosts_count, :as => _('Hosts') %></th>
+    <th><%= sort :hostgroups_count, :as => _('Host groups') %></th>
     <th></th>
   </tr>
   <% @config_groups.each do |config_group| %>
     <tr>
       <td><%= link_to_if_authorized config_group.name, hash_for_edit_config_group_path(config_group)%></td>
-      <td><%= config_group.config_group_classes_count %> </td>
+      <td><%= link_to config_group.config_group_classes_count, puppetclasses_path(:search => "config_group = #{config_group}") %></td>
 
-      <td><%= config_group.hosts_count %> </td>
+      <td><%= link_to config_group.hosts_count, hosts_path(:search => "config_group = #{config_group}") %>
 
-      <td><%= config_group.hostgroups_count %> </td>
+      <td><%= link_to config_group.hostgroups_count, hostgroups_path(:search => "config_group = #{config_group}") %>
 
       <td><%= action_buttons(
                 display_link_if_authorized(_('Edit'), hash_for_edit_config_group_path(config_group)),

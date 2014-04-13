@@ -379,7 +379,7 @@ module ApplicationHelper
 
   def class_in_environment?(environment,puppetclass)
     return false unless environment
-    environment.puppetclass_ids.include?(puppetclass.id)
+    environment.puppetclasses.map(&:id).include?(puppetclass.id)
   end
 
   private
