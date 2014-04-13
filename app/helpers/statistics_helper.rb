@@ -8,9 +8,8 @@ module StatisticsHelper
       flot_pie_chart("cpu_num" ,_("Number of CPUs"), @cpu_count,options.merge( :search => "facts.processorcount=~VAL1~")),
       flot_pie_chart("hardware" ,_("Hardware"), @model_count, options.merge( :search => "facts.manufacturer~~VAL1~")),
       flot_pie_chart("class_dist" ,_("Class Distribution"), @klass_count, options.merge( :search => "class=~VAL1~")),
-      flot_pie_chart("mem_usage" ,_("Average memory usage"), [{:label=>_("free memory (GB)"), :data=>@mem_free},{:label=>_("used memory (GB)"),:date=>@mem_size-@mem_free}], options),
-      flot_pie_chart("swap_usage" ,_("Average swap usage"), [{:label=>_("free swap (GB)"), :data=>@swap_free},{:label=>_("used swap (GB)"), :data=>@swap_size-@swap_free}], options),
-      flot_pie_chart("mem_totals" ,_("Total memory usage"), [{:label=>_("free (GB)"), :data=>@mem_totfree},{:label=>_("used (GB)"), :data=>@mem_totsize-@mem_totfree}],options),
+      flot_pie_chart("mem_usage" ,_("Average memory usage"), [{:label=>_("free memory"), :data=>@mem_free},{:label=>_("used memory"),:data=>@mem_size-@mem_free}], options),
+      flot_pie_chart("swap_usage" ,_("Average swap usage"), [{:label=>_("free swap"), :data=>@swap_free},{:label=>_("used swap"), :data=>@swap_size-@swap_free}], options)
     ]
   end
 end

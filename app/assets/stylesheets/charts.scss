@@ -7,7 +7,7 @@
  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
  background-size: 100%;
  background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#f7f7f7),color-stop(100%,#eee));background-image: -webkit-linear-gradient(#f7f7f7,#eee);background-image: -moz-linear-gradient(#f7f7f7,#eee);background-image: -o-linear-gradient(#f7f7f7,#eee);background-image: -ms-linear-gradient(#f7f7f7,#eee);background-image: linear-gradient(#f7f7f7,#eee);
- padding: 15px;
+ padding: 13px;
  min-width: 280px;
  min-height: 100px;
  margin-bottom: 15px;
@@ -17,7 +17,7 @@
 }
 
 .fact_chart {
-  min-height: 400px !important;
+  min-height: 450px !important;
   width: 560px !important;
   padding: 0 !important;
   text-align: center;
@@ -47,17 +47,26 @@
 
 .statistics-bar{
   width: 260px;
-  height: 330px;
-  margin: 0px auto 10px auto;
+  height: 305px;
+  margin: 0px auto 27px auto;
 }
 
 .statistics-pie{
   width: 450px;
   height: 450px;
-  margin: 20px auto 20px auto;
+  margin: 12px auto;
   &.small{
     width: 240px;
     height: 240px;
+  }
+}
+
+.modal-dialog .statistics-pie{
+  margin-bottom: 46px;
+  .pieLabel{
+    margin-left: -30px;
+    margin-top: -10px;
+    font-weight: bold;
   }
 }
 
@@ -95,12 +104,12 @@
  color: #626262;
 }
 
-.pie-labels{
+.pieLabel{
  text-align:center;
- padding:2px;
- font-weight: bold;
- text-wrap: normal;
- color: white;
+ font-size: 16px;
+ .percent{
+   font-size: 28px;
+ }
 }
 
 .statistics-pie.small .overlay {

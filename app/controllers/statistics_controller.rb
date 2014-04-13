@@ -5,14 +5,12 @@ class StatisticsController < ApplicationController
     @arch_count  = Host.authorized(:view_hosts, Host).count_distribution :architecture
     @env_count   = Host.authorized(:view_hosts, Host).count_distribution :environment
     @klass_count = Host.authorized(:view_hosts, Host).count_habtm "puppetclass"
-    @cpu_count   = FactValue.authorized(:view_facts).my_facts.count_each "processorcount"
+    @cpu_count   = FactValue.authorized(:view_facts).my_facts.count_each "processorcount", :unit => Nn_('%s core', '%s cores')
     @model_count = FactValue.authorized(:view_facts).my_facts.count_each "manufacturer"
     @mem_size    = FactValue.authorized(:view_facts).my_facts.mem_average "memorysize"
     @mem_free    = FactValue.authorized(:view_facts).my_facts.mem_average "memoryfree"
     @swap_size   = FactValue.authorized(:view_facts).my_facts.mem_average "swapsize"
     @swap_free   = FactValue.authorized(:view_facts).my_facts.mem_average "swapfree"
-    @mem_totsize = FactValue.authorized(:view_facts).my_facts.mem_sum "memorysize"
-    @mem_totfree = FactValue.authorized(:view_facts).my_facts.mem_sum "memoryfree"
     respond_to do |format|
       format.html
       format.json do

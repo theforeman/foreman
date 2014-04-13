@@ -12,7 +12,6 @@ class StatisticTest < ActionDispatch::IntegrationTest
     assert page.has_selector?('h4', :text => "Class Distribution")
     assert page.has_selector?('h4', :text => "Average memory usage")
     assert page.has_selector?('h4', :text => "Average swap usage")
-    assert page.has_selector?('h4', :text => "Total memory usage")
   end
 
 end

@@ -1,21 +1,28 @@
 $.fn.flot_pie = function(){
   var options = arguments[0] || {};
   $(this).each(function(i,el){
+    var label_exists = false;
     var target = $(el);
-
+    var max={data:0}, sum = 0;
+    $(target.data('series')).each(function(i, el){sum = sum + el.data; if (max.data< el.data) max = el})
     $.plot(target, target.data('series'), {
-      colors: ['#4572A7','#AA4643','#89A54E','#80699B','#3D96AE','#DB843D','#92A8CD','#A47D7C','#B5CA92'],
+      colors: ['#0099d3', '#393f44','#00618a','#505459','#057d9f','#025167'],
       series: {
         pie: options.pie || {
           show: true,
+          innerRadius: 0.75,
           radius: 1,
           label: {
             show: true,
-            radius: 1/2,
-            formatter: function(label, series){
-              return '<div class="pie-labels">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
-            },
-            threshold: 0.1
+            radius: 0.001,
+            formatter: function(label, series) {
+                if (label_exists) {
+                    return ''
+                }else{
+                    label_exists = true;
+                    return '<div class="percent">' + Math.round(100 * max.data / sum) + '%</div>' + max.label;
+                }
+            }
           },
           highlight: {
             opacity: 0.1
@@ -42,12 +49,15 @@ $.fn.flot_pie = function(){
 
 function expanded_pie(target, data){
   $.plot(target, data, {
-    colors: ['#4572A7','#AA4643','#89A54E','#80699B','#3D96AE','#DB843D','#92A8CD','#A47D7C','#B5CA92'],
+    colors: ['#0099d3', '#393f44','#00618a','#505459','#057d9f','#025167'],
     series: {
       pie: {
         show: true,
+        innerRadius: 0.8*3/4,
+        radius: 0.8,
         labels: {
-          show:true
+          show:true,
+          radius: 1
         }
       }
     },
@@ -55,6 +65,7 @@ function expanded_pie(target, data){
       show: false
     },
     grid: {
+      hoverable: true,
       clickable: true
     }
   });
@@ -74,9 +85,9 @@ $.fn.flot_bar = function(){
         bars: {
           show: true,
           barWidth: 0.6,
-          fill: 0.8
+          fill: 1
         },
-        color: "#4572A7"
+        color: "#00618a"
       },
       xaxis: {
         axisLabel: target.data('xaxis-label'),
@@ -261,9 +272,10 @@ function expand_chart(ref){
   if($("#"+modal_id).length == 0)
   {
     var new_chart = chart.clone().empty().attr('id', modal_id + "_chart").removeClass('small');
-    $('body').append('<div id="' + modal_id + '" class="modal fade"></div>');
-    $("#"+modal_id).append('<div class="modal-header"><a href="#" class="close" data-dismiss="modal">&times;</a><h3> ' +chart.data('title')+ ' </h3></div>')
-        .append(new_chart);
+    $('body').append('<div id="' + modal_id + '" class="modal fade"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
+    $("#"+modal_id+" .modal-content").append('<div class="modal-header"><a href="#" class="close" data-dismiss="modal">&times;</a><h3> ' +chart.data('title')+ ' </h3></div>')
+        .append('<div class="modal-body"></div>');
+    $("#"+modal_id+" .modal-body").append(new_chart);
     expanded_pie(new_chart, new_chart.data('series'));
   }
   $("#"+modal_id).modal('show');
