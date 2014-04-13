@@ -467,6 +467,26 @@ class UserTest < ActiveSupport::TestCase
     assert users(:one).valid?
   end
 
+  test "return location and child ids for non-admin user" do
+    user = users(:one)
+    User.current = user
+    location = taxonomies(:location1)
+    Location.current = location
+    assert user.locations << location
+    assert child = Location.create!(:name => 'child location', :parent_id => location.id)
+    assert_equal [location.id, child.id].sort, user.location_and_child_ids
+  end
+
+  test "return organization and child ids for non-admin user" do
+    user = users(:one)
+    User.current = user
+    organization = taxonomies(:organization1)
+    Organization.current = organization
+    assert user.organizations << organization
+    assert child = Organization.create!(:name => 'child organization', :parent_id => organization.id)
+    assert_equal [organization.id, child.id].sort, user.organization_and_child_ids
+  end
+
 #  Uncomment after users get access to children taxonomies of their current taxonomies.
 #
 #  test 'default taxonomy inclusion validator takes into account inheritance' do
