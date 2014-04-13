@@ -1,8 +1,9 @@
 <% title @vm %>
 <div class='col-md-12'>
   <table class="table table-bordered table-striped">
-    <tr><th colspan="2">Properties</th></tr>
-
+    <thead>
+      <tr><th colspan="2"><%=_("Properties") %></th></tr>
+    </thead>
     <%= prop :availability_zone %>
     <%= prop :public_ip_address %>
     <%= prop :dns_name, "DNS name" %>

@@ -3,10 +3,12 @@
 <% title_actions display_link_if_authorized(_("New Host Group"), hash_for_new_hostgroup_path), help_path %>
 
 <table class="table table-bordered table-striped">
-  <tr>
-    <th><%= sort :label, :as => _('Hostgroup|Name') %></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%= sort :label, :as => _('Hostgroup|Name') %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% @hostgroups.each do |hostgroup| %>
     <tr>
       <td> <%= label_with_link(hostgroup, 1000, authorizer) %> </td>

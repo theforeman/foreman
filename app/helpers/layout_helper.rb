@@ -262,21 +262,34 @@ module LayoutHelper
 
   def alert opts = {}
     opts[:close]  = true if opts[:close].nil?
-    opts[:header] ||= _("Warning!")
-    opts[:text]   ||= _("Alert")
+    opts[:class] ||= "alert-warning"
     html_class    = "alert #{opts[:class]} "
     html_class    += 'alert-dismissable' if opts[:close]
     content_tag :div, :class => html_class do
       result = "".html_safe
       result += alert_close if opts[:close]
-      result += alert_header(opts[:header])
-      result += opts[:text].html_safe
+      result += alert_header(opts[:header], opts[:class])
+      result += "#{opts[:text]}".html_safe
       result
     end
   end
 
-  def alert_header text
-    "<h4 class='alert-heading'>#{text}</h4>".html_safe
+  def alert_header(text, html_class=nil)
+    case html_class
+      when /alert-success/
+        icon = "<span class='pficon pficon-ok'></span>"
+        text ||= _("Notice")
+      when /alert-warning/
+        icon = "<span class='pficon-layered'><span class='pficon pficon-warning-triangle'></span><span class='pficon pficon-warning-exclamation'></span></span>"
+        text ||= _("Warning")
+      when /alert-info/
+        icon = "<span class='pficon pficon-info'></span>"
+        text ||= _("Notice")
+      when /alert-danger/
+        icon = "<span class='pficon-layered'><span class='pficon pficon-error-octagon'></span><span class='pficon pficon-error-exclamation'></span></span>"
+        text ||= _("Error")
+    end
+    "#{icon} <h4 class='alert-heading'>#{text}</h4>".html_safe
   end
 
   def alert_close

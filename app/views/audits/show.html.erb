@@ -23,15 +23,17 @@
     <% end %>
     <div class='tab-pane <%= "active" unless tmplt%>' id="tab1">
       <table class="table table-bordered table-striped">
-        <tr>
-          <th><%= _('Item') %></th>
-          <% if @audit.action == 'update' %>
-            <th><%= _('Old') %></th>
-            <th><%= _('New') %></th>
-          <% else %>
-            <th><%= _('Value') %></th>
-          <% end  %>
-        </tr>
+        <thead>
+          <tr>
+            <th><%= _('Item') %></th>
+            <% if @audit.action == 'update' %>
+              <th><%= _('Old') %></th>
+              <th><%= _('New') %></th>
+            <% else %>
+              <th><%= _('Value') %></th>
+            <% end  %>
+          </tr>
+        </thead>
         <% @audit.audited_changes.each do |name,change| %>
             <% next if change.nil? or change.to_s.empty? %>
             <% next if name == "template" %>

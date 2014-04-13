@@ -1,8 +1,10 @@
 <table class="table table-bordered table-striped table-condensed">
-  <tr>
-    <th><%= _('Report Status') %></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%= _('Report Status') %></th>
+      <th></th>
+    </tr>
+  </thead>
     <% report_summary.each do |name, value| %>
     <tr>
       <td> <%= name %> </td>

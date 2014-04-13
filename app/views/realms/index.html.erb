@@ -3,11 +3,13 @@
 <% title_actions display_link_if_authorized(_("New Realm"), hash_for_new_realm_path), help_path %>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= sort :name, :as => s_("Realm|Name") %></th>
-    <th><%= sort :hosts_count, :as => _("Hosts") %></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%= sort :name, :as => s_("Realm|Name") %></th>
+      <th><%= sort :hosts_count, :as => _("Hosts") %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% for realm in @realms %>
     <tr>
       <td><%= link_to_if_authorized h(realm.name), hash_for_edit_realm_path(:id => realm)%></td>

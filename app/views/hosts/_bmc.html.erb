@@ -1,7 +1,9 @@
 <table class="table table-bordered table-striped">
-  <tr>
-    <th colspan="2"><%= _('Chassis') %></th>
-  </tr>
+  <thead>
+    <tr>
+      <th colspan="2"><%= _('Chassis') %></th>
+    </tr>
+  </thead>
   <tr>
     <td><%= _('Status') %></td>
     <td><%= power_status(@host.power.state) %></td>
@@ -15,9 +17,11 @@
 <div id='power_actions' class='hide'><%= power_actions %></div>
 
 <table class="table table-bordered table-striped">
-  <tr>
-    <th colspan="2"><%= _('Network') %></th>
-  </tr>
+  <thead>
+    <tr>
+      <th colspan="2"><%= _('Network') %></th>
+    </tr>
+  </thead>
   <tr>
     <td><%= _('IP') %></td>
     <td><%= @host.bmc_proxy.lan(:action => 'ip') %></td>

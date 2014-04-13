@@ -1,9 +1,6 @@
 @import "mixin";
 @import "colors";
 
-.login-page {
-  height: 100%;
-}
 @media (min-width: 768px){
 .login-page #brand {
   position: relative;
@@ -22,14 +19,10 @@
   }
 }
 .login-page {
+  height: 100%;
   background: $primary_color;
-  background-size: auto;
+  background-size: 100% auto;
   color: #fff;
-}
-@media (min-width: 768px) {
-  .login-page {
-    background-size: 100% auto;
-  }
 }
 .login-page .container {
   background-color: rgba(0, 0, 0, 0.3);

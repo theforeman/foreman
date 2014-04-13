@@ -6,10 +6,12 @@
               :class => 'btn btn-success', :method => :post) %>
 
   <table class="table table-bordered table-striped">
-    <tr>
-      <th><%= _("Location/Organization") %></th>
-      <th><%= _("Mismatch Details") %></th>
-    </tr>
+    <thead>
+      <tr>
+        <th><%= _("Location/Organization") %></th>
+        <th><%= _("Mismatch Details") %></th>
+      </tr>
+    </thead>
     <% @mismatches.each do |mismatch| %>
       <% if !mismatch.empty? %>
       <tr class="<%= cycle("even", "odd") %>">

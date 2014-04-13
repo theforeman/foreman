@@ -3,10 +3,12 @@
 <% title_actions display_link_if_authorized(_('New Compute Profile'), hash_for_new_compute_profile_path), help_path %>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= sort :name %></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%= sort :name %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% @compute_profiles.each do |compute_profile| %>
     <tr>
       <td><%= link_to_if_authorized h(compute_profile.name), hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer, :auth_action => 'edit') %></td>

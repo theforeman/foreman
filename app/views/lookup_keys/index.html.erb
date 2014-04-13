@@ -2,13 +2,14 @@
 <% title _("Smart variables") %>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= sort :key, :as => _("Variable") %></th>
-    <th><%= sort :puppetclass, :as => _("Puppetclass") %></th>
-    <th><%= sort :values_count, :as => _('Number of values'), :default => "DESC" %></th>
-    <th></th>
-  </tr>
-
+  <thead>
+    <tr>
+      <th><%= sort :key, :as => _("Variable") %></th>
+      <th><%= sort :puppetclass, :as => _("Puppetclass") %></th>
+      <th><%= sort :values_count, :as => _('Number of values'), :default => "DESC" %></th>
+      <th></th>
+    </tr>
+  </thead>
 <% @lookup_keys.each do |lookup_key| %>
   <tr>
     <td><%= link_to_if_authorized h(lookup_key.key), hash_for_edit_lookup_key_path(:id => lookup_key).merge(:auth_object => lookup_key, :permission => 'edit_external_variables', :authorizer => authorizer) %></td>

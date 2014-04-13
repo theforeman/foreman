@@ -2,32 +2,25 @@
 
 <% title_actions display_link_if_authorized(_("Add Trend Counter"), hash_for_new_trend_path) %>
 <% if @trends.empty? %>
-  <div class="alert alert-info">
-    <%= alert_close %>
-
-    <p><strong><%= _("No trend counter defined.") %></strong></p>
-
-    <p><%= _("To define trend counters, use the Add Trend Counter button.") %><br>
-      <%= _("To start collecting trend data, set a cron job to execute 'rake trends:counter' every Puppet Interval (%s minutes).") % Setting.puppet_interval %></p>
-  </div>
+  <%= alert :class=>"alert-info", :close => true, :header=> _("No trend counter defined."),
+            :text => _("To define trend counters, use the Add Trend Counter button.") +
+                _("To start collecting trend data, set a cron job to execute '%{command}' every Puppet Interval (%{minutes} minutes).") %
+                    {:command  => "rake trends:counter", :minutes => Setting.puppet_interval} %>
 <% end %>
 
 <% if @trends.any? and TrendCounter.unconfigured? %>
- <div class="alert alert-info alert-dismissable">
-   <%= alert_close %>
-
-   <p><strong><%= _("No trend counter found.") %></strong></p>
-
-   <p><%= ( _("To start collecting trend data, set a cron job to execute <span class='black'>RAILS_ENV=production bundle exec rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting.puppet_interval).html_safe %>
-   </p>
- </div>
+  <%= alert :class=>"alert-info", :close => true, :header=> _("No trend counter found."),
+            :text => ( _("To start collecting trend data, set a cron job to execute '%{command}' every Puppet Interval (%{minutes} minutes)") %
+                {:command => "RAILS_ENV=production bundle exec rake trends:counter" , :minutes => Setting.puppet_interval}).html_safe %>
 <% end %>
 
 <table class="table table-bordered table-striped">
-  <tr>
-    <th class='col-md-10'><%= _("Name") %></th>
-    <th class='col-md-2'><%= _("Action") %></th>
-  </tr>
+  <thead>
+    <tr>
+      <th class='col-md-10'><%= _("Name") %></th>
+      <th class='col-md-2'><%= _("Action") %></th>
+    </tr>
+  </thead>
   <% @trends.each do |trend| %>
     <tr>
       <td><%= link_to trend.to_label, trend_path(:id => trend), :title => _("Show Trends") %></td>

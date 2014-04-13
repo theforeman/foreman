@@ -10,11 +10,13 @@
   <% @settings.group_by(&:category).each do |category, setting| %>
       <div class="tab-pane <%= "active" if category == @settings.first.category %>" id='<%= short_cat(category) %>' >
         <table class="table table-bordered table-striped">
-          <tr>
-            <th><%= s_("Setting|Name") %></th>
-            <th><%= s_("Setting|Value") %></th>
-            <th><%= s_("Setting|Description") %></th>
-          </tr>
+          <thead>
+            <tr>
+              <th><%= s_("Setting|Name") %></th>
+              <th><%= s_("Setting|Value") %></th>
+              <th><%= s_("Setting|Description") %></th>
+            </tr>
+          </thead>
           <% setting.each do |item| %>
             <tr>
               <td><%=h item.name %></td>

@@ -8,14 +8,16 @@
 %>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
+  <thead>
     <tr>
-    <th><%= sort :name, :as => s_("ConfigTemplate|Name") %></th>
-    <th><%= _("Host group / Environment") %></th>
-    <th><%= sort :kind, :as => _("Kind") %></th>
-    <th><%= sort :snippet, :as => s_("ConfigTemplate|Snippet") %></th>
-    <th></th>
-  </tr>
+      <tr>
+      <th><%= sort :name, :as => s_("ConfigTemplate|Name") %></th>
+      <th><%= _("Host group / Environment") %></th>
+      <th><%= sort :kind, :as => _("Kind") %></th>
+      <th><%= sort :snippet, :as => s_("ConfigTemplate|Snippet") %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% for config_template in @config_templates %>
     <tr>
       <td><%= link_to_if_authorized h(config_template), hash_for_edit_config_template_path(:id => config_template.to_param).merge(:auth_object => config_template, :authorizer => authorizer, :permission => 'edit_templates') %></td>

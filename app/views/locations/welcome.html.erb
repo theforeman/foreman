@@ -1,9 +1,7 @@
 <% title_actions link_to(_("New Location"), new_location_path) %>
 <% title _("Location configuration") %>
 <div id="welcome">
-  <div class="alert alert-block alert-info">
-      <p><strong><%= _("Notice") %></strong> <%= _("You must create a location before continuing.") %></p>
-  </div>
+  <%= alert :class=>"alert-info", :header => _("You must create a location before continuing.") %>
   <p><%= _("Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed.") %></p>
   <p><%= _("For example, there might be a data center in London and one in Virginia; these are locations. Locations also work nicely when used in tandem with ") %> <%= link_to(_("organizations"), :controller => "organizations", :action => "index") %>.</p>
 </div>

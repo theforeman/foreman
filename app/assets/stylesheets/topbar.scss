@@ -30,7 +30,7 @@
 
 .navbar-brand {
   padding: 0;
-
+  height: inherit;
   img {
     height: 34px;
     margin-bottom: -10px;
@@ -48,8 +48,25 @@
     }
   }
 }
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: $navbar-default-link-active-color;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > .open > a:focus{
+  color: $navbar-default-link-hover-color
+}
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav > .open > a {
+  color: $navbar-default-link-color;
+}
 
 .navbar-outer {
+  background-color: $primary_color;
+  border-color: darken($primary_color, 5%);
   height: 25px;
   min-height: 0;
   z-index: 1;
@@ -85,7 +102,6 @@
   clear: left;
   left: 0;
   min-height: 40px;
-  max-height: 40px;
   position: absolute;
   right: 0;
   top: 25px;
@@ -109,6 +125,7 @@
   line-height: 20px;
   color: #999999;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .navbar .nav .org-switcher > a {
