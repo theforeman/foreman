@@ -321,6 +321,22 @@ class User < ActiveRecord::Base
     TopbarSweeper.expire_cache(self)
   end
 
+  def taxonomy_and_child_ids(taxonomies)
+    ids = []
+    send(taxonomies).each do |taxonomy|
+      ids += taxonomy.subtree_ids
+    end
+    return ids.uniq
+  end
+
+  def location_and_child_ids
+    taxonomy_and_child_ids(:locations)
+  end
+
+  def organization_and_child_ids
+    taxonomy_and_child_ids(:organizations)
+  end
+
   private
 
   def prepare_password

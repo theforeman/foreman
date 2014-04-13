@@ -15,7 +15,7 @@ class Organization < Taxonomy
       if user.admin?
         conditions = { }
       else
-        conditions = sanitize_sql_for_conditions([" (taxonomies.id in (?))", user.organization_ids])
+        conditions = sanitize_sql_for_conditions([" (taxonomies.id in (?))", user.organization_and_child_ids])
       end
       where(conditions)
     }
