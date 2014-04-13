@@ -240,10 +240,16 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_empty hostgroup.parent_classes
   end
 
-  test "parent_config_groups should return parent config_groups if hostgroup has parent" do
+  test "parent_config_groups should return parent config_groups if hostgroup has parent - 2 levels" do
     hostgroup = hostgroups(:inherited)
     assert hostgroup.parent
     assert_equal hostgroup.parent_config_groups, hostgroup.parent.config_groups
+  end
+
+  test "parent_config_groups should return parent config_groups if hostgroup has parent  - 3 levels" do
+    assert hostgroup = Hostgroup.create!(:name => 'third level', :parent_id => hostgroups(:inherited).id)
+    groups = (hostgroup.config_groups + hostgroup.parent.config_groups + hostgroup.parent.parent.config_groups).uniq.sort
+    assert_equal groups, hostgroup.parent_config_groups.sort
   end
 
   test "parent_config_groups should return empty array if hostgroup does not has parent" do

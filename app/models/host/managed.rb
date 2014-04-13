@@ -299,7 +299,7 @@ class Host::Managed < Host::Base
 
   def parent_config_groups
     return [] unless hostgroup
-    hostgroup.config_groups
+    hostgroup.all_config_groups
   end
 
   # returns the list of puppetclasses a host is in.

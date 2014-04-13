@@ -86,9 +86,17 @@ class Hostgroup < ActiveRecord::Base
     ptable.layout.gsub("\r","")
   end
 
+  def all_config_groups
+    (config_groups + parent_config_groups).uniq
+  end
+
   def parent_config_groups
     return [] unless parent
-    parent.config_groups
+    groups = []
+    ancestors.each do |hostgroup|
+      groups += hostgroup.config_groups
+    end
+    return groups.uniq
   end
 
   # the environment used by #clases nees to be self.environment and not self.parent.environment
