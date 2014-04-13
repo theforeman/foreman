@@ -1,4 +1,4 @@
-<%= javascript 'host_edit' %>
+<%= javascript 'host_edit', 'class_edit' %>
 <%= form_for @hostgroup, :html => {:data => {:id => @hostgroup.try(:id)}} do |f| %>
   <%= base_errors_for @hostgroup %>
 

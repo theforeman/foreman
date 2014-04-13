@@ -1,4 +1,4 @@
-<%= javascript 'host_edit', 'compute_resource', 'lookup_keys'%>
+<%= javascript 'host_edit', 'class_edit', 'compute_resource', 'lookup_keys'%>
 <%= render "hosts/dhcp_lease_errors" if has_dhcp_lease_errors?(@host.errors) %>
 <%= render "hosts/conflicts" if (!has_dhcp_lease_errors?(@host.errors) && has_conflicts?(@host.errors)) %>
 <%= render "hosts/progress" %>
