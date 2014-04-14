@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-02 11:48+0100\n"
-"PO-Revision-Date: 2014-04-09 10:00+0000\n"
+"POT-Creation-Date: 2014-04-09 14:22+0100\n"
+"PO-Revision-Date: 2014-04-10 09:19+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/foreman/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -796,8 +796,8 @@ msgstr "Non pode usar ou mesmo valor que na interfaz primaria"
 msgid "Cancel"
 msgstr "Cancelar"
 
-msgid "Cancel Build"
-msgstr "Cancelar Construcción"
+msgid "Cancel build"
+msgstr ""
 
 msgid "Cancel build request for this host"
 msgstr "Cancelar petición de construcción para este equipo"
@@ -1083,8 +1083,14 @@ msgstr "Eliminar conflictos DHCP para %s"
 msgid "DHCP has a lease at %s"
 msgstr "DHCP ten un 'lease' en %s"
 
+msgid "DHCP lease conflicts have been detected"
+msgstr ""
+
 msgid "DHCP not supported for this NIC"
 msgstr "DHCP non soportado para esta tarxeta de rede"
+
+msgid "DHCP record %s conflicts with an existing reservation"
+msgstr ""
 
 msgid "DHCP records %s already exists"
 msgstr "O rexistro DHCP %s xa existe"
@@ -1613,9 +1619,6 @@ msgstr "Fallo aao dar marcha atrais en %{task} - %{e}"
 msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Fallo ao encender unha instancia %{compute_resource} co nome %{name}: %{e}"
-
-msgid "Failed to remove %{name}'s realm entry: %{e}"
-msgstr ""
 
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Fallo ao borrar certificados de %{name}: %{e}"
@@ -2430,8 +2433,14 @@ msgstr "Cargando información EMC..."
 msgid "Loading Images information"
 msgstr "Cargando información das imaxes"
 
+msgid "Loading VM information ..."
+msgstr ""
+
 msgid "Loading parameters..."
 msgstr "Cargando parámetros..."
+
+msgid "Loading power state ..."
+msgstr ""
 
 msgid "Loading virtual machine information ..."
 msgstr "Cargando información de máquina virtual..."
@@ -3271,8 +3280,8 @@ msgstr "Outros informes deste equipo"
 msgid "Out of sync"
 msgstr "Fora de sincronía"
 
-msgid "Out of sync Hosts"
-msgstr "Equipos fora de sincronía"
+msgid "Out of sync hosts"
+msgstr ""
 
 msgid "Override a Puppetclass Parameter"
 msgstr "Omitir un parámetro de Puppetclass"
@@ -3362,6 +3371,12 @@ msgstr ""
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
+msgid "Path"
+msgstr ""
+
+msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
+msgstr ""
+
 msgid "Pause"
 msgstr ""
 
@@ -3410,6 +3425,9 @@ msgstr "Seleccione unha Imaxe, por favor"
 
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Por favor, comproba que o proxy está configurado e executándose no equipo"
+
+msgid "Please correct the error(s) below and submit your changes again."
+msgstr ""
 
 msgid "Please delete all nested groups before deleting it."
 msgstr ""
@@ -5688,9 +5706,8 @@ msgid "using %s"
 msgstr "usando %s"
 
 msgid ""
-"using %{allocation} GB out of %{capacity} GB (%{pool_name} storage pool - "
-"%{path})"
-msgstr "usando %{allocation} GB por riba de %{capacity} GB (%{pool_name} do agrupamento de almacenamento - %{path}"
+"using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
+msgstr ""
 
 msgid "valid"
 msgstr "válido"

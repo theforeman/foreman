@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-02 11:48+0100\n"
-"PO-Revision-Date: 2014-04-09 10:00+0000\n"
+"POT-Creation-Date: 2014-04-09 14:22+0100\n"
+"PO-Revision-Date: 2014-04-10 19:30+0000\n"
 "Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -810,7 +810,7 @@ msgstr "Impossible de réutiliser la même valeur que pour l'interface principal
 msgid "Cancel"
 msgstr "Annuler"
 
-msgid "Cancel Build"
+msgid "Cancel build"
 msgstr "Annuler la contruction"
 
 msgid "Cancel build request for this host"
@@ -1097,8 +1097,14 @@ msgstr "Conflit DHCP pour la suppression de %s"
 msgid "DHCP has a lease at %s"
 msgstr "DHCP a un bail pour %s"
 
+msgid "DHCP lease conflicts have been detected"
+msgstr "Des conflits sur les réservations DHCP ont été détectés"
+
 msgid "DHCP not supported for this NIC"
 msgstr "Cette interface réseau ne supporte pas DHCP"
+
+msgid "DHCP record %s conflicts with an existing reservation"
+msgstr "L'enregistrement DHCP %s est en conflit avec une réservation existante"
 
 msgid "DHCP records %s already exists"
 msgstr "L'enregistrement DHCP %s existe déjà"
@@ -1627,9 +1633,6 @@ msgstr "Échec de retour arrière sur %{task} - %{e}"
 msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Échec de démarrage de la ressource %{compute_resource} instance %{name}: %{e}"
-
-msgid "Failed to remove %{name}'s realm entry: %{e}"
-msgstr "Impossible de supprimer l'entrée %{name} du royaume : %{e}"
 
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Échec de suppression de certificats pour %{name}: %{e}"
@@ -2444,8 +2447,14 @@ msgstr "Chargement des informations BNC ..."
 msgid "Loading Images information"
 msgstr "Charger les informations des images"
 
+msgid "Loading VM information ..."
+msgstr "Chargement des informations de la machine virtuelle"
+
 msgid "Loading parameters..."
 msgstr "Chargement des paramètres ..."
+
+msgid "Loading power state ..."
+msgstr "Récupération de l'état de l'alimentation"
 
 msgid "Loading virtual machine information ..."
 msgstr "Chargement des informations de la machine virtuelle ..."
@@ -3285,7 +3294,7 @@ msgstr "Autres rapports pour cet hôte"
 msgid "Out of sync"
 msgstr "Désynchronisé"
 
-msgid "Out of sync Hosts"
+msgid "Out of sync hosts"
 msgstr "Hôtes désynchronisés"
 
 msgid "Override a Puppetclass Parameter"
@@ -3376,6 +3385,12 @@ msgstr "Le mot de passe doit contenir au moins 8 caractères"
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr "Mot de passe pour l'authentification SSH lors de l'étape finale."
 
+msgid "Path"
+msgstr "Chemin"
+
+msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
+msgstr "Chemin du modèle relatif au Datacenter (p. e. : My templates/RHEL 6)"
+
 msgid "Pause"
 msgstr "Pause"
 
@@ -3424,6 +3439,9 @@ msgstr "Merci de choisir une image"
 
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Merci de vérifier si le proxy est configuré et fonctionnel sur l'hôte."
+
+msgid "Please correct the error(s) below and submit your changes again."
+msgstr "Merci de corriger les erreurs suivantes avant de soumettre de nouveau vos changements."
 
 msgid "Please delete all nested groups before deleting it."
 msgstr "Merci d'effacer tous les sous-groupes avant d'effacer ce groupe"
@@ -5702,9 +5720,8 @@ msgid "using %s"
 msgstr "utilisation de %s"
 
 msgid ""
-"using %{allocation} GB out of %{capacity} GB (%{pool_name} storage pool - "
-"%{path})"
-msgstr "utilise %{allocation} Go sur %{capacity} Go (%{pool_name} pool de stockage - %{path})"
+"using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
+msgstr "utilise %{allocation} Go sur %{capacity} Go, pool de stockage %{pool_name}"
 
 msgid "valid"
 msgstr "valide"

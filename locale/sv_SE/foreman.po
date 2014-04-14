@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-02 11:48+0100\n"
-"PO-Revision-Date: 2014-04-09 10:00+0000\n"
+"POT-Creation-Date: 2014-04-09 14:22+0100\n"
+"PO-Revision-Date: 2014-04-10 09:19+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -798,8 +798,8 @@ msgstr "Kan inte använda samma värde som det primära nätverksgränssnittet"
 msgid "Cancel"
 msgstr "Avbryt"
 
-msgid "Cancel Build"
-msgstr "Avbryt Bygge"
+msgid "Cancel build"
+msgstr ""
 
 msgid "Cancel build request for this host"
 msgstr "Avbryt byggbegäran för denna värd"
@@ -1085,8 +1085,14 @@ msgstr "DHCP konflikt-borttagning för %s"
 msgid "DHCP has a lease at %s"
 msgstr "DHCP har lån på %s"
 
+msgid "DHCP lease conflicts have been detected"
+msgstr ""
+
 msgid "DHCP not supported for this NIC"
 msgstr "DHCP stöds ej för denna NIC"
+
+msgid "DHCP record %s conflicts with an existing reservation"
+msgstr ""
 
 msgid "DHCP records %s already exists"
 msgstr "DHCP-poster %s finns redan"
@@ -1615,9 +1621,6 @@ msgstr "Misslyckades med att genomföra en rollback för %{task} - %{e}"
 msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Misslyckades med starta en beräkningsresurs %{compute_resource}-instans %{name}: %{e}"
-
-msgid "Failed to remove %{name}'s realm entry: %{e}"
-msgstr ""
 
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Misslyckades med att radera certifikaten för %{name}: %{e}"
@@ -2432,8 +2435,14 @@ msgstr "Laddar BMC-information ..."
 msgid "Loading Images information"
 msgstr "Laddar avbildningsinformation"
 
+msgid "Loading VM information ..."
+msgstr ""
+
 msgid "Loading parameters..."
 msgstr "Laddar parametrar..."
+
+msgid "Loading power state ..."
+msgstr ""
 
 msgid "Loading virtual machine information ..."
 msgstr "Laddar information för virtuell maskin ..."
@@ -3273,8 +3282,8 @@ msgstr "Andra rapporter för denna värd"
 msgid "Out of sync"
 msgstr "Ur synk"
 
-msgid "Out of sync Hosts"
-msgstr "Värdar ur synk"
+msgid "Out of sync hosts"
+msgstr ""
 
 msgid "Override a Puppetclass Parameter"
 msgstr "Tvinga en Puppetklassparameter"
@@ -3364,6 +3373,12 @@ msgstr ""
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
+msgid "Path"
+msgstr ""
+
+msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
+msgstr ""
+
 msgid "Pause"
 msgstr "Paus"
 
@@ -3412,6 +3427,9 @@ msgstr "Vänligen välj en avbildning"
 
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Vänligen kontrollera att proxyn är konfigurerad och körs på värden."
+
+msgid "Please correct the error(s) below and submit your changes again."
+msgstr ""
 
 msgid "Please delete all nested groups before deleting it."
 msgstr "Var vänlig och ta bort alla nästade grupper innan du raderar den."
@@ -5690,9 +5708,8 @@ msgid "using %s"
 msgstr "använder %s"
 
 msgid ""
-"using %{allocation} GB out of %{capacity} GB (%{pool_name} storage pool - "
-"%{path})"
-msgstr "använder %{allocation} av %{capacity} GB (%{pool_name} lagringsvolum - %{path})"
+"using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
+msgstr ""
 
 msgid "valid"
 msgstr "giltig"
