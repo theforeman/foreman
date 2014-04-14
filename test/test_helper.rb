@@ -94,6 +94,15 @@ Spork.prefork do
       as_user :admin, &block
     end
 
+    def in_taxonomy(taxonomy)
+      new_taxonomy = taxonomies(taxonomy)
+      saved_taxonomy = new_taxonomy.class.current
+      new_taxonomy.class.current = new_taxonomy
+      result = yield
+      new_taxonomy.class.current = saved_taxonomy
+      result
+    end
+
     def setup_users
       User.current = users :admin
       user = User.find_by_login("one")

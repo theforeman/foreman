@@ -468,23 +468,23 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "return location and child ids for non-admin user" do
-    user = users(:one)
-    User.current = user
-    location = taxonomies(:location1)
-    Location.current = location
-    assert user.locations << location
-    assert child = Location.create!(:name => 'child location', :parent_id => location.id)
-    assert_equal [location.id, child.id].sort, user.location_and_child_ids
+    as_user :one do
+      in_taxonomy :location1 do
+        assert User.current.locations << Location.current
+        assert child = Location.create!(:name => 'child location', :parent_id => Location.current.id)
+        assert_equal [Location.current.id, child.id].sort, User.current.location_and_child_ids
+      end
+    end
   end
 
   test "return organization and child ids for non-admin user" do
-    user = users(:one)
-    User.current = user
-    organization = taxonomies(:organization1)
-    Organization.current = organization
-    assert user.organizations << organization
-    assert child = Organization.create!(:name => 'child organization', :parent_id => organization.id)
-    assert_equal [organization.id, child.id].sort, user.organization_and_child_ids
+    as_user :one do
+      in_taxonomy :organization1 do
+        assert User.current.organizations << Organization.current
+        assert child = Organization.create!(:name => 'child organization', :parent_id => Organization.current.id)
+        assert_equal [Organization.current.id, child.id].sort, User.current.organization_and_child_ids
+      end
+    end
   end
 
 #  Uncomment after users get access to children taxonomies of their current taxonomies.
