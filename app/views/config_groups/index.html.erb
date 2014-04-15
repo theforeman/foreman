@@ -7,9 +7,9 @@
 <table class="table table-bordered table-striped table-two-pane">
   <tr>
     <th><%= sort :name %></th>
-    <th><%= sort :config_group_classes_count, :as => _('Puppet classes') %></th>
-    <th><%= sort :hosts_count, :as => _('Hosts') %></th>
-    <th><%= sort :hostgroups_count, :as => _('Host groups') %></th>
+    <th><%= sort :config_group_classes_count, :as => _('Puppet classes'), :default => "DESC" %></th>
+    <th><%= sort :hosts_count, :as => _('Hosts'), :default => "DESC" %></th>
+    <th><%= sort :hostgroups_count, :as => _('Host groups'), :default => "DESC" %></th>
     <th></th>
   </tr>
   <% @config_groups.each do |config_group| %>
@@ -17,9 +17,9 @@
       <td><%= link_to_if_authorized config_group.name, hash_for_edit_config_group_path(config_group)%></td>
       <td><%= link_to config_group.config_group_classes_count, puppetclasses_path(:search => "config_group = #{config_group}") %></td>
 
-      <td><%= link_to config_group.hosts_count, hosts_path(:search => "config_group = #{config_group}") %>
+      <td><%= link_to config_group.hosts_count, hosts_path(:search => "config_group = #{config_group}") %></td>
 
-      <td><%= link_to config_group.hostgroups_count, hostgroups_path(:search => "config_group = #{config_group}") %>
+      <td><%= link_to config_group.hostgroups_count, hostgroups_path(:search => "config_group = #{config_group}") %></td>
 
       <td><%= action_buttons(
                 display_link_if_authorized(_('Edit'), hash_for_edit_config_group_path(config_group)),
