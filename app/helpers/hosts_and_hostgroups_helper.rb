@@ -49,7 +49,7 @@ module HostsAndHostgroupsHelper
   def puppet_ca f
     # Don't show this if we have no CA proxies, otherwise always include blank
     # so the user can choose not to sign the puppet cert on this host
-    proxies = SmartProxy.with_features("Puppet CA").with_taxonomy_scope_override(@location,@organization)
+    proxies = SmartProxy.unscoped.with_features("Puppet CA").with_taxonomy_scope(@location,@organization)
     return if proxies.count == 0
     select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
              { :include_blank => blank_or_inherit_f(f, :puppet_ca_proxy) },
@@ -60,7 +60,7 @@ module HostsAndHostgroupsHelper
   def puppet_master f
     # Don't show this if we have no Puppet proxies, otherwise always include blank
     # so the user can choose not to use puppet on this host
-    proxies = SmartProxy.with_features("Puppet").with_taxonomy_scope_override(@location,@organization)
+    proxies = SmartProxy.unscoped.with_features("Puppet").with_taxonomy_scope(@location,@organization)
     return if proxies.count == 0
     select_f f, :puppet_proxy_id, proxies, :id, :name,
              { :include_blank => blank_or_inherit_f(f, :puppet_proxy) },
