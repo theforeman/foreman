@@ -14,7 +14,7 @@
 %endif
 
 Name:   foreman
-Version: 1.5.0
+Version: 1.6.0
 Release: 0.develop%{?dist}
 Summary:Systems Management web application
 
@@ -581,6 +581,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Wed Apr 16 2014 Dominic Cleal <dcleal@redhat.com> - 1.6.0-0.develop
+- Bump version to 1.6-develop
+
 * Thu Jan 16 2014 Dominic Cleal <dcleal@redhat.com> - 1.5.0-0.develop
 - Bump version to 1.5-develop
 - Remove rails3_before_render dependency

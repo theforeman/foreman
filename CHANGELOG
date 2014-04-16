@@ -1,9 +1,532 @@
-2014-01-16	David Davis <daviddavis@redhat.com>
-	* fixes #3992 - Removing unused coffeescript gem
+2014-04-16	Joseph Magen <jmagen@redhat.com>
+	* fixes #5172 - typo SETTINGS[:location_enabled] instead of :locations_enabled causes default location select box not to be visible
+
+2014-04-16	Dominic Cleal <dcleal@redhat.com>
+	* fixes #5200 - set config group counters to zero by default
+
+2014-04-14	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+
+2014-04-14	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #5180 - in_taxonomy clears out Taxonomy.current
+
+2014-04-14	Joseph Magen <jmagen@redhat.com>
+	* fixes #5141 - User unable to access children taxonomies on switcher
+	* fixes #5173 - sortable counters on list of config_groups for number of hosts, hostgroups and puppetclasses
+	* fixes #4204 - add config groups feature - assign multiple config groups to a host or hostgroup
+
+2014-04-13	Joseph Magen <jmagen@redhat.com>
+	* fixes #5137 - audited :associated_with labels are 'N/A' for models that have a hyphen
+	* fixes #5083 - refactor host_edit.js - remove puppetclass specific functions to class_edit.js
+	* fixes #5105 - remove Setting['remove_classes_not_in_environment']
+
+2014-04-13	Amos Benari <abenari@redhat.com>
+	* fixes #4122 and new charts design
+
+2014-04-11	Sean Handley <sean.handley@gmail.com>
+	* fixes #5157 - allowed to suggest new IP on the new host form
+
+2014-04-11	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #3914 - set current taxonomies on login from user defaults
+
+2014-04-10	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #4710, #2270 - Wait for VM to become ready before looking for IPs
+
+2014-04-09	Dominic Cleal <dcleal@redhat.com>
+	* templates - sync from community-templates
+	* fixes #4895 - Adds CSRF protection check to the API if a session user is present
+	* i18n - extracting new, updating rails, pulling from tx
+
+2014-04-09	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #4960 - undefined method when editing filter without a UI controller
+
+2014-04-09	Lukas Zapletal <lzap+git@redhat.com>
+	* fixed #5120 - fixed migration for discovered hosts
+
+2014-04-09	Rufus Post <rufuspost@gmail.com>
+	* fixes #2438 - Add image build capability to vsphere using templates
+
+2014-04-09	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #5113 - sort realms by host count
+
+2014-04-08	Eric D. Helms <ericdhelms@gmail.com>
+	* Refs #2942: Added plugin rake task to extract translations
+
+2014-04-08	Amos Benari <abenari@redhat.com>
+	* fixes #4806 add support to register compute resource provider from a plugin
+
+2014-04-07	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #4670: switch search to id on OS page
+
+2014-04-07	Martin Milata <mmilata@srck.net>
+	* fixes #5090 - typo in bookmarks
+
+2014-04-04	Ivan Nečas <inecas@redhat.com>
+	* fixes #5077 - refactor safemode rendering to allow helpers and variables from plugins
+
+2014-04-04	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #5072 - x86_86 -> amd64 for FreeBSD media
+
+2014-04-04	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #5053 - minor bug fixes to realm integration
+
+2014-04-04	Dominic Cleal <dcleal@redhat.com>
+	* fixes #2929 - generate encryption key and encrypt data in postinstall
+
+2014-04-04	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #4381: dns records are being update after changes to host when dhcp is also present
+	* refs #4851: replaced deprecated SmartProxy feature scope with SmartProxy.with_features scope
+
+2014-04-04	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #5071 - foreman-tail stderr is muted
+
+2014-04-04	Amos Benari <abenari@redhat.com>
+	* fixes #3592 lazy load vm with ajax in host show page.
+
+2014-04-04	Martin Bačovský <mbacovsk@redhat.com>
+	* Fixes #4755 - use_cache in development
+
+2014-04-03	Michael Moll <kvedulv@kvedulv.de>
+	* refs #4305 - add support for OracleLinux
+
+2014-04-03	Joseph Magen <jmagen@redhat.com>
+	* fixes #4863 - API V2 - add puppetclasses format style=list and module_name to base.json.rabl
+
+2014-04-03	Jan Pazdziora <jpazdziora@redhat.com>
+	* fixes #4462 - extending the /users/login handling to process REMOTE_USER through intercept
+
+2014-04-02	Joseph Magen <jmagen@redhat.com>
+	* fixes #4995 - editing location with 'all users' checked fails on edit page in postgres
+
+2014-04-02	Ivan Nečas <inecas@redhat.com>
+	* Fixes #4976 - ensure the process is really running inside a rake task
+
+2014-04-02	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+
+2014-04-02	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #1809 - foreman realm integration
+
+2014-04-01	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #1966 - improved UI errors for proxy
+
+2014-04-01	marianitadn <maria.nita.dn@gmail.com>
+	* fixes #3946 Set host URLs from local settings file, if no Facter configuration exists. Add default values for settings example.
+
+2014-04-01	Joseph Magen <jmagen@redhat.com>
+	* fixes #4712 - editing organization gives undefined method parent_taxonomy_selected_location_path
+
+2014-03-31	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #4673 - make default sort order descending on count columns
+
+2014-03-31	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #4691 - add search for hosts' managed status
+	* fixes #4800 SLES special handling in facts parser
+
+2014-03-31	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #4659 - added foreman-tail tool
+
+2014-03-31	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* Fixes #4851: a SmartProxy.with_features scope replaces feature-specific scopes generated during class loading
+
+2014-03-31	Joseph Magen <jmagen@redhat.com>
+	* fixes #4731 - Rails 3.2.8 causing _pkey constraint errors
+
+2014-03-31	Bryan Kearney <bkearney@redhat.com>
+	* Fixes #4927 - Extend foreman-debug to look for extensions provided by plugins.
+
+2014-03-30	Dominic Cleal <dcleal@redhat.com>
+	* refs #2189 - update host group parameter search tests
+	* fixes #1804 - find hosts through nested hostgroups on puppet class search
+
+2014-03-27	Anya Marshall <anya.elise.marshall@gmail.com>
+	* Fixes #4679 - Downcase fqdn to match Puppet SSL certs casing
+
+2014-03-27	Bryan Kearney <bkearney@redhat.com>
+	* Fixes #4884 : remove duplicate slashes from the gravatar url
+
+2014-03-26	Brad Buckingham <bbuckingham@redhat.com>
+	* fixes #4776 - support session[:expires_at] for api requests
+
+2014-03-26	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4794 - precompile filters.js and taxonomy_edit.js files
+
+2014-03-25	Justin Sherrill <jsherril@redhat.com>
+	* fixes #4804 - sort organizations by title
+
+2014-03-25	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #2954 - string extraction fixed on welcome page
+
+2014-03-25	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #3214 - set taxonomy for hosts created via Puppet from facts or a default setting
+
+2014-03-25	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4828 - pin rake for Ruby 1.8 compatibility
+
+2014-03-24	Amos Benari <abenari@redhat.com>
+	* fixes #4733 lookup keys in puppet class form visual changes
+	* fixes #4555 add ca certificate to ovirt
+
+2014-03-24	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4457 - Session fixation, new session IDs are not generated on login (CVE-2014-0090)
+
+2014-03-24	Joseph Magen <jmagen@redhat.com>
+	* fixes #4456 - XSS on 500 error page and bookmark name causing render error (CVE-2014-0089)
+
+2014-03-21	Greg Sutcliffe <greg.sutcliffe@gmail.com>
+	* Fixes #4680 - Don't append periods to unqualified unmanaged hosts
+
+2014-03-19	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #4703 - reset_counters doesn't work for has_many :through relationships on rails 3.2.8
+	* fixes #4682 - smart variable for a puppet class not showing in UI
+
+2014-03-18	Amos Benari <abenari@redhat.com>
+	* fixes #4138 orgs list when the number of orgs is huge
+	* fixes #4683 multi select filter and select/deselect all are not working
+
+2014-03-18	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #4639 - array in lookup_value incorrectly displayed in form
+
+2014-03-17	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #4669 - HostMailer summary method refers to undefined variable
+	* fixes #4256 - makes columns sortable in the UI
+
+2014-03-17	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #4664 - shorten OS description for SUSE
+
+2014-03-17	Martin Bačovský <mbacovsk@redhat.com>
+	* Fixes #4515 - Add support for dynamic bindings
+
+2014-03-17	Ivan Nečas <inecas@redhat.com>
+	* Fixes #3988 - use require instead of autoload_once_paths
+
+2014-03-14	Joseph Magen <jmagen@redhat.com>
+	* fixes #4617 - add feature to change parent of location or organization
+	* fixes #4605 - users should not be able to de-select disabled items in multi-select widget
+
+2014-03-14	Amos Benari <abenari@redhat.com>
+	* fixes #4607 error when running test from ide
+
+2014-03-13	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4314 - ignore default scope ordering on host search by puppet class
+
+2014-03-13	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #4643 - Retrieving Optional LDAP attributes fails on 1.8.7
+
+2014-03-12	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4626 - update Facter calls for 2.0 compatibility
+
+2014-03-12	Jason Montleon <jmontleo@redhat.com>
+	* Fixes #4465: remove pretrans section of foreman.spec
+
+2014-03-12	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #4616 - Add a Fog mixin for looking up EC2 IP addresses
+
+2014-03-12	Alissa Bonas <abonas@redhat.com>
+	* refs #4167 - Added inline info regarding root password length policy
+
+2014-03-12	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #4557: namespaced and mounted plugins no longer cause crash on the filter screen
+
+2014-03-12	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #4486 - organization not searchable by name
+
+2014-03-12	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #4637 - remove search by label from all ancestry objects besides hostgroups
+
+2014-03-11	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4123 - libvirt imaging support using backing volumes
+
+2014-03-11	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #4625 - ensures alerts can have close opt disabled
+
+2014-03-11	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #3827 - adds ldap avatar support
+
+2014-03-11	Jan Pazdziora <jpazdziora@redhat.com>
+	* fixes #3475 - make it possible to force the 401 status.
+
+2014-03-11	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #4565 - puppet class free-text search is now significantly faster
+
+2014-03-07	Greg Petras <greg.petras@nwea.org>
+	* fixes #4581 Implement available_networks API for VMware
+
+2014-03-07	James Jenkins <James@nostrand.local>
+	* fixes #4485 prevents undefined method when cloning a host
+
+2014-03-07	Stephan Dollberg <stephan.dollberg@gmail.com>
+	* fixes #3221 - add missing attributes to hostgroup show response
+
+2014-03-07	Andy Bohne <bohne.andrew@pennmutual.com>
+	* fixes #4583 - Added Environment name to rundeck output
+
+2014-03-07	Tom McKay <thomasmckay@redhat.com>
+	* fixes #4194, #4459 - add main_app to root_path references for isolated engines
+
+2014-03-07	Jan Pazdziora <jpazdziora@redhat.com>
+	* fixes #4442 - returning nil plays nice with try_to_login.
+
+2014-03-07	Martin Matuska <martin@matuska.org>
+	* fixes #3996 Support to assign both cores and CPUs to VMWare guests
+
+2014-03-07	Alissa Bonas <abonas@redhat.com>
+	* fixes #4290 add validation for user group max name length of 255
+
+2014-03-06	Marek Hulan <mhulan@redhat.com>
+	* Fixes #4537 - user can set empty roles array via API
+	* Fixes #4553 - miscellaneous filters editing
+
+2014-03-06	Martin Ducar <martin.ducar@gooddata.com>
+	* fixes #4524 - The logged in user should be the default one in create new hosts
+
+2014-03-06	Joseph Magen <jmagen@redhat.com>
+	* fixes #4201 - update operating system by label, use description or fallname otherwise
+
+2014-03-06	Josh Baird <jbaird@follett.com>
+	* fixes #3163 - add link to first use instructions
+
+2014-03-04	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #3001 - Facts searchable by both host id and name
+
+2014-03-04	Marek Hulan <mhulan@redhat.com>
+	* Fixes #4353 - plugins don't create permissions until DB is migrated
+	* Fixes #4536 - store fix_db_cache setting values correctly as YAML
+
+2014-03-04	Stephan Dollberg <stephan.dollberg@gmail.com>
+	* fixes #4539 - changed os minor attribute to not required
+
+2014-03-04	Josh Baird <jbaird@follett.com>
+	* fixes #3767 - add new host to hosts menu
+
+2014-03-04	Jason Montleon <jmontleo@redhat.com>
+	* fixes #4245 - return HTTP body for oVirt SSL CA certificate
+
+2014-03-04	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #4226: add a Rake task for plugins that compiles their assets into core assets pipeline
+
+2014-03-03	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+
+2014-03-03	Marek Hulan <mhulan@redhat.com>
+	* fixes #812 - new permissions model, user group role and nest support, role filters for better granularity
+
+2014-02-25	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #4441 - Overriden link_to method should be public, not protected
+
+2014-02-24	Joseph Magen <jmagen@redhat.com>
+	* fixes #4393 - rename ancestry label to title
+
+2014-02-24	Neil Miao <nmiao@redhat.com>
+	* fixes #4423 - allow puppet classes to be imported by environment
+
+2014-02-24	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #3751 - new/edit submit buttons now have id
+
+2014-02-24	Jimmi Dyson <jimmi.dyson@specsavers.com>
+	* fixes #4015 - support oVirt using templates like images
+
+2014-02-21	Joseph Magen <jmagen@redhat.com>
+	* fixes #3876 - API find_resource by name even if name starts with integer
+	* fixes #4349 - API v2 - add location and organization child nodes to user, domain, subnet, etc show json templates
+	* fixes #4198 - API v2 - add child nodes to show responses. Ex. architecture should show operating systems node
+
+2014-02-19	Joseph Magen <jmagen@redhat.com>
+	* fixes #4388 - upgrade to Rails 3.2.17
+	* fixes #3912 - add inheritance for locations / organizations
+
+2014-02-19	James Netherton <james.netherton@specsavers.com>
+	* fixes #4222 Add capability to compute resource API to retrieve cluster,network,storage info on oVirt
+
+2014-02-19	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #2270 - Detect all OpenStack IPs and test which allows SSH
+
+2014-02-18	jan kaufman <jan.kaufman@gooddata.com>
+	* fixes #4125 [Openstack] - host with auto assigned IPs can't be deleted
+
+2014-02-18	Amos Benari <abenari@redhat.com>
+	* fixes #3567 Editing an oVirt compute resource can throw errors loading quotas while loading page
+
+2014-02-18	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #3307 - add troubleshooting to console page
+
+2014-02-18	Joseph Magen <jmagen@redhat.com>
+	* fixes #4333 - added multi-select-rails gem
+
+2014-02-17	Joseph Magen <jmagen@redhat.com>
+	* fixes #3939 - add option to 'inherit from parent' for hostgroup attributes
+
+2014-02-17	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4268 - don't search for host with nil IP on hostname spoofing
+
+2014-02-14	Sam Kottler <shk@redhat.com>
+	* Fixes #4221: add :dependent => :destroy for compute profiles on compute resource
+
+2014-02-14	Joseph Magen <jmagen@redhat.com>
+	* refs #4289 - tests for adding, deleting and updating lookup_values on host
+
+2014-02-14	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #3845 - user login session ending clears chosen organization
+
+2014-02-14	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #3903 - fixed menu links when relative URLs are set
+
+2014-02-14	Neil Miao <nmiao@redhat.com>
+	* fixes #3596 - validation error when user with hostgroup subscription creates a new hostgroup
+
+2014-02-14	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #4197: Adds 'plugins' directory to /var/log/foreman, /etc/foreman, and /usr/share/foreman to allow plugins to install their own log, config and other files.
+
+2014-02-14	Martin Matuska <martin@matuska.org>
+	* fixes #4159 Thin provisioning for VMware disks in compute profiles can't be saved
+	* fixes #4307 New VMware VM creation does not respect NIC type selection
+	* fixes #3496 vSphere: add support for selectable SCSI controller
+
+2014-02-13	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #4341: Adds a new organization taxonomy that is labeled empty.
+
+2014-02-13	Joseph Magen <joseph@isratrade.co.il>
+	* fixes #3980 - Compute profiles not rendering Openstack attributes correctly
+
+2014-02-11	lphiri <lphiri@redhat.com>
+	* Add header menu navigation
+
+2014-02-10	Martin Matuska <martin@matuska.org>
+	* Fixes #4276 display provisioned space in vSphere datastore selection
+
+2014-02-10	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #3519 - taxonomies include authorization module
+
+2014-02-10	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #4298 - ldap auth should accept parens in firstname or surname
+
+2014-02-10	karl-ravn <karl.ravn@deltaprojects.se>
+	* fixes #4304 - corrected strange search for host_id parameter
+
+2014-02-07	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #2726 - smart class parameter override fails validation
+
+2014-02-06	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #4234 - cannot edit host's puppet parameters
+
+2014-02-05	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #4270 - setting descriptions updated for consistency
+
+2014-02-05	Amos Benari <abenari@redhat.com>
+	* fixes #4220 dashboard and report-show pages chart-frame is not in place.
+
+2014-02-05	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #3725, #4167 - root password validations, remove default password
+
+2014-02-05	Robert Birnie <rbirnie@gmail.com>
+	* refs #2314 - more choices in memory drop down
+
+2014-02-05	Sam Kottler <shk@redhat.com>
+	* refs #2816: Prevent diff viewer on report page from overflowing to be outside the parent modal
+
+2014-02-05	Joseph Magen <jmagen@redhat.com>
+	* fixes #3999 - refactor DRY implementation of "nested label" for objects with ancestry
+
+2014-01-29	Dominic Cleal <dcleal@redhat.com>
+	* templates - sync from community-templates
+
+2014-01-28	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #4173 - don't update CR attrs when none available, taken from GH-1184
+
+2014-01-28	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #4200 - fixed sosreport integration
+
+2014-01-28	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #4120 - fix border-collapse:collapse tables in Firefox with disappearing lines
+
+2014-01-27	Martin Matuska <martin@matuska.org>
+	* Fixes #4196 "Power ON this machine" disappeared for new VMWare hosts
+
+2014-01-27	Joseph Magen <jmagen@redhat.com>
+	* fixes #3553 - add "except" option to prevent puppet class import to select types of import
+	* fixes #4188 - api/v2/status incorrectly shows api_version: 1
+	* fixes #2866 - Changing a hostgroup name doesn't update associated Smart Variable matchers
+
+2014-01-27	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #4178 - updating i18n extracting rake task and makefile
+
+2014-01-27	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4005 - ensure standalone Rabl.render works outside of a controller
+
+2014-01-27	Amos Benari <abenari@redhat.com>
+	* fixes #4189 - Facts charts are not rendered
+
+2014-01-27	Stephen Hoekstra <stephenhoekstra@gmail.com>
+	* fixes #4186 - db:seed fails when install media exists with same URL
+
+2014-01-27	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #3960 - wrap APIv2 errors in an "error" node
+
+2014-01-22	Dominic Cleal <dcleal@redhat.com>
+	* refs #3697, #3701 - fix test with multiple validation failures
+
+2014-01-22	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #3697, #3701 - more comprehensive field validations
+
+2014-01-22	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #4032 - Use object.id for comparisons
+
+2014-01-22	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #4161: plugin ActiveRecord models that do no define 'name' method no longer throw NoMethodError when to_s is called
+	* fixes #3931: rbvmomi gem has been pinned to ~> 1.6.0
+
+2014-01-21	Brad Buckingham <bbuckingham@redhat.com>
+	* fixes #4152 - fix syntax error in _form.html.erb for hosts and hostgroups
+
+2014-01-21	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #3955 - added param_true? and snippet_if_exist template methods
+	* fixes #4115 - added missing LICENSE file
+
+2014-01-21	Jason Montleon <jmontleo@redhat.com>
+	* fixes #3909 - add disassociate and bulk action disassociate to interface
+
+2014-01-21	Joseph Magen <joseph@isratrade.co.il>
+	* fixes #3828 - set language locale for API messages and error responses
+	* fixes #3925 - create apipie param_groups for API v2 to DRY documentation
+
+2014-01-21	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #3826: no more sql errors when trying to search for environments (also domains, operatingsystems, and models)
+
+2014-01-21	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #3920 - prevent 500 ScopedSearch errors on the API, raise UI errors correctly
+	* fixes #359 - hostname spoofing for unattended installation templates
+
+2014-01-20	Joseph Magen <joseph@isratrade.co.il>
+	* fixes #3760 - API v2 define metadata @total for each controller
+	* fixes #4023 - API v2 - compute resources partials should should attribute alias names and not database column names
+	* fixes #3998 - API v2 error on /api/compute_resources, missing gce.json.rabl
+	* fixes #4132 - helper select_f missing option for :multiple => true to increase width
+	* fixes #3867 - Wrong Compute Resource type shown on overview
+
+2014-01-20	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #4139 - fixed quiet flag in foreman-debug
+
+2014-01-17	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #3940 - extlogout page layout fixed
+	* fixes #3983 - added trends:clean to cron
+
+2014-01-17	Dominic Cleal <dcleal@redhat.com>
+	* Bump copyright, remove spurious file
+
+2014-01-17	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #2231 - hostgroup deletion is restricted to hostgroups without children
+	* fixes #3515 - API handles not found objects with 404
+
+2014-01-17	Ewoud Kohl van Wijngaarden <e.kohlvanwijngaarden@oxilion.nl>
+	* Fixes #4022: Make api puppetrun a PUT for REST standards
 
 2014-01-16	Dominic Cleal <dcleal@redhat.com>
+	* Bump version to 1.5-develop
 	* i18n - extracting new, updating rails, pulling from tx
 	* templates - sync from community-templates
+
+2014-01-16	David Davis <daviddavis@redhat.com>
+	* fixes #3992 - Removing unused coffeescript gem
 
 2014-01-16	Marek Hulan <mhulan@redhat.com>
 	* Fixes #4031 - change TFTP record on build flag change
