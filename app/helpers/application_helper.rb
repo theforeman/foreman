@@ -123,7 +123,7 @@ module ApplicationHelper
   #             :authorizer : Specific authorizer to perform authorization on (handy to inject authorizer with base collection)
   #             :permission : Specific permission to check authorization on (handy on custom permission names)
   def authorized_for(options)
-    action          = options.delete(:auth_action) || options.delete(:action)
+    action          = options.delete(:auth_action) || options[:action]
     object          = options.delete(:auth_object)
     user            = User.current
     controller      = options[:controller] || params[:controller]
