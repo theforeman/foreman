@@ -16,7 +16,8 @@ class Usergroup < ActiveRecord::Base
 
 
   has_many_hosts :as => :owner
-  validates :name, :uniqueness => true, :length => { :maximum => 255 }
+  validates :name, :length => { :maximum => 255 }, :uniqueness => { :scope => [ :name, :auth_source_id ] }, :presence => true
+  belongs_to :auth_source
   before_destroy EnsureNotUsedBy.new(:hosts, :usergroups)
 
   # The text item to see in a select dropdown menu

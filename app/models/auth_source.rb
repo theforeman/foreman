@@ -18,8 +18,9 @@
 class AuthSource < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
-  before_destroy EnsureNotUsedBy.new(:users)
+  before_destroy EnsureNotUsedBy.new(:users, :usergroups)
   has_many :users
+  has_many :usergroups
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 60 }
 
