@@ -167,7 +167,7 @@ class User < ActiveRecord::Base
         # update with returned attrs, maybe some info changed in LDAP
         old_hash = user.avatar_hash
         User.as :admin do
-          user.update_attributes(attrs.slice(:firstname, :lastname, :mail, :avatar_hash))
+          user.update_attributes(attrs.slice(:firstname, :lastname, :mail, :avatar_hash).delete_if { |k, v| v.blank? })
         end if attrs.is_a? Hash
 
         # clean up old avatar if it exists and the image isn't in use by anyone else
