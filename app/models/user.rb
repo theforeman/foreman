@@ -201,6 +201,10 @@ class User < ActiveRecord::Base
 
   def self.find_or_create_external_user(attrs, auth_source_name)
     if (user = unscoped.find_by_login(attrs[:login]))
+      if user.auth_source.is_a? AuthSourceExternal
+        external_groups = attrs.delete(:groups)
+        user.update_attributes(attrs)
+      end
       return true
     elsif auth_source_name.nil?
       return false
