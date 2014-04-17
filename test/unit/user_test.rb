@@ -91,6 +91,18 @@ class UserTest < ActiveSupport::TestCase
     assert_not_equal last_login, User.find(user.id).last_login_on
   end
 
+  test "ldap user attribute should be updated when not blank" do
+    AuthSourceLdap.any_instance.stubs(:authenticate).returns({ :firstname => "Foo" })
+    u = User.try_to_login("foo", "password")
+    assert_equal u.firstname, "Foo"
+  end
+
+  test "ldap user attribute should not be updated when blank" do
+    AuthSourceLdap.any_instance.stubs(:authenticate).returns({ :mail => "" })
+    u = User.try_to_login("foo", "password")
+    assert_equal u.mail, "foo@bar.com"
+  end
+
   test "should not be able to delete the admin account" do
     assert !User.find_by_login("admin").destroy
   end
