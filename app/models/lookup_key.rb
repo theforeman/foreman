@@ -10,6 +10,8 @@ class LookupKey < ActiveRecord::Base
   KEY_DELM = ","
   EQ_DELM  = "="
 
+  audited :associated_with => :audit_class, :allow_mass_assignment => true
+
   serialize :default_value
 
   belongs_to :puppetclass, :inverse_of => :lookup_keys, :counter_cache => true
@@ -18,6 +20,10 @@ class LookupKey < ActiveRecord::Base
   has_many :param_classes, :through => :environment_classes, :source => :puppetclass
   def param_class
     param_classes.first
+  end
+
+  def audit_class
+    param_class || puppetclass
   end
 
   has_many :lookup_values, :dependent => :destroy, :inverse_of => :lookup_key
@@ -75,6 +81,10 @@ class LookupKey < ActiveRecord::Base
   # to prevent errors caused by find_resource from override_values controller
   def self.find_by_name(str)
     nil
+  end
+
+  def to_label
+    "#{audit_class}::#{key}"
   end
 
   def is_smart_variable?
