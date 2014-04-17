@@ -19,5 +19,10 @@ module Authorizable
         Authorizer.new(User.current).find_collection(resource || self, :permission => permission)
       end
     }
+
+    def authorized?(permission)
+      return false if User.current.nil?
+      User.current.can?(permission, self)
+    end
   end
 end
