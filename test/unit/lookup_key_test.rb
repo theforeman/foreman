@@ -137,4 +137,15 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert lookup_keys(:complex).is_smart_class_parameter?
   end
 
+  test "when changed, an audit entry should be added" do
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    key = pc.class_params.first
+    assert_difference('Audit.count') do
+      key.override = true
+      key.default_value = "new default value"
+      key.save!
+    end
+    assert_equal pc.name, key.audits.last.associated_name
+  end
 end

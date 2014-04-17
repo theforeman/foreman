@@ -115,4 +115,27 @@ class LookupValueTest < ActiveSupport::TestCase
     assert lk.value.is_a? Array
     assert_equal lk.value_before_type_cast, "[{\"foo\":\"bar\"},{\"baz\":\"qux\"},\"baz\"]"
   end
+
+  test "when created, an audit entry should be added" do
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    key = pc.class_params.first
+    lvalue = nil
+    assert_difference('Audit.count') do
+      lvalue = FactoryGirl.create :lookup_value, :lookup_key_id => key.id, :value => 'test', :match => 'foo=bar'
+    end
+    assert_equal "#{pc.name}::#{key.key}", lvalue.audits.last.associated_name
+  end
+
+  test "when changed, an audit entry should be added" do
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :environments => [env])
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
+    lvalue = key.lookup_values.first
+    assert_difference('Audit.count') do
+      lvalue.value = 'new overridden value'
+      lvalue.save!
+    end
+    assert_equal "#{pc.name}::#{key.key}", lvalue.audits.last.associated_name
+  end
 end
