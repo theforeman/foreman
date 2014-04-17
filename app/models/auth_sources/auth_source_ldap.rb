@@ -61,6 +61,7 @@ class AuthSourceLdap < AuthSource
       return nil
     end
     # return user's attributes
+    logger.debug "Retrieved LDAP Attributes for #{login}: #{attrs}"
     attrs
   rescue Net::LDAP::LdapError => text
     raise "LdapError: %s" % text
