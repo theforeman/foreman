@@ -201,10 +201,14 @@ class User < ActiveRecord::Base
 
   def self.find_or_create_external_user(attrs, auth_source_name)
     if (user = unscoped.find_by_login(attrs[:login]))
-      if user.auth_source.is_a? AuthSourceExternal
-        external_groups = attrs.delete(:groups)
+      auth_source = AuthSource.where(:name => auth_source_name)
+      external_groups = attrs.delete(:groups)
+      groups = user.usergroups.includes(:external_usergroups).where('usergroups.id not in (?)', ExternalUsergroup.where(:auth_source_id => auth_source).pluck(:usergroup_id))
+      if user.auth_source_id == auth_source.first.id
         user.update_attributes(attrs)
+        groups = (groups + ExternalUsergroup.where(:auth_source_id => auth_source, :name => external_groups).map(&:usergroup)).uniq
       end
+      user.usergroups = groups
       return true
     elsif auth_source_name.nil?
       return false
