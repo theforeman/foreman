@@ -621,6 +621,13 @@ Foreman::AccessControl.map do |map|
     }
   end
 
+  map.security_block :external_usergroups do |map|
+    map.permission :view_external_usergroups, { :external_usergroups => [:index, :show ] }
+    map.permission :create_external_usergroups, { :external_usergroups => [:new, :create] }
+    map.permission :edit_external_usergroups, { :external_usergroups => [:edit, :update] }
+    map.permission :destroy_external_usergroups, { :external_usergroups => [:destroy] }
+  end
+
   map.security_block :users do |map|
     ajax_actions = [:auth_source_selected]
 

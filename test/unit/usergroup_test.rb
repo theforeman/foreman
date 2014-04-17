@@ -130,6 +130,23 @@ class UsergroupTest < ActiveSupport::TestCase
     assert_equal 2, user.reload.cached_user_roles.size
   end
 
+  test 'add_users adds users in list and does not add nonexistent users' do
+    usergroup = FactoryGirl.create(:usergroup)
+    usergroup.send(:add_users, ['one', 'two', 'three'])
+
+    # users 'one' 'two' are defined in fixtures, 'three' is not defined
+    assert_equal ['one', 'two'], usergroup.users.map(&:login)
+  end
+
+  test 'remove_users removes user list' do
+    usergroup = FactoryGirl.create(:usergroup)
+    usergroup.send(:add_users, ['one', 'two'])
+
+    usergroup.send(:remove_users, ['one', 'two'])
+    assert_equal [], usergroup.users
+  end
+
+
   # TODO test who can modify usergroup roles and who can assign users!!! possible privileges escalation
 
 end
