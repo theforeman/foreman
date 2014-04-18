@@ -561,7 +561,8 @@ class HostsController < ApplicationController
           'update_multiple_environment', 'multiple_disable', 'submit_multiple_disable',
           'multiple_enable', 'submit_multiple_enable',
           'update_multiple_organization', 'select_multiple_organization',
-          'update_multiple_location', 'select_multiple_location'
+          'update_multiple_location', 'select_multiple_location',
+          'disassociate', 'update_multiple_disassociate', 'multiple_disassociate'
         :edit
       when 'multiple_destroy', 'submit_multiple_destroy'
         :destroy
