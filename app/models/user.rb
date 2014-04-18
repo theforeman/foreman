@@ -205,7 +205,7 @@ class User < ActiveRecord::Base
       external_groups = attrs.delete(:groups)
       groups = user.usergroups.includes(:external_usergroups).where('usergroups.id not in (?)', ExternalUsergroup.where(:auth_source_id => auth_source).pluck(:usergroup_id))
       if user.auth_source_id == auth_source.first.id
-        user.update_attributes(attrs)
+        user.update_attributes(attrs.delete_if { |k, v| v.blank? })
         groups = (groups + ExternalUsergroup.where(:auth_source_id => auth_source, :name => external_groups).map(&:usergroup)).uniq
       end
       user.usergroups = groups
