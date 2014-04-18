@@ -739,6 +739,34 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal host.os.name, yaml[host.name]["osName"]  # rundeck-specific field
   end
 
+  test "#disassociate shows error when used on non-CR host" do
+    host = FactoryGirl.create(:host)
+    @request.env["HTTP_REFERER"] = hosts_path
+    put :disassociate, {:id => host.to_param}, set_session_user
+    assert_response :redirect, hosts_path
+    assert_not_nil flash[:error]
+  end
+
+  test "#disassociate removes UUID and CR association from host" do
+    host = FactoryGirl.create(:host, :on_compute_resource)
+    @request.env["HTTP_REFERER"] = hosts_path
+    put :disassociate, {:id => host.to_param}, set_session_user
+    assert_response :redirect, hosts_path
+    host.reload
+    refute host.uuid
+    refute host.compute_resource_id
+  end
+
+  test '#update_multiple_disassociate' do
+    host = FactoryGirl.create(:host, :on_compute_resource)
+    post :update_multiple_disassociate, {:host_ids => [host.id], :host_names => [host.name]}, set_session_user
+    assert_response :redirect, hosts_path
+    assert_not_nil flash[:notice]
+    host.reload
+    refute host.uuid
+    refute host.compute_resource_id
+  end
+
   private
   def initialize_host
     User.current = users(:admin)

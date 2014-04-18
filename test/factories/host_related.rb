@@ -17,6 +17,12 @@ FactoryGirl.define do
         FactoryGirl.create(:host_parameter, :host => host)
       end
     end
+
+    trait :on_compute_resource do
+      uuid Foreman.uuid
+      association :compute_resource, :factory => :ec2_cr
+      after_build { |host| host.class.skip_callback(:validation, :after, :queue_compute) }
+    end
   end
 
   factory :hostgroup do
