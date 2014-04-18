@@ -15,7 +15,7 @@
 
 Name:   foreman
 Version: 1.5.0
-Release: 0.develop%{?dist}
+Release: 0.1.RC1%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -581,6 +581,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Thu Apr 17 2014 Dominic Cleal <dcleal@redhat.com> - 1.5.0-0.1.RC1
+- Release 1.5.0-RC1
+
 * Thu Jan 16 2014 Dominic Cleal <dcleal@redhat.com> - 1.5.0-0.develop
 - Bump version to 1.5-develop
 - Remove rails3_before_render dependency
