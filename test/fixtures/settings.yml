@@ -230,3 +230,8 @@ attributes47:
   category: Setting::Puppet
   default: 'foreman_organization'
   description: 'Fact to set organization from when importing hosts'
+attributes48:
+  name: Enable_Smart_Variables_in_ENC
+  category: Setting::Puppet
+  default: "true"
+  description: "Foreman smart variables will be exposed via the ENC yaml output"

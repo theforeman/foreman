@@ -479,6 +479,7 @@ class Host::Managed < Host::Base
       end
     end
 
+    self.clear_host_parameters_cache!
     self.save
   end
 
