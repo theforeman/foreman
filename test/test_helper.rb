@@ -233,6 +233,7 @@ Spork.each_run do
   # This code will be run each time you run your specs.
   class ActionController::TestCase
     setup :setup_set_script_name, :set_api_user, :reset_setting_cache
+    teardown :reset_setting_cache
 
     def reset_setting_cache
       Setting.cache.clear

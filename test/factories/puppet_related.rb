@@ -21,7 +21,7 @@ FactoryGirl.define do
     trait :with_override do
       override true
       default_value "default value"
-      path "fqdn\ncomment"
+      path "comment"
       overrides({"comment=override" => "overridden value"})
     end
 
@@ -53,8 +53,11 @@ FactoryGirl.define do
     end
 
     trait :with_parameters do
+      ignore do
+        parameter_count 1
+      end
       after_create do |pc,evaluator|
-        3.times do
+        evaluator.parameter_count.times do
           evaluator.environments.each do |env|
             lkey = FactoryGirl.create :lookup_key, :is_param => true
             FactoryGirl.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id, :lookup_key_id => lkey.id

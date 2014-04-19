@@ -1,6 +1,6 @@
 module Classification
   class Base
-    delegate :hostgroup, :environment_id,
+    delegate :hostgroup, :environment_id, :puppetclass_ids, :classes,
              :to => :host
 
     def initialize args = { }
@@ -24,17 +24,6 @@ module Classification
     #override this method to return the relevant parameters for a given set of classes
     def class_parameters
       raise NotImplementedError
-    end
-
-    def puppetclass_ids
-      return @puppetclass_ids if @puppetclass_ids
-      ids = host.host_classes.pluck(:puppetclass_id)
-      ids += HostgroupClass.where(:hostgroup_id => hostgroup.path_ids).pluck(:puppetclass_id) if hostgroup
-      @puppetclass_ids = EnvironmentClass.where(:environment_id => host.environment_id, :puppetclass_id => ids).pluck('DISTINCT puppetclass_id')
-    end
-
-    def classes
-      Puppetclass.where(:id => puppetclass_ids)
     end
 
     def possible_value_orders

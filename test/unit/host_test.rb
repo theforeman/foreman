@@ -397,6 +397,7 @@ class HostTest < ActiveSupport::TestCase
       "classes"=>["apache", "base"]}
 
     host.importNode nodeinfo
+    nodeinfo["parameters"]["special_info"] = "secret"  # smart variable on apache
 
     assert_equal nodeinfo, host.info
   end
@@ -1105,6 +1106,7 @@ class HostTest < ActiveSupport::TestCase
     # four classes in config groups plus one manually added
     assert_equal 5, all_classes.count
     assert_equal ['base', 'chkmk', 'nagios', 'pam', 'auth'].sort, all_classes.map(&:name).sort
+    assert_equal all_classes, host.all_puppetclasses
   end
 
   test "search hostgroups by config group" do
@@ -1173,6 +1175,30 @@ class HostTest < ActiveSupport::TestCase
     refute_equal Puppetclass.scoped, host.available_puppetclasses
     refute_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
     assert_equal (host.environment.puppetclasses - host.parent_classes).sort, host.available_puppetclasses.sort
+  end
+
+  test "#info ENC YAML uses all_puppetclasses for non-parameterized output" do
+    Setting[:Parametrized_Classes_in_ENC] = false
+    myclass = mock('myclass')
+    myclass.expects(:name).returns('myclass')
+    host = FactoryGirl.build(:host)
+    host.expects(:all_puppetclasses).returns([myclass])
+    enc = host.info
+    assert_kind_of Hash, enc
+    assert_equal ['myclass'], enc['classes']
+  end
+
+  test "#info ENC YAML uses Classification::ClassParam for parameterized output" do
+    Setting[:Parametrized_Classes_in_ENC] = true
+    Setting[:Enable_Smart_Variables_in_ENC] = true
+    host = FactoryGirl.build(:host)
+    classes = {'myclass' => {'myparam' => 'myvalue'}}
+    classification = mock('Classification::ClassParam')
+    classification.expects(:enc).returns(classes)
+    Classification::ClassParam.expects(:new).with(:host => host).returns(classification)
+    enc = host.info
+    assert_kind_of Hash, enc
+    assert_equal classes, enc['classes']
   end
 
   private
