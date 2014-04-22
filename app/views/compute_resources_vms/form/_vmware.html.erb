@@ -6,6 +6,7 @@
 <%= selectable_f f, :cluster, compute_resource.clusters, { }, :class => "col-md-2", :disabled => !new, :label => _('Cluster') %>
 <%# selectable_f f, :resource_pool, compute_resource.resource_pools, { }, :class => "col-md-2", :disabled => !new %>
 <%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :class => "col-md-2", :disabled => !new } %>
+<%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new } %>
 
 <!--interfaces-->
 <div class="children_fields">
