@@ -4,45 +4,42 @@ class AuthorizerTest < ActiveSupport::TestCase
   def setup
     User.current = User.admin
 
-    @user_role = FactoryGirl.create(:user_user_role)
-    @user      = @user_role.owner
-    @role      = @user_role.role
+    @user_role  = FactoryGirl.create(:user_user_role)
+    @user       = @user_role.owner
+    @role       = @user_role.role
+    @permission = FactoryGirl.create(:permission, :host)
   end
 
   # limited, unlimited, permission with resource, without resource...
   test "#can?(:view_hosts) with unlimited filter" do
-    permission = Permission.find_by_name('view_hosts')
-    filter     = FactoryGirl.create(:filter, :role => @role, :permissions => [permission])
+    filter     = FactoryGirl.create(:filter, :role => @role, :permissions => [@permission])
     auth       = Authorizer.new(@user)
 
-    assert auth.can?(:view_hosts)
+    assert auth.can?(@permission.name.to_sym)
     refute auth.can?(:view_domains)
   end
 
   test "#can?(:view_hosts) with unlimited filter" do
-    permission = Permission.find_by_name('view_hosts')
-    filter     = FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [permission])
+    filter     = FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
     auth       = Authorizer.new(@user)
 
-    assert auth.can?(:view_hosts)
+    assert auth.can?(@permission.name.to_sym)
     refute auth.can?(:view_domains)
   end
 
   test "#can?(:view_hosts) on permission without resource" do
-    permission = Permission.find_by_name('view_hosts')
-    filter     = FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [permission])
+    filter     = FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
     auth       = Authorizer.new(@user)
 
-    assert auth.can?(:view_hosts)
+    assert auth.can?(@permission.name.to_sym)
     refute auth.can?(:view_domains)
   end
 
   test "#can?(:view_hosts) is limited by particular user" do
-    permission = Permission.find_by_name('view_hosts')
-    filter     = FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [permission])
+    filter     = FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
     auth       = Authorizer.new(FactoryGirl.create(:user))
 
-    refute auth.can?(:view_hosts)
+    refute auth.can?(@permission.name.to_sym)
   end
 
   test "#can?(:view_domains, @host) for unlimited filter" do

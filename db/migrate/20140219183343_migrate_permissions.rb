@@ -1,5 +1,5 @@
 # we need permissions to be seeded already
-require Rails.root + 'db/seeds.d/20-permissions'
+require Rails.root + 'db/seeds.d/11-permissions'
 
 # Fake models to make sure that this migration can be executed even when
 # original models changes later (e.g. add validation on columns that are not
