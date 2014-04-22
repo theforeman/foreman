@@ -10,7 +10,7 @@
                    :help_inline => :indicator,
                    :class => 'interface_domain', :'data-url' => domain_selected_hosts_path } %>
     <% domain = f.object.respond_to?(:domain) ? f.object.domain : nil %>
-    <%= select_f f, :subnet_id, domain_subnets(domain), :id, :title,
+    <%= select_f f, :subnet_id, domain_subnets(domain), :id, :to_label,
                  { :include_blank => domain_subnets(domain).any? ? true : _("No subnets")},
                  { :disabled => domain_subnets(domain).empty? ? true : false,
                    :help_inline => :indicator,
