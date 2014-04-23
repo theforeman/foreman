@@ -8,7 +8,7 @@ module Orchestration::DHCP
   end
 
   def dhcp?
-    name.present? && ip_available? && mac_available? && !subnet.nil? && subnet.dhcp? && managed?
+    hostname.present? && ip_available? && mac_available? && !subnet.nil? && subnet.dhcp? && managed?
   end
 
   def dhcp_record
@@ -58,7 +58,7 @@ module Orchestration::DHCP
   def dhcp_attrs
     return unless dhcp?
     dhcp_attr = { :name => name, :filename => operatingsystem.boot_filename(self),
-                  :ip => ip, :mac => mac, :hostname => name, :proxy => subnet.dhcp_proxy,
+                  :ip => ip, :mac => mac, :hostname => hostname, :proxy => subnet.dhcp_proxy,
                   :network => subnet.network, :nextServer => boot_server }
 
     if jumpstart?
@@ -94,7 +94,7 @@ module Orchestration::DHCP
   # do we need to update our dhcp reservations
   def dhcp_update_required?
     # IP Address / name changed
-    return true if ((old.ip != ip) or (old.name != name) or (old.mac != mac) or (old.subnet != subnet))
+    return true if ((old.ip != ip) or (old.hostname != hostname) or (old.mac != mac) or (old.subnet != subnet))
     # Handle jumpstart
     #TODO, abstract this way once interfaces are fully used
     if self.kind_of?(Host::Base) and jumpstart?
@@ -134,7 +134,7 @@ module Orchestration::DHCP
 
   def dhcp_conflict_detected?
     # we can't do any dhcp based validations when our MAC address is defined afterwards (e.g. in vm creation)
-    return false if mac.blank? or name.blank?
+    return false if mac.blank? or hostname.blank?
     return false unless dhcp?
 
     if dhcp_record and dhcp_record.conflicting? and (not overwrite?)
