@@ -51,4 +51,16 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert_not_nil h.dns_ptr_record
     end
   end
+
+  def test_bmc_should_have_valid_dns_records
+    if unattended?
+      b = nics(:bmc)
+      b.domain = domains(:mydomain)
+      b.subnet = subnets(:five)
+      assert b.dns?
+      assert b.reverse_dns?
+      assert_equal "#{b.name}.#{b.domain.name}/#{b.ip}", b.dns_a_record.to_s
+      assert_equal "#{b.ip}/#{b.name}.#{b.domain.name}", b.dns_ptr_record.to_s
+    end
+  end
 end

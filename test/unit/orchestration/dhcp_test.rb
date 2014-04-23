@@ -22,6 +22,16 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
+  def test_bmc_should_have_valid_dhcp_record
+    if unattended?
+      b = nics(:bmc)
+      b.domain = domains(:mydomain)
+      b.subnet = subnets(:five)
+      assert b.dhcp?
+      assert_equal "#{b.name}.#{b.domain.name}-#{b.mac}/#{b.ip}", b.dhcp_record.to_s
+    end
+  end
+
   test "jumpstart parameter generation" do
     h = hosts(:sol10host)
     Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01").returns("2.3.4.5").once
