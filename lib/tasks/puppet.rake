@@ -62,7 +62,7 @@ namespace :puppet do
     task :puppet_classes,  [:batch, :envname] => :environment do | t, args |
       args.batch = args.batch == "true"
 
-      proxies = SmartProxy.puppet_proxies
+      proxies = SmartProxy.with_features("Puppet")
       if proxies.empty?
         puts "ERROR: We did not find at least one configured Smart Proxy with the Puppet feature"
         exit 1
@@ -151,7 +151,7 @@ namespace :puppet do
       puts " ================================================================ "
       puts "Import starts: #{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}"
 
-      proxies = SmartProxy.puppet_proxies
+      proxies = SmartProxy.with_features("Puppet")
       if proxies.empty?
         puts "ERROR: We did not find at least one configured Smart Proxy with the Puppet feature"
         exit 1
