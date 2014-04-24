@@ -7,12 +7,6 @@ module Foreman::Model
     validates :user, :password, :presence => true
     validates :url, :format => { :with => URI.regexp }
 
-    #after_create :setup_key_pair
-    #after_destroy :destroy_key_pair
-
-    #alias_attribute :access_key, :user
-    #alias_attribute :region, :url
-
     def provider_friendly_name
       "OpenNebula"
     end
@@ -53,6 +47,10 @@ module Foreman::Model
       client.flavors
     end
 
+    def groups
+      client.groups
+    end
+
     def create_vm args = { }
       args = vm_instance_defaults.merge(args.to_hash.symbolize_keys)
       logger.info "CREATEVM ARGS #{args.inspect}"
@@ -60,6 +58,7 @@ module Foreman::Model
 
       vm = client.servers.new
       vm.name = args[:name]
+      vm.gid = args[:gid] unless args[:gid].empty?
       vm.flavor = client.flavors.get(args[:template_id])
 
       vm.flavor.VCPU = args[:vcpu] unless args[:vcpu].empty?
@@ -82,23 +81,7 @@ module Foreman::Model
       logger.info "NIC: #{vm.flavor.NIC.inspect}"
       logger.info "FLAVORtos: #{vm.flavor.to_s}"
       vm.save
-      #super(args)
     end
-
-    #def security_groups vpc=nil
-    #  groups = client.security_groups
-    #  groups.reject! { |sg| sg.vpc_id != vpc } if vpc
-    #  groups
-    #end
-
-    #def regions
-    #  return [] if user.blank? or password.blank?
-    #  @regions ||= client.describe_regions.body["regionInfo"].map { |r| r["regionName"] }
-    #end
-
-    #def zones
-    #  @zones ||= client.describe_availability_zones.body["availabilityZoneInfo"].map { |r| r["zoneName"] if r["regionName"] == region }.compact
-    #end
 
     def test_connection options = {}
       super

@@ -1,6 +1,7 @@
 <%= select_f f, :template_id, compute_resource.flavors, :id, :to_label, {}, :label => _('Templates') %>
 <%= selectable_f f, :vcpu, 1..8, { :include_blank => _("Template default")}, :label => _('VCPUs') %>
 <%= selectable_f f, :memory,[512, 1024, 2048, 4096] , { :include_blank => _("Template default")}, :class => "col-md-2", :label => _('Memory') %>
+<%= select_f f, :gid, compute_resource.groups, :id, :to_label, { :include_blank => _("User default")}, :label => _('One Group') %>
 
 <!--NICS -->
 <div class="children_fields">
