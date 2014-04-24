@@ -81,6 +81,10 @@ module Foreman::Model
       logger.info "NIC: #{vm.flavor.NIC.inspect}"
       logger.info "FLAVORtos: #{vm.flavor.to_s}"
       vm.save
+    rescue ::OpenNebula::Error => e
+      logger.debug "OpenNebula error: #{e.message}\n " + e.backtrace.join("\n ")
+      errors.add(:base, e.message.to_s)
+      false
     end
 
     def test_connection options = {}
