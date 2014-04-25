@@ -231,8 +231,9 @@ module Foreman::Model
         raise "Unknown Network ID: #{interface["network"]}" if net.nil?
         interface["network"] = net.name
       end
+      args = args.symbolize_keys
 
-      # convert rails nested_attributes into a plain hash
+      # convert rails nested_attributes into a plain, symbolized hash
       [:interfaces, :volumes].each do |collection|
         nested_attrs = args.delete("#{collection}_attributes".to_sym)
         args[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
@@ -248,7 +249,7 @@ module Foreman::Model
       test_connection
       return unless errors.empty?
 
-      if args["image_id"]
+      if args[:image_id].present?
         clone_vm(args)
       else
         vm = new_vm(args)
@@ -261,7 +262,7 @@ module Foreman::Model
     end
 
     def new_vm args
-      opts = vm_instance_defaults.merge(args.to_hash).symbolize_keys
+      opts = vm_instance_defaults.symbolize_keys.merge(args.symbolize_keys)
       client.servers.new opts
     end
 
@@ -282,21 +283,21 @@ module Foreman::Model
     def clone_vm args
       path_replace = %r{/Datacenters/#{datacenter}/vm(/|)}
 
-      interfaces = client.list_vm_interfaces(args["image_id"])
+      interfaces = client.list_vm_interfaces(args[:image_id])
       interface = interfaces.detect{|i| i[:name] == "Network adapter 1" }
       network_adapter_device_key = interface[:key]
 
       opts = {
         "datacenter" => datacenter,
-        "template_path" => args["image_id"],
-        "dest_folder" => args["path"].gsub(path_replace, ''),
+        "template_path" => args[:image_id],
+        "dest_folder" => args[:path].gsub(path_replace, ''),
         "power_on" => false,
-        "start" => args["start"],
-        "name" => args["name"],
-        "numCPUs" => args["cpus"],
-        "memoryMB" => args["memory_mb"],
-        "datastore" => args["volumes"].first["datastore"],
-        "network_label" => args["interfaces"].first["network"],
+        "start" => args[:start],
+        "name" => args[:name],
+        "numCPUs" => args[:cpus],
+        "memoryMB" => args[:memory_mb],
+        "datastore" => args[:volumes].first[:datastore],
+        "network_label" => args[:interfaces].first[:network],
         "network_adapter_device_key" => network_adapter_device_key
       }
       client.servers.get(client.vm_clone(opts)['new_vm']['id'])

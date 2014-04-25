@@ -8,6 +8,7 @@ FactoryGirl.define do
       user 'ec2user'
       password 'ec2password'
       url 'eu-west-1'
+      after_build { |host| host.class.skip_callback(:create, :after, :setup_key_pair) }
     end
 
     trait :gce do
@@ -25,12 +26,14 @@ FactoryGirl.define do
       provider 'Openstack'
       user 'osuser'
       password 'ospassword'
+      after_build { |host| host.class.skip_callback(:create, :after, :setup_key_pair) }
     end
 
     trait :ovirt do
       provider 'Ovirt'
       user 'ovirtuser'
       password 'ovirtpassword'
+      after_build { |host| host.class.skip_callback(:create, :before, :update_public_key) }
     end
 
     trait :rackspace do
@@ -46,14 +49,15 @@ FactoryGirl.define do
       password 'vpassword'
       sequence(:server) { |n| "#{n}.example.com" }
       datacenter 'vdatacenter'
+      after_build { |host| host.class.skip_callback(:create, :before, :update_public_key) }
     end
 
-    factory :ec2_cr, :traits => [:ec2]
-    factory :gce_cr, :traits => [:gce]
-    factory :libvirt_cr, :traits => [:libvirt]
-    factory :openstack_cr, :traits => [:openstack]
-    factory :ovirt_cr, :traits => [:ovirt]
-    factory :rackspace_cr, :traits => [:rackspace]
-    factory :vmware_cr, :traits => [:vmware]
+    factory :ec2_cr, :class => Foreman::Model::EC2, :traits => [:ec2]
+    factory :gce_cr, :class => Foreman::Model::GCE, :traits => [:gce]
+    factory :libvirt_cr, :class => Foreman::Model::Libvirt, :traits => [:libvirt]
+    factory :openstack_cr, :class => Foreman::Model::Openstack, :traits => [:openstack]
+    factory :ovirt_cr, :class => Foreman::Model::Ovirt, :traits => [:ovirt]
+    factory :rackspace_cr, :class => Foreman::Model::Rackspace, :traits => [:rackspace]
+    factory :vmware_cr, :class => Foreman::Model::Vmware, :traits => [:vmware]
   end
 end
