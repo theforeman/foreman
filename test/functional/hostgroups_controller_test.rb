@@ -106,47 +106,6 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_equal old_root_pass, hostgroup.root_pass
   end
 
-  test 'users subscribed to all hostgroups should be always added to hostgroup' do
-    one = users(:one)
-    as_admin do
-      one.update_attributes(:subscribe_to_all_hostgroups => true)
-    end
-
-    post :create, { "hostgroup" => { "name"=>"first" } }, set_session_user
-    post :create, { "hostgroup" => { "name"=>"second" } }, set_session_user
-
-    assert_equal one, Hostgroup.find_by_name("first").users.first
-    assert_equal one, Hostgroup.find_by_name("second").users.first
-  end
-
-  test 'users subscribed to all hostgroups should be always added to hostgroup created by non-admin users' do
-    setup_user 'create'
-    @one.update_attributes(:subscribe_to_all_hostgroups => true)
-    as_admin do
-      @two = users(:two)
-      @two.update_attributes(:subscribe_to_all_hostgroups => true)
-      @two.save!
-    end
-    post :create, { 'hostgroup' => { 'name'=>'first' } }, set_session_user.merge(:user => @one.id)
-    assert_equal 2, Hostgroup.find_by_name('first').users.length
-    assert_equal [@one, @two], Hostgroup.find_by_name('first').users.sort
-  end
-
-  test "users subscribed to all hostgroups should be always added to hostgroup created by non-admin user when the creater is already added to the new hosrgroup's ancestors" do
-    setup_user 'create'
-    as_admin do
-      Hostgroup.new(:name => "root").save
-      Hostgroup.find_by_name("root").users << @one
-      @two = users(:two)
-      @two.update_attributes(:subscribe_to_all_hostgroups => true)
-      @two.save!
-    end
-    post :create, {"hostgroup" => {"name"=>"first" , "parent_id"=> Hostgroup.find_by_name("root").id}},
-                  set_session_user.merge(:user => @one.id)
-    assert_equal 2, Hostgroup.find_by_name('first').users.length
-    assert_equal [@one, @two], Hostgroup.find_by_name('first').users.sort
-  end
-
   test "hostgroup rename changes matcher" do
     hostgroup = hostgroups(:common)
     put :update, {:id => hostgroup.id, :hostgroup => {:name => 'new_common'}}, set_session_user

@@ -372,6 +372,24 @@ class ApplicationController < ActionController::Base
     errors.any? ? {:status => N_("Error"), :message => errors.full_messages.join('<br>')} : {:status => N_("OK"), :message =>""}
   end
 
+  def taxonomy_scope
+    if params[controller_name.singularize.to_sym]
+      @organization = Organization.find_by_id(params[controller_name.singularize.to_sym][:organization_id])
+      @location     = Location.find_by_id(params[controller_name.singularize.to_sym][:location_id])
+    end
+
+    if instance_variable_get("@#{controller_name}").present?
+      @organization ||= instance_variable_get("@#{controller_name}").organization
+      @location     ||= instance_variable_get("@#{controller_name}").location
+    end
+
+    @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
+    @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
+
+    @organization ||= Organization.current if SETTINGS[:organizations_enabled]
+    @location     ||= Location.current if SETTINGS[:locations_enabled]
+  end
+
   def two_pane?
     request.headers["X-Foreman-Layout"] == 'two-pane' && params[:action] != 'index'
   end

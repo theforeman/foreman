@@ -1,0 +1,17 @@
+<div class="fields">
+  <% @hostgroup.ancestors.map(&:group_parameters).flatten.each_with_index do |parameter, i|  %>
+  <% next if @hostgroup.group_parameters.map(&:name).include? parameter.name %>
+  <table class="row">
+    <td class="col-md-2">
+      <%= content_tag(:input, '', :class => "form-control", :disabled => true,  :value => _('Global'), :type=> :text ) %>
+    </td>
+    <td class="col-md-2">
+      <%= text_field_tag("parent_parameter_#{i}_key", '', :class => "form-control", :placeholder => parameter.name) %>
+    </td>
+    <td class="col-md-7">
+      <%= text_area_tag("parent_parameter_#{i}_value", '', :class => "form-control", :rows => 1, :placeholder => parameter.value) %>
+    </td>
+    </tr>
+  </table>
+  <% end %>
+</div>

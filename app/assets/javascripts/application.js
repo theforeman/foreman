@@ -317,7 +317,12 @@ function update_puppetclasses(element) {
   var env_id = $('*[id*=environment_id]').val();
   var url = $(element).attr('data-url');
   var data = $("form").serialize().replace('method=put', 'method=post');
-  data = data + '&host_id=' + host_id
+  if (url.match('hostgroups')) {
+    data = data + '&hostgroup_id=' + host_id
+  } else {
+    data = data + '&host_id=' + host_id
+  }
+
   if (env_id == "") return;
   $(element).indicator_show();
   $.ajax({

@@ -598,30 +598,6 @@ class HostsController < ApplicationController
     error _("Something went wrong while changing host type - %s") % (e)
   end
 
-  def taxonomy_scope
-    if params[:host]
-      @organization = Organization.find_by_id(params[:host][:organization_id])
-      @location = Location.find_by_id(params[:host][:location_id])
-    end
-
-    if @host
-      @organization ||= @host.organization
-      @location     ||= @host.location
-    end
-
-    @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
-    @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
-
-    if SETTINGS[:organizations_enabled]
-      @organization ||= Organization.current
-      @organization ||= Organization.my_organizations.first
-    end
-    if SETTINGS[:locations_enabled]
-      @location ||= Location.current
-      @location ||= Location.my_locations.first
-    end
-  end
-
   def find_by_name
     not_found and return false if (id = params[:id]).blank?
     # determine if we are searching for a numerical id or plain name

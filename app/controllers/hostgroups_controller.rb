@@ -1,7 +1,9 @@
 class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_name, :only => [:nest, :clone, :edit, :update, :destroy]
+  before_filter :find_by_name,   :only => [:nest, :clone, :edit, :update, :destroy]
+  before_filter :ajax_request,   :only => [:process_hostgroup, :current_parameters, :puppetclass_parameters]
+  before_filter :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
 
   def index
     @hostgroups = resource_base.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
@@ -29,10 +31,10 @@ class HostgroupsController < ApplicationController
     new = @hostgroup.dup
     load_vars_for_ajax
     new.puppetclasses = @hostgroup.puppetclasses
-    new.locations = @hostgroup.locations
+    new.locations     = @hostgroup.locations
     new.organizations = @hostgroup.organizations
     # Clone any parameters as well
-    @hostgroup.group_parameters.each{|param| new.group_parameters << param.dup}
+    @hostgroup.group_parameters.each { |param| new.group_parameters << param.dup }
     new.name = ""
     new.valid?
     @hostgroup = new
@@ -44,7 +46,6 @@ class HostgroupsController < ApplicationController
     @hostgroup = Hostgroup.new(params[:hostgroup])
     if @hostgroup.save
       # Add the new hostgroup to the user's filters
-      @hostgroup.users << subscribed_users
       @hostgroup.users << users_in_ancestors
       @hostgroup.users << User.current unless User.current.admin? or @hostgroup.users.include?(User.current)
       process_success
@@ -59,11 +60,15 @@ class HostgroupsController < ApplicationController
   end
 
   def update
+    if params[:hostgroup][:group_parameters_attributes].present?
+      params[:hostgroup][:group_parameters_attributes].merge(parse_parent_params(params.select { |k| k.match(/parent.*/) } ))
+    end
     # remove from hash :root_pass if blank?
     params[:hostgroup].except!(:root_pass) if params[:hostgroup][:root_pass].blank?
     if @hostgroup.update_attributes(params[:hostgroup])
       process_success
     else
+      taxonomy_scope
       load_vars_for_ajax
       process_error
     end
@@ -82,6 +87,20 @@ class HostgroupsController < ApplicationController
     end
   end
 
+  def current_parameters
+    Taxonomy.as_taxonomy @organization, @location do
+      render :partial => "common_parameters/inherited_parameters",
+             :locals => { :inherited_parameters => Hostgroup.find(params['hostgroup_parent_id']).inherited_params(true) }
+    end
+  end
+
+  def puppetclass_parameters
+    Taxonomy.as_taxonomy @organization, @location do
+      render :partial => "puppetclasses/classes_parameters",
+             :locals => { :obj => Hostgroup.find(params['hostgroup_id']) }
+    end
+  end
+
   def environment_selected
     return not_found unless (@environment = Environment.find(params[:environment_id])) if params[:environment_id].to_i > 0
 
@@ -91,45 +110,31 @@ class HostgroupsController < ApplicationController
   end
 
   def process_hostgroup
-
-    @parent = Hostgroup.authorized(:view_hostgroups).find(params[:hostgroup][:parent_id]) if params[:hostgroup][:parent_id].to_i > 0
-    return head(:not_found) unless @parent
-
-    @hostgroup = Hostgroup.new(params[:hostgroup])
-    @hostgroup.architecture       ||= @parent.architecture
-    @hostgroup.operatingsystem    ||= @parent.operatingsystem
-    @hostgroup.domain             ||= @parent.domain
-    @hostgroup.subnet             ||= @parent.subnet
-    @hostgroup.environment        ||= @parent.environment
-
+    define_parent
+    define_hostgroup
+    inherit_parent_attributes
     load_vars_for_ajax
-    render :partial => "form"
-  end
 
-  def taxonomy_scope
-    @organization = Organization.current if SETTINGS[:organizations_enabled]
-    @location     = Location.current     if SETTINGS[:locations_enabled]
+    render :partial => "form"
   end
 
   private
 
   def load_vars_for_ajax
-    return unless @hostgroup
+    return unless @hostgroup.present?
+
     @architecture    = @hostgroup.architecture
     @operatingsystem = @hostgroup.operatingsystem
     @domain          = @hostgroup.domain
     @subnet          = @hostgroup.subnet
     @environment     = @hostgroup.environment
+    @realm           = @hostgroup.realm
   end
 
   def users_in_ancestors
     @hostgroup.ancestors.map do |ancestor|
       ancestor.users.reject { |u| @hostgroup.users.include?(u) }
     end.flatten.uniq
-  end
-
-  def subscribed_users
-    User.where(:subscribe_to_all_hostgroups => true)
   end
 
   def action_permission
@@ -141,4 +146,42 @@ class HostgroupsController < ApplicationController
     end
   end
 
+  def parse_parent_params(parameters)
+    parameters.reject! { |k, v| v.empty? }
+    parameter_keys   = parameters.select { |p| p.match(/key/) }.values
+    parameter_values = parameters.select { |p| p.match(/value/) }.values
+    parameters = {}
+
+    parameter_keys.zip(parameter_values).each do |key, value|
+      id = GroupParameter.last.id + 1
+      parameters[id] = { 'name' => key, 'value' => value }
+    end
+    parameters
+  end
+
+  def define_parent
+    if params[:hostgroup][:parent_id].present?
+      @parent = Hostgroup.authorized(:view_hostgroups).find(params[:hostgroup][:parent_id])
+    end
+  end
+
+  def define_hostgroup
+    if params[:hostgroup][:id].present?
+      @hostgroup = Hostgroup.authorized(:view_hostgroups).find(params[:hostgroup][:id])
+      @hostgroup.attributes = params[:hostgroup]
+    else
+      @hostgroup = Hostgroup.new(params[:hostgroup])
+    end
+  end
+
+  def inherit_parent_attributes
+    return unless @parent.present?
+
+    @hostgroup.architecture       ||= @parent.architecture
+    @hostgroup.operatingsystem    ||= @parent.operatingsystem
+    @hostgroup.domain             ||= @parent.domain
+    @hostgroup.subnet             ||= @parent.subnet
+    @hostgroup.realm              ||= @parent.realm
+    @hostgroup.environment        ||= @parent.environment
+  end
 end
