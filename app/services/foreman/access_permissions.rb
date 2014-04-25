@@ -262,7 +262,7 @@ Foreman::AccessControl.map do |map|
 
   map.security_block :hostgroups do |map|
     ajax_actions = [:architecture_selected, :domain_selected, :environment_selected, :medium_selected, :os_selected,
-      :use_image_selected]
+      :use_image_selected, :process_hostgroup, :current_parameters, :puppetclass_parameters]
     host_ajax_actions = [:process_hostgroup]
     pc_ajax_actions = [:parameters]
 

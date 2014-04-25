@@ -11,4 +11,11 @@ module HostgroupsHelper
     msg.join("\n")
   end
 
+  def parent_hostgroups
+    if @hostgroup.new_record?
+      accessible_hostgroups
+    else
+      accessible_hostgroups - @hostgroup.descendants - [@hostgroup]
+    end
+  end
 end

@@ -9,7 +9,7 @@
       <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
       <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
     <% end %>
-    <li><a href="#params" id='params-tab' data-toggle="tab"><%= _('Parameters') %></a></li>
+    <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hostgroups_path %>' data-url2='<%= puppetclass_parameters_hostgroups_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
     <% end %>
@@ -21,9 +21,8 @@
   <div class="tab-content">
 
     <div class="tab-pane active" id="primary">
-      <%= select_f(f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
+      <%= select_f(f, :parent_id, parent_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
                       :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hostgroups_path,
-                      :disabled => !@hostgroup.new_record?,
                       :help_inline => :indicator }) if show_parent?(@hostgroup) %>
       <%= text_f f, :name %>
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => blank_or_inherit_f(f, :environment)},
@@ -62,11 +61,16 @@
       <p/>
       <%= render "common_parameters/puppetclasses_parameters", :f => f %>
       <p/>
+      <% if @hostgroup.parent.present? %>
+        <%= render "common_parameters/parent_parameter", :f => f %>
+      <% end %>
+      <p/>
       <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
     </div>
 
-    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @hostgroup %>
+    <%= render "taxonomies/loc_org_tabs", :f => f, :obj => @hostgroup %>
   </div>
 
+  <%= f.hidden_field :id %>
   <%= submit_or_cancel f %>
 <% end %>
