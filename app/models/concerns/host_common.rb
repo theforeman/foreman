@@ -112,6 +112,10 @@ module HostCommon
     params.has_key?(name) && LookupKey::TRUE_VALUES.include?(params[name])
   end
 
+  def param_false? name
+    params.has_key?(name) && LookupKey::FALSE_VALUES.include?(params[name])
+  end
+
   def cg_class_ids
     cg_ids = if kind_of?(Hostgroup)
                path.each.map(&:config_group_ids).flatten.uniq
