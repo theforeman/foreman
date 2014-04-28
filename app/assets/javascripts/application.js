@@ -82,6 +82,18 @@ function onContentLoad(){
     return false;
   });
 
+  $('*[data-ajax-url]').each(function() {
+    var url = $(this).data('ajax-url');
+    $(this).load(url, function(response, status, xhr) {
+      if (status == "error") {
+        $(this).closest(".tab-content").find("#spinner").html(__('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
+      }
+      if ($(this).data('on-complete')){
+        window[$(this).data('on-complete')].call(null, this, status);
+      }
+    });
+  });
+
   multiSelectOnLoad();
 }
 
@@ -321,20 +333,6 @@ function update_puppetclasses(element) {
 function foreman_url(path) {
   return URL_PREFIX + path;
 }
-
-$(function() {
-  $('*[data-ajax-url]').each(function() {
-    var url = $(this).data('ajax-url');
-    $(this).load(url, function(response, status, xhr) {
-      if (status == "error") {
-        $(this).closest(".tab-content").find("#spinner").html(__('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
-      }
-      if ($(this).data('on-complete')){
-        window[$(this).data('on-complete')].call(null, this, status);
-      }
-    });
-  });
-});
 
 $.fn.indicator_show = function(){
  $(this).parents('.form-group').find('img').show();
