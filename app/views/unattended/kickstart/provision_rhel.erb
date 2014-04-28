@@ -25,7 +25,7 @@ firewall --<%= os_major >= 6 ? 'service=' : '' %>ssh
 authconfig --useshadow --passalgo=sha256 --kickstart
 timezone --utc <%= @host.params['time-zone'] || 'UTC' %>
 
-<% if os_major >= 7 && @host.respond_to?(:otp) && @host.otp && @host.realm -%>
+<% if os_major >= 7 && @host.info["parameters"]["realm"] && @host.otp && @host.realm -%>
 realm join --one-time-password=<%= @host.otp %> <%= @host.realm %>
 <% end -%>
 
@@ -98,7 +98,7 @@ echo "updating system time"
 
 <%= snippet 'redhat_register' %>
 
-<% if @host.respond_to?(:otp) && @host.otp && @host.realm && @host.realm.realm_type == "FreeIPA" && os_major <= 6 -%>
+<% if @host.info["parameters"]["realm"] && @host.otp && @host.realm && @host.realm.realm_type == "FreeIPA" && os_major <= 6 -%>
 <%= snippet "freeipa_register" %>
 <% end -%>
 
