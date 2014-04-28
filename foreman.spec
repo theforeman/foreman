@@ -15,7 +15,7 @@
 
 Name:   foreman
 Version: 1.5.0
-Release: 0.1.RC1%{?dist}
+Release: 0.2.RC2%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -581,6 +581,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Mon Apr 28 2014 Dominic Cleal <dcleal@redhat.com> - 1.5.0-0.2.RC2
+- Release 1.5.0-RC2
+
 * Thu Apr 17 2014 Dominic Cleal <dcleal@redhat.com> - 1.5.0-0.1.RC1
 - Release 1.5.0-RC1
 
