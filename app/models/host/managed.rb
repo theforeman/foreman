@@ -315,6 +315,7 @@ class Host::Managed < Host::Base
     # maybe these should be moved to the common parameters, leaving them in for now
     param["puppetmaster"] = puppetmaster
     param["domainname"]   = domain.fullname unless domain.nil? or domain.fullname.nil?
+    param["realm"]        = realm.name unless realm.nil?
     param["hostgroup"]    = hostgroup.to_label unless hostgroup.nil?
     if SETTINGS[:locations_enabled]
       param["location"] = location.name unless location.blank?
