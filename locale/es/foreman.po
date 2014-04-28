@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-09 14:22+0100\n"
-"PO-Revision-Date: 2014-04-10 09:19+0000\n"
+"POT-Creation-Date: 2014-04-14 12:47-0700\n"
+"PO-Revision-Date: 2014-04-15 09:18+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -30,6 +30,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid " Remove"
+msgstr ""
 
 msgid "%s - Press Shift-F12 to release the cursor."
 msgstr "%s - Presione Shift-F12 para liberar el cursor."
@@ -60,6 +63,11 @@ msgstr "Hace %s"
 msgid "%s console is not supported at this time"
 msgstr "Terminal de %s no está soportada por ahora"
 
+msgid "%s core"
+msgid_plural "%s cores"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%s day ago"
 msgid_plural "%s days ago"
 msgstr[0] "Hace %s día"
@@ -70,6 +78,9 @@ msgstr ""
 
 msgid "%s is an unknown attribute"
 msgstr "%s es un atributo desconocido"
+
+msgid "%s is not in environment"
+msgstr ""
 
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
@@ -268,9 +279,6 @@ msgstr "A"
 msgid "Add Bookmark"
 msgstr "Añadir Marcador"
 
-msgid "Add Filter"
-msgstr "Añadir filtro"
-
 msgid "Add Interface"
 msgstr "Añadir Interfaz"
 
@@ -288,9 +296,6 @@ msgstr "Añadir Variable"
 
 msgid "Add Volume"
 msgstr "Añadir Volumen"
-
-msgid "Add a fact filter"
-msgstr "Añadir filtro de datos"
 
 msgid "Add combination"
 msgstr "Añadir combinación"
@@ -641,9 +646,6 @@ msgstr "Autorizar la delegación de login con la variable de entorno REMOTE_USER
 msgid "Authorized by"
 msgstr "Autorizado por"
 
-msgid "Automatically add new host groups to this user"
-msgstr "Añadir automáticamente nuevos grupos de equipos a este usuario"
-
 msgid "Autosign"
 msgstr "Autofirmado"
 
@@ -658,6 +660,9 @@ msgstr "Zona de disponibilidad"
 
 msgid "Available Classes"
 msgstr "Clases disponibles"
+
+msgid "Available Config Groups"
+msgstr ""
 
 msgid "Available Providers"
 msgstr "Proveedores disponibles"
@@ -897,6 +902,9 @@ msgstr "Click para loguearse de nuevo"
 msgid "Click to remove %s"
 msgstr "Click para eliminar %s"
 
+msgid "Click to remove config group"
+msgstr ""
+
 msgid "Click to undo adding this class"
 msgstr "Click para deshacer el haber añadido esta clase"
 
@@ -999,6 +1007,9 @@ msgstr "Uuid"
 
 msgid "Config Retrieval"
 msgstr "Recuperar configuración"
+
+msgid "Config groups"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
@@ -1144,6 +1155,18 @@ msgstr "Nombre de servidor Puppet predeterminado"
 msgid "Default encrypted root password on provisioned hosts"
 msgstr ""
 
+msgid "Default location"
+msgstr ""
+
+msgid "Default locations need to be user locations first"
+msgstr ""
+
+msgid "Default organization"
+msgstr ""
+
+msgid "Default organizations need to be user organizations first"
+msgstr ""
+
 msgid "Default value"
 msgstr "Valor predeterminado"
 
@@ -1265,9 +1288,6 @@ msgstr "Dominio"
 msgid "Domain Configuration"
 msgstr "Configuración de Dominio"
 
-msgid "Domain hosts"
-msgstr "Equipos del dominio"
-
 msgid "Domains"
 msgstr "Dominios"
 
@@ -1313,6 +1333,9 @@ msgstr "Editar perfil de Cómputo"
 
 msgid "Edit Compute profile: %s"
 msgstr "Editar perfil de Cómputo: %s"
+
+msgid "Edit Config group"
+msgstr ""
 
 msgid "Edit Domain"
 msgstr "Editar Dominio"
@@ -1503,9 +1526,6 @@ msgstr "Nombre de Dato"
 
 msgid "Fact Values"
 msgstr "Valores de Datos"
-
-msgid "Fact filters"
-msgstr "Filtros de Datos"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
@@ -1970,9 +1990,6 @@ msgstr "Grupo de Equipos y Entorno"
 msgid "Host group configuration"
 msgstr "Configuración de Grupo de Equipos"
 
-msgid "Host group hosts"
-msgstr "Equipos del Grupo de Equipos"
-
 msgid "Host group only"
 msgstr "Solo Grupo de Equipos"
 
@@ -2304,6 +2321,9 @@ msgstr "Incluye este equipo en el informe de Foreman"
 msgid "Included Classes"
 msgstr "Clases incluidas"
 
+msgid "Included Config Groups"
+msgstr ""
+
 msgid "Included Parameters via inheritance"
 msgstr "Parámetros incluidos por herencia"
 
@@ -2403,6 +2423,9 @@ msgid ""
 "LDAP users will have their Foreman account automatically created the first "
 "time they log into Foreman"
 msgstr "Los usuarios LDAP dispondrán de su cuenta Foreman automáticamente creada la primera vez que se autentiquen en Foreman"
+
+msgid "Language"
+msgstr ""
 
 msgid "Last report"
 msgstr "Último informe"
@@ -2786,6 +2809,12 @@ msgstr "Nueva Instancia"
 
 msgid "New Compute profile"
 msgstr "Nuevo perfil de Cómputo"
+
+msgid "New Config Group"
+msgstr ""
+
+msgid "New Config group"
+msgstr ""
 
 msgid "New Domain"
 msgstr "Nuevo Dominio"
@@ -3308,9 +3337,6 @@ msgstr "Sobrescribir"
 msgid "Owned By"
 msgstr "Propiedad de"
 
-msgid "Owned hosts"
-msgstr "Equipos propios"
-
 msgid "Owner"
 msgstr "Propietario"
 
@@ -3699,11 +3725,6 @@ msgstr "Borrar Parámetro"
 msgid "Remove Reverse DNS record for %s"
 msgstr "Borrar registros DNS inversos para %s"
 
-msgid ""
-"Remove classes from environments different to the host's environment when a "
-"host and its host group have different environments"
-msgstr ""
-
 msgid "Remove conflicting DNS record for %s"
 msgstr "Borrar registros DNS conflictivos de %s"
 
@@ -3886,9 +3907,6 @@ msgstr "Grupo de seguridad"
 
 msgid "Security groups"
 msgstr "Grupos de Seguridad"
-
-msgid "Select"
-msgstr "Seleccionar"
 
 msgid "Select Action"
 msgstr "Seleccione una Acción"
@@ -4617,9 +4635,6 @@ msgstr "Total"
 msgid "Total Hosts: %s"
 msgstr "Equipos totales: %s"
 
-msgid "Total memory usage"
-msgstr "Uso total de la memoria"
-
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend"
 msgstr "Tendencia"
@@ -5313,6 +5328,9 @@ msgstr "y"
 msgid "and relevant log entries."
 msgstr "y entradas relevantes de registros"
 
+msgid "belongs to config group"
+msgstr ""
+
 msgid "can't be bigger than to range"
 msgstr "no puede ser mayor que el rango"
 
@@ -5409,14 +5427,11 @@ msgstr "para más detalles."
 msgid "for proxy"
 msgstr ""
 
-msgid "free (GB)"
-msgstr "libre (GB)"
+msgid "free memory"
+msgstr ""
 
-msgid "free memory (GB)"
-msgstr "memoria libre (GB)"
-
-msgid "free swap (GB)"
-msgstr "intercambio libre (GB)"
+msgid "free swap"
+msgstr ""
 
 msgid "has this hostgroup already"
 msgstr "tiene este grupo de host preparado"
@@ -5432,9 +5447,6 @@ msgstr "grupo de host"
 
 msgid "in %s"
 msgstr "en %s"
-
-msgid "in domain"
-msgstr "en dominio"
 
 msgid "included already from parent"
 msgstr ""
@@ -5523,9 +5535,6 @@ msgstr "lugares"
 msgid "message"
 msgstr "mensaje"
 
-msgid "must be"
-msgstr "debe ser"
-
 msgid "must be a valid URI"
 msgstr "debe ser una URI válida"
 
@@ -5549,9 +5558,6 @@ msgstr "se debe especificar si 'from' está definido"
 
 msgid "must be specified if to is defined"
 msgstr "se debe especificar si 'to' está definido"
-
-msgid "must match"
-msgstr "debe concordar"
 
 msgid "must not include periods"
 msgstr ""
@@ -5600,9 +5606,6 @@ msgstr "tratando tipo de configuraciones '%s' desde un string en caso de que no 
 
 msgid "pending"
 msgstr "pendiente"
-
-msgid "plus all"
-msgstr "además de todos"
 
 msgid "poweroff"
 msgstr "apagar"
@@ -5700,14 +5703,11 @@ msgstr "proveedor desconocido"
 msgid "unspecified"
 msgstr "sin especificar"
 
-msgid "used (GB)"
-msgstr "usado (GB)"
+msgid "used memory"
+msgstr ""
 
-msgid "used memory (GB)"
-msgstr "memoria usada (GB)"
-
-msgid "used swap (GB)"
-msgstr "intercambio usado (GB)"
+msgid "used swap"
+msgstr ""
 
 msgid "useful."
 msgstr "útil"
