@@ -29,6 +29,9 @@ name: redhat_register
 #                                         rhel-6-server-optional-rpms) to
 #                                         enable after registration)
 #
+#   subscription_manager_pool = <pool> (specific pool to be used for
+#                                       registration)
+#
 # Set this parameter regardless of which registration method you're using:
 #
 #   activation_key = <key>      (activation key string, not needed if using
@@ -96,6 +99,9 @@ name: redhat_register
   <% (enabled_repos = "yum-config-manager --enable #{@host.params['subscription_manager_repos'].gsub(',', ' ')}") if @host.params['subscription_manager_repos'] %>
   <% if @host.params['subscription_manager_username'] && @host.params['subscription_manager_password'] %>
     subscription-manager register --username="<%= @host.params['subscription_manager_username'] %>" --password="<%= @host.params['subscription_manager_password'] %>" --auto-attach
+    <% if @host.params['subscription_manager_pool'] %>
+      subscription-manager attach --pool="<%= @host.params['subscription_manager_pool'] %>"
+    <% end %>
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null
     <%= enabled_repos if enabled_repos %>

@@ -36,7 +36,7 @@ timezone --utc <%= @host.params['time-zone'] || 'UTC' %>
 services --disabled autofs,gpm,sendmail,cups,iptables,ip6tables,auditd,arptables_jf,xfs,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd,restorecond,mcstrans,rhnsd,yum-updatesd
 <% end -%>
 
-<% if realm_compatible && @host.respond_to?(:otp) && @host.otp && @host.realm -%>
+<% if realm_compatible && @host.info["parameters"]["realm"] && @host.otp && @host.realm -%>
 realm join --one-time-password='<%= @host.otp %>' <%= @host.realm %>
 <% end -%>
 
@@ -113,7 +113,7 @@ echo "updating system time"
 /usr/sbin/ntpdate -sub <%= @host.params['ntp-server'] || '0.fedora.pool.ntp.org' %>
 /usr/sbin/hwclock --systohc
 
-<% if realm_incompatible && @host.respond_to?(:otp) && @host.otp && @host.realm && @host.realm.realm_type == "FreeIPA" -%>
+<% if realm_incompatible && @host.info["parameters"]["realm"] && @host.otp && @host.realm && @host.realm.realm_type == "FreeIPA" -%>
 <%= snippet "freeipa_register" %>
 <% end -%>
 
@@ -142,3 +142,4 @@ wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
 exit 0
 
 %end
+
