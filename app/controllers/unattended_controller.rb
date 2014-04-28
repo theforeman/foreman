@@ -17,7 +17,7 @@ class UnattendedController < ApplicationController
   FILTERS = [:require_ssl, :require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize]
   FILTERS.each do |f|
     define_method("#{f}_with_unattended") do
-      send("#{f}_without_unattended") if params.keys.include?("spoof")
+      send("#{f}_without_unattended") if params.key?(:spoof) or params.key?(:hostname)
     end
     alias_method_chain f, :unattended
   end

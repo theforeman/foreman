@@ -62,12 +62,27 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should render spoof when user is not logged in" do
+  test "should not render spoof when user is not logged in" do
     get :provision, {:spoof => hosts(:ubuntu).ip}
     assert_response :redirect
   end
 
-   test "should support spoof using hostname" do
+  test "should not render hostname spoof when user is not logged in" do
+    get :provision, {:hostname => hosts(:ubuntu).fqdn}
+    assert_response :redirect
+  end
+
+  test "should not render hostname spoof when hostname is empty" do
+    get :provision, {:hostname => nil}, set_session_user
+    assert_response 404
+  end
+
+  test "should not render hostname spoof when spoof is empty" do
+    get :provision, {:spoof => nil}, set_session_user
+    assert_response 404
+  end
+
+  test "should support spoof using hostname" do
     get :provision, {:hostname => hosts(:ubuntu).name}, set_session_user
     assert_response :success
     assert_equal hosts(:ubuntu).name, assigns(:host).name
