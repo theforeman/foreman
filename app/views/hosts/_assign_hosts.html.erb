@@ -19,7 +19,7 @@
   <% hosts.each do |host| %>
     <tr>
       <td class="ca">
-        <%= f.check_box(:host_ids, {:label => "", :help_inline => "", :multiple => true, :onclick => 'hostChecked(this)', :id => "host_ids_#{host.id}", :class => 'host_select_boxes', }, host.id) %>
+        <%= f.check_box(:host_ids, {:label => :none, :help_inline => "", :multiple => true, :onclick => 'hostChecked(this)', :id => "host_ids_#{host.id}", :class => 'host_select_boxes', }, host.id) %>
       </td>
       <td><%= name_column(host) %> </td>
       <td class="hidden-xs"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os.to_label}",14)).html_safe if host.os %></td>
