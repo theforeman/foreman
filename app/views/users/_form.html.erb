@@ -57,7 +57,7 @@
         <div class='tab-pane' id='locations'>
           <%= location_selects(f, @user.used_or_selected_location_ids,
                                { :disabled => @user.used_location_ids,
-                                 :label    => '' } ,
+                                 :label    => :none } ,
                                { :onchange => 'taxonomy_added(this, "location")' } ) %>
         </div>
       <% end %>
@@ -66,7 +66,7 @@
         <div class='tab-pane' id='organizations'>
           <%= organization_selects(f, @user.used_or_selected_organization_ids,
                                    { :disabled => @user.used_organization_ids,
-                                     :label => '' },
+                                     :label => :none },
                                    { :onchange => 'taxonomy_added(this, "organization")' } ) %>
         </div>
       <% end %>
