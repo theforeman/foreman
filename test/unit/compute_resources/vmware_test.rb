@@ -2,9 +2,9 @@ require 'test_helper'
 
 class VmwareTest < ActiveSupport::TestCase
   test "#create_vm calls new_vm when network provisioning" do
-    attrs_in = HashWithIndifferentAccess.new("cpus"=>"1", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
+    attrs_in = HashWithIndifferentAccess.new("cpus"=>"1", "scsi_controller_type"=>"ParaVirtualSCSIController", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
     # All keys must be symbolized
-    attrs_out = {:cpus=>"1", :interfaces=>[{:type=>"VirtualVmxnet3", :network=>"Test network", :_delete=>""}], :volumes=>[{:size_gb=>"1", :_delete=>""}]}
+    attrs_out = {:cpus=>"1", :interfaces=>[{:type=>"VirtualVmxnet3", :network=>"Test network", :_delete=>""}], :volumes=>[{:size_gb=>"1", :_delete=>""}], :scsi_controller=>{:type=>"ParaVirtualSCSIController"}}
 
     mock_vm = mock('vm')
     mock_vm.expects(:save).returns(mock_vm)

@@ -239,6 +239,10 @@ module Foreman::Model
         args[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
       end
 
+      if args[:scsi_controller_type].present?
+        args[:scsi_controller] = {:type => args.delete(:scsi_controller_type)}
+      end
+
       args.reject! { |k, v| v.nil? }
       args
     end
