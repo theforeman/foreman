@@ -91,6 +91,9 @@ function submit_host(){
         $("#host-progress").hide();
         $('#content').replaceWith($("#content", response));
         $(document.body).trigger('ContentLoad');
+        if($("[data-history-url]").exists()){
+            history.pushState({}, "Host show", $("[data-history-url]").data('history-url'));
+        }
       }
     },
     error: function(response){
