@@ -624,17 +624,12 @@ class Host::Managed < Host::Base
   end
 
   def clone
-    new = super
-    new.puppetclasses = puppetclasses
-    # Clone any parameters as well
-    host_parameters.each{|param| new.host_parameters << HostParameter.new(:name => param.name, :value => param.value, :nested => true)}
-    interfaces.each {|int| new.interfaces << int.clone }
-    # clear up the system specific attributes
-    [:name, :mac, :ip, :uuid, :certname, :last_report].each do |attr|
-      new.send "#{attr}=", nil
-    end
-    new.puppet_status = 0
-    new
+    # .dup uses deep_cloneable gem
+    # do not copy system specific attributes
+    host = self.dup(:include => [:host_config_groups, :host_classes, :host_parameters],
+                    :except  => [:name, :mac, :ip, :uuid, :certname, :last_report])
+    host.puppet_status = 0
+    host
   end
 
   def bmc_nic
