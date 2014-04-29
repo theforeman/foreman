@@ -100,6 +100,10 @@ module Foreman::Model
         opts[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
       end
 
+      if opts[:scsi_controller_type].present?
+        opts[:scsi_controller] = {:type => opts.delete(:scsi_controller_type)}
+      end
+
       opts.reject! { |k, v| v.nil? }
 
       client.servers.new opts

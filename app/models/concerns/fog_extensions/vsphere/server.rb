@@ -32,10 +32,6 @@ module FogExtensions
         scsi_controller.type
       end
 
-      def scsi_controller_type= type
-        scsi_controller[:type] = type
-      end
-
     end
   end
 end
