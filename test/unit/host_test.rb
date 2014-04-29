@@ -1201,6 +1201,27 @@ class HostTest < ActiveSupport::TestCase
     assert_equal classes, enc['classes']
   end
 
+  test 'clone host including its relationships' do
+    host = hosts(:one)
+    copy = host.clone
+    assert_equal host.host_classes.map(&:puppetclass_id), copy.host_classes.map(&:puppetclass_id)
+    assert_equal host.host_parameters.map(&:name), copy.host_parameters.map(&:name)
+    assert_equal host.host_parameters.map(&:value), copy.host_parameters.map(&:value)
+    assert_equal host.host_config_groups.map(&:config_group_id), copy.host_config_groups.map(&:config_group_id)
+  end
+
+  test 'clone host should not copy name, system fields (mac, ip, etc) or interfaces' do
+    host = hosts(:one)
+    copy = host.clone
+    assert copy.name.blank?
+    assert copy.mac.blank?
+    assert copy.ip.blank?
+    assert copy.uuid.blank?
+    assert copy.certname.blank?
+    assert copy.last_report.blank?
+    assert_empty copy.interfaces
+  end
+
   private
 
   def parse_json_fixture(relative_path)
