@@ -57,4 +57,11 @@ module ComputeResourcesHelper
   rescue
     []
   end
+
+  def list_providers
+    ComputeResource.providers.map do |provider|
+      [ComputeResource.provider_class(provider).constantize.provider_friendly_name, provider]
+    end
+  end
+
 end
