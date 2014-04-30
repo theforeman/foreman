@@ -64,4 +64,82 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     assert !tmplt.save
   end
 
+  describe "Association cascading" do
+    setup do
+      @os1 = FactoryGirl.create(:operatingsystem)
+      @hg1 = FactoryGirl.create(:hostgroup)
+      @hg2 = FactoryGirl.create(:hostgroup)
+      @hg3 = FactoryGirl.create(:hostgroup)
+      @ev1 = FactoryGirl.create(:environment)
+      @ev2 = FactoryGirl.create(:environment)
+      @ev3 = FactoryGirl.create(:environment)
+
+      @tk = FactoryGirl.create(:template_kind)
+
+      # Most specific template association
+      @ct1 = FactoryGirl.create(:config_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct1.template_combinations.create(:hostgroup => @hg1, :environment => @ev1)
+
+      # HG only
+      # We add an association on HG2/EV2 to ensure that we're not just blindly
+      # selecting all template_combinations where environment_id => nil
+      @ct2 = FactoryGirl.create(:config_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct2.template_combinations.create(:hostgroup => @hg1, :environment => nil)
+      @ct2.template_combinations.create(:hostgroup => @hg2, :environment => @ev2)
+
+      # Env only
+      # We add an association on HG2/EV2 to ensure that we're not just blindly
+      # selecting all template_combinations where hostgroup_id => nil
+      @ct3 = FactoryGirl.create(:config_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct3.template_combinations.create(:hostgroup => nil, :environment => @ev1)
+      @ct3.template_combinations.create(:hostgroup => @hg2, :environment => @ev2)
+
+      # Default template for the OS
+      @ctd = FactoryGirl.create(:config_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ctd.os_default_templates.create(:operatingsystem => @os1,
+                                      :template_kind_id => @ctd.template_kind_id)
+    end
+
+    test "find_template finds a matching template with hg and env" do
+      assert_equal @ct1.name,
+        ConfigTemplate.find_template({:kind => @tk.name,
+                                      :operatingsystem_id => @os1.id,
+                                      :hostgroup_id => @hg1.id,
+                                      :environment_id => @ev1.id}).name
+    end
+    test "find_template finds a matching template with hg only" do
+      assert_equal @ct2.name,
+        ConfigTemplate.find_template({:kind => @tk.name,
+                                      :operatingsystem_id => @os1.id,
+                                      :hostgroup_id => @hg1.id}).name
+    end
+    test "find_template finds a matching template with hg and mismatched env" do
+      assert_equal @ct2.name,
+        ConfigTemplate.find_template({:kind => @tk.name,
+                                      :operatingsystem_id => @os1.id,
+                                      :hostgroup_id => @hg1.id,
+                                      :environment_id => @ev3.id}).name
+    end
+    test "find_template finds a matching template with env only" do
+      assert_equal @ct3.name,
+        ConfigTemplate.find_template({:kind => @tk.name,
+                                      :operatingsystem_id => @os1.id,
+                                      :environment_id => @ev1.id}).name
+    end
+    test "find_template finds a matching template with env and mismatched hg" do
+      assert_equal @ct3.name,
+        ConfigTemplate.find_template({:kind => @tk.name,
+                                      :operatingsystem_id => @os1.id,
+                                      :hostgroup_id => @hg3.id,
+                                      :environment_id => @ev1.id}).name
+    end
+    test "find_template finds the default template when hg and env do not match" do
+      assert_equal @ctd.name,
+        ConfigTemplate.find_template({:kind => @tk.name,
+                                      :operatingsystem_id => @os1.id,
+                                      :hostgroup_id => @hg3.id,
+                                      :environment_id => @ev3.id}).name
+    end
+  end
+
 end

@@ -55,22 +55,27 @@ class ConfigTemplate < ActiveRecord::Base
     # first filter valid templates to our OS and requested template kind.
     templates = ConfigTemplate.joins(:operatingsystems, :template_kind).where('operatingsystems.id' => opts[:operatingsystem_id], 'template_kinds.name' => opts[:kind])
 
-
     # once a template has been matched, we no longer look for others.
 
     if opts[:hostgroup_id] and opts[:environment_id]
       # try to find a full match to our host group and environment
-      template = templates.joins(:hostgroups, :environments).where("hostgroups.id" => opts[:hostgroup_id], "environments.id" => opts[:environment_id]).first
+      template ||= templates.joins(:template_combinations).where(
+        "template_combinations.hostgroup_id" => opts[:hostgroup_id],
+        "template_combinations.environment_id" => opts[:environment_id]).first
     end
 
     if opts[:hostgroup_id]
       # try to find a match with our hostgroup only
-      template ||= templates.joins(:hostgroups).where("hostgroups.id" => opts[:hostgroup_id]).first
+      template ||= templates.joins(:template_combinations).where(
+        "template_combinations.hostgroup_id" => opts[:hostgroup_id],
+        "template_combinations.environment_id" => nil).first
     end
 
     if opts[:environment_id]
       # search for a template based only on our environment
-      template ||= templates.joins(:environments).where("environments.id" => opts[:environment_id]).first
+      template ||= templates.joins(:template_combinations).where(
+        "template_combinations.hostgroup_id" => nil,
+        "template_combinations.environment_id" => opts[:environment_id]).first
     end
 
     # fall back to the os default template
