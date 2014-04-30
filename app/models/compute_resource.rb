@@ -102,8 +102,13 @@ class ComputeResource < ActiveRecord::Base
     "#{name} (#{provider_friendly_name})"
   end
 
+  # Override this method to specify provider name
+  def self.provider_friendly_name
+    self.name.split('::').last()
+  end
+
   def provider_friendly_name
-    provider
+    self.class.provider_friendly_name
   end
 
   def image_param_name
@@ -187,7 +192,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def console uuid = nil
-    raise ::Foreman::Exception.new(N_("%s console is not supported at this time"), provider)
+    raise ::Foreman::Exception.new(N_("%s console is not supported at this time"), provider_friendly_name)
   end
 
   # by default, our compute providers do not support updating an existing instance

@@ -97,7 +97,7 @@ module Foreman::Model
       errors[:base] << e.message
     end
 
-    def provider_friendly_name
+    def self.provider_friendly_name
       "Google"
     end
 

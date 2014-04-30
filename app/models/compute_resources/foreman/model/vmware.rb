@@ -353,7 +353,7 @@ module Foreman::Model
       Host.authorized(:view_hosts, Host).where(:mac => vm.mac).first
     end
 
-    def provider_friendly_name
+    def self.provider_friendly_name
       "VMWare"
     end
 
