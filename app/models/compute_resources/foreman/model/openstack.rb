@@ -90,7 +90,7 @@ module Foreman::Model
       client.flavors.get(flavor_ref).try(:name)
     end
 
-    def provider_friendly_name
+    def self.provider_friendly_name
       "OpenStack"
     end
 

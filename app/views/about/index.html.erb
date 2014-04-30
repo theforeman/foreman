@@ -43,7 +43,7 @@
               </tr>
               <% ComputeResource.supported_providers.each do |provider,klass| %>
                 <tr>
-                  <td><%= provider %></td>
+                  <td><%= klass.constantize.provider_friendly_name %></td>
                   <% if ComputeResource.providers.include?(provider) %>
                     <td><div class="label label-success"><%= _('Installed') %></div></td>
                   <% else %>

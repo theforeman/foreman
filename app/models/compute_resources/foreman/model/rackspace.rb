@@ -77,7 +77,7 @@ module Foreman::Model
       false
     end
 
-    def provider_friendly_name
+    def self.provider_friendly_name
       "Rackspace"
     end
 
