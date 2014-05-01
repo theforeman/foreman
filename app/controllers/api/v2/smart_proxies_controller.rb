@@ -6,16 +6,17 @@ module Api
       include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController
       before_filter :find_resource, :only => %w{show update destroy refresh}
-      before_filter :check_feature_type, :only => :index
 
       api :GET, "/smart_proxies/", "List all smart_proxies."
-      param :type, String, :desc => "filter by type"
+      param :search, String, :desc => "Filter results"
+      param :order, String, :desc => "Sort results"
       param :page, String, :desc => "paginate results"
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @smart_proxies = proxies_by_type(params[:type]).paginate(paginate_options)
-        @subtotal = @smart_proxies.count
+        @smart_proxies = SmartProxy.authorized(:view_smart_proxies).includes(:features).
+          search_for(*search_options).paginate(paginate_options)
+        @total = SmartProxy.authorized(:view_smart_proxies).includes(:features).count
       end
 
       api :GET, "/smart_proxies/:id/", "Show a smart proxy."
@@ -62,10 +63,6 @@ module Api
       end
 
       private
-      def proxies_by_type(type = nil)
-        return SmartProxy.authorized(:view_smart_proxies).includes(:features).with_features(type) if type.present?
-        return SmartProxy.authorized(:view_smart_proxies).includes(:features).scoped
-      end
 
       def action_permission
         case params[:action]
@@ -73,16 +70,6 @@ module Api
           :edit
         else
           super
-        end
-      end
-
-      def check_feature_type
-        return if params[:type].nil?
-
-        allowed_types = Feature.name_map.keys
-
-        if not allowed_types.include? params[:type].downcase
-          raise ArgumentError, "Invalid feature type. Select one of: #{allowed_types.join(", ")}."
         end
       end
 

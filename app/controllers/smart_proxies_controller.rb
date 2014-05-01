@@ -4,7 +4,7 @@ class SmartProxiesController < ApplicationController
   before_filter :find_by_name, :only => [:edit, :update, :refresh, :ping, :destroy]
 
   def index
-    @smart_proxies = resource_base.includes(:features).paginate :page => params[:page]
+    @smart_proxies = resource_base.includes(:features).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new
