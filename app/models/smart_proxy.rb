@@ -24,6 +24,8 @@ class SmartProxy < ActiveRecord::Base
   before_save :sanitize_url, :associate_features
 
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :url, :complete_value => :true
+  scoped_search :in => :features, :on => :name, :rename => :feature, :complete_value => :true
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -40,7 +42,7 @@ class SmartProxy < ActiveRecord::Base
         where(:features => { :name => v }).joins(:features)
       }
   end
-  scope :with_features, lambda {|*feature_names| where(:features => { :name => feature_names }).joins(:features) }
+  scope :with_features, lambda {|*feature_names| where(:features => { :name => feature_names }).joins(:features) if feature_names.any? }
 
   def hostname
     # This will always match as it is validated

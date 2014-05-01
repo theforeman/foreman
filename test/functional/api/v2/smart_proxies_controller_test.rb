@@ -12,25 +12,28 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     assert !smart_proxies.empty?
   end
 
-  test "should get index filtered by type" do
-    as_user :admin do
-      get :index, { :type => 'TFTP' }
-    end
+  test "should get index filtered by feature" do
+    get :index, { :search => "feature=TFTP" }
     assert_response :success
-    assert_not_nil assigns(:smart_proxies)
+    refute_empty assigns(:smart_proxies)
     smart_proxies = ActiveSupport::JSON.decode(@response.body)
-    assert !smart_proxies.empty?
+    refute_empty smart_proxies
 
     returned_proxy_ids = smart_proxies['results'].map { |p| p["id"] }
     expected_proxy_ids = SmartProxy.with_features("TFTP").map { |p| p.id }
-    assert returned_proxy_ids == expected_proxy_ids
+    assert_equal expected_proxy_ids, returned_proxy_ids
   end
 
-  test "index should fail with invalid type filter" do
-    as_user :admin do
-      get :index, { :type => 'unknown_type' }
-    end
-    assert_response :error
+  test "should get index filtered by name" do
+    get :index, { :search => "name=\"TFTP Proxy\"" }
+    assert_response :success
+    refute_empty assigns(:smart_proxies)
+    smart_proxies = ActiveSupport::JSON.decode(@response.body)
+    refute_empty smart_proxies
+
+    returned_proxy_ids = smart_proxies['results'].map { |p| p["id"] }
+    expected_proxy_ids = SmartProxy.with_features("TFTP").map { |p| p.id }
+    assert_equal expected_proxy_ids, returned_proxy_ids
   end
 
   test "should show individual record" do
