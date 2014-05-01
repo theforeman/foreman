@@ -78,4 +78,18 @@ class SmartProxiesControllerTest < ActionController::TestCase
     assert_equal "Unable to communicate with the proxy: it's down", flash[:error]
   end
 
+  test "should search by name" do
+    get :index, { :search => "name=\"DNS Proxy\"" }, set_session_user
+    assert_response :success
+    refute_empty assigns(:smart_proxies)
+    assert assigns(:smart_proxies).include?(smart_proxies(:three))
+  end
+
+  test "should search by feature" do
+    get :index, { :search => "feature=DNS" }, set_session_user
+    assert_response :success
+    refute_empty assigns(:smart_proxies)
+    assert assigns(:smart_proxies).include?(smart_proxies(:three))
+  end
+
 end
