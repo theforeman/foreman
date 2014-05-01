@@ -39,11 +39,6 @@ end
 
 class FakeRole < ActiveRecord::Base
   set_table_name 'roles'
-  scope :builtin, lambda { |*args|
-    compare = 'not' if args.first
-    where("#{compare} builtin = 0")
-  }
-
   has_many :filters, :dependent => :destroy, :class_name => 'FakeFilter', :foreign_key => 'role_id'
   has_many :permissions, :through => :filters, :class_name => 'FakePermission', :foreign_key => 'permission_id'
 end
@@ -165,8 +160,7 @@ class MigratePermissions < ActiveRecord::Migration
 
       say "Migrating user '#{user.login}'"
       say "... cloning all roles"
-      clones     = user.roles.builtin(false).map { |r| clone_role(r, user) }
-      user.roles = clones + user.roles.builtin(true)
+      user.roles = clones = user.roles.map { |r| clone_role(r, user) }
       say "... done"
 
       filters                     = Hash.new { |h, k| h[k] = '' }
@@ -260,8 +254,9 @@ class MigratePermissions < ActiveRecord::Migration
   end
 
   def self.clone_role(role, user)
-    clone      = role.dup
-    clone.name = role.name + "_#{user.login}"
+    clone         = role.dup
+    clone.name    = role.name + "_#{user.login}"
+    clone.builtin = 0
     clone.save!
 
     role.filters.each { |f| clone_filter(f, clone) }
