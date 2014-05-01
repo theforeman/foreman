@@ -230,13 +230,28 @@ class MigratePermissions < ActiveRecord::Migration
 
     # normal filters - domains, compute resource, hostgroup, facts
     filter = filters[:domains].gsub('id', 'domain_id')
-    search = "(#{search}) #{user.domains_andor} (#{filter})" unless filter.blank?
+    if filter.present?
+      search = "(#{search}) #{user.domains_andor} " if search.present?
+      search = "#{search}(#{filter})"
+    end
+
     filter = filters[:compute_resources].gsub('id', 'compute_resource_id')
-    search = "(#{search}) #{user.compute_resources_andor} (#{filter})" unless filter.blank?
+    if filter.present?
+      search = "(#{search}) #{user.compute_resources_andor} " if search.present?
+      search = "#{search}(#{filter})"
+    end
+
     filter = filters[:hostgroups].gsub('id', 'hostgroup_id')
-    search = "(#{search}) #{user.hostgroups_andor} (#{filter})" unless filter.blank?
+    if filter.present?
+      search = "(#{search}) #{user.hostgroups_andor} " if search.present?
+      search = "#{search}(#{filter})"
+    end
+
     filter = filters[:facts]
-    search = "(#{search}) #{user.facts_andor} (#{filter})" unless filter.blank?
+    if filter.present?
+      search = "(#{search}) #{user.facts_andor} " if search.present?
+      search = "#{search}(#{filter})"
+    end
 
     # taxonomies
     if SETTINGS[:organizations_enabled]
@@ -246,8 +261,6 @@ class MigratePermissions < ActiveRecord::Migration
       locs = user.locations
     end
 
-    # fix first and/or that could appear
-    search = search.sub(/^\(\)\s*(and|or)\s*/, '')
     [ search, orgs, locs ]
   end
 
