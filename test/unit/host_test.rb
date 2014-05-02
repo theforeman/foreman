@@ -1031,13 +1031,17 @@ class HostTest < ActiveSupport::TestCase
 
   test "compute attributes are populated by hardware profile from hostgroup" do
     # hostgroups(:common) fixture has compute_profiles(:one)
-    host = Host.create :name => "myhost", :mac => "aa-bb-cc-dd-ee-ff", :hostgroup_id => hostgroups(:common).id, :compute_resource_id => compute_resources(:ec2).id
+    host = Host.new :name => "myhost", :hostgroup_id => hostgroups(:common).id, :compute_resource_id => compute_resources(:ec2).id, :managed => true
+    host.expects(:queue_compute_create)
+    assert host.valid?, host.errors.full_messages.to_sentence
     assert_equal compute_attributes(:one).vm_attrs, host.compute_attributes
   end
 
   test "compute attributes are populated by hardware profile passed to host" do
     # hostgroups(:one) fixture has compute_profiles(:common)
-    host = Host.create :name => "myhost", :mac => "aa-bb-cc-dd-ee-ff", :compute_resource_id => compute_resources(:ec2).id, :compute_profile_id => compute_profiles(:two).id
+    host = Host.new :name => "myhost", :compute_resource_id => compute_resources(:ec2).id, :compute_profile_id => compute_profiles(:two).id, :managed => true, :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :architecture => architectures(:x86_64), :environment => environments(:production)
+    host.expects(:queue_compute_create)
+    assert host.valid?, host.errors.full_messages.to_sentence
     assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
   end
 

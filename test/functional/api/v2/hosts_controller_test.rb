@@ -362,14 +362,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_equal  1, response['subtotal']
       assert_equal 'my5name.mydomain.net', response['search']
     end
-
-    test "create host on compute resource using compute profile to populate compute attributes" do
-      disable_orchestration
-      assert_difference('Host.count') do
-        post :create, { :host => valid_attrs.merge!(:compute_profile_id => compute_profiles(:one).id) }
-      end
-      assert_response :success
-    end
   end
 
 end
