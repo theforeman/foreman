@@ -6,6 +6,16 @@
 
 <div id="host-show" class="row" data-history-url='<%= host_path(@host)%>'>
   <div class="col-md-4">
+    <table id="details_table" class="table table-bordered table-striped">
+      <tr><th><%= _('Details') %></th></tr>
+      <tr>
+        <td>
+          <% show_appropriate_host_buttons(@host).each do |btn| %>
+            <%= btn %>
+          <% end %>
+        </td>
+      </tr>
+    </table>
     <ul id="myTab" class="nav nav-tabs">
       <li class="active"><a href="#properties" data-toggle="tab"><%= _('Properties') %></a></li>
       <li><a href="#metrics" data-toggle="tab"><%= _('Metrics') %></a></li>

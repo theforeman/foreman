@@ -184,8 +184,10 @@ module HostsHelper
         content_tag :tr do
           content_tag(:td, _("%s Template") % kind) +
             content_tag(:td,
-          link_to_if_authorized(icon_text('pencil'), hash_for_edit_config_template_path(:id => tmplt.to_param), :title => _("Edit"), :rel=>"external") +
-          link_to(icon_text('eye-open'), url_for(:controller => '/unattended', :action => kind, :hostname => @host.name), :title => _("Review"), :"data-provisioning-template" => true ))
+                        action_buttons(
+                            display_link_if_authorized(_("Edit"), hash_for_edit_config_template_path(:id => tmplt.to_param), :rel=>"external"),
+                            link_to(_("Review"), url_for(:controller => '/unattended', :action => kind, :hostname => @host.name), :"data-provisioning-template" => true ))
+            )
         end
       end.join(" ").html_safe
     end
