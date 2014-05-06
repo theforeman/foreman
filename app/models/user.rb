@@ -200,26 +200,32 @@ class User < ActiveRecord::Base
   end
 
   def self.find_or_create_external_user(attrs, auth_source_name)
+    external_groups = attrs.delete(:groups)
+    auth_source = AuthSource.find_by_name(auth_source_name)
+
+    # existing user, we'll update them
     if (user = unscoped.find_by_login(attrs[:login]))
-      auth_source = AuthSource.find_by_name(auth_source_name)
-      external_groups = attrs.delete(:groups)
-      groups = user.usergroups.includes(:external_usergroups).where('usergroups.id not in (?)', ExternalUsergroup.where(:auth_source_id => auth_source).pluck(:usergroup_id))
-      if auth_source && user.auth_source_id == auth_source.first.id
+      # we know this auth source and it's user's auth source, we'll update user attributes
+      if auth_source && (user.auth_source_id == auth_source.id)
+        auth_source_external_groups = auth_source.external_usergroups.pluck(:usergroup_id)
+        new_usergroups = user.usergroups.includes(:external_usergroups).where('usergroups.id NOT IN (?)', auth_source_external_groups)
+
+        new_usergroups += auth_source.external_usergroups.includes(:usergroup).where(:name => external_groups).map(&:usergroup)
         user.update_attributes(attrs.delete_if { |k, v| v.blank? })
-        groups = (groups + ExternalUsergroup.where(:auth_source_id => auth_source, :name => external_groups).map(&:usergroup)).uniq
+        user.usergroups = new_usergroups.uniq
       end
-      user.usergroups = groups
+
       return true
+    # not existing user and creating is disabled by settings
     elsif auth_source_name.nil?
       return false
+    # not existing user and auth source is set, we'll create the user and auth source if needed
     else
       User.as :admin do
-        options = { :name => auth_source_name }
-        auth_source = AuthSource.where(options).first || AuthSourceExternal.create!(options)
-        external_groups = attrs.delete(:groups)
+        auth_source = AuthSourceExternal.create!(:name => auth_source_name) if auth_source.nil?
         user = User.create!(attrs.merge(:auth_source => auth_source))
         if external_groups.present?
-          user.usergroups = ExternalUsergroup.where(:auth_source_id => auth_source, :name => external_groups).map(&:usergroup).uniq
+          user.usergroups = auth_source.external_usergroups.where(:name => external_groups).map(&:usergroup).uniq
         end
         user.post_successful_login
       end
