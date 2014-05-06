@@ -413,14 +413,28 @@ class UserTest < ActiveSupport::TestCase
     # with existing user groups that are assigned
     apache_source = AuthSourceExternal.find_or_create_by_name('apache_module')
     usergroup = FactoryGirl.create :usergroup
-    FactoryGirl.create :external_usergroup, :usergroup => usergroup, 
-                                            :auth_source => apache_source, 
-                                            :name => usergroup.name
+    external = FactoryGirl.create :external_usergroup, :usergroup => usergroup,
+                                  :auth_source => apache_source,
+                                  :name => usergroup.name
     assert User.find_or_create_external_user({:login => 'not_existing_user_4',
-                                              :groups => [usergroup.name, 'does-not-exists-for-sure-123']},
+                                              :groups => [external.name, 'does-not-exists-for-sure-123']},
                                              apache_source.name)
     user = User.find_by_login('not_existing_user_4')
     assert_equal [usergroup], user.usergroups
+  end
+
+  test ".find_or_create_external_user updates external groups" do
+    apache_source = AuthSourceExternal.find_or_create_by_name('apache_module')
+    user = FactoryGirl.create(:user, :auth_source => apache_source)
+    external1 = FactoryGirl.create(:external_usergroup, :auth_source => apache_source)
+    external2 = FactoryGirl.create(:external_usergroup, :auth_source => apache_source)
+    user.usergroups << external1.usergroup
+
+    assert User.find_or_create_external_user({:login => user.login,
+                                              :groups => [external2.name]},
+                                             apache_source.name)
+    user.usergroups.reload
+    assert_equal [external2.usergroup], user.usergroups
   end
 
 
