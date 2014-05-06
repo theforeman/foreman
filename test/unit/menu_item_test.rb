@@ -45,6 +45,17 @@ class MenuItemTest < ActiveSupport::TestCase
     assert Menu::Item.new(:test_good_menu, :url_hash => {:controller=>'test', :action=>'index'}, :after => :me)
   end
 
+  def test_menu_item_should_use_url_parameter_when_available
+    item = Menu::Item.new(:test_good_menu, :url => '/overriden/url', :url_hash => {:controller=>'test', :action=>'index'}, :after => :me)
+    assert_equal '/overriden/url', item.url
+  end
+
+  def test_menu_item_uses_url_hash_by_default
+    item = Menu::Item.new(:test_good_menu, :url_hash => {:controller=>'test', :action=>'index'}, :after => :me)
+    ActionDispatch::Routing::RouteSet.any_instance.expects(:url_for).with(:controller=>'test', :action=>'index', :only_path => true).returns('/url')
+    assert_equal '/url', item.url
+  end
+
   def test_new_menu_item_should_require_a_proc_to_use_for_the_if_condition
     assert_raises ArgumentError do
       Menu::Item.new(:test_error, :if => ['not_a_proc'] )

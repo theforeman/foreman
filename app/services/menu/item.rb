@@ -9,6 +9,7 @@ module Menu
       raise ArgumentError, "Cannot set the :parent to be the same as this item" if options[:parent] == name.to_sym
       raise ArgumentError, "Invalid option :children for menu item '#{name}'" if options[:children] && !options[:children].respond_to?(:call)
       @name = name
+      @url = options[:url]
       @url_hash = options[:url_hash]
       @condition = options[:if]
       @caption = options[:caption]
@@ -21,7 +22,7 @@ module Menu
     end
 
     def url
-      add_relative_path(@context.routes.url_for(url_hash.merge(:only_path=>true)))
+      add_relative_path(@url || @context.routes.url_for(url_hash.merge(:only_path=>true)))
     end
 
     def url_hash
