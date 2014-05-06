@@ -54,7 +54,8 @@ Requires: %{?scl_prefix}rubygem(will_paginate) >= 3.0.0
 Requires: %{?scl_prefix}rubygem(will_paginate) < 3.1.0
 Requires: %{?scl_prefix}rubygem(ancestry) >= 2.0.0
 Requires: %{?scl_prefix}rubygem(ancestry) < 3.0.0
-Requires: %{?scl_prefix}rubygem(scoped_search) >= 2.5.0
+Requires: %{?scl_prefix}rubygem(scoped_search) >= 2.6.2
+Requires: %{?scl_prefix}rubygem(scoped_search) < 3.0.0
 Requires: %{?scl_prefix}rubygem(net-ldap)
 Requires: %{?scl_prefix}rubygem(safemode) >= 1.2.0
 Requires: %{?scl_prefix}rubygem(safemode) < 1.3.0
@@ -102,7 +103,8 @@ BuildRequires: %{?scl_prefix}rubygem(rest-client)
 BuildRequires: %{?scl_prefix}rubygem(ruby_parser) >= 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(safemode) >= 1.2.0
 BuildRequires: %{?scl_prefix}rubygem(sass-rails) => 3.2.3
-BuildRequires: %{?scl_prefix}rubygem(scoped_search) >= 2.5.0
+BuildRequires: %{?scl_prefix}rubygem(scoped_search) >= 2.6.2
+BuildRequires: %{?scl_prefix}rubygem(scoped_search) < 3.0.0
 BuildRequires: %{?scl_prefix}rubygem(sqlite3)
 BuildRequires: %{?scl_prefix}rubygem(therubyracer)
 BuildRequires: %{?scl_prefix}rubygem(bootstrap-sass) >= 3.0.3.0
