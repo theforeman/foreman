@@ -12,7 +12,7 @@ module Api
 
       def index
         @common_parameters = CommonParameter.
-          authorized(:view_globals).
+          authorized(:view_globals, CommonParameter).
           search_for(*search_options).
           paginate(paginate_options)
       end
