@@ -233,7 +233,7 @@ module Api
             resource_identifying_attributes.each do |key|
               find_method = "find_by_#{key}"
               model = md[1].classify.constantize
-              controller = "#{md[1].pluralize}_#{controller_name}"
+              controller = md[1].pluralize
               authorized_scope = model.authorized("#{action_permission}_#{controller}")
               @nested_obj ||= authorized_scope.send(find_method, params[param])
             end
