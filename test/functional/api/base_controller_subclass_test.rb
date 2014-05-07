@@ -127,4 +127,18 @@ class Api::TestableControllerTest < ActionController::TestCase
       assert_response :success
     end
   end
+
+  context 'nested objects' do
+    it "should use auth scope of nested object" do
+      ctrl = Api::TestableController.new
+      ctrl.expects(:params).at_least_once.returns(HashWithIndifferentAccess.new(:domain_id => 1, :action => 'index'))
+      ctrl.expects(:allowed_nested_id).at_least_once.returns(['domain_id'])
+      ctrl.expects(:resource_identifying_attributes).at_least_once.returns(['id'])
+      scope = mock('scope')
+      obj = mock('domain')
+      scope.expects(:find_by_id).with(1).returns(obj)
+      Domain.expects(:authorized).with('view_domains').returns(scope)
+      assert_equal obj, ctrl.send(:find_required_nested_object)
+    end
+  end
 end
