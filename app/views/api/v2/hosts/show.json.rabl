@@ -14,6 +14,10 @@ child :puppetclasses do
   extends "api/v2/puppetclasses/base"
 end
 
+node do |host|
+  { :all_puppetclasses => partial("api/v2/puppetclasses/base", :object => host.all_puppetclasses) }
+end
+
 child :config_groups do
   extends "api/v2/config_groups/main"
 end
