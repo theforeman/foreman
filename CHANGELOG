@@ -1,3 +1,35 @@
+2014-05-08	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.4.4
+	* fixes #5610 - upgrade to Rails 3.2.18
+
+2014-05-08	Amos Benari <abenari@redhat.com>
+	* fixes #5471 html escape auto-completer values (CVE-2014-0208)
+
+2014-05-07	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4590 - convert VMware SCSI controller type during creation
+	* fixes #5580 - pin scoped_search for Ruby 1.8 compatibility
+
+2014-05-07	Julien Pivotto <roidelapluie@inuits.eu>
+	* fixes #5609 - backport bugfix in hosts form when location is nil
+
+2014-05-07	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #4639 - array in lookup_value incorrectly displayed in form
+
+2014-05-07	Amos Benari <abenari@redhat.com>
+	* fixes #5132 hang when provisioning on ovirt 3.4
+
+2014-04-29	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #5436 - provisioning templates are world accessible
+
+2014-04-22	Dominic Cleal <dcleal@redhat.com>
+	* fixes #5214 - pin ancestry for Ruby 1.8 compatibility
+
+2014-03-27	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4828 - pin rake for Ruby 1.8 compatibility
+
+2014-03-27	Jason Montleon <jmontleo@redhat.com>
+	* Fixes #4465: remove pretrans section of foreman.spec
+
 2014-03-24	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.4.2
 	* Remove test erroneously pulled from develop
