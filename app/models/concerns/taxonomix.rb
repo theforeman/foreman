@@ -8,6 +8,9 @@ module Taxonomix
              :conditions => "taxonomies.type='Location'", :validate => false
     has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
              :conditions => "taxonomies.type='Organization'", :validate => false
+    validate :has_organizations
+
+    after_initialize :set_organization, :if => 'self.new_record?'
     after_initialize :set_current_taxonomy
 
     scoped_search :in => :locations, :on => :name, :rename => :location, :complete_value => true
@@ -102,6 +105,12 @@ module Taxonomix
     end
   end
 
+  def set_organization
+    return if User.current.nil?
+    self.id = nil      #fix for rails 3.2.8 bug that sets id = 1 on after_initialize. This can later be removed.
+    self.organizations << Organization.my_organizations.first if Organization.my_organizations.count == 1
+  end
+
   def add_current_organization?
     add_current_taxonomy?(:organization)
   end
@@ -169,6 +178,10 @@ module Taxonomix
       ids << tax.descendant_ids
     end
     ids.flatten.compact.uniq
+  end
+
+  def has_organizations
+    errors.add(:organizations, _('You must add at least one organization')) if organizations.empty?
   end
 
 end
