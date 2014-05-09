@@ -46,13 +46,23 @@ class TestableControllerTest < ActionController::TestCase
         @sso = mock('dummy_sso')
         @sso.stubs(:authenticated?).returns(true)
         @sso.stubs(:current_user).returns(users(:admin))
+        @sso.stubs(:support_expiration?).returns(true)
+        @sso.stubs(:expiration_url).returns("/users/extlogin")
         @controller.stubs(:available_sso).returns(@sso)
+        @controller.stubs(:get_sso_method).returns(@sso)
       end
 
       it "sets the session user" do
         get :index
         assert_response :success
         assert_equal users(:admin).id, session[:user]
+      end
+
+      it "redirects correctly on expiry" do
+        get :index
+        session[:expires_at] = 5.minutes.ago
+        get :index
+        assert_redirected_to "/users/extlogin"
       end
 
       it "changes the session ID to prevent fixation" do
