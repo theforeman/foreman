@@ -1,3 +1,36 @@
+2014-05-09	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.5.0
+
+2014-05-08	Dominic Cleal <dcleal@redhat.com>
+	* templates - sync from community-templates
+	* i18n - extracting new, updating rails, pulling from tx
+	* fixes #5612 - use correct permissions for authz in parameters API
+	* fixes #5610 - upgrade to Rails 3.2.18
+
+2014-05-08	Amos Benari <abenari@redhat.com>
+	* fixes #5471 html escape auto-completer values (CVE-2014-0208)
+
+2014-05-07	Dominic Cleal <dcleal@redhat.com>
+	* fixes #4590 - convert VMware SCSI controller type during creation
+	* fixes #5580 - pin scoped_search for Ruby 1.8 compatibility
+	* fixes #5489 - don't generate empty search () filters on permissions migration
+	* fixes #5540 - also clone builtin roles during migration
+	* fixes #5427 - skip user roles FK removal if it's missing
+	* fixes #5038 - remove empty label causing template edit box indentation
+	* fixes #5490 - ambiguous column in taxonomix pluck on Rails 3.2.8
+
+2014-05-07	Joseph Magen <jmagen@redhat.com>
+	* fixes #5506 - added scoped search to SmartProxy for UI and API v2
+
+2014-05-07	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #4370 - Filters list show permissions
+
+2014-05-07	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #4287 - Join directly to template_combinations when resolving templates
+
+2014-05-07	Amos Benari <abenari@redhat.com>
+	* fixes #5132 URL doesn't update correctly after creating a new host
+
 2014-04-28	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.5.0-RC2
 	* i18n - extracting new, updating rails, pulling from tx
