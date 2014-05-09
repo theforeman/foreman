@@ -142,9 +142,6 @@ module Orchestration::DHCP
       return true
     end
     false
-  rescue Net::LeaseConflict => e
-    failure(_("DHCP record %s conflicts with an existing reservation") % dhcp_record, nil, :dhcp_lease_error)
-    true
   end
 
 end

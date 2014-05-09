@@ -88,11 +88,6 @@ module Orchestration
         task.status = "conflict"
         record_conflicts << e
         failure e.message, nil, :conflict
-      #TODO: This is not a real error, but at the moment the proxy / foreman lacks better handling
-      # of the error instead of explode.
-      rescue Net::LeaseConflict => e
-        task.status = "failed"
-        failure _("DHCP has a lease at %s") % e, e.backtrace
       rescue => e
         task.status = "failed"
         failure _("%{task} task failed with the following error: %{e}") % { :task => task.name, :e => e }, e.backtrace
