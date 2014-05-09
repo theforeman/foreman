@@ -124,7 +124,7 @@ class UsersController < ApplicationController
     session[:user]         = user.id
     uri                    = session[:original_uri]
     session[:original_uri] = nil
-    set_current_taxonomies(user)
+    set_current_taxonomies(user, {:session => session})
     TopbarSweeper.expire_cache(self)
     redirect_to (uri || hosts_path)
   end
