@@ -24,6 +24,7 @@ module Net::DHCP
     def create
       logger.info "Create DHCP reservation for #{to_s}"
       begin
+        raise "Must define a hostname" if hostname.blank?
         proxy.set network, attrs
       rescue RestClient::Conflict
         logger.warn "Conflicting DHCP reservation for #{to_s} detected"
@@ -49,7 +50,15 @@ module Net::DHCP
     end
 
     def == other
-      attrs.values_at(:hostname, :mac, :ip, :network) == other.attrs.values_at(:hostname, :mac, :ip, :network)
+      if attrs[:hostname].blank?
+        # If we're converting an 'ad-hoc' lease created by a host booting outside of Foreman's knowledge,
+        # then :hostname will be blank on the incoming lease - if the ip/mac still match, then this
+        # isn't a conflict
+        attrs.values_at(:mac, :ip, :network) == other.attrs.values_at(:mac, :ip, :network)
+      else
+        # Otherwise, if a hostname is present, we want to check all 4 match before declaring a conflict
+        attrs.values_at(:hostname, :mac, :ip, :network) == other.attrs.values_at(:hostname, :mac, :ip, :network)
+      end
     end
 
     def attrs
