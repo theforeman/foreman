@@ -74,7 +74,6 @@ module Foreman::Controller::Authentication
 
   def set_current_user(user)
     User.current = user
-    Foreman::Controller::UsersMixin.set_current_taxonomies(user)
 
     # API access shouldn't modify the session, its authentication should be
     # stateless.  Other successful logins should create new session IDs.
@@ -82,6 +81,7 @@ module Foreman::Controller::Authentication
       backup_session_content { reset_session }
       session[:user] = user.id
       update_activity_time
+      Foreman::Controller::UsersMixin.set_current_taxonomies(user, {:session => session})
     end
     user.present?
   end
