@@ -34,7 +34,7 @@ module HostsAndHostgroupsHelper
 
   def os_media
     return [] if @operatingsystem.blank?
-    @operatingsystem.media.with_taxonomy_scope_override(@location,@organization)
+    @operatingsystem.media.with_taxonomy_scope(@location,@organization,:path_ids)
   end
 
   def os_ptable
