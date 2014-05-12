@@ -18,3 +18,17 @@ search.catcomplete({source: function( request, response ) {
   $('#granular_form').hide();
   $('#filter_unlimited').prop('checked', true);
 <% end %>
+
+<% if @show_organizations %>
+  $('li a[href="#organizations"]').show();
+<% else %>
+  $('li a[href="#organizations"]').hide();
+<% end %>
+$('#filter_resource_type').attr('data-allow-organizations', <%= !!@show_organizations %>);
+
+<% if @show_locations %>
+  $('li a[href="#locations"]').show();
+<% else %>
+  $('li a[href="#locations"]').hide();
+<% end %>
+$('#filter_resource_type').attr('data-allow-locations', <%= !!@show_locations %>);

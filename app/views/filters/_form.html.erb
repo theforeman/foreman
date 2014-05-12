@@ -25,7 +25,9 @@
       <% end %>
 
       <%= selectable_f(f, :resource_type, Permission.resources_with_translations,
-                       {:include_blank => _('(Miscellaneous)')}, {:'data-url' => permissions_path}) %>
+                       {:include_blank => _('(Miscellaneous)')}, {:'data-url' => permissions_path,
+                                                                  :'data-allow-organizations' => @filter.allows_organization_filtering?,
+                                                                  :'data-allow-locations' => @filter.allows_location_filtering?,}) %>
 
       <%= multiple_selects f, :permissions, Permission.where(:resource_type => f.object.resource_type),
                            f.object.permissions.map(&:id), :label => _("Permission") %>
