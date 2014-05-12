@@ -123,7 +123,7 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test "should find associated lookup_values" do
-    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)], hostgroups(:common).lookup_values.sort
+    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)].map(&:id).sort, hostgroups(:common).lookup_values.map(&:id).sort
   end
 
   test "should find associated lookup_values with unsafe SQL name" do
@@ -133,7 +133,7 @@ class HostgroupTest < ActiveSupport::TestCase
     lv = lookup_values(:four)
     lv.match = "hostgroup=#{hostgroup.name}"
     lv.save!
-    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)], hostgroup.lookup_values.sort
+    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)].map(&:id).sort, hostgroup.lookup_values.map(&:id).sort
   end
 
   # test NestedAncestryCommon methods generate by class method nested_attribute_for
