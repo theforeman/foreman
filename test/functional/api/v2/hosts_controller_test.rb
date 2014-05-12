@@ -362,7 +362,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_equal  1, response['subtotal']
       assert_equal 'my5name.mydomain.net', response['search']
     end
-
   end
 
 end
