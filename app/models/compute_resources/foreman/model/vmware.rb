@@ -224,13 +224,6 @@ module Foreman::Model
     end
 
     def parse_args args
-      dc_networks = networks
-      args["interfaces_attributes"].each do |key, interface|
-        # Convert network id into name
-        net = dc_networks.find { |n| n.id == interface["network"] }
-        raise "Unknown Network ID: #{interface["network"]}" if net.nil?
-        interface["network"] = net.name
-      end
       args = args.symbolize_keys
 
       # convert rails nested_attributes into a plain, symbolized hash
@@ -247,12 +240,25 @@ module Foreman::Model
       args
     end
 
-    def create_vm controller_args = { }
-      args = parse_args controller_args.dup
+    # Change network IDs for names only at the point of creation, as IDs are
+    # used in the UI for select boxes etc.
+    def parse_networks args
+      args = args.deep_dup
+      dc_networks = networks
+      args["interfaces_attributes"].each do |key, interface|
+        # Convert network id into name
+        net = dc_networks.find { |n| [n.id, n.name].include?(interface["network"]) }
+        raise "Unknown Network ID: #{interface["network"]}" if net.nil?
+        interface["network"] = net.name
+      end if args["interfaces_attributes"]
+      args
+    end
 
+    def create_vm args = { }
       test_connection
       return unless errors.empty?
 
+      args = parse_networks(args)
       if args[:image_id].present?
         clone_vm(args)
       else
@@ -266,6 +272,7 @@ module Foreman::Model
     end
 
     def new_vm args
+      args = parse_args args
       opts = vm_instance_defaults.symbolize_keys.merge(args.symbolize_keys)
       client.servers.new opts
     end
@@ -285,6 +292,7 @@ module Foreman::Model
     # +searchIndex.FindChild("Resources")+ in RbVmomi that then returns nil
     # because it has no children.
     def clone_vm args
+      args = parse_args args
       path_replace = %r{/Datacenters/#{datacenter}/vm(/|)}
 
       interfaces = client.list_vm_interfaces(args[:image_id])
