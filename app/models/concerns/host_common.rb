@@ -186,11 +186,11 @@ module HostCommon
   end
 
   def cnt_hostgroups(config_group)
-    Hostgroup.search_for("config_group=#{config_group.name}").count
+    Hostgroup.search_for(%Q{config_group="#{config_group.name}"}).count
   end
 
   def cnt_hosts(config_group)
-    Host::Managed.search_for("config_group=#{config_group.name}").count
+    Host::Managed.search_for(%Q{config_group="#{config_group.name}"}).count
   end
 
   def update_config_group_counters(record)
