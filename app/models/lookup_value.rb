@@ -12,7 +12,7 @@ class LookupValue < ActiveRecord::Base
   attr_accessor :host_or_hostgroup
 
   serialize :value
-  attr_name :value
+  attr_name :match
 
   scope :default, lambda { where(:match => "default").limit(1) }
 
@@ -21,7 +21,7 @@ class LookupValue < ActiveRecord::Base
   scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
 
   def name
-    value
+    match
   end
 
   def value_before_type_cast
