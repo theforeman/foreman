@@ -12,4 +12,7 @@ $(document).ready(function () {
   $('#filter_unlimited').change(function () {
     $('#search').prop('disabled', $(this).prop('checked'));
   });
+
+  $('li a[href="#organizations"]').toggle($('#filter_resource_type').data('allow-organizations'));
+  $('li a[href="#locations"]').toggle($('#filter_resource_type').data('allow-locations'));
 });
