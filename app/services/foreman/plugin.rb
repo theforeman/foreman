@@ -168,9 +168,10 @@ module Foreman #:nodoc:
     #   class to which this permissions is related, rest of options is passed
     #   to AccessControl
     def permission(name, hash, options={})
-      resource_type = options.delete(:resource_type)
-      Permission.first rescue return false
-      Permission.find_or_create_by_name_and_resource_type(name, resource_type)
+      return false if pending_migrations
+
+      options[:engine] ||= self.id.to_s
+      Permission.find_or_create_by_name_and_resource_type(name, options[:resource_type])
       options.merge!(:security_block => @security_block)
       Foreman::AccessControl.map do |map|
         map.permission name, hash, options
@@ -179,11 +180,17 @@ module Foreman #:nodoc:
 
     # Add a new role if it doesn't exist
     def role(name, permissions)
-      Permission.first rescue return false
+      return false if pending_migrations
+
       Role.transaction do
         role = Role.find_or_create_by_name(name)
         role.add_permissions!(permissions) if role.permissions.empty?
       end
+    end
+
+    def pending_migrations
+      migrations = ActiveRecord::Migrator.new(:up, ActiveRecord::Migrator.migrations_paths).pending_migrations
+      migrations.size > 0
     end
 
     # List of helper methods allowed for templates in safe mode
