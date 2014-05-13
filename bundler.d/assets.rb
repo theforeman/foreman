@@ -13,4 +13,5 @@ group :assets do
   gem 'gettext', '~> 2.0', :require => false
   gem 'locale', '<= 2.0.9'
   gem "multi-select-rails", "~> 0.9.10"
+  gem 'gridster-rails'
 end

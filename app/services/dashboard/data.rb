@@ -1,4 +1,4 @@
-class Dashboard
+class Dashboard::Data
 
   attr_reader :report
   # returns a status hash

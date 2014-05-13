@@ -1,5 +1,10 @@
+/*
+ *= require jquery.gridster
+ *= require gridster.scss
+ */
+
 #dashboard{
-  li{
+  #status-table li{
     margin: 10px 0;
     list-style: none;
     h4{
@@ -22,9 +27,6 @@
   .statistics-bar{
    height: 270px;
    width: 90%;
-  }
-  .statistics-pie{
-    margin: 46px auto;
   }
 }
 

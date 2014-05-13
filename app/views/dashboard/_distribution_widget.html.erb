@@ -1,0 +1,2 @@
+<h4 style="text-align: center;"><%= n_("Run distribution in the last %s minute", "Run distribution in the last %s minutes", Setting[:puppet_interval]) % Setting[:puppet_interval] %></h4>
+<%= render_run_distribution(@hosts, :class => 'statistics-bar') %>
