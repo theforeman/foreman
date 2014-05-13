@@ -1,5 +1,6 @@
 require 'foreman/access_permissions'
 require 'menu/loader'
+require 'dashboard/loader'
 require 'foreman/plugin'
 require 'foreman/renderer'
 require 'foreman/controller'
@@ -20,6 +21,9 @@ end
 
 #load topbar
 Menu::Loader.load
+
+#load dashboard widgets
+Dashboard::Loader.load
 
 # clear our users topbar cache
 begin

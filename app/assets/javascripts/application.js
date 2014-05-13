@@ -13,6 +13,7 @@
 //= require jquery.extentions
 //= require jquery.multi-select
 //= require settings
+//= require jquery.gridster
 
 $(document).on('ContentLoad', function(){onContentLoad()});
 

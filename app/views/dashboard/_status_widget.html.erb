@@ -1,5 +1,6 @@
-<h4 class="header"><%= _('Host Configuration Status') %></h4>
-<ul>
+<div id='status-table'>
+  <h4 class="header"><%= _('Host Configuration Status') %></h4>
+  <ul>
     <%= searchable_links _('Hosts that had performed modifications without error'),
                          "last_report > \"#{Setting[:puppet_interval] + 5} minutes ago\" and (status.applied > 0 or status.restarted > 0) and (status.failed = 0)",
                          :active_hosts_ok_enabled
@@ -35,5 +36,6 @@
                          :disabled_hosts
     %>
 
-  <h4 class="total"><%= _("Total Hosts: %s") % @report[:total_hosts] %></h4>
-</ul>
+    <h4 class="total"><%= _("Total Hosts: %s") % @report[:total_hosts] %></h4>
+  </ul>
+</div>

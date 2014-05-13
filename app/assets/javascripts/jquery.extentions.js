@@ -15,3 +15,10 @@ jQuery.fn.show = function(){
     // Execute the original method.
     return originalJQueryShowMethod.apply( this, arguments );
 }
+
+jQuery.humanize = function(str) {
+    return str.replace(/_/g, ' ')
+        .replace(/(\w+)/g, function(match) {
+            return match.charAt(0).toUpperCase() + match.slice(1);
+        });
+};
