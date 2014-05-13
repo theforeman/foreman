@@ -122,7 +122,8 @@ module Foreman::Model
 #    end
 
     def associated_host(vm)
-      Host.my_hosts.where(:mac => [vm.vm_mac_address]).first
+      #Host.my_hosts.where(:mac => [vm.vm_mac_address]).first
+      Host.authorized(:view_hosts, Host).where(:mac => vm.vm_mac_address).first
     end
 
     def new_interface attr={ }
