@@ -78,6 +78,7 @@ end
 class MigratePermissions < ActiveRecord::Migration
   def self.up
     if old_permissions_present
+      make_sure_all_permissions_are_present
       migrate_roles
       migrate_user_filters
 
@@ -87,6 +88,17 @@ class MigratePermissions < ActiveRecord::Migration
       end
     else
       say 'Skipping migration of permissions, since old permissions are not present'
+    end
+  end
+
+  # STEP 0 - add missing permissions to DB
+  # some engines could have defined new permissions during their initialization
+  # but permissions table hadn't existed yet so we check all registered
+  # permissions and create those that are missing in database
+  def self.make_sure_all_permissions_are_present
+    engine_permissions = Foreman::AccessControl.permissions.select { |p| p.engine.present? }
+    engine_permissions.each do |permission|
+      FakePermission.find_or_create_by_name_and_resource_type(permission.name, permission.resource_type)
     end
   end
 

@@ -86,7 +86,7 @@ module Foreman
     end
 
     class Permission
-      attr_reader :name, :actions, :security_block
+      attr_reader :name, :actions, :security_block, :resource_type, :engine
 
       def initialize(name, hash, options)
         @name = name
@@ -94,6 +94,8 @@ module Foreman
         @public = options[:public] || false
         @require = options[:require]
         @security_block = options[:security_block]
+        @resource_type = options[:resource_type]
+        @engine = options[:engine]
         hash.each do |controller, actions|
           if actions.is_a? Array
             @actions << actions.collect {|action| "#{controller}/#{action}"}
