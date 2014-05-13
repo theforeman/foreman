@@ -256,9 +256,12 @@ class HostTest < ActiveSupport::TestCase
 
     test 'host taxonomies are set to setting[taxonomy_fact] if it exists' do
       Setting[:create_new_host_when_facts_are_uploaded] = true
+      Setting[:location_fact] = "foreman_location"
+      Setting[:organization_fact] = "foreman_organization"
+
       raw = parse_json_fixture('/facts.json')
-      raw['facts']['location_fact']     = 'Location 2'
-      raw['facts']['organization_fact'] = 'Organization 2'
+      raw['facts']['foreman_location']     = 'Location 2'
+      raw['facts']['foreman_organization'] = 'Organization 2'
       Host.import_host_and_facts(raw['name'], raw['facts'])
 
       assert_equal 'Location 2',     Host.find_by_name('sinn1636.lan').location.title
@@ -277,9 +280,13 @@ class HostTest < ActiveSupport::TestCase
 
     test 'taxonomies from facts override already existing taxonomies in hosts' do
       Setting[:create_new_host_when_facts_are_uploaded] = true
+      Setting[:location_fact] = "foreman_location"
+      Setting[:organization_fact] = "foreman_organization"
+
       raw = parse_json_fixture('/facts.json')
-      raw['facts']['location_fact'] = 'Location 2'
+      raw['facts']['foreman_location'] = 'Location 2'
       Host.import_host_and_facts(raw['name'], raw['facts'])
+
       Host.find_by_name('sinn1636.lan').update_attribute(:location, taxonomies(:location1))
       Host.find_by_name('sinn1636.lan').import_facts(raw['facts'])
 

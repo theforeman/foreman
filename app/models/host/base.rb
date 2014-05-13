@@ -107,11 +107,12 @@ module Host
       ['location', 'organization'].each do |taxonomy|
         next unless SETTINGS["#{taxonomy.pluralize}_enabled".to_sym]
         taxonomy_class = taxonomy.classify.constantize
+        taxonomy_fact = Setting["#{taxonomy}_fact"]
 
-        if Setting["#{taxonomy}_fact"].present? && facts.keys.include?("#{taxonomy}_fact")
-          taxonomy_from_fact = taxonomy_class.find_by_title(facts["#{taxonomy}_fact"])
+        if taxonomy_fact.present? && facts.keys.include?(taxonomy_fact)
+          taxonomy_from_fact = taxonomy_class.find_by_title(facts[taxonomy_fact])
         else
-          default_taxonomy = taxonomy_class.find_by_title(Setting["default_#{taxonomy}".to_sym])
+          default_taxonomy = taxonomy_class.find_by_title(Setting["default_#{taxonomy}"])
         end
 
         if self.send("#{taxonomy}").present?
