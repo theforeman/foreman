@@ -127,12 +127,14 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   def test_clone
+    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
     get :clone, {:id => Host.first.name}, set_session_user
     assert assigns(:clone_host)
     assert_template 'new'
   end
 
   def test_clone_empties_fields
+    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
     get :clone, {:id => Host.first.name}, set_session_user
     refute assigns(:host).name
     refute assigns(:host).ip
