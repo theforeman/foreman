@@ -21,7 +21,7 @@ class Api::V2::ComputeAttributesControllerTest < ActionController::TestCase
                    :compute_attribute => valid_attrs
                  }
     assert_response :success
-    assert_equal "4", compute_attributes(:two).reload.vm_attrs[:cpus]
+    assert_equal "4", compute_attributes(:two).reload.vm_attrs['cpus']
   end
 
 end

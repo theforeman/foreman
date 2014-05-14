@@ -228,6 +228,11 @@ class ComputeResource < ActiveRecord::Base
     compute_attributes.find_by_compute_profile_id(id).try(:vm_attrs) || {}
   end
 
+  def vm_compute_attributes_for(uuid)
+    vm = find_vm_by_uuid(uuid)
+    vm.attributes.reject{|k,v| k == :id }
+  end
+
   protected
 
   def client

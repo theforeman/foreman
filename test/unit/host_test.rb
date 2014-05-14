@@ -802,7 +802,7 @@ class HostTest < ActiveSupport::TestCase
 
     # search hosts by hostgroup label
     hosts = Host.search_for("hostgroup_title = #{hostgroup.title}")
-    assert_equal hosts.count, 1  #host_db in hosts.yml
+    assert_equal 1, hosts.count  #host_db in hosts.yml
     assert_equal hosts.first.hostgroup_id, hostgroup.id
   end
 
@@ -1262,6 +1262,16 @@ class HostTest < ActiveSupport::TestCase
   test 'fqdn of host period and no domain returns just name' do
     host = Host::Managed.new(:name => name = "dhcp123")
     assert_equal "dhcp123", host.fqdn
+  end
+
+  test 'clone should create compute_attributes for VM-based hosts' do
+    copy = hosts(:one).clone
+    assert !copy.compute_attributes.nil?
+  end
+
+  test 'clone should NOT create compute_attributes for bare-metal host' do
+    copy = hosts(:bare_metal).clone
+    assert copy.compute_attributes.nil?
   end
 
   private
