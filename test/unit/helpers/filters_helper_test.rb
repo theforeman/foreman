@@ -24,4 +24,9 @@ class FiltersHelperTest < ActionView::TestCase
   def test_should_return_empty_search_path_if_resource_is_not_recognized
     assert_equal '', search_path('UnknownResource')
   end
+
+  def test_engine_search_path_is_used_when_engine_override_available
+    FiltersHelperOverrides.override_search_path("TestOverride", lambda { |resource| "test_override/auto_complete_search" })
+    assert_equal "test_override/auto_complete_search" , search_path('TestOverride::Resource')
+  end
 end
