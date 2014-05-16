@@ -37,6 +37,10 @@ module Foreman::Model
       #client.interfaces rescue []
       []
     end
+    def vminterfaces
+      #client.interfaces rescue []
+      []
+    end
 
     def networks
       client.networks rescue []
@@ -54,7 +58,7 @@ module Foreman::Model
     def create_vm args = { }
       args = vm_instance_defaults.merge(args.to_hash.symbolize_keys)
       logger.info "CREATEVM ARGS #{args.inspect}"
-      #ARGS: {"name"=>"aaa.example.com", "b0e"=>"foob0e", "foob0e"=>"b0e", "template_id"=>"4", "vcpu"=>"", "memory"=>"", "interfaces_attributes"=>{"new_interfaces"=>{"id"=>"0", "_delete"=>"", "model"=>"virtio"}, "new_1398239695352"=>{"id"=>"2", "_delete"=>"", "model"=>"virtio"}, "new_1398239700415"=>{"id"=>"2", "_delete"=>"", "model"=>"virtio"}, "new_1398239705632"=>{"id"=>"0", "_delete"=>"", "model"=>"e1000"}}}
+      #ARGS: {"name"=>"aaa.example.com", "b0e"=>"foob0e", "foob0e"=>"b0e", "template_id"=>"4", "vcpu"=>"", "memory"=>"", "vminterfaces_attributes"=>{"new_interfaces"=>{"vnetid"=>"0", "_delete"=>"", "model"=>"virtio"}, "new_1398239695352"=>{"vnetid"=>"2", "_delete"=>"", "model"=>"virtio"}, "new_1398239700415"=>{"vnetid"=>"2", "_delete"=>"", "model"=>"virtio"}, "new_1398239705632"=>{"vnetid"=>"0", "_delete"=>"", "model"=>"e1000"}}}
 
       vm = client.servers.new
       vm.name = args[:name]
@@ -65,13 +69,13 @@ module Foreman::Model
       vm.flavor.MEMORY = args[:memory] unless args[:memory].empty?
       vm.flavor.NIC = []
 
-      #INTERFACES {"new_interfaces"=>{"id"=>"0", "_delete"=>"", "model"=>"virtio"}, "new_1398239695352"=>{"id"=>"2", "_delete"=>"", "model"=>"virtio"}, "new_1398239700415"=>{"id"=>"2", "_delete"=>"", "model"=>"virtio"}, "new_1398239705632"=>{"id"=>"0", "_delete"=>"", "model"=>"e1000"}}
-      logger.info "INTERFACES #{args[:interfaces_attributes].inspect}"
-      nics = args[:interfaces_attributes].values
+      #INTERFACES {"new_interfaces"=>{"vnetid"=>"0", "_delete"=>"", "model"=>"virtio"}, "new_1398239695352"=>{"vnetid"=>"2", "_delete"=>"", "model"=>"virtio"}, "new_1398239700415"=>{"vnetid"=>"2", "_delete"=>"", "model"=>"virtio"}, "new_1398239705632"=>{"vnetid"=>"0", "_delete"=>"", "model"=>"e1000"}}
+      logger.info "INTERFACES #{args[:vminterfaces_attributes].inspect}"
+      nics = args[:vminterfaces_attributes].values
       if nics.is_a? Array then
         nics.each do |nic|
-	  unless (nic["id"].empty? || nic["model"].empty?)
-	    vm.flavor.NIC << client.interfaces.new({ :vnet => client.networks.get(nic["id"]), :model => nic["model"]})
+	  unless (nic["vnetid"].empty? || nic["model"].empty?)
+	    vm.flavor.NIC << client.interfaces.new({ :vnet => client.networks.get(nic["vnetid"]), :model => nic["model"]})
 	  end
         end
       end
@@ -126,7 +130,8 @@ module Foreman::Model
       Host.authorized(:view_hosts, Host).where(:mac => vm.vm_mac_address).first
     end
 
-    def new_interface attr={ }
+    def new_vminterface attr={}
+      logger.info "new_interface attr #{attr.inspect}"
       client.interfaces.new attr
     end
 
