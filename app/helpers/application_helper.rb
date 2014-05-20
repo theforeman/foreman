@@ -382,6 +382,10 @@ module ApplicationHelper
     environment.puppetclasses.map(&:id).include?(puppetclass.id)
   end
 
+  def show_parent?(obj)
+    (obj.new_record? && obj.class.count > 0) || (!obj.new_record? && obj.class.count > 1)
+  end
+
   private
   def edit_inline(object, property, options={})
     name       = "#{type}[#{property}]"
