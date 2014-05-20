@@ -3,7 +3,7 @@ object @host
 extends "api/v2/hosts/main"
 
 child :host_parameters => :parameters do
-  extends "api/v2/puppetclasses/base"
+  extends "api/v2/parameters/base"
 end
 
 child :interfaces => :interfaces do
