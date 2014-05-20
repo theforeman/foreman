@@ -1,8 +1,8 @@
 <li class="nav-header"><%= _('Location') %></li>
-<li class="dropdown-submenu">
+<li class="dropdown-submenu loc-menu">
   <% location_count = Location.my_locations.count %>
   <%= location_dropdown location_count %>
-  <ul class="dropdown-menu">
+  <ul class="dropdown-menu loc-submenu">
     <% if User.current.admin? %>
       <li><%= link_to(_('Any Location'), main_app.clear_locations_path) %></li>
       <%= content_tag(:li, "", :class=>"divider") %>
