@@ -162,5 +162,12 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal, organization_dup.location_ids = organization.location_ids
   end
 
+  test "non-admin user is added to organization after creating it" do
+    user = User.current = users(:one)
+    refute user.admin?
+    assert organization = Organization.create(:name => 'new organization')
+    assert organization.users.include?(user)
+  end
+
 
 end
