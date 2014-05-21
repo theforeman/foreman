@@ -257,4 +257,11 @@ class LocationTest < ActiveSupport::TestCase
     end
   end
 
+  test "non-admin user is added to location after creating it" do
+    user = User.current = users(:one)
+    refute user.admin?
+    assert location = Location.create(:name => 'new location')
+    assert location.users.include?(user)
+  end
+
 end
