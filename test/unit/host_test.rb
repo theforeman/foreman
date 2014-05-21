@@ -929,6 +929,15 @@ class HostTest < ActiveSupport::TestCase
     assert_equal parent_hg.puppetclasses.first, results.first.hostgroup.parent.puppetclasses.first
   end
 
+  test "can search hosts by puppet class from config group in parent hostgroup" do
+    hostgroup = FactoryGirl.create(:hostgroup, :with_config_group)
+    host = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
+    puppetclass = hostgroup.config_groups.first.puppetclasses.first
+    results = Host.search_for("class = #{puppetclass.name}")
+    assert_equal 1, results.count
+    assert_equal host, results.first
+  end
+
   test "should update puppet_proxy_id to the id of the validated proxy" do
     sp = smart_proxies(:puppetmaster)
     raw = parse_json_fixture('/facts_with_caps.json')

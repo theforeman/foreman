@@ -89,15 +89,19 @@ module Hostext
       end
 
       def search_by_puppetclass(key, operator, value)
-        conditions  = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
-        hosts       = Host.authorized(:view_hosts, Host).where(conditions).joins(:puppetclasses).uniq.map(&:id)
-        host_groups = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:puppetclasses).uniq.map(&:subtree_ids).flatten.uniq
+        conditions    = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
+        config_group_ids = ConfigGroup.where(conditions).joins(:puppetclasses).pluck(:id)
+        host_ids         = Host.authorized(:view_hosts, Host).where(conditions).joins(:puppetclasses).uniq.map(&:id)
+        host_ids        += HostConfigGroup.where(:host_type => 'Host::Base').where(:config_group_id => config_group_ids).pluck(:host_id)
+        hostgroups       = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:puppetclasses)
+        hostgroups      += Hostgroup.unscoped.with_taxonomy_scope.joins(:host_config_groups).where("host_config_groups.config_group_id IN (#{config_group_ids.join(',')})") if config_group_ids.any?
+        hostgroup_ids    = hostgroups.map(&:subtree_ids).flatten.uniq
 
-        opts = ''
-        opts += "hosts.id IN(#{hosts.join(',')})"             unless hosts.blank?
-        opts += " OR "                                        unless hosts.blank? || host_groups.blank?
-        opts += "hostgroups.id IN(#{host_groups.join(',')})"  unless host_groups.blank?
-        opts = "hosts.id < 0"                                 if hosts.blank? && host_groups.blank?
+        opts  = ''
+        opts += "hosts.id IN(#{host_ids.join(',')})"            unless host_ids.blank?
+        opts += " OR "                                          unless host_ids.blank? || hostgroup_ids.blank?
+        opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
+        opts  = "hosts.id < 0"                                  if host_ids.blank? && hostgroup_ids.blank?
         return {:conditions => opts, :include => :hostgroup}
       end
 
