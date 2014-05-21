@@ -9,6 +9,9 @@
                  :help_inline=> remove_child_link("X", f, { :method => :'_delete', :title => _('remove volume'), :class => 'label label-danger' }) %>
     <%= f.hidden_field :storage_domain if disabled %>
     <%= f.hidden_field :id %>
+    <%= selectable_f f, :sparse, options_for_select({_('Thin provisioning') => :true, _('Preallocate disk')=>:false}, :true),
+                 { }, :label => _('Thin provisioning'), :disabled => disabled, :class => "col-md-2" %>
+    <%= f.hidden_field :sparse if disabled %>
     <%= field(f, :bootable, :label => _('Bootable')) do
         radio_button_f f, :bootable, {:disabled => disabled, :value=>'true', :checked => (f.object.bootable == 'true'), :onclick => 'bootable_radio(this)',
         :text => _('Only one volume can be bootable')}
