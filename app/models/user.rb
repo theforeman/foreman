@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
   validates :auth_source_id, :presence => true
   validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
-  validates :firstname, :lastname, :format => {:with => /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/}, :length => {:maximum => 50}, :allow_nil => true
+  validates :firstname, :lastname, :format => {:with => /\A[^[:cntrl:]]*\z/}, :length => {:maximum => 50}, :allow_nil => true
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed, :ensure_admin_remains_admin,
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion
 
