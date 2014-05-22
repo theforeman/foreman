@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
@@ -59,12 +60,20 @@ class User < ActiveRecord::Base
   validates :locale, :format => { :with => /\A\w{2}([_-]\w{2})?\Z/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
   before_validation :normalize_locale
 
+  def self.name_format
+    if RUBY_VERSION.start_with? '1.8'
+      /\A[ёЁа-яА-Яa-zA-Zà-üÀ-Ü0-9\s'_\-\.()<>;=,]*\z/u
+    else
+      /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/
+    end
+  end
+
   validates :login, :presence => true, :uniqueness => {:message => N_("already exists")},
                     :format => {:with => /\A[[:alnum:]_\-@\.]*\Z/}, :length => {:maximum => 100}
   validates :auth_source_id, :presence => true
   validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
-  validates :firstname, :lastname, :format => {:with => /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/}, :length => {:maximum => 50}, :allow_nil => true
+  validates :firstname, :lastname, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed, :ensure_admin_remains_admin,
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion
 
