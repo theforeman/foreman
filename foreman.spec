@@ -424,6 +424,7 @@ install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}
 install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}/tmp
 install -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}/tmp/pids
 install -d -m0755 %{buildroot}%{_localstatedir}/run/%{name}
+install -d -m0755 %{buildroot}%{_localstatedir}/run/%{name}/sockets
 install -d -m0750 %{buildroot}%{_localstatedir}/log/%{name}
 install -d -m0750 %{buildroot}%{_localstatedir}/log/%{name}/plugins
 install -Dp -m0755 script/%{name}-debug %{buildroot}%{_sbindir}/%{name}-debug
@@ -510,6 +511,7 @@ rm -rf %{buildroot}
 %attr(750,%{name},%{name}) %{_localstatedir}/log/%{name}
 %attr(750,%{name},%{name}) %{_localstatedir}/log/%{name}/plugins
 %attr(-,%{name},%{name}) %{_localstatedir}/run/%{name}
+%attr(770,%{name},%{name}) %{_localstatedir}/run/%{name}/sockets
 %attr(-,%{name},root) %{_datadir}/%{name}/config.ru
 %attr(-,%{name},root) %{_datadir}/%{name}/config/environment.rb
 # Symlink to /etc, EL6 needs attrs for ghost files, Fedora doesn't
