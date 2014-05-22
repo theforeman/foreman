@@ -14,6 +14,7 @@ class ComputeResource < ActiveRecord::Base
     'Openstack' => 'Foreman::Model::Openstack',
     'Rackspace' => 'Foreman::Model::Rackspace',
     'GCE'       => 'Foreman::Model::GCE',
+    'One'       => 'Foreman::Model::One',
   }
 
   audited :except => [:password, :attrs], :allow_mass_assignment => true

@@ -1,0 +1,9 @@
+<div class="fields">
+  <div class="form-group">
+  <%= selectable_f f, :pool_name, compute_resource.storage_pools.map(&:name), { }, :class => "col-md-2", :label => _("Storage pool") %>
+  <%= text_f f, :capacity, :class => "col-md-2", :label => _("Size (GB)"), :onchange => 'capacity_edit(this)' %>
+  <%= allocation_text_f f %>
+    <%= select_f f, :format_type, %w[RAW QCOW2],:downcase, :to_s, { }, :class => "col-md-2", :label => _("Type"),
+                   :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove volume'), :class => 'label label-danger disable-unsupported' }) %>
+  </div>
+</div>

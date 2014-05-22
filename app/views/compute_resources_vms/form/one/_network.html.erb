@@ -1,0 +1,12 @@
+<div class="fields">
+  <div class="form-group">
+<%= select_f f, :vnetid, compute_resource.networks, :id, :to_label, { :include_blank => _("None")},
+                   { :label    => _('Virtual Network'), :help_inline =>
+                       remove_child_link('X', f, { :method => :'_delete', :title => _('remove network interface'),
+			       :class  => 'label label-danger disable-unsupported' }), }
+%>
+
+<%= selectable_f f, :model, %w(virtio rtl8139 ne2k_pci pcnet e1000), {},
+                   { :label => _('NIC type'), :class => 'col-md-2' } %>
+  </div>
+</div>
