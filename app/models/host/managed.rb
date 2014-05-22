@@ -162,7 +162,7 @@ class Host::Managed < Host::Base
 
   # we should guarantee the fqdn is always fully qualified
   def fqdn
-    return name if name.blank? || ( !SETTINGS[:unattended] && domain.nil? )
+    return name if name.blank? || domain.blank?
     name.include?('.') ? name : "#{name}.#{domain}"
   end
 
