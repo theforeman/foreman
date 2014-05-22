@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
@@ -45,6 +46,9 @@ class UserTest < ActiveSupport::TestCase
 
     @user.firstname = "C_r'a-z.y( )<,Na=me;>"
     assert @user.save
+
+    @user.firstname = "é ô à"
+    assert @user.save
   end
 
   test "lastname should have the correct format" do
@@ -52,6 +56,9 @@ class UserTest < ActiveSupport::TestCase
     assert !@user.save
 
     @user.lastname = "C_r'a-z.y( )<,Na=me;>"
+    assert @user.save
+
+    @user.lastname = "é ô à"
     assert @user.save
   end
 
