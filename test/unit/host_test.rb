@@ -1233,6 +1233,24 @@ class HostTest < ActiveSupport::TestCase
     assert_empty copy.interfaces
   end
 
+  test 'fqdn of host with period in name returns just name with no concatenation of domain' do
+    host = hosts(:one)
+    assert_equal "my5name.mydomain.net", host.name
+    assert_equal host.name, host.fqdn
+  end
+
+  test 'fqdn of host without period in name returns name concatenated with domain' do
+    host = hosts(:otherfullhost)
+    assert_equal "otherfullhost", host.name
+    assert_equal "mydomain.net", host.domain.name
+    assert_equal 'otherfullhost.mydomain.net', host.fqdn
+  end
+
+  test 'fqdn of host period and no domain returns just name' do
+    host = Host::Managed.new(:name => name = "dhcp123")
+    assert_equal "dhcp123", host.fqdn
+  end
+
   private
 
   def parse_json_fixture(relative_path)
