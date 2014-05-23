@@ -132,7 +132,7 @@ class Host::Managed < Host::Base
     include HostTemplateHelpers
 
     validates :ip, :uniqueness => true, :if => Proc.new {|host| host.require_ip_validation?}
-    validates :mac, :uniqueness => true, :format => {:with => Net::Validations::MAC_REGEXP}, :unless => Proc.new { |host| host.compute? or !host.managed }
+    validates :mac, :uniqueness => true, :mac_address => true, :unless => Proc.new { |host| host.compute? or !host.managed }
     validates :architecture_id, :operatingsystem_id, :domain_id, :presence => true, :if => Proc.new {|host| host.managed}
     validates :mac, :presence => true, :unless => Proc.new { |host| host.compute? or !host.managed }
     validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
