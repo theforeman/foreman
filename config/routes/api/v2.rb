@@ -171,6 +171,7 @@ Foreman::Application.routes.draw do
           get :available_networks, :on => :member
           get :available_storage_domains, :on => :member
           get 'available_clusters/(:cluster_id)/available_networks', :to => 'compute_resources#available_networks', :on => :member
+          put :associate, :on => :member
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
           resources :compute_attributes, :only => [:create, :update]
@@ -205,6 +206,7 @@ Foreman::Application.routes.draw do
         resources :hosts, :except => [:new, :edit] do
           get :status, :on => :member
           put :puppetrun, :on => :member
+          put :disassociate, :on => :member
           put :boot, :on => :member
           put :power, :on => :member
           post :facts, :on => :collection

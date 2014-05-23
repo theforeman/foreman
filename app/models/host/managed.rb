@@ -107,6 +107,8 @@ class Host::Managed < Host::Base
 
   scope :for_token, lambda { |token| joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
 
+  scope :for_vm, lambda { |cr,vm| where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity)) }
+
   # audit the changes to this model
   audited :except => [:last_report, :puppet_status, :last_compile], :allow_mass_assignment => true
   has_associated_audits
@@ -575,6 +577,18 @@ class Host::Managed < Host::Base
   rescue => e
     logger.warn "Failed to fetch rundeck info for #{to_s}: #{e}"
     {}
+  end
+
+  def associate!(cr, vm)
+    self.uuid = vm.identity
+    self.compute_resource_id = cr.id
+    self.save!(:validate => false) # don't want to trigger callbacks
+  end
+
+  def disassociate!
+    self.uuid = nil
+    self.compute_resource_id = nil
+    self.save!(:validate => false) # don't want to trigger callbacks
   end
 
   def puppetrun!

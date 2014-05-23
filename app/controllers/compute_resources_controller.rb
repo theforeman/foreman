@@ -45,12 +45,10 @@ class ComputeResourcesController < ApplicationController
     count = 0
     if @compute_resource.respond_to?(:associated_host)
       @compute_resource.vms(:eager_loading => true).each do |vm|
-        if Host.where(:uuid => vm.identity).empty?
+        if Host.for_vm(@compute_resource, vm).empty?
           host = @compute_resource.associated_host(vm)
           if host.present?
-            host.uuid = vm.identity
-            host.compute_resource_id = @compute_resource.id
-            host.save!(:validate => false) # don't want to trigger callbacks
+            host.associate!(@compute_resource, vm)
             count += 1
           end
         end

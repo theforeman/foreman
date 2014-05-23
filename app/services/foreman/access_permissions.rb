@@ -329,8 +329,9 @@ Foreman::AccessControl.map do |map|
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,
                                     :"api/v1/hosts" => [:update],
-                                    :"api/v2/hosts" => [:update],
-                                    :"api/v2/interfaces" => [:create, :update, :destroy]
+                                    :"api/v2/hosts" => [:update, :disassociate],
+                                    :"api/v2/interfaces" => [:create, :update, :destroy],
+                                    :"api/v2/compute_resources" => [:associate]
                                   }
     map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy],
                                     :"api/v1/hosts" => [:destroy],
