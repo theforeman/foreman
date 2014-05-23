@@ -153,6 +153,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should disassociate host" do
+    host = FactoryGirl.create(:host, :on_compute_resource)
+    assert host.compute?
+    put :disassociate, { :id => host.to_param }
+    assert_response :success
+    refute host.reload.compute?
+  end
+
   def fact_json
     @json  ||= JSON.parse(Pathname.new("#{Rails.root}/test/fixtures/brslc022.facts.json").read)
   end
