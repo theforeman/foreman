@@ -29,6 +29,12 @@ class NicTest < ActiveSupport::TestCase
     assert i.errors.keys.include?(:mac)
   end
 
+  test "should be valid with 64-bit mac address" do
+    i = Nic::Base.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => hosts(:one)
+    assert i.valid?
+    assert !i.errors.keys.include?(:mac)
+  end
+
   test "should fail on invalid dns name" do
     i = Nic::Managed.new :mac => "dabbccddeeff", :host => hosts(:one), :name => "invalid_dns_name"
     assert !i.valid?
@@ -38,6 +44,11 @@ class NicTest < ActiveSupport::TestCase
   test "should fix mac address" do
     interface = Nic::Base.create! :mac => "cabbccddeeff", :host => hosts(:one)
     assert_equal "ca:bb:cc:dd:ee:ff", interface.mac
+  end
+
+  test "should fix 64-bit mac address" do
+    interface = Nic::Base.create! :mac => "babbccddeeff00112233445566778899aabbccdd", :host => hosts(:one)
+    assert_equal "ba:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd", interface.mac
   end
 
   test "should fix ip address if a leading zero is used" do
