@@ -12,7 +12,7 @@ class Ptable < ActiveRecord::Base
   has_many :hostgroups
   has_and_belongs_to_many :operatingsystems
   validates :layout, :presence => true
-  validates :name, :uniqueness => true, :format => {:with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain trailing white spaces.")}
+  validates :name, :uniqueness => true, :format => {:with => /\A(\S+\s?)+\S\Z/, :message => N_("can't be blank or contain trailing white spaces.")}
   default_scope lambda { order('ptables.name') }
   validate_inclusion_in_families :os_family
 
