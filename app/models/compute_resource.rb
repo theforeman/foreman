@@ -260,9 +260,7 @@ class ComputeResource < ActiveRecord::Base
 
   def random_password
     return nil unless set_console_password?
-    n = 8
-    chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-    (0...n).map { chars[rand(chars.length)].chr }.join
+    SecureRandom.hex(8)
   end
 
   def nested_attributes_for type, opts
