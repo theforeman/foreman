@@ -11,8 +11,8 @@ module CommonParametersHelper
 
   def parameter_value_field value
     content_tag :div, :class => "form-group condensed"  do
-      text_area_tag("value_#{value[:value]}", value[:value], :rows => (value[:value].to_s.lines.count || 1 rescue 1),
-                    :class => "col-md-5", :disabled => true) +
+      text_area_tag("value_#{value[:safe_value]}", value[:safe_value], :rows => (value[:safe_value].to_s.lines.count || 1 rescue 1),
+                    :class => "col-md-5", :disabled => true, :'data-hidden-value' => Parameter.hidden_value) +
       content_tag(:span, :class => "help-block") { popover(_("Additional info"), _("<b>Source:</b> %s") % _(value[:source].to_s))}
     end
   end

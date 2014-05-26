@@ -14,6 +14,7 @@
 //= require jquery.multi-select
 //= require settings
 //= require jquery.gridster
+//= require hidden_values
 
 $(document).on('ContentLoad', function(){onContentLoad()});
 

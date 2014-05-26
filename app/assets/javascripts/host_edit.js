@@ -392,12 +392,13 @@ function use_image_selected(element){
 function override_param(item){
   var param = $(item).closest('tr');
   var n = param.find('[id^=name_]').text();
-  var v = param.find('[id^=value_]').val();
+  var param_value = param.find('[id^=value_]');
+  var v = param_value.val();
 
   $('#parameters').find('.btn-success').click();
-  var new_param = param.closest('.tab-pane').find('[id*=host_host_parameters]:visible').last().parent().parent();
+  var new_param = param.closest('.tab-pane').find('td.col-md-6 [id*=host_host_parameters]:visible').parent().parent().last();
   new_param.find('[id$=_name]').val(n);
-  new_param.find('[id$=_value]').val(v);
+  new_param.find('td.col-md-6 [id$=_value]').val(v == param_value.data('hidden-value') ? '' : v);
   mark_params_override();
 }
 
