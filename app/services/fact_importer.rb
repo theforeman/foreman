@@ -48,13 +48,15 @@ class FactImporter
   end
 
   def add_new_facts
-    fact_names      = fact_name_class.maximum(:id, :group => 'name')
     facts_to_create = facts.keys - db_facts.keys
     # if the host does not exists yet, we don't have an host_id to use the fact_values table.
-    method          = host.new_record? ? :build : :create!
-    facts_to_create.each do |name|
-      host.fact_values.send(method, :value => facts[name],
-                            :fact_name_id  => fact_names[name] || fact_name_class.create!(:name => name).id)
+    if facts_to_create.present?
+      method          = host.new_record? ? :build : :create!
+      fact_names      = fact_name_class.maximum(:id, :group => 'name')
+      facts_to_create.each do |name|
+        host.fact_values.send(method, :value => facts[name],
+                              :fact_name_id  => fact_names[name] || fact_name_class.create!(:name => name).id)
+      end
     end
 
     @counters[:added] = facts_to_create.size
