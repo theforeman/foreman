@@ -27,6 +27,7 @@ module Api
         param :common_parameter, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :value, String, :required => true
+          param :hidden_value, [true, false]
         end
       end
 

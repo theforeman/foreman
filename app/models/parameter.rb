@@ -24,6 +24,18 @@ class Parameter < ActiveRecord::Base
     end
   end
 
+  def safe_value
+    self.hidden_value? ? self.hidden_value : self.value
+  end
+
+  def hidden_value
+    self.class.hidden_value
+  end
+
+  def self.hidden_value
+    '*' * 5
+  end
+
   private
 
   def set_priority

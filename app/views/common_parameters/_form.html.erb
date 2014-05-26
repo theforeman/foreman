@@ -1,6 +1,11 @@
 <%= form_for @common_parameter do |f| %>
   <%= base_errors_for @common_parameter %>
   <%= text_f f, :name %>
-  <%= text_f f, :value, :size => "col-md-8" %>
+  <% if @common_parameter.hidden_value? %>
+    <%= password_f f, :value, :size => "col-md-8", :value => @common_parameter.value %>
+  <% else %>
+    <%= text_f f, :value, :size => "col-md-8" %>
+  <% end %>
+  <%= checkbox_f f, :hidden_value, :class => 'hidden_value_text_switch', :checked => f.object.hidden_value? %>
   <%= submit_or_cancel f %>
 <% end %>

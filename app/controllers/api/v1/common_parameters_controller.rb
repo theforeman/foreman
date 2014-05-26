@@ -26,6 +26,7 @@ module Api
       param :common_parameter, Hash, :required => true do
         param :name, String, :required => true
         param :value, String, :required => true
+        param :hidden_value, [true, false]
       end
 
       def create
@@ -38,6 +39,7 @@ module Api
       param :common_parameter, Hash, :required => true do
         param :name, String
         param :value, String
+        param :hidden_value, [true, false]
       end
 
       def update

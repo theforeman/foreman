@@ -1,3 +1,4 @@
+<% disabled = (not authorized_via_my_scope("host_editing", "edit_params")) %>
 <div class="fields">
   <table class="row">
   <tr class="form-group <%= 'has-error' if f.object.errors.any? %>">
@@ -7,14 +8,28 @@
     </td>
     <% end %>
     <td class="col-md-2">
-      <%= f.text_field(:name,  :class => "form-control", :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => _("Name")) %>
+      <%= f.text_field(:name,  :class => "form-control", :disabled => disabled, :placeholder => _("Name")) %>
     </td>
-    <td class="col-md-7">
-      <%= f.text_area(:value, :class => "form-control", :rows => line_count(f, :value), :disabled => (not authorized_via_my_scope("host_editing", "edit_params")), :placeholder => _("Value")) %>
+    <td class="col-md-6 value">
+      <% if f.object.hidden_value? %>
+        <%= f.password_field(:value, :class => 'form-control',
+                             :disabled => disabled,
+                             :value => f.object.value) %>
+      <% else %>
+        <%= f.text_area(:value,
+                        :class => "form-control",
+                        :rows => line_count(f, :value),
+                        :disabled => disabled,
+                        :placeholder => _("Value")) %>
+      <% end %>
     </td>
-    <td class="col-md-1">
+    <td class="col-md-2">
     <span class="help-block">
-      <%= link_to_remove_fields('', f) if authorized_via_my_scope("host_editing", "destroy_params") %>
+      <%= f.check_box(:hidden_value,
+                      :class => 'hidden_value_textarea_switch',
+                      :onclick => 'turn_textarea_switch()',
+                      :disabled => disabled) %> <%= _('hide') %><br />
+      <%= link_to_remove_fields('', f) if authorized_via_my_scope("host_editing", "destroy_params") %><%= _('remove') %>
     </span>
     </td>
     <span class="help-block">
