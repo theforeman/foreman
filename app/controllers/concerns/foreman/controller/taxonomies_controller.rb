@@ -93,8 +93,7 @@ module Foreman::Controller::TaxonomiesController
       process_error
     end
   rescue Ancestry::AncestryException
-    flash[:error] = _('Cannot delete %{current} because it has nested %{sti_name}.') % { :current => @taxonomy.title, :sti_name => @taxonomy.sti_name }
-    process_error
+    process_error(:error_msg => _('Cannot delete %{current} because it has nested %{sti_name}.') % { :current => @taxonomy.title, :sti_name => @taxonomy.sti_name })
   end
 
   def select

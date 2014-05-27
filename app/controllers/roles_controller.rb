@@ -41,8 +41,7 @@ class RolesController < ApplicationController
   def clone
     @cloned_role      = true
     @original_role_id = @role.id
-    flash[:notice] = _("Role cloned from role %{old_name}") %
-                      { :old_name => @role.name }
+    notice(_("Role cloned from role %{old_name}") % { :old_name => @role.name })
     @role = Role.new
     render :action => :new
   end
