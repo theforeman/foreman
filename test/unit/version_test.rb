@@ -10,6 +10,8 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal "", v.tag
     assert_equal "1.2.3", v.full
     assert_equal "1.2.3", v.notag
+    assert_nil v.prerelease
+    assert_equal "1.2", v.short_latest_stable
   end
 
   test "given version 1.0-develop" do
@@ -20,6 +22,8 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal "1.0", v.short
     assert_equal "develop", v.tag
     assert_equal "1.0", v.notag
+    assert_equal "develop", v.prerelease
+    assert_equal "1.0", v.short_latest_stable
   end
 
   test "given version 1.3.0 RC5" do
@@ -30,5 +34,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal "1.3", v.short
     assert_equal "RC5", v.tag
     assert_equal "1.3.0", v.notag
+    assert_equal "RC5", v.prerelease
+    assert_equal "1.2", v.short_latest_stable
   end
 end
