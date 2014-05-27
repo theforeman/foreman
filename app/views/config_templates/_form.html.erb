@@ -14,7 +14,7 @@
 
         <%= alert :class => 'alert-success', :header => '',
                   :text  => icon_text("info-sign", (_('Note: %s ') % link_to(_('Useful template functions and macros'),
-                                                                       "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.4.3ProvisioningTemplates", :rel => 'external')).html_safe) %>
+                                                                       "http://www.theforeman.org/manuals/#{SETTINGS[:version].short_latest_stable}/index.html#4.4.3ProvisioningTemplates", :rel => 'external')).html_safe) %>
         <div class='form-group'>
           <label class="control-label" for="template"><%= _("Template editor") %></label>
           <div class="navbar navbar-form">
