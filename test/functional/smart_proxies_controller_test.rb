@@ -70,12 +70,12 @@ class SmartProxiesControllerTest < ActionController::TestCase
   def test_refresh_fail
     proxy = smart_proxies(:one)
     errors = ActiveModel::Errors.new(Host::Managed.new)
-    errors.add :base, "Unable to communicate with the proxy: it's down"
+    errors.add :base, "Unable to communicate with the proxy: it is down"
     SmartProxy.any_instance.stubs(:errors).returns(errors)
     SmartProxy.any_instance.stubs(:associate_features).returns(true)
     post :refresh, {:id => proxy}, set_session_user
     assert_redirected_to smart_proxies_url
-    assert_equal "Unable to communicate with the proxy: it's down", flash[:error]
+    assert_equal "Unable to communicate with the proxy: it is down", flash[:error]
   end
 
 end
