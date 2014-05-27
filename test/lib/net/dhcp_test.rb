@@ -71,4 +71,13 @@ class DhcpTest < ActiveSupport::TestCase
                                     "proxy" => subnets(:one).dhcp_proxy)
     assert record1.conflicts.empty?
   end
+
+  test "dhcp record validation should return false when proxy returns nil" do
+    ProxyAPI::DHCP.any_instance.stubs(:record).returns(nil)
+    record1 = Net::DHCP::Record.new(:hostname => "test1", :mac => "aa:bb:cc:dd:ee:ff",
+                                    :network => "127.0.0.0", :ip => "127.0.0.1",
+                                    "proxy" => subnets(:one).dhcp_proxy)
+    refute record1.valid?
+  end
+
 end
