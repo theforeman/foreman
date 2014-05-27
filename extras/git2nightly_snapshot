@@ -1,9 +1,0 @@
-#! /bin/sh
-# a simple script to create a Foreman nightly snapshot release.
-# cant use git-archive because of git submodules
-
-GIT_DIR=~/git
-WWW_DIR=~/theforeman.org/public
-
-cd $GIT_DIR
-tar c foreman/ --exclude=".git*" --exclude "*.log" --exclude "*.sqlite3" --exclude "vendor/rails/railties/guides" |bzip2 -9 > $WWW_DIR/foreman-nightly.tar.bz2
