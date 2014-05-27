@@ -50,6 +50,7 @@ module Net::DHCP
     end
 
     def == other
+      return false unless other.present?
       if attrs[:hostname].blank?
         # If we're converting an 'ad-hoc' lease created by a host booting outside of Foreman's knowledge,
         # then :hostname will be blank on the incoming lease - if the ip/mac still match, then this
