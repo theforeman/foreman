@@ -53,7 +53,7 @@ class Role < ActiveRecord::Base
 
   # Returns true if the role has the given permission
   def has_permission?(perm)
-    permission_names.include?(perm.to_sym)
+    permission_names.include?(perm.name.to_sym)
   end
 
   def permission_names
