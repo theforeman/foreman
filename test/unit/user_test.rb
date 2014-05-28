@@ -391,6 +391,72 @@ class UserTest < ActiveSupport::TestCase
     refute admin.admin?
   end
 
+  test "admin can assign arbitrary taxonomies" do
+    as_admin do
+      user = FactoryGirl.build(:user)
+      org1 = FactoryGirl.create(:organization)
+      org2 = FactoryGirl.create(:organization)
+      user.organization_ids = [org1.id, org2.id]
+      assert user.save
+    end
+  end
+
+  test "user can set only subset of his taxonomies" do
+    # superset, one of two, another of two, both
+    org1 = FactoryGirl.create(:organization)
+    org2 = FactoryGirl.create(:organization)
+    org3 = FactoryGirl.create(:organization)
+    loc1 = FactoryGirl.create(:location)
+
+    user = FactoryGirl.build(:user)
+    user.organizations = [org1, org2]
+    user.locations = [loc1]
+    user.save
+    Organization.expects(:authorized).with('assign_organizations', Organization).returns(Organization.where(:id => [org1, org2])).times(4)
+    Location.expects(:authorized).with('assign_locations', Location).returns(Location.where(:id => [loc1])).times(4)
+
+    as_user user do
+      # org subset
+      new_user = FactoryGirl.build(:user)
+      new_user.organization_ids = [org1.id]
+      new_user.location_ids = [loc1.id]
+      assert new_user.save
+
+      # org subset
+      new_user = FactoryGirl.build(:user)
+      new_user.organization_ids = [org2.id]
+      new_user.location_ids = [loc1.id]
+      assert new_user.save
+
+      # org same set
+      new_user = FactoryGirl.build(:user)
+      new_user.organization_ids = [org1.id, org2.id]
+      new_user.location_ids = [loc1.id]
+      assert new_user.save
+
+      # org superset
+      new_user = FactoryGirl.build(:user)
+      new_user.organization_ids = [org1.id, org3.id]
+      new_user.location_ids = [loc1.id]
+      refute new_user.save
+      assert_not_empty new_user.errors[:organization_ids]
+    end
+  end
+
+  test "user can't set empty taxonomies set if he's assigned to some" do
+    user = FactoryGirl.create(:user)
+    org1 = FactoryGirl.create(:organization)
+    user.organizations << org1
+
+    as_user user do
+      # empty set
+      new_user = FactoryGirl.build(:user)
+      refute new_user.save
+      assert_not_empty new_user.errors[:organization_ids]
+      assert_empty new_user.errors[:location_ids]
+    end
+  end
+
   test ".find_or_create_external_user" do
     count = User.count
     # existing user
