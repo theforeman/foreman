@@ -225,6 +225,17 @@ module Foreman::Model
       "VirtualLsiLogicController"
     end
 
+    def vm_hw_versions
+      {
+        'Default' => _("Default"),
+        'vmx-10' => '10 (ESXi 5.5)',
+        'vmx-09' => '9 (ESXi 5.1)',
+        'vmx-08' => '8 (ESXi 5.0)',
+        'vmx-07' => '7 (ESX/ESXi 4.x)',
+        'vmx-04' => '4 (ESX/ESXi 3.5)',
+      }
+    end
+
     def datastores
       dc.datastores.all(:accessible => true)
     end
@@ -251,6 +262,8 @@ module Foreman::Model
       if args[:scsi_controller_type].present?
         args[:scsi_controller] = {:type => args.delete(:scsi_controller_type)}
       end
+
+      args.except!(:hardware_version) if args[:hardware_version] == 'Default'
 
       args.reject! { |k, v| v.nil? }
       args
