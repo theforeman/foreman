@@ -1,5 +1,6 @@
 module Taxonomix
   extend ActiveSupport::Concern
+  include DirtyAssociations
 
   included do
     taxonomy_join_table = "taxable_taxonomies"
@@ -14,6 +15,10 @@ module Taxonomix
     scoped_search :in => :locations, :on => :id, :rename => :location_id, :complete_value => true
     scoped_search :in => :organizations, :on => :name, :rename => :organization, :complete_value => true
     scoped_search :in => :organizations, :on => :id, :rename => :organization_id, :complete_value => true
+
+    dirty_has_many_associations :organizations, :locations
+
+    validate :ensure_taxonomies_not_escalated, :if => Proc.new { User.current.nil? || !User.current.admin? }
   end
 
   module ClassMethods
@@ -145,6 +150,34 @@ module Taxonomix
 
   def children_of_selected_organization_ids
     children_of_selected_taxonomy_ids(:organizations)
+  end
+
+  # Only administrator can choose empty taxonomies or taxonomies that they aren't assigned to,
+  # other users can select only taxonomies they are granted to assign
+  # and they can't leave the selection empty (which would mean global resource)
+  #
+  # we skip checking if user is global or it's not a new record and taxonomies were not changed
+  # for existing records it would block saving global objects if taxonomies were not changed
+  # for new records this would allow to create global objects for non global users
+  def ensure_taxonomies_not_escalated
+    taxonomies = []
+    taxonomies << Organization if SETTINGS[:organizations_enabled]
+    taxonomies << Location if SETTINGS[:locations_enabled]
+
+    taxonomies.each do |taxonomy|
+      assoc_base = taxonomy.to_s.downcase
+      assoc = assoc_base.pluralize
+      key = assoc_base + '_ids'
+
+      next if (User.current.nil? || User.current.send("#{assoc}").empty?) || (!new_record? && !self.send("#{key}_changed?"))
+
+      allowed = taxonomy.authorized("assign_#{assoc}", taxonomy).pluck(:id).to_set
+      tried = self.send(key).to_set
+
+      if tried.empty? || !tried.subset?(allowed)
+        errors.add key, _('Invalid %s selection, you must select at least one of yours') % _(assoc)
+      end
+    end
   end
 
   protected

@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   include Authorizable
   include Foreman::ThreadSession::UserModel
   include Taxonomix
+  include DirtyAssociations
   audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation], :allow_mass_assignment => true
   self.auditing_enabled = !Foreman.in_rake?('db:migrate')
 
@@ -106,6 +107,8 @@ class User < ActiveRecord::Base
       order('firstname')
     end
   }
+
+  dirty_has_many_associations :roles
 
   def can?(permission, subject = nil)
     if self.admin?
@@ -315,22 +318,6 @@ class User < ActiveRecord::Base
   # only admin can change admin flag
   def can_change_admin_flag?
     self.admin?
-  end
-
-  def role_ids_with_change_detection=(roles)
-    roles ||= [] # in API, role_ids is converted to nil if user sent empty array
-    @role_ids_changed = roles.uniq.select(&:present?).map(&:to_i).sort != role_ids.sort
-    @role_ids_was = role_ids.clone
-    self.role_ids_without_change_detection = roles
-  end
-  alias_method_chain(:role_ids=, :change_detection)
-
-  def role_ids_changed?
-    @role_ids_changed
-  end
-
-  def role_ids_was
-    @role_ids_was ||= role_ids
   end
 
   def editing_self?(options = {})
