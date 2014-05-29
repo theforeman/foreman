@@ -149,7 +149,7 @@ distributions in RPM format. This package contains the repository configuration
 for Yum.
 
 %files release
-%config(noreplace) %{_sysconfdir}/yum.repos.d/*
+%config %{_sysconfdir}/yum.repos.d/*
 /etc/pki/rpm-gpg/*
 
 %package libvirt
