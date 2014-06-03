@@ -156,8 +156,16 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :conflict
   end
 
-  test "template with  hostgroup should be rendered" do
+  test "template with hostgroup should be rendered" do
     get :template, {:id => "MyString", :hostgroup => "Common"}
+    assert_response :success
+  end
+
+  test "template with hostgroup should be rendered even if both have periods in their names" do
+    config_templates(:mystring).update_attributes(:name => 'My.String')
+    hostgroups(:common).update_attributes(:name => 'Com.mon')
+    assert_routing '/unattended/template/My.String/Com.mon', {:controller => 'unattended', :action => 'template', :id => "My.String", :hostgroup => "Com.mon"}
+    get :template, {:id => "My.String", :hostgroup => "Com.mon"}
     assert_response :success
   end
 
