@@ -1,3 +1,12 @@
+var disabled_tabs = [];
+
+var original_tab_fn = $.fn.tab;
+$.fn.tab = function ( option ) {
+  if(disabled_tabs.indexOf($(this).get(0)) < 0) {
+      original_tab_fn.call(this, option);
+  }
+}
+
 $(document).on('click', ".table-two-pane td a[href$='edit']", function(e) {
   if ($('.table-two-pane').length) {
     e.preventDefault();
@@ -32,6 +41,9 @@ $(document).on('click', ".two-pane-close", function(e) {
 // open the new/edit from in the right pane
 function two_pane_open(item){
   hide_columns();
+
+  disabled_tabs = $('ul.nav-tabs li a').toArray();
+  $('ul.nav-tabs li').not(".active").addClass('disabled');
   $('td.active').removeClass('active');
   $(item).parent('td').addClass('active');
 
@@ -74,6 +86,8 @@ function two_pane_submit(){
 
 // show all the table columns and remove the two-pane structure
 function two_pane_close(){
+  $('ul.nav-tabs li').removeClass('disabled');
+  $disabled_tabs = [];
   $('td.active').removeClass('active');
   $('.two-pane-right').remove();
   $('.table-two-pane tr td').show();
