@@ -68,4 +68,12 @@ class UsergroupsControllerTest < ActionController::TestCase
     get :index, {}, set_session_user
     assert_response :success
   end
+
+  test "changes should expire topbar cache" do
+    user1 = FactoryGirl.create(:user, :with_mail)
+    user2 = FactoryGirl.create(:user, :with_mail)
+    usergroup = FactoryGirl.create(:usergroup, :users => [user1, user2])
+    User.any_instance.expects(:expire_topbar_cache).twice
+    put :update, { :id => usergroup.id, :usergroup => {:admin => true }}, set_session_user
+  end
 end

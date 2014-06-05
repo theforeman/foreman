@@ -373,6 +373,10 @@ class User < ActiveRecord::Base
     size.times.collect {|i| set[rand(set.size)] }.join
   end
 
+  def expire_topbar_cache(sweeper)
+    sweeper.expire_fragment(TopbarSweeper.fragment_name(id))
+  end
+
   private
 
   def prepare_password

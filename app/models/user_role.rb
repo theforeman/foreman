@@ -36,6 +36,10 @@ class UserRole < ActiveRecord::Base
   after_save :cache_user_roles!
   before_destroy :remove_cache!
 
+  def expire_topbar_cache(sweeper)
+    owner.expire_topbar_cache(sweeper)
+  end
+
   private
 
   def remove_cache!
