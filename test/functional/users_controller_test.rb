@@ -54,6 +54,19 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to users_path
   end
 
+  test "user changes should expire topbar cache" do
+    user = FactoryGirl.create(:user, :with_mail)
+    User.any_instance.expects(:expire_topbar_cache).once
+    put :update, { :id => user.id, :user => {:admin => true} }, set_session_user
+  end
+
+  test "role changes should expire topbar cache" do
+    user = FactoryGirl.create(:user, :with_mail)
+    role1 = FactoryGirl.create :role
+    UserRole.any_instance.expects(:expire_topbar_cache).once
+    put :update, { :id => user.id, :user => {:role_ids => [role1.id]} }, set_session_user
+  end
+
   test "should not remove the anonymous role" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 

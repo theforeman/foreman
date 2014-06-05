@@ -346,6 +346,10 @@ class User < ActiveRecord::Base
     taxonomy_and_child_ids(:organizations)
   end
 
+  def expire_topbar_cache(sweeper)
+    sweeper.expire_fragment(TopbarSweeper.fragment_name(id))
+  end
+
   private
 
   def prepare_password

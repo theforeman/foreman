@@ -111,6 +111,11 @@ class Filter < ActiveRecord::Base
     searches.join(' and ')
   end
 
+  def expire_topbar_cache(sweeper)
+    role.users.each      { |u| u.expire_topbar_cache(sweeper) }
+    role.usergroups.each { |g| g.expire_topbar_cache(sweeper) }
+  end
+
   private
 
   def build_taxonomy_search

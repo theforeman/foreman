@@ -195,4 +195,12 @@ class LocationsControllerTest < ActionController::TestCase
     assert_equal location.id, assigns(:taxonomy).parent_id
   end
 
+  test "changes should expire topbar cache" do
+    user1 = FactoryGirl.create(:user, :with_mail)
+    user2 = FactoryGirl.create(:user, :with_mail)
+    location = as_admin { FactoryGirl.create(:location, :users => [user1, user2]) }
+
+    User.any_instance.expects(:expire_topbar_cache).twice
+    put :update, { :id => location.id, :location => {:name => "Topbar Loc" }}, set_session_user
+  end
 end

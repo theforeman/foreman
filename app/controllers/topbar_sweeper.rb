@@ -1,32 +1,28 @@
 class TopbarSweeper < ActionController::Caching::Sweeper
-  observe [User, UserRole, Organization, Location]
+  observe [User, UserRole, Usergroup, Organization, Location, Filter]
 
   def after_create(record)
-    expire_cache_for(record)
+    record.expire_topbar_cache(self)
   end
 
   def after_update(record)
-    expire_cache_for(record)
+    record.expire_topbar_cache(self)
   end
 
   def after_destroy(record)
-    expire_cache_for(record)
+    record.expire_topbar_cache(self)
   end
 
   def after_select(record)
-    expire_cache_for(record)
+    record.expire_topbar_cache(self)
   end
 
-  def self.fragment_name
-    "tabs_and_title_records-#{User.current.id}"
+  def self.fragment_name(id=User.current.id)
+    "tabs_and_title_records-#{id}"
   end
 
   def self.expire_cache(controller)
     controller.expire_fragment(TopbarSweeper.fragment_name) if User.current
   end
 
-  private
-  def expire_cache_for(record)
-    expire_fragment(TopbarSweeper.fragment_name) if User.current
-  end
 end

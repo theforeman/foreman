@@ -184,4 +184,14 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal session[:organization_id], nil
     assert_redirected_to root_url
   end
+
+  test "changes should expire topbar cache" do
+    user1 = FactoryGirl.create(:user, :with_mail)
+    user2 = FactoryGirl.create(:user, :with_mail)
+    organization = as_admin { FactoryGirl.create(:organization, :users => [user1, user2]) }
+
+    User.any_instance.expects(:expire_topbar_cache).twice
+    put :update, { :id => organization.id, :organization => {:name => "Topbar Org" }}, set_session_user
+  end
+
 end
