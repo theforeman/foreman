@@ -123,6 +123,10 @@ class Taxonomy < ActiveRecord::Base
     end
   end
 
+  def expire_topbar_cache(sweeper)
+    users.each { |u| u.expire_topbar_cache(sweeper) }
+  end
+
   private
 
   delegate :need_to_be_selected_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans,
