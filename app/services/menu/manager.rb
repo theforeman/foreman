@@ -94,9 +94,12 @@ module Menu
 
       # Removes a menu item
       def delete(name)
-        if found = self.find(name)
-          @menu_items.remove!(found)
+        @menu_items.each do |item|
+          if item.name == name && !item.parent.nil?
+            return item.parent.remove!(item)
+          end
         end
+        nil
       end
 
       # Checks if a menu item exists
