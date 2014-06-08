@@ -9,11 +9,11 @@ class FactValue < ActiveRecord::Base
 
   has_one :parent_fact_name, :through => :fact_name, :source => :parent
 
-  scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true
+  scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
   scoped_search :on => :value, :default_order => true
   scoped_search :in => :fact_name, :on => :name, :complete_value => true, :alias => "fact"
-  scoped_search :in => :host,      :on => :name, :complete_value => true, :rename => :host, :ext_method => :search_by_host
-  scoped_search :in => :hostgroup, :on => :name, :complete_value => true, :rename => :"host.hostgroup"
+  scoped_search :in => :host,      :on => :name, :complete_value => true, :rename => :host, :ext_method => :search_by_host, :only_explicit => true
+  scoped_search :in => :hostgroup, :on => :name, :complete_value => true, :rename => :"host.hostgroup", :only_explicit => true
   scoped_search :in => :fact_name, :on => :short_name, :complete_value => true, :alias => "fact_short_name"
 
   scope :no_timestamp_facts, lambda {
