@@ -29,6 +29,7 @@ module Hostext
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_fullname
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_title
       scoped_search :in => :hostgroup,   :on => :id,      :complete_value => false, :rename => :hostgroup_id, :only_explicit => true
+      scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :parent_hostgroup, :only_explicit => true, :ext_method => :search_by_hostgroup_and_descendants
       scoped_search :in => :domain,      :on => :name,    :complete_value => true,  :rename => :domain
       scoped_search :in => :domain,      :on => :id,      :complete_value => true,  :rename => :domain_id
       scoped_search :in => :realm,       :on => :name,    :complete_value => true,  :rename => :realm
@@ -99,6 +100,19 @@ module Hostext
         opts += "hostgroups.id IN(#{host_groups.join(',')})"  unless host_groups.blank?
         opts = "hosts.id < 0"                                 if hosts.blank? && host_groups.blank?
         return {:conditions => opts, :include => :hostgroup}
+      end
+
+      def search_by_hostgroup_and_descendants(key, operator, value)
+        conditions     = sanitize_sql_for_conditions(["hostgroups.title #{operator} ?", value_to_sql(operator, value)])
+        # Only one hostgroup (first) is used to determined descendants. Future TODO - alert if result results more than one hostgroup
+        hostgroup     = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).first
+        hostgroup_ids = hostgroup.subtree_ids
+        if hostgroup_ids.any?
+          opts = "hosts.hostgroup_id IN (#{hostgroup_ids.join(',')})"
+        else
+          opts = "hosts.id < 0"
+        end
+        return {:conditions => opts}
       end
 
       def search_by_params(key, operator, value)
