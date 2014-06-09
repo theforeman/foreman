@@ -806,6 +806,19 @@ class HostTest < ActiveSupport::TestCase
     assert_equal hosts.first.hostgroup_id, hostgroup.id
   end
 
+  test "can search hosts by parent hostgroup and its descendants" do
+    #setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    # search hosts by parent hostgroup label
+    hosts = Host::Managed.search_for("parent_hostgroup = Common")
+    assert_equal hosts.count, 2
+    assert_equal ["Common", "Common/db"].sort, hosts.map { |h| h.hostgroup.title }.sort
+  end
+
   test "non-admin user with edit_hosts permission can update interface" do
     @one = users(:one)
     # add permission for user :one
