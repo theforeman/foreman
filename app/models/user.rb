@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
   has_many :cached_roles,      :through => :cached_user_roles,        :source => :role, :uniq => true
   has_many :hostgroups,        :through => :user_hostgroups
-  has_many :usergroups,        :through => :usergroup_member
-  has_many :roles,             :through => :user_roles, :dependent => :destroy
+  has_many :usergroups,        :through => :usergroup_member, :dependent => :destroy
+  has_many :roles,             :through => :user_roles,       :dependent => :destroy
   has_many :filters,           :through => :cached_roles
   has_many :permissions,       :through => :filters
   has_many :cached_usergroup_members

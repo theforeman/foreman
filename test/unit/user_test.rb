@@ -529,6 +529,29 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "chaging hostgroup should update cache" do
+    u = FactoryGirl.create(:user)
+    g1 = FactoryGirl.create(:usergroup)
+    g2 = FactoryGirl.create(:usergroup)
+    assert_empty u.usergroups
+    assert_empty u.cached_usergroups
+    u.usergroups = [g1, g2]
+    u.reload
+    assert_equal [g1.id, g2.id].sort, u.cached_usergroup_ids.sort
+
+    u.usergroups = [g2]
+    u.reload
+    assert_equal [g2.id].sort, u.cached_usergroup_ids.sort
+
+    u.usergroups = [g1]
+    u.reload
+    assert_equal [g1.id].sort, u.cached_usergroup_ids.sort
+
+    u.usergroups = []
+    u.reload
+    assert_empty u.cached_usergroups
+  end
+
 #  Uncomment after users get access to children taxonomies of their current taxonomies.
 #
 #  test 'default taxonomy inclusion validator takes into account inheritance' do
