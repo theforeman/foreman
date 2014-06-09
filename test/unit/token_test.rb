@@ -58,4 +58,11 @@ class TokenTest < ActiveSupport::TestCase
     assert_equal 1, Token.count
   end
 
+  test "token jail test" do
+    allowed = [:host, :value, :expires, :nil?]
+    allowed.each do |m|
+      assert Token::Jail.allowed?(m), "Method #{m} is not available in Token::Jail while should be allowed."
+    end
+  end
+
 end

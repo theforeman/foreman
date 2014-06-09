@@ -4,6 +4,10 @@ class Token < ActiveRecord::Base
 
   validates :value, :host_id, :expires, :presence => true
 
+  class Jail < ::Safemode::Jail
+    allow :host, :value, :expires, :nil?
+  end
+
   def to_s
     value
   end
