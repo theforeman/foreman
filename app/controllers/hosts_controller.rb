@@ -175,7 +175,7 @@ class HostsController < ApplicationController
 
     begin
       respond_to do |format|
-        format.html { render :text => "<pre>#{@host.info.to_yaml}</pre>" }
+        format.html { render :text => "<pre>#{ERB::Util.html_escape(@host.info.to_yaml)}</pre>" }
         format.yml { render :text => @host.info.to_yaml }
       end
     rescue
