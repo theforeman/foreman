@@ -43,7 +43,13 @@ require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
 require File.expand_path('../../lib/foreman/exception', __FILE__)
 require File.expand_path('../../lib/core_extensions', __FILE__)
 
-Bundler.require(:jsonp) if SETTINGS[:support_jsonp]
+if SETTINGS[:support_jsonp]
+  if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
+    BundlerExt.system_require(File.expand_path('../../Gemfile.in', __FILE__), :jsonp)
+  else
+    Bundler.require(:jsonp)
+  end
+end
 
 module Foreman
   class Application < Rails::Application
