@@ -6,24 +6,24 @@
 # 
 # 
 # Translators:
-# bechtoldt <mail@arnoldbechtoldt.com>, 2014
-# cyberkov <admin@cyberkov.at>, 2013
-# domcleal <dcleal@redhat.com>, 2013
-# domcleal <dcleal@redhat.com>, 2013
-# cyberkov <admin@cyberkov.at>, 2013
-# bechtoldt <mail@arnoldbechtoldt.com>, 2014
-# ppuschmann, 2013-2014
+# Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
+# Hannes Schaller <admin@cyberkov.at>, 2013
+# Dominic Cleal <dcleal@redhat.com>, 2013
+# Dominic Cleal <dcleal@redhat.com>, 2013
+# Hannes Schaller <admin@cyberkov.at>, 2013
+# Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
+# Paul Puschmann, 2013-2014
 # ppuschmann, 2013
-# ppuschmann, 2013
-# swiedernix <stefanwiederoder@googlemail.com>, 2013
-# rhaen <rhaen@pkgbox.de>, 2013-2014
-# swiedernix <stefanwiederoder@googlemail.com>, 2013
+# Paul Puschmann, 2013
+# Wiederoder <stefanwiederoder@googlemail.com>, 2013
+# Ulrich Habel <rhaen@pkgbox.de>, 2013-2014
+# Wiederoder <stefanwiederoder@googlemail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-28 15:57+0100\n"
-"PO-Revision-Date: 2014-04-29 09:45+0000\n"
+"POT-Creation-Date: 2014-05-08 16:34+0100\n"
+"PO-Revision-Date: 2014-05-09 09:45+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1700,6 +1700,9 @@ msgstr "Filter"
 msgid "Filters and permissions"
 msgstr ""
 
+msgid "Filter|Permissions"
+msgstr ""
+
 msgid "Filter|Resource"
 msgstr ""
 
@@ -3269,6 +3272,9 @@ msgstr "Veröffentlichungsname"
 
 msgid "Operation"
 msgstr "Vorgang"
+
+msgid "Operators"
+msgstr ""
 
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "

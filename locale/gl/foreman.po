@@ -6,13 +6,13 @@
 # 
 # 
 # Translators:
-# carmela <carmela.rubinos@gmail.com>, 2013
+# Carmela Rubiños <carmela.rubinos@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-28 15:57+0100\n"
-"PO-Revision-Date: 2014-04-29 09:45+0000\n"
+"POT-Creation-Date: 2014-05-08 16:34+0100\n"
+"PO-Revision-Date: 2014-05-09 09:44+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/foreman/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -1689,6 +1689,9 @@ msgstr "Filtros"
 msgid "Filters and permissions"
 msgstr ""
 
+msgid "Filter|Permissions"
+msgstr ""
+
 msgid "Filter|Resource"
 msgstr ""
 
@@ -3258,6 +3261,9 @@ msgstr "Nome de versión"
 
 msgid "Operation"
 msgstr "Operación"
+
+msgid "Operators"
+msgstr ""
 
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "

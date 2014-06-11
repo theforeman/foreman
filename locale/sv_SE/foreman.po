@@ -7,14 +7,14 @@
 # 
 # Translators:
 # Fredrik Wendt <fredrik@wendt.se>, 2014
-# johnny Westerlund <johnny.westerlund@gmail.com>, 2013-2014
-# frimik <frimik@gmail.com>, 2013
+# johnny.westerlund <johnny.westerlund@gmail.com>, 2013-2014
+# Mikael Fridh <frimik@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-28 15:57+0100\n"
-"PO-Revision-Date: 2014-04-29 09:45+0000\n"
+"POT-Creation-Date: 2014-05-08 16:34+0100\n"
+"PO-Revision-Date: 2014-05-09 09:45+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -1691,6 +1691,9 @@ msgstr "Filter"
 msgid "Filters and permissions"
 msgstr ""
 
+msgid "Filter|Permissions"
+msgstr ""
+
 msgid "Filter|Resource"
 msgstr ""
 
@@ -3260,6 +3263,9 @@ msgstr "Namn"
 
 msgid "Operation"
 msgstr "Operation"
+
+msgid "Operators"
+msgstr ""
 
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "

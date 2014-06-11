@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-08 16:34+0100\n"
+"POT-Creation-Date: 2014-06-11 09:09-0400\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -1030,16 +1030,10 @@ msgstr ""
 msgid "DHCP conflicts removal for %s"
 msgstr ""
 
-msgid "DHCP has a lease at %s"
-msgstr ""
-
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
 msgid "DHCP not supported for this NIC"
-msgstr ""
-
-msgid "DHCP record %s conflicts with an existing reservation"
 msgstr ""
 
 msgid "DHCP records %s already exists"

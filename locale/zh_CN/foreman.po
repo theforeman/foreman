@@ -7,13 +7,13 @@
 # 
 # Translators:
 # dingtim, 2013
-# dingtim, 2013
+# tim123, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-28 15:57+0100\n"
-"PO-Revision-Date: 2014-04-29 09:45+0000\n"
+"POT-Creation-Date: 2014-05-08 16:34+0100\n"
+"PO-Revision-Date: 2014-05-09 09:44+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1681,6 +1681,9 @@ msgstr "筛选"
 msgid "Filters and permissions"
 msgstr ""
 
+msgid "Filter|Permissions"
+msgstr ""
+
 msgid "Filter|Resource"
 msgstr ""
 
@@ -3250,6 +3253,9 @@ msgstr "发行名称"
 
 msgid "Operation"
 msgstr "作业"
+
+msgid "Operators"
+msgstr ""
 
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
