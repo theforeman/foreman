@@ -1,6 +1,5 @@
 group :development do
   gem 'maruku'
-  gem 'pry'
   gem "term-ansicolor"
 #  gem 'rack-mini-profiler'
 
@@ -10,4 +9,11 @@ group :development do
 
   # for generating foreign key migrations
   gem 'immigrant'
+
+  # pry has dropped support for 1.8
+  if RUBY_VERSION =~ /^1\.8/
+    gem 'pry', '< 0.10.0'
+  else
+    gem 'pry'
+  end
 end
