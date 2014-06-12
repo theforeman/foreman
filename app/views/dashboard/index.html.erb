@@ -22,9 +22,9 @@
         <p class="ca"><%= _("No interesting reports received in the last week") %></p>
       <% else %>
         <table class="table table-striped ellipsis">
-          <tr>
-            <%= latest_headers %>
-          </tr>
+          <thead>
+            <tr><%= latest_headers %></tr>
+          </thead>
           <% events.each do |report| %>
             <tr>
               <td><%= link_to h(trunc(report.host, 14)), host_reports_path(report.host) %></td>

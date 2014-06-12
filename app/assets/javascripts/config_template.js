@@ -109,9 +109,9 @@ function create_editor(item) {
 function set_fullscreen(){
   $('#main').append($("#editor1"));
   $("#editor1")
-     .height($(window).height()-50)
-     .width($('#content').width())
-     .css('top', 10)
+     .height($(window).height())
+     .width($(window).width())
+     .css('top', 0)
      .addClass('container');
   $('#content').hide();
   $('.navbar').addClass('hidden');

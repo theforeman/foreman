@@ -19,9 +19,12 @@
 
   <div class="tab-pane active" id="primary">
     <table class="table table-bordered table-striped">
-      <th><%= _("Details") %></th>
-      <th></th>
-
+      <thead>
+        <tr>
+          <th><%= _("Details") %></th>
+          <th></th>
+        </tr>
+      </thead>
       <tr>
         <td><%= _("Provider") %></td>
         <td><%= @compute_resource.provider_friendly_name %></td>
@@ -57,10 +60,12 @@
   <% end %>
   <div id="compute_profiles" class="tab-pane">
     <table class="table table-bordered table-striped table-two-pane">
-      <tr>
-        <th><%= _("Compute profile") %></th>
-        <th><%= _("VM Attributes") %></th>
-      </tr>
+      <thead>
+        <tr>
+          <th><%= _("Compute profile") %></th>
+          <th><%= _("VM Attributes") %></th>
+        </tr>
+      </thead>
         <% ComputeProfile.scoped.each do |compute_profile| %>
           <% compute_attribute = ComputeAttribute.where(:compute_profile_id => compute_profile.id, :compute_resource_id => @compute_resource.id).first %>
           <% which_path = if compute_attribute.try(:id)

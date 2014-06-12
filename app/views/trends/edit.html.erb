@@ -4,7 +4,12 @@
   <%= form_tag trend_path, :method => :put do %>
     <% if @trend.is_a?(FactTrend) %>
       <table class="table">
-        <th style='width: 40%'><%= _("Fact Name") %></th><th style="width: 60%"><%= _("Display Name") %></th>
+        <thead>
+          <tr>
+            <th style='width: 40%'><%= _("Fact Name") %></th>
+            <th style="width: 60%"><%= _("Display Name") %></th>
+          </tr>
+        </thead>
         <tr>
           <%= fields_for "trend[]", @trend do |f| %>
             <td>
@@ -18,7 +23,12 @@
       </table>
     <% end %>
     <table class="table">
-      <th style="width: 40%">Value</th><th style="width: 60%"><%= _("Display Name") %></th>
+      <thead>
+        <tr>
+          <th style="width: 40%">Value</th>
+          <th style="width: 60%"><%= _("Display Name") %></th>
+        </tr>
+      </thead>
       <% @trend.values.each do |trend| %>
         <tr>
           <%= fields_for "trend[]", trend do |f| %>

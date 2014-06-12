@@ -3,10 +3,27 @@
 
 $navbar-default-bg: $primary_color;
 
-@import "bootstrap";
+@import "patternfly";
 
 .dropdown-menu {
   @include border_radius(0, 0, 6px, 6px);
+}
+
+
+.container {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.label{
+  font-size: 75%;
+}
+
+.autocomplete-clear{
+  font-size: 14px
+}
+.autocomplete-input{
+  min-height: 27px;
 }
 
 // Necessary because bootstrap3 nav dropdown does not have top arrow
@@ -57,13 +74,13 @@ $navbar-default-bg: $primary_color;
   border-color:transparent;
   border-style:solid;
   border-width:5px 0 5px 5px;
-  border-left-color:#cccccc;
-  margin-top:5px;
-  margin-right:-10px;
+  border-left-color:#999999;
+  margin-top:0.5em;
+  margin-right:0px;
 }
 
 .dropdown-submenu:hover > a:after {
-  border-left-color:#ffffff;
+  border-left-color: #333333;
 }
 
 .dropdown-submenu.pull-left {
@@ -177,5 +194,18 @@ span.btn a{ text-decoration: none; color: #333333}
   & > li > a {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+  }
+}
+
+.alert{
+  &>.pficon,
+  &>.pficon-layered {
+    font-size: 21px;
+    position: absolute;
+    left: 6px;
+    top: 6px;
+  }
+  h4 {
+    margin-top: 4px;
   }
 }

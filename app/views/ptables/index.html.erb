@@ -2,12 +2,14 @@
 <% title_actions display_link_if_authorized(_("New Partition Table"), hash_for_new_ptable_path), help_path %>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= sort :name, :as => s_("Ptable|Name") %></th>
-    <th><%= sort :family, :as => s_("Ptable|Os family") %></th>
-    <th><%= _("Operating systems") %></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%= sort :name, :as => s_("Ptable|Name") %></th>
+      <th><%= sort :family, :as => s_("Ptable|Os family") %></th>
+      <th><%= _("Operating systems") %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% for ptable in @ptables %>
     <tr>
       <td><%= link_to_if_authorized ptable, hash_for_edit_ptable_path(:id => ptable.id).merge(:auth_object => ptable, :authorizer => authorizer) %></td>

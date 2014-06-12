@@ -3,12 +3,13 @@
 <%= environments_title_actions %>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= sort :name, :as => s_('Environment|Name') %></th>
-    <th><%= sort :hosts_count, :as => _('Hosts'), :default => "DESC" %></th>
-    <th></th>
-  </tr>
-
+  <thead>
+    <tr>
+      <th><%= sort :name, :as => s_('Environment|Name') %></th>
+      <th><%= sort :hosts_count, :as => _('Hosts'), :default => "DESC" %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% @environments.each do |environment| %>
     <tr>
       <td>

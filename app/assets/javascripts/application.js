@@ -106,6 +106,7 @@ function remove_fields(link) {
 function mark_params_override(){
   $('#inherited_parameters .override-param').removeClass('override-param');
   $('#inherited_parameters span').show();
+  $('#inherited_parameters a').show();
   $('#parameters').find('[id$=_name]:visible').each(function(){
     var param_name = $(this);
     $('#inherited_parameters').find('[id^=name_]').each(function(){

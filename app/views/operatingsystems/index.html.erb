@@ -2,11 +2,13 @@
 <% title_actions display_link_if_authorized(_("New Operating system"), hash_for_new_operatingsystem_path) %>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= sort :name, :as => s_("Operatingsystem|Name") %></th>
-    <th><%= sort :hosts_count, :as => _("Hosts"), :default => "DESC" %></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%= sort :name, :as => s_("Operatingsystem|Name") %></th>
+      <th><%= sort :hosts_count, :as => _("Hosts"), :default => "DESC" %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% for operatingsystem in @operatingsystems %>
     <tr>
       <td><%= link_to_if_authorized(os_name(operatingsystem), hash_for_edit_operatingsystem_path(:id => operatingsystem.id).merge(:auth_object => operatingsystem, :authorizer => authorizer)) %></td>

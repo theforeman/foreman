@@ -1,7 +1,9 @@
-<table id="properties_table" class="table table-bordered table-striped">
-  <tr>
-    <th colspan="2"><%= _('Properties') %></th>
-  </tr>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th colspan="2"><%= _('Properties') %></th>
+    </tr>
+  </thead>
   <% overview_fields(host).each do |name, value| %>
     <tr>
       <td><%= name %></td>

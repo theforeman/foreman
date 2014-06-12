@@ -11,7 +11,11 @@
 <div id="legendContainer"></div>
 <table class="table">
   <% unless @trend.fact_value.nil? %>
-    <th colspan="4"><%= _("Hosts") %></th>
+    <thead>
+      <tr>
+        <th colspan="4"><%= _("Hosts") %></th>
+      </tr>
+    </thead>
     <tr>
       <%= render 'hosts' %>
     </tr>

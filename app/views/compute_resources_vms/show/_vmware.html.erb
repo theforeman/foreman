@@ -1,7 +1,9 @@
 <% title @vm.name %>
 <div class='col-md-12'>
   <table class="table table-bordered table-striped">
-    <tr><th colspan="2">Properties</th></tr>
+    <thead>
+      <tr><th colspan="2"><%=_("Properties") %></th></tr>
+    </thead>
 
     <%= prop :id %>
     <%= prop :datacenter %>

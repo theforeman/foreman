@@ -1,16 +1,18 @@
 <%= javascript "jquery.cookie", "host_checkbox" %>
 <% title header ||= "" %>
-<table class="table table-bordered table-striped table-condensed" >
-  <tr>
-    <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
-    <th class=''><%= sort :name, :as => _('Name') %></th>
-    <th class="hidden-xs"><%= sort :os, :as => _("Operating system") %></th>
-    <th class="hidden-xs"><%= sort :environment, :as => _('Environment') %></th>
-    <th class="hidden-tablet hidden-xs"><%= sort :model, :as => _('Model') %></th>
-    <th class="hidden-tablet hidden-xs"><%= sort :hostgroup, :as => _("Host group") %></th>
-    <th class="hidden-tablet hidden-xs"><%= sort :last_report, :as => _('Last report') %></th>
-    <th></th>
-  </tr>
+<table class="table table-bordered table-striped" >
+  <thead>
+    <tr>
+      <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
+      <th class=''><%= sort :name, :as => _('Name') %></th>
+      <th class="hidden-xs"><%= sort :os, :as => _("Operating system") %></th>
+      <th class="hidden-xs"><%= sort :environment, :as => _('Environment') %></th>
+      <th class="hidden-tablet hidden-xs"><%= sort :model, :as => _('Model') %></th>
+      <th class="hidden-tablet hidden-xs"><%= sort :hostgroup, :as => _("Host group") %></th>
+      <th class="hidden-tablet hidden-xs"><%= sort :last_report, :as => _('Last report') %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% hosts.each do |host| %>
     <tr>
       <td class="ca">

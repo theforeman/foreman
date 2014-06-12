@@ -11,12 +11,13 @@
 <% end %>
 
 <table class="table table-bordered table-striped">
-  <tr>
-    <th><%= sort :title, :as => s_("Taxonomy|Name") %></th>
-    <th><%= _("Hosts") %></th>
-    <th></th>
-  </tr>
-
+  <thead>
+    <tr>
+      <th><%= sort :title, :as => s_("Taxonomy|Name") %></th>
+      <th><%= _("Hosts") %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% @taxonomies.each do |taxonomy| %>
     <tr class="<%= cycle("even", "odd") %>">
       <td><%= label_with_link(taxonomy) %></td>

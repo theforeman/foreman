@@ -2,17 +2,19 @@
 
 <% title_actions  display_link_if_authorized(_("New User"), hash_for_new_user_path) %>
 
-<table class="table table-bordered table-striped table-condensed table-two-pane">
-  <tr>
-    <th><%= sort :login, :as => s_("User|Login") %></th>
-    <th><%= sort :firstname, :as => s_("User|Firstname")%></th>
-    <th><%= sort :lastname, :as => s_("User|Lastname") %></th>
-    <th><%= sort :mail, :as => s_("User|Mail") %></th>
-    <th><%= sort :admin, :as => s_("User|Admin") %></th>
-    <th><%= sort :last_login_on, :as => s_("User|Last login on") %></th>
-    <th><%= _("Authorized by") %></th>
-    <th></th>
-  </tr>
+<table class="table table-bordered table-striped table-two-pane">
+  <thead>
+    <tr>
+      <th><%= sort :login, :as => s_("User|Login") %></th>
+      <th><%= sort :firstname, :as => s_("User|Firstname")%></th>
+      <th><%= sort :lastname, :as => s_("User|Lastname") %></th>
+      <th><%= sort :mail, :as => s_("User|Mail") %></th>
+      <th><%= sort :admin, :as => s_("User|Admin") %></th>
+      <th><%= sort :last_login_on, :as => s_("User|Last login on") %></th>
+      <th><%= _("Authorized by") %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% for user in @users %>
     <tr>
       <td><%= avatar_image_tag user, :class => "avatar" %> <%=link_to_if_authorized h(user.login), hash_for_edit_user_path(:id => user.id).merge(:auth_object => user, :authorizer => authorizer) %></td>

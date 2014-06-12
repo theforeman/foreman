@@ -1,11 +1,7 @@
 <% title_actions link_to(_("New Organization"), new_organization_path) %>
 <% title _("Organization configuration") %>
 <div id="welcome">
-  <div class="alert alert-block alert-info">
-    <p><strong><%= _('Notice') %></strong>
-    <%= _('You must create an organization before continuing.') %>
-    </p>
-  </div>
+  <%= alert :class=>"alert-info", :header => _("You must create an organization before continuing.") %>
   <p>
   <%= _('Using the organization system provides a way to group resources together for easy management.') %>
   <%= _('Organizations are particularly useful for Foreman installations where several customers or business units are managed with a single Foreman install.') %>

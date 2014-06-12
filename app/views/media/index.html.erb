@@ -3,13 +3,15 @@
 <% title_actions display_link_if_authorized(_("New Medium"), hash_for_new_medium_path), help_path %>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= sort :name, :as => s_("Medium|Name") %></th>
-    <th><%= sort :path, :as => s_("Medium|Path") %></th>
-    <th><%= sort :family, :as => s_("Medium|Os family") %></th>
-    <th><%= _("Operating Systems") %></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%= sort :name, :as => s_("Medium|Name") %></th>
+      <th><%= sort :path, :as => s_("Medium|Path") %></th>
+      <th><%= sort :family, :as => s_("Medium|Os family") %></th>
+      <th><%= _("Operating Systems") %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% for medium in @media %>
     <tr>
       <td><%= link_to_if_authorized medium, hash_for_edit_medium_path(:id => medium.id).merge(:auth_object => medium, :authorizer => authorizer) %></td>

@@ -2,12 +2,13 @@
 <% title_actions display_link_if_authorized(_("New Compute Resource"), hash_for_new_compute_resource_path), help_path %>
 
 <table class="table table-bordered table-striped">
-  <tr>
-    <th><%= sort :name, :as => s_("ComputeResource|Name") %></th>
-    <th><%= sort :type, :as => _("Type") %></th>
-    <th></th>
-  </tr>
-
+  <thead>
+    <tr>
+      <th><%= sort :name, :as => s_("ComputeResource|Name") %></th>
+      <th><%= sort :type, :as => _("Type") %></th>
+      <th></th>
+    </tr>
+  </thead>
 <% @compute_resources.each do |compute| %>
   <tr>
     <td><%= link_to compute.name, compute %></td>

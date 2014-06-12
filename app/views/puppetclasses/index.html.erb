@@ -3,15 +3,17 @@
 <% title_actions import_proxy_select(hash_for_import_environments_puppetclasses_path), button_group(display_link_if_authorized(_("New Puppet class"), hash_for_new_puppetclass_path)) %>
 
 <table class="table table-bordered table-striped">
-  <tr>
-    <th><%= sort :name, :as => s_("Puppetclass|Name") %></th>
-    <th><%= sort :environment, :as => _("Environments and documentation") %></th>
-    <th><%= _('Host group') %></th>
-    <th><%= sort :hosts_count, :as => _('Hosts'), :default => "DESC" %></th>
-    <th><%= sort :params_count, :as => _('Parameters'), :default => "DESC" %></th>
-    <th><%= sort :variables_count, :as => _('Variables'), :default => "DESC" %></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%= sort :name, :as => s_("Puppetclass|Name") %></th>
+      <th><%= sort :environment, :as => _("Environments and documentation") %></th>
+      <th><%= _('Host group') %></th>
+      <th><%= sort :hosts_count, :as => _('Hosts'), :default => "DESC" %></th>
+      <th><%= sort :params_count, :as => _('Parameters'), :default => "DESC" %></th>
+      <th><%= sort :variables_count, :as => _('Variables'), :default => "DESC" %></th>
+      <th></th>
+    </tr>
+  </thead>
   <% for puppetclass in @puppetclasses %>
     <tr>
       <td><%=link_to_if_authorized h(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer) %></td>

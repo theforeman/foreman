@@ -19,11 +19,13 @@
             <p class="ca"><%= _("No smart proxies to show") %></p>
           <% else %>
             <table class="table table-striped">
-              <tr>
-                <th><%= _("Name") %></th>
-                <th><%= _("Features") %></th>
-                <th><%= _("Status") %></th>
-              </tr>
+              <thead>
+                <tr>
+                  <th><%= _("Name") %></th>
+                  <th><%= _("Features") %></th>
+                  <th><%= _("Status") %></th>
+                </tr>
+              </thead>
               <% @smart_proxies.each do |proxy| %>
                 <tr>
                   <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy.id) %></td>
@@ -37,10 +39,12 @@
         <% if SETTINGS[:unattended] %>
           <div class="tab-pane" id="available_providers">
             <table class="table table-striped">
-              <tr>
-                <th><%= _("Provider") %></th>
-                <th><%= _("Status") %></th>
-              </tr>
+              <thead>
+                <tr>
+                  <th><%= _("Provider") %></th>
+                  <th><%= _("Status") %></th>
+                </tr>
+              </thead>
               <% ComputeResource.supported_providers.each do |provider,klass| %>
                 <tr>
                   <td><%= klass.constantize.provider_friendly_name %></td>
@@ -59,11 +63,13 @@
               <p class="ca"><%= _("No compute resource to show") %></p>
             <% else %>
               <table class="table table-striped">
-                <tr>
-                  <th><%= _("Name") %></th>
-                  <th><%= _("Type") %></th>
-                  <th><%= _("Status") %></th>
-                </tr>
+                <thead>
+                  <tr>
+                    <th><%= _("Name") %></th>
+                    <th><%= _("Type") %></th>
+                    <th><%= _("Status") %></th>
+                  </tr>
+                </thead>
                 <% @compute_resources.each do |compute| %>
                   <tr>
                     <td><%= link_to compute.name, compute %></td>
@@ -80,12 +86,14 @@
             <p class="ca"><%= _("No plugins found") %></p>
           <% else %>
             <table class="table table-striped">
-              <tr>
-                <th><%= _("Name") %></th>
-                <th><%= _("Description") %></th>
-                <th><%= _("Author") %></th>
-                <th><%= _("Version") %></th>
-              </tr>
+              <thead>
+                <tr>
+                  <th><%= _("Name") %></th>
+                  <th><%= _("Description") %></th>
+                  <th><%= _("Author") %></th>
+                  <th><%= _("Version") %></th>
+                </tr>
+              </thead>
               <% @plugins.each do |plugin| %>
                 <tr>
                   <td><%= plugin.url.blank? ? plugin.name : link_to(plugin.name, plugin.url, :rel=>'external')%></td>
