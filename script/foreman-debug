@@ -209,8 +209,14 @@ if [ $NOGENERIC -eq 0 ]; then
   add_cmd "ping -c1 -W1 localhost" "ping_localhost"
   add_cmd "ping -c1 -W1 $(hostname)" "ping_hostname"
   add_cmd "ping -c1 -W1 $(hostname -f)" "ping_hostname_full"
+  type scl &>/dev/null && \
+    add_cmd "scl -l" "software_collections"
 
-  add_files "/var/log/messages"
+  add_cmd "ps auxwwwZ" "process_list"
+  add_files /var/log/messages /var/log/audit/audit.log
+  add_cmd "grep AVC /var/log/audit/audit.log" "audit_denials.log"
+  type audit2allow &>/dev/null && \
+    add_cmd "audit2allow -R < /var/log/audit/audit.log" "audit2allow"
 
   if [ "$OS" = "redhat" ]; then
     [ $DEBUG -eq 0 ] && add_cmd "rpm -qa" "installed_packages"
@@ -223,12 +229,12 @@ fi
 # FOREMAN RELATED ARTIFACTS
 
 printv "Collecting Foreman-related information"
+add_cmd "rpm -qa '*foreman*' || dpkg -l *foreman* | sort" "foreman_packages"
 add_cmd "ruby --version" "version_ruby"
 add_cmd "puppet --version" "version_puppet"
 add_cmd "gem list" "gem_list"
 add_cmd "scl enable $SCLNAME 'gem list'" "gem_list_scl"
 add_cmd "bundle --local --gemfile=/usr/share/foreman/Gemfile" "bundle_list"
-add_cmd "scl enable $SCLNAME 'bundle --local --gemfile=/usr/share/foreman/Gemfile'" "bundle_list_scl"
 add_cmd "facter" "facts"
 add_files /etc/foreman{,-proxy}/* /var/log/foreman{,-proxy,-installer}/*.log
 add_files /usr/share/foreman/Gemfile*
@@ -249,8 +255,9 @@ add_cmd "find /etc/puppet/modules -exec ls -ld {} +" "puppet_manifests_tree"
 add_files /etc/{httpd,apache2}/conf/*
 add_files /etc/{httpd,apache2}/conf.d/*
 add_files /var/log/{httpd,apache2}/*error_log
-add_cmd "echo \"select id,name,value from settings where name not like '%pass'\" | su postgres -c 'psql foreman'" "foreman_settings_table"
+add_cmd "echo \"select id,name,value from settings where name not similar to '%(pass|key|secret)'\" | su postgres -c 'psql foreman'" "foreman_settings_table"
 add_cmd "echo 'select type,name,host,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources' | su postgres -c 'psql foreman'" "foreman_auth_table"
+add_cmd "foreman-selinux-relabel -nv" "foreman_filecontexts"
 
 add_files /etc/{sysconfig,default}/foreman{,-proxy}
 add_files /etc/{sysconfig,default}/dhcp*
@@ -263,7 +270,7 @@ add_cmd "foreman-rake plugins" "plugin_list"
 if [ -d "/usr/share/foreman/script/foreman-debug.d" ]; then
   for extension in "/usr/share/foreman/script/foreman-debug.d/*.sh"; do
     printv "Processing extension $extension"
-    source $extension
+    source $extension 2>/dev/null
   done
 fi
 
@@ -274,6 +281,8 @@ qprintf "%10s %s\n" "RELEASE:" "$OS_RELEASE"
 qprintf "%10s %s\n" "FOREMAN:" "$(cat /usr/share/foreman/VERSION 2>/dev/null)"
 qprintf "%10s %s\n" "RUBY:" "$(ruby --version 2>/dev/null)"
 qprintf "%10s %s\n" "PUPPET:" "$(puppet --version 2>/dev/null)"
+test -f /var/log/audit/audit.log && \
+  qprintf "%10s %s\n" "DENIALS:" "$(grep AVC /var/log/audit/audit.log | wc -l)"
 qprintf "\n\n"
 
 if [ "$NOTAR" -eq 0 ]; then
