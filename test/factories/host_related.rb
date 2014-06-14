@@ -18,6 +18,28 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_facts do
+      ignore do
+        fact_count 20
+      end
+      after_create do |host,evaluator|
+        evaluator.fact_count.times do
+          FactoryGirl.create(:fact_value, :host => host)
+        end
+      end
+    end
+
+    trait :with_reports do
+      ignore do
+        report_count 5
+      end
+      after_create do |host,evaluator|
+        evaluator.report_count.times do
+          FactoryGirl.create(:report, :host => host)
+        end
+      end
+    end
+
     trait :on_compute_resource do
       uuid Foreman.uuid
       association :compute_resource, :factory => :ec2_cr

@@ -28,6 +28,7 @@ class Host::Managed < Host::Base
 
   # Custom hooks will be executed after_commit
   after_commit :build_hooks
+  before_save :clear_data_on_build
 
   def build_hooks
     return unless respond_to?(:old) && old && (build? != old.build?)
@@ -191,6 +192,12 @@ class Host::Managed < Host::Base
 
   def clearFacts
     FactValue.where("host_id = #{id}").delete_all
+  end
+
+  def clear_data_on_build
+    return unless respond_to?(:old) && old && build? && !old.build?
+    clearFacts
+    clearReports
   end
 
   def set_token
@@ -438,9 +445,6 @@ class Host::Managed < Host::Base
   # Any existing puppet certificates are deleted
   # Any facts are discarded
   def setBuild
-    clearFacts
-    clearReports
-
     self.build = true
     self.save
     errors.empty?
