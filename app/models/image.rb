@@ -3,6 +3,8 @@ class Image < ActiveRecord::Base
 
   audited :allow_mass_assignment => true
 
+  before_destroy EnsureNotUsedBy.new(:hosts)
+
   belongs_to :operatingsystem
   belongs_to :compute_resource
   belongs_to :architecture

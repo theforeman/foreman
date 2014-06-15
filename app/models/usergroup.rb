@@ -2,6 +2,8 @@ class Usergroup < ActiveRecord::Base
   audited :allow_mass_assignment => true
   include Authorizable
 
+  before_destroy EnsureNotUsedBy.new(:hosts)
+
   has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
   has_many :roles, :through => :user_roles, :dependent => :destroy
 
@@ -15,10 +17,8 @@ class Usergroup < ActiveRecord::Base
            :conditions => "member_type = 'Usergroup'", :class_name => 'UsergroupMember'
   has_many :parents,    :through => :usergroup_parents, :source => :usergroup, :dependent => :destroy
 
-
   has_many_hosts :as => :owner
   validates :name, :uniqueness => true, :length => { :maximum => 255 }
-  before_destroy EnsureNotUsedBy.new(:hosts, :usergroups)
 
   # The text item to see in a select dropdown menu
   alias_attribute :select_title, :to_s
