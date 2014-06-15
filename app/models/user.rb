@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   has_many :direct_hosts,      :class_name => 'Host',    :as => :owner
   has_many :usergroup_member,  :dependent => :destroy,   :as => :member
   has_many :user_roles,        :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
-  has_many :user_hostgroups,   :dependent => :destroy
+  has_many :user_hostgroups
   has_many :user_facts,        :dependent => :destroy
   has_many :cached_user_roles, :dependent => :destroy
   has_many :facts,             :through => :user_facts,               :source => :fact_name

@@ -55,6 +55,7 @@ class Api::V1::SubnetsControllerTest < ActionController::TestCase
     subnet = Subnet.first
     subnet.hosts.clear
     subnet.interfaces.clear
+    subnet.domains.clear
     as_admin { delete :destroy, {:id => subnet.id} }
     ActiveSupport::JSON.decode(@response.body)
     assert_response :ok

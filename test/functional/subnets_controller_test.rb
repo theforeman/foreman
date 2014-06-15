@@ -51,6 +51,7 @@ class SubnetsControllerTest < ActionController::TestCase
     subnet = Subnet.first
     subnet.hosts.clear
     subnet.interfaces.clear
+    subnet.domains.clear
     delete :destroy, {:id => subnet}, set_session_user
     assert_redirected_to subnets_url
     assert !Subnet.exists?(subnet.id)
