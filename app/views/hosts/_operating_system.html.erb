@@ -1,5 +1,5 @@
 
-<%= select_f f, :architecture_id, Architecture.all, :id, :to_label, {:include_blank => true},
+<%= select_f f, :architecture_id, Architecture.all, :id, :to_label, {},
     {:onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected'),
     :help_inline => :indicator} %>
 

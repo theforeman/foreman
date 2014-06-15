@@ -47,8 +47,7 @@
               :help_inline => :indicator } %>
         <% end %>
 
-        <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
-          { :include_blank => true},
+        <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label, {},
           { :onchange => 'hostgroup_changed(this);', :'data-host-id' => @host.id,
             :'data-url' => (@host.new_record? || @host.type_changed?) ? process_hostgroup_hosts_path : hostgroup_or_environment_selected_hosts_path,
             :help_inline => :indicator } %>
@@ -63,15 +62,14 @@
         <%# only show compute_profile select box for new hosts. It is not relevant for existing hosts as the VM attributes defined could
          be different from the defaults, or the defaults could have changed after the vm was created. %>
         <div id="compute_profile" <%= display?(!@host.compute_resource_id) %> >
-          <%= select_f f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
-            { :include_blank => true },
+          <%= select_f f, :compute_profile_id, ComputeProfile.visibles, :id, :name, {},
             { :label => _("Compute profile"), :'data-url' => compute_resource_selected_hosts_path,
               :onchange => 'computeResourceSelected(this);',
               :help_inline => :indicator } if SETTINGS[:unattended] %>
         </div>
         <% end %>
 
-        <%= select_f f, :environment_id, Environment.with_taxonomy_scope_override(@location,@organization), :id, :to_label, { :include_blank => true },
+        <%= select_f f, :environment_id, Environment.with_taxonomy_scope_override(@location,@organization), :id, :to_label, {},
             {:onchange => 'update_puppetclasses(this)', :'data-url' => hostgroup_or_environment_selected_hosts_path,
             :'data-host-id' => @host.id, :help_inline => :indicator} %>
         <%= puppet_master_fields f %>
@@ -116,7 +114,7 @@
           :help_inline => _("Include this host within Foreman reporting")
         %>
         <div id='model_name'>
-          <%= select_f f, :model_id, Model.all, :id, :to_label, { :include_blank => true }, {:label => _("Hardware Model")} unless @host.compute_resource_id%>
+          <%= select_f f, :model_id, Model.all, :id, :to_label, {}, {:label => _("Hardware Model")} unless @host.compute_resource_id%>
         </div>
         <%= textarea_f f, :comment, :help_block => _("Additional information about this host"), :size => "col-md-8", :rows => "3" %>
       </div>

@@ -105,6 +105,7 @@ module LayoutHelper
 
   def select_f(f, attr, array, id, method, select_options = {}, html_options = {})
     html_options.merge!(:size => 'col-md-10') if html_options[:multiple]
+    select_options.reverse_merge!(:include_blank => blank_or_inherit_f(f, attr, array))
     field(f, attr, html_options) do
       addClass html_options, "form-control"
       f.collection_select attr, array, id, method, select_options, html_options

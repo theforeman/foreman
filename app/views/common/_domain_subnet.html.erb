@@ -1,5 +1,5 @@
 <%= fields_for item do |f| %>
-  <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => blank_or_inherit_f(f, :domain)},
+  <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {},
     {:help_inline => :indicator, :label => _("Domain"),
      :onchange => 'domain_selected(this);', :'data-url' => method_path('domain_selected') } %>
 

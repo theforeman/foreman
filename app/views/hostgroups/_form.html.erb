@@ -26,10 +26,9 @@
                       :disabled => !@hostgroup.new_record?,
                       :help_inline => :indicator }) if show_parent?(@hostgroup) %>
       <%= text_f f, :name %>
-      <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => blank_or_inherit_f(f, :environment)},
+      <%= select_f f, :environment_id, Environment.all, :id, :to_label, {},
         {:label => _("Environment"), :onchange => 'update_puppetclasses(this);', :"data-url" => environment_selected_hostgroups_path} %>
-      <%= select_f(f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
-                       { :include_blank => blank_or_inherit_f(f, :compute_profile) },
+      <%= select_f(f, :compute_profile_id, ComputeProfile.visibles, :id, :name, {},
                        { :label => _("Compute profile") }
                   ) if ComputeProfile.visibles.any? %>
       <%= puppet_master_fields f %>
@@ -45,8 +44,8 @@
 
     <div class="tab-pane" id="network">
       <%= render 'common/domain_subnet', :item => @hostgroup %>
-      <%= select_f f, :realm_id, Realm.with_taxonomy_scope_override(@location,@organization).authorized(:view_realms), :id, :to_label,
-                      {:include_blank => blank_or_inherit_f(f, :realm)}, {:label => _("Realm")} %>
+      <%= select_f f, :realm_id, Realm.with_taxonomy_scope_override(@location,@organization).authorized(:view_realms), :id, :to_label, {},
+                      {:label => _("Realm")} %>
     </div>
 
     <div class="tab-pane" id="os">

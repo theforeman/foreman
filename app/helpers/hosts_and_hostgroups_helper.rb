@@ -51,8 +51,7 @@ module HostsAndHostgroupsHelper
     # so the user can choose not to sign the puppet cert on this host
     proxies = SmartProxy.unscoped.with_features("Puppet CA").with_taxonomy_scope(@location,@organization,:path_ids)
     return if proxies.count == 0
-    select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
-             { :include_blank => blank_or_inherit_f(f, :puppet_ca_proxy) },
+    select_f f, :puppet_ca_proxy_id, proxies, :id, :name, {},
              { :label       => _("Puppet CA"),
                :help_inline => _("Use this puppet server as a CA server") }
   end
@@ -62,8 +61,7 @@ module HostsAndHostgroupsHelper
     # so the user can choose not to use puppet on this host
     proxies = SmartProxy.unscoped.with_features("Puppet").with_taxonomy_scope(@location,@organization,:path_ids)
     return if proxies.count == 0
-    select_f f, :puppet_proxy_id, proxies, :id, :name,
-             { :include_blank => blank_or_inherit_f(f, :puppet_proxy) },
+    select_f f, :puppet_proxy_id, proxies, :id, :name, {},
              { :label       => _("Puppet Master"),
                :help_inline => _("Use this puppet server as an initial Puppet Server or to execute puppet runs") }
   end

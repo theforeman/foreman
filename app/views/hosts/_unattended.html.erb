@@ -4,12 +4,12 @@
 
 <div class="tab-pane"  id="network">
   <%= field_set_tag _("General Settings"), :id => "general_settings" do %>
-   <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},
+   <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {},
                    {:help_inline => :indicator,
                    :onchange => 'domain_selected(this);', :'data-url' => domain_selected_hosts_path} %>
 
     <%= select_f f, :realm_id, Realm.with_taxonomy_scope_override(@location,@organization).authorized(:view_realms),
-                    :id, :to_label, { :include_blank => true }, {:help_inline => :indicator} %>
+                    :id, :to_label, {}, {:help_inline => :indicator} %>
    <% end %>
 
   <%= field_set_tag _("Primary Interface"), :id => "primary_interface" do %>
