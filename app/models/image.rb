@@ -7,7 +7,7 @@ class Image < ActiveRecord::Base
   belongs_to :compute_resource
   belongs_to :architecture
 
-  has_many_hosts
+  has_many_hosts :dependent => :nullify
   validates :username, :name, :operatingsystem_id, :compute_resource_id, :architecture_id, :presence => true
   validates :uuid, :presence => true, :uniqueness => {:scope => :compute_resource_id}
 

@@ -27,6 +27,10 @@ FactoryGirl.define do
       association :compute_resource, :factory => :ec2_cr
       after_build { |host| host.class.skip_callback(:validation, :after, :queue_compute) }
     end
+
+    trait :with_subnet do
+      subnet
+    end
   end
 
   factory :hostgroup do
@@ -50,6 +54,10 @@ FactoryGirl.define do
       after_create do |hg,evaluator|
         FactoryGirl.create(:hostgroup_parameter, :hostgroup => hg)
       end
+    end
+
+    trait :with_subnet do
+      subnet
     end
   end
 
