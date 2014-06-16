@@ -4,6 +4,10 @@ FactoryGirl.define do
     domain
     environment
 
+    trait :with_medium do
+      medium
+    end
+
     trait :with_hostgroup do
       hostgroup :environment => environment
     end

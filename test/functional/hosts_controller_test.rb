@@ -49,6 +49,7 @@ class HostsControllerTest < ActionController::TestCase
           :architecture_id => architectures(:x86_64).id,
           :environment_id => environments(:production).id,
           :subnet_id => subnets(:one).id,
+          :medium_id => media(:one).id,
           :realm_id => realms(:myrealm).id,
           :disk => "empty partition",
           :puppet_proxy_id => smart_proxies(:puppetmaster).id,
