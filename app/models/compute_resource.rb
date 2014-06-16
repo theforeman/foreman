@@ -26,6 +26,7 @@ class ComputeResource < ActiveRecord::Base
   validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :type, :complete_value => :true
   scoped_search :on => :id, :complete_value => :true
   before_save :sanitize_url
   has_many_hosts
