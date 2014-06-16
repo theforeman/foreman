@@ -146,6 +146,7 @@ class Host::Managed < Host::Base
     validates :provision_method, :inclusion => {:in => PROVISION_METHODS, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
     validate :provision_method_in_capabilities
     before_validation :set_compute_attributes, :only => :create
+    validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
@@ -887,6 +888,12 @@ class Host::Managed < Host::Base
   def provision_method_in_capabilities
     return unless managed?
     errors.add(:provision_method, _('is an unsupported provisioning method')) unless capabilities.map(&:to_s).include?(self.provision_method)
+  end
+
+  def check_if_provision_method_changed
+    if self.provision_method_changed?
+      errors.add(:provision_method, _("can't be updated after host is provisioned"))
+    end
   end
 
 end
