@@ -9,8 +9,8 @@
 
 <div id='provisioning_method' <%= display? (@host.capabilities.size < 2)  %> >
   <%= field(f, :provision_method, :label => _('Provisioning Method')) do
-      radio_button_f(f, :provision_method, :value=>'build', :checked=> @host.pxe_build?, :text=> _("Network Based"))+
-      radio_button_f(f, :provision_method, :value=>'image', :checked=> @host.image_build?, :text=> _("Image Based"))
+      radio_button_f(f, :provision_method, :value=>'build', :checked=> @host.pxe_build?, :text=> _("Network Based"), :disabled => !@host.new_record?)+
+      radio_button_f(f, :provision_method, :value=>'image', :checked=> @host.image_build?, :text=> _("Image Based"), :disabled => !@host.new_record?)
   end %>
 </div>
 <div id='network_provisioning' <%= display? !@host.pxe_build? %> >
