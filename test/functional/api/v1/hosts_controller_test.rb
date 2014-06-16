@@ -9,6 +9,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
       :ip                  => '10.0.0.20',
       :mac                 => '52:53:00:1e:85:93',
       :ptable_id           => ptables(:one).id,
+      :medium_id           => media(:one).id,
       :architecture_id     => Architecture.find_by_name('x86_64').id,
       :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,
       :puppet_proxy_id     => smart_proxies(:one).id,
