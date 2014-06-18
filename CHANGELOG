@@ -1,3 +1,18 @@
+2014-06-18	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.4.5
+
+2014-06-18	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #6149 - fixed XSS in host YAML view (CVE-2014-3492)
+
+2014-06-18	Joseph Magen <jmagen@redhat.com>
+	* fixes #5881 - XSS from create/update/destroy notification boxes (CVE-2014-3491)
+
+2014-06-13	Dominic Cleal <dcleal@redhat.com>
+	* fixes #5966 - pin execjs for Ruby 1.8 compatibility
+
+2014-06-13	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #6191 - pin pry for ruby 1.8 compat
+
 2014-05-08	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.4.4
 	* fixes #5610 - upgrade to Rails 3.2.18

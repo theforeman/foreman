@@ -14,7 +14,7 @@
 %endif
 
 Name:   foreman
-Version: 1.4.4
+Version: 1.4.5
 Release: 1%{?dist}
 Summary:Systems Management web application
 
@@ -535,6 +535,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Wed Jun 18 2014 Dominic Cleal <dcleal@redhat.com> - 1.4.5-1
+- Release 1.4.5
+
 * Thu May 08 2014 Dominic Cleal <dcleal@redhat.com> - 1.4.4-1
 - Release 1.4.4
 
