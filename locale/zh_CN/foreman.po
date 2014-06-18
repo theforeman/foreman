@@ -7,13 +7,13 @@
 # 
 # Translators:
 # dingtim, 2013
-# dingtim, 2013
+# tim123, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-14 12:47-0700\n"
-"PO-Revision-Date: 2014-04-15 09:18+0000\n"
+"POT-Creation-Date: 2014-06-11 09:09-0400\n"
+"PO-Revision-Date: 2014-06-12 10:49+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1084,17 +1084,11 @@ msgstr "本子网使用的DHCP代理"
 msgid "DHCP conflicts removal for %s"
 msgstr "去除 %s DHCP冲突"
 
-msgid "DHCP has a lease at %s"
-msgstr "%s 的DHCP过期"
-
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
 msgid "DHCP not supported for this NIC"
 msgstr "此网卡不支持DHCP"
-
-msgid "DHCP record %s conflicts with an existing reservation"
-msgstr ""
 
 msgid "DHCP records %s already exists"
 msgstr "DHCP记录已经存在"
@@ -1681,6 +1675,9 @@ msgstr "筛选"
 msgid "Filters and permissions"
 msgstr ""
 
+msgid "Filter|Permissions"
+msgstr ""
+
 msgid "Filter|Resource"
 msgstr ""
 
@@ -1910,6 +1907,9 @@ msgid "Good host reports in the last %s"
 msgstr "在过去 %s 内的报告良好的主机"
 
 msgid "Google Project ID"
+msgstr ""
+
+msgid "Guest OS"
 msgstr ""
 
 msgid "Hardware"
@@ -3247,6 +3247,9 @@ msgstr "发行名称"
 
 msgid "Operation"
 msgstr "作业"
+
+msgid "Operators"
+msgstr ""
 
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "

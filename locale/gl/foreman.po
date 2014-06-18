@@ -6,13 +6,13 @@
 # 
 # 
 # Translators:
-# carmela <carmela.rubinos@gmail.com>, 2013
+# Carmela Rubiños <carmela.rubinos@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-14 12:47-0700\n"
-"PO-Revision-Date: 2014-04-15 09:18+0000\n"
+"POT-Creation-Date: 2014-06-11 09:09-0400\n"
+"PO-Revision-Date: 2014-06-12 10:49+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/foreman/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -1091,17 +1091,11 @@ msgstr "Proxy DHCP para usar con esta subrede"
 msgid "DHCP conflicts removal for %s"
 msgstr "Eliminar conflictos DHCP para %s"
 
-msgid "DHCP has a lease at %s"
-msgstr "DHCP ten un 'lease' en %s"
-
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
 msgid "DHCP not supported for this NIC"
 msgstr "DHCP non soportado para esta tarxeta de rede"
-
-msgid "DHCP record %s conflicts with an existing reservation"
-msgstr ""
 
 msgid "DHCP records %s already exists"
 msgstr "O rexistro DHCP %s xa existe"
@@ -1689,6 +1683,9 @@ msgstr "Filtros"
 msgid "Filters and permissions"
 msgstr ""
 
+msgid "Filter|Permissions"
+msgstr ""
+
 msgid "Filter|Resource"
 msgstr ""
 
@@ -1918,6 +1915,9 @@ msgid "Good host reports in the last %s"
 msgstr "Informes satisfactorios nos últimos %s"
 
 msgid "Google Project ID"
+msgstr ""
+
+msgid "Guest OS"
 msgstr ""
 
 msgid "Hardware"
@@ -3255,6 +3255,9 @@ msgstr "Nome de versión"
 
 msgid "Operation"
 msgstr "Operación"
+
+msgid "Operators"
+msgstr ""
 
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
