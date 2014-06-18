@@ -1,3 +1,82 @@
+2014-06-18	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.5.1
+
+2014-06-18	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #6149 - fixed XSS in host YAML view (CVE-2014-3492)
+
+2014-06-18	Joseph Magen <jmagen@redhat.com>
+	* fixes #5881 - XSS from create/update/destroy notification boxes (CVE-2014-3491)
+
+2014-06-13	Dominic Cleal <dcleal@redhat.com>
+	* fixes #5879 - minimum of scoped_search 2.7.0 required
+
+2014-06-13	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #6191 - pin pry for ruby 1.8 compat
+
+2014-06-11	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+	* fixes #5652 - run parse_args when calling new_vm for compute profiles
+	* fixes #5869 - permit accents in user names on Ruby 1.8
+	* fixes #5966 - pin execjs for Ruby 1.8 compatibility
+	* fixes #5671 - LookupValue name should be matcher, value is too long
+	* fixes #5680 - quote searches for config groups containing spaces
+
+2014-06-11	Romain Vrignaud <romain.vrignaud@cloudwatt.com>
+	* Fixes #5754 Fix cloud-init phone_home function
+
+2014-06-11	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #5755 - yum repos are replaced from now on
+
+2014-06-11	Nacho Barrientos <nacho.barrientos@cern.ch>
+	* Fixes #5946 - Only call fact_name_class.maximum if necessary.
+
+2014-06-11	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #5708: #nil? is now an allowed method inside of Host and Token jails
+	* fixes #5553: FiltersHelper#search_path returns an empty string for unrecognized resources
+
+2014-06-11	Scott Seago <sseago@redhat.com>
+	* fixes #6091 - menu removal wasn't traversing menu hierarchy
+
+2014-06-11	Marek Hulan <mhulan@redhat.com>
+	* Fixes #6117 - clean usergroup cache
+	* Fixes #5696 - Allow taxonomy and roles display
+	* Fixes #5689 - Plugin permissions are migrated too
+	* Fixes #5664 - Host filters can use taxonomies
+
+2014-06-11	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #5941 - Handle nil comparison object in DHCP
+	* Fixes #5637 - Don't raise lease conflicts when reading ad-hoc DHCP leases
+
+2014-06-11	Christine Fouant <cfouant@redhat.com>
+	* Fixes #5810 - fixes issue with incorrect page titles
+
+2014-06-11	Joseph Magen <jmagen@redhat.com>
+	* fixes #5826 - Using dots in kickstart template names or hostgroups causes routing errors
+	* fixes #5834 - Hosts: . in the name is invalid - user is told this but the UI adds one anyway
+	* fixes #5836 - Welcome page - missing rel attribute
+	* fixes #5685 - add :path_ids to with_taxonomy_scope instead of subtree_ids for SmartProxy select dropdowns
+	* fixes #5631 - API v2 - host and hostgroups show.json.rabl should show all puppetclasses in child node
+	* fixes #5788 - before_destroy missing from EnsureNotUsedBy.new in SmartProxy model
+	* fixes #5726 - parameter values missing from host#show API call
+	* fixes #4250 - API v2 - add compute profiles
+	* fixes #2785 - host model clone method also copies relationships using deep_cloneable gem
+
+2014-06-11	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #6030 - update list of VMware guest types
+
+2014-06-11	Martin Ducar <martin.ducar@gooddata.com>
+	* fixes #5963 - fix Role has_permission? function
+
+2014-06-11	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #5645: Fixes session undefined error when user has a default taxonomy set.
+
+2014-06-11	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #5690 - determine host taxonomy fact based on setting value
+	* fixes #5660 - use with_taxonomy_scope for OS media selection
+
+2014-06-11	Amos Benari <abenari@redhat.com>
+	* fixes #4612 show friendly CR names, fix typo in oVirt name
+
 2014-05-09	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.5.0
 
