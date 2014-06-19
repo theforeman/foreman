@@ -9,6 +9,9 @@ module Api
       end
 
       before_filter :setup_has_many_params, :only => [:create, :update]
+      # ensure include_root_in_json = false for V2 only
+      around_filter :disable_json_root
+
       layout 'api/v2/layouts/index_layout', :only => :index
 
       helper_method :root_node_name, :metadata_total, :metadata_subtotal, :metadata_search,
@@ -74,6 +77,18 @@ module Api
         render options.merge(:template => "api/v2/errors/#{error}",
                              :layout   => 'api/v2/layouts/error_layout')
       end
+
+      private
+
+      def disable_json_root
+        # disable json root element
+        ActiveRecord::Base.include_root_in_json = false
+        yield
+      ensure
+        # re-enable json root element
+        ActiveRecord::Base.include_root_in_json = true
+      end
+
     end
   end
 end

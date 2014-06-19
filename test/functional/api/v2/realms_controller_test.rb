@@ -45,7 +45,7 @@ class Api::V2::RealmsControllerTest < ActionController::TestCase
     delete :destroy, { :id => realm.to_param }
     realm = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
-    assert !Realm.exists?(:name => realm['id'])
+    refute Realm.find_by_id(realm['id'])
   end
 
   #test that taxonomy scope works for api for realms
