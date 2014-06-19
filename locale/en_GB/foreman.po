@@ -6,13 +6,13 @@
 # 
 # 
 # Translators:
-# domcleal <dcleal@redhat.com>, 2013-2014
+# Dominic Cleal <dcleal@redhat.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-14 12:47-0700\n"
-"PO-Revision-Date: 2014-04-15 09:18+0000\n"
+"POT-Creation-Date: 2014-06-11 09:09-0400\n"
+"PO-Revision-Date: 2014-06-13 11:50+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/foreman/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -1091,16 +1091,10 @@ msgstr ""
 msgid "DHCP conflicts removal for %s"
 msgstr ""
 
-msgid "DHCP has a lease at %s"
-msgstr ""
-
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
 msgid "DHCP not supported for this NIC"
-msgstr ""
-
-msgid "DHCP record %s conflicts with an existing reservation"
 msgstr ""
 
 msgid "DHCP records %s already exists"
@@ -1689,6 +1683,9 @@ msgstr ""
 msgid "Filters and permissions"
 msgstr ""
 
+msgid "Filter|Permissions"
+msgstr ""
+
 msgid "Filter|Resource"
 msgstr ""
 
@@ -1918,6 +1915,9 @@ msgid "Good host reports in the last %s"
 msgstr ""
 
 msgid "Google Project ID"
+msgstr ""
+
+msgid "Guest OS"
 msgstr ""
 
 msgid "Hardware"
@@ -3256,6 +3256,9 @@ msgstr "Release name"
 msgid "Operation"
 msgstr ""
 
+msgid "Operators"
+msgstr ""
+
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
 "<br><br><b>Description:</b> %s"
@@ -3899,7 +3902,7 @@ msgid "Security groups"
 msgstr ""
 
 msgid "Select Action"
-msgstr ""
+msgstr "Select Action"
 
 msgid "Select All"
 msgstr ""

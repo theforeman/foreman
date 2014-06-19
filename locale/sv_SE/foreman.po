@@ -7,14 +7,14 @@
 # 
 # Translators:
 # Fredrik Wendt <fredrik@wendt.se>, 2014
-# johnny Westerlund <johnny.westerlund@gmail.com>, 2013-2014
-# frimik <frimik@gmail.com>, 2013
+# johnny.westerlund <johnny.westerlund@gmail.com>, 2013-2014
+# Mikael Fridh <frimik@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-14 12:47-0700\n"
-"PO-Revision-Date: 2014-04-15 09:18+0000\n"
+"POT-Creation-Date: 2014-06-11 09:09-0400\n"
+"PO-Revision-Date: 2014-06-12 10:49+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -1093,17 +1093,11 @@ msgstr "DHCP Proxy att använda inom detta subnät "
 msgid "DHCP conflicts removal for %s"
 msgstr "DHCP konflikt-borttagning för %s"
 
-msgid "DHCP has a lease at %s"
-msgstr "DHCP har lån på %s"
-
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
 msgid "DHCP not supported for this NIC"
 msgstr "DHCP stöds ej för denna NIC"
-
-msgid "DHCP record %s conflicts with an existing reservation"
-msgstr ""
 
 msgid "DHCP records %s already exists"
 msgstr "DHCP-poster %s finns redan"
@@ -1691,6 +1685,9 @@ msgstr "Filter"
 msgid "Filters and permissions"
 msgstr ""
 
+msgid "Filter|Permissions"
+msgstr ""
+
 msgid "Filter|Resource"
 msgstr ""
 
@@ -1921,6 +1918,9 @@ msgstr "Bra värdrapporter senaste %s"
 
 msgid "Google Project ID"
 msgstr "Google Project ID"
+
+msgid "Guest OS"
+msgstr ""
 
 msgid "Hardware"
 msgstr "Hårdvara"
@@ -3257,6 +3257,9 @@ msgstr "Namn"
 
 msgid "Operation"
 msgstr "Operation"
+
+msgid "Operators"
+msgstr ""
 
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
