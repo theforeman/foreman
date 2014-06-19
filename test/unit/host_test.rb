@@ -391,7 +391,7 @@ class HostTest < ActiveSupport::TestCase
   test "should import from external nodes output" do
     # create a dummy node
     Parameter.destroy_all
-    host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12",
+    host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12", :medium => media(:one),
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
       :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa",
       :puppet_proxy => smart_proxies(:puppetmaster)
@@ -1091,7 +1091,7 @@ class HostTest < ActiveSupport::TestCase
     host.provision_method = 'foobar'
     host.stubs(:provision_method_in_capabilities).returns(true)
     host.valid?
-    assert_equal 'is unknown', host.errors[:provision_method].sort.first
+    assert host.errors[:provision_method].include?('is unknown')
   end
 
   test "#provision_method doesn't matter on unmanaged hosts" do
@@ -1106,7 +1106,14 @@ class HostTest < ActiveSupport::TestCase
     host.provision_method = 'image'
     host.expects(:capabilities).returns([:build])
     host.valid?
-    assert_equal 'is an unsupported provisioning method', host.errors[:provision_method].sort.first
+    assert host.errors[:provision_method].include?('is an unsupported provisioning method')
+  end
+
+  test "#provision_method cannot be updated for existing host" do
+    host = hosts(:one)
+    host.provision_method = 'image'
+    refute host.save
+    assert host.errors[:provision_method].include?("can't be updated after host is provisioned")
   end
 
   test "#image_build? must be true when provision_method is image" do
