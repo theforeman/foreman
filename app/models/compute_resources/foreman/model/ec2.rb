@@ -46,6 +46,9 @@ module Foreman::Model
       args[:groups].reject!(&:empty?) if args.has_key?(:groups)
       args[:security_group_ids].reject!(&:empty?) if args.has_key?(:security_group_ids)
       super(args)
+    rescue Fog::Errors::Error => e
+      logger.debug "Unhandled EC2 error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
+      raise e
     end
 
     def security_groups vpc=nil
