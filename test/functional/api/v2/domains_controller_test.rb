@@ -47,7 +47,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     delete :destroy, { :id => domain.to_param }
     domain = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
-    assert !Domain.exists?(:name => domain['id'])
+    refute Domain.find_by_id(domain['id'])
   end
 
   #test that taxonomy scope works for api for domains
