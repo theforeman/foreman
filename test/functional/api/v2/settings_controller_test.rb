@@ -22,4 +22,11 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should parse string values" do
+    setting_id = Setting.where(:settings_type => 'integer').first.id
+    put :update, { :id => setting_id, :setting => { :value => "100" } }
+    assert_response :success
+    assert_equal 100, Setting.find(setting_id).value
+  end
+
 end
