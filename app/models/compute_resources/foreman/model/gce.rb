@@ -69,10 +69,9 @@ module Foreman::Model
       username = images.where(:uuid => args[:image_name]).first.try(:username)
       ssh      = { :username => username, :public_key => key_pair.public }
       super(args.merge(ssh))
-    rescue Exception => e
+    rescue Fog::Errors::Error => e
       logger.debug "Unhandled GCE error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
-      errors.add(:base, e.message.to_s)
-      false
+      raise e
     end
 
     def available_images
