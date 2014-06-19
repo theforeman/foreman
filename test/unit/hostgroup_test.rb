@@ -287,4 +287,20 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal (hostgroup.environment.puppetclasses - hostgroup.parent_classes).sort, hostgroup.available_puppetclasses.sort
   end
 
+  test "hostgroup root pass can be blank" do
+    hostgroup = FactoryGirl.create(:hostgroup)
+    hostgroup.root_pass = nil
+    assert hostgroup.valid?
+  end
+
+  test "hostgroup root pass be must at least 8 characters if not blank" do
+    hostgroup = FactoryGirl.build(:hostgroup)
+    assert hostgroup.valid?
+    hostgroup.root_pass = '1234567'
+    refute hostgroup.valid?
+    assert_equal "should be 8 characters or more", hostgroup.errors[:root_pass].first
+    hostgroup.root_pass = '12345678'
+    assert hostgroup.valid?
+  end
+
 end
