@@ -48,7 +48,21 @@ def create_role(role_name, permission_names, builtin)
 end
 
 # now we load all seed files
-Dir.glob(Rails.root + 'db/seeds.d/*.rb').sort.each do |seed|
+foreman_seeds = Dir.glob(Rails.root + 'db/seeds.d/*.rb')
+
+Foreman::Plugin.registered_plugins.each do |name, plugin|
+  begin
+    engine = (name.to_s.camelize + '::Engine').constantize
+    foreman_seeds += Dir.glob(engine.root + 'db/seeds.d/*.rb')
+  rescue NameError => e
+  end
+end
+
+foreman_seeds = foreman_seeds.sort do |a, b|
+  a.split('/').last <=> b.split('/').last
+end
+
+foreman_seeds.each do |seed|
   puts "Seeding #{seed}"
   load seed
 end
