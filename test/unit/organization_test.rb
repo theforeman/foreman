@@ -79,7 +79,7 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal used_ids[:hostgroup_ids].sort, []
     assert_equal used_ids[:subnet_ids], [subnets(:one).id]
     assert_equal used_ids[:domain_ids], [domains(:mydomain).id]
-    assert_equal used_ids[:medium_ids], []
+    assert_equal used_ids[:medium_ids], [media(:one).id]
     assert_equal used_ids[:compute_resource_ids].sort, [compute_resources(:one).id]
     assert_equal used_ids[:user_ids], [users(:restricted).id]
     assert_equal used_ids[:smart_proxy_ids].sort, [smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:puppetmaster).id, smart_proxies(:realm).id].sort
@@ -160,6 +160,13 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal, organization_dup.config_template_ids = organization.config_template_ids
     assert_equal, organization_dup.compute_resource_ids = organization.compute_resource_ids
     assert_equal, organization_dup.location_ids = organization.location_ids
+  end
+
+  test "non-admin user is added to organization after creating it" do
+    user = User.current = users(:one)
+    refute user.admin?
+    assert organization = Organization.create(:name => 'new organization')
+    assert organization.users.include?(user)
   end
 
 
