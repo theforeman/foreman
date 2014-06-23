@@ -4,7 +4,7 @@ default altlinux
     Please disable it in Settings > Provisioning
 -%>
 <%
-    metadata 	= @host.token.nil? ? '?metadata=' : '&metadata='
+    metadata    = @host.token.nil? ? '?metadata=' : '&metadata='
     os          = @host.operatingsystem
     mediumpath  = os.mediumpath @host
 -%>
