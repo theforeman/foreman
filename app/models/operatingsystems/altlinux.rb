@@ -2,10 +2,6 @@ class Altlinux < Operatingsystem
 
   PXEFILES = {:kernel => "vmlinuz", :initrd => "full.cz" }
 
-  def mediumpath host
-    medium_uri(host).to_s
-  end
-
   def class
     Operatingsystem
   end
@@ -29,6 +25,10 @@ class Altlinux < Operatingsystem
 
   def url_for_boot(file)
     pxedir + "/" + PXEFILES[file]
+  end
+
+  def display_family
+    "Altlinux"
   end
 
 end
