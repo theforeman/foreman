@@ -1,9 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  domain: mydomain.net
+  domain: mydomain
   subnet: one
 
 two:
-  domain: yourdomain.net
+  domain: yourdomain
   subnet: two
