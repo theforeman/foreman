@@ -226,4 +226,11 @@ class OperatingsystemTest < ActiveSupport::TestCase
       os.reload
     end
   end
+
+  test "should find os name using free text search only" do
+    operatingsystems = Operatingsystem.search_for('OpenSuse')
+    assert_equal 1, operatingsystems.count
+    assert_equal operatingsystems(:suse), operatingsystems.first
+  end
+
 end
