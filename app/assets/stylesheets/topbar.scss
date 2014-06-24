@@ -1,0 +1,198 @@
+@import "mixin";
+@import "colors";
+
+.navbar {
+  border-radius: 0;
+  margin-bottom: 0;
+
+  .nav a {
+    font-family: Overpass, sans-serif, sans;
+    font-size: 14px;
+  }
+
+  .nav > li > a {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+  }
+
+  .navbar-header-menu > li  {
+    padding-left: 1em;
+  }
+
+  .active > a, .open > a {
+    @include linear-gradient($hover_gradient_start, $hover_gradient_end);
+  }
+
+  .navbar-header {
+    font-family: Overpass, sans-serif, sans;
+    float: none;
+  }
+}
+
+.navbar-brand {
+  padding: 0;
+
+  img {
+    height: 34px;
+    margin-bottom: -10px;
+  }
+
+  a {
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;
+
+    &:hover {
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+.navbar-outer {
+  height: 25px;
+  min-height: 0;
+  z-index: 1;
+
+  .navbar-brand a,
+  .navbar-right a {
+    vertical-align: middle;
+  }
+
+  .navbar-right {
+    float: right;
+    margin: 0;
+
+    .dropdown > a {
+      padding: 0.25em 0 0 0;
+    }
+
+    .dropdown-menu {
+      margin-top: 0;
+      min-width: 100px;
+    }
+
+    a {
+      font-size: 11px;
+      font-weight: bold;
+    }
+  }
+}
+
+.navbar-inner {
+  border-bottom: none;
+  border-top: 1px solid $border_color;
+  clear: left;
+  left: 0;
+  min-height: 40px;
+  max-height: 40px;
+  position: absolute;
+  right: 0;
+  top: 25px;
+
+  @include linear-gradient($primary_gradient_start, $primary_gradient_end);
+
+  .menu_tab_dropdown > a {
+    padding-top: 10px;
+    padding-bottom: 9px;
+  }
+}
+
+.dropdown .caret {
+  margin-left: 4px;
+}
+
+.nav-header {
+  padding: 3px 20px;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #999999;
+  text-transform: uppercase;
+}
+
+.navbar .nav .org-switcher > a {
+  font-size: 16px;
+  border-right: solid 1px $border_color;
+
+  .caret {
+    margin-left: 20px;
+  }
+}
+
+.navbar-inner {
+  a.manage-menu {
+    font-size: 11px;
+    color: #0088cc;
+
+    &:hover,
+    &:focus {
+      color: #ffffff;
+    }
+  }
+
+  .glyphicon {
+    color: #cccccc;
+  }
+}
+
+// Responsive menu display
+.navbar-collapse.in li .dropdown-menu:after {
+  display: none;
+}
+
+.navbar-collapse.in{
+  @include linear-gradient($primary_gradient_start, $primary_gradient_end);
+
+  margin-bottom: 0;
+  margin-top: 0;
+  max-height: none;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+
+  .container {
+    width: 100%;
+  }
+
+  .open {
+    background-color: transparent;
+  }
+}
+
+// Necessary to override bootstrap3 media query restyling for small screens
+#userMenu .dropdown-menu {
+  @import "bootstrap/variables";
+
+  background-color: $dropdown-bg;
+  border: 1px solid $dropdown-fallback-border; // IE8 fallback
+  border: 1px solid $dropdown-border;
+  border-radius: 0 0 6px 6px;
+  position: absolute;
+
+  li > a {
+    color: $dropdown-link-color;
+
+    &:hover,
+    &:focus {
+      color: $dropdown-link-hover-color;
+      background-color: $dropdown-link-hover-bg;
+    }
+  }
+}
+
+.navbar-default button.navbar-toggle {
+  border: 0;
+  border-radius: 0;
+  margin: 9px;
+  padding: 0;
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+  }
+
+  .glyphicon {
+    top: 0;
+  }
+}

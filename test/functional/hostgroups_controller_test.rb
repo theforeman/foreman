@@ -6,14 +6,6 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_index_json
-    get :index, {:format => "json"}, set_session_user
-    hostgroups = ActiveSupport::JSON.decode(@response.body)
-    assert !hostgroups.empty?
-    assert hostgroups.is_a?(Array)
-    assert_response :success
-  end
-
   def test_new
     get :new, {}, set_session_user
     assert_template 'new'
@@ -24,7 +16,6 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
-
   def test_create_invalid
     Hostgroup.any_instance.stubs(:valid?).returns(false)
     post :create, {}, set_session_user
@@ -34,22 +25,14 @@ class HostgroupsControllerTest < ActionController::TestCase
   def test_create_valid
     Hostgroup.any_instance.stubs(:valid?).returns(true)
     pc = Puppetclass.first
-    post :create, {"hostgroup" => {"name"=>"test_it", "group_parameters_attributes"=>{"1272344174448"=>{"name"=>"x", "value"=>"y", "_destroy"=>""}}, "puppetclass_ids"=>["", pc.id.to_s]}}, set_session_user
+    post :create, {"hostgroup" => {"name"=>"test_it", "group_parameters_attributes"=>{"1272344174448"=>{"name"=>"x", "value"=>"y", "_destroy"=>""}},
+                   "puppetclass_ids"=>["", pc.id.to_s], :realm_id => realms(:myrealm).id}}, set_session_user
     assert_redirected_to hostgroups_url
   end
 
   def test_clone
     get :clone, {:id => Hostgroup.first}, set_session_user
     assert_template 'new'
-  end
-
-  def test_create_valid_json
-    Hostgroup.any_instance.stubs(:valid?).returns(true)
-    pc = Puppetclass.first
-    post :create, {:format => "json", "hostgroup" => {"name"=>"test_it", "group_parameters_attributes"=>{"1272344174448"=>{"name"=>"x", "value"=>"y", "_destroy"=>""}}, "puppetclass_ids"=>["", pc.id.to_s]}}, set_session_user
-    template = ActiveSupport::JSON.decode(@response.body)
-    assert template["hostgroup"]["name"] = "test_it"
-    assert_response :created
   end
 
   def test_edit
@@ -59,21 +42,14 @@ class HostgroupsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Hostgroup.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Hostgroup.first}, set_session_user
+    put :update, {:id => Hostgroup.first, :hostgroup => {}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Hostgroup.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Hostgroup.first}, set_session_user
+    put :update, {:id => Hostgroup.first, :hostgroup => {}}, set_session_user
     assert_redirected_to hostgroups_url
-  end
-
-  def test_update_valid_json
-    Hostgroup.any_instance.stubs(:valid?).returns(true)
-    put :update, {:format => "json", :id => Hostgroup.first}, set_session_user
-    template = ActiveSupport::JSON.decode(@response.body)
-    assert_response :ok
   end
 
   def test_destroy
@@ -83,28 +59,121 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert !Hostgroup.exists?(hostgroup.id)
   end
 
-  def test_destroy_json
-    hostgroup = hostgroups(:common)
-    delete :destroy, {:format => "json", :id => hostgroup.id}, set_session_user
-    template = ActiveSupport::JSON.decode(@response.body)
-    assert_response :ok
-    assert !Hostgroup.exists?(hostgroup.id)
-  end
-
-  def setup_user
-    @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+  def setup_user operation, type = 'hostgroups'
+    super
   end
 
   test 'user with viewer rights should fail to edit a hostgroup ' do
-    setup_user
+    setup_user "view"
     get :edit, {:id => Hostgroup.first.id}, set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing hostgroups' do
-    setup_user
+    setup_user "view"
     get :index, {}, set_session_user.merge(:user => users(:one).id)
     assert_response :success
   end
+
+  test 'owners of a hostgroup up in the hierarchy get ownership of all children' do
+    setup_user "create"
+    as_admin do
+      Hostgroup.new(:name => "root").save
+      Hostgroup.find_by_name("root").users << @one
+    end
+
+    post :create, {"hostgroup" => {"name"=>"first" , "parent_id"=> Hostgroup.find_by_name("root").id}},
+                  set_session_user.merge(:user => @one.id)
+    assert_response :redirect
+
+    post :create, {"hostgroup" => {"name"=>"second", "parent_id"=> Hostgroup.find_by_name("first").id}},
+                  set_session_user.merge(:user => @one.id)
+
+    assert_blank flash[:error]
+    assert_response :redirect
+
+    assert_equal @one, Hostgroup.find_by_name("first").users.first
+    assert_equal @one, Hostgroup.find_by_name("second").users.first
+  end
+
+  test "blank root password submitted does not erase existing password" do
+    hostgroup = hostgroups(:common)
+    old_root_pass = hostgroup.root_pass
+    as_admin do
+      put :update, {:commit => "Update", :id => hostgroup.id, :hostgroup => {:root_pass => ''} }, set_session_user
+    end
+    hostgroup = Hostgroup.find(hostgroup.id)
+    assert_equal old_root_pass, hostgroup.root_pass
+  end
+
+  test 'users subscribed to all hostgroups should be always added to hostgroup' do
+    User.current = User.first
+    one = users(:one)
+    one.update_attributes(:subscribe_to_all_hostgroups => true)
+
+    post :create, { "hostgroup" => { "name"=>"first" } }, set_session_user
+    post :create, { "hostgroup" => { "name"=>"second" } }, set_session_user
+
+    assert_equal one, Hostgroup.find_by_name("first").users.first
+    assert_equal one, Hostgroup.find_by_name("second").users.first
+  end
+
+  test 'users subscribed to all hostgroups should be always added to hostgroup created by non-admin users' do
+    setup_user 'create'
+    @one.update_attributes(:subscribe_to_all_hostgroups => true)
+    as_admin do
+      @two = users(:two)
+      @two.update_attributes(:subscribe_to_all_hostgroups => true)
+      @two.save!
+    end
+    post :create, { 'hostgroup' => { 'name'=>'first' } }, set_session_user.merge(:user => @one.id)
+    assert_equal 2, Hostgroup.find_by_name('first').users.length
+    assert_equal @one, Hostgroup.find_by_name('first').users.first
+    assert_equal @two, Hostgroup.find_by_name('first').users.last
+  end
+
+  test "users subscribed to all hostgroups should be always added to hostgroup created by non-admin user when the creater is already added to the new hosrgroup's ancestors" do
+    setup_user 'create'
+    as_admin do
+      Hostgroup.new(:name => "root").save
+      Hostgroup.find_by_name("root").users << @one
+      @two = users(:two)
+      @two.update_attributes(:subscribe_to_all_hostgroups => true)
+      @two.save!
+    end
+    post :create, {"hostgroup" => {"name"=>"first" , "parent_id"=> Hostgroup.find_by_name("root").id}},
+                  set_session_user.merge(:user => @one.id)
+    assert_equal 2, Hostgroup.find_by_name('first').users.length
+    assert_equal @one, Hostgroup.find_by_name('first').users.first
+    assert_equal @two, Hostgroup.find_by_name('first').users.last
+  end
+
+  test "hostgroup rename changes matcher" do
+    hostgroup = hostgroups(:common)
+    put :update, {:id => hostgroup.id, :hostgroup => {:name => 'new_common'}}, set_session_user
+    assert_equal 'hostgroup=new_common', lookup_values(:hostgroupcommon).match
+    assert_equal 'hostgroup=new_common', lookup_values(:four).match
+  end
+
+  test "hostgroup rename changes matcher" do
+    hostgroup = hostgroups(:common)
+    put :update, {:id => hostgroup.id, :hostgroup => {:name => 'new_common'}}, set_session_user
+    assert_equal 'hostgroup=new_common', lookup_values(:hostgroupcommon).match
+    assert_equal 'hostgroup=new_common', lookup_values(:four).match
+  end
+
+  test "hostgroup rename of parent changes matcher of parent and child hostgroup" do
+    hostgroup = hostgroups(:parent)
+    put :update, {:id => hostgroup.id, :hostgroup => {:name => 'new_parent'}}, set_session_user
+    assert_equal 'hostgroup=new_parent', lookup_values(:five).match
+    assert_equal 'hostgroup=new_parent/inherited', lookup_values(:six).match
+  end
+
+  test "hostgroup rename of child only changes matcher of child hostgroup" do
+    hostgroup = hostgroups(:inherited)
+    put :update, {:id => hostgroup.id, :hostgroup => {:name => 'new_child'}}, set_session_user
+    assert_equal 'hostgroup=Parent/new_child', lookup_values(:six).match
+  end
+
+
 end

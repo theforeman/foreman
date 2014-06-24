@@ -2,20 +2,14 @@ require 'test_helper'
 
 class ReportsControllerTest < ActionController::TestCase
   setup do
-    User.current = User.find_by_login "admin"
+    User.current = User.admin
   end
+
   def test_index
     get :index, {}, set_session_user
     assert_response :success
     assert_not_nil assigns('reports')
     assert_template 'index'
-  end
-
-  def test_index_via_json
-    get :index, {:format => "json"}, set_session_user
-    assert_response :success
-    reports = ActiveSupport::JSON.decode(@response.body)
-    assert !reports.empty?
   end
 
   def test_show
@@ -37,22 +31,6 @@ class ReportsControllerTest < ActionController::TestCase
     get :show, {:id => "last", :host_id => "blalala.domain.com"}, set_session_user
     assert_response :missing
     assert_template 'common/404'
-  end
-
-  def test_create_duplicate
-    create_a_puppet_transaction_report
-    User.current = nil
-    post :create, {:report => @log, :format => "yml"}
-    assert_response :success
-    post :create, {:report => @log, :format => "yml"}
-    assert_response :error
-  end
-
-  def test_create_valid
-    create_a_puppet_transaction_report
-    User.current = nil
-    post :create, {:report => @log, :format => "yml"}
-    assert_response :success
   end
 
   def test_destroy
@@ -82,13 +60,7 @@ class ReportsControllerTest < ActionController::TestCase
   end
 
   def create_a_report
-    create_a_puppet_transaction_report
-
-    @report = Report.import @log
-  end
-
-  def create_a_puppet_transaction_report
-    @log = File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-skipped.yaml"))
+    @report = Report.import JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-empty.json")))
   end
 
   def user_setup
@@ -101,4 +73,5 @@ class ReportsControllerTest < ActionController::TestCase
     get :index, {}, set_session_user
     assert_response :success
   end
+
 end

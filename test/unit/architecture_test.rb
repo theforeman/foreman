@@ -6,21 +6,21 @@ class ArchitectureTest < ActiveSupport::TestCase
   end
   test "should not save without a name" do
     architecture = Architecture.new
-    assert !architecture.save
+    assert_not architecture.save
   end
 
   test "name should not be blank" do
     architecture = Architecture.new :name => "   "
-    assert architecture.name.strip.empty?
-    assert !architecture.save
+    assert_empty architecture.name.strip
+    assert_not architecture.save
   end
 
   test "name should not contain white spaces" do
     architecture = Architecture.new :name => " i38  6 "
-    assert !architecture.name.strip.squeeze(" ").tr(' ', '').empty?
-    assert !architecture.save
+    assert_not_empty architecture.name.squeeze(" ").tr(' ', '')
+    assert_not architecture.save
 
-    architecture.name.strip!.squeeze!(" ").tr!(' ', '')
+    architecture.name.squeeze!(" ").tr!(' ', '')
     assert architecture.save
   end
 
@@ -29,12 +29,28 @@ class ArchitectureTest < ActiveSupport::TestCase
     assert architecture.save
 
     other_architecture = Architecture.new :name => "i386"
-    assert !other_architecture.save
+    assert_not other_architecture.save
   end
 
   test "to_s retrives name" do
     architecture = Architecture.new :name => "i386"
     assert architecture.to_s == architecture.name
+  end
+
+  test "should update hosts_count" do
+    arch = architectures(:sparc)
+    assert_difference "arch.hosts_count" do
+      hosts(:one).update_attribute(:architecture, arch)
+      arch.reload
+    end
+  end
+
+  test "should update hostgroups_count" do
+    arch = architectures(:sparc)
+    assert_difference "arch.hostgroups_count" do
+      hostgroups(:common).update_attribute(:architecture, arch)
+      arch.reload
+    end
   end
 
   test "should not destroy while using" do
@@ -45,62 +61,7 @@ class ArchitectureTest < ActiveSupport::TestCase
     host.architecture = architecture
     host.save(:validate => false)
 
-    assert !architecture.destroy
+    assert_not architecture.destroy
   end
 
-  def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_architectures"
-      role.permissions = ["#{operation}_architectures".to_sym]
-      @one.roles = [role]
-      @one.save!
-    end
-    User.current = @one
-  end
-
-  test "user with create permissions should be able to create" do
-    setup_user "create"
-    record =  Architecture.create :name => "dummy"
-    assert record.valid?
-    assert !record.new_record?
-  end
-
-  test "user with view permissions should not be able to create" do
-    setup_user "view"
-    record =  Architecture.create :name => "dummy"
-    assert record.valid?
-    assert record.new_record?
-  end
-
-  test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy"
-    record =  Architecture.first
-    as_admin do
-      record.hosts = []
-    end
-    assert record.destroy
-    assert record.frozen?
-  end
-
-  test "user with edit permissions should not be able to destroy" do
-    setup_user "edit"
-    record =  Architecture.first
-    assert !record.destroy
-    assert !record.frozen?
-  end
-
-  test "user with edit permissions should be able to edit" do
-    setup_user "edit"
-    record      =  Architecture.first
-    record.name = "renamed"
-    assert record.save
-  end
-
-  test "user with destroy permissions should not be able to edit" do
-    setup_user "destroy"
-    record      =  Architecture.first
-    record.name = "renamed"
-    assert !record.save
-  end
 end

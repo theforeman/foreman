@@ -1,19 +1,10 @@
 class PtablesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_ptable, :only => %w{show edit update destroy}
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
 
   def index
-    values = Ptable.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html { @ptables = values.paginate :page => params[:page], :include => [:operatingsystems] }
-      format.json { render :json => values }
-    end
-  end
-
-  def show
-    respond_to do |format|
-      format.json { render :json => @ptable }
-    end
+    @ptables = resource_base.includes(:operatingsystems).
+      search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new
@@ -46,11 +37,6 @@ class PtablesController < ApplicationController
     else
       process_error
     end
-  end
-
-  private
-  def find_ptable
-    @ptable = Ptable.find(params[:id])
   end
 
 end

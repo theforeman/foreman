@@ -17,23 +17,20 @@
 
 class RolesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :require_admin
+  before_filter :find_by_id, :only => [:clone, :edit, :update, :destroy]
 
   def index
-    values = Role.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html { @roles = values.paginate :page => params[:page] }
-      format.json { render :json => values }
-    end
+    @roles = Role.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
   end
 
   def new
     # Prefills the form with 'default user' role permissions
-    @role        = Role.new({:permissions => Role.default_user.permissions})
+    @role = Role.new({:permissions => Role.default_user.permissions})
   end
 
   def create
-    @role = Role.new(params[:role])
+    @role = role_from_form
+
     if @role.save
       process_success
     else
@@ -41,12 +38,18 @@ class RolesController < ApplicationController
     end
   end
 
+  def clone
+    @cloned_role      = true
+    @original_role_id = @role.id
+    notice(_("Role cloned from role %{old_name}") % { :old_name => @role.name })
+    @role = Role.new
+    render :action => :new
+  end
+
   def edit
-    @role = Role.find(params[:id])
   end
 
   def update
-    @role = Role.find(params[:id])
     if @role.update_attributes(params[:role])
       process_success
     else
@@ -55,7 +58,6 @@ class RolesController < ApplicationController
   end
 
   def destroy
-    @role = Role.find(params[:id])
     if @role.destroy
       process_success
     else
@@ -63,16 +65,32 @@ class RolesController < ApplicationController
     end
   end
 
-  def report
-    @roles = Role.all(:order => 'builtin, name')
-    @permissions = Foreman::AccessControl.permissions.select { |p| !p.public? }
-    if request.post?
-      @roles.each do |role|
-        role.permissions = params[:permissions][role.id.to_s]
-        role.save
-      end
-      notice "All non public permissions successfuly updated"
-      redirect_to roles_url
+  private
+
+  def find_by_id
+    @role = Role.find(params[:id])
+  end
+
+  def action_permission
+    case params[:action]
+      when 'clone'
+        'view'
+      else
+        super
     end
   end
+
+  def role_from_form
+    if params[:original_role_id].present?
+      new_role = Role.find(params[:original_role_id]).
+                   dup(:include => [:filters => :filterings])
+      new_role.name    = params[:role][:name]
+      new_role.builtin = false
+    else
+      new_role = Role.new(params[:role])
+    end
+
+    new_role
+  end
+
 end

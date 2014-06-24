@@ -1,19 +1,9 @@
 class MediaController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_medium, :only => %w{show edit update destroy}
+  before_filter :find_by_name, :only => %w{edit update destroy}
 
   def index
-    values = Medium.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html { @media = values.paginate(:page => params[:page], :include => [:operatingsystems]) }
-      format.json { render :json => values }
-    end
-  end
-
-  def show
-    respond_to do |format|
-      format.json { render :json => @medium.as_json({:only => [:name, :id, :path]}) }
-    end
+    @media = resource_base.includes(:operatingsystems).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new
@@ -46,11 +36,6 @@ class MediaController < ApplicationController
     else
       process_error
     end
-  end
-
-  private
-  def find_medium
-    @medium = Medium.find(params[:id])
   end
 
 end

@@ -1,0 +1,177 @@
+@import "mixin";
+@import "colors";
+
+$navbar-default-bg: $primary_color;
+
+@import "bootstrap";
+
+.dropdown-menu {
+  @include border_radius(0, 0, 6px, 6px);
+}
+
+// Necessary because bootstrap3 nav dropdown does not have top arrow
+.nav li .dropdown-menu:after {
+  content: '';
+  display: inline-block;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #ffffff;
+  position: absolute;
+  top: -6px;
+  left: 10px;
+}
+
+.navbar .navbar-right > li > .dropdown-menu:after,
+.navbar .nav > li > .dropdown-menu.pull-right:after {
+  left: auto;
+  right: 13px;
+}
+
+.nav li.dropdown-submenu .dropdown-menu:after{
+  display: none;
+}
+
+// Necessary because bootstrap3 does not support dropdown sub menus.
+.dropdown-submenu {
+  position:relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+  top:0;
+  left:100%;
+  margin-top:-6px;
+  margin-left:-1px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.dropdown-submenu > a:after {
+  display:block;content:" ";
+  float:right;
+  width:0;
+  height:0;
+  border-color:transparent;
+  border-style:solid;
+  border-width:5px 0 5px 5px;
+  border-left-color:#cccccc;
+  margin-top:5px;
+  margin-right:-10px;
+}
+
+.dropdown-submenu:hover > a:after {
+  border-left-color:#ffffff;
+}
+
+.dropdown-submenu.pull-left {
+  float:none;
+}
+
+.dropdown-submenu.pull-left > .dropdown-menu {
+  left:-100%;
+  margin-left:10px;
+}
+
+// Bootstrap 3 no longer has icon-color classes
+.icon-white {
+  color: white;
+}
+
+.badge.badge-inverse {
+  background-color: black;
+}
+
+span.input-group-btn .hidden-xs {display:inline !important;}
+@media (max-width: 768px) {
+  span.input-group-btn .hidden-xs {display:none !important;}
+}
+
+span.btn a{ text-decoration: none; color: #333333}
+
+// help-inline is not defined in Bootstrap3
+.help-inline{
+  margin-top: 0;
+  line-height: 2.428571;
+}
+
+.well {
+  padding: 19px 19px 19px 36px;
+  background-color: white;
+}
+
+.label-default {
+  background-color: #cccccc;
+}
+
+.form-actions {
+  padding: 19px 20px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.navbar.navbar-form{
+  background-color: #f8f8f8;
+  padding: 10px;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  margin-right: 18px;
+}
+
+.nav.nav-tabs{
+  margin-bottom: 20px;
+}
+
+.tab-content{
+  min-height: 420px;
+}
+
+.badge.close{
+  font-size: 14px;
+  opacity: 1;
+}
+
+.table > thead > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > th,
+.table > tbody > tr > td,
+.table > tfoot > tr > th,
+.table > tfoot > tr > td{
+  vertical-align: middle;
+}
+
+.btn-toolbar .btn-group{
+  float: none;
+}
+
+.popover{max-width: none}
+
+@-moz-document url-prefix() {
+  /* Workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
+  *, *:before, *:after {
+    background-clip: padding-box;
+  }
+}
+.smart-var-left{
+  max-height:500px;
+  direction: rtl;
+  float:left;
+  text-align: left;
+  overflow-y: auto;
+  padding-right:0;
+}
+.stacked-content.tab-content {
+  padding: 19px;
+  min-height: 460px;
+  border: 1px solid $primary_gradient_start;
+  @include box-shadow(-2px 0 5px 0px rgba(0, 0, 0, 0.2));
+}
+.nav.nav-pills.nav-stacked .btn.btn-success:hover{
+  background-color: #47a447;
+}
+
+.nav.nav-pills.nav-stacked {
+  padding-right: 0;
+  & > li > a {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}

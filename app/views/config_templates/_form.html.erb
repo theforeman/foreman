@@ -1,51 +1,103 @@
-<%= javascript 'config_template', 'ace/ace', 'ace/theme-twilight', 'ace/theme-dawn','ace/mode-ruby' %>
-<%= form_for @config_template, :html => { :multipart => true } do |f| %>
-  <%= base_errors_for @config_template %>
-  <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
-    <li><a href="#template_associations" data-toggle="tab">Association</a></li>
-  </ul>
+<%= include_javascript %>
+<%= form_for @config_template, :html => { :multipart => true, :onsubmit => 'submit_code();' } do |f| %>
+    <%= base_errors_for @config_template %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Provisioning Template") %></a></li>
+      <li><a href="#template_type" data-toggle="tab"><%= _("Type") %></a></li>
+      <li><a href="#template_associations" data-toggle="tab"><%= _("Association") %></a></li>
+      <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
+    </ul>
 
-  <div class="tab-content">
-    <div class="tab-pane active" id="primary">
-      <%= text_f f, :name %>
-      <%= checkbox_f f, :snippet, :onchange => "snippet_changed(this)" %>
+    <div class="tab-content">
+      <div class="tab-pane active" id="primary">
+        <%= text_f f, :name %>
 
-      <div id="kind_selector" <%= display? @config_template.snippet %>>
-        <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, :include_blank => true, :label => "Type" %>
+        <%= alert :class => 'alert-success', :header => '',
+                  :text  => icon_text("info-sign", (_('Note: %s ') % link_to(_('Useful template functions and macros'),
+                                                                       "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.4.3ProvisioningTemplates", :rel => 'external')).html_safe) %>
+        <div class='form-group'>
+          <label class="control-label" for="template"><%= _("Template editor") %></label>
+          <div class="navbar navbar-form">
+            <div class="btn-group" data-toggle="buttons" >
+              <label class="btn btn-default btn-sm active" onclick="set_code()">
+                <input type="radio" name="options" id="option1" ><%= _("Code") %>
+              </label>
+              <label class="btn btn-default btn-sm" onclick="set_preview()">
+                <input type="radio" name="options" id="option2" ><%= _("Preview") %>
+              </label>
+            </div>
+            <button type='button' class='btn btn-default btn-sm' onclick='set_fullscreen()' title="<%= _("Full screen") %>"><i class="glyphicon glyphicon-resize-full"></i></button>
+            <div class="fr">
+              <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'form-control input-sm') %>
+            </div>
+          </div>
+        </div>
+        <%= textarea_f f, :template, :class => "template_text", :label =>:none, :size => "max", :'data-file-name' => @config_template.name %>
+
+
+        <%= file_field_f f, :template, :class => "template_file",:size => "col-md-10",
+                         :help_block  => _("Selecting a file will override the editor and load the file instead") %>
+        <%= textarea_f f, :audit_comment, :size => "col-md-10", :rows => 3, :label => _("Audit Comment"),
+                       :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes") %>
+      </div>
+      <div class="tab-pane" id="template_type">
+        <%= checkbox_f f, :snippet, :onchange => "snippet_changed(this)", :label=>_('Snippet') %>
+
+        <div id="kind_selector" <%= display? @config_template.snippet %>>
+          <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, {:include_blank => true}, {:label => _("Type")} %>
+        </div>
+      </div>
+      <div class="tab-pane" id="history">
+        <% if @history.try(:any?) %>
+            <% @history.each do |audit| %>
+                <% next unless audit_template? audit %>
+                <div class='row'>
+                  <div class='col-md-6'>
+                    <b><%= audit_user(audit) %> <%= audit.comment %></b>
+                  </div>
+                  <div class='col-md-2 ra'><h6><%= audit_time audit %></h6></div>
+                  <div class='col-md-8 audit-content'>
+                    <%= link_to_function icon_text("retweet", _("Revert")), "revert_template(this)", :data => {:url => revision_config_templates_url, :version => audit.id } %>
+                    <%= link_to icon_text("eye-open", _("Show Diff")), audit_path(audit), :rel => 'external' %>
+                  </div>
+                </div>
+            <% end %>
+        <% else %>
+            <%= alert :header => _('No history found'), :text => _('Save something and try again') %>
+        <% end %>
       </div>
 
-      <%= textarea_f f, :template, :class => "span10 template_text", :label=>"Template editor",
-        :help_block =>"<i class='icon-info-sign'></i> Notice #{link_to 'Useful template functions and macros', 'http://theforeman.org/projects/foreman/wiki/TemplateWriting#Functions-and-macros',
-        :rel => "external"}".html_safe
-      %>
-      <%= file_field_f f, :template,:class => "template_file btn span4",
-                       :help_inline => "<a class='label label-important clear_file' title='clear file selection'>&times<a>".html_safe,
-                       :help_block => "<i class='icon-info-sign'></i> Selecting a file will override the editor and load the file instead".html_safe %>
-   </div>
-   <div class="tab-pane" id="template_associations">
-     <p id="snippet_message" class="alert alert-message" <%=  display? !@config_template.snippet%> >Not relevant for snippet</p>
-     <div id="association" <%=  display? @config_template.snippet%> >
-     <div class="alert alert-message alert-success">
-        <a class="close" href="#" data-dismiss="alert">&times;</a>
-        <h3>How Templates are determined<br></h3>
-        <p>When editing a Template, you must assign a list of Operating Systems which this
-        Template can be used with. Optionally, you can restrict a template to a list of
-        Hostgroups and/or Environments</p>
-        <p>When a Host requests a template (e.g. during provisioning), Foreman will select
-        the best match from the available templates of that type, in the following order:</p>
-        <ul>
-          <li>Host-group and Environment</li>
-          <li>Host-group only</li>
-          <li>Environment only</li>
-          <li>Operating system default</li>
-        </ul>
-        The final entry, Operating System default, can be set by editing the <%= link_to "Operating System", operatingsystems_path %> page.
-     </div>
-       <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => "Applicable<br>Operating Systems".html_safe%>
-       <%= render "combinations", :f => f %>
-     </div>
-   </div>
- </div>
- <%= submit_or_cancel f %>
+
+
+      <div class="tab-pane" id="template_associations">
+        <p id="snippet_message" class="alert alert-info" <%= display? !@config_template.snippet %> ><%= _("Not relevant for snippet") %></p>
+
+        <div id="association" <%= display? @config_template.snippet %> >
+          <div class="alert alert-success alert-dismissable">
+            <%= alert_close %>
+
+            <h3><%= _("How templates are determined") %><br></h3>
+
+            <p><%= _("When editing a Template, you must assign a list of Operating Systems which this Template can be used with. Optionally, you can restrict a template to a list of Hostgroups and/or Environments") %></p>
+
+            <p><%= _("When a Host requests a template (e.g. during provisioning), Foreman will select the best match from the available templates of that type, in the following order:") %></p>
+            <ul>
+              <li><%= _("Host group and Environment") %></li>
+              <li><%= _("Host group only") %></li>
+              <li><%= _("Environment only") %></li>
+              <li><%= _("Operating system default") %></li>
+            </ul>
+            <%= (_("The final entry, Operating System default, can be set by editing the %s page.") % (link_to _("Operating System"), operatingsystems_path)).html_safe %>
+          </div>
+          <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => _("Applicable<br>Operating Systems").html_safe %>
+          <%= render "combinations", :f => f %>
+        </div>
+      </div>
+      <%= submit_or_cancel f %>
+    </div>
+  <div class='exit-fullscreen hidden'>
+    <%= link_to_function icon_text('resize-small'), 'exit_fullscreen()', :class => 'btn btn-default btn-lg', :'data-placement'=>'bottom', :title => _('Exit Full Screen') %>
+  </div>
+  <div class='hide' id="old"><%= @config_template.template %></div>
+  <div class='hide' id="new"><%= @config_template.template %></div>
 <% end %>

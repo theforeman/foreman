@@ -1,45 +1,74 @@
 require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
-  PROVIDERS = %w[ Libvirt Ovirt EC2 Vmware ].delete_if{|p| p == "Libvirt" && !SETTINGS[:libvirt]}
-  audited :except => [:password]
+  include Taxonomix
+  include Encryptable
+  include Authorizable
+  encrypts :password
 
-  # to STI avoid namespace issues when loading the class, we append Foreman::Model in our database type column
-  STI_PREFIX= "Foreman::Model"
+  class_attribute :supported_providers
+  self.supported_providers = {
+    'Libvirt'   => 'Foreman::Model::Libvirt',
+    'Ovirt'     => 'Foreman::Model::Ovirt',
+    'EC2'       => 'Foreman::Model::EC2',
+    'Vmware'    => 'Foreman::Model::Vmware',
+    'Openstack' => 'Foreman::Model::Openstack',
+    'Rackspace' => 'Foreman::Model::Rackspace',
+    'GCE'       => 'Foreman::Model::GCE',
+  }
+
+  audited :except => [:password, :attrs], :allow_mass_assignment => true
+  serialize :attrs, Hash
+  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   before_destroy EnsureNotUsedBy.new(:hosts)
-  include Authorization
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
-  validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
-  validates_uniqueness_of :name
-  validates_presence_of :provider, :in => PROVIDERS
-  validates_presence_of :url
+  validates :name, :uniqueness => true, :format => { :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.") }
+  validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
+  validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :type, :complete_value => :true
+  scoped_search :on => :id, :complete_value => :true
   before_save :sanitize_url
-  has_many :hosts
+  has_many_hosts
   has_many :images, :dependent => :destroy
+  before_validation :set_attributes_hash
+  has_many :compute_attributes, :dependent => :destroy
+  has_many :compute_profiles, :through => :compute_attributes
+  # attribute used by *_names and *_name methods.  default is :name
+  attr_name :to_label
 
-  default_scope :order => 'LOWER(compute_resources.name)'
+  # The DB may contain compute resource from disabled plugins - filter them out here
+  scope :live_descendants, lambda { where(:type => self.descendants.map(&:to_s)) unless Rails.env.development? }
 
-  scope :my_compute_resources, lambda {
-    user = User.current
-    if user.admin?
-      conditions = { }
-    else
-      conditions = sanitize_sql_for_conditions([" (compute_resources.id in (?))", user.compute_resources.map(&:id)])
-      conditions.sub!(/\s*\(\)\s*/, "")
-      conditions.sub!(/^(?:\(\))?\s?(?:and|or)\s*/, "")
-      conditions.sub!(/\(\s*(?:or|and)\s*\(/, "((")
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    with_taxonomy_scope do
+      order("compute_resources.name")
     end
-    {:conditions => conditions}
   }
+
+  def self.register_provider(provider)
+    name = provider.name.split('::').last
+    return if supported_providers.values.include?(provider) || supported_providers.keys.include?(name)
+    supported_providers[name] = provider.name
+  end
+
+  def self.providers
+    supported_providers.reject { |p,c| !SETTINGS[p.downcase.to_sym] }.keys
+  end
+
+  def self.provider_class(name)
+    supported_providers[name]
+  end
 
   # allows to create a specific compute class based on the provider.
   def self.new_provider args
-    raise "must provide a provider" unless provider = args[:provider]
-    PROVIDERS.each do |p|
-      return eval("#{STI_PREFIX}::#{p}").new(args) if p.downcase == provider.downcase
+    raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider = args.delete(:provider)
+    self.providers.each do |p|
+      return self.provider_class(p).constantize.new(args) if p.downcase == provider.downcase
     end
-    raise "unknown Provider"
+    raise ::Foreman::Exception.new N_("unknown provider")
   end
 
   def capabilities
@@ -51,8 +80,13 @@ class ComputeResource < ActiveRecord::Base
     {:uuid => :identity}
   end
 
-  def test_connection
+  def test_connection options = {}
     valid?
+  end
+
+  def ping
+    test_connection
+    errors
   end
 
   def save_vm uuid, attr
@@ -69,15 +103,23 @@ class ComputeResource < ActiveRecord::Base
     "#{name} (#{provider_friendly_name})"
   end
 
+  # Override this method to specify provider name
+  def self.provider_friendly_name
+    self.name.split('::').last()
+  end
+
   def provider_friendly_name
-    list = SETTINGS[:libvirt] ? ["Libvirt"] : []
-    list += %w[ oVirt EC2 VMWare ]
-    list[PROVIDERS.index(provider)] rescue ""
+    self.class.provider_friendly_name
+  end
+
+  def image_param_name
+    :image_id
   end
 
   # returns a new fog server instance
   def new_vm attr={}
-    client.servers.new vm_instance_defaults.merge(attr)
+    test_connection
+    client.servers.new vm_instance_defaults.merge(attr.to_hash.symbolize_keys) if errors.empty?
   end
 
   # return fog new interface ( network adapter )
@@ -86,7 +128,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   # return a list of virtual machines
-  def vms
+  def vms(opts = {})
     client.servers
   end
 
@@ -103,7 +145,9 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def create_vm args = {}
-    client.servers.create vm_instance_defaults.merge(args.to_hash)
+    options = vm_instance_defaults.merge(args.to_hash.symbolize_keys)
+    logger.debug("creating VM with the following options: #{options.inspect}")
+    client.servers.create options
   rescue Fog::Errors::Error => e
     logger.debug "Fog error: #{e.message}\n " + e.backtrace.join("\n ")
     errors.add(:base, e.message.to_s)
@@ -112,28 +156,31 @@ class ComputeResource < ActiveRecord::Base
 
   def destroy_vm uuid
     find_vm_by_uuid(uuid).destroy
+  rescue ActiveRecord::RecordNotFound
+    # if the VM does not exists, we don't really care.
+    true
   end
 
   def provider
-    read_attribute(:type).to_s.gsub("#{STI_PREFIX}::","")
+    read_attribute(:type).to_s.split('::').last
   end
 
   def provider=(value)
-    if PROVIDERS.include? value
-      self.type = "#{STI_PREFIX}::#{value}"
+    if self.class.providers.include? value
+      self.type = self.class.provider_class(value)
+    else
+      raise ::Foreman::Exception.new N_("unknown provider")
     end
   end
 
   def vm_instance_defaults
-    {
-      'name' => "foreman_#{Time.now.to_i}",
-    }
+    ActiveSupport::HashWithIndifferentAccess.new(:name => "foreman_#{Time.now.to_i}")
   end
 
-  def hardware_profiles(opts={})
+  def templates(opts={})
   end
 
-  def hardware_profile(id,opts={})
+  def template(id,opts={})
   end
 
   def update_required?(old_attrs, new_attrs)
@@ -145,18 +192,52 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
-  def as_json(options={})
-    super({:except => [:password]}.merge(options))
+  def console uuid = nil
+    raise ::Foreman::Exception.new(N_("%s console is not supported at this time"), provider_friendly_name)
   end
 
-  def console uuid = nil
-    raise "#{provider} console is not supported at this time"
+  # by default, our compute providers do not support updating an existing instance
+  def supports_update?
+    false
+  end
+
+  def available_images
+    []
+  end
+
+  def available_networks
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  def available_clusters
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  def available_storage_domains
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  def set_console_password?
+    self.attrs[:setpw] == 1 || self.attrs[:setpw].nil?
+  end
+
+  def set_console_password=(setpw)
+    self.attrs[:setpw] = setpw.to_i
+  end
+
+  def compute_profile_attributes_for(id)
+    compute_attributes.find_by_compute_profile_id(id).try(:vm_attrs) || {}
+  end
+
+  def vm_compute_attributes_for(uuid)
+    vm = find_vm_by_uuid(uuid)
+    vm.attributes.reject{|k,v| k == :id }
   end
 
   protected
 
   def client
-    raise "Not implemented"
+    raise ::Foreman::Exception.new N_("Not implemented")
   end
 
   def sanitize_url
@@ -164,6 +245,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def random_password
+    return nil unless set_console_password?
     n = 8
     chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     (0...n).map { chars[rand(chars.length)].chr }.join
@@ -186,20 +268,8 @@ class ComputeResource < ActiveRecord::Base
 
   private
 
-  def enforce_permissions operation
-    # We get called again with the operation being set to create
-    return true if operation == "edit" and new_record?
-    current = User.current
-    if current.allowed_to?("#{operation}_compute_resources".to_sym)
-      # If you can create compute resources then you can create them anywhere
-      return true if operation == "create"
-      # edit or delete
-      if current.allowed_to?("#{operation}_compute_resources".to_sym)
-        return true if ComputeResource.my_compute_resources(current).include? self
-      end
-    end
-    errors.add :base, "You do not have permission to #{operation} this compute resource"
-    false
+  def set_attributes_hash
+    self.attrs ||= {}
   end
 
 end

@@ -1,19 +1,19 @@
-<% new = f.object && f.object.new? -%>
-<%= text_f f, :name, :disabled => !new if controller_name != "hosts" %>
-<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "input-mini",:disabled => !new %>
-<%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "span2", :disabled => !new %>
+<% new = f.object && f.object.try(:new_record?) %>
+<%= text_f f, :name, :disabled => !new if show_vm_name? %>
+<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :disabled => !new, :label => _('CPUs') %>
+<%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "col-md-2", :disabled => !new, :label => _('Memory') %>
 
 <!--NICS-->
 <div class="children_fields">
   <%= new_child_fields_template(f, :nics, {
       :object  => compute_resource.new_nic,
       :partial => 'compute_resources_vms/form/libvirt/network', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
-  <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => 'Networks' do -%>
+  <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => _('Networks') do %>
     <%= f.fields_for :nics do |i| %>
       <%= render 'compute_resources_vms/form/libvirt/network', :f => i, :compute_resource => compute_resource %>
-    <% end -%>
-    <%= add_child_link "+ Add Interface", :nics, { :class => "info", :title => 'add new network interface' } %>
-  <% end -%>
+    <% end %>
+    <%= add_child_link '+ ' + _("Add Interface"), :nics, { :class => "info disable-unsupported", :title => _('add new network interface') } %>
+  <% end %>
 </div>
 
 <!--Storage-->
@@ -21,13 +21,27 @@
   <%= new_child_fields_template(f, :volumes, {
       :object  => compute_resource.new_volume,
       :partial => 'compute_resources_vms/form/libvirt/volume', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
-  <%= field_set_tag "Storage", :id => "storage_volumes", :title => 'Storage' do -%>
+  <%= field_set_tag "Storage", :id => "storage_volumes", :title => _('Storage') do %>
     <%= f.fields_for :volumes do |i| %>
       <%= render 'compute_resources_vms/form/libvirt/volume', :f => i, :compute_resource => compute_resource %>
-    <% end -%>
-    <%= add_child_link "+ Add Volume", :volumes, { :class => "info", :title => 'add new storage volume' } %>
-  <% end -%>
+    <% end %>
+    <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info disable-unsupported", :title => _('add new storage volume') } %>
+  <% end %>
 </div>
 <!--TODO # Move to a helper-->
-<% checked = params[:host]&&params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => "Power ON this machine" } if new %>
+<% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start')} if new && controller_name != "compute_attributes" %>
+
+<%
+   arch ||= nil ; os ||= nil
+   images = possible_images(compute_resource, arch, os)
+-%>
+<div id='image_selection'>
+  <%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')},
+             { :disabled    => images.empty? || (params[:host] && params[:host][:provision_method] == 'build'),
+               :'data-url'  => template_selected_compute_resource_path(compute_resource),
+               :onchange    => 'libvirt_image_selected(this);',
+               :help_inline => :indicator,
+               :help_block  => _("Image to use"),
+               :label => _('Image')} %>
+</div>

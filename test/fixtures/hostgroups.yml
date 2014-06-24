@@ -9,10 +9,14 @@ common:
   medium: one
   puppet_proxy: puppetmaster
   domain: mydomain
+  title: Common
+  root_pass: $1$foreman$NW1XVtbk4/XkJqmKNrFWV0
+  compute_profile: one
 
 unusual:
   name: Unusual
   puppet_proxy: puppetmaster
+  title: Unusual
 
 db:
   name: db
@@ -22,11 +26,25 @@ db:
   operatingsystem: centos5_3
   medium: one
   puppet_proxy: puppetmaster
-  vm_defaults:
-    network_type: bridge
-    memory: "1048576"
-    disk_size: "8"
-    storage_pool: default
-    hypervisor_id: 123
-    interface: br0
-    vcpu: "1"
+  title: db
+
+parent:
+  name: Parent
+  title: Parent
+  architecture: x86_64
+  ptable: one
+  environment: global_puppetmaster
+  operatingsystem: centos5_3
+  medium: one
+  puppet_proxy: puppetmaster
+  puppet_ca_proxy: puppetmaster
+  domain: mydomain
+  subnet: three
+  compute_profile: one
+  id: 1
+
+inherited:
+  name: inherited
+  environment: production
+  title: Parent/inherited
+  ancestry: 1

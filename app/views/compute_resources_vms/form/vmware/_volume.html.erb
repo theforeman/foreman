@@ -1,0 +1,13 @@
+<div class="fields">
+  <%= selectable_f f, :datastore, vsphere_datastores(compute_resource), { }, :class => "span5 disable-unsupported", :label => _("Data store") %>
+  <%= text_f f, :name, :class => "col-md-2 disable-unsupported", :label => _("Name") %>
+  <%= text_f f, :size_gb,
+             :class       => "col-md-2 disable-unsupported",
+             :label => _("Size (GB)") %>
+  <%= checkbox_f f, :thin, {
+             :label => _("Thin provision"),
+             :class => 'disable-unsupported',
+             :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove volume'), :class => 'label label-danger disable-unsupported' })},
+             "true",
+             "false" %>
+</div>

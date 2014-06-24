@@ -17,10 +17,10 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "name shouldn't contain white spaces" do
     operating_system = Operatingsystem.new :name => " U bun     tu ", :major => "9"
-    assert !operating_system.name.strip.squeeze(" ").tr(' ', '').empty?
+    assert !operating_system.name.squeeze(" ").tr(' ', '').empty?
     assert !operating_system.save
 
-    operating_system.name.strip!.squeeze!(" ").tr!(' ', '')
+    operating_system.name.squeeze!(" ").tr!(' ', '')
     assert !operating_system.name.include?(' ')
     assert operating_system.save
   end
@@ -76,64 +76,154 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert operating_system.to_s == operating_system.to_label
   end
 
-  def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_operatingsystems"
-      role.permissions = ["#{operation}_operatingsystems".to_sym]
-      @one.roles = [role]
-      @one.save!
+  test "should find by fullname string" do
+    str = "Redhat 6.1"
+    os = Operatingsystem.find_by_to_label(str)
+    assert_equal str, os.fullname
+  end
+
+  test "should find by fullname if description does not exist" do
+    str = "centos 5.3"
+    os = Operatingsystem.find_by_to_label(str)
+    assert_equal str, os.to_label
+  end
+
+  test "should set description by setting to_label" do
+    os = operatingsystems(:centos5_3)
+    os.update_attributes(:to_label => "CENTOS 5.3")
+    assert_equal os.description, os.to_label
+  end
+
+  test "should have unique description if not blank to be valid" do
+    os = operatingsystems(:centos5_3)
+    assert os.valid?
+    os.description = "RHEL 6.1"
+    refute os.valid?
+    assert os.errors[:description].include?("has already been taken")
+  end
+
+  test "should return os label (description or fullname) for method operatingsystem_names" do
+    medium = media(:one)
+    assert_equal 2, medium.operatingsystem_ids.count
+    assert_equal 2, medium.operatingsystem_names.count
+    assert_equal ["RHEL 6.1", "centos 5.3"], medium.operatingsystem_names.sort
+  end
+
+  test "should add os association by passing os labels (description or fullname) of operatingsystems" do
+    medium = media(:one)
+    medium.operatingsystem_names = ["centos 5.3", "RHEL 6.1", "Ubuntu 10.10"]
+    assert_equal 3, medium.operatingsystem_ids.count
+    assert_equal 3, medium.operatingsystem_names.count
+    assert_equal ["RHEL 6.1", "Ubuntu 10.10", "centos 5.3"], medium.operatingsystem_names.sort
+  end
+
+  test "should add os association by passing os fullname even if description exists" do
+    medium = media(:one)
+    # pass Redhat 6.1 rather than RHEL 6.1
+    medium.operatingsystem_names = ["centos 5.3", "Redhat 6.1", "Ubuntu 10.10"]
+    assert_equal 3, medium.operatingsystem_ids.count
+    assert_equal 3, medium.operatingsystem_names.count
+    assert_equal ["RHEL 6.1", "Ubuntu 10.10", "centos 5.3"], medium.operatingsystem_names.sort
+  end
+
+  test "should delete os associations by passing os labels (description or fullname) of operatingsystems" do
+    medium = media(:one)
+    medium.operatingsystem_names = ["centos 5.3"]
+    assert_equal 1, medium.operatingsystem_ids.count
+    assert_equal 1, medium.operatingsystem_names.count
+    assert_equal ["centos 5.3"], medium.operatingsystem_names
+  end
+
+  describe "families" do
+    let(:os) { Operatingsystem.new :name => "dummy", :major => 7 }
+
+    test "os family can be one of defined os families" do
+      os.family = Operatingsystem.families[0]
+      assert os.valid?
     end
-    User.current = @one
-  end
 
-  test "user with create permissions should be able to create" do
-    setup_user "create"
-    record =  Operatingsystem.create :name => "dummy", :major => 7
-    assert record.valid?
-    assert !record.new_record?
-  end
-
-  test "user with view permissions should not be able to create" do
-    setup_user "view"
-    record =  Operatingsystem.create :name => "dummy", :major => 7
-    assert record.valid?
-    assert record.new_record?
-  end
-
-  test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy"
-    record =  Operatingsystem.first
-    as_admin do
-      record.hosts = []
+    test "os family can't be anything else than defined os families" do
+      os.family = "unknown"
+      assert !os.valid?
     end
-    assert record.destroy
-    assert record.frozen?
-  end
 
-  test "user with edit permissions should not be able to destroy" do
-    setup_user "edit"
-    record =  Operatingsystem.first
-    assert !record.destroy
-    assert !record.frozen?
-  end
-
-  test "user with edit permissions should be able to edit" do
-    setup_user "edit"
-    record      =  Operatingsystem.first
-    record.name = "renamed"
-    assert record.save
-  end
-
-  test "user with destroy permissions should not be able to edit" do
-    setup_user "destroy"
-    record      =  Operatingsystem.first
-    record.name = "renamed"
-    as_admin do
-      record.hosts = []
+    test "os family can be nil" do
+      os.family = nil
+      assert os.valid?
     end
-    assert !record.save
-    assert record.valid?
+
+    test "setting os family to a blank string is valid" do
+      os.family = ""
+      assert os.valid?
+    end
+
+    test "blank os family is saved as nil" do
+      os.family = ""
+      assert_equal nil, os.family
+    end
+
+    test "deduce_family correctly returns the family when not set" do
+      os.name = 'Redhat'
+      refute os.family
+      assert_equal 'Redhat', os.deduce_family
+    end
+
+    test "set_family correctly sets the family" do
+      os.name = 'Redhat'
+      os.save
+      assert_equal 'Redhat', os.reload.family
+    end
+
+    test "families_as_collection contains correct names and values" do
+      families = Operatingsystem.families_as_collection
+      assert_equal ["AIX", "Arch Linux", "Debian", "FreeBSD", "Gentoo", "Junos", "Red Hat", "SUSE", "Solaris", "Windows"], families.map(&:name).sort
+      assert_equal ["AIX", "Archlinux", "Debian", "Freebsd", "Gentoo", "Junos", "Redhat", "Solaris", "Suse", "Windows"], families.map(&:value).sort
+    end
   end
 
+  describe "descriptions" do
+    test "Redhat LSB description should be correctly shortened" do
+      assert_equal 'RHEL 6.4', Redhat.shorten_description("Red Hat Enterprise Linux release 6.4 (Santiago)")
+    end
+
+    test "Fedora LSB description should be correctly shortened" do
+      assert_equal 'Fedora 19', Redhat.shorten_description("Fedora release 19 (Schrodinger's Cat)")
+    end
+
+    test "Debian LSB description should be correctly shortened" do
+      assert_equal 'Debian 7.1', Debian.shorten_description("Debian GNU/Linux 7.1 (wheezy)")
+    end
+
+    test "Ubuntu LSB is unaltered" do
+      assert_equal 'Ubuntu 12.04.3 LTS', Debian.shorten_description("Ubuntu 12.04.3 LTS")
+    end
+
+    test "SLES LSB description should be correctly shortened" do
+      assert_equal 'SLES 11', Suse.shorten_description("SUSE Linux Enterprise Server 11 (x86_64)")
+    end
+
+    test "openSUSE LSB description should be correctly shortened" do
+      assert_equal 'openSUSE 11.4', Suse.shorten_description("openSUSE 11.4 (x86_64)")
+    end
+
+    test "OSes without a shorten_description method fall back to description" do
+      assert_equal 'Arch Linux', Archlinux.shorten_description("Arch Linux")
+    end
+  end
+
+  test "should update hosts_count" do
+    os = operatingsystems(:ubuntu1010)
+    assert_difference "os.hosts_count" do
+      hosts(:one).update_attribute(:operatingsystem, os)
+      os.reload
+    end
+  end
+
+  test "should update hostgroups_count" do
+    os = operatingsystems(:ubuntu1010)
+    assert_difference "os.hostgroups_count" do
+      hostgroups(:common).update_attribute(:operatingsystem, os)
+      os.reload
+    end
+  end
 end

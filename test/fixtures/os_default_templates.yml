@@ -2,20 +2,45 @@
 
 one:
   config_template: mystring
-  template_kind: gpxe
-  operatingsystem: centos5_3
+  template_kind: ipxe
+  operatingsystem: redhat
 
 two:
   config_template: mystring2
   template_kind: provision
-  operatingsystem: centos5_3
+  operatingsystem: redhat
 
 three:
   config_template: myscript
   template_kind:  script
-  operatingsystem: centos5_3
+  operatingsystem: redhat
 
 four:
   config_template: pxekickstart
   template_kind: PXELinux
-  operatingsystem: centos5_3
+  operatingsystem: redhat
+
+five:
+  config_template: pxegrub
+  template_kind: pxegrub
+  operatingsystem: redhat
+
+six:
+  config_template: ipxe
+  template_kind: ipxe
+  operatingsystem: redhat
+
+seven:
+  config_template: mystring2
+  template_kind: provision
+  operatingsystem: ubuntu1010
+
+eight:
+  config_template: pxekickstart
+  template_kind: PXELinux
+  operatingsystem: ubuntu1010
+
+nine:
+  config_template: myfinish
+  template_kind: finish
+  operatingsystem: ubuntu1010

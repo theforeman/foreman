@@ -1,43 +1,70 @@
 class SmartProxiesController < ApplicationController
+
+  include Foreman::Controller::AutoCompleteSearch
+  before_filter :find_by_name, :only => [:edit, :update, :refresh, :ping, :destroy]
+
   def index
-    respond_to do |format|
-      format.html {@proxies = SmartProxy.paginate :page => params[:page]}
-      format.json {render :json => SmartProxy.all}
-    end
+    @smart_proxies = resource_base.includes(:features).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new
-    @proxy = SmartProxy.new
+    @smart_proxy = SmartProxy.new
   end
 
   def create
-    @proxy = SmartProxy.new(params[:smart_proxy])
-    if @proxy.save
-      process_success :object => @proxy
+    @smart_proxy = SmartProxy.new(params[:smart_proxy])
+    if @smart_proxy.save
+      process_success :object => @smart_proxy
     else
-      process_error :object => @proxy
+      process_error :object => @smart_proxy
     end
   end
 
   def edit
-    @proxy = SmartProxy.find(params[:id])
+  end
+
+  def ping
+    respond_to do |format|
+      format.json {render :json => errors_hash(@smart_proxy.refresh)}
+    end
+  end
+
+  def refresh
+    old_features = @smart_proxy.features
+    if @smart_proxy.refresh.blank? && @smart_proxy.save
+      msg = @smart_proxy.features == old_features ? _("No changes found when refreshing features from %s.") : _("Successfully refreshed features from %s.")
+      process_success :object => @smart_proxy, :success_msg => msg % @smart_proxy.name
+    else
+      process_error :object => @smart_proxy
+    end
   end
 
   def update
-    @proxy = SmartProxy.find(params[:id])
-    if @proxy.update_attributes(params[:smart_proxy])
-      process_success :object => @proxy
+    if @smart_proxy.update_attributes(params[:smart_proxy])
+      process_success :object => @smart_proxy
     else
-      process_error :object => @proxy
+      process_error :object => @smart_proxy
     end
   end
 
   def destroy
-    @proxy = SmartProxy.find(params[:id])
-    if @proxy.destroy
-      process_success :object => @proxy
+    if @smart_proxy.destroy
+      process_success :object => @smart_proxy
     else
-      process_error :object => @proxy
+      process_error :object => @smart_proxy
+    end
+  end
+
+  private
+
+  def action_permission
+    case params[:action]
+      when 'refresh'
+        :edit
+      when 'ping'
+        :view
+      else
+        super
     end
   end
 end

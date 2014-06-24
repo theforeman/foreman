@@ -24,7 +24,7 @@ class SubnetTest < ActiveSupport::TestCase
     @subnet.mask = nil
     assert !@subnet.save
 
-    set_attr(:mask=)
+    @subnet.mask = "255.255.255.0"
     assert @subnet.save
   end
 
@@ -51,23 +51,24 @@ class SubnetTest < ActiveSupport::TestCase
   test "the name should be unique in the domain scope" do
     create_a_domain_with_the_subnet
 
-    other_subnet = Subnet.create( :mask => "111.111.111.1",
+    other_subnet = Subnet.new( :mask => "111.111.111.1",
                                  :network => "255.255.252.0",
                                  :name => "valid",
-                                 :domains => [@domain] )
-    other_subnet.valid?
+                                 :domain_ids => [domains(:mydomain).id] )
+    assert !other_subnet.valid?
     assert !other_subnet.save
   end
 
   test "when to_label is applied should show the domain, the mask and network" do
     create_a_domain_with_the_subnet
 
-    assert_equal "123.123.123.1/24", @subnet.to_label
+    assert_equal "valid (123.123.123.1/24)", @subnet.to_label
   end
 
   test "should find the subnet by ip" do
-    set_attr(:network=, :mask=, :domains=, :name=)
+    @subnet = Subnet.new(:network => "123.123.123.1",:mask => "255.255.255.0",:name => "valid")
     assert @subnet.save
+    assert @subnet.domain_ids = [domains(:mydomain).id]
     assert_equal @subnet, Subnet.subnet_for("123.123.123.1")
   end
 
@@ -79,70 +80,10 @@ class SubnetTest < ActiveSupport::TestCase
 
   def create_a_domain_with_the_subnet
     @domain = Domain.find_or_create_by_name("domain")
-    set_attr(:network=, :mask=, :name=)
-    @subnet.domains = [@domain]
-    @subnet.save
-  end
-
-  def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_subnets"
-      role.permissions = ["#{operation}_subnets".to_sym]
-      @one.roles = [role]
-      @one.save!
-    end
-    User.current = @one
-  end
-
-  test "user with create permissions should be able to create" do
-    setup_user "create"
-    record = Subnet.create :name => "dummy2", :network => "1.2.3.4", :mask => "255.255.255.0", :domains => [Domain.first]
-    assert record.valid?
-    assert !record.new_record?
-  end
-
-  test "user with view permissions should not be able to create" do
-    setup_user "view"
-    record =  Subnet.create :name => "dummy", :network => "1.2.3.4", :mask => "255.255.255.0", :domains => [Domain.first]
-    assert record.valid?
-    assert record.new_record?
-  end
-
-  test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy"
-    record = subnets(:two)
-    as_admin do
-      record.domains = []
-      record.hosts.clear
-    end
-    assert record.destroy
-    assert record.frozen?
-  end
-
-  test "user with edit permissions should not be able to destroy" do
-    setup_user "edit"
-    record =  Subnet.first
-    assert !record.destroy
-    assert !record.frozen?
-  end
-
-  test "user with edit permissions should be able to edit" do
-    setup_user "edit"
-    record      =  Subnet.first
-    record.name = "renamed"
-    assert record.save
-  end
-
-  test "user with destroy permissions should not be able to edit" do
-    setup_user "destroy"
-    record      =  Subnet.first
-    record.name = "renamed"
-    as_admin do
-      record.domains = [domains(:unuseddomain)]
-    end
-    assert !record.save
-    assert record.valid?
+    @subnet = Subnet.new(:network => "123.123.123.1",:mask => "255.255.255.0",:name => "valid")
+    assert @subnet.save
+    assert @subnet.domain_ids = [domains(:mydomain).id]
+    @subnet.save!
   end
 
   test "from cant be bigger than to range" do
@@ -172,6 +113,82 @@ class SubnetTest < ActiveSupport::TestCase
     assert !s.save
     s.to   = "2.3.4.17"
     assert s.save
+  end
+
+  test "should strip whitespace before save" do
+    s = subnets(:one)
+    s.network = " 10.0.0.22   "
+    s.mask = " 255.255.255.0   "
+    s.gateway = " 10.0.0.138   "
+    s.dns_primary = " 10.0.0.50   "
+    s.dns_secondary = " 10.0.0.60   "
+    assert s.save
+    assert_equal "10.0.0.22", s.network
+    assert_equal "255.255.255.0", s.mask
+    assert_equal "10.0.0.138", s.gateway
+    assert_equal "10.0.0.50", s.dns_primary
+    assert_equal "10.0.0.60", s.dns_secondary
+  end
+
+  test "should fix typo with extra dots to single dot" do
+    s = subnets(:one)
+    s.network = "10..0.0..22"
+    assert s.save
+    assert_equal "10.0.0.22", s.network
+  end
+
+  test "should fix typo with extra 5 after 255" do
+    s = subnets(:one)
+    s.mask = "2555.255.25555.0"
+    assert s.save
+    assert_equal "255.255.255.0", s.mask
+  end
+
+  test "should not allow an address great than 15 characters" do
+    s = subnets(:one)
+    s.mask = "255.255.255.1111"
+    refute s.save
+    assert_match /must be at most 15 characters/, s.errors.full_messages.join("\n")
+  end
+
+  test "should invalidate addresses are indeed invalid" do
+    s = subnets(:one)
+    # trailing dot
+    s.network = "100.101.102.103."
+    refute s.valid?
+    # more than 3 characters
+    s.network = "1234.101.102.103"
+    # missing dot
+    s.network = "100101.102.103."
+    refute s.valid?
+    # greater than 255
+    s.network = "300.300.300.0"
+    refute s.valid?
+    # missing number
+    s.network = "100.101.102"
+    refute s.valid?
+    assert_equal "is invalid", s.errors[:network].first
+  end
+
+  # test module StripWhitespace which strips leading and trailing whitespace on :name field
+  test "should strip whitespace on name" do
+    s = Subnet.new(:name => '    ABC Network     ', :network => "10.10.20.1", :mask => "255.255.255.0")
+    assert s.save!
+    assert_equal "ABC Network", s.name
+  end
+
+  test "should not destroy if hostgroup uses it" do
+    hostgroup = FactoryGirl.create(:hostgroup, :with_subnet)
+    subnet = hostgroup.subnet
+    refute subnet.destroy
+    assert_match /is used by/, subnet.errors.full_messages.join("\n")
+  end
+
+  test "should not destroy if host uses it" do
+    host = FactoryGirl.create(:host, :with_subnet)
+    subnet = host.subnet
+    refute subnet.destroy
+    assert_match /is used by/, subnet.errors.full_messages.join("\n")
   end
 
 end

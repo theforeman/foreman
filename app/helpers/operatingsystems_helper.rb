@@ -16,8 +16,20 @@ module OperatingsystemsHelper
       "Centos"
     when /scientific/i
       "Scientific"
+    when /archlinux/i
+      "Archlinux"
+    when /gentoo/i
+      "Gentoo"
     when /SLC/i
       "SLC"
+    when /FreeBSD/i
+      "FreeBSD"
+    when /aix/i
+      "AIX"
+    when /Junos/i
+      "Junos"
+    when /OracleLinux/i
+      "OracleLinux"
     else
       return "" if record.family.blank?
       record.family
@@ -27,7 +39,12 @@ module OperatingsystemsHelper
   end
 
   def os_name record, opts = {}
-    "#{icon(record, opts)} #{record}".html_safe
+    "#{icon(record, opts)} #{record.to_label}".html_safe
+  end
+
+  def os_habtm_family type, obj
+    result = type.where(:os_family => obj.family)
+    result.empty? ? type : result
   end
 
 end

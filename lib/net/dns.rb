@@ -50,6 +50,7 @@ module Net
       end
 
       def create
+        raise "Must define a hostname" if hostname.blank?
         logger.info "Add DNS #{type} record for #{to_s}"
       end
 

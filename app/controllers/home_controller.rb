@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   skip_before_filter :require_login, :only => [:status]
-  skip_before_filter :authorize, :only => [:status]
+  skip_before_filter :authorize, :set_taxonomy, :only => [:status]
   skip_before_filter :session_expiry, :update_activity_time, :only => :status
 
   def settings
@@ -25,7 +25,7 @@ class HomeController < ApplicationController
     yield
     result[:result] = 'ok'
     result[:status] = 200
-    result[:version] = SETTINGS[:version]
+    result[:version] = SETTINGS[:version].full
     result[:db_duration_ms] = ((Time.now - start) * 1000).round.to_s
   rescue Exception => e
     result[:result] = 'fail'

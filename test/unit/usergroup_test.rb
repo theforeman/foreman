@@ -1,23 +1,25 @@
 require 'test_helper'
 
 class UsergroupTest < ActiveSupport::TestCase
+
   setup do
     User.current = User.find_by_login("admin")
   end
+
   test "usergroups should be creatable" do
-    assert Usergroup.create(:name => "name").valid?
+    assert FactoryGirl.build(:usergroup).valid?
   end
 
   test "name should be unique" do
-    one = Usergroup.create :name => "one"
-    two = Usergroup.create :name => "one"
+    one = FactoryGirl.create(:usergroup)
+    two = FactoryGirl.build(:usergroup, :name => one.name)
 
     assert !two.valid?
   end
 
   test "name is unique across user as well as usergroup" do
     user = User.create :auth_source => auth_sources(:one), :login => "user", :mail  => "user@someware.com"
-    usergroup  = Usergroup.create :name => "user"
+    usergroup = FactoryGirl.build(:usergroup, :name => user.login)
 
     assert !usergroup.valid?
   end
@@ -79,6 +81,7 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "cannot be destroyed when in use by a host" do
+    disable_orchestration
     @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
     @h1  = hosts(:one)
     @h1.update_attributes :owner => @ug1
@@ -86,12 +89,13 @@ class UsergroupTest < ActiveSupport::TestCase
     assert_equal @ug1.errors.full_messages[0], "ug1 is used by #{@h1}"
   end
 
-  test "cannot be destroyed when in use by another usergroup" do
+  test "can be destroyed when in use by another usergroup, it removes association automatically" do
     @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
     @ug2 = Usergroup.find_or_create_by_name :name => "ug2"
     @ug1.usergroups = [@ug2]
-    @ug1.destroy
-    assert @ug1.errors.full_messages[0] == "ug1 is used by ug2"
+    assert @ug1.destroy
+    assert @ug2.reload
+    assert_empty UsergroupMember.where(:member_id => @ug2.id)
   end
 
   test "removes user join model records" do
@@ -103,58 +107,46 @@ class UsergroupTest < ActiveSupport::TestCase
     end
   end
 
-  def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_usergroups"
-      role.permissions = ["#{operation}_usergroups".to_sym]
-      @one.roles = [role]
-      @one.save!
-    end
-    User.current = @one
+  test "removes all cached_user_roles when roles are disassociated" do
+    user         = FactoryGirl.create(:user)
+    record       = FactoryGirl.create(:usergroup)
+    record.users = [user]
+    one          = FactoryGirl.create(:role)
+    two          = FactoryGirl.create(:role)
+
+    record.roles = [one, two]
+    assert_equal 2, user.reload.cached_user_roles.size
+
+    assert record.update_attributes(:role_ids => [ two.id ])
+    assert_equal 1, user.reload.cached_user_roles.size
+
+    record.role_ids = [ ]
+    assert_equal 0, user.reload.cached_user_roles.size
+
+    assert record.update_attribute(:role_ids, [ one.id ])
+    assert_equal 1, user.reload.cached_user_roles.size
+
+    record.roles<< two
+    assert_equal 2, user.reload.cached_user_roles.size
   end
 
-  test "user with create permissions should be able to create" do
-    setup_user "create"
-    record =  Usergroup.create :name => "dummy"
-    assert record.valid?
-    assert !record.new_record?
+  test 'add_users adds users in list and does not add nonexistent users' do
+    usergroup = FactoryGirl.create(:usergroup)
+    usergroup.send(:add_users, ['one', 'two', 'three'])
+
+    # users 'one' 'two' are defined in fixtures, 'three' is not defined
+    assert_equal ['one', 'two'], usergroup.users.map(&:login)
   end
 
-  test "user with view permissions should not be able to create" do
-    setup_user "view"
-    record =  Usergroup.create :name => "dummy"
-    assert record.valid?
-    assert record.new_record?
+  test 'remove_users removes user list' do
+    usergroup = FactoryGirl.create(:usergroup)
+    usergroup.send(:add_users, ['one', 'two'])
+
+    usergroup.send(:remove_users, ['one', 'two'])
+    assert_equal [], usergroup.users
   end
 
-  test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy"
-    record =  Usergroup.first
-    assert record.destroy
-    assert record.frozen?
-  end
 
-  test "user with edit permissions should not be able to destroy" do
-    setup_user "edit"
-    record =  Usergroup.first
-    assert !record.destroy
-    assert !record.frozen?
-  end
-
-  test "user with edit permissions should be able to edit" do
-    setup_user "edit"
-    record      =  Usergroup.first
-    record.name = "renamed"
-    assert record.save
-  end
-
-  test "user with destroy permissions should not be able to edit" do
-    setup_user "destroy"
-    record      =  Usergroup.first
-    record.name = "renamed"
-    assert !record.save
-    assert record.valid?
-  end
+  # TODO test who can modify usergroup roles and who can assign users!!! possible privileges escalation
 
 end

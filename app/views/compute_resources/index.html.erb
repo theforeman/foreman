@@ -1,21 +1,24 @@
-<% title "Listing compute resources" %>
-<% title_actions display_link_if_authorized("New Compute Resource", hash_for_new_compute_resource_path), help_path %>
+<% title _("Compute Resources") %>
+<% title_actions display_link_if_authorized(_("New Compute Resource"), hash_for_new_compute_resource_path), help_path %>
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th><%= sort :name %></th>
-    <th><%= sort :type %></th>
+    <th><%= sort :name, :as => s_("ComputeResource|Name") %></th>
+    <th><%= sort :type, :as => _("Type") %></th>
     <th></th>
   </tr>
 
 <% @compute_resources.each do |compute| %>
   <tr>
     <td><%= link_to compute.name, compute %></td>
-    <td><%= compute.provider %></td>
+    <td><%= compute.provider_friendly_name %></td>
     <td>
-      <%= action_buttons(link_to('Edit', edit_compute_resource_path(compute),:class=>"btn btn-small"),
-                         link_to('Delete', compute, :confirm => 'Are you sure?', :method => :delete)) %>
+      <%= action_buttons(link_to_if_authorized(_('Edit'), hash_for_edit_compute_resource_path(compute).merge(:auth_object => compute, :authorizer => authorizer)),
+                         display_delete_if_authorized(hash_for_compute_resource_path(:id => compute).merge(:auth_object => compute, :authorizer => authorizer), :confirm => _("Delete %s?") % compute.name)) %>
     </td>
   </tr>
 <% end %>
 </table>
+
+<%= page_entries_info @compute_resources %>
+<%= will_paginate @compute_resources %>

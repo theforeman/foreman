@@ -1,7 +1,6 @@
-<div class="grid">
-<% charts.each do |ch| -%>
-  <div class="clear-fix stats-grid">
-    <%= content_tag(:div, ch, :class=>"thumbnail") %>
-  </div>
-<% end -%>
+<% title _("Statistics") %>
+<div id="statistics" class="grid">
+<% charts.each do |ch| %>
+  <%= content_tag(:div, ch, :class=>"stats-well") %>
+<% end %>
 </div>

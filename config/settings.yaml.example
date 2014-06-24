@@ -1,8 +1,23 @@
---- 
-#your default puppet server - can be overridden in the host level
-#if none specified, plain "puppet" will be used.
-#:puppet_server: puppet
+---
+# You must restart the Rack server after changing either of these values
+# because they are cached at startup.
+#
 :unattended: true
-:puppetconfdir: /etc/puppet/puppet.conf
-:login: false
+:login: true
 :require_ssl: false
+:locations_enabled: false
+:organizations_enabled: false
+#JSONP or "JSON with padding" is a complement to the base JSON data format.
+#It provides a method to request JSON data from a server in a different domain.
+:support_jsonp: false
+#:puppetconfdir: /etc/puppet
+#:puppetvardir: /var/lib/puppet
+
+# Mark translated strings with X characters (for developers)
+:mark_translated: false
+
+# Local administrative settings for application domain, fqdn, foreman URL,
+# administrator email address etc. If you don't have a Puppet provisioning
+# system you may want to change to setup your project on your local machine.
+:domain: 'localdomain.net'
+:fqdn: 'localhost.localdomain.net'

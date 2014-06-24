@@ -1,91 +1,52 @@
 module HomeHelper
 
-  def class_for_current_page(tab)
-    controller_name.gsub(/_.*/,"s") == tab ? "active" : ""
+  def render_menu menu_name
+    authorized_menu_actions(Menu::Manager.items(menu_name).children).map do |menu|
+      items = authorized_menu_actions(menu.children)
+      render "home/submenu", :menu_items => items, :menu_title => _(menu.caption), :menu_name => menu.name if items.any?
+    end.join(' ').html_safe
   end
 
-  def class_for_setting_page
-   if setting_options.map{|o| o[1]}.include? controller_name.to_sym
-     "active"
-   end
-  end
-
-  def setting_options
-    choices = [
-      ['Environments',           :environments],
-      ['Global Parameters',      :common_parameters],
-      ['Host Groups',            :hostgroups],
-      ['Puppet Classes',         :puppetclasses],
-      ['Smart Variables',        :lookup_keys],
-      ['Smart Proxies',          :smart_proxies]
-    ]
-
-    if SETTINGS[:unattended]
-      choices += [
-        [:divider],
-        ['Compute Resources',    :compute_resources]
-      ]
-
-      choices += [ ['Hypervisors', :hypervisors ] ] if SETTINGS[:libvirt]
-
-      choices += [
-        [:divider],
-        ['Architectures',          :architectures],
-        ['Domains',                :domains],
-        ['Hardware Models',        :models],
-        ['Installation Media',     :media],
-        ['Operating Systems',      :operatingsystems],
-        ['Partition Tables',       :ptables],
-        ['Provisioning Templates', :config_templates],
-        ['Subnets',                :subnets]
-      ]
-    end
-
-    choices += [
-      [:divider],
-      ['LDAP Authentication',    :auth_source_ldaps],
-      ['Users',                  :users],
-      ['User Groups',            :usergroups],
-    ] if SETTINGS[:login]
-
-    choices += [
-      ['Roles',                  :roles]
-    ] if SETTINGS[:login] and User.current.admin?
-
-    choices += [
-      [:divider],
-      ['Bookmarks',              :bookmarks],
-      ['Settings',               :settings]
-    ]
-
+  def authorized_menu_actions(choices)
+    last_item = Menu::Divider.new(:first_div)
+    choices   = choices.map do |item|
+      last_item = case item
+                    when Menu::Divider
+                      item unless last_item.is_a?(Menu::Divider) #prevent adjacent dividers
+                    when Menu::Item
+                      item if item.authorized?
+                    when Menu::Toggle
+                      item if item.authorized_children.size > 0
+                  end
+    end.compact
+    choices.shift if choices.first.is_a?(Menu::Divider)
+    choices.pop if choices.last.is_a?(Menu::Divider)
     choices
   end
 
+  def menu_item_tag item
+    content_tag(:li,
+                link_to(_(item.caption), item.url, item.html_options.merge(:id => "menu_item_#{item.name}")),
+                :class => "menu_tab_#{item.url_hash[:controller]}_#{item.url_hash[:action]}")
+  end
 
-  def menu(tab, myBookmarks ,path = nil)
-    path ||= eval("hash_for_#{tab}_path")
-    return '' unless authorized_for(path[:controller], path[:action] )
-    b = myBookmarks.map{|b| b if b.controller == path[:controller]}.compact
-    out = content_tag :li, :class => class_for_current_page(tab) do
-      link_to_if_authorized(tab.capitalize, path, :class => b.empty? ? "" : "narrow-right")
+  def org_switcher_title
+    title = if Organization.current && Location.current
+      Organization.current.to_label + "@" + Location.current.to_label
+    elsif Organization.current
+      Organization.current.to_label
+    elsif Location.current
+      Location.current.to_label
+    else
+      _("Any Context")
     end
-    out +=  content_tag :li, :class => "dropdown " + class_for_current_page(tab) do
-      link_to(content_tag(:span,'', :'data-toggle'=> 'dropdown', :class=>'caret'), "#", :class => "dropdown-toggle narrow-left") + menu_dropdown(b)
-    end unless b.empty?
-    out
+    title
   end
 
-  def menu_dropdown bookmark
-    return "" if bookmark.empty?
-    render("bookmarks/list", :bookmarks => bookmark)
+  def user_header
+    summary = avatar_image_tag(User.current, :class=>'avatar small') +
+              "#{User.current.to_label} " + content_tag(:span, "", :class=>'caret')
+    link_to(summary.html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :id => "account_menu")
   end
 
-  # filters out any non allowed actions from the setting menu.
-  def allowed_choices choices, action = "index"
-    choices.map do |opt|
-      name, kontroller = opt
-      url = eval("#{kontroller}_url")
-      authorized_for(kontroller, action) ? [name, url] : nil
-    end.compact.sort
-  end
 end

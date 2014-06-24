@@ -1,23 +1,26 @@
-<table class="table table-bordered">
-  <tr>
-    <thead>
-      <th>Name</th>
-      <th>DNS</th>
-      <th>Type</th>
-      <th>State</th>
-      <th></th>
-    </thead>
-  </tr>
-  <% @compute_resource.vms.each do |vm| -%>
+<table class="table table-bordered" data-table="inline">
+  <thead>
     <tr>
-      <td><%= vm.tags["Name"] %></td>
-      <td><%= vm.dns_name %></td>
+      <th><%= _('Name') %></th>
+      <th><%= _('DNS') %></th>
+      <th><%= _('Type') %></th>
+      <th><%= _('State') %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <% @vms.each do |vm| %>
+    <tr>
+      <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer) %></td>
+      <td><%= vm.dns %></td>
       <td><%= vm.flavor_id %></td>
-      <td <%= vm_power_class(vm.ready?)%>> <%= vm_state(!vm.ready?) %> </td>
+      <td> <span <%= vm_power_class(vm.ready?) %>> <%= vm_state(vm) %></span> </td>
       <td>
-        <%= action_buttons(vm_power_action(vm),
-            display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id))) %>
+        <%= unless vm.state == 'terminated' or vm.state == 'pending'
+              action_buttons(vm_power_action(vm, authorizer),
+                             display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id).merge(:auth_object => @compute_resource, :authorizer => authorizer)))
+            end
+        %>
       </td>
     </tr>
-  <% end -%>
+  <% end %>
 </table>

@@ -1,5 +1,37 @@
 <%= form_for @subnet do |f| %>
   <%= base_errors_for @subnet %>
-  <%= render 'fields', :f => f %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Subnet") %></a></li>
+    <li><a href="#domains" data-toggle="tab"><%= _("Domains") %></a></li>
+    <li><a href="#proxies" data-toggle="tab"><%= _("Proxies") %></a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="primary">
+      <%= render 'fields', :f => f %>
+    </div>
+    <div class="tab-pane" id="domains">
+      <%= multiple_checkboxes f, :domain, f.object, Domain, :help_inline => _("Domains in which this subnet is part"), :label => _("Domain"), :prefix=>f.object_name %>
+    </div>
+    <div class="tab-pane" id="proxies">
+      <%= select_f f, :dhcp_id, SmartProxy.with_features("DHCP"), :id, :name,
+        {:include_blank => _("None")}, :label => _("DHCP Proxy"), :help_inline => _("DHCP Proxy to use within this subnet") %>
+      <%= select_f f, :tftp_id, SmartProxy.with_features("TFTP"), :id, :name,
+        {:include_blank => _("None")}, :label => _("TFTP Proxy"), :help_inline => _("TFTP Proxy to use within this subnet") %>
+      <%= select_f f, :dns_id, SmartProxy.with_features("DNS"), :id, :name,
+        {:include_blank => _("None")}, :label => _("DNS Proxy"), :help_inline => _("DNS Proxy to use within this subnet") %>
+    </div>
+
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @subnet %>
+
+  </div>
+
   <%= submit_or_cancel f %>
 <% end %>

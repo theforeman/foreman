@@ -1,0 +1,24 @@
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow; // iOS <4.3 & Android <4.1
+  box-shadow: $shadow;
+}
+
+@mixin linear_gradient($start_color, $end_color) {
+  background: $start_color; /* Old browsers */
+  background: -moz-linear-gradient(top, $start_color 0%, $end_color 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$start_color), color-stop(100%,$end_color)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, $start_color 0%,$end_color 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, $start_color 0%,$end_color 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, $start_color 0%,$end_color 100%); /* IE10+ */
+  background: linear-gradient(to bottom, $start_color 0%,$end_color 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#{$start_color}', endColorstr='#{$end_color}');
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start_color}', endColorstr='#{$end_color}')";
+}
+
+@mixin border_radius($top-right, $top-left, $bottom-left, $bottom-right){
+  -webkit-border-radius: $top-right $top-left $bottom-left $bottom-right;
+  -moz-border-radius: $top-right $top-left $bottom-left $bottom-right;
+  -ms-border-radius: $top-right $top-left $bottom-left $bottom-right;
+  -o-border-radius: $top-right $top-left $bottom-left $bottom-right;
+  border-radius: $top-right $top-left $bottom-left $bottom-right;
+}

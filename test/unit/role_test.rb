@@ -15,39 +15,46 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require "test_helper"
 
 class RoleTest < ActiveSupport::TestCase
-  fixtures :roles
 
-    should have_many(:user_roles)
-    should have_many(:users).through(:user_roles)
-
-    should validate_presence_of(:name)
-    should validate_uniqueness_of(:name)
-    should ensure_length_of(:name).is_at_most(30)
-    should allow_value("a role name").for(:name)
-    should_not allow_value(";a role name").for(:name)
-    should_not allow_value(" a role name").for(:name)
-    should_not allow_value("a role name ").for(:name)
-
-  def test_add_permission
-    role = Role.find(1)
-    size = role.permissions.size
-    role.add_permission!("apermission", "anotherpermission")
-    role.reload
-    assert role.permissions.include?(:anotherpermission)
-    assert_equal size + 2, role.permissions.size
+  it "should respond_to user_roles" do
+    role = roles(:manager)
+    role.must_respond_to :user_roles
+    role.must_respond_to :users
   end
 
-  def test_remove_permission
-    role = Role.find(1)
-    size = role.permissions.size
-    perm = role.permissions[0..1]
-    role.remove_permission!(*perm)
-    role.reload
-    assert ! role.permissions.include?(perm[0])
-    assert_equal size - 2, role.permissions.size
+  it "should have unique name" do
+    # Manager is in role fixtures
+    Role.new(:name => "Manager").wont_be :valid?
+    role = Role.new(:name => "Supervisor")
+    role.must_be :valid?
+  end
+
+  it "should not be valid without a name" do
+    role = Role.new(:name => "")
+    role.wont_be :valid?
+  end
+
+  it "should allow value 'a role name' for name" do
+    role = Role.new(:name => "a role name")
+    role.must_be :valid?
+  end
+
+  it "should not allow semi colon in name" do
+    role = Role.new(:name => ";a role name")
+    role.wont_be :valid?
+  end
+
+  it "should strip leading space on name" do
+    role = Role.new(:name => " a role name")
+    role.must_be :valid?
+  end
+
+  it "should strip a trailing space on name" do
+    role = Role.new(:name => "a role name ")
+    role.must_be :valid?
   end
 
   context "System roles" do
@@ -59,7 +66,11 @@ class RoleTest < ActiveSupport::TestCase
 
     context "with a missing anonymous role" do
       setup do
-        Role.delete_all("builtin = #{Role::BUILTIN_ANONYMOUS}")
+        role_ids = Role.where("builtin = #{Role::BUILTIN_ANONYMOUS}").pluck(:id)
+        user_ids = UserRole.where(:role_id => role_ids)
+        UserRole.where(:role_id => role_ids).destroy_all
+        Filter.where(:role_id => role_ids).destroy_all
+        Role.where(:id => role_ids).delete_all
       end
 
       should "create a new anonymous role" do
@@ -85,7 +96,11 @@ class RoleTest < ActiveSupport::TestCase
 
     context "with a missing default_user role" do
       setup do
-        Role.delete_all("builtin = #{Role::BUILTIN_DEFAULT_USER}")
+        role_ids = Role.where("builtin = #{Role::BUILTIN_DEFAULT_USER}").pluck(:id)
+        user_ids = UserRole.where(:role_id => role_ids)
+        UserRole.where(:role_id => role_ids).destroy_all
+        Filter.where(:role_id => role_ids).destroy_all
+        Role.where(:id => role_ids).delete_all
       end
 
       should "create a new default_user role" do
@@ -99,6 +114,80 @@ class RoleTest < ActiveSupport::TestCase
         assert role.builtin?
         assert_equal Role::BUILTIN_DEFAULT_USER, role.builtin
       end
+    end
+  end
+
+  describe ".for_current_user" do
+    context "there are two roles, one of them is assigned to current user" do
+      let(:first) { Role.create(:name => 'First') }
+      let(:second) { Role.create(:name => 'Second') }
+      before do
+        User.current = users(:one)
+        User.current.roles<< first
+      end
+
+      subject { Role.for_current_user.all }
+      it { subject.must_include(first) }
+      it { subject.wont_include(second) }
+    end
+  end
+
+  describe "#add_permissions" do
+    setup do
+      @permission1 = FactoryGirl.create(:permission, :name => 'permission1')
+      @permission2 = FactoryGirl.create(:permission, :architecture, :name => 'permission2')
+      @role = FactoryGirl.build(:role, :permissions => [])
+    end
+
+    it "should build filters with assigned permission" do
+      @role.add_permissions [@permission1.name, @permission2.name.to_sym]
+      assert @role.filters.all?(&:unlimited?)
+
+      permissions = @role.filters.map { |f| f.filterings.map(&:permission) }.flatten
+      assert_equal 2, @role.filters.size
+      assert_includes permissions, Permission.find_by_name(@permission1.name)
+      assert_includes permissions, Permission.find_by_name(@permission2.name)
+      # not saved yet
+      assert_empty @role.permissions
+    end
+
+    it "should raise error when given permission does not exist" do
+      assert_raises ArgumentError do
+        @role.add_permissions ['does_not_exist']
+      end
+    end
+
+    it "accespts one permissions instead of array as well" do
+      @role.add_permissions @permission1.name
+      permissions = @role.filters.map { |f| f.filterings.map(&:permission) }.flatten
+
+      assert_equal 1, @role.filters.size
+      assert_includes permissions, Permission.find_by_name(@permission1.name)
+    end
+
+    it "sets search filter to all filters" do
+      search = "id = 1"
+      @role.add_permissions [@permission1.name, @permission2.name.to_sym], :search => search
+      refute @role.filters.any?(&:unlimited?)
+      assert @role.filters.all? { |f| f.search == search }
+    end
+  end
+
+  describe "#add_permissions!" do
+    setup do
+      @permission1 = FactoryGirl.create(:permission, :name => 'permission1')
+      @permission2 = FactoryGirl.create(:permission, :architecture, :name => 'permission2')
+      @role = FactoryGirl.build(:role, :permissions => [])
+    end
+
+    it "persists built permissions" do
+      assert @role.add_permissions!([@permission1.name, @permission2.name.to_sym])
+      @role.reload
+
+      permissions = @role.permissions
+      assert_equal 2, @role.filters.size
+      assert_includes permissions, Permission.find_by_name(@permission1.name)
+      assert_includes permissions, Permission.find_by_name(@permission2.name)
     end
   end
 end

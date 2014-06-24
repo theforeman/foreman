@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# outputs the routes in a fashion that's a little easier to read.
+rake routes | sed -e "s/(.:format)//g" | sed -e "s/ \{3,\}/ /g"
+
+# run script/routes then grep on it to search for stuff, etc.

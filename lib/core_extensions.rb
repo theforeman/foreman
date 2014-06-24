@@ -1,12 +1,4 @@
-ActiveRecord::Associations::HasManyThroughAssociation.class_eval do
-  def delete_records(records)
-    klass = @reflection.through_reflection.klass
-    records.each do |associate|
-      klass.destroy_all(construct_join_attributes(associate))
-    end
-  end
-end
-
+require 'tsort'
 # Add an empty method to nil. Now no need for if x and x.empty?. Just x.empty?
 class NilClass
   def empty?
@@ -21,9 +13,18 @@ class ActiveRecord::Base
 
   def update_single_attribute(attribute, value)
     connection.update(
-      "UPDATE #{self.class.table_name} " +
-      "SET #{attribute.to_s} = #{value} " +
-      "WHERE #{self.class.primary_key} = #{id}",
+      "UPDATE #{self.class.quoted_table_name} SET " +
+      "#{connection.quote_column_name(attribute.to_s)} = #{quote_value(value)} " +
+      "WHERE #{self.class.quoted_primary_key} = #{quote_value(id)}",
+      "#{self.class.name} Attribute Update"
+    )
+  end
+
+  def update_multiple_attribute(attributes)
+    connection.update(
+      "UPDATE #{self.class.quoted_table_name} SET " +
+      attributes.map{|key, value| " #{connection.quote_column_name(key.to_s)} = #{quote_value(value)} " }.join(', ') +
+      "WHERE #{self.class.quoted_primary_key} = #{quote_value(id)}",
       "#{self.class.name} Attribute Update"
     )
   end
@@ -39,7 +40,7 @@ class ActiveRecord::Base
     def before_destroy(record)
       klasses.each do |klass|
         record.send(klass.to_sym).each do |what|
-          record.errors.add :base, "#{record} is used by #{what}"
+          record.errors.add :base, _("%{record} is used by %{what}") % { :record => record, :what => what }
         end
       end
       if record.errors.empty?
@@ -51,16 +52,64 @@ class ActiveRecord::Base
     end
   end
 
+  class EnsureNoCycle
+    include TSort
+
+    def initialize(base, source, target)
+      @source = source; @target = target
+      @base  = base.map { |record| [record.send(@source), record.send(@target)] }
+      @nodes = @base.flatten.uniq
+      @graph = Hash.new { |h, k| h[k] = [] }
+      @base.each { |s, t| @graph[s]<< t }
+    end
+
+    def tsort_each_node(&block)
+      @nodes.each(&block)
+    end
+
+    def tsort_each_child(node, &block)
+      @graph[node].each(&block)
+    end
+
+    def ensure(record)
+      @record = record
+      add_new_edges
+      detect_cycle
+    end
+
+    private
+
+    def add_new_edges
+      edges = @graph[@record.send(@source) || 0]
+      edges<< @record.send(@target) unless edges.include?(@record.send(@target))
+    end
+
+    def detect_cycle
+      if strongly_connected_components.any? { |component| component.size > 1 }
+        @record.errors.add :base, _("Adding would cause a cycle!")
+        raise ::Foreman::CyclicGraphException, @record
+      else
+        true
+      end
+    end
+  end
+
   def id_and_type
     "#{id}-#{self.class.table_name.humanize}"
   end
-  alias_attribute :to_label, :name
+  alias_attribute :to_label, :name_method
   alias_attribute :to_s, :to_label
 
   def self.unconfigured?
-    first.nil?
+    scoped.reorder('').limit(1).pluck(self.base_class.primary_key).empty?
   end
 
+  def self.per_page
+    # Foreman.in_rake? prevents the failure of db:migrate for postgresql
+    # don't query settings table if in rake
+    return 20 if Foreman.in_rake?
+    Setting.entries_per_page rescue 20
+  end
 end
 
 module ExemptedFromLogging

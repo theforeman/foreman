@@ -1,7 +1,5 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-gpxe:
-  name: gPXE
+ipxe:
+  name: iPXE
 
 provision:
   name: provision
@@ -14,3 +12,6 @@ script:
 
 finish:
   name: finish
+
+pxegrub:
+  name: PXEGrub

@@ -1,15 +1,5 @@
 module HostsAndHostgroupsHelper
-  def hostgroup_name group, max_length = 1000
-    return if group.blank?
-    options = (group.to_s.size > max_length) ? {:'data-original-title'=> group.to_s, :rel=>'twipsy'} : {}
-    nesting = group.to_s.gsub(group.name, "")
-    nesting = truncate(nesting, :length => max_length - group.name.size) if nesting.size > 0
-    name =  truncate(group.name.to_s, :length => max_length - nesting.size)
-    link_to_if_authorized(
-        content_tag(:span,
-            content_tag(:span, nesting, :class => "gray") + name, options),
-        hash_for_edit_hostgroup_path(:id => group))
-  end
+  include AncestryHelper
 
   def model_name host
     name = host.try(:model)
@@ -18,38 +8,23 @@ module HostsAndHostgroupsHelper
   end
 
   def accessible_hostgroups
-    hg = (User.current.hostgroups.any? and !User.current.admin?) ? User.current.hostgroups : Hostgroup.all
+    hg = Hostgroup.with_taxonomy_scope_override(@location,@organization)
     hg.sort{ |l, r| l.to_label <=> r.to_label }
   end
 
   def parent_classes obj
-    return obj.hostgroup.classes if obj.is_a?(Host) and obj.hostgroup
+    return obj.hostgroup.classes if obj.kind_of?(Host::Base) and obj.hostgroup
     return obj.is_root? ? [] : obj.parent.classes if obj.is_a?(Hostgroup)
     []
   end
 
-  def select_hypervisor item
-    options_for_select Hypervisor.all.map{|h| [h.name, h.id]}, item.try(:hypervisor_id).try(:to_i)
-  end
-
-  def select_memory item = nil
-    memory = item.try(:memory) if item
-    memory ||= @guest.memory if @guest
-    options_for_select Hypervisor::MEMORY_SIZE.map {|mem| [number_to_human_size(mem*1024), mem]}, memory.to_i
-  end
-
-  def volume_size item
-    return item.disk_size if item.try(:disk_size)
-    return @guest.volume.size if @guest
-  end
-
   def accessible_domains
-    (User.current.domains.any? and !User.current.admin?) ? User.current.domains : Domain.all
+    Domain.with_taxonomy_scope_override(@location,@organization)
   end
 
-  def domain_subnets
-    return [] if @domain.blank?
-    @domain.subnets
+  def domain_subnets(domain=@domain)
+    return [] if domain.blank?
+    domain.subnets.with_taxonomy_scope_override(@location,@organization)
   end
 
   def arch_oss
@@ -59,7 +34,7 @@ module HostsAndHostgroupsHelper
 
   def os_media
     return [] if @operatingsystem.blank?
-    @operatingsystem.media
+    @operatingsystem.media.with_taxonomy_scope(@location,@organization,:path_ids)
   end
 
   def os_ptable
@@ -68,29 +43,47 @@ module HostsAndHostgroupsHelper
   end
 
   def puppet_master_fields f
-    ca      = SmartProxy.joins(:features).where(:features => { :name => "Puppet CA" })
-    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet" })
-    # do not show the ca proxy, if we have only one of those and its the same as the puppet proxy
-    fields =  puppet_ca(f) unless ca.count == 1 and ca.map(&:id) == proxies.map(&:id)
-    "#{fields} #{puppet_master(f)}".html_safe
+    "#{puppet_ca(f)} #{puppet_master(f)}".html_safe
   end
 
   def puppet_ca f
-    # if we are not using provisioning, not much point in presenting the CA option (assuming your CA is already set otherwise)
-    return unless SETTINGS[:unattended]
-    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet CA" })
+    # Don't show this if we have no CA proxies, otherwise always include blank
+    # so the user can choose not to sign the puppet cert on this host
+    proxies = SmartProxy.unscoped.with_features("Puppet CA").with_taxonomy_scope(@location,@organization,:path_ids)
+    return if proxies.count == 0
     select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
-             { :include_blank => proxies.count > 1 },
-             { :label       => "Puppet CA",
-               :help_inline => "Use this puppet server as a CA server" }
+             { :include_blank => blank_or_inherit_f(f, :puppet_ca_proxy) },
+             { :label       => _("Puppet CA"),
+               :help_inline => _("Use this puppet server as a CA server") }
   end
 
   def puppet_master f
-    proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet" })
+    # Don't show this if we have no Puppet proxies, otherwise always include blank
+    # so the user can choose not to use puppet on this host
+    proxies = SmartProxy.unscoped.with_features("Puppet").with_taxonomy_scope(@location,@organization,:path_ids)
+    return if proxies.count == 0
     select_f f, :puppet_proxy_id, proxies, :id, :name,
-             { :include_blank => proxies.count > 1 },
-             { :label       => "Puppet Master",
-               :help_inline => "Use this puppet server as an initial Puppet Server or to execute puppet runs" }
+             { :include_blank => blank_or_inherit_f(f, :puppet_proxy) },
+             { :label       => _("Puppet Master"),
+               :help_inline => _("Use this puppet server as an initial Puppet Server or to execute puppet runs") }
+  end
+
+  def interesting_klasses obj
+    classes    = obj.all_puppetclasses
+    smart_vars = LookupKey.reorder('').where(:puppetclass_id => classes.map(&:id)).group(:puppetclass_id).count
+    class_vars = LookupKey.reorder('').joins(:environment_classes).where(:environment_classes => { :puppetclass_id => classes.map(&:id) }).group('environment_classes.puppetclass_id').count
+    klasses    = smart_vars.keys + class_vars.keys
+
+    classes.select { |pc| klasses.include?(pc.id) }
+  end
+
+  def ifs_bmc_opts obj
+    case obj.read_attribute(:type)
+      when "Nic::BMC"
+        {}
+      else
+        { :disabled => true, :value => nil }
+    end
   end
 
 end

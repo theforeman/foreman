@@ -2,7 +2,9 @@ require 'test_helper'
 
 class NoticeTest < ActiveSupport::TestCase
   def test_should_be_valid
-    assert Notice.create(:global => true, :content => "hello", :level => "warning").valid?
+    User.as :admin do
+      assert Notice.create(:global => true, :content => "hello", :level => "warning").valid?
+    end
   end
 
   def test_should_attach_to_everyone

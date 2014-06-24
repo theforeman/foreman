@@ -8,19 +8,15 @@ class ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should not get index when not permitted" do
     setup_user "none"
-    get :index, {:format => "json"}, set_session_user
+    get :index, {}, set_session_user
     assert_response 403
   end
 
   test "should get index" do
     setup_user "view"
-    get :index, {:format => "json"}, set_session_user
+    get :index, {}, set_session_user
     assert_response :success
-    computes = ActiveSupport::JSON.decode(@response.body)
-    assert !computes.empty?
-    assert computes.is_a?(Array)
-    assert computes.length == 1
-    assert computes.first["compute_resource"]["name"] == @compute_resource.name
+    assert_template 'index'
   end
 
   test "should not get new when not permitted" do
@@ -63,7 +59,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   test "should not show compute resource when restricted" do
     setup_user "view"
     get :show, {:id => @your_compute_resource.to_param}, set_session_user
-    assert_response 403
+    assert_response 404
   end
 
   test "should show compute resource" do
@@ -81,7 +77,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   test "should not get edit when restricted" do
     setup_user "edit"
     get :edit, {:id => @your_compute_resource.to_param}, set_session_user
-    assert_response 403
+    assert_response 404
   end
 
   test "should get edit" do
@@ -99,7 +95,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   test "should not update compute resource when restricted" do
     setup_user "edit"
     put :update, {:id => @your_compute_resource.to_param, :compute_resource => {:name => "editing_self", :provider => "EC2"}}, set_session_user
-    assert_response 403
+    assert_response 404
   end
 
   test "should update compute resource" do
@@ -123,7 +119,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
       delete :destroy, {:id => @your_compute_resource.to_param}, set_session_user
     end
 
-    assert_response 403
+    assert_response 404
   end
 
   test "should destroy compute resource" do
@@ -135,23 +131,31 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     assert_redirected_to compute_resources_path
   end
 
+  context 'search' do
+    setup { setup_user 'view' }
+
+    test 'valid fields' do
+      get :index, { :search => 'name = openstack' }, set_session_user
+      assert_response :success
+      assert flash.empty?
+    end
+
+    test 'invalid fields' do
+      @request.env['HTTP_REFERER'] = "http://test.host#{compute_resources_path}"
+      get :index, { :search => 'wrongwrong = centos' }, set_session_user
+      assert_response :redirect
+      assert_redirected_to :back
+      assert_match /not recognized for searching/, flash[:error]
+    end
+  end
+
   def set_session_user
     User.current = users(:admin) unless User.current
     SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}
   end
 
-  def setup_user operation
-    @one = users(:one)
-    @request.session[:user] = @one.id
-    as_admin do
-      @one.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
-      role = Role.find_or_create_by_name :name => "#{operation}_compute_resources"
-      role.permissions = ["#{operation}_compute_resources".to_sym]
-      role.save!
-      @one.roles << [role]
-      @one.compute_resources = [@compute_resource]
-      @one.save!
-    end
-    User.current = @one
+  def setup_user operation, type = 'compute_resources'
+    super(operation, type, "id = #{@compute_resource.id}")
   end
+
 end

@@ -1,34 +1,43 @@
 <%= form_for @operatingsystem do |f| %>
   <%= base_errors_for @operatingsystem %>
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab">Primary</a></li>
-    <li><a href="#params" data-toggle="tab">Parameters</a></li>
-    <% if SETTINGS[:unattended] -%>
-      <li><a href="#templates" data-toggle="tab">Templates</a></li>
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Operating System") %></a></li>
+    <% if SETTINGS[:unattended] %>
+      <li><a href="#ptable" data-toggle="tab"><%= _("Partition table") %></a></li>
+      <li><a href="#media" data-toggle="tab"><%= _("Installation media") %></a></li>
+      <li><a href="#templates" data-toggle="tab"><%= _("Templates") %></a></li>
     <% end -%>
+    <li><a href="#params" data-toggle="tab" id="params-tab"><%= _("Parameters") %></a></li>
   </ul>
 
   <div class="tab-content">
 
     <div class="tab-pane active" id="primary">
 
-      <%= text_f f, :name, :help_inline => "e.g. RedHat" %>
-      <%= text_f f, :major, :help_inline => "e.g. 6", :class => "input-small" %>
-      <%= text_f f, :minor, :help_inline => "e.g. 2", :class => "input-small" %>
-      <%= select_f f, :family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => "Choose a family"},
-        { :label => "OS Family", :help_inline => "The Operating System type", :onchange => 'show_release(this);'}
+      <%= text_f f, :name, :help_inline => _("OS name from facter; e.g. RedHat") %>
+      <%= text_f f, :major, :help_inline => _("OS major version from facter; e.g. 6"), :class => "col-md-2" %>
+      <%= text_f f, :minor, :help_inline => _("OS minor version from facter; e.g. 5"), :class => "col-md-2" %>
+      <%= text_f f, :description, :help_inline => _("e.g. RHEL 6.5") %>
+      <%= select_f f, :family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Choose a family")},
+        { :label => _("OS Family"), :help_inline => _("The Operating System type"), :onchange => 'show_release(this);'}
       %>
       <div id="release_name" <%= display?(!@operatingsystem.use_release_name?) %>>
-        <%= text_f f, :release_name, :help_inline => "e.g. karmic, lucid, hw0910 etc" %>
+        <%= text_f f, :release_name, :help_inline => _("e.g. karmic, lucid, hw0910 etc") %>
       </div>
 
-      <%= multiple_checkboxes f, :architectures, @operatingsystem, Architecture %>
-      <%= multiple_checkboxes f, :ptables, @operatingsystem, Ptable, :label => "Partition tables" %>
-      <%= multiple_checkboxes f, :media, @operatingsystem, Medium, :label => "Installation media" %>
+      <%= multiple_checkboxes f, :architectures, @operatingsystem, Architecture, :label => _("Architectures") %>
     </div>
 
-    <%= render('template_defaults', :f => f) if SETTINGS[:unattended] -%>
+    <% if SETTINGS[:unattended] %>
+      <%= render('template_defaults', :f => f) %>
 
+      <div class="tab-pane" id="ptable">
+        <%= multiple_checkboxes f, :ptables, @operatingsystem, os_habtm_family(Ptable, f.object), :label => _("Partition tables") %>
+      </div>
+      <div class="tab-pane" id="media">
+        <%= multiple_checkboxes f, :media, @operatingsystem,   os_habtm_family(Medium, f.object), :label => _("Installation media") %>
+      </div>
+    <% end %>
     <div class="tab-pane" id="params">
       <%= render "common_parameters/parameters", { :f => f, :type => :os_parameters } %>
     </div>

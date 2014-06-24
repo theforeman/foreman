@@ -19,26 +19,30 @@ class Role < ActiveRecord::Base
   # Built-in roles
   BUILTIN_DEFAULT_USER  = 1
   BUILTIN_ANONYMOUS     = 2
+  audited :allow_mass_assignment => true
 
-  scope :givable, { :conditions => "builtin = 0", :order => 'name' }
+  scope :givable, lambda { where(:builtin => 0).order(:name) }
+  scope :for_current_user, lambda { User.current.admin? ? {} : where(:id => User.current.role_ids) }
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first
-    { :conditions => "#{compare} builtin = 0" }
+    where("#{compare} builtin = 0")
   }
 
   before_destroy :check_deletable
 
   has_many :user_roles, :dependent => :destroy
-  has_many :users, :through => :user_roles
+  has_many :users, :through => :user_roles, :source => :owner, :source_type => 'User'
+  has_many :usergroups, :through => :user_roles, :source => :owner, :source_type => 'Usergroup'
+  has_many :cached_user_roles, :dependent => :destroy
+  has_many :cached_users, :through => :cached_user_roles, :source => :user
 
-  serialize :permissions, Array
+  has_many :filters, :dependent => :destroy
+
+  has_many :permissions, :through => :filters
   attr_protected :builtin
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates_length_of :name, :maximum => 30
-  validates_format_of :name, :with => /^\w[\w\s\'\-]*\w$/i
-  validates_inclusion_of :builtin, :in => 0..2
+  validates :name, :presence => true, :uniqueness => true, :format => {:with => /\A\w[\w\s\'\-]*\w\Z/i}
+  validates :builtin, :inclusion => { :in => 0..2 }
 
   scoped_search :on => :name, :complete_value => true
 
@@ -47,36 +51,13 @@ class Role < ActiveRecord::Base
     self.builtin = 0
   end
 
-  def permissions
-    read_attribute(:permissions) || []
-  end
-
-  def permissions=(perms)
-    perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
-    write_attribute(:permissions, perms)
-  end
-
-  def add_permission!(*perms)
-    self.permissions = [] unless permissions.is_a?(Array)
-
-    permissions_will_change!
-    perms.each do |p|
-      p = p.to_sym
-      permissions << p unless permissions.include?(p)
-    end
-    save!
-  end
-
-  def remove_permission!(*perms)
-    return unless permissions.is_a?(Array)
-    permissions_will_change!
-    perms.each { |p| permissions.delete(p.to_sym) }
-    save!
-  end
-
   # Returns true if the role has the given permission
   def has_permission?(perm)
-    !permissions.nil? && permissions.include?(perm.to_sym)
+    permission_names.include?(perm.name.to_sym)
+  end
+
+  def permission_names
+    @permission_names ||= permissions.map { |p| p.name.to_sym }
   end
 
   # Return true if the role is a builtin role
@@ -95,17 +76,11 @@ class Role < ActiveRecord::Base
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action)
     if action.is_a? Hash
+      action[:controller] = action[:controller][1..-1] if action[:controller].starts_with?('/')
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
       allowed_permissions.include? action
     end
-  end
-
-  # Return all the permissions that can be given to the role
-  def setable_permissions
-    setable_permissions  = Foreman::AccessControl.permissions - Foreman::AccessControl.public_permissions
-    setable_permissions -= Foreman::AccessControl.loggedin_only_permissions if self.builtin == BUILTIN_ANONYMOUS
-    setable_permissions
   end
 
   # Find all the roles that can be given to a user
@@ -118,10 +93,10 @@ class Role < ActiveRecord::Base
   def self.default_user
     default_user_role = first(:conditions => {:builtin => BUILTIN_DEFAULT_USER})
     if default_user_role.nil?
-      default_user_role = create(:name => 'Default user') do |role|
+      default_user_role = create!(:name => 'Default user') do |role|
         role.builtin = BUILTIN_DEFAULT_USER
       end
-      raise 'Unable to create the default user role.' if default_user_role.new_record?
+      raise ::Foreman::Exception.new(N_('Unable to create the default user role.')) if default_user_role.new_record?
     end
     default_user_role
   end
@@ -131,17 +106,43 @@ class Role < ActiveRecord::Base
   def self.anonymous
     anonymous_role = first(:conditions => {:builtin => BUILTIN_ANONYMOUS})
     if anonymous_role.nil?
-      anonymous_role = create(:name => 'Anonymous') do |role|
+      anonymous_role = create!(:name => 'Anonymous') do |role|
         role.builtin = BUILTIN_ANONYMOUS
       end
-      raise "Unable to create the anonymous role." if anonymous_role.new_record?
+      raise ::Foreman::Exception.new(N_("Unable to create the anonymous role.")) if anonymous_role.new_record?
     end
     anonymous_role
   end
 
+  # options can have following keys
+  # :search - scoped search applied to built filters
+  def add_permissions(permissions, options = {})
+    permissions = Array(permissions)
+    search = options.delete(:search)
+
+    collection = Permission.where(:name => permissions).all
+    raise ArgumentError, 'some permissions were not found' if collection.size != permissions.size
+
+    collection.group_by(&:resource_type).each do |resource_type, grouped_permissions|
+      filter = self.filters.build(:search => search)
+      filter.role ||= self
+
+      grouped_permissions.each do |permission|
+        filtering = filter.filterings.build
+        filtering.filter = filter
+        filtering.permission = permission
+      end
+    end
+  end
+
+  def add_permissions!(*args)
+    add_permissions(*args)
+    save!
+  end
+
 private
   def allowed_permissions
-    @allowed_permissions ||= permissions + Foreman::AccessControl.public_permissions.collect {|p| p.name}
+    @allowed_permissions ||= permission_names + Foreman::AccessControl.public_permissions.map(&:name)
   end
 
   def allowed_actions
@@ -149,8 +150,8 @@ private
   end
 
   def check_deletable
-    errors.add :base, "Role is in use" if users.any?
-    errors.add :base, "Can't delete builtin role" if builtin?
+    errors.add(:base, _("Role is in use")) if users.any?
+    errors.add(:base, _("Can't delete built-in role")) if builtin?
     errors.empty?
   end
 end

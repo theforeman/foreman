@@ -1,9 +1,10 @@
 class ImagesController < ApplicationController
   before_filter :find_compute_resource
-  before_filter :find_by_name, :except => [:index, :new, :create]
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
 
   def index
-    values = @compute_resource.images.search_for(params[:search], :order => params[:order])
+    # Listing images in /hosts/new consumes this method as JSON
+    values = resource_base.where(:compute_resource_id => @compute_resource.id).search_for(params[:search], :order => params[:order])
     respond_to do |format|
       format.html { @images = values.paginate :page => params[:page] }
       format.json { render :json => values }
@@ -12,12 +13,6 @@ class ImagesController < ApplicationController
 
   def new
     @image = Image.new
-  end
-
-  def show
-    respond_to do |format|
-      format.json { render :json => @image }
-    end
   end
 
   def create
@@ -33,6 +28,7 @@ class ImagesController < ApplicationController
   end
 
   def update
+    params[:image].except!(:password) if params[:image][:password].blank?
     if @image.update_attributes(params[:image])
       process_success :success_redirect => compute_resource_path(@compute_resource)
     else
@@ -51,7 +47,7 @@ class ImagesController < ApplicationController
   private
 
   def find_compute_resource
-    @compute_resource = ComputeResource.find(params[:compute_resource_id])
+    @compute_resource = ComputeResource.authorized(:view_compute_resources).find(params[:compute_resource_id])
   end
 
 end

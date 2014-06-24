@@ -1,0 +1,18 @@
+<%#
+kind: provision
+name: FreeBSD (mfsBSD) provision
+oses:
+- FreeBSD 10.0
+%>
+/root/bin/destroygeom -d <%= @host.params['install-disk'] || 'ada0' %> || exit 1
+/root/bin/zfsinstall -d <%= @host.params['install-disk'] || 'ada0' %> -s 2G -u <%= @mediapath %> || exit 1
+
+cp /etc/resolv.conf /mnt/etc/resolv.conf
+mount -t devfs devfs /mnt/dev
+fetch -q --no-verify-hostname --no-verify-peer -o /mnt/tmp/finish.sh <%= foreman_url('finish') %>
+chroot /mnt /bin/sh /tmp/finish.sh
+rm /mnt/tmp/finish.sh
+
+fetch -q --no-verify-hostname --no-verify-peer -o /dev/null <%= foreman_url %>
+sleep 5
+reboot

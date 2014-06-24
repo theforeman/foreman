@@ -1,42 +1,68 @@
 require 'ipaddr'
 class Subnet < ActiveRecord::Base
-  include Authorization
-  has_many :hosts
-  # sps = Service processors / ilom boards etc
-  has_many :sps, :class_name => "Host", :foreign_key => 'sp_subnet_id'
+  include Authorizable
+  include Taxonomix
+  audited :allow_mass_assignment => true
+
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :interfaces, :domains)
+  has_many_hosts
+  has_many :hostgroups
   belongs_to :dhcp, :class_name => "SmartProxy"
   belongs_to :tftp, :class_name => "SmartProxy"
   belongs_to :dns,  :class_name => "SmartProxy"
   has_many :subnet_domains, :dependent => :destroy
   has_many :domains, :through => :subnet_domains
-  validates_presence_of   :network, :mask, :name
+  has_many :interfaces, :class_name => 'Nic::Base'
+  validates :network, :mask, :name, :presence => true
   validates_associated    :subnet_domains
-  validates_uniqueness_of :network
-  validates_format_of     :network, :mask,                        :with => Net::Validations::IP_REGEXP
-  validates_format_of     :gateway, :dns_primary, :dns_secondary, :with => Net::Validations::IP_REGEXP, :allow_blank => true, :allow_nil => true
+  validates :network, :uniqueness => true,
+                      :format => {:with => Net::Validations::IP_REGEXP},
+                      :length => {:maximum => 15, :message => N_("must be at most 15 characters")}
+  validates :gateway, :dns_primary, :dns_secondary,
+                      :allow_blank => true,
+                      :allow_nil => true,
+                      :format => {:with => Net::Validations::IP_REGEXP},
+                      :length => { :maximum => 15, :message => N_("must be at most 15 characters") }
+  validates :mask,    :format => {:with => Net::Validations::IP_REGEXP},
+                      :length => {:maximum => 15, :message => N_("must be at most 15 characters")}
+
+  validate :ensure_ip_addr_new
+  before_validation :cleanup_addresses
   validate :name_should_be_uniq_across_domains
-  default_scope :order => 'priority'
+
   validate :validate_ranges
 
-  before_destroy EnsureNotUsedBy.new(:hosts, :sps)
+  default_scope lambda {
+    with_taxonomy_scope do
+      order('vlanid')
+    end
+  }
 
   scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :vlanid], :complete_value => true
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
 
+  class Jail < ::Safemode::Jail
+    allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary, :vlanid
+  end
+
   # Subnets are displayed in the form of their network network/network mask
-  def to_label
+  def network_address
     "#{network}/#{cidr}"
   end
 
-  def title
-    "#{name} (#{to_label})"
+  def to_label
+    "#{name} (#{network_address})"
   end
 
   # Subnets are sorted on their priority value
   # [+other+] : Subnet object with which to compare ourself
   # +returns+ : Subnet object with higher precedence
   def <=> (other)
-    self.priority <=> other.priority
+    if self.vlanid.present? && other.vlanid.present?
+      self.vlanid <=> other.vlanid
+    else
+      return -1
+    end
   end
 
   # Given an IP returns the subnet that contains that IP
@@ -105,14 +131,14 @@ class Subnet < ActiveRecord::Base
   private
 
   def validate_ranges
-    errors.add(:from, "invalid IP address")            if from.present? and !from =~ Net::Validations::IP_REGEXP
-    errors.add(:to, "invalid IP address")              if to.present?   and !to   =~ Net::Validations::IP_REGEXP
-    errors.add(:from, "does not belong to subnet")     if from.present? and not self.contains?(f=IPAddr.new(from))
-    errors.add(:to, "does not belong to subnet")       if to.present?   and not self.contains?(t=IPAddr.new(to))
-    errors.add(:from, "can't be bigger than to range") if from.present? and t.present? and f > t
+    errors.add(:from, _("invalid IP address"))            if from.present? and !from =~ Net::Validations::IP_REGEXP
+    errors.add(:to, _("invalid IP address"))              if to.present?   and !to   =~ Net::Validations::IP_REGEXP
+    errors.add(:from, _("does not belong to subnet"))     if from.present? and not self.contains?(f=IPAddr.new(from))
+    errors.add(:to, _("does not belong to subnet"))       if to.present?   and not self.contains?(t=IPAddr.new(to))
+    errors.add(:from, _("can't be bigger than to range")) if from.present? and t.present? and f > t
     if from.present? or to.present?
-      errors.add(:from, "must be specified if to is defined")   if from.blank?
-      errors.add(:to,   "must be specified if from is defined") if to.blank?
+      errors.add(:from, _("must be specified if to is defined"))   if from.blank?
+      errors.add(:to,   _("must be specified if from is defined")) if to.blank?
     end
   end
 
@@ -120,7 +146,31 @@ class Subnet < ActiveRecord::Base
     return if domains.empty?
     domains.each do |d|
       conds = new_record? ? ['name = ?', name] : ['subnets.name = ? AND subnets.id != ?', name, id]
-      errors.add(:name, "domain #{d} already has a subnet with this name") if d.subnets.where(conds).first
+      errors.add(:name, _("domain %s already has a subnet with this name") % d) if d.subnets.where(conds).first
     end
   end
+
+  def cleanup_addresses
+    self.network = cleanup_ip(network) if network.present?
+    self.mask = cleanup_ip(mask) if mask.present?
+    self.gateway = cleanup_ip(gateway) if gateway.present?
+    self.dns_primary = cleanup_ip(dns_primary) if dns_primary.present?
+    self.dns_secondary = cleanup_ip(dns_secondary) if dns_secondary.present?
+    self
+  end
+
+  def cleanup_ip(address)
+    address.gsub!(/\.\.+/, ".")
+    address.gsub!(/2555+/, "255")
+    address
+  end
+
+  def ensure_ip_addr_new
+    errors.add(:network, _("is invalid")) if network.present? && (IPAddr.new(network) rescue nil).nil? && !errors.keys.include?(:network)
+    errors.add(:mask, _("is invalid")) if mask.present? && (IPAddr.new(mask) rescue nil).nil? && !errors.keys.include?(:mask)
+    errors.add(:gateway, _("is invalid")) if gateway.present? && (IPAddr.new(gateway) rescue nil).nil? && !errors.keys.include?(:gateway)
+    errors.add(:dns_primary, _("is invalid")) if dns_primary.present? && (IPAddr.new(dns_primary) rescue nil).nil? && !errors.keys.include?(:dns_primary)
+    errors.add(:dns_secondary, _("is invalid")) if dns_secondary.present? && (IPAddr.new(dns_secondary) rescue nil).nil? && !errors.keys.include?(:dns_secondary)
+  end
+
 end

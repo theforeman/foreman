@@ -30,18 +30,19 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     AuthSourceLdap.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => AuthSourceLdap.first}, set_session_user
+    put :update, {:id => AuthSourceLdap.first, :auth_source_ldap => {} }, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     AuthSourceLdap.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => AuthSourceLdap.first}, set_session_user
+    put :update, {:id => AuthSourceLdap.first, :auth_source_ldap => {} }, set_session_user
     assert_redirected_to auth_source_ldaps_url
   end
 
   def test_destroy
     auth_source_ldap = AuthSourceLdap.first
+    User.where(:auth_source_id => auth_source_ldap.id).update_all(:auth_source_id => nil)
     delete :destroy, {:id => auth_source_ldap}, set_session_user
     assert_redirected_to auth_source_ldaps_url
     assert !AuthSourceLdap.exists?(auth_source_ldap.id)
@@ -63,4 +64,15 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
   end
+
+  test "blank account_password submitted does not erase existing account_password" do
+    auth_source_ldap = AuthSourceLdap.first
+    old_pass = auth_source_ldap.account_password
+    as_admin do
+      put :update, {:commit => "Update", :id => auth_source_ldap.id, :auth_source_ldap => {:account_password => '', :name => auth_source_ldap.name} }, set_session_user
+    end
+    auth_source_ldap = AuthSourceLdap.find(auth_source_ldap.id)
+    assert_equal old_pass, auth_source_ldap.account_password
+  end
+
 end

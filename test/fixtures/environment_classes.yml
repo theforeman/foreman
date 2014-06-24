@@ -1,0 +1,55 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one:
+  puppetclass: one
+  environment: production
+  lookup_key_id: nil
+
+two:
+  puppetclass: one
+  environment: production
+  lookup_key: complex
+
+three:
+  puppetclass: two
+  environment: production
+  lookup_key: five
+
+four:
+  puppetclass: four
+  environment: production
+  lookup_key: five_same_same
+
+five:
+  puppetclass: three
+  environment: testing
+  lookup_key_id: nil
+
+five_production:
+  puppetclass: five
+  environment: production
+  lookup_key_id: nil
+
+six_production:
+  puppetclass: six
+  environment: production
+  lookup_key_id: nil
+
+seven_production:
+  puppetclass: seven
+  environment: production
+  lookup_key_id: nil
+
+eight_production:
+  puppetclass: eight
+  environment: production
+  lookup_key_id: nil
+
+nine:
+  puppetclass: three
+  environment: global_puppetmaster
+  lookup_key_id: nil

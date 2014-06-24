@@ -1,0 +1,29 @@
+<%#
+kind: finish
+name: Preseed default finish
+oses:
+- Debian 6.0
+- Debian 7.0
+- Ubuntu 10.04
+- Ubuntu 12.04
+- Ubuntu 13.04
+%>
+<%
+  # safemode renderer does not support unary negation
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || @host.params['force-puppet']
+%>
+<% if puppet_enabled %>
+cat > /etc/puppet/puppet.conf << EOF
+<%= snippet 'puppet.conf' %>
+EOF
+if [ -f "/etc/default/puppet" ]
+then
+/bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
+fi
+/bin/touch /etc/puppet/namespaceauth.conf 
+/usr/bin/puppet agent --enable
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
+<% end -%>
+
+/usr/bin/wget --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>

@@ -1,15 +1,8 @@
 class AuthSourceLdapsController < ApplicationController
+  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+
   def index
-    @auth_source_ldaps = AuthSourceLdap.all
-    respond_to do |format|
-      format.html { }
-      format.json { render :json => @auth_source_ldaps }
-    end
-
-  end
-
-  def show
-    @auth_source_ldap = AuthSourceLdap.find(params[:id])
+    @auth_source_ldaps = resource_base.all
   end
 
   def new
@@ -26,11 +19,11 @@ class AuthSourceLdapsController < ApplicationController
   end
 
   def edit
-    @auth_source_ldap = AuthSourceLdap.find(params[:id])
   end
 
   def update
-    @auth_source_ldap = AuthSourceLdap.find(params[:id])
+    # remove from hash :account_password if blank?
+    params[:auth_source_ldap].except!(:account_password) if params[:auth_source_ldap][:account_password].blank?
     if @auth_source_ldap.update_attributes(params[:auth_source_ldap])
       process_success
     else
@@ -39,12 +32,10 @@ class AuthSourceLdapsController < ApplicationController
   end
 
   def destroy
-    @auth_source_ldap = AuthSourceLdap.find(params[:id])
     if @auth_source_ldap.destroy
       process_success
     else
       process_error
     end
-
   end
 end

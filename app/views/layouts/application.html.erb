@@ -1,59 +1,28 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title> <%= h(yield(:title) || "Foreman") %></title>
-    <%= stylesheet_link_tag 'jquery-ui', 'jquery.jnotify', 'bootstrap.min', 'style', 'bootstrap-responsive.min' %>
-    <%= javascript_include_tag :defaults, 'jquery_ujs', 'jquery-ui', 'highcharts', 'charts', 'jquery.jnotify', 'jquery.jeditable',
-        'bootstrap.min', 'bootstrap-dropdown', 'bootstrap-alert', 'bootstrap-tab', 'bootstrap-modal', 'bootstrap-tooltip', 'bootstrap-popover', 'bootstrap-collapse' %>
-    <%= csrf_meta_tag %>
-    <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
-
-    <%= yield(:head) %>
-  </head>
-
-  <body>
-    <div id="wrap">
-
-      <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-          <div class="container">
-            <%= render 'home/topbar' %>
-          </div>
+<%= content_for(:content) do %>
+  <div id="main">
+    <%= content_tag('div', flash[:error],   :class => 'flash hide error')   if flash[:error] %>
+    <%= content_tag('div', flash[:warning], :class => 'flash hide warning') if flash[:warning] %>
+    <%= content_tag('div', flash[:notice],  :class => 'flash hide notice')  if flash[:notice] %>
+    <%= render 'common/notice' unless @notices.empty? %>
+    <div id="content" class="container">
+      <% unless @page_header.blank? %>
+        <div class="row form-group">
+          <h1 class="col-md-8"><%=h @page_header %></h1>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="title_filter <%= searchable? ? "col-md-6" : "col-md-4" %>">
+          <%= render "common/searchbar" if searchable? %>
+          <%= yield(:search_bar) %>&nbsp;
+        </div>
+        <div id="title_action" class="<%= searchable? ? "col-md-6" : "col-md-8" %>">
+          <div class="btn-toolbar pull-right"><%=h yield(:title_actions) %></div>
         </div>
       </div>
 
-      <div id="main">
-        <%= content_tag('div', flash[:error],   :class => 'flash error')   if flash[:error] -%>
-        <%= content_tag('div', flash[:warning], :class => 'flash warning') if flash[:warning] -%>
-        <%= content_tag('div', flash[:notice],  :class => 'flash notice')  if flash[:notice] -%>
-        <%= render 'common/notice' unless @notices.empty? -%>
-        <div id="content" class="container">
-          <% unless @page_header.blank? -%>
-            <div class="row control-group">
-              <h1 class="span12"><%=h @page_header %></h1>
-            </div>
-          <% end -%>
-          <div class="row">
-            <div class= <%= searchable? ? "span6" : "span4" %>>
-              <%= render "common/searchbar" if searchable? %>
-              <%= yield(:search_bar) %>&nbsp;
-            </div>
-            <div id="title_action" class=<%= searchable? ? "span6" : "span8" %>>
-              <div class="btn-toolbar ra"><%=h yield(:title_actions) %></div>
-            </div>
-          </div>
-
-          <%= yield -%>
-        </div>
-      </div>
+      <%= yield %>
     </div>
-    <div id="footer">
-      Version <%= SETTINGS[:version] %> &copy; 2009-<script>document.write( (new Date()).getFullYear() );</script> <%= mail_to "paul.ian.kelly@googlemail.com", "Paul Kelly" %> and <%= mail_to "ohadlevy@gmail.com", "Ohad Levy" %>
-      <span>
-        <%= link_to "Help",    :controller => "dashboard", :action => "welcome" %> |
-        <%= link_to 'Wiki',    "http://theforeman.org/wiki/foreman", :rel => "external", :rel => "external" %> | 
-        <%= link_to 'Support', "http://theforeman.org/projects/foreman/wiki/Support", :rel => "external" %>
-      </span>
-    </div>
-  </body>
-</html>
+  </div>
+<% end %>
+    
+<%= render :template => 'layouts/base' %>

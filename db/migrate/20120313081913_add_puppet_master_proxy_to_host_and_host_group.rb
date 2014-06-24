@@ -1,4 +1,8 @@
 class AddPuppetMasterProxyToHostAndHostGroup < ActiveRecord::Migration
+  class SmartProxy < ActiveRecord::Base
+    has_and_belongs_to_many :features
+  end
+
   def self.up
     rename_column :hosts, :puppetproxy_id, :puppet_ca_proxy_id
     add_column :hosts, :puppet_proxy_id, :integer
@@ -8,14 +12,14 @@ class AddPuppetMasterProxyToHostAndHostGroup < ActiveRecord::Migration
     Hostgroup.reset_column_information
     ca_proxies = SmartProxy.joins(:features).where(:features => { :name => "Puppet CA" })
     proxies    = SmartProxy.joins(:features).where(:features => { :name => "Puppet" })
-    Host.select([:id, :puppetmaster_name]).each do |host|
+    Host.unscoped.select([:id, :puppetmaster_name]).each do |host|
       proxy = nil
       proxies.each { |p| proxy ||= p if p.to_s == host.puppetmaster_name }
       # if we can't figure out our proxy, we just fall back to the CA'
       proxy ||= ca_proxies.first if ca_proxies.any?
       host.update_single_attribute(:puppet_proxy_id, proxy.id) if proxy
     end
-    Hostgroup.select([:id, :puppetmaster_name]).each do |hg|
+    Hostgroup.unscoped.select([:id, :puppetmaster_name]).each do |hg|
       proxy = nil
       proxies.each { |p| proxy ||= p if p.to_s == hg.puppetmaster_name }
       proxy ||= ca_proxies.first if ca_proxies.any?

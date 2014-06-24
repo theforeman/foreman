@@ -1,0 +1,20 @@
+<% title _("Realms") %>
+
+<% title_actions display_link_if_authorized(_("New Realm"), hash_for_new_realm_path), help_path %>
+
+<table class="table table-bordered table-striped table-two-pane">
+  <tr>
+    <th><%= sort :name, :as => s_("Realm|Name") %></th>
+    <th><%= sort :hosts_count, :as => _("Hosts") %></th>
+    <th></th>
+  </tr>
+  <% for realm in @realms %>
+    <tr>
+      <td><%= link_to_if_authorized h(realm.name), hash_for_edit_realm_path(:id => realm)%></td>
+      <td><%= link_to realm.hosts_count, hosts_path(:search => "realm = #{realm}") %>
+      <td><%= display_delete_if_authorized hash_for_realm_path(:id => realm), :confirm => _("Delete %s?") % realm.name %></td>
+    </tr>
+  <% end %>
+</table>
+<%= page_entries_info @realms %>
+<%= will_paginate     @realms %>

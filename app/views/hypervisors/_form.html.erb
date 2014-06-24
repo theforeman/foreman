@@ -1,7 +1,0 @@
-<%= form_for @hypervisor do |f| %>
-  <%= base_errors_for @hypervisor %>
-  <%= text_f f, :name %>
-  <%= text_f f, :uri, :label => "URI", :class =>"input-xxlarge" %>
-  <%= selectable_f f, :kind, Hypervisor::KINDS %>
-  <%= submit_or_cancel f %>
-<% end %>

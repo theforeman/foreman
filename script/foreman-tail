@@ -1,0 +1,21 @@
+#!/bin/bash
+dir=/usr/share/foreman/script/foreman-tail.d
+opts="-Fn100"
+
+if [ "$1" == "-h" ]; then
+  man foreman-tail; exit 1
+fi
+if [ "$1" == "-l" ]; then
+  ls $dir | cut -d- -f2; exit 1
+fi
+
+if [ -z "$1" ]; then
+  tail $opts $(eval echo $(cat $dir/*)) 2>/dev/null
+else
+  if [ "$#" -eq 1 ]; then
+    tail $opts $(eval echo $(cat $dir/*-$1)) 2>/dev/null
+  else
+    args=$(IFS=","; echo "$*")
+    tail $opts $(cat $(eval echo $dir/*-{$args})) 2>/dev/null
+  fi
+fi

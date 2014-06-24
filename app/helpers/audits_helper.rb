@@ -1,55 +1,54 @@
 module AuditsHelper
 
-  MainObjects = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ConfigTemplate)
+  MainObjects = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ConfigTemplate ComputeProfile ComputeAttribute
+                   Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup)
 
   # lookup the Model representing the numerical id and return its label
   def id_to_label name, change
-    return "N/A" if change.nil?
+    return _("N/A") if change.nil?
     case name
       when "ancestry"
-        change.blank? ? "" : change.split('/').map { |i| Hostgroup.find(i).name rescue "NA" }.join('/')
+        change.blank? ? "" : change.split('/').map { |i| Hostgroup.find(i).name rescue _("NA") }.join('/')
       when 'last_login_on'
         change.to_s(:short)
       when /.*_id$/
-        model = (eval name.humanize)
-        model.find(change).to_label
+        name.classify.gsub('Id','').constantize.find(change).to_label
       else
         change.to_s
     end.truncate(50)
   rescue
-    "N/A"
+    _("N/A")
   end
 
   def audit_title audit
-    type_name = associated_type audit
-    if type_name == "Puppet Class"
-      "#{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]}"
-    else
-      audit.revision.to_label
+    type_name = audited_type audit
+    case type_name
+      when 'Puppet Class'
+        "#{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]}"
+      else
+        name = audit.auditable_name.blank? ? audit.revision.to_label : audit.auditable_name
+        name += " / #{audit.associated_name}" if audit.associated_id and !audit.associated_name.blank?
+        name
     end
   rescue
     ""
   end
 
-  def audit_parent audit
-    audit.associated
-  end
-
   def details audit
     if audit.action == 'update'
-      audit.audited_changes.map do |name, change|
+      Array.wrap(audit.audited_changes).map do |name, change|
         next if change.nil? or change.to_s.empty?
         if name == 'template'
-          "Provisioning Template content changed #{link_to 'view diff', audit_path(audit)}".html_safe if audit_template? audit
+          (_("Provisioning Template content changed %s") % (link_to 'view diff', audit_path(audit))).html_safe if audit_template? audit
         elsif name == "owner_id" || name == "owner_type"
-          "Owner changed to #{audit.revision.owner rescue 'N/A'}"
+          _("Owner changed to %s") % (audit.revision.owner rescue _('N/A'))
         else
-          "#{name.humanize} changed from #{id_to_label name, change[0]} to #{id_to_label name, change[1]}"
+          _("%{name} changed from %{label1} to %{label2}") % { :name => name.humanize, :label1 => id_to_label(name, change[0]), :label2 => id_to_label(name, change[1]) }
         end
       end
     elsif !main_object? audit
       ["#{audit_action_name(audit).humanize} #{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]}
-       #{audit_action_name(audit)=="removed" ? "from" : "to"} #{id_to_label audit.audited_changes.keys[1], audit.audited_changes.values[1]}"]
+       #{audit_action_name(audit)=="removed" ? "from" : "to"} #{audit.associated_name || id_to_label(audit.audited_changes.keys[1], audit.audited_changes.values[1])}"]
     else
       []
     end
@@ -79,47 +78,65 @@ module AuditsHelper
   end
 
   def audit_user audit
-    username=audit.user_as_string.to_s.gsub('User', '')
-    login = audit.user_as_string.login rescue username
-    link_to icon_text('user', username), hash_for_audits_path(:search => "user = #{login}") if audit.user_as_string
+    return if audit.username.nil?
+    login = audit.user.login rescue nil # aliasing the user method sometimes yields strings
+    link_to(icon_text('user', audit.username.gsub(_('User'), '')), hash_for_audits_path(:search => login ? "user = #{login}" : "username = \"#{audit.username}\""))
   end
 
   def audit_time audit
-    content_tag :span, audit.created_at.to_s(:short),
+    content_tag :span, _("%s ago") % time_ago_in_words(audit.created_at),
                 { :'data-original-title' => audit.created_at.to_s(:long), :rel => 'twipsy' }
   end
 
-  def associated_icon audit
-    style = 'label label-info'
+  def audited_icon audit
+    style = 'label-info'
     style = case audit.action
               when 'create'
-                'label label-success'
+                'label-success'
               when 'update'
-                'label label-info'
+                'label-info'
               when 'destroy'
-                'label label-important'
+                'label-danger'
               else
-                'label'
+                ''
             end if main_object? audit
+    style += " label"
 
-    type   = associated_type audit
+    type   = audited_type(audit)
     symbol = case type
                when "Host"
-                 icon_text('hdd', type)
+                 'hdd'
                when "Hostgroup"
-                 icon_text('tasks', type)
+                 'tasks'
                when "User"
-                 icon_text('user', type)
+                 'user'
                else
-                 icon_text('cog', type)
+                 'cog'
              end
-    content_tag(:b, symbol, :class => style)
+    content_tag(:b, icon_text(symbol, type, :class => 'icon-white'), :class => style)
   end
 
-  def associated_type audit
-    type_name = audit.auditable_type.split("::").last rescue ''
-    type_name ="Puppet Class" if type_name == "HostClass"
+  def audited_type audit
+    type_name = case audit.auditable_type
+                  when 'HostClass'
+                    'Puppet Class'
+                  when 'Parameter'
+                    "#{audit.associated_type || 'Global'}-#{type_name}"
+                  when 'LookupKey'
+                    'Smart Variable'
+                  when 'LookupValue'
+                    'Override Value'
+                  else
+                    audit.auditable_type
+                end
     type_name.underscore.titleize
+  end
+
+  def audit_remote_address audit
+    return if audit.remote_address.empty?
+    content_tag :span, :style => 'color:#999;' do
+      "(" + audit.remote_address + ")"
+    end
   end
 
   private

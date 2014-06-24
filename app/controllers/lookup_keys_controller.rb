@@ -1,34 +1,11 @@
 class LookupKeysController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_key, :except => :index
   before_filter :setup_search_options, :only => :index
+  before_filter :find_by_key, :only => [:edit, :update, :destroy], :if => Proc.new { params[:id] }
 
   def index
-    begin
-      values = LookupKey.search_for(params[:search], :order => params[:order])
-    rescue => e
-      error e.to_s
-      values = LookupKey.search_for ""
-    end
-
-    respond_to do |format|
-      format.html do
-        @lookup_keys = values.paginate(:page => params[:page], :include => [:lookup_values, :puppetclass])
-      end
-      format.json { render :json => values}
-    end
-  end
-
-  def show
-    if (name = params[:host_id]).blank? or (host = Host.find_by_name(name)).blank?
-      value = @lookup_key
-    else
-      value = { :value => @lookup_key.value_for(host) }
-    end
-
-    respond_to do |format|
-      format.json { render :json => value }
-    end
+    @lookup_keys = resource_base.search_for(params[:search], :order => params[:order]).includes(:param_classes, :puppetclass).paginate(:page => params[:page])
+    @puppetclass_authorizer = Authorizer.new(User.current, :collection => @lookup_keys.map(&:puppetclass_id).compact.uniq)
   end
 
   def edit
@@ -51,14 +28,14 @@ class LookupKeysController < ApplicationController
   end
 
   private
+
   def find_by_key
-    if params[:id]
-      if params[:id].to_i == 0
-        @lookup_key = LookupKey.find_by_key(params[:id])
-      else
-        @lookup_key = LookupKey.find(params[:id])
-      end
-      not_found and return if @lookup_key.blank?
-    end
+    @lookup_key = resource_base.find(params[:id])
+    not_found and return if @lookup_key.blank?
+    @lookup_key
+  end
+
+  def controller_permission
+    'external_variables'
   end
 end

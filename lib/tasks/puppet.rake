@@ -33,7 +33,7 @@ namespace :puppet do
           next
         end
 
-        if host.populateFieldsFromFacts
+        if host.populate_fields_from_facts
           counter += 1
         else
           $stdout.puts "#{host.hostname}: #{host.errors.full_messages.join(", ")}"
@@ -45,27 +45,45 @@ namespace :puppet do
   namespace :import do
     desc "Imports hosts and facts from existings YAML files, use dir= to override default directory"
     task :hosts_and_facts => :environment do
-      dir = ENV['dir'] || "#{Puppet[:vardir]}/yaml/facts"
+      dir = ENV['dir'] || "#{SETTINGS[:puppetvardir]}/yaml/facts"
       puts "Importing from #{dir}"
       Dir["#{dir}/*.yaml"].each do |yaml|
         name = yaml.match(/.*\/(.*).yaml/)[1]
         puts "Importing #{name}"
-        Host.importHostAndFacts File.read yaml
+        puppet_facts = File.read(yaml)
+        facts_stripped_of_class_names = YAML::load(puppet_facts.gsub(/\!ruby\/object.*$/,''))
+        Host.import_host_and_facts facts_stripped_of_class_names['name'], facts_stripped_of_class_names['values'].with_indifferent_access
       end
     end
   end
   namespace :import do
-    desc "Update puppet environments and classes. Optional batch flag triggers run with no prompting"
-    task :puppet_classes,  [:batch] => :environment do | t, args |
+    desc "
+    Update puppet environments and classes. Optional batch flag triggers run with no prompting\nUse proxy=<proxy name> to import from or get the first one by default"
+    task :puppet_classes,  [:batch, :envname] => :environment do | t, args |
       args.batch = args.batch == "true"
-      # Evalute any changes that exist between the database of environments and puppetclasses and
+
+      proxies = SmartProxy.with_features("Puppet")
+      if proxies.empty?
+        puts "ERROR: We did not find at least one configured Smart Proxy with the Puppet feature"
+        exit 1
+      end
+      if ENV["proxy"]
+        proxy = proxies.select{|p| p.name == ENV["proxy"]}.first
+        unless proxy.is_a?(SmartProxy)
+          puts "Smart Proxies #{ENV["proxy"]} was not found, aborting"
+          exit 1
+        end
+      end
+      proxy ||= proxies.first
+      # Evaluate any changes that exist between the database of environments and puppetclasses and
       # the on-disk puppet installation
       begin
         puts "Evaluating possible changes to your installation" unless args.batch
-        changes = Environment.importClasses
+        importer = PuppetClassImporter.new({ :url => proxy.url, :env => args.envname })
+        changes  = importer.changes
       rescue => e
         if args.batch
-          Rails.logger.warn "Failed to refresh puppet classes: #{e}"
+          Rails.logger.error "Failed to refresh puppet classes: #{e}"
         else
           puts "Problems were detected during the evaluation phase"
           puts
@@ -73,7 +91,7 @@ namespace :puppet do
           puts
           puts "Please fix these issues and try again"
         end
-        exit
+        exit 1
       end
 
       if changes["new"].empty? and changes["obsolete"].empty?
@@ -81,9 +99,11 @@ namespace :puppet do
       else
         unless args.batch
           puts "Scheduled changes to your environment"
-          puts "Create/update environments"
-          for env, classes in changes["new"]
-            print "%-15s: %s\n" % [env, classes.to_sentence]
+          ["new", "updated"].each do |c|
+            puts "#{c.titleize} environments"
+            for env, classes in changes[c]
+              print "%-15s: %s\n" % [env, classes.keys.to_sentence]
+            end
           end
           puts "Delete environments"
           for env, classes in changes["obsolete"]
@@ -103,9 +123,8 @@ namespace :puppet do
         errors = ""
         # Apply the filtered changes to the database
         begin
-          changed = { :new => changes["new"], :obsolete => changes["obsolete"] }
-          [:new, :obsolete].each { |kind| changed[kind].each_key { |k| changes[kind.to_s][k] = changes[kind.to_s][k].inspect } }
-          errors = Environment.obsolete_and_new(changed)
+          ['new', 'updated', 'obsolete'].each { |kind| changes[kind].each_key { |k| changes[kind.to_s][k] = changes[kind.to_s][k].to_json } }
+          errors = PuppetClassImporter.new.obsolete_and_new(changes)
         rescue => e
           errors = e.message + "\n" + e.backtrace.join("\n")
         end
@@ -123,6 +142,46 @@ namespace :puppet do
           Rails.logger.warn "Failed to refresh puppet classes: #{errors}"
         end
       end
+    end
+
+
+    desc "Imports only the puppet environments from SmartProxy source."
+    task :environments_only, [:batch] => :environment do | t, args |
+      args.batch = args.batch == "true"
+      puts " ================================================================ "
+      puts "Import starts: #{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}"
+
+      proxies = SmartProxy.with_features("Puppet")
+      if proxies.empty?
+        puts "ERROR: We did not find at least one configured Smart Proxy with the Puppet feature"
+        exit 1
+      end
+      if ENV["proxy"]
+        proxy = proxies.select{|p| p.name == ENV["proxy"]}.first
+        unless proxy.is_a?(SmartProxy)
+          puts "Smart Proxies #{ENV["proxy"]} was not found, aborting"
+          exit 1
+        end
+      end
+      proxy ||= proxies.first
+      # Evaluate any changes that exist between the database of environments and the on-disk puppet installation
+      begin
+        puts "Importing environments" unless args.batch
+        importer = PuppetClassImporter.new({ :url => proxy.url })
+        puts "New environments: #{importer.new_environments.join(', ')} "
+        puts "Old environments: #{importer.old_environments.join(', ')} "
+        importer.new_environments.each { |new_environment| Environment.create!(:name => new_environment) }
+        importer.old_environments.each { |old_environment| Environment.find_by_name(old_environment).destroy }
+      rescue => e
+        puts "Problems were detected during the evaluation phase"
+        puts
+        puts e.message.gsub(/<br\/>/, "\n") + "\n"
+        puts
+        puts "Please fix these issues and try again"
+        exit 1
+      end
+      puts "Import ends: #{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}"
+      puts " ================================================================ "
     end
   end
 
@@ -155,7 +214,6 @@ namespace :puppet do
         end
         $stdout.flush
       end
-
     end
   end
 

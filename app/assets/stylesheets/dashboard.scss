@@ -1,0 +1,46 @@
+/*
+ *= require jquery.gridster
+ *= require gridster.scss
+ */
+
+#dashboard{
+  #status-table li{
+    margin: 10px 0;
+    list-style: none;
+    h4{
+        float:right;
+        line-height: 10px;
+    }
+  }
+  .header{
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px;
+  }
+  .total{
+    border-top: 1px solid #ddd;
+    text-align: right;
+    padding-top: 10px;
+  }
+  .stats-well {
+    min-height: 363px;
+  }
+  .statistics-bar{
+   height: 270px;
+   width: 90%;
+  }
+}
+
+.dashboard-links{
+  color: #333333;
+}
+
+.dashboard-pie{
+ height: 180px;
+ width: 180px;
+}
+
+.dashboard-right {
+ margin-right: 10px;
+ margin-top: 80px;
+ float: right;
+}

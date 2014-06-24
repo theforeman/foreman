@@ -1,26 +1,26 @@
-<% title "Import subnets" %>
+<% title _("Import subnets") %>
 
-<h2>The following subnets has been found</h2>
+<h2><%= _("The following subnets have been found") %></h2>
 
-<%= form_for "subnets[]", :url => create_multiple_subnets_path do |f| -%>
+<%= form_for "subnets[]", :url => create_multiple_subnets_path do |f| %>
   <% display_all = !minimal?(@subnets) %>
   <div class="accordion" id='accordion1'>
-  <% @subnets.each do |subnet| -%>
+  <% @subnets.each do |subnet| %>
     <% id = 'subnet_fields_'+subnet.to_s.gsub('/','_').gsub('.','_') %>
     <div class="accordion-group">
       <div class="accordion-heading" >
         <a class="accordion-toggle" data-toggle="collapse" data-parent='#accordion1' href="<%= '#'+id %>" data-original-title='review' rel='twipsy' > <%= subnet %> </a>
         <%= link_to_function "x", "ignore_subnet(this)", :'data-original-title'=> 'ignore subnet', :rel=>'twipsy', :class => "label ignore-subnet" %>
       </div>
-      <div id="<%= id %>" class="<%= display_all ? 'accordion-body collapse in' : 'accordion-body collapse' %>" >
+      <div id="<%= id %>" class="accordion-body collapse <%= 'in' if display_all %>" >
         <div class="accordion-inner">
-          <%= fields_for "subnets[]", subnet do |s| -%>
+          <%= fields_for "subnets[]", subnet do |s| %>
               <%= render 'fields', :f => s %>
-          <% end -%>
+          <% end %>
         </div>
       </div>
     </div>
-  <% end -%>
+  <% end %>
   </div>
   <%= submit_or_cancel f %>
-<% end -%>
+<% end %>

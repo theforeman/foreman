@@ -1,4 +1,5 @@
 group :fog do
-  gem "fog", :git => "git://github.com/fog/fog.git"
-  #gem "fog", ">= 1.3.2"
+ gem 'fog', '~> 1.21.0'
+ gem 'fog-core', '~> 1.21.0'
+ gem 'unf'
 end

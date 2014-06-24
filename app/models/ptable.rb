@@ -3,22 +3,25 @@
 # A host object may contain a reference to one of these ptables or, alternatively, it may contain a
 # modified version of one of these in textual form
 class Ptable < ActiveRecord::Base
-  include Authorization
-  has_many :hosts
+  include Authorizable
+  include ValidateOsFamily
+  audited :allow_mass_assignment => true
+
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
+  has_many_hosts
+  has_many :hostgroups
   has_and_belongs_to_many :operatingsystems
-  before_destroy EnsureNotUsedBy.new(:hosts)
-  validates_uniqueness_of :name
-  validates_uniqueness_of :layout
-  validates_presence_of :layout
-  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain trailing white spaces."
-  default_scope :order => 'LOWER(ptables.name)'
+  validates :layout, :presence => true
+  validates :name, :uniqueness => true, :format => {:with => /\A(\S+\s?)+\S\Z/, :message => N_("can't be blank or contain trailing white spaces.")}
+  default_scope lambda { order('ptables.name') }
+  validate_inclusion_in_families :os_family
 
-  scoped_search :on => :name, :complete_value => true
+  scoped_search :on => :name, :complete_value => true, :default_order => true
   scoped_search :on => :layout, :complete_value => false
+  scoped_search :on => :os_family, :rename => "family", :complete_value => :true
 
-  def as_json(options={})
-    options ||= {}
-    super({:only => [:name, :id]}.merge(options))
+  def skip_strip_attrs
+    ['layout']
   end
 
 end

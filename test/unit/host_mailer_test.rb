@@ -2,6 +2,7 @@ require 'test_helper'
 
 class HostMailerTest < ActionMailer::TestCase
   def setup
+    disable_orchestration
     @host = hosts(:one)
     @env = environments(:production)
     as_admin do
@@ -10,11 +11,17 @@ class HostMailerTest < ActionMailer::TestCase
       @env.hosts << @host
       @env.save
     end
-    User.current = User.find_by_login "admin"
+    User.current = User.admin
     Setting[:foreman_url] = "http://localhost:3000/hosts/:id"
 
     @options = {}
     @options[:env] = @env
+
+    # HostMailer relies on .size, and Rails looks to the counter_caches
+    # if they exist.  Since fixtures don't populate the counter_caches,
+    # we do it here:
+    Environment.reset_counters(@env, :hosts)
+    @env.reload
   end
 
   test "mail should have the specified recipient" do

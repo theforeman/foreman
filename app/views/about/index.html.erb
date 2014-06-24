@@ -1,0 +1,129 @@
+<% title _("About") %>
+
+<div class="row" id="about">
+  <div class="col-md-7">
+
+    <div class="stats-well">
+      <h4><%=_("System Status")%></h4>
+      <ul class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="#smart_proxies" data-toggle="tab"><%= _('Smart Proxies') %></a></li>
+        <% if SETTINGS[:unattended] %>
+          <li><a href="#available_providers" data-toggle="tab"><%= _('Available Providers') %></a></li>
+          <li><a href="#compute_resources" data-toggle="tab"><%= _('Compute Resources') %></a></li>
+        <% end %>
+        <li><a href="#plugins" data-toggle="tab"><%= _('Plugins') %></a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="smart_proxies">
+          <% if @smart_proxies.empty? %>
+            <p class="ca"><%= _("No smart proxies to show") %></p>
+          <% else %>
+            <table class="table table-striped">
+              <tr>
+                <th><%= _("Name") %></th>
+                <th><%= _("Features") %></th>
+                <th><%= _("Status") %></th>
+              </tr>
+              <% @smart_proxies.each do |proxy| %>
+                <tr>
+                  <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy.id) %></td>
+                  <td><%=h proxy.features.to_sentence %></td>
+                  <td><div class="proxy-status" data-url=<%= ping_smart_proxy_path(proxy) %>><%= _("Connecting..") %></div></td>
+                </tr>
+              <% end %>
+            </table>
+          <% end %>
+        </div>
+        <% if SETTINGS[:unattended] %>
+          <div class="tab-pane" id="available_providers">
+            <table class="table table-striped">
+              <tr>
+                <th><%= _("Provider") %></th>
+                <th><%= _("Status") %></th>
+              </tr>
+              <% ComputeResource.supported_providers.each do |provider,klass| %>
+                <tr>
+                  <td><%= klass.constantize.provider_friendly_name %></td>
+                  <% if ComputeResource.providers.include?(provider) %>
+                    <td><div class="label label-success"><%= _('Installed') %></div></td>
+                  <% else %>
+                    <td><div class="label label-default"><%= _('Not Installed') %></div></td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </table>
+            <%= _('To enable a provider, either install the OS package (e.g. foreman-libvirt) or enable the bundler group for development setup (e.g. ovirt).') %>
+          </div>
+          <div class="tab-pane" id="compute_resources">
+            <% if @compute_resources.empty? %>
+              <p class="ca"><%= _("No compute resource to show") %></p>
+            <% else %>
+              <table class="table table-striped">
+                <tr>
+                  <th><%= _("Name") %></th>
+                  <th><%= _("Type") %></th>
+                  <th><%= _("Status") %></th>
+                </tr>
+                <% @compute_resources.each do |compute| %>
+                  <tr>
+                    <td><%= link_to compute.name, compute %></td>
+                    <td><%= compute.provider_friendly_name %></td>
+                    <td><div class="compute-status" data-url=<%= ping_compute_resource_path(compute) %>><%= _("Connecting..") %></div></td>
+                  </tr>
+                <% end %>
+              </table>
+            <% end %>
+          </div>
+        <% end %>
+        <div class="tab-pane" id="plugins">
+          <% if @plugins.empty? %>
+            <p class="ca"><%= _("No plugins found") %></p>
+          <% else %>
+            <table class="table table-striped">
+              <tr>
+                <th><%= _("Name") %></th>
+                <th><%= _("Description") %></th>
+                <th><%= _("Author") %></th>
+                <th><%= _("Version") %></th>
+              </tr>
+              <% @plugins.each do |plugin| %>
+                <tr>
+                  <td><%= plugin.url.blank? ? plugin.name : link_to(plugin.name, plugin.url, :rel=>'external')%></td>
+                  <td><%= _(plugin.description) %></td>
+                  <td><%= plugin.author_url.blank? ? plugin.author : link_to(plugin.author, plugin.author_url)%></td>
+                  <td><%= plugin.version %></td>
+                </tr>
+              <% end %>
+            </table>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="stats-well">
+      <h4><%= _("Support") %></h4>
+      <h6><%= _("Documentation") %></h6>
+      <ul>
+        <li><%= link_to _('Manual'),"http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/", :rel => "external" %></li>
+        <li><%= link_to _('Wiki'),"http://projects.theforeman.org", :rel => "external" %></li>
+        <li><%= link_to _("First use instructions"), :controller => '/dashboard', :action => 'welcome' %></li>
+      </ul>
+      <h6><%= _("IRC") %></h6>
+      <p><%= (_("You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev.") % {:freenode => link_to("freenode", "http://www.freenode.net", :rel => "external")}).html_safe  %></p>
+      <h6><%= _("Mailing lists") %></h6>
+      <p><%= _("Mailing lists are available via Google Groups. Much like IRC, we have a general users (support, Q/A, etc) lists and a development list:") %></p>
+      <ul>
+        <li><%= link_to _("Foreman Users"), "http://groups.google.com/group/foreman-users", :rel => "external" %></li>
+        <li><%= link_to _("Foreman Developers"), "http://groups.google.com/group/foreman-dev", :rel => "external" %></li>
+      </ul>
+      <h6><%= _("Issue tracker") %></h6>
+      <p><%= _("We use Redmine to report and track bugs and feature requests, which can be found here:") %> <%= link_to _("issue tracker"), "http://projects.theforeman.org/projects/foreman/issues", :rel => "external" %></p>
+    </div>
+    <div class="stats-well" id="copyright-div">
+      <h4><%= _("System Information") %> </h4>
+      <p id="copyright-p"><%= (_("Version %{version}  © 2009-%{year} Paul Kelly and %{author}") % {:version => SETTINGS[:version], :year=>DateTime.now.year, :author=>link_to("Ohad Levy", "mailto:ohadlevy@gmail.com" )}).html_safe %></p>
+    </div>
+  </div>
+</div>
+</div>

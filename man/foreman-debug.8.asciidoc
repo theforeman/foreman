@@ -1,0 +1,62 @@
+foreman\-debug(8)
+=================
+:man source:  foreman-debug
+:man manual:  Foreman Manual
+
+NAME
+----
+foreman-debug - Foreman configuration and log collector
+
+SYNOPSIS
+--------
+foreman-debug [OPTIONS]
+
+foreman-debug -d /output/dir -a -m 9000 -v
+
+foreman-debug -h
+
+DESCRIPTION
+-----------
+
+Collects configuration and log data for Foreman, Smart Proxies, backend
+services and system information while removing security information like
+passwords, tokens and keys.
+
+This program can be used on Foreman instances, Smart Proxy instances or
+backend services separately.
+
+SENDING INFORMATION
+-------------------
+
+Use the *foreman-debug* tool to generate a tarball with your configuration and
+recent logs and send it to developers for further investigation. Note that
+passwords and tokens are filtered out, but the tarball still can contain
+*sensitive information*. For this reason it is recommended to send directly to
+the developers, and not publicly on the mailing list for production instances.
+
+OPTIONS
+-------
+
+The following options are available:
+
+  -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
+  -g      Skip generic info (CPU, memory, firewall etc.)
+  -a      Do not generate a tarball from the resulting directory
+  -m NUM  Maximum lines to keep for each file (default 5000)
+  -j PRG  Filter with provided program when creating a tarball
+  -p      Additionally print all passwords which are being filtered
+  -q      Quiet mode
+  -v      Verbose mode
+  -h      Shows this message
+
+
+SEE ALSO
+--------
+
+*foreman-rake*(8)
+
+GETTING HELP
+------------
+
+For support, please see http://theforeman.org/support.html, the
+foreman-users@googlegroups.com mailing list or #theforeman on Freenode.

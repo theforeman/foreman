@@ -1,17 +1,32 @@
-require 'user'
 class Usergroup < ActiveRecord::Base
-  include Authorization
-  has_many_polymorphs :members, :from => [:usergroups, :users ], :as => :member,
-    :through => :usergroup_member, :foreign_key => :usergroup_id, :dependent => :destroy
+  audited :allow_mass_assignment => true
+  include Authorizable
 
-  has_many :hosts, :as => :owner
-  validates_uniqueness_of :name
-  before_destroy EnsureNotUsedBy.new(:hosts, :usergroups)
+  before_destroy EnsureNotUsedBy.new(:hosts)
+
+  has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
+  has_many :roles, :through => :user_roles, :dependent => :destroy
+
+  has_many :usergroup_members, :dependent => :destroy
+  has_many :users,      :through => :usergroup_members, :source => :member, :source_type => 'User', :dependent => :destroy
+  has_many :usergroups, :through => :usergroup_members, :source => :member, :source_type => 'Usergroup', :dependent => :destroy
+  has_many :external_usergroups, :dependent => :destroy, :inverse_of => :usergroup
+
+  has_many :cached_usergroup_members
+  has_many :usergroup_parents, :dependent => :destroy, :foreign_key => 'member_id',
+           :conditions => "member_type = 'Usergroup'", :class_name => 'UsergroupMember'
+  has_many :parents,    :through => :usergroup_parents, :source => :usergroup, :dependent => :destroy
+
+  has_many_hosts :as => :owner
+  validates :name, :uniqueness => true, :length => { :maximum => 255 }
 
   # The text item to see in a select dropdown menu
   alias_attribute :select_title, :to_s
-  default_scope :order => 'LOWER(usergroups.name)'
+  default_scope lambda { order('usergroups.name') }
+  scoped_search :on => :name, :complete_value => :true
   validate :ensure_uniq_name
+
+  accepts_nested_attributes_for :external_usergroups, :reject_if => lambda { |a| a[:name].blank? }, :allow_destroy => true
 
   # This methods retrieves all user addresses in a usergroup
   # Returns: Array of strings representing the user's email addresses
@@ -49,11 +64,17 @@ class Usergroup < ActiveRecord::Base
   end
 
   def ensure_uniq_name
-    errors.add :name, "is already used by a user account" if User.where(:login => name).first
+    errors.add :name, _("is already used by a user account") if User.where(:login => name).first
   end
 
-  def as_json(options={})
-    super({:only => [:name, :id]})
+  def add_users(userlist)
+    users << User.where( {:login => userlist } )
   end
+
+  def remove_users(userlist)
+    old_users = User.select { |user| userlist.include?(user.login) }
+    self.users = self.users - old_users
+  end
+
 
 end

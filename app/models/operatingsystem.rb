@@ -2,8 +2,12 @@ require 'ostruct'
 require 'uri'
 
 class Operatingsystem < ActiveRecord::Base
-  include Authorization
-  has_many :hosts
+  include Authorizable
+  include ValidateOsFamily
+
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
+  has_many_hosts
+  has_many :hostgroups
   has_many :images, :dependent => :destroy
   has_and_belongs_to_many :media
   has_and_belongs_to_many :ptables
@@ -14,40 +18,49 @@ class Operatingsystem < ActiveRecord::Base
   accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,
     :reject_if => lambda { |v| v[:config_template_id].blank? }
 
-  validates_presence_of :major, :message => "Operating System version is required"
+  validates :major, :numericality => true, :presence => { :message => N_("Operating System version is required") }
   has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id
-
+  has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "OsParameter"
   accepts_nested_attributes_for :os_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
-  validates_numericality_of :major
-  validates_numericality_of :minor, :allow_nil => true, :allow_blank => true
-  validates_format_of :name, :with => /\A(\S+)\Z/, :message => "can't be blank or contain white spaces."
+  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
+  attr_name :to_label
+  validates :minor, :numericality => true, :allow_nil => true, :allow_blank => true
+  validates :name, :format => {:with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")}
+  validates :description, :uniqueness => true, :allow_blank => true
   before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
 
-  before_destroy EnsureNotUsedBy.new(:hosts)
-  before_save :deduce_family
-  audited
-  default_scope :order => 'LOWER(operatingsystems.name)'
+  before_save :set_family
 
-  scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :major, :complete_value => :true
-  scoped_search :on => :minor, :complete_value => :true
-  scoped_search :on => :type, :complete_value => :true, :rename => "family"
+  audited :allow_mass_assignment => true
+  default_scope lambda { order('operatingsystems.name') }
 
-  scoped_search :in => :architectures,    :on => :name, :complete_value => :true, :rename => "architecture"
-  scoped_search :in => :media,            :on => :name, :complete_value => :true, :rename => "medium"
-  scoped_search :in => :config_templates, :on => :name, :complete_value => :true, :rename => "template"
+  scoped_search :on => :name,        :complete_value => :true
+  scoped_search :on => :major,       :complete_value => :true
+  scoped_search :on => :minor,       :complete_value => :true
+  scoped_search :on => :description, :complete_value => :true
+  scoped_search :on => :type,        :complete_value => :true, :rename => "family"
+  scoped_search :on => :hosts_count
+  scoped_search :on => :hostgroups_count
+
+  scoped_search :in => :architectures,    :on => :name,  :complete_value => :true, :rename => "architecture"
+  scoped_search :in => :media,            :on => :name,  :complete_value => :true, :rename => "medium"
+  scoped_search :in => :config_templates, :on => :name,  :complete_value => :true, :rename => "template"
   scoped_search :in => :os_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :rename => :params
 
-  FAMILIES = { 'Debian'  => %r{Debian|Ubuntu}i,
-               'Redhat'  => %r{RedHat|Centos|Fedora|Scientific|SLC}i,
-               'Suse'    => %r{OpenSuSE}i,
-               'Windows' => %r{Windows}i,
+  FAMILIES = { 'Debian'    => %r{Debian|Ubuntu}i,
+               'Redhat'    => %r{RedHat|Centos|Fedora|Scientific|SLC|OracleLinux}i,
+               'Suse'      => %r{OpenSuSE|SLES|SLED}i,
+               'Windows'   => %r{Windows}i,
                'Archlinux' => %r{Archlinux}i,
-               'Solaris' => %r{Solaris}i }
+               'Gentoo'    => %r{Gentoo}i,
+               'Solaris'   => %r{Solaris}i,
+               'Freebsd'   => %r{FreeBSD}i,
+               'AIX'       => %r{AIX}i,
+               'Junos'     => %r{Junos}i }
 
   class Jail < Safemode::Jail
-    allow :name, :media_url, :major, :minor, :family, :to_s, :epel, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri
+    allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri
   end
 
   # As Rails loads an object it casts it to the class in the 'type' field. If we ensure that the type and
@@ -64,9 +77,25 @@ class Operatingsystem < ActiveRecord::Base
   def self.families
     FAMILIES.keys.sort
   end
+  validate_inclusion_in_families :type
 
   def self.families_as_collection
-    families.map{|e| OpenStruct.new(:name => e, :value => e) }
+    families.map do |f|
+      OpenStruct.new(:name => f.constantize.new.display_family, :value => f)
+    end
+  end
+
+  # Operating system family can override this method to provide an array of
+  # hashes, each describing a repository. For example, to describe a yum repo,
+  # the following structure can be returned by the method:
+  # [{ :baseurl => "https://dl.thesource.com/get/it/here",
+  #    :name => "awesome",
+  #    :description => "awesome product repo"",
+  #    :enabled => 1,
+  #    :gpgcheck => 1
+  #  }]
+  def repos host
+    []
   end
 
   def medium_uri host, url = nil
@@ -90,19 +119,36 @@ class Operatingsystem < ActiveRecord::Base
 
   # The OS is usually represented as the concatenation of the OS and the revision
   def to_label
-    "#{name} #{release}"
+    return description if description.present?
+    fullname
+  end
+
+  # to_label setter updates description and does not try to parse and update major, minor attributes
+  def to_label=(str)
+    self.description = str
   end
 
   def release
     "#{major}#{('.' + minor) unless minor.empty?}"
   end
 
-  def to_s
-    to_label
+  def fullname
+    "#{name} #{release}"
   end
 
-  def fullname
-    to_label
+  def to_s
+    fullname
+  end
+
+  def self.find_by_to_label(str)
+    os = self.find_by_description(str)
+    return os if os
+    a = str.split(" ")
+    b = a[1].split('.') if a[1]
+    cond = {:name => a[0]}
+    cond.merge!(:major => b[0]) if b && b[0]
+    cond.merge!(:minor => b[1]) if b && b[1]
+    self.where(cond).first
   end
 
   # sets the prefix for the tfp files based on the os / arch combination
@@ -114,10 +160,6 @@ class Operatingsystem < ActiveRecord::Base
     boot_files_uri(medium, arch).collect do |img|
       { pxe_prefix(arch).to_sym => img.to_s}
     end
-  end
-
-  def as_json(options={})
-    {:operatingsystem => {:name => to_s, :id => id, :media => media, :architectures => architectures, :ptables => ptables, :config_templates => config_templates}}
   end
 
   def kernel arch
@@ -158,36 +200,47 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def image_extension
-    raise "Attempting to construct a operatingsystem image filename but #{family} cannot be built from an image"
-  end
-
-  private
-  def deduce_family
-    if self.family.blank?
-      found = nil
-      for f in self.class.families
-        if name =~ FAMILIES[f]
-          found = f
-        end
-      end
-      self.family = found
-    end
-  end
-
-  def downcase_release_name
-    self.release_name.downcase! unless defined?(Rake) or release_name.nil? or release_name.empty?
-  end
-
-  def boot_files_uri(medium, architecture)
-    raise "invalid medium for #{to_s}" unless media.include?(medium)
-    raise "invalid architecture for #{to_s}" unless architectures.include?(architecture)
-    eval("#{self.family}::PXEFILES").values.collect do |img|
-      medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
-    end
+    raise ::Foreman::Exception.new(N_("Attempting to construct an operating system image filename but %s cannot be built from an image"), family)
   end
 
   # If this OS family requires access to its media via NFS
   def require_nfs_access_to_medium
     false
   end
+
+  # Pretty method for displaying the Family name
+  def display_family
+    "Unknown"
+  end
+
+  def self.shorten_description description
+    # This method should be overridden in the OS subclass
+    # to handle shortening the specific formats of lsbdistdescription
+    # returned by Facter on that OS
+    description
+  end
+
+  def deduce_family
+    self.family || self.class.families.find do |f|
+      name =~ FAMILIES[f]
+    end
+  end
+
+  private
+  def set_family
+    self.family ||= self.deduce_family
+  end
+
+  def downcase_release_name
+    self.release_name.downcase! unless Foreman.in_rake? or release_name.nil? or release_name.empty?
+  end
+
+  def boot_files_uri(medium, architecture)
+    raise (_("invalid medium for %s") % to_s) unless media.include?(medium)
+    raise (_("invalid architecture for %s") % to_s) unless architectures.include?(architecture)
+    eval("#{self.family}::PXEFILES").values.collect do |img|
+      medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
+    end
+  end
+
 end

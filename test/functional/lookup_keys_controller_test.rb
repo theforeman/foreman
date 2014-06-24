@@ -8,12 +8,12 @@ class LookupKeysControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    get :edit, {:id => lookup_keys(:one).to_param, :puppetclass_id => puppetclasses(:one).id}, set_session_user
+    get :edit, {:id => lookup_keys(:one).to_param}, set_session_user
     assert_response :success
   end
 
   test "should update lookup_keys" do
-    put :update, {:id => lookup_keys(:one).to_param, :puppetclass_id => puppetclasses(:one).id, :lookup_key => { :key => "test that" }}, set_session_user
+    put :update, {:id => lookup_keys(:one).to_param, :lookup_key => { :description => "test that" }}, set_session_user
     assert_redirected_to lookup_keys_path
   end
 
@@ -21,7 +21,6 @@ class LookupKeysControllerTest < ActionController::TestCase
     assert_difference('LookupKey.count', -1) do
       delete :destroy, {:id => lookup_keys(:one).to_param}, set_session_user
     end
-
     assert_redirected_to lookup_keys_path
   end
 

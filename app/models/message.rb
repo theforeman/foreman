@@ -1,13 +1,19 @@
 class Message < ActiveRecord::Base
   has_many :reports, :through => :logs
   has_many :logs
-  validates_presence_of :value
+  validates :value, :digest, :presence => true
 
   def to_s
     value
   end
 
-  def as_json(options={})
-    {:message => value }
+  def self.find_or_create val
+    digest = Digest::SHA1.hexdigest(val)
+    Message.where(:digest => digest).first || Message.create(:value => val, :digest => digest)
   end
+
+  def skip_strip_attrs
+    ['value']
+  end
+
 end

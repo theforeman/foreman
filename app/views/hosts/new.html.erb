@@ -1,3 +1,7 @@
-<% title "#{params[:action].capitalize} Host" %>
+<% unless (@clone_host && @clone_host.name)
+     title(_("%s Host") % params[:action].capitalize)
+   else
+     title(_("Clone Host %s") % @clone_host.name)
+   end  %>
 
 <%= render :partial => 'form' %>

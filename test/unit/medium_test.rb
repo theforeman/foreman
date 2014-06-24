@@ -3,6 +3,7 @@ require 'test_helper'
 class MediumTest < ActiveSupport::TestCase
   setup do
     User.current = User.find_by_login "admin"
+    disable_orchestration
   end
 
   test "name can't be blank" do
@@ -13,10 +14,13 @@ class MediumTest < ActiveSupport::TestCase
 
   test "name can't contain white spaces" do
     medium = Medium.new :name => "   Archlinux mirror   thing   ", :path => "http://www.google.com"
-    assert !medium.name.strip.squeeze(" ").empty?
+    assert !medium.name.squeeze(" ").empty?
     assert !medium.save
 
-    medium.name.strip!.squeeze!(" ")
+    medium.name = "Archlinux mirror      thing"
+    assert !medium.save
+
+    medium.name.squeeze!(" ")
     assert medium.save!
   end
 
@@ -56,64 +60,29 @@ class MediumTest < ActiveSupport::TestCase
     assert !medium.destroy
   end
 
-  def setup_user operation
-    @one = users(:one)
-    as_admin do
-      role = Role.find_or_create_by_name :name => "#{operation}_media"
-      role.permissions = ["#{operation}_media".to_sym]
-      @one.roles = [role]
-      @one.save!
-    end
-    User.current = @one
+  test "os family can be one of defined os families" do
+    medium = Medium.new :name => "dummy", :path => "http://hello", :os_family => Operatingsystem.families[0]
+    assert medium.valid?
   end
 
-  test "user with create permissions should be able to create" do
-    setup_user "create"
-    record =  Medium.create :name => "dummy", :path => "http://hello"
-    assert record.valid?
-    assert !record.new_record?
+  test "os family can't be anything else than defined os families" do
+    medium = Medium.new :name => "dummy", :path => "http://hello", :os_family => "unknown"
+    assert !medium.valid?
   end
 
-  test "user with view permissions should not be able to create" do
-    setup_user "view"
-    record =  Medium.create :name => "dummy", :path => "http://hello"
-    assert record.valid?
-    assert record.new_record?
+  test "os family can be nil" do
+    medium = Medium.new :name => "dummy", :path => "http://hello", :os_family => nil
+    assert medium.valid?
   end
 
-  test "user with destroy permissions should be able to destroy" do
-    setup_user "destroy"
-    record =  Medium.first
-    as_admin do
-      record.hosts = []
-    end
-    assert record.destroy
-    assert record.frozen?
+  test "setting os family to a blank string is valid" do
+    medium = Medium.new :name => "dummy", :path => "http://hello", :os_family => ""
+    assert medium.valid?
   end
 
-  test "user with edit permissions should not be able to destroy" do
-    setup_user "edit"
-    record =  Medium.first
-    assert !record.destroy
-    assert !record.frozen?
-  end
-
-  test "user with edit permissions should be able to edit" do
-    setup_user "edit"
-    record      =  Medium.first
-    record.name = "renamed"
-    assert record.save
-  end
-
-  test "user with destroy permissions should not be able to edit" do
-    setup_user "destroy"
-    record      =  Medium.first
-    record.name = "renamed"
-    as_admin do
-      record.hosts = []
-    end
-    assert !record.save
-    assert record.valid?
+  test "blank os family is saved as nil" do
+    medium = Medium.new :name => "dummy", :path => "http://hello", :os_family => ""
+    assert_equal nil, medium.os_family
   end
 
 end

@@ -1,7 +1,7 @@
 mystring:
   name: MyString
   template: MyText
-  template_kind: gpxe
+  template_kind: ipxe
   operatingsystems: centos5_3, redhat
 
 myscript:
@@ -10,27 +10,51 @@ myscript:
   template_kind: script
   operatingsystems: centos5_3, redhat
 
-
 mystring2:
   name: MyString2
-  template: MyText
+  template: provision script <%%= foreman_url("finish") %> static:<%%= @static.inspect %>
   template_kind: provision
-  operatingsystems: centos5_3, redhat
+  operatingsystems: centos5_3, redhat, ubuntu1010
 
 myfinish:
    name: MyFinish
    template: MyFinish
    template_kind: finish
-   operatingsystems: centos5_3, redhat
+   operatingsystems: centos5_3, redhat, ubuntu1010
 
 pxekickstart:
     name: centos5_3_pxelinux
     template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ks=<%%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
     template_kind: pxelinux
-    operatingsystems: centos5_3, redhat
+    operatingsystems: centos5_3, redhat, ubuntu1010
 
 pxe_menu:
    name: PXE Default Menu
    template: "FOO"
    template_kind: PXELinux
    operatingsystems: centos5_3
+
+pxe_default:
+   name: PXELinux global default
+   template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ksdevice=bootif network kssendmac
+   template_kind: pxelinux
+   operatingsystems: centos5_3, redhat
+
+pxe_local_default:
+   name: PXELinux default local boot
+   template: DEFAULT menu~PROMPT 0~MENU TITLE PXE Menu~TIMEOUT 200~TOTALTIMEOUT 6000~ONTIMEOUT local~~LABEL local~MENU LABEL (local)~MENU DEFAULT~LOCALBOOT 0
+   template_kind: pxelinux
+   operatingsystems: centos5_3, redhat
+
+ipxe:
+   name: iPXE Dummy Menu
+   template: "FOO"
+   template_kind: ipxe
+   operatingsystems: centos5_3
+
+pxegrub:
+   name: PXEGrub Dummy Menu
+   template: "FOO"
+   template_kind: pxegrub
+   operatingsystems: centos5_3, redhat
+

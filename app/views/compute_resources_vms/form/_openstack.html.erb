@@ -1,0 +1,17 @@
+<% new = f.object && f.object.id.blank? %>
+<%= text_f f, :name, :disabled => !new if show_vm_name? %>
+<%= select_f f, :flavor_ref, compute_resource.flavors, :id, :name, {}, :label => _('Flavor') %>
+<%
+   arch ||= nil ; os ||= nil
+   images = possible_images(compute_resource, arch, os)
+%>
+<div id='image_selection'>
+  <%= select_f f, :image_ref, images, :uuid, :name,
+               { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
+               { :disabled => images.empty?, :label => _("Image") } %>
+</div>
+<%= select_f f, :tenant_id, compute_resource.tenants, :id, :name, {}, :label => _('Tenant') %>
+
+<%= select_f f, :security_group, compute_resource.security_groups, :name, :name, { :include_blank => _("None") }, :label => _("Security group")  %>
+<%= selectable_f f, :network, compute_resource.address_pools, { :include_blank => _("None") }, { :label => _("Floating IP network") } %>
+

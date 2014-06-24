@@ -1,11 +1,16 @@
 class Model < ActiveRecord::Base
-  include Authorization
-  has_many :hosts
+  include Authorizable
+
   before_destroy EnsureNotUsedBy.new(:hosts)
-  validates_uniqueness_of :name
-  validates_presence_of :name
-  default_scope :order => 'LOWER(models.name)'
+  has_many_hosts
+  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
+  validates :name, :uniqueness => true, :presence => true
+
+  default_scope lambda { order('models.name') }
 
   scoped_search :on => :name, :complete_value => :true, :default_order => true
   scoped_search :on => :info
+  scoped_search :on => :hosts_count
+  scoped_search :on => :vendor_class, :complete_value => :true
+  scoped_search :on => :hardware_model, :complete_value => :true
 end

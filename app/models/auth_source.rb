@@ -16,12 +16,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AuthSource < ActiveRecord::Base
-  include Authorization
-  has_many :users
+  audited :allow_mass_assignment => true
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates_length_of :name, :maximum => 60
+  before_destroy EnsureNotUsedBy.new(:users)
+  has_many :users
+  has_many :external_usergroups, :dependent => :destroy
+
+  validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 60 }
+
+  scope :non_internal, lambda { where("type <> ?", 'AuthSourceInternal') }
 
   def authenticate(login, password)
   end
@@ -52,16 +55,19 @@ class AuthSource < ActiveRecord::Base
   # Try to authenticate a user not yet registered against available sources
   # Returns : user's attributes OR nil
   def self.authenticate(login, password)
-    AuthSource.all.each do |source|
+    AuthSource.where(:onthefly_register => true).each do |source|
+      logger.debug "Authenticating '#{login}' against '#{source.name}'"
       begin
-        logger.debug "Authenticating '#{login}' against '#{source.name}'" if logger && logger.debug?
-        attrs = source.authenticate(login, password)
+        if (attrs = source.authenticate(login, password))
+          logger.debug "Authentication successful for '#{login}'"
+          attrs[:auth_source_id] = source.id
+        end
       rescue => e
         logger.error "Error during authentication: #{e.message}"
         attrs = nil
       end
       return attrs if attrs
     end
-    return nil
+    nil
   end
 end

@@ -8,14 +8,6 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:environments)
   end
 
-  test "should get json index" do
-    get :index, {:format => "json"}, set_session_user
-
-    envs = ActiveSupport::JSON.decode(@response.body)
-    assert !envs.empty?
-    assert_response :success
-  end
-
   test "should get new" do
     get :new, {}, set_session_user
     assert_response :success
@@ -28,16 +20,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_redirected_to environments_path
   end
 
-  test "should create new environment json" do
-    assert_difference 'Environment.count' do
-      post :create, {:format => "json", :commit => "Create", :environment => {:name => "some_environment"} }, set_session_user
-    end
-    env = ActiveSupport::JSON.decode(@response.body)
-    assert env["environment"]["name"] = "some_environment"
-    assert_response :created
-  end
-
   test "should get edit" do
+    setup_users
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
@@ -46,6 +30,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should update environment" do
+    setup_users
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
@@ -56,20 +41,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_redirected_to environments_path
   end
 
-  test "should update environment using json" do
-    environment = Environment.new :name => "some_environment"
-    assert environment.save!
-
-    put :update, { :format => "json", :commit => "Update", :id => environment.name, :environment => {:name => "other_environment"} }, set_session_user
-    env = ActiveSupport::JSON.decode(@response.body)
-    assert env["environment"]["name"] = "other_environment"
-    env = Environment.find(environment)
-    assert env.name == "other_environment"
-    assert_response :ok
-  end
-
-
   test "should destroy environment" do
+    setup_users
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
@@ -80,20 +53,13 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_redirected_to environments_path
   end
 
-  test "should destroy environment using json" do
-    environment = Environment.new :name => "some_environment"
-    assert environment.save!
-
-    assert_difference('Environment.count', -1) do
-      delete :destroy, {:format => "json", :id => environment.name}, set_session_user
-    end
-    env = ActiveSupport::JSON.decode(@response.body)
-    assert_response :ok
-  end
-
   def setup_import_classes
-    Puppetclass.delete_all
-    Environment.delete_all
+    as_admin do
+      Host::Managed.update_all(:environment_id => nil)
+      Hostgroup.update_all(:environment_id => nil)
+      Puppetclass.destroy_all
+      Environment.destroy_all
+    end
     @request.env["HTTP_REFERER"] = environments_url
     # This is the database status
     # and should result in a db_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
@@ -107,7 +73,11 @@ class EnvironmentsControllerTest < ActionController::TestCase
     # This is the on-disk status
     # and should result in a disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
     envs = HashWithIndifferentAccess.new(:env1 => %w{a b c}, :env2 => %w{a b c})
-    Environment.expects(:puppetEnvs).returns(envs).at_least_once
+    pcs = [HashWithIndifferentAccess.new( "a" => { "name" => "a", "module" => "", "params"=> {}})]
+    classes = Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
+    Environment.expects(:puppetEnvs).returns(envs).at_least(0)
+    ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["env1", "env2"])
+    ProxyAPI::Puppet.any_instance.stubs(:classes).returns(classes)
   end
 
   test "should handle disk environment containing additional classes" do
@@ -115,17 +85,17 @@ class EnvironmentsControllerTest < ActionController::TestCase
     Environment.find_by_name("env1").puppetclasses.delete(Puppetclass.find_by_name("a"))
 #    db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
 #    disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
-    get :import_environments, {}, set_session_user
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
     assert_template "puppetclasses_or_envs_changed"
-    assert_select 'input#changed_new_env1[value*="a"]'
+    assert_select 'input#changed_new_env1'
     post :obsolete_and_new,
       {"changed" =>
         {"new" =>
-          {"env1" => '["a"]'}
+          {"env1" => '{"a":{"new":{}}}'}
         }
       }, set_session_user
     assert_redirected_to environments_url
-    assert flash[:notice] = "Successfully updated environments and puppetclasses from the on-disk puppet installation"
+    assert_equal "Successfully updated environments and puppetclasses from the on-disk puppet installation", flash[:notice]
     assert Environment.find_by_name("env1").puppetclasses.map(&:name).sort == ["a", "b", "c"]
   end
   test "should handle disk environment containing less classes" do
@@ -134,7 +104,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     Environment.find_by_name("env1").puppetclasses << Puppetclass.find_by_name("d")
     #db_tree   of {"env1" => ["a", "b", "c", "d"], "env2" => ["a", "b", "c"]}
     #disk_tree of {"env1" => ["a", "b", "c"],      "env2" => ["a", "b", "c"]}
-    get :import_environments, {}, set_session_user
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
     assert_template "puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env1[value*="d"]'
     post :obsolete_and_new,
@@ -144,7 +114,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     assert_redirected_to environments_url
-    assert flash[:notice] = "Succcessfully updated environments and puppetclasses from the on-disk puppet installation"
+    assert_equal "Successfully updated environments and puppetclasses from the on-disk puppet installation", flash[:notice]
     envs = Environment.find_by_name("env1").puppetclasses.map(&:name).sort
     assert envs == ["a", "b", "c"]
   end
@@ -153,7 +123,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     as_admin {Environment.create(:name => "env3")}
     #db_tree   of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
-    get :import_environments, {}, set_session_user
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster).id}, set_session_user
     assert_template "puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env3'
     post :obsolete_and_new,
@@ -163,20 +133,22 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     assert_redirected_to environments_url
-    assert flash[:notice] = "Successfully updated environments and puppetclasses from the on-disk puppet installation"
+    assert_equal "Successfully updated environments and puppetclasses from the on-disk puppet installation", flash[:notice]
     assert Environment.find_by_name("env3").puppetclasses.map(&:name).sort == []
   end
 
   test "should fail to remove active environments" do
+    disable_orchestration
     setup_import_classes
     as_admin do
-      host = Host.first
-      host.environment = Environment.find_by_name("env1")
-      host.save!
+      host = hosts(:one)
+      Environment.find_by_name("env1").puppetclasses += [puppetclasses(:one)]
+      host.environment_id = Environment.find_by_name("env1").id
+      assert host.save!
       assert host.errors.empty?
       assert Environment.find_by_name("env1").hosts.count > 0
     end
-    get :import_environments, {}, set_session_user # We need this to stop failures about number of calls. It is not really part of the test.
+
     # assert_template "puppetclasses_or_envs_changed". This assertion will fail. And it should fail. See above.
     post :obsolete_and_new,
       {"changed"=>
@@ -185,7 +157,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     assert Environment.find_by_name("env1").hosts.count > 0
-    assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
+    #assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
     assert Environment.find_by_name("env1")
   end
 
@@ -194,18 +166,15 @@ class EnvironmentsControllerTest < ActionController::TestCase
     setup_import_classes
     as_admin do
       Environment.create :name => "env3"
-      Environment.delete_all(:name => "env1")
+      Environment.find_by_name("env2").destroy
     end
-    #db_tree   of {                         , "env2" => ["a", "b", "c"], "env3" => []}
+    #db_tree   of {"env1" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
 
-    FileUtils.mv Rails.root.to_s + "/config/ignored_environments.yml", Rails.root.to_s + "/config/ignored_environments.yml.test_bak" if File.exist? Rails.root.to_s + "/config/ignored_environments.yml"
-    FileUtils.cp Rails.root.to_s + "/test/functional/ignored_environments.yml", Rails.root.to_s + "/config/ignored_environments.yml"
-    get :import_environments, {}, set_session_user
-    FileUtils.rm_f Rails.root.to_s + "/config/ignored_environments.yml"
-    FileUtils.mv Rails.root.to_s + "/config/ignored_environments.yml.test_bak", Rails.root.to_s + "/config/ignored_environments.yml" if File.exist? Rails.root.to_s + "/config/ignored_environments.yml.test_bak"
+    PuppetClassImporter.any_instance.stubs(:ignored_environments).returns(["env1","env2","env3"])
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
 
-    assert flash[:notice] == "No changes to your environments detected"
+    assert_equal "No changes to your environments detected", flash[:notice]
   end
 
   def setup_user

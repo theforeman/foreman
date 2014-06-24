@@ -1,29 +1,45 @@
 class Puppetclass < ActiveRecord::Base
-  include Authorization
-  has_and_belongs_to_many :environments
+  include Authorizable
+  include ScopedSearchExtensions
+
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
+  has_many :environment_classes, :dependent => :destroy
+  has_many :environments, :through => :environment_classes, :uniq => true
   has_and_belongs_to_many :operatingsystems
-  has_and_belongs_to_many :hostgroups
+  has_many :hostgroup_classes, :dependent => :destroy
+  has_many :hostgroups, :through => :hostgroup_classes
   has_many :host_classes, :dependent => :destroy
-  has_many :hosts, :through => :host_classes
+  has_many_hosts :through => :host_classes
+  has_many :config_group_classes
+  has_many :config_groups, :through => :config_group_classes
 
-  has_many :lookup_keys, :inverse_of => :puppetclass
+  has_many :lookup_keys, :inverse_of => :puppetclass, :dependent => :destroy
   accepts_nested_attributes_for :lookup_keys, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
+  # param classes
+  has_many :class_params, :through => :environment_classes, :uniq => true,
+    :source => :lookup_key, :conditions => 'environment_classes.lookup_key_id is NOT NULL'
+  accepts_nested_attributes_for :class_params, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
+  validates :name, :uniqueness => true, :presence => true, :format => {:with => /\A(\S+\s?)+\Z/, :message => N_("can't be blank or contain white spaces.") }
+  audited :allow_mass_assignment => true
 
-  validates_uniqueness_of :name
-  validates_presence_of :name
-  validates_associated :environments
-  validates_format_of :name, :with => /\A(\S+\s?)+\Z/, :message => "can't be blank or contain white spaces."
-  audited
+  alias_attribute :smart_variables, :lookup_keys
+  alias_attribute :smart_variable_ids, :lookup_key_ids
+  alias_attribute :smart_class_parameters, :class_params
+  alias_attribute :smart_class_parameter_ids, :class_param_ids
 
-  before_destroy EnsureNotUsedBy.new(:hosts)
-  before_destroy EnsureNotUsedBy.new(:hostgroups)
-  default_scope :order => 'LOWER(puppetclasses.name)'
+  default_scope lambda { order('puppetclasses.name') }
 
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :hosts_count
+  scoped_search :on => :global_class_params_count, :rename => :params_count   # Smart Parameters
+  scoped_search :on => :lookup_keys_count, :rename => :variables_count        # Smart Variables
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
   scoped_search :in => :hostgroups,   :on => :name, :complete_value => :true, :rename => "hostgroup"
+  scoped_search :in => :config_groups,   :on => :name, :complete_value => :true, :rename => "config_group"
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host", :ext_method => :search_by_host, :only_explicit => true
+  scoped_search :in => :class_params, :on => :key, :complete_value => :true, :only_explicit => true
 
+  scope :not_in_any_environment, includes(:environment_classes).where(:environment_classes => {:environment_id => nil})
 
   def to_param
     name
@@ -43,6 +59,18 @@ class Puppetclass < ActiveRecord::Base
     return hash
   end
 
+  # For API v2 - eliminate node :puppetclass for each object. returns a hash containing modules and associated classes
+  def self.classes2hash_v2 classes
+    hash = {}
+    classes.each do |klass|
+      if (mod = klass.module_name)
+        hash[mod] ||= []
+        hash[mod] << {:id => klass.id, :name => klass.name, :created_at => klass.created_at, :updated_at => klass.updated_at}
+      end
+    end
+    return hash
+  end
+
   # returns module name (excluding of the class name)
   # if class separator does not exists (the "::" chars), then returns the whole class name
   def module_name
@@ -53,7 +81,6 @@ class Puppetclass < ActiveRecord::Base
   def klass
     name.gsub(module_name+"::","")
   end
-
 
   # Populates the rdoc tree with information about all the classes in your modules.
   #   Firstly, we prepare the modules tree
@@ -77,7 +104,7 @@ class Puppetclass < ActiveRecord::Base
       modulepaths = relocated ? path.split(":").map{|p| root + p}.join(":") : path
 
       # Identify and prepare the output directory
-      out = doc_root + env.id2name
+      out = doc_root + env
       out.rmtree if out.directory?
 
       replacement = "<div id=\\\"validator-badges\\\"><small><a href=\\\"/puppet/rdoc/#{env}/\\\">[Browser]</a></small>"
@@ -86,7 +113,7 @@ class Puppetclass < ActiveRecord::Base
 
       puts "*********Proccessing environment #{env} *************"
       cmd = "puppetdoc --output #{out} --modulepath #{modulepaths} -m rdoc"
-      puts cmd if defined?(Rake)
+      puts cmd if Foreman.in_rake?
       sh cmd do |ok, res|
         if ok
           # Add a link to the class browser
@@ -141,28 +168,15 @@ class Puppetclass < ActiveRecord::Base
     root
   end
 
-  def as_json(options={})
-    super({:only => [:name, :id], :include => [:lookup_keys]})
-  end
-
   def self.search_by_host(key, operator, value)
-    conditions  = "hosts.name #{operator} '#{value_to_sql(operator, value)}'"
-    direct      = Puppetclass.all(:conditions => conditions, :joins => :hosts, :select => 'puppetclasses.id').map(&:id).uniq
-    indirect    = Hostgroup.all(:conditions => conditions, :joins => [:hosts,:puppetclasses], :select => 'DISTINCT puppetclasses.id').map(&:id)
-    return {:conditions => "1=0"} if direct.blank? && indirect.blank?
+    conditions = sanitize_sql_for_conditions(["hosts.name #{operator} ?", value_to_sql(operator, value)])
+    direct     = Puppetclass.joins(:hosts).where(conditions).select('puppetclasses.id').map(&:id).uniq
+    hostgroup  = Hostgroup.joins(:hosts).where(conditions).first
+    indirect   = hostgroup.blank? ? [] : HostgroupClass.where(:hostgroup_id => hostgroup.path_ids).pluck('DISTINCT puppetclass_id')
+    return { :conditions => "1=0" } if direct.blank? && indirect.blank?
 
-    opts = ''
-    opts += "puppetclasses.id IN(#{direct.join(',')})" unless direct.blank?
-    opts += " OR "                                     unless direct.blank? || indirect.blank?
-    opts += "hostgroups.id IN(#{indirect.join(',')})"  unless indirect.blank?
-    {:conditions => opts, :include => :hostgroups}
-  end
-
-  def self.value_to_sql(operator, value)
-    return value                 if operator !~ /LIKE/i
-    return value.tr_s('%*', '%') if (value ~ /%|\*/)
-
-    return "%#{value}%"
+    puppet_classes = (direct + indirect).uniq
+    { :conditions => "puppetclasses.id IN(#{puppet_classes.join(',')})" }
   end
 
 end

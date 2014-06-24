@@ -1,0 +1,60 @@
+.wizard li {
+  padding: 10px 12px 10px;
+  margin-right: 5px;
+  margin-bottom: 30px;
+  background: #efefef;
+  position: relative;
+  display: inline-block;
+  &:before {
+    width: 0;
+    height: 0;
+    border-top: 20px inset transparent;
+    border-bottom: 20px inset transparent;
+    border-left: 20px solid #fff;
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+ }
+ &:after {
+   width: 0;
+   height: 0;
+   border-top: 20px inset transparent;
+   border-bottom: 20px inset transparent;
+   border-left: 20px solid #efefef;
+   position: absolute;
+   content: "";
+   top: 0;
+   right: -20px;
+   z-index: 2;
+ }
+ &:first-child:before,
+ &:last-child:after {
+   border: none;
+ }
+ &:first-child {
+   -webkit-border-radius: 4px 0 0 4px;
+   -moz-border-radius: 4px 0 0 4px;
+   border-radius: 4px 0 0 4px;
+ }
+ &:last-child {
+   -webkit-border-radius: 0 4px 4px 0;
+   -moz-border-radius: 0 4px 4px 0;
+   border-radius: 0 4px 4px 0;
+ }
+}
+.wizard .badge {
+  margin: 0 5px 0 18px;
+  position: relative;
+  top: -1px;
+}
+.wizard a:first-child .badge {
+  margin-left: 0;
+}
+.wizard .active {
+  background: #007ACC;
+  color: #fff;
+  &:after {
+    border-left-color: #007ACC;
+ }
+}

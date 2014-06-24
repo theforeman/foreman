@@ -11,11 +11,8 @@ module Net
         eval("self.#{k}= v") if self.respond_to?("#{k}=")
       end if opts
 
-      raise Net::LeaseConflict.new("#{self.mac}/#{self.ip}") if opts['state']
-
       self.logger ||= Rails.logger
-      raise "Must define a hostname" if hostname.blank?
-      raise "Must define a proxy"    if proxy.nil?
+      raise "Must define a proxy" if proxy.nil?
     end
 
     def inspect
@@ -46,5 +43,4 @@ module Net
     attr_accessor :type, :expected, :actual, :message
   end
 
-  class LeaseConflict < RuntimeError; end
 end

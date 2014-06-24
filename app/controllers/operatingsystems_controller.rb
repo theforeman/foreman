@@ -1,26 +1,13 @@
 class OperatingsystemsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_os, :only => %w{show edit update destroy bootfiles}
+  before_filter :find_by_name, :only => %w{edit update destroy}
 
   def index
-    values = Operatingsystem.search_for(params[:search], :order => params[:order])
-    respond_to do |format|
-      format.html do
-        @operatingsystems = values.paginate(:page => params[:page])
-        @counter = Host.count(:group => :operatingsystem_id, :conditions => {:operatingsystem_id => @operatingsystems})
-      end
-      format.json { render :json => values.all(:include => [:media, :architectures, :ptables]) }
-    end
+    @operatingsystems = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new
     @operatingsystem = Operatingsystem.new
-  end
-
-  def show
-    respond_to do |format|
-      format.json { render :json => @operatingsystem }
-    end
   end
 
   def create
@@ -56,22 +43,4 @@ class OperatingsystemsController < ApplicationController
       process_error
     end
   end
-
-  def bootfiles
-    medium = Medium.find_by_name(params[:medium])
-    arch =  Architecture.find_by_name(params[:architecture])
-    respond_to do |format|
-      format.json { render :json => @operatingsystem.pxe_files(medium, arch)}
-    end
-  rescue => e
-    respond_to do |format|
-      format.json { render :json => e.to_s, :status => :unprocessable_entity }
-    end
-  end
-
-  private
-  def find_os
-    @operatingsystem = Operatingsystem.find(params[:id])
-  end
-
 end
