@@ -80,4 +80,11 @@ class NicTest < ActiveSupport::TestCase
     interface.domain = nil
     assert_equal interface.name, interface.hostname
   end
+
+  test "Nic::Managed#hostname should return blank for blank hostnames" do
+    i = Nic::Managed.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => hosts(:one), :subnet => subnets(:one), :domain => subnets(:one).domains.first, :name => ""
+    assert_blank i.name
+    assert_present i.domain
+    assert_blank i.hostname
+  end
 end
