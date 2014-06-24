@@ -9,7 +9,7 @@ class ComputeProfile < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:hostgroups)
   has_many :compute_attributes, :dependent => :destroy
   has_many :compute_resources, :through => :compute_attributes
-  has_many_hosts
+  has_many_hosts :dependent => :nullify
   has_many :hostgroups
 
   validates :name, :presence => true, :uniqueness => true

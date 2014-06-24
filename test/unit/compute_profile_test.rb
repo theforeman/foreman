@@ -20,6 +20,18 @@ class ComputeProfileTest < ActiveSupport::TestCase
     assert !compute_profiles(:one).destroy
   end
 
+  test "can destroy if used by host, but not hostgroup, and ensure host.compute_profile_id is nullified" do
+    compute_profile = compute_profiles(:two)
+    host = hosts(:minimal)
+    host.update_attribute(:compute_profile_id, compute_profile.id)
+    refute_nil host.compute_profile_id
+    assert_difference('ComputeProfile.count', -1) do
+      assert compute_profile.destroy
+    end
+    host.reload
+    assert_nil host.compute_profile_id
+  end
+
   test "shoud show visible hw profiles only" do
     assert_equal 3, ComputeProfile.count
     #3-Large does not have any data in compute_attributes.yml

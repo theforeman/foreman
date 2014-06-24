@@ -177,4 +177,18 @@ class SubnetTest < ActiveSupport::TestCase
     assert_equal "ABC Network", s.name
   end
 
+  test "should not destroy if hostgroup uses it" do
+    hostgroup = FactoryGirl.create(:hostgroup, :with_subnet)
+    subnet = hostgroup.subnet
+    refute subnet.destroy
+    assert_match /is used by/, subnet.errors.full_messages.join("\n")
+  end
+
+  test "should not destroy if host uses it" do
+    host = FactoryGirl.create(:host, :with_subnet)
+    subnet = host.subnet
+    refute subnet.destroy
+    assert_match /is used by/, subnet.errors.full_messages.join("\n")
+  end
+
 end

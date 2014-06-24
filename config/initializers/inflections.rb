@@ -9,4 +9,8 @@ ActiveSupport::Inflector.inflections do |inflect|
   # inflect.uncountable %w( fish sheep )
   inflect.singular /^puppetclass$/, 'puppetclass'
   inflect.singular /^Puppetclass$/, 'Puppetclass'
+  inflect.singular /^HostClass$/, 'HostClass'
+  inflect.singular /^host_class$/, 'host_class'
+  inflect.singular /^HostgroupClass$/, 'HostgroupClass'
+  inflect.singular /^hostgroup_class$/, 'hostgroup_class'
 end

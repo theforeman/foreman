@@ -4,7 +4,7 @@ class Subnet < ActiveRecord::Base
   include Taxonomix
   audited :allow_mass_assignment => true
 
-  before_destroy EnsureNotUsedBy.new(:hosts, :interfaces )
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :interfaces, :domains)
   has_many_hosts
   has_many :hostgroups
   belongs_to :dhcp, :class_name => "SmartProxy"
