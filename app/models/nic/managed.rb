@@ -44,7 +44,7 @@ module Nic
     end
 
     def hostname
-      unless domain.nil?
+      unless domain.nil? or name.empty?
         "#{name}.#{domain.name}"
       else
         name
