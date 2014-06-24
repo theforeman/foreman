@@ -4,6 +4,10 @@ FactoryGirl.define do
     domain
     environment
 
+    trait :with_medium do
+      medium
+    end
+
     trait :with_hostgroup do
       hostgroup :environment => environment
     end
@@ -35,6 +39,11 @@ FactoryGirl.define do
     trait :with_puppetclass do
       environment
       puppetclasses { [ FactoryGirl.create(:puppetclass, :environments => [environment]) ] }
+    end
+
+    trait :with_config_group do
+      environment
+      config_groups { [ FactoryGirl.create(:config_group, :with_puppetclass, :class_environments => [environment]) ] }
     end
 
     trait :with_parameter do

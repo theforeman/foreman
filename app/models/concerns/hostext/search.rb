@@ -29,6 +29,7 @@ module Hostext
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_fullname
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_title
       scoped_search :in => :hostgroup,   :on => :id,      :complete_value => false, :rename => :hostgroup_id, :only_explicit => true
+      scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :parent_hostgroup, :only_explicit => true, :ext_method => :search_by_hostgroup_and_descendants
       scoped_search :in => :domain,      :on => :name,    :complete_value => true,  :rename => :domain
       scoped_search :in => :domain,      :on => :id,      :complete_value => true,  :rename => :domain_id
       scoped_search :in => :realm,       :on => :name,    :complete_value => true,  :rename => :realm
@@ -44,8 +45,14 @@ module Hostext
       scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
       scoped_search :in => :search_parameters, :on => :value, :on_key=> :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true
 
-      scoped_search :in => :location, :on => :title, :rename => :location, :complete_value => true         if SETTINGS[:locations_enabled]
-      scoped_search :in => :organization, :on => :title, :rename => :organization, :complete_value => true if SETTINGS[:organizations_enabled]
+      if SETTINGS[:locations_enabled]
+        scoped_search :in => :location, :on => :title, :rename => :location, :complete_value => true
+        scoped_search :on => :location_id, :complete_value => true
+      end
+      if SETTINGS[:organizations_enabled]
+        scoped_search :in => :organization, :on => :title, :rename => :organization, :complete_value => true
+        scoped_search :on => :organization_id, :complete_value => true
+      end
       scoped_search :in => :config_groups, :on => :name, :complete_value => true, :rename => :config_group, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_config_group
 
       if SETTINGS[:unattended]
@@ -83,16 +90,33 @@ module Hostext
       end
 
       def search_by_puppetclass(key, operator, value)
-        conditions  = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
-        hosts       = Host.authorized(:view_hosts, Host).where(conditions).joins(:puppetclasses).uniq.map(&:id)
-        host_groups = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:puppetclasses).uniq.map(&:subtree_ids).flatten.uniq
+        conditions    = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
+        config_group_ids = ConfigGroup.where(conditions).joins(:puppetclasses).pluck(:id)
+        host_ids         = Host.authorized(:view_hosts, Host).where(conditions).joins(:puppetclasses).uniq.map(&:id)
+        host_ids        += HostConfigGroup.where(:host_type => 'Host::Base').where(:config_group_id => config_group_ids).pluck(:host_id)
+        hostgroups       = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:puppetclasses)
+        hostgroups      += Hostgroup.unscoped.with_taxonomy_scope.joins(:host_config_groups).where("host_config_groups.config_group_id IN (#{config_group_ids.join(',')})") if config_group_ids.any?
+        hostgroup_ids    = hostgroups.map(&:subtree_ids).flatten.uniq
 
-        opts = ''
-        opts += "hosts.id IN(#{hosts.join(',')})"             unless hosts.blank?
-        opts += " OR "                                        unless hosts.blank? || host_groups.blank?
-        opts += "hostgroups.id IN(#{host_groups.join(',')})"  unless host_groups.blank?
-        opts = "hosts.id < 0"                                 if hosts.blank? && host_groups.blank?
+        opts  = ''
+        opts += "hosts.id IN(#{host_ids.join(',')})"            unless host_ids.blank?
+        opts += " OR "                                          unless host_ids.blank? || hostgroup_ids.blank?
+        opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
+        opts  = "hosts.id < 0"                                  if host_ids.blank? && hostgroup_ids.blank?
         return {:conditions => opts, :include => :hostgroup}
+      end
+
+      def search_by_hostgroup_and_descendants(key, operator, value)
+        conditions     = sanitize_sql_for_conditions(["hostgroups.title #{operator} ?", value_to_sql(operator, value)])
+        # Only one hostgroup (first) is used to determined descendants. Future TODO - alert if result results more than one hostgroup
+        hostgroup     = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).first
+        hostgroup_ids = hostgroup.subtree_ids
+        if hostgroup_ids.any?
+          opts = "hosts.hostgroup_id IN (#{hostgroup_ids.join(',')})"
+        else
+          opts = "hosts.id < 0"
+        end
+        return {:conditions => opts}
       end
 
       def search_by_params(key, operator, value)

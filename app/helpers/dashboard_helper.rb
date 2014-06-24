@@ -1,5 +1,19 @@
 module DashboardHelper
 
+  def dashboard_actions
+    [_("Generated at %s") % Time.now.to_s(:short),
+     select_action_button(_("Manage dashboard"), {},
+                          link_to_function(_("Save dashboard"), 'save_position()'),
+                          link_to_function(_("Reset to default"), 'reset_position()'),
+                          content_tag(:li,'',:class=>'divider'),
+                          content_tag(:li,_("Restore widgets"), :class=>'nav-header', :id=>'restore_list' )
+     )]
+  end
+
+  def widget_list
+    Dashboard::Manager.widgets
+  end
+
   def count_reports(hosts)
     data = []
     interval = Setting[:puppet_interval] / 10

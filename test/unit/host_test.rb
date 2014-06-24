@@ -112,7 +112,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
       :environment => environments(:production), :disk => "empty partition"
     assert host.valid?
@@ -125,7 +125,7 @@ class HostTest < ActiveSupport::TestCase
     assert_difference('LookupValue.count') do
       assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "2.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
-      :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
       :environment => environments(:production), :disk => "empty partition",
       :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}}
     end
@@ -134,7 +134,7 @@ class HostTest < ActiveSupport::TestCase
   test "lookup value has right matcher for a host" do
     assert_difference('LookupValue.where(:lookup_key_id => lookup_keys(:five).id, :match => "fqdn=abc.mydomain.net").count') do
       h = Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "2.3.4.3",
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
         :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
         :environment => environments(:production), :disk => "empty partition",
         :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:five).id, "value"=>"some_value"}}
@@ -256,9 +256,12 @@ class HostTest < ActiveSupport::TestCase
 
     test 'host taxonomies are set to setting[taxonomy_fact] if it exists' do
       Setting[:create_new_host_when_facts_are_uploaded] = true
+      Setting[:location_fact] = "foreman_location"
+      Setting[:organization_fact] = "foreman_organization"
+
       raw = parse_json_fixture('/facts.json')
-      raw['facts']['location_fact']     = 'Location 2'
-      raw['facts']['organization_fact'] = 'Organization 2'
+      raw['facts']['foreman_location']     = 'Location 2'
+      raw['facts']['foreman_organization'] = 'Organization 2'
       Host.import_host_and_facts(raw['name'], raw['facts'])
 
       assert_equal 'Location 2',     Host.find_by_name('sinn1636.lan').location.title
@@ -277,9 +280,13 @@ class HostTest < ActiveSupport::TestCase
 
     test 'taxonomies from facts override already existing taxonomies in hosts' do
       Setting[:create_new_host_when_facts_are_uploaded] = true
+      Setting[:location_fact] = "foreman_location"
+      Setting[:organization_fact] = "foreman_organization"
+
       raw = parse_json_fixture('/facts.json')
-      raw['facts']['location_fact'] = 'Location 2'
+      raw['facts']['foreman_location'] = 'Location 2'
       Host.import_host_and_facts(raw['name'], raw['facts'])
+
       Host.find_by_name('sinn1636.lan').update_attribute(:location, taxonomies(:location1))
       Host.find_by_name('sinn1636.lan').import_facts(raw['facts'])
 
@@ -322,14 +329,14 @@ class HostTest < ActiveSupport::TestCase
   test "should not save if neither ptable or disk are defined when the host is managed" do
     if unattended?
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.4.4.03",
-        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one),
+        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one), :medium => media(:one),
         :architecture => Architecture.first, :environment => Environment.first, :managed => true
       assert !host.valid?
     end
   end
 
   test "should save if neither ptable or disk are defined when the host is not managed" do
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :medium => media(:one),
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
     assert host.valid?
@@ -337,14 +344,14 @@ class HostTest < ActiveSupport::TestCase
 
   test "should save if ptable is defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :puppet_proxy => smart_proxies(:puppetmaster),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :ptable => Ptable.first
     assert !host.new_record?
   end
 
   test "should save if disk is defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :medium => media(:one),
       :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa", :puppet_proxy => smart_proxies(:puppetmaster)
     assert !host.new_record?
   end
@@ -352,14 +359,14 @@ class HostTest < ActiveSupport::TestCase
   test "should not save if IP is not in the right subnet" do
     if unattended?
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03", :ptable => ptables(:one),
-        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one), :managed => true,
+        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one), :managed => true, :medium => media(:one),
         :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first, :puppet_proxy => smart_proxies(:puppetmaster)
       assert !host.valid?
     end
   end
 
   test "should save if owner_type is User or Usergroup" do
-    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => ptables(:one),
+    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => ptables(:one), :medium => media(:one),
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
       :owner_type => "User", :root_pass => "xybxa6JUkz63w"
@@ -367,15 +374,24 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should not save if owner_type is not User or Usergroup" do
-    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :medium => media(:one),
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
       :owner_type => "UserGr(up" # should be Usergroup
     assert !host.valid?
   end
 
+  test "should not save if installation media is missing" do
+    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => ptables(:one),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+      :owner_type => "User", :root_pass => "xybxa6JUkz63w"
+    refute host.valid?
+    assert_equal "can't be blank", host.errors[:medium_id][0]
+  end
+
   test "should save if owner_type is empty and Host is unmanaged" do
-    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :medium => media(:one),
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
       :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
     assert host.valid?
@@ -384,7 +400,7 @@ class HostTest < ActiveSupport::TestCase
   test "should import from external nodes output" do
     # create a dummy node
     Parameter.destroy_all
-    host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12",
+    host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12", :medium => media(:one),
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
       :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa",
       :puppet_proxy => smart_proxies(:puppetmaster)
@@ -417,14 +433,14 @@ class HostTest < ActiveSupport::TestCase
   test "a fqdn Host should be assigned to a domain if such domain exists" do
     domain = domains(:mydomain)
     host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
-      :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
+      :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :medium => media(:one),
       :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa"
     host.valid?
     assert_equal domain, host.domain
   end
 
   test "a system should retrieve its iPXE template if it is associated to the correct env and host group" do
-    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
+    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03", :medium => media(:one),
       :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
@@ -432,7 +448,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "a system should retrieve its provision template if it is associated to the correct host group only" do
-    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
+    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03", :medium => media(:one),
       :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
@@ -440,7 +456,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "a system should retrieve its script template if it is associated to the correct OS only" do
-    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
+    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03", :medium => media(:one),
       :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
@@ -448,7 +464,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
  test "a system should retrieve its finish template if it is associated to the correct environment only" do
-    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
+    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03", :medium => media(:one),
       :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
 
@@ -795,8 +811,21 @@ class HostTest < ActiveSupport::TestCase
 
     # search hosts by hostgroup label
     hosts = Host.search_for("hostgroup_title = #{hostgroup.title}")
-    assert_equal hosts.count, 1  #host_db in hosts.yml
+    assert_equal 1, hosts.count  #host_db in hosts.yml
     assert_equal hosts.first.hostgroup_id, hostgroup.id
+  end
+
+  test "can search hosts by parent hostgroup and its descendants" do
+    #setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    # search hosts by parent hostgroup label
+    hosts = Host::Managed.search_for("parent_hostgroup = Common")
+    assert_equal hosts.count, 2
+    assert_equal ["Common", "Common/db"].sort, hosts.map { |h| h.hostgroup.title }.sort
   end
 
   test "non-admin user with edit_hosts permission can update interface" do
@@ -922,6 +951,15 @@ class HostTest < ActiveSupport::TestCase
     assert_equal parent_hg.puppetclasses.first, results.first.hostgroup.parent.puppetclasses.first
   end
 
+  test "can search hosts by puppet class from config group in parent hostgroup" do
+    hostgroup = FactoryGirl.create(:hostgroup, :with_config_group)
+    host = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
+    puppetclass = hostgroup.config_groups.first.puppetclasses.first
+    results = Host.search_for("class = #{puppetclass.name}")
+    assert_equal 1, results.count
+    assert_equal host, results.first
+  end
+
   test "should update puppet_proxy_id to the id of the validated proxy" do
     sp = smart_proxies(:puppetmaster)
     raw = parse_json_fixture('/facts_with_caps.json')
@@ -1031,13 +1069,17 @@ class HostTest < ActiveSupport::TestCase
 
   test "compute attributes are populated by hardware profile from hostgroup" do
     # hostgroups(:common) fixture has compute_profiles(:one)
-    host = Host.create :name => "myhost", :mac => "aa-bb-cc-dd-ee-ff", :hostgroup_id => hostgroups(:common).id, :compute_resource_id => compute_resources(:ec2).id
+    host = Host.new :name => "myhost", :hostgroup_id => hostgroups(:common).id, :compute_resource_id => compute_resources(:ec2).id, :managed => true
+    host.expects(:queue_compute_create)
+    assert host.valid?, host.errors.full_messages.to_sentence
     assert_equal compute_attributes(:one).vm_attrs, host.compute_attributes
   end
 
   test "compute attributes are populated by hardware profile passed to host" do
     # hostgroups(:one) fixture has compute_profiles(:common)
-    host = Host.create :name => "myhost", :mac => "aa-bb-cc-dd-ee-ff", :compute_resource_id => compute_resources(:ec2).id, :compute_profile_id => compute_profiles(:two).id
+    host = Host.new :name => "myhost", :compute_resource_id => compute_resources(:ec2).id, :compute_profile_id => compute_profiles(:two).id, :managed => true, :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :architecture => architectures(:x86_64), :environment => environments(:production)
+    host.expects(:queue_compute_create)
+    assert host.valid?, host.errors.full_messages.to_sentence
     assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
   end
 
@@ -1058,7 +1100,7 @@ class HostTest < ActiveSupport::TestCase
     host.provision_method = 'foobar'
     host.stubs(:provision_method_in_capabilities).returns(true)
     host.valid?
-    assert_equal 'is unknown', host.errors[:provision_method].sort.first
+    assert host.errors[:provision_method].include?('is unknown')
   end
 
   test "#provision_method doesn't matter on unmanaged hosts" do
@@ -1073,7 +1115,14 @@ class HostTest < ActiveSupport::TestCase
     host.provision_method = 'image'
     host.expects(:capabilities).returns([:build])
     host.valid?
-    assert_equal 'is an unsupported provisioning method', host.errors[:provision_method].sort.first
+    assert host.errors[:provision_method].include?('is an unsupported provisioning method')
+  end
+
+  test "#provision_method cannot be updated for existing host" do
+    host = hosts(:one)
+    host.provision_method = 'image'
+    refute host.save
+    assert host.errors[:provision_method].include?("can't be updated after host is provisioned")
   end
 
   test "#image_build? must be true when provision_method is image" do
@@ -1199,6 +1248,55 @@ class HostTest < ActiveSupport::TestCase
     enc = host.info
     assert_kind_of Hash, enc
     assert_equal classes, enc['classes']
+  end
+
+  test 'clone host including its relationships' do
+    host = hosts(:one)
+    copy = host.clone
+    assert_equal host.host_classes.map(&:puppetclass_id), copy.host_classes.map(&:puppetclass_id)
+    assert_equal host.host_parameters.map(&:name), copy.host_parameters.map(&:name)
+    assert_equal host.host_parameters.map(&:value), copy.host_parameters.map(&:value)
+    assert_equal host.host_config_groups.map(&:config_group_id), copy.host_config_groups.map(&:config_group_id)
+  end
+
+  test 'clone host should not copy name, system fields (mac, ip, etc) or interfaces' do
+    host = hosts(:one)
+    copy = host.clone
+    assert copy.name.blank?
+    assert copy.mac.blank?
+    assert copy.ip.blank?
+    assert copy.uuid.blank?
+    assert copy.certname.blank?
+    assert copy.last_report.blank?
+    assert_empty copy.interfaces
+  end
+
+  test 'fqdn of host with period in name returns just name with no concatenation of domain' do
+    host = hosts(:one)
+    assert_equal "my5name.mydomain.net", host.name
+    assert_equal host.name, host.fqdn
+  end
+
+  test 'fqdn of host without period in name returns name concatenated with domain' do
+    host = hosts(:otherfullhost)
+    assert_equal "otherfullhost", host.name
+    assert_equal "mydomain.net", host.domain.name
+    assert_equal 'otherfullhost.mydomain.net', host.fqdn
+  end
+
+  test 'fqdn of host period and no domain returns just name' do
+    host = Host::Managed.new(:name => name = "dhcp123")
+    assert_equal "dhcp123", host.fqdn
+  end
+
+  test 'clone should create compute_attributes for VM-based hosts' do
+    copy = hosts(:one).clone
+    assert !copy.compute_attributes.nil?
+  end
+
+  test 'clone should NOT create compute_attributes for bare-metal host' do
+    copy = hosts(:bare_metal).clone
+    assert copy.compute_attributes.nil?
   end
 
   private

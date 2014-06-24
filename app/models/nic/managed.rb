@@ -43,6 +43,14 @@ module Nic
       @dhcp_record ||= Net::DHCP::Record.new(dhcp_attrs)
     end
 
+    def hostname
+      unless domain.nil?
+        "#{name}.#{domain.name}"
+      else
+        name
+      end
+    end
+
     protected
 
     def uniq_fields_with_hosts
@@ -53,7 +61,7 @@ module Nic
     def dhcp_attrs
       raise ::Foreman::Exception.new(N_("DHCP not supported for this NIC")) unless dhcp?
       {
-        :hostname => name,
+        :hostname => hostname,
         :ip       => ip,
         :mac      => mac,
         :proxy    => subnet.dhcp_proxy,

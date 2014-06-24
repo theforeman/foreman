@@ -7,11 +7,11 @@ module Orchestration::DNS
   end
 
   def dns?
-    name.present? and ip_available? and !domain.nil? and !domain.proxy.nil? and managed?
+    hostname.present? and ip_available? and !domain.nil? and !domain.proxy.nil? and managed?
   end
 
   def reverse_dns?
-    name.present? and ip_available? and !subnet.nil? and subnet.dns? and managed?
+    hostname.present? and ip_available? and !subnet.nil? and subnet.dns? and managed?
   end
 
   def dns_a_record
@@ -61,11 +61,11 @@ module Orchestration::DNS
   private
 
   def dns_record_attrs
-    { :hostname => name, :ip => ip, :resolver => domain.resolver, :proxy => domain.proxy }
+    { :hostname => hostname, :ip => ip, :resolver => domain.resolver, :proxy => domain.proxy }
   end
 
   def reverse_dns_record_attrs
-    { :hostname => name, :ip => ip, :proxy => subnet.dns_proxy }
+    { :hostname => hostname, :ip => ip, :proxy => subnet.dns_proxy }
   end
 
   def queue_dns
@@ -83,7 +83,7 @@ module Orchestration::DNS
   end
 
   def queue_dns_update
-    if old.ip != ip or old.name != name
+    if old.ip != ip or old.hostname != hostname
       queue.create(:name   => _("Remove DNS record for %s") % old, :priority => 9,
                    :action => [old, :del_dns_a_record]) if old.dns?
       queue.create(:name   => _("Remove Reverse DNS record for %s") % old, :priority => 9,
@@ -111,7 +111,7 @@ module Orchestration::DNS
   end
 
   def dns_conflict_detected?
-    return false if ip.blank? or name.blank?
+    return false if ip.blank? or hostname.blank?
     # can't validate anything if dont have an ip-address yet
     return false unless require_ip_validation?
     # we should only alert on conflicts if overwrite mode is off

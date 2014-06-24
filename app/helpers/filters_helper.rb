@@ -11,9 +11,14 @@ module FiltersHelper
         when 'Parameter'
           '' # parameter is only used in API
         else
-          resource_path(type) + '/auto_complete_search'
+          resource_path = resource_path(type)
+          resource_path.nil? ? "" : resource_path + auto_complete_search_path
       end
     end
+  end
+
+  def auto_complete_search_path
+    '/auto_complete_search'
   end
 
   def resource_path(type)

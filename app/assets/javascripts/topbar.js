@@ -21,9 +21,26 @@ $(document).on('mouseenter', '.collapse .dropdown.menu_tab_dropdown', function()
   }
 });
 $(document).on('mouseleave', '.collapse .dropdown.menu_tab_dropdown', function(){
-  if($(this).hasClass('open')){
+  if($(this).hasClass('open') && !($(this).hasClass('org-switcher'))){
     $(this).find('.dropdown-toggle:first').click();
   }
+});
+
+// keep submenu for loc/org picker open when mouse is moved diagonally and not hovering over menu
+$(document).on('mouseover','.org-menu', function(){
+    $('.org-submenu').show();
+    $('.loc-submenu').hide();
+});
+$(document).on('mouseover','.loc-menu', function(){
+    $('.loc-submenu').show();
+    $('.org-submenu').hide();
+});
+
+$(document).on('mouseleave','.org-submenu', function(){
+    $('.org-submenu').hide();
+});
+$(document).on('mouseleave','.loc-submenu', function(){
+    $('.loc-submenu').hide();
 });
 
 function mark_active_menu() {

@@ -21,10 +21,10 @@
   <div class="tab-content">
 
     <div class="tab-pane active" id="primary">
-      <%= select_f f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
+      <%= select_f(f, :parent_id, accessible_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
                       :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hostgroups_path,
                       :disabled => !@hostgroup.new_record?,
-                      :help_inline => :indicator } %>
+                      :help_inline => :indicator }) if show_parent?(@hostgroup) %>
       <%= text_f f, :name %>
       <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => blank_or_inherit_f(f, :environment)},
         {:label => _("Environment"), :onchange => 'update_puppetclasses(this);', :"data-url" => environment_selected_hostgroups_path} %>
@@ -51,7 +51,7 @@
 
     <div class="tab-pane" id="os">
       <%= render "common/os_selection/initial", :item=> @hostgroup %>
-      <%= password_f f, :root_pass %>
+      <%= password_f f, :root_pass, :help_inline => _("Password should be 8 characters or more")%>
     </div>
 
     <div class="tab-pane" id="params">

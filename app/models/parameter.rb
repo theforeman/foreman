@@ -10,7 +10,7 @@ class Parameter < ActiveRecord::Base
 
   attr_accessor :nested
   before_validation :strip_whitespaces
-  after_initialize :set_priority
+  after_initialize :set_priority, :ensure_reference_nil
 
   PRIORITY = {:common_parameter => 0, :domain_parameter => 1, :os_parameter => 2, :group_parameter => 3 , :host_parameter => 4}
 
@@ -32,4 +32,10 @@ class Parameter < ActiveRecord::Base
     self.name = self.name.strip  unless name.blank? # when name string comes from a hash key, it's frozen and cannot be modified
     self.value.strip! unless value.blank?
   end
+
+  # hack fix for Rails 3.2.8. Not needed for 3.2.18.
+  def ensure_reference_nil
+    self.reference_id = nil if self.new_record? && self.reference_id == 1
+  end
+
 end

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-14 12:47-0700\n"
+"POT-Creation-Date: 2014-06-18 13:52+0100\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -263,6 +263,9 @@ msgid "Add Volume"
 msgstr ""
 
 msgid "Add combination"
+msgstr ""
+
+msgid "Add external user group"
 msgstr ""
 
 msgid "Add permission"
@@ -1030,16 +1033,10 @@ msgstr ""
 msgid "DHCP conflicts removal for %s"
 msgstr ""
 
-msgid "DHCP has a lease at %s"
-msgstr ""
-
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
 msgid "DHCP not supported for this NIC"
-msgstr ""
-
-msgid "DHCP record %s conflicts with an existing reservation"
 msgstr ""
 
 msgid "DHCP records %s already exists"
@@ -1196,6 +1193,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
+msgstr ""
+
+msgid "Distribution chart"
 msgstr ""
 
 msgid "Document root where puppetdoc files should be created"
@@ -1432,6 +1432,12 @@ msgstr ""
 msgid "External IP"
 msgstr ""
 
+msgid "External groups"
+msgstr ""
+
+msgid "External user group"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr ""
 
@@ -1603,6 +1609,9 @@ msgid "Filters"
 msgstr ""
 
 msgid "Filters and permissions"
+msgstr ""
+
+msgid "Filter|Permissions"
 msgstr ""
 
 msgid "Filter|Resource"
@@ -1794,6 +1803,9 @@ msgstr ""
 msgid "Google Project ID"
 msgstr ""
 
+msgid "Guest OS"
+msgstr ""
+
 msgid "Hardware"
 msgstr ""
 
@@ -1825,6 +1837,9 @@ msgid "Host %s is not associated with a VM"
 msgstr ""
 
 msgid "Host Architecture"
+msgstr ""
+
+msgid "Host Configuration Chart"
 msgstr ""
 
 msgid "Host Configuration Status"
@@ -2140,9 +2155,6 @@ msgstr ""
 msgid "Importing Puppet classes and environments"
 msgstr ""
 
-msgid "In Progress"
-msgstr ""
-
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr ""
 
@@ -2433,6 +2445,9 @@ msgid "Manage Locations"
 msgstr ""
 
 msgid "Manage Organizations"
+msgstr ""
+
+msgid "Manage dashboard"
 msgstr ""
 
 msgid "Manage host"
@@ -2899,6 +2914,9 @@ msgstr ""
 msgid "Note: %s "
 msgstr ""
 
+msgid "Nothing to restore"
+msgstr ""
+
 msgid "Nothing to show"
 msgstr ""
 
@@ -3071,6 +3089,9 @@ msgid "Operatingsystem|Release name"
 msgstr ""
 
 msgid "Operation"
+msgstr ""
+
+msgid "Operators"
 msgstr ""
 
 msgid "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br><b>Description:</b> %s"
@@ -3553,6 +3574,9 @@ msgstr ""
 msgid "Report Status"
 msgstr ""
 
+msgid "Report summary"
+msgstr ""
+
 msgid "Reported at"
 msgstr ""
 
@@ -3583,6 +3607,9 @@ msgstr ""
 msgid "Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s"
 msgstr ""
 
+msgid "Reset to default"
+msgstr ""
+
 msgid "Reset zoom"
 msgstr ""
 
@@ -3603,6 +3630,9 @@ msgstr ""
 
 #. initial character of Restarted
 msgid "Restarted|R"
+msgstr ""
+
+msgid "Restore widgets"
 msgstr ""
 
 msgid "Resume"
@@ -3678,6 +3708,9 @@ msgid "SafeRender#parse_string was passed a %s instead of a string"
 msgstr ""
 
 msgid "Save"
+msgstr ""
+
+msgid "Save dashboard"
 msgstr ""
 
 msgid "Save something and try again"
@@ -3852,6 +3885,9 @@ msgstr ""
 msgid "Show host facts"
 msgstr ""
 
+msgid "Show linked external user groups"
+msgstr ""
+
 msgid "Show log messages:"
 msgstr ""
 
@@ -3953,6 +3989,12 @@ msgid "Statistics"
 msgstr ""
 
 msgid "Status"
+msgstr ""
+
+msgid "Status chart"
+msgstr ""
+
+msgid "Status table"
 msgstr ""
 
 msgid "Stop updating IP address and MAC values from Puppet facts"
@@ -4642,6 +4684,9 @@ msgstr ""
 msgid "UsergroupMember|Member type"
 msgstr ""
 
+msgid "Usergroup|Auth source"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup|Name"
 msgstr ""
@@ -5032,7 +5077,7 @@ msgstr ""
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr ""
 
-msgid "e.g. https://ovirt.example.com:8443/api"
+msgid "e.g. https://ovirt.example.com/api"
 msgstr ""
 
 msgid "e.g. jpegPhoto"
@@ -5096,6 +5141,9 @@ msgid "hostgroup"
 msgstr ""
 
 msgid "in %s"
+msgstr ""
+
+msgid "in Progress"
 msgstr ""
 
 msgid "included already from parent"
@@ -5171,6 +5219,9 @@ msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "link external user group with this user group"
+msgstr ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"

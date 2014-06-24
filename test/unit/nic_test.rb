@@ -52,4 +52,21 @@ class NicTest < ActiveSupport::TestCase
     assert_equal subnet.network, interface.network
     assert_equal subnet.vlanid, interface.vlanid
   end
+
+  test "Nic::BMC should have hostname containing name and domain name" do
+    subnet = subnets(:five)
+    domain = domains(:mydomain)
+    interface = nics(:bmc)
+    interface.subnet = subnet
+    interface.domain = domain
+    assert_equal "#{interface.name}.#{interface.domain.name}", interface.hostname
+  end
+
+  test "Nic::BMC should have hostname containing name when domain nil" do
+    subnet = subnets(:five)
+    interface = nics(:bmc)
+    interface.subnet = subnet
+    interface.domain = nil
+    assert_equal interface.name, interface.hostname
+  end
 end

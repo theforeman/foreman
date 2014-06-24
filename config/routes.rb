@@ -98,6 +98,9 @@ Foreman::Application.routes.draw do
       end
     end
 
+    constraints(:hostgroup => /[^\/]+/) do
+      match 'unattended/template/:id/:hostgroup', :to => "unattended#template"
+    end
   end
 
   resources :settings, :only => [:index, :update] do
@@ -321,7 +324,6 @@ Foreman::Application.routes.draw do
       end
     end
 
-    match 'unattended/template/:id/:hostgroup', :to => "unattended#template"
   end
 
   root :to => 'dashboard#index'

@@ -48,7 +48,7 @@ class Host::Managed < Host::Base
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :location,
       :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method,
-      :image_build?, :pxe_build?, :otp, :realm
+      :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?
   end
 
   attr_reader :cached_host_params
@@ -137,15 +137,17 @@ class Host::Managed < Host::Base
     validates :mac, :presence => true, :unless => Proc.new { |host| host.compute? or !host.managed }
     validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
                           :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
-                          :if => Proc.new { |host| host.managed && pxe_build? }
+                          :if => Proc.new { |host| host.managed && host.pxe_build? }
     validates :ip, :format => {:with => Net::Validations::IP_REGEXP}, :if => Proc.new { |host| host.require_ip_validation? }
     validates :ptable_id, :presence => {:message => N_("cant be blank unless a custom partition has been defined")},
-                          :if => Proc.new { |host| host.managed and host.disk.empty? and not Foreman.in_rake? and pxe_build? }
+                          :if => Proc.new { |host| host.managed and host.disk.empty? and not Foreman.in_rake? and host.pxe_build? }
     validates :serial, :format => {:with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8")},
                        :allow_blank => true, :allow_nil => true
     validates :provision_method, :inclusion => {:in => PROVISION_METHODS, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
+    validates :medium_id, :presence => true, :if => Proc.new { |host| host.managed && host.pxe_build? }
     validate :provision_method_in_capabilities
-    after_validation :set_compute_attributes
+    before_validation :set_compute_attributes, :only => :create
+    validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
@@ -162,7 +164,7 @@ class Host::Managed < Host::Base
 
   # we should guarantee the fqdn is always fully qualified
   def fqdn
-    return name if name.blank? || ( !SETTINGS[:unattended] && domain.nil? )
+    return name if name.blank? || domain.blank?
     name.include?('.') ? name : "#{name}.#{domain}"
   end
 
@@ -315,6 +317,7 @@ class Host::Managed < Host::Base
     # maybe these should be moved to the common parameters, leaving them in for now
     param["puppetmaster"] = puppetmaster
     param["domainname"]   = domain.fullname unless domain.nil? or domain.fullname.nil?
+    param["realm"]        = realm.name unless realm.nil?
     param["hostgroup"]    = hostgroup.to_label unless hostgroup.nil?
     if SETTINGS[:locations_enabled]
       param["location"] = location.name unless location.blank?
@@ -623,17 +626,15 @@ class Host::Managed < Host::Base
   end
 
   def clone
-    new = super
-    new.puppetclasses = puppetclasses
-    # Clone any parameters as well
-    host_parameters.each{|param| new.host_parameters << HostParameter.new(:name => param.name, :value => param.value, :nested => true)}
-    interfaces.each {|int| new.interfaces << int.clone }
-    # clear up the system specific attributes
-    [:name, :mac, :ip, :uuid, :certname, :last_report].each do |attr|
-      new.send "#{attr}=", nil
+    # .dup uses deep_cloneable gem
+    # do not copy system specific attributes
+    host = self.dup(:include => [:host_config_groups, :host_classes, :host_parameters],
+                    :except  => [:name, :mac, :ip, :uuid, :certname, :last_report])
+    if self.compute_resource
+      host.compute_attributes = host.compute_resource.vm_compute_attributes_for(self.uuid)
     end
-    new.puppet_status = 0
-    new
+    host.puppet_status = 0
+    host
   end
 
   def bmc_nic
@@ -891,6 +892,12 @@ class Host::Managed < Host::Base
   def provision_method_in_capabilities
     return unless managed?
     errors.add(:provision_method, _('is an unsupported provisioning method')) unless capabilities.map(&:to_s).include?(self.provision_method)
+  end
+
+  def check_if_provision_method_changed
+    if self.provision_method_changed?
+      errors.add(:provision_method, _("can't be updated after host is provisioned"))
+    end
   end
 
 end

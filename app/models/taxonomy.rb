@@ -7,6 +7,7 @@ class Taxonomy < ActiveRecord::Base
 
   belongs_to :user
   before_destroy EnsureNotUsedBy.new(:hosts)
+  after_create :assign_taxonomy_to_user
 
   has_many :taxable_taxonomies, :dependent => :destroy
   has_many :users, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'User'
@@ -136,6 +137,11 @@ class Taxonomy < ActiveRecord::Base
 
   def hash_key_to_class(key)
     key.to_s.gsub(/_ids?\Z/, '').classify
+  end
+
+  def assign_taxonomy_to_user
+    return if User.current.admin
+    TaxableTaxonomy.create(:taxonomy_id => self.id, :taxable_id => User.current.id, :taxable_type => 'User')
   end
 
 end

@@ -112,6 +112,10 @@ module HostCommon
     params.has_key?(name) && LookupKey::TRUE_VALUES.include?(params[name])
   end
 
+  def param_false? name
+    params.has_key?(name) && LookupKey::FALSE_VALUES.include?(params[name])
+  end
+
   def cg_class_ids
     cg_ids = if kind_of?(Hostgroup)
                path.each.map(&:config_group_ids).flatten.uniq
@@ -182,11 +186,11 @@ module HostCommon
   end
 
   def cnt_hostgroups(config_group)
-    Hostgroup.search_for("config_group=#{config_group.name}").count
+    Hostgroup.search_for(%Q{config_group="#{config_group.name}"}).count
   end
 
   def cnt_hosts(config_group)
-    Host::Managed.search_for("config_group=#{config_group.name}").count
+    Host::Managed.search_for(%Q{config_group="#{config_group.name}"}).count
   end
 
   def update_config_group_counters(record)

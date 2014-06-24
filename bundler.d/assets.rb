@@ -1,6 +1,7 @@
 group :assets do
   gem 'sass-rails', '~> 3.2.3'
   gem 'uglifier', '>= 1.0.3'
+  gem 'execjs', '< 2.1.0'
   gem "jquery-rails", "2.0.3"
   gem 'jquery-ui-rails'
   gem "therubyracer", '0.11.3', :require => 'v8'
@@ -12,4 +13,5 @@ group :assets do
   gem 'gettext', '~> 2.0', :require => false
   gem 'locale', '<= 2.0.9'
   gem "multi-select-rails", "~> 0.9.10"
+  gem 'gridster-rails'
 end

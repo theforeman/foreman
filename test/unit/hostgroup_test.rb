@@ -123,7 +123,7 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test "should find associated lookup_values" do
-    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)], hostgroups(:common).lookup_values.sort
+    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)].map(&:id).sort, hostgroups(:common).lookup_values.map(&:id).sort
   end
 
   test "should find associated lookup_values with unsafe SQL name" do
@@ -133,7 +133,7 @@ class HostgroupTest < ActiveSupport::TestCase
     lv = lookup_values(:four)
     lv.match = "hostgroup=#{hostgroup.name}"
     lv.save!
-    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)], hostgroup.lookup_values.sort
+    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)].map(&:id).sort, hostgroup.lookup_values.map(&:id).sort
   end
 
   # test NestedAncestryCommon methods generate by class method nested_attribute_for
@@ -285,6 +285,22 @@ class HostgroupTest < ActiveSupport::TestCase
     refute_equal Puppetclass.scoped, hostgroup.available_puppetclasses
     refute_equal hostgroup.environment.puppetclasses.sort, hostgroup.available_puppetclasses.sort
     assert_equal (hostgroup.environment.puppetclasses - hostgroup.parent_classes).sort, hostgroup.available_puppetclasses.sort
+  end
+
+  test "hostgroup root pass can be blank" do
+    hostgroup = FactoryGirl.create(:hostgroup)
+    hostgroup.root_pass = nil
+    assert hostgroup.valid?
+  end
+
+  test "hostgroup root pass be must at least 8 characters if not blank" do
+    hostgroup = FactoryGirl.build(:hostgroup)
+    assert hostgroup.valid?
+    hostgroup.root_pass = '1234567'
+    refute hostgroup.valid?
+    assert_equal "should be 8 characters or more", hostgroup.errors[:root_pass].first
+    hostgroup.root_pass = '12345678'
+    assert hostgroup.valid?
   end
 
 end

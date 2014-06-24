@@ -7,13 +7,13 @@
 # 
 # Translators:
 # dingtim, 2013
-# dingtim, 2013
+# tim123, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-09 14:22+0100\n"
-"PO-Revision-Date: 2014-04-10 09:19+0000\n"
+"POT-Creation-Date: 2014-06-11 09:09-0400\n"
+"PO-Revision-Date: 2014-06-12 10:49+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid " Remove"
+msgstr ""
 
 msgid "%s - Press Shift-F12 to release the cursor."
 msgstr "%s - 点击 Shift-F12 刷新。"
@@ -50,6 +53,10 @@ msgstr "%s 前"
 msgid "%s console is not supported at this time"
 msgstr "%s 的控制台不支持"
 
+msgid "%s core"
+msgid_plural "%s cores"
+msgstr[0] ""
+
 msgid "%s day ago"
 msgid_plural "%s days ago"
 msgstr[0] "%s 天前"
@@ -58,6 +65,9 @@ msgid "%s has been disassociated from VM"
 msgstr ""
 
 msgid "%s is an unknown attribute"
+msgstr ""
+
+msgid "%s is not in environment"
 msgstr ""
 
 msgid "%s minute ago"
@@ -253,9 +263,6 @@ msgstr "激活"
 msgid "Add Bookmark"
 msgstr "增加书签"
 
-msgid "Add Filter"
-msgstr "增加过滤"
-
 msgid "Add Interface"
 msgstr "增加接口"
 
@@ -273,9 +280,6 @@ msgstr "添加变量"
 
 msgid "Add Volume"
 msgstr "添加值"
-
-msgid "Add a fact filter"
-msgstr "添加详情过滤"
 
 msgid "Add combination"
 msgstr "添加组合"
@@ -625,9 +629,6 @@ msgstr "允许使用远程用户环境变量调用API"
 msgid "Authorized by"
 msgstr "授权"
 
-msgid "Automatically add new host groups to this user"
-msgstr ""
-
 msgid "Autosign"
 msgstr "自动签名"
 
@@ -642,6 +643,9 @@ msgstr ""
 
 msgid "Available Classes"
 msgstr "可用类"
+
+msgid "Available Config Groups"
+msgstr ""
 
 msgid "Available Providers"
 msgstr ""
@@ -881,6 +885,9 @@ msgstr ""
 msgid "Click to remove %s"
 msgstr "点击删除 %s"
 
+msgid "Click to remove config group"
+msgstr ""
+
 msgid "Click to undo adding this class"
 msgstr "点击撤销添加的类"
 
@@ -984,6 +991,9 @@ msgstr "Uuid"
 msgid "Config Retrieval"
 msgstr "配置检索"
 
+msgid "Config groups"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
 msgstr "配置模板"
@@ -1074,17 +1084,11 @@ msgstr "本子网使用的DHCP代理"
 msgid "DHCP conflicts removal for %s"
 msgstr "去除 %s DHCP冲突"
 
-msgid "DHCP has a lease at %s"
-msgstr "%s 的DHCP过期"
-
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
 msgid "DHCP not supported for this NIC"
 msgstr "此网卡不支持DHCP"
-
-msgid "DHCP record %s conflicts with an existing reservation"
-msgstr ""
 
 msgid "DHCP records %s already exists"
 msgstr "DHCP记录已经存在"
@@ -1126,6 +1130,18 @@ msgid "Default Puppet server hostname"
 msgstr "默认puppet服务器名"
 
 msgid "Default encrypted root password on provisioned hosts"
+msgstr ""
+
+msgid "Default location"
+msgstr ""
+
+msgid "Default locations need to be user locations first"
+msgstr ""
+
+msgid "Default organization"
+msgstr ""
+
+msgid "Default organizations need to be user organizations first"
 msgstr ""
 
 msgid "Default value"
@@ -1248,9 +1264,6 @@ msgstr "域"
 msgid "Domain Configuration"
 msgstr "域配置"
 
-msgid "Domain hosts"
-msgstr "域主机"
-
 msgid "Domains"
 msgstr "域名"
 
@@ -1295,6 +1308,9 @@ msgid "Edit Compute profile"
 msgstr ""
 
 msgid "Edit Compute profile: %s"
+msgstr ""
+
+msgid "Edit Config group"
 msgstr ""
 
 msgid "Edit Domain"
@@ -1487,9 +1503,6 @@ msgstr "图表名称"
 msgid "Fact Values"
 msgstr "详情值"
 
-msgid "Fact filters"
-msgstr "详情过滤"
-
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
 msgstr "详情名称"
@@ -1660,6 +1673,9 @@ msgid "Filters"
 msgstr "筛选"
 
 msgid "Filters and permissions"
+msgstr ""
+
+msgid "Filter|Permissions"
 msgstr ""
 
 msgid "Filter|Resource"
@@ -1893,6 +1909,9 @@ msgstr "在过去 %s 内的报告良好的主机"
 msgid "Google Project ID"
 msgstr ""
 
+msgid "Guest OS"
+msgstr ""
+
 msgid "Hardware"
 msgstr "硬件"
 
@@ -1952,9 +1971,6 @@ msgstr "主机组和环境"
 
 msgid "Host group configuration"
 msgstr "配置主机组"
-
-msgid "Host group hosts"
-msgstr "主机组主机"
 
 msgid "Host group only"
 msgstr "仅主机组"
@@ -2287,6 +2303,9 @@ msgstr ""
 msgid "Included Classes"
 msgstr "包含的类"
 
+msgid "Included Config Groups"
+msgstr ""
+
 msgid "Included Parameters via inheritance"
 msgstr "包括通过继承的参数"
 
@@ -2385,6 +2404,9 @@ msgstr ""
 msgid ""
 "LDAP users will have their Foreman account automatically created the first "
 "time they log into Foreman"
+msgstr ""
+
+msgid "Language"
 msgstr ""
 
 msgid "Last report"
@@ -2768,6 +2790,12 @@ msgid "New Compute Resource"
 msgstr "新建计算机资源"
 
 msgid "New Compute profile"
+msgstr ""
+
+msgid "New Config Group"
+msgstr ""
+
+msgid "New Config group"
 msgstr ""
 
 msgid "New Domain"
@@ -3220,6 +3248,9 @@ msgstr "发行名称"
 msgid "Operation"
 msgstr "作业"
 
+msgid "Operators"
+msgstr ""
+
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
 "<br><br><b>Description:</b> %s"
@@ -3290,9 +3321,6 @@ msgstr "覆盖"
 
 msgid "Owned By"
 msgstr "所有者"
-
-msgid "Owned hosts"
-msgstr "主机所有者"
 
 msgid "Owner"
 msgstr "所有者"
@@ -3682,11 +3710,6 @@ msgstr "删除参数"
 msgid "Remove Reverse DNS record for %s"
 msgstr ""
 
-msgid ""
-"Remove classes from environments different to the host's environment when a "
-"host and its host group have different environments"
-msgstr ""
-
 msgid "Remove conflicting DNS record for %s"
 msgstr ""
 
@@ -3868,9 +3891,6 @@ msgstr ""
 
 msgid "Security groups"
 msgstr ""
-
-msgid "Select"
-msgstr "选择"
 
 msgid "Select Action"
 msgstr "选择执行"
@@ -4598,9 +4618,6 @@ msgstr "总"
 msgid "Total Hosts: %s"
 msgstr "主机合计: %s"
 
-msgid "Total memory usage"
-msgstr "总的内存使用情况"
-
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend"
 msgstr "趋势"
@@ -5294,6 +5311,9 @@ msgstr "和"
 msgid "and relevant log entries."
 msgstr "和相关的日志条目。"
 
+msgid "belongs to config group"
+msgstr ""
+
 msgid "can't be bigger than to range"
 msgstr ""
 
@@ -5390,14 +5410,11 @@ msgstr "更多的细节。"
 msgid "for proxy"
 msgstr ""
 
-msgid "free (GB)"
-msgstr "空闲 (GB)"
+msgid "free memory"
+msgstr ""
 
-msgid "free memory (GB)"
-msgstr "内存空闲 (GB)"
-
-msgid "free swap (GB)"
-msgstr "交换分区空闲 (GB)"
+msgid "free swap"
+msgstr ""
 
 msgid "has this hostgroup already"
 msgstr ""
@@ -5413,9 +5430,6 @@ msgstr ""
 
 msgid "in %s"
 msgstr ""
-
-msgid "in domain"
-msgstr "域"
 
 msgid "included already from parent"
 msgstr ""
@@ -5503,9 +5517,6 @@ msgstr "位置"
 msgid "message"
 msgstr "信息"
 
-msgid "must be"
-msgstr "必须是"
-
 msgid "must be a valid URI"
 msgstr ""
 
@@ -5529,9 +5540,6 @@ msgstr "需从已有定义中选择"
 
 msgid "must be specified if to is defined"
 msgstr "需增加到预定义列表中"
-
-msgid "must match"
-msgstr "必须匹配"
 
 msgid "must not include periods"
 msgstr ""
@@ -5580,9 +5588,6 @@ msgstr ""
 
 msgid "pending"
 msgstr "未决定"
-
-msgid "plus all"
-msgstr "加上所有"
 
 msgid "poweroff"
 msgstr "关闭"
@@ -5680,14 +5685,11 @@ msgstr "未知提供商"
 msgid "unspecified"
 msgstr ""
 
-msgid "used (GB)"
-msgstr "已使用 (GB)"
+msgid "used memory"
+msgstr ""
 
-msgid "used memory (GB)"
-msgstr "内存已使用 (GB)"
-
-msgid "used swap (GB)"
-msgstr "缓存已使用 (GB)"
+msgid "used swap"
+msgstr ""
 
 msgid "useful."
 msgstr "可用。"

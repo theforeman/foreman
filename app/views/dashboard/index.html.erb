@@ -1,50 +1,14 @@
+<%= javascript 'dashboard' %>
+
 <% title _('Overview') %>
-<div id='dashboard' xmlns="http://www.w3.org/1999/html">
-  <%= title_actions _("Generated at %s") % Time.now.to_s(:short) %>
-  <div class="row">
-    <div class="col-md-12">
-    <div id='status-table' class='stats-well'>
-      <div class="col-md-6">
-        <%= render 'status_table' %>
-      </div>
-      <div class="col-md-6">
-        <%= render_overview(@report, :class => 'statistics-pie small') %>
-      </div>
-    </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-5">
-    <div class="stats-well">
-      <h4 style="text-align: center;"><%= _("Latest Events") %></h4>
-      <% events = latest_events %>
-      <% if events.empty? %>
-        <p class="ca"><%= _("No interesting reports received in the last week") %></p>
-      <% else %>
-        <table class="table table-striped ellipsis">
-          <tr>
-            <%= latest_headers %>
-          </tr>
-          <% events.each do |report| %>
-            <tr>
-              <td><%= link_to h(trunc(report.host, 14)), host_reports_path(report.host) %></td>
-              <td><%= report_event_column(report.applied, "label-info") %></td>
-              <td><%= report_event_column(report.restarted, "label-info") %></td>
-              <td><%= report_event_column(report.failed, "label-danger") %></td>
-              <td><%= report_event_column(report.failed_restarts, "label-warning") %></td>
-              <td><%= report_event_column(report.skipped, "label-info") %></td>
-              <td><%= report_event_column(report.pending, "label-info") %></td>
-            </tr>
-          <% end %>
-        </table>
-      <% end %>
-    </div>
-    </div>
-    <div class="col-md-7">
-    <div class="stats-well">
-      <h4 style="text-align: center;"><%= n_("Run distribution in the last %s minute", "Run distribution in the last %s minutes", Setting[:puppet_interval]) % Setting[:puppet_interval] %></h4>
-      <%= render_run_distribution(@hosts, :class => 'statistics-bar') %>
-    </div>
-    </div>
-  </div>
+<%= title_actions dashboard_actions %>
+
+<div id='dashboard' class="row gridster">
+  <ul>
+    <%= widget_list.map do |widget|
+          content_tag(:li, render(widget.id), :data=>{:id => widget.id, :name => widget.name || widget.id, :row => widget.row, :col => widget.col, :sizex=>widget.sizex, :sizey => widget.sizey, :hide=>widget.hide})
+        end.join(' ').html_safe
+    %>
+  </ul>
 </div>
+

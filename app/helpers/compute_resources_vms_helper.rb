@@ -1,10 +1,10 @@
 module ComputeResourcesVmsHelper
 
-  def vm_power_actions(vm)
+  def vm_power_actions(host, vm)
     button_group(
       if vm
          html_opts = vm.ready? ? {:confirm => _('Are you sure?'), :class => "btn btn-danger"} : {:class => "btn btn-success"}
-         link_to_if_authorized _("Power%s") % state(vm.ready?), hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start).merge(:auth_object => vm, :permission => 'power_hosts'),
+         link_to_if_authorized _("Power%s") % state(vm.ready?), hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start).merge(:auth_object => host, :permission => 'power_hosts'),
          html_opts.merge(:method => :put)
       else
          link_to(_("Unknown Power State"), '#', :disabled => true, :class => "btn btn-warning")
@@ -12,9 +12,9 @@ module ComputeResourcesVmsHelper
     )
   end
 
-  def vm_console(vm)
+  def vm_console(host, vm)
     if vm && vm.ready?
-      link_to_if_authorized(_("Console"), hash_for_console_host_path().merge(:auth_object => vm, :permission => 'console_hosts'),
+      link_to_if_authorized(_("Console"), hash_for_console_host_path().merge(:auth_object => host, :permission => 'console_hosts'),
                             { :class => "btn btn-info" })
     else
       link_to(_("Console"), '#', {:disabled=> true, :class => "btn btn-info"})

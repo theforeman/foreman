@@ -25,11 +25,12 @@ class Filter < ActiveRecord::Base
   scope :limited, lambda { where("search IS NOT NULL OR taxonomy_search IS NOT NULL") }
 
   scoped_search :on => :search, :complete_value => true
-  scoped_search :on => :limited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_limited
-  scoped_search :on => :unlimited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_unlimited
+  scoped_search :on => :limited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_limited, :only_explicit => true
+  scoped_search :on => :unlimited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_unlimited, :only_explicit => true
   scoped_search :in => :role, :on => :id, :rename => :role_id
   scoped_search :in => :role, :on => :name, :rename => :role
   scoped_search :in => :permissions, :on => :resource_type, :rename => :resource
+  scoped_search :in => :permissions, :on => :name,          :rename => :permission
 
   before_validation :build_taxonomy_search, :nilify_empty_searches
 
@@ -86,6 +87,14 @@ class Filter < ActiveRecord::Base
     end
   end
 
+  def allows_organization_filtering?
+    granular? && resource_class.allows_organization_filtering?
+  end
+
+  def allows_location_filtering?
+    granular? && resource_class.allows_location_filtering?
+  end
+
   def search_condition
     searches = [self.search, self.taxonomy_search].compact
     searches = searches.map { |s| parenthesize(s) } if searches.size > 1
@@ -97,6 +106,9 @@ class Filter < ActiveRecord::Base
   def build_taxonomy_search
     orgs = build_taxonomy_search_string('organization')
     locs = build_taxonomy_search_string('location')
+
+    orgs = [] if !granular? || !resource_class.allows_organization_filtering?
+    locs = [] if !granular? || !resource_class.allows_location_filtering?
 
     if self.organizations.empty? && self.locations.empty?
       self.taxonomy_search = nil

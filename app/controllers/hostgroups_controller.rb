@@ -78,8 +78,7 @@ class HostgroupsController < ApplicationController
         process_error
       end
     rescue Ancestry::AncestryException
-      flash[:error] = _("Cannot delete group %{current} because it has nested groups.") % { :current => @hostgroup.title }
-      process_error
+      process_error(:error_msg => ("Cannot delete group %{current} because it has nested groups.") % { :current => @hostgroup.title } )
     end
   end
 

@@ -3,7 +3,7 @@ object @host
 extends "api/v2/hosts/main"
 
 child :host_parameters => :parameters do
-  extends "api/v2/puppetclasses/base"
+  extends "api/v2/parameters/base"
 end
 
 child :interfaces => :interfaces do
@@ -12,6 +12,10 @@ end
 
 child :puppetclasses do
   extends "api/v2/puppetclasses/base"
+end
+
+node do |host|
+  { :all_puppetclasses => partial("api/v2/puppetclasses/base", :object => host.all_puppetclasses) }
 end
 
 child :config_groups do

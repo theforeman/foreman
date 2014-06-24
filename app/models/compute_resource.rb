@@ -26,6 +26,7 @@ class ComputeResource < ActiveRecord::Base
   validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :type, :complete_value => :true
   scoped_search :on => :id, :complete_value => :true
   before_save :sanitize_url
   has_many_hosts
@@ -102,8 +103,13 @@ class ComputeResource < ActiveRecord::Base
     "#{name} (#{provider_friendly_name})"
   end
 
+  # Override this method to specify provider name
+  def self.provider_friendly_name
+    self.name.split('::').last()
+  end
+
   def provider_friendly_name
-    provider
+    self.class.provider_friendly_name
   end
 
   def image_param_name
@@ -187,7 +193,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def console uuid = nil
-    raise ::Foreman::Exception.new(N_("%s console is not supported at this time"), provider)
+    raise ::Foreman::Exception.new(N_("%s console is not supported at this time"), provider_friendly_name)
   end
 
   # by default, our compute providers do not support updating an existing instance
@@ -221,6 +227,11 @@ class ComputeResource < ActiveRecord::Base
 
   def compute_profile_attributes_for(id)
     compute_attributes.find_by_compute_profile_id(id).try(:vm_attrs) || {}
+  end
+
+  def vm_compute_attributes_for(uuid)
+    vm = find_vm_by_uuid(uuid)
+    vm.attributes.reject{|k,v| k == :id }
   end
 
   protected

@@ -83,9 +83,10 @@ module Foreman::Model
       }
     end
 
-   # vSphere guest OS type descriptions
-   # list fetched from RbVmomi::VIM::VirtualMachineGuestOsIdentifier.values
-   def guest_types_descriptions
+    # vSphere guest OS type descriptions
+    # list fetched from RbVmomi::VIM::VirtualMachineGuestOsIdentifier.values and
+    # http://pubs.vmware.com/vsphere-55/topic/com.vmware.wssdk.apiref.doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
+    def guest_types_descriptions
       {
         "dosGuest" => "Microsoft MS-DOS",
         "win31Guest" => "Microsoft Windows 3.1",
@@ -117,6 +118,7 @@ module Foreman::Model
         "windows8Guest" => "Microsoft Windows 8 (32-bit)",
         "windows8_64Guest" => "Microsoft Windows 8 (64-bit)",
         "windows8Server64Guest" => "Microsoft Windows Server 2012 (64-bit)",
+        "windowsHyperVGuest" => "Microsoft Windows Hyper-V",
         "freebsd64Guest" => "FreeBSD (64-bit)",
         "freebsdGuest" => "FreeBSD (32-bit)",
         "redhatGuest" => "Red Hat Linux 2.1",
@@ -129,6 +131,8 @@ module Foreman::Model
         "rhel5_64Guest" => "Red Hat Enterprise Linux 5 (64-bit)",
         "rhel6Guest" => "Red Hat Enterprise Linux 6 (32-bit)",
         "rhel6_64Guest" => "Red Hat Enterprise Linux 6 (64-bit)",
+        "rhel7Guest" => "Red Hat Enterprise Linux 7 (32-bit)",
+        "rhel7_64Guest" => "Red Hat Enterprise Linux 7 (64-bit)",
         "centosGuest" => "CentOS 4/5/6 (32-bit)",
         "centos64Guest" => "CentOS 4/5/6 (64-bit)",
         "oracleLinux64Guest" => "Oracle Linux 4/5/6 (64-bit)",
@@ -141,9 +145,12 @@ module Foreman::Model
         "sles10_64Guest" => "Novell SUSE Linux Enterprise 10 (64-bit)",
         "sles11Guest" => "Novell SUSE Linux Enterprise 11 (32-bit)",
         "sles11_64Guest" => "Novell SUSE Linux Enterprise 11 (64-bit)",
+        "sles12Guest" => "Novell SUSE Linux Enterprise 12 (32-bit)",
+        "sles12_64Guest" => "Novell SUSE Linux Enterprise 12 (64-bit)",
         "nld9Guest" => "Novell Linux Desktop 9",
         "oesGuest" => "Novell Open Enterprise Server",
         "sjdsGuest" => "Sun Java Desktop System",
+        "mandrakeGuest" => "Mandrake Linux",
         "mandrivaGuest" => "Mandriva Linux (32-bit)",
         "mandriva64Guest" => "Mandriva Linux (64-bit)",
         "turboLinuxGuest" => "Turbolinux (32-bit)",
@@ -156,17 +163,24 @@ module Foreman::Model
         "debian5_64Guest" => "Debian GNU/Linux 5 (64-bit)",
         "debian6Guest" => "Debian GNU/Linux 6 (32-bit)",
         "debian6_64Guest" => "Debian GNU/Linux 6 (64-bit)",
+        "debian7Guest" => "Debian GNU/Linux 7 (32-bit)",
+        "debian7_64Guest" => "Debian GNU/Linux 7 (64-bit)",
         "asianux3Guest" => "Asianux Server 3 (32-bit)",
         "asianux3_64Guest" => "Asianux Server 3 (64-bit)",
         "asianux4Guest" => "Asianux Server 4 (32-bit)",
         "asianux4_64Guest" => "Asianux Server 4 (64-bit)",
         "opensuseGuest" => "OpenSUSE Linux (32-bit)",
         "opensuse64Guest" => "OpenSUSE Linux (64-bit)",
+        "fedoraGuest" => "Fedora Linux",
+        "fedora64Guest" => "Fedora Linux (64-bit)",
         "other24xLinuxGuest" => "Other 2.4.x Linux (32-bit)",
         "other26xLinuxGuest" => "Other 2.6.x Linux (32-bit)",
+        "other3xLinuxGuest" => "Other Linux 3.x Guest",
         "otherLinuxGuest" => "Other Linux (32-bit)",
+        "genericLinuxGuest" => "Other Linux",
         "other24xLinux64Guest" => "Other 2.4.x Linux (64-bit)",
         "other26xLinux64Guest" => "Other 2.6.x Linux (64-bit)",
+        "other3xLinux64Guest" => "Other Linux 3.x Guest (64-bit)",
         "otherLinux64Guest" => "Other Linux (64-bit)",
         "solaris6Guest" => "Sun Microsystems Solaris 6",
         "solaris7Guest" => "Sun Microsystems Solaris 7",
@@ -190,6 +204,8 @@ module Foreman::Model
         "darwin10_64Guest" => "Apple Mac OS X 10.6 (64-bit)",
         "darwin11Guest" => "Apple Mac OS X 10.7 (32-bit)",
         "darwin11_64Guest" => "Apple Mac OS X 10.7 (64-bit)",
+        "darwin12_64Guest" => "Mac OS 10.8 (64-bit)",
+        "darwin13_64Guest" => "Mac OS 10.9 (64-bit)",
         "vmkernelGuest" => "VMWare ESX 4.x",
         "vmkernel5Guest" => "VMWare ESXi 5.x",
         "otherGuest" => "Other (32-bit)",
@@ -224,31 +240,42 @@ module Foreman::Model
     end
 
     def parse_args args
-      dc_networks = networks
-      args["interfaces_attributes"].each do |key, interface|
-        # Convert network id into name
-        net = dc_networks.find { |n| n.id == interface["network"] }
-        raise "Unknown Network ID: #{interface["network"]}" if net.nil?
-        interface["network"] = net.name
-      end
+      args = args.symbolize_keys
 
-      # convert rails nested_attributes into a plain hash
+      # convert rails nested_attributes into a plain, symbolized hash
       [:interfaces, :volumes].each do |collection|
         nested_attrs = args.delete("#{collection}_attributes".to_sym)
         args[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
+      end
+
+      if args[:scsi_controller_type].present?
+        args[:scsi_controller] = {:type => args.delete(:scsi_controller_type)}
       end
 
       args.reject! { |k, v| v.nil? }
       args
     end
 
-    def create_vm controller_args = { }
-      args = parse_args controller_args.dup
+    # Change network IDs for names only at the point of creation, as IDs are
+    # used in the UI for select boxes etc.
+    def parse_networks args
+      args = args.deep_dup
+      dc_networks = networks
+      args["interfaces_attributes"].each do |key, interface|
+        # Convert network id into name
+        net = dc_networks.find { |n| [n.id, n.name].include?(interface["network"]) }
+        raise "Unknown Network ID: #{interface["network"]}" if net.nil?
+        interface["network"] = net.name
+      end if args["interfaces_attributes"]
+      args
+    end
 
+    def create_vm args = { }
       test_connection
       return unless errors.empty?
 
-      if args["image_id"]
+      args = parse_networks(args)
+      if args[:image_id].present?
         clone_vm(args)
       else
         vm = new_vm(args)
@@ -261,7 +288,8 @@ module Foreman::Model
     end
 
     def new_vm args
-      opts = vm_instance_defaults.merge(args.to_hash).symbolize_keys
+      args = parse_args args
+      opts = vm_instance_defaults.symbolize_keys.merge(args.symbolize_keys)
       client.servers.new opts
     end
 
@@ -280,23 +308,24 @@ module Foreman::Model
     # +searchIndex.FindChild("Resources")+ in RbVmomi that then returns nil
     # because it has no children.
     def clone_vm args
+      args = parse_args args
       path_replace = %r{/Datacenters/#{datacenter}/vm(/|)}
 
-      interfaces = client.list_vm_interfaces(args["image_id"])
+      interfaces = client.list_vm_interfaces(args[:image_id])
       interface = interfaces.detect{|i| i[:name] == "Network adapter 1" }
       network_adapter_device_key = interface[:key]
 
       opts = {
         "datacenter" => datacenter,
-        "template_path" => args["image_id"],
-        "dest_folder" => args["path"].gsub(path_replace, ''),
+        "template_path" => args[:image_id],
+        "dest_folder" => args[:path].gsub(path_replace, ''),
         "power_on" => false,
-        "start" => args["start"],
-        "name" => args["name"],
-        "numCPUs" => args["cpus"],
-        "memoryMB" => args["memory_mb"],
-        "datastore" => args["volumes"].first["datastore"],
-        "network_label" => args["interfaces"].first["network"],
+        "start" => args[:start],
+        "name" => args[:name],
+        "numCPUs" => args[:cpus],
+        "memoryMB" => args[:memory_mb],
+        "datastore" => args[:volumes].first[:datastore],
+        "network_label" => args[:interfaces].first[:network],
         "network_adapter_device_key" => network_adapter_device_key
       }
       client.servers.get(client.vm_clone(opts)['new_vm']['id'])
@@ -348,7 +377,7 @@ module Foreman::Model
       Host.authorized(:view_hosts, Host).where(:mac => vm.mac).first
     end
 
-    def provider_friendly_name
+    def self.provider_friendly_name
       "VMWare"
     end
 

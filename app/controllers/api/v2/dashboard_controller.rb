@@ -7,7 +7,7 @@ module Api
       api :GET, "/dashboard/", "Get Dashboard results"
 
       def index
-        status = Dashboard.status(params[:search])
+        status = Dashboard::Data.status(params[:search])
         respond_to do |format|
           format.yaml { render :text => status.to_yaml }
           format.json { render :json => status }

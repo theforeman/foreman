@@ -20,8 +20,11 @@ class AuthSource < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:users)
   has_many :users
+  has_many :external_usergroups, :dependent => :destroy
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 60 }
+
+  scope :non_internal, lambda { where("type <> ?", 'AuthSourceInternal') }
 
   def authenticate(login, password)
   end

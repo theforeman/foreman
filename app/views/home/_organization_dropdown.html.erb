@@ -1,8 +1,8 @@
 <li class="nav-header"><%= _('Organization') %></li>
-<li class="dropdown-submenu">
+<li class="dropdown-submenu org-menu">
   <% orgs_count = Organization.my_organizations.count %>
   <%= organization_dropdown orgs_count %>
-  <ul class="dropdown-menu">
+  <ul class="dropdown-menu org-submenu">
     <% if User.current.admin? %>
       <li><%= link_to(_('Any Organization'), main_app.clear_organizations_path) %></li>
       <%= content_tag(:li, "", :class => "divider") %>

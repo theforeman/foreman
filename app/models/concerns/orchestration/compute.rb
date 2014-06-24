@@ -192,6 +192,7 @@ module Orchestration::Compute
   end
 
   def validate_compute_provisioning
+    return true unless image_build?
     return true if ( compute_attributes.nil? or (compute_attributes[:image_id] || compute_attributes[:image_ref]).blank? )
     img = find_image
     if img

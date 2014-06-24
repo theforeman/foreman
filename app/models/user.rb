@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
@@ -27,8 +28,8 @@ class User < ActiveRecord::Base
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
   has_many :cached_roles,      :through => :cached_user_roles,        :source => :role, :uniq => true
   has_many :hostgroups,        :through => :user_hostgroups
-  has_many :usergroups,        :through => :usergroup_member
-  has_many :roles,             :through => :user_roles, :dependent => :destroy
+  has_many :usergroups,        :through => :usergroup_member, :dependent => :destroy
+  has_many :roles,             :through => :user_roles,       :dependent => :destroy
   has_many :filters,           :through => :cached_roles
   has_many :permissions,       :through => :filters
   has_many :cached_usergroup_members
@@ -59,12 +60,20 @@ class User < ActiveRecord::Base
   validates :locale, :format => { :with => /\A\w{2}([_-]\w{2})?\Z/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
   before_validation :normalize_locale
 
+  def self.name_format
+    if RUBY_VERSION.start_with? '1.8'
+      /\A[ёЁа-яА-Яa-zA-Zà-üÀ-Ü0-9\s'_\-\.()<>;=,]*\z/u
+    else
+      /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/
+    end
+  end
+
   validates :login, :presence => true, :uniqueness => {:message => N_("already exists")},
                     :format => {:with => /\A[[:alnum:]_\-@\.]*\Z/}, :length => {:maximum => 100}
   validates :auth_source_id, :presence => true
   validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
   validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
-  validates :firstname, :lastname, :format => {:with => /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/}, :length => {:maximum => 50}, :allow_nil => true
+  validates :firstname, :lastname, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
   validate :name_used_in_a_usergroup, :ensure_admin_is_not_renamed, :ensure_admin_remains_admin,
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion
 
@@ -200,15 +209,33 @@ class User < ActiveRecord::Base
   end
 
   def self.find_or_create_external_user(attrs, auth_source_name)
+    external_groups = attrs.delete(:groups)
+    auth_source = AuthSource.find_by_name(auth_source_name)
+
+    # existing user, we'll update them
     if (user = unscoped.find_by_login(attrs[:login]))
+      # we know this auth source and it's user's auth source, we'll update user attributes
+      if auth_source && (user.auth_source_id == auth_source.id)
+        auth_source_external_groups = auth_source.external_usergroups.pluck(:usergroup_id)
+        new_usergroups = user.usergroups.includes(:external_usergroups).where('usergroups.id NOT IN (?)', auth_source_external_groups)
+
+        new_usergroups += auth_source.external_usergroups.includes(:usergroup).where(:name => external_groups).map(&:usergroup)
+        user.update_attributes(Hash[attrs.select { |k, v| v.present? }])
+        user.usergroups = new_usergroups.uniq
+      end
+
       return true
+    # not existing user and creating is disabled by settings
     elsif auth_source_name.nil?
       return false
+    # not existing user and auth source is set, we'll create the user and auth source if needed
     else
       User.as :admin do
-        options = { :name => auth_source_name }
-        auth_source = AuthSource.where(options).first || AuthSourceExternal.create!(options)
+        auth_source = AuthSourceExternal.create!(:name => auth_source_name) if auth_source.nil?
         user = User.create!(attrs.merge(:auth_source => auth_source))
+        if external_groups.present?
+          user.usergroups = auth_source.external_usergroups.where(:name => external_groups).map(&:usergroup).uniq
+        end
         user.post_successful_login
       end
       return true

@@ -62,12 +62,27 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should render spoof when user is not logged in" do
+  test "should not render spoof when user is not logged in" do
     get :provision, {:spoof => hosts(:ubuntu).ip}
     assert_response :redirect
   end
 
-   test "should support spoof using hostname" do
+  test "should not render hostname spoof when user is not logged in" do
+    get :provision, {:hostname => hosts(:ubuntu).fqdn}
+    assert_response :redirect
+  end
+
+  test "should not render hostname spoof when hostname is empty" do
+    get :provision, {:hostname => nil}, set_session_user
+    assert_response 404
+  end
+
+  test "should not render hostname spoof when spoof is empty" do
+    get :provision, {:spoof => nil}, set_session_user
+    assert_response 404
+  end
+
+  test "should support spoof using hostname" do
     get :provision, {:hostname => hosts(:ubuntu).name}, set_session_user
     assert_response :success
     assert_equal hosts(:ubuntu).name, assigns(:host).name
@@ -141,8 +156,16 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :conflict
   end
 
-  test "template with  hostgroup should be rendered" do
+  test "template with hostgroup should be rendered" do
     get :template, {:id => "MyString", :hostgroup => "Common"}
+    assert_response :success
+  end
+
+  test "template with hostgroup should be rendered even if both have periods in their names" do
+    config_templates(:mystring).update_attributes(:name => 'My.String')
+    hostgroups(:common).update_attributes(:name => 'Com.mon')
+    assert_routing '/unattended/template/My.String/Com.mon', {:controller => 'unattended', :action => 'template', :id => "My.String", :hostgroup => "Com.mon"}
+    get :template, {:id => "My.String", :hostgroup => "Com.mon"}
     assert_response :success
   end
 

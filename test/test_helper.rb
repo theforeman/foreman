@@ -10,14 +10,14 @@ unless RUBY_VERSION =~ /^1\.8/
   end
 end
 
-# Remove previous test log to speed tests up
-test_log = File.expand_path('../../log/test.log', __FILE__)
-FileUtils.rm(test_log) if File.exists?(test_log)
-
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,
   # if you change any configuration or code from libraries loaded here, you'll
   # need to restart spork for it take effect.
+
+  # Remove previous test log to speed tests up
+  test_log = File.expand_path('../../log/test.log', __FILE__)
+  FileUtils.rm(test_log) if File.exists?(test_log)
 
   ENV["RAILS_ENV"] = "test"
   require File.expand_path('../../config/environment', __FILE__)

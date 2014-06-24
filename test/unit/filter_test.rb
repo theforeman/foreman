@@ -140,6 +140,29 @@ class FilterTest < ActiveSupport::TestCase
     assert_nil f.taxonomy_search
   end
 
+  test "taxonomies are ignored if resource does not support them" do
+    o1 = Factory.create :organization
+    o2 = Factory.create :organization
+    l = Factory.create :location
+    f = Factory.create(:filter, :search => '', :unlimited => '1',
+                       :organization_ids => [o1.id, o2.id], :location_ids => [l.id],
+                       :resource_type => 'Bookmark')
+
+    f.reload
+    assert f.valid?
+    assert f.unlimited?
+    assert_nil f.taxonomy_search
+  end
+
+  test "#allows_*_filtering" do
+    fb = Factory.create(:filter, :resource_type => 'Bookmark')
+    fd = Factory.create(:filter, :resource_type => 'Domain')
+    refute fb.allows_organization_filtering?
+    refute fb.allows_location_filtering?
+    assert fd.allows_organization_filtering?
+    assert fd.allows_location_filtering?
+  end
+
   test "search string composition" do
     f = Factory.build :filter, :search => nil, :taxonomy_search => nil
     assert_equal '', f.search_condition

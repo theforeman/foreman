@@ -75,15 +75,11 @@ class HostsController < ApplicationController
 
   # Clone the host
   def clone
-    @clone_host = @host
-    new = @host.dup
-    new.name = nil
-    new.mac = nil
-    new.ip = nil
+    @clone_host = @host.clone
+    @host = @clone_host
     load_vars_for_ajax
     flash[:warning] = _("The marked fields will need reviewing")
-    new.valid?
-    @host = new
+    @host.valid?
     render :action => :new
   end
 
@@ -179,7 +175,7 @@ class HostsController < ApplicationController
 
     begin
       respond_to do |format|
-        format.html { render :text => "<pre>#{@host.info.to_yaml}</pre>" }
+        format.html { render :text => "<pre>#{ERB::Util.html_escape(@host.info.to_yaml)}</pre>" }
         format.yml { render :text => @host.info.to_yaml }
       end
     rescue

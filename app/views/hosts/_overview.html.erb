@@ -1,19 +1,6 @@
-<table class="table table-bordered table-striped">
+<table id="properties_table" class="table table-bordered table-striped">
   <tr>
-    <th><%= _('Details') %></th>
-  </tr>
-  <tr>
-    <td>
-      <% show_appropriate_host_buttons(@host).each do |btn| %>
-        <%= btn %>
-      <% end %>
-    </td>
-  </tr>
-</table>
-<table class="table table-bordered table-striped">
-  <tr>
-    <th><%= _('Properties') %></th>
-    <th></th>
+    <th colspan="2"><%= _('Properties') %></th>
   </tr>
   <% overview_fields(host).each do |name, value| %>
     <tr>

@@ -1,4 +1,4 @@
-<% new = f.object && f.object.new? %>
+<% new = f.object && f.object.try(:new_record?) %>
 <%= text_f f, :name, :disabled => !new if show_vm_name? %>
 <%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :disabled => !new, :label => _('CPUs') %>
 <%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "col-md-2", :disabled => !new, :label => _('Memory') %>

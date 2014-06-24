@@ -77,9 +77,11 @@ Foreman::AccessControl.map do |map|
     }
     map.permission :edit_compute_resources,    {:compute_resources => [:edit, :update].push(*ajax_actions),
                                                 :compute_profiles => [:new, :create, :edit, :update, :destroy, :index, :show, :auto_complete_search],
-                                                :compute_attributes => [:new, :create, :edit, :update, :destroy, :index, :show],
+                                                :compute_attributes => [:new, :create, :edit, :update],
                                                 :"api/v1/compute_resources" => [:update],
-                                                :"api/v2/compute_resources" => [:update]
+                                                :"api/v2/compute_resources" => [:update],
+                                                :"api/v2/compute_profiles" => [:index, :show, :create, :update, :destroy],
+                                                :"api/v2/compute_attributes" => [:create, :update]
     }
     map.permission :destroy_compute_resources, {:compute_resources => [:destroy],
                                                 :"api/v1/compute_resources" => [:destroy],
@@ -619,6 +621,13 @@ Foreman::AccessControl.map do |map|
                                          :"api/v1/usergroups" => [:destroy],
                                          :"api/v2/usergroups" => [:destroy]
     }
+  end
+
+  map.security_block :external_usergroups do |map|
+    map.permission :view_external_usergroups, { :external_usergroups => [:index, :show ] }
+    map.permission :create_external_usergroups, { :external_usergroups => [:new, :create] }
+    map.permission :edit_external_usergroups, { :external_usergroups => [:edit, :update] }
+    map.permission :destroy_external_usergroups, { :external_usergroups => [:destroy] }
   end
 
   map.security_block :users do |map|

@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
@@ -45,6 +46,9 @@ class UserTest < ActiveSupport::TestCase
 
     @user.firstname = "C_r'a-z.y( )<,Na=me;>"
     assert @user.save
+
+    @user.firstname = "é ô à"
+    assert @user.save
   end
 
   test "lastname should have the correct format" do
@@ -52,6 +56,9 @@ class UserTest < ActiveSupport::TestCase
     assert !@user.save
 
     @user.lastname = "C_r'a-z.y( )<,Na=me;>"
+    assert @user.save
+
+    @user.lastname = "é ô à"
     assert @user.save
   end
 
@@ -409,8 +416,38 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 'foobar@example.com', user.mail
     assert_equal 'Foo', user.firstname
     assert_equal 'Bar', user.lastname
+
+    # with existing user groups that are assigned
+    apache_source = AuthSourceExternal.find_or_create_by_name('apache_module')
+    usergroup = FactoryGirl.create :usergroup
+    external = FactoryGirl.create :external_usergroup, :usergroup => usergroup,
+                                  :auth_source => apache_source,
+                                  :name => usergroup.name
+    assert User.find_or_create_external_user({:login => 'not_existing_user_4',
+                                              :groups => [external.name, 'does-not-exists-for-sure-123']},
+                                             apache_source.name)
+    user = User.find_by_login('not_existing_user_4')
+    assert_equal [usergroup], user.usergroups
   end
 
+  test ".find_or_create_external_user updates external groups" do
+    apache_source = AuthSourceExternal.find_or_create_by_name('apache_module')
+    user = FactoryGirl.create(:user, :auth_source => apache_source)
+    external1 = FactoryGirl.create(:external_usergroup, :auth_source => apache_source)
+    external2 = FactoryGirl.create(:external_usergroup, :auth_source => apache_source)
+    usergroup = FactoryGirl.create(:usergroup)
+    user.usergroups << [external1.usergroup, usergroup]
+
+    refute_equal 'foo@example.com', user.mail
+    assert User.find_or_create_external_user({:login => user.login,
+                                              :groups => [external2.name],
+                                              :mail => 'foo@example.com'},
+                                             apache_source.name)
+    user.reload
+    assert_includes user.usergroups, external2.usergroup
+    assert_includes user.usergroups, usergroup
+    assert_equal 'foo@example.com', user.mail
+  end
 
   test ".try_to_auto_create_user" do
     AuthSourceLdap.any_instance.stubs(:authenticate).returns({ :firstname => "Foo", :lastname => "Bar", :mail => "baz@qux.com" })
@@ -497,6 +534,29 @@ class UserTest < ActiveSupport::TestCase
         assert_equal [Organization.current.id, child.id].sort, User.current.organization_and_child_ids
       end
     end
+  end
+
+  test "chaging hostgroup should update cache" do
+    u = FactoryGirl.create(:user)
+    g1 = FactoryGirl.create(:usergroup)
+    g2 = FactoryGirl.create(:usergroup)
+    assert_empty u.usergroups
+    assert_empty u.cached_usergroups
+    u.usergroups = [g1, g2]
+    u.reload
+    assert_equal [g1.id, g2.id].sort, u.cached_usergroup_ids.sort
+
+    u.usergroups = [g2]
+    u.reload
+    assert_equal [g2.id].sort, u.cached_usergroup_ids.sort
+
+    u.usergroups = [g1]
+    u.reload
+    assert_equal [g1.id].sort, u.cached_usergroup_ids.sort
+
+    u.usergroups = []
+    u.reload
+    assert_empty u.cached_usergroups
   end
 
 #  Uncomment after users get access to children taxonomies of their current taxonomies.

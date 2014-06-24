@@ -13,6 +13,7 @@
 //= require jquery.extentions
 //= require jquery.multi-select
 //= require settings
+//= require jquery.gridster
 
 $(document).on('ContentLoad', function(){onContentLoad()});
 
@@ -80,6 +81,18 @@ function onContentLoad(){
   $('a[rel="external"]').click( function() {
     window.open( $(this).attr('href') );
     return false;
+  });
+
+  $('*[data-ajax-url]').each(function() {
+    var url = $(this).data('ajax-url');
+    $(this).load(url, function(response, status, xhr) {
+      if (status == "error") {
+        $(this).closest(".tab-content").find("#spinner").html(__('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
+      }
+      if ($(this).data('on-complete')){
+        window[$(this).data('on-complete')].call(null, this, status);
+      }
+    });
   });
 
   multiSelectOnLoad();
@@ -322,20 +335,6 @@ function foreman_url(path) {
   return URL_PREFIX + path;
 }
 
-$(function() {
-  $('*[data-ajax-url]').each(function() {
-    var url = $(this).data('ajax-url');
-    $(this).load(url, function(response, status, xhr) {
-      if (status == "error") {
-        $(this).closest(".tab-content").find("#spinner").html(__('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
-      }
-      if ($(this).data('on-complete')){
-        window[$(this).data('on-complete')].call(null, this, status);
-      }
-    });
-  });
-});
-
 $.fn.indicator_show = function(){
  $(this).parents('.form-group').find('img').show();
 }
@@ -379,5 +378,6 @@ function setPowerState(item, status){
   }else{
     $('#loading_power_state').text(_('Unknown power state'))
   }
+  power_actions.hide();
   $('[rel="twipsy"]').tooltip();
 }

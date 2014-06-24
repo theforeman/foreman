@@ -19,5 +19,24 @@ module Authorizable
         Authorizer.new(User.current).find_collection(resource || self, :permission => permission)
       end
     }
+
+    def authorized?(permission)
+      return false if User.current.nil?
+      User.current.can?(permission, self)
+    end
+  end
+
+  module ClassMethods
+    def allows_taxonomy_filtering?(taxonomy)
+      scoped_search_definition.fields.has_key?(taxonomy)
+    end
+
+    def allows_organization_filtering?
+      allows_taxonomy_filtering?(:organization_id)
+    end
+
+    def allows_location_filtering?
+      allows_taxonomy_filtering?(:location_id)
+    end
   end
 end

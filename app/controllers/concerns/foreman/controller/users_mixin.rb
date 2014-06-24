@@ -51,7 +51,8 @@ module Foreman::Controller::UsersMixin
     sub_hg.each { |hg| hg.users << @user }
   end
 
-  def set_current_taxonomies(user)
+  def set_current_taxonomies(user, options = {})
+    session ||= options.fetch(:session, {})
     ['location', 'organization'].each do |taxonomy|
       default_taxonomy = user.send "default_#{taxonomy}"
       if default_taxonomy.present?

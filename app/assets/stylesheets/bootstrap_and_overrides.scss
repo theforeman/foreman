@@ -45,10 +45,6 @@ $navbar-default-bg: $primary_color;
   overflow-y: auto;
 }
 
-.dropdown-submenu:hover > .dropdown-menu {
-  display:block;
-}
-
 .dropdown-submenu > a:after {
   display:block;content:" ";
   float:right;
@@ -117,6 +113,7 @@ span.btn a{ text-decoration: none; color: #333333}
   padding: 10px;
   border: 1px solid #e7e7e7;
   border-radius: 4px;
+  margin-right: 18px;
 }
 
 .nav.nav-tabs{

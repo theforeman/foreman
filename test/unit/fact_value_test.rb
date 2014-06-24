@@ -38,5 +38,18 @@ class FactValueTest < ActiveSupport::TestCase
     result = FactValue.with_fact_parent_id(@child_name.id)
     assert_equal [], result
   end
+
+  test "should return search results if search free text is fact name" do
+    results = FactValue.search_for('kernelversion')
+    assert_equal 1, results.count
+    assert_equal 'kernelversion', results.first.name
+  end
+
+  test "should return search results for name = fact name" do
+    results = FactValue.search_for('name = kernelversion')
+    assert_equal 1, results.count
+    assert_equal 'kernelversion', results.first.name
+  end
+
 end
 

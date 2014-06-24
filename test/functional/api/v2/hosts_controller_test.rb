@@ -9,6 +9,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       :ip                  => '10.0.0.20',
       :mac                 => '52:53:00:1e:85:93',
       :ptable_id           => ptables(:one).id,
+      :medium_id           => media(:one).id,
       :architecture_id     => Architecture.find_by_name('x86_64').id,
       :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,
       :puppet_proxy_id     => smart_proxies(:one).id,
@@ -358,7 +359,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       get :index, {:search => 'my5name.mydomain.net' }
       assert_response :success
       response = ActiveSupport::JSON.decode(@response.body)
-      assert_equal 16, response['total']
+      assert_equal 17, response['total']
       assert_equal  1, response['subtotal']
       assert_equal 'my5name.mydomain.net', response['search']
     end

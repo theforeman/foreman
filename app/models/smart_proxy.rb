@@ -4,7 +4,7 @@ class SmartProxy < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
   attr_accessible :name, :url, :location_ids, :organization_ids
-  EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, :puppet_ca_hosts, :puppet_ca_hostgroups)
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, :puppet_ca_hosts, :puppet_ca_hostgroups, :realms)
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
   has_and_belongs_to_many :features
@@ -24,6 +24,8 @@ class SmartProxy < ActiveRecord::Base
   before_save :sanitize_url, :associate_features
 
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :url, :complete_value => :true
+  scoped_search :in => :features, :on => :name, :rename => :feature, :complete_value => :true
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -40,7 +42,7 @@ class SmartProxy < ActiveRecord::Base
         where(:features => { :name => v }).joins(:features)
       }
   end
-  scope :with_features, lambda {|*feature_names| where(:features => { :name => feature_names }).joins(:features) }
+  scope :with_features, lambda {|*feature_names| where(:features => { :name => feature_names }).joins(:features) if feature_names.any? }
 
   def hostname
     # This will always match as it is validated

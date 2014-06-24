@@ -7,14 +7,14 @@
 # 
 # Translators:
 # Fredrik Wendt <fredrik@wendt.se>, 2014
-# johnny Westerlund <johnny.westerlund@gmail.com>, 2013-2014
-# frimik <frimik@gmail.com>, 2013
+# johnny.westerlund <johnny.westerlund@gmail.com>, 2013-2014
+# Mikael Fridh <frimik@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-09 14:22+0100\n"
-"PO-Revision-Date: 2014-04-10 09:19+0000\n"
+"POT-Creation-Date: 2014-06-11 09:09-0400\n"
+"PO-Revision-Date: 2014-06-12 10:49+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv_SE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid " Remove"
+msgstr ""
 
 msgid "%s - Press Shift-F12 to release the cursor."
 msgstr "%s - Tryck Shift-F12 för att frigöra markören."
@@ -52,6 +55,11 @@ msgstr "%s sedan"
 msgid "%s console is not supported at this time"
 msgstr "%s konsol stöds ej vid denna tidpunkt"
 
+msgid "%s core"
+msgid_plural "%s cores"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%s day ago"
 msgid_plural "%s days ago"
 msgstr[0] "%s dag sedan"
@@ -62,6 +70,9 @@ msgstr ""
 
 msgid "%s is an unknown attribute"
 msgstr "%s är ett okänt attribut"
+
+msgid "%s is not in environment"
+msgstr ""
 
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
@@ -260,9 +271,6 @@ msgstr "A"
 msgid "Add Bookmark"
 msgstr "Lägg till bokmärke"
 
-msgid "Add Filter"
-msgstr "Lägg till filter"
-
 msgid "Add Interface"
 msgstr "Lägg till nätverksgränssnitt"
 
@@ -280,9 +288,6 @@ msgstr "Lägg till Variabel"
 
 msgid "Add Volume"
 msgstr "Lägg till Volym"
-
-msgid "Add a fact filter"
-msgstr "Lägg till fakta-filter"
 
 msgid "Add combination"
 msgstr "Lägg till kombination"
@@ -633,9 +638,6 @@ msgstr "Delegera login till REMOTE_USER miljövariabel även för API-anrop"
 msgid "Authorized by"
 msgstr "Godkänd av"
 
-msgid "Automatically add new host groups to this user"
-msgstr "Addera automatiskt nya värdgrupper till denna användare"
-
 msgid "Autosign"
 msgstr "Autosignatur"
 
@@ -650,6 +652,9 @@ msgstr "Tillgänglighetszon"
 
 msgid "Available Classes"
 msgstr "Tillgängliga Klasser"
+
+msgid "Available Config Groups"
+msgstr ""
 
 msgid "Available Providers"
 msgstr "Tillgänliga Leverantörer"
@@ -889,6 +894,9 @@ msgstr "Klicka för att logga in igen."
 msgid "Click to remove %s"
 msgstr "Klicka för att ta bort %s"
 
+msgid "Click to remove config group"
+msgstr ""
+
 msgid "Click to undo adding this class"
 msgstr "Klicka för att ångra adderandet av denna klassen"
 
@@ -992,6 +1000,9 @@ msgstr "Uuid"
 msgid "Config Retrieval"
 msgstr "Konfigurationshämtning"
 
+msgid "Config groups"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
 msgstr "Konfigurationsmall"
@@ -1082,17 +1093,11 @@ msgstr "DHCP Proxy att använda inom detta subnät "
 msgid "DHCP conflicts removal for %s"
 msgstr "DHCP konflikt-borttagning för %s"
 
-msgid "DHCP has a lease at %s"
-msgstr "DHCP har lån på %s"
-
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
 msgid "DHCP not supported for this NIC"
 msgstr "DHCP stöds ej för denna NIC"
-
-msgid "DHCP record %s conflicts with an existing reservation"
-msgstr ""
 
 msgid "DHCP records %s already exists"
 msgstr "DHCP-poster %s finns redan"
@@ -1134,6 +1139,18 @@ msgid "Default Puppet server hostname"
 msgstr "Standard Puppet-server värdnamn"
 
 msgid "Default encrypted root password on provisioned hosts"
+msgstr ""
+
+msgid "Default location"
+msgstr ""
+
+msgid "Default locations need to be user locations first"
+msgstr ""
+
+msgid "Default organization"
+msgstr ""
+
+msgid "Default organizations need to be user organizations first"
 msgstr ""
 
 msgid "Default value"
@@ -1257,9 +1274,6 @@ msgstr "Domän"
 msgid "Domain Configuration"
 msgstr "Domänkonfiguration"
 
-msgid "Domain hosts"
-msgstr "Domänvärdar"
-
 msgid "Domains"
 msgstr "Domäner"
 
@@ -1305,6 +1319,9 @@ msgstr "Redigera Beräkningsprofil"
 
 msgid "Edit Compute profile: %s"
 msgstr "Beräkningsprofil: %s"
+
+msgid "Edit Config group"
+msgstr ""
 
 msgid "Edit Domain"
 msgstr "Redigera Domän"
@@ -1496,9 +1513,6 @@ msgstr "Faktanamn"
 msgid "Fact Values"
 msgstr "Faktavärden"
 
-msgid "Fact filters"
-msgstr "Faktafilter"
-
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
 msgstr "Faktanamn"
@@ -1669,6 +1683,9 @@ msgid "Filters"
 msgstr "Filter"
 
 msgid "Filters and permissions"
+msgstr ""
+
+msgid "Filter|Permissions"
 msgstr ""
 
 msgid "Filter|Resource"
@@ -1902,6 +1919,9 @@ msgstr "Bra värdrapporter senaste %s"
 msgid "Google Project ID"
 msgstr "Google Project ID"
 
+msgid "Guest OS"
+msgstr ""
+
 msgid "Hardware"
 msgstr "Hårdvara"
 
@@ -1961,9 +1981,6 @@ msgstr "Värdgrupp och Miljö"
 
 msgid "Host group configuration"
 msgstr "Värdgruppskonfiguration"
-
-msgid "Host group hosts"
-msgstr "Värdgruppvärdar"
 
 msgid "Host group only"
 msgstr "Enbart värdgrupp"
@@ -2296,6 +2313,9 @@ msgstr "Inkludera denna värd inom Foremanrapportering"
 msgid "Included Classes"
 msgstr "Inkluderade Klasser"
 
+msgid "Included Config Groups"
+msgstr ""
+
 msgid "Included Parameters via inheritance"
 msgstr "Inkluderade Parametrar via arv"
 
@@ -2395,6 +2415,9 @@ msgid ""
 "LDAP users will have their Foreman account automatically created the first "
 "time they log into Foreman"
 msgstr "LDAP-användare får sina konton automatiskt skapade första gången dom loggar in i Foreman"
+
+msgid "Language"
+msgstr ""
 
 msgid "Last report"
 msgstr "Senaste rapport"
@@ -2778,6 +2801,12 @@ msgstr "Ny Beräkningsresurs"
 
 msgid "New Compute profile"
 msgstr "Ny Beräkningsprofil"
+
+msgid "New Config Group"
+msgstr ""
+
+msgid "New Config group"
+msgstr ""
 
 msgid "New Domain"
 msgstr "Ny Domän"
@@ -3229,6 +3258,9 @@ msgstr "Namn"
 msgid "Operation"
 msgstr "Operation"
 
+msgid "Operators"
+msgstr ""
+
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
 "<br><br><b>Description:</b> %s"
@@ -3299,9 +3331,6 @@ msgstr "Skriv över"
 
 msgid "Owned By"
 msgstr "Ägd Av"
-
-msgid "Owned hosts"
-msgstr "Ägda värdar"
 
 msgid "Owner"
 msgstr "Ägare"
@@ -3691,11 +3720,6 @@ msgstr "Ta bort Parameter"
 msgid "Remove Reverse DNS record for %s"
 msgstr "Ta bort baklänges DNS-post för %s"
 
-msgid ""
-"Remove classes from environments different to the host's environment when a "
-"host and its host group have different environments"
-msgstr ""
-
 msgid "Remove conflicting DNS record for %s"
 msgstr "Ta bort konfliktande DNS-post för %s"
 
@@ -3878,9 +3902,6 @@ msgstr "Säkerhetsgrupp"
 
 msgid "Security groups"
 msgstr "Säkerhetsgrupper"
-
-msgid "Select"
-msgstr "Välj"
 
 msgid "Select Action"
 msgstr "Välj Åtgärd"
@@ -4609,9 +4630,6 @@ msgstr "Total(t)"
 msgid "Total Hosts: %s"
 msgstr "Totalt antal Värdar: %s"
 
-msgid "Total memory usage"
-msgstr "Total minnesanvändning"
-
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend"
 msgstr "Trend"
@@ -5305,6 +5323,9 @@ msgstr "och"
 msgid "and relevant log entries."
 msgstr "och relevanta loggrader"
 
+msgid "belongs to config group"
+msgstr ""
+
 msgid "can't be bigger than to range"
 msgstr "kan inte vara större än till-spannet"
 
@@ -5401,14 +5422,11 @@ msgstr "för mer detaljer."
 msgid "for proxy"
 msgstr ""
 
-msgid "free (GB)"
-msgstr "ledigt (GB)"
+msgid "free memory"
+msgstr ""
 
-msgid "free memory (GB)"
-msgstr "ledigt minne (GB)"
-
-msgid "free swap (GB)"
-msgstr "ledigt växlingsutrymme (GB)"
+msgid "free swap"
+msgstr ""
 
 msgid "has this hostgroup already"
 msgstr "har redan denna värdgrupp"
@@ -5424,9 +5442,6 @@ msgstr "värdgrupp"
 
 msgid "in %s"
 msgstr "i %s"
-
-msgid "in domain"
-msgstr "i domänen"
 
 msgid "included already from parent"
 msgstr ""
@@ -5515,9 +5530,6 @@ msgstr "lokationer"
 msgid "message"
 msgstr "meddelande"
 
-msgid "must be"
-msgstr "måste vara"
-
 msgid "must be a valid URI"
 msgstr "måste vara en giltig URI"
 
@@ -5541,9 +5553,6 @@ msgstr "måste anges om från är definierad"
 
 msgid "must be specified if to is defined"
 msgstr "måste anges om till är definierad"
-
-msgid "must match"
-msgstr "måste matcha"
 
 msgid "must not include periods"
 msgstr "får inte innehålla punkter"
@@ -5592,9 +5601,6 @@ msgstr "tolkning av inställningstyp '%s' från sträng är inte definierad"
 
 msgid "pending"
 msgstr "kommande"
-
-msgid "plus all"
-msgstr "plus alla"
 
 msgid "poweroff"
 msgstr "stäng av"
@@ -5692,14 +5698,11 @@ msgstr "okänd leverantör"
 msgid "unspecified"
 msgstr "ospecificerad"
 
-msgid "used (GB)"
-msgstr "nyttjat (GB)"
+msgid "used memory"
+msgstr ""
 
-msgid "used memory (GB)"
-msgstr "nyttjat minne (GB)"
-
-msgid "used swap (GB)"
-msgstr "nyttjat växlingsutrymme (GB)"
+msgid "used swap"
+msgstr ""
 
 msgid "useful."
 msgstr "användbar."
