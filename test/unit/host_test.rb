@@ -53,6 +53,28 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "aa:bb:cc:dd:ee:ff", host.mac
   end
 
+  test "should fix 64-bit mac address hyphens" do
+    host = Host.create :name => "myhost", :mac => "aa-bb-cc-dd-ee-ff-00-11-22-33-44-55-66-77-88-99-aa-bb-cc-dd"
+    assert_equal "aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd", host.mac
+  end
+
+  test "should fix 64-bit mac address" do
+    host = Host.create :name => "myhost", :mac => "aabbccddeeff00112233445566778899aabbccdd"
+    assert_equal "aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd", host.mac
+  end
+
+  test "should keep valid 64-bit mac address" do
+    host = Host.create :name => "myhost", :mac => "aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd"
+    assert_equal "aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd", host.mac
+  end
+
+  test "should be valid using 64-bit mac address" do
+    host = hosts(:one)
+    host.mac = "aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd"
+    host.save!
+    assert_equal true, host.valid?
+  end
+
   test "should fix ip address if a leading zero is used" do
     host = Host.create :name => "myhost", :mac => "aabbccddeeff", :ip => "123.01.02.03"
     assert_equal "123.1.2.3", host.ip

@@ -41,6 +41,7 @@ class DomainTest < ActiveSupport::TestCase
 
   test "should not destroy if it contains subnets" do
 
+    @domain.subnets.clear
     assert @domain.subnets.empty?
     @domain.subnets << Subnet.first
     assert !@domain.destroy

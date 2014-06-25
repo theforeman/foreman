@@ -12,7 +12,7 @@ module Nic
 
     before_validation :normalize_mac
 
-    validates :mac, :uniqueness => true, :presence => true, :format => {:with => Net::Validations::MAC_REGEXP}
+    validates :mac, :uniqueness => true, :presence => true, :mac_address => true
 
     validate :uniq_with_hosts
 
