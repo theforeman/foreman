@@ -156,8 +156,8 @@ class Operatingsystem < ActiveRecord::Base
     "boot/#{to_s}-#{arch}".gsub(" ","-")
   end
 
-  def pxe_files(medium, arch)
-    boot_files_uri(medium, arch).collect do |img|
+  def pxe_files(medium, arch, host = nil)
+    boot_files_uri(medium, arch, host).collect do |img|
       { pxe_prefix(arch).to_sym => img.to_s}
     end
   end
@@ -235,7 +235,7 @@ class Operatingsystem < ActiveRecord::Base
     self.release_name.downcase! unless Foreman.in_rake? or release_name.nil? or release_name.empty?
   end
 
-  def boot_files_uri(medium, architecture)
+  def boot_files_uri(medium, architecture, host = nil)
     raise (_("invalid medium for %s") % to_s) unless media.include?(medium)
     raise (_("invalid architecture for %s") % to_s) unless architectures.include?(architecture)
     eval("#{self.family}::PXEFILES").values.collect do |img|
