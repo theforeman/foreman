@@ -3,7 +3,8 @@ $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(
 
 function computeResourceSelected(item){
   var compute = $(item).val();
-  if(compute=='') { //Bare Metal
+  if (compute == '' && /compute_resource/.test($(item).attr('name'))) {
+    //Bare metal compute resource
     $('#mac_address').show();
     $("#model_name").show();
     $('#compute_resource').empty();
@@ -11,9 +12,8 @@ function computeResourceSelected(item){
     $("#compute_resource_tab").hide();
     $("#compute_profile").hide();
     update_capabilities('build');
-  }
-  else
-  {
+  } else {
+    //Real compute resource or any compute profile
     $('#mac_address').hide();
     $("#model_name").hide();
     $("#compute_resource_tab").show();
