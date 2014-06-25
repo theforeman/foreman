@@ -10,7 +10,7 @@ class Debian < Operatingsystem
     medium_uri(host).select(:path, :query).compact.join('?')
   end
 
-  def boot_files_uri(medium, architecture)
+  def boot_files_uri(medium, architecture, host = nil)
     raise ::Foreman::Exception.new(N_("invalid medium for %s"), to_s) unless media.include?(medium)
     raise ::Foreman::Exception.new(N_("invalid architecture for %s"), to_s) unless architectures.include?(architecture)
 

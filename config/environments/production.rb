@@ -108,6 +108,7 @@ Foreman::Application.configure do |app|
                   filters
                   users
                   class_edit
+                  dashboard
                  )
   stylesheets = %w( )
 
