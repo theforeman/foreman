@@ -144,7 +144,7 @@ class Host::Managed < Host::Base
     validates :serial, :format => {:with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8")},
                        :allow_blank => true, :allow_nil => true
     validates :provision_method, :inclusion => {:in => PROVISION_METHODS, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
-    validates :medium_id, :presence => true, :if => Proc.new { |host| host.managed && host.pxe_build? }
+    validates :medium_id, :presence => true, :if => Proc.new { |host| host.validate_media? }
     validate :provision_method_in_capabilities
     before_validation :set_compute_attributes, :only => :create
     validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
@@ -761,6 +761,10 @@ class Host::Managed < Host::Base
 
   def pxe_build?
     self.provision_method == 'build'
+  end
+
+  def validate_media?
+    managed && pxe_build?
   end
 
   private
