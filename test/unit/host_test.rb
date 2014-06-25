@@ -1260,6 +1260,27 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "dhcp123", host.fqdn
   end
 
+  test 'fqdn_changed? should be true if name changes' do
+    host = hosts(:one)
+    host.stubs(:name_changed?).returns(true)
+    host.stubs(:domain_id_changed?).returns(false)
+    assert host.fqdn_changed?
+  end
+
+  test 'fqdn_changed? should be true if domain changes' do
+    host = hosts(:one)
+    host.stubs(:name_changed?).returns(false)
+    host.stubs(:domain_id_changed?).returns(true)
+    assert host.fqdn_changed?
+  end
+
+  test 'fqdn_changed? should be true if name and domain change' do
+    host = hosts(:one)
+    host.stubs(:name_changed?).returns(true)
+    host.stubs(:domain_id_changed?).returns(true)
+    assert host.fqdn_changed?
+  end
+
   test 'clone should create compute_attributes for VM-based hosts' do
     copy = hosts(:one).clone
     assert !copy.compute_attributes.nil?
@@ -1284,6 +1305,36 @@ class HostTest < ActiveSupport::TestCase
     refute host.build?
     host.update_attributes(:build => true)
     assert_empty host.reports.reload
+  end
+
+  test 'changing name with a fqdn should rename lookup_value matcher' do
+    host = hosts(:one)
+    lookup_value_id = lookup_values(:one).id
+    assert_equal "fqdn=#{host.fqdn}", LookupValue.find(lookup_value_id).match
+
+    host.name = "my5name-new.mydomain.net"
+    host.save!
+    assert_equal "fqdn=my5name-new.mydomain.net", LookupValue.find(lookup_value_id).match
+  end
+
+  test 'changing only name should rename lookup_value matcher' do
+    host = hosts(:one)
+    lookup_value_id = lookup_values(:one).id
+    assert_equal LookupValue.find(lookup_value_id).match, "fqdn=#{host.fqdn}"
+
+    host.name = "my5name-new"
+    host.save!
+    assert_equal "fqdn=my5name-new.mydomain.net", LookupValue.find(lookup_value_id).match
+  end
+
+  test 'changing host domain should rename lookup_value matcher' do
+    host = hosts(:one)
+    lookup_value_id = lookup_values(:one).id
+    assert_equal LookupValue.find(lookup_value_id).match, "fqdn=#{host.fqdn}"
+
+    host.domain = domains(:yourdomain)
+    host.save!
+    assert_equal "fqdn=my5name.yourdomain.net", LookupValue.find(lookup_value_id).match
   end
 
   private

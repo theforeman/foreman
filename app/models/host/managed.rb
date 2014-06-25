@@ -152,6 +152,7 @@ class Host::Managed < Host::Base
   before_validation :set_hostgroup_defaults, :set_ip_address, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
   after_validation :ensure_associations, :set_default_user
   before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
+  after_update :update_lookup_value_fqdn_matchers, :if => :fqdn_changed?
 
   def <=>(other)
     self.name <=> other.name
@@ -165,6 +166,16 @@ class Host::Managed < Host::Base
   def fqdn
     return name if name.blank? || domain.blank?
     name.include?('.') ? name : "#{name}.#{domain}"
+  end
+
+  def fqdn_changed?
+    name_changed? || domain_id_changed?
+  end
+
+  def fqdn_was
+    domain_was = Domain.find(domain_id_was) unless domain_id_was.blank?
+    return name_was if name_was.blank? || domain_was.blank?
+    name_was.include?('.') ? name_was : "#{name_was}.#{domain_was}"
   end
 
   # method to return the correct owner list for host edit owner select dropbox
@@ -894,6 +905,10 @@ class Host::Managed < Host::Base
   def provision_method_in_capabilities
     return unless managed?
     errors.add(:provision_method, _('is an unsupported provisioning method')) unless capabilities.map(&:to_s).include?(self.provision_method)
+  end
+
+  def update_lookup_value_fqdn_matchers
+    LookupValue.where(:match => "fqdn=#{fqdn_was}").update_all(:match => lookup_value_match)
   end
 
 end
