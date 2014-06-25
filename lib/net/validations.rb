@@ -2,7 +2,7 @@ module Net
   module Validations
 
     IP_REGEXP  = /\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\z/
-    MAC_REGEXP_48BIT = /\A([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}\z/i
+    MAC_REGEXP = /\A([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}\z/i
     MAC_REGEXP_64BIT = /\A([a-f0-9]{1,2}:){19}[a-f0-9]{1,2}\z/i
     HOST_REGEXP = /\A(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\z/
 
@@ -14,7 +14,7 @@ module Net
 
       case mac.size
       when 17
-        return true if (mac =~ MAC_REGEXP_48BIT)
+        return true if (mac =~ MAC_REGEXP)
       when 59
         return true if (mac =~ MAC_REGEXP_64BIT)
       end
