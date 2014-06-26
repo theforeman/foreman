@@ -150,10 +150,11 @@ module LayoutHelper
       content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
                   :id          => options.delete(:control_group_id) do
 
+        required_mark = ' *' if is_required?(f, attr) || options[:required]
         label   = options[:label] == :none ? '' : options.delete(:label)
         label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
             s_(clazz.gettext_translation_for_attribute_name attr)) if f
-        label   = label.present? ? label_tag(attr, label, :class => "col-md-2 control-label") : ''
+        label   = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe , :class => "col-md-2 control-label") : ''
 
         label.html_safe +
            content_tag(:div, :class => size_class) do
@@ -161,6 +162,11 @@ module LayoutHelper
            end.html_safe + help_inline.html_safe
       end.html_safe
     end
+  end
+
+  def is_required?(f, attr)
+    return false unless f && f.object.class.respond_to?(:validators_on)
+    f.object.class.validators_on(attr).map(&:class).include? ActiveModel::Validations::PresenceValidator
   end
 
   def help_inline(inline, error)
