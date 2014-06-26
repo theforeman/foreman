@@ -377,10 +377,17 @@ module ApplicationHelper
     end
   end
 
-  def include_blank_value(f, attr, collection = nil, msg = nil)
-    # auto-select option if field is required and there is only one option to select
-    return false if is_required?(f, attr) && collection.try(:count) == 1
-    true
+  def include_blank_value(f, attr, collection = nil, blank_msg = nil, none_msg = nil)
+    cnt = collection.try(:count)
+    if cnt == 1 && is_required?(f, attr)
+      false # auto-select option
+    elsif cnt > 0 && is_required?(f, attr)
+      blank_msg || (_("Select %s") % attr.to_s.humanize.downcase)
+    elsif cnt == 0
+      none_msg || (_("No %s") % attr.to_s.humanize.tableize)
+    else
+      true
+    end
   end
 
   def obj_type(obj)
