@@ -31,7 +31,7 @@
                                                                   :autofocus => true}) %>
 
       <%= multiple_selects f, :permissions, Permission.where(:resource_type => f.object.resource_type),
-                           f.object.permissions.map(&:id), :label => _("Permission") %>
+                           f.object.permissions.map(&:id), :label => _("Permission"), :required => true %>
 
       <%= hidden_field_tag :role_id, @role.try(:id) %>
 
