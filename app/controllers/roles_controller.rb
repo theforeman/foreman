@@ -83,7 +83,7 @@ class RolesController < ApplicationController
   def role_from_form
     if params[:original_role_id].present?
       new_role = Role.find(params[:original_role_id]).
-                   dup(:include => [:filters => :filterings])
+                   deep_clone(:include => [:filters => :filterings])
       new_role.name    = params[:role][:name]
       new_role.builtin = false
     else
