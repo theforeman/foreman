@@ -626,10 +626,9 @@ class Host::Managed < Host::Base
   end
 
   def clone
-    # .dup uses deep_cloneable gem
     # do not copy system specific attributes
-    host = self.dup(:include => [:host_config_groups, :host_classes, :host_parameters],
-                    :except  => [:name, :mac, :ip, :uuid, :certname, :last_report])
+    host = self.deep_clone(:include => [:host_config_groups, :host_classes, :host_parameters],
+                           :except  => [:name, :mac, :ip, :uuid, :certname, :last_report])
     if self.compute_resource
       host.compute_attributes = host.compute_resource.vm_compute_attributes_for(self.uuid)
     end
