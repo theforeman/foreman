@@ -336,6 +336,59 @@ class HostTest < ActiveSupport::TestCase
     assert_nil host
   end
 
+  test "assign a host to a location" do
+    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    location = Location.create :name => "New York"
+
+    host.location_id = location.id
+    assert host.save!
+  end
+
+  test "update a host's location" do
+    host = Host.create :name => "host 1", :mac => "aabbccddee", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    original_location = Location.create :name => "New York"
+
+    host.location_id = original_location.id
+    assert host.save!
+    assert host.location_id = original_location.id
+
+    new_location = Location.create :name => "Los Angeles"
+    host.location_id = new_location.id
+    assert host.save!
+    assert host.location_id = new_location.id
+  end
+
+  test "assign a host to an organization" do
+    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    organization = Organization.create :name => "Hosting client 1"
+
+    host.organization_id = organization.id
+    assert host.save!
+  end
+
+  test "assign a host to both a location and an organization" do
+    host = Host.create :name => "host 1", :mac => "aabbccddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    location = Location.create :name => "Tel Aviv"
+    organization = Organization.create :name => "Hosting client 1"
+
+    host.location_id = location.id
+    host.organization_id = organization.id
+
+    assert host.save!
+  end
+
+context "location or organizations are not enabled" do
+
+  before do
+    SETTINGS[:locations_enabled] = false
+    SETTINGS[:organizations_enabled] = false
+  end
+
+  after do
+    SETTINGS[:locations_enabled] = true
+    SETTINGS[:organizations_enabled] = true
+  end
+
   test "should not save if root password is undefined when the host is managed" do
     host = Host.new :name => "myfullhost", :managed => true
     assert !host.valid?
@@ -432,7 +485,7 @@ class HostTest < ActiveSupport::TestCase
       "parameters"=> {"puppetmaster"=>"puppet", "MYVAR"=>"value", "port" => "80",
         "ssl_port" => "443", "foreman_env"=> "production", "owner_name"=>"Admin User",
         "root_pw"=>"xybxa6JUkz63w", "owner_email"=>"admin@someware.com"},
-      "classes"=>["apache", "base"]}
+      "classes"=>{"apache"=>{"custom_class_param"=>"abcdef"}, "base"=>{"cluster"=>"secret"}} }
 
     host.importNode nodeinfo
     nodeinfo["parameters"]["special_info"] = "secret"  # smart variable on apache
@@ -683,7 +736,6 @@ class HostTest < ActiveSupport::TestCase
     assert h.root_pass.present? && h.root_pass == Setting[:root_pass]
   end
 
-
   test "should save uuid on managed hosts" do
     Setting[:use_uuid_for_certificates] = true
     host = Host.create :name => "myhost1", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => true
@@ -715,48 +767,6 @@ class HostTest < ActiveSupport::TestCase
     assert !host.new_record?
     assert_equal "myhost1.mydomain.net", host.name
   end
-
-  test "assign a host to a location" do
-    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
-    location = Location.create :name => "New York"
-
-    host.location_id = location.id
-    assert host.save!
-  end
-
-  test "update a host's location" do
-    host = Host.create :name => "host 1", :mac => "aabbccddee", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
-    original_location = Location.create :name => "New York"
-
-    host.location_id = original_location.id
-    assert host.save!
-    assert host.location_id = original_location.id
-
-    new_location = Location.create :name => "Los Angeles"
-    host.location_id = new_location.id
-    assert host.save!
-    assert host.location_id = new_location.id
-  end
-
-  test "assign a host to an organization" do
-    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
-    organization = Organization.create :name => "Hosting client 1"
-
-    host.organization_id = organization.id
-    assert host.save!
-  end
-
-  test "assign a host to both a location and an organization" do
-    host = Host.create :name => "host 1", :mac => "aabbccddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
-    location = Location.create :name => "Tel Aviv"
-    organization = Organization.create :name => "Hosting client 1"
-
-    host.location_id = location.id
-    host.organization_id = organization.id
-
-    assert host.save!
-  end
-
 
   test "should have only one bootable interface" do
     h = hosts(:redhat)
@@ -1104,6 +1114,8 @@ class HostTest < ActiveSupport::TestCase
     assert host.valid?, host.errors.full_messages.to_sentence
     assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
   end
+
+end # end of context "location or organizations are not enabled"
 
   test "#capabilities returns capabilities from compute resource" do
     host = hosts(:one)
