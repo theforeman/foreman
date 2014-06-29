@@ -13,7 +13,7 @@ class Medium < ActiveRecord::Base
   # We need to include $ in this as $arch, $release, can be in this string
   VALID_NFS_PATH=/\A([-\w\d\.]+):(\/[\w\d\/\$\.]+)\Z/
   validates :name, :uniqueness => true, :presence => true,
-                   :format => { :with => /\A(\S+\s)*\S+\Z/, :message => N_("can't be blank or contain trailing white spaces.") }
+                   :format => { :with => /\A(\S+\s)*\S+\Z/, :message => N_("can't contain trailing white spaces.") }
   validates :path, :uniqueness => true, :presence => true,
                    :format => { :with => /^(http|https|ftp|nfs):\/\//,
                                 :message => N_("Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nfs://server/vol/dir)")

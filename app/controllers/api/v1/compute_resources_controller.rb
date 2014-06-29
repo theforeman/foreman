@@ -24,7 +24,7 @@ module Api
 
       api :POST, "/compute_resources/", "Create a compute resource."
       param :compute_resource, Hash, :required => true do
-        param :name, String
+        param :name, String, :required => true
         param :provider, String, :desc => "Providers include #{ComputeResource.providers.join(', ')}"
         param :url, String, :required => true, :desc => "URL for Libvirt, Ovirt, and Openstack"
         param :description, String

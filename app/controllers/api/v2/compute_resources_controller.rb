@@ -31,7 +31,7 @@ module Api
 
       def_param_group :compute_resource do
         param :compute_resource, Hash, :action_aware => true do
-          param :name, String
+          param :name, String, :required => true
           param :provider, String, :desc => "Providers include #{ComputeResource.providers.join(', ')}"
           param :url, String, :required => true, :desc => "URL for Libvirt, Ovirt, and Openstack"
           param :description, String
