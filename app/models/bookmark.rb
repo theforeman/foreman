@@ -8,7 +8,7 @@ class Bookmark < ActiveRecord::Base
   validates :name, :uniqueness => true, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
   validates :name, :query, :presence => true
   validates :controller, :presence => true,
-                         :format => { :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.") },
+                         :format => { :with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.") },
                          :inclusion => {
                            :in => ["dashboard"] + ActiveRecord::Base.connection.tables.map(&:to_s),
                            :message => _("%{value} is not a valid controller") }
