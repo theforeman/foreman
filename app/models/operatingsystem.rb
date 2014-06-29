@@ -25,7 +25,7 @@ class Operatingsystem < ActiveRecord::Base
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   attr_name :to_label
   validates :minor, :numericality => true, :allow_nil => true, :allow_blank => true
-  validates :name, :format => {:with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.")}
+  validates :name, :presence => true, :format => {:with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.")}
   validates :description, :uniqueness => true, :allow_blank => true
   before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
