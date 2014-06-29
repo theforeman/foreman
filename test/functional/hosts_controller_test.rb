@@ -53,7 +53,9 @@ class HostsControllerTest < ActionController::TestCase
           :realm_id => realms(:myrealm).id,
           :disk => "empty partition",
           :puppet_proxy_id => smart_proxies(:puppetmaster).id,
-          :root_pass           => "xybxa6JUkz63w"
+          :root_pass           => "xybxa6JUkz63w",
+          :location_id => taxonomies(:location1).id,
+          :organization_id => taxonomies(:organization1).id
         }
       }, set_session_user
     end
@@ -775,16 +777,18 @@ class HostsControllerTest < ActionController::TestCase
     User.current = users(:admin)
     disable_orchestration
     @host = Host.create(:name => "myfullhost",
-                        :mac             => "aabbecddeeff",
-                        :ip              => "2.3.4.99",
+                        :mac                => "aabbecddeeff",
+                        :ip                 => "2.3.4.99",
                         :domain_id          => domains(:mydomain).id,
                         :operatingsystem_id => operatingsystems(:redhat).id,
                         :architecture_id    => architectures(:x86_64).id,
                         :environment_id     => environments(:production).id,
                         :subnet_id          => subnets(:one).id,
-                        :disk            => "empty partition",
+                        :disk               => "empty partition",
                         :puppet_proxy_id    => smart_proxies(:puppetmaster).id,
-                        :root_pass          => "123456789"
+                        :root_pass          => "123456789",
+                        :location_id        => taxonomies(:location1).id,
+                        :organization_id    => taxonomies(:organization1).id
                        )
   end
 end

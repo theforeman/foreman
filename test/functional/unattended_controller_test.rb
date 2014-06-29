@@ -187,6 +187,18 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+context "location or organizations are not enabled" do
+
+  before do
+    SETTINGS[:locations_enabled] = false
+    SETTINGS[:organizations_enabled] = false
+  end
+
+  after do
+    SETTINGS[:locations_enabled] = true
+    SETTINGS[:organizations_enabled] = true
+  end
+
   test "hosts with mismatched ip and update_ip=false should have the old ip" do
     disable_orchestration # avoids dns errors
     Setting[:token_duration] = 30
@@ -236,6 +248,8 @@ class UnattendedControllerTest < ActionController::TestCase
     get :provision
     assert @response.body.include?("http://test.host:80/unattended/finish?token=aaaaaa")
   end
+end # end of context "location or organizations are not enabled"
+
 
   # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
   test "template should not contain https when ssl enabled" do

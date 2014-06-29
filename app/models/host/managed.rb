@@ -117,7 +117,9 @@ class Host::Managed < Host::Base
   alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
 
-  validates :environment_id, :presence => true
+  validates :environment_id,  :presence => true
+  validates :organization_id, :presence => true, :if => Proc.new {|host| host.managed? && SETTINGS[:organizations_enabled] }
+  validates :location_id,     :presence => true, :if => Proc.new {|host| host.managed? && SETTINGS[:locations_enabled] }
 
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
