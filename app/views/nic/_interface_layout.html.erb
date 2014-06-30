@@ -1,0 +1,7 @@
+<div class="fields">
+  <%= field_set_tag "#{_("Interface")} #{link_status(f)} #{remove_interface_link(f)}".html_safe,
+                    :id => "interface",
+                    :'data-url' => new_interface_path do %>
+    <%= yield %>
+  <% end %>
+</div>

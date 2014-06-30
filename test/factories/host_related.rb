@@ -94,4 +94,16 @@ FactoryGirl.define do
   factory :hostgroup_parameter, :parent => :parameter, :class => GroupParameter do
     type 'GroupParameter'
   end
+  factory :nic_base do
+    sequence(:identifier) { |n| "eth#{n}" }
+  end
+  factory :nic_interface, :class => Nic::Interface, :parent => :nic_base do
+    type 'Nic::Interface'
+  end
+  factory :nic_managed, :class => Nic::Interface, :parent => :nic_base do
+    type 'Nic::Managed'
+  end
+  factory :nic_bmc, :class => Nic::Interface, :parent => :nic_base do
+    type 'Nic::BMC'
+  end
 end

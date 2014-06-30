@@ -34,7 +34,7 @@ module Api
           param :gateway, String, :desc => N_("Primary DNS for this subnet")
           param :dns_primary, String, :desc => N_("Primary DNS for this subnet")
           param :dns_secondary, String, :desc => N_("Secondary DNS for this subnet")
-          param :ipam, :bool, :desc => N_('Enable IP Address auto suggestion for this subnet')
+          param :ipam, String, :desc => N_('IP Address auto suggestion mode for this subnet, valid values are "DHCP", "Internal DB", "None"')
           param :from, String, :desc => N_("Starting IP Address for IP auto suggestion")
           param :to, String, :desc => N_("Ending IP Address for IP auto suggestion")
           param :vlanid, String, :desc => N_("VLAN ID for this subnet")
@@ -42,6 +42,7 @@ module Api
           param :dhcp_id, :number, :desc => N_("DHCP Proxy to use within this subnet")
           param :tftp_id, :number, :desc => N_("TFTP Proxy to use within this subnet")
           param :dns_id, :number, :desc => N_("DNS Proxy to use within this subnet")
+          param :boot_mode, String, :desc => N_('Default boot mode for interfaces assigned to this subnet, valid values are "Static", "DHCP"')
         end
       end
 

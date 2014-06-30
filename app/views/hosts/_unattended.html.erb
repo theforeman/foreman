@@ -28,9 +28,9 @@
         <%= text_f f, :ip, :autocomplete => 'off', :help_block => link_to(_("Suggest new"), '#', :id => 'suggest_new_ip'),
           :help_inline => popover(_("IP address auto-suggest"), _("An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on the subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"), :title => _("IP address for this host")).html_safe %>
         <%= f.fields_for :interfaces do |interfaces| %>
-          <%= render 'hosts/interfaces', :f => interfaces  %>
+          <%= render :partial => interfaces.object, :layout => 'nic/interface_layout', :locals => {:f => interfaces} %>
         <% end %>
-        <%= new_child_fields_template(f, :interfaces, {:partial => "hosts/interfaces"})%>
+        <%= new_child_fields_template(f, :interfaces, {:partial => Nic::Managed.new, :layout => 'nic/interface_layout'}) %>
         <%= add_child_link "+ " + _("Add Interface"), :interfaces, { :class => "info", :title => _('add new network interface') } %>
       </div>
     <% end %>

@@ -14,6 +14,12 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert importer.interfaces.keys.include?(importer.primary_interface)
   end
 
+  test "should parse virtual interfaces as vlan interfaces" do
+    parser = PuppetFactParser.new({'interfaces' => 'eth0_0', 'ipaddress_eth0_0' => '192.168.0.1'})
+    assert_equal 'eth0.0', parser.interfaces.keys.first
+    assert_equal '192.168.0.1', parser.interfaces['eth0.0']['ipaddress']
+  end
+
   test "should return an os" do
     assert_kind_of Operatingsystem, importer.operatingsystem
   end
@@ -100,8 +106,114 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_equal '0604', @importer.operatingsystem.minor
   end
 
+  test "#get_interfaces" do
+    host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
+    parser = get_parser(host.facts_hash)
+
+    assert_empty parser.send(:get_interfaces)
+
+    interfaces = FactoryGirl.create(:fact_value,
+                                    :fact_name => FactoryGirl.create(:fact_name, :name => 'interfaces'),
+                                    :host => host,
+                                    :value => '')
+    parser = get_parser(host.facts_hash)
+    assert_empty parser.send(:get_interfaces)
+
+    interfaces.update_attribute :value, 'lo,eth0,eth0.0,eth1'
+    parser = get_parser(host.facts_hash)
+    %w(lo eth0 eth0.0 eth1).each do |interface|
+      assert_includes parser.send(:get_interfaces), interface
+    end
+  end
+
+  test "#get_facts_for_interface(interface)" do
+    host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
+    FactoryGirl.create(:fact_value,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'link_eth0'),
+                       :host => host,
+                       :value => 'true')
+    FactoryGirl.create(:fact_value,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'macaddress_eth0'),
+                       :host => host,
+                       :value => '00:00:00:00:00:ab')
+    FactoryGirl.create(:fact_value,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'ipaddress_eth0'),
+                       :host => host,
+                       :value => '192.168.0.1')
+    FactoryGirl.create(:fact_value,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'custom_fact_eth0'),
+                       :host => host,
+                       :value => 'custom_value')
+    FactoryGirl.create(:fact_value,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'link_eth0_0'),
+                       :host => host,
+                       :value => 'false')
+    FactoryGirl.create(:fact_value,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'macaddress_eth0_0'),
+                       :host => host,
+                       :value => '00:00:00:00:00:cd')
+    FactoryGirl.create(:fact_value,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'ipaddress_eth0_0'),
+                       :host => host,
+                       :value => '192.168.0.2')
+    FactoryGirl.create(:fact_value,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'custom_fact_eth0_0'),
+                       :host => host,
+                       :value => 'another_value')
+    parser = get_parser(host.facts_hash)
+
+    result = parser.send(:get_facts_for_interface, 'eth0')
+    assert_equal 'true', result[:link]
+    assert_equal '00:00:00:00:00:ab', result['macaddress']
+    assert_equal '192.168.0.1', result['ipaddress']
+    assert_equal 'custom_value', result['custom_fact']
+  end
+
+  test "#ipmi_interface" do
+    host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
+    parser = get_parser(host.facts_hash)
+
+    result = parser.ipmi_interface
+    assert_equal({}, result)
+
+    FactoryGirl.create(:fact_value,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'ipmi_ipaddress'),
+                       :host => host,
+                       :value => '192.168.0.1')
+    FactoryGirl.create(:fact_value,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'ipmi_custom'),
+                       :host => host,
+                       :value => 'custom_value')
+    parser = get_parser(host.facts_hash)
+
+    result = parser.ipmi_interface
+    assert result.present?
+    assert_equal '192.168.0.1', result[:ipaddress]
+    assert_equal 'custom_value', result['custom']
+  end
+
+  test "#interfaces with underscores are mapped correctly" do
+    parser = get_parser({:interfaces => 'eth1_1,eth1_2,eth1,eth2',
+                         :ipaddress_eth1_1 => '192.168.0.1',
+                         :ipaddress_eth1_2 => '192.168.0.2',
+                         :ipaddress_eth1 => '192.168.0.3',
+                         :ipaddress_eth2 => '192.168.0.4'})
+    assert_not_nil parser.interfaces['eth1.1']
+    assert_equal '192.168.0.1', parser.interfaces['eth1.1'][:ipaddress]
+    assert_not_nil parser.interfaces['eth1.2']
+    assert_equal '192.168.0.2', parser.interfaces['eth1.2'][:ipaddress]
+    assert_not_nil parser.interfaces['eth1']
+    assert_equal '192.168.0.3', parser.interfaces['eth1'][:ipaddress]
+    assert_not_nil parser.interfaces['eth2']
+    assert_equal '192.168.0.4', parser.interfaces['eth2'][:ipaddress]
+  end
+
 
   private
+
+  def get_parser(facts)
+    PuppetFactParser.new(facts)
+  end
 
   def facts
     #  return the equivalent of Facter.to_hash

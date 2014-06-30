@@ -1,5 +1,8 @@
 require 'ipaddr'
 class Subnet < ActiveRecord::Base
+  BOOT_MODES = {:static => N_('Static'), :dhcp => N_('DHCP')}
+  IPAM_MODES = {:dhcp => N_('DHCP'), :db => N_('Internal DB'), :none => N_('None')}
+
   include Authorizable
   include Taxonomix
   audited :allow_mass_assignment => true
@@ -24,6 +27,8 @@ class Subnet < ActiveRecord::Base
                       :format => {:with => Net::Validations::IP_REGEXP},
                       :length => { :maximum => 15, :message => N_("is too long (maximum is 15 characters)") }
   validates :mask,    :format => {:with => Net::Validations::IP_REGEXP}
+  validates :boot_mode, :inclusion => BOOT_MODES.values
+  validates :ipam, :inclusion => IPAM_MODES.values
 
   validate :ensure_ip_addr_new
   before_validation :cleanup_addresses
@@ -37,11 +42,26 @@ class Subnet < ActiveRecord::Base
     end
   }
 
-  scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :vlanid, :ipam], :complete_value => true
+  scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, 
+                        :vlanid, :ipam, :boot_mode], :complete_value => true
+
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
 
   class Jail < ::Safemode::Jail
-    allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary, :vlanid
+    allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary,
+          :vlanid, :boot_mode, :dhcp?, :nil?, :has_vlanid?, :dhcp_boot_mode?
+  end
+
+  def self.modes_with_translations(modes)
+    modes.map { |_, mode_name| [_(mode_name), mode_name] }
+  end
+
+  def self.boot_modes_with_translations
+    modes_with_translations(BOOT_MODES)
+  end
+
+  def self.ipam_modes_with_translations
+    modes_with_translations(IPAM_MODES)
   end
 
   # Subnets are displayed in the form of their network network/network mask
@@ -108,13 +128,47 @@ class Subnet < ActiveRecord::Base
     @dns_proxy ||= ProxyAPI::DNS.new({:url => dns.url}.merge(attrs)) if dns?
   end
 
+  def ipam?
+    self.ipam != IPAM_MODES[:none]
+  end
+
+  def dhcp_boot_mode?
+    self.boot_mode == Subnet::BOOT_MODES[:dhcp]
+  end
+
   def unused_ip mac = nil
     logger.debug "Not suggesting IP Address for #{to_s} as IPAM is disabled" and return unless ipam?
-    logger.debug "Not suggesting IP Address for #{to_s} as it has no DHCP proxy" and return unless dhcp?
-    dhcp_proxy.unused_ip(self, mac)["ip"]
+    if self.ipam == IPAM_MODES[:dhcp] && dhcp?
+      # we have DHCP proxy so asking it for free IP
+      logger.debug "Asking #{dhcp.url} for free IP"
+      ip = dhcp_proxy.unused_ip(self, mac)["ip"]
+      logger.debug("Found #{ip}")
+      return(ip)
+    elsif self.ipam == IPAM_MODES[:db]
+      # we have no DHCP proxy configured so Foreman becomes `DHCP` and manages reservations internally
+      logger.debug "Trying to find free IP for subnet in internal DB"
+      subnet_range = IPAddr.new("#{network}/#{mask}", Socket::AF_INET).to_range.to_a
+      from = self.from.present? ? IPAddr.new(self.from) : subnet_range[1]
+      to = self.to.present? ? IPAddr.new(self.to) : subnet_range[-2]
+      (from..to).each do |address|
+        ip = address.to_s
+        unless self.known_ips.include?(ip)
+          logger.debug("Found #{ip}")
+          return(ip)
+        end
+      end
+      logger.debug("Not suggesting IP Address for #{to_s} as no free IP found in our DB") and return
+    end
   rescue => e
     logger.warn "Failed to fetch a free IP from our proxy: #{e}"
     nil
+  end
+
+  def known_ips
+    ips = self.interfaces.map(&:ip) + self.hosts.map(&:ip)
+    ips += [self.gateway, self.dns_primary, self.dns_secondary].select(&:present?)
+    self.clear_association_cache
+    ips.uniq
   end
 
   # imports subnets from a dhcp smart proxy
@@ -130,6 +184,10 @@ class Subnet < ActiveRecord::Base
 
   def proxies
     [dhcp, tftp, dns].compact
+  end
+
+  def has_vlanid?
+    self.vlanid.present?
   end
 
   private

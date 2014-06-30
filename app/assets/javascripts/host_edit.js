@@ -519,11 +519,7 @@ function interface_domain_selected(element) {
   var subnet_options = $(element).parentsUntil('.fields').parent().find('[id$=_subnet_id]').empty();
 
   subnet_options.attr('disabled', true);
-  if (domain_id == '') {
-    subnet_options.append($("<option />").val(null).text(__('No subnets')));
-    return false;
-  }
-
+  
   $(element).indicator_show();
 
   var url = $(element).attr('data-url');
@@ -532,7 +528,7 @@ function interface_domain_selected(element) {
   var loc = $('#host_location_id :selected').val();
 
   $.ajax({
-    data:{domain_id: domain_id, organization_id:org, location_id: loc},
+    data:{domain_id: domain_id, organization_id:org, location_id: loc, interface: true},
     type:'post',
     url:url,
     dataType:'json',
@@ -601,17 +597,14 @@ function interface_subnet_selected(element) {
 }
 
 function interface_type_selected(element) {
+  var fieldset = $(element).closest("fieldset");
 
-  var type = $(element).find('option:selected').text();
-  var bmc_fields = $(element).parentsUntil('.fields').parent().find('#bmc_fields')
-  if (type == 'BMC') {
-    bmc_fields.find("input:disabled").prop('disabled',false);
-    bmc_fields.removeClass("hide");
-  } else {
-    bmc_fields.find("input").prop('disabled',true);
-    bmc_fields.addClass("hide");
-  }
-
+  $.ajax({
+    data: fieldset.serialize(),
+    type: 'GET',
+    url: fieldset.attr('data-url'),
+    dataType: 'script'
+  });
 }
 
 function disable_vm_form_fields() {

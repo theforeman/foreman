@@ -9,6 +9,9 @@ module Host
     belongs_to :model, :counter_cache => :hosts_count
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
     has_many :fact_names, :through => :fact_values
+    has_many :interfaces, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base',
+             :foreign_key => :host_id, :order => 'identifier'
+    accepts_nested_attributes_for :interfaces, :reject_if => lambda { |a| a[:mac].blank? }, :allow_destroy => true
 
     alias_attribute        :hostname, :name
     before_validation      :normalize_name
@@ -20,17 +23,22 @@ module Host
                            :allow_blank => true,
                            :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', '))
 
+    attr_writer :updated_virtuals
+    def updated_virtuals
+      @updated_virtuals ||= []
+    end
+
     def self.attributes_protected_by_default
       super - [ inheritance_column ]
     end
 
-    def self.import_host_and_facts json
+    def self.import_host_and_facts(json)
       # noop, overridden by STI descendants
       return self, true
     end
 
     # expect a facts hash
-    def import_facts facts
+    def import_facts(facts)
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
       raise ::Foreman::Exception.new('Host is pending for Build') if build?
 
@@ -44,7 +52,8 @@ module Host
       end
 
       type = facts.delete(:_type) || 'puppet'
-      FactImporter.importer_for(type).new(self, facts).import!
+      importer = FactImporter.importer_for(type).new(self, facts)
+      importer.import!
 
       save(:validate => false)
       populate_fields_from_facts(facts, type)
@@ -59,23 +68,62 @@ module Host
     end
 
     def attributes_to_import_from_facts
-      attrs = [:model]
+      [ :model ]
     end
 
     def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
       # we don't import facts for host in build mode
       return if build?
 
-      importer = FactParser.parser_for(type).new facts
+      parser = FactParser.parser_for(type).new(facts)
 
-      set_non_empty_values importer, attributes_to_import_from_facts
-      importer
+      set_non_empty_values(parser, attributes_to_import_from_facts)
+      set_interfaces(parser)
+
+      parser
     end
 
-    def set_non_empty_values importer, methods
+    def set_non_empty_values(parser, methods)
       methods.each do |attr|
-        value = importer.send(attr)
+        value = parser.send(attr)
         self.send("#{attr}=", value) unless value.blank?
+      end
+    end
+
+    def set_interfaces(parser)
+      parser.interfaces.each do |name, attributes|
+        macaddress = Net::Validations.normalize_mac(attributes[:macaddress])
+        base = self.interfaces.where(:mac => macaddress)
+
+        if attributes[:virtual]
+          # for virtual devices we don't check only mac address since it's not unique,
+          # if we want to update the device it must have same identifier
+          base = base.virtual.where(:identifier => name)
+        else
+          # for physical devices we ignore primary interface which is updated by other facts
+          # we just update its name and log it
+          if macaddress != Net::Validations.normalize_mac(self.mac)
+            base = base.physical
+          else
+            logger.debug "Skipping #{name} since it is primary interface of host #{self.name}"
+            old = self.primary_interface
+            self.update_attribute :primary_interface, name
+            update_virtuals(old, name) if old != name && old.present?
+            next
+          end
+        end
+
+        iface = base.first || Nic::Managed.new(:managed => false)
+        # create or update existing interface
+        set_interface(attributes, name, iface)
+      end
+
+      ipmi = parser.ipmi_interface
+      if ipmi.present?
+        existing = self.interfaces.where(:mac => ipmi[:macaddress], :type => Nic::BMC).first
+        iface = existing || Nic::BMC.new(:managed => false)
+        iface.provider ||= 'IPMI'
+        set_interface(ipmi, 'ipmi', iface)
       end
     end
 
@@ -121,6 +169,50 @@ module Host
           # No taxonomy was set, set to fact taxonomy or default taxonomy
           self.send "#{taxonomy}=", (taxonomy_from_fact || default_taxonomy)
         end
+      end
+    end
+
+    def overwrite?
+      @overwrite ||= false
+    end
+
+    # We have to coerce the value back to boolean. It is not done for us by the framework.
+    def overwrite=(value)
+      @overwrite = value.to_s == "true"
+    end
+
+    def has_primary_interface?
+      self.primary_interface.present?
+    end
+
+    private
+
+    def set_interface(attributes, name, iface)
+      attributes = attributes.clone
+      iface.mac = attributes.delete(:macaddress)
+      iface.ip = attributes.delete(:ipaddress)
+      iface.virtual = attributes.delete(:virtual) || false
+      iface.tag = attributes.delete(:tag) || ''
+      iface.physical_device = attributes.delete(:physical_device) || ''
+      iface.link = attributes.delete(:link) if attributes.has_key?(:link)
+      iface.identifier = name
+      iface.host = self
+      update_virtuals(iface.identifier_was, name) if iface.identifier_changed? && !iface.virtual? && iface.persisted?
+      iface.attrs = attributes
+      logger.debug "Saving #{name} NIC interface for host #{self.name}"
+      iface.save!
+    end
+
+    def update_virtuals(old, new)
+      self.updated_virtuals ||= []
+
+      self.interfaces.where(:physical_device => old).virtual.each do |virtual_interface|
+        next if self.updated_virtuals.include?(virtual_interface.id) # may have been already renamed by another physical
+
+        virtual_interface.physical_device = new
+        virtual_interface.identifier = virtual_interface.identifier.sub(old, new)
+        virtual_interface.save!
+        self.updated_virtuals.push(virtual_interface.id)
       end
     end
   end

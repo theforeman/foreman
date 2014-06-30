@@ -1,0 +1,7 @@
+<%= render 'nic/base_form', :f => f %>
+
+<%= content_tag :span, :id => 'bmc_fields' do %>
+  <%= text_f f, :username %>
+  <%= password_f f, :password %>
+  <%= selectable_f f, :provider, Nic::BMC::PROVIDERS %>
+<% end %>

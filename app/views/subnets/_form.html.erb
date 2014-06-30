@@ -27,7 +27,7 @@
       <%= select_f f, :tftp_id, SmartProxy.with_features("TFTP"), :id, :name,
         {:include_blank => _("None")}, :label => _("TFTP Proxy"), :help_inline => _("TFTP Proxy to use within this subnet") %>
       <%= select_f f, :dns_id, SmartProxy.with_features("DNS"), :id, :name,
-        {:include_blank => _("None")}, :label => _("DNS Proxy"), :help_inline => _("DNS Proxy to use within this subnet") %>
+        {:include_blank => _("None")}, :label => _("DNS Proxy"), :help_inline => _("DNS Proxy to use within this subnet for managing PTR records, note that A records are managed via Domain DNS proxy") %>
     </div>
 
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @subnet %>

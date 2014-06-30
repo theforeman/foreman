@@ -4,9 +4,8 @@ bmc:
   type: Nic::BMC
   name: host-bmc
   host: one
-  attrs:
-    :username: foo
-    :password: bar
-    :provider: IPMI
+  :username: foo
+  :password: bar
+  :provider: IPMI
   created_at: <%= Time.now %>
   updated_at: <%= Time.now %>

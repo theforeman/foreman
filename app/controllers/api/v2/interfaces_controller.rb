@@ -27,13 +27,18 @@ module Api
         param :interface, Hash, :required => true, :action_aware => true, :desc => N_("interface information") do
           param :mac, String, :required => true, :desc => N_("MAC address of interface")
           param :ip, String, :required => true, :desc => N_("IP address of interface")
-          param :type, String, :required => true, :desc => N_("Interface type, i.e: Nic::BMC")
+          param :type, String, :required => true, :desc => N_("Interface type, e.g: Nic::BMC")
           param :name, String, :required => true, :desc => N_("Interface name")
           param :subnet_id, Fixnum, :desc => N_("Foreman subnet ID of interface")
           param :domain_id, Fixnum, :desc => N_("Foreman domain ID of interface")
           param :username, String
           param :password, String
-          param :provider, String, :desc => N_("Interface provider, i.e. IPMI")
+          param :provider, String, :desc => N_("Interface provider, e.g. IPMI")
+          param :managed, :bool, :desc => N_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?")
+          param :virtual, :bool, :desc => N_("Alias or VLAN device")
+          param :identifier, String, :desc => N_("Device identifier, e.g. eth0 or eth1.1")
+          param :tag, String, :desc => N_("VLAN tag, this attribute has precedence over the subnet VLAN ID")
+          param :physical_device, String, :desc => N_("Identifier of physical interface to which this interface belongs to. e.g. eth1")
         end
       end
 

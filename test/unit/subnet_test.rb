@@ -191,4 +191,63 @@ class SubnetTest < ActiveSupport::TestCase
     assert_match /is used by/, subnet.errors.full_messages.join("\n")
   end
 
+  test "should find unused IP on proxy if proxy is set" do
+    subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.1.0')
+    subnet.stubs(:dhcp? => true)
+    subnet.stubs(:dhcp => mock('attribute', :url => 'proxy.example.com'))
+    fake_proxy = mock("dhcp_proxy")
+    fake_proxy.stubs(:unused_ip => {'ip' => '192.168.1.25'})
+    subnet.stubs(:dhcp_proxy => fake_proxy)
+    assert_equal '192.168.1.25', subnet.unused_ip
+  end
+
+  test "should find unused IP in internal DB if proxy is not set" do
+    host = FactoryGirl.create(:host)
+    subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.2.0',
+                                :ipam => Subnet::IPAM_MODES[:db])
+    subnet.stubs(:dhcp? => false)
+    assert_equal '192.168.2.1', subnet.unused_ip
+
+    subnet.reload
+    FactoryGirl.create(:nic_managed, :ip => '192.168.2.1', :subnet_id => subnet.id, :host => host, :mac => '00:00:00:00:00:01')
+    FactoryGirl.create(:nic_managed, :ip => '192.168.2.2', :subnet_id => subnet.id, :host => host, :mac => '00:00:00:00:00:02')
+    assert_equal '192.168.2.3', subnet.unused_ip
+  end
+
+  test "#unused should respect subnet from and to if it's set" do
+    host = FactoryGirl.create(:host)
+    subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
+                                :ipam => Subnet::IPAM_MODES[:db])
+    subnet.stubs(:dhcp? => false)
+    assert_equal '192.168.2.10', subnet.unused_ip
+
+    subnet.reload
+    FactoryGirl.create(:nic_managed, :ip => '192.168.2.10', :subnet_id => subnet.id, :host => host, :mac => '00:00:00:00:00:01')
+    FactoryGirl.create(:nic_managed, :ip => '192.168.2.11', :subnet_id => subnet.id, :host => host, :mac => '00:00:00:00:00:02')
+    assert_equal '192.168.2.12', subnet.unused_ip
+
+    subnet.reload
+    FactoryGirl.create(:nic_managed, :ip => '192.168.2.12', :subnet_id => subnet.id, :host => host, :mac => '00:00:00:00:00:03')
+    assert_nil subnet.unused_ip
+  end
+
+  test "#unused does not suggest IP if mode is set to none" do
+    subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12')
+    subnet.stubs(:dhcp? => false, :ipam => Subnet::IPAM_MODES[:none])
+    assert_nil subnet.unused_ip
+  end
+
+  test "#known_ips includes all host and interfaces IPs assigned to this subnet" do
+    subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
+                                :dns_primary => '192.168.2.2', :gateway => '192.168.2.3', :ipam => Subnet::IPAM_MODES[:db])
+    host = FactoryGirl.create(:host, :subnet => subnet, :ip => '192.168.2.1')
+    interface = Nic::Managed.create :mac => "00:00:01:10:00:00", :host => host, :subnet => subnet, :name => "", :ip => '192.168.2.4'
+
+    assert_includes subnet.known_ips, '192.168.2.1'
+    assert_includes subnet.known_ips, '192.168.2.2'
+    assert_includes subnet.known_ips, '192.168.2.3'
+    assert_includes subnet.known_ips, '192.168.2.4'
+    assert_equal 4, subnet.known_ips.size
+  end
+
 end
