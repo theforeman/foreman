@@ -81,14 +81,62 @@ class FilterTest < ActiveSupport::TestCase
     assert_equal 'name ~ a*', f.search
   end
 
-  test "filter with organization set is always limited before validation" do
-    o = Factory.create :organization
-    f = Factory.build(:filter, :search => '', :unlimited => '1', :organization_ids => [o.id])
-    assert f.valid?
-    assert f.limited?
-    assert_include f.taxonomy_search, "(organization_id = #{o.id})"
-    assert_not_include f.taxonomy_search, ' and '
-    assert_not_include f.taxonomy_search, ' or '
+  context 'with taxnomies' do
+    setup do
+      as_admin do
+        @organization = Factory.create :organization
+        @organization1 = Factory.create :organization
+        @location = Factory.create :location
+      end
+    end
+
+    test "filter with organization set is always limited before validation" do
+      f = Factory.build(:filter, :search => '', :unlimited => '1', :organization_ids => [@organization.id])
+      assert f.valid?
+      assert f.limited?
+      assert_include f.taxonomy_search, "(organization_id = #{@organization.id})"
+      assert_not_include f.taxonomy_search, ' and '
+      assert_not_include f.taxonomy_search, ' or '
+    end
+
+    test "filter with location set is always limited before validation" do
+      f = Factory.build(:filter, :search => '', :unlimited => '1', :location_ids => [@location.id])
+      assert f.valid?
+      assert f.limited?
+      assert_include f.taxonomy_search, "(location_id = #{@location.id})"
+    end
+
+
+    test "filter with location set is always limited before validation" do
+      f  = Factory.build(:filter, :search => '', :unlimited => '1',
+                         :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id])
+      assert f.valid?
+      assert f.limited?
+      assert_include f.taxonomy_search, "(location_id = #{@location.id})"
+      assert_include f.taxonomy_search, "organization_id = #{@organization.id}"
+      assert_include f.taxonomy_search, "organization_id = #{@organization1.id}"
+    end
+
+    test "removing all organizations and locations from filter nilify taxonomy search" do
+      f  = Factory.create(:filter, :search => '', :unlimited => '1',
+                          :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id])
+
+      f.update_attributes :organization_ids => [], :location_ids => []
+      assert f.valid?
+      assert f.unlimited?
+      assert_nil f.taxonomy_search
+    end
+
+    test "taxonomies are ignored if resource does not support them" do
+      f = Factory.create(:filter, :search => '', :unlimited => '1',
+                         :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id],
+                         :resource_type => 'Bookmark')
+
+      f.reload
+      assert f.valid?
+      assert f.unlimited?
+      assert_nil f.taxonomy_search
+    end
   end
 
   test "filter remains unlimited when no organization assigned" do
@@ -104,54 +152,6 @@ class FilterTest < ActiveSupport::TestCase
     assert f.valid?
     assert f.unlimited?
     assert_empty f.taxonomy_search
-  end
-
-  test "filter with location set is always limited before validation" do
-    l = Factory.create :location
-    f = Factory.build(:filter, :search => '', :unlimited => '1', :location_ids => [l.id])
-    assert f.valid?
-    assert f.limited?
-    assert_include f.taxonomy_search, "(location_id = #{l.id})"
-  end
-
-  test "filter with location set is always limited before validation" do
-    o1 = Factory.create :organization
-    o2 = Factory.create :organization
-    l  = Factory.create :location
-    f  = Factory.build(:filter, :search => '', :unlimited => '1',
-                       :organization_ids => [o1.id, o2.id], :location_ids => [l.id])
-    assert f.valid?
-    assert f.limited?
-    assert_include f.taxonomy_search, "(location_id = #{l.id})"
-    assert_include f.taxonomy_search, "organization_id = #{o1.id}"
-    assert_include f.taxonomy_search, "organization_id = #{o2.id}"
-  end
-
-  test "removing all organizations and locations from filter nilify taxonomy search" do
-    o1 = Factory.create :organization
-    o2 = Factory.create :organization
-    l  = Factory.create :location
-    f  = Factory.create(:filter, :search => '', :unlimited => '1',
-                        :organization_ids => [o1.id, o2.id], :location_ids => [l.id])
-
-    f.update_attributes :organization_ids => [], :location_ids => []
-    assert f.valid?
-    assert f.unlimited?
-    assert_nil f.taxonomy_search
-  end
-
-  test "taxonomies are ignored if resource does not support them" do
-    o1 = Factory.create :organization
-    o2 = Factory.create :organization
-    l = Factory.create :location
-    f = Factory.create(:filter, :search => '', :unlimited => '1',
-                       :organization_ids => [o1.id, o2.id], :location_ids => [l.id],
-                       :resource_type => 'Bookmark')
-
-    f.reload
-    assert f.valid?
-    assert f.unlimited?
-    assert_nil f.taxonomy_search
   end
 
   test "#allows_*_filtering" do
@@ -177,4 +177,18 @@ class FilterTest < ActiveSupport::TestCase
     assert_equal '(domain ~ test*) and (organization_id = 1)', f.search_condition
   end
 
+  test "filter with a valid search string is valid" do
+    f = Factory.build(:filter, :search => "name = 'blah'", :resource_type => 'Domain')
+    assert_valid f
+  end
+
+  test "filter with an invalid search string is invalid" do
+    f = Factory.build(:filter, :search => "non_existent = 'blah'", :resource_type => 'Domain')
+    refute_valid f
+  end
+
+  test "filter with an empty search string is valid" do
+    f = Factory.build(:filter, :search => nil, :resource_type => 'Domain')
+    assert_valid f
+  end
 end
