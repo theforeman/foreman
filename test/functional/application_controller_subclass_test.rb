@@ -77,4 +77,34 @@ class TestableControllerTest < ActionController::TestCase
       end
     end
   end
+
+  context "can filter parameters" do
+    setup do
+      @controller.class.send(:include, Foreman::Controller::FilterParameters)
+      @params = {'foo' => 'foo', 'name' => 'name', 'id' => 'id' }
+      @request =  OpenStruct.new({:filtered_parameters => @params.clone })
+      @controller.stubs(:request).returns(@request)
+      ApplicationController.any_instance.stubs(:process_action).returns(nil)
+    end
+
+    it "filters parameters" do
+      @controller.class.filter_parameters :name, :id
+      @controller.process_action("")
+      assert_equal @request.filtered_parameters['foo'], 'foo'
+      assert_includes @request.filtered_parameters['name'], 'FILTERED'
+      assert_includes @request.filtered_parameters['id'], 'FILTERED'
+    end
+
+    it "doesn't filter when filter_parameters isn't set" do
+      @controller.class.filter_parameters nil
+      @controller.process_action("")
+      assert_equal @request.filtered_parameters, @params
+    end
+
+    it "doesn't filter when params don't match" do
+      @controller.class.filter_parameters :description, :something
+      @controller.process_action("")
+      assert_equal @request.filtered_parameters, @params
+    end
+  end
 end
