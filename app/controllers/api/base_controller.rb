@@ -132,7 +132,7 @@ module Api
     end
 
     def set_admin_user
-      User.current = User.admin
+      User.current = User.anonymous_api_admin
     end
 
     def deny_access(details = nil)

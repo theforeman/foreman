@@ -2,7 +2,7 @@ require 'test_helper'
 
 class OperatingsystemTest < ActiveSupport::TestCase
   setup do
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
   end
   test "shouldn't save with blank attributes" do
     operating_system = Operatingsystem.new

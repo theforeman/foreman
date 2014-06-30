@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class ConfigGroupsControllerTest < ActionController::TestCase
-  setup do
-    User.current = User.admin
-  end
-
   test "should get index" do
     get :index, {}, set_session_user
     assert_response :success

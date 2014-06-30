@@ -2,7 +2,7 @@ require 'test_helper'
 
 class AuthorizerTest < ActiveSupport::TestCase
   def setup
-    User.current = User.admin
+    User.current = users :admin
 
     @user_role  = FactoryGirl.create(:user_user_role)
     @user       = @user_role.owner

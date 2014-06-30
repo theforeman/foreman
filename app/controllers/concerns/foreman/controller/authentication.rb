@@ -30,7 +30,7 @@ module Foreman::Controller::Authentication
     else
       # We assume we always have a user logged in
       # if authentication is disabled, the user is the built-in admin account
-      set_current_user User.admin
+      set_current_user User.only_admin.first
     end
   end
 
@@ -55,7 +55,7 @@ module Foreman::Controller::Authentication
   def sso_authentication
     if available_sso.present?
       if available_sso.authenticated?
-        user = User.unscoped.find_by_login(available_sso.user)
+        user = available_sso.current_user
         update_activity_time unless api_request?
       elsif available_sso.support_login?
         available_sso.authenticate!

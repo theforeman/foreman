@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
   # its required for actions which are not authenticated by default
   # such as unattended notifications coming from an OS, or fact and reports creations
   def set_admin_user
-    User.current = User.admin
+    User.current = User.anonymous_api_admin
   end
 
   def model_of_controller

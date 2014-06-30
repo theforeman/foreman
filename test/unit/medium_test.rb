@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MediumTest < ActiveSupport::TestCase
   setup do
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
     disable_orchestration
   end
 

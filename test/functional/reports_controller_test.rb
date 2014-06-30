@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ReportsControllerTest < ActionController::TestCase
   setup do
-    User.current = User.admin
+    User.current = users :admin
   end
 
   def test_index

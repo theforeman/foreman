@@ -1,21 +1,20 @@
 require 'facter'
 namespace :permissions do
-  desc 'Reset Administrator user permissions to defaults'
+  desc 'Create or reset "admin" user permissions to defaults'
   task :reset => :environment do
-    unless Facter.value(:domain).nil?
-      user = User.find_or_create_by_login(:login => "admin", :firstname => "Admin", :lastname => "User", :mail => "root@#{Facter.value(:domain)}")
-      user.update_attribute :admin, true
+    User.as_anonymous_admin do
+      user = User.find_or_create_by_login(:login => ENV["username"] || 'admin', :firstname => 'Admin', :lastname => 'User', :mail => Setting[:administrator])
       src  = AuthSourceInternal.find_or_create_by_type "AuthSourceInternal"
       src.update_attribute :name, "Internal"
+      user.admin = true
       user.auth_source = src
-      user.password="changeme"
+      random = User.random_password
+      user.password = random
       if user.save
-        puts "Reset to user:admin, password:changeme"
+        puts "Reset to user: #{user.login}, password: #{random}"
       else
         puts user.errors.full_messages.join(", ")
       end
-    else
-      fail "The domain of this host is not set."
     end
   end
 end

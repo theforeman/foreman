@@ -2,7 +2,7 @@ class Usergroup < ActiveRecord::Base
   audited :allow_mass_assignment => true
   include Authorizable
 
-  before_destroy EnsureNotUsedBy.new(:hosts)
+  before_destroy EnsureNotUsedBy.new(:hosts), :ensure_last_admin_group_is_not_deleted
 
   has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
   has_many :roles, :through => :user_roles, :dependent => :destroy
@@ -24,7 +24,7 @@ class Usergroup < ActiveRecord::Base
   alias_attribute :select_title, :to_s
   default_scope lambda { order('usergroups.name') }
   scoped_search :on => :name, :complete_value => :true
-  validate :ensure_uniq_name
+  validate :ensure_uniq_name, :ensure_last_admin_remains_admin
 
   accepts_nested_attributes_for :external_usergroups, :reject_if => lambda { |a| a[:name].blank? }, :allow_destroy => true
 
@@ -76,5 +76,24 @@ class Usergroup < ActiveRecord::Base
     self.users = self.users - old_users
   end
 
+  def ensure_last_admin_remains_admin
+    if !new_record? && admin_changed? && !admin && other_admins.empty?
+      errors.add :admin, _("cannot be removed from the last admin account")
+      logger.warn "Unable to remove admin privileges from the last admin account"
+      false
+    end
+  end
+
+  def ensure_last_admin_group_is_not_deleted
+    if admin? && other_admins.empty?
+      errors.add :base, _("Can't delete the last admin user group")
+      logger.warn "Unable to delete the last admin user group"
+      false
+    end
+  end
+
+  def other_admins
+    User.unscoped.only_admin.except_hidden - all_users
+  end
 
 end

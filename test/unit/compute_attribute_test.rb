@@ -4,7 +4,7 @@ class ComputeAttributeTest < ActiveSupport::TestCase
 
   setup do
     Fog.mock!
-    User.current = User.admin
+    User.current = users :admin
     @set = compute_attributes(:one)
     @compute_profile = @set.compute_profile  #1-Small
     @compute_resource = @set.compute_resource  #EC2

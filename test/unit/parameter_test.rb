@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ParameterTest < ActiveSupport::TestCase
   setup do
-    User.current = User.find_by_login "admin"
+    User.current = users :admin
   end
   test  "names may me reused in different parameter groups" do
     p1 = HostParameter.new   :name => "param", :value => "value1", :reference_id => Host.first.id

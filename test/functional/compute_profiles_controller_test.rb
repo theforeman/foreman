@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ComputeProfilesControllerTest < ActionController::TestCase
   setup do
-    User.current = User.admin
+    User.current = users :admin
     @compute_profile = compute_profiles(:one)
   end
 

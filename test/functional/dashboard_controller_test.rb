@@ -24,12 +24,12 @@ class DashboardControllerTest < ActionController::TestCase
 
   test "OpenID request should be made for known users to Signo when SSO allowed" do
     configure_sso
-    request.cookies[:username] = 'admin'
+    request.cookies[:username] = users(:admin).login
     @controller.env            = @controller.request.env
     get :index
     assert_response 401
     identifier = @response.headers.try(:[], "WWW-Authenticate")
-    assert_equal "OpenID identifier=\"#{Setting['signo_url']}/user/admin\"", identifier
+    assert_equal "OpenID identifier=\"#{Setting['signo_url']}/user/#{users(:admin).login}\"", identifier
     restore_signo
   end
 

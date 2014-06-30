@@ -3,7 +3,7 @@ require 'test_helper'
 class UsergroupTest < ActiveSupport::TestCase
 
   setup do
-    User.current = User.find_by_login("admin")
+    User.current = users :admin
   end
 
   test "usergroups should be creatable" do
@@ -135,7 +135,7 @@ class UsergroupTest < ActiveSupport::TestCase
     usergroup.send(:add_users, ['one', 'two', 'three'])
 
     # users 'one' 'two' are defined in fixtures, 'three' is not defined
-    assert_equal ['one', 'two'], usergroup.users.map(&:login)
+    assert_equal ['one', 'two'], usergroup.users.map(&:login).sort
   end
 
   test 'remove_users removes user list' do
@@ -146,6 +146,35 @@ class UsergroupTest < ActiveSupport::TestCase
     assert_equal [], usergroup.users
   end
 
+  test "can remove the admin flag from the group when another admin exists" do
+    usergroup = FactoryGirl.create(:usergroup, :admin => true)
+    admin1 = FactoryGirl.create(:user)
+    admin2 = FactoryGirl.create(:user, :admin => true)
+    usergroup.users = [admin1]
+
+    User.unscoped.except_hidden.only_admin.where('login NOT IN (?)', [admin1.login, admin2.login]).destroy_all
+    usergroup.admin = false
+    assert_valid usergroup
+  end
+
+  test "cannot remove the admin flag from the group providing the last admin account(s)" do
+    usergroup = FactoryGirl.create(:usergroup, :admin => true)
+    admin = FactoryGirl.create(:user)
+    usergroup.users = [admin]
+
+    User.unscoped.except_hidden.only_admin.where('login <> ?', admin.login).destroy_all
+    usergroup.admin = false
+    refute_valid usergroup, :admin, /last admin account/
+  end
+
+  test "cannot destroy the group providing the last admin accounts" do
+    usergroup = FactoryGirl.create(:usergroup, :admin => true)
+    admin = FactoryGirl.create(:user)
+    usergroup.users = [admin]
+
+    User.unscoped.except_hidden.only_admin.where('login <> ?', admin.login).destroy_all
+    refute_with_errors usergroup.destroy, usergroup, :base, /last admin user group/
+  end
 
   # TODO test who can modify usergroup roles and who can assign users!!! possible privileges escalation
 
