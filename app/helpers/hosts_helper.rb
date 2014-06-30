@@ -317,4 +317,16 @@ module HostsHelper
     end
     data
   end
+
+  def remove_interface_link(f)
+    remove_child_link('x', f, {:rel => 'twipsy',
+                               :'data-title' => _('remove network interface'),
+                               :'data-placement' => 'left',
+                               :class => 'fr label label-danger'})
+  end
+
+  def link_status(f)
+    return '' if f.object.new_record?
+    '(' + (f.object.link ? _('Up') : _('Down')) + ')'
+  end
 end

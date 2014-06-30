@@ -23,8 +23,10 @@ module Foreman::Controller::HostDetails
       format.json do
         taxonomy_scope
         Taxonomy.as_taxonomy @organization, @location do
-          if (domain = Domain.find(params[:domain_id]))
+          if (domain = Domain.find_by_id(params[:domain_id]))
             render :json => domain.subnets
+          elsif params[:interface]
+            render :json => Subnet.authorized(:view_subnets)
           else
             not_found
           end

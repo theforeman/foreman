@@ -13,7 +13,7 @@ class SubnetsController < ApplicationController
   def create
     @subnet = Subnet.new(params[:subnet])
     if @subnet.save
-      process_success
+      process_success success_hash
     else
       process_error
     end
@@ -24,7 +24,7 @@ class SubnetsController < ApplicationController
 
   def update
     if @subnet.update_attributes(params[:subnet])
-      process_success
+      process_success success_hash
     else
       process_error
     end
@@ -32,7 +32,7 @@ class SubnetsController < ApplicationController
 
   def destroy
     if @subnet.destroy
-      process_success
+      process_success success_hash
     else
       process_error
     end
@@ -77,6 +77,12 @@ class SubnetsController < ApplicationController
     else
       render :action => "import"
     end
+  end
+
+  private
+
+  def success_hash
+    { :success_redirect => params[:redirect].present? ? params[:redirect] : nil }
   end
 
 end

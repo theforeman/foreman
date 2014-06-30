@@ -22,6 +22,10 @@ module HostsAndHostgroupsHelper
     Domain.with_taxonomy_scope_override(@location,@organization)
   end
 
+  def accessible_subnets
+    Subnet.with_taxonomy_scope_override(@location,@organization)
+  end
+
   def domain_subnets(domain=@domain)
     return [] if domain.blank?
     domain.subnets.with_taxonomy_scope_override(@location,@organization)
@@ -75,15 +79,6 @@ module HostsAndHostgroupsHelper
     klasses    = smart_vars.keys + class_vars.keys
 
     classes.select { |pc| klasses.include?(pc.id) }
-  end
-
-  def ifs_bmc_opts obj
-    case obj.read_attribute(:type)
-      when "Nic::BMC"
-        {}
-      else
-        { :disabled => true, :value => nil }
-    end
   end
 
 end

@@ -4,9 +4,13 @@
 <%= text_f f, :gateway, :help_inline => _("Optional: Gateway for this subnet") %>
 <%= text_f f, :dns_primary, 	:help_inline => _("Optional: Primary DNS for this subnet") %>
 <%= text_f f, :dns_secondary, :help_inline => _("Optional: Secondary DNS for this subnet") %>
-<%= checkbox_f f, :ipam, :label => _('IPAM'), :help_block => _('Enable IP Address auto suggestion to use within this subnet') %>
+<%= selectable_f f, :ipam, Subnet.ipam_modes_with_translations, {}, :data => {'disable-auto-suggest-on' => Subnet::IPAM_MODES[:none]},
+                 :label => _('IPAM'), :help_block => _('IP Address auto suggestion mode for this subnet, DHCP works with DHCP proxy only') %>
 <div id='ipam_options' class ='<%= f.object.ipam? ? "" : "hide" %>'>
   <%= text_f f, :from, :help_inline => _("Optional: Starting IP Address for IP auto suggestion") %>
   <%= text_f f, :to,   :help_inline => _("Optional: Ending IP Address for IP auto suggestion") %>
 </div>
 <%= text_f f, :vlanid, :help_inline => _("Optional: VLAN ID for this subnet") %>
+<%= selectable_f f, :boot_mode, Subnet.boot_modes_with_translations, {},
+                 :help_inline => _("Default boot mode for interfaces assigned to this subnet") %>
+<%= hidden_field_tag :redirect, params[:redirect] %>

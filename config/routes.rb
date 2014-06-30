@@ -399,4 +399,6 @@ Foreman::Application.routes.draw do
   resources :about, :only => :index do
   end
 
+  resources :interfaces, :only => :new
+
 end

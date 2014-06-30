@@ -1,0 +1,34 @@
+<%= selectable_f f, :type, [[_("Interface"), Nic::Managed], [_("BMC"), Nic::BMC]], {},
+                 :class => 'interface_type', :disabled => !f.object.new_record? %>
+
+<%= text_f f, :mac %>
+<%= text_f f, :identifier, :disabled => !f.object.new_record?, :help_inline => _("Device identifier, i.e.: eth0 or eth1.1") %>
+<%= text_f f, :name, :label => _("DNS name") %>
+<%= select_f f, :domain_id, accessible_domains, :id, :to_label,
+             { :include_blank => accessible_domains.any? ? true : _("No domains")},
+             { :disabled => accessible_domains.empty? ? true : false,
+               :help_inline => :indicator,
+               :class => 'interface_domain', :'data-url' => domain_selected_hosts_path } %>
+<%= select_f f, :subnet_id, accessible_subnets, :id, :to_label,
+             { :include_blank => accessible_subnets.any? ? true : _("No subnets")},
+             { :disabled => accessible_subnets.empty? ? true : false,
+               :help_inline => :indicator,
+               :class => 'interface_subnet', :'data-url' => freeip_subnets_path } %>
+<%= text_f f, :ip  %>
+
+<%= checkbox_f f, :managed,
+               :help_inline => _("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?") %>
+
+
+<% virtual_id = dom_id(f.object, "virtual_form") %>
+<%= checkbox_f f, :virtual,
+               :disabled => !f.object.new_record?,
+               :label => _("Virtual NIC"),
+               :help_inline => _("Enable if this is an alias or VLAN interface"),
+               :onclick => "$(this).closest('div.clearfix').siblings('div.#{virtual_id}').toggle()" %>
+
+<% style = f.object.virtual ? '' : 'display:none' %>
+<%= content_tag :div, :style => style, :class => virtual_id do %>
+  <%= text_f f, :tag, :help_inline => _("Inherits from subnet VLAN ID if not set") %>
+  <%= text_f f, :physical_device %>
+<% end %>

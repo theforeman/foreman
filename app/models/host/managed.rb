@@ -11,8 +11,6 @@ class Host::Managed < Host::Base
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "HostParameter"
   accepts_nested_attributes_for :host_parameters, :allow_destroy => true
-  has_many :interfaces, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base', :foreign_key => :host_id
-  accepts_nested_attributes_for :interfaces, :reject_if => lambda { |a| a[:mac].blank? }, :allow_destroy => true
   belongs_to :owner, :polymorphic => true
   belongs_to :compute_resource
   belongs_to :image
@@ -49,7 +47,8 @@ class Host::Managed < Host::Base
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :location,
       :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method,
-      :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent
+      :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent, :primary_interface, :interfaces,
+      :has_primary_interface?
   end
 
   attr_reader :cached_host_params
@@ -602,15 +601,6 @@ class Host::Managed < Host::Base
   rescue => e
     errors.add(:base, _("failed to execute puppetrun: %s") % e)
     false
-  end
-
-  def overwrite?
-    @overwrite ||= false
-  end
-
-  # We have to coerce the value back to boolean. It is not done for us by the framework.
-  def overwrite=(value)
-    @overwrite = value.to_s == "true"
   end
 
   def require_ip_validation?

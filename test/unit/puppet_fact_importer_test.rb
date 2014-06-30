@@ -62,7 +62,6 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
     assert_equal 1, importer.counters[:deleted]
     assert_equal 1, importer.counters[:updated]
     assert_equal 1, importer.counters[:added]
-
   end
 
   def import(facts)

@@ -1,10 +1,6 @@
 class PuppetFactParser < FactParser
   attr_reader :facts
 
-  def initialize facts
-    @facts = HashWithIndifferentAccess.new(facts)
-  end
-
   def operatingsystem
     orel = case os_name
              when /(suse|sles|gentoo)/i
@@ -90,22 +86,29 @@ class PuppetFactParser < FactParser
     mac = facts[:macaddress]
     ip = facts[:ipaddress]
     interfaces.each do |int, values|
-      return int.to_s if (values[:macaddress] == mac and values[:ipaddress] == ip)
+      return int.to_s if (values[:macaddress] == mac && values[:ipaddress] == ip)
     end
     nil
   end
 
-  def interfaces
-    ifs = facts[:interfaces]
-    return {} if ifs.empty? or (ifs=ifs.split(",")).empty?
-    interfaces = HashWithIndifferentAccess.new
+  def ipmi_interface
+    ipmi = facts.select { |name, _| name =~ /\Aipmi_(.*)\Z/ }.map { |name, value| [name.sub(/\Aipmi_/, ''), value] }
+    Hash[ipmi].with_indifferent_access
+  end
 
-    (ifs.delete_if { |int| int.match(EXCLUDED_INTERFACES) }).each do |int|
-      interfaces[int] = HashWithIndifferentAccess.new
-      facts.keys.grep(/_#{int}$/).each do |fact|
-        interfaces[int][fact.gsub("_#{int}", '')] = facts[fact]
-      end
+  # since Puppet converts eth0.0 and eth0:0 to eth0_0 we assume it's vlan interface
+  # we can't do much better until we have more information from facter
+  def interfaces
+    interfaces = super
+
+    underscore_device_regexp = /(.*)_(\d+)/
+    interfaces.clone.each do |identifier, _|
+      matches = identifier.match(underscore_device_regexp)
+      next unless matches
+      new_name = "#{matches[1]}.#{matches[2]}"
+      interfaces[new_name] = interfaces.delete(identifier)
     end
+
     interfaces
   end
 
@@ -122,6 +125,22 @@ class PuppetFactParser < FactParser
   end
 
   private
+
+  def get_interfaces
+    if facts[:interfaces] && !facts[:interfaces].blank?
+      facts[:interfaces].split(',')
+    else
+      []
+    end
+  end
+
+  def get_facts_for_interface(interface)
+    iface_facts = @facts.select { |name, value| name =~ /.*_#{interface}\Z/ }
+    iface_facts = iface_facts.map { |name, value| [name.gsub("_#{interface}", ''), value] }
+    iface_facts = HashWithIndifferentAccess[iface_facts]
+    logger.debug "Interface #{interface} facts: #{iface_facts.inspect}"
+    iface_facts
+  end
 
   def os_name
     facts[:operatingsystem].blank? ? raise(::Foreman::Exception.new("invalid facts, missing operating system value")) : facts[:operatingsystem]
