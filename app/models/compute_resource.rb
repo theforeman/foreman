@@ -34,8 +34,6 @@ class ComputeResource < ActiveRecord::Base
   before_validation :set_attributes_hash
   has_many :compute_attributes, :dependent => :destroy
   has_many :compute_profiles, :through => :compute_attributes
-  # attribute used by *_names and *_name methods.  default is :name
-  attr_name :to_label
 
   # The DB may contain compute resource from disabled plugins - filter them out here
   scope :live_descendants, lambda { where(:type => self.descendants.map(&:to_s)) unless Rails.env.development? }
