@@ -541,9 +541,15 @@ class Host::Managed < Host::Base
   end
 
   def set_compute_attributes
-    return unless compute_attributes.empty?
+    return unless compute_attributes_empty?
     return unless compute_profile_id && compute_resource_id
     self.compute_attributes = compute_resource.compute_profile_attributes_for(compute_profile_id)
+  end
+
+  def compute_attributes_empty?
+    # ignore cases where cr_attrs => {"volumes_attributes" => {}} as hashes must be present for
+    # non-CR profile provisioning, but aren't needed if a profile is in use
+    compute_attributes.reject { |k,v| v.is_a?(Hash) && v.empty? }.empty?
   end
 
   def set_ip_address
