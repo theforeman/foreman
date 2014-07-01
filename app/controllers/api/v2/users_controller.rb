@@ -1,6 +1,9 @@
 module Api
   module V2
     class UsersController < V2::BaseController
+
+      wrap_parameters User, :include => (User.attribute_names + ['password'])
+
       before_filter :find_resource, :only => %w{show update destroy}
       include Foreman::Controller::UsersMixin
       include Api::Version2
