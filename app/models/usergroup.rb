@@ -18,7 +18,7 @@ class Usergroup < ActiveRecord::Base
   has_many :parents,    :through => :usergroup_parents, :source => :usergroup, :dependent => :destroy
 
   has_many_hosts :as => :owner
-  validates :name, :uniqueness => true, :length => { :maximum => 255 }
+  validates :name, :uniqueness => true, :length => { :maximum => 255 }, :presence => true
 
   # The text item to see in a select dropdown menu
   alias_attribute :select_title, :to_s
