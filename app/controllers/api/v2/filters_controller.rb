@@ -9,8 +9,9 @@ module Api
 
       api :GET, "/filters/", "List all filters."
       param :search, String, :desc => "filter results", :required => false
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      param :order, String, :desc => "sort results", :required => false
+      param :page, String, :desc => "paginate results", :required => false
+      param :per_page, String, :desc => "number of entries per request", :required => false
 
       def index
         @filters = resource_scope.search_for(*search_options).paginate(paginate_options)
