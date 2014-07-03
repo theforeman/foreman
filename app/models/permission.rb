@@ -7,7 +7,7 @@ class Permission < ActiveRecord::Base
   has_many :filters, :through => :filterings
 
   def self.resources
-    @all_resources ||= Permission.uniq.order(:resource_type).pluck(:resource_type).compact
+    @all_resources ||= Permission.order(:resource_type).pluck(:resource_type).compact.map { |r| r.delete("'") }.uniq
   end
 
   def self.resources_with_translations
