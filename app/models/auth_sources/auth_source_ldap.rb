@@ -29,6 +29,7 @@ class AuthSourceLdap < AuthSource
   before_validation :strip_ldap_attributes
   after_initialize :set_defaults
 
+  DEFAULT_PORTS = {:ldap => 389, :ldaps => 636 }
   # Loads the LDAP info for a user and authenticates the user with their password
   # Returns : Array of Strings.
   #           Either the users's DN or the user's full details OR nil
@@ -97,7 +98,7 @@ class AuthSourceLdap < AuthSource
   end
 
   def set_defaults
-    self.port ||= 389
+    self.port ||= DEFAULT_PORTS[:ldap]
   end
 
   def use_user_login_for_auth?
