@@ -27,7 +27,7 @@ module Api
       end
 
       def update
-        process_response @setting.update_attributes(params[:setting])
+        process_response (@setting.parse_string_value(params[:setting][:value]) && @setting.save)
       end
 
     end

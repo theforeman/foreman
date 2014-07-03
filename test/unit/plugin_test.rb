@@ -216,4 +216,11 @@ class PluginTest < ActiveSupport::TestCase
     assert ComputeResource.supported_providers.values.must_include 'Awesome::Provider::MyAwesome'
     assert SETTINGS[:myawesome]
   end
+
+  def test_add_search_path_override
+    Foreman::Plugin.register :filter_helpers do
+      search_path_override("TestEngine") { |resource| "test_engine/another_search_path" }
+    end
+    assert FiltersHelperOverrides.can_override?("TestEngine::TestResource")
+  end
 end

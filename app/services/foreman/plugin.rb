@@ -213,5 +213,15 @@ module Foreman #:nodoc:
       Dashboard::Manager.map.widget(id, options)
     end
 
+    # To add FiltersHelper#search_path override,
+    # in lib/engine.rb, in plugin initialization block:
+    # search_path_override("EngineModuleName") { |resource| ... }
+    def search_path_override(engine_name, &blk)
+      if block_given?
+        FiltersHelperOverrides.override_search_path(engine_name, blk)
+      else
+        Rails.logger.warn "Ignoring override of FiltersHelper#search_path_override for '#{engine_name}': no override block is present"
+      end
+    end
   end
 end

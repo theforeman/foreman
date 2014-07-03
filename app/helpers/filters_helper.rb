@@ -11,6 +11,7 @@ module FiltersHelper
         when 'Parameter'
           '' # parameter is only used in API
         else
+          return FiltersHelperOverrides.search_path(type) if FiltersHelperOverrides.can_override?(type)
           resource_path = resource_path(type)
           resource_path.nil? ? "" : resource_path + auto_complete_search_path
       end
