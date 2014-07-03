@@ -1,3 +1,5 @@
+<% javascript 'auth_source_ldap' %>
+
 <% title_actions link_to(icon_text("question-sign", _("Documentation"), :class => "icon-white"), "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.1.2LDAPAuthentication", :rel => "external", :class => "btn btn-info") %>
 
 <%= form_for @auth_source_ldap do |f| %>
@@ -12,8 +14,8 @@
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name %>
       <%= text_f f, :host %>
-      <%= text_f f, :port %>
-      <%= checkbox_f f, :tls %>
+      <%= checkbox_f(f, :tls, {:label => "LDAPS", :onchange => 'change_ldap_port(this)'}) %>
+      <%= text_f f, :port, :data => {:default_ports => AuthSourceLdap::DEFAULT_PORTS} %>
     </div>
     <div class="tab-pane" id="account">
       <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe %>
