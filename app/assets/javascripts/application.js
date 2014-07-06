@@ -49,9 +49,8 @@ function onContentLoad(){
   $("#title_action span").removeClass("btn btn-default").addClass("btn-group");
   $("#title_action a[href*='new']").removeClass('btn-default').addClass("btn-success");
 
-  if ($("#login-form").size() > 0) {
-    $("#login_login").focus();
-    return false;
+  if ($("input[focus_on_load=true]").size() > 0) {
+    $("input[focus_on_load]").first().focus();
   }
 
   // highlight tabs with errors
