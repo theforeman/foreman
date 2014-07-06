@@ -12,7 +12,7 @@ class WsProxy
   def initialize(attributes)
     # setup all attributes.
     defaults.merge(attributes).each do |k, v|
-      eval("self.#{k}= v") if self.respond_to?("#{k}=")
+      self.send("#{k}=", v) if self.respond_to?("#{k}=")
     end
   end
 
