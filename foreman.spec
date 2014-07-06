@@ -74,7 +74,7 @@ Requires: %{?scl_prefix}rubygem(gettext_i18n_rails) < 1.0.0
 Requires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
 Requires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
 Requires: %{?scl_prefix}rubygem(therubyracer)
-Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
+Requires: %{?scl_prefix}rubygem(jquery-ui-rails) < 5.0.0
 Requires: %{?scl_prefix}rubygem(bootstrap-sass) >= 3.0.3.0
 Requires: %{?scl_prefix}rubygem(bootstrap-sass) < 3.0.4
 Requires: %{?scl_prefix}rubygem(foreigner) >= 1.4.2
@@ -90,7 +90,7 @@ BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails) < 1.0.0
 BuildRequires: %{?scl_prefix}rubygem(gettext_i18n_rails_js) >= 0.0.8
 BuildRequires: %{?scl_prefix}rubygem(i18n_data) >= 0.2.6
 BuildRequires: %{?scl_prefix}rubygem(jquery-rails)
-BuildRequires: %{?scl_prefix}rubygem(jquery-ui-rails)
+BuildRequires: %{?scl_prefix}rubygem(jquery-ui-rails) < 5.0.0
 BuildRequires: %{?scl_prefix}rubygem(less-rails)
 BuildRequires: %{?scl_prefix}rubygem(net-ldap)
 BuildRequires: %{?scl_prefix}rubygem(oauth)
@@ -227,7 +227,7 @@ Group: Applications/system
 Requires: %{name} = %{version}-%{release}
 Requires: %{?scl_prefix}rubygem(jquery-rails) >= 2.0.2
 Requires: %{?scl_prefix}rubygem(jquery-rails) < 2.1
-Requires: %{?scl_prefix}rubygem(jquery-ui-rails)
+Requires: %{?scl_prefix}rubygem(jquery-ui-rails) < 5.0.0
 Requires: %{?scl_prefix}rubygem(quiet_assets)
 Requires: %{?scl_prefix}rubygem(sass-rails) >= 3.2.3
 Requires: %{?scl_prefix}rubygem(sass-rails) < 3.3
