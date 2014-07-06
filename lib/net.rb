@@ -8,7 +8,7 @@ module Net
     def initialize opts = {}
       # set all attributes
       opts.each do |k,v|
-        eval("self.#{k}= v") if self.respond_to?("#{k}=")
+        self.send("#{k}=",v) if self.respond_to?("#{k}=")
       end if opts
 
       self.logger ||= Rails.logger
