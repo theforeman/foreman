@@ -6,7 +6,7 @@ module Foreman
     ALLOWED_HELPERS = [ :foreman_url, :grub_pass, :snippet, :snippets,
 			:snippet_if_exists, :ks_console, :root_pass,
 			:multiboot, :jumpstart_path, :install_path, :miniroot,
-			:media_path, :param_true?, :param_false? ]
+			:media_path, :param_true?, :param_false?, :match ]
 
     ALLOWED_VARIABLES = [ :arch, :host, :osver, :mediapath, :static,
                           :repos, :dynamic, :kernel, :initrd,

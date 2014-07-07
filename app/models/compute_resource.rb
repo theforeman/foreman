@@ -146,10 +146,6 @@ class ComputeResource < ActiveRecord::Base
     options = vm_instance_defaults.merge(args.to_hash.symbolize_keys)
     logger.debug("creating VM with the following options: #{options.inspect}")
     client.servers.create options
-  rescue Fog::Errors::Error => e
-    logger.debug "Fog error: #{e.message}\n " + e.backtrace.join("\n ")
-    errors.add(:base, e.message.to_s)
-    false
   end
 
   def destroy_vm uuid

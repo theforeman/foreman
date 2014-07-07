@@ -107,11 +107,11 @@ module Foreman::Model
     def create_vm args = { }
       vm = new_vm(args)
       create_volumes :prefix => vm.name, :volumes => vm.volumes, :backing_id => args[:image_id]
-
       vm.save
     rescue Fog::Errors::Error => e
-      errors.add(:base, e.to_s)
-      false
+      logger.debug "Unhandled LibVirt error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
+      destroy_vm vm.id if vm
+      raise e
     end
 
     def console uuid
