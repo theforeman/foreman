@@ -2,6 +2,15 @@ class Filter < ActiveRecord::Base
   include Taxonomix
   include Authorizable
 
+  class ScopedSearchValidator < ActiveModel::Validator
+    def validate(record)
+      resource_class = record.resource_class
+      resource_class.search_for(record.search) unless (resource_class.nil? || record.search.nil?)
+    rescue ScopedSearch::Exception => e
+      record.errors.add(:search, _("Invalid search query: %s") % e)
+    end
+  end
+
   # tune up taxonomix for filters, we don't want to set current taxonomy
   def self.add_current_organization?
     false
@@ -35,6 +44,7 @@ class Filter < ActiveRecord::Base
   before_validation :build_taxonomy_search, :nilify_empty_searches
 
   validates :search, :presence => true, :unless => Proc.new { |o| o.search.nil? }
+  validates_with ScopedSearchValidator
   validates :role, :presence => true
   validate :same_resource_type_permissions, :not_empty_permissions
 
@@ -146,5 +156,4 @@ class Filter < ActiveRecord::Base
   def not_empty_permissions
     errors.add(:permissions, _('You must select at least one permission')) if self.permissions.blank? && self.filterings.blank?
   end
-
 end
