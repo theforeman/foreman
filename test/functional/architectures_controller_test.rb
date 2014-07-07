@@ -29,7 +29,7 @@ class ArchitecturesControllerTest < ActionController::TestCase
 
   def test_create_valid
     Architecture.any_instance.stubs(:valid?).returns(true)
-    post :create, {}, set_session_user
+    post :create, {:architecture => {:name => 'i386'}}, set_session_user
     assert_redirected_to architectures_url
   end
 
