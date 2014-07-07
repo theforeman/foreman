@@ -109,6 +109,7 @@ Foreman::Application.configure do |app|
                   users
                   class_edit
                   dashboard
+                  auth_source_ldap
                  )
   stylesheets = %w( )
 
