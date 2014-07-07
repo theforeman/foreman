@@ -76,6 +76,7 @@ module Api
 
       def create
         @parameter = nested_obj.send(parameters_method).new(params[:parameter])
+        @parameter.reference_id = nested_obj.id if Rails.version == '3.2.8' # hack to override 3.2.8 hack ensure_reference_nil on parameter.rb
         process_response @parameter.save
       end
 
