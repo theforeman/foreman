@@ -4,7 +4,7 @@ class Parameter < ActiveRecord::Base
 
   validates :value, :presence => true
   validates :name, :presence => true, :format => {:with => /\A\S*\Z/, :message => N_("can't contain white spaces")}
-  validates :reference_id, :presence => {:message => N_("parameters require an associated domain, host or host group")}, :unless => Proc.new {|p| p.nested or p.is_a? CommonParameter}
+  validates :reference_id, :presence => {:message => N_("parameters require an associated domain, operating system, host or host group")}, :unless => Proc.new {|p| p.nested or p.is_a? CommonParameter}
 
   default_scope lambda { order("parameters.name") }
 
@@ -34,8 +34,10 @@ class Parameter < ActiveRecord::Base
   end
 
   # hack fix for Rails 3.2.8. Not needed for 3.2.18.
+  # related to **accepts_nested_attributes_for** on UI form (not API)
+  # which incorrectly assigns foreign key to 1 when attributes are from STI class (DomainParamter, HostParameter, etc)
   def ensure_reference_nil
-    self.reference_id = nil if self.new_record? && self.reference_id == 1
+    self.reference_id = nil if self.new_record? && self.reference_id == 1 && Rails.version == '3.2.8'
   end
 
 end
