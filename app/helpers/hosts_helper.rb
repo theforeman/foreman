@@ -317,4 +317,9 @@ module HostsHelper
     end
     data
   end
+
+  def available_compute_resources
+    [([[_('Bare Metal'), '']] if User.current.allowed_to?(:view_hosts)),
+    ComputeResource.with_taxonomy_scope_override(@location,@organization).authorized(:view_compute_resources).collect {|c| [c.to_label, c.id]}].compact.flatten(1)
+  end
 end
