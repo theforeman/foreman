@@ -29,7 +29,6 @@
   </button>
   <div class="container">
     <!-- menu -->
-    <%= content_tag :div,nil, :id=>'current_tab', :data=>{:controller=>controller_name, :action=>action_name} %>
     <% if User.current %>
       <% cache(TopbarSweeper.fragment_name) do %>
         <ul class="nav navbar-nav navbar-menu navbar-collapse collapse" id="menu">
