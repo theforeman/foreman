@@ -63,7 +63,7 @@ foreman_seeds = foreman_seeds.sort do |a, b|
 end
 
 foreman_seeds.each do |seed|
-  puts "Seeding #{seed}"
+  puts "Seeding #{seed}" unless Rails.env.test?
   load seed
 end
-puts "All seed files executed"
+puts "All seed files executed" unless Rails.env.test?
