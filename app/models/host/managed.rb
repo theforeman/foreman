@@ -778,7 +778,7 @@ class Host::Managed < Host::Base
   end
 
   def validate_media?
-    managed && pxe_build?
+    managed && pxe_build? && build?
   end
 
   private
