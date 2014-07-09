@@ -4,8 +4,10 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/roles/", "List all roles."
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      param :search, String, :desc => "Filter results", :required => false
+      param :order, String, :desc => "Sort results", :required => false
+      param :page, String, :desc => "paginate results", :required => false
+      param :per_page, String, :desc => "number of entries per request", :required => false
 
       def index
         @roles = Role.search_for(*search_options).paginate(paginate_options)

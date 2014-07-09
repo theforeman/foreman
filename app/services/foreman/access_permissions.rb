@@ -222,7 +222,8 @@ Foreman::AccessControl.map do |map|
     map.permission :create_filters,  {:filters => [:new, :create],
                                       :'api/v2/filters' => [:create]}
     map.permission :edit_filters,    {:filters => [:edit, :update], :permissions => [:index],
-                                      :'api/v2/filters' => [:update], :'api/v2/permissions' => [:index, :show]}
+                                      :'api/v2/filters' => [:update],
+                                      :'api/v2/permissions' => [:index, :show, :resource_types]}
     map.permission :destroy_filters, {:filters => [:destroy],
                                       :'api/v2/filters' => [:destroy]}
   end

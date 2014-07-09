@@ -70,7 +70,7 @@ class ComputeResourcesVmsController < ApplicationController
   def destroy
     @compute_resource = find_compute_resource(:destroy_compute_resources_vms)
     if @compute_resource.destroy_vm params[:id]
-      process_success({ :success_redirect => compute_resource_vms_path(@compute_resource) })
+      process_success({ :success_redirect => compute_resource_vms_path(@compute_resource), :success_msg => _('The virtual machine is being deleted.') })
     else
       process_error({ :redirect => compute_resource_vms_path(@compute_resource) })
     end

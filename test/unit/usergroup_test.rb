@@ -14,14 +14,19 @@ class UsergroupTest < ActiveSupport::TestCase
     one = FactoryGirl.create(:usergroup)
     two = FactoryGirl.build(:usergroup, :name => one.name)
 
-    assert !two.valid?
+    refute two.valid?
+  end
+
+  test "name can't be blank" do
+    group = FactoryGirl.build(:usergroup, :name => "")
+    refute group.valid?
   end
 
   test "name is unique across user as well as usergroup" do
     user = User.create :auth_source => auth_sources(:one), :login => "user", :mail  => "user@someware.com"
     usergroup = FactoryGirl.build(:usergroup, :name => user.login)
 
-    assert !usergroup.valid?
+    refute usergroup.valid?
   end
 
   def populate_usergroups

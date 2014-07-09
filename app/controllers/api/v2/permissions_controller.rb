@@ -19,12 +19,20 @@ module Api
         else
           @permissions = Permission.all
         end
+        @permissions = @permissions.paginate(paginate_options)
       end
 
       api :GET, "/permissions/:id/", "Show a permission."
       param :id, :identifier, :required => true
 
       def show
+      end
+
+      api :GET, "/permissions/resource_types/", "List available resource types."
+      def resource_types
+        @resource_types = Permission.resources
+        @total = @resource_types.size
+        render :resource_types, :layout => 'api/v2/layouts/index_layout'
       end
 
     end
