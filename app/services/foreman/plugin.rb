@@ -33,8 +33,10 @@ module Foreman #:nodoc:
   class Plugin
 
     @registered_plugins = {}
+    @tests_to_skip = {}
     class << self
-      attr_reader :registered_plugins
+      attr_reader   :registered_plugins
+      attr_accessor :tests_to_skip
       private :new
 
       def def_field(*names)
@@ -155,6 +157,17 @@ module Foreman #:nodoc:
     # Removes item from the given menu
     def delete_menu_item(menu, item)
       Menu::Manager.map(menu).delete(item)
+    end
+
+    def tests_to_skip(hash)
+      # Format is { "testclass" => [ "skip1", "skip2" ] }
+      hash.each do |testclass,tests|
+        if self.class.tests_to_skip[testclass].nil?
+          self.class.tests_to_skip[testclass] = tests
+        else
+          self.class.tests_to_skip[testclass] = self.class.tests_to_skip[testclass].push(tests).flatten.uniq
+        end
+      end
     end
 
     def security_block(name, &block)
