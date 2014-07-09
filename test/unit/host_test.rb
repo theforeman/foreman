@@ -1098,11 +1098,24 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "compute attributes are populated by hardware profile passed to host" do
-    # hostgroups(:one) fixture has compute_profiles(:common)
     host = Host.new :name => "myhost", :compute_resource_id => compute_resources(:ec2).id, :compute_profile_id => compute_profiles(:two).id, :managed => true, :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :architecture => architectures(:x86_64), :environment => environments(:production)
     host.expects(:queue_compute_create)
     assert host.valid?, host.errors.full_messages.to_sentence
     assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
+  end
+
+  test "compute attributes are populated by hardware profile when empty volumes/interfaces given" do
+    host = Host.new :name => "myhost", :compute_resource_id => compute_resources(:ec2).id, :compute_profile_id => compute_profiles(:two).id, :managed => true, :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :architecture => architectures(:x86_64), :environment => environments(:production), :compute_attributes => {"volumes_attributes"=>{},"interfaces_attributes"=>{},"nics_attributes"=>{}}
+    host.expects(:queue_compute_create)
+    assert host.valid?, host.errors.full_messages.to_sentence
+    assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
+  end
+
+  test "compute attributes passed to host take precedence over a compute profile" do
+    host = Host.new :name => "myhost", :compute_resource_id => compute_resources(:ec2).id, :compute_profile_id => compute_profiles(:two).id, :managed => true, :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :architecture => architectures(:x86_64), :environment => environments(:production), :compute_attributes => {"cpus" => "2"}
+    host.expects(:queue_compute_create)
+    assert host.valid?, host.errors.full_messages.to_sentence
+    assert_equal({"cpus" => "2"}, host.compute_attributes)
   end
 
   test "#capabilities returns capabilities from compute resource" do
