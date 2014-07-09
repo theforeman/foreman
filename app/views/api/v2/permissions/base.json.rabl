@@ -1,3 +1,3 @@
 object @permission
 
-attributes :name, :id
+attributes :name, :id, :resource_type
