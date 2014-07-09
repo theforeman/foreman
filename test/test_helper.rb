@@ -26,6 +26,12 @@ Spork.prefork do
   require 'capybara/rails'
   require 'factory_girl_rails'
 
+  # Use our custom test runner, and register a fake plugin to skip a specific test
+  Foreman::Plugin.register :skip_test do
+    tests_to_skip "CustomRunnerTest" => [ "custom runner is working" ]
+  end
+  require 'test_runner'
+
   # Turn of Apipie validation for tests
   Apipie.configuration.validate = false
 
