@@ -1,5 +1,3 @@
-require 'facts_parser'
-
 module Host
   class Base < ActiveRecord::Base
     include Foreman::STI
@@ -49,7 +47,7 @@ module Host
       FactImporter.importer_for(type).new(self, facts).import!
 
       save(:validate => false)
-      populate_fields_from_facts(facts)
+      populate_fields_from_facts(facts, type)
       set_taxonomies(facts)
 
       # we are saving here with no validations, as we want this process to be as fast
@@ -64,11 +62,11 @@ module Host
       attrs = [:model]
     end
 
-    def populate_fields_from_facts facts = self.facts_hash
+    def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
       # we don't import facts for host in build mode
       return if build?
 
-      importer = Facts::Parser.new facts
+      importer = FactParser.parser_for(type).new facts
 
       set_non_empty_values importer, attributes_to_import_from_facts
       importer

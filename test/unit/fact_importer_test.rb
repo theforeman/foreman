@@ -3,9 +3,11 @@ require 'test_helper'
 class FactImporterTest < ActiveSupport::TestCase
 
   def test_default_importers
-    assert_includes FactImporter.importers.keys, :puppet
+    assert_includes FactImporter.importers.keys, 'puppet'
     assert_equal PuppetFactImporter, FactImporter.importer_for(:puppet)
+    assert_equal PuppetFactImporter, FactImporter.importer_for('puppet')
     assert_equal PuppetFactImporter, FactImporter.importer_for(:whatever)
+    assert_equal PuppetFactImporter, FactImporter.importer_for('whatever')
   end
 
   def test_register_custom_importer

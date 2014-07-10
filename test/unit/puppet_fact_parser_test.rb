@@ -1,10 +1,10 @@
 require "test_helper"
 
-class FactsParserTest < ActiveSupport::TestCase
+class PuppetFactsParserTest < ActiveSupport::TestCase
   attr_reader :importer
 
   def setup
-    @importer = Facts::Parser.new facts
+    @importer = PuppetFactParser.new facts
     User.current = users :admin
   end
 
@@ -19,7 +19,7 @@ class FactsParserTest < ActiveSupport::TestCase
   end
 
   test "should raise on an invalid os" do
-    @importer = Facts::Parser.new({})
+    @importer = PuppetFactParser.new({})
     assert_raise ::Foreman::Exception do
       importer.operatingsystem
     end
@@ -41,14 +41,14 @@ class FactsParserTest < ActiveSupport::TestCase
   end
 
   test "should make non-numeric os version strings into numeric" do
-    @importer = Facts::Parser.new({'operatingsystem'=>'AnyOS','operatingsystemrelease'=>'1&2.3y4'})
+    @importer = PuppetFactParser.new({'operatingsystem' => 'AnyOS', 'operatingsystemrelease' => '1&2.3y4'})
     data = importer.operatingsystem
     assert_equal '12', data.major
     assert_equal '34', data.minor
   end
 
   test "should allow OS version minor component to be nil" do
-    @importer = Facts::Parser.new({'operatingsystem'=>'AnyOS','operatingsystemrelease'=>'6'})
+    @importer = PuppetFactParser.new({'operatingsystem' => 'AnyOS', 'operatingsystemrelease' => '6'})
     data = importer.operatingsystem
     assert_equal "AnyOS 6", data.to_s
     assert_equal '6', data.major
@@ -56,12 +56,12 @@ class FactsParserTest < ActiveSupport::TestCase
   end
 
   test "release_name should be nil when lsbdistcodename isn't set on Debian" do
-    @importer = Facts::Parser.new(debian_facts.delete_if { |k,v| k == "lsbdistcodename" })
+    @importer = PuppetFactParser.new(debian_facts.delete_if { |k, v| k == "lsbdistcodename" })
     assert_equal nil, @importer.operatingsystem.release_name
   end
 
   test "should set os.release_name to the lsbdistcodename fact on Debian" do
-    @importer = Facts::Parser.new(debian_facts)
+    @importer = PuppetFactParser.new(debian_facts)
     assert_equal 'wheezy', @importer.operatingsystem.release_name
   end
 
@@ -78,32 +78,33 @@ class FactsParserTest < ActiveSupport::TestCase
     assert_present @importer.operatingsystem
     # Now re-import with a different description
     facts_with_desc = facts.merge({:lsbdistdescription => "A different string"})
-    @importer = Facts::Parser.new facts_with_desc
+    @importer = PuppetFactParser.new facts_with_desc
     assert_equal "RHEL Server 6.2", @importer.operatingsystem.description
   end
 
   test "should set description correctly for SLES" do
-    @importer = Facts::Parser.new(sles_facts)
+    @importer = PuppetFactParser.new(sles_facts)
     assert_equal 'SLES 11 SP3', @importer.operatingsystem.description
   end
 
   test "should not set description if lsbdistdescription is missing" do
     facts.delete('lsbdistdescription')
-    @importer = Facts::Parser.new(facts)
+    @importer = PuppetFactParser.new(facts)
     refute @importer.operatingsystem.description
   end
 
   test "should set os.major and minor for from AIX facts" do
-    @importer = Facts::Parser.new(aix_facts)
+    @importer = PuppetFactParser.new(aix_facts)
     assert_equal 'AIX', @importer.operatingsystem.family
     assert_equal '6100', @importer.operatingsystem.major
     assert_equal '0604', @importer.operatingsystem.minor
   end
 
+
   private
 
   def facts
-  #  return the equivalent of Facter.to_hash
+    #  return the equivalent of Facter.to_hash
     @json ||= JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts']
   end
 
