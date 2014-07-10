@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'mocha/mini_test'
 
 class ::TestableController < ::ApplicationController
   def index
@@ -75,6 +76,37 @@ class TestableControllerTest < ActionController::TestCase
         assert_equal taxonomies(:organization1).id, session[:organization_id]
         refute session[:foo], "session contains 'foo', but should have been reset"
       end
+    end
+  end
+
+  context "can filter parameters" do
+    setup do
+      @controller.class.send(:include, Foreman::Controller::FilterParameters)
+      @params = {'foo' => 'foo', 'name' => 'name', 'id' => 'id' }
+      @request =  OpenStruct.new({:filtered_parameters => @params.clone })
+      @controller.stubs(:request).returns(@request)
+      ApplicationController.any_instance.stubs(:process_action).returns(nil)
+    end
+
+    it "filters parameters" do
+      @controller.class.filter_parameters :name, :id
+      @controller.process_action("")
+      assert @request.filtered_parameters['foo'] == 'foo'
+      assert @request.filtered_parameters['name'].include?('FILTERED')
+      assert @request.filtered_parameters['id'].include?('FILTERED')
+    end
+
+    it "doesn't filter when filter_parameters isn't set" do
+      @controller.class.filter_parameters nil
+      @controller.process_action("")
+      debugger
+      assert @request.filtered_parameters == @params
+    end
+
+    it "doesn't filter when params don't match" do
+      @controller.class.filter_parameters :description, :something
+      @controller.process_action("")
+      assert @request.filtered_parameters == @params
     end
   end
 end
