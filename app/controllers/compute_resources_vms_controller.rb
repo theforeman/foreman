@@ -22,7 +22,7 @@ class ComputeResourcesVmsController < ApplicationController
 
     if (vm = @compute_resource.create_vm params[:vm])
       @compute_resource.start_vm(vm.identity) if params[:vm][:start]=='1'
-      process_success :success_redirect => compute_resource_vms_path(@compute_resource)
+      process_success :success_redirect => compute_resource_path(@compute_resource) + "/#vms"
     else
       process_error :redirect => new_compute_resource_vm_path(@compute_resource), :object => @compute_resource
     end
@@ -70,9 +70,9 @@ class ComputeResourcesVmsController < ApplicationController
   def destroy
     @compute_resource = find_compute_resource(:destroy_compute_resources_vms)
     if @compute_resource.destroy_vm params[:id]
-      process_success({ :success_redirect => compute_resource_vms_path(@compute_resource), :success_msg => _('The virtual machine is being deleted.') })
+      process_success({ :success_redirect => compute_resource_path(@compute_resource) + "/#vms", :success_msg => _('The virtual machine is being deleted.') })
     else
-      process_error({ :redirect => compute_resource_vms_path(@compute_resource) })
+      process_error({ :redirect => compute_resource_path(@compute_resource) + "/#vms" })
     end
   end
 

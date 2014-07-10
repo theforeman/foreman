@@ -84,7 +84,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
       attrs = {:name => name, :memory => 128*1024*1024, :domain_type => "test", :arch => "i686"}
       post :create, {:vm => attrs, :compute_resource_id => @compute_resource.to_param}, set_session_user
     end
-    assert_redirected_to compute_resource_vms_path
+    assert_redirected_to compute_resource_path(@compute_resource) + "/#vms"
   end
 
   test "should not destroy vm when not permitted" do
@@ -119,7 +119,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
       delete :destroy, {:id => @new_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
     end
 
-    assert_redirected_to compute_resource_vms_path
+    assert_redirected_to compute_resource_path(@compute_resource) + "/#vms"
   end
 
   test "should not power vm when not permitted" do

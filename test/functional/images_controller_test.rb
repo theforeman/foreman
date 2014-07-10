@@ -25,7 +25,7 @@ class ImagesControllerTest < ActionController::TestCase
       post :create, { :image => @image.attributes, :compute_resource_id => @image.compute_resource_id }, set_session_user
     end
 
-    assert_redirected_to compute_resource_path(@image.compute_resource)
+    assert_redirected_to compute_resource_path(@image.compute_resource) + "/#images"
   end
 
   test "should get edit" do
@@ -37,7 +37,7 @@ class ImagesControllerTest < ActionController::TestCase
     @image.username = "ec2-user"
     @image.name     = "lala"
     put :update, { :id => @image.to_param, :image => @image.attributes, :compute_resource_id => @image.compute_resource_id }, set_session_user
-    assert_redirected_to compute_resource_path(@image.compute_resource)
+    assert_redirected_to compute_resource_path(@image.compute_resource) + "/#images"
   end
 
   test "should destroy image" do
@@ -45,7 +45,7 @@ class ImagesControllerTest < ActionController::TestCase
       delete :destroy, { :id => @image.to_param, :compute_resource_id => @image.compute_resource_id }, set_session_user
     end
 
-    assert_redirected_to compute_resource_path(@image.compute_resource)
+    assert_redirected_to compute_resource_path(@image.compute_resource) + "/#images"
   end
 
   # listing images in /hosts/new requries a JSON response from this controller

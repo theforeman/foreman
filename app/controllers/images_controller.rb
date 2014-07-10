@@ -18,7 +18,7 @@ class ImagesController < ApplicationController
   def create
     @image = Image.new(params[:image])
     if @image.save
-      process_success :success_redirect => compute_resource_path(@compute_resource)
+      process_success :success_redirect => compute_resource_path(@compute_resource) + "/#images"
     else
       process_error
     end
@@ -30,7 +30,7 @@ class ImagesController < ApplicationController
   def update
     params[:image].except!(:password) if params[:image][:password].blank?
     if @image.update_attributes(params[:image])
-      process_success :success_redirect => compute_resource_path(@compute_resource)
+      process_success :success_redirect => compute_resource_path(@compute_resource) + "/#images"
     else
       process_error
     end
@@ -38,7 +38,7 @@ class ImagesController < ApplicationController
 
   def destroy
     if @image.destroy
-      process_success :success_redirect => compute_resource_path(@compute_resource)
+      process_success :success_redirect => compute_resource_path(@compute_resource) + "/#images"
     else
       process_error
     end
