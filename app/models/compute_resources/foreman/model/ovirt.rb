@@ -307,8 +307,13 @@ module Foreman::Model
     def create_volumes(vm, attrs)
       #add volumes
       volumes = nested_attributes_for :volumes, attrs
-      #The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
-      volumes.map{ |vol| vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(vol)) if vol[:id].blank?}
+      volumes.map do |vol|
+        vol[:sparse] = "true"
+        vol[:format] = "raw"   if vol[:preallocate] == "1"
+        vol[:sparse] = "false" if vol[:preallocate] == "1"
+        #The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
+        vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(vol)) if vol[:id].blank?
+      end
       vm.volumes.reload
     end
 

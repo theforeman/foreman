@@ -115,6 +115,13 @@ Return value may either be one of the following:
         process_response @host.puppetrun!
       end
 
+      api :PUT, "/hosts/:id/disassociate", "Disassociate the host from a VM."
+      param :id, :identifier_dottable, :required => true
+      def disassociate
+        @host.disassociate!
+        render 'api/v2/hosts/show'
+      end
+
       api :PUT, "/hosts/:id/power", "Run power operation on host."
       param :id, :identifier_dottable, :required => true
       param :power_action, String, :required => true, :desc => "power action, valid actions are ('on', 'start')', ('off', 'stop'), ('soft', 'reboot'), ('cycle', 'reset'), ('state', 'status')"
@@ -170,6 +177,8 @@ Return value may either be one of the following:
             :ipmi_boot
           when 'console'
             :console
+          when 'disassociate'
+            :edit
           else
             super
         end

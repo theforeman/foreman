@@ -31,14 +31,12 @@ class ComputeResourcesVmsController < ApplicationController
   def associate
     @compute_resource = find_compute_resource(:edit_compute_resources)
     @vm = find_vm
-    if Host.where(:uuid => @vm.identity).any?
+    if Host.for_vm(@compute_resource, @vm).any?
       process_error(:error_msg => _("VM already associated with a host"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
     else
       host = @compute_resource.associated_host(@vm) if @compute_resource.respond_to?(:associated_host)
       if host.present?
-        host.uuid = @vm.identity
-        host.compute_resource_id = @compute_resource.id
-        host.save!(:validate => false) # don't want to trigger callbacks
+        host.associate!(@compute_resource, @vm)
         process_success(:success_msg => _("VM associated to host %s") % host.name, :success_redirect => host_path(host))
       else
         process_error(:error_msg => _("No host found to associate this VM with"), :redirect => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))

@@ -5,7 +5,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_resource, :only => [:show, :update, :destroy, :available_images,
+      before_filter :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
                                               :available_networks, :available_clusters, :available_storage_domains]
 
       api :GET, "/compute_resources/", "List all compute resources."
@@ -92,11 +92,29 @@ module Api
         render :available_storage_domains, :layout => 'api/v2/layouts/index_layout'
       end
 
+      api :PUT, "/compute_resources/:id/associate/", "Associate VMs to Hosts."
+      param :id, :identifier, :required => true
+      def associate
+        @hosts = []
+        if @compute_resource.respond_to?(:associated_host)
+          @compute_resource.vms(:eager_loading => true).each do |vm|
+            if Host.for_vm(@compute_resource, vm).empty?
+              host = @compute_resource.associated_host(vm)
+              if host.present?
+                host.associate!(@compute_resource, vm)
+                @hosts << host
+              end
+            end
+          end
+        end
+        render 'api/v2/hosts/index', :layout => 'api/v2/layouts/index_layout'
+      end
+
       private
 
       def action_permission
         case params[:action]
-          when 'available_images', 'available_clusters', 'available_networks', 'available_storage_domains'
+          when 'available_images', 'available_clusters', 'available_networks', 'available_storage_domains', 'associate'
             :view
           else
             super

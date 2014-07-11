@@ -43,7 +43,7 @@ unless User.unscoped.only_admin.except_hidden.present?
       else
         random = User.random_password
         user.password = random
-        puts "Login credentials: #{user.login} / #{random}"
+        puts "Login credentials: #{user.login} / #{random}" unless Rails.env.test?
       end
       raise "Unable to create admin user: #{format_errors user}" unless user.save
     end
