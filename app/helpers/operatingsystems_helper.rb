@@ -39,7 +39,7 @@ module OperatingsystemsHelper
   end
 
   def os_name record, opts = {}
-    "#{icon(record, opts)} #{record.to_label}".html_safe
+    icon(record, opts).html_safe << record.to_label
   end
 
   def os_habtm_family type, obj
