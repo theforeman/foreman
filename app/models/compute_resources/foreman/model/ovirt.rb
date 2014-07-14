@@ -124,7 +124,7 @@ module Foreman::Model
       cluster_networks = networks({:cluster_id => cluster_id})
     end
 
-    def available_storage_domains
+    def available_storage_domains(storage_domain=nil)
       storage_domains
     end
 

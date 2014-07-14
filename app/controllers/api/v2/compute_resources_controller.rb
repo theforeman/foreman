@@ -91,9 +91,11 @@ module Api
       end
 
       api :GET, "/compute_resources/:id/available_storage_domains", N_("List storage domains for a compute resource")
+      api :GET, "/compute_resources/:id/available_storage_domains/:storage_domain", N_("List attributes for a given storage domain")
       param :id, :identifier, :required => true
+      param :storage_domain, String
       def available_storage_domains
-        @available_storage_domains = @compute_resource.available_storage_domains
+        @available_storage_domains = @compute_resource.available_storage_domains(params[:storage_domain])
         render :available_storage_domains, :layout => 'api/v2/layouts/index_layout'
       end
 
