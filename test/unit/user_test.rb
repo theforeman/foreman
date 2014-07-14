@@ -637,4 +637,11 @@ class UserTest < ActiveSupport::TestCase
     assert_raise(Foreman::Exception) { User.as('unknown_user') }
   end
 
+  test "#ensure_last_admin_is_not_deleted with non-admins" do
+    User.unscoped.only_admin.each(&:delete)
+    user = users(:one)
+    assert user.destroy
+    assert user.destroyed?
+  end
+
 end

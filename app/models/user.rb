@@ -425,7 +425,7 @@ class User < ActiveRecord::Base
   end
 
   def ensure_last_admin_is_not_deleted
-    if User.unscoped.only_admin.except_hidden.size <= 1
+    if admin && User.unscoped.only_admin.except_hidden.size <= 1
       errors.add :base, _("Can't delete the last admin account")
       logger.warn "Unable to delete the last admin account"
       false
