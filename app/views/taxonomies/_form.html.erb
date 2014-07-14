@@ -148,8 +148,7 @@
       <div class="tab-pane" id="params">
         <%= render "common_parameters/parameters", { :f => f, :type => "#{controller_name.singularize}_parameters".to_sym } %>
       </div>
-
-      <%= submit_or_cancel f %>
     </div>
+    <%= submit_or_cancel f %>
   </div>
 <% end %>
