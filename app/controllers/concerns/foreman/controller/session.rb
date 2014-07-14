@@ -3,7 +3,7 @@ module Foreman::Controller::Session
 
   def session_expiry
     return if ignore_api_request?
-    if session[:expires_at].blank? || (session[:expires_at].utc - Time.now.utc).to_i < 0
+    if session[:expires_at].blank? || (Time.at(session[:expires_at]).utc - Time.now.utc).to_i < 0
       session[:original_uri] = request.fullpath
       backup_session_content { expire_session }
     end
@@ -22,7 +22,7 @@ module Foreman::Controller::Session
 
   def update_activity_time
     return if ignore_api_request?
-    session[:expires_at] = Setting[:idle_timeout].minutes.from_now.utc
+    session[:expires_at] = Setting[:idle_timeout].minutes.from_now.to_i
   end
 
   def expire_session
