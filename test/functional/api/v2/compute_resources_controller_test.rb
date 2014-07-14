@@ -157,7 +157,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
 
     Foreman::Model::Vmware.any_instance.stubs(:available_networks).returns([network])
 
-    get :available_networks, { :id => compute_resources(:ovirt).to_param, :cluster_id => '123-456-789' }
+    get :available_networks, { :id => compute_resources(:vmware).to_param, :cluster_id => '123-456-789' }
     assert_response :success
     available_networks = ActiveSupport::JSON.decode(@response.body)
     assert !available_networks.empty?
@@ -170,7 +170,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
 
     Foreman::Model::Vmware.any_instance.stubs(:available_clusters).returns([cluster])
 
-    get :available_clusters, { :id => compute_resources(:ovirt).to_param }
+    get :available_clusters, { :id => compute_resources(:vmware).to_param }
     assert_response :success
     available_clusters = ActiveSupport::JSON.decode(@response.body)
     assert !available_clusters.empty?
@@ -183,7 +183,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
 
     Foreman::Model::Vmware.any_instance.stubs(:available_storage_domains).returns([storage_domain])
 
-    get :available_storage_domains, { :id => compute_resources(:ovirt).to_param }
+    get :available_storage_domains, { :id => compute_resources(:vmware).to_param }
     assert_response :success
     available_storage_domains = ActiveSupport::JSON.decode(@response.body)
     assert !available_storage_domains.empty?
