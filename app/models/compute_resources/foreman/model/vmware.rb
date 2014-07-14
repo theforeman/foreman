@@ -47,6 +47,14 @@ module Foreman::Model
       dc.clusters
     end
 
+    def datastores(opts ={})
+      if opts[:storage_domain]
+        dc.datastores.get(opts[:storage_domain])
+      else
+        dc.datastores.all(:accessible => true)
+      end
+    end
+
     def folders
       dc.vm_folders.sort_by{|f| f.path}
     end
@@ -63,8 +71,8 @@ module Foreman::Model
       networks
     end
 
-    def available_storage_domains
-      datastores
+    def available_storage_domains(storage_domain=nil)
+      datastores({:storage_domain => storage_domain})
     end
 
     def nictypes
@@ -223,10 +231,6 @@ module Foreman::Model
 
     def scsi_controller_default_type
       "VirtualLsiLogicController"
-    end
-
-    def datastores
-      dc.datastores.all(:accessible => true)
     end
 
     def test_connection options = {}
