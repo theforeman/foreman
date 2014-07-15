@@ -2,6 +2,11 @@ module Api
   module V2
     class ComputeResourcesController < V2::BaseController
 
+      wrap_parameters ComputeResource, :include => (ComputeResource.attribute_names + ['tenant', 'image_id', 'managed_ip', 'provider',
+                                                   'template', 'templates', 'set_console_password', 'project', 'key_path', 'email', 'zone',
+                                                   'display_type', 'ovirt_quota', 'public_key', 'region', 'server', 'datacenter', 'pubkey_hash',
+                                                   'nics_attributes', 'volumes_attributes', 'memory'])
+
       include Api::Version2
       include Api::TaxonomyScope
 
