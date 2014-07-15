@@ -406,7 +406,7 @@ class HostTest < ActiveSupport::TestCase
   test "should not save if installation media is missing" do
     host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => ptables(:one),
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
-      :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true, :build => true,
       :owner_type => "User", :root_pass => "xybxa6JUkz63w"
     refute host.valid?
     assert_equal "can't be blank", host.errors[:medium_id][0]

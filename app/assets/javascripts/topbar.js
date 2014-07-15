@@ -44,16 +44,19 @@ $(document).on('mouseleave','.loc-submenu', function(){
 });
 
 function mark_active_menu() {
+  var menus = $('.menu_tab_dropdown'),
+      path = window.location.pathname + window.location.search,
+      link = $("[href='%s'".replace('%s', path));
+
+  menus.removeClass('active');
   $("[class^='menu_tab_']").removeClass('active');
-  // if there is no menu for controller_action mark controller_index as active menu
-  var active_menu = $('.menu_tab_'+$('#current_tab').data('controller')+'_'+$('#current_tab').data('action'))
-  if (!active_menu.exists()){
-    active_menu = $('.menu_tab_'+$('#current_tab').data('controller')+'_index')
-  }
-  active_menu.addClass('active');
-  $('.menu_tab_dropdown').each(function(){
-    if ($(this).find('.active').length >0) {$(this).addClass('active')}
-  })
+
+  menus.each(function(index, element) {
+    element = $(element);
+    if (element.find(link).length) {
+      element.addClass('active');
+    }
+  });
 }
 
 function is_mobile() {

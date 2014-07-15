@@ -46,18 +46,38 @@ class MediumTest < ActiveSupport::TestCase
     assert !other_medium.save
   end
 
-  test "should not destroy while using" do
+  test "should destroy and nullify host.medium_id if medium is in use but host.build? is false" do
     medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
     assert medium.save!
 
     host = hosts(:one)
+    refute host.build?
     host.medium = medium
     host.os.media << medium
     assert host.save!
 
     medium.hosts << host
 
-    assert !medium.destroy
+    assert medium.destroy
+    host.reload
+    assert host.medium.nil?
+  end
+
+  test "should not destroy if medium has hosts that are in build mode" do
+    medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
+    assert medium.save!
+
+    host = hosts(:one)
+    host.build = true
+    host.medium = medium
+    host.os.media << medium
+    assert host.save!
+
+    medium.hosts << host
+
+    refute medium.destroy
+    host.reload
+    assert_equal medium, host.medium
   end
 
   test "os family can be one of defined os families" do

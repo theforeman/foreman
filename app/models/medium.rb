@@ -4,11 +4,11 @@ class Medium < ActiveRecord::Base
   include ValidateOsFamily
   audited :allow_mass_assignment => true
 
-  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
+  before_destroy :ensure_hosts_not_in_build
 
   has_and_belongs_to_many :operatingsystems
-  has_many_hosts
-  has_many :hostgroups
+  has_many_hosts :dependent => :nullify
+  has_many :hostgroups, :dependent => :nullify
 
   # We need to include $ in this as $arch, $release, can be in this string
   VALID_NFS_PATH=/\A([-\w\d\.]+):(\/[\w\d\/\$\.]+)\Z/
@@ -55,4 +55,14 @@ class Medium < ActiveRecord::Base
   def image_path= path
     write_attribute :image_path, "#{path}#{"/" unless path =~ /\/$|^$/}"
   end
+
+  def ensure_hosts_not_in_build
+    return true if (hosts_in_build = self.hosts.where(:build => true)).empty?
+    hosts_in_build.each do |host|
+      self.errors.add :base, _("%{record} is used by host in build mode %{what}") % { :record => self.name, :what => host.name }
+    end
+    Rails.logger.error "You may not destroy #{self.to_label} as it is used by hosts in build mode!"
+    false
+  end
+
 end

@@ -70,7 +70,7 @@ class LocationsControllerTest < ActionController::TestCase
     session[:location_id] = taxonomies(:location1).id
 
     # session is expired, but try to load a page
-    session[:expires_at] = 5.minutes.ago
+    session[:expires_at] = 5.minutes.ago.to_i
     get :index
 
     # session is reset, redirected to login, but org id remains
