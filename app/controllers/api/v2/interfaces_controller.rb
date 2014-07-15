@@ -44,9 +44,9 @@ module Api
       def create
         interface = @nested_obj.interfaces.new(params[:interface], :without_protection => true)
         if interface.save
-          render :json => interface, :status => 201
+          render :json => interface, :status => :created
         else
-          render :json => { :errors => interface.errors.full_messages }, :status => 422
+          render :json => { :errors => interface.errors.full_messages }, :status => :unprocessable_entity
         end
       end
 
@@ -60,6 +60,7 @@ module Api
       end
 
       api :DELETE, "/hosts/:host_id/interfaces/:id", N_("Delete a host's interface")
+      param :host_id, String, :required => true, :desc => N_('ID or name of host')
       param :id, String, :required => true, :desc => N_("ID of interface")
 
       def destroy

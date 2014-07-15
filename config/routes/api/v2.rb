@@ -145,7 +145,11 @@ Foreman::Application.routes.draw do
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
       end
 
-      resources :usergroups, :except => [:new, :edit]
+      resources :usergroups, :except => [:new, :edit] do
+        resources :external_usergroups, :except => [:new, :edit] do
+          put :refresh, :on => :member
+        end
+      end
 
       resources :users, :except => [:new, :edit] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
