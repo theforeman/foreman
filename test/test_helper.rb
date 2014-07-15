@@ -261,6 +261,11 @@ Spork.prefork do
     helper Rails.application.routes.url_helpers
   end
 
+  Rails.application.railties.engines.each do |engine|
+    support_file = "#{engine.root}/test/support/foreman_test_helper_additions.rb"
+    require support_file if File.exists?(support_file)
+  end
+
 end
 
 Spork.each_run do
