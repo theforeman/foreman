@@ -630,10 +630,14 @@ Foreman::AccessControl.map do |map|
   end
 
   map.security_block :external_usergroups do |map|
-    map.permission :view_external_usergroups, { :external_usergroups => [:index, :show] }
-    map.permission :create_external_usergroups, { :external_usergroups => [:new, :create] }
-    map.permission :edit_external_usergroups, { :external_usergroups => [:edit, :update, :refresh] }
-    map.permission :destroy_external_usergroups, { :external_usergroups => [:destroy] }
+    map.permission :view_external_usergroups, :external_usergroups => [:index, :show],
+                                              :"api/v2/external_usergroups" => [:index, :show]
+    map.permission :create_external_usergroups, :external_usergroups => [:new, :create],
+                                                :"api/v2/external_usergroups" => [:new, :create]
+    map.permission :edit_external_usergroups, :external_usergroups => [:edit, :update, :refresh],
+                                                :"api/v2/external_usergroups" => [:update, :refresh]
+    map.permission :destroy_external_usergroups, :external_usergroups => [:destroy],
+                                                 :"api/v2/external_usergroups" => [:destroy]
   end
 
   map.security_block :users do |map|
