@@ -6,7 +6,7 @@ FactoryGirl.define do
   factory :external_usergroup do
     sequence(:name) {|n| "external_usergroup#{n}" }
     usergroup { FactoryGirl.create :usergroup }
-    auth_source { FactoryGirl.create :auth_source_external }
+    auth_source { FactoryGirl.create :auth_source_ldap }
   end
 
   factory :user do

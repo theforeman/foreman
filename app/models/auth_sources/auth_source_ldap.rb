@@ -95,6 +95,7 @@ class AuthSourceLdap < AuthSource
   end
 
   def valid_group?(name)
+    return false unless name.present?
     ldap_con.authenticate?(account, account_password)
     ldap_con.valid_group?(name)
   end
