@@ -31,8 +31,9 @@ class LookupKey < ActiveRecord::Base
 
   before_validation :validate_and_cast_default_value
 
-  validates :key, :uniqueness => true, :unless => Proc.new{|p| p.is_param?}
+  validates :key, :uniqueness => {:scope => :is_param }, :unless => Proc.new{|p| p.is_param?}
   validates :key, :presence => true
+  validates :key, :length => {:maximum => 255}
   validates :puppetclass, :presence => true, :unless => Proc.new {|k| k.is_param?}
   validates :validator_type, :inclusion => { :in => VALIDATOR_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validates :key_type, :inclusion => {:in => KEY_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
