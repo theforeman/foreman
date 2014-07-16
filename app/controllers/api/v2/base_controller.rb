@@ -5,7 +5,7 @@ module Api
 
       resource_description do
         api_version "v2"
-        app_info "Foreman v2 is currently in development and is not the default version. You may use v2 by either passing 'version=2' in the Accept Header or entering api/v2/ in the URL."
+        app_info "Foreman v2 is stable and recommended for use. You may use v2 by either passing 'version=2' in the Accept Header or using api/v2/ in the URL."
       end
 
       before_filter :setup_has_many_params, :only => [:create, :update]
