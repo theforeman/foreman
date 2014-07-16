@@ -173,5 +173,16 @@ span.btn a{ text-decoration: none; color: #333333}
   & > li > a {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    .clip {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      direction: ltr;
+      display: inline-block;
+      width: 90%;
+    }
   }
+}
+.tooltip {
+  word-wrap: break-word;
 }
