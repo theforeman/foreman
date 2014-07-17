@@ -30,37 +30,35 @@ module Api
       end
 
       def_param_group :host do
-        param :host, Hash, :action_aware => true do
-          param :name, String, :required => true
-          param :environment_id, String
-          param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
-          param :mac, String, :desc => "not required if its a virtual machine"
-          param :architecture_id, :number
-          param :domain_id, :number
-          param :realm_id, :number
-          param :puppet_proxy_id, :number
-          param :puppet_class_ids, Array
-          param :operatingsystem_id, String
-          param :medium_id, :number
-          param :ptable_id, :number
-          param :subnet_id, :number
-          param :compute_resource_id, :number
-          param :sp_subnet_id, :number
-          param :model_id, :number
-          param :hostgroup_id, :number
-          param :owner_id, :number
-          param :puppet_ca_proxy_id, :number
-          param :image_id, :number
-          param :host_parameters_attributes, Array
-          param :build, :bool
-          param :enabled, :bool
-          param :provision_method, String
-          param :managed, :bool
-          param :progress_report_id, String, :desc => 'UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks'
-          param :capabilities, String
-          param :compute_profile_id, :number
-          param :compute_attributes, Hash do
-          end
+        param :name, String, :required => true, :action_aware => true
+        param :environment_id, String, :action_aware => true
+        param :ip, String, :desc => "not required if using a subnet with dhcp proxy", :action_aware => true
+        param :mac, String, :desc => "not required if its a virtual machine", :action_aware => true
+        param :architecture_id, :number, :action_aware => true
+        param :domain_id, :number, :action_aware => true
+        param :realm_id, :number, :action_aware => true
+        param :puppet_proxy_id, :number, :action_aware => true
+        param :puppet_class_ids, Array, :action_aware => true
+        param :operatingsystem_id, String, :action_aware => true
+        param :medium_id, :number, :action_aware => true
+        param :ptable_id, :number, :action_aware => true
+        param :subnet_id, :number, :action_aware => true
+        param :compute_resource_id, :number, :action_aware => true
+        param :sp_subnet_id, :number, :action_aware => true
+        param :model_id, :number, :action_aware => true
+        param :hostgroup_id, :number, :action_aware => true
+        param :owner_id, :number, :action_aware => true
+        param :puppet_ca_proxy_id, :number, :action_aware => true
+        param :image_id, :number, :action_aware => true
+        param :host_parameters_attributes, Array, :action_aware => true
+        param :build, :bool, :action_aware => true
+        param :enabled, :bool, :action_aware => true
+        param :provision_method, String, :action_aware => true
+        param :managed, :bool, :action_aware => true
+        param :progress_report_id, String, :desc => 'UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks', :action_aware => true
+        param :capabilities, String, :action_aware => true
+        param :compute_profile_id, :number, :action_aware => true
+        param :compute_attributes, Hash, :action_aware => true do
         end
       end
 
@@ -69,8 +67,8 @@ module Api
       param_group :host, :as => :create
 
       def create
-        @host = Host.new(params[:host])
-        @host.managed = true if (params[:host] && params[:host][:managed].nil?)
+        @host = Host.new(params[:base])
+        @host.managed = true if (params[:base] && params[:base][:managed].nil?)
         forward_request_url
         process_response @host.save
       end
@@ -80,7 +78,7 @@ module Api
       param_group :host
 
       def update
-        process_response @host.update_attributes(params[:host])
+        process_response @host.update_attributes(params[:base])
       end
 
       api :DELETE, "/hosts/:id/", "Delete an host."
