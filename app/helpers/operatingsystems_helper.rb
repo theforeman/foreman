@@ -18,6 +18,8 @@ module OperatingsystemsHelper
       "Scientific"
     when /archlinux/i
       "Archlinux"
+    when /altlinux/i
+      "Altlinux"
     when /gentoo/i
       "Gentoo"
     when /SLC/i

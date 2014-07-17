@@ -52,6 +52,7 @@ class Operatingsystem < ActiveRecord::Base
                'Redhat'    => %r{RedHat|Centos|Fedora|Scientific|SLC|OracleLinux}i,
                'Suse'      => %r{OpenSuSE|SLES|SLED}i,
                'Windows'   => %r{Windows}i,
+               'Altlinux'  => %r{Altlinux}i,
                'Archlinux' => %r{Archlinux}i,
                'Gentoo'    => %r{Gentoo}i,
                'Solaris'   => %r{Solaris}i,
