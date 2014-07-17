@@ -104,6 +104,9 @@ function create_editor(item) {
   $editor = ace.edit("editor1");
   $editor.setShowPrintMargin(false);
   $editor.renderer.setShowGutter(false);
+  if (item.is(':disabled')) {
+    $('.ace_text-input').attr('disabled', true)
+  }
 }
 
 function set_fullscreen(){

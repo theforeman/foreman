@@ -31,6 +31,7 @@ permissions = [
     ['ConfigTemplate', 'edit_templates'],
     ['ConfigTemplate', 'destroy_templates'],
     ['ConfigTemplate', 'deploy_templates'],
+    ['ConfigTemplate', 'lock_templates'],
     [nil, 'access_dashboard'],
     ['Domain', 'view_domains'],
     ['Domain', 'create_domains'],

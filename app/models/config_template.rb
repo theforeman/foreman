@@ -3,10 +3,14 @@ class ConfigTemplate < ActiveRecord::Base
   include Taxonomix
   audited :allow_mass_assignment => true
   self.auditing_enabled = !Foreman.in_rake?('db:migrate')
-  attr_accessible :name, :template, :template_kind, :template_kind_id, :snippet, :template_combinations_attributes, :operatingsystems, :operatingsystem_ids, :audit_comment
+  attr_accessible :name, :template, :template_kind, :template_kind_id, :snippet, :template_combinations_attributes,
+                  :operatingsystems, :operatingsystem_ids, :audit_comment, :location_ids, :organization_ids, :locked,
+                  :vendor, :default
   validates :name, :presence => true, :uniqueness => true
   validates :name, :template, :presence => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
+  validate :template_changes, :if => lambda { |template| template.locked? || template.locked_changed? }
+  before_destroy :check_if_template_is_locked
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
   has_many :hostgroups, :through => :template_combinations
   has_many :environments, :through => :template_combinations
@@ -25,6 +29,7 @@ class ConfigTemplate < ActiveRecord::Base
   }
 
   scoped_search :on => :name,    :complete_value => true, :default_order => true
+  scoped_search :on => :locked,  :complete_value => true, :complete_value => {:true => true, :false => false}
   scoped_search :on => :snippet, :complete_value => true, :complete_value => {:true => true, :false => false}
   scoped_search :on => :template
 
@@ -39,6 +44,11 @@ class ConfigTemplate < ActiveRecord::Base
 
   def to_param
     "#{id}-#{name.parameterize}"
+  end
+
+  def clone
+    self.deep_clone(:include => [:operatingsystems, :organizations, :locations],
+                    :except  => [:name, :locked, :default, :vendor])
   end
 
   # TODO: review if we can improve SQL
@@ -133,7 +143,31 @@ class ConfigTemplate < ActiveRecord::Base
     ['template']
   end
 
+  def locked?
+    locked && !Foreman.in_rake?
+  end
+
   private
+
+  def check_if_template_is_locked
+    errors.add(:base, _("This template is locked and may not be removed.")) if locked?
+  end
+
+  def template_changes
+    actual_changes = changes
+
+    # Changes to locked are special
+    if locked == false && default
+        owner = vendor ? vendor : "Foreman"
+        errors.add(:base, _("This template is owned by %s and may not be unlocked.") % owner)
+    end
+
+    allowed_changes = %w(template_combinations template_associations locked)
+
+    unless actual_changes.delete_if { |k, v| allowed_changes.include? k }.empty?
+      errors.add(:base, _("This template is locked. Please clone it to a new template to customize."))
+    end
+  end
 
   # check if our template is a snippet, and remove its associations just in case they were selected.
   def check_for_snippet_assoications

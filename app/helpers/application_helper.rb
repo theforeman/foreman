@@ -197,6 +197,10 @@ module ApplicationHelper
     image_tag("toggle_check.png") if condition
   end
 
+  def locked_icon condition, hovertext
+    ('<span class="glyphicon glyphicon-lock" title="%s"/>' % hovertext).html_safe if condition
+  end
+
   def searchable?
     return false if (SETTINGS[:login] and !User.current )
     return false unless @searchbar
