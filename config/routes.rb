@@ -236,6 +236,11 @@ Foreman::Application.routes.draw do
 
   if SETTINGS[:unattended]
     resources :config_templates, :except => [:show] do
+      member do
+        get 'clone'
+        get 'lock'
+        get 'unlock'
+      end
       collection do
         get 'auto_complete_search'
         get 'build_pxe_default'

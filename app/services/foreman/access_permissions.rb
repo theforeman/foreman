@@ -106,7 +106,7 @@ Foreman::AccessControl.map do |map|
                                         :"api/v1/template_kinds" => [:index],
                                         :"api/v2/template_kinds" => [:index]
                                       }
-    map.permission :create_templates,  {:config_templates => [:new, :create],
+    map.permission :create_templates,  {:config_templates => [:new, :create, :clone],
                                         :"api/v1/config_templates" => [:create],
                                         :"api/v2/config_templates" => [:create],
                                         :"api/v2/template_combinations" => [:create]
@@ -124,6 +124,10 @@ Foreman::AccessControl.map do |map|
     map.permission :deploy_templates,  {:config_templates => [:build_pxe_default],
                                         :"api/v1/config_templates" => [:build_pxe_default],
                                         :"api/v2/config_templates" => [:build_pxe_default]
+                                      }
+
+    map.permission :lock_templates,    {:config_templates => [:lock, :unlock],
+                                        :"api/v2/config_templates" => [:lock, :unlock]
                                       }
   end
 

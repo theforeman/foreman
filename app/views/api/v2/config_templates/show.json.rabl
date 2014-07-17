@@ -2,7 +2,7 @@ object @config_template
 
 extends "api/v2/config_templates/main"
 
-attributes :template
+attributes :template, :locked
 
 child :template_combinations do
   extends "api/v2/template_combinations/base"
