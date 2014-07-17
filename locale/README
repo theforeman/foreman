@@ -19,8 +19,12 @@ to generate translation binary MO files and restart.
 Developers
 ----------
 
-To re-extract strings from codebase and model into POT/PO files, use:
+To re-extract strings from codebase and model into POT/PO files, make sure you
+have up-to-date model (best is to start with clean database) and extract via
+rake task:
 
+  # rake db:migrate
+  # rake db:seed
   # rake locale:find
 
 Please do not use gettext:pack directly as we do additional postprocessing.
