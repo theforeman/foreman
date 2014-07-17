@@ -23,6 +23,7 @@ class Taxonomy < ActiveRecord::Base
 
   validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
   before_validation :sanitize_ignored_types
+  after_create :assign_default_templates
 
   delegate :import_missing_ids, :inherited_ids, :used_and_selected_or_inherited_ids, :selected_or_inherited_ids,
            :non_inherited_ids, :used_or_inherited_ids, :used_ids, :to => :tax_host
@@ -94,6 +95,7 @@ class Taxonomy < ActiveRecord::Base
     new.smart_proxies     = smart_proxies
     new.subnets           = subnets
     new.compute_resources = compute_resources
+    new.config_templates  = config_templates
     new.media             = media
     new.domains           = domains
     new.realms            = realms
@@ -125,6 +127,10 @@ class Taxonomy < ActiveRecord::Base
 
   delegate :need_to_be_selected_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans,
            :to => :tax_host
+
+  def assign_default_templates
+    self.config_templates << ConfigTemplate.where(:default => true)
+  end
 
   def sanitize_ignored_types
     self.ignore_types ||= []

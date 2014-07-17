@@ -39,6 +39,7 @@ module Api
           param :template_combinations_attributes, Array,
                 :desc => "Array of template combinations (hostgroup_id, environment_id)"
           param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
+          param :locked, :bool, :desc => "Whether or not the template is locked for editing"
         end
       end
 

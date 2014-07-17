@@ -10,11 +10,19 @@
 
     <div class="tab-content">
       <div class="tab-pane active" id="primary">
-        <%= text_f f, :name %>
+        <%= text_f f, :name, :disabled => @config_template.locked? %>
 
+        <% if @config_template.locked? -%>
+        <%= alert :class => 'alert-warning', :header => '',
+            :text  => icon_text("warning-sign", (_("Warning: This template is locked. You may only change the associations. Please %s it to customize.") %
+                                                link_to(_('clone'), hash_for_clone_config_template_path(:id => @config_template.id))).html_safe) %>
+
+        <% else -%>
         <%= alert :class => 'alert-success', :header => '',
                   :text  => icon_text("info-sign", (_('Note: %s ') % link_to(_('Useful template functions and macros'),
                                                                        "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.4.3ProvisioningTemplates", :rel => 'external')).html_safe) %>
+        <% end -%>
+
         <div class='form-group'>
           <label class="control-label" for="template"><%= _("Template editor") %></label>
           <div class="navbar navbar-form">
@@ -32,19 +40,22 @@
             </div>
           </div>
         </div>
-        <%= textarea_f f, :template, :class => "template_text", :label =>:none, :size => "max", :'data-file-name' => @config_template.name %>
+        <%= textarea_f f, :template, :class => "template_text", :label =>:none, :disabled => @config_template.locked?, :size => "max", :'data-file-name' => @config_template.name %>
 
+        <% if @config_template.locked? -%>
+          <%= file_field_f f, :template, :class => "template_file",:size => "col-md-10",
+                              :help_block  => _("Selecting a file will override the editor and load the file instead") %>
+        <% end -%>
 
-        <%= file_field_f f, :template, :class => "template_file",:size => "col-md-10",
-                         :help_block  => _("Selecting a file will override the editor and load the file instead") %>
         <%= textarea_f f, :audit_comment, :size => "col-md-10", :rows => 3, :label => _("Audit Comment"),
                        :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes") %>
       </div>
       <div class="tab-pane" id="template_type">
-        <%= checkbox_f f, :snippet, :onchange => "snippet_changed(this)", :label=>_('Snippet') %>
+        <%= checkbox_f f, :snippet, :onchange => "snippet_changed(this)", :label=>_('Snippet'), :disabled => @config_template.locked? %>
 
         <div id="kind_selector" <%= display? @config_template.snippet %>>
-          <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, {:include_blank => true}, {:label => _("Type")} %>
+          <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, {:include_blank => true, :selected => @template_kind_id},
+                {:disabled => @config_template.locked?, :label => _("Type")} %>
         </div>
       </div>
       <div class="tab-pane" id="history">
@@ -89,7 +100,7 @@
             </ul>
             <%= (_("The final entry, Operating System default, can be set by editing the %s page.") % (link_to _("Operating System"), operatingsystems_path)).html_safe %>
           </div>
-          <%= multiple_checkboxes f, :operatingsystems, @config_template, Operatingsystem, :label => _("Applicable<br>Operating Systems").html_safe %>
+          <%= multiple_selects f, :operatingsystems, Operatingsystem, @operatingsystems.try(:map, &:id), :label => _("Applicable<br>Operating Systems").html_safe %>
           <%= render "combinations", :f => f %>
         </div>
       </div>

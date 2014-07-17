@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ConfigTemplateTest < ActiveSupport::TestCase
-  def test_should_be_valid_when_selecting_a_kind
+  test "should be valid when selecting a kind" do
     tmplt               = ConfigTemplate.new
     tmplt.name          = "Default Kickstart"
     tmplt.template      = "Some kickstart goes here"
@@ -9,7 +9,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     assert tmplt.valid?
   end
 
-  def test_should_be_valid_as_a_snippet
+  test "should be valid as a snippet" do
     tmplt          = ConfigTemplate.new
     tmplt.name     = "Default Kickstart"
     tmplt.template = "Some kickstart goes here"
@@ -17,11 +17,11 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     assert tmplt.valid?
   end
 
-  def test_should_be_invalid
+  test "should be invalid" do
     assert !ConfigTemplate.new.valid?
   end
 
-  def test_should_save_assoications_if_not_snippet
+  test "should save assoications if not snippet" do
     tmplt = ConfigTemplate.new
     tmplt.name = "Some finish script"
     tmplt.template = "echo $HOME"
@@ -37,7 +37,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     assert_equal [environments(:production)], tmplt.environments
   end
 
-  def test_should_not_save_assoications_if_snippet
+  test "should not save assoications if snippet" do
     tmplt          = ConfigTemplate.new
     tmplt.name     = "Default Kickstart"
     tmplt.template = "Some kickstart goes here"
@@ -56,12 +56,60 @@ class ConfigTemplateTest < ActiveSupport::TestCase
 
   # If the template is not a snippet is should require the specific declaration
   # of a type (ipxe, finish, etc.)
-  def test_should_require_a_template_kind
+  test "should require a template kind" do
     tmplt = ConfigTemplate.new
     tmplt.name = "Some finish script"
     tmplt.template = "echo $HOME"
 
     assert !tmplt.save
+  end
+
+  test "should be able to clone" do
+    tmplt          = ConfigTemplate.new
+    tmplt.name     = "Finish It"
+    tmplt.template = "some content"
+    tmplt.snippet  = false
+    tmplt.template_kind = template_kinds(:finish)
+    as_admin do
+      assert tmplt.save
+    end
+    clone = tmplt.clone
+
+    assert_equal clone.name, nil
+    assert_equal clone.operatingsystems, tmplt.operatingsystems
+    assert_equal clone.template_kind_id, tmplt.template_kind_id
+    assert_equal clone.template, tmplt.template
+  end
+
+  test "should not edit a locked template" do
+    tmplt = config_templates(:locked)
+    tmplt.name = "something else"
+    refute_valid tmplt, :base, /is locked/
+  end
+
+  test "should clone a locked template as unlocked" do
+    tmplt = config_templates(:locked)
+    clone = tmplt.clone
+    assert_equal clone.name, nil
+    assert_equal clone.operatingsystems, tmplt.operatingsystems
+    assert_equal clone.template_kind_id, tmplt.template_kind_id
+    assert_equal clone.template, tmplt.template
+    assert_equal tmplt.locked, true
+    assert_equal clone.locked, false
+  end
+
+  test "should not remove a locked template" do
+    tmplt = config_templates(:locked)
+    refute_with_errors tmplt.destroy, tmplt, :base, /locked/
+  end
+
+  test "should not unlock a vendor-provided default template" do
+    tmplt = ConfigTemplate.create :name => "Vendor Template", :template => "provision test", 
+                                  :template_kind => template_kinds(:provision), :default => true,
+                                  :vendor => "Katello"
+    tmplt.update_attribute(:locked, true)
+    tmplt.locked = false
+    refute_valid tmplt, :base, /Katello/
   end
 
   describe "Association cascading" do

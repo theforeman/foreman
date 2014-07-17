@@ -83,7 +83,7 @@ module LayoutHelper
   # add hidden field for options[:disabled]
   def multiple_selects(f, attr, associations, selected_ids, options={}, html_options={})
     options.merge!(:size => "col-md-10")
-    field(f, attr,options) do
+    field(f, attr, options) do
       attr_ids = (attr.to_s.singularize+"_ids").to_sym
       hidden_fields = ''
       html_options["data-useds"] ||= "[]"
@@ -91,7 +91,7 @@ module LayoutHelper
         hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value, :id=>'' )
       end
       hidden_fields + f.collection_select(attr_ids, associations.all.sort_by { |a| a.to_s },
-                                          :id, :to_label ,options.merge(:selected => selected_ids),
+                                          :id, :to_label, options.merge(:selected => selected_ids),
                                           html_options.merge(:multiple => true))
     end
   end

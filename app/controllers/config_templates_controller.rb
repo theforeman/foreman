@@ -3,7 +3,7 @@ class ConfigTemplatesController < ApplicationController
   include Foreman::Renderer
 
   before_filter :handle_template_upload, :only => [:create, :update]
-  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+  before_filter :find_by_name, :only => [:edit, :update, :destroy, :clone, :lock, :unlock]
   before_filter :load_history, :only => :edit
 
   def index
@@ -12,6 +12,22 @@ class ConfigTemplatesController < ApplicationController
 
   def new
     @config_template = ConfigTemplate.new
+  end
+
+  def clone
+    @config_template = @config_template.clone
+    load_vars_for_form
+    flash[:warning] = _("The marked fields will need reviewing")
+    @config_template.valid?
+    render :action => :new
+  end
+
+  def lock
+    set_locked true
+  end
+
+  def unlock
+    set_locked false
   end
 
   def create
@@ -24,6 +40,7 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def edit
+    load_vars_for_form
   end
 
   def update
@@ -33,6 +50,15 @@ class ConfigTemplatesController < ApplicationController
       load_history
       process_error
     end
+  end
+
+  def load_vars_for_form
+    return unless @config_template
+
+    @locations = @config_template.locations
+    @organizations = @config_template.organizations
+    @template_kind_id = @config_template.template_kind_id
+    @operatingsystems = @config_template.operatingsystems
   end
 
   def revision
@@ -56,6 +82,15 @@ class ConfigTemplatesController < ApplicationController
 
   private
 
+  def set_locked(locked)
+    @config_template.locked = locked
+    if @config_template.save
+      process_success :success_msg => _("Template #{locked ? 'locked' : 'unlocked'}."), :success_redirect => :back
+    else
+      process_error
+    end
+  end
+
   # convert the file upload into a simple string to save in our db.
   def handle_template_upload
     return unless params[:config_template] and (t=params[:config_template][:template])
@@ -74,5 +109,17 @@ class ConfigTemplatesController < ApplicationController
 
   def controller_permission
     'templates'
+  end
+
+
+  def action_permission
+    case params[:action]
+      when 'lock', 'unlock'
+        :lock
+      when 'clone'
+        :view
+      else
+        super
+    end
   end
 end
