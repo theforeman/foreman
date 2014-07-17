@@ -6,7 +6,7 @@ module Api
       include Api::TaxonomyScope
 
       before_filter :find_resource, :only => [:show, :update, :destroy]
-      before_filter :find_required_nested_object, :only => [:index, :show, :create]
+      before_filter :find_nested_object, :only => [:index, :show, :create]
 
       api :GET, '/hosts/:host_id/interfaces', 'List all interfaces for host'
       param :host_id, String, :required => true, :desc => 'id or name of host'

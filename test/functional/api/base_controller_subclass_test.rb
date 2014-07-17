@@ -150,11 +150,31 @@ class Api::TestableControllerTest < ActionController::TestCase
       ctrl.expects(:params).at_least_once.returns(HashWithIndifferentAccess.new(:domain_id => 1, :action => 'index'))
       ctrl.expects(:allowed_nested_id).at_least_once.returns(['domain_id'])
       ctrl.expects(:resource_identifying_attributes).at_least_once.returns(['id'])
+
       scope = mock('scope')
       obj = mock('domain')
+
+      ctrl.expects(:authorized_scope).with('view_domains', Domain).returns(scope)
+      scope.expects(:respond_to?).with('find_by_id').returns(true)
       scope.expects(:find_by_id).with(1).returns(obj)
-      Domain.expects(:authorized).with('view_domains').returns(scope)
-      assert_equal obj, ctrl.send(:find_required_nested_object)
+
+      ctrl.send(:find_nested_object)
+      assert_equal obj, ctrl.instance_variable_get('@domain')
     end
+  end
+
+  context 'api helper methods' do
+
+    it 'resource scope should use authorized scope' do
+      klass = mock('domain')
+      klass.expects(:respond_to?).with(:authorized).returns(true)
+
+      ctrl = Api::TestableController.new
+      ctrl.expects(:resource_class).twice.returns(klass)
+      ctrl.expects(:authorized_scope).with('testable', klass).returns([])
+
+      assert_equal ctrl.resource_scope, []
+    end
+
   end
 end

@@ -5,7 +5,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_required_nested_object
+      before_filter :find_nested_object
       before_filter :find_parameter, :only => [:show, :update, :destroy]
 
       resource_description do
