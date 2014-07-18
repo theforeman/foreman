@@ -136,7 +136,7 @@ class UsersControllerTest < ActionController::TestCase
     delete :destroy, {:id => user.id}, set_session_user.merge(:user => user.id)
     assert_redirected_to users_url
     assert User.exists?(user)
-    assert @request.flash[:notice] == "You are currently logged in, suicidal?"
+    assert @request.flash[:notice] == "You cannot delete this user while logged in as this user."
   end
 
   test 'user with viewer rights should fail to edit a user' do
