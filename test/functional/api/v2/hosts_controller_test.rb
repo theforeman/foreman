@@ -57,6 +57,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should update host without :host root node and rails wraps it correctly" do
+    put :update, { :id => hosts(:two).to_param, :name => 'newhostname' }
+    request_parameters = @request.env['action_dispatch.request.request_parameters']
+    assert request_parameters[:host]
+    assert_equal 'newhostname', request_parameters[:host][:name]
+    assert_response :success
+  end
+
   test "should destroy hosts" do
     assert_difference('Host.count', -1) do
       delete :destroy, { :id => hosts(:one).to_param }

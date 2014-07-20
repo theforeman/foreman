@@ -2,7 +2,7 @@ module Api
   module V2
     class HostsController < V2::BaseController
 
-      wrap_parameters Host::Base, :include => (Host::Base.attribute_names + ['image_file', 'is_owned_by', 'overwrite', 'progress_report_id'])
+      wrap_parameters :host, :include => (Host::Base.attribute_names + ['image_file', 'is_owned_by', 'overwrite', 'progress_report_id'])
 
       include Api::Version2
       #TODO - should TaxonomyScope be here.  It wasn't here previously
