@@ -2,7 +2,7 @@
   <% if compute.object %>
     <div id='update_not_supported' class='alert alert-info hide'><%= _("VM editing is not implemented for this provider") %></div>
     <%= render :partial => "compute_resources_vms/form/#{compute_resource.provider.downcase}",
-               :locals => { :f => compute, :compute_resource => compute_resource}.merge(args_for_compute_resource_partial(@host)) %>
+               :locals => { :f => compute, :compute_resource => compute_resource }.merge(args_for_compute_resource_partial(@host)) %>
   <% else %>
     <div class="alert alert-block alert-danger base in fade">
       <% if @host %>

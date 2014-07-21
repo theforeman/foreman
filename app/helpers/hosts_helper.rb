@@ -278,9 +278,11 @@ module HostsHelper
   end
 
   def args_for_compute_resource_partial(host)
-    { :arch => host.try(:architecture_id)    || (params[:host] && params[:host][:architecture_id]),
-      :os   => host.try(:operatingsystem_id) || (params[:host] && params[:host][:operatingsystem_id])
-    }
+    args = {}
+    args[:arch] = host.try(:architecture_id) || (params[:host] && params[:host][:architecture_id])
+    args[:os] = host.try(:operatingsystem_id) || (params[:host] && params[:host][:operatingsystem_id])
+    args[:selected_cluster] = vm_attrs['cluster'] if defined?(vm_attrs)
+    args
   end
 
   def show_appropriate_host_buttons(host)
