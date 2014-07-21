@@ -18,10 +18,9 @@ class PuppetclassesController < ApplicationController
   def create
     @puppetclass = Puppetclass.new(params[:puppetclass])
     if @puppetclass.save
-      notice _("Successfully created puppetclass.")
-      redirect_to puppetclasses_url
+      process_success
     else
-      render :action => 'new'
+      process_error
     end
   end
 
@@ -30,20 +29,19 @@ class PuppetclassesController < ApplicationController
 
   def update
     if @puppetclass.update_attributes(params[:puppetclass])
-      notice _("Successfully updated puppetclass.")
+      notice _("Successfully updated %s." % @puppetclass.to_s)
       redirect_back_or_default(puppetclasses_url)
     else
-      render :action => 'edit'
+      process_error
     end
   end
 
   def destroy
     if @puppetclass.destroy
-      notice _("Successfully destroyed puppetclass.")
+      process_success
     else
-      error @puppetclass.errors.full_messages.join("<br/>")
+      process_error
     end
-    redirect_to puppetclasses_url
   end
 
   # form AJAX methods

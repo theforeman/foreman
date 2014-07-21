@@ -95,7 +95,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     assert_redirected_to environments_url
-    assert_equal "Successfully updated environments and puppetclasses from the on-disk puppet installation", flash[:notice]
+    assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
     assert Environment.find_by_name("env1").puppetclasses.map(&:name).sort == ["a", "b", "c"]
   end
   test "should handle disk environment containing less classes" do
@@ -114,7 +114,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     assert_redirected_to environments_url
-    assert_equal "Successfully updated environments and puppetclasses from the on-disk puppet installation", flash[:notice]
+    assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
     envs = Environment.find_by_name("env1").puppetclasses.map(&:name).sort
     assert envs == ["a", "b", "c"]
   end
@@ -133,7 +133,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     assert_redirected_to environments_url
-    assert_equal "Successfully updated environments and puppetclasses from the on-disk puppet installation", flash[:notice]
+    assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
     assert Environment.find_by_name("env3").puppetclasses.map(&:name).sort == []
   end
 

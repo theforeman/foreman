@@ -4,13 +4,8 @@ class AutosignController < ApplicationController
     @proxy = SmartProxy.authorized(:view_smart_proxies_autosign).find(params[:smart_proxy_id])
     setup_proxy
 
-    begin
-      autosign = @api.autosign
-    rescue => e
-      autosign = []
-      error e
-    end
-    @autosign = autosign.paginate :page => params[:page], :per_page => 20
+    autosign = @api.autosign
+    @autosign = autosign.paginate :page => params[:page], :per_page => Setting::General.entries_per_page
   end
 
   def new
