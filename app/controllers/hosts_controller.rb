@@ -190,7 +190,7 @@ class HostsController < ApplicationController
     if @host.puppetrun!
       notice _("Successfully executed, check log files for more details")
     else
-      error @host.errors[:base]
+      error @host.errors[:base].to_sentence
     end
     redirect_to host_path(@host)
   end
