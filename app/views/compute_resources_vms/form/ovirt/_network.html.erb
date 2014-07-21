@@ -4,8 +4,7 @@
     <% disabled = (f.object.persisted? == "true" || f.object.persisted? == true) %>
     <%= text_f f, :name, :disabled => disabled, :class => "col-md-2", :label => _('Name') %>
     <%= f.hidden_field :name if disabled %>
-    <% selected_cluster = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:cluster] %>
-    <% selected_cluster ||= clusters.size == 1 ? clusters.first.id : nil %>
+    <% selected_cluster ||= compute_resource.clusters.first.id %>
     <%= select_f f, :network, compute_resource.networks(selected_cluster ? { :cluster_id => selected_cluster } : { }), :id, :name,
                  { }, :disabled => disabled, :class => "col-md-2",
                  :help_inline   => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-danger' }),
