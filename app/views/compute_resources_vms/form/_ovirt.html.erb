@@ -16,16 +16,18 @@
                :label       => _('Template') } %>
 <%= f.hidden_field :template if !new %>
 
+<% selected_cluster ||= params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:cluster] %>
+
 <div class='compute_profile'>
   <%= selectable_f f, :cores, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :label => _('Cores') %>
   <%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "col-md-2", :label => _('Memory') %>
   <div class="children_fields">
     <%= new_child_fields_template(f, :interfaces, {
         :object  => compute_resource.new_interface,
-        :partial => 'compute_resources_vms/form/ovirt/network', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
+        :partial => 'compute_resources_vms/form/ovirt/network', :form_builder_attrs => { :selected_cluster => selected_cluster, :compute_resource => compute_resource } }) %>
     <%= field_set_tag _("Network interfaces"), :id => "network_interfaces", :title => _('Networks') do %>
       <%= f.fields_for :interfaces do |i| %>
-        <%= render 'compute_resources_vms/form/ovirt/network', :f => i, :clusters => clusters, :compute_resource => compute_resource %>
+        <%= render 'compute_resources_vms/form/ovirt/network', :f => i, :selected_cluster => selected_cluster, :compute_resource => compute_resource %>
       <% end %>
       <%= add_child_link '+ ' + _("Add Interface"), :interfaces, { :class => "info", :title => _('add new network interface') } %>
     <% end %>
