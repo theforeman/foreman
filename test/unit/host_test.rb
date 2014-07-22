@@ -538,6 +538,26 @@ class HostTest < ActiveSupport::TestCase
     assert_equal h.certname, h.name
   end
 
+  test "if the user changes a hostname in non-use_uuid_for_cetificates mode, revoke the old hostname and autosign the new hostname" do
+    Setting[:use_uuid_for_certificates] = false
+    Setting[:manage_puppetca] = true
+
+    h = hosts(:dhcp)
+    assert h.puppetca?
+
+    old_name = 'oldhostname'
+    h.certname = old_name
+
+    h.expects(:initialize_puppetca).returns(true)
+    mock_puppetca = Object.new
+    mock_puppetca.expects(:del_certificate).with(old_name).returns(true)
+    mock_puppetca.expects(:set_autosign).with(h.name).returns(true)
+    h.instance_variable_set("@puppetca", mock_puppetca)
+
+    assert h.handle_ca
+    assert_equal h.certname, h.name
+  end
+
   test "custom_disk_partition_with_erb" do
     h = hosts(:one)
     h.disk = "<%= 1 + 1 %>"
