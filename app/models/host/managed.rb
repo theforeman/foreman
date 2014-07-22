@@ -260,11 +260,10 @@ class Host::Managed < Host::Base
     return false unless initialize_puppetca
     return false unless delCertificate
 
-    # If the user has changed use_uuid_for_certificates to false,
-    # then null out the certname. This means we may revoke the hostname
-    # or UUID but will only set autosign for the hostname.
-    if !Setting[:use_uuid_for_certificates] && Foreman.is_uuid?(certname)
-      logger.info "Removing UUID certificate value #{certname} for host #{name}"
+    # If use_uuid_for_certificates is true, reuse the certname UUID value.
+    # If false, then reset the certname if it does not match the hostname.
+    if (Setting[:use_uuid_for_certificates] ? !Foreman.is_uuid?(certname) : certname != hostname)
+      logger.info "Removing certificate value #{certname} for host #{name}"
       self.certname = nil
     end
 
