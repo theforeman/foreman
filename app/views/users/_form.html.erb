@@ -51,23 +51,10 @@
                                { :label => _('Roles')}, {:disabled => @editing_self ? Role.givable.for_current_user.pluck(:id) : false } %>
     </div>
 
-    <% if show_location_tab? %>
-      <div class='tab-pane' id='locations'>
-        <%= location_selects(f, @user.used_or_selected_location_ids,
-                             { :disabled => @editing_self ? Location.pluck(:id) : @user.used_location_ids,
-                               :label    => :none } ,
-                             { :onchange => 'taxonomy_added(this, "location")' } ) %>
-      </div>
-    <% end %>
-
-    <% if show_organization_tab? %>
-      <div class='tab-pane' id='organizations'>
-        <%= organization_selects(f, @user.used_or_selected_organization_ids,
-                                 { :disabled => @editing_self ? Organization.pluck(:id) : @user.used_organization_ids,
-                                   :label => :none },
-                                 { :onchange => 'taxonomy_added(this, "organization")' } ) %>
-      </div>
-    <% end %>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @user,
+               :html_options => { :location => {:onchange => 'taxonomy_added(this, "location")' },
+                                  :organization => {:onchange => 'taxonomy_added(this, "organization")' }
+                                } %>
   </div>
 
   <%= submit_or_cancel f %>
