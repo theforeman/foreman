@@ -128,6 +128,10 @@ class Subnet < ActiveRecord::Base
     end.compact
   end
 
+  def proxies
+    [dhcp, tftp, dns].compact
+  end
+
   private
 
   def validate_ranges
