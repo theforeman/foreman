@@ -1,5 +1,5 @@
 class LocationParameter < Parameter
-  belongs_to :location, :foreign_key => :reference_id
+  belongs_to :location, :foreign_key => :reference_id, :inverse_of => :location_parameters
   audited :except => [:priority], :associated_with => :location, :allow_mass_assignment => true
   validates :name, :uniqueness => {:scope => :reference_id}
 

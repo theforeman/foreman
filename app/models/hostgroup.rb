@@ -14,8 +14,9 @@ class Hostgroup < ActiveRecord::Base
   validates :name, :format => { :with => /\A(\S+\s?)+\Z/, :message => N_("can't contain trailing white spaces.")}
   validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
   validate :title_and_lookup_key_length
-  has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
+  has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
+  include ParameterValidators
   has_many_hosts
   has_many :template_combinations, :dependent => :destroy
   has_many :config_templates, :through => :template_combinations

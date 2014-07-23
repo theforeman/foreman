@@ -8,9 +8,10 @@ class Host::Managed < Host::Base
   has_many :puppetclasses, :through => :host_classes
   belongs_to :hostgroup
   has_many :reports, :dependent => :destroy, :foreign_key => :host_id
-  has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id
+  has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :host
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "HostParameter"
   accepts_nested_attributes_for :host_parameters, :allow_destroy => true
+  include ParameterValidators
   belongs_to :owner, :polymorphic => true
   belongs_to :compute_resource
   belongs_to :image
