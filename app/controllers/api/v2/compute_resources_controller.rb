@@ -11,7 +11,8 @@ module Api
       include Api::TaxonomyScope
 
       before_filter :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
-                                              :available_networks, :available_clusters, :available_storage_domains]
+                                              :available_clusters, :available_folders, :available_networks,
+                                              :available_resource_pools, :available_storage_domains]
 
       api :GET, "/compute_resources/", N_("List all compute resources")
       param :search, String, :desc => N_("filter results")
@@ -81,6 +82,13 @@ module Api
         render :available_clusters, :layout => 'api/v2/layouts/index_layout'
       end
 
+      api :GET, "/compute_resources/:id/available_folders", N_("List available folders for a compute resource")
+      param :id, :identifier, :required => true
+      def available_folders
+        @available_folders = @compute_resource.available_folders
+        render :available_folders, :layout => 'api/v2/layouts/index_layout'
+      end
+
       api :GET, "/compute_resources/:id/available_networks", N_("List available networks for a compute resource")
       api :GET, "/compute_resources/:id/available_clusters/:cluster_id/available_networks", N_("List available networks for a compute resource cluster")
       param :id, :identifier, :required => true
@@ -90,6 +98,15 @@ module Api
         render :available_networks, :layout => 'api/v2/layouts/index_layout'
       end
 
+      api :GET, "/compute_resources/:id/available_clusters/:cluster_id/available_resource_pools", N_("List resource pools for a compute resource cluster")
+      param :id, :identifier, :required => true
+      param :cluster_id, String, :required => true
+      def available_resource_pools
+        @available_resource_pools = @compute_resource.available_resource_pools({ :cluster_id => params[:cluster_id] })
+        render :available_resource_pools, :layout => 'api/v2/layouts/index_layout'
+      end
+
+      api :GET, "/compute_resources/:id/available_storage_domains", "List storage_domains for a compute resource"
       api :GET, "/compute_resources/:id/available_storage_domains", N_("List storage domains for a compute resource")
       api :GET, "/compute_resources/:id/available_storage_domains/:storage_domain", N_("List attributes for a given storage domain")
       param :id, :identifier, :required => true
@@ -121,7 +138,7 @@ module Api
 
       def action_permission
         case params[:action]
-          when 'available_images', 'available_clusters', 'available_networks', 'available_storage_domains', 'associate'
+          when 'available_images', 'available_clusters', 'available_folders', 'available_networks', 'available_resource_pools', 'available_storage_domains', 'associate'
             :view
           else
             super
