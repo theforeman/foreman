@@ -1163,22 +1163,22 @@ context "location or organizations are not enabled" do
   end
 
   test "can search hosts by inherited params from a hostgroup" do
-    hg = FactoryGirl.create(:hostgroup, :with_parameter)
+    hg = hostgroups(:common)
     host = FactoryGirl.create(:host, :hostgroup => hg)
     parameter = hg.group_parameters.first
     results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
-    assert_equal 1, results.count
-    assert_equal parameter.value, results.first.params[parameter.name]
+    assert results.include?(host)
+    assert_equal parameter.value, results.find(host).params[parameter.name]
   end
 
   test "can search hosts by inherited params from a parent hostgroup" do
-    parent_hg = FactoryGirl.create(:hostgroup, :with_parameter)
+    parent_hg = hostgroups(:common)
     hg = FactoryGirl.create(:hostgroup, :parent => parent_hg)
     host = FactoryGirl.create(:host, :hostgroup => hg)
     parameter = parent_hg.group_parameters.first
     results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
-    assert_equal 1, results.count
-    assert_equal parameter.value, results.first.params[parameter.name]
+    assert results.include?(host)
+    assert_equal parameter.value, results.find(host).params[parameter.name]
   end
 
   test "can search hosts by puppet class" do
