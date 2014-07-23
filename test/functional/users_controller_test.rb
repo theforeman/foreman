@@ -63,7 +63,7 @@ class UsersControllerTest < ActionController::TestCase
   test "role changes should expire topbar cache" do
     user = FactoryGirl.create(:user, :with_mail)
     role1 = FactoryGirl.create :role
-    UserRole.any_instance.expects(:expire_topbar_cache).once
+    UserRole.any_instance.expects(:expire_topbar_cache).at_least(1)
     put :update, { :id => user.id, :user => {:role_ids => [role1.id]} }, set_session_user
   end
 
