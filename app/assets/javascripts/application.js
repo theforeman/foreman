@@ -54,9 +54,14 @@ function onContentLoad(){
   }
 
   // highlight tabs with errors
-  $(".tab-content").find(".form-group.has-error").each(function() {
+  $(".tab-content").find(".form-group.has-error").each(function(index) {
     var id = $(this).parentsUntil(".tab-content").last().attr("id");
     $("a[href=#"+id+"]").addClass("tab-error");
+
+    // focus on first tab with error
+    if (index == 0) {
+      $("a[href=#"+id+"]").click();
+    }
   })
 
   //set the tooltips

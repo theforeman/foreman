@@ -1,6 +1,6 @@
 <div class="fields">
   <table class="row">
-  <tr class="form-group <%= 'error' if f.object.errors.any? %>">
+  <tr class="form-group <%= 'has-error' if f.object.errors.any? %>">
     <% if controller_name =~ /(host|hostgroup)/ %>
     <td class="col-md-2">
       <%= content_tag(:input, '', :class => "form-control", :disabled => true,  :value => _('Global'), :type=> :text ) %>
