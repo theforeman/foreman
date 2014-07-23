@@ -148,4 +148,18 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
     assert_equal pc.name, key.audits.last.associated_name
   end
+
+  test "should create smart variable with the same name as class parameters" do
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    key = pc.class_params.first
+    smart_variable = LookupKey.create!(:key => key.key, :path => "hostgroup", :puppetclass => Puppetclass.first)
+    assert_valid smart_variable
+  end
+
+  test "should not create two smart variables with the same name" do
+    LookupKey.create!(:key => "smart-varialble", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default")
+    smart_variable2 = LookupKey.new(:key => "smart-varialble", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default2")
+    refute_valid smart_variable2
+  end
 end

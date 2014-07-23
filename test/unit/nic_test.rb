@@ -64,27 +64,47 @@ class NicTest < ActiveSupport::TestCase
     assert_equal subnet.vlanid, interface.vlanid
   end
 
-  test "Nic::BMC should have hostname containing name and domain name" do
-    subnet = subnets(:five)
-    domain = domains(:mydomain)
-    interface = nics(:bmc)
-    interface.subnet = subnet
-    interface.domain = domain
-    assert_equal "#{interface.name}.#{interface.domain.name}", interface.hostname
-  end
-
-  test "Nic::BMC should have hostname containing name when domain nil" do
-    subnet = subnets(:five)
-    interface = nics(:bmc)
-    interface.subnet = subnet
-    interface.domain = nil
-    assert_equal interface.name, interface.hostname
-  end
-
   test "Nic::Managed#hostname should return blank for blank hostnames" do
     i = Nic::Managed.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => hosts(:one), :subnet => subnets(:one), :domain => subnets(:one).domains.first, :name => ""
     assert_blank i.name
     assert_present i.domain
     assert_blank i.hostname
+  end
+
+  context 'BMC' do
+    setup do
+      @subnet    = subnets(:five)
+      @domain    = domains(:mydomain)
+      @interface = nics(:bmc)
+      @interface.subnet = @subnet
+      @interface.domain = @domain
+    end
+
+    test 'Nic::BMC should have hostname containing name and domain name' do
+      assert_equal "#{@interface.name}.#{@interface.domain.name}", @interface.hostname
+    end
+
+    test 'Nic::BMC should have hostname containing name when domain nil' do
+      @interface.domain = nil
+      assert_equal @interface.name, @interface.hostname
+    end
+
+    test '.proxy uses any BMC SmartProxy if none is found in subnet' do
+      assert @subnet.proxies.select { |proxy| proxy.features.map(&:name).include?('BMC') }
+      assert_equal @interface.proxy.url, SmartProxy.with_features('BMC').first.url + '/bmc'
+    end
+
+    test '.proxy chooses BMC SmartProxy in Nic::BMC subnet if available' do
+      @subnet.dhcp.features << Feature.find_by_name('BMC')
+      assert_equal @interface.proxy.url, @subnet.dhcp.url + '/bmc'
+    end
+
+    test '.proxy raises exception if BMC SmartProxy cannot be found' do
+      SmartProxy.with_features('BMC').map(&:destroy)
+
+      assert_raise Foreman::Exception do
+        @interface.proxy
+      end
+    end
   end
 end

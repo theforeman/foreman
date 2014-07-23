@@ -30,14 +30,10 @@ class SmartProxies::PuppetCA
 
       def find(proxy, name)
         all(proxy).select{|c| c.name == name}.first
-      rescue
-        raise ActiveRecord::RecordNotFound
       end
 
       def find_by_state(proxy, state)
-         all(proxy).select{|c| c.state == state}
-      rescue
-        raise ActiveRecord::RecordNotFound
+        all(proxy).select{|c| c.state == state}
       end
     end
 
