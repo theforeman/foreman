@@ -148,7 +148,7 @@ class SubnetTest < ActiveSupport::TestCase
     s = subnets(:one)
     s.mask = "255.255.255.1111"
     refute s.save
-    assert_match /must be at most 15 characters/, s.errors.full_messages.join("\n")
+    assert_match /maximum is 15 characters/, s.errors.full_messages.join("\n")
   end
 
   test "should invalidate addresses are indeed invalid" do

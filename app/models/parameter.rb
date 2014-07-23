@@ -1,4 +1,6 @@
 class Parameter < ActiveRecord::Base
+  validates_lengths_from_database
+
   belongs_to_host :foreign_key => :reference_id
   include Authorizable
 

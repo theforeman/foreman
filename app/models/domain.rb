@@ -5,6 +5,7 @@ class Domain < ActiveRecord::Base
   include Taxonomix
   audited :allow_mass_assignment => true
 
+  validates_lengths_from_database
   has_many_hosts
   has_many :hostgroups
   #order matters! see https://github.com/rails/rails/issues/670

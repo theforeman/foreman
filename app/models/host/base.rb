@@ -7,6 +7,7 @@ module Host
     self.table_name = :hosts
     OWNER_TYPES = %w(User Usergroup)
 
+    validates_lengths_from_database
     belongs_to :model, :counter_cache => :hosts_count
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
     has_many :fact_names, :through => :fact_values

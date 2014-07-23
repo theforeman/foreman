@@ -4,6 +4,8 @@ class Medium < ActiveRecord::Base
   include ValidateOsFamily
   audited :allow_mass_assignment => true
 
+  validates_lengths_from_database
+
   before_destroy :ensure_hosts_not_in_build
 
   has_and_belongs_to_many :operatingsystems

@@ -2,6 +2,7 @@ class ComputeProfile < ActiveRecord::Base
 
   include Authorizable
 
+  validates_lengths_from_database
   attr_accessible :name
   audited
   has_associated_audits

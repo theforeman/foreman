@@ -5,6 +5,7 @@ class Hostgroup < ActiveRecord::Base
   include NestedAncestryCommon
   include ScopedSearchExtensions
 
+  validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :hostgroup_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :hostgroup_classes

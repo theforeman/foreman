@@ -4,6 +4,7 @@ class Subnet < ActiveRecord::Base
   include Taxonomix
   audited :allow_mass_assignment => true
 
+  validates_lengths_from_database :except => [:gateway]
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :interfaces, :domains)
   has_many_hosts
   has_many :hostgroups
@@ -16,15 +17,13 @@ class Subnet < ActiveRecord::Base
   validates :network, :mask, :name, :presence => true
   validates_associated    :subnet_domains
   validates :network, :uniqueness => true,
-                      :format => {:with => Net::Validations::IP_REGEXP},
-                      :length => {:maximum => 15, :message => N_("must be at most 15 characters")}
+                      :format => {:with => Net::Validations::IP_REGEXP}
   validates :gateway, :dns_primary, :dns_secondary,
                       :allow_blank => true,
                       :allow_nil => true,
                       :format => {:with => Net::Validations::IP_REGEXP},
-                      :length => { :maximum => 15, :message => N_("must be at most 15 characters") }
-  validates :mask,    :format => {:with => Net::Validations::IP_REGEXP},
-                      :length => {:maximum => 15, :message => N_("must be at most 15 characters")}
+                      :length => { :maximum => 15, :message => N_("is too long (maximum is 15 characters)") }
+  validates :mask,    :format => {:with => Net::Validations::IP_REGEXP}
 
   validate :ensure_ip_addr_new
   before_validation :cleanup_addresses

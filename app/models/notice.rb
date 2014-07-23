@@ -3,6 +3,7 @@ class Notice < ActiveRecord::Base
 
   TYPES = %w{message warning}
   before_validation :set_default_notice_level
+  validates_lengths_from_database
   validates :level, :inclusion => { :in => TYPES }
 
   validates :content, :presence => true

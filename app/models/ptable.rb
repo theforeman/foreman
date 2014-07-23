@@ -7,6 +7,7 @@ class Ptable < ActiveRecord::Base
   include ValidateOsFamily
   audited :allow_mass_assignment => true
 
+  validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts
   has_many :hostgroups

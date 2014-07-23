@@ -2,6 +2,8 @@ class ConfigGroup < ActiveRecord::Base
   audited :allow_mass_assignment => true
   include Authorizable
 
+  validates_lengths_from_database
+
   attr_accessible :name, :puppetclass_ids
 
   has_many :config_group_classes
