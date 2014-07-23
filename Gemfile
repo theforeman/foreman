@@ -14,7 +14,7 @@ gem "ancestry", "~> 2.0.0"
 gem 'scoped_search', '>= 2.7.0', '< 3.0.0'
 gem 'net-ldap'
 gem 'uuidtools'
-gem "apipie-rails", "~> 0.1.1"
+gem "apipie-rails", "~> 0.2.0"
 gem 'rabl', '>= 0.7.5', '<= 0.9.0'
 gem 'oauth'
 gem 'deep_cloneable', '~> 2.0'
