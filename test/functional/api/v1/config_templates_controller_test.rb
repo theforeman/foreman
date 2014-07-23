@@ -17,11 +17,6 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
     assert_equal template["config_template"]["name"], config_templates(:pxekickstart).name
   end
 
-  test "should not create invalid" do
-    post :create
-    assert_response :unprocessable_entity
-  end
-
   test "should create valid" do
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
     valid_attrs = { :template => "This is a test template", :template_kind_id => template_kinds(:ipxe).id, :name => "RandomName" }
@@ -31,9 +26,8 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not update invalid" do
-    put :update, { :id              => config_templates(:pxekickstart).to_param,
-                   :config_template => { :name => "" } }
+  test "should not create invalid" do
+    post :create
     assert_response :unprocessable_entity
   end
 
@@ -43,6 +37,12 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
                    :config_template => { :template => "blah" } }
     template = ActiveSupport::JSON.decode(@response.body)
     assert_response :success
+  end
+
+  test "should not update invalid" do
+    put :update, { :id              => config_templates(:pxekickstart).to_param,
+                   :config_template => { :name => "" } }
+    assert_response :unprocessable_entity
   end
 
   test "should not destroy template with associated hosts" do
