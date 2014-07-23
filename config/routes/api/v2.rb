@@ -176,10 +176,12 @@ Foreman::Application.routes.draw do
           resources :images, :except => [:new, :edit]
           get :available_images, :on => :member
           get :available_clusters, :on => :member
+          get :available_folders, :on => :member
           get :available_networks, :on => :member
           get :available_storage_domains, :on => :member
           get 'available_storage_domains/(:storage_domain)', :to => 'compute_resources#available_storage_domains', :on => :member
           get 'available_clusters/(:cluster_id)/available_networks', :to => 'compute_resources#available_networks', :on => :member
+          get 'available_clusters/(:cluster_id)/available_resource_pools', :to => 'compute_resources#available_resource_pools', :on => :member
           put :associate, :on => :member
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]

@@ -43,6 +43,10 @@ module Foreman::Model
       client.datacenters.all
     end
 
+    def cluster(cluster)
+      dc.clusters.get(cluster)
+    end
+
     def clusters
       dc.clusters
     end
@@ -63,8 +67,17 @@ module Foreman::Model
       dc.networks.all(:accessible => true)
     end
 
+    def resource_pools(opts ={})
+      cluster = cluster(opts[:cluster_id])
+      cluster.resource_pools.all(:accessible => true)
+    end
+
     def available_clusters
       clusters
+    end
+
+    def available_folders
+      folders
     end
 
     def available_networks(cluster_id=nil)
@@ -73,6 +86,10 @@ module Foreman::Model
 
     def available_storage_domains(storage_domain=nil)
       datastores({:storage_domain => storage_domain})
+    end
+
+    def available_resource_pools(opts={})
+      resource_pools({ :cluster_id => opts[:cluster_id] })
     end
 
     def nictypes
