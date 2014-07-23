@@ -1,5 +1,6 @@
 class LookupValue < ActiveRecord::Base
   include Authorizable
+  validates_lengths_from_database
   audited :associated_with => :lookup_key, :allow_mass_assignment => true
 
   belongs_to :lookup_key, :counter_cache => true

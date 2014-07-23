@@ -5,6 +5,7 @@ class Taxonomy < ActiveRecord::Base
 
   serialize :ignore_types, Array
 
+  validates_lengths_from_database
   belongs_to :user
   before_destroy EnsureNotUsedBy.new(:hosts)
   after_create :assign_taxonomy_to_user

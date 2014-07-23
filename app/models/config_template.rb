@@ -1,6 +1,8 @@
 class ConfigTemplate < ActiveRecord::Base
   include Authorizable
   include Taxonomix
+
+  validates_lengths_from_database
   audited :allow_mass_assignment => true
   self.auditing_enabled = !Foreman.in_rake?('db:migrate')
   attr_accessible :name, :template, :template_kind, :template_kind_id, :snippet, :template_combinations_attributes,

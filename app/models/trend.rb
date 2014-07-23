@@ -1,5 +1,6 @@
 class Trend < ActiveRecord::Base
 
+  validates_lengths_from_database
   after_save :create_values, :if => lambda{ |o|  o.fact_value == nil }
   after_destroy :destroy_values, :if => lambda{ |o|  o.fact_value == nil }
 

@@ -2,6 +2,7 @@ class Architecture < ActiveRecord::Base
   include Authorizable
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
+  validates_lengths_from_database
 
   has_many_hosts
   has_many :hostgroups

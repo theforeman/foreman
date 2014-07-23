@@ -1,6 +1,7 @@
 class FactName < ActiveRecord::Base
   SEPARATOR = '::'
 
+  validates_lengths_from_database
   has_many :fact_values, :dependent => :destroy
   has_many :user_facts, :dependent => :destroy
   has_many :users, :through => :user_facts

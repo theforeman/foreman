@@ -28,6 +28,7 @@ class Role < ActiveRecord::Base
     where("#{compare} builtin = 0")
   }
 
+  validates_lengths_from_database
   before_destroy :check_deletable
 
   has_many :user_roles, :dependent => :destroy

@@ -2,6 +2,7 @@ class Report < ActiveRecord::Base
   include Authorizable
   include ReportCommon
 
+  validates_lengths_from_database
   belongs_to_host
   has_many :messages, :through => :logs
   has_many :sources, :through => :logs

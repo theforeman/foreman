@@ -16,6 +16,8 @@ class ComputeResource < ActiveRecord::Base
     'GCE'       => 'Foreman::Model::GCE',
   }
 
+  validates_lengths_from_database
+
   audited :except => [:password, :attrs], :allow_mass_assignment => true
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"

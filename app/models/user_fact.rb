@@ -2,6 +2,7 @@ class UserFact < ActiveRecord::Base
   belongs_to :user
   belongs_to :fact_name
 
+  validates_lengths_from_database
   validates :andor, :inclusion => {:in => %w{and or}}
   validates :operator, :inclusion => {:in => %w{= !=  > >= < <= }}
   validates :fact_name, :criteria, :user, :presence => true

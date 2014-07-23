@@ -2,6 +2,7 @@ class Environment < ActiveRecord::Base
   include Taxonomix
   include Authorizable
 
+  validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 
   has_many :environment_classes, :dependent => :destroy
