@@ -32,7 +32,9 @@ module Api
       def_param_group :host do
         param :host, Hash, :action_aware => true do
           param :name, String, :required => true
-          param :environment_id, String
+          param :environment_id, :number
+          param :location_id, :number, :required => true, :desc => "required if locations are enabled" if SETTINGS[:locations_enabled]
+          param :organization_id, :number, :required => true, :desc => "required if organizations are enabled" if SETTINGS[:organizations_enabled]
           param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
           param :mac, String, :desc => "not required if its a virtual machine"
           param :architecture_id, :number
