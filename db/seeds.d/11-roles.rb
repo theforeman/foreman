@@ -60,7 +60,7 @@ default_user_permissions = [:view_hosts, :view_puppetclasses, :view_hostgroups, 
                             :view_authenticators, :access_settings, :access_dashboard,
                             :view_reports, :view_subnets, :view_facts, :view_locations,
                             :view_organizations, :view_statistics, :view_realms]
-anonymous_permissions    = [:view_hosts, :view_bookmarks, :view_tasks]
+anonymous_permissions    = [:view_bookmarks, :view_tasks]
 
 Role.without_auditing do
   default_permissions.each do |role_name, permission_names|
