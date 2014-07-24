@@ -391,9 +391,6 @@ default_user_16_0:
 default_user_17_0:
   filter: default_user_17
   permission: view_realms
-anonymous_1_0:
-  filter: anonymous_1
-  permission: view_hosts
 destroy_hosts_1_0:
   filter: destroy_hosts_1
   permission: destroy_hosts
