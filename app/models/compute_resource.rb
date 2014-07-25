@@ -22,8 +22,9 @@ class ComputeResource < ActiveRecord::Base
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
-  validates :name, :uniqueness => true, :format => { :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.") }
+  validates :name, :uniqueness => true, :format => { :with => /\A(\S+)\Z/, :message => N_("can't be blank or contain white spaces.") }, :length => {:maximum => 255}
   validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
+  validates :description, :length => {:maximum => 255}
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :type, :complete_value => :true
