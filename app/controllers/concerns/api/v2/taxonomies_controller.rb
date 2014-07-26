@@ -72,7 +72,7 @@ module Api::V2::TaxonomiesController
 
   def params_match_database
     # change params[:select_all_types] to params[:ignore_types] to match database
-    if params[taxonomy_single.to_sym][:select_all_types]
+    if params[taxonomy_single.to_sym].try(:[], :select_all_types)
       params[taxonomy_single.to_sym][:ignore_types] = params[taxonomy_single.to_sym][:select_all_types]
       params[taxonomy_single.to_sym]                = params[taxonomy_single.to_sym].reject { |k, v| k == "select_all_types" }
       return params[taxonomy_single.to_sym]
