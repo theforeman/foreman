@@ -33,6 +33,11 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test "should return an error for no params" do
+    post :create
+    assert_response :unprocessable_entity
+  end
+
   test "should create valid location" do
     post :create, { :location => { :name => "Test Location" } }
     assert_response :success
