@@ -28,7 +28,6 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_not_empty parameters
   end
 
-
   test "should get index for specific os" do
     get :index, {:operatingsystem_id => operatingsystems(:redhat).to_param }
     assert_response :success
@@ -188,4 +187,33 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  context "scoped search" do
+
+    def assert_filtering_works(resource, id)
+      post :create, { "#{resource}_id".to_sym => id, :parameter => { :name => 'parameter2', :value => 'X' } }
+      get :index, { "#{resource}_id".to_sym => id, :search => 'name = parameter2' }
+      assert_response :success
+      assert_not_nil assigns(:parameters)
+      parameters = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameters['results'][0]['name'], 'parameter2'
+      assert_equal parameters['subtotal'], 1
+    end
+
+    test "should get index for specific host fitered by name" do
+      assert_filtering_works :host, hosts(:one).to_param
+    end
+
+    test "should get index for specific domain fitered by name" do
+      assert_filtering_works :domain, domains(:mydomain).to_param
+    end
+
+    test "should get index for specific hostgroup fitered by name" do
+      assert_filtering_works :hostgroup, hostgroups(:common).to_param
+    end
+
+    test "should get index for specific os filtred by name" do
+      assert_filtering_works :operatingsystem, operatingsystems(:redhat).to_param
+    end
+
+  end
 end
