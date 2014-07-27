@@ -28,11 +28,14 @@ module Api
       param :operatingsystem_id, String, :desc => "id of operating system"
       param :location_id, String, :desc => "id of location"
       param :organization_id, String, :desc => "id of organization"
+      param :search, String, :desc => "filter results"
+      param :order, String, :desc => "sort results"
       param :page, String, :desc => "paginate results"
       param :per_page, String, :desc => "number of entries per request"
 
+
       def index
-        @parameters = nested_obj.send(parameters_method).paginate(paginate_options)
+        @parameters = nested_obj.send(parameters_method).search_for(*search_options).paginate(paginate_options)
         @total = nested_obj.send(parameters_method).count
       end
 
