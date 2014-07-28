@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-18 13:52+0100\n"
+"POT-Creation-Date: 2014-07-28 12:17+0100\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -133,6 +133,9 @@ msgid "%{name} changed from %{label1} to %{label2}"
 msgstr ""
 
 msgid "%{record} is used by %{what}"
+msgstr ""
+
+msgid "%{record} is used by host in build mode %{what}"
 msgstr ""
 
 msgid "%{task} task failed with the following error: %{e}"
@@ -373,6 +376,9 @@ msgstr ""
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr ""
 
+msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
+msgstr ""
+
 msgid "Any Context"
 msgstr ""
 
@@ -557,6 +563,9 @@ msgstr ""
 msgid "AuthSource|Host"
 msgstr ""
 
+msgid "AuthSource|LDAPS"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Ldap filter"
 msgstr ""
@@ -734,13 +743,13 @@ msgstr ""
 msgid "Can't delete internal admin account"
 msgstr ""
 
+msgid "Can't delete the last admin account"
+msgstr ""
+
+msgid "Can't delete the last admin user group"
+msgstr ""
+
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
-msgstr ""
-
-msgid "Can't remove Administrator flag from internal protected <b>admin</b> account"
-msgstr ""
-
-msgid "Can't rename internal protected <b>admin</b> account to %s"
 msgstr ""
 
 msgid "Can't use the same value as the primary interface"
@@ -764,6 +773,9 @@ msgstr ""
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr ""
 
+msgid "Cannot find user %s when switching context"
+msgstr ""
+
 msgid "Canvas not supported."
 msgstr ""
 
@@ -771,6 +783,9 @@ msgid "Certificate Name"
 msgstr ""
 
 msgid "Certificate path"
+msgstr ""
+
+msgid "Certificate that Foreman will use to encrypt websockets "
 msgstr ""
 
 msgid "Certificates"
@@ -947,6 +962,9 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
+msgstr ""
+
+msgid "ConfigTemplate|Locked"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -1576,6 +1594,9 @@ msgid "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
+msgstr ""
+
+msgid "Failed to update environments and Puppet classes from the on-disk Puppet installation: %s"
 msgstr ""
 
 #. initial character of Failed
@@ -2339,6 +2360,9 @@ msgstr ""
 msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed."
 msgstr ""
 
+msgid "Lock"
+msgstr ""
+
 msgid "Log out idle users after a certain number of minutes"
 msgstr ""
 
@@ -2793,6 +2817,9 @@ msgstr ""
 msgid "No changes found when refreshing features from %s."
 msgstr ""
 
+msgid "No changes to your environments detected"
+msgstr ""
+
 msgid "No compute resource to show"
 msgstr ""
 
@@ -2861,6 +2888,9 @@ msgid "No reports|N"
 msgstr ""
 
 msgid "No smart proxies to show"
+msgstr ""
+
+msgid "No smart proxy was found to import environments from, ensure that at least one smart proxy is registered with the 'puppet' feature."
 msgstr ""
 
 msgid "No subnets"
@@ -3333,6 +3363,9 @@ msgstr ""
 msgid "Power%s"
 msgstr ""
 
+msgid "Preallocate disk"
+msgstr ""
+
 msgid "Prepare post installation script for %s"
 msgstr ""
 
@@ -3346,6 +3379,9 @@ msgid "Primary Interface"
 msgstr ""
 
 msgid "Private"
+msgstr ""
+
+msgid "Private key that Foreman will use to encrypt websockets "
 msgstr ""
 
 msgid "Proceed to Edit"
@@ -3861,6 +3897,9 @@ msgstr ""
 msgid "Setting|Value"
 msgstr ""
 
+msgid "Should Foreman encrypt websockets (VNC console access). Choose on, off or auto."
+msgstr ""
+
 msgid "Show Diff"
 msgstr ""
 
@@ -4065,13 +4104,7 @@ msgstr ""
 msgid "Successfully created %s."
 msgstr ""
 
-msgid "Successfully created puppetclass."
-msgstr ""
-
 msgid "Successfully deleted %s."
-msgstr ""
-
-msgid "Successfully destroyed puppetclass."
 msgstr ""
 
 msgid "Successfully destroyed report."
@@ -4089,7 +4122,7 @@ msgstr ""
 msgid "Successfully updated %s."
 msgstr ""
 
-msgid "Successfully updated puppetclass."
+msgid "Successfully updated environments and Puppet classes from the on-disk Puppet installation"
 msgstr ""
 
 msgid "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
@@ -4157,6 +4190,12 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Template kind"
+msgstr ""
+
+msgid "Template locked"
+msgstr ""
+
+msgid "Template unlocked"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -4277,6 +4316,9 @@ msgstr ""
 msgid "The user that is used to ssh into the instance, normally cloud-user, ec2-user, ubuntu, root etc"
 msgstr ""
 
+msgid "The virtual machine is being deleted."
+msgstr ""
+
 msgid "There are two strategies when using host groups."
 msgstr ""
 
@@ -4334,6 +4376,18 @@ msgid "This page will self destruct once inventory data comes in."
 msgstr ""
 
 msgid "This setting is defined in the configuration file 'settings.yaml' and is read-only."
+msgstr ""
+
+msgid "This template is locked and may not be removed."
+msgstr ""
+
+msgid "This template is locked for editing."
+msgstr ""
+
+msgid "This template is locked. Please clone it to a new template to customize."
+msgstr ""
+
+msgid "This template is owned by %s and may not be unlocked."
 msgstr ""
 
 msgid "Time in Seconds"
@@ -4598,6 +4652,9 @@ msgstr ""
 msgid "Unknown user"
 msgstr ""
 
+msgid "Unlock"
+msgstr ""
+
 msgid "Unmanage host"
 msgstr ""
 
@@ -4765,6 +4822,9 @@ msgstr ""
 msgid "User|Subscribe to all hostgroups"
 msgstr ""
 
+msgid "Uses thin provisioning if unchecked"
+msgstr ""
+
 msgid "Using the organization system provides a way to group resources together for easy management."
 msgstr ""
 
@@ -4840,6 +4900,9 @@ msgstr ""
 msgid "Virtual (NAT)"
 msgstr ""
 
+msgid "Virtual H/W version"
+msgstr ""
+
 msgid "Virtual Machine"
 msgstr ""
 
@@ -4859,6 +4922,9 @@ msgid "Warning"
 msgstr ""
 
 msgid "Warning!"
+msgstr ""
+
+msgid "Warning: This template is locked. You may only change the associations. Please %s it to customize."
 msgstr ""
 
 msgid "Warnings and errors"
@@ -4909,7 +4975,7 @@ msgstr ""
 msgid "You are about to override the editor content, are you sure?"
 msgstr ""
 
-msgid "You are currently logged in, suicidal?"
+msgid "You are about to unlock a locked template -- this is for every organization and location that uses it. Continue?"
 msgstr ""
 
 msgid "You are not authorized to perform this action"
@@ -4928,6 +4994,9 @@ msgid "You can't assign some of roles you selected"
 msgstr ""
 
 msgid "You can't change Administrator flag"
+msgstr ""
+
+msgid "You cannot delete this user while logged in as this user."
 msgstr ""
 
 msgid "You cannot remove %s that are used by hosts or inherited."
@@ -5035,10 +5104,25 @@ msgstr ""
 msgid "can't be blank or contain white spaces."
 msgstr ""
 
+msgid "can't be updated after host is provisioned"
+msgstr ""
+
 msgid "can't contain white spaces"
 msgstr ""
 
+msgid "cannot be changed on an internal protected account"
+msgstr ""
+
+msgid "cannot be removed from an internal protected account"
+msgstr ""
+
+msgid "cannot be removed from the last admin account"
+msgstr ""
+
 msgid "cant be blank unless a custom partition has been defined"
+msgstr ""
+
+msgid "clone"
 msgstr ""
 
 msgid "common"
@@ -5203,7 +5287,13 @@ msgstr ""
 msgid "is invalid: %s"
 msgstr ""
 
+msgid "is not a valid MAC address"
+msgstr ""
+
 msgid "is not allowed to change"
+msgstr ""
+
+msgid "is not permitted"
 msgstr ""
 
 msgid "is unknown"
@@ -5299,7 +5389,7 @@ msgstr ""
 msgid "override"
 msgstr ""
 
-msgid "parameters require an associated domain, host or host group"
+msgid "parameters require an associated domain, operating system, host or host group"
 msgstr ""
 
 msgid "parsing settings type '%s' from string is not defined"
