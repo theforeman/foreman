@@ -308,4 +308,13 @@ module HostsHelper
       end.join(' ').html_safe
     end)
   end
+
+# helper method to provide data attribute if subnets has ipam enabled / disabled
+  def subnets_ipam_data
+    data = {}
+    domain_subnets.each do |subnet|
+      data[subnet.id] = { :ipam => subnet.ipam? }
+    end
+    data
+  end
 end

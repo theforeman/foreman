@@ -38,7 +38,7 @@ class Subnet < ActiveRecord::Base
     end
   }
 
-  scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :vlanid], :complete_value => true
+  scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :vlanid, :ipam], :complete_value => true
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
 
   class Jail < ::Safemode::Jail
@@ -110,7 +110,8 @@ class Subnet < ActiveRecord::Base
   end
 
   def unused_ip mac = nil
-    return unless dhcp?
+    logger.debug "Not suggesting IP Address for #{to_s} as IPAM is disabled" and return unless ipam?
+    logger.debug "Not suggesting IP Address for #{to_s} as it has no DHCP proxy" and return unless dhcp?
     dhcp_proxy.unused_ip(self, mac)["ip"]
   rescue => e
     logger.warn "Failed to fetch a free IP from our proxy: #{e}"
