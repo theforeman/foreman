@@ -85,7 +85,7 @@ class ConfigTemplatesController < ApplicationController
   def set_locked(locked)
     @config_template.locked = locked
     if @config_template.save
-      process_success :success_msg => _("Template #{locked ? 'locked' : 'unlocked'}."), :success_redirect => :back
+      process_success :success_msg => (locked ? _('Template locked') : _('Template unlocked')), :success_redirect => :back
     else
       process_error
     end

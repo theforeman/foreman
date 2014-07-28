@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-11 09:09-0400\n"
-"PO-Revision-Date: 2014-06-18 11:21+0000\n"
+"PO-Revision-Date: 2014-07-10 19:21+0000\n"
 "Last-Translator: Sergio Ocón <sergio@redhat.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -232,7 +232,7 @@ msgid ""
 "A medium represents the source of one or more operating system's "
 "installation files, accessible via the network.\\n  It will probably be a "
 "mirror from the internet or a copy of one or more CD or DVDs."
-msgstr "Un medio representa el origen de los archivos de instalación de uno o más sistemas operativos accesibles mediante red. \\n Probablemente sea un servidor espejo o una copia de uno o más CDs o DVDs."
+msgstr "Un medio representa el origen de los archivos de instalación de uno o más sistemas operativos accesibles mediante red. \\n Probablemente sea un mirror o una copia de uno o más CDs o DVDs."
 
 msgid "A partition table entry represents either"
 msgstr "Una entrada en la tabla de particiones representa ambos"
@@ -608,7 +608,7 @@ msgstr "Base dn"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Host"
-msgstr "Equipo"
+msgstr "Host"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Ldap filter"
@@ -642,7 +642,7 @@ msgstr "Autorizar la delegación de usuario con la variable de entorno REMOTE_US
 msgid ""
 "Authorize login delegation with REMOTE_USER environment variable for API "
 "calls too"
-msgstr "Autorizar la delegación de login con la variable de entorno REMOTE_USER para llamadas de la API también."
+msgstr "Autorizar delegación de login con la variable de entorno REMOTE_USER también para llamadas de la API."
 
 msgid "Authorized by"
 msgstr "Autorizado por"
@@ -663,7 +663,7 @@ msgid "Available Classes"
 msgstr "Clases disponibles"
 
 msgid "Available Config Groups"
-msgstr "Agrupaciones para Configuración Disponibles"
+msgstr "Conjuntos de Configuración Disponibles"
 
 msgid "Available Providers"
 msgstr "Proveedores disponibles"
@@ -904,7 +904,7 @@ msgid "Click to remove %s"
 msgstr "Click para eliminar %s"
 
 msgid "Click to remove config group"
-msgstr "Haga click para eliminar la agrupación para configuración"
+msgstr "Haga click para eliminar el conjunto de configuración"
 
 msgid "Click to undo adding this class"
 msgstr "Click para deshacer el haber añadido esta clase"
@@ -968,15 +968,15 @@ msgstr "Recursos de computación"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeAttribute|Name"
-msgstr "Atributo de Cómputo|Nombre"
+msgstr "Nombre"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeAttribute|Vm attrs"
-msgstr "Atributo de cómputo|VM atrib"
+msgstr "Atrib MV"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeProfile|Name"
-msgstr "Perfil de cómputo|Nombre"
+msgstr "Nombre"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Attrs"
@@ -1010,7 +1010,7 @@ msgid "Config Retrieval"
 msgstr "Recuperar configuración"
 
 msgid "Config groups"
-msgstr "Agrupación para configuración"
+msgstr "Conjunto de configuración"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
@@ -1330,7 +1330,7 @@ msgid "Edit Compute profile: %s"
 msgstr "Editar perfil de Cómputo: %s"
 
 msgid "Edit Config group"
-msgstr "Modificar Agrupación de configuración"
+msgstr "Modificar Conjunto de configuración"
 
 msgid "Edit Domain"
 msgstr "Editar Dominio"
@@ -1532,23 +1532,23 @@ msgstr "Valor de detalle"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "FactName|Ancestry"
-msgstr "NombreDetalle|Ascendencia"
+msgstr "Ascendencia"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "FactName|Compose"
-msgstr "NombreDetalle|Componer"
+msgstr "Componer"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "FactName|Name"
-msgstr "NombreDetalle|Nombre"
+msgstr "Nombre"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "FactName|Short name"
-msgstr "NombreDetalle|Nombre corto"
+msgstr "Nombre corto"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "FactValue|Value"
-msgstr "ValorDetalle|Valor"
+msgstr "Valor"
 
 msgid "Facts"
 msgstr "Detalles"
@@ -1695,16 +1695,16 @@ msgid "Filters and permissions"
 msgstr "Permisos y filtros"
 
 msgid "Filter|Permissions"
-msgstr "Filtro|Permisos"
+msgstr "Permisos"
 
 msgid "Filter|Resource"
-msgstr "Filtro|Recurso"
+msgstr "Recurso"
 
 msgid "Filter|Search"
-msgstr "Filtro|Buscar"
+msgstr "Buscar"
 
 msgid "Filter|Unlimited"
-msgstr "Filtro|Ilimitado"
+msgstr "Ilimitado"
 
 msgid "Fingerprint"
 msgstr "Huella"
@@ -1743,7 +1743,7 @@ msgid ""
 "medium entry describing them all.\\n  The entry, which could be just named "
 "'Red Hat' could contain a path like this "
 "<em>'http://server/redhat/$version/$arch'</em>"
-msgstr "Por ejemplo, si ha copiado imágenes de disco de varios lanzamientos de Red Hat en una estructura de directorios donde las imágenes de disco están nombrados como 5.8 o 6.2 y cada una contiene los binarios tanto de x86_64 como de i386, podría crear una sola entrada de medio de instalación que describa todos ellos.\\n Dicha entrada, que podría ser nombrada simplemente 'Red Hat', podría contener una ruta como esta <em>'http://servidor/redhat/$version/$arch'</em>"
+msgstr "Por ejemplo, si ha copiado versiones de imágenes de disco de Red Hat en una estructura de directorios con nombres como 5.8 o 6.2 y cada uno contiene los binarios tanto de x86_64 como de i386, \\n podría crear una sola entrada de medio de instalación que los describa a todos.\\n Dicha entrada, que podría ser nombrada simplemente 'Red Hat', podría contener una ruta como esta <em>'http://servidor/redhat/$version/$arch'</em>"
 
 msgid ""
 "For example, there might be a data center in London and one in Virginia; "
@@ -2068,7 +2068,7 @@ msgstr "Tipo de propietario"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Puppet status"
-msgstr "Host::Base|Estado de Puppet"
+msgstr "Estado de Puppet"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Root pass"
@@ -2272,7 +2272,7 @@ msgstr "Nombre"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|User data"
-msgstr "Imágen|Datos de usuario"
+msgstr "Datos de usuario"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Username"
@@ -2323,7 +2323,7 @@ msgid "Included Classes"
 msgstr "Clases incluidas"
 
 msgid "Included Config Groups"
-msgstr "Agrupaciones de Configuración Incluídas"
+msgstr "Conjuntos de Configuración Incluídas"
 
 msgid "Included Parameters via inheritance"
 msgstr "Parámetros incluidos por herencia"
@@ -2710,19 +2710,19 @@ msgstr "Modelo"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
-msgstr "Modelo|Modelo de hardware"
+msgstr "Modelo de hardware"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Info"
-msgstr "Modelo|Información"
+msgstr "Información"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Name"
-msgstr "Modelo|Nombre"
+msgstr "Nombre"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Vendor class"
-msgstr "Modelo|Tipo de vendedor"
+msgstr "Tipo de vendedor"
 
 msgid "Modified"
 msgstr "Modificado"
@@ -2812,10 +2812,10 @@ msgid "New Compute profile"
 msgstr "Nuevo perfil de Cómputo"
 
 msgid "New Config Group"
-msgstr "Nueva Agrupación de Configuración"
+msgstr "Nuevo Conjunto de configuración"
 
 msgid "New Config group"
-msgstr "Nueva Agrupación de configuración"
+msgstr "Nuevo Conjunto de configuración"
 
 msgid "New Domain"
 msgstr "Nuevo Dominio"
@@ -3242,7 +3242,7 @@ msgstr "Sistemaoperativo"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Description"
-msgstr "Sistemaoperativo|Descripción"
+msgstr "Descripción"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Major"
@@ -3696,7 +3696,7 @@ msgid "Realms"
 msgstr "Sectores"
 
 msgid "Realm|Name"
-msgstr "Sector|Nombre"
+msgstr "Nombre"
 
 msgid ""
 "Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
@@ -3788,7 +3788,7 @@ msgstr "Generado Informe en"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Report|Status"
-msgstr "Informe|Estado"
+msgstr "Estado"
 
 msgid ""
 "Required parameter without value.<br/><b>Please override!</b> "
@@ -4026,7 +4026,7 @@ msgstr "Categoría"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Default"
-msgstr "Configuración|Predeterminado"
+msgstr "Predeterminado"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Description"
@@ -4662,11 +4662,11 @@ msgstr "Tendencias para %s"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend|Fact name"
-msgstr "Tendencia|Nombre de detalle"
+msgstr "Nombre de detalle"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend|Fact value"
-msgstr "Tendencia|Valor de detalle"
+msgstr "Valor de detalle"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Trend|Name"
@@ -4926,15 +4926,15 @@ msgstr "Grupo de usuarios"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserFact|Andor"
-msgstr "DetalleUsuario|Y/o"
+msgstr "Y/o"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserFact|Criteria"
-msgstr "DetalleUsuario|Criterios"
+msgstr "Criterios"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserFact|Operator"
-msgstr "DetalleUsuario|Operador"
+msgstr "Operador"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup"
@@ -4972,7 +4972,7 @@ msgstr "Dominios y/o"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Facts andor"
-msgstr "Usuario|Datalles y/o"
+msgstr "Detalles y/o"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Filter on owner"
@@ -5012,7 +5012,7 @@ msgstr "Correo"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Organizations andor"
-msgstr "Usuario|Organizaciones yo"
+msgstr "Organizaciones y/o"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
@@ -5024,7 +5024,7 @@ msgstr "Indicio de contraseña"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Subscribe to all hostgroups"
-msgstr "Usuario| Suscribir a todos los grupos de hosts"
+msgstr "Suscribir a todos los grupos de hosts"
 
 msgid ""
 "Using the organization system provides a way to group resources together for"
@@ -5333,7 +5333,7 @@ msgid "and relevant log entries."
 msgstr "y entradas relevantes de registros"
 
 msgid "belongs to config group"
-msgstr "pertenece a una agrupación de configuración"
+msgstr "pertenece a un conjunto de configuración"
 
 msgid "can't be bigger than to range"
 msgstr "no puede ser mayor que el rango"
