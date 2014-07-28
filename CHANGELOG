@@ -1,3 +1,65 @@
+2014-07-28	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+	* refs #6375 - revert string change
+	* fixes #6402 - use standard success/error handlers in UI controllers
+	* fixes #6331 - use view permission to authorize individual VM show pages
+	* fixes #6177 - clear host facts/reports when build=true set over API
+
+2014-07-28	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #6065 - Update TopbarSweeper to clear cache for other users than User.current
+
+2014-07-28	Neil Miao <nmiao@redhat.com>
+	* Fixes #6483 - oVirt network is properly populated for multiple datacenters
+
+2014-07-28	Joseph Magen <jmagen@redhat.com>
+	* fixes #6375 - fix needed for Rails 3.2.8 only that ensures reference_id on parameter.rb matches the nested object id
+	* fixes #6355 - OS free text search shouldn't search associations
+	* fixes #6216, #4416 - avoid foreign key errors when deleting some objects in use
+	* fixes #5777 - search on filters returns error
+	* fixes #5566 - free text fact values query produces invalid SQL error
+	* fixes #5848 - can't search for host with class inherited from config group
+	* fixes #5129 - Host Group creation may fail if parameter is same name
+	* fixes #4736 - organization edit ui has unselectable environment
+
+2014-07-28	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #6580 - XSS in operating system name/description (CVE-2014-3531)
+	* Fixes #6357 - ensure JS is loaded so taxonomy_added is defined on user form
+	* Fixes #6337 - ensure VM tab is still visible when we deselect profile
+	* Fixes #6533 - rest-client 1.7.0 dropped Ruby 1.8 support
+
+2014-07-28	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #5235: it's impossible to create filters with invaid searches
+	* fixes #5994: Power and Console buttons are available to non-admin users with appropriate permissions
+	* fixes #5722: VM-based host cloning picks up existing compute attributes
+
+2014-07-28	Trey Dockendorf <treydock@gmail.com>
+	* fixes #6358 - Update LookupValue fqdn matchers when a host is renamed
+
+2014-07-28	David Swift <dswift@brightroll.com>
+	* fixes #6374 - NIC hostname now blank when domain is present, but no hostname is given
+
+2014-07-28	Lukas Zapletal <lzap+git@redhat.com>
+	* fixes #5928 - added selinux info to foreman-debug
+
+2014-07-28	Tom McKay <thomasmckay@redhat.com>
+	* fixes #6003 - don't render user default loc/org object directly
+
+2014-07-28	Ivan Nečas <inecas@redhat.com>
+	* Fixes #6160 - don't validate images for network based provisioning
+
+2014-07-28	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #6234 - fixes sorting on compute resources and subnets
+
+2014-07-28	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #6779: Restrict ci_reporter gem to less than 2.0.0 to fix CI.
+
+2014-07-07	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #6501: pin jquery-ui-rails
+
+2014-07-01	Dominic Cleal <dcleal@redhat.com>
+	* refs #6410 - pin deep_cloneable
+	* Update release GPG key
+
 2014-06-18	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.5.1
 

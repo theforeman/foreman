@@ -14,8 +14,8 @@
 %endif
 
 Name:   foreman
-Version: 1.5.1
-Release: 2%{?dist}
+Version: 1.5.2
+Release: 1%{?dist}
 Summary:Systems Management web application
 
 Group:  Applications/System
@@ -583,6 +583,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Mon Jul 28 2014 Dominic Cleal <dcleal@redhat.com> - 1.5.2-1
+- Release 1.5.2
+
 * Tue Jul 01 2014 Dominic Cleal <dcleal@redhat.com> - 1.5.1-2
 - Update release GPG key
 
