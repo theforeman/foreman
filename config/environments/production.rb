@@ -110,6 +110,7 @@ Foreman::Application.configure do |app|
                   class_edit
                   dashboard
                   auth_source_ldap
+                  subnets
                  )
   stylesheets = %w( )
 
