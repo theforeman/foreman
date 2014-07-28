@@ -1,6 +1,9 @@
 module Api
   module V2
     class FiltersController < V2::BaseController
+
+      wrap_parameters :filter, :include => (Filter.attribute_names + ['permission_ids']), :format => :json
+
       include Api::Version2
       include Api::TaxonomyScope
 
@@ -24,13 +27,11 @@ module Api
       end
 
       def_param_group :filter do
-        param :filter, Hash, :action_aware => true, :required => true do
-          param :role_id, String, :required => true
-          param :search, String
-          param :permission_ids, Array
-          param :organization_ids, Array
-          param :location_ids, Array
-        end
+        param :role_id, String, :required => true, :action_aware => true
+        param :search, String
+        param :permission_ids, Array
+        param :organization_ids, Array
+        param :location_ids, Array
       end
 
       api :POST, "/filters/", "Create a filter."

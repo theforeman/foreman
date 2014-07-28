@@ -21,18 +21,18 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
 
   test "should create subnet" do
     assert_difference('Subnet.count') do
-      post :create, { :subnet => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :success
   end
 
   test "does not create subnet with non-existent domain" do
-    post :create, { :subnet => valid_attrs.merge( :domain_ids => [1, 2] ) }
+    post :create, valid_attrs.merge( :domain_ids => [1, 2] )
     assert_response :not_found
   end
 
   test "should update subnet" do
-    put :update, { :id => subnets(:one).to_param, :subnet => { } }
+    put :update, { :id => subnets(:one).to_param }
     assert_response :success
   end
 

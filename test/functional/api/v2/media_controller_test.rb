@@ -25,7 +25,7 @@ class Api::V2::MediaControllerTest < ActionController::TestCase
 
   test "should create medium" do
     assert_difference('Medium.count', +1) do
-      post :create, { :medium => new_medium }
+      post :create, new_medium
     end
     assert_response :created
     assert_not_nil assigns(:medium)

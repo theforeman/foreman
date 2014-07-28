@@ -23,22 +23,20 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
   test "create interface" do
     host = hosts(:one)
     assert_difference('host.interfaces.count') do
-      post :create, { :host_id => host.to_param, :interface => valid_attrs }
+      post :create, valid_attrs.merge(:host_id => host.to_param)
     end
     assert_response 201
   end
 
   test "username and password are set on POST (create)" do
     host = hosts(:one)
-    post :create, { :host_id => host.to_param, :interface => valid_attrs }
+    post :create, valid_attrs.merge(:host_id => host.to_param)
     assert_equal Nic::BMC.find_by_host_id(host.id).attrs[:password], valid_attrs['password']
   end
 
   test "update a host interface" do
      nics(:bmc).update_attribute(:host_id, hosts(:one).id)
-     put :update, { :host_id => hosts(:one).to_param,
-                    :id => nics(:bmc).to_param,
-                    :interface => valid_attrs.merge( { :host_id => hosts(:one).id } ) }
+     put :update, valid_attrs.merge(:host_id => hosts(:one).to_param, :id => nics(:bmc).to_param)
      assert_response :success
      assert_equal Host.find_by_name(hosts(:one).name).interfaces.order("nics.updated_at").last.ip, valid_attrs['ip']
   end

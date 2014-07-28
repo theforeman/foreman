@@ -2,7 +2,7 @@ module Api
   module V2
     class ComputeResourcesController < V2::BaseController
 
-      wrap_parameters ComputeResource, :include => (ComputeResource.attribute_names + ['tenant', 'image_id', 'managed_ip', 'provider',
+      wrap_parameters :compute_resource, :include => (ComputeResource.attribute_names + ['tenant', 'image_id', 'managed_ip', 'provider',
                                                    'template', 'templates', 'set_console_password', 'project', 'key_path', 'email', 'zone',
                                                    'display_type', 'ovirt_quota', 'public_key', 'region', 'server', 'datacenter', 'pubkey_hash',
                                                    'nics_attributes', 'volumes_attributes', 'memory'])
@@ -30,18 +30,16 @@ module Api
       end
 
       def_param_group :compute_resource do
-        param :compute_resource, Hash, :action_aware => true do
-          param :name, String
-          param :provider, String, :desc => "Providers include #{ComputeResource.providers.join(', ')}"
-          param :url, String, :required => true, :desc => "URL for Libvirt, Ovirt, and Openstack"
-          param :description, String
-          param :user, String, :desc => "Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2."
-          param :password, String, :desc => "Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2"
-          param :uuid, String, :desc => "for Ovirt, Vmware Datacenter"
-          param :region, String, :desc => "for EC2 only"
-          param :tenant, String, :desc => "for Openstack only"
-          param :server, String, :desc => "for Vmware"
-        end
+        param :name, String, :required => true, :action_aware => true
+        param :provider, String, :desc => "Providers include #{ComputeResource.providers.join(', ')}"
+        param :url, String, :required => true, :action_aware => true, :desc => "URL for Libvirt, Ovirt, and Openstack"
+        param :description, String
+        param :user, String, :desc => "Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2."
+        param :password, String, :desc => "Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2"
+        param :uuid, String, :desc => "for Ovirt, Vmware Datacenter"
+        param :region, String, :desc => "for EC2 only"
+        param :tenant, String, :desc => "for Openstack only"
+        param :server, String, :desc => "for Vmware"
       end
 
       api :POST, "/compute_resources/", "Create a compute resource."

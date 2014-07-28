@@ -26,10 +26,8 @@ module Api
       end
 
       def_param_group :smart_proxy do
-        param :smart_proxy, Hash, :action_aware => true do
-          param :name, String, :required => true
-          param :url, String, :required => true
-        end
+        param :name, String, :required => true, :action_aware => true
+        param :url, String, :required => true, :action_aware => true
       end
 
       api :POST, "/smart_proxies/", "Create a smart proxy."

@@ -20,7 +20,7 @@ class Api::V2::ModelsControllerTest < ActionController::TestCase
 
   test "should create model" do
     assert_difference('Model.count', +1) do
-      post :create, { :model => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :created
     assert_not_nil assigns(:model)

@@ -22,13 +22,13 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
 
   test "should create puppetclass" do
     assert_difference('Puppetclass.count') do
-      post :create, { :puppetclass => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :success
   end
 
   test "should update puppetclass" do
-    put :update, { :id => puppetclasses(:one).to_param, :puppetclass => { } }
+    put :update, { :id => puppetclasses(:one).to_param }
     assert_response :success
   end
 
@@ -125,13 +125,13 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
 
   test "should create puppetclass" do
     assert_difference('Puppetclass.count') do
-      post :create, { :puppetclass => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :success
   end
 
   test "should update puppetclass" do
-    put :update, { :id => puppetclasses(:one).to_param, :puppetclass => { } }
+    put :update, { :id => puppetclasses(:one).to_param}
     assert_response :success
   end
 

@@ -20,7 +20,7 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
   test "should create valid" do
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
     valid_attrs = { :template => "This is a test template", :template_kind_id => template_kinds(:ipxe).id, :name => "RandomName" }
-    post :create, { :config_template => valid_attrs }
+    post :create, valid_attrs
     template = ActiveSupport::JSON.decode(@response.body)
     assert template["name"] == "RandomName"
     assert_response 200
@@ -33,15 +33,15 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
 
   test "should update valid" do
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, { :id              => config_templates(:pxekickstart).to_param,
-                   :config_template => { :template => "blah" } }
+    put :update, { :id       => config_templates(:pxekickstart).to_param,
+                   :template => "blah" }
     template = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
   end
 
   test "should not update invalid" do
-    put :update, { :id              => config_templates(:pxekickstart).to_param,
-                   :config_template => { :name => "" } }
+    put :update, { :id   => config_templates(:pxekickstart).to_param,
+                   :name => "" }
     assert_response 422
   end
 

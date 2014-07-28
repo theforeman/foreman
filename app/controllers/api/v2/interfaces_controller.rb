@@ -24,17 +24,15 @@ module Api
       end
 
       def_param_group :interface do
-        param :interface, Hash, :action_aware => true, :desc => 'interface information' do
-          param :mac, String, :required => true, :desc => 'MAC address of interface'
-          param :ip, String, :required => true, :desc => 'IP address of interface'
-          param :type, String, :required => true, :desc => 'Interface type, i.e: Nic::BMC'
-          param :name, String, :required => true, :desc => 'Interface name'
-          param :subnet_id, Fixnum, :desc => 'Foreman subnet id of interface'
-          param :domain_id, Fixnum, :desc => 'Foreman domain id of interface'
-          param :username, String
-          param :password, String
-          param :provider, String, :desc => 'Interface provider, i.e: IPMI'
-        end
+        param :mac, String, :required => true, :action_aware => true, :desc => 'MAC address of interface'
+        param :ip, String, :required => true, :action_aware => true, :desc => 'IP address of interface'
+        param :type, String, :required => true, :action_aware => true, :desc => 'Interface type, i.e: Nic::BMC'
+        param :name, String, :required => true, :action_aware => true, :desc => 'Interface name'
+        param :subnet_id, Fixnum, :desc => 'Foreman subnet id of interface'
+        param :domain_id, Fixnum, :desc => 'Foreman domain id of interface'
+        param :username, String
+        param :password, String
+        param :provider, String, :desc => 'Interface provider, i.e: IPMI'
       end
 
       api :POST, '/hosts/:host_id/interfaces', 'Create an interface linked to a host'

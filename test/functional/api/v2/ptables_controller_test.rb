@@ -21,13 +21,13 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
 
   test "should create ptable" do
     assert_difference('Ptable.count') do
-      post :create, { :ptable => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :success
   end
 
   test "should update ptable" do
-    put :update, { :id => ptables(:one).to_param, :ptable => { } }
+    put :update, { :id => ptables(:one).to_param }
     assert_response :success
   end
 

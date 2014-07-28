@@ -21,13 +21,13 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
 
   test "should create auth_source_ldap" do
     assert_difference('AuthSourceLdap.count', 1) do
-      post :create, { :auth_source_ldap => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :success
   end
 
   test "should update auth_source_ldap" do
-    put :update, { :id => auth_sources(:one).to_param, :auth_source_ldap => { } }
+    put :update, { :id => auth_sources(:one).to_param }
     assert_response :success
   end
 

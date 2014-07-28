@@ -22,8 +22,9 @@ class Api::V2::OsDefaultTemplatesControllerTest < ActionController::TestCase
     # remove all os default templates and then create one below
     OsDefaultTemplate.delete_all
     assert_difference('OsDefaultTemplate.count') do
-      post :create, { :operatingsystem_id => operatingsystems(:redhat).to_param, :os_default_template => {:config_template_id => config_templates(:mystring).id,
-                                                                                                          :template_kind_id => template_kinds(:ipxe).id}
+      post :create, { :operatingsystem_id => operatingsystems(:redhat).to_param,
+                      :config_template_id => config_templates(:mystring).id,
+                      :template_kind_id => template_kinds(:ipxe).id
                     }
     end
     assert_response :success
@@ -33,7 +34,7 @@ class Api::V2::OsDefaultTemplatesControllerTest < ActionController::TestCase
   test 'should update os_default_template for os' do
     # current fixtures has pxekickstart for PXELinux template kind.  Update it to pxe_local_default
     put :update, { :operatingsystem_id => operatingsystems(:redhat).to_param,  :id => os_default_templates(:one),
-                   :os_default_template => {:config_template_id => config_templates(:pxe_local_default).id, :template_kind_id => template_kinds(:pxelinux).id}
+                   :config_template_id => config_templates(:pxe_local_default).id, :template_kind_id => template_kinds(:pxelinux).id
                     }
     assert_response :success
     assert_not_nil assigns(:os_default_template)

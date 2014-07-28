@@ -22,11 +22,9 @@ module Api
       end
 
       def_param_group :ptable do
-        param :ptable, Hash, :action_aware => true do
-          param :name, String, :required => true
-          param :layout, String, :required => true
-          param :os_family, String, :required => false
-        end
+        param :name, String, :required => true, :action_aware => true
+        param :layout, String, :required => true, :action_aware => true
+        param :os_family, String, :required => false
       end
 
       api :POST, "/ptables/", "Create a ptable."

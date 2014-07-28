@@ -79,7 +79,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should create host parameter" do
     host = hosts(:one)
     assert_difference('host.parameters.count') do
-      post :create, { :host_id => host.to_param, :parameter => valid_attrs }
+      post :create, valid_attrs.merge(:host_id => host.to_param)
     end
     assert_response :success
   end
@@ -87,7 +87,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should create domain parameter" do
     domain = domains(:mydomain)
     assert_difference('domain.parameters.count') do
-      post :create, { :domain_id => domain.to_param, :parameter => valid_attrs }
+      post :create, valid_attrs.merge(:domain_id => domain.to_param)
     end
     assert_response :success
   end
@@ -95,7 +95,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should create hostgroup parameter" do
     hostgroup = hostgroups(:common)
     assert_difference('hostgroup.group_parameters.count') do
-      post :create, { :hostgroup_id => hostgroup.to_param, :parameter => valid_attrs }
+      post :create, valid_attrs.merge(:hostgroup_id => hostgroup.to_param)
     end
     assert_response :success
   end
@@ -103,31 +103,31 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should create os parameter" do
     os = operatingsystems(:redhat)
     assert_difference('os.parameters.count') do
-      post :create, { :operatingsystem_id => os.to_param, :parameter => valid_attrs }
+      post :create, valid_attrs.merge(:operatingsystem_id => os.to_param)
     end
     assert_response :success
   end
 
   test "should update nested host parameter" do
-     put :update, { :host_id => hosts(:one).to_param, :id => parameters(:host).to_param, :parameter => valid_attrs  }
+     put :update, valid_attrs.merge(:host_id => hosts(:one).to_param, :id => parameters(:host).to_param)
      assert_response :success
      assert_equal Host.find_by_name("my5name.mydomain.net").parameters.order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested domain parameter" do
-     put :update, { :domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param, :parameter => valid_attrs  }
+     put :update, valid_attrs.merge(:domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param)
      assert_response :success
      assert_equal Domain.find_by_name("mydomain.net").parameters.order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested hostgroup parameter" do
-     put :update, { :hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param, :parameter => valid_attrs  }
+     put :update, valid_attrs.merge(:hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param)
      assert_response :success
      assert_equal Hostgroup.find_by_name("Common").group_parameters.order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested os parameter" do
-     put :update, { :operatingsystem_id => operatingsystems(:redhat).to_param, :id => parameters(:os).to_param, :parameter => valid_attrs  }
+     put :update, valid_attrs.merge(:operatingsystem_id => operatingsystems(:redhat).to_param, :id => parameters(:os).to_param)
      assert_response :success
      assert_equal Operatingsystem.find_by_name("Redhat").parameters.order("parameters.updated_at").last.value, "123"
   end

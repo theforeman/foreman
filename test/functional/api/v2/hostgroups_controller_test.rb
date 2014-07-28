@@ -21,13 +21,13 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
 
   test "should create hostgroup" do
     assert_difference('Hostgroup.count') do
-      post :create, { :hostgroup => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :success
   end
 
   test "should update hostgroup" do
-    put :update, { :id => hostgroups(:common).to_param, :hostgroup => { } }
+    put :update, { :id => hostgroups(:common).to_param }
     assert_response :success
   end
 
@@ -48,14 +48,14 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
 
   test "should create nested hostgroup with a parent" do
     assert_difference('Hostgroup.count') do
-      post :create, { :hostgroup => valid_attrs.merge(:parent_id => hostgroups(:common).id) }
+      post :create, valid_attrs.merge!(:parent_id => hostgroups(:common).id)
     end
     assert_response :success
     assert_equal hostgroups(:common).id.to_s, Hostgroup.unscoped.order(:id).last.ancestry
   end
 
   test "should update a hostgroup to nested by passing parent_id" do
-    put :update, { :id => hostgroups(:db).to_param, :hostgroup => {:parent_id => hostgroups(:common).id} }
+    put :update, { :id => hostgroups(:db).to_param, :parent_id => hostgroups(:common).id }
     assert_response :success
     assert_equal hostgroups(:common).id.to_s, Hostgroup.find_by_name("db").ancestry
   end

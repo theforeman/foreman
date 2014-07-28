@@ -25,13 +25,13 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
 
   test "should create usergroup" do
     assert_difference('Usergroup.count') do
-      post :create, { :usergroup => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :success
   end
 
   test "should update usergroup" do
-    put :update, { :id => @usergroup.to_param, :usergroup => { } }
+    put :update, { :id => @usergroup.to_param}
     assert_response :success
   end
 

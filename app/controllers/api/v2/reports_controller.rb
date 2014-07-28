@@ -30,13 +30,11 @@ module Api
       end
 
       def_param_group :report do
-        param :report, Hash, :action_aware => true do
-          param :host, String, :required => true, :desc => "Hostname or certname"
-          param :reported_at, String, :required => true, :desc => "UTC time of report"
-          param :status, Hash, :required => true, :desc => "Hash of status type totals"
-          param :metrics, Hash, :required => true, :desc => "Hash of report metrics, can be just {}"
-          param :logs, Array, :desc => "Optional array of log hashes"
-        end
+        param :host, String, :required => true, :action_aware => true, :desc => "Hostname or certname"
+        param :reported_at, String, :required => true, :action_aware => true, :desc => "UTC time of report"
+        param :status, Hash, :required => true, :action_aware => true, :desc => "Hash of status type totals"
+        param :metrics, Hash, :required => true, :action_aware => true, :desc => "Hash of report metrics, can be just {}"
+        param :logs, Array, :desc => "Optional array of log hashes"
       end
 
       api :POST, "/reports/", "Create a report."

@@ -26,11 +26,9 @@ module Api
       end
 
       def_param_group :realm do
-        param :realm, Hash, :action_aware => true do
-          param :name, String, :required => true, :desc => "The realm name, e.g. EXAMPLE.COM"
-          param :realm_proxy_id, :number, :required => false, :allow_nil => true, :desc => "Proxy to use for this realm"
-          param :realm_type, String, :required => true, :desc => "Realm type, e.g. FreeIPA or Active Directory"
-        end
+        param :name, String, :required => true, :action_aware => true, :desc => "The realm name, e.g. EXAMPLE.COM"
+        param :realm_proxy_id, :number, :required => false, :allow_nil => true, :desc => "Proxy to use for this realm"
+        param :realm_type, String, :required => true, :action_aware => true, :desc => "Realm type, e.g. FreeIPA or Active Directory"
       end
 
       api :POST, "/realms/", "Create a realm."

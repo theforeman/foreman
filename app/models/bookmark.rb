@@ -2,7 +2,8 @@ class Bookmark < ActiveRecord::Base
   include Authorizable
 
   belongs_to :owner, :polymorphic => true
-  attr_accessible :name, :controller, :query, :public
+  attr_accessible :name, :controller, :controller_name, :query, :public
+  alias_attribute :controller_name, :controller
   audited :allow_mass_assignment => true
 
   validates :name, :uniqueness => true, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}

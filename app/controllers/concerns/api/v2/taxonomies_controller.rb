@@ -13,9 +13,7 @@ module Api::V2::TaxonomiesController
   extend Apipie::DSL::Concern
 
   def_param_group :resource do
-    param :resource, Hash, :action_aware => true do
-      param :name, String, :required => true
-    end
+    param :name, String, :required => true, :action_aware => true
   end
 
   api :GET, '/:resource_id', 'List all :resource_id'

@@ -1,2 +1,2 @@
 object @bookmark
-attributes :name, :controller, :query, :public, :id, :owner_id, :owner_type
+attributes :name, :controller, :controller_name, :query, :public, :id, :owner_id, :owner_type
