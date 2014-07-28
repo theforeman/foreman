@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-11 09:09-0400\n"
+"POT-Creation-Date: 2014-07-28 10:14+0100\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -1566,6 +1566,9 @@ msgstr ""
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
 
+msgid "Failed to update environments and Puppet classes from the on-disk Puppet installation: %s"
+msgstr ""
+
 #. initial character of Failed
 msgid "Failed|F"
 msgstr ""
@@ -2778,6 +2781,9 @@ msgstr ""
 msgid "No changes found when refreshing features from %s."
 msgstr ""
 
+msgid "No changes to your environments detected"
+msgstr ""
+
 msgid "No compute resource to show"
 msgstr ""
 
@@ -2846,6 +2852,9 @@ msgid "No reports|N"
 msgstr ""
 
 msgid "No smart proxies to show"
+msgstr ""
+
+msgid "No smart proxy was found to import environments from, ensure that at least one smart proxy is registered with the 'puppet' feature."
 msgstr ""
 
 msgid "No subnets"
@@ -4026,13 +4035,7 @@ msgstr ""
 msgid "Successfully created %s."
 msgstr ""
 
-msgid "Successfully created puppetclass."
-msgstr ""
-
 msgid "Successfully deleted %s."
-msgstr ""
-
-msgid "Successfully destroyed puppetclass."
 msgstr ""
 
 msgid "Successfully destroyed report."
@@ -4050,7 +4053,7 @@ msgstr ""
 msgid "Successfully updated %s."
 msgstr ""
 
-msgid "Successfully updated puppetclass."
+msgid "Successfully updated environments and Puppet classes from the on-disk Puppet installation"
 msgstr ""
 
 msgid "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
