@@ -3,6 +3,13 @@ require 'test_helper'
 class DnsOrchestrationTest < ActiveSupport::TestCase
   def setup
     disable_orchestration
+    SETTINGS[:locations_enabled] = false
+    SETTINGS[:organizations_enabled] = false
+  end
+
+  def teardown
+    SETTINGS[:locations_enabled] = true
+    SETTINGS[:organizations_enabled] = true
   end
 
   def test_host_should_have_dns
