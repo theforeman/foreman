@@ -33,7 +33,7 @@ class Api::V2::MediaControllerTest < ActionController::TestCase
 
   test "should update medium" do
     name = Medium.first.name
-    put :update, { :id => Medium.first.id.to_param, :name => "#{name}".to_param }
+    put :update, { :id => Medium.first.id.to_param, :medium => {:name => "#{name}".to_param } }
     assert_response :success
   end
 

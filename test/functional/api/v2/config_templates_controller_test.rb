@@ -14,7 +14,7 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     assert_response :success
     template = ActiveSupport::JSON.decode(@response.body)
     assert !template.empty?
-    assert_equal template["name"], config_templates(:pxekickstart).name
+    assert_equal template["config_template"]["name"], config_templates(:pxekickstart).name
   end
 
   test "should create valid" do
@@ -22,12 +22,12 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     valid_attrs = { :template => "This is a test template", :template_kind_id => template_kinds(:ipxe).id, :name => "RandomName" }
     post :create, { :config_template => valid_attrs }
     template = ActiveSupport::JSON.decode(@response.body)
-    assert template["name"] == "RandomName"
+    assert template["config_template"]["name"] == "RandomName"
     assert_response 200
   end
 
   test "should not create invalid" do
-    post :create
+    post :create, { :config_template => {:name => ""} }
     assert_response 422
   end
 
