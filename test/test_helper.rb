@@ -285,6 +285,8 @@ Spork.each_run do
     def set_basic_auth(user, password)
       login = user.is_a?(User) ? user.login : user
       @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(login, password)
+      @request.env['CONTENT_TYPE'] = 'application/json'
+      @request.env['HTTP_ACCEPT'] = 'application/json'
     end
   end
 

@@ -9,6 +9,7 @@ module Api
       end
 
       before_filter :setup_has_many_params, :only => [:create, :update]
+      before_filter :check_content_type
       # ensure include_root_in_json = false for V2 only
       around_filter :disable_json_root
 
@@ -70,6 +71,12 @@ module Api
               params[controller_name.singularize][magic_method_names] = v.map { |a| a["name"] }
             end
           end
+        end
+      end
+
+      def check_content_type
+        if (request.post? || request.put?) && request.content_type != "application/json"
+          render_error(:unsupported_content_type, :status => 415)
         end
       end
 
