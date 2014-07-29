@@ -3,7 +3,7 @@ module Api
 
     class StatisticsController < V2::BaseController
 
-      api :GET, "/statistics/", "Get statistics"
+      api :GET, "/statistics/", N_("Get statistics")
 
       def index
         @os_count    = Host.authorized(:view_hosts).count_distribution :operatingsystem

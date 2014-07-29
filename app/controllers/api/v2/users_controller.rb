@@ -9,11 +9,11 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      api :GET, "/users/", "List all users."
-      param :search, String, :desc => "filter results"
-      param :order, String, :desc => "sort results"
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      api :GET, "/users/", N_("List all users")
+      param :search, String, :desc => N_("filter results")
+      param :order, String, :desc => N_("sort results")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
         @users = User.
@@ -21,7 +21,7 @@ module Api
           search_for(*search_options).paginate(paginate_options)
       end
 
-      api :GET, "/users/:id/", "Show an user."
+      api :GET, "/users/:id/", N_("Show a user")
       param :id, String, :required => true
 
       def show
@@ -33,7 +33,7 @@ module Api
           param :firstname, String, :required => false
           param :lastname, String, :required => false
           param :mail, String, :required => true
-          param :admin, :bool, :required => false, :desc => "Is an admin account?"
+          param :admin, :bool, :required => false, :desc => N_("is an admin account")
           param :password, String, :required => true
           param :default_location_id, Integer if SETTINGS[:locations_enabled]
           param :default_organization_id, Integer if SETTINGS[:organizations_enabled]
@@ -41,8 +41,7 @@ module Api
         end
       end
 
-      api :POST, "/users/", "Create an user."
-      # TRANSLATORS: API documentation - do not translate
+      api :POST, "/users/", N_("Create a user")
       description <<-DOC
         Adds role 'Anonymous' to the user by default
       DOC
@@ -56,11 +55,10 @@ module Api
         end
       end
 
-      api :PUT, "/users/:id/", "Update an user."
-      # TRANSLATORS: API documentation - do not translate
+      api :PUT, "/users/:id/", N_("Update a user")
       description <<-DOC
         Adds role 'Anonymous' to the user if it is not already present.
-        Only admin can set admin account.
+        Only another admin can change the admin account attribute.
       DOC
       param :id, String, :required => true
       param_group :user
@@ -75,12 +73,12 @@ module Api
         end
       end
 
-      api :DELETE, "/users/:id/", "Delete an user."
+      api :DELETE, "/users/:id/", N_("Delete a user")
       param :id, String, :required => true
 
       def destroy
         if @user == User.current
-          deny_access "You are trying to delete your own account"
+          deny_access N_("You are trying to delete your own account")
         else
           process_response @user.destroy
         end

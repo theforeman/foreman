@@ -7,17 +7,17 @@ module Api
       before_filter :find_role
       before_filter :find_resource, :only => %w{show update destroy}
 
-      api :GET, "/filters/", "List all filters."
-      param :search, String, :desc => "filter results", :required => false
-      param :order, String, :desc => "sort results", :required => false
-      param :page, String, :desc => "paginate results", :required => false
-      param :per_page, String, :desc => "number of entries per request", :required => false
+      api :GET, "/filters/", N_("List all filters")
+      param :search, String, :desc => N_("filter results"), :required => false
+      param :order, String, :desc => N_("sort results"), :required => false
+      param :page, String, :desc => N_("paginate results"), :required => false
+      param :per_page, String, :desc => N_("number of entries per request"), :required => false
 
       def index
         @filters = resource_scope.search_for(*search_options).paginate(paginate_options)
       end
 
-      api :GET, "/filters/:id/", "Show a filter."
+      api :GET, "/filters/:id/", N_("Show a filter")
       param :id, :identifier, :required => true
 
       def show
@@ -33,7 +33,7 @@ module Api
         end
       end
 
-      api :POST, "/filters/", "Create a filter."
+      api :POST, "/filters/", N_("Create a filter")
       param_group :filter, :as => :create
 
       def create
@@ -41,7 +41,7 @@ module Api
         process_response @filter.save
       end
 
-      api :PUT, "/filters/:id/", "Update a filter."
+      api :PUT, "/filters/:id/", N_("Update a filter")
       param :id, String, :required => true
       param_group :filter
 
@@ -49,7 +49,7 @@ module Api
         process_response @filter.update_attributes(params[:filter])
       end
 
-      api :DELETE, "/filters/:id/", "Delete a filter."
+      api :DELETE, "/filters/:id/", N_("Delete a filter")
       param :id, String, :required => true
 
       def destroy

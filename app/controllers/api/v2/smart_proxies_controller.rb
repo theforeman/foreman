@@ -7,11 +7,11 @@ module Api
       include Api::ImportPuppetclassesCommonController
       before_filter :find_resource, :only => %w{show update destroy refresh}
 
-      api :GET, "/smart_proxies/", "List all smart_proxies."
-      param :search, String, :desc => "Filter results"
-      param :order, String, :desc => "Sort results"
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      api :GET, "/smart_proxies/", N_("List all smart proxies")
+      param :search, String, :desc => N_("filter results")
+      param :order, String, :desc => N_("sort results")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
         @smart_proxies = SmartProxy.authorized(:view_smart_proxies).includes(:features).
@@ -19,7 +19,7 @@ module Api
         @total = SmartProxy.authorized(:view_smart_proxies).includes(:features).count
       end
 
-      api :GET, "/smart_proxies/:id/", "Show a smart proxy."
+      api :GET, "/smart_proxies/:id/", N_("Show a smart proxy")
       param :id, :identifier, :required => true
 
       def show
@@ -32,7 +32,7 @@ module Api
         end
       end
 
-      api :POST, "/smart_proxies/", "Create a smart proxy."
+      api :POST, "/smart_proxies/", N_("Create a smart proxy")
       param_group :smart_proxy, :as => :create
 
       def create
@@ -40,7 +40,7 @@ module Api
         process_response @smart_proxy.save
       end
 
-      api :PUT, "/smart_proxies/:id/", "Update a smart proxy."
+      api :PUT, "/smart_proxies/:id/", N_("Update a smart proxy")
       param :id, String, :required => true
       param_group :smart_proxy
 
@@ -48,14 +48,14 @@ module Api
         process_response @smart_proxy.update_attributes(params[:smart_proxy])
       end
 
-      api :DELETE, "/smart_proxies/:id/", "Delete a smart_proxy."
+      api :DELETE, "/smart_proxies/:id/", N_("Delete a smart proxy")
       param :id, String, :required => true
 
       def destroy
         process_response @smart_proxy.destroy
       end
 
-      api :PUT, "/smart_proxies/:id/refresh", "Refresh smart proxy features"
+      api :PUT, "/smart_proxies/:id/refresh", N_("Refresh smart proxy features")
       param :id, String, :required => true
 
       def refresh

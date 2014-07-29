@@ -314,7 +314,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     facts    = fact_json['facts']
     post :facts, {:name => hostname, :facts => facts, :type => "Host::Invalid"}, set_session_user
     assert_response :unprocessable_entity
-    assert JSON.parse(response.body)['message'] =~ /ERF42-2640/
+    assert JSON.parse(response.body)['message'] =~ /ERF42-3624/
   end
 
   test "when the imported host failed to save, :unprocessable_entity is returned" do
@@ -348,7 +348,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     test "wrong power call fails gracefully" do
       put :power, { :id => hosts(:one).to_param, :power_action => 'wrongmethod' }
       assert_response 422
-      assert @response.body =~ /Available methods are/
+      assert @response.body =~ /available methods are/
     end
 
     test "boot call to interface" do
@@ -362,7 +362,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     test "wrong boot call to interface fails gracefully" do
       put :boot, { :id => hosts(:one).to_param, :device => 'wrongbootdevice' }
       assert_response 422
-      assert @response.body =~ /Available devices are/
+      assert @response.body =~ /available devices are/
     end
 
     test "should return correct total and subtotal metadata if search param is passed" do

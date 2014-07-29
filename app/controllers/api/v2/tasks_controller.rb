@@ -4,7 +4,7 @@ module Api
 
       layout false
 
-      api :GET, '/orchestration/:id/tasks/', 'List all tasks for a given orchestration event'
+      api :GET, "/orchestration/:id/tasks/", N_("List all tasks for a given orchestration event")
 
       def index
         return not_found unless Foreman.is_uuid?((id = params[:id]))

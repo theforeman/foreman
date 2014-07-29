@@ -3,12 +3,12 @@ module Api
     class FactValuesController < V2::BaseController
       before_filter :setup_search_options, :only => :index
 
-      api :GET, "/fact_values/", "List all fact values."
-      api :GET, "/hosts/:host_id/facts/", "List all fact values of a given host."
-      param :search, String, :desc => "filter results"
-      param :order, String, :desc => "sort results"
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      api :GET, "/fact_values/", N_("List all fact values")
+      api :GET, "/hosts/:host_id/facts/", N_("List all fact values of a given host")
+      param :search, String, :desc => N_("filter results")
+      param :order, String, :desc => N_("sort results")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
         values = resource_scope.includes(:fact_name, :host).search_for(*search_options).paginate(paginate_options)

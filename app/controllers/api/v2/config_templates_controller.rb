@@ -10,11 +10,11 @@ module Api
       before_filter :process_template_kind, :only => [:create, :update]
       before_filter :process_operatingsystems, :only => [:create, :update]
 
-      api :GET, "/config_templates/", "List templates"
-      param :search, String, :desc => "filter results"
-      param :order, String, :desc => "sort results"
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      api :GET, "/config_templates/", N_("List provisioning templates")
+      param :search, String, :desc => N_("filter results")
+      param :order, String, :desc => N_("sort results")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
         @config_templates = ConfigTemplate.
@@ -23,7 +23,7 @@ module Api
           includes(:operatingsystems, :template_combinations, :template_kind)
       end
 
-      api :GET, "/config_templates/:id", "Show template details"
+      api :GET, "/config_templates/:id", N_("Show provisioning template details")
       param :id, :identifier, :required => true
 
       def show
@@ -31,19 +31,19 @@ module Api
 
       def_param_group :config_template do
         param :config_template, Hash, :action_aware => true do
-          param :name, String, :required => true, :desc => "template name"
+          param :name, String, :required => true, :desc => N_("template name")
           param :template, String, :required => true
           param :snippet, :bool, :allow_nil => true
           param :audit_comment, String, :allow_nil => true
-          param :template_kind_id, :number, :allow_nil => true, :desc => "not relevant for snippet"
+          param :template_kind_id, :number, :allow_nil => true, :desc => N_("not relevant for snippet")
           param :template_combinations_attributes, Array,
-                :desc => "Array of template combinations (hostgroup_id, environment_id)"
-          param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
-          param :locked, :bool, :desc => "Whether or not the template is locked for editing"
+                :desc => N_("Array of template combinations (hostgroup_id, environment_id)")
+          param :operatingsystem_ids, Array, :desc => N_("Array of operating system IDs to associate with the template")
+          param :locked, :bool, :desc => N_("Whether or not the template is locked for editing")
         end
       end
 
-      api :POST, "/config_templates/", "Create a template"
+      api :POST, "/config_templates/", N_("Create a provisioning template")
       param_group :config_template, :as => :create
 
       def create
@@ -51,7 +51,7 @@ module Api
         process_response @config_template.save
       end
 
-      api :PUT, "/config_templates/:id", "Update a template"
+      api :PUT, "/config_templates/:id", N_("Update a provisioning template")
       param :id, :identifier, :required => true
       param_group :config_template
 
@@ -60,21 +60,21 @@ module Api
       end
 
       api :GET, "/config_templates/revision"
-      param :version, String, :desc => "template version"
+      param :version, String, :desc => N_("template version")
 
       def revision
         audit = Audit.authorized(:view_audit_logs).find(params[:version])
         render :json => audit.revision.template
       end
 
-      api :DELETE, "/config_templates/:id", "Delete a template"
+      api :DELETE, "/config_templates/:id", N_("Delete a provisioning template")
       param :id, :identifier, :required => true
 
       def destroy
         process_response @config_template.destroy
       end
 
-      api :GET, "/config_templates/build_pxe_default", "Change the default PXE menu on all configured TFTP servers"
+      api :GET, "/config_templates/build_pxe_default", N_("Update the default PXE menu on all configured TFTP servers")
 
       def build_pxe_default
         status, msg = ConfigTemplate.authorized(:deploy_templates).build_pxe_default(self)

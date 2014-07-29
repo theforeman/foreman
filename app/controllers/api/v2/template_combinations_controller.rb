@@ -4,18 +4,18 @@ module Api
       before_filter :find_resource, :only => [:show, :destroy]
       before_filter :find_parent_config_template, :only => [:index, :create]
 
-      api :GET, "/config_templates/:config_template_id/template_combinations", "List Template Combination"
+      api :GET, "/config_templates/:config_template_id/template_combinations", N_("List template combination")
       param :config_template_id, :identifier, :required => true
       def index
         @template_combinations = @config_template.template_combinations
         @total = @template_combinations.count
       end
 
-      api :POST, "/config_templates/:config_template_id/template_combinations", "Add a Template Combination"
+      api :POST, "/config_templates/:config_template_id/template_combinations", N_("Add a template combination")
       param :config_template_id, :identifier, :required => true
       param :template_combination, Hash, :required => true do
-        param :environment_id, :number, :allow_nil => true, :desc => "environment id"
-        param :hostgroup_id, :number, :allow_nil => true, :desc => "hostgroup id"
+        param :environment_id, :number, :allow_nil => true, :desc => N_("environment id")
+        param :hostgroup_id, :number, :allow_nil => true, :desc => N_("host group id")
       end
 
       def create
@@ -23,12 +23,12 @@ module Api
         process_response @template_combination.save
       end
 
-      api :GET, "/template_combinations/:id", "Show Template Combination"
+      api :GET, "/template_combinations/:id", N_("Show template combination")
       param :id, :identifier, :required => true
       def show
       end
 
-      api :DELETE, "/template_combinations/:id", "Delete a template"
+      api :DELETE, "/template_combinations/:id", N_("Delete a template combination")
       param :id, :identifier, :required => true
 
       def destroy

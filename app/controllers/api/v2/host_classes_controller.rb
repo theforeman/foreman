@@ -7,24 +7,24 @@ module Api
 
       before_filter :find_host_id, :only => [:index, :create, :destroy]
 
-      api :GET, "/hosts/:host_id/puppetclass_ids/", "List all puppetclass id's for host"
+      api :GET, "/hosts/:host_id/puppetclass_ids/", N_("List all Puppet class IDs for host")
 
       def index
         render :json => { root_node_name => HostClass.authorized(:edit_classes).where(:host_id => host_id).pluck('puppetclass_id') }
       end
 
-      api :POST, "/hosts/:host_id/puppetclass_ids", "Add a puppetclass to host"
-      param :host_id, String, :required => true, :desc => "id of host"
-      param :puppetclass_id, String, :required => true, :desc => "id of puppetclass"
+      api :POST, "/hosts/:host_id/puppetclass_ids", N_("Add a Puppet class to host")
+      param :host_id, String, :required => true, :desc => N_("ID of host")
+      param :puppetclass_id, String, :required => true, :desc => N_("ID of puppetclass")
 
       def create
         @host_class = HostClass.create!(:host_id => host_id, :puppetclass_id => params[:puppetclass_id].to_i)
         render :json => {:host_id => @host_class.host_id, :puppetclass_id => @host_class.puppetclass_id}
       end
 
-      api :DELETE, "/hosts/:host_id/puppetclass_ids/:id/", "Remove a puppetclass from host"
-      param :host_id, String, :required => true, :desc => "id of host"
-      param :id, String, :required => true, :desc => "id of puppetclass"
+      api :DELETE, "/hosts/:host_id/puppetclass_ids/:id/", N_("Remove a Puppet class from host")
+      param :host_id, String, :required => true, :desc => N_("ID of host")
+      param :id, String, :required => true, :desc => N_("ID of Puppet class")
 
       def destroy
         @host_class = HostClass.authorized(:edit_classes).where(:host_id => host_id, :puppetclass_id => params[:id])

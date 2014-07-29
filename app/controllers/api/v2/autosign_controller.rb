@@ -4,7 +4,7 @@ module Api
 
       before_filter :find_required_nested_object, :setup_proxy
 
-      api :GET, "/smart_proxies/smart_proxy_id/autosign", "List all autosign"
+      api :GET, "/smart_proxies/smart_proxy_id/autosign", N_("List all autosign entries")
 
       def index
         autosign = @api.autosign

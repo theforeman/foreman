@@ -8,17 +8,17 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
       before_filter :find_optional_nested_object, :only => [:index, :show]
 
-      api :GET, "/puppetclasses/", "List all puppetclasses."
-      api :GET, "/hosts/:host_id/puppetclasses", "List all puppetclasses for host"
-      api :GET, "/hostgroups/:hostgroup_id/puppetclasses", "List all puppetclasses for hostgroup"
-      api :GET, "/environments/:environment_id/puppetclasses", "List all puppetclasses for environment"
-      param :host_id, String, :desc => "id of nested host"
-      param :hostgroup_id, String, :desc => "id of nested hostgroup"
-      param :environment_id, String, :desc => "id of nested environment"
-      param :search, String, :desc => "Filter results"
-      param :order, String, :desc => "Sort results"
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      api :GET, "/puppetclasses/", N_("List all Puppet classes")
+      api :GET, "/hosts/:host_id/puppetclasses", N_("List all Puppet classes for a host")
+      api :GET, "/hostgroups/:hostgroup_id/puppetclasses", N_("List all Puppet classes for a host group")
+      api :GET, "/environments/:environment_id/puppetclasses", N_("List all Puppet classes for an environment")
+      param :host_id, String, :desc => N_("ID of host")
+      param :hostgroup_id, String, :desc => N_("ID of host group")
+      param :environment_id, String, :desc => N_("ID of environment")
+      param :search, String, :desc => N_("filter results")
+      param :order, String, :desc => N_("sort results")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
         values   = Puppetclass.authorized(:view_puppetclasses).search_for(*search_options) unless nested_obj
@@ -45,14 +45,14 @@ module Api
         end
       end
 
-      api :GET, "/puppetclasses/:id", "Show a puppetclass"
-      api :GET, "/hosts/:host_id/puppetclasses/:id", "Show a puppetclass for host"
-      api :GET, "/hostgroups/:hostgroup_id/puppetclasses/:id", "Show a puppetclass for hostgroup"
-      api :GET, "/environments/:environment_id/puppetclasses/:id", "Show a puppetclass for environment"
-      param :host_id, String, :desc => "id of nested host"
-      param :hostgroup_id, String, :desc => "id of nested hostgroup"
-      param :environment_id, String, :desc => "id of nested environment"
-      param :id, String, :required => true, :desc => "id of puppetclass"
+      api :GET, "/puppetclasses/:id", N_("Show a Puppet class")
+      api :GET, "/hosts/:host_id/puppetclasses/:id", N_("Show a Puppet class for host")
+      api :GET, "/hostgroups/:hostgroup_id/puppetclasses/:id", N_("Show a Puppet class for a host group")
+      api :GET, "/environments/:environment_id/puppetclasses/:id", N_("Show a Puppet class for an environment")
+      param :host_id, String, :desc => N_("ID of host")
+      param :hostgroup_id, String, :desc => N_("ID of host group")
+      param :environment_id, String, :desc => N_("ID of environment")
+      param :id, String, :required => true, :desc => N_("ID of puppetclass")
 
       def show
       end
@@ -63,7 +63,7 @@ module Api
         end
       end
 
-      api :POST, "/puppetclasses/", "Create a puppetclass."
+      api :POST, "/puppetclasses/", N_("Create a Puppet class")
       param_group :puppetclass, :as => :create
 
       def create
@@ -71,7 +71,7 @@ module Api
         process_response @puppetclass.save
       end
 
-      api :PUT, "/puppetclasses/:id/", "Update a puppetclass."
+      api :PUT, "/puppetclasses/:id/", N_("Update a Puppet class")
       param :id, String, :required => true
       param_group :puppetclass
 
@@ -79,7 +79,7 @@ module Api
         process_response @puppetclass.update_attributes(params[:puppetclass])
       end
 
-      api :DELETE, "/puppetclasses/:id/", "Delete a puppetclass."
+      api :DELETE, "/puppetclasses/:id/", N_("Delete a Puppet class")
       param :id, String, :required => true
 
       def destroy
