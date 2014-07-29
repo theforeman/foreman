@@ -7,7 +7,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_role
+      before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/filters/", "List all filters."
@@ -38,7 +38,7 @@ module Api
       param_group :filter, :as => :create
 
       def create
-        @filter = Filter.new(params[:filter])
+        @filter = nested_obj ? nested_obj.filters.build(params[:filter]) : Filter.new(params[:filter])
         process_response @filter.save
       end
 
@@ -59,18 +59,14 @@ module Api
 
       private
 
-      def find_role
-        @role = Role.find_by_id(role_id)
+      def allowed_nested_id
+        %w(role_id)
       end
 
       def resource_scope(controller = controller_name)
-        @resource_scope ||= @role.present? ?
-            @role.filters.authorized("#{action_permission}_#{controller}") :
+        @resource_scope ||= nested_obj.present? ?
+            nested_obj.filters.authorized("#{action_permission}_#{controller}") :
             resource_class.scoped.authorized("#{action_permission}_#{controller}")
-      end
-
-      def role_id
-        params[:role_id]
       end
 
     end
