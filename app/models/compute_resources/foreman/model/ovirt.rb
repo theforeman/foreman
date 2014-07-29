@@ -44,7 +44,11 @@ module Foreman::Model
     end
 
     def ovirt_quota
-      self.attrs[:ovirt_quota_id]
+      if self.attrs[:ovirt_quota_id].blank?
+        nil
+      else
+        self.attrs[:ovirt_quota_id]
+      end
     end
 
     def templates(opts={})
