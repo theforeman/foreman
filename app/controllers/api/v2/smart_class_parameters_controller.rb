@@ -5,20 +5,20 @@ module Api
       include Api::V2::LookupKeysCommonController
       alias_method :resource_scope, :smart_class_parameters_resource_scope
 
-      api :GET, '/smart_class_parameters', 'List all smart class parameters'
-      api :GET, '/hosts/:host_id/smart_class_parameters', 'List of smart class parameters for a specific host'
-      api :GET, '/hostgroups/:hostgroup_id/smart_class_parameters', 'List of smart class parameters for a specific hostgroup'
-      api :GET, '/puppetclasses/:puppetclass_id/smart_class_parameters', 'List of smart class parameters for a specific puppetclass'
-      api :GET, '/environments/:environment_id/smart_class_parameters', 'List of smart class parameters for a specific environment'
-      api :GET, '/environments/:environment_id/puppetclasses/:puppetclass_id/smart_class_parameters', 'List of smart class parameters for a specific environment/puppetclass combination'
+      api :GET, "/smart_class_parameters", N_("List all smart class parameters")
+      api :GET, "/hosts/:host_id/smart_class_parameters", N_("List of smart class parameters for a specific host")
+      api :GET, "/hostgroups/:hostgroup_id/smart_class_parameters", N_("List of smart class parameters for a specific host group")
+      api :GET, "/puppetclasses/:puppetclass_id/smart_class_parameters", N_("List of smart class parameters for a specific Puppet class")
+      api :GET, "/environments/:environment_id/smart_class_parameters", N_("List of smart class parameters for a specific environment")
+      api :GET, "/environments/:environment_id/puppetclasses/:puppetclass_id/smart_class_parameters", N_("List of smart class parameters for a specific environment/Puppet class combination")
       param :host_id, :identifier, :required => false
       param :hostgroup_id, :identifier, :required => false
       param :puppetclass_id, :identifier, :required => false
       param :environment_id, :identifier, :required => false
-      param :search, String, :desc => 'Filter results'
-      param :order, String, :desc => 'sort results'
-      param :page, String, :desc => 'paginate results'
-      param :per_page, String, :desc => 'number of entries per request'
+      param :search, String, :desc => N_("filter results")
+      param :order, String, :desc => N_("sort results")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
       end
@@ -26,13 +26,13 @@ module Api
       # no create action for API
       # smart class parameters are imported by PuppetClassImporter
 
-      api :GET, '/smart_class_parameters/:id/', 'Show a smart class parameter.'
+      api :GET, "/smart_class_parameters/:id/", N_("Show a smart class parameter")
       param :id, :identifier, :required => true
 
       def show
       end
 
-      api :PUT, '/smart_class_parameters/:id', 'Update a smart class parameter.'
+      api :PUT, "/smart_class_parameters/:id", N_("Update a smart class parameter")
       param :id, :identifier, :required => true
       param :smart_class_parameter, Hash, :required => true do
         # can't update parameter/key name for :parameter, String, :required => true

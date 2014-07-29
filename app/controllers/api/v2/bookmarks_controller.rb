@@ -3,15 +3,15 @@ module Api
     class BookmarksController < V2::BaseController
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
-      api :GET, "/bookmarks/", "List all bookmarks."
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      api :GET, "/bookmarks/", N_("List all bookmarks")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
         @bookmarks = Bookmark.paginate(paginate_options)
       end
 
-      api :GET, "/bookmarks/:id/", "Show a bookmark."
+      api :GET, "/bookmarks/:id/", N_("Show a bookmark")
       param :id, :identifier, :required => true
 
       def show
@@ -26,7 +26,7 @@ module Api
         end
       end
 
-      api :POST, "/bookmarks/", "Create a bookmark."
+      api :POST, "/bookmarks/", N_("Create a bookmark")
       param_group :bookmark, :as => :create
 
       def create
@@ -34,7 +34,7 @@ module Api
         process_response @bookmark.save
       end
 
-      api :PUT, "/bookmarks/:id/", "Update a bookmark."
+      api :PUT, "/bookmarks/:id/", N_("Update a bookmark")
       param :id, :identifier, :required => true
       param_group :bookmark
 
@@ -42,7 +42,7 @@ module Api
         process_response @bookmark.update_attributes(params[:bookmark])
       end
 
-      api :DELETE, "/bookmarks/:id/", "Delete a bookmark."
+      api :DELETE, "/bookmarks/:id/", N_("Delete a bookmark")
       param :id, :identifier, :required => true
 
       def destroy

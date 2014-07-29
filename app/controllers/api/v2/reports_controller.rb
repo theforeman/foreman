@@ -8,11 +8,11 @@ module Api
       before_filter :setup_search_options, :only => [:index, :last]
       add_puppetmaster_filters :create
 
-      api :GET, "/reports/", "List all reports."
-      param :search, String, :desc => "filter results"
-      param :order, String, :desc => "sort results"
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      api :GET, "/reports/", N_("List all reports")
+      param :search, String, :desc => N_("filter results")
+      param :order, String, :desc => N_("sort results")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
         @reports = Report.
@@ -23,7 +23,7 @@ module Api
         @total = Report.my_reports.count
       end
 
-      api :GET, "/reports/:id/", "Show a report."
+      api :GET, "/reports/:id/", N_("Show a report")
       param :id, :identifier, :required => true
 
       def show
@@ -31,15 +31,15 @@ module Api
 
       def_param_group :report do
         param :report, Hash, :action_aware => true do
-          param :host, String, :required => true, :desc => "Hostname or certname"
-          param :reported_at, String, :required => true, :desc => "UTC time of report"
-          param :status, Hash, :required => true, :desc => "Hash of status type totals"
-          param :metrics, Hash, :required => true, :desc => "Hash of report metrics, can be just {}"
-          param :logs, Array, :desc => "Optional array of log hashes"
+          param :host, String, :required => true, :desc => N_("Hostname or certname")
+          param :reported_at, String, :required => true, :desc => N_("UTC time of report")
+          param :status, Hash, :required => true, :desc => N_("Hash of status type totals")
+          param :metrics, Hash, :required => true, :desc => N_("Hash of report metrics, can be just {}")
+          param :logs, Array, :desc => N_("Optional array of log hashes")
         end
       end
 
-      api :POST, "/reports/", "Create a report."
+      api :POST, "/reports/", N_("Create a report")
       param_group :report, :as => :create
 
       def create
@@ -49,14 +49,14 @@ module Api
         render :json => {'message'=>e.to_s}, :status => :unprocessable_entity
       end
 
-      api :DELETE, "/reports/:id/", "Delete a report."
+      api :DELETE, "/reports/:id/", N_("Delete a report")
       param :id, String, :required => true
 
       def destroy
         process_response @report.destroy
       end
 
-      api :GET, "/hosts/:host_id/reports/last", "Show the last report for a given host."
+      api :GET, "/hosts/:host_id/reports/last", N_("Show the last report for a host")
       param :id, :identifier, :required => true
 
       def last

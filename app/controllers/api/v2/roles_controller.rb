@@ -3,17 +3,17 @@ module Api
     class RolesController < V2::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
 
-      api :GET, "/roles/", "List all roles."
-      param :search, String, :desc => "Filter results", :required => false
-      param :order, String, :desc => "Sort results", :required => false
-      param :page, String, :desc => "paginate results", :required => false
-      param :per_page, String, :desc => "number of entries per request", :required => false
+      api :GET, "/roles/", N_("List all roles")
+      param :search, String, :desc => N_("Filter results"), :required => false
+      param :order, String, :desc => N_("Sort results"), :required => false
+      param :page, String, :desc => N_("paginate results"), :required => false
+      param :per_page, String, :desc => N_("number of entries per request"), :required => false
 
       def index
         @roles = Role.search_for(*search_options).paginate(paginate_options)
       end
 
-      api :GET, "/roles/:id/", "Show an role."
+      api :GET, "/roles/:id/", N_("Show a role")
       param :id, :identifier, :required => true
 
       def show
@@ -25,7 +25,7 @@ module Api
         end
       end
 
-      api :POST, "/roles/", "Create an role."
+      api :POST, "/roles/", N_("Create a role")
       param_group :role, :as => :create
 
       def create
@@ -33,7 +33,7 @@ module Api
         process_response @role.save
       end
 
-      api :PUT, "/roles/:id/", "Update an role."
+      api :PUT, "/roles/:id/", N_("Update a role")
       param :id, String, :required => true
       param_group :role
 
@@ -41,7 +41,7 @@ module Api
         process_response @role.update_attributes(params[:role])
       end
 
-      api :DELETE, "/roles/:id/", "Delete an role."
+      api :DELETE, "/roles/:id/", N_("Delete a role")
       param :id, String, :required => true
 
       def destroy

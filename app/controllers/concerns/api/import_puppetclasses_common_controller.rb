@@ -9,14 +9,14 @@ module Api::ImportPuppetclassesCommonController
 
   extend Apipie::DSL::Concern
 
-  api :POST, "/smart_proxies/:id/import_puppetclasses", "Import puppet classes from puppet proxy."
-  api :POST, "/smart_proxies/:smart_proxy_id/environments/:id/import_puppetclasses", "Import puppet classes from puppet proxy for particular environment."
-  api :POST, "/environments/:environment_id/smart_proxies/:id/import_puppetclasses", "Import puppet classes from puppet proxy for particular environment."
+  api :POST, "/smart_proxies/:id/import_puppetclasses", N_("Import puppet classes from puppet proxy.")
+  api :POST, "/smart_proxies/:smart_proxy_id/environments/:id/import_puppetclasses", N_("Import puppet classes from puppet proxy for an environment")
+  api :POST, "/environments/:environment_id/smart_proxies/:id/import_puppetclasses", N_("Import puppet classes from puppet proxy for an environment")
   param :id, :identifier, :required => true
   param :smart_proxy_id, String, :required => false
   param :environment_id, String, :required => false
   param :dryrun, :bool, :required => false
-  param :except, String, :required => false, :desc => "Optional comma-deliminated string containing either 'new,updated,obsolete' used to limit the import_puppetclasses actions"
+  param :except, String, :required => false, :desc => N_("Optional comma-deliminated string containing either 'new,updated,obsolete' used to limit the import_puppetclasses actions")
 
   def import_puppetclasses
     return unless changed_environments
@@ -42,7 +42,7 @@ module Api::ImportPuppetclassesCommonController
     if (errors = ::PuppetClassImporter.new.obsolete_and_new(@changed)).empty?
       render("api/v1/import_puppetclasses/#{rabl_template}", :layout => "api/layouts/import_puppetclasses_layout")
     else
-      render :json => {:message => "Failed to update the environments and puppetclasses from the on-disk puppet installation #{errors.join(", ")}"}, :status => 500
+      render :json => {:message => _("Failed to update the environments and Puppet classes from the on-disk puppet installation: %s") % errors.join(", ")}, :status => 500
     end
   end
 
@@ -62,7 +62,7 @@ module Api::ImportPuppetclassesCommonController
 
     rescue => e
       if e.message =~ /puppet feature/i
-        msg = 'We did not find a foreman proxy that can provide the information, ensure that this proxy has the puppet feature turned on.'
+        msg = _('No proxy found to import classes from, ensure that the smart proxy has the Puppet feature enabled.')
       else
         msg = e.message
       end
@@ -84,7 +84,7 @@ module Api::ImportPuppetclassesCommonController
                       OpenStruct.new(:name => name)
                     end
 
-    render :json => {:message => "No changes to your environments detected"} and return false unless @environments.any?
+    render :json => {:message => _("No changes to your environments detected")} and return false unless @environments.any?
     @environments.any?
   end
 
@@ -93,7 +93,7 @@ module Api::ImportPuppetclassesCommonController
     @smart_proxy   = SmartProxy.authorized(:view_smart_proxies).find_by_id(id.to_i) if id.to_i > 0
     @smart_proxy ||= SmartProxy.authorized(:view_smart_proxies).find_by_name(id)
     unless @smart_proxy && SmartProxy.with_features("Puppet").pluck("smart_proxies.id").include?(@smart_proxy.id)
-      not_found 'We did not find a foreman proxy that can provide the information, ensure that this proxy has the puppet feature turned on.'
+      not_found _('No proxy found to import classes from, ensure that the smart proxy has the Puppet feature enabled.')
     end
     @smart_proxy
   end

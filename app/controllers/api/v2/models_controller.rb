@@ -3,11 +3,11 @@ module Api
     class ModelsController < V2::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
 
-      api :GET, "/models/", "List all models."
-      param :search, String, :desc => "filter results"
-      param :order, String, :desc => "sort results"
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      api :GET, "/models/", N_("List all hardware models")
+      param :search, String, :desc => N_("filter results")
+      param :order, String, :desc => N_("sort results")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
         @models = Model.
@@ -16,7 +16,7 @@ module Api
           paginate(paginate_options)
       end
 
-      api :GET, "/models/:id/", "Show a model."
+      api :GET, "/models/:id/", N_("Show a hardware model")
       param :id, :identifier, :required => true
 
       def show
@@ -31,7 +31,7 @@ module Api
         end
       end
 
-      api :POST, "/models/", "Create a model."
+      api :POST, "/models/", N_("Create a hardware model")
       param_group :model, :as => :create
 
       def create
@@ -39,7 +39,7 @@ module Api
         process_response @model.save
       end
 
-      api :PUT, "/models/:id/", "Update a model."
+      api :PUT, "/models/:id/", N_("Update a hardware model")
       param :id, String, :required => true
       param_group :model
 
@@ -47,7 +47,7 @@ module Api
         process_response @model.update_attributes(params[:model])
       end
 
-      api :DELETE, "/models/:id/", "Delete a model."
+      api :DELETE, "/models/:id/", N_("Delete a hardware model")
       param :id, String, :required => true
 
       def destroy

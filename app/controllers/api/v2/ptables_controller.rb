@@ -3,11 +3,11 @@ module Api
     class PtablesController < V2::BaseController
       before_filter :find_resource, :only => %w{show update destroy}
 
-      api :GET, "/ptables/", "List all ptables."
-      param :search, String, :desc => "filter results"
-      param :order, String, :desc => "sort results"
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      api :GET, "/ptables/", N_("List all partition tables")
+      param :search, String, :desc => N_("filter results")
+      param :order, String, :desc => N_("sort results")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
         @ptables = Ptable.
@@ -15,7 +15,7 @@ module Api
           search_for(*search_options).paginate(paginate_options)
       end
 
-      api :GET, "/ptables/:id/", "Show a ptable."
+      api :GET, "/ptables/:id/", N_("Show a partition table")
       param :id, :identifier, :required => true
 
       def show
@@ -29,7 +29,7 @@ module Api
         end
       end
 
-      api :POST, "/ptables/", "Create a ptable."
+      api :POST, "/ptables/", N_("Create a partition table")
       param_group :ptable, :as => :create
 
       def create
@@ -37,7 +37,7 @@ module Api
         process_response @ptable.save
       end
 
-      api :PUT, "/ptables/:id/", "Update a ptable."
+      api :PUT, "/ptables/:id/", N_("Update a partition table")
       param :id, String, :required => true
       param_group :ptable
 
@@ -45,7 +45,7 @@ module Api
         process_response @ptable.update_attributes(params[:ptable])
       end
 
-      api :DELETE, "/ptables/:id/", "Delete a ptable."
+      api :DELETE, "/ptables/:id/", N_("Delete a partition table")
       param :id, String, :required => true
 
       def destroy

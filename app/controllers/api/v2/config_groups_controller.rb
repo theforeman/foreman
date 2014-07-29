@@ -4,17 +4,17 @@ module Api
 
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
-      api :GET, "/config_groups", "List of config groups"
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
-      param :search, String, :desc => "filter results"
-      param :order, String, :desc => "sort results"
+      api :GET, "/config_groups", N_("List of config groups")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
+      param :search, String, :desc => N_("filter results")
+      param :order, String, :desc => N_("sort results")
 
       def index
         @config_groups = ConfigGroup.authorized(:view_config_groups).search_for(*search_options).paginate(paginate_options)
       end
 
-      api :GET, "/config_groups/:id/", "Show a config group."
+      api :GET, "/config_groups/:id/", N_("Show a config group")
       param :id, :identifier, :required => true
 
       def show
@@ -26,7 +26,7 @@ module Api
         end
       end
 
-      api :POST, "/config_groups/", "Create a config group."
+      api :POST, "/config_groups/", N_("Create a config group")
       param_group :config_group, :as => :create
 
       def create
@@ -34,7 +34,7 @@ module Api
         process_response @config_group.save
       end
 
-      api :PUT, "/config_groups/:id/", "Update a config group."
+      api :PUT, "/config_groups/:id/", N_("Update a config group")
       param :id, String, :required => true
       param_group :config_group
 
@@ -42,7 +42,7 @@ module Api
         process_response @config_group.update_attributes(params[:config_group])
       end
 
-      api :DELETE, "/config_groups/:id/", "Delete a config group."
+      api :DELETE, "/config_groups/:id/", N_("Delete a config group")
       param :id, String, :required => true
 
       def destroy

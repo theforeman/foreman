@@ -18,11 +18,11 @@ module Api::V2::TaxonomiesController
     end
   end
 
-  api :GET, '/:resource_id', 'List all :resource_id'
-  param :search, String, :desc => "filter results"
-  param :order, String, :desc => "sort results"
-  param :page, String, :desc => "paginate results"
-  param :per_page, String, :desc => "number of entries per request"
+  api :GET, '/:resource_id', N_('List all :resource_id')
+  param :search, String, :desc => N_("filter results")
+  param :order, String, :desc => N_("sort results")
+  param :page, String, :desc => N_("paginate results")
+  param :per_page, String, :desc => N_("number of entries per request")
   def index
     if @nested_obj
       #@taxonomies = @domain.locations.search_for(*search_options).paginate(paginate_options)
@@ -38,13 +38,13 @@ module Api::V2::TaxonomiesController
     render @render_template
   end
 
-  api :GET, '/:resource_id/:id', 'Show :a_resource'
+  api :GET, '/:resource_id/:id', N_('Show :a_resource')
   def show
     @render_template ||= 'api/v2/taxonomies/show'
     render @render_template
   end
 
-  api :POST, '/:resource_id', 'Create :a_resource'
+  api :POST, '/:resource_id', N_('Create :a_resource')
   param_group :resource, :as => :create
   def create
     @taxonomy = taxonomy_class.new(params[taxonomy_single.to_sym])
@@ -52,7 +52,7 @@ module Api::V2::TaxonomiesController
     process_response @taxonomy.save
   end
 
-  api :PUT, '/:resource_id/:id', 'Update :a_resource'
+  api :PUT, '/:resource_id/:id', N_('Update :a_resource')
   param_group :resource
   def update
     # NOTE - if not ! and invalid, the error is undefined method `permission_failed?' for #<Location:0x7fe38c1d3ec8> (NoMethodError)
@@ -61,7 +61,7 @@ module Api::V2::TaxonomiesController
     process_response  @taxonomy.update_attributes(params[taxonomy_single.to_sym])
   end
 
-  api :DELETE, '/:resource_id/:id', 'Delete :a_resource'
+  api :DELETE, '/:resource_id/:id', N_('Delete :a_resource')
   def destroy
     process_response @taxonomy.destroy
   rescue Ancestry::AncestryException

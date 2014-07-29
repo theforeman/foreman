@@ -7,11 +7,11 @@ module Api
       include Api::ImportPuppetclassesCommonController
       before_filter :find_resource, :only => %w{show update destroy}
 
-      api :GET, "/environments/", "List all environments."
-      param :search, String, :desc => "Filter results"
-      param :order, String, :desc => "Sort results"
-      param :page, String, :desc => "paginate results"
-      param :per_page, String, :desc => "number of entries per request"
+      api :GET, "/environments/", N_("List all environments")
+      param :search, String, :desc => N_("filter results")
+      param :order, String, :desc => N_("sort results")
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
         @environments = Environment.
@@ -19,7 +19,7 @@ module Api
           search_for(*search_options).paginate(paginate_options)
       end
 
-      api :GET, "/environments/:id/", "Show an environment."
+      api :GET, "/environments/:id/", N_("Show an environment")
       param :id, :identifier, :required => true
 
       def show
@@ -31,7 +31,7 @@ module Api
         end
       end
 
-      api :POST, "/environments/", "Create an environment."
+      api :POST, "/environments/", N_("Create an environment")
       param_group :environment, :as => :create
 
       def create
@@ -39,7 +39,7 @@ module Api
         process_response @environment.save
       end
 
-      api :PUT, "/environments/:id/", "Update an environment."
+      api :PUT, "/environments/:id/", N_("Update an environment")
       param :id, :identifier, :required => true
       param_group :environment
 
@@ -47,7 +47,7 @@ module Api
         process_response @environment.update_attributes(params[:environment])
       end
 
-      api :DELETE, "/environments/:id/", "Delete an environment."
+      api :DELETE, "/environments/:id/", N_("Delete an environment")
       param :id, :identifier, :required => true
 
       def destroy
