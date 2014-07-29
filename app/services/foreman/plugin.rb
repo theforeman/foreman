@@ -236,5 +236,23 @@ module Foreman #:nodoc:
         Rails.logger.warn "Ignoring override of FiltersHelper#search_path_override for '#{engine_name}': no override block is present"
       end
     end
+
+    # list of API controller paths, globs allowed
+    def apipie_documented_controllers(controllers = nil)
+      if controllers
+        @apipie_documented_controllers = controllers
+        Apipie.configuration.api_controllers_matcher.concat(controllers)
+      end
+      @apipie_documented_controllers
+    end
+
+    # list of clontroller classnames that are ignored by apipie
+    def apipie_ignored_controllers(controllers = nil)
+      if controllers
+        @apipie_ignored_controllers = controllers
+        Apipie.configuration.ignored.concat(controllers)
+      end
+      @apipie_ignored_controllers
+    end
   end
 end
