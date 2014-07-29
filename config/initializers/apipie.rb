@@ -10,6 +10,26 @@ Apipie.configure do |config|
   config.ignored_by_recorder = %w[]
   config.doc_base_url = "/apidoc"
   config.use_cache = Rails.env.production? || File.directory?(config.cache_dir)
+  # config.languages = [] # turn off localized API docs and CLI, useful for development
+  config.languages = FastGettext.available_locales # generate API docs for all available locales
+  config.default_locale = FastGettext.default_locale
+  config.locale = lambda { |loc| loc ? FastGettext.set_locale(loc) : FastGettext.locale }
+
+  substitutions = {
+    'operatingsystem_families' => Operatingsystem.families.join(", "),
+    'providers' => ComputeResource.providers.join(', ')
+  }
+
+  config.translate = lambda do |str, loc|
+    old_loc = FastGettext.locale
+    FastGettext.set_locale(loc)
+    if str
+      trans = _(str)
+      trans = trans % substitutions
+    end
+    FastGettext.set_locale(old_loc)
+    trans
+  end
   config.validate = false
   config.force_dsl = true
   config.reload_controllers = Rails.env.development?
