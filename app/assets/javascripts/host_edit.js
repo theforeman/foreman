@@ -220,8 +220,17 @@ function update_form(element, options) {
 }
 
 function subnet_selected(element){
+  var ipam_text =  $("#host_ip").parentsUntil('.clearfix').find(".help-block,.help-inline");
+  if (selectedSubnetHasIPAM()) {
+    ipam_text.removeClass('hide')
+  } else {
+    ipam_text.addClass('hide');
+    return false
+  }
+
   var subnet_id = $(element).val();
   if (subnet_id == '' || $('#host_ip').size() == 0) return;
+
   // We do not query the proxy if the host_ip field is filled in and contains an
   // IP that is in the selected subnet
   var drop_text = $(element).children(":selected").text();
@@ -624,3 +633,11 @@ function resizeTextareaAll () {
     }
   });
 }
+
+function selectedSubnetHasIPAM() {
+  var subnet = $("#host_subnet_id")
+  var subnet_id = subnet.val();
+  var subnets =  subnet.data("subnets");
+  if (subnet_id == '') return true;
+  return subnets[subnet_id]['ipam'];
+};
