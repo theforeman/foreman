@@ -42,7 +42,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
 
   test "should update user" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
-    put :update, { :id => user.id, :user => valid_attrs }
+    put :update, valid_attrs.merge(:id => user.id)
     assert_response :success
 
     mod_user = User.find_by_id(user.id)
@@ -54,7 +54,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
 
     assert user.roles =([roles(:anonymous)])
 
-    put :update, { :id => user.id, :user => { :login => "johnsmith" } }
+    put :update, { :id => user.id, :login => "johnsmith"  }
     assert_response :success
 
     mod_user = User.find_by_id(user.id)
@@ -80,7 +80,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     user.password = "changeme"
     assert user.save
 
-    put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" } }
+    put :update, { :id => user.id, :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" }
     assert_response :unprocessable_entity
 
     mod_user = User.find_by_id(user.id)
@@ -123,7 +123,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
       user.save
     end
     as_user :one do
-      put :update, { :id => user.id, :user => { :login => "johnsmith" } }
+      put :update, { :id => user.id, :login => "johnsmith" }
       assert_response :forbidden
     end
   end
@@ -141,9 +141,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     user.update_attribute :admin, true
 
     as_user :one do
-      post :create, { :user => {
-          :admin => true, :login => 'new_admin', :auth_source_id => auth_sources(:one).id }
-      }
+      post :create, { :admin => true, :login => 'new_admin', :auth_source_id => auth_sources(:one).id }
       assert_response :success
       assert User.find_by_login('new_admin').admin?
     end

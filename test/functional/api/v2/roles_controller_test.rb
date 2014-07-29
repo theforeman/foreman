@@ -21,13 +21,13 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
 
   test "should create role" do
     assert_difference('Role.count') do
-      post :create, { :role => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :success
   end
 
   test "should update role" do
-    put :update, { :id => roles(:manager).to_param, :role => { } }
+    put :update, { :id => roles(:manager).to_param }
     assert_response :success
   end
 

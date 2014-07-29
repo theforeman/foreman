@@ -26,9 +26,7 @@ module Api
       end
 
       def_param_group :environment do
-        param :environment, Hash, :action_aware => true do
-          param :name, String, :required => true
-        end
+        param :name, String, :required => true, :action_aware => true
       end
 
       api :POST, "/environments/", "Create an environment."

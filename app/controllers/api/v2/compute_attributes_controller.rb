@@ -5,9 +5,7 @@ module Api
       before_filter :find_resource, :only => :update
 
       def_param_group :compute_attribute do
-        param :compute_attribute, Hash, :action_aware => true do
-          param :vm_attrs, Hash, :required => true
-        end
+        param :vm_attrs, Hash, :required => true, :action_aware => true
       end
 
       api :POST, "/compute_resources/:compute_resource_id/compute_profiles/:compute_profile_id/compute_attributes", "Create a compute attribute"

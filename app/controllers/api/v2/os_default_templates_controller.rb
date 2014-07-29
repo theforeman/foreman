@@ -5,6 +5,8 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
+      wrap_parameters :os_default_template, :include => OsDefaultTemplate.attribute_names
+
       before_filter :find_required_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
@@ -26,10 +28,8 @@ module Api
       end
 
       def_param_group :os_default_template do
-        param :os_default_template, Hash, :action_aware => true do
-          param :template_kind_id, :number
-          param :config_template_id, :number
-        end
+        param :template_kind_id, :number
+        param :config_template_id, :number
       end
 
       api :POST, '/operatingsystems/:operatingsystem_id/os_default_templates/', 'Create a os default template for operating system'
@@ -63,7 +63,6 @@ module Api
       def allowed_nested_id
         %w(operatingsystem_id)
       end
-
 
     end
   end

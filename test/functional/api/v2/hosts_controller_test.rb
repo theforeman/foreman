@@ -38,7 +38,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   test "should create host" do
     disable_orchestration
     assert_difference('Host.count') do
-      post :create, { :host => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :success
     last_host = Host.order('id desc').last
@@ -46,14 +46,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should create host with managed is false if parameter is passed" do
     disable_orchestration
-    post :create, { :host => valid_attrs.merge!(:managed => false) }
+    post :create, valid_attrs.merge!(:managed => false)
     assert_response :success
     last_host = Host.order('id desc').last
     assert_equal false, last_host.managed?
   end
 
   test "should update host" do
-    put :update, { :id => hosts(:two).to_param, :host => { } }
+    put :update, { :id => hosts(:two).to_param }
     assert_response :success
   end
 
@@ -72,7 +72,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   test "should be able to create hosts even when restricted" do
     disable_orchestration
     assert_difference('Host.count') do
-      post :create, { :host => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :success
   end
@@ -86,7 +86,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   test "should allow to update for restricted user who owns the host" do
     disable_orchestration
     setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-    put :update, { :id => hosts(:owned_by_restricted).to_param, :host => {} }
+    put :update, { :id => hosts(:owned_by_restricted).to_param }
     assert_response :success
   end
 

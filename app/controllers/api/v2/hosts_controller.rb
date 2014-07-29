@@ -2,7 +2,7 @@ module Api
   module V2
     class HostsController < V2::BaseController
 
-      wrap_parameters Host::Base, :include => (Host::Base.attribute_names + ['image_file', 'is_owned_by', 'overwrite', 'progress_report_id'])
+      wrap_parameters :host, :include => (Host::Base.attribute_names + ['image_file', 'is_owned_by', 'overwrite', 'progress_report_id'])
 
       include Api::Version2
       #TODO - should TaxonomyScope be here.  It wasn't here previously
@@ -30,39 +30,37 @@ module Api
       end
 
       def_param_group :host do
-        param :host, Hash, :action_aware => true do
-          param :name, String, :required => true
-          param :environment_id, :number
-          param :location_id, :number, :required => true, :desc => "required if locations are enabled" if SETTINGS[:locations_enabled]
-          param :organization_id, :number, :required => true, :desc => "required if organizations are enabled" if SETTINGS[:organizations_enabled]
-          param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
-          param :mac, String, :desc => "not required if its a virtual machine"
-          param :architecture_id, :number
-          param :domain_id, :number
-          param :realm_id, :number
-          param :puppet_proxy_id, :number
-          param :puppet_class_ids, Array
-          param :operatingsystem_id, String
-          param :medium_id, :number
-          param :ptable_id, :number
-          param :subnet_id, :number
-          param :compute_resource_id, :number
-          param :sp_subnet_id, :number
-          param :model_id, :number
-          param :hostgroup_id, :number
-          param :owner_id, :number
-          param :puppet_ca_proxy_id, :number
-          param :image_id, :number
-          param :host_parameters_attributes, Array
-          param :build, :bool
-          param :enabled, :bool
-          param :provision_method, String
-          param :managed, :bool
-          param :progress_report_id, String, :desc => 'UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks'
-          param :capabilities, String
-          param :compute_profile_id, :number
-          param :compute_attributes, Hash do
-          end
+        param :name, String, :required => true, :action_aware => true
+        param :environment_id, String
+        param :location_id, :number, :required => true, :desc => "required if locations are enabled" if SETTINGS[:locations_enabled]
+        param :organization_id, :number, :required => true, :desc => "required if organizations are enabled" if SETTINGS[:organizations_enabled]
+        param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
+        param :mac, String, :desc => "not required if its a virtual machine"
+        param :architecture_id, :number
+        param :domain_id, :number
+        param :realm_id, :number
+        param :puppet_proxy_id, :number
+        param :puppet_class_ids, Array
+        param :operatingsystem_id, String
+        param :medium_id, :number
+        param :ptable_id, :number
+        param :subnet_id, :number
+        param :compute_resource_id, :number
+        param :sp_subnet_id, :number
+        param :model_id, :number
+        param :hostgroup_id, :number
+        param :owner_id, :number
+        param :puppet_ca_proxy_id, :number
+        param :image_id, :number
+        param :host_parameters_attributes, Array
+        param :build, :bool
+        param :enabled, :bool
+        param :provision_method, String
+        param :managed, :bool
+        param :progress_report_id, String, :desc => 'UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks'
+        param :capabilities, String
+        param :compute_profile_id, :number
+        param :compute_attributes, Hash do
         end
       end
 
@@ -213,4 +211,3 @@ Return value may either be one of the following:
     end
   end
 end
-

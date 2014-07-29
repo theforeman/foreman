@@ -21,13 +21,13 @@ class Api::V2::CommonParametersControllerTest < ActionController::TestCase
 
   test "should create common_parameter" do
     assert_difference('CommonParameter.count') do
-      post :create, { :common_parameter => valid_attrs }
+      post :create, valid_attrs
     end
     assert_response :success
   end
 
   test "should update common_parameter" do
-    put :update, { :id => parameters(:common).to_param, :common_parameter => { } }
+    put :update, { :id => parameters(:common).to_param }
     assert_response :success
   end
 

@@ -84,7 +84,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
 
   test "should update smart class parameter" do
     orig_value = lookup_keys(:five).default_value
-    put :update, { :id => lookup_keys(:five).to_param, :smart_class_parameter => { :default_value => "33333" } }
+    put :update, { :id => lookup_keys(:five).to_param, :default_value => "33333" }
     assert_response :success
     new_value = lookup_keys(:five).reload.default_value
     refute_equal orig_value, new_value

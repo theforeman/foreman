@@ -30,17 +30,15 @@ module Api
       end
 
       def_param_group :config_template do
-        param :config_template, Hash, :action_aware => true do
-          param :name, String, :required => true, :desc => "template name"
-          param :template, String, :required => true
-          param :snippet, :bool, :allow_nil => true
-          param :audit_comment, String, :allow_nil => true
-          param :template_kind_id, :number, :allow_nil => true, :desc => "not relevant for snippet"
-          param :template_combinations_attributes, Array,
-                :desc => "Array of template combinations (hostgroup_id, environment_id)"
-          param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
-          param :locked, :bool, :desc => "Whether or not the template is locked for editing"
-        end
+        param :name, String, :required => true, :action_aware => true, :desc => "template name"
+        param :template, String, :required => true, :action_aware => true
+        param :snippet, :bool, :allow_nil => true
+        param :audit_comment, String, :allow_nil => true
+        param :template_kind_id, :number, :allow_nil => true, :desc => "not relevant for snippet"
+        param :template_combinations_attributes, Array,
+              :desc => "Array of template combinations (hostgroup_id, environment_id)"
+        param :operatingsystem_ids, Array, :desc => "Array of operating systems ID to associate the template with"
+        param :locked, :bool, :desc => "Whether or not the template is locked for editing"
       end
 
       api :POST, "/config_templates/", "Create a template"

@@ -24,10 +24,8 @@ module Api
       end
 
       def_param_group :common_parameter do
-        param :common_parameter, Hash, :action_aware => true do
-          param :name, String, :required => true
-          param :value, String, :required => true
-        end
+        param :name, String, :required => true, :action_aware => true
+        param :value, String, :required => true, :action_aware => true
       end
 
       api :POST, "/common_parameters/", "Create a common_parameter"

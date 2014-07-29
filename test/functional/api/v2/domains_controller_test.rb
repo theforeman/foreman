@@ -17,25 +17,25 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
   end
 
   test "should create valid domain" do
-    post :create, { :domain => { :name => "domain.net" } }
+    post :create, { :name => "domain.net" }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
 
   test "should not create invalid domain" do
-    post :create, { :domain => { :fullname => "" } }
+    post :create, { :fullname => "" }
     assert_response :unprocessable_entity
   end
 
   test "should update valid domain" do
-    put :update, { :id => Domain.first.to_param, :domain => { :name => "domain.new" } }
+    put :update, { :id => Domain.first.to_param, :name => "domain.new" }
     assert_equal "domain.new", Domain.first.name
     assert_response :success
   end
 
   test "should not update invalid domain" do
-    put :update, { :id => Domain.first.to_param, :domain => { :name => "" } }
+    put :update, { :id => Domain.first.to_param, :name => "" }
     assert_response :unprocessable_entity
   end
 

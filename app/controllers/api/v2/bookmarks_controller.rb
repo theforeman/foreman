@@ -1,6 +1,9 @@
 module Api
   module V2
     class BookmarksController < V2::BaseController
+
+      wrap_parameters :bookmark, :include => (Bookmark.attribute_names + ['controller_name']), :format => :json
+
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/bookmarks/", "List all bookmarks."
@@ -18,12 +21,10 @@ module Api
       end
 
       def_param_group :bookmark do
-        param :bookmark, Hash, :action_aware => true do
-          param :name, String, :required => true
-          param :controller, String, :required => true
-          param :query, String, :required => true
-          param :public, :bool
-        end
+        param :name, String, :required => true, :action_aware => true
+        param :controller_name, String, :required => true, :action_aware => true
+        param :query, String, :required => true, :action_aware => true
+        param :public, :bool
       end
 
       api :POST, "/bookmarks/", "Create a bookmark."

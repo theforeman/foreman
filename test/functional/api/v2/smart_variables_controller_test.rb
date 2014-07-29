@@ -45,7 +45,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     assert_difference('LookupKey.count') do
       as_admin do
         valid_attrs = { :variable => 'test_smart_variable', :puppetclass_id => puppetclasses(:one).id }
-        post :create, { :smart_variable => valid_attrs }
+        post :create, valid_attrs
       end
     end
     assert_response :success
@@ -60,7 +60,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
 
   test "should update smart variable" do
     orig_value = lookup_keys(:four).default_value
-    put :update, { :id => lookup_keys(:four).to_param, :smart_variable => { :default_value => 'newstring' } }
+    put :update, { :id => lookup_keys(:four).to_param, :default_value => 'newstring' }
     assert_response :success
     new_value = lookup_keys(:four).reload.default_value
     refute_equal orig_value, new_value

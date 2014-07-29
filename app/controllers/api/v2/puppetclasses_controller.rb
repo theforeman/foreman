@@ -58,9 +58,7 @@ module Api
       end
 
       def_param_group :puppetclass do
-        param :puppetclass, Hash, :action_aware => true do
-          param :name, String, :required => true
-        end
+        param :name, String, :required => true, :action_aware => true
       end
 
       api :POST, "/puppetclasses/", "Create a puppetclass."

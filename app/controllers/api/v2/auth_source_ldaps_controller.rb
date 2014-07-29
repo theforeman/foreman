@@ -19,21 +19,19 @@ module Api
       end
 
       def_param_group :auth_source_ldap do
-        param :auth_source_ldap, Hash, :action_aware => true do
-          param :name, String, :required => true
-          param :host, String, :required => true
-          param :port, :number, :desc => "defaults to 389"
-          param :account, String
-          param :base_dn, String
-          param :account_password, String, :desc => "required if onthefly_register is true"
-          param :attr_login, String, :desc => "required if onthefly_register is true"
-          param :attr_firstname, String, :desc => "required if onthefly_register is true"
-          param :attr_lastname, String, :desc => "required if onthefly_register is true"
-          param :attr_mail, String, :desc => "required if onthefly_register is true"
-          param :attr_photo, String
-          param :onthefly_register, :bool
-          param :tls, :bool
-        end
+        param :name, String, :required => true, :action_aware => true
+        param :host, String, :required => true, :action_aware => true
+        param :port, :number, :desc => "defaults to 389"
+        param :account, String
+        param :base_dn, String
+        param :account_password, String, :desc => "required if onthefly_register is true"
+        param :attr_login, String, :desc => "required if onthefly_register is true"
+        param :attr_firstname, String, :desc => "required if onthefly_register is true"
+        param :attr_lastname, String, :desc => "required if onthefly_register is true"
+        param :attr_mail, String, :desc => "required if onthefly_register is true"
+        param :attr_photo, String
+        param :onthefly_register, :bool
+        param :tls, :bool
       end
 
       api :POST, "/auth_source_ldaps/", "Create an auth_source_ldap."

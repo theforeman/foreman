@@ -6,7 +6,7 @@ class Api::V2::ImagesControllerTest < ActionController::TestCase
     { :name                => 'TestImage', :username => 'ec2-user', :uuid => 'abcdef',
       :operatingsystem_id  => Operatingsystem.first.id,
       :compute_resource_id => ComputeResource.first.id,
-      :architecture_id     => Architecture.first.id,
+      :architecture_id     => Architecture.first.id
     }
   end
 
@@ -27,13 +27,13 @@ class Api::V2::ImagesControllerTest < ActionController::TestCase
 
   test "should create image" do
     assert_difference('Image.count') do
-      post :create, { :compute_resource_id => images(:two).compute_resource_id, :image => valid_attrs }
+      post :create, valid_attrs.merge(:compute_resource_id => images(:two).compute_resource_id)
     end
     assert_response :success
   end
 
   test "should update image" do
-    put :update, { :compute_resource_id => images(:two).compute_resource_id, :id => images(:one).to_param, :image => { } }
+    put :update, { :compute_resource_id => images(:two).compute_resource_id, :id => images(:one).to_param }
     assert_response :success
   end
 

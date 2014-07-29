@@ -28,27 +28,27 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should not create invalid location" do
-    post :create, { :location => { :name => "" } }
-    assert_response :unprocessable_entity
-  end
-
   test "should create valid location" do
-    post :create, { :location => { :name => "Test Location" } }
+    post :create, { :name => "Test Location" }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
 
+  test "should not create invalid location" do
+    post :create, { :name => "" }
+    assert_response :unprocessable_entity
+  end
+
   test "should update location on if valid is location" do
     ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource", "Realm"]
-    put :update, { :id => @location.to_param, :location => { :name => "New Location", :ignore_types => ignore_types } }
+    put :update, { :id => @location.to_param, :name => "New Location", :ignore_types => ignore_types }
     assert_equal "New Location", Location.find(@location.id).name
     assert_response :success
   end
 
   test "should not update invalid location" do
-    put :update, { :id => Location.first.to_param, :location => { :name => "" } }
+    put :update, { :id => Location.first.to_param, :name => "" }
     assert_response :unprocessable_entity
   end
 

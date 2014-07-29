@@ -21,9 +21,7 @@ module Api
       end
 
       def_param_group :compute_profile do
-        param :compute_profile, Hash, :action_aware => true do
-          param :name, String, :required => true
-        end
+        param :name, String, :required => true, :action_aware => true
       end
 
       api :POST, "/compute_profiles/", "Create a compute profile."

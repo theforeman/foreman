@@ -15,26 +15,26 @@ class Api::V2::RealmsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
-  test "should not create invalid realm" do
-    post :create, { :realm => { :name => "" } }
-    assert_response :unprocessable_entity
-  end
-
   test "should create valid realm" do
-    post :create, { :realm => { :name => "realm.net", :realm_proxy_id => smart_proxies(:realm).to_param, :realm_type => "FreeIPA" } }
+    post :create, { :name => "realm.net", :realm_proxy_id => smart_proxies(:realm).to_param, :realm_type => "FreeIPA" }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
 
+  test "should not create invalid realm" do
+    post :create, { :name => "" }
+    assert_response :unprocessable_entity
+  end
+
   test "should update valid realm" do
-    put :update, { :id => Realm.first.to_param, :realm => { :name => "realm.new" } }
+    put :update, { :id => Realm.first.to_param, :name => "realm.new" }
     assert_equal "realm.new", Realm.first.name
     assert_response :success
   end
 
   test "should not update invalid realm" do
-    put :update, { :id => Realm.first.to_param, :realm => { :name => "" } }
+    put :update, { :id => Realm.first.to_param, :name => ""  }
     assert_response :unprocessable_entity
   end
 

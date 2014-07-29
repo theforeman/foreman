@@ -25,7 +25,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
 
   test "should create os" do
     assert_difference('Operatingsystem.count') do
-      post :create, { :operatingsystem => os }
+      post :create, os
     end
     assert_response :success
     assert_not_nil assigns(:operatingsystem)
@@ -33,7 +33,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
 
   test "should not create os without version" do
     assert_difference('Operatingsystem.count', 0) do
-      post :create, { :operatingsystem => os.except(:major) }
+      post :create, os.except(:major)
     end
     assert_response :unprocessable_entity
   end
@@ -53,7 +53,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   test "should update associated architectures by ids" do
     os = operatingsystems(:redhat)
     assert_difference('os.architectures.count') do
-      put :update, { :id => operatingsystems(:redhat).to_param, :operatingsystem => { },
+      put :update, { :id => operatingsystems(:redhat).to_param,
                      :architectures => [{ :id => architectures(:x86_64).id }, { :id => architectures(:sparc).id } ]
                    }
     end
@@ -63,7 +63,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   test "should update associated architectures by name" do
     os = operatingsystems(:redhat)
     assert_difference('os.architectures.count') do
-      put :update, { :id => operatingsystems(:redhat).to_param,  :operatingsystem => { },
+      put :update, { :id => operatingsystems(:redhat).to_param,
                      :architectures => [{ :name => architectures(:x86_64).name }, { :name => architectures(:sparc).name } ]
                    }
     end

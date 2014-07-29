@@ -23,12 +23,10 @@ module Api
       end
 
       def_param_group :model do
-        param :model, Hash, :action_aware => true do
-          param :name, String, :required => true
-          param :info, String, :required => false
-          param :vendor_class, String, :required => false
-          param :hardware_model, String, :required => false
-        end
+        param :name, String, :required => true, :action_aware => true
+        param :info, String, :required => false
+        param :vendor_class, String, :required => false
+        param :hardware_model, String, :required => false
       end
 
       api :POST, "/models/", "Create a model."

@@ -30,10 +30,8 @@ module Api
       end
 
       def_param_group :override_value do
-        param :override_value, Hash, :action_aware => true do
-          param :match, String
-          param :value, String
-        end
+        param :match, String
+        param :value, String
       end
 
       api :POST, '/smart_variables/:smart_variable_id/override_values', 'Create an override value for a specific smart_variable'

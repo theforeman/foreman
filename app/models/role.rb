@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Role < ActiveRecord::Base
+  include Authorizable
   # Built-in roles
   BUILTIN_DEFAULT_USER  = 1
   BUILTIN_ANONYMOUS     = 2

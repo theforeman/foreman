@@ -5,6 +5,8 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
+      wrap_parameters :subnet, :include => (Subnet.attribute_names + ['domain_ids'])
+
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, '/subnets', 'List of subnets'
@@ -27,21 +29,19 @@ module Api
       end
 
       def_param_group :subnet do
-        param :subnet, Hash, :action_aware => true do
-          param :name, String, :desc => 'Subnet name', :required => true
-          param :network, String, :desc => 'Subnet network', :required => true
-          param :mask, String, :desc => 'Netmask for this subnet', :required => true
-          param :gateway, String, :desc => 'Primary DNS for this subnet'
-          param :dns_primary, String, :desc => 'Primary DNS for this subnet'
-          param :dns_secondary, String, :desc => 'Secondary DNS for this subnet'
-          param :from, String, :desc => 'Starting IP Address for IP auto suggestion'
-          param :to, String, :desc => 'Ending IP Address for IP auto suggestion'
-          param :vlanid, String, :desc => 'VLAN ID for this subnet'
-          param :domain_ids, Array, :desc => 'Domains in which this subnet is part'
-          param :dhcp_id, :number, :desc => 'DHCP Proxy to use within this subnet'
-          param :tftp_id, :number, :desc => 'TFTP Proxy to use within this subnet'
-          param :dns_id, :number, :desc => 'DNS Proxy to use within this subnet'
-        end
+        param :name, String, :desc => 'Subnet name', :required => true, :action_aware => true
+        param :network, String, :desc => 'Subnet network', :required => true, :action_aware => true
+        param :mask, String, :desc => 'Netmask for this subnet', :required => true, :action_aware => true
+        param :gateway, String, :desc => 'Primary DNS for this subnet'
+        param :dns_primary, String, :desc => 'Primary DNS for this subnet'
+        param :dns_secondary, String, :desc => 'Secondary DNS for this subnet'
+        param :from, String, :desc => 'Starting IP Address for IP auto suggestion'
+        param :to, String, :desc => 'Ending IP Address for IP auto suggestion'
+        param :vlanid, String, :desc => 'VLAN ID for this subnet'
+        param :domain_ids, Array, :desc => 'Domains in which this subnet is part'
+        param :dhcp_id, :number, :desc => 'DHCP Proxy to use within this subnet'
+        param :tftp_id, :number, :desc => 'TFTP Proxy to use within this subnet'
+        param :dns_id, :number, :desc => 'DNS Proxy to use within this subnet'
       end
 
       api :POST, '/subnets', 'Create a subnet'

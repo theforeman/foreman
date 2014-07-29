@@ -21,13 +21,13 @@ class Api::V2::EnvironmentsControllerTest < ActionController::TestCase
 
   test "should create environment" do
     assert_difference('Environment.count') do
-      post :create, { :environment => development_environment }
+      post :create, development_environment
     end
     assert_response :success
   end
 
   test "should update environment" do
-    put :update, { :id => environments(:production).to_param, :environment => { } }
+    put :update, { :id => environments(:production).to_param }
     assert_response :success
   end
 

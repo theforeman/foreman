@@ -22,12 +22,10 @@ module Api
       end
 
       def_param_group :usergroup do
-        param :usergroup, Hash, :action_aware => true do
-          param :name, String, :required => true
-          param :user_ids, Array, :require => false
-          param :usergroup_ids, Array, :require => false
-          param :role_ids, Array, :require => false
-        end
+        param :name, String, :required => true, :action_aware => true
+        param :user_ids, Array, :require => false
+        param :usergroup_ids, Array, :require => false
+        param :role_ids, Array, :require => false
       end
 
       api :POST, "/usergroups/", "Create a user group."

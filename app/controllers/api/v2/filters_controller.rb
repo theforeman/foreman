@@ -1,10 +1,13 @@
 module Api
   module V2
     class FiltersController < V2::BaseController
+
+      wrap_parameters :filter, :include => (Filter.attribute_names + ['permission_ids']), :format => :json
+
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_role
+      before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/filters/", "List all filters."
@@ -24,20 +27,18 @@ module Api
       end
 
       def_param_group :filter do
-        param :filter, Hash, :action_aware => true, :required => true do
-          param :role_id, String, :required => true
-          param :search, String
-          param :permission_ids, Array
-          param :organization_ids, Array
-          param :location_ids, Array
-        end
+        param :role_id, String, :required => true, :action_aware => true
+        param :search, String
+        param :permission_ids, Array
+        param :organization_ids, Array
+        param :location_ids, Array
       end
 
       api :POST, "/filters/", "Create a filter."
       param_group :filter, :as => :create
 
       def create
-        @filter = Filter.new(params[:filter])
+        @filter = nested_obj ? nested_obj.filters.build(params[:filter]) : Filter.new(params[:filter])
         process_response @filter.save
       end
 
@@ -58,18 +59,14 @@ module Api
 
       private
 
-      def find_role
-        @role = Role.find_by_id(role_id)
+      def allowed_nested_id
+        %w(role_id)
       end
 
       def resource_scope(controller = controller_name)
-        @resource_scope ||= @role.present? ?
-            @role.filters.authorized("#{action_permission}_#{controller}") :
+        @resource_scope ||= nested_obj.present? ?
+            nested_obj.filters.authorized("#{action_permission}_#{controller}") :
             resource_class.scoped.authorized("#{action_permission}_#{controller}")
-      end
-
-      def role_id
-        params[:role_id]
       end
 
     end

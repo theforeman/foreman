@@ -28,14 +28,14 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should create valid compute resource" do
-    post :create, { :compute_resource => valid_attrs }
+    post :create, valid_attrs
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
 
   test "should update compute resource" do
-    put :update, { :id => compute_resources(:mycompute).to_param, :compute_resource => { :description => "new_description" } }
+    put :update, { :id => compute_resources(:mycompute).to_param, :description => "new_description" }
     assert_equal "new_description", ComputeResource.find_by_name('mycompute').description
     assert_response :success
   end
@@ -66,7 +66,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should update compute resource for owner" do
     setup_user 'edit', 'compute_resources', "id = #{compute_resources(:mycompute).id}"
-    put :update, { :id => compute_resources(:mycompute).to_param, :compute_resource => { :description => "new_description" } }
+    put :update, { :id => compute_resources(:mycompute).to_param, :description => "new_description" }
     assert_equal "new_description", ComputeResource.find_by_name('mycompute').description
     assert_response :success
   end
@@ -87,7 +87,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should not update compute resource for restricted" do
     setup_user 'edit', 'compute_resources', "id = #{compute_resources(:mycompute).id}"
-    put :update, { :id => compute_resources(:yourcompute).to_param, :compute_resource => { :description => "new_description" } }
+    put :update, { :id => compute_resources(:yourcompute).to_param, :description => "new_description" }
     assert_response :not_found
   end
 

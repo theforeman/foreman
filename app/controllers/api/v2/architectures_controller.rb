@@ -23,10 +23,8 @@ module Api
       end
 
       def_param_group :architecture do
-        param :architecture, Hash, :action_aware => true do
-          param :name, String, :required => true
-          param :operatingsystem_ids, Array, :desc => "Operatingsystem ID's"
-        end
+        param :name, String, :required => true, :action_aware => true
+        param :operatingsystem_ids, Array, :desc => "Operatingsystem ID's"
       end
 
       api :POST, "/architectures/", "Create an architecture."

@@ -22,13 +22,13 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
 
   test "should create override values for specific smart variable" do
     assert_difference('LookupValue.count') do
-      post :create,  {:smart_variable_id => lookup_keys(:four).to_param, :override_value => smart_variable_attrs }
+      post :create, smart_variable_attrs.merge(:smart_variable_id => lookup_keys(:four).to_param)
     end
     assert_response :success
   end
   test "should create override values for specific smart class parameter" do
     assert_difference('LookupValue.count') do
-      post :create,  {:smart_class_parameter_id => lookup_keys(:complex).to_param, :override_value => smart_class_attrs }
+      post :create, smart_class_attrs.merge(:smart_class_parameter_id => lookup_keys(:complex).to_param)
     end
     assert_response :success
   end
@@ -49,7 +49,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   end
 
   test "should update specific override value" do
-    put :update, { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :override_value => { :match => 'host=abc.com' } }
+    put :update, { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :match => 'host=abc.com' }
     assert_response :success
   end
 

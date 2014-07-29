@@ -19,13 +19,13 @@ class Api::V2::ComputeProfilesControllerTest < ActionController::TestCase
 
   test "should create compute profile" do
     assert_difference('ComputeProfile.count') do
-      post :create, { :compute_profile => {:name => '4-Xlarge'} }
+      post :create, { :name => '4-Xlarge' }
     end
     assert_response :success
   end
 
   test "should update compute_profile" do
-    put :update, { :id => compute_profiles(:one).to_param, :compute_profile => {:name => 'new name' } }
+    put :update, { :id => compute_profiles(:one).to_param, :name => 'new name' }
     assert_response :success
   end
 

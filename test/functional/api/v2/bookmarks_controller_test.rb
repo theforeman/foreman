@@ -5,7 +5,7 @@ class Api::V2::BookmarksControllerTest < ActionController::TestCase
 
   bookmark_base = {
     :public     => false,
-    :controller => "hosts"
+    :controller_name => "hosts"
   }
 
   simple_bookmark = bookmark_base.merge({
@@ -34,20 +34,20 @@ class Api::V2::BookmarksControllerTest < ActionController::TestCase
 
   test "should create bookmark" do
     assert_difference('Bookmark.count') do
-      post :create, { :bookmark => simple_bookmark }
+      post :create, simple_bookmark
     end
     assert_response :success
   end
 
   test "should create bookmark with a dot" do
     assert_difference('Bookmark.count') do
-      post :create, { :bookmark => dot_bookmark }
+      post :create, dot_bookmark
     end
     assert_response :success
   end
 
   test "should update bookmark" do
-    put :update, { :id => bookmarks(:one).to_param, :bookmark => { } }
+    put :update, { :id => bookmarks(:one).to_param }
     assert_response :success
   end
 

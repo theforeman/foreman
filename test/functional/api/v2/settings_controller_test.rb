@@ -18,13 +18,13 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
   end
 
   test "should update setting" do
-    put :update, { :id => settings(:attributes1).to_param, :setting => { } }
+    put :update, { :id => settings(:attributes1).to_param }
     assert_response :success
   end
 
   test "should parse string values" do
     setting_id = Setting.where(:settings_type => 'integer').first.id
-    put :update, { :id => setting_id, :setting => { :value => "100" } }
+    put :update, { :id => setting_id, :value => "100"  }
     assert_response :success
     assert_equal 100, Setting.find(setting_id).value
   end

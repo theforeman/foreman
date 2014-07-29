@@ -2,7 +2,7 @@ module Api
   module V2
     class UsersController < V2::BaseController
 
-      wrap_parameters User, :include => (User.attribute_names + ['password'])
+      wrap_parameters :user, :include => (User.attribute_names + ['password', 'password_confirmation'])
 
       before_filter :find_resource, :only => %w{show update destroy}
       include Foreman::Controller::UsersMixin
@@ -28,17 +28,15 @@ module Api
       end
 
       def_param_group :user do
-        param :user, Hash, :action_aware => true do
-          param :login, String, :required => true
-          param :firstname, String, :required => false
-          param :lastname, String, :required => false
-          param :mail, String, :required => true
-          param :admin, :bool, :required => false, :desc => "Is an admin account?"
-          param :password, String, :required => true
-          param :default_location_id, Integer if SETTINGS[:locations_enabled]
-          param :default_organization_id, Integer if SETTINGS[:organizations_enabled]
-          param :auth_source_id, Integer, :required => true
-        end
+        param :login, String, :required => true, :action_aware => true
+        param :firstname, String, :required => false
+        param :lastname, String, :required => false
+        param :mail, String, :required => true, :action_aware => true
+        param :admin, :bool, :required => false, :desc => "Is an admin account?"
+        param :password, String, :required => true, :action_aware => true
+        param :default_location_id, Integer if SETTINGS[:locations_enabled]
+        param :default_organization_id, Integer if SETTINGS[:organizations_enabled]
+        param :auth_source_id, Integer, :required => true, :action_aware => true
       end
 
       api :POST, "/users/", "Create an user."

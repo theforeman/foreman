@@ -38,12 +38,10 @@ module Api
       end
 
       def_param_group :domain do
-        param :domain, Hash, :action_aware => true do
-          param :name, String, :required => true, :desc => "The full DNS Domain name"
-          param :fullname, String, :required => false, :allow_nil => true, :desc => "Full name describing the domain"
-          param :dns_id, :number, :required => false, :allow_nil => true, :desc => "DNS Proxy to use within this domain"
-          param :domain_parameters_attributes, Array, :required => false, :desc => "Array of parameters (name, value)"
-        end
+        param :name, String, :required => true, :action_aware => true, :desc => "The full DNS Domain name"
+        param :fullname, String, :required => false, :allow_nil => true, :desc => "Full name describing the domain"
+        param :dns_id, :number, :required => false, :allow_nil => true, :desc => "DNS Proxy to use within this domain"
+        param :domain_parameters_attributes, Array, :required => false, :desc => "Array of parameters (name, value)"
       end
 
       api :POST, "/domains/", "Create a domain."

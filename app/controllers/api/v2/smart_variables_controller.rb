@@ -27,16 +27,14 @@ module Api
       end
 
       def_param_group :smart_variable do
-        param :smart_variable, Hash, :action_aware => true do
-          param :variable, String, :required => true
-          param :puppetclass_id, :number
-          param :default_value, String
-          param :override_value_order, String
-          param :description, String
-          param :validator_type, String
-          param :validator_rule, String
-          param :variable_type, String
-        end
+        param :variable, String, :required => true,:action_aware => true
+        param :puppetclass_id, :number
+        param :default_value, String
+        param :override_value_order, String
+        param :description, String
+        param :validator_type, String
+        param :validator_rule, String
+        param :variable_type, String
       end
 
       api :POST, '/smart_variables', 'Create a smart variable.'

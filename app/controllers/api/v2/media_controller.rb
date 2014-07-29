@@ -46,12 +46,10 @@ Available families:
       end
 
       def_param_group :medium do
-        param :medium, Hash, :action_aware => true do
-          param :name, String, :required => true, :desc => "Name of media"
-          param :path, String, :required => true, :desc => PATH_INFO
-          param :os_family, String, :require => false, :desc => OS_FAMILY_INFO
-          param :operatingsystem_ids, Array, :require => false
-        end
+        param :name, String, :required => true, :action_aware => true, :desc => "Name of media"
+        param :path, String, :required => true, :action_aware => true, :desc => PATH_INFO
+        param :os_family, String, :require => false, :desc => OS_FAMILY_INFO
+        param :operatingsystem_ids, Array, :require => false
       end
 
       api :POST, "/media/", "Create a medium."
