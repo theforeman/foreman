@@ -8,7 +8,8 @@ module Api
         app_info "Foreman v2 is stable and recommended for use. You may use v2 by either passing 'version=2' in the Accept Header or using api/v2/ in the URL."
       end
 
-      before_filter :setup_has_many_params_unwrapped, :setup_has_many_params, :only => [:create, :update]
+      before_filter :setup_has_many_params, :only => [:create, :update]
+      before_filter :setup_has_many_params_unwrapped, :only => [:create, :update]
 
       layout 'api/v2/layouts/index_layout', :only => :index
 
@@ -60,7 +61,7 @@ module Api
       # the method coverts an unwrapped child node array of objects (ex. 'domains': [{'id': 1, 'name': xyz.com'}])
       # to magic method (ex. domain_ids => [1]) for the purpose of adding/removing associations (POST / PUTd)
       def setup_has_many_params_unwrapped
-        params.each do |k,v|
+        params.dup.each do |k,v|
           if v.kind_of?(Array)
             magic_method_ids = "#{k.singularize}_ids"
             magic_method_names = "#{k.singularize}_names"
