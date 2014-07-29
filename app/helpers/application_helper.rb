@@ -370,11 +370,28 @@ module ApplicationHelper
     end
   end
 
-  def blank_or_inherit_f(f, attr)
-    return true unless f.object.respond_to?(:parent_id) && f.object.parent_id
-    inherited_value   = f.object.send(attr).try(:name_method)
-    inherited_value ||= _("no value")
-    _("Inherit parent (%s)") % inherited_value
+  def blank_or_inherit_f(f, attr, collection = nil)
+    if f.object.respond_to?(:parent_id) && f.object.parent_id.present?
+      assoc = attr.to_s.gsub('_id', '')
+      inherited_value   = f.object.send(assoc).try(:name_method)
+      inherited_value ||= _("no value")
+      _("Inherit parent (%s)") % inherited_value
+    else
+      include_blank_value(f, attr, collection)
+    end
+  end
+
+  def include_blank_value(f, attr, collection = nil, blank_msg = nil, none_msg = nil)
+    cnt = collection.try(:count)
+    if cnt == 1 && is_required?(f, attr)
+      false # auto-select option
+    elsif cnt > 0 && is_required?(f, attr)
+      blank_msg || (_("Select %s") % attr.to_s.humanize.downcase)
+    elsif cnt == 0
+      none_msg || (_("No %s") % attr.to_s.humanize.tableize)
+    else
+      true
+    end
   end
 
   def obj_type(obj)

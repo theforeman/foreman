@@ -106,6 +106,7 @@ module LayoutHelper
 
   def select_f(f, attr, array, id, method, select_options = {}, html_options = {})
     html_options.merge!(:size => 'col-md-10') if html_options[:multiple]
+    select_options.reverse_merge!(:include_blank => blank_or_inherit_f(f, attr, array))
     field(f, attr, html_options) do
       addClass html_options, "form-control"
       f.collection_select attr, array, id, method, select_options, html_options
@@ -150,10 +151,11 @@ module LayoutHelper
       content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
                   :id          => options.delete(:control_group_id) do
 
+        required_mark = '* '.html_safe if is_required?(f, attr)
         label   = options[:label] == :none ? '' : options.delete(:label)
         label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
             s_(clazz.gettext_translation_for_attribute_name attr)) if f
-        label   = label.present? ? label_tag(attr, label, :class => "col-md-2 control-label") : ''
+        label   = label.present? ? label_tag(attr, required_mark.to_s + label, :class => "col-md-2 control-label") : ''
 
         label.html_safe +
            content_tag(:div, :class => size_class) do
@@ -161,6 +163,11 @@ module LayoutHelper
            end.html_safe + help_inline.html_safe
       end.html_safe
     end
+  end
+
+  def is_required?(f, attr)
+    return false unless f && f.object.class.respond_to?(:validators_on)
+    f.object.class.validators_on(attr).map(&:class).include? ActiveModel::Validations::PresenceValidator
   end
 
   def help_inline(inline, error)

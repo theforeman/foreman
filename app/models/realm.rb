@@ -16,8 +16,8 @@ class Realm < ActiveRecord::Base
   scoped_search :on => :realm_type, :complete_value => true, :rename => :type
 
   validates :name, :presence => true, :uniqueness => true
-  validates :realm_type, :inclusion => { :in => TYPES }
-  validates :realm_proxy, :presence => true
+  validates :realm_type, :presence => true, :inclusion => { :in => TYPES }
+  validates :realm_proxy_id, :presence => true
 
   default_scope lambda {
     with_taxonomy_scope do
