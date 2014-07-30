@@ -133,9 +133,10 @@ Return value may either be one of the following:
       def power
         valid_actions = PowerManager::SUPPORTED_ACTIONS
         if valid_actions.include? params[:power_action]
-          render :json => { :power => @host.power.send(params[:power_action]) } , :status => 200
+          process_response @host.power.send(params[:power_action])
         else
-          render :json => { :error => "Unknown power action: Available methods are #{valid_actions.join(', ')}" }, :status => 422
+          @host.errors.add(:unknown_power_action, "Available methods are #{valid_actions.join(', ')}")
+          process_resource_error
         end
       end
 
@@ -146,9 +147,10 @@ Return value may either be one of the following:
       def boot
         valid_devices = ProxyAPI::BMC::SUPPORTED_BOOT_DEVICES
         if valid_devices.include? params[:device]
-          render :json => { :boot => @host.ipmi_boot(params[:device]) }, :status => 200
+          process_response @host.ipmi_boot(params[:device])
         else
-          render :json => { :error => "Unknown device: Available devices are #{valid_devices.join(', ')}" }, :status => 422
+          @host.errors.add(:unknown_device, "Available devices are #{valid_devices.join(', ')}")
+          process_resource_error
         end
       end
 
