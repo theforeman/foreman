@@ -6,7 +6,7 @@ class Organization < Taxonomy
 
   has_many :organization_parameters, :class_name => 'OrganizationParameter', :foreign_key => :reference_id,            :dependent => :destroy
   has_many :default_users,           :class_name => 'User',                  :foreign_key => :default_organization_id, :dependent => :nullify
-  accepts_nested_attributes_for :organization_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :organization_parameters, :allow_destroy => true
 
   scope :completer_scope, lambda { |opts| my_organizations }
 

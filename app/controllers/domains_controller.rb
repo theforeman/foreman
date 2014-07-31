@@ -8,7 +8,6 @@ class DomainsController < ApplicationController
 
   def new
     @domain = Domain.new
-    @domain.domain_parameters.build
   end
 
   def create
