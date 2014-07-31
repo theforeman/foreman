@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-11 09:09-0400\n"
-"PO-Revision-Date: 2014-07-07 20:40+0000\n"
-"Last-Translator: Especialista em Automatizaçao <alvin@intechne.com.br>\n"
+"POT-Creation-Date: 2014-07-28 12:17+0100\n"
+"PO-Revision-Date: 2014-07-29 09:06+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/foreman/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,6 +147,9 @@ msgid "%{name} changed from %{label1} to %{label2}"
 msgstr "%{name} alterado de %{label1} para %{label2}"
 
 msgid "%{record} is used by %{what}"
+msgstr ""
+
+msgid "%{record} is used by host in build mode %{what}"
 msgstr ""
 
 msgid "%{task} task failed with the following error: %{e}"
@@ -300,6 +303,9 @@ msgstr "Adicionar volume"
 msgid "Add combination"
 msgstr "Adicionar combinação"
 
+msgid "Add external user group"
+msgstr ""
+
 msgid "Add permission"
 msgstr "Adicionar permissão"
 
@@ -416,6 +422,9 @@ msgstr ""
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "Um layout explicito para as partições do seu disco(s). E.G."
+
+msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
+msgstr ""
 
 msgid "Any Context"
 msgstr "Qualquer contexto"
@@ -609,6 +618,9 @@ msgstr "Base DN"
 msgid "AuthSource|Host"
 msgstr "Host"
 
+msgid "AuthSource|LDAPS"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Ldap filter"
 msgstr "Filtro Ldap"
@@ -795,15 +807,14 @@ msgstr "Não foi possível apagar papel embutido"
 msgid "Can't delete internal admin account"
 msgstr "Não foi possível apagar conta interna de administrador"
 
+msgid "Can't delete the last admin account"
+msgstr ""
+
+msgid "Can't delete the last admin user group"
+msgstr ""
+
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr "Não foi possível localizar um Foreman Proxy com um recurso Puppet válido."
-
-msgid ""
-"Can't remove Administrator flag from internal protected <b>admin</b> account"
-msgstr ""
-
-msgid "Can't rename internal protected <b>admin</b> account to %s"
-msgstr ""
 
 msgid "Can't use the same value as the primary interface"
 msgstr "Não é possível usar o mesmo valor que a interface primária"
@@ -826,6 +837,9 @@ msgstr ""
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr ""
 
+msgid "Cannot find user %s when switching context"
+msgstr ""
+
 msgid "Canvas not supported."
 msgstr "Sem suporte para Canvas."
 
@@ -834,6 +848,9 @@ msgstr "Nome do certificado"
 
 msgid "Certificate path"
 msgstr "Caminho do certificado"
+
+msgid "Certificate that Foreman will use to encrypt websockets "
+msgstr ""
 
 msgid "Certificates"
 msgstr "Certificados"
@@ -1014,6 +1031,9 @@ msgstr "Grupos de Configuração"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
 msgstr "Template de configuração"
+
+msgid "ConfigTemplate|Locked"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Name"
@@ -1261,6 +1281,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
+msgstr ""
+
+msgid "Distribution chart"
 msgstr ""
 
 msgid "Document root where puppetdoc files should be created"
@@ -1512,6 +1535,12 @@ msgstr "Expira"
 msgid "External IP"
 msgstr "IP externo"
 
+msgid "External groups"
+msgstr ""
+
+msgid "External user group"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr "Gráfico de fato"
 
@@ -1658,6 +1687,11 @@ msgid ""
 msgstr ""
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
+msgstr ""
+
+msgid ""
+"Failed to update environments and Puppet classes from the on-disk Puppet "
+"installation: %s"
 msgstr ""
 
 #. initial character of Failed
@@ -1962,6 +1996,9 @@ msgstr "Host %s não está associado com uma VM"
 
 msgid "Host Architecture"
 msgstr "Arquitetura do host"
+
+msgid "Host Configuration Chart"
+msgstr ""
 
 msgid "Host Configuration Status"
 msgstr "Estatus da configuração do host"
@@ -2305,9 +2342,6 @@ msgstr "Importanto Puppet Facts"
 msgid "Importing Puppet classes and environments"
 msgstr "Importando Puppet Classes e Ambientes"
 
-msgid "In Progress"
-msgstr ""
-
 msgid ""
 "In addition to defining which puppet classes get included when building this"
 " host type you are also able to assign variables and provisioning "
@@ -2501,6 +2535,9 @@ msgid ""
 "system managed via Foreman is housed."
 msgstr "Localidades são utilizadas para gerenciar e diferenciar os lugar fisíco onde um sistema gerenciador pelo Foreman está alojado."
 
+msgid "Lock"
+msgstr ""
+
 msgid "Log out idle users after a certain number of minutes"
 msgstr "Desconectar usuários inativos após um determinado número de minutos"
 
@@ -2610,6 +2647,9 @@ msgstr "Gerenciar Localizações"
 
 msgid "Manage Organizations"
 msgstr "Gerenciar Organizações"
+
+msgid "Manage dashboard"
+msgstr ""
 
 msgid "Manage host"
 msgstr "Gerenciar host"
@@ -2963,6 +3003,9 @@ msgstr "Nenhuma modificação"
 msgid "No changes found when refreshing features from %s."
 msgstr "Nenhuma modificação encontrada enquanto atualizava funcionalidades de %s"
 
+msgid "No changes to your environments detected"
+msgstr ""
+
 msgid "No compute resource to show"
 msgstr "Sem recursos de computação para exibir"
 
@@ -3037,6 +3080,11 @@ msgstr "N"
 msgid "No smart proxies to show"
 msgstr "Nenhum smart proxy para exibir"
 
+msgid ""
+"No smart proxy was found to import environments from, ensure that at least "
+"one smart proxy is registered with the 'puppet' feature."
+msgstr ""
+
 msgid "No subnets"
 msgstr "Nenhuma subrede"
 
@@ -3087,6 +3135,9 @@ msgstr ""
 
 msgid "Note: %s "
 msgstr "Nota: %s"
+
+msgid "Nothing to restore"
+msgstr ""
 
 msgid "Nothing to show"
 msgstr "Nada para exibir"
@@ -3517,6 +3568,9 @@ msgstr ""
 msgid "Power%s"
 msgstr ""
 
+msgid "Preallocate disk"
+msgstr ""
+
 msgid "Prepare post installation script for %s"
 msgstr ""
 
@@ -3530,6 +3584,9 @@ msgid "Primary Interface"
 msgstr ""
 
 msgid "Private"
+msgstr ""
+
+msgid "Private key that Foreman will use to encrypt websockets "
 msgstr ""
 
 msgid "Proceed to Edit"
@@ -3762,6 +3819,9 @@ msgstr ""
 msgid "Report Status"
 msgstr ""
 
+msgid "Report summary"
+msgstr ""
+
 msgid "Reported at"
 msgstr ""
 
@@ -3794,6 +3854,9 @@ msgid ""
 "<br><br><b>Description:</b>: %s"
 msgstr ""
 
+msgid "Reset to default"
+msgstr ""
+
 msgid "Reset zoom"
 msgstr ""
 
@@ -3814,6 +3877,9 @@ msgstr ""
 
 #. initial character of Restarted
 msgid "Restarted|R"
+msgstr ""
+
+msgid "Restore widgets"
 msgstr ""
 
 msgid "Resume"
@@ -3891,6 +3957,9 @@ msgid "SafeRender#parse_string was passed a %s instead of a string"
 msgstr ""
 
 msgid "Save"
+msgstr ""
+
+msgid "Save dashboard"
 msgstr ""
 
 msgid "Save something and try again"
@@ -4043,6 +4112,11 @@ msgstr "Tipos de configurações"
 msgid "Setting|Value"
 msgstr "Valor"
 
+msgid ""
+"Should Foreman encrypt websockets (VNC console access). Choose on, off or "
+"auto."
+msgstr ""
+
 msgid "Show Diff"
 msgstr "Exibir diff"
 
@@ -4066,6 +4140,9 @@ msgstr ""
 
 msgid "Show host facts"
 msgstr "Exibir fatos do host"
+
+msgid "Show linked external user groups"
+msgstr ""
 
 msgid "Show log messages:"
 msgstr "Exibir mensagens de logs:"
@@ -4174,6 +4251,12 @@ msgstr "Estatísticas"
 msgid "Status"
 msgstr "Status"
 
+msgid "Status chart"
+msgstr ""
+
+msgid "Status table"
+msgstr ""
+
 msgid "Stop updating IP address and MAC values from Puppet facts"
 msgstr ""
 
@@ -4242,14 +4325,8 @@ msgstr "Sucesso"
 msgid "Successfully created %s."
 msgstr "%s criado com sucesso."
 
-msgid "Successfully created puppetclass."
-msgstr ""
-
 msgid "Successfully deleted %s."
 msgstr "%s excluído com sucesso"
-
-msgid "Successfully destroyed puppetclass."
-msgstr ""
 
 msgid "Successfully destroyed report."
 msgstr ""
@@ -4266,7 +4343,9 @@ msgstr ""
 msgid "Successfully updated %s."
 msgstr "%s atualizado com sucesso."
 
-msgid "Successfully updated puppetclass."
+msgid ""
+"Successfully updated environments and Puppet classes from the on-disk Puppet"
+" installation"
 msgstr ""
 
 msgid ""
@@ -4336,6 +4415,12 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Template kind"
+msgstr ""
+
+msgid "Template locked"
+msgstr ""
+
+msgid "Template unlocked"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -4511,6 +4596,9 @@ msgid ""
 "ec2-user, ubuntu, root etc"
 msgstr ""
 
+msgid "The virtual machine is being deleted."
+msgstr ""
+
 msgid "There are two strategies when using host groups."
 msgstr ""
 
@@ -4579,6 +4667,19 @@ msgstr ""
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is "
 "read-only."
+msgstr ""
+
+msgid "This template is locked and may not be removed."
+msgstr ""
+
+msgid "This template is locked for editing."
+msgstr ""
+
+msgid ""
+"This template is locked. Please clone it to a new template to customize."
+msgstr ""
+
+msgid "This template is owned by %s and may not be unlocked."
 msgstr ""
 
 msgid "Time in Seconds"
@@ -4860,6 +4961,9 @@ msgstr ""
 msgid "Unknown user"
 msgstr "Usuário desconhecido"
 
+msgid "Unlock"
+msgstr ""
+
 msgid "Unmanage host"
 msgstr "Hosto não gerenciado"
 
@@ -4947,6 +5051,9 @@ msgstr "Membro do grupo de usuário"
 msgid "UsergroupMember|Member type"
 msgstr "Tipo de membro"
 
+msgid "Usergroup|Auth source"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup|Name"
 msgstr "Nome"
@@ -5023,6 +5130,9 @@ msgstr "Usuário|Senha salt"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Subscribe to all hostgroups"
+msgstr ""
+
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid ""
@@ -5102,6 +5212,9 @@ msgstr "Visualizar detalhes do último relatório"
 msgid "Virtual (NAT)"
 msgstr "Virtual (NAT)"
 
+msgid "Virtual H/W version"
+msgstr ""
+
 msgid "Virtual Machine"
 msgstr "Máquina virtual"
 
@@ -5122,6 +5235,11 @@ msgstr "Aviso"
 
 msgid "Warning!"
 msgstr "Aviso!"
+
+msgid ""
+"Warning: This template is locked. You may only change the associations. "
+"Please %s it to customize."
+msgstr ""
 
 msgid "Warnings and errors"
 msgstr "Avisos e erros"
@@ -5191,7 +5309,9 @@ msgstr ""
 msgid "You are about to override the editor content, are you sure?"
 msgstr ""
 
-msgid "You are currently logged in, suicidal?"
+msgid ""
+"You are about to unlock a locked template -- this is for every organization "
+"and location that uses it. Continue?"
 msgstr ""
 
 msgid "You are not authorized to perform this action"
@@ -5213,6 +5333,9 @@ msgid "You can't assign some of roles you selected"
 msgstr ""
 
 msgid "You can't change Administrator flag"
+msgstr ""
+
+msgid "You cannot delete this user while logged in as this user."
 msgstr ""
 
 msgid "You cannot remove %s that are used by hosts or inherited."
@@ -5343,10 +5466,25 @@ msgstr ""
 msgid "can't be blank or contain white spaces."
 msgstr ""
 
+msgid "can't be updated after host is provisioned"
+msgstr ""
+
 msgid "can't contain white spaces"
 msgstr ""
 
+msgid "cannot be changed on an internal protected account"
+msgstr ""
+
+msgid "cannot be removed from an internal protected account"
+msgstr ""
+
+msgid "cannot be removed from the last admin account"
+msgstr ""
+
 msgid "cant be blank unless a custom partition has been defined"
+msgstr ""
+
+msgid "clone"
 msgstr ""
 
 msgid "common"
@@ -5385,8 +5523,8 @@ msgstr "ex.: http://openstack:5000/v2.0/tokens"
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "e.x.: https://identity.api.rackspacecloud.com/v2.0"
 
-msgid "e.g. https://ovirt.example.com:8443/api"
-msgstr "ex.: https://ovirt.example.com:8443/api"
+msgid "e.g. https://ovirt.example.com/api"
+msgstr ""
 
 msgid "e.g. jpegPhoto"
 msgstr "p.e jpegPhoto"
@@ -5451,6 +5589,9 @@ msgstr "grupo de host"
 msgid "in %s"
 msgstr "em %s"
 
+msgid "in Progress"
+msgstr ""
+
 msgid "included already from parent"
 msgstr ""
 
@@ -5508,7 +5649,13 @@ msgstr ""
 msgid "is invalid: %s"
 msgstr ""
 
+msgid "is not a valid MAC address"
+msgstr ""
+
 msgid "is not allowed to change"
+msgstr ""
+
+msgid "is not permitted"
 msgstr ""
 
 msgid "is unknown"
@@ -5524,6 +5671,9 @@ msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "link external user group with this user group"
+msgstr ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"
@@ -5601,7 +5751,9 @@ msgstr "s.o."
 msgid "override"
 msgstr "sobrescrever"
 
-msgid "parameters require an associated domain, host or host group"
+msgid ""
+"parameters require an associated domain, operating system, host or host "
+"group"
 msgstr ""
 
 msgid "parsing settings type '%s' from string is not defined"

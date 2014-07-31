@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-11 09:09-0400\n"
-"PO-Revision-Date: 2014-06-12 10:49+0000\n"
+"POT-Creation-Date: 2014-07-28 12:17+0100\n"
+"PO-Revision-Date: 2014-07-29 09:06+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -140,6 +140,9 @@ msgstr "%{name} ändrades från %{label1} till %{label2}"
 
 msgid "%{record} is used by %{what}"
 msgstr "%{record} används av %{what}"
+
+msgid "%{record} is used by host in build mode %{what}"
+msgstr ""
 
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "%{task} uppgiften misslyckades med följande fel: %{e}"
@@ -292,6 +295,9 @@ msgstr "Lägg till Volym"
 msgid "Add combination"
 msgstr "Lägg till kombination"
 
+msgid "Add external user group"
+msgstr ""
+
 msgid "Add permission"
 msgstr ""
 
@@ -408,6 +414,9 @@ msgstr "En IP-adress kommer att föreslås om du har en DHCP-aktiverad Smart Pro
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "En uttrycklig layout för partitionerna på din hårddisk(ar). T.ex."
+
+msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
+msgstr ""
 
 msgid "Any Context"
 msgstr "Alla Sammanhang"
@@ -601,6 +610,9 @@ msgstr "Base dn"
 msgid "AuthSource|Host"
 msgstr "Värdnamn"
 
+msgid "AuthSource|LDAPS"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Ldap filter"
 msgstr "Ldapfilter"
@@ -787,15 +799,14 @@ msgstr "Kan inte ta bort inbyggd roll"
 msgid "Can't delete internal admin account"
 msgstr "Kan inte radera interna administratörskontot"
 
+msgid "Can't delete the last admin account"
+msgstr ""
+
+msgid "Can't delete the last admin user group"
+msgstr ""
+
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr "Kan inte hitta giltig Foreman Proxy med Puppet-funktionen"
-
-msgid ""
-"Can't remove Administrator flag from internal protected <b>admin</b> account"
-msgstr "Kan inte ta bort Administratörsflaggan från det interna samt skyddade <b>admin</b> kontot"
-
-msgid "Can't rename internal protected <b>admin</b> account to %s"
-msgstr "Kan inte ändra namn på det interna samt skyddade <b>admin</b> kontot till %s"
 
 msgid "Can't use the same value as the primary interface"
 msgstr "Kan inte använda samma värde som det primära nätverksgränssnittet"
@@ -818,6 +829,9 @@ msgstr ""
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "Kan inte radera gruppen %{current} eftersom den har nästade grupper."
 
+msgid "Cannot find user %s when switching context"
+msgstr ""
+
 msgid "Canvas not supported."
 msgstr "Canvas stöds inte."
 
@@ -826,6 +840,9 @@ msgstr "Certifikatsnamn"
 
 msgid "Certificate path"
 msgstr "Certifikatssökväg"
+
+msgid "Certificate that Foreman will use to encrypt websockets "
+msgstr ""
 
 msgid "Certificates"
 msgstr "Certifikat"
@@ -1006,6 +1023,9 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
 msgstr "Konfigurationsmall"
+
+msgid "ConfigTemplate|Locked"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Name"
@@ -1254,6 +1274,9 @@ msgstr[1] "Visar <b>alla %{count}</b> poster"
 
 msgid "Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
 msgstr "Visar poster <b>%{from} - %{to}</b> av totalt <b>%{count}</b>"
+
+msgid "Distribution chart"
+msgstr ""
 
 msgid "Document root where puppetdoc files should be created"
 msgstr "Dokumentrot där puppetdoc filerna kommer att skapas"
@@ -1504,6 +1527,12 @@ msgstr "Utgår"
 msgid "External IP"
 msgstr "Extern IP"
 
+msgid "External groups"
+msgstr ""
+
+msgid "External user group"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr "Faktakarta"
 
@@ -1651,6 +1680,11 @@ msgstr "Misslyckades med att ångra uppdateringen för beräkningsresurs %{compu
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Misslyckades med att uppdatera beräkningsresurs %{compute_resource}, instans %{name}: %{e}"
+
+msgid ""
+"Failed to update environments and Puppet classes from the on-disk Puppet "
+"installation: %s"
+msgstr ""
 
 #. initial character of Failed
 msgid "Failed|F"
@@ -1954,6 +1988,9 @@ msgstr ""
 
 msgid "Host Architecture"
 msgstr "Värdarkitektur"
+
+msgid "Host Configuration Chart"
+msgstr ""
 
 msgid "Host Configuration Status"
 msgstr "Värdkonfigurationsstatus"
@@ -2297,9 +2334,6 @@ msgstr "Importerar Puppetfakta"
 msgid "Importing Puppet classes and environments"
 msgstr "Importerar Puppetklasser och miljöer"
 
-msgid "In Progress"
-msgstr "Pågår"
-
 msgid ""
 "In addition to defining which puppet classes get included when building this"
 " host type you are also able to assign variables and provisioning "
@@ -2493,6 +2527,9 @@ msgid ""
 "system managed via Foreman is housed."
 msgstr "Lokationer används för att managera och särskilja på den fysiska placeringen på system som hanteras via Foreman."
 
+msgid "Lock"
+msgstr ""
+
 msgid "Log out idle users after a certain number of minutes"
 msgstr "Logga ut inaktiva användare efter ett antal minuter"
 
@@ -2602,6 +2639,9 @@ msgstr "Hantera Lokationer"
 
 msgid "Manage Organizations"
 msgstr "Hantera Organisationer"
+
+msgid "Manage dashboard"
+msgstr ""
 
 msgid "Manage host"
 msgstr "Managera värd"
@@ -2955,6 +2995,9 @@ msgstr "Inga ändringar"
 msgid "No changes found when refreshing features from %s."
 msgstr "Inga ändringar funna vid uppdatering av funktioner från %s."
 
+msgid "No changes to your environments detected"
+msgstr ""
+
 msgid "No compute resource to show"
 msgstr "Ingen beräkningsresurs att visa"
 
@@ -3029,6 +3072,11 @@ msgstr "N"
 msgid "No smart proxies to show"
 msgstr "Inga smarta proxies att visa"
 
+msgid ""
+"No smart proxy was found to import environments from, ensure that at least "
+"one smart proxy is registered with the 'puppet' feature."
+msgstr ""
+
 msgid "No subnets"
 msgstr "Inga subnet"
 
@@ -3079,6 +3127,9 @@ msgstr "Inte relevant för remsa"
 
 msgid "Note: %s "
 msgstr "Notera: %s"
+
+msgid "Nothing to restore"
+msgstr ""
 
 msgid "Nothing to show"
 msgstr "Inget att visa"
@@ -3509,6 +3560,9 @@ msgstr "Starta up beräkningsinstans %s"
 msgid "Power%s"
 msgstr "Kraft%s"
 
+msgid "Preallocate disk"
+msgstr ""
+
 msgid "Prepare post installation script for %s"
 msgstr "Preparera postinstallationsscript för %s"
 
@@ -3523,6 +3577,9 @@ msgstr "Primärt Gränssnitt"
 
 msgid "Private"
 msgstr "Privat"
+
+msgid "Private key that Foreman will use to encrypt websockets "
+msgstr ""
 
 msgid "Proceed to Edit"
 msgstr "Gå vidare till redigering"
@@ -3754,6 +3811,9 @@ msgstr "Rapportstatistik"
 msgid "Report Status"
 msgstr "Rapportstatus"
 
+msgid "Report summary"
+msgstr ""
+
 msgid "Reported at"
 msgstr "Rapporterades vid"
 
@@ -3786,6 +3846,9 @@ msgid ""
 "<br><br><b>Description:</b>: %s"
 msgstr "Nödvändig parameter utan värde. <br/><b>Var vänlig och forcera!</b> <br><br><b>Beskrivning:</b>:"
 
+msgid "Reset to default"
+msgstr ""
+
 msgid "Reset zoom"
 msgstr "Återställ zoom"
 
@@ -3807,6 +3870,9 @@ msgstr "Omstartad"
 #. initial character of Restarted
 msgid "Restarted|R"
 msgstr "R"
+
+msgid "Restore widgets"
+msgstr ""
 
 msgid "Resume"
 msgstr "Återuppta"
@@ -3884,6 +3950,9 @@ msgstr "SafeRender#parse_string fick %s som argument istället för en sträng"
 
 msgid "Save"
 msgstr "Spara"
+
+msgid "Save dashboard"
+msgstr ""
 
 msgid "Save something and try again"
 msgstr "Spara något och försök igen"
@@ -4035,6 +4104,11 @@ msgstr "Inställningstyp"
 msgid "Setting|Value"
 msgstr "Värde"
 
+msgid ""
+"Should Foreman encrypt websockets (VNC console access). Choose on, off or "
+"auto."
+msgstr ""
+
 msgid "Show Diff"
 msgstr "Visa Skillnad"
 
@@ -4058,6 +4132,9 @@ msgstr "Visa distributionskarta"
 
 msgid "Show host facts"
 msgstr "Visa värdfakta"
+
+msgid "Show linked external user groups"
+msgstr ""
 
 msgid "Show log messages:"
 msgstr "Visa loggmeddelanden:"
@@ -4166,6 +4243,12 @@ msgstr "Statistik"
 msgid "Status"
 msgstr "Status"
 
+msgid "Status chart"
+msgstr ""
+
+msgid "Status table"
+msgstr ""
+
 msgid "Stop updating IP address and MAC values from Puppet facts"
 msgstr ""
 
@@ -4234,14 +4317,8 @@ msgstr "Lyckades"
 msgid "Successfully created %s."
 msgstr "Lyckades skapa %s."
 
-msgid "Successfully created puppetclass."
-msgstr "Lyckades skapa puppetklass."
-
 msgid "Successfully deleted %s."
 msgstr "Lyckades radera %s."
-
-msgid "Successfully destroyed puppetclass."
-msgstr "Lyckades förstöra puppetklass."
 
 msgid "Successfully destroyed report."
 msgstr "Lyckades förstöra rapport."
@@ -4258,8 +4335,10 @@ msgstr "Lyckades uppdatera funktioner från %s."
 msgid "Successfully updated %s."
 msgstr "Lyckades uppdatera %s."
 
-msgid "Successfully updated puppetclass."
-msgstr "Lyckades uppdatera puppetklass"
+msgid ""
+"Successfully updated environments and Puppet classes from the on-disk Puppet"
+" installation"
+msgstr ""
 
 msgid ""
 "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped}"
@@ -4329,6 +4408,12 @@ msgstr "Malleditor"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Template kind"
 msgstr "Malltyp"
+
+msgid "Template locked"
+msgstr ""
+
+msgid "Template unlocked"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "TemplateKind|Name"
@@ -4503,6 +4588,9 @@ msgid ""
 "ec2-user, ubuntu, root etc"
 msgstr "Användaren som används för att ssha till instansen, normalt cloud-user, ec2-user, ubuntu, root etc"
 
+msgid "The virtual machine is being deleted."
+msgstr ""
+
 msgid "There are two strategies when using host groups."
 msgstr "Det finns två strategier vid användande av värdgrupper."
 
@@ -4572,6 +4660,19 @@ msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is "
 "read-only."
 msgstr "Denna inställning är definierad i konfigurationsfilen 'settings.yaml' och är skrivskyddad."
+
+msgid "This template is locked and may not be removed."
+msgstr ""
+
+msgid "This template is locked for editing."
+msgstr ""
+
+msgid ""
+"This template is locked. Please clone it to a new template to customize."
+msgstr ""
+
+msgid "This template is owned by %s and may not be unlocked."
+msgstr ""
 
 msgid "Time in Seconds"
 msgstr "Tid i sekunder"
@@ -4852,6 +4953,9 @@ msgstr "Okänt strömhanteringsstöd - kan inte fortsätta"
 msgid "Unknown user"
 msgstr "Okänd användare"
 
+msgid "Unlock"
+msgstr ""
+
 msgid "Unmanage host"
 msgstr "Sluta managera värd"
 
@@ -4939,6 +5043,9 @@ msgstr "Användargruppsmedlem"
 msgid "UsergroupMember|Member type"
 msgstr "Medlemstyp"
 
+msgid "Usergroup|Auth source"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup|Name"
 msgstr "Namn"
@@ -5017,6 +5124,9 @@ msgstr "Lösenordssalt"
 msgid "User|Subscribe to all hostgroups"
 msgstr "Prenumerera på alla värdgrupper"
 
+msgid "Uses thin provisioning if unchecked"
+msgstr ""
+
 msgid ""
 "Using the organization system provides a way to group resources together for"
 " easy management."
@@ -5094,6 +5204,9 @@ msgstr "Granska senaste rapportdetaljerna"
 msgid "Virtual (NAT)"
 msgstr "Virtuell(NAT)"
 
+msgid "Virtual H/W version"
+msgstr ""
+
 msgid "Virtual Machine"
 msgstr "Virtuell Maskin"
 
@@ -5114,6 +5227,11 @@ msgstr "Varning"
 
 msgid "Warning!"
 msgstr "Varning!"
+
+msgid ""
+"Warning: This template is locked. You may only change the associations. "
+"Please %s it to customize."
+msgstr ""
 
 msgid "Warnings and errors"
 msgstr "Varningar och fel"
@@ -5183,8 +5301,10 @@ msgstr "Du kommer att åsidosätta redigerarens innehåll med en tidigare versio
 msgid "You are about to override the editor content, are you sure?"
 msgstr "Du kommer att åsidosätta redigerarens innehåll, är du säker?"
 
-msgid "You are currently logged in, suicidal?"
-msgstr "Du är förnärvarande inloggad."
+msgid ""
+"You are about to unlock a locked template -- this is for every organization "
+"and location that uses it. Continue?"
+msgstr ""
 
 msgid "You are not authorized to perform this action"
 msgstr "Du har inte behörighet att utföra detta"
@@ -5206,6 +5326,9 @@ msgstr "Du kan inte tilldela vissa av rollerna du valde"
 
 msgid "You can't change Administrator flag"
 msgstr "Du kan inte ändra Administratörsflaggan"
+
+msgid "You cannot delete this user while logged in as this user."
+msgstr ""
 
 msgid "You cannot remove %s that are used by hosts or inherited."
 msgstr ""
@@ -5335,11 +5458,26 @@ msgstr "kan inte vara tom eller sluta med blanksteg / mellanslag"
 msgid "can't be blank or contain white spaces."
 msgstr "kan inte vara tom eller innehålla blanksteg / mellanslag."
 
+msgid "can't be updated after host is provisioned"
+msgstr ""
+
 msgid "can't contain white spaces"
 msgstr "kan inte innehålla blanksteg / mellanslag"
 
+msgid "cannot be changed on an internal protected account"
+msgstr ""
+
+msgid "cannot be removed from an internal protected account"
+msgstr ""
+
+msgid "cannot be removed from the last admin account"
+msgstr ""
+
 msgid "cant be blank unless a custom partition has been defined"
 msgstr "kan inte vara tom om inte en egen partitionstabell används"
+
+msgid "clone"
+msgstr ""
 
 msgid "common"
 msgstr "gemensam"
@@ -5377,8 +5515,8 @@ msgstr "t.ex. http://openstack:5000/v2.0/tokens"
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "t.e.x. https://identity.api.rackspacecloud.com/v2.0"
 
-msgid "e.g. https://ovirt.example.com:8443/api"
-msgstr "t.ex. https://ovirt.example.com:8443/api"
+msgid "e.g. https://ovirt.example.com/api"
+msgstr ""
 
 msgid "e.g. jpegPhoto"
 msgstr ""
@@ -5443,6 +5581,9 @@ msgstr "värdgrupp"
 msgid "in %s"
 msgstr "i %s"
 
+msgid "in Progress"
+msgstr ""
+
 msgid "included already from parent"
 msgstr ""
 
@@ -5500,8 +5641,14 @@ msgstr "är felaktig - enbart http://, https:// är tillåtna"
 msgid "is invalid: %s"
 msgstr "är felaktig: %s"
 
+msgid "is not a valid MAC address"
+msgstr ""
+
 msgid "is not allowed to change"
 msgstr "tillåts inte att ändras"
+
+msgid "is not permitted"
+msgstr ""
 
 msgid "is unknown"
 msgstr ""
@@ -5516,6 +5663,9 @@ msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] "senaste %s dagen"
 msgstr[1] "senaste %s dagarna"
+
+msgid "link external user group with this user group"
+msgstr ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"
@@ -5593,8 +5743,10 @@ msgstr "os"
 msgid "override"
 msgstr "tvinga"
 
-msgid "parameters require an associated domain, host or host group"
-msgstr "parametrar kräver en associerad domän, värd eller värdgrupp"
+msgid ""
+"parameters require an associated domain, operating system, host or host "
+"group"
+msgstr ""
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "tolkning av inställningstyp '%s' från sträng är inte definierad"

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-11 09:09-0400\n"
-"PO-Revision-Date: 2014-06-12 10:49+0000\n"
+"POT-Creation-Date: 2014-07-28 12:17+0100\n"
+"PO-Revision-Date: 2014-07-29 09:06+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -132,6 +132,9 @@ msgstr "%{name} 从 %{label1} 变更为%{label2}"
 
 msgid "%{record} is used by %{what}"
 msgstr "%{record} 被 %{what} 使用"
+
+msgid "%{record} is used by host in build mode %{what}"
+msgstr ""
 
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "%{task} 任务错误信息如: %{e}"
@@ -284,6 +287,9 @@ msgstr "添加值"
 msgid "Add combination"
 msgstr "添加组合"
 
+msgid "Add external user group"
+msgstr ""
+
 msgid "Add permission"
 msgstr ""
 
@@ -400,6 +406,9 @@ msgstr ""
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "明确硬盘分区。 E.G."
+
+msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
+msgstr ""
 
 msgid "Any Context"
 msgstr "所有环境"
@@ -592,6 +601,9 @@ msgstr "根"
 msgid "AuthSource|Host"
 msgstr "主机"
 
+msgid "AuthSource|LDAPS"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Ldap filter"
 msgstr ""
@@ -778,15 +790,14 @@ msgstr "无法删除内置角色"
 msgid "Can't delete internal admin account"
 msgstr "无法删除内部管理员帐户"
 
+msgid "Can't delete the last admin account"
+msgstr ""
+
+msgid "Can't delete the last admin user group"
+msgstr ""
+
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr "无可用Puppet代理"
-
-msgid ""
-"Can't remove Administrator flag from internal protected <b>admin</b> account"
-msgstr "无法删除内置用户 <b>admin</b> 的管理员权限。"
-
-msgid "Can't rename internal protected <b>admin</b> account to %s"
-msgstr "无法将内置用 <b>admin</b> 改名为%s"
 
 msgid "Can't use the same value as the primary interface"
 msgstr "无法使用与主接口相同的参数。"
@@ -809,6 +820,9 @@ msgstr ""
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr ""
 
+msgid "Cannot find user %s when switching context"
+msgstr ""
+
 msgid "Canvas not supported."
 msgstr "不支持"
 
@@ -816,6 +830,9 @@ msgid "Certificate Name"
 msgstr "证书名称"
 
 msgid "Certificate path"
+msgstr ""
+
+msgid "Certificate that Foreman will use to encrypt websockets "
 msgstr ""
 
 msgid "Certificates"
@@ -997,6 +1014,9 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
 msgstr "配置模板"
+
+msgid "ConfigTemplate|Locked"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Name"
@@ -1243,6 +1263,9 @@ msgid_plural "Displaying <b>all %{count}</b> entries"
 msgstr[0] "显示 <b>%{count}</b> 项"
 
 msgid "Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
+msgstr ""
+
+msgid "Distribution chart"
 msgstr ""
 
 msgid "Document root where puppetdoc files should be created"
@@ -1494,6 +1517,12 @@ msgstr "过期"
 msgid "External IP"
 msgstr ""
 
+msgid "External groups"
+msgstr ""
+
+msgid "External user group"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr "详情图"
 
@@ -1640,6 +1669,11 @@ msgid ""
 msgstr ""
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
+msgstr ""
+
+msgid ""
+"Failed to update environments and Puppet classes from the on-disk Puppet "
+"installation: %s"
 msgstr ""
 
 #. initial character of Failed
@@ -1944,6 +1978,9 @@ msgstr ""
 
 msgid "Host Architecture"
 msgstr "主机架构"
+
+msgid "Host Configuration Chart"
+msgstr ""
 
 msgid "Host Configuration Status"
 msgstr "主机配置状态"
@@ -2287,9 +2324,6 @@ msgstr "导入Puppet详情"
 msgid "Importing Puppet classes and environments"
 msgstr "导入Puppet类和环境"
 
-msgid "In Progress"
-msgstr "出来中"
-
 msgid ""
 "In addition to defining which puppet classes get included when building this"
 " host type you are also able to assign variables and provisioning "
@@ -2483,6 +2517,9 @@ msgid ""
 "system managed via Foreman is housed."
 msgstr ""
 
+msgid "Lock"
+msgstr ""
+
 msgid "Log out idle users after a certain number of minutes"
 msgstr ""
 
@@ -2592,6 +2629,9 @@ msgstr "管理位置"
 
 msgid "Manage Organizations"
 msgstr "管理组织"
+
+msgid "Manage dashboard"
+msgstr ""
 
 msgid "Manage host"
 msgstr "管理主机"
@@ -2945,6 +2985,9 @@ msgstr "未变更"
 msgid "No changes found when refreshing features from %s."
 msgstr ""
 
+msgid "No changes to your environments detected"
+msgstr ""
+
 msgid "No compute resource to show"
 msgstr "没有可显示的计算机资源"
 
@@ -3019,6 +3062,11 @@ msgstr "N"
 msgid "No smart proxies to show"
 msgstr "没有智能代理来显示"
 
+msgid ""
+"No smart proxy was found to import environments from, ensure that at least "
+"one smart proxy is registered with the 'puppet' feature."
+msgstr ""
+
 msgid "No subnets"
 msgstr "没有子网"
 
@@ -3069,6 +3117,9 @@ msgstr "不相关的片段"
 
 msgid "Note: %s "
 msgstr "注：%s"
+
+msgid "Nothing to restore"
+msgstr ""
 
 msgid "Nothing to show"
 msgstr "没有内容可显示"
@@ -3499,6 +3550,9 @@ msgstr "启动%s"
 msgid "Power%s"
 msgstr "启动%s"
 
+msgid "Preallocate disk"
+msgstr ""
+
 msgid "Prepare post installation script for %s"
 msgstr ""
 
@@ -3512,6 +3566,9 @@ msgid "Primary Interface"
 msgstr "主接口"
 
 msgid "Private"
+msgstr ""
+
+msgid "Private key that Foreman will use to encrypt websockets "
 msgstr ""
 
 msgid "Proceed to Edit"
@@ -3744,6 +3801,9 @@ msgstr "报告指标"
 msgid "Report Status"
 msgstr "报告状态"
 
+msgid "Report summary"
+msgstr ""
+
 msgid "Reported at"
 msgstr "报告于"
 
@@ -3776,6 +3836,9 @@ msgid ""
 "<br><br><b>Description:</b>: %s"
 msgstr ""
 
+msgid "Reset to default"
+msgstr ""
+
 msgid "Reset zoom"
 msgstr "窗口复位"
 
@@ -3797,6 +3860,9 @@ msgstr "已重启"
 #. initial character of Restarted
 msgid "Restarted|R"
 msgstr "已重启"
+
+msgid "Restore widgets"
+msgstr ""
 
 msgid "Resume"
 msgstr ""
@@ -3873,6 +3939,9 @@ msgstr ""
 
 msgid "Save"
 msgstr "保存"
+
+msgid "Save dashboard"
+msgstr ""
 
 msgid "Save something and try again"
 msgstr ""
@@ -4024,6 +4093,11 @@ msgstr "类型"
 msgid "Setting|Value"
 msgstr "值"
 
+msgid ""
+"Should Foreman encrypt websockets (VNC console access). Choose on, off or "
+"auto."
+msgstr ""
+
 msgid "Show Diff"
 msgstr "显示区别"
 
@@ -4047,6 +4121,9 @@ msgstr "显示分布图"
 
 msgid "Show host facts"
 msgstr "显示主机细节"
+
+msgid "Show linked external user groups"
+msgstr ""
 
 msgid "Show log messages:"
 msgstr "显示登录信息："
@@ -4155,6 +4232,12 @@ msgstr "统计"
 msgid "Status"
 msgstr "状态"
 
+msgid "Status chart"
+msgstr ""
+
+msgid "Status table"
+msgstr ""
+
 msgid "Stop updating IP address and MAC values from Puppet facts"
 msgstr ""
 
@@ -4223,14 +4306,8 @@ msgstr "成功"
 msgid "Successfully created %s."
 msgstr "成功创建 %s "
 
-msgid "Successfully created puppetclass."
-msgstr "成功创建 puppet 类"
-
 msgid "Successfully deleted %s."
 msgstr "成功删除 %s."
-
-msgid "Successfully destroyed puppetclass."
-msgstr "成功删除Puppet 类"
 
 msgid "Successfully destroyed report."
 msgstr "成功删除报告。"
@@ -4247,8 +4324,10 @@ msgstr ""
 msgid "Successfully updated %s."
 msgstr "成功更新 %s."
 
-msgid "Successfully updated puppetclass."
-msgstr "成功更新 puppet 类"
+msgid ""
+"Successfully updated environments and Puppet classes from the on-disk Puppet"
+" installation"
+msgstr ""
 
 msgid ""
 "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped}"
@@ -4318,6 +4397,12 @@ msgstr "模板编辑器"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Template kind"
 msgstr "模板种类"
+
+msgid "Template locked"
+msgstr ""
+
+msgid "Template unlocked"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "TemplateKind|Name"
@@ -4492,6 +4577,9 @@ msgid ""
 "ec2-user, ubuntu, root etc"
 msgstr ""
 
+msgid "The virtual machine is being deleted."
+msgstr ""
+
 msgid "There are two strategies when using host groups."
 msgstr ""
 
@@ -4559,6 +4647,19 @@ msgstr ""
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is "
 "read-only."
+msgstr ""
+
+msgid "This template is locked and may not be removed."
+msgstr ""
+
+msgid "This template is locked for editing."
+msgstr ""
+
+msgid ""
+"This template is locked. Please clone it to a new template to customize."
+msgstr ""
+
+msgid "This template is owned by %s and may not be unlocked."
 msgstr ""
 
 msgid "Time in Seconds"
@@ -4840,6 +4941,9 @@ msgstr ""
 msgid "Unknown user"
 msgstr "未知用户"
 
+msgid "Unlock"
+msgstr ""
+
 msgid "Unmanage host"
 msgstr "取消管理主机"
 
@@ -4927,6 +5031,9 @@ msgstr "用户组成员"
 msgid "UsergroupMember|Member type"
 msgstr "成员类型"
 
+msgid "Usergroup|Auth source"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup|Name"
 msgstr "名称"
@@ -5003,6 +5110,9 @@ msgstr "Password salt"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Subscribe to all hostgroups"
+msgstr ""
+
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid ""
@@ -5082,6 +5192,9 @@ msgstr "查看最新报告详情"
 msgid "Virtual (NAT)"
 msgstr "虚拟 （NAT）"
 
+msgid "Virtual H/W version"
+msgstr ""
+
 msgid "Virtual Machine"
 msgstr "虚拟机"
 
@@ -5102,6 +5215,11 @@ msgstr "警告"
 
 msgid "Warning!"
 msgstr "警告"
+
+msgid ""
+"Warning: This template is locked. You may only change the associations. "
+"Please %s it to customize."
+msgstr ""
 
 msgid "Warnings and errors"
 msgstr "警告和错误"
@@ -5171,7 +5289,9 @@ msgstr ""
 msgid "You are about to override the editor content, are you sure?"
 msgstr ""
 
-msgid "You are currently logged in, suicidal?"
+msgid ""
+"You are about to unlock a locked template -- this is for every organization "
+"and location that uses it. Continue?"
 msgstr ""
 
 msgid "You are not authorized to perform this action"
@@ -5193,6 +5313,9 @@ msgid "You can't assign some of roles you selected"
 msgstr ""
 
 msgid "You can't change Administrator flag"
+msgstr ""
+
+msgid "You cannot delete this user while logged in as this user."
 msgstr ""
 
 msgid "You cannot remove %s that are used by hosts or inherited."
@@ -5323,10 +5446,25 @@ msgstr ""
 msgid "can't be blank or contain white spaces."
 msgstr ""
 
+msgid "can't be updated after host is provisioned"
+msgstr ""
+
 msgid "can't contain white spaces"
 msgstr ""
 
+msgid "cannot be changed on an internal protected account"
+msgstr ""
+
+msgid "cannot be removed from an internal protected account"
+msgstr ""
+
+msgid "cannot be removed from the last admin account"
+msgstr ""
+
 msgid "cant be blank unless a custom partition has been defined"
+msgstr ""
+
+msgid "clone"
 msgstr ""
 
 msgid "common"
@@ -5365,7 +5503,7 @@ msgstr ""
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr ""
 
-msgid "e.g. https://ovirt.example.com:8443/api"
+msgid "e.g. https://ovirt.example.com/api"
 msgstr ""
 
 msgid "e.g. jpegPhoto"
@@ -5431,6 +5569,9 @@ msgstr ""
 msgid "in %s"
 msgstr ""
 
+msgid "in Progress"
+msgstr ""
+
 msgid "included already from parent"
 msgstr ""
 
@@ -5488,7 +5629,13 @@ msgstr ""
 msgid "is invalid: %s"
 msgstr ""
 
+msgid "is not a valid MAC address"
+msgstr ""
+
 msgid "is not allowed to change"
+msgstr ""
+
+msgid "is not permitted"
 msgstr ""
 
 msgid "is unknown"
@@ -5503,6 +5650,9 @@ msgstr ""
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] "最后 %s 天"
+
+msgid "link external user group with this user group"
+msgstr ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"
@@ -5580,7 +5730,9 @@ msgstr ""
 msgid "override"
 msgstr "覆盖"
 
-msgid "parameters require an associated domain, host or host group"
+msgid ""
+"parameters require an associated domain, operating system, host or host "
+"group"
 msgstr ""
 
 msgid "parsing settings type '%s' from string is not defined"

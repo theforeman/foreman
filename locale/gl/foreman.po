@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-11 09:09-0400\n"
-"PO-Revision-Date: 2014-06-12 10:49+0000\n"
+"POT-Creation-Date: 2014-07-28 12:17+0100\n"
+"PO-Revision-Date: 2014-07-29 09:06+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/foreman/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -137,6 +137,9 @@ msgid "%{name} changed from %{label1} to %{label2}"
 msgstr "%{name} cambiou de %{label1} a %{label2}"
 
 msgid "%{record} is used by %{what}"
+msgstr ""
+
+msgid "%{record} is used by host in build mode %{what}"
 msgstr ""
 
 msgid "%{task} task failed with the following error: %{e}"
@@ -290,6 +293,9 @@ msgstr "Engadir Volume"
 msgid "Add combination"
 msgstr "Engadir combinación"
 
+msgid "Add external user group"
+msgstr ""
+
 msgid "Add permission"
 msgstr ""
 
@@ -406,6 +412,9 @@ msgstr ""
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "Un esquema explícito de particións do disco(s), como por exemplo"
+
+msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
+msgstr ""
 
 msgid "Any Context"
 msgstr "Calquer Contexto"
@@ -599,6 +608,9 @@ msgstr "Base dn"
 msgid "AuthSource|Host"
 msgstr "Equipo"
 
+msgid "AuthSource|LDAPS"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Ldap filter"
 msgstr ""
@@ -785,15 +797,14 @@ msgstr "Non se pode eliminar rol incorporado"
 msgid "Can't delete internal admin account"
 msgstr ""
 
+msgid "Can't delete the last admin account"
+msgstr ""
+
+msgid "Can't delete the last admin user group"
+msgstr ""
+
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr "Non se atopa un Proxy Foreman con características de Puppet habilitadas"
-
-msgid ""
-"Can't remove Administrator flag from internal protected <b>admin</b> account"
-msgstr ""
-
-msgid "Can't rename internal protected <b>admin</b> account to %s"
-msgstr ""
 
 msgid "Can't use the same value as the primary interface"
 msgstr "Non pode usar ou mesmo valor que na interfaz primaria"
@@ -816,6 +827,9 @@ msgstr ""
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr ""
 
+msgid "Cannot find user %s when switching context"
+msgstr ""
+
 msgid "Canvas not supported."
 msgstr "Bordes non soportados"
 
@@ -823,6 +837,9 @@ msgid "Certificate Name"
 msgstr "Nome do Certificado"
 
 msgid "Certificate path"
+msgstr ""
+
+msgid "Certificate that Foreman will use to encrypt websockets "
 msgstr ""
 
 msgid "Certificates"
@@ -1004,6 +1021,9 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config template"
 msgstr "Configuración de plantilla"
+
+msgid "ConfigTemplate|Locked"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Name"
@@ -1252,6 +1272,9 @@ msgstr[1] "Mostrando entradas <b>%{count}</b>"
 
 msgid "Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
 msgstr "Mostrando <b>%{from} - %{to}</b> entradas de <b>%{count}</b> en total"
+
+msgid "Distribution chart"
+msgstr ""
 
 msgid "Document root where puppetdoc files should be created"
 msgstr "Directorio raíz onde se deben crear os arquivos puppetdoc"
@@ -1502,6 +1525,12 @@ msgstr "Caduca"
 msgid "External IP"
 msgstr ""
 
+msgid "External groups"
+msgstr ""
+
+msgid "External user group"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr "Cadro de Datos"
 
@@ -1649,6 +1678,11 @@ msgstr "Fallo ao desfacer actualización la instancia %{compute_resource} co nom
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Fallo ao actualizar unha instancia %{compute_resource} co nome %{name}: %{e}"
+
+msgid ""
+"Failed to update environments and Puppet classes from the on-disk Puppet "
+"installation: %s"
+msgstr ""
 
 #. initial character of Failed
 msgid "Failed|F"
@@ -1952,6 +1986,9 @@ msgstr ""
 
 msgid "Host Architecture"
 msgstr "Arquitectura do Equipo"
+
+msgid "Host Configuration Chart"
+msgstr ""
 
 msgid "Host Configuration Status"
 msgstr "Estado de Configuración do Equipo"
@@ -2295,9 +2332,6 @@ msgstr "Importando Datos de Puppet"
 msgid "Importing Puppet classes and environments"
 msgstr "Importando clases e entornos de Puppet"
 
-msgid "In Progress"
-msgstr "En Progreso"
-
 msgid ""
 "In addition to defining which puppet classes get included when building this"
 " host type you are also able to assign variables and provisioning "
@@ -2491,6 +2525,9 @@ msgid ""
 "system managed via Foreman is housed."
 msgstr "Os lugares utilízanse para poder xestionar e diferenciar o sitio físico onde se aloxa un sistema xestionado por Foreman."
 
+msgid "Lock"
+msgstr ""
+
 msgid "Log out idle users after a certain number of minutes"
 msgstr "Cerrar sesión dos usuarios inactivos despois dun número concreto de minutos"
 
@@ -2600,6 +2637,9 @@ msgstr "Xestionar Localizacións"
 
 msgid "Manage Organizations"
 msgstr "Xestionar Organizacións"
+
+msgid "Manage dashboard"
+msgstr ""
 
 msgid "Manage host"
 msgstr "Administrar equipo"
@@ -2953,6 +2993,9 @@ msgstr "Sen cambios"
 msgid "No changes found when refreshing features from %s."
 msgstr ""
 
+msgid "No changes to your environments detected"
+msgstr ""
+
 msgid "No compute resource to show"
 msgstr "Ningún recurso de computación para mostrar"
 
@@ -3027,6 +3070,11 @@ msgstr "N"
 msgid "No smart proxies to show"
 msgstr "Ningún proxy intelixente para mostrar"
 
+msgid ""
+"No smart proxy was found to import environments from, ensure that at least "
+"one smart proxy is registered with the 'puppet' feature."
+msgstr ""
+
 msgid "No subnets"
 msgstr "Sen subredes"
 
@@ -3077,6 +3125,9 @@ msgstr "Non é relevante para 'snippet'"
 
 msgid "Note: %s "
 msgstr "Nota: %s"
+
+msgid "Nothing to restore"
+msgstr ""
 
 msgid "Nothing to show"
 msgstr "Nada que mostrar"
@@ -3507,6 +3558,9 @@ msgstr "Arranca a instancia %s"
 msgid "Power%s"
 msgstr "Encende %s"
 
+msgid "Preallocate disk"
+msgstr ""
+
 msgid "Prepare post installation script for %s"
 msgstr ""
 
@@ -3520,6 +3574,9 @@ msgid "Primary Interface"
 msgstr "Interfaz Primaria"
 
 msgid "Private"
+msgstr ""
+
+msgid "Private key that Foreman will use to encrypt websockets "
 msgstr ""
 
 msgid "Proceed to Edit"
@@ -3752,6 +3809,9 @@ msgstr "Métricas de Informe"
 msgid "Report Status"
 msgstr "Estado do Informe"
 
+msgid "Report summary"
+msgstr ""
+
 msgid "Reported at"
 msgstr "Reportado en"
 
@@ -3784,6 +3844,9 @@ msgid ""
 "<br><br><b>Description:</b>: %s"
 msgstr "Requerido parámetro sen valor.<br/><b>Por favor, omitir!</b> <br><br><b>Descripción/b>: %s"
 
+msgid "Reset to default"
+msgstr ""
+
 msgid "Reset zoom"
 msgstr "Reiniciar zoom"
 
@@ -3805,6 +3868,9 @@ msgstr "Reiniciado"
 #. initial character of Restarted
 msgid "Restarted|R"
 msgstr "R"
+
+msgid "Restore widgets"
+msgstr ""
 
 msgid "Resume"
 msgstr ""
@@ -3882,6 +3948,9 @@ msgstr ""
 
 msgid "Save"
 msgstr "Gardar"
+
+msgid "Save dashboard"
+msgstr ""
 
 msgid "Save something and try again"
 msgstr "Garda algo e proba de novo"
@@ -4033,6 +4102,11 @@ msgstr "Tipo de opción"
 msgid "Setting|Value"
 msgstr "Valor"
 
+msgid ""
+"Should Foreman encrypt websockets (VNC console access). Choose on, off or "
+"auto."
+msgstr ""
+
 msgid "Show Diff"
 msgstr "Mostrar diferencias"
 
@@ -4056,6 +4130,9 @@ msgstr "Mostrar cadro de distribución"
 
 msgid "Show host facts"
 msgstr "Mostrar datos (facts) de equipos"
+
+msgid "Show linked external user groups"
+msgstr ""
 
 msgid "Show log messages:"
 msgstr "Mostrar rexistro de mensaxes:"
@@ -4164,6 +4241,12 @@ msgstr "Estadísticas"
 msgid "Status"
 msgstr "Estado"
 
+msgid "Status chart"
+msgstr ""
+
+msgid "Status table"
+msgstr ""
+
 msgid "Stop updating IP address and MAC values from Puppet facts"
 msgstr ""
 
@@ -4232,14 +4315,8 @@ msgstr "Éxito"
 msgid "Successfully created %s."
 msgstr "Creouse Correctamente %s."
 
-msgid "Successfully created puppetclass."
-msgstr "Clase de Puppet creada correctamente."
-
 msgid "Successfully deleted %s."
 msgstr "Eliminouse correctamente %s."
-
-msgid "Successfully destroyed puppetclass."
-msgstr "Clase de Puppet eliminada correctamente."
 
 msgid "Successfully destroyed report."
 msgstr "Informe eliminado correctamente."
@@ -4256,8 +4333,10 @@ msgstr ""
 msgid "Successfully updated %s."
 msgstr "Actualizouse correctamente %s."
 
-msgid "Successfully updated puppetclass."
-msgstr "Clase de Puppet actualizada correctamente."
+msgid ""
+"Successfully updated environments and Puppet classes from the on-disk Puppet"
+" installation"
+msgstr ""
 
 msgid ""
 "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped}"
@@ -4327,6 +4406,12 @@ msgstr "Editor de Plantilla"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Template kind"
 msgstr "Tipo de plantilla"
+
+msgid "Template locked"
+msgstr ""
+
+msgid "Template unlocked"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "TemplateKind|Name"
@@ -4501,6 +4586,9 @@ msgid ""
 "ec2-user, ubuntu, root etc"
 msgstr ""
 
+msgid "The virtual machine is being deleted."
+msgstr ""
+
 msgid "There are two strategies when using host groups."
 msgstr "Existen dúas estratexias para utilizar cos grupos de equipos"
 
@@ -4569,6 +4657,19 @@ msgstr "Esta páxina auto-destruirase cando empece a ter un inventario de datos.
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is "
 "read-only."
+msgstr ""
+
+msgid "This template is locked and may not be removed."
+msgstr ""
+
+msgid "This template is locked for editing."
+msgstr ""
+
+msgid ""
+"This template is locked. Please clone it to a new template to customize."
+msgstr ""
+
+msgid "This template is owned by %s and may not be unlocked."
 msgstr ""
 
 msgid "Time in Seconds"
@@ -4850,6 +4951,9 @@ msgstr "Soporte de xestión de enerxía desconocido - Non se pode continuar"
 msgid "Unknown user"
 msgstr "Usuario desconocido"
 
+msgid "Unlock"
+msgstr ""
+
 msgid "Unmanage host"
 msgstr "Equipo sen xestionar"
 
@@ -4937,6 +5041,9 @@ msgstr "Membro de Grupo de Usuarios"
 msgid "UsergroupMember|Member type"
 msgstr "Tipo de Membro"
 
+msgid "Usergroup|Auth source"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup|Name"
 msgstr "Nome"
@@ -5013,6 +5120,9 @@ msgstr "Indicio de contrasinal"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Subscribe to all hostgroups"
+msgstr ""
+
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid ""
@@ -5092,6 +5202,9 @@ msgstr "Visualizar detalles do último informe"
 msgid "Virtual (NAT)"
 msgstr "Virtual (NAT)"
 
+msgid "Virtual H/W version"
+msgstr ""
+
 msgid "Virtual Machine"
 msgstr "Maquina Virtual"
 
@@ -5112,6 +5225,11 @@ msgstr "Aviso"
 
 msgid "Warning!"
 msgstr "Aviso!"
+
+msgid ""
+"Warning: This template is locked. You may only change the associations. "
+"Please %s it to customize."
+msgstr ""
 
 msgid "Warnings and errors"
 msgstr "Avisos e errores"
@@ -5181,8 +5299,10 @@ msgstr "Estás a punto de sustituir o contenido do editor cunha versión previa,
 msgid "You are about to override the editor content, are you sure?"
 msgstr "Estás a punto de sustituir o contenido do editor, ¿Estás seguro?"
 
-msgid "You are currently logged in, suicidal?"
-msgstr "Estás usando a aplicación agora mesmo, ¿Te vas a suicidar?"
+msgid ""
+"You are about to unlock a locked template -- this is for every organization "
+"and location that uses it. Continue?"
+msgstr ""
 
 msgid "You are not authorized to perform this action"
 msgstr "Non estás autorizado para realizar esta operación"
@@ -5204,6 +5324,9 @@ msgstr "Non se poden asignar algúns dos roles que seleccionache"
 
 msgid "You can't change Administrator flag"
 msgstr "Non se pode cambia-la marca de Administrador"
+
+msgid "You cannot delete this user while logged in as this user."
+msgstr ""
 
 msgid "You cannot remove %s that are used by hosts or inherited."
 msgstr ""
@@ -5333,11 +5456,26 @@ msgstr "non pode estar en branco ou conter espacios"
 msgid "can't be blank or contain white spaces."
 msgstr "non pode estar en blanco o conter espacios"
 
+msgid "can't be updated after host is provisioned"
+msgstr ""
+
 msgid "can't contain white spaces"
 msgstr "non pode conter espacios en blanco"
 
+msgid "cannot be changed on an internal protected account"
+msgstr ""
+
+msgid "cannot be removed from an internal protected account"
+msgstr ""
+
+msgid "cannot be removed from the last admin account"
+msgstr ""
+
 msgid "cant be blank unless a custom partition has been defined"
 msgstr "non pode estar en branco a menos que definira unha partición personalizada"
+
+msgid "clone"
+msgstr ""
 
 msgid "common"
 msgstr ""
@@ -5375,8 +5513,8 @@ msgstr "ex http://openstack:5000/v2.0/tokens"
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr ""
 
-msgid "e.g. https://ovirt.example.com:8443/api"
-msgstr "ex https://ovirt.example.com:8443/api"
+msgid "e.g. https://ovirt.example.com/api"
+msgstr ""
 
 msgid "e.g. jpegPhoto"
 msgstr ""
@@ -5441,6 +5579,9 @@ msgstr ""
 msgid "in %s"
 msgstr "en %s"
 
+msgid "in Progress"
+msgstr ""
+
 msgid "included already from parent"
 msgstr ""
 
@@ -5498,8 +5639,14 @@ msgstr "non é válido - solamente son válidos http://, https:// "
 msgid "is invalid: %s"
 msgstr ""
 
+msgid "is not a valid MAC address"
+msgstr ""
+
 msgid "is not allowed to change"
 msgstr "non se permite modificar"
+
+msgid "is not permitted"
+msgstr ""
 
 msgid "is unknown"
 msgstr ""
@@ -5514,6 +5661,9 @@ msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] "último %s día"
 msgstr[1] "últimos %s días"
+
+msgid "link external user group with this user group"
+msgstr ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"
@@ -5591,8 +5741,10 @@ msgstr ""
 msgid "override"
 msgstr "sobrescribir"
 
-msgid "parameters require an associated domain, host or host group"
-msgstr "os parámetros requiren un dominio asociado, equipo ou grupo de equipos"
+msgid ""
+"parameters require an associated domain, operating system, host or host "
+"group"
+msgstr ""
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "tratando tipo de configuracións '%s' dende un string en caso de que non estén definidos"
