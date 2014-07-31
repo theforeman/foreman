@@ -10,7 +10,7 @@ class Host::Managed < Host::Base
   has_many :reports, :dependent => :destroy, :foreign_key => :host_id
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "HostParameter"
-  accepts_nested_attributes_for :host_parameters, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :host_parameters, :allow_destroy => true
   has_many :interfaces, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base', :foreign_key => :host_id
   accepts_nested_attributes_for :interfaces, :reject_if => lambda { |a| a[:mac].blank? }, :allow_destroy => true
   belongs_to :owner, :polymorphic => true

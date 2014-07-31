@@ -18,16 +18,16 @@ class CommonParameterTest < ActiveSupport::TestCase
     assert parameter.save
   end
 
-  test "value can't be blank" do
+  test "value can be blank" do
     parameter = CommonParameter.new :name => "some_parameter", :value => "   "
     assert parameter.value.strip.empty?
-    assert !parameter.save
+    assert parameter.save
   end
 
-  test "value can't be empty" do
+  test "value can be empty" do
     parameter = CommonParameter.new :name => "some_parameter", :value => ""
     assert parameter.value.strip.empty?
-    assert !parameter.save
+    assert parameter.save
   end
 
   test "value can contain spaces and unusual characters" do
