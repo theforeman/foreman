@@ -24,7 +24,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     NODES = ["users", "smart_proxies", "subnets", "compute_resources", "media", "config_templates",
              "domains", "environments", "hostgroups", "organizations", "parameters"].sort
     NODES.each do |node|
-      assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"
+      assert show_response['location'].keys.include?(node), "'#{node}' child node should be in response but was not"
     end
   end
 
@@ -134,8 +134,8 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert response.kind_of?(Hash)
     klass_name = obj.class.name.downcase
     assert "location", klass_name
-    assert response.kind_of?(Hash)
-    assert_equal obj.id, response["id"]
+    assert response['location'].kind_of?(Hash)
+    assert_equal obj.id, response['location']["id"]
   end
 
   test "object name on show can be specified" do

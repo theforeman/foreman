@@ -14,7 +14,7 @@ module Rabl
     end
 
     def default_options
-      return {:root => false, :object_root => false} if api_version.to_i > 1
+      return {:root => false, :object_root => false} if api_version.to_i == 2
       {}
     end
 
@@ -22,6 +22,16 @@ module Rabl
       collection_without_defaults(data, options)
     end
     alias_method_chain :collection, :defaults
+
+    def child_default_options
+      return {:object_root => false} if api_version.to_i == 2
+      {}
+    end
+
+    def child_with_defaults(data, options = child_default_options , &block)
+      child_without_defaults(data, options, &block)
+    end
+    alias_method_chain :child, :defaults
 
     # extending this helper defined in module Rabl::Helpers allows users to
     # overwrite the object root name in show rabl views.  Two options:
@@ -31,7 +41,7 @@ module Rabl
       # custom object root
       return params['root_name'] if respond_to?(:params) && params['root_name'].present? && !['false', false].include?(params['root_name'])
       # no object root for v2
-      return nil if !respond_to?(:params) || api_version.to_i > 1 || ['false', false].include?(params['root_name'])
+      return nil if !respond_to?(:params) || ['false', false].include?(params['root_name'])
       # otherwise return super since v1 has object root (config.include_child_root = true)
       super
     end

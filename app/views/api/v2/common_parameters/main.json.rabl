@@ -1,4 +1,4 @@
-object @common_parameter
+object @common_parameter => :parameter
 
 extends "api/v2/common_parameters/base"
 

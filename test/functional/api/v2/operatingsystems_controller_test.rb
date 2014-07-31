@@ -53,8 +53,8 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   test "should update associated architectures by ids" do
     os = operatingsystems(:redhat)
     assert_difference('os.architectures.count') do
-      put :update, { :id => operatingsystems(:redhat).to_param, :operatingsystem => { },
-                     :architectures => [{ :id => architectures(:x86_64).id }, { :id => architectures(:sparc).id } ]
+      put :update, { :id => operatingsystems(:redhat).to_param, :operatingsystem => {
+                       :architectures => [{ :id => architectures(:x86_64).id }, { :id => architectures(:sparc).id } ] }
                    }
     end
     assert_response :success
@@ -63,8 +63,8 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   test "should update associated architectures by name" do
     os = operatingsystems(:redhat)
     assert_difference('os.architectures.count') do
-      put :update, { :id => operatingsystems(:redhat).to_param,  :operatingsystem => { },
-                     :architectures => [{ :name => architectures(:x86_64).name }, { :name => architectures(:sparc).name } ]
+      put :update, { :id => operatingsystems(:redhat).to_param,  :operatingsystem => {
+                     :architectures => [{ :name => architectures(:x86_64).name }, { :name => architectures(:sparc).name } ] }
                    }
     end
     assert_response :success

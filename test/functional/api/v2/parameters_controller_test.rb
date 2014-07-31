@@ -72,7 +72,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     get :show, {:operatingsystem_id => operatingsystems(:redhat).to_param,:id => param.name }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert_equal param.id, show_response['id']
+    assert_equal param.id, show_response['parameter']['id']
   end
 
   test "should create host parameter" do

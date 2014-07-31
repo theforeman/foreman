@@ -36,8 +36,8 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     get :show, { :id => users(:one).id }
     show_response = ActiveSupport::JSON.decode(@response.body)
 
-    assert_equal taxonomies(:location1).id, show_response['default_location']['id']
-    assert_equal nil, show_response['default_organization']
+    assert_equal taxonomies(:location1).id, show_response['user']['default_location']['id']
+    assert_equal nil, show_response['user']['default_organization']
   end
 
   test "should update user" do

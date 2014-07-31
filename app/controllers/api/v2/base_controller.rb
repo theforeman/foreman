@@ -9,8 +9,7 @@ module Api
       end
 
       before_filter :setup_has_many_params, :only => [:create, :update]
-      # ensure include_root_in_json = false for V2 only
-      around_filter :disable_json_root
+      before_filter :setup_has_many_params_unwrapped, :only => [:create, :update]
 
       layout 'api/v2/layouts/index_layout', :only => :index
 
@@ -59,8 +58,10 @@ module Api
         @per_page ||= params[:per_page].present? ? params[:per_page].to_i : Setting::General.entries_per_page
       end
 
-      def setup_has_many_params
-        params.each do |k,v|
+      # the method coverts an unwrapped child node array of objects (ex. 'domains': [{'id': 1, 'name': xyz.com'}])
+      # to magic method (ex. domain_ids => [1]) for the purpose of adding/removing associations (POST / PUTd)
+      def setup_has_many_params_unwrapped
+        params.dup.each do |k,v|
           if v.kind_of?(Array)
             magic_method_ids = "#{k.singularize}_ids"
             magic_method_names = "#{k.singularize}_names"
@@ -73,20 +74,28 @@ module Api
         end
       end
 
+      # the method coverts an wrapped child node array of objects (ex. 'subnet': {'domains': [{'id': 1, 'name': xyz.com'}])
+      # to magic method (ex. domain_ids => [1]) for the purpose of adding/removing associations (POST / PUTd)
+      def setup_has_many_params
+        model_name = controller_name.singularize
+        params[model_name].dup.each do |k,v|
+          if v.kind_of?(Array)
+            magic_method_ids = "#{k.singularize}_ids"
+            magic_method_names = "#{k.singularize}_names"
+            if resource_class.instance_methods.map(&:to_s).include?(magic_method_ids) && v.any? && v.all? { |a| a.keys.include?("id") }
+              params[model_name].merge!(magic_method_ids => v.map { |a| a["id"] })
+              params[model_name].except!(k)
+            elsif resource_class.instance_methods.map(&:to_s).include?(magic_method_names) && v.any? && v.all? { |a| a.keys.include?("name") }
+              params[model_name].merge!(magic_method_names => v.map { |a| a["name"] })
+              params[model_name].except!(k)
+            end
+          end
+        end if params[model_name]
+      end
+
       def render_error(error, options = { })
         render options.merge(:template => "api/v2/errors/#{error}",
                              :layout   => 'api/v2/layouts/error_layout')
-      end
-
-      private
-
-      def disable_json_root
-        # disable json root element
-        ActiveRecord::Base.include_root_in_json = false
-        yield
-      ensure
-        # re-enable json root element
-        ActiveRecord::Base.include_root_in_json = true
       end
 
     end
