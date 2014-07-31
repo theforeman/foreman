@@ -182,6 +182,8 @@ class UnattendedController < ApplicationController
     # load the os family default variables
     send "#{@host.os.pxe_type}_attributes"
 
+    @provisioning_type = @host.is_a?(Hostgroup) ? 'hostgroup' : 'host'
+
     # force static network configuration if static http parameter is defined, in the future this needs to go into the GUI
     @static = !params[:static].empty?
   end
