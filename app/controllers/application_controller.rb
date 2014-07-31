@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_filter :welcome, :only => :index, :unless => :api_request?
   before_filter :authorize
+  layout :display_layout?
 
   attr_reader :original_search_parameter
 
@@ -217,6 +218,11 @@ class ApplicationController < ActionController::Base
     (@remote_user = request.env["REMOTE_USER"]).present?
   end
 
+  def display_layout?
+    return nil if two_pane?
+    "application"
+  end
+
   private
   def detect_notices
     @notices = current_user.notices
@@ -364,6 +370,10 @@ class ApplicationController < ActionController::Base
 
   def errors_hash errors
     errors.any? ? {:status => N_("Error"), :message => errors.full_messages.join('<br>')} : {:status => N_("OK"), :message =>""}
+  end
+
+  def two_pane?
+    request.headers["X-Foreman-Layout"] == 'two-pane' && params[:action] != 'index'
   end
 
 end

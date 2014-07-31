@@ -51,6 +51,7 @@ function two_pane_open(item){
   $.ajax({
     type:'GET',
     url: href,
+    headers: {"X-Foreman-Layout": "two-pane"},
     success: function(response){
       right_pane_content(response);
     },
@@ -70,6 +71,7 @@ function two_pane_submit(){
   $.ajax({
     type:'POST',
     url: url,
+    headers: {"X-Foreman-Layout": "two-pane"},
     data: $('form').serialize(),
     success: function(response){
       right_pane_content(response);
@@ -120,9 +122,8 @@ function hide_columns(){
 function right_pane_content(response){
   if (handle_redirect(response)) return; //session expired redirect to login
 
-  var form_content = $("#content form.well", response);
-  if (form_content.length){
-    $('.two-pane-right').html(form_content);
+  if (!$("#content", response).length){
+    $('.two-pane-right').html(response);
     $('.two-pane-right form').prepend("<div class='fr close-button'><a class='two-pane-close' href='#'>&times;</a></div>");
     $('.form-actions a').addClass('two-pane-close');
     fix_multi_checkbox();
