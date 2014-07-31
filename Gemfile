@@ -24,7 +24,7 @@ gem 'validates_lengths_from_database',  '~> 0.2.0'
 
 if RUBY_VERSION =~ /^1\.8/
   # Older version of safemode for Ruby 1.8, as the latest causes regexp overflows (#2100)
-  gem 'safemode', '~> 1.0.1'
+  gem 'safemode', '~> 1.0.2'
   gem 'ruby_parser', '>= 2.3.1', '< 3.0'
 
   # Used in fog, rbovirt etc.  1.6.0 breaks Ruby 1.8 compatibility.
@@ -34,7 +34,7 @@ if RUBY_VERSION =~ /^1\.8/
   gem 'rake', '< 10.2.0'
 else
   # Newer version of safemode contains fixes for Ruby 1.9
-  gem 'safemode', '~> 1.2'
+  gem 'safemode', '~> 1.2.1'
   gem 'ruby_parser', '~> 3.0.0'
 end
 
