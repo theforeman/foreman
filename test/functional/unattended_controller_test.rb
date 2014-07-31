@@ -161,6 +161,20 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "template with hostgroup should be identified as hostgroup provisioning" do
+    ConfigTemplate.any_instance.stubs(:template).returns("type:<%= @provisioning_type %>")
+    get :template, {:id => "MyString2", :hostgroup => "Common"}
+    assert_response :success
+    assert_match(%r{type:hostgroup}, @response.body)
+  end
+
+  test "template with host should be identified as host provisioning" do
+    ConfigTemplate.any_instance.stubs(:template).returns("type:<%= @provisioning_type %>")
+    get :provision, {:hostname => hosts(:ubuntu).name}, set_session_user
+    assert_response :success
+    assert_match(%r{type:host\z}, @response.body)
+  end
+
   test "template with hostgroup should be rendered even if both have periods in their names" do
     config_templates(:mystring).update_attributes(:name => 'My.String')
     hostgroups(:common).update_attributes(:name => 'Com.mon')

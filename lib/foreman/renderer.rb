@@ -10,7 +10,7 @@ module Foreman
 
     ALLOWED_VARIABLES = [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
                           :repos, :dynamic, :kernel, :initrd,
-                          :preseed_server, :preseed_path ]
+                          :preseed_server, :preseed_path, :provisioning_type ]
 
 
     def render_safe template, allowed_methods = [], allowed_vars = {}
