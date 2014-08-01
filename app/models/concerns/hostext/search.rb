@@ -39,6 +39,7 @@ module Hostext
       scoped_search :in => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster
       scoped_search :in => :puppet_ca_proxy, :on => :name,    :complete_value => true, :rename => :puppet_ca
       scoped_search :in => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
+      scoped_search :in => :compute_resource, :on => :id,      :complete_value => true, :rename => :compute_resource_id, :only_explicit => true
       scoped_search :in => :image, :on => :name, :complete_value => true
 
       scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
