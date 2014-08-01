@@ -491,7 +491,10 @@ class User < ActiveRecord::Base
   def ensure_default_role
     role = Role.find_by_name('Anonymous')
     if role.present?
-      self.roles << role unless self.role_ids.include?(role.id)
+      unless self.role_ids.include?(role.id)
+        UserRole.create!(:role => role, :owner => self)
+        self.roles.reload
+      end
     end
   end
 
