@@ -11,7 +11,7 @@ class ConfigTemplate < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
   validates :name, :template, :presence => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
-  validate :template_changes, :if => lambda { |template| template.locked? || template.locked_changed? }
+  validate :template_changes, :if => lambda { |template| (template.locked? || template.locked_changed?) && !Foreman.in_rake? }
   before_destroy :check_if_template_is_locked
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
   has_many :hostgroups, :through => :template_combinations
