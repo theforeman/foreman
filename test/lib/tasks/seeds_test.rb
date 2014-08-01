@@ -131,4 +131,29 @@ class SeedsTest < ActiveSupport::TestCase
     seed
     assert_equal [], Audit.all
   end
+
+  test "seed organization when environment SEED_ORGANIZATION specified" do
+    with_env('SEED_ORGANIZATION' => 'seed_test') do
+      seed
+    end
+    assert Organization.find_by_name('seed_test')
+
+    with_env('SEED_ORGANIZATION' => 'seed_test2') do
+      seed
+    end
+    assert Organization.find_by_name('seed_test2')
+  end
+
+  test "seed location when environment SEED_LOCATION specified" do
+    with_env('SEED_LOCATION' => 'seed_test') do
+      seed
+    end
+    assert Location.find_by_name('seed_test')
+
+    with_env('SEED_LOCATION' => 'seed_test_a') do
+      seed
+    end
+    assert Location.find_by_name('seed_test_a')
+  end
+
 end
