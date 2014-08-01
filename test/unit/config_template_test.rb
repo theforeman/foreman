@@ -94,8 +94,8 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     assert_equal clone.operatingsystems, tmplt.operatingsystems
     assert_equal clone.template_kind_id, tmplt.template_kind_id
     assert_equal clone.template, tmplt.template
-    assert_equal tmplt.locked, true
-    assert_equal clone.locked, false
+    assert tmplt.locked
+    refute clone.locked
   end
 
   test "should not remove a locked template" do
@@ -110,6 +110,15 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     tmplt.update_attribute(:locked, true)
     tmplt.locked = false
     refute_valid tmplt, :base, /Katello/
+  end
+
+  test "should change a locked template while in rake" do
+    Foreman.stubs(:in_rake?).returns(true)
+    tmplt = config_templates(:locked)
+    tmplt.template = "changing the template content"
+    tmplt.name = "giving it a new name too"
+    assert tmplt.locked
+    assert_valid tmplt
   end
 
   describe "Association cascading" do
