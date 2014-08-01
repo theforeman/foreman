@@ -2,6 +2,10 @@ object @usergroup
 
 extends "api/v2/usergroups/main"
 
+child :external_usergroups do
+  extends "api/v2/external_usergroups/base"
+end
+
 child :usergroups do
   extends "api/v2/usergroups/base"
 end
