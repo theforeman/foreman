@@ -9,7 +9,7 @@ class ConfigTemplate < ActiveRecord::Base
                   :operatingsystems, :operatingsystem_ids, :audit_comment, :location_ids, :organization_ids, :locked,
                   :vendor, :default
   validates :name, :presence => true, :uniqueness => true
-  validates :name, :template, :presence => true
+  validates :template, :presence => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
   validate :template_changes, :if => lambda { |template| template.locked? || template.locked_changed? }
   before_destroy :check_if_template_is_locked
