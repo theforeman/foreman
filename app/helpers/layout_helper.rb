@@ -290,4 +290,10 @@ module LayoutHelper
     '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'.html_safe
   end
 
+  def trunc(text, length = 32)
+    text    = text.to_s
+    options = text.size > length ? { :'data-original-title' => text, :rel => 'twipsy' } : {}
+    content_tag(:span, truncate(text, :length => length), options).html_safe
+  end
+
 end

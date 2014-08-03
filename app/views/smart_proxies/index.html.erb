@@ -12,7 +12,7 @@
   </tr>
   <% for proxy in @smart_proxies %>
     <tr>
-      <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy.id).merge(:auth_object => proxy, :authorizer => authorizer) %></td>
+      <td><%= link_to_if_authorized trunc(proxy.name), hash_for_edit_smart_proxy_path(:id => proxy.id).merge(:auth_object => proxy, :authorizer => authorizer) %></td>
       <td><%=h proxy.url %></td>
       <td><%=h proxy.features.to_sentence %></td>
       <td><%= action_buttons(*proxy_actions(proxy, authorizer)) %></td>

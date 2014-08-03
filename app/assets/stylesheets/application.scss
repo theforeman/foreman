@@ -307,12 +307,15 @@ table.table thead .sorting_desc { background: #f9f9f9 url('sort_desc.png') no-re
 table.table thead .sorting_asc_disabled { background: #f9f9f9 url('sort_asc_disabled.png') no-repeat center right; }
 table.table thead .sorting_desc_disabled { background: #f9f9f9 url('sort_desc_disabled.png') no-repeat center right; }
 
-
 table tr td:last-child {
   .btn {
     float:none;
   }
 
+  white-space: nowrap;
+}
+
+.nbsp {
   white-space: nowrap;
 }
 

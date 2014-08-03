@@ -19,7 +19,7 @@
 
   <% @taxonomies.each do |taxonomy| %>
     <tr class="<%= cycle("even", "odd") %>">
-      <td><%= label_with_link(taxonomy) %></td>
+      <td><%= label_with_link(taxonomy, 150) %></td>
       <td><%= link_to @counter[taxonomy.id] || 0, hosts_path(:search => "#{controller_name.singularize} = \"#{taxonomy}\"") %></td>
       <td>
         <%= action_buttons(

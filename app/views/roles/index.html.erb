@@ -12,7 +12,7 @@
     <% for role in @roles %>
       <tr>
         <td>
-          <%= content_tag(role.builtin? ? 'em' : 'span', role.builtin? ? role.name : link_to_if_authorized(role.name, hash_for_edit_role_path(:id => role))) %>
+          <%= content_tag(role.builtin? ? 'em' : 'span', role.builtin? ? role.name : link_to_if_authorized(trunc(role.name), hash_for_edit_role_path(:id => role))) %>
         </td>
         <td>
           <% links = [display_link_if_authorized(_('Filters and permissions'), hash_for_filters_path(:role_id => role)),

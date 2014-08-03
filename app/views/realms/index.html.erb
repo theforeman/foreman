@@ -10,7 +10,7 @@
   </tr>
   <% for realm in @realms %>
     <tr>
-      <td><%= link_to_if_authorized h(realm.name), hash_for_edit_realm_path(:id => realm)%></td>
+      <td><%= link_to_if_authorized trunc(realm.name), hash_for_edit_realm_path(:id => realm)%></td>
       <td><%= link_to realm.hosts_count, hosts_path(:search => "realm = #{realm}") %>
       <td><%= display_delete_if_authorized hash_for_realm_path(:id => realm), :confirm => _("Delete %s?") % realm.name %></td>
     </tr>

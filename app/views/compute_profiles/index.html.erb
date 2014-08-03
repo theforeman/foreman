@@ -9,7 +9,7 @@
   </tr>
   <% @compute_profiles.each do |compute_profile| %>
     <tr>
-      <td><%= link_to_if_authorized h(compute_profile.name), hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer, :auth_action => 'edit') %></td>
+      <td><%= link_to_if_authorized trunc(compute_profile.name), hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer, :auth_action => 'edit') %></td>
       <td><%= action_buttons(
                 display_link_if_authorized(_('Edit'), hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer, :auth_action => 'edit')),
                 display_link_if_authorized(_('Rename'), hash_for_edit_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer)),
