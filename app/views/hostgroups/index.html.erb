@@ -9,7 +9,7 @@
   </tr>
   <% @hostgroups.each do |hostgroup| %>
     <tr>
-      <td> <%= label_with_link(hostgroup, 1000, authorizer) %> </td>
+      <td> <%= label_with_link(hostgroup, 150, authorizer) %> </td>
       <td>
         <%= action_buttons(
                     display_link_if_authorized(_('Nest'),    hash_for_nest_hostgroup_path(:id => hostgroup)),

@@ -45,12 +45,6 @@ module ApplicationHelper
     f.hidden_field(:_destroy) + link_to_function(icon_text("remove", name), "remove_fields(this)", options.merge(:title => _("Remove Parameter")))
   end
 
-  def trunc text, length
-    text = text.to_s
-    options = text.size > length ? {:'data-original-title'=>text, :rel=>'twipsy'} : {}
-    content_tag(:span, truncate(text, :length => length), options).html_safe
-  end
-
   # Creates a link to a javascript function that creates field entries for the association on the web page
   # +name+       : String containing links's text
   # +f+          : FormBuiler object
