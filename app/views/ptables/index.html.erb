@@ -10,7 +10,7 @@
   </tr>
   <% for ptable in @ptables %>
     <tr>
-      <td><%= link_to_if_authorized ptable, hash_for_edit_ptable_path(:id => ptable.id).merge(:auth_object => ptable, :authorizer => authorizer) %></td>
+      <td><%= link_to_if_authorized trunc(ptable), hash_for_edit_ptable_path(:id => ptable.id).merge(:auth_object => ptable, :authorizer => authorizer) %></td>
       <td><%= lookup_family(ptable.os_family) %></td>
       <td><%= ptable.operatingsystems.map(&:to_label).to_sentence %></td>
       <td>

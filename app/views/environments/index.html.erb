@@ -12,7 +12,7 @@
   <% @environments.each do |environment| %>
     <tr>
       <td>
-        <%= link_to_if_authorized environment.name, hash_for_edit_environment_path(:id => environment.name).merge(:auth_object => environment, :authorizer => authorizer) %>
+        <%= link_to_if_authorized trunc(environment.name), hash_for_edit_environment_path(:id => environment.name).merge(:auth_object => environment, :authorizer => authorizer) %>
       </td>
       <td><%= link_to environment.hosts_count, hosts_path(:search => "environment = #{environment}") %>
       <td>
