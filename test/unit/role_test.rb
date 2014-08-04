@@ -1,3 +1,4 @@
+# encoding: utf-8
 # redMine - project management software
 # Copyright (C) 2006-2008  Jean-Philippe Lang
 #
@@ -42,9 +43,14 @@ class RoleTest < ActiveSupport::TestCase
     role.must_be :valid?
   end
 
-  it "should not allow semi colon in name" do
-    role = Role.new(:name => ";a role name")
-    role.wont_be :valid?
+  it "should allow utf characters in name" do
+    role = Role.new(:name => "トメル３４；。")
+    role.must_be :valid?
+  end
+
+  it "should allow email address in name" do
+    role = Role.new(:name => "test@example.com")
+    role.must_be :valid?
   end
 
   it "should strip leading space on name" do
