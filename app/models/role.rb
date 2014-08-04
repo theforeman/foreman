@@ -43,7 +43,7 @@ class Role < ActiveRecord::Base
   has_many :permissions, :through => :filters
   attr_protected :builtin
 
-  validates :name, :presence => true, :uniqueness => true, :format => {:with => /\A\w[\w\s\'\-]*\w\Z/i}
+  validates :name, :presence => true, :uniqueness => true
   validates :builtin, :inclusion => { :in => 0..2 }
 
   scoped_search :on => :name, :complete_value => true
