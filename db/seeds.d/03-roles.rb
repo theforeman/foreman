@@ -1,4 +1,8 @@
 # Roles
+def view_permissions
+  Permission.all.map(&:name).select { |permission_name| permission_name.match /view/ }.map(&:to_sym)
+end
+
 default_permissions =
     { 'Manager'               => [:view_architectures, :create_architectures, :edit_architectures, :destroy_architectures,
                                   :view_authenticators, :create_authenticators, :edit_authenticators, :destroy_authenticators,
@@ -35,12 +39,7 @@ default_permissions =
       'Edit partition tables' => [:view_ptables, :create_ptables, :edit_ptables, :destroy_ptables],
       'View hosts'            => [:view_hosts],
       'Edit hosts'            => [:view_hosts, :edit_hosts, :create_hosts, :destroy_hosts, :build_hosts],
-      'Viewer'                => [:view_hosts, :view_puppetclasses, :view_hostgroups, :view_domains, :view_operatingsystems,
-                                  :view_locations, :view_media, :view_models, :view_environments, :view_architectures,
-                                  :view_ptables, :view_globals, :view_external_variables, :view_authenticators,
-                                  :access_settings, :access_dashboard, :view_reports, :view_facts, :view_smart_proxies,
-                                  :view_subnets, :view_statistics, :view_organizations, :view_usergroups, :view_users,
-                                  :view_audit_logs, :view_realms],
+      'Viewer'                => (view_permissions << [:access_settings, :access_dashboard]).flatten,
       'Site manager'          => [:view_architectures, :view_audit_logs, :view_authenticators, :access_dashboard,
                                   :view_domains, :view_environments, :import_environments, :view_external_variables,
                                   :create_external_variables, :edit_external_variables, :destroy_external_variables,

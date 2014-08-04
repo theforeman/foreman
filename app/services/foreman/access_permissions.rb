@@ -64,6 +64,17 @@ Foreman::AccessControl.map do |map|
                    :"api/v2/bookmarks" => [:destroy]
   end
 
+  map.security_block :compute_profiles do |map|
+    map.permission :view_compute_profiles, { :compute_profiles          => [:index, :show, :auto_complete_search],
+                                             :"api/v2/compute_profiles" => [:index, :show] }
+    map.permission :create_compute_profiles, { :compute_profiles        => [:new, :create],
+                                             :"api/v2/compute_profiles" => [:create] }
+    map.permission :edit_compute_profiles, { :compute_profiles          => [:edit, :update],
+                                             :"api/v2/compute_profiles" => [:update] }
+    map.permission :destroy_compute_profiles, { :compute_profiles          => [:destroy],
+                                                :"api/v2/compute_profiles" => [:destroy] }
+  end
+
   map.security_block :compute_resources do |map|
     ajax_actions = [:test_connection]
     map.permission :view_compute_resources,    {:compute_resources => [:index, :show, :auto_complete_search, :ping, :available_images],
@@ -76,11 +87,9 @@ Foreman::AccessControl.map do |map|
                                                 :"api/v2/compute_resources" => [:create]
     }
     map.permission :edit_compute_resources,    {:compute_resources => [:edit, :update].push(*ajax_actions),
-                                                :compute_profiles => [:new, :create, :edit, :update, :destroy, :index, :show, :auto_complete_search],
                                                 :compute_attributes => [:new, :create, :edit, :update],
                                                 :"api/v1/compute_resources" => [:update],
                                                 :"api/v2/compute_resources" => [:update],
-                                                :"api/v2/compute_profiles" => [:index, :show, :create, :update, :destroy],
                                                 :"api/v2/compute_attributes" => [:create, :update]
     }
     map.permission :destroy_compute_resources, {:compute_resources => [:destroy],

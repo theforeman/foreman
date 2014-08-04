@@ -156,4 +156,19 @@ class SeedsTest < ActiveSupport::TestCase
     assert Location.find_by_name('seed_test_a')
   end
 
+  test "all access permissions are created by permissions seed" do
+    seed
+    access_permissions = Foreman::AccessControl.permissions.reject(&:public?).map(&:name).map(&:to_s)
+    seeded_permissions = Permission.all.map(&:name)
+    # Check all access control have a matching seeded permission
+    assert_equal [], access_permissions - seeded_permissions
+    # Check all seeded permissions have a matching access control
+    assert_equal [], seeded_permissions - access_permissions
+  end
+
+  test "viewer role contains all view permissions" do
+    seed
+    view_permissions = Permission.all.select { |permission| permission.name.match(/view/) }
+    assert_equal [], view_permissions - Role.find_by_name('Viewer').permissions
+  end
 end
