@@ -32,6 +32,10 @@ permissions = [
     ['ConfigTemplate', 'destroy_templates'],
     ['ConfigTemplate', 'deploy_templates'],
     ['ConfigTemplate', 'lock_templates'],
+    ['ConfigGroup', 'view_config_groups'],
+    ['ConfigGroup', 'create_config_groups'],
+    ['ConfigGroup', 'edit_config_groups'],
+    ['ConfigGroup', 'destroy_config_groups'],
     [nil, 'access_dashboard'],
     ['Domain', 'view_domains'],
     ['Domain', 'create_domains'],
@@ -42,6 +46,10 @@ permissions = [
     ['Environment', 'edit_environments'],
     ['Environment', 'destroy_environments'],
     ['Environment', 'import_environments'],
+    ['ExternalUsergroups', 'view_external_usergroups'],
+    ['ExternalUsergroups', 'create_external_usergroups'],
+    ['ExternalUsergroups', 'edit_external_usergroups'],
+    ['ExternalUsergroups', 'destroy_external_usergroups'],
     ['LookupKey', 'view_external_variables'],
     ['LookupKey', 'create_external_variables'],
     ['LookupKey', 'edit_external_variables'],
@@ -155,3 +163,4 @@ permissions = [
 permissions.each do |resource, permission|
   Permission.find_or_create_by_resource_type_and_name resource, permission
 end
+
