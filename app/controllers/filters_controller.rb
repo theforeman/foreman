@@ -66,7 +66,7 @@ class FiltersController < ApplicationController
     params.keys.each do |param|
       if param =~ /role_id$/
         unless (role = Role.find_by_id(params[param])).blank?
-          query = "role = \"#{role.name}\""
+          query = "role_id = #{role.id}"
           params[:search] += query unless params[:search].include? query
         end
       elsif param =~ /(\w+)_id$/
