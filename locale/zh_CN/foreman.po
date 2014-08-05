@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-28 12:17+0100\n"
-"PO-Revision-Date: 2014-07-29 09:06+0000\n"
+"POT-Creation-Date: 2014-07-31 08:52+0100\n"
+"PO-Revision-Date: 2014-08-04 08:40+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -84,6 +84,9 @@ msgstr "%s 所选主机"
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s 周前"
+
+msgid "%{app_name} API documentation homepage"
+msgstr ""
 
 msgid "%{cores} Cores and %{memory} memory"
 msgstr ""
@@ -223,6 +226,9 @@ msgstr ""
 msgid "A partition table entry represents either"
 msgstr "一个分区表项"
 
+msgid "A problem occurred when detecting host type: %s"
+msgstr "删除主机类型：%s 时发生错误。"
+
 msgid "A script to dynamically calculate the desired sizes. E.G."
 msgstr "动态计算所需的尺寸的脚本。 E.G."
 
@@ -234,6 +240,9 @@ msgstr ""
 
 msgid "API Key"
 msgstr "API密钥"
+
+msgid "API documentation"
+msgstr ""
 
 msgid "About"
 msgstr "关于"
@@ -283,6 +292,15 @@ msgstr "添加变量"
 
 msgid "Add Volume"
 msgstr "添加值"
+
+msgid "Add a Puppet class to host"
+msgstr ""
+
+msgid "Add a Puppet class to host group"
+msgstr ""
+
+msgid "Add a template combination"
+msgstr ""
 
 msgid "Add combination"
 msgstr "添加组合"
@@ -455,6 +473,15 @@ msgstr ""
 msgid "Are you sure?"
 msgstr "确认？"
 
+msgid "Array of operating system IDs to associate with the template"
+msgstr ""
+
+msgid "Array of parameters (name, value)"
+msgstr ""
+
+msgid "Array of template combinations (hostgroup_id, environment_id)"
+msgstr ""
+
 msgid "Assign All"
 msgstr "全部分配"
 
@@ -494,6 +521,9 @@ msgid "Associate VMs"
 msgstr ""
 
 msgid "Associate VMs to Foreman hosts"
+msgstr ""
+
+msgid "Associate VMs to Hosts"
 msgstr ""
 
 msgid "Association"
@@ -740,6 +770,9 @@ msgstr "查询"
 
 msgid "Boot device"
 msgstr "引导设备"
+
+msgid "Boot host from specified device"
+msgstr ""
 
 msgid "Bootable"
 msgstr "可引导"
@@ -1074,6 +1107,9 @@ msgstr ""
 msgid "Create %s"
 msgstr "新建 %s"
 
+msgid "Create :a_resource"
+msgstr ""
+
 msgid "Create DHCP Settings for %s"
 msgstr "为 %s 新建DHCP设置"
 
@@ -1083,8 +1119,122 @@ msgstr "为 %s 新建DNS记录"
 msgid "Create Reverse DNS record for %s"
 msgstr "为 %s 新建反向解析DNS记录"
 
+msgid "Create a Puppet class"
+msgstr ""
+
 msgid "Create a Smart Proxy"
 msgstr "新建智能代理"
+
+msgid "Create a bookmark"
+msgstr ""
+
+msgid "Create a compute attributes set"
+msgstr ""
+
+msgid "Create a compute profile"
+msgstr ""
+
+msgid "Create a compute resource"
+msgstr ""
+
+msgid "Create a config group"
+msgstr ""
+
+msgid "Create a default template combination for an operating system"
+msgstr ""
+
+msgid "Create a domain"
+msgstr ""
+
+msgid "Create a filter"
+msgstr ""
+
+msgid "Create a global parameter"
+msgstr ""
+
+msgid "Create a hardware model"
+msgstr ""
+
+msgid "Create a host"
+msgstr ""
+
+msgid "Create a host group"
+msgstr ""
+
+msgid "Create a medium"
+msgstr ""
+
+msgid "Create a nested parameter for a domain"
+msgstr ""
+
+msgid "Create a nested parameter for a host"
+msgstr ""
+
+msgid "Create a nested parameter for a host group"
+msgstr ""
+
+msgid "Create a nested parameter for a location"
+msgstr ""
+
+msgid "Create a nested parameter for an operating system"
+msgstr ""
+
+msgid "Create a nested parameter for an organization"
+msgstr ""
+
+msgid "Create a partition table"
+msgstr ""
+
+msgid "Create a provisioning template"
+msgstr ""
+
+msgid "Create a realm"
+msgstr ""
+
+msgid "Create a report"
+msgstr ""
+
+msgid "Create a role"
+msgstr ""
+
+msgid "Create a smart proxy"
+msgstr ""
+
+msgid "Create a smart variable"
+msgstr ""
+
+msgid "Create a subnet"
+msgstr ""
+
+msgid "Create a user"
+msgstr ""
+
+msgid "Create a user group"
+msgstr ""
+
+msgid "Create an LDAP authentication source"
+msgstr ""
+
+msgid "Create an OS"
+msgstr ""
+
+msgid "Create an architecture"
+msgstr ""
+
+msgid "Create an environment"
+msgstr ""
+
+msgid "Create an image"
+msgstr ""
+
+msgid "Create an interface on a host"
+msgstr ""
+
+msgid "Create an override value for a specific smart class parameter"
+msgstr ""
+
+msgid "Create an override value for a specific smart variable"
+msgstr ""
 
 msgid "Create realm entry for %s"
 msgstr ""
@@ -1125,14 +1275,14 @@ msgstr "%s 的域名PTR记录已经存在"
 msgid "DNS Proxy"
 msgstr "域名代理"
 
-msgid "DNS Proxy to use within this domain"
-msgstr "本域使用的域名代理"
-
 msgid "DNS Proxy to use within this subnet"
 msgstr "本子网使用的域名代理"
 
 msgid "DNS name"
 msgstr "DNS名称"
+
+msgid "DNS proxy to use within this domain"
+msgstr ""
 
 msgid "Dashboard"
 msgstr "仪表板"
@@ -1173,14 +1323,149 @@ msgstr "删除"
 msgid "Delete %s?"
 msgstr "删除 %s"
 
+msgid "Delete :a_resource"
+msgstr ""
+
 msgid "Delete Hosts"
 msgstr "删除主机"
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "删除 %s的证书"
 
+msgid "Delete a Puppet class"
+msgstr ""
+
+msgid "Delete a bookmark"
+msgstr ""
+
+msgid "Delete a compute profile"
+msgstr ""
+
+msgid "Delete a compute resource"
+msgstr ""
+
+msgid "Delete a config group"
+msgstr ""
+
+msgid "Delete a default template combination for an operating system"
+msgstr ""
+
+msgid "Delete a domain"
+msgstr ""
+
+msgid "Delete a filter"
+msgstr ""
+
+msgid "Delete a global parameter"
+msgstr ""
+
+msgid "Delete a hardware model"
+msgstr ""
+
+msgid "Delete a host"
+msgstr ""
+
+msgid "Delete a host group"
+msgstr ""
+
+msgid "Delete a host's interface"
+msgstr ""
+
+msgid "Delete a medium"
+msgstr ""
+
+msgid "Delete a nested parameter for a domain"
+msgstr ""
+
+msgid "Delete a nested parameter for a host"
+msgstr ""
+
+msgid "Delete a nested parameter for a host group"
+msgstr ""
+
+msgid "Delete a nested parameter for a location"
+msgstr ""
+
+msgid "Delete a nested parameter for an operating system"
+msgstr ""
+
+msgid "Delete a nested parameter for an organization"
+msgstr ""
+
+msgid "Delete a partition table"
+msgstr ""
+
+msgid "Delete a provisioning template"
+msgstr ""
+
+msgid "Delete a realm"
+msgstr ""
+
+msgid "Delete a report"
+msgstr ""
+
+msgid "Delete a role"
+msgstr ""
+
+msgid "Delete a smart proxy"
+msgstr ""
+
+msgid "Delete a smart variable"
+msgstr ""
+
+msgid "Delete a subnet"
+msgstr ""
+
+msgid "Delete a template combination"
+msgstr ""
+
+msgid "Delete a user"
+msgstr ""
+
+msgid "Delete a user group"
+msgstr ""
+
+msgid "Delete all nested parameter for a location"
+msgstr ""
+
+msgid "Delete all nested parameter for an organization"
+msgstr ""
+
+msgid "Delete all nested parameters for a domain"
+msgstr ""
+
+msgid "Delete all nested parameters for a host"
+msgstr ""
+
+msgid "Delete all nested parameters for a host group"
+msgstr ""
+
+msgid "Delete all nested parameters for an operating system"
+msgstr ""
+
 msgid "Delete all the trend history for %s?"
 msgstr "删除 %s 的所有趋势记录"
+
+msgid "Delete an LDAP authentication source"
+msgstr ""
+
+msgid "Delete an OS"
+msgstr ""
+
+msgid "Delete an architecture"
+msgstr ""
+
+msgid "Delete an environment"
+msgstr ""
+
+msgid "Delete an image"
+msgstr ""
+
+msgid "Delete an override value for a specific smart class parameter"
+msgstr ""
+
+msgid "Delete an override value for a specific smart variable"
+msgstr ""
 
 msgid "Delete autosign entry for %s"
 msgstr "删除 %s 的自动签名"
@@ -1205,6 +1490,9 @@ msgstr "部署到"
 
 msgid "Description"
 msgstr "描述"
+
+msgid "Description of the domain"
+msgstr ""
 
 msgid "Deselect All"
 msgstr ""
@@ -1238,6 +1526,9 @@ msgid "Disassociate Hosts"
 msgstr ""
 
 msgid "Disassociate host"
+msgstr ""
+
+msgid "Disassociate the host from a VM"
 msgstr ""
 
 msgid "Disassociate the selected hosts from their VMs"
@@ -1419,6 +1710,12 @@ msgstr ""
 msgid "Empty environment"
 msgstr "空环境"
 
+msgid "Enable IP Address auto suggestion for this subnet"
+msgstr ""
+
+msgid "Enable IP Address auto suggestion to use within this subnet"
+msgstr ""
+
 msgid "Enable Notifications"
 msgstr "启用提醒"
 
@@ -1448,6 +1745,9 @@ msgstr "已启用"
 
 msgid "Enabled %s for rebuild on next boot"
 msgstr "启用 %s 重启后重建"
+
+msgid "Ending IP Address for IP auto suggestion"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
@@ -1492,6 +1792,9 @@ msgstr "在与 %{cr}: %{e} 通讯时发生错误"
 msgid "Error loading virtual machine information: %s"
 msgstr "加载虚拟机 %s 的信息时错误"
 
+msgid "Errors"
+msgstr ""
+
 msgid "Errors only"
 msgstr "错误"
 
@@ -1501,6 +1804,9 @@ msgstr "错误： %s"
 #. host's status: first character of "error"
 msgid "Error|E"
 msgstr "E"
+
+msgid "Examples"
+msgstr ""
 
 msgid "Exit Full Screen"
 msgstr ""
@@ -1676,6 +1982,11 @@ msgid ""
 "installation: %s"
 msgstr ""
 
+msgid ""
+"Failed to update the environments and Puppet classes from the on-disk puppet"
+" installation: %s"
+msgstr ""
+
 #. initial character of Failed
 msgid "Failed|F"
 msgstr "失败"
@@ -1702,6 +2013,9 @@ msgstr "筛选 %s"
 
 msgid "Filter classes"
 msgstr "筛选类"
+
+msgid "Filter results"
+msgstr ""
 
 msgid "Filters"
 msgstr "筛选"
@@ -1748,6 +2062,9 @@ msgstr "浮动IP"
 msgid "Folder"
 msgstr ""
 
+msgid "Follow %{href} on how to describe your controllers."
+msgstr ""
+
 msgid "For Roles and permissions, see the %s page"
 msgstr ""
 
@@ -1766,6 +2083,9 @@ msgid ""
 msgstr ""
 
 msgid "For internal Users, simply create a new user at the %s page"
+msgstr ""
+
+msgid "Force a Puppet agent run on the host"
 msgstr ""
 
 msgid "Foreman Developers"
@@ -1792,6 +2112,9 @@ msgid ""
 "node requests made\\n  by machines at that site."
 msgstr ""
 
+msgid "Foreman domain ID of interface"
+msgstr ""
+
 msgid ""
 "Foreman host group matchers will be inherited by children when evaluating "
 "smart class parameters"
@@ -1809,6 +2132,9 @@ msgstr ""
 msgid "Foreman smart variables will be exposed via the ENC yaml output"
 msgstr ""
 
+msgid "Foreman subnet ID of interface"
+msgstr ""
+
 msgid ""
 "Foreman supports automatically creating realm entries for new hosts.  When a"
 " realm is selected for a host, Foreman contacts the relevant realm smart "
@@ -1817,6 +2143,11 @@ msgid ""
 msgstr ""
 
 msgid "Foreman ticketing system"
+msgstr ""
+
+msgid ""
+"Foreman v2 is stable and recommended for use. You may use v2 by either "
+"passing 'version=2' in the Accept Header or using api/v2/ in the URL."
 msgstr ""
 
 msgid "Foreman will automate certificate signing upon provision of new host"
@@ -1925,6 +2256,15 @@ msgstr "%s 前产生"
 msgid "Generated at %s"
 msgstr "通过 %s 产生"
 
+msgid "Get dashboard details"
+msgstr ""
+
+msgid "Get statistics"
+msgstr ""
+
+msgid "Get status of host"
+msgstr ""
+
 msgid "Global"
 msgstr "全局"
 
@@ -1956,6 +2296,12 @@ msgid "Hardware Models"
 msgstr "硬件型号"
 
 msgid "Hardware models"
+msgstr ""
+
+msgid "Hash of report metrics, can be just {}"
+msgstr ""
+
+msgid "Hash of status type totals"
 msgstr ""
 
 msgid "Help"
@@ -2136,6 +2482,9 @@ msgstr "使用镜像"
 msgid "Hostgroup|Vm defaults"
 msgstr "Vm默认值"
 
+msgid "Hostname or certname"
+msgstr ""
+
 msgid "Hosts"
 msgstr "主机"
 
@@ -2201,6 +2550,48 @@ msgstr "如何验证值"
 msgid "Howtos"
 msgstr "如何"
 
+msgid "ID of Puppet class"
+msgstr ""
+
+msgid "ID of domain"
+msgstr ""
+
+msgid "ID of environment"
+msgstr ""
+
+msgid "ID of host"
+msgstr ""
+
+msgid "ID of host group"
+msgstr ""
+
+msgid "ID of hostgroup"
+msgstr ""
+
+msgid "ID of interface"
+msgstr ""
+
+msgid "ID of location"
+msgstr ""
+
+msgid "ID of operating system"
+msgstr ""
+
+msgid "ID of organization"
+msgstr ""
+
+msgid "ID of parameter"
+msgstr ""
+
+msgid "ID of puppetclass"
+msgstr ""
+
+msgid "ID or name of host"
+msgstr ""
+
+msgid "ID or name of interface"
+msgstr ""
+
 msgid "IP"
 msgstr "IP"
 
@@ -2211,6 +2602,12 @@ msgid "IP address auto-suggest"
 msgstr ""
 
 msgid "IP address for this host"
+msgstr ""
+
+msgid "IP address of interface"
+msgstr ""
+
+msgid "IPAM"
 msgstr ""
 
 msgid "IRC"
@@ -2306,6 +2703,12 @@ msgstr "导入"
 msgid "Import from %s"
 msgstr "从 %s 导入"
 
+msgid "Import puppet classes from puppet proxy for an environment"
+msgstr ""
+
+msgid "Import puppet classes from puppet proxy."
+msgstr ""
+
 msgid "Import subnets"
 msgstr "导入子网"
 
@@ -2367,6 +2770,15 @@ msgstr ""
 msgid "Interface"
 msgstr "接口"
 
+msgid "Interface name"
+msgstr ""
+
+msgid "Interface provider, i.e. IPMI"
+msgstr ""
+
+msgid "Interface type, i.e: Nic::BMC"
+msgstr ""
+
 msgid "Invalid Host"
 msgstr "无效主机"
 
@@ -2385,6 +2797,9 @@ msgstr "无效报告"
 
 msgid "Invalid search query: %s"
 msgstr "无效查询：%s"
+
+msgid "Invalid type for host creation via facts: %s"
+msgstr ""
 
 msgid "Inventory browser"
 msgstr "库存检索"
@@ -2455,8 +2870,220 @@ msgstr "最新运行情况"
 msgid "Level"
 msgstr "阶段"
 
+msgid "List all :resource_id"
+msgstr ""
+
+msgid "List all LDAP authentication sources"
+msgstr ""
+
+msgid "List all Puppet class IDs for host"
+msgstr ""
+
+msgid "List all Puppet class IDs for host group"
+msgstr ""
+
+msgid "List all Puppet classes"
+msgstr ""
+
+msgid "List all Puppet classes for a host"
+msgstr ""
+
+msgid "List all Puppet classes for a host group"
+msgstr ""
+
+msgid "List all Puppet classes for an environment"
+msgstr ""
+
+msgid "List all architectures"
+msgstr ""
+
+msgid "List all audits"
+msgstr ""
+
+msgid "List all audits for a given host"
+msgstr ""
+
+msgid "List all autosign entries"
+msgstr ""
+
+msgid "List all bookmarks"
+msgstr ""
+
+msgid "List all compute resources"
+msgstr ""
+
+msgid "List all environments"
+msgstr ""
+
+msgid "List all fact values"
+msgstr ""
+
+msgid "List all fact values of a given host"
+msgstr ""
+
+msgid "List all filters"
+msgstr ""
+
+msgid "List all global parameters."
+msgstr ""
+
+msgid "List all hardware models"
+msgstr ""
+
+msgid "List all host groups"
+msgstr ""
+
+msgid "List all hosts"
+msgstr ""
+
+msgid "List all images for a compute resource"
+msgstr ""
+
+msgid "List all installation media"
+msgstr ""
+
+msgid "List all interfaces for host"
+msgstr ""
+
+msgid "List all operating systems"
+msgstr ""
+
+msgid "List all parameters for a domain"
+msgstr ""
+
+msgid "List all parameters for a host"
+msgstr ""
+
+msgid "List all parameters for a host group"
+msgstr ""
+
+msgid "List all parameters for a location"
+msgstr ""
+
+msgid "List all parameters for an operating system"
+msgstr ""
+
+msgid "List all parameters for an organization"
+msgstr ""
+
+msgid "List all partition tables"
+msgstr ""
+
+msgid "List all permissions"
+msgstr ""
+
+msgid "List all reports"
+msgstr ""
+
+msgid "List all roles"
+msgstr ""
+
+msgid "List all settings"
+msgstr ""
+
+msgid "List all smart class parameters"
+msgstr ""
+
+msgid "List all smart proxies"
+msgstr ""
+
+msgid "List all smart variables"
+msgstr ""
+
+msgid "List all tasks for a given orchestration event"
+msgstr ""
+
+msgid "List all template kinds"
+msgstr ""
+
+msgid "List all user groups"
+msgstr ""
+
+msgid "List all users"
+msgstr ""
+
+msgid "List available clusters for a compute resource"
+msgstr ""
+
+msgid "List available images for a compute resource"
+msgstr ""
+
+msgid "List available networks for a compute resource"
+msgstr ""
+
+msgid "List available networks for a compute resource cluster"
+msgstr ""
+
+msgid "List available resource types."
+msgstr ""
+
+msgid "List boot files for an OS"
+msgstr ""
+
+msgid "List default templates combinations for an operating system"
+msgstr ""
+
+msgid "List installed plugins"
+msgstr ""
+
+msgid "List of compute profiles"
+msgstr ""
+
+msgid "List of config groups"
+msgstr ""
+
+msgid "List of domains"
+msgstr ""
+
 msgid "List of hosts which answer to the provided query"
 msgstr "查询返回的主机列表"
+
+msgid "List of override values for a specific smart class parameter"
+msgstr ""
+
+msgid "List of override values for a specific smart variable"
+msgstr ""
+
+msgid "List of realms"
+msgstr ""
+
+msgid "List of smart class parameters for a specific Puppet class"
+msgstr ""
+
+msgid "List of smart class parameters for a specific environment"
+msgstr ""
+
+msgid ""
+"List of smart class parameters for a specific environment/Puppet class "
+"combination"
+msgstr ""
+
+msgid "List of smart class parameters for a specific host"
+msgstr ""
+
+msgid "List of smart class parameters for a specific host group"
+msgstr ""
+
+msgid "List of smart variables for a specific Puppet class"
+msgstr ""
+
+msgid "List of smart variables for a specific host"
+msgstr ""
+
+msgid "List of smart variables for a specific host group"
+msgstr ""
+
+msgid "List of subnets"
+msgstr ""
+
+msgid "List provisioning templates"
+msgstr ""
+
+msgid "List storage domains for a compute resource"
+msgstr ""
+
+msgid "List template combination"
+msgstr ""
 
 msgid "Load Datacenters"
 msgstr "加载数据中心"
@@ -2604,6 +3231,9 @@ msgstr "MAC地址"
 msgid "MAC address for this host"
 msgstr "本机MAC地址"
 
+msgid "MAC address of interface"
+msgstr ""
+
 msgid "Machine Type"
 msgstr "机器型号"
 
@@ -2710,6 +3340,12 @@ msgstr "精华"
 msgid "Message|Value"
 msgstr "值"
 
+msgid "Metadata"
+msgstr ""
+
+msgid "Method %{method} not found for resource %{resource}."
+msgstr ""
+
 msgid "Metrics"
 msgstr "指标"
 
@@ -2777,6 +3413,9 @@ msgstr ""
 
 msgid "Name"
 msgstr "名称"
+
+msgid "Name of media"
+msgstr ""
 
 msgid ""
 "Name of the external auth source where unknown externally authentication "
@@ -2991,6 +3630,9 @@ msgstr ""
 msgid "No compute resource to show"
 msgstr "没有可显示的计算机资源"
 
+msgid "No documentation found"
+msgstr ""
+
 msgid "No domains"
 msgstr "没有域"
 
@@ -3045,6 +3687,11 @@ msgstr ""
 
 msgid "No preference"
 msgstr "没有要求"
+
+msgid ""
+"No proxy found to import classes from, ensure that the smart proxy has the "
+"Puppet feature enabled."
+msgstr ""
 
 msgid "No puppet activity for this host in the last %s days"
 msgstr ""
@@ -3170,6 +3817,12 @@ msgstr ""
 msgid "Number of values"
 msgstr "数值"
 
+msgid "Numerical ID or domain name"
+msgstr ""
+
+msgid "Numerical ID or realm name"
+msgstr ""
+
 msgid "OAuth consumer key"
 msgstr ""
 
@@ -3238,6 +3891,9 @@ msgstr ""
 msgid "Oops"
 msgstr "抱歉"
 
+msgid "Oops!!"
+msgstr ""
+
 msgid "Oops, we're sorry but something went wrong"
 msgstr "抱歉，什么地方出现问题"
 
@@ -3265,12 +3921,18 @@ msgstr "操作系统"
 msgid "Operating system default"
 msgstr "默认操作系统"
 
+msgid "Operating system family, available values: %{operatingsystem_families}"
+msgstr ""
+
 msgid "Operating systems"
 msgstr "操作系统"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem"
 msgstr "操作系统"
+
+msgid "Operatingsystem IDs"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Description"
@@ -3300,6 +3962,14 @@ msgid "Operation"
 msgstr "作业"
 
 msgid "Operators"
+msgstr ""
+
+msgid "Optional array of log hashes"
+msgstr ""
+
+msgid ""
+"Optional comma-deliminated string containing either 'new,updated,obsolete' "
+"used to limit the import_puppetclasses actions"
 msgstr ""
 
 msgid ""
@@ -3388,6 +4058,9 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "默认的PXE配置已经发布到所有智能代理"
 
+msgid "Param name"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter"
 msgstr "参数"
@@ -3416,6 +4089,9 @@ msgstr "优先"
 msgid "Parameter|Value"
 msgstr "值"
 
+msgid "Params"
+msgstr ""
+
 msgid "Parent"
 msgstr ""
 
@@ -3436,6 +4112,9 @@ msgstr "分区表"
 
 msgid "Password"
 msgstr "密码"
+
+msgid "Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2"
+msgstr ""
 
 msgid "Password should be 8 characters or more"
 msgstr ""
@@ -3504,6 +4183,9 @@ msgstr ""
 msgid "Please delete all nested groups before deleting it."
 msgstr ""
 
+msgid "Please enable JavaScript to view the %{comments_href}."
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr ""
 
@@ -3562,6 +4244,9 @@ msgstr "预览"
 msgid "Primary"
 msgstr "主要"
 
+msgid "Primary DNS for this subnet"
+msgstr ""
+
 msgid "Primary Interface"
 msgstr "主接口"
 
@@ -3579,6 +4264,9 @@ msgstr "属性"
 
 msgid "Provider"
 msgstr "提供者"
+
+msgid "Providers include %{providers}"
+msgstr ""
 
 msgid "Provision"
 msgstr "置备"
@@ -3609,6 +4297,9 @@ msgstr "置备模板"
 
 msgid "Proxies"
 msgstr "代理"
+
+msgid "Proxy to use for this realm"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable"
@@ -3730,6 +4421,9 @@ msgstr ""
 msgid "Realm type"
 msgstr ""
 
+msgid "Realm type, e.g. FreeIPA or Active Directory"
+msgstr ""
+
 msgid "Realms"
 msgstr ""
 
@@ -3749,6 +4443,9 @@ msgstr ""
 msgid "Refresh features"
 msgstr ""
 
+msgid "Refresh smart proxy features"
+msgstr ""
+
 msgid "Region"
 msgstr "区域"
 
@@ -3765,6 +4462,12 @@ msgid "Remove Parameter"
 msgstr "删除参数"
 
 msgid "Remove Reverse DNS record for %s"
+msgstr ""
+
+msgid "Remove a Puppet class from host"
+msgstr ""
+
+msgid "Remove a Puppet class from host group"
 msgstr ""
 
 msgid "Remove conflicting DNS record for %s"
@@ -3848,6 +4551,9 @@ msgstr "解决"
 msgid "Resource"
 msgstr "资源"
 
+msgid "Resource %{res} not found."
+msgstr ""
+
 msgid "Resources"
 msgstr "资源"
 
@@ -3907,6 +4613,9 @@ msgstr "运行 Puppet"
 msgid "Run Puppet on the following hosts"
 msgstr ""
 
+msgid "Run a power operation on host"
+msgstr ""
+
 msgid "Run distribution in the last %s minute"
 msgid_plural "Run distribution in the last %s minutes"
 msgstr[0] "在过去 %s 分钟内并发数分布"
@@ -3951,6 +4660,9 @@ msgstr "范围"
 
 msgid "Search"
 msgstr "搜"
+
+msgid "Secondary DNS for this subnet"
+msgstr ""
 
 msgid "Secret Key"
 msgstr "密钥"
@@ -4098,6 +4810,9 @@ msgid ""
 "auto."
 msgstr ""
 
+msgid "Show :a_resource"
+msgstr ""
+
 msgid "Show Diff"
 msgstr "显示区别"
 
@@ -4107,6 +4822,108 @@ msgstr "显示主机"
 msgid "Show Trends"
 msgstr "显示趋势"
 
+msgid "Show a Puppet class"
+msgstr ""
+
+msgid "Show a Puppet class for a host group"
+msgstr ""
+
+msgid "Show a Puppet class for an environment"
+msgstr ""
+
+msgid "Show a Puppet class for host"
+msgstr ""
+
+msgid "Show a bookmark"
+msgstr ""
+
+msgid "Show a compute profile"
+msgstr ""
+
+msgid "Show a compute resource"
+msgstr ""
+
+msgid "Show a config group"
+msgstr ""
+
+msgid "Show a default template combination for an operating system"
+msgstr ""
+
+msgid "Show a domain"
+msgstr ""
+
+msgid "Show a filter"
+msgstr ""
+
+msgid "Show a global parameter"
+msgstr ""
+
+msgid "Show a hardware model"
+msgstr ""
+
+msgid "Show a host"
+msgstr ""
+
+msgid "Show a host group"
+msgstr ""
+
+msgid "Show a medium"
+msgstr ""
+
+msgid "Show a nested parameter for a domain"
+msgstr ""
+
+msgid "Show a nested parameter for a host"
+msgstr ""
+
+msgid "Show a nested parameter for a host group"
+msgstr ""
+
+msgid "Show a nested parameter for a location"
+msgstr ""
+
+msgid "Show a nested parameter for an operating system"
+msgstr ""
+
+msgid "Show a nested parameter for an organization"
+msgstr ""
+
+msgid "Show a partition table"
+msgstr ""
+
+msgid "Show a permission"
+msgstr ""
+
+msgid "Show a realm"
+msgstr ""
+
+msgid "Show a report"
+msgstr ""
+
+msgid "Show a role"
+msgstr ""
+
+msgid "Show a setting"
+msgstr ""
+
+msgid "Show a smart class parameter"
+msgstr ""
+
+msgid "Show a smart proxy"
+msgstr ""
+
+msgid "Show a smart variable"
+msgstr ""
+
+msgid "Show a subnet"
+msgstr ""
+
+msgid "Show a user"
+msgstr ""
+
+msgid "Show a user group"
+msgstr ""
+
 msgid "Show all %s children fact values"
 msgstr ""
 
@@ -4114,6 +4931,36 @@ msgid "Show all %s fact values"
 msgstr ""
 
 msgid "Show all %{name} facts where they are equal to %{value}"
+msgstr ""
+
+msgid "Show an LDAP authentication source"
+msgstr ""
+
+msgid "Show an OS"
+msgstr ""
+
+msgid "Show an architecture"
+msgstr ""
+
+msgid "Show an audit"
+msgstr ""
+
+msgid "Show an environment"
+msgstr ""
+
+msgid "Show an image"
+msgstr ""
+
+msgid "Show an interface for host"
+msgstr ""
+
+msgid "Show an override value for a specific smart class parameter"
+msgstr ""
+
+msgid "Show an override value for a specific smart variable"
+msgstr ""
+
+msgid "Show available API links"
 msgstr ""
 
 msgid "Show distribution chart"
@@ -4127,6 +4974,18 @@ msgstr ""
 
 msgid "Show log messages:"
 msgstr "显示登录信息："
+
+msgid "Show provisioning template details"
+msgstr ""
+
+msgid "Show status"
+msgstr ""
+
+msgid "Show template combination"
+msgstr ""
+
+msgid "Show the last report for a host"
+msgstr ""
 
 msgid "Sign"
 msgstr "登入"
@@ -4208,6 +5067,9 @@ msgid ""
 "them first."
 msgstr ""
 
+msgid "Sort results"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Source"
 msgstr "源"
@@ -4221,6 +5083,9 @@ msgid "Source|Value"
 msgstr "值"
 
 msgid "Start"
+msgstr ""
+
+msgid "Starting IP Address for IP auto suggestion"
 msgstr ""
 
 msgid "State"
@@ -4256,6 +5121,15 @@ msgstr "提交"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "子网"
+
+msgid "Subnet name"
+msgstr ""
+
+msgid "Subnet network"
+msgstr ""
+
+msgid "Subnet numeric identifier"
+msgstr ""
 
 msgid "Subnets"
 msgstr "子网"
@@ -4336,6 +5210,9 @@ msgstr ""
 
 msgid "Support"
 msgstr "支持"
+
+msgid "Supported Formats"
+msgstr ""
 
 #. host's status: first character of "sync" (out of sync)
 msgid "Sync|S"
@@ -4509,8 +5386,8 @@ msgstr ""
 msgid "The following subnets have been found"
 msgstr ""
 
-msgid "The full DNS Domain name"
-msgstr "DNS域全名"
+msgid "The full DNS domain name"
+msgstr ""
 
 msgid ""
 "The host group's classes and the host group's variables are included in the "
@@ -4553,6 +5430,9 @@ msgid ""
 "architecture and <strong>$version</strong>, <strong>$major</strong> and "
 "<strong>$minor</strong> will be substituted for the version of the operating"
 " system. Solaris and Debian media may also use <strong>$release</strong>."
+msgstr ""
+
+msgid "The realm name, e.g. EXAMPLE.COM"
 msgstr ""
 
 msgid ""
@@ -4762,6 +5642,9 @@ msgstr ""
 msgid "Troubleshooting"
 msgstr ""
 
+msgid "Try going to %{href}"
+msgstr ""
+
 msgid "Type"
 msgstr "类型"
 
@@ -4770,6 +5653,9 @@ msgstr ""
 
 msgid "URL"
 msgstr "链接"
+
+msgid "URL for Libvirt, Ovirt, and Openstack"
+msgstr ""
 
 msgid ""
 "URL hosts will retrieve templates from during build (normally http as many "
@@ -4781,8 +5667,15 @@ msgid ""
 "unattended_url)"
 msgstr ""
 
+msgid "UTC time of report"
+msgstr ""
+
 msgid "UUID"
 msgstr "UUID"
+
+msgid ""
+"UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
+msgstr ""
 
 msgid "Unable to access key"
 msgstr ""
@@ -4932,8 +5825,14 @@ msgstr "电源状态未知"
 msgid "Unknown action name for success message: %s"
 msgstr ""
 
+msgid "Unknown device: available devices are %s"
+msgstr ""
+
 msgid "Unknown fact"
 msgstr "未知详情"
+
+msgid "Unknown power action: available methods are %s"
+msgstr ""
 
 msgid "Unknown power management support - can't continue"
 msgstr ""
@@ -4953,7 +5852,130 @@ msgstr ""
 msgid "Update"
 msgstr "更新"
 
+msgid "Update :a_resource"
+msgstr ""
+
+msgid "Update a Puppet class"
+msgstr ""
+
+msgid "Update a bookmark"
+msgstr ""
+
+msgid "Update a compute attributes set"
+msgstr ""
+
+msgid "Update a compute profile"
+msgstr ""
+
+msgid "Update a compute resource"
+msgstr ""
+
+msgid "Update a config group"
+msgstr ""
+
+msgid "Update a default template combination for an operating system"
+msgstr ""
+
+msgid "Update a domain"
+msgstr ""
+
+msgid "Update a filter"
+msgstr ""
+
+msgid "Update a global parameter"
+msgstr ""
+
+msgid "Update a hardware model"
+msgstr ""
+
+msgid "Update a host"
+msgstr ""
+
+msgid "Update a host group"
+msgstr ""
+
+msgid "Update a host's interface"
+msgstr ""
+
+msgid "Update a medium"
+msgstr ""
+
+msgid "Update a nested parameter for a domain"
+msgstr ""
+
+msgid "Update a nested parameter for a host"
+msgstr ""
+
+msgid "Update a nested parameter for a host group"
+msgstr ""
+
+msgid "Update a nested parameter for a location"
+msgstr ""
+
+msgid "Update a nested parameter for an operating system"
+msgstr ""
+
+msgid "Update a nested parameter for an organization"
+msgstr ""
+
+msgid "Update a partition table"
+msgstr ""
+
+msgid "Update a provisioning template"
+msgstr ""
+
+msgid "Update a realm"
+msgstr ""
+
+msgid "Update a role"
+msgstr ""
+
+msgid "Update a setting"
+msgstr ""
+
+msgid "Update a smart class parameter"
+msgstr ""
+
+msgid "Update a smart proxy"
+msgstr ""
+
+msgid "Update a smart variable"
+msgstr ""
+
+msgid "Update a subnet"
+msgstr ""
+
+msgid "Update a user"
+msgstr ""
+
+msgid "Update a user group"
+msgstr ""
+
+msgid "Update an LDAP authentication source"
+msgstr ""
+
+msgid "Update an OS"
+msgstr ""
+
+msgid "Update an architecture"
+msgstr ""
+
+msgid "Update an environment"
+msgstr ""
+
+msgid "Update an image"
+msgstr ""
+
+msgid "Update an override value for a specific smart class parameter"
+msgstr ""
+
+msgid "Update an override value for a specific smart variable"
+msgstr ""
+
 msgid "Update realm entry for %s"
+msgstr ""
+
+msgid "Update the default PXE menu on all configured TFTP servers"
 msgstr ""
 
 msgid "Update:"
@@ -4972,6 +5994,9 @@ msgid "Updated hosts: changed environment"
 msgstr ""
 
 msgid "Updated hosts: changed host group"
+msgstr ""
+
+msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
 msgid "Use Signo SSO for login"
@@ -5040,6 +6065,9 @@ msgstr "名称"
 
 msgid "Username"
 msgstr "用户名"
+
+msgid "Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2."
+msgstr ""
 
 msgid "Users"
 msgstr "用户"
@@ -5125,6 +6153,9 @@ msgstr "VCPU(s)"
 
 msgid "VCenter/Server"
 msgstr "VCenter/服务器"
+
+msgid "VLAN ID for this subnet"
+msgstr ""
 
 msgid "VM"
 msgstr "VM"
@@ -5224,6 +6255,9 @@ msgstr ""
 msgid "Warnings and errors"
 msgstr "警告和错误"
 
+msgid "We have not found any documentation for your API."
+msgstr ""
+
 msgid ""
 "We use Redmine to report and track bugs and feature requests, which can be "
 "found here:"
@@ -5263,6 +6297,9 @@ msgid ""
 "see"
 msgstr ""
 
+msgid "Whether or not the template is locked for editing"
+msgstr ""
+
 msgid ""
 "Whether the smart-variable should override the Puppet class default value."
 msgstr ""
@@ -5295,6 +6332,9 @@ msgid ""
 msgstr ""
 
 msgid "You are not authorized to perform this action"
+msgstr ""
+
+msgid "You are trying to delete your own account"
 msgstr ""
 
 msgid "You are using an unsupported browser."
@@ -5407,6 +6447,9 @@ msgstr ""
 msgid "Zone"
 msgstr ""
 
+msgid "a location"
+msgstr ""
+
 msgid "a script as well"
 msgstr "可用脚本"
 
@@ -5428,6 +6471,9 @@ msgstr "已经存在"
 msgid "already in use"
 msgstr "使用中"
 
+msgid "an organization"
+msgstr ""
+
 msgid "and"
 msgstr "和"
 
@@ -5437,19 +6483,22 @@ msgstr "和相关的日志条目。"
 msgid "belongs to config group"
 msgstr ""
 
+msgid "boot device, valid devices are disk, cdrom, pxe, bios"
+msgstr ""
+
 msgid "can't be bigger than to range"
-msgstr ""
-
-msgid "can't be blank or contain trailing white spaces."
-msgstr ""
-
-msgid "can't be blank or contain white spaces."
 msgstr ""
 
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
+msgid "can't contain trailing white spaces."
+msgstr ""
+
 msgid "can't contain white spaces"
+msgstr ""
+
+msgid "can't contain white spaces."
 msgstr ""
 
 msgid "cannot be changed on an internal protected account"
@@ -5467,10 +6516,16 @@ msgstr ""
 msgid "clone"
 msgstr ""
 
+msgid "comments powered by %{disqus}"
+msgstr ""
+
 msgid "common"
 msgstr ""
 
 msgid "cycle"
+msgstr ""
+
+msgid "defaults to 389"
 msgstr ""
 
 msgid "does not appear to be a valid nfs mount path"
@@ -5524,6 +6579,9 @@ msgstr ""
 msgid "e.g. uid"
 msgstr ""
 
+msgid "environment id"
+msgstr ""
+
 msgid "failed to %{action} %{vm}"
 msgstr ""
 
@@ -5542,6 +6600,21 @@ msgstr "保存 %s失败"
 msgid "filter for %s role"
 msgstr ""
 
+msgid "filter results"
+msgstr ""
+
+msgid "for EC2 only"
+msgstr ""
+
+msgid "for Openstack only"
+msgstr ""
+
+msgid "for Ovirt, Vmware Datacenter"
+msgstr ""
+
+msgid "for Vmware"
+msgstr ""
+
 msgid "for more details."
 msgstr "更多的细节。"
 
@@ -5554,16 +6627,28 @@ msgstr ""
 msgid "free swap"
 msgstr ""
 
+msgid "further instructions"
+msgstr ""
+
 msgid "has this hostgroup already"
 msgstr ""
 
 msgid "has this role already"
 msgstr ""
 
+msgid "hash containing the facts for the host"
+msgstr ""
+
 msgid "here"
 msgstr "这里"
 
+msgid "host group id"
+msgstr ""
+
 msgid "hostgroup"
+msgstr ""
+
+msgid "hostname of the host"
 msgstr ""
 
 msgid "in %s"
@@ -5573,6 +6658,9 @@ msgid "in Progress"
 msgstr ""
 
 msgid "included already from parent"
+msgstr ""
+
+msgid "interface information"
 msgstr ""
 
 msgid "invalid"
@@ -5613,6 +6701,9 @@ msgstr ""
 
 msgid "is already used by a user account"
 msgstr "已经被用户使用"
+
+msgid "is an admin account"
+msgstr ""
 
 msgid "is an unsupported provisioning method"
 msgstr ""
@@ -5703,6 +6794,9 @@ msgstr "必须设置主机和端口"
 msgid "new"
 msgstr "新建"
 
+msgid "nil allowed"
+msgstr ""
+
 msgid "no puppet proxy defined - cant continue"
 msgstr "未定义 puppet proxy - 停止"
 
@@ -5712,10 +6806,31 @@ msgstr ""
 msgid "none"
 msgstr ""
 
+msgid "not relevant for snippet"
+msgstr ""
+
+msgid "not required if it's a virtual machine"
+msgstr ""
+
+msgid "not required if using a subnet with DHCP proxy"
+msgstr ""
+
+msgid "number of entries per request"
+msgstr ""
+
 msgid "off"
 msgstr ""
 
 msgid "on"
+msgstr ""
+
+msgid "optional"
+msgstr ""
+
+msgid "optional: certname of the host"
+msgstr ""
+
+msgid "optional: the STI type of host to create"
 msgstr ""
 
 msgid "organization"
@@ -5730,6 +6845,9 @@ msgstr ""
 msgid "override"
 msgstr "覆盖"
 
+msgid "paginate results"
+msgstr ""
+
 msgid ""
 "parameters require an associated domain, operating system, host or host "
 "group"
@@ -5740,6 +6858,11 @@ msgstr ""
 
 msgid "pending"
 msgstr "未决定"
+
+msgid ""
+"power action, valid actions are (on/start), (off/stop), (soft/reboot), "
+"(cycle/reset), (state/status)"
+msgstr ""
 
 msgid "poweroff"
 msgstr "关闭"
@@ -5758,6 +6881,18 @@ msgstr "删除值"
 
 msgid "remove volume"
 msgstr "删除值"
+
+msgid "required"
+msgstr ""
+
+msgid "required if locations are enabled"
+msgstr ""
+
+msgid "required if onthefly_register is true"
+msgstr ""
+
+msgid "required if organizations are enabled"
+msgstr ""
 
 msgid "reset"
 msgstr "重置"
@@ -5789,6 +6924,9 @@ msgstr ""
 msgid "soft"
 msgstr ""
 
+msgid "sort results"
+msgstr ""
+
 msgid "start"
 msgstr "开始"
 
@@ -5800,6 +6938,12 @@ msgstr ""
 
 msgid "stop"
 msgstr "停止"
+
+msgid "template name"
+msgstr ""
+
+msgid "template version"
+msgstr ""
 
 msgid "these hosts for a build operation on next boot"
 msgstr ""

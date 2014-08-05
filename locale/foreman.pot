@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-31 08:52+0100\n"
+"POT-Creation-Date: 2014-08-05 12:56+0100\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -861,6 +861,9 @@ msgid "Choose a family"
 msgstr ""
 
 msgid "Choose a provider"
+msgstr ""
+
+msgid "Choose a server type"
 msgstr ""
 
 msgid "Class Distribution"
@@ -1762,6 +1765,12 @@ msgstr ""
 msgid "External user group"
 msgstr ""
 
+msgid "External user group %{name} could not be refreshed"
+msgstr ""
+
+msgid "External user group %{name} refreshed"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr ""
 
@@ -2158,6 +2167,9 @@ msgid "Good host reports in the last %s"
 msgstr ""
 
 msgid "Google Project ID"
+msgstr ""
+
+msgid "Groups base DN"
 msgstr ""
 
 msgid "Guest OS"
@@ -2685,6 +2697,9 @@ msgid "LDAP Authentication"
 msgstr ""
 
 msgid "LDAP authentication"
+msgstr ""
+
+msgid "LDAP error - %{message}"
 msgstr ""
 
 msgid "LDAP filter"
@@ -4239,6 +4254,9 @@ msgstr ""
 msgid "Redirect your users to this url on logout (authorize_login_delegation should also be enabled)"
 msgstr ""
 
+msgid "Refresh"
+msgstr ""
+
 msgid "Refresh features"
 msgstr ""
 
@@ -4560,6 +4578,9 @@ msgid "Selected role"
 msgstr ""
 
 msgid "Selecting a file will override the editor and load the file instead"
+msgstr ""
+
+msgid "Server type"
 msgstr ""
 
 msgid "Set a randomly generated password on the display connection"
@@ -4989,6 +5010,9 @@ msgstr ""
 msgid "Successfully updated environments and Puppet classes from the on-disk Puppet installation"
 msgstr ""
 
+msgid "Suggest new"
+msgstr ""
+
 msgid "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
 msgstr ""
 
@@ -4996,6 +5020,9 @@ msgid "Support"
 msgstr ""
 
 msgid "Supported Formats"
+msgstr ""
+
+msgid "Synchronize group from authentication source"
 msgstr ""
 
 #. host's status: first character of "sync" (out of sync)
@@ -6373,7 +6400,13 @@ msgstr ""
 msgid "is not allowed to change"
 msgstr ""
 
+msgid "is not found in the authentication source"
+msgstr ""
+
 msgid "is not permitted"
+msgstr ""
+
+msgid "is too long (maximum is 15 characters)"
 msgstr ""
 
 msgid "is unknown"
@@ -6410,9 +6443,6 @@ msgid "must be a valid URI"
 msgstr ""
 
 msgid "must be an array"
-msgstr ""
-
-msgid "must be at most 15 characters"
 msgstr ""
 
 msgid "must be boolean"
