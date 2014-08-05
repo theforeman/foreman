@@ -1,8 +1,8 @@
 class LookupKey < ActiveRecord::Base
   include Authorizable
 
-  KEY_TYPES = [_("string"), _("boolean"), _("integer"), _("real"), _("array"), _("hash"), _("yaml"), _("json")]
-  VALIDATOR_TYPES = [_("regexp"), _("list") ]
+  KEY_TYPES = [N_("string"), N_("boolean"), N_("integer"), N_("real"), N_("array"), N_("hash"), N_("yaml"), N_("json")]
+  VALIDATOR_TYPES = [N_("regexp"), N_("list") ]
 
   TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'on', 'ON', 'yes', 'YES', 'y', 'Y'].to_set
   FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE', 'off', 'OFF', 'no', 'NO', 'n', 'N'].to_set

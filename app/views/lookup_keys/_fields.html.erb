@@ -17,14 +17,14 @@
   <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast,:size => "col-md-8", :disabled => (f.object.is_param && !f.object.override), :rows => :auto,
                  :help_block => _("Value to use when there is no match") %>
   <div <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')}_lookup_key_override_value" %> style=<%= "display:none;" if (f.object.is_param && !f.object.override) %>>
-    <legend><%= _("Optional Input Validator") %></legend>
+    <legend><%= _("Optional input validator") %></legend>
     <%= checkbox_f(f, :required, :size => "col-md-8", :disabled => !f.object.override,
                    :help_block => _("If checked, will raise an error if there is no default value and no matcher provide a value.")
         ) if is_param %>
     <%= validator_type_selector f  %>
     <%= text_f f, :validator_rule, :size => "col-md-8", :disabled => f.object.validator_type.blank? %>
 
-    <legend><%= _("Override Value For Specific Hosts") %></legend>
+    <legend><%= _("Override value for specific hosts") %></legend>
     <%= textarea_f f, :path, :rows => :auto, :label => _("Order"), :size => "col-md-8", :value => f.object.path,
                    :help_block => popover(_("The order in which values are resolved"),
                                           _("The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"), :title => _("The order in which values are resolved")).html_safe
