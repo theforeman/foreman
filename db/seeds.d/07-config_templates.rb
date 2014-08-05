@@ -58,7 +58,8 @@ ConfigTemplate.without_auditing do
     next if audit_modified? ConfigTemplate, input[:name]
     t = ConfigTemplate.create({
                                   :snippet  => false,
-                                  :template => File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
+                                  :template => File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source))),
+                                  :vendor   => "Foreman"
                               }.merge(input))
     raise "Unable to create template #{t.name}: #{format_errors t}" if t.nil? || t.errors.any?
   end
