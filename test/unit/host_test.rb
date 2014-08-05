@@ -71,7 +71,6 @@ class HostTest < ActiveSupport::TestCase
   test "should be valid using 64-bit mac address" do
     host = hosts(:one)
     host.mac = "aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd"
-    host.save!
     assert_equal true, host.valid?
   end
 

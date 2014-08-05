@@ -649,4 +649,20 @@ class UserTest < ActiveSupport::TestCase
     User.complete_for('login = ').each { |ac| refute_match users(:anonymous).login, ac }
   end
 
+  test "allowed_organizations for admin" do
+    assert_equal users(:admin).allowed_organizations.length, Organization.all.count
+  end
+
+  test "allowed_locations for admin" do
+    assert_equal users(:admin).allowed_locations.length, Location.all.count
+  end
+
+  test "allowed_organizations for restricted user" do
+    assert_equal users(:restricted).allowed_organizations, [taxonomies(:organization1)]
+  end
+
+  test "allowed_locations for restricted user" do
+    assert_empty users(:restricted).allowed_locations
+  end
+
 end

@@ -120,6 +120,7 @@ class Host::Managed < Host::Base
   validates :environment_id,  :presence => true
   validates :organization_id, :presence => true, :if => Proc.new {|host| host.managed? && SETTINGS[:organizations_enabled] }
   validates :location_id,     :presence => true, :if => Proc.new {|host| host.managed? && SETTINGS[:locations_enabled] }
+  validates_with OrganizationAssociationValidator, :if => Proc.new {|host| host.managed? && SETTINGS[:organizations_enabled] }
 
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.

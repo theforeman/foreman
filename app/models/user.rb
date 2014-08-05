@@ -380,6 +380,14 @@ class User < ActiveRecord::Base
     sweeper.expire_fragment(TopbarSweeper.fragment_name(id))
   end
 
+  def allowed_organizations
+    admin? ? Organization.scoped : self.organizations
+  end
+
+  def allowed_locations
+    admin? ? Location.scoped : self.locations
+  end
+
   private
 
   def prepare_password
