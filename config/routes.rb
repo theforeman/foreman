@@ -156,7 +156,7 @@ Foreman::Application.routes.draw do
     get 'auto_complete_search', :on => :collection
   end
 
-  resources :puppetclasses, :except => [:show] do
+  resources :puppetclasses, :except => [:new, :create, :show] do
     collection do
       get 'import_environments'
       post 'obsolete_and_new'
