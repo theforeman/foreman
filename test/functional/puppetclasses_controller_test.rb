@@ -7,23 +7,6 @@ class PuppetclassesControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_new
-    get :new, {}, set_session_user
-    assert_template 'new'
-  end
-
-  def test_create_invalid
-    Puppetclass.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
-    assert_template 'new'
-  end
-
-  def test_create_valid
-    Puppetclass.any_instance.stubs(:valid?).returns(true)
-    post :create, {}, set_session_user
-    assert_redirected_to puppetclasses_url
-  end
-
   def test_edit
     get :edit, {:id => Puppetclass.first.to_param}, set_session_user
     assert_template 'edit'
