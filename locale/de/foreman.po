@@ -16,6 +16,7 @@
 # ppuschmann, 2013
 # Paul Puschmann, 2013
 # simon11 <simon.stieger.98@live.de>, 2014
+# stbenjam <stephen@redhat.com>, 2014
 # Wiederoder <stefanwiederoder@googlemail.com>, 2013
 # Ulrich Habel <rhaen@pkgbox.de>, 2013-2014
 # Wiederoder <stefanwiederoder@googlemail.com>, 2013
@@ -23,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-31 08:52+0100\n"
-"PO-Revision-Date: 2014-08-04 08:40+0000\n"
+"POT-Creation-Date: 2014-08-05 12:56+0100\n"
+"PO-Revision-Date: 2014-08-06 09:57+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -260,7 +261,7 @@ msgid "API Key"
 msgstr "API-Schlüssel"
 
 msgid "API documentation"
-msgstr ""
+msgstr "API-Dokumentation"
 
 msgid "About"
 msgstr "Über"
@@ -312,10 +313,10 @@ msgid "Add Volume"
 msgstr "Medium hinzufügen"
 
 msgid "Add a Puppet class to host"
-msgstr ""
+msgstr "Puppet-Klasse dem Host zuweisen"
 
 msgid "Add a Puppet class to host group"
-msgstr ""
+msgstr "Puppet-Klasse der Hostgruppe zuweisen"
 
 msgid "Add a template combination"
 msgstr ""
@@ -929,6 +930,9 @@ msgstr "Familie auswählen"
 msgid "Choose a provider"
 msgstr "Provider auswählen"
 
+msgid "Choose a server type"
+msgstr ""
+
 msgid "Class Distribution"
 msgstr "Klassenverteilung"
 
@@ -1139,13 +1143,13 @@ msgid "Create Reverse DNS record for %s"
 msgstr "Erstelle Reverse-DNS-Eintrag für %s"
 
 msgid "Create a Puppet class"
-msgstr ""
+msgstr "Erstelle eine Puppet-Klasse"
 
 msgid "Create a Smart Proxy"
 msgstr "Erstelle einen Smart Proxy"
 
 msgid "Create a bookmark"
-msgstr ""
+msgstr "Lesezeichen erstellen"
 
 msgid "Create a compute attributes set"
 msgstr ""
@@ -1166,7 +1170,7 @@ msgid "Create a domain"
 msgstr ""
 
 msgid "Create a filter"
-msgstr ""
+msgstr "Erstelle einen Filter"
 
 msgid "Create a global parameter"
 msgstr ""
@@ -1208,7 +1212,7 @@ msgid "Create a provisioning template"
 msgstr ""
 
 msgid "Create a realm"
-msgstr ""
+msgstr "Realm erstellen"
 
 msgid "Create a report"
 msgstr ""
@@ -1256,7 +1260,7 @@ msgid "Create an override value for a specific smart variable"
 msgstr ""
 
 msgid "Create realm entry for %s"
-msgstr ""
+msgstr "Realm-Eintrag für %s erstellen"
 
 msgid "Ctrl-Alt-Del"
 msgstr "Strg-Alt-Entf"
@@ -1418,7 +1422,7 @@ msgid "Delete a provisioning template"
 msgstr ""
 
 msgid "Delete a realm"
-msgstr ""
+msgstr "Realm löschen"
 
 msgid "Delete a report"
 msgstr ""
@@ -1493,7 +1497,7 @@ msgid "Delete filter?"
 msgstr ""
 
 msgid "Delete realm entry for %s"
-msgstr ""
+msgstr "Realm-Eintrag für %s löschen"
 
 msgid "Delete report for %s?"
 msgstr "Report von %s löschen?"
@@ -1645,7 +1649,7 @@ msgid "Edit Compute profile: %s"
 msgstr ""
 
 msgid "Edit Config group"
-msgstr ""
+msgstr "Konfigurationsgruppe bearbeiten"
 
 msgid "Edit Domain"
 msgstr "Domäne bearbeiten"
@@ -1687,7 +1691,7 @@ msgid "Edit Puppet Class %s"
 msgstr "Puppet-Klasse %s bearbeiten"
 
 msgid "Edit Realm"
-msgstr ""
+msgstr "Realm bearbeiten"
 
 msgid "Edit Roles"
 msgstr "Rollen bearbeiten"
@@ -1849,6 +1853,12 @@ msgstr ""
 msgid "External user group"
 msgstr ""
 
+msgid "External user group %{name} could not be refreshed"
+msgstr ""
+
+msgid "External user group %{name} refreshed"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr ""
 
@@ -1923,7 +1933,7 @@ msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr ""
 
 msgid "Failed to create %{name}'s realm entry: %{e}"
-msgstr ""
+msgstr "Fehler beim erstellen Realm-Eintrag für %{name}: %{e}"
 
 msgid "Failed to create X509 certificate, error: %s"
 msgstr ""
@@ -1963,7 +1973,7 @@ msgid "Failed to initialize the PuppetCA proxy: %s"
 msgstr "Fehler bei der Initialisierung des Puppet-CA-Proxys: %s"
 
 msgid "Failed to initialize the realm proxy: %s"
-msgstr ""
+msgstr "Fehler bei der Initialisierung des Realm Proxy: %s"
 
 msgid "Failed to launch script on %{name}: %{e}"
 msgstr "Fehler beim Starten des Skripts auf %{name}: %{e}"
@@ -2160,7 +2170,7 @@ msgid ""
 " realm is selected for a host, Foreman contacts the relevant realm smart "
 "proxy to create an entry for the host and retrieve it's one-time "
 "registration password."
-msgstr ""
+msgstr "Foreman kann für neue Hosts automatisch einen Realm-Eintrag erstellen. Wenn ein Realm ausgewählt ist, kontaktiert Foreman den dazugehörigen Smart Proxy um einen neuen Host anzulegen und ein Einmalpasswort                 abzufragen."
 
 msgid "Foreman ticketing system"
 msgstr "Foreman Ticket-System"
@@ -2302,6 +2312,9 @@ msgstr "Gute Systemreporte in den letzten %s"
 
 msgid "Google Project ID"
 msgstr "Google Projekt-ID"
+
+msgid "Groups base DN"
+msgstr ""
 
 msgid "Guest OS"
 msgstr ""
@@ -2864,6 +2877,9 @@ msgstr "LDAP-Authentifizierung"
 msgid "LDAP authentication"
 msgstr "LDAP-Authentifizierung"
 
+msgid "LDAP error - %{message}"
+msgstr ""
+
 msgid "LDAP filter"
 msgstr "LDAP Filter"
 
@@ -2915,7 +2931,7 @@ msgid "List all Puppet classes for an environment"
 msgstr ""
 
 msgid "List all architectures"
-msgstr ""
+msgstr "Liste der Architekturen"
 
 msgid "List all audits"
 msgstr ""
@@ -3065,7 +3081,7 @@ msgid "List of override values for a specific smart variable"
 msgstr ""
 
 msgid "List of realms"
-msgstr ""
+msgstr "Liste der Realms"
 
 msgid "List of smart class parameters for a specific Puppet class"
 msgstr ""
@@ -3558,7 +3574,7 @@ msgid "New Puppet class"
 msgstr "Neue Puppet-Klasse"
 
 msgid "New Realm"
-msgstr ""
+msgstr "Neuer Realm"
 
 msgid "New Role"
 msgstr "Neue Rolle"
@@ -3841,7 +3857,7 @@ msgid "Numerical ID or domain name"
 msgstr ""
 
 msgid "Numerical ID or realm name"
-msgstr ""
+msgstr "Numerische ID oder Name des Realms"
 
 msgid "OAuth consumer key"
 msgstr "OAuth-Kundenschlüssel"
@@ -4319,7 +4335,7 @@ msgid "Proxies"
 msgstr "Proxys"
 
 msgid "Proxy to use for this realm"
-msgstr ""
+msgstr "Proxy für diesen Realm"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable"
@@ -4421,34 +4437,34 @@ msgid "Quota ID"
 msgstr "Quota-ID"
 
 msgid "Realm"
-msgstr ""
+msgstr "Realm"
 
 msgid "Realm Configuration"
-msgstr ""
+msgstr "Realmkonfiguration"
 
 msgid "Realm name, e.g. EXAMPLE.COM"
-msgstr ""
+msgstr "Name des Realms, z.B. EXAMPLE.COM"
 
 msgid "Realm proxy"
-msgstr ""
+msgstr "Realm proxy"
 
 msgid "Realm proxy did not return a one-time password"
-msgstr ""
+msgstr "Realm proxy hat kein Einmalpasswort zurückgegeben"
 
 msgid "Realm proxy to use within this realm"
-msgstr ""
+msgstr "Realm Proxy für diesen Realm"
 
 msgid "Realm type"
-msgstr ""
+msgstr "Art des Realms"
 
 msgid "Realm type, e.g. FreeIPA or Active Directory"
-msgstr ""
+msgstr "Art des Realms, z.B. FreeIPA oder Active Directory"
 
 msgid "Realms"
-msgstr ""
+msgstr "Realms"
 
 msgid "Realm|Name"
-msgstr ""
+msgstr "Name"
 
 msgid ""
 "Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
@@ -4458,6 +4474,9 @@ msgstr "%s beim nächsten Start neu aufbauen?\\nDies würde alle Fakten und Repo
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
 " also be enabled)"
+msgstr ""
+
+msgid "Refresh"
 msgstr ""
 
 msgid "Refresh features"
@@ -4746,7 +4765,7 @@ msgid "Select organizations"
 msgstr "Organisationen auswählen"
 
 msgid "Select realms"
-msgstr ""
+msgstr "Realms auswählen"
 
 msgid "Select smart proxies"
 msgstr "Smart Proxys auswählen"
@@ -4788,6 +4807,9 @@ msgstr "Ausgewählte Rolle"
 
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "Das Auswählen einer Datei wird den Editor übergehen und diese Datei stattdessen öffnen"
+
+msgid "Server type"
+msgstr ""
 
 msgid "Set a randomly generated password on the display connection"
 msgstr "Zufälliges Passwort für die Verbindung generieren"
@@ -4916,7 +4938,7 @@ msgid "Show a permission"
 msgstr ""
 
 msgid "Show a realm"
-msgstr ""
+msgstr "Realm anzeigen"
 
 msgid "Show a report"
 msgstr ""
@@ -5224,6 +5246,9 @@ msgid ""
 " installation"
 msgstr ""
 
+msgid "Suggest new"
+msgstr ""
+
 msgid ""
 "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped}"
 " A:%{applied} FR:%{failed_restarts} T:%{total}"
@@ -5233,6 +5258,9 @@ msgid "Support"
 msgstr "Unterstützung"
 
 msgid "Supported Formats"
+msgstr ""
+
+msgid "Synchronize group from authentication source"
 msgstr ""
 
 #. host's status: first character of "sync" (out of sync)
@@ -5454,7 +5482,7 @@ msgid ""
 msgstr ""
 
 msgid "The realm name, e.g. EXAMPLE.COM"
-msgstr ""
+msgstr "Name des Realms, z.B. EXAMPLE.COM"
 
 msgid ""
 "The remote system presented a public key signed by an unidentified "
@@ -5671,7 +5699,7 @@ msgid "Type"
 msgstr "Typ"
 
 msgid "Type of realm, e.g. FreeIPA"
-msgstr ""
+msgstr "Art des Realms, z.B. FreeIPA"
 
 msgid "URL"
 msgstr "URL"
@@ -5714,7 +5742,7 @@ msgid "Unable to create default TFTP boot menu"
 msgstr ""
 
 msgid "Unable to create realm entry"
-msgstr ""
+msgstr "Fehler beim erstellen Realm-Eintrag"
 
 msgid "Unable to create the anonymous role."
 msgstr "Kann keine anonyme Rolle anlegen."
@@ -5875,13 +5903,13 @@ msgid "Update"
 msgstr "Aktualisierung"
 
 msgid "Update :a_resource"
-msgstr ""
+msgstr ":a_resource aktualisieren"
 
 msgid "Update a Puppet class"
-msgstr ""
+msgstr "Puppet-Klasse aktualisieren"
 
 msgid "Update a bookmark"
-msgstr ""
+msgstr "Bookmark Aktualisieren"
 
 msgid "Update a compute attributes set"
 msgstr ""
@@ -5890,37 +5918,37 @@ msgid "Update a compute profile"
 msgstr ""
 
 msgid "Update a compute resource"
-msgstr ""
+msgstr "Rechnerresource Aktualisieren"
 
 msgid "Update a config group"
-msgstr ""
+msgstr "Konfigurationsgruppe Aktualisieren"
 
 msgid "Update a default template combination for an operating system"
 msgstr ""
 
 msgid "Update a domain"
-msgstr ""
+msgstr "Domain Aktualisieren"
 
 msgid "Update a filter"
-msgstr ""
+msgstr "Filter Aktualisieren"
 
 msgid "Update a global parameter"
 msgstr ""
 
 msgid "Update a hardware model"
-msgstr ""
+msgstr "Hardwaremodell aktualisieren"
 
 msgid "Update a host"
-msgstr ""
+msgstr "Host Aktualisieren"
 
 msgid "Update a host group"
-msgstr ""
+msgstr "Hostgruppe aktualisieren"
 
 msgid "Update a host's interface"
 msgstr ""
 
 msgid "Update a medium"
-msgstr ""
+msgstr "Medium aktualisieren"
 
 msgid "Update a nested parameter for a domain"
 msgstr ""
@@ -5947,43 +5975,43 @@ msgid "Update a provisioning template"
 msgstr ""
 
 msgid "Update a realm"
-msgstr ""
+msgstr "Realm aktualisieren"
 
 msgid "Update a role"
-msgstr ""
+msgstr "Rolle aktualisieren"
 
 msgid "Update a setting"
-msgstr ""
+msgstr "Einstellung aktualisieren"
 
 msgid "Update a smart class parameter"
 msgstr ""
 
 msgid "Update a smart proxy"
-msgstr ""
+msgstr "Smart proxy aktualisieren"
 
 msgid "Update a smart variable"
-msgstr ""
+msgstr "Smart variable aktualisieren"
 
 msgid "Update a subnet"
-msgstr ""
+msgstr "Subnet aktualisieren"
 
 msgid "Update a user"
-msgstr ""
+msgstr "Benutzer aktualisieren"
 
 msgid "Update a user group"
-msgstr ""
+msgstr "Benutzergruppe aktualisieren"
 
 msgid "Update an LDAP authentication source"
-msgstr ""
+msgstr "LDAP-Authentifizierungsquelle aktualisieren"
 
 msgid "Update an OS"
-msgstr ""
+msgstr "Betriebssystem aktualisieren"
 
 msgid "Update an architecture"
-msgstr ""
+msgstr "Architektur aktualisieren"
 
 msgid "Update an environment"
-msgstr ""
+msgstr "Umgebung aktualisieren"
 
 msgid "Update an image"
 msgstr ""
@@ -5995,7 +6023,7 @@ msgid "Update an override value for a specific smart variable"
 msgstr ""
 
 msgid "Update realm entry for %s"
-msgstr ""
+msgstr "Realm-Eintrag wird für %s aktualisiert"
 
 msgid "Update the default PXE menu on all configured TFTP servers"
 msgstr ""
@@ -6748,7 +6776,13 @@ msgstr ""
 msgid "is not allowed to change"
 msgstr "ist nicht möglich zu ändern"
 
+msgid "is not found in the authentication source"
+msgstr ""
+
 msgid "is not permitted"
+msgstr ""
+
+msgid "is too long (maximum is 15 characters)"
 msgstr ""
 
 msgid "is unknown"
@@ -6786,9 +6820,6 @@ msgstr "muss ein valider URI sein"
 
 msgid "must be an array"
 msgstr "muss ein Array sein"
-
-msgid "must be at most 15 characters"
-msgstr "darf maximal 15 Zeichen lang sein"
 
 msgid "must be boolean"
 msgstr "muss ein bool´scher Wert sein"

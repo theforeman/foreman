@@ -6,6 +6,7 @@
 # 
 # 
 # Translators:
+# Dominic Cleal <dcleal@redhat.com>, 2014
 # Fredrik Wendt <fredrik@wendt.se>, 2014
 # johnny.westerlund <johnny.westerlund@gmail.com>, 2013-2014
 # Mikael Fridh <frimik@gmail.com>, 2013
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-31 08:52+0100\n"
-"PO-Revision-Date: 2014-08-04 08:40+0000\n"
+"POT-Creation-Date: 2014-08-05 12:56+0100\n"
+"PO-Revision-Date: 2014-08-06 09:57+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -918,6 +919,9 @@ msgstr "Välj en familj"
 
 msgid "Choose a provider"
 msgstr "Välj en leverantör"
+
+msgid "Choose a server type"
+msgstr ""
 
 msgid "Class Distribution"
 msgstr "Klassdistribution"
@@ -1839,6 +1843,12 @@ msgstr ""
 msgid "External user group"
 msgstr ""
 
+msgid "External user group %{name} could not be refreshed"
+msgstr ""
+
+msgid "External user group %{name} refreshed"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr "Faktakarta"
 
@@ -2292,6 +2302,9 @@ msgstr "Bra värdrapporter senaste %s"
 
 msgid "Google Project ID"
 msgstr "Google Project ID"
+
+msgid "Groups base DN"
+msgstr ""
 
 msgid "Guest OS"
 msgstr ""
@@ -2853,6 +2866,9 @@ msgstr "LDAP Autentisering"
 
 msgid "LDAP authentication"
 msgstr "LDAP autentisering"
+
+msgid "LDAP error - %{message}"
+msgstr ""
 
 msgid "LDAP filter"
 msgstr "Ldap-filter"
@@ -4450,6 +4466,9 @@ msgid ""
 " also be enabled)"
 msgstr "Omdirigera dina användare till denna url vid utloggning (authorize_login_delegation måste också vara aktiverad)"
 
+msgid "Refresh"
+msgstr ""
+
 msgid "Refresh features"
 msgstr "Uppdatera funktioner"
 
@@ -4547,7 +4566,7 @@ msgstr "Status"
 msgid ""
 "Required parameter without value.<br/><b>Please override!</b> "
 "<br><br><b>Description:</b>: %s"
-msgstr "Nödvändig parameter utan värde. <br/><b>Var vänlig och forcera!</b> <br><br><b>Beskrivning:</b>:"
+msgstr "Nödvändig parameter utan värde. <br/><b>Var vänlig och forcera!</b> <br><br><b>Beskrivning:</b>: %s"
 
 msgid "Reset to default"
 msgstr ""
@@ -4778,6 +4797,9 @@ msgstr ""
 
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "Väljs en fil åsidosätts redigeraren och filen laddas istället"
+
+msgid "Server type"
+msgstr ""
 
 msgid "Set a randomly generated password on the display connection"
 msgstr "Sätt ett slumpgenererat lösenord för skärmanslutningen"
@@ -5214,6 +5236,9 @@ msgid ""
 " installation"
 msgstr ""
 
+msgid "Suggest new"
+msgstr ""
+
 msgid ""
 "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped}"
 " A:%{applied} FR:%{failed_restarts} T:%{total}"
@@ -5223,6 +5248,9 @@ msgid "Support"
 msgstr "Hjälp"
 
 msgid "Supported Formats"
+msgstr ""
+
+msgid "Synchronize group from authentication source"
 msgstr ""
 
 #. host's status: first character of "sync" (out of sync)
@@ -6738,7 +6766,13 @@ msgstr ""
 msgid "is not allowed to change"
 msgstr "tillåts inte att ändras"
 
+msgid "is not found in the authentication source"
+msgstr ""
+
 msgid "is not permitted"
+msgstr ""
+
+msgid "is too long (maximum is 15 characters)"
 msgstr ""
 
 msgid "is unknown"
@@ -6776,9 +6810,6 @@ msgstr "måste vara en giltig URI"
 
 msgid "must be an array"
 msgstr "måste vara en array"
-
-msgid "must be at most 15 characters"
-msgstr "får som mest vara 15 tecken"
 
 msgid "must be boolean"
 msgstr "måste vara boolesk"

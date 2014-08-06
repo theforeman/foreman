@@ -9,7 +9,7 @@
 # Claer <transiblu@claer.hammock.fr>, 2013-2014
 # Florentin Raud <florentin.raud@gmail.com>, 2013
 # Dominic Cleal <dcleal@redhat.com>, 2013
-# Dominic Cleal <dcleal@redhat.com>, 2013
+# Dominic Cleal <dcleal@redhat.com>, 2013-2014
 # Pierre-Emmanuel Dutang <dutangp@gmail.com>, 2014
 # Romain Vrignaud <rvrignaud@gmail.com>, 2013
 # Florentin Raud <florentin.raud@gmail.com>, 2013-2014
@@ -27,9 +27,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-31 08:52+0100\n"
-"PO-Revision-Date: 2014-08-05 11:00+0000\n"
-"Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
+"POT-Creation-Date: 2014-08-05 12:56+0100\n"
+"PO-Revision-Date: 2014-08-06 09:57+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -877,7 +877,7 @@ msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "Impossible d'effacer le groupe %{current} car il possède des sous groupes."
 
 msgid "Cannot find user %s when switching context"
-msgstr "Impossible de trouver l'utilisateur %S lors du changement de contexte"
+msgstr "Impossible de trouver l'utilisateur %s lors du changement de contexte"
 
 msgid "Canvas not supported."
 msgstr "Canevas non supporté."
@@ -932,6 +932,9 @@ msgstr "Sélectionner une famille"
 
 msgid "Choose a provider"
 msgstr "Sélectionner un fournisseur "
+
+msgid "Choose a server type"
+msgstr ""
 
 msgid "Class Distribution"
 msgstr "Distribution des classes"
@@ -1853,6 +1856,12 @@ msgstr "Groupe externe"
 msgid "External user group"
 msgstr "Groupe d'utilisateur externe"
 
+msgid "External user group %{name} could not be refreshed"
+msgstr ""
+
+msgid "External user group %{name} refreshed"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr "Graphique des Facts"
 
@@ -2306,6 +2315,9 @@ msgstr "Bons rapports dans les derniers %s"
 
 msgid "Google Project ID"
 msgstr "ID Projet Google"
+
+msgid "Groups base DN"
+msgstr ""
 
 msgid "Guest OS"
 msgstr "Systèmes d'exploitation invités"
@@ -2867,6 +2879,9 @@ msgstr "Authentification LDAP"
 
 msgid "LDAP authentication"
 msgstr "Authentification LDAP"
+
+msgid "LDAP error - %{message}"
+msgstr ""
 
 msgid "LDAP filter"
 msgstr "Filtre LDAP"
@@ -4464,6 +4479,9 @@ msgid ""
 " also be enabled)"
 msgstr "Redirige vos utilisateurs sur cette URL à la déconnexion (authorize_login_delegation doit être activé)"
 
+msgid "Refresh"
+msgstr ""
+
 msgid "Refresh features"
 msgstr "Rafraichir les fonctions"
 
@@ -4792,6 +4810,9 @@ msgstr "Rôle sélectionné"
 
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "Choisir un fichier va écraser l'éditeur et charger le fichier à la place"
+
+msgid "Server type"
+msgstr ""
 
 msgid "Set a randomly generated password on the display connection"
 msgstr "Définir un mot de passe généré aléatoirement pour la connexion à l'affichage"
@@ -5228,6 +5249,9 @@ msgid ""
 " installation"
 msgstr "Succès : mise à jour des environnements et classes Puppet depuis l'installation Puppet présente sur le disque"
 
+msgid "Suggest new"
+msgstr ""
+
 msgid ""
 "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped}"
 " A:%{applied} FR:%{failed_restarts} T:%{total}"
@@ -5238,6 +5262,9 @@ msgstr "Support"
 
 msgid "Supported Formats"
 msgstr "Formats supportés"
+
+msgid "Synchronize group from authentication source"
+msgstr ""
 
 #. host's status: first character of "sync" (out of sync)
 msgid "Sync|S"
@@ -5455,7 +5482,7 @@ msgid ""
 "architecture and <strong>$version</strong>, <strong>$major</strong> and "
 "<strong>$minor</strong> will be substituted for the version of the operating"
 " system. Solaris and Debian media may also use <strong>$release</strong>."
-msgstr "Le chemin vers le medium peut être une URL ou un chemin NFS (spécifique à l'architecture).\\n\nPar exemple : <em>http://mirror.centos.org/centos/$version/os/$arch</em> où <strong>$arch</strong> va être remplacé par l'architecture actuelle de l'hôte ; <strong>$version</strong>, <strong>$major</strong> et <strong>$minor</strong>seribt remplacés par la version du système d'exploitation. Les médias Solaris et Debian peuvent aussi utiliser la variable <strong>$release</strong>."
+msgstr "Le chemin vers le medium peut être une URL ou un chemin NFS (spécifique à l'architecture).\\n Par exemple : <em>http://mirror.centos.org/centos/$version/os/$arch</em> où <strong>$arch</strong> va être remplacé par l'architecture actuelle de l'hôte ; <strong>$version</strong>, <strong>$major</strong> et <strong>$minor</strong>seribt remplacés par la version du système d'exploitation. Les médias Solaris et Debian peuvent aussi utiliser la variable <strong>$release</strong>."
 
 msgid "The realm name, e.g. EXAMPLE.COM"
 msgstr "Le nom du royaume. Ex. : EXAMPLE.COM"
@@ -6752,8 +6779,14 @@ msgstr "invalide adresse MAC"
 msgid "is not allowed to change"
 msgstr "n'est pas autorisé à être changé"
 
+msgid "is not found in the authentication source"
+msgstr ""
+
 msgid "is not permitted"
 msgstr "n'est pas permis"
+
+msgid "is too long (maximum is 15 characters)"
+msgstr ""
 
 msgid "is unknown"
 msgstr "est inconnu"
@@ -6790,9 +6823,6 @@ msgstr "doit être une URI valide"
 
 msgid "must be an array"
 msgstr "doit être un tableau"
-
-msgid "must be at most 15 characters"
-msgstr "doit être au moins de 15 caractères"
 
 msgid "must be boolean"
 msgstr "doit être un booléen"

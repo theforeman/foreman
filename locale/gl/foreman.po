@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-31 08:52+0100\n"
-"PO-Revision-Date: 2014-08-04 08:40+0000\n"
+"POT-Creation-Date: 2014-08-05 12:56+0100\n"
+"PO-Revision-Date: 2014-08-06 09:57+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/foreman/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -916,6 +916,9 @@ msgstr "Elexir unha familia"
 
 msgid "Choose a provider"
 msgstr "Elexir un proveedor"
+
+msgid "Choose a server type"
+msgstr ""
 
 msgid "Class Distribution"
 msgstr "Distribución de Clases"
@@ -1837,6 +1840,12 @@ msgstr ""
 msgid "External user group"
 msgstr ""
 
+msgid "External user group %{name} could not be refreshed"
+msgstr ""
+
+msgid "External user group %{name} refreshed"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr "Cadro de Datos"
 
@@ -2289,6 +2298,9 @@ msgid "Good host reports in the last %s"
 msgstr "Informes satisfactorios nos últimos %s"
 
 msgid "Google Project ID"
+msgstr ""
+
+msgid "Groups base DN"
 msgstr ""
 
 msgid "Guest OS"
@@ -2850,6 +2862,9 @@ msgid "LDAP Authentication"
 msgstr "Autenticación LDAP"
 
 msgid "LDAP authentication"
+msgstr ""
+
+msgid "LDAP error - %{message}"
 msgstr ""
 
 msgid "LDAP filter"
@@ -4448,6 +4463,9 @@ msgid ""
 " also be enabled)"
 msgstr ""
 
+msgid "Refresh"
+msgstr ""
+
 msgid "Refresh features"
 msgstr ""
 
@@ -4776,6 +4794,9 @@ msgstr ""
 
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "A carga dun arquivo prevalecerá sobre o editor, cargarase o contenido do arquivo"
+
+msgid "Server type"
+msgstr ""
 
 msgid "Set a randomly generated password on the display connection"
 msgstr ""
@@ -5212,6 +5233,9 @@ msgid ""
 " installation"
 msgstr ""
 
+msgid "Suggest new"
+msgstr ""
+
 msgid ""
 "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped}"
 " A:%{applied} FR:%{failed_restarts} T:%{total}"
@@ -5221,6 +5245,9 @@ msgid "Support"
 msgstr "Soporte"
 
 msgid "Supported Formats"
+msgstr ""
+
+msgid "Synchronize group from authentication source"
 msgstr ""
 
 #. host's status: first character of "sync" (out of sync)
@@ -6736,7 +6763,13 @@ msgstr ""
 msgid "is not allowed to change"
 msgstr "non se permite modificar"
 
+msgid "is not found in the authentication source"
+msgstr ""
+
 msgid "is not permitted"
+msgstr ""
+
+msgid "is too long (maximum is 15 characters)"
 msgstr ""
 
 msgid "is unknown"
@@ -6774,9 +6807,6 @@ msgstr ""
 
 msgid "must be an array"
 msgstr "debe ser un array"
-
-msgid "must be at most 15 characters"
-msgstr "debe tener polo menos 15 caracteres"
 
 msgid "must be boolean"
 msgstr "debe ser booleano"

@@ -7,13 +7,14 @@
 # 
 # Translators:
 # dingtim, 2013
+# Dominic Cleal <dcleal@redhat.com>, 2014
 # tim123, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-31 08:52+0100\n"
-"PO-Revision-Date: 2014-08-04 08:40+0000\n"
+"POT-Creation-Date: 2014-08-05 12:56+0100\n"
+"PO-Revision-Date: 2014-08-06 09:57+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -387,7 +388,7 @@ msgid "All messages"
 msgstr "所有信息"
 
 msgid "All mismatches between hosts and %s have been fixed"
-msgstr "已修复所有与主机和％S之间的不匹配"
+msgstr "已修复所有与主机和％s之间的不匹配"
 
 msgid ""
 "All mismatches between hosts and locations/organizations have been fixed"
@@ -909,6 +910,9 @@ msgstr "选择一个家庭"
 
 msgid "Choose a provider"
 msgstr "选择一个提供者"
+
+msgid "Choose a server type"
+msgstr ""
 
 msgid "Class Distribution"
 msgstr "组分布"
@@ -1829,6 +1833,12 @@ msgstr ""
 msgid "External user group"
 msgstr ""
 
+msgid "External user group %{name} could not be refreshed"
+msgstr ""
+
+msgid "External user group %{name} refreshed"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr "详情图"
 
@@ -2281,6 +2291,9 @@ msgid "Good host reports in the last %s"
 msgstr "在过去 %s 内的报告良好的主机"
 
 msgid "Google Project ID"
+msgstr ""
+
+msgid "Groups base DN"
 msgstr ""
 
 msgid "Guest OS"
@@ -2842,6 +2855,9 @@ msgid "LDAP Authentication"
 msgstr "LDAP身份验证"
 
 msgid "LDAP authentication"
+msgstr ""
+
+msgid "LDAP error - %{message}"
 msgstr ""
 
 msgid "LDAP filter"
@@ -4440,6 +4456,9 @@ msgid ""
 " also be enabled)"
 msgstr ""
 
+msgid "Refresh"
+msgstr ""
+
 msgid "Refresh features"
 msgstr ""
 
@@ -4766,6 +4785,9 @@ msgid "Selected role"
 msgstr ""
 
 msgid "Selecting a file will override the editor and load the file instead"
+msgstr ""
+
+msgid "Server type"
 msgstr ""
 
 msgid "Set a randomly generated password on the display connection"
@@ -5203,6 +5225,9 @@ msgid ""
 " installation"
 msgstr ""
 
+msgid "Suggest new"
+msgstr ""
+
 msgid ""
 "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped}"
 " A:%{applied} FR:%{failed_restarts} T:%{total}"
@@ -5212,6 +5237,9 @@ msgid "Support"
 msgstr "支持"
 
 msgid "Supported Formats"
+msgstr ""
+
+msgid "Synchronize group from authentication source"
 msgstr ""
 
 #. host's status: first character of "sync" (out of sync)
@@ -6726,7 +6754,13 @@ msgstr ""
 msgid "is not allowed to change"
 msgstr ""
 
+msgid "is not found in the authentication source"
+msgstr ""
+
 msgid "is not permitted"
+msgstr ""
+
+msgid "is too long (maximum is 15 characters)"
 msgstr ""
 
 msgid "is unknown"
@@ -6763,9 +6797,6 @@ msgstr ""
 
 msgid "must be an array"
 msgstr "必须是列表"
-
-msgid "must be at most 15 characters"
-msgstr "必须是15个字符"
 
 msgid "must be boolean"
 msgstr "必须是布尔型"

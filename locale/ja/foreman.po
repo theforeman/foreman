@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-31 08:52+0100\n"
-"PO-Revision-Date: 2014-08-04 08:40+0000\n"
-"Last-Translator: Tomoyuki KATO <tomo@dream.daynight.jp>\n"
+"POT-Creation-Date: 2014-08-05 12:56+0100\n"
+"PO-Revision-Date: 2014-08-06 09:57+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/foreman/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -908,6 +908,9 @@ msgid "Choose a family"
 msgstr "種別を選択"
 
 msgid "Choose a provider"
+msgstr ""
+
+msgid "Choose a server type"
 msgstr ""
 
 msgid "Class Distribution"
@@ -1829,6 +1832,12 @@ msgstr ""
 msgid "External user group"
 msgstr ""
 
+msgid "External user group %{name} could not be refreshed"
+msgstr ""
+
+msgid "External user group %{name} refreshed"
+msgstr ""
+
 msgid "Fact Chart"
 msgstr ""
 
@@ -2281,6 +2290,9 @@ msgid "Good host reports in the last %s"
 msgstr "%s 以内にレポートの良好なホスト"
 
 msgid "Google Project ID"
+msgstr ""
+
+msgid "Groups base DN"
 msgstr ""
 
 msgid "Guest OS"
@@ -2843,6 +2855,9 @@ msgstr "LDAP 認証"
 
 msgid "LDAP authentication"
 msgstr "LDAP 認証"
+
+msgid "LDAP error - %{message}"
+msgstr ""
 
 msgid "LDAP filter"
 msgstr "LDAP フィルター"
@@ -4440,6 +4455,9 @@ msgid ""
 " also be enabled)"
 msgstr ""
 
+msgid "Refresh"
+msgstr ""
+
 msgid "Refresh features"
 msgstr ""
 
@@ -4766,6 +4784,9 @@ msgid "Selected role"
 msgstr ""
 
 msgid "Selecting a file will override the editor and load the file instead"
+msgstr ""
+
+msgid "Server type"
 msgstr ""
 
 msgid "Set a randomly generated password on the display connection"
@@ -5203,6 +5224,9 @@ msgid ""
 " installation"
 msgstr ""
 
+msgid "Suggest new"
+msgstr ""
+
 msgid ""
 "Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped}"
 " A:%{applied} FR:%{failed_restarts} T:%{total}"
@@ -5212,6 +5236,9 @@ msgid "Support"
 msgstr "サポート"
 
 msgid "Supported Formats"
+msgstr ""
+
+msgid "Synchronize group from authentication source"
 msgstr ""
 
 #. host's status: first character of "sync" (out of sync)
@@ -6726,7 +6753,13 @@ msgstr ""
 msgid "is not allowed to change"
 msgstr ""
 
+msgid "is not found in the authentication source"
+msgstr ""
+
 msgid "is not permitted"
+msgstr ""
+
+msgid "is too long (maximum is 15 characters)"
 msgstr ""
 
 msgid "is unknown"
@@ -6762,9 +6795,6 @@ msgid "must be a valid URI"
 msgstr ""
 
 msgid "must be an array"
-msgstr ""
-
-msgid "must be at most 15 characters"
 msgstr ""
 
 msgid "must be boolean"
