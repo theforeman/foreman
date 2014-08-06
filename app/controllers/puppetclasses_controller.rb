@@ -11,19 +11,6 @@ class PuppetclassesController < ApplicationController
     @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.find_all_by_puppetclass_id(@puppetclasses.map(&:id)).compact.uniq.map(&:hostgroup_id))
   end
 
-  def new
-    @puppetclass = Puppetclass.new
-  end
-
-  def create
-    @puppetclass = Puppetclass.new(params[:puppetclass])
-    if @puppetclass.save
-      process_success
-    else
-      process_error
-    end
-  end
-
   def edit
   end
 
