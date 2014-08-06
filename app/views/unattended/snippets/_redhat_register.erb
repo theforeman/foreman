@@ -19,8 +19,18 @@ name: redhat_register
 #
 #   subscription_manager_password = <password> (if using hosted RHN)
 #
-#   subscription_manager_host = <hostname> (hostname of SAM/Katello
-#                                           installation, if using SAM)
+#   subscription_manager_certpkg_url = <url> (url of cert package when using
+#                                             when using foreman with katello
+#                                             for example:
+#                                             http://fqdn/pub
+#                                             /katello-ca-consumer-latest.noarch.rpm)
+#
+#   subscription_manager_host = <hostname> (deprecated for
+#                                           subscription_manager_certpkg_url:
+#                                           hostname of SAM/Katello
+#                                           installation, if using SAM.
+#                                           hostname is used to determine the
+#                                           consumer cert url.)
 #
 #   subscription_manager_org = <org name> (organization name, if using
 #                                          SAM/Katello)
@@ -106,7 +116,11 @@ name: redhat_register
     subscription-manager repos --list > /dev/null
     <%= enabled_repos if enabled_repos %>
   <% elsif @host.params['activation_key'] %>
-    rpm -Uvh <%= @host.params['subscription_manager_host'] %>/pub/candlepin-cert-consumer-latest.noarch.rpm
+    <% if @host.params['subscription_manager_certpkg_url'] %>
+      rpm -Uvh <%= @host.params['subscription_manager_certpkg_url'] %>
+    <% elsif @host.params['subscription_manager_host'] %>
+      rpm -Uvh <%= @host.params['subscription_manager_host'] %>/pub/candlepin-cert-consumer-latest.noarch.rpm
+    <% end %>
     subscription-manager register --org="<%= @host.params['subscription_manager_org'] %>" --activationkey="<%= @host.params['activation_key'] %>"
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null

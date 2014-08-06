@@ -11,7 +11,9 @@ oses:
 <%
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
+  proxy_string = @host.params['http-proxy'] ? " http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
   puppet_enabled = pm_set || @host.params['force-puppet']
+  salt_enabled = @host.params['salt_master'] ? true : false
 %>
 # Locale, country and keyboard settings
 d-i debian-installer/locale string en_US
@@ -47,7 +49,7 @@ d-i hw-detect/load_firmware boolean true
 d-i mirror/country string manual
 d-i mirror/http/hostname string <%= @preseed_server %>
 d-i mirror/http/directory string <%= @preseed_path %>
-d-i mirror/http/proxy string
+d-i mirror/http/proxy string<%= proxy_string %>
 d-i mirror/codename string <%= @host.operatingsystem.release_name %>
 d-i mirror/suite string <%= @host.operatingsystem.release_name %>
 d-i mirror/udeb/suite string <%= @host.operatingsystem.release_name %>
@@ -75,19 +77,42 @@ user-setup-udeb passwd/root-login boolean true
 d-i passwd passwd/make-user boolean false
 user-setup-udeb passwd/make-user boolean false
 
+<% repos = 0 %>
 <% if puppet_enabled && @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
 # Puppetlabs products
-d-i apt-setup/local0/repository string \
+d-i apt-setup/local<%= repos %>/repository string \
       http://apt.puppetlabs.com <%= @host.operatingsystem.release_name %> main
-d-i apt-setup/local0/comment string Puppetlabs products
-d-i apt-setup/local0/source boolean true
-d-i apt-setup/local0/key string http://apt.puppetlabs.com/pubkey.gpg
+d-i apt-setup/local<%= repos %>/comment string Puppetlabs products
+d-i apt-setup/local<%= repos %>/source boolean true
+d-i apt-setup/local<%= repos %>/key string http://apt.puppetlabs.com/pubkey.gpg
+<% repos += 1 -%>
 # Puppetlabs dependencies
-d-i apt-setup/local1/repository string \
+d-i apt-setup/local<%= repos %>/repository string \
       http://apt.puppetlabs.com <%= @host.operatingsystem.release_name %> dependencies
-d-i apt-setup/local1/comment string Puppetlabs dependencies
-d-i apt-setup/local1/source boolean true
-d-i apt-setup/local1/key string http://apt.puppetlabs.com/pubkey.gpg
+d-i apt-setup/local<%= repos %>/comment string Puppetlabs dependencies
+d-i apt-setup/local<%= repos %>/source boolean true
+d-i apt-setup/local<%= repos %>/key string http://apt.puppetlabs.com/pubkey.gpg
+<% repos += 1 -%>
+<% end -%>
+
+<% if salt_enabled -%>
+<% salt_package = 'salt-minion' -%>
+<% if @host.params['enable-saltstack-repo'] && @host.params['enable-saltstack-repo'] == 'true' -%>
+<% if @host.operatingsystem.name == 'Debian' -%>
+d-i apt-setup/local<%= repos %>/repository string http://debian.saltstack.com/debian <%= @host.operatingsystem.release_name %>-saltstack main
+d-i apt-setup/local<%= repos %>/comment string SaltStack Repository
+d-i apt-setup/local<%= repos %>/key string http://debian.saltstack.com/debian-salt-team-joehealy.gpg.key
+<% repos += 1 -%>
+<% end -%>
+<% if @host.operatingsystem.name == 'Ubuntu' -%>
+d-i apt-setup/local<%= repos %>/repository string http://ppa.launchpad.net/saltstack/salt/ubuntu <%= @host.operatingsystem.release_name %> main
+d-i apt-setup/local<%= repos %>/comment string SaltStack Repository
+d-i apt-setup/local<%= repos %>/key string http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x4759FA960E27C0A6
+<% repos += 1 -%>
+<% end -%>
+<% end -%>
+<% else -%>
+<% salt_package = '' -%>
 <% end -%>
 
 # Install minimal task set (see tasksel --task-packages minimal)
@@ -105,7 +130,7 @@ d-i apt-setup/backports boolean true
 <% end -%>
 
 # Install some base packages
-d-i pkgsel/include string <%= puppet_package %> lsb-release openssh-server
+d-i pkgsel/include string <%= puppet_package %> <%= salt_package %> lsb-release openssh-server
 d-i pkgsel/update-policy select unattended-upgrades
 
 popularity-contest popularity-contest/participate boolean false
@@ -118,4 +143,4 @@ d-i grub-installer/with_other_os boolean true
 
 d-i finish-install/reboot_in_progress note
 
-d-i preseed/late_command string wget <%= foreman_url('finish') %> -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh
+d-i preseed/late_command string wget -Y off <%= foreman_url('finish') %> -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh

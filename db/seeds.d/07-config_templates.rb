@@ -18,8 +18,12 @@ ConfigTemplate.without_auditing do
       # Generic PXE files
       { :name => 'PXELinux global default', :source => 'pxe/PXELinux_default.erb', :template_kind => kinds[:PXELinux] },
       { :name => 'PXELinux default local boot', :source => 'pxe/PXELinux_local.erb', :template_kind => kinds[:PXELinux] },
+      { :name => 'PXELinux default memdisk', :source => 'pxe/PXELinux_memdisk.erb', :template_kind => kinds[:PXELinux] },
       { :name => 'PXEGrub default local boot', :source => 'pxe/PXEGrub_local.erb', :template_kind => kinds[:PXEGrub] },
       # OS specific files
+      { :name => 'Alterator default', :source => 'alterator/provision.erb', :template_kind => kinds[:provision] },
+      { :name => 'Alterator default finish', :source => 'alterator/finish.erb', :template_kind => kinds[:finish] },
+      { :name => 'Alterator default PXELinux', :source => 'alterator/PXELinux.erb', :template_kind => kinds[:PXELinux] },
       { :name => 'AutoYaST default', :source => 'autoyast/provision.erb', :template_kind => kinds[:provision], :operatingsystems => os_suse },
       { :name => 'AutoYaST SLES default', :source => 'autoyast/provision_sles.erb', :template_kind => kinds[:provision], :operatingsystems => os_suse },
       { :name => 'AutoYaST default PXELinux', :source => 'autoyast/PXELinux.erb', :template_kind => kinds[:PXELinux], :operatingsystems => os_suse },
@@ -47,12 +51,14 @@ ConfigTemplate.without_auditing do
       { :name => "Junos default ZTP config", :source => 'ztp/ZTP.erb', :template_kind => kinds[:ZTP], :operatingsystems => os_junos },
       { :name => "Junos default finish", :source => 'ztp/finish.erb', :template_kind => kinds[:finish], :operatingsystems => os_junos },
       # snippets
+      { :name => 'alterator_pkglist', :source => 'snippets/_alterator_pkglist.erb', :snippet => true },
       { :name => 'epel', :source => 'snippets/_epel.erb', :snippet => true },
       { :name => 'fix_hosts', :source => 'snippets/_fix_hosts.erb', :snippet => true },
       { :name => 'freeipa_register', :source => 'snippets/_freeipa_register.erb', :snippet => true },
       { :name => 'http_proxy', :source => 'snippets/_http_proxy.erb', :snippet => true },
       { :name => 'puppet.conf', :source => 'snippets/_puppet.conf.erb', :snippet => true },
-      { :name => 'redhat_register', :source => 'snippets/_redhat_register.erb', :snippet => true }
+      { :name => 'redhat_register', :source => 'snippets/_redhat_register.erb', :snippet => true },
+      { :name => 'saltstack_minion', :source => 'snippets/_saltstack_minion.erb', :snippet => true }
   ].each do |input|
     next if ConfigTemplate.find_by_name(input[:name])
     next if audit_modified? ConfigTemplate, input[:name]

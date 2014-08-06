@@ -9,6 +9,7 @@ oses:
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
   puppet_enabled = pm_set || @host.params['force-puppet']
+  salt_enabled = @host.params['salt_master'] ? true : false
 %>
 <!DOCTYPE profile>
 <profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
@@ -61,6 +62,9 @@ oses:
       <package>puppet</package>
       <package>rubygem-ruby-augeas</package>
 <% end -%>
+<% if salt_enabled %>
+      <package>salt-minion</package>
+<% end -%>
     </packages>
   </software>
   <users config:type="list">
@@ -105,6 +109,14 @@ fi
 /sbin/chkconfig puppet on -f
 <% end -%>
 
+<% if salt_enabled %>
+cat > /etc/salt/minion << EOF
+<%= snippet 'saltstack_minion' %>
+EOF
+# Setup salt-minion to run on system reboot
+chkconfig salt-minion on
+<% end -%>
+
 /usr/bin/curl -o /dev/null -k '<%= foreman_url %>'
 
 rm /etc/resolv.conf
@@ -122,6 +134,7 @@ rm /etc/resolv.conf
   </timezone>
   <add-on>
     <add_on_products config:type="list">
+<% if puppet_enabled %>
       <listentry>
 <!-- you have to update the next line with the actual URL of your SDK -->
         <media_url>http://<your_server_here>/iso/suse/SDK/<%= @host.operatingsystem.major %>.<%= @host.operatingsystem.minor %>/<%= @host.architecture %>/</media_url>
@@ -129,7 +142,6 @@ rm /etc/resolv.conf
         <product_dir>/</product_dir>
         <name>SuSE-Linux-SDK</name>
       </listentry>
-<% if puppet_enabled %>
       <listentry>
         <media_url><![CDATA[http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_<%= @host.operatingsystem.major %>_SP<%= @host.operatingsystem.minor %>/]]></media_url>
         <name>systemsmanagement_puppet</name>
@@ -146,6 +158,28 @@ rm /etc/resolv.conf
             <all config:type="boolean">false</all>
             <keys config:type="list">
               <keyid>2ABFA143A0E46E11</keyid>
+            </keys>
+          </import_gpg_key>
+        </signature-handling>
+      </listentry>
+<% end -%>
+<% if salt_enabled %>
+      <listentry>
+        <media_url><![CDATA[http://download.opensuse.org/repositories/devel:languages:python/SLE_<%= @host.operatingsystem.major %>_SP<%= @host.operatingsystem.minor %>/]]></media_url>
+        <name>devel_languages_python</name>
+        <product>devel_languages_python</product>
+        <product_dir>/</product_dir>
+        <signature-handling>
+          <accept_non_trusted_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>27163A4EEDF0D733</keyid>
+            </keys>
+          </accept_non_trusted_gpg_key>
+          <import_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>27163A4EEDF0D733</keyid>
             </keys>
           </import_gpg_key>
         </signature-handling>

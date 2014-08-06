@@ -8,6 +8,7 @@ oses:
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
   puppet_enabled = pm_set || @host.params['force-puppet']
+  salt_enabled = @host.params['salt_master'] ? true : false
 %>
 /bin/echo '<%= root_pass %>' | pw usermod root -H 0
 cat >> /etc/rc.conf <<EOF
@@ -24,9 +25,9 @@ cp /usr/share/zoneinfo/<%= @host.params['time-zone'] || 'UTC' %> /etc/localtime
 touch /etc/wall_cmos_clock
 adjkerntz -a
 ntpdate <%= @host.params['ntp-server'] || '0.freebsd.pool.ntp.org' %>
+env ASSUME_ALWAYS_YES=YES pkg bootstrap
 
 <% if puppet_enabled %>
-env ASSUME_ALWAYS_YES=YES pkg bootstrap
 pkg install -y puppet
 echo 'puppet_enable="YES"' >>/etc/rc.conf
 cat > /usr/local/etc/puppet/puppet.conf << EOF
@@ -34,5 +35,14 @@ cat > /usr/local/etc/puppet/puppet.conf << EOF
 EOF
 
 /usr/local/bin/puppet agent --config /usr/local/etc/puppet/puppet.conf --onetime --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
+<% end -%>
+
+<% if salt_enabled %>
+pkg install -y py27-salt
+cat > /usr/local/etc/salt/minion << EOF
+<%= snippet 'saltstack_minion' %>
+EOF
+echo 'salt_minion_enable="YES"' >>/etc/rc.conf
+echo 'salt_minion_paths="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"' >>/etc/rc.conf
 <% end -%>
 exit 0

@@ -12,6 +12,7 @@ oses:
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
   puppet_enabled = pm_set || @host.params['force-puppet']
+  salt_enabled = @host.params['salt_master'] ? true : false
 %>
 <% if puppet_enabled %>
 cat > /etc/puppet/puppet.conf << EOF
@@ -21,9 +22,19 @@ if [ -f "/etc/default/puppet" ]
 then
 /bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
 fi
-/bin/touch /etc/puppet/namespaceauth.conf 
+/bin/touch /etc/puppet/namespaceauth.conf
 /usr/bin/puppet agent --enable
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
 <% end -%>
 
-/usr/bin/wget --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>
+<% if @host.info["parameters"]["realm"] && @host.otp && @host.realm && @host.realm.realm_type == "FreeIPA" -%>
+<%= snippet 'freeipa_register' %>
+<% end -%>
+
+<% if salt_enabled %>
+cat > /etc/salt/minion << EOF
+<%= snippet 'saltstack_minion' %>
+EOF
+<% end -%>
+
+/usr/bin/wget --no-proxy --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>

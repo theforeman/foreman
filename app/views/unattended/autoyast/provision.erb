@@ -7,6 +7,7 @@ name: AutoYaST default
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
   puppet_enabled = pm_set || @host.params['force-puppet']
+  salt_enabled = @host.params['salt_master'] ? true : false
 %>
 <!DOCTYPE profile>
 <profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
@@ -58,6 +59,9 @@ name: AutoYaST default
 <% if puppet_enabled %>
       <package>puppet</package>
 <% end -%>
+<% if salt_enabled %>
+      <package>salt-minion</package>
+<% end -%>
     </packages>
   </software>
   <users config:type="list">
@@ -100,6 +104,14 @@ then
 fi
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
 /sbin/chkconfig puppet on -f
+<% end -%>
+
+<% if salt_enabled %>
+cat > /etc/salt/minion << EOF
+<%= snippet 'saltstack_minion' %>
+EOF
+# Setup salt-minion to run on system reboot
+chkconfig salt-minion on
 <% end -%>
 
 /usr/bin/curl -o /dev/null -k '<%= foreman_url %>'
