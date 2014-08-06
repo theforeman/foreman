@@ -20,6 +20,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :config_templates, :through => :template_combinations
   before_save :remove_duplicated_nested_class
 
+  alias_attribute :arch, :architecture
   alias_attribute :os, :operatingsystem
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
@@ -75,7 +76,8 @@ class Hostgroup < ActiveRecord::Base
   class Jail < Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
       :environment, :ptable, :url_for_boot, :params, :puppetproxy, :param_true?,
-      :param_false?
+      :param_false?, :puppet_ca_server, :indent, :os, :arch, :domain, :subnet,
+      :realm
   end
 
   #TODO: add a method that returns the valid os for a hostgroup
