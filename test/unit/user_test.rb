@@ -645,4 +645,8 @@ class UserTest < ActiveSupport::TestCase
     assert user.destroyed?
   end
 
+  test "auto-complete doesn't show hidden users" do
+    User.complete_for('login = ').each { |ac| refute_match users(:anonymous).login, ac }
+  end
+
 end

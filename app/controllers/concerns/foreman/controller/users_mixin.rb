@@ -6,6 +6,10 @@ module Foreman::Controller::UsersMixin
     before_filter :clear_params_on_update, :update_admin_flag, :only => :update
   end
 
+  def resource_scope(controller = controller_name)
+    super(controller).except_hidden
+  end
+
   protected
   def set_admin_on_creation
     admin = params[:user].delete :admin
