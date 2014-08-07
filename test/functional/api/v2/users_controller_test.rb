@@ -149,4 +149,15 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     end
   end
 
+  test "#index should not show hidden users" do
+    get :index, { :search => "login == #{users(:anonymous).login}" }
+    results = ActiveSupport::JSON.decode(@response.body)
+    assert results['results'].empty?, results.inspect
+  end
+
+  test "#find_resource should not return hidden users" do
+    get :show, { :id => users(:anonymous).id }
+    assert_response :not_found
+  end
+
 end

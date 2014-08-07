@@ -11,12 +11,23 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "#index should not show hidden users" do
+    get :index, { :search => "login = #{users(:anonymous).login}" }, set_session_user
+    assert_response :success
+    assert_empty assigns(:users)
+  end
+
   test "should get edit" do
     u = User.new :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     assert u.save!
     logger.info "************ ID = #{u.id}"
     get :edit, {:id => u.id}, set_session_user
     assert_response :success
+  end
+
+  test "#edit should not find a hidden user" do
+    get :edit, {:id => users(:anonymous).id}, set_session_user
+    assert_response :not_found
   end
 
   test 'should create regular user' do
