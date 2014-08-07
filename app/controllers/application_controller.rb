@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_mail
-    if User.current && User.current.mail.blank?
+    if User.current && !User.current.hidden? && User.current.mail.blank?
       notice _("Mail is Required")
       redirect_to edit_user_path(:id => User.current)
     end

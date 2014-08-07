@@ -37,7 +37,7 @@ module SSO
     end
 
     def current_user
-      return User.find_by_login(self.user)
+      return User.except_hidden.find_by_login(self.user)
     end
 
   end

@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   skip_before_filter :update_admin_flag, :only => :update
 
   def index
-    @users = User.authorized(:view_users).search_for(params[:search], :order => params[:order]).includes(:auth_source).paginate(:page => params[:page])
+    @users = User.authorized(:view_users).except_hidden.search_for(params[:search], :order => params[:order]).includes(:auth_source).paginate(:page => params[:page])
   end
 
   def new
@@ -117,7 +117,7 @@ class UsersController < ApplicationController
   private
 
   def find_resource(permission = :view_users)
-    editing_self? ? User.current : User.authorized(permission).find(params[:id])
+    editing_self? ? User.current : User.authorized(permission).except_hidden.find(params[:id])
   end
 
   def login_user(user)

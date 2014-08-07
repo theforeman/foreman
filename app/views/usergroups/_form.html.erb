@@ -14,7 +14,7 @@
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name %>
       <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup, :label => _("User Groups") %>
-      <%= multiple_checkboxes f, :users, @usergroup, User, :label => _("Users") %>
+      <%= multiple_checkboxes f, :users, @usergroup, User.except_hidden, :label => _("Users") %>
     </div>
 
     <div class="tab-pane" id="roles">

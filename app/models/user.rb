@@ -58,6 +58,8 @@ class User < ActiveRecord::Base
       where("#{self.table_name}.auth_source_id <> ?", hidden)
     end
   }
+  scope :visible,         lambda { except_hidden }
+  scope :completer_scope, lambda { |opts| visible }
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
@@ -100,7 +102,7 @@ class User < ActiveRecord::Base
   scoped_search :in => :cached_usergroups, :on => :name, :rename => :usergroup, :complete_value => true
 
   default_scope lambda {
-    with_taxonomy_scope.except_hidden do
+    with_taxonomy_scope do
       order('firstname')
     end
   }
@@ -491,10 +493,7 @@ class User < ActiveRecord::Base
   def ensure_default_role
     role = Role.find_by_name('Anonymous')
     if role.present?
-      unless self.role_ids.include?(role.id)
-        UserRole.create!(:role => role, :owner => self)
-        self.roles.reload
-      end
+      self.roles << role unless self.role_ids.include?(role.id)
     end
   end
 

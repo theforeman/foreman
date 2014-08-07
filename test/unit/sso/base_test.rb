@@ -11,7 +11,7 @@ class BaseTest < ActiveSupport::TestCase
   def test_user
     controller = get_controller
     base = SSO::Base.new(controller)
-    base.expects(:user).returns(User.first.login)
+    base.expects(:user).returns(users(:one).login)
     assert_kind_of User, base.current_user
   end
 

@@ -13,7 +13,7 @@ module Api
 
       def index
         @users = User.
-          authorized(:view_users).
+          authorized(:view_users).except_hidden.
           search_for(*search_options).paginate(paginate_options)
       end
 
