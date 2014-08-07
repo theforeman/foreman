@@ -14,6 +14,14 @@ begin
       end
       task :minitest  => [:pre_ci, "ci:setup:minitest"]
     end
+
+    task :rubocop do
+      system("bundle exec rubocop \
+        --require rubocop/formatter/checkstyle_formatter \
+        --format RuboCop::Formatter::CheckstyleFormatter \
+        --no-color --out rubocop.xml")
+      exit($?.exitstatus)
+    end
   end
 rescue LoadError
   # ci/reporter/rake/rspec not present, skipping this definition

@@ -1,6 +1,7 @@
 group :development do
   gem 'maruku'
   gem "term-ansicolor"
+  gem "rubocop", "0.24.1", :platforms => [:ruby_19, :ruby_20]
 #  gem 'rack-mini-profiler'
 
   # for generating i18n files
