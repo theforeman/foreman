@@ -1,7 +1,7 @@
 <table class="table table-bordered table-striped ellipsis">
   <tr>
     <% unless params[:host_id] %>
-      <th><%= sort :host %></th>
+      <th><%= sort :host, :as => _("Host") %></th>
     <% end %>
     <th><%= sort :reported, :as => _("Last report") %></th>
     <th class="col-md-1"><%= sort :applied, :as => _("Applied") %></th>
