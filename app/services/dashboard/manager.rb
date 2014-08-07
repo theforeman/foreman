@@ -2,7 +2,7 @@ module Dashboard
   module Manager
 
     class << self
-      def map()
+      def map
         @widgets ||= []
         mapper = Mapper.new(@widgets)
         if block_given?
@@ -12,7 +12,7 @@ module Dashboard
         end
       end
 
-      def widgets()
+      def widgets
         # force menu reload in development when auto loading modified files
         @widgets ||= Dashboard::Loader.load
       end

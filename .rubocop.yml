@@ -1,0 +1,14 @@
+# TODO: remove this file by either moving cops here or fixing code
+inherit_from:
+  - .rubocop_todo.yml
+
+AllCops:
+  RunRailsCops: true # always run the rails cops
+
+# Don't enforce documentation
+Style/Documentation:
+  Enabled: false
+
+# Need to support ruby 1.8
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
