@@ -137,6 +137,8 @@ module Foreman
     # Add apidoc hash in headers for smarter caching
     config.middleware.use "Apipie::Middleware::ChecksumInHeaders"
 
+    config.i18n.enforce_available_locales = false
+
   end
 
   def self.setup_console
