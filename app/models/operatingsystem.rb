@@ -31,7 +31,7 @@ class Operatingsystem < ActiveRecord::Base
   before_validation :downcase_release_name
   #TODO: add validation for name and major uniqueness
 
-  before_save :set_family
+  before_save :set_family, :set_templates
 
   audited :allow_mass_assignment => true
   default_scope lambda { order('operatingsystems.name') }
@@ -231,6 +231,10 @@ class Operatingsystem < ActiveRecord::Base
   private
   def set_family
     self.family ||= self.deduce_family
+  end
+
+  def set_templates
+    self.config_templates << ConfigTemplate.templates_for_os(self.name, self.major, self.minor) - self.config_templates
   end
 
   def downcase_release_name

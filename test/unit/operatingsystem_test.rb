@@ -134,6 +134,13 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert_equal ["centos 5.3"], medium.operatingsystem_names
   end
 
+  test "should automatically associate with templates" do
+    content = "<%#\nkind: provision\nname: Kickstart default\noses:\n- CentOS 17\n%>"
+    template = FactoryGirl.create(:config_template, :template_kind => FactoryGirl.create(:template_kind), :template => content)
+    os = FactoryGirl.create(:operatingsystem, :name => 'CentOS', :major => '17')
+    assert os.config_templates.include? template
+  end
+
   describe "families" do
     let(:os) { Operatingsystem.new :name => "dummy", :major => 7 }
 
