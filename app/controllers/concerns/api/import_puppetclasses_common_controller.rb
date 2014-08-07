@@ -16,7 +16,7 @@ module Api::ImportPuppetclassesCommonController
   param :smart_proxy_id, String, :required => false
   param :environment_id, String, :required => false
   param :dryrun, :bool, :required => false
-  param :except, String, :required => false, :desc => N_("Optional comma-deliminated string containing either 'new,updated,obsolete' used to limit the import_puppetclasses actions")
+  param :except, String, :required => false, :desc => N_("Optional comma-delimited string containing either 'new', 'updated', or 'obsolete' that is used to limit the imported Puppet classes")
 
   def import_puppetclasses
     return unless changed_environments
