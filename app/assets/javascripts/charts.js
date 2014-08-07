@@ -227,6 +227,8 @@ function search_on_click(event, item) {
   if (link.indexOf("search_by_legend") != -1){
     var selector = '.label[style*="background-color:' + item.series.color +'"]';
     link = $(event.currentTarget).parents('.stats-well').find(selector).next('a').attr('href')
+    if (link == undefined) // we are on the overview page - no stats-well parent
+      link = $(event.currentTarget).parents('#dashboard').find(selector).next('a').attr('href');
   } else {
     if (link.indexOf("~VAL2~") != -1) {
       var strSplit = item.series.label.split(" ");
