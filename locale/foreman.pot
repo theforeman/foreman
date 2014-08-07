@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-06 11:18+0100\n"
+"POT-Creation-Date: 2014-08-07 09:23+0100\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -1174,6 +1174,9 @@ msgstr ""
 msgid "Create an environment"
 msgstr ""
 
+msgid "Create an external user group linked to a user group"
+msgstr ""
+
 msgid "Create an image"
 msgstr ""
 
@@ -1406,6 +1409,9 @@ msgid "Delete an architecture"
 msgstr ""
 
 msgid "Delete an environment"
+msgstr ""
+
+msgid "Delete an external user group"
 msgstr ""
 
 msgid "Delete an image"
@@ -1769,6 +1775,12 @@ msgid "External user group %{name} could not be refreshed"
 msgstr ""
 
 msgid "External user group %{name} refreshed"
+msgstr ""
+
+msgid "External user group information"
+msgstr ""
+
+msgid "External user group name"
 msgstr ""
 
 msgid "Fact Chart"
@@ -2449,6 +2461,9 @@ msgstr ""
 msgid "ID of interface"
 msgstr ""
 
+msgid "ID of linked auth source"
+msgstr ""
+
 msgid "ID of location"
 msgstr ""
 
@@ -2464,10 +2479,19 @@ msgstr ""
 msgid "ID of puppetclass"
 msgstr ""
 
+msgid "ID or name external user group"
+msgstr ""
+
+msgid "ID or name of external user group"
+msgstr ""
+
 msgid "ID or name of host"
 msgstr ""
 
 msgid "ID or name of interface"
+msgstr ""
+
+msgid "ID or name of user group"
 msgstr ""
 
 msgid "IP"
@@ -2769,6 +2793,9 @@ msgid "List all compute resources"
 msgstr ""
 
 msgid "List all environments"
+msgstr ""
+
+msgid "List all external user groups for user group"
 msgstr ""
 
 msgid "List all fact values"
@@ -4257,6 +4284,9 @@ msgstr ""
 msgid "Refresh"
 msgstr ""
 
+msgid "Refresh external user group"
+msgstr ""
+
 msgid "Refresh features"
 msgstr ""
 
@@ -4759,6 +4789,9 @@ msgid "Show an audit"
 msgstr ""
 
 msgid "Show an environment"
+msgstr ""
+
+msgid "Show an external user group for user group"
 msgstr ""
 
 msgid "Show an image"
@@ -5697,6 +5730,9 @@ msgid "Update an override value for a specific smart class parameter"
 msgstr ""
 
 msgid "Update an override value for a specific smart variable"
+msgstr ""
+
+msgid "Update external user group"
 msgstr ""
 
 msgid "Update realm entry for %s"
