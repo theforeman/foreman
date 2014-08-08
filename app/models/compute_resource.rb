@@ -222,12 +222,15 @@ class ComputeResource < ActiveRecord::Base
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
+  # this method is overwritten for Libvirt and VMWare
   def set_console_password?
-    self.attrs[:setpw] == 1 || self.attrs[:setpw].nil?
+    false
   end
+  alias_method :set_console_password, :set_console_password?
 
+  # this method is overwritten for Libvirt and VMWare
   def set_console_password=(setpw)
-    self.attrs[:setpw] = setpw.to_i
+    self.attrs[:setpw] = nil
   end
 
   def compute_profile_attributes_for(id)

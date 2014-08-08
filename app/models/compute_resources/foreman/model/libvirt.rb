@@ -1,6 +1,8 @@
 module Foreman::Model
   class Libvirt < ComputeResource
 
+    include ComputeResourceConsoleCommon
+
     validates :url, :format => { :with => URI.regexp }
 
     # Some getters/setters for the attrs Hash

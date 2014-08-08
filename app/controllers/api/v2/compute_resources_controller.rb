@@ -42,6 +42,7 @@ module Api
           param :region, String, :desc => N_("for EC2 only")
           param :tenant, String, :desc => N_("for Openstack only")
           param :server, String, :desc => N_("for Vmware")
+          param :set_console_password, :bool, :desc => N_("for Libvirt and Vmware only")
         end
       end
 
