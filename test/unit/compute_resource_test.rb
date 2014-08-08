@@ -40,6 +40,24 @@ class ComputeResourceTest < ActiveSupport::TestCase
     assert_match /^[[:alnum:]]+$/, cr.send(:random_password) # Can't call protected methods directly
   end
 
+  test "attrs[:setpw] is set to nil if compute resource is not Libvirt or VMWare" do
+    cr = compute_resources(:ec2)
+    assert cr.update_attributes(:set_console_password => 1)
+    assert_nil cr.attrs[:setpw]
+  end
+
+  test "attrs[:setpw] is set to 1 if compute resource is Libvirt" do
+    cr = compute_resources(:mycompute)
+    assert cr.update_attributes(:set_console_password => 1)
+    assert_equal 1, cr.attrs[:setpw]
+  end
+
+  test "attrs[:setpw] is set to 0 rather than nil if compute resource is Libvirt" do
+    cr = compute_resources(:mycompute)
+    assert cr.update_attributes(:set_console_password => nil)
+    assert_equal 0, cr.attrs[:setpw]
+  end
+
   test "libvirt vm_instance_defaults should contain the stored display type" do
     cr=compute_resources(:mycompute)
     cr.display_type='VNC'

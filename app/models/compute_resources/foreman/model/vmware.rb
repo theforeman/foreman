@@ -391,6 +391,19 @@ module Foreman::Model
       WsProxy.start(:host => vm.hypervisor, :host_port => values[:port], :password => values[:password]).merge(:type => 'vnc')
     end
 
+    def set_console_password?
+      !(attrs[:setpw] == 0) # return true unless attrs[:setpw] is set to 0
+    end
+    alias_method :set_console_password, :set_console_password?
+
+    def set_console_password=(setpw)
+      if ['true', true, '1', 1].include?(setpw)
+        self.attrs[:setpw] = 1
+      else
+        self.attrs[:setpw] = 0
+      end
+    end
+
     def new_interface attr = { }
       client.interfaces.new attr
     end
