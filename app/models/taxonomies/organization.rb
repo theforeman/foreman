@@ -38,7 +38,7 @@ class Organization < Taxonomy
     # otherwise we might be overwriting the hash in the wrong order.
     orgs = ids.size == 1 ? [self] : Organization.includes(:organization_parameters).sort_by_ancestry(Organization.find(ids))
     orgs.each do |org|
-      org.organization_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('organization').to_sym} : p.value }
+      org.organization_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('organization').to_sym, :source_name => org.title} : p.value }
     end
     hash
   end
