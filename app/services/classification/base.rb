@@ -42,9 +42,10 @@ module Classification
           key = class_parameters.detect{|k| k.id == value.lookup_key_id }
           name = key.to_s
           element = match.split(LookupKey::EQ_DELM).first
+          element_name = match.split(LookupKey::EQ_DELM).last
           next if options[:skip_fqdn] && element=="fqdn"
           if values[key_id][name].nil?
-            values[key_id][name] = {:value => value.value, :element => element}
+            values[key_id][name] = {:value => value.value, :element => element, :element_name => element_name}
           else
             if key.path.index(element) < key.path.index(values[key_id][name][:element])
               values[key_id][name] = {:value => value.value, :element => element}
