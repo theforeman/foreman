@@ -253,4 +253,25 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert host_bm.compute?
   end
 
+  test "should update boolean attribute set_console_password for Libvirt compute resource" do
+    cr = compute_resources(:one)
+    put :update, { :id => cr.id, :compute_resource => { :set_console_password => true } }
+    cr.reload
+    assert_equal 1, cr.attrs[:setpw]
+  end
+
+  test "should update boolean attribute set_console_password for VMware compute resource" do
+    cr = compute_resources(:vmware)
+    put :update, { :id => cr.id, :compute_resource => { :set_console_password => true } }
+    cr.reload
+    assert_equal 1, cr.attrs[:setpw]
+  end
+
+  test "should not update set_console_password to true for non-VMware or non-Libvert compute resource" do
+    cr = compute_resources(:openstack)
+    put :update, { :id => cr.id, :compute_resource => { :set_console_password => true } }
+    cr.reload
+    assert_nil cr.attrs[:setpw]
+  end
+
 end
