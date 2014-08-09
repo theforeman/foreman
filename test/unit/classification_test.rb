@@ -81,6 +81,17 @@ class ClassificationTest < ActiveSupport::TestCase
     assert_equal({pc.name => {lkey.key => 'overridden value'}}, classparam.enc)
   end
 
+  test "#values_hash should contain element's name" do
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :environments => [env])
+    lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
+    classparam = Classification::ClassParam.new
+    classparam.expects(:environment_id).returns(env.id)
+    classparam.expects(:puppetclass_ids).returns(Array.wrap(pc).map(&:id))
+    classparam.expects(:attr_to_value).with('comment').returns('override')
+    assert_equal({pc.id => {lkey.key => { :value => 'overridden value', :element => 'comment', :element_value => 'override'}}}, classparam.send(:values_hash))
+  end
+
   private
 
   attr_reader :classification
