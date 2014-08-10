@@ -8,5 +8,5 @@
                { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
                { :disabled => images.empty?, :label => _('Image') } %>
 </div>
-<%= selectable_f f, :network, compute_resource.networks, :label => _('Network') %>
+<%= selectable_f f, :network, compute_resource.networks, {}, :label => _('Network') %>
 <%= checkbox_f f, :external_ip, :label => _('External IP') %>
