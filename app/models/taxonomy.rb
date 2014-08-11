@@ -125,7 +125,7 @@ class Taxonomy < ActiveRecord::Base
   end
 
   def expire_topbar_cache(sweeper)
-    users.each { |u| u.expire_topbar_cache(sweeper) }
+    (users+User.only_admin).each { |u| u.expire_topbar_cache(sweeper) }
   end
 
   private

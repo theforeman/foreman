@@ -200,7 +200,7 @@ class LocationsControllerTest < ActionController::TestCase
     user2 = FactoryGirl.create(:user, :with_mail)
     location = as_admin { FactoryGirl.create(:location, :users => [user1, user2]) }
 
-    User.any_instance.expects(:expire_topbar_cache).twice
+    User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) #2 users, all admins
     put :update, { :id => location.id, :location => {:name => "Topbar Loc" }}, set_session_user
   end
 end
