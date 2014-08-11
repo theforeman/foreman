@@ -610,7 +610,7 @@ class Host::Managed < Host::Base
 
   # We have to coerce the value back to boolean. It is not done for us by the framework.
   def overwrite=(value)
-    @overwrite = value == "true"
+    @overwrite = value.to_s == "true"
   end
 
   def require_ip_validation?

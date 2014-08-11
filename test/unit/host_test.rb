@@ -1420,6 +1420,24 @@ end # end of context "location or organizations are not enabled"
     assert_equal "fqdn=my5name.yourdomain.net", LookupValue.find(lookup_value_id).match
   end
 
+  describe '#overwrite=' do
+    context 'false' do
+      [:false, 'false', false].each do |v|
+        test "when setting to #{v.inspect}" do
+          refute FactoryGirl.build(:host, :overwrite => v).overwrite?
+        end
+      end
+    end
+
+    context 'true' do
+      [:true, 'true', true].each do |v|
+        test "when setting to #{v.inspect}" do
+          assert FactoryGirl.build(:host, :overwrite => v).overwrite?
+        end
+      end
+    end
+  end
+
   private
 
   def parse_json_fixture(relative_path)
