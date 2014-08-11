@@ -402,9 +402,10 @@ class Host::Managed < Host::Base
     hp.update organization.parameters(include_source) if SETTINGS[:organizations_enabled] && organization
     hp.update location.parameters(include_source)     if SETTINGS[:locations_enabled] && location
     # read domain parameters
-    domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('domain').to_sym, :safe_value => p.safe_value} : p.value] } unless domain.nil?
+    domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('domain').to_sym, :safe_value => p.safe_value, :source_name => domain.name} : p.value] } unless domain.nil?
     # read OS parameters
-    operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('os').to_sym, :safe_value => p.safe_value} : p.value] } unless operatingsystem.nil?
+    operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('os').to_sym, :safe_value => p.safe_value, :source_name => operatingsystem.to_label} : p.value] } unless operatingsystem.nil?
+
     # read group parameters only if a host belongs to a group
     hp.update hostgroup.parameters(include_source) if hostgroup
     hp
