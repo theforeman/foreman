@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-07 09:23+0100\n"
+"POT-Creation-Date: 2014-08-11 15:07+0100\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -1762,6 +1762,9 @@ msgstr ""
 msgid "Expires"
 msgstr ""
 
+msgid "Explain matchers"
+msgstr ""
+
 msgid "External IP"
 msgstr ""
 
@@ -1951,6 +1954,9 @@ msgid "Filter"
 msgstr ""
 
 msgid "Filter %s"
+msgstr ""
+
+msgid "Filter by name"
 msgstr ""
 
 msgid "Filter classes"
@@ -3826,6 +3832,9 @@ msgstr ""
 msgid "Optional comma-deliminated string containing either 'new,updated,obsolete' used to limit the import_puppetclasses actions"
 msgstr ""
 
+msgid "Optional input validator"
+msgstr ""
+
 msgid "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br><b>Description:</b> %s"
 msgstr ""
 
@@ -3883,6 +3892,9 @@ msgstr ""
 msgid "Override this value"
 msgstr ""
 
+msgid "Override value for specific hosts"
+msgstr ""
+
 msgid "Overview"
 msgstr ""
 
@@ -3918,6 +3930,9 @@ msgid "Parameter name"
 msgstr ""
 
 msgid "Parameter type"
+msgstr ""
+
+msgid "Parameter types"
 msgstr ""
 
 msgid "Parameters"
@@ -5947,6 +5962,9 @@ msgstr ""
 msgid "Validation types"
 msgstr ""
 
+msgid "Validator type"
+msgstr ""
+
 msgid "Value"
 msgstr ""
 
@@ -6190,7 +6208,13 @@ msgstr ""
 msgid "and relevant log entries."
 msgstr ""
 
+msgid "array"
+msgstr ""
+
 msgid "belongs to config group"
+msgstr ""
+
+msgid "boolean"
 msgstr ""
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
@@ -6346,6 +6370,9 @@ msgstr ""
 msgid "has this role already"
 msgstr ""
 
+msgid "hash"
+msgstr ""
+
 msgid "hash containing the facts for the host"
 msgstr ""
 
@@ -6368,6 +6395,9 @@ msgid "in Progress"
 msgstr ""
 
 msgid "included already from parent"
+msgstr ""
+
+msgid "integer"
 msgstr ""
 
 msgid "interface information"
@@ -6454,12 +6484,18 @@ msgstr ""
 msgid "items selected. Uncheck to Clear"
 msgstr ""
 
+msgid "json"
+msgstr ""
+
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] ""
 msgstr[1] ""
 
 msgid "link external user group with this user group"
+msgstr ""
+
+msgid "list"
 msgstr ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
@@ -6580,7 +6616,13 @@ msgstr ""
 msgid "puppet class browser"
 msgstr ""
 
+msgid "real"
+msgstr ""
+
 msgid "reboot"
+msgstr ""
+
+msgid "regexp"
 msgstr ""
 
 msgid "remove network interface"
@@ -6649,6 +6691,9 @@ msgstr ""
 msgid "stop"
 msgstr ""
 
+msgid "string"
+msgstr ""
+
 msgid "template name"
 msgstr ""
 
@@ -6707,6 +6752,9 @@ msgid "using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
 msgstr ""
 
 msgid "valid"
+msgstr ""
+
+msgid "yaml"
 msgstr ""
 
 msgid "you may use %s"

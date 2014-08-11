@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-05 12:56+0100\n"
-"PO-Revision-Date: 2014-08-06 12:31+0000\n"
+"POT-Creation-Date: 2014-08-07 09:23+0100\n"
+"PO-Revision-Date: 2014-08-11 11:48+0000\n"
 "Last-Translator: Pierre-Emmanuel Dutang <dutangp@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1250,6 +1250,9 @@ msgstr "Créer une architecture"
 msgid "Create an environment"
 msgstr "Créer un environnement"
 
+msgid "Create an external user group linked to a user group"
+msgstr "Creation d'un goupe d'utilisateurs externe lié à un groupe d'utilisateurs"
+
 msgid "Create an image"
 msgstr "Créer une image"
 
@@ -1483,6 +1486,9 @@ msgstr "Supprimer une architecture"
 
 msgid "Delete an environment"
 msgstr "Supprimer un environnement"
+
+msgid "Delete an external user group"
+msgstr "Supprimer un groupe d'utilisateurs externe"
 
 msgid "Delete an image"
 msgstr "Supprimer une image"
@@ -1861,6 +1867,12 @@ msgstr "Groupe d'utilisateur externe %{name} ne peut pas être rafraichi"
 
 msgid "External user group %{name} refreshed"
 msgstr "Groupe d'utilisateur externe %{name} rafraichi"
+
+msgid "External user group information"
+msgstr "Information du groupe d'utilisateurs externe"
+
+msgid "External user group name"
+msgstr "Nom du groupe d'utilisateurs externe"
 
 msgid "Fact Chart"
 msgstr "Graphique des Facts"
@@ -2607,6 +2619,9 @@ msgstr "ID du groupe d'hôtes"
 msgid "ID of interface"
 msgstr "ID de l'interface"
 
+msgid "ID of linked auth source"
+msgstr "ID de la source d'authentification liée"
+
 msgid "ID of location"
 msgstr "ID de la localisation"
 
@@ -2622,11 +2637,20 @@ msgstr "ID du paramêtre"
 msgid "ID of puppetclass"
 msgstr "ID de la classe Puppet"
 
+msgid "ID or name external user group"
+msgstr "ID ou nom d'un groupe d'utilisateurs externe"
+
+msgid "ID or name of external user group"
+msgstr "ID ou nom du groupe d'utilisateurs externe"
+
 msgid "ID or name of host"
 msgstr "ID ou nom d'hôte"
 
 msgid "ID or name of interface"
 msgstr "ID ou nom de l'interface"
+
+msgid "ID or name of user group"
+msgstr "ID ou nom du groupe d'utilisateurs"
 
 msgid "IP"
 msgstr "IP"
@@ -2953,6 +2977,9 @@ msgstr "Lister toutes les ressources d'ordinateur"
 
 msgid "List all environments"
 msgstr "Lister tous les environnements"
+
+msgid "List all external user groups for user group"
+msgstr "lister tous les groupe d'utilisateurs externe pour une groupe d'utilisateurs"
 
 msgid "List all fact values"
 msgstr "Lister toutes les valeurs des facts"
@@ -4482,6 +4509,9 @@ msgstr "Redirige vos utilisateurs sur cette URL à la déconnexion (authorize_lo
 msgid "Refresh"
 msgstr "Rafraichir"
 
+msgid "Refresh external user group"
+msgstr "Rafraîchir un groupe d'utilisateur externe"
+
 msgid "Refresh features"
 msgstr "Rafraichir les fonctions"
 
@@ -4993,6 +5023,9 @@ msgstr "Afficher un audit"
 
 msgid "Show an environment"
 msgstr "Afficher un environnement"
+
+msgid "Show an external user group for user group"
+msgstr "Afficher les goupe d'utilisateurs externe pour un groupe d'utilisateurs"
 
 msgid "Show an image"
 msgstr "Afficher une image"
@@ -6024,6 +6057,9 @@ msgstr "Mise à jour d'une valeur surchargée pour un paramètre smart class"
 
 msgid "Update an override value for a specific smart variable"
 msgstr "Mise à jour d'une valeur surchargée pour une smart variable"
+
+msgid "Update external user group"
+msgstr "Mettre à jour un groupe d'utilisateur externe"
 
 msgid "Update realm entry for %s"
 msgstr "Mise à jour de l'entrée du royaume pour %s"
