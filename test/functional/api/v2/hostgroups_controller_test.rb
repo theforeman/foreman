@@ -38,6 +38,13 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should clone hostgroup" do
+    assert_difference('Hostgroup.count') do
+      post :clone, { :id => hostgroups(:common).to_param, :name => Time.now.to_s }
+    end
+    assert_response :success
+  end
+
   test "blocks API deletion of hosts with children" do
     assert hostgroups(:parent).has_children?
     assert_no_difference('Hostgroup.count') do

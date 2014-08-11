@@ -170,6 +170,18 @@ class Hostgroup < ActiveRecord::Base
     read_attribute(:root_pass) || nested_root_pw || Setting[:root_pass]
   end
 
+  # Clone the hostgroup
+  def clone(name = "")
+    new = self.dup
+    new.name = name
+    new.puppetclasses = puppetclasses
+    new.locations     = locations
+    new.organizations = organizations
+    # Clone any parameters as well
+    self.group_parameters.each{|param| new.group_parameters << param.clone}
+    new
+  end
+
   private
 
   def lookup_value_match
