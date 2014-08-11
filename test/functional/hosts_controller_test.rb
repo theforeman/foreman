@@ -487,6 +487,34 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'hosts with comma-separated SSL DN should get externalNodes successfully' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    Setting[:trusted_puppetmaster_hosts] = ['foreman.example']
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=foreman.example,OU=PUPPET,O=FOREMAN,ST=North Carolina,C=US'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
+  test 'hosts with slash-separated SSL DN should get externalNodes successfully' do
+    User.current = nil
+    Setting[:restrict_registered_puppetmasters] = true
+    Setting[:require_ssl_puppetmasters] = true
+    Setting[:trusted_puppetmaster_hosts] = ['foreman.linux.lab.local']
+
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = '/C=US/ST=NC/L=City/O=Example/OU=IT/CN=foreman.linux.lab.local/emailAddress=user@example.com'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    get :externalNodes, {:name => @host.name, :format => "yml"}
+    assert_response :success
+  end
+
   test 'hosts without a registered smart proxy but with an SSL cert should not be able to get externalNodes' do
     User.current = nil
     Setting[:restrict_registered_puppetmasters] = true
