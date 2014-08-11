@@ -38,7 +38,7 @@ module Foreman::Controller::SmartProxyAuth
     request_hosts = nil
     if request.ssl?
       dn = request.env[Setting[:ssl_client_dn_env]]
-      if dn && dn =~ /CN=(\S+)/i
+      if dn && dn =~ /CN=([^\s\/,]+)/i
         verify = request.env[Setting[:ssl_client_verify_env]]
         if verify == 'SUCCESS'
           request_hosts = [$1]
