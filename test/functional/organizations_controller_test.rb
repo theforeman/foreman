@@ -190,7 +190,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     user2 = FactoryGirl.create(:user, :with_mail)
     organization = as_admin { FactoryGirl.create(:organization, :users => [user1, user2]) }
 
-    User.any_instance.expects(:expire_topbar_cache).twice
+    User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) #2 users, all admins
     put :update, { :id => organization.id, :organization => {:name => "Topbar Org" }}, set_session_user
   end
 
