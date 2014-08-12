@@ -27,7 +27,7 @@ class RolesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:roles)
     assert_equal Role.all.sort, [assigns(:roles)].flatten.sort
 
-    assert_tag :tag => 'a', :attributes => { :href => '/roles/1-manager/edit' },
+    assert_tag :tag => 'a', :attributes => { :href => '/roles/1-Manager/edit' },
       :content => 'Manager'
   end
 

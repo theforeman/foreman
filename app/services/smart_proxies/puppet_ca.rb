@@ -1,6 +1,7 @@
 require "time"
 
 class SmartProxies::PuppetCA
+  include Parameterizable::ByIdName
 
   attr_reader :name, :state, :fingerprint, :valid_from, :expires_at, :smart_proxy_id
 
@@ -49,8 +50,6 @@ class SmartProxies::PuppetCA
     Rails.cache.delete("ca_#{proxy.id}") if Rails.env.production?
     ProxyAPI::Puppetca.new({:url => proxy.url}).del_certificate name
   end
-
-  def to_param; name end
 
   def to_s; name end
 

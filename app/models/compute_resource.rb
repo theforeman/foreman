@@ -3,6 +3,7 @@ class ComputeResource < ActiveRecord::Base
   include Taxonomix
   include Encryptable
   include Authorizable
+  include Parameterizable::ByIdName
   encrypts :password
 
   class_attribute :supported_providers
@@ -94,10 +95,6 @@ class ComputeResource < ActiveRecord::Base
     vm = find_vm_by_uuid(uuid)
     vm.attributes.merge!(attr.symbolize_keys)
     vm.save
-  end
-
-  def to_param
-    "#{id}-#{name.parameterize}"
   end
 
   def to_label

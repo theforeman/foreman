@@ -328,4 +328,10 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal _("is too long (maximum is 0 characters)"),  hostgroup.errors[:name].first
   end
 
+  test "to_param" do
+    parent = FactoryGirl.create(:hostgroup, :name => 'a')
+    hostgroup = Hostgroup.new(:parent => parent, :name => 'b')
+    assert_equal "#{hostgroup.id}-a-b",  hostgroup.to_param
+  end
+
 end

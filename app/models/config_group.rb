@@ -1,6 +1,7 @@
 class ConfigGroup < ActiveRecord::Base
   audited :allow_mass_assignment => true
   include Authorizable
+  include Parameterizable::ByIdName
 
   validates_lengths_from_database
 
@@ -19,10 +20,6 @@ class ConfigGroup < ActiveRecord::Base
   scoped_search :on => :config_group_classes_count
 
   default_scope lambda { order('config_groups.name') }
-
-  def to_param
-    "#{id}-#{name.parameterize}"
-  end
 
   # the following methods are required for app/views/puppetclasses/_class_selection.html.erb
   alias_method :classes, :puppetclasses

@@ -17,7 +17,7 @@ class AuditsControllerTest < ActionController::TestCase
   end
   def user_with_viewer_rights_should_fail_to(edit_audit)
     setup_user
-    get :edit, {:id => Audit.first.id}
+    get :edit, {:id => Audit.first}
     assert @response.status == '403 Forbidden'
   end
 

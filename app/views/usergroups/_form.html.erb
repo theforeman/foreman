@@ -36,7 +36,7 @@
             <td><%= h usergroup.name %></td>
             <td><%= h usergroup.auth_source %></td>
             <td><%= display_link_if_authorized(_('Refresh'),
-                                               hash_for_refresh_external_usergroup_path(:id => usergroup.id),
+                                               hash_for_refresh_external_usergroup_path(:id => usergroup),
                                                :method => :put, :id => usergroup.id,
                                                :class => "btn btn-default", :title => _('Synchronize group from authentication source')) %>
             </td>

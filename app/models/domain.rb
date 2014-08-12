@@ -6,6 +6,8 @@ class Domain < ActiveRecord::Base
   friendly_id :name
   include Taxonomix
   include StripLeadingAndTrailingDot
+  include Parameterizable::ByIdName
+
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database
@@ -40,10 +42,6 @@ class Domain < ActiveRecord::Base
 
   class Jail < Safemode::Jail
     allow :name, :fullname
-  end
-
-  def to_param
-    "#{id}-#{name.parameterize}"
   end
 
   # return the primary name server for our domain based on DNS lookup

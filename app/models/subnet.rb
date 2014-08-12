@@ -7,6 +7,7 @@ class Subnet < ActiveRecord::Base
   extend FriendlyId
   friendly_id :network
   include Taxonomix
+  include Parameterizable::ByIdName
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database :except => [:gateway]
@@ -65,10 +66,6 @@ class Subnet < ActiveRecord::Base
 
   def self.ipam_modes_with_translations
     modes_with_translations(IPAM_MODES)
-  end
-
-  def to_param
-    "#{id}-#{name.parameterize}"
   end
 
   # Subnets are displayed in the form of their network network/network mask

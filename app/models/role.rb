@@ -20,6 +20,8 @@ class Role < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
 
+  include Parameterizable::ByIdName
+
   # Built-in roles
   BUILTIN_DEFAULT_USER  = 1
   BUILTIN_ANONYMOUS     = 2
@@ -50,10 +52,6 @@ class Role < ActiveRecord::Base
   validates :builtin, :inclusion => { :in => 0..2 }
 
   scoped_search :on => :name, :complete_value => true
-
-  def to_param
-    "#{id}-#{name.parameterize}"
-  end
 
   def initialize(*args)
     super(*args)

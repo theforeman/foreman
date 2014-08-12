@@ -3,6 +3,7 @@ class Environment < ActiveRecord::Base
   friendly_id :name
   include Taxonomix
   include Authorizable
+  include Parameterizable::ByName
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
@@ -28,10 +29,6 @@ class Environment < ActiveRecord::Base
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :hosts_count
   scoped_search :on => :hostgroups_count
-
-  def to_param
-    name
-  end
 
   class << self
 

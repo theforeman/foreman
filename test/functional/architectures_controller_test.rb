@@ -34,24 +34,24 @@ class ArchitecturesControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    get :edit, {:id => Architecture.first.name}, set_session_user
+    get :edit, {:id => Architecture.first}, set_session_user
     assert_template 'edit'
   end
 
   def test_edit_submit_button_id
-    get :edit, {:id => Architecture.first.name}, set_session_user
+    get :edit, {:id => Architecture.first}, set_session_user
     assert_select "[data-id='aid_update_architecture']"
   end
 
   def test_update_invalid
     Architecture.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Architecture.first.name}, set_session_user
+    put :update, {:id => Architecture.first}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Architecture.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Architecture.first.name}, set_session_user
+    put :update, {:id => Architecture.first}, set_session_user
     assert_redirected_to architectures_url
   end
 
@@ -59,7 +59,7 @@ class ArchitecturesControllerTest < ActionController::TestCase
     architecture = Architecture.first
     architecture.hosts.delete_all
     architecture.hostgroups.delete_all
-    delete :destroy, {:id => architecture.name}, set_session_user
+    delete :destroy, {:id => architecture}, set_session_user
     assert_redirected_to architectures_url
     assert !Architecture.exists?(architecture.id)
   end

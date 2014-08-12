@@ -3,6 +3,7 @@ class ConfigTemplate < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
   include Taxonomix
+  include Parameterizable::ByIdName
 
   validates_lengths_from_database
   audited :allow_mass_assignment => true
@@ -45,10 +46,6 @@ class ConfigTemplate < ActiveRecord::Base
 
   class Jail < Safemode::Jail
     allow :name
-  end
-
-  def to_param
-    "#{id}-#{name.parameterize}"
   end
 
   def clone

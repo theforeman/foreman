@@ -2,6 +2,7 @@ class Organization < Taxonomy
   extend FriendlyId
   friendly_id :title
   include Foreman::ThreadSession::OrganizationModel
+  include Parameterizable::ByIdName
 
   has_and_belongs_to_many :locations
   has_many_hosts :dependent => :nullify
@@ -36,10 +37,6 @@ class Organization < Taxonomy
       org.organization_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('organization').to_sym, :source_name => org.title} : p.value }
     end
     hash
-  end
-
-  def to_param
-    "#{id}-#{name.parameterize}"
   end
 
   def dup

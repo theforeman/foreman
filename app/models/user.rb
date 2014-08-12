@@ -145,7 +145,7 @@ class User < ActiveRecord::Base
   alias_method :name, :to_label
 
   def to_param
-    "#{id}-#{login.parameterize}"
+    Parameterizable.parameterize("#{id}-#{login}")
   end
 
   def <=>(other)

@@ -11,7 +11,7 @@ class Trend < ActiveRecord::Base
   scope :types, lambda { where(:fact_value => nil) }
 
   def to_param
-    "#{id}-#{to_label.parameterize}"
+    Parameterizable.parameterize("#{id}-#{to_label}")
   end
 
   private
