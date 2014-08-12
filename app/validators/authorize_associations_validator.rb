@@ -22,7 +22,7 @@ class AuthorizeAssociationsValidator < ActiveModel::Validator
 
       record.class.reflect_on_all_associations.each do |association|
 
-        if check_authorization?(association, exemptions)
+        if check_authorization?(record, association, exemptions)
 
           permission = exemptions[association.name] || "view_#{association.klass.name.downcase.pluralize}"
           check_association(record, association, permission)
@@ -30,7 +30,6 @@ class AuthorizeAssociationsValidator < ActiveModel::Validator
         end
       end
     end
-  rescue NameError => e
   end
 
   def check_association(record, association, permission)
@@ -97,10 +96,11 @@ class AuthorizeAssociationsValidator < ActiveModel::Validator
     association_name.to_s.singularize == 'organization'
   end
 
-  def check_authorization?(association, exemptions)
+  def check_authorization?(record, association, exemptions)
+    klass = association.options.include?(:polymorphic) ? record.send(association.foreign_type) : association.klass
     !exemptions[association.name] &&
-      association.klass &&
-      association.klass.respond_to?(:authorized) &&
+      klass &&
+      klass.respond_to?(:authorized) &&
       association.name != 'taxonomies'
   end
 
