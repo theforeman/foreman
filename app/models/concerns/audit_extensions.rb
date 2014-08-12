@@ -4,12 +4,12 @@ module AuditExtensions
 
   included do
     belongs_to :search_users, :class_name => 'User', :foreign_key => :user_id
-    belongs_to :search_hosts, :class_name => 'Host', :foreign_key => :auditable_id, :conditions => "auditable_type = 'Host'"
-    belongs_to :search_hostgroups, :class_name => 'Hostgroup', :foreign_key => :auditable_id, :conditions => "auditable_type = 'Hostgroup'"
-    belongs_to :search_parameters, :class_name => 'Parameter', :foreign_key => :auditable_id, :conditions => "auditable_type = 'Parameter'"
-    belongs_to :search_templates, :class_name => 'ConfigTemplate', :foreign_key => :auditable_id, :conditions => "auditable_type = 'ConfigTemplate'"
-    belongs_to :search_os, :class_name => 'Operatingsystem', :foreign_key => :auditable_id, :conditions => "auditable_type = 'Operatingsystem'"
-    belongs_to :search_class, :class_name => 'Puppetclass', :foreign_key => :auditable_id, :conditions => "auditable_type = 'Puppetclass'"
+    belongs_to :search_hosts, :class_name => 'Host', :foreign_key => :auditable_id
+    belongs_to :search_hostgroups, :class_name => 'Hostgroup', :foreign_key => :auditable_id
+    belongs_to :search_parameters, :class_name => 'Parameter', :foreign_key => :auditable_id
+    belongs_to :search_templates, :class_name => 'ConfigTemplate', :foreign_key => :auditable_id
+    belongs_to :search_os, :class_name => 'Operatingsystem', :foreign_key => :auditable_id
+    belongs_to :search_class, :class_name => 'Puppetclass', :foreign_key => :auditable_id
 
     scoped_search :on => [:username, :remote_address], :complete_value => true
     scoped_search :on => :audited_changes, :rename => 'changes'
