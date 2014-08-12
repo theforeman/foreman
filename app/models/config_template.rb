@@ -11,6 +11,7 @@ class ConfigTemplate < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
   validates :template, :presence => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
+  validates :audit_comment, :length => {:maximum => 255 }
   validate :template_changes, :if => lambda { |template| (template.locked? || template.locked_changed?) && !Foreman.in_rake? }
   before_destroy :check_if_template_is_locked
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
