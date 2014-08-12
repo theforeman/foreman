@@ -2,6 +2,7 @@ class Bookmark < ActiveRecord::Base
   include Authorizable
   extend FriendlyId
   friendly_id :name
+  include Parameterizable::ByIdName
 
   validates_lengths_from_database
 
@@ -34,7 +35,4 @@ class Bookmark < ActiveRecord::Base
     self.owner ||= User.current
   end
 
-  def to_param
-    "#{id}-#{name.parameterize}"
-  end
 end

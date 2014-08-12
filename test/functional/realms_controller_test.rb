@@ -24,19 +24,19 @@ class RealmsControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    get :edit, {:id => Realm.first.name}, set_session_user
+    get :edit, {:id => Realm.first}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_invalid
     Realm.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Realm.first.name}, set_session_user
+    put :update, {:id => Realm.first}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Realm.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Realm.first.name}, set_session_user
+    put :update, {:id => Realm.first}, set_session_user
     assert_redirected_to realms_url
   end
 
@@ -44,7 +44,7 @@ class RealmsControllerTest < ActionController::TestCase
     realm = Realm.first
     realm.hosts.clear
     realm.hostgroups.clear
-    delete :destroy, {:id => realm.name}, set_session_user
+    delete :destroy, {:id => realm}, set_session_user
     assert_redirected_to realms_url
     assert !Realm.exists?(realm.id)
   end
@@ -56,7 +56,7 @@ class RealmsControllerTest < ActionController::TestCase
 
   def user_with_viewer_rights_should_fail_to_edit_a_realm
     setup_users
-    get :edit, {:id => Realm.first.id}
+    get :edit, {:id => Realm.first}
     assert @response.status == '403 Forbidden'
   end
 

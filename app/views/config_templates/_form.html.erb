@@ -15,7 +15,7 @@
         <% if @config_template.locked? -%>
         <%= alert :class => 'alert-warning', :header => '',
             :text  => icon_text("warning-sign", (_("Warning: This template is locked. You may only change the associations. Please %s it to customize.") %
-                                                link_to(_('clone'), hash_for_clone_config_template_path(:id => @config_template.id))).html_safe) %>
+                                                link_to(_('clone'), hash_for_clone_config_template_path(:id => @config_template))).html_safe) %>
 
         <% else -%>
         <%= alert :class => 'alert-success', :header => '',

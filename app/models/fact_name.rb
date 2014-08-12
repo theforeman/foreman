@@ -1,4 +1,6 @@
 class FactName < ActiveRecord::Base
+  include Parameterizable::ByIdName
+
   SEPARATOR = '::'
 
   validates_lengths_from_database
@@ -23,10 +25,6 @@ class FactName < ActiveRecord::Base
   before_save :set_name, :if => Proc.new { |fact| fact.short_name.blank? }
 
   has_ancestry
-
-  def to_param
-    name
-  end
 
   def set_name
     self.short_name = self.name.split(SEPARATOR).last

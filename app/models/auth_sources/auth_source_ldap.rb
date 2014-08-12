@@ -23,6 +23,7 @@ class AuthSourceLdap < AuthSource
 
   extend FriendlyId
   friendly_id :name
+  include Parameterizable::ByIdName
 
   validates :host, :presence => true, :length => {:maximum => 60}, :allow_nil => true
   validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :presence => true, :if => Proc.new { |auth| auth.onthefly_register? }
@@ -104,10 +105,6 @@ class AuthSourceLdap < AuthSource
 
   def users_in_group(name)
     ldap_con.user_list(name)
-  end
-
-  def to_param
-    "#{id}-#{name.parameterize}"
   end
 
   private

@@ -3,6 +3,7 @@ module Host
     include Foreman::STI
     include Authorizable
     include CounterCacheFix
+    include Parameterizable::ByName
 
     self.table_name = :hosts
     extend FriendlyId
@@ -134,10 +135,6 @@ module Host
         hash[fact.fact_name.name] = fact.value
       end
       hash
-    end
-
-    def to_param
-      name
     end
 
     def ==(comparison_object)
