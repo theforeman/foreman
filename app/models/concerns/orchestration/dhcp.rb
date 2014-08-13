@@ -1,3 +1,5 @@
+require 'net/dhcp'
+
 module Orchestration::DHCP
   extend ActiveSupport::Concern
 
