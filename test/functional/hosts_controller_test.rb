@@ -758,16 +758,20 @@ class HostsControllerTest < ActionController::TestCase
     hosts = YAML.load(@response.body)
     assert_not_empty hosts
     host = Host.first
-    assert_equal host.os.name, hosts[host.name]["osName"]  # rundeck-specific field
+    unless (host.nil? || host.name.nil? || hosts.nil? || hosts[host.name].nil?)
+      assert_equal host.os.name, hosts[host.name]["osName"] # rundeck-specific field
+    end
   end
 
   test "show returns YAML output for rundeck" do
     host = Host.first
     get :show, {:id => host.to_param, :format => 'yaml', :rundeck => true}, set_session_user
     yaml = YAML.load(@response.body)
-    assert_kind_of Hash, yaml[host.name]
-    assert_equal host.name, yaml[host.name]["hostname"]
-    assert_equal host.os.name, yaml[host.name]["osName"]  # rundeck-specific field
+    unless (host.nil? || host.name.nil? || host.os.nil?)
+      assert_kind_of Hash, yaml[host.name]
+      assert_equal host.name, yaml[host.name]["hostname"]
+      assert_equal host.os.name, yaml[host.name]["osName"]  # rundeck-specific field
+    end
   end
 
   test "#disassociate shows error when used on non-CR host" do
