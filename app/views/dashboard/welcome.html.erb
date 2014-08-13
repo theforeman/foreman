@@ -1,7 +1,7 @@
 <% title _("Welcome") %>
 <div id="welcome">
   <p>
-    <%= _('Before you can use Foreman for the first time there are a few tasks that must be performed.') %>
+    <%= _('Before you can use %s for the first time there are a few tasks that must be performed.') % SETTINGS[:name] %>
 
     <%= _('You must decide how you wish to use the software, and update the primary settings file <b>config/settings.yaml</b> and the').html_safe %>
     <%= link_to _("settings"), settings_path %>
@@ -11,32 +11,32 @@
   <h2><%= _('Operating Mode') %></h2>
 
   <p>
-    <%= _('You may operate Foreman in basic mode, in which it acts as a reporting and external node classifier or you may also turn on unattended mode operation in which Foreman creates and manages the configuration files necessary to completely configure a new host.') %>
+    <%= _('You may operate %{name} in basic mode, in which it acts as a reporting and external node classifier or you may also turn on unattended mode operation in which %{name} creates and manages the configuration files necessary to completely configure a new host.') % {:name => SETTINGS[:name]} %>
 
-    <%= _('When operating in unattended mode Foreman will require more information, so expect more questions, but it will be able to automate host installations for Red Hat, Debian, SUSE and Solaris operating systems (and their clones), see') %>
+    <%= _('When operating in unattended mode %s will require more information, so expect more questions, but it will be able to automate host installations for Red Hat, Debian, SUSE and Solaris operating systems (and their clones), see') % SETTINGS[:name] %>
     <a href="http://www.theforeman.org/manuals/<%=SETTINGS[:version].short%>/index.html#4.4Provisioning" rel="external"><%= _('here') %></a>
     <%= _('for more details.') %>
   </p>
 
-  <h2><%= _('Create a Smart Proxy') %></h2>
+  <h2><%= _("Create a %s") % SETTINGS[:smart_proxy_name] %></h2>
 
   <p>
     <%= _("If you're planning to do anything more than just handle reports, you'll be in need of a smart proxy - either on this machine or elsewhere on your network.") %>
     <%= _('You can find details of how to set up the proxy at') %>
-    <a href="http://www.theforeman.org/manuals/<%=SETTINGS[:version].short%>/index.html#4.3.1SmartProxyInstallation" rel="external"><%= _('Smart-Proxy Installation') %></a>.
+    <a href="http://www.theforeman.org/manuals/<%=SETTINGS[:version].short%>/index.html#4.3.1SmartProxyInstallation" rel="external"><%= _("%s Installation") % SETTINGS[:smart_proxy_name] %></a>.
 
     <p>
       <span class="label label-danger"><%= _('Important') %></span>
       <%= _('Once installed you should head over to') %>
-      <%= link_to _("Smart Proxies"), smart_proxies_path %>
-      <%= _('to point Foreman at it.') %>
+      <%= link_to SETTINGS[:smart_proxy_name].pluralize, smart_proxies_path %>
+      <%= _('to point %s at it.') % SETTINGS[:name] %>
     </p>
   </p>
 
   <h2><%= _('User Authentication') %></h2>
 
   <p>
-    <%= _('Foreman, by default, operates in anonymous mode where all operations are performed without reference to the user who is performing the task.') %>
+    <%= _('%s, by default, operates in anonymous mode where all operations are performed without reference to the user who is performing the task.') % SETTINGS[:name] %>
     <%= _('If you wish to track the actions of a particular user then it is possible to use an additional authentication stage and provide a user account.') %>
     <%= _('At present, authentication is performed against the internal Database or a LDAP service provided by one or more LDAP servers.') %>
 
@@ -58,7 +58,7 @@
       </ul>
     <% else %>
       <p><span class="label label-info"><%= _('Notice') %></span>
-      <%= _('You would need to enable login in your settings.yml file first and restart foreman') %>
+      <%= _('You would need to enable login in your settings.yml file first and restart %s') % SETTINGS[:name] %>
       </p>
       <p><span class="label label-danger"><%= _('Important') %></span>
       <%= _('The default username and password are <b>admin</b> and <b>changeme</b>').html_safe %>
@@ -69,7 +69,7 @@
   <h2><%= _('Import your data') %></h2>
 
   <p>
-    <%= _('Foreman comes with some importers to ease the burden of entering loads of data about your current installation.') %>
+    <%= _('%s comes with some importers to ease the burden of entering loads of data about your current installation.') % SETTINGS[:name] %>
     <%= _('If you are already using puppet you should consider using some of the rake tasks that have been provided.') %>
     <ul>
       <li>
@@ -106,7 +106,7 @@
 
   <p>
     <span class="label label-info"><%= _('Notice') %></span>
-    <%= (_('This page will self destruct once Foreman starts to receive data about your hosts.  You can view this information again by clicking on the "First use instructions" link on the %{about} page.') % {:about => link_to("about", :controller => 'about')}).html_safe %>
+    <%= (_('This page will self destruct once %{name} starts to receive data about your hosts.  You can view this information again by clicking on the "First use instructions" link on the %{about} page.') % {:name => SETTINGS[:name], :about => link_to("about", :controller => 'about')}).html_safe %>
   </p>
 
 </div>

@@ -7,7 +7,7 @@
     <%= alert_close %>
     <h3><%= _("Host times seems to be adrift!") %></h3>
     <%= (_("Host reported time is <em>%s</em>") % @report.reported_at).html_safe %> <br/>
-    <%= (_("Foreman report creation time is <em>%s</em>") % @report.created_at).html_safe %> <br/>
+    <%= (_("%{name} report creation time is <em>%{time}</em>") % {:name => SETTINGS[:name], :time => @report.created_at}).html_safe %> <br/>
     <%= (_("Which is an offset of <b>%s</b>") % distance_of_time_in_words(@report.reported_at, @report.created_at, true)).html_safe %>
   </div>
 <% end %>

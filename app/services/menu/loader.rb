@@ -75,7 +75,7 @@ module Menu
         end
 
         menu.sub_menu :infrastructure_menu, :caption => N_('Infrastructure') do
-          menu.item :smart_proxies,       :caption => N_('Smart proxies')
+          menu.item :smart_proxies,       :caption => SETTINGS[:smart_proxy_name].pluralize
           if SETTINGS[:unattended]
             menu.item :compute_resources, :caption => N_('Compute resources')
             menu.item :compute_profiles,  :caption => N_('Compute profiles')

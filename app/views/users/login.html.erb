@@ -29,7 +29,7 @@
       <% end %>
     </div>
     <div class="col-sm-5 col-md-6 col-lg-7 details">
-      <p><strong><%= _("Welcome to Foreman") %></strong>
+      <p><strong><%= _("Welcome to %s") % SETTINGS[:name] %></strong>
       <p><%= _("Version %{version}") % {:version => SETTINGS[:version]} %></p>
     </div><!--/.col-*-->
   </div>

@@ -2,11 +2,11 @@
 <% title _("Architecture configuration") %>
 <div id="welcome">
   <p>
-  <%= _("Before you proceed to using Foreman you should provide information about one or more architectures.") %>
+  <%= _("Before you proceed to using %s you should provide information about one or more architectures.") % SETTINGS[:name] %>
   </p>
 
   <p>
-  <%= _("Each entries represent a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems.").html_safe %>
+  <%= (_("Each entries represent a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. %s also supports the Solaris operating system family, which includes <b>sparc</b> based systems.") % SETTINGS[:name]).html_safe %>
   </p>
   <p>
   <%= _("Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations.") %>

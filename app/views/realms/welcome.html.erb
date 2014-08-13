@@ -2,6 +2,6 @@
 <% title _("Realm Configuration") %>
 <div id="welcome">
   <p>
-  <%= _("Foreman supports automatically creating realm entries for new hosts.  When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password.").html_safe %>
+  <%= (_("%{name} supports automatically creating realm entries for new hosts.  When a realm is selected for a host, %{name} contacts the relevant realm %{smart_proxy_name} to create an entry for the host and retrieve it's one-time registration password.") % {:name => SETTINGS[:name], :smart_proxy_name => SETTINGS[:smart_proxy_name]}).html_safe %>
   </p>
 </div>
