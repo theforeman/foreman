@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-07 09:23+0100\n"
-"PO-Revision-Date: 2014-08-07 09:50+0000\n"
+"POT-Creation-Date: 2014-08-11 15:07+0100\n"
+"PO-Revision-Date: 2014-08-12 09:48+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1830,6 +1830,9 @@ msgstr "展开图表"
 msgid "Expires"
 msgstr "过期"
 
+msgid "Explain matchers"
+msgstr ""
+
 msgid "External IP"
 msgstr ""
 
@@ -2032,6 +2035,9 @@ msgstr "筛选"
 
 msgid "Filter %s"
 msgstr "筛选 %s"
+
+msgid "Filter by name"
+msgstr ""
 
 msgid "Filter classes"
 msgstr "筛选类"
@@ -4015,6 +4021,9 @@ msgid ""
 "used to limit the import_puppetclasses actions"
 msgstr ""
 
+msgid "Optional input validator"
+msgstr ""
+
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
 "<br><br><b>Description:</b> %s"
@@ -4077,6 +4086,9 @@ msgstr ""
 msgid "Override this value"
 msgstr "重设此值"
 
+msgid "Override value for specific hosts"
+msgstr ""
+
 msgid "Overview"
 msgstr "概况"
 
@@ -4113,6 +4125,9 @@ msgstr "参数名称"
 
 msgid "Parameter type"
 msgstr "参数类型"
+
+msgid "Parameter types"
+msgstr ""
 
 msgid "Parameters"
 msgstr "参数"
@@ -6251,6 +6266,9 @@ msgstr "有效的主机组和环境组合"
 msgid "Validation types"
 msgstr "验证类型"
 
+msgid "Validator type"
+msgstr ""
+
 msgid "Value"
 msgstr "值"
 
@@ -6544,7 +6562,13 @@ msgstr "和"
 msgid "and relevant log entries."
 msgstr "和相关的日志条目。"
 
+msgid "array"
+msgstr ""
+
 msgid "belongs to config group"
+msgstr ""
+
+msgid "boolean"
 msgstr ""
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
@@ -6700,6 +6724,9 @@ msgstr ""
 msgid "has this role already"
 msgstr ""
 
+msgid "hash"
+msgstr ""
+
 msgid "hash containing the facts for the host"
 msgstr ""
 
@@ -6722,6 +6749,9 @@ msgid "in Progress"
 msgstr ""
 
 msgid "included already from parent"
+msgstr ""
+
+msgid "integer"
 msgstr ""
 
 msgid "interface information"
@@ -6808,11 +6838,17 @@ msgstr ""
 msgid "items selected. Uncheck to Clear"
 msgstr ""
 
+msgid "json"
+msgstr ""
+
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] "最后 %s 天"
 
 msgid "link external user group with this user group"
+msgstr ""
+
+msgid "list"
 msgstr ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
@@ -6937,8 +6973,14 @@ msgstr "关闭"
 msgid "puppet class browser"
 msgstr "浏览puppet 类"
 
+msgid "real"
+msgstr ""
+
 msgid "reboot"
 msgstr "重启"
+
+msgid "regexp"
+msgstr ""
 
 msgid "remove network interface"
 msgstr "删除网络接口"
@@ -7006,6 +7048,9 @@ msgstr ""
 msgid "stop"
 msgstr "停止"
 
+msgid "string"
+msgstr ""
+
 msgid "template name"
 msgstr ""
 
@@ -7066,6 +7111,9 @@ msgstr ""
 
 msgid "valid"
 msgstr "合法"
+
+msgid "yaml"
+msgstr ""
 
 msgid "you may use %s"
 msgstr "可用使用 %s"

@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-07 09:23+0100\n"
-"PO-Revision-Date: 2014-08-08 10:01+0000\n"
-"Last-Translator: Sergio Ocón <sergio@redhat.com>\n"
+"POT-Creation-Date: 2014-08-11 15:07+0100\n"
+"PO-Revision-Date: 2014-08-12 09:48+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1849,6 +1849,9 @@ msgstr "Expandir la gráfica"
 msgid "Expires"
 msgstr "Caduca"
 
+msgid "Explain matchers"
+msgstr ""
+
 msgid "External IP"
 msgstr "IP Externa"
 
@@ -2051,6 +2054,9 @@ msgstr "Filtro"
 
 msgid "Filter %s"
 msgstr "Filtrar %s"
+
+msgid "Filter by name"
+msgstr ""
 
 msgid "Filter classes"
 msgstr "Clases de filtro"
@@ -4034,6 +4040,9 @@ msgid ""
 "used to limit the import_puppetclasses actions"
 msgstr "Cadena de caracteres delimitada por comas opcional, puede ser 'new,updated,obsolete', se usa para limitar el importe de las clases de Puppet"
 
+msgid "Optional input validator"
+msgstr ""
+
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
 "<br><br><b>Description:</b> %s"
@@ -4096,6 +4105,9 @@ msgstr "Omitir un parámetro de Puppetclass"
 msgid "Override this value"
 msgstr "Sobrescribir este valor"
 
+msgid "Override value for specific hosts"
+msgstr ""
+
 msgid "Overview"
 msgstr "Visión de conjunto"
 
@@ -4132,6 +4144,9 @@ msgstr "Nombre de parámetro"
 
 msgid "Parameter type"
 msgstr "Tipo de parámetro"
+
+msgid "Parameter types"
+msgstr ""
 
 msgid "Parameters"
 msgstr "Parámetros"
@@ -6272,6 +6287,9 @@ msgstr "Combinaciones de grupos de equipos y entornos válidos"
 msgid "Validation types"
 msgstr "Tipos de validación"
 
+msgid "Validator type"
+msgstr ""
+
 msgid "Value"
 msgstr "Valor"
 
@@ -6565,8 +6583,14 @@ msgstr "y"
 msgid "and relevant log entries."
 msgstr "y entradas relevantes de registros"
 
+msgid "array"
+msgstr ""
+
 msgid "belongs to config group"
 msgstr "pertenece a un conjunto de configuración"
+
+msgid "boolean"
+msgstr ""
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr "dispositivo de inicio, dispositivos validos son disk, cdrom, pxe, bios"
@@ -6721,6 +6745,9 @@ msgstr "tiene este grupo de host preparado"
 msgid "has this role already"
 msgstr "tiene este rol preparado"
 
+msgid "hash"
+msgstr ""
+
 msgid "hash containing the facts for the host"
 msgstr "hash con los detalles para el host"
 
@@ -6744,6 +6771,9 @@ msgstr "en curso"
 
 msgid "included already from parent"
 msgstr "incluidos previamente por el padre"
+
+msgid "integer"
+msgstr ""
 
 msgid "interface information"
 msgstr "información de interfaz"
@@ -6829,6 +6859,9 @@ msgstr "seguimiento de incidencias"
 msgid "items selected. Uncheck to Clear"
 msgstr "objetos seleccionados. Desactivar para limpiar"
 
+msgid "json"
+msgstr ""
+
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] "último %s día"
@@ -6836,6 +6869,9 @@ msgstr[1] "últimos %s días"
 
 msgid "link external user group with this user group"
 msgstr "enlazar grupo de usuarios externos con este"
+
+msgid "list"
+msgstr ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"
@@ -6959,8 +6995,14 @@ msgstr "apagar"
 msgid "puppet class browser"
 msgstr "buscador de clases de Puppet"
 
+msgid "real"
+msgstr ""
+
 msgid "reboot"
 msgstr "reiniciar"
+
+msgid "regexp"
+msgstr ""
 
 msgid "remove network interface"
 msgstr "eliminar interfaz de red"
@@ -7028,6 +7070,9 @@ msgstr "estado"
 msgid "stop"
 msgstr "parar"
 
+msgid "string"
+msgstr ""
+
 msgid "template name"
 msgstr "nombre de plantilla"
 
@@ -7088,6 +7133,9 @@ msgstr "usando %{allocation} GB de %{capacity} GB en el pool de almacenamiento %
 
 msgid "valid"
 msgstr "válido"
+
+msgid "yaml"
+msgstr ""
 
 msgid "you may use %s"
 msgstr "se puede usar %s"

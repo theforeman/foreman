@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-07 09:23+0100\n"
-"PO-Revision-Date: 2014-08-07 09:50+0000\n"
+"POT-Creation-Date: 2014-08-11 15:07+0100\n"
+"PO-Revision-Date: 2014-08-12 09:48+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1850,6 +1850,9 @@ msgstr ""
 msgid "Expires"
 msgstr "Läuft ab"
 
+msgid "Explain matchers"
+msgstr ""
+
 msgid "External IP"
 msgstr "Externe IP"
 
@@ -2052,6 +2055,9 @@ msgstr "Fehler"
 
 msgid "Filter %s"
 msgstr "Filter %s"
+
+msgid "Filter by name"
+msgstr ""
 
 msgid "Filter classes"
 msgstr "Filterklassen"
@@ -4035,6 +4041,9 @@ msgid ""
 "used to limit the import_puppetclasses actions"
 msgstr ""
 
+msgid "Optional input validator"
+msgstr ""
+
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
 "<br><br><b>Description:</b> %s"
@@ -4097,6 +4106,9 @@ msgstr "Einen Puppet-Klassenparameter übergehen"
 msgid "Override this value"
 msgstr "Diesen Wert außer Kraft setzen"
 
+msgid "Override value for specific hosts"
+msgstr ""
+
 msgid "Overview"
 msgstr "Übersicht"
 
@@ -4133,6 +4145,9 @@ msgstr "Parametername"
 
 msgid "Parameter type"
 msgstr "Parametertyp"
+
+msgid "Parameter types"
+msgstr ""
 
 msgid "Parameters"
 msgstr "Parameter"
@@ -6273,6 +6288,9 @@ msgstr ""
 msgid "Validation types"
 msgstr "Gültigkeitstypen"
 
+msgid "Validator type"
+msgstr ""
+
 msgid "Value"
 msgstr "Wert"
 
@@ -6566,7 +6584,13 @@ msgstr "und"
 msgid "and relevant log entries."
 msgstr "und relevante Logeinträge"
 
+msgid "array"
+msgstr ""
+
 msgid "belongs to config group"
+msgstr ""
+
+msgid "boolean"
 msgstr ""
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
@@ -6722,6 +6746,9 @@ msgstr ""
 msgid "has this role already"
 msgstr ""
 
+msgid "hash"
+msgstr ""
+
 msgid "hash containing the facts for the host"
 msgstr ""
 
@@ -6745,6 +6772,9 @@ msgstr ""
 
 msgid "included already from parent"
 msgstr "bereits in der Hostgruppe einbegriffen"
+
+msgid "integer"
+msgstr ""
 
 msgid "interface information"
 msgstr ""
@@ -6830,12 +6860,18 @@ msgstr "Issue Tracker"
 msgid "items selected. Uncheck to Clear"
 msgstr "Elemente ausgewählt. Abwählen um zu Leeren"
 
+msgid "json"
+msgstr ""
+
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] "letzter %s Tag"
 msgstr[1] "letzte %s Tage"
 
 msgid "link external user group with this user group"
+msgstr ""
+
+msgid "list"
 msgstr ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
@@ -6960,8 +6996,14 @@ msgstr "ausschalten"
 msgid "puppet class browser"
 msgstr "Puppet Klassenbrowser"
 
+msgid "real"
+msgstr ""
+
 msgid "reboot"
 msgstr "neustarten"
+
+msgid "regexp"
+msgstr ""
 
 msgid "remove network interface"
 msgstr "Netzwerkschnittstelle löschen"
@@ -7029,6 +7071,9 @@ msgstr "Status"
 msgid "stop"
 msgstr "Stop"
 
+msgid "string"
+msgstr ""
+
 msgid "template name"
 msgstr ""
 
@@ -7089,6 +7134,9 @@ msgstr ""
 
 msgid "valid"
 msgstr "gültig"
+
+msgid "yaml"
+msgstr ""
 
 msgid "you may use %s"
 msgstr "du kannst %s benutzen"

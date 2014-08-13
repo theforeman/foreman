@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-07 09:23+0100\n"
-"PO-Revision-Date: 2014-08-11 11:48+0000\n"
+"POT-Creation-Date: 2014-08-11 15:07+0100\n"
+"PO-Revision-Date: 2014-08-12 13:51+0000\n"
 "Last-Translator: Pierre-Emmanuel Dutang <dutangp@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1853,6 +1853,9 @@ msgstr "Étendre le graphique"
 msgid "Expires"
 msgstr "Expire"
 
+msgid "Explain matchers"
+msgstr "Explication des correspondances"
+
 msgid "External IP"
 msgstr "IP Externe"
 
@@ -2055,6 +2058,9 @@ msgstr "Filtre"
 
 msgid "Filter %s"
 msgstr "Filtre %s"
+
+msgid "Filter by name"
+msgstr "Filtrer par nom"
 
 msgid "Filter classes"
 msgstr "Filtrer les classes"
@@ -4038,6 +4044,9 @@ msgid ""
 "used to limit the import_puppetclasses actions"
 msgstr "Optionnel : liste de chaines séparées par des virgules parmi 'new, updated, obsolete' utilisée pour limiter les actions de la fonction import_puppetclasses "
 
+msgid "Optional input validator"
+msgstr "Option de validation d'entrée"
+
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
 "<br><br><b>Description:</b> %s"
@@ -4100,6 +4109,9 @@ msgstr "Surcharger un paramètre de la classe Puppet"
 msgid "Override this value"
 msgstr "Surcharger cette valeur"
 
+msgid "Override value for specific hosts"
+msgstr "Surcharger une valeur pour des hôtes spécifiques"
+
 msgid "Overview"
 msgstr "Vue globale"
 
@@ -4136,6 +4148,9 @@ msgstr "Nom du paramètre"
 
 msgid "Parameter type"
 msgstr "Type du paramètre"
+
+msgid "Parameter types"
+msgstr "types de paramètre"
 
 msgid "Parameters"
 msgstr "Paramètres"
@@ -6276,6 +6291,9 @@ msgstr "Combinaison valide de groupe d'hôtes et d'environnement"
 msgid "Validation types"
 msgstr "Types de validation"
 
+msgid "Validator type"
+msgstr "Type validateur"
+
 msgid "Value"
 msgstr "Valeur"
 
@@ -6569,8 +6587,14 @@ msgstr "et"
 msgid "and relevant log entries."
 msgstr "et les entrées de log correspondantes."
 
+msgid "array"
+msgstr "tableau"
+
 msgid "belongs to config group"
 msgstr "appartient au groupe de configuration"
+
+msgid "boolean"
+msgstr "booléen"
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr "périphérique de démarrage. Les périphériques valides sont : disk, cdrom, pxe, bios"
@@ -6725,6 +6749,9 @@ msgstr "possède déjà ce groupe"
 msgid "has this role already"
 msgstr "possède déjà ce rôle"
 
+msgid "hash"
+msgstr "hash"
+
 msgid "hash containing the facts for the host"
 msgstr "hash contenant les facts de cet hôte"
 
@@ -6748,6 +6775,9 @@ msgstr "En cours"
 
 msgid "included already from parent"
 msgstr "déjà inclus depuis le parent"
+
+msgid "integer"
+msgstr "entier"
 
 msgid "interface information"
 msgstr "information de l'interface"
@@ -6833,6 +6863,9 @@ msgstr "traqueur de bogue"
 msgid "items selected. Uncheck to Clear"
 msgstr "items sélectionnés. Décocher pour Effacer"
 
+msgid "json"
+msgstr "json"
+
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] "le %s dernier jour"
@@ -6840,6 +6873,9 @@ msgstr[1] "les %s derniers jours"
 
 msgid "link external user group with this user group"
 msgstr "joindre un group d'utilisateur externe avec ce groupe d'utilisateur"
+
+msgid "list"
+msgstr "liste"
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"
@@ -6963,8 +6999,14 @@ msgstr "éteindre"
 msgid "puppet class browser"
 msgstr "Navigateur de classes Puppet"
 
+msgid "real"
+msgstr "réel"
+
 msgid "reboot"
 msgstr "redémarrer"
+
+msgid "regexp"
+msgstr "regexp"
 
 msgid "remove network interface"
 msgstr "supprimer l'interface réseau"
@@ -7032,6 +7074,9 @@ msgstr "status"
 msgid "stop"
 msgstr "Arrêt"
 
+msgid "string"
+msgstr "chaîne"
+
 msgid "template name"
 msgstr "Nom de modèle"
 
@@ -7092,6 +7137,9 @@ msgstr "utilise %{allocation} Go sur %{capacity} Go, pool de stockage %{pool_nam
 
 msgid "valid"
 msgstr "valide"
+
+msgid "yaml"
+msgstr "yaml"
 
 msgid "you may use %s"
 msgstr "Vous pouvez utiliser %s"

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-07 09:23+0100\n"
-"PO-Revision-Date: 2014-08-07 09:50+0000\n"
+"POT-Creation-Date: 2014-08-11 15:07+0100\n"
+"PO-Revision-Date: 2014-08-12 09:48+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -1840,6 +1840,9 @@ msgstr "Expandera kartan"
 msgid "Expires"
 msgstr "Utgår"
 
+msgid "Explain matchers"
+msgstr ""
+
 msgid "External IP"
 msgstr "Extern IP"
 
@@ -2042,6 +2045,9 @@ msgstr "Filter"
 
 msgid "Filter %s"
 msgstr "Filtrera %s"
+
+msgid "Filter by name"
+msgstr ""
 
 msgid "Filter classes"
 msgstr "Filterklasser"
@@ -4025,6 +4031,9 @@ msgid ""
 "used to limit the import_puppetclasses actions"
 msgstr ""
 
+msgid "Optional input validator"
+msgstr ""
+
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
 "<br><br><b>Description:</b> %s"
@@ -4087,6 +4096,9 @@ msgstr "Tvinga en Puppetklassparameter"
 msgid "Override this value"
 msgstr "Tvinga detta värde"
 
+msgid "Override value for specific hosts"
+msgstr ""
+
 msgid "Overview"
 msgstr "Överblick"
 
@@ -4123,6 +4135,9 @@ msgstr "Parameternamn"
 
 msgid "Parameter type"
 msgstr "Parametertyp"
+
+msgid "Parameter types"
+msgstr ""
 
 msgid "Parameters"
 msgstr "Parametrar"
@@ -6263,6 +6278,9 @@ msgstr "Korrekt värdgrupp och miljökombinationer"
 msgid "Validation types"
 msgstr "Valideringstyper"
 
+msgid "Validator type"
+msgstr ""
+
 msgid "Value"
 msgstr "Värde"
 
@@ -6556,7 +6574,13 @@ msgstr "och"
 msgid "and relevant log entries."
 msgstr "och relevanta loggrader"
 
+msgid "array"
+msgstr ""
+
 msgid "belongs to config group"
+msgstr ""
+
+msgid "boolean"
 msgstr ""
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
@@ -6712,6 +6736,9 @@ msgstr "har redan denna värdgrupp"
 msgid "has this role already"
 msgstr "har redan denna roll"
 
+msgid "hash"
+msgstr ""
+
 msgid "hash containing the facts for the host"
 msgstr ""
 
@@ -6734,6 +6761,9 @@ msgid "in Progress"
 msgstr ""
 
 msgid "included already from parent"
+msgstr ""
+
+msgid "integer"
 msgstr ""
 
 msgid "interface information"
@@ -6820,12 +6850,18 @@ msgstr "Problemspårare"
 msgid "items selected. Uncheck to Clear"
 msgstr "poster markerade. Avmarkera för att rensa"
 
+msgid "json"
+msgstr ""
+
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] "senaste %s dagen"
 msgstr[1] "senaste %s dagarna"
 
 msgid "link external user group with this user group"
+msgstr ""
+
+msgid "list"
 msgstr ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
@@ -6950,8 +6986,14 @@ msgstr "stäng av"
 msgid "puppet class browser"
 msgstr "puppetklassbläddrare"
 
+msgid "real"
+msgstr ""
+
 msgid "reboot"
 msgstr "omstart"
+
+msgid "regexp"
+msgstr ""
 
 msgid "remove network interface"
 msgstr "ta bort nätvärkskort"
@@ -7019,6 +7061,9 @@ msgstr "status"
 msgid "stop"
 msgstr "stop"
 
+msgid "string"
+msgstr ""
+
 msgid "template name"
 msgstr ""
 
@@ -7079,6 +7124,9 @@ msgstr ""
 
 msgid "valid"
 msgstr "giltig"
+
+msgid "yaml"
+msgstr ""
 
 msgid "you may use %s"
 msgstr "du kan använda %s"
