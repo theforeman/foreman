@@ -42,7 +42,7 @@
         </div>
         <%= textarea_f f, :template, :class => "template_text", :label =>:none, :disabled => @config_template.locked?, :size => "max", :'data-file-name' => @config_template.name %>
 
-        <% if @config_template.locked? -%>
+        <% unless @config_template.locked? -%>
           <%= file_field_f f, :template, :class => "template_file",:size => "col-md-10",
                               :help_block  => _("Selecting a file will override the editor and load the file instead") %>
         <% end -%>
