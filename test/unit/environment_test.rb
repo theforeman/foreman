@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class EnvironmentTest < ActiveSupport::TestCase
+  def setup
+    Environment.all.each do |e| #because we load from fixtures, counters aren't updated
+      Environment.reset_counters(e.id,:hosts)
+      Environment.reset_counters(e.id,:hostgroups)
+    end
+  end
+
   test "should have name" do
     env = Environment.new
     assert !env.valid?

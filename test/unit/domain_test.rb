@@ -5,6 +5,11 @@ class DomainTest < ActiveSupport::TestCase
     User.current = users(:admin)
     @new_domain = Domain.new
     @domain = domains(:mydomain)
+    Domain.all.each do |d| #because we load from fixtures, counters aren't updated
+      Domain.reset_counters(d.id,:hosts)
+      Domain.reset_counters(d.id,:hostgroups)
+    end
+
   end
 
   test "should not save without a name" do
@@ -66,6 +71,14 @@ class DomainTest < ActiveSupport::TestCase
     domain = domains(:yourdomain)
     assert_difference "domain.hosts_count" do
       hosts(:one).update_attribute(:domain, domain)
+      domain.reload
+    end
+  end
+
+  test "should update hosts_count on domain_id change" do
+    domain = domains(:yourdomain)
+    assert_difference "domain.hosts_count" do
+      hosts(:one).update_attribute(:domain_id, domain.id)
       domain.reload
     end
   end

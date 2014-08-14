@@ -3,7 +3,12 @@ require 'test_helper'
 class ArchitectureTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
+    Architecture.all.each do |a| #because we load from fixtures, counters aren't updated
+      Architecture.reset_counters(a.id,:hosts)
+      Architecture.reset_counters(a.id,:hostgroups)
+    end
   end
+
   test "should not save without a name" do
     architecture = Architecture.new
     assert_not architecture.save
