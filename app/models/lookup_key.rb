@@ -1,5 +1,6 @@
 class LookupKey < ActiveRecord::Base
   include Authorizable
+  include CounterCacheFix
 
   KEY_TYPES = [N_("string"), N_("boolean"), N_("integer"), N_("real"), N_("array"), N_("hash"), N_("yaml"), N_("json")]
   VALIDATOR_TYPES = [N_("regexp"), N_("list") ]
