@@ -6,6 +6,8 @@ module HostCommon
   extend ActiveSupport::Concern
 
   included do
+    include CounterCacheFix
+
     counter_cache = "#{model_name.split(":").first.pluralize.downcase}_count".to_sym  # e.g. :hosts_count
 
     belongs_to :architecture,    :counter_cache => counter_cache
