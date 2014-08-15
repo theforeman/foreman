@@ -92,7 +92,7 @@ module Hostext
 
       def search_by_puppetclass(key, operator, value)
         conditions    = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
-        config_group_ids = ConfigGroup.where(conditions).joins(:puppetclasses).pluck(:id)
+        config_group_ids = ConfigGroup.where(conditions).joins(:puppetclasses).pluck('config_groups.id')
         host_ids         = Host.authorized(:view_hosts, Host).where(conditions).joins(:puppetclasses).uniq.map(&:id)
         host_ids        += HostConfigGroup.where(:host_type => 'Host::Base').where(:config_group_id => config_group_ids).pluck(:host_id)
         hostgroups       = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:puppetclasses)
