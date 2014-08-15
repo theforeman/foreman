@@ -17,9 +17,9 @@
         <locale>te</locale>
         <locale>pa</locale>
         <locale>kn</locale>
-        <locale>de</locale>
-        <locale>es</locale>
         <locale>gl</locale>
+        <locale map-from="de">de-DE</locale>
+        <locale map-from="es">es-ES</locale>
         <locale map-from="pt_BR">pt-BR</locale>
         <locale map-from="bn">bn-IN</locale>
         <locale map-from="ta">ta-IN</locale>
