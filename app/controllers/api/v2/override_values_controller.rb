@@ -43,6 +43,7 @@ module Api
 
       def create
         @override_value = @smart.lookup_values.create!(params[:override_value])
+        @smart.update_attribute(:override, true)
       end
 
       api :PUT, "/smart_variables/:smart_variable_id/override_values/:id", N_("Update an override value for a specific smart variable")
