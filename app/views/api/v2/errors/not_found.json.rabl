@@ -1,3 +1,8 @@
 object false
 
-node(:message) { "Resource #{controller.resource_name} not found by id '#{controller.params[:id]}'" }
+node(:message) do
+  _("Resource %{resource_name} not found by id '%{id}'") % {
+    :resource_name => controller.resource_name,
+    :id => controller.params[:id]
+  }
+end
