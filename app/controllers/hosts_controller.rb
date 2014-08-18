@@ -384,7 +384,7 @@ class HostsController < ApplicationController
       host.setBuild
     end
 
-    missed_hosts = @hosts.map(&:name).join('<br/>')
+    missed_hosts = @hosts.map(&:name).to_sentence
     if @hosts.empty?
       notice _("The selected hosts will execute a build operation on next reboot")
     else
@@ -397,7 +397,7 @@ class HostsController < ApplicationController
     # keep all the ones that were not deleted for notification.
     @hosts.delete_if {|host| host.destroy}
 
-    missed_hosts = @hosts.map(&:name).join('<br/>')
+    missed_hosts = @hosts.map(&:name).to_sentence
     if @hosts.empty?
       notice _("Destroyed selected hosts")
     else
@@ -677,7 +677,7 @@ class HostsController < ApplicationController
     @hosts.delete_if { |host| host.update_attribute(:enabled, mode) }
     action = mode ? "enabled" : "disabled"
 
-    missed_hosts       = @hosts.map(&:name).join('<br/>')
+    missed_hosts       = @hosts.map(&:name).to_sentence
     if @hosts.empty?
       notice _("%s selected hosts") % (action.capitalize)
     else
