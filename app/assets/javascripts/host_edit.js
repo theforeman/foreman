@@ -1,6 +1,6 @@
 $(document).on('ContentLoad', function(){onHostEditLoad()});
 $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(link)});
-$(document).on('click', '#params-tab', function() { resizeTextareaAll(); });
+$(document).on('click', '#params-tab', function() { resizeTextareas($('#params')); });
 
 function computeResourceSelected(item){
   var compute = $(item).val();
@@ -621,11 +621,11 @@ function disable_vm_form_fields() {
   $("a.disable-unsupported").remove();
 }
 
-function resizeTextareaAll () {
-  $('textarea').each(function() {
+function resizeTextareas (elem) {
+  elem.find('textarea').each(function() {
     if (this.scrollHeight !== undefined){
       if (this.scrollHeight <= 100){
-        this.style.height = this.scrollHeight+ 'px';
+        this.style.height = this.scrollHeight+parseInt(this.style.paddingTop)+parseInt(this.style.paddingBottom)+ 'px';
       }
       else{
         this.style.height = 100+'px';
