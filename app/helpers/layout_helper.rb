@@ -49,12 +49,17 @@ module LayoutHelper
     end
   end
 
-  def password_f(f, attr, options = {})
+  def password_f(f, attr, options = {}, prevent_complete = true)
     field(f, attr, options) do
       options[:autocomplete] ||= "off"
       options[:placeholder] ||= password_placeholder(f.object)
       addClass options, "form-control"
-      f.password_field attr, options
+      if prevent_complete
+        f.text_field(attr, options) +
+          javascript_tag("document.getElementById('#{f.object_name}_#{attr}').type = 'password'")
+      else
+        f.password_field attr, options
+      end
     end
   end
 
