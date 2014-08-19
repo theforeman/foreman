@@ -89,7 +89,7 @@ class ClassificationTest < ActiveSupport::TestCase
     classparam.expects(:environment_id).returns(env.id)
     classparam.expects(:puppetclass_ids).returns(Array.wrap(pc).map(&:id))
     classparam.expects(:attr_to_value).with('comment').returns('override')
-    assert_equal({pc.id => {lkey.key => { :value => 'overridden value', :element => 'comment', :element_value => 'override'}}}, classparam.send(:values_hash))
+    assert_equal({lkey.id => {lkey.key => { :value => 'overridden value', :element => 'comment', :element_name => 'override'}}}, classparam.send(:values_hash))
   end
 
   private

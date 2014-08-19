@@ -130,6 +130,7 @@ class Hostgroup < ActiveRecord::Base
     groups.each do |hg|
       hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('hostgroup').to_sym, :safe_value => p.safe_value, :source_name => hg.title} : p.value }
    end
+
     hash
   end
 
