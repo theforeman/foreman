@@ -5,7 +5,7 @@ class Hostgroup < ActiveRecord::Base
   include NestedAncestryCommon
   include ScopedSearchExtensions
 
-  validates_lengths_from_database
+  validates_lengths_from_database :except => [:name]
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :hostgroup_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :hostgroup_classes
@@ -13,6 +13,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :users, :through => :user_hostgroups
   validates :name, :format => { :with => /\A(\S+\s?)+\Z/, :message => N_("can't contain trailing white spaces.")}
   validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
+  validate :title_and_lookup_key_length
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
   has_many_hosts
@@ -169,6 +170,13 @@ class Hostgroup < ActiveRecord::Base
   def used_taxonomy_ids(type)
     return [] if new_record? && parent_id.blank?
     Host::Base.where(:hostgroup_id => self.path_ids).pluck(type).compact.uniq
+  end
+
+  def title_and_lookup_key_length
+    max_length_for_name = self.send(:obj_type).length + 1
+    max_length_for_name += parent.title.length unless parent.nil?
+
+    errors.add(:name, _("maximum for this name is %s characters") % (255 - max_length_for_name)) if 255 - (name.length + max_length_for_name) < 0
   end
 
 end
