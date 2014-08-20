@@ -303,4 +303,19 @@ class HostgroupTest < ActiveSupport::TestCase
     assert hostgroup.valid?
   end
 
+  test "hostgroup name can't be too big to create lookup value matcher over 255 characters" do
+    parent = FactoryGirl.create(:hostgroup)
+    min_lookupvalue_length = "hostgroup=".length + parent.title.length
+    hostgroup = Hostgroup.new :parent => parent, :name => 'a' * 256
+    refute_valid hostgroup
+    assert_equal _("maximum for this name is %s characters") % (255 -  min_lookupvalue_length), hostgroup.errors[:name].first
+  end
+
+  test "hostgroup name can be up to 255 characters" do
+    parent = FactoryGirl.create(:hostgroup)
+    min_lookupvalue_length = "hostgroup=".length + parent.title.length
+    hostgroup = Hostgroup.new :parent => parent, :name => 'a' * (255 - min_lookupvalue_length)
+    assert_valid hostgroup
+  end
+
 end
