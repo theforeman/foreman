@@ -23,7 +23,7 @@ $(function() {
 
 function onContentLoad(){
   if($('.autocomplete-clear').size() == 0){
-    $('.autocomplete-input').scopedSearch();
+    $('.autocomplete-input').scopedSearch({'delay': 250});
     $('.ui-helper-hidden-accessible').remove();
   }
 
