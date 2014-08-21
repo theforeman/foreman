@@ -15,9 +15,7 @@ module Api
 
     respond_to :json
 
-    after_filter do
-      logger.debug "Body: #{response.body}"
-    end
+    after_filter :log_response_body
 
     rescue_from StandardError, :with => lambda { |error|
       logger.error "#{error.message} (#{error.class})\n#{error.backtrace.join("\n")}"
@@ -209,6 +207,10 @@ module Api
           end
         end
       end
+    end
+
+    def log_response_body
+      logger.debug { "Body: #{response.body}" }
     end
 
     private
