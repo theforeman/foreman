@@ -20,6 +20,11 @@ FactoryGirl.define do
     server_type 'active_directory'
   end
 
+  trait :service_account do
+    account 'foremanservice'
+    account_password 'f0rem4n'
+  end
+
   factory :free_ipa_auth_source,         :traits => [:free_ipa]
   factory :active_directory_auth_source, :traits => [:active_directory]
   factory :posix_auth_source,            :traits => [:posix]

@@ -41,7 +41,7 @@ class AuthSourceLdap < AuthSource
 
     logger.debug "LDAP-Auth with User #{login}"
 
-    ldap_con = LdapFluff.new(self.to_config)
+    ldap_con = LdapFluff.new(self.to_config(login, password))
 
     return unless ldap_con.valid_user?(login)
     entry = ldap_con.find_user(login).last
@@ -62,29 +62,29 @@ class AuthSourceLdap < AuthSource
     raise "LdapError: %s" % error
   end
 
-  def test_connection
-    LdapFluff.new(self.to_config).test
-  rescue Net::LDAP::LdapError => error
-    raise "LdapError: %s" % error
-  end
-
   def auth_method_name
     "LDAP"
   end
 
-  def to_config
+  def to_config(login = nil, password = nil)
+    raise ::Foreman::Exception.new(N_('Cannot create LDAP configuration for %s without dedicated service account'), self.name) if login.nil? && use_user_login_for_service?
     { :host    => host,    :port => port, :encryption => (tls ? :simple_tls : nil),
       :base_dn => base_dn, :group_base => groups_base, :attr_login => attr_login,
-      :server_type  => server_type.to_sym, :service_user => account, :search_filter => ldap_filter,
-      :service_pass => account_password,   :anon_queries => account.blank? }
+      :server_type  => server_type.to_sym, :search_filter => ldap_filter,
+      :anon_queries => account.blank?, :service_user => service_user(login),
+      :service_pass => use_user_login_for_service? ? password : account_password }
   end
 
-  def ldap_con
-    @ldap_con ||= LdapFluff.new(self.to_config)
+  def ldap_con(login = nil, password = nil)
+    if login.present?
+      LdapFluff.new(self.to_config(login, password))
+    else
+      @ldap_con ||= LdapFluff.new(self.to_config)
+    end
   end
 
-  def update_usergroups(login)
-    ldap_con.group_list(login).each do |name|
+  def update_usergroups(login, password)
+    ldap_con(login, password).group_list(login).each do |name|
       begin
         external_usergroup = external_usergroups.find_by_name(name)
         external_usergroup.refresh if external_usergroup.present?
@@ -96,7 +96,6 @@ class AuthSourceLdap < AuthSource
 
   def valid_group?(name)
     return false unless name.present?
-    ldap_con.authenticate?(account, account_password)
     ldap_con.valid_group?(name)
   end
 
@@ -156,6 +155,15 @@ class AuthSourceLdap < AuthSource
     Net::LDAP::Filter.construct(ldap_filter)
   rescue Net::LDAP::LdapError => text
     errors.add(:ldap_filter, _("invalid LDAP filter syntax"))
+  end
+
+  def use_user_login_for_service?
+    # returns true if account is defined and includes "$login"
+    (account.present? && account.include? "$login")
+  end
+
+  def service_user(login)
+    use_user_login_for_service? ? account.sub("$login", login) : account
   end
 
 end
