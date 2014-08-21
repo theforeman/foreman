@@ -464,7 +464,7 @@ class UserTest < ActiveSupport::TestCase
 
   test ".try_to_auto_create_user" do
     AuthSourceLdap.any_instance.stubs(:authenticate).returns({ :firstname => "Foo", :lastname => "Bar", :mail => "baz@qux.com" })
-    AuthSourceLdap.any_instance.stubs(:update_usergroups).returns(true)
+    AuthSourceLdap.any_instance.expects(:update_usergroups).with('non_existing_user_1', 'password').returns(true)
 
     ldap_server = AuthSource.find_by_name("ldap-server")
 
