@@ -110,6 +110,10 @@ module Foreman
         @public
       end
 
+      def plugin?
+        !!@engine
+      end
+
       def require_member?
         @require && @require == :member
       end
