@@ -157,7 +157,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     setup_ldap_stubs
     ExternalUsergroup.any_instance.expects(:refresh).never
     LdapFluff.any_instance.expects(:group_list).with('test').returns([])
-    @auth_source_ldap.send(:update_usergroups, 'test')
+    @auth_source_ldap.send(:update_usergroups, 'test', 'pass')
   end
 
   test 'update_usergroups calls refresh_ldap if entry belongs to some group' do
@@ -166,8 +166,39 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     ExternalUsergroup.any_instance.expects(:present?).returns(true)
     ExternalUsergroup.any_instance.expects(:refresh).returns(true)
     LdapFluff.any_instance.expects(:group_list).with('test').returns(['ipausers'])
-    @auth_source_ldap.send(:update_usergroups, 'test')
+    @auth_source_ldap.send(:update_usergroups, 'test', 'pass')
   end
+
+  test '#to_config with dedicated service account returns hash' do
+    conf = FactoryGirl.build(:auth_source_ldap, :service_account).to_config
+    assert_kind_of Hash, conf
+    refute conf[:anon_queries]
+  end
+
+  test '#to_config with $login service account and no username fails' do
+    ldap = FactoryGirl.build(:auth_source_ldap, :account => 'DOMAIN/$login')
+    assert_raise(Foreman::Exception) { ldap.to_config }
+  end
+
+  test '#to_config with $login service account and username returns hash with service user' do
+    conf = FactoryGirl.build(:auth_source_ldap, :account => 'DOMAIN/$login').to_config('user', 'pass')
+    assert_kind_of Hash, conf
+    refute conf[:anon_queries]
+    assert_equal 'DOMAIN/user', conf[:service_user]
+  end
+
+  test '#to_config with no service account returns hash with anonymous queries' do
+    conf = FactoryGirl.build(:auth_source_ldap).to_config('user', 'pass')
+    assert_kind_of Hash, conf
+    assert conf[:anon_queries]
+  end
+
+  test '#ldap_con does not cache connections with user auth' do
+    ldap = FactoryGirl.build(:auth_source_ldap, :account => 'DOMAIN/$login')
+    refute_equal ldap.ldap_con('user', 'pass'), ldap.ldap_con('user', 'pass')
+  end
+
+  private
 
   def setup_ldap_stubs
     # stub out all the LDAP connectivity

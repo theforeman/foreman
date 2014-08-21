@@ -404,7 +404,7 @@ class User < ActiveRecord::Base
       # The default user can't auto create users, we need to change to Admin for this to work
       User.as_anonymous_admin do
         if user.save
-          AuthSource.find(attrs[:auth_source_id]).update_usergroups(login)
+          AuthSource.find(attrs[:auth_source_id]).update_usergroups(login, password)
           logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
         else
           logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"
