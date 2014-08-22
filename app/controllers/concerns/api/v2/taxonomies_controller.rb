@@ -15,6 +15,16 @@ module Api::V2::TaxonomiesController
   def_param_group :resource do
     param :resource, Hash, :action_aware => true do
       param :name, String, :required => true
+      param :user_ids, Array, N_("User IDs"), :required => false
+      param :smart_proxy_ids, Array, N_("Smart proxy IDs"), :required => false
+      param :compute_resource_ids, Array, N_("Compute resource IDs"), :required => false
+      param :media_ids, Array, N_("Media IDs"), :required => false
+      param :config_template_ids, Array, N_("Provisioning template IDs"), :required => false
+      param :domain_ids, Array, N_("Domain IDs"), :required => false
+      param :realm_ids, Array, N_("Realm IDs"), :required => false
+      param :hostgroup_ids, Array, N_("Host group IDs"), :required => false
+      param :environment_ids, Array, N_("Environment IDs"), :required => false
+      param :subnet_ids, Array, N_("Subnet IDs"), :required => false
     end
   end
 
