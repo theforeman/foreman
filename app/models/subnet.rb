@@ -29,6 +29,7 @@ class Subnet < ActiveRecord::Base
   validates :mask,    :format => {:with => Net::Validations::IP_REGEXP}
   validates :boot_mode, :inclusion => BOOT_MODES.values
   validates :ipam, :inclusion => IPAM_MODES.values
+  validates :name,    :length => {:maximum => 255}
 
   validate :ensure_ip_addr_new
   before_validation :cleanup_addresses
