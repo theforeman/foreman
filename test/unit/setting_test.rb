@@ -254,6 +254,10 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "must be a valid URI", setting.errors[:value].first
   end
 
+  test "integers in setting cannot be more then 8 characters" do
+    check_length_must_be_under_8 'entries_per_page'
+  end
+
   # test parsing string values
   test "parse boolean attribute from string" do
     check_parsed_value "boolean", true, "true"
@@ -340,20 +344,29 @@ class SettingTest < ActiveSupport::TestCase
     setting = Setting.find_or_create_by_name(setting_name, :value => 0, :default => 30)
     setting.value = 0
 
-    assert setting.invalid?
-    assert setting.errors[:value].join(";").include?("must be greater than 0")
+    refute_valid setting, :value, "must be greater than 0"
 
     setting.value = 1
-    assert !setting.invalid?
+    assert_valid setting
+  end
+
+  def check_length_must_be_under_8 setting_name
+    setting = Setting.find_or_create_by_name(setting_name, :default => 30)
+    setting.value = 123456789
+
+    refute_valid setting, :value, /is too long \(maximum is 8 characters\)/
+
+    setting.value = 12
+    assert_valid setting
   end
 
   def check_empty_array_allowed_for setting_name
     setting = Setting.find_or_create_by_name(setting_name, :value => [], :default => [])
     setting.value = []
-    assert !setting.invalid?
+    assert_valid setting
 
     setting.value = [1]
-    assert !setting.invalid?
+    assert_valid setting
   end
 
   def check_correct_type_for type, value
