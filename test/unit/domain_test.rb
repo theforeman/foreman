@@ -34,6 +34,13 @@ class DomainTest < ActiveSupport::TestCase
     assert_equal @domain.name, s
   end
 
+  test "should remove leading and trailing dot from name" do
+    other_domain = Domain.new(:name => ".otherDomain.", :fullname => "full_name")
+    assert other_domain.valid?
+    other_domain.save
+    assert_equal "otherDomain", other_domain.name
+  end
+
   test "should not destroy if it contains hosts" do
     disable_orchestration
     host = create_a_host
