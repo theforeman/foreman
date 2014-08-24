@@ -89,7 +89,7 @@ class AuthSourceLdap < AuthSource
         external_usergroup = external_usergroups.find_by_name(name)
         external_usergroup.refresh if external_usergroup.present?
       rescue => error
-        logger.warn "Could not update usergroup #{name}: #{error}"
+        logger.warn "Could not update user group #{name}: #{error}"
       end
     end
   end
