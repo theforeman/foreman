@@ -8,6 +8,22 @@ module Api
         app_info N_("Foreman v2 is stable and recommended for use. You may use v2 by either passing 'version=2' in the Accept Header or using api/v2/ in the URL.")
       end
 
+      def_param_group :pagination do
+        param :page, String, :desc => N_("paginate results")
+        param :per_page, String, :desc => N_("number of entries per request")
+      end
+
+      def_param_group :search_and_pagination do
+        param :search, String, :desc => N_("filter results")
+        param :order, String, :desc => N_("sort results")
+        param_group :pagination, ::Api::V2::BaseController
+      end
+
+      def_param_group :taxonomies do
+        param :location_ids, Array, :required => false, :desc => N_("REPLACE locations with given ids") if SETTINGS[:locations_enabled]
+        param :organization_ids, Array, :required => false, :desc => N_("REPLACE organizations with given ids.") if SETTINGS[:organizations_enabled]
+      end
+
       before_filter :setup_has_many_params, :only => [:create, :update]
       before_filter :check_content_type
       # ensure include_root_in_json = false for V2 only

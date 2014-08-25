@@ -15,10 +15,7 @@ module Api
                                               :available_resource_pools, :available_storage_domains]
 
       api :GET, "/compute_resources/", N_("List all compute resources")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @compute_resources = resource_scope.search_for(*search_options).paginate(paginate_options)
@@ -43,6 +40,7 @@ module Api
           param :tenant, String, :desc => N_("for Openstack only")
           param :server, String, :desc => N_("for Vmware")
           param :set_console_password, :bool, :desc => N_("for Libvirt and Vmware only")
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 

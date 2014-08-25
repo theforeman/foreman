@@ -8,10 +8,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/filters/", N_("List all filters")
-      param :search, String, :desc => N_("filter results"), :required => false
-      param :order, String, :desc => N_("sort results"), :required => false
-      param :page, String, :desc => N_("paginate results"), :required => false
-      param :per_page, String, :desc => N_("number of entries per request"), :required => false
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @filters = resource_scope.search_for(*search_options).paginate(paginate_options)

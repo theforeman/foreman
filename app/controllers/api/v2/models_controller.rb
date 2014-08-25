@@ -4,10 +4,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/models/", N_("List all hardware models")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @models = Model.

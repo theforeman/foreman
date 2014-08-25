@@ -7,10 +7,7 @@ module Api
 
       api :GET, "/audits/", N_("List all audits")
       api :GET, "/hosts/:host_id/audits/", N_("List all audits for a given host")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         Audit.unscoped { @audits = Audit.authorized(:view_audit_logs).search_for(*search_options).paginate(paginate_options) }

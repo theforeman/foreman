@@ -9,10 +9,7 @@ module Api
       before_filter :find_resource, :only => %w{show edit update destroy bootfiles}
 
       api :GET, "/operatingsystems/", N_("List all operating systems")
-      param :search, String, :desc => N_("filter results"), :required => false
-      param :order, String, :desc => N_("sort results"), :required => false
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @operatingsystems = Operatingsystem.

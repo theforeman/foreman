@@ -21,10 +21,7 @@ Solaris and Debian media may also use $release.
       OS_FAMILY_INFO = N_("Operating system family, available values: %{operatingsystem_families}")
 
       api :GET, "/media/", N_("List all installation media")
-      param :search, String, :desc => N_("filter results"), :required => false
-      param :order, String, :desc => N_("sort results"), :required => false
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @media = Medium.
@@ -44,6 +41,7 @@ Solaris and Debian media may also use $release.
           param :path, String, :required => true, :desc => PATH_INFO
           param :os_family, String, :require => false, :desc => OS_FAMILY_INFO
           param :operatingsystem_ids, Array, :require => false
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 

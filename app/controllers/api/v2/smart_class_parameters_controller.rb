@@ -15,10 +15,7 @@ module Api
       param :hostgroup_id, :identifier, :required => false
       param :puppetclass_id, :identifier, :required => false
       param :environment_id, :identifier, :required => false
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
       end

@@ -4,10 +4,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/usergroups/", N_("List all user groups")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @usergroups = Usergroup.

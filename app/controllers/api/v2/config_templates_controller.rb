@@ -11,10 +11,7 @@ module Api
       before_filter :process_operatingsystems, :only => [:create, :update]
 
       api :GET, "/config_templates/", N_("List provisioning templates")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @config_templates = ConfigTemplate.
@@ -40,6 +37,7 @@ module Api
                 :desc => N_("Array of template combinations (hostgroup_id, environment_id)")
           param :operatingsystem_ids, Array, :desc => N_("Array of operating system IDs to associate with the template")
           param :locked, :bool, :desc => N_("Whether or not the template is locked for editing")
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 

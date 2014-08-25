@@ -29,10 +29,7 @@ module Api::V2::TaxonomiesController
   end
 
   api :GET, '/:resource_id', N_('List all :resource_id')
-  param :search, String, :desc => N_("filter results")
-  param :order, String, :desc => N_("sort results")
-  param :page, String, :desc => N_("paginate results")
-  param :per_page, String, :desc => N_("number of entries per request")
+  param_group :search_and_pagination, ::Api::V2::BaseController
   def index
     if @nested_obj
       #@taxonomies = @domain.locations.search_for(*search_options).paginate(paginate_options)

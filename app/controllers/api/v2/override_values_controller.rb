@@ -14,8 +14,7 @@ module Api
       api :GET, "/smart_class_parameters/:smart_class_parameter_id/override_values", N_("List of override values for a specific smart class parameter")
       param :smart_variable_id, :identifier, :required => false
       param :smart_class_parameter_id, :identifier, :required => false
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :pagination, ::Api::V2::BaseController
 
       def index
       end

@@ -14,10 +14,7 @@ module Api
       add_puppetmaster_filters :facts
 
       api :GET, "/hosts/", N_("List all hosts")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @hosts = resource_scope.search_for(*search_options).paginate(paginate_options)

@@ -19,10 +19,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/domains/", N_("List of domains")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @domains = Domain.
@@ -42,6 +39,7 @@ module Api
           param :fullname, String, :required => false, :allow_nil => true, :desc => N_("Description of the domain")
           param :dns_id, :number, :required => false, :allow_nil => true, :desc => N_("DNS proxy to use within this domain")
           param :domain_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters (name, value)")
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 

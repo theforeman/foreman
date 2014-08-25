@@ -8,10 +8,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy refresh}
 
       api :GET, "/smart_proxies/", N_("List all smart proxies")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @smart_proxies = SmartProxy.authorized(:view_smart_proxies).includes(:features).
@@ -29,6 +26,7 @@ module Api
         param :smart_proxy, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :url, String, :required => true
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 

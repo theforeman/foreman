@@ -8,10 +8,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy clone}
 
       api :GET, "/hostgroups/", N_("List all host groups")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @hostgroups = Hostgroup.
@@ -40,6 +37,7 @@ module Api
           param :domain_id, :number
           param :realm_id, :number
           param :puppet_proxy_id, :number
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 
