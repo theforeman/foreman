@@ -20,6 +20,13 @@ class Host::Managed < Host::Base
 
   has_one :token, :foreign_key => :host_id, :dependent => :destroy
 
+  def self.complete_for(query, opts = {})
+    matcher = /(((user\.[a-z]+)|owner)\s*[=~])\s*\S+\s*\z/
+    output = super(query)
+    output << output.last.sub(matcher,'\1 current_user') if not output.empty? and output.last =~ matcher
+    output
+  end
+
   # Define custom hook that can be called in model by magic methods (before, after, around)
   define_model_callbacks :build, :only => :after
   define_model_callbacks :provision, :only => :before
