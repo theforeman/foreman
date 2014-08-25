@@ -5,10 +5,7 @@ module Api
       before_filter :find_compute_resource
 
       api :GET, "/compute_resources/:compute_resource_id/images/", N_("List all images for a compute resource")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
       param :compute_resource_id, :identifier, :required => true
 
       def index

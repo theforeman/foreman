@@ -10,8 +10,7 @@ module Api
 
       api :GET, '/operatingsystems/:operatingsystem_id/os_default_templates', N_('List default templates combinations for an operating system')
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :pagination, ::Api::V2::BaseController
 
       def index
         @os_default_templates = nested_obj.os_default_templates.paginate(paginate_options)

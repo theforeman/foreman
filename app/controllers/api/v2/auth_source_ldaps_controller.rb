@@ -5,8 +5,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/auth_source_ldaps/", N_("List all LDAP authentication sources")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :pagination, ::Api::V2::BaseController
 
       def index
         @auth_source_ldaps = AuthSourceLdap.paginate(paginate_options)

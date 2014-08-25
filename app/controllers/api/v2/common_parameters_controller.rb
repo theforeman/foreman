@@ -5,10 +5,7 @@ module Api
       before_filter(:only => %w{show update destroy}) { find_resource('globals') }
 
       api :GET, "/common_parameters/", N_("List all global parameters.")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @common_parameters = CommonParameter.

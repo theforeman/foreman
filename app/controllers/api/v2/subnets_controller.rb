@@ -8,10 +8,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, '/subnets', N_("List of subnets")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @subnets = Subnet.
@@ -43,6 +40,7 @@ module Api
           param :tftp_id, :number, :desc => N_("TFTP Proxy to use within this subnet")
           param :dns_id, :number, :desc => N_("DNS Proxy to use within this subnet")
           param :boot_mode, String, :desc => N_('Default boot mode for interfaces assigned to this subnet, valid values are "Static", "DHCP"')
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 

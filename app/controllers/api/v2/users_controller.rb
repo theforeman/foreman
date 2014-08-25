@@ -10,10 +10,7 @@ module Api
       include Api::TaxonomyScope
 
       api :GET, "/users/", N_("List all users")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @users = User.
@@ -38,6 +35,7 @@ module Api
           param :default_location_id, Integer if SETTINGS[:locations_enabled]
           param :default_organization_id, Integer if SETTINGS[:organizations_enabled]
           param :auth_source_id, Integer, :required => true
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 

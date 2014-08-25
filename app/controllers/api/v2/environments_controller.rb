@@ -8,10 +8,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/environments/", N_("List all environments")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         @environments = Environment.
@@ -28,6 +25,7 @@ module Api
       def_param_group :environment do
         param :environment, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 
