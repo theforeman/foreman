@@ -1082,6 +1082,20 @@ context "location or organizations are not enabled" do
     end
   end
 
+  test "can auto-complete user searches by current_user" do
+    as_admin do
+      completions = Host::Managed.complete_for("user.login =")
+      assert completions.include?("user.login = current_user"), "completion missing: current_user"
+    end
+  end
+
+  test "can auto-complete owner searches by current_user" do
+    as_admin do
+      completions = Host::Managed.complete_for("owner = ")
+      assert completions.include?("owner = current_user"), "completion missing: current_user"
+    end
+  end
+
   test "#rundeck returns hash" do
     h = hosts(:one)
     rundeck = h.rundeck
@@ -1118,6 +1132,20 @@ context "location or organizations are not enabled" do
     results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
     assert_equal 1, results.count
     assert_equal parameter.value, results.first.params[parameter.name]
+  end
+
+  test "can search hosts by current_user" do
+    host = FactoryGirl.create(:host)
+    results = Host.search_for("owner = current_user")
+    assert_equal 1, results.count
+    assert_equal results[0].owner, User.current
+  end
+
+  test "can search hosts by owner" do
+    host = FactoryGirl.create(:host)
+    results = Host.search_for("owner = " + User.current.login)
+    assert_equal User.current.hosts.count, results.count
+    assert_equal results[0].owner, User.current
   end
 
   test "can search hosts by inherited params from a hostgroup" do
