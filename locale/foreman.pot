@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-13 10:20+0100\n"
+"POT-Creation-Date: 2014-08-27 09:03+0100\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -1558,6 +1558,9 @@ msgstr ""
 msgid "Each entries represent a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
 msgstr ""
 
+msgid "Eager zero"
+msgstr ""
+
 msgid "Edit"
 msgstr ""
 
@@ -2891,7 +2894,13 @@ msgstr ""
 msgid "List all users"
 msgstr ""
 
+msgid "List attributes for a given storage domain"
+msgstr ""
+
 msgid "List available clusters for a compute resource"
+msgstr ""
+
+msgid "List available folders for a compute resource"
 msgstr ""
 
 msgid "List available images for a compute resource"
@@ -2964,6 +2973,9 @@ msgid "List of subnets"
 msgstr ""
 
 msgid "List provisioning templates"
+msgstr ""
+
+msgid "List resource pools for a compute resource cluster"
 msgstr ""
 
 msgid "List storage domains for a compute resource"
@@ -3829,7 +3841,7 @@ msgstr ""
 msgid "Optional array of log hashes"
 msgstr ""
 
-msgid "Optional comma-deliminated string containing either 'new,updated,obsolete' used to limit the import_puppetclasses actions"
+msgid "Optional comma-delimited string containing either 'new', 'updated', or 'obsolete' that is used to limit the imported Puppet classes"
 msgstr ""
 
 msgid "Optional input validator"

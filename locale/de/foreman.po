@@ -24,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-11 15:07+0100\n"
-"PO-Revision-Date: 2014-08-12 09:48+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"POT-Creation-Date: 2014-08-13 10:20+0100\n"
+"PO-Revision-Date: 2014-08-20 08:50+0000\n"
+"Last-Translator: stbenjam <stephen@redhat.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1167,25 +1167,25 @@ msgid "Create a default template combination for an operating system"
 msgstr ""
 
 msgid "Create a domain"
-msgstr ""
+msgstr "Domäne erstellen"
 
 msgid "Create a filter"
 msgstr "Erstelle einen Filter"
 
 msgid "Create a global parameter"
-msgstr ""
+msgstr "Globale Parameter erstellen"
 
 msgid "Create a hardware model"
-msgstr ""
+msgstr "Hardwaremodell erstellen"
 
 msgid "Create a host"
-msgstr ""
+msgstr "Host erstellen"
 
 msgid "Create a host group"
-msgstr ""
+msgstr "Hostgruppe erstellen"
 
 msgid "Create a medium"
-msgstr ""
+msgstr "Medium erstellen"
 
 msgid "Create a nested parameter for a domain"
 msgstr ""
@@ -1206,7 +1206,7 @@ msgid "Create a nested parameter for an organization"
 msgstr ""
 
 msgid "Create a partition table"
-msgstr ""
+msgstr "Partitionstabelle erstellen"
 
 msgid "Create a provisioning template"
 msgstr ""
