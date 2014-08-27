@@ -57,18 +57,15 @@ key --skip
 text
 reboot
 
-%packages --ignoremissing
+%packages
 yum
 dhclient
 ntp
 wget
 @Core
 epel-release
-<% if puppet_enabled %>
-puppet
-<% if @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
+<% if puppet_enabled && @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
 puppetlabs-release
-<% end -%>
 <% end -%>
 <% if salt_enabled %>
 salt-minion

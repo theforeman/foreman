@@ -88,7 +88,7 @@ sssd_major=$(echo $sssd_version | cut -f1 -d.)
 sssd_minor=$(echo $sssd_version | cut -f2 -d.)
 LDAP_CONFIG=$(mktemp)
 
-if [ $sssd_minor >= 11 ] || [ $sssd_major > 1 ]
+if [ $sssd_minor -ge 11 ] || [ $sssd_major -gt 1 ]
 then
     echo "sudo_provider = ipa" > $LDAP_CONFIG
 else
