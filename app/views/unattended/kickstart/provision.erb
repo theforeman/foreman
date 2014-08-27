@@ -73,7 +73,7 @@ bootloader --location=mbr --append="nofb quiet splash=quiet" <%= grub_pass %>
 text
 reboot
 
-%packages --ignoremissing
+%packages
 yum
 dhclient
 ntp
