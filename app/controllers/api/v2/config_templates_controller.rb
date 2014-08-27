@@ -11,6 +11,7 @@ module Api
       before_filter :process_operatingsystems, :only => [:create, :update]
 
       api :GET, "/config_templates/", N_("List provisioning templates")
+      param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
