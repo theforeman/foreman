@@ -21,6 +21,7 @@ Solaris and Debian media may also use $release.
       OS_FAMILY_INFO = N_("Operating system family, available values: %{operatingsystem_families}")
 
       api :GET, "/media/", N_("List all installation media")
+      param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index

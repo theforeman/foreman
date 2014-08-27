@@ -24,6 +24,12 @@ module Api
         param :organization_ids, Array, :required => false, :desc => N_("REPLACE organizations with given ids.") if SETTINGS[:organizations_enabled]
       end
 
+      def_param_group :taxonomy_scope do
+        param :location_id, Integer, :required => false, :desc => N_("Scope by locations") if SETTINGS[:locations_enabled]
+        param :organization_id, Integer, :required => false, :desc => N_("Scope by organizations") if SETTINGS[:organizations_enabled]
+      end
+
+
       before_filter :setup_has_many_params, :only => [:create, :update]
       before_filter :check_content_type
       # ensure include_root_in_json = false for V2 only

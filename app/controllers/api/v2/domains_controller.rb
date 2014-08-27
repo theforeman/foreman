@@ -19,6 +19,7 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/domains/", N_("List of domains")
+      param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index

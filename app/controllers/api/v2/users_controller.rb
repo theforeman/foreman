@@ -10,8 +10,8 @@ module Api
       include Api::TaxonomyScope
 
       api :GET, "/users/", N_("List all users")
+      param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
-
       def index
         @users = User.
           authorized(:view_users).except_hidden.

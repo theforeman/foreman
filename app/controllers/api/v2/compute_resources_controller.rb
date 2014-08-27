@@ -15,6 +15,7 @@ module Api
                                               :available_resource_pools, :available_storage_domains]
 
       api :GET, "/compute_resources/", N_("List all compute resources")
+      param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
