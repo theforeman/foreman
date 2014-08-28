@@ -159,7 +159,7 @@ class AuthSourceLdap < AuthSource
 
   def use_user_login_for_service?
     # returns true if account is defined and includes "$login"
-    (account.present? && account.include? "$login")
+    (account.present? && account.include?("$login"))
   end
 
   def service_user(login)
