@@ -1,4 +1,63 @@
+2014-08-28	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #7121 - move smart proxy action buttons to helper
+
+2014-08-28	Dominic Cleal <dcleal@redhat.com>
+	* refs #7066 - fix syntax error in expression
+	* fixes #7066 - add back $login interpolation for LDAP service account usernames
+	* i18n - extracting new, updating rails, pulling from tx
+
+2014-08-28	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #7028 - completing api docs for taxonomies
+
+2014-08-28	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7056 - only resize textarea in params tab.
+
+2014-08-27	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+	* templates - sync from community-templates
+
+2014-08-27	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7174 - add delay on autocomplete
+	* Fixes #6831 - expire topbar cache for admin on taxonomy updates
+
+2014-08-27	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #5240 - expose eager-zeroing for vSphere
+
+2014-08-27	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #5119 - ensure GCE can list images.
+	* fixes #7009, N+1 (actually 6+1) queries in dashboard page
+
+2014-08-27	Tomer Brisker <tbrisker@redhat.com>
+	* Fixes #6232 - link from chart on overview page to relevent search
+	* Fixes #6982 - make tooltips appear above charts
+	* Fixes #4350 - Allow any format for role name
+	* Fixes #6929 - Rephrase description string for api import_puppetclasses
+
+2014-08-27	red-tux <nelsonab@red-tux.net>
+	* fixes #6205 Changed regex to parse CNs from SSL DNs on separator chars
+
+2014-08-27	ripcurld00d <boazyko1@gmail.com>
+	* fixes #7082 - combo box style in host multi-select popup windows
+
+2014-08-27	Aaron Stone <aaron@serendipity.cx>
+	* Fixes #6998 - Accept native true for overwrite parameter to host API.
+
+2014-08-27	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #6860 - add missing attributes to hostgroup jail
+	* fixes #7061 - show file upload when template is not locked
+
+2014-08-27	Greg Petras <greg.petras@nwea.org>
+	* Fixes #6756 - exposes vmware resource pools and folders through the API
+	* Fixes #6608 - expose disk usage info through available_storage_domains API
+
+2014-08-27	Trey Dockendorf <treydock@gmail.com>
+	* Fixes #6476 - oVirt VM association with multiple interfaces
+
+2014-08-27	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #7003 - Revert LDAP to simple_tls
+
 2014-08-13	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.6.0-RC1
 	* i18n - extracting new, updating rails, pulling from tx
 
 2014-08-11	Dominic Cleal <dcleal@redhat.com>
