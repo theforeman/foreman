@@ -24,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-13 10:20+0100\n"
-"PO-Revision-Date: 2014-08-20 08:50+0000\n"
-"Last-Translator: stbenjam <stephen@redhat.com>\n"
+"POT-Creation-Date: 2014-08-27 09:03+0100\n"
+"PO-Revision-Date: 2014-08-27 09:47+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1636,6 +1636,9 @@ msgid ""
 "system family, which includes <b>sparc</b> based systems."
 msgstr "Jeder Eintrag repräsentiert eine bestimmte Hardwarearchitektur, üblich ist <b>x86_64</b> oder <b>i386</b>. Foreman unterstützt auch die Solaris-Betriebssystemfamilie, welche <b>sparc</b>-basierte Systeme beinhaltet."
 
+msgid "Eager zero"
+msgstr ""
+
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -3071,7 +3074,13 @@ msgstr ""
 msgid "List all users"
 msgstr ""
 
+msgid "List attributes for a given storage domain"
+msgstr ""
+
 msgid "List available clusters for a compute resource"
+msgstr ""
+
+msgid "List available folders for a compute resource"
 msgstr ""
 
 msgid "List available images for a compute resource"
@@ -3146,6 +3155,9 @@ msgid "List of subnets"
 msgstr ""
 
 msgid "List provisioning templates"
+msgstr ""
+
+msgid "List resource pools for a compute resource cluster"
 msgstr ""
 
 msgid "List storage domains for a compute resource"
@@ -4037,8 +4049,8 @@ msgid "Optional array of log hashes"
 msgstr ""
 
 msgid ""
-"Optional comma-deliminated string containing either 'new,updated,obsolete' "
-"used to limit the import_puppetclasses actions"
+"Optional comma-delimited string containing either 'new', 'updated', or "
+"'obsolete' that is used to limit the imported Puppet classes"
 msgstr ""
 
 msgid "Optional input validator"

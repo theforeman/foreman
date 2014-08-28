@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-13 10:20+0100\n"
-"PO-Revision-Date: 2014-08-20 08:50+0000\n"
+"POT-Creation-Date: 2014-08-27 09:03+0100\n"
+"PO-Revision-Date: 2014-08-28 09:56+0000\n"
 "Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1639,6 +1639,9 @@ msgid ""
 "system family, which includes <b>sparc</b> based systems."
 msgstr "Chaque entrée représente une architecture matériel, couramment <b>x86_64</b> ou <b>i386</b>. Foreman supporte aussi la famille de systèmes d'exploitation Solaris qui inclue <b>sparc</b>."
 
+msgid "Eager zero"
+msgstr ""
+
 msgid "Edit"
 msgstr "Éditer"
 
@@ -3074,8 +3077,14 @@ msgstr "Lister tous les groupes d'utilisateurs"
 msgid "List all users"
 msgstr "Lister tous les utilisateurs"
 
+msgid "List attributes for a given storage domain"
+msgstr "Lister les attributs d'un domaine de stockage"
+
 msgid "List available clusters for a compute resource"
 msgstr "Lister les clusters disponibles pour une ressource d'ordinateur"
+
+msgid "List available folders for a compute resource"
+msgstr "Lister les répertoires disponibles sur une ressource d'ordinateur"
 
 msgid "List available images for a compute resource"
 msgstr "Lister les images disponibles pour une ressource d'ordinateur"
@@ -3150,6 +3159,9 @@ msgstr "Liste des sous réseaux"
 
 msgid "List provisioning templates"
 msgstr "Lister les modèles de provisionnement"
+
+msgid "List resource pools for a compute resource cluster"
+msgstr "Lister les pools de ressources d'un cluster de ressources d'ordinateur"
 
 msgid "List storage domains for a compute resource"
 msgstr "Lister les domaines de stockage pour une ressource d'ordinateur"
@@ -4040,9 +4052,9 @@ msgid "Optional array of log hashes"
 msgstr "Optionnel : tableau de hash des logs"
 
 msgid ""
-"Optional comma-deliminated string containing either 'new,updated,obsolete' "
-"used to limit the import_puppetclasses actions"
-msgstr "Optionnel : liste de chaines séparées par des virgules parmi 'new, updated, obsolete' utilisée pour limiter les actions de la fonction import_puppetclasses "
+"Optional comma-delimited string containing either 'new', 'updated', or "
+"'obsolete' that is used to limit the imported Puppet classes"
+msgstr ""
 
 msgid "Optional input validator"
 msgstr "Option de validation d'entrée"

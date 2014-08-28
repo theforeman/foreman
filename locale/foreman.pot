@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-27 09:03+0100\n"
+"POT-Creation-Date: 2014-08-28 10:58+0100\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -944,6 +944,9 @@ msgstr ""
 msgid "Compute resource"
 msgstr ""
 
+msgid "Compute resource IDs"
+msgstr ""
+
 msgid "Compute resource update for %s"
 msgstr ""
 
@@ -1535,6 +1538,9 @@ msgstr ""
 msgid "Domain Configuration"
 msgstr ""
 
+msgid "Domain IDs"
+msgstr ""
+
 msgid "Domains"
 msgstr ""
 
@@ -1701,6 +1707,9 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
+msgstr ""
+
+msgid "Environment IDs"
 msgstr ""
 
 msgid "Environment only"
@@ -2257,6 +2266,9 @@ msgid "Host group"
 msgstr ""
 
 msgid "Host group / Environment"
+msgstr ""
+
+msgid "Host group IDs"
 msgstr ""
 
 msgid "Host group and Environment"
@@ -3183,6 +3195,9 @@ msgid "Max days for Trends graphs"
 msgstr ""
 
 msgid "Media"
+msgstr ""
+
+msgid "Media IDs"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -4164,6 +4179,9 @@ msgstr ""
 msgid "Provisioning Templates"
 msgstr ""
 
+msgid "Provisioning template IDs"
+msgstr ""
+
 msgid "Provisioning templates"
 msgstr ""
 
@@ -4276,6 +4294,9 @@ msgid "Realm"
 msgstr ""
 
 msgid "Realm Configuration"
+msgstr ""
+
+msgid "Realm IDs"
 msgstr ""
 
 msgid "Realm name, e.g. EXAMPLE.COM"
@@ -4904,6 +4925,9 @@ msgstr ""
 msgid "Smart proxy"
 msgstr ""
 
+msgid "Smart proxy IDs"
+msgstr ""
+
 msgid "Smart variables"
 msgstr ""
 
@@ -4989,6 +5013,9 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
+msgstr ""
+
+msgid "Subnet IDs"
 msgstr ""
 
 msgid "Subnet name"
@@ -5812,6 +5839,9 @@ msgid "User Authentication"
 msgstr ""
 
 msgid "User Groups"
+msgstr ""
+
+msgid "User IDs"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-13 10:20+0100\n"
-"PO-Revision-Date: 2014-08-20 08:50+0000\n"
+"POT-Creation-Date: 2014-08-27 09:03+0100\n"
+"PO-Revision-Date: 2014-08-27 09:47+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -1626,6 +1626,9 @@ msgid ""
 "system family, which includes <b>sparc</b> based systems."
 msgstr "Varje värde representerar en hårdvaruarkitektur, oftast <b>x86_64</b> eller <b>i386</b>. Foreman stödjer även OS-familjen Solaris, vilket även inkluderar <b>sparc</b> system"
 
+msgid "Eager zero"
+msgstr ""
+
 msgid "Edit"
 msgstr "Redigera"
 
@@ -3061,7 +3064,13 @@ msgstr ""
 msgid "List all users"
 msgstr ""
 
+msgid "List attributes for a given storage domain"
+msgstr ""
+
 msgid "List available clusters for a compute resource"
+msgstr ""
+
+msgid "List available folders for a compute resource"
 msgstr ""
 
 msgid "List available images for a compute resource"
@@ -3136,6 +3145,9 @@ msgid "List of subnets"
 msgstr ""
 
 msgid "List provisioning templates"
+msgstr ""
+
+msgid "List resource pools for a compute resource cluster"
 msgstr ""
 
 msgid "List storage domains for a compute resource"
@@ -4027,8 +4039,8 @@ msgid "Optional array of log hashes"
 msgstr ""
 
 msgid ""
-"Optional comma-deliminated string containing either 'new,updated,obsolete' "
-"used to limit the import_puppetclasses actions"
+"Optional comma-delimited string containing either 'new', 'updated', or "
+"'obsolete' that is used to limit the imported Puppet classes"
 msgstr ""
 
 msgid "Optional input validator"

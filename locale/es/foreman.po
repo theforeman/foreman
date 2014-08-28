@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-13 10:20+0100\n"
-"PO-Revision-Date: 2014-08-20 08:50+0000\n"
+"POT-Creation-Date: 2014-08-27 09:03+0100\n"
+"PO-Revision-Date: 2014-08-27 09:47+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -1635,6 +1635,9 @@ msgid ""
 "system family, which includes <b>sparc</b> based systems."
 msgstr "Cada entrada representa una arquitectura de hardware, las más comunes son <b>x86_64</b> o <br>i386</b>. Foreman también soporta la familia de sistemas operativos Solaris, que incluye sistemas basados en <b>sparc</b>."
 
+msgid "Eager zero"
+msgstr ""
+
 msgid "Edit"
 msgstr "Editar"
 
@@ -3070,8 +3073,14 @@ msgstr "Enumera todos los grupos de usuarios"
 msgid "List all users"
 msgstr "Enumera todos los usuarios"
 
+msgid "List attributes for a given storage domain"
+msgstr ""
+
 msgid "List available clusters for a compute resource"
 msgstr "Enumera todos los clusters disponibles para un recurso de computación"
+
+msgid "List available folders for a compute resource"
+msgstr ""
 
 msgid "List available images for a compute resource"
 msgstr "Enumera todas las imágenes disponibles para un recurso de computación"
@@ -3146,6 +3155,9 @@ msgstr "Lista de subredes"
 
 msgid "List provisioning templates"
 msgstr "Lista de plantillas de provisión"
+
+msgid "List resource pools for a compute resource cluster"
+msgstr ""
 
 msgid "List storage domains for a compute resource"
 msgstr "Enumera los dominios de almacenamiento de un recurso de computación"
@@ -4036,9 +4048,9 @@ msgid "Optional array of log hashes"
 msgstr "Array opcional de hashes de log"
 
 msgid ""
-"Optional comma-deliminated string containing either 'new,updated,obsolete' "
-"used to limit the import_puppetclasses actions"
-msgstr "Cadena de caracteres delimitada por comas opcional, puede ser 'new,updated,obsolete', se usa para limitar el importe de las clases de Puppet"
+"Optional comma-delimited string containing either 'new', 'updated', or "
+"'obsolete' that is used to limit the imported Puppet classes"
+msgstr ""
 
 msgid "Optional input validator"
 msgstr ""
