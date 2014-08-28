@@ -12,17 +12,26 @@ $(function() {
   });
 });
 
+$(document).on('ContentLoad', function(){onContentLoad()});
+
+function onContentLoad(){
+  providerSelected($('#compute_resource_provider'));
+}
+
 function providerSelected(item)
 {
+  compute_connection = $('#compute_connection');
   var provider = $(item).val();
   if(provider == "") {
+    compute_connection.hide();
     $("[type=submit]").attr("disabled",true);
     return false;
   }
   $("[type=submit]").attr("disabled",false);
   var url = $(item).attr('data-url');
   var data = 'provider=' + provider;
-  $('#compute_connection').load(url + ' div#compute_connection', data);
+  compute_connection.show();
+  compute_connection.load(url + ' div#compute_connection', data);
 }
 
 function testConnection(item) {
