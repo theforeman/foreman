@@ -236,7 +236,7 @@ add_cmd "gem list" "gem_list"
 add_cmd "scl enable $SCLNAME 'gem list'" "gem_list_scl"
 add_cmd "bundle --local --gemfile=/usr/share/foreman/Gemfile" "bundle_list"
 add_cmd "facter" "facts"
-add_files /etc/foreman{,-proxy}/* /var/log/foreman{,-proxy,-installer}/*.log*
+add_files /etc/foreman{,-proxy,-proxy/settings.d}/* /var/log/foreman{,-proxy,-installer}/*.log*
 add_files /usr/share/foreman/Gemfile*
 add_files /etc/dhcp/*.conf /var/lib/dhcp/*.leases
 add_files /etc/xinetd.d/tftp
