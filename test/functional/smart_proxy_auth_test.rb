@@ -30,7 +30,7 @@ class SmartProxyAuthApiTest < ActionController::TestCase
   end
 
   def test_successful_smart_proxy_authentication_in_api_controller
-    Setting.stubs(:[]).with(:restrict_registered_puppetmasters).returns(false)
+    Setting[:restrict_registered_puppetmasters] = false
     @controller.stubs(:auth_smart_proxy).returns(true)
 
     assert @controller.require_puppetmaster_or_login

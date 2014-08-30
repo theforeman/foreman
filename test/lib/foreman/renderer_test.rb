@@ -5,11 +5,11 @@ class RendererTest < ActiveSupport::TestCase
   include Foreman::Renderer
 
   def setup_normal_renderer
-    Setting.stubs(:[]).with(:safemode_render).returns(false)
+    Setting[:safemode_render] = false
   end
 
   def setup_safemode_renderer
-    Setting.stubs(:[]).with(:safemode_render).returns(true)
+    Setting[:safemode_render] = true
   end
 
   [:normal_renderer, :safemode_renderer].each do |renderer_name|
