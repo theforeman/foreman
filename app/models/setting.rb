@@ -104,8 +104,7 @@ class Setting < ActiveRecord::Base
   alias_method :default_before_type_cast, :default
 
 
-  def parse_string_value val
-
+  def parse_string_value(val)
     case settings_type
     when "boolean"
       val = val.downcase
@@ -150,7 +149,7 @@ class Setting < ActiveRecord::Base
       raise Foreman::Exception.new(N_("parsing settings type '%s' from string is not defined"), settings_type)
 
     end
-    return true
+    true
   end
 
   def self.create opts

@@ -159,7 +159,7 @@ class HostsControllerTest < ActionController::TestCase
       @host2.owner     = users(:admin)
       @host2.save!
     end
-    Host.per_page == 1000
+    Host.per_page = 1000
     @request.session[:user] = @one.id
   end
 
@@ -586,9 +586,9 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
     post :update_multiple_location, {
-                                       :location => {:id => location.id, :optimistic_import => "no"},
-                                       :host_ids => Host.all.map(&:id)
-                                       }, set_session_user
+      :location => {:id => location.id, :optimistic_import => "no"},
+      :host_ids => Host.all.map(&:id)
+    }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert flash[:error] == "Cannot update Location to Location 1 because of mismatch in settings"
   end
@@ -597,9 +597,9 @@ class HostsControllerTest < ActionController::TestCase
     location = taxonomies(:location1)
     assert_difference "location.hosts.count", 0 do
       post :update_multiple_location, {
-                                         :location => {:id => location.id, :optimistic_import => "no"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :location => {:id => location.id, :optimistic_import => "no"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
   test "update multiple location does not import taxable_taxonomies rows if fails on pessimistic import" do
@@ -607,9 +607,9 @@ class HostsControllerTest < ActionController::TestCase
     location = taxonomies(:location1)
     assert_difference "location.taxable_taxonomies.count", 0 do
       post :update_multiple_location, {
-                                         :location => {:id => location.id, :optimistic_import => "no"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :location => {:id => location.id, :optimistic_import => "no"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
 
@@ -618,9 +618,9 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
     post :update_multiple_location, {
-                                       :location => {:id => location.id, :optimistic_import => "yes"},
-                                       :host_ids => Host.all.map(&:id)
-                                       }, set_session_user
+      :location => {:id => location.id, :optimistic_import => "yes"},
+      :host_ids => Host.all.map(&:id)
+    }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Updated hosts: Changed Location", flash[:notice]
   end
@@ -630,9 +630,9 @@ class HostsControllerTest < ActionController::TestCase
     cnt_hosts_location = location.hosts.count
     assert_difference "location.hosts.count", (Host.count - cnt_hosts_location) do
       post :update_multiple_location, {
-                                         :location => {:id => location.id, :optimistic_import => "yes"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :location => {:id => location.id, :optimistic_import => "yes"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
   test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
@@ -640,9 +640,9 @@ class HostsControllerTest < ActionController::TestCase
     location = taxonomies(:location1)
     assert_difference "location.taxable_taxonomies.count", 8 do
       post :update_multiple_location, {
-                                         :location => {:id => location.id, :optimistic_import => "yes"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :location => {:id => location.id, :optimistic_import => "yes"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
 
@@ -651,9 +651,9 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
     post :update_multiple_organization, {
-                                       :organization => {:id => organization.id, :optimistic_import => "no"},
-                                       :host_ids => Host.all.map(&:id)
-                                       }, set_session_user
+      :organization => {:id => organization.id, :optimistic_import => "no"},
+      :host_ids => Host.all.map(&:id)
+    }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Cannot update Organization to Organization 1 because of mismatch in settings", flash[:error]
   end
@@ -662,9 +662,9 @@ class HostsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization1)
     assert_difference "organization.hosts.count", 0 do
       post :update_multiple_organization, {
-                                         :organization => {:id => organization.id, :optimistic_import => "no"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :organization => {:id => organization.id, :optimistic_import => "no"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
   test "update multiple organization does not import taxable_taxonomies rows if fails on pessimistic import" do
@@ -672,9 +672,9 @@ class HostsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization1)
     assert_difference "organization.taxable_taxonomies.count", 0 do
       post :update_multiple_organization, {
-                                         :organization => {:id => organization.id, :optimistic_import => "no"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :organization => {:id => organization.id, :optimistic_import => "no"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
 
@@ -683,9 +683,9 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
     post :update_multiple_organization, {
-                                       :organization => {:id => organization.id, :optimistic_import => "yes"},
-                                       :host_ids => Host.all.map(&:id)
-                                       }, set_session_user
+      :organization => {:id => organization.id, :optimistic_import => "yes"},
+      :host_ids => Host.all.map(&:id)
+    }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Updated hosts: Changed Organization", flash[:notice]
   end
@@ -695,9 +695,9 @@ class HostsControllerTest < ActionController::TestCase
     cnt_hosts_organization = organization.hosts.count
     assert_difference "organization.hosts.count", (Host.count - cnt_hosts_organization) do
       post :update_multiple_organization, {
-                                         :organization => {:id => organization.id, :optimistic_import => "yes"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :organization => {:id => organization.id, :optimistic_import => "yes"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
   test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
@@ -705,9 +705,9 @@ class HostsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization1)
     assert_difference "organization.taxable_taxonomies.count", 10 do
       post :update_multiple_organization, {
-                                         :organization => {:id => organization.id, :optimistic_import => "yes"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :organization => { :id => organization.id, :optimistic_import => "yes"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
 
@@ -785,7 +785,7 @@ class HostsControllerTest < ActionController::TestCase
   def initialize_host
     User.current = users(:admin)
     disable_orchestration
-    @host = Host.create(:name => "myfullhost",
+    @host = Host.create(:name               => "myfullhost",
                         :mac                => "aabbecddeeff",
                         :ip                 => "2.3.4.99",
                         :domain_id          => domains(:mydomain).id,

@@ -23,8 +23,8 @@ class TrendsController < ApplicationController
   end
 
   def update
-  @trends = Trend.update(params[:trend].keys, params[:trend].values).reject { |p| p.errors.empty? }
-  if @trends.empty?
+    @trends = Trend.update(params[:trend].keys, params[:trend].values).reject { |p| p.errors.empty? }
+    if @trends.empty?
       process_success
     else
       process_error

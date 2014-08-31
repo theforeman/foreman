@@ -62,13 +62,13 @@ class Host::Managed < Host::Base
   attr_reader :cached_host_params
 
   default_scope lambda {
-      org = Organization.current
-      loc = Location.current
-      conditions = {}
-      conditions[:organization_id] = org.subtree_ids if org
-      conditions[:location_id]     = loc.subtree_ids if loc
-      where(conditions)
-    }
+    org = Organization.current
+    loc = Location.current
+    conditions = {}
+    conditions[:organization_id] = org.subtree_ids if org
+    conditions[:location_id]     = loc.subtree_ids if loc
+    where(conditions)
+  }
 
   scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
   scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
@@ -441,7 +441,7 @@ class Host::Managed < Host::Base
 
     host.save(:validate => false) if host.new_record?
     state = host.import_facts(facts)
-    return host, state
+    [host, state]
   end
 
   def attributes_to_import_from_facts

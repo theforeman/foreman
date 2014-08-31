@@ -80,13 +80,13 @@ module DashboardHelper
 
   def report_color
     {
-        :active_hosts_ok_enabled => "#4572A7",
-        :bad_hosts_enabled => "#AA4643",
-        :ok_hosts_enabled => "#89A54E",
-        :pending_hosts_enabled => "#80699B",
-        :out_of_sync_hosts_enabled => "#3D96AE",
-        :reports_missing => "#DB843D",
-        :disabled_hosts => "#92A8CD"
+      :active_hosts_ok_enabled => "#4572A7",
+      :bad_hosts_enabled => "#AA4643",
+      :ok_hosts_enabled => "#89A54E",
+      :pending_hosts_enabled => "#80699B",
+      :out_of_sync_hosts_enabled => "#3D96AE",
+      :reports_missing => "#DB843D",
+      :disabled_hosts => "#92A8CD"
     }
   end
 

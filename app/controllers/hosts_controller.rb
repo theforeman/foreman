@@ -499,16 +499,15 @@ class HostsController < ApplicationController
     @realm           = @hostgroup.realm
 
     @host = if params[:host][:id]
-      host = Host::Base.authorized(:view_hosts, Host).find(params[:host][:id])
-      host = host.becomes Host::Managed
-      host.attributes = params[:host]
-      host
-    else
-      Host.new(params[:host])
-    end
+              host = Host::Base.authorized(:view_hosts, Host).find(params[:host][:id])
+              host = host.becomes Host::Managed
+              host.attributes = params[:host]
+              host
+            else
+              Host.new(params[:host])
+            end
     @host.set_hostgroup_defaults
     render :partial => "form"
-
   end
 
   def process_taxonomy
@@ -597,7 +596,8 @@ class HostsController < ApplicationController
     else
       @host ||= Host::Managed.new(params['host'])
     end
-    return @host
+
+    @host
   end
 
   def set_host_type

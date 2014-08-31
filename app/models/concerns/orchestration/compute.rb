@@ -243,7 +243,7 @@ module Orchestration::Compute
     rescue Timeout::Error
     end
 
-    return false
+    false
   end
 
 end

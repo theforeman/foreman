@@ -4,9 +4,9 @@ module Foreman
   module Renderer
 
     ALLOWED_HELPERS = [ :foreman_url, :grub_pass, :snippet, :snippets,
-			:snippet_if_exists, :ks_console, :root_pass,
-			:multiboot, :jumpstart_path, :install_path, :miniroot,
-			:media_path, :param_true?, :param_false?, :match, :indent ]
+                        :snippet_if_exists, :ks_console, :root_pass,
+                        :multiboot, :jumpstart_path, :install_path, :miniroot,
+                        :media_path, :param_true?, :param_false?, :match, :indent ]
 
     ALLOWED_VARIABLES = [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
                           :repos, :dynamic, :kernel, :initrd,
@@ -51,7 +51,7 @@ module Foreman
         logger.debug "rendering snippet #{template.name}"
         begin
           return unattended_render(template)
-        rescue Exception => exc
+        rescue => exc
           raise "The snippet '#{name}' threw an error: #{exc}"
         end
       else

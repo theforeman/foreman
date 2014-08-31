@@ -2,10 +2,9 @@ module Api::V2::TaxonomiesController
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_taxonomy, :only => %w{show update destroy settings
-                                                domain_ids subnet_ids hostgroup_ids config_template_ids compute_resource_ids
-                                                medium_ids smart_proxy_ids environment_ids user_ids organization_ids realm_ids
-                                                }
+    before_filter :find_taxonomy, :only => %w(show update destroy settings
+                                              domain_ids subnet_ids hostgroup_ids config_template_ids compute_resource_ids
+                                              medium_ids smart_proxy_ids environment_ids user_ids organization_ids realm_ids)
     before_filter :find_optional_nested_object, :only => %w(index show)
     before_filter :params_match_database, :only => %w(create update)
   end

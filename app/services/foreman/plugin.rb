@@ -139,7 +139,7 @@ module Foreman #:nodoc:
       Menu::Manager.map(menu).item(name, options)
     end
 
-    alias :add_menu_item :menu
+    alias_method :add_menu_item, :menu
 
     def sub_menu(menu, name, options={}, &block)
       options.merge!(:parent => @parent) if @parent

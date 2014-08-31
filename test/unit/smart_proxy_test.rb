@@ -8,7 +8,7 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert proxy.valid?
   end
 
-def test_should_not_be_modified_if_has_no_leading_slashes
+  def test_should_not_be_modified_if_has_no_leading_slashes
     proxy = SmartProxy.new
     proxy.name = "test proxy"
     proxy.url  = "https://secure.proxy:4568"

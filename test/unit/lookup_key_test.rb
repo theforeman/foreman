@@ -92,34 +92,35 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   def test_parameters_multiple_paths
-     host = hosts(:one)
-     host.hostgroup = hostgroups(:common)
+    host = hosts(:one)
+    host.hostgroup = hostgroups(:common)
 
-     host2 = hosts(:minimal)
-     host2.hostgroup = hostgroups(:unusual)
+    host2 = hosts(:minimal)
+    host2.hostgroup = hostgroups(:unusual)
 
-     host3 = hosts(:redhat)
+    host3 = hosts(:redhat)
 
-     default = "default"
-     key    = ""
-     value1 = ""
-     value2 = ""
-     puppetclass = Puppetclass.first
-     as_admin do
-       key    = LookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass, :default_value => default, :override=>true)
-       value1 = LookupValue.create!(:value => "v1", :match => "hostgroup=Common", :lookup_key => key)
-       value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
-       host.puppetclasses << puppetclass
-       host2.puppetclasses << puppetclass
-       host3.puppetclasses << puppetclass
-     end
+    default = "default"
+    key    = ""
+    value1 = ""
+    value2 = ""
+    puppetclass = Puppetclass.first
+    as_admin do
+      key    = LookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass,
+                                 :default_value => default, :override=>true)
+      value1 = LookupValue.create!(:value => "v1", :match => "hostgroup=Common",  :lookup_key => key)
+      value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
+      host.puppetclasses  << puppetclass
+      host2.puppetclasses << puppetclass
+      host3.puppetclasses << puppetclass
+    end
 
-     key.reload
+    key.reload
 
-     assert_equal value1.value, Classification::GlobalParam.new(:host=>host).enc['dns']
-     assert_equal value2.value, Classification::GlobalParam.new(:host=>host2).enc['dns']
-     assert_equal default, Classification::GlobalParam.new(:host=>host3).enc['dns']
-   end
+    assert_equal value1.value, Classification::GlobalParam.new(:host=>host).enc['dns']
+    assert_equal value2.value, Classification::GlobalParam.new(:host=>host2).enc['dns']
+    assert_equal default, Classification::GlobalParam.new(:host=>host3).enc['dns']
+  end
 
   def test_value_should_not_be_changed
     param = lookup_keys(:three)

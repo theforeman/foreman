@@ -84,13 +84,13 @@ class HostMailer < ActionMailer::Base
     mail(:to   => user.mail,
          :from => Setting["email_reply_address"],
          :subject => _("Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
-            :failed => total_metrics["failed"],
-            :restarted => total_metrics["restarted"],
-            :skipped => total_metrics["skipped"],
-            :applied => total_metrics["applied"],
-            :failed_restarts => total_metrics["failed_restarts"],
-            :total => total_metrics["total"]
-          },
+           :failed => total_metrics["failed"],
+           :restarted => total_metrics["restarted"],
+           :skipped => total_metrics["skipped"],
+           :applied => total_metrics["applied"],
+           :failed_restarts => total_metrics["failed_restarts"],
+           :total => total_metrics["total"]
+         },
          :date => Time.now )
   end
 

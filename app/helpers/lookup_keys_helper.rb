@@ -18,7 +18,7 @@ module LookupKeysHelper
     options[:form_builder_attrs] ||= {}
 
     content_tag(:div, :class => "#{association}_fields_template", :style => "display: none;") do
-        form_builder.fields_for(association, options[:object], :child_index => "new_#{association}") do |f|
+      form_builder.fields_for(association, options[:object], :child_index => "new_#{association}") do |f|
         render(:partial => options[:partial],
                :layout => options[:layout],
                :locals => { options[:form_builder_local] => f }.merge(options[:form_builder_attrs]))
@@ -75,11 +75,11 @@ module LookupKeysHelper
     original_value = key.value_before_type_cast value
     diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => origin})
     content_tag :div, :class => ['form-group', 'condensed'] do
-    row_count = original_value.to_s.lines.count rescue 1
-          text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
-                        :class => ['col-md-5'], :'data-property' => 'value', :disabled => true) +
-          content_tag(:span, :class => "help-block") { diagnostic_helper }
-         end
+      row_count = original_value.to_s.lines.count rescue 1
+      text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
+                    :class => ['col-md-5'], :'data-property' => 'value', :disabled => true) +
+      content_tag(:span, :class => "help-block") { diagnostic_helper }
+    end
   end
 
   def host_key_with_diagnostic host, value_hash, key
