@@ -47,7 +47,7 @@ module Foreman::Controller::Authentication
     return true if User.current && User.current.admin?
     User.current = sso_authentication || (return false)
     return User.current.admin? if User.current
-    return false
+    false
   end
 
   private

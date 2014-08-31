@@ -56,7 +56,7 @@ class Role < ActiveRecord::Base
   end
 
   def initialize *args
-    super *args
+    super(*args)
     self.builtin = 0
   end
 

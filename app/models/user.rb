@@ -88,7 +88,8 @@ class User < ActiveRecord::Base
                     :format => {:with => /\A[[:alnum:]_\-@\.]*\Z/}, :length => {:maximum => 100}
   validates :auth_source_id, :presence => true
   validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
-  validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
+  validates :password, :confirmation => true, :if => Proc.new {|user| user.manage_password?},
+                       :unless => Proc.new {|user| user.password.empty?}
   validates :firstname, :lastname, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
   validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
@@ -132,8 +133,8 @@ class User < ActiveRecord::Base
     conditions = conditions.join(value ? ' OR ' : ' AND ')
 
     {
-        :include    => :cached_usergroups,
-        :conditions => sanitize_sql_for_conditions([conditions, value, value])
+      :include    => :cached_usergroups,
+      :conditions => sanitize_sql_for_conditions([conditions, value, value])
     }
   end
 
@@ -351,7 +352,7 @@ class User < ActiveRecord::Base
     send(taxonomies).each do |taxonomy|
       ids += taxonomy.subtree_ids
     end
-    return ids.uniq
+    ids.uniq
   end
 
   def location_and_child_ids

@@ -59,7 +59,7 @@ class Puppetclass < ActiveRecord::Base
         next
       end
     end
-    return hash
+    hash
   end
 
   # For API v2 - eliminate node :puppetclass for each object. returns a hash containing modules and associated classes
@@ -71,7 +71,7 @@ class Puppetclass < ActiveRecord::Base
         hash[mod] << {:id => klass.id, :name => klass.name, :created_at => klass.created_at, :updated_at => klass.updated_at}
       end
     end
-    return hash
+    hash
   end
 
   # returns module name (excluding of the class name)
@@ -120,7 +120,7 @@ class Puppetclass < ActiveRecord::Base
       sh cmd do |ok, res|
         if ok
           # Add a link to the class browser
-          files =  %x{find #{out} -exec grep -l 'validator-badges' {} \\; 2>/dev/null}.gsub(/\n/, " ")
+          files =  `find #{out} -exec grep -l 'validator-badges' {} \\; 2>/dev/null`.gsub(/\n/, " ")
           if files.empty?
             warn "No files to update with the browser link in #{out}. This is probably due to a previous error."
           else
@@ -129,7 +129,7 @@ class Puppetclass < ActiveRecord::Base
            sh cmd
           end
           # Relocate the paths for files and references if the manifests were relocated and sanitized
-          if relocated and (files = %x{find #{out} -exec grep -l '#{root}' {} \\;}.gsub(/\n/, " ")) != ""
+          if relocated and (files = `find #{out} -exec grep -l '#{root}' {} \\;`.gsub(/\n/, " ")) != ""
             puts "Rewriting..." if verbose
             cmd = "ruby -p -i -e 'rex=%r{#{root}};$_.gsub!(rex,\"\")' #{files}"
             puts cmd if debug
@@ -160,7 +160,7 @@ class Puppetclass < ActiveRecord::Base
     if prepare_script.executable?
       dirs = Environment.puppetEnvs.values.join(":").split(":").uniq.sort.join(" ")
       puts "Running #{prepare_script} #{dirs}" if debug
-      location = %x{#{prepare_script} #{dirs}}
+      location = `#{prepare_script} #{dirs}`
       if $? == 0
         root = location.chomp
         puts "Relocated modules to #{root}" if verbose

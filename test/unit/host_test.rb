@@ -528,36 +528,31 @@ context "location or organizations are not enabled" do
     assert_equal domain, host.domain
   end
 
-  test "a system should retrieve its iPXE template if it is associated to the correct env and host group" do
-    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03", :medium => media(:one),
-      :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
-      :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
+  context 'associated config templates' do
+    setup do
+      @host = Host.create(:name => "host.mydomain.net", :mac => "aabbccddeaff",
+                          :ip => "2.3.04.03",           :medium => media(:one),
+                          :operatingsystem => Operatingsystem.find_by_name("Redhat"),
+                          :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
+                          :architecture => Architecture.first, :disk => "aaa",
+                          :environment => Environment.find_by_name("production"))
+    end
 
-    assert_equal ConfigTemplate.find_by_name("MyString"), host.configTemplate({:kind => "iPXE"})
-  end
+    test "retrieves iPXE template if associated to the correct env and host group" do
+      assert_equal ConfigTemplate.find_by_name("MyString"), @host.configTemplate({:kind => "iPXE"})
+    end
 
-  test "a system should retrieve its provision template if it is associated to the correct host group only" do
-    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03", :medium => media(:one),
-      :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
-      :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
+    test "retrieves provision template if associated to the correct host group only" do
+      assert_equal ConfigTemplate.find_by_name("MyString2"), @host.configTemplate({:kind => "provision"})
+    end
 
-    assert_equal ConfigTemplate.find_by_name("MyString2"), host.configTemplate({:kind => "provision"})
-  end
+    test "retrieves script template if associated to the correct OS only" do
+      assert_equal ConfigTemplate.find_by_name("MyScript"), @host.configTemplate({:kind => "script"})
+    end
 
-  test "a system should retrieve its script template if it is associated to the correct OS only" do
-    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03", :medium => media(:one),
-      :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
-      :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
-
-    assert_equal ConfigTemplate.find_by_name("MyScript"), host.configTemplate({:kind => "script"})
-  end
-
-  test "a system should retrieve its finish template if it is associated to the correct environment only" do
-    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03", :medium => media(:one),
-      :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
-      :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
-
-    assert_equal ConfigTemplate.find_by_name("MyFinish"), host.configTemplate({:kind => "finish"})
+    test "retrieves finish template if associated to the correct environment only" do
+      assert_equal ConfigTemplate.find_by_name("MyFinish"), @host.configTemplate({:kind => "finish"})
+    end
   end
 
   test "handle_ca must not perform actions when the manage_puppetca setting is false" do
@@ -938,10 +933,9 @@ context "location or organizations are not enabled" do
   test "#set_interfaces updates associated virtuals identifier on identifier change mutualy exclusively" do
     # eth4 was renamed to eth5 and eth5 renamed to eth4
     host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
-    hash = {
-        :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
-        :eth4 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false},
-    }.with_indifferent_access
+    hash = { :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
+             :eth4 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false},
+           }.with_indifferent_access
     parser = stub(:interfaces => hash, :ipmi_interface => {})
     physical4 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
     physical5 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'eth5')
@@ -963,10 +957,9 @@ context "location or organizations are not enabled" do
 
   test "#set_interfaces does not allow two physical devices with same IP, it ignores the second" do
     host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
-    hash = {
-        :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
-        :eth2 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false},
-    }.with_indifferent_access
+    hash = { :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
+             :eth2 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false},
+           }.with_indifferent_access
     parser = stub(:interfaces => hash, :ipmi_interface => {})
     FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:77:88:99', :ip => '10.10.0.1', :virtual => false, :identifier => 'eth0')
 
@@ -1625,14 +1618,13 @@ end # end of context "location or organizations are not enabled"
   private
 
   def parse_json_fixture(relative_path)
-    return JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + relative_path)))
+    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + relative_path)))
   end
 
   def setup_host_with_nic_parser(nic_attributes)
     host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
-    hash = {
-        (nic_attributes.delete(:identifier) || :eth0) => nic_attributes
-    }.with_indifferent_access
+    hash = { (nic_attributes.delete(:identifier) || :eth0) => nic_attributes
+           }.with_indifferent_access
     parser = stub(:interfaces => hash, :ipmi_interface => {})
     [host, parser]
   end

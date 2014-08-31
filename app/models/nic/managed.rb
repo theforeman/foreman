@@ -29,7 +29,7 @@ module Nic
     end
 
     def hostname
-      unless domain.nil? or name.empty?
+      if domain.present? && name.present?
         "#{name}.#{domain.name}"
       else
         name

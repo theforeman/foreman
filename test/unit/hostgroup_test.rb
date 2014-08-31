@@ -35,14 +35,16 @@ class HostgroupTest < ActiveSupport::TestCase
     # creates a 3 level hirecy, each one with his own parameters
     # and overrides.
     pid = Time.now.to_i
-    assert (top = Hostgroup.create(:name => "topA", :group_parameters_attributes => {
-      pid += 1=>{"name"=>"topA", "value"=>"1", :nested => ""},
-      pid += 1=>{"name"=>"topB", "value"=>"1", :nested => ""},
-      pid += 1=>{"name"=>"topC", "value"=>"1", :nested => ""},
-    }))
-    assert (second = Hostgroup.create(:name => "SecondA", :parent_id => top.id, :group_parameters_attributes => {
-      pid += 1 =>{"name"=>"topA", "value"=>"2", :nested => ""},
-      pid += 1 =>{"name"=>"secondA", "value"=>"2", :nested => ""}}))
+    top = Hostgroup.new(:name => "topA",
+                        :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "1", :nested => ""},
+                                                          pid += 1 => {"name" => "topB", "value" => "1", :nested => ""},
+                                                          pid += 1 => {"name" => "topC", "value" => "1", :nested => ""}})
+    assert top.save
+
+    second = Hostgroup.new(:name => "SecondA", :parent_id => top.id,
+                           :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "2", :nested => ""},
+                                                             pid += 1 => {"name" => "secondA", "value" => "2", :nested => ""}})
+    assert second.save
 
     assert second.parameters.include? "topA"
     assert_equal "2", second.parameters["topA"]
@@ -53,9 +55,10 @@ class HostgroupTest < ActiveSupport::TestCase
     assert second.parameters.include? "secondA"
     assert_equal "2", second.parameters["secondA"]
 
-    assert (third = Hostgroup.create(:name => "ThirdA", :parent_id => second.id, :group_parameters_attributes => {
-      pid += 1 =>{"name"=>"topB", "value"=>"3", :nested => ""},
-      pid += 1 =>{"name"=>"topA", "value"=>"3", :nested => ""}}))
+    third = Hostgroup.new(:name => "ThirdA", :parent_id => second.id,
+                          :group_parameters_attributes => { pid += 1 => {"name"=>"topB", "value"=>"3", :nested => ""},
+                                                            pid += 1 => {"name"=>"topA", "value"=>"3", :nested => ""}})
+    assert third.save
 
     assert third.parameters.include? "topA"
     assert_equal "3", third.parameters["topA"]

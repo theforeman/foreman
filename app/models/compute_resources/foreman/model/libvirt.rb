@@ -162,12 +162,10 @@ module Foreman::Model
         :memory     => 768*1024*1024,
         :nics       => [new_nic],
         :volumes    => [new_volume],
-        :display    => {
-                         :type => display_type.downcase,
-                         :listen => Setting[:libvirt_default_console_address],
+        :display    => { :type     => display_type.downcase,
+                         :listen   => Setting[:libvirt_default_console_address],
                          :password => random_password,
-                         :port => '-1'
-                       }
+                         :port     => '-1' }
       )
     end
 

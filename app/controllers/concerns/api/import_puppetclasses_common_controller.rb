@@ -86,8 +86,8 @@ module Api::ImportPuppetclassesCommonController
     # @environments is used in import_puppletclasses/index.json.rabl
     environment_names = (@changed["new"].keys + @changed["obsolete"].keys + @changed["updated"].keys).uniq.sort
     @environments = environment_names.map do |name|
-                      OpenStruct.new(:name => name)
-                    end
+      OpenStruct.new(:name => name)
+    end
 
     render :json => {:message => _("No changes to your environments detected")} and return false unless @environments.any?
     @environments.any?

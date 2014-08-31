@@ -12,7 +12,7 @@ class FactName < ActiveRecord::Base
   scope :with_parent_id, lambda { |find_ids|
     conds = []; binds = []
     [find_ids].flatten.each do |find_id|
-      conds.push %q((fact_names.ancestry LIKE '%/?' OR ancestry = '?'))
+      conds.push "(fact_names.ancestry LIKE '%/?' OR ancestry = '?')"
       binds.push find_id, find_id
     end
     where(conds.join(' OR '), *binds)

@@ -23,8 +23,7 @@ module Api
       render_error 'standard_error', :status => :internal_server_error, :locals => { :exception => error }
     }
 
-    rescue_from ScopedSearch::QueryNotSupported,
-                Apipie::ParamError, :with => lambda { |error|
+    rescue_from ScopedSearch::QueryNotSupported, Apipie::ParamError, :with => lambda { |error|
       logger.info "#{error.message} (#{error.class})"
       render_error 'param_error', :status => :bad_request, :locals => { :exception => error }
     }

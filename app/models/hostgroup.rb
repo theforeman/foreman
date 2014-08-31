@@ -54,7 +54,7 @@ class Hostgroup < ActiveRecord::Base
 
     opts = 'hostgroups.id < 0'
     opts = "hostgroups.id IN(#{hostgroup_ids.join(',')})" unless hostgroup_ids.blank?
-    return {:conditions => opts}
+    {:conditions => opts}
   end
 
   if SETTINGS[:unattended]
@@ -103,7 +103,7 @@ class Hostgroup < ActiveRecord::Base
     ancestors.each do |hostgroup|
       groups += hostgroup.config_groups
     end
-    return groups.uniq
+    groups.uniq
   end
 
   # the environment used by #clases nees to be self.environment and not self.parent.environment
@@ -118,7 +118,7 @@ class Hostgroup < ActiveRecord::Base
         return v.value, hg.to_label
       end
     end if key.path_elements.flatten.include?("hostgroup") && Setting["host_group_matchers_inheritance"]
-    return key.default_value, _("Default value")
+    [key.default_value, _("Default value")]
   end
 
   # returns self and parent parameters as a hash
@@ -131,7 +131,7 @@ class Hostgroup < ActiveRecord::Base
     groups = ids.size == 1 ? [self] : Hostgroup.includes(:group_parameters).sort_by_ancestry(Hostgroup.find(ids))
     groups.each do |hg|
       hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('hostgroup').to_sym, :safe_value => p.safe_value, :source_name => hg.title} : p.value }
-   end
+    end
 
     hash
   end

@@ -17,7 +17,7 @@ Spork.prefork do
 
   # Remove previous test log to speed tests up
   test_log = File.expand_path('../../log/test.log', __FILE__)
-  FileUtils.rm(test_log) if File.exists?(test_log)
+  FileUtils.rm(test_log) if File.exist?(test_log)
 
   ENV["RAILS_ENV"] = "test"
   require File.expand_path('../../config/environment', __FILE__)
@@ -118,7 +118,7 @@ Spork.prefork do
     ensure
       SETTINGS[:organizations_enabled] = org_settings
       SETTINGS[:locations_enabled] = loc_settings
-      return result
+      result
     end
 
     def setup_users
@@ -281,7 +281,7 @@ Spork.prefork do
 
   Rails.application.railties.engines.each do |engine|
     support_file = "#{engine.root}/test/support/foreman_test_helper_additions.rb"
-    require support_file if File.exists?(support_file)
+    require support_file if File.exist?(support_file)
   end
 
 end

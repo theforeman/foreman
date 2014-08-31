@@ -94,7 +94,7 @@ module Hostext
         hosts = users.map(&:hosts).flatten
         opts  = hosts.empty? ? "< 0" : "IN (#{hosts.map(&:id).join(',')})"
 
-        return {:conditions => " hosts.id #{opts} " }
+        {:conditions => " hosts.id #{opts} " }
       end
 
       def search_by_puppetclass(key, operator, value)
@@ -111,7 +111,7 @@ module Hostext
         opts += " OR "                                          unless host_ids.blank? || hostgroup_ids.blank?
         opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
         opts  = "hosts.id < 0"                                  if host_ids.blank? && hostgroup_ids.blank?
-        return {:conditions => opts, :include => :hostgroup}
+        {:conditions => opts, :include => :hostgroup}
       end
 
       def search_by_hostgroup_and_descendants(key, operator, value)
@@ -124,7 +124,7 @@ module Hostext
         else
           opts = "hosts.id < 0"
         end
-        return {:conditions => opts}
+        {:conditions => opts}
       end
 
       def search_by_params(key, operator, value)
@@ -144,7 +144,7 @@ module Hostext
 
         conditions += " AND " unless conditions.blank? || negate.blank?
         conditions += " NOT(#{negate})" unless negate.blank?
-        return {:conditions => conditions}
+        {:conditions => conditions}
       end
 
       def search_by_config_group(key, operator, value)
@@ -157,7 +157,7 @@ module Hostext
         opts += " OR "                                        unless host_ids.blank? || hostgroup_ids.blank?
         opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
         opts = "hosts.id < 0"                                 if host_ids.blank? && hostgroup_ids.blank?
-        return {:conditions => opts, :include => :hostgroup}
+        {:conditions => opts, :include => :hostgroup}
       end
 
       private

@@ -18,7 +18,7 @@ module ApplicationHelper
           else
             id = 'not_defined'
           end
-        rescue Exception => e
+        rescue => e
           id = 'not_parseable'
         end
         html_options.merge!(:'data-id' => "aid_#{id}")
@@ -210,7 +210,7 @@ module ApplicationHelper
   end
 
   def help_path
-    link_to _("Help"), :action => "welcome" if File.exists?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
+    link_to _("Help"), :action => "welcome" if File.exist?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
   end
 
   def method_path method
@@ -251,10 +251,10 @@ module ApplicationHelper
                 { :id    => name,
                   :class => 'statistics-chart',
                   :data  => {
-                      :'legend-options' => options.delete(:legend),
-                      :'xaxis-label'    => xaxis_label,
-                      :'yaxis-label'    => yaxis_label,
-                      :'series'         => data
+                    :'legend-options' => options.delete(:legend),
+                    :'xaxis-label'    => xaxis_label,
+                    :'yaxis-label'    => yaxis_label,
+                    :'series'         => data
                   }
                 }.merge(options))
   end
@@ -342,7 +342,7 @@ module ApplicationHelper
     else
       image_url = path_to_image("avatars/#{user.avatar_hash}.jpg")
     end
-    return image_tag(image_url, html_options)
+    image_tag(image_url, html_options)
   end
 
   def gravatar_url(email, default_image)

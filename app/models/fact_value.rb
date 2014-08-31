@@ -17,11 +17,11 @@ class FactValue < ActiveRecord::Base
   scoped_search :in => :fact_name, :on => :short_name, :complete_value => true, :alias => "fact_short_name"
 
   scope :no_timestamp_facts, lambda {
-              includes(:fact_name).where("fact_names.name <> ?",:_timestamp)
-            }
+    includes(:fact_name).where("fact_names.name <> ?",:_timestamp)
+  }
   scope :timestamp_facts, lambda {
-              joins(:fact_name).where("fact_names.name = ?",:_timestamp)
-            }
+    joins(:fact_name).where("fact_names.name = ?",:_timestamp)
+  }
   scope :my_facts, lambda {
     unless User.current.admin? and Organization.current.nil? and Location.current.nil?
       host_ids = Host.authorized(:view_hosts, Host).select('hosts.id').all
@@ -94,10 +94,9 @@ class FactValue < ActiveRecord::Base
       hash[fact.host.to_s] ||= {}
       hash[fact.host.to_s].update({fact.name.to_s => fact.value})
     end
-    return hash
+    hash
   end
 
-  private
   # converts all strings with units (such as 1 MB) to GB scale and Sum them
   # returns an array with total sum and number of elements
   def self.to_gb fact

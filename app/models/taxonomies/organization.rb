@@ -14,14 +14,9 @@ class Organization < Taxonomy
   scope :completer_scope, lambda { |opts| my_organizations }
 
   scope :my_organizations, lambda {
-      user = User.current
-      if user.admin?
-        conditions = { }
-      else
-        conditions = sanitize_sql_for_conditions([" (taxonomies.id in (?))", user.organization_and_child_ids])
-      end
-      where(conditions)
-    }
+    conditions = User.current.admin? ? {} : sanitize_sql_for_conditions([" (taxonomies.id in (?))", User.current.location_and_child_ids])
+    where(conditions)
+  }
 
   # This scoped search definition intentionally duplicates app/models/concerns/nested_ancestry_common.rb
   # It's a temporary fix for scoped_search's issue with completing search strings for inherited attributes

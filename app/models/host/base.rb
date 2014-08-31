@@ -17,15 +17,12 @@ module Host
              :foreign_key => :host_id, :order => 'identifier'
     accepts_nested_attributes_for :interfaces, :reject_if => lambda { |a| a[:mac].blank? }, :allow_destroy => true
 
-    alias_attribute        :hostname, :name
-    before_validation      :normalize_name
-    validates :name,       :presence => true,
-                           :uniqueness => true,
-                           :format => {:with => Net::Validations::HOST_REGEXP}
-    validates_inclusion_of :owner_type,
-                           :in          => OWNER_TYPES,
-                           :allow_blank => true,
-                           :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', '))
+    alias_attribute :hostname, :name
+    before_validation :normalize_name
+    validates :name, :presence   => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP}
+    validates :owner_type, :inclusion => { :in          => OWNER_TYPES,
+                                           :allow_blank => true,
+                                           :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', ')) }
 
     attr_writer :updated_virtuals
     def updated_virtuals
@@ -38,7 +35,7 @@ module Host
 
     def self.import_host_and_facts(json)
       # noop, overridden by STI descendants
-      return self, true
+      [self, true]
     end
 
     # expect a facts hash
@@ -68,7 +65,7 @@ module Host
       # If we don't (e.g. we never install the server via Foreman, we populate the fields from facts
       # TODO: if it was installed by Foreman and there is a mismatch,
       # we should probably send out an alert.
-      return save(:validate => false)
+      save(:validate => false)
     end
 
     def attributes_to_import_from_facts

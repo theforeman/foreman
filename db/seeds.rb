@@ -38,7 +38,7 @@ end
 
 def create_role(role_name, permission_names, builtin)
   return if Role.find_by_name(role_name)
-  return if audit_modified? Role, role_name && builtin == 0
+  return if audit_modified?(Role, role_name) && (builtin == 0)
 
   role         = Role.new(:name => role_name)
   role.builtin = builtin

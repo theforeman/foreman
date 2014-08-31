@@ -141,7 +141,7 @@ class ConfigTemplate < ActiveRecord::Base
       return [500, msg]
     end
 
-    return [200, _("PXE Default file has been deployed to all Smart Proxies")]
+    [200, _("PXE Default file has been deployed to all Smart Proxies")]
   end
 
   def skip_strip_attrs

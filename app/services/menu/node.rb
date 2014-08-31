@@ -75,7 +75,7 @@ module Menu
       position = @children.size - @last_items_count
       add_at(child, position)
     end
-    alias :<< :add
+    alias_method :<<, :add
 
     # Removes a child
     def remove!(child)

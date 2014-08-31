@@ -40,7 +40,7 @@ class TrendImporter
                       end || 0
       counter.created_at = timestamp
       counter.save!
-      end
+    end
   end
 
   def aggregate_counters

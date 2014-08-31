@@ -5,10 +5,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 7
-Lint/AmbiguousOperator:
-  Enabled: false
-
 # Offense count: 43
 Lint/AmbiguousRegexpLiteral:
   Enabled: false
@@ -16,29 +12,6 @@ Lint/AmbiguousRegexpLiteral:
 # Offense count: 10
 # Configuration parameters: AllowSafeAssignment.
 Lint/AssignmentInCondition:
-  Enabled: false
-
-# Offense count: 15
-Lint/BlockAlignment:
-  Enabled: false
-
-# Offense count: 2
-# Configuration parameters: AlignWith, SupportedStyles.
-Lint/DefEndAlignment:
-  Enabled: false
-
-# Offense count: 6
-# Cop supports --auto-correct.
-Lint/DeprecatedClassMethods:
-  Enabled: false
-
-# Offense count: 4
-# Configuration parameters: AlignWith, SupportedStyles.
-Lint/EndAlignment:
-  Enabled: false
-
-# Offense count: 1
-Lint/EnsureReturn:
   Enabled: false
 
 # Offense count: 2
@@ -51,15 +24,6 @@ Lint/HandleExceptions:
 
 # Offense count: 14
 Lint/ParenthesesAsGroupedExpression:
-  Enabled: false
-
-# Offense count: 1
-Lint/RequireParentheses:
-  Enabled: false
-
-# Offense count: 5
-# Cop supports --auto-correct.
-Lint/RescueException:
   Enabled: false
 
 # Offense count: 46
@@ -81,16 +45,8 @@ Lint/UnusedBlockArgument:
 Lint/UnusedMethodArgument:
   Enabled: false
 
-# Offense count: 2
-Lint/UselessAccessModifier:
-  Enabled: false
-
 # Offense count: 127
 Lint/UselessAssignment:
-  Enabled: false
-
-# Offense count: 1
-Lint/Void:
   Enabled: false
 
 # Offense count: 208
@@ -128,11 +84,6 @@ Rails/ReadWriteAttribute:
 Rails/ScopeArgs:
   Enabled: false
 
-# Offense count: 5
-# Configuration parameters: Include.
-Rails/Validation:
-  Enabled: false
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -141,11 +92,6 @@ Style/AccessModifierIndentation:
 
 # Offense count: 21
 Style/AccessorMethodName:
-  Enabled: false
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/Alias:
   Enabled: false
 
 # Offense count: 22
@@ -328,17 +274,6 @@ Style/GuardClause:
 Style/IfUnlessModifier:
   Enabled: false
 
-# Offense count: 9
-# Cop supports --auto-correct.
-Style/IndentArray:
-  Enabled: false
-
-# Offense count: 50
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/IndentHash:
-  Enabled: false
-
 # Offense count: 32
 # Cop supports --auto-correct.
 Style/IndentationConsistency:
@@ -476,12 +411,6 @@ Style/RaiseArgs:
 Style/RedundantBegin:
   Enabled: false
 
-# Offense count: 30
-# Cop supports --auto-correct.
-# Configuration parameters: AllowMultipleReturnValues.
-Style/RedundantReturn:
-  Enabled: false
-
 # Offense count: 287
 # Cop supports --auto-correct.
 Style/RedundantSelf:
@@ -613,10 +542,6 @@ Style/SpecialGlobalVars:
 Style/StringLiterals:
   Enabled: false
 
-# Offense count: 5
-Style/Tab:
-  Enabled: false
-
 # Offense count: 60
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -637,20 +562,6 @@ Style/TrailingWhitespace:
 # Cop supports --auto-correct.
 # Configuration parameters: ExactNameMatch, AllowPredicates, AllowDSLWriters, Whitelist.
 Style/TrivialAccessors:
-  Enabled: false
-
-# Offense count: 1
-Style/UnlessElse:
-  Enabled: false
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/UnneededPercentQ:
-  Enabled: false
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/UnneededPercentX:
   Enabled: false
 
 # Offense count: 268

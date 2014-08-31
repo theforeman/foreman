@@ -188,7 +188,7 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
- test "requesting a template that does not exist should fail" do
+  test "requesting a template that does not exist should fail" do
     get :template, {:id => "kdsfjlkasjdfkl", :hostgroup => "Common"}
     assert_response :not_found
   end
@@ -201,69 +201,68 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-context "location or organizations are not enabled" do
+  context "location or organizations are not enabled" do
 
-  before do
-    SETTINGS[:locations_enabled] = false
-    SETTINGS[:organizations_enabled] = false
-  end
+    before do
+      SETTINGS[:locations_enabled] = false
+      SETTINGS[:organizations_enabled] = false
+    end
 
-  after do
-    SETTINGS[:locations_enabled] = true
-    SETTINGS[:organizations_enabled] = true
-  end
+    after do
+      SETTINGS[:locations_enabled] = true
+      SETTINGS[:organizations_enabled] = true
+    end
 
-  test "hosts with mismatched ip and update_ip=false should have the old ip" do
-    disable_orchestration # avoids dns errors
-    Setting[:token_duration] = 30
-    Setting[:update_ip_from_built_request] = false
-    @request.env["REMOTE_ADDR"] = '127.0.0.1'
-    h=hosts(:ubuntu2)
-    h.create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
-    get :built, {'token' => h.token.value }
-    h_new=Host.find_by_name(h.name)
-    assert_response :success
-    assert_equal h.ip, h_new.ip
-  end
+    test "hosts with mismatched ip and update_ip=false should have the old ip" do
+      disable_orchestration # avoids dns errors
+      Setting[:token_duration] = 30
+      Setting[:update_ip_from_built_request] = false
+      @request.env["REMOTE_ADDR"] = '127.0.0.1'
+      h=hosts(:ubuntu2)
+      h.create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
+      get :built, {'token' => h.token.value }
+      h_new=Host.find_by_name(h.name)
+      assert_response :success
+      assert_equal h.ip, h_new.ip
+    end
 
-  test "hosts with mismatched ip and update_ip true should have the new ip" do
-    disable_orchestration # avoids dns errors
-    Setting[:token_duration] = 30
-    Setting[:update_ip_from_built_request] = true
-    @request.env["REMOTE_ADDR"] = '2.3.4.199'
-    h=hosts(:ubuntu2)
-    assert_equal '2.3.4.106', h.ip
-    h.create_token(:value => "aaaaab", :expires => Time.now + 5.minutes)
-    get :built, {'token' => h.token.value }
-    h_new=Host.find_by_name(h.name)
-    assert_response :success
-    assert_equal '2.3.4.199', h_new.ip
-  end
+    test "hosts with mismatched ip and update_ip true should have the new ip" do
+      disable_orchestration # avoids dns errors
+      Setting[:token_duration] = 30
+      Setting[:update_ip_from_built_request] = true
+      @request.env["REMOTE_ADDR"] = '2.3.4.199'
+      h=hosts(:ubuntu2)
+      assert_equal '2.3.4.106', h.ip
+      h.create_token(:value => "aaaaab", :expires => Time.now + 5.minutes)
+      get :built, {'token' => h.token.value }
+      h_new=Host.find_by_name(h.name)
+      assert_response :success
+      assert_equal '2.3.4.199', h_new.ip
+    end
 
-  test "hosts with mismatched ip and update_ip true and a duplicate ip should succeed with no ip update" do
-    disable_orchestration # avoids dns errors
-    Setting[:token_duration] = 30
-    Setting[:update_ip_from_built_request] = true
-    @request.env["REMOTE_ADDR"] = hosts(:redhat).ip
-    h=hosts(:ubuntu2)
-    h.create_token(:value => "aaaaac", :expires => Time.now + 5.minutes)
-    get :built, {'token' => h.token.value }
-    assert_response :success
-    h_new=Host.find_by_name(h.name)
-    assert_equal h.ip, h_new.ip
-  end
+    test "hosts with mismatched ip and update_ip true and a duplicate ip should succeed with no ip update" do
+      disable_orchestration # avoids dns errors
+      Setting[:token_duration] = 30
+      Setting[:update_ip_from_built_request] = true
+      @request.env["REMOTE_ADDR"] = hosts(:redhat).ip
+      h=hosts(:ubuntu2)
+      h.create_token(:value => "aaaaac", :expires => Time.now + 5.minutes)
+      get :built, {'token' => h.token.value }
+      assert_response :success
+      h_new=Host.find_by_name(h.name)
+      assert_equal h.ip, h_new.ip
+    end
 
-  # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
-  test "template should contain tokens when tokens enabled and present for the host" do
-    Setting[:token_duration] = 30
-    Setting[:unattended_url]    = "http://test.host"
-    @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
-    hosts(:ubuntu).create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
-    get :provision
-    assert @response.body.include?("http://test.host:80/unattended/finish?token=aaaaaa")
-  end
-end # end of context "location or organizations are not enabled"
-
+    # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
+    test "template should contain tokens when tokens enabled and present for the host" do
+      Setting[:token_duration] = 30
+      Setting[:unattended_url]    = "http://test.host"
+      @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
+      hosts(:ubuntu).create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
+      get :provision
+      assert @response.body.include?("http://test.host:80/unattended/finish?token=aaaaaa")
+    end
+  end # end of context "location or organizations are not enabled"
 
   # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
   test "template should not contain https when ssl enabled" do
