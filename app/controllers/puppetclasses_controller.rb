@@ -93,7 +93,7 @@ class PuppetclassesController < ApplicationController
   def find_by_name
     not_found and return if params[:id].blank?
     pc = resource_base.includes(:class_params => [:environment_classes, :environments, :lookup_values])
-    @puppetclass = (params[:id] =~ /\A\d+\Z/) ? pc.find(params[:id]) : pc.find_by_name(params[:id])
+    @puppetclass = (params[:id] =~ /\A\d+\Z/ && pc.exists?(params[:id])) ? pc.find(params[:id]) : pc.find_by_name(params[:id])
     not_found and return unless @puppetclass
   end
 
