@@ -48,7 +48,7 @@ class Filter < ActiveRecord::Base
   validates :search, :presence => true, :unless => Proc.new { |o| o.search.nil? }
   validates_with ScopedSearchValidator
   validates :role, :presence => true
-  validate :same_resource_type_permissions, :not_empty_permissions
+  validate :same_resource_type_permissions, :not_empty_permissions, :allowed_taxonomies
 
   def self.search_by_unlimited(key, operator, value)
     search_by_limited(key, operator, value == 'true' ? 'false' : 'true')
@@ -162,5 +162,15 @@ class Filter < ActiveRecord::Base
 
   def not_empty_permissions
     errors.add(:permissions, _('You must select at least one permission')) if self.permissions.blank? && self.filterings.blank?
+  end
+
+  def allowed_taxonomies
+    if self.organization_ids.present? && !self.allows_organization_filtering?
+      errors.add(:organization_ids, _('You can\'t assign organizations to this resource'))
+    end
+
+    if self.location_ids.present? && !self.allows_location_filtering?
+      errors.add(:location_ids, _('You can\'t assign locations to this resource'))
+    end
   end
 end

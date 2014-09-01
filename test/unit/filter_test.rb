@@ -127,15 +127,17 @@ class FilterTest < ActiveSupport::TestCase
       assert_nil f.taxonomy_search
     end
 
-    test "taxonomies are ignored if resource does not support them" do
-      f = Factory.create(:filter, :search => '', :unlimited => '1',
-                         :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id],
-                         :resource_type => 'Bookmark')
-
-      f.reload
-      assert f.valid?
-      assert f.unlimited?
-      assert_nil f.taxonomy_search
+    test "taxonomies can be assigned only if resource allows it" do
+      fb = Factory.build(:filter, :resource_type => 'Bookmark', :organization_ids => [@organization.id])
+      fd = Factory.build(:filter, :resource_type => 'Domain', :organization_ids => [@organization.id])
+      refute_valid fb
+      assert_valid fd
+      fb = Factory.create(:filter, :resource_type => 'Bookmark')
+      fd = Factory.create(:filter, :resource_type => 'Domain')
+      fb.location_ids = [@location.id]
+      refute_valid fb
+      fd.location_ids = [@location.id]
+      assert_valid fd
     end
   end
 
