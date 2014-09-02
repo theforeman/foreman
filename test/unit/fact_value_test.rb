@@ -51,5 +51,17 @@ class FactValueTest < ActiveSupport::TestCase
     assert_equal 'kernelversion', results.first.name
   end
 
+  test 'should return search results for host = fqdn' do
+    host = hosts(:one)  #this host has facts associated in fixtures
+    results = FactValue.search_for("host = #{host.fqdn}")
+    refute_empty results
+  end
+
+  test 'should return empty search results for host with no facts' do
+    host = hosts(:two) #this host has NO facts associated in fixtures
+    results = FactValue.search_for("host = #{host.fqdn}")
+    assert_empty results
+  end
+
 end
 
