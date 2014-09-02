@@ -37,7 +37,7 @@ module Api
       end
 
       def_param_group :domain do
-        param :domain, Hash, :action_aware => true do
+        param :domain, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true, :desc => N_("The full DNS domain name")
           param :fullname, String, :required => false, :allow_nil => true, :desc => N_("Description of the domain")
           param :dns_id, :number, :required => false, :allow_nil => true, :desc => N_("DNS proxy to use within this domain")

@@ -30,7 +30,7 @@ module Api
       end
 
       def_param_group :config_template do
-        param :config_template, Hash, :action_aware => true do
+        param :config_template, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true, :desc => N_("template name")
           param :template, String, :required => true
           param :snippet, :bool, :allow_nil => true

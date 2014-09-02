@@ -30,7 +30,7 @@ module Api
       end
 
       def_param_group :override_value do
-        param :override_value, Hash, :action_aware => true do
+        param :override_value, Hash, :required => true, :action_aware => true do
           param :match, String
           param :value, String
         end

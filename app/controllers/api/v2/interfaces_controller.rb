@@ -24,7 +24,7 @@ module Api
       end
 
       def_param_group :interface do
-        param :interface, Hash, :action_aware => true, :desc => N_("interface information") do
+        param :interface, Hash, :required => true, :action_aware => true, :desc => N_("interface information") do
           param :mac, String, :required => true, :desc => N_("MAC address of interface")
           param :ip, String, :required => true, :desc => N_("IP address of interface")
           param :type, String, :required => true, :desc => N_("Interface type, i.e: Nic::BMC")

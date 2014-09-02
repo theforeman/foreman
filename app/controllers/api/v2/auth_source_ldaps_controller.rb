@@ -19,7 +19,7 @@ module Api
       end
 
       def_param_group :auth_source_ldap do
-        param :auth_source_ldap, Hash, :action_aware => true do
+        param :auth_source_ldap, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :host, String, :required => true
           param :port, :number, :desc => N_("defaults to 389")

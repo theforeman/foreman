@@ -18,7 +18,7 @@ module Api
       end
 
       def_param_group :bookmark do
-        param :bookmark, Hash, :action_aware => true do
+        param :bookmark, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :controller, String, :required => true
           param :query, String, :required => true

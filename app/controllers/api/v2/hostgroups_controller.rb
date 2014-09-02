@@ -27,7 +27,7 @@ module Api
       end
 
       def_param_group :hostgroup do
-        param :hostgroup, Hash, :action_aware => true do
+        param :hostgroup, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :parent_id, :number
           param :environment_id, :number

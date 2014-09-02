@@ -39,7 +39,7 @@ Solaris and Debian media may also use $release.
       end
 
       def_param_group :medium do
-        param :medium, Hash, :action_aware => true do
+        param :medium, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true, :desc => N_("Name of media")
           param :path, String, :required => true, :desc => PATH_INFO
           param :os_family, String, :require => false, :desc => OS_FAMILY_INFO

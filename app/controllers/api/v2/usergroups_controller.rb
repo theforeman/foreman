@@ -22,7 +22,7 @@ module Api
       end
 
       def_param_group :usergroup do
-        param :usergroup, Hash, :action_aware => true do
+        param :usergroup, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :user_ids, Array, :require => false
           param :usergroup_ids, Array, :require => false

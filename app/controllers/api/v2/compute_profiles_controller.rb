@@ -21,7 +21,7 @@ module Api
       end
 
       def_param_group :compute_profile do
-        param :compute_profile, Hash, :action_aware => true do
+        param :compute_profile, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
         end
       end
