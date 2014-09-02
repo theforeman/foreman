@@ -12,142 +12,194 @@
   <%= text_f f, :name %>
   <div class="form-group row">
     <ul class="nav nav-pills nav-stacked col-md-3" data-tabs="pills">
-      <li class="active"><a href="#users" data-toggle="tab"><%= _("Users") %></a></li>
-      <li><a href="#smart_proxies" data-toggle="tab"><%= _("Smart Proxies") %></a></li>
+      <% if User.current.allowed_to?(:view_users) %>
+        <li class="active"><a href="#users" data-toggle="tab"><%= _("Users") %></a></li>
+      <% end %>
+      <% if User.current.allowed_to?(:view_smart_proxies) %>
+        <li><a href="#smart_proxies" data-toggle="tab"><%= _("Smart Proxies") %></a></li>
+      <% end %>
       <% if SETTINGS[:unattended] %>
-        <li><a href="#subnets" data-toggle="tab"><%= _("Subnets") %></a></li>
-        <li><a href="#compute_resources" data-toggle="tab"><%= _("Compute Resources") %></a></li>
-        <li><a href="#media" data-toggle="tab"><%= _("Media") %></a></li>
-        <li><a href="#template" data-toggle="tab"><%= _("Templates") %></a></li>
-        <li><a href="#domains" data-toggle="tab"><%= _("Domains") %></a></li>
-        <li><a href="#realms" data-toggle="tab"><%= _("Realms") %></a></li>
+        <% if User.current.allowed_to?(:view_subnets) %>
+          <li><a href="#subnets" data-toggle="tab"><%= _("Subnets") %></a></li>
+        <% end %>
+        <% if User.current.allowed_to?(:view_compute_resources) %>
+          <li><a href="#compute_resources" data-toggle="tab"><%= _("Compute Resources") %></a></li>
+        <% end %>
+        <% if User.current.allowed_to?(:view_media) %>
+          <li><a href="#media" data-toggle="tab"><%= _("Media") %></a></li>
+        <% end %>
+        <% if User.current.allowed_to?(:view_templates) %>
+          <li><a href="#templates" data-toggle="tab"><%= _("Templates") %></a></li>
+        <% end %>
+        <% if User.current.allowed_to?(:view_domains) %>
+          <li><a href="#domains" data-toggle="tab"><%= _("Domains") %></a></li>
+        <% end %>
+        <% if User.current.allowed_to?(:view_realms) %>
+          <li><a href="#realms" data-toggle="tab"><%= _("Realms") %></a></li>
+        <% end %>
       <% end %>
-      <li><a href="#environments" data-toggle="tab"><%= _("Environments") %></a></li>
-      <li><a href="#hostgroups" data-toggle="tab"><%= _("Host Groups") %></a></li>
+      <% if User.current.allowed_to?(:view_environments) %>
+        <li><a href="#environments" data-toggle="tab"><%= _("Environments") %></a></li>
+      <% end %>
+      <% if User.current.allowed_to?(:view_hostgroups) %>
+        <li><a href="#hostgroups" data-toggle="tab"><%= _("Host Groups") %></a></li>
+      <% end %>
       <% if (taxonomy.is_a?(Organization) && SETTINGS[:locations_enabled]) %>
-        <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
+        <% if User.current.allowed_to?(:view_locations) %>
+          <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
+        <% end %>
       <% elsif taxonomy.is_a?(Location) && SETTINGS[:organizations_enabled] %>
-        <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+        <% if User.current.allowed_to?(:view_organizations) %>
+          <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+        <% end %>
       <% end %>
-      <li><a href="#params" data-toggle="tab"><%= _("Parameters") %></a></li>
+      <% if User.current.allowed_to?(:view_params) %>
+        <li><a href="#params" data-toggle="tab"><%= _("Parameters") %></a></li>
+      <% end %>
     </ul>
 
     <div class="tab-content stacked-content col-md-9">
-      <div class="tab-pane active" id="users">
-        <%= checkbox_f(f, :ignore_types, {:label => _("All users"), :multiple => true, :onchange => 'ignore_checked(this)'}, "User") %>
-        <%= multiple_selects f, :users, User.except_admin, taxonomy.selected_or_inherited_ids[:user_ids],
-                             {:disabled => taxonomy.used_and_selected_or_inherited_ids[:user_ids], :label => _('Select users')},
-                             {'data-mismatches' => taxonomy.need_to_be_selected_ids[:user_ids].to_json,
-                              'data-inheriteds' => taxonomy.inherited_ids[:user_ids].to_json,
-                              'data-useds' => taxonomy.used_ids[:user_ids].to_json } %>
-      </div>
-
-      <div class="tab-pane" id="smart_proxies">
-        <%= checkbox_f(f, :ignore_types, {:label => _("All smart proxies"), :multiple => true, :onchange => 'ignore_checked(this)'}, "SmartProxy") %>
-        <%= multiple_selects f, :smart_proxies, SmartProxy, taxonomy.selected_or_inherited_ids[:smart_proxy_ids],
-                             {:disabled => taxonomy.used_and_selected_or_inherited_ids[:smart_proxy_ids], :label => _('Select smart proxies')},
-                             {'data-mismatches' => taxonomy.need_to_be_selected_ids[:smart_proxy_ids].to_json,
-                              'data-inheriteds' => taxonomy.inherited_ids[:smart_proxy_ids].to_json,
-                              'data-useds' => taxonomy.used_ids[:smart_proxy_ids].to_json } %>
-      </div>
-
-      <% if SETTINGS[:unattended] %>
-        <div class="tab-pane" id="subnets">
-          <%= checkbox_f(f, :ignore_types, {:label => _("All subnets"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Subnet") %>
-          <%= multiple_selects f, :subnets, Subnet, taxonomy.selected_or_inherited_ids[:subnet_ids],
-                               {:disabled => taxonomy.used_and_selected_or_inherited_ids[:subnet_ids], :label => _('Select subnets')},
-                               {'data-mismatches' => taxonomy.need_to_be_selected_ids[:subnet_ids].to_json,
-                                'data-inheriteds' => taxonomy.inherited_ids[:subnet_ids].to_json,
-                                'data-useds' => taxonomy.used_ids[:subnet_ids].to_json
-                               } %>
-        </div>
-
-        <div class="tab-pane" id="compute_resources">
-          <%= checkbox_f(f, :ignore_types, {:label => _("All compute resources"), :multiple => true, :onchange => 'ignore_checked(this)'}, "ComputeResource") %>
-          <%= multiple_selects f, :compute_resources, ComputeResource, taxonomy.selected_or_inherited_ids[:compute_resource_ids],
-                               {:disabled => taxonomy.used_and_selected_or_inherited_ids[:compute_resource_ids], :label => _('Select compute resources')},
-                               {'data-mismatches' => taxonomy.need_to_be_selected_ids[:compute_resource_ids].to_json,
-                                'data-inheriteds' => taxonomy.inherited_ids[:compute_resource_ids].to_json,
-                                'data-useds' => taxonomy.used_ids[:compute_resource_ids].to_json } %>
-        </div>
-
-        <div class="tab-pane" id="media">
-          <%= checkbox_f(f, :ignore_types, {:label => _("All media"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Medium") %>
-          <%= multiple_selects f, :media, Medium, taxonomy.selected_or_inherited_ids[:medium_ids],
-                               {:disabled => taxonomy.used_and_selected_or_inherited_ids[:medium_ids], :label => _('Select media')},
-                               {'data-mismatches' => taxonomy.need_to_be_selected_ids[:medium_ids].to_json,
-                                'data-inheriteds' => taxonomy.inherited_ids[:medium_ids].to_json,
-                                'data-useds' => taxonomy.used_ids[:medium_ids].to_json } %>
-        </div>
-
-        <div class="tab-pane" id="template">
-          <%= checkbox_f(f, :ignore_types, {:label => _("All templates"), :multiple => true, :onchange => 'ignore_checked(this)'}, "ConfigTemplate") %>
-          <%= multiple_selects f, :config_templates, ConfigTemplate, taxonomy.selected_or_inherited_ids[:config_template_ids],
-                               {:disabled => taxonomy.used_and_selected_or_inherited_ids[:config_template_ids], :label => _('Select templates')},
-                               {'data-mismatches' => taxonomy.need_to_be_selected_ids[:config_template_ids].to_json,
-                                'data-inheriteds' => taxonomy.inherited_ids[:config_template_ids].to_json,
-                                'data-useds' => taxonomy.used_ids[:config_template_ids].to_json } %>
-
-        </div>
-
-        <div class="tab-pane" id="domains">
-          <%= checkbox_f(f, :ignore_types, {:label => _("All domains"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Domain") %>
-          <%= multiple_selects f, :domains, Domain, taxonomy.selected_or_inherited_ids[:domain_ids],
-                               {:disabled => taxonomy.used_and_selected_or_inherited_ids[:domain_ids], :label => _('Select domains')},
-                               {'data-mismatches' => taxonomy.need_to_be_selected_ids[:domain_ids].to_json,
-                                'data-inheriteds' => taxonomy.inherited_ids[:domain_ids].to_json,
-                                'data-useds' => taxonomy.used_ids[:domain_ids].to_json } %>
-        </div>
-
-        <div class="tab-pane" id="realms">
-          <%= checkbox_f(f, :ignore_types, {:label => _("All realms"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Realm") %>
-          <%= multiple_selects f, :realms, Realm, taxonomy.selected_or_inherited_ids[:realm_ids],
-                              {:disabled => taxonomy.used_or_inherited_ids[:realm_ids], :label => _('Select realms')},
-                              {'data-mismatches' => taxonomy.need_to_be_selected_ids[:realm_ids].to_json,
-                               'data-inheriteds' => taxonomy.inherited_ids[:realm_ids].to_json,
-                               'data-useds' => taxonomy.used_ids[:realm_ids].to_json } %>
-        </div>
-     <% end %>
-
-      <div class="tab-pane" id="environments">
-        <%= checkbox_f(f, :ignore_types, {:label => _("All environments"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Environment") %>
-        <%= multiple_selects f, :environments, Environment, taxonomy.selected_or_inherited_ids[:environment_ids],
-                             {:disabled => taxonomy.used_and_selected_or_inherited_ids[:environment_ids], :label => _('Select environments')},
-                             {'data-mismatches' => taxonomy.need_to_be_selected_ids[:environment_ids].to_json,
-                              'data-inheriteds' => taxonomy.inherited_ids[:environment_ids].to_json,
-                              'data-useds' => taxonomy.used_ids[:environment_ids].to_json } %>
-      </div>
-
-      <div class="tab-pane" id="hostgroups">
-        <%= checkbox_f(f, :ignore_types, {:label => _("All host groups"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Hostgroup") %>
-        <%= multiple_selects f, :hostgroups, Hostgroup, taxonomy.selected_or_inherited_ids[:hostgroup_ids],
-                             {:disabled => taxonomy.used_and_selected_or_inherited_ids[:hostgroup_ids], :label => _('Select host groups')},
-                             {'data-mismatches' => taxonomy.need_to_be_selected_ids[:hostgroup_ids].to_json,
-                              'data-inheriteds' => taxonomy.inherited_ids[:hostgroup_ids].to_json,
-                              'data-useds' => taxonomy.used_ids[:hostgroup_ids].to_json } %>
-      </div>
-
-      <% if taxonomy.is_a?(Location) && SETTINGS[:locations_enabled] %>
-        <div class="tab-pane" id="organizations">
-          <%= organization_selects f, taxonomy.selected_or_inherited_ids[:organization_ids],
-                                   { :disabled => taxonomy.used_and_selected_or_inherited_ids[:organization_ids], :label => _('Select organizations')},
-                                   { 'data-mismatches' => taxonomy.need_to_be_selected_ids[:organization_ids].to_json,
-                                     'data-inheriteds' => taxonomy.inherited_ids[:organization_ids].to_json,
-                                     'data-useds' => taxonomy.used_ids[:organization_ids].to_json } %>
-        </div>
-      <% elsif taxonomy.is_a?(Organization) && SETTINGS[:organizations_enabled] %>
-        <div class="tab-pane" id="locations">
-          <%= location_selects f, taxonomy.selected_or_inherited_ids[:location_ids],
-                               { :disabled => taxonomy.used_and_selected_or_inherited_ids[:location_ids], :label => _('Select locations')},
-                               { 'data-mismatches' => taxonomy.need_to_be_selected_ids[:location_ids].to_json,
-                                 'data-inheriteds' => taxonomy.inherited_ids[:location_ids].to_json,
-                                 'data-useds' => taxonomy.used_ids[:location_ids].to_json } %>
+      <% if User.current.allowed_to?(:view_users) %>
+        <div class="tab-pane active" id="users">
+          <%= checkbox_f(f, :ignore_types, {:label => _("All users"), :multiple => true, :onchange => 'ignore_checked(this)'}, "User") %>
+          <%= multiple_selects f, :users, User.except_admin, taxonomy.selected_or_inherited_ids[:user_ids],
+                               {:disabled => taxonomy.used_and_selected_or_inherited_ids[:user_ids], :label => _('Select users')},
+                               {'data-mismatches' => taxonomy.need_to_be_selected_ids[:user_ids].to_json,
+                                'data-inheriteds' => taxonomy.inherited_ids[:user_ids].to_json,
+                                'data-useds' => taxonomy.used_ids[:user_ids].to_json } %>
         </div>
       <% end %>
 
-      <div class="tab-pane" id="params">
-        <%= render "common_parameters/parameters", { :f => f, :type => "#{controller_name.singularize}_parameters".to_sym } %>
-      </div>
+      <% if User.current.allowed_to?(:view_smart_proxies) %>
+        <div class="tab-pane" id="smart_proxies">
+          <%= checkbox_f(f, :ignore_types, {:label => _("All smart proxies"), :multiple => true, :onchange => 'ignore_checked(this)'}, "SmartProxy") %>
+          <%= multiple_selects f, :smart_proxies, SmartProxy, taxonomy.selected_or_inherited_ids[:smart_proxy_ids],
+                               {:disabled => taxonomy.used_and_selected_or_inherited_ids[:smart_proxy_ids], :label => _('Select smart proxies')},
+                               {'data-mismatches' => taxonomy.need_to_be_selected_ids[:smart_proxy_ids].to_json,
+                                'data-inheriteds' => taxonomy.inherited_ids[:smart_proxy_ids].to_json,
+                                'data-useds' => taxonomy.used_ids[:smart_proxy_ids].to_json } %>
+        </div>
+      <% end %>
+
+      <% if SETTINGS[:unattended] %>
+        <% if User.current.allowed_to?(:view_subnets) %>
+          <div class="tab-pane" id="subnets">
+            <%= checkbox_f(f, :ignore_types, {:label => _("All subnets"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Subnet") %>
+            <%= multiple_selects f, :subnets, Subnet, taxonomy.selected_or_inherited_ids[:subnet_ids],
+                                 {:disabled => taxonomy.used_and_selected_or_inherited_ids[:subnet_ids], :label => _('Select subnets')},
+                                 {'data-mismatches' => taxonomy.need_to_be_selected_ids[:subnet_ids].to_json,
+                                  'data-inheriteds' => taxonomy.inherited_ids[:subnet_ids].to_json,
+                                  'data-useds' => taxonomy.used_ids[:subnet_ids].to_json
+                                 } %>
+          </div>
+        <% end %>
+
+        <% if User.current.allowed_to?(:view_compute_resources) %>
+          <div class="tab-pane" id="compute_resources">
+            <%= checkbox_f(f, :ignore_types, {:label => _("All compute resources"), :multiple => true, :onchange => 'ignore_checked(this)'}, "ComputeResource") %>
+            <%= multiple_selects f, :compute_resources, ComputeResource, taxonomy.selected_or_inherited_ids[:compute_resource_ids],
+                                 {:disabled => taxonomy.used_and_selected_or_inherited_ids[:compute_resource_ids], :label => _('Select compute resources')},
+                                 {'data-mismatches' => taxonomy.need_to_be_selected_ids[:compute_resource_ids].to_json,
+                                  'data-inheriteds' => taxonomy.inherited_ids[:compute_resource_ids].to_json,
+                                  'data-useds' => taxonomy.used_ids[:compute_resource_ids].to_json } %>
+          </div>
+        <% end %>
+
+        <% if User.current.allowed_to?(:view_media) %>
+          <div class="tab-pane" id="media">
+            <%= checkbox_f(f, :ignore_types, {:label => _("All media"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Medium") %>
+            <%= multiple_selects f, :media, Medium, taxonomy.selected_or_inherited_ids[:medium_ids],
+                                 {:disabled => taxonomy.used_and_selected_or_inherited_ids[:medium_ids], :label => _('Select media')},
+                                 {'data-mismatches' => taxonomy.need_to_be_selected_ids[:medium_ids].to_json,
+                                  'data-inheriteds' => taxonomy.inherited_ids[:medium_ids].to_json,
+                                  'data-useds' => taxonomy.used_ids[:medium_ids].to_json } %>
+          </div>
+        <% end %>
+
+        <% if User.current.allowed_to?(:view_templates) %>
+          <div class="tab-pane" id="templates">
+            <%= checkbox_f(f, :ignore_types, {:label => _("All templates"), :multiple => true, :onchange => 'ignore_checked(this)'}, "ConfigTemplate") %>
+            <%= multiple_selects f, :config_templates, ConfigTemplate, taxonomy.selected_or_inherited_ids[:config_template_ids],
+                                 {:disabled => taxonomy.used_and_selected_or_inherited_ids[:config_template_ids], :label => _('Select templates')},
+                                 {'data-mismatches' => taxonomy.need_to_be_selected_ids[:config_template_ids].to_json,
+                                  'data-inheriteds' => taxonomy.inherited_ids[:config_template_ids].to_json,
+                                  'data-useds' => taxonomy.used_ids[:config_template_ids].to_json } %>
+
+          </div>
+        <% end %>
+
+        <% if User.current.allowed_to?(:view_domains) %>
+          <div class="tab-pane" id="domains">
+            <%= checkbox_f(f, :ignore_types, {:label => _("All domains"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Domain") %>
+            <%= multiple_selects f, :domains, Domain, taxonomy.selected_or_inherited_ids[:domain_ids],
+                                 {:disabled => taxonomy.used_and_selected_or_inherited_ids[:domain_ids], :label => _('Select domains')},
+                                 {'data-mismatches' => taxonomy.need_to_be_selected_ids[:domain_ids].to_json,
+                                  'data-inheriteds' => taxonomy.inherited_ids[:domain_ids].to_json,
+                                  'data-useds' => taxonomy.used_ids[:domain_ids].to_json } %>
+          </div>
+        <% end %>
+
+        <% if User.current.allowed_to?(:view_realms) %>
+          <div class="tab-pane" id="realms">
+            <%= checkbox_f(f, :ignore_types, {:label => _("All realms"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Realm") %>
+            <%= multiple_selects f, :realms, Realm, taxonomy.selected_or_inherited_ids[:realm_ids],
+                                {:disabled => taxonomy.used_or_inherited_ids[:realm_ids], :label => _('Select realms')},
+                                {'data-mismatches' => taxonomy.need_to_be_selected_ids[:realm_ids].to_json,
+                                 'data-inheriteds' => taxonomy.inherited_ids[:realm_ids].to_json,
+                                 'data-useds' => taxonomy.used_ids[:realm_ids].to_json } %>
+          </div>
+        <% end %>
+     <% end %>
+
+     <% if User.current.allowed_to?(:view_environments) %>
+        <div class="tab-pane" id="environments">
+          <%= checkbox_f(f, :ignore_types, {:label => _("All environments"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Environment") %>
+          <%= multiple_selects f, :environments, Environment, taxonomy.selected_or_inherited_ids[:environment_ids],
+                               {:disabled => taxonomy.used_and_selected_or_inherited_ids[:environment_ids], :label => _('Select environments')},
+                               {'data-mismatches' => taxonomy.need_to_be_selected_ids[:environment_ids].to_json,
+                                'data-inheriteds' => taxonomy.inherited_ids[:environment_ids].to_json,
+                                'data-useds' => taxonomy.used_ids[:environment_ids].to_json } %>
+        </div>
+      <% end %>
+
+      <% if User.current.allowed_to?(:view_hostgroups) %>
+        <div class="tab-pane" id="hostgroups">
+          <%= checkbox_f(f, :ignore_types, {:label => _("All host groups"), :multiple => true, :onchange => 'ignore_checked(this)'}, "Hostgroup") %>
+          <%= multiple_selects f, :hostgroups, Hostgroup, taxonomy.selected_or_inherited_ids[:hostgroup_ids],
+                               {:disabled => taxonomy.used_and_selected_or_inherited_ids[:hostgroup_ids], :label => _('Select host groups')},
+                               {'data-mismatches' => taxonomy.need_to_be_selected_ids[:hostgroup_ids].to_json,
+                                'data-inheriteds' => taxonomy.inherited_ids[:hostgroup_ids].to_json,
+                                'data-useds' => taxonomy.used_ids[:hostgroup_ids].to_json } %>
+        </div>
+      <% end %>
+
+      <% if taxonomy.is_a?(Location) && SETTINGS[:locations_enabled] %>
+      <% if User.current.allowed_to?(:view_organizations) %>
+          <div class="tab-pane" id="organizations">
+            <%= organization_selects f, taxonomy.selected_or_inherited_ids[:organization_ids],
+                                     { :disabled => taxonomy.used_and_selected_or_inherited_ids[:organization_ids], :label => _('Select organizations')},
+                                     { 'data-mismatches' => taxonomy.need_to_be_selected_ids[:organization_ids].to_json,
+                                       'data-inheriteds' => taxonomy.inherited_ids[:organization_ids].to_json,
+                                       'data-useds' => taxonomy.used_ids[:organization_ids].to_json } %>
+          </div>
+        <% end %>
+      <% elsif taxonomy.is_a?(Organization) && SETTINGS[:organizations_enabled] %>
+      <% if User.current.allowed_to?(:view_locations) %>
+          <div class="tab-pane" id="locations">
+            <%= location_selects f, taxonomy.selected_or_inherited_ids[:location_ids],
+                                 { :disabled => taxonomy.used_and_selected_or_inherited_ids[:location_ids], :label => _('Select locations')},
+                                 { 'data-mismatches' => taxonomy.need_to_be_selected_ids[:location_ids].to_json,
+                                   'data-inheriteds' => taxonomy.inherited_ids[:location_ids].to_json,
+                                   'data-useds' => taxonomy.used_ids[:location_ids].to_json } %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if User.current.allowed_to?(:view_params) %>
+        <div class="tab-pane" id="params">
+          <%= render "common_parameters/parameters", { :f => f, :type => "#{controller_name.singularize}_parameters".to_sym } %>
+        </div>
+      <% end %>
     </div>
     <%= submit_or_cancel f %>
   </div>
