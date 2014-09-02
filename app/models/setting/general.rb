@@ -21,7 +21,9 @@ class Setting::General < Setting
         self.set('authorize_login_delegation_api', N_("Authorize login delegation with REMOTE_USER environment variable for API calls too"), false),
         self.set('idle_timeout', N_("Log out idle users after a certain number of minutes"), 60),
         self.set('max_trend', N_("Max days for Trends graphs"), 30),
-        self.set('use_gravatar', N_("Foreman will use gravatar to display user icons"), true)
+        self.set('use_gravatar', N_("Foreman will use gravatar to display user icons"), true),
+        self.set('db_pending_migration', N_("Should the `foreman-rake db:migrate` be executed on the next run of the installer modules?"), true),
+        self.set('db_pending_seed', N_("Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"), true)
       ].each { |s| self.create! s.update(:category => "Setting::General")}
     end
 
