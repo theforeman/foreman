@@ -41,11 +41,9 @@ class FactValue < ActiveRecord::Base
   def self.search_by_host(key, operator, value)
     search = []
 
-    ['name', 'id'].each do |search_term|
-      conditions = sanitize_sql_for_conditions(["hosts.#{search_term} #{operator} ?", value_to_sql(operator, value)])
-      search     = FactValue.joins(:host).where(conditions).select('fact_values.id').map(&:id).uniq
-      break unless search.empty?
-    end
+    search_term = value =~ /\A\d+\Z/ ? 'id' : 'name'
+    conditions = sanitize_sql_for_conditions(["hosts.#{search_term} #{operator} ?", value_to_sql(operator, value)])
+    search     = FactValue.joins(:host).where(conditions).select('fact_values.id').map(&:id).uniq
 
     return { :conditions => "1=0" } if search.empty?
     { :conditions => "fact_values.id IN(#{search.join(',')})" }
