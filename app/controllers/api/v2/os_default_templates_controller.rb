@@ -26,7 +26,7 @@ module Api
       end
 
       def_param_group :os_default_template do
-        param :os_default_template, Hash, :action_aware => true do
+        param :os_default_template, Hash, :required => true, :action_aware => true do
           param :template_kind_id, :number
           param :config_template_id, :number
         end

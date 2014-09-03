@@ -5,7 +5,7 @@ module Api
       before_filter :find_resource, :only => :update
 
       def_param_group :compute_attribute do
-        param :compute_attribute, Hash, :action_aware => true do
+        param :compute_attribute, Hash, :required => true, :action_aware => true do
           param :vm_attrs, Hash, :required => true
         end
       end

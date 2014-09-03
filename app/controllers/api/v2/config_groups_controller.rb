@@ -21,7 +21,7 @@ module Api
       end
 
       def_param_group :config_group do
-        param :config_group, Hash, :action_aware => true do
+        param :config_group, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
         end
       end

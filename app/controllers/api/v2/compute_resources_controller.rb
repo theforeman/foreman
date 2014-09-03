@@ -31,7 +31,7 @@ module Api
       end
 
       def_param_group :compute_resource do
-        param :compute_resource, Hash, :action_aware => true do
+        param :compute_resource, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :provider, String, :desc => N_("Providers include %{providers}") # values are defined in apipie initializer
           param :url, String, :required => true, :desc => N_("URL for Libvirt, Ovirt, and Openstack")

@@ -28,7 +28,7 @@ module Api
       end
 
       def_param_group :operatingsystem do
-        param :operatingsystem, Hash, :action_aware => true do
+        param :operatingsystem, Hash, :required => true, :action_aware => true do
           param :name, /\A(\S+)\Z/, :required => true
           param :major, String, :required => true
           param :minor, String

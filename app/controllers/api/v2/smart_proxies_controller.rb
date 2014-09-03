@@ -26,7 +26,7 @@ module Api
       end
 
       def_param_group :smart_proxy do
-        param :smart_proxy, Hash, :action_aware => true do
+        param :smart_proxy, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :url, String, :required => true
         end

@@ -23,7 +23,7 @@ module Api
       end
 
       def_param_group :model do
-        param :model, Hash, :action_aware => true do
+        param :model, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :info, String, :required => false
           param :vendor_class, String, :required => false

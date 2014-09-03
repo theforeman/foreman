@@ -24,7 +24,7 @@ module Api
       end
 
       def_param_group :common_parameter do
-        param :common_parameter, Hash, :action_aware => true do
+        param :common_parameter, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :value, String, :required => true
         end

@@ -25,7 +25,7 @@ module Api
       end
 
       def_param_group :image do
-        param :image, Hash, :action_aware => true do
+        param :image, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :username, String, :required => true
           param :uuid, String, :required => true
