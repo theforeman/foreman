@@ -102,4 +102,9 @@ class ComputeResourceTest < ActiveSupport::TestCase
     assert_equal [taxonomies(:location1).id], compute_resources(:one).used_or_selected_location_ids
   end
 
+  test "user_data_supported?" do
+    refute compute_resources(:one).user_data_supported?
+    assert compute_resources(:ec2).user_data_supported?
+  end
+
 end

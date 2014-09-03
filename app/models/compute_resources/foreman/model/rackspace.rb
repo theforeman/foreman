@@ -90,6 +90,10 @@ module Foreman::Model
       Host.authorized(:view_hosts, Host).where(:ip => [vm.public_ip_address, vm.private_ip_address]).first
     end
 
+    def user_data_supported?
+      true
+    end
+
     private
 
     def client
