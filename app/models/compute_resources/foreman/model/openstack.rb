@@ -94,6 +94,10 @@ module Foreman::Model
       "OpenStack"
     end
 
+    def user_data_supported?
+      true
+    end
+
     private
 
     def client
