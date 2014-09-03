@@ -28,7 +28,7 @@ module Api
       end
 
       def_param_group :user do
-        param :user, Hash, :action_aware => true do
+        param :user, Hash, :required => true, :action_aware => true do
           param :login, String, :required => true
           param :firstname, String, :required => false
           param :lastname, String, :required => false

@@ -27,7 +27,7 @@ module Api
       end
 
       def_param_group :smart_variable do
-        param :smart_variable, Hash, :action_aware => true do
+        param :smart_variable, Hash, :required => true, :action_aware => true do
           param :variable, String, :required => true
           param :puppetclass_id, :number
           param :default_value, String

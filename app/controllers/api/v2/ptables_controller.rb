@@ -22,7 +22,7 @@ module Api
       end
 
       def_param_group :ptable do
-        param :ptable, Hash, :action_aware => true do
+        param :ptable, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :layout, String, :required => true
           param :os_family, String, :required => false

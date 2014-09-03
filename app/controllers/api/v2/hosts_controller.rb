@@ -30,7 +30,7 @@ module Api
       end
 
       def_param_group :host do
-        param :host, Hash, :action_aware => true do
+        param :host, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :environment_id, String
           param :location_id, :number, :required => true, :desc => N_("required if locations are enabled") if SETTINGS[:locations_enabled]

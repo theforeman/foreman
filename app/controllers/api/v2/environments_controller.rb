@@ -26,7 +26,7 @@ module Api
       end
 
       def_param_group :environment do
-        param :environment, Hash, :action_aware => true do
+        param :environment, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
         end
       end

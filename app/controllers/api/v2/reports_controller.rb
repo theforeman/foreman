@@ -30,7 +30,7 @@ module Api
       end
 
       def_param_group :report do
-        param :report, Hash, :action_aware => true do
+        param :report, Hash, :required => true, :action_aware => true do
           param :host, String, :required => true, :desc => N_("Hostname or certname")
           param :reported_at, String, :required => true, :desc => N_("UTC time of report")
           param :status, Hash, :required => true, :desc => N_("Hash of status type totals")
