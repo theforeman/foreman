@@ -242,6 +242,10 @@ class ComputeResource < ActiveRecord::Base
     vm.attributes.reject{|k,v| k == :id }
   end
 
+  def user_data_supported?
+    false
+  end
+
   protected
 
   def client
