@@ -29,21 +29,22 @@ module Api
       def_param_group :host do
         param :host, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
-          param :environment_id, String
           param :location_id, :number, :required => true, :desc => N_("required if locations are enabled") if SETTINGS[:locations_enabled]
           param :organization_id, :number, :required => true, :desc => N_("required if organizations are enabled") if SETTINGS[:organizations_enabled]
+          param :environment_id, String, :desc => N_("required if host is managed and value is not inherited from host group")
           param :ip, String, :desc => N_("not required if using a subnet with DHCP proxy")
-          param :mac, String, :desc => N_("not required if it's a virtual machine")
-          param :architecture_id, :number
-          param :domain_id, :number
+          param :mac, String, :desc => N_("required for managed host that is bare metal, not required if it's a virtual machine")
+          param :architecture_id, :number, :desc => N_("required if host is managed and value is not inherited from host group")
+          param :domain_id, :number, :desc => N_("required if host is managed and value is not inherited from host group")
           param :realm_id, :number
           param :puppet_proxy_id, :number
           param :puppet_class_ids, Array
-          param :operatingsystem_id, String
-          param :medium_id, :number
-          param :ptable_id, :number
-          param :subnet_id, :number
-          param :compute_resource_id, :number
+          param :operatingsystem_id, String, :desc => N_("required if host is managed and value is not inherited from host group")
+          param :medium_id, String, :desc => N_("required if not imaged based provisioning and host is managed and value is not inherited from host group")
+          param :ptable_id, :number, :desc => N_("required if host is managed and custom partition has not been defined")
+          param :subnet_id, :number, :desc => N_("required if host is managed and value is not inherited from host group")
+          param :compute_resource_id, :number, :desc => N_("nil means host is bare metal")
+          param :root_pass, String, :desc => N_("required if host is managed and value is not inherited from host group or default password in settings")
           param :sp_subnet_id, :number
           param :model_id, :number
           param :hostgroup_id, :number
@@ -54,7 +55,7 @@ module Api
           param :build, :bool
           param :enabled, :bool
           param :provision_method, String
-          param :managed, :bool
+          param :managed, :bool, :desc => N_("True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not")
           param :progress_report_id, String, :desc => N_("UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks")
           param :capabilities, String
           param :compute_profile_id, :number
