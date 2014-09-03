@@ -17,5 +17,7 @@ group :test do
   gem 'spork'
   gem 'factory_girl_rails', '~> 1.2', :require => false
   gem 'oj'
-  gem 'rubocop-checkstyle_formatter', :platforms => [:ruby_19, :ruby_20]
+    if RUBY_VERSION =~ /^1\.9|^2/
+    gem 'rubocop-checkstyle_formatter'
+  end
 end
