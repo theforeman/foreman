@@ -12,12 +12,6 @@ $(function() {
   });
 });
 
-$(document).on('ContentLoad', function(){onContentLoad()});
-
-function onContentLoad(){
-  providerSelected($('#compute_resource_provider'));
-}
-
 function providerSelected(item)
 {
   compute_connection = $('#compute_connection');

@@ -166,7 +166,8 @@ class ComputeResource < ActiveRecord::Base
     if self.class.providers.include? value
       self.type = self.class.provider_class(value)
     else
-      raise ::Foreman::Exception.new N_("unknown provider")
+      self.type = value #this will trigger validation error since value is one of supported_providers
+      logger.debug("unknown provider for compute resource")
     end
   end
 
