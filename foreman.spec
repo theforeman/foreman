@@ -14,7 +14,7 @@
 %endif
 
 Name:   foreman
-Version: 1.5.2
+Version: 1.5.3
 Release: 1%{?dist}
 Summary:Systems Management web application
 
@@ -57,7 +57,7 @@ Requires: %{?scl_prefix}rubygem(ancestry) < 3.0.0
 Requires: %{?scl_prefix}rubygem(scoped_search) >= 2.7.0
 Requires: %{?scl_prefix}rubygem(scoped_search) < 3.0.0
 Requires: %{?scl_prefix}rubygem(net-ldap)
-Requires: %{?scl_prefix}rubygem(safemode) >= 1.2.0
+Requires: %{?scl_prefix}rubygem(safemode) >= 1.2.1
 Requires: %{?scl_prefix}rubygem(safemode) < 1.3.0
 Requires: %{?scl_prefix}rubygem(uuidtools)
 Requires: %{?scl_prefix}rubygem(oauth)
@@ -101,7 +101,7 @@ BuildRequires: %{?scl_prefix}rubygem(rabl) >= 0.7.5
 BuildRequires: %{?scl_prefix}rubygem(rake)
 BuildRequires: %{?scl_prefix}rubygem(rest-client)
 BuildRequires: %{?scl_prefix}rubygem(ruby_parser) >= 3.0.0
-BuildRequires: %{?scl_prefix}rubygem(safemode) >= 1.2.0
+BuildRequires: %{?scl_prefix}rubygem(safemode) >= 1.2.1
 BuildRequires: %{?scl_prefix}rubygem(sass-rails) => 3.2.3
 BuildRequires: %{?scl_prefix}rubygem(scoped_search) >= 2.7.0
 BuildRequires: %{?scl_prefix}rubygem(scoped_search) < 3.0.0
@@ -583,6 +583,9 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %changelog
+* Thu Sep 04 2014 Dominic Cleal <dcleal@redhat.com> - 1.5.3-1
+- Release 1.5.3
+
 * Mon Jul 28 2014 Dominic Cleal <dcleal@redhat.com> - 1.5.2-1
 - Release 1.5.2
 

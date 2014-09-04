@@ -1,4 +1,19 @@
+2014-09-04	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.5.3
+	* Fixes #6830 - Add host search on compute_resource_id used in 1.5 auth migrations
+	* fixes #7035 - expand column name for Rails 3.2.8 compat in Puppet class search
+
+2014-09-04	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #5119 - ensure GCE can list images.
+
+2014-09-04	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #6855 - bump safemode gem version
+
+2014-07-31	Kick-Buttowski <vmarceloe@gmail.com>
+	* fixes #4340 - 1.5 fix: Unassigned hosts outside stats box
+
 2014-07-28	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.5.2
 	* i18n - extracting new, updating rails, pulling from tx
 	* refs #6375 - revert string change
 	* fixes #6402 - use standard success/error handlers in UI controllers
