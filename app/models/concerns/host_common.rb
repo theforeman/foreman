@@ -203,6 +203,8 @@ module HostCommon
   def update_config_group_counters(record)
     record.update_attribute(:hostgroups_count, cnt_hostgroups(record))
     record.update_attribute(:hosts_count, cnt_hosts(record))
+
+    record.update_puppetclasses_total_hosts
   end
 
 end

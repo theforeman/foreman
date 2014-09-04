@@ -76,4 +76,134 @@ class PuppetclassTest < ActiveSupport::TestCase
     assert_equal "Puppetclass", "puppetclass".classify
     assert_equal "Puppetclass", "puppetclasses".classify
   end
+
+  context 'host counter updates on all possible class inheritance' do
+    setup do
+      @class = FactoryGirl.create(:puppetclass)
+      @host = FactoryGirl.create(:host)
+      @hostgroup = FactoryGirl.create(:hostgroup)
+      @another_hostgroup = FactoryGirl.create(:hostgroup)
+      @config_group = FactoryGirl.create(:config_group)
+    end
+
+    def check_host_hostgroup
+      assert_difference('@class.total_hosts') do
+        @host.update_attribute(:hostgroup, @hostgroup)
+        @class.reload
+      end
+      assert_difference('@class.total_hosts', -1) do
+        @host.update_attribute(:hostgroup, nil)
+        @class.reload
+      end
+      assert_difference('@class.total_hosts') do
+        @hostgroup.hosts << @host
+        @class.reload
+      end
+      assert_difference('@class.total_hosts', -1) do
+        @hostgroup.hosts.delete(@host)
+        @class.reload
+      end
+    end
+
+    def check_object_class(obj)
+      assert_difference('@class.total_hosts') do
+        obj.puppetclasses << @class
+        @class.reload
+      end
+      assert_difference('@class.total_hosts', -1) do
+        obj.puppetclasses.delete(@class)
+        @class.reload
+      end
+      assert_difference('@class.total_hosts') do
+        @class.send("#{obj.class.table_name}") << obj
+        @class.reload
+      end
+      assert_difference('@class.total_hosts', -1) do
+        @class.send("#{obj.class.table_name}").delete(obj)
+        @class.reload
+      end
+    end
+
+    def check_object_config_group(obj)
+      assert_difference('@class.total_hosts') do
+        obj.config_groups << @config_group
+        @class.reload
+      end
+      assert_difference('@class.total_hosts', -1) do
+        obj.config_groups.delete(@config_group)
+        @class.reload
+      end
+    end
+
+    it 'on direct assignment to host' do
+      check_object_class(@host)
+    end
+
+    # hostgroup-related
+
+    it 'class on hostgroup, adding host to hostgroup' do
+      @hostgroup.puppetclasses << @class
+      check_host_hostgroup
+    end
+
+    it 'host in hostgroup, adding class to hostgroup' do
+      @host.update_attribute(:hostgroup, @hostgroup)
+      check_object_class(@hostgroup)
+    end
+
+    it 'class on hostgroup parent, adding host to hostgroup' do
+      @another_hostgroup.puppetclasses << @class
+      @hostgroup.update_attribute(:parent, @another_hostgroup)
+      check_host_hostgroup
+    end
+
+    it 'hostgroup ancestry change' do
+      @another_hostgroup.puppetclasses << @class
+      @host.update_attribute(:hostgroup, @hostgroup)
+      assert_difference('@class.total_hosts') do
+        @hostgroup.update_attribute(:parent, @another_hostgroup)
+        @class.reload
+      end
+      assert_difference('@class.total_hosts', -1) do
+        @hostgroup.update_attribute(:parent, nil)
+        @class.reload
+      end
+    end
+
+    it 'host in hostgroup, adding class to hostgroup parent' do
+      @hostgroup.update_attribute(:parent, @another_hostgroup)
+      @host.update_attribute(:hostgroup, @hostgroup)
+      check_object_class(@another_hostgroup)
+    end
+
+    # config_group related
+    it 'class on config_group, adding host to config_group' do
+      @config_group.puppetclasses << @class
+      check_object_config_group(@host)
+    end
+
+    it 'host in config_group, adding class to config_group' do
+      @host.config_groups << @config_group
+      check_object_class(@config_group)
+    end
+
+    it 'class on config_group, hostgroup in config_group, adding host to hostgroup' do
+      @config_group.puppetclasses << @class
+      @hostgroup.config_groups << @config_group
+      check_host_hostgroup
+    end
+
+    it 'host in hostgroup, hostgroup in config_group, adding class to config_group' do
+      @hostgroup.config_groups << @config_group
+      @host.update_attribute(:hostgroup, @hostgroup)
+      check_object_class(@config_group)
+    end
+
+    it 'class on config_group, host in hostgroup, adding hostgroup to config_group' do
+      @config_group.puppetclasses << @class
+      @host.update_attribute(:hostgroup, @hostgroup)
+      check_object_config_group(@hostgroup)
+    end
+  end
+
 end

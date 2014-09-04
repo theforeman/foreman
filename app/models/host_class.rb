@@ -1,11 +1,11 @@
 class HostClass < ActiveRecord::Base
   include Authorizable
-  include CounterCacheFix
+  include PuppetclassTotalHosts::JoinTable
 
   validates_lengths_from_database
   audited :associated_with => :host, :allow_mass_assignment => true
-  belongs_to_host :foreign_key => :host_id
-  belongs_to :puppetclass, :counter_cache => :hosts_count
+  belongs_to_host
+  belongs_to :puppetclass
 
   validates :host_id, :presence => true
   validates :puppetclass_id, :presence => true, :uniqueness => {:scope => :host_id}

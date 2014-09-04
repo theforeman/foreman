@@ -217,4 +217,12 @@ namespace :puppet do
     end
   end
 
+  desc "Correct hosts counts for all classes in case they are wrong"
+  task :fix_total_hosts => :environment do
+    if Puppetclass.count > 0
+      User.current = User.anonymous_admin
+      Puppetclass.all.each(&:update_total_hosts)
+    end
+  end
+
 end
