@@ -33,6 +33,11 @@ class Setting::Provisioning < Setting
         self.set('websockets_ssl_key', N_("Private key that Foreman will use to encrypt websockets "), nil),
         self.set('websockets_ssl_cert', N_("Certificate that Foreman will use to encrypt websockets "), nil)
       ].each { |s| self.create! s.update(:category => "Setting::Provisioning")}
+
+      if Setting::Provisioning.respond_to?(:enum_values)
+        self.create!(:name => 'password_hash', :value => 'MD5', :description => N_('Hash algorithm to use for encryption of passwords'),
+          :default => 'MD5', :settings_type => 'enum', :enum_values => ["MD5", "SHA-256", "SHA-512"], :category => "Setting::Provisioning")
+      end
     end
 
     true

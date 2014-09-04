@@ -105,7 +105,7 @@ module HostCommon
   end
 
   def crypt_root_pass
-    self.root_pass = root_pass.empty? ? nil : (root_pass.starts_with?('$') ? root_pass : root_pass.crypt("$1$#{SecureRandom.base64(6)}"))
+    self.root_pass = root_pass.empty? ? nil : (root_pass.starts_with?('$') ? root_pass : PasswordCrypt.crypt(root_pass))
   end
 
   def param_true? name
