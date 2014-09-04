@@ -10,12 +10,12 @@ class Puppetclass < ActiveRecord::Base
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, :through => :environment_classes, :uniq => true
   has_and_belongs_to_many :operatingsystems
-  has_many :hostgroup_classes, :dependent => :destroy
-  has_many :hostgroups, :through => :hostgroup_classes
-  has_many :host_classes, :dependent => :destroy
-  has_many_hosts :through => :host_classes
+  has_many :hostgroup_classes
+  has_many :hostgroups, :through => :hostgroup_classes, :dependent => :destroy
+  has_many :host_classes
+  has_many_hosts :through => :host_classes, :dependent => :destroy
   has_many :config_group_classes
-  has_many :config_groups, :through => :config_group_classes
+  has_many :config_groups, :through => :config_group_classes, :dependent => :destroy
 
   has_many :lookup_keys, :inverse_of => :puppetclass, :dependent => :destroy
   accepts_nested_attributes_for :lookup_keys, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
@@ -34,7 +34,7 @@ class Puppetclass < ActiveRecord::Base
   default_scope lambda { order('puppetclasses.name') }
 
   scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :hosts_count
+  scoped_search :on => :total_hosts
   scoped_search :on => :global_class_params_count, :rename => :params_count   # Smart Parameters
   scoped_search :on => :lookup_keys_count, :rename => :variables_count        # Smart Variables
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
@@ -80,6 +80,32 @@ class Puppetclass < ActiveRecord::Base
   # returns class name (excluding of the module name)
   def klass
     name.gsub(module_name+"::","")
+  end
+
+  # return host ids from config groups by type
+  def host_ids_from_config_groups(host_type)
+    ids = config_groups.joins(:host_config_groups)
+                 .where("host_config_groups.host_type='#{host_type}'")
+                 .pluck('host_config_groups.host_id') unless config_group_classes.empty?
+    ids || []
+  end
+
+  def all_hostgroups(with_descendants = true)
+    ids = hostgroup_ids
+    ids += host_ids_from_config_groups('Hostgroup')
+    hgs = Hostgroup.unscoped.where(:id => ids.uniq)
+    hgs.flat_map(&:subtree).uniq if with_descendants
+  end
+
+  def all_hosts
+    ids = host_ids
+    ids += all_hostgroups.flat_map(&:host_ids)
+    ids += host_ids_from_config_groups('Host::Base')
+    Host::Managed.unscoped.where(:id => ids.uniq)
+  end
+
+  def update_total_hosts
+    update_attribute(:total_hosts, all_hosts.count)
   end
 
   # Populates the rdoc tree with information about all the classes in your modules.

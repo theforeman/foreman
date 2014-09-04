@@ -6,20 +6,23 @@ class Hostgroup < ActiveRecord::Base
   include HostCommon
   include NestedAncestryCommon
   include ScopedSearchExtensions
+  include PuppetclassTotalHosts::Indirect
 
   validates_lengths_from_database :except => [:name]
   before_destroy EnsureNotUsedBy.new(:hosts)
-  has_many :hostgroup_classes, :dependent => :destroy
-  has_many :puppetclasses, :through => :hostgroup_classes
+  has_many :hostgroup_classes
+  has_many :puppetclasses, :through => :hostgroup_classes, :dependent => :destroy
   validates :name, :format => { :with => /\A(\S+\s?)+\Z/, :message => N_("can't contain trailing white spaces.")}
   validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
   include ParameterValidators
-  has_many_hosts
+  has_many_hosts :after_add => :update_puppetclasses_total_hosts,
+                 :after_remove => :update_puppetclasses_total_hosts
   has_many :template_combinations, :dependent => :destroy
   has_many :config_templates, :through => :template_combinations
   before_save :remove_duplicated_nested_class
+  after_save :update_ancestry_puppetclasses, :if => :ancestry_changed?
 
   alias_attribute :arch, :architecture
   alias_attribute :os, :operatingsystem
@@ -181,6 +184,11 @@ class Hostgroup < ActiveRecord::Base
     # Clone any parameters as well
     self.group_parameters.each{|param| new.group_parameters << param.clone}
     new
+  end
+
+  def update_ancestry_puppetclasses
+    unscoped_find(ancestry_was.to_s.split('/').last.to_i).update_puppetclasses_total_hosts if ancestry_was.present?
+    unscoped_find(ancestry.to_s.split('/').last.to_i).update_puppetclasses_total_hosts if ancestry.present?
   end
 
   private
