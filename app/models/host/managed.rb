@@ -151,7 +151,7 @@ class Host::Managed < Host::Base
     validates :provision_method, :inclusion => {:in => PROVISION_METHODS, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
     validates :medium_id, :presence => true, :if => Proc.new { |host| host.validate_media? }
     validate :provision_method_in_capabilities
-    before_validation :set_compute_attributes, :only => :create
+    before_validation :set_compute_attributes, :on => :create
     validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
   end
 

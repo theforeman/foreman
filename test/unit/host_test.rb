@@ -112,6 +112,20 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "my.host.company.com", host.name
   end
 
+  test "sets compute attributes on create" do
+    Host.any_instance.expects(:set_compute_attributes).once.returns(true)
+    Host.create! :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
+      :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+      :environment => environments(:production), :disk => "empty partition"
+  end
+
+  test "doesn't set compute attributes on update" do
+    host = hosts(:one)
+    Host.any_instance.expects(:set_compute_attributes).never
+    host.update_attributes!(:mac => "52:54:00:dd:ee:ff")
+  end
+
   context "when unattended is false" do
     def setup
       SETTINGS[:unattended] = false
@@ -538,7 +552,7 @@ context "location or organizations are not enabled" do
     assert_equal ConfigTemplate.find_by_name("MyScript"), host.configTemplate({:kind => "script"})
   end
 
- test "a system should retrieve its finish template if it is associated to the correct environment only" do
+  test "a system should retrieve its finish template if it is associated to the correct environment only" do
     host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03", :medium => media(:one),
       :operatingsystem => Operatingsystem.find_by_name("Redhat"), :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
       :architecture => Architecture.first, :environment => Environment.find_by_name("production"), :disk => "aaa"
