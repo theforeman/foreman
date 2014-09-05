@@ -160,16 +160,6 @@ attribute33:
   category: Setting::General
   default: "true"
   description: "Should Foreman use gravatar to display user icons"
-attribute34:
-  name: signo_sso
-  category: Setting::Auth
-  default: "false"
-  description: "Use SSO"
-attribute35:
-  name: signo_url
-  category: Setting::Auth
-  default: "https://localhost:3002"
-  description: "Where Signo runs"
 attribute36:
   name: puppetrun
   category: Setting::Puppet
