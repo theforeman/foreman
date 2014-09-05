@@ -123,6 +123,8 @@ class HostgroupsController < ApplicationController
     @subnet          = @hostgroup.subnet
     @environment     = @hostgroup.environment
     @realm           = @hostgroup.realm
+    @hosts           = @hostgroup.hosts
+    @last_reports    = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)    
   end
 
   def users_in_ancestors
