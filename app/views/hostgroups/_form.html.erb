@@ -10,6 +10,7 @@
       <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
     <% end %>
     <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hostgroups_path %>' data-url2='<%= puppetclass_parameters_hostgroups_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+    <li><a href="#hosts" id='hosts-tab' data-toggle="tab"><%= _('Hosts') %></a></li>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
     <% end %>
@@ -67,6 +68,9 @@
       <p/>
       <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
     </div>
+    <div class="tab-pane" id="hosts">
+      <%= render "grouphosts", hosts:@hostgroup.hosts %>
+    </div>       
 
     <%= render "taxonomies/loc_org_tabs", :f => f, :obj => @hostgroup %>
   </div>
