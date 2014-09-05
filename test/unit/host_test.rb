@@ -947,6 +947,23 @@ context "location or organizations are not enabled" do
     assert_equal 'eth4', virtual5.physical_device
   end
 
+  test "#set_interfaces does not allow two physical devices with same IP, it ignores the second" do
+    host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
+    hash = {
+        :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
+        :eth2 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false},
+    }.with_indifferent_access
+    parser = stub(:interfaces => hash, :ipmi_interface => {})
+    FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:77:88:99', :ip => '10.10.0.1', :virtual => false, :identifier => 'eth0')
+
+    host.set_interfaces(parser)
+    host.reload
+    assert_includes host.interfaces.map(&:identifier), 'eth0'
+    assert_includes host.interfaces.map(&:identifier), 'eth2'
+    refute_includes host.interfaces.map(&:identifier), 'eth1'
+    assert_equal 2, host.interfaces.size
+  end
+
   # Token tests
 
   test "built should clean tokens" do

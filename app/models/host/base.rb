@@ -199,8 +199,14 @@ module Host
       iface.host = self
       update_virtuals(iface.identifier_was, name) if iface.identifier_changed? && !iface.virtual? && iface.persisted?
       iface.attrs = attributes
-      logger.debug "Saving #{name} NIC interface for host #{self.name}"
-      iface.save!
+
+      logger.debug "Saving #{name} NIC for host #{self.name}"
+      result = iface.save
+      result or begin
+        logger.warn "Saving #{name} NIC for host #{self.name} failed, skipping because:"
+        iface.errors.full_messages.each { |e| logger.warn " #{e}"}
+        false
+      end
     end
 
     def update_virtuals(old, new)

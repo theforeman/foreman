@@ -45,16 +45,18 @@ class FactParserTest < ActiveSupport::TestCase
 
   test "#interfaces gets facts hash for desired interfaces, keeping same values it gets from parser" do
     parser = get_parser
-    parser.stub(:get_interfaces, ['eth1', 'lo', 'eth0', 'eth0.0', 'local', 'usb0', 'vnet0', 'br0']) do
+    parser.stub(:get_interfaces, ['eth1', 'lo', 'eth0', 'eth0.0', 'local', 'usb0', 'vnet0', 'br0', 'virbr0']) do
       parser.expects(:get_facts_for_interface).with('eth1').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'custom' => 'value'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eth0.0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('br0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:ef'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('virbr0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:ab:ef'}.with_indifferent_access)
       result = parser.interfaces
       refute_includes result.keys, 'lo'
       refute_includes result.keys, 'usb0'
       refute_includes result.keys, 'vnet0'
       assert_includes result.keys, 'br0'
+      assert_includes result.keys, 'virbr0'
       assert_includes result.keys, 'eth1'
       assert_includes result.keys, 'eth0'
       assert_includes result.keys, 'eth0.0'
@@ -107,6 +109,12 @@ class FactParserTest < ActiveSupport::TestCase
     parser = get_parser
 
     result = parser.send(:set_additional_attributes, {}, 'br0')
+    assert result[:virtual]
+    assert_empty result[:physical_device]
+    assert_empty result[:tag]
+    assert result[:bridge]
+
+    result = parser.send(:set_additional_attributes, {}, 'virbr0')
     assert result[:virtual]
     assert_empty result[:physical_device]
     assert_empty result[:tag]
