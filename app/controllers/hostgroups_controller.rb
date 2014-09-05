@@ -1,10 +1,14 @@
 class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_name, :only => [:nest, :clone, :edit, :update, :destroy]
+  before_filter :find_by_name, :only => [:nest, :clone, :edit, :update, :destroy, :display]
 
   def index
     @hostgroups = resource_base.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+  end
+
+  def display
+    load_vars_for_ajax
   end
 
   def new
@@ -136,7 +140,7 @@ class HostgroupsController < ApplicationController
 
   def action_permission
     case params[:action]
-      when 'nest', 'clone'
+      when 'nest', 'clone', 'display'
         'view'
       else
         super
