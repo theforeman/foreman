@@ -29,6 +29,7 @@ Foreman::Application.routes.draw do
         get 'vm'
         put 'ipmi_boot'
         put 'disassociate'
+        get 'display'
       end
       collection do
         get 'multiple_actions'
