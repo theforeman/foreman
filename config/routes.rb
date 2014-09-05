@@ -137,6 +137,7 @@ Foreman::Application.routes.draw do
     member do
       get 'nest'
       get 'clone'
+      get 'display'
     end
     collection do
       get 'auto_complete_search'
