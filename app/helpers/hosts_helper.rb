@@ -230,6 +230,8 @@ module HostsHelper
   def host_title_actions(host)
     title_actions(
         button_group(
+            link_to(_("Display"), hash_for_display_host_path(:id => host).merge(:auth_object => host),
+                                    :title    => _("Display your host's details")),
             link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host),
                                     :title    => _("Edit your host")),
             if host.build
