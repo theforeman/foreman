@@ -9,8 +9,13 @@
   </tr>
   <% @hostgroups.each do |hostgroup| %>
     <tr>
-      <td> <%= label_with_link(hostgroup, 1000, authorizer) %> </td>
-      <td>
+      <% if User.current.can? ("edit_hostgroups") %>
+        <td> <%= label_with_link(hostgroup, 1000, authorizer) %> </td>
+      <% else %>
+        <td>
+          <%= link_to(_(hostgroup.title), hash_for_display_hostgroup_path(:id => hostgroup)) %>
+        </td>
+      <% end %>
         <%= action_buttons(
                     display_link_if_authorized(_('Nest'),    hash_for_nest_hostgroup_path(:id => hostgroup)),
                     display_link_if_authorized(_('Clone'),   hash_for_clone_hostgroup_path(:id => hostgroup)),
