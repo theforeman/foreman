@@ -394,4 +394,10 @@ class ApplicationController < ActionController::Base
     request.headers["X-Foreman-Layout"] == 'two-pane' && params[:action] != 'index'
   end
 
+  # Called from ActionController::RequestForgeryProtection, overrides
+  # nullify session which is the default behavior for unverified requests in Rails 3.
+  # On Rails 4 we can get rid of this and use the strategy ':exception'.
+  def handle_unverified_request
+    raise ::Foreman::Exception.new(N_("Invalid authenticity token"))
+  end
 end
