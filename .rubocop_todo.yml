@@ -213,7 +213,9 @@ Style/ClassCheck:
 # Offense count: 83
 # Configuration parameters: CountComments.
 Style/ClassLength:
-  Max: 1340
+  Max: 1000
+  Exclude:
+    - 'test/**/*'
 
 # Offense count: 3
 Style/ClassVars:
