@@ -266,7 +266,7 @@ Foreman::AccessControl.map do |map|
     host_ajax_actions = [:process_hostgroup]
     pc_ajax_actions = [:parameters]
 
-    map.permission :view_hostgroups,       {:hostgroups => [:index, :show, :auto_complete_search],
+    map.permission :view_hostgroups,       {:hostgroups => [:index, :show, :auto_complete_search, :display],
                                             :"api/v1/hostgroups" => [:index, :show],
                                             :"api/v2/hostgroups" => [:index, :show]
                                           }
