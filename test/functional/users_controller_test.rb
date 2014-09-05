@@ -343,4 +343,27 @@ class UsersControllerTest < ActionController::TestCase
       assert_equal taxonomies(:organization1), updated_user.default_organization
     end
   end
+
+  context "CSRF" do
+    setup do
+      ActionController::Base.allow_forgery_protection = true
+    end
+
+    teardown do
+      ActionController::Base.allow_forgery_protection = false
+    end
+
+    test "throws exception when CSRF token is invalid or not present" do
+      assert_raises Foreman::Exception do
+        post :logout, {}, set_session_user
+      end
+    end
+
+    test "allows logout when CSRF token is correct" do
+      @controller.expects(:verify_authenticity_token).returns(true)
+      post :logout, {}, set_session_user
+      assert_response :found
+      assert_redirected_to "/users/login"
+    end
+  end
 end
