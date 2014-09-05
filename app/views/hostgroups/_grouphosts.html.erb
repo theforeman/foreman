@@ -1,0 +1,21 @@
+<table class="table table-bordered table-striped table-condensed" >
+	<tr>
+    <th class=''><%= sort :name, :as => _('Name') %></th>
+    <th class="hidden-xs"><%= sort :os, :as => _("Operating system") %></th>
+    <th class="hidden-xs"><%= sort :environment, :as => _('Environment') %></th>
+    <th class="hidden-tablet hidden-xs"><%= sort :model, :as => _('Model') %></th>
+    <th class="hidden-tablet hidden-xs"><%= sort :last_report, :as => _('Last report') %></th>
+	</tr>
+	<% if hosts.any? %>
+		<% hosts.each do |host| %>
+			<tr>
+      			<td class='ellipsis'><%= name_column(host) %> </td>
+      			<td class="hidden-xs"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os.to_label}",14)).html_safe if host.os %></td>
+      			<td class="hidden-xs"><%= trunc(host.try(:environment), 14) %></td>
+      			<td class="hidden-tablet hidden-xs ellipsis"><%= model_name host %></td>
+      			<td class="hidden-tablet hidden-xs"><%= last_report_column(host) 
+      			%></td>
+			</tr>
+		<% end %>
+	<% end %>
+</table>
