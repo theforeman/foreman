@@ -20,7 +20,7 @@ class HostsController < ApplicationController
   before_filter :find_by_name, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun,
                                          :setBuild, :cancelBuild, :power, :bmc, :vm, :ipmi_boot,
                                          :console, :toggle_manage, :pxe_config,
-                                         :storeconfig_klasses, :disassociate]
+                                         :storeconfig_klasses, :disassociate, :display]
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   before_filter :find_multiple, :only => MULTIPLE_ACTIONS
@@ -97,6 +97,10 @@ class HostsController < ApplicationController
   end
 
   def edit
+    load_vars_for_ajax
+  end
+
+  def display
     load_vars_for_ajax
   end
 
@@ -543,7 +547,7 @@ class HostsController < ApplicationController
   def action_permission
     case params[:action]
       when 'clone', 'externalNodes', 'bmc', 'vm', 'pxe_config', 'storeconfig_klasses',
-          'active', 'errors', 'out_of_sync', 'pending', 'disabled'
+          'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'display'
         :view
       when 'puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'
         :puppetrun
