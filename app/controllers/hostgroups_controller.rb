@@ -124,8 +124,18 @@ class HostgroupsController < ApplicationController
     @domain          = @hostgroup.domain
     @subnet          = @hostgroup.subnet
     @environment     = @hostgroup.environment
-    @hosts           = @hostgroup.hosts
-    @last_reports    = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)    
+    @hosts           = all_hosts(@hostgroup).paginate :page => params[:page]
+    @last_reports    = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
+  end
+
+  def all_hosts group 
+    hosts = group.hosts.to_a
+    if group.has_children?
+      group.children.each do |child|
+        hosts = hosts + all_hosts(child)
+      end
+    end
+    hosts   
   end
 
   def users_in_ancestors
