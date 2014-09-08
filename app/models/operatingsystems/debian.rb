@@ -16,7 +16,12 @@ class Debian < Operatingsystem
 
     # Debian stores x86_64 arch is amd64
     arch = architecture.to_s.gsub("x86_64","amd64")
-    pxe_dir = "dists/#{release_name}/main/installer-#{arch}/current/images/netboot/#{guess_os}-installer/#{arch}"
+    
+    # Use updated netboot image for Ubuntu Precise. The old one spends 10+ minutes deduplicating Package lists.
+    # https://bugs.launchpad.net/ubuntu/+source/net-retriever/+bug/1067934
+    rel = release_name.to_s.gsub("precise","precise-updates")
+    
+    pxe_dir = "dists/#{rel}/main/installer-#{arch}/current/images/netboot/#{guess_os}-installer/#{arch}"
 
     PXEFILES.values.collect do |img|
       URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/#{pxe_dir}/#{img}").normalize
