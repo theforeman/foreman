@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-27 09:03+0100\n"
-"PO-Revision-Date: 2014-08-27 09:47+0000\n"
+"POT-Creation-Date: 2014-08-28 10:58+0100\n"
+"PO-Revision-Date: 2014-08-29 09:57+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/foreman/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -1002,6 +1002,9 @@ msgstr ""
 msgid "Compute resource"
 msgstr ""
 
+msgid "Compute resource IDs"
+msgstr ""
+
 msgid "Compute resource update for %s"
 msgstr ""
 
@@ -1595,6 +1598,9 @@ msgstr ""
 msgid "Domain Configuration"
 msgstr ""
 
+msgid "Domain IDs"
+msgstr ""
+
 msgid "Domains"
 msgstr ""
 
@@ -1771,6 +1777,9 @@ msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
+msgstr ""
+
+msgid "Environment IDs"
 msgstr ""
 
 msgid "Environment only"
@@ -2388,6 +2397,9 @@ msgid "Host group"
 msgstr ""
 
 msgid "Host group / Environment"
+msgstr ""
+
+msgid "Host group IDs"
 msgstr ""
 
 msgid "Host group and Environment"
@@ -3360,6 +3372,9 @@ msgid "Max days for Trends graphs"
 msgstr ""
 
 msgid "Media"
+msgstr ""
+
+msgid "Media IDs"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -4369,6 +4384,9 @@ msgstr ""
 msgid "Provisioning Templates"
 msgstr ""
 
+msgid "Provisioning template IDs"
+msgstr ""
+
 msgid "Provisioning templates"
 msgstr ""
 
@@ -4481,6 +4499,9 @@ msgid "Realm"
 msgstr ""
 
 msgid "Realm Configuration"
+msgstr ""
+
+msgid "Realm IDs"
 msgstr ""
 
 msgid "Realm name, e.g. EXAMPLE.COM"
@@ -5121,6 +5142,9 @@ msgstr ""
 msgid "Smart proxy"
 msgstr ""
 
+msgid "Smart proxy IDs"
+msgstr ""
+
 msgid "Smart variables"
 msgstr ""
 
@@ -5211,6 +5235,9 @@ msgstr "Submit"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "Subnet"
+
+msgid "Subnet IDs"
+msgstr ""
 
 msgid "Subnet name"
 msgstr ""
@@ -6123,6 +6150,9 @@ msgid "User Authentication"
 msgstr ""
 
 msgid "User Groups"
+msgstr ""
+
+msgid "User IDs"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages

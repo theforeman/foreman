@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-27 09:03+0100\n"
-"PO-Revision-Date: 2014-08-27 09:47+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"POT-Creation-Date: 2014-08-28 10:58+0100\n"
+"PO-Revision-Date: 2014-09-08 14:53+0000\n"
+"Last-Translator: elobato <elobatocs@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgid " Remove"
 msgstr "Quitar"
 
 msgid "%s - Press Shift-F12 to release the cursor."
-msgstr "%s - Presione Shift-F12 para liberar el cursor."
+msgstr "%s - Pulse Shift-F12 para liberar el cursor."
 
 msgid "%s - The following hosts are about to be changed"
 msgstr "%s - Los siguientes equipos están a punto de ser modificados"
@@ -233,7 +233,7 @@ msgid ""
 " a unit. This is then treated as a template and  is selectable during the "
 "creation of a new host and ensures that the host is configured in one of "
 "your pre-defined states."
-msgstr "Un grupo de equipos es, de alguna forma, similar a una declaración de nodo heredada, en este es un grupo de alto nivel de clases que pueden ser llamadas y tratadas como una unidad. Entonces se trata como una plantilla y se puede seleccionar durante la  creación de un nuevo equipo y se asegura de que el equipo se configura en uno de los estados predefinidos."
+msgstr "Un grupo de hosts es, de alguna forma, similar a una declaración de nodo heredada, dado que es un grupo clases de alto nivel que se puede pllamar y tratar como una unidad. Esto se trata como una plantilla seleccionable al crear un nuevo equipo, asegurando que el equipo se configura en uno de sus estados predefinidos."
 
 msgid ""
 "A medium represents the source of one or more operating system's "
@@ -940,7 +940,7 @@ msgstr "Clases"
 
 msgid ""
 "Click on the link of a compute resource to edit its default VM attributes."
-msgstr "Haga click en el enlace de un recurso de computación para editar sus atributos por defectos para VMs"
+msgstr "Haga click en el enlace de un recurso de cómputo para editar sus atributos por defectos para VMs"
 
 msgid "Click to add %s"
 msgstr "Click para añadir %s"
@@ -994,10 +994,10 @@ msgid "Code"
 msgstr "Código"
 
 msgid "Compute Resource"
-msgstr "Recurso de Computación"
+msgstr "Recurso de cómputo"
 
 msgid "Compute Resources"
-msgstr "Recursos de Computación"
+msgstr "Recursos de cómputo"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Compute attribute"
@@ -1012,13 +1012,16 @@ msgstr "Perfiles de cómputo"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
-msgstr "Recurso de computación"
+msgstr "Recurso de cómputo"
+
+msgid "Compute resource IDs"
+msgstr "ID de recursos de cómputo"
 
 msgid "Compute resource update for %s"
-msgstr "Recurso de computación de %s actualizado"
+msgstr "Actualizado el recurso de cómputo de %s"
 
 msgid "Compute resources"
-msgstr "Recursos de computación"
+msgstr "Recursos de cómputo"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ComputeAttribute|Name"
@@ -1157,7 +1160,7 @@ msgid "Create a compute profile"
 msgstr "Crear un perfil de computación"
 
 msgid "Create a compute resource"
-msgstr "Crear un recurso de computación"
+msgstr "Crear un recurso de cómputo"
 
 msgid "Create a config group"
 msgstr "Crear un grupo de configuración"
@@ -1367,7 +1370,7 @@ msgid "Delete a compute profile"
 msgstr "Borrar un perfil de computación"
 
 msgid "Delete a compute resource"
-msgstr "Borrar un recurso de computación"
+msgstr "Borrar un recurso de cómputo"
 
 msgid "Delete a config group"
 msgstr "Borrar un grupo de configuración"
@@ -1607,6 +1610,9 @@ msgstr "Dominio"
 msgid "Domain Configuration"
 msgstr "Configuración de dominio"
 
+msgid "Domain IDs"
+msgstr "ID de dominio"
+
 msgid "Domains"
 msgstr "Dominios"
 
@@ -1636,7 +1642,7 @@ msgid ""
 msgstr "Cada entrada representa una arquitectura de hardware, las más comunes son <b>x86_64</b> o <br>i386</b>. Foreman también soporta la familia de sistemas operativos Solaris, que incluye sistemas basados en <b>sparc</b>."
 
 msgid "Eager zero"
-msgstr ""
+msgstr "Eager zero"
 
 msgid "Edit"
 msgstr "Editar"
@@ -1785,6 +1791,9 @@ msgstr "Dirección IP final para sugerencias"
 msgid "Environment"
 msgstr "Entorno"
 
+msgid "Environment IDs"
+msgstr "ID de entorno"
+
 msgid "Environment only"
 msgstr "Solo Entorno"
 
@@ -1853,7 +1862,7 @@ msgid "Expires"
 msgstr "Caduca"
 
 msgid "Explain matchers"
-msgstr ""
+msgstr "Explicar claves de concordancia"
 
 msgid "External IP"
 msgstr "IP Externa"
@@ -2019,10 +2028,10 @@ msgstr "Fallo al parar la instancia %{compute_resource} con el nombre %{name}: %
 
 msgid ""
 "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Fallo al deshacer actualización la instancia %{compute_resource} con el nombre %{name}: %{e}"
+msgstr "Error deshaciendo la actualización del recurso %{compute_resource} en la instancia %{name}: %{e}"
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Fallo al actualizar una instancia %{compute_resource} con el nombre %{name}: %{e}"
+msgstr "Error actualizando la actualización del recurso %{compute_resource} en la instancia %{name}: %{e}"
 
 msgid ""
 "Failed to update environments and Puppet classes from the on-disk Puppet "
@@ -2059,7 +2068,7 @@ msgid "Filter %s"
 msgstr "Filtrar %s"
 
 msgid "Filter by name"
-msgstr ""
+msgstr "Filtrar por nombre"
 
 msgid "Filter classes"
 msgstr "Clases de filtro"
@@ -2402,6 +2411,9 @@ msgstr "Grupo del host"
 msgid "Host group / Environment"
 msgstr "Grupo del host / Entorno"
 
+msgid "Host group IDs"
+msgstr "ID de grupos de host"
+
 msgid "Host group and Environment"
 msgstr "Grupo del host y Entorno"
 
@@ -2731,7 +2743,7 @@ msgid "Image ID"
 msgstr "ID imagen"
 
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
-msgstr "ID de la imagen facilitado por la instancia, ejemplo: ami-.."
+msgstr "ID de la imagen facilitado por el recurso de cómputo, ejemplo: ami-.."
 
 msgid "Image path"
 msgstr "Ruta de la imagen"
@@ -2978,7 +2990,7 @@ msgid "List all bookmarks"
 msgstr "Enumerar todos los marcadores"
 
 msgid "List all compute resources"
-msgstr "Enumera todos los recursos de computación"
+msgstr "Enumera todos los recursos de cómputo"
 
 msgid "List all environments"
 msgstr "Enumera todos los entornos"
@@ -3008,7 +3020,7 @@ msgid "List all hosts"
 msgstr "Enumera todos los hosts"
 
 msgid "List all images for a compute resource"
-msgstr "Enumera todas las imágenes de un recurso de computación"
+msgstr "Enumera todas las imágenes de un recurso de cómputo"
 
 msgid "List all installation media"
 msgstr "Enumera todos los medios de instalación"
@@ -3074,22 +3086,22 @@ msgid "List all users"
 msgstr "Enumera todos los usuarios"
 
 msgid "List attributes for a given storage domain"
-msgstr ""
+msgstr "Enumerar atributos de un dominio de almacenamiento determinado"
 
 msgid "List available clusters for a compute resource"
-msgstr "Enumera todos los clusters disponibles para un recurso de computación"
+msgstr "Enumera todos los clusters disponibles para un recurso de cómputo"
 
 msgid "List available folders for a compute resource"
-msgstr ""
+msgstr "Enumerar carpetas disponibles de un recurso de cómputo"
 
 msgid "List available images for a compute resource"
-msgstr "Enumera todas las imágenes disponibles para un recurso de computación"
+msgstr "Enumera todas las imágenes disponibles para un recurso de cómputo"
 
 msgid "List available networks for a compute resource"
-msgstr "Enumera todas las redes disponibles para un recurso de computación"
+msgstr "Enumera todas las redes disponibles para un recurso de cómputo"
 
 msgid "List available networks for a compute resource cluster"
-msgstr "Enumera todas las redes para un cluster de recursos de computación"
+msgstr "Enumera todas las redes para un cluster de recursos de cómputo"
 
 msgid "List available resource types."
 msgstr "Enumera todos los tipos de recursos disponibles."
@@ -3157,10 +3169,10 @@ msgid "List provisioning templates"
 msgstr "Lista de plantillas de provisión"
 
 msgid "List resource pools for a compute resource cluster"
-msgstr ""
+msgstr "Enumerar los pools de recursos de un cluster de recursos de cómputo"
 
 msgid "List storage domains for a compute resource"
-msgstr "Enumera los dominios de almacenamiento de un recurso de computación"
+msgstr "Enumera los dominios de almacenamiento de un recurso de cómputo"
 
 msgid "List template combination"
 msgstr "Enumera combinaciones de plantillas"
@@ -3374,6 +3386,9 @@ msgstr "Número de días máximo para los gráficos de tendencia"
 msgid "Media"
 msgstr "Medios"
 
+msgid "Media IDs"
+msgstr "ID de medios"
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr "Medio"
@@ -3546,7 +3561,7 @@ msgid "New Compute Profile"
 msgstr "Nuevo perfil de Cómputo"
 
 msgid "New Compute Resource"
-msgstr "Nueva Instancia"
+msgstr "Nuevo recurso de cómputo"
 
 msgid "New Compute profile"
 msgstr "Nuevo perfil de Cómputo"
@@ -3654,7 +3669,7 @@ msgid "New compute profile on %s"
 msgstr "Nuevo perfil de cómputo en %s"
 
 msgid "New compute resource"
-msgstr "Nueva instancia"
+msgstr "Nueva recurso de cómputo"
 
 msgid "New filter"
 msgstr "Añadir filtro"
@@ -3708,7 +3723,7 @@ msgid "No changes to your environments detected"
 msgstr "No se han detectado cambios en sus entornos"
 
 msgid "No compute resource to show"
-msgstr "No se encuentran Recursos de Computación para mostrar"
+msgstr "No hay recursos de cómputo para mostrar"
 
 msgid "No documentation found"
 msgstr "No se encontró la documentación"
@@ -4050,10 +4065,10 @@ msgstr "Array opcional de hashes de log"
 msgid ""
 "Optional comma-delimited string containing either 'new', 'updated', or "
 "'obsolete' that is used to limit the imported Puppet classes"
-msgstr ""
+msgstr "Cadena opcional, limitada por comas, que no contiene 'new' - nuevo, 'updated'- actualizado' u 'obsolete' - obsoleto, que se usa para limitar las clases Puppet que se importan"
 
 msgid "Optional input validator"
-msgstr ""
+msgstr "Validador de entrada opcional"
 
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
@@ -4118,7 +4133,7 @@ msgid "Override this value"
 msgstr "Sobrescribir este valor"
 
 msgid "Override value for specific hosts"
-msgstr ""
+msgstr "Preponderar valor para hosts específicos"
 
 msgid "Overview"
 msgstr "Visión de conjunto"
@@ -4158,7 +4173,7 @@ msgid "Parameter type"
 msgstr "Tipo de parámetro"
 
 msgid "Parameter types"
-msgstr ""
+msgstr "Tipos de parámetros"
 
 msgid "Parameters"
 msgstr "Parámetros"
@@ -4381,6 +4396,9 @@ msgstr "El contenido de la plantilla de provisión ha cambiado %s"
 msgid "Provisioning Templates"
 msgstr "Plantillas de Provisión"
 
+msgid "Provisioning template IDs"
+msgstr "ID de plantilla de provisión"
+
 msgid "Provisioning templates"
 msgstr "Plantillas de Provisión"
 
@@ -4494,6 +4512,9 @@ msgstr "Sector"
 
 msgid "Realm Configuration"
 msgstr "Configuración de sector"
+
+msgid "Realm IDs"
+msgstr "ID de sector"
 
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr "Nombre de sector, p. ej. EXAMPLE.COM"
@@ -5133,6 +5154,9 @@ msgstr "Proxies inteligentes"
 msgid "Smart proxy"
 msgstr "Proxy inteligente"
 
+msgid "Smart proxy IDs"
+msgstr "ID de proxy inteligente"
+
 msgid "Smart variables"
 msgstr "Variables inteligentes"
 
@@ -5223,6 +5247,9 @@ msgstr "Enviar"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "Subred"
+
+msgid "Subnet IDs"
+msgstr "ID de subred"
 
 msgid "Subnet name"
 msgstr "Nombre de subred"
@@ -5548,14 +5575,14 @@ msgid ""
 "certificate authority. If you are sure the remote system is authentic, go to"
 " the compute resource edit page, press the 'Test Connection' or 'Load "
 "Datacenters' button and submit"
-msgstr "El sistema remoto presentó una clave pública firmada por una autoridad de certificación desconocida. Si estás seguro de que el sistema remoto es auténtico, ve a la página de edición de los recursos de cómputo, presione los botones 'Test Connection' o 'Load Datacenters' y envíalo"
+msgstr "El sistema remoto presentó una clave pública firmada por una autoridad de certificación desconocida. Si está seguro de que el sistema remoto es auténtico, vaya a la página de edición de los recursos de cómputo, presione los botones 'Test Connection' o 'Load Datacenters' y envíelo"
 
 msgid ""
 "The remote system presented a public key with hash %s but we're expecting a "
 "different hash. If you are sure the remote system is authentic, go to the "
 "compute resource edit page, press the 'Test Connection' or 'Load "
 "Datacenters' button and submit"
-msgstr "El sistema remoto ha presentado una clave pública con hash %s pero se estaba esperando un hash diferente. Si estás seguro de que el sistema remoto es auténtico, ve a la página de edición del recurso de computación presiona el botón de 'Probar Conexión' o 'Cargar Centros de Datos'"
+msgstr "El sistema remoto ha presentado una clave pública con hash %s pero se estaba esperando un hash diferente. Si está seguro de que el sistema remoto es auténtico, vaya a la página de edición del recurso de cómputo y presione el botón de 'Probar Conexión' o 'Cargar Centros de Datos'"
 
 msgid "The selected hosts will execute a build operation on next reboot"
 msgstr "Los hosts seleccionados ejecutarán una operación de creación el próximo reinicio"
@@ -5977,7 +6004,7 @@ msgid "Update a compute profile"
 msgstr "Actualizar un perfil de computación"
 
 msgid "Update a compute resource"
-msgstr "Actualizar un recurso de computación"
+msgstr "Actualizar un recurso de cómputo"
 
 msgid "Update a config group"
 msgstr "Actualizar un grupo de configuración"
@@ -6137,6 +6164,9 @@ msgstr "Autenticación del Usuario"
 msgid "User Groups"
 msgstr "Grupos de Usuarios"
 
+msgid "User IDs"
+msgstr "ID de usuario"
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User fact"
 msgstr "Detalle de usuario"
@@ -6190,7 +6220,7 @@ msgstr "Administrador"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Compute resources andor"
-msgstr "Recursos de computación y/o"
+msgstr "Recursos de cómputo y/o"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Domains andor"
@@ -6300,7 +6330,7 @@ msgid "Validation types"
 msgstr "Tipos de validación"
 
 msgid "Validator type"
-msgstr ""
+msgstr "Tipo de validador"
 
 msgid "Value"
 msgstr "Valor"
@@ -6596,13 +6626,13 @@ msgid "and relevant log entries."
 msgstr "y entradas relevantes de registros"
 
 msgid "array"
-msgstr ""
+msgstr "vector"
 
 msgid "belongs to config group"
 msgstr "pertenece a un conjunto de configuración"
 
 msgid "boolean"
-msgstr ""
+msgstr "booleano"
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr "dispositivo de inicio, dispositivos validos son disk, cdrom, pxe, bios"
@@ -6758,7 +6788,7 @@ msgid "has this role already"
 msgstr "tiene este rol preparado"
 
 msgid "hash"
-msgstr ""
+msgstr "hash"
 
 msgid "hash containing the facts for the host"
 msgstr "hash con los detalles para el host"
@@ -6785,7 +6815,7 @@ msgid "included already from parent"
 msgstr "incluidos previamente por el padre"
 
 msgid "integer"
-msgstr ""
+msgstr "entero"
 
 msgid "interface information"
 msgstr "información de interfaz"
@@ -6872,7 +6902,7 @@ msgid "items selected. Uncheck to Clear"
 msgstr "objetos seleccionados. Desactivar para limpiar"
 
 msgid "json"
-msgstr ""
+msgstr "json"
 
 msgid "last %s day"
 msgid_plural "last %s days"
@@ -6883,7 +6913,7 @@ msgid "link external user group with this user group"
 msgstr "enlazar grupo de usuarios externos con este"
 
 msgid "list"
-msgstr ""
+msgstr "lista"
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"
@@ -7008,13 +7038,13 @@ msgid "puppet class browser"
 msgstr "buscador de clases de Puppet"
 
 msgid "real"
-msgstr ""
+msgstr "real"
 
 msgid "reboot"
 msgstr "reiniciar"
 
 msgid "regexp"
-msgstr ""
+msgstr "regexp"
 
 msgid "remove network interface"
 msgstr "eliminar interfaz de red"
@@ -7083,7 +7113,7 @@ msgid "stop"
 msgstr "parar"
 
 msgid "string"
-msgstr ""
+msgstr "cadena"
 
 msgid "template name"
 msgstr "nombre de plantilla"
@@ -7147,7 +7177,7 @@ msgid "valid"
 msgstr "válido"
 
 msgid "yaml"
-msgstr ""
+msgstr "yaml"
 
 msgid "you may use %s"
 msgstr "se puede usar %s"

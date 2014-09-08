@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-27 09:03+0100\n"
-"PO-Revision-Date: 2014-08-27 09:47+0000\n"
+"POT-Creation-Date: 2014-08-28 10:58+0100\n"
+"PO-Revision-Date: 2014-09-04 10:21+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/foreman/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -1002,6 +1002,9 @@ msgstr ""
 msgid "Compute resource"
 msgstr "Recurso de computación"
 
+msgid "Compute resource IDs"
+msgstr ""
+
 msgid "Compute resource update for %s"
 msgstr "Recurso de computación de %s actualizado"
 
@@ -1595,6 +1598,9 @@ msgstr "Dominio"
 msgid "Domain Configuration"
 msgstr "Configuración de Dominio"
 
+msgid "Domain IDs"
+msgstr ""
+
 msgid "Domains"
 msgstr "Dominios"
 
@@ -1772,6 +1778,9 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Entorno"
+
+msgid "Environment IDs"
+msgstr ""
 
 msgid "Environment only"
 msgstr "Solo Entorno"
@@ -2389,6 +2398,9 @@ msgstr "Grupo de Equipos"
 
 msgid "Host group / Environment"
 msgstr "Grupo de Equipos / Entorno"
+
+msgid "Host group IDs"
+msgstr ""
 
 msgid "Host group and Environment"
 msgstr "Grupo de Equipos e Entorno"
@@ -3361,6 +3373,9 @@ msgstr "Número de días máximo para os gráficos de tendencia"
 
 msgid "Media"
 msgstr "Medios"
+
+msgid "Media IDs"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
@@ -4369,6 +4384,9 @@ msgstr "A plantilla de aprovisionamento cambiou %s"
 msgid "Provisioning Templates"
 msgstr "Plantillas de Aprovisionamento"
 
+msgid "Provisioning template IDs"
+msgstr ""
+
 msgid "Provisioning templates"
 msgstr "Plantillas de Aprovisionamento"
 
@@ -4481,6 +4499,9 @@ msgid "Realm"
 msgstr ""
 
 msgid "Realm Configuration"
+msgstr ""
+
+msgid "Realm IDs"
 msgstr ""
 
 msgid "Realm name, e.g. EXAMPLE.COM"
@@ -5121,6 +5142,9 @@ msgstr ""
 msgid "Smart proxy"
 msgstr "Proxy intelixente"
 
+msgid "Smart proxy IDs"
+msgstr ""
+
 msgid "Smart variables"
 msgstr "Variables intelixentes"
 
@@ -5211,6 +5235,9 @@ msgstr "Introducir"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "Subrede"
+
+msgid "Subnet IDs"
+msgstr ""
 
 msgid "Subnet name"
 msgstr ""
@@ -6124,6 +6151,9 @@ msgstr "Autenticación do Usuario"
 
 msgid "User Groups"
 msgstr "Grupos de Usuarios"
+
+msgid "User IDs"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User fact"

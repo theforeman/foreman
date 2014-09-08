@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-27 09:03+0100\n"
-"PO-Revision-Date: 2014-08-28 09:56+0000\n"
+"POT-Creation-Date: 2014-08-28 10:58+0100\n"
+"PO-Revision-Date: 2014-09-04 10:21+0000\n"
 "Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1018,6 +1018,9 @@ msgstr "Profils d'Ordinateur"
 msgid "Compute resource"
 msgstr "Ressource d'Ordinateur"
 
+msgid "Compute resource IDs"
+msgstr "IDs de ressources d'ordianteur"
+
 msgid "Compute resource update for %s"
 msgstr "Ressource d'Ordinateur mise à jour pour %s"
 
@@ -1611,6 +1614,9 @@ msgstr "Domaine"
 msgid "Domain Configuration"
 msgstr "Configuration des domaines"
 
+msgid "Domain IDs"
+msgstr "IDs de domaines"
+
 msgid "Domains"
 msgstr "Domaines"
 
@@ -1640,7 +1646,7 @@ msgid ""
 msgstr "Chaque entrée représente une architecture matériel, couramment <b>x86_64</b> ou <b>i386</b>. Foreman supporte aussi la famille de systèmes d'exploitation Solaris qui inclue <b>sparc</b>."
 
 msgid "Eager zero"
-msgstr ""
+msgstr "Zéro gourmand (eager)"
 
 msgid "Edit"
 msgstr "Éditer"
@@ -1788,6 +1794,9 @@ msgstr "Adresse IP de fin pour l'autosuggestion d'adresse IP"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Environnement"
+
+msgid "Environment IDs"
+msgstr "IDs des environnements"
 
 msgid "Environment only"
 msgstr "Seulement un environnement"
@@ -2405,6 +2414,9 @@ msgstr "Groupe d'hôtes"
 
 msgid "Host group / Environment"
 msgstr "Groupe d'hôtes / Environnement"
+
+msgid "Host group IDs"
+msgstr "IDs des groupes"
 
 msgid "Host group and Environment"
 msgstr "Groupe d'hôtes et Environnement"
@@ -3378,6 +3390,9 @@ msgstr "Nombre de jours maxi pour les graphes de tendances"
 msgid "Media"
 msgstr "Media"
 
+msgid "Media IDs"
+msgstr "IDs des media"
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr "Medium"
@@ -4054,7 +4069,7 @@ msgstr "Optionnel : tableau de hash des logs"
 msgid ""
 "Optional comma-delimited string containing either 'new', 'updated', or "
 "'obsolete' that is used to limit the imported Puppet classes"
-msgstr ""
+msgstr "Optionnel : liste de mots séparées par des virgules parmi 'new, updated, obsolete' utilisée pour limiter les classes Puppet importées"
 
 msgid "Optional input validator"
 msgstr "Option de validation d'entrée"
@@ -4385,6 +4400,9 @@ msgstr "Le contenu du modèle de provisionnement a changé %s"
 msgid "Provisioning Templates"
 msgstr "Modèles de provisionnement"
 
+msgid "Provisioning template IDs"
+msgstr "IDs des modèles de provisionnement"
+
 msgid "Provisioning templates"
 msgstr "Modèles de provisionnement"
 
@@ -4498,6 +4516,9 @@ msgstr "Royaume"
 
 msgid "Realm Configuration"
 msgstr "Configuration du royaume"
+
+msgid "Realm IDs"
+msgstr "IDs des royaumes"
 
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr "Nom du royaume, p. e. EXAMPLE.COM"
@@ -5137,6 +5158,9 @@ msgstr "Smart Proxies"
 msgid "Smart proxy"
 msgstr "Smart proxy"
 
+msgid "Smart proxy IDs"
+msgstr "IDs des Smart proxies"
+
 msgid "Smart variables"
 msgstr "Smart variables"
 
@@ -5227,6 +5251,9 @@ msgstr "Soumettre"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "Sous-Réseau"
+
+msgid "Subnet IDs"
+msgstr "IDs des sous-réseaux"
 
 msgid "Subnet name"
 msgstr "Nom du sous réseau"
@@ -6140,6 +6167,9 @@ msgstr "Authentification utilisateur"
 
 msgid "User Groups"
 msgstr "Groupes utilisateurs"
+
+msgid "User IDs"
+msgstr "IDs des utilisateurs"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User fact"

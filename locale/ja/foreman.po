@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-27 09:03+0100\n"
-"PO-Revision-Date: 2014-08-27 09:47+0000\n"
+"POT-Creation-Date: 2014-08-28 10:58+0100\n"
+"PO-Revision-Date: 2014-09-04 10:21+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/foreman/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -995,6 +995,9 @@ msgstr "コンピュートプロファイル"
 msgid "Compute resource"
 msgstr "コンピュートリソース"
 
+msgid "Compute resource IDs"
+msgstr ""
+
 msgid "Compute resource update for %s"
 msgstr ""
 
@@ -1587,6 +1590,9 @@ msgstr "ドメイン"
 msgid "Domain Configuration"
 msgstr "ドメイン設定"
 
+msgid "Domain IDs"
+msgstr ""
+
 msgid "Domains"
 msgstr "ドメイン"
 
@@ -1764,6 +1770,9 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "環境"
+
+msgid "Environment IDs"
+msgstr ""
 
 msgid "Environment only"
 msgstr ""
@@ -2381,6 +2390,9 @@ msgstr "ホストグループ"
 
 msgid "Host group / Environment"
 msgstr "ホストグループ / 環境"
+
+msgid "Host group IDs"
+msgstr ""
 
 msgid "Host group and Environment"
 msgstr ""
@@ -3353,6 +3365,9 @@ msgstr ""
 
 msgid "Media"
 msgstr "メディア"
+
+msgid "Media IDs"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
@@ -4361,6 +4376,9 @@ msgstr ""
 msgid "Provisioning Templates"
 msgstr "プロビジョニングテンプレート"
 
+msgid "Provisioning template IDs"
+msgstr ""
+
 msgid "Provisioning templates"
 msgstr "プロビジョニングテンプレート"
 
@@ -4474,6 +4492,9 @@ msgstr ""
 
 msgid "Realm Configuration"
 msgstr "レルム設定"
+
+msgid "Realm IDs"
+msgstr ""
 
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr ""
@@ -5112,6 +5133,9 @@ msgstr "スマートプロキシ"
 msgid "Smart proxy"
 msgstr "スマートプロキシ"
 
+msgid "Smart proxy IDs"
+msgstr ""
+
 msgid "Smart variables"
 msgstr "スマート変数"
 
@@ -5202,6 +5226,9 @@ msgstr "送信"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "サブネット"
+
+msgid "Subnet IDs"
+msgstr ""
 
 msgid "Subnet name"
 msgstr ""
@@ -6113,6 +6140,9 @@ msgid "User Authentication"
 msgstr ""
 
 msgid "User Groups"
+msgstr ""
+
+msgid "User IDs"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages

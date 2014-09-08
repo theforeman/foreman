@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-27 09:03+0100\n"
-"PO-Revision-Date: 2014-08-27 09:47+0000\n"
+"POT-Creation-Date: 2014-08-28 10:58+0100\n"
+"PO-Revision-Date: 2014-09-04 10:21+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -1005,6 +1005,9 @@ msgstr "Beräkningsprofiler"
 msgid "Compute resource"
 msgstr "Beräkningsresurs"
 
+msgid "Compute resource IDs"
+msgstr ""
+
 msgid "Compute resource update for %s"
 msgstr "Beräkningsresursuppdatering för %s"
 
@@ -1598,6 +1601,9 @@ msgstr "Domän"
 msgid "Domain Configuration"
 msgstr "Domänkonfiguration"
 
+msgid "Domain IDs"
+msgstr ""
+
 msgid "Domains"
 msgstr "Domäner"
 
@@ -1775,6 +1781,9 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Miljö"
+
+msgid "Environment IDs"
+msgstr ""
 
 msgid "Environment only"
 msgstr "Enbart miljö"
@@ -2392,6 +2401,9 @@ msgstr "Värdgrupp"
 
 msgid "Host group / Environment"
 msgstr "Värdgrupp / Miljö"
+
+msgid "Host group IDs"
+msgstr ""
 
 msgid "Host group and Environment"
 msgstr "Värdgrupp och Miljö"
@@ -3364,6 +3376,9 @@ msgstr "Max dagar för trendgrafer"
 
 msgid "Media"
 msgstr "Medie"
+
+msgid "Media IDs"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
@@ -4372,6 +4387,9 @@ msgstr "Provisioneringsmallens innehåll ändrad %s"
 msgid "Provisioning Templates"
 msgstr "Provisioneringsmallar"
 
+msgid "Provisioning template IDs"
+msgstr ""
+
 msgid "Provisioning templates"
 msgstr "Provisineringsmallar"
 
@@ -4484,6 +4502,9 @@ msgid "Realm"
 msgstr ""
 
 msgid "Realm Configuration"
+msgstr ""
+
+msgid "Realm IDs"
 msgstr ""
 
 msgid "Realm name, e.g. EXAMPLE.COM"
@@ -5124,6 +5145,9 @@ msgstr "Smarta proxies"
 msgid "Smart proxy"
 msgstr "Smart proxy"
 
+msgid "Smart proxy IDs"
+msgstr ""
+
 msgid "Smart variables"
 msgstr "Smarta variabler"
 
@@ -5214,6 +5238,9 @@ msgstr "Sänd"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "Subnät"
+
+msgid "Subnet IDs"
+msgstr ""
 
 msgid "Subnet name"
 msgstr ""
@@ -6127,6 +6154,9 @@ msgstr "Användarautentisering"
 
 msgid "User Groups"
 msgstr "Användargrupper"
+
+msgid "User IDs"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User fact"

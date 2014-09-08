@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-27 09:03+0100\n"
-"PO-Revision-Date: 2014-08-27 09:47+0000\n"
+"POT-Creation-Date: 2014-08-28 10:58+0100\n"
+"PO-Revision-Date: 2014-09-04 10:21+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -996,6 +996,9 @@ msgstr ""
 msgid "Compute resource"
 msgstr "计算机资源"
 
+msgid "Compute resource IDs"
+msgstr ""
+
 msgid "Compute resource update for %s"
 msgstr "%s 计算机资源"
 
@@ -1588,6 +1591,9 @@ msgstr "域"
 msgid "Domain Configuration"
 msgstr "域配置"
 
+msgid "Domain IDs"
+msgstr ""
+
 msgid "Domains"
 msgstr "域名"
 
@@ -1765,6 +1771,9 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "环境"
+
+msgid "Environment IDs"
+msgstr ""
 
 msgid "Environment only"
 msgstr "环境"
@@ -2382,6 +2391,9 @@ msgstr "主机组"
 
 msgid "Host group / Environment"
 msgstr "主机组 / 环境"
+
+msgid "Host group IDs"
+msgstr ""
 
 msgid "Host group and Environment"
 msgstr "主机组和环境"
@@ -3354,6 +3366,9 @@ msgstr "趋势图表的最大天"
 
 msgid "Media"
 msgstr "介质"
+
+msgid "Media IDs"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
@@ -4362,6 +4377,9 @@ msgstr "置备模板修改内容 %s"
 msgid "Provisioning Templates"
 msgstr "置备模板"
 
+msgid "Provisioning template IDs"
+msgstr ""
+
 msgid "Provisioning templates"
 msgstr "置备模板"
 
@@ -4474,6 +4492,9 @@ msgid "Realm"
 msgstr ""
 
 msgid "Realm Configuration"
+msgstr ""
+
+msgid "Realm IDs"
 msgstr ""
 
 msgid "Realm name, e.g. EXAMPLE.COM"
@@ -5113,6 +5134,9 @@ msgstr ""
 msgid "Smart proxy"
 msgstr "智能代理"
 
+msgid "Smart proxy IDs"
+msgstr ""
+
 msgid "Smart variables"
 msgstr "智能变量"
 
@@ -5203,6 +5227,9 @@ msgstr "提交"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "子网"
+
+msgid "Subnet IDs"
+msgstr ""
 
 msgid "Subnet name"
 msgstr ""
@@ -6115,6 +6142,9 @@ msgstr "用户身份验证"
 
 msgid "User Groups"
 msgstr "用户组"
+
+msgid "User IDs"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User fact"

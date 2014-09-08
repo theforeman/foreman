@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-27 09:03+0100\n"
-"PO-Revision-Date: 2014-08-27 09:47+0000\n"
+"POT-Creation-Date: 2014-08-28 10:58+0100\n"
+"PO-Revision-Date: 2014-09-04 10:21+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/foreman/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1013,6 +1013,9 @@ msgstr "Perfis computacionais"
 msgid "Compute resource"
 msgstr "Recurso de computação"
 
+msgid "Compute resource IDs"
+msgstr ""
+
 msgid "Compute resource update for %s"
 msgstr "Recurso de computação atualizado para %s"
 
@@ -1606,6 +1609,9 @@ msgstr "Domínio"
 msgid "Domain Configuration"
 msgstr "Configuração de dominio"
 
+msgid "Domain IDs"
+msgstr ""
+
 msgid "Domains"
 msgstr "Dominios"
 
@@ -1783,6 +1789,9 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Ambiente"
+
+msgid "Environment IDs"
+msgstr ""
 
 msgid "Environment only"
 msgstr "Somente ambiente"
@@ -2399,6 +2408,9 @@ msgid "Host group"
 msgstr ""
 
 msgid "Host group / Environment"
+msgstr ""
+
+msgid "Host group IDs"
 msgstr ""
 
 msgid "Host group and Environment"
@@ -3372,6 +3384,9 @@ msgstr "Máximos de dias para gráficos de tendências"
 
 msgid "Media"
 msgstr "Mídia"
+
+msgid "Media IDs"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
@@ -4380,6 +4395,9 @@ msgstr ""
 msgid "Provisioning Templates"
 msgstr "Template de provisionamento"
 
+msgid "Provisioning template IDs"
+msgstr ""
+
 msgid "Provisioning templates"
 msgstr "Templates de provisionamento"
 
@@ -4492,6 +4510,9 @@ msgid "Realm"
 msgstr ""
 
 msgid "Realm Configuration"
+msgstr ""
+
+msgid "Realm IDs"
 msgstr ""
 
 msgid "Realm name, e.g. EXAMPLE.COM"
@@ -5132,6 +5153,9 @@ msgstr ""
 msgid "Smart proxy"
 msgstr ""
 
+msgid "Smart proxy IDs"
+msgstr ""
+
 msgid "Smart variables"
 msgstr ""
 
@@ -5222,6 +5246,9 @@ msgstr "Submeter"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "Suberede"
+
+msgid "Subnet IDs"
+msgstr ""
 
 msgid "Subnet name"
 msgstr ""
@@ -6135,6 +6162,9 @@ msgstr "Autenticação de usuário"
 
 msgid "User Groups"
 msgstr "Grupo de usuários"
+
+msgid "User IDs"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User fact"
