@@ -13,7 +13,7 @@ module Foreman::Controller::UsersMixin
   protected
   def set_admin_on_creation
     admin = params[:user].delete :admin
-    @user = User.new(params[:user]) { |u| u.admin = admin }
+    @user = User.new(params[:user]) { |u| u.admin = admin unless admin.nil? }
   end
 
   def clear_params_on_update

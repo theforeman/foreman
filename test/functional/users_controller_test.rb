@@ -40,6 +40,7 @@ class UsersControllerTest < ActionController::TestCase
       }
     }, set_session_user
     assert_redirected_to users_path
+    refute User.find_by_login('foo').admin
   end
 
   test 'should create admin user' do
@@ -53,6 +54,7 @@ class UsersControllerTest < ActionController::TestCase
       }
     }, set_session_user
     assert_redirected_to users_path
+    assert User.find_by_login('foo').admin
   end
 
   test "should update user" do
