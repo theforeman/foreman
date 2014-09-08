@@ -115,6 +115,8 @@ cat > /etc/salt/minion << EOF
 EOF
 # Setup salt-minion to run on system reboot
 chkconfig salt-minion on
+# Running salt-call to trigger key signing
+salt-call --no-color --grains >/dev/null
 <% end -%>
 
 /usr/bin/curl -o /dev/null -k '<%= foreman_url %>'

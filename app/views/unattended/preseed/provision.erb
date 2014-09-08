@@ -3,7 +3,7 @@ kind: provision
 name: Preseed default
 oses:
 - Debian 6.0
-- Debian 7.0
+- Debian 7.
 - Ubuntu 10.04
 - Ubuntu 12.04
 - Ubuntu 13.04
@@ -15,17 +15,9 @@ oses:
   puppet_enabled = pm_set || @host.params['force-puppet']
   salt_enabled = @host.params['salt_master'] ? true : false
 %>
-# Locale, country and keyboard settings
-d-i debian-installer/locale string en_US
-d-i console-setup/ask_detect boolean false
-d-i console-setup/modelcode string pc105
-d-i console-setup/variant USA
-d-i console-setup/layout USA
-d-i console-setup/layoutcode string us
-
-<% if @host.operatingsystem.name == 'Debian' && @host.operatingsystem.major.to_i >= 7 -%>
-d-i keymap select us
-<% end -%>
+# Locale
+d-i debian-installer/locale string <%= @host.params['lang'] || 'en_US' %>
+# country and keyboard settings are automatic
 
 <% if @static -%>
 # Static network configuration.
@@ -116,7 +108,7 @@ d-i apt-setup/local<%= repos %>/key string http://keyserver.ubuntu.com/pks/looku
 <% end -%>
 
 # Install minimal task set (see tasksel --task-packages minimal)
-tasksel tasksel/first multiselect minimal
+tasksel tasksel/first multiselect minimal, ssh-server
 
 <% if puppet_enabled %>
   <% if @host.operatingsystem.name == 'Ubuntu' and @host.operatingsystem.major.to_i == 10 -%>
@@ -130,7 +122,7 @@ d-i apt-setup/backports boolean true
 <% end -%>
 
 # Install some base packages
-d-i pkgsel/include string <%= puppet_package %> <%= salt_package %> lsb-release openssh-server
+d-i pkgsel/include string <%= puppet_package %> <%= salt_package %> lsb-release
 d-i pkgsel/update-policy select unattended-upgrades
 
 popularity-contest popularity-contest/participate boolean false
