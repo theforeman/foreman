@@ -16,6 +16,7 @@
           <%= link_to(_(hostgroup.title), hash_for_display_hostgroup_path(:id => hostgroup)) %>
         </td>
       <% end %>
+      <td>
         <%= action_buttons(
                     display_link_if_authorized(_('Nest'),    hash_for_nest_hostgroup_path(:id => hostgroup)),
                     display_link_if_authorized(_('Clone'),   hash_for_clone_hostgroup_path(:id => hostgroup)),
