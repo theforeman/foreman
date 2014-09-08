@@ -3,7 +3,7 @@ kind: PXELinux
 name: Preseed default PXELinux
 oses:
 - Debian 6.0
-- Debian 7.0
+- Debian 7.
 - Ubuntu 10.04
 - Ubuntu 12.04
 - Ubuntu 13.04
@@ -17,5 +17,5 @@ oses:
 default linux
 label linux
 kernel <%= @kernel %>
-append initrd=<%= @initrd %> interface=auto url=<%= foreman_url('provision')%> ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=<%= @host.name %> <%= keyboard_params %> locale=en_US
+append initrd=<%= @initrd %> interface=auto url=<%= foreman_url('provision')%> ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=<%= @host.name %> <%= keyboard_params %> locale=<%= @host.params['lang'] || 'en_US' %>
 IPAPPEND 2

@@ -44,5 +44,7 @@ cat > /usr/local/etc/salt/minion << EOF
 EOF
 echo 'salt_minion_enable="YES"' >>/etc/rc.conf
 echo 'salt_minion_paths="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"' >>/etc/rc.conf
+# Running salt-call to trigger key signing
+/usr/local/bin/salt-call --no-color --grains >/dev/null
 <% end -%>
 exit 0

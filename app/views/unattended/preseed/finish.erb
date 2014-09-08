@@ -3,7 +3,7 @@ kind: finish
 name: Preseed default finish
 oses:
 - Debian 6.0
-- Debian 7.0
+- Debian 7.
 - Ubuntu 10.04
 - Ubuntu 12.04
 - Ubuntu 13.04
@@ -35,6 +35,8 @@ fi
 cat > /etc/salt/minion << EOF
 <%= snippet 'saltstack_minion' %>
 EOF
+# Running salt-call to trigger key signing
+salt-call --no-color --grains >/dev/null
 <% end -%>
 
 /usr/bin/wget --no-proxy --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>
