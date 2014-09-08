@@ -20,12 +20,21 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_equal 2, override_values["results"].length
   end
 
+  test 'should mark override on creation' do
+    k = FactoryGirl.create(:lookup_key, :puppetclass => puppetclasses(:two))
+    refute k.override
+    post :create,  {:smart_variable_id => k.id, :override_value => smart_variable_attrs }
+    k.reload
+    assert k.override
+  end
+
   test "should create override values for specific smart variable" do
     assert_difference('LookupValue.count') do
       post :create,  {:smart_variable_id => lookup_keys(:four).to_param, :override_value => smart_variable_attrs }
     end
     assert_response :success
   end
+
   test "should create override values for specific smart class parameter" do
     assert_difference('LookupValue.count') do
       post :create,  {:smart_class_parameter_id => lookup_keys(:complex).to_param, :override_value => smart_class_attrs }
