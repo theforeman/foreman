@@ -1,3 +1,4 @@
+<%= javascript 'pagination'%>
 <table class="table table-bordered table-striped table-condensed" >
 <tr>
     <th class=''><%= sort :name, :as => _('Name') %></th>
@@ -8,6 +9,7 @@
     <th class="hidden-tablet hidden-xs"><%= sort :last_report, :as => _('Last report') %></th>
 </tr>
 <% if @hosts && @hosts.any? %>
+	<div id="hosts">
 	<% @hosts.each do |host| %>
 		<tr>
       			<td class='ellipsis'><%= name_column(host) %> </td>
@@ -18,6 +20,7 @@
       			<td class="hidden-tablet hidden-xs"><%= last_report_column(host) %></td>
 		</tr>
 	<% end %>
+	</div>
 <% end %>
 </table>
 <%= page_entries_info @hosts  if @hosts%>
