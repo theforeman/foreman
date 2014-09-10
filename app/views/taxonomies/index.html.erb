@@ -1,6 +1,6 @@
 <% title taxonomy_upcase %>
 
-<% title_actions display_link_if_authorized((_("New %s") % taxonomy_title), hash_for_new_taxonomy_path), link_to(_("Mismatches Report"), mismatches_taxonomies_path, :class => 'btn btn-default'), help_path %>
+<% title_actions display_link_if_authorized((_("New %s") % taxonomy_title), hash_for_new_taxonomy_path), display_link_if_authorized(_("Mismatches Report"), mismatches_taxonomies_path, :class => 'btn btn-default'), help_path %>
 
 <% if @count_nil_hosts > 0 %>
 <div class="alert alert-warning alert-block">
