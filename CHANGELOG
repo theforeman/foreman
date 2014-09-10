@@ -1,10 +1,37 @@
-2014-08-28	Stephen Benjamin <stbenjam@redhat.com>
-	* fixes #7121 - move smart proxy action buttons to helper
+2014-09-10	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.6.0
+
+2014-09-09	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* fixes #4375: provisioning no longer loops when using oVirt + compute profile
+
+2014-09-09	Dominic Cleal <dcleal@redhat.com>
+	* fixes #7253 - change nil admin field on users to false, matches usergroups
+
+2014-09-08	Dominic Cleal <dcleal@redhat.com>
+	* templates - sync from community-templates
+	* fixes #7191 - move API response logger to named filter so it can be skipped
+	* fixes #7035 - expand column name for Rails 3.2.8 compat in Puppet class search
+
+2014-09-08	Daniel Lobato <elobatocs@gmail.com>
+	* i18n - extracting new, updating rails, pulling from tx
+
+2014-09-08	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* Fixes #7079: foreman-debug archive now includes contents of /etc/foreman-proxy/settings.d directory
+
+2014-09-08	ripcurld00d <boazyko1@gmail.com>
+	* Fixes #7157 - Combo box style in reports
+
+2014-09-08	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #6161 - Mark override on adding smart variable override via api
 
 2014-08-28	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.6.0-RC2
 	* refs #7066 - fix syntax error in expression
 	* fixes #7066 - add back $login interpolation for LDAP service account usernames
 	* i18n - extracting new, updating rails, pulling from tx
+
+2014-08-28	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #7121 - move smart proxy action buttons to helper
 
 2014-08-28	Tomas Strachota <tstrachota@redhat.com>
 	* Fixes #7028 - completing api docs for taxonomies
