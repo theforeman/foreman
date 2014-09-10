@@ -26,6 +26,7 @@ class ComputeResource < ActiveRecord::Base
   has_and_belongs_to_many :users, :join_table => "user_compute_resources"
   validates :name, :presence => true, :uniqueness => true,
             :format => { :with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.") }
+  validate :ensure_provider_not_changed, :on => :update
   validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
@@ -280,6 +281,12 @@ class ComputeResource < ActiveRecord::Base
 
   def set_attributes_hash
     self.attrs ||= {}
+  end
+
+  def ensure_provider_not_changed
+    if self.type_changed?
+      errors.add(:provider, _("cannot be changed"))
+    end
   end
 
 end
