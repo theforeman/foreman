@@ -120,4 +120,10 @@ class ComputeResourceTest < ActiveSupport::TestCase
     refute_valid cr, :provider, "is not included in the list"
   end
 
+  test "invalid if provider is changed on update" do
+    cr = compute_resources(:ovirt)
+    cr.provider = 'Libvirt'
+    refute_valid cr, :provider, "cannot be changed"
+  end
+
 end
