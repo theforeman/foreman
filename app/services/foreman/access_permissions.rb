@@ -320,7 +320,9 @@ Foreman::AccessControl.map do |map|
                                     :unattended => [:template, :provision],
                                      :"api/v1/hosts" => [:index, :show, :status],
                                      :"api/v2/hosts" => [:index, :show, :status],
-                                     :"api/v2/interfaces" => [:index, :show]
+                                     :"api/v2/interfaces" => [:index, :show],
+                                     :locations =>  [:mismatches],
+                                     :organizations =>  [:mismatches]
                                   }
     map.permission :create_hosts,  {:hosts => [:new, :create, :clone].push(*ajax_actions),
                                     :compute_resources => cr_ajax_actions,
@@ -402,7 +404,7 @@ Foreman::AccessControl.map do |map|
 
   if SETTINGS[:locations_enabled]
     map.security_block :locations do |map|
-      map.permission :view_locations, {:locations =>  [:index, :show, :auto_complete_search, :mismatches],
+      map.permission :view_locations, {:locations =>  [:index, :show, :auto_complete_search],
                                        :"api/v1/locations" => [:index, :show],
                                        :"api/v2/locations" => [:index, :show]
       }
@@ -601,7 +603,7 @@ Foreman::AccessControl.map do |map|
 
   if SETTINGS[:organizations_enabled]
     map.security_block :organizations do |map|
-      map.permission :view_organizations, {:organizations =>  [:index, :show, :auto_complete_search, :mismatches],
+      map.permission :view_organizations, {:organizations =>  [:index, :show, :auto_complete_search],
                                            :"api/v1/organizations" => [:index, :show],
                                            :"api/v2/organizations" => [:index, :show]
                                          }

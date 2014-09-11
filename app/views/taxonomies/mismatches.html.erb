@@ -1,8 +1,8 @@
 <% title _("Mismatches") %>
 
 <% if @mismatches.flatten.length > 0 %>
-  <% link_post =SETTINGS[:locations_enabled] ? import_mismatches_locations_path : import_mismatches_organizations_path %>
-  <%= title_actions link_to(_("Fix All Mismatches"), link_post,
+
+  <%= title_actions display_link_if_authorized(_("Fix All Mismatches"), hash_for_import_mismatches_taxnomies_path,
               :class => 'btn btn-success', :method => :post) %>
 
   <table class="table table-bordered table-striped">
