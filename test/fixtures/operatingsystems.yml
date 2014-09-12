@@ -40,6 +40,7 @@ solaris10:
   architectures: sparc
   release_name: hw0910
   title: 'Solaris 5.10'
+  ptables: one
 
 suse:
   name: OpenSuse
@@ -54,4 +55,3 @@ no_hosts_os:
   minor: 1
   type: Redhat
   title: 'NoHosts 1.1'
-

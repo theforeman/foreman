@@ -3,8 +3,8 @@ require 'test_helper'
 class HostMailerTest < ActionMailer::TestCase
   def setup
     disable_orchestration
-    @host = hosts(:one)
     @env = environments(:production)
+    @host = FactoryGirl.create(:host, :environment => @env)
     as_admin do
       @host.last_report = Time.at(0)
       @host.save(:validate => false)

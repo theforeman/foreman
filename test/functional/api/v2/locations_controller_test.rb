@@ -65,6 +65,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should NOT destroy location if hosts use it" do
+    FactoryGirl.create(:host, :location => taxonomies(:location1))
     assert_difference('Location.count', 0) do
       delete :destroy, { :id => taxonomies(:location1).to_param }
     end

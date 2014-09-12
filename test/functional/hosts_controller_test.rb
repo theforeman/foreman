@@ -152,10 +152,10 @@ class HostsControllerTest < ActionController::TestCase
     setup_user operation, 'hosts', filter, &block
 
     as_admin do
-      @host1           = hosts(:one)
+      @host1           = FactoryGirl.create(:host)
       @host1.owner     = users(:admin)
       @host1.save!
-      @host2           = hosts(:two)
+      @host2           = FactoryGirl.create(:host)
       @host2.owner     = users(:admin)
       @host2.save!
     end
@@ -238,7 +238,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'multiple hostgroup change by host ids' do
     @request.env['HTTP_REFERER'] = hosts_path
     # check that we have hosts and their hostgroup is empty
-    hosts = [hosts(:one), hosts(:two)]
+    hosts = FactoryGirl.create_list(:host, 2)
     hosts.each { |host| assert_nil host.hostgroup }
 
     hostgroup = hostgroups(:unusual)
@@ -253,7 +253,8 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'multiple hostgroup change by host names' do
     @request.env['HTTP_REFERER'] = hosts_path
-    host_names = %w{temp.yourdomain.net my5name.mydomain.net }
+    hosts = FactoryGirl.create_list(:host, 2)
+    host_names = hosts.map(&:name)
     # check that we have hosts and their hostgroup is empty
     host_names.each do |name|
       host = Host.find_by_name name
@@ -276,8 +277,7 @@ class HostsControllerTest < ActionController::TestCase
   def setup_multiple_environments
     setup_user_and_host "edit"
     as_admin do
-      @host1 = hosts(:otherfullhost)
-      @host2 = hosts(:anotherfullhost)
+      @host1, @host2 = FactoryGirl.create_list(:host, 2, :environment => environments(:production))
     end
   end
 
@@ -398,14 +398,15 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   def test_submit_multiple_build
-    assert !hosts(:one).build
-    assert !hosts(:two).build
-    post :submit_multiple_build, {:host_ids => [hosts(:one).id, hosts(:two).id]}, set_session_user
+    host1, host2 = FactoryGirl.create_list(:host, 2, :managed)
+    assert !host1.build
+    assert !host2.build
+    post :submit_multiple_build, {:host_ids => [host1.id, host2.id]}, set_session_user
     assert_response :found
     assert_redirected_to hosts_path
     assert flash[:notice] == "The selected hosts will execute a build operation on next reboot"
-    assert Host.find(hosts(:one)).build
-    assert Host.find(hosts(:two)).build
+    assert Host.find(host1).build
+    assert Host.find(host2).build
   end
 
   def test_set_manage
@@ -636,10 +637,14 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
-    assert_difference "location.taxable_taxonomies.count", 8 do
+    domain = FactoryGirl.create(:domain, :locations => [taxonomies(:location2)])
+    hosts = FactoryGirl.create_list(:host, 2, :domain => domain,
+                                    :environment => environments(:production),
+                                    :location => taxonomies(:location2))
+    assert_difference "location.taxable_taxonomies.count", 1 do
       post :update_multiple_location, {
         :location => {:id => location.id, :optimistic_import => "yes"},
-        :host_ids => Host.all.map(&:id)
+        :host_ids => hosts.map(&:id)
       }, set_session_user
     end
   end
@@ -701,10 +706,14 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
-    assert_difference "organization.taxable_taxonomies.count", 10 do
+    domain = FactoryGirl.create(:domain, :organizations => [taxonomies(:organization2)])
+    hosts = FactoryGirl.create_list(:host, 2, :domain => domain,
+                                    :environment => environments(:production),
+                                    :organization => taxonomies(:organization2))
+    assert_difference "organization.taxable_taxonomies.count", 1 do
       post :update_multiple_organization, {
         :organization => { :id => organization.id, :optimistic_import => "yes"},
-        :host_ids => Host.all.map(&:id)
+        :host_ids => hosts.map(&:id)
       }, set_session_user
     end
   end

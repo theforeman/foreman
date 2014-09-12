@@ -27,7 +27,7 @@ class Api::V1::LookupKeysControllerTest < ActionController::TestCase
   end
 
   test "should update lookup_key" do
-    put :update, { :id => lookup_keys(:one).to_param, :lookup_key => { :default_value => 8080 } }
+    put :update, { :id => lookup_keys(:one).to_param, :lookup_key => { :default_value => 8080, :lookup_values => [] } }
     assert_response :success
   end
 

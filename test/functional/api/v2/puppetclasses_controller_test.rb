@@ -42,25 +42,19 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should get puppetclasses for given host only" do
-    get :index, {:host_id => hosts(:one).to_param }
+    host1 = FactoryGirl.create(:host, :with_puppetclass)
+    host2 = FactoryGirl.create(:host, :with_puppetclass)
+    get :index, {:host_id => host1.to_param }
     assert_response :success
-    fact_values = ActiveSupport::JSON.decode(@response.body)
-    assert !fact_values.empty?
+    puppetclasses = ActiveSupport::JSON.decode(@response.body)
+    assert_equal host1.puppetclasses.map(&:name).sort, puppetclasses['results'].keys.sort
   end
 
   test "should not get puppetclasses for nonexistent host" do
     get :index, {"search" => "host = imaginaryhost.nodomain.what" }
     assert_response :success
-    fact_values = ActiveSupport::JSON.decode(@response.body)
-    assert fact_values['results'].empty?
-  end
-
-  test "should get puppetclasses for host" do
-    get :index, {:host_id => hosts(:one).to_param }
-    assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses['results'].empty?
-    assert_equal 5, puppetclasses['results'].length
+    assert puppetclasses['results'].empty?
   end
 
   test "should get puppetclasses for hostgroup" do
@@ -87,7 +81,8 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should show puppetclass for host" do
-    get :show, { :host_id => hosts(:one).to_param, :id => puppetclasses(:one).id }
+    host = FactoryGirl.create(:host, :with_puppetclass)
+    get :show, { :host_id => host.to_param, :id => host.puppetclasses.first.id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     refute_empty show_response

@@ -50,6 +50,21 @@ class LocationTest < ActiveSupport::TestCase
 
   test 'it should return array of used ids by hosts' do
     location = taxonomies(:location1)
+    FactoryGirl.create(:host,
+                       :compute_resource => compute_resources(:one),
+                       :domain           => domains(:mydomain),
+                       :environment      => environments(:production),
+                       :location         => location,
+                       :medium           => media(:one),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :owner            => users(:restricted),
+                       :puppet_proxy     => smart_proxies(:puppetmaster),
+                       :realm            => realms(:myrealm),
+                       :subnet           => subnets(:one))
+    FactoryGirl.create(:os_default_template,
+                       :config_template  => config_templates(:mystring2),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :template_kind    => TemplateKind.find_by_name('provision'))
     # run used_ids method
     used_ids = location.used_ids
     # get results from Host object
@@ -78,7 +93,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal used_ids[:environment_ids].sort, [environments(:production).id]
     assert_equal used_ids[:hostgroup_ids], []
     assert_equal used_ids[:subnet_ids], [subnets(:one).id]
-    assert_equal used_ids[:domain_ids].sort, [domains(:yourdomain).id, domains(:mydomain).id].sort
+    assert_equal used_ids[:domain_ids], [domains(:mydomain).id]
     assert_equal used_ids[:medium_ids], [media(:one).id]
     assert_equal used_ids[:compute_resource_ids], [compute_resources(:one).id]
     assert_equal used_ids[:user_ids], [users(:restricted).id]
@@ -195,6 +210,25 @@ class LocationTest < ActiveSupport::TestCase
   test "used_and_selected_or_inherited_ids for inherited location" do
     parent = taxonomies(:location1)
     location = Location.create :name => "rack1", :parent_id => parent.id
+    FactoryGirl.create(:host,
+                       :compute_resource => compute_resources(:one),
+                       :domain           => domains(:mydomain),
+                       :environment      => environments(:production),
+                       :location         => parent,
+                       :organization     => taxonomies(:organization1),
+                       :medium           => media(:one),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :owner            => users(:restricted),
+                       :puppet_proxy     => smart_proxies(:puppetmaster),
+                       :realm            => realms(:myrealm),
+                       :subnet           => subnets(:one))
+    FactoryGirl.create(:host,
+                       :location         => parent,
+                       :domain           => domains(:yourdomain))
+    FactoryGirl.create(:os_default_template,
+                       :config_template  => config_templates(:mystring2),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :template_kind    => TemplateKind.find_by_name('provision'))
     # check that inherited_ids of location matches selected_ids of parent
 
     location.selected_or_inherited_ids.each do |k,v|

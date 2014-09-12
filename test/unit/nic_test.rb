@@ -13,70 +13,70 @@ class NicTest < ActiveSupport::TestCase
 
   test "should create simple interface" do
     i = ''
-    i = Nic::Base.create! :mac => "cabbccddeeff", :host => hosts(:one)
+    i = Nic::Base.create! :mac => "cabbccddeeff", :host => FactoryGirl.create(:host)
     assert_equal "Nic::Base", i.class.to_s
   end
 
   test "type casting should return the correct class" do
     i = ''
-    i = Nic::Base.create! :ip => "127.2.3.8", :mac => "babbccddeeff", :host => hosts(:one), :name => hosts(:one).name, :type => "Nic::Interface"
+    i = Nic::Base.create! :ip => "127.2.3.8", :mac => "babbccddeeff", :host => FactoryGirl.create(:host), :name => FactoryGirl.create(:host).name, :type => "Nic::Interface"
     assert_equal "Nic::Interface", i.type
   end
 
   test "should fail on invalid mac" do
-    i = Nic::Base.new :mac => "abccddeeff", :host => hosts(:one)
+    i = Nic::Base.new :mac => "abccddeeff", :host => FactoryGirl.create(:host)
     assert !i.valid?
     assert i.errors.keys.include?(:mac)
   end
 
   test "should be valid with 64-bit mac address" do
-    i = Nic::Base.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => hosts(:one)
+    i = Nic::Base.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => FactoryGirl.create(:host)
     assert i.valid?
     assert !i.errors.keys.include?(:mac)
   end
 
   test "should fail on invalid dns name" do
-    i = Nic::Managed.new :mac => "dabbccddeeff", :host => hosts(:one), :name => "invalid_dns_name"
+    i = Nic::Managed.new :mac => "dabbccddeeff", :host => FactoryGirl.create(:host), :name => "invalid_dns_name"
     assert !i.valid?
     assert i.errors.keys.include?(:name)
   end
 
   test "should fix mac address" do
-    interface = Nic::Base.create! :mac => "cabbccddeeff", :host => hosts(:one)
+    interface = Nic::Base.create! :mac => "cabbccddeeff", :host => FactoryGirl.create(:host)
     assert_equal "ca:bb:cc:dd:ee:ff", interface.mac
   end
 
   test "should fix 64-bit mac address" do
-    interface = Nic::Base.create! :mac => "babbccddeeff00112233445566778899aabbccdd", :host => hosts(:one)
+    interface = Nic::Base.create! :mac => "babbccddeeff00112233445566778899aabbccdd", :host => FactoryGirl.create(:host)
     assert_equal "ba:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd", interface.mac
   end
 
   test "should fix ip address if a leading zero is used" do
-    interface = Nic::Interface.create! :ip => "123.01.02.03", :mac => "dabbccddeeff", :host => hosts(:one), :name => hosts(:one).name
+    interface = Nic::Interface.create! :ip => "123.01.02.03", :mac => "dabbccddeeff", :host => FactoryGirl.create(:host), :name => FactoryGirl.create(:host).fqdn
     assert_equal "123.1.2.3", interface.ip
   end
 
   test "should delegate subnet attributes" do
     subnet = subnets(:one)
     domain = (subnet.domains.any? ? subnet.domains : subnet.domains << Domain.first).first
-    interface = Nic::Managed.create! :ip => "2.3.4.127", :mac => "cabbccddeeff", :host => hosts(:one), :subnet => subnet, :name => "a" + hosts(:one).name, :domain => domain
+    interface = Nic::Managed.create! :ip => "2.3.4.127", :mac => "cabbccddeeff", :host => FactoryGirl.create(:host), :subnet => subnet, :name => "a" + FactoryGirl.create(:host).name, :domain => domain
     assert_equal subnet.network, interface.network
     assert_equal subnet.vlanid, interface.vlanid
   end
 
   test "Nic::Managed#hostname should return blank for blank hostnames" do
-    i = Nic::Managed.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => hosts(:one), :subnet => subnets(:one), :domain => subnets(:one).domains.first, :name => ""
+    i = Nic::Managed.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => FactoryGirl.create(:host), :subnet => subnets(:one), :domain => subnets(:one).domains.first, :name => ""
     assert_blank i.name
     assert_present i.domain
     assert_blank i.hostname
   end
 
   test "Mac address uniqueness validation is skipped for virtual NICs" do
-    physical = Nic::Base.create! :mac => "cabbccddeeff", :host => hosts(:one)
-    virtual = Nic::Base.new :mac => "cabbccddeeff", :host => hosts(:one), :virtual => true
+    physical = Nic::Base.create! :mac => "cabbccddeeff", :host => FactoryGirl.create(:host)
+    virtual = Nic::Base.new :mac => "cabbccddeeff", :host => FactoryGirl.create(:host), :virtual => true
     assert virtual.valid?
     assert virtual.save
-    another_physical = Nic::Base.new :mac => "cabbccddeeff", :host => hosts(:one)
+    another_physical = Nic::Base.new :mac => "cabbccddeeff", :host => FactoryGirl.create(:host)
     refute another_physical.save
   end
 

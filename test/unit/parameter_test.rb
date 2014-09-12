@@ -5,7 +5,8 @@ class ParameterTest < ActiveSupport::TestCase
     User.current = users :admin
   end
   test  "names may me reused in different parameter groups" do
-    p1 = HostParameter.new   :name => "param", :value => "value1", :reference_id => Host.first.id
+    host = FactoryGirl.create(:host)
+    p1 = HostParameter.new   :name => "param", :value => "value1", :reference_id => host.id
     assert p1.save
     p2 = DomainParameter.new :name => "param", :value => "value2", :reference_id => Domain.first.id
     assert p2.save

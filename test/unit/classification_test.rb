@@ -4,7 +4,12 @@ class ClassificationTest < ActiveSupport::TestCase
 
   #TODO: add more tests here
   def setup
-    @classification = Classification::ClassParam.new(:host => hosts(:one))
+    host = FactoryGirl.create(:host,
+                              :location => taxonomies(:location1),
+                              :organization => taxonomies(:organization1),
+                              :puppetclasses => [puppetclasses(:one)],
+                              :environment => environments(:production))
+    @classification = Classification::ClassParam.new(:host => host)
   end
 
   test 'it should return puppetclasses' do
@@ -23,7 +28,7 @@ class ClassificationTest < ActiveSupport::TestCase
   test 'enc_should_return_updated_cluster_param' do
     key   = lookup_keys(:complex)
     assert_equal 'organization,location', key.path
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :location => taxonomies(:location1), :organization => taxonomies(:organization1))
     assert_equal taxonomies(:location1), host.location
     assert_equal taxonomies(:organization1), host.organization
 

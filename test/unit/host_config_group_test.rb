@@ -3,15 +3,24 @@ require 'test_helper'
 class HostConfigGroupTest < ActiveSupport::TestCase
 
   test 'relationship host.group_puppetclasses' do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :config_groups => [
+      FactoryGirl.create(:config_group, :puppetclasses => [
+        puppetclasses(:five),
+        puppetclasses(:six),
+        puppetclasses(:seven),
+        puppetclasses(:eight),
+      ])
+    ])
     assert_equal 4, host.group_puppetclasses.count
     assert_equal ['auth', 'chkmk', "nagios", 'pam'].sort, host.group_puppetclasses.pluck(:name).sort
   end
 
   test 'relationship host.config_groups ' do
-    host = hosts(:one)
+    c1 = FactoryGirl.create(:config_group)
+    c2 = FactoryGirl.create(:config_group)
+    host = FactoryGirl.create(:host, :config_groups => [c1,c2])
     assert_equal 2, host.config_groups.count
-    assert_equal ['Monitoring', 'Security'].sort, host.config_groups.pluck(:name).sort
+    assert_equal [c1.name, c2.name].sort, host.config_groups.pluck(:name).sort
   end
 
   test 'relationship hostgroup.group_puppetclasses' do

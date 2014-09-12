@@ -8,7 +8,8 @@ FactoryGirl.define do
 
   trait :old_report do
     after_build do |report|
-      report.created_at = 2.weeks.ago
+      report.created_at  = 2.weeks.ago
+      report.reported_at = 2.weeks.ago
     end
   end
 

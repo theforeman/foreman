@@ -3,7 +3,7 @@ require 'test_helper'
 class HostObserverTest < ActiveSupport::TestCase
   test "tokens should be removed based on build state" do
     disable_orchestration
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     as_admin do
       Setting[:token_duration] = 60
       assert_difference('Token.count') do

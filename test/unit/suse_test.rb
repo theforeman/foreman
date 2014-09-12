@@ -11,23 +11,29 @@ class SuseTest < ActiveSupport::TestCase
   end
 
   test "kernel location for 64bit arch suse" do
-    host = hosts(:suse)
+    host = FactoryGirl.create(:host, :operatingsystem => operatingsystems(:suse),
+                              :architecture => architectures(:x86_64))
     assert_equal "boot/OpenSuse-11.4-x86_64-linux", host.os.kernel(host.arch)
   end
 
   test "initrd location for 64bit arch suse" do
-    host = hosts(:suse)
+    host = FactoryGirl.create(:host, :operatingsystem => operatingsystems(:suse),
+                              :architecture => architectures(:x86_64))
     assert_equal "boot/OpenSuse-11.4-x86_64-initrd", host.os.initrd(host.arch)
   end
 
   test "pxe prefix for suse" do
-    host = hosts(:suse)
+    host = FactoryGirl.create(:host, :operatingsystem => operatingsystems(:suse),
+                              :architecture => architectures(:x86_64))
     prefix = host.os.pxe_prefix(host.arch)
     assert_equal "boot/OpenSuse-11.4-x86_64", prefix
   end
 
   test "pxe files for suse" do
-    host = hosts(:suse)
+    host = FactoryGirl.create(:host, :with_medium,
+                              :operatingsystem => operatingsystems(:suse),
+                              :architecture => architectures(:x86_64),
+                              :medium => media(:suse) )
     host.medium.operatingsystems << host.os
     host.arch.operatingsystems << host.os
 

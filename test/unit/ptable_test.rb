@@ -74,7 +74,7 @@ class PtableTest < ActiveSupport::TestCase
     partition_table = Ptable.new :name => "Ubuntu default", :layout => "some layout"
     assert partition_table.save
 
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.ptable = partition_table
     host.save(:validate => false)
 

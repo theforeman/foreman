@@ -140,7 +140,8 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
   end
 
   test "should get reports for given host only" do
-    get :index, {:host_id => hosts(:one).to_param }
+    report = FactoryGirl.create(:report)
+    get :index, {:host_id => report.host.to_param }
     assert_response :success
     assert_not_nil assigns(:reports)
     reports = ActiveSupport::JSON.decode(@response.body)
@@ -149,7 +150,8 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
   end
 
   test "should return empty result for host with no reports" do
-    get :index, {:host_id => hosts(:two).to_param }
+    host = FactoryGirl.create(:host)
+    get :index, {:host_id => host.to_param }
     assert_response :success
     assert_not_nil assigns(:reports)
     reports = ActiveSupport::JSON.decode(@response.body)
@@ -158,23 +160,29 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
   end
 
   test "should get last report" do
+    reports = FactoryGirl.create_list(:report, 5)
     get :last
     assert_response :success
     assert_not_nil assigns(:report)
     report = ActiveSupport::JSON.decode(@response.body)
     assert !report.empty?
+    assert_equal reports.last, Report.find(report['id'])
   end
 
   test "should get last report for given host only" do
-    get :last, {:host_id => hosts(:one).to_param }
+    main_report   = FactoryGirl.create(:report)
+    other_reports = FactoryGirl.create_list(:report, 5)
+    get :last, {:host_id => main_report.host.to_param }
     assert_response :success
     assert_not_nil assigns(:report)
     report = ActiveSupport::JSON.decode(@response.body)
     assert !report.empty?
+    assert_equal main_report, Report.find(report['id'])
   end
 
   test "should give error if no last report for given host" do
-    get :last, {:host_id => hosts(:two).to_param }
+    host = FactoryGirl.create(:host)
+    get :last, {:host_id => host.to_param }
     assert_response :not_found
   end
 

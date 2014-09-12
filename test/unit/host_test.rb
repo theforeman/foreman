@@ -32,10 +32,11 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should update name when domain is changed" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
+    refute_equal "#{host.shortname}.yourdomain.net", host.name
     host.domain_name = "yourdomain.net"
     host.save!
-    assert_equal "my5name.yourdomain.net", host.name
+    assert_equal "#{host.shortname}.yourdomain.net", host.name
   end
 
   test "should fix mac address hyphens" do
@@ -69,7 +70,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should be valid using 64-bit mac address" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.mac = "aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd"
     host.save!
     assert_equal true, host.valid?
@@ -121,7 +122,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "doesn't set compute attributes on update" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     Host.any_instance.expects(:set_compute_attributes).never
     host.update_attributes!(:mac => "52:54:00:dd:ee:ff")
   end
@@ -178,39 +179,41 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should be able to add new lookup value on update_attributes" do
-    host = hosts(:redhat) #temp01.yourdomain.net
+    host = FactoryGirl.create(:host)
     lookup_key = lookup_keys(:three)
     assert_difference('LookupValue.count') do
       assert host.update_attributes!(:lookup_values_attributes => {:new_123456 =>
-        {:lookup_key_id => lookup_key.id, :value => true, :match => "fqdn=temp01.yourdomain.net",
+        {:lookup_key_id => lookup_key.id, :value => true, :match => "fqdn=#{host.fqdn}",
           :_destroy => 'false'}})
     end
   end
 
   test "should be able to delete existing lookup value on update_attributes" do
-    #in fixtures lookup_keys.yml, lookup_values(:one) has hosts(:one) and lookup_keys(:one)
-    host = hosts(:one)
-    lookup_key = lookup_keys(:one)
-    lookup_value = lookup_values(:one)
+    host = FactoryGirl.create(:host)
+    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                      :match => "fqdn=#{host.fqdn}", :value => '8080')
+    host.reload
     assert_difference('LookupValue.count', -1) do
       assert host.update_attributes!(:lookup_values_attributes => {'0' =>
-        {:lookup_key_id => lookup_key.id, :value => '8080', :match => "fqdn=temp01.yourdomain.net",
-          :id => lookup_values(:one).id, :_destroy => 'true'}})
+        {:lookup_key_id => lookup_key.id, :value => '8080', :match => "fqdn=#{host.fqdn}",
+          :id => lookup_value.id, :_destroy => 'true'}})
     end
   end
 
   test "should be able to update lookup value on update_attributes" do
-    #in fixtures lookup_keys.yml, lookup_values(:one) has hosts(:one) and lookup_keys(:one)
-    host = hosts(:one)
-    lookup_key = lookup_keys(:one)
-    lookup_value = lookup_values(:one)
+    host = FactoryGirl.create(:host)
+    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                      :match => "fqdn=#{host.fqdn}", :value => '8080')
+    host.reload
     assert_difference('LookupValue.count', 0) do
       assert host.update_attributes!(:lookup_values_attributes => {'0' =>
-        {:lookup_key_id => lookup_key.id, :value => '80', :match => "fqdn=temp01.yourdomain.net",
-          :id => lookup_values(:one).id, :_destroy => 'false'}})
+        {:lookup_key_id => lookup_key.id, :value => '80', :match => "fqdn=#{host.fqdn}",
+          :id => lookup_value.id, :_destroy => 'false'}})
     end
     lookup_value.reload
-    assert_equal 80, lookup_value.value
+    assert_equal '80', lookup_value.value
   end
 
   test "should import facts from json stream" do
@@ -556,7 +559,7 @@ context "location or organizations are not enabled" do
   end
 
   test "handle_ca must not perform actions when the manage_puppetca setting is false" do
-    h = hosts(:one)
+    h = FactoryGirl.create(:host)
     Setting[:manage_puppetca] = false
     h.expects(:initialize_puppetca).never()
     h.expects(:setAutosign).never()
@@ -564,7 +567,7 @@ context "location or organizations are not enabled" do
   end
 
   test "handle_ca must not perform actions when no Puppet CA proxy is associated" do
-    h = hosts(:one)
+    h = FactoryGirl.create(:host)
     Setting[:manage_puppetca] = true
     refute h.puppetca?
     h.expects(:initialize_puppetca).never()
@@ -572,7 +575,7 @@ context "location or organizations are not enabled" do
   end
 
   test "handle_ca must call initialize, delete cert and add autosign methods" do
-    h = hosts(:dhcp)
+    h = FactoryGirl.create(:host, :with_puppet_orchestration)
     Setting[:manage_puppetca] = true
     assert h.puppetca?
     h.expects(:initialize_puppetca).returns(true)
@@ -582,7 +585,7 @@ context "location or organizations are not enabled" do
   end
 
   test "if the user toggles off the use_uuid_for_certificates option, revoke the UUID and autosign the hostname" do
-    h = hosts(:dhcp)
+    h = FactoryGirl.create(:host, :with_puppet_orchestration)
     Setting[:manage_puppetca] = true
     assert h.puppetca?
 
@@ -604,7 +607,7 @@ context "location or organizations are not enabled" do
     Setting[:use_uuid_for_certificates] = false
     Setting[:manage_puppetca] = true
 
-    h = hosts(:dhcp)
+    h = FactoryGirl.create(:host, :with_puppet_orchestration)
     assert h.puppetca?
 
     old_name = 'oldhostname'
@@ -621,7 +624,7 @@ context "location or organizations are not enabled" do
   end
 
   test "custom_disk_partition_with_erb" do
-    h = hosts(:one)
+    h = FactoryGirl.create(:host)
     h.disk = "<%= 1 + 1 %>"
     assert h.save
     assert h.disk.present?
@@ -629,12 +632,9 @@ context "location or organizations are not enabled" do
   end
 
   test "models are updated when host.model has no value" do
-    h = hosts(:one)
-    f = fact_names(:kernelversion)
-    as_admin do
-      fact_value = FactValue.where(:fact_name_id => f.id).first
-      fact_value.update_attributes!(:value => "superbox")
-    end
+    h = FactoryGirl.create(:host)
+    f = FactoryGirl.create(:fact_value, :value => 'superbox',:host => h,
+                           :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
     assert_difference('Model.count') do
       facts = JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))
       h.populate_fields_from_facts facts['facts']
@@ -654,8 +654,7 @@ context "location or organizations are not enabled" do
   end
 
   test "host os attributes must be associated with the host os" do
-    h = hosts(:one)
-    h.managed = true
+    h = FactoryGirl.create(:host, :managed)
     h.architecture = architectures(:sparc)
     assert !h.os.architectures.include?(h.arch)
     assert !h.valid?
@@ -663,7 +662,7 @@ context "location or organizations are not enabled" do
   end
 
   test "host puppet classes must belong to the host environment" do
-    h = hosts(:one)
+    h = FactoryGirl.create(:host)
 
     pc = puppetclasses(:three)
     h.puppetclasses << pc
@@ -673,7 +672,7 @@ context "location or organizations are not enabled" do
   end
 
   test "when changing host environment, its puppet classes should be verified" do
-    h = hosts(:two)
+    h = FactoryGirl.create(:host, :environment => environments(:production))
     pc = puppetclasses(:one)
     h.puppetclasses << pc
     assert h.save
@@ -683,14 +682,14 @@ context "location or organizations are not enabled" do
   end
 
   test "should not allow short root passwords for managed host" do
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     h.root_pass = "2short"
     h.valid?
     assert h.errors[:root_pass].include?("should be 8 characters or more")
   end
 
   test "should allow to save root pw" do
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     pw = h.root_pass
     h.root_pass = "12345678"
     h.hostgroup = nil
@@ -700,7 +699,7 @@ context "location or organizations are not enabled" do
 
   test "should allow to revert to default root pw" do
     Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     h.root_pass = "xybxa6JUkz63w"
     assert h.save
     h.root_pass = nil
@@ -709,7 +708,7 @@ context "location or organizations are not enabled" do
   end
 
   test "should generate a random salt when saving root pw" do
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     pw = h.root_pass
     h.hostgroup = nil
     h.root_pass = "xybxa6JUkz63w"
@@ -727,7 +726,7 @@ context "location or organizations are not enabled" do
   end
 
   test "should pass through existing salt when saving root pw" do
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     pass = "$1$jmUiJ3NW$bT6CdeWZ3a6gIOio5qW0f1"
     h.root_pass = pass
     h.hostgroup = nil
@@ -736,31 +735,34 @@ context "location or organizations are not enabled" do
   end
 
   test "should use hostgroup root password" do
-    h = hosts(:one)
-    h.root_pass = nil
-    h.hostgroup = hostgroups(:common)
-    assert h.save
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    h = FactoryGirl.create(:host, :managed, :with_hostgroup)
     h.hostgroup.update_attribute(:root_pass, "abc")
-    assert h.root_pass.present? && h.root_pass != Setting[:root_pass]
+    h.root_pass = nil
+    assert h.save
+    assert h.root_pass.present?
+    assert_equal h.root_pass, h.hostgroup.root_pass
   end
 
   test "should use a nested hostgroup parent root password" do
-    h = hosts(:one)
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    h = FactoryGirl.create(:host, :managed, :with_hostgroup)
+    g = h.hostgroup
+    p = FactoryGirl.create(:hostgroup, :environment => h.environment)
+    p.update_attribute(:root_pass, "abc")
     h.root_pass = nil
-    h.hostgroup = hg = hostgroups(:common)
+    g.root_pass = nil
+    g.parent = p
+    g.save
     assert h.save
-    hg.parent = hostgroups(:unusual)
-    hg.root_pass = nil
-    hg.parent.update_attribute(:root_pass, "abc")
-    hg.save
-    assert h.root_pass.present? && h.root_pass != Setting[:root_pass]
+    assert h.root_pass.present?
+    assert_equal h.root_pass, p.root_pass
   end
 
   test "should use settings root password" do
     Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     h.root_pass = nil
-    h.hostgroup = nil
     assert h.save
     assert h.root_pass.present? && h.root_pass == Setting[:root_pass]
   end
@@ -798,7 +800,7 @@ context "location or organizations are not enabled" do
   end
 
   test "should have only one bootable interface" do
-    h = hosts(:redhat)
+    h = FactoryGirl.create(:host, :managed)
     assert_equal 0, h.interfaces.count
     bootable = Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
                                      :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain, :managed => false
@@ -992,7 +994,7 @@ context "location or organizations are not enabled" do
 
   test "built should clean tokens" do
     Setting[:token_duration] = 30
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     h.create_token(:value => "aaaaaa", :expires => Time.now)
     assert_equal Token.all.size, 1
     h.expire_token
@@ -1001,7 +1003,7 @@ context "location or organizations are not enabled" do
 
   test "built should clean tokens even when tokens are disabled" do
     Setting[:token_duration] = 0
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     h.create_token(:value => "aaaaaa", :expires => Time.now)
     assert_equal Token.all.size, 1
     h.expire_token
@@ -1010,33 +1012,33 @@ context "location or organizations are not enabled" do
 
   test "hosts should be able to retrieve their token if one exists" do
     Setting[:token_duration] = 30
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     assert_equal Token.first, h.token
   end
 
   test "token should return false when tokens are disabled or invalid" do
     Setting[:token_duration] = 0
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     assert_equal h.token, nil
     Setting[:token_duration] = 30
-    h = hosts(:one)
+    h.reload
     assert_equal h.token, nil
   end
 
   test "a token can be matched to a host" do
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     h.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
     assert_equal h, Host.for_token("aaaaaa").first
   end
 
   test "a token cannot be matched to a host when expired" do
-    h = hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     h.create_token(:value => "aaaaaa", :expires => 1.minutes.ago)
     refute Host.for_token("aaaaaa").first
   end
 
   test "deleting an host with an expired token does not cause a Foreign Key error" do
-    h=hosts(:one)
+    h = FactoryGirl.create(:host, :managed)
     h.create_token(:value => "aaaaaa", :expires => 5.minutes.ago)
     assert_nothing_raised(ActiveRecord::InvalidForeignKey) {h.reload.destroy}
   end
@@ -1048,9 +1050,10 @@ context "location or organizations are not enabled" do
     hostgroup.parent_id = parent_hostgroup.id
     assert hostgroup.save!
 
+    FactoryGirl.create(:host, :hostgroup => hostgroup)
     # search hosts by hostgroup label
     hosts = Host.search_for("hostgroup_title = #{hostgroup.title}")
-    assert_equal 1, hosts.count  #host_db in hosts.yml
+    assert_equal 1, hosts.count
     assert_equal hosts.first.hostgroup_id, hostgroup.id
   end
 
@@ -1061,6 +1064,8 @@ context "location or organizations are not enabled" do
     hostgroup.parent_id = parent_hostgroup.id
     assert hostgroup.save!
 
+    FactoryGirl.create(:host, :hostgroup => hostgroup)
+    FactoryGirl.create(:host, :hostgroup => parent_hostgroup)
     # search hosts by parent hostgroup label
     hosts = Host::Managed.search_for("parent_hostgroup = Common")
     assert_equal hosts.count, 2
@@ -1080,8 +1085,8 @@ context "location or organizations are not enabled" do
       @one.roles = [ role ]
       @one.save!
     end
-    h = hosts(:one)
-    assert h.interfaces.create :mac => "cabbccddeeff", :host => hosts(:one), :type => 'Nic::BMC',
+    h = FactoryGirl.create(:host, :managed)
+    assert h.interfaces.create :mac => "cabbccddeeff", :host => h, :type => 'Nic::BMC',
                                :provider => "IPMI", :username => "root", :password => "secret", :ip => "10.35.19.35"
     as_user :one do
       assert h.update_attributes!("interfaces_attributes" => {"0" => {"mac"=>"59:52:10:1e:45:16"}})
@@ -1121,7 +1126,7 @@ context "location or organizations are not enabled" do
   end
 
   test "should accept lookup_values_attributes" do
-    h = hosts(:redhat)
+    h = FactoryGirl.create(:host)
     as_admin do
       assert_difference "LookupValue.count" do
         assert h.update_attributes(:lookup_values_attributes => {"0" => {:lookup_key_id => lookup_keys(:one).id, :value => "8080" }})
@@ -1315,15 +1320,14 @@ context "location or organizations are not enabled" do
 
   test "compute attributes are populated by hardware profile from hostgroup" do
     # hostgroups(:common) fixture has compute_profiles(:one)
-    host = Host.new :name => "myhost", :hostgroup_id => hostgroups(:common).id, :compute_resource_id => compute_resources(:ec2).id, :managed => true
+    host = FactoryGirl.build(:host, :managed, :hostgroup => hostgroups(:common), :compute_resource => compute_resources(:ec2) )
     host.expects(:queue_compute_create)
     assert host.valid?, host.errors.full_messages.to_sentence
     assert_equal compute_attributes(:one).vm_attrs, host.compute_attributes
   end
 
   test "compute attributes are populated by hardware profile passed to host" do
-    # hostgroups(:one) fixture has compute_profiles(:common)
-    host = Host.new :name => "myhost", :compute_resource_id => compute_resources(:ec2).id, :compute_profile_id => compute_profiles(:two).id, :managed => true, :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :architecture => architectures(:x86_64), :environment => environments(:production)
+    host = FactoryGirl.build(:host, :managed,  :compute_resource => compute_resources(:ec2), :compute_profile => compute_profiles(:two) )
     host.expects(:queue_compute_create)
     assert host.valid?, host.errors.full_messages.to_sentence
     assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
@@ -1332,19 +1336,19 @@ context "location or organizations are not enabled" do
 end # end of context "location or organizations are not enabled"
 
   test "#capabilities returns capabilities from compute resource" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :compute_resource => compute_resources(:one))
     host.compute_resource.expects(:capabilities).returns([:build, :image])
     assert_equal [:build, :image], host.capabilities
   end
 
   test "#capabilities on bare metal returns build" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.compute_resource = nil
     assert_equal [:build], host.capabilities
   end
 
   test "#provision_method cannot be set to invalid type" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :managed)
     host.provision_method = 'foobar'
     host.stubs(:provision_method_in_capabilities).returns(true)
     host.valid?
@@ -1352,14 +1356,14 @@ end # end of context "location or organizations are not enabled"
   end
 
   test "#provision_method doesn't matter on unmanaged hosts" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.managed = false
     host.provision_method = 'foobar'
     assert host.valid?
   end
 
   test "#provision_method must be within capabilities" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :managed)
     host.provision_method = 'image'
     host.expects(:capabilities).returns([:build])
     host.valid?
@@ -1367,38 +1371,47 @@ end # end of context "location or organizations are not enabled"
   end
 
   test "#provision_method cannot be updated for existing host" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :managed)
     host.provision_method = 'image'
     refute host.save
     assert host.errors[:provision_method].include?("can't be updated after host is provisioned")
   end
 
   test "#image_build? must be true when provision_method is image" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :managed)
     host.provision_method = 'image'
     assert host.image_build?
     refute host.pxe_build?
   end
 
   test "#pxe_build? must be true when provision_method is build" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :managed)
     host.provision_method = 'build'
     assert host.pxe_build?
     refute host.image_build?
   end
 
   test "classes_in_groups should return the puppetclasses of a config group only if it is in host environment" do
-    # config_groups(:one) and (:two) belongs to hosts(:one)
-    host = hosts(:one)
+    group1 = config_groups(:one)
+    group2 = config_groups(:two)
+    host = FactoryGirl.create(:host,
+                              :location => taxonomies(:location1),
+                              :organization => taxonomies(:organization1),
+                              :environment => environments(:production),
+                              :config_groups => [group1, group2])
     group_classes = host.classes_in_groups
     # four classes in config groups, all are in same environment
-    assert_equal 4, (config_groups(:one).puppetclasses + config_groups(:two).puppetclasses).uniq.count
+    assert_equal 4, (group1.puppetclasses + group2.puppetclasses).uniq.count
     assert_equal ['chkmk', 'nagios', 'pam', 'auth'].sort, group_classes.map(&:name).sort
   end
 
   test "should return all classes for environment only" do
-    # config_groups(:one) and (:two) belongs to hosts(:one)
-    host = hosts(:one)
+    host = FactoryGirl.create(:host,
+                              :location => taxonomies(:location1),
+                              :organization => taxonomies(:organization1),
+                              :environment => environments(:production),
+                              :config_groups => [config_groups(:one), config_groups(:two)],
+                              :puppetclasses => [puppetclasses(:one)])
     all_classes = host.classes
     # four classes in config groups plus one manually added
     assert_equal 5, all_classes.count
@@ -1408,67 +1421,78 @@ end # end of context "location or organizations are not enabled"
 
   test "search hostgroups by config group" do
     config_group = config_groups(:one)
+    host = FactoryGirl.create(:host,
+                              :location => taxonomies(:location1),
+                              :organization => taxonomies(:organization1),
+                              :environment => environments(:production),
+                              :config_groups => [config_groups(:one)])
     hosts = Host::Managed.search_for("config_group = #{config_group.name}")
-  #  assert_equal 1, hosts.count
-    assert_equal ["my5name.mydomain.net", "sdhcp.mydomain.net"].sort, hosts.map(&:name).sort
+    assert_equal [host.name], hosts.map(&:name)
   end
 
   test "parent_classes should return parent_classes if host has hostgroup and environment are the same" do
-    host = hosts(:sp_dhcp)
+    hostgroup        = FactoryGirl.create(:hostgroup, :with_puppetclass)
+    host             = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
     assert host.hostgroup
     refute_empty host.parent_classes
     assert_equal host.parent_classes, host.hostgroup.classes
   end
 
   test "parent_classes should not return parent classes that do not match environment" do
-    host = hosts(:sp_dhcp)
+    # one class in the right env, one in a different env
+    pclass1 = FactoryGirl.create(:puppetclass, :environments => [environments(:testing), environments(:production)])
+    pclass2 = FactoryGirl.create(:puppetclass, :environments => [environments(:production)])
+    hostgroup        = FactoryGirl.create(:hostgroup, :puppetclasses => [pclass1, pclass2], :environment => environments(:testing))
+    host             = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => environments(:production))
     assert host.hostgroup
-    # update environment of host to be different
-    host.hostgroup.update_attribute(:environment_id, environments(:testing).id)
     refute_empty host.parent_classes
     refute_equal host.environment, host.hostgroup.environment
     refute_equal host.parent_classes, host.hostgroup.classes
   end
 
   test "parent_classes should return empty array if host does not have hostgroup" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     assert_nil host.hostgroup
     assert_empty host.parent_classes
   end
 
   test "parent_config_groups should return parent config_groups if host has hostgroup" do
-    host = hosts(:sp_dhcp)
+    hostgroup        = FactoryGirl.create(:hostgroup, :with_config_group)
+    host             = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
     assert host.hostgroup
     assert_equal host.parent_config_groups, host.hostgroup.config_groups
   end
 
   test "parent_config_groups should return empty array if host has no hostgroup" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     refute host.hostgroup
     assert_empty host.parent_config_groups
   end
 
   test "individual puppetclasses added to host (that can be removed) does not include classes that are included by config group" do
-    host = hosts(:one)
-    host.puppetclasses << puppetclasses(:five)
-    assert_equal ['base', 'nagios'].sort, host.puppetclasses.map(&:name).sort
-    assert_equal ['base'], host.individual_puppetclasses.map(&:name)
+    host   = FactoryGirl.create(:host, :with_config_group)
+    pclass = FactoryGirl.create(:puppetclass, :environments => [host.environment])
+    host.puppetclasses << pclass
+    # not sure why, but .classes and .puppetclasses don't return the same thing here...
+    assert_equal (host.config_groups.first.classes + [pclass]).map(&:name).sort, host.classes.map(&:name).sort
+    assert_equal [pclass.name], host.individual_puppetclasses.map(&:name)
   end
 
   test "available_puppetclasses should return all if no environment" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.update_attribute(:environment_id, nil)
     assert_equal Puppetclass.scoped, host.available_puppetclasses
   end
 
   test "available_puppetclasses should return environment-specific classes" do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     refute_equal Puppetclass.scoped, host.available_puppetclasses
     assert_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
   end
 
   test "available_puppetclasses should return environment-specific classes (and that are NOT already inherited by parent)" do
-    host = hosts(:sp_dhcp)
+    hostgroup        = FactoryGirl.create(:hostgroup, :with_puppetclass)
+    host             = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
     refute_equal Puppetclass.scoped, host.available_puppetclasses
     refute_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
     assert_equal (host.environment.puppetclasses - host.parent_classes).sort, host.available_puppetclasses.sort
@@ -1499,7 +1523,7 @@ end # end of context "location or organizations are not enabled"
   end
 
   test 'clone host including its relationships' do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
     copy = host.clone
     assert_equal host.host_classes.map(&:puppetclass_id), copy.host_classes.map(&:puppetclass_id)
     assert_equal host.host_parameters.map(&:name), copy.host_parameters.map(&:name)
@@ -1508,7 +1532,7 @@ end # end of context "location or organizations are not enabled"
   end
 
   test 'clone host should not copy name, system fields (mac, ip, etc) or interfaces' do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
     copy = host.clone
     assert copy.name.blank?
     assert copy.mac.blank?
@@ -1520,15 +1544,15 @@ end # end of context "location or organizations are not enabled"
   end
 
   test 'fqdn of host with period in name returns just name with no concatenation of domain' do
-    host = hosts(:one)
-    assert_equal "my5name.mydomain.net", host.name
+    host = FactoryGirl.create(:host, :hostname => 'my5name.mydomain.net')
+    assert_equal 'my5name.mydomain.net', host.name
     assert_equal host.name, host.fqdn
   end
 
   test 'fqdn of host without period in name returns name concatenated with domain' do
-    host = hosts(:otherfullhost)
-    assert_equal "otherfullhost", host.name
-    assert_equal "mydomain.net", host.domain.name
+    host = Host::Managed.new(:name => 'otherfullhost', :domain => domains(:mydomain) )
+    assert_equal 'otherfullhost', host.name
+    assert_equal 'mydomain.net', host.domain.name
     assert_equal 'otherfullhost.mydomain.net', host.fqdn
   end
 
@@ -1538,33 +1562,37 @@ end # end of context "location or organizations are not enabled"
   end
 
   test 'fqdn_changed? should be true if name changes' do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.stubs(:name_changed?).returns(true)
     host.stubs(:domain_id_changed?).returns(false)
     assert host.fqdn_changed?
   end
 
   test 'fqdn_changed? should be true if domain changes' do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.stubs(:name_changed?).returns(false)
     host.stubs(:domain_id_changed?).returns(true)
     assert host.fqdn_changed?
   end
 
   test 'fqdn_changed? should be true if name and domain change' do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.stubs(:name_changed?).returns(true)
     host.stubs(:domain_id_changed?).returns(true)
     assert host.fqdn_changed?
   end
 
   test 'clone should create compute_attributes for VM-based hosts' do
-    copy = hosts(:one).clone
+    host = FactoryGirl.create(:host, :compute_resource => compute_resources(:ec2))
+    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({:foo => 'bar'})
+    copy = host.clone
     assert !copy.compute_attributes.nil?
   end
 
   test 'clone should NOT create compute_attributes for bare-metal host' do
-    copy = hosts(:bare_metal).clone
+    host = FactoryGirl.create(:host)
+    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({:foo => 'bar'})
+    copy = host.clone
     assert copy.compute_attributes.nil?
   end
 
@@ -1585,33 +1613,42 @@ end # end of context "location or organizations are not enabled"
   end
 
   test 'changing name with a fqdn should rename lookup_value matcher' do
-    host = hosts(:one)
-    lookup_value_id = lookup_values(:one).id
-    assert_equal "fqdn=#{host.fqdn}", LookupValue.find(lookup_value_id).match
+    host = FactoryGirl.create(:host)
+    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                      :match => "fqdn=#{host.fqdn}", :value => '8080')
+    host.reload
+    assert_equal "fqdn=#{host.fqdn}", LookupValue.find(lookup_value.id).match
 
     host.name = "my5name-new.mydomain.net"
     host.save!
-    assert_equal "fqdn=my5name-new.mydomain.net", LookupValue.find(lookup_value_id).match
+    assert_equal "fqdn=my5name-new.mydomain.net", LookupValue.find(lookup_value.id).match
   end
 
   test 'changing only name should rename lookup_value matcher' do
-    host = hosts(:one)
-    lookup_value_id = lookup_values(:one).id
-    assert_equal LookupValue.find(lookup_value_id).match, "fqdn=#{host.fqdn}"
+    host = FactoryGirl.create(:host)
+    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                      :match => "fqdn=#{host.fqdn}", :value => '8080')
+    host.reload
+    assert_equal LookupValue.find(lookup_value.id).match, "fqdn=#{host.fqdn}"
 
     host.name = "my5name-new"
     host.save!
-    assert_equal "fqdn=my5name-new.mydomain.net", LookupValue.find(lookup_value_id).match
+    assert_equal "fqdn=my5name-new.#{host.domain.name}", LookupValue.find(lookup_value.id).match
   end
 
   test 'changing host domain should rename lookup_value matcher' do
-    host = hosts(:one)
-    lookup_value_id = lookup_values(:one).id
-    assert_equal LookupValue.find(lookup_value_id).match, "fqdn=#{host.fqdn}"
+    host = FactoryGirl.create(:host)
+    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                      :match => "fqdn=#{host.fqdn}", :value => '8080')
+    host.reload
+    assert_equal LookupValue.find(lookup_value.id).match, "fqdn=#{host.fqdn}"
 
     host.domain = domains(:yourdomain)
     host.save!
-    assert_equal "fqdn=my5name.yourdomain.net", LookupValue.find(lookup_value_id).match
+    assert_equal "fqdn=#{host.shortname}.yourdomain.net", LookupValue.find(lookup_value.id).match
   end
 
   describe '#overwrite=' do

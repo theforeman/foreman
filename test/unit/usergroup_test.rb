@@ -88,7 +88,7 @@ class UsergroupTest < ActiveSupport::TestCase
   test "cannot be destroyed when in use by a host" do
     disable_orchestration
     @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
-    @h1  = hosts(:one)
+    @h1  = FactoryGirl.create(:host)
     @h1.update_attributes :owner => @ug1
     @ug1.destroy
     assert_equal @ug1.errors.full_messages[0], "ug1 is used by #{@h1}"
