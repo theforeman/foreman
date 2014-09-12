@@ -91,7 +91,7 @@
 
             <p><%= _("When editing a Template, you must assign a list of Operating Systems which this Template can be used with. Optionally, you can restrict a template to a list of Hostgroups and/or Environments") %></p>
 
-            <p><%= _("When a Host requests a template (e.g. during provisioning), Foreman will select the best match from the available templates of that type, in the following order:") %></p>
+            <p><%= _("When a Host requests a template (e.g. during provisioning), %s will select the best match from the available templates of that type, in the following order:") % SETTINGS[:name] %></p>
             <ul>
               <li><%= _("Host group and Environment") %></li>
               <li><%= _("Host group only") %></li>

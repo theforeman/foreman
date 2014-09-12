@@ -13,7 +13,7 @@
   <div class="form-group row">
     <ul class="nav nav-pills nav-stacked col-md-3" data-tabs="pills">
       <li class="active"><a href="#users" data-toggle="tab"><%= _("Users") %></a></li>
-      <li><a href="#smart_proxies" data-toggle="tab"><%= _("Smart Proxies") %></a></li>
+      <li><a href="#smart_proxies" data-toggle="tab"><%= SETTINGS[:smart_proxy_name].pluralize %></a></li>
       <% if SETTINGS[:unattended] %>
         <li><a href="#subnets" data-toggle="tab"><%= _("Subnets") %></a></li>
         <li><a href="#compute_resources" data-toggle="tab"><%= _("Compute Resources") %></a></li>
@@ -43,7 +43,7 @@
       </div>
 
       <div class="tab-pane" id="smart_proxies">
-        <%= checkbox_f(f, :ignore_types, {:label => _("All smart proxies"), :multiple => true, :onchange => 'ignore_checked(this)'}, "SmartProxy") %>
+        <%= checkbox_f(f, :ignore_types, {:label => _("All smart proxies"), :multiple => true, :onchange => 'ignore_checked(this)'}, SETTINGS[:smart_proxy_name]) %>
         <%= multiple_selects f, :smart_proxies, SmartProxy, taxonomy.selected_or_inherited_ids[:smart_proxy_ids],
                              {:disabled => taxonomy.used_and_selected_or_inherited_ids[:smart_proxy_ids], :label => _('Select smart proxies')},
                              {'data-mismatches' => taxonomy.need_to_be_selected_ids[:smart_proxy_ids].to_json,

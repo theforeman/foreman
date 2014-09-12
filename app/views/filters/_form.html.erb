@@ -44,7 +44,7 @@
 
       <div id="granular_form" style="<%= !f.object.granular? ? 'display:none' : '' %>">
         <%= checkbox_f f, :unlimited?,
-                       :help_inline => _("By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type") %>
+                       :help_inline => _("By unchecking this you can specify filter using %s search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type") % SETTINGS[:name] %>
 
         <%= autocomplete_f f, :search,
                            :disabled => f.object.unlimited?,

@@ -8,7 +8,7 @@
   </div>
   <p>
   <%= _('Using the organization system provides a way to group resources together for easy management.') %>
-  <%= _('Organizations are particularly useful for Foreman installations where several customers or business units are managed with a single Foreman install.') %>
+  <%= _('Organizations are particularly useful for %{name} installations where several customers or business units are managed with a single %{name} install.' % {:name => SETTINGS[:name]}) %>
   <%= _('Organizations also work nicely in tandem with') %>
   <%= link_to(_("locations"), :controller => "locations", :action => "index") %>.</p>
 </div>

@@ -40,8 +40,8 @@ EOF
 </pre>
   </ul>
   <p>
-  <%= _("The inclusion of the keyword string <b>#Dynamic</b> at the start of a line lets Foreman know that this is not an explicit disk layout and must treated as a shell script, executed prior
-  to the install process and that the explicit partition table will be found at <b>/tmp/diskpart.cfg</b> during the build process.").html_safe %>
+  <%= (_("The inclusion of the keyword string <b>#Dynamic</b> at the start of a line lets %s know that this is not an explicit disk layout and must treated as a shell script, executed prior
+  to the install process and that the explicit partition table will be found at <b>/tmp/diskpart.cfg</b> during the build process.") % SETTINGS[:name]).html_safe %>
   </p>
   <p>
   <%= _("The dynamic partitioning style is currently only available for the Red Hat family of operating systems, all others must provide an explicit list of partitions and sizes.") %>

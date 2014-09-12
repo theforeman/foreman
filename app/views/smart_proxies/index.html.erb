@@ -1,12 +1,12 @@
-<% title _("Smart Proxies") %>
+<% title SETTINGS[:smart_proxy_name].pluralize %>
 
-<% title_actions display_link_if_authorized(_("New Smart Proxy"), hash_for_new_smart_proxy_path) %>
+<% title_actions display_link_if_authorized(_("New %s") % SETTINGS[:smart_proxy_name], hash_for_new_smart_proxy_path) %>
 
 
 <table class="table table-bordered table-striped table-two-pane">
   <tr>
-    <th><%= s_("SmartProxy|Name") %></th>
-    <th><%= s_("SmartProxy|Url") %></th>
+    <th><%= s_("%s|Name") % SETTINGS[:smart_proxy_name] %></th>
+    <th><%= s_("%s|Url") % SETTINGS[:smart_proxy_name] %></th>
     <th><%= _("Features") %></th>
     <th></th>
   </tr>
