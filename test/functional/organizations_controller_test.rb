@@ -94,7 +94,11 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   test "should assign all hosts with no organization to selected organization and add taxable_taxonomies" do
     organization = taxonomies(:organization1)
-    assert_difference "organization.taxable_taxonomies.count", 10 do
+    domain = FactoryGirl.create(:domain, :organizations => [taxonomies(:organization2)])
+    hosts = FactoryGirl.create_list(:host, 2, :domain => domain,
+                                    :environment => environments(:production),
+                                    :organization => nil)
+    assert_difference "organization.taxable_taxonomies.count", 1 do
       post :assign_all_hosts, {:id => organization.id}, set_session_user
     end
   end
@@ -107,7 +111,8 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
   test "assigned selected hosts with no organization to selected organization" do
     organization = taxonomies(:organization1)
-    selected_hosts_no_organization_ids = Host.where(:organization_id => nil).limit(2).map(&:id)
+    hosts = FactoryGirl.create_list(:host, 2, :organization => nil)
+    selected_hosts_no_organization_ids = hosts.map(&:id)
 
     assert_difference "organization.hosts.count", 2 do
       put :assign_selected_hosts, {:id => organization.id,
@@ -120,6 +125,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   # Mismatches
   test "should show all mismatches and button Fix All Mismatches if there are" do
+    hosts = FactoryGirl.create_list(:host, 2, :organization => taxonomies(:organization1))
     TaxableTaxonomy.delete_all
     get :mismatches, {}, set_session_user
     assert_response :success
@@ -144,6 +150,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
   test "should clone organization with assocations" do
     organization = taxonomies(:organization1)
+    FactoryGirl.create(:host, :organization => nil)
     organization_dup = organization.clone
 
     assert_difference "Organization.count", 1 do

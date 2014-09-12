@@ -45,7 +45,7 @@ class ArchitectureTest < ActiveSupport::TestCase
   test "should update hosts_count" do
     arch = architectures(:sparc)
     assert_difference "arch.hosts_count" do
-      hosts(:one).update_attribute(:architecture, arch)
+      FactoryGirl.create(:host).update_attribute(:architecture, arch)
       arch.reload
     end
   end
@@ -62,7 +62,7 @@ class ArchitectureTest < ActiveSupport::TestCase
     architecture = Architecture.new :name => "i386"
     assert architecture.save
 
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.architecture = architecture
     host.save(:validate => false)
 

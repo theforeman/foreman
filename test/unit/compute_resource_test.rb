@@ -113,6 +113,8 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
   # test taxonomix methods
   test "should get used location ids for host" do
+    FactoryGirl.create(:host, :compute_resource => compute_resources(:one),
+                       :location => taxonomies(:location1))
     assert_equal [taxonomies(:location1).id], compute_resources(:one).used_location_ids
   end
 

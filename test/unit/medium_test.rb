@@ -50,7 +50,7 @@ class MediumTest < ActiveSupport::TestCase
     medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
     assert medium.save!
 
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :with_operatingsystem)
     refute host.build?
     host.medium = medium
     host.os.media << medium
@@ -67,7 +67,7 @@ class MediumTest < ActiveSupport::TestCase
     medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
     assert medium.save!
 
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :with_operatingsystem)
     host.build = true
     host.medium = medium
     host.os.media << medium

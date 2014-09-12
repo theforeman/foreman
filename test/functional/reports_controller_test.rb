@@ -13,17 +13,20 @@ class ReportsControllerTest < ActionController::TestCase
   end
 
   def test_show
-    get :show, {:id => Report.last.id}, set_session_user
+    report = FactoryGirl.create(:report)
+    get :show, {:id => report.id}, set_session_user
     assert_template 'show'
   end
 
   def test_show_last
+    report = FactoryGirl.create(:report)
     get :show, {:id => "last"}, set_session_user
     assert_template 'show'
   end
 
   def test_show_last_report_for_host
-    get :show, {:id => "last", :host_id => Report.first.host.to_param}, set_session_user
+    report   = FactoryGirl.create(:report)
+    get :show, {:id => "last", :host_id => report.host.to_param}, set_session_user
     assert_template 'show'
   end
 
@@ -34,7 +37,7 @@ class ReportsControllerTest < ActionController::TestCase
   end
 
   def test_destroy
-    report = Report.first
+    report = FactoryGirl.create(:report)
     delete :destroy, {:id => report}, set_session_user
     assert_redirected_to reports_url
     assert !Report.exists?(report.id)

@@ -10,13 +10,13 @@ class HostParameterTest < ActiveSupport::TestCase
     host_parameter.value = "valid"
     assert !host_parameter.save
 
-    host = Host.first
+    host = FactoryGirl.create(:host)
     host_parameter.reference_id = host.id
     assert host_parameter.save
   end
 
   test "duplicate names cannot exist for a host" do
-    @host = hosts(:one)
+    @host = FactoryGirl.create(:host)
     as_admin do
       @parameter1 = HostParameter.create :name => "some_parameter", :value => "value", :reference_id => @host.id
       @parameter2 = HostParameter.create :name => "some_parameter", :value => "value", :reference_id => @host.id
@@ -26,8 +26,8 @@ class HostParameterTest < ActiveSupport::TestCase
   end
 
   test "duplicate names can exist for different hosts" do
-    @host1 = hosts(:one)
-    @host2 = hosts(:two)
+    @host1 = FactoryGirl.create(:host)
+    @host2 = FactoryGirl.create(:host)
     as_admin do
       @parameter1 = HostParameter.create! :name => "some_parameter", :value => "value", :reference_id => @host1.id
       @parameter2 = HostParameter.create! :name => "some_parameter", :value => "value", :reference_id => @host2.id

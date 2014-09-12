@@ -2,6 +2,10 @@ require 'test_helper'
 
 class OrganizationTest < ActionDispatch::IntegrationTest
 
+  def setup
+    FactoryGirl.create(:host)
+  end
+
   test "index page" do
     assert_index_page(organizations_path,"Organizations","New Organization")
   end

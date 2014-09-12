@@ -63,7 +63,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
     operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10"
     assert operating_system.save
 
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.os = operating_system
     host.save(:validate => false)
 
@@ -217,9 +217,10 @@ class OperatingsystemTest < ActiveSupport::TestCase
   end
 
   test "should update hosts_count" do
+    host = FactoryGirl.create(:host)
     os = operatingsystems(:ubuntu1010)
     assert_difference "os.hosts_count" do
-      hosts(:one).update_attribute(:operatingsystem, os)
+      host.update_attribute(:operatingsystem, os)
       os.reload
     end
   end

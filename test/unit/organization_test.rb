@@ -50,6 +50,21 @@ class OrganizationTest < ActiveSupport::TestCase
 
   test 'it should return array of used ids by hosts' do
     organization = taxonomies(:organization1)
+    FactoryGirl.create(:host,
+                       :compute_resource => compute_resources(:one),
+                       :domain           => domains(:mydomain),
+                       :environment      => environments(:production),
+                       :medium           => media(:one),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :organization     => organization,
+                       :owner            => users(:restricted),
+                       :puppet_proxy     => smart_proxies(:puppetmaster),
+                       :realm            => realms(:myrealm),
+                       :subnet           => subnets(:one))
+    FactoryGirl.create(:os_default_template,
+                       :config_template  => config_templates(:mystring2),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :template_kind    => TemplateKind.find_by_name('provision'))
     # run used_ids method
     used_ids = organization.used_ids
     # get results from Host object

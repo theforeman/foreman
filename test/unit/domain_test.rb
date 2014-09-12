@@ -77,7 +77,7 @@ class DomainTest < ActiveSupport::TestCase
   test "should update hosts_count" do
     domain = domains(:yourdomain)
     assert_difference "domain.hosts_count" do
-      hosts(:one).update_attribute(:domain, domain)
+      FactoryGirl.create(:host).update_attribute(:domain, domain)
       domain.reload
     end
   end
@@ -85,7 +85,7 @@ class DomainTest < ActiveSupport::TestCase
   test "should update hosts_count on domain_id change" do
     domain = domains(:yourdomain)
     assert_difference "domain.hosts_count" do
-      hosts(:one).update_attribute(:domain_id, domain.id)
+      FactoryGirl.create(:host).update_attribute(:domain_id, domain.id)
       domain.reload
     end
   end
@@ -106,7 +106,7 @@ class DomainTest < ActiveSupport::TestCase
 #  end
 
   def create_a_host
-    hosts(:one)
+    FactoryGirl.create(:host)
   end
 
   test "should query local nameservers when enabled" do
@@ -120,6 +120,7 @@ class DomainTest < ActiveSupport::TestCase
 
   # test taxonomix methods
   test "should get used location ids for host" do
+    FactoryGirl.create(:host, :domain => domains(:mydomain), :location => taxonomies(:location1))
     assert_equal [taxonomies(:location1).id], domains(:mydomain).used_location_ids
   end
 

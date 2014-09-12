@@ -33,10 +33,12 @@ class Api::V1::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should get puppetclasses for given host only" do
-    get :index, {:host_id => hosts(:one).to_param }
+    host1 = FactoryGirl.create(:host, :with_puppetclass)
+    host2 = FactoryGirl.create(:host, :with_puppetclass)
+    get :index, {:host_id => host1.to_param }
     assert_response :success
-    fact_values = ActiveSupport::JSON.decode(@response.body)
-    assert !fact_values.empty?
+    puppetclasses = ActiveSupport::JSON.decode(@response.body)
+    assert_equal host1.puppetclasses.map(&:name).sort, puppetclasses.keys.sort
   end
 
   test "should not get puppetclasses for nonexistent host" do

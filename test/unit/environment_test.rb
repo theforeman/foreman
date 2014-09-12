@@ -44,7 +44,7 @@ class EnvironmentTest < ActiveSupport::TestCase
   test "should update hosts_count" do
     environment = environments(:testing)
     assert_difference "environment.hosts_count" do
-      hosts(:one).update_attribute(:environment, environment)
+      FactoryGirl.create(:host).update_attribute(:environment, environment)
       environment.reload
     end
   end

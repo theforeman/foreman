@@ -13,7 +13,8 @@ class LookupKeysControllerTest < ActionController::TestCase
   end
 
   test "should update lookup_keys" do
-    put :update, {:id => lookup_keys(:one).to_param, :lookup_key => { :description => "test that" }}, set_session_user
+    lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param, :puppetclass => puppetclasses(:one), :override => true, :default_value => 'test')
+    put :update, {:id => lkey.to_param, :lookup_key => { :description => "test that" }}, set_session_user
     assert_redirected_to lookup_keys_path
   end
 

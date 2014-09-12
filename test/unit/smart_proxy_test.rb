@@ -47,6 +47,8 @@ class SmartProxyTest < ActiveSupport::TestCase
 
   # test taxonomix methods
   test "should get used location ids for host" do
+    FactoryGirl.create(:host, :puppet_proxy => smart_proxies(:puppetmaster),
+                       :location => taxonomies(:location1))
     assert_equal ["Puppet", "Puppet CA"], smart_proxies(:puppetmaster).features.pluck(:name).sort
     assert_equal [taxonomies(:location1).id], smart_proxies(:puppetmaster).used_location_ids
   end
