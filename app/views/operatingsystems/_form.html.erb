@@ -24,7 +24,7 @@
       <div id="release_name" <%= display?(!@operatingsystem.use_release_name?) %>>
         <%= text_f f, :release_name, :help_inline => _("e.g. karmic, lucid, hw0910 etc") %>
       </div>
-
+      <%= select_f f, :password_hash, PasswordCrypt::ALGORITHMS.keys, :to_s, :to_s, {}, { :label => _("Root password hash"), :help_inline => _("Hash function to use. Change takes effect for new or updated hosts.")} %>
       <%= multiple_checkboxes f, :architectures, @operatingsystem, Architecture, :label => _("Architectures") %>
     </div>
 
