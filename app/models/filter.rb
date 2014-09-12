@@ -7,7 +7,7 @@ class Filter < ActiveRecord::Base
       resource_class = record.resource_class
       resource_class.search_for(record.search) unless (resource_class.nil? || record.search.nil?)
     rescue ScopedSearch::Exception => e
-      record.errors.add(:search, _("Invalid search query: %s") % e)
+      record.errors.add(:search, _("invalid search query: %s") % e)
     end
   end
 
