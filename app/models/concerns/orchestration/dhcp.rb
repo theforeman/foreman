@@ -124,7 +124,7 @@ module Orchestration::DHCP
     return if subnet.nil? or ip.nil?
     return unless dhcp?
     unless subnet.contains? ip
-      errors.add(:ip, _("Does not match selected Subnet"))
+      errors.add(:ip, _("does not match selected subnet"))
       return false
     end
   rescue

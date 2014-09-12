@@ -466,14 +466,14 @@ class User < ActiveRecord::Base
   def ensure_roles_not_escalated
     roles_check = self.new_record? ? self.role_ids.present? : self.role_ids_changed?
     if roles_check && !User.current.can_assign?(self.role_ids)
-      errors.add :role_ids, _("You can't assign some of roles you selected")
+      errors.add :role_ids, _("you can't assign some of roles you selected")
     end
   end
 
   def ensure_admin_not_escalated
     admin_check = self.new_record? ? self.admin? : self.admin_changed?
     if admin_check && !User.current.can_change_admin_flag?
-      errors.add :admin, _("You can't change Administrator flag")
+      errors.add :admin, _("you can't change administrator flag")
     end
   end
 
@@ -486,13 +486,13 @@ class User < ActiveRecord::Base
 
   def default_location_inclusion
     unless locations.include?(default_location) || default_location.blank? || self.admin?
-      errors.add :default_location, _("Default locations need to be user locations first")
+      errors.add :default_location, _("default locations need to be user locations first")
     end
   end
 
   def default_organization_inclusion
     unless organizations.include?(default_organization) || default_organization.blank? || self.admin?
-      errors.add :default_organization, _("Default organizations need to be user organizations first")
+      errors.add :default_organization, _("default organizations need to be user organizations first")
     end
   end
 
