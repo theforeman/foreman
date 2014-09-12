@@ -26,7 +26,7 @@ class Subnet < ActiveRecord::Base
                       :allow_nil => true,
                       :format => {:with => Net::Validations::IP_REGEXP},
                       :length => { :maximum => 15, :message => N_("is too long (maximum is 15 characters)") }
-  validates :mask,    :format => {:with => Net::Validations::IP_REGEXP}
+  validates :mask,    :format => {:with => Net::Validations::MASK_REGEXP}
   validates :boot_mode, :inclusion => BOOT_MODES.values
   validates :ipam, :inclusion => IPAM_MODES.values
 
@@ -42,7 +42,7 @@ class Subnet < ActiveRecord::Base
     end
   }
 
-  scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary, 
+  scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary,
                         :vlanid, :ipam, :boot_mode], :complete_value => true
 
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true

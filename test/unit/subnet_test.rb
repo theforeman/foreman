@@ -40,6 +40,12 @@ class SubnetTest < ActiveSupport::TestCase
     assert !@subnet.save
   end
 
+  test "mask should have valid address" do
+    @subnet.mask = "255.0.0.255"
+    set_attr(:network=, :domains=, :name=)
+    refute @subnet.save
+  end
+
   test "network should be unique" do
     set_attr(:network=, :mask=, :domains=, :name=)
     @subnet.save
