@@ -50,6 +50,8 @@ module LayoutHelper
   end
 
   def password_f(f, attr, options = {})
+    password_field_tag(:fakepassword, nil, :style => 'display: none') +
+    # The actual field.
     field(f, attr, options) do
       options[:autocomplete] ||= "off"
       options[:placeholder] ||= password_placeholder(f.object)
