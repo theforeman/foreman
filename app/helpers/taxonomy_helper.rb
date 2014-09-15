@@ -98,6 +98,14 @@ module TaxonomyHelper
     is_location? ? import_mismatches_location_path(taxonomy) : import_mismatches_organization_path(taxonomy)
   end
 
+  def hash_for_mismatches_taxonomies_path
+    is_location? ? hash_for_mismatches_locations_path : hash_for_mismatches_organizations_path
+  end
+
+  def hash_for_import_mismatches_taxnomies_path
+    is_location? ? hash_for_import_mismatches_locations_path : hash_for_import_mismatches_organizations_path
+  end
+
   def assign_all_hosts_taxonomy_path(taxonomy)
     is_location? ? assign_all_hosts_location_path(taxonomy) : assign_all_hosts_organization_path(taxonomy)
   end
