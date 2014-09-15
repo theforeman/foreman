@@ -49,6 +49,7 @@ Foreman::Application.routes.draw do
       resources :hostgroups, :except => [:new, :edit] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        post :clone, :on => :member
         resources :parameters, :except => [:new, :edit] do
           collection do
             delete '/', :to => :reset

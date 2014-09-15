@@ -28,14 +28,7 @@ class HostgroupsController < ApplicationController
 
   # Clone the hostgroup
   def clone
-    new = @hostgroup.dup
-    load_vars_for_ajax
-    new.puppetclasses = @hostgroup.puppetclasses
-    new.locations     = @hostgroup.locations
-    new.organizations = @hostgroup.organizations
-    # Clone any parameters as well
-    @hostgroup.group_parameters.each { |param| new.group_parameters << param.dup }
-    new.name = ""
+    new = @hostgroup.clone()
     new.valid?
     @hostgroup = new
     notice _("The following fields would need reviewing")
