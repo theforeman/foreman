@@ -1,6 +1,8 @@
 module Foreman::Model
   class Libvirt < ComputeResource
 
+    include ComputeResourceConsoleCommon
+
     validates :url, :format => { :with => URI.regexp }
 
     # Some getters/setters for the attrs Hash
@@ -128,19 +130,6 @@ module Foreman::Model
         Foreman::Exception.new(N_("Unable to change VM display listen address, make sure the display is not attached to localhost only"))
       else
         raise e
-      end
-    end
-
-    def set_console_password?
-      !(attrs[:setpw] == 0) # return true unless attrs[:setpw] is set to 0
-    end
-    alias_method :set_console_password, :set_console_password?
-
-    def set_console_password=(setpw)
-      if ['true', true, '1', 1].include?(setpw)
-        self.attrs[:setpw] = 1
-      else
-        self.attrs[:setpw] = 0
       end
     end
 
