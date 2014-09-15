@@ -102,6 +102,12 @@ function onContentLoad(){
   });
 
   multiSelectOnLoad();
+
+  // Removes the value from fake password field.
+  $("#fakepassword").val("");
+  $('form').on('click', 'input[type="submit"]', function() {
+    $("#fakepassword").remove();
+  });
 }
 
 function remove_fields(link) {

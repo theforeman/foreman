@@ -480,6 +480,8 @@ function onHostEditLoad(){
 }
 
 $(document).on('submit',"[data-submit='progress_bar']", function() {
+  // onContentLoad function clears any un-wanted parameters from being sent to the server by
+  // binding 'click' function before this submit. see '$('form').on('click', 'input[type="submit"]', function()'
   submit_host();
   return false;
 });
