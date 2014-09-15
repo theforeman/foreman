@@ -70,7 +70,7 @@ module Api
         end
       end
 
-      api :POST, "/hostgroups/:id/clone", "Clone a hostgroup."
+      api :POST, "/hostgroups/:id/clone", N_("Clone a host group")
       param :name, String, :required => true
 
       def clone
