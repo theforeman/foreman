@@ -11,7 +11,7 @@
   </tr>
   <% for bookmark in @bookmarks %>
     <tr>
-      <td><%= link_to_if_authorized(h(bookmark.name), hash_for_edit_bookmark_path(bookmark)) %></td>
+      <td><%= link_to_if_authorized(trunc(bookmark.name), hash_for_edit_bookmark_path(bookmark)) %></td>
       <td><%= bookmark.query %></td>
       <td><%= bookmark.controller %></td>
       <td><%= bookmark.public %></td>

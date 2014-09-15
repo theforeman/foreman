@@ -12,7 +12,7 @@
   </tr>
   <% for usergroup in @usergroups %>
     <tr>
-      <td><%= link_to_if_authorized h(usergroup.name), hash_for_edit_usergroup_path(:id => usergroup.id).merge(:auth_object => usergroup, :authorizer => authorizer) %></td>
+      <td><%= link_to_if_authorized trunc(usergroup.name), hash_for_edit_usergroup_path(:id => usergroup.id).merge(:auth_object => usergroup, :authorizer => authorizer) %></td>
       <td><%= h usergroup.users.except_hidden.map(&:login).to_sentence %></td>
       <td><%= h usergroup.usergroups.map(&:name).to_sentence %></td>
       <td>
