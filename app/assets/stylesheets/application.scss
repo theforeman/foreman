@@ -312,7 +312,9 @@ table tr td:last-child {
     float:none;
   }
 
-  white-space: nowrap;
+  .btn-group {
+    white-space: nowrap;
+  }
 }
 
 .nbsp {
