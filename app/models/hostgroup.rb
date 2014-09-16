@@ -215,7 +215,8 @@ class Hostgroup < ActiveRecord::Base
     length_of_matcher += parent.title.length + 1 unless parent.nil?
 
     max_length_for_name = 255 - (name.length + length_of_matcher)
-    errors.add(:name, _("maximum for this name is %s characters") % (255 - length_of_matcher)) if max_length_for_name < 0
+    max = 255 - length_of_matcher
+    errors.add(:name, n_("is too long (maximum is 1 character)", "is too long (maximum is %s characters)", max) % max) if max_length_for_name < 0
   end
 
 end
