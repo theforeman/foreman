@@ -147,13 +147,15 @@ function toggleOverrideValue(item) {
   var type_field = fields.find("[id$='_key_type']");
   var validator_type_field = fields.find("[id$='_validator_type']");
   var default_value_field = fields.find("[id$='_default_value']");
+  var use_puppet_default = fields.find("[id$='use_puppet_default']");
   var override_value_div = fields.find("[id$='lookup_key_override_value']");
   var pill_icon = $('#pill_' + fields.attr('id') +' i');
 
   mandatory.attr('disabled', override ? null : 'disabled');
   type_field.attr('disabled', override ? null : 'disabled');
   validator_type_field.attr('disabled', override ? null : 'disabled');
-  default_value_field.attr('disabled', override ? null : 'disabled' );
+  default_value_field.attr('disabled', override && !$(use_puppet_default).is(':checked') ? null : 'disabled' );
+  use_puppet_default.attr('disabled', override ? null : 'disabled' );
   pill_icon.attr("class", override ? 'glyphicon glyphicon-flag' : "glyphicon- ");
   override_value_div.toggle(override);
 }
@@ -183,6 +185,14 @@ function mergeOverridesChanged(item) {
   var keyType = fields.find("[id$='_key_type']").val();
   var avoidDuplicates = fields.find("[id$='_avoid_duplicates']");
   changeCheckboxEnabledStatus(avoidDuplicates, keyType == 'array' && item.checked);
+}
+
+function toggleUsePuppetDefaultValue(item, value_field) {
+  var use_puppet_default = $(item).is(':checked');
+  var fields = $(item).closest('.fields');
+  var value_field = fields.find('[id$=' + value_field + ']');
+
+  value_field.attr('disabled', use_puppet_default ? 'disabled' : null );
 }
 
 function filterByEnvironment(item){

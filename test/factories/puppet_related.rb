@@ -13,7 +13,7 @@ FactoryGirl.define do
     end
     after_create do |lkey,evaluator|
       evaluator.overrides.each do |match,value|
-        FactoryGirl.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match
+        FactoryGirl.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match, :use_puppet_default => false
       end
       lkey.reload
     end
@@ -39,6 +39,10 @@ FactoryGirl.define do
           FactoryGirl.create :environment_class, :puppetclass_id => evaluator.puppetclass.id, :environment_id => env.id, :lookup_key_id => lkey.id
         end
       end
+    end
+
+    trait :with_use_puppet_default do
+      use_puppet_default true
     end
   end
 
