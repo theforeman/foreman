@@ -36,6 +36,7 @@ module Api
         param :override, :bool
         param :description, String
         param :default_value, String
+        param :use_puppet_default, :bool
         param :path, String
         param :validator_type, String
         param :validator_rule, String

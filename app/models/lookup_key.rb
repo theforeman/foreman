@@ -29,7 +29,9 @@ class LookupKey < ActiveRecord::Base
   end
 
   has_many :lookup_values, :dependent => :destroy, :inverse_of => :lookup_key
-  accepts_nested_attributes_for :lookup_values, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :lookup_values,
+                                :reject_if => lambda { |a| a[:value].blank? && (a[:use_puppet_default].nil? || a[:use_puppet_default] == "0")},
+                                :allow_destroy => true
 
   before_validation :validate_and_cast_default_value
   validates :key, :uniqueness => {:scope => :is_param }, :unless => Proc.new{|p| p.is_param?}

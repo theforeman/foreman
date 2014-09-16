@@ -32,6 +32,7 @@ module Api
         param :override_value, Hash, :required => true, :action_aware => true do
           param :match, String
           param :value, String
+          param :use_puppet_default, :bool
         end
       end
 
