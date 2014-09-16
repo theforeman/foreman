@@ -10,7 +10,11 @@ module Classification
         klasses[klass.name] ||= {}
         if key_hash[klass.id]
           key_hash[klass.id].each do |key|
-            klasses[klass.name][key.to_s] = value_of_key(key, values)
+            key_value = value_of_key(key, values)
+            klasses[klass.name][key.to_s] = key_value unless key_value.nil?
+          end
+          if klasses[klass.name] == {}
+            klasses[klass.name] = nil
           end
         else
           klasses[klass.name] = nil

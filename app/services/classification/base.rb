@@ -38,7 +38,7 @@ module Classification
       values = Hash.new { |h,k| h[k] = {} }
       all_lookup_values = LookupValue.where(:match => path2matches).where(:lookup_key_id => class_parameters)
       class_parameters.each do |key|
-        lookup_values_for_key = all_lookup_values.where(:lookup_key_id => key.id)
+        lookup_values_for_key = all_lookup_values.where(:lookup_key_id => key.id, :use_puppet_default => false)
         sorted_lookup_values = lookup_values_for_key.sort_by { |lv| key.path.index(lv.match.split(LookupKey::EQ_DELM).first) }
         value = nil
         if key.merge_overrides
@@ -63,11 +63,13 @@ module Classification
 
     def value_of_key(key, values)
       value = if values[key.id] and values[key.id][key.to_s]
-                values[key.id][key.to_s][:value]
+                {:value => values[key.id][key.to_s][:value]}
               else
-                key.default_value
+                {:value => key.default_value, :managed => key.use_puppet_default}
               end
-      @safe_render.parse(value)
+
+      return nil if value[:managed]
+      @safe_render.parse(value[:value])
     end
 
     def hostgroup_matches
@@ -127,18 +129,15 @@ module Classification
     private
 
     def update_generic_matcher(lookup_values, options)
-      if options[:skip_fqdn]
-        while lookup_values.present? && lookup_values.first.match.split(LookupKey::EQ_DELM).first == "fqdn"
-          lookup_values.delete_at(0)
-        end
+      computed_lookup_value = nil
+      lookup_values.each do |lookup_value|
+        element, element_name = lookup_value.match.split(LookupKey::EQ_DELM)
+        next if (options[:skip_fqdn] && element=="fqdn")
+        computed_lookup_value = {:value => lookup_value.value, :element => element,
+                                 :element_name => element_name}
+        break
       end
-
-      if lookup_values.present?
-        lv = lookup_values.first
-        element, element_name = lv.match.split(LookupKey::EQ_DELM)
-        {:value => lv.value, :element => element,
-         :element_name => element_name}
-      end
+      computed_lookup_value
     end
 
     def update_array_matcher(should_avoid_duplicates, lookup_values, options)
@@ -158,8 +157,8 @@ module Classification
         end
       end
 
-      {:value => values, :element => elements,
-       :element_name => element_names}
+      return nil unless values.present?
+      {:value => values, :element => elements, :element_name => element_names}
     end
 
     def update_hash_matcher(lookup_values, options)
@@ -177,8 +176,8 @@ module Classification
         values.deep_merge!(lookup_value.value)
       end
 
-      {:value => values, :element => elements,
-       :element_name => element_names}
+      return nil unless values.present?
+      {:value => values, :element => elements, :element_name => element_names}
     end
   end
 end
