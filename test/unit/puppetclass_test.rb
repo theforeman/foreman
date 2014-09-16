@@ -206,4 +206,38 @@ class PuppetclassTest < ActiveSupport::TestCase
     end
   end
 
+  context "all_hostgroups should show hostgroups and their descendants" do
+    setup do
+      @class = FactoryGirl.create(:puppetclass)
+      @hg1 = FactoryGirl.create(:hostgroup)
+      @hg2 = FactoryGirl.create(:hostgroup, :parent_id => @hg1.id)
+      @hg3 = FactoryGirl.create(:hostgroup, :parent_id => @hg2.id)
+      @config_group = FactoryGirl.create(:config_group)
+      @hg1.config_groups << @config_group
+    end
+
+    it "when added directly" do
+      assert_difference('@class.all_hostgroups.count', 3) do
+        @class.hostgroups << @hg1
+      end
+    end
+
+    it "when added directly and called without descendants" do
+      assert_difference('@class.all_hostgroups(false).count', 1) do
+        @class.hostgroups << @hg1
+      end
+    end
+
+    it "when added via config group" do
+      assert_difference('@class.all_hostgroups.count', 3) do
+        @class.config_groups << @config_group
+      end
+    end
+
+    it "when added directly and called without descendants" do
+      assert_difference('@class.all_hostgroups(false).count', 1) do
+        @class.config_groups << @config_group
+      end
+    end
+  end
 end

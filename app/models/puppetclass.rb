@@ -94,7 +94,8 @@ class Puppetclass < ActiveRecord::Base
     ids = hostgroup_ids
     ids += host_ids_from_config_groups('Hostgroup')
     hgs = Hostgroup.unscoped.where(:id => ids.uniq)
-    hgs.flat_map(&:subtree).uniq if with_descendants
+    hgs = hgs.flat_map(&:subtree).uniq if with_descendants
+    hgs
   end
 
   def all_hosts
