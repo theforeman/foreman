@@ -127,8 +127,13 @@
   font-size: 14px;
 }
 
-#host-show .statistics-chart{
-  height: 230px;
+#host-show{
+ .statistics-chart{
+    height: 230px;
+  }
+  .chart{
+    height: 250px;
+  }
 }
 
 .reset-zoom{
