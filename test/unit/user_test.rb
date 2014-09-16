@@ -715,4 +715,13 @@ class UserTest < ActiveSupport::TestCase
     User.complete_for('login = ').each { |ac| refute_match users(:anonymous).login, ac }
   end
 
+  test 'can search users by role id' do
+    # Setup role and assign to user
+    role = Role.find_or_create_by_name(:name => "foobar")
+    user = users(:one)
+    user.role_ids = [role.id]
+
+    users = User.search_for("role_id = #{role.id}")
+    assert (users.include? user)
+  end
 end
