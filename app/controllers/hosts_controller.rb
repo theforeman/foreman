@@ -18,9 +18,9 @@ class HostsController < ApplicationController
   add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_by_name, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun,
-                                         :setBuild, :cancelBuild, :power, :bmc, :vm, :ipmi_boot,
-                                         :console, :toggle_manage, :pxe_config,
-                                         :storeconfig_klasses, :disassociate]
+                                         :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
+                                         :runtime, :resources, :templates, :ipmi_boot, :console,
+                                         :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   before_filter :find_multiple, :only => MULTIPLE_ACTIONS
@@ -220,6 +220,12 @@ class HostsController < ApplicationController
     process_error :redirect => :back, :error_msg => _("Failed to %{action} %{host}: %{e}") % { :action => _(params[:power_action]), :host => @host, :e => e }
   end
 
+  def overview
+    render :partial => 'overview', :locals => { :host => @host }
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'fetch overview information'
+  end
+
   def bmc
     render :partial => 'bmc', :locals => { :host => @host }
   rescue ActionView::Template::Error => exception
@@ -232,6 +238,24 @@ class HostsController < ApplicationController
     render :partial => "compute_resources_vms/details"
   rescue ActionView::Template::Error => exception
     process_ajax_error exception, 'fetch vm information'
+  end
+
+  def runtime
+    render :partial => 'runtime'
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'fetch runtime chart information'
+  end
+
+  def resources
+    render :partial => 'resources'
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'fetch resources chart information'
+  end
+
+  def templates
+    render :text => view_context.show_templates
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'fetch templates information'
   end
 
   def ipmi_boot
@@ -542,8 +566,8 @@ class HostsController < ApplicationController
 
   def action_permission
     case params[:action]
-      when 'clone', 'externalNodes', 'bmc', 'vm', 'pxe_config', 'storeconfig_klasses',
-          'active', 'errors', 'out_of_sync', 'pending', 'disabled'
+      when 'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates',
+          'pxe_config', 'storeconfig_klasses', 'active', 'errors', 'out_of_sync', 'pending', 'disabled'
         :view
       when 'puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'
         :puppetrun

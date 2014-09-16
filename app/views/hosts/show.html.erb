@@ -30,8 +30,11 @@
       <% end %>
     </ul>
     <div id="myTabContent" class="tab-content">
-      <div class="tab-pane active in" id="properties">
-        <%= render :partial => "hosts/overview", :locals => { :host => @host } %>
+      <div class="tab-pane active in" id="properties" data-ajax-url='<%= overview_host_path(@host)%>'>
+        <p id="spinner">
+          <%= image_tag 'spinner.gif' %>
+          <%= _('Loading host information ...') %>
+        </p>
       </div>
       <div class="tab-pane" id="metrics">
         <% if @report_summary.size == 0 %>
@@ -40,8 +43,11 @@
             <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
         <% end %>
       </div>
-      <div class="tab-pane" id="template">
-        <%= show_templates %>
+      <div class="tab-pane" id="template" data-ajax-url='<%= templates_host_path(@host)%>'>
+        <p id="spinner">
+          <%= image_tag 'spinner.gif' %>
+          <%= _('Loading template information ...') %>
+        </p>
       </div>
       <%  if @host.compute_resource_id %>
         <div class="tab-pane" id="vm" data-ajax-url='<%= vm_host_path(@host)%>' data-on-complete='setPowerState'>
@@ -67,12 +73,22 @@
     <div class="stats-well">
       <h4 class="ca"><%= _("Runtime") %></h4>
       <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
-      <%= flot_chart 'runtime_graph','', _('Time in Seconds'), runtime_chart(@range.days.ago), :class=>"statistics-chart stack" %>
+      <div class="chart" data-ajax-url='<%= runtime_host_path(@host, :range => @range) %>' data-on-complete='updateChart'>
+        <p id="spinner">
+          <%= image_tag 'spinner.gif' %>
+          <%= _('Loading runtime information ...') %>
+        </p>
+      </div>
     </div>
     <div class="stats-well">
       <h4 class="ca"><%= _("Resources") %></h4>
       <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
-      <%= flot_chart 'resource_graph', '', _("Number of Events"), resources_chart(@range.days.ago) %>
+      <div class="chart" data-ajax-url='<%= resources_host_path(@host, :range => @range) %>' data-on-complete='updateChart'>
+        <p id="spinner">
+          <%= image_tag 'spinner.gif' %>
+          <%= _('Loading resources information ...') %>
+        </p>
+      </div>
     </div>
   </div>
 </div>

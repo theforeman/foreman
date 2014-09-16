@@ -25,8 +25,12 @@ Foreman::Application.routes.draw do
         post 'environment_selected'
         put 'power'
         get 'console'
+        get 'overview'
         get 'bmc'
         get 'vm'
+        get 'runtime'
+        get 'resources'
+        get 'templates'
         put 'ipmi_boot'
         put 'disassociate'
       end

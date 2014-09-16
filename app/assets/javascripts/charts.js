@@ -326,6 +326,13 @@ function ext_legend_selected(item){
   flot_time_chart(target, data, {show: false});
 }
 
+function updateChart(item, status) {
+  if (status == 'success')
+    $(item).find(".statistics-chart").flot_chart();
+  else
+    $(item).text(__("Failed to load chart"));
+}
+
 $(function() {
   $(".statistics-pie").flot_pie();
   $(".statistics-bar").flot_bar();

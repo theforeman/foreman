@@ -315,7 +315,8 @@ Foreman::AccessControl.map do |map|
     tasks_ajax_actions = [:show]
 
     map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled, :pending, :vm,
-                                      :externalNodes, :pxe_config, :storeconfig_klasses, :auto_complete_search, :bmc],
+                                      :externalNodes, :pxe_config, :storeconfig_klasses, :auto_complete_search, :bmc,
+                                      :runtime, :resources, :templates, :overview],
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => [:template, :provision],
                                      :"api/v1/hosts" => [:index, :show, :status],
