@@ -9,6 +9,10 @@
             {:disabled => obj.used_location_ids }.merge!(select_options),
             {'data-descendants' => obj.children_of_selected_location_ids.to_json,
              'data-useds' => obj.used_location_ids.to_json }.merge!(html_options[:location]) %>
+    <% if SETTINGS[:locations_enabled] && (obj.kind_of? User) %>
+      <%= select_f f, :default_location_id, (obj.admin? ? Location.all : obj.locations), :id, :title,
+                    { :include_blank => true }, { :label => _('Default on login') } %>
+    <% end %>
   </div>
 <% end %>
 
@@ -18,5 +22,10 @@
             {:disabled => obj.used_organization_ids }.merge!(select_options),
             {'data-descendants' => obj.children_of_selected_organization_ids.to_json,
              'data-useds' => obj.used_organization_ids.to_json }.merge!(html_options[:organization]) %>
+    <% if SETTINGS[:organizations_enabled] && (obj.kind_of? User) %>
+      <%= select_f f, :default_organization_id,(obj.admin? ? Organization.all : obj.organizations), :id, :title,
+                    { :include_blank => true }, { :label => _('Default on login') } %>
+    <% end %>
   </div>
 <% end %>
+
