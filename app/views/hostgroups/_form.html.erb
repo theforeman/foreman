@@ -50,7 +50,7 @@
 
     <div class="tab-pane" id="os">
       <%= render "common/os_selection/initial", :item=> @hostgroup %>
-      <%= password_f f, :root_pass, :help_inline => _("Password should be 8 characters or more")%>
+      <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more")%>
     </div>
 
     <div class="tab-pane" id="params">
