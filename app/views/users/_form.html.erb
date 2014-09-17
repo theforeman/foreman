@@ -21,16 +21,6 @@
       <%= text_f f, :lastname %>
       <%= text_f f, :mail %>
 
-      <% if SETTINGS[:locations_enabled] %>
-        <%= select_f f, :default_location_id, (@user.admin? ? Location.all : @user.locations), :id, :title,
-                      { :include_blank => true }, { :label => _('Default location') } %>
-      <% end %>
-
-      <% if SETTINGS[:organizations_enabled] %>
-        <%= select_f f, :default_organization_id,(@user.admin? ? Organization.all : @user.organizations), :id, :title,
-                        { :include_blank => true }, { :label => _('Default organization') } %>
-      <% end %>
-
       <%= selectable_f(f, :locale, FastGettext.human_available_locales,
                         { :include_blank => _('Browser locale') } , { :label => _('Language') } ) %>
 
@@ -50,11 +40,9 @@
       <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user,
                                { :label => _('Roles')}, {:disabled => @editing_self ? Role.givable.for_current_user.pluck(:id) : false } %>
     </div>
-
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @user,
-               :html_options => { :location => {:onchange => 'taxonomy_added(this, "location")' },
-                                  :organization => {:onchange => 'taxonomy_added(this, "organization")' }
-                                } %>
+               :html_options => user_taxonomies_html_options(@user)
+      %>
   </div>
 
   <%= submit_or_cancel f %>

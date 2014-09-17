@@ -18,4 +18,11 @@ module UsersHelper
     end
   end
 
+  def user_taxonomies_html_options(user)
+    {
+     :location => {:onchange => 'taxonomy_added(this, "location")'},
+     :organization => {:onchange => 'taxonomy_added(this, "organization")'}
+    } unless user.admin?
+  end
+
 end
