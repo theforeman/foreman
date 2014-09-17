@@ -7,7 +7,8 @@ class Architecture < ActiveRecord::Base
   has_many_hosts
   has_many :hostgroups
   has_many :images, :dependent => :destroy
-  has_and_belongs_to_many :operatingsystems
+  has_many :architecture_operatingsystems, :dependent => :destroy
+  has_many :operatingsystems, :through => :architecture_operatingsystems
   validates :name, :presence => true, :uniqueness => true,
                    :format => { :with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.") }
   audited :allow_mass_assignment => true
