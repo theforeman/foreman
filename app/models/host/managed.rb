@@ -571,22 +571,6 @@ class Host::Managed < Host::Base
     self.ip ||= subnet.unused_ip if subnet and SETTINGS[:unattended] and (new_record? or managed?)
   end
 
-  # returns a rundeck output
-  def rundeck
-    rdecktags = puppetclasses_names.map{|k| "class=#{k}"}
-    unless self.params["rundeckfacts"].empty?
-      rdecktags += self.params["rundeckfacts"].gsub(/\s+/, '').split(',').map { |rdf| "#{rdf}=" + (facts_hash[rdf] || "undefined") }
-    end
-    { name => { "description" => comment, "hostname" => name, "nodename" => name,
-      "Environment" => environment.name,
-      "osArch" => arch.name, "osFamily" => os.family, "osName" => os.name,
-      "osVersion" => os.release, "tags" => rdecktags, "username" => self.params["rundeckuser"] || "root" }
-    }
-  rescue => e
-    logger.warn "Failed to fetch rundeck info for #{to_s}: #{e}"
-    {}
-  end
-
   def associate!(cr, vm)
     self.uuid = vm.identity
     self.compute_resource_id = cr.id

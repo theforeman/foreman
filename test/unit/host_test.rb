@@ -1110,27 +1110,6 @@ context "location or organizations are not enabled" do
     end
   end
 
-  test "#rundeck returns hash" do
-    h = hosts(:one)
-    rundeck = h.rundeck
-    assert_kind_of Hash, rundeck
-    assert_equal ['my5name.mydomain.net'], rundeck.keys
-    assert_kind_of Hash, rundeck[h.name]
-    assert_equal 'my5name.mydomain.net', rundeck[h.name]['hostname']
-    assert_equal ["class=auth", "class=base", "class=chkmk", "class=nagios", "class=pam"], rundeck[h.name]['tags']
-  end
-
-  test "#rundeck returns extra facts as tags" do
-    h = hosts(:one)
-    h.params['rundeckfacts'] = "kernelversion, ipaddress\n"
-    h.save!
-
-    rundeck = h.rundeck
-    assert rundeck[h.name]['tags'].include?('class=base'), 'puppet class missing'
-    assert rundeck[h.name]['tags'].include?('kernelversion=2.6.9'), 'kernelversion fact missing'
-    assert rundeck[h.name]['tags'].include?('ipaddress=10.0.19.33'), 'ipaddress fact missing'
-  end
-
   test "should accept lookup_values_attributes" do
     h = hosts(:redhat)
     as_admin do
