@@ -64,7 +64,8 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
 
-  validates :mail, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)*[a-z]{2,})\Z/i },
+  validates :mail, :format => { :with => /\A(([\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+((\.\"[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\")*\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+)*)|(\"[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\"))
+                                          @[a-z0-9]+((\.[a-z0-9]+)*|(\-[a-z0-9]+)*)*\z/ix },
                    :length => { :maximum => 60 },
                    :allow_blank => true
   validates :mail, :presence => true, :on => :update,
@@ -409,7 +410,7 @@ class User < ActiveRecord::Base
   end
 
   def normalize_mail
-    self.mail.gsub!(/\s/,'') unless mail.blank?
+    self.mail.strip! unless mail.blank?
   end
 
   protected
