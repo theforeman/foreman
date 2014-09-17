@@ -42,15 +42,7 @@ class HostsController < ApplicationController
         @hostgroup_authorizer = Authorizer.new(User.current, :collection => @hosts.map(&:hostgroup_id).compact.uniq)
         render :index if title and (@title = title)
       end
-      format.yaml do
-        render :text => if params["rundeck"]
-          result = {}
-          search.includes(included_associations).each{|h| result.update(h.rundeck)}
-          result
-        else
-          search.all(:select => "hosts.name").map(&:name)
-        end.to_yaml
-      end
+      format.yaml { render :text => search.all(:select => "hosts.name").map(&:name).to_yaml }
       format.json
     end
   end
@@ -64,7 +56,7 @@ class HostsController < ApplicationController
         # summary report text
         @report_summary = Report.summarise(@range.days.ago, @host)
       }
-      format.yaml { render :text => params["rundeck"].nil? ? @host.info.to_yaml : @host.rundeck.to_yaml }
+      format.yaml { render :text => @host.info.to_yaml }
       format.json
     end
   end
