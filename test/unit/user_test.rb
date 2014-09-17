@@ -299,8 +299,23 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "email with whitespaces should be stripped" do
-    u = User.create! :auth_source => auth_sources(:one), :login => "boo", :mail => "b oo@localhost "
-    assert_equal u.mail, "boo@localhost"
+    user = User.create! :auth_source => auth_sources(:one), :login => "boo", :mail => " boo@localhost "
+    assert_equal user.mail, "boo@localhost"
+  end
+
+  test "email should not have special characters outside of quoted string format" do
+    user = User.new :auth_source => auth_sources(:one), :login => "boo", :mail => "specialchars():;@example.com"
+    refute user.save
+  end
+
+  test "email with special characters in quoted string format allowed" do
+    user = User.new :auth_source => auth_sources(:one), :login => "boo", :mail => '"specialchars():;"@example.com'
+    assert user.save
+  end
+
+  test "email should not have consecutive dot characters" do
+    user = User.new :auth_source => auth_sources(:one), :login => "boo", :mail => "dots..dots@example.com"
+    refute user.save
   end
 
   test "use that can change admin flag #can_assign? any role" do
