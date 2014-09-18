@@ -28,7 +28,11 @@ class AccessPermissionsTest < ActiveSupport::TestCase
 
     # App controller stubs
     "testable/index", "api/testable/index", "api/testable/raise_error",
-    "api/v2/testable/index", "api/v2/testable/create"
+    "api/v2/testable/index", "api/v2/testable/create",
+
+    # Content Security Policy report forwarding endpoint - noop if not configured.
+    # See https://github.com/twitter/secureheaders/issues/113
+    "content_security_policy/scribe"
   ]
 
   MAY_SKIP_AUTHORIZED = [ "about/index" ]

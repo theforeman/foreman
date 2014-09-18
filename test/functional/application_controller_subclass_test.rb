@@ -107,4 +107,18 @@ class TestableControllerTest < ActionController::TestCase
       assert_equal @request.filtered_parameters, @params
     end
   end
+
+  context "secure headers in HTTP response" do
+    it "should include safe values" do
+      get :index
+      assert_equal @response.headers['X-Frame-Options'], 'SAMEORIGIN'
+      assert_equal @response.headers['X-XSS-Protection'], '1; mode=block'
+      assert_equal @response.headers['X-Content-Type-Options'], 'nosniff'
+      assert_equal @response.headers['Content-Security-Policy'], \
+        "default-src 'self'; connect-src 'self'; font-src 'self'; " +
+        "frame-src 'self'; img-src 'self' data:; media-src 'self'; " +
+        "object-src 'self'; script-src 'unsafe-eval' 'unsafe-inline' " +
+        "'self'; style-src 'unsafe-inline' 'self';"
+    end
+  end
 end
