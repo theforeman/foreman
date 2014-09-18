@@ -271,7 +271,7 @@ module Foreman::Model
       return unless public_key.blank? || options[:force]
       client
     rescue Foreman::FingerprintException => e
-      self.public_key = e.fingerprint
+      self.public_key = e.fingerprint if self.public_key.blank?
     end
 
     def api_version
