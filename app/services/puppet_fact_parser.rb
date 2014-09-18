@@ -2,12 +2,7 @@ class PuppetFactParser < FactParser
   attr_reader :facts
 
   def operatingsystem
-    orel = case os_name
-             when /(suse|sles|gentoo)/i
-               facts[:operatingsystemrelease]
-             else
-               facts[:lsbdistrelease] || facts[:operatingsystemrelease]
-           end
+    orel = os_release
 
     if os_name == "Archlinux"
       # Archlinux is rolling release, so it has no release. We use 1.0 always
@@ -144,5 +139,16 @@ class PuppetFactParser < FactParser
 
   def os_name
     facts[:operatingsystem].blank? ? raise(::Foreman::Exception.new("invalid facts, missing operating system value")) : facts[:operatingsystem]
+  end
+
+  def os_release
+    case os_name
+    when /(suse|sles|gentoo)/i
+      facts[:operatingsystemrelease]
+    when /(windows)/i
+      facts[:kernelrelease]
+    else
+      facts[:lsbdistrelease] || facts[:operatingsystemrelease]
+    end
   end
 end
