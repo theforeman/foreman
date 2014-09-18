@@ -67,7 +67,7 @@ function upload_file(evt){
       // Closure to capture the file information.
       reader.onloadend = function(evt) {
         if (evt.target.readyState == FileReader.DONE) { // DONE == 2
-          $('#new').text(( evt.target.result));
+          $('#new').val((evt.target.result));
           set_edit_mode($('.template_text'));
         }
       };
@@ -143,7 +143,7 @@ function exit_fullscreen(){
 function set_preview(){
   if($('.template_text').hasClass('diffMode')) return;
   $('.template_text').addClass('diffMode');
-  $('#new').html( $editor.getSession().getValue());
+  $('#new').val($editor.getSession().getValue());
   set_diff_mode($('.template_text'))
 }
 
@@ -159,7 +159,7 @@ function set_edit_mode(item){
   var session = $editor.getSession();
   session.setMode("ace/mode/ruby");
 
-  session.setValue($('#new').text());
+  session.setValue($('#new').val());
   session.on('change', function(){
     item.text(session.getValue());
   });
@@ -170,7 +170,7 @@ function set_diff_mode(item){
   $editor.setReadOnly(true);
   var session = $editor.getSession();
   session.setMode("ace/mode/diff");
-  var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').text(), $('#new').text());
+  var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').val(), $('#new').val());
   patch = patch.replace(/^(.*\n){0,4}/,'');
   if (patch.length == 0)
     patch = __("No changes")
@@ -186,7 +186,7 @@ function submit_code() {
 }
 
 function IE_diff_mode(item){
-  var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').contents().text() , $('#new').contents().text());
+  var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').val(), $('#new').val());
   item.val(patch);
   item.attr('readOnly', true);
 }
@@ -205,7 +205,7 @@ function revert_template(item){
       if ($.browser.msie && $.browser.version.slice(0,1) < 10){
         $('.template_text').val(res.responseText);
       } else {
-        $('#new').text(res.responseText);
+        $('#new').val(res.responseText);
         set_edit_mode($('.template_text'));
       }
       var time = $(item).closest('div.row').find('h6 span').attr('data-original-title');
