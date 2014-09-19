@@ -3,6 +3,7 @@ require "resolv"
 class Domain < ActiveRecord::Base
   include Authorizable
   include Taxonomix
+  include StripLeadingAndTrailingDot
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database
@@ -64,6 +65,10 @@ class Domain < ActiveRecord::Base
 
   def lookup query
     Net::DNS.lookup query, proxy, resolver
+  end
+
+  def dot_strip_attrs
+    ['name']
   end
 
 end
