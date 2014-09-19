@@ -24,7 +24,7 @@ class HostsController < ApplicationController
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   before_filter :find_multiple, :only => MULTIPLE_ACTIONS
-  helper :hosts, :reports
+  helper :hosts, :reports, :interfaces
 
   def index(title = nil)
     begin

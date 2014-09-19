@@ -96,6 +96,7 @@ FactoryGirl.define do
   end
   factory :nic_base do
     sequence(:identifier) { |n| "eth#{n}" }
+    sequence(:mac) { |n| "00:00:00:00:00:#{n.to_s(16).rjust(2, '0')}" }
   end
   factory :nic_interface, :class => Nic::Interface, :parent => :nic_base do
     type 'Nic::Interface'
@@ -105,5 +106,9 @@ FactoryGirl.define do
   end
   factory :nic_bmc, :class => Nic::Interface, :parent => :nic_base do
     type 'Nic::BMC'
+  end
+  factory :nic_bond, :class => Nic::Bond, :parent => :nic_base do
+    type 'Nic::Bond'
+    mode 'balance-rr'
   end
 end

@@ -10,14 +10,15 @@ module Nic
     attr_accessible :host_id, :host,
                     :mac, :name,
                     :provider, :username, :password,
-                    :identifier, :virtual, :link, :tag, :physical_device,
-                    :managed
+                    :identifier, :virtual, :link, :tag, :attached_to,
+                    :managed, :bond_options, :attached_devices, :mode
                     :_destroy # used for nested_attributes
 
     before_validation :normalize_mac
 
-    validates :mac, :uniqueness => {:scope => :virtual}, :if => Proc.new { |o| !o.virtual? }
-    validates :mac, :presence => true, :mac_address => true
+    validates :mac, :uniqueness => {:scope => :virtual}, :unless => :virtual?
+    validates :mac, :presence => true, :unless => :virtual?
+    validates :mac, :mac_address => true, :allow_blank => true
 
     validate :uniq_with_hosts
 
@@ -25,19 +26,22 @@ module Nic
 
     scope :bootable, lambda { where(:type => "Nic::Bootable") }
     scope :bmc, lambda { where(:type => "Nic::BMC") }
+    scope :bonds, lambda { where(:type => "Nic::Bond") }
     scope :interfaces, lambda { where(:type => "Nic::Interface") }
     scope :managed, lambda { where(:type => "Nic::Managed") }
 
     scope :virtual, lambda { where(:virtual => true) }
     scope :physical, lambda { where(:virtual => false) }
+    scope :is_managed, lambda { where(:managed => true) }
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash
 
     class Jail < ::Safemode::Jail
-      allow :managed?, :subnet, :virtual?, :mac, :ip, :identifier, :physical_device,
-            :link, :tag, :domain, :vlanid
+      allow :managed?, :subnet, :virtual?, :mac, :ip, :identifier, :attached_to,
+            :link, :tag, :domain, :vlanid, :bond_options, :attached_devices, :mode,
+            :attached_devices_identifiers
     end
 
     protected
@@ -74,3 +78,9 @@ module Nic
     end
   end
 end
+
+require_dependency 'nic/interface'
+require_dependency 'nic/managed'
+require_dependency 'nic/bmc'
+require_dependency 'nic/bond'
+require_dependency 'nic/bootable'

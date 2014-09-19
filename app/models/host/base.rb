@@ -114,7 +114,7 @@ module Host
           end
         end
 
-        iface = base.first || Nic::Managed.new(:managed => false)
+        iface = base.first || interface_class(name).new(:managed => false)
         # create or update existing interface
         set_interface(attributes, name, iface)
       end
@@ -186,6 +186,18 @@ module Host
       self.primary_interface.present?
     end
 
+    def managed_interfaces
+      self.interfaces.managed.is_managed.all
+    end
+
+    def bond_interfaces
+      self.interfaces.bonds.is_managed.all
+    end
+
+    def interfaces_with_identifier(identifiers)
+      self.interfaces.is_managed.where(:identifier => identifiers).all
+    end
+
     private
 
     def set_interface(attributes, name, iface)
@@ -194,7 +206,7 @@ module Host
       iface.ip = attributes.delete(:ipaddress)
       iface.virtual = attributes.delete(:virtual) || false
       iface.tag = attributes.delete(:tag) || ''
-      iface.physical_device = attributes.delete(:physical_device) || ''
+      iface.attached_to = attributes.delete(:attached_to) || ''
       iface.link = attributes.delete(:link) if attributes.has_key?(:link)
       iface.identifier = name
       iface.host = self
@@ -213,13 +225,22 @@ module Host
     def update_virtuals(old, new)
       self.updated_virtuals ||= []
 
-      self.interfaces.where(:physical_device => old).virtual.each do |virtual_interface|
+      self.interfaces.where(:attached_to => old).virtual.each do |virtual_interface|
         next if self.updated_virtuals.include?(virtual_interface.id) # may have been already renamed by another physical
 
-        virtual_interface.physical_device = new
+        virtual_interface.attached_to = new
         virtual_interface.identifier = virtual_interface.identifier.sub(old, new)
         virtual_interface.save!
         self.updated_virtuals.push(virtual_interface.id)
+      end
+    end
+
+    def interface_class(name)
+      case name
+        when FactParser::BONDS
+          Nic::Bond
+        else
+          Nic::Managed
       end
     end
   end
