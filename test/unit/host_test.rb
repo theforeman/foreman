@@ -405,8 +405,8 @@ context "location or organizations are not enabled" do
 
   test "should not save if root password is undefined when the host is managed" do
     host = Host.new :name => "myfullhost", :managed => true
-    assert !host.valid?
-    assert host.errors[:root_pass].any?
+    refute host.valid?
+    assert_present host.errors[:root_pass]
   end
 
   test "should save if root password is undefined when the compute resource is image capable" do
@@ -854,7 +854,7 @@ context "location or organizations are not enabled" do
   end
 
   test "#set_interfaces creates new interface even if primary interface has same MAC" do
-    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.1', :physical_device => 'eth0', :identifier => 'eth0_0'})
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.1', :attached_to => 'eth0', :identifier => 'eth0_0'})
     host.update_attribute :mac, '00:00:00:11:22:33'
     host.update_attribute :ip, '10.0.0.100'
 
@@ -865,8 +865,8 @@ context "location or organizations are not enabled" do
   end
 
   test "#set_interfaces creates new interface even if another virtual interface has same MAC but another identifier" do
-    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.2', :identifier => 'eth0_1', :physical_device => 'eth0'})
-    FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :virtual => true, :identifier => 'eth0_0', :physical_device => 'eth0')
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.2', :identifier => 'eth0_1', :attached_to => 'eth0'})
+    FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :virtual => true, :identifier => 'eth0_0', :attached_to => 'eth0')
 
     assert_difference 'host.interfaces(true).count' do
       host.set_interfaces(parser)
@@ -874,8 +874,8 @@ context "location or organizations are not enabled" do
   end
 
   test "#set_interfaces updates existing virtual interface only if it has same MAC and identifier" do
-    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.1', :physical_device => 'eth0', :identifier => 'eth0_0'})
-    FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.200', :virtual => true, :physical_device => 'eth0', :identifier => 'eth0_0')
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.1', :attached_to => 'eth0', :identifier => 'eth0_0'})
+    FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.200', :virtual => true, :attached_to => 'eth0', :identifier => 'eth0_0')
 
     assert_no_difference 'host.interfaces(true).count' do
       host.set_interfaces(parser)
@@ -910,24 +910,24 @@ context "location or organizations are not enabled" do
     # eth4 was renamed to eth5 (same MAC)
     host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'})
     physical = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
-    virtual = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'eth4.1', :physical_device => 'eth4')
+    virtual = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'eth4.1', :attached_to => 'eth4')
 
     host.set_interfaces(parser)
     virtual.reload
     assert_equal 'eth5.1', virtual.identifier
-    assert_equal 'eth5', virtual.physical_device
+    assert_equal 'eth5', virtual.attached_to
   end
 
   test "set_interfaces updates associated virtuals identifier even on primary interface" do
     host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth1'})
     host.update_attribute :primary_interface, 'eth0'
     host.update_attribute :mac, '00:00:00:11:22:33'
-    virtual = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'eth0.1', :physical_device => 'eth0')
+    virtual = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'eth0.1', :attached_to => 'eth0')
 
     host.set_interfaces(parser)
     virtual.reload
     assert_equal 'eth1.1', virtual.identifier
-    assert_equal 'eth1', virtual.physical_device
+    assert_equal 'eth1', virtual.attached_to
   end
 
   test "#set_interfaces updates associated virtuals identifier on identifier change mutualy exclusively" do
@@ -939,8 +939,8 @@ context "location or organizations are not enabled" do
     parser = stub(:interfaces => hash, :ipmi_interface => {})
     physical4 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
     physical5 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'eth5')
-    virtual4 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.10', :identifier => 'eth4.1', :physical_device => 'eth4')
-    virtual5 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:44:55:66', :virtual => true, :ip => '10.10.0.20', :identifier => 'eth5.1', :physical_device => 'eth5')
+    virtual4 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.10', :identifier => 'eth4.1', :attached_to => 'eth4')
+    virtual5 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:44:55:66', :virtual => true, :ip => '10.10.0.20', :identifier => 'eth5.1', :attached_to => 'eth5')
 
     host.set_interfaces(parser)
     physical4.reload
@@ -951,8 +951,8 @@ context "location or organizations are not enabled" do
     assert_equal 'eth4', physical5.identifier
     assert_equal 'eth5.1', virtual4.identifier
     assert_equal 'eth4.1', virtual5.identifier
-    assert_equal 'eth5', virtual4.physical_device
-    assert_equal 'eth4', virtual5.physical_device
+    assert_equal 'eth5', virtual4.attached_to
+    assert_equal 'eth4', virtual5.attached_to
   end
 
   test "#set_interfaces does not allow two physical devices with same IP, it ignores the second" do
@@ -969,6 +969,23 @@ context "location or organizations are not enabled" do
     assert_includes host.interfaces.map(&:identifier), 'eth2'
     refute_includes host.interfaces.map(&:identifier), 'eth1'
     assert_equal 2, host.interfaces.size
+  end
+
+  test "#set_interfaces creates bond interfaces according to identifier" do
+    host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
+    hash = {
+      :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '', :virtual => false},
+      :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => true},
+    }.with_indifferent_access
+    parser = stub(:interfaces => hash, :ipmi_interface => {})
+
+    host.set_interfaces(parser)
+    host.reload
+    assert_includes host.interfaces.map(&:identifier), 'eth1'
+    assert_includes host.interfaces.map(&:identifier), 'bond0'
+    assert_equal 2, host.interfaces.size
+    assert_kind_of Nic::Bond, host.interfaces.find_by_identifier('bond0')
+    assert_kind_of Nic::Managed, host.interfaces.find_by_identifier('eth1')
   end
 
   # Token tests

@@ -1,8 +1,9 @@
 class FactParser
   delegate :logger, :to => :Rails
-  VIRTUAL = '\A([a-z0-9]+)_(\d+)\Z'
-  BRIDGES = '\A(vir)?br\d+\Z'
-  VIRTUAL_NAMES = /#{VIRTUAL}|#{BRIDGES}/
+  VIRTUAL = /\A([a-z0-9]+)_(\d+)\Z/
+  BRIDGES = /\A(vir)?br\d+\Z/
+  BONDS = /\A(bond\d+)|(lagg\d+)\Z/
+  VIRTUAL_NAMES = /#{VIRTUAL}|#{BRIDGES}|#{BONDS}/
 
   def self.parser_for(type)
     parsers[type.to_s] || parsers[:puppet]
@@ -99,10 +100,10 @@ class FactParser
   def set_additional_attributes(attributes, name)
     if name =~ VIRTUAL_NAMES
       attributes[:virtual] = true
-      if $1.nil?
+      if $1.nil? && name =~ BRIDGES
         attributes[:bridge] = true
       else
-        attributes[:physical_device] = $1
+        attributes[:attached_to] = $1
 
         if @facts[:vlans].present?
           vlans = @facts[:vlans].split(',')

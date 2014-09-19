@@ -1,1 +1,13 @@
 <%= render 'nic/base_form', :f => f %>
+
+<% virtual_id = dom_id(f.object, "virtual_form") %>
+<%= checkbox_f f, :virtual,
+               :disabled => !f.object.new_record?,
+               :label => _("Virtual NIC"),
+               :help_inline => _("Enable if this is an alias or VLAN interface"),
+               :onclick => "$(this).closest('div.clearfix').siblings('div.#{virtual_id}').toggle()" %>
+
+<% hidden_class = f.object.virtual ? '' : 'hidden' %>
+<%= content_tag :div, :class => "#{virtual_id} #{hidden_class}" do %>
+  <%= render 'nic/virtual_form', :f => f, :attached_to_required => true %>
+<% end %>

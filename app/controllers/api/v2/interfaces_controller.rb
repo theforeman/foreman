@@ -38,7 +38,10 @@ module Api
           param :virtual, :bool, :desc => N_("Alias or VLAN device")
           param :identifier, String, :desc => N_("Device identifier, e.g. eth0 or eth1.1")
           param :tag, String, :desc => N_("VLAN tag, this attribute has precedence over the subnet VLAN ID")
-          param :physical_device, String, :desc => N_("Identifier of physical interface to which this interface belongs to. e.g. eth1")
+          param :attached_to, String, :desc => N_("Identifier of the interface to which this interface belongs, e.g. eth1")
+          param :mode, String, :desc => N_("Bond mode of the interface, e.g. balance-rr")
+          param :attached_devices, Array, :desc => N_("Identifiers of slave interfaces, e.g. ['eth1', 'eth2']")
+          param :bond_options, String, :desc => N_("Space separated options, e.g. miimon=100")
         end
       end
 
