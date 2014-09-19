@@ -7,7 +7,7 @@ module Orchestration::SSHProvision
   end
 
   def ssh_provision?
-    compute_attributes.present? && image_build? && !image.try(:user_data)
+     compute_attributes.present? && compute_resource.ssh_provisioning_supported? && image_build? && !image.try(:user_data)
   end
 
   protected

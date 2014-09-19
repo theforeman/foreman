@@ -248,6 +248,18 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
+  def ssh_provisioning_supported?
+    true
+  end
+
+  def requires_os?
+    true
+  end
+
+  def requires_architecture?
+    true
+  end
+
   protected
 
   def client
