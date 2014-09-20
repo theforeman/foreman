@@ -109,6 +109,8 @@
   <div class='exit-fullscreen hidden'>
     <%= link_to_function icon_text('resize-small'), 'exit_fullscreen()', :class => 'btn btn-default btn-lg', :'data-placement'=>'bottom', :title => _('Exit Full Screen') %>
   </div>
+  <%# These hidden inputs are used for the diff Preview. They intentionally do
+      not have a 'name' attribute so browsers will not send them in the form POST. %>
   <input type="hidden" id="old" value="<%= @config_template.template %>" />
   <input type="hidden" id="new" value="<%= @config_template.template %>" />
 <% end %>
