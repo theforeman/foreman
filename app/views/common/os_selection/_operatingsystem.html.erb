@@ -3,11 +3,12 @@
     {:include_blank => blank_or_inherit_f(f, :medium), :selected => item.medium_id},
     {:id => type + "_medium_id", :name => type + "[medium_id]", :label => _("Media"), :disabled => os_media.empty?,
      :help_inline => :indicator, :onchange => 'medium_selected(this);', :'data-url' =>  method_path('medium_selected'),
-     :'data-type' => controller_name }
+     :'data-type' => controller_name, :required => true }
   %>
   <%= select_f f, :ptable_id, os_ptable, :id, :to_label,
     {:include_blank => blank_or_inherit_f(f, :ptable), :selected => item.ptable_id},
-    {:id => type + "_ptable_id", :name => type + "[ptable_id]", :label => _("Partition table"), :disabled => os_ptable.empty?}
+    {:id => type + "_ptable_id", :name => type + "[ptable_id]", :label => _("Partition table"), :disabled => os_ptable.empty?,
+     :required => true}
   %>
 
   <% if @operatingsystem and @operatingsystem.supports_image %>
