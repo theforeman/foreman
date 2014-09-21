@@ -5,7 +5,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_required_nested_object
+      before_filter :find_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, '/operatingsystems/:operatingsystem_id/os_default_templates', N_('List default templates combinations for an operating system')

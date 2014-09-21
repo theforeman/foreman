@@ -83,7 +83,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     get :index, {:environment_id => 'nonexistent' }
     assert_response 404
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert_equal "Environment not found by id 'nonexistent'", puppetclasses['message']
+    assert_equal ["Environment not found by id 'nonexistent'"], puppetclasses['message']
   end
 
   test "should show puppetclass for host" do
