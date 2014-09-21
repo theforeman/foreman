@@ -14,7 +14,7 @@ namespace :gettext do
 
   # redefine file globs for Foreman
   def files_to_translate
-    Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml,slim,rhtml,js}")
+    Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml,slim,rhtml,js,rabl}")
   end
 end
 
