@@ -19,7 +19,7 @@
 $(document).on('ContentLoad', function(){onContentLoad()});
 
 $(function() {
-  $(document.body).trigger('ContentLoad');
+  $(document).trigger('ContentLoad');
 });
 
 function onContentLoad(){
