@@ -33,8 +33,8 @@ class FactValue < ActiveRecord::Base
   scope :required_fields, lambda { includes(:host, :fact_name) }
   scope :facts_counter, lambda {|value, name_id| where(:value => value, :fact_name_id => name_id) }
   scope :with_fact_parent_id, lambda {|find_ids| joins(:fact_name).merge FactName.with_parent_id(find_ids) }
-  scope :with_roots, includes(:fact_name)
-  scope :root_only, with_roots.where(:fact_names => {:ancestry => nil})
+  scope :with_roots, lambda { includes(:fact_name) }
+  scope :root_only, lambda { with_roots.where(:fact_names => {:ancestry => nil}) }
 
   validates :fact_name_id, :uniqueness => { :scope => :host_id }
 
