@@ -1,15 +1,11 @@
 module Nic
   class Interface < Base
 
-    attr_accessible :ip
-
     validates :ip, :uniqueness => true, :format => {:with => Net::Validations::IP_REGEXP}, :allow_blank => true
 
     validate :normalize_ip
 
     validates :physical_device, :presence => true, :if => Proc.new { |o| o.virtual && !o.bridge }
-
-    attr_accessible :name, :subnet_id, :subnet, :domain_id, :domain
 
     # Don't have to set a hostname for each interface, but it must be unique if it is set.
     before_validation :normalize_name

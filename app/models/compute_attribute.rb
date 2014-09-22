@@ -1,6 +1,5 @@
 class ComputeAttribute < ActiveRecord::Base
 
-  attr_accessible :compute_profile_id, :compute_resource_id, :vm_attrs
   audited :associated_with => :compute_profile
 
   belongs_to :compute_resource

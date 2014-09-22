@@ -5,9 +5,6 @@ class ConfigTemplate < ActiveRecord::Base
   validates_lengths_from_database
   audited :allow_mass_assignment => true
   self.auditing_enabled = !Foreman.in_rake?('db:migrate')
-  attr_accessible :name, :template, :template_kind, :template_kind_id, :snippet, :template_combinations_attributes,
-                  :operatingsystems, :operatingsystem_ids, :audit_comment, :location_ids, :organization_ids, :locked,
-                  :vendor, :default
   validates :name, :presence => true, :uniqueness => true
   validates :template, :presence => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }

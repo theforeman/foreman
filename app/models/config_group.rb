@@ -4,8 +4,6 @@ class ConfigGroup < ActiveRecord::Base
 
   validates_lengths_from_database
 
-  attr_accessible :name, :puppetclass_ids
-
   has_many :config_group_classes
   has_many :puppetclasses, :through => :config_group_classes
   has_many :host_config_groups
