@@ -36,10 +36,10 @@ class PuppetclassTest < ActiveSupport::TestCase
     # add permission for user :one
     as_admin do
       filter1 = FactoryGirl.build(:filter)
-      filter1.permissions = Permission.find_all_by_name(['create_external_variables'])
+      filter1.permissions = Permission.where(name: ['create_external_variables'])
       filter2 = FactoryGirl.build(:filter)
-      filter2.permissions = Permission.find_all_by_name(['edit_puppetclasses'])
-      role = Role.find_or_create_by_name :name => "testing_role"
+      filter2.permissions = Permission.where(name: ['edit_puppetclasses'])
+      role = Role.find_or_create_by(name: "testing_role")
       role.filters = [ filter1, filter2 ]
       role.save!
       filter1.role = role

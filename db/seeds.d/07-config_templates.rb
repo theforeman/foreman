@@ -1,14 +1,14 @@
 # Find known operating systems for associations
-os_junos = Operatingsystem.find_all_by_type "Junos" || Operatingsystem.where("name LIKE ?", "junos")
-os_solaris = Operatingsystem.find_all_by_type "Solaris"
-os_suse = Operatingsystem.find_all_by_type "Suse" || Operatingsystem.where("name LIKE ?", "suse")
-os_windows = Operatingsystem.find_all_by_type "Windows"
+os_junos = Operatingsystem.where(type: "Junos") || Operatingsystem.where("name LIKE ?", "junos")
+os_solaris = Operatingsystem.where(type: "Solaris")
+os_suse = Operatingsystem.where(type: "Suse") || Operatingsystem.where("name LIKE ?", "suse")
+os_windows = Operatingsystem.where(type: "Windows")
 
 # Template kinds
 kinds = {}
 [:PXELinux, :PXEGrub, :iPXE, :provision, :finish, :script, :user_data, :ZTP].each do |type|
-  kinds[type] = TemplateKind.find_by_name(type)
-  kinds[type] ||= TemplateKind.create :name => type
+  kinds[type] = TemplateKind.where(name: type)
+  kinds[type] ||= TemplateKind.create(name: type)
   raise "Unable to create template kind: #{format_errors kinds[type]}" if kinds[type].nil? || kinds[type].errors.any?
 end
 
@@ -60,7 +60,7 @@ ConfigTemplate.without_auditing do
       { :name => 'redhat_register', :source => 'snippets/_redhat_register.erb', :snippet => true },
       { :name => 'saltstack_minion', :source => 'snippets/_saltstack_minion.erb', :snippet => true }
   ].each do |input|
-    next if ConfigTemplate.find_by_name(input[:name])
+    next if ConfigTemplate.where(name: input[:name])
     next if audit_modified? ConfigTemplate, input[:name]
     t = ConfigTemplate.create({
                                   :snippet  => false,

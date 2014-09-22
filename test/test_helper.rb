@@ -131,7 +131,7 @@ Spork.prefork do
         permission = Permission.find_by_name("#{operation}_#{type}") || FactoryGirl.create(:permission, :name => "#{operation}_#{type}")
         filter = FactoryGirl.build(:filter, :search => search)
         filter.permissions = [ permission ]
-        role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
+        role = Role.find_or_create_by(name: "#{operation}_#{type}")
         role.filters = [ filter ]
         role.save!
         filter.role = role
