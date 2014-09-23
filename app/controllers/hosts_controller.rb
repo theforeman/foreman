@@ -17,7 +17,7 @@ class HostsController < ApplicationController
 
   add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_by_name, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun,
+  before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun,
                                          :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                          :runtime, :resources, :templates, :ipmi_boot, :console,
                                          :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
@@ -170,7 +170,7 @@ class HostsController < ApplicationController
   def externalNodes
     certname = params[:name]
     @host ||= resource_base.find_by_certname certname
-    @host ||= resource_base.find_by_name certname
+    @host ||= resource_base.find certname
     not_found and return unless @host
 
     begin
@@ -337,7 +337,7 @@ class HostsController < ApplicationController
       skipped = []
       params[:name].each do |name, value|
         next if value.empty?
-        if (host_param = host.host_parameters.find_by_name(name))
+        if (host_param = host.host_parameters.find(name))
           counter += 1 if host_param.update_attribute(:value, value)
         else
           skipped << name
@@ -537,11 +537,11 @@ class HostsController < ApplicationController
               cr     = ComputeResource.find_by_id(host[:compute_resource_id])
               images = cr.try(:images)
               if images.nil?
-                [TemplateKind.find_by_name('finish')]
+                [TemplateKind.find('finish')]
               else
                 uuid       = host[:compute_attributes][cr.image_param_name]
                 image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
-                [TemplateKind.find_by_name(image_kind)]
+                [TemplateKind.find(image_kind)]
               end
             else
               TemplateKind.all
@@ -622,16 +622,35 @@ class HostsController < ApplicationController
     error _("Something went wrong while changing host type - %s") % (e)
   end
 
-  def find_by_name
-    not_found and return false if (id = params[:id]).blank?
-    # determine if we are searching for a numerical id or plain name
-
-    if id =~ /^\d+$/
-      @host = resource_base.find_by_id id.to_i
-    else
-      @host = resource_base.find_by_name id.downcase
-      @host ||= resource_base.find_by_mac params[:host][:mac] if params[:host] && params[:host][:mac]
+  def taxonomy_scope
+    if params[:host]
+      @organization = Organization.find_by_id(params[:host][:organization_id])
+      @location = Location.find_by_id(params[:host][:location_id])
     end
+
+    if @host
+      @organization ||= @host.organization
+      @location     ||= @host.location
+    end
+
+    @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
+    @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
+
+    if SETTINGS[:organizations_enabled]
+      @organization ||= Organization.current
+      @organization ||= Organization.my_organizations.first
+    end
+    if SETTINGS[:locations_enabled]
+      @location ||= Location.current
+      @location ||= Location.my_locations.first
+    end
+  end
+
+  # overwrite application_controller
+  def find_resource
+    not_found and return false if (id = params[:id]).blank?
+    @host   = resource_base.find(id)
+    @host ||= resource_base.find_by_mac params[:host][:mac] if params[:host] && params[:host][:mac]
 
     not_found and return(false) unless @host
     @host

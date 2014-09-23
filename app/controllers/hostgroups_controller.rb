@@ -1,7 +1,8 @@
 class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_name,   :only => [:nest, :clone, :edit, :update, :destroy]
+
+  before_filter :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy]
   before_filter :ajax_request,   :only => [:process_hostgroup, :current_parameters, :puppetclass_parameters]
   before_filter :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
 

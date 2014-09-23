@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include Foreman::Controller::Authentication
   include Foreman::Controller::Session
   include Foreman::ThreadSession::Cleaner
+  include FindCommon
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
@@ -119,20 +120,6 @@ class ApplicationController < ActionController::Base
 
   def model_of_controller
     @model_of_controller ||= controller_path.singularize.camelize.gsub('/','::').constantize
-  end
-
-
-  # searches for an object based on its name and assign it to an instance variable
-  # required for models which implement the to_param method
-  #
-  # example:
-  # @host = Host.find_by_name params[:id]
-  def find_by_name
-    not_found and return if params[:id].blank?
-
-    name = controller_name.singularize
-    cond = "find" + (params[:id] =~ /\A\d+(-.+)?\Z/ ? "" : "_by_name")
-    not_found and return unless instance_variable_set("@#{name}", resource_base.send(cond, params[:id]))
   end
 
   def current_permission

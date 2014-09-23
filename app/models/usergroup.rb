@@ -1,6 +1,8 @@
 class Usergroup < ActiveRecord::Base
   audited :allow_mass_assignment => true
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_last_admin_group_is_not_deleted
@@ -29,6 +31,10 @@ class Usergroup < ActiveRecord::Base
   validate :ensure_uniq_name, :ensure_last_admin_remains_admin
 
   accepts_nested_attributes_for :external_usergroups, :reject_if => lambda { |a| a[:name].blank? }, :allow_destroy => true
+
+  def to_param
+    "#{id}-#{name.parameterize}"
+  end
 
   # This methods retrieves all user addresses in a usergroup
   # Returns: Array of strings representing the user's email addresses

@@ -1,7 +1,7 @@
 class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+  before_filter :find_resource, :only => [:edit, :update, :destroy]
   before_filter :setup_search_options, :only => :index
   before_filter :reset_redirect_to_url, :only => :index
   before_filter :store_redirect_to_url, :only => :edit
@@ -88,13 +88,6 @@ class PuppetclassesController < ApplicationController
   def redirect_back_or_default(default)
     redirect_to(session[:redirect_to_url] || default)
     session[:redirect_to_url] = nil
-  end
-
-  def find_by_name
-    not_found and return if params[:id].blank?
-    pc = resource_base.includes(:class_params => [:environment_classes, :environments, :lookup_values])
-    @puppetclass = (params[:id] =~ /\A\d+\Z/) ? pc.find(params[:id]) : pc.find_by_name(params[:id])
-    not_found and return unless @puppetclass
   end
 
 end

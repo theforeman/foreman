@@ -3,7 +3,7 @@ class ConfigTemplatesController < ApplicationController
   include Foreman::Renderer
 
   before_filter :handle_template_upload, :only => [:create, :update]
-  before_filter :find_by_name, :only => [:edit, :update, :destroy, :clone, :lock, :unlock]
+  before_filter :find_resource, :only => [:edit, :update, :destroy, :clone, :lock, :unlock]
   before_filter :load_history, :only => :edit
 
   def index

@@ -1,5 +1,7 @@
 class Hostgroup < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :title
   include Taxonomix
   include HostCommon
   include NestedAncestryCommon

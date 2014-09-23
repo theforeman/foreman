@@ -4,6 +4,7 @@ module Api
     include Foreman::Controller::Authentication
     include Foreman::Controller::Session
     include Foreman::ThreadSession::Cleaner
+    include FindCommon
 
     protect_from_forgery
     skip_before_filter :verify_authenticity_token, :unless => :protect_api_from_forgery?
@@ -36,25 +37,6 @@ module Api
 
     def get_resource
       instance_variable_get :"@#{resource_name}" or raise 'no resource loaded'
-    end
-
-    def resource_name
-      controller_name.singularize
-    end
-
-    def resource_class
-      @resource_class ||= resource_name.classify.constantize
-    end
-
-    def resource_scope(controller = controller_name)
-      @resource_scope ||= begin
-        scope = resource_class.scoped
-        if resource_class.respond_to?(:authorized)
-          scope.authorized("#{action_permission}_#{controller}", resource_class)
-        else
-          scope
-        end
-      end
     end
 
     def api_request?

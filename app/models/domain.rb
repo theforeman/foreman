@@ -2,6 +2,8 @@ require "resolv"
 # This models a DNS domain and so represents a site.
 class Domain < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
   include Taxonomix
   include StripLeadingAndTrailingDot
   audited :allow_mass_assignment => true

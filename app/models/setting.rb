@@ -1,4 +1,6 @@
 class Setting < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :name
   include ActiveModel::Validations
   self.inheritance_column = 'category'
 

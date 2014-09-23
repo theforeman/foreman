@@ -1,6 +1,6 @@
 class SubnetsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+  before_filter :find_resource, :only => [:edit, :update, :destroy]
 
   def index
     @subnets = resource_base.search_for(params[:search], :order => params[:order]).includes(:domains, :dhcp).paginate :page => params[:page]

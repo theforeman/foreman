@@ -1,5 +1,5 @@
 class TrendsController < ApplicationController
-  before_filter :find_trend, :only => %w{show edit update destroy}
+  before_filter :find_resource, :only => [:show, :edit, :update, :destroy]
 
   def index
     @trends = Trend.types.includes(:trendable).sort_by {|e| e.type_name.downcase }.paginate(:page => params[:page])
@@ -46,11 +46,6 @@ class TrendsController < ApplicationController
   def count
     TrendImporter.update!
     redirect_to trends_url
-  end
-
-  private
-  def find_trend
-    @trend = Trend.find(params[:id])
   end
 
 end

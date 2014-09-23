@@ -1,4 +1,6 @@
 class Location < Taxonomy
+  extend FriendlyId
+  friendly_id :title
   include Foreman::ThreadSession::LocationModel
 
   has_and_belongs_to_many :organizations
@@ -39,6 +41,10 @@ class Location < Taxonomy
       loc.location_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('location').to_sym} : p.value }
     end
     hash
+  end
+
+  def to_param
+    "#{id}-#{name.parameterize}"
   end
 
   def dup

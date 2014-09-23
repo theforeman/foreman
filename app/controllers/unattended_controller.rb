@@ -43,8 +43,8 @@ class UnattendedController < ApplicationController
   def template
     return head(:not_found) unless (params.has_key?("id") and params.has_key?(:hostgroup))
 
-    template = ConfigTemplate.find_by_name(params['id'])
-    @host = Hostgroup.find_by_name(params['hostgroup'])
+    template = ConfigTemplate.find(params['id'])
+    @host = Hostgroup.find(params['hostgroup'])
 
     return head(:not_found) unless template and @host
 
@@ -104,7 +104,7 @@ class UnattendedController < ApplicationController
 
   def find_host_by_spoof
     host   = Host.find_by_ip(params.delete('spoof')) if params['spoof'].present?
-    host ||= Host.find_by_name(params.delete('hostname')) if params['hostname'].present?
+    host ||= Host.find(params.delete('hostname')) if params['hostname'].present?
     @spoof = host.present?
     host
   end

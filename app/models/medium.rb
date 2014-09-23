@@ -1,5 +1,7 @@
 class Medium < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
   include Taxonomix
   include ValidateOsFamily
   audited :allow_mass_assignment => true

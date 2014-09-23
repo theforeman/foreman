@@ -4,6 +4,8 @@ class Subnet < ActiveRecord::Base
   IPAM_MODES = {:dhcp => N_('DHCP'), :db => N_('Internal DB'), :none => N_('None')}
 
   include Authorizable
+  extend FriendlyId
+  friendly_id :network
   include Taxonomix
   audited :allow_mass_assignment => true
 
@@ -63,6 +65,10 @@ class Subnet < ActiveRecord::Base
 
   def self.ipam_modes_with_translations
     modes_with_translations(IPAM_MODES)
+  end
+
+  def to_param
+    "#{id}-#{name.parameterize}"
   end
 
   # Subnets are displayed in the form of their network network/network mask

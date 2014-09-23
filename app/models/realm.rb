@@ -1,5 +1,7 @@
 class Realm < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
   include Taxonomix
 
   TYPES = ["FreeIPA", "Active Directory"]

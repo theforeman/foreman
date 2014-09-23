@@ -5,12 +5,12 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_hostgroup_id, :only => [:index, :create, :destroy]
+      before_filter :find_hostgroup, :only => [:index, :create, :destroy]
 
       api :GET, "/hostgroups/:hostgroup_id/puppetclass_ids/", N_("List all Puppet class IDs for host group")
 
       def index
-        render :json =>  { root_node_name => HostgroupClass.where(:hostgroup_id => hostgroup_id).pluck('puppetclass_id') }
+        render :json =>  { root_node_name => HostgroupClass.where(:hostgroup_id => @hostgroup.id).pluck('puppetclass_id') }
       end
 
 
@@ -19,7 +19,7 @@ module Api
       param :puppetclass_id, String, :required => true, :desc => N_("ID of Puppet class")
 
       def create
-        @hostgroup_class = HostgroupClass.create!(:hostgroup_id => hostgroup_id, :puppetclass_id => params[:puppetclass_id].to_i)
+        @hostgroup_class = HostgroupClass.create!(:hostgroup_id => @hostgroup.id, :puppetclass_id => params[:puppetclass_id].to_i)
         render :json => {:hostgroup_id => @hostgroup_class.hostgroup_id, :puppetclass_id => @hostgroup_class.puppetclass_id}
       end
 
@@ -28,16 +28,16 @@ module Api
       param :id, String, :required => true, :desc => N_("ID of Puppet class")
 
       def destroy
-        @hostgroup_class = HostgroupClass.where(:hostgroup_id => @hostgroup_id, :puppetclass_id => params[:id])
+        @hostgroup_class = HostgroupClass.where(:hostgroup_id => @hostgroup.id, :puppetclass_id => params[:id])
         process_response @hostgroup_class.destroy_all
       end
 
       private
-      attr_reader :hostgroup_id
 
-      # params[:hostgroup_id] is "id-to_label.parameterize" and .to_i returns the id
-      def find_hostgroup_id
-        @hostgroup_id = params[:hostgroup_id].to_i
+      def find_hostgroup
+        not_found and return false if (id = params[:hostgroup_id]).blank?
+        @hostgroup = Hostgroup.find(params[:hostgroup_id]) if Hostgroup.respond_to?(:authorized) &&
+                                                              Hostgroup.authorized("view_hostgroup", Hostgroup)
       end
 
     end

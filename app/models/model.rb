@@ -1,5 +1,7 @@
 class Model < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many_hosts

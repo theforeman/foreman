@@ -1,6 +1,6 @@
 class UsergroupsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+  before_filter :find_resource, :only => [:edit, :update, :destroy]
 
   def index
     @usergroups = resource_base.paginate :page => params[:page]
