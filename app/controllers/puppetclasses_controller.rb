@@ -2,6 +2,7 @@ class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
   include Foreman::Controller::AutoCompleteSearch
   before_filter :find_resource, :only => [:edit, :update, :destroy]
+  before_filter :find_by_name, :only => [:edit, :update, :destroy, :override]
   before_filter :setup_search_options, :only => :index
   before_filter :reset_redirect_to_url, :only => :index
   before_filter :store_redirect_to_url, :only => :edit
@@ -45,13 +46,26 @@ class PuppetclassesController < ApplicationController
   end
 
   def override
-    pclass = Puppetclass.find(params[:id])
-    pname = pclass.name
-    pclass.class_params.each do |p|
-      p.override = true
-      p.save
+    if @puppetclass.class_params.present?
+      @puppetclass.class_params.each do |class_param|
+        class_param.update_attribute(:override, true)
+      end
+      notice _("Successfully overriden all parameters of puppetclass %{name}" % { :name => @puppetclass.name })
+    else
+      error _("No parameters to override for puppetclass %{name}" % { :name => @puppetclass.name })
     end
-    notice _("Successfully overriden all parameters of puppetclass #{pname}")
+    redirect_to puppetclasses_url
+  end
+
+  def unoverride
+    if @puppetclass.class_params.present?
+      @puppetclass.class_params.each do |class_param|
+        class_param.update_attribute(:override, false)
+      end
+      notice _("Successfully set as not overriden all parameters of puppetclass %{name}" % { :name => @puppetclass.name })
+    else
+      error _("No parameters to change for puppetclass %{name}" % { :name => @puppetclass.name })
+    end
     redirect_to puppetclasses_url
   end
 
@@ -101,4 +115,25 @@ class PuppetclassesController < ApplicationController
     session[:redirect_to_url] = nil
   end
 
+<<<<<<< HEAD
+=======
+  def find_by_name
+    not_found and return if params[:id].blank?
+    pc = resource_base.includes(:class_params => [:environment_classes, :environments, :lookup_values])
+    @puppetclass = (params[:id] =~ /\A\d+\Z/) ? pc.find(params[:id]) : pc.find_by_name(params[:id])
+    not_found and return unless @puppetclass
+  end
+
+  def action_permission
+    case params[:action]
+      when 'override'
+        :override
+      when 'unoverride'
+        :unoverride
+      else
+        super
+    end
+  end
+
+>>>>>>> fixes #7608 added unoverride
 end

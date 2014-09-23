@@ -25,8 +25,9 @@
       <td><%= puppetclass.global_class_params_count %> </td>
       <td><%= puppetclass.lookup_keys_count %> </td>
       <td>
-        <%= link_to "Override", { :controller => "puppetclasses",:action => "override" , :id => puppetclass.id } , :confirm => _("Override %s?") % puppetclass.name %>
-        <%= display_delete_if_authorized hash_for_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer),
+       <%= link_to "Override", { :controller => "puppetclasses",:action => "override" , :id => puppetclass.name } , :confirm => _("This will set all parameters of the class %s as overriden.Accept ?") % puppetclass.name if is_overriden(puppetclass) == false %>
+       <%= link_to "UnOverride", { :controller => "puppetclasses",:action => "unoverride" , :id => puppetclass.name } , :confirm => _("This will undo the Overriden of all parameters of the class %s.Accept ?") % puppetclass.name if is_overriden(puppetclass) == true %>
+       <%= display_delete_if_authorized hash_for_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer),
                                          :confirm => _("Delete %s?") % puppetclass.name %>
       </td>
     </tr>
