@@ -166,7 +166,6 @@ Foreman::Application.routes.draw do
       post 'obsolete_and_new'
       get 'auto_complete_search'
       get 'override'
-      get 'unoverride'
     end
     member do
       post 'parameters'
