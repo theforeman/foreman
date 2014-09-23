@@ -71,9 +71,9 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   end
 
   test "should show os if id is fullname" do
-    get :show, { :id => operatingsystems(:redhat).fullname }
+    get :show, { :id => operatingsystems(:centos5_3).fullname }
     assert_response :success
-    assert_equal operatingsystems(:redhat), assigns(:operatingsystem)
+    assert_equal operatingsystems(:centos5_3), assigns(:operatingsystem)
   end
 
   test "should show os if id is description" do

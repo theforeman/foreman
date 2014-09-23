@@ -3,6 +3,8 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :login
   include Foreman::ThreadSession::UserModel
   include Taxonomix
   include DirtyAssociations

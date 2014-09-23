@@ -182,7 +182,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
   test "should reset nested os parameters" do
     assert_difference('OsParameter.count', -1)  do
-      delete :reset, { :operatingsystem_id => operatingsystems(:redhat).name }
+      delete :reset, { :operatingsystem_id => operatingsystems(:redhat).id }
     end
     assert_response :success
   end

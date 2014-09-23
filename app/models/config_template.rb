@@ -1,5 +1,7 @@
 class ConfigTemplate < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
   include Taxonomix
 
   validates_lengths_from_database

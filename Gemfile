@@ -21,6 +21,7 @@ gem 'oauth'
 gem 'deep_cloneable', '~> 2.0'
 gem 'foreigner', '~> 1.4.2'
 gem 'validates_lengths_from_database',  '~> 0.2.0'
+gem 'friendly_id', '~> 4.0'
 
 if RUBY_VERSION =~ /^1\.8/
   # Older version of safemode for Ruby 1.8, as the latest causes regexp overflows (#2100)

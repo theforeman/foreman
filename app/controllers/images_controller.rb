@@ -1,6 +1,6 @@
 class ImagesController < ApplicationController
   before_filter :find_compute_resource
-  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+  before_filter :find_resource, :only => [:edit, :update, :destroy]
 
   def index
     # Listing images in /hosts/new consumes this method as JSON

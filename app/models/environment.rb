@@ -1,4 +1,6 @@
 class Environment < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :name
   include Taxonomix
   include Authorizable
 

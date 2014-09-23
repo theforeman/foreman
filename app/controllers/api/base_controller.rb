@@ -4,6 +4,7 @@ module Api
     include Foreman::Controller::Authentication
     include Foreman::Controller::Session
     include Foreman::ThreadSession::Cleaner
+    include FindCommon
 
     protect_from_forgery
     skip_before_filter :verify_authenticity_token, :unless => :protect_api_from_forgery?
@@ -36,25 +37,6 @@ module Api
 
     def get_resource
       instance_variable_get :"@#{resource_name}" or raise 'no resource loaded'
-    end
-
-    def resource_name
-      controller_name.singularize
-    end
-
-    def resource_class
-      @resource_class ||= resource_name.classify.constantize
-    end
-
-    def resource_scope(controller = controller_name)
-      @resource_scope ||= begin
-        scope = resource_class.scoped
-        if resource_class.respond_to?(:authorized)
-          scope.authorized("#{action_permission}_#{controller}", resource_class)
-        else
-          scope
-        end
-      end
     end
 
     def api_request?
@@ -138,26 +120,14 @@ module Api
       false
     end
 
-    # possible keys that should be used to find the resource
-    def resource_identifying_attributes
-      %w(name id)
-    end
-
     # searches for a resource based on its name and assign it to an instance variable
     # required for models which implement the to_param method
     #
     # example:
     # @host = Host.find_resource params[:id]
     def find_resource(controller = controller_name)
-      resource = resource_identifying_attributes.find do |key|
-        next if key=='name' and (params[:id] =~ /\A\d+\z/)
-        method = "find_by_#{key}"
-        id = key=='id' ? params[:id].to_i : params[:id]
-        scope = resource_scope(controller)
-        if scope.respond_to?(method)
-          (resource = scope.send method, id) and break resource
-        end
-      end
+      scope = resource_scope(controller)
+      resource = scope.find(params[:id])
 
       if resource
         return instance_variable_set(:"@#{resource_name}", resource)
@@ -232,12 +202,13 @@ module Api
       params.keys.each do |param|
         if md = param.match(/(\w+)_id$/)
           if allowed_nested_id.include?(param)
-            resource_identifying_attributes.each do |key|
-              find_method = "find_by_#{key}"
-              model = md[1].classify.constantize
-              controller = md[1].pluralize
-              authorized_scope = model.authorized("#{action_permission}_#{controller}")
-              @nested_obj ||= authorized_scope.send(find_method, params[param])
+            model = md[1].classify.constantize
+            controller = md[1].pluralize
+            authorized_scope = model.authorized("#{action_permission}_#{controller}")
+            @nested_obj = begin
+              authorized_scope.find(params[param])
+            rescue ActiveRecord::RecordNotFound
+              nil
             end
           else
             # there should be a route error before getting here, but just in case,

@@ -1,4 +1,7 @@
 class Parameter < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :name
+
   validates_lengths_from_database
 
   belongs_to_host :foreign_key => :reference_id

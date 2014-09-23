@@ -1,6 +1,8 @@
 class Puppetclass < ActiveRecord::Base
   include Authorizable
   include ScopedSearchExtensions
+  extend FriendlyId
+  friendly_id :name
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)

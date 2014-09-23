@@ -4,6 +4,8 @@ require 'uri'
 class Operatingsystem < ActiveRecord::Base
   include Authorizable
   include ValidateOsFamily
+  extend FriendlyId
+  friendly_id :title
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
@@ -30,9 +32,8 @@ class Operatingsystem < ActiveRecord::Base
   validates :name, :presence => true, :format => {:with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.")}
   validates :description, :uniqueness => true, :allow_blank => true
   validates :password_hash, :inclusion => { :in => PasswordCrypt::ALGORITHMS }
-  before_validation :downcase_release_name
-
-  #TODO: add validation for name and major uniqueness
+  before_validation :downcase_release_name, :set_title
+  validates :title, :uniqueness => true, :presence => true
 
   before_save :set_family
 
@@ -134,7 +135,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def release
-    "#{major}#{('.' + minor) unless minor.empty?}"
+    "#{major}#{('.' + minor.to_s) unless minor.blank?}"
   end
 
   def fullname
@@ -234,6 +235,10 @@ class Operatingsystem < ActiveRecord::Base
   private
   def set_family
     self.family ||= self.deduce_family
+  end
+
+  def set_title
+    self.title = to_label.to_s[0..254]
   end
 
   def downcase_release_name

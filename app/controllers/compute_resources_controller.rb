@@ -1,8 +1,8 @@
 class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  AJAX_REQUESTS = %w{template_selected cluster_selected}
+  AJAX_REQUESTS = [:template_selected, :cluster_selected]
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_by_name, :only => [:show, :edit, :associate, :update, :destroy, :ping] + AJAX_REQUESTS
+  before_filter :find_resource, :only => [:show, :edit, :associate, :update, :destroy, :ping] + AJAX_REQUESTS
 
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
@@ -126,4 +126,5 @@ class ComputeResourcesController < ApplicationController
         super
     end
   end
+
 end

@@ -5,6 +5,8 @@ module Host
     include CounterCacheFix
 
     self.table_name = :hosts
+    extend FriendlyId
+    friendly_id :name
     OWNER_TYPES = %w(User Usergroup)
 
     validates_lengths_from_database

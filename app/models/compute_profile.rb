@@ -1,6 +1,8 @@
 class ComputeProfile < ActiveRecord::Base
 
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
 
   validates_lengths_from_database
   attr_accessible :name

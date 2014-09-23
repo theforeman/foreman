@@ -324,6 +324,12 @@ Foreman::Application.routes.draw do
         end
         resources :images, :except => [:show]
       end
+
+      resources :realms, :except => [:show] do
+        collection do
+          get 'auto_complete_search'
+        end
+      end
     end
 
     resources :subnets, :except => [:show] do
@@ -332,12 +338,6 @@ Foreman::Application.routes.draw do
         get 'import'
         post 'create_multiple'
         post 'freeip'
-      end
-    end
-
-    resources :realms, :except => [:show] do
-      collection do
-        get 'auto_complete_search'
       end
     end
 

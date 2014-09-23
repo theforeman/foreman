@@ -1,5 +1,7 @@
 class SmartProxy < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
   include Taxonomix
   audited :allow_mass_assignment => true
 
