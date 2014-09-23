@@ -44,6 +44,17 @@ class PuppetclassesController < ApplicationController
     end
   end
 
+  def override
+    pclass = Puppetclass.find(params[:id])
+    pname = pclass.name
+    pclass.class_params.each do |p|
+      p.override = true
+      p.save
+    end
+    notice _("Successfully overriden all parameters of puppetclass #{pname}")
+    redirect_to puppetclasses_url
+  end
+
   # form AJAX methods
   def parameters
     puppetclass = Puppetclass.find(params[:id])
