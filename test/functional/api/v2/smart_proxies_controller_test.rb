@@ -118,7 +118,6 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     ProxyAPI::Puppet.any_instance.stubs(:classes).returns(classes)
   end
 
-
   # puppetmaster proxy - import_puppetclasses tests
 
   test "should import new environments" do
@@ -248,6 +247,34 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     end
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
+  end
+
+  context 'import puppetclasses' do
+    setup do
+      ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["env1", "env2"])
+      classes_env1 = {'a' => Foreman::ImporterPuppetclass.new('name' => 'a')}
+      classes_env2 = {'b' => Foreman::ImporterPuppetclass.new('name' => 'b')}
+      ProxyAPI::Puppet.any_instance.stubs(:classes).with('env1').returns(classes_env1)
+      ProxyAPI::Puppet.any_instance.stubs(:classes).with('env2').returns(classes_env2)
+    end
+
+    test "should import puppetclasses for specified environment only" do
+      assert_difference('Puppetclass.count', 1) do
+        post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :environment_id => 'env1'}, set_session_user
+        assert_includes Puppetclass.pluck(:name), 'a'
+        refute_includes Puppetclass.pluck(:name), 'b'
+      end
+      assert_response :success
+    end
+
+    test "should import puppetclasses for all environments if none specified" do
+      assert_difference('Puppetclass.count', 2) do
+        post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+        assert_includes Puppetclass.pluck(:name), 'a'
+        assert_includes Puppetclass.pluck(:name), 'b'
+      end
+      assert_response :success
+    end
   end
 
 end
