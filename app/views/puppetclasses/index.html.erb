@@ -25,8 +25,10 @@
       <td><%= puppetclass.global_class_params_count %> </td>
       <td><%= puppetclass.lookup_keys_count %> </td>
       <td>
-        <%= display_delete_if_authorized hash_for_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer),
-                                         :confirm => _("Delete %s?") % puppetclass.name %>
+       <%= action_buttons(
+       display_delete_if_authorized(hash_for_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer), :confirm => _("Delete %s?") % puppetclass.name, :action => :delete),
+                                    link_to_if(puppetclass.class_params.present? && !overridden?(puppetclass), 'Override parameters', :controller => "puppetclasses",:action => "override", :message => 'overridden', :enable => true, :id => puppetclass.name, :confirm => _("This will set parameters of the class %s as overridden.Accept ?") % puppetclass.name ){},
+                                    link_to_if(puppetclass.class_params.present? && overridden?(puppetclass), 'Default Parameters', :controller => "puppetclasses", :action => "override", :message => 'defaults', :enable => false, :id => puppetclass.name, :confirm => _("This will reset parameters to default values %s.Accept ?") % puppetclass.name ){}) %>
       </td>
     </tr>
   <% end %>
