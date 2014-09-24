@@ -19,9 +19,26 @@ class Authorizer
   end
 
   def find_collection(resource_class, options = {})
+    filter_limits = nil
+    user.filters.each do |filter|
+      if filter.filters.length > 0
+        results = find_filter_collection(filter.filters, resource_class, options)
+        filter_limits = filter_limits.nil? ? results : filter_limits.merge(results)
+      end
+    end
+    filter_collection = find_filter_collection(user.filters, resource_class, options)
+    if filter_limits.nil?
+      filter_collection
+    else
+      ids = (filter_limits & filter_collection).collect { |o| o.id }
+      resource_class.where(:id => ids)
+    end
+  end
+
+  def find_filter_collection(filters, resource_class, options)
     permission = options.delete :permission
 
-    base = user.filters.joins(:permissions).where(["#{Permission.table_name}.resource_type = ?", resource_name(resource_class)])
+    base = filters.joins(:permissions).where(["#{Permission.table_name}.resource_type = ?", resource_name(resource_class)])
     all_filters = permission.nil? ? base : base.where(["#{Permission.table_name}.name = ?", permission])
 
     organization_ids = allowed_organizations(resource_class)
