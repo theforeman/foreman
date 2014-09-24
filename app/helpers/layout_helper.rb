@@ -244,9 +244,13 @@ module LayoutHelper
              end
            end.html_safe
     html += options[:more].html_safe if options[:more]
-    content_tag(:div, :class=>"col-md-5") do
-      content_tag(:ul, :class => 'pagination') do
-        content_tag(:li, link_to(html, "#"), :class=>"pull-left")
+    content_tag(:div, :class => "col-md-5 row") do
+      content_tag(:ul, :class => "pagination") do
+        content_tag(:li, :class => "pull-left") do
+          content_tag(:h4) do
+            content_tag(:div, html, :class => "label label-default")
+          end
+        end
       end
     end
   end
