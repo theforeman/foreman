@@ -4,6 +4,7 @@
   <tr>
     <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
     <th class=''><%= sort :name, :as => _('Name') %></th>
+    <th class="hidden-xs"><%= sort :ip, :as => _("IP Address") %></th>
     <th class="hidden-xs"><%= sort :os, :as => _("Operating system") %></th>
     <th class="hidden-xs"><%= sort :environment, :as => _('Environment') %></th>
     <th class="hidden-tablet hidden-xs"><%= sort :model, :as => _('Model') %></th>
@@ -17,6 +18,7 @@
         <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' %>
       </td>
       <td class='ellipsis'><%= name_column(host) %> </td>
+      <td class="hidden-xs"><%= host.ip if host.ip %></td>
       <td class="hidden-xs"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os.to_label}",14)).html_safe if host.os %></td>
       <td class="hidden-xs"><%= trunc(host.try(:environment), 14) %></td>
       <td class="hidden-tablet hidden-xs ellipsis"><%= model_name host %></td>
