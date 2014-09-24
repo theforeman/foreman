@@ -15,7 +15,7 @@
         <% end %>
         <li class="divider"></li>
         <li><%= link_to_function _('Bookmark this search'), "$('#bookmarks-modal').modal();",
-                                 {:id => "bookmark", :"data-url"=> new_bookmark_path(:kontroller => controller_name)}%></li>
+                                 {:id => "bookmark", :"data-url"=> main_app.new_bookmark_path(:kontroller => controller_name)}%></li>
       </ul>
     </span>
   </div>
