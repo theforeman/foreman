@@ -25,7 +25,7 @@
     <%= new_child_fields_template(f, :interfaces, {
         :object  => compute_resource.new_interface,
         :partial => 'compute_resources_vms/form/ovirt/network', :form_builder_attrs => { :selected_cluster => selected_cluster, :compute_resource => compute_resource } }) %>
-    <%= field_set_tag _("Network interfaces"), :id => "network_interfaces", :title => _('Networks') do %>
+    <%= field_set_tag _("Network interfaces"), :id => "network_interfaces" do %>
       <%= f.fields_for :interfaces do |i| %>
         <%= render 'compute_resources_vms/form/ovirt/network', :f => i, :selected_cluster => selected_cluster, :compute_resource => compute_resource %>
       <% end %>
@@ -35,7 +35,7 @@
     <%= new_child_fields_template(f, :volumes, {
             :object  => compute_resource.new_volume,
             :partial => 'compute_resources_vms/form/ovirt/volume', :form_builder_attrs => { :clusters => clusters, :compute_resource => compute_resource } }) %>
-    <%= field_set_tag _("Volumes"), :id => "volumes", :title => _('Volumes') do %>
+    <%= field_set_tag _("Volumes"), :id => "volumes" do %>
         <%= f.fields_for :volumes do |i| %>
             <%= render 'compute_resources_vms/form/ovirt/volume', :f => i, :compute_resource => compute_resource %>
         <% end %>
