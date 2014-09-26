@@ -150,7 +150,8 @@ module LayoutHelper
       content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
                   :id          => options.delete(:control_group_id) do
 
-        required_mark = ' *' if options[:required].nil? ? is_required?(f, attr) : options[:required]
+        required = options.delete(:required) # we don't want to use html5 required attr so we delete the option
+        required_mark = ' *' if required.nil? ? is_required?(f, attr) : required
         label   = options[:label] == :none ? '' : options.delete(:label)
         label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
             s_(clazz.gettext_translation_for_attribute_name attr)) if f
