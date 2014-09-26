@@ -2,7 +2,7 @@ class Setting < ActiveRecord::Base
   include ActiveModel::Validations
   self.inheritance_column = 'category'
 
-  TYPES= %w{ integer boolean hash array string }
+  TYPES= %w{ integer boolean hash array string enum }
   FROZEN_ATTRS = %w{ name category }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend }
   BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert }
@@ -16,7 +16,8 @@ class Setting < ActiveRecord::Base
     end
   end
 
-  attr_accessible :name, :value, :description, :category, :settings_type, :default
+  attr_accessible :name, :value, :description, :category, :settings_type, :default, :enum_values
+  serialize :enum_values, Array
 
   validates_lengths_from_database
   # audit the changes to this model
@@ -29,7 +30,9 @@ class Setting < ActiveRecord::Base
   validates :value, :numericality => true, :length => {:maximum => 8}, :if => Proc.new {|s| s.settings_type == "integer"}
   validates :value, :numericality => {:greater_than => 0}, :if => Proc.new {|s| NONZERO_ATTRS.include?(s.name) }
   validates :value, :inclusion => {:in => [true,false]}, :if => Proc.new {|s| s.settings_type == "boolean"}
+  validates :value, :inclusion => {:in => lambda {|s| s.enum_values}}, :if => Proc.new {|s| s.settings_type == 'enum'}
   validates :value, :presence => true, :if => Proc.new {|s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
+  validates :enum_values, :presence => true, :if => Proc.new {|s| s.settings_type == 'enum'}
   validates :settings_type, :inclusion => {:in => TYPES}, :allow_nil => true, :allow_blank => true
   validates :value, :uri => true, :if => Proc.new {|s| URI_ATTRS.include?(s.name) }
   before_validation :set_setting_type_from_value
@@ -137,7 +140,7 @@ class Setting < ActiveRecord::Base
         return false
       end
 
-    when "string", nil
+    when "string", "enum", nil
       #string is taken as default setting type for parsing
       self.value = val.to_s.strip
 

@@ -10,6 +10,8 @@ module SettingsHelper
     case setting.settings_type
     when "boolean"
       edit_select(setting, :value, {:select_values => {:true => "true", :false => "false"}.to_json } )
+    when 'enum'
+      edit_select(setting, :value, {:select_values => (setting.enum_values.inject({}) {|acc, c| acc[c] = c; acc}).to_json } )
     else
       edit_textfield(setting, :value,{:helper => :show_value})
     end

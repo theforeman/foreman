@@ -148,7 +148,17 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "no-bar", persisted.value
   end
 
-  # tests for saving settings attributes
+  def test_requires_presence_of_enum_values_for_enum_type
+    assert_not_valid Setting.new(:name => "a setting", :description => "foo", :default => "default", :settings_type => 'enum')
+    assert_not_valid Setting.new(:name => "a setting", :value => "one", :default => "default", :description => "foo", :settings_type => 'enum', :enum_values => [])
+  end
+
+  def test_only_allows_values_listed_in_enum
+    assert_valid Setting.new(:name => "a setting", :value => "one", :default => "default", :description => "foo", :settings_type => 'enum', :enum_values => ["one", "two", "three"])
+    assert_not_valid Setting.new(:name => "a setting", :value => "foo", :default => "default", :description => "foo", :settings_type => 'enum', :enum_values => ["one", "two", "three"])
+  end
+
+    # tests for saving settings attributes
   def test_settings_should_save_arrays
     check_properties_saved_and_loaded_ok :name => "foo", :value => [1,2,3,'b'], :default => ['b',"b"], :description => "test foo"
   end
@@ -191,7 +201,6 @@ class SettingTest < ActiveSupport::TestCase
     check_correct_type_for "boolean", true
     check_correct_type_for "boolean", false
   end
-
 
   # tests for caching
   def test_returns_value_from_cache
