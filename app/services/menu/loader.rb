@@ -18,7 +18,7 @@ module Menu
                   :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
         menu.divider
         menu.item :logout,
-                  :caption => N_('Sign out'),
+                  :caption => N_('Log out'),
                   :html => {:method => :post},
                   :url_hash => {:controller => '/users', :action => 'logout'}
       end
