@@ -1,5 +1,5 @@
 class ExternalUsergroupsController < ApplicationController
-  before_filter :find_by_name, :only => [:refresh]
+  before_filter :find_resource, :only => [:refresh]
 
   def refresh
     if @external_usergroup.refresh

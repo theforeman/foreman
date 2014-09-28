@@ -90,8 +90,7 @@ module Api::ImportPuppetclassesCommonController
 
   def find_required_puppet_proxy
     id = params.keys.include?('smart_proxy_id') ? params['smart_proxy_id'] : params['id']
-    @smart_proxy   = SmartProxy.authorized(:view_smart_proxies).find_by_id(id.to_i) if id.to_i > 0
-    @smart_proxy ||= SmartProxy.authorized(:view_smart_proxies).find_by_name(id)
+    @smart_proxy = SmartProxy.authorized(:view_smart_proxies).find(id)
     unless @smart_proxy && SmartProxy.with_features("Puppet").pluck("smart_proxies.id").include?(@smart_proxy.id)
       not_found _('No proxy found to import classes from, ensure that the smart proxy has the Puppet feature enabled.')
     end
@@ -108,9 +107,9 @@ module Api::ImportPuppetclassesCommonController
   end
 
   def find_optional_environment
-    @environment   = Environment.authorized(:view_environments).find_by_id(@env_id.to_i) if @env_id.to_i > 0
-    @environment ||= Environment.authorized(:view_environments).find_by_name(@env_id)
-    @environment
+    @environment = Environment.authorized(:view_environments).find(@env_id)
+  rescue ActiveRecord::RecordNotFound => e
+    nil
   end
 
 end

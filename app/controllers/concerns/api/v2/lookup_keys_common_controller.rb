@@ -44,27 +44,19 @@ module Api::V2::LookupKeysCommonController
     end
 
     def find_puppetclass
-      @puppetclass   = Puppetclass.authorized(:view_puppetclasses).find_by_id(params['puppetclass_id'].to_i) if params['puppetclass_id'].to_i > 0
-      @puppetclass ||= Puppetclass.authorized(:view_puppetclasses).find_by_name(params['puppetclass_id'])
-      @puppetclass
+      @puppetclass = Puppetclass.authorized(:view_puppetclasses).find(params['puppetclass_id'])
     end
 
     def find_environment
-      @environment   = Environment.authorized(:view_environments).find_by_id(params['environment_id'].to_i) if params['environment_id'].to_i > 0
-      @environment ||= Environment.authorized(:view_environments).find_by_name(params['environment_id'])
-      @environment
+      @environment = Environment.authorized(:view_environments).find(params['environment_id'])
     end
 
     def find_host
-      @host   = Host::Base.authorized(:view_hosts).find_by_id(params['host_id'].to_i) if params['host_id'].to_i > 0
-      @host ||= Host::Base.authorized(:view_hosts).find_by_name(params['host_id'])
-      @host
+      @host = Host::Base.authorized(:view_hosts).find(params['host_id'])
     end
 
     def find_hostgroup
-      @hostgroup   = Hostgroup.authorized(:view_hostgroups).find_by_id(params['hostgroup_id'].to_i) if params['hostgroup_id'].to_i > 0
-      @hostgroup ||= Hostgroup.authorized(:view_hostgroups).find_by_name(params['hostgroup_id'])
-      @hostgroup
+      @hostgroup = Hostgroup.authorized(:view_hostgroups).find(params['hostgroup_id'])
     end
 
     def find_smart_variable

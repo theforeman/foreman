@@ -362,7 +362,7 @@ class HostsController < ApplicationController
       error _('No host group selected!')
       redirect_to(select_multiple_hostgroup_hosts_path) and return
     end
-    hg = Hostgroup.find(id) rescue nil
+    hg = Hostgroup.find_by_id(id)
     #update the hosts
     @hosts.each do |host|
       host.hostgroup=hg
@@ -384,7 +384,7 @@ class HostsController < ApplicationController
       redirect_to(select_multiple_environment_hosts_path) and return
     end
 
-    ev = Environment.find(id) rescue nil
+    ev = Environment.find_by_id(id)
 
     #update the hosts
     @hosts.each do |host|

@@ -156,8 +156,7 @@ module Api
       def find_parameter
         # nested_obj is required, so no need to check here
         @parameters  = nested_obj.send(parameters_method)
-        @parameter   = @parameters.find_by_id(params[:id].to_i) if params[:id].to_i > 0
-        @parameter ||= @parameters.find_by_name(params[:id])
+        @parameter   = @parameters.find(params[:id])
         return @parameter if @parameter
         not_found
       end

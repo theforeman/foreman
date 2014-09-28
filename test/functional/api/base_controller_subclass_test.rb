@@ -149,10 +149,9 @@ class Api::TestableControllerTest < ActionController::TestCase
       ctrl = Api::TestableController.new
       ctrl.expects(:params).at_least_once.returns(HashWithIndifferentAccess.new(:domain_id => 1, :action => 'index'))
       ctrl.expects(:allowed_nested_id).at_least_once.returns(['domain_id'])
-      ctrl.expects(:resource_identifying_attributes).at_least_once.returns(['id'])
       scope = mock('scope')
       obj = mock('domain')
-      scope.expects(:find_by_id).with(1).returns(obj)
+      scope.expects(:find).with(1).returns(obj)
       Domain.expects(:authorized).with('view_domains').returns(scope)
       assert_equal obj, ctrl.send(:find_required_nested_object)
     end

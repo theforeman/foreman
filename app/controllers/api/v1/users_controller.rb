@@ -83,11 +83,6 @@ module Api
         end
       end
 
-      protected
-      def resource_identifying_attributes
-        %w(login id)
-      end
-
     end
   end
 end
