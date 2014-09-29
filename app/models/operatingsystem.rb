@@ -12,7 +12,8 @@ class Operatingsystem < ActiveRecord::Base
   has_many :images, :dependent => :destroy
   has_and_belongs_to_many :media
   has_and_belongs_to_many :ptables
-  has_and_belongs_to_many :architectures
+  has_many :architecture_operatingsystems, :dependent => :destroy
+  has_many :architectures, :through => :architecture_operatingsystems
   has_and_belongs_to_many :puppetclasses
   has_and_belongs_to_many :config_templates
   has_many :os_default_templates, :dependent => :destroy

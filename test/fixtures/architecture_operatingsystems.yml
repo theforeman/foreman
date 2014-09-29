@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  operatingsystem: centos5_3
+  architecture: x86_64
+
+two:
+  operatingsystem: redhat
+  architecture: x86_64
+
+three:
+  operatingsystem: ubuntu1010
+  architecture: x86_64
+
+four:
+  operatingsystem: solaris10
+  architecture: sparc
