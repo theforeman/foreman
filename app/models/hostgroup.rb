@@ -15,7 +15,6 @@ class Hostgroup < ActiveRecord::Base
   has_many :users, :through => :user_hostgroups
   validates :name, :format => { :with => /\A(\S+\s?)+\Z/, :message => N_("can't contain trailing white spaces.")}
   validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
-  validate :title_and_lookup_key_length
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
   include ParameterValidators
@@ -206,20 +205,6 @@ class Hostgroup < ActiveRecord::Base
   def used_taxonomy_ids(type)
     return [] if new_record? && parent_id.blank?
     Host::Base.where(:hostgroup_id => self.path_ids).pluck(type).compact.uniq
-  end
-
-  # This validation is because lookup_value has an attribute `match` that cannot be turned to a test field do to
-  # an index set on it and problems with mysql indexes on test fields.
-  # If the index can be fixed, `match` should be turned into text and then this validation should be removed
-  def title_and_lookup_key_length
-    # The match is defined "hostgroup=" + hostgroup.title so the length of "hostgroup=" needs to be added to the
-    # total length of the matcher that will be created
-    length_of_matcher = self.send(:obj_type).length + 1
-    length_of_matcher += parent.title.length + 1 unless parent.nil?
-
-    max_length_for_name = 255 - (name.length + length_of_matcher)
-    max = 255 - length_of_matcher
-    errors.add(:name, n_("is too long (maximum is 1 character)", "is too long (maximum is %s characters)", max) % max) if max_length_for_name < 0
   end
 
 end
