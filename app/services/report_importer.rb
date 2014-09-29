@@ -97,11 +97,7 @@ class ReportImporter
       logger.warn "#{name} is disabled - skipping." and return if host.disabled?
 
       logger.debug 'error detected, checking if we need to send an email alert'
-      HostMailer.error_state(report).deliver if Setting[:failed_report_email_notification]
-      # add here more actions - e.g. snmp alert etc
+      MailNotification[:puppet_error_state].deliver(report)
     end
-  rescue => e
-    logger.warn "failed to send failure email notification: #{e}"
-    logger.debug e.backtrace
   end
 end

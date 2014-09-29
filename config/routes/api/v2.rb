@@ -192,6 +192,8 @@ Foreman::Application.routes.draw do
           end
         end
 
+        resources :mail_notifications, :only => [:index, :show]
+
         resources :realms, :except => [:new, :edit] do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]

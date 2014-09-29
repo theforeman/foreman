@@ -34,9 +34,19 @@ class HostMailer < ActionMailer::Base
       # print out an error if we couldn't find any hosts that match our request
       raise ::Foreman::Exception.new(N_("unable to find any hosts that match your request")) if options[:env] or options[:factname]
       # we didnt define a filter, use all hosts instead
-      hosts = Host::Managed
+      if options[:user]
+        hosts = Host::Managed.authorized_as(options[:user], :view_hosts, Host)
+      else
+        hosts = Host::Managed
+      end
     end
-    email = options[:email] || Setting[:administrator]
+
+    if options[:user]
+      email = options[:user].mail
+    else
+      email = options[:email] || Setting[:administrator]
+    end
+
     raise ::Foreman::Exception.new(N_("unable to find recipients")) if email.empty?
     time = options[:time] || 1.day.ago
     host_data = Report.summarise(time, hosts.all).sort
@@ -63,43 +73,20 @@ class HostMailer < ActionMailer::Base
 
   def error_state(report)
     host = report.host
-    email = host.owner.recipients if SETTINGS[:login] && host.owner.present?
-    email = Setting[:administrator]   if email.empty?
+    email = host.owner.recipients_for(:puppet_error_state) if SETTINGS[:login] && host.owner.present?
     raise ::Foreman::Exception.new(N_("unable to find recipients")) if email.empty?
     @report = report
     @host = host
     mail(:to => email, :subject => (_("Puppet error on %s") % host.to_label))
   end
 
-  def failed_runs(user, options = {})
-    set_url
-    time = options[:time] || 1.day.ago
-    host_data = Report.summarise(time, user.hosts).sort
-    total_metrics = load_metrics(host_data)
-    total = 0; total_metrics.values.each { |v| total += v }
-    @hosts = host_data.sort_by { |h| h[1][:metrics]['failed'] }.reverse
-    @timerange = time
-    @out_of_sync = Host.out_of_sync.select { |h| h.owner == user }
-    @disabled = Host.alerts_disabled.select { |h| h.owner == user }
-    mail(:to   => user.mail,
-         :from => Setting["email_reply_address"],
-         :subject => _("Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
-           :failed => total_metrics["failed"],
-           :restarted => total_metrics["restarted"],
-           :skipped => total_metrics["skipped"],
-           :applied => total_metrics["applied"],
-           :failed_restarts => total_metrics["failed_restarts"],
-           :total => total_metrics["total"]
-         },
-         :date => Time.now )
-  end
+  private
 
   def set_url
     unless (@url = URI.parse(Setting[:foreman_url])).present?
       raise ":foreman_url is not set, please configure in the Foreman Web UI (More -> Settings -> General)"
     end
   end
-
 
   def load_metrics(host_data)
     total_metrics = {"failed"=>0, "restarted"=>0, "skipped"=>0, "applied"=>0, "failed_restarts"=>0}

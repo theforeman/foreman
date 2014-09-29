@@ -1,6 +1,12 @@
 require 'api_constraints'
 
 Foreman::Application.routes.draw do
+  resources :mail_notifications, :only => [:index, :show] do
+    collection do
+      get 'auto_complete_search'
+    end
+  end
+
   #ENC requests goes here
   match "node/:name" => 'hosts#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
 

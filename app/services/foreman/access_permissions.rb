@@ -425,6 +425,11 @@ Foreman::AccessControl.map do |map|
     end
   end
 
+  map.security_block :mail_notifications do |map|
+    map.permission :view_mail_notifications, { :mail_notifications => [:index, :auto_complete_search, :show],
+                                               :"api/v2/mail_notifications" => [:index, :show] }
+  end
+
   map.security_block :media do |map|
     map.permission :view_media,    {:media => [:index, :show, :auto_complete_search],
                                    :"api/v1/media" => [:index, :show],

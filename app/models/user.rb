@@ -37,6 +37,9 @@ class User < ActiveRecord::Base
   has_many :permissions,       :through => :filters
   has_many :cached_usergroup_members
 
+  has_many :user_mail_notifications, :dependent => :destroy
+  has_many :mail_notifications, :through => :user_mail_notifications
+
   attr_name :login
 
   scope :except_admin, lambda {
@@ -87,6 +90,8 @@ class User < ActiveRecord::Base
            :ensure_last_admin_remains_admin, :hidden_authsource_restricted
   before_validation :prepare_password, :normalize_mail
 
+  after_create :welcome_mail
+
   scoped_search :on => :login, :complete_value => :true
   scoped_search :on => :firstname, :complete_value => :true
   scoped_search :on => :lastname, :complete_value => :true
@@ -136,6 +141,10 @@ class User < ActiveRecord::Base
 
   def hidden?
     auth_source.kind_of? AuthSourceHidden
+  end
+
+  def internal?
+    auth_source.kind_of? AuthSourceInternal
   end
 
   def to_label
@@ -271,6 +280,19 @@ class User < ActiveRecord::Base
     [mail]
   end
 
+  def mail_enabled?
+    mail_enabled && !mail.empty?
+  end
+
+  def recipients_for(notification)
+    self.receives?(notification) ? [mail] : []
+  end
+
+  def receives?(notification)
+    return false unless mail_enabled?
+    self.mail_notifications.include? MailNotification[notification]
+  end
+
   def manage_password?
     auth_source and auth_source.can_set_password?
   end
@@ -357,6 +379,11 @@ class User < ActiveRecord::Base
       self.password_salt = Digest::SHA1.hexdigest([Time.now, rand].join)
       self.password_hash = encrypt_password(password)
     end
+  end
+
+  def welcome_mail
+    return unless mail_enabled? && internal? && Setting[:send_welcome_email]
+    MailNotification[:welcome].deliver(:user => self)
   end
 
   def encrypt_password(pass)

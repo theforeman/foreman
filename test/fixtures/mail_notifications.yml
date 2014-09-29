@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+puppet_daily_summary:
+  name: Puppet Daily Summary
+  title: :puppet_daily_summary
+  description: Puppet daily summary
+  mailer: HostMailer
+  method: summary
+  default_interval: daily
+
+puppet_error_state:
+  name: Puppet Error State
+  title: :puppet_error_state
+  description: A notification when a host reports a puppet error
+  mailer: HostMailer
+  method: error_state
+
+welcome:
+  name: Welcome E-mail
+  title: :welcome
+  description: Welcome mail 
+  mailer: UserMailer
+  method: welcome
+  subscriptable: false
