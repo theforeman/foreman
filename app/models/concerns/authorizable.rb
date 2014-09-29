@@ -2,6 +2,8 @@ module Authorizable
   extend ActiveSupport::Concern
 
   included do
+    validates_with AuthorizeAssociationsValidator
+
     # permission can be nil (therefore we use Proc instead of lambda)
     # same applies for resource class
     #
@@ -24,6 +26,7 @@ module Authorizable
       return false if User.current.nil?
       User.current.can?(permission, self)
     end
+
   end
 
   module ClassMethods

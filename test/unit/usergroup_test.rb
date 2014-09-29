@@ -89,7 +89,7 @@ class UsergroupTest < ActiveSupport::TestCase
     disable_orchestration
     @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
     @h1  = hosts(:one)
-    @h1.update_attributes :owner => @ug1
+    @h1.update_attributes! :owner => @ug1
     @ug1.destroy
     assert_equal @ug1.errors.full_messages[0], "ug1 is used by #{@h1}"
   end

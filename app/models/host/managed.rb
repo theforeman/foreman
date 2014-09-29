@@ -15,6 +15,8 @@ class Host::Managed < Host::Base
   belongs_to :owner, :polymorphic => true
   belongs_to :compute_resource
   belongs_to :image
+  belongs_to :domain
+  belongs_to :subnet
 
   belongs_to :location
   belongs_to :organization
