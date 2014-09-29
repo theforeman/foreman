@@ -32,6 +32,7 @@ module Api
           param :description, String
           param :family, String
           param :release_name, String
+          param :password_hash, String, :desc => N_('Root password hash function to use, one of MD5, SHA256, SHA512')
         end
       end
 

@@ -35,6 +35,7 @@ module Api
         param :description, String
         param :family, String
         param :release_name, String
+        param :password_hash, String, :desc => 'Root password hash function to use, one of MD5, SHA256, SHA512'
       end
 
       def create
@@ -51,6 +52,7 @@ module Api
         param :description, String
         param :family, String
         param :release_name, String
+        param :password_hash, String, :desc => 'Root password hash function to use, one of MD5, SHA256, SHA512'
       end
 
       def update
