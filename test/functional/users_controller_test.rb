@@ -67,6 +67,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to users_path
   end
 
+  test "should assign a mail notification" do
+    user = FactoryGirl.create(:user, :with_mail)
+    notification = FactoryGirl.create(:mail_notification)
+    put :update, { :id => user.id, :user => { :mail_notification_ids => [notification.id] }}, set_session_user
+    user = User.find_by_id(user.id)
+    assert user.mail_notifications.include? notification
+  end
+
   test "user changes should expire topbar cache" do
     user = FactoryGirl.create(:user, :with_mail)
     User.any_instance.expects(:expire_topbar_cache).once

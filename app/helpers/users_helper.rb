@@ -24,5 +24,4 @@ module UsersHelper
       :organization => { :onchange => 'taxonomy_added(this, "organization")'}
     } unless user.admin?
   end
-
 end

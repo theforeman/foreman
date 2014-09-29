@@ -6,6 +6,10 @@ child :auth_source do
   extends "api/v2/auth_source_ldaps/base"
 end
 
+child :mail_notifications do
+  extends "api/v2/mail_notifications/base"
+end
+
 child :roles do
   extends "api/v2/roles/base"
 end

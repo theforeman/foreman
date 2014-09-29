@@ -37,6 +37,11 @@ class User < ActiveRecord::Base
   has_many :permissions,       :through => :filters
   has_many :cached_usergroup_members
 
+  has_many :user_mail_notifications, :dependent => :destroy
+  has_many :mail_notifications, :through => :user_mail_notifications
+
+  accepts_nested_attributes_for :user_mail_notifications, :allow_destroy => true, :reject_if => :reject_empty_intervals
+
   attr_name :login
 
   scope :except_admin, lambda {
@@ -88,6 +93,8 @@ class User < ActiveRecord::Base
   before_validation :prepare_password, :normalize_mail
   before_save       :set_lower_login
 
+  after_create :welcome_mail
+
   scoped_search :on => :login, :complete_value => :true
   scoped_search :on => :firstname, :complete_value => :true
   scoped_search :on => :lastname, :complete_value => :true
@@ -137,6 +144,10 @@ class User < ActiveRecord::Base
 
   def hidden?
     auth_source.kind_of? AuthSourceHidden
+  end
+
+  def internal?
+    auth_source.kind_of? AuthSourceInternal
   end
 
   def to_label
@@ -280,6 +291,19 @@ class User < ActiveRecord::Base
     [mail]
   end
 
+  def mail_enabled?
+    mail_enabled && !mail.empty?
+  end
+
+  def recipients_for(notification)
+    self.receives?(notification) ? [self] : []
+  end
+
+  def receives?(notification)
+    return false unless mail_enabled?
+    self.mail_notifications.include? MailNotification[notification]
+  end
+
   def manage_password?
     auth_source and auth_source.can_set_password?
   end
@@ -368,6 +392,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def welcome_mail
+    return unless mail_enabled? && internal? && Setting[:send_welcome_email]
+    MailNotification[:welcome].deliver(:user => self.id)
+  end
+
   def encrypt_password(pass)
     Digest::SHA1.hexdigest([pass, password_salt].join)
   end
@@ -402,6 +431,13 @@ class User < ActiveRecord::Base
 
   def normalize_mail
     self.mail.strip! unless mail.blank?
+  end
+
+  def reject_empty_intervals(attributes)
+    user_mail_notification_exists = attributes[:id].present?
+    interval_empty = attributes[:interval].blank?
+    attributes.merge!({:_destroy => 1}) if user_mail_notification_exists && interval_empty
+    (!user_mail_notification_exists && interval_empty)
   end
 
   protected
