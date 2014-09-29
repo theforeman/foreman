@@ -47,10 +47,10 @@ class MediumTest < ActiveSupport::TestCase
   end
 
   test "should destroy and nullify host.medium_id if medium is in use but host.build? is false" do
-    medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
+    host = hosts(:one)
+    medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com", :organizations => [host.organization]
     assert medium.save!
 
-    host = hosts(:one)
     refute host.build?
     host.medium = medium
     host.os.media << medium
@@ -64,10 +64,10 @@ class MediumTest < ActiveSupport::TestCase
   end
 
   test "should not destroy if medium has hosts that are in build mode" do
-    medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
+    host = hosts(:one)
+    medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com", :organizations => [host.organization]
     assert medium.save!
 
-    host = hosts(:one)
     host.build = true
     host.medium = medium
     host.os.media << medium

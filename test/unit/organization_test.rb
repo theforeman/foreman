@@ -115,11 +115,11 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:compute_resource_ids].sort, compute_resource_ids.sort
     # match to manually generated taxable_taxonomies
     assert_equal selected_ids[:environment_ids], [environments(:production).id]
-    assert_equal selected_ids[:hostgroup_ids], []
+    assert_equal selected_ids[:hostgroup_ids].sort, [hostgroups(:unusual).id, hostgroups(:common).id, hostgroups(:inherited).id].sort
     assert_equal selected_ids[:subnet_ids], [subnets(:one).id]
-    assert_equal selected_ids[:domain_ids], [domains(:mydomain).id]
-    assert_equal selected_ids[:medium_ids], []
-    assert_equal selected_ids[:user_ids], []
+    assert_equal selected_ids[:domain_ids].sort, [domains(:mydomain).id, domains(:yourdomain).id].sort
+    assert_equal selected_ids[:medium_ids], [media(:one).id]
+    assert_equal selected_ids[:user_ids], [users(:restricted).id]
     assert_equal selected_ids[:smart_proxy_ids].sort, [smart_proxies(:puppetmaster).id, smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:realm).id].sort
     assert_equal selected_ids[:config_template_ids], [config_templates(:mystring2).id]
     assert_equal selected_ids[:compute_resource_ids], [compute_resources(:one).id]

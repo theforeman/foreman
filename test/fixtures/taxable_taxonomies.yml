@@ -123,3 +123,33 @@ twentyfour:
   taxonomy: organization1
   taxable: myrealm
   taxable_type: Realm
+
+twentyfive:
+  taxonomy: organization1
+  taxable: one
+  taxable_type: "Medium"
+
+twentysix:
+  taxonomy: organization1
+  taxable: yourdomain
+  taxable_type: "Domain"
+
+twentyseven:
+  taxonomy: organization1
+  taxable: common
+  taxable_type: "Hostgroup"
+
+twentyeight:
+  taxonomy: organization1
+  taxable: unusual
+  taxable_type: "Hostgroup"
+
+twentynine:
+  taxonomy: organization1
+  taxable: restricted
+  taxable_type: "User"
+
+thirty:
+  taxonomy: organization1
+  taxable: inherited
+  taxable_type: "Hostgroup" 

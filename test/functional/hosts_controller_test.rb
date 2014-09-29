@@ -178,6 +178,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'user with view host rights and ownership is set should succeed in viewing host1 but fail for host2' do
     setup_user_and_host "view", "owner_id = #{users(:one).id} and owner_type = User"
+    @one.organizations << @host1.organization
     as_admin do
       @host1.owner = @one
       @host2.owner = users(:two)
@@ -703,7 +704,7 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
-    assert_difference "organization.taxable_taxonomies.count", 10 do
+    assert_difference "organization.taxable_taxonomies.count", 6 do
       post :update_multiple_organization, {
                                          :organization => {:id => organization.id, :optimistic_import => "yes"},
                                          :host_ids => Host.all.map(&:id)

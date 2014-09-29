@@ -66,7 +66,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     as_admin do
       ["a", "b", "c"].each  {|name| Puppetclass.create :name => name}
       for name in ["env1", "env2"] do
-        e = Environment.create!(:name => name)
+        e = Environment.create!(:name => name, :organizations => [taxonomies(:organization1)])
         e.puppetclasses += [Puppetclass.find_by_name("a"), Puppetclass.find_by_name("b"), Puppetclass.find_by_name("c")]
       end
     end
