@@ -245,3 +245,8 @@ attributes52:
   category: Setting::Auth
   default: "true"
   description: "Foreman will map users by username in request-header. If this is set to false, OAuth requests will have admin rights."
+attributes53:
+  name: send_welcome_email
+  category: Setting::General
+  default: "false"
+  description: "Send a welcome mail including initial username and password to new users"

@@ -6,19 +6,25 @@ module Authorizable
     # same applies for resource class
     #
     # e.g.
-    #   FactValue.authorized
-    #   FactValue.authorized(:view_facts)
-    #   Host::Base.authorized(:view_hosts, Host)
+    #   FactValue.authorized_as(user)
+    #   FactValue.authorized_as(user, :view_facts)
+    #   Host::Base.authorized_as(user, :view_hosts, Host)
     #
-    scope :authorized, Proc.new { |permission, resource|
-      if User.current.nil?
+    # Or you may simply use authorized for User.current
+    #
+    scope :authorized_as, Proc.new { |user, permission, resource|
+      if user.nil?
         self.where('1=0')
-      elsif User.current.admin?
+      elsif user.admin?
         self.scoped
       else
-        Authorizer.new(User.current).find_collection(resource || self, :permission => permission)
+        Authorizer.new(user).find_collection(resource || self, :permission => permission)
       end
     }
+
+    def self.authorized(permission = nil, resource = nil)
+      self.authorized_as(User.current, permission, resource)
+    end
 
     def authorized?(permission)
       return false if User.current.nil?

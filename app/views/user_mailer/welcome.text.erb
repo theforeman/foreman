@@ -1,0 +1,5 @@
+<%= _("Your Foreman user account has been created:") %>
+
+  <%= _("Username") %>: <%= @login %>
+ 
+<%= _("Please login to %{foreman_url} to change your password") % { :foreman_url => Setting[:foreman_url] } %>

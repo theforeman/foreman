@@ -31,7 +31,7 @@ task 'plugin:gettext', :engine do |t, args|
     end
 
     def files_to_translate
-      Dir.glob("#{@engine.root}/{app,lib,config,locale}/**/*.{rb,erb,haml,slim,rhtml,js}")
+      Dir.glob("#{@engine.root}/{app,db,lib,config,locale}/**/*.{rb,erb,haml,slim,rhtml,js}")
     end
 
   end
