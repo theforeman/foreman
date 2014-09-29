@@ -39,6 +39,10 @@ class Usergroup < ActiveRecord::Base
     all_users.map(&:mail).flatten.sort.uniq
   end
 
+  def recipients_for(notification)
+    all_users.select { |user| user if user.receives?(notification) }.sort.uniq
+  end
+
   # This methods retrieves all users in a usergroup
   # Returns: Array of users
   def all_users(group_list = [self], user_list = [])

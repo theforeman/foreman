@@ -7,9 +7,6 @@
   </head>
   <body style="background-color: #ffffff;">
     <h1 style='font-family: Arial,"Times new roman"; font-size: 90%;'>Summary from <%= distance_of_time_in_words (Time.now - @timerange) %> ago to now</h1>
-    <% unless @filter.empty? %>
-      <h2 style='font-family: Arial,"Times new roman"; font-size: 90%;'>Filtering resulted based on <%= @filter.join(" and ") %></h2>
-    <% end %>
     <%= render :partial => 'list', :locals => {:state => 'active', :title => "Hosts with interesting values (changed, failures etc)", :list => @hosts} %>
     <%= render :partial => 'list', :locals => {:state => 'nonactive', :title => "Hosts which are currently not running puppet", :list => @out_of_sync } %>
     <%= render :partial => 'list', :locals => {:state => 'nonactive', :title => "Hosts which Foreman reporting is disabled", :list => @disabled } %>

@@ -4,6 +4,9 @@ class ReportImporterTest < ActiveSupport::TestCase
 
   def setup
     User.current = users :admin
+    ActionMailer::Base.deliveries = []
+    @owner = FactoryGirl.create(:user, :admin, :with_mail)
+    @host = FactoryGirl.create(:host, :owner => @owner)
   end
 
   def teardown
@@ -25,35 +28,28 @@ class ReportImporterTest < ActiveSupport::TestCase
     assert_empty r.logs
   end
 
-  test 'when notification is set to true, if report has an error, a mail to admin should be sent' do
-    setup_for_email_reporting
-    Setting[:failed_report_email_notification] = true
+  test 'when owner is subscribed to notification, a mail should be sent on error' do
+    @owner.mail_notifications << MailNotification[:puppet_error_state]
     assert_difference 'ActionMailer::Base.deliveries.size' do
-      ReportImporter.import read_json_fixture('report-errors.json')
+      report = read_json_fixture('report-errors.json')
+      report["host"] = @host.name
+      ReportImporter.import report
     end
   end
 
-  test 'when notification is set to false, if the report has an error, no mail should be sent' do
-    setup_for_email_reporting
-    Setting[:failed_report_email_notification] = false
+  test 'when owner is not subscribed to notifications, no mail should be sent on error' do
+    @owner.mail_notifications = []
     assert_no_difference 'ActionMailer::Base.deliveries.size' do
-      ReportImporter.import read_json_fixture('report-errors.json')
+      report = read_json_fixture('report-errors.json')
+      report["host"] = @host.name
+      ReportImporter.import report
     end
   end
 
   test 'if report has no error, no mail should be sent' do
-    setup_for_email_reporting
     assert_no_difference 'ActionMailer::Base.deliveries.size' do
       ReportImporter.import read_json_fixture('report-applied.json')
     end
-  end
-
-  private
-
-  def setup_for_email_reporting
-    # Email recipient
-    Setting[:administrator] = 'admin@example.com'
-    Setting[:failed_report_email_notification] = true
   end
 
 end

@@ -120,6 +120,10 @@ module ExemptedFromLogging
 end
 
 class String
+  def to_translation
+    _(self)
+  end
+
   def to_gb
     begin
       value,f,unit=self.match(/(\d+(\.\d+)?) ?(([KMGT]B?|B))$/i)[1..3]

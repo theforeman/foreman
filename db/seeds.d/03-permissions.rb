@@ -90,6 +90,7 @@ permissions = [
   ['Location', 'edit_locations'],
   ['Location', 'destroy_locations'],
   ['Location', 'assign_locations'],
+  ['MailNotification', 'view_mail_notifications'],
   ['Medium', 'view_media'],
   ['Medium', 'create_media'],
   ['Medium', 'edit_media'],

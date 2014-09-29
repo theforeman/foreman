@@ -12,7 +12,6 @@ class Setting::Puppet < Setting
         self.set('document_root', N_("Document root where puppetdoc files should be created"), "#{Rails.root}/public/puppet/rdoc"),
         self.set('puppetrun', N_("Enable puppetrun support"), false),
         self.set('puppet_server', N_("Default Puppet server hostname"), "puppet"),
-        self.set('failed_report_email_notification', N_("Enable email alerts per each failed Puppet report"), false),
         self.set('Default_variables_Lookup_Path', N_("Foreman will evaluate host smart variables in this order by default"), ["fqdn", "hostgroup", "os", "domain"]),
         self.set('Enable_Smart_Variables_in_ENC', N_("Foreman smart variables will be exposed via the ENC yaml output"), true),
         self.set('Parametrized_Classes_in_ENC', N_("Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"), true),

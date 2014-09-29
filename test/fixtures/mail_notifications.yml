@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+puppet_summary:
+  name: puppet_summary
+  description: Puppet summary
+  mailer: HostMailer
+  method: summary
+  subscription_type: report
+
+puppet_error_state:
+  name: puppet_error_state
+  description: A notification when a host reports a puppet error
+  mailer: HostMailer
+  method: error_state
+  subscription_type: alert
+
+welcome:
+  name: welcome
+  description: Welcome mail
+  mailer: UserMailer
+  method: welcome
+  subscriptable: false
