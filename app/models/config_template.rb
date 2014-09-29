@@ -22,7 +22,8 @@ class ConfigTemplate < ActiveRecord::Base
   accepts_nested_attributes_for :template_combinations, :allow_destroy => true, :reject_if => lambda {|tc| tc[:environment_id].blank? and tc[:hostgroup_id].blank? }
   has_and_belongs_to_many :operatingsystems
   has_many :os_default_templates
-  before_save :check_for_snippet_assoications, :remove_trailing_chars
+  before_save :set_os_hash, :set_operating_systems, :check_for_snippet_associations, :remove_trailing_chars
+  serialize :os_hash, Hash
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
@@ -142,6 +143,10 @@ class ConfigTemplate < ActiveRecord::Base
     return [200, _("PXE Default file has been deployed to all Smart Proxies")]
   end
 
+  def self.templates_for_os(os, major, minor)
+    all.map { |template| template if template.supports?(os, major, minor) }.compact
+  end
+
   def skip_strip_attrs
     ['template']
   end
@@ -150,7 +155,88 @@ class ConfigTemplate < ActiveRecord::Base
     locked && !Foreman.in_rake?
   end
 
+  def attrs
+    return if template.blank?
+    attrs = template.match(/\A<%#(.*?)[-]?%>/m)
+    attrs.blank? ? nil : YAML.load(attrs[1])
+  rescue SyntaxError
+    nil
+  end
+
+  def supports?(os, major, minor)
+    return unless os_hash.key? os
+
+    if os_hash[os].blank?
+      true # This template supports all versions of this OS
+    elsif os_hash[os].key? major
+      if os_hash[os][major].blank?
+        true # We support all minors of this major
+      elsif os_hash[os][major].include? minor
+        true # We support this specific minor
+      else
+        false # We don't support this version
+      end
+    else
+      false # No match found
+    end
+  end
+
   private
+
+  def set_os_hash
+    # Sets a hash like this: {"Debian"=>{"6"=>["0"], "7"=>["0"]}, "Ubuntu"=>{"10"=>["4"], "12"=>["4"]}}
+    return unless attrs && attrs["oses"].is_a?(Array)
+
+    self.os_hash = attrs["oses"].inject({}) do |hash, os|
+      os = os.is_a?(String) ? os.split : []
+      name = os[0]
+
+      if os.length == 1
+        # Provided an OS without version
+        hash[name] = {}
+      elsif os.length == 2
+        # Provided an OS with a version
+        (major, minor) = os[1].split('.').map { |number| number =~ /\A[-+]?[0-9]+\z/ ? number : nil}
+
+        if major.blank?
+          hash[name] = {}
+        else
+          if hash[name].nil?
+            # First minor for this major
+            hash[name] = {major => minor.nil? ? [] : [minor]}
+          else
+            # Additional minors for this major
+            hash[name][major] = hash[name][major].nil? ? (minor.nil? ? [] : [minor]) : hash[name][major] + [minor]
+          end
+        end
+      end
+      hash
+    end
+  end
+
+  def set_operating_systems
+    return if self.snippet || os_hash.blank?
+
+    oses = []
+
+    os_hash.each do |os, versions|
+      os_by_name = Operatingsystem.where(:name => os)
+      if versions.empty?
+        oses << os_by_name
+      else
+        versions.each do |major, minors|
+          if minors.blank?
+            oses << os_by_name.where(:major => major)
+          else
+            oses << os_by_name.where(:major => major, :minor => minors)
+          end
+        end
+      end
+    end
+
+    self.operatingsystems << oses - self.operatingsystems
+  end
+
 
   def check_if_template_is_locked
     errors.add(:base, _("This template is locked and may not be removed.")) if locked?
@@ -173,7 +259,7 @@ class ConfigTemplate < ActiveRecord::Base
   end
 
   # check if our template is a snippet, and remove its associations just in case they were selected.
-  def check_for_snippet_assoications
+  def check_for_snippet_associations
     return unless snippet
     self.hostgroups.clear
     self.environments.clear

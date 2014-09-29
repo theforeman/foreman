@@ -121,6 +121,49 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     assert_valid tmplt
   end
 
+
+  describe "Operating system associations" do
+    setup do
+      @os = FactoryGirl.create(:operatingsystem)
+      @tk = FactoryGirl.create(:template_kind)
+    end
+
+    it "should set an os_hash on save" do
+      content = "<%#\nkind: provision\nname: Kickstart default\noses:\n- RedHat\n- CentOS 4\n- Ubuntu 14.04\n- #{@os.name} #{@os.major}\n%>"
+      template = FactoryGirl.create(:config_template, :template_kind => @tk, :template => content)
+      assert_equal template.os_hash["Ubuntu"], {"14" => ["04"]}
+      assert_equal template.os_hash[@os.name], {"#{@os.major}" => []}
+    end
+
+    it "should support OS's without a version" do
+      content = "<%#\nkind: provision\nname: Kickstart default\noses:\n- RedHat\n%>"
+      template = FactoryGirl.create(:config_template, :template_kind => @tk, :template => content)
+      assert template.supports? "RedHat", "9", "1"
+      assert template.supports? "RedHat", "6", nil
+    end
+
+    it "should support OS's with only a major" do
+      content = "<%#\nkind: provision\nname: Kickstart default\noses:\n- RedHat 6\n%>"
+      template = FactoryGirl.create(:config_template, :template_kind => @tk, :template => content)
+      assert template.supports? "RedHat", "6", nil
+      assert template.supports? "RedHat", "6", "5"
+      refute template.supports? "RedHat", "9", "1"
+    end
+
+    it "should support OS's with a major and a minor" do
+      content = "<%#\nkind: provision\nname: Kickstart default\noses:\n- Ubuntu 14.04\n%>"
+      template = FactoryGirl.create(:config_template, :template_kind => @tk, :template => content)
+      assert template.supports? "Ubuntu", "14", "04"
+      refute template.supports? "Ubuntu", "14", "14"
+   end
+
+    it "should associate with an OS on creation" do
+      content = "<%#\nkind: provision\nname: Kickstart default\noses:\n- RedHat\n- CentOS 4\n- Ubuntu 14.04\n- #{@os.name} #{@os.major}\n%>"
+      template = FactoryGirl.create(:config_template, :template_kind => @tk, :template => content)
+      assert template.operatingsystems.include? @os
+    end
+  end
+
   describe "Association cascading" do
     setup do
       @os1 = FactoryGirl.create(:operatingsystem)
