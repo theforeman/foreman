@@ -24,8 +24,8 @@ class ParameterTest < ActiveSupport::TestCase
 
     organization = taxonomies(:organization1)
     location = taxonomies(:location1)
-    domain = Domain.find_or_create_by_name("company.com")
-    hostgroup = Hostgroup.find_or_create_by_name "Common"
+    domain = Domain.find_or_create_by(name: "company.com")
+    hostgroup = Hostgroup.find_or_create_by(name: "Common")
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
     :domain => domain , :operatingsystem => Operatingsystem.first, :hostgroup => hostgroup,
     :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition",

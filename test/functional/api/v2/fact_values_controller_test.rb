@@ -13,7 +13,7 @@ class Api::V2::FactValuesControllerTest < ActionController::TestCase
     get :index, {:host_id => hosts(:one).name }
     assert_response :success
     fact_values   = ActiveSupport::JSON.decode(@response.body)['results']
-    expected_hash = FactValue.build_facts_hash(FactValue.find_all_by_host_id(hosts(:one).id))
+    expected_hash = FactValue.build_facts_hash(FactValue.where(host_id: hosts(:one).id)
     assert_equal expected_hash, fact_values
   end
 
@@ -21,7 +21,7 @@ class Api::V2::FactValuesControllerTest < ActionController::TestCase
     get :index, {:host_id => hosts(:one).id }
     assert_response :success
     fact_values   = ActiveSupport::JSON.decode(@response.body)['results']
-    expected_hash = FactValue.build_facts_hash(FactValue.find_all_by_host_id(hosts(:one).id))
+    expected_hash = FactValue.build_facts_hash(FactValue.where(host_id: hosts(:one).id)
     assert_equal expected_hash, fact_values
   end
 

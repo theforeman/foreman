@@ -20,13 +20,13 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should not save hostname with periods in shortname" do
-    host = Host.new :name => "my.host", :domain => Domain.find_or_create_by_name("mydomain.net"), :managed => true
+    host = Host.new :name => "my.host", :domain => Domain.find_or_create_by(name: "mydomain.net"), :managed => true
     host.valid?
     assert_equal "must not include periods", host.errors[:name].first
   end
 
   test "should make hostname lowercase" do
-    host = Host.new :name => "MYHOST", :domain => Domain.find_or_create_by_name("mydomain.net")
+    host = Host.new :name => "MYHOST", :domain => Domain.find_or_create_by(name: "mydomain.net")
     host.valid?
     assert_equal "myhost.mydomain.net", host.name
   end
@@ -82,25 +82,25 @@ class HostTest < ActiveSupport::TestCase
 
   test "should add domain name to hostname" do
     host = Host.create :name => "myhost", :mac => "aabbccddeeff", :ip => "123.01.02.03",
-      :domain => Domain.find_or_create_by_name("company.com")
+      :domain => Domain.find_or_create_by(name: "company.com")
     assert_equal "myhost.company.com", host.name
   end
 
   test "should not add domain name to hostname if it already include it" do
     host = Host.create :name => "myhost.company.com", :mac => "aabbccddeeff", :ip => "123.1.2.3",
-      :domain => Domain.find_or_create_by_name("company.com")
+      :domain => Domain.find_or_create_by(name: "company.com")
     assert_equal "myhost.company.com", host.name
   end
 
   test "should add hostname if it contains domain name" do
     host = Host.create :name => "myhost.company.com", :mac => "aabbccddeeff", :ip => "123.01.02.03",
-      :domain => Domain.find_or_create_by_name("company.com")
+      :domain => Domain.find_or_create_by(name: "company.com")
     assert_equal "myhost.company.com", host.name
   end
 
   test "should not append domainname to fqdn" do
     host = Host.create :name => "myhost.sub.comp.net", :mac => "aabbccddeeff", :ip => "123.01.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"),
+      :domain => Domain.find_or_create_by(name: "company.com"),
       :certname => "myhost.sub.comp.net",
       :managed => false
     assert_equal "myhost.sub.comp.net", host.name
@@ -108,7 +108,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "should save hosts with full stop in their name" do
     host = Host.create :name => "my.host.company.com", :mac => "aabbccddeeff", :ip => "123.01.02.03",
-      :domain => Domain.find_or_create_by_name("company.com")
+      :domain => Domain.find_or_create_by(name: "company.com")
     assert_equal "my.host.company.com", host.name
   end
 
@@ -1064,7 +1064,7 @@ context "location or organizations are not enabled" do
       filter = FactoryGirl.build(:filter)
       filter.permissions = [ Permission.find_by_name('edit_hosts') ]
       filter.save!
-      role = Role.find_or_create_by_name :name => "testing_role"
+      role = Role.find_or_create_by(name: "testing_role")
       role.filters = [ filter ]
       role.save!
       @one.roles = [ role ]

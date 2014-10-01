@@ -15,7 +15,7 @@ class FactValuesController < ApplicationController
     conds = (original_search_parameter || '').split(/AND|OR/i)
     conds = conds.flatten.reject { |c| c.include?('host') }
 
-    if (parent = params[:parent_fact]).present? && (@parent = ::FactName.find_all_by_name(parent)).present?
+    if (parent = params[:parent_fact]).present? && (@parent = ::FactName.where(name: parent).present?
       values = values.with_fact_parent_id(@parent.map(&:id))
       @parent = @parent.first
     elsif conds.present?

@@ -21,7 +21,7 @@ class ModelTest < ActiveSupport::TestCase
     m = Model.create :name => "m1"
 
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
+      :domain => Domain.find_or_create_by(name: "company.com"), :operatingsystem => Operatingsystem.first,
       :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition"
     m.hosts << host
     assert !m.destroy

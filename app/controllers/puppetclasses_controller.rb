@@ -8,7 +8,7 @@ class PuppetclassesController < ApplicationController
 
   def index
     @puppetclasses = resource_base.search_for(params[:search], :order => params[:order]).includes(:environments, :hostgroups).paginate(:page => params[:page])
-    @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.find_all_by_puppetclass_id(@puppetclasses.map(&:id)).compact.uniq.map(&:hostgroup_id))
+    @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.where(puppetclass_id: @puppetclasses.map(&:id)).compact.uniq.map(&:hostgroup_id))
   end
 
   def new

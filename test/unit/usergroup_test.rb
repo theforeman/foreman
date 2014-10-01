@@ -30,19 +30,19 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   def populate_usergroups
-    @u1 = User.find_or_create_by_login :login => "u1", :mail => "u1@someware.com", :firstname => "u1", :auth_source => auth_sources(:one)
-    @u2 = User.find_or_create_by_login :login => "u2", :mail => "u2@someware.com", :firstname => "u2", :auth_source => auth_sources(:one)
-    @u3 = User.find_or_create_by_login :login => "u3", :mail => "u3@someware.com", :firstname => "u3", :auth_source => auth_sources(:one)
-    @u4 = User.find_or_create_by_login :login => "u4", :mail => "u4@someware.com", :firstname => "u4", :auth_source => auth_sources(:one)
-    @u5 = User.find_or_create_by_login :login => "u5", :mail => "u5@someware.com", :firstname => "u5", :auth_source => auth_sources(:one)
-    @u6 = User.find_or_create_by_login :login => "u6", :mail => "u6@someware.com", :firstname => "u6", :auth_source => auth_sources(:one)
+    @u1 = User.find_or_create_by :login => "u1", :mail => "u1@someware.com", :firstname => "u1", :auth_source => auth_sources(:one)
+    @u2 = User.find_or_create_by :login => "u2", :mail => "u2@someware.com", :firstname => "u2", :auth_source => auth_sources(:one)
+    @u3 = User.find_or_create_by :login => "u3", :mail => "u3@someware.com", :firstname => "u3", :auth_source => auth_sources(:one)
+    @u4 = User.find_or_create_by :login => "u4", :mail => "u4@someware.com", :firstname => "u4", :auth_source => auth_sources(:one)
+    @u5 = User.find_or_create_by :login => "u5", :mail => "u5@someware.com", :firstname => "u5", :auth_source => auth_sources(:one)
+    @u6 = User.find_or_create_by :login => "u6", :mail => "u6@someware.com", :firstname => "u6", :auth_source => auth_sources(:one)
 
-    @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
-    @ug2 = Usergroup.find_or_create_by_name :name => "ug2"
-    @ug3 = Usergroup.find_or_create_by_name :name => "ug3"
-    @ug4 = Usergroup.find_or_create_by_name :name => "ug4"
-    @ug5 = Usergroup.find_or_create_by_name :name => "ug5"
-    @ug6 = Usergroup.find_or_create_by_name :name => "ug6"
+    @ug1 = Usergroup.find_or_create_by(name: "ug1")
+    @ug2 = Usergroup.find_or_create_by(name: "ug2")
+    @ug3 = Usergroup.find_or_create_by(name: "ug3")
+    @ug4 = Usergroup.find_or_create_by(name: "ug4")
+    @ug5 = Usergroup.find_or_create_by(name: "ug5")
+    @ug6 = Usergroup.find_or_create_by(name: "ug6")
 
     @ug1.users      = [@u1, @u2]
     @ug2.users      = [@u2, @u3]
@@ -60,12 +60,12 @@ class UsergroupTest < ActiveSupport::TestCase
 
     Host.with_options :architecture => architectures(:x86_64), :environment => environments(:production), :operatingsystem => operatingsystems(:redhat),
                       :ptable => ptables(:one), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster) do |object|
-      @h1 = object.find_or_create_by_name :name => "h1.someware.com", :ip => "2.3.4.10", :mac => "223344556601", :owner => @u1, :domain => domain
-      @h2 = object.find_or_create_by_name :name => "h2.someware.com", :ip => "2.3.4.11", :mac => "223344556602", :owner => @ug2, :domain => domain
-      @h3 = object.find_or_create_by_name :name => "h3.someware.com", :ip => "2.3.4.12", :mac => "223344556603", :owner => @u3, :domain => domain
-      @h4 = object.find_or_create_by_name :name => "h4.someware.com", :ip => "2.3.4.13", :mac => "223344556604", :owner => @ug5, :domain => domain
-      @h5 = object.find_or_create_by_name :name => "h5.someware.com", :ip => "2.3.4.14", :mac => "223344556605", :owner => @u2, :domain => domain
-      @h6 = object.find_or_create_by_name :name => "h6.someware.com", :ip => "2.3.4.15", :mac => "223344556606", :owner => @ug3, :domain => domain
+      @h1 = object.find_or_create_by(name: "h1.someware.com", :ip => "2.3.4.10", :mac => "223344556601", :owner => @u1, :domain => domain)
+      @h2 = object.find_or_create_by(name: "h2.someware.com", :ip => "2.3.4.11", :mac => "223344556602", :owner => @ug2, :domain => domain)
+      @h3 = object.find_or_create_by(name: "h3.someware.com", :ip => "2.3.4.12", :mac => "223344556603", :owner => @u3, :domain => domain)
+      @h4 = object.find_or_create_by(name: "h4.someware.com", :ip => "2.3.4.13", :mac => "223344556604", :owner => @ug5, :domain => domain)
+      @h5 = object.find_or_create_by(name: "h5.someware.com", :ip => "2.3.4.14", :mac => "223344556605", :owner => @u2, :domain => domain)
+      @h6 = object.find_or_create_by(name: "h6.someware.com", :ip => "2.3.4.15", :mac => "223344556606", :owner => @ug3, :domain => domain)
     end
     assert_equal @u1.hosts.sort, [@h1]
     assert_equal @u2.hosts.sort, [@h2, @h5]
@@ -87,7 +87,7 @@ class UsergroupTest < ActiveSupport::TestCase
 
   test "cannot be destroyed when in use by a host" do
     disable_orchestration
-    @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
+    @ug1 = Usergroup.find_or_create_by(name: "ug1")
     @h1  = hosts(:one)
     @h1.update_attributes :owner => @ug1
     @ug1.destroy
@@ -95,8 +95,8 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "can be destroyed when in use by another usergroup, it removes association automatically" do
-    @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
-    @ug2 = Usergroup.find_or_create_by_name :name => "ug2"
+    @ug1 = Usergroup.find_or_create_by(name: "ug1")
+    @ug2 = Usergroup.find_or_create_by(name: "ug2")
     @ug1.usergroups = [@ug2]
     assert @ug1.destroy
     assert @ug2.reload
@@ -104,8 +104,8 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "removes user join model records" do
-    ug1 = Usergroup.find_or_create_by_name :name => "ug1"
-    u1  = User.find_or_create_by_login :login => "u1", :mail => "u1@someware.com", :auth_source => auth_sources(:one)
+    ug1 = Usergroup.find_or_create_by(name: "ug1")
+    u1  = User.find_or_create_by :login => "u1", :mail => "u1@someware.com", :auth_source => auth_sources(:one)
     ug1.users = [u1]
     assert_difference('UsergroupMember.count', -1) do
       ug1.destroy
