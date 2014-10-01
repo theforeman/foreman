@@ -31,7 +31,7 @@ module Api
 
     rescue_from ActiveRecord::RecordNotFound, :with => lambda { |error|
       logger.info "#{error.message} (#{error.class})"
-      not_found(:message => "#{error.message}", :class => "#{error.class}")
+      not_found
     }
 
 
