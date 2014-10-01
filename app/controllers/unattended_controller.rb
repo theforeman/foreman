@@ -138,6 +138,8 @@ class UnattendedController < ApplicationController
         logger.info "unknown RHN_PROVISIONING header #{e}"
         mac_list = []
       end
+    else
+      mac_list << params['mac'] if params['mac']
     end
     # we try to match first based on the MAC, falling back to the IP
     Host.where(mac_list.empty? ? { :ip => ip } : ["lower(mac) IN (?)", mac_list]).first

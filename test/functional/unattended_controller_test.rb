@@ -126,6 +126,14 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should render gpxe for a host when providing MAC address" do
+    Host::Managed.any_instance.stubs(:build).returns(true)
+    get :gPXE, {:mac => hosts(:myfullhost).mac}, set_session_user
+    assert assigns(:initrd)
+    assert assigns(:kernel)
+    assert_response :success
+  end
+
   test "should accept built notifications" do
     @request.env["REMOTE_ADDR"] = hosts(:ubuntu).ip
     get :built
