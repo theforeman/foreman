@@ -15,7 +15,6 @@ class User < ActiveRecord::Base
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
 
   validates_lengths_from_database  :except => [:firstname, :lastname, :format, :mail, :login]
-  attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation
   after_save :ensure_default_role
   before_destroy EnsureNotUsedBy.new(:direct_hosts, :hostgroups), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
