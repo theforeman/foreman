@@ -131,7 +131,8 @@ class HostgroupsController < ApplicationController
     @last_reports    = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
   end
 
-  def all_hosts group 
+  def all_hosts group
+    return [] if group.new_record?
     hosts = group.hosts.to_a
     if group.has_children?
       group.children.each do |child|
