@@ -21,6 +21,10 @@ module SSO
       controller.main_app.login_users_path
     end
 
+    def logout_url
+      nil
+    end
+
     # don't forget to implement expiration_url method if your SSO method changes this to true
     def support_expiration?
       false
