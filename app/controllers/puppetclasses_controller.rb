@@ -1,7 +1,7 @@
 class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_resource, :only => [:edit, :update, :destroy]
+  before_filter :find_resource, :only => [:edit, :update, :destroy, :override]
   before_filter :setup_search_options, :only => :index
   before_filter :reset_redirect_to_url, :only => :index
   before_filter :store_redirect_to_url, :only => :edit
@@ -42,6 +42,18 @@ class PuppetclassesController < ApplicationController
     else
       process_error
     end
+  end
+
+  def override
+    if @puppetclass.class_params.present?
+      @puppetclass.class_params.each do |class_param|
+        class_param.update_attribute(:override, params[:enable])
+      end
+      notice _("Successfully set as %{message} all parameters of puppetclass %{name}" % { :message => params[:message], :name => @puppetclass.name })
+    else
+      error _("No parameters to override for puppetclass %{name}" % { :name => @puppetclass.name })
+    end
+    redirect_to puppetclasses_url
   end
 
   # form AJAX methods
@@ -88,6 +100,15 @@ class PuppetclassesController < ApplicationController
   def redirect_back_or_default(default)
     redirect_to(session[:redirect_to_url] || default)
     session[:redirect_to_url] = nil
+  end
+
+  def action_permission
+    case params[:action]
+      when 'override'
+        :override
+      else
+        super
+    end
   end
 
 end

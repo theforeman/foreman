@@ -518,7 +518,7 @@ Foreman::AccessControl.map do |map|
                                           :"api/v1/puppetclasses" => [:create],
                                           :"api/v2/puppetclasses" => [:create]
                                         }
-    map.permission :edit_puppetclasses,    {:puppetclasses => [:edit, :update],
+    map.permission :edit_puppetclasses,    {:puppetclasses => [:edit, :update, :override ],
                                           :"api/v1/puppetclasses" => [:update],
                                           :"api/v2/puppetclasses" => [:update],
                                           :"api/v1/lookup_keys" => [:create, :update, :destroy],
