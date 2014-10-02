@@ -30,8 +30,7 @@
   <% end %>
 </table>
 
-  <%= page_entries_info hosts, :more => " - "+_("<b class='select_count'>0</b> selected") %>
-  <%= will_paginate hosts %>
+  <%= will_paginate_with_info hosts, :more => " - "+_("<b class='select_count'>0</b> selected") %>
   </div>
 </div>
   <%= content_tag(:div, :class => "form-actions") do %>

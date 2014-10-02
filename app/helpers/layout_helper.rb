@@ -245,10 +245,15 @@ module LayoutHelper
              end
            end.html_safe
     html += options[:more].html_safe if options[:more]
-    content_tag(:div, :class=>"col-md-5") do
-      content_tag(:ul, :class => 'pagination') do
-        content_tag(:li, link_to(html, "#"), :class=>"pull-left")
-      end
+    content_tag(:div, :class => "col-md-5 hidden-xs") do
+      content_tag(:div, html, :class => "pull-left pull-bottom darkgray pagination")
+    end
+  end
+
+  def will_paginate_with_info(collection = nil, options = {})
+    content_tag(:div, :id => "pagination", :class => "row") do
+      page_entries_info(collection, options) +
+        will_paginate(collection, options)
     end
   end
 

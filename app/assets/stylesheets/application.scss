@@ -239,6 +239,7 @@ select{padding: initial;}
 }
 .grey, .gray{color: #808080 !important;}
 .lightgrey, .lightgray {color: #999 !important;}
+.darkgrey, .darkgray{color: #606060 !important;}
 .black{color: #000 !important;}
 
 .form-group.condensed{margin-bottom: 0;}
@@ -363,4 +364,10 @@ table tr td:last-child {
 
 .config_group, .selected_config_group   {
   min-height: 30px;
+}
+
+.pagination {
+  display: table-cell;
+  vertical-align: bottom;
+  float: none;
 }
