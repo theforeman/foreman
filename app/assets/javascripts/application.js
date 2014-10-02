@@ -90,6 +90,7 @@ function onContentLoad(){
 
   $('*[data-ajax-url]').each(function() {
     var url = $(this).data('ajax-url');
+    $(this).removeAttr('data-ajax-url');
     $(this).load(url, function(response, status, xhr) {
       if (status == "error") {
         $(this).closest(".tab-content").find("#spinner").html(__('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
