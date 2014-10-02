@@ -75,8 +75,8 @@ class HostsController < ApplicationController
 
   # Clone the host
   def clone
-    @clone_host = @host.clone
-    @host = @clone_host
+    @clone_host = @host
+    @host = @clone_host.clone
     load_vars_for_ajax
     flash[:warning] = _("The marked fields will need reviewing")
     @host.valid?
