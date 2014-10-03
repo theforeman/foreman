@@ -30,8 +30,8 @@ module Api
 
       def_param_group :override_value do
         param :override_value, Hash, :required => true, :action_aware => true do
-          param :match, String
-          param :value, String
+          param :match, String, :required => true
+          param :value, String, :required => true
           param :use_puppet_default, :bool
         end
       end
@@ -39,6 +39,7 @@ module Api
       api :POST, "/smart_variables/:smart_variable_id/override_values", N_("Create an override value for a specific smart variable")
       api :POST, "/smart_class_parameters/:smart_class_parameter_id/override_values", N_("Create an override value for a specific smart class parameter")
       param :smart_variable_id, :identifier, :required => false
+      param :smart_class_parameter_id, :identifier, :required => false
       param_group :override_value, :as => :create
 
       def create
@@ -48,6 +49,8 @@ module Api
 
       api :PUT, "/smart_variables/:smart_variable_id/override_values/:id", N_("Update an override value for a specific smart variable")
       api :PUT, "/smart_class_parameters/:smart_class_parameter_id/override_values/:id", N_("Update an override value for a specific smart class parameter")
+      param :smart_variable_id, :identifier, :required => false
+      param :smart_class_parameter_id, :identifier, :required => false
       param_group :override_value
 
       def update
@@ -57,6 +60,8 @@ module Api
 
       api :DELETE, "/smart_variables/:smart_variable_id/override_values/:id", N_("Delete an override value for a specific smart variable")
       api :DELETE, "/smart_class_parameters/:smart_class_parameter_id/override_values/:id", N_("Delete an override value for a specific smart class parameter")
+      param :smart_variable_id, :identifier, :required => false
+      param :smart_class_parameter_id, :identifier, :required => false
       param :id, :identifier, :required => true
 
       def destroy
