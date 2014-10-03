@@ -45,18 +45,26 @@ module Api::V2::LookupKeysCommonController
 
   def find_puppetclass
     @puppetclass = Puppetclass.authorized(:view_puppetclasses).find(params['puppetclass_id'])
+  rescue ActiveRecord::RecordNotFound
+    not_found({ :error => { :message => (_("Puppet class with id '%{id}' was not found") % { :id => params['puppetclass_id'] }) } })
   end
 
   def find_environment
     @environment = Environment.authorized(:view_environments).find(params['environment_id'])
+  rescue ActiveRecord::RecordNotFound
+    not_found({ :error => { :message => (_("Environment with id '%{id}' was not found") % { :id => params['environment_id'] }) } })
   end
 
   def find_host
     @host = Host::Base.authorized(:view_hosts).find(params['host_id'])
+  rescue ActiveRecord::RecordNotFound
+    not_found({ :error => { :message => (_("Host with id '%{id}' was not found") % { :id => params['host_id'] }) } })
   end
 
   def find_hostgroup
     @hostgroup = Hostgroup.authorized(:view_hostgroups).find(params['hostgroup_id'])
+  rescue ActiveRecord::RecordNotFound
+    not_found({ :error => { :message => (_("Hostgroup with id '%{id}' was not found") % { :id => params['hostgroup_id'] }) } })
   end
 
   def find_smart_variable

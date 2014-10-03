@@ -23,6 +23,14 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_equal "cluster", results['results'][0]['parameter']
   end
 
+  test "should get :not_found for a non-existing host" do
+    non_existing_id = 100000
+    get :index, {:host_id => non_existing_id}
+    assert_response :not_found
+    results = ActiveSupport::JSON.decode(@response.body)
+    assert_equal "Host with id '#{non_existing_id}' was not found", results["error"]["message"]
+  end
+
   test "should get smart class parameters for a specific hostgroup" do
     get :index, {:hostgroup_id => hostgroups(:common).to_param}
     assert_response :success
@@ -31,6 +39,14 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert !results['results'].empty?
     assert_equal 1, results['results'].count
     assert_equal "cluster", results['results'][0]['parameter']
+  end
+
+  test "should get :not_found for a non-existing hostgroup" do
+    non_existing_id = 100000
+    get :index, {:hostgroup_id => non_existing_id}
+    assert_response :not_found
+    results = ActiveSupport::JSON.decode(@response.body)
+    assert_equal "Hostgroup with id '#{non_existing_id}' was not found", results["error"]["message"]
   end
 
   test "should get smart class parameters for a specific puppetclass" do
@@ -43,6 +59,14 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_equal "custom_class_param", results['results'][0]['parameter']
   end
 
+  test "should get :not_found for a non-existing puppetclass" do
+    non_existing_id = 100000
+    get :index, {:puppetclass_id => non_existing_id}
+    assert_response :not_found
+    results = ActiveSupport::JSON.decode(@response.body)
+    assert_equal "Puppet class with id '#{non_existing_id}' was not found", results["error"]["message"]
+  end
+
   test "should get smart class parameters for a specific environment" do
     get :index, {:environment_id => environments(:production).id}
     assert_response :success
@@ -51,6 +75,14 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert !results['results'].empty?
     assert_equal 2, results['results'].count
     assert_equal ["cluster", "custom_class_param"], results['results'].map {|cp| cp["parameter"] }.sort
+  end
+
+  test "should get :not_found for a non-existing environment" do
+    non_existing_id = 100000
+    get :index, {:environment_id => non_existing_id}
+    assert_response :not_found
+    results = ActiveSupport::JSON.decode(@response.body)
+    assert_equal "Environment with id '#{non_existing_id}' was not found", results["error"]["message"]
   end
 
   test "should get smart class parameters for a specific environment and puppetclass combination" do
