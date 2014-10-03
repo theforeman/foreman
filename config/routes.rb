@@ -165,10 +165,10 @@ Foreman::Application.routes.draw do
       get 'import_environments'
       post 'obsolete_and_new'
       get 'auto_complete_search'
-      get 'override'
     end
     member do
       post 'parameters'
+      post 'override'
     end
     constraints(:id => /[^\/]+/) do
       resources :hosts

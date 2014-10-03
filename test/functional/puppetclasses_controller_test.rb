@@ -165,4 +165,31 @@ class PuppetclassesControllerTest < ActionController::TestCase
     get :index, {:search => "environment = testing"}, set_session_user
     assert_equal puppetclasses(:three), assigns(:puppetclasses).first
   end
+
+  def test_override_enable
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    refute pc.class_params.first.override
+    post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user
+    assert pc.class_params.reload.first.override
+    assert_match /overridden all parameters/, flash[:notice]
+    assert_redirected_to puppetclasses_url
+  end
+
+  def test_override_disable
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    pc.class_params.first.update_attributes(:override => true)
+    post :override, {:id => pc.to_param, :enable => 'false'}, set_session_user
+    refute pc.class_params.reload.first.override
+    assert_match /reset all parameters/, flash[:notice]
+    assert_redirected_to puppetclasses_url
+  end
+
+  def test_override_none
+    pc = FactoryGirl.create(:puppetclass)
+    post :override, {:id => pc.to_param}, set_session_user
+    assert_match /No parameters to override/, flash[:error]
+    assert_redirected_to puppetclasses_url
+  end
 end
