@@ -55,14 +55,16 @@ function onContentLoad(){
   }
 
   // highlight tabs with errors
-  $(".tab-content").find(".form-group.has-error").each(function(index) {
-    var id = $(this).parentsUntil(".tab-content").last().attr("id");
-    $("a[href=#"+id+"]").addClass("tab-error");
+  $(".tab-content").find(".form-group.has-error").each(function(i){
+    $(this).parents(".tab-pane").each(function(index, item) {
+      var id = $(item).attr('id');
+      $("a[href=#"+id+"]").addClass("tab-error");
 
-    // focus on first tab with error
-    if (index == 0) {
-      $("a[href=#"+id+"]").click();
-    }
+      // focus on first field in first tab with error
+      if (index == 0 && i==0) {
+        $("a[href=#"+id+"]").click();
+      }
+    })
   })
 
   //set the tooltips
