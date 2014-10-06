@@ -10,7 +10,7 @@ class TaxHost
                :smart_proxy_ids, :user_ids, :config_template_ids,
                :realm_ids]
 
-  def initialize(taxonomy, hosts=nil)
+  def initialize(taxonomy, hosts = nil)
     @taxonomy = taxonomy
     @hosts    = hosts.nil? ? @taxonomy.hosts : Host.where(:id => Array.wrap(hosts).map(&:id))
   end

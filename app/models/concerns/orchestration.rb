@@ -31,7 +31,7 @@ module Orchestration
   end
 
   # log and add to errors
-  def failure msg, backtrace=nil, dest = :base
+  def failure msg, backtrace = nil, dest = :base
     logger.warn(backtrace ? msg + backtrace.join("\n") : msg)
     errors.add dest, msg
     false

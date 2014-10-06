@@ -27,7 +27,7 @@ class ParameterTest < ActiveSupport::TestCase
     domain = Domain.find_or_create_by_name("company.com")
     hostgroup = Hostgroup.find_or_create_by_name "Common"
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-    :domain => domain , :operatingsystem => Operatingsystem.first, :hostgroup => hostgroup,
+    :domain => domain, :operatingsystem => Operatingsystem.first, :hostgroup => hostgroup,
     :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition",
     :root_pass => "xybxa6JUkz63w", :location => location, :organization => organization
 

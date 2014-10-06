@@ -83,7 +83,7 @@ class Subnet < ActiveRecord::Base
   # Subnets are sorted on their priority value
   # [+other+] : Subnet object with which to compare ourself
   # +returns+ : Subnet object with higher precedence
-  def <=> (other)
+  def <=>(other)
     if self.vlanid.present? && other.vlanid.present?
       self.vlanid <=> other.vlanid
     else

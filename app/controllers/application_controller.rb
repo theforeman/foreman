@@ -286,7 +286,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def process_ajax_error(exception, action=nil)
+  def process_ajax_error(exception, action = nil)
     action ||= action_name
     origin = exception.try(:original_exception)
     message = (origin || exception).message

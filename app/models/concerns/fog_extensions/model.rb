@@ -9,7 +9,7 @@ module FogExtensions
       !!identity
     end
 
-    def to_json(options={ })
+    def to_json(options = { })
       ActiveSupport::JSON.encode(self, options)
     end
 

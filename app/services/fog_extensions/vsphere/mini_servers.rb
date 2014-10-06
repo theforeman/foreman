@@ -32,7 +32,7 @@ module FogExtensions
         end
         ret
       end
-        
+
       private
       attr_reader :client, :dc
     end

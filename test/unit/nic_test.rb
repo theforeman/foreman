@@ -70,7 +70,7 @@ class NicTest < ActiveSupport::TestCase
     assert_present i.domain
     assert_blank i.hostname
   end
-  
+
   test "Mac address uniqueness validation is skipped for virtual NICs" do
     physical = Nic::Base.create! :mac => "cabbccddeeff", :host => hosts(:one)
     virtual = Nic::Base.new :mac => "cabbccddeeff", :host => hosts(:one), :virtual => true

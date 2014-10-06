@@ -32,7 +32,7 @@ module Foreman::Model
       super.merge({ :mac => :mac })
     end
 
-    def max_cpu_count (cluster = nil)
+    def max_cpu_count(cluster = nil)
       return 8 unless cluster
       cluster.num_cpu_cores
     end
@@ -53,7 +53,7 @@ module Foreman::Model
       dc.clusters
     end
 
-    def datastores(opts ={})
+    def datastores(opts = {})
       if opts[:storage_domain]
         dc.datastores.get(opts[:storage_domain])
       else
@@ -65,11 +65,11 @@ module Foreman::Model
       dc.vm_folders.sort_by{|f| f.path}
     end
 
-    def networks(opts ={})
+    def networks(opts = {})
       dc.networks.all(:accessible => true)
     end
 
-    def resource_pools(opts ={})
+    def resource_pools(opts = {})
       cluster = cluster(opts[:cluster_id])
       cluster.resource_pools.all(:accessible => true)
     end
@@ -82,15 +82,15 @@ module Foreman::Model
       folders
     end
 
-    def available_networks(cluster_id=nil)
+    def available_networks(cluster_id = nil)
       networks
     end
 
-    def available_storage_domains(storage_domain=nil)
+    def available_storage_domains(storage_domain = nil)
       datastores({:storage_domain => storage_domain})
     end
 
-    def available_resource_pools(opts={})
+    def available_resource_pools(opts = {})
       resource_pools({ :cluster_id => opts[:cluster_id] })
     end
 
@@ -423,7 +423,7 @@ module Foreman::Model
       client.datacenters.get(datacenter)
     end
 
-    def update_public_key options ={}
+    def update_public_key options = {}
       return unless pubkey_hash.blank? || options[:force]
       client
     rescue Foreman::FingerprintException => e

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V2::InterfacesControllerTest < ActionController::TestCase
   valid_attrs = { 'name' => "test.foreman.com", 'ip' => "10.0.1.1", 'mac' => "AA:AA:AA:AA:AA:AA",
-                  'username' => "foo", 'password' => "bar", 'provider' => "IPMI" ,
+                  'username' => "foo", 'password' => "bar", 'provider' => "IPMI",
                   'type' => "Nic::BMC" }
 
   test "get index for specific host" do

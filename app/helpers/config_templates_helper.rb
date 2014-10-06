@@ -22,7 +22,7 @@ module ConfigTemplatesHelper
       opts = config_template.default ? {:style => "color: gray"} : {:confirm =>  _("You are about to unlock a locked " \
         "template -- this is for every organization and location that uses it. Continue?"), :style => "color: red"}
 
-      actions << display_link_if_authorized(_('Unlock'), hash_for_unlock_config_template_path(:id => config_template), opts) 
+      actions << display_link_if_authorized(_('Unlock'), hash_for_unlock_config_template_path(:id => config_template), opts)
 
     else
       actions << display_link_if_authorized(_('Lock'), hash_for_lock_config_template_path(:id => config_template))

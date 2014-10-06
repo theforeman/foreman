@@ -51,7 +51,7 @@ module Foreman::Model
       raise e
     end
 
-    def security_groups vpc=nil
+    def security_groups vpc = nil
       groups = client.security_groups
       groups.reject! { |sg| sg.vpc_id != vpc } if vpc
       groups

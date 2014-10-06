@@ -161,7 +161,7 @@ class Puppetclass < ActiveRecord::Base
       dirs = Environment.puppetEnvs.values.join(":").split(":").uniq.sort.join(" ")
       puts "Running #{prepare_script} #{dirs}" if debug
       location = `#{prepare_script} #{dirs}`
-      if $? == 0
+      if $CHILD_STATUS == 0
         root = location.chomp
         puts "Relocated modules to #{root}" if verbose
       end

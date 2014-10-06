@@ -44,14 +44,14 @@ class Usergroup < ActiveRecord::Base
 
   # This methods retrieves all users in a usergroup
   # Returns: Array of users
-  def all_users(group_list=[self], user_list=[])
+  def all_users(group_list = [self], user_list = [])
     retrieve_users_and_groups group_list, user_list
     user_list.sort.uniq
   end
 
   # This methods retrieves all usergroups in a usergroup
   # Returns: Array of unique usergroups
-  def all_usergroups(group_list=[self], user_list=[])
+  def all_usergroups(group_list = [self], user_list = [])
     retrieve_users_and_groups group_list, user_list
     group_list.sort.uniq
   end

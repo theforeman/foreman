@@ -139,7 +139,7 @@ module Orchestration::Compute
     failure _("Failed to get IP for %{name}: %{e}") % { :name => name, :e => e }, e.backtrace
   end
 
-  def delComputeIP;end
+  def delComputeIP; end
 
   def delCompute
     logger.info "Removing Compute instance for #{name}"

@@ -109,7 +109,7 @@ class Operatingsystem < ActiveRecord::Base
     medium_vars_to_uri(url, host.architecture.name, host.os)
   end
 
-  def medium_vars_to_uri (url, arch, os)
+  def medium_vars_to_uri(url, arch, os)
     URI.parse(interpolate_medium_vars(url, arch, os)).normalize
   end
 
@@ -196,7 +196,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   #handle things like gpxelinux/ gpxe / pxelinux here
-  def boot_filename host=nil
+  def boot_filename host = nil
     "pxelinux.0"
   end
 

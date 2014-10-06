@@ -2,11 +2,11 @@ class Dashboard::Data
 
   attr_reader :report
   # returns a status hash
-  def self.status(filter="")
+  def self.status(filter = "")
     new(filter).report
   end
 
-  def initialize(filter="")
+  def initialize(filter = "")
     @filter = filter
     @report = {}
     fetch_data
