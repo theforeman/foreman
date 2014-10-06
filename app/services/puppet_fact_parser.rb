@@ -5,6 +5,8 @@ class PuppetFactParser < FactParser
     orel = case os_name
              when /(suse|sles|gentoo)/i
                facts[:operatingsystemrelease]
+             when /(windows)/i
+               facts[:kernelrelease]
              else
                facts[:lsbdistrelease] || facts[:operatingsystemrelease]
            end
