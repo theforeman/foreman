@@ -2,13 +2,13 @@ module LookupKeysHelper
 
   def remove_child_link(name, f, opts = {})
     opts[:class] = [opts[:class], "remove_nested_fields"].compact.join(" ")
-    f.hidden_field(opts[:method]||:_destroy) + link_to_function(name, "remove_child_node(this);" , opts)
+    f.hidden_field(opts[:method]||:_destroy) + link_to_function(name, "remove_child_node(this);", opts)
   end
 
   def add_child_link(name, association, opts = {})
     opts[:class] = [opts[:class], "add_nested_fields btn btn-success"].compact.join(" ")
     opts[:"data-association"] = association
-    link_to_function(name.to_s, "add_child_node(this);" , opts)
+    link_to_function(name.to_s, "add_child_node(this);", opts)
   end
 
   def new_child_fields_template(form_builder, association, options = { })
@@ -43,7 +43,7 @@ module LookupKeysHelper
 
   def param_type_selector f
     selectable_f f, :key_type, options_for_select(LookupKey::KEY_TYPES.map { |e| [_(e),e] }, f.object.key_type),{},
-               { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8" ,
+               { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
                  :help_block => popover(_("Parameter types"),_("<dl>" +
                "<dt>String</dt> <dd>Everything is taken as a string.</dd>" +
                "<dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd>" +
@@ -58,7 +58,7 @@ module LookupKeysHelper
 
   def validator_type_selector f
      selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e),e]  }, f.object.validator_type),{:include_blank => _("None")},
-                { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8" ,
+                { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
                   :onchange => 'validatorTypeSelected(this)',
                   :help_block => popover(_("Validator type"),_("<dl>" +
                 "<dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>" +

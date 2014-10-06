@@ -374,19 +374,19 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal type, Setting.find_by_name("foo").try(:settings_type)
   end
 
-  def check_properties_saved_and_loaded_ok options={}
+  def check_properties_saved_and_loaded_ok options = {}
     assert Setting.find_or_create_by_name(options)
     s = Setting.find_by_name options[:name]
     assert_equal options[:value], s.value
     assert_equal options[:default], s.default
   end
 
-  def check_setting_did_not_save_with options={}
+  def check_setting_did_not_save_with options = {}
      setting = Setting.new(options)
      assert !setting.save
   end
 
-  def check_value_returns_from_cache_with options={}
+  def check_value_returns_from_cache_with options = {}
     name = options[:name].to_s
 
     #cache must be cleared on create

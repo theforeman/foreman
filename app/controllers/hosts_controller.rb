@@ -26,7 +26,7 @@ class HostsController < ApplicationController
   before_filter :find_multiple, :only => MULTIPLE_ACTIONS
   helper :hosts, :reports
 
-  def index (title = nil)
+  def index(title = nil)
     begin
       search = resource_base.search_for(params[:search], :order => params[:order])
     rescue => e
@@ -172,7 +172,7 @@ class HostsController < ApplicationController
       end
     rescue
       # failed
-      logger.warn "Failed to generate external nodes for #{@host} with #{$!}"
+      logger.warn "Failed to generate external nodes for #{@host} with #{$ERROR_INFO}"
       render :text => _('Unable to generate output, Check log files\n'), :status => 412 and return
     end
   end
@@ -515,7 +515,7 @@ class HostsController < ApplicationController
     @host = Host.new(params[:host])
     # revert compute resource to "Bare Metal" (nil) if selected
     # compute resource is not included taxonomy
-    Taxonomy.as_taxonomy @organization , @location do
+    Taxonomy.as_taxonomy @organization, @location do
       # if compute_resource_id is not in our scope, reset it to nil.
       @host.compute_resource_id = nil unless ComputeResource.exists?(@host.compute_resource_id)
     end
@@ -683,7 +683,7 @@ class HostsController < ApplicationController
     redirect_to hosts_path and return false
   end
 
-  def toggle_hostmode mode=true
+  def toggle_hostmode mode = true
     # keep all the ones that were not disabled for notification.
     @hosts.delete_if { |host| host.update_attribute(:enabled, mode) }
     action = mode ? "enabled" : "disabled"

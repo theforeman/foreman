@@ -184,7 +184,7 @@ class UsersControllerTest < ActionController::TestCase
     sample_user = users(:one)
     as_admin do
       Hostgroup.new(:name => "root").save
-      Hostgroup.new(:name => "first" , :parent_id => Hostgroup.find_by_name("root").id).save
+      Hostgroup.new(:name => "first", :parent_id => Hostgroup.find_by_name("root").id).save
       Hostgroup.new(:name => "second", :parent_id => Hostgroup.find_by_name("first").id).save
     end
 
@@ -192,9 +192,9 @@ class UsersControllerTest < ActionController::TestCase
       "hostgroup_ids" => ["", Hostgroup.find_by_name("root").id.to_s] },
       "id"            => sample_user.id }
 
-    put :update, update_hash , set_session_user
+    put :update, update_hash, set_session_user
 
-    assert_equal Hostgroup.find_by_name("first").users.first , sample_user
+    assert_equal Hostgroup.find_by_name("first").users.first, sample_user
     assert_equal Hostgroup.find_by_name("second").users.first, sample_user
   end
 

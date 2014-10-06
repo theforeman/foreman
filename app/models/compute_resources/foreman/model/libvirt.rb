@@ -59,11 +59,11 @@ module Foreman::Model
       errors[:base] << e.message
     end
 
-    def new_nic attr={ }
+    def new_nic attr = { }
       client.nics.new attr
     end
 
-    def new_volume attr={ }
+    def new_volume attr = { }
       client.volumes.new(attrs.merge(:allocation => '0G'))
     end
 
@@ -85,7 +85,7 @@ module Foreman::Model
       template
     end
 
-    def new_vm attr={ }
+    def new_vm attr = { }
       test_connection
       return unless errors.empty?
       opts = vm_instance_defaults.merge(attr.to_hash).symbolize_keys

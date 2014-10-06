@@ -82,7 +82,7 @@ class HostgroupsControllerTest < ActionController::TestCase
       Hostgroup.find_by_name("root").users << @one
     end
 
-    post :create, {"hostgroup" => {"name"=>"first" , "parent_id"=> Hostgroup.find_by_name("root").id}},
+    post :create, {"hostgroup" => {"name"=>"first", "parent_id"=> Hostgroup.find_by_name("root").id}},
                   set_session_user.merge(:user => @one.id)
     assert_response :redirect
 

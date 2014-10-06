@@ -35,7 +35,7 @@ class Junos < Operatingsystem
   end
 
   #handle things like gpxelinux/ gpxe / pxelinux here
-  def boot_filename host=nil
+  def boot_filename host = nil
     "ztp.cfg/"+host.mac.gsub(/:/,"").upcase
   end
 

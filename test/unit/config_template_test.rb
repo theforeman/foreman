@@ -104,7 +104,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
   end
 
   test "should not unlock a vendor-provided default template" do
-    tmplt = ConfigTemplate.create :name => "Vendor Template", :template => "provision test", 
+    tmplt = ConfigTemplate.create :name => "Vendor Template", :template => "provision test",
                                   :template_kind => template_kinds(:provision), :default => true,
                                   :vendor => "Katello"
     tmplt.update_attribute(:locked, true)

@@ -91,7 +91,7 @@ class RolesControllerTest < ActionController::TestCase
     end
 
     test 'renders new page with hidden field original_role_id' do
-      get :clone, { :id => @role.id } , set_session_user
+      get :clone, { :id => @role.id }, set_session_user
       assert_template 'new'
     end
 

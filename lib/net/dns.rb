@@ -39,7 +39,7 @@ module Net
     class Record < Net::Record
       attr_accessor :ip, :resolver, :type
 
-      def initialize opts={ }
+      def initialize opts = { }
         super(opts)
         self.ip = validate_ip self.ip
         self.resolver ||= Resolv::DNS.new

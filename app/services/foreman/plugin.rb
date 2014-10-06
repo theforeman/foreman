@@ -134,14 +134,14 @@ module Foreman #:nodoc:
     #
     # name parameter can be: :top_menu or :admin_menu
     #
-    def menu(menu, name, options={})
+    def menu(menu, name, options = {})
       options.merge!(:parent => @parent) if @parent
       Menu::Manager.map(menu).item(name, options)
     end
 
     alias_method :add_menu_item, :menu
 
-    def sub_menu(menu, name, options={}, &block)
+    def sub_menu(menu, name, options = {}, &block)
       options.merge!(:parent => @parent) if @parent
       Menu::Manager.map(menu).sub_menu(name, options)
       current = @parent
@@ -180,7 +180,7 @@ module Foreman #:nodoc:
     # :options can contain :resource_type key which is the string of resource
     #   class to which this permissions is related, rest of options is passed
     #   to AccessControl
-    def permission(name, hash, options={})
+    def permission(name, hash, options = {})
       return false if pending_migrations
 
       options[:engine] ||= self.id.to_s

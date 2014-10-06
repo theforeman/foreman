@@ -24,7 +24,7 @@ module LayoutHelper
     content_for(:javascripts) { javascript_include_tag(*args) }
   end
 
-  def addClass(options={}, new_class='')
+  def addClass(options = {}, new_class = '')
     options[:class] = "#{new_class} #{options[:class]}"
   end
 
@@ -36,7 +36,7 @@ module LayoutHelper
     end
   end
 
-  def line_count (f, attr)
+  def line_count(f, attr)
     rows = f.object.try(attr).to_s.lines.count rescue 1
     rows == 0 ? 1 : rows
   end
@@ -58,7 +58,7 @@ module LayoutHelper
     end
   end
 
-  def checkbox_f(f, attr, options = {}, checked_value="1", unchecked_value="0")
+  def checkbox_f(f, attr, options = {}, checked_value = "1", unchecked_value = "0")
     text = options.delete(:help_text)
     inline = options.delete(:help_inline)
     field(f, attr, options) do
@@ -68,7 +68,7 @@ module LayoutHelper
   end
 
 
-  def multiple_checkboxes(f, attr, klass, associations, options = {}, html_options={})
+  def multiple_checkboxes(f, attr, klass, associations, options = {}, html_options = {})
     if associations.count > 5
       associated_obj = klass.send(ActiveModel::Naming.plural(associations.first))
       selected_ids = associated_obj.select("#{associations.first.class.table_name}.id").map(&:id)
@@ -81,7 +81,7 @@ module LayoutHelper
   end
 
   # add hidden field for options[:disabled]
-  def multiple_selects(f, attr, associations, selected_ids, options={}, html_options={})
+  def multiple_selects(f, attr, associations, selected_ids, options = {}, html_options = {})
     options.merge!(:size => "col-md-10")
     field(f, attr, options) do
       attr_ids = (attr.to_s.singularize+"_ids").to_sym
@@ -155,7 +155,7 @@ module LayoutHelper
         label   = options[:label] == :none ? '' : options.delete(:label)
         label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
             s_(clazz.gettext_translation_for_attribute_name attr)) if f
-        label   = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe , :class => "col-md-2 control-label") : ''
+        label   = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe, :class => "col-md-2 control-label") : ''
 
         label.html_safe +
            content_tag(:div, :class => size_class) do
@@ -272,7 +272,7 @@ module LayoutHelper
     end
   end
 
-  def icon_text(i, text="", opts = {})
+  def icon_text(i, text = "", opts = {})
     (content_tag(:i,"", :class=>"glyphicon glyphicon-#{i} #{opts[:class]}") + " " + text).html_safe
   end
 

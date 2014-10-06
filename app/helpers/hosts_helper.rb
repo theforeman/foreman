@@ -93,12 +93,12 @@ module HostsHelper
 
       select_action_button( _("Select Action"), {:id => 'submit_multiple'},
         actions.map do |action|
-          link_to(action[0] , action[1], :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
+          link_to(action[0], action[1], :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
         end.flatten
       )
   end
 
-  def date ts=nil
+  def date ts = nil
     return _("%s ago") % (time_ago_in_words ts) if ts
     _("N/A")
   end
@@ -286,10 +286,10 @@ module HostsHelper
   end
 
   def show_appropriate_host_buttons(host)
-    [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries") , :class => 'btn btn-default'),
-      (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts") , :class => 'btn btn-default') if host.fact_values.any?),
-      (link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => host), :title => _("Browse host reports") , :class => 'btn btn-default') if host.reports.any?),
-      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump") , :class => 'btn btn-default') if SmartProxy.with_features("Puppet").any?)
+    [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries"), :class => 'btn btn-default'),
+      (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts"), :class => 'btn btn-default') if host.fact_values.any?),
+      (link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => host), :title => _("Browse host reports"), :class => 'btn btn-default') if host.reports.any?),
+      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump"), :class => 'btn btn-default') if SmartProxy.with_features("Puppet").any?)
     ].compact
   end
 

@@ -6,7 +6,7 @@ class Solaris < Operatingsystem
   end
 
   # sets the prefix for the tftp files based on the OS
-  def pxe_prefix(architecture=nil)
+  def pxe_prefix(architecture = nil)
     "boot/#{file_prefix}"
   end
 
@@ -109,7 +109,7 @@ class Solaris < Operatingsystem
 
   private
   def resolv_nfs_path host, dir, domain
-    host = host + ".#{domain.name}" unless host =~ /\./
+    host += ".#{domain.name}" unless host =~ /\./
     # If host is already an IP then this works fine
     ip = domain.resolver.getaddress(host)
     "#{ip}:#{dir}"

@@ -503,7 +503,7 @@ class Host::Managed < Host::Base
 
       unless (hp = self.host_parameters.create(:name => param, :value => value))
         logger.warn "Failed to import #{param}/#{value} for #{name}: #{hp.errors.full_messages.join(", ")}"
-        $stdout.puts $!
+        $stdout.puts $ERROR_INFO
       end
     end
 

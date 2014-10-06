@@ -26,7 +26,7 @@ module HostsAndHostgroupsHelper
     Subnet.with_taxonomy_scope_override(@location,@organization)
   end
 
-  def domain_subnets(domain=@domain)
+  def domain_subnets(domain = @domain)
     return [] if domain.blank?
     domain.subnets.with_taxonomy_scope_override(@location,@organization)
   end

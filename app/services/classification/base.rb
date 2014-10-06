@@ -33,7 +33,7 @@ module Classification
       end.map(&:path_elements).flatten(1).uniq
     end
 
-    def values_hash options={}
+    def values_hash options = {}
       values = {}
       path2matches.each do |match|
         LookupValue.where(:match => match).where(:lookup_key_id => class_parameters.map(&:id)).each do |value|

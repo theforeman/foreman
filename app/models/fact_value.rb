@@ -71,7 +71,7 @@ class FactValue < ActiveRecord::Base
   end
 
   # returns the sum of each value, e.g. how many machines with 2,4...n cpu's
-  def self.count_each(fact, options={})
+  def self.count_each(fact, options = {})
     output = []
     where({:fact_names => {:name => fact}}).joins(:fact_name).group(:value).count.each do |k,v|
       label = case options[:unit]

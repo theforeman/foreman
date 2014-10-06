@@ -20,7 +20,7 @@ module DashboardHelper
     start = Time.now.utc - Setting[:puppet_interval].minutes
     (0..9).each do |i|
       t = start + (interval.minutes * i)
-      data << [Setting[:puppet_interval] - i*interval , hosts.run_distribution(t, t + interval.minutes).count]
+      data << [Setting[:puppet_interval] - i*interval, hosts.run_distribution(t, t + interval.minutes).count]
     end
     data
   end

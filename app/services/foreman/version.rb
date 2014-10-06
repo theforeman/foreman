@@ -5,7 +5,7 @@ module Foreman
     attr_reader :version, :major, :minor, :build, :tag, :short, :notag
     alias_method :full, :version
 
-    def initialize givenversion=nil
+    def initialize givenversion = nil
       if givenversion
         @version = givenversion
       else

@@ -128,7 +128,7 @@ Return value may either be one of the following:
       def power
         valid_actions = PowerManager::SUPPORTED_ACTIONS
         if valid_actions.include? params[:power_action]
-          render :json => { :power => @host.power.send(params[:power_action]) } , :status => 200
+          render :json => { :power => @host.power.send(params[:power_action]) }, :status => 200
         else
           render :json => { :error => _("Unknown power action: available methods are %s") % valid_actions.join(', ') }, :status => 422
         end

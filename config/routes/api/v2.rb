@@ -222,8 +222,8 @@ Foreman::Application.routes.draw do
           put :boot, :on => :member
           put :power, :on => :member
           post :facts, :on => :collection
-          resources :audits        ,:only => :index
-          resources :facts         ,:only => :index, :controller => :fact_values
+          resources :audits, :only => :index
+          resources :facts,  :only => :index, :controller => :fact_values
           resources :host_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
           resources :interfaces, :except => [:new, :edit]
           resources :parameters, :except => [:new, :edit] do

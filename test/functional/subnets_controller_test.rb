@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SubnetsControllerTest < ActionController::TestCase
   def test_index
-    get :index, {} , set_session_user
+    get :index, {}, set_session_user
     assert_template 'index'
   end
 

@@ -25,7 +25,7 @@ module Foreman::Gettext::Debug
   end
 
   # slightly modified copy of fast_gettext D_* method
-  def s_(key, separator=nil)
+  def s_(key, separator = nil)
     FastGettext.translation_repositories.each_key do |domain|
       result = FastGettext::TranslationMultidomain.ds_(domain, key, separator) {nil}
       return DL + result + DR unless result.nil?

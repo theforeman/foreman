@@ -23,7 +23,7 @@ module ComputeResourcesHelper
 
   def vm_power_action vm, authorizer = nil
     opts = hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :permission => 'power_compute_resources_vms', :authorizer => authorizer)
-    html = vm.ready? ? { :confirm =>_("Are you sure you want to power %{act} %{vm}?") % { :act => action_string(vm).downcase.strip, :vm => vm } , :class => "btn btn-danger" } :
+    html = vm.ready? ? { :confirm =>_("Are you sure you want to power %{act} %{vm}?") % { :act => action_string(vm).downcase.strip, :vm => vm }, :class => "btn btn-danger" } :
                        { :class => "btn btn-info" }
 
     display_link_if_authorized "Power #{action_string(vm)}", opts, html.merge(:method => :put)
@@ -33,7 +33,7 @@ module ComputeResourcesHelper
     opts = hash_for_pause_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :permission => 'power_compute_resources_vms', :authorizer => authorizer)
     pause_action = vm.ready? ? _('Pause') : _('Resume')
     html = vm.state.downcase == 'paused' ? { :class => "btn btn-info" } :
-                                           { :confirm =>_("Are you sure you want to %{act} %{vm}?") % { :act => pause_action.downcase, :vm => vm } , :class => "btn btn-danger" }
+                                           { :confirm =>_("Are you sure you want to %{act} %{vm}?") % { :act => pause_action.downcase, :vm => vm }, :class => "btn btn-danger" }
 
     display_link_if_authorized pause_action, opts, html.merge(:method => :put)
   end

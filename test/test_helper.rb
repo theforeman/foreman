@@ -131,7 +131,7 @@ Spork.prefork do
     end
 
     # if a method receieves a block it will be yielded just before user save
-    def setup_user operation, type="", search = nil, user = :one
+    def setup_user operation, type = "", search = nil, user = :one
       @one = users(user)
       as_admin do
         permission = Permission.find_by_name("#{operation}_#{type}") || FactoryGirl.create(:permission, :name => "#{operation}_#{type}")
@@ -186,7 +186,7 @@ Spork.prefork do
       assert_with_errors model.valid?, model
     end
 
-    def refute_with_errors(condition, model, field=nil, match=nil)
+    def refute_with_errors(condition, model, field = nil, match = nil)
       refute condition, "#{model.inspect} errors: #{model.errors.full_messages.join(';')}"
       if field
         assert_blank model.errors.map { |a,m| model.errors.full_message(a, m) unless field == a }.compact
@@ -199,12 +199,12 @@ Spork.prefork do
     # Checks a model isn't valid.  Optionally add error field name as the second argument
     # to declare that you only want validation errors in those fields, so it will assert if
     # there are errors elsewhere on the model so you know you're testing for the right thing.
-    def refute_valid(model, field=nil, match=nil)
+    def refute_valid(model, field = nil, match = nil)
       refute_with_errors model.valid?, model, field, match
     end
     alias_method :assert_not_valid, :refute_valid
 
-    def with_env(values={})
+    def with_env(values = {})
       old_values = ENV.to_hash.slice(values.keys)
       ENV.update values
       result = yield

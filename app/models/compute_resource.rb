@@ -119,13 +119,13 @@ class ComputeResource < ActiveRecord::Base
   end
 
   # returns a new fog server instance
-  def new_vm attr={}
+  def new_vm attr = {}
     test_connection
     client.servers.new vm_instance_defaults.merge(attr.to_hash.symbolize_keys) if errors.empty?
   end
 
   # return fog new interface ( network adapter )
-  def new_interface attr={}
+  def new_interface attr = {}
     client.interfaces.new attr
   end
 
@@ -176,10 +176,10 @@ class ComputeResource < ActiveRecord::Base
     ActiveSupport::HashWithIndifferentAccess.new(:name => "foreman_#{Time.now.to_i}")
   end
 
-  def templates(opts={})
+  def templates(opts = {})
   end
 
-  def template(id,opts={})
+  def template(id,opts = {})
   end
 
   def update_required?(old_attrs, new_attrs)
@@ -220,7 +220,7 @@ class ComputeResource < ActiveRecord::Base
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
-  def available_storage_domains(storage_domain=nil)
+  def available_storage_domains(storage_domain = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 

@@ -41,7 +41,7 @@ class HostMailer < ActionMailer::Base
     time = options[:time] || 1.day.ago
     host_data = Report.summarise(time, hosts.all).sort
     total_metrics = load_metrics(host_data)
-    total = 0 ; total_metrics.values.each { |v| total += v }
+    total = 0; total_metrics.values.each { |v| total += v }
     subject = _("Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
       :failed => total_metrics["failed"],
       :restarted => total_metrics["restarted"],
@@ -76,7 +76,7 @@ class HostMailer < ActionMailer::Base
     time = options[:time] || 1.day.ago
     host_data = Report.summarise(time, user.hosts).sort
     total_metrics = load_metrics(host_data)
-    total = 0 ; total_metrics.values.each { |v| total += v }
+    total = 0; total_metrics.values.each { |v| total += v }
     @hosts = host_data.sort_by { |h| h[1][:metrics]['failed'] }.reverse
     @timerange = time
     @out_of_sync = Host.out_of_sync.select { |h| h.owner == user }

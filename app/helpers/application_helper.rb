@@ -41,7 +41,7 @@ module ApplicationHelper
                                                        :associations => association.all.sort.delete_if{|e| e == klass}}
   end
 
-  def link_to_remove_fields(name, f, options={})
+  def link_to_remove_fields(name, f, options = {})
     f.hidden_field(:_destroy) + link_to_function(icon_text("remove", name), "remove_fields(this)", options.merge(:title => _("Remove Parameter")))
   end
 
@@ -146,7 +146,7 @@ module ApplicationHelper
     end
   end
 
-  def display_delete_if_authorized(options ={}, html_options ={})
+  def display_delete_if_authorized(options = {}, html_options = {})
     options = {:auth_action => :destroy}.merge(options)
     html_options = {:confirm => _('Are you sure?'), :method => :delete, :class => 'delete'}.merge(html_options)
     display_link_if_authorized(_("Delete"), options, html_options)
@@ -217,15 +217,15 @@ module ApplicationHelper
     send("#{method}_#{controller_name}_path")
   end
 
-  def edit_textfield(object, property, options={})
+  def edit_textfield(object, property, options = {})
     edit_inline(object, property, options.merge({:type => "edit_textfield"}))
   end
 
-  def edit_textarea(object, property, options={})
+  def edit_textarea(object, property, options = {})
     edit_inline(object, property, options.merge({:type => "edit_textarea"}))
   end
 
-  def edit_select(object, property, options={})
+  def edit_select(object, property, options = {})
     edit_inline(object, property, options.merge({:type => "edit_select"}))
   end
 
@@ -291,7 +291,7 @@ module ApplicationHelper
       toolbar_action_buttons args
   end
 
-  def select_action_button(title, options={}, *args)
+  def select_action_button(title, options = {}, *args)
     # the no-buttons code is needed for users with less permissions
     return unless args
     args = args.flatten.map{|arg| arg unless arg.blank?}.compact
@@ -350,7 +350,7 @@ module ApplicationHelper
     "#{request.protocol}secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?d=mm&s=30"
   end
 
-  def readonly_field(object, property, options={})
+  def readonly_field(object, property, options = {})
     name       = "#{type}[#{property}]"
     helper     = options[:helper]
     value      = helper.nil? ? object.send(property) : self.send(helper, object)
@@ -385,7 +385,7 @@ module ApplicationHelper
   end
 
   private
-  def edit_inline(object, property, options={})
+  def edit_inline(object, property, options = {})
     name       = "#{type}[#{property}]"
     helper     = options[:helper]
     value      = helper.nil? ? object.send(property) : self.send(helper, object)
