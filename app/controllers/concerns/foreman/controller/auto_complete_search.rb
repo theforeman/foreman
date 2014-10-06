@@ -1,6 +1,11 @@
 module Foreman::Controller::AutoCompleteSearch
   extend ActiveSupport::Concern
 
+  included do
+    before_filter :reset_redirect_to_url, :only => [:index, :show]
+    before_filter :store_redirect_to_url, :except => [:index, :show, :create, :update]
+  end
+
   def auto_complete_search
     begin
       model = controller_name == "hosts" ? Host::Managed : model_of_controller
@@ -20,6 +25,14 @@ module Foreman::Controller::AutoCompleteSearch
   def invalid_search_query(e)
     error (_("Invalid search query: %s") % e)
     redirect_to :back
+  end
+
+  def reset_redirect_to_url
+    session["redirect_to_url_#{controller_name}"] = nil
+  end
+
+  def store_redirect_to_url
+    session["redirect_to_url_#{controller_name}"] ||= request.referer
   end
 
 end

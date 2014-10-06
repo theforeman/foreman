@@ -60,7 +60,7 @@ class ComputeResourcesController < ApplicationController
   def update
     params[:compute_resource].except!(:password) if params[:compute_resource][:password].blank?
     if @compute_resource.update_attributes(params[:compute_resource])
-      process_success
+      process_success :success_redirect => compute_resources_path
     else
       process_error
     end
