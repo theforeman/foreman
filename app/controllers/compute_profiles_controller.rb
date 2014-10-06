@@ -27,7 +27,7 @@ class ComputeProfilesController < ApplicationController
 
   def update
     if @compute_profile.update_attributes(params[:compute_profile])
-      process_success :success_redirect => compute_profiles_path
+      process_success
     else
       process_error
     end

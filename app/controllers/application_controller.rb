@@ -252,7 +252,7 @@ class ApplicationController < ActionController::Base
                              raise Foreman::Exception.new(N_("Unknown action name for success message: %s"), action_name)
                            end
     end
-    hash[:success_redirect]       ||= send("#{controller_name}_url")
+    hash[:success_redirect]       ||= saved_redirect_url_or(send("#{controller_name}_url"))
 
     notice hash[:success_msg]
     redirect_to hash[:success_redirect] and return
@@ -295,6 +295,10 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_to(url)
     redirect_to request.referer.empty? ? url : :back
+  end
+
+  def saved_redirect_url_or(default)
+    session["redirect_to_url_#{controller_name}"] || default
   end
 
   def generic_exception(exception)

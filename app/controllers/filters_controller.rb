@@ -16,7 +16,7 @@ class FiltersController < ApplicationController
   def create
     @filter = Filter.new(params[:filter])
     if @filter.save
-      process_success :success_redirect => filters_path(:role_id => @role)
+      process_success :success_redirect => saved_redirect_url_or(filters_path(:role_id => @role))
     else
       process_error
     end
@@ -29,7 +29,7 @@ class FiltersController < ApplicationController
   def update
     @filter = resource_base.find(params[:id])
     if @filter.update_attributes(params[:filter])
-      process_success :success_redirect => filters_path(:role_id => @role)
+      process_success :success_redirect => saved_redirect_url_or(filters_path(:role_id => @role))
     else
       process_error
     end
@@ -38,7 +38,7 @@ class FiltersController < ApplicationController
   def destroy
     @filter = resource_base.find(params[:id])
     if @filter.destroy
-      process_success :success_redirect => filters_path(:role_id => @role)
+      process_success :success_redirect => saved_redirect_url_or(filters_path(:role_id => @role))
     else
       process_error
     end
