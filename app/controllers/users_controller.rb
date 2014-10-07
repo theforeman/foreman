@@ -17,6 +17,26 @@ class UsersController < ApplicationController
   end
 
   def create
+    # If the authsource is of type AuthSourceLdap, then add the default roles that 
+    # are configured with the AuthSource instance, if at all.
+    if @user.auth_source.class.name == "AuthSourceLdap"
+      # If the auth_source has a default_role configured
+      if @user.auth_source.default_roles.length > 1
+        # if the default_roles of the auth_source has more than just the 
+        # blank serialized array.
+        # Then iterate through all the elements, and if you find a value
+        # which validates as the role_id, then add the corresponding role 
+        # to the user roles
+        @user.auth_source.default_roles.each do |r|
+          #Only deal with integral numbers which is also a valid role_id 
+          if r.to_i.to_s == r && Role.exists?(r.to_i)
+            #Add the role to the users role if its not present already
+            role = Role.find(r.to_i)
+            @user.roles << role unless @user.role_ids.include?(role.id)
+          end
+        end
+      end
+    end
     if @user.save
       process_success
     else
