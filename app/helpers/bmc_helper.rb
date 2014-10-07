@@ -1,6 +1,6 @@
 module BmcHelper
 
-  def power_status s
+  def power_status(s)
     if s.downcase == 'on'
       "<span class='label label-success'>#{_('On')}</span>".html_safe
     else

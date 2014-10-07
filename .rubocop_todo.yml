@@ -308,12 +308,6 @@ Style/LineLength:
 Style/MethodCallParentheses:
   Enabled: false
 
-# Offense count: 422
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/MethodDefParentheses:
-  Enabled: false
-
 # Offense count: 283
 # Configuration parameters: CountComments.
 Style/MethodLength:

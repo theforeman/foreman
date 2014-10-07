@@ -27,7 +27,7 @@ class HostgroupTest < ActiveSupport::TestCase
     assert !other_host_group.save
   end
 
-  def setup_user operation
+  def setup_user(operation)
     super operation, "hostgroups"
   end
 

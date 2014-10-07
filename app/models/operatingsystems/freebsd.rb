@@ -7,7 +7,7 @@ class Freebsd < Operatingsystem
   PXEFILES = {}
 
   # Simple output of the media url
-  def mediumpath host
+  def mediumpath(host)
     medium_uri(host).to_s.gsub("x86_64","amd64")
   end
 
@@ -23,11 +23,11 @@ class Freebsd < Operatingsystem
     pxedir + "/" + PXEFILES[file]
   end
 
-  def kernel arch
+  def kernel(arch)
     "memdisk"
   end
 
-  def initrd arch
+  def initrd(arch)
     "boot/FreeBSD-#{arch}-#{release}-mfs.img"
   end
 

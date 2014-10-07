@@ -34,7 +34,7 @@ module Foreman::Model
       attrs[:tenant] = name
     end
 
-    def test_connection options = {}
+    def test_connection(options = {})
       super
       errors[:user].empty? and errors[:password] and tenants
     rescue => e
@@ -72,7 +72,7 @@ module Foreman::Model
       raise message
     end
 
-    def destroy_vm uuid
+    def destroy_vm(uuid)
       vm           = find_vm_by_uuid(uuid)
       floating_ips = vm.all_addresses
       floating_ips.each do |address|

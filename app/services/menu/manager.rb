@@ -80,7 +80,7 @@ module Menu
         push(Item.new(name, options), options)
       end
 
-      def sub_menu name, options = {}, &block
+      def sub_menu(name, options = {}, &block)
         push(Toggle.new(name, options[:caption]), options)
         current = @parent
         @parent = name
@@ -88,7 +88,7 @@ module Menu
         @parent = current
       end
 
-      def divider options = {}
+      def divider(options = {})
         push(Divider.new(:divider, options), options)
       end
 

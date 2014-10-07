@@ -152,15 +152,15 @@ class ApplicationController < ActionController::Base
         model_of_controller.scoped
   end
 
-  def notice notice
+  def notice(notice)
     flash[:notice] = CGI::escapeHTML(notice)
   end
 
-  def error error
+  def error(error)
     flash[:error] = CGI::escapeHTML(error)
   end
 
-  def warning warning
+  def warning(warning)
     flash[:warning] = CGI::escapeHTML(warning)
   end
 
@@ -240,7 +240,7 @@ class ApplicationController < ActionController::Base
     render_403
   end
 
-  def process_success hash = {}
+  def process_success(hash = {})
     hash[:object]                 ||= instance_variable_get("@#{controller_name.singularize}")
     hash[:object_name]            ||= hash[:object].to_s
     unless hash[:success_msg]
@@ -261,7 +261,7 @@ class ApplicationController < ActionController::Base
     redirect_to hash[:success_redirect] and return
   end
 
-  def process_error hash = {}
+  def process_error(hash = {})
     hash[:object] ||= instance_variable_get("@#{controller_name.singularize}")
 
     case action_name
@@ -296,7 +296,7 @@ class ApplicationController < ActionController::Base
     render :text => "Failure: #{message}"
   end
 
-  def redirect_back_or_to url
+  def redirect_back_or_to(url)
     redirect_to request.referer.empty? ? url : :back
   end
 
@@ -355,7 +355,7 @@ class ApplicationController < ActionController::Base
     include
   end
 
-  def errors_hash errors
+  def errors_hash(errors)
     errors.any? ? {:status => N_("Error"), :message => errors.full_messages.join('<br>')} : {:status => N_("OK"), :message =>""}
   end
 

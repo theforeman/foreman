@@ -66,7 +66,7 @@ module Foreman
         #
         # @param [String] login to find from the database
         # @param [block] block to execute
-        def as login
+        def as(login)
           old_user = current
           self.current = User.unscoped.find_by_login(login)
           raise ::Foreman::Exception.new(N_("Cannot find user %s when switching context"), login) unless self.current.present?
@@ -107,7 +107,7 @@ module Foreman
         #
         # @param [org]
         # @param [block] block to execute
-        def as_org org
+        def as_org(org)
           old_org = current
           self.current = org
           yield if block_given?
@@ -142,7 +142,7 @@ module Foreman
         #
         # @param [location]
         # @param [block] block to execute
-        def as_location location
+        def as_location(location)
           old_location = current
           self.current = location
           yield if block_given?

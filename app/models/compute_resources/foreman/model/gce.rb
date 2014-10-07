@@ -60,7 +60,7 @@ module Foreman::Model
       self.url = zone
     end
 
-    def create_vm args = {}
+    def create_vm(args = {})
       #Dot are not allowed in names
       args[:name]        = args[:name].parameterize if args[:name].present?
       args[:external_ip] = args[:external_ip] != '0'

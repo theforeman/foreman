@@ -683,7 +683,7 @@ class HostsController < ApplicationController
     redirect_to hosts_path and return false
   end
 
-  def toggle_hostmode mode = true
+  def toggle_hostmode(mode = true)
     # keep all the ones that were not disabled for notification.
     @hosts.delete_if { |host| host.update_attribute(:enabled, mode) }
     action = mode ? "enabled" : "disabled"
@@ -702,7 +702,7 @@ class HostsController < ApplicationController
     host.url_options = url_options if @host.respond_to?(:url_options)
   end
 
-  def merge_search_filter filter
+  def merge_search_filter(filter)
     if params[:search].empty?
       params[:search] = filter
     else

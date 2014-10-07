@@ -1,6 +1,6 @@
 module ProxyAPI
   class Puppetca < ProxyAPI::Resource
-    def initialize args
+    def initialize(args)
       @url  = args[:url] + "/puppet/ca"
       super args
     end
@@ -11,13 +11,13 @@ module ProxyAPI
       raise ProxyException.new(url, e, N_("Unable to get PuppetCA autosign"))
     end
 
-    def set_autosign certname
+    def set_autosign(certname)
       parse(post("", "autosign/#{certname}"))
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to set PuppetCA autosign for %s"), certname)
     end
 
-    def del_autosign certname
+    def del_autosign(certname)
       parse(delete("autosign/#{certname}"))
     rescue RestClient::ResourceNotFound
       # entry doesn't exists anyway
@@ -26,13 +26,13 @@ module ProxyAPI
       raise ProxyException.new(url, e, N_("Unable to delete PuppetCA autosign for %s"), certname)
     end
 
-    def sign_certificate certname
+    def sign_certificate(certname)
       parse(post("", certname))
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to sign PuppetCA certificate for %s"), certname)
     end
 
-    def del_certificate certname
+    def del_certificate(certname)
       parse(delete("#{certname}"))
     rescue RestClient::ResourceNotFound
       # entry doesn't exists anyway

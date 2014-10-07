@@ -102,7 +102,7 @@ class ConfigTemplatesController < ApplicationController
     @history = Audit.descending.where(:auditable_id => @config_template.id, :auditable_type => 'ConfigTemplate')
   end
 
-  def default_template_url template, hostgroup
+  def default_template_url(template, hostgroup)
     url_for :only_path => false, :action => :template, :controller => '/unattended',
       :id => template.name, :hostgroup => hostgroup.name
   end

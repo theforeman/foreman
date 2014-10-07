@@ -263,7 +263,7 @@ module Foreman::Model
       }
     end
 
-    def test_connection options = {}
+    def test_connection(options = {})
       super
       if errors[:server].empty? and errors[:user].empty? and errors[:password].empty?
         update_public_key options
@@ -273,7 +273,7 @@ module Foreman::Model
       errors[:base] << e.message
     end
 
-    def parse_args args
+    def parse_args(args)
       args = args.symbolize_keys
 
       # convert rails nested_attributes into a plain, symbolized hash
@@ -294,7 +294,7 @@ module Foreman::Model
 
     # Change network IDs for names only at the point of creation, as IDs are
     # used in the UI for select boxes etc.
-    def parse_networks args
+    def parse_networks(args)
       args = args.deep_dup
       dc_networks = networks
       args["interfaces_attributes"].each do |key, interface|
@@ -306,7 +306,7 @@ module Foreman::Model
       args
     end
 
-    def create_vm args = { }
+    def create_vm(args = { })
       test_connection
       return unless errors.empty?
 
@@ -323,7 +323,7 @@ module Foreman::Model
       raise e
     end
 
-    def new_vm args
+    def new_vm(args)
       args = parse_args args
       opts = vm_instance_defaults.symbolize_keys.merge(args.symbolize_keys)
       client.servers.new opts
@@ -343,7 +343,7 @@ module Foreman::Model
     # Fog calls +cluster.resourcePool.find("Resources")+ that actually calls
     # +searchIndex.FindChild("Resources")+ in RbVmomi that then returns nil
     # because it has no children.
-    def clone_vm args
+    def clone_vm(args)
       args = parse_args args
       path_replace = %r{/Datacenters/#{datacenter}/vm(/|)}
 
@@ -371,7 +371,7 @@ module Foreman::Model
       url
     end
 
-    def server= value
+    def server=(value)
       self.url = value
     end
 
@@ -379,11 +379,11 @@ module Foreman::Model
       uuid
     end
 
-    def datacenter= value
+    def datacenter=(value)
       self.uuid = value
     end
 
-    def console uuid
+    def console(uuid)
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" unless vm.ready?
       #TOOD port, password
@@ -393,11 +393,11 @@ module Foreman::Model
       WsProxy.start(:host => vm.hypervisor, :host_port => values[:port], :password => values[:password]).merge(:type => 'vnc')
     end
 
-    def new_interface attr = { }
+    def new_interface(attr = { })
       client.interfaces.new attr
     end
 
-    def new_volume attr = { }
+    def new_volume(attr = { })
       client.volumes.new attr.merge(:size_gb => 10)
     end
 
@@ -405,7 +405,7 @@ module Foreman::Model
       attrs[:pubkey_hash]
     end
 
-    def pubkey_hash= key
+    def pubkey_hash=(key)
       attrs[:pubkey_hash] = key
     end
 
@@ -423,7 +423,7 @@ module Foreman::Model
       client.datacenters.get(datacenter)
     end
 
-    def update_public_key options = {}
+    def update_public_key(options = {})
       return unless pubkey_hash.blank? || options[:force]
       client
     rescue Foreman::FingerprintException => e
@@ -447,7 +447,7 @@ module Foreman::Model
       end
     end
 
-    def unused_vnc_port ip
+    def unused_vnc_port(ip)
       10.times do
         port   = 5901 + rand(64)
         unused = (TCPSocket.connect(ip, port).close rescue true)

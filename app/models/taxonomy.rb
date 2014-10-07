@@ -53,7 +53,7 @@ class Taxonomy < ActiveRecord::Base
     end
   end
 
-  def self.as_taxonomy org, location
+  def self.as_taxonomy(org, location)
     Organization.as_org org do
       Location.as_location location do
         yield if block_given?

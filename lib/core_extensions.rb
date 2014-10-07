@@ -32,7 +32,7 @@ class ActiveRecord::Base
   # ActiveRecord Callback class
   class EnsureNotUsedBy
     attr_reader :klasses, :logger
-    def initialize *attribute
+    def initialize(*attribute)
       @klasses = attribute
       @logger  = Rails.logger
     end

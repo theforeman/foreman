@@ -40,7 +40,7 @@ module NestedAncestryCommon
   end
 
   module ClassMethods
-    def nested_attribute_for *opts
+    def nested_attribute_for(*opts)
 
       opts.each do |field|
 
@@ -75,7 +75,7 @@ module NestedAncestryCommon
     end
   end
 
-  def nested attr
+  def nested(attr)
     self.class.sort_by_ancestry(ancestors.where("#{attr} is not NULL")).last.try(attr) if ancestry.present?
   end
 

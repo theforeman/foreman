@@ -298,7 +298,7 @@ class Host::Managed < Host::Base
   end
 
   # returns a configuration template (such as kickstart) to a given host
-  def configTemplate opts = {}
+  def configTemplate(opts = {})
     opts[:kind]               ||= "provision"
     opts[:operatingsystem_id] ||= operatingsystem_id
     opts[:hostgroup_id]       ||= hostgroup_id
@@ -395,7 +395,7 @@ class Host::Managed < Host::Base
     @cached_host_params = nil
   end
 
-  def host_inherited_params include_source = false
+  def host_inherited_params(include_source = false)
     hp = {}
     # read common parameters
     CommonParameter.all.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('common').to_sym, :safe_value => p.safe_value} : p.value] }
@@ -420,7 +420,7 @@ class Host::Managed < Host::Base
   end
 
   # JSON is auto-parsed by the API, so these should be in the right format
-  def self.import_host_and_facts hostname, facts, certname = nil, proxy_id = nil
+  def self.import_host_and_facts(hostname, facts, certname = nil, proxy_id = nil)
     raise(::Foreman::Exception.new("Invalid Facts, must be a Hash")) unless facts.is_a?(Hash)
     raise(::Foreman::Exception.new("Invalid Hostname, must be a String")) unless hostname.is_a?(String)
 
@@ -475,7 +475,7 @@ class Host::Managed < Host::Base
 
   # this method accepts a puppets external node yaml output and generate a node in our setup
   # it is assumed that you already have the node (e.g. imported by one of the rack tasks)
-  def importNode nodeinfo
+  def importNode(nodeinfo)
     myklasses= []
     # puppet classes
     nodeinfo["classes"].each do |klass|
@@ -514,7 +514,7 @@ class Host::Managed < Host::Base
   # counts each association of a given host
   # e.g. how many hosts belongs to each os
   # returns sorted hash
-  def self.count_distribution association
+  def self.count_distribution(association)
     output = []
     data = group("#{Host.table_name}.#{association}_id").reorder('').count
     associations = association.to_s.camelize.constantize.where(:id => data.keys).all
@@ -532,7 +532,7 @@ class Host::Managed < Host::Base
   # TODO: Merge these two into one method
   # e.g. how many hosts belongs to each os
   # returns sorted hash
-  def self.count_habtm association
+  def self.count_habtm(association)
     counter = Host::Managed.joins(association.tableize.to_sym).group("#{association.tableize.to_sym}.id").reorder('').count
     #Puppetclass.find(counter.keys.compact)...
     association.camelize.constantize.find(counter.keys.compact).map {|i| {:label=>i.to_label, :data =>counter[i.id]}}
@@ -821,7 +821,7 @@ class Host::Managed < Host::Base
     errors.add(:name, _("must not include periods")) if ( managed? && shortname.include?(".") && SETTINGS[:unattended] )
   end
 
-  def assign_hostgroup_attributes attrs = []
+  def assign_hostgroup_attributes(attrs = [])
     attrs.each do |attr|
       value = hostgroup.send("inherited_#{attr}")
       self.send("#{attr}=", value) unless send(attr).present?
@@ -862,7 +862,7 @@ class Host::Managed < Host::Base
   # converts a name into ip address using DNS.
   # if we are managing DNS, we can query the correct DNS server
   # otherwise, use normal systems dns settings to resolv
-  def to_ip_address name_or_ip
+  def to_ip_address(name_or_ip)
     return name_or_ip if name_or_ip =~ Net::Validations::IP_REGEXP
     if dns_ptr_record
       lookup = dns_ptr_record.dns_lookup(name_or_ip)

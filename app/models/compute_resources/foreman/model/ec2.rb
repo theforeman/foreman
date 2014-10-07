@@ -27,13 +27,13 @@ module Foreman::Model
       [:image]
     end
 
-    def find_vm_by_uuid uuid
+    def find_vm_by_uuid(uuid)
       client.servers.get(uuid)
     rescue Fog::Compute::AWS::Error
       raise(ActiveRecord::RecordNotFound)
     end
 
-    def create_vm args = { }
+    def create_vm(args = { })
       args = vm_instance_defaults.merge(args.to_hash.symbolize_keys)
       if (name = args[:name])
         args.merge!(:tags => {:Name => name})
@@ -51,7 +51,7 @@ module Foreman::Model
       raise e
     end
 
-    def security_groups vpc = nil
+    def security_groups(vpc = nil)
       groups = client.security_groups
       groups.reject! { |sg| sg.vpc_id != vpc } if vpc
       groups
@@ -70,7 +70,7 @@ module Foreman::Model
       client.flavors
     end
 
-    def test_connection options = {}
+    def test_connection(options = {})
       super
       errors[:user].empty? and errors[:password].empty? and regions
     rescue Fog::Compute::AWS::Error => e

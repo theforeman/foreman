@@ -4,7 +4,7 @@ class Redhat < Operatingsystem
 
   # outputs kickstart installation medium based on the medium type (NFS or URL)
   # it also convert the $arch string to the current host architecture
-  def mediumpath host
+  def mediumpath(host)
     uri    = medium_uri(host)
 
     case uri.scheme
@@ -34,7 +34,7 @@ class Redhat < Operatingsystem
     "Red Hat"
   end
 
-  def self.shorten_description description
+  def self.shorten_description(description)
     return "" if description.blank?
     s=description
     s.gsub!('Red Hat Enterprise Linux','RHEL')

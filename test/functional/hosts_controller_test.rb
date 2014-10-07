@@ -144,7 +144,7 @@ class HostsControllerTest < ActionController::TestCase
     refute assigns(:host).mac
   end
 
-  def setup_user operation, type = 'hosts', filter = nil
+  def setup_user(operation, type = 'hosts', filter = nil)
     super
   end
 
@@ -395,7 +395,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_redirected_to "/users/login"
   end
 
-  def set_remote_user_to user
+  def set_remote_user_to(user)
     @request.env['REMOTE_USER'] = user.login
   end
 

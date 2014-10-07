@@ -55,7 +55,7 @@ class Role < ActiveRecord::Base
     "#{id}-#{name.parameterize}"
   end
 
-  def initialize *args
+  def initialize(*args)
     super(*args)
     self.builtin = 0
   end

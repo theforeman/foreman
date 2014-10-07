@@ -102,7 +102,7 @@ class Subnet < ActiveRecord::Base
   # Indicates whether the IP is within this subnet
   # [+ip+] String: Contains 4 dotted decimal values
   # Returns Boolean: True if if ip is in this subnet
-  def contains? ip
+  def contains?(ip)
     IPAddr.new("#{network}/#{mask}", Socket::AF_INET).include? IPAddr.new(ip, Socket::AF_INET)
   end
 
@@ -114,7 +114,7 @@ class Subnet < ActiveRecord::Base
     !!(dhcp and dhcp.url and !dhcp.url.blank?)
   end
 
-  def dhcp_proxy attrs = {}
+  def dhcp_proxy(attrs = {})
     @dhcp_proxy ||= ProxyAPI::DHCP.new({:url => dhcp.url}.merge(attrs)) if dhcp?
   end
 
@@ -122,7 +122,7 @@ class Subnet < ActiveRecord::Base
     !!(tftp and tftp.url and !tftp.url.blank?)
   end
 
-  def tftp_proxy attrs = {}
+  def tftp_proxy(attrs = {})
     @tftp_proxy ||= ProxyAPI::TFTP.new({:url => tftp.url}.merge(attrs)) if tftp?
   end
 
@@ -131,7 +131,7 @@ class Subnet < ActiveRecord::Base
     !!(dns and dns.url and !dns.url.blank?)
   end
 
-  def dns_proxy attrs = {}
+  def dns_proxy(attrs = {})
     @dns_proxy ||= ProxyAPI::DNS.new({:url => dns.url}.merge(attrs)) if dns?
   end
 
@@ -143,7 +143,7 @@ class Subnet < ActiveRecord::Base
     self.boot_mode == Subnet::BOOT_MODES[:dhcp]
   end
 
-  def unused_ip mac = nil
+  def unused_ip(mac = nil)
     logger.debug "Not suggesting IP Address for #{to_s} as IPAM is disabled" and return unless ipam?
     if self.ipam == IPAM_MODES[:dhcp] && dhcp?
       # we have DHCP proxy so asking it for free IP
@@ -179,7 +179,7 @@ class Subnet < ActiveRecord::Base
   end
 
   # imports subnets from a dhcp smart proxy
-  def self.import proxy
+  def self.import(proxy)
     return unless proxy.features.include?(Feature.find_by_name("DHCP"))
     ProxyAPI::DHCP.new(:url => proxy.url).subnets.map do |s|
       # do not import existing networks.

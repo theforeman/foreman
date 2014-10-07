@@ -69,7 +69,7 @@ class UnattendedController < ApplicationController
 
   private
 
-  def render_template type
+  def render_template(type)
     if (config = @host.configTemplate({ :kind => type }))
       logger.debug "rendering DB template #{config.name} - #{type}"
       safe_render config
@@ -275,7 +275,7 @@ class UnattendedController < ApplicationController
     ip
   end
 
-  def safe_render template
+  def safe_render(template)
     @template_name = 'Unnamed'
     if template.is_a?(String)
       @unsafe_template  = template

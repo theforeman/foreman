@@ -1,6 +1,6 @@
 module TasksHelper
 
-  def task_status status
+  def task_status(status)
     icon = case status
              when "completed"
                "check"

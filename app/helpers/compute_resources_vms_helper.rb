@@ -22,7 +22,7 @@ module ComputeResourcesVmsHelper
   end
 
   # little helper to help show VM properties
-  def prop method, title = nil
+  def prop(method, title = nil)
     content_tag :tr do
       result = content_tag(:td) do
         title || method.to_s.humanize

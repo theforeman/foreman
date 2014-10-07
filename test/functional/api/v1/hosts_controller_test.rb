@@ -139,7 +139,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
-  def set_remote_user_to user
+  def set_remote_user_to(user)
     @request.env['REMOTE_USER'] = user.login
   end
 

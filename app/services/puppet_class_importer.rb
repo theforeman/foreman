@@ -1,6 +1,6 @@
 class PuppetClassImporter
 
-  def initialize args = { }
+  def initialize(args = { })
     @foreman_classes = { }
     @proxy_classes   = { }
     @environment = args[:env]
@@ -53,7 +53,7 @@ class PuppetClassImporter
   # +changed+ : Hash with two keys: :new and :obsolete.
   #               changed[:/new|obsolete/] is and Array of Strings
   # Returns   : Array of Strings containing all record errors
-  def obsolete_and_new changes = { }
+  def obsolete_and_new(changes = { })
     return if changes.empty?
     changes.values.map(&:keys).flatten.uniq.each do |env_name|
       if changes['new'] and changes['new'][env_name].try(:>, '') # we got new classes
@@ -72,7 +72,7 @@ class PuppetClassImporter
     #  [e.to_s]
   end
 
-  def new_classes_for environment
+  def new_classes_for(environment)
     old_classes = db_classes_name(environment)
     HashWithIndifferentAccess[
       actual_classes(environment).values.map do |actual_class|
@@ -81,11 +81,11 @@ class PuppetClassImporter
     ]
   end
 
-  def removed_classes_for environment
+  def removed_classes_for(environment)
     db_classes_name(environment) - actual_classes_name(environment)
   end
 
-  def updated_classes_for environment
+  def updated_classes_for(environment)
     return [] unless db_environments.include?(environment) && actual_environments.include?(environment)
     HashWithIndifferentAccess[
       db_classes(environment).map do |db_class|
@@ -141,23 +141,23 @@ class PuppetClassImporter
     db_environments - actual_environments
   end
 
-  def db_classes environment
+  def db_classes(environment)
     return @foreman_classes[environment] if @foreman_classes[environment]
     return [] unless (env = Environment.find_by_name(environment))
     @foreman_classes[environment] = env.puppetclasses.includes(:lookup_keys, :class_params)
   end
 
-  def db_classes_name environment
+  def db_classes_name(environment)
     db_classes(environment).map(&:name)
   end
 
-  def actual_classes environment
+  def actual_classes(environment)
     @proxy_classes[environment] ||= proxy.classes(environment).reject do |key, value|
       ignored_classes.find { |filter| filter.is_a?(Regexp) && filter =~ key }
     end
   end
 
-  def actual_classes_name environment
+  def actual_classes_name(environment)
     actual_classes(environment).keys
   end
 
@@ -185,11 +185,11 @@ class PuppetClassImporter
     @logger ||= Rails.logger
   end
 
-  def load_classes_from_json blob
+  def load_classes_from_json(blob)
     ActiveSupport::JSON.decode blob
   end
 
-  def add_classes_to_foreman env_name, klasses
+  def add_classes_to_foreman(env_name, klasses)
     env         = find_or_create_env env_name
     new_classes = klasses.map { |k| Puppetclass.find_or_create_by_name(k[0]) }
 
@@ -200,7 +200,7 @@ class PuppetClassImporter
     end
   end
 
-  def update_classes_in_foreman environment, klasses
+  def update_classes_in_foreman(environment, klasses)
     env        = find_or_create_env(environment)
     db_classes = env.puppetclasses.where(:name => klasses.keys)
     db_classes.each do |db_class|
@@ -247,7 +247,7 @@ class PuppetClassImporter
     end
   end
 
-  def remove_classes_from_foreman env_name, klasses
+  def remove_classes_from_foreman(env_name, klasses)
     env     = find_or_create_env(env_name)
     classes = find_existing_foreman_classes(klasses)
     env.puppetclasses.destroy classes
@@ -265,15 +265,15 @@ class PuppetClassImporter
     @logger ||= Rails.logger
   end
 
-  def find_existing_foreman_classes klasses = []
+  def find_existing_foreman_classes(klasses = [])
     Puppetclass.where(:name => klasses)
   end
 
-  def find_or_create_env env
+  def find_or_create_env(env)
     Environment.where(:name => env).first || Environment.create!(:name => env)
   end
 
-  def find_or_create_puppet_class_param klass, param_name, value
+  def find_or_create_puppet_class_param(klass, param_name, value)
     klass.class_params.where(:key => param_name).first ||
       LookupKey.create!(:key            => param_name, :is_param => true,
                         :required       => value.nil?, :override => value.nil?, :default_value => value,

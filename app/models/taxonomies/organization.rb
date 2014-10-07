@@ -25,7 +25,7 @@ class Organization < Taxonomy
   scoped_search :on => :name, :complete_value => :true
 
   # returns self and parent parameters as a hash
-  def parameters include_source = false
+  def parameters(include_source = false)
     hash = {}
     ids = ancestor_ids
     ids << id unless new_record? or self.frozen?

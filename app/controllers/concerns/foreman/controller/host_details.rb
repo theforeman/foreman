@@ -41,7 +41,7 @@ module Foreman::Controller::HostDetails
   end
 
   private
-  def assign_parameter name, root = ""
+  def assign_parameter(name, root = "")
     taxonomy_scope
     Taxonomy.as_taxonomy @organization, @location do
       if params["#{name}_id"].to_i > 0 and instance_variable_set("@#{name}",name.classify.constantize.find(params["#{name}_id"]))

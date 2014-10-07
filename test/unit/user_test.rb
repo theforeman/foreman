@@ -134,7 +134,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal u, User.try_to_login(u.login, 'password')
   end
 
-  def setup_user operation
+  def setup_user(operation)
     super operation, "users"
   end
 

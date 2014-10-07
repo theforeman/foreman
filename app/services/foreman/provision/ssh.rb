@@ -11,7 +11,7 @@ require 'timeout'
 class Foreman::Provision::SSH
   attr_reader :template, :uuid, :results, :address, :username, :options
 
-  def initialize address, username = "root", options = { }
+  def initialize(address, username = "root", options = { })
     @username = username
     @address  = address
     @template = options.delete(:template) || raise("must provide a template")

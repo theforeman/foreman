@@ -120,7 +120,7 @@ class LookupKey < ActiveRecord::Base
     value_before_type_cast default_value
   end
 
-  def value_before_type_cast val
+  def value_before_type_cast(val)
     case key_type.to_sym
       when :json, :array
         val = JSON.dump val
@@ -132,7 +132,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   # Returns the casted value, or raises a TypeError
-  def cast_validate_value value
+  def cast_validate_value(value)
     method = "cast_value_#{key_type}".to_sym
     return value unless self.respond_to? method, true
     self.send(method, value) rescue raise TypeError
@@ -149,7 +149,7 @@ class LookupKey < ActiveRecord::Base
   private
 
   # Generate possible lookup values type matches to a given host
-  def path2matches host
+  def path2matches(host)
     raise ::Foreman::Exception.new(N_("Invalid Host")) unless host.class.model_name == "Host"
     matches = []
     path_elements.each do |rule|
@@ -164,7 +164,7 @@ class LookupKey < ActiveRecord::Base
 
   # translates an element such as domain to its real value per host
   # tries to find the host attribute first, parameters and then fallback to a puppet fact.
-  def attr_to_value host, element
+  def attr_to_value(host, element)
     # direct host attribute
     return host.send(element) if host.respond_to?(element)
     # host parameter
@@ -179,7 +179,7 @@ class LookupKey < ActiveRecord::Base
     self.path = path.tr("\s","").downcase unless path.blank?
   end
 
-  def array2path array
+  def array2path(array)
     raise ::Foreman::Exception.new(N_("invalid path")) unless array.is_a?(Array)
     array.map do |sub_array|
       sub_array.is_a?(Array) ? sub_array.join(KEY_DELM) : sub_array
@@ -198,13 +198,13 @@ class LookupKey < ActiveRecord::Base
     end
   end
 
-  def cast_value_boolean value
+  def cast_value_boolean(value)
     return true if TRUE_VALUES.include? value
     return false if FALSE_VALUES.include? value
     raise TypeError
   end
 
-  def cast_value_integer value
+  def cast_value_integer(value)
     return value.to_i if value.is_a?(Numeric)
 
     if value.is_a?(String)
@@ -220,7 +220,7 @@ class LookupKey < ActiveRecord::Base
     end
   end
 
-  def cast_value_real value
+  def cast_value_real(value)
     return value if value.is_a? Numeric
     if value.is_a?(String)
       if value =~ /\A[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?\Z/
@@ -231,7 +231,7 @@ class LookupKey < ActiveRecord::Base
     end
   end
 
-  def load_yaml_or_json value
+  def load_yaml_or_json(value)
     return value unless value.is_a? String
     begin
       JSON.load value
@@ -240,7 +240,7 @@ class LookupKey < ActiveRecord::Base
     end
   end
 
-  def cast_value_array value
+  def cast_value_array(value)
     return value if value.is_a? Array
     return value.to_a if not value.is_a? String and value.is_a? Enumerable
     value = load_yaml_or_json value
@@ -248,18 +248,18 @@ class LookupKey < ActiveRecord::Base
     value
   end
 
-  def cast_value_hash value
+  def cast_value_hash(value)
     return value if value.is_a? Hash
     value = load_yaml_or_json value
     raise TypeError unless value.is_a? Hash
     value
   end
 
-  def cast_value_yaml value
+  def cast_value_yaml(value)
     value = YAML.load value
   end
 
-  def cast_value_json value
+  def cast_value_json(value)
     value = JSON.load value
   end
 

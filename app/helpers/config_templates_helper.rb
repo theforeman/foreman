@@ -1,5 +1,5 @@
 module ConfigTemplatesHelper
-  def combination template
+  def combination(template)
     template.template_combinations.map do |comb|
       str = []
       str << (comb.hostgroup_id.nil? ? _("None") : comb.hostgroup.to_s)
@@ -14,7 +14,7 @@ module ConfigTemplatesHelper
               'ace/mode-diff', 'diff', 'ace/mode-ruby', 'ace/keybinding-vim', 'ace/keybinding-emacs'
   end
 
-  def permitted_actions config_template
+  def permitted_actions(config_template)
     actions = [display_link_if_authorized(_('Clone'), hash_for_clone_config_template_path(:id => config_template))]
 
     if config_template.locked?

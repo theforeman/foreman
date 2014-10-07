@@ -16,7 +16,7 @@ class Trend < ActiveRecord::Base
 
   private
 
-  def destroy_values ids = []
+  def destroy_values(ids = [])
     TrendCounter.where(:trend_id => ids).delete_all
     Trend.where(:id => ids).delete_all
   end

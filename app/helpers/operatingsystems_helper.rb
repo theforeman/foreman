@@ -1,7 +1,7 @@
 module OperatingsystemsHelper
   include CommonParametersHelper
 
-  def icon record, opts = {}
+  def icon(record, opts = {})
     return "" if record.blank? or record.name.blank?
     family = case record.name
     when /fedora/i
@@ -40,11 +40,11 @@ module OperatingsystemsHelper
     image_tag(family+".png", opts) + " "
   end
 
-  def os_name record, opts = {}
+  def os_name(record, opts = {})
     icon(record, opts).html_safe << trunc(record.to_label)
   end
 
-  def os_habtm_family type, obj
+  def os_habtm_family(type, obj)
     result = type.where(:os_family => obj.family)
     result.empty? ? type : result
   end

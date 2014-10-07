@@ -88,7 +88,7 @@ class FactValue < ActiveRecord::Base
     output
   end
 
-  def self.build_facts_hash facts
+  def self.build_facts_hash(facts)
     hash = {}
     facts.each do |fact|
       hash[fact.host.to_s] ||= {}
@@ -99,7 +99,7 @@ class FactValue < ActiveRecord::Base
 
   # converts all strings with units (such as 1 MB) to GB scale and Sum them
   # returns an array with total sum and number of elements
-  def self.to_gb fact
+  def self.to_gb(fact)
     values = select(:value).joins(:fact_name).where(:fact_names => {:name => fact}).map do |fv|
       fv.value.to_gb
     end

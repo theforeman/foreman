@@ -63,7 +63,7 @@ class ConfigTemplate < ActiveRecord::Base
     end.uniq.compact
   end
 
-  def self.find_template opts = {}
+  def self.find_template(opts = {})
     raise ::Foreman::Exception.new(N_("Must provide template kind")) unless opts[:kind]
     raise ::Foreman::Exception.new(N_("Must provide an operating systems")) unless opts[:operatingsystem_id]
 

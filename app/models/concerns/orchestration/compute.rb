@@ -229,7 +229,7 @@ module Orchestration::Compute
     ip
   end
 
-  def ssh_open? ip
+  def ssh_open?(ip)
     begin
       Timeout::timeout(1) do
         begin

@@ -1,6 +1,6 @@
 module HomeHelper
 
-  def render_menu menu_name
+  def render_menu(menu_name)
     authorized_menu_actions(Menu::Manager.items(menu_name).children).map do |menu|
       items = authorized_menu_actions(menu.children)
       render "home/submenu", :menu_items => items, :menu_title => _(menu.caption), :menu_name => menu.name if items.any?
@@ -24,7 +24,7 @@ module HomeHelper
     choices
   end
 
-  def menu_item_tag item
+  def menu_item_tag(item)
     content_tag(:li,
                 link_to(_(item.caption), item.url, item.html_options.merge(:id => "menu_item_#{item.name}")),
                 :class => "menu_tab_#{item.url_hash[:controller]}_#{item.url_hash[:action]}")
