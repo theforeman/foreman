@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-28 10:58+0100\n"
-"PO-Revision-Date: 2014-09-04 10:21+0000\n"
+"POT-Creation-Date: 2014-09-15 12:48+0100\n"
+"PO-Revision-Date: 2014-09-20 09:50+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -856,6 +856,10 @@ msgstr "Avbryt byggbegäran för denna värd"
 
 msgid "Canceled pending build for %s"
 msgstr "Avbröt avvaktande bygge för %s"
+
+msgid ""
+"Cannot create LDAP configuration for %s without dedicated service account"
+msgstr ""
 
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr ""
@@ -2755,7 +2759,7 @@ msgstr "Namn"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|User data"
-msgstr "Bild|Användardata"
+msgstr "Användardata"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Username"
