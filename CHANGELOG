@@ -1,3 +1,60 @@
+2014-10-07	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.6.1
+	* refs #6713 - fix ref to secure parameters attribute
+	* i18n - extracting new, updating rails, pulling from tx
+	* i18n - string reverts
+	* fixes #3105 - use untranslated string for PuppetCA state filter
+	* fixes #7732 - specify join models as Rails 3.2.8 can't reset through associations
+	* fixes #7818 - explicitly render role permissions to fix oj 2.10.3 error
+	* fixes #7436 - extract nested host group error message
+
+2014-10-07	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #6763 - Correctly choose autocomplete search scope for taxonomies depenant on controller
+	* Fixes #7329 - Correctly validate HostConfigGroup
+	* Fixes #7247 - Add migration and rake task to correct corrupted cached counters
+	* Fixes #5692 - correct counts in cached_counters
+
+2014-10-07	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #4111 - Add image user data flag to API
+	* Fixes #7639 - Remove tooltip for storage/network sections in  Edit Compute Profile
+
+2014-10-07	Dustin Tsang <dtsang@redhat.com>
+	* fixes #7054 - list all routes for each resource in /v2/api
+
+2014-10-07	Joseph Magen <jmagen@redhat.com>
+	* Fixes #7261 - API v2 - mark wrapped params hash for POST/PUT as required instead of optional
+	* fixes #6856 - API v2 - more efficient import puppetclasses for single environment
+	* fixes #7257 - all facts returned if host has no facts
+	* fixes #5896 - Set Compute Resource's 'Console passwords' option in API
+	* fixes #7409 - API v2 - add host attribute to GET response for auth source ldap
+
+2014-10-07	Daniel Lobato García <elobatocs@gmail.com>
+	* Refs #7639 - i18n fixes
+
+2014-10-07	Marek Hulan <mhulan@redhat.com>
+	* Fixes #7738 - logout_url is nil by default for all SSO backends
+
+2014-10-07	Ori Rabin <orabin@redhat.com>
+	* Fixes #7620: When cloning a host show old host name
+	* Fixes 4642: Fix intermittent test failures on rundeck functional tests
+	* Fixed #7020: Validation instead or error when comments in 'audit comment' exceeds 255 characters
+	* Fixes #6713: Long names needs to be truncated while listing
+
+2014-10-07	Jan Pazdziora <jpazdziora@redhat.com>
+	* fixes #7737 - no specific logout URL needed, will go directly back to login.
+
+2014-10-07	Aaron Stone <aaron@serendipity.cx>
+	* Fixes #7483 - Use hidden input value to hold raw template contents (CVE-2014-3653)
+
+2014-10-07	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #6999 - protect user logout against CSRF requests (CVE-2014-3590)
+
+2014-10-07	ripcurld00d <boazyko1@gmail.com>
+	* Fixes #6903 - html tags in the message when deleting multiple hosts
+
+2014-09-15	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+
 2014-09-10	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.6.0
 
