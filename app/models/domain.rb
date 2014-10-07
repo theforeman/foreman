@@ -66,7 +66,7 @@ class Domain < ActiveRecord::Base
     ProxyAPI::DNS.new(:url => dns.url) if dns and !dns.url.blank?
   end
 
-  def lookup query
+  def lookup(query)
     Net::DNS.lookup query, proxy, resolver
   end
 

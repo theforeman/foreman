@@ -4,7 +4,7 @@ class LocationParameter < Parameter
   validates :name, :uniqueness => {:scope => :reference_id}
 
   private
-  def enforce_permissions operation
+  def enforce_permissions(operation)
     # We get called again with the operation being set to create
     return true if operation == "edit" and new_record?
     return true if User.current.allowed_to?("#{operation}_locations".to_sym)

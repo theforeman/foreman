@@ -1,7 +1,7 @@
 module Foreman
 
   class WrappedException < ::Foreman::Exception
-    def initialize wrapped_exception, message, *params
+    def initialize(wrapped_exception, message, *params)
       super(message, *params)
       @wrapped_exception = wrapped_exception
     end

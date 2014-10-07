@@ -2,7 +2,7 @@ module TrendsHelper
 
   include CommonParametersHelper
 
-  def trendable_types new_record
+  def trendable_types(new_record)
     options = {_('Environment') => 'Environment', _('Operating system') => 'Operatingsystem',
      _('Model') => 'Model', _('Facts') =>'FactName',_('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
     if new_record
@@ -18,7 +18,7 @@ module TrendsHelper
     end
   end
 
-  def trend_title trend
+  def trend_title(trend)
     if trend.fact_value.blank?
       trend.to_label
     else
@@ -26,7 +26,7 @@ module TrendsHelper
     end
   end
 
-  def chart_data trend, from = Setting.max_trend, to = Time.now
+  def chart_data(trend, from = Setting.max_trend, to = Time.now)
     chart_colors = ['#4572A7','#AA4643','#89A54E','#80699B','#3D96AE','#DB843D','#92A8CD','#A47D7C','#B5CA92']
     values = trend.values
     labels = {}

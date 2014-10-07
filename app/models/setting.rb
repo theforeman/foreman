@@ -152,7 +152,7 @@ class Setting < ActiveRecord::Base
     true
   end
 
-  def self.create opts
+  def self.create(opts)
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
       super opts.merge(:value => SETTINGS[opts[:name].to_sym] || opts[:value])
     else
@@ -160,7 +160,7 @@ class Setting < ActiveRecord::Base
     end
   end
 
-  def self.create! opts
+  def self.create!(opts)
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
       super opts.merge(:value => SETTINGS[opts[:name].to_sym] || opts[:value])
     else
@@ -190,7 +190,7 @@ class Setting < ActiveRecord::Base
     Rails.cache
   end
 
-  def invalid_value_error error
+  def invalid_value_error(error)
     errors.add(:value, _("is invalid: %s") % error)
   end
 
@@ -242,7 +242,7 @@ class Setting < ActiveRecord::Base
     true
   end
 
-  def self.set name, description, default, value = nil
+  def self.set(name, description, default, value = nil)
     {:name => name, :value => value, :description => description, :default => default}
   end
 

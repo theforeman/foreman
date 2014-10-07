@@ -26,7 +26,7 @@ class DomainParameterTest < ActiveSupport::TestCase
     assert parameter2.valid?
   end
 
-  def setup_user operation, type = 'domains'
+  def setup_user(operation, type = 'domains')
     super(operation, type) do |user|
       user.domains.destroy_all
     end

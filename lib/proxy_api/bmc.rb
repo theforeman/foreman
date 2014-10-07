@@ -2,7 +2,7 @@ module ProxyAPI
   class BMC < ProxyAPI::Resource
     SUPPORTED_BOOT_DEVICES = %w[disk cdrom pxe bios]
 
-    def initialize args
+    def initialize(args)
       @target = args[:host_ip] || '127.0.0.1'
       @url = args[:url] + "/bmc"
       super args
@@ -23,7 +23,7 @@ module ProxyAPI
     end
 
     # Perform a boot operation on the bmc device
-    def boot args
+    def boot(args)
       # valid additional arguments args[:reboot] = true|false, args[:persistent] = true|false
       #  put "/bmc/:host/chassis/config/?:function?/?:action?" do
       case args[:function]
@@ -43,7 +43,7 @@ module ProxyAPI
     end
 
     # Perform a power operation on the bmc device
-    def power args
+    def power(args)
       # get "/bmc/:host/chassis/power/:action"
       # put "/bmc/:host/chassis/power/:action"
       case args[:action]
@@ -65,7 +65,7 @@ module ProxyAPI
     end
 
     # perform an identify operation on the bmc device
-    def identify args
+    def identify(args)
       # get "/bmc/:host/chassis/identify/:action"
       # put "/bmc/:host/chassis/identify/:action"
       case args[:action]
@@ -83,7 +83,7 @@ module ProxyAPI
     end
 
     # perform a lan get operation on the bmc device
-    def lan args
+    def lan(args)
       # get "/bmc/:host/lan/:action"
       case args[:action]
       when "ip", "netmask", "mac", "gateway"
@@ -100,7 +100,7 @@ module ProxyAPI
 
     private
 
-    def bmc_url_for controller,action
+    def bmc_url_for(controller,action)
       case controller
       when "lan"
         "/#{@target}/lan/#{action}"

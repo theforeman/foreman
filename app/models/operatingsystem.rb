@@ -100,11 +100,11 @@ class Operatingsystem < ActiveRecord::Base
   #    :enabled => 1,
   #    :gpgcheck => 1
   #  }]
-  def repos host
+  def repos(host)
     []
   end
 
-  def medium_uri host, url = nil
+  def medium_uri(host, url = nil)
     url ||= host.medium.path
     medium_vars_to_uri(url, host.architecture.name, host.os)
   end
@@ -113,7 +113,7 @@ class Operatingsystem < ActiveRecord::Base
     URI.parse(interpolate_medium_vars(url, arch, os)).normalize
   end
 
-  def interpolate_medium_vars path, arch, os
+  def interpolate_medium_vars(path, arch, os)
     return "" if path.empty?
 
     path.gsub('$arch',  arch).
@@ -168,15 +168,15 @@ class Operatingsystem < ActiveRecord::Base
     end
   end
 
-  def kernel arch
+  def kernel(arch)
     bootfile(arch,:kernel)
   end
 
-  def initrd arch
+  def initrd(arch)
     bootfile(arch,:initrd)
   end
 
-  def bootfile arch, type
+  def bootfile(arch, type)
     pxe_prefix(arch) + "-" + eval("#{self.family}::PXEFILES[:#{type}]")
   end
 
@@ -196,7 +196,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   #handle things like gpxelinux/ gpxe / pxelinux here
-  def boot_filename host = nil
+  def boot_filename(host = nil)
     "pxelinux.0"
   end
 
@@ -219,7 +219,7 @@ class Operatingsystem < ActiveRecord::Base
     "Unknown"
   end
 
-  def self.shorten_description description
+  def self.shorten_description(description)
     # This method should be overridden in the OS subclass
     # to handle shortening the specific formats of lsbdistdescription
     # returned by Facter on that OS

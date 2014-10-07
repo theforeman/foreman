@@ -3,7 +3,7 @@ module Classification
     delegate :hostgroup, :environment_id, :puppetclass_ids, :classes,
              :to => :host
 
-    def initialize args = { }
+    def initialize(args = { })
       @host = args[:host]
       @safe_render = SafeRender.new(:variables => { :host => host } )
     end
@@ -33,7 +33,7 @@ module Classification
       end.map(&:path_elements).flatten(1).uniq
     end
 
-    def values_hash options = {}
+    def values_hash(options = {})
       values = {}
       path2matches.each do |match|
         LookupValue.where(:match => match).where(:lookup_key_id => class_parameters.map(&:id)).each do |value|
@@ -100,7 +100,7 @@ module Classification
 
     # translates an element such as domain to its real value per host
     # tries to find the host attribute first, parameters and then fallback to a puppet fact.
-    def attr_to_value element
+    def attr_to_value(element)
       # direct host attribute
       return host.send(element) if host.respond_to?(element)
       # host parameter
@@ -111,7 +111,7 @@ module Classification
       end
     end
 
-    def path_elements path = nil
+    def path_elements(path = nil)
       path.split.map do |paths|
         paths.split(LookupKey::KEY_DELM).map do |element|
           element

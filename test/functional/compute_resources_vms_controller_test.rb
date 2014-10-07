@@ -12,7 +12,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
 #    Fog.unmock!
   end
 
-  def setup_user operation, type = 'compute_resources_vms'
+  def setup_user(operation, type = 'compute_resources_vms')
     super(operation, type, "id = #{@compute_resource.id}")
   end
 

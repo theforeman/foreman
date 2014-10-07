@@ -59,7 +59,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert !Hostgroup.exists?(hostgroup.id)
   end
 
-  def setup_user operation, type = 'hostgroups'
+  def setup_user(operation, type = 'hostgroups')
     super
   end
 

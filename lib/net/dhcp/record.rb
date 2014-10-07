@@ -2,7 +2,7 @@ module Net::DHCP
   class Record < Net::Record
     attr_accessor :ip, :mac, :network, :nextServer, :filename
 
-    def initialize opts = { }
+    def initialize(opts = { })
       super(opts)
       self.mac     = validate_mac self.mac
       self.network = validate_network self.network
@@ -49,7 +49,7 @@ module Net::DHCP
       self == proxy.record(network, mac)
     end
 
-    def == other
+    def ==(other)
       return false unless other.present?
       if attrs[:hostname].blank?
         # If we're converting an 'ad-hoc' lease created by a host booting outside of Foreman's knowledge,

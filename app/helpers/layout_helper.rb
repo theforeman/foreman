@@ -4,15 +4,15 @@ module LayoutHelper
     @page_header       ||= page_header || @content_for_title || page_title.to_s
   end
 
-  def title_actions *elements
+  def title_actions(*elements)
     content_for(:title_actions) { elements.join(" ").html_safe }
   end
 
-  def button_group *elements
+  def button_group(*elements)
     content_tag(:div,:class=>"btn-group") { elements.join(" ").html_safe }
   end
 
-  def search_bar *elements
+  def search_bar(*elements)
     content_for(:search_bar) { elements.join(" ").html_safe }
   end
 
@@ -187,7 +187,7 @@ module LayoutHelper
     end
   end
 
-  def form_to_submit_id f
+  def form_to_submit_id(f)
     object = f.object.respond_to?(:to_model) ? f.object.to_model : f.object
     key = object ? (object.persisted? ? :update : :create) : :submit
     model = if object.class.respond_to?(:humanize_class_name)
@@ -200,7 +200,7 @@ module LayoutHelper
     "aid_#{key}_#{model}"
   end
 
-  def submit_or_cancel f, overwrite = false, args = { }
+  def submit_or_cancel(f, overwrite = false, args = { })
     args[:cancel_path] ||= send("#{controller_name}_path")
     content_tag(:div, :class => "clearfix") do
       content_tag(:div, :class => "form-actions") do
@@ -213,7 +213,7 @@ module LayoutHelper
     end
   end
 
-  def base_errors_for obj
+  def base_errors_for(obj)
     unless obj.errors[:base].blank?
       alert :header => _("Unable to save"),
             :class  => 'alert-danger base in fade',
@@ -221,7 +221,7 @@ module LayoutHelper
     end
   end
 
-  def popover title, msg, options = {}
+  def popover(title, msg, options = {})
     link_to icon_text("info-sign", title), {}, { :remote => true, :rel => "popover", :data => {"content" => msg, "original-title" => title} }.merge(options)
   end
 
@@ -268,7 +268,7 @@ module LayoutHelper
     super record_or_name_or_array, *args, &proc
   end
 
-  def icons i
+  def icons(i)
     content_tag :i, :class=>"glyphicon glyphicon-#{i}" do
       yield
     end
@@ -278,7 +278,7 @@ module LayoutHelper
     (content_tag(:i,"", :class=>"glyphicon glyphicon-#{i} #{opts[:class]}") + " " + text).html_safe
   end
 
-  def alert opts = {}
+  def alert(opts = {})
     opts[:close]  = true if opts[:close].nil?
     opts[:header] ||= _("Warning!")
     opts[:text]   ||= _("Alert")
@@ -293,7 +293,7 @@ module LayoutHelper
     end
   end
 
-  def alert_header text
+  def alert_header(text)
     "<h4 class='alert-heading'>#{text}</h4>".html_safe
   end
 

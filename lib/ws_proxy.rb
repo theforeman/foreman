@@ -16,7 +16,7 @@ class WsProxy
     end
   end
 
-  def self.start attributes
+  def self.start(attributes)
     proxy = WsProxy.new(attributes)
     proxy.start_proxy
   end
@@ -63,7 +63,7 @@ class WsProxy
     Rails.logger
   end
 
-  def execute cmd
+  def execute(cmd)
 
     logger.debug "Starting VNC Proxy: #{cmd}"
     Open3::popen3(cmd) do |stdin, stdout, stderr|

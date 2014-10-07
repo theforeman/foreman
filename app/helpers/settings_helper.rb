@@ -1,6 +1,6 @@
 module SettingsHelper
 
-  def value setting
+  def value(setting)
     if setting.readonly?
       return readonly_field(
           setting, :value,
@@ -15,7 +15,7 @@ module SettingsHelper
     end
   end
 
-  def show_value setting
+  def show_value(setting)
     case setting.settings_type
     when "array"
       "[ " + setting.value.join(", ") + " ]"
@@ -26,7 +26,7 @@ module SettingsHelper
     setting.value
   end
 
-  def short_cat category
+  def short_cat(category)
     category.gsub(/Setting::/,'')
   end
 

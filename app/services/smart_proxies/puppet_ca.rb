@@ -4,7 +4,7 @@ class SmartProxies::PuppetCA
 
   attr_reader :name, :state, :fingerprint, :valid_from, :expires_at, :smart_proxy_id
 
-  def initialize opts
+  def initialize(opts)
     @name, @state, @fingerprint, @valid_from, @expires_at, @smart_proxy_id = opts.flatten
     @valid_from = Time.parse(@valid_from) unless @valid_from.blank?
     @expires_at = Time.parse(@expires_at) unless @expires_at.blank?
@@ -54,7 +54,7 @@ class SmartProxies::PuppetCA
 
   def to_s; name end
 
-  def <=> other
+  def <=>(other)
     self.name <=> other.name
   end
 

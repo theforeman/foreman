@@ -9,7 +9,7 @@ module CommonParametersHelper
     _("Parameters that would be associated with hosts in this %s") % (type)
   end
 
-  def parameter_value_field value
+  def parameter_value_field(value)
     source_name = value[:source_name] ? "(#{value[:source_name]})" : nil
     content_tag :div, :class => "form-group condensed" do
       text_area_tag("value_#{value[:safe_value]}", value[:safe_value], :rows => (value[:safe_value].to_s.lines.count || 1 rescue 1),

@@ -4,7 +4,7 @@ module FogExtensions
   module Vsphere
     class MiniServers
 
-      def initialize client, dc
+      def initialize(client, dc)
         @client = client
         @dc     = client.send(:find_datacenters, dc)[0]
       end

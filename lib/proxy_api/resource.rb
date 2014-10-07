@@ -50,7 +50,7 @@ module ProxyAPI
     # Returns: Response, if the operation is GET, or true for POST, PUT and DELETE.
     #      OR: false if a HTTP error is detected
     # TODO: add error message handling
-    def parse response
+    def parse(response)
       if response and response.code >= 200 and response.code < 300
         return response.body.present? ? JSON.parse(response.body) : true
       else
@@ -62,7 +62,7 @@ module ProxyAPI
     end
 
     # Perform GET operation on the supplied path
-    def get path = nil, payload = {}
+    def get(path = nil, payload = {})
       # This ensures that an extra "/" is not generated
       if path
         resource[URI.escape(path)].get payload
@@ -72,17 +72,17 @@ module ProxyAPI
     end
 
     # Perform POST operation with the supplied payload on the supplied path
-    def post payload, path = ""
+    def post(payload, path = "")
       resource[path].post payload
     end
 
     # Perform PUT operation with the supplied payload on the supplied path
-    def put payload, path = ""
+    def put(payload, path = "")
       resource[path].put payload
     end
 
     # Perform DELETE operation on the supplied path
-    def delete path
+    def delete(path)
       resource[path].delete
     end
   end

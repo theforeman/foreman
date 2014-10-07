@@ -65,7 +65,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   # allows to create a specific compute class based on the provider.
-  def self.new_provider args
+  def self.new_provider(args)
     raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider = args.delete(:provider)
     self.providers.each do |p|
       return self.provider_class(p).constantize.new(args) if p.downcase == provider.downcase
@@ -82,7 +82,7 @@ class ComputeResource < ActiveRecord::Base
     {:uuid => :identity}
   end
 
-  def test_connection options = {}
+  def test_connection(options = {})
     valid?
   end
 
@@ -91,7 +91,7 @@ class ComputeResource < ActiveRecord::Base
     errors
   end
 
-  def save_vm uuid, attr
+  def save_vm(uuid, attr)
     vm = find_vm_by_uuid(uuid)
     vm.attributes.merge!(attr.symbolize_keys)
     vm.save
@@ -119,13 +119,13 @@ class ComputeResource < ActiveRecord::Base
   end
 
   # returns a new fog server instance
-  def new_vm attr = {}
+  def new_vm(attr = {})
     test_connection
     client.servers.new vm_instance_defaults.merge(attr.to_hash.symbolize_keys) if errors.empty?
   end
 
   # return fog new interface ( network adapter )
-  def new_interface attr = {}
+  def new_interface(attr = {})
     client.interfaces.new attr
   end
 
@@ -134,25 +134,25 @@ class ComputeResource < ActiveRecord::Base
     client.servers
   end
 
-  def find_vm_by_uuid uuid
+  def find_vm_by_uuid(uuid)
     client.servers.get(uuid) || raise(ActiveRecord::RecordNotFound)
   end
 
-  def start_vm uuid
+  def start_vm(uuid)
     find_vm_by_uuid(uuid).start
   end
 
-  def stop_vm uuid
+  def stop_vm(uuid)
     find_vm_by_uuid(uuid).stop
   end
 
-  def create_vm args = {}
+  def create_vm(args = {})
     options = vm_instance_defaults.merge(args.to_hash.symbolize_keys)
     logger.debug("creating VM with the following options: #{options.inspect}")
     client.servers.create options
   end
 
-  def destroy_vm uuid
+  def destroy_vm(uuid)
     find_vm_by_uuid(uuid).destroy
   rescue ActiveRecord::RecordNotFound
     # if the VM does not exists, we don't really care.
@@ -191,7 +191,7 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
-  def console uuid = nil
+  def console(uuid = nil)
     raise ::Foreman::Exception.new(N_("%s console is not supported at this time"), provider_friendly_name)
   end
 
@@ -263,7 +263,7 @@ class ComputeResource < ActiveRecord::Base
     SecureRandom.hex(8)
   end
 
-  def nested_attributes_for type, opts
+  def nested_attributes_for(type, opts)
     return [] unless opts
     opts = opts.dup #duplicate to prevent changing the origin opts.
     opts.delete("new_#{type}") # delete template

@@ -11,7 +11,7 @@ module HostsHelper
                           last_report_tooltip(record))
   end
 
-  def last_report_tooltip record
+  def last_report_tooltip(record)
     opts = { :rel => "twipsy" }
     if @last_reports[record.id]
       opts.merge!( "data-original-title" => _("View last report details"))
@@ -63,7 +63,7 @@ module HostsHelper
       link_to(trunc("  #{record}"), host_path(record))
   end
 
-  def days_ago time
+  def days_ago(time)
     ((Time.now - time) / 1.day).round.to_i
   end
 
@@ -98,12 +98,12 @@ module HostsHelper
       )
   end
 
-  def date ts = nil
+  def date(ts = nil)
     return _("%s ago") % (time_ago_in_words ts) if ts
     _("N/A")
   end
 
-  def template_path opts = {}
+  def template_path(opts = {})
     if (t = @host.configTemplate(opts))
       link_to t, edit_config_template_path(t)
     else
@@ -111,7 +111,7 @@ module HostsHelper
     end
   end
 
-  def selected? host
+  def selected?(host)
     return false if host.nil? or not host.kind_of?(Host::Base) or session[:selected].nil?
     session[:selected].include?(host.id.to_s)
   end
@@ -151,7 +151,7 @@ module HostsHelper
     end
   end
 
-  def name_field host
+  def name_field(host)
     return if host.name.blank?
     (SETTINGS[:unattended] and host.managed?) ? host.shortname : host.name
   end
@@ -193,7 +193,7 @@ module HostsHelper
     end
   end
 
-  def overview_fields host
+  def overview_fields(host)
     fields = [
       [_("Domain"), (link_to(host.domain, hosts_path(:search => "domain = #{host.domain}")) if host.domain)],
       [_("Realm"), (link_to(host.realm, hosts_path(:search => "realm = #{host.realm}")) if host.realm)],
@@ -217,13 +217,13 @@ module HostsHelper
     fields
   end
 
-  def possible_images cr, arch = nil, os = nil
+  def possible_images(cr, arch = nil, os = nil)
     return cr.images unless controller_name == "hosts"
     return [] unless arch && os
     cr.images.where(:architecture_id => arch, :operatingsystem_id => os)
   end
 
-  def state s
+  def state(s)
     s ? ' ' + _("Off") : ' ' + _("On")
   end
 
@@ -262,18 +262,18 @@ module HostsHelper
     )
   end
 
-  def conflict_objects errors
+  def conflict_objects(errors)
     errors.keys.map(&:to_s).grep(/conflict$/).map(&:to_sym)
   end
 
-  def has_conflicts? errors
+  def has_conflicts?(errors)
     conflict_objects(errors).each do |c|
       return true if errors[c.to_sym].any?
     end
     false
   end
 
-  def has_dhcp_lease_errors? errors
+  def has_dhcp_lease_errors?(errors)
     errors.include?(:dhcp_lease_error)
   end
 
@@ -293,7 +293,7 @@ module HostsHelper
     ].compact
   end
 
-  def allocation_text_f f
+  def allocation_text_f(f)
     active = 'Size'
     active = 'None' if f.object.allocation.to_i == 0
     active = 'Full' if f.object.allocation == f.object.capacity

@@ -25,7 +25,7 @@ module Orchestration::Realm
   end
 
   # Adds the host to the realm, and sets otp if we get one back
-  def set_realm options = {}
+  def set_realm(options = {})
     initialize_realm
     logger.info "#{options[:update] ? 'Update' : 'Add'} realm entry for #{options[:rebuild] ? 'reprovisioned' : 'new'} host #{name}"
     options[:hostname]  = name

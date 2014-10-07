@@ -49,7 +49,7 @@ class Puppetclass < ActiveRecord::Base
   end
 
   # returns a hash containing modules and associated classes
-  def self.classes2hash classes
+  def self.classes2hash(classes)
     hash = {}
     for klass in classes
       if (mod = klass.module_name)
@@ -63,7 +63,7 @@ class Puppetclass < ActiveRecord::Base
   end
 
   # For API v2 - eliminate node :puppetclass for each object. returns a hash containing modules and associated classes
-  def self.classes2hash_v2 classes
+  def self.classes2hash_v2(classes)
     hash = {}
     classes.each do |klass|
       if (mod = klass.module_name)
@@ -89,7 +89,7 @@ class Puppetclass < ActiveRecord::Base
   #   Firstly, we prepare the modules tree
   #   Secondly we run puppetdoc over the modulespath and manifestdir for all environments
   # The results are written into document_root/puppet/rdoc/<env>/<class>"
-  def self.rdoc root
+  def self.rdoc(root)
     debug, verbose = false, false
     relocated      = root != "/"             # This is true if the prepare phase copied the modules tree
 
@@ -153,7 +153,7 @@ class Puppetclass < ActiveRecord::Base
   # If the executable Rails,root/script/rdoc_prepare_script exists then it is run
   # and passed a list of all directory paths in all environments.
   # It should return the directory into which it has copied the cleaned modules"
-  def self.prepare_rdoc root
+  def self.prepare_rdoc(root)
     debug, verbose = false, false
 
     prepare_script = Pathname.new(Rails.root) + "script/rdoc_prepare_script.rb"

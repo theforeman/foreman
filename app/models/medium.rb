@@ -56,7 +56,7 @@ class Medium < ActiveRecord::Base
   end
 
   # Write the image path, with a trailing "/" if required
-  def image_path= path
+  def image_path=(path)
     write_attribute :image_path, "#{path}#{"/" unless path =~ /\/$|^$/}"
   end
 

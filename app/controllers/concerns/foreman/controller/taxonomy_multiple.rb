@@ -27,7 +27,7 @@ module Foreman::Controller::TaxonomyMultiple
 
   private
 
-  def update_multiple_taxonomies type
+  def update_multiple_taxonomies(type)
     # simple validations
     if (params[type].nil?) or (id=params[type][:id]).blank?
       error "No #{type.to_s.classify} selected!"

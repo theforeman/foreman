@@ -112,7 +112,7 @@ class Hostgroup < ActiveRecord::Base
     parent.classes(self.environment)
   end
 
-  def inherited_lookup_value key
+  def inherited_lookup_value(key)
     ancestors.reverse.each do |hg|
       if (v = LookupValue.where(:lookup_key_id => key.id, :id => hg.lookup_values).first)
         return v.value, hg.to_label
@@ -122,7 +122,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   # returns self and parent parameters as a hash
-  def parameters include_source = false
+  def parameters(include_source = false)
     hash = {}
     ids = ancestor_ids
     ids << id unless new_record? or self.frozen?

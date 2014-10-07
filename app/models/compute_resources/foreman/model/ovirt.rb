@@ -84,7 +84,7 @@ module Foreman::Model
     end
     private :test_https_required
 
-    def test_connection options = {}
+    def test_connection(options = {})
       super
       if errors[:url].empty? and errors[:username].empty? and errors[:password].empty?
         update_public_key options
@@ -232,7 +232,7 @@ module Foreman::Model
       attrs[:public_key]
     end
 
-    def public_key= key
+    def public_key=(key)
       attrs[:public_key] = key
     end
 
@@ -267,7 +267,7 @@ module Foreman::Model
       end
     end
 
-    def update_public_key options = {}
+    def update_public_key(options = {})
       return unless public_key.blank? || options[:force]
       client
     rescue Foreman::FingerprintException => e
@@ -278,7 +278,7 @@ module Foreman::Model
       @api_version ||= client.api_version
     end
 
-    def ca_cert_store cert
+    def ca_cert_store(cert)
       return if cert.blank?
       OpenSSL::X509::Store.new.add_cert(OpenSSL::X509::Certificate.new(cert))
     rescue => e

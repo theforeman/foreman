@@ -16,13 +16,13 @@ module Foreman::Model
       [:image]
     end
 
-    def find_vm_by_uuid uuid
+    def find_vm_by_uuid(uuid)
       client.servers.get(uuid)
     rescue Fog::Compute::Rackspace::Error
       raise(ActiveRecord::RecordNotFound)
     end
 
-    def create_vm args = { }
+    def create_vm(args = { })
       super(args)
     rescue Fog::Errors::Error => e
       logger.debug "Unhandled Rackspace error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
@@ -49,7 +49,7 @@ module Foreman::Model
       client.images
     end
 
-    def test_connection options = {}
+    def test_connection(options = {})
       super and flavors
     rescue Excon::Errors::Unauthorized => e
       errors[:base] << e.response.body
@@ -57,7 +57,7 @@ module Foreman::Model
       errors[:base] << e.message
     end
 
-    def region= value
+    def region=(value)
       self.uuid = value
     end
 

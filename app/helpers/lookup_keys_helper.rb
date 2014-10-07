@@ -26,7 +26,7 @@ module LookupKeysHelper
     end
   end
 
-  def show_puppet_class f
+  def show_puppet_class(f)
     # In case of a new smart-var inside a puppetclass (REST nesting only), or a class parameter:
     # Show the parent puppetclass as a context, but permit no change.
     if params["puppetclass_id"]
@@ -41,7 +41,7 @@ module LookupKeysHelper
     end unless @puppetclass # nested smart-vars form in a tab of puppetclass/_form: no edition allowed, and the puppetclass is already visible as a context
   end
 
-  def param_type_selector f
+  def param_type_selector(f)
     selectable_f f, :key_type, options_for_select(LookupKey::KEY_TYPES.map { |e| [_(e),e] }, f.object.key_type),{},
                { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
                  :help_block => popover(_("Parameter types"),_("<dl>" +
@@ -56,7 +56,7 @@ module LookupKeysHelper
                "</dl>"), :title => _("How values are validated")).html_safe}
   end
 
-  def validator_type_selector f
+  def validator_type_selector(f)
      selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e),e]  }, f.object.validator_type),{:include_blank => _("None")},
                 { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
                   :onchange => 'validatorTypeSelected(this)',
@@ -66,11 +66,11 @@ module LookupKeysHelper
                 "</dl>"), :title => _("Validation types")).html_safe}
   end
 
-  def overridable_lookup_keys klass, host
+  def overridable_lookup_keys(klass, host)
     klass.class_params.override.where(:environment_classes => {:environment_id => host.environment}) + klass.lookup_keys
   end
 
-  def hostgroup_key_with_diagnostic hostgroup, key
+  def hostgroup_key_with_diagnostic(hostgroup, key)
     value, origin = hostgroup.inherited_lookup_value key
     original_value = key.value_before_type_cast value
     diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => origin})
@@ -82,7 +82,7 @@ module LookupKeysHelper
     end
   end
 
-  def host_key_with_diagnostic host, value_hash, key
+  def host_key_with_diagnostic(host, value_hash, key)
      value_for_key = value_hash[key.id] && value_hash[key.id][key.key]
      value, matcher = value_for_key ? [value_for_key[:value], "#{value_for_key[:element]} (#{value_for_key[:element_name]})"] : [key.default_value, _("Default value")]
      original_value = key.value_before_type_cast value

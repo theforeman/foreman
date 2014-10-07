@@ -88,7 +88,7 @@ Spork.prefork do
       SETTINGS[:login] ? {:user => users(:admin).id, :expires_at => 5.minutes.from_now} : {}
     end
 
-    def as_user user
+    def as_user(user)
       saved_user   = User.current
       User.current = user.is_a?(User) ? user : users(user)
       result = yield
@@ -96,7 +96,7 @@ Spork.prefork do
       result
     end
 
-    def as_admin &block
+    def as_admin(&block)
       as_user :admin, &block
     end
 
@@ -131,7 +131,7 @@ Spork.prefork do
     end
 
     # if a method receieves a block it will be yielded just before user save
-    def setup_user operation, type = "", search = nil, user = :one
+    def setup_user(operation, type = "", search = nil, user = :one)
       @one = users(user)
       as_admin do
         permission = Permission.find_by_name("#{operation}_#{type}") || FactoryGirl.create(:permission, :name => "#{operation}_#{type}")

@@ -28,15 +28,15 @@ module ApplicationHelper
   end
 
   protected
-  def contract model
+  def contract(model)
     model.to_label
   end
 
-  def show_habtm associations
+  def show_habtm(associations)
     render :partial => 'common/show_habtm', :collection => associations, :as => :association
   end
 
-  def edit_habtm klass, association, prefix = nil, options = {}
+  def edit_habtm(klass, association, prefix = nil, options = {})
     render :partial => 'common/edit_habtm', :locals =>{:prefix => prefix, :klass => klass, :options => options,
                                                        :associations => association.all.sort.delete_if{|e| e == klass}}
   end
@@ -58,7 +58,7 @@ module ApplicationHelper
     link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\"); turn_textarea_switch();").html_safe, add_html_classes(options, "btn btn-success") )
   end
 
-  def link_to_remove_puppetclass klass, host
+  def link_to_remove_puppetclass(klass, host)
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
     functions_options = { :klass => klass, :host => host, :css_class => ''}
     text = remove_link_to_function(truncate(klass.name, :length => 28), functions_options)
@@ -76,7 +76,7 @@ module ApplicationHelper
                      :class=>options[:css_class])
   end
 
-  def link_to_add_puppetclass klass, host, type
+  def link_to_add_puppetclass(klass, host, type)
     options = klass.name.size > 28 ? {:'data-original-title'=>klass.name, :rel=>'twipsy'} : {}
     function_options = { :klass => klass, :host => host, :type => type }
     text             = add_link_to_function(truncate(klass.name, :length => 28), function_options)
@@ -96,7 +96,7 @@ module ApplicationHelper
                      :class                 => options[:css_class])
   end
 
-  def add_html_classes options, classes
+  def add_html_classes(options, classes)
     options = options.dup unless options.nil?
     options ||= {}
     options[:class] = options[:class].dup if options.has_key? :class
@@ -165,7 +165,7 @@ module ApplicationHelper
     end
   end
 
-  def authorized_edit_habtm klass, association, prefix = nil, options = {}
+  def authorized_edit_habtm(klass, association, prefix = nil, options = {})
     if authorized_for :controller => params[:controller], :action => params[:action]
       return edit_habtm(klass, association, prefix, options)
     end
@@ -173,11 +173,11 @@ module ApplicationHelper
   end
 
   # renders a style=display based on an attribute properties
-  def display? attribute = true
+  def display?(attribute = true)
     "style=#{display(attribute)}"
   end
 
-  def display attribute
+  def display(attribute)
     "display:#{attribute ? 'none' : 'inline'};"
   end
 
@@ -187,11 +187,11 @@ module ApplicationHelper
     controller_name.singularize
   end
 
-  def checked_icon condition
+  def checked_icon(condition)
     image_tag("toggle_check.png") if condition
   end
 
-  def locked_icon condition, hovertext
+  def locked_icon(condition, hovertext)
     ('<span class="glyphicon glyphicon-lock" title="%s"/>' % hovertext).html_safe if condition
   end
 
@@ -213,7 +213,7 @@ module ApplicationHelper
     link_to _("Help"), :action => "welcome" if File.exist?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
   end
 
-  def method_path method
+  def method_path(method)
     send("#{method}_#{controller_name}_path")
   end
 
@@ -229,7 +229,7 @@ module ApplicationHelper
     edit_inline(object, property, options.merge({:type => "edit_select"}))
   end
 
-  def flot_pie_chart name, title, data, options = {}
+  def flot_pie_chart(name, title, data, options = {})
     data = data.map { |k,v| {:label=>k.to_s.humanize, :data=>v} } if  data.is_a?(Hash)
     data.map{|element| element[:label] = truncate(element[:label],:length => 16)}
     header = content_tag(:h4,(options[:show_title]) ? title : '', :class=>'ca pie-title', :'data-original-title'=>_("Expand the chart"), :rel=>'twipsy')
@@ -245,7 +245,7 @@ module ApplicationHelper
                     }.merge(options))
   end
 
-  def flot_chart name, xaxis_label, yaxis_label, data, options = {}
+  def flot_chart(name, xaxis_label, yaxis_label, data, options = {})
     data = data.map { |k,v| {:label=>k.to_s.humanize, :data=>v} } if  data.is_a?(Hash)
     content_tag(:div, nil,
                 { :id    => name,
@@ -259,7 +259,7 @@ module ApplicationHelper
                 }.merge(options))
   end
 
-  def flot_bar_chart name, xaxis_label, yaxis_label, data, options = {}
+  def flot_bar_chart(name, xaxis_label, yaxis_label, data, options = {})
     i=0
     ticks = nil
     if data.is_a?(Array)

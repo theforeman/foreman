@@ -4,7 +4,7 @@ module AuditsHelper
                    Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup)
 
   # lookup the Model representing the numerical id and return its label
-  def id_to_label name, change
+  def id_to_label(name, change)
     return _("N/A") if change.nil?
     case name
       when "ancestry"
@@ -20,7 +20,7 @@ module AuditsHelper
     _("N/A")
   end
 
-  def audit_title audit
+  def audit_title(audit)
     type_name = audited_type audit
     case type_name
       when 'Puppet Class'
@@ -34,7 +34,7 @@ module AuditsHelper
     ""
   end
 
-  def details audit
+  def details(audit)
     if audit.action == 'update'
       Array.wrap(audit.audited_changes).map do |name, change|
         next if change.nil? or change.to_s.empty?
@@ -54,17 +54,17 @@ module AuditsHelper
     end
   end
 
-  def audit_template? audit
+  def audit_template?(audit)
     audit.auditable_type == "ConfigTemplate" && audit.action == 'update' && audit.audited_changes["template"] &&
       audit.audited_changes["template"][0] != audit.audited_changes["template"][1]
   end
 
-  def audit_login? audit
+  def audit_login?(audit)
     name = audit.audited_changes.keys[0] rescue ''
     name == 'last_login_on'
   end
 
-  def audit_action_name audit
+  def audit_action_name(audit)
     return audit.action == 'destroy' ? 'destroyed' : "#{audit.action}d" if main_object? audit
 
     case audit.action
@@ -77,18 +77,18 @@ module AuditsHelper
     end
   end
 
-  def audit_user audit
+  def audit_user(audit)
     return if audit.username.nil?
     login = audit.user.login rescue nil # aliasing the user method sometimes yields strings
     link_to(icon_text('user', audit.username.gsub(_('User'), '')), hash_for_audits_path(:search => login ? "user = #{login}" : "username = \"#{audit.username}\""))
   end
 
-  def audit_time audit
+  def audit_time(audit)
     content_tag :span, _("%s ago") % time_ago_in_words(audit.created_at),
                 { :'data-original-title' => audit.created_at.to_s(:long), :rel => 'twipsy' }
   end
 
-  def audited_icon audit
+  def audited_icon(audit)
     style = 'label-info'
     style = case audit.action
               when 'create'
@@ -116,7 +116,7 @@ module AuditsHelper
     content_tag(:b, icon_text(symbol, type, :class => 'icon-white'), :class => style)
   end
 
-  def audited_type audit
+  def audited_type(audit)
     type_name = case audit.auditable_type
                   when 'HostClass'
                     'Puppet Class'
@@ -132,7 +132,7 @@ module AuditsHelper
     type_name.underscore.titleize
   end
 
-  def audit_remote_address audit
+  def audit_remote_address(audit)
     return if audit.remote_address.empty?
     content_tag :span, :style => 'color:#999;' do
       "(" + audit.remote_address + ")"
@@ -140,7 +140,7 @@ module AuditsHelper
   end
 
   private
-  def main_object? audit
+  def main_object?(audit)
     type = audit.auditable_type.split("::").last rescue ''
     MainObjects.include?(type)
   end
