@@ -125,8 +125,8 @@ Return value may either be one of the following:
 
       private
 
-      def resource_scope(controller = controller_name)
-        Host.authorized("#{action_permission}_#{controller}", Host)
+      def resource_class
+        Host::Managed
       end
 
       # this is required for template generation (such as pxelinux) which is not done via a web request

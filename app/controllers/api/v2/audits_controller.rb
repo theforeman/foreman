@@ -2,7 +2,6 @@ module Api
   module V2
     class AuditsController < V2::BaseController
       before_filter :find_resource, :only => %w{show}
-      before_filter(:only => %w{show}) { find_resource('audit_logs') }
       before_filter :setup_search_options, :only => :index
 
       api :GET, "/audits/", N_("List all audits")
@@ -10,7 +9,7 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        Audit.unscoped { @audits = Audit.authorized(:view_audit_logs).search_for(*search_options).paginate(paginate_options) }
+        Audit.unscoped { @audits = resource_scope_for_index(:permission => :view_audit_logs) }
       end
 
       api :GET, "/audits/:id/", N_("Show an audit")

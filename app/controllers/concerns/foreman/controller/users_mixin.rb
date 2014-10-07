@@ -6,8 +6,8 @@ module Foreman::Controller::UsersMixin
     before_filter :clear_params_on_update, :update_admin_flag, :only => :update
   end
 
-  def resource_scope(controller = controller_name)
-    super(controller).except_hidden
+  def resource_scope(options = {})
+    super(options).except_hidden
   end
 
   protected

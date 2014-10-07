@@ -5,20 +5,23 @@ module Api
       include Api::TaxonomyScope
       include Foreman::Renderer
 
-      before_filter(:only => %w{show update destroy}) { find_resource('templates') }
+      before_filter :find_optional_nested_object
+      before_filter :find_resource, :only => %w{show update destroy}
+
       before_filter :handle_template_upload, :only => [:create, :update]
       before_filter :process_template_kind, :only => [:create, :update]
       before_filter :process_operatingsystems, :only => [:create, :update]
 
       api :GET, "/config_templates/", N_("List provisioning templates")
+      api :GET, "/operatingsystem/:operatingsystem_id/config_templates", N_("List provisioning templates per operating system")
+      api :GET, "/locations/:location_id/config_templates/", N_("List provisioning templates per location")
+      api :GET, "/organizations/:organization_id/config_templates/", N_("List provisioning templates per organization")
+      param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @config_templates = ConfigTemplate.
-          authorized(:view_templates).
-          search_for(*search_options).paginate(paginate_options).
-          includes(:operatingsystems, :template_combinations, :template_kind)
+        @config_templates = resource_scope_for_index(:permission => :view_templates).includes(:template_kind)
       end
 
       api :GET, "/config_templates/:id", N_("Show provisioning template details")
@@ -101,6 +104,10 @@ module Api
       def process_operatingsystems
         return unless (ct = params[:config_template]) and (operatingsystems = ct.delete(:operatingsystems))
         ct[:operatingsystem_ids] = operatingsystems.collect {|os| os[:id]}
+      end
+
+      def allowed_nested_id
+        %w(operatingsystem_id location_id organization_id)
       end
 
     end

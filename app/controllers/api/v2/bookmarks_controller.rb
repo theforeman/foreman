@@ -7,7 +7,7 @@ module Api
       param_group :pagination, ::Api::V2::BaseController
 
       def index
-        @bookmarks = Bookmark.paginate(paginate_options)
+        @bookmarks = resource_scope.paginate(paginate_options)
       end
 
       api :GET, "/bookmarks/:id/", N_("Show a bookmark")

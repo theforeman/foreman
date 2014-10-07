@@ -5,19 +5,27 @@ module Api
       wrap_parameters :host, :include => (Host::Base.attribute_names + ['image_file', 'is_owned_by', 'overwrite', 'progress_report_id'])
 
       include Api::Version2
-      #TODO - should TaxonomyScope be here.  It wasn't here previously
       include Api::TaxonomyScope
       include Foreman::Controller::SmartProxyAuth
 
-      before_filter :find_resource, :except => %w{index create facts}
+      before_filter :find_optional_nested_object, :except => [:facts]
+      before_filter :find_resource, :except => [:index, :create, :facts]
       before_filter :permissions_check, :only => %w{power boot puppetrun}
       add_puppetmaster_filters :facts
 
       api :GET, "/hosts/", N_("List all hosts")
+      api :GET, "/hostgroups/:hostgroup_id/hosts", N_("List all hosts for a host group")
+      api :GET, "/locations/:location_id/hosts", N_("List hosts per location")
+      api :GET, "/organizations/:organization_id/hosts", N_("List hosts per organization")
+      api :GET, "/environments/:environment_id/hosts", N_("List hosts per environment")
+      param :hostgroup_id, String, :desc => N_("ID of host group")
+      param :location_id, String, :desc => N_("ID of location")
+      param :organization_id, String, :desc => N_("ID of organization")
+      param :environment_id, String, :desc => N_("ID of environment")
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @hosts = resource_scope.search_for(*search_options).paginate(paginate_options)
+        @hosts = resource_scope_for_index
       end
 
       api :GET, "/hosts/:id/", N_("Show a host")
@@ -162,10 +170,6 @@ Return value may either be one of the following:
 
       private
 
-      def resource_scope(controller = controller_name)
-        Host.authorized("#{action_permission}_#{controller}", Host)
-      end
-
       def action_permission
         case params[:action]
           when 'puppetrun'
@@ -203,6 +207,16 @@ Return value may either be one of the following:
       def permissions_check
         permission = "#{params[:action]}_hosts".to_sym
         deny_access unless Host.authorized(permission).find(@host.id)
+      end
+
+      private
+
+      def resource_class
+        Host::Managed
+      end
+
+      def allowed_nested_id
+        %w(hostgroup_id location_id organization_id environment_id)
       end
 
     end

@@ -5,17 +5,19 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
+      before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, '/subnets', N_("List of subnets")
+      api :GET, "/domains/:domain_id/subnets", N_("List of subnets for a domain")
+      api :GET, "/locations/:location_id/subnets", N_("List of subnets per location")
+      api :GET, "/organizations/:organization_id/subnets", N_("List of subnets per organization")
+      param :domain_id, String, :desc => N_("ID of domain")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @subnets = Subnet.
-          authorized(:view_subnets).
-          includes(:tftp, :dhcp, :dns).
-          search_for(*search_options).paginate(paginate_options)
+        @subnets = resource_scope_for_index.includes(:tftp, :dhcp, :dns)
       end
 
       api :GET, "/subnets/:id/", N_("Show a subnet")
@@ -66,6 +68,12 @@ module Api
 
       def destroy
         process_response @subnet.destroy
+      end
+
+      private
+
+      def allowed_nested_id
+        %w(domain_id location_id organization_id)
       end
 
     end

@@ -18,11 +18,13 @@ module FindCommon
     @resource_class ||= resource_name.classify.constantize
   end
 
-  def resource_scope(controller = controller_name)
+  def resource_scope(options = {})
     @resource_scope ||= begin
+      options[:controller] ||= controller_name
+      options[:permission] ||= "#{action_permission}_#{options[:controller]}"
       scope = resource_class.scoped
       if resource_class.respond_to?(:authorized)
-        scope.authorized("#{action_permission}_#{controller}", resource_class)
+        scope.authorized(options[:permission], resource_class)
       else
         scope
       end
