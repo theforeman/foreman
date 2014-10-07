@@ -2,7 +2,7 @@
   <% unless params[:host_id] -%>
       <td>
         <% if fact.host -%>
-            <%= link_to(trunc(fact.host), host_facts_path(:host_id => fact.host), :title => _("Show %{host} facts") % { :host => fact.host.name }) %>
+            <%= link_to(trunc(fact.host), host_facts_path(:host_id => fact.host), :title => _("Show host facts")) %>
         <% else -%>
             <%= _('N/A') %>
         <% end %>
