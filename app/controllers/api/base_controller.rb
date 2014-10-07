@@ -38,6 +38,25 @@ module Api
       instance_variable_get :"@#{resource_name}" or raise 'no resource loaded'
     end
 
+    # overwrites resource_scope in FindCommon to consider nested objects
+    def resource_scope(options = {})
+      options[:association] ||= controller_name
+      if nested_obj && nested_obj.respond_to?(options[:association])
+        association = nested_obj.send(options[:association])
+        if association.respond_to?(:authorized)
+          association.authorized(options[:permission], resource_class)
+        else
+          association
+        end
+      else
+        super(options)
+      end
+    end
+
+    def resource_scope_for_index(options = {})
+      resource_scope(options).search_for(*search_options).paginate(paginate_options)
+    end
+
     def api_request?
       true
     end
@@ -117,22 +136,6 @@ module Api
     def deny_access(details = nil)
       render_error 'access_denied', :status => :forbidden, :locals => { :details => details }
       false
-    end
-
-    # searches for a resource based on its name and assign it to an instance variable
-    # required for models which implement the to_param method
-    #
-    # example:
-    # @host = Host.find_resource params[:id]
-    def find_resource(controller = controller_name)
-      scope = resource_scope(controller)
-      resource = scope.find(params[:id])
-
-      if resource
-        return instance_variable_set(:"@#{resource_name}", resource)
-      else
-        not_found
-      end
     end
 
     def set_default_response_format

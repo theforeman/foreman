@@ -5,6 +5,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
+      before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
       PATH_INFO = <<-eos
@@ -21,13 +22,15 @@ Solaris and Debian media may also use $release.
       OS_FAMILY_INFO = N_("Operating system family, available values: %{operatingsystem_families}")
 
       api :GET, "/media/", N_("List all installation media")
+      api :GET, "/operatingsystems/:operatingsystem_id/media", N_("List all media for an operating system")
+      api :GET, "/locations/:location_id/media", N_("List all media per location")
+      api :GET, "/organizations/:organization_id/media", N_("List all media per organization")
+      param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @media = Medium.
-          authorized(:view_media).
-          search_for(*search_options).paginate(paginate_options)
+        @media = resource_scope_for_index
       end
 
       api :GET, "/media/:id/", N_("Show a medium")
@@ -67,6 +70,12 @@ Solaris and Debian media may also use $release.
 
       def destroy
         process_response @medium.destroy
+      end
+
+      private
+
+      def allowed_nested_id
+        %w(operatingsystem_id location_id organization_id)
       end
 
     end

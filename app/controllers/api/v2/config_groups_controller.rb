@@ -8,7 +8,7 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @config_groups = ConfigGroup.authorized(:view_config_groups).search_for(*search_options).paginate(paginate_options)
+        @config_groups = resource_scope_for_index
       end
 
       api :GET, "/config_groups/:id/", N_("Show a config group")

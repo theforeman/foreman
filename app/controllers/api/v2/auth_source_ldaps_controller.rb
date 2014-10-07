@@ -8,7 +8,7 @@ module Api
       param_group :pagination, ::Api::V2::BaseController
 
       def index
-        @auth_source_ldaps = AuthSourceLdap.paginate(paginate_options)
+        @auth_source_ldaps = resource_scope.paginate(paginate_options)
       end
 
       api :GET, "/auth_source_ldaps/:id/", N_("Show an LDAP authentication source")

@@ -8,14 +8,23 @@ module Api
       include Foreman::Controller::UsersMixin
       include Api::Version2
       include Api::TaxonomyScope
+      before_filter :find_optional_nested_object
+      before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/users/", N_("List all users")
+      api :GET, "/auth_source_ldaps/:auth_source_ldap_id/users", N_("List all users for LDAP authentication source")
+      api :GET, "/usergroups/:usergroup_id/users", N_("List all users for user group")
+      api :GET, "/roles/:role_id/users", N_("List all users for role")
+      api :GET, "/locations/:location_id/users", N_("List all users for location")
+      api :GET, "/organizations/:organization_id/users", N_("List all users for organization")
+      param :auth_source_ldap_id, String, :desc => N_("ID of LDAP authentication source")
+      param :usergroup_id, String, :desc => N_("ID of user group")
+      param :role_id, String, :desc => N_("ID of role")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+
       def index
-        @users = User.
-          authorized(:view_users).except_hidden.
-          search_for(*search_options).paginate(paginate_options)
+        @users = resource_scope_for_index
       end
 
       api :GET, "/users/:id/", N_("Show a user")
@@ -80,6 +89,12 @@ module Api
         else
           process_response @user.destroy
         end
+      end
+
+      private
+
+      def allowed_nested_id
+        %w(auth_source_ldap_id role_id location_id organization_id usergroup_id)
       end
 
     end
