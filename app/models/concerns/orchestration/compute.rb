@@ -82,7 +82,7 @@ module Orchestration::Compute
     @host      = self
     # For some reason this renders as 'built' in spoof view but 'provision' when
     # actually used. For now, use foreman_url('built') in the template
-    self.compute_attributes[:user_data] = unattended_render(template.template)
+    self.compute_attributes[:user_data] = unattended_render(template)
     self.handle_ca
     return false if errors.any?
     logger.info "Revoked old certificates and enabled autosign for UserData"

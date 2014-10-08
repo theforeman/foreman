@@ -12,18 +12,6 @@ module Foreman
                           :repos, :dynamic, :kernel, :initrd,
                           :preseed_server, :preseed_path, :provisioning_type ]
 
-
-    def render_safe(template, allowed_methods = [], allowed_vars = {})
-
-      if Setting[:safemode_render]
-        box = Safemode::Box.new self, allowed_methods
-        box.eval(ERB.new(template, nil, '-').src, allowed_vars)
-      else
-        allowed_vars.each { |k,v| instance_variable_set "@#{k}", v }
-        ERB.new(template, nil, '-').result(binding)
-      end
-    end
-
     #returns the URL for Foreman Built status (when a host has finished the OS installation)
     def foreman_url(action = "built")
       # Get basic stuff
@@ -31,10 +19,11 @@ module Foreman
       protocol = config.scheme || 'http'
       host     = config.host || request.host
       port     = config.port || request.port
+      return config if action == ''
 
       url_for :only_path => false, :controller => "/unattended", :action => action,
               :protocol  => protocol, :host => host, :port => port,
-              :token     => (@host.token.value unless @host.token.nil?)
+              :token     => (@host.token.value unless (@host.nil? or @host.token.nil?))
     end
 
     # provide embedded snippets support as simple erb templates
@@ -73,14 +62,16 @@ module Foreman
       prefix + text.gsub(/\n/, "\n#{prefix}")
     end
 
-    def unattended_render(template, template_name = nil)
+    def unattended_render(template, options = {})
       content = template.respond_to?(:template) ? template.template : template
-      template_name ||= template.respond_to?(:name) ? template.name : 'Unnamed'
-      allowed_variables = ALLOWED_VARIABLES.reduce({}) do |mapping, var|
+      options[:template_name] ||= template.respond_to?(:name) ? template.name : 'Unnamed'
+      a_vars = ALLOWED_VARIABLES.reduce({}) do |mapping, var|
          mapping.update(var => instance_variable_get("@#{var}"))
       end
-      allowed_variables[:template_name] = template_name
-      render_safe content, ALLOWED_HELPERS, allowed_variables
+      a_vars[:template_name] = options[:template_name]
+      a_vars.merge!(options[:allowed_variables]) if options[:allowed_variables]
+      a_helpers = ALLOWED_HELPERS.concat(options[:allowed_helpers]) if options[:allowed_helpers]
+      render_safe content, a_helpers, a_vars
     end
     alias_method :pxe_render, :unattended_render
 
@@ -93,6 +84,18 @@ module Foreman
         file = f
       end
       file
+    end
+
+    private
+
+    def render_safe(template, allowed_methods = [], allowed_vars = {})
+      if Setting[:safemode_render]
+        box = Safemode::Box.new self, allowed_methods
+        box.eval(ERB.new(template, nil, '-').src, allowed_vars)
+      else
+        allowed_vars.each { |k,v| instance_variable_set "@#{k}", v }
+        ERB.new(template, nil, '-').result(binding)
+      end
     end
 
   end
