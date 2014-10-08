@@ -145,7 +145,9 @@ class Host::Managed < Host::Base
 
     validates :ip, :uniqueness => true, :if => Proc.new {|host| host.require_ip_validation?}
     validates :mac, :uniqueness => true, :mac_address => true, :unless => Proc.new { |host| host.compute? or !host.managed }
-    validates :architecture_id, :operatingsystem_id, :domain_id, :presence => true, :if => Proc.new {|host| host.managed}
+    validates :architecture_id, :presence => true, :if => Proc.new {|host| host.requires_architecture?}
+    validates :operatingsystem_id, :presence => true, :if => Proc.new {|host| host.requires_os?}
+    validates :domain_id, :presence => true, :if => Proc.new {|host| host.managed}
     validates :mac, :presence => true, :unless => Proc.new { |host| host.compute? or !host.managed }
     validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
                           :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
@@ -776,6 +778,14 @@ class Host::Managed < Host::Base
 
   def validate_media?
     managed && pxe_build? && build?
+  end
+
+  def requires_os?
+    compute_resource.nil? ? managed? : managed? && compute_resource.requires_os?
+  end
+
+  def requires_architecture?
+    compute_resource.nil? ? managed? : managed? && compute_resource.requires_architecture?
   end
 
   private
