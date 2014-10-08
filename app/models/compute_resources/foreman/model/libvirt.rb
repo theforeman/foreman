@@ -33,6 +33,14 @@ module Foreman::Model
       find_vm_by_uuid(uuid).destroy({ :destroy_volumes => true }.merge(args))
     rescue ActiveRecord::RecordNotFound
       true
+    rescue Exception => e
+      if e.message =~ /Call to virStorageVolDelete failed/
+        # It would be great to have this warning in the web UI
+        # but it shouldn't be raised else the delete will rollback.
+        logger.warn "Failed to remove volumes on compute #{self.name}: #{e}"
+      else
+        raise e
+      end
     end
 
     def self.model_name
@@ -79,6 +87,22 @@ module Foreman::Model
       client.networks rescue []
     end
 
+    def volumes
+      client.volumes.all rescue []
+    end
+
+    def free_volumes
+      vols = Set.new
+      servers.each do |s|
+        s.volumes.each { |v| vols << v.key }
+      end
+      free_volumes = volumes.reject! { |v| vols.include? v.key }
+    end
+
+    def servers
+      client.servers rescue []
+    end
+
     def template(id)
       template = client.volumes.get(id)
       raise Foreman::Exception.new(N_("Unable to find template %s"), id) unless template.persisted?
@@ -97,6 +121,18 @@ module Foreman::Model
       end
 
       opts.reject! { |k, v| v.nil? }
+
+      opts[:volumes].map! do |volume|
+        if volume.instance_of?(Hash) && volume[:key].present?
+          vol = client.volumes.get(volume[:key])
+          vol.format_type = volume[:format_type]
+          vol
+        elsif volume.instance_of?(Hash)
+          volume.except! :key
+        else
+          volume
+        end
+      end
 
       opts[:boot_order] = %w[hd]
       opts[:boot_order].unshift 'network' unless attr[:image_id]
@@ -170,7 +206,7 @@ module Foreman::Model
     end
 
     def create_volumes(args)
-      args[:volumes].each {|vol| validate_volume_capacity(vol)}
+      args[:volumes].each {|vol| validate_volume_capacity(vol) unless vol.key }
 
       # if using image creation, the first volume needs a backing disk set
       if args[:backing_id].present?
@@ -181,16 +217,18 @@ module Foreman::Model
       begin
         vols = []
         (volumes = args[:volumes]).each do |vol|
-          vol.name       = "#{args[:prefix]}-disk#{volumes.index(vol)+1}"
-          vol.capacity = "#{vol.capacity}G" unless vol.capacity.to_s.end_with?('G')
-          vol.allocation = "#{vol.allocation}G" unless vol.allocation.to_s.end_with?('G')
-          vol.save
+          unless vol.key
+            vol.name       = "#{args[:prefix]}-disk#{volumes.index(vol)+1}"
+            vol.allocation = "#{vol.allocation}G" unless vol.allocation.to_s.end_with?('G')
+            vol.capacity = "#{vol.capacity}G" unless vol.capacity.to_s.end_with?('G')
+            vol.save
+          end
           vols << vol
         end
         vols
       rescue => e
         logger.debug "Failure detected #{e}: removing already created volumes" if vols.any?
-        vols.each { |vol| vol.destroy }
+        vols.each { |vol| vol.destroy unless vol.key.present? }
         raise e
       end
     end
