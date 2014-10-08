@@ -40,7 +40,7 @@ module Api
           param :tag, String, :desc => N_("VLAN tag, this attribute has precedence over the subnet VLAN ID")
           param :attached_to, String, :desc => N_("Identifier of the interface to which this interface belongs, e.g. eth1")
           param :mode, String, :desc => N_("Bond mode of the interface, e.g. balance-rr")
-          param :attached_devices, Array, :desc => N_("Identifiers of slave interfaces, e.g. ['eth1', 'eth2']")
+          param :attached_devices, Array, :desc => N_("Identifiers of slave interfaces, e.g. `['eth1', 'eth2']`")
           param :bond_options, String, :desc => N_("Space separated options, e.g. miimon=100")
         end
       end
