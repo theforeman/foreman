@@ -14,7 +14,7 @@ class Organization < Taxonomy
   scope :completer_scope, lambda { |opts| my_organizations }
 
   scope :my_organizations, lambda {
-    conditions = User.current.admin? ? {} : sanitize_sql_for_conditions([" (taxonomies.id in (?))", User.current.location_and_child_ids])
+    conditions = User.current.admin? ? {} : sanitize_sql_for_conditions([" (taxonomies.id in (?))", User.current.organization_and_child_ids])
     where(conditions)
   }
 
