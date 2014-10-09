@@ -4,7 +4,7 @@ desc <<-END_DESC
 
   try to search them by DNS lookups and ping, if a host is not in DNS it will allow you to delete it.
 
-  legend: 
+  legend:
   "." - pingable
   "x" - no ping response
 
@@ -35,7 +35,7 @@ namespace :hosts do
     offline = []
 
     Host.out_of_sync(1.hour.ago).all(:order => 'environment_id asc').collect do |host|
-      $stdout.flush 
+      $stdout.flush
       ip = Resolv::DNS.new.getaddress(host.name).to_s rescue nil
       if ip.empty?
         missingdns << host
