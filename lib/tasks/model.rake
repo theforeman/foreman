@@ -24,7 +24,7 @@ namespace :models  do
       names = mappings.map{|m| m["name"]}
       if names.count != names.uniq.count
         puts "There are duplicate entries in the the mapping file: " + (names - names.uniq).to_sentence
-        exit -1
+        exit(-1)
       end
       consolidate mappings, dryrun
     else
