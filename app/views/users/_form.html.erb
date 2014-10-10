@@ -33,6 +33,9 @@
         <%= password_f f, :password, :label => _('Password') %>
         <%= password_f f, :password_confirmation, :label => _('Verify') %>
       </div>
+      <script type="text/javascript">
+        password_strength_feedback("#password");
+      </script>
     </div>
 
     <div class='tab-pane' id='roles'>
