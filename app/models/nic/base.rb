@@ -44,6 +44,10 @@ module Nic
             :attached_devices_identifiers
     end
 
+    def type_name
+      type.split("::").last
+    end
+
     protected
 
     def uniq_fields_with_hosts
@@ -77,6 +81,9 @@ module Nic
       true
     end
   end
-end
 
-require_dependency 'nic/interface'
+  require_dependency 'nic/interface'
+
+  TYPES = [ Nic::Managed, Nic::Bond, Nic::BMC ]
+
+end
