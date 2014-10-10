@@ -1,3 +1,5 @@
+require_dependency File.join(Rails.root, "app/models/nic/base")
+
 module Api
   module V2
     class InterfacesController < V2::BaseController
@@ -30,23 +32,27 @@ module Api
 
       def_param_group :interface do
         param :interface, Hash, :required => true, :action_aware => true, :desc => N_("interface information") do
+          #common parameters
           param :mac, String, :required => true, :desc => N_("MAC address of interface")
           param :ip, String, :required => true, :desc => N_("IP address of interface")
-          param :type, String, :required => true, :desc => N_("Interface type, e.g: Nic::BMC")
+          param :type, Nic::TYPES, :required => true, :desc => N_("Interface type, e.g: Nic::BMC")
           param :name, String, :required => true, :desc => N_("Interface name")
           param :subnet_id, Fixnum, :desc => N_("Foreman subnet ID of interface")
           param :domain_id, Fixnum, :desc => N_("Foreman domain ID of interface")
-          param :username, String
-          param :password, String
-          param :provider, String, :desc => N_("Interface provider, e.g. IPMI")
-          param :managed, :bool, :desc => N_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?")
-          param :virtual, :bool, :desc => N_("Alias or VLAN device")
           param :identifier, String, :desc => N_("Device identifier, e.g. eth0 or eth1.1")
-          param :tag, String, :desc => N_("VLAN tag, this attribute has precedence over the subnet VLAN ID")
-          param :attached_to, String, :desc => N_("Identifier of the interface to which this interface belongs, e.g. eth1")
-          param :mode, String, :desc => N_("Bond mode of the interface, e.g. balance-rr")
-          param :attached_devices, Array, :desc => N_("Identifiers of slave interfaces, e.g. `['eth1', 'eth2']`")
-          param :bond_options, String, :desc => N_("Space separated options, e.g. miimon=100")
+          param :managed, :bool, :desc => N_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?")
+          #bmc specific parameters
+          param :username, String, :desc => N_("Only for BMC interfaces.")
+          param :password, String, :desc => N_("Only for BMC interfaces.")
+          param :provider, Nic::BMC::PROVIDERS, :desc => N_("Interface provider, e.g. IPMI. Only for BMC interfaces.")
+          #virtual device specific parameters
+          param :virtual, :bool, :desc => N_("Alias or VLAN device")
+          param :tag, String, :desc => N_("VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virtual interfaces.")
+          param :attached_to, String, :desc => N_("Identifier of the interface to which this interface belongs, e.g. eth1. Only for virtual interfaces.")
+          #bond specific parameters
+          param :mode, Nic::Bond::MODES, :desc => N_("Bond mode of the interface, e.g. balance-rr. Only for bond interfaces.")
+          param :attached_devices, Array, :desc => N_("Identifiers of slave interfaces, e.g. `['eth1', 'eth2']`. Only for bond interfaces.")
+          param :bond_options, String, :desc => N_("Space separated options, e.g. miimon=100. Only for bond interfaces.")
         end
       end
 
