@@ -285,4 +285,19 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal _("is too long (maximum is 0 characters)"),  location.errors[:name].first
   end
 
+  test ".my_locations returns all locations for admin" do
+    as_admin do
+      assert_equal Location.unscoped.pluck(:id).sort, Location.my_locations.pluck(:id).sort
+    end
+  end
+
+  test ".my_locations returns user's associated locations and children" do
+    loc1 = FactoryGirl.create(:location)
+    loc2 = FactoryGirl.create(:location, :parent => loc1)
+    user = FactoryGirl.create(:user, :locations => [loc1])
+    as_user(user) do
+      assert_equal [loc1.id, loc2.id].sort, Location.my_locations.pluck(:id).sort
+    end
+  end
+
 end

@@ -169,5 +169,19 @@ class OrganizationTest < ActiveSupport::TestCase
     assert organization.users.include?(user)
   end
 
+  test ".my_organizations returns all orgs for admin" do
+    as_admin do
+      assert_equal Organization.unscoped.pluck(:id).sort, Organization.my_organizations.pluck(:id).sort
+    end
+  end
+
+  test ".my_organizations returns user's associated orgs and children" do
+    org1 = FactoryGirl.create(:organization)
+    org2 = FactoryGirl.create(:organization, :parent => org1)
+    user = FactoryGirl.create(:user, :organizations => [org1])
+    as_user(user) do
+      assert_equal [org1.id, org2.id].sort, Organization.my_organizations.pluck(:id).sort
+    end
+  end
 
 end
