@@ -111,7 +111,8 @@ Foreman::Application.configure do |app|
                   dashboard
                   auth_source_ldap
                   subnets
-                  hidden_values)
+                  hidden_values
+                  password_strength)
 
   stylesheets = %w( )
 
