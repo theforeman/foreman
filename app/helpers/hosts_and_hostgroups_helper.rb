@@ -19,16 +19,16 @@ module HostsAndHostgroupsHelper
   end
 
   def accessible_domains
-    Domain.with_taxonomy_scope_override(@location,@organization)
+    Domain.with_taxonomy_scope_override(@location,@organization).order(:name)
   end
 
   def accessible_subnets
-    Subnet.with_taxonomy_scope_override(@location,@organization)
+    Subnet.with_taxonomy_scope_override(@location,@organization).order(:name)
   end
 
   def domain_subnets(domain = @domain)
     return [] if domain.blank?
-    domain.subnets.with_taxonomy_scope_override(@location,@organization)
+    domain.subnets.with_taxonomy_scope_override(@location,@organization).order(:name)
   end
 
   def arch_oss
