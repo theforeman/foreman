@@ -23,7 +23,8 @@ class Setting::General < Setting
         self.set('max_trend', N_("Max days for Trends graphs"), 30),
         self.set('use_gravatar', N_("Foreman will use gravatar to display user icons"), true),
         self.set('db_pending_migration', N_("Should the `foreman-rake db:migrate` be executed on the next run of the installer modules?"), true),
-        self.set('db_pending_seed', N_("Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"), true)
+        self.set('db_pending_seed', N_("Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"), true),
+        self.set('proxy_request_timeout', N_("Max timeout for REST client requests to smart-proxy"), 60)
       ].each { |s| self.create! s.update(:category => "Setting::General")}
     end
 
