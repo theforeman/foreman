@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-28 10:58+0100\n"
-"PO-Revision-Date: 2014-09-16 08:52+0000\n"
-"Last-Translator: Dominic Cleal <dcleal@redhat.com>\n"
+"POT-Creation-Date: 2014-10-07 11:26+0100\n"
+"PO-Revision-Date: 2014-10-08 10:11+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/foreman/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -847,6 +847,10 @@ msgstr "取消這部主機的組建請求"
 
 msgid "Canceled pending build for %s"
 msgstr "已取消 %s 的處理中組建"
+
+msgid ""
+"Cannot create LDAP configuration for %s without dedicated service account"
+msgstr ""
 
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "無法刪除 %{current} 因為它包含巢狀的 %{sti_name}。"
@@ -2840,6 +2844,9 @@ msgstr ""
 msgid "Invalid Host"
 msgstr "無效的主機"
 
+msgid "Invalid authenticity token"
+msgstr ""
+
 msgid "Invalid log level: %s"
 msgstr "無效的日誌等級：%s"
 
@@ -3519,9 +3526,6 @@ msgstr "網路介面卡"
 
 msgid "Network type"
 msgstr "網路類型"
-
-msgid "Networks"
-msgstr "網路"
 
 msgid "New"
 msgstr "新增"
@@ -6734,6 +6738,9 @@ msgid "filter results"
 msgstr ""
 
 msgid "for EC2 only"
+msgstr ""
+
+msgid "for Libvirt and Vmware only"
 msgstr ""
 
 msgid "for Openstack only"

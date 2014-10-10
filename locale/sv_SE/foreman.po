@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-05 12:56+0100\n"
-"PO-Revision-Date: 2014-08-06 09:57+0000\n"
+"POT-Creation-Date: 2014-10-07 11:26+0100\n"
+"PO-Revision-Date: 2014-10-08 10:11+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -857,6 +857,10 @@ msgstr "Avbryt byggbegäran för denna värd"
 msgid "Canceled pending build for %s"
 msgstr "Avbröt avvaktande bygge för %s"
 
+msgid ""
+"Cannot create LDAP configuration for %s without dedicated service account"
+msgstr ""
+
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr ""
 
@@ -1004,6 +1008,9 @@ msgstr "Beräkningsprofiler"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
 msgstr "Beräkningsresurs"
+
+msgid "Compute resource IDs"
+msgstr ""
 
 msgid "Compute resource update for %s"
 msgstr "Beräkningsresursuppdatering för %s"
@@ -1235,6 +1242,9 @@ msgid "Create an architecture"
 msgstr ""
 
 msgid "Create an environment"
+msgstr ""
+
+msgid "Create an external user group linked to a user group"
 msgstr ""
 
 msgid "Create an image"
@@ -1471,6 +1481,9 @@ msgstr ""
 msgid "Delete an environment"
 msgstr ""
 
+msgid "Delete an external user group"
+msgstr ""
+
 msgid "Delete an image"
 msgstr ""
 
@@ -1592,6 +1605,9 @@ msgstr "Domän"
 msgid "Domain Configuration"
 msgstr "Domänkonfiguration"
 
+msgid "Domain IDs"
+msgstr ""
+
 msgid "Domains"
 msgstr "Domäner"
 
@@ -1619,6 +1635,9 @@ msgid ""
 "<b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating "
 "system family, which includes <b>sparc</b> based systems."
 msgstr "Varje värde representerar en hårdvaruarkitektur, oftast <b>x86_64</b> eller <b>i386</b>. Foreman stödjer även OS-familjen Solaris, vilket även inkluderar <b>sparc</b> system"
+
+msgid "Eager zero"
+msgstr ""
 
 msgid "Edit"
 msgstr "Redigera"
@@ -1767,6 +1786,9 @@ msgstr ""
 msgid "Environment"
 msgstr "Miljö"
 
+msgid "Environment IDs"
+msgstr ""
+
 msgid "Environment only"
 msgstr "Enbart miljö"
 
@@ -1834,6 +1856,9 @@ msgstr "Expandera kartan"
 msgid "Expires"
 msgstr "Utgår"
 
+msgid "Explain matchers"
+msgstr ""
+
 msgid "External IP"
 msgstr "Extern IP"
 
@@ -1847,6 +1872,12 @@ msgid "External user group %{name} could not be refreshed"
 msgstr ""
 
 msgid "External user group %{name} refreshed"
+msgstr ""
+
+msgid "External user group information"
+msgstr ""
+
+msgid "External user group name"
 msgstr ""
 
 msgid "Fact Chart"
@@ -2030,6 +2061,9 @@ msgstr "Filter"
 
 msgid "Filter %s"
 msgstr "Filtrera %s"
+
+msgid "Filter by name"
+msgstr ""
 
 msgid "Filter classes"
 msgstr "Filterklasser"
@@ -2372,6 +2406,9 @@ msgstr "Värdgrupp"
 msgid "Host group / Environment"
 msgstr "Värdgrupp / Miljö"
 
+msgid "Host group IDs"
+msgstr ""
+
 msgid "Host group and Environment"
 msgstr "Värdgrupp och Miljö"
 
@@ -2594,6 +2631,9 @@ msgstr ""
 msgid "ID of interface"
 msgstr ""
 
+msgid "ID of linked auth source"
+msgstr ""
+
 msgid "ID of location"
 msgstr ""
 
@@ -2609,10 +2649,19 @@ msgstr ""
 msgid "ID of puppetclass"
 msgstr ""
 
+msgid "ID or name external user group"
+msgstr ""
+
+msgid "ID or name of external user group"
+msgstr ""
+
 msgid "ID or name of host"
 msgstr ""
 
 msgid "ID or name of interface"
+msgstr ""
+
+msgid "ID or name of user group"
 msgstr ""
 
 msgid "IP"
@@ -2710,7 +2759,7 @@ msgstr "Namn"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|User data"
-msgstr "Bild|Användardata"
+msgstr "Användardata"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Username"
@@ -2804,6 +2853,9 @@ msgstr ""
 
 msgid "Invalid Host"
 msgstr "Felaktig Värd"
+
+msgid "Invalid authenticity token"
+msgstr ""
 
 msgid "Invalid log level: %s"
 msgstr "Felaktig loggnivå: %s"
@@ -2941,6 +2993,9 @@ msgstr ""
 msgid "List all environments"
 msgstr ""
 
+msgid "List all external user groups for user group"
+msgstr ""
+
 msgid "List all fact values"
 msgstr ""
 
@@ -3028,7 +3083,13 @@ msgstr ""
 msgid "List all users"
 msgstr ""
 
+msgid "List attributes for a given storage domain"
+msgstr ""
+
 msgid "List available clusters for a compute resource"
+msgstr ""
+
+msgid "List available folders for a compute resource"
 msgstr ""
 
 msgid "List available images for a compute resource"
@@ -3103,6 +3164,9 @@ msgid "List of subnets"
 msgstr ""
 
 msgid "List provisioning templates"
+msgstr ""
+
+msgid "List resource pools for a compute resource cluster"
 msgstr ""
 
 msgid "List storage domains for a compute resource"
@@ -3320,6 +3384,9 @@ msgstr "Max dagar för trendgrafer"
 msgid "Media"
 msgstr "Medie"
 
+msgid "Media IDs"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr "Medium"
@@ -3469,9 +3536,6 @@ msgstr "Nätverkskort"
 
 msgid "Network type"
 msgstr "Nätvärkstyp"
-
-msgid "Networks"
-msgstr "Netvärk"
 
 msgid "New"
 msgstr "Ny"
@@ -3994,8 +4058,11 @@ msgid "Optional array of log hashes"
 msgstr ""
 
 msgid ""
-"Optional comma-deliminated string containing either 'new,updated,obsolete' "
-"used to limit the import_puppetclasses actions"
+"Optional comma-delimited string containing either 'new', 'updated', or "
+"'obsolete' that is used to limit the imported Puppet classes"
+msgstr ""
+
+msgid "Optional input validator"
 msgstr ""
 
 msgid ""
@@ -4060,6 +4127,9 @@ msgstr "Tvinga en Puppetklassparameter"
 msgid "Override this value"
 msgstr "Tvinga detta värde"
 
+msgid "Override value for specific hosts"
+msgstr ""
+
 msgid "Overview"
 msgstr "Överblick"
 
@@ -4096,6 +4166,9 @@ msgstr "Parameternamn"
 
 msgid "Parameter type"
 msgstr "Parametertyp"
+
+msgid "Parameter types"
+msgstr ""
 
 msgid "Parameters"
 msgstr "Parametrar"
@@ -4318,6 +4391,9 @@ msgstr "Provisioneringsmallens innehåll ändrad %s"
 msgid "Provisioning Templates"
 msgstr "Provisioneringsmallar"
 
+msgid "Provisioning template IDs"
+msgstr ""
+
 msgid "Provisioning templates"
 msgstr "Provisineringsmallar"
 
@@ -4432,6 +4508,9 @@ msgstr ""
 msgid "Realm Configuration"
 msgstr ""
 
+msgid "Realm IDs"
+msgstr ""
+
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr ""
 
@@ -4467,6 +4546,9 @@ msgid ""
 msgstr "Omdirigera dina användare till denna url vid utloggning (authorize_login_delegation måste också vara aktiverad)"
 
 msgid "Refresh"
+msgstr ""
+
+msgid "Refresh external user group"
 msgstr ""
 
 msgid "Refresh features"
@@ -4981,6 +5063,9 @@ msgstr ""
 msgid "Show an environment"
 msgstr ""
 
+msgid "Show an external user group for user group"
+msgstr ""
+
 msgid "Show an image"
 msgstr ""
 
@@ -5063,6 +5148,9 @@ msgstr "Smarta proxies"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Smart proxy"
 msgstr "Smart proxy"
+
+msgid "Smart proxy IDs"
+msgstr ""
 
 msgid "Smart variables"
 msgstr "Smarta variabler"
@@ -5154,6 +5242,9 @@ msgstr "Sänd"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "Subnät"
+
+msgid "Subnet IDs"
+msgstr ""
 
 msgid "Subnet name"
 msgstr ""
@@ -6012,6 +6103,9 @@ msgstr ""
 msgid "Update an override value for a specific smart variable"
 msgstr ""
 
+msgid "Update external user group"
+msgstr ""
+
 msgid "Update realm entry for %s"
 msgstr ""
 
@@ -6064,6 +6158,9 @@ msgstr "Användarautentisering"
 
 msgid "User Groups"
 msgstr "Användargrupper"
+
+msgid "User IDs"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User fact"
@@ -6226,6 +6323,9 @@ msgstr "Korrekt värdgrupp och miljökombinationer"
 
 msgid "Validation types"
 msgstr "Valideringstyper"
+
+msgid "Validator type"
+msgstr ""
 
 msgid "Value"
 msgstr "Värde"
@@ -6520,7 +6620,13 @@ msgstr "och"
 msgid "and relevant log entries."
 msgstr "och relevanta loggrader"
 
+msgid "array"
+msgstr ""
+
 msgid "belongs to config group"
+msgstr ""
+
+msgid "boolean"
 msgstr ""
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
@@ -6646,6 +6752,9 @@ msgstr ""
 msgid "for EC2 only"
 msgstr ""
 
+msgid "for Libvirt and Vmware only"
+msgstr ""
+
 msgid "for Openstack only"
 msgstr ""
 
@@ -6676,6 +6785,9 @@ msgstr "har redan denna värdgrupp"
 msgid "has this role already"
 msgstr "har redan denna roll"
 
+msgid "hash"
+msgstr ""
+
 msgid "hash containing the facts for the host"
 msgstr ""
 
@@ -6698,6 +6810,9 @@ msgid "in Progress"
 msgstr ""
 
 msgid "included already from parent"
+msgstr ""
+
+msgid "integer"
 msgstr ""
 
 msgid "interface information"
@@ -6784,12 +6899,18 @@ msgstr "Problemspårare"
 msgid "items selected. Uncheck to Clear"
 msgstr "poster markerade. Avmarkera för att rensa"
 
+msgid "json"
+msgstr ""
+
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] "senaste %s dagen"
 msgstr[1] "senaste %s dagarna"
 
 msgid "link external user group with this user group"
+msgstr ""
+
+msgid "list"
 msgstr ""
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
@@ -6914,8 +7035,14 @@ msgstr "stäng av"
 msgid "puppet class browser"
 msgstr "puppetklassbläddrare"
 
+msgid "real"
+msgstr ""
+
 msgid "reboot"
 msgstr "omstart"
+
+msgid "regexp"
+msgstr ""
 
 msgid "remove network interface"
 msgstr "ta bort nätvärkskort"
@@ -6983,6 +7110,9 @@ msgstr "status"
 msgid "stop"
 msgstr "stop"
 
+msgid "string"
+msgstr ""
+
 msgid "template name"
 msgstr ""
 
@@ -7043,6 +7173,9 @@ msgstr ""
 
 msgid "valid"
 msgstr "giltig"
+
+msgid "yaml"
+msgstr ""
 
 msgid "you may use %s"
 msgstr "du kan använda %s"

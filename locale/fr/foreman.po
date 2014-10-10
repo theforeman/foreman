@@ -27,9 +27,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-05 12:56+0100\n"
-"PO-Revision-Date: 2014-08-06 12:31+0000\n"
-"Last-Translator: Pierre-Emmanuel Dutang <dutangp@gmail.com>\n"
+"POT-Creation-Date: 2014-10-07 11:26+0100\n"
+"PO-Revision-Date: 2014-10-08 10:11+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +47,7 @@ msgid "%s - The following hosts are about to be changed"
 msgstr "%s - les hôtes suivants vont être changés"
 
 msgid "%s Distribution"
-msgstr "%s Distribution"
+msgstr "Répartition de %s"
 
 msgid "%s Host"
 msgstr "%s Hôte"
@@ -212,7 +212,7 @@ msgid ""
 msgstr "<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}"
 
 msgid "<b>Source:</b> %s"
-msgstr "<b>Source:</b> %s"
+msgstr "<b>Source :</b> %s"
 
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the "
@@ -474,7 +474,7 @@ msgid "Architecture"
 msgstr "Architecture"
 
 msgid "Architecture Distribution"
-msgstr "Répartition par Distribution"
+msgstr "Répartition des architectures"
 
 msgid "Architecture configuration"
 msgstr "Configuration des Architectures"
@@ -870,6 +870,10 @@ msgstr "Annuler la demande de construction de cet hôte"
 msgid "Canceled pending build for %s"
 msgstr "Demande de construction de l'hôte %s annulé"
 
+msgid ""
+"Cannot create LDAP configuration for %s without dedicated service account"
+msgstr "Impossible de créer une configuration LDAP pour %s sans compte de service dédié"
+
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "Impossible de supprimer %{current} car cet élément possède des imbrications avec %{sti_name}."
 
@@ -937,7 +941,7 @@ msgid "Choose a server type"
 msgstr "Sélectionner un type de serveur"
 
 msgid "Class Distribution"
-msgstr "Distribution des classes"
+msgstr "Répartition des classes"
 
 msgid "Classes"
 msgstr "Classes"
@@ -977,10 +981,10 @@ msgid ""
 msgstr "Les certificats SSL client sont utilisés pour identifier les Smart Proxies qui accèdent aux facts / importent les rapports et pour récupérer la sortie de l'ENC en HTTPS (:require_ssl doit aussi être activé)"
 
 msgid "Clone"
-msgstr "Clone"
+msgstr "Cloner"
 
 msgid "Clone %s"
-msgstr "Clone %s"
+msgstr "Cloner %s"
 
 msgid "Clone Host %s"
 msgstr "Cloner l'Hôte %s"
@@ -1009,14 +1013,17 @@ msgstr "Attribut d'Ordinateur"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Compute profile"
-msgstr "Profile d'Ordinateur"
+msgstr "Profil d'Ordinateur"
 
 msgid "Compute profiles"
-msgstr "Profile d'Ordinateurs"
+msgstr "Profils d'Ordinateur"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
 msgstr "Ressource d'Ordinateur"
+
+msgid "Compute resource IDs"
+msgstr "IDs de ressources d'ordianteur"
 
 msgid "Compute resource update for %s"
 msgstr "Ressource d'Ordinateur mise à jour pour %s"
@@ -1249,6 +1256,9 @@ msgstr "Créer une architecture"
 
 msgid "Create an environment"
 msgstr "Créer un environnement"
+
+msgid "Create an external user group linked to a user group"
+msgstr "Creation d'un goupe d'utilisateurs externe lié à un groupe d'utilisateurs"
 
 msgid "Create an image"
 msgstr "Créer une image"
@@ -1484,6 +1494,9 @@ msgstr "Supprimer une architecture"
 msgid "Delete an environment"
 msgstr "Supprimer un environnement"
 
+msgid "Delete an external user group"
+msgstr "Supprimer un groupe d'utilisateurs externe"
+
 msgid "Delete an image"
 msgstr "Supprimer une image"
 
@@ -1524,7 +1537,7 @@ msgid "Deselect All"
 msgstr "Tout désélectionner"
 
 msgid "Destroy"
-msgstr "Détruire"
+msgstr "Supprimer"
 
 msgid "Destroyed selected hosts"
 msgstr "Hôtes sélectionnés détruits"
@@ -1584,7 +1597,7 @@ msgid "Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
 msgstr "Affichage des entrées <b>%{from} - %{to}</b> sur <b>%{count}</b> au total"
 
 msgid "Distribution chart"
-msgstr "Distribution du système d'exploitation"
+msgstr "Répartition des systèmes d'exploitation"
 
 msgid "Document root where puppetdoc files should be created"
 msgstr "Racine documentaire pour la création des fichiers issus de puppetdoc"
@@ -1604,6 +1617,9 @@ msgstr "Domaine"
 
 msgid "Domain Configuration"
 msgstr "Configuration des domaines"
+
+msgid "Domain IDs"
+msgstr "IDs de domaines"
 
 msgid "Domains"
 msgstr "Domaines"
@@ -1633,6 +1649,9 @@ msgid ""
 "system family, which includes <b>sparc</b> based systems."
 msgstr "Chaque entrée représente une architecture matériel, couramment <b>x86_64</b> ou <b>i386</b>. Foreman supporte aussi la famille de systèmes d'exploitation Solaris qui inclue <b>sparc</b>."
 
+msgid "Eager zero"
+msgstr "Zéro gourmand (eager)"
+
 msgid "Edit"
 msgstr "Éditer"
 
@@ -1646,10 +1665,10 @@ msgid "Edit Bookmark"
 msgstr "Éditer les Marque-pages"
 
 msgid "Edit Compute profile"
-msgstr "Éditer le profile d'Ordinateur"
+msgstr "Éditer le profil d'Ordinateur"
 
 msgid "Edit Compute profile: %s"
-msgstr "Éditer le profile d'Ordinateur: %s"
+msgstr "Éditer le profil d'Ordinateur: %s"
 
 msgid "Edit Config group"
 msgstr "Éditer les Groupes de configuration"
@@ -1718,7 +1737,7 @@ msgid "Edit User group"
 msgstr "Éditer les Groupes Utilisateur"
 
 msgid "Edit compute profile on %s"
-msgstr "Éditer le profile d'Ordinateur de %s"
+msgstr "Éditer le profil d'Ordinateur de %s"
 
 msgid "Edit your host"
 msgstr "Éditer votre hôte"
@@ -1779,6 +1798,9 @@ msgstr "Adresse IP de fin pour l'autosuggestion d'adresse IP"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Environnement"
+
+msgid "Environment IDs"
+msgstr "IDs des environnements"
 
 msgid "Environment only"
 msgstr "Seulement un environnement"
@@ -1847,6 +1869,9 @@ msgstr "Étendre le graphique"
 msgid "Expires"
 msgstr "Expire"
 
+msgid "Explain matchers"
+msgstr "Explication des correspondances"
+
 msgid "External IP"
 msgstr "IP Externe"
 
@@ -1861,6 +1886,12 @@ msgstr "Groupe d'utilisateur externe %{name} ne peut pas être rafraichi"
 
 msgid "External user group %{name} refreshed"
 msgstr "Groupe d'utilisateur externe %{name} rafraichi"
+
+msgid "External user group information"
+msgstr "Information du groupe d'utilisateurs externe"
+
+msgid "External user group name"
+msgstr "Nom du groupe d'utilisateurs externe"
 
 msgid "Fact Chart"
 msgstr "Graphique des Facts"
@@ -2044,6 +2075,9 @@ msgstr "Filtre"
 msgid "Filter %s"
 msgstr "Filtre %s"
 
+msgid "Filter by name"
+msgstr "Filtrer par nom"
+
 msgid "Filter classes"
 msgstr "Filtrer les classes"
 
@@ -2057,7 +2091,7 @@ msgid "Filters and permissions"
 msgstr "Filtres et permissions"
 
 msgid "Filter|Permissions"
-msgstr "Filtre|Permissions"
+msgstr "Permissions"
 
 msgid "Filter|Resource"
 msgstr "Ressource"
@@ -2362,10 +2396,10 @@ msgid "Host Architecture"
 msgstr "Architecture de l'Hôte"
 
 msgid "Host Configuration Chart"
-msgstr "Diagramme de la configuration de l'hôte"
+msgstr "Diagramme de la configuration des hôtes"
 
 msgid "Host Configuration Status"
-msgstr "Statut de configuration de l'Hôte"
+msgstr "Statut de configuration des hôtes"
 
 msgid "Host Groups"
 msgstr "Groupe d'Hôtes"
@@ -2384,6 +2418,9 @@ msgstr "Groupe d'hôtes"
 
 msgid "Host group / Environment"
 msgstr "Groupe d'hôtes / Environnement"
+
+msgid "Host group IDs"
+msgstr "IDs des groupes"
 
 msgid "Host group and Environment"
 msgstr "Groupe d'hôtes et Environnement"
@@ -2607,6 +2644,9 @@ msgstr "ID du groupe d'hôtes"
 msgid "ID of interface"
 msgstr "ID de l'interface"
 
+msgid "ID of linked auth source"
+msgstr "ID de la source d'authentification liée"
+
 msgid "ID of location"
 msgstr "ID de la localisation"
 
@@ -2622,11 +2662,20 @@ msgstr "ID du paramêtre"
 msgid "ID of puppetclass"
 msgstr "ID de la classe Puppet"
 
+msgid "ID or name external user group"
+msgstr "ID ou nom d'un groupe d'utilisateurs externe"
+
+msgid "ID or name of external user group"
+msgstr "ID ou nom du groupe d'utilisateurs externe"
+
 msgid "ID or name of host"
 msgstr "ID ou nom d'hôte"
 
 msgid "ID or name of interface"
 msgstr "ID ou nom de l'interface"
+
+msgid "ID or name of user group"
+msgstr "ID ou nom du groupe d'utilisateurs"
 
 msgid "IP"
 msgstr "IP"
@@ -2705,7 +2754,7 @@ msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "ID de l'image fournie par les ressouces matérielles, par ex. ami-..."
 
 msgid "Image path"
-msgstr "Chemin des images"
+msgstr "Chemin de l'image"
 
 msgid "Image to use"
 msgstr "I'image à utiliser"
@@ -2817,6 +2866,9 @@ msgstr "Type d'interface. Ex: Nic::BMC"
 
 msgid "Invalid Host"
 msgstr "Hôte invalide"
+
+msgid "Invalid authenticity token"
+msgstr ""
 
 msgid "Invalid log level: %s"
 msgstr "Niveau de log invalide : %s"
@@ -2954,6 +3006,9 @@ msgstr "Lister toutes les ressources d'ordinateur"
 msgid "List all environments"
 msgstr "Lister tous les environnements"
 
+msgid "List all external user groups for user group"
+msgstr "lister tous les groupe d'utilisateurs externe pour une groupe d'utilisateurs"
+
 msgid "List all fact values"
 msgstr "Lister toutes les valeurs des facts"
 
@@ -3041,8 +3096,14 @@ msgstr "Lister tous les groupes d'utilisateurs"
 msgid "List all users"
 msgstr "Lister tous les utilisateurs"
 
+msgid "List attributes for a given storage domain"
+msgstr "Lister les attributs d'un domaine de stockage"
+
 msgid "List available clusters for a compute resource"
 msgstr "Lister les clusters disponibles pour une ressource d'ordinateur"
+
+msgid "List available folders for a compute resource"
+msgstr "Lister les répertoires disponibles sur une ressource d'ordinateur"
 
 msgid "List available images for a compute resource"
 msgstr "Lister les images disponibles pour une ressource d'ordinateur"
@@ -3117,6 +3178,9 @@ msgstr "Liste des sous réseaux"
 
 msgid "List provisioning templates"
 msgstr "Lister les modèles de provisionnement"
+
+msgid "List resource pools for a compute resource cluster"
+msgstr "Lister les pools de ressources d'un cluster de ressources d'ordinateur"
 
 msgid "List storage domains for a compute resource"
 msgstr "Lister les domaines de stockage pour une ressource d'ordinateur"
@@ -3333,6 +3397,9 @@ msgstr "Nombre de jours maxi pour les graphes de tendances"
 msgid "Media"
 msgstr "Media"
 
+msgid "Media IDs"
+msgstr "IDs des media"
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr "Medium"
@@ -3355,7 +3422,7 @@ msgstr "Nom"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Os family"
-msgstr "Famille de systèmes d'exploitations"
+msgstr "Famille de systèmes d'exploitation"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Path"
@@ -3483,9 +3550,6 @@ msgstr "Périphériques réseau"
 msgid "Network type"
 msgstr "Type de réseau"
 
-msgid "Networks"
-msgstr "Réseaux"
-
 msgid "New"
 msgstr "Nouveau"
 
@@ -3502,13 +3566,13 @@ msgid "New Bookmark"
 msgstr "Nouveau marque-page"
 
 msgid "New Compute Profile"
-msgstr "Nouveau Profile d'Ordinateur"
+msgstr "Nouveau Profil d'Ordinateur"
 
 msgid "New Compute Resource"
 msgstr "Nouvelle Ressource d'Ordinateur"
 
 msgid "New Compute profile"
-msgstr "Nouveau profile d'Ordinateur"
+msgstr "Nouveau profil d'Ordinateur"
 
 msgid "New Config Group"
 msgstr "Nouveau groupe de configuration"
@@ -3610,7 +3674,7 @@ msgid "New authentication source"
 msgstr "Nouvelle source d'authentification"
 
 msgid "New compute profile on %s"
-msgstr "Nouveau profile d'Ordinateur pour %s"
+msgstr "Nouveau profil d'Ordinateur pour %s"
 
 msgid "New compute resource"
 msgstr "Nouvelle Ressource d'Ordinateur"
@@ -3664,7 +3728,7 @@ msgid "No changes found when refreshing features from %s."
 msgstr "Aucun changement trouvé suite au rafraichissement des fonctions de %s"
 
 msgid "No changes to your environments detected"
-msgstr "Aucune changement détécté sur votre environnement"
+msgstr "Aucun changement détecté dans vos environnements"
 
 msgid "No compute resource to show"
 msgstr "Aucune ressource à afficher"
@@ -3784,7 +3848,7 @@ msgid "None Found"
 msgstr "Rien trouvé"
 
 msgid "Not Found"
-msgstr "Pas trouvé"
+msgstr "Non trouvé"
 
 msgid "Not Installed"
 msgstr "Non installé"
@@ -3802,7 +3866,7 @@ msgid "Not relevant for snippet"
 msgstr "Mauvais type de Snippet"
 
 msgid "Note: %s "
-msgstr "Note: %s"
+msgstr "Note : %s"
 
 msgid "Nothing to restore"
 msgstr "Rien à restaurer"
@@ -3876,7 +3940,7 @@ msgid "OK|O"
 msgstr "O"
 
 msgid "OS Distribution"
-msgstr "Distribution du système d'exploitation"
+msgstr "Répartition du système d'exploitation"
 
 msgid "OS Family"
 msgstr "Famille du système d'exploitation"
@@ -3952,7 +4016,7 @@ msgid "Operating System version is required"
 msgstr "La version du Système d'Exploitation est nécessaire "
 
 msgid "Operating Systems"
-msgstr "Systèmes d'Exploitations"
+msgstr "Systèmes d'Exploitation"
 
 msgid "Operating system"
 msgstr "Système d'exploitation"
@@ -3964,7 +4028,7 @@ msgid "Operating system family, available values: %{operatingsystem_families}"
 msgstr "Famille du système d'exploitation, valeurs disponibles : %{operatingsystem_families}"
 
 msgid "Operating systems"
-msgstr "Systèmes d'exploitations"
+msgstr "Systèmes d'exploitation"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem"
@@ -4007,9 +4071,12 @@ msgid "Optional array of log hashes"
 msgstr "Optionnel : tableau de hash des logs"
 
 msgid ""
-"Optional comma-deliminated string containing either 'new,updated,obsolete' "
-"used to limit the import_puppetclasses actions"
-msgstr "Optionnel : liste de chaines séparées par des virgules parmi 'new, updated, obsolete' utilisée pour limiter les actions de la fonction import_puppetclasses "
+"Optional comma-delimited string containing either 'new', 'updated', or "
+"'obsolete' that is used to limit the imported Puppet classes"
+msgstr "Optionnel : liste de mots séparées par des virgules parmi 'new, updated, obsolete' utilisée pour limiter les classes Puppet importées"
+
+msgid "Optional input validator"
+msgstr "Option de validation d'entrée"
 
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
@@ -4073,6 +4140,9 @@ msgstr "Surcharger un paramètre de la classe Puppet"
 msgid "Override this value"
 msgstr "Surcharger cette valeur"
 
+msgid "Override value for specific hosts"
+msgstr "Surcharger une valeur pour des hôtes spécifiques"
+
 msgid "Overview"
 msgstr "Vue globale"
 
@@ -4109,6 +4179,9 @@ msgstr "Nom du paramètre"
 
 msgid "Parameter type"
 msgstr "Type du paramètre"
+
+msgid "Parameter types"
+msgstr "types de paramètre"
 
 msgid "Parameters"
 msgstr "Paramètres"
@@ -4331,6 +4404,9 @@ msgstr "Le contenu du modèle de provisionnement a changé %s"
 msgid "Provisioning Templates"
 msgstr "Modèles de provisionnement"
 
+msgid "Provisioning template IDs"
+msgstr "IDs des modèles de provisionnement"
+
 msgid "Provisioning templates"
 msgstr "Modèles de provisionnement"
 
@@ -4354,7 +4430,7 @@ msgstr "Nom"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Os family"
-msgstr "Famille de systèmes d'exploitations"
+msgstr "Famille de systèmes d'exploitation"
 
 msgid "Public"
 msgstr "Public"
@@ -4445,6 +4521,9 @@ msgstr "Royaume"
 msgid "Realm Configuration"
 msgstr "Configuration du royaume"
 
+msgid "Realm IDs"
+msgstr "IDs des royaumes"
+
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr "Nom du royaume, p. e. EXAMPLE.COM"
 
@@ -4481,6 +4560,9 @@ msgstr "Redirige vos utilisateurs sur cette URL à la déconnexion (authorize_lo
 
 msgid "Refresh"
 msgstr "Rafraichir"
+
+msgid "Refresh external user group"
+msgstr "Rafraîchir un groupe d'utilisateur externe"
 
 msgid "Refresh features"
 msgstr "Rafraichir les fonctions"
@@ -4720,7 +4802,7 @@ msgid "Select Action"
 msgstr "Choisir l'action"
 
 msgid "Select All"
-msgstr "Tout choisir"
+msgstr "Tout sélectionner"
 
 msgid "Select Hosts"
 msgstr "Choisir les Hôtes"
@@ -4994,6 +5076,9 @@ msgstr "Afficher un audit"
 msgid "Show an environment"
 msgstr "Afficher un environnement"
 
+msgid "Show an external user group for user group"
+msgstr "Afficher les goupe d'utilisateurs externe pour un groupe d'utilisateurs"
+
 msgid "Show an image"
 msgstr "Afficher une image"
 
@@ -5010,7 +5095,7 @@ msgid "Show available API links"
 msgstr "Afficher les liens disponibles de l'API "
 
 msgid "Show distribution chart"
-msgstr "Afficher le diagramme des distributions"
+msgstr "Afficher le diagramme des répartitions"
 
 msgid "Show host facts"
 msgstr "Afficher les facts de l'hôte"
@@ -5076,6 +5161,9 @@ msgstr "Smart Proxies"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Smart proxy"
 msgstr "Smart proxy"
+
+msgid "Smart proxy IDs"
+msgstr "IDs des Smart proxies"
 
 msgid "Smart variables"
 msgstr "Smart variables"
@@ -5167,6 +5255,9 @@ msgstr "Soumettre"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "Sous-Réseau"
+
+msgid "Subnet IDs"
+msgstr "IDs des sous-réseaux"
 
 msgid "Subnet name"
 msgstr "Nom du sous réseau"
@@ -5309,7 +5400,7 @@ msgid "Template"
 msgstr "Modèle"
 
 msgid "Template / Compute Profile to use"
-msgstr "Modèle / Profile d'Ordinateurs à utiliser"
+msgstr "Modèle / Profil d'Ordinateur à utiliser"
 
 msgid "Template Diff"
 msgstr "Diff du Modème"
@@ -5355,7 +5446,7 @@ msgstr "Le champ <b>nom complet</b> est utilisé pour faciliter la lecture humai
 msgid ""
 "The Audit Comment field is saved with the template auditing to document the "
 "template changes"
-msgstr "Le champ Commentaire d'Audit est sauvé avec l'audit duu modèle lors des changements du modèle"
+msgstr "Le champ Commentaire d'Audit est sauvé avec l'audit du modèle lors des changements du modèle"
 
 msgid ""
 "The IP address that should be used for the console listen address when "
@@ -5590,7 +5681,7 @@ msgstr "Ce modèle est bloqué en edition"
 
 msgid ""
 "This template is locked. Please clone it to a new template to customize."
-msgstr "Ce modèle est bloqué. Veuillez le cloner dans un nouveau modèle pour le personnaliser"
+msgstr "Ce modèle est verrouillé. Veuillez le cloner vers un nouveau modèle pour personnaliser ce dernier."
 
 msgid "This template is owned by %s and may not be unlocked."
 msgstr "Ce modèle appartient à %s et n'est peut être pas déverrouillable. "
@@ -6025,6 +6116,9 @@ msgstr "Mise à jour d'une valeur surchargée pour un paramètre smart class"
 msgid "Update an override value for a specific smart variable"
 msgstr "Mise à jour d'une valeur surchargée pour une smart variable"
 
+msgid "Update external user group"
+msgstr "Mettre à jour un groupe d'utilisateur externe"
+
 msgid "Update realm entry for %s"
 msgstr "Mise à jour de l'entrée du royaume pour %s"
 
@@ -6077,6 +6171,9 @@ msgstr "Authentification utilisateur"
 
 msgid "User Groups"
 msgstr "Groupes utilisateurs"
+
+msgid "User IDs"
+msgstr "IDs des utilisateurs"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User fact"
@@ -6175,7 +6272,7 @@ msgstr "Nom d'utilisateur"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Mail"
-msgstr "Mail"
+msgstr "Adresse Mail"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Organizations andor"
@@ -6240,6 +6337,9 @@ msgstr "Combinaison valide de groupe d'hôtes et d'environnement"
 msgid "Validation types"
 msgstr "Types de validation"
 
+msgid "Validator type"
+msgstr "Type validateur"
+
 msgid "Value"
 msgstr "Valeur"
 
@@ -6303,7 +6403,7 @@ msgstr "Attention !"
 msgid ""
 "Warning: This template is locked. You may only change the associations. "
 "Please %s it to customize."
-msgstr "Attention: Ce modèle est bloqué. Vous pouvez seulement changer les associations. Veuillez le %s pour le personnaliser."
+msgstr "Attention: Ce modèle est verrouillé. Vous pouvez seulement changer les associations. Veuillez le %s pour le personnaliser."
 
 msgid "Warnings and errors"
 msgstr "Warnings et Erreurs"
@@ -6533,8 +6633,14 @@ msgstr "et"
 msgid "and relevant log entries."
 msgstr "et les entrées de log correspondantes."
 
+msgid "array"
+msgstr "tableau"
+
 msgid "belongs to config group"
 msgstr "appartient au groupe de configuration"
+
+msgid "boolean"
+msgstr "booléen"
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr "périphérique de démarrage. Les périphériques valides sont : disk, cdrom, pxe, bios"
@@ -6567,7 +6673,7 @@ msgid "cant be blank unless a custom partition has been defined"
 msgstr "ne peut être vide à moins qu'un partitionnement spécifique n'ait été défini"
 
 msgid "clone"
-msgstr "Clone"
+msgstr "clone"
 
 msgid "comments powered by %{disqus}"
 msgstr "commentaires crées par %{disqus}"
@@ -6659,6 +6765,9 @@ msgstr "filtrer les résultats"
 msgid "for EC2 only"
 msgstr "Seulement pour EC2"
 
+msgid "for Libvirt and Vmware only"
+msgstr ""
+
 msgid "for Openstack only"
 msgstr "Seulement pour Openstack"
 
@@ -6689,6 +6798,9 @@ msgstr "possède déjà ce groupe"
 msgid "has this role already"
 msgstr "possède déjà ce rôle"
 
+msgid "hash"
+msgstr "hash"
+
 msgid "hash containing the facts for the host"
 msgstr "hash contenant les facts de cet hôte"
 
@@ -6712,6 +6824,9 @@ msgstr "En cours"
 
 msgid "included already from parent"
 msgstr "déjà inclus depuis le parent"
+
+msgid "integer"
+msgstr "entier"
 
 msgid "interface information"
 msgstr "information de l'interface"
@@ -6797,6 +6912,9 @@ msgstr "traqueur de bogue"
 msgid "items selected. Uncheck to Clear"
 msgstr "items sélectionnés. Décocher pour Effacer"
 
+msgid "json"
+msgstr "json"
+
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] "le %s dernier jour"
@@ -6804,6 +6922,9 @@ msgstr[1] "les %s derniers jours"
 
 msgid "link external user group with this user group"
 msgstr "joindre un group d'utilisateur externe avec ce groupe d'utilisateur"
+
+msgid "list"
+msgstr "liste"
 
 #. Provide locale name in native language (e.g. English, Deutsch or Português)
 msgid "locale_name"
@@ -6927,8 +7048,14 @@ msgstr "éteindre"
 msgid "puppet class browser"
 msgstr "Navigateur de classes Puppet"
 
+msgid "real"
+msgstr "réel"
+
 msgid "reboot"
 msgstr "redémarrer"
+
+msgid "regexp"
+msgstr "regexp"
 
 msgid "remove network interface"
 msgstr "supprimer l'interface réseau"
@@ -6976,7 +7103,7 @@ msgid "should follow this format: 0,9600n8"
 msgstr "devrait suivre ce format : 0,9600n8"
 
 msgid "should not be blank - consider setting a global or host group default"
-msgstr "Ne doit pas être vide - songez à définir un groupe d'hôtes global ou un groupe d'hôtes par défaut"
+msgstr "ne doit pas être vide - songez à définir un groupe d'hôtes global ou un groupe d'hôtes par défaut"
 
 msgid "soft"
 msgstr "logiciel"
@@ -6995,6 +7122,9 @@ msgstr "status"
 
 msgid "stop"
 msgstr "Arrêt"
+
+msgid "string"
+msgstr "chaîne"
 
 msgid "template name"
 msgstr "Nom de modèle"
@@ -7056,6 +7186,9 @@ msgstr "utilise %{allocation} Go sur %{capacity} Go, pool de stockage %{pool_nam
 
 msgid "valid"
 msgstr "valide"
+
+msgid "yaml"
+msgstr "yaml"
 
 msgid "you may use %s"
 msgstr "Vous pouvez utiliser %s"

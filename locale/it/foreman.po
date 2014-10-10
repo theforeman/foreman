@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-28 10:58+0100\n"
-"PO-Revision-Date: 2014-09-15 17:00+0000\n"
-"Last-Translator: Dominic Cleal <dcleal@redhat.com>\n"
+"POT-Creation-Date: 2014-10-07 11:26+0100\n"
+"PO-Revision-Date: 2014-10-08 10:11+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/foreman/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -854,6 +854,10 @@ msgstr "Cancella la richiesta di creazione per questo host"
 
 msgid "Canceled pending build for %s"
 msgstr "Compilazione in attesa cancellata per %s"
+
+msgid ""
+"Cannot create LDAP configuration for %s without dedicated service account"
+msgstr ""
 
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "Impossibile rimuovere %{current} poichè presenta %{sti_name} nidificati."
@@ -2848,6 +2852,9 @@ msgstr ""
 msgid "Invalid Host"
 msgstr "Host non valido"
 
+msgid "Invalid authenticity token"
+msgstr ""
+
 msgid "Invalid log level: %s"
 msgstr "Livello registrazione non valido: %s"
 
@@ -3527,9 +3534,6 @@ msgstr "Interfaccia di rete"
 
 msgid "Network type"
 msgstr "Tipo di rete"
-
-msgid "Networks"
-msgstr "Reti"
 
 msgid "New"
 msgstr "Nuovo"
@@ -6744,6 +6748,9 @@ msgid "filter results"
 msgstr ""
 
 msgid "for EC2 only"
+msgstr ""
+
+msgid "for Libvirt and Vmware only"
 msgstr ""
 
 msgid "for Openstack only"
