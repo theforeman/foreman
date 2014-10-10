@@ -14,4 +14,5 @@ group :assets do
   gem 'locale', '<= 2.0.9'
   gem "multi-select-rails", "~> 0.9.10"
   gem 'gridster-rails'
+  gem 'jquery_pwstrength_bootstrap'
 end
