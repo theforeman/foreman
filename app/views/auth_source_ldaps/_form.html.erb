@@ -19,6 +19,7 @@
       <%= select_f f, :server_type, AuthSourceLdap::SERVER_TYPES, :first, :last,
                     { :include_blank => _("Choose a server type") },
                     { :label => _('Server type') } %>
+
     </div>
     <div class="tab-pane" id="account">
       <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe %>
@@ -28,6 +29,9 @@
       <%= text_f f, :ldap_filter, :label => _("LDAP filter"), :help_inline => _("Custom LDAP search filter, <i>optional</i>").html_safe, :size => "col-md-8" %>
       <%= checkbox_f f, :onthefly_register,
                         :help_inline => _("LDAP users will have their Foreman account automatically created the first time they log into Foreman") %>
+      <%= select_f f, :default_roles, Role.givable.for_current_user, :id, :name,
+                    {},
+                    { :label => _('Default Roles') , :help_inline => _("Default Roles for all users who authenticate/register using this authentication source, <i>optional</i>").html_safe , :multiple => true } %>
     </div>
     <div class="tab-pane" id="attributes">
       <%= text_f f, :attr_login, :help_inline => _("e.g. uid") %>

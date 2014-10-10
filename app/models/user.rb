@@ -216,7 +216,6 @@ class User < ActiveRecord::Base
   def self.find_or_create_external_user(attrs, auth_source_name)
     external_groups = attrs.delete(:groups)
     auth_source = AuthSource.find_by_name(auth_source_name)
-
     # existing user, we'll update them
     if (user = unscoped.find_by_login(attrs[:login]))
       # we know this auth source and it's user's auth source, we'll update user attributes
@@ -240,6 +239,26 @@ class User < ActiveRecord::Base
         user = User.create!(attrs.merge(:auth_source => auth_source))
         if external_groups.present?
           user.usergroups = auth_source.external_usergroups.where(:name => external_groups).map(&:usergroup).uniq
+        end
+        # If the authsource is of type AuthSourceLdap
+        if auth_source.class.name == "AuthSourceLdap"
+          p auth_source.class.name
+          # If the auth_source has a default_role configured
+          if auth_source.default_roles.length > 1
+            # if the default_roles of the auth_source has more than just the 
+            # blank serialized array.
+            # Then iterate through all the elements, and if you find a value
+            # which validates as the role_id, then add the corresponding role 
+            # to the user roles
+            auth_source.default_roles.each do |r|
+              #Only deal with integral numbers which is also a valid role_id 
+              if r.to_i.to_s == r && Role.exists?(r.to_i)
+                #Add the role to the users role if its not present already
+                role = Role.find(r.to_i)
+                user.roles << role unless user.role_ids.include?(role.id)
+              end
+            end
+          end
         end
         user.post_successful_login
       end
@@ -373,6 +392,28 @@ class User < ActiveRecord::Base
       user.login = login
       # The default user can't auto create users, we need to change to Admin for this to work
       User.as_anonymous_admin do
+        #In case of AuthSourceLdap instantiate the User roles based on the default_roles if present
+        auth_source = user.auth_source
+        # If the authsource is of type AuthSourceLdap
+        if auth_source.class.name == "AuthSourceLdap"
+          # If the auth_source has a default_role configured
+          if auth_source.default_roles.length > 1
+            # if the default_roles of the auth_source has more than just the 
+            # blank serialized array.
+            # Then iterate through all the elements, and if you find a value
+            # which validates as the role_id, then add the corresponding role 
+            # to the user roles
+            auth_source.default_roles.each do |r|
+              #Only deal with integral numbers which is also a valid role_id 
+              if r.to_i.to_s == r && Role.exists?(r.to_i)
+                #Add the role to the users role if its not present already
+                role = Role.find(r.to_i)
+                user.roles << role unless user.role_ids.include?(role.id)
+              end
+            end
+          end
+        end
+
         if user.save
           AuthSource.find(attrs[:auth_source_id]).update_usergroups(login, password)
           logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
