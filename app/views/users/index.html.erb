@@ -1,7 +1,5 @@
-<%= stylesheet_link_tag 'password_strength' %>
-<%= javascript 'password_strength' %>
-
-<%= javascript 'users' %>
+<%= javascript 'users', 'password_strength' %>
+<%= stylesheet 'password_strength' %>
 <% title _("Users") %>
 
 <% title_actions  display_link_if_authorized(_("New User"), hash_for_new_user_path) %>
