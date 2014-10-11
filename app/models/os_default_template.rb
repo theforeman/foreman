@@ -8,4 +8,8 @@ class OsDefaultTemplate < ActiveRecord::Base
   def name
     "#{operatingsystem} - #{template_kind}"
   end
+
+  def to_label
+    name
+  end
 end

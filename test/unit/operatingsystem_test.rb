@@ -321,4 +321,29 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   end
 
+  context 'os default templates' do
+    setup do
+      @template_kind = FactoryGirl.create(:template_kind)
+      @config_template = FactoryGirl.create(:config_template, :template_kind_id => @template_kind.id)
+      @os = operatingsystems(:centos5_3)
+      @os.update_attributes(:os_default_templates_attributes =>
+                               [{ :config_template_id => @config_template.id, :template_kind_id => @template_kind.id }]
+      )
+    end
+
+    test 'should create os default templates' do
+      assert_valid @os
+      assert_equal(@os.os_default_templates.last.template_kind_id, @template_kind.id)
+      assert_equal(@os.os_default_templates.last.config_template_id, @config_template.id)
+    end
+
+    test 'should remove os default template' do
+      # Association deleted, yet template_kind and config_template not.
+      assert_difference('@os.os_default_templates.length', -1) do
+        @os.update_attributes(:os_default_templates_attributes => { :id => @os.os_default_templates.last.id, :_destroy => 1 })
+      end
+      assert_valid @template_kind
+      assert_valid @config_template
+    end
+  end
 end
