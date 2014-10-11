@@ -271,7 +271,7 @@ class ApplicationController < ActionController::Base
     logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" if hash[:object].respond_to?(:errors)
     hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| _("Conflict - %s") % e}].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten
-    hash[:error_msg] = hash[:error_msg].join("<br/>")
+    hash[:error_msg] = hash[:error_msg].to_sentence
     if hash[:render]
       flash.now[:error] = CGI::escapeHTML(hash[:error_msg]) unless hash[:error_msg].empty?
       render hash[:render]

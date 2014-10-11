@@ -40,6 +40,7 @@ class ActiveRecord::Base
     def before_destroy(record)
       klasses.each do |klass|
         record.send(klass.to_sym).each do |what|
+          what = what.to_label unless what.is_a? String
           record.errors.add :base, _("%{record} is used by %{what}") % { :record => record, :what => what }
         end
       end

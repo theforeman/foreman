@@ -19,7 +19,7 @@ class Operatingsystem < ActiveRecord::Base
   has_and_belongs_to_many :config_templates
   has_many :os_default_templates, :dependent => :destroy
   accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,
-    :reject_if => lambda { |v| v[:config_template_id].blank? }
+    :reject_if => :reject_empty_config_template
 
   validates :major, :numericality => {:greater_than_or_equal_to => 0}, :presence => { :message => N_("Operating System version is required") }
   has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :operatingsystem
@@ -252,6 +252,13 @@ class Operatingsystem < ActiveRecord::Base
     eval("#{self.family}::PXEFILES").values.collect do |img|
       medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
     end
+  end
+
+  def reject_empty_config_template(attributes)
+    template_exists = attributes[:id].present?
+    config_template_id_empty = attributes[:config_template_id].blank?
+    attributes.merge!({:_destroy => 1}) if template_exists && config_template_id_empty
+    (!template_exists && config_template_id_empty)
   end
 
 end
