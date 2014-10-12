@@ -118,6 +118,9 @@ cat > /etc/puppet/puppet.conf << EOF
 EOF
 
 # Setup puppet to run on system reboot
+test -x /usr/bin/systemctl && \
+    /usr/bin/systemctl list-unit-files | grep -q ^puppetagent\.service && \
+    /usr/bin/systemctl enable puppetagent.service || \
 /sbin/chkconfig --level 345 puppet on
 
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
