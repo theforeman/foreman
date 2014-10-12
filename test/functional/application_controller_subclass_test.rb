@@ -116,7 +116,7 @@ class TestableControllerTest < ActionController::TestCase
       assert_equal @response.headers['X-Content-Type-Options'], 'nosniff'
       assert_equal @response.headers['Content-Security-Policy'], \
         "default-src 'self'; connect-src 'self'; font-src 'self'; " +
-        "frame-src 'self'; img-src 'self' data:; media-src 'self'; " +
+        "frame-src 'self'; img-src 'self' *.gravatar.com data:; media-src 'self'; " +
         "object-src 'self'; script-src 'unsafe-eval' 'unsafe-inline' " +
         "'self'; style-src 'unsafe-inline' 'self';"
     end

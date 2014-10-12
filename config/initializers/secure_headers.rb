@@ -15,6 +15,7 @@
     :frame_src   => 'self',
     :connect_src => 'self',
     :style_src   => 'inline self',
-    :script_src  => 'eval inline self'
+    :script_src  => 'eval inline self',
+    :img_src     => ['self', '*.gravatar.com']
   }
 end
