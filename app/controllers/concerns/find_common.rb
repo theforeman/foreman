@@ -15,7 +15,7 @@ module FindCommon
   end
 
   def resource_class
-    @resource_class ||= resource_name.classify.constantize
+    @resource_class ||= controller_path.singularize.classify.constantize
   end
 
   def resource_scope(controller = controller_name)
