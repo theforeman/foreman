@@ -13,7 +13,6 @@ class Host::Managed < Host::Base
   accepts_nested_attributes_for :host_parameters, :allow_destroy => true
   include ParameterValidators
   belongs_to :owner, :polymorphic => true
-  belongs_to :compute_resource
   belongs_to :image
 
   belongs_to :location

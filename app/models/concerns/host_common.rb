@@ -21,6 +21,7 @@ module HostCommon
     belongs_to :realm,           :counter_cache => counter_cache
     belongs_to :subnet
     belongs_to :compute_profile
+    belongs_to :compute_resource
 
     before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
 
