@@ -20,13 +20,18 @@ module Api
       end
 
       def_param_group :taxonomies do
-        param :location_ids, Array, :required => false, :desc => N_("REPLACE locations with given ids") if SETTINGS[:locations_enabled]
-        param :organization_ids, Array, :required => false, :desc => N_("REPLACE organizations with given ids.") if SETTINGS[:organizations_enabled]
+        param :location_ids, Array, :required => false, :desc => N_("REPLACE locations with given IDs") if SETTINGS[:locations_enabled]
+        param :organization_ids, Array, :required => false, :desc => N_("REPLACE organizations with given IDs") if SETTINGS[:organizations_enabled]
       end
 
       def_param_group :taxonomy_scope do
         param :location_id, Integer, :required => false, :desc => N_("Scope by locations") if SETTINGS[:locations_enabled]
         param :organization_id, Integer, :required => false, :desc => N_("Scope by organizations") if SETTINGS[:organizations_enabled]
+      end
+
+      def_param_group :taxonomies_associations do
+        param :locations, Array, :required => false, :desc => N_("Array of location IDs") if SETTINGS[:locations_enabled]
+        param :organizations, Array, :required => false, :desc => N_("Array of organization IDs") if SETTINGS[:organizations_enabled]
       end
 
       before_filter :setup_has_many_params, :only => [:create, :update]

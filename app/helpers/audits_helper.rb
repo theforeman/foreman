@@ -4,13 +4,15 @@ module AuditsHelper
                    Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup)
 
   # lookup the Model representing the numerical id and return its label
-  def id_to_label(name, change)
+  def id_to_label(name, change, owner_type = nil)
     return _("N/A") if change.nil?
     case name
       when "ancestry"
         change.blank? ? "" : change.split('/').map { |i| Hostgroup.find(i).name rescue _("NA") }.join('/')
       when 'last_login_on'
         change.to_s(:short)
+      when 'owner_id'
+        owner_type == 'User' ? User.find(change).to_label : Usergroup.find(change).to_label
       when /.*_id$/
         name.classify.gsub('Id','').constantize.find(change).to_label
       else
@@ -47,11 +49,16 @@ module AuditsHelper
         end
       end
     elsif !main_object? audit
-      ["#{audit_action_name(audit).humanize} #{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]}
-       #{audit_action_name(audit)=="removed" ? "from" : "to"} #{audit.associated_name || id_to_label(audit.audited_changes.keys[1], audit.audited_changes.values[1])}"]
+      ["#{audit_action_name(audit).humanize} #{id_to_label(audit.audited_changes.keys[0], audit.audited_changes.values[0], owner_type(audit))}
+       #{audit_action_name(audit)=="removed" ? "from" : "to"} #{audit.associated_name || id_to_label(audit.audited_changes.keys[1], audit.audited_changes.values[1], owner_type(audit))}"]
     else
       []
     end
+  end
+
+
+  def owner_type(audit)
+    audit.audited_changes['owner_type'] if audit.audited_changes.keys.include?('owner_type')
   end
 
   def audit_template?(audit)

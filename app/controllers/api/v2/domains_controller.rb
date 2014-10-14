@@ -75,6 +75,23 @@ module Api
         process_response @domain.destroy
       end
 
+      api :POST, "/domains/:domain_id/links/subnets", N_("Add subnet to domain")
+      api :POST, "/domains/:domain_id/links/locations", N_("Add location to domain")
+      api :POST, "/domains/:domain_id/links/organizations", N_("Add organization to domain")
+      param :domain_id, :identifier, :required => true
+      param :subnets, Array, :required => false, :desc => N_("Array of subnet IDs")
+      param_group :taxonomies_associations, ::Api::V2::BaseController
+      def add
+      end
+
+      api :DELETE, "/domains/:domain_id/links/subnets/:id", N_("Remove subnet from domain")
+      api :DELETE, "/domains/:domain_id/links/locations/:id", N_("Remove location from domain")
+      api :DELETE, "/domains/:domain_id/links/organizations/:id", N_("Remove organization from domain")
+      param :domain_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def allowed_nested_id

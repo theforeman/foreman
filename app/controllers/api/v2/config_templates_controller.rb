@@ -84,6 +84,23 @@ module Api
         render :json => msg, :status => status
       end
 
+      api :POST, "/config_templates/:config_template_id/links/operatingsystems", N_("Add operating system to provisioning template")
+      api :POST, "/config_templates/:config_template_id/links/locations", N_("Add location to provisioning template")
+      api :POST, "/config_templates/:config_template_id/links/organizations", N_("Add organization to provisioning template")
+      param :config_template_id, :identifier, :required => true
+      param :operatingsystems, Array, :required => false, :desc => N_("Array of operating system IDs")
+      param_group :taxonomies_associations, ::Api::V2::BaseController
+      def add
+      end
+
+      api :DELETE, "/config_templates/:config_template_id/links/operatingsystems/:id", N_("Remove operating system from provisioning template")
+      api :DELETE, "/config_templates/:config_template_id/links/locations/:id", N_("Remove location from provisioning template")
+      api :DELETE, "/config_templates/:config_template_id/links/organizations/:id", N_("Remove organization from provisioning template")
+      param :config_templates, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def process_operatingsystems

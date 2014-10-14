@@ -169,6 +169,21 @@ Return value may either be one of the following:
         render :json => {'message'=>e.to_s}, :status => :unprocessable_entity
       end
 
+      api :POST, "/hosts/:host_id/links/puppetclasses", N_("Add puppetclass to host")
+      api :POST, "/hosts/:host_id/links/config_groups", N_("Add config group to host")
+      param :host_id, :identifier, :required => true
+      param :puppetclasses, Array, :required => false, :desc => N_("Array of puppetclass IDs")
+      param :config_groups, Array, :required => false, :desc => N_("Array of config group IDs")
+      def add
+      end
+
+      api :DELETE, "/hosts/:host_id/links/puppetclasses/:id", N_("Remove puppetclass from host")
+      api :DELETE, "/hosts/:host_id/links/config_groups/:id", N_("Remove config group from host")
+      param :host_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def action_permission

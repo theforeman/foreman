@@ -47,6 +47,21 @@ module Api
         process_response @role.destroy
       end
 
+      api :POST, "/roles/:role_id/links/users", N_("Add user to role")
+      api :POST, "/roles/:role_id/links/usergroups", N_("Add user to role")
+      param :role_id, :identifier, :required => true
+      param :users, Array, :required => false, :desc => N_("Array of IDs")
+      param :usergroups, Array, :required => false, :desc => N_("Array of IDs")
+      def add
+      end
+
+      api :DELETE, "/roles/:role_id/links/users/:id", N_("Remove user from role")
+      api :DELETE, "/roles/:role_id/links/usergroups/:id", N_("Remove usergroup from role")
+      param :role_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def allowed_nested_id

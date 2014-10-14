@@ -13,3 +13,8 @@ user_restricted_manage_hosts_role:
 user_restricted_manage_compute_resources:
   owner: restricted
   role_id: 11
+
+usergroup_superadmins_role:
+  owner_id: 1
+  owner_type: 'Usergroup'
+  role_id: 11

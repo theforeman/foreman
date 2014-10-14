@@ -92,6 +92,27 @@ module Api
         end
       end
 
+      api :POST, "/users/:user_id/links/roles", N_("Add role to user")
+      api :POST, "/users/:user_id/links/usergroups", N_("Add user group to user")
+      api :POST, "/users/:user_id/links/locations", N_("Add location to user")
+      api :POST, "/users/:user_id/links/organizations", N_("Add organization to user")
+      param :user_id, :identifier, :required => true
+      param :roles, Array, :required => false, :desc => N_("Array of IDs")
+      param :usergroups, Array, :required => false, :desc => N_("Array of IDs")
+      param :locations, Array, :required => false, :desc => N_("Array of location IDs")
+      param :organizations, Array, :required => false, :desc => N_("Array of organization IDs")
+      def add
+      end
+
+      api :DELETE, "/users/:user_id/links/roles/:id", N_("Remove role from user")
+      api :DELETE, "/users/:user_id/links/usergroups/:id", N_("Remove user group from user")
+      api :DELETE, "/users/:user_id/links/locations/:id", N_("Remove location from user")
+      api :DELETE, "/users/:user_id/links/organizations/:id", N_("Remove organization from user")
+      param :user_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def allowed_nested_id

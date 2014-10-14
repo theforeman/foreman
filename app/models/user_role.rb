@@ -16,6 +16,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class UserRole < ActiveRecord::Base
+
+  audited :associated_with => :role, :allow_mass_assignment => true
+
   belongs_to :owner, :polymorphic => true
   belongs_to :role
 

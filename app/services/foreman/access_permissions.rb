@@ -19,7 +19,8 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :edit_architectures,
                    :architectures => [:edit, :update],
                    :"api/v1/architectures" => [:update],
-                   :"api/v2/architectures" => [:update]
+                   :"api/v2/architectures" => [:update],
+                   :"api/v2/many_to_many" => [:create, :destroy]
     map.permission :destroy_architectures,
                    :architectures => [:destroy],
                    :"api/v1/architectures" => [:destroy],
@@ -483,7 +484,8 @@ Foreman::AccessControl.map do |permission_set|
                                        :"api/v1/operatingsystems" => [:update],
                                        :"api/v2/operatingsystems" => [:update],
                                        :"api/v2/parameters" => [:create, :update, :destroy, :reset],
-                                       :"api/v2/os_default_templates" => [:create, :update, :destroy]
+                                       :"api/v2/os_default_templates" => [:create, :update, :destroy],
+                                       :"api/v2/many_to_many" => [:create, :destroy]
                                      }
     map.permission :destroy_operatingsystems, {:operatingsystems => [:destroy],
                                              :"api/v1/operatingsystems" => [:destroy],
@@ -548,7 +550,9 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :create_roles,  {:roles => [:new, :create, :clone],
                                     :'api/v2/roles' => [:create]}
     map.permission :edit_roles,    {:roles => [:edit, :update],
-                                    :'api/v2/roles' => [:update]}
+                                    :'api/v2/roles' => [:update],
+                                    :'api/v2/many_to_many' => [:create, :destroy]
+                                   }
     map.permission :destroy_roles, {:roles => [:destroy],
                                     :'api/v2/roles' => [:destroy]}
   end
@@ -673,7 +677,8 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :edit_users,
                    :users => [:edit, :update].push(*ajax_actions),
                    :"api/v1/users" => [:update],
-                   :"api/v2/users" => [:update]
+                   :"api/v2/users" => [:update],
+                   :"api/v2/many_to_many" => [:create, :destroy]
     map.permission :destroy_users,
                    :users => [:destroy],
                    :"api/v1/users" => [:destroy],

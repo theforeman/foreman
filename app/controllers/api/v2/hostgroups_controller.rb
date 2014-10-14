@@ -79,6 +79,26 @@ module Api
         process_response @hostgroup.save
       end
 
+      api :POST, "/hostgroups/:hostgroup_id/links/locations", N_("Add location to host group")
+      api :POST, "/hostgroups/:hostgroup_id/links/organizations", N_("Add organization to host group")
+      api :POST, "/hosts/:host_id/links/puppetclasses", N_("Add puppetclass to host")
+      api :POST, "/hosts/:host_id/links/config_groups", N_("Add config group to host")
+      param :hostgroup_id, :identifier, :required => true
+      param_group :taxonomies_associations, ::Api::V2::BaseController
+      param :puppetclasses, Array, :required => false, :desc => N_("Array of puppetclass IDs")
+      param :config_groups, Array, :required => false, :desc => N_("Array of config group IDs")
+      def add
+      end
+
+      api :DELETE, "/hostgroups/:hostgroup_id/links/locations/:id", N_("Remove location from host group")
+      api :DELETE, "/hostgroups/:hostgroup_id/links/organizations/:id", N_("Remove organization from host group")
+      api :DELETE, "/hosts/:host_id/links/puppetclasses/:id", N_("Remove puppetclass from host")
+      api :DELETE, "/hosts/:host_id/links/config_groups/:id", N_("Remove config group from host")
+      param :hostgroup_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def action_permission

@@ -378,6 +378,65 @@ Foreman::Application.routes.draw do
       end
       get 'orchestration/(:id)/tasks', :to => 'tasks#index'
       resources :plugins, :only => [:index]
+
+      # many-to-many routes
+      post   'architectures/:architecture_id/links/:association', :to => 'many_to_many#create'
+      delete 'architectures/:architecture_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'compute_resources/:compute_resource_id/links/:association', :to => 'many_to_many#create'
+      delete 'compute_resources/:compute_resource_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'config_templates/:config_template_id/links/:association', :to => 'many_to_many#create'
+      delete 'config_templates/:config_template_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'domains/:domain_id/links/:association', :to => 'many_to_many#create'
+      delete 'domains/:domain_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'environments/:environment_id/links/:association', :to => 'many_to_many#create'
+      delete 'environments/:environment_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'hosts/:host_id/links/:association', :to => 'many_to_many#create'
+      delete 'hosts/:host_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'hostgroups/:hostgroup_id/links/:association', :to => 'many_to_many#create'
+      delete 'hostgroups/:hostgroup_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'locations/:location_id/links/:association', :to => 'many_to_many#create'
+      delete 'locations/:location_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'media/:medium_id/links/:association', :to => 'many_to_many#create'
+      delete 'media/:medium_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'operatingsystems/:operatingsystem_id/links/:association', :to => 'many_to_many#create'
+      delete 'operatingsystems/:operatingsystem_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'organizations/:organization_id/links/:association', :to => 'many_to_many#create'
+      delete 'organizations/:organization_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'ptables/:ptable_id/links/:association', :to => 'many_to_many#create'
+      delete 'ptables/:ptable_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'ptables/:ptable_id/links/:association', :to => 'many_to_many#create'
+      delete 'ptables/:ptable_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'realms/:realm_id/links/:association', :to => 'many_to_many#create'
+      delete 'realms/:realm_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'roles/:role_id/links/:association', :to => 'many_to_many#create'
+      delete 'roles/:role_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'smart_proxies/:smart_proxy_id/links/:association', :to => 'many_to_many#create'
+      delete 'smart_proxies/:smart_proxy_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'subnets/:subnet_id/links/:association', :to => 'many_to_many#create'
+      delete 'subnets/:subnet_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'usergroups/:usergroup_id/links/:association', :to => 'many_to_many#create'
+      delete 'usergroups/:usergroup_id/links/:association/:id', :to => 'many_to_many#destroy'
+
+      post   'users/:user_id/links/:association', :to => 'many_to_many#create'
+      delete 'users/:user_id/links/:association/:id', :to => 'many_to_many#destroy'
+
     end
   end
 end

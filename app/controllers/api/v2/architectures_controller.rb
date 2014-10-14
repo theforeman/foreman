@@ -49,6 +49,18 @@ module Api
         process_response @architecture.destroy
       end
 
+      api :POST, "/architectures/:architecture_id/links/operatingsystems", N_("Add operating system to architecture")
+      param :architecture_id, :identifier, :required => true
+      param :operatingsystems, Array, :required => true, :desc => N_("Array of operating system IDs")
+      def add
+      end
+
+      api :DELETE, "/architectures/:architecture_id/links/operatingsystems/:id", N_("Remove operating system from architecture")
+      param :architecture_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def allowed_nested_id
