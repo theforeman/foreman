@@ -89,11 +89,6 @@ module Api
         params[:config_template][:template] = t.read if t.respond_to?(:read)
       end
 
-      def default_template_url(template, hostgroup)
-        url_for :only_path => false, :action => :template, :controller => '/unattended',
-                :id        => template.name, :hostgroup => hostgroup.name
-      end
-
       def process_template_kind
         return unless params[:config_template] and (tk=params[:config_template].delete(:template_kind))
         params[:config_template][:template_kind_id] = tk[:id]
