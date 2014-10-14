@@ -81,8 +81,8 @@ module Api
         @per_page ||= params[:per_page].present? ? params[:per_page].to_i : Setting::General.entries_per_page
       end
 
-      # For the purpose of ADDINING/REMOVING associations in CHILD node on POST/PUT payload
-      # This method adds a magic method (_ids) based on the CHILD node ARRAY of OBJECTS
+      # For the purpose of ADDING/REMOVING associations in CHILD node on POST/PUT payload
+      # This method adds a Rails magic method ({association}_ids) based on the CHILD node ARRAY of OBJECTS
       # Example: PUT api/operatingsystems/24
       # {
       #   "operatingsystem": {
@@ -101,7 +101,7 @@ module Api
       #     }
       #  }
       #
-      #  magic method (architecture_ids) is added to params hash based on CHILD node (architectures)
+      #  Rails magic method (ex. architecture_ids) is added to params hash based on CHILD node (architectures)
       #
       #   "operatingsystem": {
       #     "id": 24,
@@ -109,17 +109,17 @@ module Api
       #     "architecture_ids": [1,2]
       #    }
       #
-      def append_magic_methods_to_params(hash_params)
+      def append_array_of_ids(hash_params)
         model_name = controller_name.singularize
         hash_params.dup.each do |k,v|
           if v.kind_of?(Array)
-            magic_method_ids = "#{k.singularize}_ids"
-            magic_method_names = "#{k.singularize}_names"
-            if resource_class.instance_methods.map(&:to_s).include?(magic_method_ids) && v.any? && v.all? { |a| a.keys.include?("id") }
-              params[model_name].merge!(magic_method_ids => v.map { |a| a["id"] })
+            association_name_ids = "#{k.singularize}_ids"
+            association_name_names = "#{k.singularize}_names"
+            if resource_class.instance_methods.map(&:to_s).include?(association_name_ids) && v.any? && v.all? { |a| a.keys.include?("id") }
+              params[model_name].merge!(association_name_ids => v.map { |a| a["id"] })
               params[model_name].except!(k)
-            elsif resource_class.instance_methods.map(&:to_s).include?(magic_method_names) && v.any? && v.all? { |a| a.keys.include?("name") }
-              params[model_name].merge!(magic_method_names => v.map { |a| a["name"] })
+            elsif resource_class.instance_methods.map(&:to_s).include?(association_name_names) && v.any? && v.all? { |a| a.keys.include?("name") }
+              params[model_name].merge!(association_name_names => v.map { |a| a["name"] })
               params[model_name].except!(k)
             end
           end
@@ -128,8 +128,8 @@ module Api
 
       def setup_has_many_params
         model_name = controller_name.singularize
-        append_magic_methods_to_params(params[model_name]) #wrapped params
-        append_magic_methods_to_params(params)             #unwrapped params
+        append_array_of_ids(params[model_name]) #wrapped params
+        append_array_of_ids(params)             #unwrapped params
       end
 
       def check_content_type
