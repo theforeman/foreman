@@ -6,6 +6,7 @@
 
   <ul class='nav nav-tabs' data-tabs='tabs'>
     <li class='active'><a href='#primary' data-toggle='tab'><%= _('User') %></a></li>
+    <li><a href='#mail_preferences' data-toggle='tab'><%= _('Mail Preferences') %></a></li>
     <% if show_location_tab? %>
       <li><a href='#locations' data-toggle='tab'><%= _('Locations') %></a></li>
     <% end %>
@@ -36,6 +37,20 @@
         <%= password_f f, :password_confirmation, :label => _('Verify') %>
       </div>
     </div>
+
+    <div class='tab-pane' id='mail_preferences'>
+      <%= checkbox_f f, :mail_enabled %> 
+      <% if @user.new_record? %>
+        <div class="alert alert-block alert-warning">
+          <p><strong><%= _("Notice") %></strong> <%= _("Please save the user first before assigning mail notifications.") %></p>
+        </div>
+      <% else %>
+        <%= f.fields_for :user_mail_notifications do |mail_form| %>
+          <%= render :partial => 'users/mail_notifications', :locals => { :f => mail_form }  %>
+        <% end %>
+      <% end %>
+    </div>
+
 
     <div class='tab-pane' id='roles'>
       <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>

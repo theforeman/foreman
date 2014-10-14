@@ -28,7 +28,9 @@ module Foreman::Controller::UsersMixin
                              :lastname,
                              :locale,
                              :default_organization_id,
-                             :default_location_id)
+                             :default_location_id,
+                             :mail_notification_ids,
+                             :mail_enabled)
 
         # Remove locale from the session when set to "Browser Locale" and editing self
         session.delete(:locale) if params[:user][:locale].try(:empty?)

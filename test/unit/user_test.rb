@@ -95,6 +95,22 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "Ali Al Salame", @user.to_label
   end
 
+  test "new internal user gets welcome mail" do
+    ActionMailer::Base.deliveries = []
+    Setting[:send_welcome_email] = true
+    User.create :auth_source => auth_sources(:internal), :login => "welcome", :mail  => "foo@example.com", :password => "qux", :mail_enabled => true
+    mail = ActionMailer::Base.deliveries.detect { |mail| mail.subject =~ /Welcome to Foreman/ }
+    assert mail
+    assert_match /Username/, mail.body.encoded
+  end
+
+  test "other auth sources don't get welcome mail" do
+    Setting[:send_welcome_email] = true
+    assert_no_difference "ActionMailer::Base.deliveries.size" do
+      User.create :auth_source => auth_sources(:one), :login => "welcome", :mail  => "foo@bar.com", :password => "qux"
+    end
+  end
+
   test ".try_to_login if password is empty should return nil" do
     assert_nil User.try_to_login("anything", "")
   end

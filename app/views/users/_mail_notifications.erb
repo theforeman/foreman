@@ -1,0 +1,2 @@
+<%= f.hidden_field :mail_notification_id, :value => f.object.mail_notification.id %>
+<%= select_f(f, :interval, MailNotification::INTERVALS, :to_s, :to_s, { :include_blank => _('No emails') }, {:label => _(f.object.mail_notification)}) %>

@@ -181,6 +181,16 @@ class UsergroupTest < ActiveSupport::TestCase
     refute_with_errors usergroup.destroy, usergroup, :base, /last admin user group/
   end
 
+  test "receipients_for provides e-mail of notification recipients" do
+    users = [FactoryGirl.create(:user, :with_mail_notification), FactoryGirl.create(:user)]
+    notification = users[0].mail_notifications.first.title
+    usergroup = FactoryGirl.create(:usergroup)
+    usergroup.users << users
+    recipients = usergroup.recipients_for(notification)
+    assert recipients.include? users[0].mail
+    assert_equal recipients.size, 1
+  end
+
   # TODO test who can modify usergroup roles and who can assign users!!! possible privileges escalation
 
   context 'external usergroups' do

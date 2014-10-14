@@ -27,6 +27,9 @@ class UsersController < ApplicationController
   def edit
     editing_self?
     @user = find_resource(:edit_users)
+    (MailNotification.authorized_as(@user, :view_mail_notifications).subscriptable - @user.mail_notifications).each do |mail_notification|
+      @user.user_mail_notifications.build(:mail_notification_id => mail_notification.id)
+    end
   end
 
   def update
