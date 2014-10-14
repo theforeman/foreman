@@ -40,6 +40,8 @@ class User < ActiveRecord::Base
   has_many :user_mail_notifications, :dependent => :destroy
   has_many :mail_notifications, :through => :user_mail_notifications
 
+  accepts_nested_attributes_for :user_mail_notifications, :allow_destroy => true, :reject_if => :reject_empty_intervals
+
   attr_name :login
 
   scope :except_admin, lambda {
@@ -420,6 +422,13 @@ class User < ActiveRecord::Base
 
   def normalize_mail
     self.mail.strip! unless mail.blank?
+  end
+
+  def reject_empty_intervals(attributes)
+    user_mail_notification_exists = attributes[:id].present?
+    interval_empty = attributes[:interval].blank?
+    attributes.merge!({:_destroy => 1}) if user_mail_notification_exists && interval_empty
+    (!user_mail_notification_exists && interval_empty)
   end
 
   protected

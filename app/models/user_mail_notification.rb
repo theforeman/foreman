@@ -1,5 +1,5 @@
 class UserMailNotification < ActiveRecord::Base
-  attr_accessible :last_sent, :mail_notification_id, :user_id
+  attr_accessible :last_sent, :mail_notification_id, :user_id, :interval
 
   belongs_to :user
   belongs_to :mail_notification

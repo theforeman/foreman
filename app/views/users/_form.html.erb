@@ -43,7 +43,9 @@
           <p><strong><%= _("Notice") %></strong> <%= _("Please save the user first before assigning mail notifications.") %></p>
         </div>
       <% else %>
-        <%= multiple_checkboxes f, :mail_notifications, @user, MailNotification.authorized_as(@user, :view_mail_notifications).subscriptable, {:label => _('Mail notifications')} %>
+        <%= f.fields_for :user_mail_notifications do |mail_form| %>
+          <%= render :partial => 'users/mail_notifications', :locals => { :f => mail_form }  %>
+        <% end %>
       <% end %>
     </div>
 
