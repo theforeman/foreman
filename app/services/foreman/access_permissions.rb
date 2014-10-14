@@ -14,12 +14,12 @@ Foreman::AccessControl.map do |map|
                    :"api/v2/architectures" => [:index, :show]
     map.permission :create_architectures,
                    :architectures => [:new, :create],
-                   :"api/v1/architectures" => [:new, :create],
-                   :"api/v2/architectures" => [:new, :create]
+                   :"api/v1/architectures" => [:create],
+                   :"api/v2/architectures" => [:create]
     map.permission :edit_architectures,
                    :architectures => [:edit, :update],
-                   :"api/v1/architectures" => [:edit, :update],
-                   :"api/v2/architectures" => [:edit, :update]
+                   :"api/v1/architectures" => [:update],
+                   :"api/v2/architectures" => [:update]
     map.permission :destroy_architectures,
                    :architectures => [:destroy],
                    :"api/v1/architectures" => [:destroy],

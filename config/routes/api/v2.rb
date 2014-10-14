@@ -6,11 +6,21 @@ Foreman::Application.routes.draw do
     # new v2 routes that point to v2
     scope "(:apiv)", :module => :v2, :defaults => {:apiv => 'v2'}, :apiv => /v1|v2/, :constraints => ApiConstraints.new(:version => 2) do
 
-      resources :architectures, :except => [:new, :edit]
+      resources :architectures, :except => [:new, :edit] do
+        constraints(:id => /[^\/]+/) do
+          resources :hosts, :except => [:new, :edit]
+        end
+        resources :hostgroups, :except => [:new, :edit]
+        resources :images, :except => [:new, :edit]
+        resources :operatingsystems, :except => [:new, :edit]
+      end
 
       resources :audits, :only => [:index, :show]
 
-      resources :auth_source_ldaps, :except => [:new, :edit]
+      resources :auth_source_ldaps, :except => [:new, :edit] do
+        resources :users, :except => [:new, :edit]
+        resources :external_usergroups, :except => [:new, :edit]
+      end
 
       resources :bookmarks, :except => [:new, :edit]
 
@@ -24,6 +34,8 @@ Foreman::Application.routes.draw do
           get 'revision'
         end
         resources :template_combinations, :only => [:index, :create]
+        resources :operatingsystems, :except => [:new, :edit]
+        resources :os_default_templates, :except => [:new, :edit]
       end
 
       resources :dashboard, :only => [:index]
@@ -42,6 +54,7 @@ Foreman::Application.routes.draw do
             resources :override_values, :except => [:new, :edit]
           end
         end
+        resources :hosts, :except => [:new, :edit]
       end
 
       resources :fact_values, :only => [:index]
@@ -63,11 +76,13 @@ Foreman::Application.routes.draw do
         end
         resources :puppetclasses, :except => [:new, :edit]
         resources :hostgroup_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
+        resources :hosts, :except => [:new, :edit]
       end
 
       resources :media, :except => [:new, :edit] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :operatingsystems, :except => [:new, :edit]
       end
 
       resources :models, :except => [:new, :edit]
@@ -81,7 +96,21 @@ Foreman::Application.routes.draw do
             end
           end
           resources :os_default_templates, :except => [:new, :edit]
+          resources :ptables, :except => [:new, :edit]
+          resources :architectures, :except => [:new, :edit]
+          resources :config_templates, :except => [:new, :edit]
+          resources :images, :except => [:new, :edit]
+          resources :media, :only => [:index, :show]
         end
+        resources :os_default_templates, :except => [:new, :edit]
+        resources :hosts, :except => [:new, :edit]
+        resources :hostgroups, :except => [:new, :edit]
+        resources :media, :except => [:new, :edit]
+        resources :ptables, :except => [:new, :edit]
+        resources :architectures, :except => [:new, :edit]
+        resources :puppetclasses, :except => [:new, :edit]
+        resources :config_templates, :except => [:new, :edit]
+        resources :os_default_templates, :except => [:new, :edit]
       end
 
       resources :puppetclasses, :except => [:new, :edit] do
@@ -96,10 +125,13 @@ Foreman::Application.routes.draw do
             resources :override_values, :except => [:new, :edit]
           end
         end
-        resources :hostgroups, :only => [:index]
+        resources :hostgroups, :only => [:index, :show]
+        resources :environments, :only => [:index, :show]
       end
 
-      resources :ptables, :except => [:new, :edit]
+      resources :ptables, :except => [:new, :edit] do
+        resources :operatingsystems, :except => [:new, :edit]
+      end
 
       resources :reports, :only => [:index, :show, :destroy] do
         get :last, :on => :collection
@@ -110,6 +142,7 @@ Foreman::Application.routes.draw do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         end
+        resources :users, :except => [:new, :edit]
       end
       resources :permissions, :only => [:index, :show] do
         collection do
@@ -144,6 +177,13 @@ Foreman::Application.routes.draw do
       resources :subnets, :except => [:new, :edit] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :domains, :except => [:new, :edit]
+        resources :interfaces, :except => [:new, :edit]
+      end
+
+      resources :usergroups, :except => [:new, :edit] do
+        resources :users, :except => [:new, :edit]
+        resources :usergroups, :except => [:new, :edit]
       end
 
       resources :usergroups, :except => [:new, :edit] do
@@ -155,6 +195,8 @@ Foreman::Application.routes.draw do
       resources :users, :except => [:new, :edit] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :roles, :except => [:new, :edit]
+        resources :usergroups, :except => [:new, :edit]
       end
 
       resources :template_kinds, :only => [:index]
@@ -195,6 +237,8 @@ Foreman::Application.routes.draw do
         resources :realms, :except => [:new, :edit] do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+          resources :hosts, :except => [:new, :edit]
+          resources :users, :except => [:new, :edit]
         end
         resources :domains, :except => [:new, :edit] do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
@@ -204,6 +248,11 @@ Foreman::Application.routes.draw do
               delete '/', :to => :reset
             end
           end
+          resources :hosts, :except => [:new, :edit]
+          resources :hostgroups, :except => [:new, :edit]
+          resources :subnets, :except => [:new, :edit]
+          resources :users, :except => [:new, :edit]
+          resources :interfaces, :except => [:new, :edit]
         end
         resources :smart_proxies, :except => [:new, :edit] do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
@@ -259,7 +308,7 @@ Foreman::Application.routes.draw do
           resources :media, :only => [:index, :show]
           resources :smart_proxies, :only => [:index, :show]
           resources :filters, :only => [:index, :show]
-
+          resources :hosts, :except => [:new, :edit]
           resources :parameters, :except => [:new, :edit] do
             collection do
               delete '/', :to => :reset
@@ -279,6 +328,7 @@ Foreman::Application.routes.draw do
             resources :media, :only => [:index, :show]
             resources :smart_proxies, :only => [:index, :show]
             resources :filters, :only => [:index, :show]
+            resources :hosts, :except => [:new, :edit]
           end
 
         end
@@ -299,7 +349,7 @@ Foreman::Application.routes.draw do
           resources :media, :only => [:index, :show]
           resources :smart_proxies, :only => [:index, :show]
           resources :filters, :only => [:index, :show]
-
+          resources :hosts, :except => [:new, :edit]
           resources :parameters, :except => [:new, :edit] do
             collection do
               delete '/', :to => :reset
@@ -319,6 +369,7 @@ Foreman::Application.routes.draw do
             resources :media, :only => [:index, :show]
             resources :smart_proxies, :only => [:index, :show]
             resources :filters, :only => [:index, :show]
+            resources :hosts, :except => [:new, :edit]
           end
 
         end

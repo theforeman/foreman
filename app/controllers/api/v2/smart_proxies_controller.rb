@@ -12,9 +12,7 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @smart_proxies = SmartProxy.authorized(:view_smart_proxies).includes(:features).
-          search_for(*search_options).paginate(paginate_options)
-        @total = SmartProxy.authorized(:view_smart_proxies).includes(:features).count
+        @smart_proxies = resource_scope_for_index.includes(:features)
       end
 
       api :GET, "/smart_proxies/:id/", N_("Show a smart proxy")

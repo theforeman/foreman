@@ -3,7 +3,7 @@ module Api
     class ConfigTemplatesController < V1::BaseController
       include Foreman::Renderer
 
-      before_filter(:only => %w{show update destroy}) { find_resource('templates') }
+      before_filter :find_resource, :only => %w{show update destroy}
       before_filter :handle_template_upload, :only => [:create, :update]
       before_filter :process_template_kind, :only => [:create, :update]
 

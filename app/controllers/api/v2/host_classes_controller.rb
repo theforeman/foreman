@@ -15,7 +15,7 @@ module Api
 
       api :POST, "/hosts/:host_id/puppetclass_ids", N_("Add a Puppet class to host")
       param :host_id, String, :required => true, :desc => N_("ID of host")
-      param :puppetclass_id, String, :required => true, :desc => N_("ID of puppetclass")
+      param :puppetclass_id, String, :required => true, :desc => N_("ID of Puppet class")
 
       def create
         @host_class = HostClass.create!(:host_id => @host.id, :puppetclass_id => params[:puppetclass_id].to_i)

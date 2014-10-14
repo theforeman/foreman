@@ -12,11 +12,7 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @reports = Report.
-          authorized(:view_reports).
-          my_reports.
-          includes(:logs => [:source, :message]).
-          search_for(*search_options).paginate(paginate_options)
+        @reports = resource_scope_for_index.my_reports.includes(:logs => [:source, :message])
         @total = Report.my_reports.count
       end
 

@@ -9,3 +9,7 @@ end
 node do |subnet|
   partial("api/v2/taxonomies/children_nodes", :object => subnet)
 end
+
+child :interfaces => :interfaces do
+  extends "api/v2/interfaces/base"
+end

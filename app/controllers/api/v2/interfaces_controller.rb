@@ -5,15 +5,20 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
+      before_filter :find_required_nested_object, :only => [:index, :show, :create, :destroy]
       before_filter :find_resource, :only => [:show, :update, :destroy]
-      before_filter :find_required_nested_object, :only => [:index, :show, :create]
 
       api :GET, '/hosts/:host_id/interfaces', N_("List all interfaces for host")
+      api :GET, '/domains/:domain_id/interfaces', N_('List all interfaces for domain')
+      api :GET, '/subnets/:subnet_id/interfaces', N_('List all interfaces for subnet')
       param :host_id, String, :required => true, :desc => N_("ID or name of host")
+      param :domain_id, String, :required => false, :desc => N_('ID or name of domain')
+      param :subnet_id, String, :required => false, :desc => N_('ID or name of subnet')
+      param :page, String, :desc => N_("paginate results")
+      param :per_page, String, :desc => N_("number of entries per request")
 
       def index
-        @interfaces = @nested_obj.interfaces.paginate(paginate_options)
-        @total = @nested_obj.interfaces.count
+        @interfaces = resource_scope.paginate(paginate_options)
       end
 
       api :GET, '/hosts/:host_id/interfaces/:id', N_("Show an interface for host")
@@ -78,7 +83,7 @@ module Api
       private
 
       def allowed_nested_id
-        %w(host_id)
+        %w(host_id domain_id subnet_id)
       end
 
       def resource_class
