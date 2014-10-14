@@ -80,7 +80,3 @@ module Nic
 end
 
 require_dependency 'nic/interface'
-require_dependency 'nic/managed'
-require_dependency 'nic/bmc'
-require_dependency 'nic/bond'
-require_dependency 'nic/bootable'
