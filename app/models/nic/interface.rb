@@ -52,3 +52,5 @@ module Nic
 
   end
 end
+
+require_dependency 'nic/managed'
