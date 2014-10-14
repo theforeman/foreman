@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   def api_request?
-    request.format.json? or request.format.yaml?
+    request.format.try(:json?) || request.format.try(:yaml?)
   end
 
   protected
@@ -101,7 +101,7 @@ class ApplicationController < ActionController::Base
   end
 
   def api_deprecation_error(exception = nil)
-    if request.format.json? && !request.env['REQUEST_URI'].match(/\/api\//i)
+    if request.format.try(:json?) && !request.env['REQUEST_URI'].match(/\/api\//i)
       logger.error "#{exception.message} (#{exception.class})\n#{exception.backtrace.join("\n")}"
       msg = "/api/ prefix must now be used to access API URLs, e.g. #{request.env['HTTP_HOST']}/api#{request.env['REQUEST_URI']}"
       logger.error "DEPRECATION: #{msg}."
