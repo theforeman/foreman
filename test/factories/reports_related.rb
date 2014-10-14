@@ -14,7 +14,7 @@ FactoryGirl.define do
 
   trait :with_logs do
     ignore do
-      log_count 30
+      log_count 5
     end
     after_create do |report,evaluator|
       evaluator.log_count.times do
