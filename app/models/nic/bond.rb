@@ -38,6 +38,10 @@ module Nic
     def ensure_virtual
       self.virtual = true
     end
+
+    def enc_attributes
+      @enc_attributes ||= (super + %w(mode attached_devices bond_options))
+    end
   end
 
   Base.register_type(Bond)

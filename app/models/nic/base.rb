@@ -54,7 +54,7 @@ module Nic
     end
 
     def self.type_by_name(name)
-      allowed_types.find{|nic_class| nic_class.humanized_name.downcase == name.to_s.downcase}
+      allowed_types.find { |nic_class| nic_class.humanized_name.downcase == name.to_s.downcase }
     end
 
     # NIC types have to be registered to to expose them to users
