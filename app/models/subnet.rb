@@ -8,6 +8,7 @@ class Subnet < ActiveRecord::Base
   friendly_id :network
   include Taxonomix
   include Parameterizable::ByIdName
+  include EncOutput
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database :except => [:gateway]
@@ -238,5 +239,12 @@ class Subnet < ActiveRecord::Base
     errors.add(:dns_primary, _("is invalid")) if dns_primary.present? && (IPAddr.new(dns_primary) rescue nil).nil? && !errors.keys.include?(:dns_primary)
     errors.add(:dns_secondary, _("is invalid")) if dns_secondary.present? && (IPAddr.new(dns_secondary) rescue nil).nil? && !errors.keys.include?(:dns_secondary)
   end
+
+  private
+
+  def enc_attributes
+    @enc_attributes ||= %w(name network netmask gateway dns_primary dns_secondary from to boot_mode ipam)
+  end
+
 
 end

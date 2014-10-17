@@ -368,6 +368,10 @@ class Host::Managed < Host::Base
       param["ip"]  = ip
       param["mac"] = mac
     end
+    param['subnets'] = (([subnet] + interfaces.map(&:subnet)).compact.map(&:to_enc)).uniq
+    param['interfaces'] =
+        [Nic::Managed.new(:ip => ip, :mac => mac, :identifier => primary_interface, :subnet => subnet).to_enc] +
+        interfaces.map(&:to_enc)
     param.update self.params
 
     # Parse ERB values contained in the parameters

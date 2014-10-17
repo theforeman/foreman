@@ -20,6 +20,11 @@ module Nic
       N_('BMC')
     end
 
+    private
+
+    def enc_attributes
+      @enc_attributes ||= (super + %w(username password provider))
+    end
   end
 
   Base.register_type(BMC)
