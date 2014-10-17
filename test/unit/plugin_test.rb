@@ -38,6 +38,7 @@ class PluginTest < ActiveSupport::TestCase
       author_url 'http://example.net/jsmith'
       description 'This is a test plugin'
       version '0.0.1'
+      path '/some/path/on/disk'
     end
 
     assert_equal 1, @klass.all.size
@@ -51,6 +52,7 @@ class PluginTest < ActiveSupport::TestCase
     assert_equal 'http://example.net/jsmith', plugin.author_url
     assert_equal 'This is a test plugin', plugin.description
     assert_equal '0.0.1', plugin.version
+    assert_equal '/some/path/on/disk', plugin.path
   end
 
   def test_installed
