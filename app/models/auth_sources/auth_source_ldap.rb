@@ -106,6 +106,10 @@ class AuthSourceLdap < AuthSource
     ldap_con.user_list(name)
   end
 
+  def to_param
+    "#{id}-#{name.parameterize}"
+  end
+
   private
 
   def strip_ldap_attributes
