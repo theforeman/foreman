@@ -58,6 +58,7 @@ module Foreman #:nodoc:
           plugin.description gem.description
           plugin.url gem.homepage
           plugin.version gem.version.to_s
+          plugin.path gem.full_gem_path
         end
 
         plugin.instance_eval(&block)
@@ -89,7 +90,7 @@ module Foreman #:nodoc:
       end
     end
 
-    def_field :name, :description, :url, :author, :author_url, :version
+    def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id
 
     def initialize(id)
