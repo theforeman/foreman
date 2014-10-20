@@ -135,6 +135,10 @@ class Operatingsystem < ActiveRecord::Base
     self.description = str
   end
 
+  def to_param
+    Parameterizable.parameterize("#{id}-#{title}")
+  end
+
   def release
     "#{major}#{('.' + minor.to_s) unless minor.blank?}"
   end
