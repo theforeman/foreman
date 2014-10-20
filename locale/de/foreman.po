@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-07 11:26+0100\n"
-"PO-Revision-Date: 2014-10-08 10:11+0000\n"
+"POT-Creation-Date: 2014-10-10 12:02+0100\n"
+"PO-Revision-Date: 2014-10-11 10:31+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -157,11 +157,19 @@ msgstr "%{match} passt zu keiner existierenden Gruppe"
 msgid "%{name} changed from %{label1} to %{label2}"
 msgstr "%{name} wurde von %{label1} zu %{label2} geändert"
 
+msgid ""
+"%{param} is not allowed as nested parameter for %{controller_name}. Allowed "
+"parameters are %{allowed_params}"
+msgstr ""
+
 msgid "%{record} is used by %{what}"
 msgstr "%{record} wird von %{what} benutzt"
 
 msgid "%{record} is used by host in build mode %{what}"
 msgstr "%{record} wird vom Host im Bereitstellungsmodus %{what} verwendet"
+
+msgid "%{resource_name} not found by id '%{id}'"
+msgstr ""
 
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "Aufgabe %{task} schlug aufgrund des folgenden Fehlers fehl: %{e}"
@@ -190,6 +198,11 @@ msgstr "'%{host}' konnte nicht gelöscht werden oder '%{resource}' reagiert nich
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' wurde nicht unter '%{resource}' gefunden"
 
+msgid ""
+"'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. "
+"Please use 'Content-Type: application/json'."
+msgstr ""
+
 msgid "(Miscellaneous)"
 msgstr "(Verschiedenes)"
 
@@ -213,8 +226,8 @@ msgid ""
 "%{matcher}"
 msgstr "<b>Beschreibung:</b> %{desc}<br><b>Typ:</b> %{type}<br> <b>Matcher:</b> %{matcher}"
 
-msgid "<b>Source:</b> %s"
-msgstr "<b>Quelle:</b> %s"
+msgid "<b>Source:</b> %{type} %{name}"
+msgstr ""
 
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the "
@@ -274,6 +287,9 @@ msgstr "Über"
 msgid "Access Key"
 msgstr "Zugriffsschlüssel"
 
+msgid "Access denied"
+msgstr ""
+
 msgid "Account"
 msgstr "Konto"
 
@@ -332,8 +348,8 @@ msgstr "Füge Kombination hinzu"
 msgid "Add external user group"
 msgstr "Externe Benutzergruppe hinzufügen"
 
-msgid "Add permission"
-msgstr "Berechtigung hinzufügen"
+msgid "Add filter"
+msgstr ""
 
 msgid "Add:"
 msgstr "Hinzufügen:"
@@ -358,6 +374,9 @@ msgid ""
 " sure you check the roles settings tab."
 msgstr "Zusätzlich können Benutzerrechte nach vielen Gesichtspunkten eingeschränkt werden, hierfür den Tab mit den Rolleneinstellungen prüfen."
 
+msgid "Admin permissions required"
+msgstr ""
+
 msgid "Administer"
 msgstr "Verwalten"
 
@@ -373,6 +392,9 @@ msgstr "Warnung"
 
 msgid "Alerts disabled"
 msgstr "Warnungen deaktiviert"
+
+msgid "Alias or VLAN device"
+msgstr ""
 
 msgid "All Puppet Classes for %s"
 msgstr "Alle Puppet-Klassen für %s"
@@ -754,6 +776,12 @@ msgid ""
 " or more architectures."
 msgstr "Bevor du Foreman weiter verwendest, solltest du Informationen über eine oder mehrere Architektur/en bereitstellen."
 
+msgid "Bond"
+msgstr ""
+
+msgid "Bond mode of the interface, e.g. balance-rr"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark"
 msgstr "Lesezeichen"
@@ -833,9 +861,6 @@ msgid ""
 " on all resources of the selected type"
 msgstr "Durch Deselektieren dieses Elements ist es möglich, Filter im Suche-Feld nach der Foreman Such-Syntax. Falls Filter auf unendlich gesetzt wird (durch Auswählen dieses Elements) wird dies auf allen Ressourcen des ausgewählten Typs angewandt"
 
-msgid "CA Certificate"
-msgstr "CA-Zertifikat"
-
 msgid "CDROM"
 msgstr "CD-ROM"
 
@@ -856,9 +881,6 @@ msgstr "Konnte die letzten Admin-Gruppe nicht erstellen"
 
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr "Kann keinen gültigen Foreman-Proxy mit Puppet-Unterstützung finden"
-
-msgid "Can't use the same value as the primary interface"
-msgstr "Kann nicht den gleichen Wert wie das primäre Interface verwenden"
 
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -990,6 +1012,9 @@ msgstr "Klone %s"
 
 msgid "Clone Host %s"
 msgstr "Klone Host %s"
+
+msgid "Clone a host group"
+msgstr ""
 
 msgid "Close"
 msgstr "Schließen"
@@ -1283,6 +1308,9 @@ msgstr "Strg-Alt-Entf"
 msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr "Angepasster LDAP-Suchfilter, <i>optional</i>"
 
+msgid "DHCP"
+msgstr "DHCP"
+
 msgid "DHCP Proxy"
 msgstr "DHCP-Proxy"
 
@@ -1316,10 +1344,20 @@ msgstr "DNS-Proxy"
 msgid "DNS Proxy to use within this subnet"
 msgstr "DNS-Proxy für dieses Subnetz"
 
+msgid ""
+"DNS Proxy to use within this subnet for managing PTR records, note that A "
+"records are managed via Domain DNS proxy"
+msgstr ""
+
 msgid "DNS name"
 msgstr "DNS-Name"
 
 msgid "DNS proxy to use within this domain"
+msgstr ""
+
+msgid ""
+"DNS proxy to use within this domain for managing A records, note that PTR "
+"records are managed via Subnet DNS proxy"
 msgstr ""
 
 msgid "Dashboard"
@@ -1337,20 +1375,19 @@ msgstr "Standard"
 msgid "Default Puppet server hostname"
 msgstr "Standard-Hostname des Puppet-Servers"
 
+msgid "Default boot mode for interfaces assigned to this subnet"
+msgstr ""
+
+msgid ""
+"Default boot mode for interfaces assigned to this subnet, valid values are "
+"\"Static\", \"DHCP\""
+msgstr ""
+
 msgid "Default encrypted root password on provisioned hosts"
 msgstr "Standardmäßiges verschlüsseltes Root-Passwort auf bereitgestellten Hosts"
 
-msgid "Default location"
-msgstr "Standardmäßiger Standort"
-
-msgid "Default locations need to be user locations first"
-msgstr "Standardmäßige Standorte müssen zunächst Benutzerstandorte sein"
-
-msgid "Default organization"
-msgstr "Standardmäßige Organisation"
-
-msgid "Default organizations need to be user organizations first"
-msgstr "Standardmäßige Organisationen müssen zunächst Benutzerorganisationen sein"
+msgid "Default on login"
+msgstr ""
 
 msgid "Default value"
 msgstr "Standardwert"
@@ -1547,6 +1584,12 @@ msgstr "Ausgewählte Hosts gelöscht"
 msgid "Details"
 msgstr "Details"
 
+msgid "Device identifier, e.g. eth0 or eth1.1"
+msgstr ""
+
+msgid "Device identifier, i.e.: eth0 or eth1.1"
+msgstr ""
+
 msgid "Diff View"
 msgstr "Unterschiede anzeigen"
 
@@ -1601,14 +1644,14 @@ msgstr "Zeige Einträge <b>%{from} - %{to}</b> von <b>%{count}</b> in Summe"
 msgid "Distribution chart"
 msgstr "Verteilungsdiagramm"
 
+msgid "Do not use your email as your password"
+msgstr ""
+
 msgid "Document root where puppetdoc files should be created"
 msgstr "Wurzelverzeichnis, wo puppetdoc-Dateien erstellt werden sollen"
 
 msgid "Documentation"
 msgstr "Dokumentation"
-
-msgid "Does not match selected Subnet"
-msgstr "Stimmt nicht mit ausgewähltem Subnetz überein"
 
 msgid "Does this image support user data input (e.g. via cloud-init)?"
 msgstr "Unterstützt dieses Image die Eingabe von Benutzerdaten (z. B. mittels cloud-init)?"
@@ -1636,6 +1679,9 @@ msgstr "Voller Name"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
 msgstr "Name"
+
+msgid "Down"
+msgstr ""
 
 msgid "EC2"
 msgstr "EC2"
@@ -1758,12 +1804,6 @@ msgstr "Die E-Mail-Antwortadresse für E-Mails, die von Foreman versendet werden
 msgid "Empty environment"
 msgstr "Umgebung leeren"
 
-msgid "Enable IP Address auto suggestion for this subnet"
-msgstr ""
-
-msgid "Enable IP Address auto suggestion to use within this subnet"
-msgstr ""
-
 msgid "Enable Notifications"
 msgstr "Benachrichtigungen aktivieren"
 
@@ -1775,6 +1815,9 @@ msgstr "Aktiviere Zertifikatsgenerierung für %s"
 
 msgid "Enable email alerts per each failed Puppet report"
 msgstr "E-Mail-Warnungen für jeden fehlgeschlagenen Puppet-Bericht aktivieren"
+
+msgid "Enable if this is an alias or VLAN interface"
+msgstr ""
 
 msgid "Enable puppetrun support"
 msgstr "Unterstützung für puppetrun aktivieren"
@@ -1836,6 +1879,9 @@ msgstr "Name"
 
 msgid "Error"
 msgstr "Fehler"
+
+msgid "Error - %{message}"
+msgstr ""
 
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "Bei der Kommunikation mit %{cr} ist ein Fehler aufgetreten: %{e}"
@@ -2014,6 +2060,9 @@ msgstr "Fehler bei der Initialisierung des Realm Proxy: %s"
 msgid "Failed to launch script on %{name}: %{e}"
 msgstr "Fehler beim Starten des Skripts auf %{name}: %{e}"
 
+msgid "Failed to load chart"
+msgstr ""
+
 msgid "Failed to login via SSH to %{name}: %{e}"
 msgstr "Fehler bei der SSH-Anmeldung auf %{name}: %{e}"
 
@@ -2074,23 +2123,17 @@ msgstr "Hole TFTP-Bootdateien für %s"
 msgid "Filter"
 msgstr "Fehler"
 
-msgid "Filter %s"
-msgstr "Filter %s"
-
 msgid "Filter by name"
 msgstr "Nach Name filtern"
+
+msgid "Filter by state: %s"
+msgstr ""
 
 msgid "Filter classes"
 msgstr "Filterklassen"
 
-msgid "Filter results"
-msgstr ""
-
 msgid "Filters"
 msgstr "Filter"
-
-msgid "Filters and permissions"
-msgstr "Filter und Berechtigungen"
 
 msgid "Filter|Permissions"
 msgstr "Berechtigungen"
@@ -2369,6 +2412,9 @@ msgstr "Hardwaremodelle"
 
 msgid "Hardware models"
 msgstr "Hardware-Modelle"
+
+msgid "Hash function to use. Change takes effect for new or updated hosts."
+msgstr ""
 
 msgid "Hash of report metrics, can be just {}"
 msgstr ""
@@ -2685,6 +2731,16 @@ msgstr "IP"
 msgid "IP Address"
 msgstr "IP-Adresse"
 
+msgid ""
+"IP Address auto suggestion mode for this subnet, DHCP works with DHCP proxy "
+"only"
+msgstr ""
+
+msgid ""
+"IP Address auto suggestion mode for this subnet, valid values are \"DHCP\", "
+"\"Internal DB\", \"None\""
+msgstr ""
+
 msgid "IP address auto-suggest"
 msgstr "IP-Adresse automatisch vorschlagen"
 
@@ -2699,6 +2755,12 @@ msgstr "IPAM"
 
 msgid "IRC"
 msgstr "IRC"
+
+msgid "Identifier of the interface to which this interface belongs, e.g. eth1"
+msgstr ""
+
+msgid "Identifiers of slave interfaces, e.g. `['eth1', 'eth2']`"
+msgstr ""
 
 msgid ""
 "If Foreman is running behind Passenger or a remote load balancer, the IP "
@@ -2842,6 +2904,9 @@ msgstr "Infrastruktur"
 msgid "Inherit parent (%s)"
 msgstr "Von übergeordnetem Objekt erben (%s)"
 
+msgid "Inherits from subnet VLAN ID if not set"
+msgstr ""
+
 msgid "Installation Media"
 msgstr "Installationsmedien"
 
@@ -2860,11 +2925,20 @@ msgstr "Schnittstelle"
 msgid "Interface name"
 msgstr "Schnittstellenname"
 
-msgid "Interface provider, i.e. IPMI"
+msgid "Interface provider, e.g. IPMI"
 msgstr ""
 
-msgid "Interface type, i.e: Nic::BMC"
-msgstr "Schnittstellentyp, z.B: Nic::BMC"
+msgid "Interface type, e.g: Nic::BMC"
+msgstr ""
+
+msgid "Internal DB"
+msgstr ""
+
+msgid "Internal network"
+msgstr ""
+
+msgid "Invalid %s selection, you must select at least one of yours"
+msgstr ""
 
 msgid "Invalid Host"
 msgstr "Ungültiger Host"
@@ -3217,11 +3291,26 @@ msgstr "Lade Abbildsinformationen"
 msgid "Loading VM information ..."
 msgstr "VM-Informationen werden geladen..."
 
+msgid "Loading filters..."
+msgstr ""
+
+msgid "Loading host information ..."
+msgstr ""
+
 msgid "Loading parameters..."
 msgstr "Lade Parameter..."
 
 msgid "Loading power state ..."
 msgstr "Stromzustand wird geladen..."
+
+msgid "Loading resources information ..."
+msgstr ""
+
+msgid "Loading runtime information ..."
+msgstr ""
+
+msgid "Loading template information ..."
+msgstr ""
 
 msgid "Loading virtual machine information ..."
 msgstr "Lade Informationen über die virtuelle Maschine ..."
@@ -3251,6 +3340,9 @@ msgstr "Orte werden benutzt, um physikalisch unterschiedliche Standorte mit von 
 
 msgid "Lock"
 msgstr "Sperren"
+
+msgid "Log out"
+msgstr ""
 
 msgid "Log out idle users after a certain number of minutes"
 msgstr "Inaktive Anwender nach einer bestimmten Zeit in Minuten abmelden"
@@ -3639,9 +3731,6 @@ msgstr "Neuer Proxy"
 msgid "New Puppet Environment"
 msgstr "Neue Puppet-Umgebung"
 
-msgid "New Puppet class"
-msgstr "Neue Puppet-Klasse"
-
 msgid "New Realm"
 msgstr "Neuer Realm"
 
@@ -3784,6 +3873,9 @@ msgstr "Keine Netzwerke"
 msgid "No new subnets found"
 msgstr "Keine neuen Subnetze gefunden"
 
+msgid "No parameters to override for Puppet class %s"
+msgstr ""
+
 msgid "No parameters were allocated to the selected hosts, can't mass assign."
 msgstr "Den ausgewählten Hosts wurden keine Parameter zugewiesen, Massenzuweisung kann nicht durchgeführt werden."
 
@@ -3900,9 +3992,6 @@ msgstr "Stufe"
 
 msgid "Notification disabled"
 msgstr "Benachrichtigung deaktiviert"
-
-msgid "Notifications"
-msgstr "Benarichtigungen"
 
 msgid "Number Of Clients"
 msgstr "Anzahl der Clients"
@@ -4103,6 +4192,12 @@ msgstr "Optional: beginnende IP-Adresse für automatischen IP-Vorschlag"
 msgid "Optional: VLAN ID for this subnet"
 msgstr "Optional: VLAN-Kennung für dieses Subnetz"
 
+msgid ""
+"Optionally provide a CA, or a correctly ordered CA chain. If left blank, a "
+"self-signed CA will be populated automatically by the server during the "
+"first request."
+msgstr ""
+
 msgid "Order"
 msgstr "Reihenfolge"
 
@@ -4138,6 +4233,9 @@ msgstr "Nicht synchrone Hosts"
 
 msgid "Override a Puppetclass Parameter"
 msgstr "Einen Puppet-Klassenparameter übergehen"
+
+msgid "Override all parameters"
+msgstr ""
 
 msgid "Override this value"
 msgstr "Diesen Wert außer Kraft setzen"
@@ -4230,8 +4328,8 @@ msgstr "Passwort"
 msgid "Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2"
 msgstr ""
 
-msgid "Password should be 8 characters or more"
-msgstr "Passwort sollte 8 oder mehr Zeichen enthalten"
+msgid "Password must be 8 characters or more"
+msgstr ""
 
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr "Passwort zur Authentifizierung - verwendet im letzten Schritt von SSH."
@@ -4300,6 +4398,9 @@ msgstr "Bitte löschen Sie vorher alle Untergruppen."
 msgid "Please enable JavaScript to view the %{comments_href}."
 msgstr ""
 
+msgid "Please ensure the following parameters name are unique"
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr "Bitte die notwendigen Rechte bei einem Foreman-Administrator anfordern"
 
@@ -4310,6 +4411,9 @@ msgstr "Bitte sorgfältig überprüfen, ob diese wirklich entfernt werden sollen
 
 msgid "Please save the Operating System first and try again."
 msgstr "Bitte zuerst das Betriebssystem speichern und nochmals probieren."
+
+msgid "Please save the role first. You can edit it later to add filters"
+msgstr ""
 
 msgid "Please select"
 msgstr "Bitte auswählen"
@@ -4517,6 +4621,12 @@ msgstr "Instanzdetails für %s abfragen"
 msgid "Quota ID"
 msgstr "Kontingentkennung"
 
+msgid "REPLACE locations with given ids"
+msgstr ""
+
+msgid "REPLACE organizations with given ids."
+msgstr ""
+
 msgid "Realm"
 msgstr "Realm"
 
@@ -4677,6 +4787,9 @@ msgstr "Auflösen"
 msgid "Resource"
 msgstr "Ressource"
 
+msgid "Resource %{resource_name} not found by id '%{id}'"
+msgstr ""
+
 msgid "Resource %{res} not found."
 msgstr ""
 
@@ -4733,6 +4846,12 @@ msgstr "Name"
 msgid "Role|Permissions"
 msgstr "Rechte"
 
+msgid "Root password hash"
+msgstr ""
+
+msgid "Root password hash function to use, one of MD5, SHA256, SHA512"
+msgstr ""
+
 msgid "Run Puppet"
 msgstr "Puppet ausführen"
 
@@ -4784,6 +4903,12 @@ msgstr "Etwas abspeichern und erneut versuchen"
 
 msgid "Scope"
 msgstr "Bereich"
+
+msgid "Scope by locations"
+msgstr ""
+
+msgid "Scope by organizations"
+msgstr ""
 
 msgid "Search"
 msgstr "Suche"
@@ -4901,6 +5026,9 @@ msgstr "Servertyp"
 msgid "Set a randomly generated password on the display connection"
 msgstr "Zufälliges Passwort für die Verbindung generieren"
 
+msgid "Set parameters to defaults"
+msgstr ""
+
 msgid "Set up compute instance %s"
 msgstr "Recheninstanz %s einrichten"
 
@@ -4939,6 +5067,24 @@ msgid ""
 "Should Foreman encrypt websockets (VNC console access). Choose on, off or "
 "auto."
 msgstr "Verschlüsselung von Websockets durch Foreman (VNC-Konsolenzugriff). Wählen Sie on, off oder auto."
+
+msgid ""
+"Should the `foreman-rake db:migrate` be executed on the next run of the "
+"installer modules?"
+msgstr ""
+
+msgid ""
+"Should the `foreman-rake db:seed` be executed on the next run of the "
+"installer modules?"
+msgstr ""
+
+msgid ""
+"Should this interface be managed via DHCP and DNS smart proxy and should it "
+"be configured during provisioning?"
+msgstr ""
+
+msgid "Show %{host} facts"
+msgstr ""
 
 msgid "Show :a_resource"
 msgstr ""
@@ -5099,9 +5245,6 @@ msgstr "Verfügbare API-Verknüpfungen anzeigen"
 msgid "Show distribution chart"
 msgstr "Distributionsdiagramm anzeigen"
 
-msgid "Show host facts"
-msgstr "Hostfakten anzeigen"
-
 msgid "Show linked external user groups"
 msgstr "Verknüpfte externe Benutzergruppen anzeigen"
 
@@ -5122,12 +5265,6 @@ msgstr ""
 
 msgid "Sign"
 msgstr "Signieren"
-
-msgid "Sign out"
-msgstr "Abmelden"
-
-msgid "Signo SSO url"
-msgstr "Signo SSO-URL"
 
 msgid "Size"
 msgstr "Größe"
@@ -5203,9 +5340,6 @@ msgid ""
 "them first."
 msgstr "Entschuldigung, diese System haben keine Parameter zugewiesen, du musst diese zuerst hinzufügen."
 
-msgid "Sort results"
-msgstr "Ergebnisse sortieren"
-
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Source"
 msgstr "Quelle"
@@ -5218,6 +5352,9 @@ msgstr "Zusammenfassung"
 msgid "Source|Value"
 msgstr "Wert"
 
+msgid "Space separated options, e.g. miimon=100"
+msgstr ""
+
 msgid "Start"
 msgstr "Start"
 
@@ -5226,6 +5363,9 @@ msgstr ""
 
 msgid "State"
 msgstr "Status"
+
+msgid "Static"
+msgstr ""
 
 msgid "Statistics"
 msgstr "Statistiken"
@@ -5331,8 +5471,15 @@ msgstr "Erfolgreich ausgeführt, für weitere Informationen bitte die Logdateien
 msgid "Successfully executed, check reports and/or log files for more details"
 msgstr "Erfolgreich ausgeführt, bitte die Reporte und/oder die Logdateien für weitere Details prüfen"
 
+msgid "Successfully overridden all parameters of Puppet class %s"
+msgstr ""
+
 msgid "Successfully refreshed features from %s."
 msgstr "Funktionen erfolgreich von %s aktualisiert."
+
+msgid ""
+"Successfully reset all parameters of Puppet class %s to their default values"
+msgstr ""
 
 msgid "Successfully updated %s."
 msgstr "%s wurde aktualisiert."
@@ -5688,6 +5835,14 @@ msgstr ""
 msgid "This template is owned by %s and may not be unlocked."
 msgstr ""
 
+msgid ""
+"This will reset parameters of the class %s to their default values. "
+"Continue?"
+msgstr ""
+
+msgid "This will set all parameters of the class %s as overridden. Continue?"
+msgstr ""
+
 msgid "Time in Seconds"
 msgstr "Zeit in Sekunden"
 
@@ -5706,15 +5861,14 @@ msgid ""
 msgstr "Um einen Anbieter zu aktivieren, installieren Sie entweder das Betriebssystempaket (z. B. foreman-libvirt) oder aktivieren Sie die entsprechende Gruppe zur Entwicklungseinrichtung (z. B. ovirt)."
 
 msgid ""
-"To start collecting trend data, set a cron job to execute 'rake "
+"To start collecting trend data, set a cron job to execute 'foreman-rake "
 "trends:counter' every Puppet Interval (%s minutes)."
-msgstr "Um Trendaten zu sammeln muss ein cronjob erstellt werden welcher jeden Puppetintervall (%s minutes) ausführt: 'rake trends:counter' ausführt."
+msgstr ""
 
 msgid ""
-"To start collecting trend data, set a cron job to execute <span "
-"class='black'>RAILS_ENV=production bundle exec rake trends:counter</span> "
-"every Puppet Interval (%s minutes)"
-msgstr "Um Trendaten zu sammeln muss ein cronjob erstellt werden welcher jeden Puppetintervall (%s minutes) ausführt: class='black'>RAILS_ENV=production bundle exec rake trends:counter</span> "
+"To start collecting trend data, set a cron job to execute <span class='black"
+"'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)"
+msgstr ""
 
 msgid ""
 "To update the class signature, go to the Puppet Classes page and select "
@@ -5723,9 +5877,6 @@ msgstr "Gehe zu der Puppet Klassen Seite und wähle \"Import\" aus um die Klasse
 
 msgid "Toggle"
 msgstr "Umschalten"
-
-msgid "Toggle notifications section"
-msgstr "Die Benarichtigungssektion umschalten"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Token"
@@ -5738,6 +5889,9 @@ msgstr "Erlöscht"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Token|Value"
 msgstr "Wert"
+
+msgid "Too many repetitions"
+msgstr ""
 
 msgid "Total"
 msgstr "Summe"
@@ -5825,6 +5979,9 @@ msgstr ""
 
 msgid "Unable to access key"
 msgstr "Fehler beim Zugriff auf Schlüssel"
+
+msgid "Unable to authenticate user %s"
+msgstr ""
 
 msgid ""
 "Unable to change VM display listen address, make sure the display is not "
@@ -5974,17 +6131,11 @@ msgstr "Unbekannter Aktionsname für Erfolgsnachricht: %s"
 msgid "Unknown device: available devices are %s"
 msgstr ""
 
-msgid "Unknown fact"
-msgstr "Unbekannte Fakt"
-
 msgid "Unknown power action: available methods are %s"
 msgstr ""
 
 msgid "Unknown power management support - can't continue"
 msgstr "Unbekannte Unterstützung für Stromzustand - Fortfahren nicht möglich"
-
-msgid "Unknown user"
-msgstr "Unbekannter Benutzer"
 
 msgid "Unlock"
 msgstr "Entsperren"
@@ -5992,8 +6143,14 @@ msgstr "Entsperren"
 msgid "Unmanage host"
 msgstr "System nicht mehr verwalten"
 
+msgid "Unsupported password hash function '%s'"
+msgstr ""
+
 msgid "Unsupported report status format"
 msgstr "Statusformat des Reports nicht unterstützt"
+
+msgid "Up"
+msgstr ""
 
 msgid "Update"
 msgstr "Aktualisierung"
@@ -6148,8 +6305,8 @@ msgstr "Hosts aktualisiert: Hostgruppe geändert"
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
-msgid "Use Signo SSO for login"
-msgstr "Benutze Signo SSO für Anmeldung"
+msgid "Use different character classes"
+msgstr ""
 
 msgid "Use this account to authenticate, <i>optional</i>"
 msgstr "Benutze diesen Zugang für die Authentifizierung, <i>optional</i>"
@@ -6180,6 +6337,9 @@ msgstr "Benutzerkennungen"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User fact"
 msgstr "Benutzerfakt"
+
+msgid "User group"
+msgstr ""
 
 msgid "User groups"
 msgstr "Benutzergruppen"
@@ -6309,6 +6469,9 @@ msgstr "VCenter/Server"
 msgid "VLAN ID for this subnet"
 msgstr "VLAN-Kennung für dieses Subnetz"
 
+msgid "VLAN tag, this attribute has precedence over the subnet VLAN ID"
+msgstr ""
+
 msgid "VM"
 msgstr "VM"
 
@@ -6390,6 +6553,9 @@ msgstr "Virtuelle Maschinen"
 msgid "Virtual Machines on %s"
 msgstr "Virtuelle Maschinen auf %s"
 
+msgid "Virtual NIC"
+msgstr ""
+
 msgid "Volumes"
 msgstr "Volumes"
 
@@ -6465,6 +6631,9 @@ msgstr "was eine Verschiebung von <b>%s</b> ist"
 msgid "Wiki"
 msgstr "Wiki"
 
+msgid "X509 Certification Authorities"
+msgstr ""
+
 msgid "YAML"
 msgstr "YAML"
 
@@ -6504,17 +6673,14 @@ msgstr "Sie finden Foreman auf dem %{freenode} (irc.freenode.net) Netzwerk. Allg
 msgid "You can find details of how to set up the proxy at"
 msgstr "Du findest weitere Details wie ein Proxy aufzusetzen ist unter"
 
-msgid "You can't assign some of roles you selected"
-msgstr "Du kannst einige der ausgewählten Rollen nicht zuweisen"
+msgid "You can't assign locations to this resource"
+msgstr ""
 
-msgid "You can't change Administrator flag"
-msgstr "Du kannst das Administratorkennzeichen nicht ändern"
+msgid "You can't assign organizations to this resource"
+msgstr ""
 
 msgid "You cannot delete this user while logged in as this user."
 msgstr "Sie können diesen Benutzer nicht löschen, während Sie als dieser Benutzer angemeldet sind."
-
-msgid "You cannot remove %s that are used by hosts or inherited."
-msgstr "Du kannst nicht %s löschen da diese von Hosts verwendet werden oder vererbt wurden."
 
 msgid "You do not have permission to %s this location parameter"
 msgstr "Sie haben keine Berechtigung, diesen Standortparameter zu %s"
@@ -6596,6 +6762,15 @@ msgstr "Du müsstest zuerst das Anmelden in der settings.yml Datei aktivieren un
 msgid "You would probably need to attach the"
 msgstr "Du wird vermutlich noch das anbinden müssen"
 
+msgid "Your password cannot contain your username"
+msgstr ""
+
+msgid "Your password contains sequences"
+msgstr ""
+
+msgid "Your password is too short"
+msgstr ""
+
 msgid "Your session has expired, please login again"
 msgstr "Deine Sitzung ist abgelaufen, bitte melde dich erneut an"
 
@@ -6662,6 +6837,12 @@ msgstr "darf keine Leerzeichen enthalten."
 msgid "can't contain white spaces."
 msgstr ""
 
+msgid "can't use the same value as the primary interface"
+msgstr ""
+
+msgid "cannot be changed"
+msgstr ""
+
 msgid "cannot be changed on an internal protected account"
 msgstr "kann auf einem internen, geschützten Account nicht geändert werden"
 
@@ -6677,6 +6858,9 @@ msgstr "darf nicht leer sein, es sei denn, eine spezifische Partition wurde defi
 msgid "clone"
 msgstr "klonen"
 
+msgid "comma separated interface identifiers"
+msgstr ""
+
 msgid "comments powered by %{disqus}"
 msgstr ""
 
@@ -6686,6 +6870,12 @@ msgstr "allgemeine"
 msgid "cycle"
 msgstr "Zyklus"
 
+msgid "default locations need to be user locations first"
+msgstr ""
+
+msgid "default organizations need to be user organizations first"
+msgstr ""
+
 msgid "defaults to 389"
 msgstr ""
 
@@ -6694,6 +6884,9 @@ msgstr "scheint kein gültiger NFS-Einhängepfad zu sein"
 
 msgid "does not belong to subnet"
 msgstr "gehört nicht zum Subnetz"
+
+msgid "does not match selected subnet"
+msgstr ""
 
 msgid "domain"
 msgstr "Domäne"
@@ -6794,8 +6987,8 @@ msgstr "freier Swap"
 msgid "further instructions"
 msgstr ""
 
-msgid "has this hostgroup already"
-msgstr "hat bereits diese Hostgruppe"
+msgid "has already been taken"
+msgstr ""
 
 msgid "has this role already"
 msgstr "hat bereits diese Rolle"
@@ -6808,6 +7001,9 @@ msgstr ""
 
 msgid "here"
 msgstr "hier"
+
+msgid "hide"
+msgstr ""
 
 msgid "host group id"
 msgstr "Hostgruppenkennung"
@@ -6857,6 +7053,9 @@ msgstr "ungültige Methode %s"
 msgid "invalid path"
 msgstr "ungültiger Pfad"
 
+msgid "invalid search query: %s"
+msgstr ""
+
 msgid "invalid time range"
 msgstr "ungültiger Zeitraum"
 
@@ -6901,6 +7100,11 @@ msgstr ""
 
 msgid "is not permitted"
 msgstr "ist nicht zulässig"
+
+msgid "is too long (maximum is 1 character)"
+msgid_plural "is too long (maximum is %s characters)"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "is too long (maximum is 15 characters)"
 msgstr "ist zu lang (maximal 15 Zeichen)"
@@ -7036,6 +7240,12 @@ msgstr "Parameter erfordern verknüpfte(s,n) Domain, Betriebssystem, Host oder H
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "Die Zergliedern vom Einstellungstyp '%s' von string ist nicht definiert"
 
+msgid "passwords do not match"
+msgstr ""
+
+msgid "passwords match"
+msgstr ""
+
 msgid "pending"
 msgstr "ausstehend"
 
@@ -7058,6 +7268,9 @@ msgstr "neustarten"
 
 msgid "regexp"
 msgstr "regulärer Ausdruck"
+
+msgid "remove"
+msgstr "Entfernen"
 
 msgid "remove network interface"
 msgstr "Netzwerkschnittstelle löschen"
@@ -7112,6 +7325,9 @@ msgstr "soft"
 
 msgid "sort results"
 msgstr "Ergebnisse sortieren"
+
+msgid "space separated options, e.g. miimon=100"
+msgstr ""
 
 msgid "start"
 msgstr "Start"
@@ -7191,6 +7407,15 @@ msgstr "gültig"
 
 msgid "yaml"
 msgstr "yaml"
+
+msgid "you can't assign some of roles you selected"
+msgstr ""
+
+msgid "you can't change administrator flag"
+msgstr ""
+
+msgid "you cannot remove %s that are used by hosts or inherited."
+msgstr ""
 
 msgid "you may use %s"
 msgstr "du kannst %s benutzen"
