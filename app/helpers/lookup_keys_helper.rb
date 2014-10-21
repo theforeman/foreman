@@ -41,9 +41,9 @@ module LookupKeysHelper
     end unless @puppetclass # nested smart-vars form in a tab of puppetclass/_form: no edition allowed, and the puppetclass is already visible as a context
   end
 
-  def param_type_selector(f)
+  def param_type_selector(f, options = {})
     selectable_f f, :key_type, options_for_select(LookupKey::KEY_TYPES.map { |e| [_(e),e] }, f.object.key_type),{},
-               { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
+                 options.merge({ :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
                  :help_block => popover(_("Parameter types"),_("<dl>" +
                "<dt>String</dt> <dd>Everything is taken as a string.</dd>" +
                "<dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd>" +
@@ -53,7 +53,7 @@ module LookupKeysHelper
                "<dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd>" +
                "<dt>YAML</dt> <dd>Any valid YAML input.</dd>" +
                "<dt>JSON</dt> <dd>Any valid JSON input.</dd>" +
-               "</dl>"), :title => _("How values are validated")).html_safe}
+               "</dl>"), :title => _("How values are validated")).html_safe})
   end
 
   def validator_type_selector(f)

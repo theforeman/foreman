@@ -53,3 +53,4 @@ nine:
   puppetclass: three
   environment: global_puppetmaster
   lookup_key_id: nil
+  
