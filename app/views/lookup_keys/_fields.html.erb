@@ -1,7 +1,7 @@
 <div id='<%= (f.object.key || 'new_lookup_keys').to_s.gsub(' ','_') + '_' + f.object.id.to_s %>' class='tab-pane fields' >
   <% is_param = f.object.is_param %>
 
-  <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence, :label=> _('Puppet Environments'),:size => "col-md-8", :disabled=>true) if is_param%>
+  <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence, :label => _('Puppet Environments'),:size => "col-md-8", :disabled=>true) if is_param%>
 
   <%= remove_child_link(_("Remove %s?") % (f.object.new_record? ? _("Variable") : f.object), f , {:class => 'btn btn-danger hide'}) unless controller_name == "lookup_keys" %>
   <%= text_f f, :key, :disabled => f.object.is_param, :size => "col-md-8"  %>
@@ -9,11 +9,11 @@
   <%= textarea_f f, :description, :rows => :auto, :size => "col-md-8"  %>
 
   <%= show_puppet_class f %>
-  <%= checkbox_f(f, :override, :onchange=>'toggleOverrideValue(this)', :size => "col-md-8",
+  <%= checkbox_f(f, :override, :onchange => 'toggleOverrideValue(this)', :size => "col-md-8",
                  :help_block => _("Whether the smart-variable should override the Puppet class default value.")
       ) if is_param%>
 
-  <%= param_type_selector f  %>
+  <%= param_type_selector(f, :onchange => 'keyTypeChange(this)')  %>
   <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast,:size => "col-md-8", :disabled => (f.object.is_param && !f.object.override), :rows => :auto,
                  :help_block => _("Value to use when there is no match") %>
   <div <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')}_lookup_key_override_value" %> style=<%= "display:none;" if (f.object.is_param && !f.object.override) %>>
@@ -25,6 +25,11 @@
     <%= text_f f, :validator_rule, :size => "col-md-8", :disabled => f.object.validator_type.blank? %>
 
     <legend><%= _("Override value for specific hosts") %></legend>
+    <%= checkbox_f(f, :merge_overrides, :onchange => 'mergeOverridesChanged(this)',
+                      :disabled => !f.object.supports_merge?, :size => "col-md-8",
+                      :help_block => _("Should the matchers continue to look for matches after first find (only array/hash type).")) %>
+    <%= checkbox_f(f, :avoid_duplicates, :disabled => (!f.object.supports_uniq? || !f.object.merge_overrides), :size => "col-md-8",
+                   :help_block => _("Should the matched result avoid duplicate values (only array type).")) %>
     <%= textarea_f f, :path, :rows => :auto, :label => _("Order"), :size => "col-md-8", :value => f.object.path,
                    :help_block => popover(_("The order in which values are resolved"),
                                           _("The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"), :title => _("The order in which values are resolved")).html_safe

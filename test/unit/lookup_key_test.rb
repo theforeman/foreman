@@ -162,4 +162,42 @@ class LookupKeyTest < ActiveSupport::TestCase
     smart_variable2 = LookupKey.new(:key => "smart-varialble", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default2")
     refute_valid smart_variable2
   end
+
+  test "should not be able to merge overrides for a string" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'string', :merge_overrides => true,
+                            :puppetclass => puppetclasses(:one))
+    refute_valid key
+    assert_equal key.errors[:merge_overrides].first, _("can only be set for array or hash")
+  end
+
+  test "should be able to merge overrides for a hash" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'hash', :merge_overrides => true,
+                            :default_value => {}, :puppetclass => puppetclasses(:one))
+    assert_valid key
+  end
+
+  test "should not be able to avoid duplicates for a hash" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'hash', :merge_overrides => true, :avoid_duplicates => true,
+                            :default_value => {}, :puppetclass => puppetclasses(:one))
+    refute_valid key
+    assert_equal key.errors[:avoid_duplicates].first, _("can only be set for arrays that have merge_overrides set to true")
+  end
+
+  test "should be able to merge overrides for a array" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
+                            :default_value => [], :puppetclass => puppetclasses(:one))
+    assert_valid key
+  end
+
+  test "should not be able to avoid duplicates when merge_override is false" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'array', :merge_overrides => false, :avoid_duplicates => true,
+                            :default_value => [], :puppetclass => puppetclasses(:one))
+    refute_valid key
+    assert_equal key.errors[:avoid_duplicates].first, _("can only be set for arrays that have merge_overrides set to true")
+  end
 end

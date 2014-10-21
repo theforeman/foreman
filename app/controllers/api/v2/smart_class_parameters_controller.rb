@@ -42,6 +42,8 @@ module Api
         param :override_value_order, String
         param :parameter_type, String
         param :required, :bool
+        param :merge_overrides, :bool
+        param :avoid_duplicates, :bool
       end
 
       def update

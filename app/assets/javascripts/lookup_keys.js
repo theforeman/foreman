@@ -158,6 +158,33 @@ function toggleOverrideValue(item) {
   override_value_div.toggle(override);
 }
 
+function changeCheckboxEnabledStatus(checkbox, shouldEnable) {
+  if (shouldEnable) {
+    $(checkbox).attr('disabled', null);
+  }
+  else {
+    $(checkbox).attr('checked', false);
+    $(checkbox).attr('disabled', 'disabled');
+  }
+}
+
+function keyTypeChange(item) {
+  var reloadedItem = $(item);
+  var keyType = reloadedItem.val();
+  var fields = reloadedItem.closest('.fields');
+  var mergeOverrides = fields.find("[id$='_merge_overrides']");
+  var avoidDuplicates = fields.find("[id$='_avoid_duplicates']");
+  changeCheckboxEnabledStatus(mergeOverrides, keyType == 'array' || keyType == 'hash');
+  changeCheckboxEnabledStatus(avoidDuplicates, keyType == 'array' && $(mergeOverrides).attr('checked') == 'checked');
+}
+
+function mergeOverridesChanged(item) {
+  var fields = $(item).closest('.fields');
+  var keyType = fields.find("[id$='_key_type']").val();
+  var avoidDuplicates = fields.find("[id$='_avoid_duplicates']");
+  changeCheckboxEnabledStatus(avoidDuplicates, keyType == 'array' && item.checked);
+}
+
 function filterByEnvironment(item){
   if ($(item).val()=="") {
     $('ul.smart-var-tabs li[data-used-environments] a').removeClass('text-muted');

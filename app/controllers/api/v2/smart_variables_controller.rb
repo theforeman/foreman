@@ -33,6 +33,8 @@ module Api
           param :validator_type, String
           param :validator_rule, String
           param :variable_type, String
+          param :merge_overrides, :bool
+          param :avoid_duplicates, :bool
         end
       end
 
