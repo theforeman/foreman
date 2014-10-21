@@ -1,9 +1,7 @@
 module InterfacesHelper
   def interfaces_types
-    @types ||= [
-      [_("Interface"), Nic::Managed],
-      [_("Bond"), Nic::Bond],
-      [_("BMC"), Nic::BMC]
-    ]
+    @types ||= Nic::Base.allowed_types.collect do |nic_type|
+      [_(nic_type.humanized_name), nic_type]
+    end
   end
 end

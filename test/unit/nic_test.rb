@@ -116,4 +116,44 @@ class NicTest < ActiveSupport::TestCase
       end
     end
   end
+
+  context "allowed type registration" do
+
+    setup do
+      class DefaultTestNic < Nic::Base
+      end
+
+      class HumanizedTestNic < Nic::Base
+        def self.humanized_name
+          "Custom"
+        end
+      end
+
+      class DisallowedTestNic < Nic::Base
+      end
+
+      Nic::Base.allowed_types.clear
+      Nic::Base.register_type(DefaultTestNic)
+      Nic::Base.register_type(HumanizedTestNic)
+    end
+
+    test "base registers allowed nic types" do
+      expected_types = [DefaultTestNic, HumanizedTestNic]
+      assert_equal expected_types.map(&:name), Nic::Base.allowed_types.map(&:name)
+    end
+
+    test "type_by_name returns nil for an unknown name" do
+      assert_equal nil, Nic::Base.type_by_name("UNKNOWN_NAME")
+    end
+
+    test "type_by_name finds the class" do
+      assert_equal HumanizedTestNic, Nic::Base.type_by_name("custom")
+    end
+
+    test "type_by_name returns nil for classes that aren't allowed" do
+      assert_equal nil, Nic::Base.type_by_name("DisallowedTestNic")
+    end
+
+  end
+
 end

@@ -29,10 +29,16 @@ module Nic
       self.attached_devices = attached_devices_identifiers.tap { |a| a.delete(identifier) }.join(SEPARATOR)
     end
 
+    def self.humanized_name
+      N_('Bond')
+    end
+
     private
 
     def ensure_virtual
       self.virtual = true
     end
   end
+
+  Base.register_type(Bond)
 end
