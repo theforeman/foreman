@@ -7,8 +7,12 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
+      ALLOWED_TYPE_NAMES = Nic::Base.allowed_types.map{ |t| t.humanized_name.downcase }
+      LEGACY_TYPE_NAMES = Nic::Base.allowed_types.map{ |t| t.name }
+
       before_filter :find_required_nested_object, :only => [:index, :show, :create, :destroy]
       before_filter :find_resource, :only => [:show, :update, :destroy]
+      before_filter :convert_type, :only => [:create, :update]
 
       api :GET, '/hosts/:host_id/interfaces', N_("List all interfaces for host")
       api :GET, '/domains/:domain_id/interfaces', N_('List all interfaces for domain')
@@ -35,7 +39,7 @@ module Api
           #common parameters
           param :mac, String, :required => true, :desc => N_("MAC address of interface")
           param :ip, String, :required => true, :desc => N_("IP address of interface")
-          param :type, Nic::TYPES, :required => true, :desc => N_("Interface type, e.g: Nic::BMC")
+          param :type, InterfacesController::ALLOWED_TYPE_NAMES, :required => true, :desc => N_("Interface type, e.g: bmc")
           param :name, String, :required => true, :desc => N_("Interface name")
           param :subnet_id, Fixnum, :desc => N_("Foreman subnet ID of interface")
           param :domain_id, Fixnum, :desc => N_("Foreman domain ID of interface")
@@ -61,12 +65,8 @@ module Api
       param_group :interface, :as => :create
 
       def create
-        interface = @nested_obj.interfaces.new(params[:interface], :without_protection => true)
-        if interface.save
-          render :json => interface, :status => :created
-        else
-          render :json => { :errors => interface.errors.full_messages }, :status => :unprocessable_entity
-        end
+        @interface = @nested_obj.interfaces.new(params[:interface], :without_protection => true)
+        process_response @interface.save
       end
 
       api :PUT, "/hosts/:host_id/interfaces/:id", N_("Update a host's interface")
@@ -95,6 +95,23 @@ module Api
       def resource_class
         Nic::Base
       end
+
+      def convert_type
+        type_sent = params[:interface][:type]
+
+        if ALLOWED_TYPE_NAMES.include? type_sent
+          # convert human readable name to the NIC's class name
+          params[:interface][:type] = Nic::Base.type_by_name(type_sent).to_s
+        elsif !LEGACY_TYPE_NAMES.include? type_sent
+          # enable sending class names directly to keep backward compatibility
+          render_error :custom_error,
+            :status => :unprocessable_entity,
+            :locals => {
+              :message => _("Unknown interface type, must be one of [%s]") % ALLOWED_TYPE_NAMES.join(', ')
+            }
+        end
+      end
+
     end
   end
 end

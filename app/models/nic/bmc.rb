@@ -16,5 +16,11 @@ module Nic
                           :password => password })
     end
 
+    def self.humanized_name
+      N_('BMC')
+    end
+
   end
+
+  Base.register_type(BMC)
 end

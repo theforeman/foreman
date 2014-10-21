@@ -48,6 +48,24 @@ module Nic
       type.split("::").last
     end
 
+    def self.humanized_name
+      # provide class name as a default value
+      name.split("::").last
+    end
+
+    def self.type_by_name(name)
+      allowed_types.find{|nic_class| nic_class.humanized_name.downcase == name.to_s.downcase}
+    end
+
+    # NIC types have to be registered to to expose them to users
+    def self.register_type(type)
+      allowed_types << type
+    end
+
+    def self.allowed_types
+      @allowed_types ||= []
+    end
+
     protected
 
     def uniq_fields_with_hosts
@@ -80,10 +98,9 @@ module Nic
     def require_host?
       true
     end
+
   end
 
-  require_dependency 'nic/interface'
-
-  TYPES = [ Nic::Managed, Nic::Bond, Nic::BMC ]
-
 end
+
+require_dependency 'nic/interface'

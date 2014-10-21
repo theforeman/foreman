@@ -12,6 +12,10 @@ module Nic
       @dhcp_record ||= host.jumpstart? ? Net::DHCP::SparcRecord.new(dhcp_attrs) : Net::DHCP::Record.new(dhcp_attrs)
     end
 
+    def self.human_name
+      N_('Bootable')
+    end
+
     protected
 
     def dhcp_attrs
