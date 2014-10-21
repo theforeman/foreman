@@ -5,7 +5,7 @@ class Subnet < ActiveRecord::Base
 
   include Authorizable
   extend FriendlyId
-  friendly_id :network
+  friendly_id :name
   include Taxonomix
   audited :allow_mass_assignment => true
 
@@ -31,11 +31,10 @@ class Subnet < ActiveRecord::Base
   validates :mask,    :format => {:with => Net::Validations::MASK_REGEXP}
   validates :boot_mode, :inclusion => BOOT_MODES.values
   validates :ipam, :inclusion => IPAM_MODES.values
-  validates :name,    :length => {:maximum => 255}
+  validates :name,    :length => {:maximum => 255}, :uniqueness => true
 
   validate :ensure_ip_addr_new
   before_validation :cleanup_addresses
-  validate :name_should_be_uniq_across_domains
 
   validate :validate_ranges
 
@@ -65,10 +64,6 @@ class Subnet < ActiveRecord::Base
 
   def self.ipam_modes_with_translations
     modes_with_translations(IPAM_MODES)
-  end
-
-  def to_param
-    "#{id}-#{name.parameterize}"
   end
 
   # Subnets are displayed in the form of their network network/network mask
@@ -208,14 +203,6 @@ class Subnet < ActiveRecord::Base
     if from.present? or to.present?
       errors.add(:from, _("must be specified if to is defined"))   if from.blank?
       errors.add(:to,   _("must be specified if from is defined")) if to.blank?
-    end
-  end
-
-  def name_should_be_uniq_across_domains
-    return if domains.empty?
-    domains.each do |d|
-      conds = new_record? ? ['name = ?', name] : ['subnets.name = ? AND subnets.id != ?', name, id]
-      errors.add(:name, _("domain %s already has a subnet with this name") % d) if d.subnets.where(conds).first
     end
   end
 
