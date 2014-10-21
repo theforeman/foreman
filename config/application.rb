@@ -137,6 +137,16 @@ module Foreman
     # Add apidoc hash in headers for smarter caching
     config.middleware.use "Apipie::Middleware::ChecksumInHeaders"
 
+    config.to_prepare do
+      ApplicationController.descendants.each do |child|
+        # reinclude the helper module in case some plugin extended some in the to_prepare phase,
+        # after the module was already included into controllers
+        helpers = child._helpers.ancestors.find_all do |ancestor|
+          ancestor.name =~ /Helper$/
+        end
+        child.helper helpers
+      end
+    end
   end
 
   def self.setup_console
