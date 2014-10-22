@@ -189,15 +189,25 @@ module Api
     attr_reader :nested_obj
 
     def find_required_nested_object
-      find_nested_object
-      return @nested_obj if @nested_obj
-      not_found
+      nested_object('not_found')
     end
 
     def find_optional_nested_object
+      nested_object('not_found_if_nested_id_exists')
+    end
+
+    def nested_object(not_found_return)
+      actions = %w(create update)
+      return if is_flat?(params) && actions.include?(action_name)
       find_nested_object
       return @nested_obj if @nested_obj
-      not_found_if_nested_id_exists
+      send(not_found_return)
+    end
+
+    def is_flat?(params)
+      model_name = controller_name.singularize
+      return false if params[model_name].blank?
+      params[model_name].keys.all? { |p| params.keys.include?(p) }
     end
 
     def find_nested_object
