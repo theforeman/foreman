@@ -82,8 +82,9 @@ module Nic
     end
   end
 
-  require_dependency 'nic/interface'
-
-  TYPES = [ Nic::Managed, Nic::Bond, Nic::BMC ]
+  # types that use can create either using API or UI
+  TYPES = %w(Nic::Managed Nic::Bond Nic::BMC)
 
 end
+
+require_dependency 'nic/interface'
