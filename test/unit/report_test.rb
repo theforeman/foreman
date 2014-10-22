@@ -65,14 +65,14 @@ class ReportTest < ActiveSupport::TestCase
   end
 
   test "should expire reports created 1 week ago" do
-    report_count = 25
+    report_count = 3
     Message.delete_all
     Source.delete_all
     FactoryGirl.create_list(:report, report_count, :with_logs)
     FactoryGirl.create_list(:report, report_count, :with_logs, :old_report)
     assert Report.count > report_count*2
     assert_difference('Report.count', -1*report_count) do
-      assert_difference(['Log.count', 'Message.count', 'Source.count'], -1*report_count*30) do
+      assert_difference(['Log.count', 'Message.count', 'Source.count'], -1*report_count*5) do
         Report.expire
       end
     end
