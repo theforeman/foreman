@@ -17,6 +17,7 @@ gem 'ldap_fluff', '>= 0.3.0', '< 1.0.0'
 gem 'uuidtools'
 gem "apipie-rails", "~> 0.2.5"
 gem 'rabl', '>= 0.7.5', '<= 0.9.0'
+gem "oj", '2.10.2'
 gem 'oauth'
 gem 'deep_cloneable', '~> 2.0'
 gem 'foreigner', '~> 1.4.2'
