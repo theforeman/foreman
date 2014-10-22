@@ -38,7 +38,7 @@ module HomeHelper
             elsif Location.current
               Location.current.to_label
             else
-              _("Any Context")
+              _("Any_Organization@Any_Location")
             end
     title
   end
