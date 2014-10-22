@@ -83,6 +83,7 @@ Foreman::Application.configure do |app|
                   ace/keybinding-emacs
                   diff
                   host_edit
+                  hosts
                   jquery.cookie
                   host_checkbox
                   nfs_visibility

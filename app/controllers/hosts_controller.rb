@@ -6,7 +6,7 @@ class HostsController < ApplicationController
 
   PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
-  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy}
+  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy review_before_build}
   BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
   MULTIPLE_ACTIONS = %w(multiple_parameters update_multiple_parameters  select_multiple_hostgroup
                         update_multiple_hostgroup select_multiple_environment update_multiple_environment
@@ -17,10 +17,11 @@ class HostsController < ApplicationController
 
   add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun,
+  before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
                                          :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                          :runtime, :resources, :templates, :ipmi_boot, :console,
                                          :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
+
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   before_filter :find_multiple, :only => MULTIPLE_ACTIONS
@@ -187,10 +188,26 @@ class HostsController < ApplicationController
     redirect_to host_path(@host)
   end
 
+  def review_before_build
+    @build = @host.build_status
+    render :layout => false
+  end
+
   def setBuild
     forward_url_options
     if @host.setBuild
-      process_success :success_msg => _("Enabled %s for rebuild on next boot") % (@host), :success_redirect => :back
+      if (params[:host] && params[:host][:build] == '1')
+        begin
+          process_success :success_msg => _("Enabled %s for reboot and rebuild") % (@host), :success_redirect => :back if @host.power.reset
+        rescue => error
+          logger.warn(error.to_s)
+          logger.debug error.backtrace.join("\n")
+          warning(_('Failed to reboot %s.') % @host)
+          process_success :success_msg => _("Enabled %s for rebuild on next boot") % (@host), :success_redirect => :back
+        end
+      else
+        process_success :success_msg => _("Enabled %s for rebuild on next boot") % (@host), :success_redirect => :back
+      end
     else
       process_error :redirect => :back, :error_msg => _("Failed to enable %{host} for installation: %{errors}") % { :host => @host, :errors => @host.errors.full_messages }
     end
@@ -523,30 +540,10 @@ class HostsController < ApplicationController
   end
 
   def template_used
-    host  = params[:host]
-    kinds = if params[:provisioning] == 'image'
-              cr     = ComputeResource.find_by_id(host[:compute_resource_id])
-              images = cr.try(:images)
-              if images.nil?
-                [TemplateKind.find('finish')]
-              else
-                uuid       = host[:compute_attributes][cr.image_param_name]
-                image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
-                [TemplateKind.find(image_kind)]
-              end
-            else
-              TemplateKind.all
-            end
-
-    templates = kinds.map do |kind|
-      ConfigTemplate.find_template({:kind               => kind.name,
-                                    :operatingsystem_id => host[:operatingsystem_id],
-                                    :hostgroup_id       => host[:hostgroup_id],
-                                    :environment_id     => host[:environment_id]
-      })
-    end.compact
+    host      = Host.new(params[:host])
+    templates = host.available_template_kinds(params[:provisioning])
     return not_found if templates.empty?
-    render :partial => "provisioning", :locals => {:templates => templates}
+    render :partial => 'provisioning', :locals => { :templates => templates }
   end
 
   private
@@ -562,7 +559,7 @@ class HostsController < ApplicationController
         :view
       when 'puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'
         :puppetrun
-      when 'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build'
+      when 'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build', 'review_before_build'
         :build
       when 'power'
         :power

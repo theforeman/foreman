@@ -237,10 +237,16 @@ module HostsHelper
                                     :disabled => host.can_be_built?,
                                     :title    => _("Cancel build request for this host"))
             else
-              link_to_if_authorized(_("Build"), hash_for_setBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
+              link_to_if_authorized(_("Build"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts', :anchor => "review_before_build"),
                                     :disabled => !host.can_be_built?,
                                     :title    => _("Enable rebuild on next host boot"),
-                                    :confirm  => _("Rebuild %s on next reboot?\nThis would also delete all of its current facts and reports") % host)
+                                    :class    => "btn",
+                                    :id       => "build-review",
+                                    :data     => { :toggle => 'modal',
+                                                   :target => '#review_before_build',
+                                                   :url    => review_before_build_host_path(:id => host)
+                                    }
+              )
             end
         ),
         if host.compute_resource_id || host.bmc_available?
@@ -328,5 +334,32 @@ module HostsHelper
   def link_status(f)
     return '' if f.object.new_record?
     '(' + (f.object.link ? _('Up') : _('Down')) + ')'
+  end
+
+  def build_state(build)
+    build.state ? 'warning' : 'danger'
+  end
+
+  def review_build_button(form, status)
+    form.submit(_("Build"),
+                :class => "btn btn-#{status} submit",
+                :title => (status == 'warning') ? _('Build') : _('Errors occurred, build may fail')
+    )
+  end
+
+  def supports_power_and_running(host)
+    return false unless host.compute_resource_id || host.bmc_available?
+    host.power.ready?
+  # return false if the proxyapi/bmc raised an error (and therefore do not know if power is supported)
+  rescue ProxyAPI::ProxyException
+    false
+  end
+
+  def build_error_link(type, id)
+    case type
+      when :templates
+        link_to_if_authorized(_("Edit"), hash_for_edit_config_template_path(:id => id).merge(:auth_object => id),
+                              :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type) )
+    end
   end
 end
