@@ -160,9 +160,9 @@ module LayoutHelper
         label   = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe, :class => "col-md-2 control-label") : ''
 
         label.html_safe +
-           content_tag(:div, :class => size_class) do
-             yield.html_safe + help_block.html_safe
-           end.html_safe + help_inline.html_safe
+          content_tag(:div, :class => size_class) do
+            yield.html_safe + help_block.html_safe
+          end.html_safe + help_inline.html_safe
       end.html_safe
     end
   end
@@ -297,8 +297,8 @@ module LayoutHelper
     "<h4 class='alert-heading'>#{text}</h4>".html_safe
   end
 
-  def alert_close
-    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'.html_safe
+  def alert_close(data_dismiss = 'alert')
+    "<button type='button' class='close' data-dismiss='#{data_dismiss}' aria-hidden='true'>&times;</button>".html_safe
   end
 
   def trunc(text, length = 32)
@@ -307,4 +307,7 @@ module LayoutHelper
     content_tag(:span, truncate(text, :length => length), options).html_safe
   end
 
+  def modal_close(data_dismiss = 'modal', text = _('Close'))
+    button_tag(text, :class => 'btn btn-default', :data => { :dismiss => data_dismiss })
+  end
 end

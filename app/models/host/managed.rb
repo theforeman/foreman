@@ -782,6 +782,41 @@ class Host::Managed < Host::Base
     managed && pxe_build? && build?
   end
 
+  def available_template_kinds(provisioning = nil)
+    kinds = if provisioning == 'image'
+              cr     = ComputeResource.find_by_id(self.compute_resource_id)
+              images = cr.try(:images)
+              if images.blank?
+                [TemplateKind.find('finish')]
+              else
+                uuid       = self.compute_attributes.cr.image_param_name
+                image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
+                [TemplateKind.find(image_kind)]
+              end
+            else
+              TemplateKind.all
+            end
+
+    kinds.map do |kind|
+      ConfigTemplate.find_template({ :kind               => kind.name,
+                                     :operatingsystem_id => operatingsystem_id,
+                                     :hostgroup_id       => hostgroup_id,
+                                     :environment_id     => environment_id
+                                   })
+    end.compact
+  end
+
+  def render_template(template)
+    @host = self
+    unattended_render(template)
+  end
+
+  def build_status
+    build_status = HostBuildStatus.new(self)
+    build_status.check_all_statuses
+    build_status
+  end
+
   private
 
   def lookup_value_match

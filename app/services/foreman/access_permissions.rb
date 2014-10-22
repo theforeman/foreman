@@ -357,7 +357,7 @@ Foreman::AccessControl.map do |map|
                                     :"api/v2/hosts" => [:destroy],
                                     :"api/v2/interfaces" => [:destroy]
                                   }
-    map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build],
+    map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build, :review_before_build],
                                     :tasks => tasks_ajax_actions,
                                     :"api/v2/tasks" => [:index] }
     map.permission :power_hosts,   {:hosts          => [:power],

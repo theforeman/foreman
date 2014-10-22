@@ -12,6 +12,10 @@ module PowerManager
       end # end
     end
 
+    def ready?
+      status == 'on'
+    end
+
     private
     attr_reader :proxy
 

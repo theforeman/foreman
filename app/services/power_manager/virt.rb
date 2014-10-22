@@ -42,7 +42,8 @@ module PowerManager
         :stop     => 'stop',
         :poweroff => 'poweroff',
         :reset    => 'reset',
-        :state    => 'state'
+        :state    => 'state',
+        :ready?   => 'ready?'
       }
     end
   end

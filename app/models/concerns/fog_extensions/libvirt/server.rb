@@ -25,8 +25,8 @@ module FogExtensions
       end
 
       def reset
-        poweroff
-        start
+        # @TODO: change to poweroff && start upon fix for LibVirt on Fog gem.
+        service.vm_action(uuid, :reset)
       end
 
       def vm_description

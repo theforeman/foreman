@@ -1,4 +1,5 @@
-<% javascript 'charts' %>
+<% stylesheet 'hosts' %>
+<% javascript 'charts', 'hosts' %>
 <% title @host.to_label, icon(@host.os) + @host.to_label %>
 
 <%= host_title_actions(@host) %>
@@ -88,6 +89,25 @@
           <%= image_tag 'spinner.gif' %>
           <%= _('Loading resources information ...') %>
         </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="review_before_build" class="modal fade hide">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <%= alert_close('modal') %>
+        <h4 class="modal-title"><%= _('Review build status for %s') % @host %></h4>
+      </div>
+      <div class="modal-body">
+        <%= alert(:header => _('Warning: This will delete this host and all of its data!'),
+                  :text   => _("This host's stored facts and reports will be deleted too."),
+                  :close  => false,
+                  :class => 'alert-warning'
+                 ) %>
+        <div class="loading"><%= image_tag 'spinner.gif' %></div>
+        <div id="build_status"></div>
       </div>
     </div>
   </div>
