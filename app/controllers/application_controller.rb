@@ -1,8 +1,5 @@
 class ApplicationController < ActionController::Base
-  include Foreman::Controller::Authentication
-  include Foreman::Controller::Session
-  include Foreman::ThreadSession::Cleaner
-  include FindCommon
+  include ApplicationShared
 
   ensure_security_headers
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -21,6 +18,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_filter :authorize
   before_filter :welcome, :only => :index, :unless => :api_request?
+  around_filter :set_timezone
   layout :display_layout?
 
   attr_reader :original_search_parameter

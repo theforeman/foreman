@@ -107,6 +107,9 @@ function onContentLoad(){
   $('form').on('click', 'input[type="submit"]', function() {
     $("#fakepassword").remove();
   });
+
+  var tz = jstz.determine();
+  $.cookie('timezone', tz.name(), { path: '/' });
 }
 
 function remove_fields(link) {

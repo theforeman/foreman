@@ -5,7 +5,7 @@ module HostsHelper
   include BmcHelper
 
   def last_report_column(record)
-    time = record.last_report? ? _("%s ago") % time_ago_in_words(record.last_report.getlocal): ""
+    time = record.last_report? ? _("%s ago") % time_ago_in_words(record.last_report): ""
     link_to_if_authorized(time,
                           hash_for_host_report_path(:host_id => record.to_param, :id => "last"),
                           last_report_tooltip(record))
@@ -64,7 +64,7 @@ module HostsHelper
   end
 
   def days_ago(time)
-    ((Time.now - time) / 1.day).round.to_i
+    ((Time.zone.now - time) / 1.day).round.to_i
   end
 
   def authorized?

@@ -814,4 +814,24 @@ class UserTest < ActiveSupport::TestCase
     users = User.search_for("role_id = #{role.id}")
     assert (users.include? user)
   end
+
+  test 'can set valid timezone' do
+    timezone = "Fiji"
+    user = users(:one)
+    user.timezone = timezone
+    assert user.valid?
+    assert_equal(user.timezone, timezone)
+  end
+
+  test 'can not set invalid timezone' do
+    user = users(:one)
+    user.timezone = "Brno"
+    refute user.valid?
+  end
+
+  test 'timezone can be blank' do
+    user = users(:one)
+    user.timezone = ''
+    assert user.valid?
+  end
 end

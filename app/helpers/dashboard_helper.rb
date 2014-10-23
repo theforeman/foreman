@@ -1,7 +1,7 @@
 module DashboardHelper
 
   def dashboard_actions
-    [_("Generated at %s") % Time.now.to_s(:short),
+    [_("Generated at %s") % Time.zone.now.to_s(:short),
      select_action_button(_("Manage dashboard"), {},
                           link_to_function(_("Save dashboard"), 'save_position()'),
                           link_to_function(_("Reset to default"), 'reset_position()'),
@@ -17,7 +17,7 @@ module DashboardHelper
   def count_reports(hosts)
     data = []
     interval = Setting[:puppet_interval] / 10
-    start = Time.now.utc - Setting[:puppet_interval].minutes
+    start = Time.zone.now - Setting[:puppet_interval].minutes
     (0..9).each do |i|
       t = start + (interval.minutes * i)
       data << [Setting[:puppet_interval] - i*interval, hosts.run_distribution(t, t + interval.minutes).count]

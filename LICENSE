@@ -34,6 +34,7 @@ The following files and directories are exceptions:
 * vendor/assets/javascripts/jquery.dataTables.min.js is GNU GPL v2/BSD
 * vendor/assets/javascripts/jquery.jeditable.js is MIT licensed
 * vendor/assets/javascripts/jquery.jnotify.js is ASL 2.0 licensed
+* vendor/assets/javascripts/jstz.js is MIT licensed
 
 Holders for code above are:
 
@@ -51,6 +52,7 @@ Holders for code above are:
   (c) 2008-2012 Allan Jardine
   (c) 2006-2009 Mika Tuupola, Dylan Verheul
   (c) 2010 Giva, Inc.
+  (c) 2012 -2014 Jon Nylander
 
 All rights reserved.
 
