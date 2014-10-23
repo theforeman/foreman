@@ -83,6 +83,7 @@ Foreman::Application.configure do |app|
                   ace/keybinding-emacs
                   diff
                   host_edit
+                  host_edit_interfaces
                   hosts
                   jquery.cookie
                   host_checkbox

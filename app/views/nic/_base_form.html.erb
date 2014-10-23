@@ -1,8 +1,10 @@
 <%= selectable_f f, :type, interfaces_types, {},
                  :class => 'interface_type', :disabled => !f.object.new_record? %>
 
-<%= text_f f, :mac %>
-<%= text_f f, :identifier, :disabled => !f.object.new_record?, :help_inline => _("Device identifier, i.e.: eth0 or eth1.1") %>
+<%= text_f f, :mac, :class => :interface_mac %>
+<%= text_f f, :identifier, :disabled => !f.object.new_record?,
+              :help_inline => _("Device identifier, i.e.: eth0 or eth1.1"),
+              :class => :interface_identifier %>
 <%= text_f f, :name, :label => _("DNS name") %>
 <%= select_f f, :domain_id, accessible_domains, :id, :to_label,
              { :include_blank => accessible_domains.any? ? true : _("No domains")},
