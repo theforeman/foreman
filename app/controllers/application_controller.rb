@@ -290,7 +290,7 @@ class ApplicationController < ActionController::Base
     logger.warn "Failed to #{action}: #{message}"
     logger.debug "Original exception backtrace:\n" + origin.backtrace.join("\n") if origin.present?
     logger.debug "Causing backtrace:\n" + exception.backtrace.join("\n")
-    render :text => "Failure: #{message}"
+    render :text => _("Failure: %s") % message
   end
 
   def redirect_back_or_to(url)
