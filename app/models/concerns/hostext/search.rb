@@ -65,6 +65,7 @@ module Hostext
         scoped_search :on => :installed_at,                         :complete_value => true, :only_explicit => true
         scoped_search :in => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
         scoped_search :in => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
+        scoped_search :in => :operatingsystem, :on => :title,       :complete_value => true, :rename => :os_title
         scoped_search :in => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major
         scoped_search :in => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor
         scoped_search :in => :operatingsystem, :on => :id,          :complete_value => false,:rename => :os_id, :complete_enabled => false

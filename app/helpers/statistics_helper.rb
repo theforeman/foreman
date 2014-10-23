@@ -2,7 +2,7 @@ module StatisticsHelper
   def charts
     options = {:class => "statistics-pie small", :expandable => true, :'border' => 0, :show_title => true}
     [
-      flot_pie_chart("os_dist",_("OS Distribution"), @os_count, options.merge(:search => "os_description=~VAL~")),
+      flot_pie_chart("os_dist",_("OS Distribution"), @os_count, options.merge(:search => "os_title=~VAL~")),
       flot_pie_chart("arch_dist",_("Architecture Distribution"), @arch_count, options.merge( :search => "facts.architecture=~VAL~")),
       flot_pie_chart("env_dist",_("Environments Distribution"), @env_count, options.merge( :search => "environment=~VAL~" )),
       flot_pie_chart("cpu_num",_("Number of CPUs"), @cpu_count,options.merge( :search => "facts.processorcount=~VAL1~")),
