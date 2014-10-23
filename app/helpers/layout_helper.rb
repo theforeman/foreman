@@ -114,6 +114,13 @@ module LayoutHelper
     end
   end
 
+  def time_zone_select_f(f, attr, default_timezone, select_options = {}, html_options = {})
+    field(f, attr, html_options) do
+      addClass html_options, "form-control"
+      f.time_zone_select(attr, [default_timezone], select_options, html_options)
+    end
+  end
+
   def selectable_f(f, attr, array, select_options = {}, html_options = {})
     html_options.merge!(:size => 'col-md-10') if html_options[:multiple]
     field(f, attr, html_options) do
