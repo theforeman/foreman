@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::TestableController < Api::V1::BaseController
   def index
-    render :text => 'dummy', :status => 200
+    render :text => Time.zone.name, :status => 200
   end
 
   def raise_error
@@ -154,6 +154,35 @@ class Api::TestableControllerTest < ActionController::TestCase
       scope.expects(:find).with(1).returns(obj)
       Domain.expects(:authorized).with('view_domains').returns(scope)
       assert_equal obj, ctrl.send(:find_required_nested_object)
+    end
+  end
+
+  context 'controllers uses timezone' do
+    setup do
+      SETTINGS[:login] = true
+      @user = users(:admin)
+      @user.update_attribute(:timezone, 'Fiji')
+    end
+
+    it 'modifies timezone only inside a controller' do
+      get :index, {}, {:user => @user.id, :expires_at => 5.minutes.from_now}
+      # inside the controller
+      assert_equal(@response.body, @user.timezone)
+      # outside the controller
+      refute_equal(Time.zone.name, @user.timezone)
+    end
+
+    it 'defaults to UTC timezone if user timezone and cookie are not set' do
+      @user.update_attribute(:timezone, nil)
+      get :index, {}, {:user => @user.id, :expires_at => 5.minutes.from_now}
+      assert_equal(@response.body, 'UTC')
+    end
+
+    it 'changes the timezone according to cookie when user timezone is nil' do
+      @user.update_attribute(:timezone, nil)
+      cookies[:timezone] = 'Australia/Sydney'
+      get :index, {}, {:user => @user.id, :expires_at => 5.minutes.from_now}
+      assert_equal(@response.body, cookies[:timezone])
     end
   end
 end

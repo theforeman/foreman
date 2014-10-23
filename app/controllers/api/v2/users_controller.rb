@@ -44,6 +44,7 @@ module Api
           param :default_location_id, Integer if SETTINGS[:locations_enabled]
           param :default_organization_id, Integer if SETTINGS[:organizations_enabled]
           param :auth_source_id, Integer, :required => true
+          param :timezone, String, :required => false
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end

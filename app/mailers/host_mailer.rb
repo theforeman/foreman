@@ -33,7 +33,7 @@ class HostMailer < ApplicationMailer
     mail(:to   => user.mail,
          :from => Setting["email_reply_address"],
          :subject => subject,
-         :date => Time.now )
+         :date => Time.zone.now )
   end
 
   def error_state(report)

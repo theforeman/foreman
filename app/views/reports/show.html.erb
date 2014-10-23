@@ -1,7 +1,7 @@
 <%= javascript 'reports', 'ace/ace' %>
 <% title "#{@report.host}"%>
 
-<p class='ra'> <%= _("Reported at %s ") % @report.reported_at.getlocal %> </p>
+<p class='ra'> <%= _("Reported at %s ") % @report.reported_at %> </p>
 <% if @offset > 10 %>
   <div class="alert alert-block alert-danger alert-dismissable">
     <%= alert_close %>

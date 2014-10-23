@@ -4,3 +4,4 @@
 //= require jquery.dataTables.bootstrap-paging
 //= require jquery.jnotify
 //= require jquery.jeditable
+//= require jstz

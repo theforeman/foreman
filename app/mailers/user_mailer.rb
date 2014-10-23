@@ -9,6 +9,6 @@ class UserMailer < ApplicationMailer
 
     mail(:to      => user.mail,
          :subject => _("Welcome to Foreman"),
-         :date    => Time.now)
+         :date    => Time.zone.now)
   end
 end

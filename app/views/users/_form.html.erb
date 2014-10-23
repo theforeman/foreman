@@ -26,6 +26,8 @@
       <%= selectable_f(f, :locale, FastGettext.human_available_locales,
                         { :include_blank => _('Browser locale') } , { :label => _('Language') } ) %>
 
+      <%= time_zone_select_f(f, :timezone, Time.find_zone(@user.timezone) || Time.find_zone!('UTC'), { :include_blank => _('Browser timezone') }) %>
+
       <%= select_f(f, :auth_source_id, AuthSource.except_hidden.delete_if { |a| a.to_label.nil? } , :id,
                       :to_label, { :include_blank => true } ,
                       { :onchange => 'auth_source_selected()',

@@ -14,6 +14,6 @@ class UserMailNotification < ActiveRecord::Base
   def deliver(options = {})
     options[:time] = last_sent if last_sent
     mail_notification.deliver(options.merge(:user => user.id))
-    update_attribute(:last_sent, Time.now)
+    update_attribute(:last_sent, Time.zone.now)
   end
 end
