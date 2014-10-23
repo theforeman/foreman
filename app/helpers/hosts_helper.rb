@@ -331,9 +331,15 @@ module HostsHelper
                                :class => 'fr label label-danger'})
   end
 
-  def link_status(f)
-    return '' if f.object.new_record?
-    '(' + (f.object.link ? _('Up') : _('Down')) + ')'
+  def link_status(nic)
+    return '' if nic.new_record?
+
+    if nic.link
+      status = '<i class="glyphicon glyphicon glyphicon-arrow-up interface-up" title="'+ _('Up') +'"></i>'
+    else
+      status = '<i class="glyphicon glyphicon glyphicon-arrow-down interface-down" title="'+ _('Down') +'"></i>'
+    end
+    status.html_safe
   end
 
   def build_state(build)

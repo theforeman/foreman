@@ -371,3 +371,50 @@ table tr td:last-child {
   vertical-align: bottom;
   float: none;
 }
+
+#interfaceModal .modal-dialog {
+  min-width: 1000px
+}
+
+#addInterface {
+  margin-left: 10px;
+  margin-bottom: 5px;
+}
+
+.interface-down {
+  color: #808080;
+}
+
+#interfaceList.table {
+
+  border-collapse: separate;
+  border-width: 0 0 1px 0;
+
+  tr {
+    th:first-child,
+    td:first-child {
+      border-width: 1px 1px 0 1px;
+    }
+
+    th, td {
+      border-width: 1px 1px 0 0;
+    }
+  }
+
+  tr.has-error {
+    td:first-child {
+      border-left: 1px solid #a94442;
+    }
+
+    td:last-child {
+      border-right: 1px solid #a94442;
+    }
+
+    td {
+      color: #333333;
+      border-top: 1px solid #a94442;
+      border-bottom: 1px solid #a94442;
+    }
+  }
+
+}

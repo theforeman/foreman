@@ -186,3 +186,11 @@ span.btn a{ text-decoration: none; color: #333333}
 .tooltip {
   word-wrap: break-word;
 }
+
+.has-error {
+  color: #a94442
+}
+
+body.modal-open {
+  overflow: visible;
+}

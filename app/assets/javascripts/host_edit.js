@@ -533,8 +533,11 @@ $(document).on('change', '.interface_type', function () {
 });
 
 function interface_domain_selected(element) {
+  // mark the selected value to preserve it for form hiding
+  $(element).find('option:selected').attr('selected', 'selected')
+
   var domain_id = element.value;
-  var subnet_options = $(element).parentsUntil('.fields').parent().find('[id$=_subnet_id]').empty();
+  var subnet_options = $(element).closest('fieldset').find('[id$=_subnet_id]').empty();
 
   subnet_options.attr('disabled', true);
 
@@ -571,9 +574,12 @@ function interface_domain_selected(element) {
 }
 
 function interface_subnet_selected(element) {
+  // mark the selected value to preserve it for form hiding
+  $(element).find('option:selected').attr('selected', 'selected')
+
   var subnet_id = $(element).val();
   if (subnet_id == '') return;
-  var interface_ip = $(element).parentsUntil('.fields').parent().find('input[id$=_ip]')
+  var interface_ip = $(element).closest('fieldset').find('input[id$=_ip]');
 
   interface_ip.attr('disabled', true);
   $(element).indicator_show();
