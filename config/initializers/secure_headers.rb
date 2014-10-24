@@ -13,7 +13,7 @@
     :enforce     => true,
     :default_src => 'self',
     :frame_src   => 'self',
-    :connect_src => 'self ws://',
+    :connect_src => 'self ws: wss:',
     :style_src   => 'inline self',
     :script_src  => 'eval inline self',
     :img_src     => ['self', '*.gravatar.com']
