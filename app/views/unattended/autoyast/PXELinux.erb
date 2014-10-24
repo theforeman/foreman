@@ -5,4 +5,4 @@ name: AutoYaST default PXELinux
 default linux
 label linux
 kernel <%= @kernel %>
-append initrd=<%= @initrd %> ramdisk_size=65536 install=<%= media_path %> autoyast=<%= foreman_url('provision') + '?format=xml' %> textmode=1
+append initrd=<%= @initrd %> ramdisk_size=65536 install=<%= media_path %> autoyast=<%= foreman_url('provision') + '&format=xml' %> textmode=1
