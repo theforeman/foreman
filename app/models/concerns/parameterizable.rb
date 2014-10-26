@@ -1,7 +1,7 @@
 module Parameterizable
 
   def self.parameterize(string)
-    string.gsub('/', '-').gsub(/[!*'();:@&=+$,?%#\[\]]/, '').chomp('-')
+    string.gsub(/[\/.]/, '-').gsub(/[!*'();:@&=+$,?%#\[\]]/, '').chomp('-')
   end
 
   module ById
