@@ -108,7 +108,7 @@ d-i apt-setup/local<%= repos %>/key string http://keyserver.ubuntu.com/pks/looku
 <% end -%>
 
 # Install minimal task set (see tasksel --task-packages minimal)
-tasksel tasksel/first multiselect minimal, ssh-server
+tasksel tasksel/first multiselect minimal, ssh-server, openssh-server
 
 <% if puppet_enabled %>
   <% if @host.operatingsystem.name == 'Ubuntu' and @host.operatingsystem.major.to_i == 10 -%>
