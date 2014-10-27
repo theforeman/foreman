@@ -24,7 +24,7 @@ class HostBuildStatus
       fail!(:host, error.to_s, host.to_label)
     end
   rescue => error
-    fail!(:host, _('Failed to validate %s: %s') % [host, error.to_s], host.to_label)
+    fail!(:host, _('Failed to validate %{host}: %{error}') % {:host => host, :error => error.to_s}, host.to_label)
   end
 
   def templates_status
@@ -35,7 +35,7 @@ class HostBuildStatus
         valid_template = host.render_template(template.template)
         fail!(:templates, _('Template %s is empty.') % template.name, template.name) if valid_template.blank?
       rescue => exception
-        fail!(:templates, (_('Failure parsing %s: %s.') % [template.name, exception]), template.name)
+        fail!(:templates, _('Failure parsing %{template}: %{error}.') % {:template => template.name, :error => exception}, template.name)
       end
     end
   end
@@ -47,9 +47,9 @@ class HostBuildStatus
       begin
         errors = proxy.refresh.messages.any?
         errors = errors.is_a?(Array) ? errors.to_sentence : errors
-        fail!(:proxies, _('Failure deploying via smart proxy %s: %s.') % [proxy, errors], proxy.id) if errors
+        fail!(:proxies, _('Failure deploying via smart proxy %{proxy}: %{error}.') % {:proxy => proxy, :error => errors}, proxy.id) if errors
       rescue => error
-        fail!(:proxies, _('Error connecting to %s: %s.') % [proxy, error], proxy.id)
+        fail!(:proxies, _('Error connecting to %{proxy}: %{error}.') % {:proxy => proxy, :error => error}, proxy.id)
       end
     end
   end
