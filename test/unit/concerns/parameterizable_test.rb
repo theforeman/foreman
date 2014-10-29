@@ -17,6 +17,14 @@ class ParameterizableTest < ActiveSupport::TestCase
       assert_equal '1', Parameterizable.parameterize("1-[]")
     end
 
-  end
+    it 'should convert dots to dashes' do
+      assert_equal('1-fore-man-org', Parameterizable.parameterize('1-fore.man.org'))
+      assert_equal('1-Форє-ман-орґ', Parameterizable.parameterize('1-Форє.ман.орґ'))
+    end
 
+    it 'should convert dots to dashes, yet keep spaces' do
+      assert_equal('foreman ШЯЛ inc-luded', Parameterizable.parameterize('foreman ШЯЛ inc.luded'))
+    end
+
+  end
 end
