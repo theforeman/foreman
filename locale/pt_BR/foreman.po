@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-20 13:01+0100\n"
-"PO-Revision-Date: 2014-10-21 18:51+0000\n"
+"POT-Creation-Date: 2014-10-24 11:15+0100\n"
+"PO-Revision-Date: 2014-10-25 10:10+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/foreman/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -501,6 +501,14 @@ msgid "Architectures"
 msgstr "Arquiteturas"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Architecture|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Architecture|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Name"
 msgstr "Name"
 
@@ -665,8 +673,16 @@ msgid "AuthSource|Attr mail"
 msgstr "Atributo email"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Attr photo"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Base dn"
 msgstr "Base DN"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Groups base"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Host"
@@ -690,6 +706,10 @@ msgstr "Registro automático"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Port"
 msgstr "Porta"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Server type"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Tls"
@@ -1098,6 +1118,10 @@ msgstr "UUID"
 msgid "Config Retrieval"
 msgstr "Obter configuração"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Config group"
+msgstr ""
+
 msgid "Config groups"
 msgstr "Grupos de Configuração"
 
@@ -1105,6 +1129,27 @@ msgstr "Grupos de Configuração"
 msgid "Config template"
 msgstr "Template de configuração"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Config group classes count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigTemplate|Default"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Locked"
 msgstr ""
 
@@ -1119,6 +1164,10 @@ msgstr "Snippet"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Template"
 msgstr "Template"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigTemplate|Vendor"
+msgstr ""
 
 msgid "Configure"
 msgstr "Configurar"
@@ -1674,6 +1723,14 @@ msgid "Domain|Fullname"
 msgstr "Description"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Domain|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Domain|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
 msgstr "DNS domain"
 
@@ -1871,6 +1928,14 @@ msgid ""
 msgstr "Ambiente deve ser criado manualmente e somente requer o nome de ambiente a ser declarado"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Environment|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Environment|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Name"
 msgstr "Nome"
 
@@ -1936,6 +2001,14 @@ msgid "External user group information"
 msgstr ""
 
 msgid "External user group name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "External usergroup"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ExternalUsergroup|Name"
 msgstr ""
 
 msgid "Fact Chart"
@@ -2103,6 +2176,9 @@ msgstr ""
 msgid "Failed|F"
 msgstr "F"
 
+msgid "Failure: %s"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Feature"
 msgstr "Funcionalidade"
@@ -2117,6 +2193,7 @@ msgstr "Name"
 msgid "Fetch TFTP boot files for %s"
 msgstr "Localizando arquivos de inicialização TFTP de %s"
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr "Filtro"
 
@@ -2138,8 +2215,13 @@ msgstr "Permissão"
 msgid "Filter|Resource"
 msgstr "Recursos"
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Filter|Search"
 msgstr "Pesquisa"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Filter|Taxonomy search"
+msgstr ""
 
 msgid "Filter|Unlimited"
 msgstr "Ilimitado"
@@ -2455,6 +2537,10 @@ msgstr "Parâmetros do host"
 msgid "Host audit entries"
 msgstr "Registros de auditoria do Host"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host config group"
+msgstr ""
+
 msgid "Host details"
 msgstr "Detalhes do Host"
 
@@ -2509,6 +2595,10 @@ msgid "Host::Base|Enabled"
 msgstr "Habilitado"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Grub pass"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Image file"
 msgstr "Arquivo de imagem"
 
@@ -2545,8 +2635,20 @@ msgid "Host::Base|Name"
 msgstr "Nome"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Otp"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Owner type"
 msgstr "Tipo de dono"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Primary interface"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Provision method"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Puppet status"
@@ -2569,6 +2671,10 @@ msgid "Host::Base|Uuid"
 msgstr "UUID"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "HostConfigGroup|Host type"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
 msgstr "Grupo de host"
 
@@ -2577,12 +2683,12 @@ msgid "Hostgroup|Ancestry"
 msgstr "Ancestral"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "Hostgroup|Image file"
-msgstr "Arquivo de imagem"
+msgid "Hostgroup|Grub pass"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "Hostgroup|Label"
-msgstr "Etiqueta"
+msgid "Hostgroup|Image file"
+msgstr "Arquivo de imagem"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Name"
@@ -2591,6 +2697,10 @@ msgstr "Nome"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Root pass"
 msgstr "Senha de root"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Hostgroup|Title"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Use image"
@@ -2869,6 +2979,10 @@ msgid "Image|Name"
 msgstr "Nome"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Image|Password"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Image|User data"
 msgstr "User data"
 
@@ -2962,7 +3076,7 @@ msgstr ""
 msgid "Interface provider, e.g. IPMI. Only for BMC interfaces."
 msgstr ""
 
-msgid "Interface type, e.g: Nic::BMC"
+msgid "Interface type, e.g: bmc"
 msgstr ""
 
 msgid "Internal DB"
@@ -3519,6 +3633,10 @@ msgid "Lookup value"
 msgstr "Valor de procura"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Avoid duplicates"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Default value"
 msgstr "Valor padrão"
 
@@ -3541,6 +3659,10 @@ msgstr "Tipo de chave"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
 msgstr "Número de valores lookup"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Merge overrides"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Override"
@@ -3722,6 +3844,10 @@ msgstr "Modelo"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
 msgstr "Modelo de hardware"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Model|Hosts count"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Info"
@@ -3940,20 +4066,68 @@ msgid "New window"
 msgstr "Nova Janela"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Attached devices"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Attached to"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Attrs"
 msgstr "Atributos"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Bond options"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Identifier"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Ip"
 msgstr "IP"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Link"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Mac"
 msgstr "MAC"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Managed"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Mode"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Name"
 msgstr "Nome"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Password"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Provider"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Tag"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Username"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Virtual"
+msgstr ""
 
 msgid ""
 "No %{template_kind} templates were found for this host, make sure you define"
@@ -4125,7 +4299,6 @@ msgstr ""
 msgid "Nothing to show"
 msgstr "Nada para exibir"
 
-#. "Table name" or "Table name|Column name" for error messages
 msgid "Notice"
 msgstr "Comunicado"
 
@@ -4134,18 +4307,6 @@ msgstr "Comunicado:"
 
 msgid "Notices, warnings and errors"
 msgstr "Comunicados, avisos e erros"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Content"
-msgstr "Conteúdo"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Global"
-msgstr "Global"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Level"
-msgstr "Nível"
 
 msgid "Notification disabled"
 msgstr "Notificações desabilitadas"
@@ -4293,6 +4454,14 @@ msgid "Operatingsystem|Description"
 msgstr "Description"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Major"
 msgstr "Versão maior"
 
@@ -4309,8 +4478,16 @@ msgid "Operatingsystem|Nameindicator"
 msgstr "Nome do indicador"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Password hash"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Release name"
 msgstr "Nome da release"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Title"
+msgstr ""
 
 msgid "Operation"
 msgstr "Operação"
@@ -4450,6 +4627,10 @@ msgid "Parameters that would be associated with hosts in this %s"
 msgstr "Parâmetros que seriam associados aos hosts neste %s"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Parameter|Hidden value"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Name"
 msgstr "Nome"
 
@@ -4522,6 +4703,7 @@ msgstr "Alterações Pendentes"
 msgid "Pending|P"
 msgstr "P"
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Permission"
 msgstr "Permissão"
 
@@ -4530,6 +4712,14 @@ msgstr "Permissão negada"
 
 msgid "Permissions must be of same resource type"
 msgstr "Permissões deve ser do mesmo tipo de recurso"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Permission|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Permission|Resource type"
+msgstr ""
 
 msgid "Photo attribute"
 msgstr "Atributo de Foto"
@@ -4772,6 +4962,22 @@ msgid "Puppetclass"
 msgstr "Classe Puppet"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Global class params count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Lookup keys count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Puppetclass|Name"
 msgstr "Nome"
 
@@ -4787,6 +4993,7 @@ msgstr ""
 msgid "REPLACE organizations with given ids."
 msgstr ""
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr "Território"
 
@@ -4817,8 +5024,21 @@ msgstr ""
 msgid "Realms"
 msgstr "Territórios"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Realm|Name"
 msgstr "Name"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Realm type"
+msgstr ""
 
 msgid ""
 "Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
@@ -5238,6 +5458,14 @@ msgid ""
 "installer modules?"
 msgstr ""
 
+msgid "Should the matched result avoid duplicate values (only array type)."
+msgstr ""
+
+msgid ""
+"Should the matchers continue to look for matches after first find (only "
+"array/hash type)."
+msgstr ""
+
 msgid ""
 "Should this interface be managed via DHCP and DNS smart proxy and should it "
 "be configured during provisioning?"
@@ -5580,6 +5808,10 @@ msgid "Subnets"
 msgstr "Subredes"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Boot mode"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Dns primary"
 msgstr "DNS primário"
 
@@ -5594,6 +5826,10 @@ msgstr "De"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Gateway"
 msgstr "Gateway"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Ipam"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Mask"
@@ -5704,12 +5940,20 @@ msgid "Taxonomy"
 msgstr "Taxônomia"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Taxonomy|Ancestry"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Ignore types"
 msgstr "Ignorar tipos"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Name"
 msgstr "Nome"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Taxonomy|Title"
+msgstr ""
 
 msgid "Template"
 msgstr "Template"
@@ -6302,6 +6546,9 @@ msgstr "Nome da ação desconhecida para mensagem bem sucedida: %s"
 msgid "Unknown device: available devices are %s"
 msgstr ""
 
+msgid "Unknown interface type, must be one of [%s]"
+msgstr ""
+
 msgid "Unknown power action: available methods are %s"
 msgstr ""
 
@@ -6505,10 +6752,6 @@ msgstr "Grupo de usuários"
 msgid "User IDs"
 msgstr ""
 
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User fact"
-msgstr "Fato de usuário"
-
 msgid "User group"
 msgstr ""
 
@@ -6516,16 +6759,12 @@ msgid "User groups"
 msgstr "Grupos de usuários"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Andor"
-msgstr "e/ou"
+msgid "User role"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Criteria"
-msgstr "Critério"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Operator"
-msgstr "Operador"
+msgid "UserRole|Owner type"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup"
@@ -6538,6 +6777,10 @@ msgstr "Membro do grupo de usuário"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UsergroupMember|Member type"
 msgstr "Tipo de membro"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Usergroup|Admin"
+msgstr ""
 
 msgid "Usergroup|Auth source"
 msgstr ""
@@ -6560,28 +6803,12 @@ msgid "User|Admin"
 msgstr "Administrador"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Compute resources andor"
-msgstr "Recursos computacionais e/ou"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Domains andor"
-msgstr "Domínios e/ou"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Facts andor"
-msgstr "Fatos e/ou"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Filter on owner"
-msgstr "Filtro no dono"
+msgid "User|Avatar hash"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Firstname"
 msgstr "Primeiro nome"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Hostgroups andor"
-msgstr "Grupo de hosts e/ou"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Last login on"
@@ -6596,20 +6823,16 @@ msgid "User|Locale"
 msgstr "Localização"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Locations andor"
-msgstr "Localizações e/ou"
-
-#. "Table name" or "Table name|Column name" for error messages
 msgid "User|Login"
 msgstr "Username"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Mail"
-msgstr "Email address"
+msgid "User|Lower login"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Organizations andor"
-msgstr "Organizations and/or"
+msgid "User|Mail"
+msgstr "Email address"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
@@ -6618,10 +6841,6 @@ msgstr "Password hash"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password salt"
 msgstr "Senha salt"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Subscribe to all hostgroups"
-msgstr "Subscribe to all hostgroups"
 
 msgid "Uses thin provisioning if unchecked"
 msgstr ""
@@ -6999,6 +7218,12 @@ msgid "boolean"
 msgstr ""
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
+msgstr ""
+
+msgid "can only be set for array or hash"
+msgstr ""
+
+msgid "can only be set for arrays that have merge_overrides set to true"
 msgstr ""
 
 msgid "can't be bigger than to range"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-20 13:01+0100\n"
-"PO-Revision-Date: 2014-10-21 10:13+0000\n"
+"POT-Creation-Date: 2014-10-24 11:15+0100\n"
+"PO-Revision-Date: 2014-10-25 10:10+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -481,6 +481,14 @@ msgid "Architectures"
 msgstr "아키텍처 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Architecture|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Architecture|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Name"
 msgstr "이름 "
 
@@ -644,8 +652,16 @@ msgid "AuthSource|Attr mail"
 msgstr "속성 메일 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Attr photo"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Base dn"
 msgstr "기본 DN"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Groups base"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Host"
@@ -669,6 +685,10 @@ msgstr "즉시 등록 "
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Port"
 msgstr "포트 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Server type"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Tls"
@@ -1077,6 +1097,10 @@ msgstr "UUID"
 msgid "Config Retrieval"
 msgstr "설정 검색 "
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Config group"
+msgstr ""
+
 msgid "Config groups"
 msgstr "설정 그룹 "
 
@@ -1084,6 +1108,27 @@ msgstr "설정 그룹 "
 msgid "Config template"
 msgstr "설정 템플릿 "
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Config group classes count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigTemplate|Default"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Locked"
 msgstr ""
 
@@ -1098,6 +1143,10 @@ msgstr "스니펫 "
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Template"
 msgstr "템플릿 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigTemplate|Vendor"
+msgstr ""
 
 msgid "Configure"
 msgstr "설정"
@@ -1652,6 +1701,14 @@ msgid "Domain|Fullname"
 msgstr "성명 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Domain|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Domain|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
 msgstr "이름 "
 
@@ -1849,6 +1906,14 @@ msgid ""
 msgstr "환경은 수동으로 생성될 수 있으며 지정된 환경의 이름만 필요합니다. "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Environment|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Environment|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Name"
 msgstr "이름 "
 
@@ -1914,6 +1979,14 @@ msgid "External user group information"
 msgstr ""
 
 msgid "External user group name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "External usergroup"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ExternalUsergroup|Name"
 msgstr ""
 
 msgid "Fact Chart"
@@ -2081,6 +2154,9 @@ msgstr ""
 msgid "Failed|F"
 msgstr "F"
 
+msgid "Failure: %s"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Feature"
 msgstr "기능 "
@@ -2095,6 +2171,7 @@ msgstr "이름 "
 msgid "Fetch TFTP boot files for %s"
 msgstr "%s의 TFTP 부팅 파일 가져오기 "
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr "필터 "
 
@@ -2116,8 +2193,13 @@ msgstr "권한 "
 msgid "Filter|Resource"
 msgstr "리소스 "
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Filter|Search"
 msgstr "검색 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Filter|Taxonomy search"
+msgstr ""
 
 msgid "Filter|Unlimited"
 msgstr "무제한 "
@@ -2433,6 +2515,10 @@ msgstr "호스트 매개 변수 "
 msgid "Host audit entries"
 msgstr "호스트 감사 항목 "
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host config group"
+msgstr ""
+
 msgid "Host details"
 msgstr "호스트 상세 정보 "
 
@@ -2487,6 +2573,10 @@ msgid "Host::Base|Enabled"
 msgstr "활성화됨 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Grub pass"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Image file"
 msgstr "이미지 파일 "
 
@@ -2523,8 +2613,20 @@ msgid "Host::Base|Name"
 msgstr "이름 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Otp"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Owner type"
 msgstr "소유자 유형 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Primary interface"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Provision method"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Puppet status"
@@ -2547,6 +2649,10 @@ msgid "Host::Base|Uuid"
 msgstr "UUID"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "HostConfigGroup|Host type"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
 msgstr "호스트 그룹 "
 
@@ -2555,12 +2661,12 @@ msgid "Hostgroup|Ancestry"
 msgstr "상위 "
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "Hostgroup|Image file"
-msgstr "이미지 파일 "
+msgid "Hostgroup|Grub pass"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "Hostgroup|Label"
-msgstr ""
+msgid "Hostgroup|Image file"
+msgstr "이미지 파일 "
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Name"
@@ -2569,6 +2675,10 @@ msgstr "이름 "
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Root pass"
 msgstr "Root 경로 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Hostgroup|Title"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Use image"
@@ -2847,6 +2957,10 @@ msgid "Image|Name"
 msgstr "이름 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Image|Password"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Image|User data"
 msgstr "사용자 데이터 "
 
@@ -2940,7 +3054,7 @@ msgstr ""
 msgid "Interface provider, e.g. IPMI. Only for BMC interfaces."
 msgstr ""
 
-msgid "Interface type, e.g: Nic::BMC"
+msgid "Interface type, e.g: bmc"
 msgstr ""
 
 msgid "Internal DB"
@@ -3497,6 +3611,10 @@ msgid "Lookup value"
 msgstr "검색 값 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Avoid duplicates"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Default value"
 msgstr "기본값 "
 
@@ -3519,6 +3637,10 @@ msgstr "키 유형 "
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
 msgstr "검색 값 수 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Merge overrides"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Override"
@@ -3700,6 +3822,10 @@ msgstr "모델 "
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
 msgstr "하드웨어 모델 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Model|Hosts count"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Info"
@@ -3918,20 +4044,68 @@ msgid "New window"
 msgstr "새 창 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Attached devices"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Attached to"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Attrs"
 msgstr "속성 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Bond options"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Identifier"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Ip"
 msgstr "IP"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Link"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Mac"
 msgstr "MAC"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Managed"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Mode"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Name"
 msgstr "이름 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Password"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Provider"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Tag"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Username"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Virtual"
+msgstr ""
 
 msgid ""
 "No %{template_kind} templates were found for this host, make sure you define"
@@ -4103,7 +4277,6 @@ msgstr ""
 msgid "Nothing to show"
 msgstr "표시할 것이 없습니다 "
 
-#. "Table name" or "Table name|Column name" for error messages
 msgid "Notice"
 msgstr "주의 "
 
@@ -4112,18 +4285,6 @@ msgstr "주의:"
 
 msgid "Notices, warnings and errors"
 msgstr "주의, 경고 및 오류 "
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Content"
-msgstr "컨텐츠 "
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Global"
-msgstr "글로벌 "
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Level"
-msgstr "레벨 "
 
 msgid "Notification disabled"
 msgstr "통지가 비활성화됨 "
@@ -4271,6 +4432,14 @@ msgid "Operatingsystem|Description"
 msgstr "설명 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Major"
 msgstr "메이저 "
 
@@ -4287,8 +4456,16 @@ msgid "Operatingsystem|Nameindicator"
 msgstr "이름 표시기 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Password hash"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Release name"
 msgstr "릴리즈 이름 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Title"
+msgstr ""
 
 msgid "Operation"
 msgstr "작업 "
@@ -4428,6 +4605,10 @@ msgid "Parameters that would be associated with hosts in this %s"
 msgstr "%s에서 호스트와 연관된 매개 변수 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Parameter|Hidden value"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Name"
 msgstr "이름 "
 
@@ -4500,6 +4681,7 @@ msgstr "보류 중인 변경 사항 "
 msgid "Pending|P"
 msgstr "P"
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Permission"
 msgstr "권한 "
 
@@ -4508,6 +4690,14 @@ msgstr "권한이 거부되었습니다"
 
 msgid "Permissions must be of same resource type"
 msgstr "권한은 동일한 리소스 유형이어야 합니다 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Permission|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Permission|Resource type"
+msgstr ""
 
 msgid "Photo attribute"
 msgstr "사진 속성 "
@@ -4750,6 +4940,22 @@ msgid "Puppetclass"
 msgstr "Puppetclass"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Global class params count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Lookup keys count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Puppetclass|Name"
 msgstr "이름 "
 
@@ -4765,6 +4971,7 @@ msgstr ""
 msgid "REPLACE organizations with given ids."
 msgstr ""
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr "영역 "
 
@@ -4795,8 +5002,21 @@ msgstr ""
 msgid "Realms"
 msgstr "영역 "
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Realm|Name"
 msgstr "이름 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Realm type"
+msgstr ""
 
 msgid ""
 "Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
@@ -5215,6 +5435,14 @@ msgid ""
 "installer modules?"
 msgstr ""
 
+msgid "Should the matched result avoid duplicate values (only array type)."
+msgstr ""
+
+msgid ""
+"Should the matchers continue to look for matches after first find (only "
+"array/hash type)."
+msgstr ""
+
 msgid ""
 "Should this interface be managed via DHCP and DNS smart proxy and should it "
 "be configured during provisioning?"
@@ -5557,6 +5785,10 @@ msgid "Subnets"
 msgstr "서브넷 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Boot mode"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Dns primary"
 msgstr "1차 DNS "
 
@@ -5571,6 +5803,10 @@ msgstr "시작 "
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Gateway"
 msgstr "게이트웨이 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Ipam"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Mask"
@@ -5681,12 +5917,20 @@ msgid "Taxonomy"
 msgstr "텍소노미 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Taxonomy|Ancestry"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Ignore types"
 msgstr "유형 무시 "
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Name"
 msgstr "이름 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Taxonomy|Title"
+msgstr ""
 
 msgid "Template"
 msgstr "템플릿"
@@ -6278,6 +6522,9 @@ msgstr "성공 메세지의 알 수 없는 동작 이름: %s"
 msgid "Unknown device: available devices are %s"
 msgstr ""
 
+msgid "Unknown interface type, must be one of [%s]"
+msgstr ""
+
 msgid "Unknown power action: available methods are %s"
 msgstr ""
 
@@ -6481,10 +6728,6 @@ msgstr "사용자 그룹"
 msgid "User IDs"
 msgstr ""
 
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User fact"
-msgstr "사용자 정보 "
-
 msgid "User group"
 msgstr ""
 
@@ -6492,16 +6735,12 @@ msgid "User groups"
 msgstr "사용자 그룹 "
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Andor"
-msgstr "Andor"
+msgid "User role"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Criteria"
-msgstr "기준 "
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Operator"
-msgstr "운영자 "
+msgid "UserRole|Owner type"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup"
@@ -6514,6 +6753,10 @@ msgstr "사용자 그룹 멤버 "
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UsergroupMember|Member type"
 msgstr "멤버 유형 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Usergroup|Admin"
+msgstr ""
 
 msgid "Usergroup|Auth source"
 msgstr "인증 소스 "
@@ -6536,28 +6779,12 @@ msgid "User|Admin"
 msgstr "관리자 "
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Compute resources andor"
-msgstr "컴퓨터 리소스 "
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Domains andor"
-msgstr "도메인 "
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Facts andor"
-msgstr "정보 "
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Filter on owner"
-msgstr "소유자의 필터 "
+msgid "User|Avatar hash"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Firstname"
 msgstr "이름 "
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Hostgroups andor"
-msgstr "호스트 그룹 "
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Last login on"
@@ -6572,20 +6799,16 @@ msgid "User|Locale"
 msgstr "로케일 "
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Locations andor"
-msgstr "위치 "
-
-#. "Table name" or "Table name|Column name" for error messages
 msgid "User|Login"
 msgstr "로그인 "
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Mail"
-msgstr "메일 "
+msgid "User|Lower login"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Organizations andor"
-msgstr "조직 "
+msgid "User|Mail"
+msgstr "메일 "
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
@@ -6594,10 +6817,6 @@ msgstr "암호 해시 "
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password salt"
 msgstr "암호 salt"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Subscribe to all hostgroups"
-msgstr "모든 호스트 그룹에 등록 "
 
 msgid "Uses thin provisioning if unchecked"
 msgstr ""
@@ -6975,6 +7194,12 @@ msgid "boolean"
 msgstr ""
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
+msgstr ""
+
+msgid "can only be set for array or hash"
+msgstr ""
+
+msgid "can only be set for arrays that have merge_overrides set to true"
 msgstr ""
 
 msgid "can't be bigger than to range"
