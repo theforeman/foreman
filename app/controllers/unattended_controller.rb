@@ -231,6 +231,9 @@ class UnattendedController < ApplicationController
   def yast_attributes
   end
 
+  def coreos_attributes
+  end
+
   def aif_attributes
     os         = @host.operatingsystem
     @mediapath = os.mediumpath @host
