@@ -55,3 +55,13 @@ no_hosts_os:
   minor: 1
   type: Redhat
   title: 'NoHosts 1.1'
+
+coreos:
+  name: CoreOS
+  major: 494
+  minor: 5.0
+  type: Coreos
+  release_name: stable
+  architectures: x86_64
+  media: coreos
+  title: 'CoreOS 494.5.0'
