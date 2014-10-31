@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 11:15+0100\n"
-"PO-Revision-Date: 2014-10-25 10:10+0000\n"
+"POT-Creation-Date: 2014-10-29 12:54+0000\n"
+"PO-Revision-Date: 2014-10-30 10:12+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -948,6 +948,9 @@ msgstr "Karta"
 msgid "Chassis"
 msgstr "Chassi"
 
+msgid "Check again"
+msgstr ""
+
 msgid "Check/Uncheck all"
 msgstr "Markera/Avmarkera samtliga"
 
@@ -1778,6 +1781,9 @@ msgstr ""
 msgid "Edit Global Parameter"
 msgstr "Redigera Globala Parametrar"
 
+msgid "Edit Host"
+msgstr ""
+
 msgid "Edit LDAP Auth Source"
 msgstr "Redigera LDAP Autenticeringskälla"
 
@@ -1879,6 +1885,9 @@ msgstr "Aktivera denna värd för provisionering"
 msgid "Enabled"
 msgstr "Aktiverad"
 
+msgid "Enabled %s for reboot and rebuild"
+msgstr ""
+
 msgid "Enabled %s for rebuild on next boot"
 msgstr "Aktiverat %s för ombyggning vid nästa värdstart"
 
@@ -1936,6 +1945,9 @@ msgstr "Fel"
 msgid "Error - %{message}"
 msgstr ""
 
+msgid "Error connecting to %{proxy}: %{error}."
+msgstr ""
+
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "Fel har inträffat under kommunikation med %{cr}: %{e}"
 
@@ -1943,6 +1955,9 @@ msgid "Error loading virtual machine information: %s"
 msgstr "Fel vid laddning av information för virtuell maskin: %s"
 
 msgid "Errors"
+msgstr ""
+
+msgid "Errors occurred, build may fail"
 msgstr ""
 
 msgid "Errors only"
@@ -2137,6 +2152,9 @@ msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Misslyckades med starta en beräkningsresurs %{compute_resource}-instans %{name}: %{e}"
 
+msgid "Failed to reboot %s."
+msgstr ""
+
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Misslyckades med att radera certifikaten för %{name}: %{e}"
 
@@ -2163,9 +2181,18 @@ msgid ""
 " installation: %s"
 msgstr ""
 
+msgid "Failed to validate %{host}: %{error}"
+msgstr ""
+
 #. initial character of Failed
 msgid "Failed|F"
 msgstr "F"
+
+msgid "Failure deploying via smart proxy %{proxy}: %{error}."
+msgstr ""
+
+msgid "Failure parsing %{template}: %{error}."
+msgstr ""
 
 msgid "Failure: %s"
 msgstr ""
@@ -4222,6 +4249,9 @@ msgstr "Inga rapporter"
 msgid "No reports|N"
 msgstr "N"
 
+msgid "No smart proxies found."
+msgstr ""
+
 msgid "No smart proxies to show"
 msgstr "Inga smarta proxies att visa"
 
@@ -4238,6 +4268,9 @@ msgstr "Inga subnet markerade"
 
 msgid "No template found"
 msgstr "Ingen mall hittad"
+
+msgid "No templates found for this host."
+msgstr ""
 
 msgid "No templates found!"
 msgstr "Inga mallar hittade!"
@@ -5031,10 +5064,11 @@ msgstr ""
 msgid "Realm|Realm type"
 msgstr ""
 
-msgid ""
-"Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
-" and reports"
-msgstr "Ombygg %s vid nästa omstard?\\nDetta kommer även att radera dess befintliga fakta och rapporter"
+msgid "Reboot and build"
+msgstr ""
+
+msgid "Reboot now"
+msgstr ""
 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
@@ -5191,6 +5225,9 @@ msgstr "Återgå till revision från: %s"
 
 msgid "Review"
 msgstr "Granska"
+
+msgid "Review build status for %s"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
@@ -5949,6 +5986,9 @@ msgstr ""
 msgid "Template"
 msgstr "Mall"
 
+msgid "Template %s is empty."
+msgstr ""
+
 msgid "Template / Compute Profile to use"
 msgstr "Mall / Beräkningsprofil att använda"
 
@@ -6056,6 +6096,9 @@ msgid ""
 "The following entries were found conflicting with what foreman wanted to "
 "apply."
 msgstr "Följande värden var i konflikt med vad Foreman ville applicera."
+
+msgid "The following errors may prevent a successful build:"
+msgstr ""
 
 msgid "The following fields would need reviewing"
 msgstr "Följande fält behöver granskas"
@@ -6186,6 +6229,9 @@ msgstr "Denna Puppetklassen har inga parametrar i sin signatur."
 
 msgid "This group has nested groups!"
 msgstr "Denna gruppen har nästade grupper!"
+
+msgid "This host's stored facts and reports will be deleted too."
+msgstr ""
 
 msgid ""
 "This information is commonly imported from a pre-existing puppet "
@@ -6959,6 +7005,9 @@ msgid ""
 "Please %s it to customize."
 msgstr ""
 
+msgid "Warning: This will delete this host and all of its data!"
+msgstr ""
+
 msgid "Warnings and errors"
 msgstr "Varningar och fel"
 
@@ -7654,6 +7703,9 @@ msgstr "stäng av"
 
 msgid "puppet class browser"
 msgstr "puppetklassbläddrare"
+
+msgid "ready?"
+msgstr ""
 
 msgid "real"
 msgstr ""

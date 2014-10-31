@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 11:15+0100\n"
-"PO-Revision-Date: 2014-10-25 10:10+0000\n"
+"POT-Creation-Date: 2014-10-29 12:54+0000\n"
+"PO-Revision-Date: 2014-10-30 10:12+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -936,6 +936,9 @@ msgstr "차트 "
 msgid "Chassis"
 msgstr "섀시 "
 
+msgid "Check again"
+msgstr ""
+
 msgid "Check/Uncheck all"
 msgstr "모두 선택/선택 해제 "
 
@@ -1765,6 +1768,9 @@ msgstr "필터 편집 "
 msgid "Edit Global Parameter"
 msgstr "글로벌 매개 변수 편집 "
 
+msgid "Edit Host"
+msgstr ""
+
 msgid "Edit LDAP Auth Source"
 msgstr "LDAP 인증 소스 편집 "
 
@@ -1866,6 +1872,9 @@ msgstr "프로비저닝을 위해 호스트 활성화 "
 msgid "Enabled"
 msgstr "활성화됨 "
 
+msgid "Enabled %s for reboot and rebuild"
+msgstr ""
+
 msgid "Enabled %s for rebuild on next boot"
 msgstr "다음 부팅시 다시 빌드하기 위해 %s 활성화 "
 
@@ -1923,6 +1932,9 @@ msgstr "오류 "
 msgid "Error - %{message}"
 msgstr ""
 
+msgid "Error connecting to %{proxy}: %{error}."
+msgstr ""
+
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "%{cr}와 통신하는 도중 오류가 발생했습니다: %{e}"
 
@@ -1930,6 +1942,9 @@ msgid "Error loading virtual machine information: %s"
 msgstr "가상 머신 정보를 불러오는 도중 오류가 발생했습니다: %s"
 
 msgid "Errors"
+msgstr ""
+
+msgid "Errors occurred, build may fail"
 msgstr ""
 
 msgid "Errors only"
@@ -2124,6 +2139,9 @@ msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "컴퓨팅 %{compute_resource} 인스턴스 %{name} 파워 업에 실패했습니다: %{e}"
 
+msgid "Failed to reboot %s."
+msgstr ""
+
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "%{name}의 인증서 삭제에 실패했습니다: %{e}"
 
@@ -2150,9 +2168,18 @@ msgid ""
 " installation: %s"
 msgstr ""
 
+msgid "Failed to validate %{host}: %{error}"
+msgstr ""
+
 #. initial character of Failed
 msgid "Failed|F"
 msgstr "F"
+
+msgid "Failure deploying via smart proxy %{proxy}: %{error}."
+msgstr ""
+
+msgid "Failure parsing %{template}: %{error}."
+msgstr ""
 
 msgid "Failure: %s"
 msgstr ""
@@ -4209,6 +4236,9 @@ msgstr "보고서가 없음 "
 msgid "No reports|N"
 msgstr "N"
 
+msgid "No smart proxies found."
+msgstr ""
+
 msgid "No smart proxies to show"
 msgstr ""
 
@@ -4225,6 +4255,9 @@ msgstr "선택된 서브넷이 없음 "
 
 msgid "No template found"
 msgstr "템플릿을 찾을 수 없음 "
+
+msgid "No templates found for this host."
+msgstr ""
 
 msgid "No templates found!"
 msgstr "템플릿을 찾을 수 없습니다! "
@@ -5018,10 +5051,11 @@ msgstr "이름 "
 msgid "Realm|Realm type"
 msgstr ""
 
-msgid ""
-"Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
-" and reports"
-msgstr "다음 재부팅 시 %s을(를) 다시 빌드하시겠습니까?\\n이는 현재 정보 및 보고서 모두를 삭제할 수 있습니다 "
+msgid "Reboot and build"
+msgstr ""
+
+msgid "Reboot now"
+msgstr ""
 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
@@ -5178,6 +5212,9 @@ msgstr "다음에서 개정 버전으로 되돌리기: %s"
 
 msgid "Review"
 msgstr "확인 "
+
+msgid "Review build status for %s"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
@@ -5935,6 +5972,9 @@ msgstr ""
 msgid "Template"
 msgstr "템플릿"
 
+msgid "Template %s is empty."
+msgstr ""
+
 msgid "Template / Compute Profile to use"
 msgstr "사용할 컴퓨터 프로파일 "
 
@@ -6042,6 +6082,9 @@ msgid ""
 "The following entries were found conflicting with what foreman wanted to "
 "apply."
 msgstr "다음 항목은 foreman이 적용하려고 한 내용과 충돌하는 것으로 발견되었습니다. "
+
+msgid "The following errors may prevent a successful build:"
+msgstr ""
 
 msgid "The following fields would need reviewing"
 msgstr "다음 필드를 확인해야 합니다 "
@@ -6171,6 +6214,9 @@ msgstr "Puppet 클래스 서명에는 매개 변수가 없습니다."
 
 msgid "This group has nested groups!"
 msgstr "이 그룹에는 중첩된 그룹이 있습니다! "
+
+msgid "This host's stored facts and reports will be deleted too."
+msgstr ""
 
 msgid ""
 "This information is commonly imported from a pre-existing puppet "
@@ -6944,6 +6990,9 @@ msgid ""
 "Please %s it to customize."
 msgstr ""
 
+msgid "Warning: This will delete this host and all of its data!"
+msgstr ""
+
 msgid "Warnings and errors"
 msgstr "경고 및 오류 "
 
@@ -7637,6 +7686,9 @@ msgstr "전원 끄기 "
 
 msgid "puppet class browser"
 msgstr "puppet 클래스 브라우저 "
+
+msgid "ready?"
+msgstr ""
 
 msgid "real"
 msgstr ""

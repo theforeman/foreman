@@ -17,15 +17,16 @@
 # Gustavo Varela <gustavo.varela@gmail.com>, 2013
 # Jared Nelson <jared@ajpadilla.com>, 2013
 # Jared Nelson <jared@ajpadilla.com>, 2013
-# Sergio Ocón <sergio@redhat.com>, 2014
+# Sergio Ocón <sergio.ocon@redhat.com>, 2014
+# Sergio Ocón <sergio.ocon@redhat.com>, 2014
 # nefeli <vidakovic@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 11:15+0100\n"
-"PO-Revision-Date: 2014-10-25 10:30+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"POT-Creation-Date: 2014-10-29 12:54+0000\n"
+"PO-Revision-Date: 2014-10-30 12:10+0000\n"
+"Last-Translator: Sergio Ocón <sergio.ocon@redhat.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -154,7 +155,7 @@ msgstr "%{name} ha cambiado de %{label1} a %{label2}"
 msgid ""
 "%{param} is not allowed as nested parameter for %{controller_name}. Allowed "
 "parameters are %{allowed_params}"
-msgstr ""
+msgstr "%{param} no se permite como parámetro anidado para %{controller_name}. Los parámetros permitidos son %{allowed_params}"
 
 msgid "%{record} is used by %{what}"
 msgstr "%{record} está siendo usado por %{what}"
@@ -163,7 +164,7 @@ msgid "%{record} is used by host in build mode %{what}"
 msgstr "el host utiliza %{record} en el modo de construcción %{what}"
 
 msgid "%{resource_name} not found by id '%{id}'"
-msgstr ""
+msgstr "%{resource_name} no encotrado con id '%{id}'"
 
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "%{task} tareas han fallado con el error: %{e}"
@@ -195,7 +196,7 @@ msgstr "'%{host}' no encontrado en '%{resource}'"
 msgid ""
 "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. "
 "Please use 'Content-Type: application/json'."
-msgstr ""
+msgstr "No se soporta 'Content-Type: %s' en la API v2 para peticiones POST y PUT. Use 'Content-Type: application/json'."
 
 msgid "(Miscellaneous)"
 msgstr "(Misceláneo)"
@@ -221,7 +222,7 @@ msgid ""
 msgstr "<b>Descripción:</b> %{desc}<br><b>Tipo:</b> %{type}<br> <b>Concordante:</b> %{matcher}"
 
 msgid "<b>Source:</b> %{type} %{name}"
-msgstr ""
+msgstr "<b>Origen:</b> %{type} %{name}"
 
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the "
@@ -502,11 +503,11 @@ msgstr "Arquitecturas"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Hostgroups count"
-msgstr ""
+msgstr "Número de gruposdehosts"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Hosts count"
-msgstr ""
+msgstr "Número de hosts"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Name"
@@ -674,7 +675,7 @@ msgstr "Attr e-mail"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Attr photo"
-msgstr ""
+msgstr "Attr foto"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Base dn"
@@ -709,7 +710,7 @@ msgstr "Puerto"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Server type"
-msgstr ""
+msgstr "Tipo de servidor"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Tls"
@@ -794,7 +795,7 @@ msgid "Bond"
 msgstr "Enlace"
 
 msgid "Bond mode of the interface, e.g. balance-rr. Only for bond interfaces."
-msgstr ""
+msgstr "Modo de bonding tdel interfaz, p.ej. balance-rr. Solo para interfaces bond."
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark"
@@ -919,7 +920,7 @@ msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "No puedo borrar el grupo %{current} porque tiene grupos anidados."
 
 msgid "Cannot delete group %{current} because it has nested host groups."
-msgstr ""
+msgstr "No se pudo borrar el grupo %{current} porque tiene grupos de hosts anidados."
 
 msgid "Cannot find user %s when switching context"
 msgstr "No se pudo encontrar el usuario %s cuando se cambió el contexto"
@@ -956,6 +957,9 @@ msgstr "Gráfico"
 
 msgid "Chassis"
 msgstr "Chasis"
+
+msgid "Check again"
+msgstr "Comprobar de nuevo"
 
 msgid "Check/Uncheck all"
 msgstr "Marcar/Desmarcar todos"
@@ -1120,7 +1124,7 @@ msgstr "Recuperar configuración"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config group"
-msgstr ""
+msgstr "Grupo de configuración"
 
 msgid "Config groups"
 msgstr "Conjunto de configuración"
@@ -1787,6 +1791,9 @@ msgstr "Modificar el filtro"
 msgid "Edit Global Parameter"
 msgstr "Editar Parámetro Global"
 
+msgid "Edit Host"
+msgstr "Editar Servidor"
+
 msgid "Edit LDAP Auth Source"
 msgstr "Editar Fuente de Autorización LDAP"
 
@@ -1888,6 +1895,9 @@ msgstr "Habilita este equipo para aprovisionamiento"
 msgid "Enabled"
 msgstr "Habilitado"
 
+msgid "Enabled %s for reboot and rebuild"
+msgstr ""
+
 msgid "Enabled %s for rebuild on next boot"
 msgstr "%s habilitado para ser reconstruido en el siguiente arranque"
 
@@ -1945,6 +1955,9 @@ msgstr "Error"
 msgid "Error - %{message}"
 msgstr ""
 
+msgid "Error connecting to %{proxy}: %{error}."
+msgstr ""
+
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "Ha ocurrido un error durante la comunicación con %{cr}: %{e}"
 
@@ -1953,6 +1966,9 @@ msgstr "Error cargando la información de la máquina virtual: %s"
 
 msgid "Errors"
 msgstr "Errores"
+
+msgid "Errors occurred, build may fail"
+msgstr ""
 
 msgid "Errors only"
 msgstr "Solo Errores"
@@ -2146,6 +2162,9 @@ msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Fallo al encender una instancia %{compute_resource} con el nombre %{name}: %{e}"
 
+msgid "Failed to reboot %s."
+msgstr ""
+
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Fallo al borrar certificados de %{name}: %{e}"
 
@@ -2172,9 +2191,18 @@ msgid ""
 " installation: %s"
 msgstr "Error al actualizar los entornos y clases Puppet desde el disco de instalación de puppet: %s"
 
+msgid "Failed to validate %{host}: %{error}"
+msgstr ""
+
 #. initial character of Failed
 msgid "Failed|F"
 msgstr "F"
+
+msgid "Failure deploying via smart proxy %{proxy}: %{error}."
+msgstr ""
+
+msgid "Failure parsing %{template}: %{error}."
+msgstr ""
 
 msgid "Failure: %s"
 msgstr ""
@@ -4231,6 +4259,9 @@ msgstr "No hay informes"
 msgid "No reports|N"
 msgstr "N"
 
+msgid "No smart proxies found."
+msgstr ""
+
 msgid "No smart proxies to show"
 msgstr "No hay proxies inteligentes para mostrar"
 
@@ -4247,6 +4278,9 @@ msgstr "No se ha seleccionado ninguna subred"
 
 msgid "No template found"
 msgstr "No se encuentra ninguna plantilla"
+
+msgid "No templates found for this host."
+msgstr ""
 
 msgid "No templates found!"
 msgstr "¡No se han encontrado plantillas!"
@@ -5040,10 +5074,11 @@ msgstr "Nombre"
 msgid "Realm|Realm type"
 msgstr ""
 
-msgid ""
-"Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
-" and reports"
-msgstr "¿Reconstruir %s en el siguiente arranque?\\nEsto borrará todos los detalles e informes asociados"
+msgid "Reboot and build"
+msgstr ""
+
+msgid "Reboot now"
+msgstr ""
 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
@@ -5200,6 +5235,9 @@ msgstr "Revertir a revisión desde: %s"
 
 msgid "Review"
 msgstr "Revisar"
+
+msgid "Review build status for %s"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
@@ -5958,6 +5996,9 @@ msgstr ""
 msgid "Template"
 msgstr "Plantilla"
 
+msgid "Template %s is empty."
+msgstr ""
+
 msgid "Template / Compute Profile to use"
 msgstr "Plantilla / Perfil de Cómputo a usar"
 
@@ -6065,6 +6106,9 @@ msgid ""
 "The following entries were found conflicting with what foreman wanted to "
 "apply."
 msgstr "Las siguientes entradas tienen conflictos con lo que Foreman intenta aplicar."
+
+msgid "The following errors may prevent a successful build:"
+msgstr ""
 
 msgid "The following fields would need reviewing"
 msgstr "Los siguientes campos necesitan ser revisados"
@@ -6195,6 +6239,9 @@ msgstr "Esta Clase de Puppet no tiene parámetros en su firma."
 
 msgid "This group has nested groups!"
 msgstr "¡Este grupo contiene grupos anidados!"
+
+msgid "This host's stored facts and reports will be deleted too."
+msgstr ""
 
 msgid ""
 "This information is commonly imported from a pre-existing puppet "
@@ -6968,6 +7015,9 @@ msgid ""
 "Please %s it to customize."
 msgstr "Advertencia: Esta plantilla está bloqueada. Sólo puede cambiar asociaciones. %s para personalizar."
 
+msgid "Warning: This will delete this host and all of its data!"
+msgstr ""
+
 msgid "Warnings and errors"
 msgstr "Avisos y errores"
 
@@ -7663,6 +7713,9 @@ msgstr "apagar"
 
 msgid "puppet class browser"
 msgstr "buscador de clases de Puppet"
+
+msgid "ready?"
+msgstr ""
 
 msgid "real"
 msgstr "real"

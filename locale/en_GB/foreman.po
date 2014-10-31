@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 11:15+0100\n"
-"PO-Revision-Date: 2014-10-25 10:10+0000\n"
+"POT-Creation-Date: 2014-10-29 12:54+0000\n"
+"PO-Revision-Date: 2014-10-30 10:12+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/foreman/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -945,6 +945,9 @@ msgstr ""
 msgid "Chassis"
 msgstr ""
 
+msgid "Check again"
+msgstr ""
+
 msgid "Check/Uncheck all"
 msgstr ""
 
@@ -1775,6 +1778,9 @@ msgstr ""
 msgid "Edit Global Parameter"
 msgstr ""
 
+msgid "Edit Host"
+msgstr ""
+
 msgid "Edit LDAP Auth Source"
 msgstr ""
 
@@ -1876,6 +1882,9 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
+msgid "Enabled %s for reboot and rebuild"
+msgstr ""
+
 msgid "Enabled %s for rebuild on next boot"
 msgstr ""
 
@@ -1933,6 +1942,9 @@ msgstr ""
 msgid "Error - %{message}"
 msgstr ""
 
+msgid "Error connecting to %{proxy}: %{error}."
+msgstr ""
+
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr ""
 
@@ -1940,6 +1952,9 @@ msgid "Error loading virtual machine information: %s"
 msgstr ""
 
 msgid "Errors"
+msgstr ""
+
+msgid "Errors occurred, build may fail"
 msgstr ""
 
 msgid "Errors only"
@@ -2134,6 +2149,9 @@ msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
 
+msgid "Failed to reboot %s."
+msgstr ""
+
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr ""
 
@@ -2160,8 +2178,17 @@ msgid ""
 " installation: %s"
 msgstr ""
 
+msgid "Failed to validate %{host}: %{error}"
+msgstr ""
+
 #. initial character of Failed
 msgid "Failed|F"
+msgstr ""
+
+msgid "Failure deploying via smart proxy %{proxy}: %{error}."
+msgstr ""
+
+msgid "Failure parsing %{template}: %{error}."
 msgstr ""
 
 msgid "Failure: %s"
@@ -3252,7 +3279,7 @@ msgid "List all host groups per location"
 msgstr ""
 
 msgid "List all host groups per organization"
-msgstr ""
+msgstr "List all host groups per organisation"
 
 msgid "List all hosts"
 msgstr ""
@@ -3288,7 +3315,7 @@ msgid "List all media per location"
 msgstr ""
 
 msgid "List all media per organization"
-msgstr ""
+msgstr "List all media per organisation"
 
 msgid "List all operating systems"
 msgstr ""
@@ -3369,7 +3396,7 @@ msgid "List all users for location"
 msgstr ""
 
 msgid "List all users for organization"
-msgstr ""
+msgstr "List all users for organisation"
 
 msgid "List all users for role"
 msgstr ""
@@ -3411,7 +3438,7 @@ msgid "List environments per location"
 msgstr ""
 
 msgid "List environments per organization"
-msgstr ""
+msgstr "List environments per organisation"
 
 msgid "List hosts per environment"
 msgstr ""
@@ -3420,7 +3447,7 @@ msgid "List hosts per location"
 msgstr ""
 
 msgid "List hosts per organization"
-msgstr ""
+msgstr "List hosts per organisation"
 
 msgid "List installed plugins"
 msgstr ""
@@ -3438,7 +3465,7 @@ msgid "List of domains per location"
 msgstr ""
 
 msgid "List of domains per organization"
-msgstr ""
+msgstr "List of domains per organisation"
 
 msgid "List of domains per subnet"
 msgstr ""
@@ -3491,7 +3518,7 @@ msgid "List of subnets per location"
 msgstr ""
 
 msgid "List of subnets per organization"
-msgstr ""
+msgstr "List of subnets per organisation"
 
 msgid "List operating systems where this template is set as a default"
 msgstr ""
@@ -3506,7 +3533,7 @@ msgid "List provisioning templates per operating system"
 msgstr ""
 
 msgid "List provisioning templates per organization"
-msgstr ""
+msgstr "List provisioning templates per organisation"
 
 msgid "List resource pools for a compute resource cluster"
 msgstr ""
@@ -4219,6 +4246,9 @@ msgstr ""
 msgid "No reports|N"
 msgstr ""
 
+msgid "No smart proxies found."
+msgstr ""
+
 msgid "No smart proxies to show"
 msgstr ""
 
@@ -4234,6 +4264,9 @@ msgid "No subnets selected"
 msgstr ""
 
 msgid "No template found"
+msgstr ""
+
+msgid "No templates found for this host."
 msgstr ""
 
 msgid "No templates found!"
@@ -4979,7 +5012,7 @@ msgid "REPLACE locations with given ids"
 msgstr ""
 
 msgid "REPLACE organizations with given ids."
-msgstr ""
+msgstr "REPLACE organisations with given ids."
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
@@ -5028,9 +5061,10 @@ msgstr ""
 msgid "Realm|Realm type"
 msgstr ""
 
-msgid ""
-"Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
-" and reports"
+msgid "Reboot and build"
+msgstr ""
+
+msgid "Reboot now"
 msgstr ""
 
 msgid ""
@@ -5189,6 +5223,9 @@ msgstr ""
 msgid "Review"
 msgstr ""
 
+msgid "Review build status for %s"
+msgstr ""
+
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
 msgstr ""
@@ -5276,7 +5313,7 @@ msgid "Scope by locations"
 msgstr ""
 
 msgid "Scope by organizations"
-msgstr ""
+msgstr "Scope by organisations"
 
 msgid "Search"
 msgstr ""
@@ -5946,6 +5983,9 @@ msgstr ""
 msgid "Template"
 msgstr ""
 
+msgid "Template %s is empty."
+msgstr ""
+
 msgid "Template / Compute Profile to use"
 msgstr ""
 
@@ -6052,6 +6092,9 @@ msgstr ""
 msgid ""
 "The following entries were found conflicting with what foreman wanted to "
 "apply."
+msgstr ""
+
+msgid "The following errors may prevent a successful build:"
 msgstr ""
 
 msgid "The following fields would need reviewing"
@@ -6182,6 +6225,9 @@ msgid "This Puppet class has no parameters in its signature."
 msgstr ""
 
 msgid "This group has nested groups!"
+msgstr ""
+
+msgid "This host's stored facts and reports will be deleted too."
 msgstr ""
 
 msgid ""
@@ -6956,6 +7002,9 @@ msgid ""
 "Please %s it to customize."
 msgstr "Warning: This template is locked. You may only change the associations. Please %s it to customise."
 
+msgid "Warning: This will delete this host and all of its data!"
+msgstr ""
+
 msgid "Warnings and errors"
 msgstr ""
 
@@ -7063,7 +7112,7 @@ msgid "You can't assign locations to this resource"
 msgstr ""
 
 msgid "You can't assign organizations to this resource"
-msgstr ""
+msgstr "You can't assign organisations to this resource"
 
 msgid "You cannot delete this user while logged in as this user."
 msgstr ""
@@ -7266,7 +7315,7 @@ msgid "default locations need to be user locations first"
 msgstr ""
 
 msgid "default organizations need to be user organizations first"
-msgstr ""
+msgstr "default organisations need to be user organisations first"
 
 msgid "defaults to 389"
 msgstr ""
@@ -7650,6 +7699,9 @@ msgid "poweroff"
 msgstr ""
 
 msgid "puppet class browser"
+msgstr ""
+
+msgid "ready?"
 msgstr ""
 
 msgid "real"

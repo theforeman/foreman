@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 11:15+0100\n"
-"PO-Revision-Date: 2014-10-25 10:10+0000\n"
+"POT-Creation-Date: 2014-10-29 12:54+0000\n"
+"PO-Revision-Date: 2014-10-30 10:12+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/foreman/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -939,6 +939,9 @@ msgstr "圖表"
 msgid "Chassis"
 msgstr "底座"
 
+msgid "Check again"
+msgstr ""
+
 msgid "Check/Uncheck all"
 msgstr "選取/反選全部"
 
@@ -1768,6 +1771,9 @@ msgstr "編輯篩選器"
 msgid "Edit Global Parameter"
 msgstr "編輯全域參數"
 
+msgid "Edit Host"
+msgstr ""
+
 msgid "Edit LDAP Auth Source"
 msgstr "編輯 LDAP Auth 來源"
 
@@ -1869,6 +1875,9 @@ msgstr "啟用這部主機以進行佈建"
 msgid "Enabled"
 msgstr "已啟用"
 
+msgid "Enabled %s for reboot and rebuild"
+msgstr ""
+
 msgid "Enabled %s for rebuild on next boot"
 msgstr "啟用 %s 以在下次開機時進行重建"
 
@@ -1926,6 +1935,9 @@ msgstr "錯誤"
 msgid "Error - %{message}"
 msgstr ""
 
+msgid "Error connecting to %{proxy}: %{error}."
+msgstr ""
+
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "與 %{cr} 通訊時發生了錯誤：%{e}"
 
@@ -1933,6 +1945,9 @@ msgid "Error loading virtual machine information: %s"
 msgstr "載入虛擬機器資訊時發生了錯誤：%s"
 
 msgid "Errors"
+msgstr ""
+
+msgid "Errors occurred, build may fail"
 msgstr ""
 
 msgid "Errors only"
@@ -2127,6 +2142,9 @@ msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "開啓運算 %{compute_resource} instance %{name} 的電源失敗：%{e}"
 
+msgid "Failed to reboot %s."
+msgstr ""
+
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "移除 %{name} 的憑證失敗：%{e}"
 
@@ -2153,9 +2171,18 @@ msgid ""
 " installation: %s"
 msgstr ""
 
+msgid "Failed to validate %{host}: %{error}"
+msgstr ""
+
 #. initial character of Failed
 msgid "Failed|F"
 msgstr "F"
+
+msgid "Failure deploying via smart proxy %{proxy}: %{error}."
+msgstr ""
+
+msgid "Failure parsing %{template}: %{error}."
+msgstr ""
 
 msgid "Failure: %s"
 msgstr ""
@@ -4212,6 +4239,9 @@ msgstr "無報告"
 msgid "No reports|N"
 msgstr "N"
 
+msgid "No smart proxies found."
+msgstr ""
+
 msgid "No smart proxies to show"
 msgstr ""
 
@@ -4228,6 +4258,9 @@ msgstr "未選擇子網路"
 
 msgid "No template found"
 msgstr "找不到範本"
+
+msgid "No templates found for this host."
+msgstr ""
 
 msgid "No templates found!"
 msgstr "找不到範本！"
@@ -5021,10 +5054,11 @@ msgstr "名稱"
 msgid "Realm|Realm type"
 msgstr ""
 
-msgid ""
-"Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
-" and reports"
-msgstr "是否要在下次重新開機時重新組建 %s？\\n這也會將其所有目前的詳情與報告刪除掉"
+msgid "Reboot and build"
+msgstr ""
+
+msgid "Reboot now"
+msgstr ""
 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
@@ -5181,6 +5215,9 @@ msgstr "由 %s 還原至修訂版"
 
 msgid "Review"
 msgstr "檢視"
+
+msgid "Review build status for %s"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
@@ -5938,6 +5975,9 @@ msgstr ""
 msgid "Template"
 msgstr "範本"
 
+msgid "Template %s is empty."
+msgstr ""
+
 msgid "Template / Compute Profile to use"
 msgstr "欲使用的範本/運算設定檔"
 
@@ -6045,6 +6085,9 @@ msgid ""
 "The following entries were found conflicting with what foreman wanted to "
 "apply."
 msgstr "發現下列項目與 Foreman 所要套用的項目不符。"
+
+msgid "The following errors may prevent a successful build:"
+msgstr ""
 
 msgid "The following fields would need reviewing"
 msgstr "下列欄位需要重新檢查"
@@ -6174,6 +6217,9 @@ msgstr "此 puppet 類別的簽章中沒有參數。"
 
 msgid "This group has nested groups!"
 msgstr "此群組中包含巢式群組！"
+
+msgid "This host's stored facts and reports will be deleted too."
+msgstr ""
 
 msgid ""
 "This information is commonly imported from a pre-existing puppet "
@@ -6947,6 +6993,9 @@ msgid ""
 "Please %s it to customize."
 msgstr ""
 
+msgid "Warning: This will delete this host and all of its data!"
+msgstr ""
+
 msgid "Warnings and errors"
 msgstr "警告與錯誤"
 
@@ -7640,6 +7689,9 @@ msgstr "關閉電源"
 
 msgid "puppet class browser"
 msgstr "Puppet 類別瀏覽器"
+
+msgid "ready?"
+msgstr ""
 
 msgid "real"
 msgstr ""

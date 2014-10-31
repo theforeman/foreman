@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 11:15+0100\n"
-"PO-Revision-Date: 2014-10-25 10:10+0000\n"
+"POT-Creation-Date: 2014-10-29 12:54+0000\n"
+"PO-Revision-Date: 2014-10-30 10:12+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/foreman/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -939,6 +939,9 @@ msgstr "チャート"
 msgid "Chassis"
 msgstr "シャーシ"
 
+msgid "Check again"
+msgstr ""
+
 msgid "Check/Uncheck all"
 msgstr "すべて選択/選択解除"
 
@@ -1768,6 +1771,9 @@ msgstr "ファイルターの編集"
 msgid "Edit Global Parameter"
 msgstr "グローバルパラメーターの編集"
 
+msgid "Edit Host"
+msgstr ""
+
 msgid "Edit LDAP Auth Source"
 msgstr "LDAP 認証ソースの編集"
 
@@ -1869,6 +1875,9 @@ msgstr "プロビジョニング用にこのホストを有効化"
 msgid "Enabled"
 msgstr "有効化"
 
+msgid "Enabled %s for reboot and rebuild"
+msgstr ""
+
 msgid "Enabled %s for rebuild on next boot"
 msgstr "次回ブート時の再ビルドに %s を有効化"
 
@@ -1926,6 +1935,9 @@ msgstr "エラー"
 msgid "Error - %{message}"
 msgstr ""
 
+msgid "Error connecting to %{proxy}: %{error}."
+msgstr ""
+
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "%{cr} との通信中にエラーが発生しました: %{e}"
 
@@ -1933,6 +1945,9 @@ msgid "Error loading virtual machine information: %s"
 msgstr "仮想マシン情報のロード時のエラー: %s"
 
 msgid "Errors"
+msgstr ""
+
+msgid "Errors occurred, build may fail"
 msgstr ""
 
 msgid "Errors only"
@@ -2127,6 +2142,9 @@ msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "コンピュート %{compute_resource} インスタンス %{name} のパワーアップに失敗しました: %{e}"
 
+msgid "Failed to reboot %s."
+msgstr ""
+
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "%{name} の証明書の削除に失敗しました: %{e}"
 
@@ -2153,9 +2171,18 @@ msgid ""
 " installation: %s"
 msgstr ""
 
+msgid "Failed to validate %{host}: %{error}"
+msgstr ""
+
 #. initial character of Failed
 msgid "Failed|F"
 msgstr "F"
+
+msgid "Failure deploying via smart proxy %{proxy}: %{error}."
+msgstr ""
+
+msgid "Failure parsing %{template}: %{error}."
+msgstr ""
 
 msgid "Failure: %s"
 msgstr ""
@@ -4212,6 +4239,9 @@ msgstr "レポートがありません"
 msgid "No reports|N"
 msgstr "N"
 
+msgid "No smart proxies found."
+msgstr ""
+
 msgid "No smart proxies to show"
 msgstr "表示するスマートプロキシーがありません"
 
@@ -4228,6 +4258,9 @@ msgstr "サブネットが選択されていません"
 
 msgid "No template found"
 msgstr "テンプレートが見つかりません"
+
+msgid "No templates found for this host."
+msgstr ""
 
 msgid "No templates found!"
 msgstr "テンプレートが見つかりません!"
@@ -5021,10 +5054,11 @@ msgstr "名前"
 msgid "Realm|Realm type"
 msgstr ""
 
-msgid ""
-"Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
-" and reports"
-msgstr "次回の再起動時に %s を再ビルドしますか?\\nこれにより、現在のファクトとレポートすべてが削除されます"
+msgid "Reboot and build"
+msgstr ""
+
+msgid "Reboot now"
+msgstr ""
 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
@@ -5181,6 +5215,9 @@ msgstr "リビジョンを次から戻す: %s"
 
 msgid "Review"
 msgstr "確認"
+
+msgid "Review build status for %s"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
@@ -5938,6 +5975,9 @@ msgstr ""
 msgid "Template"
 msgstr "テンプレート"
 
+msgid "Template %s is empty."
+msgstr ""
+
 msgid "Template / Compute Profile to use"
 msgstr "使用するコンピュートプロファイル"
 
@@ -6045,6 +6085,9 @@ msgid ""
 "The following entries were found conflicting with what foreman wanted to "
 "apply."
 msgstr "以下のエントリーは、Foreman が適用しようとした内容と競合していることが確認されました。"
+
+msgid "The following errors may prevent a successful build:"
+msgstr ""
 
 msgid "The following fields would need reviewing"
 msgstr "以下のフィールドは確認が必要です"
@@ -6174,6 +6217,9 @@ msgstr "この Puppet クラスの署名にはパラメーターがありませ�
 
 msgid "This group has nested groups!"
 msgstr "このグループはネストグループを持ちます。"
+
+msgid "This host's stored facts and reports will be deleted too."
+msgstr ""
 
 msgid ""
 "This information is commonly imported from a pre-existing puppet "
@@ -6947,6 +6993,9 @@ msgid ""
 "Please %s it to customize."
 msgstr ""
 
+msgid "Warning: This will delete this host and all of its data!"
+msgstr ""
+
 msgid "Warnings and errors"
 msgstr "警告とエラー"
 
@@ -7640,6 +7689,9 @@ msgstr "パワーオフ"
 
 msgid "puppet class browser"
 msgstr "puppet クラスのブラウザー"
+
+msgid "ready?"
+msgstr ""
 
 msgid "real"
 msgstr ""

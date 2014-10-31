@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 11:15+0100\n"
-"PO-Revision-Date: 2014-10-25 10:30+0000\n"
+"POT-Creation-Date: 2014-10-29 12:54+0000\n"
+"PO-Revision-Date: 2014-10-30 10:12+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/foreman/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -945,6 +945,9 @@ msgstr ""
 msgid "Chassis"
 msgstr "Chasis"
 
+msgid "Check again"
+msgstr ""
+
 msgid "Check/Uncheck all"
 msgstr ""
 
@@ -1775,6 +1778,9 @@ msgstr ""
 msgid "Edit Global Parameter"
 msgstr "Editar Parámetro Global"
 
+msgid "Edit Host"
+msgstr ""
+
 msgid "Edit LDAP Auth Source"
 msgstr "Editar Fonte de Autorización LDAP"
 
@@ -1876,6 +1882,9 @@ msgstr "Habilita este equipo para aprovisionamento"
 msgid "Enabled"
 msgstr ""
 
+msgid "Enabled %s for reboot and rebuild"
+msgstr ""
+
 msgid "Enabled %s for rebuild on next boot"
 msgstr "%s habilitado para ser reconstruido non seguinte arranque"
 
@@ -1933,6 +1942,9 @@ msgstr "Error"
 msgid "Error - %{message}"
 msgstr ""
 
+msgid "Error connecting to %{proxy}: %{error}."
+msgstr ""
+
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "Ocorreu un error durante a comunicación con %{cr}: %{e}"
 
@@ -1940,6 +1952,9 @@ msgid "Error loading virtual machine information: %s"
 msgstr "Error cargando a información da máquina virtual: %s"
 
 msgid "Errors"
+msgstr ""
+
+msgid "Errors occurred, build may fail"
 msgstr ""
 
 msgid "Errors only"
@@ -2134,6 +2149,9 @@ msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Fallo ao encender unha instancia %{compute_resource} co nome %{name}: %{e}"
 
+msgid "Failed to reboot %s."
+msgstr ""
+
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Fallo ao borrar certificados de %{name}: %{e}"
 
@@ -2160,9 +2178,18 @@ msgid ""
 " installation: %s"
 msgstr ""
 
+msgid "Failed to validate %{host}: %{error}"
+msgstr ""
+
 #. initial character of Failed
 msgid "Failed|F"
 msgstr "F"
+
+msgid "Failure deploying via smart proxy %{proxy}: %{error}."
+msgstr ""
+
+msgid "Failure parsing %{template}: %{error}."
+msgstr ""
 
 msgid "Failure: %s"
 msgstr ""
@@ -4219,6 +4246,9 @@ msgstr "Sen informes"
 msgid "No reports|N"
 msgstr "N"
 
+msgid "No smart proxies found."
+msgstr ""
+
 msgid "No smart proxies to show"
 msgstr "Ningún proxy intelixente para mostrar"
 
@@ -4235,6 +4265,9 @@ msgstr "Ningunha subrede seleccionada"
 
 msgid "No template found"
 msgstr "Non se atopou ningunha plantilla"
+
+msgid "No templates found for this host."
+msgstr ""
 
 msgid "No templates found!"
 msgstr "Non se atoparon plantillas!"
@@ -5028,10 +5061,11 @@ msgstr ""
 msgid "Realm|Realm type"
 msgstr ""
 
-msgid ""
-"Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
-" and reports"
-msgstr "Reconstruir %s no seguinte arranque?\\nIsto tamén borrará tódolos datos e informes asociados"
+msgid "Reboot and build"
+msgstr ""
+
+msgid "Reboot now"
+msgstr ""
 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
@@ -5188,6 +5222,9 @@ msgstr "Revertir á revisión dende: %s"
 
 msgid "Review"
 msgstr "Revisar"
+
+msgid "Review build status for %s"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
@@ -5946,6 +5983,9 @@ msgstr ""
 msgid "Template"
 msgstr ""
 
+msgid "Template %s is empty."
+msgstr ""
+
 msgid "Template / Compute Profile to use"
 msgstr ""
 
@@ -6053,6 +6093,9 @@ msgid ""
 "The following entries were found conflicting with what foreman wanted to "
 "apply."
 msgstr "As seguintes entradas teñen conflictos co que Foreman intenta aplicar."
+
+msgid "The following errors may prevent a successful build:"
+msgstr ""
 
 msgid "The following fields would need reviewing"
 msgstr "Os seguintes campos necesitan ser revisados"
@@ -6183,6 +6226,9 @@ msgstr "Esta clase de Puppet non ten parámetros na súa firma."
 
 msgid "This group has nested groups!"
 msgstr "Este grupo contén grupos anidados!"
+
+msgid "This host's stored facts and reports will be deleted too."
+msgstr ""
 
 msgid ""
 "This information is commonly imported from a pre-existing puppet "
@@ -6956,6 +7002,9 @@ msgid ""
 "Please %s it to customize."
 msgstr ""
 
+msgid "Warning: This will delete this host and all of its data!"
+msgstr ""
+
 msgid "Warnings and errors"
 msgstr "Avisos e errores"
 
@@ -7651,6 +7700,9 @@ msgstr "apagar"
 
 msgid "puppet class browser"
 msgstr "buscador de clases de Puppet"
+
+msgid "ready?"
+msgstr ""
 
 msgid "real"
 msgstr ""

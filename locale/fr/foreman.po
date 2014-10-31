@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 11:15+0100\n"
-"PO-Revision-Date: 2014-10-28 14:21+0000\n"
+"POT-Creation-Date: 2014-10-29 12:54+0000\n"
+"PO-Revision-Date: 2014-10-30 16:31+0000\n"
 "Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -961,6 +961,9 @@ msgstr "Graphique"
 msgid "Chassis"
 msgstr "Chassis"
 
+msgid "Check again"
+msgstr "Revérifiez"
+
 msgid "Check/Uncheck all"
 msgstr "Cocher / Tout décocher"
 
@@ -1791,6 +1794,9 @@ msgstr "Editer le filtre"
 msgid "Edit Global Parameter"
 msgstr "Éditer les Paramètres Globaux"
 
+msgid "Edit Host"
+msgstr "Editer l'hôte"
+
 msgid "Edit LDAP Auth Source"
 msgstr "Éditer la source authentification LDAP"
 
@@ -1892,6 +1898,9 @@ msgstr "Activer le provisionnement pour cet hôte"
 msgid "Enabled"
 msgstr "Activé"
 
+msgid "Enabled %s for reboot and rebuild"
+msgstr "%s préparé pour redémarrage et réinstallation"
+
 msgid "Enabled %s for rebuild on next boot"
 msgstr "Activation de %s pour réinstallation au prochain redémarrage"
 
@@ -1949,6 +1958,9 @@ msgstr "Erreur"
 msgid "Error - %{message}"
 msgstr "Erreur - %{message}"
 
+msgid "Error connecting to %{proxy}: %{error}."
+msgstr "Erreur de connexion vers %{proxy} : %{error}"
+
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "Une erreur est survenue lors de la communication avec %{cr}: %{e}"
 
@@ -1957,6 +1969,9 @@ msgstr "Erreur de chargement des informations de la machine virtuelle : %s"
 
 msgid "Errors"
 msgstr "Erreurs"
+
+msgid "Errors occurred, build may fail"
+msgstr "Des erreurs sont survenues, l'installation peut avoir échoué"
 
 msgid "Errors only"
 msgstr "Seulement les Erreurs"
@@ -2150,6 +2165,9 @@ msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Échec de démarrage de la ressource %{compute_resource} instance %{name}: %{e}"
 
+msgid "Failed to reboot %s."
+msgstr "Impossible de redémarrer %s"
+
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Échec de suppression de certificats pour %{name}: %{e}"
 
@@ -2176,9 +2194,18 @@ msgid ""
 " installation: %s"
 msgstr "Échec de la mise à jour des environnements et classes Puppet depuis l'application Puppet présente sur le disque : %s"
 
+msgid "Failed to validate %{host}: %{error}"
+msgstr "Impossible de valider %{host} : %{error}"
+
 #. initial character of Failed
 msgid "Failed|F"
 msgstr "F"
+
+msgid "Failure deploying via smart proxy %{proxy}: %{error}."
+msgstr "Impossible de déployer via le Smart Proxy %{proxy} : %{error}"
+
+msgid "Failure parsing %{template}: %{error}."
+msgstr "Erreur d'analyse de %{template} : %{error}"
 
 msgid "Failure: %s"
 msgstr "Erreur : %s"
@@ -4235,6 +4262,9 @@ msgstr "Aucun rapports"
 msgid "No reports|N"
 msgstr "N"
 
+msgid "No smart proxies found."
+msgstr "Aucun Smart Proxy trouvé."
+
 msgid "No smart proxies to show"
 msgstr "Aucun Smart Proxy à afficher"
 
@@ -4251,6 +4281,9 @@ msgstr "Aucun sous-réseau sélectionné"
 
 msgid "No template found"
 msgstr "Aucun modèle trouvé"
+
+msgid "No templates found for this host."
+msgstr "Aucun modèle trouvé pour cet hôte"
 
 msgid "No templates found!"
 msgstr "Aucun modèle trouvé !"
@@ -5044,10 +5077,11 @@ msgstr "Nom"
 msgid "Realm|Realm type"
 msgstr "Type de royaume"
 
-msgid ""
-"Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
-" and reports"
-msgstr "Reconstruire %s au prochain redémarrage ?\\nCela supprimera également tout les facts et les rapports."
+msgid "Reboot and build"
+msgstr "Redémarrage et réinstallation"
+
+msgid "Reboot now"
+msgstr "Redémarrer maintenant"
 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
@@ -5204,6 +5238,9 @@ msgstr "Revenir à la révision depuis : %s"
 
 msgid "Review"
 msgstr "Revue"
+
+msgid "Review build status for %s"
+msgstr "Consulter le statut d'installation pour %s"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
@@ -5962,6 +5999,9 @@ msgstr "Titre"
 msgid "Template"
 msgstr "Modèle"
 
+msgid "Template %s is empty."
+msgstr "Le modèle %s est vide."
+
 msgid "Template / Compute Profile to use"
 msgstr "Modèle / Profil d'Ordinateur à utiliser"
 
@@ -6069,6 +6109,9 @@ msgid ""
 "The following entries were found conflicting with what foreman wanted to "
 "apply."
 msgstr "Les entrées suivantes rentrent en conflit avec ce que Foreman veut appliquer."
+
+msgid "The following errors may prevent a successful build:"
+msgstr "Les erreurs suivantes peuvent empêcher le bon déroulement d'une installation :"
 
 msgid "The following fields would need reviewing"
 msgstr "Les champs suivants auraient besoin d'une relecture"
@@ -6199,6 +6242,9 @@ msgstr "Cette classe Puppet n'a pas de paramètre dans sa signature."
 
 msgid "This group has nested groups!"
 msgstr "Ce groupe a des groupes emboîtés !"
+
+msgid "This host's stored facts and reports will be deleted too."
+msgstr "Les facts sauvegardés et les rapports de cet hôte vont aussi être supprimés."
 
 msgid ""
 "This information is commonly imported from a pre-existing puppet "
@@ -6972,6 +7018,9 @@ msgid ""
 "Please %s it to customize."
 msgstr "Attention: Ce modèle est verrouillé. Vous pouvez seulement changer les associations. Veuillez le %s pour le personnaliser."
 
+msgid "Warning: This will delete this host and all of its data!"
+msgstr "Attention : Cette action va supprimer l'hôte et toutes ses données !"
+
 msgid "Warnings and errors"
 msgstr "Warnings et Erreurs"
 
@@ -7667,6 +7716,9 @@ msgstr "éteindre"
 
 msgid "puppet class browser"
 msgstr "Navigateur de classes Puppet"
+
+msgid "ready?"
+msgstr "Prêt ?"
 
 msgid "real"
 msgstr "réel"
