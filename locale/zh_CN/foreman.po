@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-20 13:01+0100\n"
-"PO-Revision-Date: 2014-10-21 10:13+0000\n"
+"POT-Creation-Date: 2014-10-29 12:54+0000\n"
+"PO-Revision-Date: 2014-10-30 10:12+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -484,6 +484,14 @@ msgid "Architectures"
 msgstr "架构"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Architecture|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Architecture|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Name"
 msgstr "名"
 
@@ -647,8 +655,16 @@ msgid "AuthSource|Attr mail"
 msgstr "邮箱"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Attr photo"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Base dn"
 msgstr "根"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Groups base"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Host"
@@ -672,6 +688,10 @@ msgstr "注册"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Port"
 msgstr "端口"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Server type"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Tls"
@@ -919,6 +939,9 @@ msgstr "图表"
 msgid "Chassis"
 msgstr "机架"
 
+msgid "Check again"
+msgstr ""
+
 msgid "Check/Uncheck all"
 msgstr "选择/取消所有选择"
 
@@ -1080,6 +1103,10 @@ msgstr "Uuid"
 msgid "Config Retrieval"
 msgstr "配置检索"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Config group"
+msgstr ""
+
 msgid "Config groups"
 msgstr "配置组"
 
@@ -1087,6 +1114,27 @@ msgstr "配置组"
 msgid "Config template"
 msgstr "配置模板"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Config group classes count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigTemplate|Default"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Locked"
 msgstr ""
 
@@ -1101,6 +1149,10 @@ msgstr "片段"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Template"
 msgstr "模板"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigTemplate|Vendor"
+msgstr ""
 
 msgid "Configure"
 msgstr "配置"
@@ -1655,6 +1707,14 @@ msgid "Domain|Fullname"
 msgstr "全名"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Domain|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Domain|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
 msgstr "名称"
 
@@ -1710,6 +1770,9 @@ msgstr "编辑过滤器"
 
 msgid "Edit Global Parameter"
 msgstr "编辑全局参数"
+
+msgid "Edit Host"
+msgstr ""
 
 msgid "Edit LDAP Auth Source"
 msgstr "编辑LDAP认证源"
@@ -1812,6 +1875,9 @@ msgstr "启用此主机配置"
 msgid "Enabled"
 msgstr "已启用"
 
+msgid "Enabled %s for reboot and rebuild"
+msgstr ""
+
 msgid "Enabled %s for rebuild on next boot"
 msgstr "启用 %s 重启后重建"
 
@@ -1852,6 +1918,14 @@ msgid ""
 msgstr "可手动创建环境，只需要提供要说明的环境名称。"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Environment|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Environment|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Name"
 msgstr "名称"
 
@@ -1861,6 +1935,9 @@ msgstr "错误"
 msgid "Error - %{message}"
 msgstr ""
 
+msgid "Error connecting to %{proxy}: %{error}."
+msgstr ""
+
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "在与 %{cr}: %{e} 通讯时发生错误"
 
@@ -1868,6 +1945,9 @@ msgid "Error loading virtual machine information: %s"
 msgstr "加载虚拟机 %s 的信息时错误"
 
 msgid "Errors"
+msgstr ""
+
+msgid "Errors occurred, build may fail"
 msgstr ""
 
 msgid "Errors only"
@@ -1917,6 +1997,14 @@ msgid "External user group information"
 msgstr ""
 
 msgid "External user group name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "External usergroup"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ExternalUsergroup|Name"
 msgstr ""
 
 msgid "Fact Chart"
@@ -2054,6 +2142,9 @@ msgid ""
 "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "加速计算 %{compute_resource} 实例 %{name} 失败：%{e}"
 
+msgid "Failed to reboot %s."
+msgstr ""
+
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "删除 %{name} 的证书失败：%{e}"
 
@@ -2080,9 +2171,21 @@ msgid ""
 " installation: %s"
 msgstr ""
 
+msgid "Failed to validate %{host}: %{error}"
+msgstr ""
+
 #. initial character of Failed
 msgid "Failed|F"
 msgstr "失败"
+
+msgid "Failure deploying via smart proxy %{proxy}: %{error}."
+msgstr ""
+
+msgid "Failure parsing %{template}: %{error}."
+msgstr ""
+
+msgid "Failure: %s"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Feature"
@@ -2098,6 +2201,7 @@ msgstr "名称"
 msgid "Fetch TFTP boot files for %s"
 msgstr "提取TFTP引导文件：%s"
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr "筛选"
 
@@ -2119,8 +2223,13 @@ msgstr ""
 msgid "Filter|Resource"
 msgstr "资源"
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Filter|Search"
 msgstr "搜索"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Filter|Taxonomy search"
+msgstr ""
 
 msgid "Filter|Unlimited"
 msgstr "无限"
@@ -2436,6 +2545,10 @@ msgstr "主机参数"
 msgid "Host audit entries"
 msgstr "主机审计项"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host config group"
+msgstr ""
+
 msgid "Host details"
 msgstr "主机详情"
 
@@ -2490,6 +2603,10 @@ msgid "Host::Base|Enabled"
 msgstr "可用"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Grub pass"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Image file"
 msgstr "镜像文件"
 
@@ -2526,8 +2643,20 @@ msgid "Host::Base|Name"
 msgstr "名称"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Otp"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Owner type"
 msgstr "所有者类型"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Primary interface"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Provision method"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Puppet status"
@@ -2550,6 +2679,10 @@ msgid "Host::Base|Uuid"
 msgstr "Uuid"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "HostConfigGroup|Host type"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
 msgstr "主机组"
 
@@ -2558,12 +2691,12 @@ msgid "Hostgroup|Ancestry"
 msgstr "上一层"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "Hostgroup|Image file"
-msgstr "镜像文件"
+msgid "Hostgroup|Grub pass"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "Hostgroup|Label"
-msgstr "标签"
+msgid "Hostgroup|Image file"
+msgstr "镜像文件"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Name"
@@ -2572,6 +2705,10 @@ msgstr "名称"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Root pass"
 msgstr "Root密码"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Hostgroup|Title"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Use image"
@@ -2850,6 +2987,10 @@ msgid "Image|Name"
 msgstr "名称"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Image|Password"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Image|User data"
 msgstr "用户数据"
 
@@ -2943,7 +3084,7 @@ msgstr ""
 msgid "Interface provider, e.g. IPMI. Only for BMC interfaces."
 msgstr ""
 
-msgid "Interface type, e.g: Nic::BMC"
+msgid "Interface type, e.g: bmc"
 msgstr ""
 
 msgid "Internal DB"
@@ -3500,6 +3641,10 @@ msgid "Lookup value"
 msgstr "查找值"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Avoid duplicates"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Default value"
 msgstr "默认值"
 
@@ -3522,6 +3667,10 @@ msgstr "密钥类型"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
 msgstr "何洁查找值"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Merge overrides"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Override"
@@ -3703,6 +3852,10 @@ msgstr "型号"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
 msgstr "硬件型号"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Model|Hosts count"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Info"
@@ -3921,20 +4074,68 @@ msgid "New window"
 msgstr "新窗口"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Attached devices"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Attached to"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Attrs"
 msgstr "属性"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Bond options"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Identifier"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Ip"
 msgstr "IP地址"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Link"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Mac"
 msgstr "Mac"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Managed"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Mode"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Name"
 msgstr "名称"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Password"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Provider"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Tag"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Username"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Virtual"
+msgstr ""
 
 msgid ""
 "No %{template_kind} templates were found for this host, make sure you define"
@@ -4038,6 +4239,9 @@ msgstr "没有报告"
 msgid "No reports|N"
 msgstr "N"
 
+msgid "No smart proxies found."
+msgstr ""
+
 msgid "No smart proxies to show"
 msgstr "没有智能代理来显示"
 
@@ -4054,6 +4258,9 @@ msgstr "没有选择子网"
 
 msgid "No template found"
 msgstr "没有发现模板"
+
+msgid "No templates found for this host."
+msgstr ""
 
 msgid "No templates found!"
 msgstr "没有发现模板"
@@ -4106,7 +4313,6 @@ msgstr ""
 msgid "Nothing to show"
 msgstr "没有内容可显示"
 
-#. "Table name" or "Table name|Column name" for error messages
 msgid "Notice"
 msgstr "注意"
 
@@ -4115,18 +4321,6 @@ msgstr "注意："
 
 msgid "Notices, warnings and errors"
 msgstr "通知、警告及错误"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Content"
-msgstr "内容"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Global"
-msgstr "全局"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Level"
-msgstr "级别"
 
 msgid "Notification disabled"
 msgstr "禁用通知"
@@ -4274,6 +4468,14 @@ msgid "Operatingsystem|Description"
 msgstr "描述"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Major"
 msgstr "主要"
 
@@ -4290,8 +4492,16 @@ msgid "Operatingsystem|Nameindicator"
 msgstr "Nameindicator"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Password hash"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Release name"
 msgstr "发行名称"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Title"
+msgstr ""
 
 msgid "Operation"
 msgstr "作业"
@@ -4431,6 +4641,10 @@ msgid "Parameters that would be associated with hosts in this %s"
 msgstr "将与 %s 中的主机关联的参数"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Parameter|Hidden value"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Name"
 msgstr "名称"
 
@@ -4503,6 +4717,7 @@ msgstr "挂起的修改"
 msgid "Pending|P"
 msgstr "挂起的"
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Permission"
 msgstr "权限"
 
@@ -4511,6 +4726,14 @@ msgstr "权限不足"
 
 msgid "Permissions must be of same resource type"
 msgstr "权限必须是同样的资源类型"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Permission|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Permission|Resource type"
+msgstr ""
 
 msgid "Photo attribute"
 msgstr "照片属性"
@@ -4753,6 +4976,22 @@ msgid "Puppetclass"
 msgstr "Puppet类"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Global class params count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Lookup keys count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Puppetclass|Name"
 msgstr "名称"
 
@@ -4768,6 +5007,7 @@ msgstr ""
 msgid "REPLACE organizations with given ids."
 msgstr ""
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr "范围"
 
@@ -4798,13 +5038,27 @@ msgstr ""
 msgid "Realms"
 msgstr "范围"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Realm|Name"
 msgstr "名称"
 
-msgid ""
-"Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
-" and reports"
-msgstr "下次重启时构建 %s？\\n这样还会删除其所有当前详情及报告。"
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Realm type"
+msgstr ""
+
+msgid "Reboot and build"
+msgstr ""
+
+msgid "Reboot now"
+msgstr ""
 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
@@ -4961,6 +5215,9 @@ msgstr "从 %s 恢复至修订本"
 
 msgid "Review"
 msgstr "审核"
+
+msgid "Review build status for %s"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
@@ -5216,6 +5473,14 @@ msgstr ""
 msgid ""
 "Should the `foreman-rake db:seed` be executed on the next run of the "
 "installer modules?"
+msgstr ""
+
+msgid "Should the matched result avoid duplicate values (only array type)."
+msgstr ""
+
+msgid ""
+"Should the matchers continue to look for matches after first find (only "
+"array/hash type)."
 msgstr ""
 
 msgid ""
@@ -5560,6 +5825,10 @@ msgid "Subnets"
 msgstr "子网"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Boot mode"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Dns primary"
 msgstr "主DNS"
 
@@ -5574,6 +5843,10 @@ msgstr "开始"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Gateway"
 msgstr "网关"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Ipam"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Mask"
@@ -5684,6 +5957,10 @@ msgid "Taxonomy"
 msgstr "Taxonomy"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Taxonomy|Ancestry"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Ignore types"
 msgstr "忽略类型"
 
@@ -5691,8 +5968,15 @@ msgstr "忽略类型"
 msgid "Taxonomy|Name"
 msgstr "名称"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Taxonomy|Title"
+msgstr ""
+
 msgid "Template"
 msgstr "模板"
+
+msgid "Template %s is empty."
+msgstr ""
 
 msgid "Template / Compute Profile to use"
 msgstr "要使用计算资源"
@@ -5801,6 +6085,9 @@ msgid ""
 "The following entries were found conflicting with what foreman wanted to "
 "apply."
 msgstr "以下条目与 foreman 要应用的内容冲突。"
+
+msgid "The following errors may prevent a successful build:"
+msgstr ""
 
 msgid "The following fields would need reviewing"
 msgstr "需要检查以下字段"
@@ -5930,6 +6217,9 @@ msgstr "这个 Puppet 类别在其签名中没有参数。"
 
 msgid "This group has nested groups!"
 msgstr "这个组拥有嵌套的组！"
+
+msgid "This host's stored facts and reports will be deleted too."
+msgstr ""
 
 msgid ""
 "This information is commonly imported from a pre-existing puppet "
@@ -6281,6 +6571,9 @@ msgstr "成功消息中的未知操作：%s"
 msgid "Unknown device: available devices are %s"
 msgstr ""
 
+msgid "Unknown interface type, must be one of [%s]"
+msgstr ""
+
 msgid "Unknown power action: available methods are %s"
 msgstr ""
 
@@ -6484,10 +6777,6 @@ msgstr "用户组"
 msgid "User IDs"
 msgstr ""
 
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User fact"
-msgstr "用户详情"
-
 msgid "User group"
 msgstr ""
 
@@ -6495,16 +6784,12 @@ msgid "User groups"
 msgstr "用户组"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Andor"
-msgstr "Andor"
+msgid "User role"
+msgstr "用户角色"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Criteria"
-msgstr "标准"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Operator"
-msgstr "操作者"
+msgid "UserRole|Owner type"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup"
@@ -6517,6 +6802,10 @@ msgstr "用户组成员"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UsergroupMember|Member type"
 msgstr "成员类型"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Usergroup|Admin"
+msgstr ""
 
 msgid "Usergroup|Auth source"
 msgstr ""
@@ -6539,28 +6828,12 @@ msgid "User|Admin"
 msgstr "管理员权限"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Compute resources andor"
-msgstr "计算机资源"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Domains andor"
-msgstr "域"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Facts andor"
-msgstr "详情"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Filter on owner"
-msgstr "属于自己的"
+msgid "User|Avatar hash"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Firstname"
 msgstr "姓"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Hostgroups andor"
-msgstr "用户组"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Last login on"
@@ -6575,20 +6848,16 @@ msgid "User|Locale"
 msgstr "语言"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Locations andor"
-msgstr "位置"
-
-#. "Table name" or "Table name|Column name" for error messages
 msgid "User|Login"
 msgstr "用户名"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Mail"
-msgstr "邮箱"
+msgid "User|Lower login"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Organizations andor"
-msgstr "组织"
+msgid "User|Mail"
+msgstr "邮箱"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
@@ -6597,10 +6866,6 @@ msgstr "Password hash"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password salt"
 msgstr "Password salt"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Subscribe to all hostgroups"
-msgstr "订阅所有主机组"
 
 msgid "Uses thin provisioning if unchecked"
 msgstr ""
@@ -6726,6 +6991,9 @@ msgstr "警告"
 msgid ""
 "Warning: This template is locked. You may only change the associations. "
 "Please %s it to customize."
+msgstr ""
+
+msgid "Warning: This will delete this host and all of its data!"
 msgstr ""
 
 msgid "Warnings and errors"
@@ -6978,6 +7246,12 @@ msgid "boolean"
 msgstr ""
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
+msgstr ""
+
+msgid "can only be set for array or hash"
+msgstr ""
+
+msgid "can only be set for arrays that have merge_overrides set to true"
 msgstr ""
 
 msgid "can't be bigger than to range"
@@ -7415,6 +7689,9 @@ msgstr "关闭"
 
 msgid "puppet class browser"
 msgstr "浏览puppet 类"
+
+msgid "ready?"
+msgstr ""
 
 msgid "real"
 msgstr ""

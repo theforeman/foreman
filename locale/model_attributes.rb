@@ -287,6 +287,8 @@ _('LookupKey|Path')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('LookupKey|Required')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('LookupKey|Use puppet default')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('LookupKey|Validator rule')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('LookupKey|Validator type')
@@ -295,7 +297,25 @@ _('Lookup value')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('LookupValue|Match')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('LookupValue|Use puppet default')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('LookupValue|Value')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Mail notification')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('MailNotification|Default interval')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('MailNotification|Description')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('MailNotification|Mailer')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('MailNotification|Method')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('MailNotification|Name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('MailNotification|Subscriptable')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('MailNotification|Subscription type')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Medium')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -555,9 +575,17 @@ _('User|Lower login')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User|Mail')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('User|Mail enabled')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User|Password hash')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User|Password salt')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('User mail notification')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('UserMailNotification|Interval')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('UserMailNotification|Last sent')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User role')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
