@@ -60,6 +60,7 @@ class Operatingsystem < ActiveRecord::Base
                'Windows'   => %r{Windows}i,
                'Altlinux'  => %r{Altlinux}i,
                'Archlinux' => %r{Archlinux}i,
+               'Coreos'    => %r{CoreOS}i,
                'Gentoo'    => %r{Gentoo}i,
                'Solaris'   => %r{Solaris}i,
                'Freebsd'   => %r{FreeBSD}i,
