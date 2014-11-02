@@ -11,7 +11,7 @@
       <ul class="dropdown-menu pull-right">
         <% bookmarks = Bookmark.my_bookmarks.controller(controller_name) %>
         <% bookmarks.each do |bookmark| %>
-          <% if bookmark.name == "eventful = false" or bookmark.name == "eventful = true" %>
+          <% if bookmark.name == "eventful" or bookmark.name == "eventless" %>
             <% if (params[:search].try(:squeeze," ").include? "eventful") == true %>
               <li><%= link_to_if_authorized bookmark.name, send("hash_for_#{bookmark.controller}_path").merge(:search => params[:search].try(:squeeze," ").gsub(/eventful.=.(false|true)/,bookmark.query)) %></li>
             <% elsif params[:search].lstrip != "" %>
