@@ -26,10 +26,6 @@ Lint/HandleExceptions:
 Lint/ParenthesesAsGroupedExpression:
   Enabled: false
 
-# Offense count: 46
-Lint/ShadowingOuterLocalVariable:
-  Enabled: false
-
 # Offense count: 20
 # Cop supports --auto-correct.
 Lint/StringConversionInInterpolation:
