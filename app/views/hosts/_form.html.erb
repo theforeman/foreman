@@ -87,15 +87,15 @@
       <%= render('hosts/unattended', :f => f) if SETTINGS[:unattended] and @host.managed %>
 
       <div class="tab-pane"  id="params">
-        <h6><%= _('Puppet classes Parameters') %></h6>
+        <h4><%= _('Puppet classes Parameters') %></h4>
         <p></p>
         <%= render "puppetclasses/classes_parameters", { :obj => @host } %>
-        <h6><%= _('Included Parameters via inheritance') %></h6>
+        <h4><%= _('Included Parameters via inheritance') %></h4>
         <p></p>
         <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true) } %>
-        <h6><%= _('Host Parameters') %></h6>
         <p></p>
         <%= render "common_parameters/puppetclasses_parameters", :f => f %>
+        <h4><%= _('Host Parameters') %></h4>
         <p></p>
         <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
       </div>
