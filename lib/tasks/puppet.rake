@@ -132,7 +132,7 @@ namespace :puppet do
           unless errors.empty?
             puts "Problems were detected during the execution phase"
             puts
-            puts errors.each { |e| e.gsub(/<br\/>/, "\n") } << "\n"
+            puts errors.each { |error| error.gsub(/<br\/>/, "\n") } << "\n"
             puts
             puts "Import failed"
           else

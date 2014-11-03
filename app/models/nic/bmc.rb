@@ -6,7 +6,7 @@ module Nic
 
     def proxy
       if subnet.present?
-        proxy = subnet.proxies.select { |proxy| proxy.features.map(&:name).include?("BMC") }.first
+        proxy = subnet.proxies.select { |subnet_proxy| subnet_proxy.features.map(&:name).include?("BMC") }.first
       end
       proxy ||= SmartProxy.with_features("BMC").first
       raise Foreman::Exception.new(N_('Unable to find a proxy with BMC feature')) if proxy.nil?

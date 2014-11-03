@@ -120,7 +120,7 @@ class UserTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries = []
     Setting[:send_welcome_email] = true
     User.create :auth_source => auth_sources(:internal), :login => "welcome", :mail  => "foo@example.com", :password => "qux", :mail_enabled => true
-    mail = ActionMailer::Base.deliveries.detect { |mail| mail.subject =~ /Welcome to Foreman/ }
+    mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Welcome to Foreman/ }
     assert mail
     assert_match /Username/, mail.body.encoded
   end
