@@ -17,4 +17,8 @@ module CommonParametersHelper
       content_tag(:span, :class => "help-block") { popover(_("Additional info"), _("<b>Source:</b> %{type} %{name}") % {:type => _(value[:source].to_s), :name => source_name})}
     end
   end
+
+  def use_puppet_default_help link_title = _("Explain use Puppet default"), title = _("Use Puppet default")
+    popover(link_title, _("Do not send this parameter via the ENC.<br>Puppet will use the value defined in the manifest."), :title => title)
+  end
 end

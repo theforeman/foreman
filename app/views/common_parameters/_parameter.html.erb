@@ -4,14 +4,14 @@
     <tbody>
       <tr class="form-group <%= 'has-error' if f.object.errors.any? %>">
         <% if controller_name =~ /(host|hostgroup)/ %>
-          <td class="col-md-2">
+          <td class="col-md-3">
             <%= content_tag(:input, '', :class => "form-control", :disabled => true,  :value => _('Global'), :type=> :text ) %>
           </td>
         <% end %>
         <td class="col-md-2">
           <%= f.text_field(:name,  :class => "form-control", :disabled => disabled, :placeholder => _("Name")) %>
         </td>
-        <td class="col-md-6 value">
+        <td class="col-md-5 value">
           <% if f.object.hidden_value? %>
             <%= f.password_field(:value, :class => 'form-control',
                              :disabled => disabled,

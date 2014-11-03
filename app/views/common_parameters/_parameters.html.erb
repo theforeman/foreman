@@ -1,4 +1,15 @@
 <div id="parameters">
+  <table class="table table-condensed" id="global_parameters_table">
+    <thead>
+    <tr>
+      <th class='col-md-3'><%= _("Global Parameters") %></th>
+      <th class='col-md-2'><%= _("Name") %></th>
+      <th class='col-md-5'><%= _("Value") %></th>
+      <th><%= _('Actions') %></th>
+    </tr>
+    </thead>
+  </table>
+
   <%= f.fields_for type do |builder| %>
     <%= render "common_parameters/parameter", :f => builder %>
   <% end %>

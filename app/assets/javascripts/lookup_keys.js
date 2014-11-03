@@ -167,8 +167,11 @@ function keyTypeChange(item) {
   var fields = reloadedItem.closest('.fields');
   var mergeOverrides = fields.find("[id$='_merge_overrides']");
   var avoidDuplicates = fields.find("[id$='_avoid_duplicates']");
+  var overrideMergeDiv = fields.find("[id$='lookup_key_override_merge']");
+
   changeCheckboxEnabledStatus(mergeOverrides, keyType == 'array' || keyType == 'hash');
   changeCheckboxEnabledStatus(avoidDuplicates, keyType == 'array' && $(mergeOverrides).attr('checked') == 'checked');
+  overrideMergeDiv.toggle(keyType == 'array' || keyType == 'hash');
 }
 
 function mergeOverridesChanged(item) {
