@@ -43,6 +43,14 @@ $(document).on('mouseleave','.loc-submenu', function(){
     $('.loc-submenu').hide();
 });
 
+$(document).on('mouseleave','.dropdown-menu', function(){
+    if($(this).parent().hasClass('org-switcher')) {
+        $('.org-submenu').hide();
+        $('.loc-submenu').hide();
+        $(this).find('.dropdown-toggle:first').click();
+    }
+});
+
 function mark_active_menu() {
   var menus = $('.menu_tab_dropdown'),
       path = window.location.pathname + window.location.search,
