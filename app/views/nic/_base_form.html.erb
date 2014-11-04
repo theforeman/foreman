@@ -1,22 +1,40 @@
 <%= selectable_f f, :type, interfaces_types, {},
                  :class => 'interface_type', :disabled => !f.object.new_record? %>
 
+
 <%= text_f f, :mac, :class => :interface_mac %>
 <%= text_f f, :identifier, :disabled => !f.object.new_record?,
               :help_inline => _("Device identifier, i.e.: eth0 or eth1.1"),
               :class => :interface_identifier %>
-<%= text_f f, :name, :label => _("DNS name") %>
+<%= text_f f, :name, :label => _("DNS name"), :value => f.object.shortname,
+              :help_inline => _("Primary interface's DNS name and domain define host's FQDN"),
+              :class => :interface_name %>
 <%= select_f f, :domain_id, accessible_domains, :id, :to_label,
              { :include_blank => accessible_domains.any? ? true : _("No domains")},
              { :disabled => accessible_domains.empty? ? true : false,
                :help_inline => :indicator,
-               :class => 'interface_domain', :'data-url' => domain_selected_hosts_path } %>
+               :class => :interface_domain, :'data-url' => domain_selected_hosts_path } %>
 <%= select_f f, :subnet_id, accessible_subnets, :id, :to_label,
              { :include_blank => accessible_subnets.any? ? true : _("No subnets")},
              { :disabled => accessible_subnets.empty? ? true : false,
                :help_inline => :indicator,
-               :class => 'interface_subnet', :'data-url' => freeip_subnets_path } %>
-<%= text_f f, :ip  %>
+               :class => :interface_subnet, :'data-url' => freeip_subnets_path } %>
+<%= text_f f, :ip,
+              :class => :interface_ip,
+              :autocomplete => 'off',
+              :help_block => link_to(_("Suggest new"), '#', :class => 'suggest_new_ip'),
+              :help_inline => popover(
+                  _("IP address auto-suggest"),
+                  _("An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on the subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"),
+                  :rel => 'popover-modal',
+                  :'data-placement' => "top"
+                ).html_safe %>
 
 <%= checkbox_f f, :managed,
                :help_inline => _("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?") %>
+<%= checkbox_f f, :primary,
+               :help_inline => _("The Primary interface is used for constructing the FQDN of the host"),
+               :class => :interface_primary %>
+<%= checkbox_f f, :provision,
+               :help_inline => _("The Provisioning interface is used for TFTP of PXELinux (or SSH for image-based hosts)"),
+               :class => :interface_provision %>

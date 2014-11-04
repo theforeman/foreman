@@ -1,15 +1,21 @@
 <div class="fields">
   <div class="form-group">
-  <% if (networks = compute_resource.networks).any? %>
-    <%= select_f f, :type, compute_resource.nictypes, :first, :last, { },
-                     :class       => "col-md-2 disable-unsupported",
-                     :label       => _('NIC type')
-    %>
-    <%= select_f f, :network, networks, :id, :name, { },
-                     :class       => "col-md-2 disable-unsupported",
-                     :label       => _('Network'),
-                     :help_inline => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-danger disable-unsupported' })
-    %>
-  <% end %>
+
+    <%= f.fields_for 'compute_attributes', OpenStruct.new(f.object.compute_attributes) do |f| %>
+      <% if (networks = compute_resource.networks).any? %>
+        <%= select_f f, :type, compute_resource.nictypes, :first, :last, { },
+                         :class       => "col-md-2 disable-unsupported",
+                         :label       => _('NIC type')
+        %>
+        <%= select_f f, :network, networks, :id, :name, { },
+                         :class       => "col-md-2 disable-unsupported",
+                         :label       => _('Network')
+        %>
+      <% else %>
+        <div class="col-md-12">
+          <%= _('No networks found.') %>
+        </div>
+      <% end %>
+    <% end %>
   </div>
 </div>

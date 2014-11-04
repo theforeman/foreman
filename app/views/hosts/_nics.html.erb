@@ -1,0 +1,27 @@
+<% @host.interfaces.each do |nic| %>
+  <table id="nics_table" class="table table-bordered table-striped">
+    <tr>
+      <th colspan="2">
+        <%= nic.identifier %>
+        <%= flags_for_nic(nic) %>
+      </th>
+    </tr>
+    <tr>
+      <td><%= _('Type') %></td>
+      <td><%= _(nic.class.humanized_name) %></td>
+    </tr>
+    <tr>
+      <td><%= _('MAC Address') %></td>
+      <td><%= nic.mac %></td>
+    </tr>
+    <tr>
+      <td><%= _('IP Address') %></td>
+      <td><%= nic.ip %></td>
+    </tr>
+    <tr>
+      <td><%= _('FQDN') %></td>
+      <td><%= nic.fqdn %></td>
+    </tr>
+  </table>
+  <br>
+<% end %>

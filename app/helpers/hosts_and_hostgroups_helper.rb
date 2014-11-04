@@ -73,6 +73,19 @@ module HostsAndHostgroupsHelper
                :help_inline => _("Use this puppet server as an initial Puppet Server or to execute puppet runs") }
   end
 
+  def realm_field(f)
+    # Don't show this if we have no Realms, otherwise always include blank
+    # so the user can choose not to use a Realm on this host
+    return if Realm.count == 0
+    return unless (SETTINGS[:unattended] == true) && @host.managed
+    select_f(f, :realm_id,
+                Realm.with_taxonomy_scope_override(@location, @organization).authorized(:view_realms),
+                :id, :to_label,
+                { :include_blank => true },
+                { :help_inline   => :indicator }
+            ).html_safe
+  end
+
   def interesting_klasses(obj)
     classes    = obj.all_puppetclasses
     smart_vars = LookupKey.reorder('').where(:puppetclass_id => classes.map(&:id)).group(:puppetclass_id).count

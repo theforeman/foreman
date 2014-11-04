@@ -31,6 +31,7 @@ module Foreman
       protocol = config.scheme || 'http'
       host     = config.host || request.host
       port     = config.port || request.port
+      path     = config.path
 
       proxy = @host.try(:subnet).try(:tftp)
 
@@ -52,10 +53,11 @@ module Foreman
         host     = uri.host
         port     = uri.port
         protocol = uri.scheme
+        path     = config.path
       end
 
       url_for :only_path => false, :controller => "/unattended", :action => action,
-              :protocol  => protocol, :host => host, :port => port,
+              :protocol  => protocol, :host => host, :port => port, :script_name => path,
               :token     => (@host.token.value unless @host.token.nil?)
     end
 

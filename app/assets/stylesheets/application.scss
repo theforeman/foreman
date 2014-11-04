@@ -373,8 +373,13 @@ table tr td:last-child {
   float: none;
 }
 
-#interfaceModal .modal-dialog {
-  min-width: 1000px
+#interfaceModal {
+  .modal-dialog {
+    min-width: 1000px;
+  }
+  .modal-body {
+    max-height: none;
+  }
 }
 
 #addInterface {
@@ -389,7 +394,7 @@ table tr td:last-child {
 #interfaceList.table {
 
   border-collapse: separate;
-  border-width: 0 0 1px 0;
+  border-width: 1px 0 1px 0;
 
   tr {
     th:first-child,
@@ -417,12 +422,36 @@ table tr td:last-child {
       border-bottom: 1px solid #a94442;
     }
   }
+
+  .primary-flag,
+  .provision-flag {
+
+    cursor: pointer;
+    color: #bbb;
+    margin: 2px;
+
+    &:hover {
+     color: #999;
+    }
+
+    &.active {
+      color: black;
+      &:hover {
+        color: #428bca;
+      }
+    }
+
+  }
+
 }
 
 .autocomplete-input {
   display:inline-block !important;
 }
 
+.glyphicon.nic-flag {
+  margin: 2px;
+}
 
 .lookup-keys-container{
   li .close{

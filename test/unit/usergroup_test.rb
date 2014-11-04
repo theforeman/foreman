@@ -55,18 +55,15 @@ class UsergroupTest < ActiveSupport::TestCase
 
   test "hosts should be retrieved from recursive/complex usergroup definitions" do
     populate_usergroups
-    domain = domains(:mydomain)
     disable_orchestration
 
-    Host.with_options :architecture => architectures(:x86_64), :environment => environments(:production), :operatingsystem => operatingsystems(:redhat),
-                      :ptable => ptables(:one), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster) do |object|
-      @h1 = object.find_or_create_by_name :name => "h1.someware.com", :ip => "2.3.4.10", :mac => "223344556601", :owner => @u1, :domain => domain
-      @h2 = object.find_or_create_by_name :name => "h2.someware.com", :ip => "2.3.4.11", :mac => "223344556602", :owner => @ug2, :domain => domain
-      @h3 = object.find_or_create_by_name :name => "h3.someware.com", :ip => "2.3.4.12", :mac => "223344556603", :owner => @u3, :domain => domain
-      @h4 = object.find_or_create_by_name :name => "h4.someware.com", :ip => "2.3.4.13", :mac => "223344556604", :owner => @ug5, :domain => domain
-      @h5 = object.find_or_create_by_name :name => "h5.someware.com", :ip => "2.3.4.14", :mac => "223344556605", :owner => @u2, :domain => domain
-      @h6 = object.find_or_create_by_name :name => "h6.someware.com", :ip => "2.3.4.15", :mac => "223344556606", :owner => @ug3, :domain => domain
-    end
+    @h1 = FactoryGirl.create(:host, :owner => @u1)
+    @h2 = FactoryGirl.create(:host, :owner => @ug2)
+    @h3 = FactoryGirl.create(:host, :owner => @u3)
+    @h4 = FactoryGirl.create(:host, :owner => @ug5)
+    @h5 = FactoryGirl.create(:host, :owner => @u2)
+    @h6 = FactoryGirl.create(:host, :owner => @ug3)
+
     assert_equal @u1.hosts.sort, [@h1]
     assert_equal @u2.hosts.sort, [@h2, @h5]
     assert_equal @u3.hosts.sort, [@h2, @h3, @h6]

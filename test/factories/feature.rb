@@ -8,6 +8,10 @@ FactoryGirl.define do
       name 'TFTP'
     end
 
+    trait :tftp do
+      name 'tftp'
+    end
+
     trait :dhcp do
       name 'dhcp'
     end

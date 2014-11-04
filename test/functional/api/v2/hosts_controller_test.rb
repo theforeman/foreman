@@ -336,6 +336,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "when the imported host failed to save, :unprocessable_entity is returned" do
     Host::Managed.any_instance.stubs(:save).returns(false)
+    Nic::Managed.any_instance.stubs(:save).returns(false)
     errors = ActiveModel::Errors.new(Host::Managed.new)
     errors.add :foo, 'A stub failure'
     Host::Managed.any_instance.stubs(:errors).returns(errors)
@@ -353,7 +354,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     def initialize_proxy_ops
       User.current = users(:apiadmin)
       @bmchost = FactoryGirl.create(:host, :managed)
-      nics(:bmc).update_attribute(:host_id, @bmchost.id)
+      FactoryGirl.create(:nic_bmc, :host => @bmchost)
     end
 
     test "power call to interface" do

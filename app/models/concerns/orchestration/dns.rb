@@ -7,11 +7,11 @@ module Orchestration::DNS
   end
 
   def dns?
-    hostname.present? and ip_available? and !domain.nil? and !domain.proxy.nil? and managed?
+    hostname.present? && ip_available? && !domain.nil? && !domain.proxy.nil? && host.managed? && managed?
   end
 
   def reverse_dns?
-    hostname.present? and ip_available? and !subnet.nil? and subnet.dns? and managed?
+    hostname.present? && ip_available? && !subnet.nil? && subnet.dns? && host.managed? && managed?
   end
 
   def dns_a_record

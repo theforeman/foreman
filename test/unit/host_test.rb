@@ -27,9 +27,9 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should make hostname lowercase" do
-    host = Host.new :name => "MYHOST", :domain => Domain.find_or_create_by_name("mydomain.net")
+    host = FactoryGirl.build(:host, :hostname => "MYHOST", :domain => FactoryGirl.create(:domain, :name => "mydomainlowercase.net"))
     host.valid?
-    assert_equal "myhost.mydomain.net", host.name
+    assert_equal "myhost.mydomainlowercase.net", host.name
   end
 
   test "should update name when domain is changed" do
@@ -38,6 +38,17 @@ class HostTest < ActiveSupport::TestCase
     host.domain_name = "yourdomain.net"
     host.save!
     assert_equal "#{host.shortname}.yourdomain.net", host.name
+  end
+
+  test "host should not save without primary interface" do
+    host = FactoryGirl.build(:host, :managed)
+    host.interfaces = []
+    refute host.save
+    assert_includes host.errors.keys, :interfaces
+
+    host.interfaces = [ FactoryGirl.create(:nic_managed, :primary => true, :host => host,
+                                           :domain => FactoryGirl.create(:domain)) ]
+    assert host.save
   end
 
   test "should fix mac address hyphens" do
@@ -246,13 +257,15 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should find a host by certname not fqdn when provided' do
-      Host.new(:name => 'sinn1636.fail', :certname => 'sinn1636.lan.cert').save(:validate => false)
+      Host.new(:name => 'sinn1636.fail', :certname => 'sinn1636.lan.cert', :mac => 'e4:1f:13:cc:36:58').save(:validate => false)
       assert Host.find_by_name('sinn1636.fail').ip.nil?
       # hostname in the json is sinn1636.lan, so if the facts have been updated for
       # this host, it's a successful identification by certname
       raw = parse_json_fixture('/facts_with_certname.json')
       assert Host.import_host_and_facts(raw['name'], raw['facts'], raw['certname'])
-      assert_equal '10.35.27.2', Host.find_by_name('sinn1636.fail').ip
+      host = Host.find_by_name('sinn1636.fail')
+      assert_equal '10.35.27.2', host.interfaces.find_by_identifier('br180').ip
+      assert_equal nil, host.primary_interface.ip # eth0 does not have ip address among facts
     end
 
     test 'should update certname when host is found by hostname and certname is provided' do
@@ -408,6 +421,7 @@ context "location or organizations are not enabled" do
   end
 
   test "should not save if root password is undefined when the host is managed" do
+    Setting[:root_pass] = ''
     host = Host.new :name => "myfullhost", :managed => true
     refute host.valid?
     assert_present host.errors[:root_pass]
@@ -491,6 +505,8 @@ context "location or organizations are not enabled" do
   end
 
   test "should import from external nodes output" do
+    Setting[:Parametrized_Classes_in_ENC] = true
+    Setting[:Enable_Smart_Variables_in_ENC] = true
     # create a dummy node
     Parameter.destroy_all
     host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12", :medium => media(:one),
@@ -518,12 +534,14 @@ context "location or organizations are not enabled" do
           [{"mac"=>"aa:bb:ac:dd:ee:ff",
             "ip"=>"2.3.4.12",
             "type"=>"Interface",
-            "name"=>nil,
+            "name"=>'myfullhost.mydomain.net',
             "attrs"=>{},
             "virtual"=>false,
             "link"=>true,
             "identifier"=>nil,
             "managed"=>true,
+            "primary"=>true,
+            "provision"=>true,
             "subnet"=> {"network"=>"2.3.4.0",
                         "mask"=>"255.255.255.0",
                         "name"=>"one",
@@ -881,31 +899,34 @@ context "location or organizations are not enabled" do
   end
 
   test "should have only one bootable interface" do
-    h = FactoryGirl.create(:host, :managed)
-    assert_equal 0, h.interfaces.count
+    subnet = FactoryGirl.create(:subnet)
+    h = FactoryGirl.create(:host, :managed, :subnet => subnet, :ip => subnet.network.succ)
+    assert_equal 1, h.interfaces.count # we already have primary interface
     Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
                           :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain, :managed => false
-    assert_equal 1, h.interfaces.count
+    assert_equal 2, h.interfaces.count
     h.interfaces_attributes = [{:name => "dummy-bootable2", :ip => "2.3.4.103", :mac => "aa:bb:cd:cd:ee:ff",
                                 :subnet_id => h.subnet_id, :type => 'Nic::Bootable', :domain_id => h.domain_id,
                                 :managed => false }]
     refute h.valid?
     assert_equal "Only one bootable interface is allowed", h.errors['interfaces.type'][0]
-    assert_equal 1, h.interfaces.count
+    assert_equal 2, h.interfaces.count
   end
 
-  test "#set_interfaces skips primary physical interface but updates primary_interface attribute of host" do
-    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.200'})
+  test "#set_interfaces updates primary physical interface" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.200', :identifier => 'eth1'})
     host.update_attribute :mac, '00:00:00:11:22:33'
     host.update_attribute :ip, '10.0.0.100'
-    assert_nil host.primary_interface
+    host.primary_interface.update_attribute :identifier, 'eth0'
+    refute_nil host.primary_interface
+    assert_equal '10.0.0.100', host.ip
 
     # physical NICs with same MAC are skipped
     assert_no_difference 'Nic::Base.count' do
       host.set_interfaces(parser)
     end
-    assert_equal '10.0.0.100', host.ip
-    assert_equal 'eth0', host.primary_interface
+    assert_equal '10.0.0.200', host.ip
+    assert_equal 'eth1', host.primary_interface.identifier
   end
 
 
@@ -923,8 +944,8 @@ context "location or organizations are not enabled" do
   test "#set_interfaces creates new physical interface" do
     host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.10.0.1'})
 
-    # physical NICs with same MAC are created
-    assert_difference 'host.interfaces(true).count' do
+    # primary already existed so it's updated
+    assert_no_difference 'host.interfaces(true).count' do
       host.set_interfaces(parser)
     end
     assert_equal '10.10.0.1', host.interfaces.where(:mac => '00:00:00:11:22:33').first.ip
@@ -958,12 +979,13 @@ context "location or organizations are not enabled" do
 
   test "#set_interfaces updates existing virtual interface only if it has same MAC and identifier" do
     host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.1', :attached_to => 'eth0', :identifier => 'eth0_0'})
+    host.primary_interface.update_attribute :identifier, 'eth0'
     FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.200', :virtual => true, :attached_to => 'eth0', :identifier => 'eth0_0')
 
     assert_no_difference 'host.interfaces(true).count' do
       host.set_interfaces(parser)
     end
-    assert_equal '10.10.0.1', host.interfaces.first.ip
+    assert_equal '10.10.0.1', host.interfaces.where(:identifier => 'eth0_0').first.ip
   end
 
   test "#set_interfaces creates IPMI device if parameters are found" do
@@ -1003,8 +1025,8 @@ context "location or organizations are not enabled" do
 
   test "set_interfaces updates associated virtuals identifier even on primary interface" do
     host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth1'})
-    host.update_attribute :primary_interface, 'eth0'
-    host.update_attribute :mac, '00:00:00:11:22:33'
+    host.primary_interface.update_attribute :identifier, 'eth0'
+    host.primary_interface.update_attribute :mac, '00:00:00:11:22:33'
     virtual = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'eth0.1', :attached_to => 'eth0')
 
     host.set_interfaces(parser)
@@ -1019,7 +1041,7 @@ context "location or organizations are not enabled" do
     hash = { :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
              :eth4 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false},
            }.with_indifferent_access
-    parser = stub(:interfaces => hash, :ipmi_interface => {})
+    parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
     physical4 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
     physical5 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'eth5')
     virtual4 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.10', :identifier => 'eth4.1', :attached_to => 'eth4')
@@ -1040,16 +1062,16 @@ context "location or organizations are not enabled" do
 
   test "#set_interfaces does not allow two physical devices with same IP, it ignores the second" do
     host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
-    hash = { :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
-             :eth2 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false},
+    hash = { :eth0 => {:macaddress => '00:00:00:55:66:77', :ipaddress => '10.10.0.1', :virtual => false },
+             :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false },
+             :eth2 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false },
            }.with_indifferent_access
-    parser = stub(:interfaces => hash, :ipmi_interface => {})
-    FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:77:88:99', :ip => '10.10.0.1', :virtual => false, :identifier => 'eth0')
+    parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
 
     host.set_interfaces(parser)
     host.reload
-    assert_includes host.interfaces.map(&:identifier), 'eth0'
     assert_includes host.interfaces.map(&:identifier), 'eth2'
+    assert_includes host.interfaces, host.primary_interface
     refute_includes host.interfaces.map(&:identifier), 'eth1'
     assert_equal 2, host.interfaces.size
   end
@@ -1060,7 +1082,7 @@ context "location or organizations are not enabled" do
       :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '', :virtual => false},
       :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => true},
     }.with_indifferent_access
-    parser = stub(:interfaces => hash, :ipmi_interface => {})
+    parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
 
     host.set_interfaces(parser)
     host.reload
@@ -1309,78 +1331,71 @@ context "location or organizations are not enabled" do
 
   # Ip validations
   test "unmanaged hosts don't require an IP" do
-    h=Host.new
+    h=FactoryGirl.build(:host)
     refute h.require_ip_validation?
   end
 
   test "CRs without IP attribute don't require an IP" do
     Setting[:token_duration] = 30 #enable tokens so that we only test the CR
-    h=Host.new :managed => true,
+    h=FactoryGirl.build(:host, :managed,
       :compute_resource => compute_resources(:one),
-      :compute_attributes => {:fake => "data"}
+      :compute_attributes => {:fake => "data"})
     refute h.require_ip_validation?
   end
 
   test "CRs with IP attribute and a DNS-enabled domain do not require an IP" do
     Setting[:token_duration] = 30 #enable tokens so that we only test the CR
-    h=Host.new :managed => true,
+    h=FactoryGirl.build(:host, :managed, :domain => domains(:mydomain),
       :compute_resource => compute_resources(:openstack),
-      :compute_attributes => {:fake => "data"},
-      :domain => domains(:mydomain)
+      :compute_attributes => {:fake => "data"})
     refute h.require_ip_validation?
   end
 
   test "hosts with a DNS-enabled Domain do require an IP" do
     Setting[:token_duration] = 30 #enable tokens so that we only test the domain
-    h=Host.new :managed => true, :domain => domains(:mydomain)
+    h=FactoryGirl.build(:host, :managed, :domain => domains(:mydomain))
     assert h.require_ip_validation?
   end
 
   test "hosts without a DNS-enabled Domain don't require an IP" do
     Setting[:token_duration] = 30 #enable tokens so that we only test the domain
-    h=Host.new :managed => true, :domain => domains(:useless)
+    h=FactoryGirl.build(:host, :managed, :domain => domains(:useless))
     refute h.require_ip_validation?
   end
 
   test "hosts with a DNS-enabled Subnet do require an IP" do
     Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-    h=Host.new :managed => true, :subnet => subnets(:one)
+    h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet, :dns))
     assert h.require_ip_validation?
-  end
-
-  test "hosts without a DNS-enabled Subnet don't require an IP" do
-    Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-    h=Host.new :managed => true, :subnet => subnets(:four)
-    refute h.require_ip_validation?
   end
 
   test "hosts with a DHCP-enabled Subnet do require an IP" do
     Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-    h=Host.new :managed => true, :subnet => subnets(:two)
+    h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet, :dhcp))
     assert h.require_ip_validation?
   end
 
-  test "hosts without a DHCP-enabled Subnet don't require an IP" do
+  test "hosts without a DNS/DHCP-enabled Subnet don't require an IP" do
     Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-    h=Host.new :managed => true, :subnet => subnets(:four)
+    h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet, :dhcp => nil, :dns => nil))
     refute h.require_ip_validation?
   end
 
   test "with tokens enabled hosts don't require an IP" do
     Setting[:token_duration] = 30
-    h=Host.new :managed => true
+    h=FactoryGirl.build(:host, :managed)
     refute h.require_ip_validation?
   end
 
   test "with tokens disabled PXE build hosts do require an IP" do
-    h=Host.new :managed => true
+    h=FactoryGirl.build(:host, :managed)
     h.expects(:pxe_build?).returns(true)
     h.stubs(:image_build?).returns(false)
     assert h.require_ip_validation?
   end
 
   test "tokens disabled doesn't require an IP for image hosts" do
-    h=Host.new :managed => true
+    h=FactoryGirl.build(:host, :managed)
     h.expects(:pxe_build?).returns(false)
     h.expects(:image_build?).returns(true)
     image = stub()
@@ -1390,7 +1405,7 @@ context "location or organizations are not enabled" do
   end
 
   test "tokens disabled requires an IP for image hosts with user data" do
-    h=Host.new :managed => true
+    h=FactoryGirl.build(:host, :managed)
     h.expects(:pxe_build?).returns(false)
     h.expects(:image_build?).returns(true)
     image = stub()
@@ -1612,16 +1627,31 @@ end # end of context "location or organizations are not enabled"
     assert_equal host.host_config_groups.map(&:config_group_id), copy.host_config_groups.map(&:config_group_id)
   end
 
-  test 'clone host should not copy name, system fields (mac, ip, etc) or interfaces' do
-    host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
-    copy = host.clone
-    assert copy.name.blank?
-    assert copy.mac.blank?
-    assert copy.ip.blank?
-    assert copy.uuid.blank?
-    assert copy.certname.blank?
-    assert copy.last_report.blank?
-    assert_empty copy.interfaces
+  describe 'cloning' do
+
+    test 'clone host should not copy name, system fields (mac, ip, etc)' do
+      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
+      copy = host.clone
+      assert copy.name.blank?
+      assert copy.mac.blank?
+      assert copy.ip.blank?
+      assert copy.uuid.blank?
+      assert copy.certname.blank?
+      assert copy.last_report.blank?
+    end
+
+    test 'clone host should copy interfaces without name, mac and ip' do
+      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
+      copy = host.clone
+
+      assert_equal host.interfaces.length, copy.interfaces.length
+
+      interface = copy.interfaces.first
+      assert interface.name.blank?
+      assert interface.mac.blank?
+      assert interface.ip.blank?
+    end
+
   end
 
   test 'fqdn of host with period in name returns just name with no concatenation of domain' do
@@ -1639,27 +1669,6 @@ end # end of context "location or organizations are not enabled"
 
   test 'fqdn of host period and no domain returns just name' do
     assert_equal "dhcp123", Host::Managed.new(:name => "dhcp123").fqdn
-  end
-
-  test 'fqdn_changed? should be true if name changes' do
-    host = FactoryGirl.create(:host)
-    host.stubs(:name_changed?).returns(true)
-    host.stubs(:domain_id_changed?).returns(false)
-    assert host.fqdn_changed?
-  end
-
-  test 'fqdn_changed? should be true if domain changes' do
-    host = FactoryGirl.create(:host)
-    host.stubs(:name_changed?).returns(false)
-    host.stubs(:domain_id_changed?).returns(true)
-    assert host.fqdn_changed?
-  end
-
-  test 'fqdn_changed? should be true if name and domain change' do
-    host = FactoryGirl.create(:host)
-    host.stubs(:name_changed?).returns(true)
-    host.stubs(:domain_id_changed?).returns(true)
-    assert host.fqdn_changed?
   end
 
   test 'clone should create compute_attributes for VM-based hosts' do
@@ -1706,7 +1715,7 @@ end # end of context "location or organizations are not enabled"
   end
 
   test 'changing only name should rename lookup_value matcher' do
-    host = FactoryGirl.create(:host)
+    host = FactoryGirl.create(:host, :domain => FactoryGirl.create(:domain))
     lookup_key = FactoryGirl.create(:lookup_key, :is_param)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
@@ -1729,6 +1738,134 @@ end # end of context "location or organizations are not enabled"
     host.domain = domains(:yourdomain)
     host.save!
     assert_equal "fqdn=#{host.shortname}.yourdomain.net", LookupValue.find(lookup_value.id).match
+  end
+
+  test '#setup_clone skips new records' do
+    assert_nil FactoryGirl.build(:host, :managed).send(:setup_clone)
+  end
+
+  test '#setup_clone is public and clones interfaces so delegated attributes are applied to cloned interfaces' do
+    host = FactoryGirl.create(:host, :managed)
+    original_mac = host.mac
+    host.mac = 'AA:AA:AA:AA:AA:AA'
+    clone = host.setup_clone
+    refute_equal host.object_id, clone.object_id
+    assert_equal 'AA:AA:AA:AA:AA:AA', host.mac
+    refute_equal host.mac, clone.mac
+    assert_equal original_mac, clone.mac
+    assert_equal original_mac, clone.provision_interface.mac
+  end
+
+  test '#primary_interface is never cached for new record' do
+    host = FactoryGirl.build(:host, :managed)
+    refute_nil host.primary_interface
+    host.interfaces = []
+    assert_nil host.primary_interface
+  end
+
+  test '#provision_interface is never cached for new record' do
+    host = FactoryGirl.build(:host, :managed)
+    refute_nil host.provision_interface
+    host.interfaces = []
+    assert_nil host.provision_interface
+  end
+
+  test '#drop_primary_interface_cache' do
+    host = FactoryGirl.create(:host, :managed)
+    refute_nil host.primary_interface
+    host.interfaces = []
+    # existing host must cache interface
+    refute_nil host.primary_interface
+    host.drop_primary_interface_cache
+    assert_nil host.primary_interface
+  end
+
+  test '#drop_provision_interface_cache' do
+    host = FactoryGirl.create(:host, :managed)
+    refute_nil host.provision_interface
+    host.interfaces = []
+    # existing host must cache interface
+    refute_nil host.provision_interface
+    host.drop_provision_interface_cache
+    assert_nil host.provision_interface
+  end
+
+  test '#reload drops primary and provision interface cache' do
+    host = FactoryGirl.create(:host, :managed)
+    refute_nil host.primary_interface
+    refute_nil host.provision_interface
+    host.expects(:drop_primary_interface_cache).once
+    host.expects(:drop_provision_interface_cache).once
+
+    host.reload
+  end
+
+  test '#becomes drops interface cache on new instance and copies all interfaces' do
+    host = FactoryGirl.create(:host, :managed)
+    refute_nil host.primary_interface
+    refute_nil host.provision_interface
+    primary = host.primary_interface
+
+    nic = FactoryGirl.build(:nic_managed, :host => host, :mac => '00:00:00:AA:BB:CC', :ip => '192.168.0.1',
+                            :name => 'host2', :domain => host.domain)
+    nic.primary = true
+    nic.provision = true
+
+    # make cache wrong - I don't find a way how to do it cleanly (which is good)
+    host.instance_variable_set '@primary_interface', nic
+    host.instance_variable_set '@provision_interface', nic
+
+    converted = host.becomes(Host::Managed)
+    assert_equal 1, converted.interfaces.size
+    assert_equal primary, converted.interfaces.first
+    refute_equal host.primary_interface, converted.primary_interface
+    refute_equal host.provision_interface, converted.provision_interface
+  end
+
+  test '#initialize builds primary and provision interface if not present in arguments' do
+    h = Host.new
+    refute_nil h.primary_interface
+    refute_nil h.provision_interface
+  end
+
+  test '#initialize respects primary interface attributes and sets provision to the same if missing' do
+    h = Host.new(:interfaces_attributes => {
+                   '0' => {'_destroy' => '0',
+                           :type => 'Nic::Managed',
+                           :mac => 'ff:ff:ff:aa:aa:aa',
+                           :managed => '1',
+                           :primary => '1',
+                           :provision => '0',
+                           :virtual => '0'}
+                 })
+    refute_nil h.primary_interface
+    refute_nil h.provision_interface
+    assert_equal 'ff:ff:ff:aa:aa:aa', h.primary_interface.mac
+    assert_equal h.primary_interface, h.provision_interface
+  end
+
+  test '#initialize respects primary and provision interface attributes' do
+    h = Host.new(:interfaces_attributes => {
+                   '0' => {'_destroy' => '0',
+                           :type => 'Nic::Managed',
+                           :mac => 'ff:ff:ff:aa:aa:aa',
+                           :managed => '1',
+                           :primary => '1',
+                           :provision => '0',
+                           :virtual => '0'},
+                   '1' => {'_destroy' => '0',
+                            :type => 'Nic::Managed',
+                            :mac => 'aa:aa:aa:ff:ff:ff',
+                            :managed => '1',
+                            :primary => '0',
+                            :provision => '1',
+                            :virtual => '0'}
+                 })
+    refute_nil h.primary_interface
+    refute_nil h.provision_interface
+    assert_equal 'ff:ff:ff:aa:aa:aa', h.primary_interface.mac
+    assert_equal 'aa:aa:aa:ff:ff:ff', h.provision_interface.mac
+    refute_equal h.primary_interface, h.provision_interface
   end
 
   describe '#overwrite=' do
@@ -1759,14 +1896,15 @@ end # end of context "location or organizations are not enabled"
     host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
     hash = { (nic_attributes.delete(:identifier) || :eth0) => nic_attributes
            }.with_indifferent_access
-    parser = stub(:interfaces => hash, :ipmi_interface => {})
+    parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
     [host, parser]
   end
 
   def setup_host_with_ipmi_parser(ipmi_attributes)
     host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
     hash = ipmi_attributes.with_indifferent_access
-    parser = stub(:ipmi_interface => hash, :interfaces => {})
+    primary = host.primary_interface
+    parser = stub(:ipmi_interface => hash, :interfaces => {}, :suggested_primary_interface => [ primary.identifier, {:macaddress => primary.mac, :ipaddress => primary.ip} ])
     [host, parser]
   end
 
