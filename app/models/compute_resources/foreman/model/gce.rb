@@ -70,7 +70,7 @@ module Foreman::Model
       ssh      = { :username => username, :public_key => key_pair.public }
       super(args.merge(ssh))
     rescue Fog::Errors::Error => e
-      logger.debug "Unhandled GCE error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
+      logger.error "Unhandled GCE error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
       raise e
     end
 
