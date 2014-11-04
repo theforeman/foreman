@@ -19,11 +19,8 @@ class ModelTest < ActiveSupport::TestCase
 
   test "should not be used when destroyed" do
     m = Model.create :name => "m1"
-
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"), :operatingsystem => Operatingsystem.first,
-      :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition"
-    m.hosts << host
+    FactoryGirl.create(:host, :model => m)
+    assert_equal 1, m.reload.hosts.size
     assert !m.destroy
   end
 

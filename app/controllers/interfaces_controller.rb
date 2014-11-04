@@ -6,6 +6,8 @@ class InterfacesController < ApplicationController
   #       {"new_1405068143746"=>
   #         {"_destroy"=>"false", "type"=>"Nic::BMC", "mac"=>"", "name"=>"", "domain_id"=>"", "ip"=>""}}}}
   def new
+    @host = Host.new params[:host]
+
     attributes = params[:host].fetch(:interfaces_attributes, {})
     @key, attributes = attributes.first
     raise Foreman::Exception, 'Missing attributes for interface' if @key.blank?

@@ -11,3 +11,5 @@
 <%= content_tag :div, :class => "#{virtual_id} #{hidden_class}" do %>
   <%= render 'nic/virtual_form', :f => f, :attached_to_required => true %>
 <% end %>
+
+<%= render 'nic/provider_specific_form', :f => f %>

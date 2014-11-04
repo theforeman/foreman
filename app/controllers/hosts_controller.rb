@@ -20,7 +20,7 @@ class HostsController < ApplicationController
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
                                          :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
-                                         :runtime, :resources, :templates, :ipmi_boot, :console,
+                                         :runtime, :resources, :templates, :nics, :ipmi_boot, :console,
                                          :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
 
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
@@ -74,7 +74,6 @@ class HostsController < ApplicationController
     load_vars_for_ajax
     flash[:warning] = _("The marked fields will need reviewing")
     @host.valid?
-    render :action => :new
   end
 
   def create
@@ -132,6 +131,11 @@ class HostsController < ApplicationController
       render :partial => "compute", :locals => { :compute_resource => compute_resource,
                                                  :vm_attrs         => compute_resource.compute_profile_attributes_for(compute_profile_id) }
     end
+  end
+
+  def interfaces
+    @host = Host.new params[:host]
+    render :partial => "interfaces_tab"
   end
 
   def hostgroup_or_environment_selected
@@ -266,6 +270,12 @@ class HostsController < ApplicationController
     render :text => view_context.show_templates
   rescue ActionView::Template::Error => exception
     process_ajax_error exception, 'fetch templates information'
+  end
+
+  def nics
+    render :partial => 'nics'
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'fetch interfaces information'
   end
 
   def ipmi_boot
@@ -555,7 +565,7 @@ class HostsController < ApplicationController
 
   def action_permission
     case params[:action]
-      when 'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates',
+      when 'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics',
           'pxe_config', 'storeconfig_klasses', 'active', 'errors', 'out_of_sync', 'pending', 'disabled'
         :view
       when 'puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'

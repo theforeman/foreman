@@ -55,7 +55,7 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
                     :id => @nic.to_param,
                     :interface => valid_attrs.merge( { :host_id => @host.id } ) }
      assert_response :success
-     assert_equal valid_attrs['ip'], Host.find_by_name(@host.name).interfaces.order("nics.updated_at").last.ip
+     assert_equal valid_attrs['ip'], Host.find_by_name(@host.name).interfaces.where(:id => @nic.to_param).first.ip
   end
 
   test "destroy interface" do

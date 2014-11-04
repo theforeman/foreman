@@ -61,14 +61,15 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
   def test_bmc_should_have_valid_dns_records
     if unattended?
       h = FactoryGirl.create(:host, :with_dns_orchestration)
-      b = nics(:bmc)
-      b.host   = h
-      b.domain = domains(:mydomain)
-      b.subnet = subnets(:five)
+      b = FactoryGirl.create(:nic_bmc, :host => h,
+                             :domain => domains(:mydomain),
+                             :subnet => subnets(:five),
+                             :name => h.shortname,
+                             :ip => '10.0.0.3')
       assert b.dns?
       assert b.reverse_dns?
-      assert_equal "#{b.name}.#{b.domain.name}/#{b.ip}", b.dns_a_record.to_s
-      assert_equal "#{b.ip}/#{b.name}.#{b.domain.name}", b.dns_ptr_record.to_s
+      assert_equal "#{b.shortname}.#{b.domain.name}/#{b.ip}", b.dns_a_record.to_s
+      assert_equal "#{b.ip}/#{b.shortname}.#{b.domain.name}", b.dns_ptr_record.to_s
     end
   end
 end

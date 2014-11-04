@@ -59,8 +59,8 @@ class Host::Managed < Host::Base
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
       :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method,
-      :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent, :primary_interface, :interfaces,
-      :has_primary_interface?, :bond_interfaces, :interfaces_with_identifier, :managed_interfaces, :facts, :facts_hash, :root_pass,
+      :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent, :primary_interface,
+      :provision_interface, :interfaces, :bond_interfaces, :interfaces_with_identifier, :managed_interfaces, :facts, :facts_hash, :root_pass,
       :sp_name, :sp_ip, :sp_mac, :sp_subnet
   end
 
@@ -137,25 +137,26 @@ class Host::Managed < Host::Base
     # handles all orchestration of smart proxies.
     include Foreman::Renderer
     include Orchestration
-    # Please note that the order of inclusion of DHCP and DNS orchestration modules is important,
-    # as DHCP validation code relies on DNS code being run first (but it's being run in the opposite order atm)
-    include Orchestration::DHCP
-    include Orchestration::DNS
+    # DHCP orchestration delegation
+    delegate :dhcp?, :dhcp_record, :to => :primary_interface
+    # DNS orchestration delegation
+    delegate :dns?, :reverse_dns?, :dns_a_record, :dns_ptr_record, :to => :primary_interface
     include Orchestration::Compute
-    include Orchestration::TFTP
+    include Rails.application.routes.url_helpers
+    # TFTP orchestration delegation
+    delegate :tftp?, :tftp, :generate_pxe_template, :to => :provision_interface
     include Orchestration::Puppetca
     include Orchestration::SSHProvision
     include Orchestration::Realm
     include HostTemplateHelpers
+    delegate :fqdn, :fqdn_changed?, :fqdn_was, :shortname, :to => :provision_interface,
+             :allow_nil => true
+    delegate :require_ip_validation?, :to => :provision_interface
 
-    validates :ip, :uniqueness => true, :if => Proc.new {|host| host.require_ip_validation?}
-    validates :mac, :uniqueness => true, :mac_address => true, :unless => Proc.new { |host| host.compute? or !host.managed }
-    validates :architecture_id, :operatingsystem_id, :domain_id, :presence => true, :if => Proc.new {|host| host.managed}
-    validates :mac, :presence => true, :unless => Proc.new { |host| host.compute? or !host.managed }
+    validates :architecture_id, :operatingsystem_id, :presence => true, :if => Proc.new {|host| host.managed}
     validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
                           :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
                           :if => Proc.new { |host| host.managed && host.pxe_build? }
-    validates :ip, :format => {:with => Net::Validations::IP_REGEXP}, :if => Proc.new { |host| host.require_ip_validation? }
     validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
                           :if => Proc.new { |host| host.managed and host.disk.empty? and not Foreman.in_rake? and host.pxe_build? }
     validates :serial, :format => {:with => /[01],\d{3,}n\d/, :message => N_("should follow this format: 0,9600n8")},
@@ -163,38 +164,20 @@ class Host::Managed < Host::Base
     validates :provision_method, :inclusion => {:in => PROVISION_METHODS, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
     validates :medium_id, :presence => true, :if => Proc.new { |host| host.validate_media? }
     validate :provision_method_in_capabilities
+    validate :short_name_periods
     before_validation :set_compute_attributes, :on => :create
     validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
   end
 
-  before_validation :set_hostgroup_defaults, :set_ip_address, :normalize_addresses, :normalize_hostname, :force_lookup_value_matcher
+  before_validation :set_hostgroup_defaults, :set_ip_address
   after_validation :ensure_associations, :set_default_user
   before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
-  after_update :update_lookup_value_fqdn_matchers, :if => :fqdn_changed?
+  after_validation :trigger_nic_orchestration, :if => Proc.new { |h| h.managed? && h.changed? }, :on => :update
 
   def <=>(other)
     self.name <=> other.name
   end
 
-  def shortname
-    domain.nil? ? name : name.chomp("." + domain.name)
-  end
-
-  # we should guarantee the fqdn is always fully qualified
-  def fqdn
-    return name if name.blank? || domain.blank?
-    name.include?('.') ? name : "#{name}.#{domain}"
-  end
-
-  def fqdn_changed?
-    name_changed? || domain_id_changed?
-  end
-
-  def fqdn_was
-    domain_was = Domain.find(domain_id_was) unless domain_id_was.blank?
-    return name_was if name_was.blank? || domain_was.blank?
-    name_was.include?('.') ? name_was : "#{name_was}.#{domain_was}"
-  end
 
   # method to return the correct owner list for host edit owner select dropbox
   def is_owned_by
@@ -379,9 +362,7 @@ class Host::Managed < Host::Base
       param["mac"] = mac
     end
     param['foreman_subnets'] = (([subnet] + interfaces.map(&:subnet)).compact.map(&:to_enc)).uniq
-    param['foreman_interfaces'] =
-        [Nic::Managed.new(:ip => ip, :mac => mac, :identifier => primary_interface, :subnet => subnet).to_enc] +
-        interfaces.map(&:to_enc)
+    param['foreman_interfaces'] = interfaces.map(&:to_enc)
     param.update self.params
 
     # Parse ERB values contained in the parameters
@@ -459,14 +440,7 @@ class Host::Managed < Host::Base
   end
 
   def attributes_to_import_from_facts
-    attrs = []
-    attrs = [:mac, :ip] unless managed? and Setting[:ignore_puppet_facts_for_provisioning]
-    super + [:domain, :architecture, :operatingsystem] + attrs
-  end
-
-  def set_non_empty_values(parser, methods)
-    super
-    normalize_addresses
+    super + [:domain, :architecture, :operatingsystem]
   end
 
   def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
@@ -617,18 +591,6 @@ class Host::Managed < Host::Base
     false
   end
 
-  def require_ip_validation?
-    # if it's not managed there's nowhere to specify an IP anyway
-    return false unless managed?
-    # if the CR will provide an IP, then don't validate yet
-    return false if compute_provides?(:ip)
-    ip_for_dns     = (subnet.present? && subnet.dns_id.present?) || (domain.present? && domain.dns_id.present?)
-    ip_for_dhcp    = subnet.present? && subnet.dhcp_id.present?
-    ip_for_token   = Setting[:token_duration] == 0 && (pxe_build? || (image_build? && image.try(:user_data?)))
-    # Any of these conditions will require an IP, so chain with OR
-    ip_for_dns or ip_for_dhcp or ip_for_token
-  end
-
   # if certname does not exist, use hostname instead
   def certname
     read_attribute(:certname) || name
@@ -665,6 +627,9 @@ class Host::Managed < Host::Base
     # do not copy system specific attributes
     host = self.deep_clone(:include => [:host_config_groups, :host_classes, :host_parameters],
                            :except  => [:name, :mac, :ip, :uuid, :certname, :last_report])
+    self.interfaces.each do |nic|
+      host.interfaces << nic.clone
+    end
     if self.compute_resource
       host.compute_attributes = host.compute_resource.vm_compute_attributes_for(self.uuid)
     end
@@ -837,6 +802,13 @@ class Host::Managed < Host::Base
     build_status
   end
 
+  # we must also clone interfaces objects so we can detect their attribute changes
+  # method is public because it's used when we run orchestration from interface side
+  def setup_clone
+    return if new_record?
+    @old = super { |clone| clone.interfaces = self.interfaces.map {|i| setup_object_clone(i) } }
+  end
+
   private
 
   def lookup_value_match
@@ -850,34 +822,6 @@ class Host::Managed < Host::Base
 
   def lookup_keys_class_params
     Classification::ClassParam.new(:host => self).enc
-  end
-
-  # ensure that host name is fqdn
-  # if the user inputted short name, the domain name will be appended
-  # this is done to ensure compatibility with puppet storeconfigs
-  def normalize_hostname
-    # no hostname was given or a domain was selected, since this is before validation we need to ignore
-    # it and let the validations to produce an error
-    return if name.empty?
-
-    # Remove whitespace
-    self.name.gsub!(/\s/,'')
-
-    if domain.nil? and name.match(/\./)
-      # try to assign the domain automatically based on our existing domains from the host FQDN
-      self.domain = Domain.all.select{|d| name.match(d.name)}.first rescue nil
-    else
-      # if we've just updated the domain name, strip off the old one
-      if !new_record? and changed_attributes['domain_id'].present?
-        old_domain = Domain.find(changed_attributes["domain_id"])
-        self.name.chomp!("." + old_domain.to_s)
-      end
-      # name should be fqdn
-      self.name = fqdn
-    end
-    # A managed host we should know the domain for; and the shortname shouldn't include a period
-    # This only applies for unattended=true, as otherwise the name field includes the domain
-    errors.add(:name, _("must not include periods")) if ( managed? && shortname.include?(".") && SETTINGS[:unattended] )
   end
 
   def assign_hostgroup_attributes(attrs = [])
@@ -945,19 +889,6 @@ class Host::Managed < Host::Base
     self.certname = Foreman.uuid if read_attribute(:certname).blank? or new_record?
   end
 
-  def normalize_addresses
-    begin
-      self.mac = Net::Validations.normalize_mac(mac)
-    rescue ArgumentError => e
-      self.errors.add(:mac, e.message)
-    end
-    self.ip  = Net::Validations.normalize_ip(ip)
-  end
-
-  def force_lookup_value_matcher
-    lookup_values.each { |v| v.match = "fqdn=#{fqdn}" }
-  end
-
   def tax_location
     return nil unless location_id
     @tax_location ||= TaxHost.new(location, self)
@@ -979,13 +910,24 @@ class Host::Managed < Host::Base
     end
   end
 
-  def update_lookup_value_fqdn_matchers
-    LookupValue.where(:match => "fqdn=#{fqdn_was}").update_all(:match => lookup_value_match)
+  def short_name_periods
+    errors.add(:name, _("must not include periods")) if ( managed? && shortname && shortname.include?(".") && SETTINGS[:unattended] )
   end
 
   def update_hostgroups_puppetclasses
     Hostgroup.find(hostgroup_id_was).update_puppetclasses_total_hosts if hostgroup_id_was.present?
     Hostgroup.find(hostgroup_id).update_puppetclasses_total_hosts     if hostgroup_id.present?
+  end
+
+  # we need this so when attribute like build changes we trigger tftp orchestration so token is updated on tftp
+  # but we should trigger it only for existing records and unless interfaces also changed (then validation is run
+  # on them automatically)
+  def trigger_nic_orchestration
+    self.primary_interface.valid? unless self.primary_interface.changed?
+
+    if self.primary_interface != self.provision_interface && !self.provision_interface.changed?
+      self.provision_interface.valid?
+    end
   end
 
 end

@@ -14,7 +14,7 @@
         <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') %></a></li>
       <% end %>
       <% if SETTINGS[:unattended] and @host.managed %>
-        <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
+        <li id="network_tab"><a href="#network" data-toggle="tab"><%= _('Interfaces') %></a></li>
         <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
         <% if authorized_for(:controller => "Compute::Resources::Vms", :action => :create) %>
           <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab"><%= _('Virtual Machine') %></a></li>
@@ -27,9 +27,11 @@
     <div class="tab-content">
 
       <div class="tab-pane active" id="primary">
-        <%= text_f f, :name, :size => "col-md-8", :value => name_field(@host) %>
+        <%= text_f f, :name, :size => "col-md-5", :value => name_field(@host),
+            :help_inline => _("This value is used also as the host's primary interface name.") %>
         <%= text_f f, _('Name aliases'), :id=> "alias_list", :size => "col-md-4", :value => @host.aliases, 
           :help_inline => popover(_("DNS alias list format"), _("This field contains a comma seperated list of DNS aliases.<br/><br/>You can fill this with using either the following formats:<ul><li>alias1, alias2, alias2</li><li>alias1 alias2 alias3</li><li>alias1,alias2,alias3</li></ul></br>The list will be automatically formatted to the suitable internal format."), :title => _("DNS alias list format")).html_safe %>
+
         <% if show_organization_tab?  %>
           <%= host_taxonomy_select(f, Organization) %>
         <% end %>
@@ -65,7 +67,11 @@
         <%= select_f f, :environment_id, Environment.with_taxonomy_scope_override(@location,@organization).order(:name), :id, :to_label, { :include_blank => true },
             {:onchange => 'update_puppetclasses(this)', :'data-url' => hostgroup_or_environment_selected_hosts_path,
             :'data-host-id' => @host.id, :help_inline => :indicator} %>
+
         <%= puppet_master_fields f %>
+
+        <%= realm_field f %>
+
       </div>
 
       <div class="tab-pane" id="puppet_klasses">

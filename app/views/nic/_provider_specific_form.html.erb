@@ -1,0 +1,8 @@
+<% if nic_provider_attributes_exist?(@host) %>
+  <fieldset>
+    <legend>
+      <%= @host.compute_resource.provider_friendly_name %>
+    </legend>
+    <%= render nic_provider_partial(@host), :f => f, :disabled => f.object.persisted?, :compute_resource => @host.compute_resource %>
+  </fieldset>
+<% end %>

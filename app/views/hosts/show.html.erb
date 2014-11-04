@@ -32,6 +32,9 @@
       <% if @host.bmc_available? %>
         <li><a href="#bmc" data-toggle="tab"><%= _('BMC') %></a></li>
       <% end %>
+      <% if SETTINGS[:unattended] %>
+        <li><a href="#nics" data-toggle="tab"><%= _('NICs') %></a></li>
+      <% end %>
     </ul>
     <div id="myTabContent" class="tab-content">
       <div class="tab-pane active in" id="properties" data-ajax-url='<%= overview_host_path(@host)%>'>
@@ -60,6 +63,15 @@
             <%= _('Loading VM information ...') %>
           </p>
         </div>
+      <% end %>
+      <% if SETTINGS[:unattended] %>
+        <div id="nics" class="tab-pane" data-ajax-url='<%= nics_host_path(@host)%>' data-on-complete='onContentLoad'>
+          <p id="spinner">
+            <%= image_tag 'spinner.gif' %>
+            <%= _('Loading NICs information ...') %>
+          </p>
+        </div>
+
       <% end %>
       <% if @host.bmc_available? %>
         <div id="bmc" class="tab-pane" data-ajax-url='<%= bmc_host_path(@host) %>' data-on-complete='setPowerState'>

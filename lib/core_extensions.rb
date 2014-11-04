@@ -143,6 +143,6 @@ end
 
 class ActiveModel::Errors
   def are_all_conflicts?
-    self[:conflict].count == self.count
+    self[:conflict].count + self[:'interfaces.conflict'].count == self.count
   end
 end

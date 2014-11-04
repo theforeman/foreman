@@ -1,16 +1,7 @@
-<% interfaces_invalid = @host.interfaces.any?{ |i| !i.valid? } %>
+
+<% interfaces_invalid = @host.interfaces.any?{ |i| i.validated? && !i.valid? } %>
+
 <fieldset id="interfaces" data-url="<%= new_interface_path %>">
-  <legend>
-    <span <%= interfaces_invalid ? 'class="has-error"'.html_safe : '' %>>
-      <%= _("Interfaces") %>
-    </span>
-    <a onclick="edit_interface();return false;"
-      href="#"
-      class="info add_nested_fields btn btn-success"
-      id = "addInterface"
-      title="add new network interface">+
-      <%= _('Add Interface') %></a>
-  </legend>
   <% if interfaces_invalid %>
     <p class="alert alert-danger">
       <%= _("Some of the interfaces are invalid. Please check the table below.") %>
@@ -18,38 +9,57 @@
   <% end %>
   <!-- interface list -->
   <table class="table table-bordered table-striped table-condensed" id="interfaceList">
-    <tbody>
+    <thead>
       <tr>
         <th class="hidden-xs" width="3%"></th>
+        <th class="hidden-xs" width="6%"></th>
         <th class="ellipsis"><%= _('Identifier') %></th>
         <th class="hidden-xs"><%= _('Type') %></th>
         <th class="hidden-xs"><%= _("MAC address") %></th>
+        <th class="hidden-xs"><%= _("IP address") %></th>
+        <th class="hidden-xs"><%= _("FQDN") %></th>
         <th></th>
       </tr>
+    </thead>
+    <tbody>
       <% @host.interfaces.each do |interface| %>
-        <tr class="<%= 'has-error' unless interface.valid? %>" id="interface<%= interface.object_id %>" data-interface-id="<%= interface.object_id %>">
+        <tr class="<%= 'has-error' if interface.validated? && !interface.valid? %>" id="interface<%= interface.object_id %>" data-interface-id="<%= interface.object_id %>">
           <td class="status hidden-xs" align="center"><%= link_status(interface) %></td>
+          <td class="flags hidden-xs" align="center"><%= interface_flags(interface) %></td>
           <td class="identifier ellipsis"><%= interface.identifier %></td>
           <td class="type hidden-xs"><%= _(interface.class.humanized_name) %></td>
           <td class="mac hidden-xs"><%= interface.mac %></td>
+          <td class="ip hidden-xs"><%= interface.ip %></td>
+          <td class="fqdn hidden-xs"><%= interface.fqdn %></td>
           <td>
-            <button class="btn btn-default showModal" onclick="edit_interface(<%= interface.object_id %>); return false;"><%= _('Edit') %></button>
-            <button class="btn btn-danger removeInterface" onclick="remove_interface(<%= interface.object_id %>); return false;"><%= _('Delete') %></button>
+            <button type="button" class="btn btn-default showModal" onclick="edit_interface(<%= interface.object_id %>); return false;"><%= _('Edit') %></button>
+            <button type="button" class="btn btn-danger removeInterface <%= (interface.primary? || interface.provision?) ? 'disabled' : '' %>" onclick="remove_interface(<%= interface.object_id %>); return false;"><%= _('Delete') %></button>
           </td>
         </tr>
       <% end %>
       <tr id="interfaceTemplate" style="display: none">
         <td class="status hidden-xs" align="center"></td>
+        <td class="flags hidden-xs" align="center"></td>
         <td class="identifier ellipsis"></td>
         <td class="type hidden-xs"></td>
         <td class="mac hidden-xs"></td>
+        <td class="ip hidden-xs"></td>
+        <td class="fqdn hidden-xs"></td>
         <td>
-          <button class="btn btn-default showModal" data-toggle="modal" data-target="#interfaceModal"><%= _('Edit') %></button>
-          <button class="btn btn-danger removeInterface"><%= _('Delete') %></button>
+          <button type="button" class="btn btn-default showModal"><%= _('Edit') %></button>
+          <button type="button" class="btn btn-danger removeInterface"><%= _('Delete') %></button>
         </td>
       </tr>
-    </tbody>
+    <tbody>
   </table>
+
+  <div class="btn-toolbar">
+    <button type="button" onclick="edit_interface();return false;"
+      class="info btn btn-success" id="addInterface"
+                                   title="add new network interface">+ <%= _('Add Interface') %>
+    </button>
+  </div>
+
   <!-- hidden interface forms -->
   <div id="interfaceForms">
     <%= f.fields_for :interfaces do |interface| %>
@@ -61,17 +71,19 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"><%= _('Close') %></span></button>
+          <button type="button" class="close" onclick="close_interface_modal(); return false;"><span aria-hidden="true">&times;</span><span class="sr-only"><%= _('Close') %></span></button>
           <h4 class="modal-title"></h4>
         </div>
         <div class="modal-body">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn btn-default" data-dismiss="modal"><%= _('Cancel') %></button>
-          <button class="btn btn-primary" onclick="close_interface_modal(); return false;"><%= _('Ok') %></button>
+          <button type="button" class="btn btn btn-default" onclick="close_interface_modal(); return false;"><%= _('Cancel') %></button>
+          <button type="button"  class="btn btn-primary" onclick="save_interface_modal(); return false;"><%= _('Ok') %></button>
         </div>
       </div>
     </div>
   </div>
+
+  <%= new_child_fields_template(f, :interfaces, {:partial => Nic::Managed.new, :layout => 'nic/hidden_layout'}) %>
+
 </fieldset>
-<%= new_child_fields_template(f, :interfaces, {:partial => Nic::Managed.new, :layout => 'nic/hidden_layout'}) %>

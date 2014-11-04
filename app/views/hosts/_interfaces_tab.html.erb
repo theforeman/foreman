@@ -1,0 +1,5 @@
+<%= fields_for "host", @host do |f| %>
+
+  <%= render :partial => "interfaces", :locals => { :f => f } %>
+
+<% end %>

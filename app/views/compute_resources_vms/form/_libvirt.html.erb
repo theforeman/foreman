@@ -1,20 +1,11 @@
+
 <% new_host = new_host?(f.object) %>
 <%= text_f f, :name, :disabled => !new_host if show_vm_name? %>
 <%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :disabled => !new_host, :label => _('CPUs') %>
 <%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "col-md-2", :disabled => !new_host, :label => _('Memory') %>
 
-<!--NICS-->
-<div class="children_fields">
-  <%= new_child_fields_template(f, :nics, {
-      :object  => compute_resource.new_nic,
-      :partial => 'compute_resources_vms/form/libvirt/network', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
-  <%= field_set_tag _("Network interfaces"), :id => "network_interfaces" do %>
-    <%= f.fields_for :nics do |i| %>
-      <%= render 'compute_resources_vms/form/libvirt/network', :f => i, :compute_resource => compute_resource %>
-    <% end %>
-    <%= add_child_link '+ ' + _("Add Interface"), :nics, { :class => "info disable-unsupported", :title => _('add new network interface') } %>
-  <% end %>
-</div>
+
+<%= render :partial => 'compute_resources_vms/form/interfaces_legacy_message', :locals => { :is_compute_profile => local_assigns[:is_compute_profile] } %>
 
 <!--Storage-->
 <div class="children_fields">

@@ -171,7 +171,7 @@ class HostsControllerTest < ActionController::TestCase
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
     get :clone, {:id => Host.first.name}, set_session_user
     assert assigns(:clone_host)
-    assert_template 'new'
+    assert_template 'clone'
   end
 
   def test_clone_empties_fields
@@ -209,9 +209,10 @@ class HostsControllerTest < ActionController::TestCase
       @host2.update_attribute(:domain, domains(:yourdomain))
     end
     get :index, {}, set_session_user.merge(:user => @one.id)
+
     assert_response :success
     assert_match /#{@host1.shortname}/, @response.body
-    refute_match /#{@host2.name}/, @response.body
+    refute_match /#{@host2.shortname}/, @response.body
   end
 
   test 'user with view host rights and ownership is set should succeed in viewing host1 but fail for host2' do
@@ -757,10 +758,11 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "can change sti type to valid subtype" do
-    class Host::Valid < Host::Base; end
-    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, set_session_user
-    @host = Host::Base.find(@host.id)
-    assert_equal "Host::Valid", @host.type
+    class Host::Valid < Host::Managed; end
+    host = FactoryGirl.create(:host)
+    put :update, { :commit => "Update", :id => host.name, :host => {:type => "Host::Valid"} }, set_session_user
+    host = Host::Base.find(host.id)
+    assert_equal "Host::Valid", host.type
   end
 
   test "cannot change sti type to invalid subtype" do

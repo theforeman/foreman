@@ -1,12 +1,92 @@
+# Helpers
+
+def deferred_nic_attrs
+  [:ip, :mac, :subnet, :domain]
+end
+
+def set_nic_attributes(host, attributes, evaluator)
+  attributes.each do |nic_attribute|
+    next unless evaluator.send(nic_attribute).present?
+    host.primary_interface.send(:"#{nic_attribute}=", evaluator.send(nic_attribute))
+  end
+  host
+end
+
 FactoryGirl.define do
+  factory :ptable do
+    sequence(:name) { |n| "ptable#{n}" }
+    layout 'zerombr yes\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=<%= 10 * 10 %> --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended'
+  end
+
+  factory :parameter do
+    sequence(:name) { |n| "parameter#{n}" }
+    sequence(:value) { |n| "parameter value #{n}" }
+    type 'CommonParameter'
+  end
+
+  factory :host_parameter, :parent => :parameter, :class => HostParameter do
+    type 'HostParameter'
+  end
+
+  factory :hostgroup_parameter, :parent => :parameter, :class => GroupParameter do
+    type 'GroupParameter'
+  end
+
+  factory :nic_base do
+    sequence(:identifier) { |n| "eth#{n}" }
+    sequence(:mac) { |n| "00:00:00:00:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
+  end
+
+  factory :nic_interface, :class => Nic::Interface, :parent => :nic_base do
+    type 'Nic::Interface'
+  end
+
+  factory :nic_managed, :class => Nic::Managed, :parent => :nic_interface do
+    type 'Nic::Managed'
+    sequence(:mac) { |n| "01:23:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
+    sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
+  end
+
+  factory :nic_bmc, :class => Nic::BMC, :parent => :nic_managed do
+    type 'Nic::BMC'
+    sequence(:mac) { |n| "01:23:56:cd:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
+    sequence(:ip) { |n| IPAddr.new(255 + n, Socket::AF_INET).to_s }
+    provider 'IPMI'
+    username 'admin'
+    password 'admin'
+  end
+
+  factory :nic_bond, :class => Nic::Bond, :parent => :nic_managed do
+    type 'Nic::Bond'
+    mode 'balance-rr'
+  end
+
+  factory :nic_primary_and_provision, :parent => :nic_managed, :class => Nic::Managed do
+    primary true
+    provision true
+    sequence(:mac) { |n| "01:23:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
+    sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
+  end
+
   factory :host do
     sequence(:name) { |n| "host#{n}" }
     sequence(:hostname) { |n| "host#{n}" }
-    sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
-    sequence(:mac) { |n| "01:23:45:67:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
     root_pass 'xybxa6JUkz63w'
-    domain
     environment
+
+    # This allows a test to declare build/create(:host, :ip => '1.2.3.4') and
+    # have the primary interface correctly updated with the specified attrs
+    after(:build) do |host,evaluator|
+      unless host.primary_interface.present?
+        opts = {
+          :primary => true,
+          :domain  => FactoryGirl.build(:domain)
+        }
+        host.interfaces << FactoryGirl.build(:nic_managed, opts)
+      end
+
+      set_nic_attributes(host, deferred_nic_attrs, evaluator)
+    end
 
     trait :with_medium do
       medium
@@ -59,7 +139,7 @@ FactoryGirl.define do
     end
 
     trait :with_subnet do
-      subnet
+      after(:build) { |host| host.subnet = FactoryGirl.build(:subnet) }
     end
 
     trait :with_operatingsystem do
@@ -79,6 +159,8 @@ FactoryGirl.define do
       ptable
       location
       organization
+      domain
+      interfaces { [ FactoryGirl.build(:nic_primary_and_provision) ] }
       operatingsystem { FactoryGirl.create(:operatingsystem,
                           :architectures => [architecture],
                           :ptables => [ptable],
@@ -94,6 +176,7 @@ FactoryGirl.define do
       operatingsystem { FactoryGirl.create(:operatingsystem,
                           :architectures => [architecture], :ptables => [ptable])
       }
+      domain
       subnet {
         FactoryGirl.create(
           :subnet,
@@ -101,7 +184,9 @@ FactoryGirl.define do
                      :features => [FactoryGirl.create(:feature, :dhcp)])
         )
       }
-      ip { subnet.network.sub(/0\Z/, '1') }
+      interfaces { [ FactoryGirl.build(:nic_primary_and_provision,
+                                       :ip => subnet.network.sub(/0\Z/, '1')) ]
+      }
     end
 
     trait :with_dns_orchestration do
@@ -124,7 +209,24 @@ FactoryGirl.define do
                     :features => [FactoryGirl.create(:feature, :dns)])
         )
       }
-      ip { subnet.network.sub(/0\Z/, '1') }
+      interfaces { [ FactoryGirl.build(:nic_managed,
+                                       :primary => true,
+                                       :provision => true,
+                                       :domain => FactoryGirl.build(:domain),
+                                       :ip => subnet.network.sub(/0\Z/, '1')) ]
+      }
+    end
+
+    trait :with_tftp_orchestration do
+      managed
+      subnet { FactoryGirl.build(:subnet, :tftp) }
+      interfaces { [ FactoryGirl.build(:nic_managed,
+                                       :primary => true,
+                                       :provision => true,
+                                       :domain => FactoryGirl.build(:domain),
+                                       :subnet => subnet,
+                                       :ip => subnet.network.sub(/0\Z/, '2')) ]
+      }
     end
 
     trait :with_puppet_orchestration do
@@ -134,6 +236,8 @@ FactoryGirl.define do
       organization
       association :compute_resource, :factory => :libvirt_cr
       ptable
+      domain
+      interfaces { [ FactoryGirl.build(:nic_primary_and_provision) ] }
       operatingsystem { FactoryGirl.create(:operatingsystem,
                                            :architectures => [architecture], :ptables => [ptable] )
       }
@@ -184,42 +288,5 @@ FactoryGirl.define do
                         :features => [FactoryGirl.create(:feature, :puppet)])
       }
     end
-  end
-
-  factory :ptable do
-    sequence(:name) { |n| "ptable#{n}" }
-    layout 'zerombr yes\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=<%= 10 * 10 %> --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended'
-  end
-
-
-  factory :parameter do
-    sequence(:name) { |n| "parameter#{n}" }
-    sequence(:value) { |n| "parameter value #{n}" }
-    type 'CommonParameter'
-  end
-  factory :host_parameter, :parent => :parameter, :class => HostParameter do
-    type 'HostParameter'
-  end
-  factory :hostgroup_parameter, :parent => :parameter, :class => GroupParameter do
-    type 'GroupParameter'
-  end
-  factory :nic_base do
-    sequence(:identifier) { |n| "eth#{n}" }
-    sequence(:mac) { |n| "00:00:00:00:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
-  end
-  factory :nic_interface, :class => Nic::Interface, :parent => :nic_base do
-    type 'Nic::Interface'
-  end
-  factory :nic_managed, :class => Nic::Interface, :parent => :nic_base do
-    type 'Nic::Managed'
-    sequence(:mac) { |n| "01:23:45:ab:cd:" + n.to_s(16).rjust(2, '0') }
-  end
-  factory :nic_bmc, :class => Nic::Interface, :parent => :nic_base do
-    type 'Nic::BMC'
-    sequence(:mac) { |n| "01:23:45:ab:ef:" + n.to_s(16).rjust(2, '0') }
-  end
-  factory :nic_bond, :class => Nic::Bond, :parent => :nic_base do
-    type 'Nic::Bond'
-    mode 'balance-rr'
   end
 end

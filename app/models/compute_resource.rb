@@ -113,6 +113,10 @@ class ComputeResource < ActiveRecord::Base
     :image_id
   end
 
+  def interfaces_attrs_name
+    "interfaces_attributes"
+  end
+
   # returns a new fog server instance
   def new_vm(attr = {})
     test_connection
