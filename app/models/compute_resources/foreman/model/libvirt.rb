@@ -111,7 +111,7 @@ module Foreman::Model
       create_volumes :prefix => vm.name, :volumes => vm.volumes, :backing_id => args[:image_id]
       vm.save
     rescue Fog::Errors::Error => e
-      logger.debug "Unhandled LibVirt error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
+      logger.error "Unhandled LibVirt error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
       destroy_vm vm.id if vm
       raise e
     end
@@ -189,7 +189,7 @@ module Foreman::Model
         end
         vols
       rescue => e
-        logger.debug "Failure detected #{e}: removing already created volumes" if vols.any?
+        logger.error "Failure detected #{e}: removing already created volumes" if vols.any?
         vols.each { |vol| vol.destroy }
         raise e
       end
