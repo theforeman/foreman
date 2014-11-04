@@ -229,3 +229,19 @@ function allocation_switcher(element, action) {
   }
   return false;
 }
+
+function libvirt_volume_selected(item){
+  selected = $(item).val();
+  dropdown = $(item).closest('select');
+  new_vol   = $(item).parentsUntil('.fields').parent().find('#new_vol');
+  switch (selected) {
+    case '':
+      enable_libvirt_dropdown(new_vol);
+      break;
+    default:
+      disable_libvirt_dropdown(new_vol);
+      break;
+  }
+  return false;
+}
+
