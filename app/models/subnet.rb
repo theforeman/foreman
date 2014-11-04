@@ -13,7 +13,7 @@ class Subnet < ActiveRecord::Base
 
   validates_lengths_from_database :except => [:gateway]
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :interfaces, :domains)
-  has_many_hosts
+  #has_many_hosts
   has_many :hostgroups
   belongs_to :dhcp, :class_name => "SmartProxy"
   belongs_to :tftp, :class_name => "SmartProxy"
@@ -21,6 +21,9 @@ class Subnet < ActiveRecord::Base
   has_many :subnet_domains, :dependent => :destroy
   has_many :domains, :through => :subnet_domains
   has_many :interfaces, :class_name => 'Nic::Base'
+  has_many :primary_interfaces, :class_name => 'Nic::Base', :conditions => { :primary => true }
+  has_many :hosts, :through => :interfaces
+  has_many :primary_hosts, :through => :primary_interfaces, :source => :host
   validates :network, :mask, :name, :presence => true
   validates_associated    :subnet_domains
   validates :network, :uniqueness => true,
@@ -169,7 +172,7 @@ class Subnet < ActiveRecord::Base
   end
 
   def known_ips
-    ips = self.interfaces.map(&:ip) + self.hosts.map(&:ip)
+    ips = self.interfaces.map(&:ip) + self.hosts.includes(:interfaces).map(&:ip)
     ips += [self.gateway, self.dns_primary, self.dns_secondary].select(&:present?)
     self.clear_association_cache
     ips.uniq
@@ -192,6 +195,12 @@ class Subnet < ActiveRecord::Base
 
   def has_vlanid?
     self.vlanid.present?
+  end
+
+  # overwrite method in taxonomix, since subnet is not direct association of host anymore
+  def used_taxonomy_ids(type)
+    return [] if new_record?
+    Host::Base.joins(:primary_interface).where(:nics => {:subnet_id => id}).pluck(type).compact.uniq
   end
 
   private

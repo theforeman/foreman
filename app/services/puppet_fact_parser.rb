@@ -79,15 +79,6 @@ class PuppetFactParser < FactParser
     Domain.find_or_create_by_name name unless name.blank?
   end
 
-  def primary_interface
-    mac = facts[:macaddress]
-    ip = facts[:ipaddress]
-    interfaces.each do |int, values|
-      return int.to_s if (values[:macaddress] == mac && values[:ipaddress] == ip)
-    end
-    nil
-  end
-
   def ipmi_interface
     ipmi = facts.select { |name, _| name =~ /\Aipmi_(.*)\Z/ }.map { |name, value| [name.sub(/\Aipmi_/, ''), value] }
     Hash[ipmi].with_indifferent_access
@@ -107,14 +98,6 @@ class PuppetFactParser < FactParser
     end
 
     interfaces
-  end
-
-  def mac
-    facts[:macaddress] == "00:00:00:00:00:00" ? nil : facts[:macaddress]
-  end
-
-  def ip
-    facts[:ipaddress]
   end
 
   def certname

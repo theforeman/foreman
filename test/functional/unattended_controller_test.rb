@@ -158,6 +158,7 @@ class UnattendedControllerTest < ActionController::TestCase
 
   test "should not provide unattened files to hosts which are not in built state" do
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
+    @request.env['REMOTE_ADDR'] = '10.0.1.2'
     get :built
     assert_response :created
     get :provision
@@ -271,7 +272,7 @@ class UnattendedControllerTest < ActionController::TestCase
       refute_equal new_ip, h.ip
       h.create_token(:value => "aaaaab", :expires => Time.now + 5.minutes)
       get :built, {'token' => h.token.value }
-      h_new=Host.find_by_name(h.name)
+      h_new=Host.find_by_name(h.reload.name)
       assert_response :success
       assert_equal new_ip, h_new.ip
     end
@@ -285,7 +286,7 @@ class UnattendedControllerTest < ActionController::TestCase
       h.create_token(:value => "aaaaac", :expires => Time.now + 5.minutes)
       get :built, {'token' => h.token.value }
       assert_response :success
-      h_new=Host.find_by_name(h.name)
+      h_new=Host.find_by_name(h.reload.name)
       assert_equal h.ip, h_new.ip
     end
 

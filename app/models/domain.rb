@@ -11,16 +11,20 @@ class Domain < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database
-  has_many_hosts
+  # TODO remove if safe
+  # has_many_hosts
   has_many :hostgroups
   #order matters! see https://github.com/rails/rails/issues/670
-  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets)
+  before_destroy EnsureNotUsedBy.new(:interfaces, :hostgroups, :subnets)
   has_many :subnet_domains, :dependent => :destroy
   has_many :subnets, :through => :subnet_domains
   belongs_to :dns, :class_name => "SmartProxy"
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :domain
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "DomainParameter"
   has_many :interfaces, :class_name => 'Nic::Base'
+  has_many :primary_interfaces, :class_name => 'Nic::Base', :conditions => { :primary => true }
+  has_many :hosts, :through => :interfaces
+  has_many :primary_hosts, :through => :primary_interfaces, :source => :host
 
   accepts_nested_attributes_for :domain_parameters, :allow_destroy => true
   include ParameterValidators
@@ -69,6 +73,12 @@ class Domain < ActiveRecord::Base
 
   def dot_strip_attrs
     ['name']
+  end
+
+  # overwrite method in taxonomix, since domain is not direct association of host anymore
+  def used_taxonomy_ids(type)
+    return [] if new_record?
+    Host::Base.joins(:primary_interface).where(:nics => {:domain_id => id}).pluck(type).compact.uniq
   end
 
 end

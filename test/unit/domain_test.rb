@@ -6,7 +6,6 @@ class DomainTest < ActiveSupport::TestCase
     @new_domain = Domain.new
     @domain = domains(:mydomain)
     Domain.all.each do |d| #because we load from fixtures, counters aren't updated
-      Domain.reset_counters(d.id,:hosts)
       Domain.reset_counters(d.id,:hostgroups)
     end
 
@@ -85,7 +84,11 @@ class DomainTest < ActiveSupport::TestCase
   test "should update hosts_count on domain_id change" do
     domain = domains(:yourdomain)
     assert_difference "domain.hosts_count" do
-      FactoryGirl.create(:host).update_attribute(:domain_id, domain.id)
+      host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
+      primary = host.primary_interface
+      primary.domain = domain
+      primary.host.overwrite = true
+      assert primary.save
       domain.reload
     end
   end
@@ -106,7 +109,7 @@ class DomainTest < ActiveSupport::TestCase
 #  end
 
   def create_a_host
-    FactoryGirl.create(:host)
+    FactoryGirl.create(:host, :domain => FactoryGirl.build(:domain))
   end
 
   test "should query local nameservers when enabled" do

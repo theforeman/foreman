@@ -23,7 +23,7 @@ module Orchestration
   end
 
   def on_destroy
-    errors.empty? ? process(:queue) : false
+    errors.empty? ? process(:queue) : rollback
   end
 
   def rollback
@@ -83,10 +83,9 @@ module Orchestration
       update_cache
       begin
         task.status = execute({:action => task.action}) ? "completed" : "failed"
-
       rescue Net::Conflict => e
         task.status = "conflict"
-        record_conflicts << e
+        add_conflict(e)
         failure e.message, nil, :conflict
       rescue => e
         task.status = "failed"
@@ -117,6 +116,10 @@ module Orchestration
     rollback
   end
 
+  def add_conflict(e)
+    @record_conflicts << e
+  end
+
   def execute(opts = {})
     obj, met = opts[:action]
     rollback = opts[:rollback] || false
@@ -142,20 +145,19 @@ module Orchestration
   end
 
   # we keep the before update host object in order to compare changes
-  def setup_clone
+  def setup_clone(&block)
     return if new_record?
-    @old = dup
-    for key in (changed_attributes.keys - ["updated_at"])
-      @old.send "#{key}=", changed_attributes[key]
-      # At this point the old cached bindings may still be present so we force an AR association reload
-      # This logic may not work or be required if we switch to Rails 3
-      if (match = key.match(/\A(.*)_id\Z/))
-        name = match[1].to_sym
-        next if name == :owner # This does not work for the owner association even from the console
-        self.send(name, true) if (send(name) and send(name).id != @attributes[key])
-        old.send(name, true)  if (old.send(name) and old.send(name).id != old.attributes[key])
-      end
+    @old = setup_object_clone(self, &block)
+  end
+
+  def setup_object_clone(object)
+    clone = object.dup
+    yield(clone) if block_given?
+    # we can't assign using #attributes= because of mass-assign protected attributes (e.g. type)
+    for key in (object.changed_attributes.keys - ["updated_at"])
+      clone.send "#{key}=", object.changed_attributes[key]
     end
+    clone
   end
 
   def orchestration_errors?

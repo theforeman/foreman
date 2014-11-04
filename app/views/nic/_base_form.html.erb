@@ -1,7 +1,10 @@
 <%= selectable_f f, :type, interfaces_types, {},
                  :class => 'interface_type', :disabled => !f.object.new_record? %>
 
+
 <%= text_f f, :mac, :class => :interface_mac %>
+<%= checkbox_f f, :primary %>
+<%= checkbox_f f, :provision %>
 <%= text_f f, :identifier, :disabled => !f.object.new_record?,
               :help_inline => _("Device identifier, i.e.: eth0 or eth1.1"),
               :class => :interface_identifier %>

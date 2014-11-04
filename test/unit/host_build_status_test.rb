@@ -5,11 +5,11 @@ class HostBuildStatusTest < ActiveSupport::TestCase
 
   setup do
     User.current = users(:admin)
-    host = Host.new(:name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => ptables(:one), :medium => media(:one),
+    @host = Host.new(:name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => ptables(:one), :medium => media(:one),
                     :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
                     :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
                     :owner_type => "User", :root_pass => "xybxa6JUkz63w")
-    @build = host.build_status
+    @build = @host.build_status
     # bypass host.valid?
     HostBuildStatus.any_instance.stubs(:host_status).returns(true)
   end
@@ -19,7 +19,7 @@ class HostBuildStatusTest < ActiveSupport::TestCase
   end
 
   test "should fail rendering a template" do
-    host = FactoryGirl.create(:host, :managed)
+    host = @host
     kind = FactoryGirl.create(:template_kind)
     FactoryGirl.create(:config_template, :template => "provision script <%= @foreman.server.status %>",:name => "My Failed Template", :template_kind => kind, :operatingsystem_ids => [host.operatingsystem_id], :environment_ids => [host.environment_id], :hostgroup_ids => [host.hostgroup_id]  )
     @build = host.build_status

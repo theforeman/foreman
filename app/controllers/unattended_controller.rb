@@ -103,7 +103,7 @@ class UnattendedController < ApplicationController
   end
 
   def find_host_by_spoof
-    host   = Host.find_by_ip(params.delete('spoof')) if params['spoof'].present?
+    host = Nic::Base.primary.find_by_ip(params.delete('spoof')).try(:host) if params['spoof'].present?
     host ||= Host.find(params.delete('hostname')) if params['hostname'].present?
     @spoof = host.present?
     host
@@ -140,7 +140,9 @@ class UnattendedController < ApplicationController
       end
     end
     # we try to match first based on the MAC, falling back to the IP
-    Host.where(mac_list.empty? ? { :ip => ip } : ["lower(mac) IN (?)", mac_list]).first
+    # host is readonly because of association so we reload it if we find it
+    host = Host.joins(:primary_interface).where(mac_list.empty? ? {:nics => {:ip => ip}} : ["lower(nics.mac) IN (?)", mac_list]).first
+    host ? Host.find(host.id) : nil
   end
 
   def allowed_to_install?

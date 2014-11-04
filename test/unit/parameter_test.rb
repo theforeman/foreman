@@ -4,7 +4,7 @@ class ParameterTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
   end
-  test  "names may me reused in different parameter groups" do
+  test  "names may be reused in different parameter groups" do
     host = FactoryGirl.create(:host)
     p1 = HostParameter.new   :name => "param", :value => "value1", :reference_id => host.id
     assert p1.save
@@ -23,40 +23,33 @@ class ParameterTest < ActiveSupport::TestCase
   test "parameters are hierarchically applied" do
     CommonParameter.create :name => "animal", :value => "cat"
 
-    organization = taxonomies(:organization1)
-    location = taxonomies(:location1)
-    domain = Domain.find_or_create_by_name("company.com")
-    hostgroup = Hostgroup.find_or_create_by_name "Common"
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-    :domain => domain, :operatingsystem => Operatingsystem.first, :hostgroup => hostgroup,
-    :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition",
-    :root_pass => "xybxa6JUkz63w", :location => location, :organization => organization
+    host         = FactoryGirl.create(:host, :with_hostgroup, :managed)
+    organization = host.organization
+    location     = host.location
+    domain       = host.domain
+    hostgroup    = host.hostgroup
 
+    CommonParameter.create :name => "animal", :value => "cat"
     assert_equal "cat", host.host_params["animal"]
 
     organization.organization_parameters << OrganizationParameter.create(:name => "animal", :value => "tiger")
     host.clear_host_parameters_cache!
-
     assert_equal "tiger", host.host_params["animal"]
 
     location.location_parameters << LocationParameter.create(:name => "animal", :value => "lion")
     host.clear_host_parameters_cache!
-
     assert_equal "lion", host.host_params["animal"]
 
     domain.domain_parameters << DomainParameter.create(:name => "animal", :value => "dog")
     host.clear_host_parameters_cache!
-
     assert_equal "dog", host.host_params["animal"]
 
     hostgroup.group_parameters << GroupParameter.create(:name => "animal",:value => "cow")
     host.clear_host_parameters_cache!
-
     assert_equal "cow", host.host_params["animal"]
 
     host.host_parameters << HostParameter.create(:name => "animal", :value => "pig")
     host.clear_host_parameters_cache!
-
     assert_equal "pig", host.host_params["animal"]
   end
 end

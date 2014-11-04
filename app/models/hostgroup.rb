@@ -21,6 +21,12 @@ class Hostgroup < ActiveRecord::Base
                  :after_remove => :update_puppetclasses_total_hosts
   has_many :template_combinations, :dependent => :destroy
   has_many :config_templates, :through => :template_combinations
+
+  include CounterCacheFix
+  counter_cache = "#{model_name.split(":").first.pluralize.downcase}_count".to_sym  # e.g. :hosts_count
+  belongs_to :domain, :counter_cache => counter_cache
+  belongs_to :subnet
+
   before_save :remove_duplicated_nested_class
   after_save :update_ancestry_puppetclasses, :if => :ancestry_changed?
 

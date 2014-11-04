@@ -1,7 +1,7 @@
 class FactParser
   delegate :logger, :to => :Rails
   VIRTUAL = /\A([a-z0-9]+)_(\d+)\Z/
-  BRIDGES = /\A(vir)?br\d+\Z/
+  BRIDGES = /\A(vir)?br\d+(_nic)?\Z/
   BONDS = /\A(bond\d+)|(lagg\d+)\Z/
   VIRTUAL_NAMES = /#{VIRTUAL}|#{BRIDGES}|#{BONDS}/
 
@@ -45,10 +45,6 @@ class FactParser
     raise NotImplementedError, not_implemented_error(__method__)
   end
 
-  def primary_interface
-    raise NotImplementedError, not_implemented_error(__method__)
-  end
-
   def ipmi_interface
     raise NotImplementedError, not_implemented_error(__method__)
   end
@@ -59,27 +55,27 @@ class FactParser
   #      'eth0.0': { ... }
   #   }
   def interfaces
-    result = {}
+    @interfaces ||= begin
+      result = {}
 
-    interfaces = get_interfaces
-    interfaces = remove_ignored(normalize_interfaces(interfaces))
-    logger.debug "We have following interfaces '#{interfaces.join(', ')}' based on facts"
+      interfaces = remove_ignored(normalize_interfaces(get_interfaces))
+      logger.debug "We have following interfaces '#{interfaces.join(', ')}' based on facts"
 
-    interfaces.each do |interface|
-      iface_facts = get_facts_for_interface(interface)
-      iface_facts = set_additional_attributes(iface_facts, interface)
-      result[interface] = iface_facts
+      interfaces.each do |interface|
+        iface_facts = get_facts_for_interface(interface)
+        iface_facts = set_additional_attributes(iface_facts, interface)
+        result[interface] = iface_facts
+      end
+      result.with_indifferent_access
     end
-    result.with_indifferent_access
   end
 
-  # TODO: Remove these method once interfaces management is enabled
-  def mac
-    raise NotImplementedError, not_implemented_error(__method__)
-  end
-
-  def ip
-    raise NotImplementedError, not_implemented_error(__method__)
+  # tries to detect primary interface among interfaces using host name
+  def suggested_primary_interface(host)
+    # we search among interface with ip and mac if we didn't find it by name
+    potential = interfaces.select { |_, values| values[:ipaddress].present? && values[:macaddress].present? }
+    find_interface_by_name(host.name) || find_physical_interface(potential) ||
+      find_virtual_interface(potential) || potential.first || interfaces.first
   end
 
   def certname
@@ -95,6 +91,30 @@ class FactParser
   end
 
   private
+
+  def find_interface_by_name(host_name)
+    interfaces.detect do |int, values|
+      if (ip = values[:ipaddress]).present?
+        begin
+          if Resolv::DNS.new.getnames(ip).any? { |name| name.to_s == host_name }
+            logger.debug "resolved #{host_name} for #{ip}, #{int} is selected as primary"
+            return [int, values]
+          end
+        rescue Resolv::ResolvError => e
+          logger.debug "could not resolv name for #{ip} because of #{e.to_s} #{e.message}"
+          nil
+        end
+      end
+    end
+  end
+
+  def find_physical_interface(interfaces)
+    interfaces.detect { |int, _| int.to_s !~ FactParser::VIRTUAL_NAMES }
+  end
+
+  def find_virtual_interface(interfaces)
+    interfaces.detect { |int, _| int.to_s =~ /#{FactParser::BONDS}/ }
+  end
 
   # adds attributes like virtual
   def set_additional_attributes(attributes, name)

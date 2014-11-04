@@ -166,6 +166,7 @@ class Taxonomy < ActiveRecord::Base
   end
 
   def assign_taxonomy_to_user
+    return if User.current.nil?
     return if User.current.admin
     TaxableTaxonomy.create(:taxonomy_id => self.id, :taxable_id => User.current.id, :taxable_type => 'User')
   end

@@ -49,6 +49,8 @@ class HostTest < ActionDispatch::IntegrationTest
     first(:link, "Edit").click
     assert page.has_link?("Cancel", :href => "/hosts/#{@host.fqdn}")
     fill_in "host_name", :with => "rename.#{@host.domain.to_s}"
+    # atm we must also update primary interface (which is authoritative)
+    fill_in "host_interfaces_attributes_0_name", :with => "rename.#{@host.domain.to_s}"
     assert_submit_button("/hosts/rename.#{@host.domain.to_s}")
     visit hosts_path
     assert page.has_link?("rename.#{@host.domain.to_s}")
