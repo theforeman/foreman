@@ -25,7 +25,7 @@ module Foreman::Model
     def create_vm(args = { })
       super(args)
     rescue Fog::Errors::Error => e
-      logger.debug "Unhandled Rackspace error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
+      logger.error "Unhandled Rackspace error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
       raise e
     end
 
