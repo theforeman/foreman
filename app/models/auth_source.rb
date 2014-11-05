@@ -56,7 +56,7 @@ class AuthSource < ActiveRecord::Base
   end
 
   # Called after creating a new user at login
-  def update_usergroups(login, password)
+  def update_usergroups(login)
   end
 
   # Try to authenticate a user not yet registered against available sources

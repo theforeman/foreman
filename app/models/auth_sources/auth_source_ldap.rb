@@ -87,8 +87,10 @@ class AuthSourceLdap < AuthSource
     end
   end
 
-  def update_usergroups(login, password)
-    ldap_con(login, password).group_list(login).each do |name|
+  def update_usergroups(login)
+    internal = User.find(login).external_usergroups.map(&:name)
+    external = ldap_con(account, account_password).group_list(login)
+    (internal | external).each do |name|
       begin
         external_usergroup = external_usergroups.find_by_name(name)
         external_usergroup.refresh if external_usergroup.present?
@@ -105,6 +107,10 @@ class AuthSourceLdap < AuthSource
 
   def users_in_group(name)
     ldap_con.user_list(name)
+  rescue
+    # To be fixed after ldap_fluff returns [] for an empty group
+    # instead of raising an exception
+    []
   end
 
   private

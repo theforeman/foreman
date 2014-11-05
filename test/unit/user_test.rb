@@ -136,39 +136,57 @@ class UserTest < ActiveSupport::TestCase
     assert_nil User.try_to_login("anything", "")
   end
 
-  test "when a user login, his last login time should be updated" do
-    user = users(:internal)
-    last_login = user.last_login_on
-    assert_not_nil User.try_to_login(user.login, "changeme")
-    assert_not_equal last_login, User.find(user.id).last_login_on
-  end
+  context "try to login" do
+    test "when password is empty should return nil" do
+      assert_nil User.try_to_login("anything", "")
+    end
 
-  test "ldap user attribute should be updated when not blank" do
-    AuthSourceLdap.any_instance.stubs(:authenticate).returns({ :firstname => "Foo" })
-    u = User.try_to_login("foo", "password")
-    assert_equal u.firstname, "Foo"
-  end
+    test "when a user logs in, last login time should be updated" do
+      user = users(:internal)
+      last_login = user.last_login_on
+      assert_not_nil User.try_to_login(user.login, "changeme")
+      assert_not_equal last_login, User.find(user.id).last_login_on
+    end
 
-  test "ldap user attribute should not be updated when blank" do
-    AuthSourceLdap.any_instance.stubs(:authenticate).returns({ :mail => "" })
-    u = User.try_to_login("foo", "password")
-    assert_equal u.mail, "foo@bar.com"
-  end
+    test ".try_to_login on unknown user should return nil" do
+      User.expects(:try_to_auto_create_user).with('unknown user account', 'secret')
+      refute User.try_to_login('unknown user account', 'secret')
+    end
 
-  test ".try_to_login on unknown user should return nil" do
-    User.expects(:try_to_auto_create_user).with('unknown user account', 'secret')
-    refute User.try_to_login('unknown user account', 'secret')
-  end
+    test ".try_to_login and failing AuthSource should return nil" do
+      u = FactoryGirl.create(:user)
+      AuthSourceInternal.any_instance.expects(:authenticate).with(u.login, 'password').returns(nil)
+      refute User.try_to_login(u.login, 'password')
+    end
 
-  test ".try_to_login and failing AuthSource should return nil" do
-    u = FactoryGirl.create(:user)
-    AuthSourceInternal.any_instance.expects(:authenticate).with(u.login, 'password').returns(nil)
-    refute User.try_to_login(u.login, 'password')
-  end
+    test ".try_to_login should return user on successful login" do
+      u = FactoryGirl.create(:user)
+      assert_equal u, User.try_to_login(u.login, 'password')
+    end
 
-  test ".try_to_login should return user on successful login" do
-    u = FactoryGirl.create(:user)
-    assert_equal u, User.try_to_login(u.login, 'password')
+    test "updates usergroups on login" do
+      AuthSourceLdap.any_instance.stubs(:authenticate).returns({})
+      AuthSourceLdap.any_instance.expects(:update_usergroups).returns(true)
+      User.try_to_login("foo", "password")
+    end
+
+    context "ldap attributes" do
+      setup do
+        AuthSourceLdap.any_instance.stubs(:update_usergroups).returns(true)
+      end
+
+      test "ldap user attribute should be updated when not blank (firstname)" do
+        AuthSourceLdap.any_instance.stubs(:authenticate).returns({ :firstname => "Foo" })
+        logged_in_user = User.try_to_login("foo", "password")
+        assert_equal "Foo", logged_in_user.firstname
+      end
+
+      test "ldap user attribute should not be updated when blank (mail)" do
+        AuthSourceLdap.any_instance.stubs(:authenticate).returns({ :mail => "" })
+        logged_in_user = User.try_to_login("foo", "password")
+        assert_equal "foo@bar.com", logged_in_user.mail
+      end
+    end
   end
 
   def setup_user(operation)
@@ -509,115 +527,135 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test ".find_or_create_external_user" do
-    count = User.count
-    # existing user
-    assert User.find_or_create_external_user({:login => users(:one).login}, nil)
-    assert_equal count, User.count
+  context "find_or_create_external_user" do
+    context "internal or not existing AuthSource" do
+      test 'existing user' do
+        assert_difference('User.count', 0) do
+          assert User.find_or_create_external_user({:login => users(:one).login}, nil)
+        end
+      end
 
-    # not existing user without auth source specified
-    refute User.find_or_create_external_user({:login => 'not_existing_user'}, nil)
-    assert_equal count, User.count
+      test 'not existing user without auth source specified' do
+        assert_difference('User.count', 0) do
+          refute User.find_or_create_external_user({:login => 'not_existing_user'}, nil)
+        end
+      end
 
-    # not existing user with existing AuthSource
-    apache_source = AuthSourceExternal.find_or_create_by_name('apache_module')
-    source_count = AuthSource.count
-    assert User.find_or_create_external_user({:login => 'not_existing_user'}, apache_source.name)
-    assert_equal count + 1, User.count
-    assert_equal source_count, AuthSource.count
-    user = User.find_by_login('not_existing_user')
-    assert_equal apache_source.name, user.auth_source.name
+      test 'not existing user with non existing auth source' do
+        assert_difference('User.count', 1) do
+          assert_difference('AuthSource.count', 1) do
+            assert User.find_or_create_external_user({:login => 'not_existing_user'},
+                                                     'new_external_source')
+          end
+        end
+        created_user = User.find_by_login('not_existing_user')
+        new_source = AuthSourceExternal.find_by_name('new_external_source')
+        assert_equal new_source.name, created_user.auth_source.name
+      end
+    end
 
-    count = User.count
-    assert User.find_or_create_external_user({:login => 'not_existing_user_2'}, 'new_external_source')
-    assert_equal count + 1, User.count
-    assert_equal source_count + 1, AuthSource.count
-    user = User.find_by_login('not_existing_user_2')
-    new_source = AuthSourceExternal.find_by_name('new_external_source')
-    assert_equal new_source.name, user.auth_source.name
+    context "existing AuthSource" do
+      setup do
+        @apache_source = AuthSourceExternal.find_or_create_by_name('apache_module')
+      end
 
-    # with other attributes which gets saved as well
-    apache_source = AuthSourceExternal.find_or_create_by_name('apache_module')
-    assert User.find_or_create_external_user({:login => 'not_existing_user_3',
-                                              :mail => 'foobar@example.com',
-                                              :firstname => 'Foo',
-                                              :lastname => 'Bar'},
-                                             apache_source.name)
-    user = User.find_by_login('not_existing_user_3')
-    assert_equal 'foobar@example.com', user.mail
-    assert_equal 'Foo', user.firstname
-    assert_equal 'Bar', user.lastname
+      test "not existing" do
+        assert_difference('User.count', 1) do
+          assert_difference('AuthSource.count', 0) do
+            assert User.find_or_create_external_user({:login => 'not_existing_user'},
+                                                     @apache_source.name)
+          end
+        end
+      end
 
-    # with existing user groups that are assigned
-    apache_source = AuthSourceExternal.find_or_create_by_name('apache_module')
-    usergroup = FactoryGirl.create :usergroup
-    external = FactoryGirl.create :external_usergroup, :usergroup => usergroup,
-                                  :auth_source => apache_source,
-                                  :name => usergroup.name
-    assert User.find_or_create_external_user({:login => 'not_existing_user_4',
-                                              :groups => [external.name, 'does-not-exists-for-sure-123']},
-                                             apache_source.name)
-    user = User.find_by_login('not_existing_user_4')
-    assert_equal [usergroup], user.usergroups
+      test "not existing with attributes" do
+        assert User.find_or_create_external_user({:login => 'not_existing_user',
+                                                  :mail => 'foobar@example.com',
+                                                  :firstname => 'Foo',
+                                                  :lastname => 'Bar'},
+                                                  @apache_source.name)
+        created_user = User.find_by_login('not_existing_user')
+        assert_equal @apache_source.name,  created_user.auth_source.name
+        assert_equal 'foobar@example.com', created_user.mail
+        assert_equal 'Foo',                created_user.firstname
+        assert_equal 'Bar',                created_user.lastname
+      end
+
+      context 'with external user groups' do
+        setup do
+          @user      = FactoryGirl.create(:user,               :auth_source => @apache_source)
+          @external  = FactoryGirl.create(:external_usergroup, :auth_source => @apache_source)
+          @usergroup = FactoryGirl.create(:usergroup)
+        end
+
+        test "existing user groups that are assigned" do
+          @external.update_attributes(:usergroup => @usergroup, :name => @usergroup.name)
+          assert User.find_or_create_external_user({:login => "not_existing_user",
+                                                    :groups => [@external.name,
+                                                                "notexistentexternal"]},
+                                                   @apache_source.name)
+          created_user = User.find_by_login("not_existing_user")
+          assert_equal [@usergroup], created_user.usergroups
+        end
+      end
+    end
   end
 
-  test ".find_or_create_external_user updates external groups" do
-    apache_source = AuthSourceExternal.find_or_create_by_name('apache_module')
-    user = FactoryGirl.create(:user, :auth_source => apache_source)
-    external1 = FactoryGirl.create(:external_usergroup, :auth_source => apache_source)
-    external2 = FactoryGirl.create(:external_usergroup, :auth_source => apache_source)
-    usergroup = FactoryGirl.create(:usergroup)
-    user.usergroups << [external1.usergroup, usergroup]
+  context 'auto create users' do
+    setup do
+      ldap_attrs = { :firstname => "Foo", :lastname => "Bar", :mail => "baz@qux.com" }
+      AuthSourceLdap.any_instance.stubs(:authenticate).
+                                  returns(ldap_attrs)
+      @ldap_server = AuthSource.find_by_name("ldap-server")
+    end
 
-    refute_equal 'foo@example.com', user.mail
-    assert User.find_or_create_external_user({:login => user.login,
-                                              :groups => [external2.name],
-                                              :mail => 'foo@example.com'},
-                                             apache_source.name)
-    user.reload
-    assert_includes user.usergroups, external2.usergroup
-    assert_includes user.usergroups, usergroup
-    assert_equal 'foo@example.com', user.mail
+    test "enabled on-the-fly registration" do
+      AuthSourceLdap.any_instance.expects(:update_usergroups).
+                                  with('fakeuser').returns(true)
+      @ldap_server.update_attribute(:onthefly_register, true)
+      assert_difference("User.count", 1) do
+        assert User.try_to_auto_create_user('fakeuser','fakepass')
+      end
+    end
+
+    test "disabled on-the-fly registration" do
+      @ldap_server.update_attribute(:onthefly_register, false)
+      assert_difference("User.count", 0) do
+        refute User.try_to_auto_create_user('fakeuser','fakepass')
+      end
+    end
   end
 
-  test ".try_to_auto_create_user" do
-    AuthSourceLdap.any_instance.stubs(:authenticate).returns({ :firstname => "Foo", :lastname => "Bar", :mail => "baz@qux.com" })
-    AuthSourceLdap.any_instance.expects(:update_usergroups).with('non_existing_user_1', 'password').returns(true)
+  context "editing self?" do
+    # A regular setup block would run before the global setup
+    # leaving User.current = users :admin
+    def editing_self_helper
+      User.current = users(:one)
+      @options = {:controller => "users", :action => "edit", :id => User.current.id}
+    end
 
-    ldap_server = AuthSource.find_by_name("ldap-server")
+    test "edit self" do
+      editing_self_helper
+      assert User.current.editing_self?(@options)
+    end
 
-    # AuthSource that allows onthefly registration
-    count = User.count
-    ldap_server.update_attribute(:onthefly_register, true)
-    assert User.try_to_auto_create_user('non_existing_user_1','password')
-    assert_equal count + 1, User.count
+    test "update self" do
+      editing_self_helper
+      @options.merge!({ :action => "update" })
+      assert User.current.editing_self?(@options)
+    end
 
-    # AuthSource that forbids onthefly registration
-    count = User.count
-    ldap_server.update_attribute(:onthefly_register, false)
-    refute User.try_to_auto_create_user('non_existing_user_2','password')
-    assert_equal count, User.count
+    test "update other user" do
+      editing_self_helper
+      @options.merge!({ :id => users(:two).id })
+      refute User.current.editing_self?(@options)
+    end
 
-  end
-
-  test 'user should allow editing self?' do
-    User.current = users(:one)
-
-    # edit self
-    options = {:controller => 'users', :action => 'edit', :id => User.current.id}
-    assert User.current.editing_self?(options)
-
-    # update self
-    options = {:controller => 'users', :action => 'update', :id => User.current.id}
-    assert User.current.editing_self?(options)
-
-    # update someone else
-    options = {:controller => 'users', :action => 'update', :id => users(:two).id}
-    assert_not User.current.editing_self?(options)
-
-    # update for another controller
-    options = {:controller => 'hosts', :action => 'update', :id => User.current.id}
-    assert_not User.current.editing_self?(options)
+    test "update through other controller" do
+      editing_self_helper
+      @options.merge!({ :controller => "hosts", :id => User.current.id })
+      refute User.current.editing_self?(@options)
+    end
   end
 
   test "#can? for admin" do
