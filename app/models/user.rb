@@ -193,8 +193,9 @@ class User < ActiveRecord::Base
         # update with returned attrs, maybe some info changed in LDAP
         old_hash = user.avatar_hash
         User.as_anonymous_admin do
-          user.update_attributes(attrs.slice(:firstname, :lastname, :mail, :avatar_hash).delete_if { |k, v| v.blank? })
-        end if attrs.is_a? Hash
+          user.update_attributes(attrs.slice(:firstname, :lastname, :mail, :avatar_hash).delete_if { |k, v| v.blank? }) if attrs.is_a? Hash
+          user.auth_source.update_usergroups(login)
+        end
 
         # clean up old avatar if it exists and the image isn't in use by anyone else
         if old_hash.present? && user.avatar_hash != old_hash && !User.unscoped.where(:avatar_hash => old_hash).any?
@@ -383,6 +384,10 @@ class User < ActiveRecord::Base
     sweeper.expire_fragment(TopbarSweeper.fragment_name(id))
   end
 
+  def external_usergroups
+    usergroups.flat_map(&:external_usergroups).select { |group| group.auth_source == self.auth_source }
+  end
+
   private
 
   def prepare_password
@@ -412,7 +417,7 @@ class User < ActiveRecord::Base
       # The default user can't auto create users, we need to change to Admin for this to work
       User.as_anonymous_admin do
         if user.save
-          AuthSource.find(attrs[:auth_source_id]).update_usergroups(login, password)
+          AuthSource.find(attrs[:auth_source_id]).update_usergroups(login)
           logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
         else
           logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"
