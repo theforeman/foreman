@@ -186,6 +186,12 @@ class UnattendedController < ApplicationController
 
     # force static network configuration if static http parameter is defined, in the future this needs to go into the GUI
     @static = !params[:static].empty?
+
+    # this is sent by the proxy when the templates feature is enabled
+    # and is needed to direct the host to the correct url. without it, we increase
+    # latency by requesting the correct url directly from the proxy.
+    @template_url = params['url']
+
   end
 
   def alterator_attributes
