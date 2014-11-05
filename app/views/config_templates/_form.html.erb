@@ -6,6 +6,12 @@
       <li><a href="#template_type" data-toggle="tab"><%= _("Type") %></a></li>
       <li><a href="#template_associations" data-toggle="tab"><%= _("Association") %></a></li>
       <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
+      <% if show_location_tab? %>
+        <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+      <% end %>
+      <% if show_organization_tab? %>
+        <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+      <% end %>      
     </ul>
 
     <div class="tab-content">
@@ -78,7 +84,7 @@
         <% end %>
       </div>
 
-
+      <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @config_template %>
 
       <div class="tab-pane" id="template_associations">
         <p id="snippet_message" class="alert alert-info" <%= display? !@config_template.snippet %> ><%= _("Not relevant for snippet") %></p>
