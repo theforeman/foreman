@@ -42,7 +42,7 @@ module Foreman::Model
     end
 
     def available_images
-      client.images
+      client.images.select { |image| image.status.downcase == 'active' }
     end
 
     def address_pools
