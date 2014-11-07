@@ -13,9 +13,9 @@ FactoryGirl.define do
   end
 
   factory :os_default_template do
-    config_template
-    operatingsystem
     template_kind
+    config_template { FactoryGirl.create(:config_template, :template_kind => template_kind) }
+    operatingsystem { FactoryGirl.create(:operatingsystem, :config_templates => [config_template]) }
   end
 
   factory :template_kind do
