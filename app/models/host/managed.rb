@@ -6,7 +6,7 @@ class Host::Managed < Host::Base
   has_many :host_classes, :foreign_key => :host_id
   has_many :puppetclasses, :through => :host_classes, :dependent => :destroy
   belongs_to :hostgroup
-  has_many :reports, :dependent => :destroy, :foreign_key => :host_id
+  has_many :reports, :foreign_key => :host_id
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :host
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "HostParameter"
   accepts_nested_attributes_for :host_parameters, :allow_destroy => true
@@ -19,6 +19,7 @@ class Host::Managed < Host::Base
   belongs_to :organization
 
   has_one :token, :foreign_key => :host_id, :dependent => :destroy
+  before_destroy :remove_reports
 
   def self.complete_for(query, opts = {})
     matcher = /(\s*(?:(?:user\.[a-z]+)|owner)\s*[=~])\s*(\S*)\s*\z/
@@ -920,5 +921,13 @@ class Host::Managed < Host::Base
     if self.primary_interface != self.provision_interface && !self.provision_interface.changed?
       self.provision_interface.valid?
     end
+  end
+
+  # For performance reasons logs and reports are deleted in batch
+  # see http://projects.theforeman.org/issues/8316 for details
+  def remove_reports
+    return if reports.empty?
+    Log.delete_all("report_id IN (#{reports.pluck(:id).join(',')})")
+    Report.delete_all("host_id = #{id}")
   end
 end
