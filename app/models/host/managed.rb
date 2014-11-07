@@ -789,7 +789,7 @@ class Host::Managed < Host::Base
               if images.blank?
                 [TemplateKind.find('finish')]
               else
-                uuid       = self.compute_attributes.cr.image_param_name
+                uuid       = self.compute_attributes[cr.image_param_name]
                 image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
                 [TemplateKind.find(image_kind)]
               end

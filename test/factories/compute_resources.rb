@@ -60,4 +60,13 @@ FactoryGirl.define do
     factory :rackspace_cr, :class => Foreman::Model::Rackspace, :traits => [:rackspace]
     factory :vmware_cr, :class => Foreman::Model::Vmware, :traits => [:vmware]
   end
+
+  factory :image do
+    sequence(:name) { |n| "image#{n}" }
+    uuid Foreman.uuid
+    username 'root'
+    compute_resource
+    operatingsystem
+    architecture
+  end
 end

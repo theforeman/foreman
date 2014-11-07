@@ -585,6 +585,24 @@ context "location or organizations are not enabled" do
     test "retrieves finish template if associated to the correct environment only" do
       assert_equal ConfigTemplate.find_by_name("MyFinish"), @host.configTemplate({:kind => "finish"})
     end
+
+    test "available_template_kinds finds templates for a PXE host" do
+      os_dt = FactoryGirl.create(:os_default_template, :template_kind=> TemplateKind.find('finish'))
+      host  = FactoryGirl.create(:host, :operatingsystem => os_dt.operatingsystem)
+
+      assert_equal [os_dt.config_template], host.available_template_kinds('build')
+    end
+
+    test "available_template_kinds finds templates for an image host" do
+      os_dt = FactoryGirl.create(:os_default_template, :template_kind=> TemplateKind.find('finish'))
+      host  = FactoryGirl.create(:host, :on_compute_resource,
+                                 :operatingsystem => os_dt.operatingsystem)
+      image = FactoryGirl.create(:image, :uuid => 'abcde',
+                                 :compute_resource => host.compute_resource)
+      host.compute_attributes = {:image_id => 'abcde'}
+
+      assert_equal [os_dt.config_template], host.available_template_kinds('image')
+    end
   end
 
   test "handle_ca must not perform actions when the manage_puppetca setting is false" do
