@@ -1,6 +1,16 @@
+require 'uri'
+
 class ApplicationMailer < ActionMailer::Base
 
   default :from => Setting[:email_reply_address] || "noreply@foreman.example.org"
+
+  def mail(headers = {}, &block)
+    if headers.present?
+      headers[:subject] = "#{Setting[:email_subject_prefix]} #{headers[:subject]}" if (headers[:subject] && !Setting[:email_subject_prefix].blank?)
+      headers['X-Foreman-Server'] = URI.parse(Setting[:foreman_url]).host unless Setting[:foreman_url].blank?
+    end
+    super
+  end
 
   private
 
