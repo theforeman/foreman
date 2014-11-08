@@ -18,7 +18,7 @@ class ReportsTest < ActiveSupport::TestCase
 
   test 'reports:daily sends mail' do
     Rake.application.invoke_task 'reports:daily'
-    mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Summary Puppet report/ }
+    mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Puppet Summary/ }
     assert mail
     assert_match /Summary from/, mail.body.encoded
   end
@@ -33,7 +33,7 @@ class ReportsTest < ActiveSupport::TestCase
     end
 
     Rake.application.invoke_task 'reports:daily'
-    mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Summary Puppet report/ }
+    mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Puppet Summary/ }
     assert mail
     assert_match /#{@host.name}/, mail.body.encoded
   end
