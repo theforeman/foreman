@@ -1,0 +1,22 @@
+<table style="border: 1px solid #cccccc; padding: 5px; background-color: #ffffff; border-collapse: collapse; text-align: center; width: 100%;">
+  <tr>
+    <td style="font-size: 125%; width: 33%; padding: 5px; border: 1px solid #ccc;">
+      <%= (n_('<b style="color: #6bb5df;">%{hosts_sum}</b>
+               <p style="font-weight: bold; margin: 5px; padding: 0px;">Changed</p>',
+              '<b style="color: #6bb5df;">%{hosts_sum}</b>
+               <p style="font-weight: bold; margin: 5px; padding: 0px;">Changed</p>', hosts_sum) % { :hosts_sum => hosts_sum }).html_safe %>
+    </td>
+    <td style="font-size: 125%; width: 33%; padding: 5px; border: 1px solid #ccc;">
+      <%= (n_('<b style="color: #6bb5df;">%{out_of_sync_sum}</b>
+               <p style="font-weight: bold; margin: 5px; padding: 0px;">Out of sync</p>',
+              '<b style="color: #6bb5df;">%{out_of_sync_sum}</b>
+               <p style="font-weight: bold; margin: 5px; padding: 0px;">Out of sync</p>', out_of_sync_sum) % { :out_of_sync_sum => out_of_sync_sum }).html_safe %>
+    </td>
+    <td style="font-size: 125%; width: 33%; padding: 5px; border: 1px solid #ccc;">
+      <%= (n_('<b style="color: #6bb5df;">%{disabled_sum}</b>
+               <p style="font-weight: bold; margin: 5px; padding: 0px;">Disabled</p>',
+              '<b style="color: #6bb5df;">%{disabled_sum}</b>
+               <p style="font-weight: bold; margin: 5px; padding: 0px;">Disabled</p>', disabled_sum) % { :disabled_sum => disabled_sum }).html_safe %>
+    </td>
+  </tr>
+</table>
