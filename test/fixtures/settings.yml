@@ -250,3 +250,8 @@ attributes53:
   category: Setting::General
   default: "false"
   description: "Send a welcome mail including initial username and password to new users"
+attributes54:
+  name: email_subject_prefix
+  category: Setting::General
+  default: "[foreman]"
+  description: "Prefix to add to all outgoing email"
