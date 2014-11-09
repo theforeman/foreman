@@ -1,7 +1,6 @@
 require "time"
 
 class SmartProxies::PuppetCA
-  include Parameterizable::ByIdName
 
   attr_reader :name, :state, :fingerprint, :valid_from, :expires_at, :smart_proxy_id
 
