@@ -2,6 +2,7 @@ module Api
   module V1
     class ConfigTemplatesController < V1::BaseController
       include Foreman::Renderer
+      include Foreman::Controller::ConfigTemplates
 
       before_filter :find_resource, :only => %w{show update destroy}
       before_filter :handle_template_upload, :only => [:create, :update]
@@ -79,19 +80,6 @@ module Api
       def build_pxe_default
         status, msg = ConfigTemplate.authorized(:deploy_templates).build_pxe_default(self)
         render :json => msg, :status => status
-      end
-
-      private
-
-      # convert the file upload into a simple string to save in our db.
-      def handle_template_upload
-        return unless params[:config_template] and (t=params[:config_template][:template])
-        params[:config_template][:template] = t.read if t.respond_to?(:read)
-      end
-
-      def process_template_kind
-        return unless params[:config_template] and (tk=params[:config_template].delete(:template_kind))
-        params[:config_template][:template_kind_id] = tk[:id]
       end
 
     end
