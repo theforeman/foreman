@@ -1,15 +1,15 @@
 <div class="fields">
   <div class="form-group">
-  <% if f.object._delete != '1' %>
-    <% disabled = (f.object.persisted? == "true" || f.object.persisted? == true) %>
-    <%= text_f f, :name, :disabled => disabled, :class => "col-md-2", :label => _('Name') %>
-    <%= f.hidden_field :name if disabled %>
-    <% selected_cluster ||= compute_resource.clusters.first.id %>
-    <%= select_f f, :network, compute_resource.networks(selected_cluster ? { :cluster_id => selected_cluster } : { }), :id, :name,
-                 { }, :disabled => disabled, :class => "col-md-2",
-                 :help_inline   => remove_child_link("X", f, { :method => :'_delete', :title => _('remove network interface'), :class => 'label label-danger' }),
-                 :label         => _('Network') %>
-    <%= f.hidden_field :network if disabled %>
-  <% end %>
+
+    <%= f.fields_for 'compute_attributes', OpenStruct.new(f.object.compute_attributes) do |f| %>
+      <%= text_f f, :name, :disabled => disabled, :class => "col-md-2", :label => _('Name') %>
+      <%= f.hidden_field :name if disabled %>
+      <% selected_cluster ||= compute_resource.clusters.first.id %>
+      <%= select_f f, :network, compute_resource.networks(selected_cluster ? { :cluster_id => selected_cluster } : { }), :id, :name,
+                   { }, :disabled => disabled, :class => "col-md-2",
+                   :label         => _('Network') %>
+      <%= f.hidden_field :network if disabled %>
+    <% end %>
+
   </div>
 </div>

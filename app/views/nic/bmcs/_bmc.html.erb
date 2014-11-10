@@ -5,3 +5,5 @@
   <%= password_f f, :password %>
   <%= selectable_f f, :provider, Nic::BMC::PROVIDERS %>
 <% end %>
+
+<%= render 'nic/provider_specific_form', :f => f %>

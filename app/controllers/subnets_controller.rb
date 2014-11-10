@@ -45,7 +45,7 @@ class SubnetsController < ApplicationController
     location = params[:location_id].blank? ? nil : Location.find(params[:location_id])
     Taxonomy.as_taxonomy organization, location do
       not_found and return unless (subnet = Subnet.authorized(:view_subnets).find(s))
-      if (ip = subnet.unused_ip(params[:host_mac]))
+      if (ip = subnet.unused_ip(params[:host_mac], params[:taken_ips]))
         render :json => {:ip => ip}
       else
         # we don't want any failures if we failed to query our proxy

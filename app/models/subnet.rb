@@ -143,7 +143,7 @@ class Subnet < ActiveRecord::Base
     self.boot_mode == Subnet::BOOT_MODES[:dhcp]
   end
 
-  def unused_ip(mac = nil)
+  def unused_ip(mac = nil, excluded_ips = [])
     logger.debug "Not suggesting IP Address for #{to_s} as IPAM is disabled" and return unless ipam?
     if self.ipam == IPAM_MODES[:dhcp] && dhcp?
       # we have DHCP proxy so asking it for free IP
@@ -159,7 +159,7 @@ class Subnet < ActiveRecord::Base
       to = self.to.present? ? IPAddr.new(self.to) : subnet_range[-2]
       (from..to).each do |address|
         ip = address.to_s
-        unless self.known_ips.include?(ip)
+        if !self.known_ips.include?(ip) && !excluded_ips.include?(ip)
           logger.debug("Found #{ip}")
           return(ip)
         end
@@ -201,6 +201,10 @@ class Subnet < ActiveRecord::Base
   def used_taxonomy_ids(type)
     return [] if new_record?
     Host::Base.joins(:primary_interface).where(:nics => {:subnet_id => id}).pluck(type).compact.uniq
+  end
+
+  def as_json(options={})
+    super({:methods => [:to_label]}.merge(options))
   end
 
   private

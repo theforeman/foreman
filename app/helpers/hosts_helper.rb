@@ -4,6 +4,22 @@ module HostsHelper
   include ComputeResourcesVmsHelper
   include BmcHelper
 
+  def nic_provider_attributes_exist?(host)
+    return false unless host.compute_resource
+
+    compute_resource_name = host.compute_resource.provider_friendly_name.downcase
+    real_path = File.join(Rails.root, 'app', 'views', 'compute_resources_vms', 'form', compute_resource_name, '_network.html.erb')
+
+    File.exist?(real_path)
+  end
+
+  def nic_provider_partial(host)
+    return nil unless host.compute_resource
+
+    compute_resource_name = host.compute_resource.provider_friendly_name.downcase
+    "compute_resources_vms/form/#{compute_resource_name}/network"
+  end
+
   def host_taxonomy_select(f, taxonomy)
     taxonomy_id = "#{taxonomy.to_s.downcase}_id"
     selected_taxonomy = @host.new_record? ? taxonomy.current.try(:id) : @host.send(taxonomy_id)
@@ -19,6 +35,18 @@ module HostsHelper
 
     select_f f, taxonomy_id.to_sym, taxonomy.send("my_#{taxonomy.to_s.downcase.pluralize}"), :id, :to_label,
             select_opts, html_opts
+  end
+
+  def new_host_title
+    t = _("New Host")
+    title(t, (t + ' <span id="hostFQDN"></span>').html_safe)
+  end
+
+  def flags_for_nic(nic)
+    flags = ""
+    flags += "<i class=\"nic-flag glyphicon glyphicon glyphicon-tag\" title=\"#{_('Primary')}\"></i>" if nic.primary?
+    flags += "<i class=\"nic-flag glyphicon glyphicon glyphicon-hdd\" title=\"#{_('Provisioning')}\"></i>" if nic.provision?
+    flags.html_safe
   end
 
   def last_report_column(record)
@@ -356,10 +384,19 @@ module HostsHelper
     return '' if nic.new_record?
 
     if nic.link
-      status = '<i class="glyphicon glyphicon glyphicon-arrow-up interface-up" title="'+ _('Up') +'"></i>'
+      status = '<i class="glyphicon glyphicon glyphicon-arrow-up interface-up" title="'+ _('Interface is up') +'"></i>'
     else
-      status = '<i class="glyphicon glyphicon glyphicon-arrow-down interface-down" title="'+ _('Down') +'"></i>'
+      status = '<i class="glyphicon glyphicon glyphicon-arrow-down interface-down" title="'+ _('Interface is down') +'"></i>'
     end
+    status.html_safe
+  end
+
+  def interface_flags(nic)
+    primary_class = nic.primary? ? "active" : ""
+    provision_class = nic.provision? ? "active" : ""
+
+    status = "<i class=\"glyphicon glyphicon glyphicon-tag primary-flag #{primary_class}\" title=\"#{_('Primary')}\"></i>"
+    status += "<i class=\"glyphicon glyphicon glyphicon-hdd provision-flag #{provision_class}\" title=\"#{_('Provisioning')}\"></i>"
     status.html_safe
   end
 

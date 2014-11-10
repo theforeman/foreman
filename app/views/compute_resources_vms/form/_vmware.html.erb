@@ -9,20 +9,8 @@
 <%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new_host } %>
 <%= select_f f, :hardware_version, compute_resource.vm_hw_versions, :first, :last, {}, { :label => _("Virtual H/W version"), :class => "col-md-2", :disabled => !new_host } %>
 
-<!--interfaces-->
-<div class="children_fields">
-  <%= new_child_fields_template(f, :interfaces, {
-      :object  => compute_resource.new_interface,
-      :partial => 'compute_resources_vms/form/vmware/network', :form_builder_attrs => { :compute_resource => compute_resource, :new => new_host } }) %>
-  <%= field_set_tag _("Network interfaces"), :id => "network_interfaces" do %>
-    <%= f.fields_for :interfaces do |i| %>
-      <%= render 'compute_resources_vms/form/vmware/network', :f => i, :compute_resource => compute_resource, :new => new_host %>
-    <% end %>
-    <% if new_host %>
-      <%= add_child_link '+ ' + _("Add Interface"), :interfaces, { :class => "info disable-unsupported", :title => _('add new network interface') } %>
-    <% end %>
-  <% end %>
-</div>
+
+<%= render :partial => 'compute_resources_vms/form/interfaces_legacy_message', :locals => { :is_compute_profile => local_assigns[:is_compute_profile] } %>
 
 <!--Storage-->
 <div class="children_fields">

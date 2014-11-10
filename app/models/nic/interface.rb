@@ -34,12 +34,6 @@ module Nic
       attrs[:bridge]
     end
 
-    # we should guarantee the fqdn is always fully qualified
-    def fqdn
-      return name if name.blank? || domain.blank?
-      name.include?('.') ? name : "#{name}.#{domain}"
-    end
-
     def fqdn_changed?
       name_changed? || domain_id_changed?
     end
@@ -48,10 +42,6 @@ module Nic
       domain_was = Domain.find(domain_id_was) unless domain_id_was.blank?
       return name_was if name_was.blank? || domain_was.blank?
       name_was.include?('.') ? name_was : "#{name_was}.#{domain_was}"
-    end
-
-    def shortname
-      domain.nil? ? name : name.chomp("." + domain.name)
     end
 
     protected

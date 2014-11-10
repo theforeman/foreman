@@ -22,15 +22,8 @@
   <%= selectable_f f, :cores, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :label => _('Cores') %>
   <%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "col-md-2", :label => _('Memory') %>
   <div class="children_fields">
-    <%= new_child_fields_template(f, :interfaces, {
-        :object  => compute_resource.new_interface,
-        :partial => 'compute_resources_vms/form/ovirt/network', :form_builder_attrs => { :selected_cluster => selected_cluster, :compute_resource => compute_resource } }) %>
-    <%= field_set_tag _("Network interfaces"), :id => "network_interfaces" do %>
-      <%= f.fields_for :interfaces do |i| %>
-        <%= render 'compute_resources_vms/form/ovirt/network', :f => i, :selected_cluster => selected_cluster, :compute_resource => compute_resource %>
-      <% end %>
-      <%= add_child_link '+ ' + _("Add Interface"), :interfaces, { :class => "info", :title => _('add new network interface') } %>
-    <% end %>
+
+    <%= render :partial => 'compute_resources_vms/form/interfaces_legacy_message', :locals => { :is_compute_profile => local_assigns[:is_compute_profile] } %>
 
     <%= new_child_fields_template(f, :volumes, {
             :object  => compute_resource.new_volume,

@@ -1,0 +1,11 @@
+<fieldset>
+  <legend><%= _("Network interfaces") %></legend>
+  <p class="help-block">
+    <% if is_compute_profile %>
+      <%= _("Network interfaces management has been moved to the Interfaces tab on the host edit page.") %>
+    <% else %>
+      <%= _("Network interfaces management has been moved to the Interfaces tab.") %>
+      <%= _("Please set your interfaces") %> <a href="#" onclick="$('#network_tab a').click(); return false;"><%= _("there") %></a>.
+    <% end %>
+  </p>
+</fieldset>

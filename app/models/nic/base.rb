@@ -12,10 +12,11 @@ module Nic
                     :provider, :username, :password,
                     :identifier, :virtual, :link, :tag, :attached_to,
                     :managed, :bond_options, :attached_devices, :mode,
-                    :primary, :provision,
+                    :primary, :provision, :compute_attributes,
                     :_destroy # used for nested_attributes
 
     before_validation :normalize_mac
+    after_validation :set_validated
     before_destroy :not_required_interface
 
     validates :mac, :uniqueness => {:scope => :virtual}, :if => Proc.new { |nic| nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? }
@@ -29,7 +30,7 @@ module Nic
 
     validate :exclusive_primary_interface
     validate :exclusive_provision_interface
-    validates :domain, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.primary? }
+    validates :domain_id, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.primary? }
     validates :ip, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.require_ip_validation? }
 
     scope :bootable, lambda { where(:type => "Nic::Bootable") }
@@ -59,6 +60,9 @@ module Nic
 
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash
+
+    # provider specific attributes
+    serialize :compute_attributes, Hash
 
     class Jail < ::Safemode::Jail
       allow :managed?, :subnet, :virtual?, :mac, :ip, :identifier, :attached_to,
@@ -95,6 +99,25 @@ module Nic
       result
     end
 
+    def shortname
+      domain.nil? ? name : name.to_s.chomp("." + domain.name)
+    end
+
+    def validated?
+      !!@validated
+    end
+
+    # we should guarantee the fqdn is always fully qualified
+    def fqdn
+      return name if name.blank? || domain.blank?
+      name.include?('.') ? name : "#{name}.#{domain}"
+    end
+
+    def clone
+      # do not copy system specific attributes
+      self.deep_clone(:except  => [:name, :mac, :ip])
+    end
+
     protected
 
     def uniq_fields_with_hosts
@@ -123,6 +146,10 @@ module Nic
       self.mac = Net::Validations.normalize_mac(mac)
     rescue ArgumentError => e
       self.errors.add(:mac, e.message)
+    end
+
+    def set_validated
+      @validated = true
     end
 
     # do we require a host object associate to the interface? defaults to true
