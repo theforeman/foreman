@@ -12,7 +12,7 @@
              { :disabled    => !new, :'data-url' => template_selected_compute_resource_path(compute_resource),
                :onchange    => 'ovirt_templateSelected(this);',
                :help_inline => :indicator,
-               :help_block  => _("Template / Compute Profile to use"),
+               :help_block  => _("oVirt/RHEV template to use"),
                :label       => _('Template') } %>
 <%= f.hidden_field :template if !new %>
 
