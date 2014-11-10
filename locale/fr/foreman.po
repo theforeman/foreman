@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-29 12:54+0000\n"
-"PO-Revision-Date: 2014-10-30 16:31+0000\n"
+"POT-Creation-Date: 2014-10-31 14:39+0000\n"
+"PO-Revision-Date: 2014-11-03 15:51+0000\n"
 "Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1413,6 +1413,9 @@ msgid ""
 "records are managed via Subnet DNS proxy"
 msgstr "Proxy DNS à utiliser pour gérer les enregistrements A de cette zone DNS. Notez que les enregistrements PTR sont gérés par le proxy DNS du sous réseau concerné."
 
+msgid "Daily"
+msgstr "Quotidien"
+
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
@@ -1697,6 +1700,16 @@ msgstr "Affichage des entrées <b>%{from} - %{to}</b> sur <b>%{count}</b> au tot
 msgid "Distribution chart"
 msgstr "Répartition des systèmes d'exploitation"
 
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in"
+" the Puppet manifest for this parameter."
+msgstr "Ne pas transmettre ce paramètre par l'ENC. Puppet utilisera la valeur définie dans le manifest Puppet pour ce paramètre."
+
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in"
+" the puppet manifest for this parameter"
+msgstr "Ne pas transmettre ce paramètre par l'ENC. Puppet utilisera la valeur définie dans le manifest Puppet pour ce paramètre."
+
 msgid "Do not use your email as your password"
 msgstr "N'utilisez pas votre adresse mail comme mot de passe"
 
@@ -1877,9 +1890,6 @@ msgstr "Activer les alertes pour les hôtes sélectionnés"
 msgid "Enable certificate generation for %s"
 msgstr "Activer la génération de certificat pour %s"
 
-msgid "Enable email alerts per each failed Puppet report"
-msgstr "Activer les notifications email pour chaque rapport Puppet en erreur"
-
 msgid "Enable if this is an alias or VLAN interface"
 msgstr "Activer si l'interface est de type VLAN ou Alias"
 
@@ -2000,6 +2010,9 @@ msgstr "Expire"
 
 msgid "Explain matchers"
 msgstr "Explication des correspondances"
+
+msgid "Explain use Puppet default"
+msgstr "Descrition sur l'utilisation de la valeur par défaut de Puppet"
 
 msgid "External IP"
 msgstr "IP Externe"
@@ -2463,6 +2476,9 @@ msgstr "Trace complète"
 
 msgid "Gateway"
 msgstr "Passerelle"
+
+msgid "General"
+msgstr "Général"
 
 msgid "General Settings"
 msgstr "Configuration générale"
@@ -3489,6 +3505,9 @@ msgstr "Liste des domaines par sous réseau"
 msgid "List of hosts which answer to the provided query"
 msgstr "Liste des hôtes qui répondent à la demande du fournisseur"
 
+msgid "List of mail notifications"
+msgstr "Liste des notifications par mail"
+
 msgid "List of override values for a specific smart class parameter"
 msgstr "Liste des valeurs surchargées pour un paramètre smart class"
 
@@ -3708,6 +3727,10 @@ msgid "LookupKey|Required"
 msgstr "Requis"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Use puppet default"
+msgstr "Utiliser la valeur par défaut de Puppet"
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
 msgstr "Règle de validation"
 
@@ -3718,6 +3741,10 @@ msgstr "Type de validation"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
 msgstr "Matcher"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "LookupValue|Use puppet default"
+msgstr "Utiliser la valeur par défaut de Puppet"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
@@ -3741,8 +3768,43 @@ msgstr "Type de machine"
 msgid "Machine type"
 msgstr "Type de machine"
 
+msgid "Mail Preferences"
+msgstr "Préférences de messagerie"
+
 msgid "Mail is Required"
 msgstr "Le champ Mail est requis"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Mail notification"
+msgstr "Notifications par mail"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Default interval"
+msgstr "Intervalle par défaut"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Description"
+msgstr "Description"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Mailer"
+msgstr "Mailer"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Method"
+msgstr "Méthode"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Name"
+msgstr "Nom"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscriptable"
+msgstr "Abonnement possible"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscription type"
+msgstr "Type d'abonnement"
 
 msgid "Mailing lists"
 msgstr "Listes de diffusion"
@@ -3898,6 +3960,9 @@ msgstr "Modifié"
 msgid "Monitor"
 msgstr "Surveiller"
 
+msgid "Monthly"
+msgstr "Mensuel"
+
 msgid "Must provide an operating systems"
 msgstr "Vous devez fournir un système d'exploitation"
 
@@ -3906,6 +3971,9 @@ msgstr "Vous devez fournir un type de modèle"
 
 msgid "Must specify a Smart Proxy to use"
 msgstr "Vous devez spécifier quel Smart Proxy utiliser"
+
+msgid "Must specify a user with email enabled"
+msgstr "Vous devez spécifier un utilisateur avec l'option mail active"
 
 msgid "My account"
 msgstr "Mon compte"
@@ -4189,6 +4257,9 @@ msgstr "Aucune documentation trouvée"
 msgid "No domains"
 msgstr "Aucun domaine"
 
+msgid "No emails"
+msgstr "Pas de mail"
+
 msgid "No entries found"
 msgstr "Aucune entrée trouvée"
 
@@ -4348,6 +4419,9 @@ msgstr "Remarques, avertissements et erreurs"
 msgid "Notification disabled"
 msgstr "Notification désactivée"
 
+msgid "Notifications"
+msgstr "Notifications"
+
 msgid "Number Of Clients"
 msgstr "Nombre de clients"
 
@@ -4368,6 +4442,9 @@ msgstr "Nombre de valeurs"
 
 msgid "Numerical ID or domain name"
 msgstr "ID numérique ou nom de domaine"
+
+msgid "Numerical ID or mail notification name"
+msgstr "ID numérique ou nom de la notification par mail"
 
 msgid "Numerical ID or realm name"
 msgstr "ID numérique ou nom de royaume"
@@ -4788,6 +4865,9 @@ msgstr "Merci d'activer JavaScript pour voir %{comments_href}."
 msgid "Please ensure the following parameters name are unique"
 msgstr "Merci de vérifier que les noms des paramètres suivants soient uniques"
 
+msgid "Please login to %{foreman_url} to change your password"
+msgstr "Merci de vous connecter sur %{foreman_url} pour changer votre mot de passe"
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr "Demandez à votre administrateur les droits nécessaires"
 
@@ -4801,6 +4881,9 @@ msgstr "Merci de sauver le système d'exploitation avant toute chose et réessay
 
 msgid "Please save the role first. You can edit it later to add filters"
 msgstr "Merci de d'abord sauver le rôle. Vous pouvez l'éditer plus tard pour ajouter des filtres."
+
+msgid "Please save the user first before assigning mail notifications."
+msgstr "Merci de sauver l'utilisateur avant de lui assigner des notifications de messagerie"
 
 msgid "Please select"
 msgstr "Merci de choisir"
@@ -5441,6 +5524,9 @@ msgstr "Rôle sélectionné"
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "Choisir un fichier va écraser l'éditeur et charger le fichier à la place"
 
+msgid "Send a welcome mail including username and URL to new users"
+msgstr "Envoyer un message de bienvenue incluant le nom d'utilisateur et l'URL aux nouveaux utilisateurs"
+
 msgid "Server type"
 msgstr "Type de serveur"
 
@@ -5504,8 +5590,9 @@ msgstr "Est ce que les résultats doivent cacher les valeurs dupliquées (seulem
 
 msgid ""
 "Should the matchers continue to look for matches after first find (only "
-"array/hash type)."
-msgstr "Est ce que les matchers doivent continuer la recherche après le premier élément trouvé (seulement pour les types tableau et hash) ?"
+"array/hash type). Note: merging overrides ignores all matchers that use "
+"Puppet default"
+msgstr "Est ce que les matchers doivent continuer la recherche après le premier élément trouvé (seulement pour les types tableau et hash) ? Remarque : fusionner des surcharges ignore tous les matchers qui utilisent les valeurs par défaut de Puppet."
 
 msgid ""
 "Should this interface be managed via DHCP and DNS smart proxy and should it "
@@ -5571,6 +5658,9 @@ msgstr "Afficher un hôte"
 
 msgid "Show a host group"
 msgstr "Afficher un groupe d'hôtes"
+
+msgid "Show a mail notification"
+msgstr "Voir une notification mail"
 
 msgid "Show a medium"
 msgstr "Afficher un medium"
@@ -5895,6 +5985,9 @@ msgstr "À"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Vlanid"
 msgstr "VLAN id"
+
+msgid "Subscribe"
+msgstr "S'abonner"
 
 msgid "Success"
 msgstr "Succès"
@@ -6773,6 +6866,9 @@ msgstr "Mise à jour des hôtes : le groupe d'hôtes a changé"
 msgid "Upload facts for a host, creating the host if required"
 msgstr "Télécharge les facts d'un hôte, créé l'hôte si besoin"
 
+msgid "Use Puppet default"
+msgstr "Utiliser la valeur par défaut de Puppet"
+
 msgid "Use different character classes"
 msgstr "Utilisez différentes classes de caractères"
 
@@ -6809,8 +6905,20 @@ msgid "User groups"
 msgstr "Groupes utilisateur"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "User mail notification"
+msgstr "Notification mail utilisateur"
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "User role"
 msgstr "User role"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Interval"
+msgstr "Intervalle"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Last sent"
+msgstr "Dernier envoi"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserRole|Owner type"
@@ -6883,6 +6991,10 @@ msgstr "Nom d'utilisateur en minuscules"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Mail"
 msgstr "Adresse Mail"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "User|Mail enabled"
+msgstr "Mail activé"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
@@ -7035,6 +7147,9 @@ msgstr "Nous utilisons Redmine comme traqueur de bogues et des nouvelles fonctio
 msgid "Weak"
 msgstr "Faible"
 
+msgid "Weekly"
+msgstr "Hebdomadaire"
+
 msgid "Welcome"
 msgstr "Bienvenue"
 
@@ -7072,9 +7187,8 @@ msgstr "Lors que le mode opératoire est Unattended, Foreman requerra plus d'inf
 msgid "Whether or not the template is locked for editing"
 msgstr "Etat du verrou d'édition du modèle"
 
-msgid ""
-"Whether the smart-variable should override the Puppet class default value."
-msgstr "Définir si les Smart-Variables doivent surcharger les valeurs par défaut des classes Puppet."
+msgid "Whether the smart variable value is managed by Foreman"
+msgstr "Dépend si la valeur de la smart variable est gérée par Foreman"
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "Qui est un offset de <b>%s</b>"
@@ -7213,6 +7327,9 @@ msgstr "Vous voudriez activer l’authentification dans vos paramètres - dans l
 msgid "You would probably need to attach the"
 msgstr "Vous aurez probablement besoin d'attacher le"
 
+msgid "Your Foreman user account has been created:"
+msgstr "Votre compte utilisateur Foreman a été créé :"
+
 msgid "Your password cannot contain your username"
 msgstr "Votre mot de passe ne peut pas contenir votre nom d'utilisateur"
 
@@ -7347,9 +7464,6 @@ msgstr "Ne correspond pas au sous réseau sélectionné"
 
 msgid "domain"
 msgstr "domaine"
-
-msgid "domain %s already has a subnet with this name"
-msgstr "le domaine %s possède déjà un sous-réseau avec ce nom"
 
 msgid "e-mail reporting"
 msgstr "Rapports par courrier électronique"
@@ -7842,15 +7956,6 @@ msgstr "selon votre utilisation."
 
 msgid "to point Foreman at it."
 msgstr "pour diriger Foreman dessus."
-
-msgid "unable to find any hosts for puppet environment=%s"
-msgstr "aucun hôte n'a été trouvé pour l'environnement=%s de puppet"
-
-msgid "unable to find any hosts that match your request"
-msgstr "aucun hôte n'a été trouvé correspondant à votre recherche"
-
-msgid "unable to find any hosts with the fact name=%{name} and value=%{value}"
-msgstr "impossible de trouver un hôte avec le fact name=%{name} et value=%{value}"
 
 msgid "unable to find recipients"
 msgstr "Impossible de trouver les destinataires"

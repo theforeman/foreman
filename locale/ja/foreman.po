@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-29 12:54+0000\n"
-"PO-Revision-Date: 2014-10-30 10:12+0000\n"
+"POT-Creation-Date: 2014-10-31 14:39+0000\n"
+"PO-Revision-Date: 2014-11-01 10:31+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/foreman/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1391,6 +1391,9 @@ msgid ""
 "records are managed via Subnet DNS proxy"
 msgstr ""
 
+msgid "Daily"
+msgstr ""
+
 msgid "Dashboard"
 msgstr "ダッシュボード"
 
@@ -1674,6 +1677,16 @@ msgstr "合計 <b>%{count}</b> 項目中、<b>%{from} ～ %{to}</b> 番目の項
 msgid "Distribution chart"
 msgstr ""
 
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in"
+" the Puppet manifest for this parameter."
+msgstr ""
+
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in"
+" the puppet manifest for this parameter"
+msgstr ""
+
 msgid "Do not use your email as your password"
 msgstr ""
 
@@ -1854,9 +1867,6 @@ msgstr "選択ホストについての警告を有効化"
 msgid "Enable certificate generation for %s"
 msgstr "%s の証明書の生成を有効化"
 
-msgid "Enable email alerts per each failed Puppet report"
-msgstr "失敗した各 Puppet レポートについてのメール警告を有効にします"
-
 msgid "Enable if this is an alias or VLAN interface"
 msgstr ""
 
@@ -1976,6 +1986,9 @@ msgid "Expires"
 msgstr "期限切れ"
 
 msgid "Explain matchers"
+msgstr ""
+
+msgid "Explain use Puppet default"
 msgstr ""
 
 msgid "External IP"
@@ -2440,6 +2453,9 @@ msgstr "完全トレース"
 
 msgid "Gateway"
 msgstr "ゲートウェイ"
+
+msgid "General"
+msgstr ""
 
 msgid "General Settings"
 msgstr "全般設定"
@@ -3466,6 +3482,9 @@ msgstr ""
 msgid "List of hosts which answer to the provided query"
 msgstr "提供されるクエリーに応答するホストの一覧"
 
+msgid "List of mail notifications"
+msgstr ""
+
 msgid "List of override values for a specific smart class parameter"
 msgstr ""
 
@@ -3685,6 +3704,10 @@ msgid "LookupKey|Required"
 msgstr "必須"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Use puppet default"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
 msgstr "バリデータールール"
 
@@ -3695,6 +3718,10 @@ msgstr "バリデータータイプ"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
 msgstr "一致"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "LookupValue|Use puppet default"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
@@ -3718,8 +3745,43 @@ msgstr "マシンタイプ"
 msgid "Machine type"
 msgstr "マシンタイプ"
 
+msgid "Mail Preferences"
+msgstr ""
+
 msgid "Mail is Required"
 msgstr "メールは必須です"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Mail notification"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Default interval"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Description"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Mailer"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Method"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscriptable"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscription type"
+msgstr ""
 
 msgid "Mailing lists"
 msgstr "メーリングリスト"
@@ -3875,6 +3937,9 @@ msgstr "変更済み"
 msgid "Monitor"
 msgstr "モニター"
 
+msgid "Monthly"
+msgstr ""
+
 msgid "Must provide an operating systems"
 msgstr "オペレーティングシステムを指定する必要があります"
 
@@ -3883,6 +3948,9 @@ msgstr "テンプレートの種類を指定する必要があります"
 
 msgid "Must specify a Smart Proxy to use"
 msgstr "使用するスマートプロキシーを指定する必要があります"
+
+msgid "Must specify a user with email enabled"
+msgstr ""
 
 msgid "My account"
 msgstr "マイアカウント"
@@ -4166,6 +4234,9 @@ msgstr ""
 msgid "No domains"
 msgstr "ドメインがありません"
 
+msgid "No emails"
+msgstr ""
+
 msgid "No entries found"
 msgstr "エントリーが見つかりません"
 
@@ -4325,6 +4396,9 @@ msgstr "注意、警告およびエラー"
 msgid "Notification disabled"
 msgstr "通知の無効化"
 
+msgid "Notifications"
+msgstr "通知"
+
 msgid "Number Of Clients"
 msgstr "クライアント数"
 
@@ -4344,6 +4418,9 @@ msgid "Number of values"
 msgstr "値の数"
 
 msgid "Numerical ID or domain name"
+msgstr ""
+
+msgid "Numerical ID or mail notification name"
 msgstr ""
 
 msgid "Numerical ID or realm name"
@@ -4765,6 +4842,9 @@ msgstr ""
 msgid "Please ensure the following parameters name are unique"
 msgstr ""
 
+msgid "Please login to %{foreman_url} to change your password"
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr "Foreman 管理者に必要な特権をリクエストトしてください"
 
@@ -4777,6 +4857,9 @@ msgid "Please save the Operating System first and try again."
 msgstr "オペレーティングシステムを保存してから後でやり直してください。"
 
 msgid "Please save the role first. You can edit it later to add filters"
+msgstr ""
+
+msgid "Please save the user first before assigning mail notifications."
 msgstr ""
 
 msgid "Please select"
@@ -5417,6 +5500,9 @@ msgstr "選択されたロール"
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "ファイルを選択すると、エディターが上書きされ、代わりにファイルがロードされます"
 
+msgid "Send a welcome mail including username and URL to new users"
+msgstr ""
+
 msgid "Server type"
 msgstr ""
 
@@ -5480,7 +5566,8 @@ msgstr ""
 
 msgid ""
 "Should the matchers continue to look for matches after first find (only "
-"array/hash type)."
+"array/hash type). Note: merging overrides ignores all matchers that use "
+"Puppet default"
 msgstr ""
 
 msgid ""
@@ -5546,6 +5633,9 @@ msgid "Show a host"
 msgstr ""
 
 msgid "Show a host group"
+msgstr ""
+
+msgid "Show a mail notification"
 msgstr ""
 
 msgid "Show a medium"
@@ -5871,6 +5961,9 @@ msgstr "終点"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Vlanid"
 msgstr "Vlanid"
+
+msgid "Subscribe"
+msgstr ""
 
 msgid "Success"
 msgstr "成功"
@@ -6748,6 +6841,9 @@ msgstr "更新済みホスト: 変更済みホストグループ"
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
+msgid "Use Puppet default"
+msgstr ""
+
 msgid "Use different character classes"
 msgstr ""
 
@@ -6784,7 +6880,19 @@ msgid "User groups"
 msgstr "ユーザーグループ"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "User mail notification"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "User role"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Interval"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Last sent"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -6858,6 +6966,10 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Mail"
 msgstr "メール"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "User|Mail enabled"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
@@ -7010,6 +7122,9 @@ msgstr "以下にあるようにバグのレポートと追跡、および機能
 msgid "Weak"
 msgstr ""
 
+msgid "Weekly"
+msgstr ""
+
 msgid "Welcome"
 msgstr "ようこそ"
 
@@ -7047,9 +7162,8 @@ msgstr "無人モードで操作する際、Foreman には追加の情報が必�
 msgid "Whether or not the template is locked for editing"
 msgstr ""
 
-msgid ""
-"Whether the smart-variable should override the Puppet class default value."
-msgstr "smart-variable が Puppet クラスのデフォルト値を上書きするかどうか。"
+msgid "Whether the smart variable value is managed by Foreman"
+msgstr ""
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "<b>%s</b> のオフセットはどれか"
@@ -7188,6 +7302,9 @@ msgstr "まず settings.yml ファイルでログインを有効にし、foreman
 msgid "You would probably need to attach the"
 msgstr "おそらく以下を追加する必要があります"
 
+msgid "Your Foreman user account has been created:"
+msgstr ""
+
 msgid "Your password cannot contain your username"
 msgstr ""
 
@@ -7322,9 +7439,6 @@ msgstr ""
 
 msgid "domain"
 msgstr "ドメイン"
-
-msgid "domain %s already has a subnet with this name"
-msgstr "ドメイン %s にはこの名前のサブネットがすでにあります"
 
 msgid "e-mail reporting"
 msgstr "メールによるレポート"
@@ -7815,15 +7929,6 @@ msgstr "選択を示します"
 
 msgid "to point Foreman at it."
 msgstr "Foreman をこれにポイントします"
-
-msgid "unable to find any hosts for puppet environment=%s"
-msgstr "puppet 環境=%s のホストが見つかりません"
-
-msgid "unable to find any hosts that match your request"
-msgstr "要求に一致するホストが見つかりません"
-
-msgid "unable to find any hosts with the fact name=%{name} and value=%{value}"
-msgstr "ファクト名=%{name} および値=%{value} のホストが見つかりません"
 
 msgid "unable to find recipients"
 msgstr "宛先が見つかりません"

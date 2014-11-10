@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-29 12:54+0000\n"
-"PO-Revision-Date: 2014-10-30 10:12+0000\n"
+"POT-Creation-Date: 2014-10-31 14:39+0000\n"
+"PO-Revision-Date: 2014-11-01 10:31+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1391,6 +1391,9 @@ msgid ""
 "records are managed via Subnet DNS proxy"
 msgstr ""
 
+msgid "Daily"
+msgstr ""
+
 msgid "Dashboard"
 msgstr "仪表板"
 
@@ -1674,6 +1677,16 @@ msgstr "显示全部  <b>%{count}</b> 条中的第 <b>%{from} - %{to}</b> 条"
 msgid "Distribution chart"
 msgstr ""
 
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in"
+" the Puppet manifest for this parameter."
+msgstr ""
+
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in"
+" the puppet manifest for this parameter"
+msgstr ""
+
 msgid "Do not use your email as your password"
 msgstr ""
 
@@ -1854,9 +1867,6 @@ msgstr "启用选择主机的告警"
 msgid "Enable certificate generation for %s"
 msgstr "为 %s 生成证书"
 
-msgid "Enable email alerts per each failed Puppet report"
-msgstr "启用每次在失败 Puppet 报告发出邮件警告的功能"
-
 msgid "Enable if this is an alias or VLAN interface"
 msgstr ""
 
@@ -1976,6 +1986,9 @@ msgid "Expires"
 msgstr "过期"
 
 msgid "Explain matchers"
+msgstr ""
+
+msgid "Explain use Puppet default"
 msgstr ""
 
 msgid "External IP"
@@ -2440,6 +2453,9 @@ msgstr "全跟踪"
 
 msgid "Gateway"
 msgstr "网关"
+
+msgid "General"
+msgstr ""
 
 msgid "General Settings"
 msgstr "常规设置"
@@ -3466,6 +3482,9 @@ msgstr ""
 msgid "List of hosts which answer to the provided query"
 msgstr "查询返回的主机列表"
 
+msgid "List of mail notifications"
+msgstr ""
+
 msgid "List of override values for a specific smart class parameter"
 msgstr ""
 
@@ -3685,6 +3704,10 @@ msgid "LookupKey|Required"
 msgstr "必须得"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Use puppet default"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
 msgstr "验证规则"
 
@@ -3695,6 +3718,10 @@ msgstr "验证类型"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
 msgstr "匹配"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "LookupValue|Use puppet default"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
@@ -3718,8 +3745,43 @@ msgstr "机器型号"
 msgid "Machine type"
 msgstr "机器类型"
 
+msgid "Mail Preferences"
+msgstr ""
+
 msgid "Mail is Required"
 msgstr "mail为必填项"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Mail notification"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Default interval"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Description"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Mailer"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Method"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscriptable"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscription type"
+msgstr ""
 
 msgid "Mailing lists"
 msgstr "邮件列表"
@@ -3875,6 +3937,9 @@ msgstr "修改"
 msgid "Monitor"
 msgstr "监控"
 
+msgid "Monthly"
+msgstr ""
+
 msgid "Must provide an operating systems"
 msgstr "必须提供一种操作系统"
 
@@ -3883,6 +3948,9 @@ msgstr "必须提供一种模板"
 
 msgid "Must specify a Smart Proxy to use"
 msgstr "必须指定一个智能代理"
+
+msgid "Must specify a user with email enabled"
+msgstr ""
 
 msgid "My account"
 msgstr "我的账号"
@@ -4166,6 +4234,9 @@ msgstr ""
 msgid "No domains"
 msgstr "没有域"
 
+msgid "No emails"
+msgstr ""
+
 msgid "No entries found"
 msgstr "没有找到条目"
 
@@ -4325,6 +4396,9 @@ msgstr "通知、警告及错误"
 msgid "Notification disabled"
 msgstr "禁用通知"
 
+msgid "Notifications"
+msgstr "通知"
+
 msgid "Number Of Clients"
 msgstr "客户数"
 
@@ -4344,6 +4418,9 @@ msgid "Number of values"
 msgstr "数值"
 
 msgid "Numerical ID or domain name"
+msgstr ""
+
+msgid "Numerical ID or mail notification name"
 msgstr ""
 
 msgid "Numerical ID or realm name"
@@ -4765,6 +4842,9 @@ msgstr ""
 msgid "Please ensure the following parameters name are unique"
 msgstr ""
 
+msgid "Please login to %{foreman_url} to change your password"
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr "请向 foreman 管理员申请所需权限"
 
@@ -4777,6 +4857,9 @@ msgid "Please save the Operating System first and try again."
 msgstr "请首先保存操作系统，然后再试一次。"
 
 msgid "Please save the role first. You can edit it later to add filters"
+msgstr ""
+
+msgid "Please save the user first before assigning mail notifications."
 msgstr ""
 
 msgid "Please select"
@@ -5417,6 +5500,9 @@ msgstr "所选角色"
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "选择要覆盖编辑器的文件并载入文件"
 
+msgid "Send a welcome mail including username and URL to new users"
+msgstr ""
+
 msgid "Server type"
 msgstr ""
 
@@ -5480,7 +5566,8 @@ msgstr ""
 
 msgid ""
 "Should the matchers continue to look for matches after first find (only "
-"array/hash type)."
+"array/hash type). Note: merging overrides ignores all matchers that use "
+"Puppet default"
 msgstr ""
 
 msgid ""
@@ -5546,6 +5633,9 @@ msgid "Show a host"
 msgstr ""
 
 msgid "Show a host group"
+msgstr ""
+
+msgid "Show a mail notification"
 msgstr ""
 
 msgid "Show a medium"
@@ -5871,6 +5961,9 @@ msgstr "止"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Vlanid"
 msgstr "Vlan ID"
+
+msgid "Subscribe"
+msgstr ""
 
 msgid "Success"
 msgstr "成功"
@@ -6748,6 +6841,9 @@ msgstr "已更新主机：更改主机组"
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
+msgid "Use Puppet default"
+msgstr ""
+
 msgid "Use different character classes"
 msgstr ""
 
@@ -6784,8 +6880,20 @@ msgid "User groups"
 msgstr "用户组"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "User mail notification"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "User role"
 msgstr "用户角色"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Interval"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Last sent"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UserRole|Owner type"
@@ -6858,6 +6966,10 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Mail"
 msgstr "邮箱"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "User|Mail enabled"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
@@ -7010,6 +7122,9 @@ msgstr "我们使用 Redmine 报告和跟踪 bug 及功能请求，可在这里�
 msgid "Weak"
 msgstr ""
 
+msgid "Weekly"
+msgstr ""
+
 msgid "Welcome"
 msgstr "欢迎"
 
@@ -7047,9 +7162,8 @@ msgstr "使用无人模式操作时，Foreman 将需要更多信息，就会提�
 msgid "Whether or not the template is locked for editing"
 msgstr ""
 
-msgid ""
-"Whether the smart-variable should override the Puppet class default value."
-msgstr "智能变量和是否应该覆盖 Puppet 类别的默认值？"
+msgid "Whether the smart variable value is managed by Foreman"
+msgstr ""
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "是 <b>%s</b> 偏移。"
@@ -7188,6 +7302,9 @@ msgstr "您需要在 settings.yml 文件中启用登录并长期 foreman"
 msgid "You would probably need to attach the"
 msgstr "您需要附加"
 
+msgid "Your Foreman user account has been created:"
+msgstr ""
+
 msgid "Your password cannot contain your username"
 msgstr ""
 
@@ -7322,9 +7439,6 @@ msgstr ""
 
 msgid "domain"
 msgstr "域"
-
-msgid "domain %s already has a subnet with this name"
-msgstr "在域 %s 已存在使用这个名称的子网"
 
 msgid "e-mail reporting"
 msgstr "电子邮件报告"
@@ -7815,15 +7929,6 @@ msgstr "体现您的选择。"
 
 msgid "to point Foreman at it."
 msgstr "将 Foreman 指向它。"
-
-msgid "unable to find any hosts for puppet environment=%s"
-msgstr "无法找到 puppet environment=%s 的任何主机"
-
-msgid "unable to find any hosts that match your request"
-msgstr "无法找打匹配您要求的主机"
-
-msgid "unable to find any hosts with the fact name=%{name} and value=%{value}"
-msgstr "无法找到 fact name=%{name} and value=%{value} 的主机"
 
 msgid "unable to find recipients"
 msgstr "无法找到收件人"

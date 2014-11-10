@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-29 12:54+0000\n"
-"PO-Revision-Date: 2014-10-30 10:12+0000\n"
+"POT-Creation-Date: 2014-10-31 14:39+0000\n"
+"PO-Revision-Date: 2014-11-01 10:30+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -1388,6 +1388,9 @@ msgid ""
 "records are managed via Subnet DNS proxy"
 msgstr ""
 
+msgid "Daily"
+msgstr ""
+
 msgid "Dashboard"
 msgstr "대시보드 "
 
@@ -1671,6 +1674,16 @@ msgstr "총 <b>%{count}</b> 중 <b>%{from} - %{to}</b> 항목 표시 중 "
 msgid "Distribution chart"
 msgstr ""
 
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in"
+" the Puppet manifest for this parameter."
+msgstr ""
+
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in"
+" the puppet manifest for this parameter"
+msgstr ""
+
 msgid "Do not use your email as your password"
 msgstr ""
 
@@ -1851,9 +1864,6 @@ msgstr "선택한 호스트의 통지 활성화 "
 msgid "Enable certificate generation for %s"
 msgstr "%s의 인증서 생성 활성화 "
 
-msgid "Enable email alerts per each failed Puppet report"
-msgstr "실패한 Puppet 보고서에 대한 메일 통지를 활성화 "
-
 msgid "Enable if this is an alias or VLAN interface"
 msgstr ""
 
@@ -1973,6 +1983,9 @@ msgid "Expires"
 msgstr "만료 "
 
 msgid "Explain matchers"
+msgstr ""
+
+msgid "Explain use Puppet default"
 msgstr ""
 
 msgid "External IP"
@@ -2437,6 +2450,9 @@ msgstr "전체 추적 "
 
 msgid "Gateway"
 msgstr "케이트웨이"
+
+msgid "General"
+msgstr ""
 
 msgid "General Settings"
 msgstr "일반 설정 "
@@ -3463,6 +3479,9 @@ msgstr ""
 msgid "List of hosts which answer to the provided query"
 msgstr "제공되는 쿼리에 응답하는 호스트 목록 "
 
+msgid "List of mail notifications"
+msgstr ""
+
 msgid "List of override values for a specific smart class parameter"
 msgstr ""
 
@@ -3682,6 +3701,10 @@ msgid "LookupKey|Required"
 msgstr "필수 사항 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Use puppet default"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
 msgstr "검사기 규칙 "
 
@@ -3692,6 +3715,10 @@ msgstr "검사기 유형 "
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
 msgstr "일치 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "LookupValue|Use puppet default"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
@@ -3715,8 +3742,43 @@ msgstr "시스템 유형 "
 msgid "Machine type"
 msgstr "시스템 유형 "
 
+msgid "Mail Preferences"
+msgstr ""
+
 msgid "Mail is Required"
 msgstr "메일은 필수 사항입니다 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Mail notification"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Default interval"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Description"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Mailer"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Method"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscriptable"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscription type"
+msgstr ""
 
 msgid "Mailing lists"
 msgstr "메일링 리스트 "
@@ -3872,6 +3934,9 @@ msgstr "수정됨"
 msgid "Monitor"
 msgstr "모니터"
 
+msgid "Monthly"
+msgstr ""
+
 msgid "Must provide an operating systems"
 msgstr "운영 체제를 지정해야 합니다 "
 
@@ -3879,6 +3944,9 @@ msgid "Must provide template kind"
 msgstr "템플릿 종류를 지정해야 합니다 "
 
 msgid "Must specify a Smart Proxy to use"
+msgstr ""
+
+msgid "Must specify a user with email enabled"
 msgstr ""
 
 msgid "My account"
@@ -4163,6 +4231,9 @@ msgstr ""
 msgid "No domains"
 msgstr "도메인 없음 "
 
+msgid "No emails"
+msgstr ""
+
 msgid "No entries found"
 msgstr "항목을 찾을 수 없음 "
 
@@ -4322,6 +4393,9 @@ msgstr "주의, 경고 및 오류 "
 msgid "Notification disabled"
 msgstr "통지가 비활성화됨 "
 
+msgid "Notifications"
+msgstr "통지 "
+
 msgid "Number Of Clients"
 msgstr "클라이언트 수 "
 
@@ -4341,6 +4415,9 @@ msgid "Number of values"
 msgstr "값의 수 "
 
 msgid "Numerical ID or domain name"
+msgstr ""
+
+msgid "Numerical ID or mail notification name"
 msgstr ""
 
 msgid "Numerical ID or realm name"
@@ -4762,6 +4839,9 @@ msgstr ""
 msgid "Please ensure the following parameters name are unique"
 msgstr ""
 
+msgid "Please login to %{foreman_url} to change your password"
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr "foreman 관리자에게 필요한 권한을 요청하십시오 "
 
@@ -4774,6 +4854,9 @@ msgid "Please save the Operating System first and try again."
 msgstr "운영 체제를 저장하고 다시 시도하십시오. "
 
 msgid "Please save the role first. You can edit it later to add filters"
+msgstr ""
+
+msgid "Please save the user first before assigning mail notifications."
 msgstr ""
 
 msgid "Please select"
@@ -5414,6 +5497,9 @@ msgstr "선택된 역할 "
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "파일을 선택하면 편집기가 덮어쓰기되고 대신 파일이 로드됩니다 "
 
+msgid "Send a welcome mail including username and URL to new users"
+msgstr ""
+
 msgid "Server type"
 msgstr ""
 
@@ -5477,7 +5563,8 @@ msgstr ""
 
 msgid ""
 "Should the matchers continue to look for matches after first find (only "
-"array/hash type)."
+"array/hash type). Note: merging overrides ignores all matchers that use "
+"Puppet default"
 msgstr ""
 
 msgid ""
@@ -5543,6 +5630,9 @@ msgid "Show a host"
 msgstr ""
 
 msgid "Show a host group"
+msgstr ""
+
+msgid "Show a mail notification"
 msgstr ""
 
 msgid "Show a medium"
@@ -5868,6 +5958,9 @@ msgstr "종료 "
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Vlanid"
 msgstr "Vlanid"
+
+msgid "Subscribe"
+msgstr ""
 
 msgid "Success"
 msgstr "성공 "
@@ -6745,6 +6838,9 @@ msgstr "업데이트된 호스트: 변경된 호스트 그룹 "
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
+msgid "Use Puppet default"
+msgstr ""
+
 msgid "Use different character classes"
 msgstr ""
 
@@ -6781,7 +6877,19 @@ msgid "User groups"
 msgstr "사용자 그룹 "
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "User mail notification"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "User role"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Interval"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Last sent"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -6855,6 +6963,10 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Mail"
 msgstr "메일 "
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "User|Mail enabled"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
@@ -7007,6 +7119,9 @@ msgstr "다음과 같이 버그 보고, 추적, 기능 요구에 Redmine을 사�
 msgid "Weak"
 msgstr ""
 
+msgid "Weekly"
+msgstr ""
+
 msgid "Welcome"
 msgstr "환영합니다"
 
@@ -7044,9 +7159,8 @@ msgstr "무인 모드로 작동할 때 Foreman에는 추가 정보가 필요하�
 msgid "Whether or not the template is locked for editing"
 msgstr ""
 
-msgid ""
-"Whether the smart-variable should override the Puppet class default value."
-msgstr "smart-variable이 Puppet 클래스 기본값을 덮어쓰기할 지에 대한 여부입니다. "
+msgid "Whether the smart variable value is managed by Foreman"
+msgstr ""
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "<b>%s</b>의 오프셋 "
@@ -7185,6 +7299,9 @@ msgstr "settings.yml 파일에서 로그인을 활성화하고 foreman을 다시
 msgid "You would probably need to attach the"
 msgstr "다음을 첨부해야 합니다 "
 
+msgid "Your Foreman user account has been created:"
+msgstr ""
+
 msgid "Your password cannot contain your username"
 msgstr ""
 
@@ -7319,9 +7436,6 @@ msgstr ""
 
 msgid "domain"
 msgstr "도메인 "
-
-msgid "domain %s already has a subnet with this name"
-msgstr "도메인 %s에는 이 이름으로된 서브넷이 있습니다 "
 
 msgid "e-mail reporting"
 msgstr "이메일 보고서 "
@@ -7812,15 +7926,6 @@ msgstr "선택 사항 표시 "
 
 msgid "to point Foreman at it."
 msgstr "Foreman을 가리킴 "
-
-msgid "unable to find any hosts for puppet environment=%s"
-msgstr "puppet environment=%s의 호스트를 찾을 수 없습니다 "
-
-msgid "unable to find any hosts that match your request"
-msgstr "귀하의 요청과 일치하는 호스트를 찾을 수 없습니다 "
-
-msgid "unable to find any hosts with the fact name=%{name} and value=%{value}"
-msgstr "fact name=%{name} 및 value=%{value}로된 호스트를 찾을 수 없습니다 "
 
 msgid "unable to find recipients"
 msgstr "대상을 찾을 수 없습니다 "

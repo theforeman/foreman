@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-29 12:54+0000\n"
-"PO-Revision-Date: 2014-10-30 10:12+0000\n"
+"POT-Creation-Date: 2014-10-31 14:39+0000\n"
+"PO-Revision-Date: 2014-11-01 10:30+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/foreman/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1409,6 +1409,9 @@ msgid ""
 "records are managed via Subnet DNS proxy"
 msgstr ""
 
+msgid "Daily"
+msgstr ""
+
 msgid "Dashboard"
 msgstr "Painel"
 
@@ -1693,6 +1696,16 @@ msgstr "Exibindo entradas <b>%{from} - %{to}</b> de <b>%{count}</b> no total"
 msgid "Distribution chart"
 msgstr ""
 
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in"
+" the Puppet manifest for this parameter."
+msgstr ""
+
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in"
+" the puppet manifest for this parameter"
+msgstr ""
+
 msgid "Do not use your email as your password"
 msgstr ""
 
@@ -1873,9 +1886,6 @@ msgstr "Habilitar alertas para os hosts selecionados"
 msgid "Enable certificate generation for %s"
 msgstr "Habilitar geração de certificado para %s"
 
-msgid "Enable email alerts per each failed Puppet report"
-msgstr "Habilitar alertas de email por relatório Puppet falho"
-
 msgid "Enable if this is an alias or VLAN interface"
 msgstr ""
 
@@ -1995,6 +2005,9 @@ msgid "Expires"
 msgstr "Expira"
 
 msgid "Explain matchers"
+msgstr ""
+
+msgid "Explain use Puppet default"
 msgstr ""
 
 msgid "External IP"
@@ -2459,6 +2472,9 @@ msgstr "Trace completo"
 
 msgid "Gateway"
 msgstr "Gateway"
+
+msgid "General"
+msgstr ""
 
 msgid "General Settings"
 msgstr "Configurações gerais"
@@ -3485,6 +3501,9 @@ msgstr ""
 msgid "List of hosts which answer to the provided query"
 msgstr "Lista de hosts que responderam a consulta feita"
 
+msgid "List of mail notifications"
+msgstr ""
+
 msgid "List of override values for a specific smart class parameter"
 msgstr ""
 
@@ -3704,6 +3723,10 @@ msgid "LookupKey|Required"
 msgstr "Necessário"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Use puppet default"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
 msgstr "Regra de validador"
 
@@ -3714,6 +3737,10 @@ msgstr "Tipo de validador"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
 msgstr "Casa"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "LookupValue|Use puppet default"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
@@ -3737,8 +3764,43 @@ msgstr "Tipo de máquina"
 msgid "Machine type"
 msgstr "Tipo de máquina"
 
+msgid "Mail Preferences"
+msgstr ""
+
 msgid "Mail is Required"
 msgstr "Correio é requerido"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Mail notification"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Default interval"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Description"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Mailer"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Method"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscriptable"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscription type"
+msgstr ""
 
 msgid "Mailing lists"
 msgstr "Listas de correio"
@@ -3894,6 +3956,9 @@ msgstr "Modificado"
 msgid "Monitor"
 msgstr "Monitor"
 
+msgid "Monthly"
+msgstr ""
+
 msgid "Must provide an operating systems"
 msgstr "Deve prover um sistema operacional"
 
@@ -3902,6 +3967,9 @@ msgstr "Deve prover um tipo de template"
 
 msgid "Must specify a Smart Proxy to use"
 msgstr "Deve especificar um Smart Proxy para usar"
+
+msgid "Must specify a user with email enabled"
+msgstr ""
 
 msgid "My account"
 msgstr "Minha conta"
@@ -4185,6 +4253,9 @@ msgstr ""
 msgid "No domains"
 msgstr "Nenhum domínio"
 
+msgid "No emails"
+msgstr ""
+
 msgid "No entries found"
 msgstr "Nenhuma entrata encontratada"
 
@@ -4344,6 +4415,9 @@ msgstr "Comunicados, avisos e erros"
 msgid "Notification disabled"
 msgstr "Notificações desabilitadas"
 
+msgid "Notifications"
+msgstr "Notificações"
+
 msgid "Number Of Clients"
 msgstr "Número de Clientes"
 
@@ -4363,6 +4437,9 @@ msgid "Number of values"
 msgstr "Numero de valores"
 
 msgid "Numerical ID or domain name"
+msgstr ""
+
+msgid "Numerical ID or mail notification name"
 msgstr ""
 
 msgid "Numerical ID or realm name"
@@ -4784,6 +4861,9 @@ msgstr ""
 msgid "Please ensure the following parameters name are unique"
 msgstr ""
 
+msgid "Please login to %{foreman_url} to change your password"
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr "Por favor, solicite os privilégios necessários de um administrador foreman"
 
@@ -4796,6 +4876,9 @@ msgid "Please save the Operating System first and try again."
 msgstr "Por favor salve um Sistema Operacional primeiro e tente novamente."
 
 msgid "Please save the role first. You can edit it later to add filters"
+msgstr ""
+
+msgid "Please save the user first before assigning mail notifications."
 msgstr ""
 
 msgid "Please select"
@@ -5437,6 +5520,9 @@ msgstr "Papel selecionado"
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "Selecionar um arquivo irá sobrepor o editor e carregar o arquivo"
 
+msgid "Send a welcome mail including username and URL to new users"
+msgstr ""
+
 msgid "Server type"
 msgstr ""
 
@@ -5500,7 +5586,8 @@ msgstr ""
 
 msgid ""
 "Should the matchers continue to look for matches after first find (only "
-"array/hash type)."
+"array/hash type). Note: merging overrides ignores all matchers that use "
+"Puppet default"
 msgstr ""
 
 msgid ""
@@ -5566,6 +5653,9 @@ msgid "Show a host"
 msgstr ""
 
 msgid "Show a host group"
+msgstr ""
+
+msgid "Show a mail notification"
 msgstr ""
 
 msgid "Show a medium"
@@ -5891,6 +5981,9 @@ msgstr "Para"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Vlanid"
 msgstr "Vlan ID"
+
+msgid "Subscribe"
+msgstr ""
 
 msgid "Success"
 msgstr "Sucesso"
@@ -6769,6 +6862,9 @@ msgstr "Hosts atualizados: grupo de host modificado"
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
+msgid "Use Puppet default"
+msgstr ""
+
 msgid "Use different character classes"
 msgstr ""
 
@@ -6805,7 +6901,19 @@ msgid "User groups"
 msgstr "Grupos de usuários"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "User mail notification"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "User role"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Interval"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Last sent"
 msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
@@ -6879,6 +6987,10 @@ msgstr ""
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Mail"
 msgstr "Email address"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "User|Mail enabled"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
@@ -7031,6 +7143,9 @@ msgstr "Nós usamos Redmine para informar e rastrear bugs e solicitações de re
 msgid "Weak"
 msgstr ""
 
+msgid "Weekly"
+msgstr ""
+
 msgid "Welcome"
 msgstr "Bem vindo"
 
@@ -7068,9 +7183,8 @@ msgstr "Quando estiver operando em modo automático, o Foreman precisará de mai
 msgid "Whether or not the template is locked for editing"
 msgstr ""
 
-msgid ""
-"Whether the smart-variable should override the Puppet class default value."
-msgstr "Se a variável do smart deve sobrepor o valor padrão da classe do Puppet."
+msgid "Whether the smart variable value is managed by Foreman"
+msgstr ""
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "A qual é um offset de <b>%s</b>"
@@ -7209,6 +7323,9 @@ msgstr "Você precisaria ativar o login em seu arquivo settings.yml primeiro e r
 msgid "You would probably need to attach the"
 msgstr "você provavelmente precise anexar o"
 
+msgid "Your Foreman user account has been created:"
+msgstr ""
+
 msgid "Your password cannot contain your username"
 msgstr ""
 
@@ -7343,9 +7460,6 @@ msgstr ""
 
 msgid "domain"
 msgstr "domínio"
-
-msgid "domain %s already has a subnet with this name"
-msgstr "o domínio %s já possui uma subrede com este nome"
 
 msgid "e-mail reporting"
 msgstr "relatando email"
@@ -7838,15 +7952,6 @@ msgstr "para indicar suas seleções"
 
 msgid "to point Foreman at it."
 msgstr "para apontar o Foreman à ele."
-
-msgid "unable to find any hosts for puppet environment=%s"
-msgstr "incapaz de encontrar qualquer host para o ambiente do puppet=%s"
-
-msgid "unable to find any hosts that match your request"
-msgstr "incapaz de encontrar qualquer host que coincida com sua requisição"
-
-msgid "unable to find any hosts with the fact name=%{name} and value=%{value}"
-msgstr "incapaz de encontrar qualquer host com o nome do fato=%{name} e valor=%{value}"
 
 msgid "unable to find recipients"
 msgstr "Incapaz de encontrar recipientes"
