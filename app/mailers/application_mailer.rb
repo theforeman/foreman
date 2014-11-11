@@ -21,10 +21,13 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def group_mail(users, options)
-    GroupMail.new(users.map do |user|
-      set_locale_for(user)
+    mails = users.map do |user|
+      @user = user
+      set_locale_for user
       mail(options.merge(:to => user.mail)) unless user.mail.blank?
-    end.compact)
+    end
+
+    GroupMail.new(mails.compact)
   end
 
   def set_locale_for(user)
