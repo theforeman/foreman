@@ -69,16 +69,18 @@ class LookupValue < ActiveRecord::Base
   end
 
   def ensure_fqdn_exists
-    md = match.match(/\Afqdn=(.*)/)
+    md = match.match(/fqdn=(.*)/)
     return true unless md
-    return true if Host.unscoped.find_by_name(md[1]) || host_or_hostgroup.try(:new_record?)
-    errors.add(:match, _("%{match} does not match an existing host") % { :match => match }) and return false
+    fqdn = md[1].split(LookupKey::KEY_DELM)[0]
+    return true if Host.unscoped.find_by_name(fqdn) || host_or_hostgroup.try(:new_record?)
+    errors.add(:match, _("fqdn=%{match} does not match an existing host") % { :match => fqdn }) and return false
   end
 
   def ensure_hostgroup_exists
-    md = match.match(/\Ahostgroup=(.*)/)
+    md = match.match(/hostgroup=(.*)/)
     return true unless md
-    return true if Hostgroup.unscoped.find_by_name(md[1]) || Hostgroup.unscoped.find_by_title(md[1]) || host_or_hostgroup.try(:new_record?)
-    errors.add(:match, _("%{match} does not match an existing host group") % { :match => match }) and return false
+    hostgroup = md[1].split(LookupKey::KEY_DELM)[0]
+    return true if Hostgroup.unscoped.find_by_name(hostgroup) || Hostgroup.unscoped.find_by_title(hostgroup) || host_or_hostgroup.try(:new_record?)
+    errors.add(:match, _("hostgroup=%{match} does not match an existing host group") % { :match => hostgroup }) and return false
   end
 end

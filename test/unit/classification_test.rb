@@ -625,6 +625,30 @@ class ClassificationTest < ActiveSupport::TestCase
     assert_equal [3,4], classification.enc['base'][key.key]
   end
 
+  test 'enc should return correct values for multi-key matchers' do
+    hostgroup = FactoryGirl.create(:hostgroup)
+    host = classification.send(:host)
+    host.update_attributes(:hostgroup => hostgroup)
+
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param, :with_use_puppet_default,
+                             :override => true, :key_type => 'string', :merge_overrides => false,
+                             :path => "hostgroup,organization\nlocation",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_hostgroup = FactoryGirl.create(:hostgroup,
+                                          :puppetclasses => [puppetclasses(:two)],
+                                          :environment => environments(:production))
+    hostgroup.update_attributes(:parent => parent_hostgroup)
+
+    FactoryGirl.create(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{parent_hostgroup},organization=#{taxonomies(:organization1)}")
+    lv = FactoryGirl.create(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{hostgroup},organization=#{taxonomies(:organization1)}")
+    FactoryGirl.create(:lookup_value, :lookup_key_id => key.id, :match => "location=#{taxonomies(:location1)}")
+
+    enc = classification.enc
+    key.reload
+    assert_equal lv.value, enc["apache"][key.key]
+  end
+
   test 'smart class parameter with erb values is validated after erb is evaluated' do
     key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'string', :merge_overrides => false,
