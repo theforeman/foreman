@@ -19,4 +19,5 @@ group :development do
   else
     gem 'pry'
   end
+  gem 'bullet'
 end
