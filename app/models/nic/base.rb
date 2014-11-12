@@ -78,7 +78,7 @@ module Nic
       uniq_fields_with_hosts.each do |attr|
         value = self.send(attr)
         unless value.blank?
-          if host.send(attr) == value
+          if host && host.send(attr) == value
             errors.add(attr, _("can't use the same value as the primary interface"))
             failed = true
           elsif Host.where(attr => value).limit(1).pluck(attr).any?
