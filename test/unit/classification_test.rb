@@ -589,6 +589,69 @@ class ClassificationTest < ActiveSupport::TestCase
     assert_equal 'child', enc["apache"][key.key]
   end
 
+  test 'enc should return correct values for multi-key matchers' do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'string', :default_value => '',
+                             :path => "organization\norganization,location\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => 'test_incorrect',
+                          :use_puppet_default => false
+    end
+    value2 = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)},location=#{taxonomies(:location1)}",
+                          :value => 'test_correct',
+                          :use_puppet_default => false
+    end
+    enc = classification.enc
+    key.reload
+
+    assert_equal value2.value, enc["base"][key.key]
+  end
+
+  test 'enc should return correct values for multi-key matchers' do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param, :use_puppet_default => true,
+                             :override => true, :key_type => 'string', :merge_overrides => false,
+                             :path => "hostgroup,organization\nlocation",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_hostgroup = FactoryGirl.create(:hostgroup,
+                                          :puppetclasses => [puppetclasses(:two)],
+                                          :environment => environments(:production))
+    child_hostgroup = FactoryGirl.create(:hostgroup, :parent => parent_hostgroup)
+
+    host = @classification.send(:host)
+    host.hostgroup = child_hostgroup
+    host.save
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "hostgroup=#{parent_hostgroup},organization=#{taxonomies(:organization1)}",
+                          :value => "parent",
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "hostgroup=#{child_hostgroup},organization=#{taxonomies(:organization1)}",
+                          :value => "child",
+                          :use_puppet_default => false
+    end
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match =>"location=#{taxonomies(:location1)}",
+                          :value => "loc",
+                          :use_puppet_default => false
+    end
+    enc = classification.enc
+    key.reload
+    assert_equal 'child', enc["apache"][key.key]
+  end
+
   test 'smart class parameter should accept string with erb for arrays and evaluate it properly' do
     key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'array', :merge_overrides => false,
@@ -621,7 +684,7 @@ class ClassificationTest < ActiveSupport::TestCase
     assert_equal({key.id => {key.key => {:value => '<%= [3,4] %>',
                                          :element => 'organization',
                                          :element_name => 'Organization 1'}}},
-                 classification.send(:values_hash))
+                                         classification.send(:values_hash))
     assert_equal [3,4], classification.enc['base'][key.key]
   end
 

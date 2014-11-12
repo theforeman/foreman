@@ -39,10 +39,17 @@ module Classification
       class_parameters.each do |key|
         lookup_values_for_key = all_lookup_values.where(:lookup_key_id => key.id, :use_puppet_default => false).includes(:lookup_key)
         sorted_lookup_values = lookup_values_for_key.sort_by do |lv|
-          # splitting the matcher hostgroup=example to 'hostgroup' and 'example'
-          matcher_element, matcher_value = lv.match.split(LookupKey::EQ_DELM)
+          matcher_key = ''
+          matcher_value = ''
+          lv.match.split(LookupKey::KEY_DELM).each do |match_key|
+            element = match_key.split(LookupKey::EQ_DELM).first
+            matcher_key += element + ','
+            if element == 'hostgroup'
+              matcher_value = match_key.split(LookupKey::EQ_DELM).last
+            end
+          end
           # prefer matchers in order of the path, then more specific matches (i.e. hostgroup children)
-          [key.path.index(matcher_element), -1 * matcher_value.length]
+          [key.path.index(matcher_key.chomp(',')), -1 * matcher_value.length]
         end
         value = nil
         if key.merge_overrides
@@ -149,10 +156,21 @@ module Classification
       Rails.logger.warn "Unable to type cast #{value} to #{key.key_type}"
     end
 
+    def get_element_and_element_name(lookup_value)
+      element = ''
+      element_name = ''
+      lookup_value.match.split(LookupKey::KEY_DELM).each do |match_key|
+        lv_element, lv_element_name = match_key.split(LookupKey::EQ_DELM)
+        element += lv_element + ','
+        element_name += lv_element_name + ','
+      end
+      [element.chomp(','), element_name.chomp(',')]
+    end
+
     def update_generic_matcher(lookup_values, options)
       computed_lookup_value = nil
       lookup_values.each do |lookup_value|
-        element, element_name = lookup_value.match.split(LookupKey::EQ_DELM)
+        element, element_name = get_element_and_element_name(lookup_value)
         next if (options[:skip_fqdn] && element=="fqdn")
         value_method = %w(yaml json).include?(lookup_value.lookup_key.key_type) ? :value_before_type_cast : :value
         computed_lookup_value = {:value => lookup_value.send(value_method), :element => element,
@@ -168,7 +186,7 @@ module Classification
       element_names = []
 
       lookup_values.each do |lookup_value|
-        element, element_name = lookup_value.match.split(LookupKey::EQ_DELM)
+        element, element_name = get_element_and_element_name(lookup_value)
         next if (options[:skip_fqdn] && element=="fqdn")
         elements << element
         element_names << element_name
@@ -191,7 +209,7 @@ module Classification
       # to make sure seep merge overrides by priority, putting in the values with the lower priority first
       # and then merging with higher priority
       lookup_values.reverse.each do |lookup_value|
-        element, element_name = lookup_value.match.split(LookupKey::EQ_DELM)
+        element, element_name = get_element_and_element_name(lookup_value)
         next if (options[:skip_fqdn] && element=="fqdn")
         elements << element
         element_names << element_name
