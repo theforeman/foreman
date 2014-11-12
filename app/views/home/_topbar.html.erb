@@ -8,6 +8,9 @@
         <%= link_to "Foreman", main_app.root_path %>
       </div>
       <% if User.current %>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-header-menu">
+          <span class="glyphicon glyphicon-user"></span>
+        </button>
         <div>
           <ul class="nav navbar-nav navbar-right navbar-header-menu navbar-collapse collapse" id="menu4">
             <%= render_menu :header_menu %>
