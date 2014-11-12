@@ -46,7 +46,13 @@ FactoryGirl.define do
     end
   end
 
-  factory :lookup_value
+  factory :lookup_value do
+    sequence(:value) {|n| "value#{n}" }
+
+    trait :with_use_puppet_default do
+      use_puppet_default true
+    end
+  end
 
   factory :puppetclass do
     sequence(:name) {|n| "class#{n}" }

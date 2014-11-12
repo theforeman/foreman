@@ -168,7 +168,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "when an existing host change multiple attributes, both his dhcp and bmc dhcp records should be updated" do
-    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration, :mac => "aa:aa:ad:ab:bb:cc")
     as_admin do
       Nic::BMC.create!(:host => h, :mac => "aa:aa:ad:ab:bb:bb", :domain => h.domain, :subnet => h.subnet,
                        :name => "bmc-it", :provider => 'IPMI', :ip => h.ip.succ)
