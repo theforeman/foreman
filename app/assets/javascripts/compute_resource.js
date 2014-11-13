@@ -30,7 +30,7 @@ function providerSelected(item)
 
 function testConnection(item) {
   var cr_id = $("form").data('id');
-  var password = $("input[id$='password']").val();
+  var password = $("input#compute_resource_password").val();
   $('.tab-error').removeClass('tab-error');
   $('#test_connection_indicator').show();
   $.ajax({
@@ -44,7 +44,7 @@ function testConnection(item) {
     },
     complete:function (result) {
       //we need to restore the password field as it is not sent back from the server.
-      $("input[id$='password']").val(password);
+      $("input#compute_resource_password").val(password);
       $('#test_connection_indicator').hide();
       $('[rel="twipsy"]').tooltip();
     }

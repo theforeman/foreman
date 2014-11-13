@@ -265,7 +265,7 @@ module Foreman::Model
 
     def test_connection(options = {})
       super
-      if errors[:server].empty? and errors[:user].empty? and errors[:password].empty?
+      if errors[:server].empty? && errors[:user].empty? && errors[:password].empty?
         update_public_key options
         datacenters
       end
