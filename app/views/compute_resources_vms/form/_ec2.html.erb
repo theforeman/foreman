@@ -20,8 +20,11 @@
   if ( groups = security_groups_for_vpc(compute_resource.security_groups, vpc_id)) %>
   <%= selectable_f f, :security_group_ids, groups, {},
     { :multiple => true, :label => _("Security groups"), :disabled => !(@host.nil? || @host.ip.empty?),
-      :data => {  :security_groups => vpc_security_group_hash(compute_resource.security_groups),
-        :subnets => subnet_vpc_hash(compute_resource.subnets)}, :class => 'security_group_ids' } %>
+      :data => {
+        :security_groups => vpc_security_group_hash(compute_resource.security_groups),
+        :subnets => subnet_vpc_hash(compute_resource.subnets)
+      },
+      :class => 'security_group_ids' } %>
 <% end %>
 
 <%= selectable_f f, :managed_ip, {_("Public")=>'public', _("Private")=>'private'}, {}, { :label => _("Managed IP") } %>
