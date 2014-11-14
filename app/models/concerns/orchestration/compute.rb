@@ -71,6 +71,7 @@ module Orchestration::Compute
 
   def setCompute
     logger.info "Adding Compute instance for #{name}"
+    add_interfaces_to_compute_attrs
     self.vm = compute_resource.create_vm compute_attributes.merge(:name => Setting[:use_shortname_for_vms] ? shortname : name)
   rescue => e
     failure _("Failed to create a compute %{compute_resource} instance %{name}: %{message}\n ") % { :compute_resource => compute_resource, :name => name, :message => e.message }, e.backtrace
@@ -102,19 +103,21 @@ module Orchestration::Compute
   def setComputeDetails
     if vm
       attrs = compute_resource.provided_attributes
-      normalize_addresses if attrs.keys.include?(:mac) or attrs.keys.include?(:ip)
 
       attrs.each do |foreman_attr, fog_attr |
-        # we can't ensure uniqueness of #foreman_attr using normal rails validations as that gets in a later step in the process
-        # therefore we must validate its not used already in our db.
-        value = vm.send(fog_attr)
-        value ||= find_address if foreman_attr == :ip
-        self.send("#{foreman_attr}=", value)
+        if foreman_attr == :mac
+          #TODO, do we need handle :ip as well? for openstack / ec2 we only set a single
+          # interface (so host.ip will be fine), and we'd need to rethink #find_address :/
 
-        if value.blank? or (other_host = Host.send("find_by_#{foreman_attr}", value))
-          delCompute
-          return failure("#{foreman_attr} #{value} is already used by #{other_host}") if other_host
-          return failure("#{foreman_attr} value is blank!")
+          return false unless match_macs_to_nics(fog_attr)
+        else
+          value = vm.send(fog_attr)
+          value ||= find_address if foreman_attr == :ip
+          self.send("#{foreman_attr}=", value)
+
+          # validate_foreman_attr handles the failure msg, so we just bubble
+          # the false state up the stack
+          return false unless validate_foreman_attr(value,Host,foreman_attr)
         end
       end
       true
@@ -246,4 +249,55 @@ module Orchestration::Compute
     false
   end
 
+  def add_interfaces_to_compute_attrs
+    # We now store vm fields in the Nic model, so we need to add them to
+    # compute_attrs before creating the vm
+    attrs_name = compute_resource.interfaces_attrs_name
+    return unless compute_attributes[attrs_name].blank?
+    compute_attributes[attrs_name] = {}
+    self.interfaces.each do |nic|
+      compute_attributes[attrs_name][nic.object_id.to_s] = nic.compute_attributes
+    end
+  end
+
+  def validate_foreman_attr(value,object,attr)
+    # we can't ensure uniqueness of #foreman_attr using normal rails
+    # validations as that gets in a later step in the process
+    # therefore we must validate its not used already in our db.
+    if value.blank?
+      delCompute
+      return failure("#{attr} value is blank!")
+    elsif (other_object = object.send("find_by_#{attr}", value))
+      delCompute
+      return failure("#{attr} #{value} is already used by #{other_object}")
+    end
+    true
+  end
+
+  def match_macs_to_nics(fog_attr)
+    # mac/ip are properties of the NIC, and there may be more than one,
+    # so we need to loop. First store the nics returned from Fog in a local
+    # array so we can delete from it safely
+    fog_nics = vm.interfaces.dup
+
+    self.interfaces.each do |nic|
+      selected_nic = vm.select_nic(fog_nics, nic)
+      next if selected_nic.nil? # found no matching fog nic for this Foreman nic, move on
+
+      mac = selected_nic.send(fog_attr)
+      logger.debug "Orchestration::Compute: nic #{nic.inspect} assigned to #{selected_nic.inspect}"
+      nic.mac = mac
+      fog_nics.delete(selected_nic) # don't use the same fog nic twice
+
+      # In future, we probably want to skip validation of macs/ips on the Nic
+      # macs can be duplicated if we are creating bonds
+      # ips can be duplicated if we have isolated subnets (needs an update in the Subnet model first)
+      # For now, we scope to physical devices only for the validations
+
+      # validate_foreman_attr handles the failure msg, so we just bubble
+      # the false state up the stack
+      return false unless validate_foreman_attr(mac,Nic::Base.physical,:mac)
+    end
+    true
+  end
 end

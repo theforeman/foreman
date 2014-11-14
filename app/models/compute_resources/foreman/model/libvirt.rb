@@ -18,6 +18,10 @@ module Foreman::Model
       super.merge({:mac => :mac})
     end
 
+    def interfaces_attrs_name
+      "nics_attributes"
+    end
+
     def capabilities
       [:build, :image]
     end

@@ -34,6 +34,10 @@ module FogExtensions
         scsi_controller.type
       end
 
+      def select_nic(fog_nics, nic)
+        fog_nics.detect {|fn| fn.network == nic.compute_attributes['network']} # grab any nic on the same network
+      end
+
     end
   end
 end
