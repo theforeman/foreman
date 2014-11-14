@@ -42,7 +42,7 @@ module Foreman::Model
     end
 
     def datacenters
-      client.datacenters.all
+      name_sort(client.datacenters.all)
     end
 
     def cluster(cluster)
@@ -50,28 +50,28 @@ module Foreman::Model
     end
 
     def clusters
-      dc.clusters
+      name_sort(dc.clusters)
     end
 
     def datastores(opts = {})
       if opts[:storage_domain]
-        dc.datastores.get(opts[:storage_domain])
+        name_sort(dc.datastores.get(opts[:storage_domain]))
       else
-        dc.datastores.all(:accessible => true)
+        name_sort(dc.datastores.all(:accessible => true))
       end
     end
 
     def folders
-      dc.vm_folders.sort_by{|f| f.path}
+      dc.vm_folders.sort_by{|f| [f.path, f.name]}
     end
 
     def networks(opts = {})
-      dc.networks.all(:accessible => true)
+      name_sort(dc.networks.all(:accessible => true))
     end
 
     def resource_pools(opts = {})
       cluster = cluster(opts[:cluster_id])
-      cluster.resource_pools.all(:accessible => true)
+      name_sort(cluster.resource_pools.all(:accessible => true))
     end
 
     def available_clusters
@@ -103,9 +103,9 @@ module Foreman::Model
 
     def scsi_controller_types
       {
+        "VirtualBusLogicController" => "Bus Logic Parallel",
         "VirtualLsiLogicController" => "LSI Logic Parallel",
         "VirtualLsiLogicSASController" => "LSI Logic SAS",
-        "VirtualBusLogicController" => "Bus Logic Parallel",
         "ParaVirtualSCSIController" => "VMware Paravirtual"
       }
     end
@@ -465,7 +465,6 @@ module Foreman::Model
         :datacenter => datacenter
       )
     end
-
   end
 end
 
