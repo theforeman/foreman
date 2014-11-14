@@ -126,7 +126,7 @@ class Hostgroup < ActiveRecord::Base
     ids << id unless new_record? or self.frozen?
     # need to pull out the hostgroups to ensure they are sorted first,
     # otherwise we might be overwriting the hash in the wrong order.
-    groups = ids.size == 1 ? [self] : Hostgroup.includes(:group_parameters).sort_by_ancestry(Hostgroup.find(ids))
+    groups = ids.size == 1 ? [self] : Hostgroup.sort_by_ancestry(Hostgroup.includes(:group_parameters).find(ids))
     groups.each do |hg|
       hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('hostgroup').to_sym, :safe_value => p.safe_value, :source_name => hg.title} : p.value }
     end
@@ -135,7 +135,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def global_parameters
-    Hostgroup.includes(:group_parameters).sort_by_ancestry(Hostgroup.find(ancestor_ids + id)).map(&:group_parameters).uniq
+    Hostgroup.sort_by_ancestry(Hostgroup.includes(:group_parameters).find(ancestor_ids + id)).map(&:group_parameters).uniq
   end
 
   def inherited_params(include_source = false)
