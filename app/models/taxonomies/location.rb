@@ -32,7 +32,7 @@ class Location < Taxonomy
     ids << id unless new_record? or self.frozen?
     # need to pull out the locations to ensure they are sorted first,
     # otherwise we might be overwriting the hash in the wrong order.
-    locs = ids.size == 1 ? [self] : Location.includes(:location_parameters).sort_by_ancestry(Location.find(ids))
+    locs = ids.size == 1 ? [self] : Location.sort_by_ancestry(Location.includes(:location_parameters).find(ids))
     locs.each do |loc|
       loc.location_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('location').to_sym, :source_name => loc.title} : p.value }
     end
