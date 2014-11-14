@@ -13,4 +13,8 @@ module ComputeResourceConsoleCommon
       self.attrs[:setpw] = 0
     end
   end
+
+  def name_sort(array)
+    array.sort_by{|a| a.name}
+  end
 end
