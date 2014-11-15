@@ -99,6 +99,7 @@ class UsersController < ApplicationController
   def logout
     TopbarSweeper.expire_cache(self)
     sso_logout_path = get_sso_method.try(:logout_url)
+    save_current_taxonomies(User.find(session[:user]), {:session => session})
     session[:user] = @user = User.current = nil
     if flash[:notice] or flash[:error]
       flash.keep

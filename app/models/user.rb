@@ -24,6 +24,9 @@ class User < ActiveRecord::Base
   belongs_to :default_organization, :class_name => 'Organization'
   belongs_to :default_location,     :class_name => 'Location'
 
+  belongs_to :last_organization, :class_name => 'Organization'
+  belongs_to :last_location, :class_name => 'Location'
+
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
   has_many :direct_hosts,      :class_name => 'Host',    :as => :owner
   has_many :usergroup_member,  :dependent => :destroy,   :as => :member

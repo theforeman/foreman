@@ -348,6 +348,35 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
+  context 'last taxonomies' do
+    test 'last taxonomy takes priority over default taxonomy' do
+      default_org = FactoryGirl.create(:organization)
+      last_org = FactoryGirl.create(:organization)
+      user = FactoryGirl.create(:user, :with_mail, :organizations => [default_org, last_org], :password => 'potato',
+                                :default_organization => default_org, :last_organization => last_org)
+      post :login, { :login => { :login => user.login, :password => user.password } }
+      assert_equal session['organization_id'], last_org.id
+    end
+
+    test 'current taxonomy is saved on logout' do
+      org = FactoryGirl.create(:organization)
+      user = FactoryGirl.create(:user, :with_mail, :organizations => [org], :password => 'potato', :default_organization => org)
+
+      post :login, { :login => { :login => user.login, :password => user.password } }
+      post :logout, {}, session
+
+      assert_equal User.find(user).last_organization, org
+    end
+
+    test 'current taxonomy is cleared on logout when in any context' do
+      user = users(:admin)
+      org = FactoryGirl.create(:organization)
+      user.update_attribute(:last_organization, org)
+      post :logout, {}, set_session_user
+      assert_nil User.find(user).last_organization
+    end
+  end
+
   context "CSRF" do
     setup do
       ActionController::Base.allow_forgery_protection = true

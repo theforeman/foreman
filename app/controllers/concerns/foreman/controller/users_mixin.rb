@@ -59,13 +59,20 @@ module Foreman::Controller::UsersMixin
     sub_hg.each { |hg| hg.users << @user }
   end
 
+  def save_current_taxonomies(user, options = {})
+    session ||= options.fetch(:session, {})
+    ['location', 'organization'].each do |taxonomy|
+      user.update_attribute("last_#{taxonomy}_id", session["#{taxonomy}_id"])
+    end
+  end
+
   def set_current_taxonomies(user, options = {})
     session ||= options.fetch(:session, {})
     ['location', 'organization'].each do |taxonomy|
-      default_taxonomy = user.send "default_#{taxonomy}"
-      if default_taxonomy.present?
-        taxonomy.classify.constantize.send 'current=', default_taxonomy
-        session["#{taxonomy}_id"] = default_taxonomy.id
+      initial_taxonomy = user.send("last_#{taxonomy}") || user.send("default_#{taxonomy}")
+      if initial_taxonomy.present?
+        taxonomy.classify.constantize.send 'current=', initial_taxonomy
+        session["#{taxonomy}_id"] = initial_taxonomy.id
       end
     end
   end
