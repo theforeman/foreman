@@ -51,12 +51,6 @@ class HostMailer < ApplicationMailer
 
   private
 
-  def set_url
-    unless (@url = URI.parse(Setting[:foreman_url])).present?
-      raise ":foreman_url is not set, please configure in the Foreman Web UI (More -> Settings -> General)"
-    end
-  end
-
   def load_metrics(host_data)
     total_metrics = {"failed"=>0, "restarted"=>0, "skipped"=>0, "applied"=>0, "failed_restarts"=>0}
 
