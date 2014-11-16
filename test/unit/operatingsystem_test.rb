@@ -21,16 +21,6 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert !operating_system.save
   end
 
-  test "name shouldn't contain white spaces" do
-    operating_system = Operatingsystem.new :name => " U bun     tu ", :major => "9"
-    assert !operating_system.name.squeeze(" ").tr(' ', '').empty?
-    assert !operating_system.save
-
-    operating_system.name.squeeze!(" ").tr!(' ', '')
-    assert !operating_system.name.include?(' ')
-    assert operating_system.save
-  end
-
   test "major should be numeric" do
     operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9"
     assert operating_system.major.to_i != 0 if operating_system.major != "0"
