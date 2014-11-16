@@ -42,4 +42,10 @@ class ApplicationMailer < ActionMailer::Base
   def set_locale_for(user)
     FastGettext.set_locale(user.locale.blank? ? "en" : user.locale)
   end
+
+  def set_url
+    unless (@url = URI.parse(Setting[:foreman_url])).present?
+      raise Foreman::Exception.new(N_(":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"))
+    end
+  end
 end
