@@ -1,5 +1,5 @@
 <% unless (@clone_host && @clone_host.name)
-     title(_("%s Host") % params[:action].capitalize)
+     title(_("New Host"))
    else
      title(_("Clone Host %s") % @clone_host.name)
    end  %>
