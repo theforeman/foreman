@@ -14,6 +14,10 @@ module Foreman::Model
       ComputeResource.model_name
     end
 
+    def user_data_supported?
+      true
+    end
+
     def capabilities
       [:build, :image]
     end
@@ -134,6 +138,10 @@ module Foreman::Model
 
     def start_vm(uuid)
       find_vm_by_uuid(uuid).start(:blocking => true)
+    end
+
+    def start_with_cloudinit(uuid,user_data=nil)
+      find_vm_by_uuid(uuid).start_with_cloudinit(:blocking => true, :user_data => user_data)
     end
 
     def create_vm(args = {})
