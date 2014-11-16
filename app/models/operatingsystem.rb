@@ -29,7 +29,7 @@ class Operatingsystem < ActiveRecord::Base
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   attr_name :to_label
   validates :minor, :numericality => {:greater_than_or_equal_to => 0}, :allow_nil => true, :allow_blank => true
-  validates :name, :presence => true, :format => {:with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.")}
+  validates :name, :presence => true, :no_whitespace => true
   validates :description, :uniqueness => true, :allow_blank => true
   validates :password_hash, :inclusion => { :in => PasswordCrypt::ALGORITHMS }
   before_validation :downcase_release_name, :set_title

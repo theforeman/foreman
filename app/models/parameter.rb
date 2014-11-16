@@ -6,7 +6,7 @@ class Parameter < ActiveRecord::Base
 
   belongs_to_host :foreign_key => :reference_id
   include Authorizable
-  validates :name, :presence => true, :format => {:with => /\A\S*\Z/, :message => N_("can't contain white spaces")}
+  validates :name, :presence => true, :no_whitespace => true
   validates :reference_id, :presence => {:message => N_("parameters require an associated domain, operating system, host or host group")}, :unless => Proc.new {|p| p.nested or p.is_a? CommonParameter}
 
   scoped_search :on => :name, :complete_value => true

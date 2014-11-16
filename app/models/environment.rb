@@ -14,7 +14,7 @@ class Environment < ActiveRecord::Base
   has_many :hostgroups
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
-  validates :name, :uniqueness => true, :presence => true, :format => { :with => /\A[\w\d]+\Z/, :message => N_("is alphanumeric and cannot contain spaces") }
+  validates :name, :uniqueness => true, :presence => true, :alphanumeric => true
   has_many :template_combinations, :dependent => :destroy
   has_many :config_templates, :through => :template_combinations
 
