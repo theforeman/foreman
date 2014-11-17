@@ -41,6 +41,12 @@ module Hostext
       scoped_search :in => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
       scoped_search :in => :compute_resource, :on => :id,      :complete_value => true, :rename => :compute_resource_id, :only_explicit => true
       scoped_search :in => :image, :on => :name, :complete_value => true
+      scoped_search :in => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
+      scoped_search :in => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
+      scoped_search :in => :operatingsystem, :on => :title,       :complete_value => true, :rename => :os_title
+      scoped_search :in => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major
+      scoped_search :in => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor
+      scoped_search :in => :operatingsystem, :on => :id,          :complete_value => false,:rename => :os_id, :complete_enabled => false
 
       scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
       scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
@@ -63,12 +69,6 @@ module Hostext
         scoped_search :on => :uuid,                                 :complete_value => true
         scoped_search :on => :build,                                :complete_value => {:true => true, :false => false}
         scoped_search :on => :installed_at,                         :complete_value => true, :only_explicit => true
-        scoped_search :in => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
-        scoped_search :in => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
-        scoped_search :in => :operatingsystem, :on => :title,       :complete_value => true, :rename => :os_title
-        scoped_search :in => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major
-        scoped_search :in => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor
-        scoped_search :in => :operatingsystem, :on => :id,          :complete_value => false,:rename => :os_id, :complete_enabled => false
       end
 
       if SETTINGS[:login]
