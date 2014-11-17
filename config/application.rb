@@ -152,7 +152,7 @@ module Foreman
     Bundler.require(:console)
     Wirb.start
     Hirb.enable
-  rescue => e
+  rescue
     warn "Failed to load console gems, starting anyway"
   ensure
     puts "For some operations a user must be set, try User.current = User.first"

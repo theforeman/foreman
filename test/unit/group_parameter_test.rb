@@ -16,14 +16,14 @@ class GroupParameterTest < ActiveSupport::TestCase
   end
 
   test "duplicate names cannot exist in a hostgroup" do
-    parameter1 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => hostgroups(:common).id
+    GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => hostgroups(:common).id
     parameter2 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => hostgroups(:common).id
     assert !parameter2.valid?
     assert  parameter2.errors.full_messages[0] == "Name has already been taken"
   end
 
   test "duplicate names can exist in different hostgroups" do
-    parameter1 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => hostgroups(:common).id
+    GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => hostgroups(:common).id
     parameter2 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => hostgroups(:db).id
     assert parameter2.valid?
   end

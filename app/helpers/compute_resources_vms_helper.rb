@@ -70,7 +70,6 @@ module ComputeResourcesVmsHelper
 
   def libvirt_networks(compute)
     networks   = compute.networks
-    interfaces = compute.interfaces
     select     = []
     select << [_('Physical (Bridge)'), :bridge]
     select << [_('Virtual (NAT)'), :network] if networks.any?

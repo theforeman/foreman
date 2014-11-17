@@ -16,7 +16,7 @@ class FactValueTest < ActiveSupport::TestCase
 
     #Now creating a new fact value
     @other_host = FactoryGirl.create(:host)
-    other_fact_value = FactValue.create(:value => "some value", :host => @other_host, :fact_name => @fact_name)
+    FactValue.create(:value => "some value", :host => @other_host, :fact_name => @fact_name)
     h = [{:label=>"some value", :data=>2}]
     assert_equal h, FactValue.count_each("my_facting_name")
   end

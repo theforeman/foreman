@@ -11,14 +11,11 @@ module Foreman
     end
 
     def message
-      if @wrapped_exception.nil?
-        wrapped = ""
-        super
-      else
-        cls = @wrapped_exception.class.name
-        msg = @wrapped_exception.message.try(:truncate, 90)
-        super + " ([#{cls}]: #{msg})"
-      end
+      super unless @wrapped_exception.present?
+
+      cls = @wrapped_exception.class.name
+      msg = @wrapped_exception.message.try(:truncate, 90)
+      super + " ([#{cls}]: #{msg})"
     end
   end
 

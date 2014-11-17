@@ -114,6 +114,8 @@ module Foreman::Model
       KeyPair.create! :name => key.name, :compute_resource_id => self.id, :secret => key.private_key
     rescue => e
       logger.warn "failed to generate key pair"
+      logger.error e.message
+      logger.error e.backtrace.join("\n")
       destroy_key_pair
       raise
     end

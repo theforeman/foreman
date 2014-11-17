@@ -32,9 +32,7 @@ class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
 
   test "should destroy" do
     delete :destroy, { :config_template_id => config_templates(:mystring2).id, :id => template_combinations(:two).id }
-    template = ActiveSupport::JSON.decode(@response.body)
-
     assert_response :ok
-    assert !TemplateCombination.exists?(template_combinations(:two).id)
+    refute TemplateCombination.exists?(template_combinations(:two).id)
   end
 end

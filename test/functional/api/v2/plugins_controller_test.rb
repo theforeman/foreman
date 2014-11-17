@@ -4,7 +4,7 @@ class Api::V2::PluginsControllerTest < ActionController::TestCase
 
   test "should get plugins " do
     get :index
-    plugins = assigns(:plugins)
+    assigns(:plugins)
     assert_response :success
   end
 

@@ -35,7 +35,7 @@ module Api
       private
 
       def find_hostgroup
-        not_found and return false if (id = params[:hostgroup_id]).blank?
+        not_found and return false if params[:hostgroup_id].blank?
         @hostgroup = Hostgroup.find(params[:hostgroup_id]) if Hostgroup.respond_to?(:authorized) &&
                                                               Hostgroup.authorized("view_hostgroup", Hostgroup)
       end

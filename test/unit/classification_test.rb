@@ -108,7 +108,7 @@ class ClassificationTest < ActiveSupport::TestCase
                              :default_value => [], :path => "organization\nlocation", :avoid_duplicates => true,
                              :puppetclass => puppetclasses(:one))
 
-    value = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => ['test'],
@@ -120,8 +120,6 @@ class ClassificationTest < ActiveSupport::TestCase
                           :value => ['test'],
                           :use_puppet_default => false
     end
-    enc = classification.enc
-
     key.reload
 
     assert_equal({key.id => {key.key => {:value => value2.value, :element => ['organization', 'location'],
@@ -147,8 +145,6 @@ class ClassificationTest < ActiveSupport::TestCase
                           :value => ['test'],
                           :use_puppet_default => false
     end
-    enc = classification.enc
-
     key.reload
 
     assert_equal({key.id => {key.key => {:value => value2.value + value.value,
@@ -163,20 +159,18 @@ class ClassificationTest < ActiveSupport::TestCase
                              :default_value => {}, :path => "organization\nlocation",
                              :puppetclass => puppetclasses(:one))
 
-    value = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => {:a => 'test'}},
                           :use_puppet_default => false
     end
-    value2 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
                           :use_puppet_default => false
     end
-    enc = classification.enc
-
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test', :b => 'test2'}},
@@ -197,16 +191,12 @@ class ClassificationTest < ActiveSupport::TestCase
                           :value => {:example => 'test2'},
                           :use_puppet_default => false
     end
-
-    value2 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => 'test'},
                           :use_puppet_default => false
     end
-
-    enc = classification.enc
-
     key.reload
 
     assert_equal({key.id => {key.key => {:value => value.value, :element => ['location', 'organization'],
@@ -221,28 +211,25 @@ class ClassificationTest < ActiveSupport::TestCase
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
 
-    value = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:a => 'test'},
                           :use_puppet_default => false
     end
-    value2 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
                           :use_puppet_default => false
     end
 
-    value3 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "os=#{operatingsystems(:redhat)}",
                           :value => {:example => {:b => 'test3'}},
                           :use_puppet_default => false
     end
-
-    enc = classification.enc
-
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:a => 'test', :example => {:b => 'test2'}},
@@ -257,28 +244,24 @@ class ClassificationTest < ActiveSupport::TestCase
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
 
-    value = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => {:a => 'test'}},
                           :use_puppet_default => false
     end
-    value2 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
                           :use_puppet_default => false
     end
-
-    value3 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "os=#{operatingsystems(:redhat)}",
                           :value => {:example => {:a => 'test3'}},
                           :use_puppet_default => false
     end
-
-    enc = classification.enc
-
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test3', :b => 'test2'}},
@@ -293,7 +276,7 @@ class ClassificationTest < ActiveSupport::TestCase
                              :default_value => [], :path => "organization\nlocation", :avoid_duplicates => true,
                              :puppetclass => puppetclasses(:one))
 
-    value = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => ['test'],
@@ -305,8 +288,6 @@ class ClassificationTest < ActiveSupport::TestCase
                           :value => ['test'],
                           :use_puppet_default => false
     end
-    enc = global_param_classification.enc
-
     key.reload
 
     assert_equal({key.id => {key.key => {:value => value2.value, :element => ['organization', 'location'],
@@ -331,8 +312,6 @@ class ClassificationTest < ActiveSupport::TestCase
                           :value => ['test'],
                           :use_puppet_default => false
     end
-    enc = global_param_classification.enc
-
     key.reload
 
     assert_equal({key.id => {key.key => {:value => value2.value + value.value,
@@ -346,20 +325,18 @@ class ClassificationTest < ActiveSupport::TestCase
                              :default_value => {}, :path => "organization\nlocation",
                              :puppetclass => puppetclasses(:one))
 
-    value = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => {:a => 'test'}},
                           :use_puppet_default => false
     end
-    value2 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
                           :use_puppet_default => false
     end
-    enc = global_param_classification.enc
-
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test', :b => 'test2'}},
@@ -373,28 +350,25 @@ class ClassificationTest < ActiveSupport::TestCase
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
 
-    value = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:a => 'test'},
                           :use_puppet_default => false
     end
-    value2 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
                           :use_puppet_default => false
     end
 
-    value3 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "os=#{operatingsystems(:redhat)}",
                           :value => {:example => {:b => 'test3'}},
                           :use_puppet_default => false
     end
-
-    enc = global_param_classification.enc
-
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:a => 'test', :example => {:b => 'test2'}},
@@ -408,28 +382,24 @@ class ClassificationTest < ActiveSupport::TestCase
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
 
-    value = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => {:a => 'test'}},
                           :use_puppet_default => false
     end
-    value2 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
                           :use_puppet_default => false
     end
-
-    value3 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "os=#{operatingsystems(:redhat)}",
                           :value => {:example => {:a => 'test3'}},
                           :use_puppet_default => false
     end
-
-    enc = global_param_classification.enc
-
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test3', :b => 'test2'}},
@@ -478,27 +448,27 @@ class ClassificationTest < ActiveSupport::TestCase
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
 
-    value = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => {:a => 'test'}},
                           :use_puppet_default => true
     end
-    value2 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
                           :use_puppet_default => true
     end
 
-    value3 = as_admin do
+    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "os=#{operatingsystems(:redhat)}",
                           :value => {:example => {:a => 'test3'}},
                           :use_puppet_default => true
     end
-
     enc = classification.enc
+
     assert enc['base'][key.key].nil?
   end
 

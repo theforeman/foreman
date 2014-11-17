@@ -33,8 +33,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "login should also be unique across usergroups" do
-    ug = Usergroup.create :name => "foo"
-    u  = User.new :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
+    Usergroup.create :name => "foo"
+    u = User.new :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
 
     refute u.valid?
   end
@@ -423,7 +423,7 @@ class UserTest < ActiveSupport::TestCase
   test "role_ids can be empty array which removes all roles" do
     user   = users(:one)
     foobar = Role.find_or_create_by_name :name => "foobar"
-    barfoo = Role.find_or_create_by_name :name => "barfoo"
+    Role.find_or_create_by_name :name => "barfoo"
     user.roles<< foobar
 
     user.role_ids = []
@@ -433,7 +433,7 @@ class UserTest < ActiveSupport::TestCase
   test "role_ids can be nil resulting in no role" do
     user   = users(:one)
     foobar = Role.find_or_create_by_name :name => "foobar"
-    barfoo = Role.find_or_create_by_name :name => "barfoo"
+    Role.find_or_create_by_name :name => "barfoo"
     user.roles<< foobar
 
     user.role_ids = nil
