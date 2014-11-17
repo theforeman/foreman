@@ -59,10 +59,15 @@ class Hostgroup < ActiveRecord::Base
   end
 
   if SETTINGS[:unattended]
-    scoped_search :in => :architecture, :on => :name, :complete_value => :true, :rename => :architecture
-    scoped_search :in => :operatingsystem, :on => :name, :complete_value => true, :rename => :os
-    scoped_search :in => :medium,            :on => :name, :complete_value => :true, :rename => "medium"
-    scoped_search :in => :config_templates, :on => :name, :complete_value => :true, :rename => "template"
+    scoped_search :in => :architecture,     :on => :name,        :complete_value => true,  :rename => :architecture
+    scoped_search :in => :operatingsystem,  :on => :name,        :complete_value => true,  :rename => :os
+    scoped_search :in => :operatingsystem,  :on => :description, :complete_value => true,  :rename => :os_description
+    scoped_search :in => :operatingsystem,  :on => :title,       :complete_value => true,  :rename => :os_title
+    scoped_search :in => :operatingsystem,  :on => :major,       :complete_value => true,  :rename => :os_major
+    scoped_search :in => :operatingsystem,  :on => :minor,       :complete_value => true,  :rename => :os_minor
+    scoped_search :in => :operatingsystem,  :on => :id,          :complete_value => false, :rename => :os_id, :complete_enabled => false
+    scoped_search :in => :medium,           :on => :name,        :complete_value => true,  :rename => "medium"
+    scoped_search :in => :config_templates, :on => :name,        :complete_value => true,  :rename => "template"
   end
 
   # returns reports for hosts in the User's filter set
