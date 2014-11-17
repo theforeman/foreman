@@ -64,7 +64,9 @@ class Filter < ActiveRecord::Base
   def self.get_resource_class(resource_type)
     resource_type.constantize
   rescue NameError => e
-    Rails.logger.debug "unknown klass #{resource_type}, ignoring"
+    logger.error "unknown klass #{resource_type}, ignoring"
+    logger.error e.message
+    logger.error e.backtrace.join("\n")
     return nil
   end
 

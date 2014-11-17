@@ -19,7 +19,7 @@ class PuppetFactParser < FactParser
             orel = "99"
         end
       elsif os_name[/AIX/i]
-        majoraix, tlaix, spaix, yearaix = orel.split("-")
+        majoraix, tlaix, spaix, _yearaix = orel.split("-")
         orel = majoraix + "." + tlaix + spaix
       elsif os_name[/JUNOS/i]
         majorjunos, minorjunos = orel.split("R")

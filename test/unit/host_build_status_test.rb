@@ -21,7 +21,7 @@ class HostBuildStatusTest < ActiveSupport::TestCase
   test "should fail rendering a template" do
     host = FactoryGirl.create(:host, :managed)
     kind = FactoryGirl.create(:template_kind)
-    config_template = FactoryGirl.create(:config_template, :template => "provision script <%= @foreman.server.status %>",:name => "My Failed Template", :template_kind => kind, :operatingsystem_ids => [host.operatingsystem_id], :environment_ids => [host.environment_id], :hostgroup_ids => [host.hostgroup_id]  )
+    FactoryGirl.create(:config_template, :template => "provision script <%= @foreman.server.status %>",:name => "My Failed Template", :template_kind => kind, :operatingsystem_ids => [host.operatingsystem_id], :environment_ids => [host.environment_id], :hostgroup_ids => [host.hostgroup_id]  )
     @build = host.build_status
     refute_empty @build.errors[:templates]
   end

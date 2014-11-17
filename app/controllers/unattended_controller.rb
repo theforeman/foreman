@@ -114,7 +114,7 @@ class UnattendedController < ApplicationController
     return nil if token.blank?
     # Quirk: ZTP requires the .slax suffix
     if ( result = token.match(/^([a-z0-9-]+)(.slax)$/i) )
-      token, suffix = result.captures
+      token, _suffix = result.captures
     end
     Host.for_token(token).first
   end

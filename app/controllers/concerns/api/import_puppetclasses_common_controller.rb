@@ -114,6 +114,8 @@ module Api::ImportPuppetclassesCommonController
   def find_optional_environment
     @environment = Environment.authorized(:view_environments).find(@env_id)
   rescue ActiveRecord::RecordNotFound => e
+    logger.debug e.message
+    logger.debug e.backtrace.join("\n")
     nil
   end
 

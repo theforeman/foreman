@@ -45,6 +45,8 @@ class LookupValue < ActiveRecord::Base
       self.value = lookup_key.cast_validate_value self.value
       true
     rescue StandardError, SyntaxError => e
+      logger.error e.message
+      logger.error e.backtrace.join("\n")
       errors.add(:value, _("is invalid %s") % lookup_key.key_type)
       false
     end

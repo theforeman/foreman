@@ -101,6 +101,7 @@ class Taxonomy < ActiveRecord::Base
     new = super
     new.name = ""
     new.users             = users
+    new.environments      = environments
     new.smart_proxies     = smart_proxies
     new.subnets           = subnets
     new.compute_resources = compute_resources

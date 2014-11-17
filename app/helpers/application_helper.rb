@@ -19,6 +19,8 @@ module ApplicationHelper
             id = 'not_defined'
           end
         rescue => e
+          logger.error e.message
+          logger.error e.backtrace.join("\n")
           id = 'not_parseable'
         end
         html_options.merge!(:'data-id' => "aid_#{id}")

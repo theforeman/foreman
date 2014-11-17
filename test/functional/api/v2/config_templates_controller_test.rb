@@ -35,7 +35,6 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
     put :update, { :id              => config_templates(:pxekickstart).to_param,
                    :config_template => { :template => "blah" } }
-    template = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
   end
 
@@ -56,9 +55,8 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     config_template = config_templates(:pxekickstart)
     config_template.os_default_templates.clear
     delete :destroy, { :id => config_template.to_param }
-    template = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
-    assert !ConfigTemplate.exists?(config_template.id)
+    refute ConfigTemplate.exists?(config_template.id)
   end
 
   test "should build pxe menu" do

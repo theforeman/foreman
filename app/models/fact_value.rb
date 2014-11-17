@@ -39,8 +39,6 @@ class FactValue < ActiveRecord::Base
   validates :fact_name_id, :uniqueness => { :scope => :host_id }
 
   def self.search_by_host(key, operator, value)
-    search = []
-
     search_term = value =~ /\A\d+\Z/ ? 'id' : 'name'
     conditions = sanitize_sql_for_conditions(["hosts.#{search_term} #{operator} ?", value_to_sql(operator, value)])
     search     = FactValue.joins(:host).where(conditions).select('fact_values.id').map(&:id).uniq

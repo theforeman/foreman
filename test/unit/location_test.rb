@@ -162,16 +162,17 @@ class LocationTest < ActiveSupport::TestCase
     location_dup = location.dup
     location_dup.name = "location_dup_name"
     assert location_dup.save!
-    assert_equal, location_dup.environment_ids = location.environment_ids
-    assert_equal, location_dup.hostgroup_ids = location.hostgroup_ids
-    assert_equal, location_dup.subnet_ids = location.subnet_ids
-    assert_equal, location_dup.domain_ids = location.domain_ids
-    assert_equal, location_dup.medium_ids = location.medium_ids
-    assert_equal, location_dup.user_ids = location.user_ids
-    assert_equal, location_dup.smart_proxy_ids = location.smart_proxy_ids
-    assert_equal, location_dup.config_template_ids = location.config_template_ids
-    assert_equal, location_dup.compute_resource_ids = location.compute_resource_ids
-    assert_equal, location_dup.organization_ids = location.organization_ids
+    assert_equal location_dup.environment_ids, location.environment_ids
+    assert_equal location_dup.hostgroup_ids, location.hostgroup_ids
+    assert_equal location_dup.subnet_ids, location.subnet_ids
+    assert_equal location_dup.domain_ids, location.domain_ids
+    assert_equal location_dup.medium_ids, location.medium_ids
+    assert_equal location_dup.user_ids, location.user_ids
+    assert_equal location_dup.smart_proxy_ids.sort, location.smart_proxy_ids.sort
+    assert_equal location_dup.config_template_ids, location.config_template_ids
+    assert_equal location_dup.compute_resource_ids, location.compute_resource_ids
+    assert_equal location_dup.realm_ids, location.realm_ids
+    assert_equal location_dup.organization_ids, location.organization_ids
   end
 
   #Audit
@@ -277,14 +278,14 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal [], child_location.location_parameters
 
     # new parameter on child location
-    child_param = child_location.location_parameters.create(:name => "child_param", :value => "123")
+    child_location.location_parameters.create(:name => "child_param", :value => "123")
 
     assert_equal Hash['loc_param', 'abc', 'child_param', '123'], child_location.parameters
   end
 
   test "cannot delete location that is a parent for nested location" do
     parent1 = taxonomies(:location2)
-    location = Location.create :name => "floor1", :parent_id => parent1.id
+    Location.create :name => "floor1", :parent_id => parent1.id
     assert_raise Ancestry::AncestryException do
       parent1.destroy
     end

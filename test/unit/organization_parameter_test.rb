@@ -19,7 +19,7 @@ class OrganizationParameterTest < ActiveSupport::TestCase
 
   test 'duplicate names cannot exist for a organization' do
     organization = taxonomies(:organization1)
-    parameter1 = OrganizationParameter.create! :name => 'some_parameter', :value => 'value', :reference_id => organization.id
+    OrganizationParameter.create! :name => 'some_parameter', :value => 'value', :reference_id => organization.id
     parameter2 = OrganizationParameter.create :name => 'some_parameter', :value => 'value', :reference_id => organization.id
     assert_not parameter2.valid?
     assert_equal ['has already been taken'], parameter2.errors[:name]

@@ -170,7 +170,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "lookup value has right matcher for a host" do
     assert_difference('LookupValue.where(:lookup_key_id => lookup_keys(:five).id, :match => "fqdn=abc.mydomain.net").count') do
-      h = Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "2.3.4.3",
+      Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "2.3.4.3",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
         :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
         :environment => environments(:production), :disk => "empty partition",
@@ -597,8 +597,8 @@ context "location or organizations are not enabled" do
       os_dt = FactoryGirl.create(:os_default_template, :template_kind=> TemplateKind.find('finish'))
       host  = FactoryGirl.create(:host, :on_compute_resource,
                                  :operatingsystem => os_dt.operatingsystem)
-      image = FactoryGirl.create(:image, :uuid => 'abcde',
-                                 :compute_resource => host.compute_resource)
+      FactoryGirl.create(:image, :uuid => 'abcde',
+                         :compute_resource => host.compute_resource)
       host.compute_attributes = {:image_id => 'abcde'}
 
       assert_equal [os_dt.config_template], host.available_template_kinds('image')
@@ -680,8 +680,8 @@ context "location or organizations are not enabled" do
 
   test "models are updated when host.model has no value" do
     h = FactoryGirl.create(:host)
-    f = FactoryGirl.create(:fact_value, :value => 'superbox',:host => h,
-                           :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+    FactoryGirl.create(:fact_value, :value => 'superbox',:host => h,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
     assert_difference('Model.count') do
       facts = JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))
       h.populate_fields_from_facts facts['facts']
@@ -756,7 +756,6 @@ context "location or organizations are not enabled" do
 
   test "should generate a random salt when saving root pw" do
     h = FactoryGirl.create(:host, :managed)
-    pw = h.root_pass
     h.hostgroup = nil
     h.root_pass = "xybxa6JUkz63w"
     assert h.save!
@@ -849,13 +848,13 @@ context "location or organizations are not enabled" do
   test "should have only one bootable interface" do
     h = FactoryGirl.create(:host, :managed)
     assert_equal 0, h.interfaces.count
-    bootable = Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
-                                     :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain, :managed => false
+    Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
+                          :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain, :managed => false
     assert_equal 1, h.interfaces.count
     h.interfaces_attributes = [{:name => "dummy-bootable2", :ip => "2.3.4.103", :mac => "aa:bb:cd:cd:ee:ff",
                                 :subnet_id => h.subnet_id, :type => 'Nic::Bootable', :domain_id => h.domain_id,
                                 :managed => false }]
-    assert !h.valid?
+    refute h.valid?
     assert_equal "Only one bootable interface is allowed", h.errors['interfaces.type'][0]
     assert_equal 1, h.interfaces.count
   end
@@ -958,7 +957,7 @@ context "location or organizations are not enabled" do
   test "#set_interfaces updates associated virtuals identifier on identifier change" do
     # eth4 was renamed to eth5 (same MAC)
     host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'})
-    physical = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
+    FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
     virtual = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'eth4.1', :attached_to => 'eth4')
 
     host.set_interfaces(parser)
@@ -1190,14 +1189,14 @@ context "location or organizations are not enabled" do
   end
 
   test "can search hosts by current_user" do
-    host = FactoryGirl.create(:host)
+    FactoryGirl.create(:host)
     results = Host.search_for("owner = current_user")
     assert_equal 1, results.count
     assert_equal results[0].owner, User.current
   end
 
   test "can search hosts by owner" do
-    host = FactoryGirl.create(:host)
+    FactoryGirl.create(:host)
     results = Host.search_for("owner = " + User.current.login)
     assert_equal User.current.hosts.count, results.count
     assert_equal results[0].owner, User.current
@@ -1231,7 +1230,7 @@ context "location or organizations are not enabled" do
 
   test "can search hosts by inherited puppet class from a hostgroup" do
     hg = FactoryGirl.create(:hostgroup, :with_puppetclass)
-    host = FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
+    FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
     results = Host.search_for("class = #{hg.puppetclasses.first.name}")
     assert_equal 1, results.count
     assert_equal 0, results.first.puppetclasses.count
@@ -1241,7 +1240,7 @@ context "location or organizations are not enabled" do
   test "can search hosts by inherited puppet class from a parent hostgroup" do
     parent_hg = FactoryGirl.create(:hostgroup, :with_puppetclass)
     hg = FactoryGirl.create(:hostgroup, :parent => parent_hg)
-    host = FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
+    FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
     results = Host.search_for("class = #{parent_hg.puppetclasses.first.name}")
     assert_equal 1, results.count
     assert_equal 0, results.first.puppetclasses.count
@@ -1604,8 +1603,7 @@ end # end of context "location or organizations are not enabled"
   end
 
   test 'fqdn of host period and no domain returns just name' do
-    host = Host::Managed.new(:name => name = "dhcp123")
-    assert_equal "dhcp123", host.fqdn
+    assert_equal "dhcp123", Host::Managed.new(:name => "dhcp123").fqdn
   end
 
   test 'fqdn_changed? should be true if name changes' do

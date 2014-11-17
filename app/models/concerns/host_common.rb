@@ -142,7 +142,7 @@ module HostCommon
   end
 
   def host_class_ids
-    h_ids = kind_of?(Host::Base) ? host_classes.pluck(:puppetclass_id) : []
+    kind_of?(Host::Base) ? host_classes.pluck(:puppetclass_id) : []
   end
 
   def all_puppetclass_ids

@@ -25,7 +25,9 @@ module Foreman::Model
     def find_vm_by_uuid(uuid)
       client.servers.get(uuid)
     rescue ::Libvirt::RetrieveError => e
-      raise(ActiveRecord::RecordNotFound)
+      logger.error e.message
+      logger.error e.backtrace.join("\n")
+      raise ActiveRecord::RecordNotFound
     end
 
     # we default to destroy the VM's storage as well.

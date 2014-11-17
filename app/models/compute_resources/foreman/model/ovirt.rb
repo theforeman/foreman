@@ -121,7 +121,7 @@ module Foreman::Model
 
     def available_networks(cluster_id = nil)
       raise ::Foreman::Exception.new(N_('Cluster ID is required to list available networks')) if cluster_id.nil?
-      cluster_networks = networks({:cluster_id => cluster_id})
+      networks({:cluster_id => cluster_id})
     end
 
     def available_storage_domains(storage_domain = nil)

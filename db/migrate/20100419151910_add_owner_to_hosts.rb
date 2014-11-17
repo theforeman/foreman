@@ -9,7 +9,6 @@ class AddOwnerToHosts < ActiveRecord::Migration
 
     Host.reset_column_information
 
-    updated = []
     email = SETTINGS[:administrator] || "root@#{Facter.value(:domain)}"
     owner = User.find_by_mail email
     owner ||= User.where(:admin => true).first

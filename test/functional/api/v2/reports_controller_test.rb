@@ -170,8 +170,8 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
   end
 
   test "should get last report for given host only" do
-    main_report   = FactoryGirl.create(:report)
-    other_reports = FactoryGirl.create_list(:report, 5)
+    main_report = FactoryGirl.create(:report)
+    FactoryGirl.create_list(:report, 5)
     get :last, {:host_id => main_report.host.to_param }
     assert_response :success
     assert_not_nil assigns(:report)

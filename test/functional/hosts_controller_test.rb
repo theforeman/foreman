@@ -400,7 +400,7 @@ class HostsControllerTest < ActionController::TestCase
   test "should get disabled hosts for a user with a fact_filter" do
     one = users(:one)
     one.roles << [roles(:manager)]
-    fn  = FactName.create :name =>"architecture"
+    FactName.create :name =>"architecture"
     get :disabled, {:user => one.id}, set_session_user
     assert_response :success
   end

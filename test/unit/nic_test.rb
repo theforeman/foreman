@@ -12,13 +12,11 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test "should create simple interface" do
-    i = ''
     i = Nic::Base.create! :mac => "cabbccddeeff", :host => FactoryGirl.create(:host)
     assert_equal "Nic::Base", i.class.to_s
   end
 
   test "type casting should return the correct class" do
-    i = ''
     i = Nic::Base.create! :ip => "127.2.3.8", :mac => "babbccddeeff", :host => FactoryGirl.create(:host), :name => FactoryGirl.create(:host).name, :type => "Nic::Interface"
     assert_equal "Nic::Interface", i.type
   end
@@ -72,7 +70,7 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test "Mac address uniqueness validation is skipped for virtual NICs" do
-    physical = Nic::Base.create! :mac => "cabbccddeeff", :host => FactoryGirl.create(:host)
+    Nic::Base.create! :mac => "cabbccddeeff", :host => FactoryGirl.create(:host)
     virtual = Nic::Base.new :mac => "cabbccddeeff", :host => FactoryGirl.create(:host), :virtual => true
     assert virtual.valid?
     assert virtual.save

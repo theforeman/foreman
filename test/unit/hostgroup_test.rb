@@ -57,7 +57,7 @@ class HostgroupTest < ActiveSupport::TestCase
 
     third = Hostgroup.new(:name => "ThirdA", :parent_id => second.id,
                           :group_parameters_attributes => { pid += 1 => {"name"=>"topB", "value"=>"3", :nested => ""},
-                                                            pid += 1 => {"name"=>"topA", "value"=>"3", :nested => ""}})
+                                                            pid +  1 => {"name"=>"topA", "value"=>"3", :nested => ""}})
     assert third.save
 
     assert third.parameters.include? "topA"
@@ -84,7 +84,7 @@ class HostgroupTest < ActiveSupport::TestCase
 
   test "blocks deletion of hosts with children" do
     top = Hostgroup.create(:name => "topA")
-    second = Hostgroup.create(:name => "secondB", :parent_id => top.id)
+    Hostgroup.create(:name => "secondB", :parent_id => top.id)
 
     assert top.has_children?
     assert_raise Ancestry::AncestryException do
