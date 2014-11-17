@@ -66,7 +66,6 @@ module Foreman
     config.autoload_paths += Dir["#{config.root}/app/controllers/concerns"]
     config.autoload_paths += Dir[ Rails.root.join('app', 'models', 'power_manager') ]
     config.autoload_paths += Dir["#{config.root}/app/models/concerns"]
-    config.autoload_paths += Dir["#{config.root}/app/controllers/concerns"]
     config.autoload_paths += Dir["#{config.root}/app/services"]
     config.autoload_paths += Dir["#{config.root}/app/observers"]
     config.autoload_paths += Dir["#{config.root}/app/mailers"]
