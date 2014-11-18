@@ -833,6 +833,25 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'review_before_build'
   end
 
+  test 'template_used returns templates' do
+    @host.setBuild
+    nic=FactoryGirl.create(:nic_managed, :host => @host)
+    attrs = @host.attributes
+    attrs[:interfaces_attributes] = nic.attributes
+    xhr :put, :template_used, {:provisioning => 'build', :host => attrs }, set_session_user
+    assert_response :success
+    assert_template :partial => '_provisioning'
+  end
+
+  test 'process_taxonomy renders a host from the params correctly' do
+    nic=FactoryGirl.create(:nic_managed, :host => @host)
+    attrs = @host.attributes
+    attrs[:interfaces_attributes] = nic.attributes
+    xhr :put, :process_taxonomy, { :host => attrs }, set_session_user
+    assert_response :success
+    assert_template :partial => '_form'
+  end
+
   private
   def initialize_host
     User.current = users(:admin)
