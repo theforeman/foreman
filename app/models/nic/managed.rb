@@ -11,13 +11,7 @@ module Nic
              :image_build?, :pxe_build?, :pxe_build?, :ip_available?, :mac_available?, :to => :host
     delegate :overwrite?, :to => :host, :allow_nil => true
 
-    register_to_enc_transformation :type, lambda { |type|
-                                            if ActiveSupport::DescendantsTracker.descendants(Nic::Base).map(&:to_s).include?(type)
-                                              type.constantize.humanized_name
-                                            else
-                                              raise "unknown type #{type}"
-                                            end
-                                          }
+    register_to_enc_transformation :type, lambda { |type| type.constantize.humanized_name }
 
     # this ensures we can create an interface even when there is no host queue
     # e.g. outside to Host nested attributes
