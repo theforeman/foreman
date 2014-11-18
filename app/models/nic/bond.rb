@@ -7,6 +7,8 @@ module Nic
 
     before_save :ensure_virtual
 
+    register_to_enc_transformation :type, lambda { |type| type.constantize.humanized_name }
+
     def virtual
       true
     end
