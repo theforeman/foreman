@@ -1,3 +1,10 @@
+2014-11-18	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.6.3
+	* Pin net-ldap for Ruby 1.8.7 compatibility
+
+2014-11-18	Ivan Nečas <inecas@redhat.com>
+	* Fixes #8009 - Make sure the final version of helpers is in the controller
+
 2014-10-07	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.6.1
 	* refs #6713 - fix ref to secure parameters attribute
