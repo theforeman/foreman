@@ -72,6 +72,10 @@ class Taxonomy < ActiveRecord::Base
     end
   end
 
+  def self.enabled_taxonomies
+    %w(locations organizations).select { |taxonomy| SETTINGS["#{taxonomy}_enabled".to_sym] }
+  end
+
   def self.ignore?(taxable_type)
     Array.wrap(self.current).each{ |current|
       return true if current.ignore?(taxable_type)

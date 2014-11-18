@@ -12,6 +12,10 @@
       <div class="tab-pane active" id="primary">
         <%= text_f f, :name, :disabled => @config_template.locked? %>
 
+        <% if show_default? %>
+          <%= checkbox_f f, :default, :label=>_('Default'), :help_block => default_template_description %>
+        <% end -%>
+
         <% if @config_template.locked? -%>
         <%= alert :class => 'alert-warning', :header => '',
             :text  => icon_text("warning-sign", (_("Warning: This template is locked. You may only change the associations. Please %s it to customize.") %
