@@ -62,6 +62,9 @@ ConfigTemplate.without_auditing do
   ].each do |input|
     next if ConfigTemplate.find_by_name(input[:name])
     next if audit_modified? ConfigTemplate, input[:name]
+
+    input.merge!(:default => true)
+
     t = ConfigTemplate.create({
       :snippet  => false,
       :template => File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
