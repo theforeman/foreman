@@ -311,6 +311,7 @@ Foreman::Application.routes.draw do
           resources :smart_proxies, :only => [:index, :show]
           resources :filters, :only => [:index, :show]
           resources :hosts, :except => [:new, :edit]
+          resources :deployments, :except => [:new, :edit]
           resources :parameters, :except => [:new, :edit] do
             collection do
               delete '/', :to => :reset
@@ -352,6 +353,7 @@ Foreman::Application.routes.draw do
           resources :smart_proxies, :only => [:index, :show]
           resources :filters, :only => [:index, :show]
           resources :hosts, :except => [:new, :edit]
+          resources :deployments, :except => [:new, :edit]
           resources :parameters, :except => [:new, :edit] do
             collection do
               delete '/', :to => :reset
@@ -378,6 +380,8 @@ Foreman::Application.routes.draw do
       end
       get 'orchestration/(:id)/tasks', :to => 'tasks#index'
       resources :plugins, :only => [:index]
+
+      resources :deployments, :except => [:new, :edit]
     end
   end
 end
