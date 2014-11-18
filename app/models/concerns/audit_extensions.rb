@@ -3,6 +3,7 @@ module AuditExtensions
   extend ActiveSupport::Concern
 
   included do
+    belongs_to :users, :class_name => 'User'
     belongs_to :search_users, :class_name => 'User', :foreign_key => :user_id
     belongs_to :search_hosts, :class_name => 'Host', :foreign_key => :auditable_id
     belongs_to :search_hostgroups, :class_name => 'Hostgroup', :foreign_key => :auditable_id
@@ -36,7 +37,8 @@ module AuditExtensions
   private
 
   def ensure_username
-    self.username ||= User.current.to_s rescue ""
+    self.user_as_model = User.current
+    self.username = User.current.try(:to_label)
   end
 
   def fix_auditable_type
