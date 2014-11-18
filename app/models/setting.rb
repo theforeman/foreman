@@ -2,6 +2,7 @@ class Setting < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
   include ActiveModel::Validations
+  include SearchScope::Setting
   self.inheritance_column = 'category'
 
   TYPES= %w{ integer boolean hash array string }
@@ -43,9 +44,6 @@ class Setting < ActiveRecord::Base
 
   # The DB may contain settings from disabled plugins - filter them out here
   scope :live_descendants, lambda { where(:category => self.descendants.map(&:to_s)) unless Rails.env.development? }
-
-  scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :description, :complete_value => :true
 
   def self.per_page; 20 end # can't use our own settings
 

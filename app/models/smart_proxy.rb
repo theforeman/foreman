@@ -4,6 +4,7 @@ class SmartProxy < ActiveRecord::Base
   friendly_id :name
   include Taxonomix
   include Parameterizable::ByIdName
+  include SearchScope::SmartProxy
   audited :allow_mass_assignment => true
 
   attr_accessible :name, :url, :location_ids, :organization_ids
@@ -26,10 +27,6 @@ class SmartProxy < ActiveRecord::Base
 
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
   before_save :sanitize_url, :associate_features
-
-  scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :url, :complete_value => :true
-  scoped_search :in => :features, :on => :name, :rename => :feature, :complete_value => :true
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here

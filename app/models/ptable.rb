@@ -4,6 +4,7 @@
 # modified version of one of these in textual form
 class Ptable < ActiveRecord::Base
   include Authorizable
+  include SearchScope::PartitionTable
   extend FriendlyId
   friendly_id :name
   include ValidateOsFamily
@@ -19,12 +20,7 @@ class Ptable < ActiveRecord::Base
   default_scope lambda { order('ptables.name') }
   validate_inclusion_in_families :os_family
 
-  scoped_search :on => :name, :complete_value => true, :default_order => true
-  scoped_search :on => :layout, :complete_value => false
-  scoped_search :on => :os_family, :rename => "family", :complete_value => :true
-
   def skip_strip_attrs
     ['layout']
   end
-
 end

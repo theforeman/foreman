@@ -4,6 +4,7 @@ class Environment < ActiveRecord::Base
   include Taxonomix
   include Authorizable
   include Parameterizable::ByName
+  include SearchScope::Environment
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
@@ -26,12 +27,7 @@ class Environment < ActiveRecord::Base
     end
   }
 
-  scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :hosts_count
-  scoped_search :on => :hostgroups_count
-
   class << self
-
     #TODO: this needs to be removed, as PuppetDOC generation no longer works
     # if the manifests are not on the foreman host
     # returns an hash of all puppet environments and their relative paths

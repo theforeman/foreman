@@ -1,6 +1,7 @@
 class Filter < ActiveRecord::Base
   include Taxonomix
   include Authorizable
+  include SearchScope::Filter
 
   class ScopedSearchValidator < ActiveModel::Validator
     def validate(record)
@@ -35,31 +36,12 @@ class Filter < ActiveRecord::Base
   scope :unlimited, lambda { where(:search => nil, :taxonomy_search => nil) }
   scope :limited, lambda { where("search IS NOT NULL OR taxonomy_search IS NOT NULL") }
 
-  scoped_search :on => :search, :complete_value => true
-  scoped_search :on => :limited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_limited, :only_explicit => true
-  scoped_search :on => :unlimited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_unlimited, :only_explicit => true
-  scoped_search :in => :role, :on => :id, :rename => :role_id
-  scoped_search :in => :role, :on => :name, :rename => :role
-  scoped_search :in => :permissions, :on => :resource_type, :rename => :resource
-  scoped_search :in => :permissions, :on => :name,          :rename => :permission
-
   before_validation :build_taxonomy_search, :nilify_empty_searches
 
   validates :search, :presence => true, :unless => Proc.new { |o| o.search.nil? }
   validates_with ScopedSearchValidator
   validates :role, :presence => true
   validate :same_resource_type_permissions, :not_empty_permissions, :allowed_taxonomies
-
-  def self.search_by_unlimited(key, operator, value)
-    search_by_limited(key, operator, value == 'true' ? 'false' : 'true')
-  end
-
-  def self.search_by_limited(key, operator, value)
-    value      = value == 'true'
-    value      = !value if operator == '<>'
-    conditions = value ? limited.where_values.join(' AND ') : unlimited.where_values.map(&:to_sql).join(' AND ')
-    { :conditions => conditions }
-  end
 
   def self.get_resource_class(resource_type)
     resource_type.constantize
@@ -91,8 +73,8 @@ class Filter < ActiveRecord::Base
     @resource_class ||= self.class.get_resource_class(resource_type)
   end
 
-  # We detect granularity by inclusion of Authorizable module and scoped_search definition
-  # we can define exceptions for resources with more complex hierarchy (e.g. Host is proxy module)
+  # We detect granularity by inclusion of Authorizable and SearchScope::Filter
+  # We can define exceptions for resources with more complex hierarchies (e.g. Host is a proxy module)
   def granular?
     @granular ||= begin
       return false if resource_class.nil?

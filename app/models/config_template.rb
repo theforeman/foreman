@@ -4,6 +4,7 @@ class ConfigTemplate < ActiveRecord::Base
   friendly_id :name
   include Taxonomix
   include Parameterizable::ByIdName
+  include SearchScope::ConfigTemplate
 
   validates_lengths_from_database
   audited :allow_mass_assignment => true
@@ -33,16 +34,6 @@ class ConfigTemplate < ActiveRecord::Base
       order("config_templates.name")
     end
   }
-
-  scoped_search :on => :name,    :complete_value => true, :default_order => true
-  scoped_search :on => :locked,  :complete_value => true, :complete_value => {:true => true, :false => false}
-  scoped_search :on => :snippet, :complete_value => true, :complete_value => {:true => true, :false => false}
-  scoped_search :on => :template
-
-  scoped_search :in => :operatingsystems, :on => :name, :rename => :operatingsystem, :complete_value => true
-  scoped_search :in => :environments,     :on => :name, :rename => :environment,     :complete_value => true
-  scoped_search :in => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => true
-  scoped_search :in => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
 
   class Jail < Safemode::Jail
     allow :name

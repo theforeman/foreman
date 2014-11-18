@@ -1,6 +1,7 @@
 class LookupKey < ActiveRecord::Base
   include Authorizable
   include CounterCacheFix
+  include SearchScope::LookupKey
 
   KEY_TYPES = [N_("string"), N_("boolean"), N_("integer"), N_("real"), N_("array"), N_("hash"), N_("yaml"), N_("json")]
   VALIDATOR_TYPES = [N_("regexp"), N_("list") ]
@@ -46,14 +47,6 @@ class LookupKey < ActiveRecord::Base
 
   before_save :sanitize_path
   attr_name :key
-
-  scoped_search :on => :key, :complete_value => true, :default_order => true
-  scoped_search :on => :lookup_values_count, :rename => :values_count
-  scoped_search :on => :override, :complete_value => {:true => true, :false => false}
-  scoped_search :on => :merge_overrides, :complete_value => {:true => true, :false => false}
-  scoped_search :on => :avoid_duplicates, :complete_value => {:true => true, :false => false}
-  scoped_search :in => :param_classes, :on => :name, :rename => :puppetclass, :complete_value => true
-  scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
 
   default_scope lambda { order('lookup_keys.key') }
 

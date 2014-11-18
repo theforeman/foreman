@@ -1,5 +1,6 @@
 class MailNotification < ActiveRecord::Base
   include Authorizable
+  include SearchScope::MailNotification
 
   INTERVALS = [N_("Daily"), N_("Weekly"), N_("Monthly")]
   SUBSCRIPTION_TYPES = %w(alert report)
@@ -8,10 +9,6 @@ class MailNotification < ActiveRecord::Base
 
   has_many :user_mail_notifications, :dependent => :destroy
   has_many :users, :through => :user_mail_notifications
-
-  scoped_search :on => :name, :complete_value => true
-  scoped_search :on => :description, :complete_value => true
-  scoped_search :in => :users, :on => :login, :complete_value => true, :rename => :user
 
   scope :subscriptable, lambda { where(:subscriptable => true) }
 

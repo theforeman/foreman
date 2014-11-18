@@ -1,9 +1,9 @@
 class Puppetclass < ActiveRecord::Base
   include Authorizable
-  include ScopedSearchExtensions
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
+  include SearchScope::Puppetclass
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
@@ -32,16 +32,6 @@ class Puppetclass < ActiveRecord::Base
   alias_attribute :smart_class_parameter_ids, :class_param_ids
 
   default_scope lambda { order('puppetclasses.name') }
-
-  scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :total_hosts
-  scoped_search :on => :global_class_params_count, :rename => :params_count   # Smart Parameters
-  scoped_search :on => :lookup_keys_count, :rename => :variables_count        # Smart Variables
-  scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
-  scoped_search :in => :hostgroups,   :on => :name, :complete_value => :true, :rename => "hostgroup"
-  scoped_search :in => :config_groups,   :on => :name, :complete_value => :true, :rename => "config_group"
-  scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host", :ext_method => :search_by_host, :only_explicit => true
-  scoped_search :in => :class_params, :on => :key, :complete_value => :true, :only_explicit => true
 
   scope :not_in_any_environment, lambda { includes(:environment_classes).where(:environment_classes => {:environment_id => nil}) }
 
