@@ -4,6 +4,8 @@ module Nic
     PROVIDERS = %w(IPMI)
     validates :provider, :presence => true, :inclusion => { :in => PROVIDERS }
 
+    register_to_enc_transformation :type, lambda { |type| type.constantize.humanized_name }
+
     def proxy
       if subnet.present?
         proxy = subnet.proxies.select { |subnet_proxy| subnet_proxy.features.map(&:name).include?("BMC") }.first
