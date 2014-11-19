@@ -29,12 +29,13 @@ class Operatingsystem < ActiveRecord::Base
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   attr_name :to_label
   validates :minor, :numericality => {:greater_than_or_equal_to => 0}, :allow_nil => true, :allow_blank => true
-  validates :name, :presence => true, :format => {:with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.")}
+  validates :name, :presence => true,
+                   :format => {:with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.")},
+                   :uniqueness => {:scope => [:major, :minor]}
   validates :description, :uniqueness => true, :allow_blank => true
   validates :password_hash, :inclusion => { :in => PasswordCrypt::ALGORITHMS }
-  before_validation :downcase_release_name, :set_title
+  before_validation :downcase_release_name, :set_title, :stringify_versions
   validates :title, :uniqueness => true, :presence => true
-
   before_save :set_family
 
   audited :allow_mass_assignment => true
@@ -248,6 +249,12 @@ class Operatingsystem < ActiveRecord::Base
 
   def downcase_release_name
     self.release_name.downcase! unless Foreman.in_rake? or release_name.nil? or release_name.empty?
+  end
+
+  # allow verification of unique fullname on PG (can't compare int with string field)
+  def stringify_versions
+    self.major = self.major.to_s
+    self.minor = self.minor.to_s
   end
 
   def boot_files_uri(medium, architecture, host = nil)
