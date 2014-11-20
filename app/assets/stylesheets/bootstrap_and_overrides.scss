@@ -6,7 +6,7 @@ $navbar-default-bg: $primary_color;
 @import "bootstrap";
 
 .dropdown-menu {
-  @include border_radius(0, 0, 6px, 6px);
+  border-radius: 0 0 6px 6px;
 }
 
 // Necessary because bootstrap3 nav dropdown does not have top arrow

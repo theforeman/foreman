@@ -1,3 +1,5 @@
+@import "mixin";
+
 $row-height: 340px;
 $row-margin: 10px;
 
@@ -112,11 +114,9 @@ $col-margin-fallback: 1.5%;
   margin-bottom: 10px;
   border: 1px solid #e3e3e3;
   border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  background-color: #f9f8f8;
+  @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.05));
   background-size: 100%;
-  background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#f7f7f7),color-stop(100%,#eee));background-image: -webkit-linear-gradient(#f7f7f7,#eee);background-image: -moz-linear-gradient(#f7f7f7,#eee);background-image: -o-linear-gradient(#f7f7f7,#eee);background-image: -ms-linear-gradient(#f7f7f7,#eee);background-image: linear-gradient(#f7f7f7,#eee);
+  @include linear_gradient(#f7f7f7, #eee);
 
   &:hover{
     border: 1px solid #00618a;
