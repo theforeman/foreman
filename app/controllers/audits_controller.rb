@@ -9,7 +9,7 @@ class AuditsController < ApplicationController
 
   def show
     @audit = resource_base.find(params[:id])
-    @history = resource_base.descending.where(:auditable_id => @audit.auditable_id, :auditable_type => @audit.auditable_type)
+    @history = resource_base.includes(:user).descending.where(:auditable_id => @audit.auditable_id, :auditable_type => @audit.auditable_type)
   end
 
   private
