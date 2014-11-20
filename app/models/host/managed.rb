@@ -456,7 +456,6 @@ class Host::Managed < Host::Base
 
   def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
     importer = super
-    normalize_addresses
     if Setting[:update_environment_from_facts]
       set_non_empty_values importer, [:environment]
     else
