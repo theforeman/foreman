@@ -33,13 +33,9 @@
    border: none;
  }
  &:first-child {
-   -webkit-border-radius: 4px 0 0 4px;
-   -moz-border-radius: 4px 0 0 4px;
    border-radius: 4px 0 0 4px;
  }
  &:last-child {
-   -webkit-border-radius: 0 4px 4px 0;
-   -moz-border-radius: 0 4px 4px 0;
    border-radius: 0 4px 4px 0;
  }
 }
