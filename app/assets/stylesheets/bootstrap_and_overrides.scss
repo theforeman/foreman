@@ -194,3 +194,12 @@ span.btn a{ text-decoration: none; color: #333333}
 body.modal-open {
   overflow: visible;
 }
+
+.form-horizontal {
+  .input-group {
+    display: block;
+    .autocomplete-input {
+      border-radius: 4px;
+    }
+  }
+}
