@@ -454,6 +454,11 @@ class Host::Managed < Host::Base
     super + [:domain, :architecture, :operatingsystem] + attrs
   end
 
+  def set_non_empty_values(parser, methods)
+    super
+    normalize_addresses
+  end
+
   def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
     importer = super
     if Setting[:update_environment_from_facts]
