@@ -2,10 +2,9 @@
 
 .stats-well {
  border: 1px solid #d7d7d7;
- -moz-border-radius: 3px;-webkit-border-radius: 3px;-o-border-radius: 3px;-ms-border-radius: 3px;-khtml-border-radius: 3px;border-radius: 3px;
- background-color: #f9f8f8;
+ border-radius: 3px;
  background-size: 100%;
- background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#f7f7f7),color-stop(100%,#eee));background-image: -webkit-linear-gradient(#f7f7f7,#eee);background-image: -moz-linear-gradient(#f7f7f7,#eee);background-image: -o-linear-gradient(#f7f7f7,#eee);background-image: -ms-linear-gradient(#f7f7f7,#eee);background-image: linear-gradient(#f7f7f7,#eee);
+ @include linear-gradient(#f7f7f7,#eee);
  padding: 13px;
  min-width: 280px;
  min-height: 100px;
@@ -84,7 +83,7 @@
   background-color: #FFF;
   opacity: 0.8;
   z-index: 100;
-  -moz-border-radius: 5px; -webkit-border-radius: 5px; -khtml-border-radius: 5px; border-radius: 5px;
+  border-radius: 5px;
   b{
     color: black;
     font-weight: bold;
@@ -94,10 +93,8 @@
 .xAxis > .tickLabel
 {
  margin-top:15px;
- -moz-transform:rotate(-45deg);
- -o-transform:rotate(-45deg);
  -webkit-transform:rotate(-45deg);
- filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+ transform:rotate(-45deg);
 }
 
 .pie-title{
