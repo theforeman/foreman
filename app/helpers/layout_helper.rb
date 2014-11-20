@@ -310,4 +310,11 @@ module LayoutHelper
   def modal_close(data_dismiss = 'modal', text = _('Close'))
     button_tag(text, :class => 'btn btn-default', :data => { :dismiss => data_dismiss })
   end
+
+  def number_f(f, attr, options = {})
+    field(f, attr, options) do
+      addClass options, "form-control"
+      f.number_field attr, options
+    end
+  end
 end
