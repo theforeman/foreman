@@ -80,9 +80,6 @@ module Host
       parser = FactParser.parser_for(type).new(facts)
 
       set_non_empty_values(parser, attributes_to_import_from_facts)
-      # descendents may add mac address to attributes_to_import_from_facts and
-      # facter sometimes return mac upcase so we have to normalize it ASAP (before host gets saved)
-      normalize_addresses
       set_interfaces(parser)
 
       parser
