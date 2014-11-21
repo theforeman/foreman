@@ -226,6 +226,11 @@ Foreman::Application.routes.draw do
         get 'auth_source_selected'
         get 'auto_complete_search'
       end
+
+      member do
+        get 'change_password'
+        put 'update_password'
+      end
     end
     resources :roles, :except => [:show] do
       member do

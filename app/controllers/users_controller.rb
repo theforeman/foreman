@@ -4,7 +4,8 @@ class UsersController < ApplicationController
 
   skip_before_filter :require_mail, :only => [:edit, :update, :logout]
   skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
-  skip_before_filter :authorize, :only => :extlogin
+  skip_before_filter :authorize, :only => [:extlogin, :change_password, :update_password]
+  skip_before_filter :password_change, :only => [:change_password, :update_password, :edit]
   after_filter       :update_activity_time, :only => :login
   skip_before_filter :update_admin_flag, :only => :update
 
@@ -111,6 +112,30 @@ class UsersController < ApplicationController
 
   def extlogout
     render :extlogout, :layout => 'login'
+  end
+
+  def change_password
+    if request.get?
+      puts "XXX we've got a GET request"
+    end
+    puts "XXX change password called"
+  end
+
+  def update_password
+    # else it's a GET modeled after login method above
+    if request.put?
+        uri = session[:original_uri]
+
+        if params[:new_password] == params[:confirm_password]
+          User.current.password= params[:new_password]
+          User.current.force_password_reset= false
+        elsif
+          puts "Passwords are not the same"
+        end
+        User.current.save!
+        notice _("Password changed.")
+        redirect_to (uri || hosts_path)
+    end
   end
 
   private

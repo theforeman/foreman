@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_gettext_locale_db, :set_gettext_locale
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| !SETTINGS[:login] || c.remote_user_provided? || c.api_request? }
   before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy
+  before_filter :password_change, :unless => :api_request?
   before_filter :authorize
   before_filter :welcome, :only => :index, :unless => :api_request?
   layout :display_layout?
@@ -26,6 +27,11 @@ class ApplicationController < ActionController::Base
   attr_reader :original_search_parameter
 
   cache_sweeper :topbar_sweeper
+
+  def password_change
+    return unless User.current
+    redirect_to change_password_user_path( :id => User.current.id) if User.current.force_password_reset?
+  end
 
   def welcome
     @searchbar = true
