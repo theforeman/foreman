@@ -102,7 +102,10 @@ module Foreman
       :lastname,
       :locale,
       :default_organization_id,
-      :default_location_id
+      :default_location_id,
+      :mail_enabled,
+      :mail_notification_ids => [],
+      :user_mail_notifications_attributes => [:mail_notification_id, :interval, :id, :_destroy]
     ]
 
     @@user_attributes = [
@@ -164,7 +167,7 @@ module Foreman
     ]
 
     @@filter_attributes = [
-      :role_id, :resource_type, :unlimited, :search, {:permision_ids => []}, *@@location_organization_attributes
+      :role_id, :resource_type, :unlimited, :search, {:permission_ids => []}, *@@location_organization_attributes
     ]
 
     @@hostgroup_attributes = [
@@ -192,8 +195,8 @@ module Foreman
     ]
 
     @@lookup_key_attributes = [
-      :key, :description, :override, :key_type, :default_value, :required, :validator_type,
-      :validator_rule, :path, :_destroy, :id, :puppetclass_id, {:lookup_values_attributes => [:id, :value, :match, :_destroy]}
+      :key, :description, :override, :key_type, :default_value, :required, :validator_type, :use_puppet_default,
+      :validator_rule, :path, :_destroy, :id, :puppetclass_id, {:lookup_values_attributes => [:id, :value, :match, :use_puppet_default, :_destroy]}
     ]
 
     @@class_params_attributes = [
