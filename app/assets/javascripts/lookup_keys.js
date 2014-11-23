@@ -73,7 +73,7 @@ function fix_template_context(content, context) {
 
 function fix_template_names(content, assoc, new_id) {
   var regexp  = new RegExp('new_' + assoc, 'g');
-  return content.replace(regexp, "new_" + new_id);
+  return content.replace(regexp, new_id);
 }
 
 function add_child_node(item) {
@@ -89,7 +89,7 @@ function add_child_node(item) {
     content = fix_template_context(content, context);
     var new_id = new Date().getTime();
     content = fix_template_names(content, assoc, new_id);
-  
+
     var field   = '';
     if (assoc == 'lookup_keys') {
       $('#smart_vars .smart-var-tabs .active, #smart_vars .stacked-content .active').removeClass('active');
