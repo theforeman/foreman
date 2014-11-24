@@ -40,7 +40,6 @@ module Api
         param :subnet_id, :number, :desc => "required if host is managed and value is not inherited from host group"
         param :compute_resource_id, :number, :desc => "nil means host is bare metal"
         param :root_pass, String, :desc => "required if host is managed and value is not inherited from host group or default password in settings"
-        param :sp_subnet_id, :number
         param :model_id, :number
         param :hostgroup_id, :number
         param :owner_id, :number
