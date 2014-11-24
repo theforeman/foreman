@@ -15,7 +15,8 @@ class HostsController < ApplicationController
                         multiple_enable submit_multiple_enable multiple_puppetrun
                         update_multiple_puppetrun multiple_disassociate update_multiple_disassociate)
 
-  add_puppetmaster_filters PUPPETMASTER_ACTIONS
+  add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
+
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
                                          :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
