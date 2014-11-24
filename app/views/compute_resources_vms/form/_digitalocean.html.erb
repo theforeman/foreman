@@ -1,0 +1,11 @@
+<%= select_f f, :flavor_id, compute_resource.flavors, :id, :name, {}, {:label => _('Flavor')}  %>
+<%
+   arch ||= nil ; os ||= nil
+   images = possible_images(compute_resource, arch, os)
+   images = compute_resource.available_images if images.empty?
+   regions = compute_resource.regions
+   f.object.region_id = compute_resource.region
+%>
+
+<div id='image_selection'><%= select_f f, :image_id, images, :id, :to_label, { :include_blank => (images.empty? || images.size == 1) ? false : _('Please Select an Image') }, { :label => ('Image'), :disabled => images.empty? } %></div>
+<div id='region_selection'><%= select_f f, :region_id, regions, :id, :name, {}, { :label => ('Region'), :disabled => images.empty?} %></div>

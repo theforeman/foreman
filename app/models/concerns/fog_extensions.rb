@@ -49,6 +49,12 @@ begin
   require 'fog/rackspace/models/compute_v2/server'
   Fog::Compute::RackspaceV2::Server.send(:include, FogExtensions::RackspaceV2::Server)
 
+  require 'fog/digitalocean'
+  require 'fog/digitalocean/models/compute/image'
+  Fog::Compute::DigitalOcean::Image.send(:include, FogExtensions::DigitalOcean::Image)
+  require 'fog/digitalocean/models/compute/server'
+  Fog::Compute::DigitalOcean::Server.send(:include, FogExtensions::DigitalOcean::Server)
+
 rescue LoadError
   Rails.logger.info "Fog is not installed - unable to manage compute resources"
 rescue => exception

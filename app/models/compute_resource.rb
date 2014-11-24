@@ -15,6 +15,7 @@ class ComputeResource < ActiveRecord::Base
     'Openstack' => 'Foreman::Model::Openstack',
     'Rackspace' => 'Foreman::Model::Rackspace',
     'GCE'       => 'Foreman::Model::GCE',
+    'Digitalocean'       => 'Foreman::Model::Digitalocean',
   }
 
   validates_lengths_from_database
