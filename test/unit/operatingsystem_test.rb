@@ -51,14 +51,21 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert !operating_system.save
   end
 
-  #TODO: this test should be uncommented after validation is implemented
-  # test "name and major should be unique" do
-  #   operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10"
-  #   assert operating_system.save
+  test "name and major/minor should be unique" do
+    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10", :minor => "1", :description => "first"
+    assert operating_system.save
 
-  #   other_operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10"
-  #   assert !other_operating_system.save
-  # end
+    # we need to set description so title verification won't prevent us from saving
+    # the same os version twice (as title defaults to fullname if no description present)
+    other_operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10", :minor => "1", :description => "second"
+    assert !other_operating_system.save
+
+    other_operating_system.minor = "2"
+    assert other_operating_system.save
+
+    other_operating_system = Operatingsystem.new :name => "Redhat", :major => "10", :minor => "1"
+    assert other_operating_system.save
+  end
 
   test "should not destroy while using" do
     operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10"
