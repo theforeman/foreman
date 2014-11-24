@@ -5,21 +5,25 @@ module Foreman::Controller::SmartProxyAuth
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def add_puppetmaster_filters(actions)
+    def add_smart_proxy_filters(actions, options = {})
       skip_before_filter :require_login, :only => actions
       skip_before_filter :require_ssl, :only => actions
       skip_before_filter :authorize, :only => actions
       skip_before_filter :verify_authenticity_token, :only => actions
       skip_before_filter :set_taxonomy, :only => actions
       skip_before_filter :session_expiry, :update_activity_time, :only => actions
-      before_filter :require_puppetmaster_or_login, :only => actions
+      before_filter(:only => actions) { require_smart_proxy_or_login(options[:features]) }
       attr_reader :detected_proxy
     end
   end
 
-  # Permits registered puppetmasters or a user with permission
-  def require_puppetmaster_or_login
-    if !Setting[:restrict_registered_puppetmasters] or auth_smart_proxy(SmartProxy.with_features("Puppet", "Chef Proxy"), Setting[:require_ssl_puppetmasters])
+  private
+
+  # Permits registered Smart Proxies or a user with permission
+  def require_smart_proxy_or_login(features = nil)
+    allowed_smart_proxies = features.blank? ? SmartProxy.all : SmartProxy.with_features(features)
+
+    if !Setting[:restrict_registered_smart_proxies] or auth_smart_proxy(allowed_smart_proxies, Setting[:require_ssl_smart_proxies])
       set_admin_user
       return true
     end

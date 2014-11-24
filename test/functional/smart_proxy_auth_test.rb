@@ -14,7 +14,7 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     @controller.stubs(:require_login).returns(true)
     @controller.stubs(:authorize).returns(true)
 
-    assert @controller.require_puppetmaster_or_login
+    assert @controller.send(:require_smart_proxy_or_login)
   end
 
   def test_failed_authentication_with_invalid_basic_auth_credentials_in_api_controller
@@ -30,10 +30,10 @@ class SmartProxyAuthApiTest < ActionController::TestCase
   end
 
   def test_successful_smart_proxy_authentication_in_api_controller
-    Setting[:restrict_registered_puppetmasters] = false
+    Setting[:restrict_registered_smart_proxies] = false
     @controller.stubs(:auth_smart_proxy).returns(true)
 
-    assert @controller.require_puppetmaster_or_login
+    assert @controller.send(:require_smart_proxy_or_login)
   end
 end
 
@@ -51,7 +51,7 @@ class SmartProxyAuthWebUITest < ActionController::TestCase
     @controller.stubs(:require_login).returns(true)
     @controller.stubs(:authorize).returns(true)
 
-    assert @controller.require_puppetmaster_or_login
+    assert @controller.send(:require_smart_proxy_or_login)
   end
 
   def test_failed_authentication_with_invalid_basic_auth_credentials_in_web_ui_controller
