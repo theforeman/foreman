@@ -111,3 +111,14 @@
     </div>
   </div>
 </div>
+<div id="processing_message" class="modal fade hide">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <%= alert_close('modal') %>
+        <h4 class="modal-title"><%= _('Loading...') %> <%= image_tag 'spinner.gif' %></h4>
+      </div>
+      <div class="modal-body"><%= _('Please wait while your request is being processed') %></div>
+    </div>
+  </div>
+</div>
