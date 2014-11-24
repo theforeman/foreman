@@ -216,9 +216,9 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
-  test 'when ":restrict_registered_puppetmasters" is false, HTTP requests should be able to import facts' do
+  test 'when ":restrict_registered_smart_proxies" is false, HTTP requests should be able to import facts' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
-    Setting[:restrict_registered_puppetmasters] = false
+    Setting[:restrict_registered_smart_proxies] = false
     SETTINGS[:require_ssl] = false
 
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
@@ -231,8 +231,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test 'hosts with a registered smart proxy on should import facts successfully' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
-    Setting[:restrict_registered_puppetmasters] = true
-    Setting[:require_ssl_puppetmasters] = false
+    Setting[:restrict_registered_smart_proxies] = true
+    Setting[:require_ssl_smart_proxies] = false
 
     proxy = smart_proxies(:puppetmaster)
     host   = URI.parse(proxy.url).host
@@ -246,8 +246,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test 'hosts without a registered smart proxy on should not be able to import facts' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
-    Setting[:restrict_registered_puppetmasters] = true
-    Setting[:require_ssl_puppetmasters] = false
+    Setting[:restrict_registered_smart_proxies] = true
+    Setting[:require_ssl_smart_proxies] = false
 
     Resolv.any_instance.stubs(:getnames).returns(['another.host'])
     hostname = fact_json['name']
@@ -258,8 +258,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test 'hosts with a registered smart proxy and SSL cert should import facts successfully' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
-    Setting[:restrict_registered_puppetmasters] = true
-    Setting[:require_ssl_puppetmasters] = true
+    Setting[:restrict_registered_smart_proxies] = true
+    Setting[:require_ssl_smart_proxies] = true
 
     @request.env['HTTPS'] = 'on'
     @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
@@ -272,8 +272,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test 'hosts without a registered smart proxy but with an SSL cert should not be able to import facts' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
-    Setting[:restrict_registered_puppetmasters] = true
-    Setting[:require_ssl_puppetmasters] = true
+    Setting[:restrict_registered_smart_proxies] = true
+    Setting[:require_ssl_smart_proxies] = true
 
     @request.env['HTTPS'] = 'on'
     @request.env['SSL_CLIENT_S_DN'] = 'CN=another.host'
@@ -286,8 +286,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test 'hosts with an unverified SSL cert should not be able to import facts' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
-    Setting[:restrict_registered_puppetmasters] = true
-    Setting[:require_ssl_puppetmasters] = true
+    Setting[:restrict_registered_smart_proxies] = true
+    Setting[:require_ssl_smart_proxies] = true
 
     @request.env['HTTPS'] = 'on'
     @request.env['SSL_CLIENT_S_DN'] = 'CN=secure.host'
@@ -298,10 +298,10 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  test 'when "require_ssl_puppetmasters" and "require_ssl" are true, HTTP requests should not be able to import facts' do
+  test 'when "require_ssl_smart_proxies" and "require_ssl" are true, HTTP requests should not be able to import facts' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
-    Setting[:restrict_registered_puppetmasters] = true
-    Setting[:require_ssl_puppetmasters] = true
+    Setting[:restrict_registered_smart_proxies] = true
+    Setting[:require_ssl_smart_proxies] = true
     SETTINGS[:require_ssl] = true
 
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
@@ -311,11 +311,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  test 'when "require_ssl_puppetmasters" is true and "require_ssl" is false, HTTP requests should be able to import facts' do
+  test 'when "require_ssl_smart_proxies" is true and "require_ssl" is false, HTTP requests should be able to import facts' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
-    # since require_ssl_puppetmasters is only applicable to HTTPS connections, both should be set
-    Setting[:restrict_registered_puppetmasters] = true
-    Setting[:require_ssl_puppetmasters] = true
+    # since require_ssl_smart_proxies is only applicable to HTTPS connections, both should be set
+    Setting[:restrict_registered_smart_proxies] = true
+    Setting[:require_ssl_smart_proxies] = true
     SETTINGS[:require_ssl] = false
 
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])

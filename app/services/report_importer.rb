@@ -8,6 +8,10 @@ class ReportImporter
     importer.report
   end
 
+  def self.report_features
+    ['Puppet', 'Chef Proxy']
+  end
+
   def initialize(raw, proxy_id = nil)
     raise ::Foreman::Exception.new(_('Invalid report')) unless raw.is_a?(Hash)
     @raw      = raw

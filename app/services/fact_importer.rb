@@ -14,6 +14,15 @@ class FactImporter
     importers[key.to_sym] = klass
   end
 
+  def self.fact_features
+    importers.map { |_type, importer| importer.authorized_smart_proxy_features }.compact.flatten.uniq
+  end
+
+  def self.authorized_smart_proxy_features
+    # When writing your own Fact importer, provide feature(s) of authorized Smart Proxies
+    raise NotImplementedError
+  end
+
   def initialize(host, facts = {})
     @host     = host
     @facts    = normalize(facts)
