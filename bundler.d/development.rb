@@ -5,7 +5,6 @@ group :development do
 
   # for generating i18n files
   gem 'gettext', '~> 3.1', :require => false
-  gem 'locale', '~> 2.0'
 
   # for generating foreign key migrations
   gem 'immigrant', '~> 0.1'
