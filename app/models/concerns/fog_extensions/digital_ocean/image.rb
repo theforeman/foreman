@@ -2,7 +2,7 @@ module FogExtensions
   module DigitalOcean
     module Image
       extend ActiveSupport::Concern
-      
+
       attr_accessor :os_version
 
       # Override attribute :name
