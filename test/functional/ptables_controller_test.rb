@@ -13,7 +13,7 @@ class PtablesControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Ptable.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:ptable => {:name => nil}}, set_session_user
     assert_template 'new'
   end
 
@@ -30,13 +30,13 @@ class PtablesControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Ptable.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Ptable.first.id}, set_session_user
+    put :update, {:id => Ptable.first.id, :ptable => {:name => nil}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Ptable.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Ptable.first.id}, set_session_user
+    put :update, {:id => Ptable.first.id, :ptable => {:name => "UpdatedDummy", :layout => "dummy_layout"}}, set_session_user
     assert_redirected_to ptables_url
   end
 

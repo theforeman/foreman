@@ -78,7 +78,7 @@ class UsersControllerTest < ActionController::TestCase
   test "user changes should expire topbar cache" do
     user = FactoryGirl.create(:user, :with_mail)
     User.any_instance.expects(:expire_topbar_cache).once
-    put :update, { :id => user.id, :user => {:admin => true} }, set_session_user
+    put :update, { :id => user.id, :user => {:admin => true, :mail => user.mail} }, set_session_user
   end
 
   test "role changes should expire topbar cache" do

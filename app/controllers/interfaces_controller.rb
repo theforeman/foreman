@@ -3,7 +3,7 @@ class InterfacesController < ApplicationController
   # params structure is
   #   {"host"=>
   #     {"interfaces_attributes"=>
-  #       {"new_1405068143746"=>
+  #       {"1405068143746"=>
   #         {"_destroy"=>"false", "type"=>"Nic::BMC", "mac"=>"", "name"=>"", "domain_id"=>"", "ip"=>""}}}}
   def new
     attributes = params[:host].fetch(:interfaces_attributes, {})

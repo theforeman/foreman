@@ -37,7 +37,7 @@ class BookmarksControllerTest < ActionController::TestCase
   end
 
   test "should update bookmark" do
-    put :update, {:id => bookmarks(:one).to_param, :bookmark => { }}, set_session_user
+    put :update, {:id => bookmarks(:one).to_param, :bookmark => { :name => 'bar' }}, set_session_user
     assert_redirected_to bookmarks_path
   end
 
@@ -45,7 +45,6 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_difference('Bookmark.count', -1) do
       delete :destroy, {:id => bookmarks(:one).to_param}, set_session_user
     end
-
     assert_redirected_to bookmarks_path
   end
 end

@@ -110,6 +110,11 @@ function onContentLoad(){
   $('form').on('click', 'input[type="submit"]', function() {
     $("#fakepassword").remove();
   });
+
+  // Removes all the templates from forms as they can't be cleared by strong parameters.
+  $('form').on('submit', function(e) {
+    $('div[class*="_fields_template"]').remove();
+  });
 }
 
 function remove_fields(link) {

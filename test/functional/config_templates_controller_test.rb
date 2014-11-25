@@ -13,13 +13,13 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
 
   test "create invalid" do
     ConfigTemplate.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:config_template => {:name => nil}}, set_session_user
     assert_template 'new'
   end
 
   test "create valid" do
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
-    post :create, {}, set_session_user
+    post :create, {:config_template => {:name => "MyConfig"}}, set_session_user
     assert_redirected_to config_templates_url
   end
 
@@ -49,13 +49,13 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
 
   test "update invalid" do
     ConfigTemplate.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => config_templates(:pxekickstart).to_param}, set_session_user
+    put :update, {:id => config_templates(:pxekickstart).to_param, :config_template => { :name => config_templates(:pxekickstart).name } }, set_session_user
     assert_template 'edit'
   end
 
   test "update valid" do
     ConfigTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => config_templates(:pxekickstart).to_param}, set_session_user
+    put :update, {:id => config_templates(:pxekickstart).to_param, :config_template => {:name => config_templates(:pxekickstart).name}}, set_session_user
     assert_redirected_to config_templates_url
   end
 

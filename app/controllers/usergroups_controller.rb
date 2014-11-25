@@ -12,7 +12,7 @@ class UsergroupsController < ApplicationController
   end
 
   def create
-    @usergroup = Usergroup.new(params[:usergroup])
+    @usergroup = Usergroup.new(foreman_params)
     if @usergroup.save
       process_success
     else
@@ -24,7 +24,7 @@ class UsergroupsController < ApplicationController
   end
 
   def update
-    if @usergroup.update_attributes(params[:usergroup])
+    if @usergroup.update_attributes(foreman_params)
       process_success
     else
       process_error

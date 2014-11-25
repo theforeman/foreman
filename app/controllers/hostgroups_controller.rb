@@ -38,7 +38,7 @@ class HostgroupsController < ApplicationController
   end
 
   def create
-    @hostgroup = Hostgroup.new(params[:hostgroup])
+    @hostgroup = Hostgroup.new(foreman_params)
     if @hostgroup.save
       process_success
     else
@@ -57,7 +57,7 @@ class HostgroupsController < ApplicationController
     end
     # remove from hash :root_pass if blank?
     params[:hostgroup].except!(:root_pass) if params[:hostgroup][:root_pass].blank?
-    if @hostgroup.update_attributes(params[:hostgroup])
+    if @hostgroup.update_attributes(foreman_params)
       process_success
     else
       taxonomy_scope

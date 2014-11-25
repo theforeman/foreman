@@ -13,7 +13,7 @@ class ModelsControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Model.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:model => {:name => nil}}, set_session_user
     assert_template 'new'
   end
 
@@ -30,13 +30,13 @@ class ModelsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Model.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Model.first}, set_session_user
+    put :update, {:id => Model.first, :model => {:name => nil}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Model.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Model.first}, set_session_user
+    put :update, {:id => Model.first, :model => {:name => "updated test"}}, set_session_user
     assert_redirected_to models_url
   end
 

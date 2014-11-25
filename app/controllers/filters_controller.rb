@@ -14,7 +14,7 @@ class FiltersController < ApplicationController
   end
 
   def create
-    @filter = Filter.new(params[:filter])
+    @filter = Filter.new(foreman_params)
     if @filter.save
       process_success :success_redirect => saved_redirect_url_or(filters_path(:role_id => @role))
     else
@@ -28,7 +28,7 @@ class FiltersController < ApplicationController
 
   def update
     @filter = resource_base.find(params[:id])
-    if @filter.update_attributes(params[:filter])
+    if @filter.update_attributes(foreman_params)
       process_success :success_redirect => saved_redirect_url_or(filters_path(:role_id => @role))
     else
       process_error

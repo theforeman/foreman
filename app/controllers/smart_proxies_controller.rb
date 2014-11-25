@@ -12,7 +12,7 @@ class SmartProxiesController < ApplicationController
   end
 
   def create
-    @smart_proxy = SmartProxy.new(params[:smart_proxy])
+    @smart_proxy = SmartProxy.new(foreman_params)
     if @smart_proxy.save
       process_success :object => @smart_proxy
     else
@@ -42,7 +42,7 @@ class SmartProxiesController < ApplicationController
   end
 
   def update
-    if @smart_proxy.update_attributes(params[:smart_proxy])
+    if @smart_proxy.update_attributes(foreman_params)
       process_success :object => @smart_proxy
     else
       process_error :object => @smart_proxy

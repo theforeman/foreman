@@ -11,7 +11,7 @@ class CommonParametersController < ApplicationController
   end
 
   def create
-    @common_parameter = CommonParameter.new(params[:common_parameter])
+    @common_parameter = CommonParameter.new(foreman_params)
     if @common_parameter.save
       process_success
     else
@@ -23,7 +23,7 @@ class CommonParametersController < ApplicationController
   end
 
   def update
-    if @common_parameter.update_attributes(params[:common_parameter])
+    if @common_parameter.update_attributes(foreman_params)
       process_success
     else
       process_error

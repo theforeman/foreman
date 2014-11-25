@@ -14,13 +14,14 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Puppetclass.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Puppetclass.first.to_param}, set_session_user
+    put :update, {:id => Puppetclass.first.to_param, :puppetclass => {:name => nil}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Puppetclass.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Puppetclass.first.to_param}, set_session_user
+    put :update, {:id => Puppetclass.first.to_param, :puppetclass => {:name => "Mrs. Piggy"}}, set_session_user
+    assert "Mrs, Piggy", Puppetclass.first.name
     assert_redirected_to puppetclasses_url
   end
 

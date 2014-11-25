@@ -23,7 +23,7 @@ class ComputeResourcesController < ApplicationController
 
   def create
     if params[:compute_resource].present? && params[:compute_resource][:provider].present?
-      @compute_resource = ComputeResource.new_provider params[:compute_resource]
+      @compute_resource = ComputeResource.new_provider(foreman_params)
       if @compute_resource.save
         process_success :success_redirect => @compute_resource
       else
@@ -57,7 +57,7 @@ class ComputeResourcesController < ApplicationController
 
   def update
     params[:compute_resource].except!(:password) if params[:compute_resource][:password].blank?
-    if @compute_resource.update_attributes(params[:compute_resource])
+    if @compute_resource.update_attributes(foreman_params)
       process_success :success_redirect => compute_resources_path
     else
       process_error
@@ -124,5 +124,4 @@ class ComputeResourcesController < ApplicationController
         super
     end
   end
-
 end

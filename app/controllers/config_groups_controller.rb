@@ -15,7 +15,7 @@ class ConfigGroupsController < ApplicationController
   end
 
   def create
-    @config_group = ConfigGroup.new(params[:config_group])
+    @config_group = ConfigGroup.new(foreman_params)
     if @config_group.save
       process_success
     else
@@ -24,7 +24,7 @@ class ConfigGroupsController < ApplicationController
   end
 
   def update
-    if @config_group.update_attributes(params[:config_group])
+    if @config_group.update_attributes(foreman_params)
       process_success
     else
       process_error
@@ -44,5 +44,4 @@ class ConfigGroupsController < ApplicationController
   def find_config_group
     @config_group = ConfigGroup.find(params[:id])
   end
-
 end

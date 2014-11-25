@@ -19,10 +19,8 @@ class ImagesControllerTest < ActionController::TestCase
 
   test "should create image" do
     assert_difference('Image.count') do
-      @image.name     = "gold"
-      @image.username = "ec2-user"
-      @image.uuid     = Foreman.uuid.to_s
-      post :create, { :image => @image.attributes, :compute_resource_id => @image.compute_resource_id }, set_session_user
+      image_attributes = {:name => 'gold', :username => 'ec2-user', :uuid => Foreman.uuid.to_s, :operatingsystem_id => Operatingsystem.first.id, :architecture_id => Architecture.first.id, :compute_resource_id => @image.compute_resource_id}
+      post :create, { :image => image_attributes, :compute_resource_id => @image.compute_resource_id }, set_session_user
     end
 
     assert_redirected_to compute_resource_path(@image.compute_resource)
@@ -34,9 +32,7 @@ class ImagesControllerTest < ActionController::TestCase
   end
 
   test "should update image" do
-    @image.username = "ec2-user"
-    @image.name     = "lala"
-    put :update, { :id => @image.to_param, :image => @image.attributes, :compute_resource_id => @image.compute_resource_id }, set_session_user
+    put :update, { :id => @image.to_param, :image => {:name => 'lala', :username => 'ec2-user'}, :compute_resource_id => @image.compute_resource_id }, set_session_user
     assert_redirected_to compute_resource_path(@image.compute_resource)
   end
 
