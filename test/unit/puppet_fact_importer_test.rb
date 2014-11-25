@@ -12,6 +12,12 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
                        :fact_name => FactoryGirl.create(:fact_name, :name => 'ipaddress'))
   end
 
+  test 'importer imports everything as strings' do
+    import 'kernelversion' => '2.6.9', 'vda_size' => 4242
+    assert_equal '2.6.9', value('kernelversion')
+    assert_equal '4242', value('vda_size')
+  end
+
   test 'importer adds new facts' do
     assert_equal '2.6.9', value('kernelversion')
     assert_equal '10.0.19.33', value('ipaddress')
