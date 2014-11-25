@@ -1,3 +1,48 @@
+2014-11-25	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.7.0-RC2
+
+2014-11-25	Joseph Magen <jmagen@redhat.com>
+	* fixes #8445 - upgrade rails to 3.2.21
+
+2014-11-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #8457 - auto complete search clear btn is now positioned correctly
+
+2014-11-24	Marek Hulan <mhulan@redhat.com>
+	* Fixes #8456 - normalize addresses only if mac is being set
+	* Fixes #7908 - normalize mac before host get saved
+
+2014-11-24	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #8405 - Filter :interfaces_attributes when calculating templates_used
+	* Fixes #8321 - correctly pull Compute Resource image method from compute attributes
+
+2014-11-24	Ori Rabin <orabin@redhat.com>
+	* Fixes #5573 - os search definitions for host available in unattended=false mode
+	* Fixes #8418 - Add 'facts' feature to features
+	* Fixes #5169 - Error in smart class param or value cause tab header to turn red in Puppet Class edit form
+
+2014-11-24	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #3288 - i18n extract heading on new host view
+	* Fixes #7488 - correctly display hostgroups with / in their names
+
+2014-11-24	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #5634 - save sso_method on session expiry
+
+2014-11-24	Jiayi Ye <yejiayily@gmail.com>
+	* Bug #7547 - Cannot log out of WebUI from mobile device
+	* Bug #7619 - [zh_CN] Localized string broken for Loading page
+
+2014-11-24	Bryan Kearney <bkearney@redhat.com>
+	* Fixes #8325 : Enhance the plugin object to use the gem path to understand where the plugin is installed
+
+2014-11-24	Joseph Magen <jmagen@redhat.com>
+	* fixes #5773 - redirect to referrer URL that includes page and search
+
+2014-11-24	ripcurld00d <ripcurld.github@gmail.com>
+	* Fixes #6974 - Hitting Cancel button on New Org > Manually Assign goes to 404
+
+2014-11-24	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8281 - remove id-name parameterization from puppetca
+
 2014-11-11	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.7.0-RC1
 
