@@ -55,17 +55,14 @@ function onContentLoad(){
   }
 
   // highlight tabs with errors
-  $(".tab-content").find(".form-group.has-error").each(function(i){
-    $(this).parents(".tab-pane").each(function(index, item) {
-      var id = item.id;
-      $("a[href=#"+id+"]").addClass("tab-error");
-
-      // focus on first field in first tab with error
-      if (index == 0 && i==0) {
-        $("a[href=#"+id+"]").click();
-      }
-    })
+  var errorFields = $(".tab-content .form-group.has-error");
+  errorFields.parents(".tab-pane").each(function() {
+      $("a[href=#"+this.id+"]").addClass("tab-error");
   })
+  $(".tab-error").first().click();
+  $('.nav-pills .tab-error').first().click();
+  errorFields.first().find('.form-control').focus();
+
 
   //set the tooltips
   $('a[rel="popover"]').popover({html: true});
