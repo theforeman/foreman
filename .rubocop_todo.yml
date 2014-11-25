@@ -544,3 +544,4 @@ Style/UnneededPercentX:
 # Cop supports --auto-correct.
 Style/WordArray:
   MinSize: 21
+

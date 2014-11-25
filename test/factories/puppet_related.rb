@@ -8,10 +8,10 @@ FactoryGirl.define do
   factory :lookup_key do
     sequence(:key) {|n| "param#{n}" }
 
-    ignore do
+    transient do
       overrides({})
     end
-    after_create do |lkey,evaluator|
+    after(:create) do |lkey,evaluator|
       evaluator.overrides.each do |match,value|
         FactoryGirl.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match, :use_puppet_default => false
       end
@@ -31,10 +31,10 @@ FactoryGirl.define do
 
     trait :as_smart_class_param do
       is_param true
-      ignore do
+      transient do
         puppetclass nil
       end
-      after_create do |lkey,evaluator|
+      after(:create) do |lkey,evaluator|
         evaluator.puppetclass.environments.each do |env|
           FactoryGirl.create :environment_class, :puppetclass_id => evaluator.puppetclass.id, :environment_id => env.id, :lookup_key_id => lkey.id
         end
@@ -51,20 +51,20 @@ FactoryGirl.define do
   factory :puppetclass do
     sequence(:name) {|n| "class#{n}" }
 
-    ignore do
+    transient do
       environments []
     end
-    after_create do |pc,evaluator|
+    after(:create) do |pc,evaluator|
       evaluator.environments.each do |env|
         FactoryGirl.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id
       end
     end
 
     trait :with_parameters do
-      ignore do
+      transient do
         parameter_count 1
       end
-      after_create do |pc,evaluator|
+      after(:create) do |pc,evaluator|
         evaluator.parameter_count.times do
           evaluator.environments.each do |env|
             lkey = FactoryGirl.create :lookup_key, :is_param => true
@@ -77,7 +77,7 @@ FactoryGirl.define do
 
   factory :config_group do
     sequence(:name) {|n| "config_group#{n}" }
-    ignore do
+    transient do
       class_environments nil
     end
 

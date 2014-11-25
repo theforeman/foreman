@@ -1,7 +1,8 @@
+require 'securerandom'
 module Foreman
   # generate a UUID
   def self.uuid
-    UUIDTools::UUID.random_create.to_s
+    SecureRandom.uuid.to_s
   end
 
   UUID_REGEXP = Regexp.new("^([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-" +
