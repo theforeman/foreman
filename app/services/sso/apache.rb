@@ -1,5 +1,3 @@
-require 'iconv' if RUBY_VERSION.start_with?('1.8.')
-
 module SSO
   class Apache < Base
     delegate :session, :to => :controller

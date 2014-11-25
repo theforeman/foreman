@@ -73,11 +73,7 @@ class User < ActiveRecord::Base
   before_validation :normalize_locale
 
   def self.name_format
-    if RUBY_VERSION.start_with? '1.8'
-      /\A[ёЁа-яА-Яa-zA-Zà-üÀ-Ü0-9\s'_\-\.()<>;=,]*\z/u
-    else
-      /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/
-    end
+    /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/
   end
 
   validates :login, :presence => true, :uniqueness => {:case_sensitive => false, :message => N_("already exists")},

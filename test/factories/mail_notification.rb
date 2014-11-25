@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence(:name) {|n| "notification#{n}"}
     default_interval "Daily"
     mailer "HostMailer"
-    method "test_mail"
+    mailer_method "test_mail"
     description "Notifies a user"
     subscription_type "report"
   end

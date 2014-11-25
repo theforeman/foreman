@@ -7,17 +7,17 @@ FactoryGirl.define do
   end
 
   trait :old_report do
-    after_build do |report|
+    after(:build) do |report|
       report.created_at  = 2.weeks.ago
       report.reported_at = 2.weeks.ago
     end
   end
 
   trait :with_logs do
-    ignore do
+    transient do
       log_count 5
     end
-    after_create do |report,evaluator|
+    after(:create) do |report,evaluator|
       evaluator.log_count.times do
       FactoryGirl.create(:log, :report => report)
       end
@@ -27,7 +27,7 @@ FactoryGirl.define do
   factory :log do
     report
     level_id 1
-    after_build do |log|
+    after(:build) do |log|
       log.message = FactoryGirl.create(:message)
       log.source = FactoryGirl.create(:source)
     end
