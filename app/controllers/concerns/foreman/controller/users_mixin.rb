@@ -1,5 +1,6 @@
 module Foreman::Controller::UsersMixin
   extend ActiveSupport::Concern
+  include StrongParametersHelper
 
   included do
     before_filter :set_admin_on_creation, :only => :create
@@ -12,9 +13,13 @@ module Foreman::Controller::UsersMixin
 
   protected
 
+  def user_params
+    params.require(:user).permit(*permitted_user_attributes)
+  end
+
   def set_admin_on_creation
-    admin = params[:user].delete :admin
-    @user = User.new(params[:user]) { |u| u.admin = admin unless admin.nil? }
+    admin = params[:user].delete(:admin)
+    @user = User.new(user_params) { |u| u.admin = admin unless admin.nil? }
   end
 
   def clear_params_on_update

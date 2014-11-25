@@ -15,7 +15,7 @@ class LookupValuesController < ApplicationController
   end
 
   def create
-    @lookup_value = LookupValue.new(params[:lookup_value])
+    @lookup_value = LookupValue.new(foreman_params)
     if @lookup_value.save
       process_success({:success_redirect => lookup_key_lookup_values_url(params[:lookup_key_id])})
     else
@@ -24,7 +24,7 @@ class LookupValuesController < ApplicationController
   end
 
   def update
-    if @lookup_value.update_attributes(params[:lookup_value])
+    if @lookup_value.update_attributes(foreman_params)
       process_success({:success_redirect => lookup_key_lookup_values_url(params[:lookup_key_id])})
     else
       process_error

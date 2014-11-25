@@ -45,5 +45,8 @@ Foreman::Application.configure do
     Bullet.rails_logger = true
     Bullet.add_footer = true
   end if defined?(Bullet)
+  # For development of Strong Params, this has been put in development.rb
+  # Need to consider putting it env-wise or initializer
+  config.action_controller.action_on_unpermitted_parameters = :raise
 end
 

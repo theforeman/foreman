@@ -11,7 +11,7 @@ class SubnetsController < ApplicationController
   end
 
   def create
-    @subnet = Subnet.new(params[:subnet])
+    @subnet = Subnet.new(foreman_params)
     if @subnet.save
       process_success success_hash
     else
@@ -23,7 +23,7 @@ class SubnetsController < ApplicationController
   end
 
   def update
-    if @subnet.update_attributes(params[:subnet])
+    if @subnet.update_attributes(foreman_params)
       process_success success_hash
     else
       process_error

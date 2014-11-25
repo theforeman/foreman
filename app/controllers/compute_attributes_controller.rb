@@ -5,7 +5,7 @@ class ComputeAttributesController < ApplicationController
   end
 
   def create
-    @set = ComputeAttribute.new(params[:compute_attribute])
+    @set = ComputeAttribute.new(foreman_params)
     if @set.save
       process_success :success_redirect => request.referer || compute_profile_path(@set.compute_profile)
     else
@@ -19,7 +19,7 @@ class ComputeAttributesController < ApplicationController
 
   def update
     @set = ComputeAttribute.find(params[:id])
-    if @set.update_attributes!(params[:compute_attribute])
+    if @set.update_attributes!(foreman_params)
       process_success :success_redirect => request.referer || compute_profile_path(@set.compute_profile)
     else
       process_error :object => @set

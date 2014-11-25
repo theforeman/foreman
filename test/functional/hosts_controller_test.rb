@@ -785,7 +785,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "cannot change sti type to invalid subtype" do
     old_type = @host.type
-    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Notvalid"} }, set_session_user
+    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Notvalid", :disk => @host.disk } }, set_session_user
     @host = Host.find(@host.id)
     assert_equal old_type, @host.type
   end
