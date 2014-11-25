@@ -4,7 +4,7 @@ module Foreman::Model
     delegate :flavors, :to => :client
 
     validates :user, :password, :presence => true
-    #before_create :test_connection
+    before_create :test_connection
 
     # Not sure why it would need a url, but OK (copied from ec2)
     alias_attribute :region, :url
@@ -50,13 +50,9 @@ module Foreman::Model
     def test_connection(options = {})
       super
       errors[:user].empty? and errors[:password].empty? and regions.count
-#    rescue StandardError => e
-#      errors[:base] << e
-#    rescue Excon::Error => e
-#      errors[:base] << e.response.body
     rescue Excon::Errors::Unauthorized => e
       errors[:base] << e.response.body
-    rescue Fog::Compute::DigitalOcean::Error => e
+    rescue Fog::Errors::Error => e
       errors[:base] << e.message
     end
 
