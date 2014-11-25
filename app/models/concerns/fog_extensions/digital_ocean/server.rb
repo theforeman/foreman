@@ -14,16 +14,16 @@ module FogExtensions
 
       def image
         requires :image_id
-        @image ||= service.images.get(image_id)
+        @image ||= service.images.get(image_id.to_i)
       end
 
       def region
         requires :region_id
-        @region ||= service.regions.get(region_id)
+        @region ||= service.regions.get(region_id.to_i)
       end
 
       def ip_addresses
-        mage[public_ip_address, private_ip_address].flatten.select(&:present?)
+        [public_ip_address, private_ip_address].flatten.select(&:present?)
       end
 
     end
