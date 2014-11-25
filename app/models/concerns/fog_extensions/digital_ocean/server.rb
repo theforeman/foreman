@@ -22,11 +22,6 @@ module FogExtensions
         @region ||= service.regions.get(region_id.to_i)
       end
 
-      def imageName
-        distro = image.try(:distribution)
-        "#{distro} #{image.name}"
-      end
-
       def ip_addresses
         [public_ip_address, private_ip_address].flatten.select(&:present?)
       end
