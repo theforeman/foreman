@@ -78,7 +78,10 @@ class FactImporter
   end
 
   def normalize(facts)
-    facts.keep_if { |k, v| v.present? && v.is_a?(String) }
+    # convert all structures to simple strings
+    facts = Hash[facts.map {|k, v| [k.to_s, v.to_s]}]
+    # and remove empty values
+    facts.keep_if { |k, v| v.present? }
   end
 
   def db_facts
