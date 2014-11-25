@@ -21,9 +21,13 @@ class Host::Managed < Host::Base
   has_one :token, :foreign_key => :host_id, :dependent => :destroy
 
   def self.complete_for(query, opts = {})
-    matcher = /(((user\.[a-z]+)|owner)\s*[=~])\s*\S+\s*\z/
-    output = super(query)
-    output << output.last.sub(matcher,'\1 current_user') if not output.empty? and output.last =~ matcher
+    matcher = /(\s*(?:(?:user\.[a-z]+)|owner)\s*[=~])\s*(\S*)\s*\z/
+    matches = matcher.match(query)
+    output = super(query, opts)
+    if matches.present? && 'current_user'.starts_with?(matches[2])
+      current_user_result = query.sub(matcher, '\1 current_user')
+      output = [current_user_result] + output
+    end
     output
   end
 
@@ -452,6 +456,11 @@ class Host::Managed < Host::Base
     attrs = []
     attrs = [:mac, :ip] unless managed? and Setting[:ignore_puppet_facts_for_provisioning]
     super + [:domain, :architecture, :operatingsystem] + attrs
+  end
+
+  def set_non_empty_values(parser, methods)
+    super
+    normalize_addresses
   end
 
   def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
