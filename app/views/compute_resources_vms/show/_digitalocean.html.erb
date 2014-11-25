@@ -7,7 +7,7 @@
     <%= prop :state %>
     <%= prop :created_at, 'Created' %>
     <%= prop :image_id, 'Image ID' %>
-    <%= prop :imageName, 'Image' %>
+    <%= prop @vm.image.name, 'Image' %>
     <%= prop :flavor_id, 'Flavor ID' %>
     <%= prop :vm_description, "Type (flavor)" %>
   </table>

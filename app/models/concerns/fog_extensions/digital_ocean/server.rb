@@ -22,10 +22,6 @@ module FogExtensions
         @region ||= service.regions.get(region_id)
       end
 
-      def imageName
-        "#{image.distribution} #{image.name}"
-      end
-
       def ip_addresses
         mage[public_ip_address, private_ip_address].flatten.select(&:present?)
       end
