@@ -25,16 +25,16 @@ FactoryGirl.define do
     end
 
     trait :with_parameter do
-      after_create do |host,evaluator|
+      after(:create) do |host,evaluator|
         FactoryGirl.create(:host_parameter, :host => host)
       end
     end
 
     trait :with_facts do
-      ignore do
+      transient do
         fact_count 20
       end
-      after_create do |host,evaluator|
+      after(:create) do |host,evaluator|
         evaluator.fact_count.times do
           FactoryGirl.create(:fact_value, :host => host)
         end
@@ -42,10 +42,10 @@ FactoryGirl.define do
     end
 
     trait :with_reports do
-      ignore do
+      transient do
         report_count 5
       end
-      after_create do |host,evaluator|
+      after(:create) do |host,evaluator|
         evaluator.report_count.times do
           FactoryGirl.create(:report, :host => host)
         end
@@ -55,7 +55,7 @@ FactoryGirl.define do
     trait :on_compute_resource do
       uuid Foreman.uuid
       association :compute_resource, :factory => :ec2_cr
-      after_build { |host| host.class.skip_callback(:validation, :after, :queue_compute) }
+      after(:build) { |host| host.class.skip_callback(:validation, :after, :queue_compute) }
     end
 
     trait :with_subnet do
@@ -162,7 +162,7 @@ FactoryGirl.define do
     end
 
     trait :with_parameter do
-      after_create do |hg,evaluator|
+      after(:create) do |hg,evaluator|
         FactoryGirl.create(:hostgroup_parameter, :hostgroup => hg)
       end
     end
