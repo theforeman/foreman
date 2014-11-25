@@ -60,7 +60,7 @@ class Host::Managed < Host::Base
       :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method,
       :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent, :primary_interface, :interfaces,
-      :has_primary_interface?, :bond_interfaces, :interfaces_with_identifier, :managed_interfaces, :facts, :facts_hash,
+      :has_primary_interface?, :bond_interfaces, :interfaces_with_identifier, :managed_interfaces, :facts, :facts_hash, :root_pass,
       :sp_name, :sp_ip, :sp_mac, :sp_subnet
   end
 
