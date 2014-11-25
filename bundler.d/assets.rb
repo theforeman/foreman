@@ -10,8 +10,9 @@ group :assets do
   gem 'flot-rails', '0.0.3'
   gem 'quiet_assets', '~> 1.0'
   gem 'gettext_i18n_rails_js', '~> 0.0', '>= 0.0.8'
+  # unspecified dep of gettext_i18n_rails_js
+  #   https://github.com/nubis/gettext_i18n_rails_js/pull/23
   gem 'gettext', '~> 3.1', :require => false
-  gem 'locale', '~> 2.0'
   gem 'multi-select-rails', '~> 0.9'
   gem 'gridster-rails', '~> 0.1'
   gem 'jquery_pwstrength_bootstrap', '~> 1.2'
