@@ -23,6 +23,7 @@ gem 'foreigner', '~> 1.4.2'
 gem 'validates_lengths_from_database',  '~> 0.2.0'
 gem 'friendly_id', '~> 4.0'
 gem 'secure_headers', '~> 1.3.3'
+gem 'font-awesome-rails' # Added here and not in asset group as the engine contains a few helpers
 
 if RUBY_VERSION =~ /^1\.8/
   # Older version of safemode for Ruby 1.8, as the latest causes regexp overflows (#2100)
