@@ -422,3 +422,13 @@ table tr td:last-child {
 .autocomplete-input {
   display:inline-block !important;
 }
+
+
+.lookup-keys-container{
+  li .close{
+    display: none;
+  }
+  li.active .close{
+    display: block;
+  }
+}

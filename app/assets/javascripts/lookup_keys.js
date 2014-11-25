@@ -1,47 +1,23 @@
 //on load
 $(function() {
   //select the first tab
-  $('.smart-var-tabs li a span').hide();
   select_first_tab();
+  $(document).on('click', '.nav-tabs a[data-toggle="tab"]', function(){select_first_tab();});
   // expend inner form fields
   $('.tabs-left .col-md-4').removeClass('col-md-4').addClass('col-md-8')
-  //make the remove variable button visible only on the active pill
-  $(document).on('click', '.smart-var-tabs li a', function(){ show_delete_button(this);});
   //remove variable click event
   $(document).on('click', '.smart-var-tabs li a span', function(){ remove_node(this);});
 })
 
 function select_first_tab(){
-  $('.lookup-keys-container').each(
-        function(i,container){
-          if ($(container).find('.smart-var-tabs li').length > 1){
-            $(container).find('.tab-content .fields').first().addClass('active');
-            $(container).find('.smart-var-tabs li').first().addClass('active');
-            $(container).find('.smart-var-tabs li.active').find("a span").show();
-          }
-        }
-      )
-}
-
-function show_delete_button(item){
-  var container = $('.lookup-keys-container:visible');
-  container.find('.smart-var-tabs li a span:visible').hide();
-  container.find('.smart-var-tabs li.active').find("a span").show();
-
-  if($(item).hasClass('label-success') && (container.find('.smart-var-tabs li').length>1)){
-    select_first_tab();
+  var pills = $('.lookup-keys-container:visible .smart-var-tabs li:visible');
+  if (pills.length > 0 && pills.find('.tab-error:visible').length == 0){
+    pills.find('a:visible').first().click();
   }
 }
 
 function remove_node(item){
   $($(item).parent("a").attr("href")).children('.btn-danger').click();
-  var container = $('.lookup-keys-container:visible');
-  var pills = container.find('.smart-var-tabs li a');
-  if (pills.length > 1){
-    pills.first().parent().addClass('active');
-    pills.first().find('span').show();
-  }
-
 }
 
 function fix_template_context(content, context) {
@@ -124,7 +100,6 @@ function remove_child_node(item) {
     $('.lookup-keys-container:visible').find('.undo-smart-vars').append(undo_link).show();
   }
   $(item).closest("form").trigger('nested:fieldRemoved');
-
   return false;
 }
 
@@ -142,7 +117,6 @@ function undo_remove_child_node(item){
   container.find('.fields.active').hide().removeClass('active');
   fields.show().addClass('active');
   link.parent().show().addClass('active');
-  show_delete_button(link);
 
   $(item).remove();
   if (container.find('.undo-smart-vars a').length == 0) {
