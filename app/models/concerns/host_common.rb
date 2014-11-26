@@ -116,9 +116,9 @@ module HostCommon
                        end
 
     if unencrypted_pass.present?
-      self.root_pass = unencrypted_pass.starts_with?('$') ? unencrypted_pass :
+      self.root_pass = !!(unencrypted_pass.match('^\$\d+\$.+\$.+')) ? unencrypted_pass :
           (operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash))
-      self.grub_pass = unencrypted_pass.starts_with?('$') ? unencrypted_pass : PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
+      self.grub_pass = !!(unencrypted_pass.match('^\$\d+\$.+\$.+')) ? unencrypted_pass : PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
     end
   end
 
