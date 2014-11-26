@@ -81,7 +81,7 @@ class Hostgroup < ActiveRecord::Base
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
       :environment, :ptable, :url_for_boot, :params, :puppetproxy, :param_true?,
       :param_false?, :puppet_ca_server, :indent, :os, :arch, :domain, :subnet,
-      :realm
+      :realm, :root_pass
   end
 
   #TODO: add a method that returns the valid os for a hostgroup
