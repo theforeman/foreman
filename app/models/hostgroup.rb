@@ -12,7 +12,7 @@ class Hostgroup < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :hostgroup_classes
   has_many :puppetclasses, :through => :hostgroup_classes, :dependent => :destroy
-  validates :name, :format => { :with => /\A(\S+\s?)+\Z/, :message => N_("can't contain trailing white spaces.")}
+  validates :name, :presence => true
   validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true

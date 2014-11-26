@@ -10,20 +10,18 @@ class PuppetclassTest < ActiveSupport::TestCase
     assert !puppet_class.save
   end
 
-  test "name can't contain trailing white spaces" do
-    puppet_class = Puppetclass.new :name => "   test     class   "
-    assert !puppet_class.name.squeeze(" ").empty?
-    assert !puppet_class.save
-
-    puppet_class.name.squeeze!(" ")
+  test "name strips leading and trailing white spaces" do
+    puppet_class = Puppetclass.new :name => "   testclass   "
     assert puppet_class.save
+    assert !puppet_class.name.ends_with?(' ')
+    assert !puppet_class.name.starts_with?(' ')
   end
 
   test "name must be unique" do
-    puppet_class = Puppetclass.new :name => "test class"
+    puppet_class = Puppetclass.new :name => "testclass"
     assert puppet_class.save
 
-    other_puppet_class = Puppetclass.new :name => "test class"
+    other_puppet_class = Puppetclass.new :name => "testclass"
     assert !other_puppet_class.save
   end
 

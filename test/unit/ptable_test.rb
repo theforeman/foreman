@@ -11,13 +11,12 @@ class PtableTest < ActiveSupport::TestCase
     assert !partition_table.save
   end
 
-  test "name can't contain trailing white spaces" do
+  test "name strips leading and trailing white spaces" do
     partition_table = Ptable.new :name => "   Archlinux        default  ", :layout => "any layout"
-    assert !partition_table.name.squeeze(" ").empty?
-    assert !partition_table.save
-
-    partition_table.name.squeeze!(" ")
     assert partition_table.save
+
+    assert !partition_table.name.ends_with?(' ')
+    assert !partition_table.name.starts_with?(' ')
   end
 
   test "layout can't be blank" do

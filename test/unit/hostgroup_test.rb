@@ -10,13 +10,11 @@ class HostgroupTest < ActiveSupport::TestCase
     assert !host_group.save
   end
 
-  test "name can't contain trailing white spaces" do
+  test "name strips leading and trailing white spaces" do
     host_group = Hostgroup.new :name => " all    hosts in the     world    "
-    assert !host_group.name.squeeze(" ").empty?
-    assert !host_group.save
-
-    host_group.name.squeeze!(" ")
     assert host_group.save
+    assert !host_group.name.ends_with?(' ')
+    assert !host_group.name.starts_with?(' ')
   end
 
   test "name must be unique" do
