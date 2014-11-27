@@ -68,11 +68,17 @@ function two_pane_submit(){
   $("body").css("cursor", "progress");
 
   var url = $('.two-pane-right form').attr('action');
+  var data;
+  if (!("FormData" in window))
+    data = $('form').serialize();
+  else
+    data = new FormData($('form')[0]);
+
   $.ajax({
     type:'POST',
     url: url,
     headers: {"X-Foreman-Layout": "two-pane"},
-    data: $('form').serialize(),
+    data: data,
     success: function(response){
       right_pane_content(response);
     },
