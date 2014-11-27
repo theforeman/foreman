@@ -76,7 +76,7 @@ module HostsHelper
     params[:search].empty?
   end
 
-  def multiple_actions_select
+  def multiple_actions
     actions = [
       [_('Change Group'), select_multiple_hostgroup_hosts_path],
       [_('Change Environment'), select_multiple_environment_hosts_path],
@@ -90,9 +90,12 @@ module HostsHelper
     actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun]
     actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
     actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
+    actions
+  end
 
+  def multiple_actions_select
       select_action_button( _("Select Action"), {:id => 'submit_multiple'},
-        actions.map do |action|
+        multiple_actions.map do |action|
           link_to(action[0], action[1], :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
         end.flatten
       )
