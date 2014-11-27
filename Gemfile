@@ -7,7 +7,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.21'
 gem 'json', '~> 1.5'
-gem 'rest-client', '~> 1.6', :require => 'rest_client'
+gem 'rest-client', '~> 1.6.0', :require => 'rest_client'
 gem 'audited-activerecord', '3.0.0'
 gem 'will_paginate', '~> 3.0'
 gem 'ancestry', '~> 2.0'
