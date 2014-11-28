@@ -42,6 +42,11 @@ class ApplicationController < ActionController::Base
     request.format.try(:json?) || request.format.try(:yaml?)
   end
 
+  # this method is returns the active user which gets used to populate the audits table
+  def current_user
+    User.current
+  end
+
   protected
 
   # Authorize the user for the requested action
@@ -78,11 +83,6 @@ class ApplicationController < ActionController::Base
       notice _("Mail is Required")
       redirect_to edit_user_path(:id => User.current)
     end
-  end
-
-  # this method is returns the active user which gets used to populate the audits table
-  def current_user
-    User.current
   end
 
   def invalid_request
