@@ -754,21 +754,21 @@ context "location or organizations are not enabled" do
     assert_equal h.root_pass, Setting.root_pass
   end
 
-  test "should generate a random salt when saving root pw" do
-    h = FactoryGirl.create(:host, :managed)
-    h.hostgroup = nil
-    h.root_pass = "xybxa6JUkz63w"
-    assert h.save!
-    first = h.root_pass
+  test "should crypt the password and update it in the database" do
+    unencrypted_password = "xybxa6JUkz63w"
+    host = FactoryGirl.create(:host, :managed)
+    host.hostgroup = nil
+    host.root_pass = unencrypted_password
+    assert host.save!
+    first_password = host.root_pass
 
-    # Check it's a $.$....$...... enhanced style password
-    assert_equal 4, first.split('$').count
-    assert first.split('$')[2].size >= 8
+    # Make sure that the password gets encrypted in the DB, we don't care how it does that
+    refute first_password.include?(unencrypted_password)
 
     # Check it changes
-    h.root_pass = "12345678"
-    assert h.save
-    assert_not_equal first.split('$')[2], h.root_pass.split('$')[2]
+    host.root_pass = "12345678"
+    assert host.save
+    assert_not_equal first_password, host.root_pass
   end
 
   test "should pass through existing salt when saving root pw" do
