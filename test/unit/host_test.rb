@@ -902,8 +902,8 @@ context "location or organizations are not enabled" do
     subnet = FactoryGirl.create(:subnet)
     h = FactoryGirl.create(:host, :managed, :subnet => subnet, :ip => subnet.network.succ)
     assert_equal 1, h.interfaces.count # we already have primary interface
-    bootable = Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
-                                     :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain, :managed => false
+    Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
+                          :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain, :managed => false
     assert_equal 2, h.interfaces.count
     h.interfaces_attributes = [{:name => "dummy-bootable2", :ip => "2.3.4.103", :mac => "aa:bb:cd:cd:ee:ff",
                                 :subnet_id => h.subnet_id, :type => 'Nic::Bootable', :domain_id => h.domain_id,
@@ -1627,16 +1627,31 @@ end # end of context "location or organizations are not enabled"
     assert_equal host.host_config_groups.map(&:config_group_id), copy.host_config_groups.map(&:config_group_id)
   end
 
-  test 'clone host should not copy name, system fields (mac, ip, etc) or interfaces' do
-    host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
-    copy = host.clone
-    assert copy.name.blank?
-    assert copy.mac.blank?
-    assert copy.ip.blank?
-    assert copy.uuid.blank?
-    assert copy.certname.blank?
-    assert copy.last_report.blank?
-    assert_empty copy.interfaces
+  describe 'cloning' do
+
+    test 'clone host should not copy name, system fields (mac, ip, etc)' do
+      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
+      copy = host.clone
+      assert copy.name.blank?
+      assert copy.mac.blank?
+      assert copy.ip.blank?
+      assert copy.uuid.blank?
+      assert copy.certname.blank?
+      assert copy.last_report.blank?
+    end
+
+    test 'clone host should copy interfaces without name, mac and ip' do
+      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
+      copy = host.clone
+
+      assert_equal host.interfaces.length, copy.interfaces.length
+
+      interface = copy.interfaces.first
+      assert interface.name.blank?
+      assert interface.mac.blank?
+      assert interface.ip.blank?
+    end
+
   end
 
   test 'fqdn of host with period in name returns just name with no concatenation of domain' do
@@ -1815,14 +1830,14 @@ end # end of context "location or organizations are not enabled"
 
   test '#initialize respects primary interface attributes and sets provision to the same if missing' do
     h = Host.new(:interfaces_attributes => {
-      '0' => {'_destroy' => '0',
-              :type => 'Nic::Managed',
-              :mac => 'ff:ff:ff:aa:aa:aa',
-              :managed => '1',
-              :primary => '1',
-              :provision => '0',
-              :virtual => '0'}
-    })
+                   '0' => {'_destroy' => '0',
+                           :type => 'Nic::Managed',
+                           :mac => 'ff:ff:ff:aa:aa:aa',
+                           :managed => '1',
+                           :primary => '1',
+                           :provision => '0',
+                           :virtual => '0'}
+                 })
     refute_nil h.primary_interface
     refute_nil h.provision_interface
     assert_equal 'ff:ff:ff:aa:aa:aa', h.primary_interface.mac

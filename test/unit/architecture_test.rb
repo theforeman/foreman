@@ -35,7 +35,6 @@ class ArchitectureTest < ActiveSupport::TestCase
 
   test "should update hosts_count" do
     arch = architectures(:sparc)
-    host = FactoryGirl.create(:host)
     assert_difference "arch.hosts_count" do
       FactoryGirl.create(:host).update_attribute(:architecture, arch)
       arch.reload

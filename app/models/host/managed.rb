@@ -137,15 +137,13 @@ class Host::Managed < Host::Base
     # handles all orchestration of smart proxies.
     include Foreman::Renderer
     include Orchestration
-    # Please note that the order of inclusion of DHCP and DNS orchestration modules is important,
-    # as DHCP validation code relies on DNS code being run first (but it's being run in the opposite order atm)
-#    include Orchestration::DHCP
+    # DHCP orchestration delegation
     delegate :dhcp?, :dhcp_record, :to => :primary_interface
-#    include Orchestration::DNS
+    # DNS orchestration delegation
     delegate :dns?, :reverse_dns?, :dns_a_record, :dns_ptr_record, :to => :primary_interface
     include Orchestration::Compute
-#    include Orchestration::TFTP
     include Rails.application.routes.url_helpers
+    # TFTP orchestration delegation
     delegate :tftp?, :tftp, :generate_pxe_template, :to => :provision_interface
     include Orchestration::Puppetca
     include Orchestration::SSHProvision
@@ -171,7 +169,7 @@ class Host::Managed < Host::Base
     validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
   end
 
-  before_validation :set_hostgroup_defaults, :set_ip_address, :normalize_addresses
+  before_validation :set_hostgroup_defaults, :set_ip_address
   after_validation :ensure_associations, :set_default_user
   before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
   after_validation :trigger_nic_orchestration, :if => Proc.new { |h| h.managed? && h.changed? }, :on => :update
@@ -438,11 +436,6 @@ class Host::Managed < Host::Base
 
   def attributes_to_import_from_facts
     super + [:domain, :architecture, :operatingsystem]
-  end
-
-  def set_non_empty_values(parser, methods)
-    super
-    normalize_addresses
   end
 
   def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
@@ -826,35 +819,6 @@ class Host::Managed < Host::Base
     Classification::ClassParam.new(:host => self).enc
   end
 
-  # This was moved to primary_interface
-  # # ensure that host name is fqdn
-  # # if the user inputted short name, the domain name will be appended
-  # # this is done to ensure compatibility with puppet storeconfigs
-  # def normalize_hostname
-  #   # no hostname was given or a domain was selected, since this is before validation we need to ignore
-  #   # it and let the validations to produce an error
-  #   return if name.empty?
-  #
-  #   # Remove whitespace
-  #   self.name.gsub!(/\s/,'')
-  #
-  #   if domain.nil? and name.match(/\./)
-  #     # try to assign the domain automatically based on our existing domains from the host FQDN
-  #     self.domain = Domain.all.select{|d| name.match(d.name)}.first rescue nil
-  #   else
-  #     # if we've just updated the domain name, strip off the old one
-  #     if !new_record? and changed_attributes['domain_id'].present?
-  #       old_domain = Domain.find(changed_attributes["domain_id"])
-  #       self.name.chomp!("." + old_domain.to_s)
-  #     end
-  #     # name should be fqdn
-  #     self.name = fqdn
-  #   end
-  #   # A managed host we should know the domain for; and the shortname shouldn't include a period
-  #   # This only applies for unattended=true, as otherwise the name field includes the domain
-  #   errors.add(:name, _("must not include periods")) if ( managed? && shortname.include?(".") && SETTINGS[:unattended] )
-  # end
-
   def assign_hostgroup_attributes(attrs = [])
     attrs.each do |attr|
       next if send(attr).to_i == -1
@@ -918,13 +882,6 @@ class Host::Managed < Host::Base
 
   def set_certname
     self.certname = Foreman.uuid if read_attribute(:certname).blank? or new_record?
-  end
-
-  def normalize_addresses
-    # TODO move this to Nics
-    # self.primary_interface.mac = Net::Validations.normalize_mac(mac)
-    # self.primary_interface.ip  = Net::Validations.normalize_ip(ip)
-    # --- I think it's already there, we normalize mac in Nic::Base and IP in Nic::Interface
   end
 
   def tax_location

@@ -33,8 +33,8 @@
 <%= checkbox_f f, :managed,
                :help_inline => _("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?") %>
 <%= checkbox_f f, :primary,
-               :help_inline => _("Is it a primary interface?"),
+               :help_inline => _("The Primary interface is used for constructing the FQDN of the host"),
                :class => :interface_primary %>
 <%= checkbox_f f, :provision,
-               :help_inline => _("Should this interface be used for provisioning?"),
+               :help_inline => _("The Provisioning interface is used for TFTP of PXELinux (or SSH for image-based hosts)"),
                :class => :interface_provision %>

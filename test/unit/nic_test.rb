@@ -5,6 +5,8 @@ class NicTest < ActiveSupport::TestCase
   def setup
     disable_orchestration
     User.current = users :admin
+
+    @nic = FactoryGirl.build(:nic_managed, :host => FactoryGirl.build(:host, :managed => true))
   end
 
   def teardown
@@ -72,7 +74,7 @@ class NicTest < ActiveSupport::TestCase
 
   test "Mac address uniqueness validation is skipped for virtual NICs and unmanaged hosts" do
     host = FactoryGirl.create(:host, :managed)
-    physical = Nic::Base.create! :mac => "cabbccddeeff", :host => host
+    Nic::Base.create! :mac => "cabbccddeeff", :host => host # physical
     virtual = Nic::Base.new :mac => "cabbccddeeff", :host => host, :virtual => true
     assert virtual.valid?
     assert virtual.save
@@ -119,97 +121,90 @@ class NicTest < ActiveSupport::TestCase
       end
     end
 
-    test "we can't destroy primary interface of managed host" do
-      host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
-      interface = host.primary_interface
-      refute interface.destroy
-      assert_includes interface.errors.keys, :primary
+    context "on managed host" do
+
+      setup do
+        @host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
+      end
+
+      test "we can't destroy primary interface of managed host" do
+        interface = @host.primary_interface
+        refute interface.destroy
+        assert_includes interface.errors.keys, :primary
+      end
+
+      test "we can destroy non primary interface of managed host" do
+        interface = FactoryGirl.create(:nic_managed, :primary => false, :host => @host)
+        assert interface.destroy
+      end
+
+      test "we can destroy primary interface when deleting the host" do
+        interface = @host.primary_interface
+        refute interface.destroy
+
+        # we must reload the object (interface contains validation errors preventing deletion)
+        @host.reload
+        assert @host.destroy
+      end
+
+      test "we can't destroy provision interface of managed host" do
+        interface = @host.provision_interface
+        refute interface.destroy
+        assert_includes interface.errors.keys, :provision
+      end
+
+      test "we can destroy non provision interface of managed host" do
+        interface = FactoryGirl.create(:nic_managed, :provision => false, :host => @host)
+        assert interface.destroy
+      end
+
+      test "we can destroy provision interface when deleting the host" do
+        interface = @host.provision_interface
+        refute interface.destroy
+
+        # we must reload the object (interface contains validtion errors preventin deletion)
+        @host.reload
+        assert @host.destroy
+      end
+
     end
 
-    test "we can destroy non primary interface of managed host" do
-      host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
-      interface = FactoryGirl.create(:nic_managed, :primary => false, :host => host)
-      assert interface.destroy
-    end
+    context "on unmanaged host" do
 
-    test "we can destroy any interface of unmanaged host" do
-      host = FactoryGirl.create(:host)
-      interface = host.primary_interface
-      assert interface.destroy
-    end
+      setup do
+        @host = FactoryGirl.create(:host)
+      end
 
-    test "we can destroy primary interface when deleting the host" do
-      host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
-      interface = host.primary_interface
-      refute interface.destroy
+      test "we can destroy any interface of unmanaged host" do
+        interface = @host.primary_interface
+        assert interface.destroy
+      end
 
-      # we must reload the object (interface contains validation errors preventing deletion)
-      host.reload
-      assert host.destroy
-    end
+      test "we can destroy any interface of unmanaged host" do
+        interface = @host.provision_interface
+        assert interface.destroy
+      end
 
-    test "host can have one primary interface at most" do
-      host = FactoryGirl.create(:host)
+      test "host can have one primary interface at most" do
+        # factory already created primary interface
+        interface = FactoryGirl.build(:nic_managed, :primary => true, :host => @host)
+        refute interface.save
+        assert_includes interface.errors.keys, :primary
 
-      # factory already created primary interface
-      interface = FactoryGirl.build(:nic_managed, :primary => true, :host => host)
-      refute interface.save
-      assert_includes interface.errors.keys, :primary
+        interface.primary = false
+        interface.name = ''
+        assert interface.save
+      end
 
-      interface.primary = false
-      interface.name = ''
-      assert interface.save
-    end
+      test "provision flag is set for primary interface automatically" do
+        primary = FactoryGirl.build(:nic_managed, :primary => true, :provision => false,
+                                    :domain => FactoryGirl.build(:domain))
+        @host.interfaces = [primary]
+        assert @host.save
+        primary.reload
+        assert_equal primary, @host.provision_interface
+      end
 
-    test "we can't destroy provision interface of managed host" do
-      host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
-      interface = host.provision_interface
-      refute interface.destroy
-      assert_includes interface.errors.keys, :provision
-    end
-
-    test "we can destroy non provision interface of managed host" do
-      host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
-      interface = FactoryGirl.create(:nic_managed, :provision => false, :host => host)
-      assert interface.destroy
-    end
-
-    test "we can destroy any interface of unmanaged host" do
-      host = FactoryGirl.create(:host)
-      interface = host.provision_interface
-      assert interface.destroy
-    end
-
-    test "we can destroy provision interface when deleting the host" do
-      host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
-      interface = host.provision_interface
-      refute interface.destroy
-
-      # we must reload the object (interface contains validtion errors preventin deletion)
-      host.reload
-      assert host.destroy
-    end
-
-    test "host can have one provision interface at most" do
-      host = FactoryGirl.create(:host)
-
-      # factory already created provision interface
-      interface = FactoryGirl.build(:nic_managed, :provision => true, :host => host)
-      refute interface.save
-      assert_includes interface.errors.keys, :provision
-
-      interface.provision = false
-      assert interface.save
-    end
-
-    test "provision flag is set for primary interface automatically" do
-      host = FactoryGirl.build(:host)
-      primary = FactoryGirl.build(:nic_managed, :primary => true, :provision => false,
-                                  :domain => FactoryGirl.build(:domain))
-      host.interfaces = [primary]
-      assert host.save
-      primary.reload
-      assert_equal primary, host.provision_interface
     end
   end
 
@@ -251,26 +246,22 @@ class NicTest < ActiveSupport::TestCase
     end
 
     test 'fqdn_changed? should be true if name changes' do
-      nic = FactoryGirl.create(:nic_managed, :host => FactoryGirl.build(:host, :managed => true))
-      nic.stubs(:name_changed?).returns(true)
-      nic.stubs(:domain_id_changed?).returns(false)
-      assert nic.fqdn_changed?
+      @nic.stubs(:name_changed?).returns(true)
+      @nic.stubs(:domain_id_changed?).returns(false)
+      assert @nic.fqdn_changed?
     end
 
     test 'fqdn_changed? should be true if domain changes' do
-      nic = FactoryGirl.create(:nic_managed, :host => FactoryGirl.build(:host, :managed => true))
-      nic.stubs(:name_changed?).returns(false)
-      nic.stubs(:domain_id_changed?).returns(true)
-      assert nic.fqdn_changed?
+      @nic.stubs(:name_changed?).returns(false)
+      @nic.stubs(:domain_id_changed?).returns(true)
+      assert @nic.fqdn_changed?
     end
 
     test 'fqdn_changed? should be true if name and domain change' do
-      nic = FactoryGirl.create(:nic_managed, :host => FactoryGirl.build(:host, :managed => true))
-      nic.stubs(:name_changed?).returns(true)
-      nic.stubs(:domain_id_changed?).returns(true)
-      assert nic.fqdn_changed?
+      @nic.stubs(:name_changed?).returns(true)
+      @nic.stubs(:domain_id_changed?).returns(true)
+      assert @nic.fqdn_changed?
     end
-
 
   end
 

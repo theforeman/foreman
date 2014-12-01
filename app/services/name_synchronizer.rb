@@ -1,4 +1,3 @@
-# TODO add tests
 class NameSynchronizer
   def initialize(object)
     if object.is_a?(Host::Base)

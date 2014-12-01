@@ -10,7 +10,7 @@ FactoryGirl.define do
     trait :tftp do
       association :tftp, :factory => :template_smart_proxy
     end
-    
+
     trait :dhcp do
       association :dhcp, :factory => :smart_proxy
     end

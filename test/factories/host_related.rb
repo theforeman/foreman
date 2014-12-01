@@ -1,3 +1,17 @@
+# Helpers
+
+def deferred_nic_attrs
+  [:ip, :mac, :subnet, :domain]
+end
+
+def set_nic_attributes(host, attributes, evaluator)
+  attributes.each do |nic_attribute|
+    next unless evaluator.send(nic_attribute).present?
+    host.primary_interface.send(:"#{nic_attribute}=", evaluator.send(nic_attribute))
+  end
+  host
+end
+
 FactoryGirl.define do
   factory :ptable do
     sequence(:name) { |n| "ptable#{n}" }
@@ -9,24 +23,30 @@ FactoryGirl.define do
     sequence(:value) { |n| "parameter value #{n}" }
     type 'CommonParameter'
   end
+
   factory :host_parameter, :parent => :parameter, :class => HostParameter do
     type 'HostParameter'
   end
+
   factory :hostgroup_parameter, :parent => :parameter, :class => GroupParameter do
     type 'GroupParameter'
   end
+
   factory :nic_base do
     sequence(:identifier) { |n| "eth#{n}" }
     sequence(:mac) { |n| "00:00:00:00:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
   end
+
   factory :nic_interface, :class => Nic::Interface, :parent => :nic_base do
     type 'Nic::Interface'
   end
+
   factory :nic_managed, :class => Nic::Managed, :parent => :nic_interface do
     type 'Nic::Managed'
     sequence(:mac) { |n| "01:23:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
     sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
   end
+
   factory :nic_bmc, :class => Nic::BMC, :parent => :nic_managed do
     type 'Nic::BMC'
     sequence(:mac) { |n| "01:23:56:cd:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
@@ -35,10 +55,12 @@ FactoryGirl.define do
     username 'admin'
     password 'admin'
   end
+
   factory :nic_bond, :class => Nic::Bond, :parent => :nic_managed do
     type 'Nic::Bond'
     mode 'balance-rr'
   end
+
   factory :nic_primary_and_provision, :parent => :nic_managed, :class => Nic::Managed do
     primary true
     provision true
@@ -54,28 +76,16 @@ FactoryGirl.define do
 
     # This allows a test to declare build/create(:host, :ip => '1.2.3.4') and
     # have the primary interface correctly updated with the specified attrs
-    ignore do
-      ip     { false }
-      mac    { false }
-      subnet { false }
-      domain { false }
-    end
     after(:build) do |host,evaluator|
-      if host.primary_interface
-        host.primary_interface.mac     = evaluator.mac    if evaluator.mac
-        host.primary_interface.ip      = evaluator.ip     if evaluator.ip
-        host.primary_interface.subnet  = evaluator.subnet if evaluator.subnet
-        host.primary_interface.domain  = evaluator.domain if evaluator.domain
-      else
-        opts = { :primary => true,
-                 :domain  => FactoryGirl.build(:domain)
+      unless host.primary_interface.present?
+        opts = {
+          :primary => true,
+          :domain  => FactoryGirl.build(:domain)
         }
-        opts[:mac]    = evaluator.mac    if evaluator.mac
-        opts[:ip]     = evaluator.ip     if evaluator.ip
-        opts[:subnet] = evaluator.subnet if evaluator.subnet
-        opts[:domain] = evaluator.domain if evaluator.domain
         host.interfaces << FactoryGirl.build(:nic_managed, opts)
       end
+
+      set_nic_attributes(host, deferred_nic_attrs, evaluator)
     end
 
     trait :with_medium do
@@ -175,7 +185,8 @@ FactoryGirl.define do
         )
       }
       interfaces { [ FactoryGirl.build(:nic_primary_and_provision,
-                                       :ip => subnet.network.sub(/0\Z/, '1')) ] }
+                                       :ip => subnet.network.sub(/0\Z/, '1')) ]
+      }
     end
 
     trait :with_dns_orchestration do
@@ -202,7 +213,8 @@ FactoryGirl.define do
                                        :primary => true,
                                        :provision => true,
                                        :domain => FactoryGirl.build(:domain),
-                                       :ip => subnet.network.sub(/0\Z/, '1')) ] }
+                                       :ip => subnet.network.sub(/0\Z/, '1')) ]
+      }
     end
 
     trait :with_tftp_orchestration do
@@ -213,7 +225,8 @@ FactoryGirl.define do
                                        :provision => true,
                                        :domain => FactoryGirl.build(:domain),
                                        :subnet => subnet,
-                                       :ip => subnet.network.sub(/0\Z/, '2')) ] }
+                                       :ip => subnet.network.sub(/0\Z/, '2')) ]
+      }
     end
 
     trait :with_puppet_orchestration do

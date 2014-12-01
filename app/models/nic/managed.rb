@@ -57,7 +57,7 @@ module Nic
     def enc_attributes
       @enc_attributes ||= begin
         base = super + %w(ip mac type name attrs virtual link identifier managed primary provision)
-        base += %w(tag attached_to) if self.virtual?
+        base += %w(tag attached_to) if virtual?
         base
       end
     end
@@ -96,26 +96,25 @@ module Nic
     end
 
     def copy_hostname_from_host
-      self.name = self.host.read_attribute :name
+      self.name = host.read_attribute :name
     end
 
     def set_provisioning_flag
-      if self.primary? && self.host && self.host.interfaces.detect(&:provision).nil?
-        self.provision = true
-      end
+      return unless primary?
+      return unless host.present?
+      self.provision = true if host.interfaces.detect(&:provision).nil?
     end
 
     def update_lookup_value_fqdn_matchers
-      if self.primary? && self.fqdn_changed?
-        LookupValue.where(:match => "fqdn=#{fqdn_was}").update_all(:match => host.send(:lookup_value_match))
-      end
+      return unless primary?
+      return unless fqdn_changed?
+      LookupValue.where(:match => "fqdn=#{fqdn_was}").update_all(:match => host.send(:lookup_value_match))
     end
 
     def drop_host_cache
-      if self.host
-        self.host.drop_primary_interface_cache if self.primary
-        self.host.drop_provision_interface_cache if self.provision
-      end
+      return unless host.present?
+      host.drop_primary_interface_cache   if primary?
+      host.drop_provision_interface_cache if provision?
       true
     end
 
@@ -131,7 +130,7 @@ module Nic
     def setup_clone
       return if new_record?
       @old = super
-      @old.host = self.host.setup_clone
+      @old.host = host.setup_clone
       @old
     end
 

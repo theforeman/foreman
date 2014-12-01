@@ -11,8 +11,6 @@ class Domain < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database
-  # TODO remove if safe
-  # has_many_hosts
   has_many :hostgroups
   #order matters! see https://github.com/rails/rails/issues/670
   before_destroy EnsureNotUsedBy.new(:interfaces, :hostgroups, :subnets)

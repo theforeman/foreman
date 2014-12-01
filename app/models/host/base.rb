@@ -145,7 +145,7 @@ module Host
       # is saved to primary interface so we match it in updating code below
       if !self.managed? && self.primary_interface.mac.blank? && self.primary_interface.identifier.blank?
         identifier, values = parser.suggested_primary_interface(self)
-        self.primary_interface.mac = values[:macaddress]
+        self.primary_interface.mac = Net::Validations.normalize_mac(values[:macaddress])
         self.primary_interface.identifier = identifier
         self.primary_interface.save!
       end

@@ -13,7 +13,6 @@ class Subnet < ActiveRecord::Base
 
   validates_lengths_from_database :except => [:gateway]
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :interfaces, :domains)
-  #has_many_hosts
   has_many :hostgroups
   belongs_to :dhcp, :class_name => "SmartProxy"
   belongs_to :tftp, :class_name => "SmartProxy"
@@ -203,7 +202,7 @@ class Subnet < ActiveRecord::Base
     Host::Base.joins(:primary_interface).where(:nics => {:subnet_id => id}).pluck(type).compact.uniq
   end
 
-  def as_json(options={})
+  def as_json(options = {})
     super({:methods => [:to_label]}.merge(options))
   end
 
