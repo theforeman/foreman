@@ -1,3 +1,18 @@
+2014-12-02	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.7.0
+	* i18n - extracting new, updating rails, pulling from tx
+	* templates - sync from community-templates
+	* fixes #7487 - remove unused background-image containing UTF-8 character
+
+2014-12-02	Marek Hulan <mhulan@redhat.com>
+	* Fixes #8433 - Fix type transformation for all ENC-able NICs
+
+2014-12-02	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8459 - remove sp_subnet_id from api/hosts
+
+2014-12-02	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #8467 - trends range selector is now visible
+
 2014-11-25	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.7.0-RC2
 
