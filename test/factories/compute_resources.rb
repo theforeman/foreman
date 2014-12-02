@@ -43,6 +43,12 @@ FactoryGirl.define do
       region 'IAD'
     end
 
+    trait :digitalocean do
+      provider 'Digitalocean'
+      user 'rsuser'
+      password 'rspassword'
+    end
+
     trait :vmware do
       provider 'Vmware'
       user 'vuser'
