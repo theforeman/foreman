@@ -761,14 +761,19 @@ context "location or organizations are not enabled" do
     assert h.save!
     first = h.root_pass
 
+    # Mac OSX libc's crypt works differently from GNU's crypt
+    # see http://apidock.com/ruby/String/crypt#1075-String-crypt-uses-your-platform-s-native-implementation
+    mac = RUBY_PLATFORM.include?("darwin")
+    hash_size = mac ? 2 : 4
+    test_place = mac ? 2 : 1
     # Check it's a $.$....$...... enhanced style password
-    assert_equal 4, first.split('$').count
-    assert first.split('$')[2].size >= 8
+    assert_equal hash_size, first.split('$').count
+    assert first.split('$')[test_place].size >= 8
 
     # Check it changes
     h.root_pass = "12345678"
     assert h.save
-    assert_not_equal first.split('$')[2], h.root_pass.split('$')[2]
+    assert_not_equal first.split('$')[test_place], h.root_pass.split('$')[test_place]
   end
 
   test "should pass through existing salt when saving root pw" do
