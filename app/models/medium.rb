@@ -4,6 +4,7 @@ class Medium < ActiveRecord::Base
   friendly_id :name
   include Taxonomix
   include ValidateOsFamily
+  include Parameterizable::ByIdName
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database
