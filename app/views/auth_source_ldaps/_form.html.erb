@@ -15,7 +15,7 @@
       <%= text_f f, :name %>
       <%= text_f f, :host %>
       <%= checkbox_f(f, :tls, {:label => "LDAPS", :onchange => 'change_ldap_port(this)'}) %>
-      <%= text_f f, :port, :data => {:default_ports => AuthSourceLdap::DEFAULT_PORTS} %>
+      <%= number_f f, :port, :min => 1,:max => 65535, :data => {:default_ports => AuthSourceLdap::DEFAULT_PORTS } %>
       <%= select_f f, :server_type, AuthSourceLdap::SERVER_TYPES, :first, :last,
                     { :include_blank => _("Choose a server type") },
                     { :label => _('Server type') } %>
