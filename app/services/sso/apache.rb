@@ -1,14 +1,12 @@
-require 'iconv' if RUBY_VERSION.start_with?('1.8.')
-
 module SSO
   class Apache < Base
     delegate :session, :to => :controller
 
     CAS_USERNAME = 'REMOTE_USER'
     ENV_TO_ATTR_MAPPING = {
-        'REMOTE_USER_EMAIL'     => :mail,
-        'REMOTE_USER_FIRSTNAME' => :firstname,
-        'REMOTE_USER_LASTNAME'  => :lastname,
+      'REMOTE_USER_EMAIL'     => :mail,
+      'REMOTE_USER_FIRSTNAME' => :firstname,
+      'REMOTE_USER_LASTNAME'  => :lastname,
     }
 
     def available?

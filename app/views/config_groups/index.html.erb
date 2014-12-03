@@ -14,7 +14,7 @@
   </tr>
   <% @config_groups.each do |config_group| %>
     <tr>
-      <td><%= link_to_if_authorized config_group.name, hash_for_edit_config_group_path(config_group)%></td>
+      <td><%= link_to_if_authorized trunc(config_group.name), hash_for_edit_config_group_path(config_group)%></td>
       <td><%= link_to config_group.config_group_classes_count, puppetclasses_path(:search => %Q{config_group = "#{config_group}"}) %></td>
 
       <td><%= link_to config_group.hosts_count, hosts_path(:search => %Q{config_group = "#{config_group}"}) %></td>
@@ -29,6 +29,5 @@
   <% end %>
 </table>
 
-<%= page_entries_info @config_groups %>
-<%= will_paginate     @config_groups %>
+<%= will_paginate_with_info @config_groups %>
 

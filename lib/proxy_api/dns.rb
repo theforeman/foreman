@@ -1,6 +1,6 @@
 module ProxyAPI
   class DNS < ProxyAPI::Resource
-    def initialize args
+    def initialize(args)
       @url  = args[:url] + "/dns"
       super args
     end
@@ -9,7 +9,7 @@ module ProxyAPI
     # [+fqdn+] : String containing the FQDN of the host
     # [+args+] : Hash containing :value and :type: The :fqdn key is taken from the fqdn parameter
     # Returns  : Boolean status
-    def set args
+    def set(args)
       parse post(args, "")
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to set DNS entry"))
@@ -18,7 +18,7 @@ module ProxyAPI
     # Deletes a DNS entry
     # [+key+] : String containing either a FQDN or a dotted quad plus .in-addr.arpa.
     # Returns    : Boolean status
-    def delete key
+    def delete(key)
       parse(super("#{key}"))
     rescue RestClient::ResourceNotFound
       # entry doesn't exists anyway

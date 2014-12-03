@@ -4,6 +4,8 @@
 # modified version of one of these in textual form
 class Ptable < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
   include ValidateOsFamily
   audited :allow_mass_assignment => true
 
@@ -13,8 +15,7 @@ class Ptable < ActiveRecord::Base
   has_many :hostgroups
   has_and_belongs_to_many :operatingsystems
   validates :layout, :presence => true
-  validates :name, :presence => true, :uniqueness => true,
-            :format => {:with => /\A(\S+\s?)+\S\Z/, :message => N_("can't contain trailing white spaces.")}
+  validates :name, :presence => true, :uniqueness => true
   default_scope lambda { order('ptables.name') }
   validate_inclusion_in_families :os_family
 

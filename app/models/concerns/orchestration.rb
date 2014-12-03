@@ -31,7 +31,7 @@ module Orchestration
   end
 
   # log and add to errors
-  def failure msg, backtrace=nil, dest = :base
+  def failure(msg, backtrace = nil, dest = :base)
     logger.warn(backtrace ? msg + backtrace.join("\n") : msg)
     errors.add dest, msg
     false
@@ -66,7 +66,7 @@ module Orchestration
   # takes care for running the tasks in order
   # if any of them fail, it rollbacks all completed tasks
   # in order not to keep any left overs in our proxies.
-  def process queue_name
+  def process(queue_name)
     return true if Rails.env == "test"
 
     # queue is empty - nothing to do.
@@ -117,7 +117,7 @@ module Orchestration
     rollback
   end
 
-  def execute opts = {}
+  def execute(opts = {})
     obj, met = opts[:action]
     rollback = opts[:rollback] || false
     # at the moment, rollback are expected to replace set with del in the method name

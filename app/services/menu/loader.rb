@@ -13,10 +13,14 @@ module Menu
       Manager.map :header_menu
 
       Manager.map :user_menu do |menu|
-        menu.item :logout,               :caption => N_('Sign out'),
-                  :url_hash => {:controller => '/users', :action => 'logout'}
-        menu.item :my_account,           :caption => N_('My account'),
+        menu.item :my_account,
+                  :caption => N_('My account'),
                   :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
+        menu.divider
+        menu.item :logout,
+                  :caption => N_('Log out'),
+                  :html => {:method => :post},
+                  :url_hash => {:controller => '/users', :action => 'logout'}
       end
 
       Manager.map :admin_menu do |menu|

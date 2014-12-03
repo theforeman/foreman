@@ -2,7 +2,12 @@ module Host
   class Base < ActiveRecord::Base
     include Foreman::STI
     include Authorizable
+    include CounterCacheFix
+    include Parameterizable::ByName
+
     self.table_name = :hosts
+    extend FriendlyId
+    friendly_id :name
     OWNER_TYPES = %w(User Usergroup)
 
     validates_lengths_from_database
@@ -13,15 +18,12 @@ module Host
              :foreign_key => :host_id, :order => 'identifier'
     accepts_nested_attributes_for :interfaces, :reject_if => lambda { |a| a[:mac].blank? }, :allow_destroy => true
 
-    alias_attribute        :hostname, :name
-    before_validation      :normalize_name
-    validates :name,       :presence => true,
-                           :uniqueness => true,
-                           :format => {:with => Net::Validations::HOST_REGEXP}
-    validates_inclusion_of :owner_type,
-                           :in          => OWNER_TYPES,
-                           :allow_blank => true,
-                           :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', '))
+    alias_attribute :hostname, :name
+    before_validation :normalize_name
+    validates :name, :presence   => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP}
+    validates :owner_type, :inclusion => { :in          => OWNER_TYPES,
+                                           :allow_blank => true,
+                                           :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', ')) }
 
     attr_writer :updated_virtuals
     def updated_virtuals
@@ -34,7 +36,7 @@ module Host
 
     def self.import_host_and_facts(json)
       # noop, overridden by STI descendants
-      return self, true
+      [self, true]
     end
 
     # expect a facts hash
@@ -64,7 +66,7 @@ module Host
       # If we don't (e.g. we never install the server via Foreman, we populate the fields from facts
       # TODO: if it was installed by Foreman and there is a mismatch,
       # we should probably send out an alert.
-      return save(:validate => false)
+      save(:validate => false)
     end
 
     def attributes_to_import_from_facts
@@ -113,7 +115,7 @@ module Host
           end
         end
 
-        iface = base.first || Nic::Managed.new(:managed => false)
+        iface = base.first || interface_class(name).new(:managed => false)
         # create or update existing interface
         set_interface(attributes, name, iface)
       end
@@ -133,10 +135,6 @@ module Host
         hash[fact.fact_name.name] = fact.value
       end
       hash
-    end
-
-    def to_param
-      name
     end
 
     def ==(comparison_object)
@@ -185,6 +183,18 @@ module Host
       self.primary_interface.present?
     end
 
+    def managed_interfaces
+      self.interfaces.managed.is_managed.all
+    end
+
+    def bond_interfaces
+      self.interfaces.bonds.is_managed.all
+    end
+
+    def interfaces_with_identifier(identifiers)
+      self.interfaces.is_managed.where(:identifier => identifiers).all
+    end
+
     private
 
     def set_interface(attributes, name, iface)
@@ -193,26 +203,41 @@ module Host
       iface.ip = attributes.delete(:ipaddress)
       iface.virtual = attributes.delete(:virtual) || false
       iface.tag = attributes.delete(:tag) || ''
-      iface.physical_device = attributes.delete(:physical_device) || ''
+      iface.attached_to = attributes.delete(:attached_to) || ''
       iface.link = attributes.delete(:link) if attributes.has_key?(:link)
       iface.identifier = name
       iface.host = self
       update_virtuals(iface.identifier_was, name) if iface.identifier_changed? && !iface.virtual? && iface.persisted?
       iface.attrs = attributes
-      logger.debug "Saving #{name} NIC interface for host #{self.name}"
-      iface.save!
+
+      logger.debug "Saving #{name} NIC for host #{self.name}"
+      result = iface.save
+      result or begin
+        logger.warn "Saving #{name} NIC for host #{self.name} failed, skipping because:"
+        iface.errors.full_messages.each { |e| logger.warn " #{e}"}
+        false
+      end
     end
 
     def update_virtuals(old, new)
       self.updated_virtuals ||= []
 
-      self.interfaces.where(:physical_device => old).virtual.each do |virtual_interface|
+      self.interfaces.where(:attached_to => old).virtual.each do |virtual_interface|
         next if self.updated_virtuals.include?(virtual_interface.id) # may have been already renamed by another physical
 
-        virtual_interface.physical_device = new
+        virtual_interface.attached_to = new
         virtual_interface.identifier = virtual_interface.identifier.sub(old, new)
         virtual_interface.save!
         self.updated_virtuals.push(virtual_interface.id)
+      end
+    end
+
+    def interface_class(name)
+      case name
+        when FactParser::BONDS
+          Nic::Bond
+        else
+          Nic::Managed
       end
     end
   end

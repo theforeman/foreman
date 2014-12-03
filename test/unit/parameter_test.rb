@@ -5,7 +5,8 @@ class ParameterTest < ActiveSupport::TestCase
     User.current = users :admin
   end
   test  "names may me reused in different parameter groups" do
-    p1 = HostParameter.new   :name => "param", :value => "value1", :reference_id => Host.first.id
+    host = FactoryGirl.create(:host)
+    p1 = HostParameter.new   :name => "param", :value => "value1", :reference_id => host.id
     assert p1.save
     p2 = DomainParameter.new :name => "param", :value => "value2", :reference_id => Domain.first.id
     assert p2.save
@@ -20,14 +21,14 @@ class ParameterTest < ActiveSupport::TestCase
   end
 
   test "parameters are hierarchically applied" do
-    cp = CommonParameter.create :name => "animal", :value => "cat"
+    CommonParameter.create :name => "animal", :value => "cat"
 
     organization = taxonomies(:organization1)
     location = taxonomies(:location1)
     domain = Domain.find_or_create_by_name("company.com")
     hostgroup = Hostgroup.find_or_create_by_name "Common"
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03",
-    :domain => domain , :operatingsystem => Operatingsystem.first, :hostgroup => hostgroup,
+    :domain => domain, :operatingsystem => Operatingsystem.first, :hostgroup => hostgroup,
     :architecture => Architecture.first, :environment => Environment.first, :disk => "empty partition",
     :root_pass => "xybxa6JUkz63w", :location => location, :organization => organization
 

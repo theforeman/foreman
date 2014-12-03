@@ -3,11 +3,15 @@ module Nic
     include Orchestration
     include Orchestration::DHCP
     include Orchestration::DNS
+    include EncOutput
 
     # Interface normally are not executed by them self, so we use the host queue and related methods.
     # this ensures our orchestration works on both a host and a managed interface
-    delegate :progress_report_id, :require_ip_validation?, :overwrite?, :capabilities, :compute_resource,
+    delegate :progress_report_id, :require_ip_validation?, :capabilities, :compute_resource,
              :image_build?, :pxe_build?, :pxe_build?, :ip_available?, :mac_available?, :to => :host
+    delegate :overwrite?, :to => :host, :allow_nil => true
+
+    register_to_enc_transformation :type, lambda { |type| type.constantize.humanized_name }
 
     # this ensures we can create an interface even when there is no host queue
     # e.g. outside to Host nested attributes
@@ -29,10 +33,30 @@ module Nic
     end
 
     def hostname
-      unless domain.nil? or name.empty?
+      if domain.present? && name.present?
         "#{name}.#{domain.name}"
       else
         name
+      end
+    end
+
+    def self.humanized_name
+      N_('Interface')
+    end
+
+    private
+
+    def enc_attributes
+      @enc_attributes ||= begin
+        base = super + %w(ip mac type name attrs virtual link identifier managed)
+        base += %w(tag attached_to) if self.virtual?
+        base
+      end
+    end
+
+    def embed_associations
+      @embed_attributes ||= begin
+        super + %w(subnet)
       end
     end
 
@@ -55,4 +79,10 @@ module Nic
     end
 
   end
+
+  Base.register_type(Managed)
 end
+
+require_dependency 'nic/bmc'
+require_dependency 'nic/bond'
+require_dependency 'nic/bootable'

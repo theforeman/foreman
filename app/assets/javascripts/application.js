@@ -19,7 +19,7 @@
 $(document).on('ContentLoad', function(){onContentLoad()});
 
 $(function() {
-  $(document.body).trigger('ContentLoad');
+  $(document).trigger('ContentLoad');
 });
 
 function onContentLoad(){
@@ -55,14 +55,16 @@ function onContentLoad(){
   }
 
   // highlight tabs with errors
-  $(".tab-content").find(".form-group.has-error").each(function(index) {
-    var id = $(this).parentsUntil(".tab-content").last().attr("id");
-    $("a[href=#"+id+"]").addClass("tab-error");
+  $(".tab-content").find(".form-group.has-error").each(function(i){
+    $(this).parents(".tab-pane").each(function(index, item) {
+      var id = $(item).attr('id');
+      $("a[href=#"+id+"]").addClass("tab-error");
 
-    // focus on first tab with error
-    if (index == 0) {
-      $("a[href=#"+id+"]").click();
-    }
+      // focus on first field in first tab with error
+      if (index == 0 && i==0) {
+        $("a[href=#"+id+"]").click();
+      }
+    })
   })
 
   //set the tooltips
@@ -90,6 +92,7 @@ function onContentLoad(){
 
   $('*[data-ajax-url]').each(function() {
     var url = $(this).data('ajax-url');
+    $(this).removeAttr('data-ajax-url');
     $(this).load(url, function(response, status, xhr) {
       if (status == "error") {
         $(this).closest(".tab-content").find("#spinner").html(__('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
@@ -101,6 +104,12 @@ function onContentLoad(){
   });
 
   multiSelectOnLoad();
+
+  // Removes the value from fake password field.
+  $("#fakepassword").val("");
+  $('form').on('click', 'input[type="submit"]', function() {
+    $("#fakepassword").remove();
+  });
 }
 
 function remove_fields(link) {
@@ -317,7 +326,12 @@ function update_puppetclasses(element) {
   var env_id = $('*[id*=environment_id]').val();
   var url = $(element).attr('data-url');
   var data = $("form").serialize().replace('method=put', 'method=post');
-  data = data + '&host_id=' + host_id
+  if (url.match('hostgroups')) {
+    data = data + '&hostgroup_id=' + host_id
+  } else {
+    data = data + '&host_id=' + host_id
+  }
+
   if (env_id == "") return;
   $(element).indicator_show();
   $.ajax({

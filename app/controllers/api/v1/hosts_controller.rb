@@ -24,19 +24,22 @@ module Api
       api :POST, "/hosts/", "Create a host."
       param :host, Hash, :required => true do
         param :name, String, :required => true
-        param :environment_id, String
-        param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
-        param :mac, String, :desc => "not required if its a virtual machine"
-        param :architecture_id, :number
-        param :domain_id, :number
+        param :location_id, :number, :required => true, :desc => "required if locations are enabled" if SETTINGS[:locations_enabled]
+        param :organization_id, :number, :required => true, :desc => "required if organizations are enabled" if SETTINGS[:organizations_enabled]
+        param :environment_id, String, :desc => "required if host is managed and value is not inherited from host group"
+        param :ip, String, :desc => "not required if using a subnet with DHCP proxy"
+        param :mac, String, :desc => "required for managed host that is bare metal, not required if it's a virtual machine"
+        param :architecture_id, :number, :desc => "required if host is managed and value is not inherited from host group"
+        param :domain_id, :number, :desc => "required if host is managed and value is not inherited from host group"
+        param :realm_id, :number
         param :puppet_proxy_id, :number
         param :puppet_class_ids, Array
-        param :operatingsystem_id, String
-        param :medium_id, :number
-        param :ptable_id, :number
-        param :subnet_id, :number
-        param :compute_resource_id, :number
-        param :sp_subnet_id, :number
+        param :operatingsystem_id, String, :desc => "required if host is managed and value is not inherited from host group"
+        param :medium_id, String, :desc => "required if not imaged based provisioning and host is managed and value is not inherited from host group"
+        param :ptable_id, :number, :desc => "required if host is managed and custom partition has not been defined"
+        param :subnet_id, :number, :desc => "required if host is managed and value is not inherited from host group"
+        param :compute_resource_id, :number, :desc => "nil means host is bare metal"
+        param :root_pass, String, :desc => "required if host is managed and value is not inherited from host group or default password in settings"
         param :model_id, :number
         param :hostgroup_id, :number
         param :owner_id, :number
@@ -46,9 +49,10 @@ module Api
         param :build, :bool
         param :enabled, :bool
         param :provision_method, String
-        param :managed, :bool
-        param :progress_report_id, String, :desc => 'UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks'
+        param :managed, :bool, :desc => "True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not"
+        param :progress_report_id, String, :desc => "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
         param :capabilities, String
+        param :compute_profile_id, :number
         param :compute_attributes, Hash do
         end
       end
@@ -125,8 +129,8 @@ Return value may either be one of the following:
 
       private
 
-      def resource_scope(controller = controller_name)
-        Host.authorized("#{action_permission}_#{controller}", Host)
+      def resource_class
+        Host::Managed
       end
 
       # this is required for template generation (such as pxelinux) which is not done via a web request

@@ -3,7 +3,7 @@ class Archlinux < Operatingsystem
   PXEFILES = {:kernel => "linux", :initrd => "initrd"}
 
   # Simple output of the media url
-  def mediumpath host
+  def mediumpath(host)
     medium_uri(host).to_s
   end
 

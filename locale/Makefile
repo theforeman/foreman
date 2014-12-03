@@ -51,7 +51,7 @@ update-rails:
 	-[ -x ../script/update-rails-locales.sh ] && ../script/update-rails-locales.sh
 
 extract-strings:
-	bundle exec rake locale:find DOMAIN=$(DOMAIN) SKIP_MODEL=1
+	bundle exec rake locale:po_to_json locale:find DOMAIN=$(DOMAIN) SKIP_MODEL=1
 
 tx-update: update-rails tx-pull extract-strings
 	# merging po files is unnecessary when using transifex.com (amend that)

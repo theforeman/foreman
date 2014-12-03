@@ -7,23 +7,6 @@ class PuppetclassesControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_new
-    get :new, {}, set_session_user
-    assert_template 'new'
-  end
-
-  def test_create_invalid
-    Puppetclass.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
-    assert_template 'new'
-  end
-
-  def test_create_valid
-    Puppetclass.any_instance.stubs(:valid?).returns(true)
-    post :create, {}, set_session_user
-    assert_redirected_to puppetclasses_url
-  end
-
   def test_edit
     get :edit, {:id => Puppetclass.first.to_param}, set_session_user
     assert_template 'edit'
@@ -66,7 +49,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test 'new db rows are not added to HostClass when POST to parameters' do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     puppetclass = puppetclasses(:two)  #puppetclass to be added to host
     host_puppetclass_ids = host.host_classes.pluck(:puppetclass_id)
     assert_difference('HostClass.count', 0) do
@@ -88,7 +71,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
   # special_info is a smart_variable that is added independant of environment
   # custom_class_param is a smart_class_param for production environment only AND is marked as :override => TRUE
   test 'puppetclass lookup keys are added to partial _class_parameters on EXISTING host form through ajax POST to parameters' do
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :environment => environments(:production))
     puppetclass = puppetclasses(:two)
     post :parameters, {:id => puppetclass.id, :host_id => host.id, :host => host.attributes }, set_session_user
     assert_response :success
@@ -100,7 +83,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'puppetclass smart class parameters are NOT added if environment does not match' do
     # below is the same test as above, except environment is changed from production to global_puppetmaster, so custom_class_param is NOT added
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :environment => environments(:production))
     puppetclass = puppetclasses(:two)
     post :parameters, {:id => puppetclass.id, :host_id => host.id, :host => host.attributes.merge!('environment_id' => environments(:global_puppetmaster).id) }, set_session_user
     assert_response :success
@@ -164,5 +147,32 @@ class PuppetclassesControllerTest < ActionController::TestCase
     setup_user
     get :index, {:search => "environment = testing"}, set_session_user
     assert_equal puppetclasses(:three), assigns(:puppetclasses).first
+  end
+
+  def test_override_enable
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    refute pc.class_params.first.override
+    post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user
+    assert pc.class_params.reload.first.override
+    assert_match /overridden all parameters/, flash[:notice]
+    assert_redirected_to puppetclasses_url
+  end
+
+  def test_override_disable
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    pc.class_params.first.update_attributes(:override => true)
+    post :override, {:id => pc.to_param, :enable => 'false'}, set_session_user
+    refute pc.class_params.reload.first.override
+    assert_match /reset all parameters/, flash[:notice]
+    assert_redirected_to puppetclasses_url
+  end
+
+  def test_override_none
+    pc = FactoryGirl.create(:puppetclass)
+    post :override, {:id => pc.to_param}, set_session_user
+    assert_match /No parameters to override/, flash[:error]
+    assert_redirected_to puppetclasses_url
   end
 end

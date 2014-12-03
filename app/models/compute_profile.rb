@@ -1,6 +1,9 @@
 class ComputeProfile < ActiveRecord::Base
 
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
+  include Parameterizable::ByIdName
 
   validates_lengths_from_database
   attr_accessible :name
@@ -19,9 +22,5 @@ class ComputeProfile < ActiveRecord::Base
   default_scope lambda { order('compute_profiles.name') }
 
   scope :visibles, lambda { includes(:compute_attributes).where('compute_attributes.id > 0') }
-
-  def to_param
-    "#{id}-#{name.parameterize}"
-  end
 
 end

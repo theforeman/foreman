@@ -10,7 +10,7 @@ module Foreman::Gettext::AllDomains
     FastGettext::TranslationMultidomain.Dn_(*keys)
   end
 
-  def s_(key, separator=nil)
+  def s_(key, separator = nil)
     FastGettext::TranslationMultidomain.Ds_(key, separator)
   end
 

@@ -16,7 +16,7 @@ class CreateMediaOperatingsystemsAndMigrateData < ActiveRecord::Migration
       end
     end
 
-    create_table :media_operatingsystems , :id => false do |t|
+    create_table :media_operatingsystems, :id => false do |t|
       t.references :medium, :null => false
       t.references :operatingsystem, :null => false
     end

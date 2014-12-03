@@ -2,6 +2,10 @@ require 'test_helper'
 
 class DashboardTest < ActionDispatch::IntegrationTest
 
+  def setup
+    FactoryGirl.create(:host)
+  end
+
   def assert_dashboard_link(text)
     visit dashboard_path
     assert page.has_link?(text), "link '#{text}' was expected, but it does not exist"

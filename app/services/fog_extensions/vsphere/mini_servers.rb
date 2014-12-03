@@ -4,7 +4,7 @@ module FogExtensions
   module Vsphere
     class MiniServers
 
-      def initialize client, dc
+      def initialize(client, dc)
         @client = client
         @dc     = client.send(:find_datacenters, dc)[0]
       end
@@ -32,7 +32,7 @@ module FogExtensions
         end
         ret
       end
-        
+
       private
       attr_reader :client, :dc
     end

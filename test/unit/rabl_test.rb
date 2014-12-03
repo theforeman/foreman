@@ -3,13 +3,14 @@ require 'ostruct'
 
 class RablTest < ActiveSupport::TestCase
   test 'render of single template' do
-    rendered = Rabl.render(OpenStruct.new(:name => 'foo'),
+    @domain = FactoryGirl.build(:domain)
+    rendered = Rabl.render(@domain,
                            'api/v2/domains/show',
                            :format => :json,
                            :view_path => 'app/views')
     loaded = JSON.load(rendered)
     assert_equal Hash, loaded.class
-    assert_equal 'foo', loaded['name']
+    assert_equal @domain.name, loaded['name']
   end
 
   test 'render of collection template' do

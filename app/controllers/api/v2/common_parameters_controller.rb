@@ -2,19 +2,13 @@
 module Api
   module V2
     class CommonParametersController < V2::BaseController
-      before_filter(:only => %w{show update destroy}) { find_resource('globals') }
+      before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/common_parameters/", N_("List all global parameters.")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @common_parameters = CommonParameter.
-          authorized(:view_globals, CommonParameter).
-          search_for(*search_options).
-          paginate(paginate_options)
+        @common_parameters = resource_scope_for_index(:permission => :view_globals)
       end
 
       api :GET, "/common_parameters/:id/", N_("Show a global parameter")

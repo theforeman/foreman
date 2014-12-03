@@ -1,6 +1,9 @@
 class SmartProxy < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
   include Taxonomix
+  include Parameterizable::ByIdName
   audited :allow_mass_assignment => true
 
   attr_accessible :name, :url, :location_ids, :organization_ids
@@ -56,10 +59,6 @@ class SmartProxy < ActiveRecord::Base
     else
       hostname
     end
-  end
-
-  def to_param
-    "#{id}-#{name.parameterize}"
   end
 
   def self.smart_proxy_ids_for(hosts)

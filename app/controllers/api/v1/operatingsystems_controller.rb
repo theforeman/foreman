@@ -35,6 +35,7 @@ module Api
         param :description, String
         param :family, String
         param :release_name, String
+        param :password_hash, String, :desc => 'Root password hash function to use, one of MD5, SHA256, SHA512'
       end
 
       def create
@@ -51,6 +52,7 @@ module Api
         param :description, String
         param :family, String
         param :release_name, String
+        param :password_hash, String, :desc => 'Root password hash function to use, one of MD5, SHA256, SHA512'
       end
 
       def update
@@ -70,8 +72,8 @@ module Api
       param :architecture, String
 
       def bootfiles
-        medium = Medium.authorized(:view_media).find_by_name(params[:medium])
-        arch   = Architecture.authorized(:view_architectures).find_by_name(params[:architecture])
+        medium = Medium.authorized(:view_media).find(params[:medium])
+        arch   = Architecture.authorized(:view_architectures).find(params[:architecture])
         render :json => @operatingsystem.pxe_files(medium, arch)
       rescue => e
         render :json => e.to_s, :status => :unprocessable_entity

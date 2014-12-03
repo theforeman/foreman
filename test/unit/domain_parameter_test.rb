@@ -13,24 +13,17 @@ class DomainParameterTest < ActiveSupport::TestCase
 
   test "duplicate names cannot exist in a domain" do
     setup_user "create"
-    parameter1 = DomainParameter.create :name => "some_parameter", :value => "value", :reference_id => Domain.first.id
+    DomainParameter.create :name => "some_parameter", :value => "value", :reference_id => Domain.first.id
     parameter2 = DomainParameter.create :name => "some_parameter", :value => "value", :reference_id => Domain.first.id
-    assert !parameter2.valid?
-    assert  parameter2.errors.full_messages[0] == "Name has already been taken"
+    refute parameter2.valid?
+    assert_equal parameter2.errors.full_messages[0], "Name has already been taken"
   end
 
   test "duplicate names can exist in different domains" do
     setup_user "create"
-    parameter1 = DomainParameter.create :name => "some_parameter", :value => "value", :reference_id => Domain.first.id
+    DomainParameter.create :name => "some_parameter", :value => "value", :reference_id => Domain.first.id
     parameter2 = DomainParameter.create :name => "some_parameter", :value => "value", :reference_id => Domain.last.id
     assert parameter2.valid?
   end
-
-  def setup_user operation, type = 'domains'
-    super(operation, type) do |user|
-      user.domains.destroy_all
-    end
-  end
-
 end
 

@@ -49,7 +49,7 @@ Available conditions:
     rake reports:summarize environment=testing email=testuser@domain RAILS_ENV="production"
 END_DESC
 namespace :reports do
-  task :summarize => :environment do
+  def mail_options
     options = {}
 
     time = ENV['hours'].to_i.hours.ago if ENV['hours']
@@ -76,38 +76,24 @@ namespace :reports do
     end
 
     options[:email] = ENV['email'] if ENV['email']
-
-    HostMailer.summary(options).deliver
+    options
   end
-end
 
-desc <<-END_DESC
-Sends a periodic digest to every user with a list of hosts with failed puppet runs
-
-Available conditions:
-  * days             => number of days to scan backwards (defaults to 1)
-  * hours            => number of hours to scan backwards (defaults to disabled)
-  Example:
-    # Sends out a summary email for the last 3 days.
-    rake reports:failed_runs days=3 RAILS_ENV="production" # Sends out a summary email for the last 3 days.
-
-    # Sends out a summary email for the last 12 hours.
-    rake reports:failed_runs hours=12 RAILS_ENV="production" # Sends out a summary email for the last 12 hours.
-END_DESC
-
-namespace :reports do
-  task :failed_runs => :environment do
-    options = {}
-
-    time = ENV['hours'].to_i.hours.ago if ENV['hours']
-    time = ENV['days'].to_i.days.ago if ENV['days']
-    options[:time] = time if time
-
-    users = User.select { |u| u.hosts.length > 0 }
-
-    users.each do |user|
-      HostMailer.failed_runs(user, options).deliver
+  def process_notifications interval
+    UserMailNotification.send(interval).each do |notification|
+      notification.deliver(mail_options)
     end
   end
-end
 
+  task :daily  => :environment do
+    process_notifications :daily
+  end
+
+  task :weekly => :environment do
+    process_notifications :weekly
+  end
+
+  task :monthly => :environment do
+    process_notifications :monthly
+  end
+end

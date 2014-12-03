@@ -3,5 +3,10 @@
     :help_block => popover(_("Explain matchers"), _("Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>"),
                            :title => _("Matcher"))
   %>
-  <%= textarea_f f, :value, :rows => :auto, :value => f.object.value_before_type_cast, :size => "col-md-8", :help_inline => remove_child_link(icon_text("remove"), f, {:title => _('remove value')}) %>
+  <%= checkbox_f(f, :use_puppet_default, :label => _('Use Puppet default'),
+                    :help_inline => popover(_("Explain use Puppet default"), _('Do not send this parameter via the ENC. Puppet will use the value defined in the Puppet manifest for this parameter.')),
+                    :onchange=>'toggleUsePuppetDefaultValue(this, "value")') if is_param %>
+  <%= textarea_f f, :value, :rows => :auto, :value => f.object.value_before_type_cast, :size => "col-md-8",
+                    :disabled => f.object.use_puppet_default,
+                    :help_inline => remove_child_link(icon_text("remove"), f, {:title => _('remove value')}) %>
 </div>

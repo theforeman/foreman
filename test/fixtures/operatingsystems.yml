@@ -8,6 +8,7 @@ centos5_3:
   media: one
   architectures: x86_64
   ptables: one
+  title: 'centos 5.3'
 
 redhat:
   name: Redhat
@@ -18,6 +19,7 @@ redhat:
   ptables: one
   architectures: x86_64
   media: one
+  title: 'RHEL 6.1'
 
 ubuntu1010:
   name: Ubuntu
@@ -27,6 +29,7 @@ ubuntu1010:
   ptables: ubuntu
   media: ubuntu
   architectures: x86_64
+  title: 'Ubuntu 10.10'
 
 solaris10:
   name: Solaris
@@ -36,15 +39,19 @@ solaris10:
   media: solaris10
   architectures: sparc
   release_name: hw0910
+  title: 'Solaris 5.10'
+  ptables: one
 
 suse:
   name: OpenSuse
   major: 11
   minor: 4
   type: Suse
+  title: 'OpenSuse 11.4'
 
 no_hosts_os:
   name: NoHosts
   major: 1
   minor: 1
   type: Redhat
+  title: 'NoHosts 1.1'

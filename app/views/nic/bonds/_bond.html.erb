@@ -1,0 +1,9 @@
+<%= render 'nic/base_form', :f => f %>
+
+<%= content_tag :span, :class => 'bond_fields' do %>
+  <%= selectable_f f, :mode, Nic::Bond::MODES %>
+  <%= text_f f, :attached_devices, :help_inline => _('comma separated interface identifiers') %>
+  <%= text_f f, :bond_options, :help_inline => _('space separated options, e.g. miimon=100') %>
+<% end %>
+
+<%= f.hidden_field :virtual, :value => true %>

@@ -2,9 +2,9 @@
 if ComputeProfile.unconfigured?
   ComputeProfile.without_auditing do
     [
-        { :name => '1-Small' },
-        { :name => '2-Medium' },
-        { :name => '3-Large' },
+      { :name => '1-Small' },
+      { :name => '2-Medium' },
+      { :name => '3-Large' },
     ].each do |input|
       cp = ComputeProfile.create input
       raise "Unable to create hardware profile: #{format_errors m}" if cp.nil? || cp.errors.any?

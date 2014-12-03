@@ -38,7 +38,6 @@ class Api::V1::MediaControllerTest < ActionController::TestCase
   end
 
   test "should destroy medium" do
-    id = Medium.first.id
     assert_difference('Medium.count', -1) do
       delete :destroy, { :id => media(:unused).id.to_param }
     end

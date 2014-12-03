@@ -2,7 +2,9 @@ class ApplicationController < ActionController::Base
   include Foreman::Controller::Authentication
   include Foreman::Controller::Session
   include Foreman::ThreadSession::Cleaner
+  include FindCommon
 
+  ensure_security_headers
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
@@ -37,7 +39,12 @@ class ApplicationController < ActionController::Base
   end
 
   def api_request?
-    request.format.json? or request.format.yaml?
+    request.format.try(:json?) || request.format.try(:yaml?)
+  end
+
+  # this method is returns the active user which gets used to populate the audits table
+  def current_user
+    User.current
   end
 
   protected
@@ -78,11 +85,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # this method is returns the active user which gets used to populate the audits table
-  def current_user
-    User.current
-  end
-
   def invalid_request
     render :text => _('Invalid query'), :status => 400
   end
@@ -99,7 +101,7 @@ class ApplicationController < ActionController::Base
   end
 
   def api_deprecation_error(exception = nil)
-    if request.format.json? && !request.env['REQUEST_URI'].match(/\/api\//i)
+    if request.format.try(:json?) && !request.env['REQUEST_URI'].match(/\/api\//i)
       logger.error "#{exception.message} (#{exception.class})\n#{exception.backtrace.join("\n")}"
       msg = "/api/ prefix must now be used to access API URLs, e.g. #{request.env['HTTP_HOST']}/api#{request.env['REQUEST_URI']}"
       logger.error "DEPRECATION: #{msg}."
@@ -119,20 +121,6 @@ class ApplicationController < ActionController::Base
 
   def model_of_controller
     @model_of_controller ||= controller_path.singularize.camelize.gsub('/','::').constantize
-  end
-
-
-  # searches for an object based on its name and assign it to an instance variable
-  # required for models which implement the to_param method
-  #
-  # example:
-  # @host = Host.find_by_name params[:id]
-  def find_by_name
-    not_found and return if params[:id].blank?
-
-    name = controller_name.singularize
-    cond = "find" + (params[:id] =~ /\A\d+(-.+)?\Z/ ? "" : "_by_name")
-    not_found and return unless instance_variable_set("@#{name}", resource_base.send(cond, params[:id]))
   end
 
   def current_permission
@@ -165,15 +153,15 @@ class ApplicationController < ActionController::Base
         model_of_controller.scoped
   end
 
-  def notice notice
+  def notice(notice)
     flash[:notice] = CGI::escapeHTML(notice)
   end
 
-  def error error
+  def error(error)
     flash[:error] = CGI::escapeHTML(error)
   end
 
-  def warning warning
+  def warning(warning)
     flash[:warning] = CGI::escapeHTML(warning)
   end
 
@@ -224,10 +212,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  def detect_notices
-    @notices = current_user.notices
-  end
-
   def require_admin
     unless User.current.admin?
       render_403
@@ -253,7 +237,7 @@ class ApplicationController < ActionController::Base
     render_403
   end
 
-  def process_success hash = {}
+  def process_success(hash = {})
     hash[:object]                 ||= instance_variable_get("@#{controller_name.singularize}")
     hash[:object_name]            ||= hash[:object].to_s
     unless hash[:success_msg]
@@ -268,13 +252,13 @@ class ApplicationController < ActionController::Base
                              raise Foreman::Exception.new(N_("Unknown action name for success message: %s"), action_name)
                            end
     end
-    hash[:success_redirect]       ||= send("#{controller_name}_url")
+    hash[:success_redirect]       ||= saved_redirect_url_or(send("#{controller_name}_url"))
 
     notice hash[:success_msg]
     redirect_to hash[:success_redirect] and return
   end
 
-  def process_error hash = {}
+  def process_error(hash = {})
     hash[:object] ||= instance_variable_get("@#{controller_name.singularize}")
 
     case action_name
@@ -287,7 +271,7 @@ class ApplicationController < ActionController::Base
     logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" if hash[:object].respond_to?(:errors)
     hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| _("Conflict - %s") % e}].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten
-    hash[:error_msg] = hash[:error_msg].join("<br/>")
+    hash[:error_msg] = hash[:error_msg].to_sentence
     if hash[:render]
       flash.now[:error] = CGI::escapeHTML(hash[:error_msg]) unless hash[:error_msg].empty?
       render hash[:render]
@@ -299,18 +283,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def process_ajax_error(exception, action=nil)
+  def process_ajax_error(exception, action = nil)
     action ||= action_name
     origin = exception.try(:original_exception)
     message = (origin || exception).message
     logger.warn "Failed to #{action}: #{message}"
     logger.debug "Original exception backtrace:\n" + origin.backtrace.join("\n") if origin.present?
     logger.debug "Causing backtrace:\n" + exception.backtrace.join("\n")
-    render :text => "Failure: #{message}"
+    render :text => _("Failure: %s") % message
   end
 
-  def redirect_back_or_to url
+  def redirect_back_or_to(url)
     redirect_to request.referer.empty? ? url : :back
+  end
+
+  def saved_redirect_url_or(default)
+    session["redirect_to_url_#{controller_name}"] || default
   end
 
   def generic_exception(exception)
@@ -364,16 +352,39 @@ class ApplicationController < ActionController::Base
   # We do not include most associations unless we are processing a html page
   def included_associations(include = [])
     include += [:hostgroup, :compute_resource, :operatingsystem, :environment, :model ]
-    include += [:fact_values] if User.current.user_facts.any?
     include
   end
 
-  def errors_hash errors
+  def errors_hash(errors)
     errors.any? ? {:status => N_("Error"), :message => errors.full_messages.join('<br>')} : {:status => N_("OK"), :message =>""}
+  end
+
+  def taxonomy_scope
+    if params[controller_name.singularize.to_sym]
+      @organization = Organization.find_by_id(params[controller_name.singularize.to_sym][:organization_id])
+      @location     = Location.find_by_id(params[controller_name.singularize.to_sym][:location_id])
+    end
+
+    if instance_variable_get("@#{controller_name}").present?
+      @organization ||= instance_variable_get("@#{controller_name}").organization
+      @location     ||= instance_variable_get("@#{controller_name}").location
+    end
+
+    @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
+    @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
+
+    @organization ||= Organization.current if SETTINGS[:organizations_enabled]
+    @location     ||= Location.current if SETTINGS[:locations_enabled]
   end
 
   def two_pane?
     request.headers["X-Foreman-Layout"] == 'two-pane' && params[:action] != 'index'
   end
 
+  # Called from ActionController::RequestForgeryProtection, overrides
+  # nullify session which is the default behavior for unverified requests in Rails 3.
+  # On Rails 4 we can get rid of this and use the strategy ':exception'.
+  def handle_unverified_request
+    raise ::Foreman::Exception.new(N_("Invalid authenticity token"))
+  end
 end

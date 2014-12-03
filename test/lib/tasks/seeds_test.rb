@@ -8,6 +8,7 @@ class SeedsTest < ActiveSupport::TestCase
   setup do
     DatabaseCleaner.clean_with :truncation
     Setting.stubs(:[]).with(:administrator).returns("root@localhost")
+    Setting.stubs(:[]).with(:send_welcome_email).returns(false)
   end
 
   def seed
@@ -158,7 +159,7 @@ class SeedsTest < ActiveSupport::TestCase
 
   test "all access permissions are created by permissions seed" do
     seed
-    access_permissions = Foreman::AccessControl.permissions.reject(&:public?).map(&:name).map(&:to_s)
+    access_permissions = Foreman::AccessControl.permissions.reject(&:public?).reject(&:plugin?).map(&:name).map(&:to_s)
     seeded_permissions = Permission.all.map(&:name)
     # Check all access control have a matching seeded permission
     assert_equal [], access_permissions - seeded_permissions

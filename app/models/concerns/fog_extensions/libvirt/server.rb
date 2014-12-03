@@ -20,7 +20,7 @@ module FogExtensions
         attributes[:memory_size].to_i * 1024
       end
 
-      def memory= mem
+      def memory=(mem)
         attributes[:memory_size] = mem.to_i / 1024 if mem
       end
 

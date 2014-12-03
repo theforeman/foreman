@@ -1,5 +1,5 @@
 class BookmarksController < ApplicationController
-  before_filter :find_by_name, :only => %w{show edit update destroy}
+  before_filter :find_resource, :only => [:edit, :update, :destroy]
 
   def index
     @bookmarks = resource_base.paginate(:page => params[:page])

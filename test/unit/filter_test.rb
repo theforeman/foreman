@@ -2,41 +2,41 @@ require 'test_helper'
 
 class FilterTest < ActiveSupport::TestCase
   test "#unlimited?" do
-    f = Factory.build :filter
+    f = FactoryGirl.build :filter
     assert_nil f.search, 'default filter is not unlimited'
     assert f.unlimited?
   end
 
   test "#limited?" do
-    f = Factory.build :filter, :on_name_all
+    f = FactoryGirl.build :filter, :on_name_all
     refute_nil f.search, 'filter is not limited'
     assert f.limited?
   end
 
   test "#limited? even for empty string" do
-    f = Factory.build :filter
+    f = FactoryGirl.build :filter
     f.search = ''
     assert f.limited?
   end
 
   test ".limited" do
-    f = Factory.create(:filter, :on_name_all)
+    f = FactoryGirl.create(:filter, :on_name_all)
     assert_include Filter.limited, f
   end
 
   test ".unlimited" do
-    f = Factory.create(:filter)
+    f = FactoryGirl.create(:filter)
     assert_include Filter.unlimited, f
   end
 
   test "#resource_type for empty permissions collection" do
-    f = Factory.build(:filter)
+    f = FactoryGirl.build(:filter)
     f.permissions = []
     assert_nil f.resource_type
   end
 
   test "#resource_type" do
-    f = Factory.build(:filter)
+    f = FactoryGirl.build(:filter)
     f.stub :permissions, [ OpenStruct.new(:resource_type => 'test') ] do
       assert_equal 'test', f.resource_type
     end
@@ -51,32 +51,32 @@ class FilterTest < ActiveSupport::TestCase
   end
 
   test "#resource_class" do
-    f = Factory.build(:filter, :resource_type => 'Bookmark')
+    f = FactoryGirl.build(:filter, :resource_type => 'Bookmark')
     Filter.stub :get_resource_class, Architecture do
       assert_equal Architecture, f.resource_class
     end
   end
 
   test "#granular? for unknown resource type" do
-    f = Factory.build(:filter, :resource_type => 'BookmarkThatDoesNotExist')
+    f = FactoryGirl.build(:filter, :resource_type => 'BookmarkThatDoesNotExist')
     refute f.granular?
   end
 
   test "#granular?" do
-    f = Factory.build(:filter, :resource_type => 'Domain')
+    f = FactoryGirl.build(:filter, :resource_type => 'Domain')
     assert f.granular?
   end
 
   test "unlimited filters have nilified search string" do
-    f = Factory.build(:filter, :search => 'name ~ a*', :unlimited => '1')
+    f = FactoryGirl.build(:filter, :search => 'name ~ a*', :unlimited => '1')
     assert f.valid?
     assert_nil f.search
 
-    f = Factory.build(:filter, :search => '', :unlimited => '1')
+    f = FactoryGirl.build(:filter, :search => '', :unlimited => '1')
     assert f.valid?
     assert_nil f.search
 
-    f = Factory.build(:filter, :search => 'name ~ a*', :unlimited => '0')
+    f = FactoryGirl.build(:filter, :search => 'name ~ a*', :unlimited => '0')
     assert f.valid?
     assert_equal 'name ~ a*', f.search
   end
@@ -84,14 +84,14 @@ class FilterTest < ActiveSupport::TestCase
   context 'with taxnomies' do
     setup do
       as_admin do
-        @organization = Factory.create :organization
-        @organization1 = Factory.create :organization
-        @location = Factory.create :location
+        @organization = FactoryGirl.create :organization
+        @organization1 = FactoryGirl.create :organization
+        @location = FactoryGirl.create :location
       end
     end
 
     test "filter with organization set is always limited before validation" do
-      f = Factory.build(:filter, :search => '', :unlimited => '1', :organization_ids => [@organization.id])
+      f = FactoryGirl.build(:filter, :search => '', :unlimited => '1', :organization_ids => [@organization.id])
       assert f.valid?
       assert f.limited?
       assert_include f.taxonomy_search, "(organization_id = #{@organization.id})"
@@ -100,7 +100,7 @@ class FilterTest < ActiveSupport::TestCase
     end
 
     test "filter with location set is always limited before validation" do
-      f = Factory.build(:filter, :search => '', :unlimited => '1', :location_ids => [@location.id])
+      f = FactoryGirl.build(:filter, :search => '', :unlimited => '1', :location_ids => [@location.id])
       assert f.valid?
       assert f.limited?
       assert_include f.taxonomy_search, "(location_id = #{@location.id})"
@@ -108,7 +108,7 @@ class FilterTest < ActiveSupport::TestCase
 
 
     test "filter with location set is always limited before validation" do
-      f  = Factory.build(:filter, :search => '', :unlimited => '1',
+      f  = FactoryGirl.build(:filter, :search => '', :unlimited => '1',
                          :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id])
       assert f.valid?
       assert f.limited?
@@ -118,7 +118,7 @@ class FilterTest < ActiveSupport::TestCase
     end
 
     test "removing all organizations and locations from filter nilify taxonomy search" do
-      f  = Factory.create(:filter, :search => '', :unlimited => '1',
+      f  = FactoryGirl.create(:filter, :search => '', :unlimited => '1',
                           :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id])
 
       f.update_attributes :organization_ids => [], :location_ids => []
@@ -127,27 +127,29 @@ class FilterTest < ActiveSupport::TestCase
       assert_nil f.taxonomy_search
     end
 
-    test "taxonomies are ignored if resource does not support them" do
-      f = Factory.create(:filter, :search => '', :unlimited => '1',
-                         :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id],
-                         :resource_type => 'Bookmark')
-
-      f.reload
-      assert f.valid?
-      assert f.unlimited?
-      assert_nil f.taxonomy_search
+    test "taxonomies can be assigned only if resource allows it" do
+      fb = FactoryGirl.build(:filter, :resource_type => 'Bookmark', :organization_ids => [@organization.id])
+      fd = FactoryGirl.build(:filter, :resource_type => 'Domain', :organization_ids => [@organization.id])
+      refute_valid fb
+      assert_valid fd
+      fb = FactoryGirl.create(:filter, :resource_type => 'Bookmark')
+      fd = FactoryGirl.create(:filter, :resource_type => 'Domain')
+      fb.location_ids = [@location.id]
+      refute_valid fb
+      fd.location_ids = [@location.id]
+      assert_valid fd
     end
   end
 
   test "filter remains unlimited when no organization assigned" do
-    f = Factory.build(:filter, :search => '', :unlimited => '1', :organization_ids => [])
+    f = FactoryGirl.build(:filter, :search => '', :unlimited => '1', :organization_ids => [])
     assert f.valid?
     assert f.unlimited?
     assert_empty f.taxonomy_search
   end
 
   test "filter remains set to unlimited when no taxonomy assigned and has empty search" do
-    f = Factory.build(:filter, :search => '', :unlimited => '0', :organization_ids => [],
+    f = FactoryGirl.build(:filter, :search => '', :unlimited => '0', :organization_ids => [],
                       :location_ids => [])
     assert f.valid?
     assert f.unlimited?
@@ -155,8 +157,8 @@ class FilterTest < ActiveSupport::TestCase
   end
 
   test "#allows_*_filtering" do
-    fb = Factory.create(:filter, :resource_type => 'Bookmark')
-    fd = Factory.create(:filter, :resource_type => 'Domain')
+    fb = FactoryGirl.create(:filter, :resource_type => 'Bookmark')
+    fd = FactoryGirl.create(:filter, :resource_type => 'Domain')
     refute fb.allows_organization_filtering?
     refute fb.allows_location_filtering?
     assert fd.allows_organization_filtering?
@@ -164,31 +166,31 @@ class FilterTest < ActiveSupport::TestCase
   end
 
   test "search string composition" do
-    f = Factory.build :filter, :search => nil, :taxonomy_search => nil
+    f = FactoryGirl.build :filter, :search => nil, :taxonomy_search => nil
     assert_equal '', f.search_condition
 
-    f = Factory.build :filter, :search => 'domain ~ test*', :taxonomy_search => nil
+    f = FactoryGirl.build :filter, :search => 'domain ~ test*', :taxonomy_search => nil
     assert_equal 'domain ~ test*', f.search_condition
 
-    f = Factory.build :filter, :search => nil, :taxonomy_search => 'organization_id = 1'
+    f = FactoryGirl.build :filter, :search => nil, :taxonomy_search => 'organization_id = 1'
     assert_equal 'organization_id = 1', f.search_condition
 
-    f = Factory.build :filter, :search => 'domain ~ test*', :taxonomy_search => 'organization_id = 1'
+    f = FactoryGirl.build :filter, :search => 'domain ~ test*', :taxonomy_search => 'organization_id = 1'
     assert_equal '(domain ~ test*) and (organization_id = 1)', f.search_condition
   end
 
   test "filter with a valid search string is valid" do
-    f = Factory.build(:filter, :search => "name = 'blah'", :resource_type => 'Domain')
+    f = FactoryGirl.build(:filter, :search => "name = 'blah'", :resource_type => 'Domain')
     assert_valid f
   end
 
   test "filter with an invalid search string is invalid" do
-    f = Factory.build(:filter, :search => "non_existent = 'blah'", :resource_type => 'Domain')
+    f = FactoryGirl.build(:filter, :search => "non_existent = 'blah'", :resource_type => 'Domain')
     refute_valid f
   end
 
   test "filter with an empty search string is valid" do
-    f = Factory.build(:filter, :search => nil, :resource_type => 'Domain')
+    f = FactoryGirl.build(:filter, :search => nil, :resource_type => 'Domain')
     assert_valid f
   end
 end

@@ -11,7 +11,7 @@ module HostsHelper
                           last_report_tooltip(record))
   end
 
-  def last_report_tooltip record
+  def last_report_tooltip(record)
     opts = { :rel => "twipsy" }
     if @last_reports[record.id]
       opts.merge!( "data-original-title" => _("View last report details"))
@@ -60,10 +60,10 @@ module HostsHelper
       short = s_("OK|O")
     end
     content_tag(:span, short, {:rel => "twipsy", :class => "label label-light " + style, :"data-original-title" => _(label)} ) +
-      link_to(trunc("  #{record}",32), host_path(record))
+      link_to(trunc("  #{record}"), host_path(record))
   end
 
-  def days_ago time
+  def days_ago(time)
     ((Time.now - time) / 1.day).round.to_i
   end
 
@@ -93,17 +93,17 @@ module HostsHelper
 
       select_action_button( _("Select Action"), {:id => 'submit_multiple'},
         actions.map do |action|
-          link_to(action[0] , action[1], :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
+          link_to(action[0], action[1], :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
         end.flatten
       )
   end
 
-  def date ts=nil
+  def date(ts = nil)
     return _("%s ago") % (time_ago_in_words ts) if ts
     _("N/A")
   end
 
-  def template_path opts = {}
+  def template_path(opts = {})
     if (t = @host.configTemplate(opts))
       link_to t, edit_config_template_path(t)
     else
@@ -111,7 +111,7 @@ module HostsHelper
     end
   end
 
-  def selected? host
+  def selected?(host)
     return false if host.nil? or not host.kind_of?(Host::Base) or session[:selected].nil?
     session[:selected].include?(host.id.to_s)
   end
@@ -151,7 +151,7 @@ module HostsHelper
     end
   end
 
-  def name_field host
+  def name_field(host)
     return if host.name.blank?
     (SETTINGS[:unattended] and host.managed?) ? host.shortname : host.name
   end
@@ -193,7 +193,7 @@ module HostsHelper
     end
   end
 
-  def overview_fields host
+  def overview_fields(host)
     fields = [
       [_("Domain"), (link_to(host.domain, hosts_path(:search => "domain = #{host.domain}")) if host.domain)],
       [_("Realm"), (link_to(host.realm, hosts_path(:search => "realm = #{host.realm}")) if host.realm)],
@@ -217,13 +217,13 @@ module HostsHelper
     fields
   end
 
-  def possible_images cr, arch = nil, os = nil
+  def possible_images(cr, arch = nil, os = nil)
     return cr.images unless controller_name == "hosts"
     return [] unless arch && os
     cr.images.where(:architecture_id => arch, :operatingsystem_id => os)
   end
 
-  def state s
+  def state(s)
     s ? ' ' + _("Off") : ' ' + _("On")
   end
 
@@ -239,10 +239,16 @@ module HostsHelper
                                     :disabled => host.can_be_built?,
                                     :title    => _("Cancel build request for this host"))
             else
-              link_to_if_authorized(_("Build"), hash_for_setBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
+              link_to_if_authorized(_("Build"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts', :anchor => "review_before_build"),
                                     :disabled => !host.can_be_built?,
                                     :title    => _("Enable rebuild on next host boot"),
-                                    :confirm  => _("Rebuild %s on next reboot?\nThis would also delete all of its current facts and reports") % host)
+                                    :class    => "btn",
+                                    :id       => "build-review",
+                                    :data     => { :toggle => 'modal',
+                                                   :target => '#review_before_build',
+                                                   :url    => review_before_build_host_path(:id => host)
+                                    }
+              )
             end
         ),
         if host.compute_resource_id || host.bmc_available?
@@ -264,18 +270,18 @@ module HostsHelper
     )
   end
 
-  def conflict_objects errors
+  def conflict_objects(errors)
     errors.keys.map(&:to_s).grep(/conflict$/).map(&:to_sym)
   end
 
-  def has_conflicts? errors
+  def has_conflicts?(errors)
     conflict_objects(errors).each do |c|
       return true if errors[c.to_sym].any?
     end
     false
   end
 
-  def has_dhcp_lease_errors? errors
+  def has_dhcp_lease_errors?(errors)
     errors.include?(:dhcp_lease_error)
   end
 
@@ -288,14 +294,14 @@ module HostsHelper
   end
 
   def show_appropriate_host_buttons(host)
-    [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries") , :class => 'btn btn-default'),
-      (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts") , :class => 'btn btn-default') if host.fact_values.any?),
-      (link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => host), :title => _("Browse host reports") , :class => 'btn btn-default') if host.reports.any?),
-      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump") , :class => 'btn btn-default') if SmartProxy.with_features("Puppet").any?)
+    [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries"), :class => 'btn btn-default'),
+      (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts"), :class => 'btn btn-default') if host.fact_values.any?),
+      (link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => host), :title => _("Browse host reports"), :class => 'btn btn-default') if host.reports.any?),
+      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump"), :class => 'btn btn-default') if SmartProxy.with_features("Puppet").any?)
     ].compact
   end
 
-  def allocation_text_f f
+  def allocation_text_f(f)
     active = 'Size'
     active = 'None' if f.object.allocation.to_i == 0
     active = 'Full' if f.object.allocation == f.object.capacity
@@ -327,8 +333,41 @@ module HostsHelper
                                :class => 'fr label label-danger'})
   end
 
-  def link_status(f)
-    return '' if f.object.new_record?
-    '(' + (f.object.link ? _('Up') : _('Down')) + ')'
+  def link_status(nic)
+    return '' if nic.new_record?
+
+    if nic.link
+      status = '<i class="glyphicon glyphicon glyphicon-arrow-up interface-up" title="'+ _('Up') +'"></i>'
+    else
+      status = '<i class="glyphicon glyphicon glyphicon-arrow-down interface-down" title="'+ _('Down') +'"></i>'
+    end
+    status.html_safe
+  end
+
+  def build_state(build)
+    build.state ? 'warning' : 'danger'
+  end
+
+  def review_build_button(form, status)
+    form.submit(_("Build"),
+                :class => "btn btn-#{status} submit",
+                :title => (status == 'warning') ? _('Build') : _('Errors occurred, build may fail')
+    )
+  end
+
+  def supports_power_and_running(host)
+    return false unless host.compute_resource_id || host.bmc_available?
+    host.power.ready?
+  # return false if the proxyapi/bmc raised an error (and therefore do not know if power is supported)
+  rescue ProxyAPI::ProxyException
+    false
+  end
+
+  def build_error_link(type, id)
+    case type
+      when :templates
+        link_to_if_authorized(_("Edit"), hash_for_edit_config_template_path(:id => id).merge(:auth_object => id),
+                              :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type) )
+    end
   end
 end

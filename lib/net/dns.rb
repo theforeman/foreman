@@ -11,7 +11,7 @@ module Net
     # [+query+]: IP or hostname
     # Returns: a new DNS record object, A or PTR accordingly
     # We query DNS directly, as its faster then to query our own proxy.
-    def self.lookup query, proxy, resolver = Resolv::DNS.new
+    def self.lookup(query, proxy, resolver = Resolv::DNS.new)
       Timeout::timeout(3) do
         if (query =~ Validations::IP_REGEXP)
           n = resolver.getname(query).to_s
@@ -39,7 +39,7 @@ module Net
     class Record < Net::Record
       attr_accessor :ip, :resolver, :type
 
-      def initialize opts={ }
+      def initialize(opts = { })
         super(opts)
         self.ip = validate_ip self.ip
         self.resolver ||= Resolv::DNS.new
@@ -58,7 +58,7 @@ module Net
         raise "Abstract class"
       end
 
-      def dns_lookup ip_or_name
+      def dns_lookup(ip_or_name)
         DNS.lookup(ip_or_name, proxy, resolver)
       end
 

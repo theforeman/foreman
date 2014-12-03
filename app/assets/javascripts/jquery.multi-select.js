@@ -8,7 +8,7 @@ function multiSelectOnLoad(){
       selectableHeader: $("<div class='ms-header'>" + __('All items') + " <input placeholder='" + __('Filter') + "' class='ms-filter' type='text'><a href='#' title='" + __('Select All') + "' class='ms-select-all pull-right glyphicon glyphicon-plus icon-white'></a></div>"),
       selectionHeader: $("<div class='ms-header'>" + __('Selected items') + "<a href='#' title='" + __('Deselect All') + "' class='ms-deselect-all pull-right glyphicon glyphicon-minus icon-white'></a></div>"),
       afterDeselect: function(value){
-        var current_select = $(item).closest('.tab-pane').find('select');
+        var current_select = $(item).closest('.tab-pane').find('select[multiple]');
         current_select.data('descendants', null);
         $(current_select).multiSelect('refresh');
       }

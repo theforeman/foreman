@@ -8,7 +8,7 @@ FactoryGirl.define do
       user 'ec2user'
       password 'ec2password'
       url 'eu-west-1'
-      after_build { |host| host.class.skip_callback(:create, :after, :setup_key_pair) }
+      after(:build) { |host| host.class.skip_callback(:create, :after, :setup_key_pair) }
     end
 
     trait :gce do
@@ -26,14 +26,14 @@ FactoryGirl.define do
       provider 'Openstack'
       user 'osuser'
       password 'ospassword'
-      after_build { |host| host.class.skip_callback(:create, :after, :setup_key_pair) }
+      after(:build) { |host| host.class.skip_callback(:create, :after, :setup_key_pair) }
     end
 
     trait :ovirt do
       provider 'Ovirt'
       user 'ovirtuser'
       password 'ovirtpassword'
-      after_build { |host| host.class.skip_callback(:create, :before, :update_public_key) }
+      after(:build) { |host| host.class.skip_callback(:create, :before, :update_public_key) }
     end
 
     trait :rackspace do
@@ -49,7 +49,7 @@ FactoryGirl.define do
       password 'vpassword'
       sequence(:server) { |n| "#{n}.example.com" }
       datacenter 'vdatacenter'
-      after_build { |host| host.class.skip_callback(:create, :before, :update_public_key) }
+      after(:build) { |host| host.class.skip_callback(:create, :before, :update_public_key) }
     end
 
     factory :ec2_cr, :class => Foreman::Model::EC2, :traits => [:ec2]
@@ -59,5 +59,14 @@ FactoryGirl.define do
     factory :ovirt_cr, :class => Foreman::Model::Ovirt, :traits => [:ovirt]
     factory :rackspace_cr, :class => Foreman::Model::Rackspace, :traits => [:rackspace]
     factory :vmware_cr, :class => Foreman::Model::Vmware, :traits => [:vmware]
+  end
+
+  factory :image do
+    sequence(:name) { |n| "image#{n}" }
+    uuid Foreman.uuid
+    username 'root'
+    compute_resource
+    operatingsystem
+    architecture
   end
 end

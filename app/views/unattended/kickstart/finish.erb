@@ -16,7 +16,7 @@ oses:
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   os_major = @host.operatingsystem.major.to_i
   pm_set = @host.puppetmaster.empty? ? false : true
-  puppet_enabled = pm_set || @host.params['force-puppet']
+  puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
 %>
 
 <% if rhel_compatible -%>
@@ -53,7 +53,13 @@ cat > /etc/puppet/puppet.conf << EOF
 EOF
 
 # Setup puppet to run on system reboot
+<% if @host.operatingsystem.name == 'Fedora' -%>
+puppet_unit=puppet
+/usr/bin/systemctl list-unit-files | grep -q puppetagent && puppet_unit=puppetagent
+/usr/bin/systemctl enable ${puppet_unit}
+<% else -%>
 /sbin/chkconfig --level 345 puppet on
+<% end -%>
 
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
 <% end -%>

@@ -40,6 +40,12 @@ class SubnetTest < ActiveSupport::TestCase
     assert !@subnet.save
   end
 
+  test "mask should have valid address" do
+    @subnet.mask = "255.0.0.255"
+    set_attr(:network=, :domains=, :name=)
+    refute @subnet.save
+  end
+
   test "network should be unique" do
     set_attr(:network=, :mask=, :domains=, :name=)
     @subnet.save
@@ -241,7 +247,7 @@ class SubnetTest < ActiveSupport::TestCase
     subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
                                 :dns_primary => '192.168.2.2', :gateway => '192.168.2.3', :ipam => Subnet::IPAM_MODES[:db])
     host = FactoryGirl.create(:host, :subnet => subnet, :ip => '192.168.2.1')
-    interface = Nic::Managed.create :mac => "00:00:01:10:00:00", :host => host, :subnet => subnet, :name => "", :ip => '192.168.2.4'
+    Nic::Managed.create :mac => "00:00:01:10:00:00", :host => host, :subnet => subnet, :name => "", :ip => '192.168.2.4'
 
     assert_includes subnet.known_ips, '192.168.2.1'
     assert_includes subnet.known_ips, '192.168.2.2'

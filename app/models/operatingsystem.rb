@@ -4,6 +4,8 @@ require 'uri'
 class Operatingsystem < ActiveRecord::Base
   include Authorizable
   include ValidateOsFamily
+  extend FriendlyId
+  friendly_id :title
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
@@ -17,19 +19,21 @@ class Operatingsystem < ActiveRecord::Base
   has_and_belongs_to_many :config_templates
   has_many :os_default_templates, :dependent => :destroy
   accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,
-    :reject_if => lambda { |v| v[:config_template_id].blank? }
+    :reject_if => :reject_empty_config_template
 
   validates :major, :numericality => {:greater_than_or_equal_to => 0}, :presence => { :message => N_("Operating System version is required") }
-  has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id
+  has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :operatingsystem
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "OsParameter"
   accepts_nested_attributes_for :os_parameters, :allow_destroy => true
+  include ParameterValidators
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   attr_name :to_label
   validates :minor, :numericality => {:greater_than_or_equal_to => 0}, :allow_nil => true, :allow_blank => true
-  validates :name, :presence => true, :format => {:with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.")}
+  validates :name, :presence => true, :no_whitespace => true
   validates :description, :uniqueness => true, :allow_blank => true
-  before_validation :downcase_release_name
-  #TODO: add validation for name and major uniqueness
+  validates :password_hash, :inclusion => { :in => PasswordCrypt::ALGORITHMS }
+  before_validation :downcase_release_name, :set_title
+  validates :title, :uniqueness => true, :presence => true
 
   before_save :set_family
 
@@ -41,6 +45,7 @@ class Operatingsystem < ActiveRecord::Base
   scoped_search :on => :minor,       :complete_value => :true
   scoped_search :on => :description, :complete_value => :true
   scoped_search :on => :type,        :complete_value => :true, :rename => "family"
+  scoped_search :on => :title,       :complete_value => :true
   scoped_search :on => :hosts_count
   scoped_search :on => :hostgroups_count
 
@@ -96,20 +101,20 @@ class Operatingsystem < ActiveRecord::Base
   #    :enabled => 1,
   #    :gpgcheck => 1
   #  }]
-  def repos host
+  def repos(host)
     []
   end
 
-  def medium_uri host, url = nil
+  def medium_uri(host, url = nil)
     url ||= host.medium.path
     medium_vars_to_uri(url, host.architecture.name, host.os)
   end
 
-  def medium_vars_to_uri (url, arch, os)
+  def medium_vars_to_uri(url, arch, os)
     URI.parse(interpolate_medium_vars(url, arch, os)).normalize
   end
 
-  def interpolate_medium_vars path, arch, os
+  def interpolate_medium_vars(path, arch, os)
     return "" if path.empty?
 
     path.gsub('$arch',  arch).
@@ -130,8 +135,12 @@ class Operatingsystem < ActiveRecord::Base
     self.description = str
   end
 
+  def to_param
+    Parameterizable.parameterize("#{id}-#{title}")
+  end
+
   def release
-    "#{major}#{('.' + minor) unless minor.empty?}"
+    "#{major}#{('.' + minor.to_s) unless minor.blank?}"
   end
 
   def fullname
@@ -164,15 +173,15 @@ class Operatingsystem < ActiveRecord::Base
     end
   end
 
-  def kernel arch
+  def kernel(arch)
     bootfile(arch,:kernel)
   end
 
-  def initrd arch
+  def initrd(arch)
     bootfile(arch,:initrd)
   end
 
-  def bootfile arch, type
+  def bootfile(arch, type)
     pxe_prefix(arch) + "-" + eval("#{self.family}::PXEFILES[:#{type}]")
   end
 
@@ -192,7 +201,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   #handle things like gpxelinux/ gpxe / pxelinux here
-  def boot_filename host=nil
+  def boot_filename(host = nil)
     "pxelinux.0"
   end
 
@@ -215,7 +224,7 @@ class Operatingsystem < ActiveRecord::Base
     "Unknown"
   end
 
-  def self.shorten_description description
+  def self.shorten_description(description)
     # This method should be overridden in the OS subclass
     # to handle shortening the specific formats of lsbdistdescription
     # returned by Facter on that OS
@@ -233,6 +242,10 @@ class Operatingsystem < ActiveRecord::Base
     self.family ||= self.deduce_family
   end
 
+  def set_title
+    self.title = to_label.to_s[0..254]
+  end
+
   def downcase_release_name
     self.release_name.downcase! unless Foreman.in_rake? or release_name.nil? or release_name.empty?
   end
@@ -243,6 +256,13 @@ class Operatingsystem < ActiveRecord::Base
     eval("#{self.family}::PXEFILES").values.collect do |img|
       medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
     end
+  end
+
+  def reject_empty_config_template(attributes)
+    template_exists = attributes[:id].present?
+    config_template_id_empty = attributes[:config_template_id].blank?
+    attributes.merge!({:_destroy => 1}) if template_exists && config_template_id_empty
+    (!template_exists && config_template_id_empty)
   end
 
 end

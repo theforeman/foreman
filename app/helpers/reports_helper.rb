@@ -10,7 +10,7 @@ module ReportsHelper
     content_tag(:span, event, :class=>'label ' + style)
   end
 
-  def reports_since builder
+  def reports_since(builder)
     choices = [30,60,90].map{|i| OpenStruct.new :name => n_("%s minute ago", "%s minutes ago", i) % i, :value => i.minutes.ago }
     choices += (1..7).map{|i| OpenStruct.new :name => n_("%s day ago", "%s days ago", i) % i, :value => i.days.ago }
     choices += (1..3).map{|i| OpenStruct.new :name => n_("%s week ago", "%s weeks ago", i) % i, :value => i.week.ago }
@@ -19,11 +19,11 @@ module ReportsHelper
     builder.collection_select :reported_at_gt, choices, :value, :name, {:include_blank => _("Select a period")}
   end
 
-  def metric m
+  def metric(m)
     m.round(4) rescue _("N/A")
   end
 
-  def report_tag level
+  def report_tag(level)
     tag = case level
           when :notice
             "info"

@@ -5,12 +5,12 @@ class CacheManager
   end
 
   def self.create_new_permission_cache
-    UsergroupMember.all.map &:save!
-    UserRole.all.map &:save!
+    UsergroupMember.all.map(&:save!)
+    UserRole.all.map(&:save!)
   end
 
   def self.create_new_filter_cache
-    Filter.all.each &:save!
+    Filter.all.each(&:save!)
   end
 
   def self.recache!

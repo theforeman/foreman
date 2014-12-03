@@ -28,7 +28,7 @@ namespace :locale do
   end
 
   desc 'Extract strings from codebase'
-  task :find_code => ["gettext:find", "gettext:po_to_json"]
+  task :find_code => ["gettext:find"]
 
   desc 'Extract strings from model and from codebase'
   find_dependencies = [:find_model, :find_code]
@@ -45,6 +45,9 @@ namespace :locale do
       puts "Please read http://projects.theforeman.org/projects/foreman/wiki/Translating"
     end
   end
+
+  desc 'Alias for gettext:po_to_json'
+  task :po_to_json => "gettext:po_to_json"
 
   desc 'Alias for gettext:pack'
   task :pack => "gettext:pack"

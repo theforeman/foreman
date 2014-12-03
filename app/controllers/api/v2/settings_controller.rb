@@ -5,13 +5,10 @@ module Api
       before_filter :find_resource, :only => %w{show update}
 
       api :GET, "/settings/", N_("List all settings")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @settings = Setting.search_for(*search_options).paginate(paginate_options)
+        @settings = resource_scope_for_index
       end
 
       api :GET, "/settings/:id/", N_("Show a setting")

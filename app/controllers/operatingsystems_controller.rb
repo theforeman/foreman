@@ -1,6 +1,6 @@
 class OperatingsystemsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_name, :only => %w{edit update destroy}
+  before_filter :find_resource, :only => [:edit, :update, :destroy]
 
   def index
     @operatingsystems = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])

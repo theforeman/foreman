@@ -6,14 +6,14 @@ module Foreman::Controller::UsersMixin
     before_filter :clear_params_on_update, :update_admin_flag, :only => :update
   end
 
-  def resource_scope(controller = controller_name)
-    super(controller).except_hidden
+  def resource_scope(options = {})
+    super(options).except_hidden
   end
 
   protected
   def set_admin_on_creation
     admin = params[:user].delete :admin
-    @user = User.new(params[:user]) { |u| u.admin = admin }
+    @user = User.new(params[:user]) { |u| u.admin = admin unless admin.nil? }
   end
 
   def clear_params_on_update
@@ -28,7 +28,9 @@ module Foreman::Controller::UsersMixin
                              :lastname,
                              :locale,
                              :default_organization_id,
-                             :default_location_id)
+                             :default_location_id,
+                             :user_mail_notifications_attributes,
+                             :mail_enabled)
 
         # Remove locale from the session when set to "Browser Locale" and editing self
         session.delete(:locale) if params[:user][:locale].try(:empty?)

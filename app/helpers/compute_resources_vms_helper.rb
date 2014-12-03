@@ -22,7 +22,7 @@ module ComputeResourcesVmsHelper
   end
 
   # little helper to help show VM properties
-  def prop method, title = nil
+  def prop(method, title = nil)
     content_tag :tr do
       result = content_tag(:td) do
         title || method.to_s.humanize
@@ -70,7 +70,6 @@ module ComputeResourcesVmsHelper
 
   def libvirt_networks(compute)
     networks   = compute.networks
-    interfaces = compute.interfaces
     select     = []
     select << [_('Physical (Bridge)'), :bridge]
     select << [_('Virtual (NAT)'), :network] if networks.any?

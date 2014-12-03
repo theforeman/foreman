@@ -11,12 +11,12 @@ class Trend < ActiveRecord::Base
   scope :types, lambda { where(:fact_value => nil) }
 
   def to_param
-    "#{id}-#{to_label.parameterize}"
+    Parameterizable.parameterize("#{id}-#{to_label}")
   end
 
   private
 
-  def destroy_values ids = []
+  def destroy_values(ids = [])
     TrendCounter.where(:trend_id => ids).delete_all
     Trend.where(:id => ids).delete_all
   end

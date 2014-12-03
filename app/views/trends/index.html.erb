@@ -8,7 +8,7 @@
     <p><strong><%= _("No trend counter defined.") %></strong></p>
 
     <p><%= _("To define trend counters, use the Add Trend Counter button.") %><br>
-      <%= _("To start collecting trend data, set a cron job to execute 'rake trends:counter' every Puppet Interval (%s minutes).") % Setting.puppet_interval %></p>
+      <%= (_("To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' every Puppet Interval (%s minutes).") % Setting.puppet_interval).html_safe %></p>
   </div>
 <% end %>
 
@@ -18,7 +18,7 @@
 
    <p><strong><%= _("No trend counter found.") %></strong></p>
 
-   <p><%= ( _("To start collecting trend data, set a cron job to execute <span class='black'>RAILS_ENV=production bundle exec rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting.puppet_interval).html_safe %>
+   <p><%= ( _("To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting.puppet_interval).html_safe %>
    </p>
  </div>
 <% end %>
@@ -40,8 +40,7 @@
   <% end %>
 </table>
 
-<%= page_entries_info @trends %>
-<%= will_paginate @trends %>
+<%= will_paginate_with_info @trends %>
 <% unless TrendCounter.unconfigured? %>
   <%= _("Last updated %s ago") % (time_ago_in_words TrendCounter.order(:created_at).last.created_at) %>
 <% end %>

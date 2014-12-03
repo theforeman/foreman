@@ -1,5 +1,5 @@
 object @operatingsystem
-attributes :id, :name, :major, :minor, :family, :release_name
+attributes :id, :name, :major, :minor, :family, :release_name, :password_hash
 
 child :media do
   attributes :id, :name

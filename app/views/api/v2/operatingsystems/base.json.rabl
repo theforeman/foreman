@@ -1,3 +1,3 @@
 object @operatingsystem
 
-attributes :id, :name, :fullname
+attributes :id, :name, :title

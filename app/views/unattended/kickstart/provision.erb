@@ -19,13 +19,13 @@ oses:
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
   proxy_string = @host.params['http-proxy'] ? " --proxy=http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
-  puppet_enabled = pm_set || @host.params['force-puppet']
+  puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
   salt_enabled = @host.params['salt_master'] ? true : false
   section_end = (rhel_compatible && os_major <= 5) ? '' : '%end'
 %>
 install
 <%= @mediapath %><%= proxy_string %>
-lang en_US.UTF-8
+lang <%= @host.params['lang'] || 'en_US.UTF-8' %>
 selinux --enforcing
 keyboard us
 skipx
@@ -79,7 +79,9 @@ dhclient
 ntp
 wget
 @Core
+<% if rhel_compatible && os_major > 4 -%>
 epel-release
+<% end -%>
 <% if puppet_enabled %>
 puppet
 <% if @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
@@ -143,6 +145,8 @@ cat > /etc/salt/minion << EOF
 EOF
 # Setup salt-minion to run on system reboot
 /sbin/chkconfig --level 345 salt-minion on
+# Running salt-call to trigger key signing
+salt-call --no-color --grains >/dev/null
 <% end -%>
 
 sync

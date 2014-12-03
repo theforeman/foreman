@@ -1,8 +1,8 @@
 class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  AJAX_REQUESTS = %w{template_selected cluster_selected}
+  AJAX_REQUESTS = [:template_selected, :cluster_selected]
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_by_name, :only => [:show, :edit, :associate, :update, :destroy, :ping] + AJAX_REQUESTS
+  before_filter :find_resource, :only => [:show, :edit, :associate, :update, :destroy, :ping] + AJAX_REQUESTS
 
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
@@ -25,8 +25,6 @@ class ComputeResourcesController < ApplicationController
     if params[:compute_resource].present? && params[:compute_resource][:provider].present?
       @compute_resource = ComputeResource.new_provider params[:compute_resource]
       if @compute_resource.save
-        # Add the new compute resource to the user's filters
-        @compute_resource.users << User.current
         process_success :success_redirect => @compute_resource
       else
         process_error
@@ -60,7 +58,7 @@ class ComputeResourcesController < ApplicationController
   def update
     params[:compute_resource].except!(:password) if params[:compute_resource][:password].blank?
     if @compute_resource.update_attributes(params[:compute_resource])
-      process_success
+      process_success :success_redirect => compute_resources_path
     else
       process_error
     end
@@ -126,4 +124,5 @@ class ComputeResourcesController < ApplicationController
         super
     end
   end
+
 end

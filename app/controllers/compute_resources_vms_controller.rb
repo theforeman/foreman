@@ -109,7 +109,7 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def run_vm_action(action)
-    if (@vm.send(action) rescue false)
+    if @vm.send(action)
       @vm.reload
       notice _("%{vm} is now %{vm_state}") % {:vm => @vm, :vm_state => @vm.state.capitalize}
       redirect_to compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity)
@@ -117,6 +117,10 @@ class ComputeResourcesVmsController < ApplicationController
       error _("failed to %{action} %{vm}") % {:action => _(action), :vm => @vm}
       redirect_to :back
     end
+  # This should only rescue Fog::Errors, but Fog returns all kinds of errors...
+  rescue => e
+    error _("Error - %{message}") % { :message => _(e.message) }
+    redirect_to :back
   end
 
 end

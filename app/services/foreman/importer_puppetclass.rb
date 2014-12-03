@@ -1,7 +1,7 @@
 class Foreman::ImporterPuppetclass
   attr_reader :name, :module, :parameters
 
-  def initialize opts = { }
+  def initialize(opts = { })
     @name = opts["name"] || raise("must provide a puppet class name")
     @module     = opts["module"]
     @parameters = opts["params"] || { }
@@ -22,7 +22,7 @@ class Foreman::ImporterPuppetclass
 
   # Auto-detects the best validator type for the given (correctly typed) value.
   # JSON and YAML are better undetected, to prevent the simplest strings to match.
-  def self.suggest_key_type value, default = nil, detect_json_or_yaml = false
+  def self.suggest_key_type(value, default = nil, detect_json_or_yaml = false)
     case value
     when String
       begin

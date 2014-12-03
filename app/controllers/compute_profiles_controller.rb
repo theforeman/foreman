@@ -1,6 +1,6 @@
 class ComputeProfilesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_name, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_resource, :only => [:show, :edit, :update, :destroy]
 
   def index
     @compute_profiles = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
@@ -27,7 +27,7 @@ class ComputeProfilesController < ApplicationController
 
   def update
     if @compute_profile.update_attributes(params[:compute_profile])
-      process_success :success_redirect => compute_profiles_path
+      process_success
     else
       process_error
     end
@@ -40,6 +40,5 @@ class ComputeProfilesController < ApplicationController
       process_error
     end
   end
-
 
 end

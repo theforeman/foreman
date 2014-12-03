@@ -2,7 +2,7 @@
   <% unless params[:host_id] -%>
       <td>
         <% if fact.host -%>
-            <%= link_to(fact.host, host_facts_path(:host_id => fact.host), :title => _("Show host facts")) %>
+            <%= link_to(trunc(fact.host), host_facts_path(:host_id => fact.host), :title => _("Show %{host} facts") % { :host => fact.host.name }) %>
         <% else -%>
             <%= _('N/A') %>
         <% end %>
@@ -13,7 +13,7 @@
   </td>
   <td>
     <% unless fact.compose %>
-        <%= link_to h(truncate fact.value, :length => 40),
+        <%= link_to trunc(fact.value, 40),
                     fact_values_path("search" => "facts.#{fact.name} = \"#{fact.value}\""),
                     :title => _("Show all %{name} facts where they are equal to %{value}") % { :name => fact.name, :value => fact.value } %>
     <% end %>

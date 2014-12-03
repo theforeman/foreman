@@ -2,7 +2,7 @@ module Net
   module DNS
     class ARecord < DNS::Record
 
-      def initialize opts = { }
+      def initialize(opts = { })
         super opts
         @type = "A"
       end

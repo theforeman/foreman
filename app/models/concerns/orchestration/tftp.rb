@@ -64,18 +64,17 @@ module Orchestration::TFTP
     # this is the only place we generate a template not via a web request
     # therefore some workaround is required to "render" the template.
 
-    prefix   = operatingsystem.pxe_prefix(arch)
     @kernel = os.kernel(arch)
     @initrd = os.initrd(arch)
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
     @host = self
     if build?
-      pxe_render configTemplate({:kind => os.template_kind}).template
+      pxe_render configTemplate({:kind => os.template_kind})
     else
       if os.template_kind == "PXEGrub"
-        pxe_render ConfigTemplate.find_by_name("PXEGrub default local boot").template
+        pxe_render ConfigTemplate.find_by_name("PXEGrub default local boot")
       else
-        pxe_render ConfigTemplate.find_by_name("PXELinux default local boot").template
+        pxe_render ConfigTemplate.find_by_name("PXELinux default local boot")
       end
     end
   rescue => e

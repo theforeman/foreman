@@ -4,7 +4,7 @@ module ProxyAPI
 
     attr_reader :url
 
-    def initialize url, exception, message, *params
+    def initialize(url, exception, message, *params)
       super(exception, message, *params)
       @url = url
     end

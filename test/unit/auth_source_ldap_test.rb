@@ -157,16 +157,26 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     setup_ldap_stubs
     ExternalUsergroup.any_instance.expects(:refresh).never
     LdapFluff.any_instance.expects(:group_list).with('test').returns([])
-    @auth_source_ldap.send(:update_usergroups, 'test', 'pass')
+    @auth_source_ldap.send(:update_usergroups, 'test')
   end
 
-  test 'update_usergroups calls refresh_ldap if entry belongs to some group' do
-    setup_ldap_stubs
-    ExternalUsergroup.expects(:find_by_name).with('ipausers').returns(ExternalUsergroup.new)
-    ExternalUsergroup.any_instance.expects(:present?).returns(true)
-    ExternalUsergroup.any_instance.expects(:refresh).returns(true)
-    LdapFluff.any_instance.expects(:group_list).with('test').returns(['ipausers'])
-    @auth_source_ldap.send(:update_usergroups, 'test', 'pass')
+  context 'refresh ldap' do
+    setup do
+      setup_ldap_stubs
+      LdapFluff.any_instance.expects(:group_list).with('test').returns(['ipausers'])
+    end
+
+    test 'update_usergroups calls refresh_ldap if entry belongs to some group' do
+      ExternalUsergroup.expects(:find_by_name).with('ipausers').returns(ExternalUsergroup.new)
+      @auth_source_ldap.send(:update_usergroups, 'test')
+    end
+
+    test 'update_usergroups refreshes on all external user groups, in LDAP and in Foreman auth source' do
+      @auth_source_ldap.stubs(:valid_group?).returns(true)
+      external = FactoryGirl.create(:external_usergroup, :auth_source => @auth_source_ldap)
+      User.any_instance.expects(:external_usergroups).returns([external])
+      @auth_source_ldap.send(:update_usergroups, 'test')
+    end
   end
 
   test '#to_config with dedicated service account returns hash' do

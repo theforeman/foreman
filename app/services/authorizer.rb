@@ -108,7 +108,7 @@ class Authorizer
       values.push location_ids
     end
 
-    return [organizations, locations, values]
+    [organizations, locations, values]
   end
 
   # sometimes we need exceptions however we don't want to just split namespaces

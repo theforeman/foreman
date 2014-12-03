@@ -1,16 +1,15 @@
 module Api
   module V2
     class RolesController < V2::BaseController
+
+      before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/roles/", N_("List all roles")
-      param :search, String, :desc => N_("Filter results"), :required => false
-      param :order, String, :desc => N_("Sort results"), :required => false
-      param :page, String, :desc => N_("paginate results"), :required => false
-      param :per_page, String, :desc => N_("number of entries per request"), :required => false
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @roles = Role.search_for(*search_options).paginate(paginate_options)
+        @roles = resource_scope_for_index
       end
 
       api :GET, "/roles/:id/", N_("Show a role")
@@ -47,6 +46,13 @@ module Api
       def destroy
         process_response @role.destroy
       end
+
+      private
+
+      def allowed_nested_id
+        %w(user_id)
+      end
+
     end
   end
 end

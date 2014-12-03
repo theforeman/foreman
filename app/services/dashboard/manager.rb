@@ -27,10 +27,7 @@ module Dashboard
 
       # Adds an widget at the end of the list. Available options:
       # * before, after: specify where the widget should be inserted (eg. :after => :activity)
-      def push(obj, options={})
-
-        target_root = @widgets.first
-
+      def push(obj, options = {})
         # menu widget position
         if options[:first]
           @widgets.unshift(obj)
@@ -43,7 +40,7 @@ module Dashboard
         end
       end
 
-      def widget(id, options={})
+      def widget(id, options = {})
         push(Widget.new(id, options), options)
       end
 

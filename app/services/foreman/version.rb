@@ -3,9 +3,9 @@ module Foreman
   # Simple struct for manipulation and comparing versions
   class Version
     attr_reader :version, :major, :minor, :build, :tag, :short, :notag
-    alias :full :version
+    alias_method :full, :version
 
-    def initialize givenversion=nil
+    def initialize(givenversion = nil)
       if givenversion
         @version = givenversion
       else

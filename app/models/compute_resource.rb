@@ -3,6 +3,7 @@ class ComputeResource < ActiveRecord::Base
   include Taxonomix
   include Encryptable
   include Authorizable
+  include Parameterizable::ByIdName
   encrypts :password
 
   class_attribute :supported_providers
@@ -23,9 +24,8 @@ class ComputeResource < ActiveRecord::Base
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   before_destroy EnsureNotUsedBy.new(:hosts)
-  has_and_belongs_to_many :users, :join_table => "user_compute_resources"
-  validates :name, :presence => true, :uniqueness => true,
-            :format => { :with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.") }
+  validates :name, :presence => true, :uniqueness => true, :no_whitespace => true
+  validate :ensure_provider_not_changed, :on => :update
   validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
@@ -64,7 +64,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   # allows to create a specific compute class based on the provider.
-  def self.new_provider args
+  def self.new_provider(args)
     raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider = args.delete(:provider)
     self.providers.each do |p|
       return self.provider_class(p).constantize.new(args) if p.downcase == provider.downcase
@@ -81,7 +81,7 @@ class ComputeResource < ActiveRecord::Base
     {:uuid => :identity}
   end
 
-  def test_connection options = {}
+  def test_connection(options = {})
     valid?
   end
 
@@ -90,14 +90,10 @@ class ComputeResource < ActiveRecord::Base
     errors
   end
 
-  def save_vm uuid, attr
+  def save_vm(uuid, attr)
     vm = find_vm_by_uuid(uuid)
     vm.attributes.merge!(attr.symbolize_keys)
     vm.save
-  end
-
-  def to_param
-    "#{id}-#{name.parameterize}"
   end
 
   def to_label
@@ -118,13 +114,13 @@ class ComputeResource < ActiveRecord::Base
   end
 
   # returns a new fog server instance
-  def new_vm attr={}
+  def new_vm(attr = {})
     test_connection
     client.servers.new vm_instance_defaults.merge(attr.to_hash.symbolize_keys) if errors.empty?
   end
 
   # return fog new interface ( network adapter )
-  def new_interface attr={}
+  def new_interface(attr = {})
     client.interfaces.new attr
   end
 
@@ -133,25 +129,25 @@ class ComputeResource < ActiveRecord::Base
     client.servers
   end
 
-  def find_vm_by_uuid uuid
+  def find_vm_by_uuid(uuid)
     client.servers.get(uuid) || raise(ActiveRecord::RecordNotFound)
   end
 
-  def start_vm uuid
+  def start_vm(uuid)
     find_vm_by_uuid(uuid).start
   end
 
-  def stop_vm uuid
+  def stop_vm(uuid)
     find_vm_by_uuid(uuid).stop
   end
 
-  def create_vm args = {}
+  def create_vm(args = {})
     options = vm_instance_defaults.merge(args.to_hash.symbolize_keys)
     logger.debug("creating VM with the following options: #{options.inspect}")
     client.servers.create options
   end
 
-  def destroy_vm uuid
+  def destroy_vm(uuid)
     find_vm_by_uuid(uuid).destroy
   rescue ActiveRecord::RecordNotFound
     # if the VM does not exists, we don't really care.
@@ -166,7 +162,8 @@ class ComputeResource < ActiveRecord::Base
     if self.class.providers.include? value
       self.type = self.class.provider_class(value)
     else
-      raise ::Foreman::Exception.new N_("unknown provider")
+      self.type = value #this will trigger validation error since value is one of supported_providers
+      logger.debug("unknown provider for compute resource")
     end
   end
 
@@ -174,10 +171,10 @@ class ComputeResource < ActiveRecord::Base
     ActiveSupport::HashWithIndifferentAccess.new(:name => "foreman_#{Time.now.to_i}")
   end
 
-  def templates(opts={})
+  def templates(opts = {})
   end
 
-  def template(id,opts={})
+  def template(id,opts = {})
   end
 
   def update_required?(old_attrs, new_attrs)
@@ -189,7 +186,7 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
-  def console uuid = nil
+  def console(uuid = nil)
     raise ::Foreman::Exception.new(N_("%s console is not supported at this time"), provider_friendly_name)
   end
 
@@ -218,16 +215,19 @@ class ComputeResource < ActiveRecord::Base
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
-  def available_storage_domains(storage_domain=nil)
+  def available_storage_domains(storage_domain = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
+  # this method is overwritten for Libvirt and VMWare
   def set_console_password?
-    self.attrs[:setpw] == 1 || self.attrs[:setpw].nil?
+    false
   end
+  alias_method :set_console_password, :set_console_password?
 
+  # this method is overwritten for Libvirt and VMWare
   def set_console_password=(setpw)
-    self.attrs[:setpw] = setpw.to_i
+    self.attrs[:setpw] = nil
   end
 
   def compute_profile_attributes_for(id)
@@ -255,12 +255,10 @@ class ComputeResource < ActiveRecord::Base
 
   def random_password
     return nil unless set_console_password?
-    n = 8
-    chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-    (0...n).map { chars[rand(chars.length)].chr }.join
+    SecureRandom.hex(8)
   end
 
-  def nested_attributes_for type, opts
+  def nested_attributes_for(type, opts)
     return [] unless opts
     opts = opts.dup #duplicate to prevent changing the origin opts.
     opts.delete("new_#{type}") # delete template
@@ -279,6 +277,12 @@ class ComputeResource < ActiveRecord::Base
 
   def set_attributes_hash
     self.attrs ||= {}
+  end
+
+  def ensure_provider_not_changed
+    if self.type_changed?
+      errors.add(:provider, _("cannot be changed"))
+    end
   end
 
 end

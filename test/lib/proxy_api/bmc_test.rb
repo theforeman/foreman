@@ -34,7 +34,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   end
 
   test "providers should get list of providers" do
-    path = @url + "/bmc/providers"
     expected = ["freeipmi", "ipmitool"]
     @testbmc.stubs(:get).returns(fake_response(expected))
     assert_equal(expected, @testbmc.providers)
@@ -42,7 +41,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
 
   test "providers installed should get list of installed providers" do
     expected = ["freeipmi", "ipmitool"]
-    path = @url + "/bmc/providers_installed"
     @testbmc.stubs(:get).returns(fake_response(expected))
     assert_equal(expected, @testbmc.providers_installed)
   end

@@ -152,7 +152,11 @@ function load_puppet_class_parameters(item) {
   if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
   var url = $(item).attr('data-url');
   var data = $("form").serialize().replace('method=put', 'method=post');
-  data = data + '&host_id=' + host_id
+  if (url.match('hostgroups')) {
+    data = data + '&hostgroup_id=' + host_id
+  } else {
+    data = data + '&host_id=' + host_id
+  }
 
   if (url == undefined) return; // no parameters
   var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
@@ -177,6 +181,8 @@ function hostgroup_changed(element) {
   if (host_id) {
     if (host_changed ){
       update_form(element,{data:"&host[id]="+host_id});
+    } else if (host_changed == undefined) { // hostgroup changes parent
+      update_form(element);
     } else { // edit host
       update_puppetclasses(element);
       reload_host_params();
@@ -205,9 +211,10 @@ function update_form(element, options) {
     type: 'post',
     url: url,
     data: data,
-    complete: function(){  $(element).indicator_hide();},
+    complete: function(){ $(element).indicator_hide(); },
     success: function(response) {
       $('form').replaceWith(response);
+      multiSelectOnLoad();
       $("[id$='subnet_id']").first().change();
       // to handle case if def process_taxonomy changed compute_resource_id to nil
       if( !$('#host_compute_resource_id').val() ) {
@@ -424,7 +431,12 @@ function reload_host_params(){
   var host_id = $("form").data('id');
   var url = $('#params-tab').data('url');
   var data = $("[data-submit='progress_bar']").serialize().replace('method=put', 'method=post');
-  data = data + '&host_id=' + host_id;
+  if (url.match('hostgroups')) {
+    var parent_id = $('#hostgroup_parent_id').val()
+    data = data + '&hostgroup_id=' + host_id + '&hostgroup_parent_id=' + parent_id
+  } else {
+    data = data + '&host_id=' + host_id
+  }
   load_with_placeholder('inherited_parameters', url, data)
 }
 
@@ -432,7 +444,11 @@ function reload_puppetclass_params(){
   var host_id = $("form").data('id');
   var url2 = $('#params-tab').data('url2');
   var data = $("[data-submit='progress_bar']").serialize().replace('method=put', 'method=post');
-  data = data + '&host_id=' + host_id
+  if (url2.match('hostgroups')) {
+    data = data + '&hostgroup_id=' + host_id
+  } else {
+    data = data + '&host_id=' + host_id
+  }
   load_with_placeholder('inherited_puppetclasses_parameters', url2, data)
 }
 
@@ -464,6 +480,8 @@ function onHostEditLoad(){
 }
 
 $(document).on('submit',"[data-submit='progress_bar']", function() {
+  // onContentLoad function clears any un-wanted parameters from being sent to the server by
+  // binding 'click' function before this submit. see '$('form').on('click', 'input[type="submit"]', function()'
   submit_host();
   return false;
 });
@@ -515,11 +533,14 @@ $(document).on('change', '.interface_type', function () {
 });
 
 function interface_domain_selected(element) {
+  // mark the selected value to preserve it for form hiding
+  $(element).find('option:selected').attr('selected', 'selected')
+
   var domain_id = element.value;
-  var subnet_options = $(element).parentsUntil('.fields').parent().find('[id$=_subnet_id]').empty();
+  var subnet_options = $(element).closest('fieldset').find('[id$=_subnet_id]').empty();
 
   subnet_options.attr('disabled', true);
-  
+
   $(element).indicator_show();
 
   var url = $(element).attr('data-url');
@@ -553,9 +574,12 @@ function interface_domain_selected(element) {
 }
 
 function interface_subnet_selected(element) {
+  // mark the selected value to preserve it for form hiding
+  $(element).find('option:selected').attr('selected', 'selected')
+
   var subnet_id = $(element).val();
   if (subnet_id == '') return;
-  var interface_ip = $(element).parentsUntil('.fields').parent().find('input[id$=_ip]')
+  var interface_ip = $(element).closest('fieldset').find('input[id$=_ip]');
 
   interface_ip.attr('disabled', true);
   $(element).indicator_show();

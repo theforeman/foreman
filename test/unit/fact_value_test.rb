@@ -2,7 +2,7 @@ require 'test_helper'
 
 class FactValueTest < ActiveSupport::TestCase
   def setup
-    @host = hosts(:one)
+    @host = FactoryGirl.create(:host)
     @fact_name   = FactName.create(:name => "my_facting_name")
     @fact_value  = FactValue.create(:value => "some value", :host => @host, :fact_name => @fact_name)
     @child_name  = FactName.create(:name => 'my_facting_name::child', :parent => @fact_name)
@@ -15,8 +15,8 @@ class FactValueTest < ActiveSupport::TestCase
     assert_equal h, FactValue.count_each("my_facting_name")
 
     #Now creating a new fact value
-    @other_host = hosts(:two)
-    other_fact_value = FactValue.create(:value => "some value", :host => @other_host, :fact_name => @fact_name)
+    @other_host = FactoryGirl.create(:host)
+    FactValue.create(:value => "some value", :host => @other_host, :fact_name => @fact_name)
     h = [{:label=>"some value", :data=>2}]
     assert_equal h, FactValue.count_each("my_facting_name")
   end
@@ -40,15 +40,33 @@ class FactValueTest < ActiveSupport::TestCase
   end
 
   test "should return search results if search free text is fact name" do
+    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => FactoryGirl.create(:host),
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for('kernelversion')
     assert_equal 1, results.count
     assert_equal 'kernelversion', results.first.name
   end
 
   test "should return search results for name = fact name" do
+    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => FactoryGirl.create(:host),
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for('name = kernelversion')
     assert_equal 1, results.count
     assert_equal 'kernelversion', results.first.name
+  end
+
+  test 'should return search results for host = fqdn' do
+    host = FactoryGirl.create(:host)
+    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => host,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+    results = FactValue.search_for("host = #{host.fqdn}")
+    refute_empty results
+  end
+
+  test 'should return empty search results for host with no facts' do
+    host = FactoryGirl.create(:host)
+    results = FactValue.search_for("host = #{host.fqdn}")
+    assert_empty results
   end
 
 end

@@ -2,7 +2,7 @@ module Orchestration
   class Task
     attr_reader :name, :status, :priority, :action, :timestamp
 
-    def initialize opts
+    def initialize(opts)
       @name      = opts[:name]
       @status    = opts[:status]
       @priority  = opts[:priority] || 0
@@ -10,7 +10,7 @@ module Orchestration
       update_ts
     end
 
-    def status=s
+    def status=(s)
       if Orchestration::Queue::STATUS.include?(s)
         update_ts
         @status = s
@@ -23,7 +23,7 @@ module Orchestration
       "#{name}\t #{priority}\t #{status}\t #{action}"
     end
 
-    def as_json options = {}
+    def as_json(options = {})
       super :only => [:name, :timestamp, :status]
     end
 
@@ -33,7 +33,7 @@ module Orchestration
     end
 
     # sort based on priority
-    def <=> other
+    def <=>(other)
       self.priority <=> other.priority
     end
 

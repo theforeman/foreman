@@ -3,7 +3,7 @@ class ConfigTemplatesController < ApplicationController
   include Foreman::Renderer
 
   before_filter :handle_template_upload, :only => [:create, :update]
-  before_filter :find_by_name, :only => [:edit, :update, :destroy, :clone, :lock, :unlock]
+  before_filter :find_resource, :only => [:edit, :update, :destroy, :clone, :lock, :unlock]
   before_filter :load_history, :only => :edit
 
   def index
@@ -102,8 +102,8 @@ class ConfigTemplatesController < ApplicationController
     @history = Audit.descending.where(:auditable_id => @config_template.id, :auditable_type => 'ConfigTemplate')
   end
 
-  def default_template_url template, hostgroup
-    url_for :only_path => false, :action => :template, :controller => '/unattended',
+  def default_template_url(template, hostgroup)
+    url_for :host => Setting[:unattended_url], :action => :template, :controller => '/unattended',
       :id => template.name, :hostgroup => hostgroup.name
   end
 

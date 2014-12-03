@@ -4,16 +4,16 @@ module Foreman
   module Renderer
 
     ALLOWED_HELPERS = [ :foreman_url, :grub_pass, :snippet, :snippets,
-			:snippet_if_exists, :ks_console, :root_pass,
-			:multiboot, :jumpstart_path, :install_path, :miniroot,
-			:media_path, :param_true?, :param_false?, :match, :indent ]
+                        :snippet_if_exists, :ks_console, :root_pass,
+                        :multiboot, :jumpstart_path, :install_path, :miniroot,
+                        :media_path, :param_true?, :param_false?, :match, :indent ]
 
     ALLOWED_VARIABLES = [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
                           :repos, :dynamic, :kernel, :initrd,
                           :preseed_server, :preseed_path, :provisioning_type ]
 
 
-    def render_safe template, allowed_methods = [], allowed_vars = {}
+    def render_safe(template, allowed_methods = [], allowed_vars = {})
 
       if Setting[:safemode_render]
         box = Safemode::Box.new self, allowed_methods
@@ -32,6 +32,30 @@ module Foreman
       host     = config.host || request.host
       port     = config.port || request.port
 
+      proxy = @host.try(:subnet).try(:tftp)
+
+      # use template_url from the request if set, but otherwise look for a Template
+      # feature proxy, as PXE templates are written without an incoming request.
+      url = if @template_url && @host.try(:token).present?
+              @template_url
+            elsif proxy.present? && proxy.try(:features).map(&:name).include?('Templates') && @host.try(:token).present?
+              temp_url = ProxyAPI::Template.new(:url => proxy.url).template_url
+              if temp_url.nil?
+                logger.warn("unable to obtain template url set by proxy #{proxy.url}. falling back on proxy url.")
+                temp_url = proxy.url
+              end
+              temp_url
+            else
+              nil
+            end
+
+      if url.present?
+        uri      = URI.parse(url)
+        host     = uri.host
+        port     = uri.port
+        protocol = uri.scheme
+      end
+
       url_for :only_path => false, :controller => "/unattended", :action => action,
               :protocol  => protocol, :host => host, :port => port,
               :token     => (@host.token.value unless @host.token.nil?)
@@ -46,12 +70,12 @@ module Foreman
       end
     end
 
-    def snippet name, options = {}
+    def snippet(name, options = {})
       if (template = ConfigTemplate.where(:name => name, :snippet => true).first)
         logger.debug "rendering snippet #{template.name}"
         begin
-          return unattended_render(template.template)
-        rescue Exception => exc
+          return unattended_render(template)
+        rescue => exc
           raise "The snippet '#{name}' threw an error: #{exc}"
         end
       else
@@ -63,7 +87,7 @@ module Foreman
       end
     end
 
-    def snippet_if_exists name
+    def snippet_if_exists(name)
       snippet name, :silent => true
     end
 
@@ -73,15 +97,18 @@ module Foreman
       prefix + text.gsub(/\n/, "\n#{prefix}")
     end
 
-    def unattended_render template
+    def unattended_render(template, template_name = nil)
+      content = template.respond_to?(:template) ? template.template : template
+      template_name ||= template.respond_to?(:name) ? template.name : 'Unnamed'
       allowed_variables = ALLOWED_VARIABLES.reduce({}) do |mapping, var|
          mapping.update(var => instance_variable_get("@#{var}"))
       end
-      render_safe template, ALLOWED_HELPERS, allowed_variables
+      allowed_variables[:template_name] = template_name
+      render_safe content, ALLOWED_HELPERS, allowed_variables
     end
     alias_method :pxe_render, :unattended_render
 
-    def unattended_render_to_temp_file content, prefix = id.to_s, options = {}
+    def unattended_render_to_temp_file(content, prefix = id.to_s, options = {})
       file = ""
       Tempfile.open(prefix, Rails.root.join('tmp') ) do |f|
         f.print(unattended_render(content))

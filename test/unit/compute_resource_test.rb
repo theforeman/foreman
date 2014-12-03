@@ -40,6 +40,24 @@ class ComputeResourceTest < ActiveSupport::TestCase
     assert_match /^[[:alnum:]]+$/, cr.send(:random_password) # Can't call protected methods directly
   end
 
+  test "attrs[:setpw] is set to nil if compute resource is not Libvirt or VMWare" do
+    cr = compute_resources(:ec2)
+    assert cr.update_attributes(:set_console_password => 1)
+    assert_nil cr.attrs[:setpw]
+  end
+
+  test "attrs[:setpw] is set to 1 if compute resource is Libvirt" do
+    cr = compute_resources(:mycompute)
+    assert cr.update_attributes(:set_console_password => 1)
+    assert_equal 1, cr.attrs[:setpw]
+  end
+
+  test "attrs[:setpw] is set to 0 rather than nil if compute resource is Libvirt" do
+    cr = compute_resources(:mycompute)
+    assert cr.update_attributes(:set_console_password => nil)
+    assert_equal 0, cr.attrs[:setpw]
+  end
+
   test "libvirt vm_instance_defaults should contain the stored display type" do
     cr=compute_resources(:mycompute)
     cr.display_type='VNC'
@@ -95,6 +113,8 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
   # test taxonomix methods
   test "should get used location ids for host" do
+    FactoryGirl.create(:host, :compute_resource => compute_resources(:one),
+                       :location => taxonomies(:location1))
     assert_equal [taxonomies(:location1).id], compute_resources(:one).used_location_ids
   end
 
@@ -105,6 +125,25 @@ class ComputeResourceTest < ActiveSupport::TestCase
   test "user_data_supported?" do
     refute compute_resources(:one).user_data_supported?
     assert compute_resources(:ec2).user_data_supported?
+  end
+
+  test "invalid if provider is set to empty string" do
+    cr = compute_resources(:mycompute)
+    cr.provider = ''
+    refute_valid cr, :provider, "can't be blank"
+    refute_valid cr, :provider, "is not included in the list"
+  end
+
+  test "invalid if provider is set to non-existant provider" do
+    cr = compute_resources(:mycompute)
+    cr.provider = 'notrealprovider'
+    refute_valid cr, :provider, "is not included in the list"
+  end
+
+  test "invalid if provider is changed on update" do
+    cr = compute_resources(:ovirt)
+    cr.provider = 'Libvirt'
+    refute_valid cr, :provider, "cannot be changed"
   end
 
 end

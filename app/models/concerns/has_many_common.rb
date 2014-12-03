@@ -23,7 +23,7 @@ module HasManyCommon
       end
     end
 
-    def has_name?(field="name")
+    def has_name?(field = "name")
       self.column_names.include?(field)
     end
 

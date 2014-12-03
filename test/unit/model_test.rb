@@ -28,9 +28,10 @@ class ModelTest < ActiveSupport::TestCase
   end
 
   test "should update hosts_count" do
+    host = FactoryGirl.create(:host)
     model = Model.create :name => "newmodel"
     assert_difference "model.hosts_count" do
-      hosts(:one).update_attribute(:model, model)
+      host.update_attribute(:model, model)
       model.reload
     end
   end

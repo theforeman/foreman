@@ -2,6 +2,10 @@ require 'test_helper'
 
 class LocationTest < ActionDispatch::IntegrationTest
 
+  def setup
+    FactoryGirl.create(:host)
+  end
+
   test "index page" do
     assert_index_page(locations_path,"Locations","New Location")
   end

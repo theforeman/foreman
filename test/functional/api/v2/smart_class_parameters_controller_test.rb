@@ -12,7 +12,10 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
   end
 
   test "should get smart class parameters for a specific host" do
-    get :index, {:host_id => hosts(:one).to_param}
+    @host = FactoryGirl.create(:host,
+                               :puppetclasses => [puppetclasses(:one)],
+                               :environment => environments(:production))
+    get :index, {:host_id => @host.to_param}
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)
     results = ActiveSupport::JSON.decode(@response.body)

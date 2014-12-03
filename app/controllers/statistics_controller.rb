@@ -4,7 +4,7 @@ class StatisticsController < ApplicationController
     @os_count    = Host.authorized(:view_hosts, Host).count_distribution :operatingsystem
     @arch_count  = Host.authorized(:view_hosts, Host).count_distribution :architecture
     @env_count   = Host.authorized(:view_hosts, Host).count_distribution :environment
-    @klass_count = Host.authorized(:view_hosts, Host).count_habtm "puppetclass"
+    @klass_count = Puppetclass.authorized(:view_puppetclasses).where('total_hosts>0').map{|pc| {:label=>pc.to_label, :data =>pc.total_hosts}}
     @cpu_count   = FactValue.authorized(:view_facts).my_facts.count_each "processorcount", :unit => Nn_('%s core', '%s cores')
     @model_count = FactValue.authorized(:view_facts).my_facts.count_each "manufacturer"
     @mem_size    = FactValue.authorized(:view_facts).my_facts.mem_average "memorysize"

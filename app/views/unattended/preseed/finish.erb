@@ -3,7 +3,7 @@ kind: finish
 name: Preseed default finish
 oses:
 - Debian 6.0
-- Debian 7.0
+- Debian 7.
 - Ubuntu 10.04
 - Ubuntu 12.04
 - Ubuntu 13.04
@@ -11,9 +11,16 @@ oses:
 <%
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
-  puppet_enabled = pm_set || @host.params['force-puppet']
+  puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
   salt_enabled = @host.params['salt_master'] ? true : false
 %>
+<% if @static -%>
+# host and domain name need setting as these values may have come from dhcp if pxe booting
+/bin/sed -i "s/^search.*$/search <%= @host.domain %>/g" /etc/resolv.conf
+/bin/sed -i "s/.*dns-search.*/\tdns-search <%= @host.domain %>/g" /etc/network/interfaces
+/bin/sed -i "s/^<%= @host.ip %>.*/<%= @host.ip %>\t<%= @host.shortname %>.<%= @host.domain %>\t<%= @host.shortname %>/g" /etc/hosts
+/bin/echo <%= @host.shortname %> > /etc/hostname
+<% end -%>
 <% if puppet_enabled %>
 cat > /etc/puppet/puppet.conf << EOF
 <%= snippet 'puppet.conf' %>
@@ -35,6 +42,8 @@ fi
 cat > /etc/salt/minion << EOF
 <%= snippet 'saltstack_minion' %>
 EOF
+# Running salt-call to trigger key signing
+salt-call --no-color --grains >/dev/null
 <% end -%>
 
 /usr/bin/wget --no-proxy --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>

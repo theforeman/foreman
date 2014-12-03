@@ -20,12 +20,12 @@ module DashboardHelper
     start = Time.now.utc - Setting[:puppet_interval].minutes
     (0..9).each do |i|
       t = start + (interval.minutes * i)
-      data << [Setting[:puppet_interval] - i*interval , hosts.run_distribution(t, t + interval.minutes).count]
+      data << [Setting[:puppet_interval] - i*interval, hosts.run_distribution(t, t + interval.minutes).count]
     end
     data
   end
 
-  def render_overview report, options = {}
+  def render_overview(report, options = {})
     data = [{:label=>_('Active'), :data => report[:active_hosts_ok_enabled],:color => report_color[:active_hosts_ok_enabled]},
             {:label=>_('Error'), :data =>report[:bad_hosts_enabled], :color => report_color[:bad_hosts_enabled]},
             {:label=>_('OK'), :data =>report[:ok_hosts_enabled],:color => report_color[:ok_hosts_enabled]},
@@ -36,12 +36,12 @@ module DashboardHelper
     flot_pie_chart 'overview', _('Host Configuration Status'), data, options.merge(:search => "search_by_legend")
   end
 
-  def render_run_distribution hosts, options = {}
+  def render_run_distribution(hosts, options = {})
     data = count_reports(hosts)
     flot_bar_chart("run_distribution", _("Minutes Ago"), _("Number Of Clients"), data, options)
   end
 
-  def searchable_links name, search, counter
+  def searchable_links(name, search, counter)
     search += " and #{params[:search]}" unless params[:search].blank?
     content_tag :li do
       content_tag(:i, raw('&nbsp;'), :class=>'label', :style => "background-color:" + report_color[counter]) +
@@ -80,13 +80,13 @@ module DashboardHelper
 
   def report_color
     {
-        :active_hosts_ok_enabled => "#4572A7",
-        :bad_hosts_enabled => "#AA4643",
-        :ok_hosts_enabled => "#89A54E",
-        :pending_hosts_enabled => "#80699B",
-        :out_of_sync_hosts_enabled => "#3D96AE",
-        :reports_missing => "#DB843D",
-        :disabled_hosts => "#92A8CD"
+      :active_hosts_ok_enabled => "#4572A7",
+      :bad_hosts_enabled => "#AA4643",
+      :ok_hosts_enabled => "#89A54E",
+      :pending_hosts_enabled => "#80699B",
+      :out_of_sync_hosts_enabled => "#3D96AE",
+      :reports_missing => "#DB843D",
+      :disabled_hosts => "#92A8CD"
     }
   end
 

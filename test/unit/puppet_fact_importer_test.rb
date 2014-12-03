@@ -5,7 +5,17 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
   setup do
     disable_orchestration
     User.current = users :admin
-    @host        = hosts(:one)
+    @host        = FactoryGirl.create(:host)
+    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => @host,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+    FactoryGirl.create(:fact_value, :value => '10.0.19.33',:host => @host,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'ipaddress'))
+  end
+
+  test 'importer imports everything as strings' do
+    import 'kernelversion' => '2.6.9', 'vda_size' => 4242
+    assert_equal '2.6.9', value('kernelversion')
+    assert_equal '4242', value('vda_size')
   end
 
   test 'importer adds new facts' do
@@ -69,7 +79,7 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
     importer.import!
   end
 
-  def value fact
+  def value(fact)
     FactValue.joins(:fact_name).where(:host_id => @host.id, :fact_names => { :name => fact }).first.try(:value)
   end
 end

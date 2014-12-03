@@ -1,7 +1,7 @@
 module ProxyAPI
   class Realm < Resource
 
-    def initialize args
+    def initialize(args)
       @url  = "#{args[:url]}/realm/#{args[:realm_name]}"
       super args
     end
@@ -9,7 +9,7 @@ module ProxyAPI
     # Creates a Realm Host entry
     # [+args+] : Hash containing at a minimum :hostname
     # Returns  : JSON Result
-    def create args
+    def create(args)
       parse(post(args, ""))
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to create realm entry"))
@@ -18,7 +18,7 @@ module ProxyAPI
     # Deletes a Realm Host entry
     # [+key+] : String containing the hostname
     # Returns : Boolean status
-    def delete key
+    def delete(key)
       parse(super(key))
     rescue
       # maybe the entry was already deleted

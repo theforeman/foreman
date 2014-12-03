@@ -3,7 +3,7 @@ module Api
     class ConfigTemplatesController < V1::BaseController
       include Foreman::Renderer
 
-      before_filter(:only => %w{show update destroy}) { find_resource('templates') }
+      before_filter :find_resource, :only => %w{show update destroy}
       before_filter :handle_template_upload, :only => [:create, :update]
       before_filter :process_template_kind, :only => [:create, :update]
 
@@ -87,11 +87,6 @@ module Api
       def handle_template_upload
         return unless params[:config_template] and (t=params[:config_template][:template])
         params[:config_template][:template] = t.read if t.respond_to?(:read)
-      end
-
-      def default_template_url template, hostgroup
-        url_for :only_path => false, :action => :template, :controller => '/unattended',
-                :id        => template.name, :hostgroup => hostgroup.name
       end
 
       def process_template_kind

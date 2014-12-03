@@ -9,17 +9,10 @@ module Api
       add_puppetmaster_filters :create
 
       api :GET, "/reports/", N_("List all reports")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @reports = Report.
-          authorized(:view_reports).
-          my_reports.
-          includes(:logs => [:source, :message]).
-          search_for(*search_options).paginate(paginate_options)
+        @reports = resource_scope_for_index.my_reports.includes(:logs => [:source, :message])
         @total = Report.my_reports.count
       end
 
@@ -60,7 +53,7 @@ module Api
       param :id, :identifier, :required => true
 
       def last
-        conditions = { :host_id => Host.find_by_name(params[:host_id]).try(:id) } unless params[:host_id].blank?
+        conditions = { :host_id => Host.find(params[:host_id]).id } unless params[:host_id].blank?
         max_id = Report.authorized(:view_reports).my_reports.where(conditions).maximum(:id)
         @report = Report.authorized(:view_reports).includes(:logs => [:message, :source]).find(max_id)
         render :show

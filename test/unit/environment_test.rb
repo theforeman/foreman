@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class EnvironmentTest < ActiveSupport::TestCase
+  def setup
+    Environment.all.each do |e| #because we load from fixtures, counters aren't updated
+      Environment.reset_counters(e.id,:hosts)
+      Environment.reset_counters(e.id,:hostgroups)
+    end
+  end
+
   test "should have name" do
     env = Environment.new
     assert !env.valid?
@@ -12,16 +19,6 @@ class EnvironmentTest < ActiveSupport::TestCase
       env2 = Environment.new :name => env.name
       assert !env2.valid?
     end
-  end
-
-  test "name should have no spaces" do
-    env = Environment.new :name => "f o o"
-    assert !env.valid?
-  end
-
-  test "name should be alphanumeric" do
-    env = Environment.new :name => "test&fail"
-    assert !env.valid?
   end
 
   test "to_label should print name" do
@@ -37,7 +34,7 @@ class EnvironmentTest < ActiveSupport::TestCase
   test "should update hosts_count" do
     environment = environments(:testing)
     assert_difference "environment.hosts_count" do
-      hosts(:one).update_attribute(:environment, environment)
+      FactoryGirl.create(:host).update_attribute(:environment, environment)
       environment.reload
     end
   end

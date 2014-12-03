@@ -3,7 +3,12 @@ require 'test_helper'
 class ArchitectureTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
+    Architecture.all.each do |a| #because we load from fixtures, counters aren't updated
+      Architecture.reset_counters(a.id,:hosts)
+      Architecture.reset_counters(a.id,:hostgroups)
+    end
   end
+
   test "should not save without a name" do
     architecture = Architecture.new
     assert_not architecture.save
@@ -13,15 +18,6 @@ class ArchitectureTest < ActiveSupport::TestCase
     architecture = Architecture.new :name => "   "
     assert_empty architecture.name.strip
     assert_not architecture.save
-  end
-
-  test "name should not contain white spaces" do
-    architecture = Architecture.new :name => " i38  6 "
-    assert_not_empty architecture.name.squeeze(" ").tr(' ', '')
-    assert_not architecture.save
-
-    architecture.name.squeeze!(" ").tr!(' ', '')
-    assert architecture.save
   end
 
   test "name should be unique" do
@@ -40,7 +36,7 @@ class ArchitectureTest < ActiveSupport::TestCase
   test "should update hosts_count" do
     arch = architectures(:sparc)
     assert_difference "arch.hosts_count" do
-      hosts(:one).update_attribute(:architecture, arch)
+      FactoryGirl.create(:host).update_attribute(:architecture, arch)
       arch.reload
     end
   end
@@ -57,7 +53,7 @@ class ArchitectureTest < ActiveSupport::TestCase
     architecture = Architecture.new :name => "i386"
     assert architecture.save
 
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.architecture = architecture
     host.save(:validate => false)
 

@@ -21,7 +21,7 @@ class EnvironmentClass < ActiveRecord::Base
   }
 
   # These counters key track of unique puppet class keys (parameters) across environments
-  after_create { |record| 
+  after_create { |record|
     Puppetclass.increment_counter(:global_class_params_count, self.puppetclass.id) unless self.lookup_key.blank? ||
       EnvironmentClass.used_by_other_environment_classes(self.lookup_key, self.id).count > 0
   }

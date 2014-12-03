@@ -1,5 +1,4 @@
 <% title _('Compute profiles') %>
-
 <% title_actions display_link_if_authorized(_('New Compute Profile'), hash_for_new_compute_profile_path), help_path %>
 
 <table class="table table-bordered table-striped table-two-pane">
@@ -9,7 +8,7 @@
   </tr>
   <% @compute_profiles.each do |compute_profile| %>
     <tr>
-      <td><%= link_to_if_authorized h(compute_profile.name), hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer, :auth_action => 'edit') %></td>
+      <td><%= link_to_if_authorized trunc(compute_profile.name), hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer, :auth_action => 'edit') %></td>
       <td><%= action_buttons(
                 display_link_if_authorized(_('Edit'), hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer, :auth_action => 'edit')),
                 display_link_if_authorized(_('Rename'), hash_for_edit_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer)),
@@ -19,6 +18,5 @@
   <% end %>
 </table>
 
-<%= page_entries_info @compute_profiles %>
-<%= will_paginate     @compute_profiles %>
+<%= will_paginate_with_info @compute_profiles %>
 

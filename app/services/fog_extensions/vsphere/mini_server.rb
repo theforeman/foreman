@@ -3,7 +3,7 @@ module FogExtensions
     class MiniServer
       attr_reader :name, :identity, :cpus, :corespersocket, :memory, :state, :path
 
-      def initialize (raw, path = nil, uuid = nil)
+      def initialize(raw, path = nil, uuid = nil)
         hardware  = raw.config.hardware
         @raw      = raw
         @name     = raw.name

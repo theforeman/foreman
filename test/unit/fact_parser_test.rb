@@ -45,16 +45,18 @@ class FactParserTest < ActiveSupport::TestCase
 
   test "#interfaces gets facts hash for desired interfaces, keeping same values it gets from parser" do
     parser = get_parser
-    parser.stub(:get_interfaces, ['eth1', 'lo', 'eth0', 'eth0.0', 'local', 'usb0', 'vnet0', 'br0']) do
+    parser.stub(:get_interfaces, ['eth1', 'lo', 'eth0', 'eth0.0', 'local', 'usb0', 'vnet0', 'br0', 'virbr0']) do
       parser.expects(:get_facts_for_interface).with('eth1').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'custom' => 'value'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eth0.0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('br0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:ef'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('virbr0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:ab:ef'}.with_indifferent_access)
       result = parser.interfaces
       refute_includes result.keys, 'lo'
       refute_includes result.keys, 'usb0'
       refute_includes result.keys, 'vnet0'
       assert_includes result.keys, 'br0'
+      assert_includes result.keys, 'virbr0'
       assert_includes result.keys, 'eth1'
       assert_includes result.keys, 'eth0'
       assert_includes result.keys, 'eth0.0'
@@ -80,25 +82,25 @@ class FactParserTest < ActiveSupport::TestCase
 
     result = parser.send(:set_additional_attributes, {}, 'eth0_0')
     assert result[:virtual]
-    assert_equal 'eth0', result[:physical_device]
+    assert_equal 'eth0', result[:attached_to]
     assert_equal '', result[:tag]
     refute result[:bridge]
 
     result = parser.send(:set_additional_attributes, {}, 'eth0_1')
     assert result[:virtual]
-    assert_equal 'eth0', result[:physical_device]
+    assert_equal 'eth0', result[:attached_to]
     assert_equal '1', result[:tag]
     refute result[:bridge]
 
     result = parser.send(:set_additional_attributes, {}, 'eth0_2')
     assert result[:virtual]
-    assert_equal 'eth0', result[:physical_device]
+    assert_equal 'eth0', result[:attached_to]
     assert_equal '2', result[:tag]
     refute result[:bridge]
 
     result = parser.send(:set_additional_attributes, {}, 'eth0_4')
     assert result[:virtual]
-    assert_equal 'eth0', result[:physical_device]
+    assert_equal 'eth0', result[:attached_to]
     assert_equal '', result[:tag]
     refute result[:bridge]
   end
@@ -108,7 +110,13 @@ class FactParserTest < ActiveSupport::TestCase
 
     result = parser.send(:set_additional_attributes, {}, 'br0')
     assert result[:virtual]
-    assert_empty result[:physical_device]
+    assert_empty result[:attached_to]
+    assert_empty result[:tag]
+    assert result[:bridge]
+
+    result = parser.send(:set_additional_attributes, {}, 'virbr0')
+    assert result[:virtual]
+    assert_empty result[:attached_to]
     assert_empty result[:tag]
     assert result[:bridge]
   end

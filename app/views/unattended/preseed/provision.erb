@@ -3,7 +3,7 @@ kind: provision
 name: Preseed default
 oses:
 - Debian 6.0
-- Debian 7.0
+- Debian 7.
 - Ubuntu 10.04
 - Ubuntu 12.04
 - Ubuntu 13.04
@@ -12,23 +12,20 @@ oses:
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
   proxy_string = @host.params['http-proxy'] ? " http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
-  puppet_enabled = pm_set || @host.params['force-puppet']
+  puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
   salt_enabled = @host.params['salt_master'] ? true : false
 %>
-# Locale, country and keyboard settings
-d-i debian-installer/locale string en_US
-d-i console-setup/ask_detect boolean false
-d-i console-setup/modelcode string pc105
-d-i console-setup/variant USA
-d-i console-setup/layout USA
-d-i console-setup/layoutcode string us
-
-<% if @host.operatingsystem.name == 'Debian' && @host.operatingsystem.major.to_i >= 7 -%>
-d-i keymap select us
-<% end -%>
+# Locale
+d-i debian-installer/locale string <%= @host.params['lang'] || 'en_US' %>
+# country and keyboard settings are automatic. Keep them ...
+# ... for wheezy and newer:
+d-i keyboard-configuration/xkb-keymap seen true
+# ... for squeeze and older:
+d-i console-keymaps-at/keymap seen true
 
 <% if @static -%>
 # Static network configuration.
+d-i preseed/early_command string /bin/killall.sh; /bin/netcfg
 d-i netcfg/disable_dhcp boolean true
 d-i netcfg/get_ipaddress string <%= @host.ip %>
 d-i netcfg/get_netmask string <%= @host.subnet.mask %>
@@ -116,7 +113,7 @@ d-i apt-setup/local<%= repos %>/key string http://keyserver.ubuntu.com/pks/looku
 <% end -%>
 
 # Install minimal task set (see tasksel --task-packages minimal)
-tasksel tasksel/first multiselect minimal
+tasksel tasksel/first multiselect minimal, ssh-server, openssh-server
 
 <% if puppet_enabled %>
   <% if @host.operatingsystem.name == 'Ubuntu' and @host.operatingsystem.major.to_i == 10 -%>
@@ -130,7 +127,7 @@ d-i apt-setup/backports boolean true
 <% end -%>
 
 # Install some base packages
-d-i pkgsel/include string <%= puppet_package %> <%= salt_package %> lsb-release openssh-server
+d-i pkgsel/include string <%= puppet_package %> <%= salt_package %> lsb-release
 d-i pkgsel/update-policy select unattended-upgrades
 
 popularity-contest popularity-contest/participate boolean false
@@ -143,4 +140,4 @@ d-i grub-installer/with_other_os boolean true
 
 d-i finish-install/reboot_in_progress note
 
-d-i preseed/late_command string wget -Y off <%= foreman_url('finish') %> -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh
+d-i preseed/late_command string wget -Y off <%= @static ? "'#{foreman_url('finish')}&static=true'" : foreman_url('finish') %> -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh

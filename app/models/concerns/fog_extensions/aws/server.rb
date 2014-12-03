@@ -26,7 +26,7 @@ module FogExtensions
       end
 
       def reset
-        poweroff &&  start
+        poweroff && start
       end
 
       def vm_description

@@ -88,19 +88,19 @@ class ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should not update compute resource when not permitted" do
     setup_user "view"
-    put :update, {:id => @compute_resource.to_param, :compute_resource => {:name => "editing_self", :provider => "EC2"}}, set_session_user
+    put :update, {:id => @compute_resource.to_param, :compute_resource => {:name => "editing_self"}}, set_session_user
     assert_response 403
   end
 
   test "should not update compute resource when restricted" do
     setup_user "edit"
-    put :update, {:id => @your_compute_resource.to_param, :compute_resource => {:name => "editing_self", :provider => "EC2"}}, set_session_user
+    put :update, {:id => @your_compute_resource.to_param, :compute_resource => {:name => "editing_self"}}, set_session_user
     assert_response 404
   end
 
   test "should update compute resource" do
     setup_user "edit"
-    put :update, {:id => @compute_resource.to_param, :compute_resource => {:name => "editing_self", :provider => "EC2"}}, set_session_user
+    put :update, {:id => @compute_resource.to_param, :compute_resource => {:name => "editing_self"}}, set_session_user
     assert_redirected_to compute_resources_path
   end
 
@@ -154,7 +154,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}
   end
 
-  def setup_user operation, type = 'compute_resources'
+  def setup_user(operation, type = 'compute_resources')
     super(operation, type, "id = #{@compute_resource.id}")
   end
 

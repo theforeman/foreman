@@ -35,7 +35,7 @@ default_permissions =
                                   :view_reports, :destroy_reports, :upload_reports,
                                   :view_facts, :upload_facts, :view_audit_logs,
                                   :view_statistics, :view_trends, :create_trends, :edit_trends, :destroy_trends, :update_trends,
-                                  :view_tasks, :view_plugins],
+                                  :view_tasks, :view_plugins, :view_mail_notifications],
       'Edit partition tables' => [:view_ptables, :create_ptables, :edit_ptables, :destroy_ptables],
       'View hosts'            => [:view_hosts],
       'Edit hosts'            => [:view_hosts, :edit_hosts, :create_hosts, :destroy_hosts, :build_hosts],
@@ -50,7 +50,7 @@ default_permissions =
                                   :import_puppetclasses, :view_reports, :destroy_reports, :access_settings,
                                   :view_smart_proxies, :edit_smart_proxies, :view_subnets, :edit_subnets,
                                   :view_statistics, :view_usergroups, :create_usergroups, :edit_usergroups,
-                                  :destroy_usergroups, :view_users, :edit_users, :view_realms],
+                                  :destroy_usergroups, :view_users, :edit_users, :view_realms, :view_mail_notifications],
     }
 
 default_user_permissions = [:view_hosts, :view_puppetclasses, :view_hostgroups, :view_domains,
@@ -58,7 +58,7 @@ default_user_permissions = [:view_hosts, :view_puppetclasses, :view_hostgroups, 
                             :view_architectures, :view_ptables, :view_globals, :view_external_variables,
                             :view_authenticators, :access_settings, :access_dashboard,
                             :view_reports, :view_subnets, :view_facts, :view_locations,
-                            :view_organizations, :view_statistics, :view_realms]
+                            :view_organizations, :view_statistics, :view_realms, :view_mail_notifications]
 anonymous_permissions    = [:view_bookmarks, :view_tasks]
 
 Role.without_auditing do

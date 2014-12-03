@@ -6,7 +6,7 @@ module SSO
     end
 
     def logout_url
-      controller.main_app.logout_users_path
+      nil
     end
 
     def expiration_url

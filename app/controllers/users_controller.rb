@@ -27,9 +27,8 @@ class UsersController < ApplicationController
   def edit
     editing_self?
     @user = find_resource(:edit_users)
-    if @user.user_facts.count == 0
-      user_fact = @user.user_facts.build :operator => "==", :andor => "or"
-      user_fact.fact_name_id = FactName.first.id if FactName.first
+    (MailNotification.authorized_as(@user, :view_mail_notifications).subscriptable - @user.mail_notifications).each do |mail_notification|
+      @user.user_mail_notifications.build(:mail_notification_id => mail_notification.id)
     end
   end
 
@@ -69,7 +68,7 @@ class UsersController < ApplicationController
       if intercept.available? && intercept.authenticated?
         user = intercept.current_user
       else
-        user = User.try_to_login(params[:login]['login'].downcase, params[:login]['password'])
+        user = User.try_to_login(params[:login]['login'], params[:login]['password'])
       end
       if user.nil?
         #failed to authenticate, and/or to generate the account on the fly

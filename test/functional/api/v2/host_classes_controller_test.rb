@@ -2,8 +2,12 @@ require 'test_helper'
 
 class Api::V2::HostClassesControllerTest < ActionController::TestCase
 
+  def setup
+    @host = FactoryGirl.create(:host, :with_puppetclass)
+  end
+
   test "should get puppetclass ids for host" do
-    get :index, {:host_id => hosts(:one).to_param }
+    get :index, {:host_id => @host.to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses['results'].empty?
@@ -11,17 +15,15 @@ class Api::V2::HostClassesControllerTest < ActionController::TestCase
   end
 
   test "should add a puppetclass to a host" do
-    host = hosts(:one)
-    assert_difference('host.host_classes.count') do
-      post :create, { :host_id => host.to_param, :puppetclass_id => puppetclasses(:four).id }
+    assert_difference('@host.host_classes.count') do
+      post :create, { :host_id => @host.to_param, :puppetclass_id => puppetclasses(:four).id }
     end
     assert_response :success
   end
 
   test "should remove a puppetclass from a host" do
-    host = hosts(:one)
-    assert_difference('host.host_classes.count', -1) do
-      delete :destroy, { :host_id => host.to_param, :id => puppetclasses(:one).id }
+    assert_difference('@host.host_classes.count', -1) do
+      delete :destroy, { :host_id => @host.to_param, :id => @host.host_classes.first.puppetclass_id }
     end
     assert_response :success
   end

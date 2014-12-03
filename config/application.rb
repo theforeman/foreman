@@ -36,7 +36,7 @@ SETTINGS[:libvirt] = defined?(::Fog) && defined?(::Libvirt)
 SETTINGS[:ovirt] = defined?(::Fog) && defined?(::OVIRT)
 SETTINGS[:vmware] = defined?(::Fog) && defined?(::RbVmomi)
 SETTINGS[:gce] = defined?(::Fog) && defined?(::Google::APIClient::VERSION)
-SETTINGS[:openstack] = SETTINGS[:rackspace] = SETTINGS[:ec2] = !! defined?(::Fog)
+SETTINGS[:openstack] = SETTINGS[:rackspace] = SETTINGS[:ec2] = !!defined?(::Fog)
 
 require File.expand_path('../../lib/foreman.rb', __FILE__)
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
@@ -66,7 +66,6 @@ module Foreman
     config.autoload_paths += Dir["#{config.root}/app/controllers/concerns"]
     config.autoload_paths += Dir[ Rails.root.join('app', 'models', 'power_manager') ]
     config.autoload_paths += Dir["#{config.root}/app/models/concerns"]
-    config.autoload_paths += Dir["#{config.root}/app/controllers/concerns"]
     config.autoload_paths += Dir["#{config.root}/app/services"]
     config.autoload_paths += Dir["#{config.root}/app/observers"]
     config.autoload_paths += Dir["#{config.root}/app/mailers"]
@@ -137,13 +136,23 @@ module Foreman
     # Add apidoc hash in headers for smarter caching
     config.middleware.use "Apipie::Middleware::ChecksumInHeaders"
 
+    config.to_prepare do
+      ApplicationController.descendants.each do |child|
+        # reinclude the helper module in case some plugin extended some in the to_prepare phase,
+        # after the module was already included into controllers
+        helpers = child._helpers.ancestors.find_all do |ancestor|
+          ancestor.name =~ /Helper$/
+        end
+        child.helper helpers
+      end
+    end
   end
 
   def self.setup_console
     Bundler.require(:console)
     Wirb.start
     Hirb.enable
-  rescue => e
+  rescue
     warn "Failed to load console gems, starting anyway"
   ensure
     puts "For some operations a user must be set, try User.current = User.first"

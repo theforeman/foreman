@@ -5,6 +5,7 @@ module FogExtensions
 
       included do
         alias_method_chain :security_groups, :no_id
+        attr_reader :nics
         attr_writer :security_group, :network # floating IP
       end
 

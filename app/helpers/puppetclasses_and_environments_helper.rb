@@ -1,5 +1,5 @@
 module PuppetclassesAndEnvironmentsHelper
-  def class_update_text pcs, env
+  def class_update_text(pcs, env)
     if pcs.empty?
       _("Empty environment")
     elsif pcs == ["_destroy_"]
@@ -11,18 +11,18 @@ module PuppetclassesAndEnvironmentsHelper
     end
   end
 
-  def import_proxy_select hash
+  def import_proxy_select(hash)
     select_action_button( _('Import'), {}, import_proxy_links(hash, 'btn btn-default'))
   end
 
-  def import_proxy_links hash, classes=nil
+  def import_proxy_links(hash, classes = nil)
     SmartProxy.with_features("Puppet").map do |proxy|
       display_link_if_authorized(_("Import from %s") % proxy.name, hash.merge(:proxy => proxy), :class=>classes)
     end.flatten
   end
 
   private
-  def pretty_print classes
+  def pretty_print(classes)
     hash = { }
     classes.each do |klass|
       if (mod = klass.gsub(/::.*/, ""))

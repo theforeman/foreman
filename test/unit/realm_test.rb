@@ -23,7 +23,8 @@ class RealmTest < ActiveSupport::TestCase
 
   test "should not destroy if it contains hosts" do
     disable_orchestration
-    host = create_a_host
+    host = FactoryGirl.create(:host, :realm => @realm)
+
     assert host.save
 
     realm = host.realm
@@ -45,12 +46,10 @@ class RealmTest < ActiveSupport::TestCase
     assert realm.save!
   end
 
-  def create_a_host
-    hosts(:one)
-  end
-
   # test taxonomix methods
   test "should get used location ids for host" do
+    FactoryGirl.create(:host, :realm => @realm,
+                       :location => taxonomies(:location1))
     assert_equal [taxonomies(:location1).id], realms(:myrealm).used_location_ids
   end
 

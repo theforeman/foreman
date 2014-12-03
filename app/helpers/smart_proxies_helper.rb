@@ -1,5 +1,5 @@
 module SmartProxiesHelper
-  def proxy_actions proxy, authorizer
+  def proxy_actions(proxy, authorizer)
     [if proxy.features.detect{|f| f.name == "Puppet CA"}
        [display_link_if_authorized(_("Certificates"), hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => proxy).
                                 merge(:auth_object => proxy, :permission => 'view_smart_proxies_puppetca', :authorizer => authorizer)),

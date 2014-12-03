@@ -9,13 +9,13 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, '/operatingsystems/:operatingsystem_id/os_default_templates', N_('List default templates combinations for an operating system')
+      api :GET, '/config_templates/:config_template_id/os_default_templates', N_('List operating systems where this template is set as a default')
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param :config_template_id, String, :desc => N_('ID of provisioning template')
+      param_group :pagination, ::Api::V2::BaseController
 
       def index
-        @os_default_templates = nested_obj.os_default_templates.paginate(paginate_options)
-        @total = nested_obj.os_default_templates.count
+        @os_default_templates = resource_scope.paginate(paginate_options)
       end
 
       api :GET, "/operatingsystems/:operatingsystem_id/os_default_templates/:id", N_("Show a default template combination for an operating system")
@@ -61,7 +61,7 @@ module Api
       private
 
       def allowed_nested_id
-        %w(operatingsystem_id)
+        %w(operatingsystem_id config_template_id)
       end
 
 

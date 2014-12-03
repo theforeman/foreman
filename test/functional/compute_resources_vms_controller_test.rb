@@ -12,14 +12,14 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
 #    Fog.unmock!
   end
 
-  def setup_user operation, type = 'compute_resources_vms'
+  def setup_user(operation, type = 'compute_resources_vms')
     super(operation, type, "id = #{@compute_resource.id}")
   end
 
   test "should not get index when not permitted" do
     setup_user "none"
     get :index, {:compute_resource_id => @compute_resource.to_param}, set_session_user
-    assert_response 403
+    assert_response :forbidden
   end
 
   test "should get index" do
@@ -32,13 +32,13 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   test "should not show vm JSON when not permitted" do
     setup_user "none"
     get :show, {:id => @test_vm.uuid, :format => "json", :compute_resource_id => @compute_resource.to_param}, set_session_user
-    assert_response 403
+    assert_response :forbidden
   end
 
   test "should not show vm JSON when restricted" do
     setup_user "view"
     get :show, {:id => @test_vm.uuid, :format => "json", :compute_resource_id => @your_compute_resource.to_param}, set_session_user
-    assert_response 404
+    assert_response :not_found
   end
 
   test "should show vm JSON" do
@@ -50,13 +50,13 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   test "should not show vm when not permitted" do
     setup_user "none"
     get :show, {:id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
-    assert_response 403
+    assert_response :forbidden
   end
 
   test "should not show vm when restricted" do
     setup_user "view"
     get :show, {:id => @test_vm.uuid, :compute_resource_id => @your_compute_resource.to_param}, set_session_user
-    assert_response 404
+    assert_response :not_found
   end
 
   test "should show vm" do
@@ -71,7 +71,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
       attrs = {:name => 'name123', :memory => 128*1024*1024, :arch => "i686"}
       post :create, {:vm => attrs, :compute_resource_id => @compute_resource.to_param}, set_session_user
     end
-    assert_response 403
+    assert_response :forbidden
   end
 
   #Broken with Fog.mock! because lib/fog/libvirt/models/compute/volume.rb:41 calls create_volume with the wrong number of arguments
@@ -93,7 +93,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
       delete :destroy, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
     end
 
-    assert_response 403
+    assert_response :forbidden
   end
 
   test "should not destroy vm when restricted" do
@@ -102,7 +102,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
       delete :destroy, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @your_compute_resource.to_param}, set_session_user
     end
 
-    assert_response 404
+    assert_response :not_found
   end
 
   test "should destroy vm" do
@@ -126,14 +126,14 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     setup_user "view"
     get :power, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
 
-    assert_response 403
+    assert_response :forbidden
   end
 
   test "should not power vm when restricted" do
     setup_user "power"
     get :power, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @your_compute_resource.to_param}, set_session_user
 
-    assert_response 404
+    assert_response :not_found
   end
 
   test "should pause openstack vm" do
@@ -160,7 +160,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     get :power, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
     assert_redirected_to compute_resource_vm_path(:compute_resource_id => @compute_resource.to_param, :id => @test_vm.identity)
     get_test_vm
-    assert !@test_vm.ready?
+    refute @test_vm.ready?
 
     # Swith it back on for next tests
     get :power, {:format => "json", :id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
@@ -169,6 +169,17 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     assert @test_vm.ready?
   end
 
+  test 'errors coming from the vm should be displayed' do
+    setup_user 'power'
+
+    get_test_vm
+    @test_vm.class.any_instance.expects(:stop).raises(Fog::Errors::Error.new('Power error'))
+    @request.env['HTTP_REFERER'] = compute_resource_vm_path(:compute_resource_id => @compute_resource.to_param,
+                                                            :id => @test_vm.identity)
+    get :power, {:format => 'json', :id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param}, set_session_user
+    assert_match /Power error/, flash[:error]
+    assert_redirected_to @request.env['HTTP_REFERER']
+  end
 
   def get_test_vm
     @compute_resource.vms.index {|vm| vm.name == "test" and @test_vm = vm}

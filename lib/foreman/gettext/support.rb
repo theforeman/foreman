@@ -12,7 +12,7 @@ module Foreman
         end
       end
 
-      def self.register_available_locales locale_domain, locale_dir
+      def self.register_available_locales(locale_domain, locale_dir)
         locale_type = detect_locale_type
 
         if Rails.env.development?
@@ -35,7 +35,7 @@ module Foreman
         end
       end
 
-      def self.add_text_domain locale_domain, locale_dir
+      def self.add_text_domain(locale_domain, locale_dir)
         FastGettext.add_text_domain locale_domain,
           :path => locale_dir,
           :type => detect_locale_type,

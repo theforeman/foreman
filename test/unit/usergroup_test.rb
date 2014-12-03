@@ -88,7 +88,7 @@ class UsergroupTest < ActiveSupport::TestCase
   test "cannot be destroyed when in use by a host" do
     disable_orchestration
     @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
-    @h1  = hosts(:one)
+    @h1  = FactoryGirl.create(:host)
     @h1.update_attributes :owner => @ug1
     @ug1.destroy
     assert_equal @ug1.errors.full_messages[0], "ug1 is used by #{@h1}"
@@ -179,6 +179,15 @@ class UsergroupTest < ActiveSupport::TestCase
 
     User.unscoped.except_hidden.only_admin.where('login <> ?', admin.login).destroy_all
     refute_with_errors usergroup.destroy, usergroup, :base, /last admin user group/
+  end
+
+  test "receipients_for provides subscribers of notification recipients" do
+    users = [FactoryGirl.create(:user, :with_mail_notification), FactoryGirl.create(:user)]
+    notification = users[0].mail_notifications.first.name
+    usergroup = FactoryGirl.create(:usergroup)
+    usergroup.users << users
+    recipients = usergroup.recipients_for(notification)
+    assert_equal recipients, [users[0]]
   end
 
   # TODO test who can modify usergroup roles and who can assign users!!! possible privileges escalation

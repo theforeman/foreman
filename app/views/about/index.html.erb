@@ -26,7 +26,7 @@
               </tr>
               <% @smart_proxies.each do |proxy| %>
                 <tr>
-                  <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy.id) %></td>
+                  <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(proxy) %></td>
                   <td><%=h proxy.features.to_sentence %></td>
                   <td><div class="proxy-status" data-url=<%= ping_smart_proxy_path(proxy) %>><%= _("Connecting..") %></div></td>
                 </tr>

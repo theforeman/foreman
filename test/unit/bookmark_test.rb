@@ -29,7 +29,7 @@ class BookmarkTest < ActiveSupport::TestCase
 
   private
 
-  def enable_login &block
+  def enable_login(&block)
     login            = SETTINGS[:login]
     SETTINGS[:login] = true
     User.current = users(:one)

@@ -4,7 +4,14 @@ class ClassificationTest < ActiveSupport::TestCase
 
   #TODO: add more tests here
   def setup
-    @classification = Classification::ClassParam.new(:host => hosts(:one))
+    host = FactoryGirl.create(:host,
+                              :location => taxonomies(:location1),
+                              :organization => taxonomies(:organization1),
+                              :operatingsystem => operatingsystems(:redhat),
+                              :puppetclasses => [puppetclasses(:one)],
+                              :environment => environments(:production))
+    @classification = Classification::ClassParam.new(:host => host)
+    @global_param_classification = Classification::GlobalParam.new(:host => host)
   end
 
   test 'it should return puppetclasses' do
@@ -21,16 +28,17 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'enc_should_return_updated_cluster_param' do
-    key   = lookup_keys(:complex)
+    key = lookup_keys(:complex)
     assert_equal 'organization,location', key.path
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :location => taxonomies(:location1), :organization => taxonomies(:organization1))
     assert_equal taxonomies(:location1), host.location
     assert_equal taxonomies(:organization1), host.organization
 
     value = as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)},location=#{taxonomies(:location1)}",
-                          :value => 'test'
+                          :value => 'test',
+                          :use_puppet_default => false
     end
     enc = classification.enc
 
@@ -81,9 +89,393 @@ class ClassificationTest < ActiveSupport::TestCase
     assert_equal({pc.name => {lkey.key => 'overridden value'}}, classparam.enc)
   end
 
+  test "#values_hash should contain element's name" do
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :environments => [env])
+    lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
+    classparam = Classification::ClassParam.new
+    classparam.expects(:environment_id).returns(env.id)
+    classparam.expects(:puppetclass_ids).returns(Array.wrap(pc).map(&:id))
+    classparam.expects(:attr_to_value).with('comment').returns('override')
+
+    assert_equal({lkey.id => {lkey.key => {:value => 'overridden value', :element => 'comment', :element_name => 'override'}}}, classparam.send(:values_hash))
+  end
+
+  test 'smart class parameter of array with avoid_duplicates should return lookup_value array without duplicates' do
+
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'array', :merge_overrides => true,
+                             :default_value => [], :path => "organization\nlocation", :avoid_duplicates => true,
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => ['test'],
+                          :use_puppet_default => false
+    end
+    value2 = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => ['test'],
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => value2.value, :element => ['organization', 'location'],
+                                         :element_name => ['Organization 1', 'Location 1']}}},
+                 classification.send(:values_hash))
+  end
+
+  test 'smart class parameter of array without avoid_duplicates should return lookup_value array with duplicates' do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'array', :merge_overrides => true,
+                             :default_value => [], :path => "organization\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    value = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => ['test'],
+                          :use_puppet_default => false
+    end
+    value2 = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => ['test'],
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => value2.value + value.value,
+                                         :element => ['organization', 'location'],
+                                         :element_name => ['Organization 1', 'Location 1']}}},
+                 classification.send(:values_hash))
+  end
+
+  test 'smart class parameter of hash with merge_overrides should return lookup_value hash with array of elements' do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'hash', :merge_overrides => true,
+                             :default_value => {}, :path => "organization\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => {:example => {:a => 'test'}},
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:example => {:b => 'test2'}},
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test', :b => 'test2'}},
+                                         :element => ['location', 'organization'],
+                                         :element_name => ['Location 1', 'Organization 1']}}},
+                 classification.send(:values_hash))
+  end
+
+  test 'smart class parameter of hash with merge_overrides should return lookup_value hash with one element' do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'hash', :merge_overrides => true,
+                             :default_value => {}, :path => "organization\nos\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    value = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:example => 'test2'},
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => {:example => 'test'},
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => value.value, :element => ['location', 'organization'],
+                                         :element_name => ['Location 1', 'Organization 1']}}},
+                 classification.send(:values_hash))
+
+  end
+
+  test 'smart class parameter of hash with merge_overrides and priority should obey priority' do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'hash', :merge_overrides => true,
+                             :default_value => {}, :path => "organization\nos\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => {:a => 'test'},
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:example => {:b => 'test2'}},
+                          :use_puppet_default => false
+    end
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "os=#{operatingsystems(:redhat)}",
+                          :value => {:example => {:b => 'test3'}},
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => {:a => 'test', :example => {:b => 'test2'}},
+                                         :element => ['location', 'os', 'organization'],
+                                         :element_name => ['Location 1', 'Redhat 6.1', 'Organization 1']}}},
+                 classification.send(:values_hash))
+  end
+
+  test 'smart class parameter of hash with merge_overrides and priority should return lookup_value hash with array of elements' do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'hash', :merge_overrides => true,
+                             :default_value => {}, :path => "organization\nos\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => {:example => {:a => 'test'}},
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:example => {:b => 'test2'}},
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "os=#{operatingsystems(:redhat)}",
+                          :value => {:example => {:a => 'test3'}},
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test3', :b => 'test2'}},
+                                         :element => ['location', 'os', 'organization'],
+                                         :element_name => ['Location 1', 'Redhat 6.1', 'Organization 1']}}},
+                 classification.send(:values_hash))
+  end
+
+  test 'smart variable of array with avoid_duplicates should return lookup_value array without duplicates' do
+
+    key = FactoryGirl.create(:lookup_key, :key_type => 'array', :merge_overrides => true,
+                             :default_value => [], :path => "organization\nlocation", :avoid_duplicates => true,
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => ['test'],
+                          :use_puppet_default => false
+    end
+    value2 = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => ['test'],
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => value2.value, :element => ['organization', 'location'],
+                                         :element_name => ['Organization 1', 'Location 1']}}},
+                 global_param_classification.send(:values_hash))
+  end
+
+  test 'smart variable of array without avoid_duplicates should return lookup_value array with duplicates' do
+    key = FactoryGirl.create(:lookup_key, :key_type => 'array', :merge_overrides => true,
+                             :default_value => [], :path => "organization\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    value = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => ['test'],
+                          :use_puppet_default => false
+    end
+    value2 = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => ['test'],
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => value2.value + value.value,
+                                         :element => ['organization', 'location'],
+                                         :element_name => ['Organization 1', 'Location 1']}}},
+                 global_param_classification.send(:values_hash))
+  end
+
+  test 'smart variable of hash in hash with merge_overrides should return lookup_value hash with array of elements' do
+    key = FactoryGirl.create(:lookup_key, :key_type => 'hash', :merge_overrides => true,
+                             :default_value => {}, :path => "organization\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => {:example => {:a => 'test'}},
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:example => {:b => 'test2'}},
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test', :b => 'test2'}},
+                                         :element => ['location', 'organization'],
+                                         :element_name => ['Location 1', 'Organization 1']}}},
+                 global_param_classification.send(:values_hash))
+  end
+
+  test 'smart variable of hash with merge_overrides and priority should obey priority' do
+    key = FactoryGirl.create(:lookup_key, :key_type => 'hash', :merge_overrides => true,
+                             :default_value => {}, :path => "organization\nos\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => {:a => 'test'},
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:example => {:b => 'test2'}},
+                          :use_puppet_default => false
+    end
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "os=#{operatingsystems(:redhat)}",
+                          :value => {:example => {:b => 'test3'}},
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => {:a => 'test', :example => {:b => 'test2'}},
+                                         :element => ['location', 'os', 'organization'],
+                                         :element_name => ['Location 1', 'Redhat 6.1', 'Organization 1']}}},
+                 global_param_classification.send(:values_hash))
+  end
+
+  test 'smart variable of hash with merge_overrides and priority should return lookup_value hash with array of elements' do
+    key = FactoryGirl.create(:lookup_key, :key_type => 'hash', :merge_overrides => true,
+                             :default_value => {}, :path => "organization\nos\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => {:example => {:a => 'test'}},
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:example => {:b => 'test2'}},
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "os=#{operatingsystems(:redhat)}",
+                          :value => {:example => {:a => 'test3'}},
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test3', :b => 'test2'}},
+                                         :element => ['location', 'os', 'organization'],
+                                         :element_name => ['Location 1', 'Redhat 6.1', 'Organization 1']}}},
+                 global_param_classification.send(:values_hash))
+  end
+
+  test "#enc should not return class parameters when default value should use puppet default" do
+    lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param, :with_override, :with_use_puppet_default,
+                              :puppetclass => puppetclasses(:one))
+    enc = classification.enc
+    assert enc['base'][lkey.key].nil?
+  end
+
+  test "#enc should not return class parameters when lookup_value should use puppet default" do
+    lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param, :with_override, :with_use_puppet_default,
+                              :puppetclass => puppetclasses(:one), :path => "location")
+    as_admin do
+      LookupValue.create! :lookup_key_id => lkey.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => 'test',
+                          :use_puppet_default => true
+    end
+
+    enc = classification.enc
+    assert enc['base'][lkey.key].nil?
+  end
+
+  test "#enc should return class parameters when default value and lookup_values should not use puppet default" do
+    lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param, :with_override, :use_puppet_default => false,
+                              :puppetclass => puppetclasses(:one), :path => "location")
+    lvalue = as_admin do
+      LookupValue.create! :lookup_key_id => lkey.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => 'test',
+                          :use_puppet_default => false
+    end
+    enc = classification.enc
+    assert_equal lvalue.value, enc['base'][lkey.key]
+  end
+
+  test "#enc should not return class parameters when merged lookup_values and default are all using puppet default" do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param, :use_puppet_default => true,
+                             :override => true, :key_type => 'hash', :merge_overrides => true,
+                             :default_value => {}, :path => "organization\nos\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => {:example => {:a => 'test'}},
+                          :use_puppet_default => true
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:example => {:b => 'test2'}},
+                          :use_puppet_default => true
+    end
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "os=#{operatingsystems(:redhat)}",
+                          :value => {:example => {:a => 'test3'}},
+                          :use_puppet_default => true
+    end
+    enc = classification.enc
+
+    assert enc['base'][key.key].nil?
+  end
+
   private
 
   attr_reader :classification
+  attr_reader :global_param_classification
 
   def get_classparam(env, classes)
     classification = Classification::ClassParam.new

@@ -1,8 +1,36 @@
 <%= form_for @role do |f| %>
   <%= base_errors_for @role %>
 
-  <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
-  <%= hidden_field_tag :original_role_id, @original_role_id if @cloned_role %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Role") %></a></li>
+    <% if User.current.allowed_to?(:view_filters) %>
+      <li><a href="#filters" data-toggle="tab"><%= _('Filters') %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
+      <%= hidden_field_tag :original_role_id, @original_role_id if @cloned_role %>
+    </div>
+    <div class="tab-pane" id="filters">
+      <% if @role.new_record? %>
+        <div class="alert alert-block alert-warning">
+          <p><strong><%= _("Notice") %></strong> <%= _("Please save the role first. You can edit it later to add filters") %></p>
+        </div>
+      <% else %>
+        <div data-ajax-url="<%= filters_path(:role_id => @role) %> table">
+          <p id="spinner">
+            <%= image_tag 'spinner.gif' %>
+            <%= _('Loading filters...') %>
+          </p>
+        </div>
+        <hr>
+        <%= link_to_if_authorized(_("New filter"), hash_for_new_filter_path(:role_id => @role),
+                                  { :class => 'btn btn-success pull-right'} ) %>
+      </div>
+    <% end %>
+  </div>
 
   <%= submit_or_cancel f %>
 <% end %>

@@ -1,6 +1,9 @@
 class ConfigTemplate < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
   include Taxonomix
+  include Parameterizable::ByIdName
 
   validates_lengths_from_database
   audited :allow_mass_assignment => true
@@ -11,6 +14,7 @@ class ConfigTemplate < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
   validates :template, :presence => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
+  validates :audit_comment, :length => {:maximum => 255 }
   validate :template_changes, :if => lambda { |template| (template.locked? || template.locked_changed?) && !Foreman.in_rake? }
   before_destroy :check_if_template_is_locked
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
@@ -44,10 +48,6 @@ class ConfigTemplate < ActiveRecord::Base
     allow :name
   end
 
-  def to_param
-    "#{id}-#{name.parameterize}"
-  end
-
   def clone
     self.deep_clone(:include => [:operatingsystems, :organizations, :locations],
                     :except  => [:name, :locked, :default, :vendor])
@@ -60,7 +60,7 @@ class ConfigTemplate < ActiveRecord::Base
     end.uniq.compact
   end
 
-  def self.find_template opts = {}
+  def self.find_template(opts = {})
     raise ::Foreman::Exception.new(N_("Must provide template kind")) unless opts[:kind]
     raise ::Foreman::Exception.new(N_("Must provide an operating systems")) unless opts[:operatingsystem_id]
 
@@ -138,7 +138,7 @@ class ConfigTemplate < ActiveRecord::Base
       return [500, msg]
     end
 
-    return [200, _("PXE Default file has been deployed to all Smart Proxies")]
+    [200, _("PXE Default file has been deployed to all Smart Proxies")]
   end
 
   def skip_strip_attrs

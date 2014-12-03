@@ -15,10 +15,7 @@ module Api
       param :hostgroup_id, :identifier, :required => false
       param :puppetclass_id, :identifier, :required => false
       param :environment_id, :identifier, :required => false
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
       end
@@ -39,12 +36,15 @@ module Api
         param :override, :bool
         param :description, String
         param :default_value, String
+        param :use_puppet_default, :bool
         param :path, String
         param :validator_type, String
         param :validator_rule, String
         param :override_value_order, String
         param :parameter_type, String
         param :required, :bool
+        param :merge_overrides, :bool
+        param :avoid_duplicates, :bool
       end
 
       def update

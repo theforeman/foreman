@@ -4,6 +4,8 @@ require 'foreman/exception'
 module Foreman::Model
   class Vmware < ComputeResource
 
+    include ComputeResourceConsoleCommon
+
     validates :user, :password, :server, :datacenter, :presence => true
     before_create :update_public_key
 
@@ -30,7 +32,7 @@ module Foreman::Model
       super.merge({ :mac => :mac })
     end
 
-    def max_cpu_count (cluster = nil)
+    def max_cpu_count(cluster = nil)
       return 8 unless cluster
       cluster.num_cpu_cores
     end
@@ -40,7 +42,7 @@ module Foreman::Model
     end
 
     def datacenters
-      client.datacenters.all
+      name_sort(client.datacenters.all)
     end
 
     def cluster(cluster)
@@ -48,28 +50,28 @@ module Foreman::Model
     end
 
     def clusters
-      dc.clusters
+      name_sort(dc.clusters)
     end
 
-    def datastores(opts ={})
+    def datastores(opts = {})
       if opts[:storage_domain]
-        dc.datastores.get(opts[:storage_domain])
+        name_sort(dc.datastores.get(opts[:storage_domain]))
       else
-        dc.datastores.all(:accessible => true)
+        name_sort(dc.datastores.all(:accessible => true))
       end
     end
 
     def folders
-      dc.vm_folders.sort_by{|f| f.path}
+      dc.vm_folders.sort_by{|f| [f.path, f.name]}
     end
 
-    def networks(opts ={})
-      dc.networks.all(:accessible => true)
+    def networks(opts = {})
+      name_sort(dc.networks.all(:accessible => true))
     end
 
-    def resource_pools(opts ={})
+    def resource_pools(opts = {})
       cluster = cluster(opts[:cluster_id])
-      cluster.resource_pools.all(:accessible => true)
+      name_sort(cluster.resource_pools.all(:accessible => true))
     end
 
     def available_clusters
@@ -80,15 +82,15 @@ module Foreman::Model
       folders
     end
 
-    def available_networks(cluster_id=nil)
+    def available_networks(cluster_id = nil)
       networks
     end
 
-    def available_storage_domains(storage_domain=nil)
+    def available_storage_domains(storage_domain = nil)
       datastores({:storage_domain => storage_domain})
     end
 
-    def available_resource_pools(opts={})
+    def available_resource_pools(opts = {})
       resource_pools({ :cluster_id => opts[:cluster_id] })
     end
 
@@ -101,9 +103,9 @@ module Foreman::Model
 
     def scsi_controller_types
       {
+        "VirtualBusLogicController" => "Bus Logic Parallel",
         "VirtualLsiLogicController" => "LSI Logic Parallel",
         "VirtualLsiLogicSASController" => "LSI Logic SAS",
-        "VirtualBusLogicController" => "Bus Logic Parallel",
         "ParaVirtualSCSIController" => "VMware Paravirtual"
       }
     end
@@ -261,7 +263,7 @@ module Foreman::Model
       }
     end
 
-    def test_connection options = {}
+    def test_connection(options = {})
       super
       if errors[:server].empty? and errors[:user].empty? and errors[:password].empty?
         update_public_key options
@@ -271,7 +273,7 @@ module Foreman::Model
       errors[:base] << e.message
     end
 
-    def parse_args args
+    def parse_args(args)
       args = args.symbolize_keys
 
       # convert rails nested_attributes into a plain, symbolized hash
@@ -292,7 +294,7 @@ module Foreman::Model
 
     # Change network IDs for names only at the point of creation, as IDs are
     # used in the UI for select boxes etc.
-    def parse_networks args
+    def parse_networks(args)
       args = args.deep_dup
       dc_networks = networks
       args["interfaces_attributes"].each do |key, interface|
@@ -304,7 +306,7 @@ module Foreman::Model
       args
     end
 
-    def create_vm args = { }
+    def create_vm(args = { })
       test_connection
       return unless errors.empty?
 
@@ -316,12 +318,12 @@ module Foreman::Model
         vm.save
       end
     rescue Fog::Errors::Error => e
-      logger.debug "Unhandled VMWare error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
+      logger.error "Unhandled VMWare error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
       destroy_vm vm.id if vm
       raise e
     end
 
-    def new_vm args
+    def new_vm(args)
       args = parse_args args
       opts = vm_instance_defaults.symbolize_keys.merge(args.symbolize_keys)
       client.servers.new opts
@@ -341,7 +343,7 @@ module Foreman::Model
     # Fog calls +cluster.resourcePool.find("Resources")+ that actually calls
     # +searchIndex.FindChild("Resources")+ in RbVmomi that then returns nil
     # because it has no children.
-    def clone_vm args
+    def clone_vm(args)
       args = parse_args args
       path_replace = %r{/Datacenters/#{datacenter}/vm(/|)}
 
@@ -369,7 +371,7 @@ module Foreman::Model
       url
     end
 
-    def server= value
+    def server=(value)
       self.url = value
     end
 
@@ -377,11 +379,11 @@ module Foreman::Model
       uuid
     end
 
-    def datacenter= value
+    def datacenter=(value)
       self.uuid = value
     end
 
-    def console uuid
+    def console(uuid)
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" unless vm.ready?
       #TOOD port, password
@@ -391,11 +393,11 @@ module Foreman::Model
       WsProxy.start(:host => vm.hypervisor, :host_port => values[:port], :password => values[:password]).merge(:type => 'vnc')
     end
 
-    def new_interface attr = { }
+    def new_interface(attr = { })
       client.interfaces.new attr
     end
 
-    def new_volume attr = { }
+    def new_volume(attr = { })
       client.volumes.new attr.merge(:size_gb => 10)
     end
 
@@ -403,7 +405,7 @@ module Foreman::Model
       attrs[:pubkey_hash]
     end
 
-    def pubkey_hash= key
+    def pubkey_hash=(key)
       attrs[:pubkey_hash] = key
     end
 
@@ -421,7 +423,7 @@ module Foreman::Model
       client.datacenters.get(datacenter)
     end
 
-    def update_public_key options ={}
+    def update_public_key(options = {})
       return unless pubkey_hash.blank? || options[:force]
       client
     rescue Foreman::FingerprintException => e
@@ -445,7 +447,7 @@ module Foreman::Model
       end
     end
 
-    def unused_vnc_port ip
+    def unused_vnc_port(ip)
       10.times do
         port   = 5901 + rand(64)
         unused = (TCPSocket.connect(ip, port).close rescue true)
@@ -463,7 +465,6 @@ module Foreman::Model
         :datacenter => datacenter
       )
     end
-
   end
 end
 

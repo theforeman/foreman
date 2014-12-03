@@ -1,14 +1,14 @@
 
 <%= select_f f, :architecture_id, Architecture.all, :id, :to_label, {:include_blank => true},
     {:onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected'),
-    :help_inline => :indicator} %>
+    :help_inline => :indicator, :required => true} %>
 
 <span id="os_select">
   <%= render 'common/os_selection/architecture', :item => @host %>
 </span>
 
 <div id='provisioning_method' <%= display? (@host.capabilities.size < 2)  %> >
-  <%= field(f, :provision_method, :label => _('Provisioning Method')) do
+  <%= field(f, :provision_method, :label => _('Provisioning Method'), :required => true) do
       radio_button_f(f, :provision_method, :value=>'build', :checked=> @host.pxe_build?, :text=> _("Network Based"), :disabled => !@host.new_record?)+
       radio_button_f(f, :provision_method, :value=>'image', :checked=> @host.image_build?, :text=> _("Image Based"), :disabled => !@host.new_record?)
   end %>
@@ -24,7 +24,7 @@
 
   <%= textarea_f f, :disk, :size => "col-md-8", :rows => "4",
            :help_block => _("What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field") %>
-  <%= password_f f, :root_pass, :help_inline => _("Password should be 8 characters or more")%>
+  <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more"), :required => true %>
 </div>
 
 <div id='image_provisioning' <%= display? !@host.image_build? %> >

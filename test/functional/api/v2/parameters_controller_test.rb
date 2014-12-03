@@ -4,8 +4,12 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
   valid_attrs = { :name => 'special_key', :value => '123' }
 
+  def setup
+    @host = FactoryGirl.create(:host, :with_parameter)
+  end
+
   test "should get index for specific host" do
-    get :index, {:host_id => hosts(:one).to_param }
+    get :index, {:host_id => @host.to_param }
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
@@ -37,7 +41,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should show a host parameter" do
-    get :show, { :host_id => hosts(:one).to_param, :id => parameters(:host).to_param }
+    get :show, { :host_id => @host.to_param, :id => @host.parameters.first.to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
@@ -76,9 +80,8 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should create host parameter" do
-    host = hosts(:one)
-    assert_difference('host.parameters.count') do
-      post :create, { :host_id => host.to_param, :parameter => valid_attrs }
+    assert_difference('@host.parameters.count') do
+      post :create, { :host_id => @host.to_param, :parameter => valid_attrs }
     end
     assert_response :success
   end
@@ -108,9 +111,9 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should update nested host parameter" do
-     put :update, { :host_id => hosts(:one).to_param, :id => parameters(:host).to_param, :parameter => valid_attrs  }
+     put :update, { :host_id => @host.to_param, :id => @host.parameters.first.to_param, :parameter => valid_attrs  }
      assert_response :success
-     assert_equal Host.find_by_name("my5name.mydomain.net").parameters.order("parameters.updated_at").last.value, "123"
+     assert_equal '123', Host.find_by_name(@host.name).parameters.order("parameters.updated_at").last.value
   end
 
   test "should update nested domain parameter" do
@@ -133,7 +136,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
   test "should destroy nested host parameter" do
     assert_difference('HostParameter.count', -1) do
-      delete :destroy, { :host_id => hosts(:one).to_param, :id => parameters(:host).to_param }
+      delete :destroy, { :host_id => @host.to_param, :id => @host.parameters.first.to_param }
     end
     assert_response :success
   end
@@ -161,7 +164,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
   test "should reset nested host parameter" do
     assert_difference('HostParameter.count', -1) do
-      delete :reset, { :host_id => hosts(:one).to_param }
+      delete :reset, { :host_id => @host.to_param }
     end
     assert_response :success
   end
@@ -182,7 +185,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
   test "should reset nested os parameters" do
     assert_difference('OsParameter.count', -1)  do
-      delete :reset, { :operatingsystem_id => operatingsystems(:redhat).name }
+      delete :reset, { :operatingsystem_id => operatingsystems(:redhat).id }
     end
     assert_response :success
   end
@@ -200,7 +203,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     end
 
     test "should get index for specific host fitered by name" do
-      assert_filtering_works :host, hosts(:one).to_param
+      assert_filtering_works :host, @host.to_param
     end
 
     test "should get index for specific domain fitered by name" do

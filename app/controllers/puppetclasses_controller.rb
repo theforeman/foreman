@@ -1,27 +1,12 @@
 class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_name, :only => [:edit, :update, :destroy]
+  before_filter :find_resource, :only => [:edit, :update, :destroy, :override]
   before_filter :setup_search_options, :only => :index
-  before_filter :reset_redirect_to_url, :only => :index
-  before_filter :store_redirect_to_url, :only => :edit
 
   def index
     @puppetclasses = resource_base.search_for(params[:search], :order => params[:order]).includes(:environments, :hostgroups).paginate(:page => params[:page])
     @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.find_all_by_puppetclass_id(@puppetclasses.map(&:id)).compact.uniq.map(&:hostgroup_id))
-  end
-
-  def new
-    @puppetclass = Puppetclass.new
-  end
-
-  def create
-    @puppetclass = Puppetclass.new(params[:puppetclass])
-    if @puppetclass.save
-      process_success
-    else
-      process_error
-    end
   end
 
   def edit
@@ -29,8 +14,7 @@ class PuppetclassesController < ApplicationController
 
   def update
     if @puppetclass.update_attributes(params[:puppetclass])
-      notice _("Successfully updated %s." % @puppetclass.to_s)
-      redirect_back_or_default(puppetclasses_url)
+      process_success
     else
       process_error
     end
@@ -44,12 +28,28 @@ class PuppetclassesController < ApplicationController
     end
   end
 
+  def override
+    if @puppetclass.class_params.present?
+      @puppetclass.class_params.each do |class_param|
+        class_param.update_attribute(:override, params[:enable])
+      end
+      if [true, :true, 'true'].include?(params[:enable])
+        notice _("Successfully overridden all parameters of Puppet class %s") % @puppetclass.name
+      else
+        notice _("Successfully reset all parameters of Puppet class %s to their default values") % @puppetclass.name
+      end
+    else
+      error _("No parameters to override for Puppet class %s") % @puppetclass.name
+    end
+    redirect_to puppetclasses_url
+  end
+
   # form AJAX methods
   def parameters
     puppetclass = Puppetclass.find(params[:id])
-    render :partial => "puppetclasses/class_parameters", :locals => {
-        :puppetclass => puppetclass,
-        :obj => get_host_or_hostgroup}
+    render :partial => "puppetclasses/class_parameters",
+           :locals => { :puppetclass => puppetclass,
+                        :obj         => get_host_or_hostgroup }
   end
 
   private
@@ -77,24 +77,13 @@ class PuppetclassesController < ApplicationController
     @obj
   end
 
-  def reset_redirect_to_url
-    session[:redirect_to_url] = nil
-  end
-
-  def store_redirect_to_url
-    session[:redirect_to_url] ||= request.referer
-  end
-
-  def redirect_back_or_default(default)
-    redirect_to(session[:redirect_to_url] || default)
-    session[:redirect_to_url] = nil
-  end
-
-  def find_by_name
-    not_found and return if params[:id].blank?
-    pc = resource_base.includes(:class_params => [:environment_classes, :environments, :lookup_values])
-    @puppetclass = (params[:id] =~ /\A\d+\Z/) ? pc.find(params[:id]) : pc.find_by_name(params[:id])
-    not_found and return unless @puppetclass
+  def action_permission
+    case params[:action]
+      when 'override'
+        :override
+      else
+        super
+    end
   end
 
 end

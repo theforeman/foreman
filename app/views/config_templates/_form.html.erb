@@ -15,7 +15,7 @@
         <% if @config_template.locked? -%>
         <%= alert :class => 'alert-warning', :header => '',
             :text  => icon_text("warning-sign", (_("Warning: This template is locked. You may only change the associations. Please %s it to customize.") %
-                                                link_to(_('clone'), hash_for_clone_config_template_path(:id => @config_template.id))).html_safe) %>
+                                                link_to(_('clone'), hash_for_clone_config_template_path(:id => @config_template))).html_safe) %>
 
         <% else -%>
         <%= alert :class => 'alert-success', :header => '',
@@ -109,6 +109,8 @@
   <div class='exit-fullscreen hidden'>
     <%= link_to_function icon_text('resize-small'), 'exit_fullscreen()', :class => 'btn btn-default btn-lg', :'data-placement'=>'bottom', :title => _('Exit Full Screen') %>
   </div>
-  <div class='hide' id="old"><%= @config_template.template %></div>
-  <div class='hide' id="new"><%= @config_template.template %></div>
+  <%# These hidden inputs are used for the diff Preview. They intentionally do
+      not have a 'name' attribute so browsers will not send them in the form POST. %>
+  <input type="hidden" id="old" value="<%= @config_template.template %>" />
+  <input type="hidden" id="new" value="<%= @config_template.template %>" />
 <% end %>

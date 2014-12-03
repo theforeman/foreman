@@ -2,11 +2,10 @@ module Api::V2::TaxonomiesController
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_taxonomy, :only => %w{show update destroy settings
-                                                domain_ids subnet_ids hostgroup_ids config_template_ids compute_resource_ids
-                                                medium_ids smart_proxy_ids environment_ids user_ids organization_ids realm_ids
-                                                }
-    before_filter :find_optional_nested_object, :only => %w(index show)
+    before_filter :find_optional_nested_object
+    before_filter :find_taxonomy, :only => %w(show update destroy settings
+                                              domain_ids subnet_ids hostgroup_ids config_template_ids compute_resource_ids
+                                              medium_ids smart_proxy_ids environment_ids user_ids organization_ids realm_ids)
     before_filter :params_match_database, :only => %w(create update)
   end
 
@@ -29,13 +28,9 @@ module Api::V2::TaxonomiesController
   end
 
   api :GET, '/:resource_id', N_('List all :resource_id')
-  param :search, String, :desc => N_("filter results")
-  param :order, String, :desc => N_("sort results")
-  param :page, String, :desc => N_("paginate results")
-  param :per_page, String, :desc => N_("number of entries per request")
+  param_group :search_and_pagination, ::Api::V2::BaseController
   def index
     if @nested_obj
-      #@taxonomies = @domain.locations.search_for(*search_options).paginate(paginate_options)
       @taxonomies = @nested_obj.send(taxonomies_plural).search_for(*search_options).paginate(paginate_options)
       @total = @nested_obj.send(taxonomies_plural).count
     else

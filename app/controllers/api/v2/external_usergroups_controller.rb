@@ -7,14 +7,15 @@ module Api
       before_filter :find_required_nested_object, :only => [:index, :show, :create]
 
       api :GET, '/usergroups/:usergroup_id/external_usergroups', N_('List all external user groups for user group')
+      api :GET, '/auth_source_ldaps/:auth_source_ldap_id/external_usergroups', N_('List all external user groups for LDAP authentication source')
       param :usergroup_id, String, :required => true, :desc => N_('ID or name of user group')
 
       def index
-        @external_usergroups = @nested_obj.external_usergroups.paginate(paginate_options)
-        @total = @nested_obj.external_usergroups.count
+        @external_usergroups = resource_scope.paginate(paginate_options)
       end
 
       api :GET, '/usergroups/:usergroup_id/external_usergroups/:id', N_('Show an external user group for user group')
+      api :GET, '/auth_source_ldaps/:auth_source_ldap_id/external_usergroups/:id', N_('Show an external user group for LDAP authentication source')
       param :usergroup_id, String, :required => true, :desc => N_('ID or name of user group')
       param :id, String, :required => true, :desc => N_('ID or name of external user group')
 
@@ -24,7 +25,7 @@ module Api
       def_param_group :external_usergroup do
         param :external_usergroup, Hash, :required => true, :action_aware => true, :desc => N_('External user group information') do
           param :name, String, :required => true, :desc => N_('External user group name')
-          param :auth_source_id, Fixnum, :required => true, :desc => N_('ID of linked auth source')
+          param :auth_source_id, Fixnum, :required => true, :desc => N_('ID of linked authentication source')
         end
       end
 
@@ -75,7 +76,7 @@ module Api
       end
 
       def allowed_nested_id
-        %w(usergroup_id)
+        %w(usergroup_id auth_source_ldap_id)
       end
     end
   end

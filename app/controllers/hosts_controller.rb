@@ -6,7 +6,7 @@ class HostsController < ApplicationController
 
   PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
-  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy}
+  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy review_before_build}
   BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
   MULTIPLE_ACTIONS = %w(multiple_parameters update_multiple_parameters  select_multiple_hostgroup
                         update_multiple_hostgroup select_multiple_environment update_multiple_environment
@@ -17,16 +17,17 @@ class HostsController < ApplicationController
 
   add_puppetmaster_filters PUPPETMASTER_ACTIONS
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_by_name, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun,
-                                         :setBuild, :cancelBuild, :power, :bmc, :vm, :ipmi_boot,
-                                         :console, :toggle_manage, :pxe_config,
-                                         :storeconfig_klasses, :disassociate, :display]
+  before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :display, :puppetrun, :review_before_build,
+                                         :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
+                                         :runtime, :resources, :templates, :ipmi_boot, :console,
+                                         :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
+
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   before_filter :find_multiple, :only => MULTIPLE_ACTIONS
-  helper :hosts, :reports
+  helper :hosts, :reports, :interfaces
 
-  def index (title = nil)
+  def index(title = nil)
     begin
       search = resource_base.search_for(params[:search], :order => params[:order])
     rescue => e
@@ -42,15 +43,7 @@ class HostsController < ApplicationController
         @hostgroup_authorizer = Authorizer.new(User.current, :collection => @hosts.map(&:hostgroup_id).compact.uniq)
         render :index if title and (@title = title)
       end
-      format.yaml do
-        render :text => if params["rundeck"]
-          result = {}
-          search.includes(included_associations).each{|h| result.update(h.rundeck)}
-          result
-        else
-          search.all(:select => "hosts.name").map(&:name)
-        end.to_yaml
-      end
+      format.yaml { render :text => search.all(:select => "hosts.name").map(&:name).to_yaml }
       format.json
     end
   end
@@ -64,7 +57,7 @@ class HostsController < ApplicationController
         # summary report text
         @report_summary = Report.summarise(@range.days.ago, @host)
       }
-      format.yaml { render :text => params["rundeck"].nil? ? @host.info.to_yaml : @host.rundeck.to_yaml }
+      format.yaml { render :text => @host.info.to_yaml }
       format.json
     end
   end
@@ -75,8 +68,8 @@ class HostsController < ApplicationController
 
   # Clone the host
   def clone
-    @clone_host = @host.clone
-    @host = @clone_host
+    @clone_host = @host
+    @host = @clone_host.clone
     load_vars_for_ajax
     flash[:warning] = _("The marked fields will need reviewing")
     @host.valid?
@@ -174,7 +167,7 @@ class HostsController < ApplicationController
   def externalNodes
     certname = params[:name]
     @host ||= resource_base.find_by_certname certname
-    @host ||= resource_base.find_by_name certname
+    @host ||= resource_base.find certname
     not_found and return unless @host
 
     begin
@@ -184,7 +177,7 @@ class HostsController < ApplicationController
       end
     rescue
       # failed
-      logger.warn "Failed to generate external nodes for #{@host} with #{$!}"
+      logger.warn "Failed to generate external nodes for #{@host} with #{$ERROR_INFO}"
       render :text => _('Unable to generate output, Check log files\n'), :status => 412 and return
     end
   end
@@ -199,10 +192,26 @@ class HostsController < ApplicationController
     redirect_to host_path(@host)
   end
 
+  def review_before_build
+    @build = @host.build_status
+    render :layout => false
+  end
+
   def setBuild
     forward_url_options
     if @host.setBuild
-      process_success :success_msg => _("Enabled %s for rebuild on next boot") % (@host), :success_redirect => :back
+      if (params[:host] && params[:host][:build] == '1')
+        begin
+          process_success :success_msg => _("Enabled %s for reboot and rebuild") % (@host), :success_redirect => :back if @host.power.reset
+        rescue => error
+          logger.warn(error.to_s)
+          logger.debug error.backtrace.join("\n")
+          warning(_('Failed to reboot %s.') % @host)
+          process_success :success_msg => _("Enabled %s for rebuild on next boot") % (@host), :success_redirect => :back
+        end
+      else
+        process_success :success_msg => _("Enabled %s for rebuild on next boot") % (@host), :success_redirect => :back
+      end
     else
       process_error :redirect => :back, :error_msg => _("Failed to enable %{host} for installation: %{errors}") % { :host => @host, :errors => @host.errors.full_messages }
     end
@@ -224,6 +233,12 @@ class HostsController < ApplicationController
     process_error :redirect => :back, :error_msg => _("Failed to %{action} %{host}: %{e}") % { :action => _(params[:power_action]), :host => @host, :e => e }
   end
 
+  def overview
+    render :partial => 'overview', :locals => { :host => @host }
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'fetch overview information'
+  end
+
   def bmc
     render :partial => 'bmc', :locals => { :host => @host }
   rescue ActionView::Template::Error => exception
@@ -236,6 +251,24 @@ class HostsController < ApplicationController
     render :partial => "compute_resources_vms/details"
   rescue ActionView::Template::Error => exception
     process_ajax_error exception, 'fetch vm information'
+  end
+
+  def runtime
+    render :partial => 'runtime'
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'fetch runtime chart information'
+  end
+
+  def resources
+    render :partial => 'resources'
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'fetch resources chart information'
+  end
+
+  def templates
+    render :text => view_context.show_templates
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'fetch templates information'
   end
 
   def ipmi_boot
@@ -317,7 +350,7 @@ class HostsController < ApplicationController
       skipped = []
       params[:name].each do |name, value|
         next if value.empty?
-        if (host_param = host.host_parameters.find_by_name(name))
+        if (host_param = host.host_parameters.find(name))
           counter += 1 if host_param.update_attribute(:value, value)
         else
           skipped << name
@@ -342,7 +375,7 @@ class HostsController < ApplicationController
       error _('No host group selected!')
       redirect_to(select_multiple_hostgroup_hosts_path) and return
     end
-    hg = Hostgroup.find(id) rescue nil
+    hg = Hostgroup.find_by_id(id)
     #update the hosts
     @hosts.each do |host|
       host.hostgroup=hg
@@ -364,7 +397,7 @@ class HostsController < ApplicationController
       redirect_to(select_multiple_environment_hosts_path) and return
     end
 
-    ev = Environment.find(id) rescue nil
+    ev = Environment.find_by_id(id)
 
     #update the hosts
     @hosts.each do |host|
@@ -388,7 +421,7 @@ class HostsController < ApplicationController
       host.setBuild
     end
 
-    missed_hosts = @hosts.map(&:name).join('<br/>')
+    missed_hosts = @hosts.map(&:name).to_sentence
     if @hosts.empty?
       notice _("The selected hosts will execute a build operation on next reboot")
     else
@@ -401,7 +434,7 @@ class HostsController < ApplicationController
     # keep all the ones that were not deleted for notification.
     @hosts.delete_if {|host| host.destroy}
 
-    missed_hosts = @hosts.map(&:name).join('<br/>')
+    missed_hosts = @hosts.map(&:name).to_sentence
     if @hosts.empty?
       notice _("Destroyed selected hosts")
     else
@@ -487,24 +520,23 @@ class HostsController < ApplicationController
     @realm           = @hostgroup.realm
 
     @host = if params[:host][:id]
-      host = Host::Base.authorized(:view_hosts, Host).find(params[:host][:id])
-      host = host.becomes Host::Managed
-      host.attributes = params[:host]
-      host
-    else
-      Host.new(params[:host])
-    end
+              host = Host::Base.authorized(:view_hosts, Host).find(params[:host][:id])
+              host = host.becomes Host::Managed
+              host.attributes = params[:host]
+              host
+            else
+              Host.new(params[:host])
+            end
     @host.set_hostgroup_defaults
     render :partial => "form"
-
   end
 
   def process_taxonomy
     return head(:not_found) unless @location || @organization
-    @host = Host.new(params[:host])
+    @host = Host.new(params[:host].except(:interfaces_attributes))
     # revert compute resource to "Bare Metal" (nil) if selected
     # compute resource is not included taxonomy
-    Taxonomy.as_taxonomy @organization , @location do
+    Taxonomy.as_taxonomy @organization, @location do
       # if compute_resource_id is not in our scope, reset it to nil.
       @host.compute_resource_id = nil unless ComputeResource.exists?(@host.compute_resource_id)
     end
@@ -512,30 +544,10 @@ class HostsController < ApplicationController
   end
 
   def template_used
-    host  = params[:host]
-    kinds = if params[:provisioning] == 'image'
-              cr     = ComputeResource.find_by_id(host[:compute_resource_id])
-              images = cr.try(:images)
-              if images.nil?
-                [TemplateKind.find_by_name('finish')]
-              else
-                uuid       = host[:compute_attributes][cr.image_param_name]
-                image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
-                [TemplateKind.find_by_name(image_kind)]
-              end
-            else
-              TemplateKind.all
-            end
-
-    templates = kinds.map do |kind|
-      ConfigTemplate.find_template({:kind               => kind.name,
-                                    :operatingsystem_id => host[:operatingsystem_id],
-                                    :hostgroup_id       => host[:hostgroup_id],
-                                    :environment_id     => host[:environment_id]
-      })
-    end.compact
+    host      = Host.new(params[:host].except(:interfaces_attributes))
+    templates = host.available_template_kinds(params[:provisioning])
     return not_found if templates.empty?
-    render :partial => "provisioning", :locals => {:templates => templates}
+    render :partial => 'provisioning', :locals => { :templates => templates }
   end
 
   private
@@ -546,12 +558,12 @@ class HostsController < ApplicationController
 
   def action_permission
     case params[:action]
-      when 'clone', 'externalNodes', 'bmc', 'vm', 'pxe_config', 'storeconfig_klasses',
-          'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'display'
+      when 'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates',
+          'pxe_config', 'storeconfig_klasses', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'display'
         :view
       when 'puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'
         :puppetrun
-      when 'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build'
+      when 'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build', 'review_before_build'
         :build
       when 'power'
         :power
@@ -585,7 +597,8 @@ class HostsController < ApplicationController
     else
       @host ||= Host::Managed.new(params['host'])
     end
-    return @host
+
+    @host
   end
 
   def set_host_type
@@ -626,16 +639,11 @@ class HostsController < ApplicationController
     end
   end
 
-  def find_by_name
+  # overwrite application_controller
+  def find_resource
     not_found and return false if (id = params[:id]).blank?
-    # determine if we are searching for a numerical id or plain name
-
-    if id =~ /^\d+$/
-      @host = resource_base.find_by_id id.to_i
-    else
-      @host = resource_base.find_by_name id.downcase
-      @host ||= resource_base.find_by_mac params[:host][:mac] if params[:host] && params[:host][:mac]
-    end
+    @host   = resource_base.find(id)
+    @host ||= resource_base.find_by_mac params[:host][:mac] if params[:host] && params[:host][:mac]
 
     not_found and return(false) unless @host
     @host
@@ -676,12 +684,12 @@ class HostsController < ApplicationController
     redirect_to hosts_path and return false
   end
 
-  def toggle_hostmode mode=true
+  def toggle_hostmode(mode = true)
     # keep all the ones that were not disabled for notification.
     @hosts.delete_if { |host| host.update_attribute(:enabled, mode) }
     action = mode ? "enabled" : "disabled"
 
-    missed_hosts       = @hosts.map(&:name).join('<br/>')
+    missed_hosts       = @hosts.map(&:name).to_sentence
     if @hosts.empty?
       notice _("%s selected hosts") % (action.capitalize)
     else
@@ -695,7 +703,7 @@ class HostsController < ApplicationController
     host.url_options = url_options if @host.respond_to?(:url_options)
   end
 
-  def merge_search_filter filter
+  def merge_search_filter(filter)
     if params[:search].empty?
       params[:search] = filter
     else

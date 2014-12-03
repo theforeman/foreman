@@ -4,15 +4,15 @@ module LayoutHelper
     @page_header       ||= page_header || @content_for_title || page_title.to_s
   end
 
-  def title_actions *elements
+  def title_actions(*elements)
     content_for(:title_actions) { elements.join(" ").html_safe }
   end
 
-  def button_group *elements
+  def button_group(*elements)
     content_tag(:div,:class=>"btn-group") { elements.join(" ").html_safe }
   end
 
-  def search_bar *elements
+  def search_bar(*elements)
     content_for(:search_bar) { elements.join(" ").html_safe }
   end
 
@@ -24,7 +24,7 @@ module LayoutHelper
     content_for(:javascripts) { javascript_include_tag(*args) }
   end
 
-  def addClass(options={}, new_class='')
+  def addClass(options = {}, new_class = '')
     options[:class] = "#{new_class} #{options[:class]}"
   end
 
@@ -36,7 +36,7 @@ module LayoutHelper
     end
   end
 
-  def line_count (f, attr)
+  def line_count(f, attr)
     rows = f.object.try(attr).to_s.lines.count rescue 1
     rows == 0 ? 1 : rows
   end
@@ -50,6 +50,8 @@ module LayoutHelper
   end
 
   def password_f(f, attr, options = {})
+    password_field_tag(:fakepassword, nil, :style => 'display: none') +
+    # The actual field.
     field(f, attr, options) do
       options[:autocomplete] ||= "off"
       options[:placeholder] ||= password_placeholder(f.object)
@@ -58,7 +60,7 @@ module LayoutHelper
     end
   end
 
-  def checkbox_f(f, attr, options = {}, checked_value="1", unchecked_value="0")
+  def checkbox_f(f, attr, options = {}, checked_value = "1", unchecked_value = "0")
     text = options.delete(:help_text)
     inline = options.delete(:help_inline)
     field(f, attr, options) do
@@ -68,7 +70,7 @@ module LayoutHelper
   end
 
 
-  def multiple_checkboxes(f, attr, klass, associations, options = {}, html_options={})
+  def multiple_checkboxes(f, attr, klass, associations, options = {}, html_options = {})
     if associations.count > 5
       associated_obj = klass.send(ActiveModel::Naming.plural(associations.first))
       selected_ids = associated_obj.select("#{associations.first.class.table_name}.id").map(&:id)
@@ -81,7 +83,7 @@ module LayoutHelper
   end
 
   # add hidden field for options[:disabled]
-  def multiple_selects(f, attr, associations, selected_ids, options={}, html_options={})
+  def multiple_selects(f, attr, associations, selected_ids, options = {}, html_options = {})
     options.merge!(:size => "col-md-10")
     field(f, attr, options) do
       attr_ids = (attr.to_s.singularize+"_ids").to_sym
@@ -150,23 +152,27 @@ module LayoutHelper
       content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
                   :id          => options.delete(:control_group_id) do
 
-        required_mark = ' *' if is_required?(f, attr) || options[:required]
+        required = options.delete(:required) # we don't want to use html5 required attr so we delete the option
+        required_mark = ' *' if required.nil? ? is_required?(f, attr) : required
         label   = options[:label] == :none ? '' : options.delete(:label)
         label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
             s_(clazz.gettext_translation_for_attribute_name attr)) if f
-        label   = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe , :class => "col-md-2 control-label") : ''
+        label   = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe, :class => "col-md-2 control-label") : ''
 
         label.html_safe +
-           content_tag(:div, :class => size_class) do
-             yield.html_safe + help_block.html_safe
-           end.html_safe + help_inline.html_safe
+          content_tag(:div, :class => size_class) do
+            yield.html_safe + help_block.html_safe
+          end.html_safe + help_inline.html_safe
       end.html_safe
     end
   end
 
   def is_required?(f, attr)
     return false unless f && f.object.class.respond_to?(:validators_on)
-    f.object.class.validators_on(attr).map(&:class).include? ActiveModel::Validations::PresenceValidator
+    f.object.class.validators_on(attr).any? do |validator|
+      options = validator.options.keys.map(&:to_s)
+      validator.is_a?(ActiveModel::Validations::PresenceValidator) && !options.include?('if') && !options.include?('unless')
+    end
   end
 
   def help_inline(inline, error)
@@ -181,7 +187,7 @@ module LayoutHelper
     end
   end
 
-  def form_to_submit_id f
+  def form_to_submit_id(f)
     object = f.object.respond_to?(:to_model) ? f.object.to_model : f.object
     key = object ? (object.persisted? ? :update : :create) : :submit
     model = if object.class.respond_to?(:humanize_class_name)
@@ -194,7 +200,7 @@ module LayoutHelper
     "aid_#{key}_#{model}"
   end
 
-  def submit_or_cancel f, overwrite = false, args = { }
+  def submit_or_cancel(f, overwrite = false, args = { })
     args[:cancel_path] ||= send("#{controller_name}_path")
     content_tag(:div, :class => "clearfix") do
       content_tag(:div, :class => "form-actions") do
@@ -207,7 +213,7 @@ module LayoutHelper
     end
   end
 
-  def base_errors_for obj
+  def base_errors_for(obj)
     unless obj.errors[:base].blank?
       alert :header => _("Unable to save"),
             :class  => 'alert-danger base in fade',
@@ -215,7 +221,7 @@ module LayoutHelper
     end
   end
 
-  def popover title, msg, options = {}
+  def popover(title, msg, options = {})
     link_to icon_text("info-sign", title), {}, { :remote => true, :rel => "popover", :data => {"content" => msg, "original-title" => title} }.merge(options)
   end
 
@@ -241,10 +247,15 @@ module LayoutHelper
              end
            end.html_safe
     html += options[:more].html_safe if options[:more]
-    content_tag(:div, :class=>"col-md-5") do
-      content_tag(:ul, :class => 'pagination') do
-        content_tag(:li, link_to(html, "#"), :class=>"pull-left")
-      end
+    content_tag(:div, :class => "col-md-5 hidden-xs") do
+      content_tag(:div, html, :class => "pull-left pull-bottom darkgray pagination")
+    end
+  end
+
+  def will_paginate_with_info(collection = nil, options = {})
+    content_tag(:div, :id => "pagination", :class => "row") do
+      page_entries_info(collection, options) +
+        will_paginate(collection, options)
     end
   end
 
@@ -257,17 +268,17 @@ module LayoutHelper
     super record_or_name_or_array, *args, &proc
   end
 
-  def icons i
+  def icons(i)
     content_tag :i, :class=>"glyphicon glyphicon-#{i}" do
       yield
     end
   end
 
-  def icon_text(i, text="", opts = {})
+  def icon_text(i, text = "", opts = {})
     (content_tag(:i,"", :class=>"glyphicon glyphicon-#{i} #{opts[:class]}") + " " + text).html_safe
   end
 
-  def alert opts = {}
+  def alert(opts = {})
     opts[:close]  = true if opts[:close].nil?
     opts[:header] ||= _("Warning!")
     opts[:text]   ||= _("Alert")
@@ -282,12 +293,28 @@ module LayoutHelper
     end
   end
 
-  def alert_header text
+  def alert_header(text)
     "<h4 class='alert-heading'>#{text}</h4>".html_safe
   end
 
-  def alert_close
-    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'.html_safe
+  def alert_close(data_dismiss = 'alert')
+    "<button type='button' class='close' data-dismiss='#{data_dismiss}' aria-hidden='true'>&times;</button>".html_safe
   end
 
+  def trunc(text, length = 32)
+    text    = text.to_s
+    options = text.size > length ? { :'data-original-title' => text, :rel => 'twipsy' } : {}
+    content_tag(:span, truncate(text, :length => length), options).html_safe
+  end
+
+  def modal_close(data_dismiss = 'modal', text = _('Close'))
+    button_tag(text, :class => 'btn btn-default', :data => { :dismiss => data_dismiss })
+  end
+
+  def number_f(f, attr, options = {})
+    field(f, attr, options) do
+      addClass options, "form-control"
+      f.number_field attr, options
+    end
+  end
 end

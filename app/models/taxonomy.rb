@@ -53,7 +53,7 @@ class Taxonomy < ActiveRecord::Base
     end
   end
 
-  def self.as_taxonomy org, location
+  def self.as_taxonomy(org, location)
     Organization.as_org org do
       Location.as_location location do
         yield if block_given?
@@ -101,6 +101,7 @@ class Taxonomy < ActiveRecord::Base
     new = super
     new.name = ""
     new.users             = users
+    new.environments      = environments
     new.smart_proxies     = smart_proxies
     new.subnets           = subnets
     new.compute_resources = compute_resources
