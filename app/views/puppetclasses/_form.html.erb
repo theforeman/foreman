@@ -1,6 +1,6 @@
 <%= javascript "lookup_keys" %>
 
-<%= form_for @puppetclass, :url => (@puppetclass.new_record? ? puppetclasses_path : puppetclass_path(:id => @puppetclass.id)) do |f| %>
+<%= form_for @puppetclass, :url => (@puppetclass.new_record? ? puppetclasses_path : puppetclass_path(:id => @puppetclass)) do |f| %>
   <%= base_errors_for @puppetclass %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _('Puppet Class') %></a></li>
@@ -10,7 +10,7 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
-      <%= text_f f, :name %>
+      <%= text_f f, :name, :disabled => true %>
       <%= text_f f, :environments, :value => @puppetclass.environments.to_sentence, :label=> _('Puppet environments'), :disabled => true %>
       <%= multiple_checkboxes f, :hostgroups,   @puppetclass, Hostgroup,   :label => _("Host groups") %>
     </div>

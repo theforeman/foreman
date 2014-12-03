@@ -3,7 +3,6 @@
     <%= content_tag('div', flash[:error],   :class => 'flash hide error')   if flash[:error] %>
     <%= content_tag('div', flash[:warning], :class => 'flash hide warning') if flash[:warning] %>
     <%= content_tag('div', flash[:notice],  :class => 'flash hide notice')  if flash[:notice] %>
-    <%= render 'common/notice' unless @notices.empty? %>
     <div id="content" class="container">
       <% unless @page_header.blank? %>
         <div class="row form-group">
@@ -24,5 +23,5 @@
     </div>
   </div>
 <% end %>
-    
+
 <%= render :template => 'layouts/base' %>

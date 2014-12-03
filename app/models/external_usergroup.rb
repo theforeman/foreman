@@ -1,10 +1,14 @@
 class ExternalUsergroup < ActiveRecord::Base
+
+  extend FriendlyId
+  friendly_id :name
+
   belongs_to :usergroup, :inverse_of => :external_usergroups
   belongs_to :auth_source
 
   validates_lengths_from_database
-  validates_uniqueness_of :name, :scope => :auth_source_id
-  validates_presence_of   :name, :auth_source, :usergroup
+  validates :name, :uniqueness => { :scope => :auth_source_id }
+  validates :name, :auth_source, :usergroup, :presence => true
   validate :hidden_authsource_restricted
   validate :in_auth_source?, :if => Proc.new { |eu| eu.auth_source.respond_to?(:valid_group?) }
 

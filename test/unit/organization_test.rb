@@ -50,6 +50,21 @@ class OrganizationTest < ActiveSupport::TestCase
 
   test 'it should return array of used ids by hosts' do
     organization = taxonomies(:organization1)
+    FactoryGirl.create(:host,
+                       :compute_resource => compute_resources(:one),
+                       :domain           => domains(:mydomain),
+                       :environment      => environments(:production),
+                       :medium           => media(:one),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :organization     => organization,
+                       :owner            => users(:restricted),
+                       :puppet_proxy     => smart_proxies(:puppetmaster),
+                       :realm            => realms(:myrealm),
+                       :subnet           => subnets(:one))
+    FactoryGirl.create(:os_default_template,
+                       :config_template  => config_templates(:mystring2),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :template_kind    => TemplateKind.find_by_name('provision'))
     # run used_ids method
     used_ids = organization.used_ids
     # get results from Host object
@@ -150,16 +165,17 @@ class OrganizationTest < ActiveSupport::TestCase
     organization_dup = organization.dup
     organization_dup.name = "organization_dup_name"
     assert organization_dup.save!
-    assert_equal, organization_dup.environment_ids = organization.environment_ids
-    assert_equal, organization_dup.hostgroup_ids = organization.hostgroup_ids
-    assert_equal, organization_dup.subnet_ids = organization.subnet_ids
-    assert_equal, organization_dup.domain_ids = organization.domain_ids
-    assert_equal, organization_dup.medium_ids = organization.medium_ids
-    assert_equal, organization_dup.user_ids = organization.user_ids
-    assert_equal, organization_dup.smart_proxy_ids = organization.smart_proxy_ids
-    assert_equal, organization_dup.config_template_ids = organization.config_template_ids
-    assert_equal, organization_dup.compute_resource_ids = organization.compute_resource_ids
-    assert_equal, organization_dup.location_ids = organization.location_ids
+    assert_equal organization_dup.environment_ids, organization.environment_ids
+    assert_equal organization_dup.hostgroup_ids, organization.hostgroup_ids
+    assert_equal organization_dup.subnet_ids, organization.subnet_ids
+    assert_equal organization_dup.domain_ids, organization.domain_ids
+    assert_equal organization_dup.medium_ids, organization.medium_ids
+    assert_equal organization_dup.user_ids, organization.user_ids
+    assert_equal organization_dup.smart_proxy_ids.sort, organization.smart_proxy_ids.sort
+    assert_equal organization_dup.config_template_ids, organization.config_template_ids
+    assert_equal organization_dup.compute_resource_ids, organization.compute_resource_ids
+    assert_equal organization_dup.realm_ids, organization.realm_ids
+    assert_equal organization_dup.location_ids, organization.location_ids
   end
 
   test "non-admin user is added to organization after creating it" do
@@ -169,5 +185,19 @@ class OrganizationTest < ActiveSupport::TestCase
     assert organization.users.include?(user)
   end
 
+  test ".my_organizations returns all orgs for admin" do
+    as_admin do
+      assert_equal Organization.unscoped.pluck(:id).sort, Organization.my_organizations.pluck(:id).sort
+    end
+  end
+
+  test ".my_organizations returns user's associated orgs and children" do
+    org1 = FactoryGirl.create(:organization)
+    org2 = FactoryGirl.create(:organization, :parent => org1)
+    user = FactoryGirl.create(:user, :organizations => [org1])
+    as_user(user) do
+      assert_equal [org1.id, org2.id].sort, Organization.my_organizations.pluck(:id).sort
+    end
+  end
 
 end

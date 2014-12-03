@@ -6,22 +6,25 @@ module Api
         name 'Operating systems'
       end
 
+      before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show edit update destroy bootfiles}
 
       api :GET, "/operatingsystems/", N_("List all operating systems")
-      param :search, String, :desc => N_("filter results"), :required => false
-      param :order, String, :desc => N_("sort results"), :required => false
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      api :GET, "/architectures/:architecture_id/operatingsystems", N_("List all operating systems for nested architecture")
+      api :GET, "/media/:medium_id/operatingsystems", N_("List all operating systems for nested medium")
+      api :GET, "/ptables/:ptable_id/operatingsystems", N_("List all operating systems for nested partition table")
+      api :GET, "/config_templates/:config_template_id/operatingsystems", N_("List all operating systems for nested provisioning template")
+      param :architecture_id, String, :desc => N_("ID of architecture")
+      param :medium_id, String, :desc => N_("ID of medium")
+      param :ptable_id, String, :desc => N_("ID of partition table")
+      param :config_template_id, String, :desc => N_("ID of template")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @operatingsystems = Operatingsystem.
-          authorized(:view_operatingsystems).
-          includes(:media, :architectures, :ptables, :config_templates, :os_default_templates).
-          search_for(*search_options).paginate(paginate_options)
+        @operatingsystems = resource_scope_for_index
       end
 
-      api :GET, "/operatingsystems/:id/", N_("Show an OS")
+      api :GET, "/operatingsystems/:id/", N_("Show an operating system")
       param :id, String, :required => true
 
       def show
@@ -35,10 +38,15 @@ module Api
           param :description, String
           param :family, String
           param :release_name, String
+          param :password_hash, String, :desc => N_('Root password hash function to use, one of MD5, SHA256, SHA512')
+          param :architecture_ids, Array, :desc => N_("IDs of associated architectures")
+          param :config_template_ids, Array, :desc => N_("IDs of associated provisioning templates")
+          param :medium_ids, Array, :desc => N_("IDs of associated media")
+          param :ptable_ids, Array, :desc => N_("IDs of associated partition tables")
         end
       end
 
-      api :POST, "/operatingsystems/", N_("Create an OS")
+      api :POST, "/operatingsystems/", N_("Create an operating system")
       param_group :operatingsystem, :as => :create
 
       def create
@@ -46,7 +54,7 @@ module Api
         process_response @operatingsystem.save
       end
 
-      api :PUT, "/operatingsystems/:id/", N_("Update an OS")
+      api :PUT, "/operatingsystems/:id/", N_("Update an operating system")
       param :id, String, :required => true
       param_group :operatingsystem
 
@@ -54,30 +62,30 @@ module Api
         process_response @operatingsystem.update_attributes(params[:operatingsystem])
       end
 
-      api :DELETE, "/operatingsystems/:id/", N_("Delete an OS")
+      api :DELETE, "/operatingsystems/:id/", N_("Delete an operating system")
       param :id, String, :required => true
 
       def destroy
         process_response @operatingsystem.destroy
       end
 
-      api :GET, "/operatingsystems/:id/bootfiles/", N_("List boot files for an OS")
+      api :GET, "/operatingsystems/:id/bootfiles/", N_("List boot files for an operating system")
       param :id, String, :required => true
       param :medium, String
       param :architecture, String
 
       def bootfiles
-        medium = Medium.authorized(:view_media).find_by_name(params[:medium])
-        arch   = Architecture.authorized(:view_architectures).find_by_name(params[:architecture])
+        medium = Medium.authorized(:view_media).find(params[:medium])
+        arch   = Architecture.authorized(:view_architectures).find(params[:architecture])
         render :json => @operatingsystem.pxe_files(medium, arch)
       rescue => e
         render :json => e.to_s, :status => :unprocessable_entity
       end
 
-      protected
+      private
 
-      def resource_identifying_attributes
-        %w(to_label id)
+      def allowed_nested_id
+        %w(architecture_id medium_id ptable_id config_template_id)
       end
 
     end

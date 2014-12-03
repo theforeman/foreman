@@ -6,7 +6,7 @@ child :environments do
   extends "api/v2/environments/base"
 end
 
-child :hostgroups do
+child :all_hostgroups => :hostgroups do
   extends "api/v2/hostgroups/base"
 end
 

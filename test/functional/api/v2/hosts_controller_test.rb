@@ -2,6 +2,10 @@ require 'test_helper'
 
 class Api::V2::HostsControllerTest < ActionController::TestCase
 
+  def setup
+    @host = FactoryGirl.create(:host)
+  end
+
   def valid_attrs
     { :name                => 'testhost11',
       :environment_id      => environments(:production).id,
@@ -29,7 +33,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => hosts(:one).to_param }
+    get :show, { :id => @host.to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -41,7 +45,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       post :create, { :host => valid_attrs }
     end
     assert_response :success
-    last_host = Host.order('id desc').last
   end
 
   test "should create host with managed is false if parameter is passed" do
@@ -53,12 +56,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should update host" do
-    put :update, { :id => hosts(:two).to_param, :host => { } }
+    put :update, { :id => @host.to_param, :host => { } }
     assert_response :success
   end
 
   test "should update host without :host root node and rails wraps it correctly" do
-    put :update, { :id => hosts(:two).to_param, :name => 'newhostname' }
+    put :update, { :id => @host.to_param, :name => 'newhostname' }
     request_parameters = @request.env['action_dispatch.request.request_parameters']
     assert request_parameters[:host]
     assert_equal 'newhostname', request_parameters[:host][:name]
@@ -67,13 +70,13 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should destroy hosts" do
     assert_difference('Host.count', -1) do
-      delete :destroy, { :id => hosts(:one).to_param }
+      delete :destroy, { :id => @host.to_param }
     end
     assert_response :success
   end
 
   test "should show status hosts" do
-    get :status, { :id => hosts(:one).to_param }
+    get :status, { :id => @host.to_param }
     assert_response :success
   end
 
@@ -86,67 +89,72 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should allow access to restricted user who owns the host" do
+    host = FactoryGirl.create(:host, :owner => users(:restricted))
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-    get :show, { :id => hosts(:owned_by_restricted).to_param }
+    get :show, { :id => host.to_param }
     assert_response :success
   end
 
   test "should allow to update for restricted user who owns the host" do
     disable_orchestration
+    host = FactoryGirl.create(:host, :owner => users(:restricted))
     setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-    put :update, { :id => hosts(:owned_by_restricted).to_param, :host => {} }
+    put :update, { :id => host.to_param, :host => {} }
     assert_response :success
   end
 
   test "should allow destroy for restricted user who owns the hosts" do
+    host = FactoryGirl.create(:host, :owner => users(:restricted))
     assert_difference('Host.count', -1) do
       setup_user 'destroy', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-      delete :destroy, { :id => hosts(:owned_by_restricted).to_param }
+      delete :destroy, { :id => host.to_param }
     end
     assert_response :success
   end
 
   test "should allow show status for restricted user who owns the hosts" do
+    host = FactoryGirl.create(:host, :owner => users(:restricted))
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-    get :status, { :id => hosts(:owned_by_restricted).to_param }
+    get :status, { :id => host.to_param }
     assert_response :success
   end
 
   test "should not allow access to a host out of users hosts scope" do
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-    get :show, { :id => hosts(:one).to_param }
+    get :show, { :id => @host.to_param }
     assert_response :not_found
   end
 
   test "should not list a host out of users hosts scope" do
+    host = FactoryGirl.create(:host, :owner => users(:restricted))
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
     get :index, {}
     assert_response :success
     hosts = ActiveSupport::JSON.decode(@response.body)
     ids = hosts['results'].map { |hash| hash['id'] }
-    refute_includes ids, hosts(:one).id
-    assert_includes ids, hosts(:owned_by_restricted).id
+    refute_includes ids, @host.id
+    assert_includes ids, host.id
   end
 
   test "should not update host out of users hosts scope" do
     setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-    put :update, { :id => hosts(:one).to_param }
+    put :update, { :id => @host.to_param }
     assert_response :not_found
   end
 
   test "should not delete hosts out of users hosts scope" do
     setup_user 'destroy', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-    delete :destroy, { :id => hosts(:one).to_param }
+    delete :destroy, { :id => @host.to_param }
     assert_response :not_found
   end
 
   test "should not show status of hosts out of users hosts scope" do
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-    get :status, { :id => hosts(:one).to_param }
+    get :status, { :id => @host.to_param }
     assert_response :not_found
   end
 
-  def set_remote_user_to user
+  def set_remote_user_to(user)
     @request.env['REMOTE_USER'] = user.login
   end
 
@@ -176,9 +184,10 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should run puppet for specific host" do
+    as_admin { @phost = FactoryGirl.create(:host, :with_puppet) }
     User.current=nil
     ProxyAPI::Puppet.any_instance.stubs(:run).returns(true)
-    put :puppetrun, { :id => hosts(:one).to_param }
+    put :puppetrun, { :id => @phost.to_param }
     assert_response :success
   end
 
@@ -343,18 +352,19 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
     def initialize_proxy_ops
       User.current = users(:apiadmin)
-      nics(:bmc).update_attribute(:host_id, hosts(:one).id)
+      @bmchost = FactoryGirl.create(:host, :managed)
+      nics(:bmc).update_attribute(:host_id, @bmchost.id)
     end
 
     test "power call to interface" do
       ProxyAPI::BMC.any_instance.stubs(:power).with(:action => 'status').returns("on")
-      put :power, { :id => hosts(:one).to_param, :power_action => 'status' }
+      put :power, { :id => @bmchost.to_param, :power_action => 'status' }
       assert_response :success
       assert @response.body =~ /on/
     end
 
     test "wrong power call fails gracefully" do
-      put :power, { :id => hosts(:one).to_param, :power_action => 'wrongmethod' }
+      put :power, { :id => @bmchost.to_param, :power_action => 'wrongmethod' }
       assert_response 422
       assert @response.body =~ /available methods are/
     end
@@ -362,24 +372,25 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     test "boot call to interface" do
       ProxyAPI::BMC.any_instance.stubs(:boot).with(:function => 'bootdevice', :device => 'bios').
                                               returns( { "action" => "bios", "result" => true } .to_json)
-      put :boot, { :id => hosts(:one).to_param, :device => 'bios' }
+      put :boot, { :id => @bmchost.to_param, :device => 'bios' }
       assert_response :success
       assert @response.body =~ /true/
     end
 
     test "wrong boot call to interface fails gracefully" do
-      put :boot, { :id => hosts(:one).to_param, :device => 'wrongbootdevice' }
+      put :boot, { :id => @bmchost.to_param, :device => 'wrongbootdevice' }
       assert_response 422
       assert @response.body =~ /available devices are/
     end
 
     test "should return correct total and subtotal metadata if search param is passed" do
-      get :index, {:search => 'my5name.mydomain.net' }
+      FactoryGirl.create_list(:host, 8)
+      get :index, {:search => @bmchost.name }
       assert_response :success
       response = ActiveSupport::JSON.decode(@response.body)
-      assert_equal 17, response['total']
+      assert_equal 10, response['total'] # one from setup, one from bmc setup, 8 here
       assert_equal  1, response['subtotal']
-      assert_equal 'my5name.mydomain.net', response['search']
+      assert_equal @bmchost.name, response['search']
     end
 
   end

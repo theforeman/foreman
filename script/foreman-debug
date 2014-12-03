@@ -214,9 +214,14 @@ if [ $NOGENERIC -eq 0 ]; then
 
   add_cmd "ps auxwwwZ" "process_list"
   add_files /var/log/messages /var/log/audit/audit.log
-  add_cmd "grep AVC /var/log/audit/audit.log" "audit_denials.log"
-  type audit2allow &>/dev/null && \
-    add_cmd "audit2allow -R < /var/log/audit/audit.log" "audit2allow"
+  add_cmd "ausearch -m AVC -m USER_AVC -m SELINUX_ERR | head -n 100" "selinux_first_denials.log"
+  add_cmd "ausearch -m AVC -m USER_AVC -m SELINUX_ERR || grep AVC /var/log/audit/audit.log" "selinux_denials.log"
+  if [ -f /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
+    add_cmd "sepolgen-ifgen &>/dev/null && audit2allow -Ra || audit2allow -a" "selinux_audit2allow"
+    add_cmd "semodule -l" "selinux_modules"
+    add_cmd "semanage boolean -l" "selinux_booleans"
+    add_cmd "semanage fcontext -l" "selinux_fcontext"
+  fi
 
   if [ "$OS" = "redhat" ]; then
     [ $DEBUG -eq 0 ] && add_cmd "rpm -qa" "installed_packages"

@@ -10,7 +10,7 @@ class Log < ActiveRecord::Base
     "#{source} #{message}"
   end
 
-  def level= l
+  def level=(l)
     write_attribute(:level_id, LEVELS.index(l))
   end
 

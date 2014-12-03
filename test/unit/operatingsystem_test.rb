@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'test_helper'
 
 class OperatingsystemTest < ActiveSupport::TestCase
@@ -18,16 +19,6 @@ class OperatingsystemTest < ActiveSupport::TestCase
     operating_system = Operatingsystem.new :name => "   ", :major => "9"
     assert operating_system.name.strip.empty?
     assert !operating_system.save
-  end
-
-  test "name shouldn't contain white spaces" do
-    operating_system = Operatingsystem.new :name => " U bun     tu ", :major => "9"
-    assert !operating_system.name.squeeze(" ").tr(' ', '').empty?
-    assert !operating_system.save
-
-    operating_system.name.squeeze!(" ").tr!(' ', '')
-    assert !operating_system.name.include?(' ')
-    assert operating_system.save
   end
 
   test "major should be numeric" do
@@ -63,7 +54,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
     operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10"
     assert operating_system.save
 
-    host = hosts(:one)
+    host = FactoryGirl.create(:host)
     host.os = operating_system
     host.save(:validate => false)
 
@@ -217,9 +208,10 @@ class OperatingsystemTest < ActiveSupport::TestCase
   end
 
   test "should update hosts_count" do
+    host = FactoryGirl.create(:host)
     os = operatingsystems(:ubuntu1010)
     assert_difference "os.hosts_count" do
-      hosts(:one).update_attribute(:operatingsystem, os)
+      host.update_attribute(:operatingsystem, os)
       os.reload
     end
   end
@@ -282,6 +274,75 @@ class OperatingsystemTest < ActiveSupport::TestCase
     os = FactoryGirl.build(:operatingsystem, :minor => -50)
     refute_valid os
     assert_equal "must be greater than or equal to 0", os.errors[:minor].first
+  end
+
+  test "should create os with two different parameters" do
+    pid = Time.now.to_i
+    operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
+        {pid += 1=>{"name"=>"a", "value"=>"1", :nested => ""},
+         pid +  1=>{"name"=>"b", "value"=>"1", :nested => ""}})
+    assert_valid operatingsystem
+  end
+
+  test "should not create os with two new parameters with the same name" do
+    pid = Time.now.to_i
+    operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
+        {pid += 1=>{"name"=>"a", "value"=>"1", :nested => true},
+         pid += 1=>{"name"=>"a", "value"=>"2", :nested => true},
+         pid +  1=>{"name"=>"b", "value"=>"1", :nested => true}})
+    refute_valid operatingsystem
+    assert_equal "has already been taken", operatingsystem.os_parameters.select {|param| param.name=='a'}.sort[1].errors[:name].first
+    assert_equal "Please ensure the following parameters name are unique", operatingsystem.errors[:os_parameters].first
+  end
+
+  test "should not create os with a new parameter with the same name as a existing parameter" do
+    operatingsystem = FactoryGirl.create(:operatingsystem)
+    operatingsystem.os_parameters = [OsParameter.new({:name => "a", :value => "3"})]
+    assert operatingsystem.valid?
+    operatingsystem.os_parameters.push(OsParameter.new({:name => "a", :value => "43"}))
+    refute_valid operatingsystem
+  end
+
+  test "should not create os with an invalid parameter - no name" do
+    pid = Time.now.to_i
+    operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
+        {pid += 1=>{"value"=>"1", :nested => ""},
+         pid += 1=>{"name"=>"a", "value"=>"2", :nested => ""},
+         pid +  1=>{"name"=>"b", "value"=>"1", :nested => ""}})
+    refute_valid operatingsystem
+
+  end
+
+  context 'os default templates' do
+    setup do
+      @template_kind = FactoryGirl.create(:template_kind)
+      @config_template = FactoryGirl.create(:config_template, :template_kind_id => @template_kind.id)
+      @os = operatingsystems(:centos5_3)
+      @os.update_attributes(:os_default_templates_attributes =>
+                               [{ :config_template_id => @config_template.id, :template_kind_id => @template_kind.id }]
+      )
+    end
+
+    test 'should create os default templates' do
+      assert_valid @os
+      assert_equal(@os.os_default_templates.last.template_kind_id, @template_kind.id)
+      assert_equal(@os.os_default_templates.last.config_template_id, @config_template.id)
+    end
+
+    test 'should remove os default template' do
+      # Association deleted, yet template_kind and config_template not.
+      assert_difference('@os.os_default_templates.length', -1) do
+        @os.update_attributes(:os_default_templates_attributes => { :id => @os.os_default_templates.last.id, :_destroy => 1 })
+      end
+      assert_valid @template_kind
+      assert_valid @config_template
+    end
+  end
+
+  test 'name can include utf-8 and non-alpha numeric chars' do
+    operatingsystem = FactoryGirl.build(:operatingsystem, :name => '<applet>מערכתההפעלהשלי', :major => 4)
+    assert operatingsystem.valid?
+    assert_equal("#{operatingsystem.id}-applet-מערכתההפעלהשלי 4", operatingsystem.to_param)
   end
 
 end

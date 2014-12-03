@@ -82,25 +82,25 @@ class FactParserTest < ActiveSupport::TestCase
 
     result = parser.send(:set_additional_attributes, {}, 'eth0_0')
     assert result[:virtual]
-    assert_equal 'eth0', result[:physical_device]
+    assert_equal 'eth0', result[:attached_to]
     assert_equal '', result[:tag]
     refute result[:bridge]
 
     result = parser.send(:set_additional_attributes, {}, 'eth0_1')
     assert result[:virtual]
-    assert_equal 'eth0', result[:physical_device]
+    assert_equal 'eth0', result[:attached_to]
     assert_equal '1', result[:tag]
     refute result[:bridge]
 
     result = parser.send(:set_additional_attributes, {}, 'eth0_2')
     assert result[:virtual]
-    assert_equal 'eth0', result[:physical_device]
+    assert_equal 'eth0', result[:attached_to]
     assert_equal '2', result[:tag]
     refute result[:bridge]
 
     result = parser.send(:set_additional_attributes, {}, 'eth0_4')
     assert result[:virtual]
-    assert_equal 'eth0', result[:physical_device]
+    assert_equal 'eth0', result[:attached_to]
     assert_equal '', result[:tag]
     refute result[:bridge]
   end
@@ -110,13 +110,13 @@ class FactParserTest < ActiveSupport::TestCase
 
     result = parser.send(:set_additional_attributes, {}, 'br0')
     assert result[:virtual]
-    assert_empty result[:physical_device]
+    assert_empty result[:attached_to]
     assert_empty result[:tag]
     assert result[:bridge]
 
     result = parser.send(:set_additional_attributes, {}, 'virbr0')
     assert result[:virtual]
-    assert_empty result[:physical_device]
+    assert_empty result[:attached_to]
     assert_empty result[:tag]
     assert result[:bridge]
   end

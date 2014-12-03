@@ -8,7 +8,7 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert proxy.valid?
   end
 
-def test_should_not_be_modified_if_has_no_leading_slashes
+  def test_should_not_be_modified_if_has_no_leading_slashes
     proxy = SmartProxy.new
     proxy.name = "test proxy"
     proxy.url  = "https://secure.proxy:4568"
@@ -47,6 +47,8 @@ def test_should_not_be_modified_if_has_no_leading_slashes
 
   # test taxonomix methods
   test "should get used location ids for host" do
+    FactoryGirl.create(:host, :puppet_proxy => smart_proxies(:puppetmaster),
+                       :location => taxonomies(:location1))
     assert_equal ["Puppet", "Puppet CA"], smart_proxies(:puppetmaster).features.pluck(:name).sort
     assert_equal [taxonomies(:location1).id], smart_proxies(:puppetmaster).used_location_ids
   end

@@ -3,7 +3,7 @@ module Foreman::Model
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
     before_create :setup_key_pair
     validate :check_google_key_path
-    validates_presence_of :key_path, :project, :email
+    validates :key_path, :project, :email, :presence => true
 
     delegate :flavors, :to => :client
 
@@ -60,7 +60,7 @@ module Foreman::Model
       self.url = zone
     end
 
-    def create_vm args = {}
+    def create_vm(args = {})
       #Dot are not allowed in names
       args[:name]        = args[:name].parameterize if args[:name].present?
       args[:external_ip] = args[:external_ip] != '0'
@@ -70,7 +70,7 @@ module Foreman::Model
       ssh      = { :username => username, :public_key => key_pair.public }
       super(args.merge(ssh))
     rescue Fog::Errors::Error => e
-      logger.debug "Unhandled GCE error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
+      logger.error "Unhandled GCE error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
       raise e
     end
 
@@ -107,7 +107,7 @@ module Foreman::Model
 
     def check_google_key_path
       return if key_path.blank?
-      unless File.exists?(key_path)
+      unless File.exist?(key_path)
         errors.add(:key_path, _('Unable to access key'))
       end
     rescue => e

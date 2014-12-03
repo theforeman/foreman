@@ -5,7 +5,7 @@ module Net
     include Net::Validations
     attr_accessor :hostname, :proxy, :logger
 
-    def initialize opts = {}
+    def initialize(opts = {})
       # set all attributes
       opts.each do |k,v|
         self.send("#{k}=",v) if self.respond_to?("#{k}=")
@@ -30,7 +30,7 @@ module Net
     end
 
     # Compares two records by their attributes
-    def == other
+    def ==(other)
       return false unless other.respond_to? :attrs
       self.attrs == other.attrs
     end

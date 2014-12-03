@@ -1,9 +1,11 @@
-<%= javascript 'users' %>
+<%= javascript 'users', 'password_strength' %>
+
 <%= form_for @user do |f| %>
   <%= base_errors_for @user %>
 
   <ul class='nav nav-tabs' data-tabs='tabs'>
     <li class='active'><a href='#primary' data-toggle='tab'><%= _('User') %></a></li>
+    <li><a href='#mail_preferences' data-toggle='tab'><%= _('Mail Preferences') %></a></li>
     <% if show_location_tab? %>
       <li><a href='#locations' data-toggle='tab'><%= _('Locations') %></a></li>
     <% end %>
@@ -21,16 +23,6 @@
       <%= text_f f, :lastname %>
       <%= text_f f, :mail %>
 
-      <% if SETTINGS[:locations_enabled] %>
-        <%= select_f f, :default_location_id, (@user.admin? ? Location.all : @user.locations), :id, :title,
-                      { :include_blank => true }, { :label => _('Default location') } %>
-      <% end %>
-
-      <% if SETTINGS[:organizations_enabled] %>
-        <%= select_f f, :default_organization_id,(@user.admin? ? Organization.all : @user.organizations), :id, :title,
-                        { :include_blank => true }, { :label => _('Default organization') } %>
-      <% end %>
-
       <%= selectable_f(f, :locale, FastGettext.human_available_locales,
                         { :include_blank => _('Browser locale') } , { :label => _('Language') } ) %>
 
@@ -45,16 +37,32 @@
       </div>
     </div>
 
+    <div class='tab-pane' id='mail_preferences'>
+      <%= field_set_tag _("General") do %>
+        <%= checkbox_f f, :mail_enabled %>
+      <% end %>
+      <% if @user.new_record? %>
+        <div class="alert alert-block alert-warning">
+          <p><strong><%= _("Notice") %></strong> <%= _("Please save the user first before assigning mail notifications.") %></p>
+        </div>
+      <% else %>
+        <%= field_set_tag _("Notifications") do %>
+          <%= f.fields_for :user_mail_notifications do |mail_form| %>
+            <%= render :partial => "users/mail_notifications", :locals => { :f => mail_form }  %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+
     <div class='tab-pane' id='roles'>
       <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
       <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user,
                                { :label => _('Roles')}, {:disabled => @editing_self ? Role.givable.for_current_user.pluck(:id) : false } %>
     </div>
-
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @user,
-               :html_options => { :location => {:onchange => 'taxonomy_added(this, "location")' },
-                                  :organization => {:onchange => 'taxonomy_added(this, "organization")' }
-                                } %>
+               :html_options => user_taxonomies_html_options(@user)
+      %>
   </div>
 
   <%= submit_or_cancel f %>

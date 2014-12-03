@@ -3,11 +3,9 @@ require 'spork'
 # $LOAD_PATH required for testdrb party of spork-minitest
 $LOAD_PATH << "test"
 
-unless RUBY_VERSION =~ /^1\.8/
-  require 'simplecov'
-  SimpleCov.start 'rails' do
-    add_group 'API', 'app/controllers/api'
-  end
+require 'simplecov'
+SimpleCov.start 'rails' do
+  add_group 'API', 'app/controllers/api'
 end
 
 Spork.prefork do
@@ -17,7 +15,7 @@ Spork.prefork do
 
   # Remove previous test log to speed tests up
   test_log = File.expand_path('../../log/test.log', __FILE__)
-  FileUtils.rm(test_log) if File.exists?(test_log)
+  FileUtils.rm(test_log) if File.exist?(test_log)
 
   ENV["RAILS_ENV"] = "test"
   require File.expand_path('../../config/environment', __FILE__)
@@ -25,6 +23,12 @@ Spork.prefork do
   require "minitest/autorun"
   require 'capybara/rails'
   require 'factory_girl_rails'
+
+  # Use our custom test runner, and register a fake plugin to skip a specific test
+  Foreman::Plugin.register :skip_test do
+    tests_to_skip "CustomRunnerTest" => [ "custom runner is working" ]
+  end
+  require 'test_runner'
 
   # Turn of Apipie validation for tests
   Apipie.configuration.validate = false
@@ -82,7 +86,7 @@ Spork.prefork do
       SETTINGS[:login] ? {:user => users(:admin).id, :expires_at => 5.minutes.from_now} : {}
     end
 
-    def as_user user
+    def as_user(user)
       saved_user   = User.current
       User.current = user.is_a?(User) ? user : users(user)
       result = yield
@@ -90,7 +94,7 @@ Spork.prefork do
       result
     end
 
-    def as_admin &block
+    def as_admin(&block)
       as_user :admin, &block
     end
 
@@ -112,7 +116,7 @@ Spork.prefork do
     ensure
       SETTINGS[:organizations_enabled] = org_settings
       SETTINGS[:locations_enabled] = loc_settings
-      return result
+      result
     end
 
     def setup_users
@@ -125,7 +129,7 @@ Spork.prefork do
     end
 
     # if a method receieves a block it will be yielded just before user save
-    def setup_user operation, type="", search = nil, user = :one
+    def setup_user(operation, type = "", search = nil, user = :one)
       @one = users(user)
       as_admin do
         permission = Permission.find_by_name("#{operation}_#{type}") || FactoryGirl.create(:permission, :name => "#{operation}_#{type}")
@@ -180,7 +184,7 @@ Spork.prefork do
       assert_with_errors model.valid?, model
     end
 
-    def refute_with_errors(condition, model, field=nil, match=nil)
+    def refute_with_errors(condition, model, field = nil, match = nil)
       refute condition, "#{model.inspect} errors: #{model.errors.full_messages.join(';')}"
       if field
         assert_blank model.errors.map { |a,m| model.errors.full_message(a, m) unless field == a }.compact
@@ -193,12 +197,12 @@ Spork.prefork do
     # Checks a model isn't valid.  Optionally add error field name as the second argument
     # to declare that you only want validation errors in those fields, so it will assert if
     # there are errors elsewhere on the model so you know you're testing for the right thing.
-    def refute_valid(model, field=nil, match=nil)
+    def refute_valid(model, field = nil, match = nil)
       refute_with_errors model.valid?, model, field, match
     end
     alias_method :assert_not_valid, :refute_valid
 
-    def with_env(values={})
+    def with_env(values = {})
       old_values = ENV.to_hash.slice(values.keys)
       ENV.update values
       result = yield
@@ -275,7 +279,7 @@ Spork.prefork do
 
   Rails.application.railties.engines.each do |engine|
     support_file = "#{engine.root}/test/support/foreman_test_helper_additions.rb"
-    require support_file if File.exists?(support_file)
+    require support_file if File.exist?(support_file)
   end
 
 end

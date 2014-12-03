@@ -41,6 +41,12 @@ module Hostext
       scoped_search :in => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
       scoped_search :in => :compute_resource, :on => :id,      :complete_value => true, :rename => :compute_resource_id, :only_explicit => true
       scoped_search :in => :image, :on => :name, :complete_value => true
+      scoped_search :in => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
+      scoped_search :in => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
+      scoped_search :in => :operatingsystem, :on => :title,       :complete_value => true, :rename => :os_title
+      scoped_search :in => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major
+      scoped_search :in => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor
+      scoped_search :in => :operatingsystem, :on => :id,          :complete_value => false,:rename => :os_id, :complete_enabled => false
 
       scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
       scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
@@ -63,11 +69,6 @@ module Hostext
         scoped_search :on => :uuid,                                 :complete_value => true
         scoped_search :on => :build,                                :complete_value => {:true => true, :false => false}
         scoped_search :on => :installed_at,                         :complete_value => true, :only_explicit => true
-        scoped_search :in => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
-        scoped_search :in => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
-        scoped_search :in => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major
-        scoped_search :in => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor
-        scoped_search :in => :operatingsystem, :on => :id,          :complete_value => false,:rename => :os_id, :complete_enabled => false
       end
 
       if SETTINGS[:login]
@@ -94,7 +95,7 @@ module Hostext
         hosts = users.map(&:hosts).flatten
         opts  = hosts.empty? ? "< 0" : "IN (#{hosts.map(&:id).join(',')})"
 
-        return {:conditions => " hosts.id #{opts} " }
+        {:conditions => " hosts.id #{opts} " }
       end
 
       def search_by_puppetclass(key, operator, value)
@@ -111,7 +112,7 @@ module Hostext
         opts += " OR "                                          unless host_ids.blank? || hostgroup_ids.blank?
         opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
         opts  = "hosts.id < 0"                                  if host_ids.blank? && hostgroup_ids.blank?
-        return {:conditions => opts, :include => :hostgroup}
+        {:conditions => opts, :include => :hostgroup}
       end
 
       def search_by_hostgroup_and_descendants(key, operator, value)
@@ -124,7 +125,7 @@ module Hostext
         else
           opts = "hosts.id < 0"
         end
-        return {:conditions => opts}
+        {:conditions => opts}
       end
 
       def search_by_params(key, operator, value)
@@ -144,7 +145,7 @@ module Hostext
 
         conditions += " AND " unless conditions.blank? || negate.blank?
         conditions += " NOT(#{negate})" unless negate.blank?
-        return {:conditions => conditions}
+        {:conditions => conditions}
       end
 
       def search_by_config_group(key, operator, value)
@@ -157,7 +158,7 @@ module Hostext
         opts += " OR "                                        unless host_ids.blank? || hostgroup_ids.blank?
         opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
         opts = "hosts.id < 0"                                 if host_ids.blank? && hostgroup_ids.blank?
-        return {:conditions => opts, :include => :hostgroup}
+        {:conditions => opts, :include => :hostgroup}
       end
 
       private

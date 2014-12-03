@@ -17,6 +17,11 @@
 
 class Role < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
+
+  include Parameterizable::ByIdName
+
   # Built-in roles
   BUILTIN_DEFAULT_USER  = 1
   BUILTIN_ANONYMOUS     = 2
@@ -48,8 +53,8 @@ class Role < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => true
 
-  def initialize *args
-    super *args
+  def initialize(*args)
+    super(*args)
     self.builtin = 0
   end
 
@@ -148,7 +153,7 @@ private
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Foreman::AccessControl.allowed_actions(permission) }.flatten
+    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions + Foreman::AccessControl.allowed_actions(permission) }.flatten
   end
 
   def check_deletable

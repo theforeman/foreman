@@ -5,8 +5,8 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
+      before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
-      before_filter :find_optional_nested_object, :only => [:index, :show]
 
       api :GET, "/puppetclasses/", N_("List all Puppet classes")
       api :GET, "/hosts/:host_id/puppetclasses", N_("List all Puppet classes for a host")
@@ -15,10 +15,7 @@ module Api
       param :host_id, String, :desc => N_("ID of host")
       param :hostgroup_id, String, :desc => N_("ID of host group")
       param :environment_id, String, :desc => N_("ID of environment")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
         values   = Puppetclass.authorized(:view_puppetclasses).search_for(*search_options) unless nested_obj
@@ -52,7 +49,7 @@ module Api
       param :host_id, String, :desc => N_("ID of host")
       param :hostgroup_id, String, :desc => N_("ID of host group")
       param :environment_id, String, :desc => N_("ID of environment")
-      param :id, String, :required => true, :desc => N_("ID of puppetclass")
+      param :id, String, :required => true, :desc => N_("ID of Puppet class")
 
       def show
       end

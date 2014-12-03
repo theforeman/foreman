@@ -24,19 +24,19 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    get :edit, {:id => Domain.first.name}, set_session_user
+    get :edit, {:id => Domain.first}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_invalid
     Domain.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Domain.first.name}, set_session_user
+    put :update, {:id => Domain.first}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Domain.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Domain.first.name}, set_session_user
+    put :update, {:id => Domain.first}, set_session_user
     assert_redirected_to domains_url
   end
 
@@ -45,7 +45,7 @@ class DomainsControllerTest < ActionController::TestCase
     domain.hosts.clear
     domain.hostgroups.clear
     domain.subnets.clear
-    delete :destroy, {:id => domain.name}, set_session_user
+    delete :destroy, {:id => domain}, set_session_user
     assert_redirected_to domains_url
     assert !Domain.exists?(domain.id)
   end

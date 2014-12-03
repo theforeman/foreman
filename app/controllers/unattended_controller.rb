@@ -43,8 +43,8 @@ class UnattendedController < ApplicationController
   def template
     return head(:not_found) unless (params.has_key?("id") and params.has_key?(:hostgroup))
 
-    template = ConfigTemplate.find_by_name(params['id'])
-    @host = Hostgroup.find_by_name(params['hostgroup'])
+    template = ConfigTemplate.find(params['id'])
+    @host = Hostgroup.find(params['hostgroup'])
 
     return head(:not_found) unless template and @host
 
@@ -69,7 +69,7 @@ class UnattendedController < ApplicationController
 
   private
 
-  def render_template type
+  def render_template(type)
     if (config = @host.configTemplate({ :kind => type }))
       logger.debug "rendering DB template #{config.name} - #{type}"
       safe_render config
@@ -104,7 +104,7 @@ class UnattendedController < ApplicationController
 
   def find_host_by_spoof
     host   = Host.find_by_ip(params.delete('spoof')) if params['spoof'].present?
-    host ||= Host.find_by_name(params.delete('hostname')) if params['hostname'].present?
+    host ||= Host.find(params.delete('hostname')) if params['hostname'].present?
     @spoof = host.present?
     host
   end
@@ -114,7 +114,7 @@ class UnattendedController < ApplicationController
     return nil if token.blank?
     # Quirk: ZTP requires the .slax suffix
     if ( result = token.match(/^([a-z0-9-]+)(.slax)$/i) )
-      token, suffix = result.captures
+      token, _suffix = result.captures
     end
     Host.for_token(token).first
   end
@@ -186,6 +186,12 @@ class UnattendedController < ApplicationController
 
     # force static network configuration if static http parameter is defined, in the future this needs to go into the GUI
     @static = !params[:static].empty?
+
+    # this is sent by the proxy when the templates feature is enabled
+    # and is needed to direct the host to the correct url. without it, we increase
+    # latency by requesting the correct url directly from the proxy.
+    @template_url = params['url']
+
   end
 
   def alterator_attributes
@@ -275,21 +281,21 @@ class UnattendedController < ApplicationController
     ip
   end
 
-  def safe_render template
-    template_name = ""
+  def safe_render(template)
+    @template_name = 'Unnamed'
     if template.is_a?(String)
       @unsafe_template  = template
     elsif template.is_a?(ConfigTemplate)
       @unsafe_template  = template.template
-      template_name = template.name
+      @template_name = template.name
     else
       raise "unknown template"
     end
 
     begin
-      render :inline => "<%= unattended_render(@unsafe_template).html_safe %>" and return
-    rescue Exception => exc
-      msg = _("There was an error rendering the %s template: ") % (template_name)
+      render :inline => "<%= unattended_render(@unsafe_template, @template_name).html_safe %>" and return
+    rescue => exc
+      msg = _("There was an error rendering the %s template: ") % (@template_name)
       render :text => msg + exc.message, :status => 500 and return
     end
   end

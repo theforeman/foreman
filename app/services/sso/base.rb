@@ -21,6 +21,10 @@ module SSO
       controller.main_app.login_users_path
     end
 
+    def logout_url
+      nil
+    end
+
     # don't forget to implement expiration_url method if your SSO method changes this to true
     def support_expiration?
       false
@@ -37,7 +41,7 @@ module SSO
     end
 
     def current_user
-      return User.except_hidden.find_by_login(self.user)
+      User.except_hidden.find_by_login(self.user)
     end
 
   end

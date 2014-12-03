@@ -1,7 +1,7 @@
 module Net
   module DNS
     class PTRRecord < DNS::Record
-      def initialize opts = { }
+      def initialize(opts = { })
         super opts
         @type = "PTR"
       end

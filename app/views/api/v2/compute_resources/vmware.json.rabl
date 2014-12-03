@@ -1,1 +1,1 @@
-attributes :user, :datacenter, :server
+attributes :user, :datacenter, :server, :set_console_password

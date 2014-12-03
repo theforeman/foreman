@@ -132,7 +132,7 @@ namespace :puppet do
           unless errors.empty?
             puts "Problems were detected during the execution phase"
             puts
-            puts errors.each { |e| e.gsub(/<br\/>/, "\n") } << "\n"
+            puts errors.each { |error| error.gsub(/<br\/>/, "\n") } << "\n"
             puts
             puts "Import failed"
           else
@@ -214,6 +214,14 @@ namespace :puppet do
         end
         $stdout.flush
       end
+    end
+  end
+
+  desc "Correct hosts counts for all classes in case they are wrong"
+  task :fix_total_hosts => :environment do
+    if Puppetclass.count > 0
+      User.current = User.anonymous_admin
+      Puppetclass.all.each(&:update_total_hosts)
     end
   end
 

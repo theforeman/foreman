@@ -17,7 +17,7 @@ class ConfigGroupsController < ApplicationController
   def create
     @config_group = ConfigGroup.new(params[:config_group])
     if @config_group.save
-      process_success :success_redirect => config_groups_path
+      process_success
     else
       process_error
     end
@@ -25,7 +25,7 @@ class ConfigGroupsController < ApplicationController
 
   def update
     if @config_group.update_attributes(params[:config_group])
-      process_success :success_redirect => config_groups_path
+      process_success
     else
       process_error
     end

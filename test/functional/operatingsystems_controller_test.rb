@@ -89,4 +89,38 @@ class OperatingsystemsControllerTest < ActionController::TestCase
       assert_match /not recognized for searching/, flash[:error]
     end
   end
+
+  context 'os_default_template' do
+    setup do
+      @template_kind = FactoryGirl.create(:template_kind)
+      @config_template = FactoryGirl.create(:config_template, :template_kind_id => @template_kind.id)
+    end
+
+    test 'valid os_default_template should be saved' do
+      operatingsystem = Operatingsystem.first
+      put :update, {:id => operatingsystem.id, :operatingsystem =>
+          {:os_default_templates_attributes => [{:config_template_id => @config_template.id, :template_kind_id => @template_kind.id} ]}}, set_session_user
+      refute_empty operatingsystem.os_default_templates
+      assert_redirected_to operatingsystems_url
+    end
+
+    test 'invalid os_default_template should be rejected' do
+      operatingsystem = Operatingsystem.create({ :name => "PalmOS", :major => 1, :minor => 2 })
+      put :update, {:id => operatingsystem.id,
+                    :operatingsystem => {:os_default_templates_attributes => [{ :config_template_id => nil, :template_kind_id => @template_kind.id }]} }, set_session_user
+
+      assert_empty operatingsystem.os_default_templates
+    end
+
+    test 'empty config_template should be destroyed' do
+      operatingsystem = Operatingsystem.create({:name => "BESYS", :major => 3, :minor => 0,
+                                                :os_default_templates_attributes => [{:config_template_id => @config_template.id, :template_kind_id => @template_kind.id}]})
+      assert_difference 'OsDefaultTemplate.count', -1 do
+        os_default_template_id = operatingsystem.os_default_templates.first.id
+        put :update, {:id => operatingsystem.id,
+                      :operatingsystem => {:os_default_templates_attributes => {0 => { :id => os_default_template_id, :config_template_id => '', :template_kind_id => @template_kind.id }}}}, set_session_user
+
+      end
+    end
+  end
 end

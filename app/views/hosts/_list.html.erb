@@ -50,5 +50,4 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<%= page_entries_info hosts, :more => " - "+_("<b class='select_count'>0</b> selected") %>
-<%= will_paginate hosts %>
+<%= will_paginate_with_info hosts, :more => " - "+_("<b class='select_count'>0</b> selected") %>

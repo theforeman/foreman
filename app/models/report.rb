@@ -66,7 +66,7 @@ class Report < ActiveRecord::Base
   end
 
   # serialize metrics as YAML
-  def metrics= m
+  def metrics=(m)
     write_attribute(:metrics,m.to_yaml) unless m.nil?
   end
 
@@ -104,7 +104,7 @@ class Report < ActiveRecord::Base
       end
       list[host.name] = {:metrics => metrics, :id => host.id} if metrics.values.sum > 0
     end
-    return list
+    list
   end
 
   # add sort by report time
@@ -136,10 +136,8 @@ class Report < ActiveRecord::Base
   def summaryStatus
     return _("Failed")   if error?
     return _("Modified") if changes?
-    return _("Success")
+    _("Success")
   end
-
-  private
 
   # puppet report status table column name
   def self.report_status

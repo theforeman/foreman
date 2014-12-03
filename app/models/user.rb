@@ -3,6 +3,8 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :login
   include Foreman::ThreadSession::UserModel
   include Taxonomix
   include DirtyAssociations
@@ -16,7 +18,7 @@ class User < ActiveRecord::Base
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation
   after_save :ensure_default_role
-  before_destroy EnsureNotUsedBy.new(:direct_hosts, :hostgroups), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
+  before_destroy EnsureNotUsedBy.new(:direct_hosts), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
 
   belongs_to :auth_source
   belongs_to :default_organization, :class_name => 'Organization'
@@ -26,22 +28,20 @@ class User < ActiveRecord::Base
   has_many :direct_hosts,      :class_name => 'Host',    :as => :owner
   has_many :usergroup_member,  :dependent => :destroy,   :as => :member
   has_many :user_roles,        :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
-  has_many :user_hostgroups
-  has_many :user_facts,        :dependent => :destroy
   has_many :cached_user_roles, :dependent => :destroy
-  has_many :facts,             :through => :user_facts,               :source => :fact_name
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
   has_many :cached_roles,      :through => :cached_user_roles,        :source => :role, :uniq => true
-  has_many :hostgroups,        :through => :user_hostgroups
   has_many :usergroups,        :through => :usergroup_member, :dependent => :destroy
   has_many :roles,             :through => :user_roles,       :dependent => :destroy
   has_many :filters,           :through => :cached_roles
   has_many :permissions,       :through => :filters
   has_many :cached_usergroup_members
 
-  has_and_belongs_to_many :notices,           :join_table => 'user_notices'
-  has_and_belongs_to_many :compute_resources, :join_table => "user_compute_resources"
-  has_and_belongs_to_many :domains,           :join_table => "user_domains"
+  has_many :user_mail_notifications, :dependent => :destroy
+  has_many :mail_notifications, :through => :user_mail_notifications
+
+  accepts_nested_attributes_for :user_mail_notifications, :allow_destroy => true, :reject_if => :reject_empty_intervals
+
   attr_name :login
 
   scope :except_admin, lambda {
@@ -62,9 +62,8 @@ class User < ActiveRecord::Base
   scope :visible,         lambda { except_hidden }
   scope :completer_scope, lambda { |opts| visible }
 
-  accepts_nested_attributes_for :user_facts, :reject_if => lambda { |a| a[:criteria].blank? }, :allow_destroy => true
-
-  validates :mail, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)*[a-z]{2,})\Z/i },
+  validates :mail, :format => { :with => /\A(([\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+((\.\"[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\")*\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+)*)|(\"[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\"))
+                                          @[a-z0-9]+((\.[a-z0-9]+)*|(\-[a-z0-9]+)*)*\z/ix },
                    :length => { :maximum => 60 },
                    :allow_blank => true
   validates :mail, :presence => true, :on => :update,
@@ -74,24 +73,23 @@ class User < ActiveRecord::Base
   before_validation :normalize_locale
 
   def self.name_format
-    if RUBY_VERSION.start_with? '1.8'
-      /\A[ёЁа-яА-Яa-zA-Zà-üÀ-Ü0-9\s'_\-\.()<>;=,]*\z/u
-    else
-      /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/
-    end
+    /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/
   end
 
-  validates :login, :presence => true, :uniqueness => {:message => N_("already exists")},
+  validates :login, :presence => true, :uniqueness => {:case_sensitive => false, :message => N_("already exists")},
                     :format => {:with => /\A[[:alnum:]_\-@\.]*\Z/}, :length => {:maximum => 100}
   validates :auth_source_id, :presence => true
   validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
-  validates_confirmation_of :password,  :if => Proc.new {|user| user.manage_password?}, :unless => Proc.new {|user| user.password.empty?}
+  validates :password, :confirmation => true, :if => Proc.new {|user| user.manage_password?},
+                       :unless => Proc.new {|user| user.password.empty?}
   validates :firstname, :lastname, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
   validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
            :ensure_last_admin_remains_admin, :hidden_authsource_restricted
   before_validation :prepare_password, :normalize_mail
-  after_destroy Proc.new {|user| user.compute_resources.clear; user.domains.clear; user.hostgroups.clear}
+  before_save       :set_lower_login
+
+  after_create :welcome_mail
 
   scoped_search :on => :login, :complete_value => :true
   scoped_search :on => :firstname, :complete_value => :true
@@ -100,6 +98,7 @@ class User < ActiveRecord::Base
   scoped_search :on => :admin, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_admin
   scoped_search :on => :last_login_on, :complete_value => :true, :only_explicit => true
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
+  scoped_search :in => :roles, :on => :id, :rename => :role_id
   scoped_search :in => :cached_usergroups, :on => :name, :rename => :usergroup, :complete_value => true
 
   default_scope lambda {
@@ -128,8 +127,8 @@ class User < ActiveRecord::Base
     conditions = conditions.join(value ? ' OR ' : ' AND ')
 
     {
-        :include    => :cached_usergroups,
-        :conditions => sanitize_sql_for_conditions([conditions, value, value])
+      :include    => :cached_usergroups,
+      :conditions => sanitize_sql_for_conditions([conditions, value, value])
     }
   end
 
@@ -143,13 +142,17 @@ class User < ActiveRecord::Base
     auth_source.kind_of? AuthSourceHidden
   end
 
+  def internal?
+    auth_source.kind_of? AuthSourceInternal
+  end
+
   def to_label
     (firstname.present? || lastname.present?) ? "#{firstname} #{lastname}" : login
   end
   alias_method :name, :to_label
 
   def to_param
-    "#{id}-#{login.parameterize}"
+    Parameterizable.parameterize("#{id}-#{login}")
   end
 
   def <=>(other)
@@ -186,8 +189,9 @@ class User < ActiveRecord::Base
         # update with returned attrs, maybe some info changed in LDAP
         old_hash = user.avatar_hash
         User.as_anonymous_admin do
-          user.update_attributes(attrs.slice(:firstname, :lastname, :mail, :avatar_hash).delete_if { |k, v| v.blank? })
-        end if attrs.is_a? Hash
+          user.update_attributes(attrs.slice(:firstname, :lastname, :mail, :avatar_hash).delete_if { |k, v| v.blank? }) if attrs.is_a? Hash
+          user.auth_source.update_usergroups(login)
+        end
 
         # clean up old avatar if it exists and the image isn't in use by anyone else
         if old_hash.present? && user.avatar_hash != old_hash && !User.unscoped.where(:avatar_hash => old_hash).any?
@@ -252,6 +256,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.find_by_login(login)
+    find_by_lower_login(login.to_s.downcase)
+  end
+
+  def set_lower_login
+    self.lower_login = login.downcase unless login.blank?
+  end
+
   def matching_password?(pass)
     self.password_hash == encrypt_password(pass)
   end
@@ -276,6 +288,19 @@ class User < ActiveRecord::Base
     [mail]
   end
 
+  def mail_enabled?
+    mail_enabled && !mail.empty?
+  end
+
+  def recipients_for(notification)
+    self.receives?(notification) ? [self] : []
+  end
+
+  def receives?(notification)
+    return false unless mail_enabled?
+    self.mail_notifications.include? MailNotification[notification]
+  end
+
   def manage_password?
     auth_source and auth_source.can_set_password?
   end
@@ -296,18 +321,6 @@ class User < ActiveRecord::Base
 
   def logged?
     true
-  end
-
-  # Indicates whether the user has host filtering enabled
-  # Returns : Boolean
-  def filtering?
-    filter_on_owner        or
-    compute_resources.any? or
-    domains.any?           or
-    hostgroups.any?        or
-    facts.any?             or
-    locations.any?         or
-    organizations.any?
   end
 
   # user must be assigned all given roles in order to delegate them
@@ -347,7 +360,7 @@ class User < ActiveRecord::Base
     send(taxonomies).each do |taxonomy|
       ids += taxonomy.subtree_ids
     end
-    return ids.uniq
+    ids.uniq
   end
 
   def location_and_child_ids
@@ -367,6 +380,10 @@ class User < ActiveRecord::Base
     sweeper.expire_fragment(TopbarSweeper.fragment_name(id))
   end
 
+  def external_usergroups
+    usergroups.flat_map(&:external_usergroups).select { |group| group.auth_source == self.auth_source }
+  end
+
   private
 
   def prepare_password
@@ -374,6 +391,11 @@ class User < ActiveRecord::Base
       self.password_salt = Digest::SHA1.hexdigest([Time.now, rand].join)
       self.password_hash = encrypt_password(password)
     end
+  end
+
+  def welcome_mail
+    return unless mail_enabled? && internal? && Setting[:send_welcome_email]
+    MailNotification[:welcome].deliver(:user => self.id)
   end
 
   def encrypt_password(pass)
@@ -391,7 +413,7 @@ class User < ActiveRecord::Base
       # The default user can't auto create users, we need to change to Admin for this to work
       User.as_anonymous_admin do
         if user.save
-          AuthSource.find(attrs[:auth_source_id]).update_usergroups(login, password)
+          AuthSource.find(attrs[:auth_source_id]).update_usergroups(login)
           logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
         else
           logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"
@@ -409,7 +431,14 @@ class User < ActiveRecord::Base
   end
 
   def normalize_mail
-    self.mail.gsub!(/\s/,'') unless mail.blank?
+    self.mail.strip! unless mail.blank?
+  end
+
+  def reject_empty_intervals(attributes)
+    user_mail_notification_exists = attributes[:id].present?
+    interval_empty = attributes[:interval].blank?
+    attributes.merge!({:_destroy => 1}) if user_mail_notification_exists && interval_empty
+    (!user_mail_notification_exists && interval_empty)
   end
 
   protected

@@ -2,7 +2,7 @@ class EnvironmentsController < ApplicationController
   include Foreman::Controller::Environments
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :find_by_name, :only => %w{edit update destroy}
+  before_filter :find_resource, :only => [:edit, :update, :destroy]
 
   def index
     @environments = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])

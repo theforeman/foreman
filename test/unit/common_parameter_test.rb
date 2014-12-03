@@ -38,7 +38,7 @@ class CommonParameterTest < ActiveSupport::TestCase
   end
 
   test "duplicate names cannot exist" do
-    parameter1 = CommonParameter.create :name => "some_parameter", :value => "value"
+    CommonParameter.create :name => "some_parameter", :value => "value"
     parameter2 = CommonParameter.create :name => "some_parameter", :value => "value"
     assert !parameter2.valid?
     assert  parameter2.errors.full_messages[0] == "Name has already been taken"

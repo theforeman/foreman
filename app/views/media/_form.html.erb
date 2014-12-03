@@ -24,7 +24,7 @@
           <%= text_f f, :config_path, :size => "col-md-8", :help_inline => _("The NFS path to the jumpstart control files.") %>
           <%= text_f f, :image_path,  :size => "col-md-8", :help_inline => _("The NFS path to the image directory.") %>
         </span>
-        <%= select_f f, :os_family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Operating System Family"), :label => _("OS Family"), :help_inline => _("The Operating System type") } %>
+        <%= select_f f, :os_family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Choose a family") }, { :label => _("Operating system family") } %>
       </div>
 
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @medium %>

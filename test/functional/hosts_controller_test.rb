@@ -107,26 +107,64 @@ class HostsControllerTest < ActionController::TestCase
     assert_template :text => @host.info.to_yaml
   end
 
-  test "when host is saved after setBuild, the flash should inform it" do
-    Host.any_instance.stubs(:setBuild).returns(true)
-    @request.env['HTTP_REFERER'] = hosts_path
-
-    get :setBuild, {:id => @host.name}, set_session_user
-    assert_response :found
-    assert_redirected_to hosts_path
-    assert_not_nil flash[:notice]
-    assert flash[:notice] == "Enabled #{@host} for rebuild on next boot"
-  end
-
   test "when host is not saved after setBuild, the flash should inform it" do
     Host.any_instance.stubs(:setBuild).returns(false)
     @request.env['HTTP_REFERER'] = hosts_path
 
-    get :setBuild, {:id => @host.name}, set_session_user
+    put :setBuild, {:id => @host.name}, set_session_user
     assert_response :found
     assert_redirected_to hosts_path
     assert_not_nil flash[:error]
     assert flash[:error] =~ /Failed to enable #{@host} for installation/
+  end
+
+  context "when host is saved after setBuild" do
+    setup do
+      @request.env['HTTP_REFERER'] = hosts_path
+    end
+
+    teardown do
+     Host::Managed.any_instance.unstub(:setBuild)
+      @request.env['HTTP_REFERER'] = ''
+    end
+
+    test "the flash should inform it" do
+      Host::Managed.any_instance.stubs(:setBuild).returns(true)
+      put :setBuild, {:id => @host.name}, set_session_user
+      assert_response :found
+      assert_redirected_to hosts_path
+      assert_not_nil flash[:notice]
+      assert flash[:notice] == "Enabled #{@host} for rebuild on next boot"
+    end
+
+    test 'and reboot was requested, the flash should inform it' do
+      Host::Managed.any_instance.stubs(:setBuild).returns(true)
+      # Setup a power mockup
+      class PowerShmocker
+        def reset
+          true
+        end
+      end
+      Host::Managed.any_instance.stubs(:power).returns(PowerShmocker.new())
+
+      put :setBuild, {:id => @host.name, :host => {:build => '1'}}, set_session_user
+      assert_response :found
+      assert_redirected_to hosts_path
+      assert_not_nil flash[:notice]
+      assert_equal(flash[:notice], "Enabled #{@host} for reboot and rebuild")
+    end
+
+    test 'and reboot requested and reboot failed, the flash should inform it' do
+      Host::Managed.any_instance.stubs(:setBuild).returns(true)
+      put :setBuild, {:id => @host.name, :host => {:build => '1'}}, set_session_user
+      assert_raise Foreman::Exception do
+        @host.power.reset
+      end
+      assert_response :found
+      assert_redirected_to hosts_path
+      assert_not_nil flash[:notice]
+      assert_equal(flash[:notice], "Enabled #{@host} for rebuild on next boot")
+    end
   end
 
   def test_clone
@@ -144,7 +182,7 @@ class HostsControllerTest < ActionController::TestCase
     refute assigns(:host).mac
   end
 
-  def setup_user operation, type = 'hosts', filter = nil
+  def setup_user(operation, type = 'hosts', filter = nil)
     super
   end
 
@@ -152,14 +190,14 @@ class HostsControllerTest < ActionController::TestCase
     setup_user operation, 'hosts', filter, &block
 
     as_admin do
-      @host1           = hosts(:one)
+      @host1           = FactoryGirl.create(:host)
       @host1.owner     = users(:admin)
       @host1.save!
-      @host2           = hosts(:two)
+      @host2           = FactoryGirl.create(:host)
       @host2.owner     = users(:admin)
       @host2.save!
     end
-    Host.per_page == 1000
+    Host.per_page = 1000
     @request.session[:user] = @one.id
   end
 
@@ -238,7 +276,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'multiple hostgroup change by host ids' do
     @request.env['HTTP_REFERER'] = hosts_path
     # check that we have hosts and their hostgroup is empty
-    hosts = [hosts(:one), hosts(:two)]
+    hosts = FactoryGirl.create_list(:host, 2)
     hosts.each { |host| assert_nil host.hostgroup }
 
     hostgroup = hostgroups(:unusual)
@@ -253,7 +291,8 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'multiple hostgroup change by host names' do
     @request.env['HTTP_REFERER'] = hosts_path
-    host_names = %w{temp.yourdomain.net my5name.mydomain.net }
+    hosts = FactoryGirl.create_list(:host, 2)
+    host_names = hosts.map(&:name)
     # check that we have hosts and their hostgroup is empty
     host_names.each do |name|
       host = Host.find_by_name name
@@ -276,8 +315,7 @@ class HostsControllerTest < ActionController::TestCase
   def setup_multiple_environments
     setup_user_and_host "edit"
     as_admin do
-      @host1 = hosts(:otherfullhost)
-      @host2 = hosts(:anotherfullhost)
+      @host1, @host2 = FactoryGirl.create_list(:host, 2, :environment => environments(:production))
     end
   end
 
@@ -362,9 +400,7 @@ class HostsControllerTest < ActionController::TestCase
   test "should get disabled hosts for a user with a fact_filter" do
     one = users(:one)
     one.roles << [roles(:manager)]
-    fn  = FactName.create :name =>"architecture"
-    ufact = UserFact.create :user => one, :fact_name => fn, :criteria => "="
-    assert !(ufact.new_record?)
+    FactName.create :name =>"architecture"
     get :disabled, {:user => one.id}, set_session_user
     assert_response :success
   end
@@ -395,19 +431,20 @@ class HostsControllerTest < ActionController::TestCase
     assert_redirected_to "/users/login"
   end
 
-  def set_remote_user_to user
+  def set_remote_user_to(user)
     @request.env['REMOTE_USER'] = user.login
   end
 
   def test_submit_multiple_build
-    assert !hosts(:one).build
-    assert !hosts(:two).build
-    post :submit_multiple_build, {:host_ids => [hosts(:one).id, hosts(:two).id]}, set_session_user
+    host1, host2 = FactoryGirl.create_list(:host, 2, :managed)
+    assert !host1.build
+    assert !host2.build
+    post :submit_multiple_build, {:host_ids => [host1.id, host2.id]}, set_session_user
     assert_response :found
     assert_redirected_to hosts_path
     assert flash[:notice] == "The selected hosts will execute a build operation on next reboot"
-    assert Host.find(hosts(:one)).build
-    assert Host.find(hosts(:two)).build
+    assert Host.find(host1).build
+    assert Host.find(host2).build
   end
 
   def test_set_manage
@@ -586,9 +623,9 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
     post :update_multiple_location, {
-                                       :location => {:id => location.id, :optimistic_import => "no"},
-                                       :host_ids => Host.all.map(&:id)
-                                       }, set_session_user
+      :location => {:id => location.id, :optimistic_import => "no"},
+      :host_ids => Host.all.map(&:id)
+    }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert flash[:error] == "Cannot update Location to Location 1 because of mismatch in settings"
   end
@@ -597,9 +634,9 @@ class HostsControllerTest < ActionController::TestCase
     location = taxonomies(:location1)
     assert_difference "location.hosts.count", 0 do
       post :update_multiple_location, {
-                                         :location => {:id => location.id, :optimistic_import => "no"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :location => {:id => location.id, :optimistic_import => "no"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
   test "update multiple location does not import taxable_taxonomies rows if fails on pessimistic import" do
@@ -607,9 +644,9 @@ class HostsControllerTest < ActionController::TestCase
     location = taxonomies(:location1)
     assert_difference "location.taxable_taxonomies.count", 0 do
       post :update_multiple_location, {
-                                         :location => {:id => location.id, :optimistic_import => "no"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :location => {:id => location.id, :optimistic_import => "no"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
 
@@ -618,9 +655,9 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
     post :update_multiple_location, {
-                                       :location => {:id => location.id, :optimistic_import => "yes"},
-                                       :host_ids => Host.all.map(&:id)
-                                       }, set_session_user
+      :location => {:id => location.id, :optimistic_import => "yes"},
+      :host_ids => Host.all.map(&:id)
+    }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Updated hosts: Changed Location", flash[:notice]
   end
@@ -630,19 +667,23 @@ class HostsControllerTest < ActionController::TestCase
     cnt_hosts_location = location.hosts.count
     assert_difference "location.hosts.count", (Host.count - cnt_hosts_location) do
       post :update_multiple_location, {
-                                         :location => {:id => location.id, :optimistic_import => "yes"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :location => {:id => location.id, :optimistic_import => "yes"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
   test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
-    assert_difference "location.taxable_taxonomies.count", 8 do
+    domain = FactoryGirl.create(:domain, :locations => [taxonomies(:location2)])
+    hosts = FactoryGirl.create_list(:host, 2, :domain => domain,
+                                    :environment => environments(:production),
+                                    :location => taxonomies(:location2))
+    assert_difference "location.taxable_taxonomies.count", 1 do
       post :update_multiple_location, {
-                                         :location => {:id => location.id, :optimistic_import => "yes"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :location => {:id => location.id, :optimistic_import => "yes"},
+        :host_ids => hosts.map(&:id)
+      }, set_session_user
     end
   end
 
@@ -651,9 +692,9 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
     post :update_multiple_organization, {
-                                       :organization => {:id => organization.id, :optimistic_import => "no"},
-                                       :host_ids => Host.all.map(&:id)
-                                       }, set_session_user
+      :organization => {:id => organization.id, :optimistic_import => "no"},
+      :host_ids => Host.all.map(&:id)
+    }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Cannot update Organization to Organization 1 because of mismatch in settings", flash[:error]
   end
@@ -662,9 +703,9 @@ class HostsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization1)
     assert_difference "organization.hosts.count", 0 do
       post :update_multiple_organization, {
-                                         :organization => {:id => organization.id, :optimistic_import => "no"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :organization => {:id => organization.id, :optimistic_import => "no"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
   test "update multiple organization does not import taxable_taxonomies rows if fails on pessimistic import" do
@@ -672,9 +713,9 @@ class HostsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization1)
     assert_difference "organization.taxable_taxonomies.count", 0 do
       post :update_multiple_organization, {
-                                         :organization => {:id => organization.id, :optimistic_import => "no"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :organization => {:id => organization.id, :optimistic_import => "no"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
 
@@ -683,9 +724,9 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
     post :update_multiple_organization, {
-                                       :organization => {:id => organization.id, :optimistic_import => "yes"},
-                                       :host_ids => Host.all.map(&:id)
-                                       }, set_session_user
+      :organization => {:id => organization.id, :optimistic_import => "yes"},
+      :host_ids => Host.all.map(&:id)
+    }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Updated hosts: Changed Organization", flash[:notice]
   end
@@ -695,24 +736,28 @@ class HostsControllerTest < ActionController::TestCase
     cnt_hosts_organization = organization.hosts.count
     assert_difference "organization.hosts.count", (Host.count - cnt_hosts_organization) do
       post :update_multiple_organization, {
-                                         :organization => {:id => organization.id, :optimistic_import => "yes"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :organization => {:id => organization.id, :optimistic_import => "yes"},
+        :host_ids => Host.all.map(&:id)
+      }, set_session_user
     end
   end
   test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
-    assert_difference "organization.taxable_taxonomies.count", 10 do
+    domain = FactoryGirl.create(:domain, :organizations => [taxonomies(:organization2)])
+    hosts = FactoryGirl.create_list(:host, 2, :domain => domain,
+                                    :environment => environments(:production),
+                                    :organization => taxonomies(:organization2))
+    assert_difference "organization.taxable_taxonomies.count", 1 do
       post :update_multiple_organization, {
-                                         :organization => {:id => organization.id, :optimistic_import => "yes"},
-                                         :host_ids => Host.all.map(&:id)
-                                         }, set_session_user
+        :organization => { :id => organization.id, :optimistic_import => "yes"},
+        :host_ids => hosts.map(&:id)
+      }, set_session_user
     end
   end
 
   test "can change sti type to valid subtype" do
-    class Host::Valid < Host::Base ; end
+    class Host::Valid < Host::Base; end
     put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, set_session_user
     @host = Host::Base.find(@host.id)
     assert_equal "Host::Valid", @host.type
@@ -753,27 +798,6 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal new_password, @host.interfaces.bmc.first.password
   end
 
-  test "index returns YAML output for rundeck" do
-    get :index, {:format => 'yaml', :rundeck => true}, set_session_user
-    hosts = YAML.load(@response.body)
-    assert_not_empty hosts
-    host = Host.first
-    unless (host.nil? || host.name.nil? || hosts.nil? || hosts[host.name].nil?)
-      assert_equal host.os.name, hosts[host.name]["osName"] # rundeck-specific field
-    end
-  end
-
-  test "show returns YAML output for rundeck" do
-    host = Host.first
-    get :show, {:id => host.to_param, :format => 'yaml', :rundeck => true}, set_session_user
-    yaml = YAML.load(@response.body)
-    unless (host.nil? || host.name.nil? || host.os.nil?)
-      assert_kind_of Hash, yaml[host.name]
-      assert_equal host.name, yaml[host.name]["hostname"]
-      assert_equal host.os.name, yaml[host.name]["osName"]  # rundeck-specific field
-    end
-  end
-
   test "#disassociate shows error when used on non-CR host" do
     host = FactoryGirl.create(:host)
     @request.env["HTTP_REFERER"] = hosts_path
@@ -802,11 +826,37 @@ class HostsControllerTest < ActionController::TestCase
     refute host.compute_resource_id
   end
 
+  test '#review_before_build' do
+    HostBuildStatus.any_instance.stubs(:host_status).returns(true)
+    xhr :get, :review_before_build, {:id => @host.name}, set_session_user
+    assert_response :success
+    assert_template 'review_before_build'
+  end
+
+  test 'template_used returns templates' do
+    @host.setBuild
+    nic=FactoryGirl.create(:nic_managed, :host => @host)
+    attrs = @host.attributes
+    attrs[:interfaces_attributes] = nic.attributes
+    xhr :put, :template_used, {:provisioning => 'build', :host => attrs }, set_session_user
+    assert_response :success
+    assert_template :partial => '_provisioning'
+  end
+
+  test 'process_taxonomy renders a host from the params correctly' do
+    nic=FactoryGirl.create(:nic_managed, :host => @host)
+    attrs = @host.attributes
+    attrs[:interfaces_attributes] = nic.attributes
+    xhr :put, :process_taxonomy, { :host => attrs }, set_session_user
+    assert_response :success
+    assert_template :partial => '_form'
+  end
+
   private
   def initialize_host
     User.current = users(:admin)
     disable_orchestration
-    @host = Host.create(:name => "myfullhost",
+    @host = Host.create(:name               => "myfullhost",
                         :mac                => "aabbecddeeff",
                         :ip                 => "2.3.4.99",
                         :domain_id          => domains(:mydomain).id,

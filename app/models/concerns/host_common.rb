@@ -37,7 +37,7 @@ module HostCommon
     accepts_nested_attributes_for :lookup_values
     # Replacement of accepts_nested_attributes_for :lookup_values,
     # to work around the lack of `host_id` column in lookup_values.
-    def lookup_values_attributes= lookup_values_attributes
+    def lookup_values_attributes=(lookup_values_attributes)
       lookup_values_attributes.each_value do |attribute|
         attr = attribute.dup
         if attr.has_key? :id
@@ -55,7 +55,7 @@ module HostCommon
   end
 
   # Returns a url pointing to boot file
-  def url_for_boot file
+  def url_for_boot(file)
     "#{os.medium_uri(self)}/#{os.url_for_boot(file)}"
   end
 
@@ -95,7 +95,7 @@ module HostCommon
     end
   end
 
-  def image_file= file
+  def image_file=(file)
     # We only save a value into the image_file field if the value is not the default path, (which was placed in the entry when it was displayed,)
     # and it is not a directory, (ends in /)
     value = ( (default_image_file == file) or (file =~ /\/\Z/) or file == "") ? nil : file
@@ -107,14 +107,19 @@ module HostCommon
   end
 
   def crypt_root_pass
-    self.root_pass = root_pass.empty? ? nil : (root_pass.starts_with?('$') ? root_pass : root_pass.crypt("$1$#{SecureRandom.base64(6)}"))
+    unless root_pass.empty?
+      unencrypted_pass = root_pass
+      self.root_pass = unencrypted_pass.starts_with?('$') ? unencrypted_pass :
+          (operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash))
+      self.grub_pass = unencrypted_pass.starts_with?('$') ? unencrypted_pass : PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
+    end
   end
 
-  def param_true? name
+  def param_true?(name)
     params.has_key?(name) && LookupKey::TRUE_VALUES.include?(params[name])
   end
 
-  def param_false? name
+  def param_false?(name)
     params.has_key?(name) && LookupKey::FALSE_VALUES.include?(params[name])
   end
 
@@ -137,7 +142,7 @@ module HostCommon
   end
 
   def host_class_ids
-    h_ids = kind_of?(Host::Base) ? host_classes.pluck(:puppetclass_id) : []
+    kind_of?(Host::Base) ? host_classes.pluck(:puppetclass_id) : []
   end
 
   def all_puppetclass_ids
@@ -198,6 +203,8 @@ module HostCommon
   def update_config_group_counters(record)
     record.update_attribute(:hostgroups_count, cnt_hostgroups(record))
     record.update_attribute(:hosts_count, cnt_hosts(record))
+
+    record.update_puppetclasses_total_hosts
   end
 
 end

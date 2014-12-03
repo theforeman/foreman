@@ -67,6 +67,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to users_path
   end
 
+  test "should assign a mail notification" do
+    user = FactoryGirl.create(:user, :with_mail)
+    notification = FactoryGirl.create(:mail_notification)
+    put :update, { :id => user.id, :user => { :mail_notification_ids => [notification.id] }}, set_session_user
+    user = User.find_by_id(user.id)
+    assert user.mail_notifications.include? notification
+  end
+
   test "user changes should expire topbar cache" do
     user = FactoryGirl.create(:user, :with_mail)
     User.any_instance.expects(:expire_topbar_cache).once
@@ -180,24 +188,6 @@ class UsersControllerTest < ActionController::TestCase
     assert User.current.nil?
   end
 
-  test "should set user as owner of hostgroup children if owner of hostgroup root" do
-    sample_user = users(:one)
-    as_admin do
-      Hostgroup.new(:name => "root").save
-      Hostgroup.new(:name => "first" , :parent_id => Hostgroup.find_by_name("root").id).save
-      Hostgroup.new(:name => "second", :parent_id => Hostgroup.find_by_name("first").id).save
-    end
-
-    update_hash = {"user"=>{ "login"         => sample_user.login,
-      "hostgroup_ids" => ["", Hostgroup.find_by_name("root").id.to_s] },
-      "id"            => sample_user.id }
-
-    put :update, update_hash , set_session_user
-
-    assert_equal Hostgroup.find_by_name("first").users.first , sample_user
-    assert_equal Hostgroup.find_by_name("second").users.first, sample_user
-  end
-
   test "should be able to create user without mail and update the mail later" do
      user = User.create :login => "mailess", :mail=> nil, :auth_source => auth_sources(:one)
      user.admin = true
@@ -218,6 +208,18 @@ class UsersControllerTest < ActionController::TestCase
     @request.env['REMOTE_USER'] = users(:admin).login
     get :extlogin, {}, {}
     assert_redirected_to hosts_path
+  end
+
+  test "should logout external user" do
+    @sso = mock('dummy_sso')
+    @sso.stubs(:authenticated?).returns(true)
+    @sso.stubs(:logout_url).returns("/users/extlogout")
+    @sso.stubs(:current_user).returns(users(:admin).login)
+    @controller.stubs(:available_sso).returns(@sso)
+    @controller.stubs(:get_sso_method).returns(@sso)
+    get :extlogin, {}, {}
+    get :logout, {}, {}
+    assert_redirected_to '/users/extlogout'
   end
 
   test "should login external user preserving uri" do
@@ -343,6 +345,29 @@ class UsersControllerTest < ActionController::TestCase
       updated_user = User.find(users(:one).id)
       assert_equal taxonomies(:location1),     updated_user.default_location
       assert_equal taxonomies(:organization1), updated_user.default_organization
+    end
+  end
+
+  context "CSRF" do
+    setup do
+      ActionController::Base.allow_forgery_protection = true
+    end
+
+    teardown do
+      ActionController::Base.allow_forgery_protection = false
+    end
+
+    test "throws exception when CSRF token is invalid or not present" do
+      assert_raises Foreman::Exception do
+        post :logout, {}, set_session_user
+      end
+    end
+
+    test "allows logout when CSRF token is correct" do
+      @controller.expects(:verify_authenticity_token).returns(true)
+      post :logout, {}, set_session_user
+      assert_response :found
+      assert_redirected_to "/users/login"
     end
   end
 end

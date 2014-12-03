@@ -17,7 +17,7 @@
 
 class RolesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_id, :only => [:clone, :edit, :update, :destroy]
+  before_filter :find_resource, :only => [:clone, :edit, :update, :destroy]
 
   def index
     @roles = Role.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
@@ -66,10 +66,6 @@ class RolesController < ApplicationController
   end
 
   private
-
-  def find_by_id
-    @role = Role.find(params[:id])
-  end
 
   def action_permission
     case params[:action]

@@ -7,7 +7,7 @@ module Nic
 
     validate :normalize_ip
 
-    validates :physical_device, :presence => true, :if => Proc.new { |o| o.virtual && !o.bridge }
+    validates :attached_to, :presence => true, :if => Proc.new { |o| o.virtual && o.instance_of?(Nic::Managed) && !o.bridge? }
 
     attr_accessible :name, :subnet_id, :subnet, :domain_id, :domain
 
@@ -26,6 +26,10 @@ module Nic
 
     def vlanid
       self.tag.blank? ? self.subnet.vlanid : self.tag
+    end
+
+    def bridge?
+      !!bridge
     end
 
     def bridge
@@ -48,3 +52,5 @@ module Nic
 
   end
 end
+
+require_dependency 'nic/managed'

@@ -38,7 +38,7 @@ end
 
 def create_role(role_name, permission_names, builtin)
   return if Role.find_by_name(role_name)
-  return if audit_modified? Role, role_name && builtin == 0
+  return if audit_modified?(Role, role_name) && (builtin == 0)
 
   role         = Role.new(:name => role_name)
   role.builtin = builtin
@@ -55,6 +55,8 @@ Foreman::Plugin.registered_plugins.each do |name, plugin|
     engine = (name.to_s.camelize + '::Engine').constantize
     foreman_seeds += Dir.glob(engine.root + 'db/seeds.d/*.rb')
   rescue NameError => e
+    Rails.logger.error e.message
+    Rails.logger.error e.backtrace.join("\n")
   end
 end
 

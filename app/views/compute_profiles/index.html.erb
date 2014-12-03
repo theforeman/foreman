@@ -1,5 +1,4 @@
 <% title _('Compute profiles') %>
-
 <% title_actions display_link_if_authorized(_('New Compute Profile'), hash_for_new_compute_profile_path), help_path %>
 
 <table class="table table-bordered table-striped table-two-pane">
@@ -19,6 +18,5 @@
   <% end %>
 </table>
 
-<%= page_entries_info @compute_profiles %>
-<%= will_paginate     @compute_profiles %>
+<%= will_paginate_with_info @compute_profiles %>
 

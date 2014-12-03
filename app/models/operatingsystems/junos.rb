@@ -3,7 +3,7 @@ class Junos < Operatingsystem
   PXEFILES = {}
 
   # Simple output of the media url
-  def mediumpath host
+  def mediumpath(host)
     medium_uri(host).to_s
   end
 
@@ -35,15 +35,15 @@ class Junos < Operatingsystem
   end
 
   #handle things like gpxelinux/ gpxe / pxelinux here
-  def boot_filename host=nil
+  def boot_filename(host = nil)
     "ztp.cfg/"+host.mac.gsub(/:/,"").upcase
   end
 
-  def kernel arch
+  def kernel(arch)
     "memdisk"
   end
 
-  def initrd arch
+  def initrd(arch)
     "none"
   end
 

@@ -1,18 +1,15 @@
 module Api
   module V2
     class UsergroupsController < V2::BaseController
+
+      before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/usergroups/", N_("List all user groups")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @usergroups = Usergroup.
-          authorized(:view_usergroups).
-          search_for(*search_options).paginate(paginate_options)
+        @usergroups = resource_scope_for_index
       end
 
       api :GET, "/usergroups/:id/", N_("Show a user group")
@@ -51,6 +48,12 @@ module Api
 
       def destroy
         process_response @usergroup.destroy
+      end
+
+      private
+
+      def allowed_nested_id
+        %w(user_id usergroup_id)
       end
 
     end

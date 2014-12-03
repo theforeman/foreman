@@ -14,8 +14,17 @@ FactoryGirl.define do
     password 'password'
     sequence(:login) {|n| "user#{n}" }
 
+    trait :admin do
+      admin { true }
+    end
+
     trait :with_mail do
       sequence(:mail) {|n| "email#{n}@example.com" }
+    end
+
+    trait :with_mail_notification do
+      sequence(:mail) {|n| "email#{n}@example.com" }
+      mail_notifications { [FactoryGirl.create(:mail_notification)] }
     end
   end
 

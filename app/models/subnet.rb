@@ -4,7 +4,11 @@ class Subnet < ActiveRecord::Base
   IPAM_MODES = {:dhcp => N_('DHCP'), :db => N_('Internal DB'), :none => N_('None')}
 
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
   include Taxonomix
+  include Parameterizable::ByIdName
+  include EncOutput
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database :except => [:gateway]
@@ -29,11 +33,10 @@ class Subnet < ActiveRecord::Base
   validates :mask,    :format => {:with => Net::Validations::MASK_REGEXP}
   validates :boot_mode, :inclusion => BOOT_MODES.values
   validates :ipam, :inclusion => IPAM_MODES.values
-  validates :name,    :length => {:maximum => 255}
+  validates :name,    :length => {:maximum => 255}, :uniqueness => true
 
   validate :ensure_ip_addr_new
   before_validation :cleanup_addresses
-  validate :name_should_be_uniq_across_domains
 
   validate :validate_ranges
 
@@ -77,7 +80,7 @@ class Subnet < ActiveRecord::Base
   # Subnets are sorted on their priority value
   # [+other+] : Subnet object with which to compare ourself
   # +returns+ : Subnet object with higher precedence
-  def <=> (other)
+  def <=>(other)
     if self.vlanid.present? && other.vlanid.present?
       self.vlanid <=> other.vlanid
     else
@@ -96,7 +99,7 @@ class Subnet < ActiveRecord::Base
   # Indicates whether the IP is within this subnet
   # [+ip+] String: Contains 4 dotted decimal values
   # Returns Boolean: True if if ip is in this subnet
-  def contains? ip
+  def contains?(ip)
     IPAddr.new("#{network}/#{mask}", Socket::AF_INET).include? IPAddr.new(ip, Socket::AF_INET)
   end
 
@@ -108,7 +111,7 @@ class Subnet < ActiveRecord::Base
     !!(dhcp and dhcp.url and !dhcp.url.blank?)
   end
 
-  def dhcp_proxy attrs = {}
+  def dhcp_proxy(attrs = {})
     @dhcp_proxy ||= ProxyAPI::DHCP.new({:url => dhcp.url}.merge(attrs)) if dhcp?
   end
 
@@ -116,7 +119,7 @@ class Subnet < ActiveRecord::Base
     !!(tftp and tftp.url and !tftp.url.blank?)
   end
 
-  def tftp_proxy attrs = {}
+  def tftp_proxy(attrs = {})
     @tftp_proxy ||= ProxyAPI::TFTP.new({:url => tftp.url}.merge(attrs)) if tftp?
   end
 
@@ -125,7 +128,7 @@ class Subnet < ActiveRecord::Base
     !!(dns and dns.url and !dns.url.blank?)
   end
 
-  def dns_proxy attrs = {}
+  def dns_proxy(attrs = {})
     @dns_proxy ||= ProxyAPI::DNS.new({:url => dns.url}.merge(attrs)) if dns?
   end
 
@@ -137,7 +140,7 @@ class Subnet < ActiveRecord::Base
     self.boot_mode == Subnet::BOOT_MODES[:dhcp]
   end
 
-  def unused_ip mac = nil
+  def unused_ip(mac = nil)
     logger.debug "Not suggesting IP Address for #{to_s} as IPAM is disabled" and return unless ipam?
     if self.ipam == IPAM_MODES[:dhcp] && dhcp?
       # we have DHCP proxy so asking it for free IP
@@ -173,7 +176,7 @@ class Subnet < ActiveRecord::Base
   end
 
   # imports subnets from a dhcp smart proxy
-  def self.import proxy
+  def self.import(proxy)
     return unless proxy.features.include?(Feature.find_by_name("DHCP"))
     ProxyAPI::DHCP.new(:url => proxy.url).subnets.map do |s|
       # do not import existing networks.
@@ -205,14 +208,6 @@ class Subnet < ActiveRecord::Base
     end
   end
 
-  def name_should_be_uniq_across_domains
-    return if domains.empty?
-    domains.each do |d|
-      conds = new_record? ? ['name = ?', name] : ['subnets.name = ? AND subnets.id != ?', name, id]
-      errors.add(:name, _("domain %s already has a subnet with this name") % d) if d.subnets.where(conds).first
-    end
-  end
-
   def cleanup_addresses
     self.network = cleanup_ip(network) if network.present?
     self.mask = cleanup_ip(mask) if mask.present?
@@ -235,5 +230,12 @@ class Subnet < ActiveRecord::Base
     errors.add(:dns_primary, _("is invalid")) if dns_primary.present? && (IPAddr.new(dns_primary) rescue nil).nil? && !errors.keys.include?(:dns_primary)
     errors.add(:dns_secondary, _("is invalid")) if dns_secondary.present? && (IPAddr.new(dns_secondary) rescue nil).nil? && !errors.keys.include?(:dns_secondary)
   end
+
+  private
+
+  def enc_attributes
+    @enc_attributes ||= %w(name network netmask gateway dns_primary dns_secondary from to boot_mode ipam)
+  end
+
 
 end

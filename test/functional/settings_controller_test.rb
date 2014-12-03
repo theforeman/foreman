@@ -17,7 +17,7 @@ class SettingsControllerTest < ActionController::TestCase
   end
 
   test "can render a new sti type setting" do
-    class Setting::Valid < Setting ; end
+    class Setting::Valid < Setting; end
     assert Setting.create(:name => "foo", :default => "bar", :description => "test foo", :category => "Setting::Valid")
     get :index, {}, set_session_user
     assert_match /id='Valid'/, @response.body

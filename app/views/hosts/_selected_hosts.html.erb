@@ -12,7 +12,10 @@
         </tr>
       </thead>
       <tbody>
-        <% hosts.each do |host| %>
+        <% associations = [:hostgroup, :environment] %>
+        <% associations << :organization if SETTINGS[:organizations_enabled]  %>
+        <% associations << :location     if SETTINGS[:locations_enabled]  %>
+        <% hosts.includes(*associations).each do |host| %>
           <tr>
             <td><%=h host %> </td>
             <td><%=h host.try(:hostgroup) %></td>

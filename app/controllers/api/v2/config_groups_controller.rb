@@ -5,13 +5,10 @@ module Api
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/config_groups", N_("List of config groups")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @config_groups = ConfigGroup.authorized(:view_config_groups).search_for(*search_options).paginate(paginate_options)
+        @config_groups = resource_scope_for_index
       end
 
       api :GET, "/config_groups/:id/", N_("Show a config group")

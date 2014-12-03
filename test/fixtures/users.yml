@@ -2,6 +2,7 @@
 
 anonymous:
   login: <%= User::ANONYMOUS_ADMIN %>
+  lower_login: <%= User::ANONYMOUS_ADMIN.downcase %>
   firstname: Anonymous
   lastname: Admin
   admin: true
@@ -9,6 +10,7 @@ anonymous:
 
 anonymousapi:
   login: <%= User::ANONYMOUS_API_ADMIN %>
+  lower_login: <%= User::ANONYMOUS_API_ADMIN.downcase %>
   firstname: API
   lastname: Admin
   admin: true
@@ -16,6 +18,7 @@ anonymousapi:
 
 one:
   login: one
+  lower_login: one
   firstname: One
   lastname: User
   mail: userone@someware.com
@@ -25,6 +28,7 @@ one:
 
 two:
   login: two
+  lower_login: two
   firstname: Two
   lastname: User
   mail: usertwo@someware.com
@@ -34,17 +38,18 @@ two:
 
 restricted:
   login: restricted
+  lower_login: restricted
   firstname: Restricted
   lastname: User
   mail: userrestricted@someware.com
   admin: false
   last_login_on: 2009-10-12 21:50:04
   auth_source: one
-  filter_on_owner: true
 
 admin:
   # Proof that 'admin' isn't special
   login: secret_admin
+  lower_login: secret_admin
   firstname: Admin
   lastname: User
   mail: admin@someware.com
@@ -56,6 +61,7 @@ admin:
 
 internal:
   login: test
+  lower_login: test
   firstname: test
   lastname: User
   mail: testuser@someware.com
@@ -67,6 +73,7 @@ internal:
 
 apiadmin:
   login: apiadmin
+  lower_login: apiadmin
   firstname: apiadmin
   lastname: User
   mail: apiadmin@someware.com

@@ -64,12 +64,12 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
 
   def mocked_classes
     pcs = [{
-       "apache::service" => {
-         "name"   => "service",
-         "params" => { "port" => "80", "version" => "2.0" },
-         "module" => "apache"
-       }
-     }]
+      "apache::service" => {
+        "name"   => "service",
+        "params" => { "port" => "80", "version" => "2.0" },
+        "module" => "apache"
+      }
+    }]
     Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
   end
 

@@ -13,7 +13,7 @@ class OrchestrationTest < ActiveSupport::TestCase
         execute({:action => [self, method]})
       end
       protected
-      def setTest ; true ; end
+      def setTest; true; end
     end
     h = Host::Test.new
     assert h.test_execute(:setTest)

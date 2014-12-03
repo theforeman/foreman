@@ -33,8 +33,10 @@ module Foreman #:nodoc:
   class Plugin
 
     @registered_plugins = {}
+    @tests_to_skip = {}
     class << self
-      attr_reader :registered_plugins
+      attr_reader   :registered_plugins
+      attr_accessor :tests_to_skip
       private :new
 
       def def_field(*names)
@@ -56,6 +58,7 @@ module Foreman #:nodoc:
           plugin.description gem.description
           plugin.url gem.homepage
           plugin.version gem.version.to_s
+          plugin.path gem.full_gem_path
         end
 
         plugin.instance_eval(&block)
@@ -87,7 +90,7 @@ module Foreman #:nodoc:
       end
     end
 
-    def_field :name, :description, :url, :author, :author_url, :version
+    def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id
 
     def initialize(id)
@@ -132,14 +135,14 @@ module Foreman #:nodoc:
     #
     # name parameter can be: :top_menu or :admin_menu
     #
-    def menu(menu, name, options={})
+    def menu(menu, name, options = {})
       options.merge!(:parent => @parent) if @parent
       Menu::Manager.map(menu).item(name, options)
     end
 
-    alias :add_menu_item :menu
+    alias_method :add_menu_item, :menu
 
-    def sub_menu(menu, name, options={}, &block)
+    def sub_menu(menu, name, options = {}, &block)
       options.merge!(:parent => @parent) if @parent
       Menu::Manager.map(menu).sub_menu(name, options)
       current = @parent
@@ -157,6 +160,17 @@ module Foreman #:nodoc:
       Menu::Manager.map(menu).delete(item)
     end
 
+    def tests_to_skip(hash)
+      # Format is { "testclass" => [ "skip1", "skip2" ] }
+      hash.each do |testclass,tests|
+        if self.class.tests_to_skip[testclass].nil?
+          self.class.tests_to_skip[testclass] = tests
+        else
+          self.class.tests_to_skip[testclass] = self.class.tests_to_skip[testclass].push(tests).flatten.uniq
+        end
+      end
+    end
+
     def security_block(name, &block)
       @security_block = name
       self.instance_eval(&block)
@@ -167,7 +181,7 @@ module Foreman #:nodoc:
     # :options can contain :resource_type key which is the string of resource
     #   class to which this permissions is related, rest of options is passed
     #   to AccessControl
-    def permission(name, hash, options={})
+    def permission(name, hash, options = {})
       return false if pending_migrations
 
       options[:engine] ||= self.id.to_s
@@ -222,6 +236,24 @@ module Foreman #:nodoc:
       else
         Rails.logger.warn "Ignoring override of FiltersHelper#search_path_override for '#{engine_name}': no override block is present"
       end
+    end
+
+    # list of API controller paths, globs allowed
+    def apipie_documented_controllers(controllers = nil)
+      if controllers
+        @apipie_documented_controllers = controllers
+        Apipie.configuration.api_controllers_matcher.concat(controllers)
+      end
+      @apipie_documented_controllers
+    end
+
+    # list of clontroller classnames that are ignored by apipie
+    def apipie_ignored_controllers(controllers = nil)
+      if controllers
+        @apipie_ignored_controllers = controllers
+        Apipie.configuration.ignored.concat(controllers)
+      end
+      @apipie_ignored_controllers
     end
   end
 end

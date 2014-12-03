@@ -1,6 +1,6 @@
 class LookupValuesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_by_id, :except => [:index, :create]
+  before_filter :find_resource, :only => [:update, :destroy]
   before_filter :setup_search_options, :only => :index
 
   def index
@@ -36,12 +36,6 @@ class LookupValuesController < ApplicationController
     else
       process_error
     end
-  end
-
-  private
-
-  def find_by_id
-    @lookup_value = LookupValue.find(params[:id])
   end
 
 end

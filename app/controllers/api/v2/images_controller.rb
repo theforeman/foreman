@@ -1,25 +1,29 @@
 module Api
   module V2
     class ImagesController < V2::BaseController
+
+      before_filter :find_required_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
-      before_filter :find_compute_resource
 
       api :GET, "/compute_resources/:compute_resource_id/images/", N_("List all images for a compute resource")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
-      param :compute_resource_id, :identifier, :required => true
+      api :GET, "/operatingsystems/:operatingsystem_id/images/", N_("List all images for operating system")
+      api :GET, "/architectures/:architecture_id/images/", N_("List all images for architecture")
+      param :compute_resource_id, String, :desc => N_("ID of compute resource")
+      param :architecture_id, String, :desc => N_("ID of architecture")
+      param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        base = @compute_resource.images.authorized(:view_images)
-        @images = base.search_for(*search_options).paginate(paginate_options)
-        @total = base.count
+        @images = resource_scope_for_index
       end
 
       api :GET, "/compute_resources/:compute_resource_id/images/:id/", N_("Show an image")
+      api :GET, "/operatingsystems/:operatingsystem_id/images/:id/", N_("Show an image")
+      api :GET, "/architectures/:architecture_id/images/:id/", N_("Show an image")
       param :id, :identifier, :required => true
-      param :compute_resource_id, :identifier, :required => true
+      param :compute_resource_id, String, :desc => N_("ID of compute resource")
+      param :architecture_id, String, :desc => N_("ID of architecture")
+      param :operatingsystem_id, String, :desc => N_("ID of operating system")
 
       def show
       end
@@ -29,9 +33,9 @@ module Api
           param :name, String, :required => true
           param :username, String, :required => true
           param :uuid, String, :required => true
-          param :compute_resource_id, :number, :required => true
-          param :architecture_id, :number, :required => true
-          param :operatingsystem_id, :number, :required => true
+          param :compute_resource_id, String, :desc => N_("ID of compute resource")
+          param :architecture_id, String, :desc => N_("ID of architecture")
+          param :operatingsystem_id, String, :desc => N_("ID of operating system")
         end
       end
 
@@ -40,8 +44,8 @@ module Api
       param_group :image, :as => :create
 
       def create
-        @image = @compute_resource.images.new(params[:image])
-        process_response @image.save, @compute_resource
+        @image = nested_obj.images.new(params[:image])
+        process_response @image.save, nested_obj
       end
 
       api :PUT, "/compute_resources/:compute_resource_id/images/:id/", N_("Update an image")
@@ -63,8 +67,8 @@ module Api
 
       private
 
-      def find_compute_resource
-        @compute_resource = ComputeResource.authorized(:view_compute_resources).find(params[:compute_resource_id])
+      def allowed_nested_id
+        %w(compute_resource_id operatingsystem_id architecture_id)
       end
 
     end

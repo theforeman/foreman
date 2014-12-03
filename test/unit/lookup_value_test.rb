@@ -2,21 +2,19 @@ require 'test_helper'
 
 class LookupValueTest < ActiveSupport::TestCase
 
-  def valid_attrs1
-    { :match => "fqdn=#{hosts(:one).name}",
-      :value => "false",
-      :lookup_key_id => lookup_keys(:three).id
-    }
+  def setup
+    @host1 = FactoryGirl.create(:host)
+    @host2 = FactoryGirl.create(:host)
   end
 
-  def valid_attrs2
-    { :match => "fqdn=#{hosts(:two).name}",
+  def valid_attrs1
+    { :match => "fqdn=#{@host2.name}",
       :value => "3001",
       :lookup_key_id => lookup_keys(:one).id
     }
   end
 
-  def valid_attrs3
+  def valid_attrs2
     { :match => "hostgroup=Common",
       :value => "3001",
       :lookup_key_id => lookup_keys(:one).id
@@ -26,13 +24,13 @@ class LookupValueTest < ActiveSupport::TestCase
   test "create lookup value by admin" do
     as_admin do
       assert_difference('LookupValue.count') do
-        LookupValue.create!(valid_attrs2)
+        LookupValue.create!(valid_attrs1)
       end
     end
   end
 
   test "update lookup value by admin" do
-    lookup_value = lookup_values(:one)
+    lookup_value = lookup_values(:hostgroupcommon)
     as_admin do
       assert lookup_value.update_attributes!(:value => "9000")
     end
@@ -42,11 +40,11 @@ class LookupValueTest < ActiveSupport::TestCase
     # Host.authorized(:view_hosts, Host) returns only hosts(:one)
     user = users(:one)
     role = FactoryGirl.create(:role, :name => 'user_view_host_by_ip')
-    FactoryGirl.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => 'facts.ipaddress = 10.0.19.33')
+    FactoryGirl.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "ip = #{@host1.ip}")
     user.roles<< [ role ]
     as_user :one do
-      assert Host.authorized(:view_hosts, Host).where(:name => hosts(:one).name).exists?
-      refute Host.authorized(:view_hosts, Host).where(:name => hosts(:two).name).exists?
+      assert Host.authorized(:view_hosts, Host).where(:name => @host1.name).exists?
+      refute Host.authorized(:view_hosts, Host).where(:name => @host2.name).exists?
     end
   end
 
@@ -69,12 +67,8 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "can create lookup value if user has matching hostgroup " do
-    user = users(:one)
-    as_admin do
-      assert user.hostgroups << hostgroups(:common)
-    end
     as_user :one do
-      lookup_value = LookupValue.new(valid_attrs3)
+      lookup_value = LookupValue.new(valid_attrs2)
       assert_difference('LookupValue.count') do
         assert lookup_value.save
       end

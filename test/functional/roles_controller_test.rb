@@ -27,7 +27,7 @@ class RolesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:roles)
     assert_equal Role.all.sort, [assigns(:roles)].flatten.sort
 
-    assert_tag :tag => 'a', :attributes => { :href => '/roles/1/edit' },
+    assert_tag :tag => 'a', :attributes => { :href => '/roles/1-Manager/edit' },
       :content => 'Manager'
   end
 
@@ -91,7 +91,7 @@ class RolesControllerTest < ActionController::TestCase
     end
 
     test 'renders new page with hidden field original_role_id' do
-      get :clone, { :id => @role.id } , set_session_user
+      get :clone, { :id => @role.id }, set_session_user
       assert_template 'new'
     end
 

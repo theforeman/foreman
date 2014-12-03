@@ -62,6 +62,9 @@ task :install => :build do |t|
   # foreman-debug
   DEBUGDIR = ENV['DEBUGDIR'] || "script/foreman-debug.d"
   mkdir_p "#{DATAROOTDIR}/foreman/#{DEBUGDIR}"
+
+  # ssh
+  mkdir_p "#{DATAROOTDIR}/foreman/.ssh"
 end
 
 task :default => :build

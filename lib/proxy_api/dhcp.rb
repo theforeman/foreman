@@ -1,6 +1,6 @@
 module ProxyAPI
   class DHCP < ProxyAPI::Resource
-    def initialize args
+    def initialize(args)
       @url  = args[:url] + "/dhcp"
       super args
     end
@@ -14,13 +14,13 @@ module ProxyAPI
       raise ProxyException.new(url, e, N_("Unable to retrieve DHCP subnets"))
     end
 
-    def subnet subnet
+    def subnet(subnet)
       parse get(subnet)
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to retrieve DHCP subnet"))
     end
 
-    def unused_ip subnet, mac = nil
+    def unused_ip(subnet, mac = nil)
       params = {}
       params.merge!({:mac => mac}) if mac.present?
 
@@ -39,7 +39,7 @@ module ProxyAPI
     # [+subnet+] : String in dotted decimal format
     # [+mac+]    : String in coloned sextuplet format
     # Returns    : Hash or false
-    def record subnet, mac
+    def record(subnet, mac)
       response = parse(get("#{subnet}/#{mac}"))
       attrs = response.merge(:network => subnet, :proxy => self)
       if response.keys.grep(/Sun/i).empty?
@@ -58,7 +58,7 @@ module ProxyAPI
     # [+mac+]    : String in coloned sextuplet format
     # [+args+]   : Hash containing DHCP values. The :mac key is taken from the mac parameter
     # Returns    : Boolean status
-    def set subnet, args
+    def set(subnet, args)
       raise "Must define a subnet" if subnet.empty?
       raise "Must provide arguments" unless args.is_a?(Hash)
       parse(post(args, subnet.to_s))
@@ -70,7 +70,7 @@ module ProxyAPI
     # [+subnet+] : String in dotted decimal format
     # [+mac+]    : String in coloned sextuplet format
     # Returns    : Boolean status
-    def delete subnet, mac
+    def delete(subnet, mac)
       parse super("#{subnet}/#{mac}")
     rescue RestClient::ResourceNotFound
       # entry doesn't exists anyway

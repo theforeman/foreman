@@ -2,11 +2,11 @@ class Debian < Operatingsystem
 
   PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}
 
-  def preseed_server host
+  def preseed_server(host)
     medium_uri(host).select(:host, :port).compact.join(':')
   end
 
-  def preseed_path host
+  def preseed_path(host)
     medium_uri(host).select(:path, :query).compact.join('?')
   end
 
@@ -36,7 +36,7 @@ class Debian < Operatingsystem
     "Debian"
   end
 
-  def self.shorten_description description
+  def self.shorten_description(description)
     return "" if description.blank?
     s=description
     s.gsub!('GNU/Linux','')

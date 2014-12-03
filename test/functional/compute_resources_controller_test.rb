@@ -154,7 +154,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}
   end
 
-  def setup_user operation, type = 'compute_resources'
+  def setup_user(operation, type = 'compute_resources')
     super(operation, type, "id = #{@compute_resource.id}")
   end
 

@@ -8,13 +8,10 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/filters/", N_("List all filters")
-      param :search, String, :desc => N_("filter results"), :required => false
-      param :order, String, :desc => N_("sort results"), :required => false
-      param :page, String, :desc => N_("paginate results"), :required => false
-      param :per_page, String, :desc => N_("number of entries per request"), :required => false
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @filters = resource_scope.search_for(*search_options).paginate(paginate_options)
+        @filters = resource_scope_for_index
       end
 
       api :GET, "/filters/:id/", N_("Show a filter")
@@ -60,12 +57,6 @@ module Api
 
       def allowed_nested_id
         %w(role_id)
-      end
-
-      def resource_scope(controller = controller_name)
-        @resource_scope ||= nested_obj.present? ?
-            nested_obj.filters.authorized("#{action_permission}_#{controller}") :
-            resource_class.scoped.authorized("#{action_permission}_#{controller}")
       end
 
     end

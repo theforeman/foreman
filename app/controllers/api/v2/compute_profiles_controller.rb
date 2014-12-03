@@ -4,14 +4,10 @@ module Api
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/compute_profiles", N_("List of compute profiles")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @compute_profiles = ComputeProfile.authorized(:view_config_profiles).
-                              search_for(*search_options).paginate(paginate_options)
+        @compute_profiles = resource_scope_for_index
       end
 
       api :GET, "/compute_profiles/:id/", N_("Show a compute profile")

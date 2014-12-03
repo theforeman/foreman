@@ -51,7 +51,7 @@ module Foreman::Model
       end
     end
 
-    def templates(opts={})
+    def templates(opts = {})
       client.templates
     end
 
@@ -84,7 +84,7 @@ module Foreman::Model
     end
     private :test_https_required
 
-    def test_connection options = {}
+    def test_connection(options = {})
       super
       if errors[:url].empty? and errors[:username].empty? and errors[:password].empty?
         update_public_key options
@@ -103,11 +103,11 @@ module Foreman::Model
       end
     end
 
-    def datacenters(options={})
+    def datacenters(options = {})
       client.datacenters(options).map { |dc| [dc[:name], dc[:id]] }
     end
 
-    def networks(opts ={})
+    def networks(opts = {})
       if opts[:cluster_id]
         client.clusters.get(opts[:cluster_id]).networks
       else
@@ -119,16 +119,16 @@ module Foreman::Model
       clusters
     end
 
-    def available_networks(cluster_id=nil)
+    def available_networks(cluster_id = nil)
       raise ::Foreman::Exception.new(N_('Cluster ID is required to list available networks')) if cluster_id.nil?
-      cluster_networks = networks({:cluster_id => cluster_id})
+      networks({:cluster_id => cluster_id})
     end
 
-    def available_storage_domains(storage_domain=nil)
+    def available_storage_domains(storage_domain = nil)
       storage_domains
     end
 
-    def storage_domains(opts ={})
+    def storage_domains(opts = {})
       client.storage_domains({:role => 'data'}.merge(opts))
     end
 
@@ -153,7 +153,7 @@ module Foreman::Model
       vm
     end
 
-    def new_vm(attr={})
+    def new_vm(attr = {})
       vm = super
       interfaces = nested_attributes_for :interfaces, attr[:interfaces_attributes]
       interfaces.map{ |i| vm.interfaces << new_interface(i)}
@@ -162,11 +162,11 @@ module Foreman::Model
       vm
     end
 
-    def new_interface(attr={})
+    def new_interface(attr = {})
       Fog::Compute::Ovirt::Interface.new(attr)
     end
 
-    def new_volume(attr={})
+    def new_volume(attr = {})
       Fog::Compute::Ovirt::Volume.new(attr)
     end
 
@@ -232,7 +232,7 @@ module Foreman::Model
       attrs[:public_key]
     end
 
-    def public_key= key
+    def public_key=(key)
       attrs[:public_key] = key
     end
 
@@ -267,18 +267,18 @@ module Foreman::Model
       end
     end
 
-    def update_public_key options ={}
+    def update_public_key(options = {})
       return unless public_key.blank? || options[:force]
       client
     rescue Foreman::FingerprintException => e
-      self.public_key = e.fingerprint
+      self.public_key = e.fingerprint if self.public_key.blank?
     end
 
     def api_version
       @api_version ||= client.api_version
     end
 
-    def ca_cert_store cert
+    def ca_cert_store(cert)
       return if cert.blank?
       OpenSSL::X509::Store.new.add_cert(OpenSSL::X509::Certificate.new(cert))
     rescue => e

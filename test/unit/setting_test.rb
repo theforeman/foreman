@@ -97,7 +97,7 @@ class SettingTest < ActiveSupport::TestCase
 
   def test_create_exclamation_with_missing_attrs_raises_exception
     assert_raises(ActiveRecord::RecordInvalid) do
-      setting = Setting.create!(:name => "foo")
+      Setting.create!(:name => "foo")
     end
   end
 
@@ -316,14 +316,14 @@ class SettingTest < ActiveSupport::TestCase
 
   private
 
-  def check_parsed_value settings_type, expected_value, string_value
+  def check_parsed_value(settings_type, expected_value, string_value)
     setting = Setting.new(:name => "foo", :default => "default", :settings_type => settings_type)
     setting.parse_string_value(string_value)
 
     assert_equal expected_value, setting.value
   end
 
-  def check_parsed_value_failure settings_type, string_value
+  def check_parsed_value_failure(settings_type, string_value)
     setting = Setting.new(:name => "foo", :default => "default", :settings_type => settings_type)
     setting.parse_string_value(string_value)
 
@@ -331,7 +331,7 @@ class SettingTest < ActiveSupport::TestCase
     assert setting.errors[:value].join(";").include?("is invalid")
   end
 
-  def check_frozen_change attr_name, value
+  def check_frozen_change(attr_name, value)
     assert Setting.find_or_create_by_name(:name => "foo", :default => 5, :description => "test foo")
     setting = Setting.find_by_name("foo")
 
@@ -340,7 +340,7 @@ class SettingTest < ActiveSupport::TestCase
     assert setting.errors[attr_name].join(";").include?("is not allowed to change")
   end
 
-  def check_zero_value_not_allowed_for setting_name
+  def check_zero_value_not_allowed_for(setting_name)
     setting = Setting.find_or_create_by_name(setting_name, :value => 0, :default => 30)
     setting.value = 0
 
@@ -350,7 +350,7 @@ class SettingTest < ActiveSupport::TestCase
     assert_valid setting
   end
 
-  def check_length_must_be_under_8 setting_name
+  def check_length_must_be_under_8(setting_name)
     setting = Setting.find_or_create_by_name(setting_name, :default => 30)
     setting.value = 123456789
 
@@ -360,7 +360,7 @@ class SettingTest < ActiveSupport::TestCase
     assert_valid setting
   end
 
-  def check_empty_array_allowed_for setting_name
+  def check_empty_array_allowed_for(setting_name)
     setting = Setting.find_or_create_by_name(setting_name, :value => [], :default => [])
     setting.value = []
     assert_valid setting
@@ -369,24 +369,24 @@ class SettingTest < ActiveSupport::TestCase
     assert_valid setting
   end
 
-  def check_correct_type_for type, value
+  def check_correct_type_for(type, value)
     assert Setting.create(:name => "foo", :default => value, :description => "test foo")
     assert_equal type, Setting.find_by_name("foo").try(:settings_type)
   end
 
-  def check_properties_saved_and_loaded_ok options={}
+  def check_properties_saved_and_loaded_ok(options = {})
     assert Setting.find_or_create_by_name(options)
     s = Setting.find_by_name options[:name]
     assert_equal options[:value], s.value
     assert_equal options[:default], s.default
   end
 
-  def check_setting_did_not_save_with options={}
+  def check_setting_did_not_save_with(options = {})
      setting = Setting.new(options)
      assert !setting.save
   end
 
-  def check_value_returns_from_cache_with options={}
+  def check_value_returns_from_cache_with(options = {})
     name = options[:name].to_s
 
     #cache must be cleared on create

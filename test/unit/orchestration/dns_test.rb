@@ -14,7 +14,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   def test_host_should_have_dns
     if unattended?
-      h = hosts(:one)
+      h = FactoryGirl.create(:host, :with_dns_orchestration)
       assert h.valid?
       assert h.dns?
       assert h.reverse_dns?
@@ -25,7 +25,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   def test_host_should_have_dns_but_not_ptr
     if unattended?
-      h = hosts(:one)
+      h = FactoryGirl.build(:host, :with_dns_orchestration)
       h.subnet = nil
       assert h.valid?
       assert h.dns?
@@ -37,7 +37,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   def test_host_should_not_have_dns
     if unattended?
-      h = hosts(:minimal)
+      h = FactoryGirl.create(:host)
       assert h.valid?
       assert !h.dns?
       assert !h.reverse_dns?
@@ -48,9 +48,8 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   def test_host_should_not_have_dns_but_should_have_ptr
     if unattended?
-      h = hosts(:minimal)
-      h.subnet = subnets(:one)
-      h.managed = true
+      h = FactoryGirl.build(:host, :with_dns_orchestration)
+      h.domain.dns = nil
       assert h.valid?
       assert !h.dns?
       assert h.reverse_dns?
@@ -61,7 +60,9 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   def test_bmc_should_have_valid_dns_records
     if unattended?
+      h = FactoryGirl.create(:host, :with_dns_orchestration)
       b = nics(:bmc)
+      b.host   = h
       b.domain = domains(:mydomain)
       b.subnet = subnets(:five)
       assert b.dns?

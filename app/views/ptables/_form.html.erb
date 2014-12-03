@@ -3,6 +3,6 @@
   <%= text_f f, :name %>
   <%= textarea_f f, :layout, :rows=> 10, :size => "col-md-8",
     :help_block => ("<span class='label label-info'>" + _("Notice") + "</span> " + _("you may use %s") % (link_to _('a script as well'), 'http://theforeman.org/projects/foreman/wiki/Dynamic_disk_partitioning', :rel => 'external')).html_safe %>
-  <%= select_f f, :os_family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Operating System Family"), :label => _("OS Family"), :help_inline => _("The Operating System type") } %>
+  <%= select_f f, :os_family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Choose a family")  }, { :label => _("Operating system family") } %>
   <%= submit_or_cancel f %>
 <% end %>

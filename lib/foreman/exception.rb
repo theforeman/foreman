@@ -1,12 +1,12 @@
 module Foreman
 
   class Exception < ::StandardError
-    def initialize message, *params
+    def initialize(message, *params)
       @message = message
       @params = params
     end
 
-    def self.calculate_error_code classname, message
+    def self.calculate_error_code(classname, message)
       return 'ERF00-0000' if classname.nil? or message.nil?
       basename = classname.split(':').last
       class_hash = Zlib::crc32(basename) % 100

@@ -2,6 +2,14 @@ require 'test_helper'
 
 class LookupKeyTest < ActiveSupport::TestCase
 
+  def setup
+    @host1, @host2, @host3 = FactoryGirl.create_list(:host, 3,
+                               :location      => taxonomies(:location1),
+                               :organization  => taxonomies(:organization1),
+                               :puppetclasses => [puppetclasses(:one)],
+                               :environment   => environments(:production))
+  end
+
   def test_element_seperations
     key = ""
     as_admin do
@@ -21,9 +29,8 @@ class LookupKeyTest < ActiveSupport::TestCase
       value = LookupValue.create!(:value => "ntp.mydomain.net", :match => "domain =  mydomain.net", :lookup_key => key)
     end
 
-    host = hosts(:one)
-    host.domain = domains(:mydomain)
-    assert_equal [value.match], key.send(:path2matches,host)
+    @host1.domain = domains(:mydomain)
+    assert_equal [value.match], key.send(:path2matches,@host1)
   end
 
   def test_fetching_the_correct_value_to_a_given_key
@@ -39,10 +46,9 @@ class LookupKeyTest < ActiveSupport::TestCase
 
     key.reload
     assert key.lookup_values_count > 0
-    host = hosts(:one)
-    host.domain = domains(:mydomain)
+    @host1.domain = domains(:mydomain)
 
-    assert_equal value.value, Classification::ClassParam.new(:host=>host).enc['base']['dns']
+    assert_equal value.value, Classification::ClassParam.new(:host => @host1).enc['base']['dns']
   end
 
   def test_path2match_single_hostgroup_path
@@ -52,22 +58,18 @@ class LookupKeyTest < ActiveSupport::TestCase
       key   = LookupKey.create!(:key => "ntp", :path => "hostgroup", :puppetclass => Puppetclass.first)
       value = LookupValue.create!(:value => "ntp.pool.org", :match => "hostgroup =  Common", :lookup_key => key)
     end
-    host = hosts(:one)
-    host.hostgroup = hostgroups(:common)
-    assert_equal [value.match], key.send(:path2matches,host)
+    @host1.hostgroup = hostgroups(:common)
+    assert_equal [value.match], key.send(:path2matches,@host1)
   end
 
   def test_multiple_paths
-    host = hosts(:one)
-    host.hostgroup = hostgroups(:common)
-    host.environment = environments(:testing)
+    @host1.hostgroup = hostgroups(:common)
+    @host1.environment = environments(:testing)
 
-    host2 = hosts(:minimal)
-    host2.hostgroup = hostgroups(:unusual)
-    host2.environment = environments(:testing)
+    @host2.hostgroup = hostgroups(:unusual)
+    @host2.environment = environments(:testing)
 
-    host3 = hosts(:redhat)
-    host3.environment = environments(:testing)
+    @host3.environment = environments(:testing)
 
     default = "default"
     key    = ""
@@ -79,47 +81,45 @@ class LookupKeyTest < ActiveSupport::TestCase
       value1 = LookupValue.create!(:value => "v1", :match => "environment=testing,hostgroup=Common", :lookup_key => key)
       value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
       EnvironmentClass.create!(:puppetclass => puppetclass, :environment => environments(:testing), :lookup_key => key)
-      HostClass.create!(:host => host,:puppetclass=>puppetclass)
-      HostClass.create!(:host => host2,:puppetclass=>puppetclass)
-      HostClass.create!(:host => host3,:puppetclass=>puppetclass)
+      HostClass.create!(:host => @host1,:puppetclass=>puppetclass)
+      HostClass.create!(:host => @host2,:puppetclass=>puppetclass)
+      HostClass.create!(:host => @host3,:puppetclass=>puppetclass)
     end
 
     key.reload
 
-    assert_equal value1.value, Classification::ClassParam.new(:host=>host).enc['apache']['dns']
-    assert_equal value2.value, Classification::ClassParam.new(:host=>host2).enc['apache']['dns']
-    assert_equal default, Classification::ClassParam.new(:host=>host3).enc['apache']['dns']
+    assert_equal value1.value, Classification::ClassParam.new(:host=>@host1).enc['apache']['dns']
+    assert_equal value2.value, Classification::ClassParam.new(:host=>@host2).enc['apache']['dns']
+    assert_equal default, Classification::ClassParam.new(:host=>@host3).enc['apache']['dns']
   end
 
   def test_parameters_multiple_paths
-     host = hosts(:one)
-     host.hostgroup = hostgroups(:common)
+    @host1.hostgroup = hostgroups(:common)
+    @host2.hostgroup = hostgroups(:unusual)
 
-     host2 = hosts(:minimal)
-     host2.hostgroup = hostgroups(:unusual)
+    default = "default"
+    key    = ""
+    value1 = ""
+    value2 = ""
+    puppetclass = Puppetclass.first
 
-     host3 = hosts(:redhat)
+    as_admin do
+      key    = LookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass,
+                                 :default_value => default, :override=>true)
+      value1 = LookupValue.create!(:value => "v1", :match => "hostgroup=Common", :lookup_key => key)
+      value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
 
-     default = "default"
-     key    = ""
-     value1 = ""
-     value2 = ""
-     puppetclass = Puppetclass.first
-     as_admin do
-       key    = LookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass, :default_value => default, :override=>true)
-       value1 = LookupValue.create!(:value => "v1", :match => "hostgroup=Common", :lookup_key => key)
-       value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
-       host.puppetclasses << puppetclass
-       host2.puppetclasses << puppetclass
-       host3.puppetclasses << puppetclass
-     end
+      @host1.puppetclasses << puppetclass
+      @host2.puppetclasses << puppetclass
+      @host3.puppetclasses << puppetclass
+    end
 
-     key.reload
+    key.reload
 
-     assert_equal value1.value, Classification::GlobalParam.new(:host=>host).enc['dns']
-     assert_equal value2.value, Classification::GlobalParam.new(:host=>host2).enc['dns']
-     assert_equal default, Classification::GlobalParam.new(:host=>host3).enc['dns']
-   end
+    assert_equal value1.value, Classification::GlobalParam.new(:host=>@host1).enc['dns']
+    assert_equal value2.value, Classification::GlobalParam.new(:host=>@host2).enc['dns']
+    assert_equal default, Classification::GlobalParam.new(:host=>@host3).enc['dns']
+  end
 
   def test_value_should_not_be_changed
     param = lookup_keys(:three)
@@ -161,5 +161,43 @@ class LookupKeyTest < ActiveSupport::TestCase
     LookupKey.create!(:key => "smart-varialble", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default")
     smart_variable2 = LookupKey.new(:key => "smart-varialble", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default2")
     refute_valid smart_variable2
+  end
+
+  test "should not be able to merge overrides for a string" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'string', :merge_overrides => true,
+                            :puppetclass => puppetclasses(:one))
+    refute_valid key
+    assert_equal key.errors[:merge_overrides].first, _("can only be set for array or hash")
+  end
+
+  test "should be able to merge overrides for a hash" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'hash', :merge_overrides => true,
+                            :default_value => {}, :puppetclass => puppetclasses(:one))
+    assert_valid key
+  end
+
+  test "should not be able to avoid duplicates for a hash" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'hash', :merge_overrides => true, :avoid_duplicates => true,
+                            :default_value => {}, :puppetclass => puppetclasses(:one))
+    refute_valid key
+    assert_equal key.errors[:avoid_duplicates].first, _("can only be set for arrays that have merge_overrides set to true")
+  end
+
+  test "should be able to merge overrides for a array" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
+                            :default_value => [], :puppetclass => puppetclasses(:one))
+    assert_valid key
+  end
+
+  test "should not be able to avoid duplicates when merge_override is false" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'array', :merge_overrides => false, :avoid_duplicates => true,
+                            :default_value => [], :puppetclass => puppetclasses(:one))
+    refute_valid key
+    assert_equal key.errors[:avoid_duplicates].first, _("can only be set for arrays that have merge_overrides set to true")
   end
 end

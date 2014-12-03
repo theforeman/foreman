@@ -8,7 +8,7 @@
   <%= new_child_fields_template(f, :nics, {
       :object  => compute_resource.new_nic,
       :partial => 'compute_resources_vms/form/libvirt/network', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
-  <%= field_set_tag "Network interfaces", :id => "network_interfaces", :title => _('Networks') do %>
+  <%= field_set_tag _("Network interfaces"), :id => "network_interfaces" do %>
     <%= f.fields_for :nics do |i| %>
       <%= render 'compute_resources_vms/form/libvirt/network', :f => i, :compute_resource => compute_resource %>
     <% end %>
@@ -21,7 +21,7 @@
   <%= new_child_fields_template(f, :volumes, {
       :object  => compute_resource.new_volume,
       :partial => 'compute_resources_vms/form/libvirt/volume', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
-  <%= field_set_tag "Storage", :id => "storage_volumes", :title => _('Storage') do %>
+  <%= field_set_tag _("Storage"), :id => "storage_volumes" do %>
     <%= f.fields_for :volumes do |i| %>
       <%= render 'compute_resources_vms/form/libvirt/volume', :f => i, :compute_resource => compute_resource %>
     <% end %>

@@ -1,4 +1,4 @@
-<%= javascript 'host_edit', 'class_edit', 'compute_resource', 'lookup_keys'%>
+<%= javascript 'host_edit', 'host_edit_interfaces', 'class_edit', 'compute_resource', 'lookup_keys'%>
 <%= render "hosts/dhcp_lease_errors" if has_dhcp_lease_errors?(@host.errors) %>
 <%= render "hosts/conflicts" if (!has_dhcp_lease_errors?(@host.errors) && has_conflicts?(@host.errors)) %>
 <%= render "hosts/progress" %>
@@ -34,8 +34,9 @@
             { :include_blank => !@host.managed?, :selected => @organization.try(:id)},
             { :disabled => !@host.new_record?,
               :onchange => 'organization_changed(this);', :label => _("Organization"), :'data-host-id' => @host.id,
-            :'data-url' => process_taxonomy_hosts_path,
-            :help_inline => :indicator } %>
+              :'data-url' => process_taxonomy_hosts_path,
+              :help_inline => :indicator,
+              :required => SETTINGS[:organizations_enabled] } %>
         <% end %>
 
         <% if show_location_tab? %>
@@ -44,7 +45,8 @@
             { :disabled => !@host.new_record?,
               :onchange => 'location_changed(this);', :label => _("Location"), :"data-host-id" => @host.id,
               :'data-url' => process_taxonomy_hosts_path, :selected => Location.my_locations,
-              :help_inline => :indicator } %>
+              :help_inline => :indicator,
+              :required => SETTINGS[:locations_enabled] } %>
         <% end %>
 
         <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
@@ -53,7 +55,7 @@
             :'data-url' => (@host.new_record? || @host.type_changed?) ? process_hostgroup_hosts_path : hostgroup_or_environment_selected_hosts_path,
             :help_inline => :indicator } %>
 
-        <%= select_f f, :compute_resource_id, ComputeResource.with_taxonomy_scope_override(@location,@organization).authorized(:view_compute_resources), :id, :to_label,
+        <%= select_f f, :compute_resource_id, ComputeResource.with_taxonomy_scope_override(@location,@organization).authorized(:view_compute_resources).order(:name), :id, :to_label,
           { :include_blank => _('Bare Metal') },
           {:label => _('Deploy on'), :disabled => !@host.new_record?, :'data-url' => compute_resource_selected_hosts_path,
             :onchange => 'computeResourceSelected(this);',
@@ -71,7 +73,7 @@
         </div>
         <% end %>
 
-        <%= select_f f, :environment_id, Environment.with_taxonomy_scope_override(@location,@organization), :id, :to_label, { :include_blank => true },
+        <%= select_f f, :environment_id, Environment.with_taxonomy_scope_override(@location,@organization).order(:name), :id, :to_label, { :include_blank => true },
             {:onchange => 'update_puppetclasses(this)', :'data-url' => hostgroup_or_environment_selected_hosts_path,
             :'data-host-id' => @host.id, :help_inline => :indicator} %>
         <%= puppet_master_fields f %>

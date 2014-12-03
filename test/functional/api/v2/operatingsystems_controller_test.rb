@@ -50,30 +50,52 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should update associated architectures by ids" do
+  test "should update associated architectures by ids with UNWRAPPED node" do
     os = operatingsystems(:redhat)
     assert_difference('os.architectures.count') do
       put :update, { :id => operatingsystems(:redhat).to_param, :operatingsystem => { },
-                     :architectures => [{ :id => architectures(:x86_64).id }, { :id => architectures(:sparc).id } ]
-                   }
+                     :architectures => [{ :id => architectures(:x86_64).id }, { :id => architectures(:sparc).id } ] }
     end
     assert_response :success
   end
 
-  test "should update associated architectures by name" do
+  test "should update associated architectures by name with UNWRAPPED node" do
     os = operatingsystems(:redhat)
     assert_difference('os.architectures.count') do
       put :update, { :id => operatingsystems(:redhat).to_param,  :operatingsystem => { },
-                     :architectures => [{ :name => architectures(:x86_64).name }, { :name => architectures(:sparc).name } ]
-                   }
+                     :architectures => [{ :name => architectures(:x86_64).name }, { :name => architectures(:sparc).name } ] }
+    end
+    assert_response :success
+  end
+
+  test "should add association of architectures by ids with WRAPPED node" do
+    os = operatingsystems(:redhat)
+    assert_difference('os.architectures.count') do
+      put :update, { :id => operatingsystems(:redhat).to_param, :operatingsystem => { :architectures => [{ :id => architectures(:x86_64).id }, { :id => architectures(:sparc).id }] } }
+    end
+    assert_response :success
+  end
+
+  test "should add association of architectures by name with WRAPPED node" do
+    os = operatingsystems(:redhat)
+    assert_difference('os.architectures.count') do
+      put :update, { :id => operatingsystems(:redhat).to_param,  :operatingsystem => { :architectures => [{ :name => architectures(:x86_64).name }, { :name => architectures(:sparc).name }] } }
+    end
+    assert_response :success
+  end
+
+  test "should remove association of architectures with WRAPPED node" do
+    os = operatingsystems(:redhat)
+    assert_difference('os.architectures.count', -1) do
+      put :update, { :id => operatingsystems(:redhat).to_param, :operatingsystem => {:architectures => [] } }
     end
     assert_response :success
   end
 
   test "should show os if id is fullname" do
-    get :show, { :id => operatingsystems(:redhat).fullname }
+    get :show, { :id => operatingsystems(:centos5_3).fullname }
     assert_response :success
-    assert_equal operatingsystems(:redhat), assigns(:operatingsystem)
+    assert_equal operatingsystems(:centos5_3), assigns(:operatingsystem)
   end
 
   test "should show os if id is description" do

@@ -150,73 +150,43 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert !available_storage_domains.empty?
   end
 
-  test "should get available vmware networks" do
-    network = Object.new
-    network.stubs(:name).returns('test_vmware_network')
-    network.stubs(:id).returns('my11-test35-uuid99')
+  context 'vmware' do
+    setup do
+      @vmware_object = Object.new
+      @vmware_object.stubs(:name).returns('test_vmware_object')
+      @vmware_object.stubs(:id).returns('my11-test35-uuid99')
+    end
 
-    Foreman::Model::Vmware.any_instance.stubs(:available_networks).returns([network])
+    teardown do
+      assert_response :success
+      available_objects = ActiveSupport::JSON.decode(@response.body)
+      assert_not_empty available_objects
+    end
 
-    get :available_networks, { :id => compute_resources(:vmware).to_param, :cluster_id => '123-456-789' }
-    assert_response :success
-    available_networks = ActiveSupport::JSON.decode(@response.body)
-    assert !available_networks.empty?
-  end
+    test "should get available vmware networks" do
+      Foreman::Model::Vmware.any_instance.stubs(:available_networks).returns([@vmware_object])
+      get :available_networks, { :id => compute_resources(:vmware).to_param, :cluster_id => '123-456-789' }
+    end
 
-  test "should get available vmware clusters" do
-    cluster = Object.new
-    cluster.stubs(:name).returns('test_vmware_cluster')
-    cluster.stubs(:id).returns('my11-test35-uuid99')
+    test "should get available vmware clusters" do
+      Foreman::Model::Vmware.any_instance.stubs(:available_clusters).returns([@vmware_object])
+      get :available_clusters, { :id => compute_resources(:vmware).to_param }
+    end
 
-    Foreman::Model::Vmware.any_instance.stubs(:available_clusters).returns([cluster])
+    test "should get available vmware storage domains" do
+      Foreman::Model::Vmware.any_instance.stubs(:available_storage_domains).returns([@vmware_object])
+      get :available_storage_domains, { :id => compute_resources(:vmware).to_param }
+    end
 
-    get :available_clusters, { :id => compute_resources(:vmware).to_param }
-    assert_response :success
-    available_clusters = ActiveSupport::JSON.decode(@response.body)
-    assert !available_clusters.empty?
-  end
+    test "should get available vmware resource pools" do
+      Foreman::Model::Vmware.any_instance.stubs(:available_resource_pools).returns([@vmware_object])
+      get :available_resource_pools, { :id => compute_resources(:vmware).to_param, :cluster_id => '123-456-789' }
+    end
 
-  test "should get available vmware folders" do
-    folder = Object.new
-    folder.stubs(:name).returns('vmware_folder')
-    folder.stubs(:id).returns('group-12345')
-    folder.stubs(:datacenter).returns('DC-1')
-    folder.stubs(:parent).returns('cluster-12345')
-    folder.stubs(:path).returns('/Datacenters/DC-1/vm/cluster-12345/vmware_folder')
-    folder.stubs(:type).returns('vm')
-
-    Foreman::Model::Vmware.any_instance.stubs(:available_folders).returns([folder])
-
-    get :available_folders, { :id => compute_resources(:vmware).to_param, :cluster_id => '123-456-789' }
-    assert_response :success
-    available_folders = ActiveSupport::JSON.decode(@response.body)
-    assert !available_folders.empty?
-  end
-
-  test "should get available vmware resource pools" do
-    resource_pool = Object.new
-    resource_pool.stubs(:name).returns('Resource Pool 1')
-    resource_pool.stubs(:id).returns('resgroup-12345')
-
-    Foreman::Model::Vmware.any_instance.stubs(:available_resource_pools).returns([resource_pool])
-
-    get :available_resource_pools, { :id => compute_resources(:vmware).to_param, :cluster_id => '123-456-789' }
-    assert_response :success
-    available_resource_pools = ActiveSupport::JSON.decode(@response.body)
-    assert !available_resource_pools.empty?
-  end
-
-  test "should get available vmware storage domains" do
-    storage_domain = Object.new
-    storage_domain.stubs(:name).returns('test_vmware_cluster')
-    storage_domain.stubs(:id).returns('my11-test35-uuid99')
-
-    Foreman::Model::Vmware.any_instance.expects(:available_storage_domains).with(nil).returns([storage_domain])
-
-    get :available_storage_domains, { :id => compute_resources(:vmware).to_param }
-    assert_response :success
-    available_storage_domains = ActiveSupport::JSON.decode(@response.body)
-    assert !available_storage_domains.empty?
+    test "should get available vmware folders" do
+      Foreman::Model::Vmware.any_instance.stubs(:available_folders).returns([@vmware_object])
+      get :available_folders, { :id => compute_resources(:vmware).to_param, :cluster_id => '123-456-789' }
+    end
   end
 
   test "should get specific vmware storage domain" do
@@ -253,4 +223,24 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert host_bm.compute?
   end
 
+  test "should update boolean attribute set_console_password for Libvirt compute resource" do
+    cr = compute_resources(:one)
+    put :update, { :id => cr.id, :compute_resource => { :set_console_password => true } }
+    cr.reload
+    assert_equal 1, cr.attrs[:setpw]
+  end
+
+  test "should update boolean attribute set_console_password for VMware compute resource" do
+    cr = compute_resources(:vmware)
+    put :update, { :id => cr.id, :compute_resource => { :set_console_password => true } }
+    cr.reload
+    assert_equal 1, cr.attrs[:setpw]
+  end
+
+  test "should not update set_console_password to true for non-VMware or non-Libvirt compute resource" do
+    cr = compute_resources(:openstack)
+    put :update, { :id => cr.id, :compute_resource => { :set_console_password => true } }
+    cr.reload
+    assert_nil cr.attrs[:setpw]
+  end
 end

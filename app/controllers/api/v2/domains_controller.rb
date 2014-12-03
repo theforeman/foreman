@@ -16,18 +16,19 @@ module Api
         DOC
       end
 
+      before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/domains/", N_("List of domains")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      api :GET, "/subnets/:subnet_id/domains", N_("List of domains per subnet")
+      api :GET, "/locations/:location_id/domains", N_("List of domains per location")
+      api :GET, "/organizations/:organization_id/domains", N_("List of domains per organization")
+      param :subnet_id, String, :desc => N_("ID of subnet")
+      param_group :taxonomy_scope, ::Api::V2::BaseController
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @domains = Domain.
-          authorized(:view_domains).
-          search_for(*search_options).paginate(paginate_options)
+        @domains = resource_scope_for_index
       end
 
       api :GET, "/domains/:id/", N_("Show a domain")
@@ -42,6 +43,7 @@ module Api
           param :fullname, String, :required => false, :allow_nil => true, :desc => N_("Description of the domain")
           param :dns_id, :number, :required => false, :allow_nil => true, :desc => N_("DNS proxy to use within this domain")
           param :domain_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters (name, value)")
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 
@@ -72,6 +74,13 @@ module Api
       def destroy
         process_response @domain.destroy
       end
+
+      private
+
+      def allowed_nested_id
+        %w(subnet_id location_id organization_id)
+      end
+
     end
   end
 end

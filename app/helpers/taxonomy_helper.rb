@@ -13,7 +13,7 @@ module TaxonomyHelper
     SETTINGS[:locations_enabled] or SETTINGS[:organizations_enabled]
   end
 
-  def organization_dropdown count
+  def organization_dropdown(count)
     text = Organization.current.nil? ? _("Any Organization") : Organization.current.to_label
     if count == 1 && !User.current.admin?
       link_to text, "#"
@@ -22,7 +22,7 @@ module TaxonomyHelper
     end
   end
 
-  def location_dropdown count
+  def location_dropdown(count)
       text = Location.current.nil? ? _("Any Location") : Location.current.to_label
       if count == 1 && !User.current.admin?
         link_to text, "#"
@@ -56,7 +56,7 @@ module TaxonomyHelper
     end
   end
 
-  def option_button text, href, options
+  def option_button(text, href, options)
     field(nil, "", options) do
       link_to(text, href, options)
     end
@@ -94,7 +94,7 @@ module TaxonomyHelper
     is_location? ? mismatches_locations_path : mismatches_organizations_path
   end
 
-  def import_mismatches_taxonomy_path taxonomy
+  def import_mismatches_taxonomy_path(taxonomy)
     is_location? ? import_mismatches_location_path(taxonomy) : import_mismatches_organization_path(taxonomy)
   end
 

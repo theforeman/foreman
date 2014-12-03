@@ -50,6 +50,21 @@ class LocationTest < ActiveSupport::TestCase
 
   test 'it should return array of used ids by hosts' do
     location = taxonomies(:location1)
+    FactoryGirl.create(:host,
+                       :compute_resource => compute_resources(:one),
+                       :domain           => domains(:mydomain),
+                       :environment      => environments(:production),
+                       :location         => location,
+                       :medium           => media(:one),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :owner            => users(:restricted),
+                       :puppet_proxy     => smart_proxies(:puppetmaster),
+                       :realm            => realms(:myrealm),
+                       :subnet           => subnets(:one))
+    FactoryGirl.create(:os_default_template,
+                       :config_template  => config_templates(:mystring2),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :template_kind    => TemplateKind.find_by_name('provision'))
     # run used_ids method
     used_ids = location.used_ids
     # get results from Host object
@@ -78,7 +93,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal used_ids[:environment_ids].sort, [environments(:production).id]
     assert_equal used_ids[:hostgroup_ids], []
     assert_equal used_ids[:subnet_ids], [subnets(:one).id]
-    assert_equal used_ids[:domain_ids].sort, [domains(:yourdomain).id, domains(:mydomain).id].sort
+    assert_equal used_ids[:domain_ids], [domains(:mydomain).id]
     assert_equal used_ids[:medium_ids], [media(:one).id]
     assert_equal used_ids[:compute_resource_ids], [compute_resources(:one).id]
     assert_equal used_ids[:user_ids], [users(:restricted).id]
@@ -147,16 +162,17 @@ class LocationTest < ActiveSupport::TestCase
     location_dup = location.dup
     location_dup.name = "location_dup_name"
     assert location_dup.save!
-    assert_equal, location_dup.environment_ids = location.environment_ids
-    assert_equal, location_dup.hostgroup_ids = location.hostgroup_ids
-    assert_equal, location_dup.subnet_ids = location.subnet_ids
-    assert_equal, location_dup.domain_ids = location.domain_ids
-    assert_equal, location_dup.medium_ids = location.medium_ids
-    assert_equal, location_dup.user_ids = location.user_ids
-    assert_equal, location_dup.smart_proxy_ids = location.smart_proxy_ids
-    assert_equal, location_dup.config_template_ids = location.config_template_ids
-    assert_equal, location_dup.compute_resource_ids = location.compute_resource_ids
-    assert_equal, location_dup.organization_ids = location.organization_ids
+    assert_equal location_dup.environment_ids, location.environment_ids
+    assert_equal location_dup.hostgroup_ids, location.hostgroup_ids
+    assert_equal location_dup.subnet_ids, location.subnet_ids
+    assert_equal location_dup.domain_ids, location.domain_ids
+    assert_equal location_dup.medium_ids, location.medium_ids
+    assert_equal location_dup.user_ids, location.user_ids
+    assert_equal location_dup.smart_proxy_ids.sort, location.smart_proxy_ids.sort
+    assert_equal location_dup.config_template_ids, location.config_template_ids
+    assert_equal location_dup.compute_resource_ids, location.compute_resource_ids
+    assert_equal location_dup.realm_ids, location.realm_ids
+    assert_equal location_dup.organization_ids, location.organization_ids
   end
 
   #Audit
@@ -195,6 +211,25 @@ class LocationTest < ActiveSupport::TestCase
   test "used_and_selected_or_inherited_ids for inherited location" do
     parent = taxonomies(:location1)
     location = Location.create :name => "rack1", :parent_id => parent.id
+    FactoryGirl.create(:host,
+                       :compute_resource => compute_resources(:one),
+                       :domain           => domains(:mydomain),
+                       :environment      => environments(:production),
+                       :location         => parent,
+                       :organization     => taxonomies(:organization1),
+                       :medium           => media(:one),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :owner            => users(:restricted),
+                       :puppet_proxy     => smart_proxies(:puppetmaster),
+                       :realm            => realms(:myrealm),
+                       :subnet           => subnets(:one))
+    FactoryGirl.create(:host,
+                       :location         => parent,
+                       :domain           => domains(:yourdomain))
+    FactoryGirl.create(:os_default_template,
+                       :config_template  => config_templates(:mystring2),
+                       :operatingsystem  => operatingsystems(:centos5_3),
+                       :template_kind    => TemplateKind.find_by_name('provision'))
     # check that inherited_ids of location matches selected_ids of parent
 
     location.selected_or_inherited_ids.each do |k,v|
@@ -224,7 +259,7 @@ class LocationTest < ActiveSupport::TestCase
     location = Location.create :name => "rack1", :parent_id => parent2.id
     assert TaxableTaxonomy.create(:taxonomy_id => parent2.id, :taxable_id => subnets(:three).id, :taxable_type => "Subnet")
     assert_equal [subnets(:one).id, subnets(:two).id, subnets(:three).id].sort, location.selected_or_inherited_ids["subnet_ids"].sort
-   end
+  end
 
   test "parameter inheritence with no new parameters on child location" do
     assert_equal [parameters(:location)], taxonomies(:location1).location_parameters
@@ -233,7 +268,7 @@ class LocationTest < ActiveSupport::TestCase
     location = Location.create :name => "floor1", :parent_id => taxonomies(:location1).id
     assert_equal [], location.location_parameters
     assert_equal Hash['loc_param', 'abc'], location.parameters
-   end
+  end
 
   test "parameter inheritence with new parameters on child location" do
     assert_equal [parameters(:location)], taxonomies(:location1).location_parameters
@@ -243,14 +278,14 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal [], child_location.location_parameters
 
     # new parameter on child location
-    child_param = child_location.location_parameters.create(:name => "child_param", :value => "123")
+    child_location.location_parameters.create(:name => "child_param", :value => "123")
 
     assert_equal Hash['loc_param', 'abc', 'child_param', '123'], child_location.parameters
-   end
+  end
 
   test "cannot delete location that is a parent for nested location" do
     parent1 = taxonomies(:location2)
-    location = Location.create :name => "floor1", :parent_id => parent1.id
+    Location.create :name => "floor1", :parent_id => parent1.id
     assert_raise Ancestry::AncestryException do
       parent1.destroy
     end
@@ -261,6 +296,43 @@ class LocationTest < ActiveSupport::TestCase
     refute user.admin?
     assert location = Location.create(:name => 'new location')
     assert location.users.include?(user)
+  end
+
+  test "location name can't be too big to create lookup value matcher over 255 characters" do
+    parent = FactoryGirl.create(:location)
+    min_lookupvalue_length = "location=".length + parent.title.length + 1
+    location = Location.new :parent => parent, :name => 'a' * 256
+    refute_valid location
+    assert_equal "is too long (maximum is %s characters)" % (255 -  min_lookupvalue_length), location.errors[:name].first
+  end
+
+  test "location name can be up to 255 characters" do
+    parent = FactoryGirl.create(:location)
+    min_lookupvalue_length = "location=".length + parent.title.length + 1
+    location = Location.new :parent => parent, :name => 'a' * (255 - min_lookupvalue_length)
+    assert_valid location
+  end
+
+  test "location should not save when matcher is exactly 256 characters" do
+    parent = FactoryGirl.create(:location, :name => 'a' * 245)
+    location = Location.new :parent => parent, :name => 'b'
+    refute_valid location
+    assert_equal _("is too long (maximum is 0 characters)"),  location.errors[:name].first
+  end
+
+  test ".my_locations returns all locations for admin" do
+    as_admin do
+      assert_equal Location.unscoped.pluck(:id).sort, Location.my_locations.pluck(:id).sort
+    end
+  end
+
+  test ".my_locations returns user's associated locations and children" do
+    loc1 = FactoryGirl.create(:location)
+    loc2 = FactoryGirl.create(:location, :parent => loc1)
+    user = FactoryGirl.create(:user, :locations => [loc1])
+    as_user(user) do
+      assert_equal [loc1.id, loc2.id].sort, Location.my_locations.pluck(:id).sort
+    end
   end
 
 end

@@ -2,7 +2,7 @@ module Foreman::Controller::TaxonomiesController
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_taxonomy, :only => %w{edit update destroy clone_taxonomy assign_hosts
+    before_filter :find_resource, :only => %w{edit update destroy clone_taxonomy assign_hosts
                                             assign_selected_hosts assign_all_hosts step2 select
                                             parent_taxonomy_selected}
     before_filter :count_nil_hosts, :only => %w{index create step2}
@@ -181,7 +181,9 @@ module Foreman::Controller::TaxonomiesController
     controller_name.classify.constantize
   end
 
-  def find_taxonomy
+  # overwrite application_controller
+  def find_resource
+    not_found and return if params[:id].blank?
     case controller_name
       when 'organizations'
         @taxonomy = @organization = Organization.find(params[:id])

@@ -1,4 +1,4 @@
 object false => :error
 
-node(:message) {'Access denied'}
+node(:message) {_('Access denied')}
 node(:details) {locals[:details]}

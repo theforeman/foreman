@@ -57,7 +57,7 @@ module Menu
       #   eg. :children => Proc.new {|project| [Foreman::Manager::MenuItem.new(...)] }
       # * last: menu item will stay at the end (eg. :last => true)
       # * html_options: a hash of html options that are passed to link_to
-      def push(obj, options={})
+      def push(obj, options = {})
         parent = options[:parent] || @parent
 
         target_root = (parent && subtree = self.find(parent)) ? subtree : @menu_items.root
@@ -76,11 +76,11 @@ module Menu
         end
       end
 
-      def item(name, options={})
+      def item(name, options = {})
         push(Item.new(name, options), options)
       end
 
-      def sub_menu name, options={}, &block
+      def sub_menu(name, options = {}, &block)
         push(Toggle.new(name, options[:caption]), options)
         current = @parent
         @parent = name
@@ -88,7 +88,7 @@ module Menu
         @parent = current
       end
 
-      def divider options={}
+      def divider(options = {})
         push(Divider.new(:divider, options), options)
       end
 

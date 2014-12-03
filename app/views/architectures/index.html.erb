@@ -15,11 +15,10 @@
       <td><%=h architecture.operatingsystems.map(&:to_label).to_sentence %></td>
       <td><%= link_to architecture.hosts_count, hosts_path(:search => "architecture = #{architecture}") %>
       <td align="right">
-        <%= display_delete_if_authorized hash_for_architecture_path(:id => architecture.name).merge(:auth_object => architecture, :authorizer => authorizer),
+        <%= display_delete_if_authorized hash_for_architecture_path(:id => architecture).merge(:auth_object => architecture, :authorizer => authorizer),
                                          :confirm => _("Delete %s?") % architecture.name %>
       </td>
     </tr>
   <% end %>
 </table>
-<%= page_entries_info @architectures %>
-<%= will_paginate @architectures %>
+<%= will_paginate_with_info @architectures %>

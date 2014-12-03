@@ -29,7 +29,9 @@ class LookupKey < ActiveRecord::Base
   end
 
   has_many :lookup_values, :dependent => :destroy, :inverse_of => :lookup_key
-  accepts_nested_attributes_for :lookup_values, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :lookup_values,
+                                :reject_if => lambda { |a| a[:value].blank? && (a[:use_puppet_default].nil? || a[:use_puppet_default] == "0")},
+                                :allow_destroy => true
 
   before_validation :validate_and_cast_default_value
   validates :key, :uniqueness => {:scope => :is_param }, :unless => Proc.new{|p| p.is_param?}
@@ -40,7 +42,7 @@ class LookupKey < ActiveRecord::Base
   validates :key_type, :inclusion => {:in => KEY_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validate :validate_list, :validate_regexp
   validates_associated :lookup_values
-  validate :ensure_type
+  validate :ensure_type, :disable_merge_overrides, :disable_avoid_duplicates
 
   before_save :sanitize_path
   attr_name :key
@@ -48,6 +50,8 @@ class LookupKey < ActiveRecord::Base
   scoped_search :on => :key, :complete_value => true, :default_order => true
   scoped_search :on => :lookup_values_count, :rename => :values_count
   scoped_search :on => :override, :complete_value => {:true => true, :false => false}
+  scoped_search :on => :merge_overrides, :complete_value => {:true => true, :false => false}
+  scoped_search :on => :avoid_duplicates, :complete_value => {:true => true, :false => false}
   scoped_search :in => :param_classes, :on => :name, :rename => :puppetclass, :complete_value => true
   scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
 
@@ -97,8 +101,16 @@ class LookupKey < ActiveRecord::Base
     is_param? && environment_classes.any?
   end
 
+  def supports_merge?
+    ['array', 'hash'].include?(key_type)
+  end
+
+  def supports_uniq?
+    key_type == 'array'
+  end
+
   def to_param
-    "#{id}-#{key.parameterize}"
+    Parameterizable.parameterize("#{id}-#{key}")
   end
 
   def to_s
@@ -120,7 +132,7 @@ class LookupKey < ActiveRecord::Base
     value_before_type_cast default_value
   end
 
-  def value_before_type_cast val
+  def value_before_type_cast(val)
     case key_type.to_sym
       when :json, :array
         val = JSON.dump val
@@ -132,7 +144,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   # Returns the casted value, or raises a TypeError
-  def cast_validate_value value
+  def cast_validate_value(value)
     method = "cast_value_#{key_type}".to_sym
     return value unless self.respond_to? method, true
     self.send(method, value) rescue raise TypeError
@@ -149,7 +161,7 @@ class LookupKey < ActiveRecord::Base
   private
 
   # Generate possible lookup values type matches to a given host
-  def path2matches host
+  def path2matches(host)
     raise ::Foreman::Exception.new(N_("Invalid Host")) unless host.class.model_name == "Host"
     matches = []
     path_elements.each do |rule|
@@ -164,7 +176,7 @@ class LookupKey < ActiveRecord::Base
 
   # translates an element such as domain to its real value per host
   # tries to find the host attribute first, parameters and then fallback to a puppet fact.
-  def attr_to_value host, element
+  def attr_to_value(host, element)
     # direct host attribute
     return host.send(element) if host.respond_to?(element)
     # host parameter
@@ -179,7 +191,7 @@ class LookupKey < ActiveRecord::Base
     self.path = path.tr("\s","").downcase unless path.blank?
   end
 
-  def array2path array
+  def array2path(array)
     raise ::Foreman::Exception.new(N_("invalid path")) unless array.is_a?(Array)
     array.map do |sub_array|
       sub_array.is_a?(Array) ? sub_array.join(KEY_DELM) : sub_array
@@ -198,13 +210,13 @@ class LookupKey < ActiveRecord::Base
     end
   end
 
-  def cast_value_boolean value
+  def cast_value_boolean(value)
     return true if TRUE_VALUES.include? value
     return false if FALSE_VALUES.include? value
     raise TypeError
   end
 
-  def cast_value_integer value
+  def cast_value_integer(value)
     return value.to_i if value.is_a?(Numeric)
 
     if value.is_a?(String)
@@ -220,7 +232,7 @@ class LookupKey < ActiveRecord::Base
     end
   end
 
-  def cast_value_real value
+  def cast_value_real(value)
     return value if value.is_a? Numeric
     if value.is_a?(String)
       if value =~ /\A[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?\Z/
@@ -231,7 +243,7 @@ class LookupKey < ActiveRecord::Base
     end
   end
 
-  def load_yaml_or_json value
+  def load_yaml_or_json(value)
     return value unless value.is_a? String
     begin
       JSON.load value
@@ -240,7 +252,7 @@ class LookupKey < ActiveRecord::Base
     end
   end
 
-  def cast_value_array value
+  def cast_value_array(value)
     return value if value.is_a? Array
     return value.to_a if not value.is_a? String and value.is_a? Enumerable
     value = load_yaml_or_json value
@@ -248,19 +260,19 @@ class LookupKey < ActiveRecord::Base
     value
   end
 
-  def cast_value_hash value
+  def cast_value_hash(value)
     return value if value.is_a? Hash
     value = load_yaml_or_json value
     raise TypeError unless value.is_a? Hash
     value
   end
 
-  def cast_value_yaml value
-    value = YAML.load value
+  def cast_value_yaml(value)
+    YAML.load value
   end
 
-  def cast_value_json value
-    value = JSON.load value
+  def cast_value_json(value)
+    JSON.load value
   end
 
   def ensure_type
@@ -277,6 +289,18 @@ class LookupKey < ActiveRecord::Base
   def validate_list
     return true unless (validator_type == 'list')
     errors.add(:default_value, _("%{default_value} is not one of %{validator_rule}") % { :default_value => default_value, :validator_rule => validator_rule }) and return false unless validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
+  end
+
+  def disable_merge_overrides
+    if merge_overrides && !supports_merge?
+      self.errors.add(:merge_overrides, _("can only be set for array or hash"))
+    end
+  end
+
+  def disable_avoid_duplicates
+    if avoid_duplicates && (!merge_overrides || !supports_uniq?)
+      self.errors.add(:avoid_duplicates, _("can only be set for arrays that have merge_overrides set to true"))
+    end
   end
 
 end

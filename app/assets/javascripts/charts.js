@@ -4,7 +4,7 @@ $.fn.flot_pie = function(){
     var label_exists = false;
     var target = $(el);
     var max={data:0}, sum = 0;
-    $(target.data('series')).each(function(i, el){sum = sum + el.data; if (max.data< el.data) max = el})
+    $(target.data('series')).each(function(i, el){sum = sum + el.data; if (max.data< el.data) max = el;});
     $.plot(target, target.data('series'), {
       colors: ['#0099d3', '#393f44','#00618a','#505459','#057d9f','#025167'],
       series: {
@@ -17,7 +17,7 @@ $.fn.flot_pie = function(){
             radius: 0.001,
             formatter: function(label, series) {
                 if (label_exists) {
-                    return ''
+                    return '';
                 }else{
                     label_exists = true;
                     return '<div class="percent">' + Math.round(100 * max.data / sum) + '%</div>' + max.label;
@@ -45,7 +45,7 @@ $.fn.flot_pie = function(){
       search_on_click(event, item);
     });
   });
-}
+};
 
 function expanded_pie(target, data){
   $.plot(target, data, {
@@ -110,7 +110,7 @@ $.fn.flot_bar = function(){
     });
     bind_hover_event(target, function(item){return "<b>" + target.data('yaxis-label') + ":</b> " + item.datapoint[1];});
   });
-}
+};
 
 function flot_time_chart(target, data, legendOptions){
   var chart_options = {
@@ -140,17 +140,17 @@ function flot_time_chart(target, data, legendOptions){
       borderWidth: 0
     },
     legend: legendOptions
-  }
+  };
   $.plot($(target), data , chart_options);
   bind_hover_event(target, function(item){return "<b>" + item.series.label + ":</b> " + item.series.data[item.dataIndex][1];});
-  target.bind("plotselected", function (event, ranges) {flot_zoom(target, chart_options, ranges)});
+  target.bind("plotselected", function (event, ranges) {flot_zoom(target, chart_options, ranges);});
 }
 
 $.fn.flot_chart = function(){
   $(this).each(function(i,el){
     flot_time_chart($(el), $(el).data('series'), chart_legend_options($(el)) );
   });
-}
+};
 
 function chart_legend_options(item){
   if(item.data('series').length == 1) return {show: false};
@@ -164,7 +164,7 @@ function chart_legend_options(item){
         labelFormatter: function(label, series) {
           return '<a rel="twipsy" data-original-title="' + __('Details') + '" href="' + series.href + '">' + label + '</a>';
         }
-      }
+      };
     case "hide":
       return {show: false};
     default:
@@ -226,20 +226,21 @@ function search_on_click(event, item) {
   if (link == undefined) return;
   if (link.indexOf("search_by_legend") != -1){
     var selector = '.label[style*="background-color:' + item.series.color +'"]';
-    link = $(event.currentTarget).parents('.stats-well').find(selector).next('a').attr('href')
+    link = $(event.currentTarget).parents('.stats-well').find(selector).next('a').attr('href');
     if (link == undefined) // we are on the overview page - no stats-well parent
       link = $(event.currentTarget).parents('#dashboard').find(selector).next('a').attr('href');
   } else {
-    if (link.indexOf("~VAL2~") != -1) {
+    if (link.indexOf("~VAL1~") != -1 || link.indexOf("~VAL2~") != -1) {
       var strSplit = item.series.label.split(" ");
       var val1 = strSplit[0];
-      var val2 = strSplit[1];
+      var val2 = (strSplit.length > 1) ? strSplit[1] : "";
+      link = link.replace("~VAL1~", val1);
       link = link.replace("~VAL2~", val2);
     } else {
-      var val1 = item.series.label;
-      if (val1.indexOf(" ") != -1) val1 = '"' + val1 +'"';
+      var val = item.series.label;
+      if (val.indexOf(" ") != -1) val = '"' + val + '"';
+      link = link.replace("~VAL~", val);
     }
-    link = link.replace("~VAL1~", val1);
   }
   event.preventDefault();
   window.location.href = link;
@@ -251,17 +252,17 @@ function get_pie_chart(div, url) {
     $('body').append('<div id="' + div + '" class="modal fade"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
     $("#"+div+" .modal-content").append('<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">' + __('Fact Chart') + '</h4></div>')
         .append('<div id="' + div + '-body" class="fact_chart modal-body">' + __('Loading') + ' ...</div>')
-        .append('<div class="modal-footer"></div>')
+        .append('<div class="modal-footer"></div>');
 
     $("#"+div).modal('show');
     $("#"+div).on('shown.bs.modal', function() {
       $.getJSON(url, function(data) {
         var target = $("#"+div+"-body");
         target.empty();
-        expanded_pie(target, data.values)
+        expanded_pie(target, data.values);
         target.attr('data-url', foreman_url("/hosts?search=facts." + data.name + "~~VAL1~"));
-      })
-    })
+      });
+    });
   } else {$("#"+div).modal('show');}
 }
 
@@ -326,13 +327,20 @@ function ext_legend_selected(item){
   flot_time_chart(target, data, {show: false});
 }
 
+function updateChart(item, status) {
+  if (status == 'success')
+    $(item).find(".statistics-chart").flot_chart();
+  else
+    $(item).text(__("Failed to load chart"));
+}
+
 $(function() {
   $(".statistics-pie").flot_pie();
   $(".statistics-bar").flot_bar();
   $(".statistics-chart").flot_chart();
-  $(document).on('click', '.reset-zoom', function () {reset_zoom(this)});
-  $(document).on('click', '.legend .legendColorBox, .legend .legendLabel', function() { legend_selected(this)});
-  $(document).on('click', '#legendContainer .legendColorBox, .legendContainer .legendLabel', function() { ext_legend_selected(this)});
+  $(document).on('click', '.reset-zoom', function () {reset_zoom(this);});
+  $(document).on('click', '.legend .legendColorBox, .legend .legendLabel', function() { legend_selected(this);});
+  $(document).on('click', '#legendContainer .legendColorBox, .legendContainer .legendLabel', function() { ext_legend_selected(this);});
 });
 
 $(window).resize(function() {

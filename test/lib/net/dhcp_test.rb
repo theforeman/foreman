@@ -42,6 +42,7 @@ class DhcpTest < ActiveSupport::TestCase
     record2 = Net::DHCP::Record.new(:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff",
                                     :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one))
     assert_equal record1, record2
+    assert_equal record2, record1
   end
 
   test "record should not be equal if their attrs are not the same" do

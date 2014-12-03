@@ -59,7 +59,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert !Hostgroup.exists?(hostgroup.id)
   end
 
-  def setup_user operation, type = 'hostgroups'
+  def setup_user(operation, type = 'hostgroups')
     super
   end
 
@@ -73,27 +73,6 @@ class HostgroupsControllerTest < ActionController::TestCase
     setup_user "view"
     get :index, {}, set_session_user.merge(:user => users(:one).id)
     assert_response :success
-  end
-
-  test 'owners of a hostgroup up in the hierarchy get ownership of all children' do
-    setup_user "create"
-    as_admin do
-      Hostgroup.new(:name => "root").save
-      Hostgroup.find_by_name("root").users << @one
-    end
-
-    post :create, {"hostgroup" => {"name"=>"first" , "parent_id"=> Hostgroup.find_by_name("root").id}},
-                  set_session_user.merge(:user => @one.id)
-    assert_response :redirect
-
-    post :create, {"hostgroup" => {"name"=>"second", "parent_id"=> Hostgroup.find_by_name("first").id}},
-                  set_session_user.merge(:user => @one.id)
-
-    assert_blank flash[:error]
-    assert_response :redirect
-
-    assert_equal @one, Hostgroup.find_by_name("first").users.first
-    assert_equal @one, Hostgroup.find_by_name("second").users.first
   end
 
   test "blank root password submitted does not erase existing password" do

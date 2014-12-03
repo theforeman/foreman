@@ -1,18 +1,17 @@
 module Api
   module V2
     class PtablesController < V2::BaseController
+
+      before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/ptables/", N_("List all partition tables")
-      param :search, String, :desc => N_("filter results")
-      param :order, String, :desc => N_("sort results")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      api :GET, "/operatingsystems/:operatingsystem_id/ptables", N_("List all partition tables for an operating system")
+      param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @ptables = Ptable.
-          authorized(:view_ptables).
-          search_for(*search_options).paginate(paginate_options)
+        @ptables = resource_scope_for_index
       end
 
       api :GET, "/ptables/:id/", N_("Show a partition table")
@@ -50,6 +49,12 @@ module Api
 
       def destroy
         process_response @ptable.destroy
+      end
+
+      private
+
+      def allowed_nested_id
+        %w(operatingsystem_id)
       end
 
     end

@@ -2,7 +2,12 @@ require "resolv"
 # This models a DNS domain and so represents a site.
 class Domain < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
   include Taxonomix
+  include StripLeadingAndTrailingDot
+  include Parameterizable::ByIdName
+
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database
@@ -13,12 +18,12 @@ class Domain < ActiveRecord::Base
   has_many :subnet_domains, :dependent => :destroy
   has_many :subnets, :through => :subnet_domains
   belongs_to :dns, :class_name => "SmartProxy"
-  has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id
+  has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :domain
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "DomainParameter"
-  has_and_belongs_to_many :users, :join_table => "user_domains"
   has_many :interfaces, :class_name => 'Nic::Base'
 
   accepts_nested_attributes_for :domain_parameters, :allow_destroy => true
+  include ParameterValidators
   validates :name, :presence => true, :uniqueness => true
   validates :fullname, :uniqueness => true, :allow_blank => true, :allow_nil => true
 
@@ -37,10 +42,6 @@ class Domain < ActiveRecord::Base
 
   class Jail < Safemode::Jail
     allow :name, :fullname
-  end
-
-  def to_param
-    "#{id}-#{name.parameterize}"
   end
 
   # return the primary name server for our domain based on DNS lookup
@@ -62,8 +63,12 @@ class Domain < ActiveRecord::Base
     ProxyAPI::DNS.new(:url => dns.url) if dns and !dns.url.blank?
   end
 
-  def lookup query
+  def lookup(query)
     Net::DNS.lookup query, proxy, resolver
+  end
+
+  def dot_strip_attrs
+    ['name']
   end
 
 end

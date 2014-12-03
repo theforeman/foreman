@@ -1,11 +1,13 @@
 class Setting < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :name
   include ActiveModel::Validations
   self.inheritance_column = 'category'
 
   TYPES= %w{ integer boolean hash array string }
   FROZEN_ATTRS = %w{ name category }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend }
-  BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert }
+  BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret }
   URI_ATTRS = %w{ foreman_url unattended_url }
 
   class UriValidator < ActiveModel::EachValidator
@@ -102,8 +104,7 @@ class Setting < ActiveRecord::Base
   alias_method :default_before_type_cast, :default
 
 
-  def parse_string_value val
-
+  def parse_string_value(val)
     case settings_type
     when "boolean"
       val = val.downcase
@@ -148,10 +149,10 @@ class Setting < ActiveRecord::Base
       raise Foreman::Exception.new(N_("parsing settings type '%s' from string is not defined"), settings_type)
 
     end
-    return true
+    true
   end
 
-  def self.create opts
+  def self.create(opts)
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
       super opts.merge(:value => SETTINGS[opts[:name].to_sym] || opts[:value])
     else
@@ -159,7 +160,7 @@ class Setting < ActiveRecord::Base
     end
   end
 
-  def self.create! opts
+  def self.create!(opts)
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
       super opts.merge(:value => SETTINGS[opts[:name].to_sym] || opts[:value])
     else
@@ -189,7 +190,7 @@ class Setting < ActiveRecord::Base
     Rails.cache
   end
 
-  def invalid_value_error error
+  def invalid_value_error(error)
     errors.add(:value, _("is invalid: %s") % error)
   end
 
@@ -241,7 +242,7 @@ class Setting < ActiveRecord::Base
     true
   end
 
-  def self.set name, description, default, value = nil
+  def self.set(name, description, default, value = nil)
     {:name => name, :value => value, :description => description, :default => default}
   end
 

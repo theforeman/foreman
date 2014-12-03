@@ -3,7 +3,7 @@
 #   TTIN - Background process attempting read.
 #
 # This signal is not used with the thin server so we can override and add our additional
-# behavior. For Passenger we can use their existing ABRT (SIGABRT) trap which prints a 
+# behavior. For Passenger we can use their existing ABRT (SIGABRT) trap which prints a
 # threaddump and backtrace.
 
 trap('TTIN') do

@@ -5,7 +5,7 @@ class CreateSubnets < ActiveRecord::Migration
       t.string   :mask,       :limit => 15
       t.references  :domain
       t.integer  :priority
-      t.string   :ranges,     :limit => 512 
+      t.string   :ranges,     :limit => 512
       t.text     :name
       t.string   :vlanid,     :limit => 10
       t.timestamps

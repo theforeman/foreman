@@ -12,16 +12,11 @@ class MediumTest < ActiveSupport::TestCase
     assert !medium.save
   end
 
-  test "name can't contain white spaces" do
+  test "name strips leading and trailing white spaces" do
     medium = Medium.new :name => "   Archlinux mirror   thing   ", :path => "http://www.google.com"
-    assert !medium.name.squeeze(" ").empty?
-    assert !medium.save
-
-    medium.name = "Archlinux mirror      thing"
-    assert !medium.save
-
-    medium.name.squeeze!(" ")
-    assert medium.save!
+    assert medium.save
+    refute medium.name.starts_with?(' ')
+    refute medium.name.ends_with?(' ')
   end
 
   test "name must be unique" do
@@ -50,7 +45,7 @@ class MediumTest < ActiveSupport::TestCase
     medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
     assert medium.save!
 
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :with_operatingsystem)
     refute host.build?
     host.medium = medium
     host.os.media << medium
@@ -67,7 +62,7 @@ class MediumTest < ActiveSupport::TestCase
     medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
     assert medium.save!
 
-    host = hosts(:one)
+    host = FactoryGirl.create(:host, :with_operatingsystem)
     host.build = true
     host.medium = medium
     host.os.media << medium

@@ -10,16 +10,16 @@ module Orchestration
       @items = []
     end
 
-    def create options
+    def create(options)
       options[:status] ||= default_status
       items << Task.new(options)
     end
 
-    def delete item
+    def delete(item)
       @items.delete item
     end
 
-    def find_by_name name
+    def find_by_name(name)
       items.each {|task| return task if task.name == name}
     end
 

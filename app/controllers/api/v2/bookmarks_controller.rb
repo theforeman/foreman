@@ -4,11 +4,10 @@ module Api
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/bookmarks/", N_("List all bookmarks")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :pagination, ::Api::V2::BaseController
 
       def index
-        @bookmarks = Bookmark.paginate(paginate_options)
+        @bookmarks = resource_scope.paginate(paginate_options)
       end
 
       api :GET, "/bookmarks/:id/", N_("Show a bookmark")

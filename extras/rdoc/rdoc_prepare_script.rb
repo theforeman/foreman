@@ -12,10 +12,10 @@ dirs = ARGV[0..100]
 
 # We  need to copy in the checked out puppet modules tree. Skipping all the .svn entries.
 modules = "/etc/puppet/modules"
-exit -1 unless system "tar --create --file - --exclude-vcs #{modules[1..-1]} | tar --extract --file - --read-full-records --directory #{modules_root}"
+exit(-1) unless system "tar --create --file - --exclude-vcs #{modules[1..-1]} | tar --extract --file - --read-full-records --directory #{modules_root}"
 
 # This copies in the /etc/puppent/env directory symlink trees
-exit -1 unless system "tar --create --file - --exclude-vcs #{dirs.map{|d| d[1..-1]}.join(" ")} | tar --extract --file - --read-full-records --directory #{modules_root}"
+exit(-1) unless system "tar --create --file - --exclude-vcs #{dirs.map{|d| d[1..-1]}.join(" ")} | tar --extract --file - --read-full-records --directory #{modules_root}"
 for dir in dirs
   here = modules_root + dir
   # Scan each modulepath for symlinks and remove them if they point at ".".

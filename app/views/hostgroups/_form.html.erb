@@ -1,4 +1,4 @@
-<%= javascript 'host_edit', 'class_edit' %>
+<%= javascript 'host_edit', 'class_edit', 'lookup_keys' %>
 <%= form_for @hostgroup, :html => {:data => {:id => @hostgroup.try(:id)}} do |f| %>
   <%= base_errors_for @hostgroup %>
 
@@ -60,6 +60,8 @@
       <h6><%= _('Puppet classes parameters') %></h6>
       <p/>
       <%= render "puppetclasses/classes_parameters", { :obj => @hostgroup } %>
+      <p/>
+      <%= render "common_parameters/inherited_parameters" %>
       <h6><%= _('Host group parameters') %></h6>
       <p/>
       <%= render "common_parameters/puppetclasses_parameters", :f => f %>

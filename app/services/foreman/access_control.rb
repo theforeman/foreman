@@ -68,13 +68,13 @@ module Foreman
         @security_block = nil
       end
 
-      def permission(name, hash, options={})
+      def permission(name, hash, options = {})
         @permissions ||= []
         options.merge!(:security_block => @security_block) if @security_block
         @permissions << Permission.new(name, hash, options)
       end
 
-      def security_block(name, options={})
+      def security_block(name, options = {})
         @security_block = name
         yield self
         @security_block = nil

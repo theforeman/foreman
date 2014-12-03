@@ -32,7 +32,7 @@ class ActiveRecord::Base
   # ActiveRecord Callback class
   class EnsureNotUsedBy
     attr_reader :klasses, :logger
-    def initialize *attribute
+    def initialize(*attribute)
       @klasses = attribute
       @logger  = Rails.logger
     end
@@ -40,6 +40,7 @@ class ActiveRecord::Base
     def before_destroy(record)
       klasses.each do |klass|
         record.send(klass.to_sym).each do |what|
+          what = what.to_label unless what.is_a? String
           record.errors.add :base, _("%{record} is used by %{what}") % { :record => record, :what => what }
         end
       end
@@ -119,9 +120,13 @@ module ExemptedFromLogging
 end
 
 class String
+  def to_translation
+    _(self)
+  end
+
   def to_gb
     begin
-      value,f,unit=self.match(/(\d+(\.\d+)?) ?(([KMGT]B?|B))$/i)[1..3]
+      value, _, unit=self.match(/(\d+(\.\d+)?) ?(([KMGT]B?|B))$/i)[1..3]
       case unit.to_sym
       when nil, :B, :byte          then (value.to_f / (4**10))
       when :TB, :T, :terabyte      then (value.to_f * (2**10))

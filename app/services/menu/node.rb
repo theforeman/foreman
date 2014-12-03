@@ -41,7 +41,7 @@ module Menu
       @children.inject(1) {|sum, node| sum + node.size}
     end
 
-    def each &block
+    def each(&block)
       yield self
       children { |child| child.each(&block) }
     end
@@ -75,7 +75,7 @@ module Menu
       position = @children.size - @last_items_count
       add_at(child, position)
     end
-    alias :<< :add
+    alias_method :<<, :add
 
     # Removes a child
     def remove!(child)

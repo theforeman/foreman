@@ -5,7 +5,7 @@
 <div class="tab-pane"  id="network">
   <%= field_set_tag _("General Settings"), :id => "general_settings" do %>
    <%= select_f f, :domain_id, accessible_domains, :id, :to_label, {:include_blank => true},
-                   {:help_inline => :indicator,
+                   {:help_inline => :indicator, :required => true,
                    :onchange => 'domain_selected(this);', :'data-url' => domain_selected_hosts_path} %>
 
     <%= select_f f, :realm_id, Realm.with_taxonomy_scope_override(@location,@organization).authorized(:view_realms),
@@ -14,7 +14,7 @@
 
   <%= field_set_tag _("Primary Interface"), :id => "primary_interface" do %>
     <div id="mac_address" <%= display? @host.compute_resource_id %> >
-      <%= text_f f, :mac, :help_inline => _("MAC address for this host"), :autocomplete => 'off' %>
+      <%= text_f f, :mac, :help_inline => _("MAC address for this host"), :autocomplete => 'off', :required => true %>
     </div>
 
     <div id='manage_network'>
@@ -27,11 +27,9 @@
         </span>
         <%= text_f f, :ip, :autocomplete => 'off', :help_block => link_to(_("Suggest new"), '#', :id => 'suggest_new_ip'),
           :help_inline => popover(_("IP address auto-suggest"), _("An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on the subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"), :title => _("IP address for this host")).html_safe %>
-        <%= f.fields_for :interfaces do |interfaces| %>
-          <%= render :partial => interfaces.object, :layout => 'nic/interface_layout', :locals => {:f => interfaces} %>
-        <% end %>
-        <%= new_child_fields_template(f, :interfaces, {:partial => Nic::Managed.new, :layout => 'nic/interface_layout'}) %>
-        <%= add_child_link "+ " + _("Add Interface"), :interfaces, { :class => "info", :title => _('add new network interface') } %>
+
+        <%= render 'hosts/interfaces', :host => @host, :f => f %>
+
       </div>
     <% end %>
   <% end %>

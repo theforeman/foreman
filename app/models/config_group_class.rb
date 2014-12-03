@@ -1,6 +1,7 @@
 class ConfigGroupClass < ActiveRecord::Base
   include Authorizable
   include CounterCacheFix
+  include PuppetclassTotalHosts::JoinTable
 
   audited :associated_with => :config_group, :allow_mass_assignment => true
   attr_accessible :config_group_id, :puppetclass_id
