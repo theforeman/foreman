@@ -1,7 +1,7 @@
 module Api
   module V1
     class ConfigTemplatesController < V1::BaseController
-      include Foreman::Renderer
+      include Foreman::Controller::Renderer
 
       before_filter :find_resource, :only => %w{show update destroy}
       before_filter :handle_template_upload, :only => [:create, :update]

@@ -209,12 +209,16 @@ module Foreman #:nodoc:
 
     # List of helper methods allowed for templates in safe mode
     def allowed_template_helpers(*helpers)
-      Foreman::Renderer::ALLOWED_HELPERS.concat(helpers)
+      Foreman::Controller::Renderer::ALLOWED_HELPERS.concat(helpers)
     end
 
     # List of variables allowed for templates in safe mode
     def allowed_template_variables(*variables)
-      Foreman::Renderer::ALLOWED_VARIABLES.concat(variables)
+      Foreman::Controller::Renderer::ALLOWED_VARIABLES.concat(variables)
+    end
+
+    def override_foreman_url(foreman_url_provider)
+      Foreman::Controller::ForemanUrlRenderable::FOREMAN_URL_PROVIDER_WRAP.provider = foreman_url_provider
     end
 
     # Add Compute resource

@@ -192,19 +192,19 @@ class PluginTest < ActiveSupport::TestCase
   end
 
   def test_register_allowed_template_helpers_and_variables
-    refute_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
-    refute_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
+    refute_includes Foreman::Controller::Renderer::ALLOWED_HELPERS, :my_helper
+    refute_includes Foreman::Controller::Renderer::ALLOWED_VARIABLES, :my_variable
 
     @klass.register :foo do
       allowed_template_helpers :my_helper
       allowed_template_variables :my_variable
     end
 
-    assert_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
-    assert_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
+    assert_includes Foreman::Controller::Renderer::ALLOWED_HELPERS, :my_helper
+    assert_includes Foreman::Controller::Renderer::ALLOWED_VARIABLES, :my_variable
   ensure
-    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
-    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_variable)
+    Foreman::Controller::Renderer::ALLOWED_HELPERS.delete(:my_helper)
+    Foreman::Controller::Renderer::ALLOWED_HELPERS.delete(:my_variable)
   end
 
   def test_add_compute_resource
@@ -234,6 +234,19 @@ class PluginTest < ActiveSupport::TestCase
       tests_to_skip "FooTest" => [ "test3", "test4" ]
     end
     assert_equal [ "test1", "test2", "test3", "test4" ], @klass.tests_to_skip["FooTest"]
+  end
+
+  def test_override_foreman_url
+    foreman_url_provider = "a object that provides forman_url()"
+    Foreman::Plugin.register :foreman_url_override_plugin do
+      override_foreman_url "a object that provides forman_url()"
+    end
+    assert_equal  Foreman::Controller::ForemanUrlRenderable::FOREMAN_URL_PROVIDER_WRAP.provider, foreman_url_provider
+
+    #cleanup
+    Foreman::Plugin.register :foreman_url_override_plugin do
+      override_foreman_url nil
+    end
   end
 
 end
