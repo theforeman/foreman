@@ -3,7 +3,7 @@ module Api
     class ConfigTemplatesController < V2::BaseController
       include Api::Version2
       include Api::TaxonomyScope
-      include Foreman::Renderer
+      include Foreman::Controller::Renderer
 
       before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}

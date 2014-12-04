@@ -1,6 +1,6 @@
 class ConfigTemplatesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  include Foreman::Renderer
+  include Foreman::Controller::Renderer
 
   before_filter :handle_template_upload, :only => [:create, :update]
   before_filter :find_resource, :only => [:edit, :update, :destroy, :clone, :lock, :unlock]

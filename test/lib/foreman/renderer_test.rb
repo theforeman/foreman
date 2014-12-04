@@ -1,8 +1,7 @@
 require 'test_helper'
-require 'foreman/renderer'
 
 class RendererTest < ActiveSupport::TestCase
-  include Foreman::Renderer
+  include Foreman::Controller::Renderer
 
   def setup_normal_renderer
     Setting[:safemode_render] = false

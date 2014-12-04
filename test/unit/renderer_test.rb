@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RendererTest < ActiveSupport::TestCase
-  include Foreman::Renderer
+  include Foreman::Controller::Renderer
 
   test "should indent a string" do
     indented = indent 4 do

@@ -1,5 +1,5 @@
 module UnattendedHelper
-  include Foreman::Renderer
+  include Foreman::Controller::Renderer
 
   def ks_console
     (@port and @baud) ? "console=ttyS#{@port},#{@baud}": ""
