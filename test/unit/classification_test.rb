@@ -502,6 +502,92 @@ class ClassificationTest < ActiveSupport::TestCase
     assert enc['base'][key.key].nil?
   end
 
+  test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
+    FactoryGirl.create(:setting,
+                       :name => 'host_group_matchers_inheritance',
+                       :value => true)
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param, :use_puppet_default => true,
+                             :override => true, :key_type => 'string', :merge_overrides => false,
+                             :path => "organization\nhostgroup\nlocation",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_hostgroup = FactoryGirl.create(:hostgroup,
+                                          :puppetclasses => [puppetclasses(:two)],
+                                          :environment => environments(:production))
+    child_hostgroup = FactoryGirl.create(:hostgroup, :parent => parent_hostgroup)
+
+    host = @classification.send(:host)
+    host.hostgroup = child_hostgroup
+    host.save
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "hostgroup=#{parent_hostgroup}",
+                          :value => "parent",
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "hostgroup=#{child_hostgroup}",
+                          :value => "child",
+                          :use_puppet_default => false
+    end
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match =>"organization=#{taxonomies(:organization1)}",
+                          :value => "org",
+                          :use_puppet_default => false
+    end
+
+    enc = classification.enc
+
+    assert_equal 'org', enc["apache"][key.key]
+  end
+
+  test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
+    FactoryGirl.create(:setting,
+                       :name => 'host_group_matchers_inheritance',
+                       :value => true)
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param, :use_puppet_default => true,
+                             :override => true, :key_type => 'string', :merge_overrides => false,
+                             :path => "organization\nhostgroup\nlocation",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_hostgroup = FactoryGirl.create(:hostgroup,
+                                          :puppetclasses => [puppetclasses(:two)],
+                                          :environment => environments(:production))
+    child_hostgroup = FactoryGirl.create(:hostgroup, :parent => parent_hostgroup)
+
+    host = @classification.send(:host)
+    host.hostgroup = child_hostgroup
+    host.save
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "hostgroup=#{parent_hostgroup}",
+                          :value => "parent",
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "hostgroup=#{child_hostgroup}",
+                          :value => "child",
+                          :use_puppet_default => false
+    end
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match =>"location=#{taxonomies(:location1)}",
+                          :value => "loc",
+                          :use_puppet_default => true
+    end
+
+    enc = classification.enc
+
+    assert_equal 'child', enc["apache"][key.key]
+  end
+
   private
 
   attr_reader :classification

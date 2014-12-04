@@ -39,7 +39,12 @@ module Classification
       all_lookup_values = LookupValue.where(:match => path2matches).where(:lookup_key_id => class_parameters)
       class_parameters.each do |key|
         lookup_values_for_key = all_lookup_values.where(:lookup_key_id => key.id, :use_puppet_default => false)
-        sorted_lookup_values = lookup_values_for_key.sort_by { |lv| key.path.index(lv.match.split(LookupKey::EQ_DELM).first) }
+        sorted_lookup_values = lookup_values_for_key.sort_by do |lv|
+          # splitting the matcher hostgroup=example to 'hostgroup' and 'example'
+          matcher_element, matcher_value = lv.match.split(LookupKey::EQ_DELM)
+          # prefer matchers in order of the path, then more specific matches (i.e. hostgroup children)
+          [key.path.index(matcher_element), -1 * matcher_value.length]
+        end
         value = nil
         if key.merge_overrides
           case key.key_type
