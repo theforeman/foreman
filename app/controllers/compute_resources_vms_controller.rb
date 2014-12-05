@@ -9,6 +9,8 @@ class ComputeResourcesVmsController < ApplicationController
       format.json { render :json => @vms }
     end
   rescue => e
+    logger.warn "Error has occurred while listing VMs on #{@compute_resource}: #{e}"
+    logger.debug e.backtrace.join("\n")
     render :partial => 'compute_resources_vms/error', :locals => { :errors => e.message }
   end
 
