@@ -8,7 +8,7 @@ Foreman will make a dump of your database at the provided location, or it will p
 A valid config/database.yml file with the database details is needed to perform this operation.
 
 Available conditions:
-  * destination => path to dump output file (defaults to #{File.expand_path('../../../db', __FILE__)}.EPOCH)
+  * destination => path to dump output file (defaults to #{File.expand_path('../../../db', __FILE__)}/foreman.EPOCH.sql)
 
   Example:
     rake db:dump destination=/mydir/dumps/foreman.sql RAILS_ENV=production # puts production dump in /mydir/dumps/foreman.sql
