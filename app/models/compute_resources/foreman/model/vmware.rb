@@ -13,6 +13,10 @@ module Foreman::Model
       ComputeResource.model_name
     end
 
+    def user_data_supported?
+      true
+    end
+
     def capabilities
       [:build, :image]
     end
