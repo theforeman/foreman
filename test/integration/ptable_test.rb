@@ -22,4 +22,16 @@ class PtableTest < ActionDispatch::IntegrationTest
     assert_submit_button(ptables_path)
     assert page.has_link? 'debian default'
   end
+
+  test "make sure that ptable names with slashes work" do
+    visit ptables_path
+    click_link "ubuntu default"
+    fill_in "ptable_name", :with => "debian default /dev/sda"
+    fill_in "ptable_layout", :with => "d-i partman-auto/disk string /dev/sda\nd-i"
+    assert_submit_button(ptables_path)
+
+    assert page.has_link? 'debian default /dev/sda'
+    click_link "debian default /dev/sda"
+    assert page.has_field?("ptable_name") #not 404
+  end
 end
