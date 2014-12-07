@@ -6,6 +6,7 @@ class Ptable < ActiveRecord::Base
   include Authorizable
   extend FriendlyId
   friendly_id :name
+  include Parameterizable::ByIdName
   include ValidateOsFamily
   audited :allow_mass_assignment => true
 
