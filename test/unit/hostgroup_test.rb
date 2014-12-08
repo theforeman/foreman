@@ -4,25 +4,12 @@ class HostgroupTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
   end
-  test "name can't be blank" do
-    host_group = Hostgroup.new :name => "  "
-    assert host_group.name.strip.empty?
-    assert !host_group.save
-  end
 
   test "name strips leading and trailing white spaces" do
     host_group = Hostgroup.new :name => " all    hosts in the     world    "
     assert host_group.save
     refute host_group.name.ends_with?(' ')
     refute host_group.name.starts_with?(' ')
-  end
-
-  test "name must be unique" do
-    host_group = Hostgroup.new :name => "some hosts"
-    assert host_group.save
-
-    other_host_group = Hostgroup.new :name => "some hosts"
-    assert !other_host_group.save
   end
 
   def setup_user(operation)
@@ -135,60 +122,6 @@ class HostgroupTest < ActiveSupport::TestCase
     lv.match = "hostgroup=#{hostgroup.name}"
     lv.save!
     assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)].map(&:id).sort, hostgroup.lookup_values.map(&:id).sort
-  end
-
-  # test NestedAncestryCommon methods generate by class method nested_attribute_for
-  test "respond to nested_attribute_for methods" do
-    hostgroup = hostgroups(:common)
-    [:compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
-     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id].each do |field|
-      assert hostgroup.respond_to?("inherited_#{field}")
-    end
-  end
-
-  test "inherited id value equals field id value if no ancestry" do
-    hostgroup = hostgroups(:common)
-    [:compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
-     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id].each do |field|
-      assert_equal hostgroup.send(field), hostgroup.send("inherited_#{field}")
-    end
-  end
-
-  test "inherited id value equals parent's field id value if the child's value is null" do
-    child = hostgroups(:inherited)
-    parent = hostgroups(:parent)
-    # environment_id is not included in the array below since child value is not null
-    [:compute_profile_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
-     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id].each do |field|
-      assert_equal parent.send(field), child.send("inherited_#{field}")
-    end
-  end
-
-  test "inherited id value does not inherit parent's field id value if the child's value is not null" do
-    child = hostgroups(:inherited)
-    parent = hostgroups(:parent)
-    # only environment_id is overriden in inherited fixture
-    refute_equal parent.environment_id, child.inherited_environment_id
-    assert_equal child.environment_id, child.inherited_environment_id
-  end
-
-  test "inherited object equals parent object if the child's value is null" do
-    child = hostgroups(:inherited)
-    parent = hostgroups(:parent)
-    # methods below do not include _id
-    # environment is not included in the array below since child value is not null
-    [:compute_profile, :domain, :puppet_proxy, :puppet_ca_proxy,
-     :operatingsystem, :architecture, :medium, :ptable, :subnet].each do |field|
-      assert_equal parent.send(field), child.send(field)
-    end
-  end
-
-  test "inherited object does not inherit parent object if the child's value is null" do
-    child = hostgroups(:inherited)
-    parent = hostgroups(:parent)
-    # only environment_id is overriden in inherited fixture
-    refute_equal parent.environment, child.environment
-    assert_equal environments(:production), child.environment
   end
 
   test "classes_in_groups should return the puppetclasses of a config group only if it is in hostgroup environment" do
@@ -337,25 +270,12 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal "is too long (maximum is %s characters)" % (255 -  min_lookupvalue_length), hostgroup.errors[:name].first
   end
 
-  test "hostgroup name can be up to 255 characters" do
-    parent = FactoryGirl.create(:hostgroup)
-    min_lookupvalue_length = "hostgroup=".length + parent.title.length + 1
-    hostgroup = Hostgroup.new :parent => parent, :name => 'a' * (255 - min_lookupvalue_length)
-    assert_valid hostgroup
-  end
-
-  test "hostgroup should not save when matcher is exactly 256 characters" do
-    parent = FactoryGirl.create(:hostgroup, :name => 'a' * 244)
-    hostgroup = Hostgroup.new :parent => parent, :name => 'b'
-    refute_valid hostgroup
-    assert_equal _("is too long (maximum is 0 characters)"),  hostgroup.errors[:name].first
-  end
-
   test "to_param" do
     parent = FactoryGirl.create(:hostgroup, :name => 'a')
     hostgroup = Hostgroup.new(:parent => parent, :name => 'b')
     assert_equal "#{hostgroup.id}-a-b",  hostgroup.to_param
   end
+<<<<<<< HEAD
 
   test "clone should clone config groups as well" do
     group = FactoryGirl.create(:hostgroup, :name => 'a')
@@ -366,4 +286,6 @@ class HostgroupTest < ActiveSupport::TestCase
     cloned = group.clone("new_name")
     assert cloned.config_groups.include?(config_group)
   end
+=======
+>>>>>>> Fixes #8805 - Taxonomies duplication refactor
 end

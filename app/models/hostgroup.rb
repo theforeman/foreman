@@ -12,7 +12,6 @@ class Hostgroup < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :hostgroup_classes
   has_many :puppetclasses, :through => :hostgroup_classes, :dependent => :destroy
-  validates :name, :presence => true
   validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
@@ -133,7 +132,7 @@ class Hostgroup < ActiveRecord::Base
     [key.default_value, _("Default value")]
   end
 
-  # returns self and parent parameters as a hash
+  # returns self and parent parameters as a hash - should be in NestedAncestryCommon
   def parameters(include_source = false)
     hash = {}
     ids = ancestor_ids

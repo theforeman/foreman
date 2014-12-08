@@ -1,6 +1,5 @@
 class Taxonomy < ActiveRecord::Base
   include Authorizable
-
   include NestedAncestryCommon
 
   serialize :ignore_types, Array
@@ -41,48 +40,51 @@ class Taxonomy < ActiveRecord::Base
     end
   }
 
-  def self.locations_enabled
-    enabled?(:location)
-  end
-
-  def self.organizations_enabled
-    enabled?(:organization)
-  end
-
-  def self.no_taxonomy_scope
-    as_taxonomy nil, nil do
-      yield if block_given?
+  class << self
+    ['locations', 'organizations'].each do |taxonomy|
+      define_method "#{taxonomy}_enabled" do
+        enabled?(taxonomy.singularize.to_sym)
+      end
     end
-  end
 
-  def self.as_taxonomy(org, location)
-    Organization.as_org org do
-      Location.as_location location do
+    def no_taxonomy_scope
+      as_taxonomy nil, nil do
         yield if block_given?
       end
     end
-  end
 
-  def self.enabled?(taxonomy)
-    case taxonomy
-      when :organization
-        SETTINGS[:organizations_enabled]
-      when :location
-        SETTINGS[:locations_enabled]
-      else
-        raise ArgumentError, "unknown taxonomy #{taxonomy}"
+    def as_taxonomy(org, location)
+      Organization.as_org org do
+        Location.as_location location do
+          yield if block_given?
+        end
+      end
     end
-  end
 
-  def self.enabled_taxonomies
-    %w(locations organizations).select { |taxonomy| SETTINGS["#{taxonomy}_enabled".to_sym] }
-  end
+    def enabled?(taxonomy)
+      SETTINGS["#{taxonomy.to_s.pluralize}_enabled".to_sym]
+    end
 
-  def self.ignore?(taxable_type)
-    Array.wrap(self.current).each{ |current|
-      return true if current.ignore?(taxable_type)
-    }
-    false
+    def ignore?(taxable_type)
+      Array.wrap(self.current).each do |current|
+        return true if current.ignore?(taxable_type)
+      end
+      false
+    end
+
+    def all_import_missing_ids
+      all.each do |taxonomy|
+        taxonomy.import_missing_ids
+      end
+    end
+
+    def enabled_taxonomies
+      %w(locations organizations).select { |taxonomy| SETTINGS["#{taxonomy}_enabled".to_sym] }
+    end
+
+    def all_mismatches
+      includes(:hosts).map { |taxonomy| taxonomy.mismatches }
+    end
   end
 
   def ignore?(taxable_type)
@@ -91,33 +93,6 @@ class Taxonomy < ActiveRecord::Base
     else
       ignore_types.include?(taxable_type.classify)
     end
-  end
-
-  def self.all_import_missing_ids
-    all.each do |taxonomy|
-      taxonomy.import_missing_ids
-    end
-  end
-
-  def self.all_mismatcheds
-    includes(:hosts).map { |taxonomy| taxonomy.mismatches }
-  end
-
-  def dup
-    new = super
-    new.name = ""
-    new.users             = users
-    new.environments      = environments
-    new.smart_proxies     = smart_proxies
-    new.subnets           = subnets
-    new.compute_resources = compute_resources
-    new.config_templates  = config_templates
-    new.media             = media
-    new.domains           = domains
-    new.realms            = realms
-    new.media             = media
-    new.hostgroups        = hostgroups
-    new
   end
 
   # overwrite *_ids since need to check if ignored? - don't overwrite location_ids and organizations_ids since these aren't ignored
