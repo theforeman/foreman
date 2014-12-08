@@ -28,8 +28,8 @@ module HostsAndHostgroupsHelper
 
   def domain_subnets(domain = @domain)
     return [] if domain.blank?
-    ids = domain.subnets.pluck(:id)
-    accessible_subnets.where(:id => ids)
+    ids = domain.subnets.pluck('subnets.id')
+    accessible_subnets.where('subnets.id' => ids)
   end
 
   def arch_oss
