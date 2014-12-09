@@ -45,8 +45,8 @@ module ConfigTemplatesHelper
         end,
 
         if config_template.vendor
-          _("It is not reccomended to unlock this template, as it is provided by %{vendor} and may be overwritten. Please consider cloning it instead." %
-            {:vendor => config_template.vendor})
+          _("It is not recommended to unlock this template, as it is provided by %{vendor} and may be overwritten. Please consider cloning it instead.") %
+            {:vendor => config_template.vendor}
         end,
 
         _("Continue?")
