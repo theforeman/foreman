@@ -1,0 +1,125 @@
+!define FOREMAN << (C,yellow) Foreman >>
+!define ORDERED << (C,green) Ordered >>
+
+!definelong RESOURCES
+class HostgroupResource {
+    String name
+    .. notes ..
+    Parent is HostgroupResource
+    or it's provided on Deployment
+    configuration.
+}
+
+class ParamResource {
+    String name
+    String description # intent
+    String default_value
+    .. notes ..
+    validations, like list of
+    allowed values
+}
+
+class ParamOverrideResource {
+    String key
+    String value # ERB
+}
+
+class ComputeResourceResource {
+    String type
+    Boolean image_based
+    String image_url nullable
+    .. notes ..
+    Each ComputeResourceResource allows
+    particular ComputeResource type for
+    a given HostResource. It has to
+    contain image_url when image_based.
+}
+
+class ComputeProfileResource {
+    .. notes ..
+    Type limitations.
+    Can be added later or stored
+    directly on HostResource.
+}
+
+class PuppetClassResource {
+    String name
+    \# of the class to add
+}
+
+class SubnetTypeResource {
+    String name
+    .. notes ..
+    like Staypuft
+    network types
+}
+
+class InterfaceResource {
+    String ip
+    .. notes ..
+    creates interface without
+    Host to reserve IP
+}
+
+class HostResource {
+    String name # "db-%02d"
+    Integere min
+    Integere max
+}
+
+class ConnectParamResource {
+    .. notes ..
+    Possibly allow to define
+    a transformation function.
+    Only resource allowing to connect
+    resources form child stacks.
+    ERB is inserted to destination
+    to propagate value from source.
+}
+
+class ChildStackResource ORDERED
+
+class ParamUpdateResource ORDERED {
+    Staring value
+    .. notes ..
+    possibly ERB to compute new value
+}
+
+class PuppetRunResource ORDERED
+
+Resource <|-[#gray]- HostgroupResource
+Resource <|-[#gray]- ParamResource
+Resource <|-[#gray]- ParamOverrideResource
+Resource <|-[#gray]- PuppetClassResource
+Resource <|-[#gray]- ComputeResourceResource
+Resource <|-[#gray]- ComputeProfileResource
+Resource <|-[#gray]- SubnetTypeResource
+Resource <|-[#gray]- InterfaceResource
+Resource <|-[#gray]- ConnectParamResource
+
+Resource <|-[#gray]- ChildStackResource
+Resource <|-[#gray]- HostResource
+Resource <|-[#gray]- ParamUpdateResource
+Resource <|-[#gray]- PuppetRunResource
+
+Ordered <|-[#gray]-- ChildStackResource
+Ordered <|-[#gray]-- ParamUpdateResource
+Ordered <|-[#gray]-- PuppetRunResource
+
+!enddefinelong
+
+!definelong RESOURCESASSOCIATIONS
+
+PuppetRunResource "0..*" --> "1" HostResource : on
+InterfaceResource "0..*" --> "1" SubnetTypeResource : where
+ParamResource "0..*" --> "1" HostgroupResource : will be\nadded to
+ParamUpdateResource "0..*" --> "1" ParamResource : updates
+ParamOverrideResource "0..*" --> "1" PuppetClassResource : overrides\nin
+PuppetClassResource "0..*" --> "1" HostgroupResource : will be\nadded to
+HostResource "0..*" --> "0..*" SubnetTypeResource : connects to
+HostResource "1..*" --> "1..*" ComputeResourceResource : allowed ComputeResources
+HostResource "0..*" --> "1" ComputeProfileResource : limited by
+ConnectParamResource "0..*" --> "1" ParamResource : source
+ConnectParamResource "0..1" --> "1" ParamResource : destination
+
+!enddefinelong

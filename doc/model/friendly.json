@@ -1,0 +1,39 @@
+{
+  "stacks": [
+    {
+      "id": "db",
+      "name": "db",
+      "hostgroup_resources": [
+        {
+          "id": "db"
+        }
+      ],
+      "param_resources": [
+        {
+          "id": "db_password",
+          "name": "db_password",
+          "added_to": "db"
+        },
+        {
+          "id": "db_api_url",
+          "name": "db_api_url",
+          // pseudo code, computes the url for other stacks to use
+          "default_value": "<%= compute_url() %>",
+          "added_to": "db"
+        }
+      ],
+      "param_override_resources": [
+        {
+          "id": "password_override",
+          "name": "password_override",
+          "key": "$postgress::password",
+          // just pseudo code
+          "value": "<%= get_param('db', 'db_hostgroup', 'db_password') %>",
+          "overrides_in": "db"
+        }
+      ]
+      // other resources
+    }
+    // other stacks
+  ]
+}

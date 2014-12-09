@@ -1,0 +1,44 @@
+# Deployment flow
+
+_If user is not mentioned then the step is done automatically._
+
+-   Show Deployment form to **User**.
+    -   **User** inputs name and description.
+    -   Form is submitted.
+-   Deployment is created.
+-   **User** creates required resources one by one.
+-   **User** assigns existing foreman `Subnet`s with `SubnetTypesResource`s.
+-   **User** Starts by creating all the `Hostgroup`s for each `HostgroupResource`.
+    (Custom form allowing to select just items bellow.)
+    -   If parent is not `HostgroupResource`, it needs to provided by user.
+    -   `Hostgroup` inherits configuration from parent, remaining options
+        are provided by user.
+    -   `Hostgroup` is created.
+    -   `ParamResources` adds the parameters to the hostgroup (implemented with
+        `HostgroupParamater`).
+        -   `ConnectParamResources` are applied if any.
+    -   `Puppetclasses` are looked up by `PuppetClassResource`s.
+    -   `ParamOverideResource`s overrides defined puppet class parameters.
+-   **User** configures parameters added to `Hostgroup`.
+-   **User** continues by creating all the `Hosts` for each `HostResouce`.
+    (Custom form allowing to select just items bellow.)
+    -   **User** assigns `Subnet`s to subnet types,
+    -   picks `ComputeResource` based on allow-list defined by
+        `ComputeResourceResource`s.
+    -   **User** selects provisioning (true is default) (Some managed hosts may be
+        just reused without provisioning).
+    -   **User** defines number of the `Host`s required within `min`, `max`
+        defined on `HostResource`.
+        -   Bare metal hosts are assigned if applicable.
+    -   `Host`s are created or if already existing just assigned to proper
+        `Hostgroup`.
+    -   Provisioning may already start if it cannot be delayed. But the
+        puppetrun has to be always delayed, it's orchestrated later.
+-   All hosts are just created waiting for provisioning or only provisioned
+    without configuration triggered.
+-   **User** triggers deployment.
+    -   All hosts are provisioned if required.
+    -   Waits until all hosts are provisioned.
+    -   Orchestration of the `Ordered` resources. e.g.:
+        -   Puppetrun an all controller nodes in parallel,
+        -   then puppetrun on all compute nodes in parallel.
