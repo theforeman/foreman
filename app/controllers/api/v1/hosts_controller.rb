@@ -51,6 +51,7 @@ module Api
         param :provision_method, String
         param :managed, :bool, :desc => "True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not"
         param :progress_report_id, String, :desc => "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
+        param :comment, String, :desc => "Additional information about this host"
         param :capabilities, String
         param :compute_profile_id, :number
         param :compute_attributes, Hash do
