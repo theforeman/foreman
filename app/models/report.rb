@@ -120,8 +120,8 @@ class Report < ActiveRecord::Base
     cond += " and reports.status = #{status}" unless status.nil?
 
     Log.joins(:report).where(:report_id => Report.where(cond)).delete_all
-    Message.where("id not IN (#{Log.select(:message_id).to_sql})").delete_all
-    Source.where("id not IN (#{Log.select(:source_id).to_sql})").delete_all
+    Message.where("id not IN (#{Log.select('DISTINCT message_id').to_sql})").delete_all
+    Source.where("id not IN (#{Log.select('DISTINCT source_id').to_sql})").delete_all
     count = Report.where(cond).delete_all
     logger.info Time.now.to_s + ": Expired #{count} Reports"
     count
