@@ -1,24 +1,24 @@
-<% new = @host ? @host.created_at.nil? : true %>
-<%= text_f f, :name, :disabled => !new if show_vm_name? %>
-<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new, :label => _('CPUs') %>
-<%= selectable_f f, :corespersocket, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new, :label => _('Cores per socket') %>
-<%= text_f f, :memory_mb, :class => "col-md-2", :disabled => !new, :label => _("Memory (MB)") %>
-<%= selectable_f f, :cluster, compute_resource.clusters, { }, :class => "col-md-2", :disabled => !new, :label => _('Cluster') %>
-<%# selectable_f f, :resource_pool, compute_resource.resource_pools, { }, :class => "col-md-2", :disabled => !new %>
-<%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :class => "col-md-2", :disabled => !new } %>
-<%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new } %>
-<%= select_f f, :hardware_version, compute_resource.vm_hw_versions, :first, :last, {}, { :label => _("Virtual H/W version"), :class => "col-md-2", :disabled => !new } %>
+<% new_host = new_host?(@host) %>
+<%= text_f f, :name, :disabled => !new_host if show_vm_name? %>
+<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('CPUs') %>
+<%= selectable_f f, :corespersocket, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('Cores per socket') %>
+<%= text_f f, :memory_mb, :class => "col-md-2", :disabled => !new_host, :label => _("Memory (MB)") %>
+<%= selectable_f f, :cluster, compute_resource.clusters, { }, :class => "col-md-2", :disabled => !new_host, :label => _('Cluster') %>
+<%# selectable_f f, :resource_pool, compute_resource.resource_pools, { }, :class => "col-md-2", :disabled => !new_host %>
+<%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :class => "col-md-2", :disabled => !new_host } %>
+<%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new_host } %>
+<%= select_f f, :hardware_version, compute_resource.vm_hw_versions, :first, :last, {}, { :label => _("Virtual H/W version"), :class => "col-md-2", :disabled => !new_host } %>
 
 <!--interfaces-->
 <div class="children_fields">
   <%= new_child_fields_template(f, :interfaces, {
       :object  => compute_resource.new_interface,
-      :partial => 'compute_resources_vms/form/vmware/network', :form_builder_attrs => { :compute_resource => compute_resource, :new => new } }) %>
+      :partial => 'compute_resources_vms/form/vmware/network', :form_builder_attrs => { :compute_resource => compute_resource, :new => new_host } }) %>
   <%= field_set_tag _("Network interfaces"), :id => "network_interfaces" do %>
     <%= f.fields_for :interfaces do |i| %>
-      <%= render 'compute_resources_vms/form/vmware/network', :f => i, :compute_resource => compute_resource, :new => new %>
+      <%= render 'compute_resources_vms/form/vmware/network', :f => i, :compute_resource => compute_resource, :new => new_host %>
     <% end %>
-    <% if new %>
+    <% if new_host %>
       <%= add_child_link '+ ' + _("Add Interface"), :interfaces, { :class => "info disable-unsupported", :title => _('add new network interface') } %>
     <% end %>
   <% end %>
@@ -28,13 +28,13 @@
 <div class="children_fields">
   <%= new_child_fields_template(f, :volumes, {
       :object  => compute_resource.new_volume,
-      :partial => 'compute_resources_vms/form/vmware/volume', :form_builder_attrs => { :compute_resource => compute_resource, :new => new } }) %>
+      :partial => 'compute_resources_vms/form/vmware/volume', :form_builder_attrs => { :compute_resource => compute_resource, :new => new_host } }) %>
   <%= field_set_tag _("Storage"), :id => "storage_volumes" do %>
-    <%= select_f f, :scsi_controller_type, compute_resource.scsi_controller_types, :first, :last, {}, { :label => _("SCSI controller"), :class => "col-md-2", :disabled => !new } %>
+    <%= select_f f, :scsi_controller_type, compute_resource.scsi_controller_types, :first, :last, {}, { :label => _("SCSI controller"), :class => "col-md-2", :disabled => !new_host } %>
     <%= f.fields_for :volumes do |i| %>
-      <%= render 'compute_resources_vms/form/vmware/volume', :f => i, :compute_resource => compute_resource, :new => new %>
+      <%= render 'compute_resources_vms/form/vmware/volume', :f => i, :compute_resource => compute_resource, :new => new_host %>
     <% end %>
-    <% if new %>
+    <% if new_host %>
       <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info disable-unsupported", :title => _('add new storage volume') } %>
     <% end %>
   <% end %>
@@ -42,7 +42,7 @@
 
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start') } if new and controller_name != 'compute_attributes' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start') } if new_host and controller_name != 'compute_attributes' %>
 
 <%
   arch ||= nil ; os ||= nil
