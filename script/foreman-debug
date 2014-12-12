@@ -292,7 +292,7 @@ qprintf "\n\n"
 
 if [ "$NOTAR" -eq 0 ]; then
   pushd "$DIR" >/dev/null
-  tar -c * 2>/dev/null | $COMPRESS > "$TARBALL"
+  tar -c ../$(basename $DIR) 2>/dev/null | $COMPRESS > "$TARBALL"
   popd >/dev/null
   qprintf "%s: %s\n\n" "A debug file has been created" "$TARBALL ($(stat -c %s "$TARBALL") bytes)"
 else
