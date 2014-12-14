@@ -50,7 +50,7 @@ module Foreman::Model
     end
 
     def clusters
-      name_sort(dc.clusters)
+      dc.clusters.map(&:full_path).sort
     end
 
     def datastores(opts = {})
