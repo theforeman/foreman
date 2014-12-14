@@ -2,7 +2,6 @@ module FogExtensions
 end
 
 begin
-  require 'fog'
 
   Fog::Model.send(:include, FogExtensions::Model)
 
