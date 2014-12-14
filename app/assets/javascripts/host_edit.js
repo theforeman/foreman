@@ -128,11 +128,11 @@ function animate_progress(){
 }
 
 function update_progress(data){
-  var task_list_size = $('p',data).size();
+  var task_list_size = $('p',data).length;
   if (task_list_size == 0 || stop_pooling == true) return;
 
-  var done_tasks = $('.glyphicon-check',data).size();
-  var failed_tasks = $('.glyphicon-remove',data).size();
+  var done_tasks = $('.glyphicon-check',data).length;
+  var failed_tasks = $('.glyphicon-remove',data).length;
 
   $("#host-progress").show();
   if(failed_tasks > 0) {
@@ -236,7 +236,7 @@ function subnet_selected(element){
   }
 
   var subnet_id = $(element).val();
-  if (subnet_id == '' || $('#host_ip').size() == 0) return;
+  if (subnet_id == '' || $('#host_ip').length == 0) return;
 
   // We do not query the proxy if the host_ip field is filled in and contains an
   // IP that is in the selected subnet

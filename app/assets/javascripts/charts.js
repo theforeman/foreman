@@ -185,7 +185,7 @@ function flot_zoom(target, options, ranges) {
         xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
         yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
       }));
-  if(target.parents('.stats-well').find('.reset-zoom').size() == 0){
+  if(target.parents('.stats-well').find('.reset-zoom').length == 0){
     target.parents('.stats-well').prepend("<a class='reset-zoom btn btn-sm'>" + __('Reset zoom') + "</a>");
   }
 }
