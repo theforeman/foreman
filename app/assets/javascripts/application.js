@@ -23,7 +23,7 @@ $(function() {
 });
 
 function onContentLoad(){
-  if($('.autocomplete-clear').size() == 0){
+  if($('.autocomplete-clear').length == 0){
     $('.autocomplete-input').scopedSearch({'delay': 250});
     $('.ui-helper-hidden-accessible').remove();
   }
@@ -50,7 +50,7 @@ function onContentLoad(){
   $("#title_action span").removeClass("btn btn-default").addClass("btn-group");
   $("#title_action a[href*='new']").removeClass('btn-default').addClass("btn-success");
 
-  if ($("input[focus_on_load=true]").size() > 0) {
+  if ($("input[focus_on_load=true]").length > 0) {
     $("input[focus_on_load]").first().focus();
   }
 
@@ -259,7 +259,7 @@ function filter_by_level(item){
     $('.label-warning').closest('tr').hide();
     $('.label-danger').closest('tr').show();
   }
-  if($("#report_log tr:visible ").size() ==1 || $("#report_log tr:visible ").size() ==2 && $('#ntsh:visible').size() > 0 ){
+  if($("#report_log tr:visible ").length ==1 || $("#report_log tr:visible ").length ==2 && $('#ntsh:visible').length > 0 ){
     $('#ntsh').show();
   }
   else{
@@ -289,7 +289,7 @@ function attribute_hash(attributes){
   var attrs = {};
   for (i=0;i < attributes.length; i++) {
     var attr = $('*[id$='+attributes[i]+']');
-    if (attr.size() > 0) {
+    if (attr.length > 0) {
       if(attr.attr("type")=="checkbox"){
         attrs[attributes[i]] = [];
         $("*[id*="+attributes[i]+"]:checked").each(function(index,item){
