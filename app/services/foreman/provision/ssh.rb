@@ -1,11 +1,3 @@
-begin
-  require 'fog'
-rescue LoadError
-  Rails.logger.info "Fog is not installed - unable to manage compute resources"
-rescue => exception
-  Rails.logger.warn "Fog initialization failed - #{exception}"
-  Rails.logger.debug exception.backtrace.join("\n")
-end
 require 'timeout'
 
 class Foreman::Provision::SSH
