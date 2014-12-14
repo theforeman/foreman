@@ -102,8 +102,8 @@ function addConfigGroup(item){
   $.each(puppetclass_ids, function(index,puppetclass_id) {
     var pc = $("li#puppetclass_" + puppetclass_id);
     var pc_link = $("a[data-class-id='" + puppetclass_id + "']");
-    if ( (pc_link.size() > 0) && (pc.size() > 0) && ($.inArray(puppetclass_id, inherited_ids) == -1 ) ) {
-      if (!($("#selected_puppetclass_"+ puppetclass_id).size() > 0)) {
+    if ( (pc_link.length > 0) && (pc.length > 0) && ($.inArray(puppetclass_id, inherited_ids) == -1 ) ) {
+      if (!($("#selected_puppetclass_"+ puppetclass_id).length > 0)) {
         add_group_puppet_class(pc_link);
       }
     }
@@ -122,7 +122,7 @@ function removeConfigGroup(item){
   $.each(puppetclass_ids, function(index,puppetclass_id){
     var pc = $('#selected_puppetclass_' + puppetclass_id);
     var pc_link = $("a[data-class-id='" + puppetclass_id + "']");
-    if ( (pc_link.size() > 0) && (pc.size() > 0) && ($.inArray(puppetclass_id, inherited_ids) == -1 ) ) {
+    if ( (pc_link.length > 0) && (pc.length > 0) && ($.inArray(puppetclass_id, inherited_ids) == -1 ) ) {
       remove_puppet_class(pc_link);
     }
   });

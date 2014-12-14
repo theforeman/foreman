@@ -14,7 +14,7 @@ $(function() {
 function select_first_tab(){
   $('.lookup-keys-container').each(
         function(i,container){
-          if ($(container).find('.smart-var-tabs li').size() > 1){
+          if ($(container).find('.smart-var-tabs li').length > 1){
             $(container).find('.tab-content .fields').first().addClass('active');
             $(container).find('.smart-var-tabs li').first().addClass('active');
             $(container).find('.smart-var-tabs li.active').find("a span").show();
@@ -28,7 +28,7 @@ function show_delete_button(item){
   container.find('.smart-var-tabs li a span:visible').hide();
   container.find('.smart-var-tabs li.active').find("a span").show();
 
-  if($(item).hasClass('label-success') && (container.find('.smart-var-tabs li').size()>1)){
+  if($(item).hasClass('label-success') && (container.find('.smart-var-tabs li').length>1)){
     select_first_tab();
   }
 }
@@ -37,7 +37,7 @@ function remove_node(item){
   $($(item).parent("a").attr("href")).children('.btn-danger').click();
   var container = $('.lookup-keys-container:visible');
   var pills = container.find('.smart-var-tabs li a');
-  if (pills.size() > 1){
+  if (pills.length > 1){
     pills.first().parent().addClass('active');
     pills.first().find('span').show();
   }
@@ -144,7 +144,7 @@ function undo_remove_child_node(item){
   show_delete_button(link);
 
   $(item).remove();
-  if (container.find('.undo-smart-vars a').size() == 0) {
+  if (container.find('.undo-smart-vars a').length == 0) {
     container.find('.undo-smart-vars').hide();
   }
   return false;
