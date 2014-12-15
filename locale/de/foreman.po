@@ -30,8 +30,8 @@ msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-11-10 10:55+0100\n"
-"PO-Revision-Date: 2014-11-01 10:30+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2014-12-09 08:37+0000\n"
+"Last-Translator: stbenjam <stephen@redhat.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -288,7 +288,7 @@ msgid "Access Key"
 msgstr "Zugriffsschlüssel"
 
 msgid "Access denied"
-msgstr ""
+msgstr "Zugang verweigert"
 
 msgid "Account"
 msgstr "Konto"
@@ -340,7 +340,7 @@ msgid "Add a Puppet class to host group"
 msgstr "Puppet-Klasse der Hostgruppe zuweisen"
 
 msgid "Add a template combination"
-msgstr ""
+msgstr "Vorlage-Kombination hinzufügen"
 
 msgid "Add combination"
 msgstr "Füge Kombination hinzu"
@@ -349,7 +349,7 @@ msgid "Add external user group"
 msgstr "Externe Benutzergruppe hinzufügen"
 
 msgid "Add filter"
-msgstr ""
+msgstr "Filter hinzufügen"
 
 msgid "Add:"
 msgstr "Hinzufügen:"
@@ -1310,7 +1310,7 @@ msgid "Create a report"
 msgstr "Bericht erstellen"
 
 msgid "Create a role"
-msgstr ""
+msgstr "Rolle erstellen"
 
 msgid "Create a smart proxy"
 msgstr ""
@@ -1538,7 +1538,7 @@ msgid "Delete a report"
 msgstr "Bericht löschen"
 
 msgid "Delete a role"
-msgstr ""
+msgstr "Rolle löschen"
 
 msgid "Delete a smart proxy"
 msgstr ""
@@ -2241,7 +2241,7 @@ msgstr "Hole TFTP-Bootdateien für %s"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
-msgstr "Fehler"
+msgstr "Filter"
 
 msgid "Filter by name"
 msgstr "Nach Name filtern"
@@ -3397,7 +3397,7 @@ msgid "List all reports"
 msgstr "Alle Berichte auflisten"
 
 msgid "List all roles"
-msgstr ""
+msgstr "Alle Rollen auflisten"
 
 msgid "List all settings"
 msgstr "Alle Einstellungen auflisten"

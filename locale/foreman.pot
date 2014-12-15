@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-10 10:55+0100\n"
+"POT-Creation-Date: 2014-12-15 10:04+0000\n"
 "PO-Revision-Date: 2013-03-01 15:45-0500\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -29,9 +29,6 @@ msgid "%s - The following hosts are about to be changed"
 msgstr ""
 
 msgid "%s Distribution"
-msgstr ""
-
-msgid "%s Host"
 msgstr ""
 
 msgid "%s Parameters updated, see below for more information"
