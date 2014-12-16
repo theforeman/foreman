@@ -2,6 +2,19 @@ require 'test_helper'
 require 'net'
 
 class DhcpTest < ActiveSupport::TestCase
+  setup do
+    @lease1 = '{
+      "starts": "2014-05-09 11:55:21 UTC",
+      "ends": "2214-05-09 12:05:21 UTC",
+      "state": "active",
+      "mac": "aa:bb:cc:dd:ee:01",
+      "subnet": "127.0.0.0/255.0.0.0",
+      "ip": "127.0.0.1"
+    }'
+    @lease1.stubs(:code).returns(200)
+    @lease1.stubs(:body).returns(@lease1)
+  end
+
   test "dhcp record should not be created without a mac" do
     assert_raise Net::Validations::Error do
       Net::DHCP::Record.new :hostname => "test", "proxy" => smart_proxies(:one)
@@ -77,5 +90,32 @@ class DhcpTest < ActiveSupport::TestCase
                                     :network => "127.0.0.0", :ip => "127.0.0.1",
                                     "proxy" => subnets(:one).dhcp_proxy)
     refute record1.valid?
+  end
+
+  test "dhcp record validation should fail on MAC conflict" do
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/127.0.0.1").returns(@lease1)
+    record1 = Net::DHCP::Record.new(:hostname => "discovered_host1", :mac => "aa:bb:cc:dd:ee:02",
+                                    :network => "127.0.0.0", :ip => "127.0.0.1",
+                                    "proxy" => subnets(:one).dhcp_proxy)
+    refute record1.conflicts.empty?
+  end
+
+  test "dhcp record validation on multiple discovered leases" do
+    lease2 = '{
+      "starts": "2014-05-09 11:55:21 UTC",
+      "ends": "2214-05-09 12:05:21 UTC",
+      "state": "active",
+      "mac": "aa:bb:cc:dd:ee:ff",
+      "subnet": "127.0.0.0/255.0.0.0",
+      "ip": "127.0.0.2"
+    }'
+    lease2.stubs(:code).returns(200)
+    lease2.stubs(:body).returns(lease2)
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/127.0.0.1").returns(@lease1)
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/127.0.0.2").returns(lease2)
+    record1 = Net::DHCP::Record.new(:hostname => "discovered_host1", :mac => "aa:bb:cc:dd:ee:ff",
+                                    :network => "127.0.0.0", :ip => "127.0.0.2",
+                                    "proxy" => subnets(:one).dhcp_proxy)
+    assert record1.conflicts.empty?
   end
 end
