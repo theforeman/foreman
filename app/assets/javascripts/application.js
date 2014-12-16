@@ -57,7 +57,7 @@ function onContentLoad(){
   // highlight tabs with errors
   $(".tab-content").find(".form-group.has-error").each(function(i){
     $(this).parents(".tab-pane").each(function(index, item) {
-      var id = $(item).attr('id');
+      var id = item.id;
       $("a[href=#"+id+"]").addClass("tab-error");
 
       // focus on first field in first tab with error

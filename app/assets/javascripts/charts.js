@@ -269,9 +269,9 @@ function get_pie_chart(div, url) {
 function expand_chart(ref){
   var chart = $(ref);
   if (!chart.hasClass('statistics-pie')){
-    chart = $(ref).parent().find('.statistics-pie');
+    chart = chart.parent().find('.statistics-pie');
   }
-  var modal_id = chart.attr('id')+'_modal';
+  var modal_id = chart[0].id+'_modal';
   if($("#"+modal_id).length == 0)
   {
     var new_chart = chart.clone().empty().attr('id', modal_id + "_chart").removeClass('small');

@@ -114,8 +114,9 @@ function remove_child_node(item) {
 
   $(item).closest('.fields').hide();
   if($(item).parent().hasClass('fields')) {
-    var pill = $('#pill_' + $(item).closest('.fields').attr('id'));
-    var undo_link = $("<a href='#'>" +pill.html()+"</a>").attr("data-pill", "#"+pill.attr("id"));
+    var pill_id = '#pill_' + $(item).closest('.fields')[0].id
+    var pill = $(pill_id);
+    var undo_link = $("<a href='#'>" +pill.html()+"</a>").attr("data-pill", pill_id);
 
     pill.parent().hide();
     undo_link.on('click', function(){ undo_remove_child_node(this);});
@@ -159,7 +160,7 @@ function toggleOverrideValue(item) {
   var default_value_field = fields.find("[id$='_default_value']");
   var use_puppet_default = fields.find("[id$='use_puppet_default']");
   var override_value_div = fields.find("[id$='lookup_key_override_value']");
-  var pill_icon = $('#pill_' + fields.attr('id') +' i');
+  var pill_icon = $('#pill_' + fields[0].id +' i');
 
   mandatory.attr('disabled', override ? null : 'disabled');
   type_field.attr('disabled', override ? null : 'disabled');

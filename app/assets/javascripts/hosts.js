@@ -37,9 +37,9 @@ $(function () {
   };
 
   action_buttons.on('click', function () {
-    if ($(this).attr('id') === 'delete-button' && !confirm($(this).attr('data-message')))
+    if (this.id === 'delete-button' && !confirm($(this).attr('data-message')))
       return false;
-    if (is_in_array($(this).attr('id'), ['delete-button', 'edit-button', 'cancel-build-button'])) {
+    if (is_in_array(this.id, ['delete-button', 'edit-button', 'cancel-build-button'])) {
        action_buttons.prop('disabled', 1)
        wait_msg.modal('show');
     }
