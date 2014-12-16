@@ -23,35 +23,35 @@ function multiSelectToolTips(){
     var inheriteds = $(item).attr('data-inheriteds');
     var descendants = $(item).attr('data-descendants');
     var useds = $(item).attr('data-useds');
-
+    var msid = '#ms-'+item.id;
     // it an <li> items match multiple tooltips, then only the first tooltip will show
     if (!(mismatches == null || mismatches == 'undefined')) {
       var missing_ids = $.parseJSON(mismatches);
       $.each(missing_ids, function(index,missing_id){
         opt_id = sanitize(missing_id+'');
-        $('#ms-'+$(item).attr('id')).find('li#'+opt_id+'-selectable').addClass('delete').tooltip({title: __("Select this since it belongs to a host"), placement: "left"});
+        $(msid).find('li#'+opt_id+'-selectable').addClass('delete').tooltip({title: __("Select this since it belongs to a host"), placement: "left"});
       })
     }
     if (!(useds == null || descendants == 'useds')) {
       var used_ids = $.parseJSON(useds);
       $.each(used_ids, function(index,used_id){
         opt_id = sanitize(used_id+'');
-        $('#ms-'+$(item).attr('id')).find('li#'+opt_id+'-selection').addClass('used_by_hosts').tooltip({title: __("This is used by a host"), placement: "right"});
+        $(msid).find('li#'+opt_id+'-selection').addClass('used_by_hosts').tooltip({title: __("This is used by a host"), placement: "right"});
       })
     }
     if (!(inheriteds == null || inheriteds == 'undefined')) {
       var inherited_ids = $.parseJSON(inheriteds);
       $.each(inherited_ids, function(index,inherited_id){
         opt_id = sanitize(inherited_id+'');
-        $('#ms-'+$(item).attr('id')).find('li#'+opt_id+'-selection').addClass('inherited').tooltip({title: __("This is inherited from parent"), placement: "right"});
+        $(msid).find('li#'+opt_id+'-selection').addClass('inherited').tooltip({title: __("This is inherited from parent"), placement: "right"});
       })
     }
     if (!(descendants == null || descendants == 'undefined')) {
       var descendant_ids = $.parseJSON(descendants);
       $.each(descendant_ids, function(index,descendant_id){
         opt_id = sanitize(descendant_id+'');
-        $('#ms-'+$(item).attr('id')).find('li#'+opt_id+'-selection').addClass('descendants').tooltip({title: __("Parent is already selected"), placement: "right"});
-        $('#ms-'+$(item).attr('id')).find('li#'+opt_id+'-selectable').addClass('descendants').tooltip({title: __("Parent is already selected"), placement: "left"});
+        $(msid).find('li#'+opt_id+'-selection').addClass('descendants').tooltip({title: __("Parent is already selected"), placement: "right"});
+        $(msid).find('li#'+opt_id+'-selectable').addClass('descendants').tooltip({title: __("Parent is already selected"), placement: "left"});
       })
     }
   })
