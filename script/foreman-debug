@@ -234,7 +234,7 @@ fi
 # FOREMAN RELATED ARTIFACTS
 
 printv "Collecting Foreman-related information"
-add_cmd "rpm -qa '*foreman*' || dpkg -l *foreman* | sort" "foreman_packages"
+add_cmd "rpm -qa '*foreman*' || dpkg -l '*foreman*' | sort" "foreman_packages"
 add_cmd "ruby --version" "version_ruby"
 add_cmd "puppet --version" "version_puppet"
 add_cmd "gem list" "gem_list"
