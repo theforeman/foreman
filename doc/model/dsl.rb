@@ -15,7 +15,7 @@ Foreman::Deployments::DSL.define do
 
     host :db do
       count 1..1
-      puppet_run
+      puppet_run(:db1) >> puppet_run(:db2)
     end
   end
 end

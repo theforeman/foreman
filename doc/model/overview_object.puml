@@ -1,0 +1,67 @@
+@startuml
+
+title Object Overview
+
+!include shared.puml
+FONT
+
+OBJECT(HA_OpenStack,Stack)
+OBJECT(Non_HA_OpenStack,Stack)
+OBJECT(HA_Controller,Stack)
+OBJECT(Non_HA_Controller,Stack)
+OBJECT(Compute,Stack)
+
+HA_OpenStack --> HA_Controller : has children
+HA_OpenStack --> Compute : has children
+Non_HA_OpenStack --> Non_HA_Controller : has children
+Non_HA_OpenStack --> Compute : has children
+
+OBJECT(HA_OpenStack_deployment,Deployment)
+OBJECT(Non_HA_OpenStack_deployment,Deployment)
+
+HA_OpenStack_deployment --> HA_OpenStack : deploys
+Non_HA_OpenStack_deployment --> Non_HA_OpenStack : deploys
+
+OBJECT("resources" as res1,Resource)
+OBJECT("resources" as res2,Resource)
+OBJECT("resources" as res3,Resource)
+
+HA_Controller --> "*" res1 : is composed of
+Compute --> "*" res2 : is composed of
+Non_HA_Controller --> "*" res3 : is composed of
+
+OBJECT("a_foreman_objects" as fobj1,AForemanObject)
+OBJECT("a_foreman_objects" as fobj21,AForemanObject)
+OBJECT("a_foreman_objects" as fobj22,AForemanObject)
+OBJECT("a_foreman_objects" as fobj3,AForemanObject)
+
+OBJECT("deployed_a_foreman_objects" as fobjd1,DeployedAForemanObject)
+OBJECT("deployed_a_foreman_objects" as fobjd21,DeployedAForemanObject)
+OBJECT("deployed_a_foreman_objects" as fobjd22,DeployedAForemanObject)
+OBJECT("deployed_a_foreman_objects" as fobjd3,DeployedAForemanObject)
+
+fobjd1 -[#DEPLOYCOLOR]-> fobj1
+fobjd21 -[#DEPLOYCOLOR]-> fobj21
+fobjd22 -[#DEPLOYCOLOR]-> fobj22
+fobjd3 -[#DEPLOYCOLOR]-> fobj3
+fobjd1 -up[#DEPLOYCOLOR]-> res1
+fobjd21 -up[#DEPLOYCOLOR]-> res2
+fobjd22 -up[#DEPLOYCOLOR]-> res2
+fobjd3 -up[#DEPLOYCOLOR]-> res3
+fobjd1 -up[#DEPLOYCOLOR]-> HA_OpenStack_deployment
+fobjd21 -up[#DEPLOYCOLOR]-> HA_OpenStack_deployment
+fobjd22 -up[#DEPLOYCOLOR]-> Non_HA_OpenStack_deployment
+fobjd3 -up[#DEPLOYCOLOR]-> Non_HA_OpenStack_deployment
+
+DEPLOYOBJECT(DeployedAForemanObject)
+DEPLOYOBJECT(Deployment)
+FOREMANOBJECT(AForemanObject)
+
+legend
+Modularity of stacks
+-   Disconnected from Foreman objects and other stacks
+-   Uses parameters to connect the stacks
+end legend
+
+
+@enduml

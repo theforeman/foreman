@@ -1,0 +1,50 @@
+@startuml
+
+title Class Overview
+
+!include shared.puml
+FONT
+
+object Deployment {
+    The result of performing the instructions
+    in a stack, taking in any necessary input
+    parameters from user. It's a composition
+    of created and configured Foreman objects.
+}
+
+object Stack {
+    Composable pieces of infrastructure
+    templates. The instructions needed
+    to assemble a set of resources for a
+    specific purpose, e.g. Database,
+    Load balancer, Neutron networked, etc.
+}
+
+object Resource {
+    A Foreman object to be configured or created
+    to form an Deployment instance.
+}
+
+object AForemanObject {
+    E.g. Host, Hostgroup, etc.
+}
+
+Deployment "0..*" --> "1..*" Stack : deploys
+Stack "0..*" --> "0..*" Stack : has children
+note on link: acyclic graph
+
+Stack "1" *--> "1..*" Resource : is composed of
+
+object DeployedAForemanObject {
+    Association entity.
+    Represents AForemanObject deployed
+    in given Deployment fulfilling given
+    Resource.
+}
+
+DeployedAForemanObject "0..*" *--> "1" Resource
+DeployedAForemanObject "0..*" *-up-> "1" Deployment
+DeployedAForemanObject "0..*" *--> "1" AForemanObject
+
+
+@enduml

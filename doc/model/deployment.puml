@@ -1,6 +1,7 @@
 @startuml
 
 !include shared.puml
+FONT
 
 title Deployment instances
 
@@ -20,9 +21,9 @@ class HostgroupDeployment {
     hostgroup created for a given
     resource within given deployment
 }
-HostgroupDeployment -up-> "1" Deployment
-HostgroupDeployment --> "1" Hostgroup
-HostgroupDeployment --> "1" HostgroupResource
+HostgroupDeployment -[#DEPLOYCOLOR]-> "1" Deployment
+HostgroupDeployment -up[#DEPLOYCOLOR]-> "1" Hostgroup
+HostgroupDeployment -up[#DEPLOYCOLOR]-> "1" HostgroupResource
 
 ParamResource ..> Hostgroup : configures
 ParamOverrideResource ..> Hostgroup : configures
@@ -35,22 +36,22 @@ class SubnetTypeDeployment {
     subnet selection for a given
     resource within given deployment
 }
-SubnetTypeDeployment -up-> "1" Deployment
-SubnetTypeDeployment --> "1" Subnet
-SubnetTypeDeployment --> "1" SubnetTypeResource
+SubnetTypeDeployment -[#DEPLOYCOLOR]-> "1" Deployment
+SubnetTypeDeployment -up[#DEPLOYCOLOR]-> "1" Subnet
+SubnetTypeDeployment -up[#DEPLOYCOLOR]-> "1" SubnetTypeResource
 
 SubnetTypeResource ..> Host : defines subnet\nrequirements
-Interface -up-> Subnet : assigned in
+Interface -right-> Subnet : assigned in
 
 class InterfaceDeployment {
     .. notes ..
     interface created for a given
     resource within given deployment
 }
-InterfaceDeployment -up-> "1" Deployment
-InterfaceDeployment --> "1" Interface
-InterfaceDeployment --> "1" InterfaceResource
-Interface -up.>  Host : blocks IP\naddresses
+InterfaceDeployment -[#DEPLOYCOLOR]-> "1" Deployment
+InterfaceDeployment -up[#DEPLOYCOLOR]-> "1" Interface
+InterfaceDeployment -up[#DEPLOYCOLOR]-> "1" InterfaceResource
+Interface -left.>  Host : blocks IP\naddresses
 
 class HostDeployment {
     .. notes ..
@@ -58,20 +59,20 @@ class HostDeployment {
     for a given resource within given
     deployment
 }
-HostDeployment -up-> "1" Deployment
-HostDeployment --> "1" Host
-HostDeployment --> "1" HostResource
+HostDeployment -[#DEPLOYCOLOR]-> "1" Deployment
+HostDeployment -up[#DEPLOYCOLOR]-> "1" Host
+HostDeployment -up[#DEPLOYCOLOR]-> "1" HostResource
 
 ParamUpdateResource ..> Hostgroup : updates
 
 PuppetRun ..> Host : on
 
+Host -up-> Hostgroup : in
+
 RESOURCESASSOCIATIONS
 
-legend right
-    After deployment is configured Resources without Ordered module
-    are processed first (they just configure Foreman objects).
-    Then Ordered Resources are orchestrated in defined order.
+legend
+    Green - Associations composing deployment instance
 end legend
 
 @enduml

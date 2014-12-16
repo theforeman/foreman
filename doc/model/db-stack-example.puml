@@ -1,0 +1,17 @@
+@startuml
+
+title DB stack example
+
+!include shared.puml
+FONT
+
+OBJECT(db, Stack)
+DBSTACK
+
+legend
+-   User edits parameters on hostgroups (created based on `ParamResource`, stored in `HostgroupParameter`).
+-   Those parameters are applied to puppet class parameters with overrides (`ParamOverrideResource`).
+-   `ParamOverrideResource` can use only `ParamResources` from same stack.
+end legend
+
+@enduml

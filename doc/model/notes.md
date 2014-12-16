@@ -25,4 +25,12 @@
 -   Simple flat export of data, see `export.json`.
 -   That can be extended later to be more user-friendly by nesting and by naming
     associations based on purpose not by type, see `friendly.json`.
--   Other option is to write a simple Ruby DSL to generate the json file. Can be added later. (I think this is better than `friendly.json`.) See `dsl.rb`.
+-   Other option is to write a simple Ruby DSL to generate the json file. Can be added later.
+    (I think this is better than `friendly.json`.) See `dsl.rb`.
+
+# Q&A
+
+-   Different config management tools?
+
+    _Should not be too difficult, can be done by replacing few puppet specific resources
+    with a chef resources._

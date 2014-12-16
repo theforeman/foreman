@@ -1,30 +1,9 @@
 @startuml
 
 !include shared.puml
+FONT
 
 title Stacks
-
-class Deployment {
-    String name
-    String description nullable
-}
-
-note as NDeployment
-    The result of performing the instructions in a stack,
-    taking in any necessary input parameters.
-end note
-Deployment .up. NDeployment
-
-class DeploymentMaterialization {
-    .. notes ..
-    in next model
-}
-Deployment ..> DeploymentMaterialization
-
-
-package Stacks <<Rect>> {
-
-Deployment "0..*" o--> "1..*" Stack : deploys
 
 class Stack {
     String name
@@ -32,45 +11,18 @@ class Stack {
     --
     \# has_many :children, through: :child_stacks
     Stack children()
+    .. notes ..
+    Composable pieces of infrastructure
+    templates. The instructions needed
+    to assemble a set of resources for a
+    specific purpose, e.g. Database,
+    Load balancer, Neutron networked, etc.
 }
-
-note as NStack
-    The instructions needed to assemble a set
-    of resources for a  specific purpose
-    (e.g. a database stack).
-end note
-Stack .up. NStack
-
-abstract class Resource {
-}
-
-note as NResource
-    A Foreman object to be used or created
-    to form an Deployment instance.
-end note
-Resource .up. NResource
 
 Stack "1" *--> "1..*" Resource : is composed of
 
-interface Ordered <<(M,orchid)>>
-
-Ordered "0..*" --> "0..*" Ordered : depends on
-
-note on link
-    Acyclic graph f dependencies.
-    Defines order between Resources.
-    Used by orchestration to deploy.
-end note
-
 RESOURCES
 
-HostgroupResource "0..*" <-- "0..1" HostgroupResource : be parent of
-note on link
-Foreign keys cannot be stored on target HostgroupResource.
-It would prevent Stack share-ability.
-end note
-
-HostResource "0..*" --> "1" HostgroupResource : provisions in
 ChildStackResource "0..*" o-up--> "1" Stack : child
 note on link: Acyclic graph of Stacks.
 
@@ -87,7 +39,17 @@ class ExternalCommandResource {
 
 hide ContainerResource
 hide ExternalCommandResource
-
-}
+hide ParamOverrideResource
+hide ParamUpdateResource
+'hide PuppetRunResource
+'hide HostResource
+hide HostgroupResource
+hide SubnetTypeResource
+hide ParamResource
+hide ComputeResourceResource
+hide PuppetClassResource
+hide ConnectParamResource
+hide InterfaceResource
+hide ComputeProfileResource
 
 @enduml

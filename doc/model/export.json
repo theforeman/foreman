@@ -58,8 +58,13 @@
   ],
   "puppet_run_resources": [
     {
-      "id": "db",
+      "id": "db1",
       "host_resource": "db"
+    },
+    {
+      "id": "db2",
+      "host_resource": "db",
+      "depends_on": "db1"
     }
   ]
 }
