@@ -29,9 +29,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-10 10:55+0100\n"
-"PO-Revision-Date: 2014-12-09 08:37+0000\n"
-"Last-Translator: stbenjam <stephen@redhat.com>\n"
+"POT-Creation-Date: 2014-12-15 10:04+0000\n"
+"PO-Revision-Date: 2014-12-15 12:51+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,9 +50,6 @@ msgstr "%s - Die folgenden Hosts werden geändert"
 
 msgid "%s Distribution"
 msgstr "%s Distribution"
-
-msgid "%s Host"
-msgstr "%s Host"
 
 msgid "%s Parameters updated, see below for more information"
 msgstr "%s Parameter aktualisiert, weitere Informationen unten"
@@ -227,7 +224,7 @@ msgid ""
 msgstr "<b>Beschreibung:</b> %{desc}<br><b>Typ:</b> %{type}<br> <b>Matcher:</b> %{matcher}"
 
 msgid "<b>Source:</b> %{type} %{name}"
-msgstr ""
+msgstr "<b>Quelle:</b> %{type} %{name}"
 
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the "
@@ -375,7 +372,7 @@ msgid ""
 msgstr "Zusätzlich können Benutzerrechte nach vielen Gesichtspunkten eingeschränkt werden, hierfür den Tab mit den Rolleneinstellungen prüfen."
 
 msgid "Admin permissions required"
-msgstr ""
+msgstr "Administratorberechtigungen erdorderlich"
 
 msgid "Administer"
 msgstr "Verwalten"
@@ -394,7 +391,7 @@ msgid "Alerts disabled"
 msgstr "Warnungen deaktiviert"
 
 msgid "Alias or VLAN device"
-msgstr ""
+msgstr "Alias oder VLAN-Gerät"
 
 msgid "All Puppet Classes for %s"
 msgstr "Alle Puppet-Klassen für %s"
@@ -964,7 +961,7 @@ msgid "Chassis"
 msgstr "Chassis"
 
 msgid "Check again"
-msgstr ""
+msgstr "Erneut überprüfen"
 
 msgid "Check/Uncheck all"
 msgstr "Alle auswählen/abwählen"
@@ -1129,7 +1126,7 @@ msgstr "Konfigurationsabfrage"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Config group"
-msgstr ""
+msgstr "Konfigurationsgruppe"
 
 msgid "Config groups"
 msgstr "Konfigurationsgruppen"
@@ -1416,7 +1413,7 @@ msgid ""
 msgstr ""
 
 msgid "Daily"
-msgstr ""
+msgstr "Täglich"
 
 msgid "Dashboard"
 msgstr "Übersichtsseite"
@@ -1968,7 +1965,7 @@ msgid "Error"
 msgstr "Fehler"
 
 msgid "Error - %{message}"
-msgstr ""
+msgstr "Fehler - %{message}"
 
 msgid "Error connecting to %{proxy}: %{error}."
 msgstr ""
@@ -2039,7 +2036,7 @@ msgstr "Externer Benutzergruppenname"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "External usergroup"
-msgstr ""
+msgstr "Externe Benutzergruppe"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ExternalUsergroup|Name"
@@ -2480,7 +2477,7 @@ msgid "Gateway"
 msgstr "Gateway"
 
 msgid "General"
-msgstr ""
+msgstr "Allgemein"
 
 msgid "General Settings"
 msgstr "Grundeinstellungen"
@@ -2834,7 +2831,7 @@ msgid "ID of Puppet class"
 msgstr ""
 
 msgid "ID of architecture"
-msgstr ""
+msgstr "Kennung der Architektur"
 
 msgid "ID of compute resource"
 msgstr ""
@@ -2879,16 +2876,16 @@ msgid "ID of provisioning template"
 msgstr ""
 
 msgid "ID of role"
-msgstr ""
+msgstr "Kennung der Rolle"
 
 msgid "ID of subnet"
-msgstr ""
+msgstr "Kennung des Subnetzes"
 
 msgid "ID of template"
-msgstr ""
+msgstr "Kennung der Vorlage"
 
 msgid "ID of user group"
-msgstr ""
+msgstr "Kennung der Benutzergruppe"
 
 msgid "ID or name external user group"
 msgstr ""
@@ -2906,7 +2903,7 @@ msgid "ID or name of interface"
 msgstr "Kennung oder Name der Schnittstelle"
 
 msgid "ID or name of subnet"
-msgstr ""
+msgstr "Kennung oder Name des Subnetzes"
 
 msgid "ID or name of user group"
 msgstr "Kennung oder Name der Benutzergruppe"
@@ -3129,10 +3126,10 @@ msgid "Interface type, e.g: bmc"
 msgstr ""
 
 msgid "Internal DB"
-msgstr ""
+msgstr "Interne DB"
 
 msgid "Internal network"
-msgstr ""
+msgstr "Internes Netzwerk"
 
 msgid "Invalid %s selection, you must select at least one of yours"
 msgstr ""
@@ -3319,7 +3316,7 @@ msgid "List all hosts"
 msgstr "Alle Hosts auflisten"
 
 msgid "List all hosts for a host group"
-msgstr ""
+msgstr "Alle Hosts für eine Hostgruppe auflisten"
 
 msgid "List all images for a compute resource"
 msgstr ""
@@ -3609,7 +3606,7 @@ msgid "Loading VM information ..."
 msgstr "VM-Informationen werden geladen..."
 
 msgid "Loading filters..."
-msgstr ""
+msgstr "Filter werden geladen..."
 
 msgid "Loading host information ..."
 msgstr ""
@@ -3659,7 +3656,7 @@ msgid "Lock"
 msgstr "Sperren"
 
 msgid "Log out"
-msgstr ""
+msgstr "Abmelden"
 
 msgid "Log out idle users after a certain number of minutes"
 msgstr "Inaktive Anwender nach einer bestimmten Zeit in Minuten abmelden"
@@ -3963,7 +3960,7 @@ msgid "Monitor"
 msgstr "Überwachen"
 
 msgid "Monthly"
-msgstr ""
+msgstr "Monatlich"
 
 msgid "Must provide an operating systems"
 msgstr "Betriebssystem muss angegeben werden"
@@ -4260,7 +4257,7 @@ msgid "No domains"
 msgstr "Keine Domänen"
 
 msgid "No emails"
-msgstr ""
+msgstr "Keine E-Mails"
 
 msgid "No entries found"
 msgstr "Keine Einträge gefunden"
@@ -4380,7 +4377,7 @@ msgid "None Found"
 msgstr "Nichts gefunden"
 
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 msgid "Not Found"
 msgstr "Nicht gefunden"
@@ -4550,7 +4547,7 @@ msgid "Operating system"
 msgstr "Betriebssystem"
 
 msgid "Operating system IDs"
-msgstr ""
+msgstr "Betriebssystemkennungen"
 
 msgid "Operating system default"
 msgstr "Betriebssystemvorgabe"
@@ -4688,7 +4685,7 @@ msgid "Override a Puppetclass Parameter"
 msgstr "Einen Puppet-Klassenparameter übergehen"
 
 msgid "Override all parameters"
-msgstr ""
+msgstr "Alle Parameter überschreiben"
 
 msgid "Override this value"
 msgstr "Diesen Wert außer Kraft setzen"
@@ -5166,7 +5163,7 @@ msgid "Reboot and build"
 msgstr ""
 
 msgid "Reboot now"
-msgstr ""
+msgstr "Jetzt neu starten"
 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should"
@@ -5294,7 +5291,7 @@ msgid "Resource %{resource_name} not found by id '%{id}'"
 msgstr ""
 
 msgid "Resource %{res} not found."
-msgstr ""
+msgstr "Ressource %{res} nicht gefunden."
 
 msgid "Resources"
 msgstr "Ressourcen"
@@ -5889,7 +5886,7 @@ msgid "State"
 msgstr "Status"
 
 msgid "Static"
-msgstr ""
+msgstr "Statisch"
 
 msgid "Statistics"
 msgstr "Statistiken"
@@ -5916,7 +5913,7 @@ msgid "Storage pool"
 msgstr "Storage Pool"
 
 msgid "Strong"
-msgstr ""
+msgstr "Stark"
 
 msgid "Submit"
 msgstr "Absenden"
@@ -5989,7 +5986,7 @@ msgid "Subnet|Vlanid"
 msgstr "Vlankennung"
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Abonnieren"
 
 msgid "Success"
 msgstr "Erfolg"
@@ -6901,7 +6898,7 @@ msgid "User IDs"
 msgstr "Benutzerkennungen"
 
 msgid "User group"
-msgstr ""
+msgstr "Benutzergruppe"
 
 msgid "User groups"
 msgstr "Benutzergruppen"
@@ -7089,7 +7086,7 @@ msgid "Version %{version}  © 2009-%{year} Paul Kelly and %{author}"
 msgstr "Version %{version}  © 2009-%{year} Paul Kelly and %{author}"
 
 msgid "Very Strong"
-msgstr ""
+msgstr "Sehr stark"
 
 msgid "View Diff"
 msgstr "Unterschied Anzeigen"
@@ -7147,10 +7144,10 @@ msgid ""
 msgstr "Wir verwenden Redmine um Fehler -und Featureanfragen zu verwalten, welches hier erreichbar ist:"
 
 msgid "Weak"
-msgstr ""
+msgstr "Schwach"
 
 msgid "Weekly"
-msgstr ""
+msgstr "Wöchentlich"
 
 msgid "Welcome"
 msgstr "Willkommen"
@@ -7576,7 +7573,7 @@ msgid "here"
 msgstr "hier"
 
 msgid "hide"
-msgstr ""
+msgstr "ausblenden"
 
 msgid "host group id"
 msgstr "Hostgruppenkennung"
@@ -7814,10 +7811,10 @@ msgid "parsing settings type '%s' from string is not defined"
 msgstr "Die Zergliedern vom Einstellungstyp '%s' von string ist nicht definiert"
 
 msgid "password match"
-msgstr ""
+msgstr "Passwort stimmt überein"
 
 msgid "passwords do not match"
-msgstr ""
+msgstr "Passwörter stimmen nicht überein"
 
 msgid "pending"
 msgstr "ausstehend"
@@ -7834,7 +7831,7 @@ msgid "puppet class browser"
 msgstr "Puppet Klassenbrowser"
 
 msgid "ready?"
-msgstr ""
+msgstr "bereit?"
 
 msgid "real"
 msgstr "echt"
