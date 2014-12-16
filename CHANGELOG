@@ -1,3 +1,54 @@
+2014-12-16	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.7.1
+	* i18n - extracting new, updating rails, pulling from tx
+	* fixes #8685 - include netmask in ENC output
+
+2014-12-15	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+	* fixes #8627 - add host comment field to API documentation
+	* fixes #8590 - handle missing 'config' when listing vSphere VMs
+	* fixes #5841 - use inner query when retrieving reports for subset of authorised hosts
+
+2014-12-15	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8591 - explicitly set where to subnets.id
+	* fixes #8228 - add a config_templates concern to serve config_templates controllers
+	* fixes #8221 - search for subnet with taxonomy scope
+	* fixes #8363 - Sort VMware attributes alphabetically
+
+2014-12-15	Šimon Lukašík <slukasik@redhat.com>
+	* fixes #8592 - allow plug-ins to modify multiple hosts actions
+
+2014-12-15	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8416 - Fix Puppet classes form n+1 queries
+	* Fixes #8401: n+1 query on group parameters host edit
+
+2014-12-15	Ori Rabin <orabin@redhat.com>
+	* Fixes #8551 - use most specific matcher for inherited hostgroups
+	* Fixes #8536 - can update and delete media with dot in name
+
+2014-12-15	Henrik Feldt <henrik@haf.se>
+	* Fixes #5999 - vpc + pub ip -> attach pub ip
+
+2014-12-15	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #8546 - Namespace interfaces and subnets to avoid a facts clash
+
+2014-12-15	Tom Caspy <tcaspy@gmail.com>
+	* fixes #8513 - removing n+1 query from images#index
+
+2014-12-15	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #8526 - file uploads are now possible via two_pane.
+
+2014-12-15	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #7525 - don't fail on structured facts
+
+2014-12-15	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #6872 - Add title to new compute resource page
+	* Fixes #7440 - correctly autocomplete current_user
+	* Fixes #6765 - correct wrong validation on media name
+
+2014-12-15	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #4463 - use unattended URL for hostgroup provisioning
+
 2014-12-02	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.7.0
 	* i18n - extracting new, updating rails, pulling from tx
