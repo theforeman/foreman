@@ -39,7 +39,7 @@ module Net::DHCP
 
     # Returns an array of record objects which are conflicting with our own
     def conflicts
-      conflicts = [proxy.record(network, mac), proxy.record(network, ip)].delete_if { |c| c == self }.compact
+      conflicts = [proxy.record(network, ip)].delete_if { |c| c == self }.compact
       @conflicts ||= conflicts.uniq {|c| c.attrs}
     end
 
