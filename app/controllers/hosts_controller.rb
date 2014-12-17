@@ -116,7 +116,7 @@ class HostsController < ApplicationController
 
   def destroy
     if @host.destroy
-      process_success
+      process_success :success_redirect => hosts_path
     else
       process_error
     end
