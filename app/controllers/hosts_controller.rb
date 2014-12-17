@@ -45,7 +45,7 @@ class HostsController < ApplicationController
         @hostgroup_authorizer = Authorizer.new(User.current, :collection => @hosts.map(&:hostgroup_id).compact.uniq)
         render :index if title and (@title = title)
       end
-      format.yaml { render :text => search.all(:select => "hosts.name").map(&:name).to_yaml }
+      format.yaml { render :text => search.where(:select => "hosts.name").all.map(&:name).to_yaml }
       format.json
     end
   end
@@ -164,11 +164,12 @@ class HostsController < ApplicationController
   #expected a fqdn parameter to provide hostname to lookup
   #see example script in extras directory
   #will return HTML error codes upon failure
+  #TODO: rename this to external_nodes
 
   def externalNodes
     certname = params[:name]
     @host ||= resource_base.find_by_certname certname
-    @host ||= resource_base.find certname
+    @host ||= resource_base.friendly.find certname
     not_found and return unless @host
 
     begin
@@ -351,7 +352,7 @@ class HostsController < ApplicationController
       skipped = []
       params[:name].each do |name, value|
         next if value.empty?
-        if (host_param = host.host_parameters.find(name))
+        if (host_param = host.host_parameters.friendly.find(name))
           counter += 1 if host_param.update_attribute(:value, value)
         else
           skipped << name
@@ -417,7 +418,7 @@ class HostsController < ApplicationController
   end
 
   def submit_multiple_build
-    @hosts.delete_if do |host|
+    @hosts.to_a.delete_if do |host|
       forward_url_options(host)
       host.setBuild
     end
@@ -534,7 +535,7 @@ class HostsController < ApplicationController
 
   def process_taxonomy
     return head(:not_found) unless @location || @organization
-    @host = Host.new(params[:host].except(:interfaces_attributes))
+    @host = Host.new(foreman_params.except(:interfaces_attributes))
     # revert compute resource to "Bare Metal" (nil) if selected
     # compute resource is not included taxonomy
     Taxonomy.as_taxonomy @organization, @location do
@@ -545,7 +546,7 @@ class HostsController < ApplicationController
   end
 
   def template_used
-    host      = Host.new(params[:host].except(:host_parameters_attributes, :interfaces_attributes))
+    host      = Host.new(foreman_params.except(:host_parameters_attributes, :interfaces_attributes))
     templates = host.available_template_kinds(params[:provisioning])
     return not_found if templates.empty?
     render :partial => 'provisioning', :locals => { :templates => templates }
@@ -604,13 +605,13 @@ class HostsController < ApplicationController
 
   def set_host_type
     return unless params[:host] and params[:host][:type]
-    type = params[:host].delete(:type) #important, otherwise mass assignment will save the type.
-    if type.constantize.new.is_a?(Host::Base)
+    type = params[:host][:type]
+    if (type.constantize rescue false) && type.constantize.new.is_a?(Host::Base)
       @host      = @host.becomes(type.constantize)
       @host.type = type
     else
       error _("invalid type: %s requested") % (type)
-      render :unprocessable_entity
+      render :text => "", :status => :unprocessable_entity
     end
   rescue => e
     Foreman::Logging.exception("Something went wrong while changing host type", e)
@@ -638,7 +639,7 @@ class HostsController < ApplicationController
   # overwrite application_controller
   def find_resource
     not_found and return false if (id = params[:id]).blank?
-    @host   = resource_base.find(id)
+    @host   = resource_base.friendly.find(id)
     @host ||= resource_base.find_by_mac params[:host][:mac] if params[:host] && params[:host][:mac]
 
     not_found and return(false) unless @host
@@ -655,7 +656,7 @@ class HostsController < ApplicationController
     @operatingsystem = @host.operatingsystem
     @medium          = @host.medium
     if @host.compute_resource_id && params[:host] && params[:host][:compute_attributes]
-      @host.compute_attributes = params[:host][:compute_attributes]
+      @host.compute_attributes = foreman_params[:compute_attributes]
     end
   end
 

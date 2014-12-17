@@ -15,7 +15,7 @@ class LookupKey < ActiveRecord::Base
 
   belongs_to :puppetclass, :inverse_of => :lookup_keys, :counter_cache => true
   has_many :environment_classes, :dependent => :destroy
-  has_many :environments, ->{uniq}, :through => :environment_classes
+  has_many :environments, lambda {uniq}, :through => :environment_classes
   has_many :param_classes, :through => :environment_classes, :source => :puppetclass
   def param_class
     param_classes.first

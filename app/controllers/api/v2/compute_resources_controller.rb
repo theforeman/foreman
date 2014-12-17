@@ -51,7 +51,7 @@ module Api
       param_group :compute_resource, :as => :create
 
       def create
-        @compute_resource = ComputeResource.new_provider(params[:compute_resource])
+        @compute_resource = ComputeResource.new_provider(foreman_params)
         process_response @compute_resource.save
       end
 
@@ -60,7 +60,7 @@ module Api
       param_group :compute_resource
 
       def update
-        process_response @compute_resource.update_attributes(params[:compute_resource])
+        process_response @compute_resource.update_attributes(foreman_params)
       end
 
       api :DELETE, "/compute_resources/:id/", N_("Delete a compute resource")

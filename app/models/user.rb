@@ -25,10 +25,10 @@ class User < ActiveRecord::Base
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
   has_many :direct_hosts,      :class_name => 'Host',    :as => :owner
   has_many :usergroup_member,  :dependent => :destroy,   :as => :member
-  has_many :user_roles,        -> {where(:owner_type => "User")}, :dependent => :destroy, :foreign_key => 'owner_id'
+  has_many :user_roles,        lambda {where(:owner_type => "User")}, :dependent => :destroy, :foreign_key => 'owner_id'
   has_many :cached_user_roles, :dependent => :destroy
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
-  has_many :cached_roles,      ->{uniq}, :through => :cached_user_roles,        :source => :role
+  has_many :cached_roles,      lambda {uniq}, :through => :cached_user_roles,        :source => :role
   has_many :usergroups,        :through => :usergroup_member, :dependent => :destroy
   has_many :roles,             :through => :user_roles,       :dependent => :destroy
   has_many :filters,           :through => :cached_roles
@@ -56,6 +56,8 @@ class User < ActiveRecord::Base
   scope :except_hidden, lambda {
     if (hidden = AuthSourceHidden.all.select(:id)).present?
       where("#{self.table_name}.auth_source_id <> (?)", hidden).references(:users)
+    else
+      all
     end
   }
   scope :visible,         lambda { except_hidden }
@@ -236,7 +238,7 @@ class User < ActiveRecord::Base
       # we know this auth source and it's user's auth source, we'll update user attributes
       if auth_source && (user.auth_source_id == auth_source.id)
         auth_source_external_groups = auth_source.external_usergroups.pluck(:usergroup_id)
-        new_usergroups = user.usergroups.includes(:external_usergroups).where('usergroups.id NOT IN (?)', auth_source_external_groups)
+        new_usergroups = user.usergroups.includes(:external_usergroups).where('usergroups.id NOT IN (?)', auth_source_external_groups).references(:usergroups)
 
         new_usergroups += auth_source.external_usergroups.includes(:usergroup).where(:name => external_groups).map(&:usergroup)
         user.update_attributes(Hash[attrs.select { |k, v| v.present? }])

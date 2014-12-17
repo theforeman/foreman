@@ -24,8 +24,8 @@ module MyPluginStrongParamsHelper
 end
 
 class MyHostsController < ::HostsController
-include MyPluginStrongParamsHelper
-ActionController::Parameters.action_on_unpermitted_parameters = :raise
+  include MyPluginStrongParamsHelper
+  ActionController::Parameters.action_on_unpermitted_parameters = :raise
   def create
     foreman_params
     head :ok
@@ -45,5 +45,4 @@ class MyHostsControllerTest < ActionController::TestCase
     post :create, { :my_host => { :name => "para", :interfaces_attributes => {:mac => "aa:bb:cc:dd:ee:ff", :ip => "8.8.8.8", :subnet => "255.255.250.0", :fqdn => "plugin.noserver.foreman.org"}} }, set_session_user
     assert_response :ok
   end
-
 end

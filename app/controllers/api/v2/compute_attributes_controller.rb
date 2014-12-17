@@ -37,7 +37,9 @@ module Api
       param_group :compute_attribute
 
       def update
-        process_response @compute_attribute.update_attributes(params[:compute_attribute])
+        params[:compute_attribute].merge!(:compute_profile_id => params[:compute_profile_id],
+                                          :compute_resource_id => params[:compute_resource_id])
+        process_response @compute_attribute.update_attributes(foreman_params)
       end
     end
   end

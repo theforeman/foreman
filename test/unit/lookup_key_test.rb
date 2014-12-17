@@ -226,7 +226,7 @@ class LookupKeyTest < ActiveSupport::TestCase
                             :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
                             :default_value => 'whatever', :puppetclass => puppetclasses(:one))
     refute key.valid?
-    assert_include key.errors.keys, :default_value
+    assert key.errors.keys.include?(:default_value)
   end
 
   context "when key is a boolean and default_value is a string" do

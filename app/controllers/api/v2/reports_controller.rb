@@ -54,7 +54,7 @@ module Api
       param :id, :identifier, :required => true
 
       def last
-        conditions = { :host_id => Host.find(params[:host_id]).id } unless params[:host_id].blank?
+        conditions = { :host_id => Host.friendly.find(params[:host_id]).id } unless params[:host_id].blank?
         max_id = Report.authorized(:view_reports).my_reports.where(conditions).maximum(:id)
         @report = Report.authorized(:view_reports).includes(:logs => [:message, :source]).find(max_id)
         render :show

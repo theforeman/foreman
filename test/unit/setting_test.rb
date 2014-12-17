@@ -402,12 +402,13 @@ class SettingTest < ActiveSupport::TestCase
 
   def check_correct_type_for(type, value)
     assert Setting.create(:name => "foo", :default => value, :description => "test foo")
-    assert_equal type, Setting.find_by_name("foo").try(:settings_type)
+    assert_equal type, Setting.where(name: "foo").first.try(:settings_type)
   end
 
   def check_properties_saved_and_loaded_ok(options = {})
-    assert Setting.find_or_create_by(:name => options)
-    s = Setting.find_by_name options[:name]
+    s=Setting.find_or_initialize_by(:name => options[:name])
+    assert s.update_attributes(options)
+    s = Setting.where(name: options[:name]).first
     assert_equal options[:value], s.value
     assert_equal options[:default], s.default
   end

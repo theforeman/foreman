@@ -6,7 +6,7 @@ class PuppetclassesController < ApplicationController
 
   def index
     @puppetclasses = resource_base.search_for(params[:search], :order => params[:order]).includes(:config_group_classes, :class_params, :environments, :hostgroups).paginate(:page => params[:page])
-    @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.where(:puppetclass_id => @puppetclasses.map(&:id)).compact.uniq.map(&:hostgroup_id))
+    @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.where(:puppetclass_id => @puppetclasses.map(&:id)).to_a.compact.uniq.map(&:hostgroup_id))
   end
 
   def edit
@@ -57,21 +57,21 @@ class PuppetclassesController < ApplicationController
   def get_host_or_hostgroup
     # params['host_id'] = 'null' if NEW since hosts/form and hostgroups/form has data-id="null"
     if params['host_id'] == 'null'
-      @obj = Host::Managed.new(params['host']) if params['host']
-      @obj ||= Hostgroup.new(params['hostgroup']) if params['hostgroup']
+      @obj = Host::Managed.new(params.require(:host).permit(permitted_host_attributes)) if params['host']
+      @obj ||= Hostgroup.new(params.require(:hostgroup).permit(permitted_hostgroup_attributes)) if params['hostgroup']
     else
       if params['host']
-        @obj = Host::Base.find(params['host_id'])
+        @obj = Host::Base.friendly.find(params['host_id'])
         unless @obj.is_a?(Host::Managed)
           @obj      = @obj.becomes(Host::Managed)
           @obj.type = "Host::Managed"
         end
         # puppetclass_ids and config_group_ids need to be removed so they don't cause automatic inserts
-        @obj.attributes = params['host'].except!(:puppetclass_ids, :config_group_ids)
+        @obj.attributes = params.require(:host).permit(permitted_host_attributes).except!(:puppetclass_ids, :config_group_ids)
       elsif params['hostgroup']
         # hostgroup.id is assigned to params['host_id'] by host_edit.js#load_puppet_class_parameters
         @obj = Hostgroup.find(params['host_id'])
-        @obj.attributes = params['hostgroup'].except!(:puppetclass_ids, :config_group_ids)
+        @obj.attributes = params.require(:hostgroup).permit(permitted_hostgroup_attributes).except!(:puppetclass_ids, :config_group_ids)
       end
     end
     @obj

@@ -147,7 +147,7 @@ class ApplicationController < ActionController::Base
     @resource_base ||= if model_of_controller.respond_to?(:authorized)
                          model_of_controller.authorized(current_permission)
                        else
-                         model_of_controller.scoped
+                         model_of_controller.all
                        end
   end
 
@@ -373,11 +373,5 @@ class ApplicationController < ActionController::Base
   # On Rails 4 we can get rid of this and use the strategy ':exception'.
   def handle_unverified_request
     raise ::Foreman::Exception.new(N_("Invalid authenticity token"))
-  end
-
-  def foreman_params
-    permitted_params = "permitted_#{controller_name.singularize}_attributes"
-    raise Foreman::Exception.new(N_('Can not find parameter method')) unless self.respond_to?(permitted_params.to_sym)
-    params.require(controller_name.singularize.to_sym).permit(*send(permitted_params))
   end
 end

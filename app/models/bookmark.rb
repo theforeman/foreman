@@ -1,7 +1,5 @@
 class Bookmark < ActiveRecord::Base
   include Authorizable
-  extend FriendlyId
-  friendly_id :name
   include Parameterizable::ByIdName
 
   validates_lengths_from_database
@@ -20,10 +18,11 @@ class Bookmark < ActiveRecord::Base
 
   scope :my_bookmarks, lambda {
     user = User.current
-    return {} unless SETTINGS[:login] and !user.nil?
-
-    user       = User.current
-    conditions = sanitize_sql_for_conditions(["((bookmarks.public = ?) OR (bookmarks.owner_id = ? AND bookmarks.owner_type = 'User'))", true, user.id])
+    if !SETTINGS[:login] || user.nil?
+      conditions = {}
+    else
+      conditions = sanitize_sql_for_conditions(["((bookmarks.public = ?) OR (bookmarks.owner_id = ? AND bookmarks.owner_type = 'User'))", true, user.id])
+    end
     where(conditions)
   }
 

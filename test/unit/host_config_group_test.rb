@@ -36,6 +36,8 @@ class HostConfigGroupTest < ActiveSupport::TestCase
 
   context "host and hostgroup both have id=1" do
     setup do
+      Host.where(id: 1).delete_all
+      Hostgroup.where(id: 1).delete_all
       @host = FactoryGirl.create(:host)
       @hostgroup = FactoryGirl.create(:hostgroup)
       @host.update_attribute(:id, 1)

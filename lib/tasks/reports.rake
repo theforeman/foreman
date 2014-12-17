@@ -79,7 +79,7 @@ namespace :reports do
     options
   end
 
-  def process_notifications interval
+  def process_notifications(interval)
     UserMailNotification.send(interval).each do |notification|
       notification.deliver(mail_options)
     end

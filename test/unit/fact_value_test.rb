@@ -28,7 +28,7 @@ class FactValueTest < ActiveSupport::TestCase
   test '.root_only scope returns only roots' do
     result = FactValue.root_only
     assert_includes result, @fact_value
-    assert_not_include result, @child_value
+    assert_not_includes result, @child_value
   end
 
   test '.with_fact_parent_id scope returns only children for given id' do

@@ -59,7 +59,7 @@ module Api
       end
 
       def create
-        @host = Host.new(params[:host])
+        @host = Host.new(foreman_params)
         @host.managed = true if (params[:host] && params[:host][:managed].nil?)
         forward_request_url
         process_response @host.save
@@ -99,7 +99,7 @@ module Api
       end
 
       def update
-        process_response @host.update_attributes(params[:host])
+        process_response @host.update_attributes(foreman_params)
       end
 
       api :DELETE, "/hosts/:id/", "Delete an host."

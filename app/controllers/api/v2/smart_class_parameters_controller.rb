@@ -49,7 +49,7 @@ module Api
 
       def update
         #Note:  User must manually set :override => true. It is not automatically updated if optional input validator fields are updated.
-        @smart_class_parameter.update_attributes!(params[:smart_class_parameter])
+        @smart_class_parameter.update_attributes(foreman_params)
         render 'api/v2/smart_class_parameters/show'
       end
 

@@ -42,7 +42,7 @@ module Api
       param_group :smart_variable, :as => :create
 
       def create
-        @smart_variable   = LookupKey.new(params[:smart_variable]) unless @puppetclass
+        @smart_variable   = LookupKey.new(foreman_params) unless @puppetclass
         @smart_variable ||= @puppetclass.lookup_keys.build(params[:smart_variable])
         process_response @smart_variable.save
       end
@@ -52,7 +52,7 @@ module Api
       param_group :smart_variable
 
       def update
-        @smart_variable.update_attributes!(params[:smart_variable])
+        @smart_variable.update_attributes!(foreman_params)
         render 'api/v2/smart_variables/show'
       end
 

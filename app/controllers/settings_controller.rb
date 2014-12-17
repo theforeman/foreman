@@ -13,7 +13,7 @@ class SettingsController < ApplicationController
   end
 
   def update
-    @setting = Setting.find(params[:id])
+    @setting = Setting.friendly.find(params[:id])
     if @setting.parse_string_value(foreman_params[:value]) && @setting.save
       render :json => @setting
     else

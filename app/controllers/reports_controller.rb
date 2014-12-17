@@ -11,7 +11,7 @@ class ReportsController < ApplicationController
   def show
     # are we searching for the last report?
     if params[:id] == "last"
-      conditions = { :host_id => Host.find(params[:host_id]).try(:id) } unless params[:host_id].blank?
+      conditions = { :host_id => Host.friendly.find(params[:host_id]).try(:id) } unless params[:host_id].blank?
       params[:id] = resource_base.where(conditions).maximum(:id)
     end
 

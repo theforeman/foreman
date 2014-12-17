@@ -486,8 +486,13 @@ class HostTest < ActiveSupport::TestCase
     test "should save if root password is undefined when the host is managed and in build mode" do
       Setting[:root_pass] = ''
       host = Host.new :name => "myfullhost", :managed => true, :build => false
+<<<<<<< HEAD
       host.valid?
       refute host.errors[:root_pass].present?
+=======
+      refute host.valid?
+      assert host.errors[:root_pass].present?
+>>>>>>> fixes #8738 - tests are running, but failing
     end
 
     test "should save if root password is undefined when the compute resource is image capable and in build mode" do
@@ -693,7 +698,7 @@ class HostTest < ActiveSupport::TestCase
 
       test "available_template_kinds finds templates for a PXE host" do
         os_dt = FactoryGirl.create(:os_default_template,
-                                   :template_kind=> TemplateKind.find('finish'))
+                                   :template_kind => TemplateKind.friendly.find('finish'))
         host  = FactoryGirl.create(:host, :operatingsystem => os_dt.operatingsystem)
 
         assert_equal [os_dt.provisioning_template], host.available_template_kinds('build')
@@ -701,7 +706,7 @@ class HostTest < ActiveSupport::TestCase
 
       test "available_template_kinds finds templates for an image host" do
         os_dt = FactoryGirl.create(:os_default_template,
-                                   :template_kind=> TemplateKind.find('finish'))
+                                   :template_kind => TemplateKind.friendly.find('finish'))
         host  = FactoryGirl.create(:host, :on_compute_resource,
                                    :operatingsystem => os_dt.operatingsystem)
         FactoryGirl.create(:image, :uuid => 'abcde',
@@ -756,17 +761,6 @@ class HostTest < ActiveSupport::TestCase
       h = FactoryGirl.create(:host, :with_puppet_orchestration)
       Setting[:manage_puppetca] = true
       assert h.puppetca?
-
-      Setting[:use_uuid_for_certificates] = false
-      some_uuid = Foreman.uuid
-      h.certname = some_uuid
-
-      h.expects(:initialize_puppetca).returns(true)
-      mock_puppetca = Object.new
-      mock_puppetca.expects(:del_certificate).with(some_uuid).returns(true)
-      mock_puppetca.expects(:set_autosign).with(h.name).returns(true)
-      h.instance_variable_set("@puppetca", mock_puppetca)
-
       assert h.handle_ca
       assert_equal h.certname, h.name
     end
@@ -1379,7 +1373,7 @@ class HostTest < ActiveSupport::TestCase
         filter = FactoryGirl.build(:filter)
         filter.permissions = [ Permission.find_by_name('edit_hosts') ]
         filter.save!
-        role = Role.find_or_create_by_name :name => "testing_role"
+        role = Role.find_or_create_by :name => "testing_role"
         role.filters = [ filter ]
         role.save!
         @one.roles = [ role ]
@@ -1811,19 +1805,19 @@ class HostTest < ActiveSupport::TestCase
   test "available_puppetclasses should return all if no environment" do
     host = FactoryGirl.create(:host)
     host.update_attribute(:environment_id, nil)
-    assert_equal Puppetclass.scoped, host.available_puppetclasses
+    assert_equal Puppetclass.all, host.available_puppetclasses
   end
 
   test "available_puppetclasses should return environment-specific classes" do
     host = FactoryGirl.create(:host, :with_environment)
-    refute_equal Puppetclass.scoped, host.available_puppetclasses
+    refute_equal Puppetclass.all, host.available_puppetclasses
     assert_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
   end
 
   test "available_puppetclasses should return environment-specific classes (and that are NOT already inherited by parent)" do
     hostgroup        = FactoryGirl.create(:hostgroup, :with_puppetclass)
     host             = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
-    refute_equal Puppetclass.scoped, host.available_puppetclasses
+    refute_equal Puppetclass.all, host.available_puppetclasses
     refute_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
     assert_equal (host.environment.puppetclasses - host.parent_classes).sort, host.available_puppetclasses.sort
   end

@@ -1,10 +1,8 @@
 class Location < Taxonomy
-  extend FriendlyId
-  friendly_id :title
   include Foreman::ThreadSession::LocationModel
   include Parameterizable::ByIdName
 
-  has_and_belongs_to_many :organizations
+  has_and_belongs_to_many :organizations, :join_table => "locations_organizations"
   has_many_hosts :dependent => :nullify
 
   has_many :location_parameters, :class_name => 'LocationParameter', :foreign_key => :reference_id, :dependent => :destroy, :inverse_of => :location

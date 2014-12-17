@@ -37,7 +37,7 @@ module Api
       param_group :template_combination, :as => :create
 
       def create
-        @template_combination = nested_obj.template_combinations.build(params[:template_combination])
+        @template_combination = nested_obj.template_combinations.build(foreman_params)
         process_response @template_combination.save
       end
 

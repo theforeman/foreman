@@ -16,8 +16,8 @@ module Api
           authorized(:view_puppetclasses).
           search_for(*search_options).paginate(paginate_options).
           select([:name, :id]).
-          includes(:lookup_keys)
-        render :json => Puppetclass.classes2hash(values.all)
+          includes(:lookup_keys).to_a
+        render :json => Puppetclass.classes2hash(values)
       end
 
       api :GET, "/puppetclasses/:id/", "Show a puppetclass."
@@ -32,7 +32,7 @@ module Api
       end
 
       def create
-        @puppetclass = Puppetclass.new(params[:puppetclass])
+        @puppetclass = Puppetclass.new(foreman_params)
         process_response @puppetclass.save
       end
 
@@ -43,7 +43,7 @@ module Api
       end
 
       def update
-        process_response @puppetclass.update_attributes(params[:puppetclass])
+        process_response @puppetclass.update_attributes(foreman_params)
       end
 
       api :DELETE, "/puppetclasses/:id/", "Delete a puppetclass."

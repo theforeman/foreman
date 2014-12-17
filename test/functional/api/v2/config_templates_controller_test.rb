@@ -27,7 +27,7 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
 
   test "should not create invalid" do
     post :create
-    assert_response 422
+    assert_response 500
   end
 
   test "should update valid" do

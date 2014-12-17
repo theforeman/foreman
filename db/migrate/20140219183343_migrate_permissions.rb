@@ -5,11 +5,11 @@ require Rails.root + 'db/seeds.d/03-permissions'
 # original models changes later (e.g. add validation on columns that are not
 # present at this moment)
 class FakePermission < ActiveRecord::Base
-  set_table_name 'permissions'
+  self.table_name = 'permissions'
 end
 
 class FakeFilter < ActiveRecord::Base
-  set_table_name 'filters'
+  self.table_name = 'filters'
   # we need this for polymorphic relation to work, it has class name hardcoded in AR
   def self.name
     'Filter'
@@ -22,34 +22,34 @@ class FakeFilter < ActiveRecord::Base
     @resource_type ||= permissions.first.try(:resource_type)
   end
 
-  taxonomy_join_table = "taxable_taxonomies"
+  taxonomy_join_table = :taxable_taxonomies
   has_many taxonomy_join_table, :dependent => :destroy, :as => :taxable, :foreign_key => 'taxable_id'
-  has_many :locations,     :through => taxonomy_join_table, :source => :taxonomy,
-           :conditions => "taxonomies.type='Location'", :validate => false
-  has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
-           :conditions => "taxonomies.type='Organization'", :validate => false
+  has_many :locations,     lambda{where("taxonomies.type='Location'")}, :through => taxonomy_join_table, :source => :taxonomy,
+           :validate => false
+  has_many :organizations, lambda{where("taxonomies.type='Organization'")}, :through => taxonomy_join_table, :source => :taxonomy,
+           :validate => false
 end
 
 class FakeUserRole < ActiveRecord::Base
-  set_table_name 'user_roles'
+  self.table_name = 'user_roles'
   belongs_to :owner, :polymorphic => true
   belongs_to :role, :class_name => 'FakeRole'
 end
 
 class FakeRole < ActiveRecord::Base
-  set_table_name 'roles'
+  self.table_name = 'roles'
   has_many :filters, :dependent => :destroy, :class_name => 'FakeFilter', :foreign_key => 'role_id'
   has_many :permissions, :through => :filters, :class_name => 'FakePermission', :foreign_key => 'permission_id'
 end
 
 class FakeFiltering < ActiveRecord::Base
-  set_table_name 'filterings'
+  self.table_name = 'filterings'
   belongs_to :filter, :class_name => 'FakeFilter'
   belongs_to :permission, :class_name => 'FakePermission'
 end
 
 class FakeUser < ActiveRecord::Base
-  set_table_name 'users'
+  self.table_name = 'users'
   # we need this for polymorphic relation to work, it has class name hardcoded in AR
   def self.name
     'User'
@@ -61,15 +61,15 @@ class FakeUser < ActiveRecord::Base
   has_many :hostgroups, :through => :user_hostgroups
   has_many :user_facts, :dependent => :destroy, :foreign_key => 'user_id'
   has_many :facts, :through => :user_facts, :source => :fact_name
-  has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id',
-           :conditions => {:owner_type => 'User'}, :class_name => 'FakeUserRole'
+  has_many :user_roles, lambda{where(:owner_type => 'User')}, :dependent => :destroy, :foreign_key => 'owner_id',
+           :class_name => 'FakeUserRole'
   has_many :roles, :through => :user_roles, :dependent => :destroy, :class_name => 'FakeRole'
-  taxonomy_join_table = "taxable_taxonomies"
+  taxonomy_join_table = :taxable_taxonomies
   has_many taxonomy_join_table, :dependent => :destroy, :as => :taxable, :foreign_key => 'taxable_id'
-  has_many :locations,     :through => taxonomy_join_table, :source => :taxonomy,
-           :conditions => "taxonomies.type='Location'", :validate => false
-  has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
-           :conditions => "taxonomies.type='Organization'", :validate => false
+  has_many :locations, lambda{where("taxonomies.type='Location'")},     :through => taxonomy_join_table, :source => :taxonomy,
+           :validate => false
+  has_many :organizations, lambda{where("taxonomies.type='Organization'")}, :through => taxonomy_join_table, :source => :taxonomy,
+           :validate => false
   has_many :cached_usergroup_members, :foreign_key => 'user_id'
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
 end
@@ -82,7 +82,7 @@ class MigratePermissions < ActiveRecord::Migration
   def make_sure_all_permissions_are_present
     engine_permissions = Foreman::AccessControl.permissions.select { |p| p.engine.present? }
     engine_permissions.each do |permission|
-      FakePermission.find_or_create_by(:name => permission.name, :resource_type => permission.resource_type])
+      FakePermission.find_or_create_by(:name => permission.name, :resource_type => permission.resource_type)
     end
   end
 
@@ -133,7 +133,7 @@ class MigratePermissions < ActiveRecord::Migration
     end
   end
 
-  def self.clear_old_permission(role)
+  def clear_old_permission(role)
     say "Clearing old permissions for role '#{role.name}'"
     if FakeRole.update_all("permissions = NULL", "id = #{role.id}") == 1
       say "... OK"

@@ -11,13 +11,13 @@ class AddLookUpKeyIdToPuppetClass < ActiveRecord::Migration
     add_column :lookup_keys, :validator_type, :string
     add_column :lookup_keys, :validator_rule, :string
     rename_column :lookup_values, :priority, :match
-    add_index :lookup_values, :match
+    #add_index :lookup_values, :match
   end
 
   def down
     remove_index :lookup_keys, :puppetclass_id
     remove_index :lookup_keys, :path
-    remove_index :lookup_values, :match
+    #remove_index :lookup_values, :match
     remove_column :lookup_keys, :puppetclass_id
     remove_column :lookup_keys, :path
     remove_column :lookup_keys, :description

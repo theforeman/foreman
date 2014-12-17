@@ -4,10 +4,10 @@ require File.expand_path('../lib/regexp_extensions', FOREMAN_GEMFILE)
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.1.5'
 gem 'json', '~> 1.5'
 gem 'rest-client', '~> 1.6.0', :require => 'rest_client'
-gem 'audited-activerecord'#, '3.0.0'
+gem 'audited-activerecord' #, '3.0.0'
 gem 'will_paginate', '~> 3.0'
 gem 'ancestry', '~> 2.0'
 gem 'scoped_search', '~> 3.0'
@@ -29,8 +29,7 @@ gem 'rails-i18n', '~> 3.0.0'
 gem 'turbolinks', '~> 2.5'
 gem 'logging', '>= 1.8.0', '< 3.0.0'
 gem 'activerecord-session_store'
-gem 'protected_attributes'
-gem 'rails-observers', git: 'https://github.com/rails/rails-observers.git'
+gem 'rails-observers'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))

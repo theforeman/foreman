@@ -3,6 +3,7 @@
 module Nic
   class Base < ActiveRecord::Base
     include Foreman::STI
+    cattr_accessor :allowed_types
 
     self.table_name = 'nics'
 
@@ -42,8 +43,8 @@ module Nic
     scope :physical, lambda { where(:virtual => false) }
     scope :is_managed, lambda { where(:managed => true) }
 
-    scope :primary, lambda { { :conditions => { :primary => true } } }
-    scope :provision, lambda { { :conditions => { :provision => true } } }
+    scope :primary, lambda { where(:primary => true) }
+    scope :provision, lambda { where( :provision => true ) }
 
     belongs_to :subnet
     belongs_to :domain, :counter_cache => 'hosts_count'
@@ -84,16 +85,14 @@ module Nic
     end
 
     def self.type_by_name(name)
+      self.allowed_types ||= []
       allowed_types.find { |nic_class| nic_class.humanized_name.downcase == name.to_s.downcase }
     end
 
     # NIC types have to be registered to to expose them to users
     def self.register_type(type)
-      allowed_types << type
-    end
-
-    def self.allowed_types
-      @allowed_types ||= []
+      self.allowed_types ||= []
+      self.allowed_types << type
     end
 
     # after every name change, we synchronize it to host object
@@ -137,6 +136,18 @@ module Nic
     # everything as unmanaged
     def host_managed?
       self.host && self.host.managed? && SETTINGS[:unattended]
+    end
+
+    def require_ip_validation?
+      # if it's not managed there's nowhere to specify an IP anyway
+      return false if !self.host.managed? || !self.managed? || !self.provision?
+      # if the CR will provide an IP, then don't validate yet
+      return false if host.compute_provides?(:ip)
+      ip_for_dns     = (subnet.present? && subnet.dns_id.present?) || (domain.present? && domain.dns_id.present?)
+      ip_for_dhcp    = subnet.present? && subnet.dhcp_id.present?
+      ip_for_token   = Setting[:token_duration] == 0 && (host.pxe_build? || (host.image_build? && host.image.try(:user_data?)))
+      # Any of these conditions will require an IP, so chain with OR
+      ip_for_dns or ip_for_dhcp or ip_for_token
     end
 
     protected
@@ -208,18 +219,6 @@ module Nic
         provisions = host.interfaces.select { |i| i.provision? && i != self }
         errors.add :provision, _("host already has provision interface") unless provisions.empty?
       end
-    end
-
-    def require_ip_validation?
-      # if it's not managed there's nowhere to specify an IP anyway
-      return false if !self.host.managed? || !self.managed? || !self.provision?
-      # if the CR will provide an IP, then don't validate yet
-      return false if host.compute_provides?(:ip)
-      ip_for_dns     = (subnet.present? && subnet.dns_id.present?) || (domain.present? && domain.dns_id.present?)
-      ip_for_dhcp    = subnet.present? && subnet.dhcp_id.present?
-      ip_for_token   = Setting[:token_duration] == 0 && (host.pxe_build? || (host.image_build? && host.image.try(:user_data?)))
-      # Any of these conditions will require an IP, so chain with OR
-      ip_for_dns or ip_for_dhcp or ip_for_token
     end
 
     def sync_name

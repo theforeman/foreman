@@ -101,7 +101,7 @@ module Hostext
         end
         key_name = User.connection.quote_column_name(clean_key)
         condition = sanitize_sql_for_conditions(["#{key_name} #{operator} ?", value_to_sql(operator, value)])
-        users = User.all(:conditions => condition)
+        users = User.where(condition)
         hosts = users.map(&:hosts).flatten
         opts  = hosts.empty? ? "< 0" : "IN (#{hosts.map(&:id).join(',')})"
 
@@ -141,14 +141,14 @@ module Hostext
       def search_by_params(key, operator, value)
         key_name = key.sub(/^.*\./,'')
         condition = sanitize_sql_for_conditions(["name = ? and value #{operator} ?", key_name, value_to_sql(operator, value)])
-        opts     = {:conditions => condition, :order => :priority}
-        p        = Parameter.all(opts)
+        opts = {:conditions => condition, :order => :priority}
+        p = Parameter.where(opts).all
         return {:conditions => '1 = 0'} if p.blank?
 
-        max         = p.first.priority
-        condition   = sanitize_sql_for_conditions(["name = ? and NOT(value #{operator} ?) and priority > ?",key_name,value_to_sql(operator, value), max])
+        max = p.first.priority
+        condition = sanitize_sql_for_conditions(["name = ? and NOT(value #{operator} ?) and priority > ?",key_name,value_to_sql(operator, value), max])
         negate_opts = {:conditions => condition, :order => :priority}
-        n           = Parameter.all(negate_opts)
+        n = Parameter.where(negate_opts).all
 
         conditions = param_conditions(p)
         negate = param_conditions(n)

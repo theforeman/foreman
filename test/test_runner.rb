@@ -32,4 +32,4 @@ module ForemanMiniTestRunner
   end
 end
 
-MiniTest::Unit.runner = ForemanMiniTestRunner::Unit.new
+#MiniTest::Unit.runner = ForemanMiniTestRunner::Unit.new

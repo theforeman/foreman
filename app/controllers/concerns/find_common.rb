@@ -31,10 +31,11 @@ module FindCommon
 
     if resource.respond_to?(:authorized)
       permission ||= "#{action_permission}_#{controller}"
-      resource = resource.authorized(permission, resource)
+      resource     = resource.authorized(permission, resource)
     end
 
-    resource.where(options)
+    scope = resource.where(options)
+    scope.respond_to?(:friendly) ? scope.friendly : scope
   end
 
   def resource_class_for(resource)

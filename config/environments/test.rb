@@ -7,7 +7,7 @@ Foreman::Application.configure do
   # and recreated between test runs.  Don't rely on the data there!
   config.cache_classes = true
 
-  config.eager_load = false
+  config.eager_load = true
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -24,6 +24,7 @@ Foreman::Application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
   config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false
   ActionMailer::Base.deliveries.clear
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
@@ -40,9 +41,6 @@ Foreman::Application.configure do
   # Configure static asset server for tests with Cache-Control for performance
   config.serve_static_assets = true
   config.static_cache_control = "public, max-age=3600"
-
-  # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
 
   #enables a few aliases - context, should, and should_eventually methods
   config.minitest_spec_rails.mini_shoulda = true

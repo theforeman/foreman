@@ -22,8 +22,9 @@ class UserRole < ActiveRecord::Base
   has_many :cached_user_roles, :dependent => :destroy
 
   validates :role_id, :presence => true
-  validates :owner_id, :presence => true, :uniqueness => {:scope => [:role_id, :owner_type],
+  validates :owner_id, :uniqueness => {:scope => [:role_id, :owner_type],
                                                           :message => N_("has this role already")}
+
   def user_role?
     self.owner_type == 'User'
   end
@@ -59,7 +60,7 @@ class UserRole < ActiveRecord::Base
   end
 
   def build_user_role_cache
-    [ self.cached_user_roles.build(:user => owner, :role => role) ]
+    [ self.cached_user_roles.build(:user_id => owner.id, :role_id => role.id) ]
   end
 
   def build_user_group_role_cache(owner)

@@ -778,14 +778,14 @@ class HostsControllerTest < ActionController::TestCase
 
   test "can change sti type to valid subtype" do
     class Host::Valid < Host::Managed; end
-    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, set_session_user
+    patch :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, set_session_user
     @host = Host::Base.find(@host.id)
     assert_equal "Host::Valid", @host.type
   end
 
   test "cannot change sti type to invalid subtype" do
     old_type = @host.type
-    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Notvalid", :disk => @host.disk } }, set_session_user
+    patch :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Notvalid", :disk => @host.disk } }, set_session_user
     @host = Host.find(@host.id)
     assert_equal old_type, @host.type
   end

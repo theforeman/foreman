@@ -1,4 +1,4 @@
-module ActionController
+module ActionDispatch
   module Routing
     class RouteSet
       class NamedRouteCollection
@@ -13,6 +13,10 @@ module ActionController
 
             #because we heavily rely on the removed hash_for method in routes, we must add this monkey patch.
             define_method("hash_for_#{name}") do |*args|
+              unless args.first.is_a? Hash
+                id = args.first.try(:to_param)
+                options[:id] = id if id.present?
+              end
               helper.send(:handle_positional_args, self, args, options, [])
             end
           end

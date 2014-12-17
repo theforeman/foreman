@@ -81,7 +81,8 @@ module Orchestration::DHCP
   end
 
   def queue_dhcp
-    return unless (dhcp? or (old and old.dhcp?)) and orchestration_errors?
+    return unless orchestration_errors?
+    return unless dhcp? or (old.try(:dhcp?))
     queue_remove_dhcp_conflicts
     new_record? ? queue_dhcp_create : queue_dhcp_update
   end

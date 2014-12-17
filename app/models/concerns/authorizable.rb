@@ -16,7 +16,7 @@ module Authorizable
       if user.nil?
         self.where('1=0')
       elsif user.admin?
-        self.scoped
+        self.all
       else
         Authorizer.new(user).find_collection(resource || self, :permission => permission)
       end

@@ -21,23 +21,25 @@ class TestableStrongParamsControllerTest < ActionController::TestCase
   tests TestableStrongParamsController
 
   test 'missing required params will return bad request' do
-    post :create, {:testable => {:name => "require"}}, set_session_user
-    assert_response :bad_request
+    assert_raise ActionController::ParameterMissing do
+      post :create, {:testable => {:name => "require"}}, set_session_user
+    end
   end
 
   test 'empty params will return bad bad request' do
-    post :create, { :testable_strong_param => {} }, set_session_user
-    assert_response :bad_request
+    assert_raise ActionController::ParameterMissing do
+      post :create, { :testable_strong_param => {} }, set_session_user
+    end
   end
 
   test 'valid params of another controller will return bad request' do
-    post :create, { :host => { :name => "para" } }, set_session_user
-    assert_response :bad_request
+    assert_raise ActionController::ParameterMissing do
+      post :create, { :host => { :name => "para" } }, set_session_user
+    end
   end
 
   test 'valid params will be cleared' do
     post :create, { :testable_strong_param => { :name => "para", :value => "meter", :hidden_value => true } }, set_session_user
     assert_response :ok
   end
-
 end

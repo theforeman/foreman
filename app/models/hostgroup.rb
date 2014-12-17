@@ -1,7 +1,6 @@
 class Hostgroup < ActiveRecord::Base
   include Authorizable
-  extend FriendlyId
-  friendly_id :title
+  include Parameterizable::ByIdName
   include Taxonomix
   include HostCommon
 
@@ -27,7 +26,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :provisioning_templates, :through => :template_combinations
 
   include CounterCacheFix
-  counter_cache = "#{model_name.split(":").first.pluralize.downcase}_count".to_sym  # e.g. :hosts_count
+  counter_cache = "#{model_name.to_s.split(":").first.pluralize.downcase}_count".to_sym  # e.g. :hosts_count
   belongs_to :domain, :counter_cache => counter_cache
   belongs_to :subnet
 
@@ -36,6 +35,7 @@ class Hostgroup < ActiveRecord::Base
 
   alias_attribute :arch, :architecture
   alias_attribute :os, :operatingsystem
+
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
@@ -101,6 +101,11 @@ class Hostgroup < ActiveRecord::Base
 
   #TODO: add a method that returns the valid os for a hostgroup
 
+  def to_param
+    # remove characters unsafe for urls, keep unicode ones
+    Parameterizable.parameterize("#{id}-#{title}")
+  end
+
   def hostgroup
     self
   end
@@ -162,8 +167,8 @@ class Hostgroup < ActiveRecord::Base
     # read common parameters
     CommonParameter.all.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('common').to_sym} : p.value] }
     # read organization and location parameters
-    hp.update organization.parameters(include_source) if SETTINGS[:organizations_enabled] && organization
-    hp.update location.parameters(include_source)     if SETTINGS[:locations_enabled] && location
+    #hp.update organization.parameters(include_source) if SETTINGS[:organizations_enabled] && organization
+    #hp.update location.parameters(include_source)     if SETTINGS[:locations_enabled] && location
     # read domain parameters
     domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('domain').to_sym} : p.value] } unless domain.nil?
     # read OS parameters
@@ -176,7 +181,7 @@ class Hostgroup < ActiveRecord::Base
   def params
     parameters = {}
     # read common parameters
-    CommonParameter.scoped.each {|p| parameters.update Hash[p.name => p.value] }
+    CommonParameter.all.each {|p| parameters.update Hash[p.name => p.value] }
     # read OS parameters
     operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } if operatingsystem
     # read group parameters only if a host belongs to a group

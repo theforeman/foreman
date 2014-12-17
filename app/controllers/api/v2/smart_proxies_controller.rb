@@ -32,7 +32,7 @@ module Api
       param_group :smart_proxy, :as => :create
 
       def create
-        @smart_proxy = SmartProxy.new(params[:smart_proxy])
+        @smart_proxy = SmartProxy.new(foreman_params)
         process_response @smart_proxy.save
       end
 
@@ -41,7 +41,7 @@ module Api
       param_group :smart_proxy
 
       def update
-        process_response @smart_proxy.update_attributes(params[:smart_proxy])
+        process_response @smart_proxy.update_attributes(foreman_params)
       end
 
       api :DELETE, "/smart_proxies/:id/", N_("Delete a smart proxy")

@@ -6,7 +6,7 @@ class ConfigGroup < ActiveRecord::Base
 
   validates_lengths_from_database
 
-  has_many :config_group_classes
+  has_many :config_group_classes, :validate => false
   has_many :puppetclasses, :through => :config_group_classes, :dependent => :destroy
   has_many :host_config_groups
   has_many_hosts :through => :host_config_groups
@@ -25,7 +25,7 @@ class ConfigGroup < ActiveRecord::Base
   alias_method :individual_puppetclasses, :puppetclasses
 
   def available_puppetclasses
-    Puppetclass.scoped
+    Puppetclass.all
   end
 
   # for auditing

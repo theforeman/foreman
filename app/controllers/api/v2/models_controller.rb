@@ -29,7 +29,7 @@ module Api
       param_group :model, :as => :create
 
       def create
-        @model = Model.new(params[:model])
+        @model = Model.new(foreman_params)
         process_response @model.save
       end
 
@@ -38,7 +38,7 @@ module Api
       param_group :model
 
       def update
-        process_response @model.update_attributes(params[:model])
+        process_response @model.update_attributes(foreman_params)
       end
 
       api :DELETE, "/models/:id/", N_("Delete a hardware model")

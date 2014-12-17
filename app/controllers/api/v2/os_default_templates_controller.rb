@@ -42,7 +42,7 @@ module Api
       param_group :os_default_template, :as => :create
 
       def create
-        @os_default_template = nested_obj.os_default_templates.new(params[:os_default_template])
+        @os_default_template = nested_obj.os_default_templates.new(foreman_params)
         process_response @os_default_template.save
       end
 
@@ -52,7 +52,7 @@ module Api
       param_group :os_default_template
 
       def update
-        process_response @os_default_template.update_attributes(params[:os_default_template])
+        process_response @os_default_template.update_attributes(foreman_params)
       end
 
       api :DELETE, "/operatingsystems/:operatingsystem_id/os_default_templates/:id", N_("Delete a default template combination for an operating system")

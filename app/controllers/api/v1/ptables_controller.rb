@@ -29,7 +29,7 @@ module Api
       end
 
       def create
-        @ptable = Ptable.new(params[:ptable])
+        @ptable = Ptable.new(foreman_params)
         process_response @ptable.save
       end
 
@@ -42,7 +42,7 @@ module Api
       end
 
       def update
-        process_response @ptable.update_attributes(params[:ptable])
+        process_response @ptable.update_attributes(foreman_params)
       end
 
       api :DELETE, "/ptables/:id/", "Delete a ptable."

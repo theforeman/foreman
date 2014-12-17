@@ -1,10 +1,8 @@
 class Organization < Taxonomy
-  extend FriendlyId
-  friendly_id :title
   include Foreman::ThreadSession::OrganizationModel
   include Parameterizable::ByIdName
 
-  has_and_belongs_to_many :locations
+  has_and_belongs_to_many :locations, :join_table => "locations_organizations"
   has_many_hosts :dependent => :nullify
 
   has_many :organization_parameters, :class_name => 'OrganizationParameter', :foreign_key => :reference_id,            :dependent => :destroy, :inverse_of => :organization

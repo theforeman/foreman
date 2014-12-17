@@ -2,13 +2,18 @@ module Foreman
   module PermittedAttributes
     ATTRIBUTES = [
       :location_organization_attributes,
+      :location_attributes,
+      :organization_attributes,
       :operatingsystem_ids_attributes,
       :architecture_attributes,
       :auth_source_ldap_attributes,
       :operatingsystem_attributes,
       :os_parameters_attributes,
+      :os_default_template_attributes,
       :os_default_templates_attributes,
       :smart_proxy_attributes,
+      :smart_class_parameter_attributes,
+      :smart_variable_attributes,
       :bookmark_attributes,
       :common_parameter_attributes,
       :user_self_attributes,
@@ -20,6 +25,7 @@ module Foreman
       :compute_resource_attributes,
       :config_group_attributes,
       :config_template_attributes,
+      :template_combination_attributes,
       :template_combinations_attributes,
       :parameter_attributes, ## serves all smart params
       :domain_attributes,
@@ -28,11 +34,13 @@ module Foreman
       :hostgroup_attributes,
       :host_attributes,
       :image_attributes,
+      :interface_attributes,
       :lookup_key_attributes,
       :lookup_value_attributes,
       :medium_attributes,
       :model_attributes,
       :ptable_attributes,
+      :override_value_attributes,
       :puppetclass_attributes,
       :class_params_attributes,
       :realm_attributes,
@@ -41,7 +49,7 @@ module Foreman
       :subnet_attributes,
       :usergroup_attributes,
       :trend_attributes,
-      :external_usergroups_attributes,
+      :external_usergroup_attributes,
       :vm_attrs_libvirt_attributes,
       :vm_attrs_ec2_attributes,
       :vm_attrs_gce_attributes,
@@ -58,6 +66,22 @@ module Foreman
       :organization_ids => []
     ]
 
+    @@organization_attributes = @@location_attributes = [
+      :name,
+      {
+        :environment_ids => [],
+        :hostgroup_ids => [],
+        :subnet_ids => [],
+        :domain_ids => [],
+        :medium_ids => [],
+        :user_ids => [],
+        :smart_proxy_ids => [],
+        :config_template_ids => [],
+        :compute_resource_ids => [],
+        :location_ids => []
+      }
+    ]
+
     @@architecture_attributes = [
       :name,
       {:operatingsystem_ids => []}
@@ -71,7 +95,7 @@ module Foreman
 
     @@operatingsystem_attributes = [
       :name, :major, :minor, :description, :family,
-      :release_name, :password_hash, {:architecture_ids => [],
+      :release_name, :password_hash, {:architectures => [], :architecture_ids => [], :architecture_names => [],
       :ptable_ids => [], :medium_ids => []}
     ]
 
@@ -79,7 +103,7 @@ module Foreman
       :name, :value, :hidden_value, :id, :_destroy, :nested
     ]
 
-    @@os_default_templates_attributes = [
+    @@os_default_templates_attributes = @@os_default_template_attributes = [
       :config_template_id, :template_kind_id, :id
     ]
     @@smart_proxy_attributes = [
@@ -122,7 +146,7 @@ module Foreman
     ]
 
     @@compute_attribute_attributes = [
-      :compute_profile_id, :compute_resource_id, :name
+      :compute_profile_id, :compute_resource_id, :name, :vm_attrs => {}
     ]
 
     @@nics_attributes = [
@@ -150,7 +174,7 @@ module Foreman
       :name, :template, :audit_comment, :snippet, :template_kind_id, {:operatingsystem_ids => []}
     ]
 
-    @@template_combinations_attributes = [
+    @@template_combinations_attributes = @@template_combination_attributes = [
       :hostgroup_id, :environment_id, :_destroy, :id
     ]
 
@@ -194,10 +218,16 @@ module Foreman
 
     ]
 
+    @@interface_attributes = [
+      :name, :ip, :mac, :username, :password, :provider, :type
+    ]
+
     @@lookup_key_attributes = [
       :key, :description, :override, :key_type, :default_value, :required, :validator_type, :use_puppet_default,
-      :validator_rule, :path, :_destroy, :id, :puppetclass_id, {:lookup_values_attributes => [:id, :value, :match, :use_puppet_default, :_destroy]}
+      :validator_rule, :path, :variable, :_destroy, :id, :is_param, :puppetclass_id, {:lookup_values_attributes => [:id, :value, :match, :use_puppet_default, :_destroy]}
     ]
+
+    @@smart_variable_attributes = @@smart_class_parameter_attributes = @@lookup_key_attributes
 
     @@class_params_attributes = [
       :id, :_destroy, :key, :description, :override, :key_type, :default_value, :required, :validator_type,
@@ -218,6 +248,10 @@ module Foreman
 
     @@ptable_attributes = [
       :name, :layout, :os_family
+    ]
+
+    @@override_value_attributes = [
+      :match, :value
     ]
 
     @@puppetclass_attributes = [
@@ -250,7 +284,7 @@ module Foreman
       :name, :trendable_type, :trendable_id
     ]
 
-    @@external_usergroups_attributes = [
+    @@external_usergroup_attributes = [
       :_destroy, :name, :auth_source_id
     ]
 

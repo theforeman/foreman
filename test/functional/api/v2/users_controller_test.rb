@@ -4,7 +4,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   AuthSourceInternal.create(:name => "Internal") unless AuthSourceInternal.first.present?
   valid_attrs = { :login => "johnsmith",
                   :mail => 'john@example.com',
-                  :auth_source_id => 1,#AuthSourceInternal.first.id,
+                  :auth_source_id => 1, #AuthSourceInternal.first.id,
                   :password => '123456' }
 
   def setup

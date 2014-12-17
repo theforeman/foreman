@@ -30,5 +30,4 @@ class TestableNoParamsControllerTest < ActionController::TestCase
       post :create, { :host => { :name => "para" } }, set_session_user
     end
   end
-
 end

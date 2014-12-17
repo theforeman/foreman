@@ -11,6 +11,7 @@ class ReportsTest < ActiveSupport::TestCase
       ActionMailer::Base.deliveries = []
       @owner = FactoryGirl.create(:user, :admin, :with_mail)
       @owner.mail_notifications << MailNotification[:puppet_summary]
+      @owner.mail_notifications << MailNotification[:puppet_error_state]
       @owner.user_mail_notifications.all.each { |notification| notification.update_attribute(:interval, 'Daily') }
       @host = FactoryGirl.create(:host, :owner => @owner)
     end

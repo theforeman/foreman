@@ -56,9 +56,9 @@ class UnattendedController < ApplicationController
 
   # Generate an action for each template kind
   # i.e. /unattended/provision will render the provisioning template for the requesting host
-  TemplateKind.all.each do |kind|
-    define_method kind.name do
-      render_template kind.name
+  TemplateKind.all.map(&:name).each do |name|
+    define_method name do
+      render_template name
     end
   end
   # Using alias_method causes test failures as iPXE method is unknown in an empty DB
@@ -107,8 +107,8 @@ class UnattendedController < ApplicationController
   end
 
   def find_host_by_spoof
-    host = Nic::Base.primary.find_by_ip(params.delete('spoof')).try(:host) if params['spoof'].present?
-    host ||= Host.find(params.delete('hostname')) if params['hostname'].present?
+    host   = Nic::Base.primary.find_by_ip(params.delete('spoof')).try(:host) if params['spoof'].present?
+    host ||= Host.friendly.find(params.delete('hostname')) if params['hostname'].present?
     @spoof = host.present?
     host
   end

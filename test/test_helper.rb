@@ -45,7 +45,26 @@ Spork.prefork do
     ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
   end
 
+  class ActionController::TestCase
+    def self.test_order
+      :alpha
+    end
+  end
+
+  class ActionDispatch::IntegrationTest
+    def self.test_order
+      :alpha
+    end
+  end
+
   class ActiveSupport::TestCase
+    before do
+      User.current = nil
+    end
+
+    def self.test_order
+      :alpha
+    end
     # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
     # Note: You'll currently still have to declare fixtures explicitly in integration tests
     # -- they do not yet inherit this setting
@@ -135,7 +154,7 @@ Spork.prefork do
       User.current = users :admin
       user = User.find_by_login("one")
       @request.session[:user] = user.id
-      @request.session[:expires_at] = 5.minutes.from_now.to_i
+      @request.session[:expires_at] = 500.minutes.from_now.to_i
       user.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
       user.save!
     end
@@ -200,8 +219,8 @@ Spork.prefork do
     def refute_with_errors(condition, model, field = nil, match = nil)
       refute condition, "#{model.inspect} errors: #{model.errors.full_messages.join(';')}"
       if field
-        assert_blank model.errors.map { |a,m| model.errors.full_message(a, m) unless field == a }.compact
-        assert_present model.errors[field].find { |e| e.match(match) },
+        assert(model.errors.map { |a,m| model.errors.full_message(a, m) unless field == a }.compact).blank?
+        assert model.errors[field].find { |e| e.match(match) }.present?,
                        "#{field} error matching #{match} not found: #{model.errors[field].inspect}" if match
       end
     end
@@ -294,7 +313,7 @@ Spork.prefork do
     helper Rails.application.routes.url_helpers
   end
 
-  Rails.application.railties.engines.each do |engine|
+  ::Rails::Engine.subclasses.map{|i| i.send(:new)}.each do |engine|
     support_file = "#{engine.root}/test/support/foreman_test_helper_additions.rb"
     require support_file if File.exist?(support_file)
   end

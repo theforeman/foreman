@@ -79,8 +79,8 @@ module Api
       param_group :host, :as => :create
 
       def create
-        @host = Host.new(host_attributes(params[:host]))
-        @host.managed = true if (params[:host] && params[:host][:managed].nil?)
+        @host = Host.new(foreman_params)
+        @host.managed = true if (foreman_params[:managed].nil?)
         merge_interfaces(@host)
 
         forward_request_url
@@ -94,7 +94,7 @@ module Api
       param_group :host
 
       def update
-        @host.attributes = host_attributes(params[:host], @host)
+        @host.attributes = host_attributes(foreman_params, @host)
         merge_interfaces(@host)
 
         process_response @host.save

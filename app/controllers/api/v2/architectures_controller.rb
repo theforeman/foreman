@@ -53,6 +53,7 @@ module Api
 
       def allowed_nested_id
         %w(operatingsystem_id)
+      end
 
       def permitted_params(action)
         allow_params = ApipieParser.allowed_params('architectures', action, 'v2')

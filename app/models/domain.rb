@@ -2,8 +2,6 @@ require "resolv"
 # This models a DNS domain and so represents a site.
 class Domain < ActiveRecord::Base
   include Authorizable
-  extend FriendlyId
-  friendly_id :name
   include Taxonomix
   include StripLeadingAndTrailingDot
   include Parameterizable::ByIdName
@@ -20,7 +18,7 @@ class Domain < ActiveRecord::Base
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :domain
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "DomainParameter"
   has_many :interfaces, :class_name => 'Nic::Base'
-  has_many :primary_interfaces, :class_name => 'Nic::Base', :conditions => { :primary => true }
+  has_many :primary_interfaces, lambda{where(:primary => true)}, :class_name => 'Nic::Base'
   has_many :hosts, :through => :interfaces
   has_many :primary_hosts, :through => :primary_interfaces, :source => :host
 

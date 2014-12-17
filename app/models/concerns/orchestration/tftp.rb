@@ -19,6 +19,26 @@ module Orchestration::TFTP
     subnet.tftp_proxy(:variant => host.operatingsystem.pxe_variant) if tftp?
   end
 
+  def generate_pxe_template
+    # this is the only place we generate a template not via a web request
+    # therefore some workaround is required to "render" the template.
+    @kernel = host.operatingsystem.kernel(host.arch)
+    @initrd = host.operatingsystem.initrd(host.arch)
+    # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
+    @host = self.host
+    if build?
+      pxe_render host.configTemplate({:kind => host.operatingsystem.template_kind})
+    else
+      if host.operatingsystem.template_kind == "PXEGrub"
+        pxe_render ConfigTemplate.find_by_name("PXEGrub default local boot")
+      else
+        pxe_render ConfigTemplate.find_by_name("PXELinux default local boot")
+      end
+    end
+  rescue => e
+    failure _("Failed to generate %{template_kind} template: %{e}") % { :template_kind => host.operatingsystem.template_kind, :e => e }
+  end
+
   protected
 
   # Adds the host to the forward and reverse TFTP zones

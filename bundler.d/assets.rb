@@ -1,5 +1,5 @@
 group :assets do
-  gem 'sass-rails'#, '~> 3.2'
+  gem 'sass-rails' #, '~> 3.2'
   gem 'uglifier', '>= 1.0.3'
   gem 'execjs', '>= 1.4.0', '<2.5.0'
   gem 'jquery-rails', '2.0.3'
