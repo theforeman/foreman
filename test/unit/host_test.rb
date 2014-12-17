@@ -789,7 +789,8 @@ context "location or organizations are not enabled" do
     h.root_pass = nil
     assert h.save
     assert h.root_pass.present?
-    assert_equal h.root_pass, h.hostgroup.root_pass
+    assert_equal h.hostgroup.root_pass, h.root_pass
+    assert_equal h.hostgroup.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host'
   end
 
   test "should use a nested hostgroup parent root password" do
@@ -803,8 +804,9 @@ context "location or organizations are not enabled" do
     g.parent = p
     g.save
     assert h.save
-    assert h.root_pass.present?
-    assert_equal h.root_pass, p.root_pass
+    assert_present h.root_pass
+    assert_equal p.root_pass, h.root_pass
+    assert_equal p.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host'
   end
 
   test "should use settings root password" do
@@ -812,7 +814,21 @@ context "location or organizations are not enabled" do
     h = FactoryGirl.create(:host, :managed)
     h.root_pass = nil
     assert h.save
-    assert h.root_pass.present? && h.root_pass == Setting[:root_pass]
+    assert_present h.root_pass
+    assert_equal Setting[:root_pass], h.root_pass
+    assert_equal Setting[:root_pass], h.read_attribute(:root_pass), 'should copy root_pass to host'
+  end
+
+  test "should use settings root password when hostgroup has empty root password" do
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    g = FactoryGirl.create(:hostgroup, :root_pass => "")
+    h = FactoryGirl.create(:host, :managed, :hostgroup => g)
+    h.root_pass = ""
+    h.save
+    assert_valid h
+    assert_present h.root_pass
+    assert_equal Setting[:root_pass], h.root_pass
+    assert_equal Setting[:root_pass], h.read_attribute(:root_pass), 'should copy root_pass to host'
   end
 
   test "should save uuid on managed hosts" do
