@@ -3,12 +3,14 @@ module Taxonomix
   include DirtyAssociations
 
   included do
-    taxonomy_join_table = "taxable_taxonomies"
+    taxonomy_join_table = :taxable_taxonomies
     has_many taxonomy_join_table.to_sym, :dependent => :destroy, :as => :taxable
-    has_many :locations,     :through => taxonomy_join_table, :source => :taxonomy,
-             :conditions => "taxonomies.type='Location'", :validate => false
-    has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
-             :conditions => "taxonomies.type='Organization'", :validate => false
+    has_many :locations, -> {where("taxonomies.type='Location'")},
+             :through => taxonomy_join_table, :source => :taxonomy,
+             :validate => false
+    has_many :organizations, ->{where "taxonomies.type='Organization'"},
+             :through => taxonomy_join_table, :source => :taxonomy,
+             :validate => false
     after_initialize :set_current_taxonomy
 
     scoped_search :in => :locations, :on => :name, :rename => :location, :complete_value => true

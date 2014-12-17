@@ -30,7 +30,7 @@ module HostCommon
 
     alias_method :all_puppetclasses, :classes
 
-    has_many :lookup_values, :finder_sql => Proc.new { LookupValue.where('lookup_values.match' => lookup_value_match).to_sql }, :dependent => :destroy, :validate => false
+    has_many :lookup_values, -> { where('lookup_values.match' => lookup_value_match) }, :dependent => :destroy, :validate => false
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
     accepts_nested_attributes_for :lookup_values
     # Replacement of accepts_nested_attributes_for :lookup_values,

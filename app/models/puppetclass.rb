@@ -8,7 +8,7 @@ class Puppetclass < ActiveRecord::Base
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many :environment_classes, :dependent => :destroy
-  has_many :environments, :through => :environment_classes, :uniq => true
+  has_many :environments, ->{uniq}, :through => :environment_classes
   has_and_belongs_to_many :operatingsystems
   has_many :hostgroup_classes
   has_many :hostgroups, :through => :hostgroup_classes, :dependent => :destroy
@@ -20,8 +20,8 @@ class Puppetclass < ActiveRecord::Base
   has_many :lookup_keys, :inverse_of => :puppetclass, :dependent => :destroy
   accepts_nested_attributes_for :lookup_keys, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
   # param classes
-  has_many :class_params, :through => :environment_classes, :uniq => true,
-    :source => :lookup_key, :conditions => 'environment_classes.lookup_key_id is NOT NULL'
+  has_many :class_params, -> {where('environment_classes.lookup_key_id is NOT NULL').uniq},
+    :through => :environment_classes, :source => :lookup_key
   accepts_nested_attributes_for :class_params, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
   validates :name, :uniqueness => true, :presence => true, :no_whitespace => true
   audited :allow_mass_assignment => true, :except => [:total_hosts, :lookup_keys_count, :global_class_params_count]

@@ -25,10 +25,10 @@ class User < ActiveRecord::Base
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
   has_many :direct_hosts,      :class_name => 'Host',    :as => :owner
   has_many :usergroup_member,  :dependent => :destroy,   :as => :member
-  has_many :user_roles,        :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
+  has_many :user_roles,        -> {where(:owner_type => "User")}, :dependent => :destroy, :foreign_key => 'owner_id'
   has_many :cached_user_roles, :dependent => :destroy
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
-  has_many :cached_roles,      :through => :cached_user_roles,        :source => :role, :uniq => true
+  has_many :cached_roles,      ->{uniq}, :through => :cached_user_roles,        :source => :role
   has_many :usergroups,        :through => :usergroup_member, :dependent => :destroy
   has_many :roles,             :through => :user_roles,       :dependent => :destroy
   has_many :filters,           :through => :cached_roles
@@ -47,15 +47,15 @@ class User < ActiveRecord::Base
     includes(:cached_usergroups).
         where(["(#{self.table_name}.admin = ? OR #{self.table_name}.admin IS NULL) AND " +
                    "(#{Usergroup.table_name}.admin = ? OR #{Usergroup.table_name}.admin IS NULL)",
-               false, false])
+               false, false]).references(:users, :usergroups)
   }
   scope :only_admin, lambda {
     includes(:cached_usergroups).
-        where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
+        where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true]).references(:users, :usergroups)
   }
   scope :except_hidden, lambda {
-    if (hidden = AuthSourceHidden.all).present?
-      where("#{self.table_name}.auth_source_id <> ?", hidden)
+    if (hidden = AuthSourceHidden.all.select(:id)).present?
+      where("#{self.table_name}.auth_source_id <> (?)", hidden).references(:users)
     end
   }
   scope :visible,         lambda { except_hidden }
