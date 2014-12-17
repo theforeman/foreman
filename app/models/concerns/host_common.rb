@@ -107,8 +107,15 @@ module HostCommon
   end
 
   def crypt_root_pass
-    unless root_pass.empty?
-      unencrypted_pass = root_pass
+    # hosts will always copy and crypt the password from parents when saved, but hostgroups should
+    # only crypt if the attribute is stored, else will stay blank and inherit
+    unencrypted_pass = if kind_of?(Hostgroup)
+                         read_attribute(:root_pass)
+                       else
+                         root_pass
+                       end
+
+    if unencrypted_pass.present?
       self.root_pass = unencrypted_pass.starts_with?('$') ? unencrypted_pass :
           (operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash))
       self.grub_pass = unencrypted_pass.starts_with?('$') ? unencrypted_pass : PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
