@@ -67,4 +67,13 @@ class HostTest < ActionDispatch::IntegrationTest
     assert_equal(find('#host_subnet_id').find("option[value='#{Subnet.last.id}']").text, Subnet.last.to_label)
   end
 
+  test "destroy redirects to hosts index" do
+    disable_orchestration  # Avoid DNS errors
+    visit hosts_path
+    click_link @host.fqdn
+    assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
+    first(:link, "Delete").click
+    assert_equal(current_path, hosts_path)
+  end
+
 end
