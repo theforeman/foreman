@@ -222,7 +222,7 @@ class UserTest < ActiveSupport::TestCase
   test "non-admin user can't assign roles he does not have himself" do
     setup_user "create"
     create_role          = Role.find_by_name 'create_users'
-    extra_role           = Role.find_or_create_by_name :name => "foobar"
+    extra_role           = Role.find_or_create_by(:name => "foobar")
     record               = User.new :login    => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id,
                                     :role_ids => [extra_role.id, create_role.id].map(&:to_s)
     record.password_hash = "asd"
@@ -245,7 +245,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "admin can set admin flag and set any role" do
     as_admin do
-      extra_role           = Role.find_or_create_by_name :name => "foobar"
+      extra_role           = Role.find_or_create_by(:name => "foobar")
       record               = User.new :login    => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id,
                                       :role_ids => [extra_role.id].map(&:to_s)
       record.password_hash = "asd"
@@ -258,7 +258,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "user cannot assign role he has not assigned himself" do
     setup_user "edit"
-    extra_role      = Role.find_or_create_by_name :name => "foobar"
+    extra_role      = Role.find_or_create_by(:name => "foobar")
     record          = users(:one)
     record.role_ids = [extra_role.id]
     assert_not record.save
@@ -277,7 +277,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "user cannot escalate his own roles" do
     setup_user "edit"
-    extra_role      = Role.find_or_create_by_name :name => "foobar"
+    extra_role      = Role.find_or_create_by(:name => "foobar")
     record = User.current
     record.role_ids = record.role_ids + [extra_role.id]
     refute record.save
@@ -286,7 +286,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "admin can add any role" do
     as_admin do
-      extra_role      = Role.find_or_create_by_name :name => "foobar"
+      extra_role      = Role.find_or_create_by(:name => "foobar")
       record          = users(:one)
       record.role_ids = [extra_role.id]
       assert record.valid?
@@ -389,7 +389,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "use that can change admin flag #can_assign? any role" do
     user       = users(:one)
-    extra_role = Role.find_or_create_by_name :name => "foobar"
+    extra_role = Role.find_or_create_by(:name => "foobar")
     user.stub :can_change_admin_flag?, true do
       assert user.can_assign?([extra_role.id])
     end
@@ -403,8 +403,8 @@ class UserTest < ActiveSupport::TestCase
 
   test "non admin user #can_assign? only his assigned roles" do
     user   = users(:one)
-    foobar = Role.find_or_create_by_name :name => "foobar"
-    barfoo = Role.find_or_create_by_name :name => "barfoo"
+    foobar = Role.find_or_create_by(:name => "foobar")
+    barfoo = Role.find_or_create_by(:name => "barfoo")
     user.roles<< foobar
 
     assert user.can_assign?([foobar.id])
@@ -415,8 +415,8 @@ class UserTest < ActiveSupport::TestCase
 
   test "role_ids change detection" do
     user   = users(:one)
-    foobar = Role.find_or_create_by_name :name => "foobar"
-    barfoo = Role.find_or_create_by_name :name => "barfoo"
+    foobar = Role.find_or_create_by(:name => "foobar")
+    barfoo = Role.find_or_create_by(:name => "barfoo")
     user.roles<< foobar
 
     user.role_ids = [foobar.id]
@@ -436,9 +436,9 @@ class UserTest < ActiveSupport::TestCase
 
   test "role_ids can be empty array which removes all roles" do
     user   = users(:one)
-    foobar = Role.find_or_create_by_name :name => "foobar"
-    Role.find_or_create_by_name :name => "barfoo"
-    user.roles<< foobar
+    foobar = Role.find_or_create_by(:name => "foobar")
+    barfoo = Role.find_or_create_by(:name => "barfoo")
+    user.roles << foobar
 
     user.role_ids = []
     assert_empty user.roles
@@ -446,9 +446,9 @@ class UserTest < ActiveSupport::TestCase
 
   test "role_ids can be nil resulting in no role" do
     user   = users(:one)
-    foobar = Role.find_or_create_by_name :name => "foobar"
-    Role.find_or_create_by_name :name => "barfoo"
-    user.roles<< foobar
+    foobar = Role.find_or_create_by(:name => "foobar")
+    barfoo = Role.find_or_create_by(:name => "barfoo")
+    user.roles << foobar
 
     user.role_ids = nil
     assert_empty user.roles

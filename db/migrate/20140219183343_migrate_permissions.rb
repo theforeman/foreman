@@ -82,7 +82,7 @@ class MigratePermissions < ActiveRecord::Migration
   def make_sure_all_permissions_are_present
     engine_permissions = Foreman::AccessControl.permissions.select { |p| p.engine.present? }
     engine_permissions.each do |permission|
-      FakePermission.find_or_create_by_name_and_resource_type(permission.name, permission.resource_type)
+      FakePermission.find_or_create_by(:name => permission.name, :resource_type => permission.resource_type])
     end
   end
 

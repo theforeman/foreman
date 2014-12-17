@@ -190,8 +190,8 @@ Foreman::Application.routes.draw do
 
       resources :statistics, :only => [:index]
 
-      match '/', :to => 'home#index'
-      match 'status', :to => 'home#status', :as => "status"
+      get '/', :to => 'home#index'
+      get 'status', :to => 'home#status', :as => "v2_status"
 
       resources :reports, :only => [:create]
 

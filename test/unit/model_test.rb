@@ -21,6 +21,7 @@ class ModelTest < ActiveSupport::TestCase
     m = Model.create :name => "m1"
     FactoryGirl.create(:host, :model => m)
     assert_equal 1, m.reload.hosts.size
+
     assert !m.destroy
   end
 

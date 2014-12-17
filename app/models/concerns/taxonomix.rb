@@ -4,7 +4,7 @@ module Taxonomix
 
   included do
     taxonomy_join_table = "taxable_taxonomies"
-    has_many taxonomy_join_table, :dependent => :destroy, :as => :taxable
+    has_many taxonomy_join_table.to_sym, :dependent => :destroy, :as => :taxable
     has_many :locations,     :through => taxonomy_join_table, :source => :taxonomy,
              :conditions => "taxonomies.type='Location'", :validate => false
     has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,

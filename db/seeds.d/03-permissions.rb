@@ -163,6 +163,6 @@ permissions = [
   ['User', 'destroy_users'],
 ]
 permissions.each do |resource, permission|
-  Permission.find_or_create_by_resource_type_and_name resource, permission
+  Permission.find_or_create_by(:name => permission, :resource_type => resource])
 end
 
