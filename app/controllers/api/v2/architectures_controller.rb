@@ -30,7 +30,7 @@ module Api
       param_group :architecture, :as => :create
 
       def create
-        @architecture = Architecture.new(params[:architecture])
+        @architecture = Architecture.new(permitted_params('create'))
         process_response @architecture.save
       end
 
@@ -39,7 +39,7 @@ module Api
       param_group :architecture
 
       def update
-        process_response @architecture.update_attributes(params[:architecture])
+        process_response @architecture.update_attributes(permitted_params('update'))
       end
 
       api :DELETE, "/architectures/:id/", N_("Delete an architecture")
@@ -53,6 +53,10 @@ module Api
 
       def allowed_nested_id
         %w(operatingsystem_id)
+
+      def permitted_params(action)
+        allow_params = ApipieParser.allowed_params('architectures', action, 'v2')
+        params.require(:architecture).permit(*allow_params)
       end
     end
   end
