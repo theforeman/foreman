@@ -22,7 +22,6 @@ gem 'validates_lengths_from_database',  '~> 0.2'
 gem 'friendly_id', '~> 4.0'
 gem 'secure_headers', '~> 1.3'
 gem 'safemode', '~> 1.2'
-gem 'ruby_parser', '3.1.1'
 gem 'fast_gettext', '~> 0.8'
 gem 'gettext_i18n_rails', '~> 1.0'
 
