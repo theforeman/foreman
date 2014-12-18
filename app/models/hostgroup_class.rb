@@ -7,8 +7,6 @@ class HostgroupClass < ActiveRecord::Base
   belongs_to :hostgroup
   belongs_to :puppetclass, :counter_cache => :hostgroups_count
 
-  attr_accessible :hostgroup_id, :hostgroup, :puppetclass_id, :puppetclass
-
   validates :hostgroup_id, :presence => true
   validates :puppetclass_id, :presence => true, :uniqueness => {:scope => :hostgroup_id}
 

@@ -46,7 +46,6 @@ class Role < ActiveRecord::Base
   has_many :filters, :dependent => :destroy
 
   has_many :permissions, :through => :filters
-  attr_protected :builtin
 
   validates :name, :presence => true, :uniqueness => true
   validates :builtin, :inclusion => { :in => 0..2 }

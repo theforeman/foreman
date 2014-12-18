@@ -84,6 +84,10 @@ end
 
 module Foreman
   class Application < Rails::Application
+
+    def logger
+      Rails.logger
+    end
     # Setup additional routes by loading all routes file from routes directory
 
     Dir["#{Rails.root}/config/routes/**/*.rb"].each do |route_file|

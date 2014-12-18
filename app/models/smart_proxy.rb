@@ -6,7 +6,6 @@ class SmartProxy < ActiveRecord::Base
   include Parameterizable::ByIdName
   audited :allow_mass_assignment => true
 
-  attr_accessible :name, :url, :location_ids, :organization_ids
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, :puppet_ca_hosts, :puppet_ca_hostgroups, :realms)
   #TODO check if there is a way to look into the tftp_id too

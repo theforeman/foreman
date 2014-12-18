@@ -7,13 +7,6 @@ module Nic
     self.table_name = 'nics'
 
     validates_lengths_from_database
-    attr_accessible :host_id, :host,
-                    :mac, :name, :type,
-                    :provider, :username, :password,
-                    :identifier, :virtual, :link, :tag, :attached_to,
-                    :managed, :bond_options, :attached_devices, :mode,
-                    :primary, :provision, :compute_attributes,
-                    :_destroy # used for nested_attributes
 
     before_validation :normalize_mac
     after_validation :set_validated

@@ -24,8 +24,6 @@ class Setting < ActiveRecord::Base
     end
   end
 
-  attr_accessible :name, :value, :description, :category, :settings_type, :default, :full_name
-
   validates_lengths_from_database
   # audit the changes to this model
   audited :only => [:value], :on => [:update], :allow_mass_assignment => true
