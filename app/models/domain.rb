@@ -7,6 +7,7 @@ class Domain < ActiveRecord::Base
   include Taxonomix
   include StripLeadingAndTrailingDot
   include Parameterizable::ByIdName
+  include ScopedSearchExtensions
 
   audited :allow_mass_assignment => true, :except => [:hosts_count, :hostgroups_count]
 
@@ -25,11 +26,14 @@ class Domain < ActiveRecord::Base
   has_many :primary_hosts, :through => :primary_interfaces, :source => :host
 
   accepts_nested_attributes_for :domain_parameters, :allow_destroy => true
+
+  before_validation :punycode_name
   include ParameterValidators
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, :presence => true, :uniqueness => true, :domain_name => true
   validates :fullname, :uniqueness => true, :allow_blank => true, :allow_nil => true
 
-  scoped_search :on => [:name, :fullname], :complete_value => true
+  scoped_search :on => :name, :complete_value => true, :ext_method => :search_by_unicode_name, :default_order => true
+  scoped_search :on => :fullname, :complete_value => true
   scoped_search :on => :hosts_count
   scoped_search :on => :hostgroups_count
   scoped_search :in => :domain_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
@@ -41,6 +45,27 @@ class Domain < ActiveRecord::Base
       order("domains.name")
     end
   }
+
+  def self.complete_for_domain_name(query, output, title)
+    if query.include? title
+      output.map!{|item| item.gsub(/(xn\-\-\S*)/){|match| SimpleIDN.to_unicode(match)} }
+    end
+  end
+
+  def self.complete_for(query, opts = {})
+    query.gsub!(/name\s+=\s+(\p{Word}+)/u){ "name = #{SimpleIDN.to_ascii($1)}" }
+    output = super(query, opts)
+    Domain.complete_for_domain_name(query, output, 'name')
+    output
+  end
+
+  def self.search_by_unicode_name(key, operator, value)
+    value = value_to_sql(operator, SimpleIDN.to_ascii(value))
+    conditions = sanitize_sql_for_conditions(["name #{operator} ?", value])
+    domains = Domain.where(conditions).pluck(:id)
+    opts  = domains.empty? ? "< 0" : "IN (#{domains.join(',')})"
+    {:conditions => "domains.id #{opts}"}
+  end
 
   class Jail < Safemode::Jail
     allow :name, :fullname
@@ -77,5 +102,21 @@ class Domain < ActiveRecord::Base
   def used_taxonomy_ids(type)
     return [] if new_record?
     Host::Base.joins(:primary_interface).where(:nics => {:domain_id => id}).uniq.pluck(type).compact
+  end
+
+  def punycode_name
+    self.name = SimpleIDN.to_ascii(name.downcase)
+  end
+
+  def unicode_name
+    SimpleIDN.to_unicode(name)
+  end
+
+  def to_s
+    unicode_name
+  end
+
+  def to_label
+    unicode_name
   end
 end

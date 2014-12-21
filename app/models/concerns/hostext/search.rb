@@ -29,7 +29,7 @@ module Hostext
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_title
       scoped_search :in => :hostgroup,   :on => :id,      :complete_enabled => false, :rename => :hostgroup_id, :only_explicit => true
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :parent_hostgroup, :only_explicit => true, :ext_method => :search_by_hostgroup_and_descendants
-      scoped_search :in => :domain,      :on => :name,    :complete_value => true,  :rename => :domain
+      scoped_search :in => :domain,      :on => :name,    :complete_value => true,  :rename => :domain, :ext_method => :search_by_domain
       scoped_search :in => :domain,      :on => :id,      :complete_enabled => false,  :rename => :domain_id, :only_explicit => true
       scoped_search :in => :realm,       :on => :name,    :complete_value => true,  :rename => :realm
       scoped_search :in => :realm,       :on => :id,      :complete_enabled => false,  :rename => :realm_id, :only_explicit => true
@@ -91,6 +91,15 @@ module Hostext
     end
 
     module ClassMethods
+      def search_by_domain(key, operator, value)
+        value = SimpleIDN.to_ascii(value)
+        conditions = sanitize_sql_for_conditions(["domains.name #{operator} ?", value_to_sql(operator, value)])
+        hosts = Domain.joins(:hosts).where(conditions).select('hosts.id')
+        opts  = hosts.empty? ? "< 0" : "IN (#{hosts.map(&:id).join(',')})"
+
+        {:conditions => " hosts.id #{opts} " }
+      end
+
       def search_by_user(key, operator, value)
         clean_key = key.sub(/^.*\./,'')
         if value == "current_user"

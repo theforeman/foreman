@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'test_helper'
 
 class DomainTest < ActiveSupport::TestCase
@@ -13,6 +14,39 @@ class DomainTest < ActiveSupport::TestCase
 
   test "should not save without a name" do
     assert !@new_domain.save
+  end
+
+  test "should have a valid domain name" do
+    @new_domain.name = "averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots.averylongnamewithdots"
+    refute @new_domain.valid?
+    @new_domain.name = "a name with spaces"
+    refute @new_domain.valid?
+    @new_domain.name = "unallowed_characters@doma!n.name"
+    refute @new_domain.valid?
+    @new_domain.name = "nameover63characters-nameover63characters-nameover63characters-nameover63characters"
+    refute @new_domain.valid?
+
+    @new_domain.name = "a.com"
+    assert @new_domain.valid?
+    @new_domain.name = "valid.domain.name"
+    assert @new_domain.valid?
+    @new_domain.name = "valid.domain-name2"
+    assert @new_domain.valid?
+  end
+
+  test "should lowercase name" do
+    domain = FactoryGirl.create(:domain)
+    domain.name = "Domain.Name"
+    assert domain.save
+    assert_equal domain.name, "domain.name"
+  end
+
+  test "should convert unicode name to punycode" do
+    domain = FactoryGirl.create(:domain)
+    domain.name = "münich"
+    assert domain.save
+    assert_equal domain.name, "xn--mnich-kva"
+    assert_equal domain.to_s, "münich"
   end
 
   test "should exists a unique name" do
@@ -34,10 +68,10 @@ class DomainTest < ActiveSupport::TestCase
   end
 
   test "should remove leading and trailing dot from name" do
-    other_domain = Domain.new(:name => ".otherDomain.", :fullname => "full_name")
+    other_domain = Domain.new(:name => ".otherdomain.", :fullname => "full_name")
     assert other_domain.valid?
     other_domain.save
-    assert_equal "otherDomain", other_domain.name
+    assert_equal "otherdomain", other_domain.name
   end
 
   test "should not destroy if it contains hosts" do

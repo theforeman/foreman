@@ -121,7 +121,7 @@ module Nic
     # we should guarantee the fqdn is always fully qualified
     def fqdn
       return name if name.blank? || domain.blank?
-      name.include?('.') ? name : "#{name}.#{domain}"
+      name.include?('.') ? name : "#{name}.#{domain.name}"
     end
 
     def clone
