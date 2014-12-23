@@ -4,6 +4,7 @@ class ComputeResource < ActiveRecord::Base
   include Encryptable
   include Authorizable
   include Parameterizable::ByIdName
+  include SearchScope::ComputeResource
   encrypts :password
 
   class_attribute :supported_providers
@@ -28,9 +29,7 @@ class ComputeResource < ActiveRecord::Base
   validate :ensure_provider_not_changed, :on => :update
   validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
   validates :url, :presence => true
-  scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :type, :complete_value => :true
-  scoped_search :on => :id, :complete_value => :true
+
   before_save :sanitize_url
   has_many_hosts
   has_many :images, :dependent => :destroy

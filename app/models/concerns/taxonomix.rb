@@ -1,6 +1,7 @@
 module Taxonomix
   extend ActiveSupport::Concern
   include DirtyAssociations
+  include SearchScope::Taxonomix
 
   included do
     taxonomy_join_table = "taxable_taxonomies"
@@ -10,19 +11,11 @@ module Taxonomix
     has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
              :conditions => "taxonomies.type='Organization'", :validate => false
     after_initialize :set_current_taxonomy
-
-    scoped_search :in => :locations, :on => :name, :rename => :location, :complete_value => true
-    scoped_search :in => :locations, :on => :id, :rename => :location_id, :complete_value => true
-    scoped_search :in => :organizations, :on => :name, :rename => :organization, :complete_value => true
-    scoped_search :in => :organizations, :on => :id, :rename => :organization_id, :complete_value => true
-
     dirty_has_many_associations :organizations, :locations
-
     validate :ensure_taxonomies_not_escalated, :if => Proc.new { User.current.nil? || !User.current.admin? }
   end
 
   module ClassMethods
-
     attr_accessor :which_ancestry_method, :which_location, :which_organization
 
     # default inner_method includes children (subtree_ids)

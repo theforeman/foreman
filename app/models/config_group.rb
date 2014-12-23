@@ -3,6 +3,7 @@ class ConfigGroup < ActiveRecord::Base
   include Authorizable
   include Parameterizable::ByIdName
   include PuppetclassTotalHosts::Indirect
+  include SearchScope::ConfigGroup
 
   validates_lengths_from_database
 
@@ -14,11 +15,6 @@ class ConfigGroup < ActiveRecord::Base
   has_many_hosts :through => :host_config_groups
 
   validates :name, :presence => true, :uniqueness => true
-
-  scoped_search :on => :name, :complete_value => true
-  scoped_search :on => :hosts_count
-  scoped_search :on => :hostgroups_count
-  scoped_search :on => :config_group_classes_count
 
   default_scope lambda { order('config_groups.name') }
 

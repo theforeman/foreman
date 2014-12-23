@@ -9,6 +9,7 @@ class Subnet < ActiveRecord::Base
   include Taxonomix
   include Parameterizable::ByIdName
   include EncOutput
+  include SearchScope::Subnet
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database :except => [:gateway]
@@ -45,11 +46,6 @@ class Subnet < ActiveRecord::Base
       order('vlanid')
     end
   }
-
-  scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary,
-                        :vlanid, :ipam, :boot_mode], :complete_value => true
-
-  scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
 
   class Jail < ::Safemode::Jail
     allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary,

@@ -1,6 +1,6 @@
 class Host::Managed < Host::Base
   include ReportCommon
-  include Hostext::Search
+  include SearchScope::Host
   PROVISION_METHODS = %w[build image]
 
   has_many :host_classes, :foreign_key => :host_id

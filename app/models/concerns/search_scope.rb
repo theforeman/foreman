@@ -1,0 +1,2 @@
+module SearchScope
+end

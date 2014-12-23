@@ -5,6 +5,7 @@ class Medium < ActiveRecord::Base
   include Taxonomix
   include ValidateOsFamily
   include Parameterizable::ByIdName
+  include SearchScope::Medium
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database
@@ -35,9 +36,6 @@ class Medium < ActiveRecord::Base
       order("media.name")
     end
   }
-  scoped_search :on => :name, :complete_value => :true, :default_order => true
-  scoped_search :on => :path, :complete_value => :true
-  scoped_search :on => :os_family, :rename => "family", :complete_value => :true
 
   def media_host
     media_path.match(VALID_NFS_PATH)[1]

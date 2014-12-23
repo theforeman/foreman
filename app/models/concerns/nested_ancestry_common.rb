@@ -2,6 +2,8 @@ module NestedAncestryCommon
   extend ActiveSupport::Concern
 
   included do
+    include SearchScope::NestedAncestry
+
     audited :except => [:title], :allow_mass_assignment => true
     has_associated_audits
     has_ancestry :orphan_strategy => :restrict
@@ -13,9 +15,6 @@ module NestedAncestryCommon
     validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
     validates :title, :presence => true, :uniqueness => true
     validate :title_and_lookup_key_length
-
-    scoped_search :on => :title, :complete_value => true, :default_order => true
-    scoped_search :on => :name, :complete_value => :true
 
     # attribute used by *_names and *_name methods.  default is :name
     attr_name :title
