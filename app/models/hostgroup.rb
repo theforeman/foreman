@@ -44,7 +44,7 @@ class Hostgroup < ActiveRecord::Base
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host"
   scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :operators => ['= ', '~ ']
   scoped_search :in => :environment, :on => :name, :complete_value => :true, :rename => :environment
-  scoped_search :on => :id, :complete_value => :true
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true
   # for legacy purposes, keep search on :label
   scoped_search :on => :title, :complete_value => true, :rename => :label
   scoped_search :in => :config_groups, :on => :name, :complete_value => true, :rename => :config_group, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_config_group
@@ -65,7 +65,7 @@ class Hostgroup < ActiveRecord::Base
     scoped_search :in => :operatingsystem,  :on => :title,       :complete_value => true,  :rename => :os_title
     scoped_search :in => :operatingsystem,  :on => :major,       :complete_value => true,  :rename => :os_major
     scoped_search :in => :operatingsystem,  :on => :minor,       :complete_value => true,  :rename => :os_minor
-    scoped_search :in => :operatingsystem,  :on => :id,          :complete_value => false, :rename => :os_id, :complete_enabled => false
+    scoped_search :in => :operatingsystem,  :on => :id,          :complete_enabled => false, :rename => :os_id, :only_explicit => true
     scoped_search :in => :medium,           :on => :name,        :complete_value => true,  :rename => "medium"
     scoped_search :in => :config_templates, :on => :name,        :complete_value => true,  :rename => "template"
   end
