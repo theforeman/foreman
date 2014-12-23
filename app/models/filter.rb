@@ -38,7 +38,7 @@ class Filter < ActiveRecord::Base
   scoped_search :on => :search, :complete_value => true
   scoped_search :on => :limited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_limited, :only_explicit => true
   scoped_search :on => :unlimited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_unlimited, :only_explicit => true
-  scoped_search :in => :role, :on => :id, :rename => :role_id
+  scoped_search :in => :role, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true
   scoped_search :in => :role, :on => :name, :rename => :role
   scoped_search :in => :permissions, :on => :resource_type, :rename => :resource
   scoped_search :in => :permissions, :on => :name,          :rename => :permission
