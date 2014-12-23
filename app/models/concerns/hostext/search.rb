@@ -15,7 +15,7 @@ module Hostext
       scoped_search :on => :enabled,       :complete_value => {:true => true, :false => false}, :rename => :'status.enabled'
       scoped_search :on => :managed,       :complete_value => {:true => true, :false => false}
       scoped_search :on => :owner_type,    :complete_value => true, :only_explicit => true
-      scoped_search :on => :owner_id,      :complete_value => false, :only_explicit => true, :complete_enabled => false
+      scoped_search :on => :owner_id,      :complete_enabled => false, :only_explicit => true
       scoped_search :on => :puppet_status, :offset => 0, :word_size => Report::BIT_NUM*4, :complete_value => {:true => true, :false => false}, :rename => :'status.interesting'
       scoped_search :on => :puppet_status, :offset => Report::METRIC.index("applied"),         :word_size => Report::BIT_NUM, :rename => :'status.applied'
       scoped_search :on => :puppet_status, :offset => Report::METRIC.index("restarted"),       :word_size => Report::BIT_NUM, :rename => :'status.restarted'
@@ -28,25 +28,25 @@ module Hostext
       scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true,  :rename => :hostgroup
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_fullname
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_title
-      scoped_search :in => :hostgroup,   :on => :id,      :complete_value => false, :rename => :hostgroup_id, :only_explicit => true
+      scoped_search :in => :hostgroup,   :on => :id,      :complete_enabled => false, :rename => :hostgroup_id, :only_explicit => true
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :parent_hostgroup, :only_explicit => true, :ext_method => :search_by_hostgroup_and_descendants
       scoped_search :in => :domain,      :on => :name,    :complete_value => true,  :rename => :domain
-      scoped_search :in => :domain,      :on => :id,      :complete_value => true,  :rename => :domain_id
+      scoped_search :in => :domain,      :on => :id,      :complete_enabled => false,  :rename => :domain_id, :only_explicit => true
       scoped_search :in => :realm,       :on => :name,    :complete_value => true,  :rename => :realm
-      scoped_search :in => :realm,       :on => :id,      :complete_value => true,  :rename => :realm_id
+      scoped_search :in => :realm,       :on => :id,      :complete_enabled => false,  :rename => :realm_id, :only_explicit => true
       scoped_search :in => :environment, :on => :name,    :complete_value => true,  :rename => :environment
       scoped_search :in => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
       scoped_search :in => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster
       scoped_search :in => :puppet_ca_proxy, :on => :name,    :complete_value => true, :rename => :puppet_ca
       scoped_search :in => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
-      scoped_search :in => :compute_resource, :on => :id,      :complete_value => true, :rename => :compute_resource_id, :only_explicit => true
+      scoped_search :in => :compute_resource, :on => :id,      :complete_enabled => false, :rename => :compute_resource_id, :only_explicit => true
       scoped_search :in => :image, :on => :name, :complete_value => true
       scoped_search :in => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
       scoped_search :in => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
       scoped_search :in => :operatingsystem, :on => :title,       :complete_value => true, :rename => :os_title
       scoped_search :in => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major
       scoped_search :in => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor
-      scoped_search :in => :operatingsystem, :on => :id,          :complete_value => false,:rename => :os_id, :complete_enabled => false
+      scoped_search :in => :operatingsystem, :on => :id,          :complete_enabled => false,:rename => :os_id, :only_explicit => true
 
       scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
       scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
@@ -54,11 +54,11 @@ module Hostext
 
       if SETTINGS[:locations_enabled]
         scoped_search :in => :location, :on => :title, :rename => :location, :complete_value => true
-        scoped_search :on => :location_id, :complete_value => true
+        scoped_search :on => :location_id, :complete_enabled => false, :only_explicit => true
       end
       if SETTINGS[:organizations_enabled]
         scoped_search :in => :organization, :on => :title, :rename => :organization, :complete_value => true
-        scoped_search :on => :organization_id, :complete_value => true
+        scoped_search :on => :organization_id, :complete_enabled => false, :only_explicit => true
       end
       scoped_search :in => :config_groups, :on => :name, :complete_value => true, :rename => :config_group, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_config_group
 
