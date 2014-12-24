@@ -4,6 +4,23 @@ module HostsHelper
   include ComputeResourcesVmsHelper
   include BmcHelper
 
+  def host_taxonomy_select(f, taxonomy)
+    taxonomy_id = "#{taxonomy.to_s.downcase}_id"
+    selected_taxonomy = @host.new_record? ? taxonomy.current.try(:id) : @host.send(taxonomy_id)
+    select_opts = { :include_blank => !@host.managed? || @host.send(taxonomy_id).nil?,
+                    :selected => selected_taxonomy }
+    html_opts = { :disabled => !@host.new_record?,
+                  :onchange => "#{taxonomy.to_s.downcase}_changed(this);",
+                  :label => _("#{taxonomy.to_s}"),
+                  :'data-host-id' => @host.id,
+                  :'data-url' => process_taxonomy_hosts_path,
+                  :help_inline => :indicator,
+                  :required => true }
+
+    select_f f, taxonomy_id.to_sym, taxonomy.send("my_#{taxonomy.to_s.downcase.pluralize}"), :id, :to_label,
+            select_opts, html_opts
+  end
+
   def last_report_column(record)
     time = record.last_report? ? _("%s ago") % time_ago_in_words(record.last_report): ""
     link_to_if_authorized(time,

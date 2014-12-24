@@ -625,14 +625,8 @@ class HostsController < ApplicationController
     @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
     @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
 
-    if SETTINGS[:organizations_enabled]
-      @organization ||= Organization.current
-      @organization ||= Organization.my_organizations.first
-    end
-    if SETTINGS[:locations_enabled]
-      @location ||= Location.current
-      @location ||= Location.my_locations.first
-    end
+    @organization ||= Organization.current if SETTINGS[:organizations_enabled]
+    @location     ||= Location.current     if SETTINGS[:locations_enabled]
   end
 
   # overwrite application_controller

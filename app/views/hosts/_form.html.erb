@@ -30,23 +30,11 @@
         <%= text_f f, :name, :size => "col-md-8", :value => name_field(@host) %>
 
         <% if show_organization_tab?  %>
-          <%= select_f f, :organization_id, Organization.my_organizations, :id, :to_label,
-            { :include_blank => !@host.managed?, :selected => @organization.try(:id)},
-            { :disabled => !@host.new_record?,
-              :onchange => 'organization_changed(this);', :label => _("Organization"), :'data-host-id' => @host.id,
-              :'data-url' => process_taxonomy_hosts_path,
-              :help_inline => :indicator,
-              :required => SETTINGS[:organizations_enabled] } %>
+          <%= host_taxonomy_select(f, Organization) %>
         <% end %>
 
         <% if show_location_tab? %>
-          <%= select_f f, :location_id, Location.my_locations, :id, :to_label,
-            { :include_blank => !@host.managed?, :selected => @location.try(:id) },
-            { :disabled => !@host.new_record?,
-              :onchange => 'location_changed(this);', :label => _("Location"), :"data-host-id" => @host.id,
-              :'data-url' => process_taxonomy_hosts_path, :selected => Location.my_locations,
-              :help_inline => :indicator,
-              :required => SETTINGS[:locations_enabled] } %>
+          <%= host_taxonomy_select(f, Location) %>
         <% end %>
 
         <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
