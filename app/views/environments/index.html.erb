@@ -3,25 +3,27 @@
 <%= environments_title_actions %>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= sort :name, :as => s_('Environment|Name') %></th>
-    <th><%= sort :hosts_count, :as => _('Hosts'), :default => "DESC" %></th>
-    <th></th>
-  </tr>
-
-  <% @environments.each do |environment| %>
+  <thead>
     <tr>
-      <td>
-        <%= link_to_if_authorized trunc(environment.name), hash_for_edit_environment_path(:id => environment).merge(:auth_object => environment, :authorizer => authorizer) %>
-      </td>
-      <td><%= link_to environment.hosts_count, hosts_path(:search => "environment = #{environment}") %>
-      <td>
-        <%= action_buttons(link_to(_('Classes'), puppetclasses_path(:search => "environment = #{environment}")),
-                           import_proxy_links(hash_for_import_environments_environments_path(:env => environment)),
-                           display_delete_if_authorized(hash_for_environment_path(:id => environment).merge(:auth_object => environment, :authorizer => authorizer), :confirm => "Delete #{environment.name}?")) %>
-      </td>
+      <th><%= sort :name, :as => s_('Environment|Name') %></th>
+      <th><%= sort :hosts_count, :as => _('Hosts'), :default => "DESC" %></th>
+      <th></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @environments.each do |environment| %>
+      <tr>
+        <td>
+          <%= link_to_if_authorized trunc(environment.name), hash_for_edit_environment_path(:id => environment).merge(:auth_object => environment, :authorizer => authorizer) %>
+        </td>
+        <td><%= link_to environment.hosts_count, hosts_path(:search => "environment = #{environment}") %></td>
+        <td>
+          <%= action_buttons(link_to(_('Classes'), puppetclasses_path(:search => "environment = #{environment}")),
+                             import_proxy_links(hash_for_import_environments_environments_path(:env => environment)),
+                             display_delete_if_authorized(hash_for_environment_path(:id => environment).merge(:auth_object => environment, :authorizer => authorizer), :confirm => "Delete #{environment.name}?")) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
-
 <%= will_paginate_with_info @environments %>

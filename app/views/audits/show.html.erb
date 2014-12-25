@@ -23,29 +23,33 @@
     <% end %>
     <div class='tab-pane <%= "active" unless tmplt%>' id="tab1">
       <table class="table table-bordered table-striped">
-        <tr>
-          <th><%= _('Item') %></th>
-          <% if @audit.action == 'update' %>
-            <th><%= _('Old') %></th>
-            <th><%= _('New') %></th>
-          <% else %>
-            <th><%= _('Value') %></th>
-          <% end  %>
-        </tr>
+        <thead>
+          <tr>
+            <th><%= _('Item') %></th>
+            <% if @audit.action == 'update' %>
+              <th><%= _('Old') %></th>
+              <th><%= _('New') %></th>
+            <% else %>
+              <th><%= _('Value') %></th>
+            <% end  %>
+          </tr>
+        </thead>
+        <tbody>
         <% @audit.audited_changes.each do |name,change| %>
-            <% next if change.nil? or change.to_s.empty? %>
-            <% next if name == "template" %>
-            <tr>
-              <td><%= name.humanize %></td>
-              <% if change.is_a?(Array) %>
-                  <% change.each do |v| %>
-                      <td><%= id_to_label(name,v) %></td>
-                  <% end %>
-              <% else %>
-                  <td><%= id_to_label(name,change) %></td>
-              <% end %>
-            </tr>
+          <% next if change.nil? or change.to_s.empty? %>
+          <% next if name == "template" %>
+          <tr>
+            <td><%= name.humanize %></td>
+            <% if change.is_a?(Array) %>
+                <% change.each do |v| %>
+                    <td><%= id_to_label(name,v) %></td>
+                <% end %>
+            <% else %>
+                <td><%= id_to_label(name,change) %></td>
+            <% end %>
+          </tr>
         <% end %>
+        </tbody>
       </table>
     </div>
     <div class="tab-pane" id="tab2">

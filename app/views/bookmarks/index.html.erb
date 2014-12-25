@@ -2,23 +2,27 @@
 <div class="title_action"></div>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= s_("Bookmark|Name") %></th>
-    <th><%= s_("Bookmark|Query") %></th>
-    <th><%= s_("Bookmark|Controller") %></th>
-    <th><%= s_("Bookmark|Public") %></th>
-    <th></th>
-  </tr>
-  <% for bookmark in @bookmarks %>
+  <thead>
     <tr>
-      <td><%= link_to_if_authorized(trunc(bookmark.name), hash_for_edit_bookmark_path(bookmark)) %></td>
-      <td><%= bookmark.query %></td>
-      <td><%= bookmark.controller %></td>
-      <td><%= bookmark.public %></td>
-      <td align="right">
-        <%= display_delete_if_authorized hash_for_bookmark_path(bookmark), :confirm => _("Delete %s?") % bookmark.name  %>
-      </td>
+      <th><%= s_("Bookmark|Name") %></th>
+      <th><%= s_("Bookmark|Query") %></th>
+      <th><%= s_("Bookmark|Controller") %></th>
+      <th><%= s_("Bookmark|Public") %></th>
+      <th></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% for bookmark in @bookmarks %>
+      <tr>
+        <td><%= link_to_if_authorized(trunc(bookmark.name), hash_for_edit_bookmark_path(bookmark)) %></td>
+        <td><%= bookmark.query %></td>
+        <td><%= bookmark.controller %></td>
+        <td><%= bookmark.public %></td>
+        <td align="right">
+          <%= display_delete_if_authorized hash_for_bookmark_path(bookmark), :confirm => _("Delete %s?") % bookmark.name  %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 <%= will_paginate_with_info @bookmarks %>

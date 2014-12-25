@@ -1,4 +1,5 @@
 <%= include_javascript %>
+
 <% title _("Provisioning Templates") %>
 
 <% title_actions display_link_if_authorized(_("New Template"), hash_for_new_config_template_path),
@@ -8,27 +9,31 @@
 %>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
+  <thead>
     <tr>
-    <th><%= sort :name, :as => s_("ConfigTemplate|Name") %></th>
-    <th><%= _("Host group / Environment") %></th>
-    <th><%= sort :kind, :as => _("Kind") %></th>
-    <th><%= sort :snippet, :as => s_("ConfigTemplate|Snippet") %></th>
-    <th><%= sort :locked, :as => s_("ConfigTemplate|Locked"), :default => "DESC" %></th>
-    <th></th>
-  </tr>
-  <% for config_template in @config_templates %>
-      <tr>
-      <td>  <%= link_to_if_authorized trunc(config_template), hash_for_edit_config_template_path(:id => config_template.to_param).
-                                                          merge(:auth_object => config_template, :authorizer => authorizer,
-                                                          :permission => 'edit_templates') %>
-      <td><%= combination config_template %></td>
-      <td><%= config_template.try(:template_kind) %></td>
-      <td align='center'><%= checked_icon config_template.snippet %></td>
-      <td align='center'><%= locked_icon config_template.locked?, _("This template is locked for editing.") %> </td>
-      <td><%= action_buttons(*permitted_actions(config_template)) %></td>
-   </tr>
-  <% end %>
+      <th><%= sort :name, :as => s_("ConfigTemplate|Name") %></th>
+      <th><%= _("Host group / Environment") %></th>
+      <th><%= sort :kind, :as => _("Kind") %></th>
+      <th><%= sort :snippet, :as => s_("ConfigTemplate|Snippet") %></th>
+      <th><%= sort :locked, :as => s_("ConfigTemplate|Locked"), :default => "DESC" %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for config_template in @config_templates %>
+    <tr>
+      <td>
+        <%= link_to_if_authorized trunc(config_template), hash_for_edit_config_template_path(:id => config_template.to_param).
+                                                            merge(:auth_object => config_template, :authorizer => authorizer,
+                                                            :permission => 'edit_templates') %>
+        <td><%= combination config_template %></td>
+        <td><%= config_template.try(:template_kind) %></td>
+        <td align='center'><%= checked_icon config_template.snippet %></td>
+        <td align='center'><%= locked_icon config_template.locked?, _("This template is locked for editing.") %>
+        </td>
+        <td><%= action_buttons(*permitted_actions(config_template)) %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
-
 <%= will_paginate_with_info @config_templates %>
