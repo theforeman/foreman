@@ -4,7 +4,7 @@ extends "api/v2/taxonomies/main"
 
 attribute :ignore_types => :select_all_types
 
-attributes :created_at, :updated_at
+attributes :description, :created_at, :updated_at
 
 child :users do
   extends "api/v2/users/base"

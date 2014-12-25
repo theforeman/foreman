@@ -26,6 +26,8 @@ class Taxonomy < ActiveRecord::Base
   before_validation :sanitize_ignored_types
   after_create :assign_default_templates
 
+  scoped_search :on => :description, :complete_enabled => :false, :only_explicit => true
+
   delegate :import_missing_ids, :inherited_ids, :used_and_selected_or_inherited_ids, :selected_or_inherited_ids,
            :non_inherited_ids, :used_or_inherited_ids, :used_ids, :to => :tax_host
 
