@@ -1,11 +1,15 @@
 <table id="properties_table" class="table table-bordered table-striped">
-  <tr>
-    <th colspan="2"><%= _('Properties') %></th>
-  </tr>
-  <% overview_fields(host).each do |name, value| %>
+  <thead>
     <tr>
-      <td><%= name %></td>
-      <td><%= value %></td>
+      <th colspan="2"><%= _('Properties') %></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% overview_fields(host).each do |name, value| %>
+      <tr>
+        <td><%= name %></td>
+        <td><%= value %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>

@@ -1,13 +1,21 @@
 <table class="table table-bordered table-striped table-condensed">
-  <tr>
-    <th><%= _('Report Status') %></th>
-    <th></th>
-  </tr>
-    <% report_summary.each do |name, value| %>
+  <thead>
     <tr>
-      <td> <%= name %> </td>
-      <% style = (name =~ /failed|failed_restart/ and value > 0) ? "label label-danger" : ""%>
-      <td><p class="<%= style %>"> <%= value %> </p></td>
+      <th><%= _('Report Status') %></th>
+      <th></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% report_summary.each do |name, value| %>
+      <tr>
+        <td>
+          <%= name %>
+        </td>
+        <% style = (name =~ /failed|failed_restart/ and value > 0) ? "label label-danger" : ""%>
+        <td><p class="<%= style %>">
+            <%= value %>
+          </p></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>

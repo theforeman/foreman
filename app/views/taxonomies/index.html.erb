@@ -1,40 +1,41 @@
 <% title taxonomy_upcase %>
-
 <% title_actions display_link_if_authorized((_("New %s") % taxonomy_title), hash_for_new_taxonomy_path),
                  display_link_if_authorized(_("Mismatches Report"), hash_for_mismatches_taxonomies_path), help_path %>
 
 <% if @count_nil_hosts > 0 %>
-<div class="alert alert-warning alert-block">
+  <div class="alert alert-warning alert-block">
     <strong><%= _("Notice:") %></strong>
     <%= n_('There is', 'There are', @count_nil_hosts) %>
     <%= link_to n_("%{count} host with no %{taxonomy_single} assigned", "%{count} hosts with no %{taxonomy_single} assigned", @count_nil_hosts) % {:count => @count_nil_hosts , :taxonomy_single => taxonomy_single }, hosts_path(:search => "not has #{controller_name.singularize}")  %>
-</div>
+  </div>
 <% end %>
-
 <table class="table table-bordered table-striped">
-  <tr>
-    <th><%= sort :title, :as => s_("Taxonomy|Name") %></th>
-    <th><%= _("Hosts") %></th>
-    <th></th>
-  </tr>
-
-  <% @taxonomies.each do |taxonomy| %>
-    <tr class="<%= cycle("even", "odd") %>">
-      <td><%= label_with_link(taxonomy, 150) %></td>
-      <td><%= link_to @counter[taxonomy.id] || 0, hosts_path(:search => "#{controller_name.singularize} = \"#{taxonomy}\"") %></td>
-      <td>
-        <%= action_buttons(
-          display_link_if_authorized(_("Edit"), hash_for_edit_taxonomy_path(taxonomy) ),
-          display_link_if_authorized(_("Nest"), hash_for_nest_taxonomy_path(taxonomy) ),
-          display_link_if_authorized(_("Clone"), hash_for_clone_taxonomy_path(taxonomy) ),
-          display_delete_if_authorized(hash_for_taxonomy_path(taxonomy), :confirm => _("Delete %s?") % taxonomy.name, :action => :destroy),
-          (link_to((_("Select hosts to assign to %s") % taxonomy.name), assign_hosts_taxonomy_path(taxonomy)) if @count_nil_hosts > 0),
-          (link_to(n_("Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}", "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}", @count_nil_hosts) % {:count => @count_nil_hosts, :taxonomy_single => taxonomy_single, :taxonomy_name => taxonomy.name}  ,
-              assign_all_hosts_taxonomy_path(taxonomy),
-              :method => :post) if @count_nil_hosts > 0)
-          )%>
-      </td>
+  <thead>
+    <tr>
+      <th><%= sort :title, :as => s_("Taxonomy|Name") %></th>
+      <th><%= _("Hosts") %></th>
+      <th></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @taxonomies.each do |taxonomy| %>
+      <tr class="<%= cycle("even", "odd") %>">
+        <td><%= label_with_link(taxonomy, 150) %></td>
+        <td><%= link_to @counter[taxonomy.id] || 0, hosts_path(:search => "#{controller_name.singularize} = \"#{taxonomy}\"") %></td>
+        <td>
+          <%= action_buttons(
+            display_link_if_authorized(_("Edit"), hash_for_edit_taxonomy_path(taxonomy) ),
+            display_link_if_authorized(_("Nest"), hash_for_nest_taxonomy_path(taxonomy) ),
+            display_link_if_authorized(_("Clone"), hash_for_clone_taxonomy_path(taxonomy) ),
+            display_delete_if_authorized(hash_for_taxonomy_path(taxonomy), :confirm => _("Delete %s?") % taxonomy.name, :action => :destroy),
+            (link_to((_("Select hosts to assign to %s") % taxonomy.name), assign_hosts_taxonomy_path(taxonomy)) if @count_nil_hosts > 0),
+            (link_to(n_("Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}", "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}", @count_nil_hosts) % {:count => @count_nil_hosts, :taxonomy_single => taxonomy_single, :taxonomy_name => taxonomy.name}  ,
+                assign_all_hosts_taxonomy_path(taxonomy),
+                :method => :post) if @count_nil_hosts > 0)
+            )%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 <%= will_paginate_with_info @taxonomies %>

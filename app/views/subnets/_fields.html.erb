@@ -2,7 +2,7 @@
 <%= text_f f, :network %>
 <%= text_f f, :mask, :help_inline => _("Netmask for this subnet") %>
 <%= text_f f, :gateway, :help_inline => _("Optional: Gateway for this subnet") %>
-<%= text_f f, :dns_primary, 	:help_inline => _("Optional: Primary DNS for this subnet") %>
+<%= text_f f, :dns_primary, :help_inline => _("Optional: Primary DNS for this subnet") %>
 <%= text_f f, :dns_secondary, :help_inline => _("Optional: Secondary DNS for this subnet") %>
 <%= selectable_f f, :ipam, Subnet.ipam_modes_with_translations, {}, :data => {'disable-auto-suggest-on' => Subnet::IPAM_MODES[:none]},
                  :label => _('IPAM'), :help_block => _('IP Address auto suggestion mode for this subnet, DHCP works with DHCP proxy only') %>
