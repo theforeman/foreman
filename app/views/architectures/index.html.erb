@@ -2,12 +2,15 @@
 <% title_actions display_link_if_authorized(_("New Architecture"), hash_for_new_architecture_path), help_path %>
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= sort :name, :as => s_("Architecture|Name") %></th>
-    <th><%= _("Operating Systems") %></th>
-    <th><%= sort :hosts_count, :as => _("Hosts"), :default => "DESC" %></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%= sort :name, :as => s_("Architecture|Name") %></th>
+      <th><%= _("Operating Systems") %></th>
+      <th><%= sort :hosts_count, :as => _("Hosts"), :default => "DESC" %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
   <% for architecture in @architectures %>
     <tr>
       <td class='col-md-3'><%= link_to_if_authorized(trunc(architecture.name),
@@ -20,5 +23,6 @@
       </td>
     </tr>
   <% end %>
+  </tbody>
 </table>
 <%= will_paginate_with_info @architectures %>

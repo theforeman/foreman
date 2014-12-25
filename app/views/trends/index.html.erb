@@ -1,45 +1,44 @@
 <% title _("Trends") %>
-
 <% title_actions display_link_if_authorized(_("Add Trend Counter"), hash_for_new_trend_path) %>
+
 <% if @trends.empty? %>
   <div class="alert alert-info">
     <%= alert_close %>
-
     <p><strong><%= _("No trend counter defined.") %></strong></p>
-
     <p><%= _("To define trend counters, use the Add Trend Counter button.") %><br>
       <%= (_("To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' every Puppet Interval (%s minutes).") % Setting.puppet_interval).html_safe %></p>
   </div>
 <% end %>
 
 <% if @trends.any? and TrendCounter.unconfigured? %>
- <div class="alert alert-info alert-dismissable">
-   <%= alert_close %>
-
-   <p><strong><%= _("No trend counter found.") %></strong></p>
-
-   <p><%= ( _("To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting.puppet_interval).html_safe %>
-   </p>
- </div>
+  <div class="alert alert-info alert-dismissable">
+    <%= alert_close %>
+    <p><strong><%= _("No trend counter found.") %></strong></p>
+    <p><%= ( _("To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting.puppet_interval).html_safe %>
+    </p>
+  </div>
 <% end %>
 
 <table class="table table-bordered table-striped">
-  <tr>
-    <th class='col-md-10'><%= _("Name") %></th>
-    <th class='col-md-2'><%= _("Action") %></th>
-  </tr>
-  <% @trends.each do |trend| %>
+  <thead>
     <tr>
-      <td><%= link_to trend.to_label, trend_path(:id => trend), :title => _("Show Trends") %></td>
-      <td>
-        <%= action_buttons(
-                display_link_if_authorized(_("Edit"), hash_for_edit_trend_path(:id => trend)),
-                display_delete_if_authorized(hash_for_trend_path(:id => trend), :confirm => _("Delete all the trend history for %s?") % trend.type_name)) %>
-      </td>
+      <th class='col-md-10'><%= _("Name") %></th>
+      <th class='col-md-2'><%= _("Action") %></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @trends.each do |trend| %>
+      <tr>
+        <td><%= link_to trend.to_label, trend_path(:id => trend), :title => _("Show Trends") %></td>
+        <td>
+          <%= action_buttons(
+                  display_link_if_authorized(_("Edit"), hash_for_edit_trend_path(:id => trend)),
+                  display_delete_if_authorized(hash_for_trend_path(:id => trend), :confirm => _("Delete all the trend history for %s?") % trend.type_name)) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
-
 <%= will_paginate_with_info @trends %>
 <% unless TrendCounter.unconfigured? %>
   <%= _("Last updated %s ago") % (time_ago_in_words TrendCounter.order(:created_at).last.created_at) %>

@@ -1,37 +1,41 @@
 <%= javascript "jquery.cookie", "host_checkbox" %>
 <% title header ||= "" %>
 <table class="table table-bordered table-striped table-condensed" >
-  <tr>
-    <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
-    <th class=''><%= sort :name, :as => _('Name') %></th>
-    <th class="hidden-xs"><%= sort :os, :as => _("Operating system") %></th>
-    <th class="hidden-xs"><%= sort :environment, :as => _('Environment') %></th>
-    <th class="hidden-tablet hidden-xs"><%= sort :model, :as => _('Model') %></th>
-    <th class="hidden-tablet hidden-xs"><%= sort :hostgroup, :as => _("Host group") %></th>
-    <th class="hidden-tablet hidden-xs"><%= sort :last_report, :as => _('Last report') %></th>
-    <th></th>
-  </tr>
-  <% hosts.each do |host| %>
+  <thead>
     <tr>
-      <td class="ca">
-        <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' %>
-      </td>
-      <td class='ellipsis'><%= name_column(host) %> </td>
-      <td class="hidden-xs"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os.to_label}",14)).html_safe if host.os %></td>
-      <td class="hidden-xs"><%= trunc(host.try(:environment), 14) %></td>
-      <td class="hidden-tablet hidden-xs ellipsis"><%= model_name host %></td>
-      <td class="hidden-tablet hidden-xs ellipsis"><%= label_with_link host.hostgroup, 26, @hostgroup_authorizer %></td>
-      <td class="hidden-tablet hidden-xs"><%= last_report_column(host) %></td>
-      <td>
-        <%= action_buttons(
-                    display_link_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host, :authorizer => authorizer)),
-                    display_link_if_authorized(_("Clone"), hash_for_clone_host_path(:id => host).merge(:auth_object => host, :authorizer => authorizer)),
-                    display_delete_if_authorized(hash_for_host_path(:id => host).merge(:auth_object => host, :authorizer => authorizer), :confirm => _("Delete %s?") % host.name, :action => :destroy))%>
-      </td>
+      <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
+      <th class=''><%= sort :name, :as => _('Name') %></th>
+      <th class="hidden-xs"><%= sort :os, :as => _("Operating system") %></th>
+      <th class="hidden-xs"><%= sort :environment, :as => _('Environment') %></th>
+      <th class="hidden-tablet hidden-xs"><%= sort :model, :as => _('Model') %></th>
+      <th class="hidden-tablet hidden-xs"><%= sort :hostgroup, :as => _("Host group") %></th>
+      <th class="hidden-tablet hidden-xs"><%= sort :last_report, :as => _('Last report') %></th>
+      <th></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% hosts.each do |host| %>
+      <tr>
+        <td class="ca">
+          <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' %>
+        </td>
+        <td class='ellipsis'><%= name_column(host) %>
+        </td>
+        <td class="hidden-xs"><%= (icon(host.os, :size => "18x18") + trunc(" #{host.os.to_label}",14)).html_safe if host.os %></td>
+        <td class="hidden-xs"><%= trunc(host.try(:environment), 14) %></td>
+        <td class="hidden-tablet hidden-xs ellipsis"><%= model_name host %></td>
+        <td class="hidden-tablet hidden-xs ellipsis"><%= label_with_link host.hostgroup, 26, @hostgroup_authorizer %></td>
+        <td class="hidden-tablet hidden-xs"><%= last_report_column(host) %></td>
+        <td>
+          <%= action_buttons(
+                      display_link_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host, :authorizer => authorizer)),
+                      display_link_if_authorized(_("Clone"), hash_for_clone_host_path(:id => host).merge(:auth_object => host, :authorizer => authorizer)),
+                      display_delete_if_authorized(hash_for_host_path(:id => host).merge(:auth_object => host, :authorizer => authorizer), :confirm => _("Delete %s?") % host.name, :action => :destroy))%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
-
 <div id="confirmation-modal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -40,7 +44,6 @@
         <h4 class="modal-title"><%= _('Please Confirm') %></h4>
       </div>
       <div class="modal-body">
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><%= _('Cancel') %></button>
@@ -49,5 +52,4 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 <%= will_paginate_with_info hosts, :more => " - "+_("<b class='select_count'>0</b> selected") %>

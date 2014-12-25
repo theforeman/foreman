@@ -2,22 +2,25 @@
 
 <% title_actions display_link_if_authorized(_("New Smart Proxy"), hash_for_new_smart_proxy_path) %>
 
-
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= s_("SmartProxy|Name") %></th>
-    <th><%= s_("SmartProxy|Url") %></th>
-    <th><%= _("Features") %></th>
-    <th></th>
-  </tr>
-  <% for proxy in @smart_proxies %>
+  <thead>
     <tr>
-      <td><%= link_to_if_authorized trunc(proxy.name), hash_for_edit_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer) %></td>
-      <td><%=h proxy.url %></td>
-      <td><%=h proxy.features.to_sentence %></td>
-      <td><%= action_buttons(*proxy_actions(proxy, authorizer)) %></td>
+      <th><%= s_("SmartProxy|Name") %></th>
+      <th><%= s_("SmartProxy|Url") %></th>
+      <th><%= _("Features") %></th>
+      <th></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% for proxy in @smart_proxies %>
+      <tr>
+        <td><%= link_to_if_authorized trunc(proxy.name), hash_for_edit_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer) %></td>
+        <td><%=h proxy.url %></td>
+        <td><%=h proxy.features.to_sentence %></td>
+        <td><%= action_buttons(*proxy_actions(proxy, authorizer)) %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <%= will_paginate_with_info @smart_proxies %>

@@ -1,12 +1,16 @@
 <% title(_("All Puppet Classes for %s") % @host) %>
-  <table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped">
+  <thead>
     <tr>
-      <th>Class</th>
+      <th><%= _("Class") %></th>
     </tr>
+  </thead>
+  <tbody>
     <% @host.classes_from_storeconfigs.each do |klass| %>
       <tr>
         <td><%= h klass %></td>
       </tr>
     <% end %>
-  </table>
+  </tbody>
+</table>
 <%= link_to 'back', host_path(@host) %>
