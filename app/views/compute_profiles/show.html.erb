@@ -9,10 +9,13 @@
 <br />
 
 <table class="table table-bordered table-striped table-two-pane">
-  <tr>
-    <th><%= _("Compute Resource") %></th>
-    <th><%= _("VM Attributes (%s)") % @compute_profile.name %></th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%= _("Compute Resource") %></th>
+      <th><%= _("VM Attributes (%s)") % @compute_profile.name %></th>
+    </tr>
+  </thead>
+  <tbody>
     <% ComputeResource.authorized(:view_compute_resources).each do |compute_resource| %>
       <% compute_attribute = ComputeAttribute.where(:compute_profile_id => @compute_profile.id, :compute_resource_id => compute_resource.id).first %>
       <% which_path = if compute_attribute.try(:id)
@@ -20,13 +23,14 @@
                       else
                         new_compute_profile_compute_resource_compute_attribute_path(@compute_profile.to_param, compute_resource.to_param)
                       end %>
-    <tr>
-      <td><%= link_to(compute_resource.to_label, which_path, :class => compute_attribute.try(:id) ? '' : 'new_two_pane') %></td>
-      <td>
-        <% set = compute_resource.compute_attributes.where(:compute_profile_id => @compute_profile.id).first %>
-        <%= set ? set.name : content_tag(:span, _("unspecified"), :class => 'gray') %>
-      </td>
-    </tr>
-  <% end %>
+      <tr>
+        <td><%= link_to(compute_resource.to_label, which_path, :class => compute_attribute.try(:id) ? '' : 'new_two_pane') %></td>
+        <td>
+          <% set = compute_resource.compute_attributes.where(:compute_profile_id => @compute_profile.id).first %>
+          <%= set ? set.name : content_tag(:span, _("unspecified"), :class => 'gray') %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 

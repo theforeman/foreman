@@ -1,18 +1,21 @@
 <% title _("Fact Values") %>
 
 <table class="table table-bordered table-striped">
-  <tr>
-    <% unless params[:host_id] %>
-      <th><%= sort :host, :as => _("Host") %></th>
-    <% end %>
-    <th><%= sort :name, :as => _("Name")  %></th>
-    <th><%= sort :value, :as => s_("FactValue|Value") %></th>
-    <th><%= _('Reported at') %></th>
-    <th></th>
-  </tr>
-
-  <%= render :partial => 'fact', :collection => @fact_values,
-             :locals  => { :parent => @parent } %>
-
+  <thead>
+    <tr>
+      <% unless params[:host_id] %>
+        <th><%= sort :host, :as => _("Host") %></th>
+      <% end %>
+      <th><%= sort :name, :as => _("Name")  %></th>
+      <th><%= sort :value, :as => s_("FactValue|Value") %></th>
+      <th><%= _('Reported at') %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => 'fact', :collection => @fact_values,
+               :locals  => { :parent => @parent } %>
+  </tbody>
 </table>
+
 <%= will_paginate_with_info @fact_values %>

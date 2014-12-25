@@ -19,11 +19,14 @@
             <p class="ca"><%= _("No smart proxies to show") %></p>
           <% else %>
             <table class="table table-striped">
-              <tr>
-                <th><%= _("Name") %></th>
-                <th><%= _("Features") %></th>
-                <th><%= _("Status") %></th>
-              </tr>
+              <thead>
+                <tr>
+                  <th><%= _("Name") %></th>
+                  <th><%= _("Features") %></th>
+                  <th><%= _("Status") %></th>
+                </tr>
+              </thead>
+              <tbody>
               <% @smart_proxies.each do |proxy| %>
                 <tr>
                   <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(proxy) %></td>
@@ -31,16 +34,20 @@
                   <td><div class="proxy-status" data-url=<%= ping_smart_proxy_path(proxy) %>><%= _("Connecting..") %></div></td>
                 </tr>
               <% end %>
+              </tbody>
             </table>
           <% end %>
         </div>
         <% if SETTINGS[:unattended] %>
           <div class="tab-pane" id="available_providers">
             <table class="table table-striped">
-              <tr>
-                <th><%= _("Provider") %></th>
-                <th><%= _("Status") %></th>
-              </tr>
+              <thead>
+                <tr>
+                  <th><%= _("Provider") %></th>
+                  <th><%= _("Status") %></th>
+                </tr>
+              </thead>
+              <tbody>
               <% ComputeResource.supported_providers.each do |provider,klass| %>
                 <tr>
                   <td><%= klass.constantize.provider_friendly_name %></td>
@@ -51,6 +58,7 @@
                   <% end %>
                 </tr>
               <% end %>
+              </tbody>
             </table>
             <%= _('To enable a provider, either install the OS package (e.g. foreman-libvirt) or enable the bundler group for development setup (e.g. ovirt).') %>
           </div>
@@ -59,11 +67,14 @@
               <p class="ca"><%= _("No compute resource to show") %></p>
             <% else %>
               <table class="table table-striped">
-                <tr>
-                  <th><%= _("Name") %></th>
-                  <th><%= _("Type") %></th>
-                  <th><%= _("Status") %></th>
-                </tr>
+                <thead>
+                  <tr>
+                    <th><%= _("Name") %></th>
+                    <th><%= _("Type") %></th>
+                    <th><%= _("Status") %></th>
+                  </tr>
+                </thead>
+                <tbody>
                 <% @compute_resources.each do |compute| %>
                   <tr>
                     <td><%= link_to compute.name, compute %></td>
@@ -71,6 +82,7 @@
                     <td><div class="compute-status" data-url=<%= ping_compute_resource_path(compute) %>><%= _("Connecting..") %></div></td>
                   </tr>
                 <% end %>
+                </tbody>
               </table>
             <% end %>
           </div>
@@ -80,12 +92,15 @@
             <p class="ca"><%= _("No plugins found") %></p>
           <% else %>
             <table class="table table-striped">
-              <tr>
-                <th><%= _("Name") %></th>
-                <th><%= _("Description") %></th>
-                <th><%= _("Author") %></th>
-                <th><%= _("Version") %></th>
-              </tr>
+              <thead>
+                <tr>
+                  <th><%= _("Name") %></th>
+                  <th><%= _("Description") %></th>
+                  <th><%= _("Author") %></th>
+                  <th><%= _("Version") %></th>
+                </tr>
+              </thead>
+              <tbody>
               <% @plugins.each do |plugin| %>
                 <tr>
                   <td><%= plugin.url.blank? ? plugin.name : link_to(plugin.name, plugin.url, :rel=>'external')%></td>
@@ -94,6 +109,7 @@
                   <td><%= plugin.version %></td>
                 </tr>
               <% end %>
+              </tbody>
             </table>
           <% end %>
         </div>
