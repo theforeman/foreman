@@ -2,12 +2,16 @@ class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy]
+  before_filter :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy, :display]
   before_filter :ajax_request,   :only => [:process_hostgroup, :current_parameters, :puppetclass_parameters]
   before_filter :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
 
   def index
     @hostgroups = resource_base.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+  end
+
+  def display
+    load_vars_for_ajax
   end
 
   def new
@@ -121,6 +125,19 @@ class HostgroupsController < ApplicationController
     @subnet          = @hostgroup.subnet
     @environment     = @hostgroup.environment
     @realm           = @hostgroup.realm
+    @hosts           = all_hosts(@hostgroup).paginate :page => params[:page]
+    @last_reports    = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
+  end
+
+  def all_hosts group
+    return [] if group.new_record?
+    hosts = group.hosts.to_a
+    if group.has_children?
+      group.children.each do |child|
+        hosts = hosts + all_hosts(child)
+      end
+    end
+    hosts   
   end
 
   def users_in_ancestors
@@ -131,7 +148,7 @@ class HostgroupsController < ApplicationController
 
   def action_permission
     case params[:action]
-      when 'nest', 'clone'
+      when 'nest', 'clone', 'display'
         'view'
       else
         super
