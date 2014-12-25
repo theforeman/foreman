@@ -23,7 +23,7 @@ module Foreman::Model
     end
 
     def capabilities
-      [:image]
+      [:image, :volume]
     end
 
     def tenant
@@ -45,6 +45,14 @@ module Foreman::Model
       client.images.select { |image| image.status.downcase == 'active' }
     end
 
+    def available_volumes
+      volumes.select { |volume| volume.status == 'available' }
+    end
+
+    def new_block
+      FogExtensions::Openstack::Server::BlockDeviceMapping::Block.new
+    end
+
     def address_pools
       client.addresses.get_address_pools.map { |p| p["name"] }
     end
@@ -55,6 +63,7 @@ module Foreman::Model
     end
 
     def create_vm(args = {})
+      args[:block_device_mapping] = clean_up_block_device_mapping(args)
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
@@ -177,5 +186,8 @@ module Foreman::Model
       raise e
     end
 
+    def clean_up_block_device_mapping(args)
+      args[:block_device_mapping_attributes].to_a.map(&:last)[1..-1]
+    end
   end
 end

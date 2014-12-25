@@ -33,7 +33,8 @@ class ComputeResource < ActiveRecord::Base
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true
   before_save :sanitize_url
   has_many_hosts
-  has_many :images, :dependent => :destroy
+  has_many :images,  :dependent => :destroy
+  has_many :volumes, :dependent => :destroy
   before_validation :set_attributes_hash
   has_many :compute_attributes, :dependent => :destroy
   has_many :compute_profiles, :through => :compute_attributes

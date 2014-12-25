@@ -403,6 +403,12 @@ Foreman::AccessControl.map do |permission_set|
     }
   end
 
+  map.security_block :volumes do |map|
+    map.permission :view_volumes, { :volumes => [:index, :auto_complete_search] } 
+  end
+
+
+
   if SETTINGS[:locations_enabled]
     permission_set.security_block :locations do |map|
       map.permission :view_locations, {:locations =>  [:index, :show, :auto_complete_search],

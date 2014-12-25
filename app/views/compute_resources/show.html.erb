@@ -9,6 +9,9 @@
 <ul class="nav nav-tabs" data-tabs="tabs">
   <li class="active"><a href="#primary" data-toggle="tab"><%= _("Compute Resource") %></a></li>
   <li><a href="#vms" data-toggle="tab"><%= _("Virtual Machines") %></a></li>
+  <% if @compute_resource.capabilities.include?(:volume) %>
+    <li><a href="#volumes" data-toggle="tab"><%= _("Volumes") %></a></li>
+  <% end %>
   <% if @compute_resource.capabilities.include?(:image) %>
     <li><a href="#images" data-toggle="tab"><%= _("Images") %></a></li>
   <% end %>
@@ -44,6 +47,17 @@
       <%= _('Loading virtual machines information ...') %>
     </p>
   </div>
+  <% if @compute_resource.capabilities.include?(:volume) %>
+    <div id="volumes" class="tab-pane">
+      <%= title_actions(display_link_if_authorized(_("Sync volumes"), hash_for_sync_compute_resource_volumes_path(:compute_resource_id => @compute_resource.id), :method => :put, :class => "btn btn-default", :data=>{:target=>"full-page"})) %>
+      <div id="volumes_list" data-url=<%= compute_resource_volumes_path(@compute_resource) %>>
+        <p id="spinner">
+          <%= image_tag '/assets/spinner.gif' %>
+          <%= _('Loading Volumes information') %> ...
+        </p>
+      </div>
+    </div>
+  <% end %>
   <% if @compute_resource.capabilities.include?(:image) %>
     <div id="images" class="tab-pane">
       <%= title_actions(display_link_if_authorized(_("New Image"), hash_for_new_compute_resource_image_path(:compute_resource_id => @compute_resource.id), :class => "btn btn-success", :data=>{:target=>"full-page"})) %>
@@ -55,7 +69,7 @@
       </div>
     </div>
   <% end %>
-  <div id="compute_profiles" class="tab-pane">
+    <div id="compute_profiles" class="tab-pane">
     <table class="table table-bordered table-striped table-two-pane">
       <tr>
         <th><%= _("Compute profile") %></th>

@@ -329,7 +329,12 @@ Foreman::Application.routes.draw do
           get 'provider_selected'
           put  'test_connection'
         end
-        resources :images, :except => [:show]
+        resources :images,  :except => [:show]
+        resources :volumes, :only   => [:index] do
+          collection do
+            put 'sync'
+          end
+        end
       end
 
       resources :realms, :except => [:show] do

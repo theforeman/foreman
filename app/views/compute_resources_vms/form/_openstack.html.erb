@@ -17,3 +17,20 @@
              {}, { :label => _('Internal network'), :multiple => true } %>
 <%= selectable_f f, :network, compute_resource.address_pools, { :prompt => "None" }, { :label => _("Floating IP network") } %>
 
+<br/>
+<div class="children_fields">
+  <%= new_child_fields_template(f, :block_device_mapping, {
+        :object  => compute_resource.new_block,
+        :partial => 'compute_resources_vms/form/openstack/block_device_mapping',
+        :form_builder_attrs => { :compute_resource => compute_resource } } ) %>
+
+  <%= field_set_tag "Block device mapping", :id => "storage_volumes", :title => _('Block device mapping') do %>
+    <%= f.fields_for :block_device_mapping do |i| %>
+      <%= render 'compute_resources_vms/form/openstack/block_device_mapping', :f => i, :compute_resource => compute_resource %>
+    <% end %>
+    <%= add_child_link '+ ' + _("Add block"), :block_device_mapping,
+                     { :class => "info", :title => _('add new volume/image block') } %>
+  <% end %>
+</div>
+
+
