@@ -1,19 +1,11 @@
 <% javascript 'taxonomy_edit' %>
 
 <%= form_for taxonomy do |f| %>
-  <%= base_errors_for taxonomy %>
-  <%= select_f(f, :parent_id, taxonomy.class.where("id NOT IN (#{taxonomy.subtree_ids.join(',')})").order(:title), :id, :title, { :include_blank => true },
-               { :label => _('Parent'), :onchange => 'parent_taxonomy_changed(this);',
-                 :help_inline => :indicator,
-                 :'data-url' => (controller_name == 'organizations' ? parent_taxonomy_selected_organization_path(taxonomy.id) :
-                                                                      parent_taxonomy_selected_location_path(taxonomy.id))
-               }) if show_parent?(taxonomy) %>
-
-  <%= text_f f, :name %>
   <div class="form-group row">
     <ul class="nav nav-pills nav-stacked col-md-3" data-tabs="pills">
+      <li class="active"><a href="#primary" data-toggle="tab"><%= _("Primary") %></a></li>
       <% if User.current.allowed_to?(:view_users) %>
-        <li class="active"><a href="#users" data-toggle="tab"><%= _("Users") %></a></li>
+        <li><a href="#users" data-toggle="tab"><%= _("Users") %></a></li>
       <% end %>
       <% if User.current.allowed_to?(:view_smart_proxies) %>
         <li><a href="#smart_proxies" data-toggle="tab"><%= _("Smart Proxies") %></a></li>
@@ -59,8 +51,19 @@
     </ul>
 
     <div class="tab-content stacked-content col-md-9">
+      <div class="tab-pane active" id="primary">
+        <%= base_errors_for taxonomy %>
+        <%= select_f(f, :parent_id, taxonomy.class.where("id NOT IN (#{taxonomy.subtree_ids.join(',')})").order(:title), :id, :title, { :include_blank => true },
+                     { :label => _('Parent'), :onchange => 'parent_taxonomy_changed(this);',
+                       :help_inline => :indicator,
+                       :'data-url' => (controller_name == 'organizations' ? parent_taxonomy_selected_organization_path(taxonomy.id) :
+                               parent_taxonomy_selected_location_path(taxonomy.id))
+                     }) if show_parent?(taxonomy) %>
+        <%= text_f f, :name %>
+        <%= textarea_f f, :description, :rows => 5 %>
+      </div>
       <% if User.current.allowed_to?(:view_users) %>
-        <div class="tab-pane active" id="users">
+        <div class="tab-pane" id="users">
           <%= checkbox_f(f, :ignore_types, {:label => _("All users"), :multiple => true, :onchange => 'ignore_checked(this)'}, "User") %>
           <%= multiple_selects f, :users, User.except_admin, taxonomy.selected_or_inherited_ids[:user_ids],
                                {:disabled => taxonomy.used_and_selected_or_inherited_ids[:user_ids], :label => _('Select users')},
