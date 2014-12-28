@@ -13,13 +13,13 @@ class DomainsControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Domain.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:domain => {:name => nil}}, set_session_user
     assert_template 'new'
   end
 
   def test_create_valid
     Domain.any_instance.stubs(:valid?).returns(true)
-    post :create, {}, set_session_user
+    post :create, {:domain => {:name => "MyDomain"}}, set_session_user
     assert_redirected_to domains_url
   end
 
@@ -30,13 +30,13 @@ class DomainsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Domain.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Domain.first}, set_session_user
+    put :update, {:id => Domain.first.name, :domain => {:name => Domain.first.name }}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Domain.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Domain.first}, set_session_user
+    put :update, {:id => Domain.first.name, :domain => {:name => Domain.first.name }}, set_session_user
     assert_redirected_to domains_url
   end
 

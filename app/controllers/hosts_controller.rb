@@ -77,7 +77,7 @@ class HostsController < ApplicationController
   end
 
   def create
-    @host = Host.new(params[:host])
+    @host = Host.new(foreman_params)
     @host.managed = true if (params[:host] && params[:host][:managed].nil?)
     forward_url_options
     if @host.save
@@ -103,7 +103,7 @@ class HostsController < ApplicationController
           params[:host][:interfaces_attributes]["#{k}"].except!(:password) if params[:host][:interfaces_attributes]["#{k}"][:password].blank?
         end
       end
-      if @host.update_attributes(params[:host])
+      if @host.update_attributes(foreman_params)
         process_success :success_redirect => host_path(@host), :redirect_xhr => request.xhr?
       else
         taxonomy_scope
@@ -712,5 +712,4 @@ class HostsController < ApplicationController
   def offer_to_overwrite_conflicts
     @host.overwrite = "true" if @host.errors.any? and @host.errors.are_all_conflicts?
   end
-
 end

@@ -288,7 +288,7 @@ Spork.each_run do
   # This code will be run each time you run your specs.
   class ActionController::TestCase
     setup :setup_set_script_name, :set_api_user, :reset_setting_cache
-    teardown :reset_setting_cache
+    teardown :reset_setting_cache, :remove_raise_strong_parameters
 
     def reset_setting_cache
       Setting.cache.clear
@@ -308,6 +308,11 @@ Spork.each_run do
       @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(login, password)
       @request.env['CONTENT_TYPE'] = 'application/json'
       @request.env['HTTP_ACCEPT'] = 'application/json'
+    end
+
+    def remove_raise_strong_parameters
+      # Removes :raise from strong parameters tests.
+      ActionController::Parameters.action_on_unpermitted_parameters = :log
     end
   end
 

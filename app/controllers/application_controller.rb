@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include Foreman::Controller::Session
   include Foreman::ThreadSession::Cleaner
   include FindCommon
+  include StrongParametersHelper
 
   ensure_security_headers
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -386,5 +387,11 @@ class ApplicationController < ActionController::Base
   # On Rails 4 we can get rid of this and use the strategy ':exception'.
   def handle_unverified_request
     raise ::Foreman::Exception.new(N_("Invalid authenticity token"))
+  end
+
+  def foreman_params
+    permitted_params = "permitted_#{controller_name.singularize}_attributes"
+    raise Foreman::Exception.new(N_('Can not find parameter method')) unless self.respond_to?(permitted_params.to_sym)
+    params.require(controller_name.singularize.to_sym).permit(*send(permitted_params))
   end
 end

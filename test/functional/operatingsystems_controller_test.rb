@@ -19,7 +19,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
 
     test 'create invalid' do
       Operatingsystem.any_instance.stubs(:valid?).returns(false)
-      post :create, {}, set_session_user
+      post :create, {:operatingsystem => {:name => nil}}, set_session_user
       assert_template 'new'
     end
 
@@ -31,7 +31,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     test 'update invalid' do
       Operatingsystem.any_instance.stubs(:valid?).returns(false)
       Redhat.any_instance.stubs(:valid?).returns(false)
-      put :update, {:id => Operatingsystem.first}, set_session_user
+      put :update, {:id => Operatingsystem.first, :operatingsystem => {:name => Operatingsystem.first.name}}, set_session_user
       assert_template 'edit'
     end
   end
@@ -39,14 +39,14 @@ class OperatingsystemsControllerTest < ActionController::TestCase
   context 'redirects' do
     test 'create valid' do
       Operatingsystem.any_instance.stubs(:valid?).returns(true)
-      post :create, {}, set_session_user
+      post :create, {:operatingsystem => {:name => "MyOS"}}, set_session_user
       assert_redirected_to operatingsystems_url
     end
 
     test 'update valid' do
       Operatingsystem.any_instance.stubs(:valid?).returns(true)
       Redhat.any_instance.stubs(:valid?).returns(true)
-      put :update, {:id => Operatingsystem.first}, set_session_user
+      put :update, {:id => Operatingsystem.first, :operatingsystem => {:name => "MyOS"}}, set_session_user
       assert_redirected_to operatingsystems_url
     end
 
@@ -118,7 +118,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
       assert_difference 'OsDefaultTemplate.count', -1 do
         os_default_template_id = operatingsystem.os_default_templates.first.id
         put :update, {:id => operatingsystem.id,
-                      :operatingsystem => {:os_default_templates_attributes => {0 => { :id => os_default_template_id, :config_template_id => '', :template_kind_id => @template_kind.id }}}}, set_session_user
+                      :operatingsystem => {:os_default_templates_attributes => [{ :id => os_default_template_id, :config_template_id => '', :template_kind_id => @template_kind.id }] }}, set_session_user
 
       end
     end

@@ -32,7 +32,7 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def create
-    @config_template = ConfigTemplate.new(params[:config_template])
+    @config_template = ConfigTemplate.new(foreman_params)
     if @config_template.save
       process_success
     else
@@ -45,7 +45,7 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def update
-    if @config_template.update_attributes(params[:config_template])
+    if @config_template.update_attributes(foreman_params)
       process_success
     else
       load_history

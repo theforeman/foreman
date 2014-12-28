@@ -25,6 +25,9 @@ gem 'safemode', '~> 1.2'
 gem 'fast_gettext', '~> 0.8'
 gem 'gettext_i18n_rails', '~> 1.0'
 
+## To be removed when updating to Rails 4.
+gem 'strong_parameters'
+
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))
 end

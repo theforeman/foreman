@@ -12,7 +12,7 @@ class PtablesController < ApplicationController
   end
 
   def create
-    @ptable = Ptable.new(params[:ptable])
+    @ptable = Ptable.new(foreman_params)
     if @ptable.save
       process_success
     else
@@ -24,7 +24,7 @@ class PtablesController < ApplicationController
   end
 
   def update
-    if @ptable.update_attributes(params[:ptable])
+    if @ptable.update_attributes(foreman_params)
       process_success
     else
       process_error
@@ -38,5 +38,4 @@ class PtablesController < ApplicationController
       process_error
     end
   end
-
 end

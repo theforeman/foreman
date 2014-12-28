@@ -1,5 +1,4 @@
 class ComputeProfile < ActiveRecord::Base
-
   include Authorizable
   extend FriendlyId
   friendly_id :name

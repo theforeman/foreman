@@ -13,7 +13,7 @@ class SubnetsControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Subnet.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:subnet => {:network => nil}}, set_session_user
     assert_template 'new'
   end
 
@@ -30,13 +30,14 @@ class SubnetsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Subnet.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Subnet.first}, set_session_user
+    put :update, {:id => Subnet.first, :subnet => {:network => nil}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Subnet.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Subnet.first}, set_session_user
+    put :update, {:id => Subnet.first, :subnet => {:network => '192.168.100.10'}}, set_session_user
+    assert '192.168.100.10', Subnet.first.network
     assert_redirected_to subnets_url
   end
 

@@ -18,15 +18,15 @@ class HostgroupsControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Hostgroup.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:hostgroup => {:name => nil}}, set_session_user
     assert_template 'new'
   end
 
   def test_create_valid
     Hostgroup.any_instance.stubs(:valid?).returns(true)
     pc = Puppetclass.first
-    post :create, {"hostgroup" => {"name"=>"test_it", "group_parameters_attributes"=>{"1272344174448"=>{"name"=>"x", "value"=>"y", "_destroy"=>""}},
-                   "puppetclass_ids"=>["", pc.id.to_s], :realm_id => realms(:myrealm).id}}, set_session_user
+    post :create, {:hostgroup => {:name=>"test_it", :group_parameters_attributes=>{"1272344174448"=>{:name => "x", :value =>"y", :_destroy => ""}},
+                   :puppetclass_ids=>["", pc.id.to_s], :realm_id => realms(:myrealm).id}}, set_session_user
     assert_redirected_to hostgroups_url
   end
 
@@ -42,13 +42,13 @@ class HostgroupsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Hostgroup.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Hostgroup.first, :hostgroup => {}}, set_session_user
+    put :update, {:id => Hostgroup.first, :hostgroup => { :name => Hostgroup.first.name }}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Hostgroup.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Hostgroup.first, :hostgroup => {}}, set_session_user
+    put :update, {:id => Hostgroup.first, :hostgroup => { :name => Hostgroup.first.name }}, set_session_user
     assert_redirected_to hostgroups_url
   end
 

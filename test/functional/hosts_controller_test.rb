@@ -10,7 +10,7 @@ class HostsControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Host.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:host => {:name => nil}}, set_session_user
     assert_template 'new'
   end
 
@@ -76,13 +76,13 @@ class HostsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Host.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Host.first.name, :host => {}}, set_session_user
+    put :update, {:id => Host.first.name, :host => {:disk => 'ntfs'}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Host.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Host.first.name, :host => {}}, set_session_user
+    put :update, {:id => Host.first.name, :host => {:name => "Updated_#{Host.first.name}"}}, set_session_user
     assert_redirected_to host_url(assigns(:host))
   end
 
@@ -758,14 +758,14 @@ class HostsControllerTest < ActionController::TestCase
 
   test "can change sti type to valid subtype" do
     class Host::Valid < Host::Base; end
-    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, set_session_user
+    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid", :disk => @host.disk} }, set_session_user
     @host = Host::Base.find(@host.id)
     assert_equal "Host::Valid", @host.type
   end
 
   test "cannot change sti type to invalid subtype" do
     old_type = @host.type
-    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Notvalid"} }, set_session_user
+    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Notvalid", :disk => @host.disk } }, set_session_user
     @host = Host.find(@host.id)
     assert_equal old_type, @host.type
   end

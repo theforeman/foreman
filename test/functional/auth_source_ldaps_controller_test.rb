@@ -13,13 +13,13 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
 
   def test_create_invalid
     AuthSourceLdap.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:auth_source_ldap => {:name => nil}}, set_session_user
     assert_template 'new'
   end
 
   def test_create_valid
     AuthSourceLdap.any_instance.stubs(:valid?).returns(true)
-    post :create, {}, set_session_user
+    post :create, {:auth_source_ldap => {:name => AuthSourceLdap.first.name}}, set_session_user
     assert_redirected_to auth_source_ldaps_url
   end
 
@@ -30,27 +30,27 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     AuthSourceLdap.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => AuthSourceLdap.first, :auth_source_ldap => {} }, set_session_user
+    put :update, {:id => AuthSourceLdap.first, :auth_source_ldap => {:name => AuthSourceLdap.first.name} }, set_session_user
     assert_template 'edit'
   end
 
   def test_formats_valid
     AuthSourceLdap.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => AuthSourceLdap.first.id, :format => "weird", :auth_source_ldap => {} }, set_session_user
+    put :update, {:id => AuthSourceLdap.first.id, :format => "weird", :auth_source_ldap => {:name => AuthSourceLdap.first.name} }, set_session_user
     assert_response :success
 
     wierd_id = "#{AuthSourceLdap.first.id}.weird"
-    put :update, {:id => wierd_id, :auth_source_ldap => {} }, set_session_user
+    put :update, {:id => wierd_id, :auth_source_ldap => {:name => AuthSourceLdap.first.name} }, set_session_user
     assert_response :success
 
     parameterized_id = "#{AuthSourceLdap.first.id}-#{AuthSourceLdap.first.name.parameterize}"
-    put :update, {:id => parameterized_id, :auth_source_ldap => {} }, set_session_user
+    put :update, {:id => parameterized_id, :auth_source_ldap => {:name => AuthSourceLdap.first.name} }, set_session_user
     assert_response :success
   end
 
   def test_update_valid
     AuthSourceLdap.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => AuthSourceLdap.first, :auth_source_ldap => {} }, set_session_user
+    put :update, {:id => AuthSourceLdap.first, :auth_source_ldap => {:name => AuthSourceLdap.first.name} }, set_session_user
     assert_redirected_to auth_source_ldaps_url
   end
 
@@ -83,7 +83,7 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     auth_source_ldap = AuthSourceLdap.first
     old_pass = auth_source_ldap.account_password
     as_admin do
-      put :update, {:commit => "Update", :id => auth_source_ldap.id, :auth_source_ldap => {:account_password => '', :name => auth_source_ldap.name} }, set_session_user
+      put :update, {:commit => "Update", :id => auth_source_ldap.id, :auth_source_ldap => {:account_password => nil, :name => auth_source_ldap.name} }, set_session_user
     end
     auth_source_ldap = AuthSourceLdap.find(auth_source_ldap.id)
     assert_equal old_pass, auth_source_ldap.account_password

@@ -13,7 +13,7 @@ class PuppetclassesController < ApplicationController
   end
 
   def update
-    if @puppetclass.update_attributes(params[:puppetclass])
+    if @puppetclass.update_attributes(foreman_params)
       process_success
     else
       process_error
@@ -85,5 +85,4 @@ class PuppetclassesController < ApplicationController
         super
     end
   end
-
 end
