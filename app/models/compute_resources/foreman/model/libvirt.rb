@@ -47,10 +47,10 @@ module Foreman::Model
 
     # libvirt reports in KB
     def max_memory
-      hypervisor.memory * 1024
+      hypervisor.memory * Foreman::SIZE[:kilo]
     rescue => e
       logger.debug "unable to figure out free memory, guessing instead due to:#{e}"
-      16*1024*1024*1024
+      16*Foreman::SIZE[:giga]
     end
 
     def test_connection(options = {})
@@ -161,7 +161,7 @@ module Foreman::Model
 
     def vm_instance_defaults
       super.merge(
-        :memory     => 768*1024*1024,
+        :memory     => 768*Foreman::SIZE[:mega],
         :nics       => [new_nic],
         :volumes    => [new_volume],
         :display    => { :type     => display_type.downcase,
