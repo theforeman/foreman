@@ -38,7 +38,7 @@ module Foreman::Model
     end
 
     def max_memory
-      16*1024*1024*1024
+      32*1024*1024*1024
     end
 
     def datacenters
