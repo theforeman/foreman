@@ -26,8 +26,8 @@
       </tr>
       <tr>
         <td><%= _('Memory') %></td>
-        <td><%= number_to_human_size @vm.max_memory_size*1024 %>
-          <%= "(" + _("Allocated") + ": #{number_to_human_size @vm.memory_size*1024})" %></td>
+        <td><%= number_to_human_size @vm.max_memory_size*Foreman::SIZE[:kilo] %>
+          <%= "(" + _("Allocated") + ": #{number_to_human_size @vm.memory_size*Foreman::SIZE[:kilo]})" %></td>
       </tr>
       <tr>
         <td><%= _('Display') %></td>
