@@ -36,19 +36,21 @@ class Host::Managed < Host::Base
   define_model_callbacks :provision, :only => :before
 
   # Custom hooks will be executed after_commit
-  after_commit :build_hooks
+  after_commit :trigger_build_hooks
   before_save :clear_data_on_build
   after_save :update_hostgroups_puppetclasses, :if => :hostgroup_id_changed?
 
-  def build_hooks
-    return unless respond_to?(:old) && old && (build? != old.build?)
-    if build?
-      run_callbacks :build do
-        logger.debug { "custom hook after_build on #{name} will be executed if defined." }
-      end
-    else
+  def trigger_build_hooks
+    # previous_changes returns changes applied on last save
+    if previous_changes[:build] == [true, false] && installed_at
       run_callbacks :provision do
         logger.debug { "custom hook before_provision on #{name} will be executed if defined." }
+      end
+    end
+
+    if previous_changes[:build] == [false, true]
+      run_callbacks :build do
+        logger.debug { "custom hook after_build on #{name} will be executed if defined." }
       end
     end
   end
