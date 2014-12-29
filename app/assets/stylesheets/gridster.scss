@@ -6,85 +6,30 @@ $row-margin: 10px;
   list-style: none;
 }
 
-$col-margin-left: 1%;
+$col-margin-left: 15px;
+$col-margin-fallback: 1.5%;
+
 @media (min-width: 992px) {
-  [data-col="13"] {
-    margin-left: 100% + $col-margin-left;
-  }
-  [data-col="12"] {
-    margin-left: 91.6666666667% + $col-margin-left;
-  }
-  [data-col="11"] {
-    margin-left: 83.3333333333% + $col-margin-left;
-  }
-  [data-col="10"] {
-    margin-left: 75% + $col-margin-left;
-  }
-  [data-col="9"] {
-    margin-left: 66.6666666667% + $col-margin-left;
-  }
-  [data-col="8"] {
-    margin-left: 58.3333333333% + $col-margin-left;
-  }
-  [data-col="7"] {
-    margin-left: 50% + $col-margin-left;
-  }
-  [data-col="6"] {
-    margin-left: 41.6666666667% + $col-margin-left;
-  }
-  [data-col="5"] {
-    margin-left: 33.3333333333% + $col-margin-left;
-  }
-  [data-col="4"] {
-    margin-left: 25% + $col-margin-left;
-  }
-  [data-col="3"] {
-    margin-left: 16.6666666667% + $col-margin-left;
-  }
-  [data-col="2"] {
-    margin-left: 8.3333333333% + $col-margin-left;
-  }
-  [data-col="1"] {
+  [data-col="0"] {
     margin-left: 0%;
   }
 
-  [data-sizex="1"] {
-    width: 8.3333333333%;
-  }
-  [data-sizex="2"] {
-    width: 16.6666666667%;
-  }
-  [data-sizex="3"] {
-    width: 25%;
-  }
-  [data-sizex="4"] {
-    width: 33.3333333333%;
-  }
-  [data-sizex="5"] {
-    width: 41.6666666667%;
-  }
-  [data-sizex="6"] {
-    width: 50%;
-  }
-  [data-sizex="7"] {
-    width: 58.3333333333%;
-  }
-  [data-sizex="8"] {
-    width: 66.6666666667%;
-  }
-  [data-sizex="9"] {
-    width: 75%;
-  }
-  [data-sizex="10"] {
-    width: 83.3333333333%;
-  }
-  [data-sizex="11"] {
-    width: 91.6666666667%;
-  }
-  [data-sizex="12"] {
-    width: 100%;
+  @for $i from 1 through 12 {
+    [data-col="#{$i + 1}"] {
+      margin-left: calc(#{percentage($i / 12)} + #{$col-margin-left});
+      margin-left: #{percentage($i / 12)} + $col-margin-fallback;
+    }
   }
 
+  @for $i from 1 through 12 {
+    [data-sizex="#{$i}"] {
+      width: calc(#{percentage($i / 12)} - #{$col-margin-left});
+      width: #{percentage($i / 12)} - $col-margin-fallback;
+    }
+  }
+}
+
+@media (min-width: 992px) {
   [data-row="8"] {
     top: $row-height * 7 + 15 * $row-margin;
   }
