@@ -1,14 +1,13 @@
 <%= javascript 'dashboard' %>
-
 <% title _('Overview') %>
 <%= title_actions dashboard_actions %>
-
-<div id='dashboard' class="row gridster">
-  <ul>
-    <%= widget_list.map do |widget|
+<div class="row">
+  <div id='dashboard' class="gridster col-md-12">
+    <ul>
+      <%= widget_list.map do |widget|
           content_tag(:li, render(widget.id), :data=>{:id => widget.id, :name => widget.name || widget.id, :row => widget.row, :col => widget.col, :sizex=>widget.sizex, :sizey => widget.sizey, :hide=>widget.hide})
         end.join(' ').html_safe
     %>
-  </ul>
+    </ul>
+  </div>
 </div>
-
