@@ -1,4 +1,6 @@
 //= require jquery
+//= require jquery.turbolinks
+//= require turbolinks
 //= require i18n
 //= require jquery_ujs
 //= require jquery.ui.autocomplete
@@ -17,6 +19,7 @@
 //= require hidden_values
 
 $(document).on('ContentLoad', function(){onContentLoad()});
+Turbolinks.enableProgressBar();
 
 $(function() {
   $(document).trigger('ContentLoad');
