@@ -107,8 +107,11 @@ class ConfigTemplate < ActiveRecord::Base
     if error_msg.empty?
       begin
         @profiles = pxe_default_combos
-        menu = renderer.render_safe(default_template.template, [:default_template_url], {:profiles => @profiles})
+        menu = renderer.unattended_render(default_template, {
+          :allowed_helpers => [:default_template_url],
+          :allowed_variables => {:profiles => @profiles} })
       rescue => e
+        Rails.logger.error e.backtrace.join("\n")
         error_msg = _("failed to process template: %s" % e)
       end
     end
@@ -129,12 +132,15 @@ class ConfigTemplate < ActiveRecord::Base
           end
         end
       rescue => exc
+        Rails.logger.error exc.backtrace.join("\n")
+        error_msg = _("failed to process template: %s" % e)
         error_msgs << "#{proxy}: #{exc.message}"
       end
     end
 
     unless error_msgs.empty?
       msg = _("There was an error creating the PXE Default file: %s") % error_msgs.join(",")
+      Rails.logger.error msg
       return [500, msg]
     end
 

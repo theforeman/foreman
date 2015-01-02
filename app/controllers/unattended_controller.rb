@@ -296,7 +296,7 @@ class UnattendedController < ApplicationController
     end
 
     begin
-      render :inline => "<%= unattended_render(@unsafe_template, @template_name).html_safe %>" and return
+      render :inline => "<%= unattended_render(@unsafe_template, { :template_name => @template_name }).html_safe %>" and return
     rescue => exc
       msg = _("There was an error rendering the %s template: ") % (@template_name)
       render :text => msg + exc.message, :status => 500 and return
