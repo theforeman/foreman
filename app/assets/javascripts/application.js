@@ -82,10 +82,7 @@ function onContentLoad(){
   });
 
   // allow opening new window for selected links
-  $('a[rel="external"]').click( function() {
-    window.open( $(this).attr('href') );
-    return false;
-  });
+  $('a[rel="external"]').attr("target","_blank");
 
   $('*[data-ajax-url]').each(function() {
     var url = $(this).data('ajax-url');
