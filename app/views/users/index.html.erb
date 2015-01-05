@@ -19,7 +19,7 @@
   <tbody>
     <% for user in @users %>
       <tr>
-        <td><%= avatar_image_tag user, :class => "avatar" %> <%=link_to_if_authorized trunc(user.login), hash_for_edit_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer) %></td>
+        <td class="display-two-pane"><%= avatar_image_tag user, :class => "avatar" %> <%=link_to_if_authorized trunc(user.login), hash_for_edit_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer) %></td>
         <td><%=h user.firstname %></td>
         <td><%=h user.lastname %></td>
         <td><%=h user.mail %></td>
