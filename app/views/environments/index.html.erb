@@ -13,7 +13,7 @@
   <tbody>
     <% @environments.each do |environment| %>
       <tr>
-        <td>
+        <td class="display-two-pane">
           <%= link_to_if_authorized trunc(environment.name), hash_for_edit_environment_path(:id => environment).merge(:auth_object => environment, :authorizer => authorizer) %>
         </td>
         <td><%= link_to environment.hosts_count, hosts_path(:search => "environment = #{environment}") %></td>
