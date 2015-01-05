@@ -23,9 +23,9 @@ WEBAPPSTACK
 
 legend
 -   Stack is not connected to any existing Foreman models to allow sharing.
--   ParamResource defines inputs and outputs through parameters to avoid
+-   ParameterResource defines inputs and outputs through parameters to avoid
     entanglement between stacks.
--   ConnectParamResource connects parameters between child stacks in a given
+-   ConnectParameterResource connects parameters between child stacks in a given
     parent.
 end legend
 

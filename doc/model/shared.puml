@@ -24,7 +24,7 @@ class HostgroupResource {
     configuration.
 }
 
-class ParamResource {
+class ParameterResource {
     String name
     String description # intent
     String default_value
@@ -33,7 +33,7 @@ class ParamResource {
     allowed values
 }
 
-class ParamOverrideResource {
+class ParameterOverrideResource {
     String key
     String value # ERB
 }
@@ -84,7 +84,7 @@ class HostResource {
     Integere max
 }
 
-class ConnectParamResource {
+class ConnectParameterResource {
     .. notes ..
     Possibly allow to define
     a transformation function.
@@ -96,7 +96,7 @@ class ConnectParamResource {
 
 class ChildStackResource ORDERED
 
-class ParamUpdateResource ORDERED {
+class ParameterUpdateResource ORDERED {
     Staring value
     .. notes ..
     possibly ERB to compute new value
@@ -105,22 +105,22 @@ class ParamUpdateResource ORDERED {
 class PuppetRunResource ORDERED
 
 Resource <|-[#gray]- HostgroupResource
-Resource <|-[#gray]- ParamResource
-Resource <|-[#gray]- ParamOverrideResource
+Resource <|-[#gray]- ParameterResource
+Resource <|-[#gray]- ParameterOverrideResource
 Resource <|-[#gray]- PuppetClassResource
 Resource <|-[#gray]- ComputeResourceResource
 Resource <|-[#gray]- ComputeProfileResource
 Resource <|-[#gray]- SubnetTypeResource
 Resource <|-[#gray]- InterfaceResource
-Resource <|-[#gray]- ConnectParamResource
+Resource <|-[#gray]- ConnectParameterResource
 
 Resource <|-[#gray]- ChildStackResource
 Resource <|-[#gray]- HostResource
-Resource <|-[#gray]- ParamUpdateResource
+Resource <|-[#gray]- ParameterUpdateResource
 Resource <|-[#gray]- PuppetRunResource
 
 Ordered <|-[#gray]-- ChildStackResource
-Ordered <|-[#gray]-- ParamUpdateResource
+Ordered <|-[#gray]-- ParameterUpdateResource
 Ordered <|-[#gray]-- PuppetRunResource
 
 !enddefinelong
@@ -137,15 +137,15 @@ end note
 
 PuppetRunResource "0..*" --> "1" HostResource : on
 InterfaceResource "0..*" --> "1" SubnetTypeResource : where
-ParamResource "0..*" --> "1" HostgroupResource : will be\nadded to
-ParamUpdateResource "0..*" --> "1" ParamResource : updates
-ParamOverrideResource "0..*" --> "1" PuppetClassResource : overrides\nin
+ParameterResource "0..*" --> "1" HostgroupResource : will be\nadded to
+ParameterUpdateResource "0..*" --> "1" ParameterResource : updates
+ParameterOverrideResource "0..*" --> "1" PuppetClassResource : overrides\nin
 PuppetClassResource "0..*" --> "1" HostgroupResource : will be\nadded to
 HostResource "0..*" --> "0..*" SubnetTypeResource : connects to
 HostResource "1..*" --> "1..*" ComputeResourceResource : allowed ComputeResources
 HostResource "0..*" --> "1" ComputeProfileResource : limited by
-ConnectParamResource "0..*" --> "1" ParamResource : source
-ConnectParamResource "0..1" --> "1" ParamResource : destination
+ConnectParameterResource "0..*" --> "1" ParameterResource : source
+ConnectParameterResource "0..1" --> "1" ParameterResource : destination
 HostResource "0..*" --> "1" HostgroupResource : provisions in
 HostgroupResource "0..*" <-- "0..1" HostgroupResource : be parent of
 note on link
@@ -158,13 +158,13 @@ end note
 
 !definelong DBSTACKINTERFACE
 OBJECT(db_hostgroup, HostgroupResource)
-OBJECT(db_api_url, ParamResource) {
+OBJECT(db_api_url, ParameterResource) {
   name = "db_api_url"
   \# pseudo code
   \# computes the url for other stacks to use
   default_value = "<%= compute_url() %>"
 }
-OBJECT(db_password, ParamResource) {
+OBJECT(db_password, ParameterResource) {
   name = "db_password"
 }
 
@@ -186,7 +186,7 @@ OBJECT(postgres, PuppetClassResource) {
   name = postgres
 }
 
-OBJECT(password_override, ParamOverrideResource) {
+OBJECT(password_override, ParameterOverrideResource) {
   key = "$postgres::password"
   \# only pseudo
   value =
@@ -214,10 +214,10 @@ password_override .up.> db_password : uses
 
 !definelong WEBSERVERSTACKINTERFACE
 OBJECT(web_server_hostgroup, HostgroupResource)
-OBJECT("db_password" as db_password2, ParamResource) {
+OBJECT("db_password" as db_password2, ParameterResource) {
   name = "db_password"
 }
-OBJECT("db_api_url" as db_api_url2, ParamResource) {
+OBJECT("db_api_url" as db_api_url2, ParameterResource) {
   name = "db_api_url"
 }
 web_server --> web_server_hostgroup : is composed of
@@ -236,7 +236,7 @@ OBJECT(sinatra_instances, HostResource) {
 }
 OBJECT(web_server_puppetrun, PuppetRunResource)
 
-OBJECT(db_url_override, ParamOverrideResource) {
+OBJECT(db_url_override, ParameterOverrideResource) {
   key = "$sinatra::db::url"
   \# only pseudo
   value =
@@ -244,7 +244,7 @@ OBJECT(db_url_override, ParamOverrideResource) {
   "'web_server_hostgroup', 'db_api_url') %>"
 }
 
-OBJECT(db_password_override, ParamOverrideResource) {
+OBJECT(db_password_override, ParameterOverrideResource) {
   key = "$sinatra::db::password"
   \# only pseudo
   value =
@@ -252,7 +252,7 @@ OBJECT(db_password_override, ParamOverrideResource) {
   "'web_server_hostgroup', 'db_password') %>"
 }
 
-OBJECT(db_password2, ParamResource) {
+OBJECT(db_password2, ParameterResource) {
   name = "db_password"
 }
 
@@ -276,7 +276,7 @@ db_password_override .up.> db_password2 : uses
 !enddefinelong
 
 !definelong CONNECT(from,to,instack)
-OBJECT(from##2##to, ConnectParamResource)
+OBJECT(from##2##to, ConnectParameterResource)
 instack --> from##2##to : is composed of
 from##2##to <-[#CONNECTIONCOLOR]-- from : source
 from##2##to -[#CONNECTIONCOLOR]--> to : destination
@@ -287,7 +287,7 @@ OBJECT(web_app, Stack)
 OBJECT(master_hostgroup, HostgroupResource) {
   name = "master_hostgroup"
 }
-OBJECT(master_password, ParamResource) {
+OBJECT(master_password, ParameterResource) {
   name = "master_password"
   default_value = "changeme"
 }

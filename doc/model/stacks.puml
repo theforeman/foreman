@@ -39,16 +39,16 @@ class ExternalCommandResource {
 
 hide ContainerResource
 hide ExternalCommandResource
-hide ParamOverrideResource
-hide ParamUpdateResource
+hide ParameterOverrideResource
+hide ParameterUpdateResource
 'hide PuppetRunResource
 'hide HostResource
 hide HostgroupResource
 hide SubnetTypeResource
-hide ParamResource
+hide ParameterResource
 hide ComputeResourceResource
 hide PuppetClassResource
-hide ConnectParamResource
+hide ConnectParameterResource
 hide InterfaceResource
 hide ComputeProfileResource
 

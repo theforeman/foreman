@@ -25,8 +25,8 @@ HostgroupDeployment -[#DEPLOYCOLOR]-> "1" Deployment
 HostgroupDeployment -up[#DEPLOYCOLOR]-> "1" Hostgroup
 HostgroupDeployment -up[#DEPLOYCOLOR]-> "1" HostgroupResource
 
-ParamResource ..> Hostgroup : configures
-ParamOverrideResource ..> Hostgroup : configures
+ParameterResource ..> Hostgroup : configures
+ParameterOverrideResource ..> Hostgroup : configures
 PuppetClassResource ..> Hostgroup : configures
 ComputeResourceResource ..> Host : limits user's\nselection
 ComputeProfileResource ..> Host : limits user's\nselection
@@ -63,7 +63,7 @@ HostDeployment -[#DEPLOYCOLOR]-> "1" Deployment
 HostDeployment -up[#DEPLOYCOLOR]-> "1" Host
 HostDeployment -up[#DEPLOYCOLOR]-> "1" HostResource
 
-ParamUpdateResource ..> Hostgroup : updates
+ParameterUpdateResource ..> Hostgroup : updates
 
 PuppetRun ..> Host : on
 

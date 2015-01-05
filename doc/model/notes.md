@@ -1,19 +1,19 @@
 # Modularization
 
 -   Stack is not connected to any existing Foreman models to allow sharing.
--   ParamResource defines inputs and outputs through parameters to avoid
+-   ParameterResource defines inputs and outputs through parameters to avoid
     entanglement between stacks.
--   ConnectParamResource connects parameters between child stacks in a given
+-   ConnectParameterResource connects parameters between child stacks in a given
     parent.
 -   See example stack.
 
 # Conventions
 
--   User edits parameters on hostgroups (created based on `ParamResource`,
-    stored in `HostgroupParameter`).
+-   User edits parameters on hostgroups (created based on `ParameterResource`,
+    stored in `GroupParameter`).
 -   Those parameters are applied to puppet class parameters with
-    overrides (`ParamOverrideResource`).
--   `ParamOverrideResource` can define use only `ParamResources` from same stack.
+    overrides (`ParameterOverrideResource`).
+-   `ParameterOverrideResource` can define use only `ParameterResources` from same stack.
 
 # Networking
 

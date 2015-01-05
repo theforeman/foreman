@@ -21,11 +21,11 @@ _If user is not mentioned then the step is done automatically._
     -   `Hostgroup` inherits configuration from parent, remaining options
         are provided by **user**.
     -   `Hostgroup` is created.
-    -   `ParamResources` adds the parameters to the hostgroup (implemented with
-        `HostgroupParameter`).
-        -   `ConnectParamResources` are applied if any.
+    -   `ParameterResources` adds the parameters to the hostgroup (implemented with
+        `GroupParameter`).
+        -   `ConnectParameterResources` are applied if any.
     -   `PuppetClass`es are looked up by `PuppetClassResource`s.
-    -   `ParamOverrideResource`s overrides defined puppet class parameters.
+    -   `ParameterOverrideResource`s overrides defined puppet class parameters.
 -   **User** configures parameters added to `Hostgroup`.
 -   **User** continues by creating all the `Hosts` for each `HostResource`.
     (Custom form allowing to select just items bellow.)
