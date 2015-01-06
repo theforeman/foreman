@@ -283,12 +283,12 @@ class ApplicationController < ActionController::Base
 
   def process_ajax_error(exception, action = nil)
     action ||= action_name
-    origin = exception.try(:original_exception)
+    origin = exception.original_exception if exception.present? && exception.respond_to?(:original_exception)
     message = (origin || exception).message
     logger.warn "Failed to #{action}: #{message}"
     logger.debug "Original exception backtrace:\n" + origin.backtrace.join("\n") if origin.present?
     logger.debug "Causing backtrace:\n" + exception.backtrace.join("\n")
-    render :text => _("Failure: %s") % message
+    render :json => _("Failure: %s") % message, :status => :internal_server_error
   end
 
   def redirect_back_or_to(url)
