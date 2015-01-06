@@ -22,11 +22,16 @@ _If user is not mentioned then the step is done automatically._
         are provided by **user**.
     -   `Hostgroup` is created.
     -   `ParameterResources` adds the parameters to the hostgroup (implemented with
-        `GroupParameter`).
+        `GroupParameter`) or to `Deployment` (implemented with `DeploymentParameter`)
+        if there is no `HostgroupResource` associated on `ParameterResource`.
+        -   Only if there is no parameter with that name already configured through parent `Hostgroup`.
         -   `ConnectParameterResources` are applied if any.
     -   `PuppetClass`es are looked up by `PuppetClassResource`s.
-    -   `ParameterOverrideResource`s overrides defined puppet class parameters.
--   **User** configures parameters added to `Hostgroup`.
+    -   `ParameterOverrideResource`s overrides defined puppet class parameters by defined value
+        in the resource.
+        -   If there is no value defined and the value is already configured through different matcher
+            then the value is used and new override is not created.
+-   **User** configures remaining unconfigured parameters added to `Hostgroup`.
 -   **User** continues by creating all the `Hosts` for each `HostResource`.
     (Custom form allowing to select just items bellow.)
     -   **User** assigns `Subnet`s to subnet types,

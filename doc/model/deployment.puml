@@ -25,7 +25,7 @@ HostgroupDeployment -[#DEPLOYCOLOR]-> "1" Deployment
 HostgroupDeployment -up[#DEPLOYCOLOR]-> "1" Hostgroup
 HostgroupDeployment -up[#DEPLOYCOLOR]-> "1" HostgroupResource
 
-ParameterResource ..> Hostgroup : configures
+HostgroupParameterResource ..> Hostgroup : configures
 ParameterOverrideResource ..> Hostgroup : configures
 PuppetClassResource ..> Hostgroup : configures
 ComputeResourceResource ..> Host : limits user's\nselection

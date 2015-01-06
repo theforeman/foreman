@@ -46,6 +46,8 @@ hide ParameterUpdateResource
 hide HostgroupResource
 hide SubnetTypeResource
 hide ParameterResource
+hide HostgroupParameterResource
+hide DeploymentParameterResource
 hide ComputeResourceResource
 hide PuppetClassResource
 hide ConnectParameterResource

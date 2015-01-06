@@ -27,15 +27,29 @@ class HostgroupResource {
 class ParameterResource {
     String name
     String description # intent
-    String default_value
+    String default_value # optional
     .. notes ..
-    validations, like list of
-    allowed values
+    Validations, like list of allowed
+    values.
+}
+
+class HostgroupParameterResource {
+    .. notes ..
+    Turns into GroupParameter.
+}
+
+class DeploymentParameterResource {
+    .. notes ..
+    Turns into DeploymentParameter.
 }
 
 class ParameterOverrideResource {
     String key
-    String value # ERB
+    String value # optional, ERB
+    .. notes ..
+    If value is not present it
+    needs to be supplied on
+    deployment configuration.
 }
 
 class ComputeResourceResource {
@@ -106,6 +120,8 @@ class PuppetRunResource ORDERED
 
 Resource <|-[#gray]- HostgroupResource
 Resource <|-[#gray]- ParameterResource
+ParameterResource <|-[#gray]- HostgroupParameterResource
+ParameterResource <|-[#gray]- DeploymentParameterResource
 Resource <|-[#gray]- ParameterOverrideResource
 Resource <|-[#gray]- PuppetClassResource
 Resource <|-[#gray]- ComputeResourceResource
@@ -137,7 +153,7 @@ end note
 
 PuppetRunResource "0..*" --> "1" HostResource : on
 InterfaceResource "0..*" --> "1" SubnetTypeResource : where
-ParameterResource "0..*" --> "1" HostgroupResource : will be\nadded to
+HostgroupParameterResource "0..*" --> "0..1" HostgroupResource : will be\nadded to
 ParameterUpdateResource "0..*" --> "1" ParameterResource : updates
 ParameterOverrideResource "0..*" --> "1" PuppetClassResource : overrides\nin
 PuppetClassResource "0..*" --> "1" HostgroupResource : will be\nadded to
@@ -158,13 +174,13 @@ end note
 
 !definelong DBSTACKINTERFACE
 OBJECT(db_hostgroup, HostgroupResource)
-OBJECT(db_api_url, ParameterResource) {
+OBJECT(db_api_url, HostgroupParameterResource) {
   name = "db_api_url"
   \# pseudo code
   \# computes the url for other stacks to use
   default_value = "<%= compute_url() %>"
 }
-OBJECT(db_password, ParameterResource) {
+OBJECT(db_password, HostgroupParameterResource) {
   name = "db_password"
 }
 
@@ -214,10 +230,10 @@ password_override .up.> db_password : uses
 
 !definelong WEBSERVERSTACKINTERFACE
 OBJECT(web_server_hostgroup, HostgroupResource)
-OBJECT("db_password" as db_password2, ParameterResource) {
+OBJECT("db_password" as db_password2, HostgroupParameterResource) {
   name = "db_password"
 }
-OBJECT("db_api_url" as db_api_url2, ParameterResource) {
+OBJECT("db_api_url" as db_api_url2, HostgroupParameterResource) {
   name = "db_api_url"
 }
 web_server --> web_server_hostgroup : is composed of
@@ -252,7 +268,7 @@ OBJECT(db_password_override, ParameterOverrideResource) {
   "'web_server_hostgroup', 'db_password') %>"
 }
 
-OBJECT(db_password2, ParameterResource) {
+OBJECT(db_password2, HostgroupParameterResource) {
   name = "db_password"
 }
 
@@ -287,7 +303,7 @@ OBJECT(web_app, Stack)
 OBJECT(master_hostgroup, HostgroupResource) {
   name = "master_hostgroup"
 }
-OBJECT(master_password, ParameterResource) {
+OBJECT(master_password, HostgroupParameterResource) {
   name = "master_password"
   default_value = "changeme"
 }
