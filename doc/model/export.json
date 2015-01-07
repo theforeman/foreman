@@ -1,0 +1,70 @@
+{
+  "stacks": [
+    {
+      "id": "db",
+      "name": "db"
+    }
+    // other stacks
+  ],
+  "param_resources": [
+    {
+      "id": "db_password",
+      "stack": "db",
+      "name": "db_password",
+      "hostgroup_resource": "db"
+    },
+    {
+      "id": "db_api_url",
+      "stack": "db",
+      "name": "db_api_url",
+      // pseudo code, computes the url for other stacks to use
+      "default_value": "<%= compute_url() %>",
+      "hostgroup_resource": "db"
+    }
+  ],
+  "param_override_resources": [
+    {
+      "id": "password_override",
+      "stack": "db",
+      "name": "password_override",
+      "key": "$postgress::password",
+      // just pseudo code
+      "value": "<%= get_param('db', 'db_hostgroup', 'db_password') %>",
+      "hostgroup_resource": "db"
+    }
+  ],
+  "hostgroup_resources": [
+    {
+      "id": "db",
+      "stack": "db"
+    }
+  ],
+  "host_resources": [
+    {
+      "id": "db",
+      "stack": "db",
+      "min": 1,
+      "max": 1,
+      "hostgroup_resource": "db"
+    }
+  ],
+  "puppet_class_resources": [
+    {
+      "id": "postgres",
+      "name": "postgres",
+      "stack": "db",
+      "hostgroup_resource": "db"
+    }
+  ],
+  "puppet_run_resources": [
+    {
+      "id": "db1",
+      "host_resource": "db"
+    },
+    {
+      "id": "db2",
+      "host_resource": "db",
+      "depends_on": "db1"
+    }
+  ]
+}

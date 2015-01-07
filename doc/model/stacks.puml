@@ -1,0 +1,57 @@
+@startuml
+
+!include shared.puml
+FONT
+
+title Stacks
+
+class Stack {
+    String name
+    String description nullable
+    --
+    \# has_many :children, through: :child_stacks
+    Stack children()
+    .. notes ..
+    Composable pieces of infrastructure
+    templates. The instructions needed
+    to assemble a set of resources for a
+    specific purpose, e.g. Database,
+    Load balancer, Neutron networked, etc.
+}
+
+Stack "1" *--> "1..*" Resource : is composed of
+
+RESOURCES
+
+ChildStackResource "0..*" o-up--> "1" Stack : child
+note on link: Acyclic graph of Stacks.
+
+RESOURCESASSOCIATIONS
+
+class ContainerResource {
+    .. notes ..
+    in future
+}
+class ExternalCommandResource {
+    .. notes ..
+    in future
+}
+
+hide ContainerResource
+hide ExternalCommandResource
+hide ParameterOverrideResource
+hide ParameterUpdateResource
+'hide PuppetRunResource
+'hide HostResource
+hide HostgroupResource
+hide SubnetTypeResource
+hide ParameterResource
+hide HostgroupParameterResource
+hide DeploymentParameterResource
+hide ComputeResourceResource
+hide PuppetClassResource
+hide ConnectParameterResource
+hide InterfaceResource
+hide ComputeProfileResource
+
+@enduml

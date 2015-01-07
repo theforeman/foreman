@@ -1,0 +1,78 @@
+@startuml
+
+!include shared.puml
+FONT
+
+title Deployment instances
+
+class Hostgroup FOREMAN
+class Host FOREMAN
+class Interface FOREMAN
+class Subnet FOREMAN
+
+RESOURCES
+
+hide Resource
+hide Ordered
+hide ChildStackResource
+
+class HostgroupDeployment {
+    .. notes ..
+    hostgroup created for a given
+    resource within given deployment
+}
+HostgroupDeployment -[#DEPLOYCOLOR]-> "1" Deployment
+HostgroupDeployment -up[#DEPLOYCOLOR]-> "1" Hostgroup
+HostgroupDeployment -up[#DEPLOYCOLOR]-> "1" HostgroupResource
+
+HostgroupParameterResource ..> Hostgroup : configures
+ParameterOverrideResource ..> Hostgroup : configures
+PuppetClassResource ..> Hostgroup : configures
+ComputeResourceResource ..> Host : limits user's\nselection
+ComputeProfileResource ..> Host : limits user's\nselection
+
+class SubnetTypeDeployment {
+    .. notes ..
+    subnet selection for a given
+    resource within given deployment
+}
+SubnetTypeDeployment -[#DEPLOYCOLOR]-> "1" Deployment
+SubnetTypeDeployment -up[#DEPLOYCOLOR]-> "1" Subnet
+SubnetTypeDeployment -up[#DEPLOYCOLOR]-> "1" SubnetTypeResource
+
+SubnetTypeResource ..> Host : defines subnet\nrequirements
+Interface -right-> Subnet : assigned in
+
+class InterfaceDeployment {
+    .. notes ..
+    interface created for a given
+    resource within given deployment
+}
+InterfaceDeployment -[#DEPLOYCOLOR]-> "1" Deployment
+InterfaceDeployment -up[#DEPLOYCOLOR]-> "1" Interface
+InterfaceDeployment -up[#DEPLOYCOLOR]-> "1" InterfaceResource
+Interface -left.>  Host : blocks IP\naddresses
+
+class HostDeployment {
+    .. notes ..
+    host provisioned (not configured)
+    for a given resource within given
+    deployment
+}
+HostDeployment -[#DEPLOYCOLOR]-> "1" Deployment
+HostDeployment -up[#DEPLOYCOLOR]-> "1" Host
+HostDeployment -up[#DEPLOYCOLOR]-> "1" HostResource
+
+ParameterUpdateResource ..> Hostgroup : updates
+
+PuppetRun ..> Host : on
+
+Host -up-> Hostgroup : in
+
+RESOURCESASSOCIATIONS
+
+legend
+    Green - Associations composing deployment instance
+end legend
+
+@enduml

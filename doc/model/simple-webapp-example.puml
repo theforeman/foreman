@@ -1,0 +1,56 @@
+@startuml
+
+!include shared.puml
+FONT
+title Example of a simple stack describing web application.
+
+OBJECT(db, Stack)
+DBSTACK
+OBJECT(web_server, Stack)
+WEBSERVERSTACK
+LOADBALANCERSTACK
+WEBAPPSTACK
+
+OBJECT(my_web_app, Deployment) {
+  name = "my_web_app"
+}
+
+my_web_app -up[#DEPLOYCOLOR]--------> web_app : deploys
+
+DEPLOYOBJECT(HostDeployment)
+DEPLOYOBJECT(HostgroupDeployment)
+FOREMANOBJECT(Host)
+FOREMANOBJECT(Hostgroup)
+DEPLOYOBJECT(Deployment)
+
+!definelong DEPLOY(name,type)
+OBJECT(name##_deployment, type##Deployment)
+OBJECT("name" as name##_realized, type)
+name##_deployment -[#DEPLOYCOLOR]-> my_web_app
+name##_deployment -[#DEPLOYCOLOR]-> name##_realized
+name##_deployment -up[#DEPLOYCOLOR]-> name
+!enddefinelong
+
+!definelong DEPLOY(name,type,alias)
+OBJECT(alias##_deployment, type##Deployment)
+OBJECT("alias" as alias##_realized, type)
+alias##_deployment -[#DEPLOYCOLOR]-> my_web_app
+alias##_deployment -[#DEPLOYCOLOR]-> alias##_realized
+alias##_deployment -up[#DEPLOYCOLOR]-> name
+!enddefinelong
+
+DEPLOY(web_server_hostgroup, Hostgroup)
+DEPLOY(db_hostgroup, Hostgroup)
+DEPLOY(sinatra_instances, Host, sinatra_instance1)
+DEPLOY(sinatra_instances, Host, sinatra_instance2)
+DEPLOY(db_server, Host)
+
+legend left
+red - stack part of the data model
+green - deployment part of the data model
+yellow - Foreman models
+blue - connecting in/output parameters and parent hostgroups
+  of the stacks
+end legend
+
+@enduml

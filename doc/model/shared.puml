@@ -1,0 +1,343 @@
+!define DEPLOYCOLOR DarkGreen
+!define FOREMANCOLOR DarkOrange
+!define CONNECTIONCOLOR DarkBlue
+!define FOREMAN << (C,FOREMANCOLOR) Foreman >>
+!define ORDERED << (C,green) Ordered >>
+!define FONT skinparam defaultFontName "Helvetica Neue"
+!define OBJECT(name,klass) object name <<klass>>
+!define DEPLOYOBJECT(type) skinparam objectBorderColor<<type>> DEPLOYCOLOR
+!define FOREMANOBJECT(type) skinparam objectBorderColor<<type>> FOREMANCOLOR
+
+!definelong RESOURCES
+interface Ordered <<(M,orchid)>>
+abstract class Resource {
+    .. notes ..
+    A Foreman object to be configured or created
+    to form an Deployment instance.
+}
+
+class HostgroupResource {
+    String name
+    .. notes ..
+    Parent is HostgroupResource
+    or it's provided on Deployment
+    configuration.
+}
+
+class ParameterResource {
+    String name
+    String description # intent
+    String default_value # optional
+    .. notes ..
+    Validations, like list of allowed
+    values.
+}
+
+class HostgroupParameterResource {
+    .. notes ..
+    Turns into GroupParameter.
+}
+
+class DeploymentParameterResource {
+    .. notes ..
+    Turns into DeploymentParameter.
+}
+
+class ParameterOverrideResource {
+    String key
+    String value # optional, ERB
+    .. notes ..
+    If value is not present it
+    needs to be supplied on
+    deployment configuration.
+}
+
+class ComputeResourceResource {
+    String type
+    Boolean image_based
+    String image_url nullable
+    .. notes ..
+    Each ComputeResourceResource allows
+    particular ComputeResource type for
+    a given HostResource. It has to
+    contain image_url when image_based.
+}
+
+class ComputeProfileResource {
+    .. notes ..
+    Type limitations.
+    Can be added later or stored
+    directly on HostResource.
+}
+
+class PuppetClassResource {
+    String name
+    \# of the class to add
+    .. notes ..
+    possibly allot to limit
+    puppet class versions
+}
+
+class SubnetTypeResource {
+    String name
+    .. notes ..
+    like Staypuft
+    network types
+}
+
+class InterfaceResource {
+    String ip
+    .. notes ..
+    creates interface without
+    Host to reserve IP
+}
+
+class HostResource {
+    String name # "db-%02d"
+    Integere min
+    Integere max
+}
+
+class ConnectParameterResource {
+    .. notes ..
+    Possibly allow to define
+    a transformation function.
+    Only resource allowing to connect
+    resources form child stacks.
+    ERB is inserted to destination
+    to propagate value from source.
+}
+
+class ChildStackResource ORDERED
+
+class ParameterUpdateResource ORDERED {
+    Staring value
+    .. notes ..
+    possibly ERB to compute new value
+}
+
+class PuppetRunResource ORDERED
+
+Resource <|-[#gray]- HostgroupResource
+Resource <|-[#gray]- ParameterResource
+ParameterResource <|-[#gray]- HostgroupParameterResource
+ParameterResource <|-[#gray]- DeploymentParameterResource
+Resource <|-[#gray]- ParameterOverrideResource
+Resource <|-[#gray]- PuppetClassResource
+Resource <|-[#gray]- ComputeResourceResource
+Resource <|-[#gray]- ComputeProfileResource
+Resource <|-[#gray]- SubnetTypeResource
+Resource <|-[#gray]- InterfaceResource
+Resource <|-[#gray]- ConnectParameterResource
+
+Resource <|-[#gray]- ChildStackResource
+Resource <|-[#gray]- HostResource
+Resource <|-[#gray]- ParameterUpdateResource
+Resource <|-[#gray]- PuppetRunResource
+
+Ordered <|-[#gray]-- ChildStackResource
+Ordered <|-[#gray]-- ParameterUpdateResource
+Ordered <|-[#gray]-- PuppetRunResource
+
+!enddefinelong
+
+!definelong RESOURCESASSOCIATIONS
+
+Ordered "0..*" --> "0..*" Ordered : depends on
+note on link
+    Acyclic graph of dependencies.
+    Defines order between Resources.
+    Used by orchestration to deploy.
+end note
+
+
+PuppetRunResource "0..*" --> "1" HostResource : on
+InterfaceResource "0..*" --> "1" SubnetTypeResource : where
+HostgroupParameterResource "0..*" --> "0..1" HostgroupResource : will be\nadded to
+ParameterUpdateResource "0..*" --> "1" ParameterResource : updates
+ParameterOverrideResource "0..*" --> "1" PuppetClassResource : overrides\nin
+PuppetClassResource "0..*" --> "1" HostgroupResource : will be\nadded to
+HostResource "0..*" --> "0..*" SubnetTypeResource : connects to
+HostResource "1..*" --> "1..*" ComputeResourceResource : allowed ComputeResources
+HostResource "0..*" --> "1" ComputeProfileResource : limited by
+ConnectParameterResource "0..*" --> "1" ParameterResource : source
+ConnectParameterResource "0..1" --> "1" ParameterResource : destination
+HostResource "0..*" --> "1" HostgroupResource : provisions in
+HostgroupResource "0..*" <-- "0..1" HostgroupResource : be parent of
+note on link
+    Foreign keys cannot be stored on
+    target HostgroupResource.
+    It would prevent Stack share-ability.
+end note
+!enddefinelong
+
+
+!definelong DBSTACKINTERFACE
+OBJECT(db_hostgroup, HostgroupResource)
+OBJECT(db_api_url, HostgroupParameterResource) {
+  name = "db_api_url"
+  \# pseudo code
+  \# computes the url for other stacks to use
+  default_value = "<%= compute_url() %>"
+}
+OBJECT(db_password, HostgroupParameterResource) {
+  name = "db_password"
+}
+
+db --> db_hostgroup : is composed_of
+db --> db_password : is composed_of
+db --> db_api_url : is composed_of
+!enddefinelong
+
+
+!definelong DBSTACK
+DBSTACKINTERFACE
+
+OBJECT(db_server, HostResource) {
+  min = 1
+  max = 1
+}
+
+OBJECT(postgres, PuppetClassResource) {
+  name = postgres
+}
+
+OBJECT(password_override, ParameterOverrideResource) {
+  key = "$postgres::password"
+  \# only pseudo
+  value =
+  "<%= get_param('db', "+
+  "'db_hostgroup', 'db_password') %>"
+}
+
+OBJECT(db_puppetrun, PuppetRunResource)
+
+db --> db_server : is composed_of
+db --> postgres : is composed_of
+db --> password_override : is composed_of
+db --> db_puppetrun : is composed_of
+
+postgres --> db_hostgroup : will be added to
+db_api_url --> db_hostgroup : will be added to
+db_password --> db_hostgroup : will be added to
+db_server --> db_hostgroup : provisions in
+password_override --> postgres : overrides in
+db_puppetrun --> db_server : on
+
+password_override .up.> db_password : uses
+!enddefinelong
+
+
+!definelong WEBSERVERSTACKINTERFACE
+OBJECT(web_server_hostgroup, HostgroupResource)
+OBJECT("db_password" as db_password2, HostgroupParameterResource) {
+  name = "db_password"
+}
+OBJECT("db_api_url" as db_api_url2, HostgroupParameterResource) {
+  name = "db_api_url"
+}
+web_server --> web_server_hostgroup : is composed of
+web_server --> db_password2: is composed of
+web_server --> db_api_url2: is composed of
+!enddefinelong
+
+
+!definelong WEBSERVERSTACK
+WEBSERVERSTACKINTERFACE
+
+OBJECT(sinatra, PuppetClassResource)
+OBJECT(sinatra_instances, HostResource) {
+  min = 1
+  max = nil # unlimited
+}
+OBJECT(web_server_puppetrun, PuppetRunResource)
+
+OBJECT(db_url_override, ParameterOverrideResource) {
+  key = "$sinatra::db::url"
+  \# only pseudo
+  value =
+  "<%= get_param('web_server', "+
+  "'web_server_hostgroup', 'db_api_url') %>"
+}
+
+OBJECT(db_password_override, ParameterOverrideResource) {
+  key = "$sinatra::db::password"
+  \# only pseudo
+  value =
+  "<%= get_param('web_server', "+
+  "'web_server_hostgroup', 'db_password') %>"
+}
+
+OBJECT(db_password2, HostgroupParameterResource) {
+  name = "db_password"
+}
+
+
+web_server --> sinatra : is composed of
+web_server --> sinatra_instances : is composed of
+web_server --> web_server_puppetrun : is composed of
+web_server --> db_url_override: is composed of
+web_server --> db_password_override: is composed of
+
+sinatra --> web_server_hostgroup : will be added to
+sinatra_instances --> web_server_hostgroup : provisions in
+web_server_puppetrun --> sinatra_instances : on
+db_api_url2 --> web_server_hostgroup : will be added to
+db_password2 --> web_server_hostgroup : will be added to
+db_url_override --> sinatra : overrides in
+db_password_override --> sinatra : overrides in
+
+db_url_override .up.> db_api_url2 : uses
+db_password_override .up.> db_password2 : uses
+!enddefinelong
+
+!definelong CONNECT(from,to,instack)
+OBJECT(from##2##to, ConnectParameterResource)
+instack --> from##2##to : is composed of
+from##2##to <-[#CONNECTIONCOLOR]-- from : source
+from##2##to -[#CONNECTIONCOLOR]--> to : destination
+!enddefinelong
+
+!definelong WEBAPPSTACK
+OBJECT(web_app, Stack)
+OBJECT(master_hostgroup, HostgroupResource) {
+  name = "master_hostgroup"
+}
+OBJECT(master_password, HostgroupParameterResource) {
+  name = "master_password"
+  default_value = "changeme"
+}
+
+OBJECT(db_child, ChildStackResource)
+OBJECT(load_balancer_child, ChildStackResource)
+OBJECT(web_server_child, ChildStackResource)
+
+web_app --> db_child : is composed_of
+db_child --> db : child
+web_app --> load_balancer_child : is composed_of
+load_balancer_child --> load_balancer : child
+web_app --> web_server_child : is composed_of
+web_server_child --> web_server : child
+
+web_server_child --> load_balancer_child : depends on
+web_server_child --> db_child : depends on
+
+web_app --> master_password : is composed_of
+web_app --> master_hostgroup : is composed_of
+master_password --> master_hostgroup : will be added to
+
+CONNECT(master_password,db_password,web_app)
+CONNECT(master_password,db_password2,web_app)
+CONNECT(db_api_url,db_api_url2,web_app)
+
+master_hostgroup -[#CONNECTIONCOLOR]-> db_hostgroup : be parent of
+master_hostgroup -[#CONNECTIONCOLOR]-> web_server_hostgroup : be parent of
+!enddefinelong
+
+
+!definelong LOADBALANCERSTACK
+OBJECT(load_balancer, Stack) {
+    ..notes..
+    resources omitted
+}
+!enddefinelong

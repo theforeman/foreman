@@ -1,0 +1,11 @@
+@startuml
+
+title Web server stack example
+
+!include shared.puml
+FONT
+
+OBJECT(web_server, Stack)
+WEBSERVERSTACK
+
+@enduml

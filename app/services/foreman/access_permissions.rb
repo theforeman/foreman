@@ -607,6 +607,17 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :import_subnets,  {:subnets => [:import, :create_multiple]}
   end
 
+  permission_set.security_block :deployments do |map|
+    map.permission :view_deployments,     {:deployments => [:index, :show, :auto_complete_search],
+                                          :"api/v2/deployments" => [:index, :show]}
+    map.permission :create_deployments,   {:deployments => [:new, :create],
+                                          :"api/v2/deployments" => [:create]}
+    map.permission :edit_deployments,     {:deployments => [:edit, :update],
+                                          :"api/v2/deployments" => [:update]}
+    map.permission :destroy_deployments,  {:deployments => [:destroy],
+                                          :"api/v2/deployments" => [:destroy]}
+  end
+
   if SETTINGS[:organizations_enabled]
     permission_set.security_block :organizations do |map|
       map.permission :view_organizations, {:organizations =>  [:index, :show, :auto_complete_search],

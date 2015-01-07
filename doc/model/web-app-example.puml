@@ -1,0 +1,32 @@
+@startuml
+
+title Web application stack example
+
+!include shared.puml
+FONT
+
+package DB <<Rect>> {
+    OBJECT(db, Stack)
+    DBSTACKINTERFACE
+}
+
+package WebServer <<Rect>> {
+    OBJECT(web_server, Stack)
+    WEBSERVERSTACKINTERFACE
+}
+
+package LoadBalancer <<Rect>> {
+    LOADBALANCERSTACK
+}
+
+WEBAPPSTACK
+
+legend
+-   Stack is not connected to any existing Foreman models to allow sharing.
+-   ParameterResource defines inputs and outputs through parameters to avoid
+    entanglement between stacks.
+-   ConnectParameterResource connects parameters between child stacks in a given
+    parent.
+end legend
+
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+
+title Resource Types
+
+!include shared.puml
+FONT
+RESOURCES
+RESOURCESASSOCIATIONS
+
+legend
+All types share a single table.
+It's using STI. Plugins can add another implementations.
+end legend
+
+@enduml
