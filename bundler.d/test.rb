@@ -12,6 +12,5 @@ group :test do
   gem 'launchy', '~> 2.4'
   gem 'spork', '~> 0.9'
   gem 'factory_girl_rails', '~> 4.5', :require => false
-  gem 'oj', '~> 2.10'
   gem 'rubocop-checkstyle_formatter', '~> 0.1'
 end
