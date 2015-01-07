@@ -10,15 +10,11 @@ class Coreos < Operatingsystem
   end
 
   def pxedir
-    'amd64-usr/' + [self.major, self.minor ].compact.join('.')
+    'amd64-usr/$version'
   end
 
   def display_family
     'CoreOS'
-  end
-
-  def boot_files_uri(medium, architecture, host = nil)
-    super(medium, architecture, host)
   end
 
   # Does this OS family use release_name in its naming scheme
