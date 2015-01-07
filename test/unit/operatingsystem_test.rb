@@ -225,9 +225,9 @@ class OperatingsystemTest < ActiveSupport::TestCase
   end
 
   test "should find os name using free text search only" do
-    operatingsystems = Operatingsystem.search_for('OpenSuse')
+    operatingsystems = Operatingsystem.search_for('centos')
     assert_equal 1, operatingsystems.count
-    assert_equal operatingsystems(:suse), operatingsystems.first
+    assert_equal operatingsystems(:centos5_3), operatingsystems.first
   end
 
   test "should create os with a name of 255 characters" do
