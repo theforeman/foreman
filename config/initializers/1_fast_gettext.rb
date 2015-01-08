@@ -18,6 +18,11 @@ Foreman::Gettext::Support.register_human_localenames
 # work in all domains context by default (for plugins)
 include FastGettext::TranslationMultidomain
 
+# Keep TRANSLATORS comments
+Rails.application.config.gettext_i18n_rails.xgettext = %w[--add-comments=TRANSLATORS:]
+# Disable fuzzy .po merging
+Rails.application.config.gettext_i18n_rails.msgmerge = %w[--no-fuzzy-matching]
+
 # When mark_translated setting is set, we will wrap all translated strings
 # which is useful when translating code base.
 if SETTINGS[:mark_translated] and not Rails.env.test?
