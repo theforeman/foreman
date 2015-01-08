@@ -99,11 +99,23 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     refute @importer.operatingsystem.description
   end
 
-  test "should set os.major and minor for from AIX facts" do
+  test "should set os.major and minor correctly from AIX facts" do
     @importer = PuppetFactParser.new(aix_facts)
     assert_equal 'AIX', @importer.operatingsystem.family
     assert_equal '6100', @importer.operatingsystem.major
     assert_equal '0604', @importer.operatingsystem.minor
+  end
+
+  test 'should handle FreeBSD rolling releases correctly' do
+    @importer = PuppetFactParser.new(freebsd_stable_facts)
+    assert_equal '10', @importer.operatingsystem.major
+    assert_equal '1', @importer.operatingsystem.minor
+  end
+
+  test 'should handle FreeBSD patch releases correctly' do
+    @importer = PuppetFactParser.new(freebsd_patch_facts)
+    assert_equal '10', @importer.operatingsystem.major
+    assert_equal '1', @importer.operatingsystem.minor
   end
 
   test "#get_interfaces" do
@@ -230,5 +242,13 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def aix_facts
     JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_aix.json')))['facts']
+  end
+
+  def freebsd_stable_facts
+    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_freebsd_stable.json')))['facts']
+  end
+
+  def freebsd_patch_facts
+    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_freebsd_patch.json')))['facts']
   end
 end
