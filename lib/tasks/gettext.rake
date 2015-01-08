@@ -20,7 +20,8 @@ begin
 
   desc 'Extract plugin strings - called via rake plugin:gettext[plugin_name]'
   task 'plugin:gettext', :engine do |t, args|
-    @engine = "#{args[:engine].camelize}::Engine".constantize
+    @domain = args[:engine]
+    @engine = "#{@domain.camelize}::Engine".constantize
     @engine_root = @engine.root
 
     namespace :gettext do
@@ -31,10 +32,13 @@ begin
       def files_to_translate
         Dir.glob("#{@engine.root}/{app,db,lib,config,locale}/**/*.{rb,erb,haml,slim,rhtml,js}")
       end
+
+      def text_domain
+        @domain
+      end
     end
 
-    Foreman::Gettext::Support.add_text_domain args[:engine], "#{@engine_root}/locale"
-    ENV['TEXTDOMAIN'] = args[:engine]
+    Foreman::Gettext::Support.add_text_domain @domain, "#{@engine_root}/locale"
 
     Rake::Task['gettext:find'].invoke
   end

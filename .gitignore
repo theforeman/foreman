@@ -28,6 +28,8 @@ doc/apidoc*
 .ruby-version*
 .ruby-gemset*
 locale/*.mo
+locale/*/*.edit.po
+locale/*/*.po.time_stamp
 locale/*/*.pox
 locale/*/LC_MESSAGES
 coverage/
