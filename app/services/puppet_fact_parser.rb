@@ -24,6 +24,8 @@ class PuppetFactParser < FactParser
       elsif os_name[/JUNOS/i]
         majorjunos, minorjunos = orel.split("R")
         orel = majorjunos + "." + minorjunos
+      elsif os_name[/FreeBSD/i]
+        orel.gsub!(/\-RELEASE\-p[0-9]+/, '')
       end
       major, minor = orel.split(".")
       major.to_s.gsub!(/\D/, '') unless is_numeric? major
