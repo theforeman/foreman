@@ -195,6 +195,11 @@ module Host
       self.interfaces.is_managed.where(:identifier => identifiers).all
     end
 
+    def self.authorized_resource_name
+      # We don't want STI subclasses to have separate permissions
+      'Host'
+    end
+
     private
 
     def set_interface(attributes, name, iface)

@@ -238,6 +238,11 @@ class Operatingsystem < ActiveRecord::Base
     end
   end
 
+  def self.authorized_resource_name
+    # We don't want STI subclasses to have separate permissions
+    Operatingsystem.name
+  end
+
   private
   def set_family
     self.family ||= self.deduce_family
