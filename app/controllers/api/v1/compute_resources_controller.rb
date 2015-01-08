@@ -26,7 +26,7 @@ module Api
       param :compute_resource, Hash, :required => true do
         param :name, String, :required => true
         param :provider, String, :desc => "Providers include #{ComputeResource.providers.join(', ')}"
-        param :url, String, :required => true, :desc => "URL for Libvirt, Ovirt, and Openstack"
+        param :url, String, :desc => "URL for Libvirt, Ovirt, and Openstack"
         param :description, String
         param :user, String, :desc => "Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2."
         param :password, String, :desc => "Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2"
