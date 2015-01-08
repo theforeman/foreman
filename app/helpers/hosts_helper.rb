@@ -11,7 +11,7 @@ module HostsHelper
                     :selected => selected_taxonomy }
     html_opts = { :disabled => !@host.new_record?,
                   :onchange => "#{taxonomy.to_s.downcase}_changed(this);",
-                  :label => _("#{taxonomy.to_s}"),
+                  :label => _(taxonomy.to_s),
                   :'data-host-id' => @host.id,
                   :'data-url' => process_taxonomy_hosts_path,
                   :help_inline => :indicator,
