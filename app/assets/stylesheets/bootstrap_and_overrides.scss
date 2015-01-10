@@ -194,3 +194,20 @@ span.btn a{ text-decoration: none; color: #333333}
 body.modal-open {
   overflow: visible;
 }
+
+// The following block can be safely replaced by form-control-feedback on Bootstrap 3.1+
+// form-control-feedback backport from Bootstrap 3.1+
+.form-control {
+  padding-right: 30px;
+}
+
+.form-control + .glyphicon {
+  position: absolute;
+  right: 0;
+  padding: 9px 37px;
+}
+
+.input-addon {
+  color: black;
+}
+// eof form-control-feedback

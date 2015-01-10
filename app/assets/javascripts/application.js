@@ -108,6 +108,8 @@ function onContentLoad(){
     $("#fakepassword").remove();
   });
 
+  password_caps_lock_hint();
+
   var tz = jstz.determine();
   $.cookie('timezone', tz.name(), { path: '/' });
 }
@@ -116,6 +118,25 @@ function preserve_selected_options(elem) {
   // mark the selected values to preserve them for form hiding
   elem.find('option:not(:selected)').removeAttr('selected');
   elem.find('option:selected').attr('selected', 'selected');
+}
+
+function password_caps_lock_hint() {
+  $('[type=password]').keypress(function(e) {
+    var $addon         = $(this).parent().children('.input-addon'),
+        key            = String.fromCharCode(e.which);
+
+    if (check_caps_lock(key, e)){
+      if (!$addon.is(':visible'))
+        $addon.show();
+    } else if ($addon.is(':visible')) {
+      $addon.hide();
+    }
+  });
+}
+
+//Tests if letter is upper case and the shift key is NOT pressed.
+function check_caps_lock(key, e) {
+  return key.toUpperCase() === key && key.toLowerCase() !== key && !e.shiftKey
 }
 
 function remove_fields(link) {

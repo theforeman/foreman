@@ -25,7 +25,9 @@ function providerSelected(item)
   var url = $(item).attr('data-url');
   var data = 'provider=' + provider;
   compute_connection.show();
-  compute_connection.load(url + ' div#compute_connection', data);
+  compute_connection.load(url + ' div#compute_connection', data, function () {
+    password_caps_lock_hint()
+  });
 }
 
 function testConnection(item) {
