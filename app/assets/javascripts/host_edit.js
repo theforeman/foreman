@@ -617,11 +617,15 @@ function interface_type_selected(element) {
     value: $('#host_compute_resource_id').val()
   })
 
-  $.ajax({
-    data: data,
-    type: 'GET',
-    url: fieldset.attr('data-url'),
-    dataType: 'script'
+  request = $.ajax({
+              data: data,
+              type: 'GET',
+              url: fieldset.attr('data-url'),
+              dataType: 'script'
+            });
+
+  request.done(function() {
+    password_caps_lock_hint();
   });
 }
 

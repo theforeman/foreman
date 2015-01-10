@@ -51,12 +51,13 @@ module LayoutHelper
 
   def password_f(f, attr, options = {})
     password_field_tag(:fakepassword, nil, :style => 'display: none') +
-    # The actual field.
     field(f, attr, options) do
-      options[:autocomplete] ||= "off"
-      options[:placeholder] ||= password_placeholder(f.object)
-      addClass options, "form-control"
-      f.password_field attr, options
+      options[:autocomplete]   ||= 'off'
+      options[:placeholder]    ||= password_placeholder(f.object)
+      addClass options, 'form-control'
+      f.password_field(attr, options) +
+      '<span class="glyphicon glyphicon-warning-sign input-addon"
+             title="' + _('Caps lock ON') + '" style="display:none"></span>'.html_safe
     end
   end
 
@@ -151,7 +152,6 @@ module LayoutHelper
   def field(f, attr, options = {})
     error = f.object.errors[attr] if f && f.object.respond_to?(:errors)
     help_inline = help_inline(options.delete(:help_inline), error)
-
     help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
     size_class = options.delete(:size) || "col-md-4"
     content_tag(:div, :class=> "clearfix") do
