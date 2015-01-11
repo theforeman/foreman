@@ -134,7 +134,7 @@ module Api
 
       def check_content_type
         if (request.post? || request.put?) && request.content_type != "application/json"
-          render_error(:unsupported_content_type, :status => 415)
+          render_error(:unsupported_content_type, :status => :unsupported_media_type)
         end
       end
 
