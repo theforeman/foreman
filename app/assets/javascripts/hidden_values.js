@@ -28,6 +28,15 @@ function turn_textarea_switch() {
   })
 }
 
+function hidden_value_control(){
+  $(".toggle-hidden-value a").click(function(event){
+    event.preventDefault();
+    var link = $(event.currentTarget);
+    link.find("i").toggleClass("glyphicon-plus").toggleClass("glyphicon-minus");
+    link.parent().toggleClass("unhide");
+  });
+}
+
 // normal page load trigger
 $(document).ready(turn_text_switch);
 
@@ -39,3 +48,9 @@ $(document).ready(turn_textarea_switch);
 
 // two-pane ajax trigger
 $(document).ajaxComplete(turn_textarea_switch);
+
+// normal page load trigger
+$(document).ready(hidden_value_control);
+
+// two-pane ajax trigger
+$(document).ajaxComplete(hidden_value_control);
