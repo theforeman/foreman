@@ -29,7 +29,7 @@ module Net
 
       # Verifies that a record already exists on the dns server
       def valid?
-        logger.debug "Fetching DNS reservation for #{to_s}"
+        logger.debug "Fetching DNS reservation for #{self}"
         self == dns_lookup(ip)
       end
 
