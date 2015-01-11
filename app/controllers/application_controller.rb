@@ -84,16 +84,14 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_request
-    render :text => _('Invalid query'), :status => 400
+    render :text => _('Invalid query'), :status => :bad_request
   end
 
   def not_found(exception = nil)
     logger.debug "not found: #{exception}" if exception
     respond_to do |format|
-      format.html { render "common/404", :status => 404 }
-      format.json { head :status => 404}
-      format.yaml { head :status => 404}
-      format.yml { head :status => 404}
+      format.html { render "common/404", :status => :not_found }
+      format.any { head :status => :not_found}
     end
     true
   end
@@ -103,7 +101,7 @@ class ApplicationController < ActionController::Base
       logger.error "#{exception.message} (#{exception.class})\n#{exception.backtrace.join("\n")}"
       msg = "/api/ prefix must now be used to access API URLs, e.g. #{request.env['HTTP_HOST']}/api#{request.env['REQUEST_URI']}"
       logger.error "DEPRECATION: #{msg}."
-      render :json => {:message => msg}, :status => 400
+      render :json => {:message => msg}, :status => :bad_request
     else
       raise exception
     end
@@ -220,12 +218,8 @@ class ApplicationController < ActionController::Base
 
   def render_403
     respond_to do |format|
-      format.html { render :template => "common/403", :layout => !request.xhr?, :status => 403 }
-      format.atom { head 403 }
-      format.yaml { head 403 }
-      format.yml  { head 403 }
-      format.xml  { head 403 }
-      format.json { head 403 }
+      format.html { render :template => "common/403", :layout => !request.xhr?, :status => :forbidden }
+      format.any  { head :forbidden }
     end
     false
   end
@@ -302,7 +296,7 @@ class ApplicationController < ActionController::Base
   def generic_exception(exception)
     logger.warn "Operation FAILED: #{exception}"
     logger.debug exception.backtrace.join("\n")
-    render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
+    render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception => exception}
   end
 
   def set_taxonomy
