@@ -138,16 +138,6 @@ Style/AndOr:
   Enabled: false
 
 # Offense count: 1
-Style/AsciiComments:
-  Enabled: false
-
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/BarePercentLiterals:
-  Enabled: false
-
-# Offense count: 1
 # Cop supports --auto-correct.
 Style/BlockComments:
   Enabled: false
