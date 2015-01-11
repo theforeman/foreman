@@ -610,8 +610,24 @@ context "location or organizations are not enabled" do
   test "handle_ca must not perform actions when the manage_puppetca setting is false" do
     h = FactoryGirl.create(:host)
     Setting[:manage_puppetca] = false
-    h.expects(:initialize_puppetca).never()
-    h.expects(:setAutosign).never()
+    h.expects(:initialize_puppetca).never
+    h.expects(:setAutosign).never
+    assert h.handle_ca
+  end
+
+  test "handle_ca must not perform actions when no Puppet CA proxy is associated even if associated with hostgroup" do
+    hostgroup = FactoryGirl.create(:hostgroup, :with_puppet_orchestration)
+    h = FactoryGirl.create(:host, :managed, :hostgroup => hostgroup)
+    Setting[:manage_puppetca] = true
+    assert h.puppet_proxy.present?
+    assert h.puppetca?
+
+    h.puppet_proxy_id = h.puppet_ca_proxy_id = nil
+    h.save
+
+    refute h.puppetca?
+
+    h.expects(:initialize_puppetca).never
     assert h.handle_ca
   end
 
@@ -619,7 +635,7 @@ context "location or organizations are not enabled" do
     h = FactoryGirl.create(:host)
     Setting[:manage_puppetca] = true
     refute h.puppetca?
-    h.expects(:initialize_puppetca).never()
+    h.expects(:initialize_puppetca).never
     assert h.handle_ca
   end
 

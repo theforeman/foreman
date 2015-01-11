@@ -170,6 +170,20 @@ FactoryGirl.define do
     trait :with_subnet do
       subnet
     end
+
+    trait :with_puppet_orchestration do
+      architecture
+      ptable
+      operatingsystem { FactoryGirl.create(:operatingsystem,
+                                           :architectures => [architecture], :ptables => [ptable] )
+      }
+      puppet_ca_proxy { FactoryGirl.create(:smart_proxy,
+                                            :features => [FactoryGirl.create(:feature, :puppetca)])
+      }
+      puppet_proxy { FactoryGirl.create(:smart_proxy,
+                        :features => [FactoryGirl.create(:feature, :puppet)])
+      }
+    end
   end
 
   factory :ptable do
