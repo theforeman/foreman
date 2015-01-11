@@ -9,4 +9,8 @@ class AuthSourceHidden < AuthSource
   def can_set_password?
     false
   end
+
+  def requires_email?
+    false
+  end
 end

@@ -66,8 +66,8 @@ class User < ActiveRecord::Base
                                           @[a-z0-9]+((\.[a-z0-9]+)*|(\-[a-z0-9]+)*)*\z/ix },
                    :length => { :maximum => 60 },
                    :allow_blank => true
-  validates :mail, :presence => true, :on => :update,
-                   :if => Proc.new { |u| !AuthSourceHidden.where(:id => u.auth_source_id).any? }
+  validates :mail, :presence => true,
+                   :if => Proc.new { |u| u.auth_source.try(:requires_email?) }
 
   validates :locale, :format => { :with => /\A\w{2}([_-]\w{2})?\Z/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
   before_validation :normalize_locale
