@@ -456,3 +456,10 @@ table {
     display: block;
   }
 }
+
+.toggle-hidden-value {
+  span {display: none;}
+  &.unhide span {
+    display: inline;
+  }
+}
