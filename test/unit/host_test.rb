@@ -1251,7 +1251,7 @@ context "location or organizations are not enabled" do
   test "can search hosts by params" do
     host = FactoryGirl.create(:host, :with_parameter)
     parameter = host.parameters.first
-    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
     assert_equal 1, results.count
     assert_equal parameter.value, results.first.params[parameter.name]
   end
@@ -1274,7 +1274,7 @@ context "location or organizations are not enabled" do
     hg = hostgroups(:common)
     host = FactoryGirl.create(:host, :hostgroup => hg)
     parameter = hg.group_parameters.first
-    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
     assert results.include?(host)
     assert_equal parameter.value, results.find(host).params[parameter.name]
   end
@@ -1284,7 +1284,7 @@ context "location or organizations are not enabled" do
     hg = FactoryGirl.create(:hostgroup, :parent => parent_hg)
     host = FactoryGirl.create(:host, :hostgroup => hg)
     parameter = parent_hg.group_parameters.first
-    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
     assert results.include?(host)
     assert_equal parameter.value, results.find(host).params[parameter.name]
   end
