@@ -225,7 +225,7 @@ class Setting < ActiveRecord::Base
 
   def clear_cache
     # ensures we don't have cache left overs in settings
-    Rails.logger.debug "removing #{name.to_s} from cache"
+    Rails.logger.debug "removing #{name} from cache"
     Setting.cache.delete(name.to_s)
   end
 

@@ -143,7 +143,7 @@ class Subnet < ActiveRecord::Base
   end
 
   def unused_ip(mac = nil, excluded_ips = [])
-    logger.debug "Not suggesting IP Address for #{to_s} as IPAM is disabled" and return unless ipam?
+    logger.debug "Not suggesting IP Address for #{self} as IPAM is disabled" and return unless ipam?
     if self.ipam == IPAM_MODES[:dhcp] && dhcp?
       # we have DHCP proxy so asking it for free IP
       logger.debug "Asking #{dhcp.url} for free IP"
@@ -163,7 +163,7 @@ class Subnet < ActiveRecord::Base
           return(ip)
         end
       end
-      logger.debug("Not suggesting IP Address for #{to_s} as no free IP found in our DB") and return
+      logger.debug("Not suggesting IP Address for #{self} as no free IP found in our DB") and return
     end
   rescue => e
     logger.warn "Failed to fetch a free IP from our proxy: #{e}"

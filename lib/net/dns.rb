@@ -47,12 +47,12 @@ module Net
       end
 
       def destroy
-        logger.info "Delete the DNS #{type} record for #{to_s}"
+        logger.info "Delete the DNS #{type} record for #{self}"
       end
 
       def create
         raise "Must define a hostname" if hostname.blank?
-        logger.info "Add DNS #{type} record for #{to_s}"
+        logger.info "Add DNS #{type} record for #{self}"
       end
 
       def attrs
@@ -66,12 +66,12 @@ module Net
       protected
 
       def generate_conflict_error
-        logger.warn "Conflicting DNS #{type} record for #{to_s} detected"
+        logger.warn "Conflicting DNS #{type} record for #{self} detected"
         e          = Net::Conflict.new
         e.type     = "dns"
         e.expected = to_s
         e.actual   = conflicts
-        e.message  = "DNS conflict detected - expected #{to_s}, found #{conflicts.map(&:to_s).join(', ')}"
+        e.message  = "DNS conflict detected - expected #{self}, found #{conflicts.map(&:to_s).join(', ')}"
         e
       end
 

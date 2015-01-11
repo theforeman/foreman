@@ -11,7 +11,7 @@ trap('TTIN') do
   puts "============================================="
   puts ""
   Thread.list.each do |thread|
-    puts "Thread TID-#{thread.object_id.to_s}"
+    puts "Thread TID-#{thread.object_id}"
     puts thread.backtrace
     puts ""
   end

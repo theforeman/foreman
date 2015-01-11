@@ -129,7 +129,7 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def test_attributes_in_SETTINGS_are_readonly
-    setting_name = "foo_#{rand(1000000).to_s}"
+    setting_name = "foo_#{rand(1000000)}"
     Setting.create!(:name => setting_name, :value => "bar", :default => "default", :description => "foo")
     SETTINGS[setting_name.to_sym] = "no-bar"
 
@@ -138,7 +138,7 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def test_value_is_updated_after_change_in_SETTINGS
-    setting_name = "foo_#{rand(1000000).to_s}"
+    setting_name = "foo_#{rand(1000000)}"
     Setting.create!(:name => setting_name, :value => "bar", :default => "default", :description => "foo")
 
     SETTINGS.stubs(:key?).with(setting_name.to_sym).returns(true)

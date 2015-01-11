@@ -15,24 +15,24 @@ module Net::DHCP
 
     # Deletes the DHCP entry
     def destroy
-      logger.info "Delete DHCP reservation for #{to_s}"
+      logger.info "Delete DHCP reservation for #{self}"
       # it is safe to call destroy even if the entry does not exists, so we don't bother with validating anything here.
       proxy.delete network, mac
     end
 
     # Create a DHCP entry
     def create
-      logger.info "Create DHCP reservation for #{to_s}"
+      logger.info "Create DHCP reservation for #{self}"
       begin
         raise "Must define a hostname" if hostname.blank?
         proxy.set network, attrs
       rescue RestClient::Conflict
-        logger.warn "Conflicting DHCP reservation for #{to_s} detected"
+        logger.warn "Conflicting DHCP reservation for #{self} detected"
         e          = Net::Conflict.new
         e.type     = "dhcp"
         e.expected = to_s
         e.actual   = conflicts
-        e.message  = "in DHCP detected - expected #{to_s}, found #{conflicts.map(&:to_s).join(', ')}"
+        e.message  = "in DHCP detected - expected #{self}, found #{conflicts.map(&:to_s).join(', ')}"
         raise e
       end
     end
@@ -45,7 +45,7 @@ module Net::DHCP
 
     # Verifies that are record already exists on the dhcp server
     def valid?
-      logger.info "Fetching DHCP reservation for #{to_s}"
+      logger.info "Fetching DHCP reservation for #{self}"
       self == proxy.record(network, mac)
     end
 
