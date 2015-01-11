@@ -101,7 +101,7 @@ class FactParser
             return [int, values]
           end
         rescue Resolv::ResolvError => e
-          logger.debug "could not resolv name for #{ip} because of #{e.to_s} #{e.message}"
+          logger.debug "could not resolv name for #{ip} because of #{e} #{e.message}"
           nil
         end
       end

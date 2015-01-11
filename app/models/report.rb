@@ -70,7 +70,7 @@ class Report < ActiveRecord::Base
   end
 
   def to_label
-    "#{host.name} / #{reported_at.to_s}"
+    "#{host.name} / #{reported_at}"
   end
 
   def config_retrieval

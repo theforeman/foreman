@@ -26,11 +26,6 @@ Lint/HandleExceptions:
 Lint/ParenthesesAsGroupedExpression:
   Enabled: false
 
-# Offense count: 23
-# Cop supports --auto-correct.
-Lint/StringConversionInInterpolation:
-  Enabled: false
-
 # Offense count: 54
 # Cop supports --auto-correct.
 Lint/UnusedBlockArgument:
