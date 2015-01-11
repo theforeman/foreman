@@ -571,7 +571,9 @@ class Host::Managed < Host::Base
 
   def set_hostgroup_defaults
     return unless hostgroup
-    assign_hostgroup_attributes(%w{environment_id domain_id puppet_proxy_id puppet_ca_proxy_id compute_profile_id})
+    assign_hostgroup_attributes(%w{environment_id domain_id compute_profile_id})
+    assign_hostgroup_attributes(["puppet_proxy_id"]) if new_record? || (!new_record? && !puppet_proxy_id.blank?)
+    assign_hostgroup_attributes(["puppet_ca_proxy_id"]) if new_record? || (!new_record? && !puppet_ca_proxy_id.blank?)
     if SETTINGS[:unattended] and (new_record? or managed?)
       assign_hostgroup_attributes(%w{operatingsystem_id architecture_id realm_id})
       assign_hostgroup_attributes(%w{medium_id ptable_id subnet_id}) if pxe_build?
@@ -877,6 +879,7 @@ class Host::Managed < Host::Base
 
   def assign_hostgroup_attributes(attrs = [])
     attrs.each do |attr|
+      next if send(attr).to_i == -1
       value = hostgroup.send("inherited_#{attr}")
       self.send("#{attr}=", value) unless send(attr).present?
     end
