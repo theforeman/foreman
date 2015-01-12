@@ -79,6 +79,8 @@ class LookupKeyTest < ActiveSupport::TestCase
       key    = LookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass, :default_value => default, :override=>true)
       value1 = LookupValue.create!(:value => "v1", :match => "environment=testing,hostgroup=Common", :lookup_key => key)
       value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
+
+      LookupValue.create!(:value => "v22", :match => "fqdn=#{@host2.fqdn}", :lookup_key => key)
       EnvironmentClass.create!(:puppetclass => puppetclass, :environment => environments(:testing), :lookup_key => key)
       HostClass.create!(:host => @host1,:puppetclass=>puppetclass)
       HostClass.create!(:host => @host2,:puppetclass=>puppetclass)
@@ -90,6 +92,8 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert_equal value1.value, Classification::ClassParam.new(:host=>@host1).enc['apache']['dns']
     assert_equal value2.value, Classification::ClassParam.new(:host=>@host2).enc['apache']['dns']
     assert_equal default, Classification::ClassParam.new(:host=>@host3).enc['apache']['dns']
+    assert key.overridden?(@host2)
+    refute key.overridden?(@host1)
   end
 
   def test_parameters_multiple_paths
