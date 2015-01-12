@@ -169,6 +169,11 @@ class LookupKey < ActiveRecord::Base
     value =~ /<%.*%>/
   end
 
+  def overridden?(host)
+    return false unless host.is_a?(Host::Base) || host.is_a?(Hostgroup)
+    lookup_values.find_by_match(host.send(:lookup_value_match)).present?
+  end
+
   private
 
   # Generate possible lookup values type matches to a given host
