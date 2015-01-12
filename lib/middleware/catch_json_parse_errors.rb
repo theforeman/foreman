@@ -7,8 +7,8 @@ module Middleware
     def call(env)
       begin
         @app.call(env)
-      rescue MultiJson::LoadError => error
-        if env['HTTP_ACCEPT'] =~ /application\/json/
+      rescue MultiJson::LoadError, MultiJson::ParseError => error
+        if env['HTTP_ACCEPT'] =~ /application\/json/ || env['CONTENT_TYPE'] =~ /application\/json/
           error_output = "There was a problem in the JSON you submitted: #{error}"
           Rails.logger.debug(error_output)
           return [
