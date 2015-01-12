@@ -30,7 +30,7 @@ module NestedAncestryCommon
 
   def get_title
     return name if ancestry.empty?
-    ancestors.map { |a| a.name + '/' }.join + name
+    ancestors.map { |a| a.name + '/' }.join + name.to_s
   end
 
   alias_method :get_label, :get_title
