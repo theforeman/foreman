@@ -28,7 +28,7 @@ class LookupValue < ActiveRecord::Base
   end
 
   def value_before_type_cast
-    return self.value if lookup_key.nil?
+    return self.value if lookup_key.nil? || lookup_key.contains_erb?(self.value)
     lookup_key.value_before_type_cast self.value
   end
 
@@ -42,7 +42,9 @@ class LookupValue < ActiveRecord::Base
   def validate_and_cast_value
     return true if self.marked_for_destruction? or !self.value.is_a? String
     begin
-      self.value = lookup_key.cast_validate_value self.value
+      unless self.lookup_key.contains_erb?(value)
+        self.value = lookup_key.cast_validate_value self.value
+      end
       true
     rescue StandardError, SyntaxError => e
       errors.add(:value, _("is invalid %s") % lookup_key.key_type)
@@ -51,13 +53,17 @@ class LookupValue < ActiveRecord::Base
   end
 
   def validate_regexp
-    return true unless (lookup_key.validator_type == 'regexp')
-    errors.add(:value, _("is invalid")) and return false unless (value =~ /#{lookup_key.validator_rule}/)
+    return true if (lookup_key.validator_type != 'regexp' || (lookup_key.contains_erb?(value) && Setting[:interpolate_erb_in_parameters]))
+    valid = (value =~ /#{lookup_key.validator_rule}/)
+    errors.add(:value, _("is invalid")) unless valid
+    valid
   end
 
   def validate_list
-    return true unless (lookup_key.validator_type == 'list')
-    errors.add(:value, _("%{value} is not one of %{rules}") % { :value => value, :rules => lookup_key.validator_rule }) and return false unless lookup_key.validator_rule.split(LookupKey::KEY_DELM).map(&:strip).include?(value)
+    return true if (lookup_key.validator_type != 'list' || (lookup_key.contains_erb?(value) && Setting[:interpolate_erb_in_parameters]))
+    valid = lookup_key.validator_rule.split(LookupKey::KEY_DELM).map(&:strip).include?(value)
+    errors.add(:value, _("%{value} is not one of %{rules}") % { :value => value, :rules => lookup_key.validator_rule }) unless valid
+    valid
   end
 
   def ensure_fqdn_exists

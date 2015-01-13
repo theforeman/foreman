@@ -158,6 +158,10 @@ class LookupKey < ActiveRecord::Base
     end
   end
 
+  def contains_erb?(value)
+    value =~ /<%.*%>/
+  end
+
   private
 
   # Generate possible lookup values type matches to a given host
@@ -200,7 +204,7 @@ class LookupKey < ActiveRecord::Base
 
 
   def validate_and_cast_default_value
-    return true if default_value.nil?
+    return true if default_value.nil? || contains_erb?(default_value)
     begin
       self.default_value = cast_validate_value self.default_value
       true
@@ -282,13 +286,17 @@ class LookupKey < ActiveRecord::Base
   end
 
   def validate_regexp
-    return true unless (validator_type == 'regexp')
-    errors.add(:default_value, _("is invalid")) and return false unless (default_value =~ /#{validator_rule}/)
+    return true if (validator_type != 'regexp' || (contains_erb?(default_value) && Setting[:interpolate_erb_in_parameters]))
+    valid = (default_value =~ /#{validator_rule}/)
+    errors.add(:default_value, _("is invalid")) unless valid
+    valid
   end
 
   def validate_list
-    return true unless (validator_type == 'list')
-    errors.add(:default_value, _("%{default_value} is not one of %{validator_rule}") % { :default_value => default_value, :validator_rule => validator_rule }) and return false unless validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
+    return true if (validator_type != 'list' || (contains_erb?(default_value) && Setting[:interpolate_erb_in_parameters]))
+    valid = validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
+    errors.add(:default_value, _("%{default_value} is not one of %{validator_rule}") % { :default_value => default_value, :validator_rule => validator_rule }) unless valid
+    valid
   end
 
   def disable_merge_overrides

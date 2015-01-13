@@ -2,7 +2,6 @@ require "test_helper"
 
 class ClassificationTest < ActiveSupport::TestCase
 
-  #TODO: add more tests here
   def setup
     host = FactoryGirl.create(:host,
                               :location => taxonomies(:location1),
@@ -586,6 +585,72 @@ class ClassificationTest < ActiveSupport::TestCase
     enc = classification.enc
 
     assert_equal 'child', enc["apache"][key.key]
+  end
+
+  test 'smart class parameter should accept string with erb for arrays and evaluate it properly' do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'array', :merge_overrides => false,
+                             :default_value => '<%= [1,2] %>', :path => "organization\nos\nlocation",
+                             :puppetclass => puppetclasses(:one))
+    assert_equal [1,2], classification.enc['base'][key.key]
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => '<%= [2,3] %>',
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => '<%= [3,4] %>',
+                          :use_puppet_default => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "os=#{operatingsystems(:redhat)}",
+                          :value => '<%= [4,5] %>',
+                          :use_puppet_default => false
+    end
+
+    key.reload
+    @classification = Classification::ClassParam.new(:host => classification.send(:host))
+
+    assert_equal({key.id => {key.key => {:value => '<%= [3,4] %>',
+                                         :element => 'organization',
+                                         :element_name => 'Organization 1'}}},
+                 classification.send(:values_hash))
+    assert_equal [3,4], classification.enc['base'][key.key]
+  end
+
+  test 'smart class parameter with erb values is validated after erb is evaluated' do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'string', :merge_overrides => false,
+                             :default_value => '<%= "a" %>', :path => "organization\nos\nlocation",
+                             :puppetclass => puppetclasses(:one),
+                             :validator_type => 'list', :validator_rule => 'b')
+
+    assert_raise RuntimeError do
+      classification.enc['base'][key.key]
+    end
+
+    key.update_attribute :default_value, '<%= "b" %>'
+    @classification = Classification::ClassParam.new(:host => classification.send(:host))
+    assert_equal 'b', classification.enc['base'][key.key]
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => '<%= "c" %>',
+                          :use_puppet_default => false
+    end
+
+    key.reload
+    @classification = Classification::ClassParam.new(:host => classification.send(:host))
+
+    assert_raise RuntimeError do
+      classification.enc['base'][key.key]
+    end
   end
 
   private

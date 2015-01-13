@@ -96,12 +96,12 @@ class LookupValueTest < ActiveSupport::TestCase
     lk1 = LookupValue.new(:value => "---\n  foo: bar", :match => "hostgroup=Common", :lookup_key => lookup_keys(:six))
     assert lk1.save!
     assert lk1.value.is_a? Hash
-    assert_equal lk1.value_before_type_cast, "foo: bar\n"
+    assert_include lk1.value_before_type_cast, "foo: bar"
 
     lk2 = LookupValue.new(:value => "{'foo': 'bar'}", :match => "environment=Production", :lookup_key => lookup_keys(:six))
     assert lk2.save!
     assert lk2.value.is_a? Hash
-    assert_equal lk2.value_before_type_cast, "foo: bar\n"
+    assert_include lk2.value_before_type_cast, "foo: bar"
   end
 
   test "should cast and uncast string containing an Array" do
@@ -132,5 +132,18 @@ class LookupValueTest < ActiveSupport::TestCase
       lvalue.save!
     end
     assert_equal "#{pc.name}::#{key.key}", lvalue.audits.last.associated_name
+  end
+
+  test "shuld not cast string with erb" do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
+                            :default_value => [1,2,3], :puppetclass => puppetclasses(:one))
+
+    lv = LookupValue.new(:value => "<%= [4,5,6] %>", :match => "hostgroup=Common", :lookup_key => key)
+    # does not cast on save (validate_and_cast_value)
+    assert lv.save!
+    # does not cast on load (value_before_type_cast)
+    assert_equal lv.value_before_type_cast, "<%= [4,5,6] %>"
+    assert_equal lv.value, "<%= [4,5,6] %>"
   end
 end

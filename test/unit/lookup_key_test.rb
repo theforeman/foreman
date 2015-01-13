@@ -200,4 +200,29 @@ class LookupKeyTest < ActiveSupport::TestCase
     refute_valid key
     assert_equal key.errors[:avoid_duplicates].first, _("can only be set for arrays that have merge_overrides set to true")
   end
+
+  test "should detect erb" do
+    key = FactoryGirl.build(:lookup_key)
+    assert key.contains_erb?('<% object_id %>')
+    assert key.contains_erb?('<%= object_id %>')
+    assert key.contains_erb?('[<% object_id %>, <% self %>]')
+    refute key.contains_erb?('[1,2,3]')
+    refute key.contains_erb?('{a: "b"}')
+    refute key.contains_erb?('plain value')
+  end
+
+  test "array key is valid even with string value containing erb" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
+                            :default_value => '<%= [1,2,3] %>', :puppetclass => puppetclasses(:one))
+    assert key.valid?
+  end
+
+  test "array key is invalid with string value without erb" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
+                            :default_value => 'whatever', :puppetclass => puppetclasses(:one))
+    refute key.valid?
+    assert_include key.errors.keys, :default_value
+  end
 end
