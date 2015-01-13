@@ -1,6 +1,6 @@
 module Menu
   class Item < Node
-    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options
+    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options, :turbolinks
 
     def initialize(name, options)
       raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -18,6 +18,7 @@ module Menu
       @child_menus = options[:children]
       @last = options[:last] || false
       @context =  options[:engine] || Rails.application
+      @turbolinks = options.fetch(:turbolinks, true)
       super @name.to_sym
     end
 
