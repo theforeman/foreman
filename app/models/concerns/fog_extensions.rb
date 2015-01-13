@@ -27,6 +27,8 @@ begin
   require 'fog/ovirt'
   require 'fog/ovirt/models/compute/server'
   Fog::Compute::Ovirt::Server.send(:include, FogExtensions::Ovirt::Server)
+  require 'fog/ovirt/models/compute/template'
+  Fog::Compute::Ovirt::Template.send(:include, FogExtensions::Ovirt::Template)
 
   require 'fog/ovirt/models/compute/volume'
   Fog::Compute::Ovirt::Volume.send(:include, FogExtensions::Ovirt::Volume)
