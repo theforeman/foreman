@@ -20,7 +20,8 @@ class FactImporter
 
   def self.authorized_smart_proxy_features
     # When writing your own Fact importer, provide feature(s) of authorized Smart Proxies
-    raise NotImplementedError
+    Rails.logger.debug("Importer #{self} does not implement authorized_smart_proxy_features.")
+    []
   end
 
   def initialize(host, facts = {})
