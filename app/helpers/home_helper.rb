@@ -25,8 +25,11 @@ module HomeHelper
   end
 
   def menu_item_tag(item)
+    html_options = {:id => "menu_item_#{item.name}"}
+    html_options['data-no-turbolink'] = true if !item.turbolinks
+
     content_tag(:li,
-                link_to(_(item.caption), item.url, item.html_options.merge(:id => "menu_item_#{item.name}")),
+                link_to(_(item.caption), item.url, item.html_options.merge(html_options)),
                 :class => "menu_tab_#{item.url_hash[:controller]}_#{item.url_hash[:action]}")
   end
 
