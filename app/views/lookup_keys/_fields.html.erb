@@ -23,6 +23,9 @@
                     :disabled => (f.object.is_param && !f.object.override)) if is_param%>
   <div <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')}_lookup_key_override_value" %> style=<%= "display:none;" if (f.object.is_param && !f.object.override) %>>
     <legend><%= _("Optional input validator") %></legend>
+    <p class="help-block">
+      <%= _('Note that if you use ERB as a value of parameter, value will be validated during ENC evaluation. If value is invalid, ENC evaluation will fail.') %>
+    </p>
     <%= checkbox_f(f, :required, :size => "col-md-8", :disabled => !f.object.override,
                    :help_block => _("If checked, will raise an error if there is no default value and no matcher provide a value.")
         ) if is_param %>
