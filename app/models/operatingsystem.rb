@@ -252,8 +252,8 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def boot_files_uri(medium, architecture, host = nil)
-    raise ::Foreman::Exception.new(N_("invalid medium for %s"), to_s) unless media.include?(medium)
-    raise (_("invalid architecture for %s") % to_s) unless architectures.include?(architecture)
+    raise ::Foreman::Exception.new(N_("Invalid medium for %s"), self) unless media.include?(medium)
+    raise ::Foreman::Exception.new(N_("Invalid architecture for %s"), self) unless architectures.include?(architecture)
     eval("#{self.family}::PXEFILES").values.collect do |img|
       medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
     end
