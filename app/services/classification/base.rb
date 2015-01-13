@@ -74,7 +74,11 @@ module Classification
               end
 
       return nil if value[:managed]
-      @safe_render.parse(value[:value])
+      needs_late_validation = key.contains_erb?(value[:value])
+      value = @safe_render.parse(value[:value])
+      value = type_cast(key, value)
+      validate_lookup_value(key, value) if needs_late_validation
+      value
     end
 
     def hostgroup_matches
@@ -132,6 +136,18 @@ module Classification
     end
 
     private
+
+    def validate_lookup_value(key, value)
+      lookup_value = key.lookup_values.build(:value => value)
+      return true if lookup_value.send(:validate_list) && lookup_value.send(:validate_regexp)
+      raise "Invalid value '#{value}' of parameter #{key.id} '#{key.key}'"
+    end
+
+    def type_cast(key, value)
+      key.cast_validate_value(value)
+    rescue TypeError
+      logger.warn "Unable to type cast #{value} to #{key.key_type}"
+    end
 
     def update_generic_matcher(lookup_values, options)
       computed_lookup_value = nil
