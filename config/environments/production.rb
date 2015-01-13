@@ -125,13 +125,15 @@ Foreman::Application.configure do |app|
   # Adds plugin assets to the application digests hash if a manifest file exists for a plugin
   config.after_initialize do
     app.railties.engines.each do |engine|
-      manifest_path = "#{engine.root}/public/assets/#{engine.engine_name}/manifest.yml"
+      [engine.root, app.root].each do |root_dir|
+        manifest_path = File.join(root_dir, "public/assets/#{engine.engine_name}/manifest.yml")
 
-      if File.file?(manifest_path)
-        assets = YAML.load_file(manifest_path)
+        if File.file?(manifest_path)
+          assets = YAML.load_file(manifest_path)
 
-        assets.each_pair do |file, digest|
-          config.assets.digests[file] = digest
+          assets.each_pair do |file, digest|
+            config.assets.digests[file] = digest
+          end
         end
       end
     end
