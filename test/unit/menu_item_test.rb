@@ -93,4 +93,9 @@ class MenuItemTest < ActiveSupport::TestCase
     assert_equal get_menu_item(:test_menu, :child_menu), parent_item.children[0]
     assert_equal get_menu_item(:test_menu, :child2_menu), parent_item.children[1]
   end
+
+  def test_menu_item_exposes_turbolinks_option
+    item = Menu::Item.new(:test_good_menu, :url_hash => {:controller=>'test', :action=>'index'}, :after => :me, :turbolinks => false)
+    assert_equal item.turbolinks, false
+  end
 end
