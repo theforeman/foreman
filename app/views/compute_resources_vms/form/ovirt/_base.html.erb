@@ -7,7 +7,7 @@
                :help_inline => :indicator,
                :label      => _('Cluster') } %>
 <%= f.hidden_field :cluster if !new_host %>
-<%= select_f f, :template, compute_resource.templates, :id, :name, {:include_blank => _("Select template")},
+<%= select_f f, :template, compute_resource.templates, :id, :full_name, {:include_blank => _("Select template")},
              { :disabled    => !new_host, :'data-url' => template_selected_compute_resource_path(compute_resource),
                :onchange    => 'ovirt_templateSelected(this);',
                :help_inline => :indicator,
