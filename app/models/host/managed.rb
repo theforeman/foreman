@@ -341,7 +341,7 @@ class Host::Managed < Host::Base
       param["organization"] = organization.name unless organization.blank?
     end
     if SETTINGS[:unattended]
-      param["root_pw"]      = root_pass
+      param["root_pw"]      = root_pass unless (!operatingsystem.nil? && operatingsystem.password_hash == 'Base64')
       param["puppet_ca"]    = puppet_ca_server if puppetca?
     end
     param["comment"]      = comment unless comment.blank?
