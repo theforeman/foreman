@@ -55,9 +55,8 @@ module Orchestration::Realm
   end
 
   def queue_realm_update
-    # The only update we're interested in is if the Host's hostgroup changed.
-    # Tell the realm so it can update automember rules if it supports it.
-    if self.hostgroup_id_changed?
+    # Update if the hostgroup is changed or if the realm is changed
+    if self.hostgroup_id_changed? || self.realm_id_changed?
       queue.create(:name => _("Update realm entry for %s") % self, :priority => 50,
                    :action => [self, :update_realm])
     end
