@@ -142,6 +142,9 @@ FactoryGirl.define do
       }
     end
 
+    trait :with_realm do
+      realm
+    end
   end
 
   factory :hostgroup do
