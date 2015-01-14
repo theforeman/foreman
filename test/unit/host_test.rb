@@ -856,6 +856,16 @@ class HostTest < ActiveSupport::TestCase
       assert_equal pass, h.root_pass
     end
 
+    test "should base64-encode the root password and update it in the database" do
+      unencrypted_password = "xybxa6JUkz63w"
+      host = FactoryGirl.create(:host, :managed)
+      host.hostgroup = nil
+      host.operatingsystem.password_hash = 'Base64'
+      host.root_pass = unencrypted_password
+      assert host.save!
+      assert_equal host.root_pass, 'eHlieGE2SlVrejYzdw=='
+    end
+
     test "should use hostgroup root password" do
       Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
       h = FactoryGirl.create(:host, :managed, :with_hostgroup)
@@ -1643,6 +1653,27 @@ class HostTest < ActiveSupport::TestCase
     refute_equal Puppetclass.scoped, host.available_puppetclasses
     refute_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
     assert_equal (host.environment.puppetclasses - host.parent_classes).sort, host.available_puppetclasses.sort
+  end
+
+  test "#info ENC YAML omits root_pw when password_hash is set to Base64" do
+    host = FactoryGirl.build(:host, :managed)
+    host.hostgroup = nil
+
+    unencrypted_password = "xybxa6JUkz63w"
+
+    host.operatingsystem.password_hash = 'Base64'
+    host.root_pass = unencrypted_password
+    assert host.save!
+    enc = host.info
+    assert_kind_of Hash, enc
+    assert_nil enc['parameters']['root_pw']
+
+    host.operatingsystem.password_hash = 'SHA512'
+    host.root_pass = unencrypted_password
+    assert host.save!
+    enc = host.info
+    assert_kind_of Hash, enc
+    refute_nil enc['parameters']['root_pw']
   end
 
   test "#info ENC YAML uses all_puppetclasses for non-parameterized output" do
