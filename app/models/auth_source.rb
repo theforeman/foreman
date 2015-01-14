@@ -17,6 +17,18 @@
 
 class AuthSource < ActiveRecord::Base
   include Authorizable
+
+  class AuthSourceNameValidator < ActiveModel::Validator
+    def validate(record)
+      if record.class != AuthSourceInternal and record.class != AuthSourceHidden
+        if %w{Internal Hidden}.include?(record.name)
+          record.errors.delete(:name)
+          record.errors.add(:name, _("#{record.name} is a reserved name."))
+        end
+      end
+    end
+  end
+
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database :except => [:name, :account_password, :host, :attr_login, :attr_firstname, :attr_lastname, :attr_mail]
@@ -25,6 +37,7 @@ class AuthSource < ActiveRecord::Base
   has_many :external_usergroups, :dependent => :destroy
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 60 }
+  validates_with AuthSourceNameValidator
 
   scope :non_internal, lambda { where("type NOT IN (?)", ['AuthSourceInternal', 'AuthSourceHidden']) }
   scope :except_hidden, lambda { where('type <> ?', 'AuthSourceHidden') }
