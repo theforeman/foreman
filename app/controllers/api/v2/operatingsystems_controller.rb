@@ -37,7 +37,7 @@ module Api
           param :description, String
           param :family, String
           param :release_name, String
-          param :password_hash, String, :desc => N_('Root password hash function to use, one of MD5, SHA256, SHA512')
+          param :password_hash, String, :desc => N_('Root password hash function to use, one of MD5, SHA256, SHA512, Base64')
           param :architecture_ids, Array, :desc => N_("IDs of associated architectures")
           param :config_template_ids, Array, :desc => N_("IDs of associated provisioning templates")
           param :medium_ids, Array, :desc => N_("IDs of associated media")
