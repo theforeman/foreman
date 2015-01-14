@@ -14,7 +14,7 @@ module TaxonomyHelper
   end
 
   def organization_dropdown(count)
-    text = Organization.current.nil? ? _("Any Organization") : Organization.current.to_label
+    text = Organization.current.nil? ? _("Any Organization") : truncate(Organization.current.to_label)
     if count == 1 && !User.current.admin?
       link_to text, "#"
     else
@@ -23,7 +23,7 @@ module TaxonomyHelper
   end
 
   def location_dropdown(count)
-    text = Location.current.nil? ? _("Any Location") : Location.current.to_label
+    text = Location.current.nil? ? _("Any Location") : truncate(Location.current.to_label)
     if count == 1 && !User.current.admin?
       link_to text, "#"
     else

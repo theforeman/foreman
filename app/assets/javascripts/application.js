@@ -69,7 +69,7 @@ function onContentLoad(){
 
   //set the tooltips
   $('a[rel="popover"]').popover({html: true});
-  $('[rel="twipsy"]').tooltip();
+  $('[rel="twipsy"]').tooltip({ container: 'body' });
   $('*[title]').not('*[rel]').tooltip();
   $('[data-table=inline]').not('.dataTable').dataTable(
       {
