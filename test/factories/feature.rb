@@ -20,6 +20,10 @@ FactoryGirl.define do
       name 'dns'
     end
 
+    trait :realm do
+      name 'realm'
+    end
+
     trait :puppetca do
       name 'puppetca'
     end
