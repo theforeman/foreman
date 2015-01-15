@@ -22,10 +22,11 @@
   <tbody>
     <% for config_template in @config_templates %>
     <tr>
-      <td class="display-two-pane">
-        <%= link_to_if_authorized trunc(config_template), hash_for_edit_config_template_path(:id => config_template.to_param).
-                                                            merge(:auth_object => config_template, :authorizer => authorizer,
-                                                            :permission => 'edit_templates') %>
+        <td class="display-two-pane"><%= link_to_if_authorized trunc_with_tooltip(config_template),
+                                         hash_for_edit_config_template_path(:id => config_template.to_param).
+                                         merge(:auth_object => config_template, :authorizer => authorizer,
+                                         :permission => 'edit_templates') %>
+        </td>
         <td><%= combination config_template %></td>
         <td><%= config_template.try(:template_kind) %></td>
         <td align='center'><%= checked_icon config_template.snippet %></td>

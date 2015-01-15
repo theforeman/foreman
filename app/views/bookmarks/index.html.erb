@@ -14,7 +14,7 @@
   <tbody>
     <% for bookmark in @bookmarks %>
       <tr>
-        <td class="display-two-pane"><%= link_to_if_authorized(trunc(bookmark.name), hash_for_edit_bookmark_path(bookmark)) %></td>
+        <td class="display-two-pane"><%= link_to_if_authorized(trunc_with_tooltip(bookmark.name), hash_for_edit_bookmark_path(bookmark)) %></td>
         <td><%= bookmark.query %></td>
         <td><%= bookmark.controller %></td>
         <td><%= bookmark.public %></td>

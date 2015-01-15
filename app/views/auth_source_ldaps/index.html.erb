@@ -17,7 +17,7 @@
   <tbody>
   <% for auth_source_ldap in @auth_source_ldaps %>
     <tr>
-      <td class="display-two-pane"><%=link_to_if_authorized trunc(auth_source_ldap.name), hash_for_edit_auth_source_ldap_path(:id => auth_source_ldap) %></td>
+      <td class="display-two-pane"><%=link_to_if_authorized trunc_with_tooltip(auth_source_ldap.name), hash_for_edit_auth_source_ldap_path(:id => auth_source_ldap) %></td>
       <td><%=h auth_source_ldap.host %></td>
       <td><%=checked_icon auth_source_ldap.onthefly_register %></td>
       <td><%=checked_icon auth_source_ldap.tls %></td>
