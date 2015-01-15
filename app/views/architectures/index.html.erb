@@ -13,7 +13,7 @@
   <tbody>
   <% for architecture in @architectures %>
     <tr>
-      <td class='col-md-3 display-two-pane'><%= link_to_if_authorized(trunc(architecture.name),
+      <td class='col-md-3 display-two-pane'><%= link_to_if_authorized(trunc_with_tooltip(architecture.name),
                                                      hash_for_edit_architecture_path(:id => architecture).merge(:auth_object => architecture, :authorizer => authorizer)) %></td>
       <td><%=h architecture.operatingsystems.map(&:to_label).to_sentence %></td>
       <td><%= link_to architecture.hosts_count, hosts_path(:search => "architecture = #{architecture}") %>

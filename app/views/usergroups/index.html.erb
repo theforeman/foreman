@@ -15,7 +15,7 @@
   <tbody>
     <% for usergroup in @usergroups %>
       <tr>
-        <td class="display-two-pane"><%= link_to_if_authorized trunc(usergroup.name), hash_for_edit_usergroup_path(:id => usergroup.id).merge(:auth_object => usergroup, :authorizer => authorizer) %></td>
+        <td class="display-two-pane"><%= link_to_if_authorized trunc_with_tooltip(usergroup.name), hash_for_edit_usergroup_path(:id => usergroup.id).merge(:auth_object => usergroup, :authorizer => authorizer) %></td>
         <td><%= h usergroup.users.except_hidden.map(&:login).to_sentence %></td>
         <td><%= h usergroup.usergroups.map(&:name).to_sentence %></td>
         <td>

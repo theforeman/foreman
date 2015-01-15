@@ -17,13 +17,13 @@
   <tbody>
     <% for puppetclass in @puppetclasses %>
       <tr>
-        <td><%=link_to_if_authorized trunc(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer) %></td>
+        <td><%=link_to_if_authorized trunc_with_tooltip(puppetclass.name), hash_for_edit_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer) %></td>
         <td>
           <% puppetclass.environments.uniq.each do |environment| %>
             <%= link_to_function environment, 'show_rdoc(this)', :'data-url' => rdoc_classes_path(environment, puppetclass.name) %>
           <% end %>
         </td>
-        <td><%= puppetclass.all_hostgroups(false).map {|hg| link_to_if_authorized trunc(hg), hash_for_edit_hostgroup_path(:id=>hg).merge(:auth_object => hg, :authorizer => @hostgroups_authorizer)}.to_sentence.html_safe %></td>
+        <td><%= puppetclass.all_hostgroups(false).map {|hg| link_to_if_authorized trunc_with_tooltip(hg), hash_for_edit_hostgroup_path(:id=>hg).merge(:auth_object => hg, :authorizer => @hostgroups_authorizer)}.to_sentence.html_safe %></td>
         <td> <%= link_to puppetclass.total_hosts, hosts_path(:search => "class = #{puppetclass.name}")%></td>
         <td><%= puppetclass.global_class_params_count %> </td>
         <td><%= puppetclass.lookup_keys_count %> </td>
