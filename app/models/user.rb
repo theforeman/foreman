@@ -228,6 +228,15 @@ class User < ActiveRecord::Base
     User.current = self
   end
 
+  def set_taxonomies_from_usergroups(usergroups)
+    Taxonomy.enabled_taxonomies.each do |taxonomy|
+      new_taxonomies = usergroups.map{|i| i.send(taxonomy)}.flatten - self.send(taxonomy)
+      new_taxonomies.uniq.each do |new_taxonomy|
+        self.send(taxonomy) << new_taxonomy
+      end
+    end
+  end
+
   def self.find_or_create_external_user(attrs, auth_source_name)
     external_groups = attrs.delete(:groups)
     auth_source = AuthSource.find_by_name(auth_source_name)
@@ -242,6 +251,8 @@ class User < ActiveRecord::Base
         new_usergroups += auth_source.external_usergroups.includes(:usergroup).where(:name => external_groups).map(&:usergroup)
         user.update_attributes(Hash[attrs.select { |k, v| v.present? }])
         user.usergroups = new_usergroups.uniq
+
+        user.set_taxonomies_from_usergroups(new_usergroups)
       end
 
       return true
@@ -256,6 +267,7 @@ class User < ActiveRecord::Base
         if external_groups.present?
           user.usergroups = auth_source.external_usergroups.where(:name => external_groups).map(&:usergroup).uniq
         end
+        user.set_taxonomies_from_usergroups(user.usergroups)
         user.post_successful_login
       end
       return true

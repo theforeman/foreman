@@ -7,6 +7,9 @@
       <% if User.current.allowed_to?(:view_users) %>
         <li><a href="#users" data-toggle="tab"><%= _("Users") %></a></li>
       <% end %>
+      <% if User.current.allowed_to?(:view_usergroups) %>
+        <li><a href="#usergroups" data-toggle="tab"><%= _("User Groups") %></a></li>
+      <% end %>
       <% if User.current.allowed_to?(:view_smart_proxies) %>
         <li><a href="#smart_proxies" data-toggle="tab"><%= _("Smart Proxies") %></a></li>
       <% end %>
@@ -63,6 +66,7 @@
         <%= textarea_f f, :description, :rows => 5 %>
       </div>
 
+      <%= show_resource_if_allowed(f, taxonomy, {:resource => :usergroups, :association => Usergroup}) %>
       <%= show_resource_if_allowed(f, taxonomy, {:resource => :users, :association => User.except_admin}) %>
       <%= show_resource_if_allowed(f, taxonomy, :smart_proxies) %>
 

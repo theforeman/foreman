@@ -8,6 +8,12 @@
     <% if AuthSource.non_internal.present? %>
       <li><a href="#external" data-toggle="tab"><%= _("External groups") %></a></li>
     <% end %>
+    <% if show_location_tab? %>
+      <li><a href='#locations' data-toggle='tab'><%= _('Locations') %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href='#organizations' data-toggle='tab'><%= _('Organizations') %></a></li>
+    <% end %>
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
@@ -59,6 +65,8 @@
         </div>
       </div>
     <% end %>
+
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @usergroup %>
   </div>
   <%= submit_or_cancel f %>
 <% end %>

@@ -4,6 +4,7 @@ class Usergroup < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
+  include Taxonomix
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_last_admin_group_is_not_deleted
@@ -108,5 +109,9 @@ class Usergroup < ActiveRecord::Base
 
   def other_admins
     User.unscoped.only_admin.except_hidden - all_users
+  end
+
+  def has_used_taxonomy_ids?
+    false
   end
 end

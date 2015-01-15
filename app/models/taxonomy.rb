@@ -12,6 +12,7 @@ class Taxonomy < ActiveRecord::Base
 
   has_many :taxable_taxonomies, :dependent => :destroy
   has_many :users, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'User'
+  has_many :usergroups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Usergroup'
   has_many :smart_proxies, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'SmartProxy'
   has_many :compute_resources, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ComputeResource'
   has_many :media, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Medium'

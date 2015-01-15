@@ -24,6 +24,7 @@ module Api
       api :POST, "/usergroups/", "Create a user group."
       param :usergroup, Hash, :required => true do
         param :name, String, :required => true
+        param_group :taxonomies, ::Api::V2::BaseController
       end
 
       def create

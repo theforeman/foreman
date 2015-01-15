@@ -7,7 +7,7 @@ class TaxHost
   HASH_KEYS = [:location_ids, :organization_ids, :hostgroup_ids,
                :environment_ids, :domain_ids, :medium_ids,
                :subnet_ids, :compute_resource_ids,
-               :smart_proxy_ids, :user_ids, :provisioning_template_ids,
+               :smart_proxy_ids, :user_ids, :usergroup_ids, :provisioning_template_ids,
                :realm_ids, :ptable_ids]
 
   def initialize(taxonomy, hosts = nil)
@@ -160,6 +160,10 @@ class TaxHost
 
   def provisioning_template_ids(hosts = self.hosts)
     ProvisioningTemplate.template_ids_for(hosts)
+  end
+
+  def usergroup_ids
+    []
   end
 
   def smart_proxy_ids(hosts = self.hosts)
