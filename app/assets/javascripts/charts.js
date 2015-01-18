@@ -247,10 +247,11 @@ function search_on_click(event, item) {
 }
 
 function get_pie_chart(div, url) {
+
   if($("#"+div).length == 0)
   {
     $('body').append('<div id="' + div + '" class="modal fade"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
-    $("#"+div+" .modal-content").append('<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">' + __('Fact Chart') + '</h4></div>')
+    $("#"+div+" .modal-content").append('<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title"></h4></div>')
         .append('<div id="' + div + '-body" class="fact_chart modal-body">' + __('Loading') + ' ...</div>')
         .append('<div class="modal-footer"></div>');
 
@@ -259,7 +260,12 @@ function get_pie_chart(div, url) {
       $.getJSON(url, function(data) {
         var target = $("#"+div+"-body");
         target.empty();
+        var hostsCount = 0;
+        $.each(data.values,function() {
+          hostsCount += this.data;
+        });
         expanded_pie(target, data.values);
+        $('.modal-title').empty().append( __('Fact distribution chart') + ' - <b>' + data.name + ' </b><small> ('+ Jed.sprintf(n__("%s host", "%s hosts", hostsCount), hostsCount) +')</small>');
         target.attr('data-url', foreman_url("/hosts?search=facts." + data.name + "~~VAL1~"));
       });
     });
