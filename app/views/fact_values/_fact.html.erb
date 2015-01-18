@@ -20,8 +20,9 @@
   </td>
   <td><%= fact_from fact %></td>
   <td><% unless fact.compose %>
-          <%= link_to_function content_tag(:button, icon_text("adjust", "", :title => _("Show distribution chart")) + _("Chart")),
-                               "get_pie_chart('fact_chart-#{fact.fact_name_id}', '#{fact_path(fact.fact_name_id)}')" %>
+          <%= link_to_function(content_tag(:button, icon_text("adjust", "")),
+                               "get_pie_chart('fact_chart-#{fact.fact_name_id}', '#{fact_path(fact.fact_name_id)}')",
+                               :title => _("Show distribution chart")) %>
       <% end %>
   </td>
 </tr>
