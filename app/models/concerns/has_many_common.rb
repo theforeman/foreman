@@ -2,7 +2,7 @@ module HasManyCommon
   extend ActiveSupport::Concern
 
   def assoc_klass(association)
-    association.to_s.classify.constantize
+    self.class.reflect_on_association(association).klass
   end
 
   # calls method :name or whatever is defined in attr_name :title
