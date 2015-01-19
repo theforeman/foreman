@@ -5,6 +5,7 @@ class HostTest < ActiveSupport::TestCase
     disable_orchestration
     User.current = users :admin
     Setting[:token_duration] = 0
+    Foreman::Model::EC2.any_instance.stubs(:image_exists?).returns(true)
   end
 
   test "should not save without a hostname" do

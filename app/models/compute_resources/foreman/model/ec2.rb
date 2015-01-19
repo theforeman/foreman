@@ -102,6 +102,10 @@ module Foreman::Model
       true
     end
 
+    def image_exists?(image)
+      client.images.get(image).present?
+    end
+
     private
 
     def subnet_implies_is_vpc? args
