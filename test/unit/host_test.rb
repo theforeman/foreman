@@ -363,7 +363,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "update a host's location" do
-    host = Host.create :name => "host 1", :mac => "aabbccddee", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    host = Host.create :name => "host 1", :mac => "aabbccddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
     original_location = Location.create :name => "New York"
 
     host.location_id = original_location.id

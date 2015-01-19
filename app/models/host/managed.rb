@@ -940,7 +940,11 @@ class Host::Managed < Host::Base
   end
 
   def normalize_addresses
-    self.mac = Net::Validations.normalize_mac(mac)
+    begin
+      self.mac = Net::Validations.normalize_mac(mac)
+    rescue ArgumentError => e
+      self.errors.add(:mac, e.message)
+    end
     self.ip  = Net::Validations.normalize_ip(ip)
   end
 
