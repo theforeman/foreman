@@ -92,6 +92,8 @@ module Nic
 
     def normalize_mac
       self.mac = Net::Validations.normalize_mac(mac)
+    rescue ArgumentError => e
+      self.errors.add(:mac, e.message)
     end
 
     # do we require a host object associate to the interface? defaults to true

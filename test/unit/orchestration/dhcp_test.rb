@@ -122,7 +122,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test "when an existing host change its mac address, its dhcp record should be updated" do
     h = FactoryGirl.create(:host, :with_dhcp_orchestration)
-    h.mac = h.mac.succ
+    h.mac = next_mac(h.mac)
     assert h.valid?
     assert_equal 2, h.queue.items.select {|x| x.action == [ h,     :set_dhcp ] }.size
     assert_equal 1, h.queue.items.select {|x| x.action == [ h.old, :del_dhcp ] }.size
@@ -136,7 +136,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     end
     h.reload
     bmc = h.interfaces.bmc.first
-    bmc.mac = bmc.mac.succ
+    bmc.mac = next_mac(bmc.mac)
     assert h.valid?
     assert bmc.valid?
     assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc,     :set_dhcp ] }.size
@@ -150,10 +150,10 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
                        :name => "bmc-it", :provider => 'IPMI', :ip => h.ip.succ)
     end
     h.reload
-    h.mac = h.mac.succ
+    h.mac = next_mac(h.mac)
     bmc = h.interfaces.bmc.first
     assert !bmc.new_record?
-    bmc.mac = bmc.mac.succ
+    bmc.mac = next_mac(bmc.mac)
     assert h.valid?
     assert bmc.valid?
     assert_equal 2, h.queue.items.select {|x| x.action == [ h,     :set_dhcp ] }.size

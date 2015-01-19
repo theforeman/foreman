@@ -79,6 +79,8 @@ module Net
           m.split("-").map { |nibble| "%02x" % ("0x" + nibble) }.join(":")
         when /\A([a-f0-9]{1,2}-){5}[a-f0-9]{1,2}\z/
           m.split("-").map { |nibble| "%02x" % ("0x" + nibble) }.join(":")
+        else
+          raise ArgumentError, "'#{mac}' is not a valid MAC address"
       end
     end
 
