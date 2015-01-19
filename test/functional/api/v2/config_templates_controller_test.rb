@@ -74,4 +74,20 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "aha", config_templates(:pxekickstart).audits.last.comment
   end
+
+  test 'should clone template' do
+    original_config_template = config_templates(:pxekickstart)
+    post :clone, { :id => original_config_template.to_param,
+                   :config_template => {:name => 'MyClone'} }
+    assert_response :success
+    template = ActiveSupport::JSON.decode(@response.body)
+    assert_equal(template['name'], 'MyClone')
+    assert_equal(template['template'], original_config_template.template)
+  end
+
+  test 'clone name should not be blank' do
+    post :clone, { :id => config_templates(:pxekickstart).to_param,
+                   :config_template => {:name => ''} }
+    assert_response :unprocessable_entity
+  end
 end
