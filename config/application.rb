@@ -21,7 +21,7 @@ else
     end
     Bundler.require(*Rails.groups(:assets => %w(development test)))
     if SETTINGS[:unattended]
-      %w[fog libvirt ovirt vmware gce].each do |group|
+      %w[ec2 fog libvirt ovirt vmware gce].each do |group|
         begin
           Bundler.require(group)
         rescue LoadError
@@ -32,11 +32,12 @@ else
   end
 end
 
-SETTINGS[:libvirt] = defined?(::Fog) && defined?(::Libvirt)
-SETTINGS[:ovirt] = defined?(::Fog) && defined?(::OVIRT)
-SETTINGS[:vmware] = defined?(::Fog) && defined?(::RbVmomi)
-SETTINGS[:gce] = defined?(::Fog) && defined?(::Google::APIClient::VERSION)
-SETTINGS[:openstack] = SETTINGS[:rackspace] = SETTINGS[:ec2] = !!defined?(::Fog)
+SETTINGS[:libvirt]   = defined?(::Fog) && defined?(::Libvirt)
+SETTINGS[:ovirt]     = defined?(::Fog) && defined?(::OVIRT)
+SETTINGS[:vmware]    = defined?(::Fog) && defined?(::RbVmomi)
+SETTINGS[:gce]       = defined?(::Fog) && defined?(::Google::APIClient::VERSION)
+SETTINGS[:ec2]       = !!defined?(::Fog::AWS)
+SETTINGS[:openstack] = SETTINGS[:rackspace] = !!defined?(::Fog)
 
 require File.expand_path('../../lib/foreman.rb', __FILE__)
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
