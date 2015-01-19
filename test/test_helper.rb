@@ -209,6 +209,10 @@ Spork.prefork do
       ENV.update old_values
       result
     end
+
+    def next_mac(mac)
+      mac.tr(':','').to_i(16).succ.to_s(16).rjust(12, '0').scan(/../).join(':')
+    end
   end
 
   # Transactional fixtures do not work with Selenium tests, because Capybara
