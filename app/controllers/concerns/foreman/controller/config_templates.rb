@@ -1,6 +1,15 @@
 module Foreman::Controller::ConfigTemplates
   extend ActiveSupport::Concern
 
+  def load_vars_from_config_template
+    return unless @config_template
+
+    @locations        = @config_template.locations
+    @organizations    = @config_template.organizations
+    @template_kind_id = @config_template.template_kind_id
+    @operatingsystems = @config_template.operatingsystems
+  end
+
   private
 
   def default_template_url(template, hostgroup)

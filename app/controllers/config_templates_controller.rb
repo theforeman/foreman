@@ -17,7 +17,7 @@ class ConfigTemplatesController < ApplicationController
 
   def clone
     @config_template = @config_template.clone
-    load_vars_for_form
+    load_vars_from_config_template
     flash[:warning] = _("The marked fields will need reviewing")
     @config_template.valid?
     render :action => :new
@@ -41,7 +41,7 @@ class ConfigTemplatesController < ApplicationController
   end
 
   def edit
-    load_vars_for_form
+    load_vars_from_config_template
   end
 
   def update
@@ -51,15 +51,6 @@ class ConfigTemplatesController < ApplicationController
       load_history
       process_error
     end
-  end
-
-  def load_vars_for_form
-    return unless @config_template
-
-    @locations = @config_template.locations
-    @organizations = @config_template.organizations
-    @template_kind_id = @config_template.template_kind_id
-    @operatingsystems = @config_template.operatingsystems
   end
 
   def revision

@@ -29,6 +29,7 @@ Foreman::Application.routes.draw do
       resources :config_templates, :except => [:new, :edit] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        post :clone, :on => :member
         collection do
           get 'build_pxe_default'
           get 'revision'
