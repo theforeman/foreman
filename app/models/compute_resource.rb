@@ -243,6 +243,10 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
+  def image_exists?(image)
+    true
+  end
+
   protected
 
   def client
