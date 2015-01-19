@@ -7,7 +7,7 @@ module Api
       include Foreman::Controller::ConfigTemplates
 
       before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :find_resource, :only => %w{show update destroy clone}
 
       before_filter :handle_template_upload, :only => [:create, :update]
       before_filter :process_template_kind, :only => [:create, :update]
@@ -84,6 +84,23 @@ module Api
         render :json => msg, :status => status
       end
 
+      def_param_group :config_template_clone do
+        param :config_template, Hash, :required => true, :action_aware => true do
+          param :name, String, :required => true, :desc => N_("template name")
+        end
+      end
+
+      api :POST, "/config_templates/:id/clone", N_("Clone a provision template")
+      param :id, :identifier, :required => true
+      param_group :config_template_clone, :as => :create
+
+      def clone
+        @config_template = @config_template.clone
+        load_vars_from_config_template
+        @config_template.name = params[:config_template][:name]
+        process_response @config_template.save
+      end
+
       private
 
       def process_operatingsystems
@@ -93,6 +110,15 @@ module Api
 
       def allowed_nested_id
         %w(operatingsystem_id location_id organization_id)
+      end
+
+      def action_permission
+        case params[:action]
+          when 'clone'
+            'create'
+          else
+            super
+        end
       end
 
     end
