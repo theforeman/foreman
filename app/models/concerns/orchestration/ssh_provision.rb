@@ -78,15 +78,9 @@ module Orchestration::SSHProvision
   def setSSHProvision
     logger.info "SSH connection established to #{provision_ip} - executing template"
     if client.deploy!
-      # since we are in a after_commit callback, we need to fetch our host again
-      h = Host.find(id)
-      h.build = false
-      h.installed_at = Time.now.utc
-      # calling validations would trigger the whole orchestration layer again, we don't want it while we are inside an orchestration action ourselves.
-      h.save(:validate => false)
-      # but it does mean we need to manually remove puppetca autosign, remove this when we no longer part of after_commit callback
+      # since we are in a after_commit callback, we need to fetch our host again, and clean up puppet ca on our own
+      Host.find(id).built
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delAutosign if puppetca?
-
     else
       raise ::Foreman::Exception.new(N_("Provision script had a non zero exit, removing instance"))
     end
