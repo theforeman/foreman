@@ -20,7 +20,7 @@ oses:
 %>
 
 <% if rhel_compatible -%>
-<%= snippet "epel" -%>
+<%= snippet 'epel' -%>
 <% end -%>
 
 <% if puppet_enabled -%>
@@ -39,8 +39,8 @@ echo "updating system time"
 /usr/sbin/ntpdate -sub <%= @host.params['ntp-server'] || '0.fedora.pool.ntp.org' %>
 /usr/sbin/hwclock --systohc
 
-<% if @host.info["parameters"]["realm"] && @host.otp && @host.realm && @host.realm.realm_type == "FreeIPA" -%>
-<%= snippet "freeipa_register" %>
+<% if @host.info['parameters']['realm'] && @host.otp && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
+<%= snippet 'freeipa_register' %>
 <% end -%>
 
 # update all the base packages from the updates repository

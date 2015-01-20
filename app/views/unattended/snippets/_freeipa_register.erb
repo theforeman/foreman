@@ -25,7 +25,7 @@ name: freeipa_register
 #   freeipa_opts                Additional options to pass directly to installer
 #
 <% if @host.operatingsystem.family == 'Redhat' -%>
-  <% if @host.operatingsystem.name == "Fedora" -%>
+  <% if @host.operatingsystem.name == 'Fedora' -%>
     freeipa_client=freeipa-client
   <% else -%>
     freeipa_client=ipa-client
@@ -34,39 +34,39 @@ name: freeipa_register
   freeipa_client=freeipa-client
 <% end -%>
 
-<%= @host.operatingsystem.family == "Redhat" ? 'yum install -y libsss_sudo' : 'apt-get install -y libsss-sudo' %> $freeipa_client
+<%= @host.operatingsystem.family == 'Redhat' ? 'yum install -y libsss_sudo' : 'apt-get install -y libsss-sudo' %> $freeipa_client
 
 ##
 ## IPA Client Installation
 ##
 
-<% if @host.params["freeipa_server"] -%>
-freeipa_server="--server <%= @host.params["freeipa_server"] %>"
+<% if @host.params['freeipa_server'] -%>
+freeipa_server="--server <%= @host.params['freeipa_server'] %>"
 <% end -%>
 
-<% unless @host.param_false? "freeipa_mkhomedir" %>
+<% unless @host.param_false? 'freeipa_mkhomedir' %>
 freeipa_mkhomedir="--mkhomedir"
 <% end -%>
 
-<% if @host.param_false? "freeipa_ssh" %>
+<% if @host.param_false? 'freeipa_ssh' %>
 freeipa_ssh="--no-ssh"
 <% end -%>
 
-<% if @host.params["freeipa_opts"] -%>
-freeipa_opts="<%= @host.params["freeipa_opts"] %>"
+<% if @host.params['freeipa_opts'] -%>
+freeipa_opts="<%= @host.params['freeipa_opts'] %>"
 <% end -%>
 
-/usr/sbin/ipa-client-install -w '<%= @host.otp %>' --realm=<%= @host.realm %> -f -U $freeipa_mkhomedir $freeipa_opts $freeipa_server $freeipa_ssh
+/usr/sbin/ipa-client-install -w '<%= @host.otp %>' --realm=<%= @host.realm %> -U $freeipa_mkhomedir $freeipa_opts $freeipa_server $freeipa_ssh
 
 ##
 ## Automounter
 ##
 
-<% if @host.params["freeipa_automount_location"] -%>
-automount_location="--location <%= @host.params["freeipa_automount_location"] %>"
+<% if @host.params['freeipa_automount_location'] -%>
+automount_location="--location <%= @host.params['freeipa_automount_location'] %>"
 <% end -%>
 
-<% if @host.param_true? "freeipa_automount" -%>
+<% if @host.param_true? 'freeipa_automount' -%>
 if [ -f /usr/sbin/ipa-client-automount ]
 then
   /usr/sbin/ipa-client-automount $freeipa_server $automount_location --unattended
@@ -77,7 +77,7 @@ fi
 ## Sudoers
 ##
 
-<% unless @host.param_false? "freeipa_enable_sudo" %>
+<% unless @host.param_false? 'freeipa_enable_sudo' %>
 
 freeipa_realm=$(grep default_realm /etc/krb5.conf | cut -d"=" -f2 | tr -d ' ')
 freeipa_domain=$(grep default_domain /etc/krb5.conf | cut -d"=" -f2 | tr -d ' ')
@@ -92,9 +92,9 @@ if [ $sssd_minor -ge 11 ] || [ $sssd_major -gt 1 ]
 then
     echo "sudo_provider = ipa" > $LDAP_CONFIG
 else
-    <% if @host.params["freeipa_server"] -%>
-    ldap_uri=", ldap://<%= @host.params["freeipa_server"] %>"
-    krb5_server=<%= @host.params["freeipa_server"] %>
+    <% if @host.params['freeipa_server'] -%>
+    ldap_uri=", ldap://<%= @host.params['freeipa_server'] %>"
+    krb5_server=<%= @host.params['freeipa_server'] %>
     <% else -%>
     krb5_server="_srv_"
     <% end -%>

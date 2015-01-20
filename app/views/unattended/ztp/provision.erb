@@ -179,10 +179,10 @@ match / {
 <func:function name="fmztp:dl_junos_conf">
 {
   expr jcs:syslog( $SYSLOG, $APPNAME, ": downloading new Junos conf...");
-  expr jcs:syslog( $SYSLOG, $APPNAME, ": URL: ", '<%= foreman_url("finish") %>');
+  expr jcs:syslog( $SYSLOG, $APPNAME, ": URL: ", '<%= foreman_url('finish') %>');
 
   var $get = <file-copy> {
-    <source> '<%= foreman_url("finish") %>';
+    <source> '<%= foreman_url('finish') %>';
     <destination> $JUNOS_CONF;
     <staging-directory> $TMPDIR;
   };

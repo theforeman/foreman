@@ -65,7 +65,7 @@ name: redhat_register
     # Discovered Activation Key <%= @host.params['activation_key'] %>
     rhn_activation_key="<%= @host.params['activation_key'] -%>"
 
-    <% if type == "site" -%>
+    <% if type == 'site' -%>
     satellite_hostname="<%= @host.params['spacewalk_host'] -%>"
     rhn_cert_file="RHN-ORG-TRUSTED-SSL-CERT"
     <% else -%>
