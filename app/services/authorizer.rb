@@ -113,14 +113,13 @@ class Authorizer
 
   # sometimes we need exceptions however we don't want to just split namespaces
   def resource_name(klass)
-    return 'Operatingsystem' if klass <= Operatingsystem
-    return 'ComputeResource' if klass <= ComputeResource
+    if klass.respond_to?(:authorized_resource_name)
+      return klass.authorized_resource_name
+    end
 
     case name = klass.to_s
       when 'Audited::Adapters::ActiveRecord::Audit'
         'Audit'
-      when /\AHost::.*\Z/
-        'Host'
       else
         name
       end

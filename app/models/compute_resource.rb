@@ -243,6 +243,11 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
+  def self.authorized_resource_name
+    # We don't want STI subclasses to have separate permissions
+    ComputeResource.name
+  end
+
   protected
 
   def client
