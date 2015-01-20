@@ -4,6 +4,7 @@ Ptable.without_auditing do
     { :name => 'AutoYaST entire SCSI disk', :os_family => 'Suse', :source => 'autoyast/disklayout_scsi.erb' },
     { :name => 'AutoYaST entire virtual disk', :os_family => 'Suse', :source => 'autoyast/disklayout_virtual.erb' },
     { :name => 'AutoYaST LVM', :os_family => 'Suse', :source => 'autoyast/disklayout_lvm.erb' },
+    { :name => 'CoreOS default fake', :os_family => 'Coreos', :source => 'coreos/disklayout_CoreOS.erb' },
     { :name => 'FreeBSD', :os_family => 'Freebsd', :source => 'freebsd/disklayout_FreeBSD_mfsBSD.erb' },
     { :name => 'Jumpstart default', :os_family => 'Solaris', :source => 'jumpstart/disklayout.erb' },
     { :name => 'Jumpstart mirrored', :os_family => 'Solaris', :source => 'jumpstart/disklayout_mirrored.erb' },

@@ -8,7 +8,7 @@ oses:
 <% if @metadata.to_s == '/vm-profile.scm' -%>
 <%= @host.diskLayout %>
 <% elsif @metadata.to_s == '/pkg-groups.tar' -%>
-<%= snippets "alterator_pkglist" %>
+<%= snippet 'alterator_pkglist' %>
 <% else -%>
 ("/sysconfig-base/language" action "write" lang ("<%= @host.params['lang'] || 'en_US' %>"))
 ("/sysconfig-base/kbd" action "write" layout "ctrl_shift_toggle")
@@ -27,5 +27,5 @@ oses:
 ("/net-eth" action "add_iface_address" name "eth0" addip "<%= @host.ip %>" addmask "<%= @host.subnet.mask %>")
 ("/net-eth" action "write" commit #t)
 ("/root/change_password" language (<%= @host.params['lang'] || 'en_US' %>") passwd_2 "123" passwd_1 "123")
-("/postinstall/firsttime" action "write" method "url" url "<%= foreman_url("finish") %>")
+("/postinstall/firsttime" action "write" method "url" url "<%= foreman_url('finish') %>")
 <% end %>
