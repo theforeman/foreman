@@ -12,6 +12,7 @@
 :support_jsonp: false
 #:puppetconfdir: /etc/puppet
 #:puppetvardir: /var/lib/puppet
+#:puppetssldir: /var/lib/puppet/ssl
 
 # Mark translated strings with X characters (for developers)
 :mark_translated: false
