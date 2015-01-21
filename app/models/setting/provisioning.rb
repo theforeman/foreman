@@ -9,9 +9,9 @@ class Setting::Provisioning < Setting
     lower_fqdn = fqdn.downcase
     unattended_url = "http://#{fqdn}"
 
-    ssl_cert     = "#{SETTINGS[:puppetvardir]}/ssl/certs/#{lower_fqdn}.pem"
-    ssl_ca_file  = "#{SETTINGS[:puppetvardir]}/ssl/certs/ca.pem"
-    ssl_priv_key = "#{SETTINGS[:puppetvardir]}/ssl/private_keys/#{lower_fqdn}.pem"
+    ssl_cert     = "#{SETTINGS[:puppetssldir]}/certs/#{lower_fqdn}.pem"
+    ssl_ca_file  = "#{SETTINGS[:puppetssldir]}/certs/ca.pem"
+    ssl_priv_key = "#{SETTINGS[:puppetssldir]}/private_keys/#{lower_fqdn}.pem"
 
     self.transaction do
       [
