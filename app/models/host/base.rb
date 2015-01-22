@@ -140,6 +140,7 @@ module Host
       end
       hash
     end
+    alias_method :facts, :facts_hash
 
     def ==(comparison_object)
       super ||
