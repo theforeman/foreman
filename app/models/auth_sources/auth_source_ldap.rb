@@ -163,7 +163,7 @@ class AuthSourceLdap < AuthSource
 
   def validate_ldap_filter
     Net::LDAP::Filter.construct(ldap_filter)
-  rescue Net::LDAP::LdapError => e
+  rescue Net::LDAP::LdapError, Net::LDAP::FilterSyntaxInvalidError => e
     logger.error e.message
     logger.error e.backtrace.join("\n")
     errors.add(:ldap_filter, _("invalid LDAP filter syntax"))
