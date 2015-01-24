@@ -45,8 +45,6 @@ module Foreman
                 temp_url = proxy.url
               end
               temp_url
-            else
-              nil
             end
 
       if url.present?
