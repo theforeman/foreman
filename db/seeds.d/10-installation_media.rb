@@ -3,7 +3,7 @@ os_suse = Operatingsystem.find_all_by_type "Suse" || Operatingsystem.where("name
 # Installation media: default mirrors
 Medium.without_auditing do
   [
-    { :name => "CentOS mirror", :os_family => "Redhat", :path => "http://mirror.centos.org/centos/$major.$minor/os/$arch" },
+    { :name => "CentOS mirror", :os_family => "Redhat", :path => "http://mirror.centos.org/centos/$version/os/$arch" },
     { :name => "Debian mirror", :os_family => "Debian", :path => "http://ftp.debian.org/debian/" },
     { :name => "Fedora mirror", :os_family => "Redhat", :path => "http://dl.fedoraproject.org/pub/fedora/linux/releases/$major/Fedora/$arch/os/" },
     { :name => "FreeBSD mirror", :os_family => "Freebsd", :path => "http://ftp.freebsd.org/pub/FreeBSD/releases/$arch/$major.$minor-RELEASE/" },
