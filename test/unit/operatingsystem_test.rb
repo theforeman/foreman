@@ -345,4 +345,10 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert_equal("#{operatingsystem.id}-applet-מערכתההפעלהשלי 4", operatingsystem.to_param)
   end
 
+  test 'interpolated $version does not include dots if only major is specified' do
+    operatingsystem = FactoryGirl.build(:operatingsystem, :name => 'foo', :major => '4')
+    result_path = operatingsystem.interpolate_medium_vars('http://foo.org/$version',
+                                                          'x64', operatingsystem)
+    assert result_path, 'http://foo.org/4'
+  end
 end
