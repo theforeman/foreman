@@ -66,3 +66,17 @@
  margin-top: 80px;
  float: right;
 }
+
+.auto-refresh {
+  a {
+    border: none;
+    background: none;
+  }
+  margin-left: 5px;
+  &.on a {
+    color: #005C7E;
+  }
+  &.off a {
+    color: #ccc;
+  }
+}
