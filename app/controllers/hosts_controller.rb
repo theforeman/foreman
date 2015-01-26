@@ -18,7 +18,7 @@ class HostsController < ApplicationController
   add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
 
   before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
+  before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :display, :puppetrun, :review_before_build,
                                          :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                          :runtime, :resources, :templates, :ipmi_boot, :console,
                                          :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
@@ -91,6 +91,10 @@ class HostsController < ApplicationController
   end
 
   def edit
+    load_vars_for_ajax
+  end
+
+  def display
     load_vars_for_ajax
   end
 
@@ -556,7 +560,7 @@ class HostsController < ApplicationController
   def action_permission
     case params[:action]
       when 'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates',
-          'pxe_config', 'storeconfig_klasses', 'active', 'errors', 'out_of_sync', 'pending', 'disabled'
+          'pxe_config', 'storeconfig_klasses', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'display'
         :view
       when 'puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'
         :puppetrun

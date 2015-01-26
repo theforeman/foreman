@@ -40,6 +40,7 @@ Foreman::Application.routes.draw do
         get 'templates'
         put 'ipmi_boot'
         put 'disassociate'
+        get 'display'
       end
       collection do
         get 'multiple_actions'

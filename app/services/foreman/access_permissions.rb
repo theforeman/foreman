@@ -316,7 +316,7 @@ Foreman::AccessControl.map do |permission_set|
 
     map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled, :pending, :vm,
                                       :externalNodes, :pxe_config, :storeconfig_klasses, :auto_complete_search, :bmc,
-                                      :runtime, :resources, :templates, :overview],
+                                      :runtime, :resources, :templates, :overview, :display],
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => [:template, :provision],
                                      :"api/v1/hosts" => [:index, :show, :status],
