@@ -607,7 +607,7 @@ class Host::Managed < Host::Base
     ProxyAPI::Puppet.new({:url => puppet_proxy.url}).run fqdn
   rescue => e
     errors.add(:base, _("failed to execute puppetrun: %s") % e)
-    logger.warn "unable to execute puppet run: " % e
+    logger.warn "unable to execute puppet run: #{e}"
     logger.debug e.backtrace.join("\n")
     false
   end
