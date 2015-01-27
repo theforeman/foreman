@@ -20,7 +20,7 @@ class HostgroupClassTest < ActiveSupport::TestCase
   test "should update hostgroups_count" do
     pc = puppetclasses(:two)
     assert_difference "pc.hostgroups_count" do
-      hc = HostgroupClass.create(:puppetclass_id => pc.id, :hostgroup_id => hostgroups(:common).id)
+      HostgroupClass.create(:puppetclass_id => pc.id, :hostgroup_id => hostgroups(:common).id)
       pc.reload
     end
   end

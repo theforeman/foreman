@@ -10,13 +10,11 @@ class HostgroupTest < ActiveSupport::TestCase
     assert !host_group.save
   end
 
-  test "name can't contain trailing white spaces" do
+  test "name strips leading and trailing white spaces" do
     host_group = Hostgroup.new :name => " all    hosts in the     world    "
-    assert !host_group.name.squeeze(" ").empty?
-    assert !host_group.save
-
-    host_group.name.squeeze!(" ")
     assert host_group.save
+    refute host_group.name.ends_with?(' ')
+    refute host_group.name.starts_with?(' ')
   end
 
   test "name must be unique" do
@@ -57,7 +55,7 @@ class HostgroupTest < ActiveSupport::TestCase
 
     third = Hostgroup.new(:name => "ThirdA", :parent_id => second.id,
                           :group_parameters_attributes => { pid += 1 => {"name"=>"topB", "value"=>"3", :nested => ""},
-                                                            pid += 1 => {"name"=>"topA", "value"=>"3", :nested => ""}})
+                                                            pid +  1 => {"name"=>"topA", "value"=>"3", :nested => ""}})
     assert third.save
 
     assert third.parameters.include? "topA"
@@ -84,7 +82,7 @@ class HostgroupTest < ActiveSupport::TestCase
 
   test "blocks deletion of hosts with children" do
     top = Hostgroup.create(:name => "topA")
-    second = Hostgroup.create(:name => "secondB", :parent_id => top.id)
+    Hostgroup.create(:name => "secondB", :parent_id => top.id)
 
     assert top.has_children?
     assert_raise Ancestry::AncestryException do
@@ -304,6 +302,31 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal "should be 8 characters or more", hostgroup.errors[:root_pass].first
     hostgroup.root_pass = '12345678'
     assert hostgroup.valid?
+  end
+
+  test "root_pass inherited from parent if blank" do
+    parent = FactoryGirl.create(:hostgroup, :root_pass => '12345678')
+    hostgroup = FactoryGirl.build(:hostgroup, :parent => parent, :root_pass => '')
+    assert_equal parent.read_attribute(:root_pass), hostgroup.root_pass
+    hostgroup.save!
+    assert_blank hostgroup.read_attribute(:root_pass), 'root_pass should not be copied and stored on child'
+  end
+
+  test "root_pass inherited from settings if blank" do
+    Setting[:root_pass] = '12345678'
+    hostgroup = FactoryGirl.build(:hostgroup, :root_pass => '')
+    assert_equal '12345678', hostgroup.root_pass
+    hostgroup.save!
+    assert_blank hostgroup.read_attribute(:root_pass), 'root_pass should not be copied and stored on child'
+  end
+
+  test "root_pass inherited from settings if group and parent are blank" do
+    Setting[:root_pass] = '12345678'
+    parent = FactoryGirl.create(:hostgroup, :root_pass => '')
+    hostgroup = FactoryGirl.build(:hostgroup, :parent => parent, :root_pass => '')
+    assert_equal '12345678', hostgroup.root_pass
+    hostgroup.save!
+    assert_blank hostgroup.read_attribute(:root_pass), 'root_pass should not be copied and stored on child'
   end
 
   test "hostgroup name can't be too big to create lookup value matcher over 255 characters" do

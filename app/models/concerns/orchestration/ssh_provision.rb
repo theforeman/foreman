@@ -104,6 +104,8 @@ module Orchestration::SSHProvision
     begin
       template = configTemplate(:kind => "finish")
     rescue => e
+      logger.error e.message
+      logger.error e.backtrace.join("\n")
       status = false
     end
     status = false if template.nil?

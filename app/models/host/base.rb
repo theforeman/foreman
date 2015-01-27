@@ -94,7 +94,11 @@ module Host
 
     def set_interfaces(parser)
       parser.interfaces.each do |name, attributes|
-        macaddress = Net::Validations.normalize_mac(attributes[:macaddress])
+        begin
+          macaddress = Net::Validations.normalize_mac(attributes[:macaddress])
+        rescue ArgumentError
+          logger.debug "invalid mac during parsing: #{attributes[:macaddress]}"
+        end
         base = self.interfaces.where(:mac => macaddress)
 
         if attributes[:virtual]
@@ -136,6 +140,7 @@ module Host
       end
       hash
     end
+    alias_method :facts, :facts_hash
 
     def ==(comparison_object)
       super ||

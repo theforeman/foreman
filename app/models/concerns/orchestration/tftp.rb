@@ -64,7 +64,6 @@ module Orchestration::TFTP
     # this is the only place we generate a template not via a web request
     # therefore some workaround is required to "render" the template.
 
-    prefix   = operatingsystem.pxe_prefix(arch)
     @kernel = os.kernel(arch)
     @initrd = os.initrd(arch)
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.

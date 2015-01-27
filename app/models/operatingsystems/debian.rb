@@ -2,6 +2,10 @@ class Debian < Operatingsystem
 
   PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}
 
+  def pxedir
+    'dists/$release/main/installer-$arch/current/images/netboot/' + guess_os + '-installer/$arch'
+  end
+
   def preseed_server(host)
     medium_uri(host).select(:host, :port).compact.join(':')
   end
@@ -11,16 +15,7 @@ class Debian < Operatingsystem
   end
 
   def boot_files_uri(medium, architecture, host = nil)
-    raise ::Foreman::Exception.new(N_("invalid medium for %s"), to_s) unless media.include?(medium)
-    raise ::Foreman::Exception.new(N_("invalid architecture for %s"), to_s) unless architectures.include?(architecture)
-
-    # Debian stores x86_64 arch is amd64
-    arch = architecture.to_s.gsub("x86_64","amd64")
-    pxe_dir = "dists/#{release_name}/main/installer-#{arch}/current/images/netboot/#{guess_os}-installer/#{arch}"
-
-    PXEFILES.values.collect do |img|
-      URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/#{pxe_dir}/#{img}").normalize
-    end
+    super(medium, architecture, host).each{ |img_uri| img_uri.path = img_uri.path.gsub('x86_64','amd64') }
   end
 
   def pxe_type

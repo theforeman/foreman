@@ -71,18 +71,11 @@ Generally, follow the [Foreman guidelines](http://theforeman.org/contribute.html
 # Media
 We keep a repository of talks, tutorials, articles about everything in the Foreman ecosystem in the [media section](http://theforeman.org/media.html) of our web. If you want to get yours published, just submit a pull request to [theforeman.org repository](https://github.com/theforeman/theforeman.org)
 
-# Copyright
-Copyright (c) 2009-2014 Ohad Levy, Paul Kelly, and their respective owners
+# Special thanks
 
-This program and entire repository is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-any later version.
+The original authors of this project are [Ohad Levy](http://github.com/ohadlevy) and [Paul Kelly](http://github.com/pikelly).
+You can find a more thorough list of people who have contributed to this project at some point in [Contributors](Contributors).
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+# License
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+See [LICENSE](LICENSE) file.

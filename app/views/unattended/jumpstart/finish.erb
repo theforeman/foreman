@@ -8,7 +8,7 @@ logger "Starting finish script"
 /bin/touch /noautoshutdown
 
 # Install the root password
-/usr/bin/perl -p -i -e 's/^root:[^:]+/root:<%= @host.root_pass.gsub("/", '\/')-%>/' /etc/shadow
+/usr/bin/perl -p -i -e 's/^root:[^:]+/root:<%= @host.root_pass.gsub('/', '\/')-%>/' /etc/shadow
 
 # Root can ssh into this box. This is very useful while we rebuild this
 /usr/bin/perl -p -i -e "s/PermitRootLogin no/PermitRootLogin yes/" /etc/ssh/sshd_config

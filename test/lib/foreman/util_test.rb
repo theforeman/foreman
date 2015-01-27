@@ -5,7 +5,7 @@ class UtilTest < ActiveSupport::TestCase
   include Foreman::Util
 
   test "should support which" do
-    assert Foreman::Util.instance_methods.include? RUBY_VERSION =~ /^1\.8/ ? "which" : :which
+    assert :which
   end
 
   test "should iterate over PATH env and find binary" do

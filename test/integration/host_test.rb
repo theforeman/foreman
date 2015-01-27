@@ -54,4 +54,26 @@ class HostTest < ActionDispatch::IntegrationTest
     assert page.has_link?("rename.#{@host.domain.to_s}")
   end
 
+  test "subnets are available" do
+    disable_orchestration
+    @host.domain.subnets = [Subnet.first, Subnet.last]
+    visit hosts_path
+    click_link @host.fqdn
+    first(:link, "Edit").click
+    click_link "Network"
+    page.select @host.domain.name, :from => "host[domain_id]"
+    assert_equal(find('#host_subnet_id').all('option').collect(&:text).length, 3) # Ensure blank is created, so: one blank + two subnets.
+    assert_equal(find('#host_subnet_id').find("option[value='#{Subnet.first.id}']").value, Subnet.first.id.to_s)
+    assert_equal(find('#host_subnet_id').find("option[value='#{Subnet.last.id}']").text, Subnet.last.to_label)
+  end
+
+  test "destroy redirects to hosts index" do
+    disable_orchestration  # Avoid DNS errors
+    visit hosts_path
+    click_link @host.fqdn
+    assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
+    first(:link, "Delete").click
+    assert_equal(current_path, hosts_path)
+  end
+
 end

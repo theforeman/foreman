@@ -1,4 +1,6 @@
 //= require jquery
+//= require jquery.turbolinks
+//= require turbolinks
 //= require i18n
 //= require jquery_ujs
 //= require jquery.ui.autocomplete
@@ -17,13 +19,14 @@
 //= require hidden_values
 
 $(document).on('ContentLoad', function(){onContentLoad()});
+Turbolinks.enableProgressBar();
 
 $(function() {
   $(document).trigger('ContentLoad');
 });
 
 function onContentLoad(){
-  if($('.autocomplete-clear').size() == 0){
+  if($('.autocomplete-clear').length == 0){
     $('.autocomplete-input').scopedSearch({'delay': 250});
     $('.ui-helper-hidden-accessible').remove();
   }
@@ -50,20 +53,19 @@ function onContentLoad(){
   $("#title_action span").removeClass("btn btn-default").addClass("btn-group");
   $("#title_action a[href*='new']").removeClass('btn-default').addClass("btn-success");
 
-  if ($("input[focus_on_load=true]").size() > 0) {
+  if ($("input[focus_on_load=true]").length > 0) {
     $("input[focus_on_load]").first().focus();
   }
 
   // highlight tabs with errors
-  $(".tab-content").find(".form-group.has-error").each(function(index) {
-    var id = $(this).parentsUntil(".tab-content").last().attr("id");
-    $("a[href=#"+id+"]").addClass("tab-error");
-
-    // focus on first tab with error
-    if (index == 0) {
-      $("a[href=#"+id+"]").click();
-    }
+  var errorFields = $(".tab-content .form-group.has-error");
+  errorFields.parents(".tab-pane").each(function() {
+      $("a[href=#"+this.id+"]").addClass("tab-error");
   })
+  $(".tab-error").first().click();
+  $('.nav-pills .tab-error').first().click();
+  errorFields.first().find('.form-control').focus();
+
 
   //set the tooltips
   $('a[rel="popover"]').popover({html: true});
@@ -83,10 +85,7 @@ function onContentLoad(){
   });
 
   // allow opening new window for selected links
-  $('a[rel="external"]').click( function() {
-    window.open( $(this).attr('href') );
-    return false;
-  });
+  $('a[rel="external"]').attr("target","_blank");
 
   $('*[data-ajax-url]').each(function() {
     var url = $(this).data('ajax-url');
@@ -108,6 +107,9 @@ function onContentLoad(){
   $('form').on('click', 'input[type="submit"]', function() {
     $("#fakepassword").remove();
   });
+
+  var tz = jstz.determine();
+  $.cookie('timezone', tz.name(), { path: '/' });
 }
 
 function remove_fields(link) {
@@ -118,7 +120,7 @@ function remove_fields(link) {
 
 function mark_params_override(){
   $('#inherited_parameters .override-param').removeClass('override-param');
-  $('#inherited_parameters span').show();
+  $('#inherited_parameters [data-tag=override]').show();
   $('#parameters').find('[id$=_name]:visible').each(function(){
     var param_name = $(this);
     $('#inherited_parameters').find('[id^=name_]').each(function(){
@@ -133,13 +135,13 @@ function mark_params_override(){
   $('#inherited_puppetclasses_parameters [data-tag=override]').show();
   $('#puppetclasses_parameters').find('[data-property=class]:visible').each(function(){
     var klass = $(this).val();
-    var name = $(this).siblings('[data-property=name]').val();
+    var name = $(this).closest('tr').find('[data-property=name]').val();
     $('#inherited_puppetclasses_parameters [id^="puppetclass_"][id*="_params\\["][id$="\\]"]').each(function(){
       var param = $(this);
       if (param.find('[data-property=class]').text() == klass && param.find('[data-property=name]').text() == name) {
         param.find('.error').removeClass('error');
         param.find('.warning').removeClass('warning');
-        param.addClass('override-param');
+        param.closest('tr').find('[data-property=name]').addClass('override-param');
         param.find('input, textarea').addClass('override-param');
         param.find('[data-tag=override]').hide();
       }
@@ -257,7 +259,7 @@ function filter_by_level(item){
     $('.label-warning').closest('tr').hide();
     $('.label-danger').closest('tr').show();
   }
-  if($("#report_log tr:visible ").size() ==1 || $("#report_log tr:visible ").size() ==2 && $('#ntsh:visible').size() > 0 ){
+  if($("#report_log tr:visible ").length ==1 || $("#report_log tr:visible ").length ==2 && $('#ntsh:visible').length > 0 ){
     $('#ntsh').show();
   }
   else{
@@ -287,7 +289,7 @@ function attribute_hash(attributes){
   var attrs = {};
   for (i=0;i < attributes.length; i++) {
     var attr = $('*[id$='+attributes[i]+']');
-    if (attr.size() > 0) {
+    if (attr.length > 0) {
       if(attr.attr("type")=="checkbox"){
         attrs[attributes[i]] = [];
         $("*[id*="+attributes[i]+"]:checked").each(function(index,item){

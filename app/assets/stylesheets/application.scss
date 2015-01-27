@@ -184,7 +184,7 @@ select{padding: initial;}
 }
 .collapse .inputs-list li{ margin-left:20px; }
 
-.delete{color: #b94a48 !important; cursor: auto;}
+.delete{color: #b94a48 !important;}
 .inherited{color: #444444 !important; cursor: auto;}
 .descendants{color: #444444 !important; cursor: auto;}
 .used_by_hosts{color: #000 !important; cursor: auto;}
@@ -417,5 +417,18 @@ table tr td:last-child {
       border-bottom: 1px solid #a94442;
     }
   }
+}
 
+.autocomplete-input {
+  display:inline-block !important;
+}
+
+
+.lookup-keys-container{
+  li .close{
+    display: none;
+  }
+  li.active .close{
+    display: block;
+  }
 }

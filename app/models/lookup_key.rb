@@ -268,11 +268,11 @@ class LookupKey < ActiveRecord::Base
   end
 
   def cast_value_yaml(value)
-    value = YAML.load value
+    YAML.load value
   end
 
   def cast_value_json(value)
-    value = JSON.load value
+    JSON.load value
   end
 
   def ensure_type

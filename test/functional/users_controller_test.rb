@@ -210,6 +210,18 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to hosts_path
   end
 
+  test "should logout external user" do
+    @sso = mock('dummy_sso')
+    @sso.stubs(:authenticated?).returns(true)
+    @sso.stubs(:logout_url).returns("/users/extlogout")
+    @sso.stubs(:current_user).returns(users(:admin).login)
+    @controller.stubs(:available_sso).returns(@sso)
+    @controller.stubs(:get_sso_method).returns(@sso)
+    get :extlogin, {}, {}
+    get :logout, {}, {}
+    assert_redirected_to '/users/extlogout'
+  end
+
   test "should login external user preserving uri" do
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'

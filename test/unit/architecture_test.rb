@@ -20,15 +20,6 @@ class ArchitectureTest < ActiveSupport::TestCase
     assert_not architecture.save
   end
 
-  test "name should not contain white spaces" do
-    architecture = Architecture.new :name => " i38  6 "
-    assert_not_empty architecture.name.squeeze(" ").tr(' ', '')
-    assert_not architecture.save
-
-    architecture.name.squeeze!(" ").tr!(' ', '')
-    assert architecture.save
-  end
-
   test "name should be unique" do
     architecture = Architecture.new :name => "i386"
     assert architecture.save

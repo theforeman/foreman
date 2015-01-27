@@ -1,27 +1,27 @@
 <table class="table table-condensed" id="inherited_parameters">
   <thead>
-  <tr>
-    <th class='col-md-3'><%= _("Scope") %></th>
-    <th class='col-md-2'><%= _("Name") %></th>
-    <th class='col-md-5'><%= _("Value") %></th>
-    <th class='col-md-2'><%= _("Use Puppet default") %></th>
-    <th><%= _('Actions') %></th>
-  </tr>
+    <tr>
+      <th class='col-md-3'><%= _("Scope") %></th>
+      <th class='col-md-2'><%= _("Name") %></th>
+      <th class='col-md-5'><%= _("Value") %></th>
+      <th class='col-md-2'><%= _("Use Puppet default") %></th>
+      <th><%= _('Actions') %></th>
+    </tr>
   </thead>
   <% if inherited_parameters.present? %>
-      <tbody>
+    <tbody>
       <% keys = inherited_parameters.keys.sort %>
       <% keys.each do |name| %>
-          <tr>
-            <%= "<td class='col-md-3' rowspan='#{keys.size}'>#{_('Global')}</td>".html_safe if name == keys.first %>
-            <td class='col-md-2'><%= content_tag :span, name, :id => "name_#{name}", :class => "col-md-2" %></td>
-            <td class='col-md-7'><%= parameter_value_field inherited_parameters[name] %></td>
-            <td>
-              <%= link_to_function(_("override"), "override_param(this)", :title => _("Override this value"),
-                                   :'data-tag' => 'override', :class => "btn btn-default") if authorized_via_my_scope("host_editing", "create_params") %>
-          </tr>
+        <tr>
+          <%= "<td class='col-md-3' rowspan='#{keys.size}'>#{_('Global')}</td>".html_safe if name == keys.first %>
+          <td class='col-md-2'><%= content_tag :span, name, :id => "name_#{name}", :class => "col-md-2" %></td>
+          <td class='col-md-7'><%= parameter_value_field inherited_parameters[name] %></td>
+          <td>
+            <%= link_to_function(_("override"), "override_param(this)", :title => _("Override this value"),
+                                 :'data-tag' => 'override', :class => "btn btn-default") if authorized_via_my_scope("host_editing", "create_params") %>
+          </td>
+        </tr>
       <% end %>
-      </tbody>
+    </tbody>
   <% end %>
 </table>
-

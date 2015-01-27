@@ -171,20 +171,18 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   test "should obsolete environment" do
     setup_import_classes
     as_admin do
-      xyz_environment = Environment.create!(:name => 'xyz')
+      Environment.create!(:name => 'xyz')
     end
     assert_difference('Environment.count', -1) do
       post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
     end
     assert_response :success
-    response = ActiveSupport::JSON.decode(@response.body)
   end
 
   test "should obsolete puppetclasses" do
     setup_import_classes
     as_admin do
-      environment = Environment.find_by_name("env1")
-      assert_difference('environment.puppetclasses.count', -2) do
+      assert_difference('Environment.find("env1").puppetclasses.count', -2) do
         post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
       end
     end
@@ -198,7 +196,6 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
       post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
     end
     assert_response :success
-    response = ActiveSupport::JSON.decode(@response.body)
   end
 
   test "no changes on import_puppetclasses" do
@@ -230,13 +227,12 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   test "should NOT delete environment if pass ?except=obsolete" do
     setup_import_classes
     as_admin do
-      xyz_environment = Environment.create!(:name => 'xyz')
+      Environment.create!(:name => 'xyz')
     end
     assert_difference('Environment.count', 0) do
       post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :except => 'obsolete'}, set_session_user
     end
     assert_response :success
-    response = ActiveSupport::JSON.decode(@response.body)
   end
 
   test "should NOT add or update puppetclass smart class parameters if pass ?except=new,updated" do
@@ -246,7 +242,6 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
       post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :except => 'new,updated'}, set_session_user
     end
     assert_response :success
-    response = ActiveSupport::JSON.decode(@response.body)
   end
 
   context 'import puppetclasses' do

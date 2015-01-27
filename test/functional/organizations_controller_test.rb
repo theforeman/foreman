@@ -95,9 +95,9 @@ class OrganizationsControllerTest < ActionController::TestCase
   test "should assign all hosts with no organization to selected organization and add taxable_taxonomies" do
     organization = taxonomies(:organization1)
     domain = FactoryGirl.create(:domain, :organizations => [taxonomies(:organization2)])
-    hosts = FactoryGirl.create_list(:host, 2, :domain => domain,
-                                    :environment => environments(:production),
-                                    :organization => nil)
+    FactoryGirl.create_list(:host, 2, :domain => domain,
+                            :environment => environments(:production),
+                            :organization => nil)
     assert_difference "organization.taxable_taxonomies.count", 1 do
       post :assign_all_hosts, {:id => organization.id}, set_session_user
     end
@@ -125,7 +125,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   # Mismatches
   test "should show all mismatches and button Fix All Mismatches if there are" do
-    hosts = FactoryGirl.create_list(:host, 2, :organization => taxonomies(:organization1))
+    FactoryGirl.create_list(:host, 2, :organization => taxonomies(:organization1))
     TaxableTaxonomy.delete_all
     get :mismatches, {}, set_session_user
     assert_response :success

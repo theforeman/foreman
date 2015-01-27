@@ -23,7 +23,7 @@ class Puppetclass < ActiveRecord::Base
   has_many :class_params, :through => :environment_classes, :uniq => true,
     :source => :lookup_key, :conditions => 'environment_classes.lookup_key_id is NOT NULL'
   accepts_nested_attributes_for :class_params, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
-  validates :name, :uniqueness => true, :presence => true, :format => {:with => /\A(\S+\s?)+\Z/, :message => N_("can't contain white spaces.") }
+  validates :name, :uniqueness => true, :presence => true, :no_whitespace => true
   audited :allow_mass_assignment => true
 
   alias_attribute :smart_variables, :lookup_keys
@@ -94,7 +94,8 @@ class Puppetclass < ActiveRecord::Base
     ids = hostgroup_ids
     ids += host_ids_from_config_groups('Hostgroup')
     hgs = Hostgroup.unscoped.where(:id => ids.uniq)
-    hgs.flat_map(&:subtree).uniq if with_descendants
+    hgs = hgs.flat_map(&:subtree).uniq if with_descendants
+    hgs
   end
 
   def all_hosts

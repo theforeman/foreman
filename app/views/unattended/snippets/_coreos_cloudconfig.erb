@@ -1,0 +1,46 @@
+#cloud-config
+<%#
+kind: snippet
+name: coreos_cloudconfig
+%>
+      coreos:
+        etcd:
+<% if @host.params['etcd_discovery_url'] -%>
+          discovery: <%= @host.params['etcd_discovery_url'] %>
+<% end -%>
+          addr: <%= @host.ip %>:4001
+          peer-addr: <%= @host.ip %>:7001
+        units:
+          - name: etcd.service
+            command: start
+          - name: fleet.service
+            command: start
+          - name: docker-tcp.socket
+            command: start
+            enable: yes
+            content: |
+              [Unit]
+              Description=Docker Socket for the API
+              
+              [Socket]
+              ListenStream=2375
+              BindIPv6Only=both
+              Service=docker.service
+              
+              [Install]
+              WantedBy=sockets.target
+          - name: enable-docker-tcp.service
+            command: start
+            content: |
+              [Unit]
+              Description=Enable the Docker Socket for the API
+              
+              [Service]
+              Type=oneshot
+              ExecStart=/usr/bin/systemctl enable docker-tcp.socket
+<% if @host.params['ssh_authorized_keys'] -%>
+      ssh_authorized_keys:
+  <% @host.params['ssh_authorized_keys'].split(',').map(&:strip).each do |ssh_key| -%>
+      - "<%= ssh_key %>"
+  <% end -%>
+<% end -%>

@@ -8,13 +8,16 @@
 </ul>
 <div class="tab-content">
   <% @settings.group_by(&:category).each do |category, setting| %>
-      <div class="tab-pane <%= "active" if category == @settings.first.category %>" id='<%= short_cat(category) %>' >
-        <table class="table table-bordered table-striped">
+    <div class="tab-pane <%= "active" if category == @settings.first.category %>" id='<%= short_cat(category) %>' >
+      <table class="table table-bordered table-striped">
+        <thead>
           <tr>
             <th><%= s_("Setting|Name") %></th>
             <th><%= s_("Setting|Value") %></th>
             <th><%= s_("Setting|Description") %></th>
           </tr>
+        </thead>
+        <tbody>
           <% setting.each do |item| %>
             <tr>
               <td><%=h item.name %></td>
@@ -22,8 +25,8 @@
               <td><%=h _(item.description) %></td>
             </tr>
           <% end %>
-        </table>
-      </div>
+        </tbody>
+      </table>
+    </div>
   <% end %>
 </div>
-

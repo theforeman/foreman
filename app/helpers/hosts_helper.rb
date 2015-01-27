@@ -4,8 +4,25 @@ module HostsHelper
   include ComputeResourcesVmsHelper
   include BmcHelper
 
+  def host_taxonomy_select(f, taxonomy)
+    taxonomy_id = "#{taxonomy.to_s.downcase}_id"
+    selected_taxonomy = @host.new_record? ? taxonomy.current.try(:id) : @host.send(taxonomy_id)
+    select_opts = { :include_blank => !@host.managed? || @host.send(taxonomy_id).nil?,
+                    :selected => selected_taxonomy }
+    html_opts = { :disabled => !@host.new_record?,
+                  :onchange => "#{taxonomy.to_s.downcase}_changed(this);",
+                  :label => _(taxonomy.to_s),
+                  :'data-host-id' => @host.id,
+                  :'data-url' => process_taxonomy_hosts_path,
+                  :help_inline => :indicator,
+                  :required => true }
+
+    select_f f, taxonomy_id.to_sym, taxonomy.send("my_#{taxonomy.to_s.downcase.pluralize}"), :id, :to_label,
+            select_opts, html_opts
+  end
+
   def last_report_column(record)
-    time = record.last_report? ? _("%s ago") % time_ago_in_words(record.last_report.getlocal): ""
+    time = record.last_report? ? _("%s ago") % time_ago_in_words(record.last_report): ""
     link_to_if_authorized(time,
                           hash_for_host_report_path(:host_id => record.to_param, :id => "last"),
                           last_report_tooltip(record))
@@ -60,11 +77,11 @@ module HostsHelper
       short = s_("OK|O")
     end
     content_tag(:span, short, {:rel => "twipsy", :class => "label label-light " + style, :"data-original-title" => _(label)} ) +
-      link_to(trunc("  #{record}"), host_path(record))
+      link_to(trunc_with_tooltip("  #{record}"), host_path(record))
   end
 
   def days_ago(time)
-    ((Time.now - time) / 1.day).round.to_i
+    ((Time.zone.now - time) / 1.day).round.to_i
   end
 
   def authorized?
@@ -76,7 +93,7 @@ module HostsHelper
     params[:search].empty?
   end
 
-  def multiple_actions_select
+  def multiple_actions
     actions = [
       [_('Change Group'), select_multiple_hostgroup_hosts_path],
       [_('Change Environment'), select_multiple_environment_hosts_path],
@@ -90,9 +107,12 @@ module HostsHelper
     actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun]
     actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
     actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
+    actions
+  end
 
+  def multiple_actions_select
       select_action_button( _("Select Action"), {:id => 'submit_multiple'},
-        actions.map do |action|
+        multiple_actions.map do |action|
           link_to(action[0], action[1], :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
         end.flatten
       )
@@ -145,7 +165,7 @@ module HostsHelper
     return unless @host.reports.size > 0
     form_tag @host, :id => 'days_filter', :method => :get, :class => "form form-inline" do
       content_tag(:span, (_("Reports from the last %{days} days - %{count} reports found") %
-        { :days  => select(nil, 'range', 1..days_ago(@host.reports.first.reported_at),
+        { :days  => select(nil, 'range', 1..days_ago(@host.reports.order(:reported_at).first.reported_at),
                     {:selected => @range}, {:class=>"col-md-1 form-control", :style=>"float:none;", :onchange =>"$('#days_filter').submit();$(this).disabled();"}),
           :count => @host.reports.recent(@range.days.ago).count }).html_safe)
     end
@@ -202,7 +222,7 @@ module HostsHelper
       [_("Puppet Environment"), (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")) if host.environment)],
       [_("Host Architecture"), (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")) if host.arch)],
       [_("Operating System"), (link_to(host.os.to_label, hosts_path(:search => "os_description = #{host.os.description}")) if host.os)],
-      [_("Host group"), (link_to(host.hostgroup, hosts_path(:search => %Q{hostgroup_title = "#{host.hostgroup}"})) if host.hostgroup)],
+      [_("Host group"), (link_to(host.hostgroup, hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"})) if host.hostgroup)],
     ]
     fields += [[_("Location"), (link_to(host.location.title, hosts_path(:search => "location = #{host.location}")) if host.location)]] if SETTINGS[:locations_enabled]
     fields += [[_("Organization"), (link_to(host.organization.title, hosts_path(:search => "organization = #{host.organization}")) if host.organization)]] if SETTINGS[:organizations_enabled]
@@ -231,11 +251,11 @@ module HostsHelper
     title_actions(
         button_group(
             link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host),
-                                    :title    => _("Edit your host")),
+                                    :title    => _("Edit your host"), :id => "edit-button"),
             if host.build
               link_to_if_authorized(_("Cancel build"), hash_for_cancelBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
                                     :disabled => host.can_be_built?,
-                                    :title    => _("Cancel build request for this host"))
+                                    :title    => _("Cancel build request for this host"), :id => "cancel-build-button")
             else
               link_to_if_authorized(_("Build"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts', :anchor => "review_before_build"),
                                     :disabled => !host.can_be_built?,
@@ -263,7 +283,7 @@ module HostsHelper
         ),
         button_group(
             link_to_if_authorized(_("Delete"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'destroy_hosts'),
-                                  :class => "btn btn-danger", :confirm => _('Are you sure?'), :method => :delete)
+                                  :class => "btn btn-danger", :id => "delete-button", :data => { :message => _("Are you sure?") }, :method => :delete)
         )
     )
   end

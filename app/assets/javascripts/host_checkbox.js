@@ -115,7 +115,7 @@ $(function() {
           $("#loading").hide();
           $('#submit_multiple').val('');
           var b = $("#confirmation-modal .btn-primary");
-          if ($(response).find('#content form select').size() > 0)
+          if ($(response).find('#content form select').length > 0)
             b.addClass("disabled").attr("disabled", true);
           else
             b.removeClass("disabled").attr("disabled", false);

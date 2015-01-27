@@ -19,6 +19,7 @@ class MailNotification < ActiveRecord::Base
   validates :subscription_type, :inclusion => { :in => SUBSCRIPTION_TYPES }, :allow_blank => true
   validates :mailer, :presence => true
   validates :method, :presence => true
+  alias_attribute :mailer_method, :method
 
   default_scope lambda {
     order("mail_notifications.name")

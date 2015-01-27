@@ -1,20 +1,24 @@
 <% javascript 'charts', 'hosts' %>
 <% title @host.to_label, icon(@host.os) + @host.to_label %>
-
 <%= host_title_actions(@host) %>
 <% content_for(:search_bar) {reports_show} %>
-
 <div id="host-show" class="row" data-history-url='<%= host_path(@host)%>'>
   <div class="col-md-4">
     <table id="details_table" class="table table-bordered table-striped">
-      <tr><th><%= _('Details') %></th></tr>
-      <tr>
-        <td>
-          <% show_appropriate_host_buttons(@host).each do |btn| %>
-            <%= btn %>
-          <% end %>
-        </td>
-      </tr>
+      <thead>
+        <tr>
+          <th><%= _('Details') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <% show_appropriate_host_buttons(@host).each do |btn| %>
+              <%= btn %>
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
     </table>
     <ul id="myTab" class="nav nav-tabs">
       <li class="active"><a href="#properties" data-toggle="tab"><%= _('Properties') %></a></li>
@@ -38,9 +42,9 @@
       </div>
       <div class="tab-pane" id="metrics">
         <% if @report_summary.size == 0 %>
-            <div class="alert alert-warning"><%= _('No puppet activity for this host in the last %s days') % @range %></div>
+          <div class="alert alert-warning"><%= _('No puppet activity for this host in the last %s days') % @range %></div>
         <% else %>
-            <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
+          <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
         <% end %>
       </div>
       <div class="tab-pane" id="template" data-ajax-url='<%= templates_host_path(@host)%>'>
@@ -64,9 +68,7 @@
             <%= _('Loading BMC information ...') %>
           </p>
         </div>
-
       <% end %>
-
     </div>
   </div>
   <div class="col-md-8">
@@ -108,6 +110,18 @@
         <div class="loading"><%= image_tag 'spinner.gif' %></div>
         <div id="build_status"></div>
       </div>
+    </div>
+  </div>
+</div>
+<div id="processing_message" class="modal fade hide">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <%= alert_close('modal') %>
+        <h4 class="modal-title"><%= _('Loading...') %>
+          <%= image_tag 'spinner.gif' %></h4>
+      </div>
+      <div class="modal-body"><%= _('Please wait while your request is being processed') %></div>
     </div>
   </div>
 </div>

@@ -27,6 +27,8 @@ ConfigTemplate.without_auditing do
     { :name => 'AutoYaST default', :source => 'autoyast/provision.erb', :template_kind => kinds[:provision], :operatingsystems => os_suse },
     { :name => 'AutoYaST SLES default', :source => 'autoyast/provision_sles.erb', :template_kind => kinds[:provision], :operatingsystems => os_suse },
     { :name => 'AutoYaST default PXELinux', :source => 'autoyast/PXELinux.erb', :template_kind => kinds[:PXELinux], :operatingsystems => os_suse },
+    { :name => 'CoreOS provision', :source => 'coreos/provision.erb', :template_kind => kinds[:provision]},
+    { :name => 'CoreOS PXELinux', :source => 'coreos/PXELinux.erb', :template_kind => kinds[:PXELinux]},
     { :name => 'FreeBSD (mfsBSD) finish', :source => 'freebsd/finish_FreeBSD_mfsBSD.erb', :template_kind => kinds[:finish] },
     { :name => 'FreeBSD (mfsBSD) provision', :source => 'freebsd/provision_FreeBSD_mfsBSD.erb', :template_kind => kinds[:provision] },
     { :name => 'FreeBSD (mfsBSD) PXELinux', :source => 'freebsd/PXELinux_FreeBSD_mfsBSD.erb', :template_kind => kinds[:PXELinux] },
@@ -52,16 +54,21 @@ ConfigTemplate.without_auditing do
     { :name => "Junos default finish", :source => 'ztp/finish.erb', :template_kind => kinds[:finish], :operatingsystems => os_junos },
     # snippets
     { :name => 'alterator_pkglist', :source => 'snippets/_alterator_pkglist.erb', :snippet => true },
+    { :name => 'coreos_cloudconfig', :source => 'snippets/_coreos_cloudconfig.erb', :snippet => true },
     { :name => 'epel', :source => 'snippets/_epel.erb', :snippet => true },
     { :name => 'fix_hosts', :source => 'snippets/_fix_hosts.erb', :snippet => true },
     { :name => 'freeipa_register', :source => 'snippets/_freeipa_register.erb', :snippet => true },
     { :name => 'http_proxy', :source => 'snippets/_http_proxy.erb', :snippet => true },
+    { :name => 'kickstart_networking_setup', :source => 'snippets/_kickstart_networking_setup.erb', :snippet => true },
     { :name => 'puppet.conf', :source => 'snippets/_puppet.conf.erb', :snippet => true },
     { :name => 'redhat_register', :source => 'snippets/_redhat_register.erb', :snippet => true },
     { :name => 'saltstack_minion', :source => 'snippets/_saltstack_minion.erb', :snippet => true }
   ].each do |input|
     next if ConfigTemplate.find_by_name(input[:name])
     next if audit_modified? ConfigTemplate, input[:name]
+
+    input.merge!(:default => true)
+
     t = ConfigTemplate.create({
       :snippet  => false,
       :template => File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))

@@ -5,6 +5,7 @@ class HostTest < ActiveSupport::TestCase
     disable_orchestration
     User.current = users :admin
     Setting[:token_duration] = 0
+    Foreman::Model::EC2.any_instance.stubs(:image_exists?).returns(true)
   end
 
   test "should not save without a hostname" do
@@ -170,7 +171,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "lookup value has right matcher for a host" do
     assert_difference('LookupValue.where(:lookup_key_id => lookup_keys(:five).id, :match => "fqdn=abc.mydomain.net").count') do
-      h = Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "2.3.4.3",
+      Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "2.3.4.3",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
         :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
         :environment => environments(:production), :disk => "empty partition",
@@ -362,7 +363,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "update a host's location" do
-    host = Host.create :name => "host 1", :mac => "aabbccddee", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
+    host = Host.create :name => "host 1", :mac => "aabbccddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
     original_location = Location.create :name => "New York"
 
     host.location_id = original_location.id
@@ -502,17 +503,18 @@ context "location or organizations are not enabled" do
       "parameters"=> {"puppetmaster"=>"puppet", "MYVAR"=>"value", "port" => "80",
         "ssl_port" => "443", "foreman_env"=> "production", "owner_name"=>"Admin User",
         "root_pw"=>"xybxa6JUkz63w", "owner_email"=>"admin@someware.com",
-        "subnets"=>
+        "foreman_subnets"=>
           [{"network"=>"2.3.4.0",
             "name"=>"one",
             "gateway"=>nil,
+            "mask"=>"255.255.255.0",
             "dns_primary"=>nil,
             "dns_secondary"=>nil,
             "from"=>nil,
             "to"=>nil,
             "boot_mode"=>"Static",
             "ipam"=>"DHCP"}],
-         "interfaces"=>
+         "foreman_interfaces"=>
           [{"mac"=>"aa:bb:ac:dd:ee:ff",
             "ip"=>"2.3.4.12",
             "type"=>"Interface",
@@ -523,6 +525,7 @@ context "location or organizations are not enabled" do
             "identifier"=>nil,
             "managed"=>true,
             "subnet"=> {"network"=>"2.3.4.0",
+                        "mask"=>"255.255.255.0",
                         "name"=>"one",
                         "gateway"=>nil,
                         "dns_primary"=>nil,
@@ -597,8 +600,8 @@ context "location or organizations are not enabled" do
       os_dt = FactoryGirl.create(:os_default_template, :template_kind=> TemplateKind.find('finish'))
       host  = FactoryGirl.create(:host, :on_compute_resource,
                                  :operatingsystem => os_dt.operatingsystem)
-      image = FactoryGirl.create(:image, :uuid => 'abcde',
-                                 :compute_resource => host.compute_resource)
+      FactoryGirl.create(:image, :uuid => 'abcde',
+                         :compute_resource => host.compute_resource)
       host.compute_attributes = {:image_id => 'abcde'}
 
       assert_equal [os_dt.config_template], host.available_template_kinds('image')
@@ -608,8 +611,24 @@ context "location or organizations are not enabled" do
   test "handle_ca must not perform actions when the manage_puppetca setting is false" do
     h = FactoryGirl.create(:host)
     Setting[:manage_puppetca] = false
-    h.expects(:initialize_puppetca).never()
-    h.expects(:setAutosign).never()
+    h.expects(:initialize_puppetca).never
+    h.expects(:setAutosign).never
+    assert h.handle_ca
+  end
+
+  test "handle_ca must not perform actions when no Puppet CA proxy is associated even if associated with hostgroup" do
+    hostgroup = FactoryGirl.create(:hostgroup, :with_puppet_orchestration)
+    h = FactoryGirl.create(:host, :managed, :hostgroup => hostgroup)
+    Setting[:manage_puppetca] = true
+    assert h.puppet_proxy.present?
+    assert h.puppetca?
+
+    h.puppet_proxy_id = h.puppet_ca_proxy_id = nil
+    h.save
+
+    refute h.puppetca?
+
+    h.expects(:initialize_puppetca).never
     assert h.handle_ca
   end
 
@@ -617,7 +636,7 @@ context "location or organizations are not enabled" do
     h = FactoryGirl.create(:host)
     Setting[:manage_puppetca] = true
     refute h.puppetca?
-    h.expects(:initialize_puppetca).never()
+    h.expects(:initialize_puppetca).never
     assert h.handle_ca
   end
 
@@ -680,8 +699,8 @@ context "location or organizations are not enabled" do
 
   test "models are updated when host.model has no value" do
     h = FactoryGirl.create(:host)
-    f = FactoryGirl.create(:fact_value, :value => 'superbox',:host => h,
-                           :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+    FactoryGirl.create(:fact_value, :value => 'superbox',:host => h,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
     assert_difference('Model.count') do
       facts = JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))
       h.populate_fields_from_facts facts['facts']
@@ -754,22 +773,21 @@ context "location or organizations are not enabled" do
     assert_equal h.root_pass, Setting.root_pass
   end
 
-  test "should generate a random salt when saving root pw" do
-    h = FactoryGirl.create(:host, :managed)
-    pw = h.root_pass
-    h.hostgroup = nil
-    h.root_pass = "xybxa6JUkz63w"
-    assert h.save!
-    first = h.root_pass
+  test "should crypt the password and update it in the database" do
+    unencrypted_password = "xybxa6JUkz63w"
+    host = FactoryGirl.create(:host, :managed)
+    host.hostgroup = nil
+    host.root_pass = unencrypted_password
+    assert host.save!
+    first_password = host.root_pass
 
-    # Check it's a $.$....$...... enhanced style password
-    assert_equal 4, first.split('$').count
-    assert first.split('$')[2].size >= 8
+    # Make sure that the password gets encrypted in the DB, we don't care how it does that
+    refute first_password.include?(unencrypted_password)
 
     # Check it changes
-    h.root_pass = "12345678"
-    assert h.save
-    assert_not_equal first.split('$')[2], h.root_pass.split('$')[2]
+    host.root_pass = "12345678"
+    assert host.save
+    assert_not_equal first_password, host.root_pass
   end
 
   test "should pass through existing salt when saving root pw" do
@@ -788,7 +806,8 @@ context "location or organizations are not enabled" do
     h.root_pass = nil
     assert h.save
     assert h.root_pass.present?
-    assert_equal h.root_pass, h.hostgroup.root_pass
+    assert_equal h.hostgroup.root_pass, h.root_pass
+    assert_equal h.hostgroup.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host'
   end
 
   test "should use a nested hostgroup parent root password" do
@@ -802,8 +821,9 @@ context "location or organizations are not enabled" do
     g.parent = p
     g.save
     assert h.save
-    assert h.root_pass.present?
-    assert_equal h.root_pass, p.root_pass
+    assert_present h.root_pass
+    assert_equal p.root_pass, h.root_pass
+    assert_equal p.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host'
   end
 
   test "should use settings root password" do
@@ -811,7 +831,21 @@ context "location or organizations are not enabled" do
     h = FactoryGirl.create(:host, :managed)
     h.root_pass = nil
     assert h.save
-    assert h.root_pass.present? && h.root_pass == Setting[:root_pass]
+    assert_present h.root_pass
+    assert_equal Setting[:root_pass], h.root_pass
+    assert_equal Setting[:root_pass], h.read_attribute(:root_pass), 'should copy root_pass to host'
+  end
+
+  test "should use settings root password when hostgroup has empty root password" do
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    g = FactoryGirl.create(:hostgroup, :root_pass => "")
+    h = FactoryGirl.create(:host, :managed, :hostgroup => g)
+    h.root_pass = ""
+    h.save
+    assert_valid h
+    assert_present h.root_pass
+    assert_equal Setting[:root_pass], h.root_pass
+    assert_equal Setting[:root_pass], h.read_attribute(:root_pass), 'should copy root_pass to host'
   end
 
   test "should save uuid on managed hosts" do
@@ -849,13 +883,13 @@ context "location or organizations are not enabled" do
   test "should have only one bootable interface" do
     h = FactoryGirl.create(:host, :managed)
     assert_equal 0, h.interfaces.count
-    bootable = Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
-                                     :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain, :managed => false
+    Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
+                          :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain, :managed => false
     assert_equal 1, h.interfaces.count
     h.interfaces_attributes = [{:name => "dummy-bootable2", :ip => "2.3.4.103", :mac => "aa:bb:cd:cd:ee:ff",
                                 :subnet_id => h.subnet_id, :type => 'Nic::Bootable', :domain_id => h.domain_id,
                                 :managed => false }]
-    assert !h.valid?
+    refute h.valid?
     assert_equal "Only one bootable interface is allowed", h.errors['interfaces.type'][0]
     assert_equal 1, h.interfaces.count
   end
@@ -958,7 +992,7 @@ context "location or organizations are not enabled" do
   test "#set_interfaces updates associated virtuals identifier on identifier change" do
     # eth4 was renamed to eth5 (same MAC)
     host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'})
-    physical = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
+    FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
     virtual = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'eth4.1', :attached_to => 'eth4')
 
     host.set_interfaces(parser)
@@ -1184,20 +1218,20 @@ context "location or organizations are not enabled" do
   test "can search hosts by params" do
     host = FactoryGirl.create(:host, :with_parameter)
     parameter = host.parameters.first
-    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
     assert_equal 1, results.count
     assert_equal parameter.value, results.first.params[parameter.name]
   end
 
   test "can search hosts by current_user" do
-    host = FactoryGirl.create(:host)
+    FactoryGirl.create(:host)
     results = Host.search_for("owner = current_user")
     assert_equal 1, results.count
     assert_equal results[0].owner, User.current
   end
 
   test "can search hosts by owner" do
-    host = FactoryGirl.create(:host)
+    FactoryGirl.create(:host)
     results = Host.search_for("owner = " + User.current.login)
     assert_equal User.current.hosts.count, results.count
     assert_equal results[0].owner, User.current
@@ -1207,7 +1241,7 @@ context "location or organizations are not enabled" do
     hg = hostgroups(:common)
     host = FactoryGirl.create(:host, :hostgroup => hg)
     parameter = hg.group_parameters.first
-    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
     assert results.include?(host)
     assert_equal parameter.value, results.find(host).params[parameter.name]
   end
@@ -1217,7 +1251,7 @@ context "location or organizations are not enabled" do
     hg = FactoryGirl.create(:hostgroup, :parent => parent_hg)
     host = FactoryGirl.create(:host, :hostgroup => hg)
     parameter = parent_hg.group_parameters.first
-    results = Host.search_for(%Q{params.#{parameter.name} = "#{parameter.value}"})
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
     assert results.include?(host)
     assert_equal parameter.value, results.find(host).params[parameter.name]
   end
@@ -1231,7 +1265,7 @@ context "location or organizations are not enabled" do
 
   test "can search hosts by inherited puppet class from a hostgroup" do
     hg = FactoryGirl.create(:hostgroup, :with_puppetclass)
-    host = FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
+    FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
     results = Host.search_for("class = #{hg.puppetclasses.first.name}")
     assert_equal 1, results.count
     assert_equal 0, results.first.puppetclasses.count
@@ -1241,7 +1275,7 @@ context "location or organizations are not enabled" do
   test "can search hosts by inherited puppet class from a parent hostgroup" do
     parent_hg = FactoryGirl.create(:hostgroup, :with_puppetclass)
     hg = FactoryGirl.create(:hostgroup, :parent => parent_hg)
-    host = FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
+    FactoryGirl.create(:host, :hostgroup => hg, :environment => hg.environment)
     results = Host.search_for("class = #{parent_hg.puppetclasses.first.name}")
     assert_equal 1, results.count
     assert_equal 0, results.first.puppetclasses.count
@@ -1604,8 +1638,7 @@ end # end of context "location or organizations are not enabled"
   end
 
   test 'fqdn of host period and no domain returns just name' do
-    host = Host::Managed.new(:name => name = "dhcp123")
-    assert_equal "dhcp123", host.fqdn
+    assert_equal "dhcp123", Host::Managed.new(:name => "dhcp123").fqdn
   end
 
   test 'fqdn_changed? should be true if name changes' do

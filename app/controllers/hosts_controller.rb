@@ -15,7 +15,8 @@ class HostsController < ApplicationController
                         multiple_enable submit_multiple_enable multiple_puppetrun
                         update_multiple_puppetrun multiple_disassociate update_multiple_disassociate)
 
-  add_puppetmaster_filters PUPPETMASTER_ACTIONS
+  add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
+
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
                                          :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
@@ -116,7 +117,7 @@ class HostsController < ApplicationController
 
   def destroy
     if @host.destroy
-      process_success
+      process_success :success_redirect => hosts_path
     else
       process_error
     end
@@ -529,7 +530,7 @@ class HostsController < ApplicationController
 
   def process_taxonomy
     return head(:not_found) unless @location || @organization
-    @host = Host.new(params[:host])
+    @host = Host.new(params[:host].except(:interfaces_attributes))
     # revert compute resource to "Bare Metal" (nil) if selected
     # compute resource is not included taxonomy
     Taxonomy.as_taxonomy @organization, @location do
@@ -540,7 +541,7 @@ class HostsController < ApplicationController
   end
 
   def template_used
-    host      = Host.new(params[:host])
+    host      = Host.new(params[:host].except(:interfaces_attributes))
     templates = host.available_template_kinds(params[:provisioning])
     return not_found if templates.empty?
     render :partial => 'provisioning', :locals => { :templates => templates }
@@ -625,14 +626,8 @@ class HostsController < ApplicationController
     @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
     @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
 
-    if SETTINGS[:organizations_enabled]
-      @organization ||= Organization.current
-      @organization ||= Organization.my_organizations.first
-    end
-    if SETTINGS[:locations_enabled]
-      @location ||= Location.current
-      @location ||= Location.my_locations.first
-    end
+    @organization ||= Organization.current if SETTINGS[:organizations_enabled]
+    @location     ||= Location.current     if SETTINGS[:locations_enabled]
   end
 
   # overwrite application_controller

@@ -52,9 +52,11 @@ foreman_seeds = Dir.glob(Rails.root + 'db/seeds.d/*.rb')
 
 Foreman::Plugin.registered_plugins.each do |name, plugin|
   begin
-    engine = (name.to_s.camelize + '::Engine').constantize
+    engine = (name.to_s.tr('-', '_').camelize + '::Engine').constantize
     foreman_seeds += Dir.glob(engine.root + 'db/seeds.d/*.rb')
   rescue NameError => e
+    Rails.logger.error e.message
+    Rails.logger.error e.backtrace.join("\n")
   end
 end
 

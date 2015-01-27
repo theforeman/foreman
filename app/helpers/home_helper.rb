@@ -8,25 +8,39 @@ module HomeHelper
   end
 
   def authorized_menu_actions(choices)
-    last_item = Menu::Divider.new(:first_div)
-    choices   = choices.map do |item|
-      last_item = case item
-                    when Menu::Divider
-                      item unless last_item.is_a?(Menu::Divider) #prevent adjacent dividers
-                    when Menu::Item
-                      item if item.authorized?
-                    when Menu::Toggle
-                      item if item.authorized_children.size > 0
-                  end
+    last_shown_item_was_divider = true
+
+    choices = choices.map do |item|
+      case item
+      when Menu::Divider
+        unless last_shown_item_was_divider
+          last_shown_item_was_divider = true
+          item
+        end
+      when Menu::Item
+        if item.authorized?
+          last_shown_item_was_divider = false
+          item
+        end
+      when Menu::Toggle
+        if item.authorized_children.size > 0
+          last_shown_item_was_divider = false
+          item
+        end
+      end
     end.compact
+
     choices.shift if choices.first.is_a?(Menu::Divider)
     choices.pop if choices.last.is_a?(Menu::Divider)
     choices
   end
 
   def menu_item_tag(item)
+    html_options = {:id => "menu_item_#{item.name}"}
+    html_options['data-no-turbolink'] = true if !item.turbolinks
+
     content_tag(:li,
-                link_to(_(item.caption), item.url, item.html_options.merge(:id => "menu_item_#{item.name}")),
+                link_to(_(item.caption), item.url, item.html_options.merge(html_options)),
                 :class => "menu_tab_#{item.url_hash[:controller]}_#{item.url_hash[:action]}")
   end
 

@@ -6,7 +6,7 @@ name: AutoYaST default
 <%
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
-  puppet_enabled = pm_set || @host.params['force-puppet']
+  puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
   salt_enabled = @host.params['salt_master'] ? true : false
 %>
 <!DOCTYPE profile>
@@ -52,16 +52,29 @@ name: AutoYaST default
   <%= @host.diskLayout %>
   <runlevel>
     <default>3</default>
+    <services config:type="list">
+      <service>
+        <service_name>sshd</service_name>
+        <service_status>enable</service_status>
+      </service>
+    </services>
   </runlevel>
   <software>
     <base>default</base>
+    <patterns config:type="list">
+      <pattern>base</pattern>
+      <pattern>enhanced_base</pattern>
+      <pattern>sw_management</pattern>
+      <pattern>yast2_basis</pattern>
+    </patterns>
     <packages config:type="list">
-<% if puppet_enabled %>
+<% if puppet_enabled -%>
       <package>puppet</package>
 <% end -%>
 <% if salt_enabled %>
       <package>salt-minion</package>
 <% end -%>
+      <package>yast2-runlevel</package>
     </packages>
   </software>
   <users config:type="list">
@@ -94,7 +107,7 @@ cp /etc/resolv.conf /mnt/etc
         <interpreter>shell</interpreter>
         <notification>Setting up Puppet / Foreman ...</notification>
         <source><![CDATA[
-<% if puppet_enabled %>
+<% if puppet_enabled -%>
           cat > /etc/puppet/puppet.conf << EOF
 <%= snippet 'puppet.conf' -%>
 EOF

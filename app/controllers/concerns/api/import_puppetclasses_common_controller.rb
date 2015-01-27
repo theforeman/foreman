@@ -42,7 +42,7 @@ module Api::ImportPuppetclassesCommonController
     if (errors = ::PuppetClassImporter.new.obsolete_and_new(@changed)).empty?
       render("api/v1/import_puppetclasses/#{rabl_template}", :layout => "api/layouts/import_puppetclasses_layout")
     else
-      render :json => {:message => _("Failed to update the environments and Puppet classes from the on-disk puppet installation: %s") % errors.join(", ")}, :status => 500
+      render :json => {:message => _("Failed to update the environments and Puppet classes from the on-disk puppet installation: %s") % errors.join(", ")}, :status => :internal_server_error
     end
   end
 
@@ -71,7 +71,7 @@ module Api::ImportPuppetclassesCommonController
       else
         msg = e.message
       end
-      render :json => {:message => msg}, :status => 500 and return false
+      render :json => {:message => msg}, :status => :internal_server_error and return false
     end
 
     # PuppetClassImporter expects [kind][env] to be in json format
@@ -114,6 +114,8 @@ module Api::ImportPuppetclassesCommonController
   def find_optional_environment
     @environment = Environment.authorized(:view_environments).find(@env_id)
   rescue ActiveRecord::RecordNotFound => e
+    logger.debug e.message
+    logger.debug e.backtrace.join("\n")
     nil
   end
 

@@ -1,7 +1,8 @@
+require 'securerandom'
 module Foreman
   # generate a UUID
   def self.uuid
-    UUIDTools::UUID.random_create.to_s
+    SecureRandom.uuid.to_s
   end
 
   UUID_REGEXP = Regexp.new("^([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-" +
@@ -16,4 +17,7 @@ module Foreman
       rake_task.nil? || running_rake_task == rake_task
     end
   end
+
+  SIZE = {:kilo => 1_024, :mega => 1_048_576, :giga => 1_073_741_824, :tera => 1_099_511_627_776}
+
 end

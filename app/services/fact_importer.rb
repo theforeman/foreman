@@ -14,6 +14,16 @@ class FactImporter
     importers[key.to_sym] = klass
   end
 
+  def self.fact_features
+    importers.map { |_type, importer| importer.authorized_smart_proxy_features }.compact.flatten.uniq
+  end
+
+  def self.authorized_smart_proxy_features
+    # When writing your own Fact importer, provide feature(s) of authorized Smart Proxies
+    Rails.logger.debug("Importer #{self} does not implement authorized_smart_proxy_features.")
+    []
+  end
+
   def initialize(host, facts = {})
     @host     = host
     @facts    = normalize(facts)
@@ -78,7 +88,10 @@ class FactImporter
   end
 
   def normalize(facts)
-    facts.keep_if { |k, v| v.present? && v.is_a?(String) }
+    # convert all structures to simple strings
+    facts = Hash[facts.map {|k, v| [k.to_s, v.to_s]}]
+    # and remove empty values
+    facts.keep_if { |k, v| v.present? }
   end
 
   def db_facts

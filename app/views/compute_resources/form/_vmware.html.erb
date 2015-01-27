@@ -2,8 +2,8 @@
 <%= text_f f, :user %>
 <%= password_f f, :password, :placeholder => password_placeholder(f.object) %>
 <% datacenters = list_datacenters f.object%>
-<%= selectable_f(f, :uuid, datacenters, {}, {:label => _('Datacenter'),
-                 :help_inline => link_to_function(datacenters.empty? ? "Load Datacenters" : "Test Connection", "testConnection(this)",
+<%= selectable_f(f, :datacenter, datacenters, {}, {:label => _('Datacenter'),
+                 :help_block => link_to_function(datacenters.empty? ? "Load Datacenters" : "Test Connection", "testConnection(this)",
                  :class => "btn + #{datacenters.empty? ? "btn-default" : "btn-success"}",
                  :'data-url' => test_connection_compute_resources_path) + image_tag('/assets/spinner.gif', :id => 'test_connection_indicator', :class => 'hide').html_safe }) %>
 <%= text_f f, :pubkey_hash, :disabled => true, :label => _("Fingerprint"), :size => "col-md-8" %>

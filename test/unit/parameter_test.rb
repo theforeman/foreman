@@ -21,7 +21,7 @@ class ParameterTest < ActiveSupport::TestCase
   end
 
   test "parameters are hierarchically applied" do
-    cp = CommonParameter.create :name => "animal", :value => "cat"
+    CommonParameter.create :name => "animal", :value => "cat"
 
     organization = taxonomies(:organization1)
     location = taxonomies(:location1)

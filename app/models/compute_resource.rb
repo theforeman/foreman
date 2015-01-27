@@ -24,14 +24,13 @@ class ComputeResource < ActiveRecord::Base
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   before_destroy EnsureNotUsedBy.new(:hosts)
-  validates :name, :presence => true, :uniqueness => true,
-            :format => { :with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.") }
+  validates :name, :presence => true, :uniqueness => true, :no_whitespace => true
   validate :ensure_provider_not_changed, :on => :update
   validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :type, :complete_value => :true
-  scoped_search :on => :id, :complete_value => :true
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true
   before_save :sanitize_url
   has_many_hosts
   has_many :images, :dependent => :destroy
@@ -246,6 +245,10 @@ class ComputeResource < ActiveRecord::Base
 
   def user_data_supported?
     false
+  end
+
+  def image_exists?(image)
+    true
   end
 
   protected

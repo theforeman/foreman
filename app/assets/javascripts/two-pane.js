@@ -7,7 +7,7 @@ $.fn.tab = function ( option ) {
   }
 }
 
-$(document).on('click', ".table-two-pane td a[href$='edit']", function(e) {
+$(document).on('click', ".table-two-pane .display-two-pane a", function(e) {
   if ($('.table-two-pane').length) {
     e.preventDefault();
     two_pane_open(this);
@@ -68,11 +68,17 @@ function two_pane_submit(){
   $("body").css("cursor", "progress");
 
   var url = $('.two-pane-right form').attr('action');
+  var data;
+  if (!("FormData" in window))
+    data = $('form').serialize();
+  else
+    data = new FormData($('form')[0]);
+
   $.ajax({
     type:'POST',
     url: url,
     headers: {"X-Foreman-Layout": "two-pane"},
-    data: $('form').serialize(),
+    data: data,
     success: function(response){
       right_pane_content(response);
     },

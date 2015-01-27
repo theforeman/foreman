@@ -26,6 +26,8 @@ class Taxonomy < ActiveRecord::Base
   before_validation :sanitize_ignored_types
   after_create :assign_default_templates
 
+  scoped_search :on => :description, :complete_enabled => :false, :only_explicit => true
+
   delegate :import_missing_ids, :inherited_ids, :used_and_selected_or_inherited_ids, :selected_or_inherited_ids,
            :non_inherited_ids, :used_or_inherited_ids, :used_ids, :to => :tax_host
 
@@ -72,6 +74,10 @@ class Taxonomy < ActiveRecord::Base
     end
   end
 
+  def self.enabled_taxonomies
+    %w(locations organizations).select { |taxonomy| SETTINGS["#{taxonomy}_enabled".to_sym] }
+  end
+
   def self.ignore?(taxable_type)
     Array.wrap(self.current).each{ |current|
       return true if current.ignore?(taxable_type)
@@ -101,6 +107,7 @@ class Taxonomy < ActiveRecord::Base
     new = super
     new.name = ""
     new.users             = users
+    new.environments      = environments
     new.smart_proxies     = smart_proxies
     new.subnets           = subnets
     new.compute_resources = compute_resources

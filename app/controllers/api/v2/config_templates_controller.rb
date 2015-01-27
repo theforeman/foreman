@@ -4,6 +4,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
       include Foreman::Renderer
+      include Foreman::Controller::ConfigTemplates
 
       before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
@@ -84,17 +85,6 @@ module Api
       end
 
       private
-
-      # convert the file upload into a simple string to save in our db.
-      def handle_template_upload
-        return unless params[:config_template] and (t=params[:config_template][:template])
-        params[:config_template][:template] = t.read if t.respond_to?(:read)
-      end
-
-      def process_template_kind
-        return unless params[:config_template] and (tk=params[:config_template].delete(:template_kind))
-        params[:config_template][:template_kind_id] = tk[:id]
-      end
 
       def process_operatingsystems
         return unless (ct = params[:config_template]) and (operatingsystems = ct.delete(:operatingsystems))

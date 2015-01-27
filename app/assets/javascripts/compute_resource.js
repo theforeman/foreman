@@ -30,7 +30,7 @@ function providerSelected(item)
 
 function testConnection(item) {
   var cr_id = $("form").data('id');
-  var password = $("input[id$='password']").val();
+  var password = $("input#compute_resource_password").val();
   $('.tab-error').removeClass('tab-error');
   $('#test_connection_indicator').show();
   $.ajax({
@@ -44,7 +44,7 @@ function testConnection(item) {
     },
     complete:function (result) {
       //we need to restore the password field as it is not sent back from the server.
-      $("input[id$='password']").val(password);
+      $("input#compute_resource_password").val(password);
       $('#test_connection_indicator').hide();
       $('[rel="twipsy"]').tooltip();
     }
@@ -100,7 +100,7 @@ function disable_element(element){
 function bootable_radio(item){
   var $disabled = $('[id$=_bootable_true]:disabled:checked:visible');
   $('[id$=_bootable_true]').attr('checked', false);
-  if ($disabled.size() > 0){
+  if ($disabled.length > 0){
     $disabled.attr('checked', true);
   } else {
     $(item).attr('checked', true);
@@ -206,7 +206,7 @@ function ec2_vpcSelected(form){
 
 function capacity_edit(element) {
   var buttons = $(element).closest('.fields').find('button[name=allocation_radio_btn].btn.active');
-  if (buttons.size() > 0 && $(buttons[0]).text() == 'Full') {
+  if (buttons.length > 0 && $(buttons[0]).text() == 'Full') {
     var allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
     allocation.value = element.value;
   }

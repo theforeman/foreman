@@ -21,9 +21,13 @@ class Host::Managed < Host::Base
   has_one :token, :foreign_key => :host_id, :dependent => :destroy
 
   def self.complete_for(query, opts = {})
-    matcher = /(((user\.[a-z]+)|owner)\s*[=~])\s*\S+\s*\z/
-    output = super(query)
-    output << output.last.sub(matcher,'\1 current_user') if not output.empty? and output.last =~ matcher
+    matcher = /(\s*(?:(?:user\.[a-z]+)|owner)\s*[=~])\s*(\S*)\s*\z/
+    matches = matcher.match(query)
+    output = super(query, opts)
+    if matches.present? && 'current_user'.starts_with?(matches[2])
+      current_user_result = query.sub(matcher, '\1 current_user')
+      output = [current_user_result] + output
+    end
     output
   end
 
@@ -52,11 +56,12 @@ class Host::Managed < Host::Base
   include HostCommon
 
   class Jail < ::Safemode::Jail
-    allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup, :location,
+    allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
       :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method,
       :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent, :primary_interface, :interfaces,
-      :has_primary_interface?, :bond_interfaces, :interfaces_with_identifier, :managed_interfaces
+      :has_primary_interface?, :bond_interfaces, :interfaces_with_identifier, :managed_interfaces, :facts, :facts_hash, :root_pass,
+      :sp_name, :sp_ip, :sp_mac, :sp_subnet
   end
 
   attr_reader :cached_host_params
@@ -368,8 +373,8 @@ class Host::Managed < Host::Base
       param["ip"]  = ip
       param["mac"] = mac
     end
-    param['subnets'] = (([subnet] + interfaces.map(&:subnet)).compact.map(&:to_enc)).uniq
-    param['interfaces'] =
+    param['foreman_subnets'] = (([subnet] + interfaces.map(&:subnet)).compact.map(&:to_enc)).uniq
+    param['foreman_interfaces'] =
         [Nic::Managed.new(:ip => ip, :mac => mac, :identifier => primary_interface, :subnet => subnet).to_enc] +
         interfaces.map(&:to_enc)
     param.update self.params
@@ -454,9 +459,13 @@ class Host::Managed < Host::Base
     super + [:domain, :architecture, :operatingsystem] + attrs
   end
 
+  def set_non_empty_values(parser, methods)
+    super
+    normalize_addresses
+  end
+
   def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
     importer = super
-    normalize_addresses
     if Setting[:update_environment_from_facts]
       set_non_empty_values importer, [:environment]
     else
@@ -558,7 +567,9 @@ class Host::Managed < Host::Base
 
   def set_hostgroup_defaults
     return unless hostgroup
-    assign_hostgroup_attributes(%w{environment_id domain_id puppet_proxy_id puppet_ca_proxy_id compute_profile_id})
+    assign_hostgroup_attributes(%w{environment_id domain_id compute_profile_id})
+    assign_hostgroup_attributes(["puppet_proxy_id"]) if new_record? || (!new_record? && !puppet_proxy_id.blank?)
+    assign_hostgroup_attributes(["puppet_ca_proxy_id"]) if new_record? || (!new_record? && !puppet_ca_proxy_id.blank?)
     if SETTINGS[:unattended] and (new_record? or managed?)
       assign_hostgroup_attributes(%w{operatingsystem_id architecture_id realm_id})
       assign_hostgroup_attributes(%w{medium_id ptable_id subnet_id}) if pxe_build?
@@ -596,6 +607,8 @@ class Host::Managed < Host::Base
     ProxyAPI::Puppet.new({:url => puppet_proxy.url}).run fqdn
   rescue => e
     errors.add(:base, _("failed to execute puppetrun: %s") % e)
+    logger.warn "unable to execute puppet run: #{e}"
+    logger.debug e.backtrace.join("\n")
     false
   end
 
@@ -638,7 +651,9 @@ class Host::Managed < Host::Base
 
   # no need to store anything in the db if the password is our default
   def root_pass
-    read_attribute(:root_pass).blank? ? (hostgroup.try(:root_pass) || Setting[:root_pass]) : read_attribute(:root_pass)
+    return read_attribute(:root_pass) if read_attribute(:root_pass).present?
+    return hostgroup.try(:root_pass) if hostgroup.try(:root_pass).present?
+    Setting[:root_pass]
   end
 
   def clone
@@ -862,6 +877,7 @@ class Host::Managed < Host::Base
 
   def assign_hostgroup_attributes(attrs = [])
     attrs.each do |attr|
+      next if send(attr).to_i == -1
       value = hostgroup.send("inherited_#{attr}")
       self.send("#{attr}=", value) unless send(attr).present?
     end
@@ -925,7 +941,11 @@ class Host::Managed < Host::Base
   end
 
   def normalize_addresses
-    self.mac = Net::Validations.normalize_mac(mac)
+    begin
+      self.mac = Net::Validations.normalize_mac(mac)
+    rescue ArgumentError => e
+      self.errors.add(:mac, e.message)
+    end
     self.ip  = Net::Validations.normalize_ip(ip)
   end
 

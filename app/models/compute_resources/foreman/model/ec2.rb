@@ -45,6 +45,7 @@ module Foreman::Model
       end
       args[:groups].reject!(&:empty?) if args.has_key?(:groups)
       args[:security_group_ids].reject!(&:empty?) if args.has_key?(:security_group_ids)
+      args[:associate_public_ip] = subnet_implies_is_vpc?(args) && args[:managed_ip] == 'public'
       super(args)
     rescue Fog::Errors::Error => e
       logger.error "Unhandled EC2 error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
@@ -101,7 +102,15 @@ module Foreman::Model
       true
     end
 
+    def image_exists?(image)
+      client.images.get(image).present?
+    end
+
     private
+
+    def subnet_implies_is_vpc? args
+      args[:subnet_id].present?
+    end
 
     def client
       @client ||= ::Fog::Compute.new(:provider => "AWS", :aws_access_key_id => user, :aws_secret_access_key => password, :region => region)
@@ -114,6 +123,8 @@ module Foreman::Model
       KeyPair.create! :name => key.name, :compute_resource_id => self.id, :secret => key.private_key
     rescue => e
       logger.warn "failed to generate key pair"
+      logger.error e.message
+      logger.error e.backtrace.join("\n")
       destroy_key_pair
       raise
     end

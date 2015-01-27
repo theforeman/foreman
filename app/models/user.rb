@@ -73,11 +73,7 @@ class User < ActiveRecord::Base
   before_validation :normalize_locale
 
   def self.name_format
-    if RUBY_VERSION.start_with? '1.8'
-      /\A[ёЁа-яА-Яa-zA-Zà-üÀ-Ü0-9\s'_\-\.()<>;=,]*\z/u
-    else
-      /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/
-    end
+    /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/
   end
 
   validates :login, :presence => true, :uniqueness => {:case_sensitive => false, :message => N_("already exists")},
@@ -89,7 +85,7 @@ class User < ActiveRecord::Base
   validates :firstname, :lastname, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
   validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
-           :ensure_last_admin_remains_admin, :hidden_authsource_restricted
+           :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :validate_timezone
   before_validation :prepare_password, :normalize_mail
   before_save       :set_lower_login
 
@@ -102,7 +98,7 @@ class User < ActiveRecord::Base
   scoped_search :on => :admin, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_admin
   scoped_search :on => :last_login_on, :complete_value => :true, :only_explicit => true
   scoped_search :in => :roles, :on => :name, :rename => :role, :complete_value => true
-  scoped_search :in => :roles, :on => :id, :rename => :role_id
+  scoped_search :in => :roles, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true
   scoped_search :in => :cached_usergroups, :on => :name, :rename => :usergroup, :complete_value => true
 
   default_scope lambda {
@@ -533,5 +529,9 @@ class User < ActiveRecord::Base
     if auth_source_id_changed? && hidden? && ![ANONYMOUS_ADMIN, ANONYMOUS_API_ADMIN].include?(self.login)
       errors.add :auth_source, _("is not permitted")
     end
+  end
+
+  def validate_timezone
+    errors.add(:timezone, _("is not valid")) unless timezone.blank? || Time.find_zone(timezone)
   end
 end

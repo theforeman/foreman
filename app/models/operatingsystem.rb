@@ -29,7 +29,7 @@ class Operatingsystem < ActiveRecord::Base
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   attr_name :to_label
   validates :minor, :numericality => {:greater_than_or_equal_to => 0}, :allow_nil => true, :allow_blank => true
-  validates :name, :presence => true, :format => {:with => /\A(\S+)\Z/, :message => N_("can't contain white spaces.")}
+  validates :name, :presence => true, :no_whitespace => true
   validates :description, :uniqueness => true, :allow_blank => true
   validates :password_hash, :inclusion => { :in => PasswordCrypt::ALGORITHMS }
   before_validation :downcase_release_name, :set_title
@@ -60,6 +60,7 @@ class Operatingsystem < ActiveRecord::Base
                'Windows'   => %r{Windows}i,
                'Altlinux'  => %r{Altlinux}i,
                'Archlinux' => %r{Archlinux}i,
+               'Coreos'    => %r{CoreOS}i,
                'Gentoo'    => %r{Gentoo}i,
                'Solaris'   => %r{Solaris}i,
                'Freebsd'   => %r{FreeBSD}i,
@@ -251,8 +252,8 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def boot_files_uri(medium, architecture, host = nil)
-    raise (_("invalid medium for %s") % to_s) unless media.include?(medium)
-    raise (_("invalid architecture for %s") % to_s) unless architectures.include?(architecture)
+    raise ::Foreman::Exception.new(N_("Invalid medium for %s"), self) unless media.include?(medium)
+    raise ::Foreman::Exception.new(N_("Invalid architecture for %s"), self) unless architectures.include?(architecture)
     eval("#{self.family}::PXEFILES").values.collect do |img|
       medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
     end

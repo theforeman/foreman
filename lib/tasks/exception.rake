@@ -4,7 +4,6 @@ namespace :exception do
 
   desc 'List all error codes'
   task :codes => :environment do
-    wiki = defined? ENV['WIKI']
     exceptions = [
       'Foreman::Exception',
       'WrappedException',

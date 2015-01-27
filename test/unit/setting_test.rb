@@ -97,7 +97,7 @@ class SettingTest < ActiveSupport::TestCase
 
   def test_create_exclamation_with_missing_attrs_raises_exception
     assert_raises(ActiveRecord::RecordInvalid) do
-      setting = Setting.create!(:name => "foo")
+      Setting.create!(:name => "foo")
     end
   end
 

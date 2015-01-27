@@ -11,7 +11,8 @@ module Api
       before_filter :find_optional_nested_object, :except => [:facts]
       before_filter :find_resource, :except => [:index, :create, :facts]
       before_filter :permissions_check, :only => %w{power boot puppetrun}
-      add_puppetmaster_filters :facts
+
+      add_smart_proxy_filters :facts, :features => FactImporter.fact_features
 
       api :GET, "/hosts/", N_("List all hosts")
       api :GET, "/hostgroups/:hostgroup_id/hosts", N_("List all hosts for a host group")
@@ -53,7 +54,6 @@ module Api
           param :subnet_id, :number, :desc => N_("required if host is managed and value is not inherited from host group")
           param :compute_resource_id, :number, :desc => N_("nil means host is bare metal")
           param :root_pass, String, :desc => N_("required if host is managed and value is not inherited from host group or default password in settings")
-          param :sp_subnet_id, :number
           param :model_id, :number
           param :hostgroup_id, :number
           param :owner_id, :number
@@ -65,6 +65,7 @@ module Api
           param :provision_method, String
           param :managed, :bool, :desc => N_("True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not")
           param :progress_report_id, String, :desc => N_("UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks")
+          param :comment, String, :desc => N_("Additional information about this host")
           param :capabilities, String
           param :compute_profile_id, :number
           param :compute_attributes, Hash do
@@ -137,9 +138,9 @@ Return value may either be one of the following:
       def power
         valid_actions = PowerManager::SUPPORTED_ACTIONS
         if valid_actions.include? params[:power_action]
-          render :json => { :power => @host.power.send(params[:power_action]) }, :status => 200
+          render :json => { :power => @host.power.send(params[:power_action]) }, :status => :ok
         else
-          render :json => { :error => _("Unknown power action: available methods are %s") % valid_actions.join(', ') }, :status => 422
+          render :json => { :error => _("Unknown power action: available methods are %s") % valid_actions.join(', ') }, :status => :unprocessable_entity
         end
       end
 
@@ -150,9 +151,9 @@ Return value may either be one of the following:
       def boot
         valid_devices = ProxyAPI::BMC::SUPPORTED_BOOT_DEVICES
         if valid_devices.include? params[:device]
-          render :json => { :boot => @host.ipmi_boot(params[:device]) }, :status => 200
+          render :json => { :boot => @host.ipmi_boot(params[:device]) }, :status => :ok
         else
-          render :json => { :error => _("Unknown device: available devices are %s") % valid_devices.join(', ') }, :status => 422
+          render :json => { :error => _("Unknown device: available devices are %s") % valid_devices.join(', ') }, :status => :unprocessable_entity
         end
       end
 

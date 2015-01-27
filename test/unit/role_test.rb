@@ -73,7 +73,6 @@ class RoleTest < ActiveSupport::TestCase
     context "with a missing anonymous role" do
       setup do
         role_ids = Role.where("builtin = #{Role::BUILTIN_ANONYMOUS}").pluck(:id)
-        user_ids = UserRole.where(:role_id => role_ids)
         UserRole.where(:role_id => role_ids).destroy_all
         Filter.where(:role_id => role_ids).destroy_all
         Role.where(:id => role_ids).delete_all
@@ -103,7 +102,6 @@ class RoleTest < ActiveSupport::TestCase
     context "with a missing default_user role" do
       setup do
         role_ids = Role.where("builtin = #{Role::BUILTIN_DEFAULT_USER}").pluck(:id)
-        user_ids = UserRole.where(:role_id => role_ids)
         UserRole.where(:role_id => role_ids).destroy_all
         Filter.where(:role_id => role_ids).destroy_all
         Role.where(:id => role_ids).delete_all

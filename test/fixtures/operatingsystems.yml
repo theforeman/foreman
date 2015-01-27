@@ -42,13 +42,6 @@ solaris10:
   title: 'Solaris 5.10'
   ptables: one
 
-suse:
-  name: OpenSuse
-  major: 11
-  minor: 4
-  type: Suse
-  title: 'OpenSuse 11.4'
-
 no_hosts_os:
   name: NoHosts
   major: 1

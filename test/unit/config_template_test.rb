@@ -103,13 +103,14 @@ class ConfigTemplateTest < ActiveSupport::TestCase
     refute_with_errors tmplt.destroy, tmplt, :base, /locked/
   end
 
-  test "should not unlock a vendor-provided default template" do
+  test "should not unlock a template if not allowed" do
     tmplt = ConfigTemplate.create :name => "Vendor Template", :template => "provision test",
                                   :template_kind => template_kinds(:provision), :default => true,
                                   :vendor => "Katello"
     tmplt.update_attribute(:locked, true)
+    User.current = FactoryGirl.create(:user)
     tmplt.locked = false
-    refute_valid tmplt, :base, /Katello/
+    refute_valid tmplt, :base, /not authorized/
   end
 
   test "should change a locked template while in rake" do

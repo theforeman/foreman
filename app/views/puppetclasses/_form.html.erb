@@ -40,7 +40,7 @@
         </div>
         <div class="smart-var-left col-md-3">
           <ul class="nav nav-pills nav-stacked smart-var-tabs" data-tabs="pills">
-            <% @puppetclass.class_params.all(:include => :environments).each do |key| %>
+            <% @puppetclass.class_params.includes(:environments, :environment_classes, :lookup_values).each do |key| %>
               <li data-used-environments=<%= key.environments.map(&:to_s).to_json %> >
                 <a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') + '_' + key.id.to_s %>" href="#<%= key.to_s.gsub(' ','_') + '_' + key.id.to_s %>" title="<%= key %>">
                   <div class="clip"><%= icon_text((key.override ? "flag": ""), key.to_s.gsub('_',' ')) %></div>
@@ -71,7 +71,7 @@
       </div>
       <div class="smart-var-left col-md-3">
         <ul class="nav nav-pills nav-stacked smart-var-tabs" data-tabs="pills">
-          <% @puppetclass.lookup_keys.each do |key| %>
+          <% @puppetclass.lookup_keys.includes(:lookup_values).each do |key| %>
             <li>
               <a data-toggle="tab" id="pill_<%= key.to_s.gsub(' ','_') + '_' + key.id.to_s %>" href="#<%= key.to_s.gsub(' ','_') + '_' + key.id.to_s %>" title="<%= key %>">
                 <div class="clip"><%= key %></div><span class="close pull-right">&times;</span>

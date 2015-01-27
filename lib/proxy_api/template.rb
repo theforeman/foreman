@@ -13,7 +13,10 @@ module ProxyAPI
     rescue SocketError, Timeout::Error, Errno::EINVAL, Errno::ECONNRESET,
       EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError,
       Net::ProtocolError, RestClient::ResourceNotFound => e
-      logger.warn("failed to obtain template server from smart-proxy #{@url}")
+      logger.error("Failed to obtain template server from smart-proxy #{@url}")
+      logger.error e.message
+      logger.error e.backtrace.join("\n")
+
       nil
     end
 

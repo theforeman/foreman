@@ -35,7 +35,7 @@ function spice_success(m) {
 }
 
 function connectXPI() {
-  if ($('#spice-xpi').size() == 0) {
+  if ($('#spice-xpi').length == 0) {
     $('#spice-area').append('<embed type="application/x-spice" height=0 width=0 id="spice-xpi">');
   }
   var attrs = $('#spice-area');

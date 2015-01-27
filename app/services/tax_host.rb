@@ -19,7 +19,7 @@ class TaxHost
 
   # returns a hash of HASH_KEYS used ids by hosts in a given taxonomy
   def used_ids
-    @used_ids = default_ids_hash(populate_values = true)
+    @used_ids = default_ids_hash(true)
   end
 
   def selected_ids
@@ -126,7 +126,6 @@ class TaxHost
 
   def check_for_orphans
     found_orphan = false
-    error_msg = "The following must be selected since they belong to hosts:\n\n"
     need_to_be_selected_ids.each do |key, array_values|
       taxable_type = hash_key_to_class(key)
       unless array_values.empty?

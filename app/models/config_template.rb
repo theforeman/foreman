@@ -158,13 +158,20 @@ class ConfigTemplate < ActiveRecord::Base
   def template_changes
     actual_changes = changes
 
-    # Changes to locked are special
-    if locked == false && default
-        owner = vendor ? vendor : "Foreman"
-        errors.add(:base, _("This template is owned by %s and may not be unlocked.") % owner)
+    # Locked & Default are Special
+    if actual_changes.include? 'locked'
+      unless User.current.can?(:lock_templates, self)
+        errors.add(:base, _("You are not authorized to lock templates."))
+      end
     end
 
-    allowed_changes = %w(template_combinations template_associations locked)
+    if actual_changes.include? 'default'
+      unless User.current.can?(:create_organizations) || User.current.can?(:create_locations)
+        errors.add(:base, _("You are not authorized to make a template default."))
+      end
+    end
+
+    allowed_changes = %w(template_combinations template_associations locked default)
 
     unless actual_changes.delete_if { |k, v| allowed_changes.include? k }.empty?
       errors.add(:base, _("This template is locked. Please clone it to a new template to customize."))

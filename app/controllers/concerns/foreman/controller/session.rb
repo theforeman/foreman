@@ -5,7 +5,7 @@ module Foreman::Controller::Session
     return if ignore_api_request?
     if session[:expires_at].blank? || (Time.at(session[:expires_at]).utc - Time.now.utc).to_i < 0
       session[:original_uri] = request.fullpath
-      backup_session_content { expire_session }
+      expire_session
     end
   rescue => e
     logger.warn "failed to determine if user sessions needs to be expired, expiring anyway: #{e}"
@@ -15,7 +15,7 @@ module Foreman::Controller::Session
   # Backs up some state from a user's session around a supplied block, which
   # will usually expire or reset the session in some way
   def backup_session_content
-    save_items = session.to_hash.slice('organization_id', 'location_id', 'original_uri').symbolize_keys
+    save_items = session.to_hash.slice('organization_id', 'location_id', 'original_uri', 'sso_method').symbolize_keys
     yield if block_given?
     session.merge!(save_items)
   end
@@ -27,7 +27,7 @@ module Foreman::Controller::Session
 
   def expire_session
     logger.info "Session for #{User.current} is expired."
-    reset_session
+    backup_session_content { reset_session }
     if api_request?
       render :text => '', :status => 401
     else

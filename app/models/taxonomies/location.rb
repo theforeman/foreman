@@ -19,12 +19,6 @@ class Location < Taxonomy
     where(conditions)
   }
 
-  # This scoped search definition intentionally duplicates app/models/concerns/nested_ancestry_common.rb
-  # It's a temporary fix for scoped_search's issue with completing search strings for inherited attributes
-  # See http://projects.theforeman.org/issues/4613 for details
-  scoped_search :on => :title, :complete_value => :true, :default_order => true
-  scoped_search :on => :name, :complete_value => :true
-
   # returns self and parent parameters as a hash
   def parameters(include_source = false)
     hash = {}
@@ -32,7 +26,7 @@ class Location < Taxonomy
     ids << id unless new_record? or self.frozen?
     # need to pull out the locations to ensure they are sorted first,
     # otherwise we might be overwriting the hash in the wrong order.
-    locs = ids.size == 1 ? [self] : Location.includes(:location_parameters).sort_by_ancestry(Location.find(ids))
+    locs = ids.size == 1 ? [self] : Location.sort_by_ancestry(Location.includes(:location_parameters).find(ids))
     locs.each do |loc|
       loc.location_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('location').to_sym, :source_name => loc.title} : p.value }
     end

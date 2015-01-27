@@ -14,35 +14,41 @@
                        :title => _("Check/Uncheck obsolete")) %>
   </h6>
   <table class="table table-striped table-bordered">
-    <tr>
-      <th class="ca">
-        <%= link_to_function(icon_text("check"),
-                             "toggleCheckboxesBySelector('.env_select_boxes')",
-                             :title => _("Check/Uncheck all")) %>
-      </th>
-      <th><%= _("Environment") %></th><th><%= _("Operation") %></th><th><%= _("Puppet Modules") %></th>
+    <thead>
+      <tr>
+        <th class="ca">
+          <%= link_to_function(icon_text("check"),
+                               "toggleCheckboxesBySelector('.env_select_boxes')",
+                               :title => _("Check/Uncheck all")) %>
+        </th>
+        <th><%= _("Environment") %></th>
+        <th><%= _("Operation") %></th>
+        <th><%= _("Puppet Modules") %></th>
+      </tr>
+    </thead>
+    <tbody>
       <% for kind in ["new", "obsolete", "updated"] %>
         <% unless (envs = @changed[kind]).empty? %>
           <% for env in envs.keys.sort %>
-          <tr>
-            <td>
-              <%= check_box_tag "changed[#{kind}][#{env}]", @changed[kind][env].to_json, false, :class => "env_select_boxes env_select_boxes_#{kind} env_select_boxes_env_#{env}" %>
-            </td>
-            <td>
-              <%= link_to_function("#{env}", "toggleCheckboxesBySelector('.env_select_boxes_env_#{env}')", :title => _("Check/Uncheck all %s changes") % env) %>
-            </td>
-            <td>
-              <%= {"new" => _("Add:"), "obsolete" => _("Remove:"), "updated" => _("Update:")}[kind] %>
-            </td>
-            <td>
-              <% pcs = @changed[kind][env] %>
-              <%= class_update_text pcs, env %>
-            </td>
-          </tr>
+            <tr>
+              <td>
+                <%= check_box_tag "changed[#{kind}][#{env}]", @changed[kind][env].to_json, false, :class => "env_select_boxes env_select_boxes_#{kind} env_select_boxes_env_#{env}" %>
+              </td>
+              <td>
+                <%= link_to_function("#{env}", "toggleCheckboxesBySelector('.env_select_boxes_env_#{env}')", :title => _("Check/Uncheck all %s changes") % env) %>
+              </td>
+              <td>
+                <%= {"new" => _("Add:"), "obsolete" => _("Remove:"), "updated" => _("Update:")}[kind] %>
+              </td>
+              <td>
+                <% pcs = @changed[kind][env] %>
+                <%= class_update_text pcs, env %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
-    </tr>
+    </tbody>
   </table>
   <div>
     <%= link_to _("Cancel"), send("#{controller_name}_path"), :class => "btn btn-default" %>

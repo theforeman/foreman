@@ -1,19 +1,21 @@
 <% title @vm.name %>
 <div class='col-md-12'>
   <table class="table table-bordered table-striped">
-    <tr><th colspan="2">Properties</th></tr>
-
-    <%= prop :id %>
-    <%= prop :datacenter %>
-    <%= prop :cluster %>
-    <%= prop :memory %>
-    <%= prop :public_ip_address %>
-    <%= prop :mac %>
-    <%= prop :cpus %>
-    <%= prop :corespersocket, _('Cores per socket') %>
-    <%= prop :hypervisor %>
-    <%= prop :connection_state %>
-    <%= prop :overall_status %>
+    <thead>
+      <tr><th colspan="2"><%=_('Properties') %></th></tr>
+    </thead>
+    <tbody>
+      <%= prop :id %>
+      <%= prop :datacenter %>
+      <%= prop :cluster %>
+      <%= prop :memory %>
+      <%= prop :public_ip_address %>
+      <%= prop :mac %>
+      <%= prop :cpus %>
+      <%= prop :corespersocket, _('Cores per socket') %>
+      <%= prop :hypervisor %>
+      <%= prop :connection_state %>
+      <%= prop :overall_status %>
+    </tbody>
   </table>
 </div>
-

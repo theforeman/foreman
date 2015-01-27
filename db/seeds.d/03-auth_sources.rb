@@ -1,8 +1,8 @@
 AuthSource.without_auditing do
   # Auth sources
   src = AuthSourceInternal.find_by_type "AuthSourceInternal"
-  src ||= AuthSourceInternal.create :name => "Internal"
+  AuthSourceInternal.create :name => "Internal" unless src.present?
 
-  src_hidden = AuthSourceHidden.find_by_type "AuthSourceHidden"
-  src_hidden ||= AuthSourceHidden.create :name => "Hidden"
+  src = AuthSourceHidden.find_by_type "AuthSourceHidden"
+  AuthSourceHidden.create :name => "Hidden" unless src.present?
 end

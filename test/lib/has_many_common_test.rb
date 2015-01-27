@@ -52,12 +52,12 @@ class HasManyCommonTest < ActiveSupport::TestCase
   #
   # Test default AR extenstion *_name where method is :name by default
   test "should return domain name using method #domain_name" do
-    host = Factory.create(:host, :domain => FactoryGirl.create(:domain, :name => "common.net"))
+    host = FactoryGirl.build(:host, :domain => FactoryGirl.create(:domain, :name => "common.net"))
     assert_equal "common.net", host.domain_name
   end
 
   test "should update domain_id by passing existing domain name" do
-    host = Factory.create(:host, :domain => FactoryGirl.create(:domain, :name => "common.net"))
+    host = FactoryGirl.build(:host, :domain => FactoryGirl.create(:domain, :name => "common.net"))
     orig_id = host.domain_id
     host.domain_name = "yourdomain.net"
     host.save!
@@ -67,13 +67,13 @@ class HasManyCommonTest < ActiveSupport::TestCase
 
   # Test non-default AR extenstion *_nam where method is :label for belongs_to :hostgroup
   test "should return hostgroup label using method #hostgroup_name" do
-    host = Factory.create(:host)
+    host = FactoryGirl.build(:host)
     host.update_attribute(:hostgroup, hostgroups(:inherited))
     assert_equal "Parent/inherited", host.hostgroup_name
   end
 
   test "should update hostgroup_id by passing existing hostgroup label" do
-    host = Factory.create(:host)
+    host = FactoryGirl.build(:host)
     orig_id = host.hostgroup_id
     host.hostgroup_name = "Parent/inherited"
     host.save!
@@ -81,5 +81,14 @@ class HasManyCommonTest < ActiveSupport::TestCase
     refute_equal orig_id, new_id
   end
 
+  ## Test name methods resolve for Plugin AR objects
+  class ::FakePlugin; end
+  class ::FakePlugin::FakeModel; end
 
+  test "should return plugin associations" do
+    Host::Managed.class_eval do
+      belongs_to :fake_model, :class_name => '::FakePlugin::FakeModel'
+    end
+    assert_equal FactoryGirl.build(:host).assoc_klass(:fake_model), FakePlugin::FakeModel
+  end
 end

@@ -185,7 +185,7 @@ function flot_zoom(target, options, ranges) {
         xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
         yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
       }));
-  if(target.parents('.stats-well').find('.reset-zoom').size() == 0){
+  if(target.parents('.stats-well').find('.reset-zoom').length == 0){
     target.parents('.stats-well').prepend("<a class='reset-zoom btn btn-sm'>" + __('Reset zoom') + "</a>");
   }
 }
@@ -269,9 +269,9 @@ function get_pie_chart(div, url) {
 function expand_chart(ref){
   var chart = $(ref);
   if (!chart.hasClass('statistics-pie')){
-    chart = $(ref).parent().find('.statistics-pie');
+    chart = chart.parent().find('.statistics-pie');
   }
-  var modal_id = chart.attr('id')+'_modal';
+  var modal_id = chart[0].id+'_modal';
   if($("#"+modal_id).length == 0)
   {
     var new_chart = chart.clone().empty().attr('id', modal_id + "_chart").removeClass('small');

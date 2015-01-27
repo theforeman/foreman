@@ -15,7 +15,7 @@ class UserRoleTest < ActiveSupport::TestCase
 
   test "cache user roles" do
     user             = FactoryGirl.create :user
-    user_role        = FactoryGirl.create :user_user_role, :owner => user
+    FactoryGirl.create :user_user_role, :owner => user
     cached_user_roles = user.cached_user_roles.map(&:role)
 
     user.roles.each do |role|

@@ -1,8 +1,5 @@
 class ApplicationController < ActionController::Base
-  include Foreman::Controller::Authentication
-  include Foreman::Controller::Session
-  include Foreman::ThreadSession::Cleaner
-  include FindCommon
+  include ApplicationShared
 
   ensure_security_headers
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -21,6 +18,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_filter :authorize
   before_filter :welcome, :only => :index, :unless => :api_request?
+  around_filter :set_timezone
   layout :display_layout?
 
   attr_reader :original_search_parameter
@@ -40,6 +38,11 @@ class ApplicationController < ActionController::Base
 
   def api_request?
     request.format.try(:json?) || request.format.try(:yaml?)
+  end
+
+  # this method is returns the active user which gets used to populate the audits table
+  def current_user
+    User.current
   end
 
   protected
@@ -80,22 +83,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # this method is returns the active user which gets used to populate the audits table
-  def current_user
-    User.current
-  end
-
   def invalid_request
-    render :text => _('Invalid query'), :status => 400
+    render :text => _('Invalid query'), :status => :bad_request
   end
 
   def not_found(exception = nil)
     logger.debug "not found: #{exception}" if exception
     respond_to do |format|
-      format.html { render "common/404", :status => 404 }
-      format.json { head :status => 404}
-      format.yaml { head :status => 404}
-      format.yml { head :status => 404}
+      format.html { render "common/404", :status => :not_found }
+      format.any { head :status => :not_found}
     end
     true
   end
@@ -105,7 +101,7 @@ class ApplicationController < ActionController::Base
       logger.error "#{exception.message} (#{exception.class})\n#{exception.backtrace.join("\n")}"
       msg = "/api/ prefix must now be used to access API URLs, e.g. #{request.env['HTTP_HOST']}/api#{request.env['REQUEST_URI']}"
       logger.error "DEPRECATION: #{msg}."
-      render :json => {:message => msg}, :status => 400
+      render :json => {:message => msg}, :status => :bad_request
     else
       raise exception
     end
@@ -222,12 +218,8 @@ class ApplicationController < ActionController::Base
 
   def render_403
     respond_to do |format|
-      format.html { render :template => "common/403", :layout => !request.xhr?, :status => 403 }
-      format.atom { head 403 }
-      format.yaml { head 403 }
-      format.yml  { head 403 }
-      format.xml  { head 403 }
-      format.json { head 403 }
+      format.html { render :template => "common/403", :layout => !request.xhr?, :status => :forbidden }
+      format.any  { head :forbidden }
     end
     false
   end
@@ -285,12 +277,12 @@ class ApplicationController < ActionController::Base
 
   def process_ajax_error(exception, action = nil)
     action ||= action_name
-    origin = exception.try(:original_exception)
+    origin = exception.original_exception if exception.present? && exception.respond_to?(:original_exception)
     message = (origin || exception).message
     logger.warn "Failed to #{action}: #{message}"
     logger.debug "Original exception backtrace:\n" + origin.backtrace.join("\n") if origin.present?
     logger.debug "Causing backtrace:\n" + exception.backtrace.join("\n")
-    render :text => _("Failure: %s") % message
+    render :json => _("Failure: %s") % message, :status => :internal_server_error
   end
 
   def redirect_back_or_to(url)
@@ -304,7 +296,7 @@ class ApplicationController < ActionController::Base
   def generic_exception(exception)
     logger.warn "Operation FAILED: #{exception}"
     logger.debug exception.backtrace.join("\n")
-    render :template => "common/500", :layout => !request.xhr?, :status => 500, :locals => { :exception => exception}
+    render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception => exception}
   end
 
   def set_taxonomy
@@ -316,8 +308,6 @@ class ApplicationController < ActionController::Base
                                orgs.first
                              elsif session[:organization_id]
                                orgs.find_by_id(session[:organization_id])
-                             else
-                               nil
                              end
       warning _("Organization you had selected as your context has been deleted.") if (session[:organization_id] && Organization.current == nil)
     end
@@ -328,8 +318,6 @@ class ApplicationController < ActionController::Base
                            locations.first
                          elsif session[:location_id]
                            locations.find_by_id(session[:location_id])
-                         else
-                           nil
                          end
       warning _("Location you had selected as your context has been deleted.") if (session[:location_id] && Location.current == nil)
     end

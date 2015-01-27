@@ -10,20 +10,18 @@ class PuppetclassTest < ActiveSupport::TestCase
     assert !puppet_class.save
   end
 
-  test "name can't contain trailing white spaces" do
-    puppet_class = Puppetclass.new :name => "   test     class   "
-    assert !puppet_class.name.squeeze(" ").empty?
-    assert !puppet_class.save
-
-    puppet_class.name.squeeze!(" ")
+  test "name strips leading and trailing white spaces" do
+    puppet_class = Puppetclass.new :name => "   testclass   "
     assert puppet_class.save
+    refute puppet_class.name.ends_with?(' ')
+    refute puppet_class.name.starts_with?(' ')
   end
 
   test "name must be unique" do
-    puppet_class = Puppetclass.new :name => "test class"
+    puppet_class = Puppetclass.new :name => "testclass"
     assert puppet_class.save
 
-    other_puppet_class = Puppetclass.new :name => "test class"
+    other_puppet_class = Puppetclass.new :name => "testclass"
     assert !other_puppet_class.save
   end
 
@@ -206,4 +204,38 @@ class PuppetclassTest < ActiveSupport::TestCase
     end
   end
 
+  context "all_hostgroups should show hostgroups and their descendants" do
+    setup do
+      @class = FactoryGirl.create(:puppetclass)
+      @hg1 = FactoryGirl.create(:hostgroup)
+      @hg2 = FactoryGirl.create(:hostgroup, :parent_id => @hg1.id)
+      @hg3 = FactoryGirl.create(:hostgroup, :parent_id => @hg2.id)
+      @config_group = FactoryGirl.create(:config_group)
+      @hg1.config_groups << @config_group
+    end
+
+    it "when added directly" do
+      assert_difference('@class.all_hostgroups.count', 3) do
+        @class.hostgroups << @hg1
+      end
+    end
+
+    it "when added directly and called without descendants" do
+      assert_difference('@class.all_hostgroups(false).count', 1) do
+        @class.hostgroups << @hg1
+      end
+    end
+
+    it "when added via config group" do
+      assert_difference('@class.all_hostgroups.count', 3) do
+        @class.config_groups << @config_group
+      end
+    end
+
+    it "when added directly and called without descendants" do
+      assert_difference('@class.all_hostgroups(false).count', 1) do
+        @class.config_groups << @config_group
+      end
+    end
+  end
 end

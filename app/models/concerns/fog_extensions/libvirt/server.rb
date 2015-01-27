@@ -17,16 +17,16 @@ module FogExtensions
 
       # Libvirt expect units in KB, while we use bytes
       def memory
-        attributes[:memory_size].to_i * 1024
+        attributes[:memory_size].to_i * Foreman::SIZE[:kilo]
       end
 
       def memory=(mem)
-        attributes[:memory_size] = mem.to_i / 1024 if mem
+        attributes[:memory_size] = mem.to_i / Foreman::SIZE[:kilo] if mem
       end
 
       def reset
-        # @TODO: change to poweroff && start upon fix for LibVirt on Fog gem.
-        service.vm_action(uuid, :reset)
+        poweroff
+        start
       end
 
       def vm_description

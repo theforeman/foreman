@@ -8,6 +8,7 @@ SETTINGS[:unattended] = SETTINGS[:unattended].nil? || SETTINGS[:unattended]
 SETTINGS[:login]    ||= SETTINGS[:ldap]
 SETTINGS[:puppetconfdir] ||= '/etc/puppet'
 SETTINGS[:puppetvardir]  ||= '/var/lib/puppet'
+SETTINGS[:puppetssldir]  ||= "#{SETTINGS[:puppetvardir]}/ssl"
 
 # Load plugin config, if any
 Dir["#{root}/config/settings.plugins.d/*.yaml"].each do |f|

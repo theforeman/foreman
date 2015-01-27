@@ -3,11 +3,9 @@ require 'spork'
 # $LOAD_PATH required for testdrb party of spork-minitest
 $LOAD_PATH << "test"
 
-unless RUBY_VERSION =~ /^1\.8/
-  require 'simplecov'
-  SimpleCov.start 'rails' do
-    add_group 'API', 'app/controllers/api'
-  end
+require 'simplecov'
+SimpleCov.start 'rails' do
+  add_group 'API', 'app/controllers/api'
 end
 
 Spork.prefork do
@@ -210,6 +208,10 @@ Spork.prefork do
       result = yield
       ENV.update old_values
       result
+    end
+
+    def next_mac(mac)
+      mac.tr(':','').to_i(16).succ.to_s(16).rjust(12, '0').scan(/../).join(':')
     end
   end
 
