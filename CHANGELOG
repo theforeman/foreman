@@ -1,3 +1,51 @@
+2015-01-27	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.7.2
+	* fixes #9084 - catch net-ldap 0.11's specific invalid filter exception
+	* fixes #8925 - support plugin asset manifests beneath app root
+	* fixes #8885 - pin google-api-client to retain Ruby 1.9 support
+	* fixes #8735 - enable config drive on Rackspace servers
+	* fixes #8366 - add parameter type to unique index
+
+2015-01-27	David Davis <daviddavis@redhat.com>
+	* Fixes #9097 - Fix typo in value_to_sql method
+
+2015-01-27	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #6362 - correct menu dividers if user isn't auth for some actions
+	* fixes #9025 - reflect on association for _name(s) methods
+
+2015-01-27	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #2948 - added sp_* host attributes to safe mode
+
+2015-01-27	Jiri Stransky <jistr@redhat.com>
+	* Refs #9049 - fix log message formatting
+	* Fixes #9049 - Log exceptions when triggering a Puppet run
+
+2015-01-27	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8821 - Handle unnamed OpenStack images in images form
+
+2015-01-27	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #8993 - handle FreeBSD patch releases better
+	* fixes #8791 - pin i18n gem
+
+2015-01-27	David LeVene <david.levene@netspot.com.au>
+	* fixes #8402 - Reports from the last xx Days not displaying day filter option
+
+2015-01-27	Bryan Kearney <bkearney@redhat.com>
+	* Fixes #8930 - Incorrect html caused a typo on the trends page
+
+2015-01-27	Marek Hulan <mhulan@redhat.com>
+	* Fixes #8851 - support seed files of plugin with dash in name
+
+2015-01-27	ripcurld00d <ripcurld.github@gmail.com>
+	* Fixes #8786 - Show override button after removing overridden parameter
+
+2015-01-27	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #6540, #8335 - Add error to vmware when no datacenter, save password when testing connection
+	* fixes #8638 - ensure that a redirect to hosts index after host destroy
+
+2015-01-27	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7165 - Correct cursor behaviour on delete links for firefox
+
 2014-12-16	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.7.1
 	* i18n - extracting new, updating rails, pulling from tx
