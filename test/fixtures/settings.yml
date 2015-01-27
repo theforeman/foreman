@@ -250,3 +250,13 @@ attributes53:
   category: Setting::General
   default: "false"
   description: "Send a welcome mail including initial username and password to new users"
+attributes54:
+  name: default_hostgroup
+  category: Setting::Puppet
+  default: ""
+  description: "Hosts created after a puppet run that did not send a host group fact will be placed in this host group"
+attributes55:
+  name: hostgroup_fact
+  category: Setting::Puppet
+  default: "foreman_hostgroup"
+  description: "Hosts created after a puppet run will be placed in the host group this fact dictates. The content of this fact should be the full label of the host group."

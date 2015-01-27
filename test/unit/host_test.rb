@@ -321,6 +321,19 @@ class HostTest < ActiveSupport::TestCase
       assert_equal 'Organization 2', Host.find_by_name('sinn1636.lan').organization.title
     end
 
+    test 'host group is set to setting[hostgroup_fact] if it exists' do
+      Setting[:create_new_host_when_facts_are_uploaded] = true
+      Setting[:hostgroup_fact] = "foreman_hostgroup"
+
+      hostgroup = FactoryGirl.create(:hostgroup)
+      raw = parse_json_fixture('/facts.json')
+      raw['facts']['foreman_hostgroup'] = hostgroup.title
+
+      Host.import_host_and_facts(raw['name'], raw['facts'])
+
+      assert_equal hostgroup, Host.find_by_name('sinn1636.lan').hostgroup
+    end
+
     test 'default taxonomies are not assigned to hosts with taxonomies' do
       Setting[:default_location] = taxonomies(:location1).title
       raw = parse_json_fixture('/facts.json')

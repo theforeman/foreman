@@ -105,8 +105,14 @@ module Host
       importer.import!
 
       save(:validate => false)
+
+      # These are fixed based on the specific fact parser
+      #   Operating Systems, Architectures, etc.
       populate_fields_from_facts(facts, type)
-      set_taxonomies(facts)
+
+      # Attributes that can be set dynamically based on Settings
+      populate_fields_from_dynamic_facts(facts)
+
 
       # we are saving here with no validations, as we want this process to be as fast
       # as possible, assuming we already have all the right settings in Foreman.
@@ -198,24 +204,24 @@ module Host
         comparison_object.id == id
     end
 
-    def set_taxonomies(facts)
-      ['location', 'organization'].each do |taxonomy|
-        next unless SETTINGS["#{taxonomy.pluralize}_enabled".to_sym]
-        taxonomy_class = taxonomy.classify.constantize
-        taxonomy_fact = Setting["#{taxonomy}_fact"]
+    def populate_fields_from_dynamic_facts(facts)
+      %w(location organization hostgroup).each do |attr|
+        next if (['location', 'organization'].include?(attr) && !SETTINGS["#{attr.pluralize}_enabled".to_sym])
+        attr_class = attr.classify.constantize
+        attr_fact = Setting["#{attr}_fact"]
 
-        if taxonomy_fact.present? && facts.keys.include?(taxonomy_fact)
-          taxonomy_from_fact = taxonomy_class.find_by_title(facts[taxonomy_fact])
+        if attr_fact.present? && facts.keys.include?(attr_fact)
+          attr_from_fact = attr_class.find_by_title(facts[attr_fact])
         else
-          default_taxonomy = taxonomy_class.find_by_title(Setting["default_#{taxonomy}"])
+          default_attr = attr_class.find_by_title(Setting["default_#{attr}"])
         end
 
-        if self.send("#{taxonomy}").present?
-          # Change taxonomy to fact taxonomy if set, otherwise leave it as is
-          self.send("#{taxonomy}=", taxonomy_from_fact) unless taxonomy_from_fact.nil?
+        if self.send("#{attr}").present?
+          # Change attribute to fact value if set, otherwise leave it as is
+          self.send("#{attr}=", attr_from_fact) unless attr_from_fact.nil?
         else
-          # No taxonomy was set, set to fact taxonomy or default taxonomy
-          self.send "#{taxonomy}=", (taxonomy_from_fact || default_taxonomy)
+          # No attribute was set, set to fact or default attribute
+          self.send "#{attr}=", (attr_from_fact || default_attr)
         end
       end
     end

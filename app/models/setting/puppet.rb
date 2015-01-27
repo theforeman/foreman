@@ -25,8 +25,10 @@ class Setting::Puppet < Setting
         self.set('legacy_puppet_hostname', N_("Foreman will truncate hostname to 'puppet' if it starts with puppet"), false),
         self.set('location_fact', N_("Hosts created after a puppet run will be placed in the location this fact dictates. The content of this fact should be the full label of the location."), 'foreman_location'),
         self.set('organization_fact', N_("Hosts created after a puppet run will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."), 'foreman_organization'),
+        self.set('hostgroup_fact', N_("Hosts created after a puppet run will be placed in the host group this fact dictates. The content of this fact should be the full label of the host group."), 'foreman_hostgroup'),
         self.set('default_location', N_("Hosts created after a puppet run that did not send a location fact will be placed in this location"), ''),
-        self.set('default_organization', N_("Hosts created after a puppet run that did not send a organization fact will be placed in this organization"), '')
+        self.set('default_organization', N_("Hosts created after a puppet run that did not send a organization fact will be placed in this organization"), ''),
+        self.set('default_hostgroup', N_("Hosts created after a puppet run that did not send a host group fact will be placed in this host group"), '')
       ].compact.each { |s| self.create s.update(:category => "Setting::Puppet")}
 
       true
