@@ -46,6 +46,14 @@ class HostTest < ActiveSupport::TestCase
     refute host.save
     assert_includes host.errors.keys, :interfaces
 
+    host.interfaces = [ FactoryGirl.build(:nic_managed, :primary => true, :host => host,
+                                           :domain => FactoryGirl.create(:domain)) ]
+    assert host.save
+  end
+
+  test "existing interface can be assigned as host primary interface" do
+    host = FactoryGirl.build(:host, :managed)
+    host.interfaces = [] # remove existing primary interface
     host.interfaces = [ FactoryGirl.create(:nic_managed, :primary => true, :host => host,
                                            :domain => FactoryGirl.create(:domain)) ]
     assert host.save

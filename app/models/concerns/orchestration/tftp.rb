@@ -10,7 +10,9 @@ module Orchestration::TFTP
   end
 
   def tftp?
-    provision? && !!(subnet && subnet.tftp?) && host.managed? && (host.operatingsystem && host.operatingsystem.pxe_variant) && managed? && pxe_build?
+    # host.managed? and managed? should always come first so that orchestration doesn't
+    # even get tested for such objects
+    (host.nil? || host.managed?) && managed && provision? && !!(subnet && subnet.tftp?) && (host.operatingsystem && host.operatingsystem.pxe_variant) && pxe_build?
   end
 
   def tftp
@@ -126,5 +128,4 @@ module Orchestration::TFTP
   def no_errors
     errors.empty? && host.errors.empty?
   end
-
 end

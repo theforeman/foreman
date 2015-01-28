@@ -72,4 +72,14 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert_equal "#{b.ip}/#{b.shortname}.#{b.domain.name}", b.dns_ptr_record.to_s
     end
   end
+
+  test 'unmanaged should not call methods after managed?' do
+    if unattended?
+      h = FactoryGirl.create(:host)
+      Nic::Managed.any_instance.expects(:ip_available?).never
+      assert h.valid?
+      assert_equal false, h.dns?
+      assert_equal false, h.reverse_dns?
+    end
+  end
 end
