@@ -28,15 +28,20 @@ class HostTest < ActionDispatch::IntegrationTest
     page.find(:link, "Interfaces").click
   end
 
-  def add_interface
-    page.find(:button, '+ Add Interface').click
-
-    modal = page.find('#interfaceModal')
-    modal.find(:button, "Ok").click
-  end
-
   def modal
     page.find('#interfaceModal')
+  end
+
+  def close_modal(button_label="Ok")
+    modal.find(:button, button_label).click
+    # wait until modal is closed
+    page.has_css?('#interfaceModal', :visible => false)
+    sleep(2)
+  end
+
+  def add_interface
+    page.find(:button, '+ Add Interface').click
+    close_modal
   end
 
   def table
@@ -90,11 +95,11 @@ class HostTest < ActionDispatch::IntegrationTest
       assert_equal 2, table.all('tr', :visible => true).count
 
       # test column content
-      assert table.find('td.identifier').has_content?('')
-      assert table.find('td.type').has_content?('Interface')
-      assert table.find('td.mac').has_content?('')
-      assert table.find('td.ip').has_content?('')
-      assert table.find('td.fqdn').has_content?('')
+      assert table.has_selector?('td.identifier', :text => '')
+      assert table.has_selector?('td.type', :text => 'Interface')
+      assert table.has_selector?('td.mac', :text => '')
+      assert table.has_selector?('td.ip', :text => '')
+      assert table.has_selector?('td.fqdn', :text => '')
 
       # test the tlags are set properly
       assert table.find('td.flags .primary-flag.active')
@@ -116,14 +121,14 @@ class HostTest < ActionDispatch::IntegrationTest
           assert modal.find('.interface_primary').checked?, "Primary checkbox is checked"
           assert modal.find('.interface_provision').checked?, "Provision checkbox is checked"
 
-          modal.find(:button, "Cancel").click
+          close_modal('Cancel')
 
           # test column content
-          assert table.find('td.identifier').has_content?('')
-          assert table.find('td.type').has_content?('Interface')
-          assert table.find('td.mac').has_content?('')
-          assert table.find('td.ip').has_content?('')
-          assert table.find('td.fqdn').has_content?('')
+          assert table.has_selector?('td.identifier', :text => '')
+          assert table.has_selector?('td.type', :text => 'Interface')
+          assert table.has_selector?('td.mac', :text => '')
+          assert table.has_selector?('td.ip', :text => '')
+          assert table.has_selector?('td.fqdn', :text => '')
         end
 
         test "ok button updates overview table" do
@@ -137,13 +142,13 @@ class HostTest < ActionDispatch::IntegrationTest
           modal.find('.interface_ip').set('10.32.8.3')
           modal.find('.interface_name').set('name')
 
-          modal.find(:button, "Ok").click
+          close_modal
 
-          assert table.find('td.identifier').has_content?('eth0')
-          assert table.find('td.type').has_content?('Interface')
-          assert table.find('td.mac').has_content?('11:22:33:44:55:66')
-          assert table.find('td.ip').has_content?('10.32.8.3')
-          assert table.find('td.fqdn').has_content?('')
+          assert table.has_selector?('td.identifier', :text => 'eth0')
+          assert table.has_selector?('td.type', :text => 'Interface')
+          assert table.has_selector?('td.mac', :text => '11:22:33:44:55:66')
+          assert table.has_selector?('td.ip', :text => '10.32.8.3')
+          assert table.has_selector?('td.fqdn', :text => '')
         end
 
       end
@@ -161,7 +166,7 @@ class HostTest < ActionDispatch::IntegrationTest
             assert !modal.find('.interface_primary').checked?, "Primary checkbox is unchecked by default"
             assert !modal.find('.interface_provision').checked?, "Provision checkbox is unchecked by default"
 
-            modal.find(:button, "Cancel").click
+            close_modal('Cancel')
           end
         end
 
@@ -169,8 +174,7 @@ class HostTest < ActionDispatch::IntegrationTest
           go_to_interfaces_tab
 
           assert_interface_change(1) do
-            page.find(:button, '+ Add Interface').click
-            modal.find(:button, "Ok").click
+            add_interface
           end
         end
 
@@ -187,10 +191,10 @@ class HostTest < ActionDispatch::IntegrationTest
 
           modal.has_select?('.interface_subnet', :options => domain.subnets.map(&:to_label))
           modal.has_select?('.interface_domain', :selected => domain.name)
-          modal.find(:button, "Ok").click
+          close_modal
 
-          assert table.find('td.fqdn').has_content?('name.'+domain.name)
-          assert page.find('#hostFQDN').has_content?('| name.'+domain.name)
+          assert table.has_selector?('td.fqdn', :text => 'name.'+domain.name)
+          assert page.has_selector?('#hostFQDN', :text => '| name.'+domain.name)
 
           page.find(:link, "Host").click
           assert_equal 'name', page.find('#host_name').value
