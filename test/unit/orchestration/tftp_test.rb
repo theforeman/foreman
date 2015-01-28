@@ -19,6 +19,15 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
+  test 'unmanaged should not call methods after managed?' do
+    if unattended?
+      h = FactoryGirl.create(:host)
+      Nic::Managed.any_instance.expects(:provision?).never
+      assert h.valid?
+      assert_equal false, h.tftp?
+    end
+  end
+
   def test_generate_pxe_template_for_build
     if unattended?
       h = FactoryGirl.create(:host, :build => true,
