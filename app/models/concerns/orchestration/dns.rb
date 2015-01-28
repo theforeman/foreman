@@ -7,11 +7,15 @@ module Orchestration::DNS
   end
 
   def dns?
-    hostname.present? && ip_available? && !domain.nil? && !domain.proxy.nil? && host.managed? && managed?
+    # host.managed? and managed? should always come first so that orchestration doesn't
+    # even get tested for such objects
+    (host.nil? || host.managed?) && managed? && hostname.present? && ip_available? && !domain.nil? && !domain.proxy.nil?
   end
 
   def reverse_dns?
-    hostname.present? && ip_available? && !subnet.nil? && subnet.dns? && host.managed? && managed?
+    # host.managed? and managed? should always come first so that orchestration doesn't
+    # even get tested for such objects
+    (host.nil? || host.managed?) && managed? && hostname.present? && ip_available? && !subnet.nil? && subnet.dns?
   end
 
   def dns_a_record
