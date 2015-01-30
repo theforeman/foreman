@@ -57,9 +57,9 @@ module Orchestration::DHCP
   # returns a hash of dhcp record settings
   def dhcp_attrs
     return unless dhcp?
-    dhcp_attr = { :name => name, :filename => operatingsystem.boot_filename(self),
-                  :ip => ip, :mac => mac, :hostname => hostname, :proxy => subnet.dhcp_proxy,
-                  :network => subnet.network, :nextServer => boot_server }
+    dhcp_attr = { :name => name, :filename => operatingsystem.try(:boot_filename, self),
+                  :ip => ip, :mac => mac, :hostname => hostname, :proxy => subnet.try(:dhcp_proxy),
+                  :network => subnet.try(:network), :nextServer => boot_server }
 
     if jumpstart?
       jumpstart_arguments = os.jumpstart_params self, model.vendor_class
