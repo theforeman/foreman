@@ -241,22 +241,12 @@ add_cmd "gem list" "gem_list"
 add_cmd "scl enable $SCLNAME 'gem list'" "gem_list_scl"
 add_cmd "bundle --local --gemfile=/usr/share/foreman/Gemfile" "bundle_list"
 add_cmd "facter" "facts"
-add_files /etc/foreman{,-proxy,-proxy/settings.d}/* /var/log/foreman{,-proxy,-installer}/*.log*
+add_files /etc/foreman/* /var/log/foreman/*.log*
 add_files /usr/share/foreman/Gemfile*
-add_files /etc/dhcp/*.conf /var/lib/dhcp/*.leases
-add_files /etc/xinetd.d/tftp
-[ -d "/tftpboot" ] && add_cmd "find /tftpboot -exec ls -ld {} +" "tftpboot_tree"
-[ -d "/srv/tftp" ] && add_cmd "find /srv/tftp -exec ls -ld {} +" "tftpboot_tree"
-[ -d "/var/lib/tftpboot" ] && add_cmd "find /var/lib/tftpboot -exec ls -ld {} +" "tftpboot_tree"
-add_files /etc/named.conf /var/log/named.log
-add_files /var/named/* /var/named/{data,dynamic,slaves}/*
 add_cmd "virsh list" "virsh_list"
 add_files /etc/libvirt/* /etc/libvirt/storage/* /etc/libvirt/qemu/* /etc/libvirt/qemu/networks
 add_files /var/lib/pgsql/data/*.conf
-add_files /etc/puppet/*.conf /etc/puppet/rack/* /etc/puppet/manifests/* /var/log/puppet/*.log*
 add_files /var/lib/puppet/ssl/certs/$(hostname -f).pem /var/lib/puppet/ssl/certs/ca.pem
-add_files /etc/puppet/ssl/ca/inventory.txt /var/lib/puppet/ssl/ca/inventory.txt
-add_cmd "find /etc/puppet/modules -exec ls -ld {} +" "puppet_manifests_tree"
 add_files /etc/{httpd,apache2}/conf/*
 add_files /etc/{httpd,apache2}/conf.d/*
 add_files /var/log/{httpd,apache2}/*error_log*
@@ -264,11 +254,10 @@ add_cmd "echo \"select id,name,value from settings where name not similar to '%(
 add_cmd "echo 'select type,name,host,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources' | su postgres -c 'psql foreman'" "foreman_auth_table"
 add_cmd "foreman-selinux-relabel -nv" "foreman_filecontexts"
 
-add_files /etc/{sysconfig,default}/foreman{,-proxy}
-add_files /etc/{sysconfig,default}/dhcp*
-add_files /etc/sysconfig/named /etc/default/bind
+add_files /etc/{sysconfig,default}/foreman
 add_files /etc/{sysconfig,default}/libvirt*
 add_files /etc/sysconfig/pgsql
+add_files "/var/lib/pgsql/data/pg_log/*"
 add_cmd "foreman-rake plugins" "plugin_list"
 
 # Look for any debug extensions provided by plugins
