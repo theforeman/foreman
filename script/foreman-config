@@ -44,5 +44,5 @@ end
 
 Dir.chdir(options[:foreman_path]) do
   ENV['RAILS_ENV'] = options[:environment]
-  exec('rake', 'config', '--', *rake_args)
+  exec('rake', '--', 'config', *rake_args)
 end
