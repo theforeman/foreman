@@ -48,4 +48,15 @@ class HostMailerTest < ActionMailer::TestCase
     @host.save
     assert HostMailer.summary(@options).deliver.body.include?(@host.name)
   end
+
+  test "error state raises exception if host has no owners" do
+    host = stub(:host)
+    host.stubs(:owner)
+    report = stub(:report)
+    report.stubs(:host).returns(host)
+    Report.stubs(:find).returns(report)
+    assert_raise(Foreman::Exception) {
+      HostMailer.error_state(1).deliver
+    }
+  end
 end
