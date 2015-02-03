@@ -1,5 +1,4 @@
-
-<% interfaces_invalid = @host.interfaces.any?{ |i| i.validated? && !i.valid? } %>
+<% interfaces_invalid = @host.interfaces.any?{ |i| i.errors.present? } %>
 
 <fieldset id="interfaces" data-url="<%= new_interface_path %>">
   <% if interfaces_invalid %>
@@ -23,7 +22,7 @@
     </thead>
     <tbody>
       <% @host.interfaces.each do |interface| %>
-        <tr class="<%= 'has-error' if interface.validated? && !interface.valid? %>" id="interface<%= interface.object_id %>" data-interface-id="<%= interface.object_id %>">
+        <tr class="<%= 'has-error' if interface.errors.present? %>" id="interface<%= interface.object_id %>" data-interface-id="<%= interface.object_id %>">
           <td class="status hidden-xs" align="center"><%= link_status(interface) %></td>
           <td class="flags hidden-xs" align="center"><%= interface_flags(interface) %></td>
           <td class="identifier ellipsis"><%= interface.identifier %></td>
