@@ -482,6 +482,17 @@ table {
   }
 }
 
+.replace-hidden-value {
+  .full-value {
+    display: none;
+    &.unhide {
+      display: inline;
+      width: 90%;
+      word-break: break-all;
+    }
+  }
+}
+
 .puppetclass_group, .config_group_group {
   li {
     a {

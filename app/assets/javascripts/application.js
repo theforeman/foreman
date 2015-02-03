@@ -17,6 +17,7 @@
 //= require settings
 //= require jquery.gridster
 //= require hidden_values
+//= require select_on_click
 
 $(document).on('ContentLoad', function(){onContentLoad()});
 Turbolinks.enableProgressBar();
@@ -112,6 +113,8 @@ function onContentLoad(){
 
   var tz = jstz.determine();
   $.cookie('timezone', tz.name(), { path: '/', secure: location.protocol === 'https:' });
+
+  $('.full-value').SelectOnClick();
 }
 
 function preserve_selected_options(elem) {
