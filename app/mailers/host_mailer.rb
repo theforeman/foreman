@@ -39,7 +39,8 @@ class HostMailer < ApplicationMailer
   def error_state(report)
     report = Report.find(report)
     host = report.host
-    owners = host.owner.recipients_for(:puppet_error_state)
+    owners = host.owner.recipients_for(:puppet_error_state) if host.owner.present?
+    owners ||= []
     raise ::Foreman::Exception.new(N_("unable to find recipients")) if owners.empty?
     @report = report
     @host = host
