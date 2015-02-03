@@ -37,4 +37,15 @@ module FactValuesHelper
       name
     end
   end
+
+  def show_full_fact_value(fact_value)
+    content_tag(:div, :class => 'replace-hidden-value') do
+      link_to_function(icon_text('plus', '', :class => 'small'), 'replace_value_control(this)',
+               :title => _('Show full value'),
+               :class => 'replace-hidden-value pull-right') +
+      content_tag(:span, :class => 'full-value') do
+        fact_value
+      end
+    end.html_safe
+  end
 end
