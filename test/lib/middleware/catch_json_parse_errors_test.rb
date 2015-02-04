@@ -4,7 +4,7 @@ require 'capybara/rails'
 
 class CatchJsonParseErrorsTest < ActiveSupport::TestCase
   def setup
-    Capybara.current_driver = :selenium
+    Capybara.current_driver = Capybara.javascript_driver
   end
 
   test "submitting invalid JSON" do

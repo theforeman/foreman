@@ -23,6 +23,13 @@ Spork.prefork do
   require "minitest/autorun"
   require 'capybara/rails'
   require 'factory_girl_rails'
+  require 'capybara/poltergeist'
+
+  Capybara.register_driver :poltergeist do |app|
+    Capybara::Poltergeist::Driver.new(app, {:js_errors => false})
+  end
+
+  Capybara.javascript_driver = :poltergeist
 
   # Use our custom test runner, and register a fake plugin to skip a specific test
   Foreman::Plugin.register :skip_test do
