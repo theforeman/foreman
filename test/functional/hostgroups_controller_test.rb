@@ -138,4 +138,36 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :partial => "common_parameters/_inherited_parameters"
   end
+
+  describe "parent attributes" do
+    before do
+      @base = FactoryGirl.create(:hostgroup)
+      @base.group_parameters << GroupParameter.create(:name => "x", :value => "original")
+      @base.group_parameters << GroupParameter.create(:name => "y", :value => "originally")
+    end
+
+    it "creates a hostgroup with a parent parameter" do
+      post :create, {"hostgroup" => {"name"=>"test_it", "parent_id" => @base.id, :realm_id => realms(:myrealm).id}, "parent_parameter_0_key"=>"x", "parent_parameter_0_value"=>"overridden"}, set_session_user
+      assert_redirected_to hostgroups_url
+      hostgroup = Hostgroup.where(:name => "test_it").last
+      assert_equal "overridden", hostgroup.parameters["x"]
+    end
+
+    it "updates a hostgroup with a parent parameter" do
+      child = FactoryGirl.create(:hostgroup, :parent => @base)
+      assert_equal "original", child.parameters["x"]
+      post :update, {"id" => child.id, "hostgroup" => {"name" => child.name}, "parent_parameter_0_key"=>"x", "parent_parameter_0_value"=>"overridden" }, set_session_user
+      assert_redirected_to hostgroups_url
+      assert_equal "overridden", child.parameters["x"]
+    end
+
+    it "updates a hostgroup with a parent parameter, ignores empty values" do
+      child = FactoryGirl.create(:hostgroup, :parent => @base)
+      assert_equal "original", child.parameters["x"]
+      post :update, {"id" => child.id, "hostgroup" => {"name" => child.name}, "parent_parameter_0_key"=>"x", "parent_parameter_0_value"=>nil, "parent_parameter_1_key"=>"y", "parent_parameter_1_value"=>"overridden" }, set_session_user
+      assert_redirected_to hostgroups_url
+      assert_equal "overridden", child.parameters["y"]
+      assert_equal "original", child.parameters["x"]
+    end
+  end
 end

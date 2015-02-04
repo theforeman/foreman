@@ -7,7 +7,7 @@
           <%= content_tag(:input, '', :class => "form-control", :disabled => true,  :value => _('Global'), :type=> :text ) %>
         </td>
         <td class="col-md-2">
-          <%= text_field_tag("parent_parameter_#{i}_key", '', :class => "form-control", :placeholder => parameter.name) %>
+          <%= text_field_tag("parent_parameter_#{i}_key", '', :class => "form-control", :value => parameter.name, :readonly => true) %>
         </td>
         <td class="col-md-7">
           <%= text_area_tag("parent_parameter_#{i}_value", '', :class => "form-control", :rows => 1, :placeholder => parameter.value) %>
