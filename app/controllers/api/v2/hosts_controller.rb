@@ -212,8 +212,6 @@ Return value may either be one of the following:
         deny_access unless Host.authorized(permission).find(@host.id)
       end
 
-      private
-
       def resource_class
         Host::Managed
       end
