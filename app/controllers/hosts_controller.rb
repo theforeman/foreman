@@ -176,10 +176,11 @@ class HostsController < ApplicationController
         format.html { render :text => "<pre>#{ERB::Util.html_escape(@host.info.to_yaml)}</pre>" }
         format.yml { render :text => @host.info.to_yaml }
       end
-    rescue
-      # failed
-      logger.warn "Failed to generate external nodes for #{@host} with #{$ERROR_INFO}"
-      render :text => _('Unable to generate output, Check log files\n'), :status => 412 and return
+    rescue => e
+      logger.warn "Failed to generate external nodes for #{@host} with #{e}"
+      logger.debug(e.backtrace.join("\n"))
+      render :text => _('Unable to generate output, Check log files'),
+             :status => :precondition_failed
     end
   end
 
