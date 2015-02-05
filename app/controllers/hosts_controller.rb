@@ -534,7 +534,7 @@ class HostsController < ApplicationController
 
   def process_taxonomy
     return head(:not_found) unless @location || @organization
-    @host = Host.new(params[:host].except(:interfaces_attributes))
+    @host = Host.new(clean_interfaces_attributes)
     # revert compute resource to "Bare Metal" (nil) if selected
     # compute resource is not included taxonomy
     Taxonomy.as_taxonomy @organization, @location do
@@ -545,7 +545,7 @@ class HostsController < ApplicationController
   end
 
   def template_used
-    host      = Host.new(params[:host].except(:host_parameters_attributes, :interfaces_attributes))
+    host      = Host.new(clean_interfaces_attributes.except(:host_parameters_attributes))
     templates = host.available_template_kinds(params[:provisioning])
     return not_found if templates.empty?
     render :partial => 'provisioning', :locals => { :templates => templates }
@@ -722,5 +722,14 @@ class HostsController < ApplicationController
         params[:host][:interfaces_attributes]["#{k}"].except!(:password) if params[:host][:interfaces_attributes]["#{k}"][:password].blank?
       end
     end
+  end
+
+  def clean_interfaces_attributes
+    attributes = params[:host].dup
+    if params[:host][:interfaces_attributes]
+      attributes[:interfaces_attributes] = params[:host][:interfaces_attributes].dup.except(:created_at, :updated_at, :attrs)
+      attributes[:interfaces_attributes][:id] = nil
+    end
+    attributes
   end
 end

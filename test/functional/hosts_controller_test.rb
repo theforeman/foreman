@@ -887,6 +887,7 @@ class HostsControllerTest < ActionController::TestCase
     attrs[:interfaces_attributes] = nic.attributes
     xhr :put, :process_taxonomy, { :host => attrs }, set_session_user
     assert_response :success
+    assert response.body.include?(nic.attributes["mac"])
     assert_template :partial => '_form'
   end
 
