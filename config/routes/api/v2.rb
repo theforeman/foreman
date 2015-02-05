@@ -156,7 +156,7 @@ Foreman::Application.routes.draw do
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
       end
 
-      resources :settings, :only => [:index, :show, :update]
+      resources :settings, :only => [:index, :show, :update, :destroy]
 
       resources :smart_variables, :except => [:new, :edit] do
         resources :override_values, :except => [:new, :edit]

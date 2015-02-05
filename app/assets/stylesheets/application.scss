@@ -165,6 +165,16 @@ select {
   margin: 0 !important;
 }
 
+.resetable {
+  background: url("switch.png") no-repeat scroll 98% 6px transparent;
+  cursor: pointer;
+  padding: 4px 8px 4px 0;
+}
+
+tr.modified {
+  font-weight: bold;
+}
+
 .ignore-subnet {
   margin-right: 10px;
   margin-top: -25px;
