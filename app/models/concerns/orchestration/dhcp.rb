@@ -94,8 +94,9 @@ module Orchestration::DHCP
 
   # do we need to update our dhcp reservations
   def dhcp_update_required?
-    # IP Address / name changed
-    return true if ((old.ip != ip) or (old.hostname != hostname) or (old.mac != mac) or (old.subnet != subnet))
+    # IP Address / name changed, or 'rebuild' action is triggered and DHCP record on the smart proxy is not present/identical.
+    return true if ((old.ip != ip) or (old.hostname != hostname) or (old.mac != mac) or (old.subnet != subnet) or
+                    (!old.build? and build? and !dhcp_record.valid?))
     # Handle jumpstart
     #TODO, abstract this way once interfaces are fully used
     if self.is_a?(Host::Base) and jumpstart?
