@@ -139,6 +139,28 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal 1, h.primary_interface.queue.items.select {|x| x.action.last == :del_dhcp }.size
   end
 
+  test "when an existing host trigger a 'rebuild', its dhcp record should be updated if no dhcp record is found" do
+    Net::DHCP::Record.any_instance.stubs(:valid?).returns(false)
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+
+    h.build = true
+
+    assert h.valid?, h.errors.messages.to_s
+    assert_equal 2, h.queue.items.select {|x| x.action == [ h.primary_interface, :set_dhcp ] }.size
+    assert_equal 1, h.primary_interface.queue.items.select {|x| x.action.last == :del_dhcp }.size
+  end
+
+  test "when an existing host trigger a 'rebuild', its dhcp record should not be updated if valid dhcp record is found" do
+    Net::DHCP::Record.any_instance.stubs(:valid?).returns(true)
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+
+    h.build = true
+
+    assert h.valid?, h.errors.messages.to_s
+    assert_equal 1, h.queue.items.select {|x| x.action == [ h.primary_interface, :set_dhcp ] }.size
+    assert_equal 0, h.primary_interface.queue.items.select {|x| x.action.last == :del_dhcp }.size
+  end
+
   test "when an existing host change its bmc mac address, its dhcp record should be updated" do
     h = FactoryGirl.create(:host, :with_dhcp_orchestration)
     as_admin do
