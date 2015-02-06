@@ -1,15 +1,5 @@
-<div class="fields">
-  <div class="form-group">
-
-    <%= f.fields_for 'compute_attributes', OpenStruct.new(f.object.compute_attributes) do |f| %>
-      <%= text_f f, :name, :disabled => disabled, :class => "col-md-2", :label => _('Name') %>
-      <%= f.hidden_field :name if disabled %>
-      <% selected_cluster ||= compute_resource.clusters.first.id %>
-      <%= select_f f, :network, compute_resource.networks(selected_cluster ? { :cluster_id => selected_cluster } : { }), :id, :name,
-                   { }, :disabled => disabled, :class => "col-md-2",
-                   :label         => _('Network') %>
-      <%= f.hidden_field :network if disabled %>
-    <% end %>
-
-  </div>
-</div>
+<%= text_f f, :name, :disabled => !new_host, :class => "ovirt_name", :label => _('Name') %>
+<% selected_cluster ||= compute_resource.clusters.first.id %>
+<%= select_f f, :network, compute_resource.networks(selected_cluster ? { :cluster_id => selected_cluster } : { }), :id, :name,
+             { }, :disabled => !new_host, :class => "ovirt_network",
+             :label         => _('Network') %>

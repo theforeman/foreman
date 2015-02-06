@@ -1,0 +1,12 @@
+<div class="fields removable-item">
+  <div class="form-group">
+    <div class="remove-button">
+      <% if new_host %>
+        <%= remove_child_link('X', f, { :method => :'_delete', :title => local_assigns[:remove_title], :class => 'label label-danger' }) %>
+      <% end %>
+    </div>
+    <div>
+      <%= yield  %>
+    </div>
+  </div>
+</div>

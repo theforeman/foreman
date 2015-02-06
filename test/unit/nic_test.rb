@@ -101,6 +101,18 @@ class NicTest < ActiveSupport::TestCase
     refute_includes nic.errors.keys, :identifier
   end
 
+  context 'physical?' do
+    test 'returns true for a physical interface' do
+      nic = FactoryGirl.build(:nic_managed, :virtual => false)
+      assert nic.physical?
+    end
+
+    test 'returns false for a virtual interface' do
+      nic = FactoryGirl.build(:nic_managed, :virtual => true)
+      refute nic.physical?
+    end
+  end
+
   context 'BMC' do
     setup do
       disable_orchestration

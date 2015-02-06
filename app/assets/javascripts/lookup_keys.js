@@ -103,6 +103,12 @@ function remove_child_node(item) {
   return false;
 }
 
+function delete_child_node(item) {
+  $(item).closest('.fields').remove();
+  $(item).closest("form").trigger('nested:fieldRemoved');
+  return false;
+}
+
 function undo_remove_child_node(item){
   var container = $('.lookup-keys-container:visible');
   var link = container.find($(item).attr("data-pill"));

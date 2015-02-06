@@ -1,36 +1,29 @@
-<div class="fields">
-  <div class="form-group">
-  <% nat    = compute_resource.networks %>
-  <% bridge = compute_resource.interfaces %>
 
-  <%= f.fields_for 'compute_attributes', OpenStruct.new(f.object.compute_attributes) do |f| %>
+<% nat    = compute_resource.networks %>
+<% bridge = compute_resource.interfaces %>
 
-    <%=
-    selectable_f f, :type, libvirt_networks(compute_resource), {},
-                     { :label    => _('Network type'),
-                       :disabled => disabled,
-                       :onchange => 'libvirt_network_selected(this)' } %>
+<%= selectable_f f, :type, libvirt_networks(compute_resource), {},
+                 { :label    => _('Network type'),
+                   :disabled => !new_host,
+                   :onchange => 'libvirt_network_selected(this)',
+                   :class => 'libvirt_network'
+                 } %>
 
-    <div id='nat' class='<%= 'hide' if f.object.type != 'network' %>'>
-      <%= selectable_f f, :network, nat.map(&:name),
-                       { :include_blank => nat.any? ? false : _("No networks") },
-                       { :class => "col-md-2", :label => _("Network"), :disabled => (f.object.type != 'network' || disabled) } %>
-    </div>
-
-    <div id='bridge' class='<%= 'hide' if f.object.type && (f.object.type != 'bridge') %>'>
-      <% if bridge.any? %>
-        <%= selectable_f f, :bridge, bridge.map(&:name),
-                         { :include_blank => bridge.any? ? false : _("No bridges") },
-                         { :class => "col-md-2", :label => _("Network"), :disabled => ((f.object.type && (f.object.type != 'bridge')) || disabled) } %>
-      <% else %>
-        <%= text_f f, :bridge, :class => "col-md-2", :label => _("Network"), :help_block => _("your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)"), :disabled => disabled %>
-      <% end %>
-    </div>
-
-    <%= selectable_f f, :model, %w(virtio rtl8139 ne2k_pci pcnet e1000), {},
-                     { :label => _('NIC type'), :class => 'col-md-2', :disabled => disabled } %>
-  <% end %>
-
-
-  </div>
+<div id='nat' class='<%= 'hide' if f.object.type != 'network' %>'>
+  <%= selectable_f f, :network, nat.map(&:name),
+                   { :include_blank => nat.any? ? false : _("No networks") },
+                   { :class => "col-md-2 libvirt_nat", :label => _("Network"), :disabled => (f.object.type != 'network' || !new_host) } %>
 </div>
+
+<div id='bridge' class='<%= 'hide' if f.object.type && (f.object.type != 'bridge') %>'>
+  <% if bridge.any? %>
+    <%= selectable_f f, :bridge, bridge.map(&:name),
+                     { :include_blank => bridge.any? ? false : _("No bridges") },
+                     { :class => "col-md-2 libvirt_bridge", :label => _("Network"), :disabled => ((f.object.type && (f.object.type != 'bridge')) || !new_host) } %>
+  <% else %>
+    <%= text_f f, :bridge, :class => "col-md-2 libvirt_bridge", :label => _("Network"), :help_block => _("your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)"), :disabled => !new_host %>
+  <% end %>
+</div>
+
+<%= selectable_f f, :model, %w(virtio rtl8139 ne2k_pci pcnet e1000), {},
+                 { :label => _('NIC type'), :class => 'col-md-2', :disabled => !new_host } %>

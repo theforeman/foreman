@@ -18,7 +18,7 @@ module Foreman::Model
     end
 
     def interfaces_attrs_name
-      "nics_attributes"
+      "nics"
     end
 
     def capabilities
@@ -66,6 +66,11 @@ module Foreman::Model
 
     def new_nic(attr = { })
       client.nics.new attr
+    end
+
+    def new_interface(attr = {})
+      # fog compatibility
+      new_nic(attr)
     end
 
     def new_volume(attr = { })

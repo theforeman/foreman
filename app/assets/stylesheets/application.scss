@@ -440,6 +440,10 @@ table {
 
 }
 
+.additional-info {
+  font-size: 75%;
+}
+
 .autocomplete-input {
   display:inline-block !important;
 }
@@ -472,4 +476,17 @@ table {
       }
     }
   }
+}
+
+.children_fields {
+  margin-bottom: 10px;
+}
+
+.remove-button {
+  float: right;
+  margin-right: 30px;
+}
+
+.removable-item {
+  margin-bottom: 25px;
 }

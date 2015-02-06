@@ -253,7 +253,7 @@ module Orchestration::Compute
   def add_interfaces_to_compute_attrs
     # We now store vm fields in the Nic model, so we need to add them to
     # compute_attrs before creating the vm
-    attrs_name = compute_resource.interfaces_attrs_name
+    attrs_name = "#{compute_resource.interfaces_attrs_name}_attributes"
     return unless compute_attributes[attrs_name].blank?
     compute_attributes[attrs_name] = {}
     self.interfaces.each do |nic|

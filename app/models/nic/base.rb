@@ -68,9 +68,13 @@ module Nic
     serialize :compute_attributes, Hash
 
     class Jail < ::Safemode::Jail
-      allow :managed?, :subnet, :virtual?, :mac, :ip, :identifier, :attached_to,
+      allow :managed?, :subnet, :virtual?, :physical?, :mac, :ip, :identifier, :attached_to,
             :link, :tag, :domain, :vlanid, :bond_options, :attached_devices, :mode,
             :attached_devices_identifiers, :primary, :provision, :inheriting_mac
+    end
+
+    def physical?
+      !virtual?
     end
 
     def type_name

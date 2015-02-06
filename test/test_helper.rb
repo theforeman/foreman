@@ -26,8 +26,9 @@ Spork.prefork do
   require 'capybara/poltergeist'
 
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, {:js_errors => false})
+    Capybara::Poltergeist::Driver.new(app, {:js_errors => true, :timeout => 60})
   end
+  Capybara.default_wait_time = 30
 
   Capybara.javascript_driver = :poltergeist
 

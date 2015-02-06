@@ -322,7 +322,7 @@ module Foreman::Model
       raise e
     end
 
-    def new_vm(args)
+    def new_vm(args = {})
       args = parse_args args
       opts = vm_instance_defaults.symbolize_keys.merge(args.symbolize_keys)
       client.servers.new opts

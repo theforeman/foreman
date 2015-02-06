@@ -114,7 +114,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def interfaces_attrs_name
-    "interfaces_attributes"
+    "interfaces"
   end
 
   # returns a new fog server instance
@@ -234,8 +234,12 @@ class ComputeResource < ActiveRecord::Base
     self.attrs[:setpw] = nil
   end
 
+  def compute_profile_for(id)
+    compute_attributes.find_by_compute_profile_id(id)
+  end
+
   def compute_profile_attributes_for(id)
-    compute_attributes.find_by_compute_profile_id(id).try(:vm_attrs) || {}
+    compute_profile_for(id).try(:vm_attrs) || {}
   end
 
   def vm_compute_attributes_for(uuid)
