@@ -4,20 +4,24 @@ module HostsHelper
   include ComputeResourcesVmsHelper
   include BmcHelper
 
-  def nic_provider_attributes_exist?(host)
-    return false unless host.compute_resource
+  def provider_partial_exist?(compute_resource, partial)
+    return false unless compute_resource
 
-    compute_resource_name = host.compute_resource.provider_friendly_name.downcase
-    real_path = File.join(Rails.root, 'app', 'views', 'compute_resources_vms', 'form', compute_resource_name, '_network.html.erb')
+    compute_resource_name = compute_resource.provider_friendly_name.downcase
+    real_path = File.join(Rails.root, 'app', 'views', 'compute_resources_vms', 'form', compute_resource_name, "_#{partial}.html.erb")
 
     File.exist?(real_path)
   end
 
-  def nic_provider_partial(host)
-    return nil unless host.compute_resource
+  def provider_partial(compute_resource, partial)
+    return nil unless compute_resource
 
-    compute_resource_name = host.compute_resource.provider_friendly_name.downcase
-    "compute_resources_vms/form/#{compute_resource_name}/network"
+    compute_resource_name = compute_resource.provider_friendly_name.downcase
+    "compute_resources_vms/form/#{compute_resource_name}/#{partial}"
+  end
+
+  def nic_info_js(compute_resource)
+    javascript_include_tag("compute_resources/#{compute_resource.provider_friendly_name.downcase}/nic_info.js")
   end
 
   def host_taxonomy_select(f, taxonomy)

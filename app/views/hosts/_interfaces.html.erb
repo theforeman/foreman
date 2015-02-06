@@ -21,21 +21,6 @@
       </tr>
     </thead>
     <tbody>
-      <% @host.interfaces.each do |interface| %>
-        <tr class="<%= 'has-error' if interface.errors.present? %>" id="interface<%= interface.object_id %>" data-interface-id="<%= interface.object_id %>">
-          <td class="status hidden-xs" align="center"><%= link_status(interface) %></td>
-          <td class="flags hidden-xs" align="center"><%= interface_flags(interface) %></td>
-          <td class="identifier ellipsis"><%= interface.identifier %></td>
-          <td class="type hidden-xs"><%= _(interface.class.humanized_name) %></td>
-          <td class="mac hidden-xs"><%= interface.mac %></td>
-          <td class="ip hidden-xs"><%= interface.ip %></td>
-          <td class="fqdn hidden-xs"><%= interface.fqdn %></td>
-          <td>
-            <button type="button" class="btn btn-default showModal" onclick="edit_interface(<%= interface.object_id %>); return false;"><%= _('Edit') %></button>
-            <button type="button" class="btn btn-danger removeInterface <%= (interface.primary? || interface.provision?) ? 'disabled' : '' %>" onclick="remove_interface(<%= interface.object_id %>); return false;"><%= _('Delete') %></button>
-          </td>
-        </tr>
-      <% end %>
       <tr id="interfaceTemplate" style="display: none">
         <td class="status hidden-xs" align="center"></td>
         <td class="flags hidden-xs" align="center"></td>

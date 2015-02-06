@@ -21,12 +21,14 @@ function update_nics(success_callback) {
       $('#network').html(result);
       if ($('#network').find('.alert-danger').length > 0)
         $('#network_tab a').addClass('tab-error');
+      update_interface_table();
       success_callback();
     }
   })
 }
 
 function computeResourceSelected(item){
+  providerSpecificNICInfo = null;
   var compute = $(item).val();
   if (compute == '' && /compute_resource/.test($(item).attr('name'))) {
     //Bare metal compute resource
@@ -440,6 +442,7 @@ function load_with_placeholder(target, url, data){
 }
 
 function onHostEditLoad(){
+  update_interface_table();
   $("#host-conflicts-modal").modal({show: "true", backdrop: "static"});
    $('#host-conflicts-modal').click(function(){
      $('#host-conflicts-modal').modal('hide');
@@ -504,7 +507,7 @@ $(document).on('change', '.interface_type', function () {
 
 function interface_domain_selected(element) {
   // mark the selected value to preserve it for form hiding
-  $(element).find('option:selected').attr('selected', 'selected')
+  preserve_selected_options($(element));
 
   var domain_id = element.value;
   var subnet_options = $(element).closest('fieldset').find('[id$=_subnet_id]').empty();
@@ -545,7 +548,7 @@ function interface_domain_selected(element) {
 
 function interface_subnet_selected(element) {
   // mark the selected value to preserve it for form hiding
-  $(element).find('option:selected').attr('selected', 'selected')
+  preserve_selected_options($(element));
 
   var subnet_id = $(element).val();
   if (subnet_id == '') return;
@@ -627,7 +630,6 @@ function disable_vm_form_fields() {
   $("[id^=host_compute_attributes]").each(function () {
     $(this).attr("disabled", "disabled");
   });
-  $("a.disable-unsupported").remove();
 }
 
 function resizeTextareas (elem) {

@@ -27,3 +27,13 @@ four:
   vm_attrs:
     cpus: 4
     memory: 4294967296
+
+with_interfaces:
+  compute_profile: two
+  compute_resource: one
+  vm_attrs:
+    nics_attributes:
+      1:
+        attr: 1
+      2:
+        attr: 2

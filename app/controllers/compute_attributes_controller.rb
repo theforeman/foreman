@@ -9,7 +9,7 @@ class ComputeAttributesController < ApplicationController
     if @set.save
       process_success :success_redirect => request.referer || compute_profile_path(@set.compute_profile)
     else
-      process_error
+      process_error :object => @set
     end
   end
 
@@ -22,7 +22,7 @@ class ComputeAttributesController < ApplicationController
     if @set.update_attributes!(params[:compute_attribute])
       process_success :success_redirect => request.referer || compute_profile_path(@set.compute_profile)
     else
-      process_error
+      process_error :object => @set
     end
   end
 end

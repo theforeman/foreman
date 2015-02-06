@@ -1,5 +1,4 @@
-<% new_host = new_host?(@host) %>
-<%= text_f f, :name, :disabled => !new_host if show_vm_name? %>
+<%= text_f f, :name, :label => _('Name'), :disabled => !new_host if show_vm_name? %>
 <%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('CPUs') %>
 <%= selectable_f f, :corespersocket, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('Cores per socket') %>
 <%= text_f f, :memory_mb, :class => "col-md-2", :disabled => !new_host, :label => _("Memory (MB)") %>
@@ -8,25 +7,6 @@
 <%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :class => "col-md-2", :disabled => !new_host } %>
 <%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new_host } %>
 <%= select_f f, :hardware_version, compute_resource.vm_hw_versions, :first, :last, {}, { :label => _("Virtual H/W version"), :class => "col-md-2", :disabled => !new_host } %>
-
-
-<%= render :partial => 'compute_resources_vms/form/interfaces_legacy_message', :locals => { :is_compute_profile => local_assigns[:is_compute_profile] } %>
-
-<!--Storage-->
-<div class="children_fields">
-  <%= new_child_fields_template(f, :volumes, {
-      :object  => compute_resource.new_volume,
-      :partial => 'compute_resources_vms/form/vmware/volume', :form_builder_attrs => { :compute_resource => compute_resource, :new => new_host } }) %>
-  <%= field_set_tag _("Storage"), :id => "storage_volumes" do %>
-    <%= select_f f, :scsi_controller_type, compute_resource.scsi_controller_types, :first, :last, {}, { :label => _("SCSI controller"), :class => "col-md-2", :disabled => !new_host } %>
-    <%= f.fields_for :volumes do |i| %>
-      <%= render 'compute_resources_vms/form/vmware/volume', :f => i, :compute_resource => compute_resource, :new => new_host %>
-    <% end %>
-    <% if new_host %>
-      <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info disable-unsupported", :title => _('add new storage volume') } %>
-    <% end %>
-  <% end %>
-</div>
 
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
@@ -42,3 +22,5 @@
                { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
                { :disabled => images.empty?, :label => _('Image') } %>
 </div>
+
+<%= nic_info_js(compute_resource) %>

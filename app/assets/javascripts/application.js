@@ -112,6 +112,12 @@ function onContentLoad(){
   $.cookie('timezone', tz.name(), { path: '/' });
 }
 
+function preserve_selected_options(elem) {
+  // mark the selected values to preserve them for form hiding
+  elem.find('option:not(:selected)').removeAttr('selected');
+  elem.find('option:selected').attr('selected', 'selected');
+}
+
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");
   $(link).closest(".fields").hide();

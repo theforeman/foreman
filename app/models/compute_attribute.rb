@@ -16,6 +16,10 @@ class ComputeAttribute < ActiveRecord::Base
     raise Foreman::Exception.new(N_('%s is an unknown attribute'), method)
   end
 
+  def vm_interfaces
+    attribute_values(compute_resource.interfaces_attrs_name)
+  end
+
   def new_vm
     compute_resource.new_vm(vm_attrs) if vm_attrs
   end
@@ -29,5 +33,14 @@ class ComputeAttribute < ActiveRecord::Base
 
   def update_name
     self.name = pretty_vm_attrs if pretty_vm_attrs.present?
+  end
+
+  def attribute_values(attr_name)
+    attr_key = "#{attr_name}_attributes"
+    if vm_attrs[attr_key]
+      vm_attrs[attr_key].select { |k,v| k.to_s != "new_#{attr_name}" }.values
+    else
+      []
+    end
   end
 end
