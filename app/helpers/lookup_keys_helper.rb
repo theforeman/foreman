@@ -4,6 +4,11 @@ module LookupKeysHelper
     f.hidden_field(opts[:method]||:_destroy) + link_to_function(name, "remove_child_node(this);", opts)
   end
 
+  def delete_child_link(name, f, opts = {})
+    opts[:class] = [opts[:class], "remove_nested_fields"].compact.join(" ")
+    link_to_function(name, "delete_child_node(this);", opts)
+  end
+
   def add_child_link(name, association, opts = {})
     opts[:class] = [opts[:class], "add_nested_fields btn btn-success"].compact.join(" ")
     opts[:"data-association"] = association

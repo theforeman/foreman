@@ -135,6 +135,10 @@ class HostsController < ApplicationController
 
   def interfaces
     @host = Host.new params[:host]
+
+    merge = InterfaceMerge.new
+    merge.run(@host.interfaces, @host.compute_resource.try(:compute_profile_for, @host.compute_profile_id))
+
     render :partial => "interfaces_tab"
   end
 

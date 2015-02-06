@@ -1,24 +1,9 @@
 
-<% new_host = new_host?(f.object) %>
-<%= text_f f, :name, :disabled => !new_host if show_vm_name? %>
+<%= text_f f, :name, :label => _('Name'), :disabled => !new_host if show_vm_name? %>
 <%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :disabled => !new_host, :label => _('CPUs') %>
 <%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "col-md-2", :disabled => !new_host, :label => _('Memory') %>
 
 
-<%= render :partial => 'compute_resources_vms/form/interfaces_legacy_message', :locals => { :is_compute_profile => local_assigns[:is_compute_profile] } %>
-
-<!--Storage-->
-<div class="children_fields">
-  <%= new_child_fields_template(f, :volumes, {
-      :object  => compute_resource.new_volume,
-      :partial => 'compute_resources_vms/form/libvirt/volume', :form_builder_attrs => { :compute_resource => compute_resource } }) %>
-  <%= field_set_tag _("Storage"), :id => "storage_volumes" do %>
-    <%= f.fields_for :volumes do |i| %>
-      <%= render 'compute_resources_vms/form/libvirt/volume', :f => i, :compute_resource => compute_resource %>
-    <% end %>
-    <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info disable-unsupported", :title => _('add new storage volume') } %>
-  <% end %>
-</div>
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
 <%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start')} if new_host && controller_name != "compute_attributes" %>
@@ -36,3 +21,5 @@
                :help_block  => _("Image to use"),
                :label => _('Image')} %>
 </div>
+
+<%= nic_info_js(compute_resource) %>

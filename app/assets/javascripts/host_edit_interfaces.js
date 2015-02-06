@@ -36,7 +36,7 @@ function save_interface_modal() {
   var interface_id = modal_window.data('current-id');
 
   // mark the selected values to preserve them for form hiding
-  modal_window.find('option:selected').attr('selected', 'selected');
+  preserve_selected_options(modal_window);
 
   var modal_form = modal_window.find('.modal-body').contents();
   if (modal_form.find('.interface_primary').is(':checked')) {
@@ -138,7 +138,19 @@ function fqdn(name, domain) {
 }
 
 function update_interface_row(row, interface_form) {
-  row.find('.type').html(interface_form.find('.interface_type option:selected').text());
+
+  var has_errors = (interface_form.find('.has-error').length > 0)
+  row.toggleClass('has-error', has_errors);
+
+  var virtual = interface_form.find('.virtual').is(':checked');
+  var attached = interface_form.find('.attached').val();
+
+  var type = interface_form.find('.interface_type option:selected').text();
+  type += '<div class="additional-info">'
+  type += nic_info(interface_form);
+  type += '</div>'
+  row.find('.type').html(type);
+
   row.find('.identifier').html(interface_form.find('.interface_identifier').val());
   row.find('.mac').html(interface_form.find('.interface_mac').val());
   row.find('.ip').html(interface_form.find('.interface_ip').val());
@@ -254,6 +266,43 @@ $(document).on('click', '.provision-flag', function () {
   get_interface_hidden(interface_id).find('.interface_provision').prop('checked', true);
 
   update_interface_table();
+});
+
+var providerSpecificNICInfo = null;
+
+function nic_info(form) {
+  var info = "";
+  if (form.find('.virtual').is(':checked') || form.find('.interface_type').val() == "Nic::Bond") {
+
+    // common virtual
+    var attached = form.find('.attached').val();
+    if (attached != "")
+      info = Jed.sprintf(__("virtual attached to %s"), attached);
+    else
+      info = __("virtual");
+
+  } else {
+
+    // provider specific
+    if (typeof(providerSpecificNICInfo) == "function")
+      info = providerSpecificNICInfo(form);
+    else
+      info = __("physical")
+
+  }
+  return info;
+}
+
+$(document).on('change', '.compute_attributes', function () {
+  // remove "from profile" note if any of the fields changes
+  $(this).closest('.compute_attributes').find('.profile').html('');
+});
+
+$(document).on('change', '.virtual', function () {
+  var is_virtual = $(this).is(':checked');
+
+  $(this).closest('fieldset').find('.virtual_form').toggle(is_virtual);
+  $(this).closest('fieldset').find('.compute_attributes').toggle(!is_virtual);
 });
 
 function update_fqdn() {

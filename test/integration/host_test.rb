@@ -90,15 +90,15 @@ class HostTest < ActionDispatch::IntegrationTest
       # switch to interfaces tab
       page.find(:link, "Interfaces").click
 
+      # test column content
+      assert table.find('td.identifier', :visible => true).has_content?('')
+      assert table.find('td.type', :visible => true).has_content?('Interface')
+      assert table.find('td.mac', :visible => true).has_content?('')
+      assert table.find('td.ip', :visible => true).has_content?('')
+      assert table.find('td.fqdn', :visible => true).has_content?('')
+
       # should have table header and the primar interface row
       assert_equal 2, table.all('tr', :visible => true).count
-
-      # test column content
-      assert table.find('td.identifier').has_content?('')
-      assert table.find('td.type').has_content?('Interface')
-      assert table.find('td.mac').has_content?('')
-      assert table.find('td.ip').has_content?('')
-      assert table.find('td.fqdn').has_content?('')
 
       # test the tlags are set properly
       assert table.find('td.flags .primary-flag.active')
