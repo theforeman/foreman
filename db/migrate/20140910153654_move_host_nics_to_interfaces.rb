@@ -36,6 +36,7 @@ class MoveHostNicsToInterfaces < ActiveRecord::Migration
       nic.managed = true
       nic.primary = true
       nic.provision = true
+      nic.type = 'Nic::Managed'
       nic.save!
 
       say "  Migrated #{nic.name}-#{nic.identifier} to nics"
