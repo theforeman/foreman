@@ -74,6 +74,48 @@ module Api::V2::TaxonomiesController
     render :json => {:error => {:message => (_('Cannot delete %{current} because it has nested %{sti_name}.') % { :current => @taxonomy.title, :sti_name => @taxonomy.sti_name }) } }
   end
 
+  api :POST, "/:resource_id/:res_id/links/users", N_("Add user to :resource")
+  api :POST, "/:resource_id/:res_id/links/smart_proxies", N_("Add smart proxy to :resource")
+  api :POST, "/:resource_id/:res_id/links/subnets", N_("Add subnet to :resource")
+  api :POST, "/:resource_id/:res_id/links/compute_resources", N_("Add compute resource to :resource")
+  api :POST, "/:resource_id/:res_id/links/media", N_("Add medium to :resource")
+  api :POST, "/:resource_id/:res_id/links/config_templates", N_("Add provisioning template to :resource")
+  api :POST, "/:resource_id/:res_id/links/domains", N_("Add domain to :resource")
+  api :POST, "/:resource_id/:res_id/links/realms", N_("Add realm to :resource")
+  api :POST, "/:resource_id/:res_id/links/environments", N_("Add environment to :resource")
+  api :POST, "/:resource_id/:res_id/links/hostgroups", N_("Add hostgroup to :resource")
+  api :POST, "/:resource_id/:res_id/links/:opp_resources", N_("Add :opp_resource to :resource")
+  param :res_id, Integer, :desc => N_("id of :resource")
+  param :users, Array, :required => false, :desc => N_("Array of user IDs")
+  param :smart_proxies, Array, :required => false, :desc => N_("Array of smart proxy IDs")
+  param :subnets, Array, :required => false, :desc => N_("Array of subnet IDs")
+  param :compute_resources, Array, :required => false, :desc => N_("Array of compute resource IDs")
+  param :media, Array, :required => false, :desc => N_("Array of media IDs")
+  param :config_templates, Array, :required => false, :desc => N_("Array of template IDs")
+  param :domains, Array, :required => false, :desc => N_("Array of domain IDs")
+  param :realms, Array, :required => false, :desc => N_("Array of realm IDs")
+  param :environments, Array, :required => false, :desc => N_("Array of environment IDs")
+  param :hostgroups, Array, :required => false, :desc => N_("Array of hostgroup IDs")
+  param :opp_resources, Array, :required => false, :desc => N_("Array of IDs")
+  def add
+  end
+
+  api :DELETE, "/:resource_id/:res_id/links/users/:id", N_("Remove user from :resource")
+  api :DELETE, "/:resource_id/:res_id/links/smart_proxies/:id", N_("Remove smart proxy from :resource")
+  api :DELETE, "/:resource_id/:res_id/links/subnets/:id", N_("Remove subnet from :resource")
+  api :DELETE, "/:resource_id/:res_id/links/compute_resources/:id", N_("Remove compute resource from :resource")
+  api :DELETE, "/:resource_id/:res_id/links/media/:id", N_("Remove medium from :resource")
+  api :DELETE, "/:resource_id/:res_id/links/config_templates/:id", N_("Remove provisioning template from :resource")
+  api :DELETE, "/:resource_id/:res_id/links/domains/:id", N_("Remove domain from :resource")
+  api :DELETE, "/:resource_id/:res_id/links/realms/:id", N_("Remove realm from :resource")
+  api :DELETE, "/:resource_id/:res_id/links/environments/:id", N_("Remove environment from :resource")
+  api :DELETE, "/:resource_id/:res_id/links/hostgroups/:id", N_("Remove hostgroup from :resource")
+  api :DELETE, "/:resource_id/:res_id/links/:opp_resources/:id", N_("Remove :opp_resource from :resource")
+  param :res_id, Integer, :desc => N_("id of :resource")
+  param :id, String, :required => true, :desc => N_("id or comma-delimited list of id's")
+  def remove
+  end
+
   private
 
   def params_match_database

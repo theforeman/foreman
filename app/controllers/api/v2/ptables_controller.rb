@@ -51,6 +51,18 @@ module Api
         process_response @ptable.destroy
       end
 
+      api :POST, "/ptables/:ptable_id/links/operatingsystems", N_("Add operating system to ptable")
+      param :ptable_id, :identifier, :required => true
+      param :operatingsystems, Array, :required => true, :desc => N_("Array of IDs")
+      def add
+      end
+
+      api :DELETE, "/ptables/:ptable_id/links/operatingsystems/:id", N_("Remove operating system from ptable")
+      param :ptable_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def allowed_nested_id

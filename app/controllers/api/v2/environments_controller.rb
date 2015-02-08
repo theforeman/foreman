@@ -57,6 +57,20 @@ module Api
         process_response @environment.destroy
       end
 
+      api :POST, "/environments/:environment_id/links/locations", N_("Add location to environment")
+      api :POST, "/environments/:environment_id/links/organizations", N_("Add organization to environment")
+      param :environment_id, :identifier, :required => true
+      param_group :taxonomies_associations, ::Api::V2::BaseController
+      def add
+      end
+
+      api :DELETE, "/environments/:environment_id/links/locations/:id", N_("Remove location from environment")
+      api :DELETE, "/environments/:environment_id/links/organizations/:id", N_("Remove organization from environment")
+      param :environment_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def allowed_nested_id

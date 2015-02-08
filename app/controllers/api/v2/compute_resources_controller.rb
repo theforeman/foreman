@@ -134,6 +134,20 @@ module Api
         render 'api/v2/hosts/index', :layout => 'api/v2/layouts/index_layout'
       end
 
+      api :POST, "/compute_resources/:compute_resource_id/links/locations", N_("Add location to compute resource")
+      api :POST, "/compute_resources/:compute_resource_id/links/organizations", N_("Add organization to compute resource")
+      param :compute_resource_id, :identifier, :required => true
+      param_group :taxonomies_associations, ::Api::V2::BaseController
+      def add
+      end
+
+      api :DELETE, "/compute_resources/:compute_resource_id/links/locations/:id", N_("Remove location from compute resource")
+      api :DELETE, "/compute_resources/:compute_resource_id/links/organizations/:id", N_("Remove organization from compute resource")
+      param :compute_resource_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def action_permission

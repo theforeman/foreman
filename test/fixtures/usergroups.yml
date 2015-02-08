@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+superadmins:
+  name: 'Super Administrators'
+  id: 1
+
+managers:
+  name: 'Managers'
+  id: 2

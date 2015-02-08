@@ -82,6 +82,27 @@ module Api
         render :json => e.to_s, :status => :unprocessable_entity
       end
 
+      api :POST, "/operatingsystems/:operatingsystem_id/links/architectures", N_("Add architecture to operating system")
+      api :POST, "/operatingsystems/:operatingsystem_id/links/ptables", N_("Add partition table to operating system")
+      api :POST, "/operatingsystems/:operatingsystem_id/links/media", N_("Add medium to operating system")
+      api :POST, "/operatingsystems/:operatingsystem_id/links/config_templates", N_("Add provisioning template to operating system")
+      param :operatingsystem_id, :identifier, :required => true
+      param :architectures, Array, :required => false, :desc => N_("Array of IDs")
+      param :ptables, Array, :required => false, :desc => N_("Array of IDs")
+      param :media, Array, :required => false, :desc => N_("Array of IDs")
+      param :config_templates, Array, :required => false, :desc => N_("Array of IDs")
+      def add
+      end
+
+      api :DELETE, "/operatingsystems/:operatingsystem_id/links/architectures/:id", N_("Remove architecture from operating system")
+      api :DELETE, "/operatingsystems/:operatingsystem_id/links/ptables/:id", N_("Remove partition table from operating system")
+      api :DELETE, "/operatingsystems/:operatingsystem_id/links/media/:id", N_("Remove medium from operating system")
+      api :DELETE, "/operatingsystems/:operatingsystem_id/links/config_templates/:id", N_("Remove provisioning template from operating system")
+      param :operatingsystem_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def allowed_nested_id

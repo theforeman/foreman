@@ -59,6 +59,20 @@ module Api
         process_response @smart_proxy.refresh.blank? && @smart_proxy.save
       end
 
+      api :POST, "/smart_proxyies/:smart_proxy_id/links/locations", N_("Add location to smart_proxy")
+      api :POST, "/smart_proxyies/:smart_proxy_id/links/organizations", N_("Add organization to smart_proxy")
+      param :smart_proxy_id, :identifier, :required => true
+      param_group :taxonomies_associations, ::Api::V2::BaseController
+      def add
+      end
+
+      api :DELETE, "/smart_proxyies/:smart_proxy_id/links/locations/:id", N_("Remove location from smart_proxy")
+      api :DELETE, "/smart_proxyies/:smart_proxy_id/links/organizations/:id", N_("Remove organization from smart_proxy")
+      param :smart_proxy_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
       private
 
       def action_permission

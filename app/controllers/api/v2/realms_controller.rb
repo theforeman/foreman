@@ -55,6 +55,21 @@ module Api
       def destroy
         process_response @realm.destroy
       end
+
+      api :POST, "/realms/:realm_id/links/locations", N_("Add location to realm")
+      api :POST, "/realms/:realm_id/links/organizations", N_("Add organization to realm")
+      param :realm_id, :identifier, :required => true
+      param_group :taxonomies_associations, ::Api::V2::BaseController
+      def add
+      end
+
+      api :DELETE, "/realms/:realm_id/links/locations/:id", N_("Remove location from realm")
+      api :DELETE, "/realms/:realm_id/links/organizations/:id", N_("Remove organization from realm")
+      param :realm_id, :identifier, :required => true
+      param :id, String, :required => true, :desc => N_("ID or comma-delimited list of IDs")
+      def remove
+      end
+
     end
   end
 end
