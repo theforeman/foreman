@@ -117,7 +117,7 @@ Foreman::AccessControl.map do |permission_set|
                                       }
     map.permission :create_templates,  {:config_templates => [:new, :create, :clone],
                                         :"api/v1/config_templates" => [:create],
-                                        :"api/v2/config_templates" => [:create],
+                                        :"api/v2/config_templates" => [:create, :clone],
                                         :"api/v2/template_combinations" => [:create]
                                       }
     map.permission :edit_templates,    {:config_templates => [:edit, :update],
