@@ -91,7 +91,7 @@ module Foreman::Model
     end
 
     def associated_host(vm)
-      Host.authorized(:view_hosts, Host).where(:ip => [vm.floating_ip_address, vm.private_ip_address]).first
+      associate_by("ip", [vm.floating_ip_address, vm.private_ip_address])
     end
 
     def flavor_name(flavor_ref)
