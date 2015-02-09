@@ -236,10 +236,9 @@ tr.override-param{
 .avatar {
   width: 30px;
   height: 30px;
-  border-radius: 3px;
   &.small {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     margin: -2px 5px 0 0;
   }
 }
@@ -550,4 +549,8 @@ span.glyphicon.host-status {
   white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
   word-wrap: break-word; /* IE */
   word-break: break-all;
+}
+
+html.turbolinks-progress-bar::before {
+  height: 2px !important;
 }

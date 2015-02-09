@@ -300,7 +300,8 @@ module LayoutHelper
       when blank?
         ""
       when :indicator
-        content_tag(:span, image_tag('spinner.gif', :class => 'hide'), :class => "help-block help-inline")
+        content_tag(:span, content_tag(:div, '', :class => 'hide spinner spinner-sm'),
+                    :class => 'help-block').html_safe
       else
         content_tag(:span, help_inline, :class => "help-block help-inline")
     end
@@ -419,14 +420,31 @@ module LayoutHelper
     content_tag :div, :class => html_class, :id => opts[:id] do
       result = "".html_safe
       result += alert_close if opts[:close]
-      result += alert_header(opts[:header])
+      result += alert_header(opts[:header], opts[:class])
       result += content_tag(:span, opts[:text].html_safe, :class => 'text')
+      result += alert_actions(opts[:actions]) if opts[:actions].present?
       result
     end
   end
 
-  def alert_header(text)
-    "<h4 class='alert-heading'>#{text}</h4>".html_safe
+  def alert_header(text, html_class = nil)
+    case html_class
+      when /alert-success/
+        icon = "<span class='pficon pficon-ok'></span>"
+        text ||= _("Notice")
+      when /alert-warning/
+        icon = "<span class='pficon-layered'><span class='pficon pficon-warning-triangle'></span><span class='pficon pficon-warning-exclamation'></span></span>"
+        text ||= _("Warning")
+      when /alert-info/
+        icon = "<span class='pficon pficon-info'></span>"
+        text ||= _("Notice")
+      when /alert-danger/
+        icon = "<span class='pficon-layered'><span class='pficon pficon-error-octagon'></span><span class='pficon pficon-error-exclamation'></span></span>"
+        text ||= _("Error")
+    end
+    header = "#{icon}"
+    header += "<h4 class='alert-heading'>#{text}</h4>" if text.present?
+    header.html_safe
   end
 
   def alert_close(data_dismiss = 'alert')
@@ -441,6 +459,12 @@ module LayoutHelper
       content_tag(:span, truncate(text, :length => length), options).html_safe
     else
       content_tag(:span, text, options).html_safe
+    end
+  end
+
+  def alert_actions(actions)
+    content_tag :div, :class => 'alert-actions' do
+      '<hr>'.html_safe + actions
     end
   end
 
@@ -473,5 +497,14 @@ module LayoutHelper
 
   def table_css_classes(classes = '')
     "table table-bordered table-striped table-condensed " + classes
+  end
+
+  def spinner(text = '', options = {})
+    if text.present?
+      "<div id='#{options[:id]}' class='spinner spinner-xs spinner-inline #{options[:class]}'>
+      </div> #{text}".html_safe
+    else
+      "<div id='#{options[:id]}' class='spinner spinner-sm #{options[:class]}'></div>".html_safe
+    end
   end
 end

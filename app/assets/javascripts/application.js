@@ -43,7 +43,7 @@ function onContentLoad(){
   $('.flash.error').each(function(index, item) {
      if ($('.alert.alert-danger.base').length == 0) {
        if ($('#host-conflicts-modal').length == 0) {
-         notify(item, 'error');
+         notify(item, 'danger');
        }
      }
    });
@@ -57,10 +57,16 @@ function onContentLoad(){
    });
 
   // adds buttons classes to all links
-  $("#title_action a").addClass("btn btn-default");
+  $("#title_action a").each(function(index, item) {
+    $(item).addClass("btn");
+    // This conditional allows the documentation buttons to stand out
+    if (!$(item).hasClass('btn-info') && !$(item).hasClass('btn-danger')) {
+      $(item).addClass("btn-default");
+    }
+  });
   $("#title_action li a").removeClass("btn btn-default").addClass("la");
   $("#title_action span").removeClass("btn btn-default").addClass("btn-group");
-  $("#title_action a[href*='new']").removeClass('btn-default').addClass("btn-success");
+  $("#title_action a[href*='new']").removeClass('btn-default').addClass("btn-primary");
 
   if ($("input[focus_on_load=true]").length > 0) {
     $("input[focus_on_load]").first().focus();
@@ -237,6 +243,7 @@ function template_info(div, url) {
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $(div).html('<div class="alert alert-warning alert-dismissable">' +
+        '<span class="pficon-layered"><span class="pficon pficon-warning-triangle"></span><span class="pficon pficon-warning-exclamation"></span></span>' +
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
         __('Sorry but no templates were configured.') + '</div>');
     }
@@ -393,11 +400,11 @@ function foreman_url(path) {
 }
 
 $.fn.indicator_show = function(){
- $(this).parents('.form-group').find('img').show();
+ $(this).parents('.form-group').find('.spinner').show();
 }
 
 $.fn.indicator_hide = function(){
- $(this).parents('.form-group').find('img').hide();
+ $(this).parents('.form-group').find('.spinner').hide();
 }
 
 function spinner_placeholder(text){
@@ -406,9 +413,25 @@ function spinner_placeholder(text){
 }
 
 function notify(item, type) {
-  var options = { type: type, sticky: (type != 'success') };
-  $.jnotify($(item).text(), options);
+  var icon = typeToIcon(type);
+  var options = { classMessage: "alert alert-" + type,
+                  classBackground: "",
+                  sticky: (type != 'success'),
+                  type: type };
+  $.jnotify("</div>" + icon + $(item).text(), options);
   $(item).remove();
+}
+
+function typeToIcon(type) {
+  switch(type)
+  {
+  case 'success':
+    return "<span class='pficon pficon-ok'></span><strong>" + __('Success') + ": </strong>";
+  case 'warning':
+    return "<span class='pficon-layered'><span class='pficon pficon-warning-triangle'></span><span class='pficon pficon-warning-exclamation'></span></span><strong>" + __('Warning') + ": </strong>";
+  case 'danger':
+    return "<span class='pficon-layered'><span class='pficon pficon-error-octagon'></span><span class='pficon pficon-error-exclamation'></span></span><strong>" + __('Error') + ": </strong>";
+  }
 }
 
 function filter_permissions(item){

@@ -55,9 +55,7 @@
       <% end %>
       </br>
       <% if @user.new_record? %>
-        <div class="alert alert-block alert-warning">
-          <p><strong><%= _("Notice") %></strong> <%= _("Please save the user first before assigning email notifications.") %></p>
-        </div>
+        <%= alert :class => 'alert-warning', :header => '', :text => _("Please save the user first before assigning mail notifications.") %>
       <% else %>
         <%= field_set_tag _("Notifications") do %>
           <%= f.fields_for :user_mail_notifications do |mail_form| %>

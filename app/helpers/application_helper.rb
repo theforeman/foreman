@@ -299,10 +299,11 @@ module ApplicationHelper
 
     #multiple options
     content_tag(:div, options.merge(:class=>'btn-group')) do
-      link_to((title +" " +content_tag(:i, '', :class=>'caret')).html_safe,'#', :class=>"btn btn-default dropdown-toggle", :'data-toggle'=>'dropdown') +
-          content_tag(:ul,:class=>"dropdown-menu pull-right") do
-            args.map{|option| content_tag(:li,option)}.join(" ").html_safe
-          end
+      link_to((title + " " + content_tag(:i, '', :class => 'caret')).html_safe, '#',
+              :class => "btn btn-default dropdown-toggle", :'data-toggle' => 'dropdown') +
+             content_tag(:ul, :class=>"dropdown-menu pull-right") do
+               args.map{ |option| content_tag(:li,option) }.join(" ").html_safe
+             end
     end
   end
 

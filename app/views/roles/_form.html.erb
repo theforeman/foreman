@@ -15,15 +15,11 @@
     </div>
     <div class="tab-pane" id="filters">
       <% if @role.new_record? %>
-        <div class="alert alert-block alert-warning">
-          <p><strong><%= _("Notice") %></strong> <%= _("Please save the role first. You can edit it later to add filters") %></p>
-        </div>
+        <%= alert :header => '', :class => 'alert-warning',
+                  :text => _("Please save the role first. You can edit it later to add filters") %>
       <% else %>
         <div data-ajax-url="<%= filters_path(:role_id => @role) %> table">
-          <p id="spinner">
-            <%= image_tag 'spinner.gif' %>
-            <%= _('Loading filters...') %>
-          </p>
+          <%= spinner(_('Loading filters ...')) %>
         </div>
         <hr>
         <%= link_to_if_authorized(_("New filter"), hash_for_new_filter_path(:role_id => @role),

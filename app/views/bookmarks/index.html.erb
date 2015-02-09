@@ -1,19 +1,19 @@
-<% title _("Manage Bookmarks") %>
+<% title _("Bookmarks") %>
 <% title_actions documentation_button('4.1.5Bookmarks') %>
 <div class="title_action"></div>
 
-<table class="table table-bordered table-striped table-two-pane">
+<table class="table table-bordered table-striped table-two-pane table-hover">
   <thead>
     <tr>
       <th><%= s_("Bookmark|Name") %></th>
       <th><%= s_("Bookmark|Query") %></th>
       <th><%= s_("Bookmark|Controller") %></th>
       <th><%= s_("Bookmark|Public") %></th>
-      <th></th>
+      <th><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>
-    <% for bookmark in @bookmarks %>
+    <% @bookmarks.each do |bookmark| %>
       <tr>
         <td class="display-two-pane"><%= link_to_if_authorized(trunc_with_tooltip(bookmark.name), hash_for_edit_bookmark_path(bookmark)) %></td>
         <td><%= bookmark.query %></td>

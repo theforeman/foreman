@@ -9,11 +9,11 @@
       <th class="col-md-2"><%= s_("SmartProxy|Name") %></th>
       <th class="col-md-5"><%= s_("SmartProxy|Url") %></th>
       <th class="col-md-3"><%= _("Features") %></th>
-      <th></th>
+      <th><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>
-    <% for proxy in @smart_proxies %>
+    <% @smart_proxies.each do |proxy| %>
       <tr>
         <td class="display-two-pane ellipsis"><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer) %></td>
         <td class="ellipsis"><%= proxy.url %></td>

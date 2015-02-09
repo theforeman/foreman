@@ -228,9 +228,8 @@ module HostsHelper
 
   def show_templates
     unless SETTINGS[:unattended] and @host.managed?
-      return content_tag(:div, :class =>"alert alert-warning") do
-        _("Provisioning Support is disabled or this host is not managed")
-      end
+      return alert(:class=> 'alert-warning',
+                   :text => _("Provisioning support is disabled or this host is not managed"))
     end
     begin
       templates = Hash[TemplateKind.order(:name).map do |k|

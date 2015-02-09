@@ -160,7 +160,8 @@
 
 		// remove the notification
 		this.remove = function (callback){
-			var $msg = $note.find("." + options.classMessage), $parent = $msg.parent();
+
+			var $msg = $note.find("." + options.classMessage.replace(" ",",")), $parent = $msg.parent();
 			// remove message from counter
 			var index = count--;
 
