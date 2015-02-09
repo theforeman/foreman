@@ -125,7 +125,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   # Mismatches
   test "should show all mismatches and button Fix All Mismatches if there are" do
-    FactoryGirl.create_list(:host, 2, :organization => taxonomies(:organization1))
+    FactoryGirl.create_list(:host, 2, :with_environment, :organization => taxonomies(:organization1))
     TaxableTaxonomy.delete_all
     get :mismatches, {}, set_session_user
     assert_response :success
