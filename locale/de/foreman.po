@@ -5804,10 +5804,10 @@ msgid ""
 msgstr "Die Klasse der Maschine wie von Open Boot Prom ermittelt. Dies wird primär für Sparc Solaris Builds verwendet und kann für andere Architekturen leer sein. Der Wert kann auf Solaris mittels uname -i|cut -f2 -d ermittelt werden."
 
 msgid "The default administrator email address"
-msgstr "Die Emailadresse des standart Administrators"
+msgstr "Die Emailadresse des Standard-Administrators"
 
 msgid "The default username and password are <b>admin</b> and <b>changeme</b>"
-msgstr "Der Standartbenutzername bzw. Kennwort ist <b>admin</b> und <b>changeme</b>"
+msgstr "Der Standardbenutzername bzw. Kennwort ist <b>admin</b> und <b>changeme</b>"
 
 msgid ""
 "The dynamic partitioning style is currently only available for the Red Hat "
