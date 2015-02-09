@@ -281,6 +281,13 @@ class ComputeResource < ActiveRecord::Base
     end.compact
   end
 
+  def associate_by(name, attributes)
+    Host.authorized(:view_hosts, Host).joins(:primary_interface).
+      where(:nics => {:primary => true}).
+      where("nics.#{name}" => attributes).
+      first
+  end
+
   private
 
   def set_attributes_hash

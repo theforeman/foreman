@@ -130,4 +130,11 @@ class VmwareTest < ActiveSupport::TestCase
       assert_equal "network-17", attrs_in["interfaces_attributes"]["0"]["network"]
     end
   end
+
+  test "#associated_host matches any NIC" do
+    host = FactoryGirl.create(:host, :mac => 'ca:d0:e6:32:16:97')
+    cr = FactoryGirl.build(:vmware_cr)
+    iface = mock('iface1', :mac => 'ca:d0:e6:32:16:97')
+    assert_equal host, as_admin { cr.associated_host(iface) }
+  end
 end

@@ -221,11 +221,7 @@ module Foreman::Model
     end
 
     def associated_host(vm)
-      Host.authorized(:view_hosts, Host).
-        joins(:primary_interface).
-        where(:nics => {:primary => true}).
-        where('nics.mac' => vm.interfaces.map { |i| i.mac }).
-        first
+      associate_by("mac", vm.interfaces.map(&:mac))
     end
 
     def self.provider_friendly_name
