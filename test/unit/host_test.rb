@@ -284,6 +284,19 @@ class HostTest < ActiveSupport::TestCase
     assert h.import_facts(JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts'])
   end
 
+  test "should populate primary interface attributes even without existing interface" do
+    host = FactoryGirl.create(:host, :managed => false)
+    host.interfaces = []
+    host.populate_fields_from_facts(:domain => 'example.com',
+                                    :operatingsystem => 'RedHat',
+                                    :operatingsystemrelease => '6.2',
+                                    :macaddress_eth0 => '00:00:11:22:11:22',
+                                    :ipaddress_eth0 => '192.168.0.1',
+                                    :interfaces => 'eth0')
+    assert_equal 'example.com', host.domain.name
+    refute host.primary_interface.managed?
+  end
+
   context 'import host and facts' do
     test 'should import facts from json of a new host when certname is not specified' do
       refute Host.find_by_name('sinn1636.lan')
