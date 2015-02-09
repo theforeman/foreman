@@ -56,8 +56,7 @@ module Host
 
       super(*args)
 
-      self.interfaces.build(:primary => true, :type => 'Nic::Managed') if self.primary_interface.nil?
-      self.primary_interface.provision = true if self.provision_interface.nil?
+      build_required_interfaces
       values_for_primary_interface.each do |name, value|
         self.send "#{name}=", value
       end
@@ -126,6 +125,8 @@ module Host
 
       parser = FactParser.parser_for(type).new(facts)
 
+      # we must create interface if it's missing so we can store domain
+      build_required_interfaces(:managed => false)
       set_non_empty_values(parser, attributes_to_import_from_facts)
       set_interfaces(parser)
 
@@ -282,6 +283,11 @@ module Host
     end
 
     private
+
+    def build_required_interfaces(attrs = {})
+      self.interfaces.build(attrs.merge(:primary => true, :type => 'Nic::Managed')) if self.primary_interface.nil?
+      self.primary_interface.provision = true if self.provision_interface.nil?
+    end
 
     def set_interface(attributes, name, iface)
       attributes = attributes.clone
