@@ -62,7 +62,7 @@ FactoryGirl.define do
     end
     after(:create) do |pc,evaluator|
       evaluator.environments.each do |env|
-        FactoryGirl.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id
+        FactoryGirl.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id unless env.nil?
       end
     end
 

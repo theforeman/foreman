@@ -77,7 +77,6 @@ FactoryGirl.define do
     sequence(:name) { |n| "host#{n}" }
     sequence(:hostname) { |n| "host#{n}" }
     root_pass 'xybxa6JUkz63w'
-    environment
 
     # This allows a test to declare build/create(:host, :ip => '1.2.3.4') and
     # have the primary interface correctly updated with the specified attrs
@@ -93,6 +92,10 @@ FactoryGirl.define do
       set_nic_attributes(host, deferred_nic_attrs, evaluator)
     end
 
+    trait :with_environment do
+      environment
+    end
+
     trait :with_medium do
       medium
     end
@@ -102,6 +105,7 @@ FactoryGirl.define do
     end
 
     trait :with_puppetclass do
+      environment
       puppetclasses { [ FactoryGirl.create(:puppetclass, :environments => [environment]) ] }
     end
 
@@ -157,6 +161,7 @@ FactoryGirl.define do
     end
 
     trait :with_puppet do
+      environment
       puppet_proxy { FactoryGirl.create(:smart_proxy,
                         :features => [FactoryGirl.create(:feature, :puppet)])
       }
@@ -240,6 +245,7 @@ FactoryGirl.define do
 
     trait :with_puppet_orchestration do
       managed
+      environment
       association :compute_resource, :factory => :libvirt_cr
       domain
       interfaces { [ FactoryGirl.build(:nic_primary_and_provision) ] }

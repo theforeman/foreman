@@ -4,7 +4,7 @@ class SolarisTest < ActiveSupport::TestCase
   setup { disable_orchestration }
 
   test "jumpstart parameter generation" do
-    h = FactoryGirl.create(:host, :managed, :domain => domains(:yourdomain),
+    h = FactoryGirl.create(:host, :managed, :with_environment, :domain => domains(:yourdomain),
           :interfaces => [ FactoryGirl.build(:nic_primary_and_provision,
                                              :ip => '2.3.4.10')  ],
           :architecture => architectures(:sparc),

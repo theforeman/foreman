@@ -36,6 +36,7 @@ class Host::Managed < Host::Base
   # Custom hooks will be executed after_commit
   after_commit :build_hooks
   before_save :clear_data_on_build
+  before_save :clear_puppetinfo, :if => :environment_id_changed?
   after_save :update_hostgroups_puppetclasses, :if => :hostgroup_id_changed?
 
   def build_hooks
@@ -116,7 +117,7 @@ class Host::Managed < Host::Base
   alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
 
-  validates :environment_id,  :presence => true
+  validates :environment_id, :presence => true, :unless => Proc.new { |host| host.puppet_proxy_id.blank? }
   validates :organization_id, :presence => true, :if => Proc.new {|host| host.managed? && SETTINGS[:organizations_enabled] }
   validates :location_id,     :presence => true, :if => Proc.new {|host| host.managed? && SETTINGS[:locations_enabled] }
 
@@ -330,6 +331,8 @@ class Host::Managed < Host::Base
 
   # provide information about each node, mainly used for puppet external nodes
   # TODO: remove hard coded default parameters into some selectable values in the database.
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity
   def info
     # Static parameters
     param = {}
@@ -366,7 +369,9 @@ class Host::Managed < Host::Base
     # Parse ERB values contained in the parameters
     param = SafeRender.new(:variables => { :host => self }).parse(param)
 
-    classes = if Setting[:Parametrized_Classes_in_ENC] && Setting[:Enable_Smart_Variables_in_ENC]
+    classes = if self.environment.nil?
+                []
+              elsif Setting[:Parametrized_Classes_in_ENC] && Setting[:Enable_Smart_Variables_in_ENC]
                 lookup_keys_class_params
               else
                 self.puppetclasses_names
@@ -375,7 +380,7 @@ class Host::Managed < Host::Base
     info_hash = {}
     info_hash['classes'] = classes
     info_hash['parameters'] = param
-    info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"]
+    info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"] && param["foreman_env"]
 
     info_hash
   end
@@ -923,5 +928,12 @@ class Host::Managed < Host::Base
     return if reports.empty?
     Log.delete_all("report_id IN (#{reports.pluck(:id).join(',')})")
     Report.delete_all("host_id = #{id}")
+  end
+
+  def clear_puppetinfo
+    unless environment
+      self.puppetclasses = []
+      self.config_groups = []
+    end
   end
 end

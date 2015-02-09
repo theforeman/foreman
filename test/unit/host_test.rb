@@ -708,7 +708,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "handle_ca must not perform actions when no Puppet CA proxy is associated even if associated with hostgroup" do
       hostgroup = FactoryGirl.create(:hostgroup, :with_puppet_orchestration)
-      h = FactoryGirl.create(:host, :managed, :hostgroup => hostgroup)
+      h = FactoryGirl.create(:host, :managed, :with_environment, :hostgroup => hostgroup)
       Setting[:manage_puppetca] = true
       assert h.puppet_proxy.present?
       assert h.puppetca?
@@ -818,7 +818,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "host puppet classes must belong to the host environment" do
-      h = FactoryGirl.create(:host)
+      h = FactoryGirl.create(:host, :with_environment)
 
       pc = puppetclasses(:three)
       h.puppetclasses << pc
@@ -835,6 +835,38 @@ class HostTest < ActiveSupport::TestCase
       h.environment = environments(:testing)
       assert !h.save
       assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
+    end
+
+    test "when setting host environment to nil, its puppet classes should be removed" do
+      h = FactoryGirl.create(:host, :environment => environments(:production))
+      pc = puppetclasses(:one)
+      h.puppetclasses << pc
+      assert h.save
+      h.environment = nil
+      h.save!
+      assert_empty h.puppetclasses
+    end
+
+    test "when setting host environment to nil, its config groups should be removed" do
+      h = FactoryGirl.create(:host, :environment => environments(:production))
+      pc = config_groups(:one)
+      h.config_groups << pc
+      assert h.save
+      h.environment = nil
+      h.save!
+      assert_empty h.config_groups
+    end
+
+    test "when saving a host, do not require a puppet environment" do
+      h = FactoryGirl.build(:host, :environment => environments(:production), :puppet_proxy => nil)
+      h.environment = nil
+      assert h.valid?
+    end
+
+    test "when saving a host, require puppet environment if puppet master is set" do
+      h = FactoryGirl.build(:host, :environment => environments(:production), :puppet_proxy => smart_proxies(:puppetmaster))
+      h.environment = nil
+      refute h.valid?
     end
 
     test "should not allow short root passwords for managed host in build mode" do
@@ -1542,7 +1574,6 @@ class HostTest < ActiveSupport::TestCase
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
       test_host    = Host::Test.create(:name => 'testhost', :interfaces => [FactoryGirl.build(:nic_primary_and_provision)])
       managed_host = test_host.to_managed!
-      refute managed_host.valid?
       assert_empty Token.where(:host_id => managed_host.id)
     end
 
@@ -1598,7 +1629,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "#provision_method must be within capabilities" do
-    host = FactoryGirl.create(:host, :managed)
+    host = FactoryGirl.create(:host, :managed, :with_environment)
     host.provision_method = 'image'
     host.expects(:capabilities).returns([:build])
     host.valid?
@@ -1720,7 +1751,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "available_puppetclasses should return environment-specific classes" do
-    host = FactoryGirl.create(:host)
+    host = FactoryGirl.create(:host, :with_environment)
     refute_equal Puppetclass.scoped, host.available_puppetclasses
     assert_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
   end
@@ -1758,17 +1789,31 @@ class HostTest < ActiveSupport::TestCase
     Setting[:Parametrized_Classes_in_ENC] = false
     myclass = mock('myclass')
     myclass.expects(:name).returns('myclass')
-    host = FactoryGirl.build(:host)
+    host = FactoryGirl.build(:host, :with_environment)
     host.expects(:all_puppetclasses).returns([myclass])
     enc = host.info
     assert_kind_of Hash, enc
     assert_equal ['myclass'], enc['classes']
   end
 
+  test "#info ENC YAML omits environment if not set" do
+    host = FactoryGirl.build(:host)
+    host.environment = nil
+    enc = host.info
+    refute_includes enc.keys, 'environment'
+  end
+
+  test "#info ENC YAML returns no puppet classes if no environment" do
+    puppetclass = FactoryGirl.create(:puppetclass)
+    host             = FactoryGirl.create(:host, :puppetclasses => [puppetclass])
+
+    assert_empty host.info['classes']
+  end
+
   test "#info ENC YAML uses Classification::ClassParam for parameterized output" do
     Setting[:Parametrized_Classes_in_ENC] = true
     Setting[:Enable_Smart_Variables_in_ENC] = true
-    host = FactoryGirl.build(:host)
+    host = FactoryGirl.build(:host, :with_environment)
     classes = {'myclass' => {'myparam' => 'myvalue'}}
     classification = mock('Classification::ClassParam')
     classification.expects(:enc).returns(classes)
