@@ -127,7 +127,7 @@ module Host
       parser = FactParser.parser_for(type).new(facts)
 
       set_non_empty_values(parser, attributes_to_import_from_facts)
-      set_interfaces(parser)
+      set_interfaces(parser) if parser.parse_interfaces?
 
       parser
     end
