@@ -104,6 +104,10 @@ class PuppetFactParser < FactParser
     facts[:clientcert]
   end
 
+  def support_interfaces_parsing?
+    true
+  end
+
   private
 
   def get_interfaces
