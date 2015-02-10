@@ -34,7 +34,7 @@ module Foreman::Model
     end
 
     def create_vm(args = { })
-      args = vm_instance_defaults.merge(args.to_hash.symbolize_keys)
+      args = vm_instance_defaults.merge(args.to_hash.symbolize_keys).deep_symbolize_keys
       if (name = args[:name])
         args.merge!(:tags => {:Name => name})
       end

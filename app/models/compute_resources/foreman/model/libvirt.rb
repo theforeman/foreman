@@ -93,7 +93,7 @@ module Foreman::Model
     def new_vm(attr = { })
       test_connection
       return unless errors.empty?
-      opts = vm_instance_defaults.merge(attr.to_hash).symbolize_keys
+      opts = vm_instance_defaults.merge(attr.to_hash).deep_symbolize_keys
 
       # convert rails nested_attributes into a plain hash
       [:nics, :volumes].each do |collection|
