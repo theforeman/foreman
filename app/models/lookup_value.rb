@@ -23,6 +23,14 @@ class LookupValue < ActiveRecord::Base
   scoped_search :on => :match, :complete_value => true
   scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
 
+  def value=(val)
+    if val.is_a?(HashWithIndifferentAccess)
+      super(val.deep_to_hash)
+    else
+      super
+    end
+  end
+
   def name
     match
   end

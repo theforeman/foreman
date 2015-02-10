@@ -171,7 +171,7 @@ module Foreman::Model
 
     def save_vm(uuid, attr)
       vm = find_vm_by_uuid(uuid)
-      vm.attributes.merge!(attr.symbolize_keys)
+      vm.attributes.merge!(attr.symbolize_keys).deep_symbolize_keys
       update_interfaces(vm, attr[:interfaces_attributes])
       update_volumes(vm, attr[:volumes_attributes])
       vm.interfaces
