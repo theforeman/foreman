@@ -281,7 +281,7 @@ module Foreman::Model
     end
 
     def parse_args(args)
-      args = args.symbolize_keys
+      args = args.deep_symbolize_keys
 
       # convert rails nested_attributes into a plain, symbolized hash
       [:interfaces, :volumes].each do |collection|
@@ -333,7 +333,7 @@ module Foreman::Model
 
     def new_vm(args = {})
       args = parse_args args
-      opts = vm_instance_defaults.symbolize_keys.merge(args.symbolize_keys)
+      opts = vm_instance_defaults.symbolize_keys.merge(args.symbolize_keys).deep_symbolize_keys
       client.servers.new opts
     end
 
