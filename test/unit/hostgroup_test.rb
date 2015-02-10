@@ -357,4 +357,14 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal "#{hostgroup.id}-a-b",  hostgroup.to_param
   end
 
+  test "clone should clone config groups as well" do
+    group = FactoryGirl.create(:hostgroup, :name => 'a')
+    config_group = ConfigGroup.create!(:name => 'Blah')
+    group.config_groups << config_group
+    group.save
+
+    cloned = group.clone("new_name")
+    assert cloned.config_groups.include?(config_group)
+  end
+
 end
