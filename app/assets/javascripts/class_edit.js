@@ -32,7 +32,7 @@ function add_puppet_class(item){
 
   $("#selected_puppetclass_"+ id).show('highlight', 5000);
   $("#puppetclass_"+ id).addClass('selected-marker').hide();
-
+  findElementsForRemoveIcon($("#puppetclass_"+ id));
   // trigger load_puppet_class_parameters in host_edit.js which is fired by custom event handler called 'AddedClass'
   $(document.body).trigger('AddedClass', link);
 }
@@ -65,6 +65,7 @@ function add_group_puppet_class(item){
 function remove_puppet_class(item){
   var id = $(item).attr('data-class-id');
   $('#puppetclass_' + id).removeClass('selected-marker').show();
+  $('#puppetclass_' + id).parent().prev().find('i').show();
   $('#puppetclass_' + id).closest('.puppetclass_group').show();
   $('#selected_puppetclass_' + id).children('a').tooltip('hide');
   $('#selected_puppetclass_' + id).remove();
@@ -128,3 +129,22 @@ function removeConfigGroup(item){
   });
   return false;
 }
+
+function findElementsForRemoveIcon(element) {
+  var clicked_element = element.parent().prev();
+  var ul_id = '#' + element.parent().attr('id');
+  removeIconIfEmpty(clicked_element, ul_id);
+}
+
+function expandClassList(clicked_element, toggle_element) {
+  $(toggle_element).fadeToggle();
+  clicked_element.find('i').toggleClass('glyphicon-plus glyphicon-minus');
+  removeIconIfEmpty(clicked_element, toggle_element);
+}
+
+function removeIconIfEmpty(element, ul_id) {
+  if ($(ul_id).children(':visible').length == 0) {
+    element.find('i').hide();
+  }
+}
+
