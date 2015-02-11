@@ -58,12 +58,12 @@ module Menu
                     :url_hash => {:controller => '/hosts', :action => 'new'}
           if SETTINGS[:unattended]
             menu.divider                :caption => N_('Provisioning Setup')
-            menu.item :operatingsystems,:caption => N_('Operating systems')
-            menu.item :config_templates,:caption => N_('Provisioning templates')
-            menu.item :ptables,         :caption => N_('Partition tables')
-            menu.item :media,           :caption => N_('Installation media')
-            menu.item :models,          :caption => N_('Hardware models')
             menu.item :architectures,   :caption => N_('Architectures')
+            menu.item :models,          :caption => N_('Hardware models')
+            menu.item :media,           :caption => N_('Installation media')
+            menu.item :ptables,         :caption => N_('Partition tables')
+            menu.item :config_templates,:caption => N_('Provisioning templates')
+            menu.item :operatingsystems,:caption => N_('Operating systems')
           end
         end
 
