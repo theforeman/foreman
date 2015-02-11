@@ -3,7 +3,7 @@
     <% group.each do |list| %>
       <% next if list.nil? %>
       <ul class="puppetclass_group">
-        <li><%= link_to_function image_tag("bullet_toggle_plus.png") + " " + list.first, "$('#pc_#{list.first}').fadeToggle('slow')" %>
+        <li><%= puppetclass_group_with_icon(list, selected_puppet_classes) %>
           <ul id="pc_<%= list.first %>" style="display: none;">
             <% for klass in list.last.sort %>
               <% unless authorized_for(:controller => :host_editing, :action => :edit_classes) %>

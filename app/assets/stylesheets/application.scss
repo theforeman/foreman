@@ -463,3 +463,13 @@ table {
     display: inline;
   }
 }
+
+.puppetclass_group, .config_group_group {
+  li {
+    a {
+      i.glyphicon {
+        font-size: 11px;
+      }
+    }
+  }
+}
