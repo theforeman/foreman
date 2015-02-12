@@ -7,7 +7,7 @@ function update_nics(success_callback) {
   $('#network').html(spinner_placeholder(__('Loading interfaces information ...')));
   $('#network_tab a').removeClass('tab-error');
 
-  var url = '/hosts/interfaces';
+  var url = $('#network_tab').data('refresh-url');
   $.ajax({
     type:'post',
     url: url,
