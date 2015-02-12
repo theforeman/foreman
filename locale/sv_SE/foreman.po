@@ -1,10 +1,10 @@
 # Template file for strings which can be localized in the Foreman Application.
-# 
+#
 # This file is distributed under the same license as the Foreman.
-# 
+#
 # Translators:
-# 
-# 
+#
+#
 # Translators:
 # Dominic Cleal <dcleal@redhat.com>, 2014
 # Fredrik Wendt <fredrik@wendt.se>, 2014
@@ -14,10 +14,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-20 13:01+0100\n"
-"PO-Revision-Date: 2014-10-21 10:13+0000\n"
+"PO-Revision-Date: 2015-01-30 11:12+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
-"Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/language/sv_SE/)\n"
+"Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/l"
+"anguage/sv_SE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,9 +35,6 @@ msgstr "%s - Följande värdar kommer att ändras"
 
 msgid "%s Distribution"
 msgstr "%s Distribution"
-
-msgid "%s Host"
-msgstr "%s Värd"
 
 msgid "%s Parameters updated, see below for more information"
 msgstr "%s Parametrar uppdaterade, se nedan för mer information"
@@ -123,12 +120,16 @@ msgid "%{host} now boots from %{device}"
 msgstr "%{host} starar nu från %{device}"
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
-msgstr "%{id} insticksmodulen kräver Foreman %{matcher} men är förnärvarande %{current}"
+msgstr ""
+"%{id} insticksmodulen kräver Foreman %{matcher} men är förnärvarande %{current"
+"}"
 
 msgid ""
-"%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is "
-"%{plugin_version}"
-msgstr "%{id} plugin kräver att %{plugin_name} plugin %{matcher} men är för närvarande %{plugin_version}"
+"%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{pl"
+"ugin_version}"
+msgstr ""
+"%{id} plugin kräver att %{plugin_name} plugin %{matcher} men är för närvarande"
+" %{plugin_version}"
 
 msgid "%{id} plugin requires the %{plugin_name} plugin, not found"
 msgstr "%{id} plugin kräver %{plugin_name} plugin, men den hittas ej"
@@ -143,8 +144,8 @@ msgid "%{name} changed from %{label1} to %{label2}"
 msgstr "%{name} ändrades från %{label1} till %{label2}"
 
 msgid ""
-"%{param} is not allowed as nested parameter for %{controller_name}. Allowed "
-"parameters are %{allowed_params}"
+"%{param} is not allowed as nested parameter for %{controller_name}. Allowed pa"
+"rameters are %{allowed_params}"
 msgstr ""
 
 msgid "%{record} is used by %{what}"
@@ -184,8 +185,8 @@ msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' finns inte på '%{resource}'"
 
 msgid ""
-"'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. "
-"Please use 'Content-Type: application/json'."
+"'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please "
+"use 'Content-Type: application/json'."
 msgstr ""
 
 msgid "(Miscellaneous)"
@@ -207,43 +208,63 @@ msgid "<b class='select_count'>0</b> selected"
 msgstr "<b class='select_count'>0</b> markerad/e"
 
 msgid ""
-"<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> "
-"%{matcher}"
-msgstr "<b>Beskrivning:</b> %{desc}<br><b>Typ:</b> %{type}<br> <b>Matchnyckel:</b> %{matcher}"
+"<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matc"
+"her}"
+msgstr ""
+"<b>Beskrivning:</b> %{desc}<br><b>Typ:</b> %{type}<br> <b>Matchnyckel:</b> %{m"
+"atcher}"
 
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
 
 msgid ""
-"<dl><dt>List</dt> <dd>A list of the allowed values, specified in the "
-"Validator rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the "
-"regular expression in the Validator rule field.</dd></dl>"
-msgstr "<dl><dt>List</dt> <dd>En lista över tillåtna värden i regelfältet Validator</dd><dt>Regexp</dt> <dd>Validerar inmatningen med det reguljära uttrycket i regelfältet Validator.</dd></dl>"
+"<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
+" rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expr"
+"ession in the Validator rule field.</dd></dl>"
+msgstr ""
+"<dl><dt>List</dt> <dd>En lista över tillåtna värden i regelfältet Validator</d"
+"d><dt>Regexp</dt> <dd>Validerar inmatningen med det reguljära uttrycket i rege"
+"lfältet Validator.</dd></dl>"
 
 msgid ""
-"<dl><dt>String</dt> <dd>Everything is taken as a "
-"string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are"
-" accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be "
-"negative.</dd><dt>Real</dt> <dd>Accept any numerical "
-"input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate"
-" to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must "
-"evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML "
-"input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
-msgstr "<dl><dt>String</dt> <dd>Allt tolkas som en sträng.</dd><dt>Boolean</dt> <dd>Allmän representation av booleska värden accepteras.</dd><dt>Integer</dt> <dd>Endast heltal. Kan vara negativa.</dd><dt>Real</dt> <dd>Acceptera all numerisk indata.</dd><dt>Array</dt> <dd>Giltig JSON- eller YAML-indata som måste evaluera till en array.</dd><dt>Hash</dt> <dd>Giltig JSON- eller YAML-indata som måste evaluera till object/map/dict/hash.</dd><dt>YAML</dt> <dd>All giltig YAML-indata.</dd><dt>JSON</dt> <dd>All giltig JSON-indata.</dd></dl>"
+"<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
+"<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
+" <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any n"
+"umerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must e"
+"valuate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that mu"
+"st evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML i"
+"nput.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
+msgstr ""
+"<dl><dt>String</dt> <dd>Allt tolkas som en sträng.</dd><dt>Boolean</dt> <dd>Al"
+"lmän representation av booleska värden accepteras.</dd><dt>Integer</dt> <dd>En"
+"dast heltal. Kan vara negativa.</dd><dt>Real</dt> <dd>Acceptera all numerisk i"
+"ndata.</dd><dt>Array</dt> <dd>Giltig JSON- eller YAML-indata som måste evaluer"
+"a till en array.</dd><dt>Hash</dt> <dd>Giltig JSON- eller YAML-indata som måst"
+"e evaluera till object/map/dict/hash.</dd><dt>YAML</dt> <dd>All giltig YAML-in"
+"data.</dd><dt>JSON</dt> <dd>All giltig JSON-indata.</dd></dl>"
 
 msgid ""
-"A host group is in some ways similar to an inherited node declaration, in "
-"that it is a high level grouping of classes that can be named and treated as"
-" a unit. This is then treated as a template and  is selectable during the "
-"creation of a new host and ensures that the host is configured in one of "
-"your pre-defined states."
-msgstr "En värdgrupp är på vissa sätt lik en ärvd noddeklaration, en högnivå gruppering av klasser som kan namnas och hanteras som en enhet. Detta hanteras som en mall och är valbar under skapandet av en ny värd vilket säkerställer att värden är konfigurerad enligt ett av dina fördefinierade tillstånd."
+"A host group is in some ways similar to an inherited node declaration, in that"
+" it is a high level grouping of classes that can be named and treated as a uni"
+"t. This is then treated as a template and  is selectable during the creation o"
+"f a new host and ensures that the host is configured in one of your pre-define"
+"d states."
+msgstr ""
+"En värdgrupp är på vissa sätt lik en ärvd noddeklaration, en högnivå grupperin"
+"g av klasser som kan namnas och hanteras som en enhet. Detta hanteras som en m"
+"all och är valbar under skapandet av en ny värd vilket säkerställer att värden"
+" är konfigurerad enligt ett av dina fördefinierade tillstånd."
 
 msgid ""
-"A medium represents the source of one or more operating system's "
-"installation files, accessible via the network.\\n  It will probably be a "
-"mirror from the internet or a copy of one or more CD or DVDs."
-msgstr "Ett medium representerar källan till ett eller flera operativsystems installationsfiler, tillgängliga via nätverket.\\n Det är sannolikt en spegel på Internet eller en kopia av en eller flera CD/DVD."
+"A medium represents the source of one or more operating system's installation "
+"files, accessible via the network.\n"
+"  It will probably be a mirror from the internet or a copy of one or more CD o"
+"r DVDs."
+msgstr ""
+"Ett medium representerar källan till ett eller flera operativsystems installat"
+"ionsfiler, tillgängliga via nätverket.\n"
+" Det är sannolikt en spegel på Internet eller en kopia av en eller flera CD/DV"
+"D."
 
 msgid "A partition table entry represents either"
 msgstr "En partitionstabellpost representerar antingen"
@@ -355,9 +376,11 @@ msgid "Additional steps"
 msgstr "Ytterligare steg"
 
 msgid ""
-"Additionally, you may restrict user permissions based on many criteria, make"
-" sure you check the roles settings tab."
-msgstr "Dessutom kan du begränsa användarnas behörigheter baserat på flertalet kriterier, se till att du kontrollerar fliken för roll-inställningar."
+"Additionally, you may restrict user permissions based on many criteria, make s"
+"ure you check the roles settings tab."
+msgstr ""
+"Dessutom kan du begränsa användarnas behörigheter baserat på flertalet kriteri"
+"er, se till att du kontrollerar fliken för roll-inställningar."
 
 msgid "Admin permissions required"
 msgstr ""
@@ -366,11 +389,15 @@ msgid "Administer"
 msgstr "Administrera"
 
 msgid ""
-"After you have decided on the two primary modes of operation and performed "
-"any appropriate imports then it would be good idea if you visited some of "
-"the other configuration pages to see if additional setup is required under "
-"the Additional settings select box on the top right."
-msgstr "Efter att du har bestämt Dig för de två primära driftsformerna och utfört lämplig import är det en bra idé att besöka några av de andra konfigurationssidorna för att se om ytterliggare inställningar behöver göras under \"Ytterliggare inställningar\" rutan längst upp till höger."
+"After you have decided on the two primary modes of operation and performed any"
+" appropriate imports then it would be good idea if you visited some of the oth"
+"er configuration pages to see if additional setup is required under the Additi"
+"onal settings select box on the top right."
+msgstr ""
+"Efter att du har bestämt Dig för de två primära driftsformerna och utfört lämp"
+"lig import är det en bra idé att besöka några av de andra konfigurationssidorn"
+"a för att se om ytterliggare inställningar behöver göras under \"Ytterliggare i"
+"nställningar\" rutan längst upp till höger."
 
 msgid "Alert"
 msgstr "Varning"
@@ -420,8 +447,7 @@ msgstr "Alla meddelanden"
 msgid "All mismatches between hosts and %s have been fixed"
 msgstr "Alla felaktigheter mellan värdar och %s har åtgärdats"
 
-msgid ""
-"All mismatches between hosts and locations/organizations have been fixed"
+msgid "All mismatches between hosts and locations/organizations have been fixed"
 msgstr "Alla felaktigheter mellan värdar och platser/organisationer har åtgärdats"
 
 msgid "All realms"
@@ -446,12 +472,17 @@ msgid "Allocation (GB)"
 msgstr "Allokering(GB)"
 
 msgid ""
-"An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy "
-"on the subnet selected above.<br/><br/>The IP address can be left blank "
-"when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does "
-"not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and "
-"the subnet does not manage DHCP reservations</li></ul>"
-msgstr "En IP-adress kommer att föreslås om du har en DHCP-aktiverad Smart Proxy på subnätet som är valt.<br/><br/>IP-adressen kan lämnas blank när:<br/><ul><li>provisioneringsbevis är aktiverat</li><li>domänen hanterar inte DNS</li><li>subnätet hanterar inte reversibel DNS</li><li>och subnätet hanterar inte DHCP-reservationer</li></ul>"
+"An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on"
+" the subnet selected above.<br/><br/>The IP address can be left blank when:<br"
+"/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage D"
+"NS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does "
+"not manage DHCP reservations</li></ul>"
+msgstr ""
+"En IP-adress kommer att föreslås om du har en DHCP-aktiverad Smart Proxy på su"
+"bnätet som är valt.<br/><br/>IP-adressen kan lämnas blank när:<br/><ul><li>pro"
+"visioneringsbevis är aktiverat</li><li>domänen hanterar inte DNS</li><li>subnä"
+"tet hanterar inte reversibel DNS</li><li>och subnätet hanterar inte DHCP-reser"
+"vationer</li></ul>"
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "En uttrycklig layout för partitionerna på din hårddisk(ar). T.ex."
@@ -492,6 +523,14 @@ msgid "Architectures"
 msgstr "Arkitekturer"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Architecture|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Architecture|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Name"
 msgstr "Namn"
 
@@ -528,20 +567,22 @@ msgstr "Tilldela Organisation"
 msgid "Assign Selected Hosts"
 msgstr "Tilldela Valda Värdar"
 
-msgid ""
-"Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
-msgid_plural ""
-"Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
+msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
+msgid_plural "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
 msgstr[0] "Tilldela %{count} värden som saknar %{taxonomy_single} till %{taxonomy_name}"
-msgstr[1] "Tilldela alla %{count} värdar som saknar %{taxonomy_single} till %{taxonomy_name}"
+msgstr[1] ""
+"Tilldela alla %{count} värdar som saknar %{taxonomy_single} till %{taxonomy_na"
+"me}"
 
 msgid "Assign to %s"
 msgstr "Tilldela till %s"
 
 msgid ""
-"Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to "
-"include all the resources that the selected hosts are currently using."
-msgstr "Tilldelning av värdar till %{taxonomy_name} kommer även uppdatera %{taxonomy_name} till att inkludera resurserna som valda värdar för närvarande använder."
+"Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to inclu"
+"de all the resources that the selected hosts are currently using."
+msgstr ""
+"Tilldelning av värdar till %{taxonomy_name} kommer även uppdatera %{taxonomy_n"
+"ame} till att inkludera resurserna som valda värdar för närvarande använder."
 
 msgid "Associate VM"
 msgstr "Associera VM"
@@ -565,14 +606,18 @@ msgid "At least one volume must be specified for image-based provisioning."
 msgstr ""
 
 msgid ""
-"At present, authentication is performed against the internal Database or a "
-"LDAP service provided by one or more LDAP servers."
-msgstr "För närvarande sker autentisering mot den interna databasen eller en LDAP-tjänst som tillhandahålls av en eller flera LDAP-servrar."
+"At present, authentication is performed against the internal Database or a LDA"
+"P service provided by one or more LDAP servers."
+msgstr ""
+"För närvarande sker autentisering mot den interna databasen eller en LDAP-tjän"
+"st som tillhandahålls av en eller flera LDAP-servrar."
 
 msgid ""
-"Attempting to construct an operating system image filename but %s cannot be "
-"built from an image"
-msgstr "Försöker att konstruera ett filnamn för operativsystemavbild men %s kan inte byggas från en avbild"
+"Attempting to construct an operating system image filename but %s cannot be bu"
+"ilt from an image"
+msgstr ""
+"Försöker att konstruera ett filnamn för operativsystemavbild men %s kan inte b"
+"yggas från en avbild"
 
 msgid "Attribute mappings"
 msgstr "Attributmappning"
@@ -656,8 +701,16 @@ msgid "AuthSource|Attr mail"
 msgstr "Attr mail"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Attr photo"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Base dn"
 msgstr "Base dn"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Groups base"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Host"
@@ -683,6 +736,10 @@ msgid "AuthSource|Port"
 msgstr "Port"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Server type"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Tls"
 msgstr "Tls"
 
@@ -696,8 +753,8 @@ msgid "Authorize login delegation with REMOTE_USER environment variable"
 msgstr "Delegera login till REMOTE_USER miljövariabel"
 
 msgid ""
-"Authorize login delegation with REMOTE_USER environment variable for API "
-"calls too"
+"Authorize login delegation with REMOTE_USER environment variable for API calls"
+" too"
 msgstr "Delegera login till REMOTE_USER miljövariabel även för API-anrop"
 
 msgid "Authorized by"
@@ -752,14 +809,18 @@ msgid "Base DN"
 msgstr "Base DN"
 
 msgid ""
-"Before you can use Foreman for the first time there are a few tasks that "
-"must be performed."
-msgstr "Innan du kan använda Foreman för första gången finns det några uppgifter som måste utföras."
+"Before you can use Foreman for the first time there are a few tasks that must "
+"be performed."
+msgstr ""
+"Innan du kan använda Foreman för första gången finns det några uppgifter som m"
+"åste utföras."
 
 msgid ""
-"Before you proceed to using Foreman you should provide information about one"
-" or more architectures."
-msgstr "Innan du börjar använda Foreman bör du mata in information om en eller fler arkitekturer"
+"Before you proceed to using Foreman you should provide information about one o"
+"r more architectures."
+msgstr ""
+"Innan du börjar använda Foreman bör du mata in information om en eller fler ar"
+"kitekturer"
 
 msgid "Bond"
 msgstr ""
@@ -841,9 +902,9 @@ msgid "Build|B"
 msgstr "B"
 
 msgid ""
-"By unchecking this you can specify filter using Foreman search syntax in "
-"search field. If filter remains unlimited (this field is checked) it applies"
-" on all resources of the selected type"
+"By unchecking this you can specify filter using Foreman search syntax in searc"
+"h field. If filter remains unlimited (this field is checked) it applies on all"
+" resources of the selected type"
 msgstr ""
 
 msgid "CDROM"
@@ -879,8 +940,7 @@ msgstr "Avbryt byggbegäran för denna värd"
 msgid "Canceled pending build for %s"
 msgstr "Avbröt avvaktande bygge för %s"
 
-msgid ""
-"Cannot create LDAP configuration for %s without dedicated service account"
+msgid "Cannot create LDAP configuration for %s without dedicated service account"
 msgstr ""
 
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
@@ -928,6 +988,9 @@ msgstr "Karta"
 msgid "Chassis"
 msgstr "Chassi"
 
+msgid "Check again"
+msgstr ""
+
 msgid "Check/Uncheck all"
 msgstr "Markera/Avmarkera samtliga"
 
@@ -958,9 +1021,10 @@ msgstr "Klassdistribution"
 msgid "Classes"
 msgstr "Klasser"
 
-msgid ""
-"Click on the link of a compute resource to edit its default VM attributes."
-msgstr "Klicka på länken för en beräkningsresurs för att redigera dess standardattribut för VMs."
+msgid "Click on the link of a compute resource to edit its default VM attributes."
+msgstr ""
+"Klicka på länken för en beräkningsresurs för att redigera dess standardattribu"
+"t för VMs."
 
 msgid "Click to add %s"
 msgstr "Klicka för att lägga till %s"
@@ -987,10 +1051,12 @@ msgid "Client Email"
 msgstr "Klientens E-postadress"
 
 msgid ""
-"Client SSL certificates are used to identify Smart Proxies accessing "
-"fact/report importers and ENC output over HTTPS (:require_ssl should also be"
-" enabled)"
-msgstr "Klientcertifikat används för att identifiera smarta proxies, åtkosmst till fakta samt rapport importer och utdata från ENC över HTTPS (:require_ssl måste också aktiveras)"
+"Client SSL certificates are used to identify Smart Proxies accessing fact/repo"
+"rt importers and ENC output over HTTPS (:require_ssl should also be enabled)"
+msgstr ""
+"Klientcertifikat används för att identifiera smarta proxies, åtkosmst till fak"
+"ta samt rapport importer och utdata från ENC över HTTPS (:require_ssl måste oc"
+"kså aktiveras)"
 
 msgid "Clone"
 msgstr "Klona"
@@ -1089,6 +1155,10 @@ msgstr "Uuid"
 msgid "Config Retrieval"
 msgstr "Konfigurationshämtning"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Config group"
+msgstr ""
+
 msgid "Config groups"
 msgstr ""
 
@@ -1096,6 +1166,27 @@ msgstr ""
 msgid "Config template"
 msgstr "Konfigurationsmall"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Config group classes count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigGroup|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigTemplate|Default"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Locked"
 msgstr ""
 
@@ -1110,6 +1201,10 @@ msgstr "Remsa"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "ConfigTemplate|Template"
 msgstr "Mall"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ConfigTemplate|Vendor"
+msgstr ""
 
 msgid "Configure"
 msgstr "Konfigurera"
@@ -1148,9 +1243,11 @@ msgid "Cores per socket"
 msgstr ""
 
 msgid ""
-"Could not find a Configuration Template with the name \"PXELinux global "
-"default\", please create one."
-msgstr "Kunde inte hitta en Konfigurationsmall med namnet \"PXE Default File\", vänligen skapa en."
+"Could not find a Configuration Template with the name \"PXELinux global default"
+"\", please create one."
+msgstr ""
+"Kunde inte hitta en Konfigurationsmall med namnet \"PXE Default File\", vänligen"
+" skapa en."
 
 msgid "Create %s"
 msgstr "Skapa %s"
@@ -1333,8 +1430,8 @@ msgid "DNS Proxy to use within this subnet"
 msgstr "DNS Proxy att använda inom detta subnät"
 
 msgid ""
-"DNS Proxy to use within this subnet for managing PTR records, note that A "
-"records are managed via Domain DNS proxy"
+"DNS Proxy to use within this subnet for managing PTR records, note that A reco"
+"rds are managed via Domain DNS proxy"
 msgstr ""
 
 msgid "DNS name"
@@ -1344,8 +1441,11 @@ msgid "DNS proxy to use within this domain"
 msgstr ""
 
 msgid ""
-"DNS proxy to use within this domain for managing A records, note that PTR "
-"records are managed via Subnet DNS proxy"
+"DNS proxy to use within this domain for managing A records, note that PTR reco"
+"rds are managed via Subnet DNS proxy"
+msgstr ""
+
+msgid "Daily"
 msgstr ""
 
 msgid "Dashboard"
@@ -1367,8 +1467,8 @@ msgid "Default boot mode for interfaces assigned to this subnet"
 msgstr ""
 
 msgid ""
-"Default boot mode for interfaces assigned to this subnet, valid values are "
-"\"Static\", \"DHCP\""
+"Default boot mode for interfaces assigned to this subnet, valid values are \"St"
+"atic\", \"DHCP\""
 msgstr ""
 
 msgid "Default encrypted root password on provisioned hosts"
@@ -1632,6 +1732,16 @@ msgstr "Visar poster <b>%{from} - %{to}</b> av totalt <b>%{count}</b>"
 msgid "Distribution chart"
 msgstr ""
 
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in t"
+"he Puppet manifest for this parameter."
+msgstr ""
+
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in t"
+"he puppet manifest for this parameter"
+msgstr ""
+
 msgid "Do not use your email as your password"
 msgstr ""
 
@@ -1665,6 +1775,14 @@ msgid "Domain|Fullname"
 msgstr "Fullständigt namn"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Domain|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Domain|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
 msgstr "Namn"
 
@@ -1675,15 +1793,20 @@ msgid "EC2"
 msgstr "EC2"
 
 msgid ""
-"Each architecture can also be associated with more than one operating system"
-" and a selector block is provided to allow you to select valid combinations."
-msgstr "Varje arkitektur kan även vara associerad med mer än ett operativsystem och en lista över alternativ låter dig välja giltiga kombinationer."
+"Each architecture can also be associated with more than one operating system a"
+"nd a selector block is provided to allow you to select valid combinations."
+msgstr ""
+"Varje arkitektur kan även vara associerad med mer än ett operativsystem och en"
+" lista över alternativ låter dig välja giltiga kombinationer."
 
 msgid ""
-"Each entries represent a particular hardware architecture, most commonly "
-"<b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating "
-"system family, which includes <b>sparc</b> based systems."
-msgstr "Varje värde representerar en hårdvaruarkitektur, oftast <b>x86_64</b> eller <b>i386</b>. Foreman stödjer även OS-familjen Solaris, vilket även inkluderar <b>sparc</b> system"
+"Each entries represent a particular hardware architecture, most commonly <b>x8"
+"6_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system fa"
+"mily, which includes <b>sparc</b> based systems."
+msgstr ""
+"Varje värde representerar en hårdvaruarkitektur, oftast <b>x86_64</b> eller <b"
+">i386</b>. Foreman stödjer även OS-familjen Solaris, vilket även inkluderar <b"
+">sparc</b> system"
 
 msgid "Eager zero"
 msgstr ""
@@ -1720,6 +1843,9 @@ msgstr ""
 
 msgid "Edit Global Parameter"
 msgstr "Redigera Globala Parametrar"
+
+msgid "Edit Host"
+msgstr ""
 
 msgid "Edit LDAP Auth Source"
 msgstr "Redigera LDAP Autenticeringskälla"
@@ -1779,12 +1905,17 @@ msgid "Edit your host"
 msgstr "Redigera Värd"
 
 msgid ""
-"Either you didnt generate the puppetdocs (see <a rel=\"external\" "
-"href=\"%{url}\">here</a>) or the class <strong>%{name}</strong> could not be"
-" found in environment <strong>%{environment}</strong><br/> Please ensure "
-"that the class <strong>%{name}</strong>s declaration is accessible via the "
-"modulepath associated with <strong>%{environment}</strong>."
-msgstr "Antingen så är inte puppetdokumentationen genererad ( se <a rel=\"external\" href=\"%{url}\">here</a>) eller så kunde inte klassen <strong>%{name}</strong> hittas i miljön <strong>%{environment}</strong><br/>. Säkerställ att klassen  <strong>%{name}</strong>s deklaration är nåbar via modulsökvägen som är associerad med <strong>%{environment}</strong>."
+"Either you didnt generate the puppetdocs (see <a rel=\"external\" href=\"%{url}\">"
+"here</a>) or the class <strong>%{name}</strong> could not be found in environm"
+"ent <strong>%{environment}</strong><br/> Please ensure that the class <strong>"
+"%{name}</strong>s declaration is accessible via the modulepath associated with"
+" <strong>%{environment}</strong>."
+msgstr ""
+"Antingen så är inte puppetdokumentationen genererad ( se <a rel=\"external\" hre"
+"f=\"%{url}\">here</a>) eller så kunde inte klassen <strong>%{name}</strong> hitt"
+"as i miljön <strong>%{environment}</strong><br/>. Säkerställ att klassen  <str"
+"ong>%{name}</strong>s deklaration är nåbar via modulsökvägen som är associerad"
+" med <strong>%{environment}</strong>."
 
 msgid "Email reply address for emails that Foreman is sending"
 msgstr ""
@@ -1800,9 +1931,6 @@ msgstr "Aktivera larm för valda värdar"
 
 msgid "Enable certificate generation for %s"
 msgstr "Aktivera certifikatgenerering för %s"
-
-msgid "Enable email alerts per each failed Puppet report"
-msgstr ""
 
 msgid "Enable if this is an alias or VLAN interface"
 msgstr ""
@@ -1822,6 +1950,9 @@ msgstr "Aktivera denna värd för provisionering"
 msgid "Enabled"
 msgstr "Aktiverad"
 
+msgid "Enabled %s for reboot and rebuild"
+msgstr ""
+
 msgid "Enabled %s for rebuild on next boot"
 msgstr "Aktiverat %s för ombyggning vid nästa värdstart"
 
@@ -1838,13 +1969,12 @@ msgstr ""
 msgid "Environment only"
 msgstr "Enbart miljö"
 
-msgid ""
-"Environment variable containing the subject DN from a client SSL certificate"
+msgid "Environment variable containing the subject DN from a client SSL certificate"
 msgstr "Miljövariabel innehållande subjekt DN från en klients SSL certifikat"
 
 msgid ""
-"Environment variable containing the verification status of a client SSL "
-"certificate"
+"Environment variable containing the verification status of a client SSL certif"
+"icate"
 msgstr "Miljövariabel innehållande verifieringsstatus av en klients SSL certifikat"
 
 msgid "Environments"
@@ -1857,9 +1987,17 @@ msgid "Environments and documentation"
 msgstr "Miljöer och dokumentation"
 
 msgid ""
-"Environments may be manually created and only require the name of the "
-"environment to be declared."
+"Environments may be manually created and only require the name of the environm"
+"ent to be declared."
 msgstr "Miljöer kan manuellt skapas och kräver bara att namnet på miljön deklareras"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Environment|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Environment|Hosts count"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Name"
@@ -1871,6 +2009,9 @@ msgstr "Fel"
 msgid "Error - %{message}"
 msgstr ""
 
+msgid "Error connecting to %{proxy}: %{error}."
+msgstr ""
+
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "Fel har inträffat under kommunikation med %{cr}: %{e}"
 
@@ -1878,6 +2019,9 @@ msgid "Error loading virtual machine information: %s"
 msgstr "Fel vid laddning av information för virtuell maskin: %s"
 
 msgid "Errors"
+msgstr ""
+
+msgid "Errors occurred, build may fail"
 msgstr ""
 
 msgid "Errors only"
@@ -1908,6 +2052,9 @@ msgstr "Utgår"
 msgid "Explain matchers"
 msgstr ""
 
+msgid "Explain use Puppet default"
+msgstr ""
+
 msgid "External IP"
 msgstr "Extern IP"
 
@@ -1927,6 +2074,14 @@ msgid "External user group information"
 msgstr ""
 
 msgid "External user group name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "External usergroup"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "ExternalUsergroup|Name"
 msgstr ""
 
 msgid "Fact Chart"
@@ -1995,9 +2150,11 @@ msgid "Failed to cancel pending build for %s"
 msgstr "Misslyckades att avbryta pågående ombyggning för %s"
 
 msgid ""
-"Failed to clean any old certificates or add the autosign entry. Terminating "
-"the build!"
-msgstr "Misslyckades med att rensa gamla certifikat eller att lägga till autosigneringsvärdet. Avbryter bygget!"
+"Failed to clean any old certificates or add the autosign entry. Terminating th"
+"e build!"
+msgstr ""
+"Misslyckades med att rensa gamla certifikat eller att lägga till autosignering"
+"svärdet. Avbryter bygget!"
 
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr "Misslyckades att konfigurera %{host} att starta från %{device}: %{e}"
@@ -2009,12 +2166,17 @@ msgid "Failed to create X509 certificate, error: %s"
 msgstr ""
 
 msgid ""
-"Failed to create a compute %{compute_resource} instance %{name}: "
-"%{message}\\n "
-msgstr "Misslyckades med att skapa en beräkningsresurs %{compute_resource}-instans %{name}: %{message}\\n "
+"Failed to create a compute %{compute_resource} instance %{name}: %{message}\n"
+" "
+msgstr ""
+"Misslyckades med att skapa en beräkningsresurs %{compute_resource}-instans %{n"
+"ame}: %{message}\n"
+" "
 
 msgid "Failed to destroy a compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Misslyckades med att förstöra en beräkningsresurs %{compute_resource} instans %{name}: %{e}"
+msgstr ""
+"Misslyckades med att förstöra en beräkningsresurs %{compute_resource} instans "
+"%{name}: %{e}"
 
 msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr "Misslyckades med att aktivera %{host} för installation: %{errors}"
@@ -2035,9 +2197,11 @@ msgid "Failed to get a new realm OTP. Terminating the build!"
 msgstr ""
 
 msgid ""
-"Failed to import %{klass} for %{name}: doesn't exists in our database - "
-"ignoring"
-msgstr "Misslyckades med att importera %{klass} på grund av att %{name}: inte existerar i vår databas - ignorerar"
+"Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
+"ng"
+msgstr ""
+"Misslyckades med att importera %{klass} på grund av att %{name}: inte existera"
+"r i vår databas - ignorerar"
 
 msgid "Failed to initialize the PuppetCA proxy: %s"
 msgstr "Misslyckades med att initiera PuppetCAs proxy: %s"
@@ -2060,9 +2224,13 @@ msgstr "Misslyckades att ändra byggcykeln för %s"
 msgid "Failed to perform rollback on %{task} - %{e}"
 msgstr "Misslyckades med att genomföra en rollback för %{task} - %{e}"
 
-msgid ""
-"Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Misslyckades med starta en beräkningsresurs %{compute_resource}-instans %{name}: %{e}"
+msgid "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
+msgstr ""
+"Misslyckades med starta en beräkningsresurs %{compute_resource}-instans %{name"
+"}: %{e}"
+
+msgid "Failed to reboot %s."
+msgstr ""
 
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Misslyckades med att radera certifikaten för %{name}: %{e}"
@@ -2071,28 +2239,45 @@ msgid "Failed to set console: %s"
 msgstr "Misslyckades med att ställa in konsol: %s"
 
 msgid "Failed to stop compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Misslyckades med att stoppa beräkningsresurs %{compute_resource}, instans %{name}: %{e}"
+msgstr ""
+"Misslyckades med att stoppa beräkningsresurs %{compute_resource}, instans %{na"
+"me}: %{e}"
 
-msgid ""
-"Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Misslyckades med att ångra uppdateringen för beräkningsresurs %{compute_resource}, instans %{name}: %{e}"
+msgid "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
+msgstr ""
+"Misslyckades med att ångra uppdateringen för beräkningsresurs %{compute_resour"
+"ce}, instans %{name}: %{e}"
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Misslyckades med att uppdatera beräkningsresurs %{compute_resource}, instans %{name}: %{e}"
+msgstr ""
+"Misslyckades med att uppdatera beräkningsresurs %{compute_resource}, instans %"
+"{name}: %{e}"
 
 msgid ""
-"Failed to update environments and Puppet classes from the on-disk Puppet "
-"installation: %s"
+"Failed to update environments and Puppet classes from the on-disk Puppet insta"
+"llation: %s"
 msgstr ""
 
 msgid ""
-"Failed to update the environments and Puppet classes from the on-disk puppet"
-" installation: %s"
+"Failed to update the environments and Puppet classes from the on-disk puppet i"
+"nstallation: %s"
+msgstr ""
+
+msgid "Failed to validate %{host}: %{error}"
 msgstr ""
 
 #. initial character of Failed
 msgid "Failed|F"
 msgstr "F"
+
+msgid "Failure deploying via smart proxy %{proxy}: %{error}."
+msgstr ""
+
+msgid "Failure parsing %{template}: %{error}."
+msgstr ""
+
+msgid "Failure: %s"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Feature"
@@ -2108,6 +2293,7 @@ msgstr "Namn"
 msgid "Fetch TFTP boot files for %s"
 msgstr "Hämta TFTP startfiler för %s"
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr "Filter"
 
@@ -2129,7 +2315,12 @@ msgstr ""
 msgid "Filter|Resource"
 msgstr ""
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Filter|Search"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Filter|Taxonomy search"
 msgstr ""
 
 msgid "Filter|Unlimited"
@@ -2169,18 +2360,26 @@ msgid "For Roles and permissions, see the %s page"
 msgstr ""
 
 msgid ""
-"For example, if you have copied several Red Hat release disks into a "
-"directory structure where the disk images are named 5.8 or 6.2, and each "
-"contained both x86_64 and i386 binaries, then you\\n  could create a single "
-"medium entry describing them all.\\n  The entry, which could be just named "
-"'Red Hat' could contain a path like this "
-"<em>'http://server/redhat/$version/$arch'</em>"
-msgstr "Om du till exempel har kopierat ett antal redhat-release diskar till en katalogstruktur, där avbildningarna är namngivna som 5.8 eller 6.2 och innehöll både x86_64 samt i386 binärer, \\n då kan du skapa ett medie som innefattar båda.\\n Mediet som till exempel döps till 'redhat' kan då ha en sökväg enligt följande <em>'http://server/redhat/$version/$arch'</em>"
+"For example, if you have copied several Red Hat release disks into a directory"
+" structure where the disk images are named 5.8 or 6.2, and each contained both"
+" x86_64 and i386 binaries, then you\n"
+"  could create a single medium entry describing them all.\n"
+"  The entry, which could be just named 'Red Hat' could contain a path like thi"
+"s <em>'http://server/redhat/$version/$arch'</em>"
+msgstr ""
+"Om du till exempel har kopierat ett antal redhat-release diskar till en katalo"
+"gstruktur, där avbildningarna är namngivna som 5.8 eller 6.2 och innehöll både"
+" x86_64 samt i386 binärer, \n"
+" då kan du skapa ett medie som innefattar båda.\n"
+" Mediet som till exempel döps till 'redhat' kan då ha en sökväg enligt följand"
+"e <em>'http://server/redhat/$version/$arch'</em>"
 
 msgid ""
-"For example, there might be a data center in London and one in Virginia; "
-"these are locations. Locations also work nicely when used in tandem with "
-msgstr "Till exempel, det kanske finns ett datahall i London och en i Virginia: dessa är lokationer. Lokationer fungerar även bra tillsammans med"
+"For example, there might be a data center in London and one in Virginia; these"
+" are locations. Locations also work nicely when used in tandem with "
+msgstr ""
+"Till exempel, det kanske finns ett datahall i London och en i Virginia: dessa "
+"är lokationer. Lokationer fungerar även bra tillsammans med"
 
 msgid "For internal Users, simply create a new user at the %s page"
 msgstr ""
@@ -2194,30 +2393,39 @@ msgstr "Foremanutvecklare"
 msgid "Foreman Users"
 msgstr "Foremananvändare"
 
-msgid ""
-"Foreman can use LDAP based service for user information and authentication."
+msgid "Foreman can use LDAP based service for user information and authentication."
 msgstr "Foreman kan använda LDAP för användarinformation och autentisering"
 
 msgid ""
-"Foreman comes with some importers to ease the burden of entering loads of "
-"data about your current installation."
-msgstr "Foreman inkluderar vissa importerare för att minska bördan av att manuellt mata in information om din nuvarande installation"
+"Foreman comes with some importers to ease the burden of entering loads of data"
+" about your current installation."
+msgstr ""
+"Foreman inkluderar vissa importerare för att minska bördan av att manuellt mat"
+"a in information om din nuvarande installation"
 
 msgid ""
-"Foreman considers a domain and a DNS zone as the same thing. That is, if you"
-" are planning to manage a site where all the machines are or the form "
-"<i>hostname</i>.<b>somewhere.com</b>\\n  then the domain is "
-"<b>somewhere.com</b>. This allows Foreman to associate a puppet variable "
-"with a domain/site and automatically append this variable to all external "
-"node requests made\\n  by machines at that site."
-msgstr "Foreman anser en domän och en DNS-zon som samma sak. Det vill säga, om du planerar att hantera en plats där alla maskiner heter <i>hostname</i>.<b>somewhere.com</b>\\n då är domänen <b>somewhere.com</b>.  Detta möjliggör Foreman att associera puppetvariabler med en domän/plats och automatiskt lägga till variabeln till ENC förfrågningar gjorda\\n av maskiner från den domänen/platsen."
+"Foreman considers a domain and a DNS zone as the same thing. That is, if you a"
+"re planning to manage a site where all the machines are or the form <i>hostnam"
+"e</i>.<b>somewhere.com</b>\n"
+"  then the domain is <b>somewhere.com</b>. This allows Foreman to associate a "
+"puppet variable with a domain/site and automatically append this variable to a"
+"ll external node requests made\n"
+"  by machines at that site."
+msgstr ""
+"Foreman anser en domän och en DNS-zon som samma sak. Det vill säga, om du plan"
+"erar att hantera en plats där alla maskiner heter <i>hostname</i>.<b>somewhere"
+".com</b>\n"
+" då är domänen <b>somewhere.com</b>.  Detta möjliggör Foreman att associera pu"
+"ppetvariabler med en domän/plats och automatiskt lägga till variabeln till ENC"
+" förfrågningar gjorda\n"
+" av maskiner från den domänen/platsen."
 
 msgid "Foreman domain ID of interface"
 msgstr ""
 
 msgid ""
-"Foreman host group matchers will be inherited by children when evaluating "
-"smart class parameters"
+"Foreman host group matchers will be inherited by children when evaluating smar"
+"t class parameters"
 msgstr ""
 
 msgid "Foreman now manages the build cycle for %s"
@@ -2236,18 +2444,18 @@ msgid "Foreman subnet ID of interface"
 msgstr ""
 
 msgid ""
-"Foreman supports automatically creating realm entries for new hosts.  When a"
-" realm is selected for a host, Foreman contacts the relevant realm smart "
-"proxy to create an entry for the host and retrieve it's one-time "
-"registration password."
+"Foreman supports automatically creating realm entries for new hosts.  When a r"
+"ealm is selected for a host, Foreman contacts the relevant realm smart proxy t"
+"o create an entry for the host and retrieve it's one-time registration passwor"
+"d."
 msgstr ""
 
 msgid "Foreman ticketing system"
 msgstr "Foreman biljettsystem"
 
 msgid ""
-"Foreman v2 is stable and recommended for use. You may use v2 by either "
-"passing 'version=2' in the Accept Header or using api/v2/ in the URL."
+"Foreman v2 is stable and recommended for use. You may use v2 by either passing"
+" 'version=2' in the Accept Header or using api/v2/ in the URL."
 msgstr ""
 
 msgid "Foreman will automate certificate signing upon provision of new host"
@@ -2259,35 +2467,34 @@ msgstr "Foreman kommer skapa värden när en rapport tas emot"
 msgid "Foreman will create the host when new facts are received"
 msgstr "Foreman kommer skapa värden när nya fakta tas emot"
 
-msgid ""
-"Foreman will default to this puppet environment if it cannot auto detect one"
+msgid "Foreman will default to this puppet environment if it cannot auto detect one"
 msgstr ""
 
 msgid "Foreman will evaluate host smart variables in this order by default"
 msgstr ""
 
 msgid ""
-"Foreman will explicitly set the puppet environment in the ENC yaml output. "
-"This will avoid conflicts between the environment in puppet.conf and the "
-"environment set in Foreman"
+"Foreman will explicitly set the puppet environment in the ENC yaml output. Thi"
+"s will avoid conflicts between the environment in puppet.conf and the environm"
+"ent set in Foreman"
 msgstr ""
 
 msgid ""
-"Foreman will map users by username in request-header. If this is set to "
-"false, OAuth requests will have admin rights."
+"Foreman will map users by username in request-header. If this is set to false,"
+" OAuth requests will have admin rights."
 msgstr ""
 
 msgid "Foreman will parse ERB in parameters value in the ENC output"
 msgstr ""
 
 msgid ""
-"Foreman will query the locally configured resolver instead of the SOA/NS "
-"authorities"
+"Foreman will query the locally configured resolver instead of the SOA/NS autho"
+"rities"
 msgstr ""
 
 msgid ""
-"Foreman will set this as the default Puppet module path if it cannot auto "
-"detect one"
+"Foreman will set this as the default Puppet module path if it cannot auto dete"
+"ct one"
 msgstr ""
 
 msgid "Foreman will truncate hostname to 'puppet' if it starts with puppet"
@@ -2296,8 +2503,7 @@ msgstr "Foreman kommer att trunkera värdnamnet till 'puppet' om det startar med
 msgid "Foreman will update a host's environment from its facts"
 msgstr ""
 
-msgid ""
-"Foreman will update the host IP with the IP that made the built request"
+msgid "Foreman will update the host IP with the IP that made the built request"
 msgstr ""
 
 msgid "Foreman will use OAuth for API authorization"
@@ -2306,23 +2512,23 @@ msgstr ""
 msgid "Foreman will use gravatar to display user icons"
 msgstr ""
 
-msgid ""
-"Foreman will use random UUIDs for certificate signing instead of hostnames"
+msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
+msgstr ""
+
+msgid "Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
 msgstr ""
 
 msgid ""
-"Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
+"Foreman will use the short hostname instead of the FQDN for creating new virtu"
+"al machines"
 msgstr ""
 
 msgid ""
-"Foreman will use the short hostname instead of the FQDN for creating new "
-"virtual machines"
+"Foreman, by default, operates in anonymous mode where all operations are perfo"
+"rmed without reference to the user who is performing the task."
 msgstr ""
-
-msgid ""
-"Foreman, by default, operates in anonymous mode where all operations are "
-"performed without reference to the user who is performing the task."
-msgstr "Foreman, per förinställt värde, arbetar i anonymnt läge där alla operationer görs utan referens till användaren som utför åtgärden."
+"Foreman, per förinställt värde, arbetar i anonymnt läge där alla operationer g"
+"örs utan referens till användaren som utför åtgärden."
 
 msgid "Full"
 msgstr "Full"
@@ -2342,13 +2548,18 @@ msgstr "Fullständigt spårning"
 msgid "Gateway"
 msgstr "Nätsluss"
 
+msgid "General"
+msgstr ""
+
 msgid "General Settings"
 msgstr ""
 
 msgid ""
-"General useful description, for example this kind of hardware needs a "
-"special BIOS setup"
-msgstr "Generellt användbar beskrivning, till exempel, denna typ av hårdvara behöver en speciellt BIOS-inställning"
+"General useful description, for example this kind of hardware needs a special "
+"BIOS setup"
+msgstr ""
+"Generellt användbar beskrivning, till exempel, denna typ av hårdvara behöver e"
+"n speciellt BIOS-inställning"
 
 msgid "Generated %s ago"
 msgstr "Genererad %s dagar sedan"
@@ -2446,6 +2657,10 @@ msgstr "Värdparametrar"
 msgid "Host audit entries"
 msgstr "Värdgranskningslogg"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host config group"
+msgstr ""
+
 msgid "Host details"
 msgstr "Värddetaljer"
 
@@ -2500,6 +2715,10 @@ msgid "Host::Base|Enabled"
 msgstr "Aktiverad"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Grub pass"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Image file"
 msgstr "Avbildningsfil"
 
@@ -2536,8 +2755,20 @@ msgid "Host::Base|Name"
 msgstr "Namn"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Otp"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Owner type"
 msgstr "Ägartyp"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Primary interface"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Provision method"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Puppet status"
@@ -2560,6 +2791,10 @@ msgid "Host::Base|Uuid"
 msgstr "Uuid"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "HostConfigGroup|Host type"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
 msgstr "Värdgrupp"
 
@@ -2568,12 +2803,12 @@ msgid "Hostgroup|Ancestry"
 msgstr "Förfäder"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "Hostgroup|Image file"
-msgstr "Avbildningsfil"
+msgid "Hostgroup|Grub pass"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "Hostgroup|Label"
-msgstr "Märkning"
+msgid "Hostgroup|Image file"
+msgstr "Avbildningsfil"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Name"
@@ -2582,6 +2817,10 @@ msgstr "Namn"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Root pass"
 msgstr "Rootlösenord"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Hostgroup|Title"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Use image"
@@ -2601,24 +2840,24 @@ msgid "Hosts Inventory"
 msgstr "Värdinventering"
 
 msgid ""
-"Hosts created after a puppet run that did not send a location fact will be "
-"placed in this location"
+"Hosts created after a puppet run that did not send a location fact will be pla"
+"ced in this location"
 msgstr ""
 
 msgid ""
-"Hosts created after a puppet run that did not send a organization fact will "
-"be placed in this organization"
+"Hosts created after a puppet run that did not send a organization fact will be"
+" placed in this organization"
 msgstr ""
 
 msgid ""
-"Hosts created after a puppet run will be placed in the location this fact "
-"dictates. The content of this fact should be the full label of the location."
+"Hosts created after a puppet run will be placed in the location this fact dict"
+"ates. The content of this fact should be the full label of the location."
 msgstr ""
 
 msgid ""
-"Hosts created after a puppet run will be placed in the organization this "
-"fact dictates. The content of this fact should be the full label of the "
-"organization."
+"Hosts created after a puppet run will be placed in the organization this fact "
+"dictates. The content of this fact should be the full label of the organizatio"
+"n."
 msgstr ""
 
 msgid "Hosts in error state"
@@ -2631,9 +2870,11 @@ msgid "Hosts that had performed modifications without error"
 msgstr "Värdar som hade genomförda ändringar utan fel"
 
 msgid ""
-"Hosts that will be trusted in addition to Smart Proxies for access to "
-"fact/report importers and ENC output"
-msgstr "Värdar, utöver Smarta Proxies, som är betrodda med åtkomst till fakta/rapportimporterare samt ENC utdata."
+"Hosts that will be trusted in addition to Smart Proxies for access to fact/rep"
+"ort importers and ENC output"
+msgstr ""
+"Värdar, utöver Smarta Proxies, som är betrodda med åtkomst till fakta/rapporti"
+"mporterare samt ENC utdata."
 
 msgid "Hosts which didn't run puppet in the last %s"
 msgstr "Värdar, vilka inte körde puppet den senaste %s"
@@ -2750,13 +2991,13 @@ msgid "IP Address"
 msgstr "IPadress"
 
 msgid ""
-"IP Address auto suggestion mode for this subnet, DHCP works with DHCP proxy "
-"only"
+"IP Address auto suggestion mode for this subnet, DHCP works with DHCP proxy on"
+"ly"
 msgstr ""
 
 msgid ""
-"IP Address auto suggestion mode for this subnet, valid values are \"DHCP\", "
-"\"Internal DB\", \"None\""
+"IP Address auto suggestion mode for this subnet, valid values are \"DHCP\", \"Int"
+"ernal DB\", \"None\""
 msgstr ""
 
 msgid "IP address auto-suggest"
@@ -2778,56 +3019,67 @@ msgid "Identifier of the interface to which this interface belongs, e.g. eth1"
 msgstr ""
 
 msgid ""
-"Identifier of the interface to which this interface belongs, e.g. eth1. Only"
-" for virtual interfaces."
+"Identifier of the interface to which this interface belongs, e.g. eth1. Only f"
+"or virtual interfaces."
 msgstr ""
 
 msgid ""
-"Identifiers of slave interfaces, e.g. `['eth1', 'eth2']`. Only for bond "
-"interfaces."
+"Identifiers of slave interfaces, e.g. `['eth1', 'eth2']`. Only for bond interf"
+"aces."
 msgstr ""
 
 msgid ""
-"If Foreman is running behind Passenger or a remote load balancer, the IP "
-"should be set here. This is a regular expression, so it can support several "
-"load balancers, i.e: (10.0.0.1|127.0.0.1)"
-msgstr "Om Foreman körs under Passenger eller bakom en lastbalanserare, fyll i IP-adressen här. Syntaxen är ett reguljärt uttryck för att stödja flera lastbalanserare, exempel: (10.0.0.1|127.0.0.1)"
+"If Foreman is running behind Passenger or a remote load balancer, the IP shoul"
+"d be set here. This is a regular expression, so it can support several load ba"
+"lancers, i.e: (10.0.0.1|127.0.0.1)"
+msgstr ""
+"Om Foreman körs under Passenger eller bakom en lastbalanserare, fyll i IP-adre"
+"ssen här. Syntaxen är ett reguljärt uttryck för att stödja flera lastbalansera"
+"re, exempel: (10.0.0.1|127.0.0.1)"
 
 msgid ""
-"If checked, will raise an error if there is no default value and no matcher "
-"provide a value."
-msgstr "Om vald, kommer ett fel att flaggas om det inte finns något standardvärde och ingen matchare tillhandahåller ett värde."
+"If checked, will raise an error if there is no default value and no matcher pr"
+"ovide a value."
+msgstr ""
+"Om vald, kommer ett fel att flaggas om det inte finns något standardvärde och "
+"ingen matchare tillhandahåller ett värde."
 
 msgid ""
-"If you are already using puppet you should consider using some of the rake "
-"tasks that have been provided."
-msgstr "Om du redan använder puppet borde du fundera på att använda de rake-funktioner som tillhandahålls."
+"If you are already using puppet you should consider using some of the rake tas"
+"ks that have been provided."
+msgstr ""
+"Om du redan använder puppet borde du fundera på att använda de rake-funktioner"
+" som tillhandahålls."
 
 msgid ""
-"If you are planning to use Foreman as an external node classifier you should"
-" provide information about one or more environments."
-msgstr "Om du plannerar att använda Foreman som en extern nodklassifierare, \"ENC\", behöver du mata in information om en eller fler miljöer."
+"If you are planning to use Foreman as an external node classifier you should p"
+"rovide information about one or more environments."
+msgstr ""
+"Om du plannerar att använda Foreman som en extern nodklassifierare, \"ENC\", beh"
+"över du mata in information om en eller fler miljöer."
 
 msgid ""
-"If you chose to use LDAP authentication then you must provide connection "
-"details for your authentication provider on %s page"
+"If you chose to use LDAP authentication then you must provide connection detai"
+"ls for your authentication provider on %s page"
 msgstr ""
 
-msgid ""
-"If you feel this is an error with Foreman itself, please open a new issue "
-"with"
+msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "Om du tror att detta är ett fel med Foreman, var vänlig öppna en ny bugg med"
 
 msgid ""
-"If you wish to track the actions of a particular user then it is possible to"
-" use an additional authentication stage and provide a user account."
-msgstr "Om du vill följa händelserna för en specifik användare så är det möjligt att använda ytterligare ett autentiseringssteg och där kräva ett användarkonto."
+"If you wish to track the actions of a particular user then it is possible to u"
+"se an additional authentication stage and provide a user account."
+msgstr ""
+"Om du vill följa händelserna för en specifik användare så är det möjligt att a"
+"nvända ytterligare ett autentiseringssteg och där kräva ett användarkonto."
 
 msgid ""
-"If you're planning to do anything more than just handle reports, you'll be "
-"in need of a smart proxy - either on this machine or elsewhere on your "
-"network."
-msgstr "Om du tänker göra något mer än att bara hantera rapporter kommer du att behöva en smart proxy. Antingen på denna maskinen eller på annan maskin på ditt nätverk."
+"If you're planning to do anything more than just handle reports, you'll be in "
+"need of a smart proxy - either on this machine or elsewhere on your network."
+msgstr ""
+"Om du tänker göra något mer än att bara hantera rapporter kommer du att behöva"
+" en smart proxy. Antingen på denna maskinen eller på annan maskin på ditt nätv"
+"erk."
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image"
@@ -2858,6 +3110,10 @@ msgstr "Iamroll"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|Name"
 msgstr "Namn"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Image|Password"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Image|User data"
@@ -2902,11 +3158,14 @@ msgid "Importing Puppet classes and environments"
 msgstr "Importerar Puppetklasser och miljöer"
 
 msgid ""
-"In addition to defining which puppet classes get included when building this"
-" host type you are also able to assign variables and provisioning "
-"information to a host group to further refine the behavior of the puppet "
-"runtime."
-msgstr "Utöver möjligheten att definiera vilka puppetklasser som blir inkluderade vid byggandet av denna värd, kan du även tilldela variabler och provisioneringsinformation till en värdgrupp för att i mer detalj kunna styra beteendet över puppet."
+"In addition to defining which puppet classes get included when building this h"
+"ost type you are also able to assign variables and provisioning information to"
+" a host group to further refine the behavior of the puppet runtime."
+msgstr ""
+"Utöver möjligheten att definiera vilka puppetklasser som blir inkluderade vid "
+"byggandet av denna värd, kan du även tilldela variabler och provisioneringsinf"
+"ormation till en värdgrupp för att i mer detalj kunna styra beteendet över pup"
+"pet."
 
 msgid "Include this host within Foreman reporting"
 msgstr "Inkludera denna värd inom Foremanrapportering"
@@ -2953,7 +3212,7 @@ msgstr ""
 msgid "Interface provider, e.g. IPMI. Only for BMC interfaces."
 msgstr ""
 
-msgid "Interface type, e.g: Nic::BMC"
+msgid "Interface type, e.g: bmc"
 msgstr ""
 
 msgid "Internal DB"
@@ -2974,8 +3233,7 @@ msgstr ""
 msgid "Invalid log level: %s"
 msgstr "Felaktig loggnivå: %s"
 
-msgid ""
-"Invalid power state request: %{action}, supported actions are %{supported}"
+msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "Felaktig strömläges begäran: %{action}, åtgärder som stöds är %{supported}"
 
 msgid "Invalid query"
@@ -3043,9 +3301,11 @@ msgid "LDAP server"
 msgstr "LDAP-server"
 
 msgid ""
-"LDAP users will have their Foreman account automatically created the first "
-"time they log into Foreman"
-msgstr "LDAP-användare får sina konton automatiskt skapade första gången dom loggar in i Foreman"
+"LDAP users will have their Foreman account automatically created the first tim"
+"e they log into Foreman"
+msgstr ""
+"LDAP-användare får sina konton automatiskt skapade första gången dom loggar in"
+" i Foreman"
 
 msgid "Language"
 msgstr ""
@@ -3335,6 +3595,9 @@ msgstr ""
 msgid "List of hosts which answer to the provided query"
 msgstr "Lista på värdar som svarar under den tillhandahållna frågan."
 
+msgid "List of mail notifications"
+msgstr ""
+
 msgid "List of override values for a specific smart class parameter"
 msgstr ""
 
@@ -3351,8 +3614,8 @@ msgid "List of smart class parameters for a specific environment"
 msgstr ""
 
 msgid ""
-"List of smart class parameters for a specific environment/Puppet class "
-"combination"
+"List of smart class parameters for a specific environment/Puppet class combina"
+"tion"
 msgstr ""
 
 msgid "List of smart class parameters for a specific host"
@@ -3476,9 +3739,11 @@ msgid "Locations"
 msgstr "Lokationer"
 
 msgid ""
-"Locations are used to manage and differentiate the physical place where a "
-"system managed via Foreman is housed."
-msgstr "Lokationer används för att managera och särskilja på den fysiska placeringen på system som hanteras via Foreman."
+"Locations are used to manage and differentiate the physical place where a syst"
+"em managed via Foreman is housed."
+msgstr ""
+"Lokationer används för att managera och särskilja på den fysiska placeringen p"
+"å system som hanteras via Foreman."
 
 msgid "Lock"
 msgstr ""
@@ -3510,6 +3775,10 @@ msgid "Lookup value"
 msgstr "Sökvärde"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Avoid duplicates"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Default value"
 msgstr "Standardvärde"
 
@@ -3534,6 +3803,10 @@ msgid "LookupKey|Lookup values count"
 msgstr "Kontrollera antal värden"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Merge overrides"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Override"
 msgstr "Åsidosätta"
 
@@ -3546,6 +3819,10 @@ msgid "LookupKey|Required"
 msgstr "Krävs"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Use puppet default"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
 msgstr "Validatorregel"
 
@@ -3556,6 +3833,10 @@ msgstr "Validatortyp"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
 msgstr "Matchning"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "LookupValue|Use puppet default"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
@@ -3579,16 +3860,53 @@ msgstr "Maskintyp"
 msgid "Machine type"
 msgstr "Maskintyp"
 
+msgid "Mail Preferences"
+msgstr ""
+
 msgid "Mail is Required"
 msgstr "Epost krävs"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Mail notification"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Default interval"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Description"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Mailer"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Method"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscriptable"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscription type"
+msgstr ""
 
 msgid "Mailing lists"
 msgstr "Epostlistor"
 
 msgid ""
-"Mailing lists are available via Google Groups. Much like IRC, we have a "
-"general users (support, Q/A, etc) lists and a development list:"
-msgstr "Epostlistor finns via Google Groups. Ungefär som IRC, så har vi listor / grupper för användare ( stöd, Kvalitetssäkring, etc ) samt en lista för utvecklare:"
+"Mailing lists are available via Google Groups. Much like IRC, we have a genera"
+"l users (support, Q/A, etc) lists and a development list:"
+msgstr ""
+"Epostlistor finns via Google Groups. Ungefär som IRC, så har vi listor / grupp"
+"er för användare ( stöd, Kvalitetssäkring, etc ) samt en lista för utvecklare:"
 
 msgid "Manage Bookmarks"
 msgstr "Hantera Bokmärken"
@@ -3621,11 +3939,15 @@ msgid "Matcher"
 msgstr "Matchare"
 
 msgid ""
-"Matcher is a combination of an attribute and its value, if they match, the "
-"value below would be provided.<br> You may use any attribute foreman knows "
-"about, such as facts etc for example: <code> domain = example.com </code> or"
-" <code> is_virtual = true</code>"
-msgstr "Matchare är en kombination av ett attribut och dess värde. Om de matchar, returneras nedan värde. <br> Du kan använda attribut som foreman känner till, så som fakta, etc, till exempel: <code> domain = example.com </code> eller <code> is_virtual = true</code>"
+"Matcher is a combination of an attribute and its value, if they match, the val"
+"ue below would be provided.<br> You may use any attribute foreman knows about,"
+" such as facts etc for example: <code> domain = example.com </code> or <code> "
+"is_virtual = true</code>"
+msgstr ""
+"Matchare är en kombination av ett attribut och dess värde. Om de matchar, retu"
+"rneras nedan värde. <br> Du kan använda attribut som foreman känner till, så s"
+"om fakta, etc, till exempel: <code> domain = example.com </code> eller <code> "
+"is_virtual = true</code>"
 
 msgid "Max days for Trends graphs"
 msgstr "Max dagar för trendgrafer"
@@ -3715,6 +4037,10 @@ msgid "Model|Hardware model"
 msgstr "Hårdvarumodell"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Model|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Model|Info"
 msgstr "Information"
 
@@ -3732,6 +4058,9 @@ msgstr "Ändrad"
 msgid "Monitor"
 msgstr "Övervaka"
 
+msgid "Monthly"
+msgstr ""
+
 msgid "Must provide an operating systems"
 msgstr "Måste tillhandahålla ett operativsystem"
 
@@ -3740,6 +4069,9 @@ msgstr "Måste tillhandahålla typen template"
 
 msgid "Must specify a Smart Proxy to use"
 msgstr "Måste specificera en Smart Proxy att använda"
+
+msgid "Must specify a user with email enabled"
+msgstr ""
 
 msgid "My account"
 msgstr "Mitt konto"
@@ -3763,10 +4095,13 @@ msgid "Name of media"
 msgstr ""
 
 msgid ""
-"Name of the external auth source where unknown externally authentication "
-"users (see authorize_login_delegation) should be created (keep unset to "
-"prevent the autocreation)"
-msgstr "Namnet på den externa autentiseringskällan där okända autentiseringsanvändare (se authorize_login_delegation) skall skapas ( behåll tom för att förhindra autoskapande)"
+"Name of the external auth source where unknown externally authentication users"
+" (see authorize_login_delegation) should be created (keep unset to prevent the"
+" autocreation)"
+msgstr ""
+"Namnet på den externa autentiseringskällan där okända autentiseringsanvändare "
+"(se authorize_login_delegation) skall skapas ( behåll tom för att förhindra au"
+"toskapande)"
 
 msgid "Nest"
 msgstr "Nästla"
@@ -3931,25 +4266,75 @@ msgid "New window"
 msgstr "Nytt fönster"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Attached devices"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Attached to"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Attrs"
 msgstr "Attrs"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Bond options"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Identifier"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Ip"
 msgstr "Ip"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Link"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Mac"
 msgstr "Mac"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Managed"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Mode"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Name"
 msgstr "Namn"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Password"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Provider"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Tag"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Username"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Virtual"
+msgstr ""
+
 msgid ""
-"No %{template_kind} templates were found for this host, make sure you define"
-" at least one in your %{os} settings"
-msgstr "Inga %{template_kind}mallar hittades för denna värd, säkerställ att du definierar åtminstone en under dina %{os}-inställningar"
+"No %{template_kind} templates were found for this host, make sure you define a"
+"t least one in your %{os} settings"
+msgstr ""
+"Inga %{template_kind}mallar hittades för denna värd, säkerställ att du definie"
+"rar åtminstone en under dina %{os}-inställningar"
 
 msgid "No TFTP proxies defined, can't continue"
 msgstr "Inga TFPT proxies är definierade, kan inte fortsätta"
@@ -3975,6 +4360,9 @@ msgstr ""
 msgid "No domains"
 msgstr "Inga domäner"
 
+msgid "No emails"
+msgstr ""
+
 msgid "No entries found"
 msgstr "Inga poster funna"
 
@@ -3982,14 +4370,18 @@ msgid "No environment selected!"
 msgstr "Ingen miljö vald!"
 
 msgid ""
-"No features found on this proxy, please make sure you enable at least one "
-"feature"
-msgstr "Inga funktioner hittades på denna proxy, säkerställ att du aktiverat minst en funktion"
+"No features found on this proxy, please make sure you enable at least one feat"
+"ure"
+msgstr ""
+"Inga funktioner hittades på denna proxy, säkerställ att du aktiverat minst en "
+"funktion"
 
 msgid ""
-"No finish templates were found for this host, make sure you define at least "
-"one in your %s settings"
-msgstr "Ingen slutföringsmall hittades för denna värd, säkerställ att minst en är definierad under dina %s inställningar"
+"No finish templates were found for this host, make sure you define at least on"
+"e in your %s settings"
+msgstr ""
+"Ingen slutföringsmall hittades för denna värd, säkerställ att minst en är defi"
+"nierad under dina %s inställningar"
 
 msgid "No history found"
 msgstr "Ingen historik hittad"
@@ -4031,8 +4423,8 @@ msgid "No preference"
 msgstr "Ingen preferens"
 
 msgid ""
-"No proxy found to import classes from, ensure that the smart proxy has the "
-"Puppet feature enabled."
+"No proxy found to import classes from, ensure that the smart proxy has the Pup"
+"pet feature enabled."
 msgstr ""
 
 msgid "No puppet activity for this host in the last %s days"
@@ -4048,12 +4440,15 @@ msgstr "Inga rapporter"
 msgid "No reports|N"
 msgstr "N"
 
+msgid "No smart proxies found."
+msgstr ""
+
 msgid "No smart proxies to show"
 msgstr "Inga smarta proxies att visa"
 
 msgid ""
-"No smart proxy was found to import environments from, ensure that at least "
-"one smart proxy is registered with the 'puppet' feature."
+"No smart proxy was found to import environments from, ensure that at least one"
+" smart proxy is registered with the 'puppet' feature."
 msgstr ""
 
 msgid "No subnets"
@@ -4064,6 +4459,9 @@ msgstr "Inga subnet markerade"
 
 msgid "No template found"
 msgstr "Ingen mall hittad"
+
+msgid "No templates found for this host."
+msgstr ""
 
 msgid "No templates found!"
 msgstr "Inga mallar hittade!"
@@ -4116,7 +4514,6 @@ msgstr ""
 msgid "Nothing to show"
 msgstr "Inget att visa"
 
-#. "Table name" or "Table name|Column name" for error messages
 msgid "Notice"
 msgstr "Notis"
 
@@ -4126,20 +4523,11 @@ msgstr "Notis:"
 msgid "Notices, warnings and errors"
 msgstr "Notiser, varningar och fel"
 
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Content"
-msgstr "Innehåll"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Global"
-msgstr "Global"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "Notice|Level"
-msgstr "Nivå"
-
 msgid "Notification disabled"
 msgstr "Notifiering inaktiverad"
+
+msgid "Notifications"
+msgstr "Notifieringar"
 
 msgid "Number Of Clients"
 msgstr "Antal Klienter"
@@ -4160,6 +4548,9 @@ msgid "Number of values"
 msgstr "Antal värden"
 
 msgid "Numerical ID or domain name"
+msgstr ""
+
+msgid "Numerical ID or mail notification name"
 msgstr ""
 
 msgid "Numerical ID or realm name"
@@ -4212,17 +4603,21 @@ msgid "Once installed you should head over to"
 msgstr "Väl installerad borde du kontrollera"
 
 msgid ""
-"Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. "
-"nfs://server/vol/dir)"
-msgstr "Bara URLer enligt schema http://, https://, ftp:// or nfs:// är tillåtna (t.ex. nfs://server/vol/dir)"
+"Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nf"
+"s://server/vol/dir)"
+msgstr ""
+"Bara URLer enligt schema http://, https://, ftp:// or nfs:// är tillåtna (t.ex"
+". nfs://server/vol/dir)"
 
 msgid "Only for BMC interfaces."
 msgstr ""
 
 msgid ""
-"Only known Smart Proxies with the Puppet feature can access fact/report "
-"importers and ENC output"
-msgstr "Bara kända Smart Proxies med Puppetfunktionen kan komma åt fakta/rapportimporterare samt ENC utdata"
+"Only known Smart Proxies with the Puppet feature can access fact/report import"
+"ers and ENC output"
+msgstr ""
+"Bara kända Smart Proxies med Puppetfunktionen kan komma åt fakta/rapportimport"
+"erare samt ENC utdata"
 
 msgid "Only one bootable interface is allowed"
 msgstr "Endast ett startbart interface är tillåtet"
@@ -4284,6 +4679,14 @@ msgid "Operatingsystem|Description"
 msgstr "Beskrivning"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Major"
 msgstr "Major"
 
@@ -4300,8 +4703,16 @@ msgid "Operatingsystem|Nameindicator"
 msgstr "Namnindikator"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Password hash"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Release name"
 msgstr "Namn"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Title"
+msgstr ""
 
 msgid "Operation"
 msgstr "Operation"
@@ -4313,17 +4724,19 @@ msgid "Optional array of log hashes"
 msgstr ""
 
 msgid ""
-"Optional comma-delimited string containing either 'new', 'updated', or "
-"'obsolete' that is used to limit the imported Puppet classes"
+"Optional comma-delimited string containing either 'new', 'updated', or 'obsole"
+"te' that is used to limit the imported Puppet classes"
 msgstr ""
 
 msgid "Optional input validator"
 msgstr ""
 
 msgid ""
-"Optional parameter without value.<br/><i>Won't be given to Puppet.</i> "
-"<br><br><b>Description:</b> %s"
-msgstr "Valfri parameter utan värde. <br/><i>Kommer inte att skickas till Puppet.</i> <br><br><b>Beskrivning:</b> %s"
+"Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
+"><b>Description:</b> %s"
+msgstr ""
+"Valfri parameter utan värde. <br/><i>Kommer inte att skickas till Puppet.</i> "
+"<br><br><b>Beskrivning:</b> %s"
 
 msgid "Optional: Ending IP Address for IP auto suggestion"
 msgstr "Valfritt: Sista IPAdress för automatiska förslag"
@@ -4344,9 +4757,9 @@ msgid "Optional: VLAN ID for this subnet"
 msgstr "Valfritt: VLANID för detta subnät"
 
 msgid ""
-"Optionally provide a CA, or a correctly ordered CA chain. If left blank, a "
-"self-signed CA will be populated automatically by the server during the "
-"first request."
+"Optionally provide a CA, or a correctly ordered CA chain. If left blank, a sel"
+"f-signed CA will be populated automatically by the server during the first req"
+"uest."
 msgstr ""
 
 msgid "Order"
@@ -4368,10 +4781,11 @@ msgid "Organizations also work nicely in tandem with"
 msgstr "Organisationer fungerar även bra tillsammans med"
 
 msgid ""
-"Organizations are particularly useful for Foreman installations where "
-"several customers or business units are managed with a single Foreman "
-"install."
-msgstr "Organisationer är särskilt användbara för Foremaninstallationer där flera kunder eller affärsenheter hanteras av samma Foreman installation."
+"Organizations are particularly useful for Foreman installations where several "
+"customers or business units are managed with a single Foreman install."
+msgstr ""
+"Organisationer är särskilt användbara för Foremaninstallationer där flera kund"
+"er eller affärsenheter hanteras av samma Foreman installation."
 
 msgid "Other reports for this host"
 msgstr "Andra rapporter för denna värd"
@@ -4439,6 +4853,10 @@ msgstr "Parametrar"
 
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr "Parametrar som skulle bli associerade med denna värd i denna %s"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Parameter|Hidden value"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Name"
@@ -4513,6 +4931,7 @@ msgstr "Pågående ändringar"
 msgid "Pending|P"
 msgstr "P"
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Permission"
 msgstr ""
 
@@ -4520,6 +4939,14 @@ msgid "Permission denied"
 msgstr "Tillåts ej"
 
 msgid "Permissions must be of same resource type"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Permission|Name"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Permission|Resource type"
 msgstr ""
 
 msgid "Photo attribute"
@@ -4552,18 +4979,26 @@ msgstr ""
 msgid "Please ensure the following parameters name are unique"
 msgstr ""
 
+msgid "Please login to %{foreman_url} to change your password"
+msgstr ""
+
 msgid "Please request the required privileges from a foreman administrator"
 msgstr "Var vänlig och begär nödvändiga rättigheter från en Foremanadministratör"
 
 msgid ""
-"Please review them carefully, if you are certain that they should be "
-"removed, please click on overwrite."
-msgstr "Granska noggrant, om du är säker på att dom skall tas bort, klicka på skriv över."
+"Please review them carefully, if you are certain that they should be removed, "
+"please click on overwrite."
+msgstr ""
+"Granska noggrant, om du är säker på att dom skall tas bort, klicka på skriv öv"
+"er."
 
 msgid "Please save the Operating System first and try again."
 msgstr "Var vänlig och spara Operativsystemet först, försök sedan igen."
 
 msgid "Please save the role first. You can edit it later to add filters"
+msgstr ""
+
+msgid "Please save the user first before assigning mail notifications."
 msgstr ""
 
 msgid "Please select"
@@ -4576,9 +5011,11 @@ msgid "Please select an image"
 msgstr "Vänligen välj en avbildning"
 
 msgid ""
-"Please specify volume size. You may optionally use suffix 'G' to specify "
-"volume size in gigabytes."
-msgstr "Vänligen ange volymstorlek. Du kan även använda suffixet 'G' för att ange volymens storlek i gigabyte."
+"Please specify volume size. You may optionally use suffix 'G' to specify volum"
+"e size in gigabytes."
+msgstr ""
+"Vänligen ange volymstorlek. Du kan även använda suffixet 'G' för att ange voly"
+"mens storlek i gigabyte."
 
 msgid "Please try to update your request"
 msgstr "Var god och försök uppdatera din begäran"
@@ -4763,6 +5200,22 @@ msgid "Puppetclass"
 msgstr "Puppetklass"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Global class params count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass|Lookup keys count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Puppetclass|Name"
 msgstr "Namn"
 
@@ -4778,6 +5231,7 @@ msgstr ""
 msgid "REPLACE organizations with given ids."
 msgstr ""
 
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr ""
 
@@ -4808,18 +5262,34 @@ msgstr ""
 msgid "Realms"
 msgstr ""
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Hostgroups count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Hosts count"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Realm|Name"
 msgstr ""
 
-msgid ""
-"Rebuild %s on next reboot?\\nThis would also delete all of its current facts"
-" and reports"
-msgstr "Ombygg %s vid nästa omstard?\\nDetta kommer även att radera dess befintliga fakta och rapporter"
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Realm|Realm type"
+msgstr ""
+
+msgid "Reboot and build"
+msgstr ""
+
+msgid "Reboot now"
+msgstr ""
 
 msgid ""
-"Redirect your users to this url on logout (authorize_login_delegation should"
-" also be enabled)"
-msgstr "Omdirigera dina användare till denna url vid utloggning (authorize_login_delegation måste också vara aktiverad)"
+"Redirect your users to this url on logout (authorize_login_delegation should a"
+"lso be enabled)"
+msgstr ""
+"Omdirigera dina användare till denna url vid utloggning (authorize_login_deleg"
+"ation måste också vara aktiverad)"
 
 msgid "Refresh"
 msgstr ""
@@ -4922,9 +5392,11 @@ msgid "Report|Status"
 msgstr "Status"
 
 msgid ""
-"Required parameter without value.<br/><b>Please override!</b> "
-"<br><br><b>Description:</b>: %s"
-msgstr "Nödvändig parameter utan värde. <br/><b>Var vänlig och forcera!</b> <br><br><b>Beskrivning:</b>: %s"
+"Required parameter without value.<br/><b>Please override!</b> <br><br><b>Descr"
+"iption:</b>: %s"
+msgstr ""
+"Nödvändig parameter utan värde. <br/><b>Var vänlig och forcera!</b> <br><br><b"
+">Beskrivning:</b>: %s"
 
 msgid "Reset to default"
 msgstr ""
@@ -4971,6 +5443,9 @@ msgstr "Återgå till revision från: %s"
 
 msgid "Review"
 msgstr "Granska"
+
+msgid "Review build status for %s"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Role"
@@ -5032,13 +5507,15 @@ msgstr "SCSI-kontroller"
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
 msgstr "SSL CA-fil som Foreman kommer använda för kommunikation med dess proxies"
 
-msgid ""
-"SSL Certificate path that Foreman would use to communicate with its proxies"
-msgstr "Sökväg till SSLcertifikat som Foreman skall använda för att kommunicera med dess proxies"
+msgid "SSL Certificate path that Foreman would use to communicate with its proxies"
+msgstr ""
+"Sökväg till SSLcertifikat som Foreman skall använda för att kommunicera med de"
+"ss proxies"
 
-msgid ""
-"SSL Private Key file that Foreman will use to communicate with its proxies"
-msgstr "Sökvägen till SSL-certifikatets privata nyckel som Foreman skall använda för att kommunicera med dess proxies"
+msgid "SSL Private Key file that Foreman will use to communicate with its proxies"
+msgstr ""
+"Sökvägen till SSL-certifikatets privata nyckel som Foreman skall använda för a"
+"tt kommunicera med dess proxies"
 
 msgid "SafeRender#parse_string was passed a %s instead of a string"
 msgstr "SafeRender#parse_string fick %s som argument istället för en sträng"
@@ -5161,8 +5638,8 @@ msgid "Selected items"
 msgstr ""
 
 msgid ""
-"Selected resource type does not support granular filtering, therefore you "
-"can't configure granularity"
+"Selected resource type does not support granular filtering, therefore you can'"
+"t configure granularity"
 msgstr ""
 
 msgid "Selected role"
@@ -5170,6 +5647,9 @@ msgstr ""
 
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "Väljs en fil åsidosätts redigeraren och filen laddas istället"
+
+msgid "Send a welcome mail including username and URL to new users"
+msgstr ""
 
 msgid "Server type"
 msgstr ""
@@ -5215,23 +5695,32 @@ msgid "Setting|Value"
 msgstr "Värde"
 
 msgid ""
-"Should Foreman encrypt websockets (VNC console access). Choose on, off or "
-"auto."
+"Should Foreman encrypt websockets (VNC console access). Choose on, off or auto"
+"."
 msgstr ""
 
 msgid ""
-"Should the `foreman-rake db:migrate` be executed on the next run of the "
-"installer modules?"
+"Should the `foreman-rake db:migrate` be executed on the next run of the instal"
+"ler modules?"
 msgstr ""
 
 msgid ""
-"Should the `foreman-rake db:seed` be executed on the next run of the "
-"installer modules?"
+"Should the `foreman-rake db:seed` be executed on the next run of the installer"
+" modules?"
+msgstr ""
+
+msgid "Should the matched result avoid duplicate values (only array type)."
 msgstr ""
 
 msgid ""
-"Should this interface be managed via DHCP and DNS smart proxy and should it "
-"be configured during provisioning?"
+"Should the matchers continue to look for matches after first find (only array/"
+"hash type). Note: merging overrides ignores all matchers that use Puppet defau"
+"lt"
+msgstr ""
+
+msgid ""
+"Should this interface be managed via DHCP and DNS smart proxy and should it be"
+" configured during provisioning?"
 msgstr ""
 
 msgid "Show %{host} facts"
@@ -5292,6 +5781,9 @@ msgid "Show a host"
 msgstr ""
 
 msgid "Show a host group"
+msgstr ""
+
+msgid "Show a mail notification"
 msgstr ""
 
 msgid "Show a medium"
@@ -5476,9 +5968,11 @@ msgid "Snippet"
 msgstr "Remsa"
 
 msgid ""
-"Some or all hosts execution failed, Please check log files for more "
-"information"
-msgstr "Några eller alla värdexekveringar misslyckades. Var vänlig se loggfiler för mer information."
+"Some or all hosts execution failed, Please check log files for more informatio"
+"n"
+msgstr ""
+"Några eller alla värdexekveringar misslyckades. Var vänlig se loggfiler för me"
+"r information."
 
 msgid "Something went wrong while changing host type - %s"
 msgstr "Något blev fel vid byte av värdtyp - %s"
@@ -5490,9 +5984,11 @@ msgid "Sorry but no templates were configured."
 msgstr "Tyvärr, men inga mallar blev konfigurerade."
 
 msgid ""
-"Sorry, these hosts do not have parameters assigned to them, you must add "
-"them first."
-msgstr "Förlåt, dessa värdar har inga parametrar tilldelade till sig, du måste lägga till det först."
+"Sorry, these hosts do not have parameters assigned to them, you must add them "
+"first."
+msgstr ""
+"Förlåt, dessa värdar har inga parametrar tilldelade till sig, du måste lägga t"
+"ill det först."
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Source"
@@ -5571,6 +6067,10 @@ msgid "Subnets"
 msgstr "Subnät"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Boot mode"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Dns primary"
 msgstr "Primär Dns"
 
@@ -5585,6 +6085,10 @@ msgstr "Från"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Gateway"
 msgstr "Nätsluss"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Ipam"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Mask"
@@ -5610,6 +6114,9 @@ msgstr "Till"
 msgid "Subnet|Vlanid"
 msgstr "Vlanid"
 
+msgid "Subscribe"
+msgstr ""
+
 msgid "Success"
 msgstr "Lyckades"
 
@@ -5634,25 +6141,26 @@ msgstr ""
 msgid "Successfully refreshed features from %s."
 msgstr "Lyckades uppdatera funktioner från %s."
 
-msgid ""
-"Successfully reset all parameters of Puppet class %s to their default values"
+msgid "Successfully reset all parameters of Puppet class %s to their default values"
 msgstr ""
 
 msgid "Successfully updated %s."
 msgstr "Lyckades uppdatera %s."
 
 msgid ""
-"Successfully updated environments and Puppet classes from the on-disk Puppet"
-" installation"
+"Successfully updated environments and Puppet classes from the on-disk Puppet i"
+"nstallation"
 msgstr ""
 
 msgid "Suggest new"
 msgstr ""
 
 msgid ""
-"Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped}"
-" A:%{applied} FR:%{failed_restarts} T:%{total}"
-msgstr "Summerad Puppetrapport från Foreman - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
+"Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A"
+":%{applied} FR:%{failed_restarts} T:%{total}"
+msgstr ""
+"Summerad Puppetrapport från Foreman - F:%{failed} R:%{restarted} S:%{skipped} "
+"A:%{applied} FR:%{failed_restarts} T:%{total}"
 
 msgid "Support"
 msgstr "Hjälp"
@@ -5695,6 +6203,10 @@ msgid "Taxonomy"
 msgstr "Taxonomi"
 
 #. "Table name" or "Table name|Column name" for error messages
+msgid "Taxonomy|Ancestry"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Ignore types"
 msgstr "Typer att ignorera"
 
@@ -5702,8 +6214,15 @@ msgstr "Typer att ignorera"
 msgid "Taxonomy|Name"
 msgstr "Namn"
 
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Taxonomy|Title"
+msgstr ""
+
 msgid "Template"
 msgstr "Mall"
+
+msgid "Template %s is empty."
+msgstr ""
 
 msgid "Template / Compute Profile to use"
 msgstr "Mall / Beräkningsprofil att använda"
@@ -5744,20 +6263,27 @@ msgid "Test Connection"
 msgstr "Testa annslutning"
 
 msgid ""
-"The <b>fullname</b> field is used for human readability in reports and other"
-" pages that refer to domains,\\n  and also available as an external node "
-"parameter"
-msgstr "Fältet <b>fullständigt namn</b> används för bättre läsbarhet i rapporter och andra sidor som refererar till domäner\\n och även tillgänglig som en ENC-parameter"
+"The <b>fullname</b> field is used for human readability in reports and other p"
+"ages that refer to domains,\n"
+"  and also available as an external node parameter"
+msgstr ""
+"Fältet <b>fullständigt namn</b> används för bättre läsbarhet i rapporter och a"
+"ndra sidor som refererar till domäner\n"
+" och även tillgänglig som en ENC-parameter"
 
 msgid ""
-"The Audit Comment field is saved with the template auditing to document the "
-"template changes"
-msgstr "Fältet för Granskningskommentar sparas tillsammas med mallen för att dokumentera ändringar i mallen"
+"The Audit Comment field is saved with the template auditing to document the te"
+"mplate changes"
+msgstr ""
+"Fältet för Granskningskommentar sparas tillsammas med mallen för att dokumente"
+"ra ändringar i mallen"
 
 msgid ""
-"The IP address that should be used for the console listen address when "
-"provisioning new virtual machines via Libvirt"
-msgstr "IP-adressen som skall användas för konsolens lyssnaradress vid provisionering av nya maskiner via Libvirt"
+"The IP address that should be used for the console listen address when provisi"
+"oning new virtual machines via Libvirt"
+msgstr ""
+"IP-adressen som skall användas för konsolens lyssnaradress vid provisionering "
+"av nya maskiner via Libvirt"
 
 msgid "The NFS path to the image directory."
 msgstr "NFS-sökvägen till avbildningsbiblioteket."
@@ -5772,21 +6298,29 @@ msgid "The Operating System type"
 msgstr "Operativsystemstyp"
 
 msgid ""
-"The authentication process currently requires an LDAP provider, such as "
-"<em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>."
-msgstr "Autentiseringsprocess kräver för närvarande en LDAP-källa, så som <em>OpenLDAP</em> eller <em>Microsoft's Active Directory</em>."
+"The authentication process currently requires an LDAP provider, such as <em>Op"
+"enLDAP</em> or <em>Microsoft's Active Directory</em>."
+msgstr ""
+"Autentiseringsprocess kräver för närvarande en LDAP-källa, så som <em>OpenLDAP"
+"</em> eller <em>Microsoft's Active Directory</em>."
 
 msgid ""
-"The class of CPU supplied in this machine. This is primarily used by Sparc "
-"Solaris builds and can be left blank for other architectures. The value can "
-"be determined on Solaris via uname -m"
-msgstr "Typ av CPU för denna maskin. Detta används primärt av Sparc Solaris och kan lämnas tomt för andra arkitekturer. Värdet kan hämtas från ett Solaris OS via uname -m"
+"The class of CPU supplied in this machine. This is primarily used by Sparc Sol"
+"aris builds and can be left blank for other architectures. The value can be de"
+"termined on Solaris via uname -m"
+msgstr ""
+"Typ av CPU för denna maskin. Detta används primärt av Sparc Solaris och kan lä"
+"mnas tomt för andra arkitekturer. Värdet kan hämtas från ett Solaris OS via un"
+"ame -m"
 
 msgid ""
-"The class of the machine reported by the Open Boot Prom. This is primarily "
-"used by Sparc Solaris builds and can be left blank for other architectures. "
-"The value can be determined on Solaris via uname -i|cut -f2 -d,"
-msgstr "Typen av maskin så som rapporterad av Open Boot Prom. Detta används primärt av versioner av Sparc Solaris och kan lämnas blank för andra arkitekturer. Värdet kan hämtas från ett Solaris OS via uname -i|cut -f2 -d,"
+"The class of the machine reported by the Open Boot Prom. This is primarily use"
+"d by Sparc Solaris builds and can be left blank for other architectures. The v"
+"alue can be determined on Solaris via uname -i|cut -f2 -d,"
+msgstr ""
+"Typen av maskin så som rapporterad av Open Boot Prom. Detta används primärt av"
+" versioner av Sparc Solaris och kan lämnas blank för andra arkitekturer. Värde"
+"t kan hämtas från ett Solaris OS via uname -i|cut -f2 -d,"
 
 msgid "The default administrator email address"
 msgstr "Förinställd epostadress för administratören"
@@ -5795,23 +6329,29 @@ msgid "The default username and password are <b>admin</b> and <b>changeme</b>"
 msgstr "Förinställt användarnamn och lösenord är <b>admin</b> och <b>changeme</b>"
 
 msgid ""
-"The dynamic partitioning style is currently only available for the Red Hat "
-"family of operating systems, all others must provide an explicit list of "
-"partitions and sizes."
-msgstr "Det dynamiska partitionsschemat är för närvarande enbart tillgängligt för operativsystem tillhörande redhat familjen. Andra operativsystem måste tillhandahålla en explicit lista med partitioner och storlekar."
+"The dynamic partitioning style is currently only available for the Red Hat fam"
+"ily of operating systems, all others must provide an explicit list of partitio"
+"ns and sizes."
+msgstr ""
+"Det dynamiska partitionsschemat är för närvarande enbart tillgängligt för oper"
+"ativsystem tillhörande redhat familjen. Andra operativsystem måste tillhandahå"
+"lla en explicit lista med partitioner och storlekar."
 
 msgid "The file path where your p12 file is located"
 msgstr "Sökvägen till p12-filen"
 
-msgid ""
-"The final entry, Operating System default, can be set by editing the %s "
-"page."
-msgstr "Sista inlägget, förinställt Operativsystem, kan ställas in genom att editera %s sidan."
+msgid "The final entry, Operating System default, can be set by editing the %s page."
+msgstr ""
+"Sista inlägget, förinställt Operativsystem, kan ställas in genom att editera %"
+"s sidan."
 
 msgid ""
-"The following entries were found conflicting with what foreman wanted to "
-"apply."
+"The following entries were found conflicting with what foreman wanted to apply"
+"."
 msgstr "Följande värden var i konflikt med vad Foreman ville applicera."
+
+msgid "The following errors may prevent a successful build:"
+msgstr ""
 
 msgid "The following fields would need reviewing"
 msgstr "Följande fält behöver granskas"
@@ -5828,8 +6368,7 @@ msgstr "Följande värdar raderades inte: %s"
 msgid "The following hosts were updated"
 msgstr "Följande värdar uppdaterades"
 
-msgid ""
-"The following parameters were skipped as they did not exists on this host:"
+msgid "The following parameters were skipped as they did not exists on this host:"
 msgstr "Följande parametrar skippades eftersom dom inte existerar på denna värd:"
 
 msgid "The following subnets have been found"
@@ -5839,72 +6378,97 @@ msgid "The full DNS domain name"
 msgstr ""
 
 msgid ""
-"The host group's classes and the host group's variables are included in the "
-"external node information when the puppetmaster compiles the host's "
-"configuration."
-msgstr "Värdgruppens klasser och variabler är inkluderade i den externa nodinformationen när puppetmästaren kompilerar värdens konfiguration."
+"The host group's classes and the host group's variables are included in the ex"
+"ternal node information when the puppetmaster compiles the host's configuratio"
+"n."
+msgstr ""
+"Värdgruppens klasser och variabler är inkluderade i den externa nodinformation"
+"en när puppetmästaren kompilerar värdens konfiguration."
 
 msgid ""
-"The inclusion of the keyword string <b>#Dynamic</b> at the start of a line "
-"lets Foreman know that this is not an explicit disk layout and must treated "
-"as a shell script, executed prior\\n  to the install process and that the "
-"explicit partition table will be found at <b>/tmp/diskpart.cfg</b> during "
-"the build process."
-msgstr "Inkluderandet av nyckelsträngen <b>#Dynamic</b> i början av en rad låter Foreman veta att detta inte är en explicit disklayout och måste hanteras som ett skript som exekveras före\\n installationsprocessen samt att den explicita partitionstabellen finns på följande sökväg <b>/tmp/diskpart.cfg</b> under byggprocessen."
+"The inclusion of the keyword string <b>#Dynamic</b> at the start of a line let"
+"s Foreman know that this is not an explicit disk layout and must treated as a "
+"shell script, executed prior\n"
+"  to the install process and that the explicit partition table will be found a"
+"t <b>/tmp/diskpart.cfg</b> during the build process."
+msgstr ""
+"Inkluderandet av nyckelsträngen <b>#Dynamic</b> i början av en rad låter Forem"
+"an veta att detta inte är en explicit disklayout och måste hanteras som ett sk"
+"ript som exekveras före\n"
+" installationsprocessen samt att den explicita partitionstabellen finns på föl"
+"jande sökväg <b>/tmp/diskpart.cfg</b> under byggprocessen."
 
 msgid ""
-"The keywords <b>$version</b>, <b>$major</b> and <b>$minor</b> will be "
-"interpolated back into the path specification to calculate the true URL "
-"address."
-msgstr "Nyckelorden <b>$version</b>, <b>$major</b> och <b>$minor</b> kommer att expanderas och läggas med i sökvägen för att räkna ut den korrekta URL adressen."
+"The keywords <b>$version</b>, <b>$major</b> and <b>$minor</b> will be interpol"
+"ated back into the path specification to calculate the true URL address."
+msgstr ""
+"Nyckelorden <b>$version</b>, <b>$major</b> och <b>$minor</b> kommer att expand"
+"eras och läggas med i sökvägen för att räkna ut den korrekta URL adressen."
 
 msgid "The marked fields will need reviewing"
 msgstr "Markerade fält behöver granskas"
 
 msgid ""
-"The order in which matchers keys are processed, first match wins.<br> You "
-"may use multiple attributes as a matcher key, for example, an order of "
-"<code>host group, environment</code> would expect a matcher such as "
-"<code>hostgroup = \"web servers\", environment = production</code>"
-msgstr "Ordningen i vilken matchnycklar är behandlad är, första träff vinner. <br>Du kan använda multipla attribut som matchnycklar, t.ex. en ordning som <code>värdgrupp, miljö</code> skulle anta en matchare som <code> värdgrupp =\"webbservrar\", miljö=\"produktion\"</code>"
+"The order in which matchers keys are processed, first match wins.<br> You may "
+"use multiple attributes as a matcher key, for example, an order of <code>host "
+"group, environment</code> would expect a matcher such as <code>hostgroup = \"we"
+"b servers\", environment = production</code>"
+msgstr ""
+"Ordningen i vilken matchnycklar är behandlad är, första träff vinner. <br>Du k"
+"an använda multipla attribut som matchnycklar, t.ex. en ordning som <code>värd"
+"grupp, miljö</code> skulle anta en matchare som <code> värdgrupp =\"webbservrar"
+"\", miljö=\"produktion\"</code>"
 
 msgid "The order in which values are resolved"
 msgstr "I vilken ordning värden slås upp"
 
 msgid ""
-"The path to the medium, can be a URL or a valid NFS server (exclusive of the"
-" architecture).\\n          for example "
-"<em>http://mirror.centos.org/centos/$version/os/$arch</em> where "
-"<strong>$arch</strong> will be substituted for the host's actual OS "
-"architecture and <strong>$version</strong>, <strong>$major</strong> and "
-"<strong>$minor</strong> will be substituted for the version of the operating"
-" system. Solaris and Debian media may also use <strong>$release</strong>."
-msgstr "Sökvägen till mediet kan vara en URL eller en giltig NDS-server (minus arkitekturen).\\n till exempel <em>http://mirror.centos.org/centos/$version/os/$arch</em> där <strong>$arch</strong> kommer att ersättas med värdens aktuella OS-arkitektur och <strong>$version</strong>, <strong>$major</strong> samt <strong>$minor</strong> kommer ersättas med versionen för operativsystemet. Media för Solaris och Debian kan även använda <strong>$release</strong>."
+"The path to the medium, can be a URL or a valid NFS server (exclusive of the a"
+"rchitecture).\n"
+"          for example <em>http://mirror.centos.org/centos/$version/os/$arch</e"
+"m> where <strong>$arch</strong> will be substituted for the host's actual OS a"
+"rchitecture and <strong>$version</strong>, <strong>$major</strong> and <strong"
+">$minor</strong> will be substituted for the version of the operating system. "
+"Solaris and Debian media may also use <strong>$release</strong>."
+msgstr ""
+"Sökvägen till mediet kan vara en URL eller en giltig NDS-server (minus arkitek"
+"turen).\n"
+" till exempel <em>http://mirror.centos.org/centos/$version/os/$arch</em> där <"
+"strong>$arch</strong> kommer att ersättas med värdens aktuella OS-arkitektur o"
+"ch <strong>$version</strong>, <strong>$major</strong> samt <strong>$minor</str"
+"ong> kommer ersättas med versionen för operativsystemet. Media för Solaris och"
+" Debian kan även använda <strong>$release</strong>."
 
 msgid "The realm name, e.g. EXAMPLE.COM"
 msgstr ""
 
 msgid ""
-"The remote system presented a public key signed by an unidentified "
-"certificate authority. If you are sure the remote system is authentic, go to"
-" the compute resource edit page, press the 'Test Connection' or 'Load "
-"Datacenters' button and submit"
+"The remote system presented a public key signed by an unidentified certificate"
+" authority. If you are sure the remote system is authentic, go to the compute "
+"resource edit page, press the 'Test Connection' or 'Load Datacenters' button a"
+"nd submit"
 msgstr ""
 
 msgid ""
-"The remote system presented a public key with hash %s but we're expecting a "
-"different hash. If you are sure the remote system is authentic, go to the "
-"compute resource edit page, press the 'Test Connection' or 'Load "
-"Datacenters' button and submit"
-msgstr "Fjärrsystemet presenterade en publik nyckel med hashvärdet %s men vi förväntar oss ett annat hastvärde. Om du är säker på att fjärrsystemet är det korrekta, gå till redigeringssidan för beräkningsresurser klicka på 'Testa annslutning' eller 'Ladda Datacenter' och spara"
+"The remote system presented a public key with hash %s but we're expecting a di"
+"fferent hash. If you are sure the remote system is authentic, go to the comput"
+"e resource edit page, press the 'Test Connection' or 'Load Datacenters' button"
+" and submit"
+msgstr ""
+"Fjärrsystemet presenterade en publik nyckel med hashvärdet %s men vi förväntar"
+" oss ett annat hastvärde. Om du är säker på att fjärrsystemet är det korrekta,"
+" gå till redigeringssidan för beräkningsresurser klicka på 'Testa annslutning'"
+" eller 'Ladda Datacenter' och spara"
 
 msgid "The selected hosts will execute a build operation on next reboot"
 msgstr "Valda värdar kommer genomföra en byggoperation vid nästa omstart"
 
 msgid ""
-"The user that is used to ssh into the instance, normally cloud-user, "
-"ec2-user, ubuntu, root etc"
-msgstr "Användaren som används för att ssha till instansen, normalt cloud-user, ec2-user, ubuntu, root etc"
+"The user that is used to ssh into the instance, normally cloud-user, ec2-user,"
+" ubuntu, root etc"
+msgstr ""
+"Användaren som används för att ssha till instansen, normalt cloud-user, ec2-us"
+"er, ubuntu, root etc"
 
 msgid "The virtual machine is being deleted."
 msgstr ""
@@ -5930,9 +6494,11 @@ msgid "There was an error rendering the %s template: "
 msgstr "Fel vid tolkning av %s mallen:"
 
 msgid ""
-"These two options are personal decisions and are up to you (where the main "
-"difference would be the parameter/variables settings)."
-msgstr "Dessa två alternativ är personliga val och är upp till dig ( där den huvudsakliga skillnaden är parameter/variabel inställningar )."
+"These two options are personal decisions and are up to you (where the main dif"
+"ference would be the parameter/variables settings)."
+msgstr ""
+"Dessa två alternativ är personliga val och är upp till dig ( där den huvudsakl"
+"iga skillnaden är parameter/variabel inställningar )."
 
 msgid "Thin provision"
 msgstr "Thin provision"
@@ -5943,10 +6509,15 @@ msgstr "Denna Puppetklassen har inga parametrar i sin signatur."
 msgid "This group has nested groups!"
 msgstr "Denna gruppen har nästade grupper!"
 
+msgid "This host's stored facts and reports will be deleted too."
+msgstr ""
+
 msgid ""
-"This information is commonly imported from a pre-existing puppet "
-"configuration by the use of the"
-msgstr "Denna information är vanligen importerad från en existerande puppetkonfiguration med hjälp av"
+"This information is commonly imported from a pre-existing puppet configuration"
+" by the use of the"
+msgstr ""
+"Denna information är vanligen importerad från en existerande puppetkonfigurati"
+"on med hjälp av"
 
 msgid "This is inherited from parent"
 msgstr ""
@@ -5955,14 +6526,14 @@ msgid "This is used by a host"
 msgstr ""
 
 msgid ""
-"This might take a while, as all hosts, facts and reports will be destroyed "
-"as well"
+"This might take a while, as all hosts, facts and reports will be destroyed as "
+"well"
 msgstr "Detta kan dröja då alla värdar, fakta och rapporter också kommer bli förstörda"
 
 msgid ""
-"This page will self destruct once Foreman starts to receive data about your "
-"hosts.  You can view this information again by clicking on the \"First use "
-"instructions\" link on the %{about} page."
+"This page will self destruct once Foreman starts to receive data about your ho"
+"sts.  You can view this information again by clicking on the \"First use instru"
+"ctions\" link on the %{about} page."
 msgstr ""
 
 msgid "This page will self destruct once a report comes in."
@@ -5975,9 +6546,11 @@ msgid "This page will self destruct once inventory data comes in."
 msgstr "Denna sida kommer automatiskt ersättas så fort inventeringsdata kommer in."
 
 msgid ""
-"This setting is defined in the configuration file 'settings.yaml' and is "
-"read-only."
-msgstr "Denna inställning är definierad i konfigurationsfilen 'settings.yaml' och är skrivskyddad."
+"This setting is defined in the configuration file 'settings.yaml' and is read-"
+"only."
+msgstr ""
+"Denna inställning är definierad i konfigurationsfilen 'settings.yaml' och är s"
+"krivskyddad."
 
 msgid "This template is locked and may not be removed."
 msgstr ""
@@ -5985,16 +6558,13 @@ msgstr ""
 msgid "This template is locked for editing."
 msgstr ""
 
-msgid ""
-"This template is locked. Please clone it to a new template to customize."
+msgid "This template is locked. Please clone it to a new template to customize."
 msgstr ""
 
 msgid "This template is owned by %s and may not be unlocked."
 msgstr ""
 
-msgid ""
-"This will reset parameters of the class %s to their default values. "
-"Continue?"
+msgid "This will reset parameters of the class %s to their default values. Continue?"
 msgstr ""
 
 msgid "This will set all parameters of the class %s as overridden. Continue?"
@@ -6013,24 +6583,29 @@ msgid "To define trend counters, use the Add Trend Counter button."
 msgstr "För att definiera trendräknare, använd \"Lägg till trendräknare\" knappen"
 
 msgid ""
-"To enable a provider, either install the OS package (e.g. foreman-libvirt) "
-"or enable the bundler group for development setup (e.g. ovirt)."
-msgstr "För att aktivera en leverantör, installera antingen OS-paketet (t.ex. foreman-libvirt) eller aktivera bundlergruppen för utvecklingsuppläggning (t.ex. ovirt)."
+"To enable a provider, either install the OS package (e.g. foreman-libvirt) or "
+"enable the bundler group for development setup (e.g. ovirt)."
+msgstr ""
+"För att aktivera en leverantör, installera antingen OS-paketet (t.ex. foreman-"
+"libvirt) eller aktivera bundlergruppen för utvecklingsuppläggning (t.ex. ovirt"
+")."
 
 msgid ""
-"To start collecting trend data, set a cron job to execute 'foreman-rake "
-"trends:counter' every Puppet Interval (%s minutes)."
+"To start collecting trend data, set a cron job to execute 'foreman-rake trends"
+":counter' every Puppet Interval (%s minutes)."
 msgstr ""
 
 msgid ""
-"To start collecting trend data, set a cron job to execute <span class='black"
-"'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)"
+"To start collecting trend data, set a cron job to execute <span class='black'>"
+"foreman-rake trends:counter</span> every Puppet Interval (%s minutes)"
 msgstr ""
 
 msgid ""
-"To update the class signature, go to the Puppet Classes page and select "
-"\"Import\"."
-msgstr "För att uppdatera klasssignaturen, gå till Puppetklasser sidan och välj \"Importera\"."
+"To update the class signature, go to the Puppet Classes page and select \"Impor"
+"t\"."
+msgstr ""
+"För att uppdatera klasssignaturen, gå till Puppetklasser sidan och välj \"Impor"
+"tera\"."
 
 msgid "Toggle"
 msgstr "Skifta"
@@ -6100,8 +6675,8 @@ msgid "Troubleshooting"
 msgstr ""
 
 msgid ""
-"True/False flag whether a host is managed or unmanaged. Note: this value "
-"also determines whether several parameters are required or not"
+"True/False flag whether a host is managed or unmanaged. Note: this value also "
+"determines whether several parameters are required or not"
 msgstr ""
 
 msgid "Try going to %{href}"
@@ -6120,13 +6695,13 @@ msgid "URL for Libvirt, Ovirt, and Openstack"
 msgstr ""
 
 msgid ""
-"URL hosts will retrieve templates from during build (normally http as many "
-"installers don't support https)"
+"URL hosts will retrieve templates from during build (normally http as many ins"
+"tallers don't support https)"
 msgstr ""
 
 msgid ""
-"URL where your Foreman instance is reachable (see also Provisioning > "
-"unattended_url)"
+"URL where your Foreman instance is reachable (see also Provisioning > unattend"
+"ed_url)"
 msgstr ""
 
 msgid "UTC time of report"
@@ -6135,8 +6710,7 @@ msgstr ""
 msgid "UUID"
 msgstr "UUID"
 
-msgid ""
-"UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
+msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr ""
 
 msgid "Unable to access key"
@@ -6146,9 +6720,11 @@ msgid "Unable to authenticate user %s"
 msgstr ""
 
 msgid ""
-"Unable to change VM display listen address, make sure the display is not "
-"attached to localhost only"
-msgstr "Det gick inte att ändra VMens skärmlyssnaradress, säkerställ att skärmen inte är kopplad till enbart localhost"
+"Unable to change VM display listen address, make sure the display is not attac"
+"hed to localhost only"
+msgstr ""
+"Det gick inte att ändra VMens skärmlyssnaradress, säkerställ att skärmen inte "
+"är kopplad till enbart localhost"
 
 msgid "Unable to communicate with the proxy: %s"
 msgstr "Kan inte kommunisera med proxyn: %s"
@@ -6187,9 +6763,12 @@ msgid "Unable to detect features"
 msgstr ""
 
 msgid ""
-"Unable to determine the host's boot server. The DHCP smart proxy failed to "
-"provide this information and this subnet is not provided with TFTP services."
-msgstr "Kan inte avgöra värdens startserver. DHCP-smartproxyn misslyckades med att tillhandahålla denna information och TFTP-tjänsten är inte tillhandahållen på detta subnät."
+"Unable to determine the host's boot server. The DHCP smart proxy failed to pro"
+"vide this information and this subnet is not provided with TFTP services."
+msgstr ""
+"Kan inte avgöra värdens startserver. DHCP-smartproxyn misslyckades med att til"
+"lhandahålla denna information och TFTP-tjänsten är inte tillhandahållen på det"
+"ta subnät."
 
 msgid "Unable to execute Puppet run"
 msgstr ""
@@ -6212,8 +6791,10 @@ msgstr ""
 msgid "Unable to find templates as this host has no operating system"
 msgstr "Går inte att hitta mallar då denna värd inte har något operativsystem"
 
-msgid "Unable to generate output, Check log files\\n"
-msgstr "Misslyckades med att generera utdata. Kolla logfiler\\n"
+msgid ""
+"Unable to generate output, Check log files\n"
+msgstr ""
+"Misslyckades med att generera utdata. Kolla logfiler\n"
 
 msgid "Unable to get BMC providers"
 msgstr ""
@@ -6291,6 +6872,9 @@ msgid "Unknown action name for success message: %s"
 msgstr "Okänt händelsenamn för meddelande vid lyckat resultat: %s "
 
 msgid "Unknown device: available devices are %s"
+msgstr ""
+
+msgid "Unknown interface type, must be one of [%s]"
 msgstr ""
 
 msgid "Unknown power action: available methods are %s"
@@ -6467,6 +7051,9 @@ msgstr "Uppdaterade värdar: ändrad värdgrupp"
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
+msgid "Use Puppet default"
+msgstr ""
+
 msgid "Use different character classes"
 msgstr ""
 
@@ -6476,9 +7063,10 @@ msgstr "Använd följande konto för autentisering, <i>valfritt</i>"
 msgid "Use this puppet server as a CA server"
 msgstr "Använd denna puppetserver som en CA server"
 
-msgid ""
-"Use this puppet server as an initial Puppet Server or to execute puppet runs"
-msgstr "Använd denna puppetserver som en initiell puppetserver eller för att exekvera puppetkörningar"
+msgid "Use this puppet server as an initial Puppet Server or to execute puppet runs"
+msgstr ""
+"Använd denna puppetserver som en initiell puppetserver eller för att exekvera "
+"puppetkörningar"
 
 msgid "Useful template functions and macros"
 msgstr "Användbara mallfunktioner och makron"
@@ -6496,10 +7084,6 @@ msgstr "Användargrupper"
 msgid "User IDs"
 msgstr ""
 
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User fact"
-msgstr "Användarfakta"
-
 msgid "User group"
 msgstr ""
 
@@ -6507,16 +7091,24 @@ msgid "User groups"
 msgstr "Användargrupper"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Andor"
-msgstr "Och eller"
+msgid "User mail notification"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Criteria"
-msgstr "Kriterie"
+msgid "User role"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "UserFact|Operator"
-msgstr "Operator"
+msgid "UserMailNotification|Interval"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Last sent"
+msgstr ""
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "UserRole|Owner type"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup"
@@ -6529,6 +7121,10 @@ msgstr "Användargruppsmedlem"
 #. "Table name" or "Table name|Column name" for error messages
 msgid "UsergroupMember|Member type"
 msgstr "Medlemstyp"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "Usergroup|Admin"
+msgstr ""
 
 msgid "Usergroup|Auth source"
 msgstr ""
@@ -6551,28 +7147,12 @@ msgid "User|Admin"
 msgstr "Admin"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Compute resources andor"
-msgstr "Beräkningsresurser ocheller"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Domains andor"
-msgstr "Domäner ocheller"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Facts andor"
-msgstr "Fakta ocheller"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Filter on owner"
-msgstr "Filtrera på ägare"
+msgid "User|Avatar hash"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Firstname"
 msgstr "Förnamn"
-
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Hostgroups andor"
-msgstr "Värdgrupper ocheller"
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Last login on"
@@ -6587,20 +7167,20 @@ msgid "User|Locale"
 msgstr "Språkinställning"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Locations andor"
-msgstr "Platser ocheller"
-
-#. "Table name" or "Table name|Column name" for error messages
 msgid "User|Login"
 msgstr "Login"
+
+#. "Table name" or "Table name|Column name" for error messages
+msgid "User|Lower login"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Mail"
 msgstr "Epost"
 
 #. "Table name" or "Table name|Column name" for error messages
-msgid "User|Organizations andor"
-msgstr "Organisationer ocheller"
+msgid "User|Mail enabled"
+msgstr ""
 
 #. "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
@@ -6610,17 +7190,15 @@ msgstr "Lösenordshash"
 msgid "User|Password salt"
 msgstr "Lösenordssalt"
 
-#. "Table name" or "Table name|Column name" for error messages
-msgid "User|Subscribe to all hostgroups"
-msgstr "Prenumerera på alla värdgrupper"
-
 msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid ""
-"Using the organization system provides a way to group resources together for"
-" easy management."
-msgstr "Organisationssystemet erbjuder ett sätt att gruppera resurser för enklare hantering."
+"Using the organization system provides a way to group resources together for e"
+"asy management."
+msgstr ""
+"Organisationssystemet erbjuder ett sätt att gruppera resurser för enklare hant"
+"ering."
 
 msgid "VCPU(s)"
 msgstr "VCPU(er)"
@@ -6632,8 +7210,8 @@ msgid "VLAN ID for this subnet"
 msgstr ""
 
 msgid ""
-"VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for "
-"virtual interfaces."
+"VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virt"
+"ual interfaces."
 msgstr ""
 
 msgid "VM"
@@ -6736,8 +7314,11 @@ msgid "Warning!"
 msgstr "Varning!"
 
 msgid ""
-"Warning: This template is locked. You may only change the associations. "
-"Please %s it to customize."
+"Warning: This template is locked. You may only change the associations. Please"
+" %s it to customize."
+msgstr ""
+
+msgid "Warning: This will delete this host and all of its data!"
 msgstr ""
 
 msgid "Warnings and errors"
@@ -6747,11 +7328,16 @@ msgid "We have not found any documentation for your API."
 msgstr ""
 
 msgid ""
-"We use Redmine to report and track bugs and feature requests, which can be "
-"found here:"
-msgstr "Vi använder Redmine för att rapportera och följa buggar samt begäran kring utökad funktionalitet, vilken kan hittas här:"
+"We use Redmine to report and track bugs and feature requests, which can be fou"
+"nd here:"
+msgstr ""
+"Vi använder Redmine för att rapportera och följa buggar samt begäran kring utö"
+"kad funktionalitet, vilken kan hittas här:"
 
 msgid "Weak"
+msgstr ""
+
+msgid "Weekly"
 msgstr ""
 
 msgid "Welcome"
@@ -6761,39 +7347,48 @@ msgid "Welcome to Foreman"
 msgstr "Välkommen till Foreman"
 
 msgid ""
-"What ever text(or ERB template) you use in here, would be used as your OS "
-"disk layout options If you want to use the partition table option, delete "
-"all of the text from this field"
-msgstr "Den text (eller ERB mall) som du anger här kommer användas som OS disklayout. Om du vill använda alternativet partitionstabell, radera all text från detta fält."
+"What ever text(or ERB template) you use in here, would be used as your OS disk"
+" layout options If you want to use the partition table option, delete all of t"
+"he text from this field"
+msgstr ""
+"Den text (eller ERB mall) som du anger här kommer användas som OS disklayout. "
+"Om du vill använda alternativet partitionstabell, radera all text från detta f"
+"ält."
 
 msgid "What is a <a href=\"%s\" rel=\"external\">Smart variable</a>?"
 msgstr "Vad är en <a href=\"%s\" rel=\"external\">Smart variabel</a>?"
 
 msgid ""
-"When a Host requests a template (e.g. during provisioning), Foreman will "
-"select the best match from the available templates of that type, in the "
-"following order:"
-msgstr "När en Värd begär en mall (t.ex under provisionering), kommer Foreman att välja bästa träff, från tillgängliga mallar av den typen, i följande ordning: "
+"When a Host requests a template (e.g. during provisioning), Foreman will selec"
+"t the best match from the available templates of that type, in the following o"
+"rder:"
+msgstr ""
+"När en Värd begär en mall (t.ex under provisionering), kommer Foreman att välj"
+"a bästa träff, från tillgängliga mallar av den typen, i följande ordning: "
 
 msgid ""
-"When editing a Template, you must assign a list of Operating Systems which "
-"this Template can be used with. Optionally, you can restrict a template to a"
-" list of Hostgroups and/or Environments"
-msgstr "Vid redigering av en mall måste en lista med operativsystem anges för vilken denna mall kan användas med. Alternativt kan du begränsa en mall till en lista med Värdgrupper och/eller Miljöer"
+"When editing a Template, you must assign a list of Operating Systems which thi"
+"s Template can be used with. Optionally, you can restrict a template to a list"
+" of Hostgroups and/or Environments"
+msgstr ""
+"Vid redigering av en mall måste en lista med operativsystem anges för vilken d"
+"enna mall kan användas med. Alternativt kan du begränsa en mall till en lista "
+"med Värdgrupper och/eller Miljöer"
 
 msgid ""
-"When operating in unattended mode Foreman will require more information, so "
-"expect more questions, but it will be able to automate host installations "
-"for Red Hat, Debian, SUSE and Solaris operating systems (and their clones), "
-"see"
-msgstr "När Foreman körs i obevakat läget krävs mer information, så förvänta dig mer frågor, men Foreman kommer kunna automatisera värdinstallationer för operativsystemen Red Hat, Debian, SUSE och Solaris (samt deras kloner), se"
+"When operating in unattended mode Foreman will require more information, so ex"
+"pect more questions, but it will be able to automate host installations for Re"
+"d Hat, Debian, SUSE and Solaris operating systems (and their clones), see"
+msgstr ""
+"När Foreman körs i obevakat läget krävs mer information, så förvänta dig mer f"
+"rågor, men Foreman kommer kunna automatisera värdinstallationer för operativsy"
+"stemen Red Hat, Debian, SUSE och Solaris (samt deras kloner), se"
 
 msgid "Whether or not the template is locked for editing"
 msgstr ""
 
-msgid ""
-"Whether the smart-variable should override the Puppet class default value."
-msgstr "Huruvida smartvariabeln skall åsidosätta Puppetklassens förinställda värde."
+msgid "Whether the smart variable value is managed by Foreman"
+msgstr ""
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "Vilket är en offset av <b>%s</b>"
@@ -6808,21 +7403,25 @@ msgid "YAML"
 msgstr "YAML"
 
 msgid ""
-"You Are about to change the default PXE menu on all configured TFTP servers "
-"- continue ?"
-msgstr "Detta kommer att ändra förinställda PXE-menyn på alla konfigurerade TFTPservrar - fortsätt?"
+"You Are about to change the default PXE menu on all configured TFTP servers - "
+"continue ?"
+msgstr ""
+"Detta kommer att ändra förinställda PXE-menyn på alla konfigurerade TFTPservra"
+"r - fortsätt?"
 
 msgid ""
-"You are about to override the editor content with a previous version, are "
-"you sure?"
-msgstr "Du kommer att åsidosätta redigerarens innehåll med en tidigare version, är du säker?"
+"You are about to override the editor content with a previous version, are you "
+"sure?"
+msgstr ""
+"Du kommer att åsidosätta redigerarens innehåll med en tidigare version, är du "
+"säker?"
 
 msgid "You are about to override the editor content, are you sure?"
 msgstr "Du kommer att åsidosätta redigerarens innehåll, är du säker?"
 
 msgid ""
-"You are about to unlock a locked template -- this is for every organization "
-"and location that uses it. Continue?"
+"You are about to unlock a locked template -- this is for every organization an"
+"d location that uses it. Continue?"
 msgstr ""
 
 msgid "You are not authorized to perform this action"
@@ -6835,9 +7434,9 @@ msgid "You are using an unsupported browser."
 msgstr "Du använder en webbläsare som inte stöds"
 
 msgid ""
-"You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For"
-" general support, please visit #theforeman and for development specific "
-"related chat, please visit #theforeman-dev."
+"You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For g"
+"eneral support, please visit #theforeman and for development specific related "
+"chat, please visit #theforeman-dev."
 msgstr ""
 
 msgid "You can find details of how to set up the proxy at"
@@ -6862,47 +7461,65 @@ msgid "You don't seem to have any Hosts, for more information see"
 msgstr "Du verkar inte ha några Värdar, för mer information se"
 
 msgid ""
-"You don't seem to have any facts yet. If you wish to configure fact pushing,"
-" please follow"
-msgstr "Du verkar inte ha några fakta ännu. Om du önskar konfigurera faktauppladdning, var vänlig följ"
+"You don't seem to have any facts yet. If you wish to configure fact pushing, p"
+"lease follow"
+msgstr ""
+"Du verkar inte ha några fakta ännu. Om du önskar konfigurera faktauppladdning,"
+" var vänlig följ"
 
 msgid ""
-"You don't seem to have any reports, if you wish to configure Puppet to "
-"forward it reports to Foreman, please follow"
-msgstr "Du verkar inte ha några rapporter. Om du vill konfigurera Puppet att skicak sina rapporter till Foreman, var vänlig följ"
+"You don't seem to have any reports, if you wish to configure Puppet to forward"
+" it reports to Foreman, please follow"
+msgstr ""
+"Du verkar inte ha några rapporter. Om du vill konfigurera Puppet att skicak si"
+"na rapporter till Foreman, var vänlig följ"
 
 msgid ""
-"You may also associate one or more operating systems with this medium or "
-"alternatively set this up later on the %s page."
-msgstr "Du kan även associera ett eller flera operativsystem med detta medium alternativt sätter du upp detta senare via sidan %s."
+"You may also associate one or more operating systems with this medium or alter"
+"natively set this up later on the %s page."
+msgstr ""
+"Du kan även associera ett eller flera operativsystem med detta medium alternat"
+"ivt sätter du upp detta senare via sidan %s."
 
 msgid ""
-"You may also associate one or more operating systems with this partition "
-"table or alternatively set this up later on the %s page"
-msgstr "Du kan även associera ett eller flera operativsystem med denna partitionstabell alternativt sätter du upp detta senare via sidan %s."
+"You may also associate one or more operating systems with this partition table"
+" or alternatively set this up later on the %s page"
+msgstr ""
+"Du kan även associera ett eller flera operativsystem med denna partitionstabel"
+"l alternativt sätter du upp detta senare via sidan %s."
 
 msgid "You may also find the"
 msgstr "Du kan även hitta"
 
 msgid ""
-"You may create puppet classes that represent high-level host configurations,"
-" for example, a <b>host-type-ldap-server</b> class, which includes all the "
-"required functionality from other modules or you may decide to create a host"
-" group called <b>host-type-ldap-server</b> and add the required classes into"
-" the host group configuration."
-msgstr "Du kan skapa puppetklasser som representerar högnivå värdkonfigurationer, t.ex., en <b>host-type-ldap-server</b>klass, som inkluderar all funktionalitet från andra moduler, alternativt skapar du en värdgrupp <b>host-type-ldap-server</b> och adderar de klasser som krävs till värdgruppen."
+"You may create puppet classes that represent high-level host configurations, f"
+"or example, a <b>host-type-ldap-server</b> class, which includes all the requi"
+"red functionality from other modules or you may decide to create a host group "
+"called <b>host-type-ldap-server</b> and add the required classes into the host"
+" group configuration."
+msgstr ""
+"Du kan skapa puppetklasser som representerar högnivå värdkonfigurationer, t.ex"
+"., en <b>host-type-ldap-server</b>klass, som inkluderar all funktionalitet frå"
+"n andra moduler, alternativt skapar du en värdgrupp <b>host-type-ldap-server</"
+"b> och adderar de klasser som krävs till värdgruppen."
 
 msgid ""
-"You may operate Foreman in basic mode, in which it acts as a reporting and "
-"external node classifier or you may also turn on unattended mode operation "
-"in which Foreman creates and manages the configuration files necessary to "
-"completely configure a new host."
-msgstr "Du kan användar Foreman i enkelt läge, i vilket den agerar som extern nodklassifierare eller så aktiverar du obevakat läge i vilket Foreman skapar och hanterar alla konfigurationsfiler som är nödvändiga för att fullständigt konfigurera en ny värd."
+"You may operate Foreman in basic mode, in which it acts as a reporting and ext"
+"ernal node classifier or you may also turn on unattended mode operation in whi"
+"ch Foreman creates and manages the configuration files necessary to completely"
+" configure a new host."
+msgstr ""
+"Du kan användar Foreman i enkelt läge, i vilket den agerar som extern nodklass"
+"ifierare eller så aktiverar du obevakat läge i vilket Foreman skapar och hante"
+"rar alla konfigurationsfiler som är nödvändiga för att fullständigt konfigurer"
+"a en ny värd."
 
 msgid ""
-"You may optionally wish to generate the online documentation for your puppet"
-" classes"
-msgstr "Du har även valmöjligheten att generera on-linedokumentationen för dina puppetklasser"
+"You may optionally wish to generate the online documentation for your puppet c"
+"lasses"
+msgstr ""
+"Du har även valmöjligheten att generera on-linedokumentationen för dina puppet"
+"klasser"
 
 msgid "You must create a location before continuing."
 msgstr "Du måste skapa en lokation innan du fortsätter."
@@ -6917,20 +7534,27 @@ msgid "You must create at least one organization before continuing."
 msgstr "Du måste kapa minst en organisation innan du fortsätter."
 
 msgid ""
-"You must decide how you wish to use the software, and update the primary "
-"settings file <b>config/settings.yaml</b> and the"
-msgstr "Du måste bestämma hur du vill använda mjukvaran, uppdatera primära inställningsfilen <b>config/settings.yaml</b> och"
+"You must decide how you wish to use the software, and update the primary setti"
+"ngs file <b>config/settings.yaml</b> and the"
+msgstr ""
+"Du måste bestämma hur du vill använda mjukvaran, uppdatera primära inställning"
+"sfilen <b>config/settings.yaml</b> och"
 
 msgid "You must select at least one permission"
 msgstr ""
 
 msgid ""
-"You would need to enable login in your settings.yml file first and restart "
-"foreman"
-msgstr "Då skulle du behöva aktivera login i din settings.yml-fil först och sen starta om foreman"
+"You would need to enable login in your settings.yml file first and restart for"
+"eman"
+msgstr ""
+"Då skulle du behöva aktivera login i din settings.yml-fil först och sen starta"
+" om foreman"
 
 msgid "You would probably need to attach the"
 msgstr "Du skulle antagligen behöva ansluta"
+
+msgid "Your Foreman user account has been created:"
+msgstr ""
 
 msgid "Your password cannot contain your username"
 msgstr ""
@@ -6990,6 +7614,12 @@ msgid "boolean"
 msgstr ""
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
+msgstr ""
+
+msgid "can only be set for array or hash"
+msgstr ""
+
+msgid "can only be set for arrays that have merge_overrides set to true"
 msgstr ""
 
 msgid "can't be bigger than to range"
@@ -7060,9 +7690,6 @@ msgstr ""
 
 msgid "domain"
 msgstr "domän"
-
-msgid "domain %s already has a subnet with this name"
-msgstr "domänen %s har redan ett subnät med detta namnet"
 
 msgid "e-mail reporting"
 msgstr "e-postrapportering"
@@ -7402,9 +8029,7 @@ msgstr "tvinga"
 msgid "paginate results"
 msgstr ""
 
-msgid ""
-"parameters require an associated domain, operating system, host or host "
-"group"
+msgid "parameters require an associated domain, operating system, host or host group"
 msgstr ""
 
 msgid "parsing settings type '%s' from string is not defined"
@@ -7420,8 +8045,8 @@ msgid "pending"
 msgstr "kommande"
 
 msgid ""
-"power action, valid actions are (on/start), (off/stop), (soft/reboot), "
-"(cycle/reset), (state/status)"
+"power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/"
+"reset), (state/status)"
 msgstr ""
 
 msgid "poweroff"
@@ -7429,6 +8054,9 @@ msgstr "stäng av"
 
 msgid "puppet class browser"
 msgstr "puppetklassbläddrare"
+
+msgid "ready?"
+msgstr ""
 
 msgid "real"
 msgstr ""
@@ -7455,8 +8083,8 @@ msgid "required"
 msgstr ""
 
 msgid ""
-"required for managed host that is bare metal, not required if it's a virtual"
-" machine"
+"required for managed host that is bare metal, not required if it's a virtual m"
+"achine"
 msgstr ""
 
 msgid "required if host is managed and custom partition has not been defined"
@@ -7466,16 +8094,16 @@ msgid "required if host is managed and value is not inherited from host group"
 msgstr ""
 
 msgid ""
-"required if host is managed and value is not inherited from host group or "
-"default password in settings"
+"required if host is managed and value is not inherited from host group or defa"
+"ult password in settings"
 msgstr ""
 
 msgid "required if locations are enabled"
 msgstr ""
 
 msgid ""
-"required if not imaged based provisioning and host is managed and value is "
-"not inherited from host group"
+"required if not imaged based provisioning and host is managed and value is not"
+" inherited from host group"
 msgstr ""
 
 msgid "required if onthefly_register is true"
@@ -7553,15 +8181,6 @@ msgstr "för att indikera dina val"
 msgid "to point Foreman at it."
 msgstr "att peka Foreman till den"
 
-msgid "unable to find any hosts for puppet environment=%s"
-msgstr "hittar inga värdar för puppetmiljön=%s"
-
-msgid "unable to find any hosts that match your request"
-msgstr "hittar inga värdar som matchar din begäran"
-
-msgid "unable to find any hosts with the fact name=%{name} and value=%{value}"
-msgstr "hittar inga värdar med faktanamnet=%{name} och värdet=%{value}"
-
 msgid "unable to find recipients"
 msgstr "hittar inga mottagare"
 
@@ -7589,8 +8208,7 @@ msgstr "användbar."
 msgid "using %s"
 msgstr "använder %s"
 
-msgid ""
-"using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
+msgid "using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
 msgstr ""
 
 msgid "valid"
@@ -7615,6 +8233,8 @@ msgid "you probably need to configure your %s first."
 msgstr "du behöver troligvis konfigurera din %s först."
 
 msgid ""
-"your libvirt host does not support interface listing, please enter here the "
-"bridge name (e.g. br0)"
-msgstr "din libvirtvärd stödjer inte nätvärkskortslistning, var vänlig mata in bryggnamnet (t.ex. br0)"
+"your libvirt host does not support interface listing, please enter here the br"
+"idge name (e.g. br0)"
+msgstr ""
+"din libvirtvärd stödjer inte nätvärkskortslistning, var vänlig mata in bryggna"
+"mnet (t.ex. br0)"
