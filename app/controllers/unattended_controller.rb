@@ -240,6 +240,7 @@ class UnattendedController < ApplicationController
   end
 
   def coreos_attributes
+    @mediapath = @host.operatingsystem.mediumpath @host
   end
 
   def aif_attributes

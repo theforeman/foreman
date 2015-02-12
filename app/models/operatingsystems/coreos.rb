@@ -5,6 +5,11 @@ class Coreos < Operatingsystem
     'coreos'
   end
 
+  # Simple output of the media url
+  def mediumpath(host)
+    medium_uri(host, "#{host.medium.path}/#{pxedir}").to_s
+  end
+
   def url_for_boot(file)
     PXEFILES[file]
   end
