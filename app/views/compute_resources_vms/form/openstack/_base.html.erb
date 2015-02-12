@@ -15,6 +15,6 @@
 <%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, :label => _("Security group"), :label_size => "col-md-2"  %>
 <%= select_f f, :nics, compute_resource.internal_networks, :id, :name,
              {}, { :label => _('Internal network'), :label_size => "col-md-2", :multiple => true } %>
-<%= selectable_f f, :network, compute_resource.address_pools, { :prompt => "None" }, { :label => _("Floating IP network"), :label_size => "col-md-2" } %>
+<%= selectable_f f, :network, compute_resource.address_pools, { include_blank: 'None' }, { :label => _("Floating IP network"), :label_size => "col-md-2" } %>
 <%= checkbox_f f, :boot_from_volume, {:label => _("Boot from volume"), :label_size => "col-md-2", :help_inline => _("Create new boot volume from image")}, "true", "false" %>
 <%= text_f f, :size_gb, { :label => _("New boot volume size (GB)"), :label_size => "col-md-2", :help_inline => _("Defaults to image size if left blank") } %>

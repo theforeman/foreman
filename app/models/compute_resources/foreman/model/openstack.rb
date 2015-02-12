@@ -7,9 +7,10 @@ module Foreman::Model
     delegate :flavors, :to => :client
     delegate :tenants, :to => :client
     delegate :security_groups, :to => :client
-    attr_accessible :key_pair, :tenant
+    attr_accessible :key_pair, :tenant, :allow_external_network
 
     validates :user, :password, :presence => true
+    validates :allow_external_network, inclusion: { in: [true, false] }
 
     def provided_attributes
       super.merge({ :ip => :floating_ip_address })
@@ -35,6 +36,14 @@ module Foreman::Model
       attrs[:tenant] = name
     end
 
+    def allow_external_network
+      Foreman::Cast.to_bool(attrs[:allow_external_network])
+    end
+
+    def allow_external_network=(enabled)
+      attrs[:allow_external_network] = Foreman::Cast.to_bool(enabled)
+    end
+
     def test_connection(options = {})
       super
       errors[:user].empty? and errors[:password] and tenants
@@ -52,7 +61,7 @@ module Foreman::Model
 
     def internal_networks
       return {} if network_client.nil?
-      network_client.networks.all.select { |net| !net.router_external }
+      allow_external_network ? network_client.networks.all : network_client.networks.all.select { |net| !net.router_external }
     end
 
     def image_size(image_id)
