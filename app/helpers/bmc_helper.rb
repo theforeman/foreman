@@ -1,10 +1,13 @@
 module BmcHelper
 
   def power_status(s)
-    if s.downcase == 'on'
+    case s.try(:downcase)
+    when 'on'
       "<span class='label label-success'>#{_('On')}</span>".html_safe
-    else
+    when 'off'
       "<span class='label label-default'>#{_('Off')}</span>".html_safe
+    else
+      "<span class='label label-default'>#{_('Unknown status: %s') % s.inspect}</span>".html_safe
     end
   end
 
