@@ -7,12 +7,13 @@
 #
 # Translators:
 # Carmela Rubiños <carmela.rubinos@gmail.com>, 2013
+# Dominic Cleal <dcleal@redhat.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-01-30 11:12+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2015-02-12 13:38+0000\n"
+"Last-Translator: Dominic Cleal <dcleal@redhat.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/foreman/language/"
 "gl/)\n"
 "MIME-Version: 1.0\n"
@@ -2159,7 +2160,9 @@ msgstr ""
 msgid ""
 "Failed to create a compute %{compute_resource} instance %{name}: %{message}\n"
 " "
-msgstr "Fallo ao crear unha instancia %{compute_resource} co nome %{name}: %{message}"
+msgstr ""
+"Fallo ao crear unha instancia %{compute_resource} co nome %{name}: %{message}\n"
+" "
 
 msgid "Failed to destroy a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Fallo ao destruir unha instancia %{compute_resource} co nome %{name}: %{e}"

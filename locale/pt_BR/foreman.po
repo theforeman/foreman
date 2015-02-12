@@ -7,7 +7,7 @@
 #
 # Translators:
 # Dominic Cleal <dcleal@redhat.com>, 2013
-# Dominic Cleal <dcleal@redhat.com>, 2013-2014
+# Dominic Cleal <dcleal@redhat.com>, 2013-2015
 # Especialista em Automatizaçao <alvin@intechne.com.br>, 2014
 # Flamarion Jorge <jorge.flamarion@gmail.com>, 2014
 # Flamarion Jorge <jorge.flamarion@gmail.com>, 2014
@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-01-30 11:12+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2015-02-12 13:40+0000\n"
+"Last-Translator: Dominic Cleal <dcleal@redhat.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/forema"
 "n/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -64,12 +64,12 @@ msgstr "%s console não é suportado neste momento"
 
 msgid "%s core"
 msgid_plural "%s cores"
-msgstr[0] "núcleos"
+msgstr[0] "%s núcleo"
 msgstr[1] "%s núcleos"
 
 msgid "%s day ago"
 msgid_plural "%s days ago"
-msgstr[0] "% dia atrás"
+msgstr[0] "%s dia atrás"
 msgstr[1] "%s dias atrás"
 
 msgid "%s has been disassociated from VM"
