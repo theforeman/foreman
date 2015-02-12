@@ -265,8 +265,8 @@ module Orchestration::Compute
     attrs_name = "#{compute_resource.interfaces_attrs_name}_attributes"
     return unless compute_attributes[attrs_name].blank?
     compute_attributes[attrs_name] = {}
-    self.interfaces.each do |nic|
-      compute_attributes[attrs_name][nic.object_id.to_s] = nic.compute_attributes
+    self.interfaces.each_with_index do |nic, index|
+      compute_attributes[attrs_name][index.to_s] = nic.compute_attributes
     end
   end
 
