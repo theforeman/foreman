@@ -47,6 +47,19 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get a template from the provision interface" do
+    os = FactoryGirl.create(:debian7_0, :with_provision, :with_associations)
+    host = FactoryGirl.create(:host, :managed, :build => true, :operatingsystem => os,
+                              :interfaces => [
+                                FactoryGirl.build(:nic_managed, :primary => true),
+                                FactoryGirl.build(:nic_managed, :provision => true)
+                              ])
+
+    @request.env["REMOTE_ADDR"] = host.provision_interface.ip
+    get :provision
+    assert_response :success
+  end
+
   test "should get a preseed finish script" do
     @request.env["REMOTE_ADDR"] = @ub_host.ip
     get :finish

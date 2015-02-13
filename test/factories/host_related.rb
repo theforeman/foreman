@@ -64,7 +64,7 @@ FactoryGirl.define do
   factory :nic_primary_and_provision, :parent => :nic_managed, :class => Nic::Managed do
     primary true
     provision true
-    sequence(:mac) { |n| "01:23:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
+    sequence(:mac) { |n| "01:23:67:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
     sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
   end
 
@@ -154,28 +154,19 @@ FactoryGirl.define do
 
     trait :managed do
       managed true
-      architecture
-      medium
-      ptable
+      architecture { operatingsystem.architectures.first }
+      medium { operatingsystem.media.first }
+      ptable { operatingsystem.ptables.first }
       location
       organization
       domain
       interfaces { [ FactoryGirl.build(:nic_primary_and_provision) ] }
-      operatingsystem { FactoryGirl.create(:operatingsystem,
-                          :architectures => [architecture],
-                          :ptables => [ptable],
-                          :media => [medium])
-      }
+      association :operatingsystem, :with_associations
     end
 
     trait :with_dhcp_orchestration do
-      managed true
-      architecture
+      managed
       association :compute_resource, :factory => :libvirt_cr
-      ptable
-      operatingsystem { FactoryGirl.create(:operatingsystem,
-                          :architectures => [architecture], :ptables => [ptable])
-      }
       domain
       subnet {
         FactoryGirl.create(
@@ -190,13 +181,8 @@ FactoryGirl.define do
     end
 
     trait :with_dns_orchestration do
-      managed true
-      architecture
+      managed
       association :compute_resource, :factory => :libvirt_cr
-      ptable
-      operatingsystem { FactoryGirl.create(:operatingsystem,
-                          :architectures => [architecture], :ptables => [ptable])
-      }
       subnet {
         FactoryGirl.create(:subnet,
           :dns => FactoryGirl.create(:smart_proxy,
@@ -230,17 +216,10 @@ FactoryGirl.define do
     end
 
     trait :with_puppet_orchestration do
-      managed true
-      architecture
-      location
-      organization
+      managed
       association :compute_resource, :factory => :libvirt_cr
-      ptable
       domain
       interfaces { [ FactoryGirl.build(:nic_primary_and_provision) ] }
-      operatingsystem { FactoryGirl.create(:operatingsystem,
-                                           :architectures => [architecture], :ptables => [ptable] )
-      }
       puppet_ca_proxy { FactoryGirl.create(:smart_proxy,
                                             :features => [FactoryGirl.create(:feature, :puppetca)])
       }
