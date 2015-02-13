@@ -36,7 +36,7 @@ module Orchestration::TFTP
   def setTFTPBootFiles
     logger.info "Fetching required TFTP boot files for #{host.name}"
     valid = true
-    host.operatingsystem.pxe_files(host.medium, host.architecture, self).each do |bootfile_info|
+    host.operatingsystem.pxe_files(host.medium, host.architecture, host).each do |bootfile_info|
       for prefix, path in bootfile_info do
         valid = false unless tftp.fetch_boot_file(:prefix => prefix.to_s, :path => path)
       end
