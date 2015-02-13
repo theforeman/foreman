@@ -141,7 +141,7 @@ class UnattendedController < ApplicationController
     end
     # we try to match first based on the MAC, falling back to the IP
     # host is readonly because of association so we reload it if we find it
-    host = Host.joins(:primary_interface).where(mac_list.empty? ? {:nics => {:ip => ip}} : ["lower(nics.mac) IN (?)", mac_list]).first
+    host = Host.joins(:provision_interface).where(mac_list.empty? ? {:nics => {:ip => ip}} : ["lower(nics.mac) IN (?)", mac_list]).first
     host ? Host.find(host.id) : nil
   end
 
