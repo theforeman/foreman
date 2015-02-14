@@ -277,7 +277,11 @@ module Host
     def alias_list
       ret = []
       self.aliases.split(",").each do |al|
-        ret << al + "." + domain.name
+        if not domain_name.nil?
+          ret << al + "." + domain_name
+        else
+          ret << al
+        end
       end
       ret
     end
@@ -312,6 +316,14 @@ module Host
     def self.find_by_mac(mac)
       logger.warn 'DEPRECATION WARNING: Host#find_by_mac has been deprecated, you should search for provision interfaces'
       Nic::Base.provision.find_by_mac(mac).try(:host)
+    end
+
+    def alias_list
+      ret = []
+      self.aliases.split(",").each do |al|
+        ret << al + "." + domain_name
+      end
+      ret
     end
 
     private

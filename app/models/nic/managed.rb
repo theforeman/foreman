@@ -52,7 +52,7 @@ module Nic
       N_('Interface')
     end
 
-    def aliast_list
+    def alias_list
       return []
     end
 

@@ -21,39 +21,39 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should not save with invalid alias" do
-    host = Host.new :name => "myhost", :alias => "alias#"
+    host = Host.new :name => "myhost", :aliases => "alias#"
     host.valid?
-    assert_equal "is invalid", host.errors[:alias].first
+    assert_equal "The alias #{host.aliases} format is invalid", host.errors[:aliases].first
   end
 
   test "should be able to save with empty alias" do
-    host = Host.new :name => "myhost" , :alias => ""
+    host = Host.new :name => "myhost" , :aliases => "", :domain => Domain.find_or_create_by_name("company.com")
     host.valid?
     assert_equal "", host.aliases
     assert_equal 0, host.alias_list.size
   end
 
   test "should be able to save with one valid alias" do
-    host = Host.new :name => "myfirsthost", :"alias" => "myalias"
-    host.save!
+    host = FactoryGirl.create(:host, :hostname => "myfirsthost", :aliases => "myalias", :domain => Domain.find_or_create_by_name("company.com")
+)
     assert_equal "myalias", host.aliases
-    assert_equal "myalias", host.aliast_list[0]
+    assert_equal "myalias.company.com", host.alias_list[0]
     assert_equal 1, host.alias_list.size
   end
 
   test "should be able to save with multiple valid aliases" do
-    host = Host.new :name => "myfirsthost", :"alias" => "myalias, mysecondalias"
-    host.save!
-    assert_equal "myalias, mysecondalias", host.aliases
-    assert_equal "myalias", host.aliast_list[0]
-    assert_equal "mysecondalias", host.aliast_list[1]
+    host = FactoryGirl.create(:host, :hostname => "myfirsthost", :aliases => "myalias,mysecondalias", :domain => Domain.find_or_create_by_name("company.com")
+)
+    assert_equal "myalias,mysecondalias", host.aliases
+    assert_equal "myalias.mycompany.com", host.alias_list[0]
+    assert_equal "mysecondalias.company.com", host.alias_list[1]
     assert_equal 2, host.alias_list.size
   end
 
   test "should be able to update with one valid alias" do
     myalias = "myalias"
-    host = Host.new :name => "myfirsthost", :"alias" => "myalias, mysecondalias"
-    host.save!
+    host = FactoryGirl.create(:host, :hostname => "myfirsthost", :aliases => "myalias,mysecondalias", :domain => Domain.find_or_create_by_name("company.com")
+)
     refute_equal myalias, host.aliases
     host.aliases = myalias
     host.save!
@@ -62,8 +62,8 @@ class HostTest < ActiveSupport::TestCase
 
   test "should be able to remove all the aliases" do
     myalias = ""
-    host = Host.new :name => "myfirsthost", :"alias" => "myalias, mysecondalias"
-    host.save!
+    host = FactoryGirl.create(:host, :hostname => "myfirsthost", :aliases => "myalias,mysecondalias", :domain => Domain.find_or_create_by_name("company.com")
+)
     refute_equal myalias, host.aliases
     host.aliases = myalias
     host.save!
