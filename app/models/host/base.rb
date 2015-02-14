@@ -20,6 +20,7 @@ module Host
 
     alias_attribute :hostname, :name
     before_validation :normalize_name
+    before_validation :validate_aliases
     validates :name, :presence   => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP}
     validates :owner_type, :inclusion => { :in          => OWNER_TYPES,
                                            :allow_blank => true,
@@ -148,6 +149,24 @@ module Host
       self.name = Net::Validations.normalize_hostname(name) if self.name.present?
     end
 
+    def validate_aliases
+      @invalid_aliases = []
+      @aliases = []
+      unless self.aliases.nil?
+        @aliases = self.aliases.split(",")
+        @aliases.each do |element|
+          if @aliases.count(element) > 1
+            self.errors.add(:aliases, "The alias #{element} appeared multiple times")
+            return
+          end
+          unless Net::Validations::HOST_REGEXP.match(element)
+            self.errors.add(:aliases, "The alias #{element} format is invalid")
+            return
+          end
+        end
+      end
+    end
+
     def set_taxonomies(facts)
       ['location', 'organization'].each do |taxonomy|
         next unless SETTINGS["#{taxonomy.pluralize}_enabled".to_sym]
@@ -193,6 +212,14 @@ module Host
 
     def interfaces_with_identifier(identifiers)
       self.interfaces.is_managed.where(:identifier => identifiers).all
+    end
+
+    def alias_list
+      ret = []
+      self.aliases.split(",").each do |al|
+        ret << al + "." + domain.name
+      end
+      ret
     end
 
     private

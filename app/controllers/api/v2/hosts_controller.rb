@@ -37,6 +37,7 @@ module Api
       def_param_group :host do
         param :host, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
+          param :aliases, String, :desc => N_("DNS aliases of the host.")
           param :location_id, :number, :required => true, :desc => N_("required if locations are enabled") if SETTINGS[:locations_enabled]
           param :organization_id, :number, :required => true, :desc => N_("required if organizations are enabled") if SETTINGS[:organizations_enabled]
           param :environment_id, String, :desc => N_("required if host is managed and value is not inherited from host group")

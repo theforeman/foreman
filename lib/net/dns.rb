@@ -5,6 +5,7 @@ module Net
   module DNS
     autoload :ARecord,   "net/dns/a_record.rb"
     autoload :PTRRecord, "net/dns/ptr_record.rb"
+    autoload :CNAMERecord, "net/dns/cname_record.rb"
 
     # Looks up the IP or MAC address. Handles the conversion of a DNS miss
     # exception into nil
@@ -37,11 +38,11 @@ module Net
     end
 
     class Record < Net::Record
-      attr_accessor :ip, :resolver, :type
+      attr_accessor :ip, :resolver, :type, :value
 
       def initialize(opts = { })
         super(opts)
-        self.ip = validate_ip self.ip
+        self.ip = validate_ip self.ip unless self.ip.nil?
         self.resolver ||= Resolv::DNS.new
       end
 

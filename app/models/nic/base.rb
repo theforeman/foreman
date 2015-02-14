@@ -66,6 +66,10 @@ module Nic
       @allowed_types ||= []
     end
 
+    def aliast_list
+      return []
+    end
+
     protected
 
     def uniq_fields_with_hosts

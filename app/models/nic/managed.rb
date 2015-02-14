@@ -44,6 +44,10 @@ module Nic
       N_('Interface')
     end
 
+    def aliast_list
+      return []
+    end
+
     private
 
     def enc_attributes

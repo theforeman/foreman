@@ -19,6 +19,56 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "is invalid", host.errors[:name].first
   end
 
+  test "should not save with invalid alias" do
+    host = Host.new :name => "myhost", :alias => "alias#"
+    host.valid?
+    assert_equal "is invalid", host.errors[:alias].first
+  end
+
+  test "should be able to save with empty alias" do
+    host = Host.new :name => "myhost" , :alias => ""
+    host.valid?
+    assert_equal "", host.aliases
+    assert_equal 0, host.alias_list.size
+  end
+
+  test "should be able to save with one valid alias" do
+    host = Host.new :name => "myfirsthost", :"alias" => "myalias"
+    host.save!
+    assert_equal "myalias", host.aliases
+    assert_equal "myalias", host.aliast_list[0]
+    assert_equal 1, host.alias_list.size
+  end
+
+  test "should be able to save with multiple valid aliases" do
+    host = Host.new :name => "myfirsthost", :"alias" => "myalias, mysecondalias"
+    host.save!
+    assert_equal "myalias, mysecondalias", host.aliases
+    assert_equal "myalias", host.aliast_list[0]
+    assert_equal "mysecondalias", host.aliast_list[1]
+    assert_equal 2, host.alias_list.size
+  end
+
+  test "should be able to update with one valid alias" do
+    myalias = "myalias"
+    host = Host.new :name => "myfirsthost", :"alias" => "myalias, mysecondalias"
+    host.save!
+    refute_equal myalias, host.aliases
+    host.aliases = myalias
+    host.save!
+    assert_equal myalias, host.aliases
+  end
+
+  test "should be able to remove all the aliases" do
+    myalias = ""
+    host = Host.new :name => "myfirsthost", :"alias" => "myalias, mysecondalias"
+    host.save!
+    refute_equal myalias, host.aliases
+    host.aliases = myalias
+    host.save!
+    assert_equal 0, host.alias_list.size
+  end
+
   test "should not save hostname with periods in shortname" do
     host = Host.new :name => "my.host", :domain => Domain.find_or_create_by_name("mydomain.net"), :managed => true
     host.valid?
