@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
-
   smart_variable_attrs = { :match => 'xyz=10', :value => 'string' }
   smart_class_attrs = { :match => 'host=abc.com', :value => 'liftoff' }
 
@@ -68,5 +67,4 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

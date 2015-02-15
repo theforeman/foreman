@@ -59,5 +59,4 @@ class ArchitectureTest < ActiveSupport::TestCase
 
     assert_not architecture.destroy
   end
-
 end

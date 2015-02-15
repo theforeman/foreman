@@ -6,5 +6,4 @@ class HostParameter < Parameter
   def to_s
     "#{host.id ? host.name : "unassociated"}: #{name} = #{value}"
   end
-
 end

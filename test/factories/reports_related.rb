@@ -42,5 +42,4 @@ FactoryGirl.define do
     sequence(:value) { |n| "source#{n}" }
     sequence(:digest) { |n| Digest::SHA1.hexdigest("source#{n}") }
   end
-
 end

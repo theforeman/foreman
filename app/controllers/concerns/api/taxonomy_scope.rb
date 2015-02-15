@@ -14,6 +14,5 @@ module Api
         Organization.current ||= @organization = Organization.find_by_id(params[:organization_id])
       end
     end
-
   end
 end

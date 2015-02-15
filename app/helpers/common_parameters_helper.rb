@@ -17,5 +17,4 @@ module CommonParametersHelper
       content_tag(:span, :class => "help-block") { popover(_("Additional info"), _("<b>Source:</b> %{type} %{name}") % {:type => _(value[:source].to_s), :name => source_name})}
     end
   end
-
 end

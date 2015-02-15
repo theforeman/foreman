@@ -10,5 +10,4 @@ class AddAncestryToTaxonomies < ActiveRecord::Migration
     remove_column :taxonomies, :ancestry
     remove_column(:taxonomies, :label) unless ActiveRecord::Migrator.get_all_versions.include?(20131120225132)
   end
-
 end

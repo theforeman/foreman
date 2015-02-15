@@ -43,6 +43,7 @@ module Orchestration::Realm
   end
 
   private
+
   def queue_realm
     logger.debug "Queueing Realm"
     return unless realm? && errors.empty?

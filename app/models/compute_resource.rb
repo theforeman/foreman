@@ -299,5 +299,4 @@ class ComputeResource < ActiveRecord::Base
       errors.add(:provider, _("cannot be changed"))
     end
   end
-
 end

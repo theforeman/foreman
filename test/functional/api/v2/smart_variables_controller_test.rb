@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
-
   test "should get all smart variables" do
     get :index
     assert_response :success
@@ -75,5 +74,4 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

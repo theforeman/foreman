@@ -422,7 +422,6 @@ class HostTest < ActiveSupport::TestCase
   end
 
 context "location or organizations are not enabled" do
-
   before do
     SETTINGS[:locations_enabled] = false
     SETTINGS[:organizations_enabled] = false
@@ -942,7 +941,6 @@ context "location or organizations are not enabled" do
     assert_equal 'eth1', host.primary_interface.identifier
   end
 
-
   test "#set_interfaces updates existing physical interface" do
     host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.200', :link => false})
     FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :link => true)
@@ -1441,7 +1439,6 @@ context "location or organizations are not enabled" do
     assert host.valid?, host.errors.full_messages.to_sentence
     assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
   end
-
 end # end of context "location or organizations are not enabled"
 
   test "#capabilities returns capabilities from compute resource" do
@@ -1641,7 +1638,6 @@ end # end of context "location or organizations are not enabled"
   end
 
   describe 'cloning' do
-
     test 'clone host should not copy name, system fields (mac, ip, etc)' do
       host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
       copy = host.clone
@@ -1664,7 +1660,6 @@ end # end of context "location or organizations are not enabled"
       assert interface.mac.blank?
       assert interface.ip.blank?
     end
-
   end
 
   test 'fqdn of host with period in name returns just name with no concatenation of domain' do
@@ -1920,5 +1915,4 @@ end # end of context "location or organizations are not enabled"
     parser = stub(:ipmi_interface => hash, :interfaces => {}, :suggested_primary_interface => [ primary.identifier, {:macaddress => primary.mac, :ipaddress => primary.ip} ])
     [host, parser]
   end
-
 end

@@ -56,6 +56,7 @@ class ReportImporter
   end
 
   private
+
   attr_reader :raw, :proxy_id
 
   def name

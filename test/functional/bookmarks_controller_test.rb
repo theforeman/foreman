@@ -30,7 +30,6 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_redirected_to hosts_path
   end
 
-
   test "should get edit" do
     get :edit, {:id => bookmarks(:one).to_param}, set_session_user
     assert_response :success

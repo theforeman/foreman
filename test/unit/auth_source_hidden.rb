@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class AuthSourceHiddenTest < ActiveSupport::TestCase
-
   test "#authenticate returns nil" do
     refute AuthSourceHidden.new.authenticate('unknown user', 'secret')
   end
@@ -18,5 +17,4 @@ class AuthSourceHiddenTest < ActiveSupport::TestCase
   test "#to_label returns HIDDEN" do
     assert_equal 'HIDDEN', AuthSourceHidden.new.to_label
   end
-
 end

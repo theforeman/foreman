@@ -34,7 +34,6 @@ class TrendsController < ApplicationController
   def edit
   end
 
-
   def destroy
     if @trend.destroy
       process_success
@@ -47,5 +46,4 @@ class TrendsController < ApplicationController
     TrendImporter.update!
     redirect_to trends_url
   end
-
 end

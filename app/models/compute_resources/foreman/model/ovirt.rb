@@ -3,7 +3,6 @@ require 'uri'
 
 module Foreman::Model
   class Ovirt < ComputeResource
-
     validates :url, :format => { :with => URI.regexp }
     validates :user, :password, :presence => true
     before_create :update_public_key
@@ -296,6 +295,7 @@ module Foreman::Model
     end
 
     private
+
     def create_interfaces(vm, attrs)
       #first remove all existing interfaces
       vm.interfaces.each do |interface|
@@ -336,6 +336,5 @@ module Foreman::Model
         vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(volume)) if volume[:id].blank?
       end
     end
-
   end
 end

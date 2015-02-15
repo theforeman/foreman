@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class EncryptableTest < ActiveSupport::TestCase
-
   # use ComputeResource as class to test Encryptable module
   # class ComputeResource < ActiveRecord::Base
   #   include Encryptable
@@ -95,6 +94,5 @@ class EncryptableTest < ActiveSupport::TestCase
     encrypted_str = compute_resource.encrypt_field(nil)
     assert encrypted_str == ''
   end
-
 end
 

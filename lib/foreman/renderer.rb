@@ -2,7 +2,6 @@ require 'tempfile'
 
 module Foreman
   module Renderer
-
     ALLOWED_HELPERS = [ :foreman_url, :grub_pass, :snippet, :snippets,
                         :snippet_if_exists, :ks_console, :root_pass,
                         :multiboot, :jumpstart_path, :install_path, :miniroot,
@@ -12,9 +11,7 @@ module Foreman
                           :repos, :dynamic, :kernel, :initrd,
                           :preseed_server, :preseed_path, :provisioning_type ]
 
-
     def render_safe(template, allowed_methods = [], allowed_vars = {})
-
       if Setting[:safemode_render]
         box = Safemode::Box.new self, allowed_methods
         box.eval(ERB.new(template, nil, '-').src, allowed_vars)
@@ -118,6 +115,5 @@ module Foreman
       end
       file
     end
-
   end
 end

@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
-
   test "should get index" do
     get :index
     templates = ActiveSupport::JSON.decode(@response.body)

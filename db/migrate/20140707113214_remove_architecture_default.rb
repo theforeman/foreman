@@ -6,5 +6,4 @@ class RemoveArchitectureDefault < ActiveRecord::Migration
   def down
     change_column :architectures, :name, :string, :default => 'x86_64'
   end
-
 end

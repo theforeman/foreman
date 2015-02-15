@@ -1,5 +1,4 @@
 class TrendImporter
-
   def self.update!
     importer = new
     importer.check_values
@@ -44,7 +43,5 @@ class TrendImporter
   end
 
   def aggregate_counters
-
   end
-
 end

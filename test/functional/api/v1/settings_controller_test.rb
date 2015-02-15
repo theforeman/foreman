@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::SettingsControllerTest < ActionController::TestCase
-
   test "should get index" do
     get :index, { }
     assert_response :success
@@ -28,5 +27,4 @@ class Api::V1::SettingsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 100, Setting.find(setting_id).value
   end
-
 end

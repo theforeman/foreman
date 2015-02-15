@@ -14,7 +14,6 @@
 
 module Foreman
   module ThreadSession
-
     # module to be include in controller to clear the session data
     # after (and evenutally before) the request processing.
     # Without it we're risking inter-users interference.
@@ -151,6 +150,5 @@ module Foreman
         end
       end
     end
-
   end
 end

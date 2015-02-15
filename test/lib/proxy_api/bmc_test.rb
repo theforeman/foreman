@@ -2,7 +2,6 @@ require 'test_helper'
 require "mocha/setup"
 
 class ProxyApiBmcTest < ActiveSupport::TestCase
-
   # Called before every test method runs. Can be used
   # to set up fixture information.
   def setup
@@ -99,7 +98,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.stubs(:put).returns(fake_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.boot_cdrom(@options)
-
   end
 
   test "boot function should create correct url for bootdevice bios" do
@@ -118,7 +116,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.stubs(:put).returns(fake_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.power_off(@options)
-
   end
 
   test "power function should create correct url for on" do
@@ -137,7 +134,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.stubs(:put).returns(fake_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.power_cycle(@options)
-
   end
 
   test "power function should create correct url for soft" do
@@ -147,7 +143,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.stubs(:put).returns(fake_response({"result" => true}))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.power_soft(@options)
-
   end
 
   test "power function should create correct url for off?" do
@@ -157,7 +152,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.stubs(:get).returns(fake_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
     @testbmc.power_off?(@options)
-
   end
   test "power function should create correct url for on?" do
     action = "on"
@@ -166,7 +160,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.stubs(:get).returns(fake_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
     @testbmc.power_on?(@options)
-
   end
 
   test "power function should create correct url for status" do
@@ -176,7 +169,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.stubs(:get).returns(fake_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
     @testbmc.power_status(@options)
-
   end
 
   test "identify function should create correct url for off" do
@@ -186,7 +178,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.stubs(:put).returns(fake_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.identify_off(@options)
-
   end
   test "identify function should create correct url for on" do
     action = "on"
@@ -195,7 +186,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.stubs(:put).returns(fake_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.identify_on(@options)
-
   end
 
   test "identify function should create correct url for status" do
@@ -205,7 +195,6 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.stubs(:get).returns(fake_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
     @testbmc.identify_status(@options)
-
   end
 
   test "lan function should create correct url for ip" do
@@ -243,8 +232,4 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.expects(:get).with(expected_path, data).at_least_once
     @testbmc.lan_mac(@options)
   end
-
-
-
-
 end

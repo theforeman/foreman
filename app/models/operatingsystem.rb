@@ -239,6 +239,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   private
+
   def set_family
     self.family ||= self.deduce_family
   end
@@ -265,5 +266,4 @@ class Operatingsystem < ActiveRecord::Base
     attributes.merge!({:_destroy => 1}) if template_exists && config_template_id_empty
     (!template_exists && config_template_id_empty)
   end
-
 end

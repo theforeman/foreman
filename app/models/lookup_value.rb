@@ -81,5 +81,4 @@ class LookupValue < ActiveRecord::Base
     return true if Hostgroup.unscoped.find_by_name(md[1]) || Hostgroup.unscoped.find_by_title(md[1]) || host_or_hostgroup.try(:new_record?)
     errors.add(:match, _("%{match} does not match an existing host group") % { :match => match }) and return false
   end
-
 end

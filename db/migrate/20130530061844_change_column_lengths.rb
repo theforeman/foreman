@@ -56,5 +56,4 @@ class ChangeColumnLengths < ActiveRecord::Migration
     change_column :ptables, :name, :string, :limit => 64, :null => false
     change_column :roles, :name, :string, :limit => 30
   end
-
 end

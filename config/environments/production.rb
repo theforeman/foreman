@@ -151,5 +151,4 @@ Foreman::Application.configure do |app|
       end
     end
   end
-
 end

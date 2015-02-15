@@ -55,7 +55,6 @@ module Api
         process_response @external_usergroup.refresh
       end
 
-
       api :DELETE, '/usergroups/:usergroup_id/external_usergroups/:id', N_('Delete an external user group')
       param :usergroup_id, String, :required => true, :desc => N_('ID or name of user group')
       param :id, String, :required => true, :desc => N_('ID or name external user group')

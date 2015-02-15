@@ -1,7 +1,6 @@
 module Api
   module V2
     class ParametersController < V2::BaseController
-
       include Api::Version2
       include Api::TaxonomyScope
 
@@ -160,7 +159,6 @@ module Api
         return @parameter if @parameter
         not_found
       end
-
     end
   end
 end

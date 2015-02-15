@@ -9,5 +9,4 @@ module SSO
   def self.all
     METHODS
   end
-
 end

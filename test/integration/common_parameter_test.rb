@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class CommonParameterTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(common_parameters_path,"Global Parameters","New Parameter")
   end
@@ -22,5 +21,4 @@ class CommonParameterTest < ActionDispatch::IntegrationTest
     assert_submit_button(common_parameters_path)
     assert page.has_content? 'mynewvalue'
   end
-
 end

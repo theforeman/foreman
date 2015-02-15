@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
-
   setup do
     User.current = users :admin
   end
@@ -202,5 +201,4 @@ class OrganizationTest < ActiveSupport::TestCase
       assert_equal [org1.id, org2.id].sort, Organization.my_organizations.pluck(:id).sort
     end
   end
-
 end

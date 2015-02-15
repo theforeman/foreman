@@ -1,5 +1,4 @@
 class Altlinux < Operatingsystem
-
   PXEFILES = {:kernel => "vmlinuz", :initrd => "full.cz" }
 
   def class
@@ -30,5 +29,4 @@ class Altlinux < Operatingsystem
   def display_family
     "Altlinux"
   end
-
 end

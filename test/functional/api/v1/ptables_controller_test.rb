@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::PtablesControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'ptable_test', :layout => 'd-i partman-auto/disk' }
 
   test "should get index" do
@@ -44,5 +43,4 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

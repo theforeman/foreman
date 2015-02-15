@@ -37,5 +37,4 @@ class LookupValuesController < ApplicationController
       process_error
     end
   end
-
 end

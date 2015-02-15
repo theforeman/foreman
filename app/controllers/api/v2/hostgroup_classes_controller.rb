@@ -1,7 +1,6 @@
 module Api
   module V2
     class HostgroupClassesController < V2::BaseController
-
       include Api::Version2
       include Api::TaxonomyScope
 
@@ -12,7 +11,6 @@ module Api
       def index
         render :json =>  { root_node_name => HostgroupClass.where(:hostgroup_id => @hostgroup.id).pluck('puppetclass_id') }
       end
-
 
       api :POST, "/hostgroups/:hostgroup_id/puppetclass_ids", N_("Add a Puppet class to host group")
       param :hostgroup_id, String, :required => true, :desc => N_("ID of host group")
@@ -39,7 +37,6 @@ module Api
         @hostgroup = Hostgroup.find(params[:hostgroup_id]) if Hostgroup.respond_to?(:authorized) &&
                                                               Hostgroup.authorized("view_hostgroup", Hostgroup)
       end
-
     end
   end
 end

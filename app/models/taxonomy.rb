@@ -170,5 +170,4 @@ class Taxonomy < ActiveRecord::Base
     return if User.current.admin
     TaxableTaxonomy.create(:taxonomy_id => self.id, :taxable_id => User.current.id, :taxable_type => 'User')
   end
-
 end

@@ -718,5 +718,4 @@ class HostsController < ApplicationController
   def offer_to_overwrite_conflicts
     @host.overwrite = "true" if @host.errors.any? and @host.errors.are_all_conflicts?
   end
-
 end

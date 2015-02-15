@@ -4,6 +4,7 @@ class OrganizationParameter < Parameter
   validates :name, :uniqueness => {:scope => :reference_id}
 
   private
+
   def enforce_permissions(operation)
     # We get called again with the operation being set to create
     return true if operation == "edit" and new_record?
@@ -12,5 +13,4 @@ class OrganizationParameter < Parameter
     errors.add(:base, _("You do not have permission to %s this organization parameter") % operation)
     false
   end
-
 end

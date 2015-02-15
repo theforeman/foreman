@@ -12,7 +12,6 @@ class CreateRoles  < ActiveRecord::Migration
       t.integer :role_id
       t.integer :inherited_from
     end
-
   end
 
   def self.down

@@ -1,5 +1,4 @@
 module Foreman
-
   class Exception < ::StandardError
     def initialize(message, *params)
       @message = message
@@ -47,5 +46,4 @@ module Foreman
 
   class CyclicGraphException < ::ActiveRecord::RecordInvalid
   end
-
 end

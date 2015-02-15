@@ -88,5 +88,4 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     auth_source_ldap = AuthSourceLdap.find(auth_source_ldap.id)
     assert_equal old_pass, auth_source_ldap.account_password
   end
-
 end

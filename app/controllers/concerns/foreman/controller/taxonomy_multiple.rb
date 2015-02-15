@@ -52,5 +52,4 @@ module Foreman::Controller::TaxonomyMultiple
     notice "Updated hosts: Changed #{type.to_s.classify}"
     redirect_back_or_to hosts_path
   end
-
 end

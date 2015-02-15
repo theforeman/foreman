@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class NicTest < ActiveSupport::TestCase
-
   def setup
     disable_orchestration
     User.current = users :admin
@@ -122,7 +121,6 @@ class NicTest < ActiveSupport::TestCase
     end
 
     context "on managed host" do
-
       setup do
         @host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
       end
@@ -166,11 +164,9 @@ class NicTest < ActiveSupport::TestCase
         @host.reload
         assert @host.destroy
       end
-
     end
 
     context "on unmanaged host" do
-
       setup do
         @host = FactoryGirl.create(:host)
       end
@@ -204,12 +200,10 @@ class NicTest < ActiveSupport::TestCase
         primary.reload
         assert_equal primary, @host.provision_interface
       end
-
     end
   end
 
   context "allowed type registration" do
-
     setup do
       class DefaultTestNic < Nic::Base
       end
@@ -262,7 +256,5 @@ class NicTest < ActiveSupport::TestCase
       @nic.stubs(:domain_id_changed?).returns(true)
       assert @nic.fqdn_changed?
     end
-
   end
-
 end

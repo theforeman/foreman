@@ -1,5 +1,4 @@
 module HomeHelper
-
   def render_menu(menu_name)
     authorized_menu_actions(Menu::Manager.items(menu_name).children).map do |menu|
       items = authorized_menu_actions(menu.children)
@@ -62,5 +61,4 @@ module HomeHelper
               "#{User.current.to_label} " + content_tag(:span, "", :class=>'caret')
     link_to(summary.html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :id => "account_menu")
   end
-
 end

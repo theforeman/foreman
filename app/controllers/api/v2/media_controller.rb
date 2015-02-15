@@ -1,7 +1,6 @@
 module Api
   module V2
     class MediaController < V2::BaseController
-
       include Api::Version2
       include Api::TaxonomyScope
 
@@ -77,7 +76,6 @@ Solaris and Debian media may also use $release.
       def allowed_nested_id
         %w(operatingsystem_id location_id organization_id)
       end
-
     end
   end
 end

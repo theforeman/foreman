@@ -9,5 +9,4 @@ class RendererTest < ActiveSupport::TestCase
     end
     assert_equal indented, "    foo\n    bar\n    baz"
   end
-
 end

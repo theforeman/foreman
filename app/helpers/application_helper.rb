@@ -30,6 +30,7 @@ module ApplicationHelper
   end
 
   protected
+
   def contract(model)
     model.to_label
   end
@@ -66,7 +67,6 @@ module ApplicationHelper
     text = remove_link_to_function(truncate(klass.name, :length => 28), functions_options)
     content_tag(:span, text, options).html_safe +
         remove_link_to_function('', functions_options.merge(:css_class => 'glyphicon glyphicon-minus-sign'))
-
   end
 
   def remove_link_to_function(text, options)
@@ -85,7 +85,6 @@ module ApplicationHelper
 
     content_tag(:span, text, options).html_safe +
         add_link_to_function('', function_options.merge(:css_class => 'glyphicon glyphicon-plus-sign'))
-
   end
 
   def add_link_to_function(text, options)
@@ -387,6 +386,7 @@ module ApplicationHelper
   end
 
   private
+
   def edit_inline(object, property, options = {})
     name       = "#{type}[#{property}]"
     helper     = options[:helper]
@@ -400,7 +400,5 @@ module ApplicationHelper
     content_tag_for :span, object, opts do
       h(value)
     end
-
   end
-
 end

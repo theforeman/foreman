@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::ImagesControllerTest < ActionController::TestCase
-
   def valid_attrs
     { :name                => 'TestImage', :username => 'ec2-user', :uuid => 'abcdef',
       :operatingsystem_id  => Operatingsystem.first.id,
@@ -43,5 +42,4 @@ class Api::V1::ImagesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

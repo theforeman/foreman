@@ -73,7 +73,6 @@ Available families:
       def destroy
         process_response @medium.destroy
       end
-
     end
   end
 end

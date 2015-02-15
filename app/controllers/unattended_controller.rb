@@ -175,7 +175,6 @@ class UnattendedController < ApplicationController
     render(:text => _("Failed to get a new realm OTP. Terminating the build!"), :status => :internal_server_error) unless @host.handle_realm
   end
 
-
   def set_content_type
     response.headers['Content-Type'] = 'text/plain'
   end
@@ -193,7 +192,6 @@ class UnattendedController < ApplicationController
     # and is needed to direct the host to the correct url. without it, we increase
     # latency by requesting the correct url directly from the proxy.
     @template_url = params['url']
-
   end
 
   def alterator_attributes
@@ -305,5 +303,4 @@ class UnattendedController < ApplicationController
       render :text => msg + exc.message, :status => :internal_server_error and return
     end
   end
-
 end

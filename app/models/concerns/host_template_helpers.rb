@@ -72,5 +72,4 @@ module HostTemplateHelpers
     url_options[:host] = Setting[:foreman_url] if Setting[:foreman_url]
     url_options
   end
-
 end

@@ -228,5 +228,4 @@ class Hostgroup < ActiveRecord::Base
     return [] if new_record? && parent_id.blank?
     Host::Base.where(:hostgroup_id => self.path_ids).pluck(type).compact.uniq
   end
-
 end

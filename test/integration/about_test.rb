@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class AboutTest < ActionDispatch::IntegrationTest
-
   test "about page" do
     visit about_index_path
     assert_index_page(about_index_path,"About", nil, false, false)
@@ -17,5 +16,4 @@ class AboutTest < ActionDispatch::IntegrationTest
     assert page.has_link?("Ohad Levy", :href => "mailto:ohadlevy@gmail.com")
     assert page.has_content?("Version")
   end
-
 end

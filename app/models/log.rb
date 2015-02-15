@@ -17,5 +17,4 @@ class Log < ActiveRecord::Base
   def level
     LEVELS[level_id]
   end
-
 end

@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'master02', :url => 'http://server:8443' }
 
   test "should get index" do
@@ -115,7 +114,6 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     ProxyAPI::Puppet.any_instance.stubs(:classes).returns(classes)
   end
 
-
   # puppetmaster proxy - import_puppetclasses tests
 
   test "should import new environments" do
@@ -221,5 +219,4 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
       assert_equal env_name, response['results']['name']
     end
   end
-
 end

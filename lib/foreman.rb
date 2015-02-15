@@ -19,5 +19,4 @@ module Foreman
   end
 
   SIZE = {:kilo => 1_024, :mega => 1_048_576, :giga => 1_073_741_824, :tera => 1_099_511_627_776}
-
 end

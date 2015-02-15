@@ -1,5 +1,4 @@
 module AuditsHelper
-
   MainObjects = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ConfigTemplate ComputeProfile ComputeAttribute
                    Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup)
 
@@ -140,9 +139,9 @@ module AuditsHelper
   end
 
   private
+
   def main_object?(audit)
     type = audit.auditable_type.split("::").last rescue ''
     MainObjects.include?(type)
   end
-
 end

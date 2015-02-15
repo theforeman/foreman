@@ -24,5 +24,4 @@ class TopbarSweeper < ActionController::Caching::Sweeper
   def self.expire_cache(controller)
     controller.expire_fragment(TopbarSweeper.fragment_name) if User.current
   end
-
 end

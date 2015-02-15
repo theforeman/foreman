@@ -1,5 +1,4 @@
 class PuppetcaController < ApplicationController
-
   def index
     @proxy = find_proxy
     # expire cache if forced
@@ -39,5 +38,4 @@ class PuppetcaController < ApplicationController
   def find_proxy(permission = :view_smart_proxies_puppetca)
     SmartProxy.authorized(permission).find(params[:smart_proxy_id])
   end
-
 end

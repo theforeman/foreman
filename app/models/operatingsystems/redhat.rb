@@ -1,5 +1,4 @@
 class Redhat < Operatingsystem
-
   PXEFILES = {:kernel => "vmlinuz", :initrd => "initrd.img"}
 
   # outputs kickstart installation medium based on the medium type (NFS or URL)
@@ -48,5 +47,4 @@ class Redhat < Operatingsystem
   def self.model_name
     superclass.model_name
   end
-
 end

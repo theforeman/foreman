@@ -1,7 +1,6 @@
 module Net
   module DNS
     class ARecord < DNS::Record
-
       def initialize(opts = { })
         super opts
         @type = "A"
@@ -40,7 +39,6 @@ module Net
       def attrs
         { :fqdn => hostname, :value => ip, :type => type }
       end
-
     end
   end
 end

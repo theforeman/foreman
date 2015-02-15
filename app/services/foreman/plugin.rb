@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module Foreman #:nodoc:
-
   class PluginNotFound < Foreman::Exception; end
   class PluginRequirementError < Foreman::Exception; end
 
@@ -31,7 +30,6 @@ module Foreman #:nodoc:
   #   end
   #
   class Plugin
-
     @registered_plugins = {}
     @tests_to_skip = {}
     class << self
@@ -96,7 +94,6 @@ module Foreman #:nodoc:
     def initialize(id)
       @id = id.to_sym
     end
-
 
     def <=>(plugin)
       self.id.to_s <=> plugin.id.to_s

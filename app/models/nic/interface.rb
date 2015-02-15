@@ -1,6 +1,5 @@
 module Nic
   class Interface < Base
-
     attr_accessible :ip
 
     validates :ip, :uniqueness => true, :format => {:with => Net::Validations::IP_REGEXP}, :allow_blank => true
@@ -82,7 +81,6 @@ module Nic
       errors.add(:name, _("must not include periods")) if ( host && host.managed? && managed? && shortname.include?(".") && SETTINGS[:unattended] )
       self.name = Net::Validations.normalize_hostname(name) if self.name.present?
     end
-
   end
 end
 

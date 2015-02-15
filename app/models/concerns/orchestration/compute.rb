@@ -38,6 +38,7 @@ module Orchestration::Compute
   end
 
   protected
+
   def queue_compute
     return unless compute? and errors.empty?
     new_record? ? queue_compute_create : queue_compute_update

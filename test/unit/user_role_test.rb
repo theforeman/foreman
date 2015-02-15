@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class UserRoleTest < ActiveSupport::TestCase
-
   def setup
     User.current = users :admin
   end

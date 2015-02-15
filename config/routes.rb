@@ -96,7 +96,6 @@ Foreman::Application.routes.draw do
       end
     end
 
-
     resources :bookmarks, :except => [:show]
     resources :lookup_keys, :except => [:show, :new, :create] do
       resources :lookup_values, :only => [:index, :create, :update, :destroy]
@@ -184,7 +183,6 @@ Foreman::Application.routes.draw do
       resources :lookup_keys, :except => [:show, :new, :create]
     end
   end
-
 
   resources :smart_proxies, :except => [:show] do
     member do
@@ -415,5 +413,4 @@ Foreman::Application.routes.draw do
   end
 
   resources :interfaces, :only => :new
-
 end

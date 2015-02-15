@@ -1,5 +1,4 @@
 module ComputeResourcesVmsHelper
-
   def vm_power_actions(host, vm)
     button_group(
       if vm
@@ -145,5 +144,4 @@ module ComputeResourcesVmsHelper
   def new_host?(host)
     host.try(:new_record?)
   end
-
 end

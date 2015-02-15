@@ -1,5 +1,4 @@
 class ConfigGroupsController < ApplicationController
-
   include Foreman::Controller::AutoCompleteSearch
   before_filter :find_config_group, :only => %w{edit update destroy}
 
@@ -44,5 +43,4 @@ class ConfigGroupsController < ApplicationController
   def find_config_group
     @config_group = ConfigGroup.find(params[:id])
   end
-
 end

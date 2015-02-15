@@ -34,5 +34,4 @@ class SettingsControllerTest < ActionController::TestCase
     assert_equal 'Value is not a number', assigns(:setting).errors.full_messages.first
     assert :unprocessable_entity
   end
-
 end

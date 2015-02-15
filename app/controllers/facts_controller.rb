@@ -21,5 +21,4 @@ class FactsController < ApplicationController
   def valid_request?
     not_found unless api_request?
   end
-
 end

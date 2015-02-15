@@ -1,8 +1,6 @@
 module Api
   module V1
-
     class DashboardController < V1::BaseController
-
       param :search, String, :desc => "filter results", :required => false
       api :GET, "/dashboard/", "Get Dashboard results"
 
@@ -13,8 +11,6 @@ module Api
           format.json { render :json => status }
         end
       end
-
     end
-
   end
 end

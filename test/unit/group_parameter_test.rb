@@ -27,6 +27,5 @@ class GroupParameterTest < ActiveSupport::TestCase
     parameter2 = GroupParameter.create :name => "some_parameter", :value => "value", :reference_id => hostgroups(:db).id
     assert parameter2.valid?
   end
-
 end
 

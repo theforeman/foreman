@@ -32,5 +32,4 @@ class FactValuesController < ApplicationController
   def controller_permission
     'facts'
   end
-
 end

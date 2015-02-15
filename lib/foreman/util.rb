@@ -26,6 +26,5 @@ module Foreman
     def secure_encryption_key
       SecureRandom.hex(20)
     end
-
   end
 end

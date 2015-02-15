@@ -54,6 +54,7 @@ module Nic
     def belongs_to_counter_cache_after_create_for_domain
       super if self.primary
     end
+
     def belongs_to_counter_cache_before_destroy_for_domain
       super if self.primary
     end
@@ -201,9 +202,7 @@ module Nic
         synchronizer.sync_name
       end
     end
-
   end
-
 end
 
 require_dependency 'nic/interface'

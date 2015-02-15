@@ -31,7 +31,6 @@ module Api
       not_found
     }
 
-
     def get_resource
       instance_variable_get :"@#{resource_name}" or raise 'no resource loaded'
     end
@@ -184,6 +183,7 @@ module Api
     end
 
     private
+
     attr_reader :nested_obj
 
     def find_required_nested_object

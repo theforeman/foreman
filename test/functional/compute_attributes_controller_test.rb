@@ -38,5 +38,4 @@ class ComputeAttributesControllerTest < ActionController::TestCase
                   :compute_attribute => { :compute_resource_id => @set.compute_resource_id, :compute_profile_id => @set.compute_profile_id }}, set_session_user
     assert_redirected_to compute_profile_path(@set.compute_profile)
   end
-
 end

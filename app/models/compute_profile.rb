@@ -1,5 +1,4 @@
 class ComputeProfile < ActiveRecord::Base
-
   include Authorizable
   extend FriendlyId
   friendly_id :name
@@ -22,5 +21,4 @@ class ComputeProfile < ActiveRecord::Base
   default_scope lambda { order('compute_profiles.name') }
 
   scope :visibles, lambda { includes(:compute_attributes).where('compute_attributes.id > 0') }
-
 end

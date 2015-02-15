@@ -13,5 +13,4 @@ class HostClass < ActiveRecord::Base
   def name
     "#{host} - #{puppetclass}"
   end
-
 end

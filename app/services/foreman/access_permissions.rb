@@ -199,7 +199,6 @@ Foreman::AccessControl.map do |permission_set|
                                            :"api/v1/smart_proxies" => [:import_puppetclasses],
                                            :"api/v2/smart_proxies" => [:import_puppetclasses]
                                             }
-
   end
 
   permission_set.security_block :external_variables do |map|

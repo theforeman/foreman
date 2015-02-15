@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ComputeResourceTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(compute_resources_path,"Compute Resources","New Compute Resource")
   end
@@ -14,5 +13,4 @@ class ComputeResourceTest < ActionDispatch::IntegrationTest
     assert_submit_button(compute_resources_path)
     assert page.has_link? 'mycompute_old'
   end
-
 end

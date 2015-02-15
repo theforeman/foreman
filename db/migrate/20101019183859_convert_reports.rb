@@ -28,7 +28,6 @@ class ConvertReports < ActiveRecord::Migration
       end
     end
     remove_column :reports, :log
-
   end
 
   def self.down

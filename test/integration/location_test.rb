@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class LocationTest < ActionDispatch::IntegrationTest
-
   def setup
     FactoryGirl.create(:host)
   end

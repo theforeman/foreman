@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::AutosignControllerTest < ActionController::TestCase
-
   setup do
     ProxyAPI::Puppetca.any_instance.stubs(:autosign).returns(["a5809524-82fe-a8a4f3d6ebf4", "5eed0cb7-9aa-00b7b9780f20"])
   end
@@ -13,5 +12,4 @@ class Api::V2::AutosignControllerTest < ActionController::TestCase
     results = ActiveSupport::JSON.decode(@response.body)
     assert_equal 2, results['results'].length
   end
-
 end

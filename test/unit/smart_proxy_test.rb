@@ -16,7 +16,6 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert_equal proxy.url, "https://secure.proxy:4568"
   end
 
-
   def test_should_not_include_trailing_slash
     proxy = SmartProxy.new
     proxy.name = "test a proxy"
@@ -56,5 +55,4 @@ class SmartProxyTest < ActiveSupport::TestCase
   test "should get used and selected location ids for host" do
     assert_equal [taxonomies(:location1).id], smart_proxies(:puppetmaster).used_or_selected_location_ids
   end
-
 end

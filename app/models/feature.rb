@@ -11,5 +11,4 @@ class Feature < ActiveRecord::Base
       ret_val
     end
   end
-
 end

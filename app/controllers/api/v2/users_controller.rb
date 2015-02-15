@@ -1,7 +1,6 @@
 module Api
   module V2
     class UsersController < V2::BaseController
-
       wrap_parameters User, :include => (User.attribute_names + ['password'])
 
       before_filter :find_resource, :only => %w{show update destroy}
@@ -98,7 +97,6 @@ module Api
       def allowed_nested_id
         %w(auth_source_ldap_id role_id location_id organization_id usergroup_id)
       end
-
     end
   end
 end

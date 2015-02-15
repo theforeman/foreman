@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class PtableTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(ptables_path,"Partition Tables","New Partition Table")
   end
@@ -23,5 +22,4 @@ class PtableTest < ActionDispatch::IntegrationTest
     assert_submit_button(ptables_path)
     assert page.has_link? 'debian default'
   end
-
 end

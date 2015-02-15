@@ -1,7 +1,6 @@
 module Api
   module V2
     class HostClassesController < V2::BaseController
-
       include Api::Version2
       include Api::TaxonomyScope
 
@@ -39,7 +38,6 @@ module Api
         @host = Host.find(params[:host_id]) if Host::Managed.respond_to?(:authorized) &&
                                                Host::Managed.authorized("view_host", Host::Managed)
       end
-
     end
   end
 end

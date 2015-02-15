@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class TrendTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     visit trends_path
     assert page.has_selector?('h1', :text => "Trends"), "Trends was expected in the <h1> tag, but was not found"
@@ -17,5 +16,4 @@ class TrendTest < ActionDispatch::IntegrationTest
   # end
 
   #PENDING - SHOW trend
-
 end

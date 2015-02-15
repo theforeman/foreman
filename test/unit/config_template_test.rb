@@ -199,5 +199,4 @@ class ConfigTemplateTest < ActiveSupport::TestCase
                                       :environment_id => @ev3.id}).name
     end
   end
-
 end

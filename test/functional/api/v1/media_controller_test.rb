@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::MediaControllerTest < ActionController::TestCase
-
   new_medium = {
     :name => "new medium",
     :path => "http://www.newmedium.com/",
@@ -43,5 +42,4 @@ class Api::V1::MediaControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

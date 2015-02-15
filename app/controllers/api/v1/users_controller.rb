@@ -82,7 +82,6 @@ module Api
           process_response @user.destroy
         end
       end
-
     end
   end
 end

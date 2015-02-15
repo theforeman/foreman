@@ -13,7 +13,6 @@ desc <<-END_DESC
 END_DESC
 namespace :smartproxy do
   task :migrate => :environment do
-
     proxies = Feature.find_by_name("Puppet").smart_proxies
     proxies.map! do |proxy|
       class << proxy

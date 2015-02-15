@@ -178,7 +178,6 @@ class Host::Managed < Host::Base
     self.name <=> other.name
   end
 
-
   # method to return the correct owner list for host edit owner select dropbox
   def is_owned_by
     owner.id_and_type if owner
@@ -226,7 +225,6 @@ class Host::Managed < Host::Base
   # Build is cleared and the boot link and autosign entries are removed
   # A site specific build script is called at this stage that can do site specific tasks
   def built(installed = true)
-
     # delete all expired tokens
     self.build        = false
     self.otp          = nil
@@ -736,7 +734,6 @@ class Host::Managed < Host::Base
     end
   end
 
-
   def ipmi_boot(booting_device)
     bmc_proxy.boot({:function => 'bootdevice', :device => booting_device})
   end
@@ -924,5 +921,4 @@ class Host::Managed < Host::Base
       self.provision_interface.valid?
     end
   end
-
 end

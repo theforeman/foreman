@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ScopedSearchExtensionsTest < ActiveSupport::TestCase
-
   def setup
     @search_class = Class.new { include ScopedSearchExtensions }
   end

@@ -1,6 +1,5 @@
 desc 'Generate apipie:cache for plugin - called via rake plugin:apipie:cache[plugin_name]'
 task 'plugin:apipie:cache', :engine do |t, args|
-
   if args[:engine]
     # Partially load the Rails environment to avoid
     # the need of a database being setup
@@ -20,5 +19,4 @@ task 'plugin:apipie:cache', :engine do |t, args|
   else
     puts "You must specify the name of the plugin (e.g. rake plugin:apipie:cache['my_plugin'])"
   end
-
 end

@@ -1,6 +1,5 @@
 require 'ostruct'
 module ReportsHelper
-
   def reported_at_column(record)
     link_to(_("%s ago") % time_ago_in_words(record.reported_at), report_path(record))
   end

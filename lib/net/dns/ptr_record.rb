@@ -42,11 +42,11 @@ module Net
       end
 
       private
+
       # Returns: String containing the ip in the in-addr.arpa zone
       def to_arpa
         ip.split(/\./).reverse.join(".") + ".in-addr.arpa"
       end
-
     end
   end
 end

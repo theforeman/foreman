@@ -237,7 +237,6 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   context "location or organizations are not enabled" do
-
     before do
       SETTINGS[:locations_enabled] = false
       SETTINGS[:organizations_enabled] = false
@@ -335,5 +334,4 @@ class UnattendedControllerTest < ActionController::TestCase
     get :provision
     assert_response :not_found
   end
-
 end

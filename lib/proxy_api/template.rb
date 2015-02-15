@@ -19,6 +19,5 @@ module ProxyAPI
 
       nil
     end
-
   end
 end

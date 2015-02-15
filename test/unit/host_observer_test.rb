@@ -43,5 +43,4 @@ class HostObserverTest < ActiveSupport::TestCase
 
     assert host.send(:generate_pxe_template)["token=#{host.token.value}"]
   end
-
 end

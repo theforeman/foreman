@@ -54,7 +54,6 @@ module Api
       def allowed_nested_id
         %w(operatingsystem_id)
       end
-
     end
   end
 end

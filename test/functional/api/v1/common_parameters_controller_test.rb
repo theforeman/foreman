@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::CommonParametersControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'special_key', :value => '123' }
 
   test "should get index" do
@@ -37,5 +36,4 @@ class Api::V1::CommonParametersControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

@@ -4,7 +4,6 @@ DOMAIN = ENV['DOMAIN'] || 'foreman'
 
 desc 'Locale specific tasks: locale:find'
 namespace :locale do
-
   desc 'Extract strings from model'
   task :find_model => "gettext:store_model_attributes" do
     # Add some extra comments for translators and remove the following entires:

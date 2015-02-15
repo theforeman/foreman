@@ -202,7 +202,6 @@ class LookupKey < ActiveRecord::Base
     end.join("\n")
   end
 
-
   def validate_and_cast_default_value
     return true if default_value.nil? || contains_erb?(default_value)
     begin
@@ -310,5 +309,4 @@ class LookupKey < ActiveRecord::Base
       self.errors.add(:avoid_duplicates, _("can only be set for arrays that have merge_overrides set to true"))
     end
   end
-
 end

@@ -1,6 +1,5 @@
 class DeleteOrphanedRecords < ActiveRecord::Migration
   def up
-
     # DELETE ROW IF IT HAS AN ORPHANED FOREIGN KEY
     execute "DELETE FROM architectures_operatingsystems WHERE architecture_id NOT IN (SELECT id FROM architectures) OR operatingsystem_id NOT IN (SELECT id FROM operatingsystems)"
     execute "DELETE FROM config_templates_operatingsystems WHERE config_template_id NOT IN (SELECT id FROM config_templates) OR operatingsystem_id NOT IN (SELECT id FROM operatingsystems)"

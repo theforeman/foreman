@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::ParametersControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'special_key', :value => '123' }
 
   def setup
@@ -191,7 +190,6 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   context "scoped search" do
-
     def assert_filtering_works(resource, id)
       post :create, { "#{resource}_id".to_sym => id, :parameter => { :name => 'parameter2', :value => 'X' } }
       get :index, { "#{resource}_id".to_sym => id, :search => 'name = parameter2' }
@@ -217,6 +215,5 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     test "should get index for specific os filtred by name" do
       assert_filtering_works :operatingsystem, operatingsystems(:redhat).to_param
     end
-
   end
 end

@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::ModelsControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => "new model" }
 
   test "should get index" do

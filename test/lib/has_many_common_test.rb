@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class HasManyCommonTest < ActiveSupport::TestCase
-
   # All AR classes include HasManyCommon
 
   setup do
@@ -46,7 +45,6 @@ class HasManyCommonTest < ActiveSupport::TestCase
     assert_equal 3, env.hostgroup_names.count
     assert_equal ["Common", "Parent/inherited", "db"], env.hostgroup_names.sort
   end
-
 
   ### belongs_to ###
   #

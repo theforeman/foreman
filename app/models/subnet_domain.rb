@@ -8,5 +8,4 @@ class SubnetDomain < ActiveRecord::Base
   def to_s
     "#{domain} : #{subnet}"
   end
-
 end

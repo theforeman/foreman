@@ -94,5 +94,4 @@ module HostsAndHostgroupsHelper
 
     classes.select { |pc| klasses.include?(pc.id) }
   end
-
 end

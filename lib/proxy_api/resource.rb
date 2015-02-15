@@ -1,5 +1,4 @@
 module ProxyAPI
-
   class Resource
     attr_reader :url
 
@@ -44,6 +43,7 @@ module ProxyAPI
     def logger; Rails.logger; end
 
     private
+
     # Decodes the JSON response if no HTTP error has been detected
     # If an HTTP error is received then the error message is saves into @error
     # Returns: Response, if the operation is GET, or true for POST, PUT and DELETE.
@@ -85,5 +85,4 @@ module ProxyAPI
       resource[path].delete
     end
   end
-
 end

@@ -59,7 +59,6 @@ module Api
         @report = Report.authorized(:view_reports).includes(:logs => [:message, :source]).find(max_id)
         render :show
       end
-
     end
   end
 end

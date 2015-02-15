@@ -366,5 +366,4 @@ class HostgroupTest < ActiveSupport::TestCase
     cloned = group.clone("new_name")
     assert cloned.config_groups.include?(config_group)
   end
-
 end

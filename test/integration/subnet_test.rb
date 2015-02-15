@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class SubnetTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(subnets_path,"Subnets","New Subnet")
   end
@@ -23,5 +22,4 @@ class SubnetTest < ActionDispatch::IntegrationTest
     assert_submit_button(subnets_path)
     assert page.has_link? 'one-secure'
   end
-
 end

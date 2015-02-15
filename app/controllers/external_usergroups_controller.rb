@@ -20,5 +20,4 @@ class ExternalUsergroupsController < ApplicationController
         super
     end
   end
-
 end

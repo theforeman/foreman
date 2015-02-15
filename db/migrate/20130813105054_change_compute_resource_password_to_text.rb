@@ -11,5 +11,4 @@ class ChangeComputeResourcePasswordToText < ActiveRecord::Migration
     change_column :compute_resources, :password, :string
     say "You may first need to run rake db:compute_resources:decrypt if there is an error value is greater than 255 characters"
   end
-
 end

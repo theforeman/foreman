@@ -9,7 +9,6 @@ require 'menu/manager'
 module Menu
   class Loader
     def self.load
-
       Manager.map :header_menu
 
       Manager.map :user_menu do |menu|
@@ -75,7 +74,6 @@ module Menu
           menu.item :puppetclasses,     :caption => N_('Puppet classes')
           menu.item :config_groups,     :caption => N_('Config groups')
           menu.item :lookup_keys,       :caption => N_('Smart variables')
-
         end
 
         menu.sub_menu :infrastructure_menu, :caption => N_('Infrastructure') do
@@ -88,7 +86,6 @@ module Menu
             menu.item :realms,            :caption => N_('Realms')
           end
         end
-
       end
     end
   end

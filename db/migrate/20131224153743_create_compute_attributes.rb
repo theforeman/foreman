@@ -14,6 +14,5 @@ class CreateComputeAttributes < ActiveRecord::Migration
 
     add_foreign_key "compute_attributes", "compute_resources", :name => "compute_attributes_compute_resource_id_fk"
     add_foreign_key "compute_attributes", "compute_profiles", :name => "compute_attributes_compute_profile_id_fk"
-
   end
 end

@@ -32,5 +32,4 @@ module StripLeadingAndTrailingDot
   def dot_strip_attrs
     []
   end
-
 end

@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::HostgroupsControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'TestHostgroup' }
 
   test "should get index" do
@@ -59,5 +58,4 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal hostgroups(:common).id.to_s, Hostgroup.find_by_name("db").ancestry
   end
-
 end

@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
-
   test "should get all smart class parameters" do
     get :index
     assert_response :success
@@ -106,5 +105,4 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     # show_response = ActiveSupport::JSON.decode(@response.body)
     # assert !show_response.empty?
   end
-
 end

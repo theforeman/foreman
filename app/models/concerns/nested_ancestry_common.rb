@@ -41,9 +41,7 @@ module NestedAncestryCommon
 
   module ClassMethods
     def nested_attribute_for(*opts)
-
       opts.each do |field|
-
         # Example method
         # def inherited_compute_profile_id
         #   read_attribute(:compute_profile_id) || nested_compute_profile_id
@@ -70,7 +68,6 @@ module NestedAncestryCommon
             end
           end
         end
-
       end
     end
   end
@@ -118,12 +115,10 @@ module NestedAncestryCommon
       # the parent title + "/" is added to the name to create the title
       length_of_matcher += parent.title.length + 1 if parent.present?
 
-
       max_length_for_name = 255 - length_of_matcher
       current_title_length = max_length_for_name - name.length
 
       errors.add(:name, n_("is too long (maximum is 1 character)", "is too long (maximum is %s characters)", max_length_for_name) % max_length_for_name) if current_title_length < 0
     end
   end
-
 end

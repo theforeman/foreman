@@ -17,5 +17,4 @@ class FactValuesControllerTest < ActionController::TestCase
     get :index, {}, set_session_user.merge(:user => users(:one).id)
     assert_response :success
   end
-
 end

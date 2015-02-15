@@ -50,5 +50,4 @@ module OperatingsystemsHelper
     result = type.where(:os_family => obj.family)
     result.empty? ? type : result
   end
-
 end

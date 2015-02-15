@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::AuditsControllerTest < ActionController::TestCase
-
   test "should get index" do
     get :index, { }
     assert_response :success
@@ -16,5 +15,4 @@ class Api::V1::AuditsControllerTest < ActionController::TestCase
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
-
 end

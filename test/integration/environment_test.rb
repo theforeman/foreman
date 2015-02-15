@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class EnvironmentTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(environments_path,"Environments","New Puppet Environment")
   end
@@ -20,5 +19,4 @@ class EnvironmentTest < ActionDispatch::IntegrationTest
     assert_submit_button(environments_path)
     assert page.has_link? 'production222'
   end
-
 end

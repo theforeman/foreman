@@ -289,7 +289,6 @@ class HostsControllerTest < ActionController::TestCase
     hosts.each { |host| assert_equal hostgroup, host.hostgroup }
   end
 
-
   test 'multiple hostgroup change by host names' do
     @request.env['HTTP_REFERER'] = hosts_path
     hosts = FactoryGirl.create_list(:host, 2)
@@ -311,7 +310,6 @@ class HostsControllerTest < ActionController::TestCase
       assert_equal host.hostgroup, hostgroup
     end
   end
-
 
   def setup_multiple_environments
     setup_user_and_host "edit"
@@ -855,6 +853,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   private
+
   def initialize_host
     User.current = users(:admin)
     disable_orchestration

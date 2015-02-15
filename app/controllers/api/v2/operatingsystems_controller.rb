@@ -1,7 +1,6 @@
 module Api
   module V2
     class OperatingsystemsController < V2::BaseController
-
       resource_description do
         name 'Operating systems'
       end
@@ -87,7 +86,6 @@ module Api
       def allowed_nested_id
         %w(architecture_id medium_id ptable_id config_template_id)
       end
-
     end
   end
 end
