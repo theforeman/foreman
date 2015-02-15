@@ -134,24 +134,6 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     end
   end
 
-# do we support this?
-=begin
-  test "should recreate the admin account" do
-    user = users(:one)
-    user.update_attribute :admin, true
-
-    User.find_by_login("admin").delete # Of course we only use destroy in the codebase
-    assert User.find_by_login("admin").nil?
-
-    as_user :one do
-      get :index, {}
-      assert_response :success
-    end
-
-    assert !User.find_by_login("admin").nil?
-  end
-=end
-
   test "#index should not show hidden users" do
     get :index, { :search => "login == #{users(:anonymous).login}" }
     results = ActiveSupport::JSON.decode(@response.body)
