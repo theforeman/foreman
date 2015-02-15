@@ -195,11 +195,6 @@ Style/DoubleNegation:
 Style/EachWithObject:
   Enabled: false
 
-# Offense count: 6
-# Cop supports --auto-correct.
-Style/EmptyLiteral:
-  Enabled: false
-
 # Offense count: 14
 # Configuration parameters: Exclude.
 Style/FileName:

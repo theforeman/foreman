@@ -2,7 +2,7 @@ class CreateMediaOperatingsystemsAndMigrateData < ActiveRecord::Migration
   class Medium < ActiveRecord::Base; end
 
   def self.up
-    medium_hash = Hash.new
+    medium_hash = {}
     Medium.all.each do |medium|
       unless medium.operatingsystem_id.nil?
         if Operatingsystem.exists?(medium.operatingsystem_id)
