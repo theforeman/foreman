@@ -6,8 +6,8 @@ class RemoveUserJoinTables < ActiveRecord::Migration
       drop_table :user_compute_resources
     end
     if table_exists? :user_notices
-    remove_foreign_key 'user_notices', 'notices'
-    remove_foreign_key 'user_notices', 'users'
+      remove_foreign_key 'user_notices', 'notices'
+      remove_foreign_key 'user_notices', 'users'
       drop_table :user_notices
     end
     if table_exists? :user_facts

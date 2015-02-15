@@ -189,17 +189,17 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should be able to create user without mail and update the mail later" do
-     user = User.create :login => "mailess", :mail=> nil, :auth_source => auth_sources(:one)
-     user.admin = true
-     user.save!(:validate => false)
+    user = User.create :login => "mailess", :mail=> nil, :auth_source => auth_sources(:one)
+    user.admin = true
+    user.save!(:validate => false)
 
-     update_hash = {"user"=>{
-       "login"  => user.login,
-       "mail"  => "you@have.mail"},
-       "id"     => user.id}
-     put :update, update_hash, set_session_user.merge(:user => user.id)
+    update_hash = {"user"=>{
+      "login"  => user.login,
+      "mail"  => "you@have.mail"},
+      "id"     => user.id}
+    put :update, update_hash, set_session_user.merge(:user => user.id)
 
-     assert !User.find_by_login(user.login).mail.blank?
+    assert !User.find_by_login(user.login).mail.blank?
   end
 
   test "should login external user" do

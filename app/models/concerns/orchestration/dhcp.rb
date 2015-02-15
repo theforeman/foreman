@@ -100,7 +100,7 @@ module Orchestration::DHCP
     if self.kind_of?(Host::Base) and jumpstart?
       if !old.build? or (old.medium != medium or old.arch != arch) or
           (os and old.os and (old.os.name != os.name or old.os != os))
-          return true
+        return true
       end
     end
     false

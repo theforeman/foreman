@@ -19,7 +19,7 @@ FactoryGirl.define do
     end
     after(:create) do |report,evaluator|
       evaluator.log_count.times do
-      FactoryGirl.create(:log, :report => report)
+        FactoryGirl.create(:log, :report => report)
       end
     end
   end

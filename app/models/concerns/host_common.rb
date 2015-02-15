@@ -139,9 +139,9 @@ module HostCommon
 
   def hg_class_ids
     hg_ids = if kind_of?(Hostgroup)
-                path_ids
+               path_ids
              elsif hostgroup
-                hostgroup.path_ids
+               hostgroup.path_ids
              end
     HostgroupClass.where(:hostgroup_id => hg_ids).pluck(:puppetclass_id)
   end

@@ -15,7 +15,7 @@ class StatisticsControllerTest < ActionController::TestCase
     stats = ActiveSupport::JSON.decode(@response.body)
     assert stats.is_a?(Hash)
     %w{os_count arch_count env_count klass_count cpu_count model_count mem_size mem_free swap_size swap_free}.each do |stat|
-          assert_not_nil stats["statistics"][stat]
+      assert_not_nil stats["statistics"][stat]
     end
   end
 end

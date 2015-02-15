@@ -111,27 +111,27 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should update nested host parameter" do
-     put :update, { :host_id => @host.to_param, :id => @host.parameters.first.to_param, :parameter => valid_attrs  }
-     assert_response :success
-     assert_equal '123', Host.find_by_name(@host.name).parameters.order("parameters.updated_at").last.value
+    put :update, { :host_id => @host.to_param, :id => @host.parameters.first.to_param, :parameter => valid_attrs  }
+    assert_response :success
+    assert_equal '123', Host.find_by_name(@host.name).parameters.order("parameters.updated_at").last.value
   end
 
   test "should update nested domain parameter" do
-     put :update, { :domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param, :parameter => valid_attrs  }
-     assert_response :success
-     assert_equal Domain.find_by_name("mydomain.net").parameters.order("parameters.updated_at").last.value, "123"
+    put :update, { :domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param, :parameter => valid_attrs  }
+    assert_response :success
+    assert_equal Domain.find_by_name("mydomain.net").parameters.order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested hostgroup parameter" do
-     put :update, { :hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param, :parameter => valid_attrs  }
-     assert_response :success
-     assert_equal Hostgroup.find_by_name("Common").group_parameters.order("parameters.updated_at").last.value, "123"
+    put :update, { :hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param, :parameter => valid_attrs  }
+    assert_response :success
+    assert_equal Hostgroup.find_by_name("Common").group_parameters.order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested os parameter" do
-     put :update, { :operatingsystem_id => operatingsystems(:redhat).to_param, :id => parameters(:os).to_param, :parameter => valid_attrs  }
-     assert_response :success
-     assert_equal Operatingsystem.find_by_name("Redhat").parameters.order("parameters.updated_at").last.value, "123"
+    put :update, { :operatingsystem_id => operatingsystems(:redhat).to_param, :id => parameters(:os).to_param, :parameter => valid_attrs  }
+    assert_response :success
+    assert_equal Operatingsystem.find_by_name("Redhat").parameters.order("parameters.updated_at").last.value, "123"
   end
 
   test "should destroy nested host parameter" do

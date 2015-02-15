@@ -3,11 +3,11 @@ module ComputeResourcesVmsHelper
   def vm_power_actions(host, vm)
     button_group(
       if vm
-         html_opts = vm.ready? ? {:confirm => _('Are you sure?'), :class => "btn btn-danger"} : {:class => "btn btn-success"}
-         link_to_if_authorized _("Power%s") % state(vm.ready?), hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start).merge(:auth_object => host, :permission => 'power_hosts'),
-         html_opts.merge(:method => :put)
+        html_opts = vm.ready? ? {:confirm => _('Are you sure?'), :class => "btn btn-danger"} : {:class => "btn btn-success"}
+        link_to_if_authorized _("Power%s") % state(vm.ready?), hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start).merge(:auth_object => host, :permission => 'power_hosts'),
+        html_opts.merge(:method => :put)
       else
-         link_to(_("Unknown Power State"), '#', :disabled => true, :class => "btn btn-warning")
+        link_to(_("Unknown Power State"), '#', :disabled => true, :class => "btn btn-warning")
       end
     )
   end
@@ -37,7 +37,7 @@ module ComputeResourcesVmsHelper
         when Fog::Time, Time
           _("%s ago") % time_ago_in_words(value)
         when nil
-            _("N/A")
+          _("N/A")
         else
           method == :memory ? number_to_human_size(value) : value.to_s
         end

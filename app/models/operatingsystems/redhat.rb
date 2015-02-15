@@ -9,7 +9,7 @@ class Redhat < Operatingsystem
 
     case uri.scheme
       when 'http', 'https', 'ftp'
-         "url --url #{uri}"
+        "url --url #{uri}"
       else
         server = uri.select(:host, :port).compact.join(':')
         dir    = uri.select(:path, :query).compact.join('?')

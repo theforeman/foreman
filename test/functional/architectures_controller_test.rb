@@ -65,8 +65,8 @@ class ArchitecturesControllerTest < ActionController::TestCase
   end
 
   def setup_user
-     @request.session[:user] = users(:one).id
-     users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    @request.session[:user] = users(:one).id
+    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
   end
 
   def user_with_viewer_rights_should_fail_to_edit_an_architecture
