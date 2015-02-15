@@ -62,7 +62,7 @@ class PuppetclassesController < ApplicationController
     else
       if params['host']
         @obj = Host::Base.find(params['host_id'])
-        unless @obj.kind_of?(Host::Managed)
+        unless @obj.is_a?(Host::Managed)
           @obj      = @obj.becomes(Host::Managed)
           @obj.type = "Host::Managed"
         end

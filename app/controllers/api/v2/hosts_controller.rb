@@ -196,7 +196,7 @@ Return value may either be one of the following:
 
       def detect_host_type
         return Host::Managed if params[:type].blank?
-        if params[:type].constantize.new.kind_of?(Host::Base)
+        if params[:type].constantize.new.is_a?(Host::Base)
           logger.debug "Creating host of type: #{params[:type]}"
           return params[:type].constantize
         else

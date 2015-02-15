@@ -112,7 +112,7 @@ module Api
       def append_array_of_ids(hash_params)
         model_name = controller_name.singularize
         hash_params.dup.each do |k,v|
-          if v.kind_of?(Array)
+          if v.is_a?(Array)
             association_name_ids = "#{k.singularize}_ids"
             association_name_names = "#{k.singularize}_names"
             if resource_class.instance_methods.map(&:to_s).include?(association_name_ids) && v.any? && v.all? { |a| a.keys.include?("id") }
