@@ -50,5 +50,4 @@ class Junos < Operatingsystem
   def display_family
     "Junos"
   end
-
 end

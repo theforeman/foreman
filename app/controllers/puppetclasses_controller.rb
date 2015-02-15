@@ -85,5 +85,4 @@ class PuppetclassesController < ApplicationController
         super
     end
   end
-
 end

@@ -14,5 +14,6 @@ class FiltersHelperOverrides
   end
 
   private
+
   def initialize; end
 end

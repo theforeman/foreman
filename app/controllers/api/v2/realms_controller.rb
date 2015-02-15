@@ -1,7 +1,6 @@
 module Api
   module V2
     class RealmsController < V2::BaseController
-
       include Api::Version2
       include Api::TaxonomyScope
 

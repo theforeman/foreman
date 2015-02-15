@@ -4,7 +4,6 @@
 # so that <%= @host.name %> has the right @host variable
 #
 class SafeRender
-
   def initialize(args = {})
     @allowed_methods = args[:methods] || []
     @allowed_vars    = args[:variables] || {}
@@ -40,5 +39,4 @@ class SafeRender
       ERB.new(string, nil, '-').result(binding)
     end
   end
-
 end

@@ -1,5 +1,4 @@
 class Archlinux < Operatingsystem
-
   PXEFILES = {:kernel => "linux", :initrd => "initrd"}
 
   # Simple output of the media url
@@ -19,7 +18,6 @@ class Archlinux < Operatingsystem
     pxedir + "/" + PXEFILES[file]
   end
 
-
   def display_family
     "Arch Linux"
   end
@@ -27,5 +25,4 @@ class Archlinux < Operatingsystem
   def self.model_name
     superclass.model_name
   end
-
 end

@@ -19,5 +19,4 @@ class NoWhitespaceValidatorTest < ActiveSupport::TestCase
     @item.name.insert(rand(@item.name.length),' ')
     refute @item.valid?
   end
-
 end

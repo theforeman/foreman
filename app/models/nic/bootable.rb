@@ -1,6 +1,5 @@
 module Nic
   class Bootable < Managed
-
     delegate :tftp?, :tftp, :to => :subnet
     delegate :jumpstart?, :build?, :to => :host
 
@@ -32,6 +31,5 @@ module Nic
       end
       attrs
     end
-
   end
 end

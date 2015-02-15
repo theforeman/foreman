@@ -45,5 +45,4 @@ module ReportCommon
     @calc ||= ReportStatusCalculator.new(:bit_field => read_attribute(self.class.report_status))
     @calc.status(type)
   end
-
 end

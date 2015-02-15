@@ -49,7 +49,6 @@ module Api
       def destroy
         process_response @bookmark.destroy
       end
-
     end
   end
 end

@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::ComputeResourcesControllerTest < ActionController::TestCase
-
   def setup
     Fog.mock!
   end
@@ -96,5 +95,4 @@ class Api::V1::ComputeResourcesControllerTest < ActionController::TestCase
     delete :destroy, { :id => compute_resources(:yourcompute).id }
     assert_response :not_found
   end
-
 end

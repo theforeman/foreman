@@ -268,5 +268,4 @@ class SubnetTest < ActiveSupport::TestCase
     assert_includes subnet.known_ips, '192.168.2.4'
     assert_equal 4, subnet.known_ips.size
   end
-
 end

@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class TokenTest < ActiveSupport::TestCase
-
   test "a token has a value" do
     t = Token.new
     assert !t.save
@@ -64,5 +63,4 @@ class TokenTest < ActiveSupport::TestCase
       assert Token::Jail.allowed?(m), "Method #{m} is not available in Token::Jail while should be allowed."
     end
   end
-
 end

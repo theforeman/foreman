@@ -1,5 +1,4 @@
 class ComputeResourcesVmsController < ApplicationController
-
   def index
     @compute_resource = find_compute_resource(:view_compute_resources_vms)
     @vms = @compute_resource.vms.all(params[:filters] || {})
@@ -124,5 +123,4 @@ class ComputeResourcesVmsController < ApplicationController
     error _("Error - %{message}") % { :message => _(e.message) }
     redirect_to :back
   end
-
 end

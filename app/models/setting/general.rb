@@ -1,6 +1,5 @@
 require 'facter'
 class Setting::General < Setting
-
   def self.load_defaults
     # Check the table exists
     return unless super
@@ -30,7 +29,5 @@ class Setting::General < Setting
     end
 
     true
-
   end
-
 end

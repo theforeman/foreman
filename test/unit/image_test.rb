@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ImageTest < ActiveSupport::TestCase
-
   test "can destroy image even if used by host and ensure host image_id is nullified" do
     image = images(:one)
     host = FactoryGirl.create(:host)
@@ -21,5 +20,4 @@ class ImageTest < ActiveSupport::TestCase
     image.valid? #trigger validations
     assert image.errors.messages.keys.include?(:uuid)
   end
-
 end

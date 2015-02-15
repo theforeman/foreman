@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class UsergroupTest < ActiveSupport::TestCase
-
   setup do
     User.current = users :admin
   end
@@ -240,8 +239,5 @@ class UsergroupTest < ActiveSupport::TestCase
       @usergroup.external_usergroups.select { |eu| eu.name == 'aname'}.first.refresh
       assert_includes @usergroup.users, users(:one)
     end
-
   end
-
-
 end

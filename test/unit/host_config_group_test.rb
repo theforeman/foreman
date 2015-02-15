@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class HostConfigGroupTest < ActiveSupport::TestCase
-
   test 'relationship host.group_puppetclasses' do
     host = FactoryGirl.create(:host, :config_groups => [
       FactoryGirl.create(:config_group, :puppetclasses => [

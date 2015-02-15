@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class HostgroupTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(hostgroups_path,"Host Groups","New Host Group")
   end
@@ -21,5 +20,4 @@ class HostgroupTest < ActionDispatch::IntegrationTest
     assert_submit_button(hostgroups_path)
     assert page.has_link? 'db Old'
   end
-
 end

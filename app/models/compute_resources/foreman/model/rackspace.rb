@@ -1,6 +1,5 @@
 module Foreman::Model
   class Rackspace < ComputeResource
-
     validates :user, :password, :region, :presence => true
     validate :ensure_valid_region
 
@@ -114,6 +113,5 @@ module Foreman::Model
         :config_drive => true
       )
     end
-
   end
 end

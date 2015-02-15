@@ -69,7 +69,6 @@ module LayoutHelper
     end
   end
 
-
   def multiple_checkboxes(f, attr, klass, associations, options = {}, html_options = {})
     if associations.count > 5
       associated_obj = klass.send(ActiveModel::Naming.plural(associations.first))
@@ -158,7 +157,6 @@ module LayoutHelper
     content_tag(:div, :class=> "clearfix") do
       content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
                   :id          => options.delete(:control_group_id) do
-
         required = options.delete(:required) # we don't want to use html5 required attr so we delete the option
         required_mark = ' *' if required.nil? ? is_required?(f, attr) : required
         label   = options[:label] == :none ? '' : options.delete(:label)

@@ -17,5 +17,4 @@ module PuppetcaHelper
       time_ago_in_words time
     end
   end
-
 end

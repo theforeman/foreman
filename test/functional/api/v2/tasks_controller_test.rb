@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::TasksControllerTest < ActionController::TestCase
-
   test 'should not get index without an id' do
     get :index, { :id => nil }
     assert_response :not_found
@@ -30,5 +29,4 @@ class Api::V2::TasksControllerTest < ActionController::TestCase
     assert_equal 10, task['priority']
     assert Time.now - Time.parse(task['timestamp']) < 5.seconds
   end
-
 end

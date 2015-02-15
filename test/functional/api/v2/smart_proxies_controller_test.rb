@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'master02', :url => 'http://server:8443' }
 
   test "should get index" do
@@ -271,5 +270,4 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
       assert_response :success
     end
   end
-
 end

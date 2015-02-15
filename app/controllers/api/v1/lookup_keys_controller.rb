@@ -58,7 +58,6 @@ module Api
       def destroy
         process_response @lookup_key.destroy
       end
-
     end
   end
 end

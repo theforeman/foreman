@@ -8,6 +8,7 @@ module Orchestration::Puppetca
   end
 
   protected
+
   def initialize_puppetca
     return unless puppetca?
     return unless Setting[:manage_puppetca]

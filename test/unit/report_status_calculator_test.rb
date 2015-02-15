@@ -1,6 +1,5 @@
 require 'test_helper'
 class ReportStatusCalculatorTest < ActiveSupport::TestCase
-
   test 'it should not change host report status when we have skipped reports but there are no log entries' do
     r = ReportStatusCalculator.new(:counters => {'applied' => 0, 'restarted' => 0, 'failed' => 0, 'failed_restarts' => 0, 'skipped' => 1, 'pending' => 0})
     assert_equal 0, r.status['failed']

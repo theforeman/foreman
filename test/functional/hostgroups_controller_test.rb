@@ -111,6 +111,4 @@ class HostgroupsControllerTest < ActionController::TestCase
     put :update, {:id => hostgroup.id, :hostgroup => {:name => 'new_child'}}, set_session_user
     assert_equal 'hostgroup=Parent/new_child', lookup_values(:six).match
   end
-
-
 end

@@ -235,5 +235,4 @@ class PluginTest < ActiveSupport::TestCase
     end
     assert_equal [ "test1", "test2", "test3", "test4" ], @klass.tests_to_skip["FooTest"]
   end
-
 end

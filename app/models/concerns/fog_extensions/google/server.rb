@@ -18,7 +18,6 @@ module FogExtensions
       def vm_description
         pretty_machine_type
       end
-
     end
   end
 end

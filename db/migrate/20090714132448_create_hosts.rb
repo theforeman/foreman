@@ -1,6 +1,5 @@
 class CreateHosts < ActiveRecord::Migration
   def self.up
-
     # Copied from the Puppet schema to replace loading their schema directly
     create_table :hosts do |t|
       t.column :name, :string, :null => false

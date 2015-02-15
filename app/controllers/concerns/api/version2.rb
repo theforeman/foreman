@@ -5,6 +5,5 @@ module Api
     def api_version
       '2'
     end
-
   end
 end

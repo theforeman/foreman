@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ReportTest < ActionDispatch::IntegrationTest
-
   def setup
     @report = FactoryGirl.create(:report, :old_report)
   end
@@ -21,5 +20,4 @@ class ReportTest < ActionDispatch::IntegrationTest
     visit report_path(@report)
     assert page.has_selector?('h1', :text => @report.host.fqdn), "hostname was expected in the <h1> tag, but was not found"
   end
-
 end

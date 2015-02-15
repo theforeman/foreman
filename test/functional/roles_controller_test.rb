@@ -18,7 +18,6 @@
 require 'test_helper'
 
 class RolesControllerTest < ActionController::TestCase
-
   test 'get index' do
     get :index, {}, set_session_user
     assert_response :success
@@ -107,5 +106,4 @@ class RolesControllerTest < ActionController::TestCase
       assert_equal @role.permissions, cloned_role.permissions
     end
   end
-
 end

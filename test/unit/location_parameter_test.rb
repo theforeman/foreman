@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class LocationParameterTest < ActiveSupport::TestCase
-
   setup do
     User.current = users :admin
   end
@@ -31,5 +30,4 @@ class LocationParameterTest < ActiveSupport::TestCase
     assert LocationParameter.create! :name => 'some_parameter', :value => 'value', :reference_id => location1.id
     assert LocationParameter.create! :name => 'some_parameter', :value => 'value', :reference_id => location2.id
   end
-
 end

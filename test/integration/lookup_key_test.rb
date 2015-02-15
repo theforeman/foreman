@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class LookupKeyTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(lookup_keys_path,"Smart variables",false)
   end
@@ -17,5 +16,4 @@ class LookupKeyTest < ActionDispatch::IntegrationTest
     assert_submit_button(lookup_keys_path)
     assert page.has_link? 'webport'
   end
-
 end

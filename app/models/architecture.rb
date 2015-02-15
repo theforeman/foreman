@@ -16,5 +16,4 @@ class Architecture < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :hosts_count
-
 end

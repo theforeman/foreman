@@ -46,5 +46,4 @@ class Location < Taxonomy
   def sti_name
     _("location")
   end
-
 end

@@ -1,5 +1,4 @@
 module SettingsHelper
-
   def value(setting)
     if setting.readonly?
       return readonly_field(
@@ -29,5 +28,4 @@ module SettingsHelper
   def short_cat(category)
     category.gsub(/Setting::/,'')
   end
-
 end

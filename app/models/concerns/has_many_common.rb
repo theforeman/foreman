@@ -11,7 +11,6 @@ module HasManyCommon
   end
 
   module ClassMethods
-
     # default attribute used by *_names and *_name is :name
     # if :name doesn't exist, :id is used, so it doesn't error out if attr_name :field is not defined
     # most likely model will have attr_name :field to overwrite attribute_name
@@ -90,7 +89,5 @@ module HasManyCommon
         assoc_klass(association).find_by_id(assoc_id).try(:name_method)
       end
     end
-
   end
-
 end

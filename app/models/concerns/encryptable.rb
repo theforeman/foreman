@@ -74,7 +74,6 @@ module Encryptable
     end
 
     module ClassMethods
-
       def encrypts(*fields)
         class_attribute :encryptable_fields
         self.encryptable_fields = fields.map(&:to_sym)
@@ -101,7 +100,6 @@ module Encryptable
           end
         end
       end
-
     end
 
   else

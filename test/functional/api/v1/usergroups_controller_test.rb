@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::UsergroupsControllerTest < ActionController::TestCase
-
   def setup
     as_admin { @usergroup = FactoryGirl.create(:usergroup) }
   end
@@ -41,5 +40,4 @@ class Api::V1::UsergroupsControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

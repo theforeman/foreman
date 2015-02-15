@@ -6,5 +6,4 @@ class AboutController < ApplicationController
     @compute_resources = ComputeResource.authorized(:view_compute_resources)
     @plugins = Foreman::Plugin.all
   end
-
 end

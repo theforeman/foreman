@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class OperatingsystemTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(operatingsystems_path,"Operating systems","New Operating system")
   end
@@ -32,5 +31,4 @@ class OperatingsystemTest < ActionDispatch::IntegrationTest
   # PENDING
   # test "add templates" do
   # end
-
 end

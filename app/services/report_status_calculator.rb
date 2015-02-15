@@ -1,5 +1,4 @@
 class ReportStatusCalculator
-
   # converts a counters hash into a bit field
   # expects a metrics_to_hash kind of counters
   # see the report_processor for the implementation
@@ -32,6 +31,6 @@ class ReportStatusCalculator
   end
 
   private
-  attr_reader :raw_status, :counters
 
+  attr_reader :raw_status, :counters
 end

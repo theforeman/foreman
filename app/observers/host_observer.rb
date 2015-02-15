@@ -15,5 +15,4 @@ class HostObserver < ActiveRecord::Observer
       host.build? ? host.set_token : host.expire_token
     end
   end
-
 end

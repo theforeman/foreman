@@ -1,6 +1,5 @@
 module Dashboard
   module Manager
-
     class << self
       def map
         @widgets ||= []
@@ -67,7 +66,6 @@ module Dashboard
           end
         end
       end
-
     end
   end
 end

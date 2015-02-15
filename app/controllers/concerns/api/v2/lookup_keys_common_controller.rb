@@ -136,5 +136,4 @@ module Api::V2::LookupKeysCommonController
         not_found "#{obj} not found by id '#{id}'"
       end
     end
-
 end

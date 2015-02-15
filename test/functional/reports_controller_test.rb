@@ -76,5 +76,4 @@ class ReportsControllerTest < ActionController::TestCase
     get :index, {}, set_session_user
     assert_response :success
   end
-
 end

@@ -163,5 +163,4 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc,     :set_dhcp ] }.size
     assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc.old, :del_dhcp ] }.size
   end
-
 end

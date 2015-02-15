@@ -1,13 +1,11 @@
 require 'test_helper'
 
 class FactValueTest < ActionDispatch::IntegrationTest
-
   def setup
     @host = FactoryGirl.create(:host)
     FactoryGirl.create(:fact_value, :value => '2.6.9',:host => @host,
                        :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
   end
-
 
   test "index page" do
     assert_index_page(fact_values_path,"Fact Values",nil,true)
@@ -34,5 +32,4 @@ class FactValueTest < ActionDispatch::IntegrationTest
     click_link("2.6.9")
     assert_equal 'facts.kernelversion = "2.6.9"', find_field('search').value
   end
-
 end

@@ -8,7 +8,6 @@ class CatchJsonParseErrorsTest < ActiveSupport::TestCase
   end
 
   test "submitting invalid JSON" do
-
     broken_json = "{notAJson"
     body = post_broken_json_to_api('/api/hosts', broken_json)
 
@@ -39,5 +38,4 @@ class CatchJsonParseErrorsTest < ActiveSupport::TestCase
       'Content-Type' => 'application/json'
     }
   end
-
 end

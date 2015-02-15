@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class InflectionTest < ActiveSupport::TestCase
-
   test "puppetclass.singularize should equal puppetclass" do
     assert_equal "puppetclass", "puppetclass".singularize
   end
@@ -15,5 +14,4 @@ class InflectionTest < ActiveSupport::TestCase
     assert_equal "hostgroup_class", "hostgroup_class".singularize
     assert_equal "HostgroupClass", "HostgroupClass".singularize
   end
-
 end

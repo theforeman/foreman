@@ -1,7 +1,6 @@
 module Api
   module V2
     class PtablesController < V2::BaseController
-
       before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
@@ -56,7 +55,6 @@ module Api
       def allowed_nested_id
         %w(operatingsystem_id)
       end
-
     end
   end
 end

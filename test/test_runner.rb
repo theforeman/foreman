@@ -1,5 +1,4 @@
 class ForemanMiniTest < MiniTest::Unit
-
   def _run_suites(suites, type)
     suites.each do |suite|
       next unless type == :test
@@ -27,7 +26,6 @@ class ForemanMiniTest < MiniTest::Unit
 
     super(suites, type)
   end
-
 end
 
 MiniTest::Unit.runner = ForemanMiniTest.new

@@ -32,6 +32,7 @@ class TimedCachedStore < ActiveSupport::Cache::MemoryStore
   end
 
   protected
+
   def delete_if_expired(name)
     if expired?(name)
       @data[ts_field(name)] = nil
@@ -51,5 +52,4 @@ class TimedCachedStore < ActiveSupport::Cache::MemoryStore
   def ts_field(name)
     "#{name}_timestamp"
   end
-
 end

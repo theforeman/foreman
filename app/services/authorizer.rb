@@ -2,7 +2,6 @@ class Authorizer
   attr_accessor :user, :base_collection, :organization_ids, :location_ids
 
   def initialize(user, options = {})
-
     @cache = HashWithIndifferentAccess.new { |h, k| h[k] = HashWithIndifferentAccess.new }
     self.user = user
     self.base_collection = options.delete(:collection)
@@ -131,5 +130,4 @@ class Authorizer
 
     @base_ids ||= @base_collection.all? { |i| i.is_a?(Fixnum) } ? @base_collection : @base_collection.map(&:id)
   end
-
 end

@@ -1,5 +1,4 @@
 class ForemanTrend < Trend
-
   validates :trendable_id, :uniqueness => {:scope => :trendable_type}
 
   def to_label

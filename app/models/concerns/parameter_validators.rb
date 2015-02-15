@@ -31,5 +31,4 @@ module ParameterValidators
       when Location        then :location_parameters
     end
   end
-
 end

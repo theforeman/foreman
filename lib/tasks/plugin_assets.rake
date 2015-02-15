@@ -1,6 +1,5 @@
 desc 'Compile engine assets - called via rake plugin:assets:precompile[plugin_name]'
 task 'plugin:assets:precompile', :engine do |t, args|
-
   # This task will generate assets for a plugin and namespace them in
   # plugin_name/public/assets/<plugin_name>. The generated manifest.yaml found
   # in the assets directory of the plugin is used to add the asset digest paths

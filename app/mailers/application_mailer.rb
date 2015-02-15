@@ -1,5 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-
   default :from => Setting[:email_reply_address] || "noreply@foreman.example.org"
 
   private

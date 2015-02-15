@@ -58,7 +58,6 @@ module Api
       def allowed_nested_id
         %w(role_id)
       end
-
     end
   end
 end

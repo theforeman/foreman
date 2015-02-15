@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class OrganizationParameterTest < ActiveSupport::TestCase
-
   setup do
     User.current = users :admin
   end
@@ -31,5 +30,4 @@ class OrganizationParameterTest < ActiveSupport::TestCase
     assert OrganizationParameter.create! :name => 'some_parameter', :value => 'value', :reference_id => organization1.id
     assert OrganizationParameter.create! :name => 'some_parameter', :value => 'value', :reference_id => organization2.id
   end
-
 end

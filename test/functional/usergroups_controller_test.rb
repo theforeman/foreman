@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class UsergroupsControllerTest < ActionController::TestCase
-
   def setup
     as_admin { FactoryGirl.create(:usergroup) }
   end

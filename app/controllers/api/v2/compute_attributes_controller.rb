@@ -1,7 +1,6 @@
 module Api
   module V2
     class ComputeAttributesController < V2::BaseController
-
       before_filter :find_resource, :only => :update
 
       def_param_group :compute_attribute do
@@ -40,7 +39,6 @@ module Api
       def update
         process_response @compute_attribute.update_attributes(params[:compute_attribute])
       end
-
     end
   end
 end

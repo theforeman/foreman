@@ -1,6 +1,5 @@
 require 'facter'
 class Setting::Auth < Setting
-
   def self.load_defaults
     # Check the table exists
     return unless super
@@ -22,7 +21,5 @@ class Setting::Auth < Setting
     end
 
     true
-
   end
-
 end

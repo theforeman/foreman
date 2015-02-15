@@ -88,5 +88,4 @@ class RolesController < ApplicationController
 
     new_role
   end
-
 end

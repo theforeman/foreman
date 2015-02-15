@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::ReportsControllerTest < ActionController::TestCase
-
   describe "Non Admin User" do
     def setup
       User.current = users(:one) #use an unpriviledged user, not apiadmin
@@ -185,5 +184,4 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
     get :last, {:host_id => host.to_param }
     assert_response :not_found
   end
-
 end

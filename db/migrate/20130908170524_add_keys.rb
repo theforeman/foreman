@@ -1,7 +1,5 @@
 class AddKeys < ActiveRecord::Migration
-
   def change
-
     # turn off Foreign Key checks
     if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
       ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"

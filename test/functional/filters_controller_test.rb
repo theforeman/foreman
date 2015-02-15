@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class FiltersControllerTest < ActionController::TestCase
-
   setup do
     User.current = users(:admin)
   end
@@ -68,5 +67,4 @@ class FiltersControllerTest < ActionController::TestCase
     end
     assert_redirected_to filters_path
   end
-
 end

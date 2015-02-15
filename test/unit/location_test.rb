@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class LocationTest < ActiveSupport::TestCase
-
   setup do
     User.current = users :admin
   end
@@ -345,5 +344,4 @@ class LocationTest < ActiveSupport::TestCase
       assert_equal [loc1.id, loc2.id].sort, Location.my_locations.pluck(:id).sort
     end
   end
-
 end

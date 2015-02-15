@@ -1,5 +1,4 @@
 class AddFamilyToOs < ActiveRecord::Migration
-
   class Operatingsystem < ActiveRecord::Base; end
 
   def self.up

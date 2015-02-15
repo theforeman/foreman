@@ -106,7 +106,6 @@ class FilterTest < ActiveSupport::TestCase
       assert_include f.taxonomy_search, "(location_id = #{@location.id})"
     end
 
-
     test "filter with location set is always limited before validation" do
       f  = FactoryGirl.build(:filter, :search => '', :unlimited => '1',
                          :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id])

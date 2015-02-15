@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::ExternalUsergroupsControllerTest < ActionController::TestCase
-
   setup do
     ExternalUsergroup.any_instance.stubs(:in_auth_source?).returns(true)
     @external_usergroup = FactoryGirl.create(:external_usergroup)

@@ -131,5 +131,4 @@ module TaxonomyHelper
     options[:label]    ||= _(label)
     multiple_selects f, label.downcase, taxonomy.authorized("assign_#{label.downcase}", taxonomy), selected_ids, options, options_html
   end
-
 end

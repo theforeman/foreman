@@ -1,5 +1,4 @@
 class AutosignController < ApplicationController
-
   def index
     @proxy = SmartProxy.authorized(:view_smart_proxies_autosign).find(params[:smart_proxy_id])
     setup_proxy

@@ -56,5 +56,4 @@ class SubnetsControllerTest < ActionController::TestCase
     assert_redirected_to subnets_url
     assert !Subnet.exists?(subnet.id)
   end
-
 end

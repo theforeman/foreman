@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::PermissionsControllerTest < ActionController::TestCase
-
   def assert_response_not_empty
     assert_response :success
     assert_not_empty ActiveSupport::JSON.decode(@response.body)
@@ -23,5 +22,4 @@ class Api::V2::PermissionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:resource_types)
     assert_response_not_empty
   end
-
 end

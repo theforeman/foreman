@@ -18,7 +18,6 @@ class DummyDestroyFlagClass
 end
 
 class DestroyFlagTest < ActiveSupport::TestCase
-
   describe 'include DestroyFlag' do
     setup do
       @dummy = DummyDestroyFlagClass.new

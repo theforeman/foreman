@@ -1,7 +1,6 @@
 module Api
   module V2
     class PuppetclassesController < V2::BaseController
-
       include Api::Version2
       include Api::TaxonomyScope
 
@@ -88,7 +87,6 @@ module Api
       def allowed_nested_id
         %w(environment_id host_id hostgroup_id)
       end
-
     end
   end
 end

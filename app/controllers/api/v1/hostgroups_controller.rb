@@ -72,7 +72,6 @@ module Api
           process_response @hostgroup.destroy
         end
       end
-
     end
   end
 end

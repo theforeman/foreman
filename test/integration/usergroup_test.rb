@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class UsergroupTest < ActionDispatch::IntegrationTest
-
   def setup
     as_admin { FactoryGirl.create(:usergroup, :name => "Admins") }
   end
@@ -24,5 +23,4 @@ class UsergroupTest < ActionDispatch::IntegrationTest
     assert_submit_button(usergroups_path)
     assert page.has_link? 'SuperAdmins'
   end
-
 end

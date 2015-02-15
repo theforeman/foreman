@@ -21,5 +21,4 @@ class ProxyApiTemplateTest < ActiveSupport::TestCase
     @template.expects(:get).with('templateServer').returns(fake_response({'templateServer'=>'mytemplateserver'}))
     assert_equal('mytemplateserver', @template.template_url)
   end
-
 end

@@ -34,5 +34,4 @@ module Foreman::Controller::AutoCompleteSearch
   def store_redirect_to_url
     session["redirect_to_url_#{controller_name}"] ||= request.referer
   end
-
 end

@@ -17,7 +17,6 @@ module Api
 
       def show
       end
-
     end
   end
 end

@@ -71,6 +71,7 @@ class Usergroup < ActiveRecord::Base
   end
 
   protected
+
   # Recurses down the tree of usergroups and finds the users
   # [+group_list+]: Array of Usergroups that have already been processed
   # [+users+]     : Array of users accumulated at this point

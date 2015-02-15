@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::ReportsControllerTest < ActionController::TestCase
-
   test "should get index" do
     get :index, { }
     assert_response :success
@@ -70,5 +69,4 @@ class Api::V1::ReportsControllerTest < ActionController::TestCase
     get :last, {:host_id => host.to_param }
     assert_response :not_found
   end
-
 end

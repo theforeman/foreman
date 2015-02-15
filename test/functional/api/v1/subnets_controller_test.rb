@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::SubnetsControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'QA2', :network => '10.35.2.27', :mask => '255.255.255.0' }
 
   def test_index
@@ -10,7 +9,6 @@ class Api::V1::SubnetsControllerTest < ActionController::TestCase
     assert subnets.is_a?(Array)
     assert_response :success
     assert !subnets.empty?
-
   end
 
   test "should show individual record" do

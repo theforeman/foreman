@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::UsersControllerTest < ActionController::TestCase
-
   valid_attrs = { :login => "johnsmith" }
 
   def setup
@@ -59,7 +58,6 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
 
     mod_user = User.find_by_id(user.id)
     assert mod_user.matching_password?("dummy")
-
   end
 
   test "should detect password validation mismatches" do
@@ -164,5 +162,4 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     get :show, { :id => users(:anonymous).id }
     assert_response :not_found
   end
-
 end

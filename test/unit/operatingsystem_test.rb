@@ -310,7 +310,6 @@ class OperatingsystemTest < ActiveSupport::TestCase
          pid += 1=>{"name"=>"a", "value"=>"2", :nested => ""},
          pid +  1=>{"name"=>"b", "value"=>"1", :nested => ""}})
     refute_valid operatingsystem
-
   end
 
   context 'os default templates' do

@@ -1,5 +1,4 @@
 namespace :trends do
-
   desc 'Create Trend counts'
   task :counter => :environment do
     TrendImporter.update!
@@ -28,5 +27,4 @@ namespace :trends do
       end
     end
   end
-
 end

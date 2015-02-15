@@ -38,5 +38,4 @@ class ArchitecturesController < ApplicationController
       process_error
     end
   end
-
 end

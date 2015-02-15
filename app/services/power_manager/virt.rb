@@ -1,6 +1,5 @@
 module PowerManager
   class Virt < Base
-
     def initialize(opts = {})
       super(opts)
       begin
@@ -29,6 +28,7 @@ module PowerManager
     end
 
     private
+
     attr_reader :vm
 
     def action_map

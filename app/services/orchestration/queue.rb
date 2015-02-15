@@ -2,7 +2,6 @@ require 'orchestration/task'
 module Orchestration
   # Represents tasks queue for orchestration
   class Queue
-
     attr_reader :items
     STATUS = %w[ pending running failed completed rollbacked conflict canceled]
 

@@ -17,7 +17,9 @@ class OrchestrationTest < ActiveSupport::TestCase
       def test_execute(method)
         execute({:action => [self, method]})
       end
+
       protected
+
       def setTest; true; end
     end
     h = Host::Test.new
@@ -54,5 +56,4 @@ class OrchestrationTest < ActiveSupport::TestCase
     assert_equal @host, clone.host
     assert_equal @host2, @nic.host
   end
-
 end

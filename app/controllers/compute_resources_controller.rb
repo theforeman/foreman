@@ -124,5 +124,4 @@ class ComputeResourcesController < ApplicationController
         super
     end
   end
-
 end

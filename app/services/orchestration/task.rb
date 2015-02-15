@@ -28,6 +28,7 @@ module Orchestration
     end
 
     private
+
     def update_ts
       @timestamp = Time.now
     end
@@ -36,6 +37,5 @@ module Orchestration
     def <=>(other)
       self.priority <=> other.priority
     end
-
   end
 end

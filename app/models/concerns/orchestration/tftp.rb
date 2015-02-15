@@ -126,5 +126,4 @@ module Orchestration::TFTP
   def no_errors
     errors.empty? && host.errors.empty?
   end
-
 end

@@ -34,5 +34,4 @@ module Foreman::Controller::Environments
     end
     redirect_to :controller => controller_path
   end
-
 end

@@ -1,7 +1,6 @@
 module Api
   module V1
     class OperatingsystemsController < V1::BaseController
-
       resource_description do
         name 'Operating systems'
       end
@@ -78,7 +77,6 @@ module Api
       rescue => e
         render :json => e.to_s, :status => :unprocessable_entity
       end
-
     end
   end
 end

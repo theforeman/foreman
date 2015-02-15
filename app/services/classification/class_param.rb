@@ -1,6 +1,5 @@
 module Classification
   class ClassParam < Base
-
     def enc
       key_hash = hashed_class_parameters
       values   = values_hash
@@ -24,11 +23,13 @@ module Classification
     end
 
     protected
+
     def class_parameters
       @keys ||= LookupKey.includes(:environment_classes).parameters_for_class(puppetclass_ids, environment_id)
     end
 
     private
+
     def hashed_class_parameters
       h = {}
       class_parameters.each do |key|
@@ -38,7 +39,6 @@ module Classification
       end
       h
     end
-
   end
 end
 

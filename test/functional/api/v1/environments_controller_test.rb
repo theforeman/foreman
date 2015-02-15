@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::EnvironmentsControllerTest < ActionController::TestCase
-
   development_environment = { :name => 'Development' }
 
   test "should get index" do

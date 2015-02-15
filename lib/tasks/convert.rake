@@ -66,7 +66,6 @@ namespace :db do
   namespace :convert do
     desc 'Convert/import production data to development.   DANGER Deletes all data in the development database.   Assumes both schemas are already migrated.'
     task :prod2dev => :environment do
-
       # We need unique classes so ActiveRecord can hash different connections
       # We do not want to use the real Model classes because any business
       # rules will likely get in the way of a database transfer
@@ -121,7 +120,6 @@ namespace :db do
           # Now, write out the prod data to the dev db
           DevelopmentModelClass.transaction do
             models.each do |model|
-
               new_model = DevelopmentModelClass.new()
 
               model.attributes.each do |key, value|

@@ -1,5 +1,4 @@
 class TaxHost
-
   FOREIGN_KEYS = [:location_id, :organization_id, :hostgroup_id,
                   :environment_id, :domain_id, :medium_id,
                   :subnet_id, :compute_resource_id, :realm_id]

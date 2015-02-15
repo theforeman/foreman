@@ -16,5 +16,4 @@ class Message < ActiveRecord::Base
   def skip_strip_attrs
     ['value']
   end
-
 end

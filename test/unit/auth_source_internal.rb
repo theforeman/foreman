@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class AuthSourceInternalTest < ActiveSupport::TestCase
-
   test "#authenticate returns nil when username is blank" do
     refute AuthSourceInternal.new.authenticate('', 'secret')
   end
@@ -33,5 +32,4 @@ class AuthSourceInternalTest < ActiveSupport::TestCase
   test "#to_label returns INTERNAL" do
     assert_equal 'INTERNAL', AuthSourceInternal.new.to_label
   end
-
 end

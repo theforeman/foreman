@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ReportImporterTest < ActiveSupport::TestCase
-
   def setup
     User.current = users :admin
     ActionMailer::Base.deliveries = []
@@ -51,5 +50,4 @@ class ReportImporterTest < ActiveSupport::TestCase
       ReportImporter.import read_json_fixture('report-applied.json')
     end
   end
-
 end

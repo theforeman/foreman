@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class LookupKeyTest < ActiveSupport::TestCase
-
   def setup
     @host1, @host2, @host3 = FactoryGirl.create_list(:host, 3,
                                :location      => taxonomies(:location1),

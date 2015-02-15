@@ -73,7 +73,6 @@ module Net
         e.message  = "DNS conflict detected - expected #{self}, found #{conflicts.map(&:to_s).join(', ')}"
         e
       end
-
     end
   end
 end

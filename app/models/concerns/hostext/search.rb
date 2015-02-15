@@ -89,7 +89,6 @@ module Hostext
     end
 
     module ClassMethods
-
       def search_by_user(key, operator, value)
         clean_key = key.sub(/^.*\./,'')
         if value == "current_user"

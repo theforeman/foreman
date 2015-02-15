@@ -47,7 +47,6 @@ module Api
       def destroy
         process_response @usergroup.destroy
       end
-
     end
   end
 end
