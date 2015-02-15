@@ -3,6 +3,7 @@ module Orchestration::DNS
 
   included do
     after_validation :dns_conflict_detected?, :queue_dns
+    after_validation :queue_dns_aliases_modifications
     before_destroy :queue_dns_destroy
   end
 
@@ -58,6 +59,18 @@ module Orchestration::DNS
     dns_ptr_record.conflicts.each { |c| c.destroy }
   end
 
+  def propagate_aliases_modifications
+    @aliases_to_remove.each do |al|
+      record = Net::DNS::CNAMERecord.new cname_record_attrs(al)
+      record.destroy
+    end
+
+    @aliases_to_add.each do |al|
+      record = Net::DNS::CNAMERecord.new cname_record_attrs(al)
+      record.create
+    end
+  end
+
   private
 
   def dns_record_attrs
@@ -66,6 +79,10 @@ module Orchestration::DNS
 
   def reverse_dns_record_attrs
     { :hostname => hostname, :ip => ip, :proxy => subnet.dns_proxy }
+  end
+
+  def cname_record_attrs(value)
+    { :hostname => hostname, :value => value, :resolver => domain.resolver, :proxy => domain.proxy }
   end
 
   def queue_dns
@@ -110,6 +127,12 @@ module Orchestration::DNS
                  :action => [self, :del_conflicting_dns_ptr_record]) if reverse_dns? and dns_ptr_record and dns_ptr_record.conflicting?
   end
 
+  def queue_dns_aliases_modifications
+    return unless dns_aliases_modified?
+    queue.create(:name   => _("Propagate aliases modifications for %s") % self, :priority => 0,
+                 :action => [self, :propagate_aliases_modifications])
+  end
+
   def dns_conflict_detected?
     return false if ip.blank? or hostname.blank?
     # can't validate anything if dont have an ip-address yet
@@ -123,4 +146,14 @@ module Orchestration::DNS
     not status #failure method returns 'false'
   end
 
+  def dns_aliases_modified?
+
+    old_aliases = (old.nil? or old.alias_list.nil?) ? [] : old.alias_list
+    new_aliases = alias_list.nil? ? [] : alias_list
+
+    @aliases_to_remove = old_aliases - new_aliases
+    @aliases_to_add = new_aliases - old_aliases
+
+    not (@aliases_to_remove.empty? && @aliases_to_add.empty?)
+  end
 end

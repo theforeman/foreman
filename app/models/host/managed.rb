@@ -206,10 +206,15 @@ class Host::Managed < Host::Base
     FactValue.where("host_id = #{id}").delete_all
   end
 
+  def defaultValues
+    self.aliases ||= ""
+  end
+
   def clear_data_on_build
     return unless respond_to?(:old) && old && build? && !old.build?
     clearFacts
     clearReports
+    defaultValues
   end
 
   def set_token

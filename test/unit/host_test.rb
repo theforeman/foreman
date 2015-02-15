@@ -20,6 +20,52 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "is invalid", host.errors[:name].first
   end
 
+  test "should not save with invalid alias" do
+    host = Host.new :name => "myhost", :aliases => "alias#"
+    host.valid?
+    assert_equal "The alias #{host.aliases} format is invalid", host.errors[:aliases].first
+  end
+
+  test "should be able to save with empty alias" do
+    host = Host.new :name => "myhost" , :aliases => ""
+    host.valid?
+    assert_equal "", host.aliases
+    assert_equal 0, host.alias_list.size
+  end
+
+  test "should be able to save with one valid alias" do
+    host = FactoryGirl.build(:host, :hostname => "myhost", :aliases => "myalias", :domain => Domain.find_or_create_by_name("domain.com"))
+    assert_equal "myalias", host.aliases
+    assert_equal "myalias.domain.com", host.alias_list[0]
+    assert_equal 1, host.alias_list.size
+  end
+
+  test "should be able to save with multiple valid aliases" do
+    host = FactoryGirl.build(:host, :hostname => "myhost", :aliases => "myalias,mysecondalias", :domain => Domain.find_or_create_by_name("domain.com"))
+    assert_equal "myalias,mysecondalias", host.aliases
+    assert_equal "myalias.domain.com", host.alias_list[0]
+    assert_equal "mysecondalias.domain.com", host.alias_list[1]
+    assert_equal 2, host.alias_list.size
+  end
+
+  test "should be able to update with one valid alias" do
+    myalias = "myalias"
+    host = FactoryGirl.build(:host, :hostname => "myhost", :aliases => "myalias,mysecondalias", :domain => Domain.find_or_create_by_name("domain.com"))
+    refute_equal myalias, host.aliases
+    host.aliases = myalias
+    host.save!
+    assert_equal myalias, host.aliases
+  end
+
+  test "should be able to remove all the aliases" do
+    myalias = ""
+    host = FactoryGirl.build(:host, :hostname => "myhost", :aliases => "myalias,mysecondalias", :domain => Domain.find_or_create_by_name("domain.com"))
+    refute_equal myalias, host.aliases
+    host.aliases = myalias
+    host.save!
+    assert_equal 0, host.alias_list.size
+  end
+
   test "should not save hostname with periods in shortname" do
     host = Host.new :name => "my.host", :domain => Domain.find_or_create_by_name("mydomain.net"), :managed => true
     host.valid?

@@ -118,6 +118,10 @@ module Nic
       self.deep_clone(:except  => [:name, :mac, :ip])
     end
 
+    def alias_list
+      return []
+    end
+
     protected
 
     def uniq_fields_with_hosts
