@@ -195,12 +195,12 @@ class TaxHost
   end
 
   def union_deep_hashes(h1, h2)
-    h1.merge!(h2) {|k, v1, v2| v1.kind_of?(Array) && v2.kind_of?(Array) ? v1 | v2 : v1 }
+    h1.merge!(h2) {|k, v1, v2| v1.is_a?(Array) && v2.is_a?(Array) ? v1 | v2 : v1 }
   end
 
   def substract_deep_hashes(h1, h2)
     h1.merge!(h2) do |k, v1, v2|
-      if v1.kind_of?(Array) && v2.kind_of?(Array)
+      if v1.is_a?(Array) && v2.is_a?(Array)
         v1.map(&:to_i) - v2.map(&:to_i) - [0]
       else
         v1.map(&:to_i)
