@@ -357,13 +357,38 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal "#{hostgroup.id}-a-b",  hostgroup.to_param
   end
 
-  test "clone should clone config groups as well" do
-    group = FactoryGirl.create(:hostgroup, :name => 'a')
-    config_group = ConfigGroup.create!(:name => 'Blah')
-    group.config_groups << config_group
-    group.save
+  context "#clone" do
+    let(:group) {FactoryGirl.create(:hostgroup, :name => 'a')}
 
-    cloned = group.clone("new_name")
-    assert cloned.config_groups.include?(config_group)
+    test "clone should clone config groups as well" do
+      config_group = ConfigGroup.create!(:name => 'Blah')
+      group.config_groups << config_group
+
+      cloned = group.clone("new_name")
+      assert cloned.config_groups.include?(config_group)
+    end
+
+    test "clone should clone puppet classes" do
+      group.puppetclasses << FactoryGirl.create(:puppetclass)
+      cloned = group.clone("new_name")
+      assert cloned.puppetclasses.size == 1
+      assert_equal cloned.puppetclasses, group.puppetclasses
+    end
+
+    test "clone should clone parameters" do
+      group.group_parameters.create!(:name => "foo", :value => "bar")
+      cloned = group.clone("new_name")
+      cloned.save!(:validate => false)
+      assert_equal cloned.group_parameters.map{|p| [p.name, p.value]}, group.group_parameters.map{|p| [p.name, p.value]}
+    end
+
+    test "clone should clone lookup values" do
+      lv = lookup_values(:four)
+      lv.match = group.send(:lookup_value_match)
+      lv.save!
+      cloned = group.clone("new_name")
+      cloned.save
+      assert_equal cloned.lookup_values.map(&:value), group.lookup_values.map(&:value)
+    end
   end
 end
