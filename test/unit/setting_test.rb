@@ -377,8 +377,8 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def check_setting_did_not_save_with(options = {})
-     setting = Setting.new(options)
-     assert !setting.save
+    setting = Setting.new(options)
+    assert !setting.save
   end
 
   def check_value_returns_from_cache_with(options = {})

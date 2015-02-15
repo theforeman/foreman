@@ -98,7 +98,7 @@ module Foreman
       content = template.respond_to?(:template) ? template.template : template
       template_name ||= template.respond_to?(:name) ? template.name : 'Unnamed'
       allowed_variables = ALLOWED_VARIABLES.reduce({}) do |mapping, var|
-         mapping.update(var => instance_variable_get("@#{var}"))
+        mapping.update(var => instance_variable_get("@#{var}"))
       end
       allowed_variables[:template_name] = template_name
       render_safe content, ALLOWED_HELPERS, allowed_variables

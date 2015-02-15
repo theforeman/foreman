@@ -139,11 +139,11 @@ module HostsHelper
   end
 
   def multiple_actions_select
-      select_action_button( _("Select Action"), {:id => 'submit_multiple'},
-        multiple_actions.map do |action|
-          link_to(action[0], action[1], :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
-        end.flatten
-      )
+    select_action_button( _("Select Action"), {:id => 'submit_multiple'},
+      multiple_actions.map do |action|
+        link_to(action[0], action[1], :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
+      end.flatten
+    )
   end
 
   def date(ts = nil)

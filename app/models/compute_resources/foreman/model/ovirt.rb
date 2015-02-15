@@ -324,8 +324,8 @@ module Foreman::Model
     def update_interfaces(vm, attrs)
       interfaces = nested_attributes_for :interfaces, attrs
       interfaces.each do |interface|
-          vm.destroy_interface(:id => interface[:id]) if interface[:_delete] == '1' && interface[:id]
-          vm.add_interface(interface) if interface[:id].blank?
+        vm.destroy_interface(:id => interface[:id]) if interface[:_delete] == '1' && interface[:id]
+        vm.add_interface(interface) if interface[:id].blank?
       end
     end
 
