@@ -1,6 +1,6 @@
 require 'facter'
 namespace :permissions do
-desc <<-END_DESC
+  desc <<-END_DESC
 Create or reset "admin" user permissions to defaults.  Alternatively, you may
 specify a username or password.
 
