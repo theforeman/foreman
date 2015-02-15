@@ -195,9 +195,15 @@ class Hostgroup < ActiveRecord::Base
     new.puppetclasses = puppetclasses
     new.locations     = locations
     new.organizations = organizations
+    new.config_groups = config_groups
+
     # Clone any parameters as well
     self.group_parameters.each{|param| new.group_parameters << param.clone}
-    self.config_groups.each{|group| new.config_groups << group}
+    self.lookup_values.each do |lookup_value|
+      new_lookup_value = lookup_value.dup
+      new_lookup_value.match = "hostgroup=#{new.title}"
+      new.lookup_values << new_lookup_value
+    end
     new
   end
 
