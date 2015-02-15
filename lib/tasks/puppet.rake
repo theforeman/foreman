@@ -206,7 +206,7 @@ namespace :puppet do
 
       Host.find_each do |host|
         $stdout.print "processing #{host.name} "
-        nodeinfo = YAML::load %x{#{script} #{host.name}}
+        nodeinfo = YAML::load `#{script} #{host.name}`
         if nodeinfo.is_a?(Hash)
           $stdout.puts "DONE" if host.importNode nodeinfo
         else
