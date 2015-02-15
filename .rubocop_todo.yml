@@ -136,11 +136,6 @@ Style/AlignParameters:
 Style/AndOr:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/BlockComments:
-  Enabled: false
-
 # Offense count: 22
 # Cop supports --auto-correct.
 Style/Blocks:
@@ -187,10 +182,6 @@ Style/CommentAnnotation:
 Style/CommentIndentation:
   Enabled: false
 
-# Offense count: 1
-Style/ConstantName:
-  Enabled: false
-
 # Offense count: 28
 # Cop supports --auto-correct.
 Style/DeprecatedHashMethods:
@@ -228,11 +219,6 @@ Style/For:
 # Offense count: 17
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 Style/FormatString:
-  Enabled: false
-
-# Offense count: 1
-# Configuration parameters: AllowedVariables.
-Style/GlobalVars:
   Enabled: false
 
 # Offense count: 88
@@ -275,18 +261,9 @@ Style/MethodDefParentheses:
 Style/MethodName:
   Enabled: false
 
-# Offense count: 1
-Style/MultilineBlockChain:
-  Enabled: false
-
 # Offense count: 11
 # Cop supports --auto-correct.
 Style/MultilineBlockLayout:
-  Enabled: false
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/MultilineIfThen:
   Enabled: false
 
 # Offense count: 121
@@ -497,11 +474,6 @@ Style/TrivialAccessors:
 
 # Offense count: 2
 Style/UnlessElse:
-  Enabled: false
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/UnneededPercentX:
   Enabled: false
 
 # Offense count: 298
