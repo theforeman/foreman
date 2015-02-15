@@ -200,7 +200,8 @@ module Api
 
     def find_nested_object
       params.keys.each do |param|
-        if md = param.match(/(\w+)_id$/)
+        md = param.match(/(\w+)_id$/)
+        if md.present?
           if allowed_nested_id.include?(param)
             model = md[1].classify.constantize
             controller = md[1].pluralize

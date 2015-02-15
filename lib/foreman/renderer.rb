@@ -92,7 +92,8 @@ module Foreman
     end
 
     def indent(count)
-      return unless block_given? && text=yield.to_s
+      return unless block_given?
+      text = yield.to_s
       prefix = " " * count
       prefix + text.gsub(/\n/, "\n#{prefix}")
     end
