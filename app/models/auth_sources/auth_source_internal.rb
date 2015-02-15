@@ -1,5 +1,4 @@
 class AuthSourceInternal < AuthSource
-
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
 

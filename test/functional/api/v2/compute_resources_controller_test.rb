@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
-
   def setup
     Fog.mock!
   end
@@ -98,7 +97,6 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should get available images" do
-
     img = Object.new
     img.stubs(:name).returns('some_image')
     img.stubs(:id).returns('123')

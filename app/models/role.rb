@@ -148,6 +148,7 @@ class Role < ActiveRecord::Base
   end
 
 private
+
   def allowed_permissions
     @allowed_permissions ||= permission_names + Foreman::AccessControl.public_permissions.map(&:name)
   end

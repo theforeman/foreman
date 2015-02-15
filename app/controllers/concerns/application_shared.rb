@@ -15,5 +15,4 @@ module ApplicationShared
     # Reset timezone for the next thread
     Time.zone = default_timezone
   end
-
 end

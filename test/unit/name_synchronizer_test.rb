@@ -42,5 +42,4 @@ class NameSynchronizerName < ActiveSupport::TestCase
     refute_equal nic.name, nic.host.name
     refute sync.sync_required?
   end
-
 end

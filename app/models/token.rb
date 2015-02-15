@@ -12,5 +12,4 @@ class Token < ActiveRecord::Base
   def to_s
     value
   end
-
 end

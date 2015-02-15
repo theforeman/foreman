@@ -58,7 +58,6 @@ module ProxyAPI
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to create default TFTP boot menu"))
     end
-
   end
 end
 

@@ -34,7 +34,6 @@ module Net
       return false unless other.respond_to? :attrs
       self.attrs == other.attrs
     end
-
   end
 
   class Error < RuntimeError; end
@@ -42,5 +41,4 @@ module Net
   class Conflict < Exception
     attr_accessor :type, :expected, :actual, :message
   end
-
 end

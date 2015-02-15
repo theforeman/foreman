@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class RealmTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(realms_path,"Realms","New Realm")
   end
@@ -22,5 +21,4 @@ class RealmTest < ActionDispatch::IntegrationTest
     assert_submit_button(realms_path)
     assert page.has_link? 'my.updated.realm.org'
   end
-
 end

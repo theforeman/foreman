@@ -85,5 +85,4 @@ FactoryGirl.define do
       puppetclasses { [ FactoryGirl.create(:puppetclass, :environments => class_environments) ] }
     end
   end
-
 end

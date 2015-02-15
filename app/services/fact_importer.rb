@@ -45,6 +45,7 @@ class FactImporter
   end
 
   private
+
   attr_reader :host, :facts
 
   def delete_removed_facts
@@ -97,5 +98,4 @@ class FactImporter
   def db_facts
     @db_facts ||= host.fact_values.includes(:fact_name).index_by(&:name)
   end
-
 end

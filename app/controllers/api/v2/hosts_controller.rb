@@ -1,7 +1,6 @@
 module Api
   module V2
     class HostsController < V2::BaseController
-
       wrap_parameters :host, :include => (Host::Base.attribute_names + ['image_file', 'is_owned_by', 'overwrite', 'progress_report_id'])
 
       include Api::Version2
@@ -72,7 +71,6 @@ module Api
           end
         end
       end
-
 
       api :POST, "/hosts/", N_("Create a host")
       param_group :host, :as => :create
@@ -218,7 +216,6 @@ Return value may either be one of the following:
       def allowed_nested_id
         %w(hostgroup_id location_id organization_id environment_id)
       end
-
     end
   end
 end

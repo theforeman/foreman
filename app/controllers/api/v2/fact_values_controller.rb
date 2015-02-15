@@ -11,7 +11,6 @@ module Api
         values = resource_scope_for_index.includes(:fact_name, :host)
         @fact_values = FactValue.build_facts_hash(values.all)
       end
-
     end
   end
 end

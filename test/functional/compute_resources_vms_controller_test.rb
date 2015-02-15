@@ -189,5 +189,4 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     User.current = users(:admin) unless User.current
     SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}
   end
-
 end

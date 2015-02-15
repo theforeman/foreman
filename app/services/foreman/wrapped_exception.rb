@@ -1,5 +1,4 @@
 module Foreman
-
   class WrappedException < ::Foreman::Exception
     def initialize(wrapped_exception, message, *params)
       super(message, *params)
@@ -18,5 +17,4 @@ module Foreman
       super + " ([#{cls}]: #{msg})"
     end
   end
-
 end

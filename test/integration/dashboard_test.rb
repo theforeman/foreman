@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class DashboardTest < ActionDispatch::IntegrationTest
-
   def setup
     FactoryGirl.create(:host)
   end
@@ -46,5 +45,4 @@ class DashboardTest < ActionDispatch::IntegrationTest
   test "dashboard link hosts with alerts disabled" do
     assert_dashboard_link 'Hosts with alerts disabled'
   end
-
 end

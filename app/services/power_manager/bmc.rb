@@ -1,6 +1,5 @@
 module PowerManager
   class BMC < Base
-
     def initialize(opts = {})
       super(opts)
       @proxy = host.bmc_proxy
@@ -17,6 +16,7 @@ module PowerManager
     end
 
     private
+
     attr_reader :proxy
 
     #TODO: consider moving this to the proxy code, so we can just delegate like as with Virt.
@@ -35,6 +35,5 @@ module PowerManager
         :status   => 'status'
       }
     end
-
   end
 end

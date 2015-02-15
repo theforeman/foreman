@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class HostgroupClassTest < ActiveSupport::TestCase
-
   setup do
     disable_orchestration
     User.current = User.find_by_login "one"

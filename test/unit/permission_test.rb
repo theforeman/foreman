@@ -14,5 +14,4 @@ class PermissionTest < ActiveSupport::TestCase
     Permission.stubs(:with_translations).returns([['Z', 'z'], ['A', 'b'], ['H', 'a']])
     assert_equal [['A', 'b'], ['H', 'a'], ['Z', 'z']], Permission.resources_with_translations
   end
-
 end

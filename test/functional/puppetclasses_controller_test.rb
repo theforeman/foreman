@@ -93,7 +93,6 @@ class PuppetclassesControllerTest < ActionController::TestCase
     refute lookup_keys_added.map(&:key).include?("custom_class_param")
   end
 
-
   test 'puppetclass lookup keys are added to partial _class_parameters on EXISTING hostgroup form through ajax POST to parameters' do
     hostgroup = hostgroups(:common)
     puppetclass = puppetclasses(:two)

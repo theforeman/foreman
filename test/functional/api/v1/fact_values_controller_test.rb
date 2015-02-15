@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::FactValuesControllerTest < ActionController::TestCase
-
   def setup
     @host = FactoryGirl.create(:host)
     FactoryGirl.create(:fact_value, :value => '2.6.9',:host => @host,
@@ -30,5 +29,4 @@ class Api::V1::FactValuesControllerTest < ActionController::TestCase
     expected_hash = FactValue.build_facts_hash(FactValue.where(:host_id => @host.id))
     assert_equal expected_hash, fact_values
   end
-
 end

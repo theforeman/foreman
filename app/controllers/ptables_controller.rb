@@ -38,5 +38,4 @@ class PtablesController < ApplicationController
       process_error
     end
   end
-
 end

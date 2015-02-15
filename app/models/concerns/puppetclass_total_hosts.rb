@@ -1,5 +1,4 @@
 module PuppetclassTotalHosts
-
   module Indirect
     extend ActiveSupport::Concern
 
@@ -12,7 +11,6 @@ module PuppetclassTotalHosts
         end
         puppetclasses.each(&:update_total_hosts) if puppetclasses.present?
       end
-
     end
   end
 
@@ -28,5 +26,4 @@ module PuppetclassTotalHosts
       end
     end
   end
-
 end

@@ -1,5 +1,4 @@
 module DashboardHelper
-
   def dashboard_actions
     [_("Generated at %s") % Time.zone.now.to_s(:short),
      select_action_button(_("Manage dashboard"), {},
@@ -89,5 +88,4 @@ module DashboardHelper
       :disabled_hosts => "#92A8CD"
     }
   end
-
 end

@@ -67,7 +67,6 @@ module FogExtensions
       def vm_description
         service.flavors.get(flavor_ref).try(:name)
       end
-
     end
   end
 end

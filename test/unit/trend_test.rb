@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class TrendTest < ActiveSupport::TestCase
-
   test "should delete trend and associated trend counters" do
     trend = trends(:one)
     trend_id = trend.id

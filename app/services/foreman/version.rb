@@ -1,5 +1,4 @@
 module Foreman
-
   # Simple struct for manipulation and comparing versions
   class Version
     attr_reader :version, :major, :minor, :build, :tag, :short, :notag
@@ -28,5 +27,4 @@ module Foreman
       @version
     end
   end
-
 end

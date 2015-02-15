@@ -51,7 +51,6 @@ module Api
       def destroy
         process_response @ptable.destroy
       end
-
     end
   end
 end

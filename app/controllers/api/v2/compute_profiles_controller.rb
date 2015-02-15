@@ -44,7 +44,6 @@ module Api
       def destroy
         process_response @compute_profile.destroy
       end
-
     end
   end
 end

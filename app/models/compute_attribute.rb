@@ -1,5 +1,4 @@
 class ComputeAttribute < ActiveRecord::Base
-
   attr_accessible :compute_profile_id, :compute_resource_id, :vm_attrs
   audited :associated_with => :compute_profile
 
@@ -31,5 +30,4 @@ class ComputeAttribute < ActiveRecord::Base
   def update_name
     self.name = pretty_vm_attrs if pretty_vm_attrs.present?
   end
-
 end

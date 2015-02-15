@@ -1,7 +1,6 @@
 
 desc 'Exception utilities'
 namespace :exception do
-
   desc 'List all error codes'
   task :codes => :environment do
     exceptions = [
@@ -25,5 +24,4 @@ namespace :exception do
       puts " * [[#{k}]] - #{v}"
     end
   end
-
 end

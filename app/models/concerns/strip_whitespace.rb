@@ -16,5 +16,4 @@ module StripWhitespace
   def skip_strip_attrs
     []
   end
-
 end

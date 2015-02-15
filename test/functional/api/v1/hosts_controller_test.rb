@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::HostsControllerTest < ActionController::TestCase
-
   def setup
     @host = FactoryGirl.create(:host)
   end
@@ -163,5 +162,4 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
     get :show, {:id => host.to_param}
     assert_response :success
   end
-
 end

@@ -7,5 +7,4 @@ class KeyPair < ActiveRecord::Base
   def skip_strip_attrs
     ['secret']
   end
-
 end

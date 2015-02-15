@@ -18,7 +18,7 @@ module PowerManager
     end
 
     private
-    attr_reader :host
 
+    attr_reader :host
   end
 end

@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class PuppetclassTest < ActionDispatch::IntegrationTest
-
   test "edit page" do
     visit puppetclasses_path
     click_link "vim"
@@ -19,5 +18,4 @@ class PuppetclassTest < ActionDispatch::IntegrationTest
   # PENDING
   # test "smart class parameters" do
   # end
-
 end

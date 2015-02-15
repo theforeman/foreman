@@ -20,6 +20,5 @@ module SSO
     def http_auth_set?
       request.authorization.present? && request.authorization =~ /\ABasic/
     end
-
   end
 end

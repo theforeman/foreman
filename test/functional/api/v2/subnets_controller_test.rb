@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::SubnetsControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'QA2', :network => '10.35.2.27', :mask => '255.255.255.0' }
 
   test "index content is a JSON array" do

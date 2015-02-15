@@ -61,7 +61,6 @@ end
 
 # special type of validator: we say that it's not specified
 class UndefValidator < Apipie::Validator::BaseValidator
-
   def validate(value)
     true
   end
@@ -78,7 +77,6 @@ class UndefValidator < Apipie::Validator::BaseValidator
 end
 
 class IdentifierValidator < Apipie::Validator::BaseValidator
-
   def validate(value)
     value = value.to_s
     value =~ /\A[\w| |_|-]*\Z/ && value.strip == value && (1..128).include?(value.length)
@@ -97,7 +95,6 @@ class IdentifierValidator < Apipie::Validator::BaseValidator
 end
 
 class IdentifierDottableValidator < Apipie::Validator::BaseValidator
-
   def validate(value)
     value = value.to_s
     value =~ /\A[\w| |_|-|.]*\Z/ && value.strip == value && (1..128).include?(value.length)

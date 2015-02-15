@@ -20,6 +20,7 @@ module FogExtensions
       end
 
       private
+
       attr_reader :raw
     end
   end

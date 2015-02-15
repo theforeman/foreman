@@ -85,6 +85,4 @@ module Foreman::Controller::Authentication
     end
     user.present?
   end
-
-
 end

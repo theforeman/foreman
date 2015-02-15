@@ -48,5 +48,4 @@ class HostMailerTest < ActionMailer::TestCase
     @host.save
     assert HostMailer.summary(@options).deliver.body.include?(@host.name)
   end
-
 end

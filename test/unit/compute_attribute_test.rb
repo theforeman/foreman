@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ComputeAttributeTest < ActiveSupport::TestCase
-
   setup do
     Fog.mock!
     User.current = users :admin
@@ -34,5 +33,4 @@ class ComputeAttributeTest < ActiveSupport::TestCase
       @set.nonexistant_flavor_field
     end
   end
-
 end

@@ -25,6 +25,5 @@ module FogExtensions
       # from Fog itself
       []
     end
-
   end
 end

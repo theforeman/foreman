@@ -33,5 +33,4 @@ class Bookmark < ActiveRecord::Base
   def set_default_user
     self.owner ||= User.current
   end
-
 end

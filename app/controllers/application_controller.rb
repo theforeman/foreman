@@ -105,7 +105,6 @@ class ApplicationController < ActionController::Base
     else
       raise exception
     end
-
   end
 
   # this method sets the Current user to be the Admin
@@ -208,6 +207,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def require_admin
     unless User.current.admin?
       render_403

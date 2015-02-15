@@ -59,5 +59,4 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
     @dhcp.expects(:get).with('192.168.0.0/unused_ip?mac=00:11:22:33:44:55').returns(fake_response({:ip=>'192.168.0.50'}))
     assert_equal({'ip'=>'192.168.0.50'}, @dhcp.unused_ip(subnet_mock, '00:11:22:33:44:55'))
   end
-
 end

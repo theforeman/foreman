@@ -22,6 +22,7 @@ module PuppetclassesAndEnvironmentsHelper
   end
 
   private
+
   def pretty_print(classes)
     hash = { }
     classes.each do |klass|
@@ -36,5 +37,4 @@ module PuppetclassesAndEnvironmentsHelper
       link_to key,{}, {:remote => true, :rel => "popover", :data => {"content" => hash[key].sort.join('<br>').html_safe, "original-title" => key}}
     end.to_sentence.html_safe
   end
-
 end

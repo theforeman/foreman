@@ -78,7 +78,6 @@ module Orchestration::DHCP
     logger.debug "Scheduling new DHCP reservations for #{self}"
     queue.create(:name   => _("Create DHCP Settings for %s") % self, :priority => 10,
                  :action => [self, :set_dhcp]) if dhcp?
-
   end
 
   def queue_dhcp_update
@@ -143,5 +142,4 @@ module Orchestration::DHCP
     end
     false
   end
-
 end

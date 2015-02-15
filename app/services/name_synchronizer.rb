@@ -21,5 +21,4 @@ class NameSynchronizer
   def sync_required?
     @interface.primary? && @host.present? && (@host.name != @interface.name)
   end
-
 end

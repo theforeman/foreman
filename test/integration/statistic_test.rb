@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class StatisticTest < ActionDispatch::IntegrationTest
-
   test "statistics page" do
     visit statistics_path
     assert page.has_selector?('h4', :text => "OS Distribution")
@@ -13,5 +12,4 @@ class StatisticTest < ActionDispatch::IntegrationTest
     assert page.has_selector?('h4', :text => "Average memory usage")
     assert page.has_selector?('h4', :text => "Average swap usage")
   end
-
 end

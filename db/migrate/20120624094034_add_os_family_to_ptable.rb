@@ -7,7 +7,6 @@ class AddOsFamilyToPtable < ActiveRecord::Migration
       family = p.operatingsystems.map(&:family).uniq.first rescue nil
       p.update_attribute(:os_family, family) if family
     end
-
   end
 
   def self.down

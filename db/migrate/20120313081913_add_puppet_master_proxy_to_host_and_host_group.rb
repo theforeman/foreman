@@ -37,5 +37,4 @@ class AddPuppetMasterProxyToHostAndHostGroup < ActiveRecord::Migration
     add_column :hosts, :puppetmaster_name, :string
     add_column :hostgroups, :puppetmaster_name, :string
   end
-
 end

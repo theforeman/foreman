@@ -1,9 +1,7 @@
 # config/routes/api/v1.rb
 Foreman::Application.routes.draw do
-
   namespace :api, :defaults => {:format => 'json'} do
     scope "(:apiv)", :module => :v1, :defaults => {:apiv => 'v1'}, :apiv => /v1|v2/, :constraints => ApiConstraints.new(:version => 1, :default => true) do
-
       resources :architectures, :except => [:new, :edit]
       resources :audits, :only => [:index, :show]
       resources :auth_source_ldaps, :except => [:new, :edit]
@@ -71,7 +69,5 @@ Foreman::Application.routes.draw do
       match '/', :to => 'home#index'
       match 'status', :to => 'home#status', :as => "status"
     end
-
   end
-
 end

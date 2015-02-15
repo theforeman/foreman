@@ -2,7 +2,6 @@ require 'fast_gettext'
 
 # include this module to see translations in the UI
 module Foreman::Gettext::Debug
-
   DL = "\u00BB".encode("UTF-8") rescue '>'
   DR = "\u00AB".encode("UTF-8") rescue '<'
 

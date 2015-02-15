@@ -122,5 +122,4 @@ module Orchestration::DNS
     status = failure(_("DNS PTR Records %s already exists") % dns_ptr_record.conflicts.to_sentence, nil, :conflict) if reverse_dns? and dns_ptr_record and dns_ptr_record.conflicting?
     not status #failure method returns 'false'
   end
-
 end

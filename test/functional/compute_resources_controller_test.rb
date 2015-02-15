@@ -157,5 +157,4 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   def setup_user(operation, type = 'compute_resources')
     super(operation, type, "id = #{@compute_resource.id}")
   end
-
 end

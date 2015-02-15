@@ -34,7 +34,6 @@ module Api
         @total = @resource_types.size
         render :resource_types, :layout => 'api/v2/layouts/index_layout'
       end
-
     end
   end
 end

@@ -1,5 +1,4 @@
 class CreateProxyFeatures < ActiveRecord::Migration
-
   class Feature < ActiveRecord::Base; end
 
   def self.up
@@ -13,7 +12,6 @@ class CreateProxyFeatures < ActiveRecord::Migration
       t.references :smart_proxy
       t.references :feature
     end
-
   end
 
   def self.down

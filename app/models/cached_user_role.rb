@@ -6,5 +6,4 @@ class CachedUserRole < ActiveRecord::Base
 
   # this UserRole created this cache
   belongs_to :user_role
-
 end

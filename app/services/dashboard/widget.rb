@@ -11,6 +11,5 @@ module Dashboard
       @sizey = options[:sizey] || 1
       @hide = options[:hide] || false
     end
-
   end
 end

@@ -1,7 +1,6 @@
 module Api
   module V2
     class AuthSourceLdapsController < V2::BaseController
-
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/auth_source_ldaps/", N_("List all LDAP authentication sources")
@@ -57,7 +56,6 @@ module Api
       def destroy
         process_response @auth_source_ldap.destroy
       end
-
     end
   end
 end

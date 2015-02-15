@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class AuditExtensionsTest < ActiveSupport::TestCase
-
   def setup
     @user = users :admin
   end

@@ -15,5 +15,4 @@ class HostgroupClass < ActiveRecord::Base
   def name
     "#{hostgroup} - #{puppetclass}"
   end
-
 end

@@ -1,6 +1,5 @@
 module Classification
   class Base
-
     delegate :hostgroup, :environment_id, :puppetclass_ids, :classes,
              :to => :host
 

@@ -24,5 +24,4 @@ class FactImporterTest < ActiveSupport::TestCase
       assert_equal [], FactImporter.importer_for(:custom_importer).authorized_smart_proxy_features
     end
   end
-
 end

@@ -1,5 +1,4 @@
 module AncestryHelper
-
   # this helper is used for hostgroup names and location/organization names.  Both have ancestry
   def label_with_link(obj, max_length = 1000, authorizer = nil)
     return if obj.blank?
@@ -12,5 +11,4 @@ module AncestryHelper
                   content_tag(:span, nesting, :class => 'gray nbsp') + name, options),
       send("hash_for_edit_#{obj.class.name.tableize.singularize}_path", obj).merge(:auth_object => obj, :authorizer => authorizer))
   end
-
 end

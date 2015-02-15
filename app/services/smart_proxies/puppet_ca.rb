@@ -1,7 +1,6 @@
 require "time"
 
 class SmartProxies::PuppetCA
-
   attr_reader :name, :state, :fingerprint, :valid_from, :expires_at, :smart_proxy_id
 
   def initialize(opts)
@@ -11,7 +10,6 @@ class SmartProxies::PuppetCA
   end
 
     class << self
-
       def all(proxy)
         raise ::Foreman::Exception.new(N_("Must specify a Smart Proxy to use")) if proxy.nil?
 
@@ -55,5 +53,4 @@ class SmartProxies::PuppetCA
   def <=>(other)
     self.name <=> other.name
   end
-
 end

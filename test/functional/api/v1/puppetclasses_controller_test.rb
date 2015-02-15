@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::PuppetclassesControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'test_puppetclass' }
 
   test "should get index" do
@@ -47,5 +46,4 @@ class Api::V1::PuppetclassesControllerTest < ActionController::TestCase
     fact_values = ActiveSupport::JSON.decode(@response.body)
     assert fact_values.empty?
   end
-
 end

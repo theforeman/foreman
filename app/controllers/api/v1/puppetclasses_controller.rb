@@ -52,7 +52,6 @@ module Api
       def destroy
         process_response @puppetclass.destroy
       end
-
     end
   end
 end

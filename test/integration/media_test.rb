@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class MediaTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(media_path,"Media","New Medium")
   end
@@ -23,5 +22,4 @@ class MediaTest < ActionDispatch::IntegrationTest
     assert_submit_button(media_path)
     assert page.has_link? 'Ubuntu Mirror 123'
   end
-
 end

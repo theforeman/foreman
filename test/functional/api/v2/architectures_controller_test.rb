@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
-
   arch_i386 = { :name => 'i386' }
 
   def user_one_as_anonymous_viewer

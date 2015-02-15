@@ -1,6 +1,5 @@
 module Nic
   class BMC < Managed
-
     PROVIDERS = %w(IPMI)
     validates :provider, :presence => true, :inclusion => { :in => PROVIDERS }
 

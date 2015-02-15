@@ -68,6 +68,5 @@ class FactValueTest < ActiveSupport::TestCase
     results = FactValue.search_for("host = #{host.fqdn}")
     assert_empty results
   end
-
 end
 

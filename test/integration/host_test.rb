@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class HostTest < ActionDispatch::IntegrationTest
-
   def setup
     Capybara.current_driver = Capybara.javascript_driver
     login_admin
@@ -50,7 +49,6 @@ class HostTest < ActionDispatch::IntegrationTest
     assert_equal original_interface_count + change, table.all('tr', :visible => true).count
   end
 
-
   test "index page" do
     assert_index_page(hosts_path,"Hosts","New Host")
   end
@@ -69,7 +67,6 @@ class HostTest < ActionDispatch::IntegrationTest
   end
 
   describe "create new host page" do
-
     test "tabs are present" do
       assert_new_button(hosts_path,"New Host",new_host_path)
       assert page.has_link?("Host", :href => "#primary")
@@ -78,7 +75,6 @@ class HostTest < ActionDispatch::IntegrationTest
       assert page.has_link?("Parameters", :href => "#params")
       assert page.has_link?("Additional Information", :href => "#info")
     end
-
 
     test "default primary interface is in the overview table" do
       assert_new_button(hosts_path, "New Host", new_host_path)
@@ -101,12 +97,10 @@ class HostTest < ActionDispatch::IntegrationTest
       assert table.find('td.flags .provision-flag.active')
     end
 
-
     describe "NIC modal window" do
       setup { skip "Temporarily disabled until issue #9138 gets resolved" }
 
       describe "editing interfaces" do
-
         test "click on edit opens modal" do
           go_to_interfaces_tab
 
@@ -146,12 +140,9 @@ class HostTest < ActionDispatch::IntegrationTest
           assert table.find('td.ip').has_content?('10.32.8.3')
           assert table.find('td.fqdn').has_content?('')
         end
-
       end
 
-
       describe "adding interfaces" do
-
         test "click on add opens modal" do
           go_to_interfaces_tab
 
@@ -213,12 +204,9 @@ class HostTest < ActionDispatch::IntegrationTest
           assert_equal subnet_options.map(&:value).sort, domain.subnets.map(&:id).map(&:to_s).sort
           assert_equal subnet_options.map(&:text).sort, domain.subnets.map(&:to_label).sort
         end
-
       end
 
-
       describe "switching flags from the overview table" do
-
         test "switch primary" do
           go_to_interfaces_tab
           add_interface
@@ -246,12 +234,9 @@ class HostTest < ActionDispatch::IntegrationTest
           assert !flag_cols[0].has_css?('.provision-flag.active'), "First interface's flag is inactive"
           assert flag_cols[1].has_css?('.provision-flag.active'), "New interface's flag is active"
         end
-
       end
 
-
       describe "removing interfaces" do
-
         test "remove interface" do
           go_to_interfaces_tab
           add_interface
@@ -260,11 +245,8 @@ class HostTest < ActionDispatch::IntegrationTest
             table.all(:button, "Delete").last.click
           end
         end
-
       end
-
     end
-
   end
 
   test "destroy redirects to hosts index" do
@@ -275,5 +257,4 @@ class HostTest < ActionDispatch::IntegrationTest
     first(:link, "Delete").click
     assert_equal(current_path, hosts_path)
   end
-
 end

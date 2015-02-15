@@ -1,6 +1,5 @@
 require 'test_helper'
 class OperatingsystemsControllerTest < ActionController::TestCase
-
   def setup_user
     @request.session[:user] = users(:one).id
     users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
@@ -119,7 +118,6 @@ class OperatingsystemsControllerTest < ActionController::TestCase
         os_default_template_id = operatingsystem.os_default_templates.first.id
         put :update, {:id => operatingsystem.id,
                       :operatingsystem => {:os_default_templates_attributes => {0 => { :id => os_default_template_id, :config_template_id => '', :template_kind_id => @template_kind.id }}}}, set_session_user
-
       end
     end
   end

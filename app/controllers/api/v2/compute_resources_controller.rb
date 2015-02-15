@@ -1,7 +1,6 @@
 module Api
   module V2
     class ComputeResourcesController < V2::BaseController
-
       wrap_parameters ComputeResource, :include => (ComputeResource.attribute_names + ['tenant', 'image_id', 'managed_ip', 'provider',
                                                    'template', 'templates', 'set_console_password', 'project', 'key_path', 'email', 'zone',
                                                    'display_type', 'ovirt_quota', 'public_key', 'region', 'server', 'datacenter', 'pubkey_hash',
@@ -52,7 +51,6 @@ module Api
         @compute_resource = ComputeResource.new_provider(params[:compute_resource])
         process_response @compute_resource.save
       end
-
 
       api :PUT, "/compute_resources/:id/", N_("Update a compute resource")
       param :id, String, :required => true

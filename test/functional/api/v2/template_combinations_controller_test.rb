@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
-
   test "should get index" do
     get :index, {:config_template_id => config_templates(:mystring2).id}
     template_combinations = ActiveSupport::JSON.decode(@response.body)

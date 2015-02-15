@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ModelTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(models_path,"Hardware Models","New Model")
   end
@@ -23,5 +22,4 @@ class ModelTest < ActionDispatch::IntegrationTest
     assert_submit_button(models_path)
     assert page.has_link? 'RHEV 123'
   end
-
 end

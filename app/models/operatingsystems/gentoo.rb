@@ -1,5 +1,4 @@
 class Gentoo < Operatingsystem
-
   PXEFILES = {}
 
   def mediumpath(host)
@@ -21,5 +20,4 @@ class Gentoo < Operatingsystem
   def self.model_name
     superclass.model_name
   end
-
 end

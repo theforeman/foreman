@@ -1,5 +1,4 @@
 module TrendsHelper
-
   include CommonParametersHelper
 
   def trendable_types(new_record)
@@ -42,5 +41,4 @@ module TrendsHelper
   def range
     params["range"].empty? ? Setting.max_trend : params["range"].to_i
   end
-
 end

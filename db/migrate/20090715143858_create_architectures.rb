@@ -9,7 +9,6 @@ class CreateArchitectures < ActiveRecord::Migration
       t.references :architecture, :null => false
       t.references :operatingsystem, :null => false
     end
-
   end
 
   def self.down

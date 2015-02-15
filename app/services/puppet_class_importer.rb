@@ -1,5 +1,4 @@
 class PuppetClassImporter
-
   def initialize(args = { })
     @foreman_classes = { }
     @proxy_classes   = { }
@@ -124,7 +123,6 @@ class PuppetClassImporter
     updated
   end
 
-
   def db_environments
     @foreman_envs ||= (Environment.all.map(&:name) - ignored_environments)
   end
@@ -162,6 +160,7 @@ class PuppetClassImporter
   end
 
   private
+
   attr_reader :proxy
 
   def ignored_environments
@@ -279,5 +278,4 @@ class PuppetClassImporter
                         :required       => value.nil?, :override => value.nil?, :default_value => value,
                         :key_type => Foreman::ImporterPuppetclass.suggest_key_type(value))
   end
-
 end

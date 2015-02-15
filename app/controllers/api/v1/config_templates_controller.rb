@@ -81,7 +81,6 @@ module Api
         status, msg = ConfigTemplate.authorized(:deploy_templates).build_pxe_default(self)
         render :json => msg, :status => status
       end
-
     end
   end
 end

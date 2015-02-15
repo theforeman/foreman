@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class LookupValueTest < ActiveSupport::TestCase
-
   def setup
     @host1 = FactoryGirl.create(:host)
     @host2 = FactoryGirl.create(:host)

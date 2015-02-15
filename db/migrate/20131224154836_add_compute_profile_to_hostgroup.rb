@@ -8,6 +8,5 @@ class AddComputeProfileToHostgroup < ActiveRecord::Migration
 
     add_foreign_key "hostgroups", "compute_profiles", :name => "hostgroups_compute_profile_id_fk"
     add_foreign_key "hosts", "compute_profiles", :name => "hosts_compute_profile_id_fk"
-
   end
 end

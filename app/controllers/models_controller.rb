@@ -37,5 +37,4 @@ class ModelsController < ApplicationController
       process_error
     end
   end
-
 end

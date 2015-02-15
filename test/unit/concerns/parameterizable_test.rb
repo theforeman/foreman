@@ -2,9 +2,7 @@
 require 'test_helper'
 
 class ParameterizableTest < ActiveSupport::TestCase
-
   describe 'parameterize' do
-
     it 'should strip disallowed url characters and keep unicode ones' do
       assert_equal '1-žščřďťň', Parameterizable.parameterize("1-žšč!*'();:@&=+$,?%#[]řďťň")
     end
@@ -25,6 +23,5 @@ class ParameterizableTest < ActiveSupport::TestCase
     it 'should convert dots to dashes, yet keep spaces' do
       assert_equal('foreman ШЯЛ inc-luded', Parameterizable.parameterize('foreman ШЯЛ inc.luded'))
     end
-
   end
 end

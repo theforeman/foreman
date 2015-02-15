@@ -91,5 +91,4 @@ class SmartProxiesControllerTest < ActionController::TestCase
     refute_empty assigns(:smart_proxies)
     assert assigns(:smart_proxies).include?(smart_proxies(:three))
   end
-
 end

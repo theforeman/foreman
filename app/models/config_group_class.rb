@@ -12,5 +12,4 @@ class ConfigGroupClass < ActiveRecord::Base
   validates :puppetclass_id, :presence => true
   validates :config_group_id, :presence => true,
                               :uniqueness => {:scope => :puppetclass_id}
-
 end

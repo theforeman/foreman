@@ -153,7 +153,6 @@ module Api
         # re-enable json root element
         ActiveRecord::Base.include_root_in_json = true
       end
-
     end
   end
 end

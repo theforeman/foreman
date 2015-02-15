@@ -1,5 +1,4 @@
 class StatisticsController < ApplicationController
-
   def index
     @os_count    = Host.authorized(:view_hosts, Host).count_distribution :operatingsystem
     @arch_count  = Host.authorized(:view_hosts, Host).count_distribution :architecture
@@ -21,5 +20,4 @@ class StatisticsController < ApplicationController
       end
     end
   end
-
 end

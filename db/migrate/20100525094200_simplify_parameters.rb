@@ -32,7 +32,6 @@ class SimplifyParameters < ActiveRecord::Migration
       remove_column :parameters, :hostgroup_id if column_exists? :parameters, :hostgroup_id
       remove_column :parameters, :domain_id    if column_exists? :parameters, :domain_id
     end
-
   end
 
   def self.down

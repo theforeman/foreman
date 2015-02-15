@@ -26,5 +26,4 @@ class Image < ActiveRecord::Base
     return true if compute_resource.blank?
     errors.add(:uuid, _("could not be found in %s") % compute_resource.name) unless compute_resource.image_exists?(uuid)
   end
-
 end

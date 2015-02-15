@@ -53,7 +53,6 @@ class CommonParametersControllerTest < ActionController::TestCase
   end
 
   context 'user with viewer rights' do
-
     def user_with_viewer_rights_should_fail_to_edit_a_common_parameter
       setup_user
       get :edit, {:id => CommonParameter.first.id}

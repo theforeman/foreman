@@ -21,7 +21,6 @@ module Api
       def show
       end
 
-
       api :POST, "/compute_resources/", "Create a compute resource."
       param :compute_resource, Hash, :required => true do
         param :name, String, :required => true
@@ -41,7 +40,6 @@ module Api
           @compute_resource = ComputeResource.new_provider(params[:compute_resource])
           process_response @compute_resource.save
       end
-
 
       api :PUT, "/compute_resources/:id/", "Update a compute resource."
       param :id, String, :required => true
@@ -68,7 +66,6 @@ module Api
       def destroy
         process_response @compute_resource.destroy
       end
-
     end
   end
 end

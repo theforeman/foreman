@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class TopBarTest < ActionDispatch::IntegrationTest
-
   def setup
     FactoryGirl.create(:fact_value, :value => '2.6.9',:host => FactoryGirl.create(:host),
                        :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
@@ -72,5 +71,4 @@ class TopBarTest < ActionDispatch::IntegrationTest
   end
 
   #PENDING - click on Menu Bar js
-
 end

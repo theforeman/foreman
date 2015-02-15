@@ -41,6 +41,7 @@ module Foreman::Controller::HostDetails
   end
 
   private
+
   def assign_parameter(name, root = "")
     taxonomy_scope
     Taxonomy.as_taxonomy @organization, @location do
@@ -63,5 +64,4 @@ module Foreman::Controller::HostDetails
     name = item_name
     instance_variable_set("@#{name}", name.classify.constantize.new(params[name.to_sym]))
   end
-
 end

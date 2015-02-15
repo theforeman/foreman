@@ -68,5 +68,4 @@ class Medium < ActiveRecord::Base
     Rails.logger.error "You may not destroy #{self.to_label} as it is used by hosts in build mode!"
     false
   end
-
 end

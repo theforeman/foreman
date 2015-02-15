@@ -1,13 +1,11 @@
 require 'test_helper'
 
 class Api::V2::LocationsControllerTest < ActionController::TestCase
-
   def setup
     @location = taxonomies(:location1)
     @location.organization_ids = [taxonomies(:organization1).id]
     Rabl.configuration.use_controller_name_as_json_root = false
   end
-
 
   test "should get index" do
     get :index, { }
@@ -243,5 +241,4 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
     assert_equal expected_metadata, response.except('results')
   end
-
 end

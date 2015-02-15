@@ -1,7 +1,6 @@
 module Api
   module V1
     class SmartProxiesController < V1::BaseController
-
       include Api::ImportPuppetclassesCommonController
       before_filter :find_resource, :only => %w{show update destroy refresh}
       before_filter :check_feature_type, :only => :index
@@ -58,6 +57,7 @@ module Api
       end
 
       private
+
       def action_permission
         case params[:action]
         when 'refresh'
@@ -81,7 +81,6 @@ module Api
           raise ArgumentError, "Invalid feature type. Select one of: #{allowed_types.join(", ")}."
         end
       end
-
     end
   end
 end

@@ -33,7 +33,6 @@ class ApacheTest < ActiveSupport::TestCase
     assert !apache.available?
   end
 
-
   def test_authenticated?
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
     apache = get_apache_method

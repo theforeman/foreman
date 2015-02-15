@@ -11,6 +11,7 @@ module Orchestration::SSHProvision
   end
 
   protected
+
   def queue_ssh_provision
     return unless ssh_provision? and errors.empty?
     new_record? ? queue_ssh_provision_create : queue_ssh_provision_update
@@ -18,7 +19,6 @@ module Orchestration::SSHProvision
 
   # I guess this is not going to happen on create as we might not have an ip address yet.
   def queue_ssh_provision_create
-
     post_queue.create(:name   => _("Prepare post installation script for %s") % self, :priority => 2000,
                  :action => [self, :setSSHProvisionScript])
     post_queue.create(:name   => _("Wait for %s to come online") % self, :priority => 2001,
@@ -115,5 +115,4 @@ module Orchestration::SSHProvision
   def provision_ip
     provision_interface.ip
   end
-
 end

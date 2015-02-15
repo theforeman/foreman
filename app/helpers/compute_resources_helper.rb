@@ -62,5 +62,4 @@ module ComputeResourcesHelper
       [ComputeResource.provider_class(provider).constantize.provider_friendly_name, provider]
     end
   end
-
 end

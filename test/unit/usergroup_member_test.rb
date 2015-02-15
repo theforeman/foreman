@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class UsergroupMemberTest < ActiveSupport::TestCase
-
   test "remove membership of user in a group" do
     setup_admins_scenario
     assert_includes @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
