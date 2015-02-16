@@ -9,6 +9,8 @@ description: this will configure your host networking, it configures your primar
 <% subnet = @host.subnet -%>
 <% dhcp = subnet.dhcp_boot_mode? -%>
 
+<% if @host.respond_to?(:has_primary_interface?) %>
+<%# Foreman 1.7 - primary interface contained in @host %>
 # primary interface
 real=`ip -o link | grep <%= @host.mac -%> | awk '{print $2;}' | sed s/://`
 <% if @host.has_primary_interface? %>
@@ -22,6 +24,7 @@ DEVICE="$real"
 HWADDR="<%= @host.mac -%>"
 ONBOOT=yes
 EOF
+<% end -%>
 <% end -%>
 
 <% bonded_interfaces = [] %>
@@ -113,8 +116,13 @@ DEVICE="$real"
 HWADDR="<%= interface.mac -%>"
 <% end -%>
 ONBOOT=yes
+<% if interface.respond_to?(:primary) && interface.primary -%>
+PEERDNS=yes
+PEERROUTES=yes
+<% else -%>
 PEERDNS=no
 PEERROUTES=no
+<% end -%>
 <% if vlan -%>
 VLAN=yes
 <% elsif alias_type -%>

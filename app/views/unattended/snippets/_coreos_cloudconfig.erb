@@ -43,4 +43,8 @@ name: coreos_cloudconfig
   <% @host.params['ssh_authorized_keys'].split(',').map(&:strip).each do |ssh_key| -%>
       - "<%= ssh_key %>"
   <% end -%>
+<% else -%>
+      users:
+        - name: core
+          passwd: <%= root_pass %>
 <% end -%>

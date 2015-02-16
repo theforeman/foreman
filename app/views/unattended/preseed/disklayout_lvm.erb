@@ -4,11 +4,17 @@ name: Preseed custom LVM
 oses:
 - Debian 6.0
 - Debian 7.
+- Debian 8.
 - Ubuntu 10.04
 - Ubuntu 12.04
 - Ubuntu 13.04
+- Ubuntu 14.04
 %>
-d-i partman-auto/disk string /dev/sda
+<% if @host.params['install-disk'] -%>
+d-i partman-auto/disk string <%= @host.params['install-disk'] %>
+<% else -%>
+d-i partman-auto/disk string /dev/sda /dev/vda
+<% end -%>
 d-i partman-auto/method string lvm
 
 d-i partman-lvm/device_remove_lvm boolean true

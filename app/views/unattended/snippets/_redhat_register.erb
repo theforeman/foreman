@@ -79,7 +79,12 @@ name: redhat_register
     <% if type == 'site' -%>
     # Obtain our RHN Satellite Certificate
     echo "Obtaining RHN SSL certificate"
-    wget http://$satellite_hostname/pub/$rhn_cert_file -O /usr/share/rhn/$rhn_cert_file
+    curl -o /usr/share/rhn/$rhn_cert_file -k https://$satellite_hostname/pub/$rhn_cert_file
+    <% if @host.operatingsystem.name == 'SLES' -%>
+    # if SLES then add CA Cert to CA Certs for curl
+    cp /usr/share/rhn/$rhn_cert_file /etc/ssl/certs/
+    ln -s /etc/ssl/certs/$rhn_cert_file /etc/ssl/certs/`openssl x509 -hash -noout -in /etc/ssl/certs/$rhn_cert_file`.0
+    <% end -%>
     <% end -%>
 
     # Update our up2date configuration file
@@ -93,8 +98,14 @@ name: redhat_register
 
     # Restart messagebus/HAL to try and prevent hardware detection errors in rhnreg_ks
     echo "Restarting services..."
+    <% if @host.operatingsystem.name == 'SLES' -%>
+    <% if @host.operatingsystem.major.to_i < 12 -%>
+    service haldaemon restart
+    <% end -%>
+    <% else -%>
     service messagebus restart
     service hald restart
+    <% end -%>
 
     # Now, perform our registration
     #  (might get hardware errors here, due to dbus/messagebus lameness. These are safe to ignore.)

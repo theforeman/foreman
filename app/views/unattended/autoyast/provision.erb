@@ -68,13 +68,14 @@ name: AutoYaST default
       <pattern>yast2_basis</pattern>
     </patterns>
     <packages config:type="list">
+      <package>lsb-release</package>
+      <package>yast2-runlevel</package>
 <% if puppet_enabled -%>
       <package>puppet</package>
 <% end -%>
 <% if salt_enabled %>
       <package>salt-minion</package>
 <% end -%>
-      <package>yast2-runlevel</package>
     </packages>
   </software>
   <users config:type="list">

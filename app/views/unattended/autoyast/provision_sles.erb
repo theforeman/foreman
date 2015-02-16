@@ -14,6 +14,7 @@ oses:
   puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
   salt_enabled = @host.params['salt_master'] ? true : false
   sles_minor_string = (os_minor == 0) ? '' : "_SP#{os_minor}"
+  spacewalk_enabled = @host.params['spacewalk_host'] ? true : false
 %>
 <!DOCTYPE profile>
 <profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
@@ -71,14 +72,17 @@ oses:
     </patterns>
     <packages config:type="list">
       <package>less</package>
+      <package>lsb-release</package>
       <package>openssh</package>
       <package>vim</package>
 <% if puppet_enabled -%>
-      <package>puppet</package>
-      <package>rubygem-ruby-augeas</package>
+      <package>rubygem-puppet</package>
 <% end -%>
 <% if salt_enabled -%>
       <package>salt-minion</package>
+<% end -%>
+<% if spacewalk_enabled -%>
+      <package>rhn-setup</package>
 <% end -%>
     </packages>
   </software>
@@ -133,6 +137,9 @@ EOF
 chkconfig salt-minion on
 # Running salt-call to trigger key signing
 salt-call --no-color --grains >/dev/null
+<% end -%>
+<% if spacewalk_enabled %>
+<%= snippet 'redhat_register' %>
 <% end -%>
 
 /usr/bin/curl -o /dev/null -k '<%= foreman_url %>'
@@ -220,6 +227,28 @@ rm /etc/resolv.conf
             <all config:type="boolean">false</all>
             <keys config:type="list">
               <keyid>27163A4EEDF0D733</keyid>
+            </keys>
+          </import_gpg_key>
+        </signature-handling>
+      </listentry>
+<% end -%>
+<% if spacewalk_enabled %>
+      <listentry>
+        <media_url><![CDATA[http://download.opensuse.org/repositories/systemsmanagement:/spacewalk/SLE_<%= os_major %><%= sles_minor_string %>/]]></media_url>
+        <name>systemsmanagement_spacewalk</name>
+        <product>systemsmanagement_spacewalk</product>
+        <product_dir>/</product_dir>
+        <signature-handling>
+          <accept_non_trusted_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>2ABFA143A0E46E11</keyid>
+            </keys>
+          </accept_non_trusted_gpg_key>
+          <import_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>2ABFA143A0E46E11</keyid>
             </keys>
           </import_gpg_key>
         </signature-handling>
