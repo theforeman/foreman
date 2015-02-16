@@ -63,7 +63,7 @@ $(function() {
 });
 
 function removeForemanHostsCookie() {
-  $.cookie($.cookieName, null);
+  $.removeCookie($.cookieName);
 }
 
 function resetSelection() {
@@ -103,10 +103,20 @@ function toggle_multiple_ok_button(elem){
 
 // updates the form URL based on the action selection
 $(function() {
-  $('#submit_multiple a').click(function(){
-    if ($.foremanSelectedHosts.length == 0 || $(this).hasClass('dropdown-toggle')) { return false }
-    var title = $(this).attr('data-dialog-title');
-    var url = $(this).attr('href') + "?" + $.param({host_ids: $.foremanSelectedHosts});
+  $('#confirmation-modal .secondary').click(function(){
+    $('#confirmation-modal').modal('hide');
+  });
+});
+
+function submit_modal_form() {
+  removeForemanHostsCookie();
+  $("#confirmation-modal form").submit();
+  $('#confirmation-modal').modal('hide');
+}
+
+function build_modal(element, url) {
+  var url = url + "?" + $.param({host_ids: $.foremanSelectedHosts});
+  var title = $(element).attr('data-dialog-title');
     $('#confirmation-modal .modal-header h4').text(title);
     $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='/assets/spinner.gif'>");
     $('#confirmation-modal').modal();
@@ -121,18 +131,8 @@ $(function() {
             b.removeClass("disabled").attr("disabled", false);
           });
     return false;
-  });
 
-  $('#confirmation-modal .btn-primary').click(function(){
-    $("#confirmation-modal form").submit();
-    $('#confirmation-modal').modal('hide');
-  });
-
-  $('#confirmation-modal .secondary').click(function(){
-    $('#confirmation-modal').modal('hide');
-  });
-
-});
+}
 
 function update_counter() {
   var item = $("#check_all");

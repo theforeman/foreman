@@ -49,6 +49,14 @@ class HostTest < ActionDispatch::IntegrationTest
     assert_equal original_interface_count + change, table.all('tr', :visible => true).count
   end
 
+  def index_modal
+    page.find('#confirmation-modal')
+  end
+
+  def multiple_actions_div
+    page.find('#submit_multiple')
+  end
+
   test "index page" do
     assert_index_page(hosts_path,"Hosts","New Host")
   end
@@ -256,5 +264,35 @@ class HostTest < ActionDispatch::IntegrationTest
     assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
     first(:link, "Delete").click
     assert_equal(current_path, hosts_path)
+  end
+
+  describe "hosts index multiple actions" do
+    def test_show_action_buttons
+      visit hosts_path
+      page.find('#check_all').click
+
+      # Ensure all hosts are checked
+      assert page.find('input.host_select_boxes').checked?
+
+      # Dropdown visible?
+      assert multiple_actions_div.find('.dropdown-toggle').visible?
+      multiple_actions_div.find('.dropdown-toggle').click
+      assert multiple_actions_div.find('ul').visible?
+
+      # Hosts are added to cookie
+      host_ids_on_cookie = JSON.parse(CGI::unescape(page.driver.cookies['_ForemanSelectedhosts'].value))
+      assert(host_ids_on_cookie.include? @host.id)
+
+      # Open modal box
+      within('#submit_multiple') do
+        click_on('Change Environment')
+      end
+      assert index_modal.visible?, "Modal window was shown"
+      page.find('#environment_id').find("option[value='#{@host.environment_id}']").select_option
+
+      # remove hosts cookie on submit
+      index_modal.find('.btn-primary').trigger('click')
+      assert_empty(page.driver.cookies['_ForemanSelectedhosts'])
+    end
   end
 end
