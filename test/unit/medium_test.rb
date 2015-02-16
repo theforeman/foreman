@@ -48,7 +48,7 @@ class MediumTest < ActiveSupport::TestCase
     host = FactoryGirl.create(:host, :with_operatingsystem)
     refute host.build?
     host.medium = medium
-    host.os.media << medium
+    host.operatingsystem.media << medium
     assert host.save!
 
     medium.hosts << host
@@ -65,7 +65,7 @@ class MediumTest < ActiveSupport::TestCase
     host = FactoryGirl.create(:host, :with_operatingsystem)
     host.build = true
     host.medium = medium
-    host.os.media << medium
+    host.operatingsystem.media << medium
     assert host.save!
 
     medium.hosts << host

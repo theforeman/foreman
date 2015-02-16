@@ -26,7 +26,7 @@ module Nic
                           })
       # Are we booting SPARC solaris?
       if host.jumpstart?
-        jumpstart_arguments = host.os.jumpstart_params host, host.model.vendor_class
+        jumpstart_arguments = host.operatingsystem.jumpstart_params host, host.model.vendor_class
         attrs.merge! jumpstart_arguments unless jumpstart_arguments.empty?
       end
       attrs

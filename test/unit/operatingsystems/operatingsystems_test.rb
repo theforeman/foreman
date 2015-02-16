@@ -43,7 +43,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
                                                                      :ptables => [ptables(:one)],
                                                                      :media => [FactoryGirl.build(:medium)]),
                                :architecture => arch)
-      assert_equal(config['expected'], host.os.kernel(host.arch))
+      assert_equal(config['expected'], host.operatingsystem.kernel(host.arch))
     end
   end
 
@@ -60,7 +60,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
                                                                      :ptables => [ptables(:one)],
                                                                      :media => [FactoryGirl.build(:medium)]),
                                :architecture => arch)
-      assert_equal(config['expected'], host.os.initrd(host.arch))
+      assert_equal(config['expected'], host.operatingsystem.initrd(host.arch))
     end
   end
 
@@ -77,7 +77,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
                                                                      :ptables => [ptables(:one)],
                                                                      :media => [FactoryGirl.build(:medium)]),
                                :architecture => arch)
-      assert_equal(config['expected'], host.os.pxe_prefix(host.arch))
+      assert_equal(config['expected'], host.operatingsystem.pxe_prefix(host.arch))
     end
   end
 
@@ -107,11 +107,11 @@ class OperatingsystemsTest < ActiveSupport::TestCase
                                :architecture    => arch,
                                :medium          => medium)
 
-      host.medium.operatingsystems << host.os
-      host.arch.operatingsystems << host.os
+      host.medium.operatingsystems << host.operatingsystem
+      host.arch.operatingsystems << host.operatingsystem
 
-      prefix = host.os.pxe_prefix(host.arch).to_sym
-      pxe_files = host.os.pxe_files(host.medium, host.arch)
+      prefix = host.operatingsystem.pxe_prefix(host.arch).to_sym
+      pxe_files = host.operatingsystem.pxe_files(host.medium, host.arch)
 
       assert pxe_files.include?({ prefix => config['kernel'] })
       assert pxe_files.include?({ prefix => config['initrd'] })
