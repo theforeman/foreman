@@ -55,7 +55,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert operating_system.save
 
     host = FactoryGirl.create(:host)
-    host.os = operating_system
+    host.operatingsystem = operating_system
     host.save(:validate => false)
 
     assert !operating_system.destroy

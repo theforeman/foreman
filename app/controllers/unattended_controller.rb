@@ -181,7 +181,7 @@ class UnattendedController < ApplicationController
 
   def load_template_vars
     # load the os family default variables
-    send "#{@host.os.pxe_type}_attributes"
+    send "#{@host.operatingsystem.pxe_type}_attributes"
 
     @provisioning_type = @host.is_a?(Hostgroup) ? 'hostgroup' : 'host'
 
@@ -195,8 +195,7 @@ class UnattendedController < ApplicationController
   end
 
   def alterator_attributes
-    os           = @host.operatingsystem
-    @mediapath   = os.mediumpath @host
+    @mediapath   = @host.operatingsystem.mediumpath @host
     @mediaserver = URI(@mediapath).host
     @metadata    = params[:metadata].to_s
   end
@@ -205,11 +204,7 @@ class UnattendedController < ApplicationController
     if @host.operatingsystem.supports_image and @host.use_image
       @install_type     = "flash_install"
       # We have an individual override for the host's image file
-      if @host.image_file
-        @archive_location = @host.image_file
-      else
-        @archive_location = @host.default_image_file
-      end
+      @archive_location = @host.image_file ? @host.image_file : @host.default_image_file
     else
       @install_type = "initial_install"
       @system_type  = "standalone"
@@ -223,15 +218,14 @@ class UnattendedController < ApplicationController
   def kickstart_attributes
     @dynamic   = @host.diskLayout =~ /^#Dynamic/
     @arch      = @host.architecture.name
-    os         = @host.operatingsystem
-    @osver     = os.major.to_i
-    @mediapath = os.mediumpath @host
-    @repos     = os.repos @host
+    @osver     = @host.operatingsystem.major.to_i
+    @mediapath = @host.operatingsystem.mediumpath @host
+    @repos     = @host.operatingsystem.repos @host
   end
 
   def preseed_attributes
-    @preseed_path   = @host.os.preseed_path   @host
-    @preseed_server = @host.os.preseed_server @host
+    @preseed_path   = @host.operatingsystem.preseed_path   @host
+    @preseed_server = @host.operatingsystem.preseed_server @host
   end
 
   def yast_attributes
@@ -242,18 +236,15 @@ class UnattendedController < ApplicationController
   end
 
   def aif_attributes
-    os         = @host.operatingsystem
-    @mediapath = os.mediumpath @host
+    @mediapath = @host.operatingsystem.mediumpath @host
   end
 
   def memdisk_attributes
-    os         = @host.operatingsystem
-    @mediapath = os.mediumpath @host
+    @mediapath = @host.operatingsystem.mediumpath @host
   end
 
   def ZTP_attributes
-    os         = @host.operatingsystem
-    @mediapath = os.mediumpath @host
+    @mediapath = @host.operatingsystem.mediumpath @host
   end
 
   def waik_attributes

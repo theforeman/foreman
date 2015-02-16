@@ -19,4 +19,4 @@ name: epel
   ''
   end
 -%>
-su -c 'rpm -Uvh <%= @host.os.medium_uri(@host, epel_url) %>'
+su -c 'rpm -Uvh <%= @host.operatingsystem.medium_uri(@host, epel_url) %>'

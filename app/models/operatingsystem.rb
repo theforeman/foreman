@@ -108,7 +108,7 @@ class Operatingsystem < ActiveRecord::Base
 
   def medium_uri(host, url = nil)
     url ||= host.medium.path
-    medium_vars_to_uri(url, host.architecture.name, host.os)
+    medium_vars_to_uri(url, host.architecture.name, host.operatingsystem)
   end
 
   def medium_vars_to_uri(url, arch, os)
