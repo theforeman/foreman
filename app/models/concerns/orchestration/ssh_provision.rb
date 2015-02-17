@@ -113,7 +113,7 @@ module Orchestration::SSHProvision
   end
 
   def provision_ip
-    provision_interface.ip
+    provision_interface.ip || provision_interface.fqdn
   end
 
 end
