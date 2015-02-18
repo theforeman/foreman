@@ -4,6 +4,8 @@ inherit_from:
 
 AllCops:
   RunRailsCops: true # always run the rails cops
+  Exclude:
+    - 'db/schema.rb'
 
 # Don't enforce documentation
 Style/Documentation:
@@ -18,4 +20,4 @@ Style/HashSyntax:
 
 Metrics/ClassLength:
   Exclude:
-   - 'test/**/*'
+    - 'test/**/*'
