@@ -83,6 +83,30 @@ class NicTest < ActiveSupport::TestCase
     assert another_physical_on_unmanaged.save
   end
 
+  test "VLAN requires identifier" do
+    nic = FactoryGirl.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :tag => 5, :managed => true, :identifier => '')
+    refute nic.valid?
+    assert_includes nic.errors.keys, :identifier
+  end
+
+  test "Alias requires identifier" do
+    nic = FactoryGirl.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => '')
+    refute nic.valid?
+    assert_includes nic.errors.keys, :identifier
+  end
+
+  test "Bond does not require identifier" do
+    nic = FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1', :managed => true, :identifier => '')
+    nic.valid?
+    refute_includes nic.errors.keys, :identifier
+  end
+
+  test "BMC does not require identifier" do
+    nic = FactoryGirl.build(:nic_bmc, :managed => true, :identifier => '')
+    nic.valid?
+    refute_includes nic.errors.keys, :identifier
+  end
+
   context 'BMC' do
     setup do
       disable_orchestration
