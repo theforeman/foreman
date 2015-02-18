@@ -299,4 +299,35 @@ class NicTest < ActiveSupport::TestCase
       assert @nic.fqdn_changed?
     end
   end
+
+  test 'new nic name containing existing domain should set nic domain' do
+    domain = FactoryGirl.create(:domain)
+    host = FactoryGirl.create(:host)
+    nic_name = [host.name, domain.name].join('.')
+    interface = FactoryGirl.create(:nic_managed, :host => host, :name => nic_name)
+    refute_nil(interface.domain)
+    assert_equal(interface.domain, domain)
+  end
+
+  test 'new nic with non-existing domain should not set nic domain' do
+    host = FactoryGirl.create(:host)
+    nic_name = [host.name, 'domain.name'].join('.')
+    interface = FactoryGirl.create(:nic_managed, :host => host, :name => nic_name)
+    assert_nil(interface.domain)
+  end
+
+  test 'update nic domain should update nic name' do
+    host = FactoryGirl.create(:host)
+    existing_domain = Domain.first
+    interface = FactoryGirl.create(:nic_managed, :host => host, :name => 'nick')
+    # no domain
+    assert_equal(interface.name, 'nick')
+    interface.update_attributes(:domain_id => existing_domain.id)
+    name_should_be = "nick.#{existing_domain.name}"
+    assert_equal(name_should_be, interface.name)
+    new_domain = FactoryGirl.create(:domain)
+    interface.update_attributes(:domain_id => new_domain.id)
+    name_should_change_to = "nick.#{new_domain.name}"
+    assert_equal(name_should_change_to, interface.name)
+  end
 end
