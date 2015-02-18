@@ -1,7 +1,6 @@
 module Api
   module V2
     class ConfigGroupsController < V2::BaseController
-
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/config_groups", N_("List of config groups")
@@ -45,7 +44,6 @@ module Api
       def destroy
         process_response @config_group.destroy
       end
-
     end
   end
 end

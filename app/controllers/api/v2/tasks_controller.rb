@@ -1,7 +1,6 @@
 module Api
   module V2
     class TasksController < BaseController
-
       layout false
 
       api :GET, "/orchestration/:id/tasks/", N_("List all tasks for a given orchestration event")
@@ -13,7 +12,6 @@ module Api
         not_found if @tasks.blank?
         render :json => { root_node_name => @tasks }
       end
-
     end
   end
 end

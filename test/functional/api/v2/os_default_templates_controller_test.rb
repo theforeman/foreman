@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::OsDefaultTemplatesControllerTest < ActionController::TestCase
-
   test 'should get os_default_templates for os' do
     get :index, {:operatingsystem_id => operatingsystems(:redhat).to_param }
     assert_response :success
@@ -48,5 +47,4 @@ class Api::V2::OsDefaultTemplatesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

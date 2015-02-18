@@ -51,7 +51,6 @@ class DomainTest < ActiveSupport::TestCase
   end
 
   test "should not destroy if it contains subnets" do
-
     @domain.subnets.clear
     assert @domain.subnets.empty?
     @domain.subnets << Subnet.first
@@ -130,6 +129,5 @@ class DomainTest < ActiveSupport::TestCase
   test "should get used and selected location ids for host" do
     assert_equal [taxonomies(:location1).id], domains(:mydomain).used_or_selected_location_ids
   end
-
 end
 

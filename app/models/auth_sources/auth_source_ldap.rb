@@ -177,5 +177,4 @@ class AuthSourceLdap < AuthSource
   def service_user(login)
     use_user_login_for_service? ? account.sub("$login", login) : account
   end
-
 end

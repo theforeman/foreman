@@ -1,7 +1,6 @@
 module Api
   module V2
     class RolesController < V2::BaseController
-
       before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
@@ -52,7 +51,6 @@ module Api
       def allowed_nested_id
         %w(user_id)
       end
-
     end
   end
 end

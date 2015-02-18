@@ -22,7 +22,6 @@ class WsProxy
   end
 
   def start_proxy
-
     # try to execute our web sockets proxy
     port = PORTS.first
     begin
@@ -64,7 +63,6 @@ class WsProxy
   end
 
   def execute(cmd)
-
     logger.debug "Starting VNC Proxy: #{cmd}"
     Open3::popen3(cmd) do |stdin, stdout, stderr|
       stdout.each do |line|
@@ -76,5 +74,4 @@ class WsProxy
       end
     end
   end
-
 end

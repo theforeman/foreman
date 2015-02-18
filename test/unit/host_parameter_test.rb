@@ -34,5 +34,4 @@ class HostParameterTest < ActiveSupport::TestCase
     end
     assert @parameter2.valid?
   end
-
 end

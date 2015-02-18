@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class SmartProxyTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(smart_proxies_path,"Smart Proxies","New Smart Proxy",false)
   end
@@ -24,5 +23,4 @@ class SmartProxyTest < ActionDispatch::IntegrationTest
     assert page.has_link? 'DHCP Secure'
     assert page.has_content? "https://secure.net:8443"
   end
-
 end

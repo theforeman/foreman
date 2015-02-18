@@ -46,5 +46,4 @@ class Organization < Taxonomy
   def sti_name
     _("organization")
   end
-
 end

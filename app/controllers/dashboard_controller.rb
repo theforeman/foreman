@@ -17,5 +17,4 @@ class DashboardController < ApplicationController
     @hosts    = dashboard.hosts
     @report   = dashboard.report
   end
-
 end

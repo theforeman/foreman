@@ -1,7 +1,6 @@
 require "test_helper"
 
 class ClassificationTest < ActiveSupport::TestCase
-
   def setup
     host = FactoryGirl.create(:host,
                               :location => taxonomies(:location1),
@@ -101,7 +100,6 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart class parameter of array with avoid_duplicates should return lookup_value array without duplicates' do
-
     key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'array', :merge_overrides => true,
                              :default_value => [], :path => "organization\nlocation", :avoid_duplicates => true,
@@ -201,7 +199,6 @@ class ClassificationTest < ActiveSupport::TestCase
     assert_equal({key.id => {key.key => {:value => value.value, :element => ['location', 'organization'],
                                          :element_name => ['Location 1', 'Organization 1']}}},
                  classification.send(:values_hash))
-
   end
 
   test 'smart class parameter of hash with merge_overrides and priority should obey priority' do
@@ -270,7 +267,6 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart variable of array with avoid_duplicates should return lookup_value array without duplicates' do
-
     key = FactoryGirl.create(:lookup_key, :key_type => 'array', :merge_overrides => true,
                              :default_value => [], :path => "organization\nlocation", :avoid_duplicates => true,
                              :puppetclass => puppetclasses(:one))
@@ -635,5 +631,4 @@ class ClassificationTest < ActiveSupport::TestCase
     classification.expects(:puppetclass_ids).returns(Array.wrap(classes).map(&:id))
     classification
   end
-
 end

@@ -19,7 +19,6 @@ module Api
           includes(:fact_name, :host)
         render :json => FactValue.build_facts_hash(values.all)
       end
-
     end
   end
 end

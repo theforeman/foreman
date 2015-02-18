@@ -73,7 +73,6 @@ class MenuMapperTest < ActiveSupport::TestCase
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-
   end
 
   def test_push_before
@@ -90,7 +89,6 @@ class MenuMapperTest < ActiveSupport::TestCase
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-
   end
 
   def test_push_after
@@ -107,7 +105,6 @@ class MenuMapperTest < ActiveSupport::TestCase
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-
   end
 
   def test_push_last
@@ -124,7 +121,6 @@ class MenuMapperTest < ActiveSupport::TestCase
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-
   end
 
   def test_exists_for_child_node

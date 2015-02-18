@@ -1,5 +1,4 @@
 module Host
-
   def self.method_missing(method, *args, &block)
     type = "Host::Managed"
     case method.to_s
@@ -26,5 +25,4 @@ module Host
       super
     end
   end
-
 end

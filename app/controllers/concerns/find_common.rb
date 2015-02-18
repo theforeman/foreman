@@ -3,7 +3,6 @@
 # friendly_id performs the logic if params[:id] is 'id' or 'id-name' or 'name'
 
 module FindCommon
-
   # example: @host = Host.find(params[:id])
   def find_resource
     not_found and return if params[:id].blank?
@@ -30,5 +29,4 @@ module FindCommon
       end
     end
   end
-
 end

@@ -144,7 +144,6 @@ namespace :puppet do
       end
     end
 
-
     desc "Imports only the puppet environments from SmartProxy source."
     task :environments_only, [:batch] => :environment do | t, args |
       args.batch = args.batch == "true"
@@ -224,5 +223,4 @@ namespace :puppet do
       Puppetclass.all.each(&:update_total_hosts)
     end
   end
-
 end

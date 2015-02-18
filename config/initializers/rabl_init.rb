@@ -8,7 +8,6 @@ module Rabl
   end
 
   class Engine
-
     def api_version
       respond_to?(:response) ? response.headers["Foreman_api_version"] : '1'
     end
@@ -35,7 +34,6 @@ module Rabl
       # otherwise return super since v1 has object root (config.include_child_root = true)
       super
     end
-
   end
 end
 

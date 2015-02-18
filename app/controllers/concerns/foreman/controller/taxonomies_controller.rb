@@ -196,5 +196,4 @@ module Foreman::Controller::TaxonomiesController
     return @count_nil_hosts if @count_nil_hosts
     @count_nil_hosts = Host.where(taxonomy_id => nil).count
   end
-
 end

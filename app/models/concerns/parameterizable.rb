@@ -1,5 +1,4 @@
 module Parameterizable
-
   def self.parameterize(string)
     string.gsub(/[\/.>]/, '-').gsub(/[<!*'();:@&=+$,?%#\[\]]/, '').chomp('-')
   end
@@ -50,5 +49,4 @@ module Parameterizable
       end
     end
   end
-
 end

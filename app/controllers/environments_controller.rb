@@ -39,5 +39,4 @@ class EnvironmentsController < ApplicationController
       process_error
     end
   end
-
 end

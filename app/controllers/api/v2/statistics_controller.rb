@@ -1,8 +1,6 @@
 module Api
   module V2
-
     class StatisticsController < V2::BaseController
-
       api :GET, "/statistics/", N_("Get statistics")
 
       def index
@@ -23,8 +21,6 @@ module Api
                           :model_count => @model_count, :mem_size => @mem_size,       :mem_free => @mem_free,
                           :swap_free   => @swap_free,   :mem_totsize => @mem_totsize, :mem_totfree => @mem_totfree }
       end
-
     end
-
   end
 end

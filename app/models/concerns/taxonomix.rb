@@ -22,7 +22,6 @@ module Taxonomix
   end
 
   module ClassMethods
-
     attr_accessor :which_ancestry_method, :which_location, :which_organization
 
     # default inner_method includes children (subtree_ids)
@@ -203,5 +202,4 @@ module Taxonomix
     end
     ids.flatten.compact.uniq
   end
-
 end

@@ -44,7 +44,6 @@ module FogExtensions
         match ||= fog_nics.detect { |fn| fn.bridge  == nic_attrs['bridge']  } # no network? try a bridge...
         match
       end
-
     end
   end
 end

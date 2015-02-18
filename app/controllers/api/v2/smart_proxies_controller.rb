@@ -1,7 +1,6 @@
 module Api
   module V2
     class SmartProxiesController < V2::BaseController
-
       include Api::Version2
       include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController
@@ -69,7 +68,6 @@ module Api
           super
         end
       end
-
     end
   end
 end

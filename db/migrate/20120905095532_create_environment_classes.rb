@@ -12,5 +12,4 @@ class CreateEnvironmentClasses < ActiveRecord::Migration
     remove_column :environment_classes, :lookup_key_id
     rename_table :environment_classes, :environments_puppetclasses
   end
-
 end

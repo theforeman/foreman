@@ -16,7 +16,6 @@ class AddOwnerToHosts < ActiveRecord::Migration
       say "setting default owner for all hosts"
       Host.update_all("owner_id = '#{owner.id}'")
     end
-
   end
 
   def self.down

@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::ComputeProfilesControllerTest < ActionController::TestCase
-
   test "should get index" do
     get :index, { }
     assert_response :success
@@ -35,5 +34,4 @@ class Api::V2::ComputeProfilesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

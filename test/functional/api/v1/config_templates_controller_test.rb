@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
-
   test "should get index" do
     get :index
     templates = ActiveSupport::JSON.decode(@response.body)
@@ -74,5 +73,4 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "aha", config_templates(:pxekickstart).audits.last.comment
   end
-
 end

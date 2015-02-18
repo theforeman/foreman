@@ -133,7 +133,6 @@ module Nic
       @old.host = host.setup_clone
       @old
     end
-
   end
 
   Base.register_type(Managed)

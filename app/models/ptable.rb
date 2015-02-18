@@ -26,5 +26,4 @@ class Ptable < ActiveRecord::Base
   def skip_strip_attrs
     ['layout']
   end
-
 end

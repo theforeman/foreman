@@ -1,7 +1,6 @@
 module Api
   module V2
     class ImagesController < V2::BaseController
-
       before_filter :find_required_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
@@ -70,7 +69,6 @@ module Api
       def allowed_nested_id
         %w(compute_resource_id operatingsystem_id architecture_id)
       end
-
     end
   end
 end

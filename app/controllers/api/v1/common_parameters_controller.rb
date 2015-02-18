@@ -52,7 +52,6 @@ module Api
       def destroy
         process_response @common_parameter.destroy
       end
-
     end
   end
 end

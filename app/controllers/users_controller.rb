@@ -127,5 +127,4 @@ class UsersController < ApplicationController
     TopbarSweeper.expire_cache(self)
     redirect_to (uri || hosts_path)
   end
-
 end

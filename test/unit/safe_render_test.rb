@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class SafeRenderTest < ActiveSupport::TestCase
-
   def setup
     @host = FactoryGirl.create(:host)
     @safe_render = SafeRender.new(:variables => { :host => @host })
@@ -41,5 +40,4 @@ class SafeRenderTest < ActiveSupport::TestCase
     s=@safe_render.parse("['level1','<%= @host.name %>',['level2','<%= @host.name %>']]")
     assert_equal "['level1','#{@host.name}',['level2','#{@host.name}']]", s
   end
-
 end

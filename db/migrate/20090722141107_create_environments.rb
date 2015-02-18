@@ -8,7 +8,6 @@ class CreateEnvironments < ActiveRecord::Migration
       t.references :puppetclass, :null => false
       t.references :environment, :null => false
     end
-
   end
 
   def self.down

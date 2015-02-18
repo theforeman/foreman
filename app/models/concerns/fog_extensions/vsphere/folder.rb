@@ -10,6 +10,5 @@ module FogExtensions
         end
       end
     end
-
   end
 end

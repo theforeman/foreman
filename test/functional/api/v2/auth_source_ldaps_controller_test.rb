@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'ldap2', :host => 'ldap2', :server_type => 'posix' }
 
   test "should get index" do
@@ -39,5 +38,4 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

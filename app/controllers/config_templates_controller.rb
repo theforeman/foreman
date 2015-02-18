@@ -92,7 +92,6 @@ class ConfigTemplatesController < ApplicationController
     'templates'
   end
 
-
   def action_permission
     case params[:action]
       when 'lock', 'unlock'

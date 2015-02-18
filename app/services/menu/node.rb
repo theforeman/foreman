@@ -1,5 +1,4 @@
 module Menu
-
   class Node
     include Enumerable
     attr_accessor :parent

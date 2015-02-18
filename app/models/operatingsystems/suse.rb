@@ -1,5 +1,4 @@
 class Suse < Operatingsystem
-
   PXEFILES = {:kernel => "linux", :initrd => "initrd"}
 
   def pxe_type
@@ -31,5 +30,4 @@ class Suse < Operatingsystem
   def self.model_name
     superclass.model_name
   end
-
 end

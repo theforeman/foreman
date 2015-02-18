@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::HostsControllerTest < ActionController::TestCase
-
   def setup
     @host = FactoryGirl.create(:host)
   end
@@ -393,7 +392,5 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_equal  1, response['subtotal']
       assert_equal @bmchost.name, response['search']
     end
-
   end
-
 end

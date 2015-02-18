@@ -1,5 +1,4 @@
 class Debian < Operatingsystem
-
   PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}
 
   def pxedir
@@ -51,5 +50,4 @@ class Debian < Operatingsystem
   def self.model_name
     superclass.model_name
   end
-
 end

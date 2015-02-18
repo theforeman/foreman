@@ -103,5 +103,4 @@ class FactValue < ActiveRecord::Base
     end
     [ values.sum, values.size ]
   end
-
 end

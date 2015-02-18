@@ -21,5 +21,4 @@ class PermissionsController < ApplicationController
   def granular?(type)
     Filter.new(:resource_type => type).granular?
   end
-
 end

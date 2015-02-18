@@ -1,5 +1,4 @@
 class Setting::Puppet < Setting
-
   def self.load_defaults
     # Check the table exists
     return unless super
@@ -30,9 +29,6 @@ class Setting::Puppet < Setting
       ].compact.each { |s| self.create s.update(:category => "Setting::Puppet")}
 
       true
-
     end
-
   end
-
 end

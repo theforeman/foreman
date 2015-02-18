@@ -56,5 +56,4 @@ class Parameter < ActiveRecord::Base
   def ensure_reference_nil
     self.reference_id = nil if self.new_record? && self.reference_id == 1 && Rails.version == '3.2.8'
   end
-
 end

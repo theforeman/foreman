@@ -88,6 +88,5 @@ module SSO
     def store
       session[:sso_method] = self.class.to_s
     end
-
   end
 end

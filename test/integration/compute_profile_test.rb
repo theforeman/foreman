@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ComputeProfileTest < ActionDispatch::IntegrationTest
-
   setup do
     Fog.mock!
   end
@@ -48,5 +47,4 @@ class ComputeProfileTest < ActionDispatch::IntegrationTest
     click_link("another-ec2 (eu-west-1-EC2)")
     assert page.has_selector?('h1', :text => 'New compute profile on another-ec2 (eu-west-1-EC2)'), "New compute profile on another-ec2 (eu-west-1-EC2) was expected in the <h1> tag, but was not found"
   end
-
 end

@@ -117,5 +117,4 @@ class Foreman::Provision::SSH
   def scp
     Fog::SCP.new(address, username, options)
   end
-
 end

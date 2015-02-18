@@ -1,7 +1,5 @@
 module ProxyAPI
-
   class ProxyException < ::Foreman::WrappedException
-
     attr_reader :url
 
     def initialize(url, exception, message, *params)
@@ -13,5 +11,4 @@ module ProxyAPI
       super + ' ' + _('for proxy') + ' ' + url
     end
   end
-
 end

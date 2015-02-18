@@ -200,5 +200,4 @@ class OrganizationsControllerTest < ActionController::TestCase
     User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) #2 users, all admins
     put :update, { :id => organization.id, :organization => {:name => "Topbar Org" }}, set_session_user
   end
-
 end

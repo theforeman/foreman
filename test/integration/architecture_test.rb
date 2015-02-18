@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ArchitectureTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(architectures_path,"Architectures","New Architecture")
   end
@@ -20,5 +19,4 @@ class ArchitectureTest < ActionDispatch::IntegrationTest
     assert_submit_button(architectures_path)
     assert page.has_link? 'z128'
   end
-
 end

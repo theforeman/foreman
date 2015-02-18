@@ -62,7 +62,6 @@ module Api
       def resource_class
         LookupKey
       end
-
     end
   end
 end

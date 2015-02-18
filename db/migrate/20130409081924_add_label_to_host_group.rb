@@ -1,5 +1,4 @@
 class AddLabelToHostGroup < ActiveRecord::Migration
-
   def self.up
     add_column :hostgroups, :label, :string
 
@@ -15,5 +14,4 @@ class AddLabelToHostGroup < ActiveRecord::Migration
   def self.down
     remove_column :hostgroups, :label
   end
-
 end

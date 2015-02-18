@@ -3,7 +3,6 @@ require 'foreman/exception'
 
 module Foreman::Model
   class Vmware < ComputeResource
-
     include ComputeResourceConsoleCommon
 
     validates :user, :password, :server, :datacenter, :presence => true

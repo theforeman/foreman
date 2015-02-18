@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class DomainTest < ActionDispatch::IntegrationTest
-
   test "index page" do
     assert_index_page(domains_path,"Domains","New Domain")
   end
@@ -20,5 +19,4 @@ class DomainTest < ActionDispatch::IntegrationTest
     assert_submit_button(domains_path)
     assert page.has_link? 'my.updated.domain.org'
   end
-
 end

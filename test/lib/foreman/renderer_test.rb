@@ -65,7 +65,5 @@ class RendererTest < ActiveSupport::TestCase
       tmpl = unattended_render(template)
       assert_equal 'xabc', tmpl
     end
-
   end
-
 end

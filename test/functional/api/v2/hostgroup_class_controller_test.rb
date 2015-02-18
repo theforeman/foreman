@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::HostgroupClassesControllerTest < ActionController::TestCase
-
   test "should get puppetclass ids for hostgroup" do
     get :index, {:hostgroup_id => hostgroups(:common).id }
     assert_response :success
@@ -25,5 +24,4 @@ class Api::V2::HostgroupClassesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

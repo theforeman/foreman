@@ -17,5 +17,4 @@ class AuditsController < ApplicationController
   def controller_permission
     'audit_logs'
   end
-
 end

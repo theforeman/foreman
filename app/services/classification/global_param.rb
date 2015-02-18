@@ -1,6 +1,5 @@
 module Classification
   class GlobalParam < Base
-
     def enc
       values = values_hash
 
@@ -12,6 +11,7 @@ module Classification
     end
 
     protected
+
     def class_parameters
       @keys ||= LookupKey.global_parameters_for_class(puppetclass_ids)
     end

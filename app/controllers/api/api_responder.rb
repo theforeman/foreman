@@ -1,6 +1,5 @@
 module Api
   class ApiResponder < ActionController::Responder
-
     # overview api_behavior
     def api_behavior(error)
       raise error unless resourceful?
@@ -11,7 +10,6 @@ module Api
       else
         super
       end
-
     end
   end
 end

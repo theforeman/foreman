@@ -1,5 +1,4 @@
 class AIX < Operatingsystem
-
   PXEFILES = {:kernel => "powerpc", :initrd => "initrd"}
 
   # Override the class representation, as this breaks many rails helpers
@@ -22,5 +21,4 @@ class AIX < Operatingsystem
   def display_family
     "AIX"
   end
-
 end

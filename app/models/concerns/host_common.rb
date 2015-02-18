@@ -211,5 +211,4 @@ module HostCommon
 
     record.update_puppetclasses_total_hosts
   end
-
 end

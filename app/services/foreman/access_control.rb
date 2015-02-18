@@ -17,7 +17,6 @@
 
 module Foreman
   module AccessControl
-
     class << self
       def map
         mapper = Mapper.new

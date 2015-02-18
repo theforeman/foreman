@@ -9,10 +9,7 @@ class AddTitleToOs < ActiveRecord::Migration
     end
   end
 
-
   def down
     remove_column :operatingsystems, :title
   end
-
-
 end

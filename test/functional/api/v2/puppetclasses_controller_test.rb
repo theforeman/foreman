@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'test_puppetclass' }
 
   test "should get index" do
@@ -138,5 +137,4 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

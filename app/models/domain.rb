@@ -78,5 +78,4 @@ class Domain < ActiveRecord::Base
     return [] if new_record?
     Host::Base.joins(:primary_interface).where(:nics => {:domain_id => id}).pluck(type).compact.uniq
   end
-
 end

@@ -18,6 +18,7 @@ class HomeController < ApplicationController
   end
 
   private
+
   # check for exception - set the result code and duration time
   def exception_watch(&block)
     start = Time.now

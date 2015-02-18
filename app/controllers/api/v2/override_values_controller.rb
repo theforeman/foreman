@@ -65,6 +65,7 @@ module Api
       end
 
       private
+
       def find_override_values
         if @smart
           @override_values = @smart.lookup_values.paginate(paginate_options)
@@ -86,7 +87,6 @@ module Api
       def resource_class
         LookupValue
       end
-
     end
   end
 end

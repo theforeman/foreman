@@ -205,5 +205,4 @@ class Puppetclass < ActiveRecord::Base
     puppet_classes = (direct + indirect).uniq
     { :conditions => "puppetclasses.id IN(#{puppet_classes.join(',')})" }
   end
-
 end

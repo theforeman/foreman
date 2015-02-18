@@ -176,6 +176,5 @@ module Foreman::Model
       logger.warn "failed to allocate ip address for network #{network}: #{e}"
       raise e
     end
-
   end
 end

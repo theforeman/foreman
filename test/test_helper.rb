@@ -281,7 +281,6 @@ Spork.prefork do
       Location.all_import_missing_ids
       Organization.all_import_missing_ids
     end
-
   end
 
   class ActionView::TestCase
@@ -292,7 +291,6 @@ Spork.prefork do
     support_file = "#{engine.root}/test/support/foreman_test_helper_additions.rb"
     require support_file if File.exist?(support_file)
   end
-
 end
 
 Spork.each_run do
@@ -323,7 +321,6 @@ Spork.each_run do
   end
 
   class ActionDispatch::IntegrationTest
-
     setup :login_admin
 
     teardown do
@@ -340,7 +337,5 @@ Spork.each_run do
       fill_in "login_password", :with => "secret"
       click_button "Login"
     end
-
   end
-
 end

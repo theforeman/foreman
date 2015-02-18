@@ -22,5 +22,4 @@ class SettingsController < ApplicationController
       render :json => {"errors" => error_msg}, :status => :unprocessable_entity
     end
   end
-
 end

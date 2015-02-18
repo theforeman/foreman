@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class OrganizationTest < ActionDispatch::IntegrationTest
-
   def setup
     FactoryGirl.create(:host)
   end
@@ -71,5 +70,4 @@ class OrganizationTest < ActionDispatch::IntegrationTest
   # PENDING
   # test "mismatches report" do
   # end
-
 end

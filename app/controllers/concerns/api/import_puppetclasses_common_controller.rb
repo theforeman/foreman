@@ -118,5 +118,4 @@ module Api::ImportPuppetclassesCommonController
     logger.debug e.backtrace.join("\n")
     nil
   end
-
 end

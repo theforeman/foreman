@@ -62,7 +62,6 @@ module Host
       end
     end
 
-
     delegate :ip, :mac,
              :subnet, :subnet_id, :subnet_name,
              :domain, :domain_id, :domain_name,

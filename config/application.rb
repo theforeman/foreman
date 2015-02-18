@@ -1,7 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 require 'apipie/middleware/checksum_in_headers'
 
-
 require 'rails/all'
 
 if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))

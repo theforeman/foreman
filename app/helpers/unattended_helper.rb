@@ -12,5 +12,4 @@ module UnattendedHelper
   def root_pass
     @host.root_pass
   end
-
 end

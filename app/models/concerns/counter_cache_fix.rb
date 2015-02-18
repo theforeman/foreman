@@ -22,5 +22,4 @@ module CounterCacheFix
       end
     end
   end
-
 end

@@ -1,5 +1,4 @@
 class Dashboard::Data
-
   attr_reader :report
   # returns a status hash
   def self.status(filter = "")
@@ -17,6 +16,7 @@ class Dashboard::Data
   end
 
   private
+
   attr_writer :report
   attr_accessor :filter
   def fetch_data
@@ -49,5 +49,4 @@ class Dashboard::Data
   def reports_missing
     hosts.search_for('not has last_report and status.enabled = true').count
   end
-
 end

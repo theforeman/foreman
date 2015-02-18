@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::ComputeAttributesControllerTest < ActionController::TestCase
-
   test "should create compute attribute" do
     assert_difference('ComputeAttribute.count') do
       valid_attrs = {:vm_attrs => {"cpus"=>"2", "memory"=>"2147483648"}}
@@ -23,5 +22,4 @@ class Api::V2::ComputeAttributesControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "4", compute_attributes(:two).reload.vm_attrs['cpus']
   end
-
 end

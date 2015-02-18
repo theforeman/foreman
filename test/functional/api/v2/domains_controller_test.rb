@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class Api::V2::DomainsControllerTest < ActionController::TestCase
-
-
   test "should get index" do
     get :index, { }
     assert_response :success
@@ -88,5 +86,4 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
       assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"
     end
   end
-
 end

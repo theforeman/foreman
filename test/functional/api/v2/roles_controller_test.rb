@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::RolesControllerTest < ActionController::TestCase
-
   valid_attrs = { :name => 'staff' }
 
   test "should get index" do
@@ -37,5 +36,4 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

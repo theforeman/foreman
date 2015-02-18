@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Api::V2::HostClassesControllerTest < ActionController::TestCase
-
   def setup
     @host = FactoryGirl.create(:host, :with_puppetclass)
   end
@@ -27,5 +26,4 @@ class Api::V2::HostClassesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

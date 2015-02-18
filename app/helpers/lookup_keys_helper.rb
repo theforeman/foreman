@@ -1,5 +1,4 @@
 module LookupKeysHelper
-
   def remove_child_link(name, f, opts = {})
     opts[:class] = [opts[:class], "remove_nested_fields"].compact.join(" ")
     f.hidden_field(opts[:method]||:_destroy) + link_to_function(name, "remove_child_node(this);", opts)
@@ -107,5 +106,4 @@ module LookupKeysHelper
       content_tag(:span, :class => "help-block") { diagnostic_helper }
      end
   end
-
 end

@@ -91,5 +91,4 @@ FactoryGirl.define do
       search 'name ~ b*'
     end
   end
-
 end

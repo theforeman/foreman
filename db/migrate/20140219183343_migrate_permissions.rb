@@ -28,7 +28,6 @@ class FakeFilter < ActiveRecord::Base
            :conditions => "taxonomies.type='Location'", :validate => false
   has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
            :conditions => "taxonomies.type='Organization'", :validate => false
-
 end
 
 class FakeUserRole < ActiveRecord::Base
@@ -108,7 +107,6 @@ class MigratePermissions < ActiveRecord::Migration
   def self.migrate_roles
     roles = FakeRole.all
     roles.each do |role|
-
       # role without permissions? nothing to do then
       if role.attributes['permissions'].nil?
         say "no old permissions found for role '#{role.name}', skipping"
@@ -295,7 +293,6 @@ class MigratePermissions < ActiveRecord::Migration
     clone.role        = role
     clone.save!
   end
-
 
   # To detect whether migration is needed we use existing models
   # fakes would always indicate that migration is needed

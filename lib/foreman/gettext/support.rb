@@ -3,7 +3,6 @@ require 'fast_gettext'
 module Foreman
   module Gettext
     module Support
-
       def self.detect_locale_type
         if Rails.env.development?
           :po
@@ -57,7 +56,6 @@ module Foreman
       ensure
         FastGettext.locale = original_locale
       end
-
     end
   end
 end

@@ -64,5 +64,4 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
-
 end

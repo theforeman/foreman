@@ -19,7 +19,6 @@
 require "test_helper"
 
 class RoleTest < ActiveSupport::TestCase
-
   it "should respond_to user_roles" do
     role = roles(:manager)
     role.must_respond_to :user_roles

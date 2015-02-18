@@ -68,5 +68,4 @@ class UserRole < ActiveRecord::Base
     cache += owner.usergroups.map { |g| build_user_group_role_cache(g) }
     cache.flatten
   end
-
 end

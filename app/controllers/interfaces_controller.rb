@@ -1,5 +1,4 @@
 class InterfacesController < ApplicationController
-
   # params structure is
   #   {"host"=>
   #     {"interfaces_attributes"=>

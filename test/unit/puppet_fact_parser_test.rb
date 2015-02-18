@@ -220,7 +220,6 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_equal '192.168.0.4', parser.interfaces['eth2'][:ipaddress]
   end
 
-
   private
 
   def get_parser(facts)
