@@ -1,4 +1,21 @@
 $(document).ready(function() {
+  //commented, does not work yet
+  //var reset_settings = {
+  //  method      : 'DELETE',
+  //  indicator   : spinner_placeholder(),
+  //  tooltip     : __('Reset to default value'),
+  //  submitdata  : {authenticity_token: AUTH_TOKEN, format : "json"},
+  //  onsuccess   : function(data) {
+  //    $(this).closest('tr').removeClass('modified');
+  //    $(this).removeClass('resetable');
+  //  },
+  //  onerror     : function(settings, original, xhr) {
+  //    original.reset();
+  //    var error = $.parseJSON(xhr.responseText)["errors"];
+  //    $.jnotify(error, { type: "error", sticky: true });
+  //  }
+  //};
+
   var common_settings = {
     method      : 'PUT',
     indicator   : spinner_placeholder(),
@@ -25,6 +42,14 @@ $(document).ready(function() {
         editable_value = "[ "+editable_value.join(", ")+" ]";
       else
         editable_value = String(editable_value);
+
+      if (parsed.setting['is_default?']){
+          $(this).closest('tr').removeClass('modified');
+          $(this).removeClass('resetable');
+      }else{
+          $(this).closest('tr').addClass('modified');
+          $(this).addClass('resetable');
+      }
 
       $(this).html(editable_value);
     },

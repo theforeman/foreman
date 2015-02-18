@@ -116,7 +116,7 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :settings, :only => [:index, :update] do
+  resources :settings, :only => [:index, :update, :destroy] do
     collection do
       get 'auto_complete_search'
     end

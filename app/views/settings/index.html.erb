@@ -19,9 +19,9 @@
         </thead>
         <tbody>
           <% setting.each do |item| %>
-            <tr>
+            <tr class="<%= 'modified' unless item.is_default? %>">
               <td><%=h item.name %></td>
-              <td class="setting_value"><%= value(item) %></td>
+              <td class="setting_value <%= 'resetable' unless item.is_default? %>"><%= value(item) %></td>
               <td><%=h _(item.description) %></td>
             </tr>
           <% end %>

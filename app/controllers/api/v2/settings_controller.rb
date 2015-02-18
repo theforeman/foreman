@@ -2,7 +2,7 @@ module Api
   module V2
     class SettingsController < V2::BaseController
       before_filter :require_admin
-      before_filter :find_resource, :only => %w{show update}
+      before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/settings/", N_("List all settings")
       param_group :search_and_pagination, ::Api::V2::BaseController
@@ -25,6 +25,13 @@ module Api
 
       def update
         process_response (@setting.parse_string_value(params[:setting][:value]) && @setting.save)
+      end
+
+      api :DELETE, "/settings/:id/", N_("Reset a setting to default")
+      param :id, String, :required => true
+
+      def destroy
+        process_response (@setting.reset_to_default)
       end
 
     end

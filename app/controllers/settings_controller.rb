@@ -23,4 +23,16 @@ class SettingsController < ApplicationController
     end
   end
 
+  def destroy
+    # Not a real destroy, just delete the value and revert to default
+    @setting = Setting.find(params[:id])
+    if @setting.reset_to_default
+      render :json => @setting
+    else
+      error_msg = @setting.errors.full_messages
+      logger.error "Unprocessable entity Setting (id: #{@setting.id}):\n #{error_msg.join("\n  ")}\n"
+      render :json => {"errors" => error_msg}, :status => :unprocessable_entity
+    end
+  end
+
 end
