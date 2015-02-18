@@ -57,13 +57,13 @@ module LookupKeysHelper
   end
 
   def validator_type_selector(f)
-     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e),e]  }, f.object.validator_type),{:include_blank => _("None")},
-                { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
-                  :onchange => 'validatorTypeSelected(this)',
-                  :help_block => popover(_("Validator type"),_("<dl>" +
-                "<dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>" +
-                "<dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd>" +
-                "</dl>"), :title => _("Validation types")).html_safe}
+    selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e),e]  }, f.object.validator_type),{:include_blank => _("None")},
+               { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
+                 :onchange => 'validatorTypeSelected(this)',
+                 :help_block => popover(_("Validator type"),_("<dl>" +
+               "<dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>" +
+               "<dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd>" +
+               "</dl>"), :title => _("Validation types")).html_safe}
   end
 
   def overridable_lookup_keys(klass, host)
@@ -83,29 +83,29 @@ module LookupKeysHelper
   end
 
   def host_key_with_diagnostic(host, value_hash, key)
-     value_for_key = value_hash[key.id] && value_hash[key.id][key.key]
-     value, matcher = value_for_key ? [value_for_key[:value], "#{value_for_key[:element]} (#{value_for_key[:element_name]})"] : [key.default_value, _("Default value")]
-     original_value = key.value_before_type_cast value
-     no_value = value.nil? && key.lookup_values.find_by_match("fqdn=#{host.fqdn}")
+    value_for_key = value_hash[key.id] && value_hash[key.id][key.key]
+    value, matcher = value_for_key ? [value_for_key[:value], "#{value_for_key[:element]} (#{value_for_key[:element_name]})"] : [key.default_value, _("Default value")]
+    original_value = key.value_before_type_cast value
+    no_value = value.nil? && key.lookup_values.find_by_match("fqdn=#{host.fqdn}")
 
-     diagnostic_class = []
-     diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => matcher})
-     if no_value
-       if key.required
-         diagnostic_class << 'error'
-         diagnostic_helper = popover(_('No value error'), _("Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s") % key.description)
-       else
-         diagnostic_class << 'warning'
-         diagnostic_helper = popover(_('No value warning'), _("Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i> <br><br><b>Description:</b> %s") % key.description)
-       end
-     end
+    diagnostic_class = []
+    diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => matcher})
+    if no_value
+      if key.required
+        diagnostic_class << 'error'
+        diagnostic_helper = popover(_('No value error'), _("Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s") % key.description)
+      else
+        diagnostic_class << 'warning'
+        diagnostic_helper = popover(_('No value warning'), _("Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i> <br><br><b>Description:</b> %s") % key.description)
+      end
+    end
 
-     content_tag :div, :class => ['form-group', 'condensed'] + diagnostic_class do
+    content_tag :div, :class => ['form-group', 'condensed'] + diagnostic_class do
       row_count = original_value.to_s.lines.count rescue 1
       text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
-                    :class => ['col-md-5'], :'data-property' => 'value', :disabled => true) +
-      content_tag(:span, :class => "help-block") { diagnostic_helper }
-     end
+                   :class => ['col-md-5'], :'data-property' => 'value', :disabled => true) +
+     content_tag(:span, :class => "help-block") { diagnostic_helper }
+    end
   end
 
 end

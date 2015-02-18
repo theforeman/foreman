@@ -6,7 +6,7 @@ class EnvironmentClass < ActiveRecord::Base
   validates :puppetclass_id, :environment_id, :presence => true
 
   scope :parameters_for_class, lambda {|puppetclasses_ids, environment_id|
-      all_parameters_for_class(puppetclasses_ids, environment_id).where(:lookup_keys => {:override => true})
+    all_parameters_for_class(puppetclasses_ids, environment_id).where(:lookup_keys => {:override => true})
   }
 
   scope :all_parameters_for_class, lambda {|puppetclasses_ids, environment_id|

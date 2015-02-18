@@ -38,8 +38,8 @@ module Api
       end
 
       def create
-          @compute_resource = ComputeResource.new_provider(params[:compute_resource])
-          process_response @compute_resource.save
+        @compute_resource = ComputeResource.new_provider(params[:compute_resource])
+        process_response @compute_resource.save
       end
 
 

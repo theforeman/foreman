@@ -51,11 +51,11 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
   end
 
   test "update a host interface" do
-     put :update, { :host_id => @host.to_param,
-                    :id => @nic.to_param,
-                    :interface => valid_attrs.merge( { :host_id => @host.id } ) }
-     assert_response :success
-     assert_equal valid_attrs['ip'], Host.find_by_name(@host.name).interfaces.where(:id => @nic.to_param).first.ip
+    put :update, { :host_id => @host.to_param,
+                   :id => @nic.to_param,
+                   :interface => valid_attrs.merge( { :host_id => @host.id } ) }
+    assert_response :success
+    assert_equal valid_attrs['ip'], Host.find_by_name(@host.name).interfaces.where(:id => @nic.to_param).first.ip
   end
 
   test "destroy interface" do

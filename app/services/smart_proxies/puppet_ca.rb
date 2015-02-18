@@ -10,32 +10,32 @@ class SmartProxies::PuppetCA
     @expires_at = Time.parse(@expires_at) unless @expires_at.blank?
   end
 
-    class << self
+  class << self
 
-      def all(proxy)
-        raise ::Foreman::Exception.new(N_("Must specify a Smart Proxy to use")) if proxy.nil?
+    def all(proxy)
+      raise ::Foreman::Exception.new(N_("Must specify a Smart Proxy to use")) if proxy.nil?
 
-        unless (certs = Rails.cache.read("ca_#{proxy.id}"))
-          api = ProxyAPI::Puppetca.new({:url => proxy.url})
+      unless (certs = Rails.cache.read("ca_#{proxy.id}"))
+        api = ProxyAPI::Puppetca.new({:url => proxy.url})
 
-          certs = api.all.map do |name, properties|
-            new([name.strip, properties['state'], properties['fingerprint'], properties["not_before"], properties["not_after"], proxy.id])
-          end.compact
+        certs = api.all.map do |name, properties|
+          new([name.strip, properties['state'], properties['fingerprint'], properties["not_before"], properties["not_after"], proxy.id])
+        end.compact
 
-          # save our CA details for 5 seconds
-          Rails.cache.write("ca_#{proxy.id}", certs, {:expires_in  => 1.minute }) if Rails.env.production?
-        end
-        certs
+        # save our CA details for 5 seconds
+        Rails.cache.write("ca_#{proxy.id}", certs, {:expires_in  => 1.minute }) if Rails.env.production?
       end
-
-      def find(proxy, name)
-        all(proxy).select{|c| c.name == name}.first
-      end
-
-      def find_by_state(proxy, state)
-        all(proxy).select{|c| c.state == state}
-      end
+      certs
     end
+
+    def find(proxy, name)
+      all(proxy).select{|c| c.name == name}.first
+    end
+
+    def find_by_state(proxy, state)
+      all(proxy).select{|c| c.state == state}
+    end
+  end
 
   def sign
     raise ::Foreman::Exception.new(N_("unable to sign a non pending certificate")) unless state == "pending"

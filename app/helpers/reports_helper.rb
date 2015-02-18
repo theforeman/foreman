@@ -37,12 +37,12 @@ module ReportsHelper
     "class='label label-#{tag}'".html_safe
   end
 
-   def logs_show
+  def logs_show
     return unless @report.logs.size > 0
     form_tag @report, :id => 'level_filter', :method => :get, :class => "form form-horizontal" do
       content_tag(:span, _("Show log messages:") + ' ') +
       select(nil, 'level', [[_('All messages'), 'info'],[_('Notices, warnings and errors'), 'notice'],[_('Warnings and errors'), 'warning'],[_('Errors only'), 'error']],
              {}, {:class=>"col-md-1 form-control", :onchange =>"filter_by_level(this);"})
     end
-   end
+  end
 end

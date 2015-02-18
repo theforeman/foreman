@@ -124,7 +124,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     teardown do
-     Host::Managed.any_instance.unstub(:setBuild)
+      Host::Managed.any_instance.unstub(:setBuild)
       @request.env['HTTP_REFERER'] = ''
     end
 

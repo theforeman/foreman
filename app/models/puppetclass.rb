@@ -150,7 +150,7 @@ class Puppetclass < ActiveRecord::Base
           else
             cmd = "ruby -p -i -e '$_.gsub!(/#{validator}/,\"#{replacement}\")' #{files}"
             puts cmd if debug
-           sh cmd
+            sh cmd
           end
           # Relocate the paths for files and references if the manifests were relocated and sanitized
           if relocated and (files = `find #{out} -exec grep -l '#{root}' {} \\;`.gsub(/\n/, " ")) != ""

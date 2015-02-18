@@ -1,7 +1,7 @@
 require "fileutils"
 
 namespace :db do
-desc <<-END_DESC
+  desc <<-END_DESC
 Make a dump of your database
 
 Foreman will make a dump of your database at the provided location, or it will put it in #{File.expand_path('../../../db', __FILE__)} if no destination file is provided.
@@ -62,7 +62,7 @@ END_DESC
     FileUtils.cp config['database'], name
   end
 
-desc <<-END_DESC
+  desc <<-END_DESC
 Import a database dump
 
 Foreman will import a database from the provided location.

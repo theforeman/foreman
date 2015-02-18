@@ -5,7 +5,7 @@ class AddLdapAvatarSupport < ActiveRecord::Migration
   end
 
   def down
-   remove_column :users, :avatar_hash
-   remove_column :auth_sources, :attr_photo
+    remove_column :users, :avatar_hash
+    remove_column :auth_sources, :attr_photo
   end
 end

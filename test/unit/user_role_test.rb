@@ -53,7 +53,7 @@ class UserRoleTest < ActiveSupport::TestCase
 
     users = [@admin_user, @superadmin_user]
     users.each do |user|
-     assert_include user.cached_user_roles.map(&:role), user_role.role
+      assert_include user.cached_user_roles.map(&:role), user_role.role
     end
 
     users = @semiadmin_users

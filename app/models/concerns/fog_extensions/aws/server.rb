@@ -14,7 +14,7 @@ module FogExtensions
       end
 
       def dns
-         dns_name || private_dns_name
+        dns_name || private_dns_name
       end
 
       def vm_ip_address
