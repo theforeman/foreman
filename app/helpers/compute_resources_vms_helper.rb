@@ -116,7 +116,7 @@ module ComputeResourcesVmsHelper
   end
 
   def vpc_security_group_hash(security_groups)
-    vpc_sg_hash = Hash.new
+    vpc_sg_hash = {}
     security_groups.each{ |sg|
       vpc_id = sg.vpc_id || 'ec2'
       ( vpc_sg_hash[vpc_id] ||= []) << {:group_name => sg.name, :group_id => sg.group_id}
@@ -125,7 +125,7 @@ module ComputeResourcesVmsHelper
   end
 
   def subnet_vpc_hash(subnets)
-    subnet_vpc_hash = Hash.new
+    subnet_vpc_hash = {}
     subnets.each{ |sub| subnet_vpc_hash[sub.subnet_id] = {:vpc_id =>sub.vpc_id, :subnet_name => sub.tag_set["Name"] || sub.subnet_id} }
     subnet_vpc_hash
   end

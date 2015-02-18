@@ -81,7 +81,7 @@ class TaxHost
 
   def missing_ids
     return @missing_ids if @missing_ids
-    missing_ids = Array.new
+    missing_ids = []
     need_to_be_selected_ids.each do |key, values|
       taxable_type = hash_key_to_class(key)
       values.each do |v|
@@ -107,7 +107,7 @@ class TaxHost
 
   def mismatches
     return @mismatches if @mismatches
-    mismatches = Array.new
+    mismatches = []
     need_to_be_selected_ids.each do |key, values|
       taxable_type = hash_key_to_class(key)
       values.each do |v|
