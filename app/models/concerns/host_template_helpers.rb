@@ -63,14 +63,21 @@ module HostTemplateHelpers
       :token     => (@host.token.value unless @host.token.nil?)
   end
 
-  attr_writer(:url_options)
-
   # used by url_for to generate the path correctly
   def url_options
     url_options = (@url_options || {}).deep_dup()
     url_options[:protocol] = "http://"
     url_options[:host] = Setting[:foreman_url] if Setting[:foreman_url]
+
+    # we assume calling from /hosts (even for cases of API calls)
+    url_options[:controller] = "/hosts"
+    url_options[:_path_segments][:controller] = "hosts" if url_options[:_path_segments]
+
     url_options
+  end
+
+  def url_options=(val)
+    @url_options = val.deep_clone
   end
 
 end
