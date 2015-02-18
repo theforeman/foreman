@@ -1913,6 +1913,16 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test 'updating host domain should validate domain exists' do
+    host = FactoryGirl.create(:host, :managed)
+    last_domain_id = Domain.order(:id).last.id
+    fake_domain_id = last_domain_id + 1
+    host.domain_id = fake_domain_id
+    refute(host.valid?)
+    host.domain_id = last_domain_id
+    assert(host.valid?)
+  end
+
   private
 
   def parse_json_fixture(relative_path)
