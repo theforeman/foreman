@@ -30,6 +30,8 @@
         <%= text_f f, :name, :size => "col-md-5", :value => name_field(@host),
             :help_inline => _("This value is used also as the host's primary interface name.") %>
 
+        <%= text_f f, _('Name aliases'), :id=> "alias_list", :size => "col-md-4", :value => @host.aliases, 
+          :help_inline => popover(_("DNS alias list format"), _("This field contains a comma seperated list of DNS aliases.<br/><br/>You can fill this with using either the following formats:<ul><li>alias1, alias2, alias2</li><li>alias1 alias2 alias3</li><li>alias1,alias2,alias3</li></ul></br>The list will be automatically formatted to the suitable internal format."), :title => _("DNS alias list format")).html_safe %>
         <% if show_organization_tab?  %>
           <%= host_taxonomy_select(f, Organization) %>
         <% end %>

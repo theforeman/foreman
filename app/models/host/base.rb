@@ -26,6 +26,7 @@ module Host
     accepts_nested_attributes_for :interfaces, :allow_destroy => true
 
     alias_attribute :hostname, :name
+    before_validation :validate_aliases
     validates :name, :presence   => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP}
     validates :owner_type, :inclusion => { :in          => OWNER_TYPES,
                                            :allow_blank => true,
@@ -199,6 +200,24 @@ module Host
         comparison_object.id == id
     end
 
+    def validate_aliases
+      @invalid_aliases = []
+      @aliases = []
+      unless self.aliases.nil?
+        @aliases = self.aliases.split(",")
+        @aliases.each do |element|
+          if @aliases.count(element) > 1
+            self.errors.add(:aliases, "The alias #{element} appeared multiple times")
+            return
+          end
+          unless Net::Validations::HOST_REGEXP.match(element)
+            self.errors.add(:aliases, "The alias #{element} format is invalid")
+            return
+          end
+        end
+      end
+    end
+
     def set_taxonomies(facts)
       ['location', 'organization'].each do |taxonomy|
         next unless SETTINGS["#{taxonomy.pluralize}_enabled".to_sym]
@@ -280,6 +299,18 @@ module Host
     def self.find_by_mac(mac)
       logger.warn 'DEPRECATION WARNING: Host#find_by_mac has been deprecated, you should search for provision interfaces'
       Nic::Base.provision.find_by_mac(mac).try(:host)
+    end
+
+    def alias_list
+      ret = []
+      self.aliases.split(",").each do |al|
+        if not domain_name.nil?
+          ret << al + "." + domain_name
+        else
+          ret << al
+        end
+      end
+      ret
     end
 
     private
