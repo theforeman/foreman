@@ -5,7 +5,7 @@
 class Regexp
   ONCE = 0 unless defined? ONCE # FIX: remove this - it makes no sense
 
-  unless defined? ENC_NONE then
+  unless defined? ENC_NONE
     ENC_NONE = /x/n.options
     ENC_EUC  = /x/e.options
     ENC_SJIS = /x/s.options

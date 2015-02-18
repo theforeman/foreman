@@ -38,10 +38,12 @@ class AccessPermissionsTest < ActiveSupport::TestCase
   MAY_SKIP_AUTHORIZED = [ "about/index" ]
 
   # For each controller action, verify it has a permission that grants access
-  Rails.application.routes.routes.inject({}) do |routes, r|
+  app_routes = Rails.application.routes.routes.inject({}) do |routes, r|
     routes["#{r.defaults[:controller].gsub(/::/, "_").underscore}/#{r.defaults[:action]}"] = r if r.defaults[:controller]
     routes
-  end.each do |path, r|
+  end
+
+  app_routes.each do |path, r|
     # Skip if excluded from this test (e.g. user login)
     next if (MAY_SKIP_AUTHORIZED + MAY_SKIP_REQUIRE_LOGIN).include? path
 
