@@ -45,9 +45,8 @@ module Dashboard
 
       # Removes a menu widget
       def delete(name)
-        if found = self.find(name)
-          @widgets.remove!(found)
-        end
+        widget = self.find(name)
+        @widgets.remove!(widget) if widget.present?
       end
 
       # Checks if a menu widget exists

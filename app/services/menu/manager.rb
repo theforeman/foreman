@@ -57,9 +57,10 @@ module Menu
       # * last: menu item will stay at the end (eg. :last => true)
       # * html_options: a hash of html options that are passed to link_to
       def push(obj, options = {})
-        parent = options[:parent] || @parent
+        parent  = options[:parent] || @parent
+        subtree = self.find(parent) if parent.present?
 
-        target_root = (parent && subtree = self.find(parent)) ? subtree : @menu_items.root
+        target_root = subtree.present? ? subtree : @menu_items.root
 
         # menu item position
         if options[:first]

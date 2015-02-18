@@ -40,7 +40,8 @@ class Subnet < ActiveRecord::Base
   validate :ensure_ip_addr_new
   before_validation :cleanup_addresses
 
-  validate :validate_ranges
+  validate :validate_range_boundaries, :if => -> { from.present? || to.present? }
+  validate :validate_range_in_subnet,  :if => -> { from.present? && to.present? }
 
   default_scope lambda {
     with_taxonomy_scope do
@@ -208,16 +209,19 @@ class Subnet < ActiveRecord::Base
 
   private
 
-  def validate_ranges
-    errors.add(:from, _("invalid IP address"))            if from.present? and !from =~ Net::Validations::IP_REGEXP
-    errors.add(:to, _("invalid IP address"))              if to.present?   and !to   =~ Net::Validations::IP_REGEXP
-    errors.add(:from, _("does not belong to subnet"))     if from.present? and not self.contains?(f=IPAddr.new(from))
-    errors.add(:to, _("does not belong to subnet"))       if to.present?   and not self.contains?(t=IPAddr.new(to))
-    errors.add(:from, _("can't be bigger than to range")) if from.present? and t.present? and f > t
-    if from.present? or to.present?
-      errors.add(:from, _("must be specified if to is defined"))   if from.blank?
-      errors.add(:to,   _("must be specified if from is defined")) if to.blank?
-    end
+  def validate_range_in_subnet
+    errors.add(:from, _("invalid IP address"))            unless from =~ Net::Validations::IP_REGEXP
+    errors.add(:to, _("invalid IP address"))              unless to   =~ Net::Validations::IP_REGEXP
+    from_ip = IPAddr.new(from)
+    to_ip   = IPAddr.new(to)
+    errors.add(:from, _("does not belong to subnet"))     unless contains?(from_ip)
+    errors.add(:to, _("does not belong to subnet"))       unless contains?(to_ip)
+    errors.add(:from, _("can't be bigger than to range")) if from_ip > to_ip
+  end
+
+  def validate_range_boundaries
+    errors.add(:from, _("must be specified if to is defined"))   if from.blank?
+    errors.add(:to,   _("must be specified if from is defined")) if to.blank?
   end
 
   def cleanup_addresses

@@ -183,7 +183,7 @@ class User < ActiveRecord::Base
     # user is already in local database
     if (user = unscoped.find_by_login(login))
       # user has an authentication method and the authentication was successful
-      if user.auth_source and attrs=user.auth_source.authenticate(login, password)
+      if (attrs = user.auth_source.authenticate(login, password))
         logger.debug "Authenticated user #{user} against #{user.auth_source} authentication source"
 
         # update with returned attrs, maybe some info changed in LDAP

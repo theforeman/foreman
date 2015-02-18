@@ -56,7 +56,8 @@ module NestedAncestryCommon
         #    ComputeProfile.find_by_id(inherited_compute_profile_id)
         #  end
         # end
-        if md = field.to_s.match(/(\w+)_id$/)
+        md = field.to_s.match(/(\w+)_id$/)
+        if md.present?
           define_method md[1] do
             if ancestry.present?
               klass = md[1]
