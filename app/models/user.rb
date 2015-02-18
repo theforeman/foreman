@@ -139,11 +139,11 @@ class User < ActiveRecord::Base
   end
 
   def hidden?
-    auth_source.kind_of? AuthSourceHidden
+    auth_source.is_a? AuthSourceHidden
   end
 
   def internal?
-    auth_source.kind_of? AuthSourceInternal
+    auth_source.is_a? AuthSourceInternal
   end
 
   def to_label

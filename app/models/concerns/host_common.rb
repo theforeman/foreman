@@ -107,7 +107,7 @@ module HostCommon
   def crypt_root_pass
     # hosts will always copy and crypt the password from parents when saved, but hostgroups should
     # only crypt if the attribute is stored, else will stay blank and inherit
-    unencrypted_pass = if kind_of?(Hostgroup)
+    unencrypted_pass = if is_a?(Hostgroup)
                          read_attribute(:root_pass)
                        else
                          root_pass
@@ -129,7 +129,7 @@ module HostCommon
   end
 
   def cg_class_ids
-    cg_ids = if kind_of?(Hostgroup)
+    cg_ids = if is_a?(Hostgroup)
                path.each.map(&:config_group_ids).flatten.uniq
              else
                config_group_ids + (hostgroup ? hostgroup.path.each.map(&:config_group_ids).flatten.uniq : [] )
@@ -138,7 +138,7 @@ module HostCommon
   end
 
   def hg_class_ids
-    hg_ids = if kind_of?(Hostgroup)
+    hg_ids = if is_a?(Hostgroup)
                 path_ids
              elsif hostgroup
                 hostgroup.path_ids
@@ -147,7 +147,7 @@ module HostCommon
   end
 
   def host_class_ids
-    kind_of?(Host::Base) ? host_classes.pluck(:puppetclass_id) : []
+    is_a?(Host::Base) ? host_classes.pluck(:puppetclass_id) : []
   end
 
   def all_puppetclass_ids

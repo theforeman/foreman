@@ -9,7 +9,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses.empty?
-    assert puppetclasses['results'].kind_of?(Hash)
+    assert puppetclasses['results'].is_a?(Hash)
   end
 
   test "should get index with style=list" do
@@ -17,7 +17,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses.empty?
-    assert puppetclasses['results'].kind_of?(Array)
+    assert puppetclasses['results'].is_a?(Array)
   end
 
   test "should create puppetclass" do

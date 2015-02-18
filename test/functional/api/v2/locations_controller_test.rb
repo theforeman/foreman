@@ -97,8 +97,8 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   test "root name on index should be results by default" do
     get :index, {}
     response = ActiveSupport::JSON.decode(@response.body)
-    assert response.kind_of?(Hash)
-    assert response['results'].kind_of?(Array)
+    assert response.is_a?(Hash)
+    assert response['results'].is_a?(Array)
     refute response['locations']
   end
 
@@ -106,16 +106,16 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     Rabl.configuration.use_controller_name_as_json_root = true
     get :index, {}
     response = ActiveSupport::JSON.decode(@response.body)
-    assert response.kind_of?(Hash)
+    assert response.is_a?(Hash)
     refute response['results']
-    assert response['locations'].kind_of?(Array)
+    assert response['locations'].is_a?(Array)
   end
 
   test "root name on index can be overwritten by param root_name" do
     get :index, {:root_name => "data"}
     response = ActiveSupport::JSON.decode(@response.body)
-    assert response.kind_of?(Hash)
-    assert response['data'].kind_of?(Array)
+    assert response.is_a?(Hash)
+    assert response['data'].is_a?(Array)
     refute response['results']
     refute response['locations']
   end
@@ -123,8 +123,8 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   test "on index no object_root name for each element in array" do
     get :index, {}
     response = ActiveSupport::JSON.decode(@response.body)
-    assert response.kind_of?(Hash)
-    assert response['results'].kind_of?(Array)
+    assert response.is_a?(Hash)
+    assert response['results'].is_a?(Array)
     assert_equal ['created_at', 'id', 'name', 'title', 'updated_at'], response['results'][0].keys.sort
   end
 
@@ -132,10 +132,10 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     obj = taxonomies(:location1)
     get :show, {:id => obj.id}
     response = ActiveSupport::JSON.decode(@response.body)
-    assert response.kind_of?(Hash)
+    assert response.is_a?(Hash)
     klass_name = obj.class.name.downcase
     assert "location", klass_name
-    assert response.kind_of?(Hash)
+    assert response.is_a?(Hash)
     assert_equal obj.id, response["id"]
   end
 
@@ -143,8 +143,8 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     obj = taxonomies(:location1)
     get :show, {:id => obj.id, :root_name => 'row'}
     response = ActiveSupport::JSON.decode(@response.body)
-    assert response.kind_of?(Hash)
-    assert response['row'].kind_of?(Hash)
+    assert response.is_a?(Hash)
+    assert response['row'].is_a?(Hash)
     assert_equal obj.id, response['row']["id"]
   end
 
@@ -152,7 +152,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     obj = taxonomies(:location1)
     get :show, {:id => obj.id, :root_name => 'false'}
     response = ActiveSupport::JSON.decode(@response.body)
-    assert response.kind_of?(Hash)
+    assert response.is_a?(Hash)
     assert_equal obj.id, response["id"]
   end
 

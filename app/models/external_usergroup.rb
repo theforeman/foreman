@@ -42,7 +42,7 @@ class ExternalUsergroup < ActiveRecord::Base
   end
 
   def hidden_authsource_restricted
-    if auth_source_id_changed? && auth_source.kind_of?(AuthSourceHidden)
+    if auth_source_id_changed? && auth_source.is_a?(AuthSourceHidden)
       errors.add :auth_source, _("is not permitted")
     end
   end

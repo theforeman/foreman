@@ -162,12 +162,6 @@ Style/CaseIndentation:
 Style/ClassAndModuleChildren:
   Enabled: false
 
-# Offense count: 36
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/ClassCheck:
-  Enabled: false
-
 # Offense count: 3
 Style/ClassVars:
   Enabled: false

@@ -597,7 +597,7 @@ class HostsController < ApplicationController
   def refresh_host
     @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params['host_id'])
     if @host
-      unless @host.kind_of?(Host::Managed)
+      unless @host.is_a?(Host::Managed)
         @host      = @host.becomes(Host::Managed)
         @host.type = "Host::Managed"
       end
@@ -612,7 +612,7 @@ class HostsController < ApplicationController
   def set_host_type
     return unless params[:host] and params[:host][:type]
     type = params[:host].delete(:type) #important, otherwise mass assignment will save the type.
-    if type.constantize.new.kind_of?(Host::Base)
+    if type.constantize.new.is_a?(Host::Base)
       @host      = @host.becomes(type.constantize)
       @host.type = type
     else
