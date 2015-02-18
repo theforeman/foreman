@@ -60,25 +60,22 @@ module Nic
     # if the user inputted short name, the domain name will be appended
     # this is done to ensure compatibility with puppet storeconfigs
     def normalize_name
+      # Remove whitespace
+      self.name.gsub!(/\s/,'') if self.name
       # no hostname was given or a domain was selected, since this is before validation we need to ignore
       # it and let the validations to produce an error
       return if name.empty?
-
-      # Remove whitespace
-      self.name.gsub!(/\s/,'')
-
-      if domain.nil? and name.match(/\./)
+      if domain.nil? && name.match(/\./) && !changed_attributes['domain_id'].present?
         # try to assign the domain automatically based on our existing domains from the host FQDN
         self.domain = Domain.all.select{|d| name.match(/#{d.name}\Z/)}.first rescue nil
-      else
+      elsif persisted? && changed_attributes['domain_id'].present?
         # if we've just updated the domain name, strip off the old one
-        if !new_record? and changed_attributes['domain_id'].present?
-          old_domain = Domain.find(changed_attributes["domain_id"])
-          self.name.chomp!("." + old_domain.to_s)
-        end
-        # name should be fqdn
-        self.name = fqdn
+        old_domain = Domain.find(changed_attributes["domain_id"])
+        # Remove the old domain, until fqdn will be set as the full name
+        self.name.chomp!("." + old_domain.to_s)
       end
+      # name should be fqdn
+      self.name = fqdn
       # A managed host we should know the domain for; and the shortname shouldn't include a period
       # This only applies for unattended=true, as otherwise the name field includes the domain
       errors.add(:name, _("must not include periods")) if ( host && host.managed? && managed? && shortname.include?(".") && SETTINGS[:unattended] )
