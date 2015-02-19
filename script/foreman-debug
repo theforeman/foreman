@@ -262,9 +262,11 @@ add_cmd "foreman-rake plugins" "plugin_list"
 
 # Look for any debug extensions provided by plugins
 if [ -d "/usr/share/foreman/script/foreman-debug.d" ]; then
-  for extension in "/usr/share/foreman/script/foreman-debug.d/*.sh"; do
-    printv "Processing extension $extension"
-    source $extension 2>/dev/null
+  for extension in /usr/share/foreman/script/foreman-debug.d/* ; do
+    if [ -x "$extension" ]; then
+      printv "Processing extension $extension"
+      source "$extension" 2>/dev/null
+    fi
   done
 fi
 
