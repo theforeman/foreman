@@ -7,7 +7,7 @@ class Coreos < Operatingsystem
 
   # Simple output of the media url
   def mediumpath(host)
-    medium_uri(host, "#{host.medium.path}/#{pxedir}").to_s
+    medium_uri(host, "#{host.medium.path}/amd64-usr").to_s
   end
 
   def url_for_boot(file)
