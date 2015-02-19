@@ -15,7 +15,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     end
   end
 
-  { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'expected' => 'amd64-usr/$version' },
+  { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'expected' => '$arch/$version' },
     :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'expected' => 'dists/$release/main/installer-$arch/current/images/netboot/debian-installer/$arch' },
     :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'expected' => 'dists/$release/main/installer-$arch/current/images/netboot/ubuntu-installer/$arch' },
     :suse        => { 'os' => :suse,        'arch' => :x86_64, 'expected' => 'boot/$arch/loader' } }.
