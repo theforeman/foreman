@@ -149,6 +149,12 @@ class ConfigTemplate < ActiveRecord::Base
     locked && !Foreman.in_rake?
   end
 
+  # Override method in Taxonomix as ConfigTemplate is not used attached to a Host,
+  # and matching a Host does not prevent removing a template from its taxonomy.
+  def used_taxonomy_ids(type)
+    []
+  end
+
   private
 
   def check_if_template_is_locked
