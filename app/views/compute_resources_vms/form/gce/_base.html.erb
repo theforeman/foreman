@@ -1,4 +1,4 @@
-<%= select_f f, :machine_type, compute_resource.flavors, :id, :name, {}, :label => _('Machine type') %>
+<%= select_f f, :machine_type, compute_resource.flavors, :name, :name, {}, :label => _('Machine type') %>
 <%
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)

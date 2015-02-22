@@ -39,9 +39,8 @@ module Foreman::Model
       attrs[:email] = email
     end
 
-    #TODO: allow to select public / private ip address that foreman tries to find
     def provided_attributes
-      super.merge({ :ip => :public_ip_address })
+      super.merge({ :ip => :vm_ip_address })
     end
 
     def zones
@@ -52,6 +51,10 @@ module Foreman::Model
       client.list_networks.body['items'].map { |n| n['name'] }
     end
 
+    def disks
+      client.list_disks(zone).body['items'].map { |disk| disk['name'] }
+    end
+
     def zone
       url
     end
@@ -60,18 +63,50 @@ module Foreman::Model
       self.url = zone
     end
 
-    def create_vm(args = {})
-      #Dot are not allowed in names
+    def new_vm(args = {})
+      # convert rails nested_attributes into a plain hash
+      [:volumes].each do |collection|
+        nested_attrs = args.delete("#{collection}_attributes".to_sym)
+        args[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
+      end
+
+      # Dots are not allowed in names
       args[:name]        = args[:name].parameterize if args[:name].present?
-      args[:external_ip] = args[:external_ip] != '0'
-      args[:image_name]  = args[:image_id]
+      args[:external_ip] = args[:external_ip] == '1'
+      # GCE network interfaces cannot be defined though Foreman yet
+      args[:network_interfaces] = nil
+
+      if args[:volumes].present?
+        if args[:image_id].present?
+          args[:volumes].first[:source_image] = client.images.select { |i| i.id == args[:image_id] }.first.name
+        end
+        args[:disks] = []
+        args[:volumes].each_with_index do |vol_args,i|
+          args[:disks] << new_volume(vol_args.merge(:name => "#{args[:name]}-disk#{i+1}"))
+        end
+      end
+
+      super(args)
+    end
+
+    def create_vm(args = {})
+      new_vm(args)
+      create_volumes(args)
 
       username = images.where(:uuid => args[:image_name]).first.try(:username)
       ssh      = { :username => username, :public_key => key_pair.public }
-      super(args.merge(ssh))
+      vm = super(args.merge(ssh))
+      vm.disks.each { |disk| vm.set_disk_auto_delete(true, disk['deviceName']) }
+      vm
     rescue Fog::Errors::Error => e
+      args[:disks].find_all(&:status).map(&:destroy) if args[:disks].present?
       Foreman::Logging.exception("Unhandled GCE error", e)
       raise e
+    end
+
+    def create_volumes(args)
+      args[:disks].map(&:save)
+      args[:disks].each { |disk| disk.wait_for { disk.ready? } }
     end
 
     def available_images
@@ -100,6 +135,18 @@ module Foreman::Model
       "Google"
     end
 
+    def interfaces_attrs_name
+      :network_interfaces
+    end
+
+    def new_volume(attrs = { })
+      args = {
+        :size_gb   => (attrs[:size_gb] || 10).to_i,
+        :zone_name => zone,
+      }.merge(attrs)
+      client.disks.new(args)
+    end
+
     private
 
     def client
@@ -118,8 +165,9 @@ module Foreman::Model
 
     def vm_instance_defaults
       super.merge(
-        :zone_name => zone,
-        :name      => "foreman-#{Time.now.to_i}"
+        :zone => zone,
+        :name => "foreman-#{Time.now.to_i}",
+        :disks => [new_volume],
       )
     end
   end
