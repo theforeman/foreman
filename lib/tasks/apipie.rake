@@ -1,6 +1,5 @@
 desc 'Apipie cache specific tasks'
 namespace :apipie do
-
   desc 'Generate cache index'
   task 'cache:index' do |t, args|
     ENV['cache_part'] = 'index'
