@@ -12,11 +12,21 @@ module FogExtensions
       end
 
       def image_id
-        image_name unless disks.nil?
+        image_name unless disks.blank?
       end
 
       def vm_description
         pretty_machine_type
+      end
+
+      def volumes_attributes=(attrs); end
+
+      def volumes
+        disks
+      end
+
+      def vm_ip_address
+        external_ip ? public_ip_address : private_ip_address
       end
     end
   end

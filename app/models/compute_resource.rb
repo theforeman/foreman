@@ -114,7 +114,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def interfaces_attrs_name
-    "interfaces"
+    :interfaces
   end
 
   # returns a new fog server instance

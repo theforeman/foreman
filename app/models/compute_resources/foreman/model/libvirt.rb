@@ -18,7 +18,7 @@ module Foreman::Model
     end
 
     def interfaces_attrs_name
-      "nics"
+      :nics
     end
 
     def capabilities
