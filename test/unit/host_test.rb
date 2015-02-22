@@ -111,7 +111,7 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "myhost.company.com", host.name
   end
 
-  test "should not append domainname to fqdn" do
+  test "should not append domainname to fqdn for unmanaged host" do
     host = Host.create :name => "myhost.sub.comp.net", :mac => "aabbccddeeff", :ip => "123.01.02.03",
       :domain => Domain.find_or_create_by_name("company.com"),
       :certname => "myhost.sub.comp.net",
