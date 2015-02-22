@@ -4,6 +4,7 @@ module Nic
     MODES     = %w(balance-rr active-backup balance-xor broadcast 802.3ad balance-tlb balance-alb)
     validates :mode, :presence => true, :inclusion => { :in => MODES }
     validates :attached_devices, :format => { :with => /\A[a-z0-9#{SEPARATOR}.:_-]+\Z/ }, :allow_blank => true
+    validates :identifier, :presence => true, :if => :managed?
 
     before_save :ensure_virtual
 

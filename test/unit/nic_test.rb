@@ -95,12 +95,6 @@ class NicTest < ActiveSupport::TestCase
     assert_includes nic.errors.keys, :identifier
   end
 
-  test "Bond does not require identifier" do
-    nic = FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1', :managed => true, :identifier => '')
-    nic.valid?
-    refute_includes nic.errors.keys, :identifier
-  end
-
   test "BMC does not require identifier" do
     nic = FactoryGirl.build(:nic_bmc, :managed => true, :identifier => '')
     nic.valid?
