@@ -27,13 +27,13 @@ module Api
         param :provider, String, :desc => "Providers include #{ComputeResource.providers.join(', ')}"
         param :url, String, :desc => "URL for Libvirt, Ovirt, and Openstack"
         param :description, String
-        param :user, String, :desc => "Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2."
-        param :password, String, :desc => "Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2"
-        param :uuid, String, :desc => "for Ovirt, Vmware Datacenter"
+        param :user, String, :desc => "Username for Ovirt, EC2, VMware, Openstack. Access Key for EC2."
+        param :password, String, :desc => "Password for Ovirt, EC2, VMware, Openstack. Secret key for EC2"
+        param :uuid, String, :desc => "for Ovirt, VMware Datacenter"
         param :region, String, :desc => "for EC2 only"
         param :tenant, String, :desc => "for Openstack only"
-        param :server, String, :desc => "for Vmware"
-        param :set_console_password, :bool, :desc => N_("for Libvirt and Vmware only")
+        param :server, String, :desc => "for VMware"
+        param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
       end
 
       def create
@@ -48,12 +48,12 @@ module Api
         param :provider, String, :desc => "Providers include #{ComputeResource.providers.join(', ')}"
         param :url, String, :desc => "URL for Libvirt, Ovirt, and Openstack"
         param :description, String
-        param :user, String, :desc => "Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2."
-        param :password, String, :desc => "Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2"
-        param :uuid, String, :desc => "for Ovirt, Vmware Datacenter"
+        param :user, String, :desc => "Username for Ovirt, EC2, VMware, Openstack. Access Key for EC2."
+        param :password, String, :desc => "Password for Ovirt, EC2, VMware, Openstack. Secret key for EC2"
+        param :uuid, String, :desc => "for Ovirt, VMware Datacenter"
         param :region, String, :desc => "for EC2 only"
         param :tenant, String, :desc => "for Openstack only"
-        param :server, String, :desc => "for Vmware"
+        param :server, String, :desc => "for VMware"
       end
 
       def update

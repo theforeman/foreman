@@ -20,7 +20,7 @@ module Foreman::Model
       if opts[:eager_loading] == true
         super()
       else
-        #VMWare server loading is very slow
+        #VMware server loading is very slow
         #not using FOG models directly to save the time
         #and minimize the amount of time required (as we don't require all attributes by default when listing)
         FogExtensions::Vsphere::MiniServers.new(client, datacenter)
@@ -232,8 +232,8 @@ module Foreman::Model
         "darwin11_64Guest" => "Apple Mac OS X 10.7 (64-bit)",
         "darwin12_64Guest" => "Mac OS 10.8 (64-bit)",
         "darwin13_64Guest" => "Mac OS 10.9 (64-bit)",
-        "vmkernelGuest" => "VMWare ESX 4.x",
-        "vmkernel5Guest" => "VMWare ESXi 5.x",
+        "vmkernelGuest" => "VMware ESX 4.x",
+        "vmkernel5Guest" => "VMware ESXi 5.x",
         "otherGuest" => "Other (32-bit)",
         "otherGuest64" => "Other (64-bit)"
       }
@@ -317,7 +317,7 @@ module Foreman::Model
         vm.save
       end
     rescue Fog::Errors::Error => e
-      logger.error "Unhandled VMWare error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
+      logger.error "Unhandled VMware error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
       destroy_vm vm.id if vm
       raise e
     end
@@ -413,7 +413,7 @@ module Foreman::Model
     end
 
     def self.provider_friendly_name
-      "VMWare"
+      "VMware"
     end
 
     private
