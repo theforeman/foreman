@@ -62,4 +62,16 @@ class BondTest < ActiveSupport::TestCase
     assert bond.remove_slave('eth2')
     assert_equal [], bond.attached_devices_identifiers
   end
+
+  test 'identifier is required for managed bonds' do
+    bond = FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1,eth2', :managed => true, :identifier => '')
+    refute bond.valid?
+    assert_includes bond.errors.keys, :identifier
+  end
+
+  test 'identifier is not required for unmanaged bonds' do
+    bond = FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1,eth2', :managed => false, :identifier => '')
+    bond.valid?
+    refute_includes bond.errors.keys, :identifier
+  end
 end
