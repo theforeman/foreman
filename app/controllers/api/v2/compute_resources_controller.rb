@@ -33,13 +33,13 @@ module Api
           param :provider, String, :desc => N_("Providers include %{providers}") # values are defined in apipie initializer
           param :url, String, :desc => N_("URL for Libvirt, Ovirt, and Openstack")
           param :description, String
-          param :user, String, :desc => N_("Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2.")
-          param :password, String, :desc => N_("Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2")
-          param :uuid, String, :desc => N_("for Ovirt, Vmware Datacenter")
+          param :user, String, :desc => N_("Username for Ovirt, EC2, VMware, Openstack. Access Key for EC2.")
+          param :password, String, :desc => N_("Password for Ovirt, EC2, VMware, Openstack. Secret key for EC2")
+          param :uuid, String, :desc => N_("for Ovirt, VMware Datacenter")
           param :region, String, :desc => N_("for EC2 only")
           param :tenant, String, :desc => N_("for Openstack only")
-          param :server, String, :desc => N_("for Vmware")
-          param :set_console_password, :bool, :desc => N_("for Libvirt and Vmware only")
+          param :server, String, :desc => N_("for VMware")
+          param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end
