@@ -35,6 +35,9 @@ function save_interface_modal() {
   var modal_window = $('#interfaceModal');
   var interface_id = modal_window.data('current-id');
 
+  // mark the selected values to preserve them for form hiding
+  modal_window.find('option:selected').attr('selected', 'selected');
+
   var modal_form = modal_window.find('.modal-body').contents();
   if (modal_form.find('.interface_primary').is(':checked')) {
     $('#interfaceForms .interface_primary:checked').attr("checked", false);
