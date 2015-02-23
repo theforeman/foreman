@@ -43,6 +43,10 @@ module TaxonomyHelper
     _(controller_name.humanize.titleize)
   end
 
+  def taxonomy_new
+    is_location? ? _("New Location") : _("New Organization")
+  end
+
   def wizard_header(current, *args)
     content_tag(:ul,:class=>"wizard") do
       step=1
