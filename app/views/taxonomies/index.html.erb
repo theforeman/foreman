@@ -1,5 +1,5 @@
 <% title taxonomy_upcase %>
-<% title_actions display_link_if_authorized((_("New %s") % taxonomy_title), hash_for_new_taxonomy_path),
+<% title_actions display_link_if_authorized(taxonomy_new, hash_for_new_taxonomy_path),
                  display_link_if_authorized(_("Mismatches Report"), hash_for_mismatches_taxonomies_path), help_path %>
 
 <% if @count_nil_hosts > 0 %>
