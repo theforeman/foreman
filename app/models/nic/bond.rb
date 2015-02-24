@@ -5,7 +5,7 @@ module Nic
     validates :mode, :presence => true, :inclusion => { :in => MODES }
     validates :attached_devices, :format => { :with => /\A[a-z0-9#{SEPARATOR}.:_-]+\Z/ }, :allow_blank => true
 
-    before_save :ensure_virtual
+    before_validation :ensure_virtual
 
     register_to_enc_transformation :type, lambda { |type| type.constantize.humanized_name }
 

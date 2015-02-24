@@ -19,8 +19,10 @@ module Nic
     after_validation :set_validated
     before_destroy :not_required_interface
 
-    validates :mac, :uniqueness => {:scope => :virtual}, :if => Proc.new { |nic| nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? }
-    validates :mac, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && !nic.host.compute? &&!nic.virtual? }
+    validates :mac, :uniqueness => {:scope => :virtual},
+              :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? }, :allow_blank => true
+    validates :mac, :presence => true,
+              :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? &&!nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true
 
     # TODO uniq on primary per host
