@@ -3,7 +3,7 @@
 <%= checkbox_f f, :virtual,
                :disabled => !f.object.new_record?,
                :label => _("Virtual NIC"),
-               :help_inline => _("Enable if this is an alias or VLAN interface"),
+               :help_inline => _("Enable if this is an alias or VLAN interface, note that alias can be used only with static boot mode subnet"),
                :class => 'virtual' %>
 
 <% hidden_class = f.object.virtual ? '' : 'hidden' %>
