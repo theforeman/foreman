@@ -137,7 +137,7 @@ class ComputeResource < ActiveRecord::Base
     client.servers.get(uuid) || raise(ActiveRecord::RecordNotFound)
   end
 
-  def start_vm(uuid)
+  def start_vm(uuid,user_data=nil)
     find_vm_by_uuid(uuid).start
   end
 
@@ -145,6 +145,10 @@ class ComputeResource < ActiveRecord::Base
     find_vm_by_uuid(uuid).stop
   end
 
+  def start_with_cloudinit(uuid,user_data=nil)
+    find_vm_by_uuid(uuid).start_with_cloudinit({:user_data => user_data })
+  end
+  
   def create_vm(args = {})
     options = vm_instance_defaults.merge(args.to_hash.symbolize_keys)
     logger.debug("creating VM with the following options: #{options.inspect}")

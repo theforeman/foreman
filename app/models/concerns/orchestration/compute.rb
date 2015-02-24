@@ -154,7 +154,12 @@ module Orchestration::Compute
 
   def setComputePowerUp
     logger.info "Powering up Compute instance for #{name}"
-    compute_resource.start_vm uuid
+    if compute_resource.provider == 'Ovirt'
+      user_data= self.compute_attributes[:user_data]
+      compute_resource.start_with_cloudinit(uuid, user_data)
+    else
+      compute_resource.start_vm uuid
+    end
   rescue => e
     failure _("Failed to power up a compute %{compute_resource} instance %{name}: %{e}") % { :compute_resource => compute_resource, :name => name, :e => e }, e.backtrace
   end
