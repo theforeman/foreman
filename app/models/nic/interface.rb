@@ -22,6 +22,8 @@ module Nic
     # aliases and vlans require identifiers so we can differentiate and properly configure them
     validates :identifier, :presence => true, :if => Proc.new { |o| o.virtual? && o.managed? && o.instance_of?(Nic::Managed) }
 
+    validate :alias_subnet
+
     delegate :network, :to => :subnet
 
     def vlanid
@@ -36,6 +38,10 @@ module Nic
       attrs[:bridge]
     end
 
+    def alias?
+      self.virtual? && self.identifier.present? && self.identifier.include?(':')
+    end
+
     def fqdn_changed?
       name_changed? || domain_id_changed?
     end
@@ -47,6 +53,12 @@ module Nic
     end
 
     protected
+
+    def alias_subnet
+      if self.managed? && self.alias? && self.subnet && self.subnet.boot_mode != Subnet::BOOT_MODES[:static]
+        errors.add(:subnet_id, _('subnet boot mode is not %s' % _(Subnet::BOOT_MODES[:static])))
+      end
+    end
 
     def uniq_fields_with_hosts
       super + (self.virtual? ? [] : [:ip])
