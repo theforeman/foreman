@@ -15,6 +15,7 @@ oses:
   pm_set = @host.puppetmaster.empty? ? false : true
   puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
   salt_enabled = @host.params['salt_master'] ? true : false
+  chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 %>
 <% if @static -%>
 # host and domain name need setting as these values may have come from dhcp if pxe booting
@@ -47,5 +48,9 @@ EOF
 # Running salt-call to trigger key signing
 salt-call --no-color --grains >/dev/null
 <% end -%>
+
+<% if chef_enabled %>
+<%= respond_to?(:chef_bootstrap) ? chef_bootstrap(@host) : snippet_if_exists("chef-client omnibus bootstrap") %>
+<% end%>
 
 /usr/bin/wget --no-proxy --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>

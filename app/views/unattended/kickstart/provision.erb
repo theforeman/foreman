@@ -21,6 +21,7 @@ oses:
   proxy_string = @host.params['http-proxy'] ? " --proxy=http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
   puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
   salt_enabled = @host.params['salt_master'] ? true : false
+  chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
   section_end = (rhel_compatible && os_major <= 5) ? '' : '%end'
 %>
 install
@@ -142,6 +143,11 @@ echo "updating system time"
 
 # update all the base packages from the updates repository
 yum -t -y -e 0 update
+
+<% if chef_enabled %>
+echo "Bootstraping chef"
+<%= respond_to?(:chef_bootstrap) ? chef_bootstrap(@host) : snippet_if_exists("chef-client omnibus bootstrap") %>
+<% end%>
 
 <% if puppet_enabled %>
 echo "Configuring puppet"
