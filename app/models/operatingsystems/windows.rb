@@ -14,11 +14,11 @@ class Windows < Operatingsystem
   end
 
   def boot_files_uri(medium, architecture, host = nil)
-    raise ::Foreman::Exception.new(N_("invalid medium for %s"), to_s) unless media.include?(medium)    
+    raise ::Foreman::Exception.new(N_("invalid medium for %s"), to_s) unless media.include?(medium)
 
     pxe_dir = ""
 
-    PXEFILES.values.collect do |img|    
+    PXEFILES.values.collect do |img|
       if img =~ /boot.sdi/i || img =~ /bcd/i
         pxe_dir = "boot"
       elsif img =~ /boot.wim/i
