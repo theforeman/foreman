@@ -110,16 +110,11 @@ function submit_host(){
     url: url,
     data: $('form').serialize(),
     success: function(response){
-      if(response.redirect){
-        window.location.replace(response.redirect);
-      }
-      else{
-        $("#host-progress").hide();
-        $('#content').replaceWith($("#content", response));
-        $(document.body).trigger('ContentLoad');
-        if($("[data-history-url]").exists()){
-            history.pushState({}, "Host show", $("[data-history-url]").data('history-url'));
-        }
+      $("#host-progress").hide();
+      $('#content').replaceWith($("#content", response));
+      $(document.body).trigger('ContentLoad');
+      if($("[data-history-url]").exists()){
+          history.pushState({}, "Host show", $("[data-history-url]").data('history-url'));
       }
     },
     error: function(response){
