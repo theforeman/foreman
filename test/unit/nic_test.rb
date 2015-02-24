@@ -144,6 +144,18 @@ class NicTest < ActiveSupport::TestCase
       end
     end
 
+    test "bmc requires MAC address if managed" do
+      bmc = FactoryGirl.build(:nic_bmc, :managed => true, :mac => '')
+      refute bmc.valid?
+      assert_includes bmc.errors.keys, :mac
+    end
+
+    test "bmc does not require MAC address if unmanaged" do
+      bmc = FactoryGirl.build(:nic_bmc, :managed => false, :mac => '')
+      bmc.valid?
+      refute_includes bmc.errors.keys, :mac
+    end
+
     context "on managed host" do
       setup do
         @host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
