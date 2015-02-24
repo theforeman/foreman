@@ -95,6 +95,33 @@ class NicTest < ActiveSupport::TestCase
     assert_includes nic.errors.keys, :identifier
   end
 
+  test "#alias? detects alias based on virtual and identifier attributes" do
+    nic = FactoryGirl.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0')
+    refute nic.alias?
+
+    nic.identifier = 'eth0:0'
+    assert nic.alias?
+
+    nic.virtual = false
+    refute nic.alias?
+  end
+
+  test "Alias subnet can only use static boot mode if it's managed" do
+    nic = FactoryGirl.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0:0')
+    nic.subnet = FactoryGirl.build(:subnet, :boot_mode => Subnet::BOOT_MODES[:dhcp])
+    refute nic.valid?
+    assert_includes nic.errors.keys, :subnet_id
+
+    nic.subnet.boot_mode = Subnet::BOOT_MODES[:static]
+    nic.valid?
+    refute_includes nic.errors.keys, :subnet_id
+
+    nic.managed = false
+    nic.subnet.boot_mode = Subnet::BOOT_MODES[:dhcp]
+    nic.valid?
+    refute_includes nic.errors.keys, :subnet_id
+  end
+
   test "BMC does not require identifier" do
     nic = FactoryGirl.build(:nic_bmc, :managed => true, :identifier => '')
     nic.valid?
