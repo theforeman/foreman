@@ -49,7 +49,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
   test 'it should return array of used ids by hosts' do
     organization = taxonomies(:organization1)
-    subnet = FactoryGirl.create(:subnet)
+    subnet = FactoryGirl.create(:subnet, :organizations => [organization])
     domain = FactoryGirl.create(:domain)
     FactoryGirl.create(:host,
                        :compute_resource => compute_resources(:one),
@@ -61,7 +61,8 @@ class OrganizationTest < ActiveSupport::TestCase
                        :owner            => users(:restricted),
                        :puppet_proxy     => smart_proxies(:puppetmaster),
                        :realm            => realms(:myrealm),
-                       :subnet           => subnet)
+                       :subnet           => subnet,
+                       :location         => nil)
     FactoryGirl.create(:os_default_template,
                        :config_template  => config_templates(:mystring2),
                        :operatingsystem  => operatingsystems(:centos5_3),

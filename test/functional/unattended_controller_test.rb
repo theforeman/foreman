@@ -17,11 +17,10 @@ class UnattendedControllerTest < ActionController::TestCase
                                     :medium => media(:ubuntu),
                                     :architecture => architectures(:x86_64)
                                    )
-      @host_with_template_subnet = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :build => true,
+      @host_with_template_subnet = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :with_tftp_subnet, :build => true,
                                     :operatingsystem => operatingsystems(:ubuntu1010),
                                     :ptable => ptables(:ubuntu),
                                     :medium => media(:ubuntu),
-                                    :subnet => FactoryGirl.create(:subnet, :tftp),
                                     :architecture => architectures(:x86_64)
                                    )
     end

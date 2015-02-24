@@ -49,7 +49,7 @@ class LocationTest < ActiveSupport::TestCase
 
   test 'it should return array of used ids by hosts' do
     location = taxonomies(:location1)
-    subnet = FactoryGirl.create(:subnet)
+    subnet = FactoryGirl.create(:subnet, :locations => [location])
     domain = FactoryGirl.create(:domain)
     FactoryGirl.create(:host,
                        :compute_resource => compute_resources(:one),
@@ -61,7 +61,8 @@ class LocationTest < ActiveSupport::TestCase
                        :owner            => users(:restricted),
                        :puppet_proxy     => smart_proxies(:puppetmaster),
                        :realm            => realms(:myrealm),
-                       :subnet           => subnet)
+                       :subnet           => subnet,
+                       :organization     => nil)
     FactoryGirl.create(:os_default_template,
                        :config_template  => config_templates(:mystring2),
                        :operatingsystem  => operatingsystems(:centos5_3),
@@ -164,17 +165,17 @@ class LocationTest < ActiveSupport::TestCase
     location_dup = location.dup
     location_dup.name = "location_dup_name"
     assert location_dup.save!
-    assert_equal location_dup.environment_ids, location.environment_ids
-    assert_equal location_dup.hostgroup_ids, location.hostgroup_ids
-    assert_equal location_dup.subnet_ids, location.subnet_ids
-    assert_equal location_dup.domain_ids, location.domain_ids
-    assert_equal location_dup.medium_ids, location.medium_ids
-    assert_equal location_dup.user_ids, location.user_ids
+    assert_equal location_dup.environment_ids.sort, location.environment_ids.sort
+    assert_equal location_dup.hostgroup_ids.sort, location.hostgroup_ids.sort
+    assert_equal location_dup.subnet_ids.sort, location.subnet_ids.sort
+    assert_equal location_dup.domain_ids.sort, location.domain_ids.sort
+    assert_equal location_dup.medium_ids.sort, location.medium_ids.sort
+    assert_equal location_dup.user_ids.sort, location.user_ids.sort
     assert_equal location_dup.smart_proxy_ids.sort, location.smart_proxy_ids.sort
-    assert_equal location_dup.config_template_ids, location.config_template_ids
-    assert_equal location_dup.compute_resource_ids, location.compute_resource_ids
-    assert_equal location_dup.realm_ids, location.realm_ids
-    assert_equal location_dup.organization_ids, location.organization_ids
+    assert_equal location_dup.config_template_ids.sort, location.config_template_ids.sort
+    assert_equal location_dup.compute_resource_ids.sort, location.compute_resource_ids.sort
+    assert_equal location_dup.realm_ids.sort, location.realm_ids.sort
+    assert_equal location_dup.organization_ids.sort, location.organization_ids.sort
   end
 
   #Audit
@@ -212,7 +213,7 @@ class LocationTest < ActiveSupport::TestCase
 
   test "used_and_selected_or_inherited_ids for inherited location" do
     parent = taxonomies(:location1)
-    subnet = FactoryGirl.create(:subnet)
+    subnet = FactoryGirl.create(:subnet, :organizations => [taxonomies(:organization1)])
     domain1 = FactoryGirl.create(:domain)
     domain2 = FactoryGirl.create(:domain)
     parent.update_attribute(:domains,[domain1,domain2])
