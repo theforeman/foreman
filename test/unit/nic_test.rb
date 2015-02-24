@@ -57,11 +57,49 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test "should delegate subnet attributes" do
-    subnet = subnets(:one)
+    subnet = subnets(:two)
     domain = (subnet.domains.any? ? subnet.domains : subnet.domains << Domain.first).first
     interface = Nic::Managed.create! :ip => "2.3.4.127", :mac => "cabbccddeeff", :host => FactoryGirl.create(:host), :subnet => subnet, :name => "a" + FactoryGirl.create(:host).name, :domain => domain
     assert_equal subnet.network, interface.network
     assert_equal subnet.vlanid, interface.vlanid
+  end
+
+  test "should reject subnet with mismatched taxonomy in host" do
+    taxonomy_to_test = [:organization, :location]
+
+    taxonomy_to_test.each do |taxonomy|
+      tax_object1 = FactoryGirl.build(taxonomy)
+      tax_object2 = FactoryGirl.build(taxonomy)
+      subnet = subnets(:one)
+      host = FactoryGirl.build(:host)
+
+      subnet_list = subnet.send("#{taxonomy.to_s.pluralize}")
+      subnet_list << tax_object1
+      host.send("#{taxonomy}=",tax_object2)
+
+      i = Nic::Base.new :mac => "cabbccddeeff", :host => host
+      i.subnet = subnet
+
+      refute i.valid?
+    end
+  end
+
+  test "should accept subnets with aligned location and organization in host" do
+    location1 = FactoryGirl.build(:location)
+    organization1 = FactoryGirl.build(:organization)
+
+    subnet = subnets(:one)
+    host = FactoryGirl.build(:host)
+
+    subnet.locations << location1
+    subnet.organizations << organization1
+    host.location = location1
+    host.organization = organization1
+
+    i = Nic::Base.new :mac => "cabbccddeeff", :host => host
+    i.subnet = subnet
+
+    assert i.valid?
   end
 
   test "Nic::Managed#hostname should return blank for blank hostnames" do

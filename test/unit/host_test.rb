@@ -129,7 +129,7 @@ class HostTest < ActiveSupport::TestCase
     Host.any_instance.expects(:set_compute_attributes).once.returns(true)
     Host.create! :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-      :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
       :environment => environments(:production), :disk => "empty partition"
   end
 
@@ -162,7 +162,7 @@ class HostTest < ActiveSupport::TestCase
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-      :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
       :environment => environments(:production), :disk => "empty partition"
     assert host.valid?
     assert !host.new_record?
@@ -173,10 +173,10 @@ class HostTest < ActiveSupport::TestCase
     User.current.roles << [roles(:manager)]
     assert_difference('LookupValue.count') do
       assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "2.3.4.3",
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
-        :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
-        :environment => environments(:production), :disk => "empty partition",
-        :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}}
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
+      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
+      :environment => environments(:production), :disk => "empty partition",
+      :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}}
     end
   end
 
@@ -184,7 +184,7 @@ class HostTest < ActiveSupport::TestCase
     assert_difference('LookupValue.where(:lookup_key_id => lookup_keys(:five).id, :match => "fqdn=abc.mydomain.net").count') do
       Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "2.3.4.3",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-        :subnet => subnets(:one), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
         :environment => environments(:production), :disk => "empty partition",
         :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:five).id, "value"=>"some_value"}}
     end
@@ -448,7 +448,7 @@ class HostTest < ActiveSupport::TestCase
     test "should not save if neither ptable or disk are defined when the host is managed" do
       if unattended?
         host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.4.4.03",
-          :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one), :medium => media(:one),
+          :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :medium => media(:one),
           :architecture => Architecture.first, :environment => Environment.first, :managed => true
         assert !host.valid?
       end
@@ -456,21 +456,21 @@ class HostTest < ActiveSupport::TestCase
 
     test "should save if neither ptable or disk are defined when the host is not managed" do
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
       assert host.valid?
     end
 
     test "should save if ptable is defined" do
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
-        :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :ptable => Ptable.first
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :ptable => Ptable.first
       assert !host.new_record?
     end
 
     test "should save if disk is defined" do
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :medium => media(:one),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :medium => media(:one),
         :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa", :puppet_proxy => smart_proxies(:puppetmaster)
       assert !host.new_record?
     end
@@ -478,41 +478,41 @@ class HostTest < ActiveSupport::TestCase
     test "should not save if IP is not in the right subnet" do
       if unattended?
         host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03", :ptable => ptables(:one),
-          :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:one), :managed => true, :medium => media(:one),
+          :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :managed => true, :medium => media(:one),
           :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first, :puppet_proxy => smart_proxies(:puppetmaster)
         assert !host.valid?
       end
     end
 
     test "should save if owner_type is User or Usergroup" do
-      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => ptables(:one), :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :ptable => ptables(:one), :medium => media(:one),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
         :owner_type => "User", :root_pass => "xybxa6JUkz63w"
       assert host.valid?
     end
 
     test "should not save if owner_type is not User or Usergroup" do
-      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
         :owner_type => "UserGr(up" # should be Usergroup
       assert !host.valid?
     end
 
     test "should not save if installation media is missing" do
-      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => ptables(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true, :build => true,
+      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :ptable => ptables(:one),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true, :build => true,
         :owner_type => "User", :root_pass => "xybxa6JUkz63w"
       refute host.valid?
       assert_equal "can't be blank", host.errors[:medium_id][0]
     end
 
     test "should save if owner_type is empty and Host is unmanaged" do
-      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
+      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
       assert host.valid?
     end
 
@@ -521,8 +521,8 @@ class HostTest < ActiveSupport::TestCase
       Setting[:Enable_Smart_Variables_in_ENC] = true
       # create a dummy node
       Parameter.destroy_all
-      host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "2.3.4.12", :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
+      host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "3.3.4.12", :medium => media(:one),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
         :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa",
         :puppet_proxy => smart_proxies(:puppetmaster)
 
@@ -532,8 +532,8 @@ class HostTest < ActiveSupport::TestCase
                                   "ssl_port" => "443", "foreman_env"=> "production", "owner_name"=>"Admin User",
                                   "root_pw"=>"xybxa6JUkz63w", "owner_email"=>"admin@someware.com",
                                   "foreman_subnets"=>
-      [{"network"=>"2.3.4.0",
-        "name"=>"one",
+      [{"network"=>"3.3.4.0",
+        "name"=>"two",
         "gateway"=>nil,
         "mask"=>"255.255.255.0",
         "dns_primary"=>nil,
@@ -544,7 +544,7 @@ class HostTest < ActiveSupport::TestCase
         "ipam"=>"DHCP"}],
         "foreman_interfaces"=>
       [{"mac"=>"aa:bb:ac:dd:ee:ff",
-        "ip"=>"2.3.4.12",
+        "ip"=>"3.3.4.12",
         "type"=>"Interface",
         "name"=>'myfullhost.mydomain.net',
         "attrs"=>{},
@@ -554,9 +554,9 @@ class HostTest < ActiveSupport::TestCase
         "managed"=>true,
         "primary"=>true,
         "provision"=>true,
-        "subnet"=> {"network"=>"2.3.4.0",
+        "subnet"=> {"network"=>"3.3.4.0",
                     "mask"=>"255.255.255.0",
-                    "name"=>"one",
+                    "name"=>"two",
                     "gateway"=>nil,
                     "dns_primary"=>nil,
                     "dns_secondary"=>nil,
@@ -911,11 +911,17 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "should have only one bootable interface" do
-      subnet = FactoryGirl.create(:subnet)
-      h = FactoryGirl.create(:host, :managed, :subnet => subnet, :ip => subnet.network.succ)
+      organization = FactoryGirl.create(:organization)
+      location = FactoryGirl.create(:location)
+      subnet = FactoryGirl.create(:subnet, :organizations => [organization], :locations => [location])
+      h = FactoryGirl.create(:host, :managed,
+                             :organization => organization,
+                             :location => location,
+                             :subnet => subnet,
+                             :ip => subnet.network.succ)
       assert_equal 1, h.interfaces.count # we already have primary interface
       Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
-        :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain, :managed => false
+                            :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain, :managed => false
       assert_equal 2, h.interfaces.count
       h.interfaces_attributes = [{:name => "dummy-bootable2", :ip => "2.3.4.103", :mac => "aa:bb:cd:cd:ee:ff",
                                   :subnet_id => h.subnet_id, :type => 'Nic::Bootable', :domain_id => h.domain_id,
@@ -1427,14 +1433,22 @@ class HostTest < ActiveSupport::TestCase
 
     test "compute attributes are populated by hardware profile from hostgroup" do
       # hostgroups(:common) fixture has compute_profiles(:one)
-      host = FactoryGirl.build(:host, :managed, :hostgroup => hostgroups(:common), :compute_resource => compute_resources(:ec2) )
+      host = FactoryGirl.build(:host, :managed,
+        :hostgroup => hostgroups(:common),
+        :compute_resource => compute_resources(:ec2),
+        :organization => nil,
+        :location => nil )
       host.expects(:queue_compute_create)
       assert host.valid?, host.errors.full_messages.to_sentence
       assert_equal compute_attributes(:one).vm_attrs, host.compute_attributes
     end
 
     test "compute attributes are populated by hardware profile passed to host" do
-      host = FactoryGirl.build(:host, :managed,  :compute_resource => compute_resources(:ec2), :compute_profile => compute_profiles(:two) )
+      host = FactoryGirl.build(:host, :managed,
+        :compute_resource => compute_resources(:ec2),
+        :compute_profile => compute_profiles(:two),
+        :organization => nil,
+        :location => nil )
       host.expects(:queue_compute_create)
       assert host.valid?, host.errors.full_messages.to_sentence
       assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes

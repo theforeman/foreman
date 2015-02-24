@@ -139,7 +139,12 @@ FactoryGirl.define do
     end
 
     trait :with_subnet do
-      after(:build) { |host| host.subnet = FactoryGirl.build(:subnet) }
+      after(:build) do |host|
+        overrides = {}
+        overrides[:locations] = [host.location] unless host.location.nil?
+        overrides[:organizations] = [host.organization] unless host.organization.nil?
+        host.subnet = FactoryGirl.build(:subnet, overrides)
+      end
     end
 
     trait :with_operatingsystem do
@@ -169,10 +174,16 @@ FactoryGirl.define do
       association :compute_resource, :factory => :libvirt_cr
       domain
       subnet {
-        FactoryGirl.create(
-          :subnet,
+        overrides = {
           :dhcp => FactoryGirl.create(:smart_proxy,
                      :features => [FactoryGirl.create(:feature, :dhcp)])
+        }
+        #add taxonomy overrides in case it's set in the host object
+        overrides[:locations] = [location] unless location.nil?
+        overrides[:organizations] = [organization] unless organization.nil?
+        FactoryGirl.create(
+          :subnet,
+          overrides
         )
       }
       interfaces { [ FactoryGirl.build(:nic_primary_and_provision,
@@ -184,10 +195,13 @@ FactoryGirl.define do
       managed
       association :compute_resource, :factory => :libvirt_cr
       subnet {
-        FactoryGirl.create(:subnet,
-          :dns => FactoryGirl.create(:smart_proxy,
-                    :features => [FactoryGirl.create(:feature, :dns)])
-        )
+        overrides = {:dns => FactoryGirl.create(:smart_proxy,
+                                                :features => [FactoryGirl.create(:feature, :dns)])}
+        #add taxonomy overrides in case it's set in the host object
+        overrides[:locations] = [location] unless location.nil?
+        overrides[:organizations] = [organization] unless organization.nil?
+
+        FactoryGirl.create(:subnet, overrides)
       }
       domain {
         FactoryGirl.create(:domain,
@@ -203,9 +217,13 @@ FactoryGirl.define do
       }
     end
 
+    trait :with_tftp_subnet do
+      subnet { FactoryGirl.build(:subnet, :tftp, locations: [location], organizations: [organization]) }
+    end
+
     trait :with_tftp_orchestration do
       managed
-      subnet { FactoryGirl.build(:subnet, :tftp) }
+      with_tftp_subnet
       interfaces { [ FactoryGirl.build(:nic_managed,
                                        :primary => true,
                                        :provision => true,

@@ -33,6 +33,8 @@ module Nic
     validates :domain_id, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.primary? }
     validates :ip, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.require_ip_validation? }
 
+    validate :validate_host_taxonomy
+
     scope :bootable, lambda { where(:type => "Nic::Bootable") }
     scope :bmc, lambda { where(:type => "Nic::BMC") }
     scope :bonds, lambda { where(:type => "Nic::Bond") }
@@ -201,6 +203,21 @@ module Nic
       if synchronizer.sync_required?
         synchronizer.sync_name
       end
+    end
+
+    def validate_host_taxonomy
+      return true if self.subnet.nil?
+      return true if self.host.organization.nil? && self.subnet.organizations.empty? &&
+                     self.host.location.nil? && self.subnet.locations.empty?
+
+      errors.add(:subnet, _("is not defined for host's organization.")) unless include_or_empty?(self.subnet.organizations, self.host.organization)
+      errors.add(:subnet, _("is not defined for host's location.")) unless include_or_empty?(self.subnet.locations, self.host.location)
+    end
+
+    private
+
+    def include_or_empty?(list, item)
+      (list.empty? && item.nil?) || list.include?(item)
     end
   end
 end
