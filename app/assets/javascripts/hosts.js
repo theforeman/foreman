@@ -1,4 +1,5 @@
-$(function () {
+$(document).on('ContentLoad', function () {
+
   var dialog = $("#review_before_build");
   $("#build-review").click(function () {
     dialog.find(".modal-body #build_status").html('');
