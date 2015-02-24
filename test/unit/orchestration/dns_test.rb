@@ -60,7 +60,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   def test_bmc_should_have_valid_dns_records
     if unattended?
-      h = FactoryGirl.create(:host, :with_dns_orchestration)
+      h = FactoryGirl.create(:host, :with_dns_orchestration, :location => nil, :organization => nil)
       b = FactoryGirl.create(:nic_bmc, :host => h,
                              :domain => domains(:mydomain),
                              :subnet => subnets(:five),
