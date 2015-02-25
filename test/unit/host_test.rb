@@ -549,6 +549,7 @@ class HostTest < ActiveSupport::TestCase
         "from"=>nil,
         "to"=>nil,
         "boot_mode"=>"DHCP",
+        "vlanid" => "41",
         "ipam"=>"DHCP"}],
         "foreman_interfaces"=>
       [{"mac"=>"aa:bb:ac:dd:ee:ff",
@@ -571,6 +572,7 @@ class HostTest < ActiveSupport::TestCase
                     "from"=>nil,
                     "to"=>nil,
                     "boot_mode"=>"DHCP",
+                    "vlanid" => "41",
                     "ipam"=>"DHCP"}}]},
                     "classes"=>{"apache"=>{"custom_class_param"=>"abcdef"}, "base"=>{"cluster"=>"secret"}} }
 
