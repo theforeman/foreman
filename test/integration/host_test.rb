@@ -267,6 +267,9 @@ class HostTest < ActionDispatch::IntegrationTest
   end
 
   describe "hosts index multiple actions" do
+    after do
+      DatabaseCleaner.clean
+    end
     def test_show_action_buttons
       visit hosts_path
       page.find('#check_all').click
@@ -293,6 +296,9 @@ class HostTest < ActionDispatch::IntegrationTest
       # remove hosts cookie on submit
       index_modal.find('.btn-primary').trigger('click')
       assert_empty(page.driver.cookies['_ForemanSelectedhosts'])
+      # Previous test (assert_empty(cookies) ) may not trigger Capybara's "DatabaseCleaner.clean".
+      # Following assertion tests that we return to the correct path, and finishes Capybara cleanly.
+      assert_equal(current_path, hosts_path)
     end
   end
 end
