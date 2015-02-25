@@ -70,11 +70,11 @@ module Nic
 
     # Copied from compute orchestraion
     def ip_available?
-      ip.present? || host.compute_provides?(:ip) # TODO revist this for VMs
+      ip.present? || (host.present? && host.compute_provides?(:ip)) # TODO revist this for VMs
     end
 
     def mac_available?
-      mac.present? || host.compute_provides?(:mac) # TODO revist this for VMs
+      mac.present? || (host.present? && host.compute_provides?(:mac)) # TODO revist this for VMs
     end
 
     protected

@@ -31,6 +31,15 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
+  test 'unmanaged should not call methods after managed?' do
+    if unattended?
+      h = FactoryGirl.create(:host)
+      Nic::Managed.any_instance.expects(:ip_available?).never
+      assert h.valid?
+      assert_equal false, h.dhcp?
+    end
+  end
+
   test 'bmc_should_have_valid_dhcp_record' do
     if unattended?
       h = FactoryGirl.create(:host, :with_dhcp_orchestration)
