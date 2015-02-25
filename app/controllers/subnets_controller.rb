@@ -40,7 +40,7 @@ class SubnetsController < ApplicationController
 
   # query our subnet dhcp proxy for an unused IP
   def freeip
-    not_found and return unless (s=params[:subnet_id].to_i) > 0
+    invalid_request and return unless (s=params[:subnet_id].to_i) > 0
     organization = params[:organization_id].blank? ? nil : Organization.find(params[:organization_id])
     location = params[:location_id].blank? ? nil : Location.find(params[:location_id])
     Taxonomy.as_taxonomy organization, location do
@@ -48,13 +48,12 @@ class SubnetsController < ApplicationController
       if (ip = subnet.unused_ip(params[:host_mac], params[:taken_ips]))
         render :json => {:ip => ip}
       else
-        # we don't want any failures if we failed to query our proxy
-        head :status => 200
+        not_found
       end
     end
   rescue => e
     logger.warn "Failed to query subnet #{s} for free ip: #{e}"
-    head :status => 500
+    process_ajax_error(e, "get free ip")
   end
 
   def import
