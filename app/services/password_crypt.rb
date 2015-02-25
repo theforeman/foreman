@@ -9,4 +9,8 @@ class PasswordCrypt
   def self.grub2_passw_crypt(passw)
     self.passw_crypt(passw, 'MD5')
   end
+
+  def self.crypt_gnu_compatible?
+    @crypt_gnu_compatible ||= passw_crypt("test_this").match('^\$\d+\$.+\$.+')
+  end
 end
