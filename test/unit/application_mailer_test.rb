@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ApplicationMailerTest < ActiveSupport::TestCase
-
   setup do
     ActionMailer::Base.deliveries = []
     Setting[:email_subject_prefix] = '[foreman-production]'
