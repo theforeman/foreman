@@ -600,6 +600,10 @@ function interface_subnet_selected(element) {
       interface_ip.val(result['ip']);
       update_interface_table();
     },
+    error: function(request, status, error) {
+      interface_ip.addClass('tab-error');
+      interface_ip.val(Jed.sprintf(__("Error generating IP: %s"), error))
+    },
     complete:function () {
       $(element).indicator_hide();
       interface_ip.attr('disabled', false);
