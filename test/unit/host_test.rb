@@ -512,6 +512,7 @@ context "location or organizations are not enabled" do
             "from"=>nil,
             "to"=>nil,
             "boot_mode"=>"Static",
+            "vlanid" => "41",
             "ipam"=>"DHCP"}],
          "foreman_interfaces"=>
           [{"mac"=>"aa:bb:ac:dd:ee:ff",
@@ -532,6 +533,7 @@ context "location or organizations are not enabled" do
                         "from"=>nil,
                         "to"=>nil,
                         "boot_mode"=>"Static",
+                        "vlanid" => "41",
                         "ipam"=>"DHCP"}}]},
       "classes"=>{"apache"=>{"custom_class_param"=>"abcdef"}, "base"=>{"cluster"=>"secret"}} }
 
