@@ -124,18 +124,14 @@ module HostCommon
                        end
 
     if unencrypted_pass.present?
-      is_actually_encrypted = if PasswordCrypt.crypt_gnu_compatible?
-                                unencrypted_pass.match('^\$\d+\$.+\$.+')
-                              else
-                                unencrypted_pass.starts_with?("$")
-                              end
-
-      if is_actually_encrypted
-        self.root_pass =  self.grub_pass = unencrypted_pass
+      if PasswordCrypt.passw_crypt("test_this").match('^\$\d+\$.+\$.+')
+        is_actually_encrypted = unencrypted_pass.match('^\$\d+\$.+\$.+')
       else
-        self.root_pass = operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash)
-        self.grub_pass = PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
+        is_actually_encrypted = unencrypted_pass.starts_with?("$")
       end
+      self.root_pass = !!(is_actually_encrypted) ? unencrypted_pass :
+          (operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash))
+      self.grub_pass = !!(is_actually_encrypted) ? unencrypted_pass : PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
     end
   end
 
