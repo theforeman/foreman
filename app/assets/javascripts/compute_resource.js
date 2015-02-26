@@ -214,6 +214,9 @@ function capacity_edit(element) {
 }
 
 function allocation_switcher(element, action) {
+  var previous = $(element).parent().find('.active');
+  previous.removeClass('active');
+
   var allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
   if (action == 'None') {
     $(allocation).attr('readonly', 'readonly');
@@ -227,5 +230,7 @@ function allocation_switcher(element, action) {
     var capacity = $(element).closest('.fields').find('[id$=capacity]')[0];
     allocation.value = capacity.value;
   }
+
+  $(element).button('toggle');
   return false;
 }
