@@ -359,7 +359,8 @@ module HostsHelper
         content_tag :button, _(label), :type => 'button', :href => '#',
           :name => 'allocation_radio_btn',
           :class => (label == active) ? 'btn btn-default active' : 'btn btn-default',
-          :onclick => "allocation_switcher(this, '#{label}');"
+          :onclick => "allocation_switcher(this, '#{label}');",
+          :data => { :toggle => 'button' }
       end.join(' ').html_safe
     end)
   end
