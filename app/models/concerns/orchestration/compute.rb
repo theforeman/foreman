@@ -84,6 +84,15 @@ module Orchestration::Compute
     @host      = self
     # For some reason this renders as 'built' in spoof view but 'provision' when
     # actually used. For now, use foreman_url('built') in the template
+    if template.nil?
+      failure((_("%{image} needs user data, but %{os_link} is not associated to any provisioning template of the kind user_data. Please associate it with a suitable template or uncheck 'User data' for %{compute_resource_image_link}.") %
+      { :image => image.name,
+        :os_link => "<a target='_blank' href='#{url_for(edit_operatingsystem_path(operatingsystem))}'>#{operatingsystem.title}</a>",
+        :compute_resource_image_link =>
+          "<a target='_blank' href='#{url_for(edit_compute_resource_image_path(:compute_resource_id => compute_resource.id, :id => image.id))}'>#{image.name}</a>"}).html_safe)
+      return false
+    end
+
     self.compute_attributes[:user_data] = unattended_render(template.template)
     self.handle_ca
     return false if errors.any?
