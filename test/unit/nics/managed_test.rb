@@ -36,7 +36,7 @@ class ManagedTest < ActiveSupport::TestCase
   end
 
   test "#normalize_hostname keeps domain nil if it can't find such domain based on name" do
-    domain = FactoryGirl.build(:domain)
+    domain = FactoryGirl.create(:domain)
     nic = setup_primary_nic_with_name(" Host.#{domain.name}.custom", :domain => nil)
     nic.send(:normalize_name)
     assert_equal "host.#{domain.name}.custom", nic.name
@@ -51,7 +51,7 @@ class ManagedTest < ActiveSupport::TestCase
   end
 
   test "#normalize_hostname does not touch name if it's different from domain name and it's a new record (leaves inconsistency)" do
-    domain = FactoryGirl.build(:domain)
+    domain = FactoryGirl.create(:domain)
     nic = setup_primary_nic_with_name(" Host.#{domain.name}.custom", :domain => domain)
     nic.send(:normalize_name)
     assert_equal "host.#{domain.name}.custom", nic.name
