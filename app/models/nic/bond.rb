@@ -6,6 +6,7 @@ module Nic
     validates :attached_devices, :format => { :with => /\A[a-z0-9#{SEPARATOR}.:_-]+\Z/ }, :allow_blank => true
 
     before_save :ensure_virtual
+    after_save :ensure_mac
 
     register_to_enc_transformation :type, lambda { |type| type.constantize.humanized_name }
 
@@ -43,6 +44,17 @@ module Nic
 
     def enc_attributes
       @enc_attributes ||= (super + %w(mode attached_devices bond_options))
+    end
+
+    def ensure_mac
+      mac_addresses = attached_devices_identifiers.collect { |a|
+        self.host.interfaces.where(identifier: a).first.mac
+      }
+      self.mac = nil unless mac_addresses.include? self.mac
+      unless self.mac
+        self.mac = mac_addresses.first
+      end
+      self.update_column(:mac, self.mac)
     end
   end
 
