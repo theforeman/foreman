@@ -29,8 +29,9 @@ class ApplicationController < ActionController::Base
   cache_sweeper :topbar_sweeper
 
   def password_change
-    return unless User.current
-    redirect_to change_password_user_path( :id => User.current.id) if User.current.force_password_reset?
+    if User.current.present? && User.current.force_password_reset?
+      redirect_to change_password_user_path( :id => User.current.id)
+    end
   end
 
   def welcome
