@@ -115,10 +115,6 @@ class UsersController < ApplicationController
   end
 
   def change_password
-    if request.get?
-      puts "XXX we've got a GET request"
-    end
-    puts "XXX change password called"
   end
 
   def update_password
