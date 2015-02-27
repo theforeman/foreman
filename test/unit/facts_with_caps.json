@@ -74,7 +74,7 @@
     "processor1": "Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz",
     "macaddress_br180": "E4:1F:13:CC:36:58",
     "selinux": "false",
-    "domain": "server.b.domain",
+    "domain": "SERVER.b.domain",
     "architecture": "x86_64",
     "uptime_hours": "3792",
     "memoryfree": "6.87 GB",
