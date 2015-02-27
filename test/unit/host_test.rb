@@ -269,6 +269,12 @@ class HostTest < ActiveSupport::TestCase
       assert Host.find_by_name('sinn1636.lan')
     end
 
+    test 'should downcase domain parameter from json of a new host' do
+      raw = parse_json_fixture('/facts_with_caps.json')
+      assert Host.import_host_and_facts(raw['name'], raw['facts'])
+      assert_equal raw['facts']['domain'].downcase, Host.find_by_name('sinn1636.lan').facts_hash['domain']
+    end
+
     test 'should import facts idempotently' do
       raw = parse_json_fixture('/facts_with_caps.json')
       assert Host.import_host_and_facts(raw['name'], raw['facts'])
