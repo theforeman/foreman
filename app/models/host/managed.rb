@@ -415,6 +415,7 @@ class Host::Managed < Host::Base
     # downcase everything
     hostname.try(:downcase!)
     certname.try(:downcase!)
+    facts['domain'].try(:downcase!)
 
     host = certname.present? ? Host.find_by_certname(certname) : nil
     host ||= Host.find_by_name hostname
