@@ -15,7 +15,11 @@
         <% end %>
         <li class="divider"></li>
         <li><%= link_to_function _('Bookmark this search'), "$('#bookmarks-modal').modal();",
-                                 {:id => "bookmark", :"data-url"=> main_app.new_bookmark_path(:kontroller => controller_name)}%></li>
+                                 {:id => "bookmark", :"data-url"=> main_app.new_bookmark_path(:kontroller => controller_name)} %></li>
+        <li><%= link_to(icon_text('question-sign', _('Documentation'), :class => 'icon-black'),
+            "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.1.5Searching",
+            :rel => 'external', :target => '_blank')
+  %></li>
       </ul>
     </span>
   </div>

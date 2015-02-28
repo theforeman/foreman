@@ -40,6 +40,12 @@
     </div>
 
     <div class='tab-pane' id='mail_preferences'>
+      <div class='row'>
+        <div class='col-md-4'>
+          <%= documentation_button('4.6.1EmailPreferences') %>
+        </div>
+      </div>
+      </br>
       <%= field_set_tag _("General") do %>
         <%= checkbox_f f, :mail_enabled %>
       <% end %>

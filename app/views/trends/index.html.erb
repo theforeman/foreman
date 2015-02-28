@@ -1,5 +1,6 @@
 <% title _("Trends") %>
-<% title_actions display_link_if_authorized(_("Add Trend Counter"), hash_for_new_trend_path) %>
+<% title_actions display_link_if_authorized(_("Add Trend Counter"), hash_for_new_trend_path),
+                 documentation_button('4.1.3Trends') %>
 
 <% if @trends.empty? %>
   <div class="alert alert-info">

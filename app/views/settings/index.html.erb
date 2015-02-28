@@ -1,4 +1,5 @@
 <% title _("Settings") %>
+<% title_actions documentation_button('3.5.2ConfigurationOptions') %>
 <ul class="nav nav-tabs" data-tabs="tabs">
   <% @settings.group_by(&:category).each do |category, setting| %>
     <li class='<%= category == @settings.first.category ? "active" : ""%>'>
