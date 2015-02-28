@@ -385,6 +385,12 @@ module ApplicationHelper
     (obj.new_record? && obj.class.count > 0) || (!obj.new_record? && obj.class.count > 1)
   end
 
+  def documentation_button(section)
+    link_to(icon_text('question-sign', _('Documentation'), :class => 'icon-white'),
+            "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html##{section}",
+            :rel => 'external', :class => 'btn btn-info', :target => '_blank')
+  end
+
   private
 
   def edit_inline(object, property, options = {})
