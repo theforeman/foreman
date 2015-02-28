@@ -20,7 +20,8 @@
   <%= checkbox_f(f, :use_puppet_default, :label => _('Use Puppet default'), :size => "col-md-8",
                     :help_block => _('Do not send this parameter via the ENC. Puppet will use the value defined in the Puppet manifest for this parameter.'),
                     :onchange=>'toggleUsePuppetDefaultValue(this, "default_value")',
-                    :disabled => (f.object.is_param && !f.object.override)) if is_param%>
+                    :disabled => (f.object.is_param && !f.object.override)) if is_param %>
+ </br>
   <div <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ','_')}_lookup_key_override_value" %> style=<%= "display:none;" if (f.object.is_param && !f.object.override) %>>
     <legend><%= _("Optional input validator") %></legend>
     <p class="help-block">
@@ -49,6 +50,7 @@
         <%= render 'lookup_keys/value', :f => lookup_values, :is_param => is_param %>
       <% end %>
       <%= add_child_link '+ ' + _("Add Matcher-Value"), :lookup_values, { :title => _('add a new matcher-value pair')} %>
+      <%= documentation_button('4.2.6SmartMatchers') %>
     </div>
   </div>
 </div>
