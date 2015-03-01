@@ -33,9 +33,9 @@ class AddCounterCaches < ActiveRecord::Migration
     # Operating Systems
     add_column :operatingsystems, :hosts_count, :integer, :default => 0
     add_column :operatingsystems, :hostgroups_count, :integer, :default => 0
-    Operatingsystem.all.each do |o|
-      Operatingsystem.reset_counters(o.id, :hosts)
-      Operatingsystem.reset_counters(o.id, :hostgroups)
+    Operatingsystem.unscoped.all.each do |o|
+      Operatingsystem.unscoped.reset_counters(o.id, :hosts)
+      Operatingsystem.unscoped.reset_counters(o.id, :hostgroups)
     end
 
     # Puppetclasses
