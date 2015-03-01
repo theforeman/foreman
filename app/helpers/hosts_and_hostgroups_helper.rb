@@ -8,8 +8,7 @@ module HostsAndHostgroupsHelper
   end
 
   def accessible_hostgroups
-    hg = Hostgroup.with_taxonomy_scope_override(@location,@organization)
-    hg.sort{ |l, r| l.to_label <=> r.to_label }
+    Hostgroup.with_taxonomy_scope_override(@location,@organization).order(:title)
   end
 
   def parent_classes(obj)
