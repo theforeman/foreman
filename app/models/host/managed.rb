@@ -354,7 +354,7 @@ class Host::Managed < Host::Base
       param["ip"]  = ip
       param["mac"] = mac
     end
-    param['foreman_subnets'] = (([subnet] + interfaces.map(&:subnet)).compact.map(&:to_enc)).uniq
+    param['foreman_subnets'] = interfaces.map(&:subnet).compact.map(&:to_enc).uniq
     param['foreman_interfaces'] = interfaces.map(&:to_enc)
     param.update self.params
 
