@@ -46,7 +46,8 @@
         <button class='btn btn-info' type='button'
           onclick="$('#current_external_usergroups').toggle();"><%= _("Show linked external user groups") %></button>
         <hr>
-        <div style='display:none' id='current_external_usergroups'>
+        <% invalid_external_groups = @usergroup.external_usergroups.any? { |e| e.errors.present? } %>
+        <div style='<%= invalid_external_groups ? '' : 'display:none' %>' id='current_external_usergroups'>
           <%= f.fields_for :external_usergroups do |ug| %>
             <%= render 'external', :f => ug %>
           <% end %>
