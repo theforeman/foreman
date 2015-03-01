@@ -444,7 +444,7 @@ class User < ActiveRecord::Base
   protected
 
   def name_used_in_a_usergroup
-    if Usergroup.all.map(&:name).include?(self.login)
+    if Usergroup.where(:name => self.login).present?
       errors.add(:base, _("A user group already exists with this name"))
     end
   end

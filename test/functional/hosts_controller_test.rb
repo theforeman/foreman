@@ -623,7 +623,7 @@ class HostsControllerTest < ActionController::TestCase
     location = taxonomies(:location1)
     post :update_multiple_location, {
       :location => {:id => location.id, :optimistic_import => "no"},
-      :host_ids => Host.all.map(&:id)
+      :host_ids => Host.pluck('hosts.id')
     }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert flash[:error] == "Cannot update Location to Location 1 because of mismatch in settings"
@@ -634,7 +634,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "location.hosts.count", 0 do
       post :update_multiple_location, {
         :location => {:id => location.id, :optimistic_import => "no"},
-        :host_ids => Host.all.map(&:id)
+        :host_ids => Host.pluck('hosts.id')
       }, set_session_user
     end
   end
@@ -644,7 +644,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "location.taxable_taxonomies.count", 0 do
       post :update_multiple_location, {
         :location => {:id => location.id, :optimistic_import => "no"},
-        :host_ids => Host.all.map(&:id)
+        :host_ids => Host.pluck('hosts.id')
       }, set_session_user
     end
   end
@@ -655,7 +655,7 @@ class HostsControllerTest < ActionController::TestCase
     location = taxonomies(:location1)
     post :update_multiple_location, {
       :location => {:id => location.id, :optimistic_import => "yes"},
-      :host_ids => Host.all.map(&:id)
+      :host_ids => Host.pluck('hosts.id')
     }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Updated hosts: Changed Location", flash[:notice]
@@ -667,7 +667,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "location.hosts.count", (Host.count - cnt_hosts_location) do
       post :update_multiple_location, {
         :location => {:id => location.id, :optimistic_import => "yes"},
-        :host_ids => Host.all.map(&:id)
+        :host_ids => Host.pluck('hosts.id')
       }, set_session_user
     end
   end
@@ -692,7 +692,7 @@ class HostsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization1)
     post :update_multiple_organization, {
       :organization => {:id => organization.id, :optimistic_import => "no"},
-      :host_ids => Host.all.map(&:id)
+      :host_ids => Host.pluck('hosts.id')
     }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Cannot update Organization to Organization 1 because of mismatch in settings", flash[:error]
@@ -703,7 +703,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "organization.hosts.count", 0 do
       post :update_multiple_organization, {
         :organization => {:id => organization.id, :optimistic_import => "no"},
-        :host_ids => Host.all.map(&:id)
+        :host_ids => Host.pluck('hosts.id')
       }, set_session_user
     end
   end
@@ -713,7 +713,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "organization.taxable_taxonomies.count", 0 do
       post :update_multiple_organization, {
         :organization => {:id => organization.id, :optimistic_import => "no"},
-        :host_ids => Host.all.map(&:id)
+        :host_ids => Host.pluck('hosts.id')
       }, set_session_user
     end
   end
@@ -724,7 +724,7 @@ class HostsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization1)
     post :update_multiple_organization, {
       :organization => {:id => organization.id, :optimistic_import => "yes"},
-      :host_ids => Host.all.map(&:id)
+      :host_ids => Host.pluck('hosts.id')
     }, set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Updated hosts: Changed Organization", flash[:notice]
@@ -736,7 +736,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "organization.hosts.count", (Host.count - cnt_hosts_organization) do
       post :update_multiple_organization, {
         :organization => {:id => organization.id, :optimistic_import => "yes"},
-        :host_ids => Host.all.map(&:id)
+        :host_ids => Host.pluck('hosts.id')
       }, set_session_user
     end
   end
