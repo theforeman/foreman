@@ -577,7 +577,18 @@ class HostTest < ActiveSupport::TestCase
       host.importNode nodeinfo
       nodeinfo["parameters"]["special_info"] = "secret"  # smart variable on apache
 
-      assert_equal nodeinfo, host.info
+      info = host.info
+      assert_includes info.keys, 'environment'
+      assert_equal 'production', host.environment.name
+      assert_includes info.keys, 'parameters'
+      assert_includes info.keys, 'classes'
+      assert_equal({ 'apache' => { 'custom_class_param' => 'abcdef' }, 'base' => { 'cluster' => 'secret' } }, info['classes'])
+      parameters = info['parameters']
+      assert_equal 'puppet', parameters['puppetmaster']
+      assert_equal 'xybxa6JUkz63w', parameters['root_pw']
+      assert_includes parameters.keys, 'foreman_subnets'
+      assert_includes parameters.keys, 'foreman_interfaces'
+      assert_equal '2.3.4.12', parameters['foreman_interfaces'].first['ip']
     end
 
     test "show be enabled by default" do
