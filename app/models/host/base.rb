@@ -31,6 +31,7 @@ module Host
                                            :allow_blank => true,
                                            :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', ')) }
     validate :host_has_required_interfaces
+    validate :uniq_interfaces_identifiers
 
     # primary interface is mandatory because of delegated methods so we build it if it's missing
     # similar for provision interface
@@ -369,6 +370,24 @@ module Host
       if self.provision_interface.nil?
         errors.add :interfaces, _("managed host must have one provision interface")
       end
+    end
+
+    # we can't use standard unique validation on interface since we can't properly handle :scope => :host_id
+    # for new hosts host_id does not exist at that moment, validation would work only for persisted records
+    def uniq_interfaces_identifiers
+      success = true
+      identifiers = []
+      self.interfaces.each do |interface|
+        next if interface.identifier.blank?
+        if identifiers.include?(interface.identifier)
+          interface.errors.add :identifier, :taken
+          success = false
+        end
+        identifiers.push(interface.identifier)
+      end
+
+      errors.add(:interfaces, _('some interfaces are invalid')) unless success
+      success
     end
   end
 end
