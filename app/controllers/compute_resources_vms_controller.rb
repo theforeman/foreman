@@ -78,14 +78,7 @@ class ComputeResourcesVmsController < ApplicationController
     @compute_resource = find_compute_resource(:console_compute_resources_vms)
     @vm = find_vm
     @console = @compute_resource.console @vm.identity
-    @encrypt = case Setting[:websockets_encrypt]
-               when 'on'
-                 true
-               when 'off'
-                 false
-               else
-                 request.ssl? and not Setting[:websockets_ssl_key].blank? and not Setting[:websockets_ssl_cert].blank?
-               end
+    @encrypt = Setting[:websockets_encrypt]
     render case @console[:type]
              when 'spice'
                "hosts/console/spice"
