@@ -141,7 +141,11 @@ module ComputeResourcesVmsHelper
     controller_name != 'hosts' && controller_name != 'compute_attributes'
   end
 
-  def new_host?(host)
-    host.try(:new_record?)
+  def new_host?
+    if @host.nil?
+      true
+    else
+      @host.new_record?
+    end
   end
 end
