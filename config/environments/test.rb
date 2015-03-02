@@ -32,6 +32,9 @@ Foreman::Application.configure do
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
 
+  # Should ANSI color codes be used when logging information
+  config.colorize_logging = false
+
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 

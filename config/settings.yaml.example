@@ -22,3 +22,6 @@
 # system you may want to change to setup your project on your local machine.
 :domain: 'localdomain.net'
 :fqdn: 'localhost.localdomain.net'
+
+# Should ANSI color codes be used in logs
+:colorize_logging: false
