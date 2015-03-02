@@ -1123,6 +1123,19 @@ class HostTest < ActiveSupport::TestCase
       assert_kind_of Nic::Managed, host.interfaces.find_by_identifier('eth1')
     end
 
+    test "host can't have more interfaces with same identifier" do
+      host = FactoryGirl.build(:host, :managed)
+      host.primary_interface.identifier = 'eth0'
+      nic = host.interfaces.build(:identifier => 'eth0')
+      refute host.valid?
+      assert_present nic.errors[:identifier]
+      assert_present host.errors[:interfaces]
+      nic.identifier = 'eth1'
+      host.valid?
+      refute_includes nic.errors.keys, :identifier
+      refute_includes host.errors.keys, :interfaces
+    end
+
     # Token tests
 
     test "built should clean tokens" do
