@@ -18,6 +18,12 @@ class Setting < ActiveRecord::Base
     end
   end
 
+  class ValueValidator < ActiveModel::Validator
+    def validate(record)
+      record.send("validate_#{record.name}", record)
+    end
+  end
+
   attr_accessible :name, :value, :description, :category, :settings_type, :default
 
   validates_lengths_from_database
@@ -34,6 +40,7 @@ class Setting < ActiveRecord::Base
   validates :value, :presence => true, :if => Proc.new {|s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
   validates :settings_type, :inclusion => {:in => TYPES}, :allow_nil => true, :allow_blank => true
   validates :value, :uri => true, :presence => true, :if => Proc.new {|s| URI_ATTRS.include?(s.name) }
+  validates_with ValueValidator, :if => Proc.new {|s| s.respond_to?("validate_#{s.name}") }
   before_validation :set_setting_type_from_value
   before_save :clear_value_when_default
   before_save :clear_cache
