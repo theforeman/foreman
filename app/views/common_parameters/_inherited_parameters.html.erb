@@ -11,14 +11,14 @@
     <tbody>
       <% keys = inherited_parameters.keys.sort %>
       <% keys.each do |name| %>
-        <tr class="<%="override-param" if @host.host_parameters.map(&:name).include?(name)%>">
-          <%= "<td rowspan='#{keys.size}'>#{_('Global')}</td>".html_safe if name == keys.first %>
-          <td><%= content_tag :span, name, :id => "name_#{name}"%>
+        <tr class="<%="override-param" if @host && @host.host_parameters.map(&:name).include?(name)%>">
+          <%= "<td class='col-md-3' rowspan='#{keys.size}'>#{_('Global')}</td>".html_safe if name == keys.first %>
+          <td><%= content_tag :span, name, :id => "name_#{name}", :class => "col-md-2" %>
           </td>
           <td><%= parameter_value_field inherited_parameters[name] %></td>
           <td>
             <%= link_to_function(_("override"), "override_param(this)", :title => _("Override this value"),
-                                 :'data-tag' => 'override', :class => "btn btn-default") if authorized_via_my_scope("host_editing", "create_params") && !@host.host_parameters.map(&:name).include?(name) %>
+                                 :'data-tag' => 'override', :class => "btn btn-default") if authorized_via_my_scope("host_editing", "create_params") && @host && !@host.host_parameters.map(&:name).include?(name) %>
           </td>
         </tr>
       <% end %>

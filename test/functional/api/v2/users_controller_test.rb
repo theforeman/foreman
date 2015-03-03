@@ -4,7 +4,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   AuthSourceInternal.create(:name => "Internal") unless AuthSourceInternal.first.present?
   valid_attrs = { :login => "johnsmith",
                   :mail => 'john@example.com',
-                  :auth_source_id => 1, #AuthSourceInternal.first.id,
+                  :auth_source_id => AuthSourceInternal.first.id,
                   :password => '123456' }
 
   def setup
@@ -41,7 +41,8 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   end
 
   test "should update user" do
-    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
+    valid_attrs[:auth_source_id] = AuthSourceInternal.first.id
+    user = User.create! :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     put :update, { :id => user.id, :user => valid_attrs }
     assert_response :success
 

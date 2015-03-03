@@ -96,6 +96,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   each do |os, config|
     test "pxe files for  #{os}" do
       medium = FactoryGirl.build(:medium, config['medium'])
+      Medium.connection.execute("DELETE from media_operatingsystems")
       Medium.where(:name => medium.name).delete_all
 
       arch = architectures(config['arch'])

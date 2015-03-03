@@ -24,6 +24,11 @@ Spork.prefork do
   require 'capybara/rails'
   require 'factory_girl_rails'
   require 'capybara/poltergeist'
+  begin
+    Minitest::Spec::DSL::InstanceMethods.send(:remove_method, :_)
+  rescue
+    puts "Warning: minitest was expected to have an underscore method, which we undefined, but it's no longer there, you might want to remove the monkey patch"
+  end
 
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(app, {:js_errors => true, :timeout => 60})
@@ -45,6 +50,16 @@ Spork.prefork do
     ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
   end
 
+  require 'active_record/fixtures'
+
+  def generate_all_fixtures!
+    fixtures_dir = File.join(Rails.root, '/test/fixtures') #change '/spec/fixtures' to match your fixtures location
+    Dir.glob(File.join(fixtures_dir,'*.yml')).each do |file|
+      base_name = File.basename(file, '.*')
+      ActiveRecord::FixtureSet.create_fixtures(fixtures_dir, base_name)
+    end
+  end
+
   class ActionController::TestCase
     def self.test_order
       :alpha
@@ -58,6 +73,7 @@ Spork.prefork do
   end
 
   class ActiveSupport::TestCase
+
     before do
       User.current = nil
     end
@@ -322,6 +338,7 @@ end
 Spork.each_run do
   # This code will be run each time you run your specs.
   class ActionController::TestCase
+    self.use_transactional_fixtures = true
     setup :setup_set_script_name, :set_api_user, :reset_setting_cache, :turn_of_login
     teardown :reset_setting_cache, :remove_raise_strong_parameters
 
@@ -356,6 +373,7 @@ Spork.each_run do
   end
 
   class ActionDispatch::IntegrationTest
+    self.use_transactional_fixtures = false
     setup :login_admin
 
     teardown do

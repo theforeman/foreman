@@ -9,7 +9,7 @@ class SettingsController < ApplicationController
   end
 
   def index
-    @settings = Setting.live_descendants.search_for(params[:search])
+    @settings = Setting.live_descendants.search_for(params[:search]).all
   end
 
   def update

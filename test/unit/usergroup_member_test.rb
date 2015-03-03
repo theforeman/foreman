@@ -81,7 +81,6 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     assert_includes @admin_user.cached_user_roles.map(&:role), @semiadmin_role
     assert_includes @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
 
-    @admins.usergroups.clear
     @admins.usergroups.destroy_all
     [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
 

@@ -162,8 +162,7 @@ class UsergroupTest < ActiveSupport::TestCase
     usergroup = FactoryGirl.create(:usergroup, :admin => true)
     admin = FactoryGirl.create(:user)
     usergroup.users = [admin]
-
-    User.unscoped.except_hidden.only_admin.where('login <> ?', admin.login).destroy_all
+    User.where(:id => User.unscoped.only_admin.where('login <> ?', admin.login).map(&:id)).delete_all
     usergroup.admin = false
     refute_valid usergroup, :admin, /last admin account/
   end
@@ -173,7 +172,7 @@ class UsergroupTest < ActiveSupport::TestCase
     admin = FactoryGirl.create(:user)
     usergroup.users = [admin]
 
-    User.unscoped.except_hidden.only_admin.where('login <> ?', admin.login).destroy_all
+    User.where(:id => User.unscoped.only_admin.where('login <> ?', admin.login).map(&:id)).delete_all
     refute_with_errors usergroup.destroy, usergroup, :base, /last admin user group/
   end
 

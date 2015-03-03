@@ -54,7 +54,7 @@ module StrongParametersHelper
   def permitted_host_attributes
     permitted_attributes.host_attributes +
         [
-          :interfaces_attributes => [:type, :id, :_destroy, :mac, :identifier, :name, :domain_id, :subnet_id, :ip, :managed, :virtual, :tag, :physical_device, :password],
+          :interfaces_attributes => [:type, :id, :_destroy, :mac, :identifier, :name, :domain_id, :subnet_id, :ip, :managed, :virtual, :tag, :physical_device, :password, :primary, :provider],
           :compute_attributes => vm_attributes,
           :lookup_values_attributes => [:lookup_key_id, :value, :_destroy, :id],
           :host_parameters_attributes => [:name, :value, :hidden_value, :_destroy, :nested, :id]
@@ -71,7 +71,7 @@ module StrongParametersHelper
 
   def permitted_usergroup_attributes
     permitted_attributes.usergroup_attributes +
-        [:external_usergroups_attributes => [:name, :auth_source_id] ]
+        [:external_usergroups_attributes => [:name, :auth_source_id, :_destroy] ]
   end
 
   def vm_attributes

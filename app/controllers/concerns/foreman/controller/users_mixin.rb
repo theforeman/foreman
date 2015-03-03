@@ -24,7 +24,10 @@ module Foreman::Controller::UsersMixin
 
   def clear_params_on_update
     if params[:user]
-      @admin = params[:user].has_key?(:admin) ? params[:user].delete(:admin) : nil
+      #if the current user is admin, they are allowed to set a user as admin
+      #because of permitted attributes requiring something inside the user hash, we don't delete the param
+      @admin = params[:user].has_key?(:admin) ? params[:user].delete(:admin) : nil unless User.current.admin
+
       # Remove keys for restricted variables when the user is editing their own account
       if editing_self?
         params[:user].slice!(:password_confirmation,

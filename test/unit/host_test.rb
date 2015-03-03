@@ -486,13 +486,8 @@ class HostTest < ActiveSupport::TestCase
     test "should save if root password is undefined when the host is managed and in build mode" do
       Setting[:root_pass] = ''
       host = Host.new :name => "myfullhost", :managed => true, :build => false
-<<<<<<< HEAD
       host.valid?
       refute host.errors[:root_pass].present?
-=======
-      refute host.valid?
-      assert host.errors[:root_pass].present?
->>>>>>> fixes #8738 - tests are running, but failing
     end
 
     test "should save if root password is undefined when the compute resource is image capable and in build mode" do
@@ -760,6 +755,10 @@ class HostTest < ActiveSupport::TestCase
     test "if the user toggles off the use_uuid_for_certificates option, revoke the UUID and autosign the hostname" do
       h = FactoryGirl.create(:host, :with_puppet_orchestration)
       Setting[:manage_puppetca] = true
+
+      ProxyAPI::Puppetca.any_instance.expects(:del_certificate).returns(true)
+      ProxyAPI::Puppetca.any_instance.expects(:set_autosign).returns(true)
+
       assert h.puppetca?
       assert h.handle_ca
       assert_equal h.certname, h.name

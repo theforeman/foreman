@@ -4,6 +4,6 @@ class HostParameter < Parameter
   validates :name, :uniqueness => {:scope => :reference_id}
 
   def to_s
-    "#{host.id ? host.name : "unassociated"}: #{name} = #{value}"
+    "#{host ? host.name : "unassociated"}: #{name} = #{value}"
   end
 end

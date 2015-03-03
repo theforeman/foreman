@@ -79,7 +79,8 @@ module Api
       param_group :host, :as => :create
 
       def create
-        @host = Host.new(foreman_params)
+        host_params = host_attributes(foreman_params)
+        @host = Host.new(host_params)
         @host.managed = true if (foreman_params[:managed].nil?)
         merge_interfaces(@host)
 
@@ -87,6 +88,9 @@ module Api
         process_response @host.save
       rescue InterfaceTypeMapper::UnknownTypeExeption => e
         render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.to_s }
+      rescue => e
+        #pp e.backtrace
+        raise
       end
 
       api :PUT, "/hosts/:id/", N_("Update a host")
@@ -213,14 +217,14 @@ Return the host's compute attributes that can be used to create a clone of this 
       def host_attributes(params, host = nil)
         return {} if params.nil?
 
-        params = params.deep_clone
-        if params[:interfaces_attributes]
+        parameters = parameters.deep_clone
+        if parameters[:interfaces_attributes]
           # handle both hash and array styles of nested attributes
-          if params[:interfaces_attributes].is_a? Hash
-            params[:interfaces_attributes] = params[:interfaces_attributes].values
+          if params[:host][:interfaces_attributes].is_a? Hash
+            parameters[:interfaces_attributes] = params[:host][:interfaces_attributes].values
           end
           # map interface types
-          params[:interfaces_attributes] = params[:interfaces_attributes].map do |nic_attr|
+          parameters[:interfaces_attributes] = parameters[:interfaces_attributes].map do |nic_attr|
             interface_attributes(nic_attr)
           end
         end
@@ -228,9 +232,9 @@ Return the host's compute attributes that can be used to create a clone of this 
         params
       end
 
-      def interface_attributes(params)
-        params[:type] = InterfaceTypeMapper.map(params[:type])
-        params
+      def interface_attributes(parameters)
+        parameters[:type] = InterfaceTypeMapper.map(parameters[:type])
+        parameters
       end
 
       def action_permission

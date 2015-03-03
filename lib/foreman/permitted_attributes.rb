@@ -134,6 +134,7 @@ module Foreman
 
     @@user_attributes = [
       :login,
+      :admin,
       :auth_source_id,
       {:role_ids => [],
       :hostgroup_ids => []},
@@ -219,7 +220,7 @@ module Foreman
     ]
 
     @@interface_attributes = [
-      :name, :ip, :mac, :username, :password, :provider, :type
+      :name, :ip, :mac, :username, :password, :provider, :type, :primary
     ]
 
     @@lookup_key_attributes = [

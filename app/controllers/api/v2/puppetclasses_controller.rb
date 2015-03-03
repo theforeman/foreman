@@ -34,7 +34,7 @@ module Api
                    end
         @subtotal = values.count
         if params[:style] == 'list'
-          @puppetclasses = values
+          @puppetclasses = values.all
           render :list
         else
           @puppetclasses = Puppetclass.classes2hash_v2(values.paginate(paginate_options))

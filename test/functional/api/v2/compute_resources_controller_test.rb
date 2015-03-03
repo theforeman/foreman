@@ -46,7 +46,8 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get index of owned" do
+  #test "should get index of owned" do
+  def test_foo
     setup_user 'view', 'compute_resources', "id = #{compute_resources(:mycompute).id}"
     get :index, {}
     assert_response :success

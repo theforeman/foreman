@@ -385,7 +385,7 @@ class User < ActiveRecord::Base
   end
 
   def expire_topbar_cache(sweeper)
-    sweeper.expire_fragment(TopbarSweeper.fragment_name(id))
+    sweeper.expire_fragment(TopbarSweeper.fragment_name(id)) rescue nil
   end
 
   def external_usergroups

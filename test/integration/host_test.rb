@@ -2,6 +2,7 @@ require 'test_helper'
 
 class HostIntegrationTest < ActionDispatch::IntegrationTest
   def setup
+    generate_all_fixtures!
     Capybara.current_driver = Capybara.javascript_driver
     login_admin
   end
@@ -268,6 +269,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
 
   describe "hosts index multiple actions" do
     def test_show_action_buttons
+      first_host = Host.first
       visit hosts_path
       page.find('#check_all').click
 
@@ -283,7 +285,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
 
       # Hosts are added to cookie
       host_ids_on_cookie = JSON.parse(CGI::unescape(page.driver.cookies['_ForemanSelectedhosts'].value))
-      assert(host_ids_on_cookie.include? @host.id)
+      assert(host_ids_on_cookie.include? first_host.id)
 
       # Open modal box
       within('#submit_multiple') do
