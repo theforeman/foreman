@@ -71,6 +71,36 @@ class ManagedTest < ActiveSupport::TestCase
     assert_equal new_domain, nic.domain
   end
 
+  test "#inheriting_mac respects interface mac" do
+    h = FactoryGirl.build(:host, :managed)
+    h.primary_interface.mac = '11:22:33:44:55:66'
+    assert_equal '11:22:33:44:55:66', h.primary_interface.inheriting_mac
+  end
+
+  test "#inheriting_mac respects interface mac even if attached_to is specified" do
+    h = FactoryGirl.build(:host, :managed)
+    h.primary_interface.mac = '11:22:33:44:55:66'
+    h.primary_interface.identifier = 'eth0'
+    n = h.interfaces.build :mac => '66:55:44:33:22:11', :attached_to => 'eth0'
+    assert_equal '66:55:44:33:22:11', n.inheriting_mac
+  end
+
+  test "#inheriting_mac inherits mac if own mac is nil" do
+    h = FactoryGirl.build(:host, :managed)
+    h.primary_interface.mac = '11:22:33:44:55:66'
+    h.primary_interface.identifier = 'eth0'
+    n = h.interfaces.build :mac => nil, :attached_to => 'eth0'
+    assert_equal '11:22:33:44:55:66', n.inheriting_mac
+  end
+
+  test "#inheriting_mac inherits mac if own mac is empty" do
+    h = FactoryGirl.build(:host, :managed)
+    h.primary_interface.mac = '11:22:33:44:55:66'
+    h.primary_interface.identifier = 'eth0'
+    n = h.interfaces.build :mac => '', :attached_to => 'eth0'
+    assert_equal '11:22:33:44:55:66', n.inheriting_mac
+  end
+
   private
 
   def setup_primary_nic_with_name(name, opts = {})
