@@ -101,6 +101,18 @@ class NicTest < ActiveSupport::TestCase
     refute_includes nic.errors.keys, :identifier
   end
 
+  test "Bond requires identifier if managed" do
+    nic = FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1', :managed => true, :identifier => 'bond0')
+    nic.valid?
+    refute_includes nic.errors.keys, :identifier
+  end
+
+  test "Bond does not require identifier if not managed" do
+    nic = FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1', :managed => false, :identifier => '')
+    nic.valid?
+    refute_includes nic.errors.keys, :identifier
+  end
+
   context 'physical?' do
     test 'returns true for a physical interface' do
       nic = FactoryGirl.build(:nic_managed, :virtual => false)
