@@ -1,3 +1,27 @@
+2015-03-04	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.7.3
+	* refs #8817 - Revert "fixes #5841 - use inner query when retrieving reports for subset of authorised hosts"
+	* fixes #8565 - only get unique, unused message/source IDs to speed up expiry
+	* fixes #8739 - use global setting when hostgroup root_pass is blank
+
+2015-03-04	Tom Caspy <tcaspy@gmail.com>
+	* fixes #9118 - host mailer should not fail if no owner set for host
+	* fixes #9274 - hostgroup#clone clones config groups
+	* fixes #5812 - url parameter in compute_resource#create is not required for EC2, removing the required flag
+
+2015-03-04	David Davis <daviddavis@redhat.com>
+	* Fixes #9231 - Require English lib and fix ENC failure
+
+2015-03-04	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #6884 - Installation media without $minor generate broken $version
+
+2015-03-04	William Hutson <wilrnh@msn.com>
+	* Fixes #9193 - broken rake-config command
+
+2015-03-04	Marek Hulan <mhulan@redhat.com>
+	* Fixes #8052 - allows erb in array and hash params
+	* Fixes #9044 - fixes invalid mac in tests
+
 2015-01-27	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.7.2
 	* fixes #9084 - catch net-ldap 0.11's specific invalid filter exception
