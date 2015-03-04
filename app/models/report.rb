@@ -34,7 +34,8 @@ class Report < ActiveRecord::Base
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
     unless User.current.admin? and Organization.current.nil? and Location.current.nil?
-      where(:reports => {:host_id => Host.authorized(:view_hosts, Host)})
+      host_ids = Host.authorized(:view_hosts, Host).select("hosts.id").all
+      where(:reports => {:host_id => host_ids})
     end
   }
 
