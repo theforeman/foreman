@@ -4,8 +4,11 @@
   <% if @common_parameter.hidden_value? %>
     <%= password_f f, :value, :size => "col-md-8", :value => @common_parameter.value %>
   <% else %>
-    <%= text_f f, :value, :size => "col-md-8" %>
+    <%= textarea_f(f, :value,
+                      :class => "form-control value col-md-8",
+                      :rows => line_count(f, :value),
+                      :placeholder => _("Value")) %>
   <% end %>
-  <%= checkbox_f f, :hidden_value, :class => 'hidden_value_text_switch', :checked => f.object.hidden_value? %>
+  <%= checkbox_f f, :hidden_value, :class => 'hidden_value_textarea_switch', :checked => f.object.hidden_value? %>
   <%= submit_or_cancel f %>
 <% end %>
