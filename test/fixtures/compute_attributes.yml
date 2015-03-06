@@ -29,7 +29,7 @@ four:
     memory: 4294967296
 
 with_interfaces:
-  compute_profile: two
+  compute_profile: four
   compute_resource: one
   vm_attrs:
     nics_attributes:

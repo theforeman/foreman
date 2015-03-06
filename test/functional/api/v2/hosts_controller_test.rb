@@ -5,12 +5,10 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     @host = FactoryGirl.create(:host)
   end
 
-  def valid_attrs
+  def basic_attrs
     { :name                => 'testhost11',
       :environment_id      => environments(:production).id,
       :domain_id           => domains(:mydomain).id,
-      :ip                  => '10.0.0.20',
-      :mac                 => '52:53:00:1e:85:93',
       :ptable_id           => ptables(:one).id,
       :medium_id           => media(:one).id,
       :architecture_id     => Architecture.find_by_name('x86_64').id,
@@ -21,6 +19,44 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       :location_id         => taxonomies(:location1).id,
       :organization_id     => taxonomies(:organization1).id
     }
+  end
+
+  def valid_attrs
+    net_attrs = {
+      :ip  => '10.0.0.20',
+      :mac => '52:53:00:1e:85:93'
+    }
+    basic_attrs.merge(net_attrs)
+  end
+
+  def basic_attrs_with_profile(compute_attrs)
+    basic_attrs.merge(
+      :compute_resource_id => compute_attrs.compute_resource_id,
+      :compute_profile_id => compute_attrs.compute_profile_id
+    )
+  end
+
+  def nics_attrs
+    [{
+      :primary => true,
+      :ip => '10.0.0.20',
+      :mac => '00:11:22:33:44:00'
+    },{
+      :type => 'bmc',
+      :provider => 'IPMI',
+      :mac => '00:11:22:33:44:01'
+    },{
+      :mac => '00:11:22:33:44:02',
+      :_destroy => 1
+    }]
+  end
+
+  def expected_compute_attributes(compute_attrs, index)
+    compute_attrs.vm_interfaces[index].update("from_profile" => compute_attrs.compute_profile.name)
+  end
+
+  def last_host
+    Host.order('id asc').last
   end
 
   test "should get index" do
@@ -46,17 +82,80 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should create interfaces" do
+    disable_orchestration
+
+    post :create, { :host => basic_attrs.merge!(:interfaces_attributes => nics_attrs) }
+    assert_response :success
+    assert_equal 2, last_host.interfaces.count
+
+    assert last_host.interfaces.find_by_mac('00:11:22:33:44:00').primary?
+    assert_equal Nic::Managed, last_host.interfaces.find_by_mac('00:11:22:33:44:00').class
+    assert_equal Nic::BMC,     last_host.interfaces.find_by_mac('00:11:22:33:44:01').class
+  end
+
+  test "should create interfaces sent in a hash" do
+    disable_orchestration
+    hash_nics_attrs = nics_attrs.inject({}) do |hash, item|
+      hash.update(item.to_s => item)
+    end
+
+    post :create, { :host => basic_attrs.merge!(:interfaces_attributes => hash_nics_attrs) }
+    assert_response :success
+    assert_equal 2, last_host.interfaces.count
+
+    assert last_host.interfaces.find_by_mac('00:11:22:33:44:00').primary?
+    assert_equal Nic::Managed, last_host.interfaces.find_by_mac('00:11:22:33:44:00').class
+    assert_equal Nic::BMC,     last_host.interfaces.find_by_mac('00:11:22:33:44:01').class
+  end
+
+  test "should fail with unknown interface type" do
+    disable_orchestration
+
+    attrs = basic_attrs.merge!(:interfaces_attributes => nics_attrs)
+    attrs[:interfaces_attributes][0][:type] = "unknown"
+
+    post :create, { :host => attrs }
+    assert_response :unprocessable_entity
+    assert_match /Unknown interface type/, JSON.parse(response.body)['error']['message']
+  end
+
+  test "should create interfaces from compute profile" do
+    disable_orchestration
+
+    compute_attrs = compute_attributes(:with_interfaces)
+    post :create, { :host => basic_attrs_with_profile(compute_attrs).merge(:interfaces_attributes =>  nics_attrs) }
+    assert_response :success
+
+    assert_equal compute_attrs.vm_interfaces.count, last_host.interfaces.count
+    assert_equal expected_compute_attributes(compute_attrs, 0), last_host.interfaces.find_by_mac('00:11:22:33:44:00').compute_attributes
+    assert_equal expected_compute_attributes(compute_attrs, 1), last_host.interfaces.find_by_mac('00:11:22:33:44:01').compute_attributes
+  end
+
   test "should create host with managed is false if parameter is passed" do
     disable_orchestration
     post :create, { :host => valid_attrs.merge!(:managed => false) }
     assert_response :success
-    last_host = Host.order('id desc').last
     assert_equal false, last_host.managed?
   end
 
   test "should update host" do
     put :update, { :id => @host.to_param, :host => { } }
     assert_response :success
+  end
+
+  test "should update interfaces from compute profile" do
+    disable_orchestration
+
+    compute_attrs = compute_attributes(:with_interfaces)
+
+    put :update, { :id => @host.to_param, :host => basic_attrs_with_profile(compute_attrs) }
+    assert_response :success
+
+    @host.interfaces.reload
+    assert_equal compute_attrs.vm_interfaces.count, @host.interfaces.count
+    assert_equal expected_compute_attributes(compute_attrs, 0), @host.interfaces.find_by_primary(true).compute_attributes
+    assert_equal expected_compute_attributes(compute_attrs, 1), @host.interfaces.find_by_primary(false).compute_attributes
   end
 
   test "should update host without :host root node and rails wraps it correctly" do
