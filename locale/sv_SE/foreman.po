@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-02-13 10:22+0000\n"
+"PO-Revision-Date: 2015-02-25 10:08+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/l"
 "anguage/sv_SE/)\n"
@@ -124,11 +124,11 @@ msgid ""
 "use this one instead?"
 msgstr ""
 
-msgid "Build"
-msgstr "Bygg"
-
 msgid "Reboot and build"
 msgstr ""
+
+msgid "Build"
+msgstr "Bygg"
 
 msgid "Select All"
 msgstr "Välj Alla"
@@ -161,16 +161,16 @@ msgstr ""
 msgid "new"
 msgstr "ny"
 
-msgid "Strong"
-msgstr ""
-
-msgid "Normal"
+msgid "Very Strong"
 msgstr ""
 
 msgid "Weak"
 msgstr ""
 
-msgid "Very Strong"
+msgid "Strong"
+msgstr ""
+
+msgid "Normal"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -233,7 +233,7 @@ msgstr ""
 msgid "unknown permission for %s"
 msgstr ""
 
-msgid "for Libvirt and Vmware only"
+msgid "for Libvirt and VMware only"
 msgstr ""
 
 msgid "Cannot delete group %{current} because it has nested groups."
@@ -388,13 +388,13 @@ msgstr ""
 msgid "URL for Libvirt, Ovirt, and Openstack"
 msgstr ""
 
-msgid "Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2."
+msgid "Username for Ovirt, EC2, VMware, Openstack. Access Key for EC2."
 msgstr ""
 
-msgid "Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2"
+msgid "Password for Ovirt, EC2, VMware, Openstack. Secret key for EC2"
 msgstr ""
 
-msgid "for Ovirt, Vmware Datacenter"
+msgid "for Ovirt, VMware Datacenter"
 msgstr ""
 
 msgid "for EC2 only"
@@ -403,7 +403,7 @@ msgstr ""
 msgid "for Openstack only"
 msgstr ""
 
-msgid "for Vmware"
+msgid "for VMware"
 msgstr ""
 
 msgid "Create a compute resource"
@@ -1803,10 +1803,10 @@ msgstr "Valda värdar är nu tilldelade %s"
 msgid "The marked fields will need reviewing"
 msgstr "Markerade fält behöver granskas"
 
-msgid "Template locked"
+msgid "Template unlocked"
 msgstr ""
 
-msgid "Template unlocked"
+msgid "Template locked"
 msgstr ""
 
 msgid "External user group %{name} refreshed"
@@ -1818,22 +1818,20 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr "Följande fält behöver granskas"
 
+msgid "PXE"
+msgstr "PXE"
+
 msgid "CDROM"
 msgstr "CDläsare"
 
 msgid "BIOS"
 msgstr "BIOS"
 
-msgid "PXE"
-msgstr "PXE"
-
 msgid "Disk"
 msgstr "Hårddisk"
 
-msgid ""
-"Unable to generate output, Check log files\n"
+msgid "Unable to generate output, Check log files"
 msgstr ""
-"Misslyckades med att generera utdata. Kolla logfiler\n"
 
 msgid "Successfully executed, check log files for more details"
 msgstr "Lyckad exekvering, kolla loggefiler för mer detaljer"
@@ -1980,11 +1978,11 @@ msgstr "Lyckades förstöra rapport."
 msgid "Role cloned from role %{old_name}"
 msgstr ""
 
-msgid "No changes found when refreshing features from %s."
-msgstr "Inga ändringar funna vid uppdatering av funktioner från %s."
-
 msgid "Successfully refreshed features from %s."
 msgstr "Lyckades uppdatera funktioner från %s."
+
+msgid "No changes found when refreshing features from %s."
+msgstr "Inga ändringar funna vid uppdatering av funktioner från %s."
 
 msgid "%s core"
 msgid_plural "%s cores"
@@ -2089,20 +2087,20 @@ msgstr ""
 msgid "Paused"
 msgstr "Pausad"
 
-msgid "On"
-msgstr "På"
-
 msgid "Off"
 msgstr "Av"
+
+msgid "On"
+msgstr "På"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "Är du säker på att du vill starta/stänga %{act} %{vm}?"
 
-msgid "Pause"
-msgstr "Paus"
-
 msgid "Resume"
 msgstr "Återuppta"
+
+msgid "Pause"
+msgstr "Paus"
 
 msgid "Are you sure you want to %{act} %{vm}?"
 msgstr "Är du säker att du vill %{act} %{vm}?"
@@ -2208,12 +2206,12 @@ msgstr "Minuter Sedan"
 msgid "Number Of Clients"
 msgstr "Antal Klienter"
 
+msgid "Applied"
+msgstr "Tillämpad"
+
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr "A"
-
-msgid "Applied"
-msgstr "Tillämpad"
 
 msgid "Restarted"
 msgstr "Omstartad"
@@ -2229,12 +2227,12 @@ msgstr "Misslyckad"
 msgid "Failed|F"
 msgstr "F"
 
+msgid "Failed Restarts"
+msgstr "Misslyckade Omstarter"
+
 #. TRANSLATORS: initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
 msgstr "FR"
-
-msgid "Failed Restarts"
-msgstr "Misslyckade Omstarter"
 
 msgid "Skipped"
 msgstr "Skippad"
@@ -2365,11 +2363,11 @@ msgstr "%s - Följande värdar kommer att ändras"
 msgid "Failed restarts"
 msgstr "Misslyckade omstarter"
 
-msgid "Config Retrieval"
-msgstr "Konfigurationshämtning"
-
 msgid "Runtime"
 msgstr "Exekveringsmiljö"
+
+msgid "Config Retrieval"
+msgstr "Konfigurationshämtning"
 
 msgid "Reports from the last %{days} days - %{count} reports found"
 msgstr "Rapporter från de senaste %{days} dagarna - %{count} rapporter funna"
@@ -2454,17 +2452,17 @@ msgstr "Kör puppet"
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr "Trigga en puppetrun på en nod; kräver att puppetrun är aktiverat"
 
-msgid "Audits"
-msgstr "Revisioner"
-
 msgid "Host audit entries"
 msgstr "Värdgranskningslogg"
 
-msgid "Browse host facts"
-msgstr "Bläddra värdfakta"
+msgid "Audits"
+msgstr "Revisioner"
 
 msgid "Facts"
 msgstr "Fakta"
+
+msgid "Browse host facts"
+msgstr "Bläddra värdfakta"
 
 msgid "Reports"
 msgstr "Rapporter"
@@ -2472,20 +2470,20 @@ msgstr "Rapporter"
 msgid "Browse host reports"
 msgstr "Bläddra värdrapporter"
 
-msgid "Puppet external nodes YAML dump"
-msgstr "Puppet externa noder YAML-export"
-
 msgid "YAML"
 msgstr "YAML"
+
+msgid "Puppet external nodes YAML dump"
+msgstr "Puppet externa noder YAML-export"
 
 msgid "Allocation (GB)"
 msgstr "Allokering(GB)"
 
-msgid "Full"
-msgstr "Full"
-
 msgid "Size"
 msgstr "Storlek"
+
+msgid "Full"
+msgstr "Full"
 
 msgid "remove network interface"
 msgstr "ta bort nätvärkskort"
@@ -2506,11 +2504,11 @@ msgstr "Redigera %s"
 msgid "Image"
 msgstr "Avbildning"
 
-msgid "Image ID"
-msgstr "Avbildningsid"
-
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "Avbildsid tillhandahållen från beräkningsresursen, t.ex. ami-.."
+
+msgid "Image ID"
+msgstr "Avbildningsid"
 
 msgid "Submit"
 msgstr "Sänd"
@@ -2553,6 +2551,9 @@ msgstr "Puppetklass"
 msgid "Puppet Class"
 msgstr "Puppet Klass"
 
+msgid "Parameter types"
+msgstr ""
+
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2569,9 +2570,6 @@ msgstr ""
 "a till en array.</dd><dt>Hash</dt> <dd>Giltig JSON- eller YAML-indata som måst"
 "e evaluera till object/map/dict/hash.</dd><dt>YAML</dt> <dd>All giltig YAML-in"
 "data.</dd><dt>JSON</dt> <dd>All giltig JSON-indata.</dd></dl>"
-
-msgid "Parameter types"
-msgstr ""
 
 msgid "How values are validated"
 msgstr "Hur värden valideras"
@@ -2621,14 +2619,14 @@ msgstr ""
 msgid "No value warning"
 msgstr "Varning, inget värde"
 
-msgid "pending"
-msgstr "kommande"
+msgid "revoked"
+msgstr "återkallad"
 
 msgid "valid"
 msgstr "giltig"
 
-msgid "revoked"
-msgstr "återkallad"
+msgid "pending"
+msgstr "kommande"
 
 msgid "in %s"
 msgstr "i %s"
@@ -2683,11 +2681,11 @@ msgstr "Enbart fel"
 msgid "All messages"
 msgstr "Alla meddelanden"
 
-msgid "Notices, warnings and errors"
-msgstr "Notiser, varningar och fel"
-
 msgid "Warnings and errors"
 msgstr "Varningar och fel"
+
+msgid "Notices, warnings and errors"
+msgstr "Notiser, varningar och fel"
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -2726,14 +2724,14 @@ msgstr "Hårdvara"
 msgid "Class Distribution"
 msgstr "Klassdistribution"
 
-msgid "free memory"
-msgstr ""
+msgid "Average memory usage"
+msgstr "Genomsnittlig minnesanvändning"
 
 msgid "used memory"
 msgstr ""
 
-msgid "Average memory usage"
-msgstr "Genomsnittlig minnesanvändning"
+msgid "free memory"
+msgstr ""
 
 msgid "used swap"
 msgstr ""
@@ -2749,6 +2747,12 @@ msgstr "Alla Organisationer"
 
 msgid "Any Location"
 msgstr "Alla Platser"
+
+msgid "New Location"
+msgstr "Ny Lokation"
+
+msgid "New Organization"
+msgstr "Ny Organisation"
 
 msgid "Operating system"
 msgstr "Operativsystem"
@@ -3253,34 +3257,34 @@ msgstr "värdgrupp"
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
-msgid "json"
-msgstr ""
-
-msgid "yaml"
-msgstr ""
-
-msgid "string"
-msgstr ""
-
-msgid "hash"
+msgid "array"
 msgstr ""
 
 msgid "real"
 msgstr ""
 
+msgid "yaml"
+msgstr ""
+
+msgid "json"
+msgstr ""
+
+msgid "hash"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
+
 msgid "integer"
 msgstr ""
 
-msgid "array"
+msgid "list"
 msgstr ""
 
 msgid "regexp"
-msgstr ""
-
-msgid "list"
 msgstr ""
 
 msgid "invalid"
@@ -3319,13 +3323,13 @@ msgstr "%{match} matchar inte en existerande värd"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} matchar inte en existerande värdgrupp"
 
-msgid "Daily"
+msgid "Weekly"
 msgstr ""
 
 msgid "Monthly"
 msgstr ""
 
-msgid "Weekly"
+msgid "Daily"
 msgstr ""
 
 msgid ""
@@ -3986,23 +3990,26 @@ msgstr ""
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "reset"
-msgstr "återställ"
-
-msgid "start"
-msgstr "start"
-
 msgid "poweroff"
 msgstr "stäng av"
-
-msgid "state"
-msgstr "tillstånd"
 
 msgid "stop"
 msgstr "stop"
 
+msgid "start"
+msgstr "start"
+
 msgid "reboot"
 msgstr "omstart"
+
+msgid "state"
+msgstr "tillstånd"
+
+msgid "reset"
+msgstr "återställ"
+
+msgid "soft"
+msgstr "mjuk"
 
 msgid "off"
 msgstr "av"
@@ -4010,17 +4017,14 @@ msgstr "av"
 msgid "on"
 msgstr "på"
 
-msgid "soft"
-msgstr "mjuk"
-
-msgid "ready?"
-msgstr ""
-
 msgid "status"
 msgstr "status"
 
 msgid "cycle"
 msgstr "period"
+
+msgid "ready?"
+msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "Felaktig strömläges begäran: %{action}, åtgärder som stöds är %{supported}"
@@ -4292,11 +4296,11 @@ msgstr "Base DN"
 msgid "Groups base DN"
 msgstr ""
 
-msgid "LDAP filter"
-msgstr "Ldap-filter"
-
 msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr "Eget LDAP sökfilter, <i>optional</i>"
+
+msgid "LDAP filter"
+msgstr "Ldap-filter"
 
 msgid ""
 "LDAP users will have their Foreman account automatically created the first tim"
@@ -4424,24 +4428,20 @@ msgstr "Var god och försök uppdatera din begäran"
 msgid "Oops, we're sorry but something went wrong"
 msgstr "Hoppsan, vi är ledsna, men något gick fel"
 
-msgid "If you feel this is an error with Foreman itself, please open a new issue with"
-msgstr "Om du tror att detta är ett fel med Foreman, var vänlig öppna en ny bugg med"
-
 msgid "Foreman ticketing system"
 msgstr "Foreman biljettsystem"
+
+msgid "If you feel this is an error with Foreman itself, please open a new issue with"
+msgstr "Om du tror att detta är ett fel med Foreman, var vänlig öppna en ny bugg med"
 
 msgid "You would probably need to attach the"
 msgstr "Du skulle antagligen behöva ansluta"
 
-msgid "Full trace"
-msgstr "Fullständigt spårning"
-
 msgid "and relevant log entries."
 msgstr "och relevanta loggrader"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Subnet"
-msgstr "Subnät"
+msgid "Full trace"
+msgstr "Fullständigt spårning"
 
 msgid "None Found"
 msgstr "Ingen hittad"
@@ -4482,11 +4482,11 @@ msgstr "Puppetmoduler"
 msgid "Check/Uncheck all %s changes"
 msgstr "Markera/Avmarkera samtliga %s ändringar"
 
-msgid "Remove:"
-msgstr "Ta bort:"
-
 msgid "Update:"
 msgstr "Uppdatera:"
+
+msgid "Remove:"
+msgstr "Ta bort:"
 
 msgid "Add:"
 msgstr "Lägg till:"
@@ -4503,11 +4503,11 @@ msgstr "Bokmärk denna sökning"
 msgid "Add Bookmark"
 msgstr "Lägg till bokmärke"
 
-msgid "OS Image"
-msgstr "OSAvbildning"
-
 msgid "Build from OS image"
 msgstr "Bygg från OS-avbild"
+
+msgid "OS Image"
+msgstr "OSAvbildning"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
@@ -4528,11 +4528,11 @@ msgstr ""
 msgid "Actions"
 msgstr "Åtgärder"
 
-msgid "override"
-msgstr "tvinga"
-
 msgid "Override this value"
 msgstr "Tvinga detta värde"
+
+msgid "override"
+msgstr "tvinga"
 
 msgid "Global"
 msgstr "Global"
@@ -4635,11 +4635,11 @@ msgstr "Hemlig Nyckel"
 msgid "Region"
 msgstr "Region"
 
-msgid "Load Regions"
-msgstr "Ladda Regioner"
-
 msgid "Test Connection"
 msgstr "Testa annslutning"
+
+msgid "Load Regions"
+msgstr "Ladda Regioner"
 
 msgid "Google Project ID"
 msgstr "Google Project ID"
@@ -4753,11 +4753,11 @@ msgstr "VM-Attribut"
 msgid "URL"
 msgstr "URL"
 
-msgid "Enabled"
-msgstr "Aktiverad"
-
 msgid "Disabled"
 msgstr "Inaktiverad"
+
+msgid "Enabled"
+msgstr "Aktiverad"
 
 msgid "There was an error listing VMs: %s"
 msgstr "Fel vid listning av VMs: %s"
@@ -4768,26 +4768,30 @@ msgstr "Variant"
 msgid "Please select an image"
 msgstr "Vänligen välj en avbildning"
 
-msgid "Availability zone"
-msgstr "Tillgänglighetszon"
-
 msgid "No preference"
 msgstr "Ingen preferens"
+
+msgid "Availability zone"
+msgstr "Tillgänglighetszon"
 
 msgid "EC2"
 msgstr "EC2"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Subnet"
+msgstr "Subnät"
+
 msgid "Security groups"
 msgstr "Säkerhetsgrupper"
-
-msgid "Public"
-msgstr "Publik"
 
 msgid "Managed IP"
 msgstr "Managerad IP"
 
 msgid "Private"
 msgstr "Privat"
+
+msgid "Public"
+msgstr "Publik"
 
 msgid "Machine type"
 msgstr "Maskintyp"
@@ -4824,11 +4828,11 @@ msgstr "Minne"
 msgid "Storage"
 msgstr "Lagring"
 
-msgid "Add Volume"
-msgstr "Lägg till Volym"
-
 msgid "add new storage volume"
 msgstr "lägg till ny lagringsvolym"
+
+msgid "Add Volume"
+msgstr "Lägg till Volym"
 
 msgid "Start"
 msgstr "Start"
@@ -4921,10 +4925,10 @@ msgstr "ta bort volym"
 msgid "Storage domain"
 msgstr "Lagringsdomän"
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -4957,11 +4961,11 @@ msgstr "Kraft"
 msgid "New Virtual Machine"
 msgstr "Ny Virtuell Maskin"
 
-msgid "Associate VM"
-msgstr "Associera VM"
-
 msgid "Associate VM to a Foreman host"
 msgstr "Associera VMen till en Foreman värd"
+
+msgid "Associate VM"
+msgstr "Associera VM"
 
 msgid "Properties"
 msgstr "Egenskaper"
@@ -5044,11 +5048,11 @@ msgstr ""
 msgid "clone"
 msgstr ""
 
-msgid "Useful template functions and macros"
-msgstr "Användbara mallfunktioner och makron"
-
 msgid "Note: %s "
 msgstr "Notera: %s"
+
+msgid "Useful template functions and macros"
+msgstr "Användbara mallfunktioner och makron"
 
 msgid "Template editor"
 msgstr "Malleditor"
@@ -5087,11 +5091,11 @@ msgstr "Återgå"
 msgid "Show Diff"
 msgstr "Visa Skillnad"
 
-msgid "Save something and try again"
-msgstr "Spara något och försök igen"
-
 msgid "No history found"
 msgstr "Ingen historik hittad"
+
+msgid "Save something and try again"
+msgstr "Spara något och försök igen"
 
 msgid "Not relevant for snippet"
 msgstr "Inte relevant för remsa"
@@ -5332,13 +5336,13 @@ msgstr ""
 msgid "For internal Users, simply create a new user at the %s page"
 msgstr ""
 
-msgid "LDAP"
-msgstr "LDAP"
-
 msgid ""
 "If you chose to use LDAP authentication then you must provide connection detai"
 "ls for your authentication provider on %s page"
 msgstr ""
+
+msgid "LDAP"
+msgstr "LDAP"
 
 msgid "For Roles and permissions, see the %s page"
 msgstr ""
@@ -5436,13 +5440,13 @@ msgstr "Parametrar"
 msgid "Full name describing the domain"
 msgstr "Fullständigt namn som beskriver domänen"
 
+msgid "DNS Proxy"
+msgstr "DNS Proxy"
+
 msgid ""
 "DNS proxy to use within this domain for managing A records, note that PTR reco"
 "rds are managed via Subnet DNS proxy"
 msgstr ""
-
-msgid "DNS Proxy"
-msgstr "DNS Proxy"
 
 msgid "Edit Domain"
 msgstr "Redigera Domän"
@@ -5768,11 +5772,11 @@ msgstr ""
 "Dessa två alternativ är personliga val och är upp till dig ( där den huvudsakl"
 "iga skillnaden är parameter/variabel inställningar )."
 
-msgid "Select Hosts"
-msgstr "Välj Värdar"
-
 msgid "Assign Selected Hosts"
 msgstr "Tilldela Valda Värdar"
+
+msgid "Select Hosts"
+msgstr "Välj Värdar"
 
 msgid "Create %s"
 msgstr "Skapa %s"
@@ -5867,11 +5871,11 @@ msgstr "Inkluderade Parametrar via arv"
 msgid "Host Parameters"
 msgstr "Värdparametrar"
 
-msgid "select an owner"
-msgstr "välj en ägare"
-
 msgid "Owned By"
 msgstr "Ägd Av"
+
+msgid "select an owner"
+msgstr "välj en ägare"
 
 msgid "Include this host within Foreman reporting"
 msgstr "Inkludera denna värd inom Foremanrapportering"
@@ -5978,11 +5982,11 @@ msgstr "Ctrl-Alt-Del"
 msgid "Troubleshooting"
 msgstr ""
 
-msgid "New window"
-msgstr "Nytt fönster"
-
 msgid "Open Spice in a new window"
 msgstr "Öppna Spice i ett nytt fönster"
+
+msgid "New window"
+msgstr "Nytt fönster"
 
 msgid "Connecting (unencrypted) to: %s"
 msgstr "Ansluter (okrypterat) till: %s"
@@ -6059,11 +6063,11 @@ msgstr "*Rensa miljö*"
 msgid "*Inherit from host group*"
 msgstr "*Ärv från värdgrupp*"
 
-msgid "Select host group"
-msgstr "Välj värdgrupp"
-
 msgid "*Clear host group*"
 msgstr "*Rensa värdgrupp*"
+
+msgid "Select host group"
+msgstr "Välj värdgrupp"
 
 msgid "Select Location"
 msgstr "Välj Lokation"
@@ -6170,10 +6174,10 @@ msgstr "(frivillig) IAM-roll för Fog att använda när avbilden skapas."
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
-msgid "Full path to backing image used to create new volumes."
+msgid "Image path"
 msgstr ""
 
-msgid "Image path"
+msgid "Full path to backing image used to create new volumes."
 msgstr ""
 
 msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
@@ -6201,9 +6205,6 @@ msgstr "Förstör"
 msgid "You are using an unsupported browser."
 msgstr "Du använder en webbläsare som inte stöds"
 
-msgid "New Location"
-msgstr "Ny Lokation"
-
 msgid "Location configuration"
 msgstr "Lokationskonfiguration"
 
@@ -6227,11 +6228,11 @@ msgstr ""
 "Till exempel, det kanske finns ett datahall i London och en i Virginia: dessa "
 "är lokationer. Lokationer fungerar även bra tillsammans med"
 
-msgid "Remove %s?"
-msgstr "Radera %s?"
-
 msgid "Variable"
 msgstr "Variabel"
+
+msgid "Remove %s?"
+msgstr "Radera %s?"
 
 msgid "Whether the smart variable value is managed by Foreman"
 msgstr ""
@@ -6294,6 +6295,9 @@ msgstr "Lägg till Matcher-Value"
 msgid "add a new matcher-value pair"
 msgstr "lägg till ett nytt matchvärdepar"
 
+msgid "Explain matchers"
+msgstr ""
+
 msgid ""
 "Matcher is a combination of an attribute and its value, if they match, the val"
 "ue below would be provided.<br> You may use any attribute foreman knows about,"
@@ -6304,9 +6308,6 @@ msgstr ""
 "rneras nedan värde. <br> Du kan använda attribut som foreman känner till, så s"
 "om fakta, etc, till exempel: <code> domain = example.com </code> eller <code> "
 "is_virtual = true</code>"
-
-msgid "Explain matchers"
-msgstr ""
 
 msgid "Matcher"
 msgstr "Matchare"
@@ -6342,11 +6343,11 @@ msgstr "NFS-sökvägen till kontrollfiler för jumpstart"
 msgid "The NFS path to the image directory."
 msgstr "NFS-sökvägen till avbildningsbiblioteket."
 
-msgid "Operating system family"
-msgstr ""
-
 msgid "Choose a family"
 msgstr "Välj en familj"
+
+msgid "Operating system family"
+msgstr ""
 
 msgid "Edit Medium"
 msgstr "Redigera Medium"
@@ -6556,9 +6557,6 @@ msgstr "Namn"
 msgid "New Operating System"
 msgstr "Nytt Operativsystem"
 
-msgid "New Organization"
-msgstr "Ny Organisation"
-
 msgid "Organization configuration"
 msgstr "Organisationskonfiguration"
 
@@ -6585,11 +6583,11 @@ msgstr "Organisationer fungerar även bra tillsammans med"
 msgid "locations"
 msgstr "lokationer"
 
-msgid "a script as well"
-msgstr "ett skript också"
-
 msgid "you may use %s"
 msgstr "du kan använda %s"
+
+msgid "a script as well"
+msgstr "ett skript också"
 
 msgid "Edit Partition Table"
 msgstr "Redigera Partitionstabell"
@@ -6721,16 +6719,16 @@ msgstr "Miljöer och dokumentation"
 msgid "Variables"
 msgstr ""
 
-msgid "Override all parameters"
-msgstr ""
-
 msgid "This will set all parameters of the class %s as overridden. Continue?"
 msgstr ""
 
-msgid "Set parameters to defaults"
+msgid "Override all parameters"
 msgstr ""
 
 msgid "This will reset parameters of the class %s to their default values. Continue?"
+msgstr ""
+
+msgid "Set parameters to defaults"
 msgstr ""
 
 msgid "Oops"
@@ -6752,16 +6750,16 @@ msgstr ""
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr ""
 
-msgid "Realm type"
-msgstr ""
-
 msgid "Type of realm, e.g. FreeIPA"
 msgstr ""
 
-msgid "Realm proxy"
+msgid "Realm type"
 msgstr ""
 
 msgid "Realm proxy to use within this realm"
+msgstr ""
+
+msgid "Realm proxy"
 msgstr ""
 
 msgid "Edit Realm"
@@ -6917,9 +6915,16 @@ msgstr "Valfritt: Sekundär DNS för detta subnät"
 msgid "IPAM"
 msgstr ""
 
+msgid "IP Address Management"
+msgstr ""
+
 msgid ""
-"IP Address auto suggestion mode for this subnet, DHCP works with DHCP proxy on"
-"ly"
+"You can select one of three possible IPAM modes:<br/><ul><li><strong>DHCP</str"
+"ong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested "
+"IPs come from DHCP</li><li><strong>Internal DB</strong> - use internal DB to a"
+"uto-suggest free IP based on other interfaces on same subnet respecting range "
+"if specified, useful mainly with static boot mode</li><li><strong>None</strong"
+"> - leave IP management solely on user, no auto-suggestion</li></ul>"
 msgstr ""
 
 msgid "Optional: Starting IP Address for IP auto suggestion"
@@ -7076,9 +7081,6 @@ msgstr "Klona %s"
 msgid "Fix Mismatches"
 msgstr "Rätta matchningsfel"
 
-msgid "New %s"
-msgstr "Ny %s"
-
 msgid "Mismatches Report"
 msgstr "Rapport för matchningsfel"
 
@@ -7230,11 +7232,11 @@ msgstr "Ny Användargrupp"
 msgid "Mail Preferences"
 msgstr ""
 
-msgid "Language"
-msgstr ""
-
 msgid "Browser locale"
 msgstr "Webbläsarens språkinställning"
+
+msgid "Language"
+msgstr ""
 
 msgid "Browser timezone"
 msgstr ""

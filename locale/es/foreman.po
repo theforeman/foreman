@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-02-13 10:22+0000\n"
+"PO-Revision-Date: 2015-02-25 10:08+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/foreman/language/e"
 "s/)\n"
@@ -137,11 +137,11 @@ msgid ""
 "use this one instead?"
 msgstr ""
 
-msgid "Build"
-msgstr "Construir"
-
 msgid "Reboot and build"
 msgstr "Reiniciar y reconstruir"
+
+msgid "Build"
+msgstr "Construir"
 
 msgid "Select All"
 msgstr "Seleccionar Todo"
@@ -174,17 +174,17 @@ msgstr "El padre ya está seleccionado"
 msgid "new"
 msgstr "nuevo"
 
+msgid "Very Strong"
+msgstr "Muy fuerte"
+
+msgid "Weak"
+msgstr "Débil"
+
 msgid "Strong"
 msgstr "Fuerte"
 
 msgid "Normal"
 msgstr "Normal"
-
-msgid "Weak"
-msgstr "Débil"
-
-msgid "Very Strong"
-msgstr "Muy fuerte"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
@@ -248,8 +248,8 @@ msgstr "%{resource_name} no encotrado con id '%{id}'"
 msgid "unknown permission for %s"
 msgstr "permisos desconocidos para %s"
 
-msgid "for Libvirt and Vmware only"
-msgstr "solo para Libvirt y VMware"
+msgid "for Libvirt and VMware only"
+msgstr ""
 
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "No puedo borrar el grupo %{current} porque tiene grupos anidados."
@@ -405,16 +405,14 @@ msgstr "Los proveedores incluyen %{providers}"
 msgid "URL for Libvirt, Ovirt, and Openstack"
 msgstr "URL para Libvirt, Ovirt, and Openstack"
 
-msgid "Username for Ovirt, EC2, Vmware, Openstack. Access Key for EC2."
+msgid "Username for Ovirt, EC2, VMware, Openstack. Access Key for EC2."
 msgstr ""
-"Nombre de usuario para Ovirt, Ovirt, EC2, Vmware, Openstack. Clave de acceso E"
-"C2."
 
-msgid "Password for Ovirt, EC2, Vmware, Openstack. Secret key for EC2"
-msgstr "Contraseña de Ovirt, EC2, Vmware, Openstack, Clave secreta para EC2"
+msgid "Password for Ovirt, EC2, VMware, Openstack. Secret key for EC2"
+msgstr ""
 
-msgid "for Ovirt, Vmware Datacenter"
-msgstr "para Ovirt, VMware Datacenter"
+msgid "for Ovirt, VMware Datacenter"
+msgstr ""
 
 msgid "for EC2 only"
 msgstr "solo para EC2"
@@ -422,8 +420,8 @@ msgstr "solo para EC2"
 msgid "for Openstack only"
 msgstr "solo para Openstack"
 
-msgid "for Vmware"
-msgstr "para Vmware"
+msgid "for VMware"
+msgstr ""
 
 msgid "Create a compute resource"
 msgstr "Crear un recurso de cómputo"
@@ -1875,11 +1873,11 @@ msgstr "Los hosts seleccionados han sido asignados a %s"
 msgid "The marked fields will need reviewing"
 msgstr "Los campos marcados necesitan ser revisados"
 
-msgid "Template locked"
-msgstr "Plantilla bloqueada"
-
 msgid "Template unlocked"
 msgstr "Plantilla desbloqueada"
+
+msgid "Template locked"
+msgstr "Plantilla bloqueada"
 
 msgid "External user group %{name} refreshed"
 msgstr "Se actualizó el grupo de usuario %{name}"
@@ -1890,22 +1888,20 @@ msgstr "No se pudo actualizar el grupo de usuario %{name}"
 msgid "The following fields would need reviewing"
 msgstr "Los siguientes campos necesitan ser revisados"
 
+msgid "PXE"
+msgstr "PXE"
+
 msgid "CDROM"
 msgstr "CDROM"
 
 msgid "BIOS"
 msgstr "BIOS"
 
-msgid "PXE"
-msgstr "PXE"
-
 msgid "Disk"
 msgstr "Disco"
 
-msgid ""
-"Unable to generate output, Check log files\n"
+msgid "Unable to generate output, Check log files"
 msgstr ""
-"No se ha podido generar una salida. Comprueba los ficheros de registros\n"
 
 msgid "Successfully executed, check log files for more details"
 msgstr ""
@@ -2062,11 +2058,11 @@ msgstr "Informe eliminado correctamente."
 msgid "Role cloned from role %{old_name}"
 msgstr "Rol copiado de rol %{old_name}"
 
-msgid "No changes found when refreshing features from %s."
-msgstr "No se encontraron cambios cuando se actualizaron las características de %s"
-
 msgid "Successfully refreshed features from %s."
 msgstr "Refresco de características satisfactorio para %s."
+
+msgid "No changes found when refreshing features from %s."
+msgstr "No se encontraron cambios cuando se actualizaron las características de %s"
 
 msgid "%s core"
 msgid_plural "%s cores"
@@ -2171,20 +2167,20 @@ msgstr "<b>Origen:</b> %{type} %{name}"
 msgid "Paused"
 msgstr "Pausado"
 
-msgid "On"
-msgstr "Encendido"
-
 msgid "Off"
 msgstr "Apagado"
+
+msgid "On"
+msgstr "Encendido"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "¿Seguro de que: %{act} %{vm}?"
 
-msgid "Pause"
-msgstr "Pausar"
-
 msgid "Resume"
 msgstr "Continuar"
+
+msgid "Pause"
+msgstr "Pausar"
 
 msgid "Are you sure you want to %{act} %{vm}?"
 msgstr "¿Seguro de que: %{act} %{vm}?"
@@ -2290,12 +2286,12 @@ msgstr "Hace minutos"
 msgid "Number Of Clients"
 msgstr "Número de Clientes"
 
+msgid "Applied"
+msgstr "Aplicado"
+
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr "A"
-
-msgid "Applied"
-msgstr "Aplicado"
 
 msgid "Restarted"
 msgstr "Reiniciado"
@@ -2311,12 +2307,12 @@ msgstr "Errores"
 msgid "Failed|F"
 msgstr "F"
 
+msgid "Failed Restarts"
+msgstr "Reinicios fallidos"
+
 #. TRANSLATORS: initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
 msgstr "RF"
-
-msgid "Failed Restarts"
-msgstr "Reinicios fallidos"
 
 msgid "Skipped"
 msgstr "Omitido"
@@ -2447,11 +2443,11 @@ msgstr "%s - Los siguientes equipos están a punto de ser modificados"
 msgid "Failed restarts"
 msgstr "Fallos de reinicio"
 
-msgid "Config Retrieval"
-msgstr "Recuperar configuración"
-
 msgid "Runtime"
 msgstr "Tiempo de Ejecución"
+
+msgid "Config Retrieval"
+msgstr "Recuperar configuración"
 
 msgid "Reports from the last %{days} days - %{count} reports found"
 msgstr "Informes en los últimos %{days} días - Encontrados %{count} informes"
@@ -2538,17 +2534,17 @@ msgstr ""
 "Desencadena una ejecución de Puppet en un nodo. Es necesario que \"Puppet run\" "
 "esté habilitado."
 
-msgid "Audits"
-msgstr "Auditoría"
-
 msgid "Host audit entries"
 msgstr "Registros de auditoría de Equipo"
 
-msgid "Browse host facts"
-msgstr "Explorar detalles de host"
+msgid "Audits"
+msgstr "Auditoría"
 
 msgid "Facts"
 msgstr "Detalles"
+
+msgid "Browse host facts"
+msgstr "Explorar detalles de host"
 
 msgid "Reports"
 msgstr "Informes"
@@ -2556,20 +2552,20 @@ msgstr "Informes"
 msgid "Browse host reports"
 msgstr "Explorar informes de host"
 
-msgid "Puppet external nodes YAML dump"
-msgstr "Volcado YAML de nodos externos puppet"
-
 msgid "YAML"
 msgstr "YAML"
+
+msgid "Puppet external nodes YAML dump"
+msgstr "Volcado YAML de nodos externos puppet"
 
 msgid "Allocation (GB)"
 msgstr "Asignados (GB)"
 
-msgid "Full"
-msgstr "Lleno"
-
 msgid "Size"
 msgstr "Tamaño"
+
+msgid "Full"
+msgstr "Lleno"
 
 msgid "remove network interface"
 msgstr "eliminar interfaz de red"
@@ -2590,11 +2586,11 @@ msgstr "Editar %s"
 msgid "Image"
 msgstr "Imagen"
 
-msgid "Image ID"
-msgstr "ID imagen"
-
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "ID de la imagen facilitado por el recurso de cómputo, ejemplo: ami-.."
+
+msgid "Image ID"
+msgstr "ID imagen"
 
 msgid "Submit"
 msgstr "Enviar"
@@ -2637,6 +2633,9 @@ msgstr "Clase Puppet"
 msgid "Puppet Class"
 msgstr "Clase de Puppet"
 
+msgid "Parameter types"
+msgstr "Tipos de parámetros"
+
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2654,9 +2653,6 @@ msgstr ""
 "d>Una entrada válida de YAML o JSON, que debe resultar en un objeto/mapa/dict/"
 "hash.</dd><dt>YAML</dt> <dd>Cualquier entrada YAML válida.</dd><dt>JSON</dt> <"
 "dd>Cualquier entrada JSON válida.</dd></dl>"
-
-msgid "Parameter types"
-msgstr "Tipos de parámetros"
 
 msgid "How values are validated"
 msgstr "Cómo se validan valores"
@@ -2706,14 +2702,14 @@ msgstr ""
 msgid "No value warning"
 msgstr "No hay valor de aviso"
 
-msgid "pending"
-msgstr "pendiente"
+msgid "revoked"
+msgstr "revocados"
 
 msgid "valid"
 msgstr "válido"
 
-msgid "revoked"
-msgstr "revocados"
+msgid "pending"
+msgstr "pendiente"
 
 msgid "in %s"
 msgstr "en %s"
@@ -2768,11 +2764,11 @@ msgstr "Solo Errores"
 msgid "All messages"
 msgstr "Todos los mensajes"
 
-msgid "Notices, warnings and errors"
-msgstr "Avisos, advertencias y errores"
-
 msgid "Warnings and errors"
 msgstr "Avisos y errores"
+
+msgid "Notices, warnings and errors"
+msgstr "Avisos, advertencias y errores"
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -2811,14 +2807,14 @@ msgstr "Hardware"
 msgid "Class Distribution"
 msgstr "Distribución de Clases"
 
-msgid "free memory"
-msgstr "memoria disponible"
+msgid "Average memory usage"
+msgstr "Promedio del uso de memoria"
 
 msgid "used memory"
 msgstr "memoria utilizada"
 
-msgid "Average memory usage"
-msgstr "Promedio del uso de memoria"
+msgid "free memory"
+msgstr "memoria disponible"
 
 msgid "used swap"
 msgstr "swap utilizado"
@@ -2834,6 +2830,12 @@ msgstr "Cualquier Organización"
 
 msgid "Any Location"
 msgstr "Cualquier Lugar"
+
+msgid "New Location"
+msgstr "Nuevo lugar"
+
+msgid "New Organization"
+msgstr "Nueva Organización"
 
 msgid "Operating system"
 msgstr "Sistema Operativo"
@@ -3348,35 +3350,35 @@ msgstr "grupo de host"
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "boolean"
-msgstr "booleano"
-
-msgid "json"
-msgstr "json"
-
-msgid "yaml"
-msgstr "yaml"
-
-msgid "string"
-msgstr "cadena"
-
-msgid "hash"
-msgstr "hash"
+msgid "array"
+msgstr "vector"
 
 msgid "real"
 msgstr "real"
 
+msgid "yaml"
+msgstr "yaml"
+
+msgid "json"
+msgstr "json"
+
+msgid "hash"
+msgstr "hash"
+
+msgid "string"
+msgstr "cadena"
+
+msgid "boolean"
+msgstr "booleano"
+
 msgid "integer"
 msgstr "entero"
 
-msgid "array"
-msgstr "vector"
+msgid "list"
+msgstr "lista"
 
 msgid "regexp"
 msgstr "regexp"
-
-msgid "list"
-msgstr "lista"
 
 msgid "invalid"
 msgstr "inválido"
@@ -3416,14 +3418,14 @@ msgstr "%{match} no coincide con un host existente"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} no coincide con un grupo de host"
 
-msgid "Daily"
-msgstr "A diario"
+msgid "Weekly"
+msgstr "Semanalmente"
 
 msgid "Monthly"
 msgstr "Mensualmente"
 
-msgid "Weekly"
-msgstr "Semanalmente"
+msgid "Daily"
+msgstr "A diario"
 
 msgid ""
 "Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nf"
@@ -4131,23 +4133,26 @@ msgstr "Sectores"
 msgid "Unsupported password hash function '%s'"
 msgstr "Función de hash '%s' del password no soportada"
 
-msgid "reset"
-msgstr "reiniciar"
-
-msgid "start"
-msgstr "inicio"
-
 msgid "poweroff"
 msgstr "apagar"
-
-msgid "state"
-msgstr "estado"
 
 msgid "stop"
 msgstr "parar"
 
+msgid "start"
+msgstr "inicio"
+
 msgid "reboot"
 msgstr "reiniciar"
+
+msgid "state"
+msgstr "estado"
+
+msgid "reset"
+msgstr "reiniciar"
+
+msgid "soft"
+msgstr "ligero"
 
 msgid "off"
 msgstr "Apagado"
@@ -4155,17 +4160,14 @@ msgstr "Apagado"
 msgid "on"
 msgstr "Encendido"
 
-msgid "soft"
-msgstr "ligero"
-
-msgid "ready?"
-msgstr "¿preparado?"
-
 msgid "status"
 msgstr "estado"
 
 msgid "cycle"
 msgstr "Ciclo"
+
+msgid "ready?"
+msgstr "¿preparado?"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr ""
@@ -4443,11 +4445,11 @@ msgstr "DN base"
 msgid "Groups base DN"
 msgstr "DN base para grupos"
 
-msgid "LDAP filter"
-msgstr "Filtro LDAP"
-
 msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr "Filtro de búsqueda personalizado de LDAP,  <i>opcional</i>"
+
+msgid "LDAP filter"
+msgstr "Filtro LDAP"
 
 msgid ""
 "LDAP users will have their Foreman account automatically created the first tim"
@@ -4579,24 +4581,20 @@ msgstr "Por favor, prueba a actualizar tu petición"
 msgid "Oops, we're sorry but something went wrong"
 msgstr "¡Ups! Lo sentimos pero algo ha ido mal"
 
-msgid "If you feel this is an error with Foreman itself, please open a new issue with"
-msgstr "Si cree que esto es un error de Foreman, por favor, reporte una incidencia con"
-
 msgid "Foreman ticketing system"
 msgstr "Sistema de tickets de Foreman"
+
+msgid "If you feel this is an error with Foreman itself, please open a new issue with"
+msgstr "Si cree que esto es un error de Foreman, por favor, reporte una incidencia con"
 
 msgid "You would probably need to attach the"
 msgstr "Probablemente sea necesario añadir el"
 
-msgid "Full trace"
-msgstr "Mensaje completo"
-
 msgid "and relevant log entries."
 msgstr "y entradas relevantes de registros"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Subnet"
-msgstr "Subred"
+msgid "Full trace"
+msgstr "Mensaje completo"
 
 msgid "None Found"
 msgstr "Ninguno Encontrado"
@@ -4637,11 +4635,11 @@ msgstr "Módulos Puppet"
 msgid "Check/Uncheck all %s changes"
 msgstr "Marcar/Desmarcar todos los cambios %s"
 
-msgid "Remove:"
-msgstr "Eliminar:"
-
 msgid "Update:"
 msgstr "Actualizar:"
+
+msgid "Remove:"
+msgstr "Eliminar:"
 
 msgid "Add:"
 msgstr "Añadir:"
@@ -4658,11 +4656,11 @@ msgstr "Guardar esta búsqueda en marcadores"
 msgid "Add Bookmark"
 msgstr "Añadir Marcador"
 
-msgid "OS Image"
-msgstr "Imagen SO"
-
 msgid "Build from OS image"
 msgstr "Crear desde imagen de SO"
+
+msgid "OS Image"
+msgstr "Imagen SO"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
@@ -4683,11 +4681,11 @@ msgstr "Usar valor de Puppet por defecto"
 msgid "Actions"
 msgstr "Acciones"
 
-msgid "override"
-msgstr "sobrescribir"
-
 msgid "Override this value"
 msgstr "Sobrescribir este valor"
+
+msgid "override"
+msgstr "sobrescribir"
 
 msgid "Global"
 msgstr "Global"
@@ -4792,11 +4790,11 @@ msgstr "Clave secreta"
 msgid "Region"
 msgstr "Región"
 
-msgid "Load Regions"
-msgstr "Cargar Regiones"
-
 msgid "Test Connection"
 msgstr "Probar conexión"
+
+msgid "Load Regions"
+msgstr "Cargar Regiones"
 
 msgid "Google Project ID"
 msgstr "ID de Google Project"
@@ -4913,11 +4911,11 @@ msgstr "Atributos de MV"
 msgid "URL"
 msgstr "URL"
 
-msgid "Enabled"
-msgstr "Habilitado"
-
 msgid "Disabled"
 msgstr "Deshabilitado"
+
+msgid "Enabled"
+msgstr "Habilitado"
 
 msgid "There was an error listing VMs: %s"
 msgstr "Ha habido un error listando máquinas Virtuales: %s"
@@ -4928,26 +4926,30 @@ msgstr "Sabor"
 msgid "Please select an image"
 msgstr "Por favor, selecciona una imagen"
 
-msgid "Availability zone"
-msgstr "Zona de disponibilidad"
-
 msgid "No preference"
 msgstr "Sin preferencias"
+
+msgid "Availability zone"
+msgstr "Zona de disponibilidad"
 
 msgid "EC2"
 msgstr "EC2"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Subnet"
+msgstr "Subred"
+
 msgid "Security groups"
 msgstr "Grupos de Seguridad"
-
-msgid "Public"
-msgstr "Público"
 
 msgid "Managed IP"
 msgstr "IP Gestionada"
 
 msgid "Private"
 msgstr "Privado"
+
+msgid "Public"
+msgstr "Público"
 
 msgid "Machine type"
 msgstr "Tipo de máquina"
@@ -4984,11 +4986,11 @@ msgstr "Memoria"
 msgid "Storage"
 msgstr "Almacenamiento"
 
-msgid "Add Volume"
-msgstr "Añadir Volumen"
-
 msgid "add new storage volume"
 msgstr "añadir un nuevo volumen de almacenamiento"
+
+msgid "Add Volume"
+msgstr "Añadir Volumen"
 
 msgid "Start"
 msgstr "Inicio"
@@ -5081,11 +5083,11 @@ msgstr "eliminar volumen"
 msgid "Storage domain"
 msgstr "Dominio de almacenamiento"
 
-msgid "Uses thin provisioning if unchecked"
-msgstr "Usa thin provisioning is no está seleccionado"
-
 msgid "Preallocate disk"
 msgstr "Reservar espacio de disco"
+
+msgid "Uses thin provisioning if unchecked"
+msgstr "Usa thin provisioning is no está seleccionado"
 
 msgid "Only one volume can be bootable"
 msgstr "Sólo un volúmen puede ser iniciable"
@@ -5117,11 +5119,11 @@ msgstr "Energía"
 msgid "New Virtual Machine"
 msgstr "Nueva máquina Virtual"
 
-msgid "Associate VM"
-msgstr "Asociar Máquina Virtual"
-
 msgid "Associate VM to a Foreman host"
 msgstr "Asociar Máquina Virtual a equipo de Foreman"
+
+msgid "Associate VM"
+msgstr "Asociar Máquina Virtual"
 
 msgid "Properties"
 msgstr "Propiedades"
@@ -5208,11 +5210,11 @@ msgstr ""
 msgid "clone"
 msgstr "Clonar"
 
-msgid "Useful template functions and macros"
-msgstr "Plantillas  de funciones y macros útiles"
-
 msgid "Note: %s "
 msgstr "Nota: %s"
+
+msgid "Useful template functions and macros"
+msgstr "Plantillas  de funciones y macros útiles"
 
 msgid "Template editor"
 msgstr "Editor de Plantilla"
@@ -5253,11 +5255,11 @@ msgstr "Revertir"
 msgid "Show Diff"
 msgstr "Mostrar diferencias"
 
-msgid "Save something and try again"
-msgstr "Guarda algo y prueba de nuevo"
-
 msgid "No history found"
 msgstr "No se ha encontrado histórico"
+
+msgid "Save something and try again"
+msgstr "Guarda algo y prueba de nuevo"
 
 msgid "Not relevant for snippet"
 msgstr "No es relevante para 'snippet'"
@@ -5497,15 +5499,15 @@ msgstr ""
 msgid "For internal Users, simply create a new user at the %s page"
 msgstr "Para usuarios internos, limítese a crear un usuario nuevo en la página %s"
 
-msgid "LDAP"
-msgstr "LDAP"
-
 msgid ""
 "If you chose to use LDAP authentication then you must provide connection detai"
 "ls for your authentication provider on %s page"
 msgstr ""
 "Si usa autenticación LDAP, necesita proporcionar los detalles de conexión para"
 " el proveedor de autenticación en la página %s"
+
+msgid "LDAP"
+msgstr "LDAP"
 
 msgid "For Roles and permissions, see the %s page"
 msgstr "Para roles y permisos, mire en la página %s"
@@ -5604,15 +5606,15 @@ msgstr "Parámetros"
 msgid "Full name describing the domain"
 msgstr "Nombre completo que describe el dominio"
 
+msgid "DNS Proxy"
+msgstr "Proxy DNS"
+
 msgid ""
 "DNS proxy to use within this domain for managing A records, note that PTR reco"
 "rds are managed via Subnet DNS proxy"
 msgstr ""
 "Proxy DNS a utilizar en esta subred para gestionar registros PTR, nótese que l"
 "os registros A se gestionan en el proxy de Subred DNS "
-
-msgid "DNS Proxy"
-msgstr "Proxy DNS"
 
 msgid "Edit Domain"
 msgstr "Editar Dominio"
@@ -5948,11 +5950,11 @@ msgstr ""
 "Estas dos opciones son decisiones personales y dependen de ti (donde la princi"
 "pal diferencia será las configuraciones de parámetros/variables)."
 
-msgid "Select Hosts"
-msgstr "Seleccionar hosts"
-
 msgid "Assign Selected Hosts"
 msgstr "Asignar hosts seleccionados"
+
+msgid "Select Hosts"
+msgstr "Seleccionar hosts"
 
 msgid "Create %s"
 msgstr "Crear %s"
@@ -6047,11 +6049,11 @@ msgstr "Parámetros incluidos por herencia"
 msgid "Host Parameters"
 msgstr "Parámetros de Equipo"
 
-msgid "select an owner"
-msgstr "seleccionar un propietario"
-
 msgid "Owned By"
 msgstr "Propiedad de"
+
+msgid "select an owner"
+msgstr "seleccionar un propietario"
 
 msgid "Include this host within Foreman reporting"
 msgstr "Incluye este equipo en el informe de Foreman"
@@ -6158,11 +6160,11 @@ msgstr "Ctrl-Alt-Del"
 msgid "Troubleshooting"
 msgstr "Resolución de problemas"
 
-msgid "New window"
-msgstr "Nueva ventana"
-
 msgid "Open Spice in a new window"
 msgstr "Abrir Spice en una nueva ventana"
+
+msgid "New window"
+msgstr "Nueva ventana"
 
 msgid "Connecting (unencrypted) to: %s"
 msgstr "Conexión (sin cifrar) a: %s"
@@ -6241,11 +6243,11 @@ msgstr "*Limpiar entorno*"
 msgid "*Inherit from host group*"
 msgstr "*Heredado desde grupo de equipos*"
 
-msgid "Select host group"
-msgstr "Seleccionar grupo de hosts"
-
 msgid "*Clear host group*"
 msgstr "*Limpiar grupo de equipos*"
+
+msgid "Select host group"
+msgstr "Seleccionar grupo de hosts"
 
 msgid "Select Location"
 msgstr "Seleccionar Lugar"
@@ -6352,11 +6354,11 @@ msgstr "(opcional) Rol IAM para Fog para utilizar cuando se crea esta imagen"
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr "Password de autenticación - usado para el paso final de SSH"
 
-msgid "Full path to backing image used to create new volumes."
-msgstr "Ruta completa a la imagen de respaldo que se usa para crear nuevos volúmenes."
-
 msgid "Image path"
 msgstr "Ruta de la imagen"
+
+msgid "Full path to backing image used to create new volumes."
+msgstr "Ruta completa a la imagen de respaldo que se usa para crear nuevos volúmenes."
 
 msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
 msgstr ""
@@ -6385,9 +6387,6 @@ msgstr "Destruir"
 msgid "You are using an unsupported browser."
 msgstr "Estás usando un navegador no compatible."
 
-msgid "New Location"
-msgstr "Nuevo lugar"
-
 msgid "Location configuration"
 msgstr "Configuración de lugares"
 
@@ -6412,11 +6411,11 @@ msgstr ""
 " son considerados lugares. Usar lugares funciona muy bien si al mismo tiempo s"
 "e combinan con "
 
-msgid "Remove %s?"
-msgstr "Borrar %s?"
-
 msgid "Variable"
 msgstr "Variable"
+
+msgid "Remove %s?"
+msgstr "Borrar %s?"
 
 msgid "Whether the smart variable value is managed by Foreman"
 msgstr "Si Foreman gestiona el valor de la variable inteligente"
@@ -6484,6 +6483,9 @@ msgstr "Añadir valor concordante"
 msgid "add a new matcher-value pair"
 msgstr "añadir nuevo matcher-par de claves"
 
+msgid "Explain matchers"
+msgstr "Explicar claves de concordancia"
+
 msgid ""
 "Matcher is a combination of an attribute and its value, if they match, the val"
 "ue below would be provided.<br> You may use any attribute foreman knows about,"
@@ -6494,9 +6496,6 @@ msgstr ""
 "oporcionará el valor siguiente.<br> Se puede utilizar cualquier atributo conoc"
 "ido por Foreman, como detalles, etc, p.ej..: <code> domain = ejemplo.com </cod"
 "e> o <code> is_virtual=true</code>"
-
-msgid "Explain matchers"
-msgstr "Explicar claves de concordancia"
 
 msgid "Matcher"
 msgstr "Concordante"
@@ -6532,11 +6531,11 @@ msgstr "La ruta NFS para alojar los ficheros de control de 'jumpstart'"
 msgid "The NFS path to the image directory."
 msgstr "La ruta NFS al directorio de imágenes."
 
-msgid "Operating system family"
-msgstr ""
-
 msgid "Choose a family"
 msgstr "Elegir una familia"
+
+msgid "Operating system family"
+msgstr ""
 
 msgid "Edit Medium"
 msgstr "Editar Medio"
@@ -6750,9 +6749,6 @@ msgstr "Nombre"
 msgid "New Operating System"
 msgstr "Nuevo Sistema Operativo"
 
-msgid "New Organization"
-msgstr "Nueva Organización"
-
 msgid "Organization configuration"
 msgstr "Configuración de organización"
 
@@ -6780,11 +6776,11 @@ msgstr "Las organizaciones también funcionan bien en conjunto con"
 msgid "locations"
 msgstr "lugares"
 
-msgid "a script as well"
-msgstr "un script también"
-
 msgid "you may use %s"
 msgstr "se puede usar %s"
+
+msgid "a script as well"
+msgstr "un script también"
 
 msgid "Edit Partition Table"
 msgstr "Editar tabla de particiones"
@@ -6916,21 +6912,21 @@ msgstr "Entornos y documentación"
 msgid "Variables"
 msgstr "Variables"
 
-msgid "Override all parameters"
-msgstr "Preponderar todos los parámetros"
-
 msgid "This will set all parameters of the class %s as overridden. Continue?"
 msgstr ""
 "Esto establecerá como preponderadas todos los parámetros de la clase %s. ¿Cont"
 "inuar?"
 
-msgid "Set parameters to defaults"
-msgstr "Reestablecer los parámetros por defecto"
+msgid "Override all parameters"
+msgstr "Preponderar todos los parámetros"
 
 msgid "This will reset parameters of the class %s to their default values. Continue?"
 msgstr ""
 "Esto restablecerá los parámetros de la clase %s a los valores por defecto. ¿Co"
 "ntinuar?"
+
+msgid "Set parameters to defaults"
+msgstr "Reestablecer los parámetros por defecto"
 
 msgid "Oops"
 msgstr "¡Ups!"
@@ -6951,17 +6947,17 @@ msgstr ""
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr "Nombre de sector, p. ej. EXAMPLE.COM"
 
-msgid "Realm type"
-msgstr "Tipo de sector"
-
 msgid "Type of realm, e.g. FreeIPA"
 msgstr "Tipo de sector, p.ej. FreeIPA"
 
-msgid "Realm proxy"
-msgstr "Proxy de sector"
+msgid "Realm type"
+msgstr "Tipo de sector"
 
 msgid "Realm proxy to use within this realm"
 msgstr "Proxy de sector que se usará en este dominio"
+
+msgid "Realm proxy"
+msgstr "Proxy de sector"
 
 msgid "Edit Realm"
 msgstr "Editar sector"
@@ -7120,12 +7116,17 @@ msgstr "Opcional: DNS secundario para esta subred"
 msgid "IPAM"
 msgstr "IPAM"
 
-msgid ""
-"IP Address auto suggestion mode for this subnet, DHCP works with DHCP proxy on"
-"ly"
+msgid "IP Address Management"
 msgstr ""
-"Método por el que se sugiere la dirección IP en esta subred, DHCP funciona sól"
-"o con un proxy DHCP"
+
+msgid ""
+"You can select one of three possible IPAM modes:<br/><ul><li><strong>DHCP</str"
+"ong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested "
+"IPs come from DHCP</li><li><strong>Internal DB</strong> - use internal DB to a"
+"uto-suggest free IP based on other interfaces on same subnet respecting range "
+"if specified, useful mainly with static boot mode</li><li><strong>None</strong"
+"> - leave IP management solely on user, no auto-suggestion</li></ul>"
+msgstr ""
 
 msgid "Optional: Starting IP Address for IP auto suggestion"
 msgstr "Opcional: Primera dirección IP para auto sugerencia"
@@ -7281,9 +7282,6 @@ msgstr "Clonar %s"
 
 msgid "Fix Mismatches"
 msgstr "Arreglar discordancias"
-
-msgid "New %s"
-msgstr "Nuevo %s"
 
 msgid "Mismatches Report"
 msgstr "Informe de Discordancias"
@@ -7446,11 +7444,11 @@ msgstr "Nuevo grupo de Usuarios"
 msgid "Mail Preferences"
 msgstr "Preferencia de email"
 
-msgid "Language"
-msgstr "Idioma"
-
 msgid "Browser locale"
 msgstr "Elegir idioma"
+
+msgid "Language"
+msgstr "Idioma"
 
 msgid "Browser timezone"
 msgstr ""
