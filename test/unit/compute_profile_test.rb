@@ -31,13 +31,13 @@ class ComputeProfileTest < ActiveSupport::TestCase
   end
 
   test "shoud show visible hw profiles only" do
-    assert_equal 3, ComputeProfile.count
+    assert_equal 4, ComputeProfile.count
     #3-Large does not have any data in compute_attributes.yml
-    assert_equal 2, ComputeProfile.visibles.count
+    assert_equal 3, ComputeProfile.visibles.count
   end
 
   test "compute profile with associated attributes can be destroyed" do
-    assert_difference('ComputeAttribute.count', -3) do
+    assert_difference('ComputeAttribute.count', -2) do
       assert compute_attributes(:three).compute_profile.destroy
     end
   end

@@ -8,7 +8,7 @@ module Nic
 
     validates_lengths_from_database
     attr_accessible :host_id, :host,
-                    :mac, :name,
+                    :mac, :name, :type,
                     :provider, :username, :password,
                     :identifier, :virtual, :link, :tag, :attached_to,
                     :managed, :bond_options, :attached_devices, :mode,

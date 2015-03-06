@@ -6,9 +6,6 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      ALLOWED_TYPE_NAMES = Nic::Base.allowed_types.map{ |t| t.humanized_name.downcase }
-      LEGACY_TYPE_NAMES = Nic::Base.allowed_types.map{ |t| t.name }
-
       before_filter :find_required_nested_object, :only => [:index, :show, :create, :destroy]
       before_filter :find_resource, :only => [:show, :update, :destroy]
       before_filter :convert_type, :only => [:create, :update]
@@ -33,29 +30,37 @@ module Api
       def show
       end
 
+      def_param_group :interface_attributes do
+        #common parameters
+        param :mac, String, :required => true, :desc => N_("MAC address of interface")
+        param :ip, String, :required => true, :desc => N_("IP address of interface")
+        param :type, InterfaceTypeMapper::ALLOWED_TYPE_NAMES, :required => true, :desc => N_("Interface type, e.g: bmc")
+        param :name, String, :required => true, :desc => N_("Interface's DNS name")
+        param :subnet_id, Fixnum, :desc => N_("Foreman subnet ID of interface")
+        param :domain_id, Fixnum, :desc => N_("Foreman domain ID of interface")
+        param :identifier, String, :desc => N_("Device identifier, e.g. eth0 or eth1.1")
+        param :managed, :bool, :desc => N_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?")
+        param :primary, :bool, :desc => N_("Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface.")
+        param :provision, :bool, :desc => N_("Should this interface be used for TFTP of PXELinux (or SSH for image-based hosts)? Each managed hosts needs to have one provision interface.")
+        #bmc specific parameters
+        param :username, String, :desc => N_("Only for BMC interfaces.")
+        param :password, String, :desc => N_("Only for BMC interfaces.")
+        param :provider, Nic::BMC::PROVIDERS, :desc => N_("Interface provider, e.g. IPMI. Only for BMC interfaces.")
+        #virtual device specific parameters
+        param :virtual, :bool, :desc => N_("Alias or VLAN device")
+        param :tag, String, :desc => N_("VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virtual interfaces.")
+        param :attached_to, String, :desc => N_("Identifier of the interface to which this interface belongs, e.g. eth1. Only for virtual interfaces.")
+        #bond specific parameters
+        param :mode, Nic::Bond::MODES, :desc => N_("Bond mode of the interface, e.g. balance-rr. Only for bond interfaces.")
+        param :attached_devices, Array, :desc => N_("Identifiers of slave interfaces, e.g. `['eth1', 'eth2']`. Only for bond interfaces.")
+        param :bond_options, String, :desc => N_("Space separated options, e.g. miimon=100. Only for bond interfaces.")
+        #compute specific attributes
+        param :compute_attributes, Hash, :desc => N_("Additional compute resource specific attributes for the interface.")
+      end
+
       def_param_group :interface do
         param :interface, Hash, :required => true, :action_aware => true, :desc => N_("interface information") do
-          #common parameters
-          param :mac, String, :required => true, :desc => N_("MAC address of interface")
-          param :ip, String, :required => true, :desc => N_("IP address of interface")
-          param :type, InterfacesController::ALLOWED_TYPE_NAMES, :required => true, :desc => N_("Interface type, e.g: bmc")
-          param :name, String, :required => true, :desc => N_("Interface name")
-          param :subnet_id, Fixnum, :desc => N_("Foreman subnet ID of interface")
-          param :domain_id, Fixnum, :desc => N_("Foreman domain ID of interface")
-          param :identifier, String, :desc => N_("Device identifier, e.g. eth0 or eth1.1")
-          param :managed, :bool, :desc => N_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?")
-          #bmc specific parameters
-          param :username, String, :desc => N_("Only for BMC interfaces.")
-          param :password, String, :desc => N_("Only for BMC interfaces.")
-          param :provider, Nic::BMC::PROVIDERS, :desc => N_("Interface provider, e.g. IPMI. Only for BMC interfaces.")
-          #virtual device specific parameters
-          param :virtual, :bool, :desc => N_("Alias or VLAN device")
-          param :tag, String, :desc => N_("VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virtual interfaces.")
-          param :attached_to, String, :desc => N_("Identifier of the interface to which this interface belongs, e.g. eth1. Only for virtual interfaces.")
-          #bond specific parameters
-          param :mode, Nic::Bond::MODES, :desc => N_("Bond mode of the interface, e.g. balance-rr. Only for bond interfaces.")
-          param :attached_devices, Array, :desc => N_("Identifiers of slave interfaces, e.g. `['eth1', 'eth2']`. Only for bond interfaces.")
-          param :bond_options, String, :desc => N_("Space separated options, e.g. miimon=100. Only for bond interfaces.")
+          param_group :interface_attributes
         end
       end
 
@@ -96,19 +101,9 @@ module Api
       end
 
       def convert_type
-        type_sent = params[:interface][:type]
-
-        if ALLOWED_TYPE_NAMES.include? type_sent
-          # convert human readable name to the NIC's class name
-          params[:interface][:type] = Nic::Base.type_by_name(type_sent).to_s
-        elsif !LEGACY_TYPE_NAMES.include? type_sent
-          # enable sending class names directly to keep backward compatibility
-          render_error :custom_error,
-            :status => :unprocessable_entity,
-            :locals => {
-              :message => _("Unknown interface type, must be one of [%s]") % ALLOWED_TYPE_NAMES.join(', ')
-            }
-        end
+        params[:interface][:type] = InterfaceTypeMapper.map(params[:interface][:type])
+      rescue InterfaceTypeMapper::UnknownTypeExeption => e
+        render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.to_s }
       end
     end
   end
