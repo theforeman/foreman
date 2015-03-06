@@ -31,11 +31,11 @@ Foreman::AccessControl.map do |permission_set|
                                              :"api/v1/auth_source_ldaps" => [:index, :show],
                                              :"api/v2/auth_source_ldaps" => [:index, :show]
     }
-    map.permission :create_authenticators,  {:auth_source_ldaps => [:new, :create],
+    map.permission :create_authenticators,  {:auth_source_ldaps => [:new, :create, :test_connection],
                                              :"api/v1/auth_source_ldaps" => [:create],
                                              :"api/v2/auth_source_ldaps" => [:create]
     }
-    map.permission :edit_authenticators,    {:auth_source_ldaps => [:edit, :update],
+    map.permission :edit_authenticators,    {:auth_source_ldaps => [:edit, :update, :test_connection],
                                              :"api/v1/auth_source_ldaps" => [:update],
                                              :"api/v2/auth_source_ldaps" => [:update]
     }

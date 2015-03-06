@@ -400,3 +400,19 @@ function setPowerState(item, status){
   power_actions.hide();
   $('[rel="twipsy"]').tooltip();
 }
+
+$.fn.serializeObject = function() {
+  var result_object = {};
+  var serialized_array = this.serializeArray();
+  $.each(serialized_array, function() {
+    if (result_object[this.name]) {
+      if (!result_object[this.name].push) {
+        result_object[this.name] = [result_object[this.name]];
+      }
+      result_object[this.name].push(this.value || '');
+    } else {
+      result_object[this.name] = this.value || '';
+    }
+  });
+  return result_object;
+};

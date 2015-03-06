@@ -1,3 +1,5 @@
+require 'timeout'
+
 class AuthSourceLdapsController < ApplicationController
   before_filter :find_resource, :only => [:edit, :update, :destroy]
 
@@ -16,6 +18,23 @@ class AuthSourceLdapsController < ApplicationController
     else
       process_error
     end
+  end
+
+  def test_connection
+    result = {}
+    begin
+      Timeout::timeout(10) do
+        temp_auth_source_ldap = AuthSourceLdap.new(params[:auth_source_ldap])
+        temp_auth_source_ldap.ldap_con.valid_user?("")
+      end
+      result[:success] = true
+      result[:message] = _("Connection to LDAP Server Successful !!")
+    rescue => exception
+      result[:success] = false
+      result[:error_class] = exception.class.name
+      result[:message] = _(exception.message)
+    end
+    render :json => result
   end
 
   def edit
