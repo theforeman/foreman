@@ -67,8 +67,10 @@ module Api
           param :comment, String, :desc => N_("Additional information about this host")
           param :capabilities, String
           param :compute_profile_id, :number
-          param :compute_attributes, Hash do
+          param :interfaces_attributes, Array, :desc => N_("Host's network interfaces.") do
+            param_group :interface_attributes, ::Api::V2::InterfacesController
           end
+          param :compute_attributes, Hash, :desc => N_("Additional compute resource specific attributes.")
         end
       end
 
@@ -76,10 +78,14 @@ module Api
       param_group :host, :as => :create
 
       def create
-        @host = Host.new(params[:host])
+        @host = Host.new(host_attributes(params[:host]))
         @host.managed = true if (params[:host] && params[:host][:managed].nil?)
+        merge_interfaces(@host)
+
         forward_request_url
         process_response @host.save
+      rescue InterfaceTypeMapper::UnknownTypeExeption => e
+        render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.to_s }
       end
 
       api :PUT, "/hosts/:id/", N_("Update a host")
@@ -87,7 +93,12 @@ module Api
       param_group :host
 
       def update
-        process_response @host.update_attributes(params[:host])
+        @host.attributes = host_attributes(params[:host])
+        merge_interfaces(@host)
+
+        process_response @host.save
+      rescue InterfaceTypeMapper::UnknownTypeExeption => e
+        render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.to_s }
       end
 
       api :DELETE, "/hosts/:id/", N_("Delete a host")
@@ -169,6 +180,33 @@ Return value may either be one of the following:
       end
 
       private
+
+      def merge_interfaces(host)
+        merge = InterfaceMerge.new
+        merge.run(host.interfaces, host.compute_resource.try(:compute_profile_for, host.compute_profile_id))
+      end
+
+      def host_attributes(params)
+        return {} if params.nil?
+
+        params = params.deep_clone
+        if params[:interfaces_attributes]
+          # handle both hash and array styles of nested attributes
+          if params[:interfaces_attributes].is_a? Hash
+            params[:interfaces_attributes] = params[:interfaces_attributes].values
+          end
+          # map interface types
+          params[:interfaces_attributes] = params[:interfaces_attributes].map do |nic_attr|
+            interface_attributes(nic_attr)
+          end
+        end
+        params
+      end
+
+      def interface_attributes(params)
+        params[:type] = InterfaceTypeMapper.map(params[:type])
+        params
+      end
 
       def action_permission
         case params[:action]
