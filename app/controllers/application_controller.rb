@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ActionView::MissingTemplate, :with => :api_deprecation_error
+  rescue_from ProxyAPI::ProxyException, :with => :smart_proxy_exception
 
   # standard layout to all controllers
   helper 'layout'
@@ -105,6 +106,12 @@ class ApplicationController < ActionController::Base
     else
       raise exception
     end
+  end
+
+  def smart_proxy_exception(exception = nil)
+    process_error(:redirect => :back, :error_msg => exception.message)
+    logger.warn "ProxyAPI operation FAILED: #{exception}"
+    logger.debug exception.backtrace.join("\n")
   end
 
   # this method sets the Current user to be the Admin
@@ -252,26 +259,24 @@ class ApplicationController < ActionController::Base
 
   def process_error(hash = {})
     hash[:object] ||= instance_variable_get("@#{controller_name.singularize}")
-
-    case action_name
-    when "create" then hash[:render] ||= "new"
-    when "update" then hash[:render] ||= "edit"
-    else
-      hash[:redirect] ||= send("#{controller_name}_url")
+    if hash[:render].blank? && hash[:redirect].blank?
+      case action_name
+      when "create" then hash[:render] = "new"
+      when "update" then hash[:render] = "edit"
+      else
+        hash[:redirect] = send("#{controller_name}_url")
+      end
     end
 
     logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" if hash[:object].respond_to?(:errors)
     hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| _("Conflict - %s") % e}].flatten
-    hash[:error_msg] = [hash[:error_msg]].flatten
-    hash[:error_msg] = hash[:error_msg].to_sentence
+    hash[:error_msg] = [hash[:error_msg]].flatten.to_sentence
     if hash[:render]
       flash.now[:error] = CGI::escapeHTML(hash[:error_msg]) unless hash[:error_msg].empty?
       render hash[:render]
-      return
     elsif hash[:redirect]
       error(hash[:error_msg]) unless hash[:error_msg].empty?
       redirect_to hash[:redirect]
-      return
     end
   end
 
