@@ -145,7 +145,8 @@ module Classification
     def type_cast(key, value)
       key.cast_validate_value(value)
     rescue TypeError
-      logger.warn "Unable to type cast #{value} to #{key.key_type}"
+      Rails.logger.warn "Unable to type cast #{value} to #{key.key_type}"
+      value # return the value instead of true to keep the ENC going
     end
 
     def update_generic_matcher(lookup_values, options)

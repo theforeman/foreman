@@ -619,6 +619,23 @@ class ClassificationTest < ActiveSupport::TestCase
     end
   end
 
+  context 'lookup value type cast' do
+    setup do
+      @lookup_key = mock('lookup_key')
+      @lookup_key.expects(:cast_validate_value).raises(TypeError)
+      @lookup_key.expects(:key_type).returns('footype')
+    end
+
+    test 'TypeError exceptions are logged' do
+      Rails.logger.expects(:warn).with('Unable to type cast bar to footype')
+      @classification.send(:type_cast, @lookup_key, 'bar')
+    end
+
+    test 'TypeError exceptions return the value (uncasted)' do
+      assert_equal 'bar', @classification.send(:type_cast, @lookup_key, 'bar')
+    end
+  end
+
   private
 
   attr_reader :classification
