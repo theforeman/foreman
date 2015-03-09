@@ -1,9 +1,9 @@
 module Api
   module V1
     class UsersController < V1::BaseController
-      include Foreman::Controller::UsersMixin
-
       before_filter :find_resource, :only => %w{show update destroy}
+      # find_resource needs to be defined prior to UsersMixin is included, it depends on @user
+      include Foreman::Controller::UsersMixin
 
       api :GET, "/users/", "List all users."
       param :search, String, :desc => "filter results"
