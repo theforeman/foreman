@@ -3,7 +3,7 @@ module TrendsHelper
 
   def trendable_types(new_record)
     options = {_('Environment') => 'Environment', _('Operating system') => 'Operatingsystem',
-     _('Model') => 'Model', _('Facts') =>'FactName',_('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
+               _('Model') => 'Model', _('Facts') =>'FactName',_('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
     if new_record
       existing = ForemanTrend.includes(:trendable).types.map(&:to_s)
       options.delete_if{ |k,v|  existing.include?(v) }
@@ -32,8 +32,18 @@ module TrendsHelper
     values = trend.values
     labels = {}
     values.includes(:trendable).each {|v| labels[v.id] = [v.to_label, trend_path(:id => v)]}
-    values.includes(:trend_counters).where(["trend_counters.created_at > ?", from]).reorder("trend_counters.created_at").each_with_index.map do |value, idx|
-      data =  value.trend_counters.map { |t|  [t.created_at.to_i*1000, t.count]  }
+    values.includes(:trend_counters).where(["trend_counters.interval_end > ? or trend_counters.interval_end is null", from])
+                                    .reorder("trend_counters.interval_start")
+                                    .each_with_index.map do |value, idx|
+      data = []
+      value.trend_counters.each do |counter|
+        #cut the left side of the graph
+        interval_start = (counter.interval_start || from) > from ? counter.interval_start : from
+        next_timestamp = counter.try(:interval_end) || Time.now
+        #transform the timestamp values to flot format - from seconds in Ruby to milliseconds in flot
+        data << [interval_start.to_i*1000, counter.count]
+        data << [next_timestamp.to_i*1000 - 1, counter.count]
+      end
       {:label => labels[value.id][0], :href=>labels[value.id][1], :data =>data, :color => chart_colors[idx % chart_colors.size()] } unless data.empty?
     end.compact
   end
