@@ -38,7 +38,7 @@ module Classification
       values = Hash.new { |h,k| h[k] = {} }
       all_lookup_values = LookupValue.where(:match => path2matches).where(:lookup_key_id => class_parameters)
       class_parameters.each do |key|
-        lookup_values_for_key = all_lookup_values.where(:lookup_key_id => key.id, :use_puppet_default => false)
+        lookup_values_for_key = all_lookup_values.where(:lookup_key_id => key.id, :use_puppet_default => false).includes(:lookup_key)
         sorted_lookup_values = lookup_values_for_key.sort_by do |lv|
           # splitting the matcher hostgroup=example to 'hostgroup' and 'example'
           matcher_element, matcher_value = lv.match.split(LookupKey::EQ_DELM)
@@ -146,7 +146,7 @@ module Classification
     def type_cast(key, value)
       key.cast_validate_value(value)
     rescue TypeError
-      logger.warn "Unable to type cast #{value} to #{key.key_type}"
+      Rails.logger.warn "Unable to type cast #{value} to #{key.key_type}"
     end
 
     def update_generic_matcher(lookup_values, options)
@@ -154,7 +154,8 @@ module Classification
       lookup_values.each do |lookup_value|
         element, element_name = lookup_value.match.split(LookupKey::EQ_DELM)
         next if (options[:skip_fqdn] && element=="fqdn")
-        computed_lookup_value = {:value => lookup_value.value, :element => element,
+        value_method = %w(yaml json).include?(lookup_value.lookup_key.key_type) ? :value_before_type_cast : :value
+        computed_lookup_value = {:value => lookup_value.send(value_method), :element => element,
                                  :element_name => element_name}
         break
       end
