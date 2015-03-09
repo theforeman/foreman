@@ -35,6 +35,14 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     assert mod_user.login == "johnsmith"
   end
 
+  test "should update admin flag" do
+    user = users(:one)
+    put :update, { :id => user.id, :user => { :admin => true } }
+
+    assert_response :success
+    assert User.find_by_id(user.id).admin?
+  end
+
   test "should not remove the anonymous role" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 

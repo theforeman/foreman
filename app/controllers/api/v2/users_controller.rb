@@ -4,11 +4,11 @@ module Api
       wrap_parameters User, :include => (User.attribute_names + ['password'])
 
       before_filter :find_resource, :only => %w{show update destroy}
+      # find_resource needs to be defined prior to UsersMixin is included, it depends on @user
       include Foreman::Controller::UsersMixin
       include Api::Version2
       include Api::TaxonomyScope
       before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/users/", N_("List all users")
       api :GET, "/auth_source_ldaps/:auth_source_ldap_id/users", N_("List all users for LDAP authentication source")
