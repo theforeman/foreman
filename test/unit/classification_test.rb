@@ -99,6 +99,26 @@ class ClassificationTest < ActiveSupport::TestCase
     assert_equal({lkey.id => {lkey.key => {:value => 'overridden value', :element => 'comment', :element_name => 'override'}}}, classparam.send(:values_hash))
   end
 
+  test "#values_hash should treat yaml and json parameters as string" do
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :environments => [env])
+    yaml_lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param, :with_override,
+                              :puppetclass => pc, :key_type => 'yaml', :default_value => '',
+                              :overrides => {"comment=override" => 'a: b'})
+    json_lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param, :with_override,
+                                   :puppetclass => pc, :key_type => 'json', :default_value => '',
+                                   :overrides => {"comment=override" => '{"a": "b"}'})
+    classparam = Classification::ClassParam.new
+
+    classparam.expects(:environment_id).returns(env.id)
+    classparam.expects(:puppetclass_ids).returns(Array.wrap(pc).map(&:id))
+    classparam.expects(:attr_to_value).with('comment').returns('override')
+    values_hash = classparam.send(:values_hash)
+
+    assert_includes values_hash[yaml_lkey.id][yaml_lkey.key][:value], 'a: b'
+    assert_includes values_hash[json_lkey.id][json_lkey.key][:value], '{"a":"b"}'
+  end
+
   test 'smart class parameter of array with avoid_duplicates should return lookup_value array without duplicates' do
     key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'array', :merge_overrides => true,
@@ -616,6 +636,19 @@ class ClassificationTest < ActiveSupport::TestCase
 
     assert_raise RuntimeError do
       classification.enc['base'][key.key]
+    end
+  end
+
+  context 'lookup value type cast error' do
+    setup do
+      @lookup_key = mock('lookup_key')
+      @lookup_key.expects(:cast_validate_value).raises(TypeError)
+      @lookup_key.expects(:key_type).returns('footype')
+    end
+
+    test 'TypeError exceptions are logged' do
+      Rails.logger.expects(:warn).with('Unable to type cast bar to footype')
+      @classification.send(:type_cast, @lookup_key, 'bar')
     end
   end
 
