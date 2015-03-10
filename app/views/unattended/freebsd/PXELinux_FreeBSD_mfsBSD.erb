@@ -5,7 +5,8 @@ oses:
 - FreeBSD 10.0
 %>
 # foreman_url=<%= foreman_url %>
-default freebsd
-label freebsd
-kernel memdisk
-append initrd=<%= @initrd %> harddisk raw
+DEFAULT freebsd
+
+LABEL freebsd
+    KERNEL memdisk
+    APPEND initrd=<%= @initrd %> harddisk raw

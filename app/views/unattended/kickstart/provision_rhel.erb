@@ -153,7 +153,6 @@ sync
 # Inform the build system that we are done.
 echo "Informing Foreman that we are built"
 wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
-# Sleeping an hour for debug
 ) 2>&1 | tee /root/install.post.log
 exit 0
 
