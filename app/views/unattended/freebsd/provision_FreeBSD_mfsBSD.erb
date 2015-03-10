@@ -4,6 +4,10 @@ name: FreeBSD (mfsBSD) provision
 oses:
 - FreeBSD 10.0
 %>
+<%
+proxy_string = @host.params['http-proxy'] ? "http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
+%>
+export http_proxy='<%= proxy_string %>'
 # Get the disk layout, and the first disk connected to the system
 disk_layout=`/sbin/sysctl -n kern.disks | /usr/bin/sed 's/cd[0-9]//g'`
 first_disk="`echo ${disk_layout##*[1-9]} | /usr/bin/cut -d' ' -f1`"
@@ -14,10 +18,10 @@ test -z "$first_disk" || echo "First disk: $first_disk"
 
 cp /etc/resolv.conf /mnt/etc/resolv.conf
 mount -t devfs devfs /mnt/dev
-fetch -q --no-verify-hostname --no-verify-peer -o /mnt/tmp/finish.sh <%= foreman_url('finish') %>
+fetch -q --no-verify-hostname --no-verify-peer -o /mnt/tmp/finish.sh -d <%= foreman_url('finish') %>
 chroot /mnt /bin/sh /tmp/finish.sh
 rm /mnt/tmp/finish.sh
 
-fetch -q --no-verify-hostname --no-verify-peer -o /dev/null <%= foreman_url %>
+fetch -q --no-verify-hostname --no-verify-peer -o /dev/null -d <%= foreman_url %>
 sleep 5
 reboot

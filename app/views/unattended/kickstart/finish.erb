@@ -24,7 +24,7 @@ service network restart
   puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
 %>
 
-<% if @host.provision_method == 'image' && root_pass.present? -%>
+<% if @host.provision_method == 'image' && !root_pass.empty? -%>
 # Install the root password
 echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <% end -%>

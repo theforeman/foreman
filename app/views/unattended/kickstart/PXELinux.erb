@@ -16,14 +16,15 @@ oses:
 - RedHat 6
 - RedHat 7
 %>
-default linux
-label linux
-kernel <%= @kernel %>
-<% if @host.operatingsystem.name == 'Fedora' and @host.operatingsystem.major.to_i > 16 -%>
-append initrd=<%= @initrd %> ks=<%= foreman_url('provision')%> ks.device=bootif network ks.sendmac
-<% elsif @host.operatingsystem.name != 'Fedora' and @host.operatingsystem.major.to_i >= 7 -%>
-append initrd=<%= @initrd %> ks=<%= foreman_url('provision')%> network ks.sendmac
-<% else -%>
-append initrd=<%= @initrd %> ks=<%= foreman_url('provision')%> ksdevice=bootif network kssendmac
-<% end -%>
-IPAPPEND 2
+DEFAULT linux
+
+LABEL linux
+    KERNEL <%= @kernel %>
+    <% if @host.operatingsystem.name == 'Fedora' and @host.operatingsystem.major.to_i > 16 -%>
+    APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision')%> ks.device=bootif network ks.sendmac
+    <% elsif @host.operatingsystem.name != 'Fedora' and @host.operatingsystem.major.to_i >= 7 -%>
+    APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision')%> network ks.sendmac
+    <% else -%>
+    APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision')%> ksdevice=bootif network kssendmac
+    <% end -%>
+    IPAPPEND 2

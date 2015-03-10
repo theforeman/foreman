@@ -141,9 +141,11 @@ name: redhat_register
     <% end %>
   <% end %>
   <% if @host.params['subscription_manager_username'] && @host.params['subscription_manager_password'] %>
-    subscription-manager register --username="<%= @host.params['subscription_manager_username'] %>" --password="<%= @host.params['subscription_manager_password'] %>" --auto-attach
     <% if @host.params['subscription_manager_pool'] %>
+      subscription-manager register --username="<%= @host.params['subscription_manager_username'] %>" --password="<%= @host.params['subscription_manager_password'] %>"
       subscription-manager attach --pool="<%= @host.params['subscription_manager_pool'] %>"
+    <% else %>
+      subscription-manager register --username="<%= @host.params['subscription_manager_username'] %>" --password="<%= @host.params['subscription_manager_password'] %>" --auto-attach
     <% end %>
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null

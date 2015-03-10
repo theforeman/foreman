@@ -9,7 +9,9 @@ oses:
   pm_set = @host.puppetmaster.empty? ? false : true
   puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
   salt_enabled = @host.params['salt_master'] ? true : false
+  proxy_string = @host.params['http-proxy'] ? "http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
 %>
+export http_proxy='<%= proxy_string %>'
 /bin/echo '<%= root_pass %>' | pw usermod root -H 0
 cat >> /etc/rc.conf <<EOF
 hostname="<%= @host %>"

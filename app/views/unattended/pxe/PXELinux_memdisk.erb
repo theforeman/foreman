@@ -4,7 +4,8 @@ name: PXELinux default memdisk
 oses:
 - FreeBSD (memdisk image)
 %>
-default memdisk
-label memdisk
-kernel memdisk
-append initrd=<%= @initrd %> harddisk raw
+DEFAULT memdisk
+
+LABEL memdisk
+    KERNEL memdisk
+    APPEND initrd=<%= @initrd %> harddisk raw
