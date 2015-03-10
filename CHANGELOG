@@ -1,3 +1,693 @@
+2015-03-10	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.8.0-RC1
+	* templates - sync from community-templates
+
+2015-03-10	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9678 - Can't update admin flag for users via API
+
+2015-03-10	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8358 - validate domain on host update
+
+2015-03-10	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9650 - use textarea for global parameters
+
+2015-03-06	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+
+2015-03-06	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9435 - adds tooltip for interface identifier
+	* Fixes #9615 - Adds inheriting_mac method
+	* Fixes #9547 - DHCP is default subnet boot mode
+	* Fixes #9592 - unfold external user groups on error
+	* Fixes #9590 - make info test less fragile
+	* Fixes #9495 - Require identifier for managed bonds
+	* Fixes #9497 - Require MAC for managed BMC
+	* Fixes #9500 - matching uses the whole domain name
+
+2015-03-06	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9480 - multiple NICs integration with compute profiles
+	* Fixes #9430 - provisioning on VMWare fails with invalid MAC address
+	* Fixes #8736 - confirmation before host delete for freshly created hosts
+
+2015-03-06	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8316: Removing a host can create a huge transaction
+
+2015-03-06	ripcurld00d <ripcurld.github@gmail.com>
+	* Fixes #2135 - During puppet class import, puppet class description box should close itself
+
+2015-03-06	Joey D <jobewan@gmail.com>
+	* fixes #8878 - ensure domain fact is downcased prior to import
+
+2015-03-06	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #5701 - removed extra id/name HTML attributes
+
+2015-03-06	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #9548 - Changed the behavior of size selector in compute profile editor to match radio buttons
+	* Fixes #9339 - Changed the OS sorting to title
+	* Fixes #9427 - Return meaningful errors from subnets/freeip and parse the error response to the UI
+
+2015-03-06	Johan Swensson <jswensso@redhat.com>
+	* fixes #6044 - production.log should have timestamps in it
+
+2015-03-06	Daniel Lobato García <elobatocs@gmail.com>
+	* Refs #9500 - revert normalize_name tests
+
+2015-03-06	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #9147 - move managed checks to the start of the DHCP/DNS/TFTP orchestration checks
+
+2015-03-06	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #7764 - add quirks mode to JSON.dump
+
+2015-03-06	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #8331 - provide some tools for filtering mail
+
+2015-02-24	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+	* templates - sync from community-templates
+
+2015-02-24	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #9461 - Update subnets on domain change in hostgroup
+
+2015-02-23	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #3278 - Correctly extract "New %s" strings
+	* Fixes #9452 - correct capitalization of VMware
+
+2015-02-23	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9325 - preserve compute resource attrs after NIC modal is closed
+
+2015-02-23	Dominic Cleal <dcleal@redhat.com>
+	* fixes #9107 - update to fog 1.28.0, fog-aws 0.1+
+
+2015-02-22	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #5998 - add taxonomy tabs to config_template#edit
+
+2015-02-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9496 - Adds popover help to IPAM field in Subnet form
+
+2015-02-22	Tom Caspy <tcaspy@gmail.com>
+	* Refs #4478 - Remove empty line in apipie.rake
+
+2015-02-20	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #9458 - process only executable debug extensions
+
+2015-02-20	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Refs #4478 - copy in pre-built plugin caches on rake apipie:cache index
+
+2015-02-19	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9429 - identifier is required for Alias and VLAN
+
+2015-02-18	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #6655 - remove _ForemanSelectedhosts cookie on action submit
+	* fixes #8581 - [vmware] use cluster full path to create vm
+
+2015-02-18	Dominic Cleal <dcleal@redhat.com>
+	* refs #3809 - exclude auto-generated schema.rb from rubocop checks
+	* fixes #9358 - match unattended template requests against provision interface
+
+2015-02-18	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #3809 - Remove cop emptyliteral
+	* Refs #3809 - Remove classcheck cop
+	* Refs #3809 - Remove various small cops
+	* Refs #3809 - Remove cop IndentationConsistency
+	* Refs #3809 - Remove cops for empty lines
+
+2015-02-17	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #8953 - update IPA userclass param on realm update
+
+2015-02-17	Josh Baird <jbaird@follett.com>
+	* fixes #8953 - update IPA userclass param on realm update
+
+2015-02-17	David Davis <daviddavis@redhat.com>
+	* Fixes #9231 - Require English lib and fix ENC failure
+
+2015-02-16	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9351 - use correct interfaces url for AJAX calls
+	* Fixes #2749 - power status helper can handle unknown states
+
+2015-02-16	David Davis <daviddavis@redhat.com>
+	* Fixes #9357 - Making description db types consistent across Foreman
+
+2015-02-16	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #9369 - tftp should send host, not self to get the boot files uri
+
+2015-02-16	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #9335 - adds toggle to puppet classes list & better ui
+
+2015-02-16	johannes <joh.scheuer@gmail.com>
+	* fixes #9362 - Add mediapath support to CoreOS
+
+2015-02-16	Dominic Cleal <dcleal@redhat.com>
+	* refs #9138 - skip all interfaces UI tests, which fail randomly
+	* templates - sync from community-templates
+
+2015-02-12	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8641 - Update fog to 1.27
+
+2015-02-12	Dominic Cleal <dcleal@redhat.com>
+	* i18n - pulling formatting fixes from tx
+	* i18n - extracting new, updating rails, pulling from tx
+
+2015-02-11	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #9006 - Add header to facts chart
+
+2015-02-11	Tom Caspy <tcaspy@gmail.com>
+	* fixes #9212 - using headless browser in order to run Capybara tests
+	* fixes #9274 - hostgroup#clone clones config groups
+	* fixes #9249 - associated_host fixed for all compute resources
+
+2015-02-11	Dominic Cleal <dcleal@redhat.com>
+	* refs #6371 - fix unclosed HTML tag
+
+2015-02-10	Dominic Cleal <dcleal@redhat.com>
+	* refs #6371 - extract VNC password text
+
+2015-02-10	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9186 - build interface if needed during facts import
+
+2015-02-10	Tommy McNeely <tommy@lark-it.com>
+	* fixes #9124 - fixes detection of hashed root passwords
+
+2015-02-10	Tom Caspy <tcaspy@gmail.com>
+	* fixes #6371 - showing the vnc password
+
+2015-02-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9195 - register MAC validation errors properly
+	* Fixes #9104 - allow disabling of interface updates
+
+2015-02-09	Lukas Zapletal <lzap+git@redhat.com>
+	* Refs #8710 - moved proxy related info from foreman-debug
+
+2015-02-08	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8565 - only get unique, unused message/source IDs to speed up expiry
+
+2015-02-08	Tom Caspy <tcaspy@gmail.com>
+	* fixes #5812 - url parameter in compute_resource#create is not required for EC2, removing the required flag
+	* fixes #6774 - in case of parsing of non json or broken json, return 400
+	* fixes #3008 - allowing large ptables
+
+2015-02-08	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #6884 - Installation media without $minor generate broken $version
+	* Fixes #9225 - private is defined twice in hosts controller
+
+2015-02-08	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9113 - api docs for users miss locale and timestamp params
+
+2015-02-08	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9160 - use provision interface for image based provisioning
+	* Fixes #9198 - migration sets type explicitly
+
+2015-02-08	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #9030 - Adds support to clone config template via api
+
+2015-02-02	William Hutson <wilrnh@msn.com>
+	* Fixes #9193 - broken rake-config command
+
+2015-01-30	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #3809 - Enable cop StringConversionInInterpolation
+
+2015-01-29	Tomas Strachota <tstrachota@redhat.com>
+	* Refs #9138 - temporarily disable affected intermittent tests
+
+2015-01-28	Marek Hulan <mhulan@redhat.com>
+	* Fixes #8052 - allows erb in array and hash params
+
+2015-01-28	Tomer Brisker <tbrisker@redhat.com>
+	* fixes #8469 - css cleanup, whitespaces and remove dead code
+
+2015-01-27	Marek Hulan <mhulan@redhat.com>
+	* Fixes #7456 - Extract primary interface from host
+
+2015-01-27	David Davis <daviddavis@redhat.com>
+	* Fixes #9097 - Fix typo in value_to_sql method
+
+2015-01-26	Tommy McNeely <tommy@lark-it.com>
+	* fixes #8498 - Allows root password to be set in finish scripts
+
+2015-01-26	Jiri Stransky <jistr@redhat.com>
+	* Refs #9049 - fix log message formatting
+
+2015-01-26	David Davis <daviddavis@redhat.com>
+	* Fixes #9099 - Upgrade rubocop to 0.28.0
+
+2015-01-24	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #6362 - correct menu dividers if user isn't auth for some actions
+
+2015-01-24	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #2948 - added sp_* host attributes to safe mode
+
+2015-01-24	stocky <stocky@gorgon.home>
+	* Fixes #9059 - adds puppetssldir setting
+
+2015-01-23	Ori Rabin <orabin@redhat.com>
+	* Fixes #8970 - fixed second click on two-pane link
+	* Fixes #8963 - Rename trunc helper to trunc_with_tooltip
+
+2015-01-23	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9044 - fixes invalid mac in tests
+
+2015-01-23	Jiri Stransky <jistr@redhat.com>
+	* Fixes #9049 - Log exceptions when triggering a Puppet run
+
+2015-01-23	Dominic Cleal <dcleal@redhat.com>
+	* fixes #9084 - catch net-ldap 0.11's specific invalid filter exception
+
+2015-01-22	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8821 - Handle unnamed OpenStack images in images form
+
+2015-01-21	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #9025 - reflect on association for _name(s) methods
+
+2015-01-20	Tom Caspy <tcaspy@gmail.com>
+	* fixes #6098 - ec2 compute resources now check image validity.
+
+2015-01-20	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #8993 - handle FreeBSD patch releases better
+
+2015-01-20	David LeVene <david.levene@netspot.com.au>
+	* fixes #8402 - Reports from the last xx Days not displaying day filter option
+
+2015-01-20	Dominic Cleal <dcleal@redhat.com>
+	* templates - sync from community-templates
+
+2015-01-19	Tom Caspy <tcaspy@gmail.com>
+	* fixes #6369 - allow to override puppet ca/master to nil
+
+2015-01-15	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8922 - authorized_smart_proxy_features should not fail if not implemented
+	* Refs #3809 - Enable cop BarePercentLiterals
+
+2015-01-15	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #8949 - fix noop migration for smart proxy auth settings
+
+2015-01-15	Ori Rabin <orabin@redhat.com>
+	* Fixes #8830 - Allow two-pane to work on show
+
+2015-01-14	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #8934: Allow plugin menu items to disable turbolinks for their links.
+
+2015-01-14	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8925 - support plugin asset manifests beneath app root
+
+2015-01-13	Bryan Kearney <bkearney@redhat.com>
+	* Fixes #8930 - Incorrect html caused a typo on the trends page
+
+2015-01-13	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #8857 - Styling fixes for coreOS boot_files_uri
+
+2015-01-13	Johannes Scheuermann <johannes.scheuermann@inovex.de>
+	* fixes #8857 - refactor Debian boot_files_uri into parent class to match CoreOS
+
+2015-01-13	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #8838 - Replace HTTP error codes with human-readable symbols
+
+2015-01-13	Dominic Cleal <dcleal@redhat.com>
+	* refs #6832 - prevent extraction of string interpolation
+	* fixes #8855 - remove unused oj gem
+
+2015-01-13	Ori Rabin <orabin@redhat.com>
+	* Fixes #8764 - adds description to taxonomies
+
+2015-01-13	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #8484 - make SmartProxyAuth concern more useful to plugins
+
+2015-01-12	Dominic Cleal <dcleal@redhat.com>
+	* refs #8879 - revert "Pin fast_gettext to get tests to run"
+
+2015-01-09	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8885 - pin google-api-client to retain Ruby 1.9 support
+
+2015-01-09	Joseph Magen <jmagen@redhat.com>
+	* fixes #8802 - add Turbolinks support
+
+2015-01-09	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8879 - Pin fast_gettext to get tests to run
+
+2015-01-09	Stephen Benjamin <stbenjam@redhat.com>
+	* refs #8747 - undo pinning google_api_client gem to 0.7.1
+
+2015-01-07	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #8837 - Return correctly formatted response on ajax_error
+
+2015-01-07	Marek Hulan <mhulan@redhat.com>
+	* Fixes #8851 - support seed files of plugin with dash in name
+
+2015-01-05	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #6832 - Don't show location/organization on host edit page if host has none
+
+2015-01-05	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8822 - append target=_blank to all links with rel-external
+
+2015-01-05	ripcurld00d <ripcurld.github@gmail.com>
+	* Fixes #8786 - Show override button after removing overridden parameter
+
+2015-01-02	Tom Caspy <tcaspy@gmail.com>
+	* Fixes #8661 - Refactor compute resource vm partials
+
+2014-12-30	Johannes Scheuermann <johannes.scheuermann@inovex.de>
+	* fixes #7652 - Implements CoreOS OS support
+
+2014-12-30	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #8804 - Align the dashboard to bootstrap columns
+
+2014-12-29	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #8791 - pin i18n gem
+
+2014-12-28	Shlomi Zadok <shlomi@ben-hanna.com>
+	* refs #8428 - fix typo in audit's belongs_to user
+	* fixes #6540, #8335 - Add error to vmware when no datacenter, save password when testing connection
+	* fixes #8049 - Add timezone to user
+
+2014-12-28	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #8796 - Fix to_gb size calculation and constentize
+
+2014-12-28	Joseph Magen <jmagen@redhat.com>
+	* fixes #8442 - add eager loading of users on audit show page for history tab
+
+2014-12-28	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #8785 - HTML syntax fixes - add thead/tbody, fix formatting
+
+2014-12-25	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #8417 - Correctly focus on errors in puppet form
+
+2014-12-25	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8638 - ensure that a redirect to hosts index after host destroy
+
+2014-12-24	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7523 - Removed autocomplete search from id fields
+	* Fixes #8790 - Fix N+1 query on user list page
+
+2014-12-23	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8233 - better HTML formatting for summary email
+
+2014-12-23	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #8721 - Replaced jQuery.attr('id') with .id
+	* Fixes #8704 - Replace jQuery.size() with jQuery.length
+	* Fixes #7165 - Correct cursor behaviour on delete links for firefox
+
+2014-12-23	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8722 - quote dpkg wildcard argument to avoid matching files
+	* fixes #8503 - remove ruby_parser pin to allow safemode update
+
+2014-12-18	Ori Rabin <orabin@redhat.com>
+	* Fixes #8747 - Temporary pin for google_api_client gem
+
+2014-12-18	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #8676 - tar foreman-debug results including the parent directory
+
+2014-12-18	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8739 - use global setting when hostgroup root_pass is blank
+
+2014-12-17	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8735 - enable config drive on Rackspace servers
+
+2014-12-15	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8685 - include netmask in ENC output
+
+2014-12-11	Lukas Zapletal <lzap+git@redhat.com>
+	* Refs #8364 - removed javascript N+1 alerts
+
+2014-12-11	ripcurld00d <ripcurld.github@gmail.com>
+	* Fixes #2592 - No indication when waiting for host dashboard button action to complete
+
+2014-12-11	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8627 - add host comment field to API documentation
+
+2014-12-10	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8620 - Remove useless back to host index link in multiple hosts action
+
+2014-12-09	Dominic Cleal <dcleal@redhat.com>
+	* refs #8477 - fix string interpolation and spelling
+	* fixes #8590 - handle missing 'config' when listing vSphere VMs
+
+2014-12-09	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #8477 - usability improvements to template locking/defaults
+
+2014-12-09	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8591 - explicitly set where to subnets.id
+
+2014-12-09	Šimon Lukašík <slukasik@redhat.com>
+	* fixes #8592 - allow plug-ins to modify multiple hosts actions
+
+2014-12-09	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8416 - Fix Puppet classes form n+1 queries
+
+2014-12-08	Ori Rabin <orabin@redhat.com>
+	* Fixes #8551 - use most specific matcher for inherited hostgroups
+
+2014-12-05	Dominic Cleal <dcleal@redhat.com>
+	* refs #7032 - fix documented backup filename
+
+2014-12-05	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #7032 - Rake backup accepts destination file
+	* Fixes #8401: n+1 query on group parameters host edit
+	* Fixes #8400: Remove eager loading of puppetclass in lookup_keys index
+
+2014-12-04	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8228 - add a config_templates concern to serve config_templates controllers
+
+2014-12-04	Dominic Cleal <dcleal@redhat.com>
+	* fixes #5841 - use inner query when retrieving reports for subset of authorised hosts
+
+2014-12-03	Henrik Feldt <henrik@haf.se>
+	* Fixes #5999 - vpc + pub ip -> attach pub ip
+
+2014-12-03	Tom Caspy <tcaspy@gmail.com>
+	* fixes #8539 - refactoring a test to work for both GNU libc and Darwin libc
+	* fixes #8513 - removing n+1 query from images#index
+
+2014-12-03	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #8546 - Namespace interfaces and subnets to avoid a facts clash
+
+2014-12-03	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #8526 - file uploads are now possible via two_pane.
+
+2014-12-03	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8221 - search for subnet with taxonomy scope
+
+2014-12-03	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #8348 - expose user variable to templates in group mail
+
+2014-12-02	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #8284 - missing params in OS api docs
+
+2014-12-02	Ori Rabin <orabin@redhat.com>
+	* Fixes #8536 - can update and delete media with dot in name
+
+2014-12-02	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #8471 - adds a number field input support
+
+2014-12-02	Dominic Cleal <dcleal@redhat.com>
+	* templates - sync from community-templates
+
+2014-12-02	Marek Hulan <mhulan@redhat.com>
+	* Fixes #8433 - Fix type transformation for all ENC-able NICs
+
+2014-12-01	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8421 - Host group search by OS attributes
+
+2014-12-01	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #8267 - accept template_url in call to foreman from proxy
+
+2014-11-28	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8499 - Link LICENSE from README
+
+2014-11-28	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8356 - refactor reset method for libvirt
+	* fixes #8459 - remove sp_subnet_id from api/hosts
+
+2014-11-28	Ori Rabin <orabin@redhat.com>
+	* Fixes #8428 - Connecting audits to existing users
+
+2014-11-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #8467 - trends range selector is now visible
+
+2014-11-28	Dominic Cleal <dcleal@redhat.com>
+	* fixes #7487 - remove unused background-image containing UTF-8 character
+
+2014-11-27	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8527 - pin rest-client to version compatible with current rbovirt
+
+2014-11-27	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #5723 - Show host groups inherited via config groups in puppetclass index
+
+2014-11-26	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8463 - remove i18n bundler group as it isn't optional
+	* fixes #8510 - ignore gettext load failures in production without it
+
+2014-11-26	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #8414 - extracts validators from models
+
+2014-11-26	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8367 - Eager load classes under /lib
+	* fixes #8357 - Set fog gem to version 1.25.0
+
+2014-11-25	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #7525 - don't fail on structured facts
+
+2014-11-25	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #7233 - Drop Ruby 1.8.7 and revert Ruby 1.8.7 specifics
+
+2014-11-25	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #6872 - Add title to new compute resource page
+
+2014-11-24	Joseph Magen <jmagen@redhat.com>
+	* fixes #8445 - upgrade rails to 3.2.21
+
+2014-11-24	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7440 - correctly autocomplete current_user
+	* Fixes #6765 - correct wrong validation on media name
+
+2014-11-24	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #8457 - auto complete search clear btn is now positioned correctly
+
+2014-11-24	Marek Hulan <mhulan@redhat.com>
+	* Fixes #8456 - normalize addresses only if mac is being set
+
+2014-11-20	Marek Hulan <mhulan@redhat.com>
+	* Fixes #7908 - normalize mac before host get saved
+
+2014-11-20	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #8405 - Filter :interfaces_attributes when calculating templates_used
+
+2014-11-19	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #3809 - Remove useless assignments
+
+2014-11-18	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8425 - n+1 query on audits index
+	* Fixes #4613 - Remove duplicate scoped search from taxonomies
+
+2014-11-17	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8424 - Controller concerns are loaded twice
+
+2014-11-17	Ori Rabin <orabin@redhat.com>
+	* Fixes #5573 - os search definitions for host available in unattended=false mode
+	* Fixes #8418 - Add 'facts' feature to features
+	* Fixes #5169 - Error in smart class param or value cause tab header to turn red in Puppet Class edit form
+
+2014-11-17	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8363 - Sort VMware attributes alphabetically
+
+2014-11-17	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #3288 - i18n extract heading on new host view
+
+2014-11-17	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #5634 - save sso_method on session expiry
+
+2014-11-14	Scott Seago <sseago@redhat.com>
+	* fixes #8377 - fixes uniq validation for nics without a host
+
+2014-11-14	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #5018 - pin rbvmomi gem to the rbvmomi version in fog gem
+
+2014-11-13	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8366 - add parameter type to unique index
+
+2014-11-13	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #8364 - Adds SQL N+1 Query detection using bullet.
+
+2014-11-12	Jiayi Ye <yejiayily@gmail.com>
+	* Bug #7547 - Cannot log out of WebUI from mobile device
+
+2014-11-12	Bryan Kearney <bkearney@redhat.com>
+	* Fixes #8325 : Enhance the plugin object to use the gem path to understand where the plugin is installed
+
+2014-11-12	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #1448 - correctly display puppetclass statistics
+	* Fixes #844 #5725 - correct hosts count in puppetclass
+	* Fixes #7488 - correctly display hostgroups with / in their names
+
+2014-11-12	Joseph Magen <jmagen@redhat.com>
+	* fixes #5773 - redirect to referrer URL that includes page and search
+
+2014-11-12	ripcurld00d <ripcurld.github@gmail.com>
+	* Fixes #7590 - OS Family web UI is handled uniquely in three different places
+
+2014-11-12	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #4478 - API documentation localized
+
+2014-11-12	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #8321 - correctly pull Compute Resource image method from compute attributes
+
+2014-11-11	ripcurld00d <ripcurld.github@gmail.com>
+	* Fixes #6974 - Hitting Cancel button on New Org > Manually Assign goes to 404
+
+2014-11-11	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8281 - remove id-name parameterization from puppetca
+
+2014-11-11	Jiayi Ye <yejiayily@gmail.com>
+	* Bug #7619 - [zh_CN] Localized string broken for Loading page
+
+2014-11-11	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #8337 - reworded oVirt template help text
+
+2014-11-10	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #7369 - External user groups update on login
+
+2014-11-10	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #7462 - new UI for network interfaces
+
+2014-11-07	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #8302 - only return active images for openstack compute resources
+
+2014-11-06	Joseph Magen <jmagen@redhat.com>
+	* fixes #8277 - upgrade rails to 3.2.20
+
+2014-11-05	Daniel Lobato García <elobatocs@gmail.com>
+	* Fixes #8285 - Update README.md
+
+2014-11-05	Tom McKay <thomasmckay@redhat.com>
+	* fixes #6408 - dismiss org/loc context menu when mouse leaves it
+
+2014-11-05	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #3809 - fix shadowing outer local variables
+
+2014-11-05	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #7971 - DHCP hostname commutative conflict fix
+	* Fixes #8258 - CR provider errors with correct log level
+
+2014-11-04	Greg Sutcliffe <gsutclif@redhat.com>
+	* Refs #969 - Foreman-side changes for serving templates from the proxy
+
+2014-11-04	Dominic Cleal <dcleal@redhat.com>
+	* refs #746 - hosts stylesheet is part of app.css, not standalone
+
+2014-11-04	Jiayi Ye <yejiayily@gmail.com>
+	* Fixes #7954 - When creating a host cant is spelled wrong under partition table side note
+
+2014-10-31	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8091: connect-src accepts WSS
+
+2014-10-31	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #7586, #7734, #7172 - user preferences for receiving mail notifications
+	* fixes #4463 - use unattended URL for hostgroup provisioning
+
+2014-10-31	Dominic Cleal <dcleal@redhat.com>
+	* refs #3260 - add label for default value tickbox to match overrides
+
+2014-10-30	Dominic Cleal <dcleal@redhat.com>
+	* refs #3260 - extract string, fix inconsistent capitalisation
+	* fixes #8133 - update audit diff view to match changes in cafa947
+
+2014-10-30	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #7982 - Parameterize Operatingsystem.title to avoid non-alphanumeric characters in title (and friendly_id)
+
+2014-10-30	Ori Rabin <orabin@redhat.com>
+	* Fixes #3260- Allows puppet to manage value of smart class parameter that can be overrided
+
+2014-10-29	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #7975 - Subnet names should be unique
+	* ref #8056 - Unit tests for to_param
+	* fixes #8056 - replaces . (dot) in params with - (hyphen)
+
+2014-10-29	Ivan Nečas <inecas@redhat.com>
+	* Fixes #8009 - Make sure the final version of helpers is in the controller
+
+2014-10-29	Dominic Cleal <dcleal@redhat.com>
+	* refs #746 - fix string interpolation ordering
+
+2014-10-28	Dominic Cleal <dcleal@redhat.com>
+	* Bump version to 1.8-develop
+
 2014-10-27	Dominic Cleal <dcleal@redhat.com>
 	* templates - sync from community-templates
 
