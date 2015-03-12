@@ -111,4 +111,31 @@ class HostgroupsControllerTest < ActionController::TestCase
     put :update, {:id => hostgroup.id, :hostgroup => {:name => 'new_child'}}, set_session_user
     assert_equal 'hostgroup=Parent/new_child', lookup_values(:six).match
   end
+
+  test "domain_selected should return subnets" do
+    domain = FactoryGirl.create(:domain)
+    subnet = FactoryGirl.create(:subnet)
+    domain.subnets << subnet
+    domain.save
+    xhr :post, :domain_selected, {:id => Hostgroup.first, :hostgroup => {}, :domain_id => domain.id, :format => :json}, set_session_user
+    assert_equal subnet.name,  JSON.parse(response.body)[0]["subnet"]["name"]
+  end
+
+  test "domain_selected should return empty on no domain_id" do
+    xhr :post, :domain_selected, {:id => Hostgroup.first, :hostgroup => {}, :format => :json, :domain_id => nil}, set_session_user
+    assert_response :success
+    assert_empty JSON.parse(response.body)
+  end
+
+  test "architecture_selected should not fail when no architecture selected" do
+    post :architecture_selected, {:id => Hostgroup.first, :hostgroup => {}, :architecture_id => nil}, set_session_user
+    assert_response :success
+    assert_template :partial => "common/os_selection/_architecture"
+  end
+
+  test "current_parameters should not fail on when hostgoup_parent_id parameter missing" do
+    xhr :post, :current_parameters, {:id => Hostgroup.first, :hostgroup => {}}, set_session_user
+    assert_response :success
+    assert_template :partial => "common_parameters/_inherited_parameters"
+  end
 end

@@ -28,7 +28,7 @@ module Foreman::Controller::HostDetails
           elsif params[:interface]
             render :json => Subnet.authorized(:view_subnets)
           else
-            not_found
+            render :json => {}
           end
         end
       end
@@ -45,12 +45,9 @@ module Foreman::Controller::HostDetails
   def assign_parameter(name, root = "")
     taxonomy_scope
     Taxonomy.as_taxonomy @organization, @location do
-      if params["#{name}_id"].to_i > 0 and instance_variable_set("@#{name}",name.classify.constantize.find(params["#{name}_id"]))
-        item = instance_variable_get("@#{controller_name.singularize}") || controller_name.classify.constantize.new(params[controller_name.singularize])
-        render :partial => root + name, :locals => { :item => item }
-      else
-        head(:not_found)
-      end
+      instance_variable_set("@#{name}",name.classify.constantize.where(:id => params["#{name}_id"]).first)
+      item = instance_variable_get("@#{controller_name.singularize}") || controller_name.classify.constantize.new(params[controller_name.singularize])
+      render :partial => root + name, :locals => { :item => item }
     end
   end
 
