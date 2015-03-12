@@ -56,6 +56,7 @@ module Api
           param :model_id, :number
           param :hostgroup_id, :number
           param :owner_id, :number
+          param :owner_type, Host::Base::OWNER_TYPES, :desc => N_("Host's owner type")
           param :puppet_ca_proxy_id, :number
           param :image_id, :number
           param :host_parameters_attributes, Array
