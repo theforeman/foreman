@@ -81,8 +81,9 @@ class HostgroupsController < ApplicationController
 
   def current_parameters
     Taxonomy.as_taxonomy @organization, @location do
+      inherited_parameters = Hostgroup.find(params['hostgroup_parent_id']).inherited_params(true) if params['hostgroup_parent_id']
       render :partial => "common_parameters/inherited_parameters",
-             :locals => { :inherited_parameters => Hostgroup.find(params['hostgroup_parent_id']).inherited_params(true) }
+             :locals => { :inherited_parameters => inherited_parameters }
     end
   end
 
