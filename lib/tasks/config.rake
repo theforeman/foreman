@@ -2,7 +2,7 @@ require 'optparse'
 require 'json'
 require 'yaml'
 
-desc "Configure Foreman in-database settings, see rake config -- --help for more details"
+desc "Configure Foreman in-database settings, see rake -- config --help for more details"
 task :config => :environment do
   class ForemanConfig
     attr_reader :options, :changed_settings

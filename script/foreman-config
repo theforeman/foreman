@@ -12,7 +12,7 @@ Wrapper around foreman-rake config task
 
 It's kept here for backward compatibility purposes.
 The preffered way should be `foreman-rake config`. See
-`foreman-rake config -- --help` for details.
+`foreman-rake config --help` for details.
 BANNER
   opt.on("-p",
          "--path PATH",
