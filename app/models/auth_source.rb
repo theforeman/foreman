@@ -77,4 +77,8 @@ class AuthSource < ActiveRecord::Base
     end
     nil
   end
+
+  def requires_email?
+    true
+  end
 end

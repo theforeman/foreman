@@ -13,13 +13,13 @@ FactoryGirl.define do
     auth_source { AuthSourceInternal.first }
     password 'password'
     sequence(:login) {|n| "user#{n}" }
+    sequence(:mail) {|n| "email#{n}@example.com" }
 
     trait :admin do
       admin { true }
     end
 
-    trait :with_mail do
-      sequence(:mail) {|n| "email#{n}@example.com" }
+    trait :with_mail do #keeping this not to have to edit a bunch of tests
     end
 
     trait :with_mail_notification do

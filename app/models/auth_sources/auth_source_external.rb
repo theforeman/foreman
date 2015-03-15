@@ -5,4 +5,8 @@ class AuthSourceExternal < AuthSource
     "EXTERNAL"
   end
   alias_method :to_label, :auth_method_name
+
+  def requires_email?
+    false
+  end
 end

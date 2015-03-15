@@ -113,6 +113,10 @@ class AuthSourceLdap < AuthSource
     []
   end
 
+  def requires_email?
+    false
+  end
+
   private
 
   def strip_ldap_attributes

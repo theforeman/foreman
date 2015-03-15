@@ -11,14 +11,8 @@ class UserTest < ActiveSupport::TestCase
     refute_valid FactoryGirl.build(:user, :login => nil), :login
   end
 
-  test "mail address is optional on creation" do
-    assert_valid FactoryGirl.build(:user, :mail => nil)
-  end
-
-  test "should have mail when updating" do
-    u = FactoryGirl.create(:user, :mail => nil)
-    u.firstname = 'Bob'
-    refute_valid u, :mail
+  test "should have email" do
+    refute_valid FactoryGirl.build(:user, :mail => nil)
   end
 
   test "hidden users don't need mail when updating" do
