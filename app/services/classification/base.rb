@@ -70,7 +70,8 @@ module Classification
       value = if values[key.id] and values[key.id][key.to_s]
                 {:value => values[key.id][key.to_s][:value]}
               else
-                {:value => key.default_value, :managed => key.use_puppet_default}
+                default_value_method = %w(yaml json).include?(key.key_type) ? :default_value_before_type_cast : :default_value
+                {:value => key.send(default_value_method), :managed => key.use_puppet_default}
               end
 
       return nil if value[:managed]
