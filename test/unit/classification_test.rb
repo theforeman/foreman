@@ -119,6 +119,22 @@ class ClassificationTest < ActiveSupport::TestCase
     assert_includes values_hash[json_lkey.id][json_lkey.key][:value], '{"a":"b"}'
   end
 
+  test "#value_of_key should correctly typecast JSON and YAML default values" do
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :environments => [env])
+    yaml_lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                                   :puppetclass => pc, :key_type => 'yaml', :default_value => 'a: b')
+    json_lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                                   :puppetclass => pc, :key_type => 'json', :default_value => '{"a": "b"}')
+    classparam = Classification::ClassParam.new
+
+    yaml_value = classparam.send(:value_of_key, yaml_lkey, {})
+    json_value = classparam.send(:value_of_key, json_lkey, {})
+
+    assert_equal yaml_value, {'a' => 'b'}
+    assert_equal json_value, {'a' => 'b'}
+  end
+
   test 'smart class parameter of array with avoid_duplicates should return lookup_value array without duplicates' do
     key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'array', :merge_overrides => true,
