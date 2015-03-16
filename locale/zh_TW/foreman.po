@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-02-25 10:08+0000\n"
+"PO-Revision-Date: 2015-03-10 11:01+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/foreman/l"
 "anguage/zh_TW/)\n"
@@ -64,6 +64,12 @@ msgstr "移除"
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "列出虛擬機器時發生了錯誤：%(status)s %(statusText)s"
 
+msgid "physical @ NAT %s"
+msgstr ""
+
+msgid "physical @ bridge %s"
+msgstr ""
+
 msgid "You are about to override the editor content, are you sure?"
 msgstr "您即將置換編輯器內容，您是否確定？"
 
@@ -102,6 +108,9 @@ msgstr "請選擇"
 msgid "No subnets"
 msgstr "無子網路"
 
+msgid "Error generating IP: %s"
+msgstr ""
+
 msgid "Interface"
 msgstr "介面"
 
@@ -121,27 +130,36 @@ msgid ""
 "use this one instead?"
 msgstr ""
 
-msgid "Reboot and build"
+msgid "virtual attached to %s"
+msgstr ""
+
+msgid "virtual"
+msgstr ""
+
+msgid "physical"
 msgstr ""
 
 msgid "Build"
 msgstr "組建"
 
+msgid "Reboot and build"
+msgstr ""
+
 msgid "Select All"
 msgstr "全部選擇"
-
-msgid "All items"
-msgstr "所有項目"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr "篩選器"
 
-msgid "Selected items"
-msgstr "已選擇的項目"
+msgid "All items"
+msgstr "所有項目"
 
 msgid "Deselect All"
 msgstr "反選全部"
+
+msgid "Selected items"
+msgstr "已選擇的項目"
 
 msgid "Select this since it belongs to a host"
 msgstr "選擇此項目因為它屬於一部主機"
@@ -158,21 +176,21 @@ msgstr "父項已選擇"
 msgid "new"
 msgstr "新增"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Medium"
+msgstr "媒介"
+
+msgid "Strong"
+msgstr ""
+
 msgid "Very Strong"
 msgstr ""
 
 msgid "Weak"
 msgstr ""
 
-msgid "Strong"
-msgstr ""
-
 msgid "Normal"
 msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Medium"
-msgstr "媒介"
 
 msgid "Your password is too short"
 msgstr ""
@@ -1645,11 +1663,11 @@ msgstr "在繼續進行前，您必須建立至少一個位置。"
 msgid "You must create at least one organization before continuing."
 msgstr "在繼續進行前，您必須建立至少一個組織。"
 
-msgid "Error"
-msgstr "錯誤"
-
 msgid "OK"
 msgstr "確定"
+
+msgid "Error"
+msgstr "錯誤"
 
 msgid "Invalid authenticity token"
 msgstr ""
@@ -1800,10 +1818,10 @@ msgstr "已選擇的主機現在已指定給 %s"
 msgid "The marked fields will need reviewing"
 msgstr "標記的欄位需要再次檢查"
 
-msgid "Template unlocked"
+msgid "Template locked"
 msgstr ""
 
-msgid "Template locked"
+msgid "Template unlocked"
 msgstr ""
 
 msgid "External user group %{name} refreshed"
@@ -1821,11 +1839,11 @@ msgstr "PXE"
 msgid "CDROM"
 msgstr "CDROM"
 
-msgid "BIOS"
-msgstr "BIOS"
-
 msgid "Disk"
 msgstr "磁碟"
+
+msgid "BIOS"
+msgstr "BIOS"
 
 msgid "Unable to generate output, Check log files"
 msgstr ""
@@ -1973,11 +1991,11 @@ msgstr "已成功銷毀報告。"
 msgid "Role cloned from role %{old_name}"
 msgstr "由 %{old_name} 角色複製的角色"
 
-msgid "Successfully refreshed features from %s."
-msgstr "已成功由 %s 更新了功能"
-
 msgid "No changes found when refreshing features from %s."
 msgstr "更新來自於 %s 的功能時未發現變更。"
+
+msgid "Successfully refreshed features from %s."
+msgstr "已成功由 %s 更新了功能"
 
 msgid "%s core"
 msgid_plural "%s cores"
@@ -2071,11 +2089,11 @@ msgstr "%s 前"
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr "在此 %s 中會與主機相聯的參數"
 
-msgid "Additional info"
-msgstr "額外資訊"
-
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
+
+msgid "Additional info"
+msgstr "額外資訊"
 
 msgid "Paused"
 msgstr "已暫停"
@@ -2206,12 +2224,12 @@ msgstr "已套用"
 msgid "Applied|A"
 msgstr "A"
 
-msgid "Restarted"
-msgstr "已重新啟動"
-
 #. TRANSLATORS: initial character of Restarted
 msgid "Restarted|R"
 msgstr "R"
+
+msgid "Restarted"
+msgstr "已重新啟動"
 
 msgid "Failed"
 msgstr "失敗"
@@ -2227,20 +2245,20 @@ msgstr "重新啟動失敗"
 msgid "Failed Restarts|FR"
 msgstr "FR"
 
-msgid "Skipped"
-msgstr "已跳過"
-
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
 msgstr "S"
 
-msgid "Pending"
-msgstr "等待處理中"
+msgid "Skipped"
+msgstr "已跳過"
 
 #. TRANSLATORS: initial character of Pending
 #. TRANSLATORS: host's status: first character of "pending"
 msgid "Pending|P"
 msgstr "P"
+
+msgid "Pending"
+msgstr "等待處理中"
 
 msgid "New Puppet Environment"
 msgstr "新增 Puppet 環境"
@@ -2443,11 +2461,11 @@ msgstr "執行 puppet"
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr "在節點上啟動 puppetrun；需要先啟用 puppet run"
 
-msgid "Host audit entries"
-msgstr "主機稽核項目"
-
 msgid "Audits"
 msgstr "稽核"
+
+msgid "Host audit entries"
+msgstr "主機稽核項目"
 
 msgid "Facts"
 msgstr "詳情"
@@ -2455,11 +2473,11 @@ msgstr "詳情"
 msgid "Browse host facts"
 msgstr "瀏覽主機詳情"
 
-msgid "Reports"
-msgstr "報告"
-
 msgid "Browse host reports"
 msgstr "瀏覽主機回報"
+
+msgid "Reports"
+msgstr "報告"
 
 msgid "YAML"
 msgstr "YAML"
@@ -2470,11 +2488,11 @@ msgstr "Puppet 外部節點 YAML 傾印"
 msgid "Allocation (GB)"
 msgstr "配置（GB）"
 
-msgid "Size"
-msgstr "大小"
-
 msgid "Full"
 msgstr "完整"
+
+msgid "Size"
+msgstr "大小"
 
 msgid "remove network interface"
 msgstr "移除網路介面卡"
@@ -2542,9 +2560,6 @@ msgstr "Puppet 類別"
 msgid "Puppet Class"
 msgstr "Puppet 類別"
 
-msgid "Parameter types"
-msgstr ""
-
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2560,11 +2575,11 @@ msgstr ""
 "ML 輸入，並且必須作為 object/map/dict/hash。</dd><dt>YAML</dt> <dd>任何有效的 YAML 輸入。</dd><d"
 "t>JSON</dt> <dd>任何有效的 JSON 輸入。</dd></dl>"
 
+msgid "Parameter types"
+msgstr ""
+
 msgid "How values are validated"
 msgstr "驗證值的方式"
-
-msgid "Validator type"
-msgstr ""
 
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
@@ -2573,6 +2588,9 @@ msgid ""
 msgstr ""
 "<dl><dt>列表</dt> <dd>一個可以允許加入驗證規則欄位的值列表.</dd><dt>正規表示法</dt> <dd>在驗證規則欄位中利用正規表示法"
 "來驗證輸入值.</dd></dl>"
+
+msgid "Validator type"
+msgstr ""
 
 msgid "Validation types"
 msgstr "驗證類型"
@@ -2585,30 +2603,30 @@ msgstr "<b>描述：</b> %{desc}<br><b>類型：</b> %{type}<br> <b>相符項目
 msgid "Default value"
 msgstr "預設值"
 
+msgid "No value error"
+msgstr "未提供值的錯誤"
+
 msgid ""
 "Required parameter without value.<br/><b>Please override!</b> <br><br><b>Descr"
 "iption:</b>: %s"
 msgstr "必要的參數未提供值。<br/><b>請覆寫！</b> <br><br><b>描述：</b>：%s"
 
-msgid "No value error"
-msgstr "未提供值的錯誤"
+msgid "No value warning"
+msgstr "未提供值的警示"
 
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
 "><b>Description:</b> %s"
 msgstr "沒有值的選用性參數。<br/><i>不會提供給 Puppet。</i> <br><br><b>描述：</b> %s"
 
-msgid "No value warning"
-msgstr "未提供值的警示"
+msgid "pending"
+msgstr "正在處理"
 
 msgid "revoked"
 msgstr "已撤銷"
 
 msgid "valid"
 msgstr "有效"
-
-msgid "pending"
-msgstr "正在處理"
 
 msgid "in %s"
 msgstr "%s 中"
@@ -2627,6 +2645,11 @@ msgstr "匯入"
 
 msgid "Import from %s"
 msgstr "由 %s 匯入"
+
+msgid "%{name} has %{num_tag} class"
+msgid_plural "%{name} has %{num_tag} classes"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
@@ -2653,17 +2676,17 @@ msgstr "選擇期間"
 msgid "Show log messages:"
 msgstr "顯示日誌訊息："
 
-msgid "Errors only"
-msgstr "只有錯誤"
-
-msgid "All messages"
-msgstr "所有訊息"
-
 msgid "Warnings and errors"
 msgstr "警告與錯誤"
 
+msgid "Errors only"
+msgstr "只有錯誤"
+
 msgid "Notices, warnings and errors"
 msgstr "注意事項、警告和錯誤"
+
+msgid "All messages"
+msgstr "所有訊息"
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -2700,23 +2723,23 @@ msgstr "硬體"
 msgid "Class Distribution"
 msgstr "類別發佈"
 
+msgid "free memory"
+msgstr "可用記憶體"
+
 msgid "Average memory usage"
 msgstr "平均記憶體使用量"
 
 msgid "used memory"
 msgstr "已使用的記憶體"
 
-msgid "free memory"
-msgstr "可用記憶體"
-
 msgid "used swap"
 msgstr "已使用的 swap"
 
-msgid "free swap"
-msgstr "可用 swap"
-
 msgid "Average swap usage"
 msgstr "平均 swap 使用量"
+
+msgid "free swap"
+msgstr "可用 swap"
 
 msgid "Any Organization"
 msgstr "任何組織"
@@ -2724,11 +2747,11 @@ msgstr "任何組織"
 msgid "Any Location"
 msgstr "任何位置"
 
-msgid "New Location"
-msgstr "新增位置"
-
 msgid "New Organization"
 msgstr "新增組織"
+
+msgid "New Location"
+msgstr "新增位置"
 
 msgid "Operating system"
 msgstr "作業系統"
@@ -2738,12 +2761,12 @@ msgid "Environment"
 msgstr "環境"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Compute resource"
-msgstr "運算設定檔"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
 msgstr "型號"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Compute resource"
+msgstr "運算設定檔"
 
 msgid "Trend of the last %s days."
 msgstr "最後 %s 天的趨勢。"
@@ -2752,11 +2775,9 @@ msgid "Must specify a user with email enabled"
 msgstr ""
 
 msgid ""
-"Summary Puppet report from Foreman - F:%{failed} R:%{restarted} S:%{skipped} A"
-":%{applied} FR:%{failed_restarts} T:%{total}"
+"Puppet Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} F"
+"R:%{failed_restarts} T:%{total}"
 msgstr ""
-"來自於 Foreman 的 Puppet 概要報告 - F:%{failed} R:%{restarted} S:%{skipped} A:%{applie"
-"d} FR:%{failed_restarts} T:%{total}"
 
 msgid "unable to find recipients"
 msgstr "找不到收件者"
@@ -3206,10 +3227,19 @@ msgstr "主機群組"
 msgid "could not be found in %s"
 msgstr ""
 
+msgid "real"
+msgstr ""
+
+msgid "integer"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
+
 msgid "array"
 msgstr ""
 
-msgid "real"
+msgid "hash"
 msgstr ""
 
 msgid "yaml"
@@ -3218,16 +3248,7 @@ msgstr ""
 msgid "json"
 msgstr ""
 
-msgid "hash"
-msgstr ""
-
 msgid "string"
-msgstr ""
-
-msgid "boolean"
-msgstr ""
-
-msgid "integer"
 msgstr ""
 
 msgid "list"
@@ -3272,13 +3293,13 @@ msgstr "%{match} 與既有的主機不相符"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} 與目前的主機群組不相符"
 
-msgid "Weekly"
+msgid "Daily"
 msgstr ""
 
 msgid "Monthly"
 msgstr ""
 
-msgid "Daily"
+msgid "Weekly"
 msgstr ""
 
 msgid ""
@@ -3460,6 +3481,9 @@ msgstr "您的 Foreman instance 所能連上的 URL（請參閱佈建 > unattend
 
 msgid "Email reply address for emails that Foreman is sending"
 msgstr "Foreman 所傳送的電子郵件回覆地址"
+
+msgid "Prefix to add to all outgoing email"
+msgstr ""
 
 msgid "Send a welcome mail including username and URL to new users"
 msgstr ""
@@ -3664,11 +3688,11 @@ msgstr "無法與協定通訊：%s"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "請檢查協定是否已配置並在主機上運作。"
 
-msgid "DHCP"
-msgstr "DHCP"
-
 msgid "Static"
 msgstr ""
+
+msgid "DHCP"
+msgstr "DHCP"
 
 msgid "Internal DB"
 msgstr ""
@@ -3915,26 +3939,23 @@ msgstr "領域"
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "poweroff"
-msgstr "關閉電源"
-
-msgid "stop"
-msgstr "停止"
-
-msgid "start"
-msgstr "起始"
-
 msgid "reboot"
 msgstr "重新啟動"
-
-msgid "state"
-msgstr "狀態"
 
 msgid "reset"
 msgstr "重設"
 
-msgid "soft"
-msgstr "soft"
+msgid "state"
+msgstr "狀態"
+
+msgid "poweroff"
+msgstr "關閉電源"
+
+msgid "start"
+msgstr "起始"
+
+msgid "stop"
+msgstr "停止"
 
 msgid "off"
 msgstr "關閉"
@@ -3950,6 +3971,9 @@ msgstr "循環"
 
 msgid "ready?"
 msgstr ""
+
+msgid "soft"
+msgstr "soft"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "無效的電源狀態請求：%{action}，支援的動作為 %{supported}"
@@ -4098,13 +4122,13 @@ msgstr "Foreman 開發人員"
 msgid "Issue tracker"
 msgstr "問題追蹤器"
 
-msgid "issue tracker"
-msgstr "問題追蹤器"
-
 msgid ""
 "We use Redmine to report and track bugs and feature requests, which can be fou"
 "nd here:"
 msgstr "我們使用 Redmine 來回報和追蹤錯誤與功能請求，欲取得更多資訊請至："
+
+msgid "issue tracker"
+msgstr "問題追蹤器"
 
 msgid "System Information"
 msgstr "系統資訊"
@@ -4211,11 +4235,11 @@ msgstr "Base DN"
 msgid "Groups base DN"
 msgstr ""
 
-msgid "Custom LDAP search filter, <i>optional</i>"
-msgstr "自訂的 LDAP 搜尋篩選器，<i>選用性</i>"
-
 msgid "LDAP filter"
 msgstr "LDAP過濾器"
+
+msgid "Custom LDAP search filter, <i>optional</i>"
+msgstr "自訂的 LDAP 搜尋篩選器，<i>選用性</i>"
 
 msgid ""
 "LDAP users will have their Foreman account automatically created the first tim"
@@ -4234,11 +4258,11 @@ msgstr "例如 sn"
 msgid "e.g. mail"
 msgstr "例如 mail"
 
-msgid "e.g. jpegPhoto"
-msgstr "例如 jpegPhoto"
-
 msgid "Photo attribute"
 msgstr "照片屬性"
+
+msgid "e.g. jpegPhoto"
+msgstr "例如 jpegPhoto"
 
 msgid "Edit LDAP Auth Source"
 msgstr "編輯 LDAP Auth 來源"
@@ -4398,11 +4422,11 @@ msgstr "選取/反選所有 %s 變更"
 msgid "Update:"
 msgstr "更新："
 
-msgid "Remove:"
-msgstr "移除："
-
 msgid "Add:"
 msgstr "新增："
+
+msgid "Remove:"
+msgstr "移除："
 
 msgid "Update"
 msgstr "更新"
@@ -4416,11 +4440,11 @@ msgstr "將此搜尋加入書籤"
 msgid "Add Bookmark"
 msgstr "新增書籤"
 
-msgid "Build from OS image"
-msgstr "由 OS 映像檔組建"
-
 msgid "OS Image"
 msgstr "OS 映像檔"
+
+msgid "Build from OS image"
+msgstr "由 OS 映像檔組建"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
@@ -4441,11 +4465,11 @@ msgstr ""
 msgid "Actions"
 msgstr "動作"
 
-msgid "Override this value"
-msgstr "置換這個值"
-
 msgid "override"
 msgstr "覆寫"
+
+msgid "Override this value"
+msgstr "置換這個值"
 
 msgid "Global"
 msgstr "全域"
@@ -4664,14 +4688,38 @@ msgstr "VM 屬性"
 msgid "URL"
 msgstr "URL"
 
-msgid "Disabled"
-msgstr "已停用"
-
 msgid "Enabled"
 msgstr "已啟用"
 
+msgid "Disabled"
+msgstr "已停用"
+
 msgid "There was an error listing VMs: %s"
 msgstr "列出虛擬機器時發生了錯誤：%s"
+
+msgid "Network interfaces"
+msgstr "網路介面卡"
+
+msgid "add new network interface"
+msgstr "新增網路介面卡"
+
+msgid "Add Interface"
+msgstr "新增介面"
+
+msgid "No networks found."
+msgstr ""
+
+msgid "remove storage volume"
+msgstr ""
+
+msgid "Storage"
+msgstr "儲存"
+
+msgid "Add Volume"
+msgstr "新增卷冊"
+
+msgid "add new storage volume"
+msgstr "新增儲存卷冊"
 
 msgid "Flavor"
 msgstr "類別"
@@ -4713,46 +4761,43 @@ msgstr "網路"
 msgid "External IP"
 msgstr "外部IP"
 
-msgid "Network interfaces"
-msgstr "網路介面卡"
-
-msgid ""
-"Network interfaces management has been moved to the Interfaces tab on the host"
-" edit page."
-msgstr ""
-
-msgid "Network interfaces management has been moved to the Interfaces tab."
-msgstr ""
-
-msgid "Please set your interfaces"
-msgstr ""
-
-msgid "there"
-msgstr ""
-
 msgid "CPUs"
 msgstr "CPU"
 
 msgid "Memory"
 msgstr "記憶體"
 
-msgid "Storage"
-msgstr "儲存"
-
-msgid "add new storage volume"
-msgstr "新增儲存卷冊"
-
-msgid "Add Volume"
-msgstr "新增卷冊"
+msgid "Power ON this machine"
+msgstr "開啟這部機器的電源"
 
 msgid "Start"
 msgstr "起始"
 
-msgid "Power ON this machine"
-msgstr "開啟這部機器的電源"
-
 msgid "Image to use"
 msgstr "欲使用的映像檔"
+
+msgid "Network type"
+msgstr "網路類型"
+
+msgid "No networks"
+msgstr "沒有網路"
+
+msgid "No bridges"
+msgstr "無橋接"
+
+msgid ""
+"your libvirt host does not support interface listing, please enter here the br"
+"idge name (e.g. br0)"
+msgstr "您的 libvirt 主機不支援列出介面卡，請在此輸入橋接器名稱（例如 br0）"
+
+msgid "NIC type"
+msgstr "網路卡類型"
+
+msgid "Storage pool"
+msgstr "儲存集區"
+
+msgid "Size (GB)"
+msgstr "大小（GB）"
 
 msgid "Security group"
 msgstr "安全性群組"
@@ -4778,11 +4823,17 @@ msgstr "範本"
 msgid "Cores"
 msgstr "核心"
 
-msgid "Volumes"
-msgstr "卷冊"
+msgid "Storage domain"
+msgstr "儲存網域"
 
-msgid "add new volume"
-msgstr "新增卷冊"
+msgid "Uses thin provisioning if unchecked"
+msgstr ""
+
+msgid "Preallocate disk"
+msgstr ""
+
+msgid "Only one volume can be bootable"
+msgstr "只有一個卷冊能作為開機卷冊"
 
 msgid "Please Select an Image"
 msgstr "請選擇一個映像檔"
@@ -4800,50 +4851,6 @@ msgid "Guest OS"
 msgstr "客座端 OS"
 
 msgid "Virtual H/W version"
-msgstr ""
-
-msgid "SCSI controller"
-msgstr "SCSI 控制器"
-
-msgid "Network type"
-msgstr "網路類型"
-
-msgid "No networks"
-msgstr "沒有網路"
-
-msgid "No bridges"
-msgstr "無橋接"
-
-msgid ""
-"your libvirt host does not support interface listing, please enter here the br"
-"idge name (e.g. br0)"
-msgstr "您的 libvirt 主機不支援列出介面卡，請在此輸入橋接器名稱（例如 br0）"
-
-msgid "NIC type"
-msgstr "網路卡類型"
-
-msgid "Storage pool"
-msgstr "儲存集區"
-
-msgid "Size (GB)"
-msgstr "大小（GB）"
-
-msgid "remove volume"
-msgstr "移除卷冊"
-
-msgid "Storage domain"
-msgstr "儲存網域"
-
-msgid "Preallocate disk"
-msgstr ""
-
-msgid "Uses thin provisioning if unchecked"
-msgstr ""
-
-msgid "Only one volume can be bootable"
-msgstr "只有一個卷冊能作為開機卷冊"
-
-msgid "No networks found."
 msgstr ""
 
 msgid "Data store"
@@ -4869,6 +4876,9 @@ msgstr "電源"
 
 msgid "New Virtual Machine"
 msgstr "新增虛擬機器"
+
+msgid "Create"
+msgstr ""
 
 msgid "Associate VM to a Foreman host"
 msgstr "建立 VM 和某個 Foreman 主機之間的相聯性"
@@ -4957,11 +4967,11 @@ msgstr ""
 msgid "clone"
 msgstr ""
 
-msgid "Note: %s "
-msgstr ""
-
 msgid "Useful template functions and macros"
 msgstr "有用的範本功能與巨集"
+
+msgid "Note: %s "
+msgstr ""
 
 msgid "Template editor"
 msgstr "範本編輯器"
@@ -5216,13 +5226,13 @@ msgstr "此外，您亦可根據許多條件來限制使用者權限，請確認
 msgid "For internal Users, simply create a new user at the %s page"
 msgstr "內部使用者僅需在 %s 網頁中新建使用者"
 
+msgid "LDAP"
+msgstr "LDAP"
+
 msgid ""
 "If you chose to use LDAP authentication then you must provide connection detai"
 "ls for your authentication provider on %s page"
 msgstr "若您選擇使用 LDAP 認證，您必須在 %s 網頁上提供您認證供應者的詳細連線資料"
-
-msgid "LDAP"
-msgstr "LDAP"
 
 msgid "For Roles and permissions, see the %s page"
 msgstr "請參閱 %s 網頁以查看角色與權限"
@@ -5629,11 +5639,11 @@ msgstr "這兩項乃選用性選項（主要差別為參數/變數設定）。"
 msgid "Assign Selected Hosts"
 msgstr "指定選擇的主機"
 
-msgid "Select Hosts"
-msgstr "選擇主機"
-
 msgid "Create %s"
 msgstr "建立 %s"
+
+msgid "Select Hosts"
+msgstr "選擇主機"
 
 msgid "<b class='select_count'>0</b> selected"
 msgstr "已選擇了 <b class='select_count'>0</b> 個"
@@ -5673,6 +5683,11 @@ msgstr "連上 %s 失敗"
 
 msgid "Errors: %s"
 msgstr "錯誤：%s"
+
+msgid ""
+"Network interfaces management has been moved to the Interfaces tab. Please set"
+" your interfaces there."
+msgstr ""
 
 msgid "Conflicts have been detected"
 msgstr "偵測到了衝突"
@@ -5749,9 +5764,6 @@ msgstr ""
 
 msgid "FQDN"
 msgstr ""
-
-msgid "Add Interface"
-msgstr "新增介面"
 
 msgid "Ok"
 msgstr ""
@@ -5831,11 +5843,11 @@ msgstr "Ctrl-Alt-Del"
 msgid "Troubleshooting"
 msgstr "疑難排解"
 
-msgid "Open Spice in a new window"
-msgstr "在新視窗中開啟 Spice"
-
 msgid "New window"
 msgstr "新增視窗"
+
+msgid "Open Spice in a new window"
+msgstr "在新視窗中開啟 Spice"
 
 msgid "Connecting (unencrypted) to: %s"
 msgstr "正在連線（未加密）至：%s"
@@ -5846,11 +5858,11 @@ msgstr ""
 msgid "Canvas not supported."
 msgstr "不支援畫布（Canvas）"
 
-msgid "Manage host"
-msgstr "管理主機"
-
 msgid "Unmanage host"
 msgstr "未受管理的主機"
+
+msgid "Manage host"
+msgstr "管理主機"
 
 msgid "Disassociate host"
 msgstr "解除主機的相聯性"
@@ -6179,11 +6191,11 @@ msgstr "Jumpstart 控制檔案的 NFS 路徑。"
 msgid "The NFS path to the image directory."
 msgstr "映像檔目錄的 NFS 路徑。"
 
-msgid "Choose a family"
-msgstr "選擇家族"
-
 msgid "Operating system family"
 msgstr ""
+
+msgid "Choose a family"
+msgstr "選擇家族"
 
 msgid "Edit Medium"
 msgstr "編輯媒介"
@@ -6279,7 +6291,17 @@ msgstr "供應商類別"
 msgid "Model|Hardware model"
 msgstr "硬體型號"
 
-msgid "Device identifier, i.e.: eth0 or eth1.1"
+msgid "Device identifier"
+msgstr ""
+
+msgid ""
+"Device identifier for this interface. This may be different on various platfor"
+"ms and environments, here are some common examples.<br/><ul><li>Use the basic "
+"name for physical interface identifiers, e.g. <strong>eth0</strong> or <strong"
+">em0</strong> with biosdevname.</li><li>For virtual interfaces, use either ali"
+"as notation (<strong>eth0:1</strong>, name:index) or VLAN notation (<strong>et"
+"h0.15</strong>, name.tag).</li><li>For bonds it's common to use <strong>bond0<"
+"/strong> on Linux, <strong>lagg0</strong> on BSD systems<./li></ul>"
 msgstr ""
 
 msgid "DNS name"
@@ -6311,6 +6333,9 @@ msgstr ""
 msgid ""
 "The Provisioning interface is used for TFTP of PXELinux (or SSH for image-base"
 "d hosts)"
+msgstr ""
+
+msgid "from profile %s"
 msgstr ""
 
 msgid "Inherits from subnet VLAN ID if not set"
@@ -6349,10 +6374,10 @@ msgstr "家族"
 msgid "e.g. karmic, lucid, hw0910 etc"
 msgstr "例如 karmic、lucid、hw0910 等等"
 
-msgid "Hash function to use. Change takes effect for new or updated hosts."
+msgid "Root password hash"
 msgstr ""
 
-msgid "Root password hash"
+msgid "Hash function to use. Change takes effect for new or updated hosts."
 msgstr ""
 
 msgid "It is not possible to assign provisioning templates at this stage"
@@ -6402,11 +6427,11 @@ msgstr "組織也能與此串聯運作："
 msgid "locations"
 msgstr "位置"
 
-msgid "you may use %s"
-msgstr "您可使用 %s"
-
 msgid "a script as well"
 msgstr "一個 script"
+
+msgid "you may use %s"
+msgstr "您可使用 %s"
 
 msgid "Edit Partition Table"
 msgstr "編輯分割表"
@@ -6531,16 +6556,16 @@ msgstr "環境與文件"
 msgid "Variables"
 msgstr "變數"
 
-msgid "This will set all parameters of the class %s as overridden. Continue?"
-msgstr ""
-
 msgid "Override all parameters"
 msgstr ""
 
-msgid "This will reset parameters of the class %s to their default values. Continue?"
+msgid "This will set all parameters of the class %s as overridden. Continue?"
 msgstr ""
 
 msgid "Set parameters to defaults"
+msgstr ""
+
+msgid "This will reset parameters of the class %s to their default values. Continue?"
 msgstr ""
 
 msgid "Oops"
@@ -6566,11 +6591,11 @@ msgstr ""
 msgid "Realm type"
 msgstr "領域類型"
 
-msgid "Realm proxy to use within this realm"
-msgstr "在此領域中使用的領域協定"
-
 msgid "Realm proxy"
 msgstr "領域協定"
+
+msgid "Realm proxy to use within this realm"
+msgstr "在此領域中使用的領域協定"
 
 msgid "Edit Realm"
 msgstr "編輯領域"
@@ -7021,11 +7046,11 @@ msgstr ""
 msgid "Show linked external user groups"
 msgstr "顯示連接的外部使用者群組"
 
-msgid "link external user group with this user group"
-msgstr "將外部使用者群組連上這個使用者群組"
-
 msgid "Add external user group"
 msgstr "新增外部使用者群組"
+
+msgid "link external user group with this user group"
+msgstr "將外部使用者群組連上這個使用者群組"
 
 msgid "Edit User group"
 msgstr "編輯使用者群組"
@@ -7036,11 +7061,11 @@ msgstr "新增使用者群組"
 msgid "Mail Preferences"
 msgstr ""
 
-msgid "Browser locale"
-msgstr "瀏覽地區語言"
-
 msgid "Language"
 msgstr "語言"
+
+msgid "Browser locale"
+msgstr "瀏覽地區語言"
 
 msgid "Browser timezone"
 msgstr ""

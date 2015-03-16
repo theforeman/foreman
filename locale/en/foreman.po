@@ -37,13 +37,13 @@ msgstr ""
 msgid "Loading"
 msgstr ""
 
+msgid "Fact distribution chart"
+msgstr ""
+
 msgid "%s host"
 msgid_plural "%s hosts"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Fact distribution chart"
-msgstr ""
 
 msgid "Failed to load chart"
 msgstr ""
@@ -175,20 +175,20 @@ msgstr ""
 msgid "new"
 msgstr ""
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Medium"
-msgstr ""
-
-msgid "Strong"
-msgstr ""
-
-msgid "Very Strong"
+msgid "Normal"
 msgstr ""
 
 msgid "Weak"
 msgstr ""
 
-msgid "Normal"
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Medium"
+msgstr ""
+
+msgid "Very Strong"
+msgstr ""
+
+msgid "Strong"
 msgstr ""
 
 msgid "Your password is too short"
@@ -774,6 +774,9 @@ msgid ""
 "ult password in settings"
 msgstr ""
 
+msgid "Host's owner type"
+msgstr ""
+
 msgid ""
 "True/False flag whether a host is managed or unmanaged. Note: this value also "
 "determines whether several parameters are required or not"
@@ -783,6 +786,12 @@ msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/ta
 msgstr ""
 
 msgid "Additional information about this host"
+msgstr ""
+
+msgid "Host's network interfaces."
+msgstr ""
+
+msgid "Additional compute resource specific attributes."
 msgstr ""
 
 msgid "Create a host"
@@ -895,9 +904,6 @@ msgstr ""
 msgid "ID or name of interface"
 msgstr ""
 
-msgid "interface information"
-msgstr ""
-
 msgid "MAC address of interface"
 msgstr ""
 
@@ -907,7 +913,7 @@ msgstr ""
 msgid "Interface type, e.g: bmc"
 msgstr ""
 
-msgid "Interface name"
+msgid "Interface's DNS name"
 msgstr ""
 
 msgid "Foreman subnet ID of interface"
@@ -922,6 +928,16 @@ msgstr ""
 msgid ""
 "Should this interface be managed via DHCP and DNS smart proxy and should it be"
 " configured during provisioning?"
+msgstr ""
+
+msgid ""
+"Should this interface be used for constructing the FQDN of the host? Each mana"
+"ged hosts needs to have one primary interface."
+msgstr ""
+
+msgid ""
+"Should this interface be used for TFTP of PXELinux (or SSH for image-based hos"
+"ts)? Each managed hosts needs to have one provision interface."
 msgstr ""
 
 msgid "Only for BMC interfaces."
@@ -954,6 +970,12 @@ msgstr ""
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr ""
 
+msgid "Additional compute resource specific attributes for the interface."
+msgstr ""
+
+msgid "interface information"
+msgstr ""
+
 msgid "Create an interface on a host"
 msgstr ""
 
@@ -964,9 +986,6 @@ msgid "ID of interface"
 msgstr ""
 
 msgid "Delete a host's interface"
-msgstr ""
-
-msgid "Unknown interface type, must be one of [%s]"
 msgstr ""
 
 msgid "a location"
@@ -1832,13 +1851,13 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr ""
 
-msgid "PXE"
-msgstr ""
-
 msgid "CDROM"
 msgstr ""
 
 msgid "Disk"
+msgstr ""
+
+msgid "PXE"
 msgstr ""
 
 msgid "BIOS"
@@ -1990,10 +2009,10 @@ msgstr ""
 msgid "Role cloned from role %{old_name}"
 msgstr ""
 
-msgid "No changes found when refreshing features from %s."
+msgid "Successfully refreshed features from %s."
 msgstr ""
 
-msgid "Successfully refreshed features from %s."
+msgid "No changes found when refreshing features from %s."
 msgstr ""
 
 msgid "%s core"
@@ -2088,28 +2107,28 @@ msgstr ""
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr ""
 
-msgid "<b>Source:</b> %{type} %{name}"
+msgid "Additional info"
 msgstr ""
 
-msgid "Additional info"
+msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
 
 msgid "Paused"
 msgstr ""
 
-msgid "Off"
+msgid "On"
 msgstr ""
 
-msgid "On"
+msgid "Off"
 msgstr ""
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr ""
 
-msgid "Resume"
+msgid "Pause"
 msgstr ""
 
-msgid "Pause"
+msgid "Resume"
 msgstr ""
 
 msgid "Are you sure you want to %{act} %{vm}?"
@@ -2216,11 +2235,11 @@ msgstr ""
 msgid "Number Of Clients"
 msgstr ""
 
-msgid "Applied"
-msgstr ""
-
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
+msgstr ""
+
+msgid "Applied"
 msgstr ""
 
 #. TRANSLATORS: initial character of Restarted
@@ -2230,33 +2249,33 @@ msgstr ""
 msgid "Restarted"
 msgstr ""
 
-msgid "Failed"
-msgstr ""
-
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
 msgstr ""
 
-msgid "Failed Restarts"
+msgid "Failed"
 msgstr ""
 
 #. TRANSLATORS: initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
 msgstr ""
 
-#. TRANSLATORS: initial character of Skipped
-msgid "Skipped|S"
+msgid "Failed Restarts"
 msgstr ""
 
 msgid "Skipped"
 msgstr ""
 
-#. TRANSLATORS: initial character of Pending
-#. TRANSLATORS: host's status: first character of "pending"
-msgid "Pending|P"
+#. TRANSLATORS: initial character of Skipped
+msgid "Skipped|S"
 msgstr ""
 
 msgid "Pending"
+msgstr ""
+
+#. TRANSLATORS: initial character of Pending
+#. TRANSLATORS: host's status: first character of "pending"
+msgid "Pending|P"
 msgstr ""
 
 msgid "New Puppet Environment"
@@ -2466,31 +2485,31 @@ msgstr ""
 msgid "Host audit entries"
 msgstr ""
 
-msgid "Facts"
-msgstr ""
-
 msgid "Browse host facts"
 msgstr ""
 
-msgid "Browse host reports"
+msgid "Facts"
 msgstr ""
 
 msgid "Reports"
 msgstr ""
 
-msgid "YAML"
+msgid "Browse host reports"
 msgstr ""
 
 msgid "Puppet external nodes YAML dump"
 msgstr ""
 
+msgid "YAML"
+msgstr ""
+
 msgid "Allocation (GB)"
 msgstr ""
 
-msgid "Full"
+msgid "Size"
 msgstr ""
 
-msgid "Size"
+msgid "Full"
 msgstr ""
 
 msgid "remove network interface"
@@ -2518,10 +2537,10 @@ msgstr ""
 msgid "Image ID"
 msgstr ""
 
-msgid "Submit"
+msgid "Overwrite"
 msgstr ""
 
-msgid "Overwrite"
+msgid "Submit"
 msgstr ""
 
 msgid "Unable to save"
@@ -2559,6 +2578,9 @@ msgstr ""
 msgid "Puppet Class"
 msgstr ""
 
+msgid "Parameter types"
+msgstr ""
+
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2567,9 +2589,6 @@ msgid ""
 "valuate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that mu"
 "st evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML i"
 "nput.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
-msgstr ""
-
-msgid "Parameter types"
 msgstr ""
 
 msgid "How values are validated"
@@ -2596,12 +2615,12 @@ msgstr ""
 msgid "Default value"
 msgstr "Default value"
 
-msgid "No value error"
-msgstr ""
-
 msgid ""
 "Required parameter without value.<br/><b>Please override!</b> <br><br><b>Descr"
 "iption:</b>: %s"
+msgstr ""
+
+msgid "No value error"
 msgstr ""
 
 msgid "No value warning"
@@ -2612,13 +2631,13 @@ msgid ""
 "><b>Description:</b> %s"
 msgstr ""
 
-msgid "pending"
-msgstr ""
-
 msgid "revoked"
 msgstr ""
 
 msgid "valid"
+msgstr ""
+
+msgid "pending"
 msgstr ""
 
 msgid "in %s"
@@ -2729,13 +2748,13 @@ msgstr ""
 msgid "used memory"
 msgstr ""
 
+msgid "free swap"
+msgstr ""
+
 msgid "used swap"
 msgstr ""
 
 msgid "Average swap usage"
-msgstr ""
-
-msgid "free swap"
 msgstr ""
 
 msgid "Any Organization"
@@ -3223,13 +3242,10 @@ msgstr ""
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "real"
-msgstr ""
-
 msgid "integer"
 msgstr ""
 
-msgid "boolean"
+msgid "real"
 msgstr ""
 
 msgid "array"
@@ -3241,16 +3257,19 @@ msgstr ""
 msgid "yaml"
 msgstr ""
 
-msgid "json"
+msgid "boolean"
 msgstr ""
 
 msgid "string"
 msgstr ""
 
-msgid "list"
+msgid "json"
 msgstr ""
 
 msgid "regexp"
+msgstr ""
+
+msgid "list"
 msgstr ""
 
 msgid "invalid"
@@ -3289,13 +3308,13 @@ msgstr ""
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
-msgid "Daily"
-msgstr ""
-
 msgid "Monthly"
 msgstr ""
 
 msgid "Weekly"
+msgstr ""
+
+msgid "Daily"
 msgstr ""
 
 msgid ""
@@ -3313,6 +3332,9 @@ msgid "can't use the same value as the primary interface"
 msgstr ""
 
 msgid "already in use"
+msgstr ""
+
+msgid "can't find domain with this id"
 msgstr ""
 
 msgid "can't delete primary interface of managed host"
@@ -3682,10 +3704,10 @@ msgstr ""
 msgid "Please check the proxy is configured and running on the host."
 msgstr ""
 
-msgid "Static"
+msgid "DHCP"
 msgstr ""
 
-msgid "DHCP"
+msgid "Static"
 msgstr ""
 
 msgid "Internal DB"
@@ -3806,6 +3828,9 @@ msgid "Failure deploying via smart proxy %{proxy}: %{error}."
 msgstr ""
 
 msgid "Error connecting to %{proxy}: %{error}."
+msgstr ""
+
+msgid "Unknown interface type, must be one of [%s]"
 msgstr ""
 
 msgid "My account"
@@ -3935,13 +3960,10 @@ msgstr ""
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "reboot"
+msgid "stop"
 msgstr ""
 
 msgid "reset"
-msgstr ""
-
-msgid "state"
 msgstr ""
 
 msgid "poweroff"
@@ -3950,16 +3972,16 @@ msgstr ""
 msgid "start"
 msgstr ""
 
-msgid "stop"
+msgid "state"
 msgstr ""
 
-msgid "off"
+msgid "reboot"
+msgstr ""
+
+msgid "soft"
 msgstr ""
 
 msgid "on"
-msgstr ""
-
-msgid "status"
 msgstr ""
 
 msgid "cycle"
@@ -3968,7 +3990,10 @@ msgstr ""
 msgid "ready?"
 msgstr ""
 
-msgid "soft"
+msgid "off"
+msgstr ""
+
+msgid "status"
 msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
@@ -4253,10 +4278,10 @@ msgstr ""
 msgid "e.g. mail"
 msgstr ""
 
-msgid "Photo attribute"
+msgid "e.g. jpegPhoto"
 msgstr ""
 
-msgid "e.g. jpegPhoto"
+msgid "Photo attribute"
 msgstr ""
 
 msgid "Edit LDAP Auth Source"
@@ -4358,19 +4383,19 @@ msgstr ""
 msgid "Oops, we're sorry but something went wrong"
 msgstr ""
 
-msgid "Foreman ticketing system"
+msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr ""
 
-msgid "If you feel this is an error with Foreman itself, please open a new issue with"
+msgid "Foreman ticketing system"
 msgstr ""
 
 msgid "You would probably need to attach the"
 msgstr ""
 
-msgid "and relevant log entries."
+msgid "Full trace"
 msgstr ""
 
-msgid "Full trace"
+msgid "and relevant log entries."
 msgstr ""
 
 msgid "None Found"
@@ -4413,13 +4438,13 @@ msgstr ""
 msgid "Check/Uncheck all %s changes"
 msgstr ""
 
+msgid "Remove:"
+msgstr ""
+
 msgid "Update:"
 msgstr ""
 
 msgid "Add:"
-msgstr ""
-
-msgid "Remove:"
 msgstr ""
 
 msgid "Update"
@@ -4576,10 +4601,10 @@ msgstr ""
 msgid "Client Email"
 msgstr ""
 
-msgid "The file path where your p12 file is located"
+msgid "Certificate path"
 msgstr ""
 
-msgid "Certificate path"
+msgid "The file path where your p12 file is located"
 msgstr ""
 
 msgid "Zone"
@@ -4738,13 +4763,13 @@ msgstr ""
 msgid "Security groups"
 msgstr ""
 
-msgid "Managed IP"
+msgid "Public"
 msgstr ""
 
 msgid "Private"
 msgstr ""
 
-msgid "Public"
+msgid "Managed IP"
 msgstr ""
 
 msgid "Machine type"
@@ -4821,10 +4846,10 @@ msgstr ""
 msgid "Storage domain"
 msgstr ""
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -4875,10 +4900,10 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-msgid "Associate VM to a Foreman host"
+msgid "Associate VM"
 msgstr ""
 
-msgid "Associate VM"
+msgid "Associate VM to a Foreman host"
 msgstr ""
 
 msgid "Properties"
@@ -5627,13 +5652,13 @@ msgid ""
 "ference would be the parameter/variables settings)."
 msgstr ""
 
+msgid "Select Hosts"
+msgstr ""
+
 msgid "Assign Selected Hosts"
 msgstr ""
 
 msgid "Create %s"
-msgstr ""
-
-msgid "Select Hosts"
 msgstr ""
 
 msgid "<b class='select_count'>0</b> selected"
@@ -5730,10 +5755,10 @@ msgstr ""
 msgid "Host Parameters"
 msgstr ""
 
-msgid "Owned By"
+msgid "select an owner"
 msgstr ""
 
-msgid "select an owner"
+msgid "Owned By"
 msgstr ""
 
 msgid "Include this host within Foreman reporting"
@@ -5835,10 +5860,10 @@ msgstr ""
 msgid "Troubleshooting"
 msgstr ""
 
-msgid "New window"
+msgid "Open Spice in a new window"
 msgstr ""
 
-msgid "Open Spice in a new window"
+msgid "New window"
 msgstr ""
 
 msgid "Connecting (unencrypted) to: %s"
@@ -6025,10 +6050,10 @@ msgstr ""
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
-msgid "Image path"
+msgid "Full path to backing image used to create new volumes."
 msgstr ""
 
-msgid "Full path to backing image used to create new volumes."
+msgid "Image path"
 msgstr ""
 
 msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
@@ -6067,18 +6092,18 @@ msgid ""
 "em managed via Foreman is housed."
 msgstr ""
 
-msgid "organizations"
-msgstr ""
-
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
 " are locations. Locations also work nicely when used in tandem with "
 msgstr ""
 
-msgid "Variable"
+msgid "organizations"
 msgstr ""
 
 msgid "Remove %s?"
+msgstr ""
+
+msgid "Variable"
 msgstr ""
 
 msgid "Whether the smart variable value is managed by Foreman"
@@ -6130,13 +6155,10 @@ msgid ""
 "b servers\", environment = production</code>"
 msgstr ""
 
-msgid "Add Matcher-Value"
-msgstr ""
-
 msgid "add a new matcher-value pair"
 msgstr ""
 
-msgid "Explain matchers"
+msgid "Add Matcher-Value"
 msgstr ""
 
 msgid ""
@@ -6144,6 +6166,9 @@ msgid ""
 "ue below would be provided.<br> You may use any attribute foreman knows about,"
 " such as facts etc for example: <code> domain = example.com </code> or <code> "
 "is_virtual = true</code>"
+msgstr ""
+
+msgid "Explain matchers"
 msgstr ""
 
 msgid "Matcher"
@@ -6180,10 +6205,10 @@ msgstr ""
 msgid "The NFS path to the image directory."
 msgstr ""
 
-msgid "Operating system family"
+msgid "Choose a family"
 msgstr ""
 
-msgid "Choose a family"
+msgid "Operating system family"
 msgstr ""
 
 msgid "Edit Medium"
@@ -6289,7 +6314,7 @@ msgid ""
 ">em0</strong> with biosdevname.</li><li>For virtual interfaces, use either ali"
 "as notation (<strong>eth0:1</strong>, name:index) or VLAN notation (<strong>et"
 "h0.15</strong>, name.tag).</li><li>For bonds it's common to use <strong>bond0<"
-"/strong> on Linux, <strong>lagg0</strong> on BSD systems<./li></ul>"
+"/strong> on Linux, <strong>lagg0</strong> on FreeBSD systems.</li></ul>"
 msgstr ""
 
 msgid "DNS name"
@@ -6362,10 +6387,10 @@ msgstr ""
 msgid "e.g. karmic, lucid, hw0910 etc"
 msgstr ""
 
-msgid "Root password hash"
+msgid "Hash function to use. Change takes effect for new or updated hosts."
 msgstr ""
 
-msgid "Hash function to use. Change takes effect for new or updated hosts."
+msgid "Root password hash"
 msgstr ""
 
 msgid "It is not possible to assign provisioning templates at this stage"
@@ -6374,10 +6399,10 @@ msgstr ""
 msgid "Please save the Operating System first and try again."
 msgstr ""
 
-msgid "No templates found!"
+msgid "you probably need to configure your %s first."
 msgstr ""
 
-msgid "you probably need to configure your %s first."
+msgid "No templates found!"
 msgstr ""
 
 msgid "Edit Operating System"
@@ -7031,10 +7056,10 @@ msgstr ""
 msgid "Show linked external user groups"
 msgstr ""
 
-msgid "Add external user group"
+msgid "link external user group with this user group"
 msgstr ""
 
-msgid "link external user group with this user group"
+msgid "Add external user group"
 msgstr ""
 
 msgid "Edit User group"
@@ -7046,12 +7071,12 @@ msgstr ""
 msgid "Mail Preferences"
 msgstr ""
 
-msgid "Language"
-msgstr ""
-
 #, fuzzy
 msgid "Browser locale"
 msgstr "Email address"
+
+msgid "Language"
+msgstr ""
 
 msgid "Browser timezone"
 msgstr ""
