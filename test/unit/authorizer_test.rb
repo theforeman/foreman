@@ -255,4 +255,39 @@ class AuthorizerTest < ActiveSupport::TestCase
     assert_includes results, host
     refute results.grep(host).first.readonly?
   end
+
+  test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report) for matching unlimited filter" do
+    permission = Permission.find_by_name('view_hosts')
+    FactoryGirl.create(:filter, :role => @role, :permissions => [permission], :unlimited => true)
+    host       = FactoryGirl.create(:host)
+    report     = FactoryGirl.create(:report, :host => host)
+    auth       = Authorizer.new(@user)
+
+    assert_includes auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report), report
+  end
+
+  test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report) for matching limited filter" do
+    permission = Permission.find_by_name('view_hosts')
+    FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
+                                :search => 'hostgroup ~ hostgroup*')
+    host       = FactoryGirl.create(:host, :with_hostgroup)
+    report     = FactoryGirl.create(:report, :host => host)
+    auth       = Authorizer.new(@user)
+
+    assert_includes auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report), report
+  end
+
+  test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report) for matching limited filter with base collection set" do
+    permission = Permission.find_by_name('view_hosts')
+    FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
+                                :search => 'hostgroup ~ hostgroup*')
+    (host1, host2) = FactoryGirl.create_pair(:host, :with_hostgroup)
+    report1        = FactoryGirl.create(:report, :host => host1)
+    report2        = FactoryGirl.create(:report, :host => host2)
+    auth           = Authorizer.new(@user, :collection => [host2])
+
+    collection = auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report)
+    refute_includes collection, report1
+    assert_includes collection, report2
+  end
 end

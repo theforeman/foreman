@@ -20,6 +20,7 @@ class Authorizer
   def find_collection(resource_class, options = {})
     permission = options.delete :permission
 
+    # retrieve all filters relevant to this permission for the user
     base = user.filters.joins(:permissions).where(["#{Permission.table_name}.resource_type = ?", resource_name(resource_class)])
     all_filters = permission.nil? ? base : base.where(["#{Permission.table_name}.name = ?", permission])
 
@@ -33,20 +34,47 @@ class Authorizer
                                                           *values]).uniq
 
     all_filters = all_filters.all # load all records, so #empty? does not call extra COUNT(*) query
-    return resource_class.where('1=0') if all_filters.empty?
 
-    unless @base_collection.nil?
-      if @base_collection.empty?
-        return resource_class.where('1=0')
-      else
-        resource_class = resource_class.where(:id => base_ids)
+    # retrieve hash of scoping data parsed from filters (by scoped_search), e.g. where clauses, joins
+    scope_components = build_filtered_scope_components(resource_class, all_filters, options)
+    if options[:joined_on]
+      # build scope for the "joined_on" object filtered by the associated "resource_class"
+      assoc_name = options[:association_name]
+      assoc_name ||= options[:joined_on].reflect_on_all_associations.find { |a| a.klass.base_class == resource_class.base_class }.name
+
+      scope = options[:joined_on].joins(assoc_name => scope_components[:includes]).readonly(false)
+      # apply every where clause to the scope consecutively
+      scope_components[:where].inject(scope) do |scope_build,where|
+        where.is_a?(Hash) ? scope_build.where(resource_class.table_name => where) : scope_build.where(where)
       end
+    else
+      # build regular filtered scope for "resource_class"
+      scope = resource_class.includes(scope_components[:includes]).joins(scope_components[:joins]).readonly(false)
+      scope_components[:where].inject(scope) { |scope_build,where| scope_build.where(where) }
+    end
+  end
+
+  def build_filtered_scope_components(resource_class, all_filters, options)
+    result = { where: [], includes: [], joins: [] }
+
+    if all_filters.empty? || (!@base_collection.nil? && @base_collection.empty?)
+      result[:where] << '1=0'
+      return result
     end
 
-    return resource_class.scoped if all_filters.any?(&:unlimited?)
+    if @base_collection.present?
+      result[:where] << { id: base_ids }
+    end
+
+    return result if all_filters.any?(&:unlimited?)
 
     search_string = build_scoped_search_condition(all_filters.select(&:limited?))
-    resource_class.search_for(search_string).readonly(false)
+
+    find_options = ScopedSearch::QueryBuilder.build_query(resource_class.scoped_search_definition, search_string, options)
+    result[:where] << find_options[:conditions]
+    result[:includes].push(*find_options[:include])
+    result[:joins].push(*find_options[:joins])
+    result
   end
 
   def build_scoped_search_condition(filters)
