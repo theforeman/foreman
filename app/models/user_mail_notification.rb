@@ -12,6 +12,7 @@ class UserMailNotification < ActiveRecord::Base
   scope :monthly, lambda { where(:interval => 'Monthly') }
 
   def deliver(options = {})
+    return unless user.mail_enabled?
     options[:time] = last_sent if last_sent
     mail_notification.deliver(options.merge(:user => user.id))
     update_attribute(:last_sent, Time.now)
