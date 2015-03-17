@@ -5,7 +5,7 @@ class HostMailer < ApplicationMailer
 
   # sends out a summary email of hosts and their metrics (e.g. how many changes failures etc).
   def summary(options = {})
-    raise ::Foreman::Exception.new(N_("Must specify a user with email enabled")) unless (user=User.find(options[:user])) && user.mail_enabled?
+    raise ::Foreman::Exception.new(N_("Must specify a valid user with email enabled")) unless (user=User.find(options[:user]))
     hosts = Host::Managed.authorized_as(user, :view_hosts, Host)
     time = options[:time] || 1.day.ago
     host_data = Report.summarise(time, hosts.all).sort
