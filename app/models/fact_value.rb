@@ -24,8 +24,7 @@ class FactValue < ActiveRecord::Base
   }
   scope :my_facts, lambda {
     unless User.current.admin? and Organization.current.nil? and Location.current.nil?
-      host_ids = Host.authorized(:view_hosts, Host).select('hosts.id').all
-      where(:fact_values => {:host_id => host_ids})
+      joins_authorized(Host, :view_hosts)
     end
   }
 
