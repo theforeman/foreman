@@ -68,5 +68,31 @@ class FactValueTest < ActiveSupport::TestCase
     results = FactValue.search_for("host = #{host.fqdn}")
     assert_empty results
   end
-end
 
+  describe '.my_facts' do
+    let(:target_host) { FactoryGirl.create(:host, :with_hostgroup, :with_facts) }
+    let(:other_host) { FactoryGirl.create(:host, :with_hostgroup, :with_facts) }
+
+    test 'returns all facts for admin' do
+      as_admin do
+        assert_empty (target_host.fact_values + other_host.fact_values).map(&:id) - FactValue.my_facts.map(&:id)
+      end
+    end
+
+    test 'returns visible facts for unlimited user' do
+      user_role = FactoryGirl.create(:user_user_role)
+      FactoryGirl.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :unlimited => true)
+      as_user user_role.owner do
+        assert_empty (target_host.fact_values + other_host.fact_values).map(&:id) - FactValue.my_facts.map(&:id)
+      end
+    end
+
+    test 'returns visible facts for filtered user' do
+      user_role = FactoryGirl.create(:user_user_role)
+      FactoryGirl.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :search => "hostgroup_id = #{target_host.hostgroup_id}")
+      as_user user_role.owner do
+        assert_equal target_host.fact_values.map(&:id).sort, FactValue.my_facts.map(&:id).sort
+      end
+    end
+  end
+end
