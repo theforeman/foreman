@@ -4,7 +4,7 @@
 
 <% title_actions display_link_if_authorized(_("New Template"), hash_for_new_config_template_path),
   display_link_if_authorized(_("Build PXE Default"), {:action => :build_pxe_default},{
-    :confirm => _("You Are about to change the default PXE menu on all configured TFTP servers - continue ?"),
+    :confirm => _("You are about to change the default PXE menu on all configured TFTP servers - continue?"),
     :class => "btn btn-info"})
 %>
 
