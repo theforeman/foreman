@@ -64,7 +64,7 @@ class Role < ActiveRecord::Base
   end
 
   def permission_names
-    @permission_names ||= permissions.map { |p| p.name.to_sym }
+    @permission_names ||= permissions.pluck('permissions.name').map(&:to_sym)
   end
 
   # Return true if the role is a builtin role
