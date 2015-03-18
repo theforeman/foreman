@@ -196,7 +196,7 @@ class Hostgroup < ActiveRecord::Base
     new.locations     = locations
     new.organizations = organizations
     # Clone any parameters as well
-    self.group_parameters.each{|param| new.group_parameters << param.clone}
+    self.group_parameters.each{|param| new.group_parameters << param.dup}
     self.config_groups.each{|group| new.config_groups << group}
     new
   end
