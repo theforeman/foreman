@@ -3,9 +3,10 @@
 <% title _("Provisioning Templates") %>
 
 <% title_actions display_link_if_authorized(_("New Template"), hash_for_new_config_template_path),
-  display_link_if_authorized(_("Build PXE Default"), {:action => :build_pxe_default},{
-    :confirm => _("You Are about to change the default PXE menu on all configured TFTP servers - continue ?"),
-    :class => "btn btn-info"})
+                 display_link_if_authorized(_("Build PXE Default"), {:action => :build_pxe_default},{
+                   :confirm => _("You Are about to change the default PXE menu on all configured TFTP servers - continue ?"),
+                   :class => "btn btn-info"}),
+                documentation_button('4.4.3ProvisioningTemplates')
 %>
 
 <table class="table table-bordered table-striped table-two-pane">
