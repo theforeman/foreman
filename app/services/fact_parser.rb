@@ -14,6 +14,11 @@ class FactParser
   end
 
   def self.register_fact_importer(key, klass)
+    ActiveSupport::Deprecation.warn('FactParser#register_fact_importer was renamed to FactParser#register_fact_parser, please update your code')
+    register_fact_parser(key, klass)
+  end
+
+  def self.register_fact_parser(key, klass)
     parsers[key.to_sym] = klass
   end
 

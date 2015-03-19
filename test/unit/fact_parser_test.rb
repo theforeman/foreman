@@ -17,7 +17,7 @@ class FactParserTest < ActiveSupport::TestCase
 
   test ".register_custom_parser" do
     chef_parser = Struct.new(:my_method)
-    FactParser.register_fact_importer :chef, chef_parser
+    FactParser.register_fact_parser :chef, chef_parser
 
     assert_equal chef_parser, FactParser.parser_for(:chef)
   end
