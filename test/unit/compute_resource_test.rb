@@ -9,6 +9,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
   test "password is saved encrypted when updated" do
     compute_resource = compute_resources(:one)
+    compute_resource.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
     compute_resource.password = "123456"
     as_admin do
       assert compute_resource.save
@@ -19,6 +20,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
   test "password is saved encrypted when created" do
     Fog.mock!
+    ComputeResource.any_instance.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
     compute_resource = ComputeResource.new_provider(:name => "new12345", :provider => "EC2", :url => "eu-west-1",
                                                     :user => "username", :password => "abcdef")
     as_admin do
