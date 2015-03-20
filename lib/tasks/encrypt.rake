@@ -14,7 +14,7 @@ namespace :security do
 # You can use `rake security:generate_encryption_key` to regenerate this file.
 
 module EncryptionKey
-  ENCRYPTION_KEY = ENV['ENCRYPTION_KEY'] || '#{secure_encryption_key}'
+  ENCRYPTION_KEY = '#{secure_encryption_key}'
 end
 ")
       puts "Encryption key generated in file config/initializers/encryption_key.rb"

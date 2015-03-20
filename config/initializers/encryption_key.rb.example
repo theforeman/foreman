@@ -7,5 +7,5 @@
 # You can use `rake security:generate_encryption_key` to regenerate this file.
 
 #module EncryptionKey
-#  ENCRYPTION_KEY = ENV['ENCRYPTION_KEY'] || 'uncomment and insert encryption key here'
+#  ENCRYPTION_KEY = 'uncomment and insert encryption key here'
 #end
