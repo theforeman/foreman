@@ -7,21 +7,21 @@ module HostsHelper
   def provider_partial_exist?(compute_resource, partial)
     return false unless compute_resource
 
-    compute_resource_name = compute_resource.provider_friendly_name.downcase
-    real_path = File.join(Rails.root, 'app', 'views', 'compute_resources_vms', 'form', compute_resource_name, "_#{partial}.html.erb")
-
-    File.exist?(real_path)
+    compute_resource_name = compute_resource.provider.downcase
+    ActionController::Base.view_paths.any? do |path|
+      File.exist?(File.join(path, 'compute_resources_vms', 'form', compute_resource_name, "_#{partial}.html.erb"))
+    end
   end
 
   def provider_partial(compute_resource, partial)
     return nil unless compute_resource
 
-    compute_resource_name = compute_resource.provider_friendly_name.downcase
+    compute_resource_name = compute_resource.provider.downcase
     "compute_resources_vms/form/#{compute_resource_name}/#{partial}"
   end
 
   def nic_info_js(compute_resource)
-    javascript_include_tag("compute_resources/#{compute_resource.provider_friendly_name.downcase}/nic_info.js")
+    javascript_include_tag("compute_resources/#{compute_resource.provider.downcase}/nic_info.js")
   end
 
   def host_taxonomy_select(f, taxonomy)
