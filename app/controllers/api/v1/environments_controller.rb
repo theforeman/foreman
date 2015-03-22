@@ -28,7 +28,7 @@ module Api
       end
 
       def create
-        @environment = Environment.new(params[:environment])
+        @environment = PuppetEnvironment.new(params[:environment])
         process_response @environment.save
       end
 

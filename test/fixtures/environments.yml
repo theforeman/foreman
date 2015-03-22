@@ -2,9 +2,12 @@
 
 production:
   name: production
+  type: PuppetEnvironment
 
 global_puppetmaster:
   name: global_puppetmaster
+  type: PuppetEnvironment
 
 testing:
   name: testing
+  type: PuppetEnvironment

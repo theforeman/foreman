@@ -9,11 +9,11 @@ class EnvironmentsController < ApplicationController
   end
 
   def new
-    @environment = Environment.new
+    @environment = PuppetEnvironment.new
   end
 
   def create
-    @environment = Environment.new(params[:environment])
+    @environment = PuppetEnvironment.new(params[:puppet_environment])
     if @environment.save
       process_success
     else
@@ -25,7 +25,7 @@ class EnvironmentsController < ApplicationController
   end
 
   def update
-    if @environment.update_attributes(params[:environment])
+    if @environment.update_attributes(params[:puppet_environment])
       process_success
     else
       process_error

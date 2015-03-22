@@ -1,5 +1,5 @@
 class EnvironmentClass < ActiveRecord::Base
-  belongs_to :environment
+  belongs_to :environment, :class_name => PuppetEnvironment, :foreign_key => 'environment_id', :inverse_of => :environment_classes
   belongs_to :puppetclass
   belongs_to :puppetclass_lookup_key
   validates :puppetclass_lookup_key_id, :uniqueness => {:scope => [:environment_id, :puppetclass_id]}

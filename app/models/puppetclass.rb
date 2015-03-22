@@ -8,7 +8,7 @@ class Puppetclass < ActiveRecord::Base
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many :environment_classes, :dependent => :destroy
-  has_many :environments, :through => :environment_classes, :uniq => true
+  has_many :environments, :through => :environment_classes, :uniq => true, :class_name => PuppetEnvironment
   has_and_belongs_to_many :operatingsystems
   has_many :hostgroup_classes
   has_many :hostgroups, :through => :hostgroup_classes, :dependent => :destroy

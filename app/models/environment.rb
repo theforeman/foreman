@@ -8,8 +8,6 @@ class Environment < ActiveRecord::Base
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 
-  has_many :environment_classes, :dependent => :destroy
-  has_many :puppetclasses, :through => :environment_classes, :uniq => true
   has_many_hosts
   has_many :hostgroups
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
@@ -29,21 +27,6 @@ class Environment < ActiveRecord::Base
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :hosts_count
   scoped_search :on => :hostgroups_count
-
-  class << self
-    #TODO: this needs to be removed, as PuppetDOC generation no longer works
-    # if the manifests are not on the foreman host
-    # returns an hash of all puppet environments and their relative paths
-    def puppetEnvs(proxy = nil)
-      url = (proxy || SmartProxy.with_features("Puppet").first).try(:url)
-      raise ::Foreman::Exception.new(N_("Can't find a valid Foreman Proxy with a Puppet feature")) if url.blank?
-      proxy = ProxyAPI::Puppet.new :url => url
-      HashWithIndifferentAccess[proxy.environments.map do |e|
-        [e, HashWithIndifferentAccess[proxy.classes(e).map do |k|
-          klass = k.keys.first
-          [klass, k[klass]["params"]]
-        end]]
-      end]
-    end
-  end
 end
+
+require_dependency 'environments/puppet_environment'

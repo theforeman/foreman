@@ -269,7 +269,7 @@ class PuppetClassImporter
   end
 
   def find_or_create_env(env)
-    Environment.where(:name => env).first || Environment.create!(:name => env)
+    PuppetEnvironment.where(:name => env).first || PuppetEnvironment.create!(:name => env)
   end
 
   def find_or_create_puppet_class_param(klass, param_name, value)
