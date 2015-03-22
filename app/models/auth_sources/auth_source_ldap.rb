@@ -72,11 +72,16 @@ class AuthSourceLdap < AuthSource
 
   def to_config(login = nil, password = nil)
     raise ::Foreman::Exception.new(N_('Cannot create LDAP configuration for %s without dedicated service account'), self.name) if login.nil? && use_user_login_for_service?
-    { :host    => host,    :port => port, :encryption => (tls ? :simple_tls : nil),
+    { :host    => host,    :port => port, :encryption => encryption_config,
       :base_dn => base_dn, :group_base => groups_base, :attr_login => attr_login,
       :server_type  => server_type.to_sym, :search_filter => ldap_filter,
       :anon_queries => account.blank?, :service_user => service_user(login),
       :service_pass => use_user_login_for_service? ? password : account_password }
+  end
+
+  def encryption_config
+    method = tls ? :simple_tls : nil
+    { :method => method, :tls_options => { :verify_mode => OpenSSL::SSL::VERIFY_PEER } }
   end
 
   def ldap_con(login = nil, password = nil)
