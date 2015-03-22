@@ -203,6 +203,12 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert conf[:anon_queries]
   end
 
+  test '#to_config enforces verify_mode peer' do
+    conf = FactoryGirl.build(:auth_source_ldap).to_config('user', 'pass')
+    assert_kind_of Hash, conf[:encryption]
+    assert_equal OpenSSL::SSL::VERIFY_PEER, conf[:encryption][:tls_options][:verify_mode]
+  end
+
   test '#ldap_con does not cache connections with user auth' do
     ldap = FactoryGirl.build(:auth_source_ldap, :account => 'DOMAIN/$login')
     refute_equal ldap.ldap_con('user', 'pass'), ldap.ldap_con('user', 'pass')
