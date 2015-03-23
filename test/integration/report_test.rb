@@ -20,4 +20,10 @@ class ReportTest < ActionDispatch::IntegrationTest
     visit report_path(@report)
     assert page.has_selector?('h1', :text => @report.host.fqdn), "hostname was expected in the <h1> tag, but was not found"
   end
+
+  test "delete a report redirects to reports index" do
+    visit report_path(@report)
+    first(:link, "Delete").click
+    assert_equal(current_path, reports_path)
+  end
 end
