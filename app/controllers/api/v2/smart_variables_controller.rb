@@ -25,16 +25,16 @@ module Api
 
       def_param_group :smart_variable do
         param :smart_variable, Hash, :required => true, :action_aware => true do
-          param :variable, String, :required => true
-          param :puppetclass_id, :number
-          param :default_value, String
-          param :override_value_order, String
-          param :description, String
-          param :validator_type, String
-          param :validator_rule, String
-          param :variable_type, String
-          param :merge_overrides, :bool
-          param :avoid_duplicates, :bool
+          param :variable, String, :required => true, :desc => N_("Name of variable")
+          param :puppetclass_id, :number, :desc => N_("Puppet class ID")
+          param :default_value, String, :desc => N_("Default value of variable")
+          param :override_value_order, String, :desc => N_("The order in which values are resolved")
+          param :description, String, :desc => N_("Description of variable")
+          param :validator_type, LookupKey::VALIDATOR_TYPES
+          param :validator_rule, String, :desc => N_("Used to enforce certain values for the parameter values")
+          param :variable_type, LookupKey::KEY_TYPES
+          param :merge_overrides, :bool, :desc => N_("Merge all matching values (only array/hash type)")
+          param :avoid_duplicates, :bool, :desc => N_("Remove duplicate values (only array type)")
         end
       end
 
