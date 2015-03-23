@@ -107,10 +107,6 @@ class AuthSourceLdap < AuthSource
 
   def users_in_group(name)
     ldap_con.user_list(name)
-  rescue
-    # To be fixed after ldap_fluff returns [] for an empty group
-    # instead of raising an exception
-    []
   end
 
   private
