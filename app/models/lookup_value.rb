@@ -7,6 +7,7 @@ class LookupValue < ActiveRecord::Base
 
   belongs_to :lookup_key, :counter_cache => true
   validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}
+  validates :value, :presence => true
   delegate :key, :to => :lookup_key
   before_validation :sanitize_match
   before_validation :validate_and_cast_value
@@ -77,18 +78,25 @@ class LookupValue < ActiveRecord::Base
   end
 
   def ensure_fqdn_exists
-    md = match.match(/fqdn=(.*)/)
-    return true unless md
+    md = ensure_matcher(/fqdn=(.*)/)
+    return md if md == true || md == false
     fqdn = md[1].split(LookupKey::KEY_DELM)[0]
     return true if Host.unscoped.find_by_name(fqdn) || host_or_hostgroup.try(:new_record?)
     errors.add(:match, _("%{match} does not match an existing host") % { :match => "fqdn=#{fqdn}" }) and return false
   end
 
   def ensure_hostgroup_exists
-    md = match.match(/hostgroup=(.*)/)
-    return true unless md
+    md = ensure_matcher(/hostgroup=(.*)/)
+    return md if md == true || md == false
     hostgroup = md[1].split(LookupKey::KEY_DELM)[0]
     return true if Hostgroup.unscoped.find_by_name(hostgroup) || Hostgroup.unscoped.find_by_title(hostgroup) || host_or_hostgroup.try(:new_record?)
     errors.add(:match, _("%{match} does not match an existing host group") % { :match => "hostgroup=#{hostgroup}" }) and return false
+  end
+
+  def ensure_matcher(match_type)
+    return false if match.blank?
+    matcher = match.match(match_type)
+    return true unless matcher
+    matcher
   end
 end
