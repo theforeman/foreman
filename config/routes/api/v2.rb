@@ -31,7 +31,7 @@ Foreman::Application.routes.draw do
           get 'build_pxe_default'
           get 'revision'
         end
-        resources :template_combinations, :only => [:index, :create]
+        resources :template_combinations, :only => [:index, :create, :update, :show]
         resources :operatingsystems, :except => [:new, :edit]
         resources :os_default_templates, :except => [:new, :edit]
       end
@@ -53,6 +53,7 @@ Foreman::Application.routes.draw do
           end
         end
         resources :hosts, :except => [:new, :edit]
+        resources :template_combinations, :only => [:index, :show, :create, :update]
       end
 
       resources :fact_values, :only => [:index]
@@ -75,6 +76,7 @@ Foreman::Application.routes.draw do
         resources :puppetclasses, :except => [:new, :edit]
         resources :hostgroup_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
         resources :hosts, :except => [:new, :edit]
+        resources :template_combinations, :only => [:show, :index, :create, :update]
       end
 
       resources :media, :except => [:new, :edit] do
