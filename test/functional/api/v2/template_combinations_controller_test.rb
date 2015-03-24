@@ -23,10 +23,20 @@ class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
         :config_template_id => config_templates(:mystring2).id }
     end
     template_combination = ActiveSupport::JSON.decode(@response.body)
-    assert template_combination["environment_id"] == environments(:production).id
-    assert template_combination["hostgroup_id"] == hostgroups(:unusual).id
-    assert template_combination["config_template_id"] == config_templates(:mystring2).id
+    assert_equal(template_combination["environment_id"], environments(:production).id)
+    assert_equal(template_combination["hostgroup_id"], hostgroups(:unusual).id)
+    assert_equal(template_combination["config_template_id"], config_templates(:mystring2).id)
     assert_response 200
+  end
+
+  test "should update template combination" do
+    put :update, { :template_combination => { :environment_id => environments(:testing).id, :hostgroup_id => hostgroups(:common).id },
+                   :config_template_id => config_templates(:mystring2).id, :id => template_combinations(:two).id }
+
+    template_combination = ActiveSupport::JSON.decode(@response.body)
+    assert_equal(template_combination["environment_id"], environments(:testing).id)
+    assert_equal(template_combination["hostgroup_id"], hostgroups(:common).id)
+    assert_response :success
   end
 
   test "should destroy" do
