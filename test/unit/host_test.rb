@@ -96,6 +96,13 @@ class HostTest < ActiveSupport::TestCase
     assert_equal true, host.valid?
   end
 
+  test "should require compute attributes or compute profile in case of a virtual compute resource" do
+    host = FactoryGirl.build(:host, :with_dhcp_orchestration, :mac => nil)
+    refute host.valid?
+    refute host.errors.messages.keys.include?("interfaces.mac")
+    assert host.errors.messages.keys.include?(:compute_profile)
+  end
+
   test "should fix ip address if a leading zero is used" do
     host = Host.create :name => "myhost", :mac => "aabbccddeeff", :ip => "123.01.02.03"
     assert_equal "123.1.2.3", host.ip
