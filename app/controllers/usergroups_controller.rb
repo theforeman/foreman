@@ -1,6 +1,7 @@
 class UsergroupsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   before_filter :find_resource, :only => [:edit, :update, :destroy]
+  before_filter :get_external_usergroups_to_refresh, :only => [:update]
   after_filter  :refresh_external_usergroups, :only => [:create, :update]
 
   def index
@@ -48,7 +49,16 @@ class UsergroupsController < ApplicationController
     Usergroup.authorized(permission).find(params[:id])
   end
 
+  def get_external_usergroups_to_refresh
+    # we need to load current status, so we call all explicitly
+    @external_usergroups = @usergroup.external_usergroups.all
+  end
+
+  def external_usergroups
+    @external_usergroups || []
+  end
+
   def refresh_external_usergroups
-    @usergroup.external_usergroups.map(&:refresh)
+    (external_usergroups + @usergroup.external_usergroups).uniq.map(&:refresh)
   end
 end

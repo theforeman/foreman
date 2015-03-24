@@ -75,4 +75,15 @@ class UsergroupsControllerTest < ActionController::TestCase
     User.any_instance.expects(:expire_topbar_cache).twice
     put :update, { :id => usergroup.id, :usergroup => {:admin => true }}, set_session_user
   end
+
+  test 'external user group is refreshed even when destroyed' do
+    AuthSourceLdap.any_instance.stubs(:valid_group? => true)
+    external = FactoryGirl.create(:external_usergroup)
+    ExternalUsergroup.any_instance.expects(:refresh).returns(true)
+
+    put :update, { :id => external.usergroup_id, :usergroup => { :external_usergroups_attributes => {
+      '0' => {'_destroy' => '1', 'name' => external.name, 'auth_source_id' => external.auth_source_id, 'id' => external.id}
+    }}}, set_session_user
+    assert_response :redirect
+  end
 end
