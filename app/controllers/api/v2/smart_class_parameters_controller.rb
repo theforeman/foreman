@@ -33,7 +33,7 @@ module Api
       param :id, :identifier, :required => true
       param :smart_class_parameter, Hash, :required => true do
         # can't update parameter/key name for :parameter, String, :required => true
-        param :override, :bool, :desc => N_("Whether the smart variable value is managed by Foreman")
+        param :override, :bool, :desc => N_("Whether the smart class parameter value is managed by Foreman")
         param :description, String, :desc => N_("Description of smart class")
         param :default_value, String, :desc => N_("Value to use when there is no match")
         param :use_puppet_default, :bool, :desc => N_("Do not send this parameter via the ENC. Puppet will use the value defined in the Puppet manifest for this parameter")
