@@ -33,18 +33,18 @@ module Api
       param :id, :identifier, :required => true
       param :smart_class_parameter, Hash, :required => true do
         # can't update parameter/key name for :parameter, String, :required => true
-        param :override, :bool
-        param :description, String
-        param :default_value, String
-        param :use_puppet_default, :bool
-        param :path, String
-        param :validator_type, String
-        param :validator_rule, String
-        param :override_value_order, String
-        param :parameter_type, String
-        param :required, :bool
-        param :merge_overrides, :bool
-        param :avoid_duplicates, :bool
+        param :override, :bool, :desc => N_("Whether the smart variable value is managed by Foreman")
+        param :description, String, :desc => N_("Description of smart class")
+        param :default_value, String, :desc => N_("Value to use when there is no match")
+        param :use_puppet_default, :bool, :desc => N_("Do not send this parameter via the ENC. Puppet will use the value defined in the Puppet manifest for this parameter")
+        param :path, String, :desc => N_("The order in which values are resolved")
+        param :validator_type, LookupKey::VALIDATOR_TYPES, :desc => N_("Types of validation values")
+        param :validator_rule, String, :desc => N_("Used to enforce certain values for the parameter values")
+        param :override_value_order, String, :desc => N_("The order in which values are resolved")
+        param :parameter_type, LookupKey::KEY_TYPES, :desc => N_("Types of variable values")
+        param :required, :bool, :desc => N_("If true, will raise an error if there is no default value and no matcher provide a value")
+        param :merge_overrides, :bool, :desc => N_("Merge all matching values (only array/hash type)")
+        param :avoid_duplicates, :bool, :desc => N_("Remove duplicate values (only array type)")
       end
 
       def update
