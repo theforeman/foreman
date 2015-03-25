@@ -57,7 +57,8 @@ module LayoutHelper
       addClass options, 'form-control'
       f.password_field(attr, options) +
       '<span class="glyphicon glyphicon-warning-sign input-addon"
-             title="' + _('Caps lock ON') + '" style="display:none"></span>'.html_safe
+             title="'.html_safe + _('Caps lock ON') +
+             '" style="display:none"></span>'.html_safe
     end
   end
 
