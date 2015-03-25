@@ -1,3 +1,20 @@
+2015-03-25	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.7.4
+	* fixes #9851 - pin gettext_i18n_rails_js to 0.x
+	* refs #9795 - revert string change
+
+2015-03-25	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #9469 - redirect to reports#index on destroy
+
+2015-03-25	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #9795 - check if mail is enabled before sending a notification
+
+2015-03-25	Marek Hulan <mhulan@redhat.com>
+	* Fixes #8779 - add vlanid to subnet ENC
+	* Fixes #9787 - correctly typecast default values
+	* Fixes #9673 - treat YAML and JSON lookup keys as strings
+	* Fixes #9858 - patch OpenSSL to verify LDAP connections
+
 2015-03-04	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.7.3
 	* refs #8817 - Revert "fixes #5841 - use inner query when retrieving reports for subset of authorised hosts"
