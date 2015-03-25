@@ -1,13 +1,27 @@
 <%= javascript 'dashboard' %>
 <% title _('Overview') %>
 <%= title_actions dashboard_actions %>
+
 <div class="row">
-  <div id='dashboard' class="gridster col-md-12">
-    <ul>
-      <%= widget_list.map do |widget|
-          content_tag(:li, render(widget.id), :data=>{:id => widget.id, :name => widget.name || widget.id, :row => widget.row, :col => widget.col, :sizex=>widget.sizex, :sizey => widget.sizey, :hide=>widget.hide})
-        end.join(' ').html_safe
-    %>
-    </ul>
-  </div>
+  <% if User.current.widgets.empty? %>
+    <div class="col-md-12 ca">
+      <%= link_to(_("Get default dashboard widgets"), reset_default_widgets_path, :method => :put, :class=>'btn btn-default') %>
+    </div>
+  <% else %>
+    <div id='dashboard' class="gridster col-md-12">
+      <ul>
+        <% User.current.widgets.each do |widget| %>
+          <%= content_tag(:li, widget_data(widget)) do %>
+            <div class='widget_control'>
+              <a class='remove' data-url='<%= widget_path(widget) %>'>&times;</a>
+              <a class='minimize'>&minus;</a>
+            </div>
+            <div class="widget <%= widget.name.parameterize %>">
+              <%= render_widget(widget) %>
+            </div>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 </div>

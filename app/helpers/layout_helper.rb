@@ -323,4 +323,8 @@ module LayoutHelper
       f.number_field attr, options
     end
   end
+
+  def last_days(days)
+    content_tag(:h6, n_("last %s day", "last %s days", days) % days, :class => 'ca')
+  end
 end

@@ -1,71 +1,31 @@
 module Dashboard
   module Manager
-    class << self
-      def map
-        @widgets ||= []
-        mapper = Mapper.new(@widgets)
-        if block_given?
-          yield mapper
-        else
-          mapper
-        end
-      end
+    @default_widgets = []
+    @allowed_templates = Set.new()
 
-      def widgets
-        # force menu reload in development when auto loading modified files
-        @widgets ||= Dashboard::Loader.load
-      end
+    def self.default_widgets
+      @default_widgets
     end
 
-    class Mapper
-      attr_reader :widgets
+    def self.register_default_widget(widget)
+      @default_widgets << widget
+      @allowed_templates << widget[:template]
+    end
 
-      def initialize(widgets)
-        @widgets = widgets
-      end
+    def self.register_allowed_templates(templates)
+      @allowed_templates.merge(templates)
+    end
 
-      # Adds an widget at the end of the list. Available options:
-      # * before, after: specify where the widget should be inserted (eg. :after => :activity)
-      def push(obj, options = {})
-        # menu widget position
-        if options[:first]
-          @widgets.unshift(obj)
-        elsif (before = options[:before]) && exists?(before)
-          @widgets.insert( position_of(before), obj)
-        elsif (after = options[:after]) && exists?(after)
-          @widgets.insert( position_of(after) + 1, obj)
-        else
-          @widgets.push(obj)
-        end
-      end
+    def self.add_widget_to_user(user, widget)
+      raise ::Foreman::Exception.new(N_("Unallowed template for dashboard widget: %s"), widget[:template]) unless @allowed_templates.include?(widget[:template])
+      user.widgets.create!(widget)
+    end
 
-      def widget(id, options = {})
-        push(Widget.new(id, options), options)
-      end
-
-      # Removes a menu widget
-      def delete(name)
-        if found = self.find(name)
-          @widgets.remove!(found)
-        end
-      end
-
-      # Checks if a menu widget exists
-      def exists?(name)
-        @widgets.any? {|widget| widget.name == name}
-      end
-
-      def find(name)
-        @widgets.find {|widget| widget.name == name}
-      end
-
-      def position_of(name)
-        @widgets.each do |widget|
-          if widget.name == name
-            return widget.position
-          end
-        end
-      end
+    def self.reset_user_to_default(user)
+      user.widgets.clear
+      @default_widgets.each {|widget|
+        add_widget_to_user(user, widget)
+      }
     end
   end
 end
