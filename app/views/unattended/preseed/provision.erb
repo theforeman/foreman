@@ -25,14 +25,20 @@ d-i keyboard-configuration/xkb-keymap seen true
 # ... for squeeze and older:
 d-i console-keymaps-at/keymap seen true
 
-<% if @static -%>
+<% subnet = @host.subnet -%>
+<% if subnet.respond_to?(:dhcp_boot_mode?) -%>
+  <% dhcp = subnet.dhcp_boot_mode? && !@static -%>
+<% else -%>
+  <% dhcp = !@static -%>
+<% end -%>
+<% unless dhcp -%>
 # Static network configuration.
 d-i preseed/early_command string /bin/killall.sh; /bin/netcfg
 d-i netcfg/disable_dhcp boolean true
 d-i netcfg/get_ipaddress string <%= @host.ip %>
-d-i netcfg/get_netmask string <%= @host.subnet.mask %>
-d-i netcfg/get_nameservers string <%= [@host.subnet.dns_primary,@host.subnet.dns_secondary].reject{|n| n.blank?}.join(' ') %>
-d-i netcfg/get_gateway string <%= @host.subnet.gateway %>
+d-i netcfg/get_netmask string <%= subnet.mask %>
+d-i netcfg/get_nameservers string <%= [subnet.dns_primary,subnet.dns_secondary].reject{|n| n.blank?}.join(' ') %>
+d-i netcfg/get_gateway string <%= subnet.gateway %>
 d-i netcfg/confirm_static boolean true
 <% end -%>
 
