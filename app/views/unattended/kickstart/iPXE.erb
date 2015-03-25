@@ -15,7 +15,13 @@ oses:
 - RedHat 6
 - RedHat 7
 %>
-<% static = @host.token.nil? ? '?static=yes' : '&static=yes' -%>
+<% subnet = @host.subnet -%>
+<% if subnet.respond_to?(:dhcp_boot_mode?) && subnet.dhcp_boot_mode? -%>
+  <% static = '' -%>
+<% else -%>
+  <% static_arg = 'static=yes' -%>
+  <% static = (@host.token.nil? ? '?' : '&') + static_arg -%>
+<% end -%>
 
 <%# This template will not function with Safemode set to true.
     Please disable it in Settings > Provisioning               %>

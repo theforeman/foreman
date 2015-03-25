@@ -17,7 +17,14 @@ oses:
   salt_enabled = @host.params['salt_master'] ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 %>
-<% if @static -%>
+
+<% subnet = @host.subnet -%>
+<% if subnet.respond_to?(:dhcp_boot_mode?) -%>
+  <% dhcp = subnet.dhcp_boot_mode? && !@static -%>
+<% else -%>
+  <% dhcp = !@static -%>
+<% end -%>
+<% unless dhcp -%>
 # host and domain name need setting as these values may have come from dhcp if pxe booting
 /bin/sed -i "s/^search.*$/search <%= @host.domain %>/g" /etc/resolv.conf
 /bin/sed -i "s/.*dns-search.*/\tdns-search <%= @host.domain %>/g" /etc/network/interfaces
