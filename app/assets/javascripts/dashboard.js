@@ -1,14 +1,11 @@
 
 $(document).on('ContentLoad', function(){start_gridster()});
 
-$(document).on("click",".gridster>ul>li>.close" ,function(){ hide_widget(this);});
+$(document).on("click",".widget_control .minimize" ,function(){ hide_widget(this);});
+$(document).on("click",".widget_control .remove" ,function(){ remove_widget(this);});
 
 function start_gridster(){
-    if (!$(".gridster>ul>li>.close").exists()) {
-        $(".gridster>ul>li").prepend("<a class='close'>&times;</a>");
-    }
 
-    read_position();
     var gridster = $(".gridster>ul").gridster({
         widget_margins: [10, 10],
         widget_base_dimensions: [82, 340],
@@ -37,53 +34,54 @@ function hide_widget(item){
 
 }
 
-function save_position(){
-    var positions = JSON.stringify(serialize_grid());
-    localStorage.setItem("grid-data", positions);
-    window.location.reload();
+function remove_widget(item){
+    var widget = $(item).parents('li.gs_w');
+    var gridster = $(".gridster>ul").gridster().data('gridster');
+    if (confirm(__("Are you sure you want to delete this widget from your dashboard?"))){
+        $.ajax({
+            type: 'delete',
+            url: $(item).data('url'),
+            success: function(){
+                $.jnotify(__("Widget removed from dashboard."), 'success', false);
+               gridster.remove_widget(widget);
+            },
+            error: function(){
+                $.jnotify(__("Error removing widget from dashboard."), 'error', true);
+            },
+        });
+    }
+}
+
+function save_position(path){
+    var positions = serialize_grid();
+    $.ajax({type: 'POST',
+            url: path,
+            data: {'widgets': positions},
+            success: function(){
+                $.jnotify(__("Widget positions successfully saved."), 'success', false);
+            },
+            error: function(){
+                $.jnotify(__("Failed to save widget positions."), 'error', true);
+            },
+            dataType: 'json'});
 }
 
 function serialize_grid(){
-    var result = [];
+    var result = {};
     $(".gridster>ul>li").each(function(i, widget) {
-        result.push({
-            name:   $(widget).attr('data-name'),
-            id:     $(widget).attr('data-id'),
-            hide:   $(widget).attr('data-hide'),
-            col:    $(widget).attr('data-col'),
-            row:    $(widget).attr('data-row'),
-            size_x: $(widget).attr('data-sizex'),
-            size_y: $(widget).attr('data-sizey')
-        });
+        $widget = $(widget);
+        result[$widget.data('id')] = {
+            hide:   $widget.data('hide'),
+            col:    $widget.data('col'),
+            row:    $widget.data('row'),
+            sizex:  $widget.data('sizex'),
+            sizey:  $widget.data('sizey')
+        };
     });
 
     return result;
 }
 
-
-function read_position(){
-    if (localStorage.getItem("grid-data") !== null) {
-        var positions = JSON.parse(localStorage.getItem("grid-data"));
-
-        for (var i = 0; i < positions.length; i++) {
-            var position = positions[i];
-            var widget = $(".gridster>ul>li[data-id="+position.id+"]");
-            widget.attr("data-hide", position.hide);
-            if(position.hide == 'true') {
-                widget.attr("data-row", '');
-                widget.attr("data-col", '');
-            } else {
-                widget.attr("data-row", position.row);
-                widget.attr("data-col", position.col);
-            }
-        }
-    }
-}
-
-function reset_position(){
-    localStorage.removeItem("grid-data");
-    window.location.reload();
-}
 
 function fill_restore_list(){
    $("ul>li.widget-restore").remove();

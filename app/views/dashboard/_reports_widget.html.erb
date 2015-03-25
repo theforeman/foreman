@@ -1,4 +1,6 @@
-<h4 style="text-align: center;"><%= _("Latest Events") %></h4>
+<h4 class="header">
+  <%= _("Latest Events") %>
+</h4>
 <% events = latest_events %>
 <% if events.empty? %>
   <p class="ca"><%= _("No interesting reports received in the last week") %></p>

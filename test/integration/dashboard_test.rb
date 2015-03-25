@@ -3,6 +3,7 @@ require 'test_helper'
 class DashboardTest < ActionDispatch::IntegrationTest
   def setup
     FactoryGirl.create(:host)
+    Dashboard::Manager.reset_user_to_default(users(:admin))
   end
 
   def assert_dashboard_link(text)

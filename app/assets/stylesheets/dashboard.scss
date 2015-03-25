@@ -4,29 +4,52 @@
  */
 
 #dashboard{
-  #status-table li{
-    margin: 10px 0;
-    list-style: none;
-    h4{
-        float:right;
-        line-height: 10px;
+  .status-table{
+    li{
+      margin: 10px 0;
+      list-style: none;
+      h4{
+          float:right;
+          line-height: 10px;
+      }
+    }
+    .total{
+      border-top: 1px solid #ddd;
+      text-align: right;
+      padding-top: 10px;
     }
   }
   .header{
     border-bottom: 1px solid #ddd;
-    padding: 10px 20px;
-  }
-  .total{
-    border-top: 1px solid #ddd;
-    text-align: right;
-    padding-top: 10px;
+    padding: 0px 10px 10px;
+    margin-top: 0;
   }
   .stats-well {
-    min-height: 363px;
+    min-height: 360px;
   }
   .statistics-bar{
-   height: 270px;
-   width: 90%;
+    height: 260px;
+    width: 90%;
+    margin: 0 10px;
+  }
+  .statistics-chart{
+    height: 240px;
+    width: 95%;
+  }
+  .widget_control a{
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.2;
+    cursor: pointer;
+    margin: 0 3px;
+    &:hover{
+      text-decoration: none;
+    }
+
   }
 }
 

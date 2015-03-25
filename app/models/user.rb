@@ -36,6 +36,7 @@ class User < ActiveRecord::Base
   has_many :filters,           :through => :cached_roles
   has_many :permissions,       :through => :filters
   has_many :cached_usergroup_members
+  has_many :widgets,           :dependent => :destroy
 
   has_many :user_mail_notifications, :dependent => :destroy
   has_many :mail_notifications, :through => :user_mail_notifications

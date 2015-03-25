@@ -2,15 +2,19 @@ module DashboardHelper
   def dashboard_actions
     [_("Generated at %s") % Time.zone.now.to_s(:short),
      select_action_button(_("Manage dashboard"), {},
-                          link_to_function(_("Save dashboard"), 'save_position()'),
-                          link_to_function(_("Reset to default"), 'reset_position()'),
+                          link_to_function(_("Save dashboard"), "save_position('#{save_positions_widgets_path}')"),
+                          link_to(_("Reset to default"), reset_default_widgets_path, :method => :put),
                           content_tag(:li,'',:class=>'divider'),
                           content_tag(:li,_("Restore widgets"), :class=>'nav-header', :id=>'restore_list' )
      )]
   end
 
-  def widget_list
-    Dashboard::Manager.widgets
+  def render_widget(widget)
+    render(:partial => widget.template, :locals => widget.data)
+  end
+
+  def widget_data(widget)
+    {:data=>{:id => widget.id, :name => widget.name, :row => widget.row, :col => widget.col, :sizex=>widget.sizex, :sizey => widget.sizey, :hide=>widget.hide}}
   end
 
   def count_reports(hosts)

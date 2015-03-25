@@ -220,8 +220,8 @@ module Foreman #:nodoc:
       ComputeResource.register_provider provider
     end
 
-    def widget(id, options)
-      Dashboard::Manager.map.widget(id, options)
+    def widget(template, options)
+      Dashboard::Manager.register_default_widget({:template=>template}.merge!(options))
     end
 
     # To add FiltersHelper#search_path override,

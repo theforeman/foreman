@@ -1,20 +1,16 @@
-# We require these files explicitly as the menu classes can't be reloaded
-# to keep the singletons working.
-require 'menu/node'
-require 'menu/item'
-require 'menu/divider'
-require 'menu/toggle'
-require 'menu/manager'
-
 module Dashboard
-  class Loader
+  module Loader
+    # Default widgets that are displayed on the dashboard
+    DEFAULT_WIDGETS = [ {:template=>'status_widget',       :sizex=>8,:sizey=>1,:name=> N_('Status table')},
+                       {:template=>'status_chart_widget', :sizex=>4,:sizey=>1,:name=> N_('Status chart')},
+                       {:template=>'reports_widget',      :sizex=>6,:sizey=>1,:name=> N_('Report summary')},
+                       {:template=>'distribution_widget', :sizex=>6,:sizey=>1,:name=> N_('Distribution chart')}]
+    # Widget templates that are allowed on dashboard. Default widgets automatically allow their templates.
+    ALLOWED_TEMPLATES = []
+
     def self.load
-      Manager.map do |dashboard|
-        dashboard.widget 'status_widget',       :row=>1,:col=>1,:sizex=>8,:sizey=>1,:name=> N_('Status table')
-        dashboard.widget 'status_chart_widget', :row=>1,:col=>9,:sizex=>4,:sizey=>1,:name=> N_('Status chart')
-        dashboard.widget 'reports_widget',      :row=>2,:col=>1,:sizex=>6,:sizey=>1,:name=> N_('Report summary')
-        dashboard.widget 'distribution_widget', :row=>2,:col=>7,:sizex=>6,:sizey=>1,:name=> N_('Distribution chart')
-      end
+      DEFAULT_WIDGETS.each{ |widget| Dashboard::Manager.register_default_widget(widget) }
+      Dashboard::Manager.register_allowed_templates(ALLOWED_TEMPLATES)
     end
   end
 end
