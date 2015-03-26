@@ -1,3 +1,71 @@
+2015-03-26	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.8.0-RC2
+	* i18n - extracting new, updating rails, pulling from tx
+	* templates - sync from community-templates
+	* fixes #9775 - always load Encryptable when key's missing, log runtime warning
+
+2015-03-26	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9618 - make identifier uniq per host
+	* Fixes #9885 - pass verify_mode to net/ldap
+	* Fixes #9869 - propagate LDAP errors
+	* Fixes #9434 - managed alias accepts only static boot mode subnet
+	* Fixes #8779 - add vlanid to subnet ENC
+	* Fixes #9842 - rename the register method which deprecates the old one
+	* Fixes #9787 - correctly typecast default values
+
+2015-03-26	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #8727 - DHCP validation does not fail on discovered leases
+
+2015-03-26	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #7378 - fixed API lookup keys filters
+
+2015-03-26	Shlomi Zadok <shlomi@ben-hanna.com>
+	* refs #9877 - s/variable/class parameter/ on param :override
+	* fixes #9877 - Add descriptions to smart_class_parameters in api/v2
+	* fixes #9823 - Add description to smart variables
+	* fixes #9469 - redirect to reports#index on destroy
+
+2015-03-26	Tom Caspy <tcaspy@gmail.com>
+	* fixes #6568 - showing ovirt template version if applicable
+	* fixes #7407 - puppet class parameters should be cloned in #clone
+	* fixes #4424 - overriden attributes get overridden in the UI
+
+2015-03-26	karmab <karimboumedhel@gmail.com>
+	* Fixes #8601 - Cloudinit userdata in VMware
+
+2015-03-26	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9836 - use provider type in host helpers
+	* Fixes #9824 - missing compute resource assets
+	* Fixes #9827 - compute resource info in API doesn't send provider type
+
+2015-03-26	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #9795 - check if mail is enabled before sending a notification
+
+2015-03-26	Tom McKay <thomasmckay@redhat.com>
+	* fixes #9856 - include locations and organizations in user output
+
+2015-03-26	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #9589 - Add documentation button to various models
+	* Fixes #6454 - Display error message when user_data is needed but not set
+
+2015-03-16	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+
+2015-03-16	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9631 - adds missing bond test
+	* Fixes #9673 - treat YAML and JSON lookup keys as strings
+	* Fixes #9693 - Clarify bond identifier BSD info
+
+2015-03-16	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #9751:  Correct examples for rake config usage.
+
+2015-03-16	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9723 - missing owner_type in host api docs
+	* Fixes #9657 - merge NICs from compute profile in host create API
+
+2015-03-16	Ori Rabin <orabin@redhat.com>
+	* Fixes #9606 - ANSI color codes should not be used in production log
+
 2015-03-10	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.8.0-RC1
 	* templates - sync from community-templates
