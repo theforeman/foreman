@@ -9,12 +9,13 @@
 # Evgrafov Denis <stereodenis@gmail.com>, 2014
 # Dominic Cleal <dcleal@redhat.com>, 2014
 # Evgrafov Denis <stereodenis@gmail.com>, 2014
+# Vladimir Pavlov <v.pavlov@i-teco.ru>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-03-10 11:01+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2015-03-26 09:12+0000\n"
+"Last-Translator: Vladimir Pavlov <v.pavlov@i-teco.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/foreman/language/r"
 "u/)\n"
 "MIME-Version: 1.0\n"
@@ -42,16 +43,17 @@ msgstr "Восстановить масштаб"
 msgid "Loading"
 msgstr "Загрузка"
 
+msgid "Fact distribution chart"
+msgstr "График распределения"
+
 msgid "%s host"
 msgid_plural "%s hosts"
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "Fact distribution chart"
-msgstr ""
+msgstr[0] "%s узел"
+msgstr[1] "%s узла"
+msgstr[2] "%s узлов"
 
 msgid "Failed to load chart"
-msgstr ""
+msgstr "Ошибка загрузки графика"
 
 msgid "Click to undo adding this class"
 msgstr "Щелкните, чтобы отменить добавление класса"
@@ -71,10 +73,10 @@ msgstr ""
 "xt)s"
 
 msgid "physical @ NAT %s"
-msgstr ""
+msgstr "физический @ NAT %s"
 
 msgid "physical @ bridge %s"
-msgstr ""
+msgstr "физический @ мост %s"
 
 msgid "You are about to override the editor content, are you sure?"
 msgstr "Содержимое окна редактора будет переопределено. Продолжить?"
@@ -91,13 +93,13 @@ msgid "Revert to revision from: %s"
 msgstr "Восстановить редакцию от %s"
 
 msgid "Nothing to restore"
-msgstr ""
+msgstr "Нет элементов для восстановления"
 
 msgid "Loading interfaces information ..."
-msgstr ""
+msgstr "Загрузка информационного интерфейса..."
 
 msgid "Error loading interfaces information: %s"
-msgstr ""
+msgstr "Ошибка загрузки информационного интерфейса: %s"
 
 msgid "Loading virtual machine information ..."
 msgstr "Загрузка информации о виртуальной машине..."
@@ -115,7 +117,7 @@ msgid "No subnets"
 msgstr "Нет подсетей"
 
 msgid "Error generating IP: %s"
-msgstr ""
+msgstr "Ошибка генерации IP: %s"
 
 msgid "Interface"
 msgstr "Интерфейс"
@@ -124,32 +126,32 @@ msgid "Primary"
 msgstr "Основной"
 
 msgid "Provisioning"
-msgstr ""
+msgstr "Подготовка"
 
 msgid ""
 "Some other interface is already set as primary. Are you sure you want to use t"
 "his one instead?"
-msgstr ""
+msgstr "Другой интерфейс выбран как первичный. Вы точно хотите его заменить?"
 
 msgid ""
 "Some other interface is already set as provisioning. Are you sure you want to "
 "use this one instead?"
-msgstr ""
+msgstr "Другой интерфейс выбран как подготовительный. Вы точно хотите его заменить?"
 
 msgid "virtual attached to %s"
-msgstr ""
+msgstr "виртуально подключено к %s"
 
 msgid "virtual"
-msgstr ""
+msgstr "виртуальный"
 
 msgid "physical"
-msgstr ""
+msgstr "физический"
 
 msgid "Build"
 msgstr "Сборка"
 
 msgid "Reboot and build"
-msgstr ""
+msgstr "Перезагрузить и собрать"
 
 msgid "Select All"
 msgstr "Выбрать все"
@@ -182,45 +184,45 @@ msgstr "Родитель уже выбран"
 msgid "new"
 msgstr "новый"
 
+msgid "Normal"
+msgstr "Обычный"
+
+msgid "Weak"
+msgstr "Слабый"
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr "Носитель"
 
-msgid "Strong"
-msgstr ""
-
 msgid "Very Strong"
-msgstr ""
+msgstr "Очень сильный"
 
-msgid "Weak"
-msgstr ""
-
-msgid "Normal"
-msgstr ""
+msgid "Strong"
+msgstr "Сильный"
 
 msgid "Your password is too short"
-msgstr ""
+msgstr "Ваш пароль слишком короткий"
 
 msgid "Do not use your email as your password"
-msgstr ""
+msgstr "Не используйте своей email как пароль"
 
 msgid "Your password cannot contain your username"
-msgstr ""
+msgstr "Ваш пароль не может содержать Ваше имя пользователя"
 
 msgid "Use different character classes"
-msgstr ""
+msgstr "Используйте разные классы символов"
 
 msgid "Too many repetitions"
-msgstr ""
+msgstr "Слишком много повторений"
 
 msgid "Your password contains sequences"
-msgstr ""
+msgstr "Ваш пароль содержит последовательность"
 
 msgid "password match"
-msgstr ""
+msgstr "пароли совпадают"
 
 msgid "passwords do not match"
-msgstr ""
+msgstr "пароли не совпадают"
 
 msgid "View Diff"
 msgstr "Просмотр отличий"
@@ -241,1397 +243,1466 @@ msgid "Connected (unencrypted) to: %s"
 msgstr "Установлено незашифрованное соединение с %s"
 
 msgid "Admin permissions required"
-msgstr ""
+msgstr "Требуется административный доступ"
 
 msgid ""
 "%{param} is not allowed as nested parameter for %{controller_name}. Allowed pa"
 "rameters are %{allowed_params}"
 msgstr ""
+"%{param} не может быть передан в %{controller_name}. Доступные параметры: %{al"
+"lowed_params}"
 
 msgid "%{resource_name} not found by id '%{id}'"
-msgstr ""
+msgstr "%{resource_name} не найден по коду '%{id}'"
 
 msgid "unknown permission for %s"
 msgstr "неизвестное разрешение для %s"
 
 msgid "for Libvirt and VMware only"
-msgstr ""
+msgstr "только для Libvirt и VMware"
 
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "Группа %{current} не может быть удалена, так как она содержит другие группы."
 
 msgid "List all architectures"
-msgstr ""
+msgstr "Список всех архитектур"
 
 msgid "List all architectures for operating system"
-msgstr ""
+msgstr "Список всех архитектур операционных систем"
 
 msgid "ID of operating system"
-msgstr ""
+msgstr "Код операционной системы"
 
 msgid "Show an architecture"
-msgstr ""
+msgstr "Показать в архитектурах"
 
 msgid "Operating system IDs"
-msgstr ""
+msgstr "Коды операционных систем"
 
 msgid "Create an architecture"
-msgstr ""
+msgstr "Создать архитектуру"
 
 msgid "Update an architecture"
-msgstr ""
+msgstr "Изменить архитектуру"
 
 msgid "Delete an architecture"
-msgstr ""
+msgstr "Удалить архитектуру"
 
 msgid "List all audits"
-msgstr ""
+msgstr "Список всех проверок"
 
 msgid "List all audits for a given host"
-msgstr ""
+msgstr "Список всех проверок для данного узла"
 
 msgid "Show an audit"
-msgstr ""
+msgstr "Показать проверку"
 
 msgid "List all LDAP authentication sources"
-msgstr ""
+msgstr "Список всех источников LDAP-авторизации"
 
 msgid "Show an LDAP authentication source"
-msgstr ""
+msgstr "Показать источник LDAP-авторизации"
 
 msgid "defaults to 389"
-msgstr ""
+msgstr "по умолчанию 389"
 
 msgid "required if onthefly_register is true"
-msgstr ""
+msgstr "required if onthefly_register is true"
 
 msgid "Create an LDAP authentication source"
-msgstr ""
+msgstr "Создать источник LDAP-авторизации"
 
 msgid "Update an LDAP authentication source"
-msgstr ""
+msgstr "Изменить источник LDAP-авторизации"
 
 msgid "Delete an LDAP authentication source"
-msgstr ""
+msgstr "Удалить источник LDAP-авторизации"
 
 msgid "List all autosign entries"
-msgstr ""
+msgstr "Список всех записей автоматического входа"
 
 msgid ""
 "Foreman v2 is stable and recommended for use. You may use v2 by either passing"
 " 'version=2' in the Accept Header or using api/v2/ in the URL."
 msgstr ""
+"Foreman v2 стабильный и рекомендован для использования. Вы можете использовать"
+" v2 передав параметр 'version=2' в принимаемых заголовках или используя путь a"
+"pi/v2 в строке запроса."
 
 msgid "paginate results"
-msgstr ""
+msgstr "разместить результат на нескольких страницах"
 
 msgid "number of entries per request"
-msgstr ""
+msgstr "количество записей на запрос"
 
 msgid "filter results"
-msgstr ""
+msgstr "отфильтровать результаты"
 
 msgid "sort results"
-msgstr ""
+msgstr "отсортировать результаты"
 
 msgid "REPLACE locations with given ids"
-msgstr ""
+msgstr "ЗАМЕСТИТЬ местоположения с заданным кодом"
 
 msgid "REPLACE organizations with given ids."
-msgstr ""
+msgstr "ЗАМЕСТИТЬ организации с заданным кодом"
 
 msgid "Scope by locations"
-msgstr ""
+msgstr "Ограничить местоположением"
 
 msgid "Scope by organizations"
-msgstr ""
+msgstr "Ограничить организацией"
 
 msgid "List all bookmarks"
-msgstr ""
+msgstr "Список всех закладок"
 
 msgid "Show a bookmark"
-msgstr ""
+msgstr "Показать закладку"
 
 msgid "Create a bookmark"
-msgstr ""
+msgstr "Создать закладку"
 
 msgid "Update a bookmark"
-msgstr ""
+msgstr "Изменить закладку"
 
 msgid "Delete a bookmark"
-msgstr ""
+msgstr "Удалить закладку"
 
 msgid "List all global parameters."
-msgstr ""
+msgstr "Список всех глобальных параметров"
 
 msgid "Show a global parameter"
-msgstr ""
+msgstr "Показать глобальный параметр"
 
 msgid "Create a global parameter"
-msgstr ""
+msgstr "Создать глобальный параметр"
 
 msgid "Update a global parameter"
-msgstr ""
+msgstr "Изменить глобальный параметр"
 
 msgid "Delete a global parameter"
-msgstr ""
+msgstr "Удалить глобальный параметр"
 
 msgid "Create a compute attributes set"
-msgstr ""
+msgstr "Создать набор вычислительных атрибутов"
 
 msgid "Update a compute attributes set"
-msgstr ""
+msgstr "Изменить набор вычислительных атрибутов"
 
 msgid "List of compute profiles"
-msgstr ""
+msgstr "Список вычислительных профилей"
 
 msgid "Show a compute profile"
-msgstr ""
+msgstr "Показать вычислительный профиль"
 
 msgid "Create a compute profile"
-msgstr ""
+msgstr "Создать вычислительный профиль"
 
 msgid "Update a compute profile"
-msgstr ""
+msgstr "Изменить вычислительный профиль"
 
 msgid "Delete a compute profile"
-msgstr ""
+msgstr "Удалить вычислительный профиль"
 
 msgid "List all compute resources"
-msgstr ""
+msgstr "Список всех вычислительных ресурсов"
 
 msgid "Show a compute resource"
-msgstr ""
+msgstr "Показать вычислительный ресурс"
 
 msgid "Providers include %{providers}"
-msgstr ""
+msgstr "Поставщики включают %{providers}"
 
 msgid "URL for Libvirt, Ovirt, and Openstack"
-msgstr ""
+msgstr "URL для Libvirt, Ovirt, и Openstack"
 
 msgid "Username for Ovirt, EC2, VMware, Openstack. Access Key for EC2."
-msgstr ""
+msgstr "Имя пользователя для Ovirt, EC2, VMware, Openstack. Ключ доступа для EC2."
 
 msgid "Password for Ovirt, EC2, VMware, Openstack. Secret key for EC2"
-msgstr ""
+msgstr "Пароль для Ovirt, EC2, VMware, Openstack. Секретный ключ для EC2."
 
 msgid "for Ovirt, VMware Datacenter"
-msgstr ""
+msgstr "для Ovirt, VMware Datacenter"
 
 msgid "for EC2 only"
-msgstr ""
+msgstr "только для EC2"
 
 msgid "for Openstack only"
-msgstr ""
+msgstr "только для Openstack"
 
 msgid "for VMware"
-msgstr ""
+msgstr "для VMware"
 
 msgid "Create a compute resource"
-msgstr ""
+msgstr "Создать вычислительный ресурс"
 
 msgid "Update a compute resource"
-msgstr ""
+msgstr "Изменить вычислительный ресурс"
 
 msgid "Delete a compute resource"
-msgstr ""
+msgstr "Удалить вычислительный ресурс"
 
 msgid "List available images for a compute resource"
-msgstr ""
+msgstr "Список доступных образов для вычислительного ресурса"
 
 msgid "List available clusters for a compute resource"
-msgstr ""
+msgstr "Список доступных кластеров для вычислительного ресурса"
 
 msgid "List available folders for a compute resource"
-msgstr ""
+msgstr "Список доступных папок для вычислительного ресурса"
 
 msgid "List available networks for a compute resource"
-msgstr ""
+msgstr "Список доступных сетей для вычислительного ресурса"
 
 msgid "List available networks for a compute resource cluster"
-msgstr ""
+msgstr "Список доступных сетей для кластера вычислительных ресурсов"
 
 msgid "List resource pools for a compute resource cluster"
-msgstr ""
+msgstr "Список ресурсных пулов для кластера вычислительных ресурсов"
 
 msgid "List storage domains for a compute resource"
-msgstr ""
+msgstr "Список областей хранилища для вычислительного ресурса"
 
 msgid "List attributes for a given storage domain"
-msgstr ""
+msgstr "Список атрибутов для данной области хранилища"
 
 msgid "Associate VMs to Hosts"
-msgstr ""
+msgstr "Связать ВМ с узлами"
 
 msgid "List of config groups"
-msgstr ""
+msgstr "Список групп настроек"
 
 msgid "Show a config group"
-msgstr ""
+msgstr "Показать группу настроек"
 
 msgid "Create a config group"
-msgstr ""
+msgstr "Создать группу настроек"
 
 msgid "Update a config group"
-msgstr ""
+msgstr "Изменить группу настроек"
 
 msgid "Delete a config group"
-msgstr ""
+msgstr "Удалить группу настроек"
 
 msgid "List provisioning templates"
-msgstr ""
+msgstr "Список шаблонов подготовки"
 
 msgid "List provisioning templates per operating system"
-msgstr ""
+msgstr "Список шаблонов подготовки по операционным системам "
 
 msgid "List provisioning templates per location"
-msgstr ""
+msgstr "Список шаблонов подготовки по местоположениям"
 
 msgid "List provisioning templates per organization"
-msgstr ""
+msgstr "Список шаблонов подготовки по организациям"
 
 msgid "Show provisioning template details"
-msgstr ""
+msgstr "Показать шаблон подготовки подробно"
 
 msgid "template name"
-msgstr ""
+msgstr "имя шаблона"
 
 msgid "not relevant for snippet"
-msgstr ""
+msgstr "не относится к фрагменту"
 
 msgid "Array of template combinations (hostgroup_id, environment_id)"
-msgstr ""
+msgstr "Массив комбинации шаблонов (код_группыхостов, код_окружения)"
 
 msgid "Array of operating system IDs to associate with the template"
-msgstr ""
+msgstr "Массив кодов операционных систем связанных с шаблонами"
 
 msgid "Whether or not the template is locked for editing"
-msgstr ""
+msgstr "Заблокирован ли шаблон для редактирования"
 
 msgid "Create a provisioning template"
-msgstr ""
+msgstr "Создать шаблон подготовки"
 
 msgid "Update a provisioning template"
-msgstr ""
+msgstr "Изменить шаблон подготовки"
 
 msgid "template version"
-msgstr ""
+msgstr "версия шаблона"
 
 msgid "Delete a provisioning template"
-msgstr ""
+msgstr "Удалить шаблон подготовки"
 
 msgid "Update the default PXE menu on all configured TFTP servers"
-msgstr ""
+msgstr "Изменить PXE меню по умолчанию для всех настроенных TFTP сереверов"
 
 msgid "Clone a provision template"
-msgstr ""
+msgstr "Клонировать шаблон подготовки"
 
 msgid "Get dashboard details"
-msgstr ""
+msgstr "Получить подробный обзор"
 
 msgid "List of domains"
-msgstr ""
+msgstr "Список доменов"
 
 msgid "List of domains per subnet"
-msgstr ""
+msgstr "Список доменов по подсетям"
 
 msgid "List of domains per location"
-msgstr ""
+msgstr "Список доменов по местоположениям"
 
 msgid "List of domains per organization"
-msgstr ""
+msgstr "Список доменов по организациям"
 
 msgid "ID of subnet"
-msgstr ""
+msgstr "Код подсети"
 
 msgid "Show a domain"
-msgstr ""
+msgstr "Показать домен"
 
 msgid "Numerical ID or domain name"
-msgstr ""
+msgstr "Цифровой код или имя домена"
 
 msgid "The full DNS domain name"
-msgstr ""
+msgstr "Полное DNS имя домена"
 
 msgid "Description of the domain"
-msgstr ""
+msgstr "Описание домена"
 
 msgid "DNS proxy to use within this domain"
-msgstr ""
+msgstr "DNS прокси для использования с доменом"
 
 msgid "Array of parameters (name, value)"
-msgstr ""
+msgstr "Массив параметров (имя, значение)"
 
 msgid "Create a domain"
-msgstr ""
+msgstr "Создать домен"
 
 msgid "Update a domain"
-msgstr ""
+msgstr "Изменить домен"
 
 msgid "Delete a domain"
-msgstr ""
+msgstr "Удалить домен"
 
 msgid "List all environments"
-msgstr ""
+msgstr "Список окружений"
 
 msgid "List environments of Puppet class"
-msgstr ""
+msgstr "Список окружений для классов Puppet"
 
 msgid "List environments per location"
-msgstr ""
+msgstr "Список окружений по местоположениям"
 
 msgid "List environments per organization"
-msgstr ""
+msgstr "Список окружений по организациям"
 
 msgid "ID of Puppet class"
-msgstr ""
+msgstr "Код класса Puppet"
 
 msgid "Show an environment"
-msgstr ""
+msgstr "Показать окружение"
 
 msgid "Create an environment"
-msgstr ""
+msgstr "Создать окружение"
 
 msgid "Update an environment"
-msgstr ""
+msgstr "Изменить окружение"
 
 msgid "Delete an environment"
-msgstr ""
+msgstr "Удалить окружение"
 
 msgid "List all external user groups for user group"
-msgstr ""
+msgstr "Список всех внешних групп для группы пользователя"
 
 msgid "List all external user groups for LDAP authentication source"
-msgstr ""
+msgstr "Список всех внешних групп для источника LDAP авторизации"
 
 msgid "ID or name of user group"
-msgstr ""
+msgstr "Код или имя группы пользователя"
 
 msgid "Show an external user group for user group"
-msgstr ""
+msgstr "Показать внешнюю группу пользователя для группы пользователя"
 
 msgid "Show an external user group for LDAP authentication source"
-msgstr ""
+msgstr "Показать внешнюю группу пользователя для источника LDAP авторизации"
 
 msgid "ID or name of external user group"
-msgstr ""
+msgstr "Код или имя внешней группы пользователя"
 
 msgid "External user group information"
-msgstr ""
+msgstr "Информация о внешней группе пользователя"
 
 msgid "External user group name"
-msgstr ""
+msgstr "Имя внешней группы пользователя"
 
 msgid "ID of linked authentication source"
-msgstr ""
+msgstr "Код или связанный источник авторизации"
 
 msgid "Create an external user group linked to a user group"
-msgstr ""
+msgstr "Создать внешнюю группу пользователя связанную с группой пользователя"
 
 msgid "Update external user group"
-msgstr ""
+msgstr "Изменить внешнюю группу пользователя"
 
 msgid "Refresh external user group"
-msgstr ""
+msgstr "Обновить внешнюю группу пользователя"
 
 msgid "Delete an external user group"
-msgstr ""
+msgstr "Удалить внешнюю группу пользователя"
 
 msgid "ID or name external user group"
-msgstr ""
+msgstr "Код или внешней группы пользователя"
 
 msgid "List all fact values"
-msgstr ""
+msgstr "Список всех фактических значений"
 
 msgid "List all fact values of a given host"
-msgstr ""
+msgstr "Список всех фактических значений для данного узла"
 
 msgid "List all filters"
-msgstr ""
+msgstr "Список всех фильтров"
 
 msgid "Show a filter"
-msgstr ""
+msgstr "Показать фильтр"
 
 msgid "Create a filter"
-msgstr ""
+msgstr "Создать фильтр"
 
 msgid "Update a filter"
-msgstr ""
+msgstr "Изменить фильтр"
 
 msgid "Delete a filter"
-msgstr ""
+msgstr "Удалить фильтр"
 
 msgid "Show available API links"
-msgstr ""
+msgstr "Показать ссылки доступных API"
 
 msgid "Show status"
-msgstr ""
+msgstr "Показать состояние"
 
 msgid "List all Puppet class IDs for host"
-msgstr ""
+msgstr "Список всех кодов классов Puppet для узла"
 
 msgid "Add a Puppet class to host"
-msgstr ""
+msgstr "Добавить класс Puppet к узлу"
 
 msgid "ID of host"
-msgstr ""
+msgstr "Код узла"
 
 msgid "Remove a Puppet class from host"
-msgstr ""
+msgstr "Удалить класс Puppet из узла"
 
 msgid "List all Puppet class IDs for host group"
-msgstr ""
+msgstr "Список всех кодов классов Puppet для группы узлов"
 
 msgid "Add a Puppet class to host group"
-msgstr ""
+msgstr "Добавить класс Puppet к группе узлов"
 
 msgid "ID of host group"
-msgstr ""
+msgstr "Код группы узлов"
 
 msgid "Remove a Puppet class from host group"
-msgstr ""
+msgstr "Удалить класс Puppet из группы узлов"
 
 msgid "List all host groups"
-msgstr ""
+msgstr "Список всех групп узлов"
 
 msgid "List all host groups for a Puppet class"
-msgstr ""
+msgstr "Список всех групп для класса Puppet"
 
 msgid "List all host groups per location"
-msgstr ""
+msgstr "Список всех групп по местоположениям"
 
 msgid "List all host groups per organization"
-msgstr ""
+msgstr "Список всех групп по организациям"
 
 msgid "Show a host group"
-msgstr ""
+msgstr "Показать группу узлов"
 
 msgid "Create a host group"
-msgstr ""
+msgstr "Создать группу узлов"
 
 msgid "Update a host group"
-msgstr ""
+msgstr "Изменить группу узлов"
 
 msgid "Delete a host group"
-msgstr ""
+msgstr "Удалить группу узлов"
 
 msgid "Cannot delete group %{current} because it has nested host groups."
-msgstr ""
+msgstr "Не удалось удалить группу %{current}, так как она содержит группы узлов."
 
 msgid "Clone a host group"
-msgstr ""
+msgstr "Клонировать группу узлов"
 
 msgid "List all hosts"
-msgstr ""
+msgstr "Список всех узлов"
 
 msgid "List all hosts for a host group"
-msgstr ""
+msgstr "Список всех узлов в группе узлов"
 
 msgid "List hosts per location"
-msgstr ""
+msgstr "Список узлов по местоположениям"
 
 msgid "List hosts per organization"
-msgstr ""
+msgstr "Список узлов по организациям"
 
 msgid "List hosts per environment"
-msgstr ""
+msgstr "Список узлов по окружениям"
 
 msgid "ID of location"
-msgstr ""
+msgstr "Код местоположения"
 
 msgid "ID of organization"
-msgstr ""
+msgstr "Код организации"
 
 msgid "ID of environment"
-msgstr ""
+msgstr "Код окружения"
 
 msgid "Show a host"
-msgstr ""
+msgstr "Показать узел"
 
 msgid "required if locations are enabled"
-msgstr ""
+msgstr "требуется, если используются местоположения"
 
 msgid "required if organizations are enabled"
-msgstr ""
+msgstr "требуется, если используются организации"
 
 msgid "required if host is managed and value is not inherited from host group"
-msgstr ""
+msgstr "требуется, если узел управляется и значение не унаследовано из группы узлов"
 
 msgid "not required if using a subnet with DHCP proxy"
-msgstr ""
+msgstr "не требуется, если используется подсеть с DHCP прокси"
 
 msgid ""
 "required for managed host that is bare metal, not required if it's a virtual m"
 "achine"
 msgstr ""
+"требуется для управления узлом на голом железе, не требуется для виртуальной м"
+"ашины"
 
 msgid ""
 "required if not imaged based provisioning and host is managed and value is not"
 " inherited from host group"
 msgstr ""
+"требуется, если не отображается на основе подготовки, узел управляется и значе"
+"ние не унаследовано из группы узлов"
 
 msgid "required if host is managed and custom partition has not been defined"
-msgstr ""
+msgstr "требуется, если узел и пользовательский раздел не были объявлены"
 
 msgid "nil means host is bare metal"
-msgstr ""
+msgstr "ноль обозначает узел на голом железе"
 
 msgid ""
 "required if host is managed and value is not inherited from host group or defa"
 "ult password in settings"
 msgstr ""
+"требуется, если узел управляется и значение не унаследовано из группы узлов ил"
+"и не задан пароль по умолчанию в настройках"
+
+msgid "Host's owner type"
+msgstr "Тип владельца узла"
 
 msgid ""
 "True/False flag whether a host is managed or unmanaged. Note: this value also "
 "determines whether several parameters are required or not"
 msgstr ""
+"Параметр Истина/Ложь указывает управляется узел или нет. Примечание: это значе"
+"ние также определяет, требуется ли несколько параметров или нет."
 
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr ""
+"UUID для инструментального отслеживания состояния задания, GET /api/orchestrat"
+"ion/:UUID/tasks"
 
 msgid "Additional information about this host"
-msgstr "Дополнительная информация об этом хосте"
+msgstr "Дополнительная информация об этом узле"
+
+msgid "Host's network interfaces."
+msgstr "Сетевые интерфейсы узла."
+
+msgid "Additional compute resource specific attributes."
+msgstr "Специфичные дополнительные атрибута вычислительного ресурса."
 
 msgid "Create a host"
-msgstr ""
+msgstr "Создать узел"
 
 msgid "Update a host"
-msgstr ""
+msgstr "Изменить узел"
 
 msgid "Delete a host"
-msgstr ""
+msgstr "Удалить узел"
 
 msgid "Get status of host"
-msgstr ""
+msgstr "Получить состояние узла"
 
 msgid "Force a Puppet agent run on the host"
-msgstr ""
+msgstr "Насильно запустить агента Puppet на узле"
 
 msgid "Disassociate the host from a VM"
-msgstr ""
+msgstr "Отвязать узел от ВМ"
 
 msgid "Run a power operation on host"
-msgstr ""
+msgstr "Запустить операцию по управлению питанием на узле"
 
 msgid ""
 "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/"
 "reset), (state/status)"
 msgstr ""
+"управление питанием, доступные действия: (включить/запустить), (выключить/оста"
+"новить), (перезагрузка), (сброс), (состояние)"
 
 msgid "Unknown power action: available methods are %s"
-msgstr ""
+msgstr "Неизвестное действие по управлению питанием, доступные методы: %s"
 
 msgid "Boot host from specified device"
-msgstr ""
+msgstr "Загрузить узел с определенного устройства"
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
-msgstr ""
+msgstr "загрузочное устройство, доступные устройства: диск, компакт диск, сеть, BIOS"
 
 msgid "Unknown device: available devices are %s"
-msgstr ""
+msgstr "Неизвестное устройство: доступные устройства: %s"
 
 msgid "Upload facts for a host, creating the host if required"
-msgstr ""
+msgstr "Загрузить факты узла, требуемые для создания узла"
 
 msgid "hostname of the host"
-msgstr ""
+msgstr "имя узла"
 
 msgid "hash containing the facts for the host"
-msgstr ""
+msgstr "хэш содержит факты узла"
 
 msgid "optional: certname of the host"
-msgstr ""
+msgstr "выборочно: имя сертификата узла"
 
 msgid "optional: the STI type of host to create"
-msgstr ""
+msgstr "выборочно: тип STI узла для создания"
 
 msgid "Invalid type for host creation via facts: %s"
-msgstr ""
+msgstr "Не верный тип для создаваемого узла для: %s"
 
 msgid "A problem occurred when detecting host type: %s"
-msgstr ""
+msgstr "Возникла проблема при поиске типа узла: %s"
 
 msgid "List all images for a compute resource"
-msgstr ""
+msgstr "Список всех образов для вычислительного ресурса"
 
 msgid "List all images for operating system"
-msgstr ""
+msgstr "Список всех образов для операционных систем"
 
 msgid "List all images for architecture"
-msgstr ""
+msgstr "Список всех образов для архитектур"
 
 msgid "ID of compute resource"
-msgstr ""
+msgstr "Код вычислительного ресурса"
 
 msgid "ID of architecture"
-msgstr ""
+msgstr "Код архитектуры"
 
 msgid "Show an image"
-msgstr ""
+msgstr "Показать образ"
 
 msgid "Create an image"
-msgstr ""
+msgstr "Создать образ"
 
 msgid "Update an image"
-msgstr ""
+msgstr "Изменить образ"
 
 msgid "Delete an image"
-msgstr ""
+msgstr "Удалить образ"
 
 msgid "List all interfaces for host"
-msgstr ""
+msgstr "Список всех интерфейсов узла"
 
 msgid "List all interfaces for domain"
-msgstr ""
+msgstr "Список всех интерфейсов для домена"
 
 msgid "List all interfaces for subnet"
-msgstr ""
+msgstr "Список всех интерфейсов для подсети"
 
 msgid "ID or name of host"
-msgstr ""
+msgstr "Код или имя узла"
 
 msgid "ID or name of domain"
-msgstr ""
+msgstr "Код или имя домена"
 
 msgid "ID or name of subnet"
-msgstr ""
+msgstr "Код или имя подсети"
 
 msgid "Show an interface for host"
-msgstr ""
+msgstr "Показать интерфейс узла"
 
 msgid "ID or name of interface"
-msgstr ""
-
-msgid "interface information"
-msgstr ""
+msgstr "Код или имя интерфейса"
 
 msgid "MAC address of interface"
-msgstr ""
+msgstr "MAC адрес интерфейса"
 
 msgid "IP address of interface"
-msgstr ""
+msgstr "IP адрес интерфейса"
 
 msgid "Interface type, e.g: bmc"
-msgstr ""
+msgstr "Тип интерфейса, например bmc"
 
-msgid "Interface name"
-msgstr ""
+msgid "Interface's DNS name"
+msgstr "DNS имя интерфейса"
 
 msgid "Foreman subnet ID of interface"
-msgstr ""
+msgstr "Код подсети Foreman для интерфейса"
 
 msgid "Foreman domain ID of interface"
-msgstr ""
+msgstr "Код домена Foreman для интерфейса"
 
 msgid "Device identifier, e.g. eth0 or eth1.1"
-msgstr ""
+msgstr "Имя интерфейса, например eth0 или eth1.1"
 
 msgid ""
 "Should this interface be managed via DHCP and DNS smart proxy and should it be"
 " configured during provisioning?"
 msgstr ""
+"Должен ли интерфейс управляться DHCP и DNS капсулем и должен ли он быть сконфи"
+"гурирован во время подготовки?"
+
+msgid ""
+"Should this interface be used for constructing the FQDN of the host? Each mana"
+"ged hosts needs to have one primary interface."
+msgstr ""
+"Должен ли интерфейс быть использован для построения FQDN имени узла? Каждый уп"
+"равляемый узел должен иметь один первичный интерфейс."
+
+msgid ""
+"Should this interface be used for TFTP of PXELinux (or SSH for image-based hos"
+"ts)? Each managed hosts needs to have one provision interface."
+msgstr ""
+"Должен ли интерфейс быть использован для сетевой загрузки через TFTP (или SSH "
+"для основанных на образах узлах)? Каждый управляемый узел должен иметь один ин"
+"терфейс для подготовки."
 
 msgid "Only for BMC interfaces."
-msgstr ""
+msgstr "Только для интерфейсов BMC."
 
 msgid "Interface provider, e.g. IPMI. Only for BMC interfaces."
-msgstr ""
+msgstr "Поставщик интерфейса, например IPMI. Только для интерфейса BMC."
 
 msgid "Alias or VLAN device"
-msgstr ""
+msgstr "Псевдоним или VLAN устройства."
 
 msgid ""
 "VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virt"
 "ual interfaces."
 msgstr ""
+"Метка VLAN, этот атрибут имеет приоритет над подсетью VLAN ID. Только для вирт"
+"уальных интерфейсов."
 
 msgid ""
 "Identifier of the interface to which this interface belongs, e.g. eth1. Only f"
 "or virtual interfaces."
 msgstr ""
+"Идентификатор интерфейса к которому принадлежит этот интерфейс, например eth1."
+" Только для виртуальных интерфейсов."
 
 msgid "Bond mode of the interface, e.g. balance-rr. Only for bond interfaces."
 msgstr ""
+"Режим агрегации интерфейсов, например балансировка \"бегающий кролик\". Только д"
+"ля агрегированных интерфейсов."
 
 msgid ""
 "Identifiers of slave interfaces, e.g. `['eth1', 'eth2']`. Only for bond interf"
 "aces."
 msgstr ""
+"Идентификатор подчиненного интерфейса, например ['eth1', 'eth2']. Только для а"
+"грегированных интерфейсов."
 
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr ""
+"Разделенные пробелами варианты, например miimon=100. Только для агрегированных"
+" интерфейсов."
+
+msgid "Additional compute resource specific attributes for the interface."
+msgstr "Дополнительные атрибуты вычислительного ресурса определенные для интерфейса."
+
+msgid "interface information"
+msgstr "информация об интерфейсе"
 
 msgid "Create an interface on a host"
-msgstr ""
+msgstr "Создать интерфейс на узле"
 
 msgid "Update a host's interface"
-msgstr ""
+msgstr "Изменить интерфейс узла"
 
 msgid "ID of interface"
-msgstr ""
+msgstr "Код интерфейса"
 
 msgid "Delete a host's interface"
-msgstr ""
-
-msgid "Unknown interface type, must be one of [%s]"
-msgstr ""
+msgstr "Удалить интерфейс узла"
 
 msgid "a location"
-msgstr ""
+msgstr "местоположение"
 
 msgid "List of mail notifications"
-msgstr ""
+msgstr "Список всех почтовых уведомлений"
 
 msgid "Show a mail notification"
-msgstr ""
+msgstr "Показать почтовое уведомление"
 
 msgid "Numerical ID or mail notification name"
-msgstr ""
+msgstr "Цифровой код или имя почтового уведомления"
 
 msgid "Operating system family, available values: %{operatingsystem_families}"
-msgstr ""
+msgstr "Семейство операционных систем, доступные значения: %{operatingsystem_families}"
 
 msgid "List all installation media"
-msgstr ""
+msgstr "Список всех установочных носителей"
 
 msgid "List all media for an operating system"
-msgstr ""
+msgstr "Список всех носителей операционной системы"
 
 msgid "List all media per location"
-msgstr ""
+msgstr "Список всех носителей по местоположению"
 
 msgid "List all media per organization"
-msgstr ""
+msgstr "Список всех носителей по организации"
 
 msgid "Show a medium"
-msgstr ""
+msgstr "Показать носитель"
 
 msgid "Name of media"
-msgstr ""
+msgstr "Имя носителя"
 
 msgid "Create a medium"
-msgstr ""
+msgstr "Создать носитель"
 
 msgid "Update a medium"
-msgstr ""
+msgstr "Изменить носитель"
 
 msgid "Delete a medium"
-msgstr ""
+msgstr "Удалить носитель"
 
 msgid "List all hardware models"
-msgstr ""
+msgstr "Список всего оборудования"
 
 msgid "Show a hardware model"
-msgstr ""
+msgstr "Показать оборудование"
 
 msgid "Create a hardware model"
-msgstr ""
+msgstr "Создать оборудование"
 
 msgid "Update a hardware model"
-msgstr ""
+msgstr "Изменить оборудование"
 
 msgid "Delete a hardware model"
-msgstr ""
+msgstr "Удалить оборудование"
 
 msgid "List all operating systems"
-msgstr ""
+msgstr "Список всех операционных систем"
 
 msgid "List all operating systems for nested architecture"
-msgstr ""
+msgstr "Список всех операционных систем для вложенной архитектуры"
 
 msgid "List all operating systems for nested medium"
-msgstr ""
+msgstr "Список всех операционных систем для вложенного носителя"
 
 msgid "List all operating systems for nested partition table"
-msgstr ""
+msgstr "Список всех операционных систем для вложенной таблицы разделов"
 
 msgid "List all operating systems for nested provisioning template"
-msgstr ""
+msgstr "Список всех операционных систем для вложенного шаблона подготовки"
 
 msgid "ID of medium"
-msgstr ""
+msgstr "Код носителя"
 
 msgid "ID of partition table"
-msgstr ""
+msgstr "Код таблицы разделов"
 
 msgid "ID of template"
-msgstr ""
+msgstr "Код шаблона"
 
 msgid "Show an operating system"
-msgstr ""
+msgstr "Показать операционную систему"
 
 msgid "Root password hash function to use, one of MD5, SHA256, SHA512"
 msgstr ""
+"Хэш функция для пароля суперпользователя должна быть одна из MD5, SHA256, SHA5"
+"12"
 
 msgid "IDs of associated architectures"
-msgstr ""
+msgstr "Код связанных архитектур"
 
 msgid "IDs of associated provisioning templates"
-msgstr ""
+msgstr "Код связанных шаблонов подготовки"
 
 msgid "IDs of associated media"
-msgstr ""
+msgstr "Код связанных носителей"
 
 msgid "IDs of associated partition tables"
-msgstr ""
+msgstr "Код связанных таблиц разделов"
 
 msgid "Create an operating system"
-msgstr ""
+msgstr "Создать операционную систему"
 
 msgid "Update an operating system"
-msgstr ""
+msgstr "Изменить операционную систему"
 
 msgid "Delete an operating system"
-msgstr ""
+msgstr "Удалить операционную систему"
 
 msgid "List boot files for an operating system"
-msgstr ""
+msgstr "Список загрузочных файлов операционной системы"
 
 msgid "an organization"
-msgstr ""
+msgstr "организация"
 
 msgid "List default templates combinations for an operating system"
-msgstr ""
+msgstr "Список комбинаций шаблонов по умолчанию для операционной системы"
 
 msgid "List operating systems where this template is set as a default"
 msgstr ""
+"Список операционных систем, для которых данных шаблон установлен как по умолча"
+"нию"
 
 msgid "ID of provisioning template"
-msgstr ""
+msgstr "Код шаблона подготовки"
 
 msgid "Show a default template combination for an operating system"
-msgstr ""
+msgstr "Показать комбинацию шаблонов по умолчанию для операционной системы"
 
 msgid "Create a default template combination for an operating system"
-msgstr ""
+msgstr "Создать комбинацию шаблонов по умолчанию для операционной системы"
 
 msgid "Update a default template combination for an operating system"
-msgstr ""
+msgstr "Изменить комбинацию шаблонов по умолчанию для операционной системы"
 
 msgid "Delete a default template combination for an operating system"
-msgstr ""
+msgstr "Удалить комбинацию шаблонов по умолчанию для операционной системы"
 
 msgid "List of override values for a specific smart variable"
-msgstr ""
+msgstr "Список заменяемых значений для определенной промежуточной переменной"
 
 msgid "List of override values for a specific smart class parameter"
-msgstr ""
+msgstr "Список заменяемых значений для определенного промежуточного класса параметров"
 
 msgid "Show an override value for a specific smart variable"
-msgstr ""
+msgstr "Показать заменяемое значение для определенной промежуточной переменной"
 
 msgid "Show an override value for a specific smart class parameter"
 msgstr ""
+"Показать заменяемое значение для определенного промежуточного класса параметро"
+"в"
 
 msgid "Create an override value for a specific smart variable"
-msgstr ""
+msgstr "Создать заменяемое значение для определенной промежуточной переменной"
 
 msgid "Create an override value for a specific smart class parameter"
-msgstr ""
+msgstr "Создать заменяемое значение для определенного промежуточного класса параметров"
 
 msgid "Update an override value for a specific smart variable"
-msgstr ""
+msgstr "Изменить заменяемое значение для определенной промежуточной переменной"
 
 msgid "Update an override value for a specific smart class parameter"
 msgstr ""
+"Изменить заменяемое значение для определенного промежуточного класса параметро"
+"в"
 
 msgid "Delete an override value for a specific smart variable"
-msgstr ""
+msgstr "Удалить заменяемое значение для определенной промежуточной переменной"
 
 msgid "Delete an override value for a specific smart class parameter"
-msgstr ""
+msgstr "Удалить заменяемое значение для определенного промежуточного класса параметров"
 
 msgid "List all parameters for a host"
-msgstr ""
+msgstr "Список всех параметров узла"
 
 msgid "List all parameters for a host group"
-msgstr ""
+msgstr "Список всех параметров группы узлов"
 
 msgid "List all parameters for a domain"
-msgstr ""
+msgstr "Список всех параметров домена"
 
 msgid "List all parameters for an operating system"
-msgstr ""
+msgstr "Список всех параметров операционной системы"
 
 msgid "List all parameters for a location"
-msgstr ""
+msgstr "Список всех параметров для местоположения"
 
 msgid "List all parameters for an organization"
-msgstr ""
+msgstr "Список всех параметров для организации"
 
 msgid "ID of domain"
-msgstr ""
+msgstr "Код домена"
 
 msgid "Show a nested parameter for a host"
-msgstr ""
+msgstr "Показать вложенный параметр узла"
 
 msgid "Show a nested parameter for a host group"
-msgstr ""
+msgstr "Показать вложенный параметр группы узлов"
 
 msgid "Show a nested parameter for a domain"
-msgstr ""
+msgstr "Показать вложенный параметр домена"
 
 msgid "Show a nested parameter for an operating system"
-msgstr ""
+msgstr "Показать вложенный параметр операционной системы"
 
 msgid "Show a nested parameter for a location"
-msgstr ""
+msgstr "Показать вложенный параметр местоположения"
 
 msgid "Show a nested parameter for an organization"
-msgstr ""
+msgstr "Показать вложенный параметр организации"
 
 msgid "ID of parameter"
-msgstr ""
+msgstr "Код параметра"
 
 msgid "Create a nested parameter for a host"
-msgstr ""
+msgstr "Создать вложенный параметр для узла"
 
 msgid "Create a nested parameter for a host group"
-msgstr ""
+msgstr "Создать вложенный параметр для группы узлов"
 
 msgid "Create a nested parameter for a domain"
-msgstr ""
+msgstr "Создать вложенный параметр для домена"
 
 msgid "Create a nested parameter for an operating system"
-msgstr ""
+msgstr "Создать вложенный параметр для операционной системы"
 
 msgid "Create a nested parameter for a location"
-msgstr ""
+msgstr "Создать вложенный параметр для местоположения"
 
 msgid "Create a nested parameter for an organization"
-msgstr ""
+msgstr "Создать вложенный параметр для организации"
 
 msgid "Update a nested parameter for a host"
-msgstr ""
+msgstr "Изменить вложенный параметр для узла"
 
 msgid "Update a nested parameter for a host group"
-msgstr ""
+msgstr "Изменить вложенный параметр для группы узлов"
 
 msgid "Update a nested parameter for a domain"
-msgstr ""
+msgstr "Изменить вложенный параметр для домена"
 
 msgid "Update a nested parameter for an operating system"
-msgstr ""
+msgstr "Изменить вложенный параметр для операционной системы"
 
 msgid "Update a nested parameter for a location"
-msgstr ""
+msgstr "Изменить вложенный параметр для местоположения"
 
 msgid "Update a nested parameter for an organization"
-msgstr ""
+msgstr "Изменить вложенный параметр для организации"
 
 msgid "Delete a nested parameter for a host"
-msgstr ""
+msgstr "Удалить вложенный параметр для узла"
 
 msgid "Delete a nested parameter for a host group"
-msgstr ""
+msgstr "Удалить вложенный параметр для группы узлов"
 
 msgid "Delete a nested parameter for a domain"
-msgstr ""
+msgstr "Удалить вложенный параметр для домена"
 
 msgid "Delete a nested parameter for an operating system"
-msgstr ""
+msgstr "Удалить вложенный параметр для операционной системы"
 
 msgid "Delete a nested parameter for a location"
-msgstr ""
+msgstr "Удалить вложенный параметр для местоположения"
 
 msgid "Delete a nested parameter for an organization"
-msgstr ""
+msgstr "Удалить вложенный параметр для организации"
 
 msgid "Delete all nested parameters for a host"
-msgstr ""
+msgstr "Удалить все вложенные параметры для узла"
 
 msgid "Delete all nested parameters for a host group"
-msgstr ""
+msgstr "Удалить все вложенные параметры для группы узлов"
 
 msgid "Delete all nested parameters for a domain"
-msgstr ""
+msgstr "Удалить все вложенные параметры для домена"
 
 msgid "Delete all nested parameters for an operating system"
-msgstr ""
+msgstr "Удалить все вложенные параметры для операционной системы"
 
 msgid "Delete all nested parameter for a location"
-msgstr ""
+msgstr "Удалить все вложенные параметры для местоположения"
 
 msgid "Delete all nested parameter for an organization"
-msgstr ""
+msgstr "Удалить все вложенные параметры для организации"
 
 msgid "List all permissions"
-msgstr ""
+msgstr "Список всех разрешений"
 
 msgid "Show a permission"
-msgstr ""
+msgstr "Показать разрешение"
 
 msgid "List available resource types."
-msgstr ""
+msgstr "Список доступных типов ресурсов."
 
 msgid "List installed plugins"
-msgstr ""
+msgstr "Список установленных расширений"
 
 msgid "List all partition tables"
-msgstr ""
+msgstr "Список всех таблиц разделов"
 
 msgid "List all partition tables for an operating system"
-msgstr ""
+msgstr "Список всех таблиц разделов для операционной системы"
 
 msgid "Show a partition table"
-msgstr ""
+msgstr "Показать таблицу разделов"
 
 msgid "Create a partition table"
-msgstr ""
+msgstr "Создать таблицу разделов"
 
 msgid "Update a partition table"
-msgstr ""
+msgstr "Изменить таблицу разделов"
 
 msgid "Delete a partition table"
-msgstr ""
+msgstr "Удалить таблицу разделов"
 
 msgid "List all Puppet classes"
-msgstr ""
+msgstr "Список всех классов Puppet"
 
 msgid "List all Puppet classes for a host"
-msgstr ""
+msgstr "Список всех классов Puppet узла"
 
 msgid "List all Puppet classes for a host group"
-msgstr ""
+msgstr "Список всех классов Puppet группы узлов"
 
 msgid "List all Puppet classes for an environment"
-msgstr ""
+msgstr "Список всех классов Puppet окружения"
 
 msgid "Show a Puppet class"
-msgstr ""
+msgstr "Показать класс Puppet"
 
 msgid "Show a Puppet class for host"
-msgstr ""
+msgstr "Показать класс Puppet узла"
 
 msgid "Show a Puppet class for a host group"
-msgstr ""
+msgstr "Показать класс Puppet группы узлов"
 
 msgid "Show a Puppet class for an environment"
-msgstr ""
+msgstr "Показать класс Puppet окружения"
 
 msgid "Create a Puppet class"
-msgstr ""
+msgstr "Создать класс Puppet"
 
 msgid "Update a Puppet class"
-msgstr ""
+msgstr "Изменить класс Puppet"
 
 msgid "Delete a Puppet class"
-msgstr ""
+msgstr "Удалить класс Puppet"
 
 msgid "List of realms"
-msgstr ""
+msgstr "Список областей"
 
 msgid "Show a realm"
-msgstr ""
+msgstr "Показать область"
 
 msgid "Numerical ID or realm name"
-msgstr ""
+msgstr "Цифровой код или имя области"
 
 msgid "The realm name, e.g. EXAMPLE.COM"
-msgstr ""
+msgstr "Имя области, например EXAMPLE.COM"
 
 msgid "Proxy to use for this realm"
-msgstr ""
+msgstr "Прокси для использования с этой областью"
 
 msgid "Realm type, e.g. FreeIPA or Active Directory"
-msgstr ""
+msgstr "Тип области, например FreeIPA или Active Directory"
 
 msgid "Create a realm"
-msgstr ""
+msgstr "Создать область"
 
 msgid "Update a realm"
-msgstr ""
+msgstr "Изменить область"
 
 msgid "Delete a realm"
-msgstr ""
+msgstr "Удалить область"
 
 msgid "List all reports"
-msgstr ""
+msgstr "Список всех отчетов"
 
 msgid "Show a report"
-msgstr ""
+msgstr "Показать отчет"
 
 msgid "Hostname or certname"
-msgstr ""
+msgstr "Имя узла или имя сертификата"
 
 msgid "UTC time of report"
-msgstr ""
+msgstr "Отчет использует время UTC"
 
 msgid "Hash of status type totals"
-msgstr ""
+msgstr "Хэш итогового состояния"
 
 msgid "Hash of report metrics, can be just {}"
-msgstr ""
+msgstr "Хэш метрики отчета, может быть только {}"
 
 msgid "Optional array of log hashes"
-msgstr ""
+msgstr "Выборочный массив журналов хэшей"
 
 msgid "Create a report"
-msgstr ""
+msgstr "Создать отчет"
 
 msgid "Delete a report"
-msgstr ""
+msgstr "Удалить отчет"
 
 msgid "Show the last report for a host"
-msgstr ""
+msgstr "Показать последний отчет узла"
 
 msgid "List all roles"
-msgstr ""
+msgstr "Список всех ролей"
 
 msgid "Show a role"
-msgstr ""
+msgstr "Показать роль"
 
 msgid "Create a role"
-msgstr ""
+msgstr "Создать роль"
 
 msgid "Update a role"
-msgstr ""
+msgstr "Изменить роль"
 
 msgid "Delete a role"
-msgstr ""
+msgstr "Удалить роль"
 
 msgid "List all settings"
-msgstr ""
+msgstr "Список всех настроек"
 
 msgid "Show a setting"
-msgstr ""
+msgstr "Показать настройки"
 
 msgid "Update a setting"
-msgstr ""
+msgstr "Изменить настройки"
 
 msgid "List all smart class parameters"
-msgstr ""
+msgstr "Список всех переопределяемых классов параметров"
 
 msgid "List of smart class parameters for a specific host"
-msgstr ""
+msgstr "Список всех переопределяемых классов параметров для определенного узла"
 
 msgid "List of smart class parameters for a specific host group"
-msgstr ""
+msgstr "Список всех переопределяемых классов параметров для определенной группы узлов"
 
 msgid "List of smart class parameters for a specific Puppet class"
 msgstr ""
+"Список всех переопределяемых классов параметров для определенного класса Puppe"
+"t"
 
 msgid "List of smart class parameters for a specific environment"
-msgstr ""
+msgstr "Список всех переопределяемых классов параметров для определенного окружения"
 
 msgid ""
 "List of smart class parameters for a specific environment/Puppet class combina"
 "tion"
 msgstr ""
+"Список всех переопределяемых классов параметров для определенной комбинации ок"
+"ружение/класс Puppet"
 
 msgid "Show a smart class parameter"
-msgstr ""
+msgstr "Создать переопределяемый класс параметров"
 
 msgid "Update a smart class parameter"
-msgstr ""
+msgstr "Изменить переопределяемый класс параметров"
 
 msgid "List all smart proxies"
-msgstr ""
+msgstr "Список всех капсулей"
 
 msgid "Show a smart proxy"
-msgstr ""
+msgstr "Показать капсуль"
 
 msgid "Create a smart proxy"
-msgstr ""
+msgstr "Создать капсуль"
 
 msgid "Update a smart proxy"
-msgstr ""
+msgstr "Изменить капсуль"
 
 msgid "Delete a smart proxy"
-msgstr ""
+msgstr "Удалить капсуль"
 
 msgid "Refresh smart proxy features"
-msgstr ""
+msgstr "Обновить возможности капсуля"
 
 msgid "List all smart variables"
-msgstr ""
+msgstr "Список всех переопределяемых переменных"
 
 msgid "List of smart variables for a specific host"
-msgstr ""
+msgstr "Список всех переопределяемых переменных для определенного узла"
 
 msgid "List of smart variables for a specific host group"
-msgstr ""
+msgstr "Список всех переопределяемых переменных для определенной группы узлов"
 
 msgid "List of smart variables for a specific Puppet class"
-msgstr ""
+msgstr "Список всех переопределяемых переменных для определенного класса Puppet"
 
 msgid "Show a smart variable"
-msgstr ""
+msgstr "Показать переопределяемую переменную"
 
 msgid "Create a smart variable"
-msgstr ""
+msgstr "Создать переопределяемую переменную"
 
 msgid "Update a smart variable"
-msgstr ""
+msgstr "Изменить переопределяемую переменную"
 
 msgid "Delete a smart variable"
-msgstr ""
+msgstr "Удалить переопределяемую переменную"
 
 msgid "Get statistics"
-msgstr ""
+msgstr "Получить статистику"
 
 msgid "List of subnets"
-msgstr ""
+msgstr "Список подсетей"
 
 msgid "List of subnets for a domain"
-msgstr ""
+msgstr "Список подсетей домена"
 
 msgid "List of subnets per location"
-msgstr ""
+msgstr "Список подсетей местоположения"
 
 msgid "List of subnets per organization"
-msgstr ""
+msgstr "Список подсетей организации"
 
 msgid "Show a subnet"
-msgstr ""
+msgstr "Показать подсеть"
 
 msgid "Subnet name"
 msgstr "Имя подсети"
 
 msgid "Subnet network"
-msgstr ""
+msgstr "Подсети"
 
 msgid "Netmask for this subnet"
 msgstr "Маска этой подсети"
 
 msgid "Primary DNS for this subnet"
-msgstr ""
+msgstr "Первичный DNS для этой подсети"
 
 msgid "Secondary DNS for this subnet"
-msgstr ""
+msgstr "Вторичный DNS для этой подсети"
 
 msgid ""
 "IP Address auto suggestion mode for this subnet, valid values are \"DHCP\", \"Int"
 "ernal DB\", \"None\""
 msgstr ""
+"Режим автоматического предложения IP адреса для этой сети, доступные значения:"
+" \"DHCP\", \"Internal DB\", \"None\""
 
 msgid "Starting IP Address for IP auto suggestion"
-msgstr ""
+msgstr "Начальный IP адрес для автоматического предложения IP адресов"
 
 msgid "Ending IP Address for IP auto suggestion"
-msgstr ""
+msgstr "Заключительный IP адрес для автоматического предложения IP адресов"
 
 msgid "VLAN ID for this subnet"
-msgstr ""
+msgstr "Код VLAN для этой подсети"
 
 msgid "Domains in which this subnet is part"
 msgstr "Домены, которым принадлежит подсеть"
 
 msgid "DHCP Proxy to use within this subnet"
-msgstr ""
+msgstr "DHCP прокси для использования с этой подсетью"
 
 msgid "TFTP Proxy to use within this subnet"
-msgstr ""
+msgstr "TFTP прокси для использования с этой подсетью"
 
 msgid "DNS Proxy to use within this subnet"
-msgstr ""
+msgstr "DNS прокси для использования с этой подсетью"
 
 msgid ""
 "Default boot mode for interfaces assigned to this subnet, valid values are \"St"
 "atic\", \"DHCP\""
 msgstr ""
+"Режим загрузки по умолчанию для интерфейса прикрепленного к этой подсети, дост"
+"упные значения: \"Static\", \"DHCP\""
 
 msgid "Create a subnet"
-msgstr ""
+msgstr "Создать подсеть"
 
 msgid "Update a subnet"
-msgstr ""
+msgstr "Изменить подсеть"
 
 msgid "Subnet numeric identifier"
-msgstr ""
+msgstr "Показать цифровой идентификатор"
 
 msgid "Delete a subnet"
-msgstr ""
+msgstr "Удалить подсеть"
 
 msgid "List all tasks for a given orchestration event"
-msgstr ""
+msgstr "Список всех заданий для данного инструментального события"
 
 msgid "List template combination"
-msgstr ""
+msgstr "Список комбинаций шаблонов"
 
 msgid "Add a template combination"
-msgstr ""
+msgstr "Добавить комбинацию шаблонов"
 
 msgid "environment id"
-msgstr ""
+msgstr "код окружения"
 
 msgid "host group id"
-msgstr ""
+msgstr "код группы узлов"
 
 msgid "Show template combination"
-msgstr ""
+msgstr "Показать комбинацию шаблонов"
 
 msgid "Delete a template combination"
-msgstr ""
+msgstr "Удалить комбинацию шаблонов"
 
 msgid "List all template kinds"
-msgstr ""
+msgstr "Список всех видов шаблонов"
 
 msgid "List all user groups"
-msgstr ""
+msgstr "Список всех групп пользователей"
 
 msgid "Show a user group"
-msgstr ""
+msgstr "Показать группу пользователя"
 
 msgid "Create a user group"
-msgstr ""
+msgstr "Создать группу пользователя"
 
 msgid "Update a user group"
-msgstr ""
+msgstr "Изменить группу пользователя"
 
 msgid "Delete a user group"
-msgstr ""
+msgstr "Удалить группу пользователя"
 
 msgid "List all users"
-msgstr ""
+msgstr "Список всех пользователей"
 
 msgid "List all users for LDAP authentication source"
-msgstr ""
+msgstr "Список всех пользователей из источника LDAP авторизации"
 
 msgid "List all users for user group"
-msgstr ""
+msgstr "Список всех пользователей группы пользователя"
 
 msgid "List all users for role"
-msgstr ""
+msgstr "Список всех пользователей роли"
 
 msgid "List all users for location"
-msgstr ""
+msgstr "Список всех пользователей местоположения"
 
 msgid "List all users for organization"
-msgstr ""
+msgstr "Список всех пользователей организации"
 
 msgid "ID of LDAP authentication source"
-msgstr ""
+msgstr "Код источника LDAP авторизации"
 
 msgid "ID of user group"
-msgstr ""
+msgstr "Код группы пользователя"
 
 msgid "ID of role"
-msgstr ""
+msgstr "Код роли"
 
 msgid "Show a user"
-msgstr ""
+msgstr "Показать пользователя"
 
 msgid "is an admin account"
-msgstr ""
+msgstr "это учетная запись администратора"
 
 msgid "User's timezone"
-msgstr ""
+msgstr "Временная зона пользователя"
 
 msgid "User's preferred locale"
-msgstr ""
+msgstr "Предпочитаемый язык пользователя"
 
 msgid "Create a user"
-msgstr ""
+msgstr "Создать пользователя"
 
 msgid "Update a user"
-msgstr ""
+msgstr "Изменить пользователя"
 
 msgid "Delete a user"
-msgstr ""
+msgstr "Удалить пользователя"
 
 msgid "You are trying to delete your own account"
-msgstr ""
+msgstr "Вы пытаетесь удалить свою собственную учетную запись"
 
 msgid "Mail is Required"
 msgstr "Необходимо определить электронный адрес"
@@ -1640,22 +1711,22 @@ msgid "Invalid query"
 msgstr "Неверный запрос"
 
 msgid "Successfully created %s."
-msgstr "%s создан(о)."
+msgstr "Создание %s завершено."
 
 msgid "Successfully updated %s."
 msgstr "Обновление %s завершено."
 
 msgid "Successfully deleted %s."
-msgstr "%s удален(о)."
+msgstr "Удаление %s завершено."
 
 msgid "Unknown action name for success message: %s"
 msgstr "Неизвестное действие для сообщения успешного завершения: %s"
 
 msgid "Conflict - %s"
-msgstr "Конфликт: %s"
+msgstr "Конфликт - %s"
 
 msgid "Failure: %s"
-msgstr ""
+msgstr "Возможность: %s"
 
 msgid "Organization you had selected as your context has been deleted."
 msgstr "Ваша рабочая организация была удалена."
@@ -1676,7 +1747,7 @@ msgid "Error"
 msgstr "Ошибка"
 
 msgid "Invalid authenticity token"
-msgstr ""
+msgstr "Неверный ключ аутентификации"
 
 msgid "Bookmark was successfully created."
 msgstr "Закладка создана."
@@ -1686,17 +1757,18 @@ msgstr "Закладка обновлена."
 
 msgid "%s VM associated to a host"
 msgid_plural "%s VMs associated to hosts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s ВМ связана с узлом"
+msgstr[1] "%s ВМ связаны с узлом"
+msgstr[2] "%s ВМ связаны с узлом"
 
 msgid "VM already associated with a host"
 msgstr "Виртуальная машина уже связана с узлом"
 
 msgid "VM associated to host %s"
-msgstr "Виртуальная машина сопоставлена с узлом %s"
+msgstr "Виртуальная машина связана с узлом %s"
 
 msgid "No host found to associate this VM with"
-msgstr "Не найден хост для связи с этой виртуальной машиной"
+msgstr "Не найден узел для связи с этой виртуальной машиной"
 
 msgid "The virtual machine is being deleted."
 msgstr "Удаление виртуальной машины..."
@@ -1711,13 +1783,13 @@ msgid "failed to %{action} %{vm}"
 msgstr "не удалось выполнить действие «%{action}» над %{vm}"
 
 msgid "Error - %{message}"
-msgstr ""
+msgstr "Ошибка - %{message}"
 
 msgid "Import puppet classes from puppet proxy."
-msgstr ""
+msgstr "Импорт классов puppet из прокси puppet"
 
 msgid "Import puppet classes from puppet proxy for an environment"
-msgstr ""
+msgstr "Импорт классов puppet из прокси puppet для окружения"
 
 msgid ""
 "Optional comma-delimited string containing either 'new', 'updated', or 'obsole"
@@ -1845,14 +1917,14 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr "Проверьте поля:"
 
-msgid "PXE"
-msgstr "PXE"
-
 msgid "CDROM"
 msgstr "CD-ROM"
 
 msgid "Disk"
 msgstr "Диск"
+
+msgid "PXE"
+msgstr "PXE"
 
 msgid "BIOS"
 msgstr "BIOS"
@@ -2005,11 +2077,11 @@ msgstr "Отчет удален."
 msgid "Role cloned from role %{old_name}"
 msgstr "Роль скопирована из %{old_name}"
 
-msgid "No changes found when refreshing features from %s."
-msgstr "Нет изменений с %s "
-
 msgid "Successfully refreshed features from %s."
 msgstr "Функции %s обновлены."
+
+msgid "No changes found when refreshing features from %s."
+msgstr "Нет изменений с %s "
 
 msgid "%s core"
 msgid_plural "%s cores"
@@ -2106,29 +2178,29 @@ msgstr "%s назад"
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr "Параметры, которые будут сопоставлены узлам в %s"
 
-msgid "<b>Source:</b> %{type} %{name}"
-msgstr ""
-
 msgid "Additional info"
 msgstr "Дополнительная информация"
+
+msgid "<b>Source:</b> %{type} %{name}"
+msgstr ""
 
 msgid "Paused"
 msgstr "Приостановлена"
 
-msgid "Off"
-msgstr "выкл."
-
 msgid "On"
 msgstr "вкл."
+
+msgid "Off"
+msgstr "выкл."
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "Вы действительно хотите %{act} %{vm}?"
 
-msgid "Resume"
-msgstr "Возобновить работу"
-
 msgid "Pause"
 msgstr "Пауза"
+
+msgid "Resume"
+msgstr "Возобновить работу"
 
 msgid "Are you sure you want to %{act} %{vm}?"
 msgstr "Вы действительно хотите %{act} %{vm}?"
@@ -2234,12 +2306,12 @@ msgstr "мин. назад"
 msgid "Number Of Clients"
 msgstr "Число клиентов"
 
-msgid "Applied"
-msgstr "Примененно"
-
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr "П"
+
+msgid "Applied"
+msgstr "Примененно"
 
 #. TRANSLATORS: initial character of Restarted
 msgid "Restarted|R"
@@ -2248,34 +2320,34 @@ msgstr "П"
 msgid "Restarted"
 msgstr "Перезапущено"
 
-msgid "Failed"
-msgstr "Ошибка"
-
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
 msgstr "С"
 
-msgid "Failed Restarts"
-msgstr "Неудачный перезапуск"
+msgid "Failed"
+msgstr "Ошибка"
 
 #. TRANSLATORS: initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
 msgstr "НП"
 
+msgid "Failed Restarts"
+msgstr "Неудачный перезапуск"
+
+msgid "Skipped"
+msgstr "Пропущено"
+
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
 msgstr "П"
 
-msgid "Skipped"
-msgstr "Пропущено"
+msgid "Pending"
+msgstr "Ожидание"
 
 #. TRANSLATORS: initial character of Pending
 #. TRANSLATORS: host's status: first character of "pending"
 msgid "Pending|P"
 msgstr "О"
-
-msgid "Pending"
-msgstr "Ожидание"
 
 msgid "New Puppet Environment"
 msgstr "Новое окружение Puppet"
@@ -2484,32 +2556,32 @@ msgstr "Аудит"
 msgid "Host audit entries"
 msgstr "Записи аудита узлов"
 
-msgid "Facts"
-msgstr "Факты"
-
 msgid "Browse host facts"
 msgstr "Просмотр статистики узла"
 
-msgid "Browse host reports"
-msgstr "Просмотр отчетов узла"
+msgid "Facts"
+msgstr "Факты"
 
 msgid "Reports"
 msgstr "Отчеты"
 
-msgid "YAML"
-msgstr "YAML"
+msgid "Browse host reports"
+msgstr "Просмотр отчетов узла"
 
 msgid "Puppet external nodes YAML dump"
 msgstr "YAML-дамп внешних узлов Puppet"
 
+msgid "YAML"
+msgstr "YAML"
+
 msgid "Allocation (GB)"
 msgstr "Выделено (ГБ)"
 
-msgid "Full"
-msgstr "Полностью"
-
 msgid "Size"
 msgstr "Размер"
+
+msgid "Full"
+msgstr "Полностью"
 
 msgid "remove network interface"
 msgstr "удалить сетевой интерфейс"
@@ -2536,11 +2608,11 @@ msgstr "Идентификатор образа, выбранный ресурс
 msgid "Image ID"
 msgstr "ID образа"
 
-msgid "Submit"
-msgstr "Подтвердить"
-
 msgid "Overwrite"
 msgstr "Перезаписать"
+
+msgid "Submit"
+msgstr "Подтвердить"
 
 msgid "Unable to save"
 msgstr "Не удалось сохранить"
@@ -2577,6 +2649,9 @@ msgstr "Класс Puppet"
 msgid "Puppet Class"
 msgstr "Класс Puppet"
 
+msgid "Parameter types"
+msgstr ""
+
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2593,9 +2668,6 @@ msgstr ""
 " массива.</dd><dt>Хэш</dt> <dd>Ввод JSON и YAML, который может быть представле"
 "н в виде набора объектов и соответствий.</dd><dt>YAML</dt> <dd>Ввод YAML.</dd>"
 "<dt>JSON</dt> <dd>Ввод JSON.</dd></dl>"
-
-msgid "Parameter types"
-msgstr ""
 
 msgid "How values are validated"
 msgstr "Допустимые типы"
@@ -2625,15 +2697,15 @@ msgstr ""
 msgid "Default value"
 msgstr "Исходное значение"
 
-msgid "No value error"
-msgstr "Ошибка при отсутствии значения"
-
 msgid ""
 "Required parameter without value.<br/><b>Please override!</b> <br><br><b>Descr"
 "iption:</b>: %s"
 msgstr ""
 "Значение обязательного параметра не задано.<br/><b>Необходимо переопределить.<"
 "/b> <br><br><b>Описание:</b>: %s"
+
+msgid "No value error"
+msgstr "Ошибка при отсутствии значения"
 
 msgid "No value warning"
 msgstr "Предупреждение при отсутствии значения"
@@ -2645,14 +2717,14 @@ msgstr ""
 "Дополнительный параметр не определен.<br/><i>Не будет передаваться Puppet.</i>"
 " <br><br><b>Описание:</b> %s"
 
-msgid "pending"
-msgstr "ожидание"
-
 msgid "revoked"
 msgstr "отозван"
 
 msgid "valid"
 msgstr "действительный"
+
+msgid "pending"
+msgstr "ожидание"
 
 msgid "in %s"
 msgstr "в %s"
@@ -2766,14 +2838,14 @@ msgstr "Среднее использование памяти"
 msgid "used memory"
 msgstr "Используемая память"
 
+msgid "free swap"
+msgstr "Свободный своп"
+
 msgid "used swap"
 msgstr "Используемый своп"
 
 msgid "Average swap usage"
 msgstr "Среднее использование области подкачки"
-
-msgid "free swap"
-msgstr "Свободный своп"
 
 msgid "Any Organization"
 msgstr "Любая организация"
@@ -3287,13 +3359,10 @@ msgstr "группа узлов"
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "real"
-msgstr ""
-
 msgid "integer"
 msgstr ""
 
-msgid "boolean"
+msgid "real"
 msgstr ""
 
 msgid "array"
@@ -3305,16 +3374,19 @@ msgstr ""
 msgid "yaml"
 msgstr ""
 
-msgid "json"
+msgid "boolean"
 msgstr ""
 
 msgid "string"
 msgstr ""
 
-msgid "list"
+msgid "json"
 msgstr ""
 
 msgid "regexp"
+msgstr ""
+
+msgid "list"
 msgstr ""
 
 msgid "invalid"
@@ -3353,13 +3425,13 @@ msgstr "%{match} не соответствует доступным узлам"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} не соответствует доступным группам узлов"
 
-msgid "Daily"
-msgstr ""
-
 msgid "Monthly"
 msgstr ""
 
 msgid "Weekly"
+msgstr ""
+
+msgid "Daily"
 msgstr ""
 
 msgid ""
@@ -3380,6 +3452,9 @@ msgstr ""
 
 msgid "already in use"
 msgstr "уже используется"
+
+msgid "can't find domain with this id"
+msgstr ""
 
 msgid "can't delete primary interface of managed host"
 msgstr ""
@@ -3790,11 +3865,11 @@ msgstr "Не удалось связаться с прокси: %s"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Убедитесь, что прокси настроен и активен на узле."
 
-msgid "Static"
-msgstr ""
-
 msgid "DHCP"
 msgstr "DHCP"
+
+msgid "Static"
+msgstr ""
 
 msgid "Internal DB"
 msgstr ""
@@ -3872,10 +3947,10 @@ msgid "Can't delete the last admin user group"
 msgstr "Вы не можете удалить группу последнего администратора"
 
 msgid "Status table"
-msgstr ""
+msgstr "Таблица состояний"
 
 msgid "Status chart"
-msgstr ""
+msgstr "График состояний"
 
 msgid "Report summary"
 msgstr ""
@@ -3915,6 +3990,9 @@ msgid "Failure deploying via smart proxy %{proxy}: %{error}."
 msgstr ""
 
 msgid "Error connecting to %{proxy}: %{error}."
+msgstr ""
+
+msgid "Unknown interface type, must be one of [%s]"
 msgstr ""
 
 msgid "My account"
@@ -4043,14 +4121,11 @@ msgstr "Области определения"
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "reboot"
-msgstr "перезагрузка"
+msgid "stop"
+msgstr "останов"
 
 msgid "reset"
 msgstr "сброс"
-
-msgid "state"
-msgstr "состояние"
 
 msgid "poweroff"
 msgstr "выключение"
@@ -4058,17 +4133,17 @@ msgstr "выключение"
 msgid "start"
 msgstr "запуск"
 
-msgid "stop"
-msgstr "останов"
+msgid "state"
+msgstr "состояние"
 
-msgid "off"
-msgstr "выкл."
+msgid "reboot"
+msgstr "перезагрузка"
+
+msgid "soft"
+msgstr "мягкий"
 
 msgid "on"
 msgstr "вкл."
-
-msgid "status"
-msgstr "статус"
 
 msgid "cycle"
 msgstr "цикл"
@@ -4076,8 +4151,11 @@ msgstr "цикл"
 msgid "ready?"
 msgstr ""
 
-msgid "soft"
-msgstr "мягкий"
+msgid "off"
+msgstr "выкл."
+
+msgid "status"
+msgstr "состояние"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr ""
@@ -4126,7 +4204,7 @@ msgid "can't contain white spaces."
 msgstr ""
 
 msgid "System Status"
-msgstr "Статус систем"
+msgstr "Состояние систем"
 
 msgid "Smart Proxies"
 msgstr ""
@@ -4150,7 +4228,7 @@ msgid "Features"
 msgstr "Функции"
 
 msgid "Status"
-msgstr "Статус"
+msgstr "Состояние"
 
 msgid "Connecting.."
 msgstr "Подключение..."
@@ -4247,7 +4325,7 @@ msgid "System Information"
 msgstr "Сведения о системе"
 
 msgid "Version %{version}  © 2009-%{year} Paul Kelly and %{author}"
-msgstr ""
+msgstr "Версия %{version}  © 2009-%{year} Paul Kelly и %{author}"
 
 msgid "Access denied"
 msgstr ""
@@ -4375,11 +4453,11 @@ msgstr "sn"
 msgid "e.g. mail"
 msgstr "mail"
 
-msgid "Photo attribute"
-msgstr "Фотография"
-
 msgid "e.g. jpegPhoto"
 msgstr "jpegPhoto"
+
+msgid "Photo attribute"
+msgstr "Фотография"
 
 msgid "Edit LDAP Auth Source"
 msgstr "Изменить источник идентификации LDAP"
@@ -4486,22 +4564,22 @@ msgstr "Попробуйте обновить запрос"
 msgid "Oops, we're sorry but something went wrong"
 msgstr "Произошла ошибка"
 
-msgid "Foreman ticketing system"
-msgstr "Система отслеживания задач Foreman"
-
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr ""
 "Если вы считаете, что ошибка связана непосредственно с Foreman, создайте отчет"
 "."
 
+msgid "Foreman ticketing system"
+msgstr "Система отслеживания задач Foreman"
+
 msgid "You would probably need to attach the"
 msgstr "Возможно, потребуется вложить"
 
-msgid "and relevant log entries."
-msgstr "и соответствующие записи журнала."
-
 msgid "Full trace"
 msgstr "данные трассировки"
+
+msgid "and relevant log entries."
+msgstr "и соответствующие записи журнала."
 
 msgid "None Found"
 msgstr "Нет"
@@ -4542,14 +4620,14 @@ msgstr "Модули Puppet"
 msgid "Check/Uncheck all %s changes"
 msgstr "Выбрать/отменить выбор изменений (всего %s)"
 
+msgid "Remove:"
+msgstr "Удалить:"
+
 msgid "Update:"
 msgstr "Обновление:"
 
 msgid "Add:"
 msgstr "Добавить:"
-
-msgid "Remove:"
-msgstr "Удалить:"
 
 msgid "Update"
 msgstr "Обновить"
@@ -4705,11 +4783,11 @@ msgstr "Google Project ID"
 msgid "Client Email"
 msgstr "Электронный адрес клиента"
 
-msgid "The file path where your p12 file is located"
-msgstr "Путь к файлу p12"
-
 msgid "Certificate path"
 msgstr "Путь к сертификату"
+
+msgid "The file path where your p12 file is located"
+msgstr "Путь к файлу p12"
 
 msgid "Zone"
 msgstr "Зона"
@@ -4866,14 +4944,14 @@ msgstr "Подсеть"
 msgid "Security groups"
 msgstr "Группы безопасности"
 
-msgid "Managed IP"
-msgstr "IP"
+msgid "Public"
+msgstr "Открытый"
 
 msgid "Private"
 msgstr "Закрытый"
 
-msgid "Public"
-msgstr "Открытый"
+msgid "Managed IP"
+msgstr "IP"
 
 msgid "Machine type"
 msgstr "Тип машины"
@@ -4951,10 +5029,10 @@ msgstr "Ядра"
 msgid "Storage domain"
 msgstr "Домен хранения данных"
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -5005,11 +5083,11 @@ msgstr "Новая виртуальная машина"
 msgid "Create"
 msgstr ""
 
-msgid "Associate VM to a Foreman host"
-msgstr "Связать виртуальную машину с узлом Foreman"
-
 msgid "Associate VM"
 msgstr "Связать с виртуальной машиной"
+
+msgid "Associate VM to a Foreman host"
+msgstr "Связать виртуальную машину с узлом Foreman"
 
 msgid "Properties"
 msgstr "Свойства "
@@ -5797,14 +5875,14 @@ msgid ""
 "ference would be the parameter/variables settings)."
 msgstr "Оба подхода равноправны и отличаются лишь настройками параметров и переменных."
 
+msgid "Select Hosts"
+msgstr "Выберите узлы"
+
 msgid "Assign Selected Hosts"
 msgstr "Назначить выбранные"
 
 msgid "Create %s"
 msgstr "Создайте %s"
-
-msgid "Select Hosts"
-msgstr "Выберите узлы"
 
 msgid "<b class='select_count'>0</b> selected"
 msgstr "выбрано: <b class='select_count'>0</b>"
@@ -5901,11 +5979,11 @@ msgstr "Унаследованные параметры"
 msgid "Host Parameters"
 msgstr "Параметры узла"
 
-msgid "Owned By"
-msgstr "Владелец"
-
 msgid "select an owner"
 msgstr "выберите владельца"
+
+msgid "Owned By"
+msgstr "Владелец"
 
 msgid "Include this host within Foreman reporting"
 msgstr "Включить этот узел в отчетность Foreman"
@@ -5944,7 +6022,7 @@ msgid "Please Confirm"
 msgstr "Пожалуйста подтвердите"
 
 msgid "Report Status"
-msgstr "Статус отчета"
+msgstr "Состояние отчета"
 
 msgid "Provisioning Method"
 msgstr "Способ подготовки"
@@ -6008,11 +6086,11 @@ msgstr "Ctrl-Alt-Del"
 msgid "Troubleshooting"
 msgstr "Диагностика"
 
-msgid "New window"
-msgstr "Новое окно"
-
 msgid "Open Spice in a new window"
 msgstr "Открыть Spice в новом окне"
+
+msgid "New window"
+msgstr "Новое окно"
 
 msgid "Connecting (unencrypted) to: %s"
 msgstr "Устанавливается незашифрованное соединение с %s"
@@ -6146,7 +6224,7 @@ msgid "Loading resources information ..."
 msgstr ""
 
 msgid "Review build status for %s"
-msgstr ""
+msgstr "Пересмотреть состояние сборки для %s"
 
 msgid "Warning: This will delete this host and all of its data!"
 msgstr ""
@@ -6202,11 +6280,11 @@ msgstr "Дополнительно: роль IAM для Fog, используе�
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr "Пароль доступа SSH"
 
-msgid "Image path"
-msgstr "Путь к образу"
-
 msgid "Full path to backing image used to create new volumes."
 msgstr "Полный путь к резервному образу виртуальной машины."
+
+msgid "Image path"
+msgstr "Путь к образу"
 
 msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
 msgstr "Путь к шаблону из центра данных (например, Templates/RHEL 6)"
@@ -6246,9 +6324,6 @@ msgstr ""
 "Участок определяет физическое местоположение системы, которая находится под уп"
 "равлением Foreman."
 
-msgid "organizations"
-msgstr "организации"
-
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
 " are locations. Locations also work nicely when used in tandem with "
@@ -6256,11 +6331,14 @@ msgstr ""
 "Например, можно создать участки для центров данных в Москве и Лондоне. Они отл"
 "ично работают в парах — участки и "
 
-msgid "Variable"
-msgstr "Переменная"
+msgid "organizations"
+msgstr "организации"
 
 msgid "Remove %s?"
 msgstr "Удалить %s?"
+
+msgid "Variable"
+msgstr "Переменная"
 
 msgid "Whether the smart variable value is managed by Foreman"
 msgstr ""
@@ -6315,14 +6393,11 @@ msgstr ""
 "roup, environment</code> может выглядеть так:  <code>hostgroup = \"web servers\""
 ", environment = production</code>"
 
-msgid "Add Matcher-Value"
-msgstr "Добавить подстановку"
-
 msgid "add a new matcher-value pair"
 msgstr "добавить условие подстановки"
 
-msgid "Explain matchers"
-msgstr ""
+msgid "Add Matcher-Value"
+msgstr "Добавить подстановку"
 
 msgid ""
 "Matcher is a combination of an attribute and its value, if they match, the val"
@@ -6333,6 +6408,9 @@ msgstr ""
 "Для подстановки определите пары атрибутов и их значений. <br>Можно указать люб"
 "ые атрибуты Foreman. Примеры: <code> domain = example.com </code> or <code> is"
 "_virtual = true</code>"
+
+msgid "Explain matchers"
+msgstr ""
 
 msgid "Matcher"
 msgstr "Подстановка"
@@ -6368,11 +6446,11 @@ msgstr "Путь NFS к управляющим файлам jumpstart."
 msgid "The NFS path to the image directory."
 msgstr "Путь NFS к каталогу с образами."
 
-msgid "Operating system family"
-msgstr ""
-
 msgid "Choose a family"
 msgstr "Выберите"
+
+msgid "Operating system family"
+msgstr ""
 
 msgid "Edit Medium"
 msgstr "Изменить носитель"
@@ -6486,7 +6564,7 @@ msgid ""
 ">em0</strong> with biosdevname.</li><li>For virtual interfaces, use either ali"
 "as notation (<strong>eth0:1</strong>, name:index) or VLAN notation (<strong>et"
 "h0.15</strong>, name.tag).</li><li>For bonds it's common to use <strong>bond0<"
-"/strong> on Linux, <strong>lagg0</strong> on BSD systems<./li></ul>"
+"/strong> on Linux, <strong>lagg0</strong> on FreeBSD systems.</li></ul>"
 msgstr ""
 
 msgid "DNS name"
@@ -6559,10 +6637,10 @@ msgstr "Семейство"
 msgid "e.g. karmic, lucid, hw0910 etc"
 msgstr "напр. karmic, lucid, hw0910"
 
-msgid "Root password hash"
+msgid "Hash function to use. Change takes effect for new or updated hosts."
 msgstr ""
 
-msgid "Hash function to use. Change takes effect for new or updated hosts."
+msgid "Root password hash"
 msgstr ""
 
 msgid "It is not possible to assign provisioning templates at this stage"
@@ -6571,11 +6649,11 @@ msgstr "На этой стадии нельзя выбрать шаблоны"
 msgid "Please save the Operating System first and try again."
 msgstr "Сохраните операционную систему и повторите попытку."
 
-msgid "No templates found!"
-msgstr "Шаблоны не найдены"
-
 msgid "you probably need to configure your %s first."
 msgstr "Сначала следует настроить %s."
+
+msgid "No templates found!"
+msgstr "Шаблоны не найдены"
 
 msgid "Edit Operating System"
 msgstr "Изменить операционную систему"
@@ -7246,11 +7324,11 @@ msgstr ""
 msgid "Show linked external user groups"
 msgstr "Показать связанные внешние группы пользователей"
 
-msgid "Add external user group"
-msgstr "Добавить внешнюю группу пользователей"
-
 msgid "link external user group with this user group"
 msgstr "связать внешнюю группу пользователей с этой группой"
+
+msgid "Add external user group"
+msgstr "Добавить внешнюю группу пользователей"
 
 msgid "Edit User group"
 msgstr "Параметры группы пользователей"
@@ -7261,11 +7339,11 @@ msgstr "Новая группа пользователей"
 msgid "Mail Preferences"
 msgstr ""
 
-msgid "Language"
-msgstr "Язык"
-
 msgid "Browser locale"
 msgstr "Язык браузера"
+
+msgid "Language"
+msgstr "Язык"
 
 msgid "Browser timezone"
 msgstr ""
