@@ -32,12 +32,12 @@ module Api
 
       def_param_group :interface_attributes do
         #common parameters
-        param :mac, String, :required => true, :desc => N_("MAC address of interface")
-        param :ip, String, :required => true, :desc => N_("IP address of interface")
-        param :type, InterfaceTypeMapper::ALLOWED_TYPE_NAMES, :required => true, :desc => N_("Interface type, e.g: bmc")
-        param :name, String, :required => true, :desc => N_("Interface's DNS name")
+        param :mac, String, :desc => N_("MAC address of interface. Required for managed interfaces on bare metal.")
+        param :ip, String, :desc => N_("IP address of interface")
+        param :type, InterfaceTypeMapper::ALLOWED_TYPE_NAMES, :desc => N_("Interface type, e.g. bmc. Default is %{default_nic_type}")
+        param :name, String, :desc => N_("Interface's DNS name")
         param :subnet_id, Fixnum, :desc => N_("Foreman subnet ID of interface")
-        param :domain_id, Fixnum, :desc => N_("Foreman domain ID of interface")
+        param :domain_id, Fixnum, :desc => N_("Foreman domain ID of interface. Required for primary interfaces on managed hosts.")
         param :identifier, String, :desc => N_("Device identifier, e.g. eth0 or eth1.1")
         param :managed, :bool, :desc => N_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?")
         param :primary, :bool, :desc => N_("Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface.")
