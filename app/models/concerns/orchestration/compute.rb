@@ -290,9 +290,13 @@ module Orchestration::Compute
     # array so we can delete from it safely
     fog_nics = vm.interfaces.dup
 
+    logger.debug "Orchestration::Compute: Trying to match network interfaces from fog #{fog_nics.inspect}"
     self.interfaces.each do |nic|
       selected_nic = vm.select_nic(fog_nics, nic)
-      next if selected_nic.nil? # found no matching fog nic for this Foreman nic, move on
+      if selected_nic.nil? # found no matching fog nic for this Foreman nic
+        logger.warn "Orchestration::Compute: Could not match network interface #{nic.inspect}"
+        return failure(_("Could not find virtual machine network interface matching %s") % [nic.identifier, nic.ip, nic.name, nic.type].find(&:present?))
+      end
 
       mac = selected_nic.send(fog_attr)
       logger.debug "Orchestration::Compute: nic #{nic.inspect} assigned to #{selected_nic.inspect}"
