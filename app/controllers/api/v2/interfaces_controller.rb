@@ -32,10 +32,10 @@ module Api
 
       def_param_group :interface_attributes do
         #common parameters
-        param :mac, String, :required => true, :desc => N_("MAC address of interface")
-        param :ip, String, :required => true, :desc => N_("IP address of interface")
-        param :type, InterfaceTypeMapper::ALLOWED_TYPE_NAMES, :required => true, :desc => N_("Interface type, e.g: bmc")
-        param :name, String, :required => true, :desc => N_("Interface's DNS name")
+        param :mac, String, :desc => N_("MAC address of interface")
+        param :ip, String, :desc => N_("IP address of interface")
+        param :type, InterfaceTypeMapper::ALLOWED_TYPE_NAMES, :desc => N_("Interface type, e.g: bmc")
+        param :name, String, :desc => N_("Interface's DNS name")
         param :subnet_id, Fixnum, :desc => N_("Foreman subnet ID of interface")
         param :domain_id, Fixnum, :desc => N_("Foreman domain ID of interface")
         param :identifier, String, :desc => N_("Device identifier, e.g. eth0 or eth1.1")
