@@ -203,7 +203,14 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert conf[:anon_queries]
   end
 
-  test '#to_config enforces verify_mode peer' do
+  test '#to_config keeps encryption nil if tls is not used' do
+    AuthSourceLdap.any_instance.stubs(:tls => false)
+    conf = FactoryGirl.build(:auth_source_ldap).to_config('user', 'pass')
+    assert_nil conf[:encryption]
+  end
+
+  test '#to_config enforces verify_mode peer for tls' do
+    AuthSourceLdap.any_instance.stubs(:tls => true)
     conf = FactoryGirl.build(:auth_source_ldap).to_config('user', 'pass')
     assert_kind_of Hash, conf[:encryption]
     assert_equal OpenSSL::SSL::VERIFY_PEER, conf[:encryption][:tls_options][:verify_mode]
