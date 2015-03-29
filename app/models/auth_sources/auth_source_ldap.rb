@@ -80,8 +80,8 @@ class AuthSourceLdap < AuthSource
   end
 
   def encryption_config
-    method = tls ? :simple_tls : nil
-    { :method => method, :tls_options => { :verify_mode => OpenSSL::SSL::VERIFY_PEER } }
+    return nil unless tls
+    { :method => :simple_tls, :tls_options => { :verify_mode => OpenSSL::SSL::VERIFY_PEER } }
   end
 
   def ldap_con(login = nil, password = nil)
