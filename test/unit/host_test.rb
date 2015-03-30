@@ -435,6 +435,32 @@ class HostTest < ActiveSupport::TestCase
     assert host.save!
   end
 
+  test 'host can be searched in multiple taxonomies' do
+    org1 = FactoryGirl.create(:organization)
+    org2 = FactoryGirl.create(:organization)
+    org3 = FactoryGirl.create(:organization)
+    user = FactoryGirl.create(:user, :organizations => [org1, org2])
+    host1 = FactoryGirl.create(:host, :organization => org1)
+    host2 = FactoryGirl.create(:host, :organization => org2)
+    host3 = FactoryGirl.create(:host, :organization => org3)
+    hosts = nil
+
+    assert_nil Organization.current
+    as_user(user) do
+      hosts = Host::Managed.all
+    end
+    assert_includes hosts, host1
+    assert_includes hosts, host2
+    refute_includes hosts, host3
+
+    as_user(:one) do
+      hosts = Host::Managed.all
+    end
+    assert_includes hosts, host1
+    assert_includes hosts, host2
+    assert_includes hosts, host3
+  end
+
   context "location or organizations are not enabled" do
     before do
       SETTINGS[:locations_enabled] = false
