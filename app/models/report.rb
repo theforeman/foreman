@@ -33,7 +33,7 @@ class Report < ActiveRecord::Base
 
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
-    unless User.current.admin? and Organization.current.nil? and Location.current.nil?
+    if !User.current.admin? || Organization.expand(Organization.current).present? || Location.expand(Location.current).present?
       where(:reports => {:host_id => Host.authorized(:view_hosts, Host)})
     end
   }
