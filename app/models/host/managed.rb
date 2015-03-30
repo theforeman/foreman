@@ -67,11 +67,11 @@ class Host::Managed < Host::Base
   attr_reader :cached_host_params
 
   default_scope lambda {
-    org = Organization.current
-    loc = Location.current
+    org = Organization.expand(Organization.current)
+    loc = Location.expand(Location.current)
     conditions = {}
-    conditions[:organization_id] = org.subtree_ids if org
-    conditions[:location_id]     = loc.subtree_ids if loc
+    conditions[:organization_id] = Array(org).map {|o| o.subtree_ids }.flatten.uniq if org.present?
+    conditions[:location_id]     = Array(loc).map {|l| l.subtree_ids }.flatten.uniq if loc.present?
     where(conditions)
   }
 

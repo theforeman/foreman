@@ -79,6 +79,21 @@ class Taxonomy < ActiveRecord::Base
     false
   end
 
+  # if taxonomy e.g. organization was not set by current context (e.g. Any organization)
+  # then we have to compute what this context mean for current user (in what organizations
+  # is he assigned to)
+  #
+  # if user is not assigned to any organization then empty array is returned which means
+  # that we should use all organizations
+  #
+  # if user is admin we we return the original value since it does not need any additional scoping
+  def self.expand(value)
+    if value.blank? && User.current.present? && !User.current.admin?
+      value = self.send("my_#{self.to_s.underscore.pluralize}").all
+    end
+    value
+  end
+
   def ignore?(taxable_type)
     if ignore_types.empty?
       false
