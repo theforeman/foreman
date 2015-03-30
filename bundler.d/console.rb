@@ -1,5 +1,5 @@
 group :console do
-  gem 'wirb'
+  gem 'wirb', '~> 1.0'
   gem 'hirb-unicode'
   gem 'awesome_print', :require => 'ap'
 
