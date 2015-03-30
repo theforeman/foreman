@@ -28,8 +28,8 @@ module Taxonomix
     # default inner_method includes children (subtree_ids)
     def with_taxonomy_scope(loc = Location.current, org = Organization.current, inner_method = :subtree_ids)
       self.which_ancestry_method = inner_method
-      self.which_location        = loc
-      self.which_organization    = org
+      self.which_location        = Location.expand(loc)
+      self.which_organization    = Organization.expand(org)
       scope =  block_given? ? yield : where('1=1')
       scope = scope.where(:id => taxable_ids) if taxable_ids
       scope.readonly(false)
@@ -48,13 +48,17 @@ module Taxonomix
     def used_location_ids
       enforce_default
       return [] unless which_location && SETTINGS[:locations_enabled]
-      (which_location.send(which_ancestry_method) + which_location.ancestor_ids).uniq
+      get_taxonomy_ids(which_location, which_ancestry_method)
     end
 
     def used_organization_ids
       enforce_default
       return [] unless which_organization && SETTINGS[:organizations_enabled]
-      (which_organization.send(which_ancestry_method) + which_organization.ancestor_ids).uniq
+      get_taxonomy_ids(which_organization, which_ancestry_method)
+    end
+
+    def get_taxonomy_ids(taxonomy, method)
+      Array(taxonomy).map { |t| t.send(method) + t.ancestor_ids }.flatten.uniq
     end
 
     # default scope is not called if we just use #scoped therefore we have to enforce quering
@@ -66,14 +70,14 @@ module Taxonomix
     end
 
     def taxable_ids(loc = which_location, org = which_organization, inner_method = which_ancestry_method)
-      if SETTINGS[:locations_enabled] && loc
+      if SETTINGS[:locations_enabled] && loc.present?
         inner_ids_loc = if Location.ignore?(self.to_s)
                           self.pluck("#{table_name}.id")
                         else
                           inner_select(loc, inner_method)
                         end
       end
-      if SETTINGS[:organizations_enabled] && org
+      if SETTINGS[:organizations_enabled] && org.present?
         inner_ids_org = if Organization.ignore?(self.to_s)
                           self.pluck("#{table_name}.id")
                         else
@@ -88,10 +92,17 @@ module Taxonomix
       inner_ids
     end
 
+    # taxonomy can be either specific taxonomy object or array of these objects
+    # it can also be an empty array that means all taxonomies (user is not assigned to any)
     def inner_select(taxonomy, inner_method = which_ancestry_method)
       # always include ancestor_ids in inner select
-      taxonomy_ids = (taxonomy.send(inner_method) + taxonomy.ancestor_ids).uniq
-      TaxableTaxonomy.where(:taxable_type => self.name, :taxonomy_id => taxonomy_ids).pluck(:taxable_id).compact.uniq
+      conditions = { :taxable_type => self.name }
+      if taxonomy.present?
+        taxonomy_ids = get_taxonomy_ids(taxonomy, inner_method)
+        conditions.merge!(:taxonomy_id => taxonomy_ids)
+      end
+
+      TaxableTaxonomy.where(conditions).pluck(:taxable_id).compact.uniq
     end
 
     def admin_ids
