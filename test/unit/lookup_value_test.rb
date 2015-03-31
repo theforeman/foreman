@@ -35,7 +35,7 @@ class LookupValueTest < ActiveSupport::TestCase
     end
   end
 
-  test "non-admin user cannot view only his hosts restricted by filters" do
+  test "non-admin user can view only his hosts allowed by filters" do
     # Host.authorized(:view_hosts, Host) returns only hosts(:one)
     user = users(:one)
     role = FactoryGirl.create(:role, :name => 'user_view_host_by_ip')
