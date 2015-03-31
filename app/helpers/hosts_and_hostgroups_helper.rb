@@ -87,10 +87,11 @@ module HostsAndHostgroupsHelper
 
   def interesting_klasses(obj)
     classes    = obj.all_puppetclasses
-    smart_vars = LookupKey.reorder('').where(:puppetclass_id => classes.map(&:id)).group(:puppetclass_id).count
-    class_vars = LookupKey.reorder('').joins(:environment_classes).where(:environment_classes => { :puppetclass_id => classes.map(&:id) }).group('environment_classes.puppetclass_id').count
-    klasses    = smart_vars.keys + class_vars.keys
+    classes_ids = classes.reorder('').pluck(:id)
+    smart_vars = LookupKey.reorder('').where(:puppetclass_id => classes_ids).uniq.pluck(:puppetclass_id)
+    class_vars = LookupKey.reorder('').joins(:environment_classes).where(:environment_classes => { :puppetclass_id => classes_ids }).uniq.pluck('environment_classes.puppetclass_id')
+    klasses    = (smart_vars + class_vars).uniq
 
-    classes.select { |pc| klasses.include?(pc.id) }
+    classes.where(:id => klasses)
   end
 end
