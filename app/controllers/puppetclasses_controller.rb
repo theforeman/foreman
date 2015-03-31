@@ -5,7 +5,7 @@ class PuppetclassesController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
-    @puppetclasses = resource_base.search_for(params[:search], :order => params[:order]).includes(:environments, :hostgroups).paginate(:page => params[:page])
+    @puppetclasses = resource_base.search_for(params[:search], :order => params[:order]).includes(:config_group_classes, :class_params, :environments, :hostgroups).paginate(:page => params[:page])
     @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.find_all_by_puppetclass_id(@puppetclasses.map(&:id)).compact.uniq.map(&:hostgroup_id))
   end
 
