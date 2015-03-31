@@ -16,8 +16,8 @@ Apipie.configure do |config|
   config.locale = lambda { |loc| loc ? FastGettext.set_locale(loc) : FastGettext.locale }
 
   substitutions = {
-    'operatingsystem_families' => Operatingsystem.families.join(", "),
-    'providers' => ComputeResource.providers.join(', ')
+    :operatingsystem_families => Operatingsystem.families.join(", "),
+    :providers => ComputeResource.providers.join(', '),
   }
 
   config.translate = lambda do |str, loc|
