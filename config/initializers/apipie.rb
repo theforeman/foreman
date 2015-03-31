@@ -16,9 +16,9 @@ Apipie.configure do |config|
   config.locale = lambda { |loc| loc ? FastGettext.set_locale(loc) : FastGettext.locale }
 
   substitutions = {
-    'operatingsystem_families' => Operatingsystem.families.join(", "),
-    'providers' => ComputeResource.providers.join(', '),
-    :default_nic_type => InterfaceTypeMapper::DEFAULT_TYPE.humanized_name.downcase
+    :operatingsystem_families => Operatingsystem.families.join(", "),
+    :providers => ComputeResource.providers.join(', '),
+    :default_nic_type => InterfaceTypeMapper::DEFAULT_TYPE.humanized_name.downcase,
   }
 
   config.translate = lambda do |str, loc|
