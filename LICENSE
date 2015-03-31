@@ -32,6 +32,7 @@ The following files and directories are exceptions:
 * vendor/assets/javascripts/diff.js is under Revised BSD license
 * vendor/assets/javascripts/jquery.cookie.js is GNU GPL v2/MIT licensed
 * vendor/assets/javascripts/jquery.dataTables.min.js is GNU GPL v2/BSD
+* vendor/assets/javascripts/jquery.flot.axislabels.js is GNU GPL v3/MIT licensed
 * vendor/assets/javascripts/jquery.jeditable.js is MIT licensed
 * vendor/assets/javascripts/jquery.jnotify.js is ASL 2.0 licensed
 * vendor/assets/javascripts/jstz.js is MIT licensed
@@ -50,6 +51,7 @@ Holders for code above are:
   (C) 1996 by Jef Poskanzer <jef@acme.com>
   (c) 2010 Klaus Hartl (stilbuero.de)
   (c) 2008-2012 Allan Jardine
+  (c) 2010 Xuan Luo
   (c) 2006-2009 Mika Tuupola, Dylan Verheul
   (c) 2010 Giva, Inc.
   (c) 2012 -2014 Jon Nylander

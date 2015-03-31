@@ -28,9 +28,9 @@
     min-height: 360px;
   }
   .statistics-bar{
-    height: 260px;
-    width: 90%;
-    margin: 0 10px;
+    height: 270px;
+    width: 95%;
+    margin-left: -10px;
   }
   .statistics-chart{
     height: 240px;
@@ -49,7 +49,6 @@
     &:hover{
       text-decoration: none;
     }
-
   }
 }
 
