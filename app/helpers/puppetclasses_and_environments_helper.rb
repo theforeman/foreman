@@ -34,15 +34,14 @@ module PuppetclassesAndEnvironmentsHelper
     hash.keys.sort.map do |key|
       num = hash[key].size
       num_tag = "<span class='label label-info'>#{num}</span>".html_safe
-      link_to key, {}, { :remote => true,
-                         :rel => "popover",
-                         :data => {
-                           "content" => hash[key].sort.join('<br>').html_safe,
-                           "original-title" => n_("%{name} has %{num_tag} class", "%{name} has %{num_tag} classes", num) % {:name => key, :num_tag => num_tag},
-                           "trigger" => "manual",
-                           "toggle" => "popover"
-                         }
-                       }
+      content_tag(:a, key, { :rel => "popover",
+                             :data => {
+                               "content" => hash[key].sort.join('<br>').html_safe,
+                               "original-title" => n_("%{name} has %{num_tag} class", "%{name} has %{num_tag} classes", num) % {:name => key, :num_tag => num_tag},
+                               "trigger" => "manual",
+                               "toggle" => "popover"
+                             }
+                           })
     end.to_sentence.html_safe
   end
 end

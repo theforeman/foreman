@@ -85,7 +85,14 @@ span.input-group-btn .hidden-xs {display:inline !important;}
   span.input-group-btn .hidden-xs {display:none !important;}
 }
 
-span.btn a{ text-decoration: none; color: #333333}
+span.btn a {
+  text-decoration: none;
+  color: #333333;
+}
+
+a {
+  cursor: pointer;
+}
 
 // help-inline is not defined in Bootstrap3
 .help-inline{
