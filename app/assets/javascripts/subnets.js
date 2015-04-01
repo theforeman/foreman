@@ -8,5 +8,3 @@ function showSubnetIPAM(element) {
 $(document).on('change', "#subnet_ipam", function () {
   showSubnetIPAM($(this));
 });
-
-$('a[rel="popover"]').popover({html: true});
