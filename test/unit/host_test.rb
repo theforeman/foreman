@@ -472,17 +472,24 @@ class HostTest < ActiveSupport::TestCase
       SETTINGS[:organizations_enabled] = true
     end
 
-    test "should not save if root password is undefined when the host is managed" do
+    test "should save if root password is undefined when the host is managed and in build mode" do
       Setting[:root_pass] = ''
-      host = Host.new :name => "myfullhost", :managed => true
-      refute host.valid?
-      assert_present host.errors[:root_pass]
-    end
-
-    test "should save if root password is undefined when the compute resource is image capable" do
-      host = Host.new :name => "myfullhost", :managed => true, :compute_resource_id => compute_resources(:openstack).id
+      host = Host.new :name => "myfullhost", :managed => true, :build => false
       host.valid?
       refute host.errors[:root_pass].any?
+    end
+
+    test "should save if root password is undefined when the compute resource is image capable and in build mode" do
+      host = Host.new :name => "myfullhost", :managed => true, :build => true, :compute_resource_id => compute_resources(:openstack).id
+      host.valid?
+      refute host.errors[:root_pass].any?
+    end
+
+    test "should not save if root password is undefined when the host is managed and in build mode" do
+      Setting[:root_pass] = ''
+      host = Host.new :name => "myfullhost", :managed => true, :build => true
+      refute host.valid?
+      assert_present host.errors[:root_pass]
     end
 
     test "should not save if neither ptable or disk are defined when the host is managed" do
@@ -830,8 +837,9 @@ class HostTest < ActiveSupport::TestCase
       assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
     end
 
-    test "should not allow short root passwords for managed host" do
+    test "should not allow short root passwords for managed host in build mode" do
       h = FactoryGirl.create(:host, :managed)
+      h.build = true
       h.root_pass = "2short"
       h.valid?
       assert h.errors[:root_pass].include?("should be 8 characters or more")
