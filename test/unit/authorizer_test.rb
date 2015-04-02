@@ -242,4 +242,17 @@ class AuthorizerTest < ActiveSupport::TestCase
     refute auth.can?(:view_domains, domain1)
     assert auth.can?(:view_domains, domain2)
   end
+
+  test "#find_collection(Host, :permission => :view_hosts) with scoped_search join returns r/w resources" do
+    host       = FactoryGirl.create(:host, :with_facts)
+    fact       = host.fact_values.first
+    permission = Permission.find_by_name('view_hosts')
+    FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
+                                :search => "facts.#{fact.name} = #{fact.value}")
+    auth       = Authorizer.new(@user)
+
+    results = auth.find_collection(Host::Managed, :permission => :view_hosts)
+    assert_includes results, host
+    refute results.grep(host).first.readonly?
+  end
 end
