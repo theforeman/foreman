@@ -261,3 +261,8 @@ attributes55:
   category: Setting::Puppet
   default: 5
   description: "Duration in minutes after the Puppet interval for servers to be classed as out of sync."
+attributes56:
+  name: email_reply_address
+  category: Setting::General
+  default: "Foreman-noreply@#{SETTINGS[:domain]}"
+  description: 'Email reply address for emails that Foreman is sending'

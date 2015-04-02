@@ -47,4 +47,7 @@ Foreman::Application.configure do
 
   #enables a few aliases - context, should, and should_eventually methods
   config.minitest_spec_rails.mini_shoulda = true
+
+  # Use separate cache stores for parallel_tests
+  config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV['TEST_ENV_NUMBER']}")
 end
