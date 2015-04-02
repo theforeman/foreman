@@ -158,4 +158,16 @@ class ComputeResourceTest < ActiveSupport::TestCase
       assert_valid cr
     end
   end
+
+  test "#associate_by returns host by MAC attribute" do
+    host = FactoryGirl.create(:host, :mac => '11:22:33:44:55:1a')
+    cr = FactoryGirl.build(:compute_resource)
+    assert_equal host, as_admin { cr.send(:associate_by, 'mac', '11:22:33:44:55:1a') }
+  end
+
+  test "#associated_by returns read/write host" do
+    FactoryGirl.create(:host, :mac => '11:22:33:44:55:1a')
+    cr = FactoryGirl.build(:compute_resource)
+    refute as_admin { cr.send(:associate_by, 'mac', '11:22:33:44:55:1a') }.readonly?
+  end
 end
