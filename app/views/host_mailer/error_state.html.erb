@@ -2,9 +2,11 @@
 <html>
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <title>Puppet error from <%= @host.to_label %></title>
   </head>
-  <body style="background-color: #ffffff;">
-    <%= render :partial => 'reports/output', :locals => {:logs => @report.logs } %>
+  <body style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #3f3f3f; background-color: #f1f1f1; padding: 10px 24px">
+    <h2 style="font-weight: normal; text-transform: uppercase; font-size: 120%;"><%= _("<b>Foreman</b> Puppet error report").html_safe %></h2>
+    <div style="background: #e1e2e3; padding: 20px 40px; margin: 5px 0px 10px;">
+      <%= render :partial => 'error_states', :locals => {:logs => @report.logs } %>
+    </div>
   </body>
 </html>

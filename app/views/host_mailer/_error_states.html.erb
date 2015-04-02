@@ -1,0 +1,30 @@
+<% th_style = "text-align: left; border-collapse: collapse;  background: #f5f5f5; background: linear-gradient(#f5f5f5, #e8e8e8); padding: 4px; border: 1px solid #cccccc;" %>
+<% td_style = "text-align: left; border-collapse: collapse; background-color: #FFFFFF; padding: 4px; border: 1px solid #cccccc;" %>
+<% if logs.size > 0 %>
+  <table style="border: 1px solid #cccccc; padding: 5px; background-color: #ffffff; border-collapse: collapse; text-align: justify; width: 100%;" bgcolor="#ffffff">
+    <thead>
+      <tr>
+        <th style="<%= th_style %>"><%= _("Level") %></th>
+        <th style="<%= th_style %>"><%= _("Resource") %></th>
+        <th style="<%= th_style %>"><%= _("message") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% logs.each do |log| %>
+        <tr>
+          <td style="<%= td_style %>">
+            <span <%= report_tag log.level %>><%= h log.level %></span>
+          </td>
+          <td style="<%= td_style %>">
+            <%= h log.source %>
+          </td>
+          <td style="<%= td_style %>">
+            <%= h log.message %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <b><%= _("No logs to show") %></b>
+<% end %>
