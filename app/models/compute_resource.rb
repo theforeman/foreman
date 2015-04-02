@@ -289,6 +289,7 @@ class ComputeResource < ActiveRecord::Base
     Host.authorized(:view_hosts, Host).joins(:primary_interface).
       where(:nics => {:primary => true}).
       where("nics.#{name}" => attributes).
+      readonly(false).
       first
   end
 
