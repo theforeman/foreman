@@ -1,10 +1,10 @@
 require 'test_helper'
 
 class Api::V2::UsersControllerTest < ActionController::TestCase
-  valid_attrs = { :login => "johnsmith",
-                  :mail => 'john@example.com',
-                  :auth_source_id => AuthSourceInternal.first.id,
-                  :password => '123456' }
+  def valid_attrs
+    { :login => "johnsmith", :mail => 'john@example.com',
+      :auth_source_id => auth_sources(:internal), :password => '123456' }
+  end
 
   def setup
     setup_users

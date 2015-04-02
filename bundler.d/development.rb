@@ -11,4 +11,5 @@ group :development do
 
   gem 'pry'
   gem 'bullet'
+  gem "parallel_tests"
 end
