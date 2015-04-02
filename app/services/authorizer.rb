@@ -46,7 +46,7 @@ class Authorizer
     return resource_class.scoped if all_filters.any?(&:unlimited?)
 
     search_string = build_scoped_search_condition(all_filters.select(&:limited?))
-    resource_class.search_for(search_string)
+    resource_class.search_for(search_string).readonly(false)
   end
 
   def build_scoped_search_condition(filters)
