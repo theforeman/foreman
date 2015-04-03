@@ -152,7 +152,7 @@ class Api::TestableControllerTest < ActionController::TestCase
       scope = mock('scope')
       obj = mock('domain')
       scope.expects(:find).with(1).returns(obj)
-      Domain.expects(:authorized).with('view_domains').returns(scope)
+      Domain.expects(:authorized).with('view_domains', Domain).returns(scope)
       assert_equal obj, ctrl.send(:find_required_nested_object)
     end
   end
