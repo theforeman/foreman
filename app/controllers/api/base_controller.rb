@@ -204,7 +204,7 @@ module Api
           if allowed_nested_id.include?(param)
             model = md[1].classify.constantize
             controller = md[1].pluralize
-            authorized_scope = model.authorized("#{action_permission}_#{controller}")
+            authorized_scope = model.authorized("#{action_permission}_#{controller}", model)
             @nested_obj = begin
               authorized_scope.find(params[param])
             rescue ActiveRecord::RecordNotFound

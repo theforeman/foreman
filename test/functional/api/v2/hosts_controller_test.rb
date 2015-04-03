@@ -446,6 +446,21 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal 'A stub failure', JSON.parse(response.body)['error']['errors']['foo'].first
   end
 
+  test 'non-admin user with power_host permission can boot a vm' do
+    @bmchost = FactoryGirl.create(:host, :managed)
+    FactoryGirl.create(:nic_bmc, :host => @bmchost)
+    ProxyAPI::BMC.any_instance.stubs(:power).with(:action => 'status').returns("on")
+    role = FactoryGirl.create(:role, :name => 'power_hosts')
+    role.add_permissions!(['power_hosts'])
+    api_user = FactoryGirl.create(:user)
+    api_user.update_attribute :roles, [role]
+    as_user(api_user) do
+      put :power, { :id => @bmchost.to_param, :power_action => 'status' }
+    end
+    assert_response :success
+    assert @response.body =~ /on/
+  end
+
   context 'BMC proxy operations' do
     setup :initialize_proxy_ops
 

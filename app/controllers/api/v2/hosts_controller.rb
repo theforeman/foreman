@@ -245,7 +245,7 @@ Return value may either be one of the following:
 
       def permissions_check
         permission = "#{params[:action]}_hosts".to_sym
-        deny_access unless Host.authorized(permission).find(@host.id)
+        deny_access unless Host.authorized(permission, Host).find(@host.id)
       end
 
       def resource_class
