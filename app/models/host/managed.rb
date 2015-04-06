@@ -15,9 +15,6 @@ class Host::Managed < Host::Base
   belongs_to :compute_resource
   belongs_to :image
 
-  belongs_to :location
-  belongs_to :organization
-
   has_one :token, :foreign_key => :host_id, :dependent => :destroy
   before_destroy :remove_reports
 
@@ -58,7 +55,7 @@ class Host::Managed < Host::Base
 
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
-      :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
+      :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method,
       :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent, :primary_interface,
       :provision_interface, :interfaces, :bond_interfaces, :interfaces_with_identifier, :managed_interfaces, :facts, :facts_hash, :root_pass,
@@ -67,21 +64,10 @@ class Host::Managed < Host::Base
 
   attr_reader :cached_host_params
 
-  default_scope lambda {
-    org = Organization.expand(Organization.current)
-    loc = Location.expand(Location.current)
-    conditions = {}
-    conditions[:organization_id] = Array(org).map {|o| o.subtree_ids }.flatten.uniq if org.present?
-    conditions[:location_id]     = Array(loc).map {|l| l.subtree_ids }.flatten.uniq if loc.present?
-    where(conditions)
-  }
-
   scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago)]} }
   scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + 5).minutes.ago), false]} }
 
   scope :with_os, lambda { where('hosts.operatingsystem_id IS NOT NULL') }
-  scope :no_location, lambda { where(:location_id => nil) }
-  scope :no_organization, lambda { where(:organization_id => nil) }
 
   scope :with_error, lambda { where("(puppet_status > 0) and
    ( ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
@@ -702,19 +688,6 @@ class Host::Managed < Host::Base
     ids.uniq.compact
   end
 
-  def matching?
-    missing_ids.empty?
-  end
-
-  def missing_ids
-    Array.wrap(tax_location.try(:missing_ids)) + Array.wrap(tax_organization.try(:missing_ids))
-  end
-
-  def import_missing_ids
-    tax_location.import_missing_ids     if location
-    tax_organization.import_missing_ids if organization
-  end
-
   def bmc_proxy
     @bmc_proxy ||= bmc_nic.proxy
   end
@@ -881,16 +854,6 @@ class Host::Managed < Host::Base
 
   def set_certname
     self.certname = Foreman.uuid if read_attribute(:certname).blank? or new_record?
-  end
-
-  def tax_location
-    return nil unless location_id
-    @tax_location ||= TaxHost.new(location, self)
-  end
-
-  def tax_organization
-    return nil unless organization_id
-    @tax_organization ||= TaxHost.new(organization, self)
   end
 
   def provision_method_in_capabilities
