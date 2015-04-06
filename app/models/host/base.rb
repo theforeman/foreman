@@ -25,6 +25,9 @@ module Host
     has_one :subnet, :through => :primary_interface
     accepts_nested_attributes_for :interfaces, :allow_destroy => true
 
+    belongs_to :location
+    belongs_to :organization
+
     alias_attribute :hostname, :name
     validates :name, :presence   => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP}
     validates :owner_type, :inclusion => { :in          => OWNER_TYPES,
@@ -32,6 +35,18 @@ module Host
                                            :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', ')) }
     validate :host_has_required_interfaces
     validate :uniq_interfaces_identifiers
+
+    default_scope lambda {
+      org = Organization.expand(Organization.current)
+      loc = Location.expand(Location.current)
+      conditions = {}
+      conditions[:organization_id] = Array(org).map { |o| o.subtree_ids }.flatten.uniq if org.present?
+      conditions[:location_id] = Array(loc).map { |l| l.subtree_ids }.flatten.uniq if loc.present?
+      where(conditions)
+    }
+
+    scope :no_location, lambda { where(:location_id => nil) }
+    scope :no_organization, lambda { where(:organization_id => nil) }
 
     # primary interface is mandatory because of delegated methods so we build it if it's missing
     # similar for provision interface
@@ -282,7 +297,30 @@ module Host
       Nic::Base.provision.find_by_mac(mac).try(:host)
     end
 
+    def matching?
+      missing_ids.empty?
+    end
+
+    def missing_ids
+      Array.wrap(tax_location.try(:missing_ids)) + Array.wrap(tax_organization.try(:missing_ids))
+    end
+
+    def import_missing_ids
+      tax_location.import_missing_ids     if location
+      tax_organization.import_missing_ids if organization
+    end
+
     private
+
+    def tax_location
+      return nil unless location_id
+      @tax_location ||= TaxHost.new(location, self)
+    end
+
+    def tax_organization
+      return nil unless organization_id
+      @tax_organization ||= TaxHost.new(organization, self)
+    end
 
     def build_required_interfaces(attrs = {})
       self.interfaces.build(attrs.merge(:primary => true, :type => 'Nic::Managed')) if self.primary_interface.nil?
