@@ -1,4 +1,8 @@
 module DashboardHelper
+  def add_to_dashboard(widget)
+    button_to(_('Add to dashboard'), widgets_path(:widget => widget), :method => :post)
+  end
+
   def dashboard_actions
     [_("Generated at %s") % Time.zone.now.to_s(:short),
      select_action_button(_("Manage dashboard"), {},
