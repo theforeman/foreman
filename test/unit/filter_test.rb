@@ -90,6 +90,13 @@ class FilterTest < ActiveSupport::TestCase
       end
     end
 
+    test 'filter is not automatically scoped to any taxonomies' do
+      original_org, Organization.current = Organization.current, @organization
+      filter = Filter.new
+      assert_empty filter.organizations
+      Organization.current = original_org
+    end
+
     test "filter with organization set is always limited before validation" do
       f = FactoryGirl.build(:filter, :search => '', :unlimited => '1', :organization_ids => [@organization.id])
       assert f.valid?

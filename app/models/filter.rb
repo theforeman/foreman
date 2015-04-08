@@ -12,11 +12,11 @@ class Filter < ActiveRecord::Base
   end
 
   # tune up taxonomix for filters, we don't want to set current taxonomy
-  def self.add_current_organization?
+  def add_current_organization?
     false
   end
 
-  def self.add_current_location?
+  def add_current_location?
     false
   end
 
