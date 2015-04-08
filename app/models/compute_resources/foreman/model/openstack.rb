@@ -54,7 +54,27 @@ module Foreman::Model
       network_client.networks.all.select { |net| !net.router_external }
     end
 
+    def image_size(image_id)
+      client.get_image_details(image_id).body['image']['minDisk']
+    end
+
+    def boot_from_volume(args = {})
+      vm_name = args[:name]
+      args[:size_gb] = image_size(args[:image_ref]) if args[:size_gb].blank?
+      boot_vol = volume_client.volumes.create( { :display_name => "#{vm_name}-vol0", :volumeType => "Volume", :size => args[:size_gb], :imageRef => args[:image_ref] } )
+      @boot_vol_id = boot_vol.id.tr('"', '')
+      boot_vol.wait_for { status == 'available'  }
+      args[:block_device_mapping_v2] = [ {
+        :source_type => "volume",
+        :destination_type => "volume",
+        :delete_on_termination => "1",
+        :uuid => @boot_vol_id,
+        :boot_index => "0"
+      } ]
+    end
+
     def create_vm(args = {})
+      boot_from_volume(args) if args[:boot_from_volume]
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
@@ -69,6 +89,7 @@ module Foreman::Model
       message = JSON.parse(e.response.body)['badRequest']['message'] rescue (e.to_s)
       logger.warn "failed to create vm: #{message}"
       destroy_vm vm.id if vm
+      volume_client.volumes.delete(@boot_vol_id) if args[:boot_from_volume]
       raise message
     end
 
@@ -124,6 +145,14 @@ module Foreman::Model
                                              :openstack_tenant   => tenant)
     rescue
       @network_client = nil
+    end
+
+    def volume_client
+      @volume_client ||= ::Fog::Volume.new(:provider           => :openstack,
+                                           :openstack_api_key  => password,
+                                           :openstack_username => user,
+                                           :openstack_auth_url => url,
+                                           :openstack_tenant   => tenant)
     end
 
     def setup_key_pair
