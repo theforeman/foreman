@@ -2010,6 +2010,13 @@ class HostTest < ActiveSupport::TestCase
     assert(host.valid?)
   end
 
+  test '#jumpstart? should return true for Solaris and SPARC hosts' do
+    host = FactoryGirl.create(:host,
+                              :operatingsystem => FactoryGirl.create(:solaris),
+                              :architecture => FactoryGirl.create(:architecture, :name => 'SPARC-T2'))
+    assert host.jumpstart?
+  end
+
   private
 
   def parse_json_fixture(relative_path)

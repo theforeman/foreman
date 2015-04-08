@@ -23,6 +23,7 @@ module Net::DHCP
     # Create a DHCP entry
     def create
       logger.info "Create DHCP reservation for #{self}"
+      logger.debug "DHCP reservation on net #{network} with attrs: #{attrs.inspect}"
       begin
         raise "Must define a hostname" if hostname.blank?
         proxy.set network, attrs
