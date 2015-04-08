@@ -45,6 +45,27 @@ class VmwareTest < ActiveSupport::TestCase
     assert_equal mock_vm, cr.new_vm(attrs_in)
   end
 
+  describe "#create_vm" do
+    setup do
+      @cr = FactoryGirl.build(:vmware_cr)
+      @cr.stubs(:test_connection)
+    end
+    test "calls clone_vm when image provisioning with symbol key" do
+      args = {:image_id =>"2" }
+      @cr.stubs(:parse_networks).returns(args)
+      @cr.expects(:clone_vm)
+      @cr.expects(:new_vm).times(0)
+      @cr.create_vm(args)
+    end
+    test "calls clone_vm when image provisioning with string key" do
+      args = {"image_id" =>"2" }
+      @cr.stubs(:parse_networks).returns(args)
+      @cr.expects(:clone_vm)
+      @cr.expects(:new_vm).times(0)
+      @cr.create_vm(args)
+    end
+  end
+
   test "#create_vm calls clone_vm when image provisioning" do
     attrs_in = HashWithIndifferentAccess.new("image_id"=>"2","cpus"=>"1", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
     attrs_parsed = HashWithIndifferentAccess.new("image_id"=>"2","cpus"=>"1", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"Test network", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"Test network", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
