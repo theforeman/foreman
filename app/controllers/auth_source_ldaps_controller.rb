@@ -40,7 +40,7 @@ class AuthSourceLdapsController < ApplicationController
     rescue => exception
       result[:success] = false
       result[:error_class] = exception.class.name
-      result[:message] = _(exception.message) + "This is going in the third one"
+      result[:message] = _(exception.message)
     end
     render :json => result
   end
