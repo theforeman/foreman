@@ -314,6 +314,7 @@ module Foreman::Model
       return unless errors.empty?
 
       args = parse_networks(args)
+      args = args.with_indifferent_access
       if args[:image_id].present?
         clone_vm(args)
       else
@@ -471,4 +472,3 @@ module Foreman::Model
     end
   end
 end
-
