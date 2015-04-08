@@ -6,6 +6,7 @@ module FogExtensions
       included do
         alias_method_chain :security_groups, :no_id
         attr_reader :nics
+        attr_accessor :boot_from_volume, :size_gb
         attr_writer :security_group, :network # floating IP
       end
 
@@ -46,6 +47,14 @@ module FogExtensions
         return [] if id.nil?
 
         security_groups_without_no_id
+      end
+
+      def boot_from_volume
+        attr[:boot_from_volume]
+      end
+
+      def size_gb
+        attr[:size_gb]
       end
 
       def network
