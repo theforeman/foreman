@@ -1,7 +1,7 @@
 group :assets do
   gem 'sass-rails', '~> 3.2'
   gem 'uglifier', '>= 1.0.3'
-  gem 'execjs', '>= 1.4.0'
+  gem 'execjs', '>= 1.4.0', '<2.5.0'
   gem 'jquery-rails', '2.0.3'
   gem 'jquery-ui-rails', '< 5.0.0'
   gem 'therubyracer', '0.11.3', :require => 'v8'
