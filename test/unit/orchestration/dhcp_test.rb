@@ -20,6 +20,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
       assert h.valid?
       assert h.dhcp?, 'host.dhcp? does not return true'
       assert_instance_of Net::DHCP::Record, h.dhcp_record
+      assert_equal h.name, h.dhcp_record.hostname
     end
   end
 
@@ -52,32 +53,22 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
-  test "jumpstart parameter generation" do
-    h = FactoryGirl.create(:host, :managed, :domain => domains(:yourdomain),
-          :interfaces => [ FactoryGirl.build(:nic_primary_and_provision,
-                                             :ip => '2.3.4.10')  ],
-          :architecture => architectures(:sparc),
-          :operatingsystem => operatingsystems(:solaris10),
-          :compute_resource => compute_resources(:one),
-          :model => models(:V210),
-          :medium => media(:solaris10),
-          :puppet_proxy => smart_proxies(:puppetmaster),
-          :ptable => ptables(:one)
-        )
-    Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01").returns("2.3.4.5").once
-    Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01.yourdomain.net").returns("2.3.4.5").once
-    result = h.os.jumpstart_params h, h.model.vendor_class
-    assert_equal({
-                   :vendor => "<Sun-Fire-V210>",
-                   :install_path => "/vol/solgi_5.10/sol10_hw0910_sparc",
-                   :install_server_ip => "2.3.4.5",
-                   :install_server_name => "brsla01",
-                   :jumpstart_server_path => "2.3.4.5:/vol/jumpstart",
-                   :root_path_name => "/vol/solgi_5.10/sol10_hw0910_sparc/Solaris_10/Tools/Boot",
-                   :root_server_hostname => "brsla01",
-                   :root_server_ip => "2.3.4.5",
-                   :sysid_server_path => "2.3.4.5:/vol/jumpstart/sysidcfg/sysidcfg_primary"
-                 }, result)
+  test "DHCP record contains jumpstart attributes" do
+    h = FactoryGirl.build(:host, :with_dhcp_orchestration,
+                          :model => FactoryGirl.create(:model, :vendor_class => 'Sun-Fire-V210'))
+    h.expects(:jumpstart?).at_least_once.returns(true)
+    h.os.expects(:jumpstart_params).at_least_once.with(h.provision_interface, h.model.vendor_class).returns(:vendor => '<Sun-Fire-V210>')
+    h.valid?
+    d = h.provision_interface.dhcp_record
+    assert_instance_of Net::DHCP::SparcRecord, d
+    assert_equal '<Sun-Fire-V210>', d.vendor
+  end
+
+  test "provision interface DHCP records should contain filename/next-server attributes" do
+    ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_orchestration)
+    assert_equal 'pxelinux.0', h.provision_interface.dhcp_record.filename
+    assert_equal '192.168.1.1', h.provision_interface.dhcp_record.nextServer
   end
 
   test "new host should create a dhcp reservation" do

@@ -15,7 +15,7 @@ module Orchestration::DHCP
 
   def dhcp_record
     return unless dhcp? or @dhcp_record
-    @dhcp_record ||= jumpstart? ? Net::DHCP::SparcRecord.new(dhcp_attrs) : Net::DHCP::Record.new(dhcp_attrs)
+    @dhcp_record ||= (provision? && jumpstart?) ? Net::DHCP::SparcRecord.new(dhcp_attrs) : Net::DHCP::Record.new(dhcp_attrs)
   end
 
   protected
@@ -58,15 +58,24 @@ module Orchestration::DHCP
 
   # returns a hash of dhcp record settings
   def dhcp_attrs
-    return unless dhcp?
-    dhcp_attr = { :name => name, :filename => operatingsystem.boot_filename(self),
-                  :ip => ip, :mac => mac, :hostname => hostname, :proxy => subnet.dhcp_proxy,
-                  :network => subnet.network, :nextServer => boot_server }
+    raise ::Foreman::Exception.new(N_("DHCP not supported for this NIC")) unless dhcp?
+    dhcp_attr = {
+      :name => name,
+      :hostname => hostname,
+      :ip => ip,
+      :mac => mac,
+      :proxy => subnet.dhcp_proxy,
+      :network => subnet.network,
+    }
 
-    if jumpstart?
-      jumpstart_arguments = os.jumpstart_params self, model.vendor_class
-      dhcp_attr.merge! jumpstart_arguments unless jumpstart_arguments.empty?
+    if provision?
+      dhcp_attr.merge!({:filename => operatingsystem.boot_filename(self), :nextServer => boot_server})
+      if jumpstart?
+        jumpstart_arguments = os.jumpstart_params self, model.vendor_class
+        dhcp_attr.merge! jumpstart_arguments unless jumpstart_arguments.empty?
+      end
     end
+
     dhcp_attr
   end
 

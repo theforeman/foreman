@@ -8,9 +8,9 @@ module Nic
 
     register_to_enc_transformation :type, lambda { |type| type.constantize.humanized_name }
 
-    def dhcp_record
-      return unless dhcp? or @dhcp_record
-      @dhcp_record ||= host.jumpstart? ? Net::DHCP::SparcRecord.new(dhcp_attrs) : Net::DHCP::Record.new(dhcp_attrs)
+    def initialize(*args)
+      ActiveSupport::Deprecation.warn 'Nic::Bootable is replaced by Nic::Managed with provision: true, this class will be removed'
+      super(*args)
     end
 
     def self.human_name

@@ -73,5 +73,13 @@ FactoryGirl.define do
       type 'Suse'
       title 'OpenSuse 11.4'
     end
+
+    factory :solaris, class: Solaris do
+      sequence(:name) { 'Solaris' }
+      major '10'
+      minor '8'
+      type 'Solaris'
+      title 'Solaris 10.8'
+    end
   end
 end
