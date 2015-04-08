@@ -28,11 +28,19 @@ class AuthSourceLdapsController < ApplicationController
         temp_auth_source_ldap.ldap_con.valid_user?("")
       end
       result[:success] = true
-      result[:message] = _("Connection to LDAP Server Successful !!")
-    rescue => exception
+      result[:message] = _("Test connection to LDAP server was successful.")
+    rescue Timeout::Error => exception
       result[:success] = false
       result[:error_class] = exception.class.name
       result[:message] = _(exception.message)
+    rescue Net::LDAP::Error => exception
+      result[:success] = false
+      result[:error_class] = exception.class.name
+      result[:message] = _(exception.message)
+    rescue => exception
+      result[:success] = false
+      result[:error_class] = exception.class.name
+      result[:message] = _(exception.message) + "This is going in the third one"
     end
     render :json => result
   end

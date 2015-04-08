@@ -34,11 +34,9 @@ function test_connection(test_connection_url){
             } else{
               // In the case of error in connection to the ldap server, we are using the $.jnotify function directly instead of the wrapper "notify(item, type)" 
               // because we will need some HTML formatting for the error to be more readable
-              var error_message = "<strong>"+__("Error in establishing connection :: ")+"</strong>";
-              error_message += "<br/><br/>";
-              error_message += "<i>"+ data.error_class + "</i>"
-              error_message += " => "
-              error_message += "<u>" + data.message + "</u>";
+              var error_message = "<strong>"+__("Error establishing connection:")+"</strong>";
+              error_message += "<br>"+ data.error_class 
+              error_message += ": " + data.message;
               $.jnotify(error_message, "error", true);
             }
           }
