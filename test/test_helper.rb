@@ -178,6 +178,7 @@ Spork.prefork do
       Net::DHCP::Record.any_instance.stubs(:conflicting?).returns(false)
       ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["production"])
       ProxyAPI::DHCP.any_instance.stubs(:unused_ip).returns('127.0.0.1')
+      ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('127.0.0.1')
     end
 
     def disable_orchestration

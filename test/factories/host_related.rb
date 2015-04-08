@@ -68,6 +68,10 @@ FactoryGirl.define do
     sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
   end
 
+  factory :model do
+    sequence(:name) { |n| "hal900#{n}" }
+  end
+
   factory :host do
     sequence(:name) { |n| "host#{n}" }
     sequence(:hostname) { |n| "host#{n}" }

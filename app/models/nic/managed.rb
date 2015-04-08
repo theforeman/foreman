@@ -15,7 +15,7 @@ module Nic
     # this ensures our orchestration works on both a host and a managed interface
     delegate :progress_report_id, :capabilities, :compute_resource,
              :operatingsystem, :configTemplate, :jumpstart?, :build, :build?, :os, :arch,
-             :image_build?, :pxe_build?, :pxe_build?, :token, :to => :host
+             :image_build?, :pxe_build?, :pxe_build?, :token, :to_ip_address, :model, :to => :host
     delegate :operatingsystem_id, :hostgroup_id, :environment_id,
              :overwrite?, :to => :host, :allow_nil => true
 
@@ -33,12 +33,6 @@ module Nic
       end
     end
     alias_method_chain :queue, :host
-
-    # returns a DHCP reservation object
-    def dhcp_record
-      return unless dhcp? or @dhcp_record
-      @dhcp_record ||= Net::DHCP::Record.new(dhcp_attrs)
-    end
 
     def hostname
       if domain.present? && name.present?
@@ -81,18 +75,6 @@ module Nic
 
     def uniq_fields_with_hosts
       super + [:name]
-    end
-
-    # returns a hash of dhcp record attributes
-    def dhcp_attrs
-      raise ::Foreman::Exception.new(N_("DHCP not supported for this NIC")) unless dhcp?
-      {
-        :hostname => hostname,
-        :ip       => ip,
-        :mac      => mac,
-        :proxy    => subnet.dhcp_proxy,
-        :network  => network
-      }
     end
 
     def copy_hostname_from_host
