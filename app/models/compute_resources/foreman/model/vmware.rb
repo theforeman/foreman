@@ -365,6 +365,7 @@ module Foreman::Model
         "memoryMB" => args[:memory_mb],
         "datastore" => args[:volumes].first[:datastore],
         "network_label" => args[:interfaces].first[:network],
+        "nic_type" => args[:interfaces].first[:type],
         "network_adapter_device_key" => network_adapter_device_key
       }
       client.servers.get(client.vm_clone(opts)['new_vm']['id'])
