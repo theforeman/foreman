@@ -12,6 +12,18 @@ oses:
 - Fedora 19
 - Fedora 20
 %>
+<%#
+This template accepts the following parameters:
+- lang: string (default="en_US.UTF-8")
+- keyboard: string (default="us")
+- time-zone: string (default="UTC")
+- http-proxy: string (default="")
+- http-proxy-port: string (default="")
+- force-puppet: boolean (default=false)
+- enable-puppetlabs-repo: boolean (default=false)
+- salt_master: string (default=undef)
+- ntp-server: string (default="0.fedora.pool.ntp.org")
+%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   os_major = @host.operatingsystem.major.to_i
@@ -28,7 +40,7 @@ install
 <%= @mediapath %><%= proxy_string %>
 lang <%= @host.params['lang'] || 'en_US.UTF-8' %>
 selinux --enforcing
-keyboard us
+keyboard <%= @host.params['keyboard'] || 'us' %>
 skipx
 
 <% subnet = @host.subnet -%>

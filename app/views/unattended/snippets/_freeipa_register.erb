@@ -93,7 +93,7 @@ LDAP_CONFIG=$(mktemp)
 # >=ipa-client-4.1.0 automatically configures sssd for sudo
 # =<ipa-client-3 requires manual configuration which this snippet takes care of
 
-if [ $freeipa_client_version_major -le 4 ]
+if [ $freeipa_client_version_major -lt 4 ]
 then
   # Modify sssd.conf
   sed -i -e "s/services = .*/\0, sudo/" /etc/sssd/sssd.conf
