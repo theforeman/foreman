@@ -18,7 +18,9 @@ pluginsync      = true
 report          = true
 ignoreschedules = true
 daemon          = false
+<%- if @host.puppet_ca_server.strip -%>
 ca_server       = <%= @host.puppet_ca_server %>
+<%- end -%>
 certname        = <%= @host.certname %>
 environment     = <%= @host.environment %>
 server          = <%= @host.puppetmaster %>
