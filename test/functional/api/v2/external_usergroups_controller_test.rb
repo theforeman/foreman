@@ -24,6 +24,7 @@ class Api::V2::ExternalUsergroupsControllerTest < ActionController::TestCase
     usergroup   = FactoryGirl.create(:usergroup)
     auth_source = FactoryGirl.create(:auth_source_ldap)
     valid_attrs = { 'name' => 'foremanusergroup', 'auth_source_id' => auth_source.id }
+    ExternalUsergroup.any_instance.expects(:refresh).returns(true)
     assert_difference('usergroup.external_usergroups.count') do
       post :create, { :usergroup_id       => usergroup.to_param,
                       :external_usergroup => valid_attrs }
@@ -32,13 +33,14 @@ class Api::V2::ExternalUsergroupsControllerTest < ActionController::TestCase
   end
 
   test 'refresh external user group' do
-    2.times { ExternalUsergroup.any_instance.expects(:users).returns([]) }
+    ExternalUsergroup.any_instance.expects(:users).returns([]).twice
     put :refresh, { :usergroup_id => @external_usergroup.usergroup_id,
                     :id           => @external_usergroup.id }
     assert_response :success
   end
 
   test 'update a external user group' do
+    ExternalUsergroup.any_instance.expects(:refresh).returns(true)
     valid_attrs = { 'name' => 'foremanusergroup' }
     put :update, { :usergroup_id => @external_usergroup.usergroup_id,
                    :id => @external_usergroup.id,
@@ -48,6 +50,7 @@ class Api::V2::ExternalUsergroupsControllerTest < ActionController::TestCase
   end
 
   test 'destroy external user group' do
+    ExternalUsergroup.any_instance.expects(:refresh).returns(true)
     assert_difference('ExternalUsergroup.count', -1) do
       delete :destroy, { :usergroup_id => @external_usergroup.usergroup_id,
                          :id           => @external_usergroup.id }
