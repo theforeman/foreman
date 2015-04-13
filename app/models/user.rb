@@ -401,7 +401,7 @@ class User < ActiveRecord::Base
 
   def welcome_mail
     return unless mail_enabled? && internal? && Setting[:send_welcome_email]
-    MailNotification[:welcome].deliver(:user => self.id)
+    MailNotification[:welcome].deliver(:user => self)
   end
 
   def encrypt_password(pass)

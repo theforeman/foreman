@@ -31,10 +31,16 @@ class MailNotification < ActiveRecord::Base
     self.find_by_name(name)
   end
 
-  def deliver(options)
-    mailer.constantize.send(method, options).deliver
-  rescue => e
-    logger.warn "Failed to send email notification #{name}: #{e}"
-    logger.debug e.backtrace
+  def deliver(*args)
+    # args can be anything really, treat it carefully
+    # handle args=[.., :users => [..]] specially and instantiate a single mailer per user, with :user set on each
+    if args.last.is_a?(Hash) && args.last.has_key?(:users)
+      options = args.pop
+      options.delete(:users).each do |user|
+        mailer.constantize.send(method, *args, options.merge(:user => user)).deliver
+      end
+    else
+      mailer.constantize.send(method, *args).deliver
+    end
   end
 end
