@@ -13,38 +13,32 @@ class HostMailer < ApplicationMailer
     total_metrics = load_metrics(host_data)
     total = 0; total_metrics.values.each { |v| total += v }
 
-    subject = _("Puppet Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
-      :failed => total_metrics["failed"],
-      :restarted => total_metrics["restarted"],
-      :skipped => total_metrics["skipped"],
-      :applied => total_metrics["applied"],
-      :failed_restarts => total_metrics["failed_restarts"],
-      :total => total
-    }
-
     @hosts = host_data
     @timerange = time
     @out_of_sync = hosts.out_of_sync
     @disabled = hosts.alerts_disabled
-
     set_url
-    set_locale_for user
 
-    mail(:to   => user.mail,
-         :from => Setting["email_reply_address"],
-         :subject => subject,
-         :date => Time.zone.now )
+    set_locale_for(user) do
+      subject = _("Puppet Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
+        :failed => total_metrics["failed"],
+        :restarted => total_metrics["restarted"],
+        :skipped => total_metrics["skipped"],
+        :applied => total_metrics["applied"],
+        :failed_restarts => total_metrics["failed_restarts"],
+        :total => total
+      }
+
+      mail(:to => user.mail, :subject => subject)
+    end
   end
 
-  def error_state(report)
-    report = Report.find(report)
-    host = report.host
-    owners = host.owner.recipients_for(:puppet_error_state)
-    raise ::Foreman::Exception.new(N_("unable to find recipients")) if owners.empty?
+  def error_state(report, options = {})
     @report = report
-    @host = host
-
-    group_mail(owners, :subject => (_("Puppet error on %s") % host.to_label))
+    @host = @report.host
+    set_locale_for(options[:user]) do
+      mail(:to => options[:user].mail, :subject => (_("Puppet error on %s") % @host.to_label))
+    end
   end
 
   private

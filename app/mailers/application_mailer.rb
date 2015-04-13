@@ -15,6 +15,7 @@ class ApplicationMailer < ActionMailer::Base
 
   class GroupMail
     def initialize(emails)
+      ActiveSupport::Deprecation.warn 'GroupMail will be removed as mailers should not generate multiple messages, use MailNotification#deliver'
       @emails = emails
     end
 
@@ -30,6 +31,8 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def group_mail(users, options)
+    ActiveSupport::Deprecation.warn '#group_mail is replaced by MailNotification#deliver with :users in the options hash, this does not function properly'
+
     mails = users.map do |user|
       @user = user
       set_locale_for user
@@ -40,6 +43,12 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def set_locale_for(user)
-    FastGettext.set_locale(user.locale.blank? ? "en" : user.locale)
+    old_loc = FastGettext.locale
+    begin
+      FastGettext.set_locale(user.locale.blank? ? 'en' : user.locale)
+      yield if block_given?
+    ensure
+      FastGettext.locale = old_loc if block_given?
+    end
   end
 end
