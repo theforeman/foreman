@@ -53,6 +53,10 @@ module Foreman::Model
     end
 
     def clusters
+      if dc.clusters.nil?
+        Rails.logger.info "Datacenter #{dc.try(:name)} returned zero clusters"
+        return []
+      end
       dc.clusters.map(&:full_path).sort
     end
 
