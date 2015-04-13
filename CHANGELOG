@@ -1,3 +1,53 @@
+2015-04-13	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.8.0-RC3
+	* i18n - extracting new, updating rails, pulling from tx
+	* refs #8817 - Revert "fixes #5841 - use inner query when retrieving reports for subset of authorised hosts"
+	* templates - sync from community-templates
+
+2015-04-13	Chad Walstrom <chad.walstrom@govdelivery.com>
+	* Fixes #10093 - VMware#create_vm calls clone_vm
+
+2015-04-13	Francois Herbert <F.Herbert@massey.ac.nz>
+	* fixes #10087 - Pass nic_type to vm_clone
+
+2015-04-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10025 - move generic taxonomies code to base class
+	* Fixes #9947 - restrict user taxonomies if none is set
+
+2015-04-13	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10100 - License file is outdated
+
+2015-04-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #7615 - filter ignore current context
+	* Fixes #9967 - make sure User.current is isolated
+	* Fixes #9926 - do not always set LDAP encryption method
+
+2015-04-09	Dominic Cleal <dcleal@redhat.com>
+	* refs #4521 - extract string, fix capitalisation
+	* fixes #9973 - API doc keyword substitution with sprintf needs symbols
+	* fixes #9778 - return r/w host when finding and associating to CRs
+
+2015-04-09	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #10099 - pin execjs gem for Ruby 1.9
+
+2015-04-09	jslatten <justin.slatten@gmail.com>
+	* refs #4521 - Openstack Compute Resource: Boot from Volume on new Host
+
+2015-04-09	johscheuer <joh.scheuer@gmail.com>
+	* Fixes #9362 - Corrected CoreOS mediapath
+
+2015-04-09	Julien Pivotto <roidelapluie@inuits.eu>
+	* Fixes #8812 - Pass model type so search_for is called on Host
+
+2015-04-09	Keenan Brock <keenan@thebrocks.net>
+	* Fixes #10002 - Add attribute ancestry to taxonomies API v2
+
+2015-04-09	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9921 - specify requirements on apidoc params for NICs
+
+2015-04-09	William Hefter <william@whefter.de>
+	* Fixes #8890 - Allow selection of plaintext "encryption" method for root password
+
 2015-03-26	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.8.0-RC2
 	* i18n - extracting new, updating rails, pulling from tx
