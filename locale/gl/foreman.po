@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-03-25 20:31+0000\n"
-"Last-Translator: Carmela Rubiños <carmela.rubinos@gmail.com>\n"
+"PO-Revision-Date: 2015-03-26 10:08+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/foreman/language/"
 "gl/)\n"
 "MIME-Version: 1.0\n"
@@ -1441,6 +1441,43 @@ msgstr ""
 msgid "Update a smart class parameter"
 msgstr ""
 
+msgid "Whether the smart class parameter value is managed by Foreman"
+msgstr ""
+
+msgid "Description of smart class"
+msgstr ""
+
+msgid "Value to use when there is no match"
+msgstr ""
+
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in t"
+"he Puppet manifest for this parameter"
+msgstr ""
+
+msgid "The order in which values are resolved"
+msgstr "A orde na cual se resolven os valores"
+
+msgid "Types of validation values"
+msgstr ""
+
+msgid "Used to enforce certain values for the parameter values"
+msgstr ""
+
+msgid "Types of variable values"
+msgstr ""
+
+msgid ""
+"If true, will raise an error if there is no default value and no matcher provi"
+"de a value"
+msgstr ""
+
+msgid "Merge all matching values (only array/hash type)"
+msgstr ""
+
+msgid "Remove duplicate values (only array type)"
+msgstr ""
+
 msgid "List all smart proxies"
 msgstr ""
 
@@ -1472,6 +1509,18 @@ msgid "List of smart variables for a specific Puppet class"
 msgstr ""
 
 msgid "Show a smart variable"
+msgstr ""
+
+msgid "Name of variable"
+msgstr ""
+
+msgid "Puppet class ID"
+msgstr ""
+
+msgid "Default value of variable"
+msgstr ""
+
+msgid "Description of variable"
 msgstr ""
 
 msgid "Create a smart variable"
@@ -1685,11 +1734,11 @@ msgstr "Débese crear polo menos un lugar antes de continuar."
 msgid "You must create at least one organization before continuing."
 msgstr "Débese crear polo menos unha organización antes de continuar."
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Error"
 msgstr "Error"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Invalid authenticity token"
 msgstr ""
@@ -1751,6 +1800,18 @@ msgid ""
 msgstr ""
 
 msgid "No changes to your environments detected"
+msgstr ""
+
+msgid "Puppet class with id '%{id}' was not found"
+msgstr ""
+
+msgid "Environment with id '%{id}' was not found"
+msgstr ""
+
+msgid "Host with id '%{id}' was not found"
+msgstr ""
+
+msgid "Hostgroup with id '%{id}' was not found"
 msgstr ""
 
 msgid "User IDs"
@@ -1855,9 +1916,6 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr "Os seguintes campos necesitan ser revisados"
 
-msgid "CDROM"
-msgstr "CDROM"
-
 msgid "Disk"
 msgstr "Disco"
 
@@ -1866,6 +1924,9 @@ msgstr "PXE"
 
 msgid "BIOS"
 msgstr "BIOS"
+
+msgid "CDROM"
+msgstr "CDROM"
 
 msgid "Unable to generate output, Check log files"
 msgstr ""
@@ -2093,6 +2154,9 @@ msgstr ""
 msgid "Inherit parent (%s)"
 msgstr ""
 
+msgid "Documentation"
+msgstr "Documentación"
+
 msgid "Click to edit"
 msgstr "Click para editar"
 
@@ -2121,28 +2185,28 @@ msgstr "Fai %s"
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr "Parámetros que serían asociados con equipos neste %s"
 
-msgid "Additional info"
-msgstr "Información adicional"
-
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
+
+msgid "Additional info"
+msgstr "Información adicional"
 
 msgid "Paused"
 msgstr ""
 
-msgid "On"
-msgstr "Encendido"
-
 msgid "Off"
 msgstr "Apagado"
+
+msgid "On"
+msgstr "Encendido"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr ""
 
-msgid "Pause"
+msgid "Resume"
 msgstr ""
 
-msgid "Resume"
+msgid "Pause"
 msgstr ""
 
 msgid "Are you sure you want to %{act} %{vm}?"
@@ -2277,12 +2341,12 @@ msgstr "RF"
 msgid "Failed Restarts"
 msgstr "Reinicios fallidos"
 
-msgid "Skipped"
-msgstr "Omitido"
-
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
 msgstr "O"
+
+msgid "Skipped"
+msgstr "Omitido"
 
 msgid "Pending"
 msgstr "Pendiente"
@@ -2406,11 +2470,11 @@ msgstr "%s - Os seguintes equipos están a piques de ser modificados"
 msgid "Failed restarts"
 msgstr "Fallos de reinicio"
 
-msgid "Runtime"
-msgstr "Tiempo de Execución"
-
 msgid "Config Retrieval"
 msgstr "Recuperar configuración"
+
+msgid "Runtime"
+msgstr "Tiempo de Execución"
 
 msgid "Reports from the last %{days} days - %{count} reports found"
 msgstr "Informes nos últimos %{days} días - Atopados %{count} informes"
@@ -2499,17 +2563,17 @@ msgstr ""
 "Desencadena unha execución de Puppet nun nodo. É necesario que \"Puppet run\" es"
 "té habilitado."
 
-msgid "Audits"
-msgstr "Auditoría"
-
 msgid "Host audit entries"
 msgstr "Rexistros de auditoría de Equipo"
 
-msgid "Browse host facts"
-msgstr "Explorar datos de equipos"
+msgid "Audits"
+msgstr "Auditoría"
 
 msgid "Facts"
 msgstr "Datos"
+
+msgid "Browse host facts"
+msgstr "Explorar datos de equipos"
 
 msgid "Reports"
 msgstr "Informes"
@@ -2526,10 +2590,10 @@ msgstr "YAML"
 msgid "Allocation (GB)"
 msgstr ""
 
-msgid "Size"
+msgid "Full"
 msgstr ""
 
-msgid "Full"
+msgid "Size"
 msgstr ""
 
 msgid "remove network interface"
@@ -2551,17 +2615,17 @@ msgstr "Editar %s"
 msgid "Image"
 msgstr "Imaxe"
 
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
-msgstr "ID da imaxe facilitado pola instancia, exemplo: ami-..."
-
 msgid "Image ID"
 msgstr "ID imaxe"
 
-msgid "Overwrite"
-msgstr "Sobrescribir"
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgstr "ID da imaxe facilitado pola instancia, exemplo: ami-..."
 
 msgid "Submit"
 msgstr "Introducir"
+
+msgid "Overwrite"
+msgstr "Sobrescribir"
 
 msgid "Unable to save"
 msgstr "Non puido gardar"
@@ -2598,9 +2662,6 @@ msgstr "Clase Puppet"
 msgid "Puppet Class"
 msgstr "Clase de Puppet"
 
-msgid "Parameter types"
-msgstr ""
-
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2619,8 +2680,14 @@ msgstr ""
 "roducir nun obxeto/mapa/dict/hash.</dd><dt>YAML</dt> <dd>Calquer entrada YAML "
 "válida.</dd><dt>JSON</dt> <dd>Calquer entrada JSON válida.</dd></dl>"
 
+msgid "Parameter types"
+msgstr ""
+
 msgid "How values are validated"
 msgstr "Cómo se validan valores"
+
+msgid "Validator type"
+msgstr ""
 
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
@@ -2630,9 +2697,6 @@ msgstr ""
 "<dl><dt>Lista</dt> <dd>Unha lista dos valores permitidos, especificados no Cam"
 "po de regras de validación.</dd><dt>Regexp</dt> <dd>Valida a entrada coa expre"
 "sión regular do campo de regras de validación.</dd></dl>"
-
-msgid "Validator type"
-msgstr ""
 
 msgid "Validation types"
 msgstr "Tipos de validación"
@@ -2667,11 +2731,11 @@ msgstr ""
 "Parámetro opcional sen valor.<br><i>Non será comunicado a Puppet.</i> <br><br>"
 "<b>Descripción</b> %s"
 
-msgid "revoked"
-msgstr "revocados"
-
 msgid "valid"
 msgstr "válido"
+
+msgid "revoked"
+msgstr "revocados"
 
 msgid "pending"
 msgstr "pendente"
@@ -2728,17 +2792,17 @@ msgstr "Seleccionar un período"
 msgid "Show log messages:"
 msgstr "Mostrar rexistro de mensaxes:"
 
-msgid "Warnings and errors"
-msgstr "Avisos e errores"
-
-msgid "Errors only"
-msgstr "Solo Errores"
+msgid "All messages"
+msgstr "Tódalas mensaxes"
 
 msgid "Notices, warnings and errors"
 msgstr ""
 
-msgid "All messages"
-msgstr "Tódalas mensaxes"
+msgid "Errors only"
+msgstr "Solo Errores"
+
+msgid "Warnings and errors"
+msgstr "Avisos e errores"
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -2775,23 +2839,23 @@ msgstr "Hardware"
 msgid "Class Distribution"
 msgstr "Distribución de Clases"
 
-msgid "free memory"
-msgstr ""
-
 msgid "Average memory usage"
 msgstr "Promedio do uso de memoria"
+
+msgid "free memory"
+msgstr ""
 
 msgid "used memory"
 msgstr ""
 
-msgid "free swap"
-msgstr ""
+msgid "Average swap usage"
+msgstr "Promedio de uso da memoria de intercambio"
 
 msgid "used swap"
 msgstr ""
 
-msgid "Average swap usage"
-msgstr "Promedio de uso da memoria de intercambio"
+msgid "free swap"
+msgstr ""
 
 msgid "Any Organization"
 msgstr "Calquer Organización"
@@ -2799,26 +2863,26 @@ msgstr "Calquer Organización"
 msgid "Any Location"
 msgstr "Calquer Lugar"
 
-msgid "New Organization"
-msgstr "Nova Organización"
-
 msgid "New Location"
 msgstr "Novo lugar"
 
-msgid "Operating system"
-msgstr "Sistema Operativo"
+msgid "New Organization"
+msgstr "Nova Organización"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Entorno"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Model"
-msgstr "Modelo"
+msgid "Operating system"
+msgstr "Sistema Operativo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
 msgstr "Recurso de computación"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Model"
+msgstr "Modelo"
 
 msgid "Trend of the last %s days."
 msgstr "Tendencia dos últimos %s días"
@@ -2969,6 +3033,12 @@ msgstr "Borrar instancia %s"
 msgid ""
 "Failed to create a compute %{compute_resource} instance %{name}: %{message}\n"
 " "
+msgstr ""
+
+msgid ""
+"%{image} needs user data, but %{os_link} is not associated to any provisioning"
+" template of the kind user_data. Please associate it with a suitable template "
+"or uncheck 'User data' for %{compute_resource_image_link}."
 msgstr ""
 
 msgid "Failed to remove certificates for %{name}: %{e}"
@@ -3294,16 +3364,16 @@ msgstr ""
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "integer"
+msgid "string"
 msgstr ""
 
-msgid "real"
-msgstr ""
-
-msgid "array"
+msgid "json"
 msgstr ""
 
 msgid "hash"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "yaml"
@@ -3312,16 +3382,16 @@ msgstr ""
 msgid "boolean"
 msgstr ""
 
-msgid "string"
+msgid "integer"
 msgstr ""
 
-msgid "json"
-msgstr ""
-
-msgid "regexp"
+msgid "real"
 msgstr ""
 
 msgid "list"
+msgstr ""
+
+msgid "regexp"
 msgstr ""
 
 msgid "invalid"
@@ -3360,13 +3430,13 @@ msgstr ""
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
+msgid "Daily"
+msgstr ""
+
 msgid "Monthly"
 msgstr ""
 
 msgid "Weekly"
-msgstr ""
-
-msgid "Daily"
 msgstr ""
 
 msgid ""
@@ -3417,6 +3487,9 @@ msgstr "Solamente está permitida unha interfaz arrancable"
 
 msgid "Bootable"
 msgstr "Arrancable"
+
+msgid "subnet boot mode is not %s"
+msgstr ""
 
 msgid "DHCP not supported for this NIC"
 msgstr "DHCP non soportado para esta tarxeta de rede"
@@ -4030,17 +4103,17 @@ msgstr ""
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "stop"
-msgstr "parar"
-
-msgid "reset"
-msgstr "reiniciar"
-
 msgid "poweroff"
 msgstr "apagar"
 
 msgid "start"
 msgstr "inicio"
+
+msgid "reset"
+msgstr "reiniciar"
+
+msgid "stop"
+msgstr "parar"
 
 msgid "state"
 msgstr "estado"
@@ -4174,9 +4247,6 @@ msgstr ""
 
 msgid "Support"
 msgstr "Soporte"
-
-msgid "Documentation"
-msgstr "Documentación"
 
 msgid "Manual"
 msgstr ""
@@ -4335,10 +4405,10 @@ msgstr ""
 msgid "Groups base DN"
 msgstr ""
 
-msgid "LDAP filter"
+msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr ""
 
-msgid "Custom LDAP search filter, <i>optional</i>"
+msgid "LDAP filter"
 msgstr ""
 
 msgid ""
@@ -4674,11 +4744,11 @@ msgstr "Chave secreta"
 msgid "Region"
 msgstr "Rexión"
 
-msgid "Test Connection"
-msgstr "Probar conexión"
-
 msgid "Load Regions"
 msgstr "Cargar Regiones"
+
+msgid "Test Connection"
+msgstr "Probar conexión"
 
 msgid "Google Project ID"
 msgstr ""
@@ -4686,10 +4756,10 @@ msgstr ""
 msgid "Client Email"
 msgstr ""
 
-msgid "Certificate path"
+msgid "The file path where your p12 file is located"
 msgstr ""
 
-msgid "The file path where your p12 file is located"
+msgid "Certificate path"
 msgstr ""
 
 msgid "Zone"
@@ -4804,11 +4874,11 @@ msgstr "Houbo un erro listando máquinas Virtuais: %s"
 msgid "Network interfaces"
 msgstr "Interfaces de rede"
 
-msgid "add new network interface"
-msgstr "engadir unha nova interfaz de rede"
-
 msgid "Add Interface"
 msgstr "Engadir Interfaz"
+
+msgid "add new network interface"
+msgstr "engadir unha nova interfaz de rede"
 
 msgid "No networks found."
 msgstr ""
@@ -4819,11 +4889,11 @@ msgstr ""
 msgid "Storage"
 msgstr "Almacenamento"
 
-msgid "Add Volume"
-msgstr "Engadir Volume"
-
 msgid "add new storage volume"
 msgstr "engadir un novo volumen de almacenamento"
+
+msgid "Add Volume"
+msgstr "Engadir Volume"
 
 msgid "Flavor"
 msgstr "Sabor"
@@ -4831,11 +4901,11 @@ msgstr "Sabor"
 msgid "Please select an image"
 msgstr "Por favor, selecciona unha imaxe"
 
-msgid "No preference"
-msgstr "Sen preferencias"
-
 msgid "Availability zone"
 msgstr ""
+
+msgid "No preference"
+msgstr "Sen preferencias"
 
 msgid "EC2"
 msgstr ""
@@ -4847,13 +4917,13 @@ msgstr "Subrede"
 msgid "Security groups"
 msgstr ""
 
-msgid "Public"
-msgstr ""
-
 msgid "Private"
 msgstr ""
 
 msgid "Managed IP"
+msgstr ""
+
+msgid "Public"
 msgstr ""
 
 msgid "Machine type"
@@ -4871,11 +4941,11 @@ msgstr "Procesadores"
 msgid "Memory"
 msgstr "Memoria"
 
-msgid "Power ON this machine"
-msgstr "Arranca esta máquina"
-
 msgid "Start"
 msgstr ""
+
+msgid "Power ON this machine"
+msgstr "Arranca esta máquina"
 
 msgid "Image to use"
 msgstr ""
@@ -4932,10 +5002,10 @@ msgstr ""
 msgid "Storage domain"
 msgstr ""
 
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -5118,11 +5188,11 @@ msgstr "Revertir"
 msgid "Show Diff"
 msgstr "Mostrar diferencias"
 
-msgid "No history found"
-msgstr "Non se atopou histórico"
-
 msgid "Save something and try again"
 msgstr "Garda algo e proba de novo"
+
+msgid "No history found"
+msgstr "Non se atopou histórico"
 
 msgid "Not relevant for snippet"
 msgstr "Non é relevante para 'snippet'"
@@ -5361,13 +5431,13 @@ msgstr ""
 msgid "For internal Users, simply create a new user at the %s page"
 msgstr ""
 
-msgid "LDAP"
-msgstr "LDAP"
-
 msgid ""
 "If you chose to use LDAP authentication then you must provide connection detai"
 "ls for your authentication provider on %s page"
 msgstr ""
+
+msgid "LDAP"
+msgstr "LDAP"
 
 msgid "For Roles and permissions, see the %s page"
 msgstr ""
@@ -5798,14 +5868,14 @@ msgstr ""
 "Estas dúas opcións son decisións personais e dependen de ti (onde a principal "
 "diferencia serán as configuracións de parámetros/variables)."
 
+msgid "Create %s"
+msgstr "Crear %s"
+
 msgid "Select Hosts"
 msgstr "Seleccionar Equipos"
 
 msgid "Assign Selected Hosts"
 msgstr "Asignar Equipos Seleccionados"
-
-msgid "Create %s"
-msgstr "Crear %s"
 
 msgid "<b class='select_count'>0</b> selected"
 msgstr "<b class='select_count'>0</b> seleccionados"
@@ -5902,11 +5972,11 @@ msgstr "Parámetros incluidos por herencia"
 msgid "Host Parameters"
 msgstr "Parámetros de Equipo"
 
-msgid "select an owner"
-msgstr "seleccionar un propietario"
-
 msgid "Owned By"
 msgstr "Propiedade de"
+
+msgid "select an owner"
+msgstr "seleccionar un propietario"
 
 msgid "Include this host within Foreman reporting"
 msgstr "Inclúe este equipo non informe de Foreman"
@@ -6025,11 +6095,11 @@ msgstr ""
 msgid "Canvas not supported."
 msgstr "Bordes non soportados"
 
-msgid "Unmanage host"
-msgstr "Equipo sen xestionar"
-
 msgid "Manage host"
 msgstr "Administrar equipo"
+
+msgid "Unmanage host"
+msgstr "Equipo sen xestionar"
 
 msgid "Disassociate host"
 msgstr ""
@@ -6246,6 +6316,9 @@ msgstr ""
 "Os lugares utilízanse para poder xestionar e diferenciar o sitio físico onde s"
 "e aloxa un sistema xestionado por Foreman."
 
+msgid "organizations"
+msgstr "organizacións"
+
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
 " are locations. Locations also work nicely when used in tandem with "
@@ -6254,9 +6327,6 @@ msgstr ""
 " son considerados lugares. Usar lugares funciona moi ben se ao mesmo tempo se "
 "combinan con "
 
-msgid "organizations"
-msgstr "organizacións"
-
 msgid "Remove %s?"
 msgstr "Borrar %s?"
 
@@ -6264,9 +6334,6 @@ msgid "Variable"
 msgstr "Variable"
 
 msgid "Whether the smart variable value is managed by Foreman"
-msgstr ""
-
-msgid "Value to use when there is no match"
 msgstr ""
 
 msgid ""
@@ -6303,9 +6370,6 @@ msgstr ""
 
 msgid "Order"
 msgstr "Orde"
-
-msgid "The order in which values are resolved"
-msgstr "A orde na cual se resolven os valores"
 
 msgid ""
 "The order in which matchers keys are processed, first match wins.<br> You may "
@@ -6372,11 +6436,11 @@ msgstr "A ruta NFS para aloxa-los arquivos de control de 'jumpstart'"
 msgid "The NFS path to the image directory."
 msgstr "A ruta NFS ao directorio de imaxes."
 
-msgid "Choose a family"
-msgstr "Elexir unha familia"
-
 msgid "Operating system family"
 msgstr ""
+
+msgid "Choose a family"
+msgstr "Elexir unha familia"
 
 msgid "Edit Medium"
 msgstr "Editar Medio"
@@ -6563,10 +6627,10 @@ msgstr ""
 msgid "e.g. karmic, lucid, hw0910 etc"
 msgstr "ex karmic, lucid, hw0910 etc"
 
-msgid "Hash function to use. Change takes effect for new or updated hosts."
+msgid "Root password hash"
 msgstr ""
 
-msgid "Root password hash"
+msgid "Hash function to use. Change takes effect for new or updated hosts."
 msgstr ""
 
 msgid "It is not possible to assign provisioning templates at this stage"
@@ -6575,11 +6639,11 @@ msgstr "Non é posible engadir plantillas de aprovisionamento nesta fase"
 msgid "Please save the Operating System first and try again."
 msgstr "Por favor garda o valor do Sistema Operativo primeiro e inténtao de novo."
 
-msgid "you probably need to configure your %s first."
-msgstr "probablemente se necesite configurar o %s primeiro."
-
 msgid "No templates found!"
 msgstr "Non se atoparon plantillas!"
+
+msgid "you probably need to configure your %s first."
+msgstr "probablemente se necesite configurar o %s primeiro."
 
 msgid "Edit Operating System"
 msgstr "Editar Sistema Operativo"
@@ -6732,12 +6796,6 @@ msgstr "Desfacer borrado"
 msgid "Filter by name"
 msgstr ""
 
-msgid "Help!"
-msgstr "¡Axuda!"
-
-msgid "What is a <a href=\"%s\" rel=\"external\">Smart variable</a>?"
-msgstr "¿Que é unha <a href=\"%s\" rel=\"external\">Variable Intelixente</a>?"
-
 msgid "Add Variable"
 msgstr "Engadir Variable"
 
@@ -6760,10 +6818,10 @@ msgstr ""
 msgid "This will set all parameters of the class %s as overridden. Continue?"
 msgstr ""
 
-msgid "Set parameters to defaults"
+msgid "This will reset parameters of the class %s to their default values. Continue?"
 msgstr ""
 
-msgid "This will reset parameters of the class %s to their default values. Continue?"
+msgid "Set parameters to defaults"
 msgstr ""
 
 msgid "Oops"
@@ -6785,10 +6843,10 @@ msgstr ""
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr ""
 
-msgid "Type of realm, e.g. FreeIPA"
+msgid "Realm type"
 msgstr ""
 
-msgid "Realm type"
+msgid "Type of realm, e.g. FreeIPA"
 msgstr ""
 
 msgid "Realm proxy"
@@ -6805,9 +6863,6 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm|Name"
-msgstr ""
-
-msgid "Realm Configuration"
 msgstr ""
 
 msgid ""
@@ -7255,10 +7310,10 @@ msgstr ""
 msgid "Show linked external user groups"
 msgstr ""
 
-msgid "link external user group with this user group"
+msgid "Add external user group"
 msgstr ""
 
-msgid "Add external user group"
+msgid "link external user group with this user group"
 msgstr ""
 
 msgid "Edit User group"

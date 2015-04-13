@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-03-21 22:46+0000\n"
+"PO-Revision-Date: 2015-03-26 10:08+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/l"
 "anguage/sv_SE/)\n"
@@ -1441,6 +1441,43 @@ msgstr ""
 msgid "Update a smart class parameter"
 msgstr ""
 
+msgid "Whether the smart class parameter value is managed by Foreman"
+msgstr ""
+
+msgid "Description of smart class"
+msgstr ""
+
+msgid "Value to use when there is no match"
+msgstr "Värden att använda när ingen match hittas"
+
+msgid ""
+"Do not send this parameter via the ENC. Puppet will use the value defined in t"
+"he Puppet manifest for this parameter"
+msgstr ""
+
+msgid "The order in which values are resolved"
+msgstr "I vilken ordning värden slås upp"
+
+msgid "Types of validation values"
+msgstr ""
+
+msgid "Used to enforce certain values for the parameter values"
+msgstr ""
+
+msgid "Types of variable values"
+msgstr ""
+
+msgid ""
+"If true, will raise an error if there is no default value and no matcher provi"
+"de a value"
+msgstr ""
+
+msgid "Merge all matching values (only array/hash type)"
+msgstr ""
+
+msgid "Remove duplicate values (only array type)"
+msgstr ""
+
 msgid "List all smart proxies"
 msgstr ""
 
@@ -1472,6 +1509,18 @@ msgid "List of smart variables for a specific Puppet class"
 msgstr ""
 
 msgid "Show a smart variable"
+msgstr ""
+
+msgid "Name of variable"
+msgstr ""
+
+msgid "Puppet class ID"
+msgstr ""
+
+msgid "Default value of variable"
+msgstr ""
+
+msgid "Description of variable"
 msgstr ""
 
 msgid "Create a smart variable"
@@ -1685,11 +1734,11 @@ msgstr "Du måste skapa mine en lokation innan du fortsätter."
 msgid "You must create at least one organization before continuing."
 msgstr "Du måste kapa minst en organisation innan du fortsätter."
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Error"
 msgstr "Fel"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Invalid authenticity token"
 msgstr ""
@@ -1751,6 +1800,18 @@ msgid ""
 msgstr ""
 
 msgid "No changes to your environments detected"
+msgstr ""
+
+msgid "Puppet class with id '%{id}' was not found"
+msgstr ""
+
+msgid "Environment with id '%{id}' was not found"
+msgstr ""
+
+msgid "Host with id '%{id}' was not found"
+msgstr ""
+
+msgid "Hostgroup with id '%{id}' was not found"
 msgstr ""
 
 msgid "User IDs"
@@ -1855,9 +1916,6 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr "Följande fält behöver granskas"
 
-msgid "CDROM"
-msgstr "CDläsare"
-
 msgid "Disk"
 msgstr "Hårddisk"
 
@@ -1866,6 +1924,9 @@ msgstr "PXE"
 
 msgid "BIOS"
 msgstr "BIOS"
+
+msgid "CDROM"
+msgstr "CDläsare"
 
 msgid "Unable to generate output, Check log files"
 msgstr ""
@@ -2087,6 +2148,9 @@ msgstr ""
 msgid "Inherit parent (%s)"
 msgstr ""
 
+msgid "Documentation"
+msgstr "Dokumentation"
+
 msgid "Click to edit"
 msgstr "Klicka för att redigera"
 
@@ -2115,29 +2179,29 @@ msgstr "%s sedan"
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr "Parametrar som skulle bli associerade med denna värd i denna %s"
 
-msgid "Additional info"
-msgstr "Ytterliggare info:"
-
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
+
+msgid "Additional info"
+msgstr "Ytterliggare info:"
 
 msgid "Paused"
 msgstr "Pausad"
 
-msgid "On"
-msgstr "På"
-
 msgid "Off"
 msgstr "Av"
+
+msgid "On"
+msgstr "På"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "Är du säker på att du vill starta/stänga %{act} %{vm}?"
 
-msgid "Pause"
-msgstr "Paus"
-
 msgid "Resume"
 msgstr "Återuppta"
+
+msgid "Pause"
+msgstr "Paus"
 
 msgid "Are you sure you want to %{act} %{vm}?"
 msgstr "Är du säker att du vill %{act} %{vm}?"
@@ -2271,12 +2335,12 @@ msgstr "FR"
 msgid "Failed Restarts"
 msgstr "Misslyckade Omstarter"
 
-msgid "Skipped"
-msgstr "Skippad"
-
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
 msgstr "S"
+
+msgid "Skipped"
+msgstr "Skippad"
 
 msgid "Pending"
 msgstr "Pågående"
@@ -2400,11 +2464,11 @@ msgstr "%s - Följande värdar kommer att ändras"
 msgid "Failed restarts"
 msgstr "Misslyckade omstarter"
 
-msgid "Runtime"
-msgstr "Exekveringsmiljö"
-
 msgid "Config Retrieval"
 msgstr "Konfigurationshämtning"
+
+msgid "Runtime"
+msgstr "Exekveringsmiljö"
 
 msgid "Reports from the last %{days} days - %{count} reports found"
 msgstr "Rapporter från de senaste %{days} dagarna - %{count} rapporter funna"
@@ -2489,17 +2553,17 @@ msgstr "Kör puppet"
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr "Trigga en puppetrun på en nod; kräver att puppetrun är aktiverat"
 
-msgid "Audits"
-msgstr "Revisioner"
-
 msgid "Host audit entries"
 msgstr "Värdgranskningslogg"
 
-msgid "Browse host facts"
-msgstr "Bläddra värdfakta"
+msgid "Audits"
+msgstr "Revisioner"
 
 msgid "Facts"
 msgstr "Fakta"
+
+msgid "Browse host facts"
+msgstr "Bläddra värdfakta"
 
 msgid "Reports"
 msgstr "Rapporter"
@@ -2516,11 +2580,11 @@ msgstr "YAML"
 msgid "Allocation (GB)"
 msgstr "Allokering(GB)"
 
-msgid "Size"
-msgstr "Storlek"
-
 msgid "Full"
 msgstr "Full"
+
+msgid "Size"
+msgstr "Storlek"
 
 msgid "remove network interface"
 msgstr "ta bort nätvärkskort"
@@ -2541,17 +2605,17 @@ msgstr "Redigera %s"
 msgid "Image"
 msgstr "Avbildning"
 
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
-msgstr "Avbildsid tillhandahållen från beräkningsresursen, t.ex. ami-.."
-
 msgid "Image ID"
 msgstr "Avbildningsid"
 
-msgid "Overwrite"
-msgstr "Skriv över"
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgstr "Avbildsid tillhandahållen från beräkningsresursen, t.ex. ami-.."
 
 msgid "Submit"
 msgstr "Sänd"
+
+msgid "Overwrite"
+msgstr "Skriv över"
 
 msgid "Unable to save"
 msgstr "Misslyckades med att spara"
@@ -2588,9 +2652,6 @@ msgstr "Puppetklass"
 msgid "Puppet Class"
 msgstr "Puppet Klass"
 
-msgid "Parameter types"
-msgstr ""
-
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2608,8 +2669,14 @@ msgstr ""
 "e evaluera till object/map/dict/hash.</dd><dt>YAML</dt> <dd>All giltig YAML-in"
 "data.</dd><dt>JSON</dt> <dd>All giltig JSON-indata.</dd></dl>"
 
+msgid "Parameter types"
+msgstr ""
+
 msgid "How values are validated"
 msgstr "Hur värden valideras"
+
+msgid "Validator type"
+msgstr ""
 
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
@@ -2619,9 +2686,6 @@ msgstr ""
 "<dl><dt>List</dt> <dd>En lista över tillåtna värden i regelfältet Validator</d"
 "d><dt>Regexp</dt> <dd>Validerar inmatningen med det reguljära uttrycket i rege"
 "lfältet Validator.</dd></dl>"
-
-msgid "Validator type"
-msgstr ""
 
 msgid "Validation types"
 msgstr "Valideringstyper"
@@ -2656,11 +2720,11 @@ msgstr ""
 "Valfri parameter utan värde. <br/><i>Kommer inte att skickas till Puppet.</i> "
 "<br><br><b>Beskrivning:</b> %s"
 
-msgid "revoked"
-msgstr "återkallad"
-
 msgid "valid"
 msgstr "giltig"
+
+msgid "revoked"
+msgstr "återkallad"
 
 msgid "pending"
 msgstr "kommande"
@@ -2717,17 +2781,17 @@ msgstr "Välj en period"
 msgid "Show log messages:"
 msgstr "Visa loggmeddelanden:"
 
-msgid "Warnings and errors"
-msgstr "Varningar och fel"
-
-msgid "Errors only"
-msgstr "Enbart fel"
+msgid "All messages"
+msgstr "Alla meddelanden"
 
 msgid "Notices, warnings and errors"
 msgstr "Notiser, varningar och fel"
 
-msgid "All messages"
-msgstr "Alla meddelanden"
+msgid "Errors only"
+msgstr "Enbart fel"
+
+msgid "Warnings and errors"
+msgstr "Varningar och fel"
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -2766,23 +2830,23 @@ msgstr "Hårdvara"
 msgid "Class Distribution"
 msgstr "Klassdistribution"
 
-msgid "free memory"
-msgstr ""
-
 msgid "Average memory usage"
 msgstr "Genomsnittlig minnesanvändning"
+
+msgid "free memory"
+msgstr ""
 
 msgid "used memory"
 msgstr ""
 
-msgid "free swap"
-msgstr ""
+msgid "Average swap usage"
+msgstr "Genomsnittlig växlingsanvändning"
 
 msgid "used swap"
 msgstr ""
 
-msgid "Average swap usage"
-msgstr "Genomsnittlig växlingsanvändning"
+msgid "free swap"
+msgstr ""
 
 msgid "Any Organization"
 msgstr "Alla Organisationer"
@@ -2790,26 +2854,26 @@ msgstr "Alla Organisationer"
 msgid "Any Location"
 msgstr "Alla Platser"
 
-msgid "New Organization"
-msgstr "Ny Organisation"
-
 msgid "New Location"
 msgstr "Ny Lokation"
 
-msgid "Operating system"
-msgstr "Operativsystem"
+msgid "New Organization"
+msgstr "Ny Organisation"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Miljö"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Model"
-msgstr "Modell"
+msgid "Operating system"
+msgstr "Operativsystem"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
 msgstr "Beräkningsresurs"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Model"
+msgstr "Modell"
 
 msgid "Trend of the last %s days."
 msgstr "Trenden för de senaste %s dagarna."
@@ -2964,6 +3028,12 @@ msgstr "Tar bort berkningsinstans %s"
 msgid ""
 "Failed to create a compute %{compute_resource} instance %{name}: %{message}\n"
 " "
+msgstr ""
+
+msgid ""
+"%{image} needs user data, but %{os_link} is not associated to any provisioning"
+" template of the kind user_data. Please associate it with a suitable template "
+"or uncheck 'User data' for %{compute_resource_image_link}."
 msgstr ""
 
 msgid "Failed to remove certificates for %{name}: %{e}"
@@ -3297,16 +3367,16 @@ msgstr "värdgrupp"
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "integer"
+msgid "string"
 msgstr ""
 
-msgid "real"
-msgstr ""
-
-msgid "array"
+msgid "json"
 msgstr ""
 
 msgid "hash"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "yaml"
@@ -3315,16 +3385,16 @@ msgstr ""
 msgid "boolean"
 msgstr ""
 
-msgid "string"
+msgid "integer"
 msgstr ""
 
-msgid "json"
-msgstr ""
-
-msgid "regexp"
+msgid "real"
 msgstr ""
 
 msgid "list"
+msgstr ""
+
+msgid "regexp"
 msgstr ""
 
 msgid "invalid"
@@ -3363,13 +3433,13 @@ msgstr "%{match} matchar inte en existerande värd"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} matchar inte en existerande värdgrupp"
 
+msgid "Daily"
+msgstr ""
+
 msgid "Monthly"
 msgstr ""
 
 msgid "Weekly"
-msgstr ""
-
-msgid "Daily"
 msgstr ""
 
 msgid ""
@@ -3420,6 +3490,9 @@ msgstr "Endast ett startbart interface är tillåtet"
 
 msgid "Bootable"
 msgstr "Startbar"
+
+msgid "subnet boot mode is not %s"
+msgstr ""
 
 msgid "DHCP not supported for this NIC"
 msgstr "DHCP stöds ej för denna NIC"
@@ -4039,17 +4112,17 @@ msgstr ""
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "stop"
-msgstr "stop"
-
-msgid "reset"
-msgstr "återställ"
-
 msgid "poweroff"
 msgstr "stäng av"
 
 msgid "start"
 msgstr "start"
+
+msgid "reset"
+msgstr "återställ"
+
+msgid "stop"
+msgstr "stop"
 
 msgid "state"
 msgstr "tillstånd"
@@ -4184,9 +4257,6 @@ msgstr "Version"
 
 msgid "Support"
 msgstr "Hjälp"
-
-msgid "Documentation"
-msgstr "Dokumentation"
 
 msgid "Manual"
 msgstr "Manual"
@@ -4345,11 +4415,11 @@ msgstr "Base DN"
 msgid "Groups base DN"
 msgstr ""
 
-msgid "LDAP filter"
-msgstr "Ldap-filter"
-
 msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr "Eget LDAP sökfilter, <i>optional</i>"
+
+msgid "LDAP filter"
+msgstr "Ldap-filter"
 
 msgid ""
 "LDAP users will have their Foreman account automatically created the first tim"
@@ -4684,11 +4754,11 @@ msgstr "Hemlig Nyckel"
 msgid "Region"
 msgstr "Region"
 
-msgid "Test Connection"
-msgstr "Testa annslutning"
-
 msgid "Load Regions"
 msgstr "Ladda Regioner"
+
+msgid "Test Connection"
+msgstr "Testa annslutning"
 
 msgid "Google Project ID"
 msgstr "Google Project ID"
@@ -4696,11 +4766,11 @@ msgstr "Google Project ID"
 msgid "Client Email"
 msgstr "Klientens E-postadress"
 
-msgid "Certificate path"
-msgstr "Certifikatssökväg"
-
 msgid "The file path where your p12 file is located"
 msgstr "Sökvägen till p12-filen"
+
+msgid "Certificate path"
+msgstr "Certifikatssökväg"
 
 msgid "Zone"
 msgstr "Zon"
@@ -4814,11 +4884,11 @@ msgstr "Fel vid listning av VMs: %s"
 msgid "Network interfaces"
 msgstr "Nätverkskort"
 
-msgid "add new network interface"
-msgstr "lägg till nytt närtverkskort"
-
 msgid "Add Interface"
 msgstr "Lägg till nätverksgränssnitt"
+
+msgid "add new network interface"
+msgstr "lägg till nytt närtverkskort"
 
 msgid "No networks found."
 msgstr ""
@@ -4829,11 +4899,11 @@ msgstr ""
 msgid "Storage"
 msgstr "Lagring"
 
-msgid "Add Volume"
-msgstr "Lägg till Volym"
-
 msgid "add new storage volume"
 msgstr "lägg till ny lagringsvolym"
+
+msgid "Add Volume"
+msgstr "Lägg till Volym"
 
 msgid "Flavor"
 msgstr "Variant"
@@ -4841,11 +4911,11 @@ msgstr "Variant"
 msgid "Please select an image"
 msgstr "Vänligen välj en avbildning"
 
-msgid "No preference"
-msgstr "Ingen preferens"
-
 msgid "Availability zone"
 msgstr "Tillgänglighetszon"
+
+msgid "No preference"
+msgstr "Ingen preferens"
 
 msgid "EC2"
 msgstr "EC2"
@@ -4857,14 +4927,14 @@ msgstr "Subnät"
 msgid "Security groups"
 msgstr "Säkerhetsgrupper"
 
-msgid "Public"
-msgstr "Publik"
-
 msgid "Private"
 msgstr "Privat"
 
 msgid "Managed IP"
 msgstr "Managerad IP"
+
+msgid "Public"
+msgstr "Publik"
 
 msgid "Machine type"
 msgstr "Maskintyp"
@@ -4881,11 +4951,11 @@ msgstr "CPUer"
 msgid "Memory"
 msgstr "Minne"
 
-msgid "Power ON this machine"
-msgstr "Starta denna maskin"
-
 msgid "Start"
 msgstr "Start"
+
+msgid "Power ON this machine"
+msgstr "Starta denna maskin"
 
 msgid "Image to use"
 msgstr ""
@@ -4942,10 +5012,10 @@ msgstr "Kärnor"
 msgid "Storage domain"
 msgstr "Lagringsdomän"
 
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -5126,11 +5196,11 @@ msgstr "Återgå"
 msgid "Show Diff"
 msgstr "Visa Skillnad"
 
-msgid "No history found"
-msgstr "Ingen historik hittad"
-
 msgid "Save something and try again"
 msgstr "Spara något och försök igen"
+
+msgid "No history found"
+msgstr "Ingen historik hittad"
 
 msgid "Not relevant for snippet"
 msgstr "Inte relevant för remsa"
@@ -5371,13 +5441,13 @@ msgstr ""
 msgid "For internal Users, simply create a new user at the %s page"
 msgstr ""
 
-msgid "LDAP"
-msgstr "LDAP"
-
 msgid ""
 "If you chose to use LDAP authentication then you must provide connection detai"
 "ls for your authentication provider on %s page"
 msgstr ""
+
+msgid "LDAP"
+msgstr "LDAP"
 
 msgid "For Roles and permissions, see the %s page"
 msgstr ""
@@ -5807,14 +5877,14 @@ msgstr ""
 "Dessa två alternativ är personliga val och är upp till dig ( där den huvudsakl"
 "iga skillnaden är parameter/variabel inställningar )."
 
+msgid "Create %s"
+msgstr "Skapa %s"
+
 msgid "Select Hosts"
 msgstr "Välj Värdar"
 
 msgid "Assign Selected Hosts"
 msgstr "Tilldela Valda Värdar"
-
-msgid "Create %s"
-msgstr "Skapa %s"
 
 msgid "<b class='select_count'>0</b> selected"
 msgstr "<b class='select_count'>0</b> markerad/e"
@@ -5911,11 +5981,11 @@ msgstr "Inkluderade Parametrar via arv"
 msgid "Host Parameters"
 msgstr "Värdparametrar"
 
-msgid "select an owner"
-msgstr "välj en ägare"
-
 msgid "Owned By"
 msgstr "Ägd Av"
+
+msgid "select an owner"
+msgstr "välj en ägare"
 
 msgid "Include this host within Foreman reporting"
 msgstr "Inkludera denna värd inom Foremanrapportering"
@@ -6034,11 +6104,11 @@ msgstr ""
 msgid "Canvas not supported."
 msgstr "Canvas stöds inte."
 
-msgid "Unmanage host"
-msgstr "Sluta managera värd"
-
 msgid "Manage host"
 msgstr "Managera värd"
+
+msgid "Unmanage host"
+msgstr "Sluta managera värd"
 
 msgid "Disassociate host"
 msgstr ""
@@ -6255,15 +6325,15 @@ msgstr ""
 "Lokationer används för att managera och särskilja på den fysiska placeringen p"
 "å system som hanteras via Foreman."
 
+msgid "organizations"
+msgstr "organisationer"
+
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
 " are locations. Locations also work nicely when used in tandem with "
 msgstr ""
 "Till exempel, det kanske finns ett datahall i London och en i Virginia: dessa "
 "är lokationer. Lokationer fungerar även bra tillsammans med"
-
-msgid "organizations"
-msgstr "organisationer"
 
 msgid "Remove %s?"
 msgstr "Radera %s?"
@@ -6273,9 +6343,6 @@ msgstr "Variabel"
 
 msgid "Whether the smart variable value is managed by Foreman"
 msgstr ""
-
-msgid "Value to use when there is no match"
-msgstr "Värden att använda när ingen match hittas"
 
 msgid ""
 "Do not send this parameter via the ENC. Puppet will use the value defined in t"
@@ -6311,9 +6378,6 @@ msgstr ""
 
 msgid "Order"
 msgstr "Order"
-
-msgid "The order in which values are resolved"
-msgstr "I vilken ordning värden slås upp"
 
 msgid ""
 "The order in which matchers keys are processed, first match wins.<br> You may "
@@ -6380,11 +6444,11 @@ msgstr "NFS-sökvägen till kontrollfiler för jumpstart"
 msgid "The NFS path to the image directory."
 msgstr "NFS-sökvägen till avbildningsbiblioteket."
 
-msgid "Choose a family"
-msgstr "Välj en familj"
-
 msgid "Operating system family"
 msgstr ""
+
+msgid "Choose a family"
+msgstr "Välj en familj"
 
 msgid "Edit Medium"
 msgstr "Redigera Medium"
@@ -6576,10 +6640,10 @@ msgstr ""
 msgid "e.g. karmic, lucid, hw0910 etc"
 msgstr "t.ex. karmic, lucid, hw0910 etc"
 
-msgid "Hash function to use. Change takes effect for new or updated hosts."
+msgid "Root password hash"
 msgstr ""
 
-msgid "Root password hash"
+msgid "Hash function to use. Change takes effect for new or updated hosts."
 msgstr ""
 
 msgid "It is not possible to assign provisioning templates at this stage"
@@ -6588,11 +6652,11 @@ msgstr "Det är inte möjligt att tilldela provisioneringssmallar vid detta läg
 msgid "Please save the Operating System first and try again."
 msgstr "Var vänlig och spara Operativsystemet först, försök sedan igen."
 
-msgid "you probably need to configure your %s first."
-msgstr "du behöver troligvis konfigurera din %s först."
-
 msgid "No templates found!"
 msgstr "Inga mallar hittade!"
+
+msgid "you probably need to configure your %s first."
+msgstr "du behöver troligvis konfigurera din %s först."
 
 msgid "Edit Operating System"
 msgstr "Redigera Operativsystem"
@@ -6747,12 +6811,6 @@ msgstr "Ångra radering"
 msgid "Filter by name"
 msgstr ""
 
-msgid "Help!"
-msgstr "Hjälp!"
-
-msgid "What is a <a href=\"%s\" rel=\"external\">Smart variable</a>?"
-msgstr "Vad är en <a href=\"%s\" rel=\"external\">Smart variabel</a>?"
-
 msgid "Add Variable"
 msgstr "Lägg till Variabel"
 
@@ -6775,10 +6833,10 @@ msgstr ""
 msgid "This will set all parameters of the class %s as overridden. Continue?"
 msgstr ""
 
-msgid "Set parameters to defaults"
+msgid "This will reset parameters of the class %s to their default values. Continue?"
 msgstr ""
 
-msgid "This will reset parameters of the class %s to their default values. Continue?"
+msgid "Set parameters to defaults"
 msgstr ""
 
 msgid "Oops"
@@ -6800,10 +6858,10 @@ msgstr ""
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr ""
 
-msgid "Type of realm, e.g. FreeIPA"
+msgid "Realm type"
 msgstr ""
 
-msgid "Realm type"
+msgid "Type of realm, e.g. FreeIPA"
 msgstr ""
 
 msgid "Realm proxy"
@@ -6820,9 +6878,6 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm|Name"
-msgstr ""
-
-msgid "Realm Configuration"
 msgstr ""
 
 msgid ""
@@ -7267,10 +7322,10 @@ msgstr ""
 msgid "Show linked external user groups"
 msgstr ""
 
-msgid "link external user group with this user group"
+msgid "Add external user group"
 msgstr ""
 
-msgid "Add external user group"
+msgid "link external user group with this user group"
 msgstr ""
 
 msgid "Edit User group"
