@@ -434,13 +434,18 @@ function setPowerState(item, status){
 function set_fullscreen(element){
   var exit_button = $('<div class="exit-fullscreen"><a class="btn btn-default btn-lg" href="#" onclick="exit_fullscreen(); return false;" title="'+__('Exit Full Screen')+'"><i class="glyphicon glyphicon-resize-small"></i></a></div>');
   element.data('origin',element.parent())
+         .data('position', $(window).scrollTop())
          .addClass('fullscreen')
-         .append(exit_button)
          .appendTo($('#main'))
-         .resize();
+         .resize()
+         .after(exit_button);
   $('#content').addClass('hidden');
   $('.navbar').addClass('hidden');
-  $(window).scrollTop();
+  $(document).on('keyup', function(e) {
+    if (e.keyCode == 27) {    // esc
+      exit_fullscreen();
+    }
+  });
 }
 
 function exit_fullscreen(){
@@ -448,8 +453,8 @@ function exit_fullscreen(){
   $('#content').removeClass('hidden');
   $('.navbar').removeClass('hidden');
   element.removeClass('fullscreen')
-         .appendTo(element.data('origin'))
+         .prependTo(element.data('origin'))
          .resize();
   $('.exit-fullscreen').remove();
+  $(window).scrollTop(element.data('position'));
 }
-

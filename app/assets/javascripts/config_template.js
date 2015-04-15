@@ -16,11 +16,6 @@ $(document).on('change','#keybinding', function(){
   set_keybinding()
 })
 
-$(document).keyup(function(e) {
-  if (e.keyCode == 27) {    // esc
-    exit_fullscreen();
-  }
-});
 
 function onEditorLoad(){
   var template_text = $(".template_text");

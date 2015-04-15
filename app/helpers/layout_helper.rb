@@ -45,7 +45,7 @@ module LayoutHelper
     field(f, attr, options) do
       options[:rows] = line_count(f, attr) if options[:rows] == :auto
       addClass options, "form-control"
-      f.text_area attr, options
+      f.text_area(attr, options)
     end
   end
 
@@ -169,11 +169,11 @@ module LayoutHelper
         label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
             s_(clazz.gettext_translation_for_attribute_name attr)) if f
         label   = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe, :class => "col-md-2 control-label") : ''
-
+        fullscreen = options[:fullscreen] ? fullscreen_button("$(this).prev().find('textarea')") : ""
         label.html_safe +
           content_tag(:div, :class => size_class) do
             yield.html_safe + help_block.html_safe
-          end.html_safe + help_inline.html_safe
+          end.html_safe + fullscreen + help_inline.html_safe
       end.html_safe
     end
   end
@@ -335,6 +335,12 @@ module LayoutHelper
 
   def last_days(days)
     content_tag(:h6, n_("last %s day", "last %s days", days) % days, :class => 'ca')
+  end
+
+  def fullscreen_button(element = "$(this).prev()")
+    button_tag(:type => 'button', :class => 'btn btn-default btn-sm', :onclick => "set_fullscreen(#{element})", :title => _("Full screen")) do
+      icon_text('resize-full')
+    end
   end
 
   private
