@@ -8,5 +8,6 @@
                     :onchange=>'toggleUsePuppetDefaultValue(this, "value")') if is_param %>
   <%= textarea_f f, :value, :rows => :auto, :value => f.object.value_before_type_cast, :size => "col-md-8",
                     :disabled => f.object.use_puppet_default,
+                    :fullscreen => :true,
                     :help_inline => remove_child_link(icon_text("remove"), f, {:title => _('remove value')}) %>
 </div>

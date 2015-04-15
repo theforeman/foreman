@@ -96,8 +96,9 @@ a {
 
 // help-inline is not defined in Bootstrap3
 .help-inline{
-  margin-top: 0;
+  margin: 0 5px;
   line-height: 2.428571;
+  display: inline;
 }
 
 .well {

@@ -44,7 +44,7 @@
                 <input type="radio" name="options" id="option2" ><%= _("Preview") %>
               </label>
             </div>
-            <button type='button' class='btn btn-default btn-sm' onclick='set_fullscreen($("#editor1"))' title="<%= _("Full screen") %>"><i class="glyphicon glyphicon-resize-full"></i></button>
+            <%= fullscreen_button("$('#editor1')") %>
             <div class="fr">
               <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'form-control input-sm') %>
             </div>

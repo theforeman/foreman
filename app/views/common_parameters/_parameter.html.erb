@@ -11,7 +11,7 @@
         <td class="col-md-2">
           <%= f.text_field(:name,  :class => "form-control", :disabled => disabled, :placeholder => _("Name")) %>
         </td>
-        <td class="col-md-5 value">
+        <td class="col-md-4 value">
           <% if f.object.hidden_value? %>
             <%= f.password_field(:value, :class => 'form-control',
                              :disabled => disabled,
@@ -22,9 +22,13 @@
                         :rows => line_count(f, :value),
                         :disabled => disabled,
                         :placeholder => _("Value")) %>
+
           <% end %>
         </td>
-        <td class="col-md-2">
+        <td class="col-md-1">
+          <%= fullscreen_button("$(this).parent().prev().find('textarea')") unless f.object.hidden_value? %>
+        </td>
+        <td>
           <span class="help-block">
             <%= f.check_box(:hidden_value,
                       :class => 'hidden_value_textarea_switch',

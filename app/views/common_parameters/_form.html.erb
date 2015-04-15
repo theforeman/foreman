@@ -7,6 +7,7 @@
     <%= textarea_f(f, :value,
                       :class => "form-control value col-md-8",
                       :rows => line_count(f, :value),
+                      :fullscreen => :true,
                       :placeholder => _("Value")) %>
   <% end %>
   <%= checkbox_f f, :hidden_value, :class => 'hidden_value_textarea_switch', :checked => f.object.hidden_value? %>

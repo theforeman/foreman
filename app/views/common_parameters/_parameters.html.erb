@@ -2,7 +2,9 @@
   <table class="table table-condensed" id="global_parameters_table">
     <thead>
     <tr>
-      <th class='col-md-3'><%= _("Global Parameters") %></th>
+      <% if controller_name =~ /(host|hostgroup)/ %>
+        <th class='col-md-3'><%= _("Global Parameters") %></th>
+      <% end %>
       <th class='col-md-2'><%= _("Name") %></th>
       <th class='col-md-5'><%= _("Value") %></th>
       <th><%= _('Actions') %></th>
