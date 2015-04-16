@@ -31,14 +31,14 @@ class LookupKey < ActiveRecord::Base
                                 :reject_if => :reject_invalid_lookup_values,
                                 :allow_destroy => true
 
-  before_validation :validate_and_cast_default_value, :unless => Proc.new{|p| p.use_puppet_default }
+  before_validation :cast_default_value, :unless => Proc.new{|p| p.use_puppet_default }
   validates :key, :uniqueness => {:scope => :is_param }, :unless => Proc.new{|p| p.is_param?}
 
   validates :key, :presence => true
   validates :puppetclass, :presence => true, :unless => Proc.new {|k| k.is_param?}
   validates :validator_type, :inclusion => { :in => VALIDATOR_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validates :key_type, :inclusion => {:in => KEY_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
-  validate :validate_list, :validate_regexp
+  validate :validate_default_value
   validates_associated :lookup_values
   validate :ensure_type, :disable_merge_overrides, :disable_avoid_duplicates
 
@@ -154,13 +154,6 @@ class LookupKey < ActiveRecord::Base
     val
   end
 
-  # Returns the casted value, or raises a TypeError
-  def cast_validate_value(value)
-    method = "cast_value_#{key_type}".to_sym
-    return value unless self.respond_to? method, true
-    self.send(method, value) rescue raise TypeError
-  end
-
   def path_elements
     path.split.map do |paths|
       paths.split(KEY_DELM).map do |element|
@@ -218,47 +211,14 @@ class LookupKey < ActiveRecord::Base
     end.join("\n")
   end
 
-  def validate_and_cast_default_value
+  def cast_default_value
     return true if default_value.nil? || contains_erb?(default_value)
     begin
-      self.default_value = cast_validate_value self.default_value
+      Foreman::Parameters::Caster.new(self, :attribute_name => :default_value, :to => key_type).cast!
       true
     rescue
       errors.add(:default_value, _("is invalid"))
       false
-    end
-  end
-
-  def cast_value_boolean(value)
-    casted = Foreman::Cast.to_bool(value)
-    raise TypeError if casted.nil?
-    casted
-  end
-
-  def cast_value_integer(value)
-    return value.to_i if value.is_a?(Numeric)
-
-    if value.is_a?(String)
-      if value =~ /^0x[0-9a-f]+$/i
-        value.to_i(16)
-      elsif value =~ /^0[0-7]+$/
-        value.to_i(8)
-      elsif value =~ /^-?\d+$/
-        value.to_i
-      else
-        raise TypeError
-      end
-    end
-  end
-
-  def cast_value_real(value)
-    return value if value.is_a? Numeric
-    if value.is_a?(String)
-      if value =~ /\A[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?\Z/
-        value.to_f
-      else
-        cast_value_integer value
-      end
     end
   end
 
@@ -271,47 +231,17 @@ class LookupKey < ActiveRecord::Base
     end
   end
 
-  def cast_value_array(value)
-    return value if value.is_a? Array
-    return value.to_a if not value.is_a? String and value.is_a? Enumerable
-    value = load_yaml_or_json value
-    raise TypeError unless value.is_a? Array
-    value
-  end
-
-  def cast_value_hash(value)
-    return value if value.is_a? Hash
-    value = load_yaml_or_json value
-    raise TypeError unless value.is_a? Hash
-    value
-  end
-
-  def cast_value_yaml(value)
-    YAML.load value
-  end
-
-  def cast_value_json(value)
-    JSON.load value
-  end
-
   def ensure_type
     if puppetclass_id.present? and is_param?
       self.errors.add(:base, _('Global variable or class Parameter, not both'))
     end
   end
 
-  def validate_regexp
-    return true if (validator_type != 'regexp' || (contains_erb?(default_value) && Setting[:interpolate_erb_in_parameters]))
-    valid = (default_value =~ /#{validator_rule}/)
-    errors.add(:default_value, _("is invalid")) unless valid
-    valid
-  end
-
-  def validate_list
-    return true if (validator_type != 'list' || (contains_erb?(default_value) && Setting[:interpolate_erb_in_parameters]))
-    valid = validator_rule.split(KEY_DELM).map(&:strip).include?(default_value)
-    errors.add(:default_value, _("%{default_value} is not one of %{validator_rule}") % { :default_value => default_value, :validator_rule => validator_rule }) unless valid
-    valid
+  def validate_default_value
+    Foreman::Parameters::Validator.new(self,
+      :type => validator_type,
+      :validate_with => validator_rule,
+      :getter => :default_value).validate!
   end
 
   def disable_merge_overrides
