@@ -745,8 +745,8 @@ class ClassificationTest < ActiveSupport::TestCase
   context 'lookup value type cast error' do
     setup do
       @lookup_key = mock('lookup_key')
-      @lookup_key.expects(:cast_validate_value).raises(TypeError)
-      @lookup_key.expects(:key_type).returns('footype')
+      Foreman::Parameters::Caster.any_instance.expects(:cast).raises(TypeError)
+      @lookup_key.expects(:key_type).twice.returns('footype')
     end
 
     test 'TypeError exceptions are logged' do
