@@ -26,6 +26,7 @@ class HostsController < ApplicationController
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   before_filter :find_multiple, :only => MULTIPLE_ACTIONS
+  before_filter :cleanup_passwords, :only => :update
   helper :hosts, :reports, :interfaces
 
   def index(title = nil)
@@ -96,13 +97,6 @@ class HostsController < ApplicationController
   def update
     forward_url_options
     Taxonomy.no_taxonomy_scope do
-      # remove from hash :root_pass and bmc :password if blank?
-      params[:host].except!(:root_pass) if params[:host][:root_pass].blank?
-      if @host.type == "Host::Managed" && params[:host][:interfaces_attributes]
-        params[:host][:interfaces_attributes].each do |k, v|
-          params[:host][:interfaces_attributes]["#{k}"].except!(:password) if params[:host][:interfaces_attributes]["#{k}"][:password].blank?
-        end
-      end
       if @host.update_attributes(params[:host])
         process_success :success_redirect => host_path(@host)
       else
@@ -721,5 +715,16 @@ class HostsController < ApplicationController
   # is rendered differently and the next save operation will be forced
   def offer_to_overwrite_conflicts
     @host.overwrite = "true" if @host.errors.any? and @host.errors.are_all_conflicts?
+  end
+
+  # :root_pass and bmc :password should not update the Host and Nic passwords when blank
+  # This method removes them from the params hash to avoid any processing of these attributes.
+  def cleanup_passwords
+    params[:host].except!(:root_pass) if params[:host][:root_pass].blank?
+    if @host.type == "Host::Managed" && params[:host][:interfaces_attributes]
+      params[:host][:interfaces_attributes].each do |k, v|
+        params[:host][:interfaces_attributes]["#{k}"].except!(:password) if params[:host][:interfaces_attributes]["#{k}"][:password].blank?
+      end
+    end
   end
 end
