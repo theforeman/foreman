@@ -35,7 +35,15 @@ module FogExtensions
       end
 
       def select_nic(fog_nics, nic)
-        fog_nics.detect {|fn| fn.network == nic.compute_attributes['network']} # grab any nic on the same network
+        nic_attrs = nic.compute_attributes
+        selected_nic = fog_nics.detect { |fn| fn.network == nic_attrs['network'] } # grab any nic on the same network
+        unless selected_nic
+          vm_network = service.get_network(nic_attrs['network'], datacenter)
+          if vm_network && vm_network.key?(:id)
+            selected_nic = fog_nics.detect { |fn| fn.network == vm_network[:id] } # try and match on portgroup
+          end
+        end
+        selected_nic
       end
     end
   end
