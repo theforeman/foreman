@@ -174,6 +174,7 @@ class Setting < ActiveRecord::Base
       to_update = Hash[opts.select { |k,v| [:default, :description].include? k }]
       to_update.merge!(:value => SETTINGS[opts[:name].to_sym]) if SETTINGS.key?(opts[:name].to_sym)
       s.update_attributes(to_update)
+      s.update_column :category, opts[:category] if s.category != opts[:category]
     end
     s
   end
