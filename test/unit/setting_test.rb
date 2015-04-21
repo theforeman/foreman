@@ -309,6 +309,13 @@ class SettingTest < ActiveSupport::TestCase
     end
   end
 
+  test "create! can update category" do
+    s = Setting.create!(:name => "foo", :value => "bar", :category => "Setting::General", :default => "bar", :description => "baz")
+    assert_equal s.category, "Setting::General"
+    s = Setting.create!(:name => "foo", :category => "Setting::Auth")
+    assert_equal s.category, "Setting::Auth"
+  end
+
   private
 
   def check_parsed_value(settings_type, expected_value, string_value)
