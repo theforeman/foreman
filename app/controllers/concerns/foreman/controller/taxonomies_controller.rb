@@ -117,7 +117,7 @@ module Foreman::Controller::TaxonomiesController
 
   def mismatches
     Taxonomy.no_taxonomy_scope do
-      @mismatches = Taxonomy.all_mismatcheds
+      @mismatches = Taxonomy.all_mismatches
     end
     render 'taxonomies/mismatches'
   end

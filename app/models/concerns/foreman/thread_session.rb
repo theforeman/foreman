@@ -80,7 +80,6 @@ module Foreman
       end
     end
 
-    # include this in the Organization model object
     module OrganizationModel
       extend ActiveSupport::Concern
 
