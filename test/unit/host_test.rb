@@ -622,7 +622,7 @@ class HostTest < ActiveSupport::TestCase
       assert_equal 'xybxa6JUkz63w', parameters['root_pw']
       assert_includes parameters.keys, 'foreman_subnets'
       assert_includes parameters.keys, 'foreman_interfaces'
-      assert_equal '2.3.4.12', parameters['foreman_interfaces'].first['ip']
+      assert_equal '3.3.4.12', parameters['foreman_interfaces'].first['ip']
     end
 
     test "show be enabled by default" do

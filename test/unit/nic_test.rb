@@ -146,6 +146,7 @@ class NicTest < ActiveSupport::TestCase
 
   test "Alias subnet can only use static boot mode if it's managed" do
     nic = FactoryGirl.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0:0')
+    nic.host = FactoryGirl.build(:host)
     nic.subnet = FactoryGirl.build(:subnet, :boot_mode => Subnet::BOOT_MODES[:dhcp])
     refute nic.valid?
     assert_includes nic.errors.keys, :subnet_id
