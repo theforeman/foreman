@@ -136,7 +136,7 @@ class Host::Managed < Host::Base
     include Orchestration::SSHProvision
     include Orchestration::Realm
     include HostTemplateHelpers
-    delegate :fqdn, :fqdn_changed?, :fqdn_was, :shortname, :to => :provision_interface,
+    delegate :fqdn, :fqdn_changed?, :fqdn_was, :shortname, :to => :primary_interface,
              :allow_nil => true
     delegate :require_ip_validation?, :to => :provision_interface
 
