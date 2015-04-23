@@ -2031,6 +2031,18 @@ class HostTest < ActiveSupport::TestCase
     assert host.jumpstart?
   end
 
+  test '#fqdn returns the FQDN from the primary interface' do
+    primary = FactoryGirl.build(:nic_managed, :primary => true, :name => 'foo', :domain => FactoryGirl.build(:domain))
+    host = FactoryGirl.create(:host, :managed, :interfaces => [primary, FactoryGirl.build(:nic_managed, :provision => true)])
+    assert_equal "foo.#{primary.domain.name}", host.fqdn
+  end
+
+  test '#shortname returns the name from the primary interface' do
+    primary = FactoryGirl.build(:nic_managed, :primary => true, :name => 'foo')
+    host = FactoryGirl.create(:host, :managed, :interfaces => [primary, FactoryGirl.build(:nic_managed, :provision => true)])
+    assert_equal 'foo', host.shortname
+  end
+
   private
 
   def parse_json_fixture(relative_path)
