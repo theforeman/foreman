@@ -221,6 +221,18 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     refute_equal ldap.ldap_con('user', 'pass'), ldap.ldap_con('user', 'pass')
   end
 
+  context 'account_password encryption' do
+    setup do
+      AuthSourceLdap.any_instance.expects(:encryption_key).at_least_once
+        .returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+    end
+
+    test "account_password is stored encrypted" do
+      auth_source = FactoryGirl.create(:auth_source_ldap, :account_password => 'fakepass')
+      assert auth_source.is_decryptable?(auth_source.account_password_in_db)
+    end
+  end
+
   private
 
   def setup_ldap_stubs
