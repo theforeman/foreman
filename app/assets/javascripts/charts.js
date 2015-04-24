@@ -98,7 +98,8 @@ $.fn.flot_bar = function(){
         axisLabel: target.data('yaxis-label'),
         axisLabelPadding: 15,
         minTickSize: 1,
-        tickDecimals: 0
+        tickDecimals: 0,
+        min: 0
       },
       grid: {
         hoverable: true,
@@ -130,7 +131,8 @@ function flot_time_chart(target, data, legendOptions){
       axisLabel: target.data('yaxis-label'),
       axisLabelPadding: 12,
       minTickSize: 1,
-      tickDecimals: 0
+      tickDecimals: 0,
+      min: 0
     },
     selection: {
       mode: "x"
@@ -168,7 +170,7 @@ function chart_legend_options(item){
     case "hide":
       return {show: false};
     default:
-      return {show: true};
+      return {show: true, margin: [0, -60]};
   }
 }
 

@@ -4,3 +4,4 @@
 //= require jquery.flot.pie
 //= require jquery.flot.stack
 //= require jquery.flot.selection
+//= require jquery.flot.axislabels
