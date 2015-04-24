@@ -276,10 +276,10 @@ class NicTest < ActiveSupport::TestCase
       test "provision flag is set for primary interface automatically" do
         primary = FactoryGirl.build(:nic_managed, :primary => true, :provision => false,
                                     :domain => FactoryGirl.build(:domain))
-        @host.interfaces = [primary]
-        assert @host.save
+        host = FactoryGirl.create(:host, :interfaces => [primary])
+        assert host.save!
         primary.reload
-        assert_equal primary, @host.provision_interface
+        assert_equal primary, host.provision_interface
       end
     end
   end
