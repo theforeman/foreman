@@ -51,8 +51,8 @@ class Domain < ActiveRecord::Base
   def nameservers
     return [] if Setting.query_local_nameservers
     dns = Resolv::DNS.new
-    ns = dns.getresources(name, Resolv::DNS::Resource::IN::SOA).collect {|r| r.mname.to_s}
-    ns = dns.getresources(name, Resolv::DNS::Resource::IN::NS).collect {|r| r.name.to_s} if ns.empty?
+    ns = dns.getresources(name, Resolv::DNS::Resource::IN::NS).collect {|r| r.name.to_s}
+    ns = dns.getresources(name, Resolv::DNS::Resource::IN::SOA).collect {|r| r.mname.to_s} if ns.empty?
     ns.to_a.flatten
   end
 
