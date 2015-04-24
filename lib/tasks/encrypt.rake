@@ -24,33 +24,63 @@ end
 end
 
 namespace :db do
+  def modify_encryptable_fields(klass, action)
+    klass.order(:id).each do |encryptable_resource|
+      encryptable_resource.encryptable_fields.each do |field|
+        str = encryptable_resource.read_attribute(field.to_sym)
+        encryptable_resource.update_column(field.to_sym,
+                                       encryptable_resource.send("#{action}_field", str))
+      end
+    end
+  end
+
+  desc <<-END_DESC
+Encrypt all passwords (compute resources, LDAP authentication sources) using
+the encryption key in config/initializers/encryption_key.rb.
+
+Plugins might enhance this task.
+
+This task is idempotent and it will just skip already encrypted passwords.
+END_DESC
+  task :encrypt_all do
+    Rake::Task['db:auth_sources_ldap:encrypt'].invoke
+    Rake::Task['db:compute_resources:encrypt'].invoke
+  end
+
+  desc <<-END_DESC
+Decrypt all passwords (compute resources, LDAP authentication sources) using the encryption key
+in config/initializers/encryption_key.rb.
+
+Plugins might enhance this task.
+
+This task is idempotent and it will just skip already decrypted passwords.
+END_DESC
+  task :decrypt_all do
+    Rake::Task['db:auth_sources_ldap:decrypt'].invoke
+    Rake::Task['db:compute_resources:decrypt'].invoke
+  end
+
+  namespace :auth_sources_ldap do
+    desc "Encrypt LDAP authentication source fields"
+    task :encrypt => :environment do
+      modify_encryptable_fields(AuthSourceLdap, :encrypt)
+    end
+
+    desc "Decrypt LDAP authentication source fields"
+    task :decrypt => :environment do
+      modify_encryptable_fields(AuthSourceLdap, :decrypt)
+    end
+  end
+
   namespace :compute_resources do
     desc "Encrypt compute resource fields"
     task :encrypt => :environment do
-      if defined?(EncryptionKey) && EncryptionKey.const_defined?(:ENCRYPTION_KEY)
-        ComputeResource.order(:id).each do |compute_resource|
-          compute_resource.encryptable_fields.each do |field|
-            str = compute_resource.read_attribute(field.to_sym)
-            compute_resource.update_column(field.to_sym, compute_resource.encrypt_field(str))
-          end
-        end
-      else
-        puts "ENCRYPTION_KEY is not defined, so encryption is turned off."
-      end
+      modify_encryptable_fields(ComputeResource, :encrypt)
     end
 
     desc "Decrypt compute resource fields"
     task :decrypt => :environment do
-      if defined?(EncryptionKey) && EncryptionKey.const_defined?(:ENCRYPTION_KEY)
-        ComputeResource.order(:id).each do |compute_resource|
-          compute_resource.encryptable_fields.each do |field|
-            str = compute_resource.read_attribute(field.to_sym)
-            compute_resource.update_column(field.to_sym, compute_resource.decrypt_field(str))
-          end
-        end
-      else
-        puts "ENCRYPTION_KEY is not defined, so encryption is turned off."
-      end
+      modify_encryptable_fields(ComputeResource, :decrypt)
     end
   end
 end

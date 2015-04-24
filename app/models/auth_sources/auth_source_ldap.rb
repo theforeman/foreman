@@ -24,6 +24,8 @@ class AuthSourceLdap < AuthSource
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
+  include Encryptable
+  encrypts :account_password
 
   validates :host, :presence => true, :length => {:maximum => 60}, :allow_nil => true
   validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :presence => true, :if => Proc.new { |auth| auth.onthefly_register? }
