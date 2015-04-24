@@ -39,8 +39,6 @@ module FogExtensions
         selected_nic =   fog_nics.detect { |fn| fn.network == nic_attrs['network'] } # grab any nic on the same network
         selected_nic ||= if service.get_network(nic_attrs['network'], datacenter).key?(:id)
                            fog_nics.detect { |fn| fn.network  == service.get_network(nic_attrs['network'], datacenter)[:id]  } # no network? try the portgroup
-                         else
-                           nil
                          end
         selected_nic
       end
