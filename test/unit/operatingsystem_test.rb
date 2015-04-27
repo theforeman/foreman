@@ -350,4 +350,37 @@ class OperatingsystemTest < ActiveSupport::TestCase
                                                           'x64', operatingsystem)
     assert result_path, 'http://foo.org/4'
   end
+
+  context 'name should be unique in scope of major and minor' do
+    setup do
+      @os = FactoryGirl.create(:operatingsystem, :name => 'centos', :major => 8, :minor => 3)
+    end
+
+    test 'should not create os with existing name, major and minor' do
+      operatingsystem = Operatingsystem.new(:name => "centos", :major => '8', :minor => '3')
+      assert_equal(@os.name, operatingsystem.name)
+      assert_equal(@os.major, operatingsystem.major)
+      assert_equal(@os.minor, operatingsystem.minor)
+      refute operatingsystem.valid?
+      refute operatingsystem.save
+    end
+
+    test 'should create os with existing name, major and different minor' do
+      operatingsystem = Operatingsystem.new(:name => "centos", :major => '8', :minor => '9')
+      assert_equal(@os.name, operatingsystem.name)
+      assert_equal(@os.major, operatingsystem.major)
+      refute_equal(@os.minor, operatingsystem.minor)
+      assert operatingsystem.valid?
+      assert operatingsystem.save
+    end
+
+    test 'should create os with existing name, minor and different major' do
+      operatingsystem = Operatingsystem.new(:name => "centos", :major => '7', :minor => '3')
+      assert_equal(@os.name, operatingsystem.name)
+      assert_equal(@os.minor, operatingsystem.minor)
+      refute_equal(@os.major, operatingsystem.major)
+      assert operatingsystem.valid?
+      assert operatingsystem.save
+    end
+  end
 end
