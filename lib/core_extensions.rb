@@ -57,7 +57,7 @@ class ActiveRecord::Base
     include TSort
 
     def initialize(base, source, target)
-      @source = source; @target = target
+      @source, @target = source, target
       @base  = base.map { |record| [record.send(@source), record.send(@target)] }
       @nodes = @base.flatten.uniq
       @graph = Hash.new { |h, k| h[k] = [] }

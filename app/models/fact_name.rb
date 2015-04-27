@@ -10,7 +10,7 @@ class FactName < ActiveRecord::Base
   scope :no_timestamp_fact, lambda { where("fact_names.name <> ?",:_timestamp) }
   scope :timestamp_facts,  lambda { where(:name => :_timestamp) }
   scope :with_parent_id, lambda { |find_ids|
-    conds = []; binds = []
+    conds, binds = [], []
     [find_ids].flatten.each do |find_id|
       conds.push "(fact_names.ancestry LIKE '%/?' OR ancestry = '?')"
       binds.push find_id, find_id

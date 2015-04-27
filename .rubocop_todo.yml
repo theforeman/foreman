@@ -349,12 +349,6 @@ Style/RegexpLiteral:
 Style/RescueModifier:
   Enabled: false
 
-# Offense count: 15
-# Cop supports --auto-correct.
-# Configuration parameters: AllowAsExpressionSeparator.
-Style/Semicolon:
-  Enabled: false
-
 # Offense count: 168
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
