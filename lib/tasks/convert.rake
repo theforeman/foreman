@@ -109,7 +109,8 @@ namespace :db do
 
         # Page through the data in case the table is too large to fit in RAM
         offset = count = 0
-        print "Converting #{table_name}..."; STDOUT.flush
+        print "Converting #{table_name}..."
+        STDOUT.flush
         # First, delete any old dev data
         DevelopmentModelClass.delete_all
         while ((models = ProductionModelClass.all(:offset=>offset, :limit=>PAGE_SIZE)).size > 0)

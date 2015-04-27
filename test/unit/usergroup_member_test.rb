@@ -56,7 +56,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     assert_include @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
 
     @semiadmins.usergroups.clear
-    @semiadmin_user.reload; @admin_user.reload; @superadmin_user.reload
+    [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
 
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @semiadmin_role
     assert_includes @admin_user.cached_user_roles.map(&:role), @admin_role
@@ -82,7 +82,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     assert_include @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
 
     @admins.usergroups.clear
-    @semiadmin_user.reload; @admin_user.reload; @superadmin_user.reload
+    [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
 
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @semiadmin_role
     assert_includes @admin_user.cached_user_roles.map(&:role), @admin_role
@@ -106,7 +106,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     basic_role = FactoryGirl.create :role, :name => 'um_basic_role'
     basic.roles<< basic_role
     basic.usergroups<< @semiadmins
-    @semiadmin_user.reload; @admin_user.reload; @superadmin_user.reload
+    [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
 
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), basic_role
     assert_includes @admin_user.cached_user_roles.map(&:role), basic_role
@@ -124,7 +124,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     basic_role = FactoryGirl.create :role, :name => 'um_basic_role'
     basic.roles<< basic_role
     basic.usergroups<< @admins
-    @semiadmin_user.reload; @admin_user.reload; @superadmin_user.reload
+    [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
 
     assert_not_include @semiadmin_user.cached_user_roles.map(&:role), basic_role
     assert_includes @admin_user.cached_user_roles.map(&:role), basic_role
@@ -142,7 +142,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     basic_role = FactoryGirl.create :role, :name => 'um_basic_role'
     basic.roles<< basic_role
     basic.usergroups<< @superadmins
-    @semiadmin_user.reload; @admin_user.reload; @superadmin_user.reload
+    [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
 
     assert_not_includes @semiadmin_user.cached_user_roles.map(&:role), basic_role
     assert_not_includes @admin_user.cached_user_roles.map(&:role), basic_role
@@ -159,7 +159,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     membership = @semiadmins.usergroup_members.where(:member_id => @admins.id).first
     membership.member = @superadmins
     membership.save
-    @semiadmin_user.reload; @admin_user.reload; @superadmin_user.reload
+    [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
 
     assert_includes @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
     assert_includes @superadmin_user.cached_user_roles.map(&:role), @superadmin_role
@@ -181,7 +181,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     membership = @admins.usergroup_members.where(:member_id => @superadmins.id).first
     membership.usergroup = @semiadmins
     membership.save
-    @semiadmin_user.reload; @admin_user.reload; @superadmin_user.reload
+    [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
 
     assert_includes @superadmin_user.cached_user_roles.map(&:role), @semiadmin_role
     assert_includes @superadmin_user.cached_user_roles.map(&:role), @superadmin_role
