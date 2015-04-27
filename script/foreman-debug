@@ -1,5 +1,6 @@
 #!/bin/bash
-# :vim:sw=2:ts=2:et:
+# vim:sw=2:ts=2:et
+
 export LC_ALL=C
 export SCLNAME=ruby193
 
@@ -13,8 +14,12 @@ Collects configuration and log data for Foreman, Smart Proxies, backend
 services and system information while removing security information like
 passwords, tokens and keys.
 
-This program can be used on Foreman instance, Smart Proxy instances or
-backend services separatly.
+You may want to upload the tarball (with -u) to our public server via rsync.
+This is a write-only directory (readable only by Foreman core developers)
+Please note that the rsync transmission is UNENCRYPTED.
+
+This program can be used on Foreman instances, Smart Proxy instances or
+backend services separately.
 
 OPTIONS:
   -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
@@ -25,6 +30,7 @@ OPTIONS:
   -p      Additionally print password patterns being filtered out
   -q      Quiet mode
   -v      Verbose mode
+  -u      Upload tarball (default: false)
   -h      Shows this message
 
 USAGE
@@ -97,6 +103,7 @@ PRINTPASS=0
 QUIET=0
 VERBOSE=0
 DEBUG=0
+UPLOAD=0
 
 if type -p xz >/dev/null; then
   COMPRESS="xz -9"
@@ -112,7 +119,7 @@ else
   EXTENSION=""
 fi
 
-while getopts "d:gam:j:qpvhx" opt; do
+while getopts "d:gam:j:uqpvhx" opt; do
   case $opt in
     d)
       DIR="$OPTARG"
@@ -138,6 +145,9 @@ while getopts "d:gam:j:qpvhx" opt; do
     j)
       COMPRESS="$OPTARG"
       EXTENSION=".$(echo "$OPTARG" | awk '{ print $1 }')"
+      ;;
+    u)
+      UPLOAD=1
       ;;
     x)
       # this option is not docummented - use for extra output,
@@ -290,18 +300,13 @@ else
   qprintf "%s: %s\n\n" "A debug directory has been created" "$DIR"
 fi
 
-qprintf "You may want to upload the tarball to our public server via rsync. There is a\n"
-qprintf "write only directory (readable only by Foreman core developers) for that. Note\n"
-qprintf "the rsync transmission is UNENCRYPTED:\n\n"
-qprintf "  rsync $TARBALL rsync://theforeman.org/debug-incoming\n\n"
-
-# offer upload if the shell is interactive and not in quiet mode
-if [ $QUIET -ne 1 ] && tty -s && type -p rsync >/dev/null; then
-  clean_stdin
-  read -p "Do you want to do this now? [y/N] " -n 1 -r; echo
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Uploading..."
-    rsync $TARBALL rsync://theforeman.org/debug-incoming
-    echo "The tarball has been uploaded, please contact us on mailing list or IRC."
-  fi
+# upload if -u was passed in
+if [ $UPLOAD -eq 1 ]; then
+  qprintf "Uploading...\n"
+  rsync $TARBALL rsync://theforeman.org/debug-incoming
+  qprintf "The tarball has been uploaded, please contact us on our mailing list or IRC\n"
+  qprintf "referencing the following URL:\n"
+  qprintf "    http://debugs.theforeman.org/$(basename $TARBALL)\n"
+else
+  qprintf "To upload a tarball to our secure site, please use the -u option.\n"
 fi
