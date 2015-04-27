@@ -28,6 +28,7 @@ class Filter < ActiveRecord::Base
   belongs_to :role
   has_many :filterings, :dependent => :destroy
   has_many :permissions, :through => :filterings
+  has_many :filters
 
   validates_lengths_from_database
 

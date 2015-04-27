@@ -35,6 +35,14 @@ module Api
 
       def create
         @filter = nested_obj ? nested_obj.filters.build(params[:filter]) : Filter.new(params[:filter])
+
+        User.current.roles.each do |user_role|
+          user_role.filters.each do |user_filter|
+            if user_filter.resource_type == @filter.resource_type
+              @filter.filters << user_filter
+            end
+          end
+        end
         process_response @filter.save
       end
 
