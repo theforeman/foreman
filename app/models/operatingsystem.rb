@@ -29,10 +29,11 @@ class Operatingsystem < ActiveRecord::Base
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   attr_name :to_label
   validates :minor, :numericality => {:greater_than_or_equal_to => 0}, :allow_nil => true, :allow_blank => true
-  validates :name, :presence => true, :no_whitespace => true
+  validates :name, :presence => true, :no_whitespace => true,
+            :uniqueness => { :scope => [:major, :minor], :message => N_("Operating system version already exists")}
   validates :description, :uniqueness => true, :allow_blank => true
   validates :password_hash, :inclusion => { :in => PasswordCrypt::ALGORITHMS }
-  before_validation :downcase_release_name, :set_title
+  before_validation :downcase_release_name, :set_title, :stringify_major_and_minor
   validates :title, :uniqueness => true, :presence => true
 
   before_save :set_family
@@ -246,6 +247,13 @@ class Operatingsystem < ActiveRecord::Base
 
   def set_title
     self.title = to_label.to_s[0..254]
+  end
+
+  def stringify_major_and_minor
+    # Cast major and minor to strings. see db/schema.rb around lines 560-562 (Or https://github.com/theforeman/foreman/blob/develop/db/migrate/20090720134126_create_operatingsystems.rb#L4).
+    # Need to ensure type when using major and minor as scopes for name uniqueness.
+    self.major = major.to_s
+    self.minor = minor.to_s
   end
 
   def downcase_release_name
