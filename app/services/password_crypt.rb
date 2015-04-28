@@ -1,9 +1,9 @@
 require 'base64'
 
 class PasswordCrypt
-  ALGORITHMS = {'MD5' => '$1$', 'SHA256' => '$5$', 'SHA512' => '$6$', 'Base64' => ''}
+  ALGORITHMS = {'SHA256' => '$5$', 'SHA512' => '$6$', 'MD5' => '$1$', 'Base64' => ''}
 
-  def self.passw_crypt(passwd, hash_alg = 'MD5')
+  def self.passw_crypt(passwd, hash_alg = 'SHA256')
     raise Foreman::Exception.new(N_("Unsupported password hash function '%s'"), hash_alg) unless ALGORITHMS.has_key?(hash_alg)
     hash_alg == 'Base64' ? Base64.strict_encode64(passwd) : passwd.crypt("#{ALGORITHMS[hash_alg]}#{SecureRandom.base64(6)}")
   end
