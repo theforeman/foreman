@@ -9,15 +9,15 @@ class HostTest < ActionDispatch::IntegrationTest
   before do
     SETTINGS[:locations_enabled] = false
     SETTINGS[:organizations_enabled] = false
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.start
+    #DatabaseCleaner.strategy = :truncation
+    #DatabaseCleaner.start
     as_admin { @host = FactoryGirl.create(:host, :with_puppet, :managed) }
   end
 
   after do
     SETTINGS[:locations_enabled] = true
     SETTINGS[:organizations_enabled] = true
-    DatabaseCleaner.clean
+    #DatabaseCleaner.clean
   end
 
   def go_to_interfaces_tab
@@ -272,7 +272,9 @@ class HostTest < ActionDispatch::IntegrationTest
       page.find('#check_all').click
 
       # Ensure all hosts are checked
-      assert page.find('input.host_select_boxes').checked?
+      page.all('input.host_select_boxes').each do |checkbox|
+        assert checkbox.checked?
+      end
 
       # Dropdown visible?
       assert multiple_actions_div.find('.dropdown-toggle').visible?

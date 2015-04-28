@@ -1,6 +1,14 @@
 require 'test_helper'
 
 class UnattendedControllerTest < ActionController::TestCase
+  UnattendedController.class_eval do
+    %w{provision iPXE PXEGrub PXELinux finish}.each do |name|
+      define_method name do
+        render_template name
+      end
+    end
+  end
+
   setup do
     Host::Managed.any_instance.stubs(:handle_ca).returns(true)
     as_admin do

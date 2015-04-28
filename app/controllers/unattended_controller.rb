@@ -4,16 +4,16 @@ class UnattendedController < ApplicationController
   layout false
 
   # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
-  PXE_CONFIG_URLS = TemplateKind.where("name LIKE ?","PXELinux").map(&:name)
-  PXEGRUB_CONFIG_URLS = TemplateKind.where("name LIKE ?", "PXEGrub").map(&:name)
-  IPXE_CONFIG_URLS = TemplateKind.where("name LIKE ?", "iPXE").map(&:name) + ['gPXE']
+  PXE_CONFIG_URLS = ["PXELinux"]
+  PXEGRUB_CONFIG_URLS = ["PXEGrub"]
+  IPXE_CONFIG_URLS = ['gPXE', "iPXE"]
   CONFIG_URLS = PXE_CONFIG_URLS + IPXE_CONFIG_URLS + PXEGRUB_CONFIG_URLS
 
   # Methods which return valid provision instructions, used by the OS
-  PROVISION_URLS = TemplateKind.where("name LIKE ?", "provision").map(&:name)
+  PROVISION_URLS = ["provision"]
 
   # Methods which returns post install instructions for OS's which require it
-  FINISH_URLS = TemplateKind.where("name LIKE ?", "finish").map(&:name)
+  FINISH_URLS = ["finish"]
 
   # We dont require any of these methods for provisioning
   FILTERS = [:require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize]
