@@ -13,8 +13,14 @@ module Foreman::Controller::ConfigTemplates
   private
 
   def default_template_url(template, hostgroup)
-    url_for(:host => Setting[:unattended_url], :action => :template, :controller => '/unattended',
-            :id => template.name, :hostgroup => hostgroup.name)
+    uri      = URI.parse(Setting[:unattended_url])
+    host     = uri.host
+    port     = uri.port
+    protocol = uri.scheme
+
+    url_for(:only_path => false, :action => :template, :controller => '/unattended',
+            :id => template.name, :hostgroup => hostgroup.name, :protocol => protocol,
+            :host => host, :port => port)
   end
 
   # convert the file upload into a simple string to save in our db.

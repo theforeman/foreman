@@ -75,16 +75,16 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   test "build menu" do
-    ConfigTemplate.find_by_name('PXELinux global default').update_attribute(:template,
-      File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/pxe/PXELinux_default.erb")))
-    Setting[:unattended_url] = "http://foreman.unattended.url"
+    template = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/pxe/PXELinux_default.erb"))
+    ConfigTemplate.find_by_name('PXELinux global default').update_attribute(:template, template)
 
-    ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/http:\/\/foreman.unattended.url/))).returns(true)
     ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
-
+    Setting[:unattended_url] = "http://foreman.unattended.url"
     @request.env['HTTP_REFERER'] = config_templates_path
-    get :build_pxe_default, {}, set_session_user
 
+    ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url:80\/unattended\/template/))).returns(true)
+
+    get :build_pxe_default, {}, set_session_user
     assert_redirected_to config_templates_path
   end
 
