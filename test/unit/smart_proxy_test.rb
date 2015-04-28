@@ -1,14 +1,14 @@
 require 'test_helper'
 
 class SmartProxyTest < ActiveSupport::TestCase
-  def test_should_be_valid
+  test "should be valid" do
     proxy = SmartProxy.new
     proxy.name = "test proxy"
     proxy.url  = "https://secure.proxy:4568"
     assert proxy.valid?
   end
 
-  def test_should_not_be_modified_if_has_no_leading_slashes
+  test "should not be modified if has no leading slashes" do
     proxy = SmartProxy.new
     proxy.name = "test proxy"
     proxy.url  = "https://secure.proxy:4568"
@@ -16,7 +16,7 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert_equal proxy.url, "https://secure.proxy:4568"
   end
 
-  def test_should_not_include_trailing_slash
+  test "should not include trailing slash" do
     proxy = SmartProxy.new
     proxy.name = "test a proxy"
     proxy.url  = "http://some.proxy:4568/"
@@ -26,7 +26,7 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert_equal proxy.url, "http://some.proxy:4568"
   end
 
-  def test_should_honor_legacy_puppet_hostname_true_setting
+  test "should honor legacy puppet hostname true setting" do
     Setting[:legacy_puppet_hostname] = true
     proxy = SmartProxy.new
     proxy.name = "test proxy"
@@ -35,13 +35,19 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert_equal proxy.to_s, "puppet"
   end
 
-  def test_should_honor_legacy_puppet_hostname_false_setting
+  test "should honor legacy puppet hostname false setting" do
     Setting[:legacy_puppet_hostname] = false
     proxy = SmartProxy.new
     proxy.name = "test proxy"
     proxy.url = "http://puppet.example.com:4568"
 
     assert_equal proxy.to_s, "puppet.example.com"
+  end
+
+  test "proxy should respond correctly to has_feature? method" do
+    proxy = FactoryGirl.create(:template_smart_proxy)
+    assert proxy.has_feature?('Templates')
+    refute proxy.has_feature?('Puppet CA')
   end
 
   # test taxonomix methods
