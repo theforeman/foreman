@@ -316,9 +316,20 @@ module HostsHelper
         ),
         button_group(
             link_to_if_authorized(_("Delete"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'destroy_hosts'),
-                                  :class => "btn btn-danger", :id => "delete-button", :data => { :message => _("Are you sure?") }, :method => :delete)
+                                  :class => "btn btn-danger",
+                                  :id => "delete-button",
+                                  :data => { :message => delete_host_dialog(host) },
+                                  :method => :delete)
         )
     )
+  end
+
+  def delete_host_dialog(host)
+    if host.compute?
+      _("Are you sure you want to delete host %s? This will delete the virtual machine and its disks, and is irreversible.") % host.name
+    else
+      _("Are you sure you want to delete host %s? This action is irreversible.") % host.name
+    end
   end
 
   # we ignore interfaces.conflict because they are always registered in host errors as well
