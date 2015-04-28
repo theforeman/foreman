@@ -1,3 +1,22 @@
+2015-04-28	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.8.0
+	* i18n - extracting new, updating rails, pulling from tx
+
+2015-04-27	Dominic Cleal <dcleal@redhat.com>
+	* refs #10168 - fix test that created a duplicate primary interface
+	* fixes #10168 - delegate fqdn/shortname to primary interface
+	* fixes #10020 - add next-server/filename attrs to provision NIC DHCP record
+
+2015-04-27	Francois Herbert <F.Herbert@massey.ac.nz>
+	* Fixes #10186 - find host NICs on vsphere using Network Distributed PortGroup
+
+2015-04-27	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10111 - Use a dummy primary interface for unmanaged hosts
+
+2015-04-27	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #10153 - pull in host_edit_interfaces.js also in hostgroups
+	* Fixes #10124 - collect /var/log/syslog in foreman-debug
+
 2015-04-13	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.8.0-RC3
 	* i18n - extracting new, updating rails, pulling from tx
