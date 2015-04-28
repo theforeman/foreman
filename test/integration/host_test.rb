@@ -9,15 +9,12 @@ class HostTest < ActionDispatch::IntegrationTest
   before do
     SETTINGS[:locations_enabled] = false
     SETTINGS[:organizations_enabled] = false
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.start
     as_admin { @host = FactoryGirl.create(:host, :with_puppet, :managed) }
   end
 
   after do
     SETTINGS[:locations_enabled] = true
     SETTINGS[:organizations_enabled] = true
-    DatabaseCleaner.clean
   end
 
   def go_to_interfaces_tab
@@ -268,11 +265,16 @@ class HostTest < ActionDispatch::IntegrationTest
 
   describe "hosts index multiple actions" do
     def test_show_action_buttons
+      #one or more of the other hosts gets their environment destroyed along the way
+      #thus, let's clear the path for this test...
+      Host.where("id <> #{@host.id}").each(&:destroy)
       visit hosts_path
       page.find('#check_all').click
 
       # Ensure all hosts are checked
-      assert page.find('input.host_select_boxes').checked?
+      page.all('input.host_select_boxes').each do |checkbox|
+        assert checkbox.checked?
+      end
 
       # Dropdown visible?
       assert multiple_actions_div.find('.dropdown-toggle').visible?

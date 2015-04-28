@@ -17,10 +17,11 @@ class SmartProxyTest < ActionDispatch::IntegrationTest
   test "edit page" do
     visit smart_proxies_path
     click_link "DHCP Proxy"
-    fill_in "smart_proxy_name", :with => "DHCP Secure"
+    new_name = "DHCP Secure #{rand(10000)}"
+    fill_in "smart_proxy_name", :with => new_name
     fill_in "smart_proxy_url", :with => "https://secure.net:8443"
     assert_submit_button(smart_proxies_path)
-    assert page.has_link? 'DHCP Secure'
+    assert page.has_link? new_name
     assert page.has_content? "https://secure.net:8443"
   end
 end

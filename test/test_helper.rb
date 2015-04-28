@@ -233,6 +233,7 @@ Spork.prefork do
   # uses a separate server thread, which the transactions would be hidden
   # from. We hence use DatabaseCleaner to truncate our test database.
   DatabaseCleaner.strategy = :truncation
+  DatabaseCleaner.clean
 
   class ActionDispatch::IntegrationTest
     # Make the Capybara DSL available in all integration tests
@@ -335,7 +336,6 @@ Spork.each_run do
     setup :login_admin
 
     teardown do
-      DatabaseCleaner.clean       # Truncate the database
       Capybara.reset_sessions!    # Forget the (simulated) browser state
       Capybara.use_default_driver # Revert Capybara.current_driver to Capybara.default_driver
     end
