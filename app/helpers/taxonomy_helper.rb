@@ -135,4 +135,52 @@ module TaxonomyHelper
     options[:label]    ||= _(label)
     multiple_selects f, label.downcase, taxonomy.authorized("assign_#{label.downcase}", taxonomy), selected_ids, options, options_html
   end
+
+  def all_checkbox(f, resource)
+    return unless User.current.admin? || User.current.filters.joins(:permissions).where({:'permissions.name' => "view_#{resource}",
+                                                       :search => nil,
+                                                       :taxonomy_search => nil}).present?
+    checkbox_f(f, :ignore_types,
+                 {:label => translated_label(resource, :all),
+                  :multiple => true,
+                  :onchange => 'ignore_checked(this)'},
+                  resource.to_s.humanize)
+  end
+
+  def show_resource_if_allowed(f, taxonomy, resource_options)
+    if resource_options.is_a? Hash
+      resource = resource_options[:resource]
+      association = resource_options[:association]
+    else
+      resource = resource_options
+      association = resource.to_s.classify.constantize
+    end
+    return unless User.current.allowed_to?("view_#{resource}".to_sym)
+    ids = "#{association.table_name.singularize}_ids".to_sym
+
+    content_tag(:div, :id => resource, :class => "tab-pane") do
+      all_checkbox(f, resource) +
+      multiple_selects(f, association.table_name.to_sym, association, taxonomy.selected_or_inherited_ids[ids],
+                           {:disabled => taxonomy.used_and_selected_or_inherited_ids[ids],
+                            :label => translated_label(resource, :select)},
+                           {'data-mismatches' => taxonomy.need_to_be_selected_ids[ids].to_json,
+                            'data-inheriteds' => taxonomy.inherited_ids[ids].to_json,
+                            'data-useds' => taxonomy.used_ids[ids].to_json })
+    end
+  end
+
+  def translated_label(resource, verb)
+    labels = { :users => { :all => _("All users"), :select => _("Select users") },
+               :smart_proxies => { :all => _("All smart proxies"), :select => _("Select smart proxies") },
+               :subnets => { :all => _("All subnets"), :select => _("Select subnets") },
+               :compute_resources => { :all => _("All compute resources"), :select => _("Select compute resources") },
+               :media => { :all => _("All media"), :select => _("Select media") },
+               :templates => { :all => _("All templates"), :select => _("Select templates") },
+               :domains => { :all => _("All domains"), :select => _("Select domains") },
+               :realms => { :all => _("All realms"), :select => _("Select realms") },
+               :environments => { :all => _("All environments"), :select => _("Select environments") },
+               :hostgroups => { :all => _("All host groups"), :select => _("Select host groups") },
+    }
+    labels[resource][verb]
+  end
 end
