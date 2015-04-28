@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-13 11:10+0100\n"
-"PO-Revision-Date: 2015-04-13 11:10+0100\n"
+"POT-Creation-Date: 2015-04-28 08:49+0100\n"
+"PO-Revision-Date: 2015-04-28 08:49+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -147,7 +147,7 @@ msgid "Error generating IP: %s"
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:28
-#: ../app/models/nic/managed.rb:52
+#: ../app/models/nic/managed.rb:46
 msgid "Interface"
 msgstr ""
 
@@ -2484,7 +2484,7 @@ msgid "The virtual machine is being deleted."
 msgstr ""
 
 #: ../app/controllers/compute_resources_vms_controller.rb:99
-#: ../app/controllers/hosts_controller.rb:315
+#: ../app/controllers/hosts_controller.rb:309
 msgid "Failed to set console: %s"
 msgstr ""
 
@@ -2661,7 +2661,7 @@ msgid "Selected hosts are now assigned to %s"
 msgstr ""
 
 #: ../app/controllers/config_templates_controller.rb:21
-#: ../app/controllers/hosts_controller.rb:75
+#: ../app/controllers/hosts_controller.rb:76
 msgid "The marked fields will need reviewing"
 msgstr ""
 
@@ -2703,178 +2703,178 @@ msgstr ""
 msgid "PXE"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:186
+#: ../app/controllers/hosts_controller.rb:180
 msgid "Unable to generate output, Check log files"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:194
+#: ../app/controllers/hosts_controller.rb:188
 msgid "Successfully executed, check log files for more details"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:211
+#: ../app/controllers/hosts_controller.rb:205
 msgid "Enabled %s for reboot and rebuild"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:215
+#: ../app/controllers/hosts_controller.rb:209
 msgid "Failed to reboot %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:216
-#: ../app/controllers/hosts_controller.rb:219
+#: ../app/controllers/hosts_controller.rb:210
+#: ../app/controllers/hosts_controller.rb:213
 msgid "Enabled %s for rebuild on next boot"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:222
+#: ../app/controllers/hosts_controller.rb:216
 msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:228
+#: ../app/controllers/hosts_controller.rb:222
 msgid "Canceled pending build for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:230
+#: ../app/controllers/hosts_controller.rb:224
 msgid "Failed to cancel pending build for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:237
+#: ../app/controllers/hosts_controller.rb:231
 msgid "%{host} is about to %{action}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:239
+#: ../app/controllers/hosts_controller.rb:233
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:290
+#: ../app/controllers/hosts_controller.rb:284
 msgid "%{host} now boots from %{device}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:292
+#: ../app/controllers/hosts_controller.rb:286
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:321
+#: ../app/controllers/hosts_controller.rb:315
 msgid "Foreman now manages the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:323
+#: ../app/controllers/hosts_controller.rb:317
 msgid "Foreman now no longer manages the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:327
+#: ../app/controllers/hosts_controller.rb:321
 msgid "Failed to modify the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:333
+#: ../app/controllers/hosts_controller.rb:327
 msgid "Host %s is not associated with a VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:336
+#: ../app/controllers/hosts_controller.rb:330
 msgid "%s has been disassociated from VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:355
+#: ../app/controllers/hosts_controller.rb:349
 msgid "No parameters were allocated to the selected hosts, can't mass assign."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:374
+#: ../app/controllers/hosts_controller.rb:368
 msgid "Updated all hosts!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:377
+#: ../app/controllers/hosts_controller.rb:371
 msgid "%s Parameters updated, see below for more information"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:387
+#: ../app/controllers/hosts_controller.rb:381
 msgid "No host group selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:397
+#: ../app/controllers/hosts_controller.rb:391
 msgid "Updated hosts: changed host group"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:408
+#: ../app/controllers/hosts_controller.rb:402
 msgid "No environment selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:420
+#: ../app/controllers/hosts_controller.rb:414
 msgid "Updated hosts: changed environment"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:438
+#: ../app/controllers/hosts_controller.rb:432
 msgid "The selected hosts will execute a build operation on next reboot"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:440
+#: ../app/controllers/hosts_controller.rb:434
 msgid "The following hosts failed the build operation: %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:451
+#: ../app/controllers/hosts_controller.rb:445
 msgid "Destroyed selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:453
+#: ../app/controllers/hosts_controller.rb:447
 msgid "The following hosts were not deleted: %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:479
+#: ../app/controllers/hosts_controller.rb:473
 msgid "Successfully executed, check reports and/or log files for more details"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:481
+#: ../app/controllers/hosts_controller.rb:475
 msgid ""
 "Some or all hosts execution failed, Please check log files for more informatio"
 "n"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:493
+#: ../app/controllers/hosts_controller.rb:487
 msgid "Updated hosts: Disassociated from VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:499
+#: ../app/controllers/hosts_controller.rb:493
 msgid "Hosts with errors"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:504
+#: ../app/controllers/hosts_controller.rb:498
 msgid "Active Hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:509
+#: ../app/controllers/hosts_controller.rb:503
 msgid "Pending Hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:514
+#: ../app/controllers/hosts_controller.rb:508
 msgid "Hosts which didn't run puppet in the last %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:519
+#: ../app/controllers/hosts_controller.rb:513
 msgid "Hosts with notifications disabled"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:623
+#: ../app/controllers/hosts_controller.rb:617
 msgid "invalid type: %s requested"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:627
+#: ../app/controllers/hosts_controller.rb:621
 msgid "Something went wrong while changing host type - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:677
+#: ../app/controllers/hosts_controller.rb:671
 msgid "No hosts were found with that id or name"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:681
+#: ../app/controllers/hosts_controller.rb:675
 msgid "No hosts selected"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:687
+#: ../app/controllers/hosts_controller.rb:681
 msgid "Something went wrong while selecting hosts - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:700
+#: ../app/controllers/hosts_controller.rb:694
 msgid "%s selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:702
+#: ../app/controllers/hosts_controller.rb:696
 msgid "The following hosts were not %{action}: %{missed_hosts}"
 msgstr ""
 
@@ -3611,13 +3611,13 @@ msgstr ""
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:348
-msgid "Host audit entries"
-msgstr ""
-
 #: ../app/helpers/hosts_helper.rb:348 ../app/services/menu/loader.rb:51
 #: ../app/views/audits/index.html.erb:1
 msgid "Audits"
+msgstr ""
+
+#: ../app/helpers/hosts_helper.rb:348
+msgid "Host audit entries"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:349 ../app/helpers/trends_helper.rb:6
@@ -3629,21 +3629,21 @@ msgstr ""
 msgid "Browse host facts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:350
-msgid "Browse host reports"
-msgstr ""
-
 #: ../app/helpers/hosts_helper.rb:350 ../app/services/menu/loader.rb:46
 #: ../app/views/reports/index.html.erb:1
 msgid "Reports"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:351
-msgid "YAML"
+#: ../app/helpers/hosts_helper.rb:350
+msgid "Browse host reports"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:351
 msgid "Puppet external nodes YAML dump"
+msgstr ""
+
+#: ../app/helpers/hosts_helper.rb:351
+msgid "YAML"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:359
@@ -3697,21 +3697,21 @@ msgid "Image"
 msgstr ""
 
 #: ../app/helpers/images_helper.rb:10
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
-msgstr ""
-
-#: ../app/helpers/images_helper.rb:10
 msgid "Image ID"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:212
-msgid "Overwrite"
+#: ../app/helpers/images_helper.rb:10
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
 
 #: ../app/helpers/layout_helper.rb:212
 #: ../app/views/common/_searchbar.html.erb:40
 #: ../app/views/hosts/_list.html.erb:50 ../app/views/trends/edit.html.erb:45
 msgid "Submit"
+msgstr ""
+
+#: ../app/helpers/layout_helper.rb:212
+msgid "Overwrite"
 msgstr ""
 
 #: ../app/helpers/layout_helper.rb:223
@@ -3811,13 +3811,17 @@ msgid "Default value"
 msgstr ""
 
 #: ../app/helpers/lookup_keys_helper.rb:100
+msgid "No value error"
+msgstr ""
+
+#: ../app/helpers/lookup_keys_helper.rb:100
 msgid ""
 "Required parameter without value.<br/><b>Please override!</b> <br><br><b>Descr"
 "iption:</b>: %s"
 msgstr ""
 
-#: ../app/helpers/lookup_keys_helper.rb:100
-msgid "No value error"
+#: ../app/helpers/lookup_keys_helper.rb:103
+msgid "No value warning"
 msgstr ""
 
 #: ../app/helpers/lookup_keys_helper.rb:103
@@ -3826,20 +3830,16 @@ msgid ""
 "><b>Description:</b> %s"
 msgstr ""
 
-#: ../app/helpers/lookup_keys_helper.rb:103
-msgid "No value warning"
-msgstr ""
-
 #: ../app/helpers/puppetca_helper.rb:3
 msgid "valid"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:3
-msgid "pending"
+msgid "revoked"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:3
-msgid "revoked"
+msgid "pending"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:13
@@ -3913,7 +3913,7 @@ msgid "Errors only"
 msgstr ""
 
 #: ../app/helpers/reports_helper.rb:43
-msgid "All messages"
+msgid "Warnings and errors"
 msgstr ""
 
 #: ../app/helpers/reports_helper.rb:43
@@ -3921,7 +3921,7 @@ msgid "Notices, warnings and errors"
 msgstr ""
 
 #: ../app/helpers/reports_helper.rb:43
-msgid "Warnings and errors"
+msgid "All messages"
 msgstr ""
 
 #: ../app/helpers/settings_helper.rb:6
@@ -3989,11 +3989,11 @@ msgid "Average swap usage"
 msgstr ""
 
 #: ../app/helpers/statistics_helper.rb:12
-msgid "used swap"
+msgid "free swap"
 msgstr ""
 
 #: ../app/helpers/statistics_helper.rb:12
-msgid "free swap"
+msgid "used swap"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:17
@@ -4007,20 +4007,13 @@ msgid "Any Location"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:47
-#: ../app/views/organizations/welcome.html.erb:1
-msgid "New Organization"
-msgstr ""
-
-#: ../app/helpers/taxonomy_helper.rb:47
 #: ../app/views/locations/welcome.html.erb:1
 msgid "New Location"
 msgstr ""
 
-#: ../app/helpers/trends_helper.rb:5
-#: ../app/views/common/os_selection/_architecture.html.erb:4
-#: ../app/views/hosts/_assign_hosts.html.erb:13
-#: ../app/views/hosts/_list.html.erb:8
-msgid "Operating system"
+#: ../app/helpers/taxonomy_helper.rb:47
+#: ../app/views/organizations/welcome.html.erb:1
+msgid "New Organization"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4032,6 +4025,13 @@ msgstr ""
 #: ../app/views/hostgroups/_form.html.erb:29
 #: ../app/views/hosts/_list.html.erb:9 model_attributes.rb:138
 msgid "Environment"
+msgstr ""
+
+#: ../app/helpers/trends_helper.rb:5
+#: ../app/views/common/os_selection/_architecture.html.erb:4
+#: ../app/views/hosts/_assign_hosts.html.erb:13
+#: ../app/views/hosts/_list.html.erb:8
+msgid "Operating system"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4296,25 +4296,29 @@ msgstr ""
 msgid "failed to detect boot server: %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:81
+#: ../app/models/concerns/orchestration/dhcp.rb:61
+msgid "DHCP not supported for this NIC"
+msgstr ""
+
 #: ../app/models/concerns/orchestration/dhcp.rb:90
+#: ../app/models/concerns/orchestration/dhcp.rb:99
 msgid "Create DHCP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:88
-#: ../app/models/concerns/orchestration/dhcp.rb:112
+#: ../app/models/concerns/orchestration/dhcp.rb:97
+#: ../app/models/concerns/orchestration/dhcp.rb:121
 msgid "Remove DHCP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:120
+#: ../app/models/concerns/orchestration/dhcp.rb:129
 msgid "DHCP conflicts removal for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:128
+#: ../app/models/concerns/orchestration/dhcp.rb:137
 msgid "does not match selected subnet"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:142
+#: ../app/models/concerns/orchestration/dhcp.rb:151
 msgid "DHCP records %s already exists"
 msgstr ""
 
@@ -4560,15 +4564,15 @@ msgstr ""
 msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
-#: ../app/models/host/base.rb:403
+#: ../app/models/host/base.rb:407
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:409
+#: ../app/models/host/base.rb:413
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:427
+#: ../app/models/host/base.rb:431
 msgid "some interfaces are invalid"
 msgstr ""
 
@@ -4671,11 +4675,7 @@ msgid "could not be found in %s"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
-msgid "string"
-msgstr ""
-
-#: ../app/models/lookup_key.rb:5
-msgid "integer"
+msgid "boolean"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
@@ -4683,7 +4683,7 @@ msgid "json"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
-msgid "boolean"
+msgid "integer"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
@@ -4691,7 +4691,7 @@ msgid "yaml"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
-msgid "array"
+msgid "real"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
@@ -4699,7 +4699,11 @@ msgid "hash"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
-msgid "real"
+msgid "string"
+msgstr ""
+
+#: ../app/models/lookup_key.rb:5
+msgid "array"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:6
@@ -4762,15 +4766,15 @@ msgid "%{match} does not match an existing host group"
 msgstr ""
 
 #: ../app/models/mail_notification.rb:4
-msgid "Monthly"
-msgstr ""
-
-#: ../app/models/mail_notification.rb:4
 msgid "Daily"
 msgstr ""
 
 #: ../app/models/mail_notification.rb:4
 msgid "Weekly"
+msgstr ""
+
+#: ../app/models/mail_notification.rb:4
+msgid "Monthly"
 msgstr ""
 
 #: ../app/models/medium.rb:23
@@ -4838,10 +4842,6 @@ msgstr ""
 
 #: ../app/models/nic/interface.rb:59
 msgid "subnet boot mode is not %s"
-msgstr ""
-
-#: ../app/models/nic/managed.rb:88
-msgid "DHCP not supported for this NIC"
 msgstr ""
 
 #: ../app/models/operatingsystem.rb:24

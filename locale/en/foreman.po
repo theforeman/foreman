@@ -2543,10 +2543,10 @@ msgstr ""
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr ""
 
-msgid "Host audit entries"
+msgid "Audits"
 msgstr ""
 
-msgid "Audits"
+msgid "Host audit entries"
 msgstr ""
 
 msgid "Facts"
@@ -2555,16 +2555,16 @@ msgstr ""
 msgid "Browse host facts"
 msgstr ""
 
-msgid "Browse host reports"
-msgstr ""
-
 msgid "Reports"
 msgstr ""
 
-msgid "YAML"
+msgid "Browse host reports"
 msgstr ""
 
 msgid "Puppet external nodes YAML dump"
+msgstr ""
+
+msgid "YAML"
 msgstr ""
 
 msgid "Allocation (GB)"
@@ -2595,16 +2595,16 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
-msgstr ""
-
 msgid "Image ID"
 msgstr ""
 
-msgid "Overwrite"
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
 
 msgid "Submit"
+msgstr ""
+
+msgid "Overwrite"
 msgstr ""
 
 msgid "Unable to save"
@@ -2679,12 +2679,15 @@ msgstr ""
 msgid "Default value"
 msgstr "Default value"
 
+msgid "No value error"
+msgstr ""
+
 msgid ""
 "Required parameter without value.<br/><b>Please override!</b> <br><br><b>Descr"
 "iption:</b>: %s"
 msgstr ""
 
-msgid "No value error"
+msgid "No value warning"
 msgstr ""
 
 msgid ""
@@ -2692,16 +2695,13 @@ msgid ""
 "><b>Description:</b> %s"
 msgstr ""
 
-msgid "No value warning"
-msgstr ""
-
 msgid "valid"
 msgstr ""
 
-msgid "pending"
+msgid "revoked"
 msgstr ""
 
-msgid "revoked"
+msgid "pending"
 msgstr ""
 
 msgid "in %s"
@@ -2759,13 +2759,13 @@ msgstr ""
 msgid "Errors only"
 msgstr ""
 
-msgid "All messages"
+msgid "Warnings and errors"
 msgstr ""
 
 msgid "Notices, warnings and errors"
 msgstr ""
 
-msgid "Warnings and errors"
+msgid "All messages"
 msgstr ""
 
 msgid ""
@@ -2815,10 +2815,10 @@ msgstr ""
 msgid "Average swap usage"
 msgstr ""
 
-msgid "used swap"
+msgid "free swap"
 msgstr ""
 
-msgid "free swap"
+msgid "used swap"
 msgstr ""
 
 msgid "Any Organization"
@@ -2827,19 +2827,19 @@ msgstr ""
 msgid "Any Location"
 msgstr ""
 
+msgid "New Location"
+msgstr ""
+
 msgid "New Organization"
 msgstr ""
 
-msgid "New Location"
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Environment"
 msgstr ""
 
 #, fuzzy
 msgid "Operating system"
 msgstr "Name"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Environment"
-msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
@@ -3035,6 +3035,9 @@ msgid ""
 msgstr ""
 
 msgid "failed to detect boot server: %s"
+msgstr ""
+
+msgid "DHCP not supported for this NIC"
 msgstr ""
 
 msgid "Create DHCP Settings for %s"
@@ -3315,28 +3318,28 @@ msgstr ""
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "string"
-msgstr ""
-
-msgid "integer"
+msgid "boolean"
 msgstr ""
 
 msgid "json"
 msgstr ""
 
-msgid "boolean"
+msgid "integer"
 msgstr ""
 
 msgid "yaml"
 msgstr ""
 
-msgid "array"
+msgid "real"
 msgstr ""
 
 msgid "hash"
 msgstr ""
 
-msgid "real"
+msgid "string"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "list"
@@ -3381,13 +3384,13 @@ msgstr ""
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
-msgid "Monthly"
-msgstr ""
-
 msgid "Daily"
 msgstr ""
 
 msgid "Weekly"
+msgstr ""
+
+msgid "Monthly"
 msgstr ""
 
 msgid ""
@@ -3438,9 +3441,6 @@ msgid "Bootable"
 msgstr ""
 
 msgid "subnet boot mode is not %s"
-msgstr ""
-
-msgid "DHCP not supported for this NIC"
 msgstr ""
 
 msgid "Operating System version is required"
