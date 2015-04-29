@@ -19,7 +19,7 @@ module FindCommon
 
   def resource_scope(options = {})
     @resource_scope ||= begin
-      options[:controller] ||= controller_name
+      options[:controller] ||= controller_permission
       options[:permission] ||= "#{action_permission}_#{options[:controller]}"
       scope = resource_class.scoped
       if resource_class.respond_to?(:authorized)
