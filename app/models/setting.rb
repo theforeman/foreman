@@ -12,7 +12,7 @@ class Setting < ActiveRecord::Base
 
   class UriValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, value)
-      record.errors.add attribute, _("must be a valid URI") unless URI.parse(value).present?
+      record.errors.add attribute, _("must be a valid URI") unless %w(http https).include? URI(value).scheme
     rescue URI::InvalidURIError
       record.errors.add attribute, _("must be a valid URI")
     end
