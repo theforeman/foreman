@@ -364,6 +364,7 @@ module Foreman::Model
         "network_label" => args[:interfaces].first[:network],
         "network_adapter_device_key" => network_adapter_device_key
       }
+      opts["customization_spec"] = client.cloudinit_to_customspec(args[:user_data]) if args[:user_data]
       client.servers.get(client.vm_clone(opts)['new_vm']['id'])
     end
 
