@@ -1,3 +1,13 @@
+2015-04-29	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.7.5
+
+2015-04-27	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10025 - move generic taxonomies code to base class
+	* Fixes #9947 - restrict user taxonomies if none is set
+
+2015-03-30	Dominic Cleal <dcleal@redhat.com>
+	* fixes #9941 - pin wirb to 1.x
+
 2015-03-25	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.7.4
 	* fixes #9851 - pin gettext_i18n_rails_js to 0.x
