@@ -35,9 +35,13 @@ module Api
       instance_variable_get :"@#{resource_name}" or raise 'no resource loaded'
     end
 
+    def controller_permission
+      controller_name
+    end
+
     # overwrites resource_scope in FindCommon to consider nested objects
     def resource_scope(options = {})
-      options[:association] ||= controller_name
+      options[:association] ||= controller_permission
       if nested_obj && nested_obj.respond_to?(options[:association])
         association = nested_obj.send(options[:association])
         if association.respond_to?(:authorized)
