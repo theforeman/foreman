@@ -82,16 +82,19 @@ class SmartProxy < ActiveRecord::Base
   end
 
   def taxonomy_foreign_conditions
-    feature_names = self.features.pluck(:name)
-    conditions                      = {}
-    if feature_names.include?('Puppet') && feature_names.include?('Puppet CA')
+    conditions = {}
+    if has_feature?('Puppet') && has_feature?('Puppet CA')
       conditions = "puppet_proxy_id = #{id} OR puppet_ca_proxy_id = #{id}"
-    elsif feature_names.include?('Puppet')
+    elsif has_feature?('Puppet')
       conditions[:puppet_proxy_id] = id
-    elsif feature_names.include?('Puppet CA')
+    elsif has_feature?('Puppet CA')
       conditions[:puppet_ca_proxy_id] = id
     end
     conditions
+  end
+
+  def has_feature?(feature)
+    self.features.any? { |proxy_feature| proxy_feature.name == feature }
   end
 
   private

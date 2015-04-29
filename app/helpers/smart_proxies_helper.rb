@@ -1,13 +1,13 @@
 module SmartProxiesHelper
   def proxy_actions(proxy, authorizer)
-    [if proxy.features.detect{|f| f.name == "Puppet CA"}
+    [if proxy.has_feature?('Puppet CA')
        [display_link_if_authorized(_("Certificates"), hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => proxy).
                                 merge(:auth_object => proxy, :permission => 'view_smart_proxies_puppetca', :authorizer => authorizer)),
         display_link_if_authorized(_("Autosign"), hash_for_smart_proxy_autosign_index_path(:smart_proxy_id => proxy).
                                 merge(:auth_object => proxy, :permission => 'view_smart_proxies_autosign', :authorizer => authorizer))]
      end,
 
-     if SETTINGS[:unattended] and proxy.features.detect{|f| f.name == "DHCP" }
+     if SETTINGS[:unattended] and proxy.has_feature?('DHCP')
        display_link_if_authorized(_("Import subnets"), hash_for_import_subnets_path(:smart_proxy_id => proxy))
      end,
 

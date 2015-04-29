@@ -36,7 +36,7 @@ module Foreman
       # feature proxy, as PXE templates are written without an incoming request.
       url = if @template_url && @host.try(:token).present?
               @template_url
-            elsif proxy.present? && proxy.try(:features).map(&:name).include?('Templates') && @host.try(:token).present?
+            elsif proxy.present? && proxy.has_feature?('Templates') && @host.try(:token).present?
               temp_url = ProxyAPI::Template.new(:url => proxy.url).template_url
               if temp_url.nil?
                 logger.warn("unable to obtain template url set by proxy #{proxy.url}. falling back on proxy url.")
