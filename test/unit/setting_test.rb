@@ -241,10 +241,26 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "must be a valid URI", setting.errors[:value].first
   end
 
+  test "foreman_url must have proper URI format" do
+    assert Setting.find_or_create_by_name(:name => "foreman_url", :default => "http://foo.com")
+    setting = Setting.find_by_name("foreman_url")
+    setting.value = "random_string"
+    assert !setting.save
+    assert_equal "must be a valid URI", setting.errors[:value].first
+  end
+
   test "unattended_url must be a URI" do
     assert Setting.find_or_create_by_name(:name => "unattended_url", :default => "http://foo.com")
     setting = Setting.find_by_name("unattended_url")
     setting.value="##"
+    assert !setting.save
+    assert_equal "must be a valid URI", setting.errors[:value].first
+  end
+
+  test "unattended_url must have proper URI format" do
+    assert Setting.find_or_create_by_name(:name => "foreman_url", :default => "http://foo.com")
+    setting = Setting.find_by_name("foreman_url")
+    setting.value = "random_string"
     assert !setting.save
     assert_equal "must be a valid URI", setting.errors[:value].first
   end
