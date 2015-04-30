@@ -24,7 +24,7 @@ function add_puppet_class(item){
   var link = content.children('a');
   var links = content.find('a');
   links.attr('onclick', 'remove_puppet_class(this)');
-  links.attr('data-original-title', __('Click to undo adding this class'));
+  links.attr('data-original-title', links.attr('data-original-title').replace('add', 'remove'));
   links.tooltip();
   link.removeClass('glyphicon-plus-sign').addClass('glyphicon-minus-sign');
 
