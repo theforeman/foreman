@@ -195,7 +195,11 @@ module LayoutHelper
 
   def form_to_submit_id(f)
     object = f.object.respond_to?(:to_model) ? f.object.to_model : f.object
-    key = object ? (object.persisted? ? :update : :create) : :submit
+    key = if object.present?
+            object.persisted? ? :update : :create
+          else
+            :submit
+          end
     model = if object.class.respond_to?(:humanize_class_name)
               object.class.humanize_class_name.downcase
             elsif object.class.respond_to?(:model_name)

@@ -44,8 +44,10 @@ module Menu
     private
 
     def add_relative_path(path)
-      rurl = @context.config.action_controller.relative_url_root
-      rurl.present? && !path.start_with?(rurl.end_with?('/') ? rurl : "#{rurl}/") ? "#{rurl}#{path}" : path
+      relative_url = @context.config.action_controller.relative_url_root
+      return path unless relative_url.present?
+      return "#{relative_url}#{path}" unless path.start_with?(relative_url.end_with?('/') ? relative_url : "#{relative_url}/")
+      path
     end
   end
 end

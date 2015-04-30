@@ -314,7 +314,7 @@ class ApplicationController < ActionController::Base
                              elsif session[:organization_id]
                                orgs.find_by_id(session[:organization_id])
                              end
-      warning _("Organization you had selected as your context has been deleted.") if (session[:organization_id] && Organization.current == nil)
+      warning _("Organization you had selected as your context has been deleted.") if (session[:organization_id] && Organization.current.nil?)
     end
 
     if SETTINGS[:locations_enabled]
@@ -324,7 +324,7 @@ class ApplicationController < ActionController::Base
                          elsif session[:location_id]
                            locations.find_by_id(session[:location_id])
                          end
-      warning _("Location you had selected as your context has been deleted.") if (session[:location_id] && Location.current == nil)
+      warning _("Location you had selected as your context has been deleted.") if (session[:location_id] && Location.current.nil?)
     end
   end
 

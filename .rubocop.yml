@@ -6,6 +6,7 @@ AllCops:
   RunRailsCops: true # always run the rails cops
   Exclude:
     - 'db/schema.rb'
+    - 'vendor/**/*'
 
 # Don't enforce documentation
 Style/Documentation:
