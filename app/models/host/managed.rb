@@ -154,6 +154,18 @@ class Host::Managed < Host::Base
     validate :short_name_periods
     before_validation :set_compute_attributes, :on => :create
     validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
+  else
+    def fqdn
+      facts['fqdn'] || name
+    end
+
+    def compute?
+      false
+    end
+
+    def compute_provides?(attr)
+      false
+    end
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address
