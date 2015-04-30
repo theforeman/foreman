@@ -10,7 +10,7 @@ module Orchestration::DHCP
   def dhcp?
     # host.managed? and managed? should always come first so that orchestration doesn't
     # even get tested for such objects
-    (host.nil? || host.managed?) && managed? && hostname.present? && ip_available? && mac_available? && !subnet.nil? && subnet.dhcp?
+    (host.nil? || host.managed?) && managed? && hostname.present? && ip_available? && mac_available? && !subnet.nil? && subnet.dhcp? && SETTINGS[:unattended]
   end
 
   def dhcp_record
