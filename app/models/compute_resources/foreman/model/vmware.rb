@@ -392,9 +392,17 @@ module Foreman::Model
       self.uuid = value
     end
 
-    def console(uuid)
+    def console(uuid, ssl)
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" unless vm.ready?
+      @encrypt = case Setting[:websockets_encrypt]
+                 when 'on'
+                   true
+                 when 'off'
+                   false
+                 else
+                   ssl and not Setting[:websockets_ssl_key].blank? and not Setting[:websockets_ssl_cert].blank?
+                 end
       #TOOD port, password
       #NOTE this requires the following port to be open on your ESXi FW
       values = { :port => unused_vnc_port(vm.hypervisor), :password => random_password, :enabled => true }

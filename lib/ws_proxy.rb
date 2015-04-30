@@ -3,7 +3,7 @@ require 'open3'
 class PortInUse < StandardError; end
 
 class WsProxy
-  attr_accessor :host, :host_port, :password, :timeout, :idle_timeout, :ssl_target
+  attr_accessor :host, :host_port, :password, :timeout, :idle_timeout, :ssl_target, :encrypt
   attr_reader :proxy_port
 
   # Allowed ports to communicate with our web sockets proxy
@@ -27,8 +27,8 @@ class WsProxy
     begin
       cmd  = "#{ws_proxy} --daemon --idle-timeout=#{idle_timeout} --timeout=#{timeout} #{port} #{host}:#{host_port}"
       cmd += " --ssl-target" if ssl_target
-      cmd += " --cert #{Setting[:websockets_ssl_cert]}" if Setting[:websockets_ssl_cert]
-      cmd += " --key #{Setting[:websockets_ssl_key]}" if Setting[:websockets_ssl_key]
+      cmd += " --cert #{Setting[:websockets_ssl_cert]}" if Setting[:websockets_ssl_cert] and encrypt
+      cmd += " --key #{Setting[:websockets_ssl_key]}" if Setting[:websockets_ssl_key] and encrypt
       execute(cmd)
       # if the port is already in use, try another one from the pool
       # this is not ideal, as it would try all ports in order

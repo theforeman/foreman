@@ -288,15 +288,7 @@ class HostsController < ApplicationController
 
   def console
     return unless @host.compute_resource
-    @console = @host.compute_resource.console @host.uuid
-    @encrypt = case Setting[:websockets_encrypt]
-               when 'on'
-                 true
-               when 'off'
-                 false
-               else
-                 request.ssl? and not Setting[:websockets_ssl_key].blank? and not Setting[:websockets_ssl_cert].blank?
-               end
+    @console = @host.compute_resource.console @host.uuid request.ssl?
     render case @console[:type]
              when 'spice'
                "hosts/console/spice"

@@ -78,7 +78,7 @@ module Foreman::Model
       errors[:base] << e.message
     end
 
-    def console(uuid)
+    def console(uuid, ssl)
       vm = find_vm_by_uuid(uuid)
       vm.console_output.body.merge(:type=>'log', :name=>vm.name)
     end

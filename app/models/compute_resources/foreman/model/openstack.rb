@@ -106,7 +106,7 @@ module Foreman::Model
       true
     end
 
-    def console(uuid)
+    def console(uuid, ssl)
       vm = find_vm_by_uuid(uuid)
       vm.console.body.merge({'timestamp' => Time.now.utc})
     end
