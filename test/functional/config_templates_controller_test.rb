@@ -74,18 +74,36 @@ class ConfigTemplatesControllerTest < ActionController::TestCase
     assert !ConfigTemplate.exists?(config_template.id)
   end
 
-  test "build menu" do
-    template = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/pxe/PXELinux_default.erb"))
-    ConfigTemplate.find_by_name('PXELinux global default').update_attribute(:template, template)
+  context "build pxe menu" do
+    setup do
+      proxy = smart_proxies(:two)
+      proxy.features = []
+      proxy.save!
 
-    ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
-    Setting[:unattended_url] = "http://foreman.unattended.url"
-    @request.env['HTTP_REFERER'] = config_templates_path
+      template = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/pxe/PXELinux_default.erb"))
+      ConfigTemplate.find_by_name('PXELinux global default').update_attribute(:template, template)
 
-    ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url:80\/unattended\/template/))).returns(true)
+      ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
+      Setting[:unattended_url] = "http://foreman.unattended.url"
+      @request.env['HTTP_REFERER'] = config_templates_path
+    end
 
-    get :build_pxe_default, {}, set_session_user
-    assert_redirected_to config_templates_path
+    test "without templates proxy" do
+      FactoryGirl.create :tftp_smart_proxy
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url:80\/unattended\/template/))).returns(true)
+
+      get :build_pxe_default, {}, set_session_user
+      assert_redirected_to config_templates_path
+    end
+
+    test "with templates proxy" do
+      FactoryGirl.create :template_smart_proxy
+      ProxyAPI::Template.any_instance.stubs(:template_url).returns('http://proxy.unattended.url:8000')
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/ks=http:\/\/proxy.unattended.url:8000\/unattended\/template/))).returns(true)
+
+      get :build_pxe_default, {}, set_session_user
+      assert_redirected_to config_templates_path
+    end
   end
 
   test "audit comment" do

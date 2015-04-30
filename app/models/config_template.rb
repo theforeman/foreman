@@ -104,20 +104,15 @@ class ConfigTemplate < ActiveRecord::Base
       error_msg = _("Could not find a Configuration Template with the name \"PXELinux global default\", please create one.")
     end
 
-    if error_msg.empty?
-      begin
-        @profiles = pxe_default_combos
-        menu = renderer.render_safe(default_template.template, [:default_template_url], {:profiles => @profiles})
-      rescue => e
-        error_msg = _("failed to process template: %s" % e)
-      end
-    end
-
     return [422, error_msg] unless error_msg.empty?
+
+    @profiles = pxe_default_combos
 
     error_msgs = []
     proxies.each do |proxy|
       begin
+        menu = renderer.render_safe(default_template.template, [:default_template_url], {:profiles => @profiles, :proxy => proxy})
+
         tftp = ProxyAPI::TFTP.new(:url => proxy.url)
         tftp.create_default({:menu => menu})
 

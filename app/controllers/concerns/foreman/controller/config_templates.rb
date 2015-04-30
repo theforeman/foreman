@@ -12,8 +12,10 @@ module Foreman::Controller::ConfigTemplates
 
   private
 
-  def default_template_url(template, hostgroup)
-    uri      = URI.parse(Setting[:unattended_url])
+  def default_template_url(template, hostgroup, proxy = nil)
+    url = ProxyAPI::Template.new(:url => proxy.url).try(:template_url) if proxy && proxy.has_feature?('Templates')
+
+    uri      = URI.parse(url || Setting[:unattended_url])
     host     = uri.host
     port     = uri.port
     protocol = uri.scheme
