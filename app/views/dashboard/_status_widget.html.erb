@@ -23,7 +23,7 @@
   %>
 
   <%= searchable_links _('Out of sync hosts'),
-                       "last_report < \"#{Setting[:puppet_interval] + 5} minutes ago\" and status.enabled = true",
+                       "last_report < \"#{Setting[:puppet_interval] + Setting[:outofsync_interval]} minutes ago\" and status.enabled = true",
                        :out_of_sync_hosts_enabled
   %>
 
