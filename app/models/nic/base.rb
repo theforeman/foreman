@@ -22,7 +22,7 @@ module Nic
     validates :mac, :uniqueness => {:scope => :virtual},
               :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? }, :allow_blank => true
     validates :mac, :presence => true,
-              :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? &&!nic.virtual? }
+              :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && SETTINGS[:unattended] }
     validates :mac, :mac_address => true, :allow_blank => true
 
     # TODO uniq on primary per host
@@ -32,9 +32,9 @@ module Nic
 
     validate :exclusive_primary_interface
     validate :exclusive_provision_interface
-    validates :domain, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.primary? }
-    validate :valid_domain, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.primary? }
-    validates :ip, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.require_ip_validation? }
+    validates :domain, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.primary? && SETTINGS[:unattended] }
+    validate :valid_domain, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.primary? && SETTINGS[:unattended] }
+    validates :ip, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.require_ip_validation? && SETTINGS[:unattended] }
 
     scope :bootable, lambda { where(:type => "Nic::Bootable") }
     scope :bmc, lambda { where(:type => "Nic::BMC") }
