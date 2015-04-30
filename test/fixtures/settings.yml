@@ -255,3 +255,9 @@ attributes54:
   category: Setting::General
   default: "[foreman]"
   description: "Prefix to add to all outgoing email"
+attributes55:
+  name: outofsync_interval
+  settings_type: integer
+  category: Setting::Puppet
+  default: 5
+  description: "Duration in minutes after the Puppet interval for servers to be classed as out of sync."
