@@ -190,7 +190,7 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
-  def console(uuid = nil)
+  def console(uuid = nil, ssl = false)
     raise ::Foreman::Exception.new(N_("%s console is not supported at this time"), provider_friendly_name)
   end
 

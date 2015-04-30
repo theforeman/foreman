@@ -189,7 +189,7 @@ module Foreman::Model
       true
     end
 
-    def console(uuid)
+    def console(uuid, ssl)
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" if vm.status == "down"
       if vm.display[:type] =~ /spice/i
@@ -199,9 +199,17 @@ module Foreman::Model
                else
                  { :host_port => vm.display[:port] }
                end
-        WsProxy.start(opts.merge(:host => vm.display[:address], :password => vm.ticket)).merge(xpi_opts).merge(:type => 'spice')
+        WsProxy.start(opts.merge(:host => vm.display[:address], :password => vm.ticket, :encrypt => false)).merge(xpi_opts).merge(:type => 'spice')
       else
-        WsProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket).merge(:name => vm.name, :type => 'vnc')
+        encrypt = case Setting[:websockets_encrypt]
+                  when 'on'
+                    true
+                  when 'off'
+                    false
+                  else
+                    ssl and not Setting[:websockets_ssl_key].blank? and not Setting[:websockets_ssl_cert].blank?
+                  end
+        WsProxy.start(:host => vm.display[:address], :host_port => vm.display[:port], :password => vm.ticket, :encrypt => encrypt).merge(:name => vm.name, :type => 'vnc')
       end
     end
 

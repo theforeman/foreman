@@ -12,7 +12,7 @@
                      end
         ) ) %>
 <p class="toggle-hidden-value"><%= _('Password:') %> <a href="#" class="toggle-hidden-value"><%=icon_text("plus")%></a><span><%= @console[:password] %></span></p>
-<div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>' data-encrypt='<%= @encrypt %>'>
+<div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>' data-encrypt='<%= @console[:encrypt] %>'>
 
   <div id="noVNC_status_bar" class="console-status">
     <div id="noVNC_status" class="col-md-7 label">Loading ...</div>
