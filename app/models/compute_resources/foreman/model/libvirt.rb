@@ -26,7 +26,7 @@ module Foreman::Model
     end
 
     def find_vm_by_uuid(uuid)
-      client.servers.get(uuid)
+      super
     rescue ::Libvirt::RetrieveError => e
       Foreman::Logging.exception("Failed retrieving libvirt vm by uuid #{ uuid }", e)
       raise ActiveRecord::RecordNotFound
@@ -148,6 +148,17 @@ module Foreman::Model
 
     def associated_host(vm)
       associate_by("mac", vm.mac)
+    end
+
+    def vm_compute_attributes_for(uuid)
+      vm_attrs = super
+      if vm_attrs[:memory_size].nil?
+        vm_attrs[:memory] = nil
+        logger.debug("Compute attributes for VM '#{uuid}' diddn't contain :memory_size")
+      else
+        vm_attrs[:memory] = vm_attrs[:memory_size]*1024 # value is returned in megabytes, we need bytes
+      end
+      vm_attrs
     end
 
     protected

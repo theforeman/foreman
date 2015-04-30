@@ -148,7 +148,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "can fetch vm compute attributes" do
-    host = FactoryGirl.create(:host, :compute_resource => compute_resources(:one))
+    host = FactoryGirl.create(:host, :compute_resource => compute_resources(:ec2))
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({:cpus => 4})
     assert_equal host.vm_compute_attributes, :cpus => 4
   end

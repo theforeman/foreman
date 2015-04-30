@@ -171,4 +171,99 @@ class ComputeResourceTest < ActiveSupport::TestCase
     cr = FactoryGirl.build(:compute_resource)
     refute as_admin { cr.send(:associate_by, 'mac', '11:22:33:44:55:1a') }.readonly?
   end
+
+  describe "find_vm_by_uuid" do
+    before do
+      servers = mock()
+      servers.stubs(:get).returns(nil)
+
+      client = mock()
+      client.stubs(:servers).returns(servers)
+
+      @cr = ComputeResource.new
+      @cr.stubs(:client).returns(client)
+    end
+
+    it "raises RecordNotFound when the vm does not exist" do
+      assert_raises ActiveRecord::RecordNotFound do
+        @cr.find_vm_by_uuid('abc')
+      end
+    end
+  end
+
+  describe "vm_compute_attributes_for" do
+    before do
+      plain_attrs = {
+        :id => 'abc',
+        :cpus => 5
+      }
+      @vm = mock()
+      @vm.stubs(:attributes).returns(plain_attrs)
+
+      @cr = compute_resources(:vmware)
+      @cr.stubs(:find_vm_by_uuid).returns(@vm)
+
+      vol1 = mock()
+      vol1.stubs(:attributes).returns({:vol => 1})
+      vol2 = mock()
+      vol2.stubs(:attributes).returns({:vol => 2})
+
+      @volumes = [
+        vol1,
+        vol2
+      ]
+    end
+
+    test "returns vm attributes without id" do
+      @vm.stubs(:volumes).returns(@volumes)
+
+      expected_attrs = {
+        :cpus => 5,
+        :volumes_attributes => {
+          "0" => { :vol => 1 },
+          "1" => { :vol => 2 }
+        }
+      }
+      attrs = @cr.vm_compute_attributes_for('abc')
+
+      assert_equal expected_attrs, attrs
+    end
+
+    test "returns correct vm attributes when vm does not respond to volumes" do
+      expected_attrs = { :cpus => 5 }
+      attrs = @cr.vm_compute_attributes_for('abc')
+
+      assert_equal expected_attrs, attrs
+    end
+
+    test "returns correct vm attributes when vm volumes are nil" do
+      @vm.stubs(:volumes).returns(nil)
+
+      expected_attrs = {
+        :cpus => 5,
+        :volumes_attributes => {}
+      }
+      attrs = @cr.vm_compute_attributes_for('abc')
+
+      assert_equal expected_attrs, attrs
+    end
+
+    test "returns default attributes when the vm no longer exists" do
+      @cr.stubs(:find_vm_by_uuid).returns(nil)
+
+      expected_attrs = {}
+      attrs = @cr.vm_compute_attributes_for('abc')
+
+      assert_equal expected_attrs, attrs
+    end
+
+    test "returns default attributes when the vm no longer exists and provider raises exception" do
+      @cr.stubs(:find_vm_by_uuid).raises(ActiveRecord::RecordNotFound)
+
+      expected_attrs = {}
+      attrs = @cr.vm_compute_attributes_for('abc')
+
+      assert_equal expected_attrs, attrs
+    end
+  end
 end

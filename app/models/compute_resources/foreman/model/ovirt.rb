@@ -17,6 +17,12 @@ module Foreman::Model
       [:build, :image]
     end
 
+    def find_vm_by_uuid(uuid)
+      super
+    rescue OVIRT::OvirtException
+      raise(ActiveRecord::RecordNotFound)
+    end
+
     def supports_update?
       true
     end
