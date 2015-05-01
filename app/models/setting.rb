@@ -226,7 +226,9 @@ class Setting < ActiveRecord::Base
   def clear_cache
     # ensures we don't have cache left overs in settings
     Rails.logger.debug "removing #{name} from cache"
-    Setting.cache.delete(name.to_s)
+    if Setting.cache.delete(name.to_s) == false
+      Rails.logger.warn "Failed to remove #{name} from cache"
+    end
   end
 
   def readonly_when_overridden_in_SETTINGS

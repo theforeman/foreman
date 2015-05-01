@@ -316,6 +316,11 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal s.category, "Setting::Auth"
   end
 
+  test "create succeeds when cache is non-functional" do
+    Setting.cache.expects(:delete).with('test_broken_cache').returns(false)
+    assert_valid Setting.create!(:name => 'test_broken_cache', :description => 'foo', :default => 'default')
+  end
+
   private
 
   def check_parsed_value(settings_type, expected_value, string_value)
