@@ -550,7 +550,7 @@ class HostsController < ApplicationController
   end
 
   def template_used
-    host      = Host.new(params[:host].except(:interfaces_attributes))
+    host      = Host.new(params[:host].except(:host_parameters_attributes, :interfaces_attributes))
     templates = host.available_template_kinds(params[:provisioning])
     return not_found if templates.empty?
     render :partial => 'provisioning', :locals => { :templates => templates }
