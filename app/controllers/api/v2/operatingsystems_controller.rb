@@ -1,6 +1,10 @@
 module Api
   module V2
     class OperatingsystemsController < V2::BaseController
+
+      wrap_parameters :operatingsystem, :include => (Operatingsystem.attribute_names + %w{family
+                                           architecture_ids ptable_ids medium_ids config_template_ids})
+
       resource_description do
         name 'Operating systems'
       end

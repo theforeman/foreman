@@ -1,7 +1,8 @@
 module Api
   module V2
     class UsersController < V2::BaseController
-      wrap_parameters User, :include => (User.attribute_names + ['password'])
+
+      wrap_parameters :user, :include => (User.attribute_names + %w{password password_confirmation usergroup_ids role_ids})
 
       before_filter :find_resource, :only => %w{show update destroy}
       # find_resource needs to be defined prior to UsersMixin is included, it depends on @user
@@ -45,6 +46,8 @@ module Api
           param :auth_source_id, Integer, :required => true
           param :timezone, ActiveSupport::TimeZone.zones_map.keys, :required => false, :desc => N_("User's timezone")
           param :locale, FastGettext.available_locales, :required => false, :desc => N_("User's preferred locale")
+          param :usergroup_ids, Array, :desc => (N_("Array of user group IDs to associate.") + DESC_WARNING_IDS)
+          param :role_ids, Array, :desc => (N_("Array of role IDs to associate.") + DESC_WARNING_IDS)
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end

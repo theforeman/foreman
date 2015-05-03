@@ -1,6 +1,11 @@
 module Api
   module V2
     class PtablesController < V2::BaseController
+
+      wrap_parameters :config_template, :include => (Ptable.attribute_names + ['operatingsystem_ids'])
+
+      include Api::Version2
+
       before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
@@ -24,6 +29,7 @@ module Api
           param :name, String, :required => true
           param :layout, String, :required => true
           param :os_family, String, :required => false
+          param :operatingsystem_ids, Array, :desc => (N_("Array of operating system IDs to associate.") + DESC_WARNING_IDS)
         end
       end
 

@@ -1,6 +1,9 @@
 module Api
   module V2
     class SubnetsController < V2::BaseController
+
+      wrap_parameters :subnet, :include => (Subnet.attribute_names + ['domain_ids', 'location_ids', 'organization_ids'])
+
       include Api::Version2
       include Api::TaxonomyScope
 
@@ -42,6 +45,7 @@ module Api
           param :tftp_id, :number, :desc => N_("TFTP Proxy to use within this subnet")
           param :dns_id, :number, :desc => N_("DNS Proxy to use within this subnet")
           param :boot_mode, String, :desc => N_('Default boot mode for interfaces assigned to this subnet, valid values are "Static", "DHCP"')
+          param :domain_ids, Array, :desc => (N_("Array of domain IDs to associate.") + DESC_WARNING_IDS)
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end

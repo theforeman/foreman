@@ -1,6 +1,10 @@
 module Api
   module V2
     class HostgroupsController < V2::BaseController
+
+      wrap_parameters :hostgroup, :include => (Hostgroup.attribute_names + %w{parent_id
+                                   puppetclass_ids config_group_ids location_ids organization_ids})
+
       include Api::Version2
       include Api::TaxonomyScope
 
@@ -39,6 +43,8 @@ module Api
           param :domain_id, :number
           param :realm_id, :number
           param :puppet_proxy_id, :number
+          param :puppet_class_ids, Array, :desc => (N_("Array of puppet class IDs to associate.") + DESC_WARNING_IDS)
+          param :config_group_ids, Array, :desc => (N_("Array of config group IDs to associate.") + DESC_WARNING_IDS)
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end

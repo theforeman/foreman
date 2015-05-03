@@ -1,6 +1,9 @@
 module Api
   module V2
     class UsergroupsController < V2::BaseController
+
+      wrap_parameters :usergroup, :include => (Usergroup.attribute_names + ['user_ids', 'usergroup_ids', 'role_ids'])
+
       before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
@@ -20,9 +23,9 @@ module Api
       def_param_group :usergroup do
         param :usergroup, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
-          param :user_ids, Array, :require => false
-          param :usergroup_ids, Array, :require => false
-          param :role_ids, Array, :require => false
+          param :user_ids, Array, :desc => (N_("Array of user IDs to associate.") + DESC_WARNING_IDS)
+          param :usergroup_ids, Array, :desc => (N_("Array of user group IDs to associate.") + DESC_WARNING_IDS)
+          param :role_ids, Array, :desc => (N_("Array of role IDs to associate.") + DESC_WARNING_IDS)
         end
       end
 

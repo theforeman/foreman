@@ -1,7 +1,9 @@
 module Api
   module V2
     class HostsController < V2::BaseController
-      wrap_parameters :host, :include => (Host::Base.attribute_names + ['image_file', 'is_owned_by', 'overwrite', 'progress_report_id'])
+
+      wrap_parameters :host, :include => (Host::Base.attribute_names + %w{image_file is_owned_by
+                                          overwrite progress_report_id puppetclass_ids config_group_ids})
 
       include Api::Version2
       include Api::TaxonomyScope
@@ -46,7 +48,8 @@ module Api
           param :domain_id, :number, :desc => N_("required if host is managed and value is not inherited from host group")
           param :realm_id, :number
           param :puppet_proxy_id, :number
-          param :puppet_class_ids, Array
+          param :puppet_class_ids, Array, :desc => (N_("Array of puppet class IDs to associate.") + DESC_WARNING_IDS)
+          param :config_group_ids, Array, :desc => (N_("Array of config group IDs to associate.") + DESC_WARNING_IDS)
           param :operatingsystem_id, String, :desc => N_("required if host is managed and value is not inherited from host group")
           param :medium_id, String, :desc => N_("required if not imaged based provisioning and host is managed and value is not inherited from host group")
           param :ptable_id, :number, :desc => N_("required if host is managed and custom partition has not been defined")
