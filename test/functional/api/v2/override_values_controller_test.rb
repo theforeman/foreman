@@ -67,4 +67,18 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  [{ :value => 'xyz=10'}, { :match => 'string'}].each do |override_value|
+    test "should not create override value without #{override_value.keys.first}" do
+      lookup_key = FactoryGirl.create(:lookup_key, :puppetclass => puppetclasses(:two))
+      refute lookup_key.override
+      assert_difference('LookupValue.count', 0) do
+        post :create, { :smart_variable_id => lookup_key.id, :override_value => override_value }
+      end
+      response = ActiveSupport::JSON.decode(@response.body)
+      param_not_posted = override_value.keys.first.to_s == 'match' ? 'Value' : 'Match' # The opposite of override_value is missing
+      assert_match /Validation failed: #{param_not_posted} can't be blank/, response['error']['message']
+      assert_response :error
+    end
+  end
 end
