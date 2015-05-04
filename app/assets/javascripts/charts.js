@@ -44,8 +44,18 @@ $.fn.flot_pie = function(){
     $(target).bind("plotclick", function (event, pos, item) {
       search_on_click(event, item);
     });
+    resize_label(target.children('.pieLabel').first());
   });
 };
+
+function resize_label(label){
+  var labelOffset = parseInt(label.css('left'));
+  var ratio = (label.parent().width()-2*labelOffset)/label.width();
+  if (ratio < 1){
+    label.css('font-size', parseInt(label.css('font-size'))*ratio);
+  }
+  label.css('right', labelOffset); //make sure it is centered
+}
 
 function expanded_pie(target, data){
   $.plot(target, data, {
