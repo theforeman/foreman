@@ -259,8 +259,8 @@ class SettingTest < ActiveSupport::TestCase
     check_parsed_value "boolean", false, "false"
     check_parsed_value "boolean", true, "True"
     check_parsed_value "boolean", false, "False"
-    check_parsed_value_failure "boolean", "1"
-    check_parsed_value_failure "boolean", "0"
+    check_parsed_value "boolean", true, "1"
+    check_parsed_value "boolean", false, "0"
     check_parsed_value_failure "boolean", "unknown"
   end
 
