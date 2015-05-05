@@ -2,6 +2,7 @@ module Nic
   class BMC < Managed
     PROVIDERS = %w(IPMI)
     before_validation :ensure_physical
+    before_validation { |nic| nic.provider.upcase! }
     validates :provider, :presence => true, :inclusion => { :in => PROVIDERS }
     validates :mac, :presence => true, :if => :managed?
 
