@@ -5,9 +5,6 @@ class LookupKey < ActiveRecord::Base
   KEY_TYPES = [N_("string"), N_("boolean"), N_("integer"), N_("real"), N_("array"), N_("hash"), N_("yaml"), N_("json")]
   VALIDATOR_TYPES = [N_("regexp"), N_("list") ]
 
-  TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'on', 'ON', 'yes', 'YES', 'y', 'Y'].to_set
-  FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE', 'off', 'OFF', 'no', 'NO', 'n', 'N'].to_set
-
   KEY_DELM = ","
   EQ_DELM  = "="
 
@@ -226,9 +223,9 @@ class LookupKey < ActiveRecord::Base
   end
 
   def cast_value_boolean(value)
-    return true if TRUE_VALUES.include? value
-    return false if FALSE_VALUES.include? value
-    raise TypeError
+    casted = Foreman::Cast.to_bool(value)
+    raise TypeError if casted.nil?
+    casted
   end
 
   def cast_value_integer(value)

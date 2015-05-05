@@ -130,11 +130,11 @@ module HostCommon
   end
 
   def param_true?(name)
-    params.has_key?(name) && LookupKey::TRUE_VALUES.include?(params[name])
+    params.has_key?(name) && Foreman::Cast.to_bool(value)
   end
 
   def param_false?(name)
-    params.has_key?(name) && LookupKey::FALSE_VALUES.include?(params[name])
+    params.has_key?(name) && Foreman::Cast.to_bool(value) == false
   end
 
   def cg_class_ids
