@@ -49,6 +49,8 @@ module Hostext
       scoped_search :in => :operatingsystem, :on => :id,          :complete_enabled => false,:rename => :os_id, :only_explicit => true
 
       scoped_search :in => :primary_interface, :on => :ip, :complete_value => true
+      scoped_search :in => :interfaces, :on => :ip, :complete_value => true, :rename => :has_ip
+      scoped_search :in => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac
 
       scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
       scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
