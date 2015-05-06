@@ -1884,6 +1884,13 @@ class HostTest < ActiveSupport::TestCase
     assert_equal original_mac, clone.provision_interface.mac
   end
 
+  test '#primary_interface works during deletion' do
+    host = FactoryGirl.create(:host, :managed)
+    iface = host.interfaces.first
+    assert iface.delete
+    assert_equal iface, host.primary_interface
+  end
+
   test '#primary_interface is never cached for new record' do
     host = FactoryGirl.build(:host, :managed)
     refute_nil host.primary_interface

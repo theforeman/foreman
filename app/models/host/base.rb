@@ -387,7 +387,7 @@ module Host
           # we can't use SQL, we need to get even unsaved objects
           interface = self.interfaces.detect(&flag)
 
-          interface.host = self if interface # inverse_of does not help (STI), but ignore this on deletion (interface is not found)
+          interface.host = self if interface && !interface.destroyed? # inverse_of does not help (STI), but ignore this on deletion
           instance_variable_set(cache, interface)
         end
       end
