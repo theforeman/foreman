@@ -1,5 +1,5 @@
 class RemoveDuplicateFactNames < ActiveRecord::Migration
-  def self.up
+  def up
     unique_names = FactName.group(:name).maximum(:id)
     unique_names.each do |fact_name, fact_name_id|
       duplicates = FactName.where("name=? and id<>?", fact_name, fact_name_id).select(:id)
@@ -15,6 +15,6 @@ class RemoveDuplicateFactNames < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
   end
 end

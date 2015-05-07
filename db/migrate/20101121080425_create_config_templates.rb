@@ -1,5 +1,5 @@
 class CreateConfigTemplates < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :config_templates do |t|
       t.string :name
       t.text :template
@@ -9,7 +9,7 @@ class CreateConfigTemplates < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :config_templates
   end
 end

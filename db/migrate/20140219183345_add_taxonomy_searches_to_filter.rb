@@ -1,5 +1,5 @@
 class AddTaxonomySearchesToFilter < ActiveRecord::Migration
-  def self.up
+  def up
     add_column :filters, :taxonomy_search, :text
 
     # to precache taxonomy search on all existing filters
@@ -11,7 +11,7 @@ class AddTaxonomySearchesToFilter < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     remove_column :filters, :taxonomy_search
   end
 end

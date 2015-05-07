@@ -38,7 +38,7 @@ class Authorizer
                                                             *values]).uniq
     end
 
-    all_filters = all_filters.all # load all records, so #empty? does not call extra COUNT(*) query
+    all_filters = all_filters.to_a # load all records, so #empty? does not call extra COUNT(*) query
     Foreman::Logging.logger('permissions').debug do
       all_filters.map do |f|
         "filter with role_id: #{f.role_id} limited: #{f.limited?} search: #{f.search} taxonomy_search: #{f.taxonomy_search}"
@@ -78,14 +78,10 @@ class Authorizer
       return result
     end
 
-    if @base_collection.present?
-      result[:where] << { id: base_ids }
-    end
-
+    result[:where] << { id: base_ids } if @base_collection.present?
     return result if all_filters.any?(&:unlimited?)
 
     search_string = build_scoped_search_condition(all_filters.select(&:limited?))
-
     find_options = ScopedSearch::QueryBuilder.build_query(resource_class.scoped_search_definition, search_string, options)
     result[:where] << find_options[:conditions]
     result[:includes].push(*find_options[:include])

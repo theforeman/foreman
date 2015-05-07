@@ -1,5 +1,5 @@
 class SimplifyParameters < ActiveRecord::Migration
-  def self.up
+  def up
     remove_index  :parameters, [:host_id,      :type] if index_exists? :parameters, :host_id
     remove_index  :parameters, [:hostgroup_id, :type] if index_exists? :parameters, :hostgroup_id
     remove_index  :parameters, [:domain_id,    :type] if index_exists? :parameters, :domain_id
@@ -34,7 +34,7 @@ class SimplifyParameters < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     remove_index :parameters, [:reference_id, :type]
 
     add_column    :parameters, :domain_id,    :integer

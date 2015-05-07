@@ -1,5 +1,5 @@
 class CreateModels < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :models do |t|
       t.string :name, :limit => 64, :null => false
       t.text :info
@@ -9,7 +9,7 @@ class CreateModels < ActiveRecord::Migration
     add_column :hosts, :model_id, :integer
   end
 
-  def self.down
+  def down
     drop_table :models
     remove_column :hosts, :model_id
   end

@@ -1,7 +1,7 @@
 class AddSolarisTemplates < ActiveRecord::Migration
-  def self.up
+  def up
   end
 
-  def self.down
+  def down
   end
 end

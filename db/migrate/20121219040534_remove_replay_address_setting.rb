@@ -1,8 +1,8 @@
 class RemoveReplayAddressSetting < ActiveRecord::Migration
-  def self.up
+  def up
     execute "DELETE FROM settings WHERE name='email_replay_address'"
   end
 
-  def self.down
+  def down
   end
 end

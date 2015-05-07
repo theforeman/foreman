@@ -1,5 +1,5 @@
 class AddTableBookmarks < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :bookmarks, :force => true do |t|
       t.column :name, :string
       t.column :query, :string
@@ -14,7 +14,7 @@ class AddTableBookmarks < ActiveRecord::Migration
     add_index :bookmarks, [:owner_id, :owner_type]
   end
 
-  def self.down
+  def down
     drop_table :bookmarks
   end
 end

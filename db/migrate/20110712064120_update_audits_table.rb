@@ -1,5 +1,5 @@
 class UpdateAuditsTable < ActiveRecord::Migration
-  def self.up
+  def up
     unless Audit.column_names.include?("comment")
       add_column :audits, :comment, :string
       add_column :audits, :auditable_parent_id, :integer
@@ -8,7 +8,7 @@ class UpdateAuditsTable < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     remove_column :audits, :comment
     remove_column :audits, :auditable_parent_id
     remove_column :audits, :auditable_parent_type

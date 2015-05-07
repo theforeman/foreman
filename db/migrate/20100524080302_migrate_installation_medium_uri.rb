@@ -1,5 +1,5 @@
 class MigrateInstallationMediumUri < ActiveRecord::Migration
-  def self.up
+  def up
     Medium.unscoped.all.each { |medium|
       matches = /^([^:]+):(\/.+)/.match(medium.path)
 
@@ -10,6 +10,6 @@ class MigrateInstallationMediumUri < ActiveRecord::Migration
     }
   end
 
-  def self.down
+  def down
   end
 end

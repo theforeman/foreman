@@ -1,5 +1,5 @@
 class CreateReports < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :reports do |t|
       t.references :host, :null => false
       t.text       :log
@@ -8,7 +8,7 @@ class CreateReports < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :reports
   end
 end

@@ -1,5 +1,5 @@
 class AddIndexToHost < ActiveRecord::Migration
-  def self.up
+  def up
     add_index "hosts", "last_report"
     add_index "hosts", "installed_at"
     add_index "hosts", "puppet_status"
@@ -11,7 +11,7 @@ class AddIndexToHost < ActiveRecord::Migration
     add_index "hosts", :hostgroup_id, :name => 'host_group_id_ix'
   end
 
-  def self.down
+  def down
     remove_index "hosts", "last_report"
     remove_index "hosts", "installed_at"
     remove_index "hosts", "puppet_status"

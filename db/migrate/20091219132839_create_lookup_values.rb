@@ -1,5 +1,5 @@
 class CreateLookupValues < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :lookup_values do |t|
       t.string :priority
       t.string :value
@@ -10,7 +10,7 @@ class CreateLookupValues < ActiveRecord::Migration
     add_index :lookup_values, :priority
   end
 
-  def self.down
+  def down
     remove_index :lookup_values, :priority
     drop_table :lookup_values
   end

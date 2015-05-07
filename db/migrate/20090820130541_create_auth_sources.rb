@@ -1,5 +1,5 @@
 class CreateAuthSources < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :auth_sources do |t|
       t.string  "type",              :limit => 30, :default => "",    :null => false
       t.string  "name",              :limit => 60, :default => "",    :null => false
@@ -19,7 +19,7 @@ class CreateAuthSources < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :auth_sources
   end
 end

@@ -1,5 +1,5 @@
 class CreateLogs < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :logs do |t|
       t.integer :source_id
       t.integer :message_id
@@ -13,7 +13,7 @@ class CreateLogs < ActiveRecord::Migration
     add_index :logs, :level_id
   end
 
-  def self.down
+  def down
     remove_index :logs, :level_id
     remove_index :logs, :report_id
     remove_index :logs, :message_id

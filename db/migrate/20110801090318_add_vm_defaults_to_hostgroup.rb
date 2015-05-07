@@ -1,9 +1,9 @@
 class AddVmDefaultsToHostgroup < ActiveRecord::Migration
-  def self.up
+  def up
     add_column :hostgroups, :vm_defaults, :text
   end
 
-  def self.down
+  def down
     remove_column :hostgroups, :vm_defaults
   end
 end

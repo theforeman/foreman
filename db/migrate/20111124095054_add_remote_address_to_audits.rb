@@ -1,9 +1,9 @@
 class AddRemoteAddressToAudits < ActiveRecord::Migration
-  def self.up
+  def up
     add_column :audits, :remote_address, :string
   end
 
-  def self.down
+  def down
     remove_column :audits, :remote_address
   end
 end

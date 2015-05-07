@@ -1,7 +1,7 @@
 class CreateProxyFeatures < ActiveRecord::Migration
   class Feature < ActiveRecord::Base; end
 
-  def self.up
+  def up
     # Create the tables
     create_table :features do |t|
       t.string :name, :limit => 16
@@ -14,7 +14,7 @@ class CreateProxyFeatures < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :features
     drop_table :features_smart_proxies
   end

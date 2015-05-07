@@ -1,5 +1,5 @@
 class CreatePuppetclasses < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :puppetclasses do |t|
       t.string :name
       t.string :nameindicator
@@ -18,7 +18,7 @@ class CreatePuppetclasses < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :puppetclasses
     drop_table :hosts_puppetclasses
     drop_table :operatingsystems_puppetclasses

@@ -1,5 +1,5 @@
 class CreateTemplateCombinations < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :template_combinations do |t|
       t.references :config_template
       t.references :hostgroup
@@ -9,7 +9,7 @@ class CreateTemplateCombinations < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :template_combinations
   end
 end

@@ -129,7 +129,7 @@ module Classification
       # host parameter
       return host.host_params[element] if host.host_params.include?(element)
       # fact attribute
-      if (fn = host.fact_names.first(:conditions => {:name => element}))
+      if (fn = host.fact_names.where(:name => element).first)
         return FactValue.where(:host_id => host.id, :fact_name_id => fn.id).first.value
       end
     end

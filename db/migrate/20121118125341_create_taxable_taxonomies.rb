@@ -1,5 +1,5 @@
 class CreateTaxableTaxonomies < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :taxable_taxonomies do |t|
       t.integer :taxonomy_id
       t.integer :taxable_id
@@ -13,7 +13,7 @@ class CreateTaxableTaxonomies < ActiveRecord::Migration
     add_index :taxable_taxonomies, :taxonomy_id
   end
 
-  def self.down
+  def down
     drop_table :taxable_taxonomies
   end
 end

@@ -1,6 +1,6 @@
 class CreatePtables < ActiveRecord::Migration
   class Ptable < ActiveRecord::Base; end
-  def self.up
+  def up
     create_table :ptables do |t|
       t.string :name,   :limit => 64, :null => false
       t.string :layout, :limit => 4096, :null => false
@@ -13,7 +13,7 @@ class CreatePtables < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :ptables
     drop_table :operatingsystems_ptables
   end

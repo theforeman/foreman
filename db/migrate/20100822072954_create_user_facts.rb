@@ -1,7 +1,7 @@
 # To suport "Edit my domain" and "edit my hostgroup" security access control we need
 # a mechanism to associate a user with a fact and a criria for thet fact to evaluate against
 class CreateUserFacts < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :user_facts do |t|
       t.references :user
       t.references :fact_name
@@ -12,7 +12,7 @@ class CreateUserFacts < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :user_facts
   end
 end

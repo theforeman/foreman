@@ -1,9 +1,9 @@
 class AddImageIdToHost < ActiveRecord::Migration
-  def self.up
+  def up
     add_column :hosts, :image_id, :integer
   end
 
-  def self.down
+  def down
     remove_column :hosts, :image_id
   end
 end

@@ -1,9 +1,9 @@
 class RemoveUnusedFieldsFromPuppetClasses < ActiveRecord::Migration
-  def self.up
+  def up
     remove_column :puppetclasses, :nameindicator
     remove_column :puppetclasses, :operatingsystem_id
   end
 
-  def self.down
+  def down
   end
 end

@@ -1,12 +1,12 @@
 class UpdateOsMinor  < ActiveRecord::Migration
   class Operatingsystem < ActiveRecord::Base; end
 
-  def self.up
-    Operatingsystem.update_all("minor = ''", {:minor => nil})
+  def up
+    Operatingsystem.where(:minor => nil).update_all("minor = ''")
     change_column :operatingsystems, :minor, :string, :limit => 16, :default => "", :null => false
   end
 
-  def self.down
+  def down
     change_column :operatingsystems, :minor, :string, :limit => 16
   end
 end

@@ -1,5 +1,5 @@
 class CreateNics < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :nics do |t|
       t.string :mac
       t.string :ip
@@ -36,7 +36,7 @@ class CreateNics < ActiveRecord::Migration
     remove_columns :hosts, :sp_mac, :sp_ip, :sp_name, :sp_subnet_id
   end
 
-  def self.down
+  def down
     add_column :hosts, :sp_mac, :string, :limit => 17, :default => ""
     add_column :hosts, :sp_ip, :string, :limit => 15, :default => ""
     add_column :hosts, :sp_name, :string, :default => ""

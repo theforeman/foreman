@@ -1,5 +1,5 @@
 class ChangePuppetmasterColumn < ActiveRecord::Migration
-  def self.up
+  def up
     # Hosts
     rename_column :hosts, :puppetmaster, :puppetmaster_name
     add_column    :hosts, :puppetproxy_id, :integer
@@ -9,7 +9,7 @@ class ChangePuppetmasterColumn < ActiveRecord::Migration
     add_column    :hostgroups, :puppetproxy_id, :integer
   end
 
-  def self.down
+  def down
     #Hosts
     remove_column :hosts, :puppetproxy_id
     rename_column :hosts, :puppetmaster_name, :puppetmaster

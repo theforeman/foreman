@@ -1,5 +1,5 @@
 class CreateDomains < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :domains do |t|
       t.string :name, :default => "", :null => false
       t.string  :dnsserver
@@ -9,7 +9,7 @@ class CreateDomains < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :domains
   end
 end

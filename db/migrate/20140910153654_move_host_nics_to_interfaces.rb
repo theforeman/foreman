@@ -1,9 +1,6 @@
 class FakeNic < ActiveRecord::Base
   self.table_name = 'nics'
 
-  attr_accessible :host_id, :name, :mac, :ip, :subnet_id, :domain_id, :identifier,
-                  :virtual, :primary, :provision, :managed
-
   def type
     Nic::Managed
   end
@@ -11,8 +8,6 @@ end
 
 class FakeHost < ActiveRecord::Base
   self.table_name = 'hosts'
-
-  attr_accessible :mac, :ip, :subnet_id, :domain_id, :primary_interface, :provision_interface
 end
 
 class MoveHostNicsToInterfaces < ActiveRecord::Migration

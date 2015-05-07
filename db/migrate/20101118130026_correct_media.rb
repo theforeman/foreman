@@ -1,5 +1,5 @@
 class CorrectMedia < ActiveRecord::Migration
-  def self.up
+  def up
     if table_exists? :medias
       if table_exists? :medias_operatingsystems
         rename_column :medias_operatingsystems, :media_id, :medium_id
@@ -16,7 +16,7 @@ class CorrectMedia < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     if table_exists? :media
       if table_exists? :media_operatingsystems
         rename_column :medias_operatingsystems, :medium_id, :media_id

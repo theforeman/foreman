@@ -96,7 +96,7 @@ class Report < ActiveRecord::Base
       # set default of 0 per metric
       metrics = {}
       METRIC.each {|m| metrics[m] = 0 }
-      host.reports.recent(time).all(:select => "status").each do |r|
+      host.reports.recent(time).select(:status).each do |r|
         metrics.each_key do |m|
           metrics[m] += r.status(m)
         end

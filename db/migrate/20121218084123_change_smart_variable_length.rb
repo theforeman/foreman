@@ -1,9 +1,9 @@
 class ChangeSmartVariableLength < ActiveRecord::Migration
-  def self.up
+  def up
     change_column :lookup_keys, :default_value, :text
   end
 
-  def self.down
+  def down
     change_column :lookup_keys, :default_value, :string
   end
 end

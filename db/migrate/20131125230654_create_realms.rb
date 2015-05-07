@@ -1,5 +1,5 @@
 class CreateRealms < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :realms do |t|
       t.string      :name, :default => "", :null => false
       t.string      :realm_type
@@ -20,7 +20,7 @@ class CreateRealms < ActiveRecord::Migration
     add_foreign_key :hostgroups, :realms, :name => "hostgroups_realms_id_fk"
   end
 
-  def self.down
+  def down
     drop_table :realms
     remove_column :hosts, :otp
     remove_column :hosts, :realm_id
