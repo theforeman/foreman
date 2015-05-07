@@ -45,16 +45,15 @@ class AuthSourceLdap < AuthSource
   def authenticate(login, password)
     return if login.blank? || password.blank?
 
-    logger.debug "LDAP-Auth with User #{login}"
+    logger.debug "LDAP auth with user #{login} against #{self}"
 
-    ldap_con = LdapFluff.new(self.to_config(login, password))
-
-    return unless ldap_con.valid_user?(login)
-    entry = ldap_con.find_user(login).last
+    conn = ldap_con(login, password)
+    return unless conn.valid_user?(login)
+    entry = conn.find_user(login).last
     attrs = attributes_values(entry)
 
-    unless ldap_con.authenticate?(login, password)
-      auth_result = ldap_con.ldap.ldap.get_operation_result
+    unless conn.authenticate?(login, password)
+      auth_result = conn.ldap.ldap.get_operation_result
       logger.warn "Result: #{auth_result.code}"
       logger.warn "Message: #{auth_result.message}"
       logger.warn "Failed to authenticate #{login}"
@@ -78,7 +77,8 @@ class AuthSourceLdap < AuthSource
       :base_dn => base_dn, :group_base => groups_base, :attr_login => attr_login,
       :server_type  => server_type.to_sym, :search_filter => ldap_filter,
       :anon_queries => account.blank?, :service_user => service_user(login),
-      :service_pass => use_user_login_for_service? ? password : account_password }
+      :service_pass => use_user_login_for_service? ? password : account_password,
+      :instrumentation_service => ActiveSupport::Notifications }
   end
 
   def encryption_config
@@ -95,12 +95,16 @@ class AuthSourceLdap < AuthSource
   end
 
   def update_usergroups(login)
+    logger.debug "Updating user groups for user #{login}"
     internal = User.find(login).external_usergroups.map(&:name)
     external = ldap_con(account, account_password).group_list(login)
     (internal | external).each do |name|
       begin
         external_usergroup = external_usergroups.find_by_name(name)
-        external_usergroup.refresh if external_usergroup.present?
+        if external_usergroup.present?
+          logger.debug "Refreshing external user group #{external_usergroup.name}"
+          external_usergroup.refresh
+        end
       rescue => error
         logger.warn "Could not update user group #{name}: #{error}"
       end

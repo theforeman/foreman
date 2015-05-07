@@ -185,12 +185,16 @@ class User < ActiveRecord::Base
     if (user = unscoped.find_by_login(login))
       # user has an authentication method and the authentication was successful
       if user.auth_source and attrs=user.auth_source.authenticate(login, password)
-        logger.debug "Authenticated user #{user} against #{user.auth_source} authentication source"
+        logger.debug "Authenticated user #{user.login} against #{user.auth_source} authentication source"
 
         # update with returned attrs, maybe some info changed in LDAP
         old_hash = user.avatar_hash
         User.as_anonymous_admin do
-          user.update_attributes(attrs.slice(:firstname, :lastname, :mail, :avatar_hash).delete_if { |k, v| v.blank? }) if attrs.is_a? Hash
+          if attrs.is_a? Hash
+            valid_attrs = attrs.slice(:firstname, :lastname, :mail, :avatar_hash).delete_if { |k, v| v.blank? }
+            logger.debug("Updating user #{user.login} attributes from auth source: #{attrs.keys}")
+            user.update_attributes(valid_attrs)
+          end
           user.auth_source.update_usergroups(login)
         end
 
@@ -199,7 +203,7 @@ class User < ActiveRecord::Base
           File.delete "#{Rails.public_path}/avatars/#{old_hash}.jpg" if File.exist? old_avatar
         end
       else
-        logger.debug "Failed to authenticate #{user} against #{user.auth_source} authentication source"
+        logger.debug "Failed to authenticate #{user.login} against #{user.auth_source} authentication source"
         user = nil
       end
     else
@@ -215,6 +219,7 @@ class User < ActiveRecord::Base
   end
 
   def post_successful_login
+    logger.debug "Post-login processing for #{login}"
     User.as_anonymous_admin do
       self.update_attribute(:last_login_on, Time.now.utc)
       anonymous = Role.find_by_name("Anonymous")
@@ -407,6 +412,7 @@ class User < ActiveRecord::Base
     return nil if login.blank? or password.blank?
 
     # user is not yet registered, try to authenticate with available sources
+    logger.debug "Attempting to log into an auth source as #{login} for account auto-creation"
     if (attrs = AuthSource.authenticate(login, password))
       attrs.delete(:dn)
       user = new(attrs)

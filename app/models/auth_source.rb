@@ -63,14 +63,14 @@ class AuthSource < ActiveRecord::Base
   # Returns : user's attributes OR nil
   def self.authenticate(login, password)
     AuthSource.where(:onthefly_register => true).each do |source|
-      logger.debug "Authenticating '#{login}' against '#{source.name}'"
+      logger.debug "Authenticating '#{login}' against '#{source}'"
       begin
         if (attrs = source.authenticate(login, password))
           logger.debug "Authentication successful for '#{login}'"
           attrs[:auth_source_id] = source.id
         end
       rescue => e
-        logger.error "Error during authentication: #{e.message}"
+        logger.error "Error during authentication against '#{source}': #{e.message}"
         attrs = nil
       end
       return attrs if attrs
