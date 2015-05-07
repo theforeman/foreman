@@ -44,7 +44,7 @@ module Orchestration
   # after validation callbacks status, as rails by default does
   # not care about their return status.
   def valid?(context = nil)
-    setup_clone
+    setup_clone if SETTINGS[:unattended]
     super
     orchestration_errors?
   end
