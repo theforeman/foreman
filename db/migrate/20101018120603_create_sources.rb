@@ -1,5 +1,5 @@
 class CreateSources < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :sources do |t|
       t.text :value
     end
@@ -11,7 +11,7 @@ class CreateSources < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     remove_index :sources, :value
     drop_table :sources
   end

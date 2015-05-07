@@ -1,7 +1,7 @@
 class AddReleasenameToOs < ActiveRecord::Migration
   class Operatingsystem < ActiveRecord::Base; end
 
-  def self.up
+  def up
     add_column :operatingsystems, :release_name, :string, :limit => 64
 
     Operatingsystem.reset_column_information
@@ -17,7 +17,7 @@ class AddReleasenameToOs < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     remove_column :operatingsystems, :release_name
   end
 end

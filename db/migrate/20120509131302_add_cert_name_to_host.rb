@@ -1,10 +1,10 @@
 class AddCertNameToHost < ActiveRecord::Migration
-  def self.up
+  def up
     add_column :hosts, :certname, :string
     add_index "hosts", :certname
   end
 
-  def self.down
+  def down
     remove_index "hosts", :certname
     remove_column :hosts, :certname
   end

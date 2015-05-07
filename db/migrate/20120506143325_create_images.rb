@@ -1,5 +1,5 @@
 class CreateImages < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :images do |t|
       t.integer :operatingsystem_id
       t.integer :compute_resource_id
@@ -12,7 +12,7 @@ class CreateImages < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :images
   end
 end

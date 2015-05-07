@@ -1,5 +1,5 @@
 class CreateKeyPairs < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :key_pairs do |t|
       t.text :secret
       t.integer :compute_resource_id
@@ -9,7 +9,7 @@ class CreateKeyPairs < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :key_pairs
   end
 end

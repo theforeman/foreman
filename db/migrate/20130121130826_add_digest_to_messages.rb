@@ -1,5 +1,5 @@
 class AddDigestToMessages < ActiveRecord::Migration
-  def self.up
+  def up
     if ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql" or ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql2"
       execute "DROP INDEX value ON messages" if index_exists?(:messages, :value, :name => 'value')
     else
@@ -10,7 +10,7 @@ class AddDigestToMessages < ActiveRecord::Migration
     add_index :messages, :digest
   end
 
-  def self.down
+  def down
     remove_index :messages, :digest
     remove_column :messages, :digest
     add_index :messages, :value

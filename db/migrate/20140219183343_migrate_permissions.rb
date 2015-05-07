@@ -75,26 +75,11 @@ class FakeUser < ActiveRecord::Base
 end
 
 class MigratePermissions < ActiveRecord::Migration
-  def self.up
-    if old_permissions_present
-      make_sure_all_permissions_are_present
-      migrate_roles
-      migrate_user_filters
-
-      CacheManager.set_cache_setting(true)
-      Rake::Task['db:migrate'].enhance nil do
-        Rake::Task['fix_db_cache'].invoke
-      end
-    else
-      say 'Skipping migration of permissions, since old permissions are not present'
-    end
-  end
-
   # STEP 0 - add missing permissions to DB
   # some engines could have defined new permissions during their initialization
   # but permissions table hadn't existed yet so we check all registered
   # permissions and create those that are missing in database
-  def self.make_sure_all_permissions_are_present
+  def make_sure_all_permissions_are_present
     engine_permissions = Foreman::AccessControl.permissions.select { |p| p.engine.present? }
     engine_permissions.each do |permission|
       FakePermission.find_or_create_by_name_and_resource_type(permission.name, permission.resource_type)
@@ -104,7 +89,7 @@ class MigratePermissions < ActiveRecord::Migration
   # STEP 1 - migrate roles
   # for all role permissions we'll create unlimited filters
   # we'll group permissions into filters by their resource
-  def self.migrate_roles
+  def migrate_roles
     roles = FakeRole.all
     roles.each do |role|
       # role without permissions? nothing to do then
@@ -160,7 +145,7 @@ class MigratePermissions < ActiveRecord::Migration
   # STEP 2 - migrate user filters
   # for every user having a filter we make copy of all his roles and add filtering scoped searches
   # to corresponding filters
-  def self.migrate_user_filters
+  def migrate_user_filters
     users = FakeUser.all
     users.each do |user|
       unless filtered?(user)
@@ -219,7 +204,7 @@ class MigratePermissions < ActiveRecord::Migration
     end
   end
 
-  def self.convert_filters_to_search(filters, user)
+  def convert_filters_to_search(filters, user)
     search = ''
     orgs = []
     locs = []
@@ -268,7 +253,7 @@ class MigratePermissions < ActiveRecord::Migration
     [ search, orgs, locs ]
   end
 
-  def self.filtered?(user)
+  def filtered?(user)
     user.compute_resources.present? ||
         user.domains.present? ||
         user.hostgroups.present? ||
@@ -276,7 +261,7 @@ class MigratePermissions < ActiveRecord::Migration
         user.filter_on_owner
   end
 
-  def self.clone_role(role, user)
+  def clone_role(role, user)
     clone         = role.dup
     clone.name    = role.name + "_#{user.login}"
     clone.builtin = 0
@@ -287,7 +272,7 @@ class MigratePermissions < ActiveRecord::Migration
     clone.reload
   end
 
-  def self.clone_filter(filter, role)
+  def clone_filter(filter, role)
     clone             = filter.dup
     clone.permissions = filter.permissions
     clone.role        = role
@@ -296,7 +281,7 @@ class MigratePermissions < ActiveRecord::Migration
 
   # To detect whether migration is needed we use existing models
   # fakes would always indicate that migration is needed
-  def self.old_permissions_present
+  def old_permissions_present
     user = User.new
     Role.column_names.include?('permissions') &&
         user.respond_to?(:compute_resources) &&
@@ -306,7 +291,22 @@ class MigratePermissions < ActiveRecord::Migration
         user.respond_to?(:filter_on_owner)
   end
 
-  def self.down
+  def up
+    if old_permissions_present
+      make_sure_all_permissions_are_present
+      migrate_roles
+      migrate_user_filters
+
+      CacheManager.set_cache_setting(true)
+      Rake::Task['db:migrate'].enhance nil do
+        Rake::Task['fix_db_cache'].invoke
+      end
+    else
+      say 'Skipping migration of permissions, since old permissions are not present'
+    end
+  end
+
+  def down
     say 'Permission data migration is impossible, skipping'
   end
 end

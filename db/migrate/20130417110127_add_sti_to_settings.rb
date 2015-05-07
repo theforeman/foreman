@@ -1,5 +1,5 @@
 class AddStiToSettings < ActiveRecord::Migration
-  def self.up
+  def up
     execute "UPDATE settings set category='Setting::Auth' where category='Auth'"
     execute "UPDATE settings set category='Setting::General' where category='General'"
     execute "UPDATE settings set category='Setting::Puppet' where category='Puppet'"
@@ -7,7 +7,7 @@ class AddStiToSettings < ActiveRecord::Migration
     add_index :settings, :category
   end
 
-  def self.down
+  def down
     execute "UPDATE settings set category='Auth' where category='Setting::Auth'"
     execute "UPDATE settings set category='General' where category='Setting::General'"
     execute "UPDATE settings set category='Puppet' where category='Setting::Puppet'"

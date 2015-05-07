@@ -1,5 +1,5 @@
 class AddHostGroupDefaults < ActiveRecord::Migration
-  def self.up
+  def up
     add_column :hostgroups, :environment_id, :integer
     add_column :hostgroups, :operatingsystem_id, :integer
     add_column :hostgroups, :architecture_id, :integer
@@ -9,7 +9,7 @@ class AddHostGroupDefaults < ActiveRecord::Migration
     add_column :hostgroups, :puppetmaster, :string
   end
 
-  def self.down
+  def down
     remove_column :hostgroups, :environment_id
     remove_column :hostgroups, :operatingsystem_id
     remove_column :hostgroups, :architecture_id

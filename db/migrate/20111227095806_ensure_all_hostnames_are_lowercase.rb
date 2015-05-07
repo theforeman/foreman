@@ -1,9 +1,9 @@
 class EnsureAllHostnamesAreLowercase < ActiveRecord::Migration
-  def self.up
+  def up
     execute "UPDATE hosts SET name=LOWER(name)"
   end
 
-  def self.down
+  def down
     raise ActiveRecord::IrreversibleMigration
   end
 end

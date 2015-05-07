@@ -1,5 +1,5 @@
 class CreateOsDefaultTemplates < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :os_default_templates do |t|
       t.references :config_template
       t.references :template_kind
@@ -9,7 +9,7 @@ class CreateOsDefaultTemplates < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :os_default_templates
   end
 end

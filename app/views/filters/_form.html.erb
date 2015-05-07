@@ -21,7 +21,7 @@
           <%= f.hidden_field :role_id, :value => f.object.role_id || @role.id %>
         <% end %>
       <% else %>
-        <%= select_f(f, :role_id, Role.scoped, :id, :name) %>
+        <%= select_f(f, :role_id, Role.where(nil), :id, :name) %>
       <% end %>
 
       <%= selectable_f(f, :resource_type, Permission.resources_with_translations,

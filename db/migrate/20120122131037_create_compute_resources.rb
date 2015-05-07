@@ -1,5 +1,5 @@
 class CreateComputeResources < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :compute_resources do |t|
       t.string :name
       t.string :description
@@ -13,7 +13,7 @@ class CreateComputeResources < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :compute_resources
   end
 end

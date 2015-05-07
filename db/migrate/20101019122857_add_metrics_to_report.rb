@@ -1,9 +1,9 @@
 class AddMetricsToReport < ActiveRecord::Migration
-  def self.up
+  def up
     add_column :reports, :metrics, :text
   end
 
-  def self.down
+  def down
     remove_column :reports, :metrics
   end
 end

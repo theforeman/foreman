@@ -1,5 +1,5 @@
 class AddAuditsTable < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :audits, :force => true do |t|
       t.column :auditable_id, :integer
       t.column :auditable_type, :string
@@ -12,6 +12,7 @@ class AddAuditsTable < ActiveRecord::Migration
       t.column :comment, :string
       t.column :auditable_parent_id, :integer
       t.column :auditable_parent_type, :string
+      t.column :request_uuid, :string
       t.column :created_at, :datetime
     end
 
@@ -21,7 +22,7 @@ class AddAuditsTable < ActiveRecord::Migration
     add_index :audits, [:auditable_parent_id, :auditable_parent_type], :name => 'auditable_parent_index'
   end
 
-  def self.down
+  def down
     drop_table :audits
   end
 end

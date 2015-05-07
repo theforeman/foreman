@@ -1,5 +1,5 @@
 class CreateEnvironments < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :environments do |t|
       t.string :name, :null => false
       t.timestamps
@@ -10,7 +10,7 @@ class CreateEnvironments < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :environments
     drop_table :environments_puppetclasses
   end

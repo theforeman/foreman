@@ -3,7 +3,7 @@ class AddOwnerToHosts < ActiveRecord::Migration
   class User < ActiveRecord::Base; end
   class Host < ActiveRecord::Base; end
 
-  def self.up
+  def up
     add_column :hosts, :owner_id,   :integer
     add_column :hosts, :owner_type, :string
 
@@ -18,7 +18,7 @@ class AddOwnerToHosts < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     remove_column :hosts, :owner_type
     remove_column :hosts, :owner_id
   end

@@ -1,7 +1,7 @@
 # To suport "Edit my domain" and "edit my hostgroup" security access control we need
 # a mechanism to associate a user with some domains and hostgroups
 class AddUserDomainsAndHostgroups < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :user_domains, :id => false do |t|
       t.references :user
       t.references :domain
@@ -13,7 +13,7 @@ class AddUserDomainsAndHostgroups < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :user_domains
     drop_table :user_hostgroups
   end

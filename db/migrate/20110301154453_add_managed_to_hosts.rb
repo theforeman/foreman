@@ -1,5 +1,5 @@
 class AddManagedToHosts < ActiveRecord::Migration
-  def self.up
+  def up
     add_column :hosts, :managed, :boolean
 
     Host.reset_column_information
@@ -9,7 +9,7 @@ class AddManagedToHosts < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     remove_column :hosts, :managed
   end
 end

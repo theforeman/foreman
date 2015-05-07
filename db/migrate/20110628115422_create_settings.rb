@@ -1,5 +1,5 @@
 class CreateSettings < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :settings do |t|
       t.string :name
       t.text :value
@@ -12,7 +12,7 @@ class CreateSettings < ActiveRecord::Migration
     add_index :settings, :name, :unique => true
   end
 
-  def self.down
+  def down
     drop_table :settings
   end
 end

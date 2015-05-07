@@ -1,5 +1,5 @@
 class CreateNotices < ActiveRecord::Migration
-  def self.up
+  def up
     # These are notice messages
     create_table :notices do |t|
       t.string  :content, :null => false, :limit => 1024
@@ -14,7 +14,7 @@ class CreateNotices < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :user_notices
     drop_table :notices
   end

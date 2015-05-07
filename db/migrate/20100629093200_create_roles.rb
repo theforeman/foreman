@@ -1,5 +1,5 @@
 class CreateRoles  < ActiveRecord::Migration
-  def self.up
+  def up
     add_column :users, :role_id, :integer
     create_table "roles", :force => true do |t|
       t.string "name", :limit => 30
@@ -14,7 +14,7 @@ class CreateRoles  < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :user_roles
     drop_table :roles
     remove_column :users, :role_id

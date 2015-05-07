@@ -1,7 +1,7 @@
 class MigrateHypervisorsToComputeResources < ActiveRecord::Migration
   class Hypervisor < ActiveRecord::Base; end
 
-  def self.up
+  def up
     return unless Hypervisor.table_exists?
 
     Hypervisor.all.each do |hypervisor|
@@ -15,6 +15,6 @@ class MigrateHypervisorsToComputeResources < ActiveRecord::Migration
     drop_table :hypervisors
   end
 
-  def self.down
+  def down
   end
 end

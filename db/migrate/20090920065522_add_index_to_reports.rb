@@ -1,9 +1,9 @@
 class AddIndexToReports < ActiveRecord::Migration
-  def self.up
+  def up
     add_index :reports, [:reported_at, :host_id]
   end
 
-  def self.down
+  def down
     remove_index :reports, [:reported_at, :host_id]
   end
 end

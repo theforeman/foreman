@@ -1,5 +1,5 @@
 class CreateSubnets < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :subnets do |t|
       t.string   :number,     :limit => 15
       t.string   :mask,       :limit => 15
@@ -12,7 +12,7 @@ class CreateSubnets < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :subnets
   end
 end

@@ -1,5 +1,5 @@
 class CalcExistingReports < ActiveRecord::Migration
-  def self.up
+  def up
     if (rc = Report.count) > 0
       Report.reset_column_information
       say_with_time "updating Reports records - this may take a long time.. we have #{rc} reports to process hold on" do
@@ -14,6 +14,6 @@ class CalcExistingReports < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
   end
 end

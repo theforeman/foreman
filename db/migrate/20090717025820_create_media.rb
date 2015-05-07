@@ -1,5 +1,5 @@
 class CreateMedia < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :media do |t|
       t.string :name, :limit => 50, :default => "", :null => false
       t.string :path, :limit => 100, :default => "", :null => false
@@ -8,7 +8,7 @@ class CreateMedia < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :media
   end
 end

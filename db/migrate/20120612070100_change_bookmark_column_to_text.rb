@@ -1,9 +1,9 @@
 class ChangeBookmarkColumnToText < ActiveRecord::Migration
-  def self.up
+  def up
     change_column 'bookmarks', :query, :text
   end
 
-  def self.down
+  def down
     change_column 'bookmarks', :query, :string
   end
 end

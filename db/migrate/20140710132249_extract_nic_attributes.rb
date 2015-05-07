@@ -3,7 +3,6 @@ class FakeBMCNic < ActiveRecord::Base
   serialize :attrs, Hash
 
   ATTRIBUTES = [:username, :password, :provider]
-  attr_accessible :updated_at, *ATTRIBUTES
 
   PROVIDERS = %w(IPMI)
   validates :provider, :inclusion => {:in => PROVIDERS}
