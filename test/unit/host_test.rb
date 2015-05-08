@@ -2013,15 +2013,6 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
-  test 'unmanaged hosts name does not rely on primary interface' do
-    host = FactoryGirl.build(:host, :managed)
-    host.managed = false
-    host.interfaces = []
-    # A dummy primary interface is created here
-    host.update_attributes(:name => 'foounmanaged')
-    assert_equal 'foounmanaged', host.name
-  end
-
   test 'updating host domain should validate domain exists' do
     host = FactoryGirl.create(:host, :managed)
     last_domain_id = Domain.order(:id).last.id
