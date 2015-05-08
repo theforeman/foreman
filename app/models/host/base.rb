@@ -246,10 +246,6 @@ module Host
     end
 
     def primary_interface
-      # Build a dummy object if host is unmanaged and without interfaces.
-      # Unmanaged hosts still have the interface requirement due to delegations and certain validations.
-      # A refactoring that allows unmanaged hosts to exist without interfaces is sorely needed.
-      build_required_interfaces unless managed? || interfaces.detect(&:primary)
       get_interface_by_flag(:primary)
     end
 
@@ -327,8 +323,8 @@ module Host
     end
 
     def build_required_interfaces(attrs = {})
-      self.interfaces.build(attrs.merge(:primary => true, :type => 'Nic::Managed')) if get_interface_by_flag(:primary).nil?
-      get_interface_by_flag(:primary).provision = true if self.provision_interface.nil?
+      self.interfaces.build(attrs.merge(:primary => true, :type => 'Nic::Managed')) if self.primary_interface.nil?
+      self.primary_interface.provision = true if self.provision_interface.nil?
     end
 
     def set_interface(attributes, name, iface)
