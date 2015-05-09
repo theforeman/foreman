@@ -10,10 +10,8 @@ namespace :trends do
     # Note this can take a few minutes to run as the table is huge
 
     # Get a hash of all TrendCounter pairs and how many records of each pair
-    counts = TrendCounter.group([:trend_id, :created_at]).count
-
     # Keep only those pairs that have more than one record
-    dupes = counts.select{|attrs, count| count > 1}
+    dupes = TrendCounter.having('count(*) > 1').group([:trend_id, :created_at]).count
 
     # Map objects by the attributes
     object_groups = dupes.map do |attrs, count|
