@@ -11,7 +11,7 @@
       <th><%= sort :lastname, :as => s_("User|Lastname") %></th>
       <th><%= sort :mail, :as => s_("User|Mail") %></th>
       <th><%= sort :admin, :as => s_("User|Admin") %></th>
-      <th><%= sort :last_login_on, :as => s_("User|Last login on") %></th>
+      <th><%= sort :last_login_on, :as => s_("User|Last login on"), :default => 'DESC' %></th>
       <th><%= _("Authorized by") %></th>
       <th></th>
     </tr>
