@@ -23,7 +23,7 @@ class ApplicationMailer < ActionMailer::Base
         begin
           email.deliver
         rescue => e
-          Rails.logger.info("Unable to send mail notification: #{e}")
+          Rails.logger.info("Unable to send email notification: #{e}")
         end
       end
     end

@@ -5,7 +5,7 @@ module Api
 
       before_filter :find_resource, :only => %w{show}
 
-      api :GET, "/mail_notifications/", N_("List of mail notifications")
+      api :GET, "/mail_notifications/", N_("List of email notifications")
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
@@ -15,8 +15,8 @@ module Api
           search_for(*search_options).paginate(paginate_options)
       end
 
-      api :GET, "/mail_notifications/:id/", N_("Show a mail notification")
-      param :id, :identifier, :required => true, :desc => N_("Numerical ID or mail notification name")
+      api :GET, "/mail_notifications/:id/", N_("Show an email notification")
+      param :id, :identifier, :required => true, :desc => N_("Numerical ID or email notification name")
 
       def show
       end
