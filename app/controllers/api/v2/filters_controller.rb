@@ -21,7 +21,7 @@ module Api
       end
 
       def_param_group :filter do
-        param :filter, Hash, :required => true, :action_aware => true, :required => true do
+        param :filter, Hash, :action_aware => true, :required => true do
           param :role_id, String, :required => true
           param :search, String
           param :permission_ids, Array

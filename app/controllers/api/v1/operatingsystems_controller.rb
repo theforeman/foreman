@@ -9,7 +9,7 @@ module Api
 
       api :GET, "/operatingsystems/", "List all operating systems."
       param :search, String, :desc => "filter results", :required => false
-      param :order, String, :desc => "sort results", :required => false, :desc => "for example, name ASC, or name DESC"
+      param :order, String, :desc => "sort results", :required => false
       param :page, String, :desc => "paginate results"
       param :per_page, String, :desc => "number of entries per request"
 
