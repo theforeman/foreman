@@ -9,7 +9,7 @@
       <th class="hidden-xs"><%= sort :environment, :as => _('Environment') %></th>
       <th class="hidden-tablet hidden-xs"><%= sort :model, :as => _('Model') %></th>
       <th class="hidden-tablet hidden-xs"><%= sort :hostgroup, :as => _("Host group") %></th>
-      <th class="hidden-tablet hidden-xs"><%= sort :last_report, :as => _('Last report') %></th>
+      <th class="hidden-tablet hidden-xs"><%= sort :last_report, :as => _('Last report'), :default => 'DESC' %></th>
       <th></th>
     </tr>
   </thead>
