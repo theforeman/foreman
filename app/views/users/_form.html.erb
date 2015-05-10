@@ -5,7 +5,7 @@
 
   <ul class='nav nav-tabs' data-tabs='tabs'>
     <li class='active'><a href='#primary' data-toggle='tab'><%= _('User') %></a></li>
-    <li><a href='#mail_preferences' data-toggle='tab'><%= _('Mail Preferences') %></a></li>
+    <li><a href='#mail_preferences' data-toggle='tab'><%= _('Email Preferences') %></a></li>
     <% if show_location_tab? %>
       <li><a href='#locations' data-toggle='tab'><%= _('Locations') %></a></li>
     <% end %>
@@ -45,7 +45,7 @@
       <% end %>
       <% if @user.new_record? %>
         <div class="alert alert-block alert-warning">
-          <p><strong><%= _("Notice") %></strong> <%= _("Please save the user first before assigning mail notifications.") %></p>
+          <p><strong><%= _("Notice") %></strong> <%= _("Please save the user first before assigning email notifications.") %></p>
         </div>
       <% else %>
         <%= field_set_tag _("Notifications") do %>

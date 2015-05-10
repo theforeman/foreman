@@ -19,7 +19,7 @@ notifications = [
   },
 
   {:name              => :welcome,
-   :description       => N_('A mail a user receives upon account creation'),
+   :description       => N_('An email a user receives upon account creation'),
    :mailer            => 'UserMailer',
    :method            => 'welcome',
    :subscriptable     => false
