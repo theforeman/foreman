@@ -101,6 +101,51 @@ class ManagedTest < ActiveSupport::TestCase
     assert_equal '11:22:33:44:55:66', n.inheriting_mac
   end
 
+  context "there is a domain" do
+    setup do
+      @domain = FactoryGirl.create(:domain)
+    end
+
+    test "host is invalid if two interfaces has same DNS name and domain" do
+      h = FactoryGirl.build(:host, :managed)
+      i1 = h.interfaces.build(:name => 'test')
+      i2 = h.interfaces.build(:name => 'test')
+      i1.domain_id = @domain.id
+      i2.domain_id = @domain.id
+      refute h.valid?
+      assert h.interfaces.any? { |i| i.errors[:name].present? }
+    end
+
+    test "host is valid if two interfaces has different DNS name and same domain" do
+      h = FactoryGirl.build(:host, :managed)
+      i1 = h.interfaces.build(:name => 'test2')
+      i2 = h.interfaces.build(:name => 'test')
+      i1.domain_id = @domain.id
+      i2.domain_id = @domain.id
+      h.valid? # trigger validation
+      assert h.interfaces.all? { |i| i.errors[:name].blank? }
+    end
+
+    test "host is valid if interfaces have blank name" do
+      h = FactoryGirl.build(:host, :managed)
+      h.interfaces.build(:name => '')
+      h.interfaces.build(:name => '')
+      h.valid? # trigger validation
+      assert h.interfaces.all? { |i| i.errors[:name].blank? }
+    end
+
+    test "host is valid if two interfaces has same DNS name and different domain" do
+      h = FactoryGirl.build(:host, :managed)
+      domain2 = FactoryGirl.create(:domain)
+      i1 = h.interfaces.build(:name => 'test')
+      i2 = h.interfaces.build(:name => 'test')
+      i1.domain_id = @domain.id
+      i2.domain_id = domain2.id
+      h.valid? # trigger validation
+      assert h.interfaces.all? { |i| i.errors[:name].blank? }
+    end
+  end
+
   private
 
   def setup_primary_nic_with_name(name, opts = {})
