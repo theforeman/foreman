@@ -172,6 +172,7 @@ class Host::Managed < Host::Base
   after_validation :ensure_associations, :set_default_user
   before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
   after_validation :trigger_nic_orchestration, :if => Proc.new { |h| h.managed? && h.changed? }, :on => :update
+  before_validation :validate_dns_name_uniqueness
 
   def <=>(other)
     self.name <=> other.name
@@ -789,6 +790,18 @@ class Host::Managed < Host::Base
   end
 
   private
+
+  # validate uniqueness can't prevent saving two interfaces that has same DNS name
+  # because the validation happens before transaction is committed, so data are not in DB
+  # yet, this is the reason why we "reimplement" uniqueness validation
+  def validate_dns_name_uniqueness
+    dups = self.interfaces.group_by { |i| [ i.name, i.domain_id ] }.detect { |dns, nics| dns.first.present? && nics.count > 1 }
+    if dups.present?
+      dups.last.first.errors.add(:name, :taken)
+      self.errors.add :interfaces, _('Some interfaces are invalid')
+      return false
+    end
+  end
 
   def lookup_value_match
     "fqdn=#{fqdn}"
