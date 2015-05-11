@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include ApplicationShared
 
+  force_ssl :if => :require_ssl?
   ensure_security_headers
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
@@ -13,7 +14,7 @@ class ApplicationController < ActionController::Base
   helper 'layout'
   helper_method :authorizer
 
-  before_filter :require_ssl, :require_login
+  before_filter :require_login
   before_filter :set_gettext_locale_db, :set_gettext_locale
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| !SETTINGS[:login] || c.remote_user_provided? || c.api_request? }
   before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy
@@ -62,13 +63,8 @@ class ApplicationController < ActionController::Base
     (User.current.logged? || request.xhr?) ? render_403 : require_login
   end
 
-  def require_ssl
-    # if SSL is not configured, don't bother forcing it.
-    return true unless SETTINGS[:require_ssl]
-    # don't force SSL on localhost
-    return true if request.host=~/localhost|127.0.0.1/
-    # finally - redirect
-    redirect_to :protocol => 'https' and return if request.protocol != 'https://' and not request.ssl?
+  def require_ssl?
+    SETTINGS[:require_ssl]
   end
 
   # This filter is called before FastGettext set_gettext_locale and sets user-defined locale

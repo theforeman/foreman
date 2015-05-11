@@ -7,13 +7,21 @@ module Foreman::Controller::SmartProxyAuth
   module ClassMethods
     def add_smart_proxy_filters(actions, options = {})
       skip_before_filter :require_login, :only => actions
-      skip_before_filter :require_ssl, :only => actions
       skip_before_filter :authorize, :only => actions
       skip_before_filter :verify_authenticity_token, :only => actions
       skip_before_filter :set_taxonomy, :only => actions
       skip_before_filter :session_expiry, :update_activity_time, :only => actions
       before_filter(:only => actions) { require_smart_proxy_or_login(options[:features]) }
       attr_reader :detected_proxy
+
+      define_method(:require_ssl_with_smart_proxy_filters?) do
+        if [actions].flatten.map(&:to_s).include?(self.action_name)
+          false
+        else
+          require_ssl_without_smart_proxy_filters?
+        end
+      end
+      alias_method_chain :require_ssl?, :smart_proxy_filters
     end
   end
 
