@@ -14,7 +14,7 @@ class UnattendedController < ApplicationController
   FINISH_URLS = TemplateKind.where("name LIKE ?", "finish").map(&:name)
 
   # We dont require any of these methods for provisioning
-  FILTERS = [:require_ssl, :require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize]
+  FILTERS = [:require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize]
   FILTERS.each do |f|
     define_method("#{f}_with_unattended") do
       send("#{f}_without_unattended") if params.key?(:spoof) or params.key?(:hostname)
@@ -66,6 +66,13 @@ class UnattendedController < ApplicationController
   end
   # Using alias_method causes test failures as iPXE method is unknown in an empty DB
   def gPXE; iPXE; end
+
+  protected
+
+  def require_ssl?
+    return super if params.key?(:spoof) || params.key?(:hostname)
+    false
+  end
 
   private
 
@@ -249,8 +256,6 @@ class UnattendedController < ApplicationController
 
   def waik_attributes
   end
-
-  private
 
   # This method updates the IP held by Foreman from the incoming request.
   # Useful on unmanaged DHCP systems, with token-based installs where Foreman
