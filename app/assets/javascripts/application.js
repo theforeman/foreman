@@ -111,7 +111,7 @@ function onContentLoad(){
   password_caps_lock_hint();
 
   var tz = jstz.determine();
-  $.cookie('timezone', tz.name(), { path: '/' });
+  $.cookie('timezone', tz.name(), { path: '/', secure: location.protocol === 'https:' });
 }
 
 function preserve_selected_options(elem) {
