@@ -35,8 +35,8 @@ class ConfigTemplate < ActiveRecord::Base
   }
 
   scoped_search :on => :name,    :complete_value => true, :default_order => true
-  scoped_search :on => :locked,  :complete_value => true, :complete_value => {:true => true, :false => false}
-  scoped_search :on => :snippet, :complete_value => true, :complete_value => {:true => true, :false => false}
+  scoped_search :on => :locked,  :complete_value => {:true => true, :false => false}
+  scoped_search :on => :snippet, :complete_value => {:true => true, :false => false}
   scoped_search :on => :template
 
   scoped_search :in => :operatingsystems, :on => :name, :rename => :operatingsystem, :complete_value => true
