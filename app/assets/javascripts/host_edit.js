@@ -142,10 +142,12 @@ function animate_progress(){
   if (stop_pooling == true) return;
   setTimeout(function() {
     var url = $('#host_progress_report_id').data('url');
-    $.get(url, function (response){
-       update_progress(response);
-       animate_progress();
-    })
+    if (typeof url !== 'undefined') {
+      $.get(url, function (response) {
+        update_progress(response);
+        animate_progress();
+      })
+    }
   }, 1600);
 }
 
