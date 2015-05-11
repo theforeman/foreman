@@ -109,7 +109,7 @@ function onContentLoad(){
   });
 
   var tz = jstz.determine();
-  $.cookie('timezone', tz.name(), { path: '/' });
+  $.cookie('timezone', tz.name(), { path: '/', secure: location.protocol === 'https:' });
 }
 
 function preserve_selected_options(elem) {

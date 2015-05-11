@@ -9,7 +9,7 @@ function hostChecked(box) {
     addHostId(cid);
   else
     rmHostId(cid);
-  $.cookie($.cookieName, JSON.stringify($.foremanSelectedHosts));
+  $.cookie($.cookieName, JSON.stringify($.foremanSelectedHosts), { secure: location.protocol === 'https:' });
   toggle_actions();
   update_counter();
   return false;
