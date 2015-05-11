@@ -31,10 +31,10 @@ else
   end
 end
 
-SETTINGS[:libvirt]   = defined?(::Fog) && defined?(::Libvirt)
+SETTINGS[:libvirt]   = defined?(::Fog::Libvirt) && defined?(::Libvirt)
 SETTINGS[:ovirt]     = defined?(::Fog) && defined?(::OVIRT)
 SETTINGS[:vmware]    = defined?(::Fog) && defined?(::RbVmomi)
-SETTINGS[:gce]       = defined?(::Fog) && defined?(::Google::APIClient::VERSION)
+SETTINGS[:gce]       = defined?(::Fog::Google) && defined?(::Google::APIClient::VERSION)
 SETTINGS[:ec2]       = !!defined?(::Fog::AWS)
 SETTINGS[:openstack] = SETTINGS[:rackspace] = !!defined?(::Fog)
 
