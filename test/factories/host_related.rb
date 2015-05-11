@@ -32,7 +32,8 @@ FactoryGirl.define do
     type 'GroupParameter'
   end
 
-  factory :nic_base do
+  factory :nic_base, :class => Nic::Base do
+    type 'Nic::Base'
     sequence(:identifier) { |n| "eth#{n}" }
     sequence(:mac) { |n| "00:00:00:00:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
   end

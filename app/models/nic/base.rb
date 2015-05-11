@@ -22,7 +22,7 @@ module Nic
     validates :mac, :uniqueness => {:scope => :virtual},
               :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? }, :allow_blank => true
     validates :mac, :presence => true,
-              :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && SETTINGS[:unattended] }
+              :if => Proc.new { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true
 
     # TODO uniq on primary per host
@@ -32,9 +32,9 @@ module Nic
 
     validate :exclusive_primary_interface
     validate :exclusive_provision_interface
-    validates :domain, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.primary? && SETTINGS[:unattended] }
-    validate :valid_domain, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.primary? && SETTINGS[:unattended] }
-    validates :ip, :presence => true, :if => Proc.new { |nic| nic.host && nic.host.managed? && nic.require_ip_validation? && SETTINGS[:unattended] }
+    validates :domain, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.primary? }
+    validate :valid_domain, :if => Proc.new { |nic| nic.host_managed? && nic.primary? }
+    validates :ip, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.require_ip_validation? }
 
     validate :validate_host_taxonomy
 
@@ -136,6 +136,13 @@ module Nic
       else
         self.mac
       end
+    end
+
+    # we don't consider host as managed if we are in non-unattended mode
+    # in which case host managed? flag can be true but we should consider
+    # everything as unmanaged
+    def host_managed?
+      self.host && self.host.managed? && SETTINGS[:unattended]
     end
 
     protected
