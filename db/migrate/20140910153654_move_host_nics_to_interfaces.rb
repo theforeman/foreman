@@ -23,7 +23,6 @@ class MoveHostNicsToInterfaces < ActiveRecord::Migration
     say "Migrating Host interfaces to standalone Interfaces"
 
     Host::Managed.all.each do |host|
-      next unless host.managed?
       nic = FakeNic.new
       nic.host_id = host.id
       nic.name = host.name
@@ -33,7 +32,7 @@ class MoveHostNicsToInterfaces < ActiveRecord::Migration
       nic.domain_id = host.attributes.with_indifferent_access[:domain_id]
       nic.virtual = false
       nic.identifier = host.primary_interface || "eth0"
-      nic.managed = true
+      nic.managed = host.attributes.with_indifferent_access[:managed]
       nic.primary = true
       nic.provision = true
       nic.type = 'Nic::Managed'
@@ -63,7 +62,6 @@ class MoveHostNicsToInterfaces < ActiveRecord::Migration
     say "Migrating Interfaces to Host interfaces"
     FakeHost.reset_column_information
     FakeHost.all.each do |host|
-      next unless host.managed?
       host = host.becomes(FakeHost)
       raise ActiveRecord::IrreversibleMigration if FakeNic.where(:primary => true, :provision => false).any?
       raise ActiveRecord::IrreversibleMigration if FakeNic.where(:primary => false, :provision => true).any?
