@@ -93,19 +93,19 @@ module Nic
       return if name.empty?
       if domain.nil? && name.include?('.') && !changed_attributes['domain_id'].present?
         # try to assign the domain automatically based on our existing domains from the host FQDN
-        self.domain = Domain.find_by(:name => name.partition('.')[2])
+        self.domain = Domain.where('LOWER(name) = ?', name.partition('.')[2].downcase).first
       elsif persisted? && changed_attributes['domain_id'].present?
         # if we've just updated the domain name, strip off the old one
-        old_domain = Domain.find(changed_attributes["domain_id"])
+        old_domain = Domain.where(:id => changed_attributes["domain_id"]).pluck(:name).first
         # Remove the old domain, until fqdn will be set as the full name
-        self.name.chomp!("." + old_domain.to_s)
+        self.name.sub!(/\.#{Regexp.escape old_domain}/i, '')
       end
       # name should be fqdn
       self.name = fqdn
       # A managed host we should know the domain for; and the shortname shouldn't include a period
       # This only applies for unattended=true, as otherwise the name field includes the domain
       errors.add(:name, _("must not include periods")) if ( host && host.managed? && managed? && shortname.include?(".") && SETTINGS[:unattended] )
-      self.name = Net::Validations.normalize_hostname(name) if self.name.present?
+      self.name = Net::Validations.normalize_hostname(name)
     end
   end
 end
