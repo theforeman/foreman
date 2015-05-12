@@ -13,9 +13,11 @@
   </td>
   <td>
     <% unless fact.compose %>
-        <%= link_to trunc_with_tooltip(fact.value, 40),
-                    fact_values_path("search" => "facts.#{fact.name} = \"#{fact.value}\""),
-                    :title => _("Show all %{name} facts where they are equal to %{value}") % { :name => fact.name, :value => fact.value } %>
+      <%= link_to trunc_with_tooltip(fact.value, 40),
+                  fact_values_path("search" => "facts.#{fact.name} = \"#{fact.value}\""),
+                  :title => _("Show all %{name} facts where they are equal to %{value}") % { :name => fact.name, :value => fact.value },
+                  :class => 'pull-left' %>
+      <%= show_full_fact_value(fact.value) if fact.value.length > 40 %>
     <% end %>
   </td>
   <td><%= fact_from fact %></td>
