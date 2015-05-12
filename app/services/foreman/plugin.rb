@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require_relative 'plugin/logging'
+
 module Foreman #:nodoc:
   class PluginNotFound < Foreman::Exception; end
   class PluginRequirementError < Foreman::Exception; end
@@ -60,6 +62,7 @@ module Foreman #:nodoc:
         end
 
         plugin.instance_eval(&block)
+        plugin.after_initialize
 
         registered_plugins[id] = plugin
       end
@@ -89,10 +92,23 @@ module Foreman #:nodoc:
     end
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
-    attr_reader :id
+    attr_reader :id, :logging
 
     def initialize(id)
       @id = id.to_sym
+      @logging = Plugin::Logging.new(@id)
+    end
+
+    def after_initialize
+      configure_logging
+    end
+
+    def configure_logging
+      @logging.configure(SETTINGS[@id])
+    end
+
+    def logger(name, configuration = {})
+      @logging.add_logger(name, configuration)
     end
 
     def <=>(plugin)

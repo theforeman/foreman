@@ -23,7 +23,7 @@ Foreman::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   # Should ANSI color codes be used when logging information
-  config.colorize_logging = true
+  config.colorize_logging = Foreman::Logging.config[:colorize]
 
   # Do not compress assets
   config.assets.compress = false

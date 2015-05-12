@@ -33,7 +33,7 @@ Foreman::Application.configure do
   # config.active_record.schema_format = :sql
 
   # Should ANSI color codes be used when logging information
-  config.colorize_logging = false
+  config.colorize_logging = Foreman::Logging.config[:colorize]
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr

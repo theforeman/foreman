@@ -99,7 +99,11 @@ class ReportImporter
     if report.error?
       # found a report with errors
       # notify via email IF enabled is set to true
-      logger.warn "#{name} is disabled - skipping alert" and return if host.disabled?
+
+      if host.disabled?
+        logger.warn "#{name} is disabled - skipping alert"
+        return
+      end
 
       owners = host.owner.present? ? host.owner.recipients_for(:puppet_error_state) : []
       if owners.present?

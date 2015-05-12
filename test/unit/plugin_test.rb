@@ -235,4 +235,20 @@ class PluginTest < ActiveSupport::TestCase
     end
     assert_equal [ "test1", "test2", "test3", "test4" ], @klass.tests_to_skip["FooTest"]
   end
+
+  def test_configure_logging
+    Foreman::Plugin::Logging.any_instance.expects(:configure).with(nil)
+    @klass.register(:foo) {}
+
+    assert Foreman::Plugin.find(:foo).logging
+  end
+
+  def test_logger
+    Foreman::Plugin::Logging.any_instance.expects(:configure).with(nil)
+    @klass.register(:foo) {}
+    plugin = Foreman::Plugin.find(:foo)
+
+    plugin.logging.expects(:add_logger).with(:test_logger, {:enabled => true})
+    plugin.logger(:test_logger, {:enabled => true})
+  end
 end

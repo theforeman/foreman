@@ -42,6 +42,7 @@ require File.expand_path('../../lib/foreman.rb', __FILE__)
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
 require File.expand_path('../../lib/foreman/exception', __FILE__)
 require File.expand_path('../../lib/core_extensions', __FILE__)
+require File.expand_path('../../lib/foreman/logging', __FILE__)
 
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
@@ -135,6 +136,18 @@ module Foreman
 
     # Add apidoc hash in headers for smarter caching
     config.middleware.use "Apipie::Middleware::ChecksumInHeaders"
+
+    Foreman::Logging.configure(
+      :log_directory => "#{Rails.root}/log",
+      :environment => Rails.env,
+      :config_overrides => SETTINGS[:logging]
+    )
+
+    # Check that the loggers setting exist to configure the app and sql loggers
+    Foreman::Logging.add_loggers(SETTINGS[:loggers] || {:app => {:enabled => true}, :sql => {:enabled => true}})
+
+    config.logger = Foreman::Logging.logger('app')
+    config.active_record.logger = Foreman::Logging.logger('sql')
 
     config.to_prepare do
       ApplicationController.descendants.each do |child|
