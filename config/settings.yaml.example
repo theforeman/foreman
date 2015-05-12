@@ -23,5 +23,13 @@
 :domain: 'localdomain.net'
 :fqdn: 'localhost.localdomain.net'
 
-# Should ANSI color codes be used in logs
-:colorize_logging: false
+# Log settings for the current environment can be adjusted by adding them
+# here. For example, if you want to increase the log level.
+#:logging:
+#  :level: debug
+
+:loggers:
+  :app:
+    :enabled: true
+  :sql:
+    :enabled: true

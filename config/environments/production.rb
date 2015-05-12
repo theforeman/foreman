@@ -64,7 +64,7 @@ Foreman::Application.configure do |app|
   # config.assets.manifest = YOUR_PATH
 
   # Should ANSI color codes be used when logging information
-  config.colorize_logging = SETTINGS[:colorize_logging]
+  config.colorize_logging = Foreman::Logging.config[:colorize]
 
   # Add the fonts path
   config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
