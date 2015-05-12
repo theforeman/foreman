@@ -129,8 +129,13 @@ module HostCommon
       else
         is_actually_encrypted = unencrypted_pass.starts_with?("$")
       end
-      self.root_pass = !!(is_actually_encrypted) ? unencrypted_pass :
-          (operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash))
+
+      if is_actually_encrypted
+        self.root_pass = unencrypted_pass
+      else
+        self.root_pass = operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash)
+      end
+
       self.grub_pass = !!(is_actually_encrypted) ? unencrypted_pass : PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
     end
   end

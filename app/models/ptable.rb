@@ -4,8 +4,7 @@
 # modified version of one of these in textual form
 class Ptable < Template
   include Authorizable
-  extend FriendlyId
-  friendly_id :name
+
   include Parameterizable::ByIdName
   include ValidateOsFamily
 
@@ -15,7 +14,7 @@ class Ptable < Template
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts
   has_many :hostgroups
-  has_and_belongs_to_many :operatingsystems
+  has_and_belongs_to_many :operatingsystems, :join_table => :operatingsystems_ptables, :association_foreign_key => :operatingsystem_id, :foreign_key => :ptable_id
   validates :layout, :presence => true
   validates :name, :uniqueness => true
   validate_inclusion_in_families :os_family
@@ -30,9 +29,6 @@ class Ptable < Template
 
   scoped_search :on => :template, :complete_value => false, :rename => 'layout'
   scoped_search :on => :os_family, :rename => 'family', :complete_value => :true
-
-  attr_accessible :layout, :os_family, :operatingsystem_ids, :operatingsystem_names,
-                  :hostgroup_ids, :hostgroup_names, :host_ids, :host_names
 
   alias_attribute :layout, :template
 
@@ -51,7 +47,7 @@ class Ptable < Template
   end
 
   def self.template_includes
-    super + [:operatingsystems]
+    super #+ [:operatingsystems]
   end
 
   def preview_host_collection

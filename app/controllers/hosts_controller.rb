@@ -38,7 +38,7 @@ class HostsController < ApplicationController
     end
     respond_to do |format|
       format.html do
-        @hosts = search.includes(included_associations).paginate(:page => params[:page])
+        @hosts = search.includes(included_associations).references(included_associations).paginate(:page => params[:page])
         # SQL optimizations queries
         @last_reports = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
         # rendering index page for non index page requests (out of sync hosts etc)

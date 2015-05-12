@@ -1,6 +1,6 @@
 <%= include_javascript %>
-<% url = @template.persisted? ? public_send("#{@type_name_singular}_path", @template) : public_send("#{@type_name_singular}_path", @resource_class.new) %>
-<%= form_for @template, :url => url, :html => { :multipart => true, :onsubmit => 'submit_code();' } do |f| %>
+<%# url = @template.persisted? ? public_send("#{@type_name_singular}_path", @template) : public_send("#{@type_name_singular}_path", @resource_class.new) %>
+<%= form_for @template, :html => { :multipart => true, :onsubmit => 'submit_code();' } do |f| %>
   <%= base_errors_for @template %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Template") %></a></li>

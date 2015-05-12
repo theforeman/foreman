@@ -24,7 +24,9 @@ module Foreman
       :compute_profile_attributes,
       :compute_resource_attributes,
       :config_group_attributes,
+      :template_attributes,
       :config_template_attributes,
+      :provisioning_template_attributes,
       :template_combination_attributes,
       :template_combinations_attributes,
       :parameter_attributes, ## serves all smart params
@@ -77,6 +79,7 @@ module Foreman
         :user_ids => [],
         :smart_proxy_ids => [],
         :config_template_ids => [],
+        :provisioning_template_ids => [],
         :compute_resource_ids => [],
         :location_ids => []
       }
@@ -96,7 +99,7 @@ module Foreman
     @@operatingsystem_attributes = [
       :name, :major, :minor, :description, :family,
       :release_name, :password_hash, {:architectures => [], :architecture_ids => [], :architecture_names => [],
-      :ptable_ids => [], :medium_ids => []}
+      :ptable_ids => [], :medium_ids => [], :os_default_templates_attributes => @@os_default_templates_attributes}
     ]
 
     @@os_parameters_attributes = [
@@ -104,7 +107,7 @@ module Foreman
     ]
 
     @@os_default_templates_attributes = @@os_default_template_attributes = [
-      :config_template_id, :template_kind_id, :id
+      :provisioning_template_id, :template_kind_id, :id
     ]
     @@smart_proxy_attributes = [
       :name, :url, *@@location_organization_attributes
@@ -171,9 +174,12 @@ module Foreman
       :name, {:puppetclass_ids => []}
     ]
 
-    @@config_template_attributes = [
+    @@config_template_attributes = @@template_attributes = @@provisioning_template_attributes = [
       :name, :template, :audit_comment, :snippet, :template_kind_id, {:operatingsystem_ids => []}
     ]
+
+    @@provisioning_template_attributes += [:template_kind, :template_kind_id, :template_combinations_attributes,
+                  :operatingsystems, :operatingsystem_ids, :vendor]
 
     @@template_combinations_attributes = @@template_combination_attributes = [
       :hostgroup_id, :environment_id, :_destroy, :id
@@ -248,7 +254,7 @@ module Foreman
     ]
 
     @@ptable_attributes = [
-      :name, :layout, :os_family
+      :name, :layout, :os_family, :audit_comment, :template
     ]
 
     @@override_value_attributes = [

@@ -40,7 +40,7 @@ class TemplatesController < ApplicationController
   end
 
   def create
-    @template = resource_class.new(params[type_name_singular])
+    @template = resource_class.new(foreman_params)
     if @template.save
       process_success :object => @template
     else
@@ -53,7 +53,7 @@ class TemplatesController < ApplicationController
   end
 
   def update
-    if @template.update_attributes(params[type_name_singular])
+    if @template.update_attributes(foreman_params)
       process_success :object => @template
     else
       load_history

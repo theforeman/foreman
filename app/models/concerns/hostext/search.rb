@@ -142,16 +142,16 @@ module Hostext
         key_name = key.sub(/^.*\./,'')
         condition = sanitize_sql_for_conditions(["name = ? and value #{operator} ?", key_name, value_to_sql(operator, value)])
         opts = {:conditions => condition, :order => :priority}
-        p = Parameter.where(opts).all
-        return {:conditions => '1 = 0'} if p.blank?
+        parameters = Parameter.where(opts[:conditions]).order(opts[:order]).all
+        return {:conditions => '1 = 0'} if parameters.blank?
 
-        max = p.first.priority
+        max = parameters.first.priority
         condition = sanitize_sql_for_conditions(["name = ? and NOT(value #{operator} ?) and priority > ?",key_name,value_to_sql(operator, value), max])
         negate_opts = {:conditions => condition, :order => :priority}
-        n = Parameter.where(negate_opts).all
+        negatives = Parameter.where(negate_opts[:conditions]).order(negate_opts[:order]).all
 
-        conditions = param_conditions(p)
-        negate = param_conditions(n)
+        conditions = param_conditions(parameters)
+        negate = param_conditions(negatives)
 
         conditions += " AND " unless conditions.blank? || negate.blank?
         conditions += " NOT(#{negate})" unless negate.blank?
@@ -180,9 +180,9 @@ module Hostext
 
       private
 
-      def param_conditions(p)
+      def param_conditions(parameters)
         conditions = []
-        p.each do |param|
+        parameters.each do |param|
           case param.class.to_s
             when 'CommonParameter'
               # ignore

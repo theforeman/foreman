@@ -45,8 +45,8 @@ class UnattendedController < ApplicationController
   def template
     return head(:not_found) unless (params.has_key?("id") and params.has_key?(:hostgroup))
 
-    template = ProvisioningTemplate.find(params['id'])
-    @host = Hostgroup.find(params['hostgroup'])
+    template = ProvisioningTemplate.find(params['id']) || ProvisioningTemplate.where(:name => params[:id]).first
+    @host = Hostgroup.find(params['hostgroup']) || Hostgroup.where(:name => params[:hostgroup]).first
 
     return head(:not_found) unless template and @host
 

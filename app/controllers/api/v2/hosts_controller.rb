@@ -88,9 +88,6 @@ module Api
         process_response @host.save
       rescue InterfaceTypeMapper::UnknownTypeExeption => e
         render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.to_s }
-      rescue => e
-        #pp e.backtrace
-        raise
       end
 
       api :PUT, "/hosts/:id/", N_("Update a host")

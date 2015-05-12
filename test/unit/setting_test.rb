@@ -251,7 +251,7 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "foreman_url cannot be blank" do
-    setting = Setting.find_or_create_by_name(:name => "foreman_url", :default => "http://foo.com")
+    setting = Setting.find_or_create_by(:name => "foreman_url", :default => "http://foo.com")
     setting.value = ""
     assert !setting.save
     assert_equal "must be a valid URI", setting.errors[:value].first

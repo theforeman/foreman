@@ -211,7 +211,7 @@ class UnattendedControllerTest < ActionController::TestCase
 
   test "template with hostgroup should be identified as hostgroup provisioning" do
     ProvisioningTemplate.any_instance.stubs(:template).returns("type:<%= @provisioning_type %>")
-    hostgroups(:common).update_attribute :ptable_id, FactoryGirl.create(:ptable).id
+    hostgroups(:common).update_attribute(:ptable_id, FactoryGirl.create(:ptable).id)
     get :template, {:id => "MyString2", :hostgroup => "Common"}
     assert_response :success
     assert_match(%r{type:hostgroup}, @response.body)
@@ -226,7 +226,7 @@ class UnattendedControllerTest < ActionController::TestCase
 
   test "template with hostgroup should be rendered even if both have periods in their names" do
     templates(:mystring).update_attributes(:name => 'My.String')
-    hostgroups(:common).update_attributes(:name => 'Com.mon')
+    hostgroups(:common).update_attributes(:name => 'Com.mon', :ptable => @rh_host.ptable)
     assert_routing '/unattended/template/My.String/Com.mon', {:controller => 'unattended', :action => 'template', :id => "My.String", :hostgroup => "Com.mon"}
     get :template, {:id => templates(:mystring2).to_param, :hostgroup => hostgroups(:common).to_param}
     assert_response :success

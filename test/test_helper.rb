@@ -73,7 +73,6 @@ Spork.prefork do
   end
 
   class ActiveSupport::TestCase
-
     before do
       User.current = nil
     end

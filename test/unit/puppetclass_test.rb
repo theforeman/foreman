@@ -26,7 +26,7 @@ class PuppetclassTest < ActiveSupport::TestCase
   end
 
   test "looking for a nonexistent host returns no puppetclasses" do
-    assert_equal [], Puppetclass.search_for("host = imaginaryhost.nodomain.what")
+    assert_equal [], Puppetclass.reorder(nil).search_for("host = imaginaryhost.nodomain.what")
   end
 
   test "user with create external_variables permission can create smart variable for puppetclass" do

@@ -50,7 +50,7 @@ module Api
       param_group :provisioning_template, :as => :create
 
       def create
-        @provisioning_template = ProvisioningTemplate.new(params[:provisioning_template])
+        @provisioning_template = ProvisioningTemplate.new(foreman_params)
         process_response @provisioning_template.save
       end
 
@@ -59,7 +59,7 @@ module Api
       param_group :provisioning_template
 
       def update
-        process_response @provisioning_template.update_attributes(params[:provisioning_template])
+        process_response @provisioning_template.update_attributes(foreman_params)
       end
 
       api :GET, "/provisioning_templates/revision"
@@ -97,7 +97,7 @@ module Api
       def clone
         @provisioning_template = @provisioning_template.clone
         load_vars_from_template
-        @provisioning_template.name = params[:provisioning_template][:name]
+        @provisioning_template.name = foreman_params[:name]
         process_response @provisioning_template.save
       end
 
@@ -112,7 +112,7 @@ module Api
       end
 
       def process_operatingsystems
-        return unless (template_params = params[:provisioning_template]) && (operatingsystems = template_params.delete(:operatingsystems))
+        return unless (template_params = foreman_params) && (operatingsystems = template_params.delete(:operatingsystems))
         template_params[:operatingsystem_ids] = operatingsystems.map { |os| os[:id] }
       end
 
