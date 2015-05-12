@@ -211,31 +211,31 @@ class UsergroupTest < ActiveSupport::TestCase
     end
 
     test "delete user if not in LDAP directory" do
-      LdapFluff.any_instance.stubs(:valid_group?).at_least_once.with('aname').returns(false)
+      LdapFluff.any_instance.stubs(:valid_group?).with('aname').returns(false)
       @usergroup.users << users(:one)
       @usergroup.save
 
-      AuthSourceLdap.any_instance.expects(:users_in_group).at_least_once.with('aname').returns([])
+      AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').returns([])
       @usergroup.external_usergroups.select { |eu| eu.name == 'aname'}.first.refresh
 
       refute_includes @usergroup.users, users(:one)
     end
 
     test "add user if in LDAP directory" do
-      LdapFluff.any_instance.stubs(:valid_group?).at_least_once.with('aname').returns(true)
+      LdapFluff.any_instance.stubs(:valid_group?).with('aname').returns(true)
       @usergroup.save
 
-      AuthSourceLdap.any_instance.expects(:users_in_group).at_least_once.with('aname').returns([users(:one).login])
+      AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').returns([users(:one).login])
       @usergroup.external_usergroups.select { |eu| eu.name == 'aname'}.first.refresh
       assert_includes @usergroup.users, users(:one)
     end
 
     test "keep user if in LDAP directory" do
-      LdapFluff.any_instance.stubs(:valid_group?).at_least_once.with('aname').returns(true)
+      LdapFluff.any_instance.stubs(:valid_group?).with('aname').returns(true)
       @usergroup.users << users(:one)
       @usergroup.save
 
-      AuthSourceLdap.any_instance.expects(:users_in_group).at_least_once.with('aname').returns([users(:one).login])
+      AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').returns([users(:one).login])
       @usergroup.external_usergroups.select { |eu| eu.name == 'aname'}.first.refresh
       assert_includes @usergroup.users, users(:one)
     end
