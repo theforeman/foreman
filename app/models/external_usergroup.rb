@@ -14,14 +14,16 @@ class ExternalUsergroup < ActiveRecord::Base
   def refresh
     return false unless auth_source.respond_to?(:users_in_group)
 
-    current_users  = usergroup.users.map(&:login)
-    all_users      = usergroup.external_usergroups.map(&:users).flatten.uniq
+    current_users = usergroup.users.map(&:login)
+    my_users = users
+    all_other_users = (usergroup.external_usergroups - [self]).map(&:users)
+    all_users = (all_other_users + my_users).flatten.uniq
 
     # We need to make sure when we refresh a external_usergroup
     # other external_usergroup users remain in. Otherwise refreshing
     # a external user group with no users in will empty the user group.
     old_users = current_users - all_users
-    new_users = users - current_users
+    new_users = my_users - current_users
 
     usergroup.remove_users(old_users)
     usergroup.add_users(new_users)
