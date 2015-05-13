@@ -163,4 +163,13 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc,     :set_dhcp ] }.size
     assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc.old, :del_dhcp ] }.size
   end
+
+  test "new host with dhcp and no operating system should show correct validation on save" do
+    h = FactoryGirl.build(:host, :with_dhcp_orchestration, :operatingsystem => nil)
+
+    # If there was an exception due to accessing operating_system.boot_filename when operating_system is nil
+    # this line would cause an error in the test
+    refute h.valid?
+    assert_equal h.errors[:operatingsystem_id].first, "can't be blank"
+  end
 end
