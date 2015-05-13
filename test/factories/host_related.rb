@@ -163,9 +163,9 @@ FactoryGirl.define do
 
     trait :managed do
       managed true
-      architecture { operatingsystem.architectures.first }
-      medium { operatingsystem.media.first }
-      ptable { operatingsystem.ptables.first }
+      architecture { operatingsystem.try(:architectures).try(:first) }
+      medium { operatingsystem.try(:media).try(:first) }
+      ptable { operatingsystem.try(:ptables).try(:first) }
       location
       organization
       domain
