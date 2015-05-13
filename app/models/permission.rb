@@ -2,7 +2,7 @@ class Permission < ActiveRecord::Base
   attr_accessible :name, :resource_type
 
   validates_lengths_from_database
-  validates :name, :presence => true, :uniqueness => { :scope => :resource_type }
+  validates :name, :presence => true, :uniqueness => true
 
   has_many :filterings, :dependent => :destroy
   has_many :filters, :through => :filterings
