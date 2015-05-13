@@ -6,6 +6,7 @@ class TrendsTest < ActiveSupport::TestCase
     Rake.application.rake_require 'tasks/trends'
     Rake::Task.define_task(:environment)
     Rake::Task['trends:reduce'].reenable
+    Rake::Task['trends:clean'].reenable
 
     TrendCounter.unscoped.delete_all
     Trend.unscoped.delete_all
@@ -102,6 +103,78 @@ class TrendsTest < ActiveSupport::TestCase
       assert_equal 4, old_os_intervals[idx].count + new_os_intervals[idx].count
       assert_equal new_os_counts[idx], new_os_intervals[idx].count
     end
+  end
+
+  test 'trends:reduce can rerun with additional datapoint with the same value' do
+    os_trend = FactoryGirl.create(:foreman_trends, :operating_system)
+    os_point_dates = create_trend_line(os_trend, [1,1,1,1,1,1])
+    Rake.application.invoke_task 'trends:reduce'
+
+    interval = TrendCounter.where(trend_id: os_trend.id).order(:interval_start).to_a
+    assert_equal 1, interval.length
+    interval = interval.first
+
+    FactoryGirl.create(:trend_counter, :trend => os_trend, :created_at => os_point_dates[3], :updated_at => os_point_dates[3], :count => 1)
+
+    Rake::Task['trends:reduce'].reenable
+    Rake.application.invoke_task 'trends:reduce'
+
+    new_interval = TrendCounter.where(trend_id: os_trend.id).order(:interval_start).to_a
+    assert_equal 1, new_interval.length
+    new_interval = new_interval.first
+
+    assert_equal new_interval, interval
+  end
+
+  test 'trends:reduce can rerun with additional datapoint with different value in open interval' do
+    os_trend = FactoryGirl.create(:foreman_trends, :operating_system)
+    os_point_dates = create_trend_line(os_trend, [1,1,1,1,1,1])
+    Rake.application.invoke_task 'trends:reduce'
+
+    interval = TrendCounter.where(trend_id: os_trend.id).order(:interval_start).to_a
+    assert_equal 1, interval.length
+
+    FactoryGirl.create(:trend_counter, :trend => os_trend, :created_at => os_point_dates[3], :updated_at => os_point_dates[3], :count => 2)
+
+    Rake::Task['trends:reduce'].reenable
+    Rake.application.invoke_task 'trends:reduce'
+
+    new_intervals = TrendCounter.where(trend_id: os_trend.id).order(:interval_start).to_a
+    assert_equal 2, new_intervals.length
+
+    assert_equal 1, new_intervals[0].count
+    assert_equal 2, new_intervals[1].count
+
+    assert_equal os_point_dates[0], new_intervals[0].interval_start
+    assert_equal os_point_dates[3], new_intervals[0].interval_end
+    assert_equal os_point_dates[3], new_intervals[1].interval_start
+  end
+
+  test 'trends:reduce can rerun with additional datapoint with different value in closed interval' do
+    os_trend = FactoryGirl.create(:foreman_trends, :operating_system)
+    os_point_dates = create_trend_line(os_trend, [1,1,1,1,1,2])
+    Rake.application.invoke_task 'trends:reduce'
+
+    interval = TrendCounter.where(trend_id: os_trend.id).order(:interval_start).to_a
+    assert_equal 2, interval.length
+
+    FactoryGirl.create(:trend_counter, :trend => os_trend, :created_at => os_point_dates[3], :updated_at => os_point_dates[3], :count => 3)
+
+    Rake::Task['trends:reduce'].reenable
+    Rake.application.invoke_task 'trends:reduce'
+
+    new_intervals = TrendCounter.where(trend_id: os_trend.id).order(:interval_start).to_a
+    assert_equal 3, new_intervals.length
+
+    assert_equal 1, new_intervals[0].count
+    assert_equal 3, new_intervals[1].count
+    assert_equal 2, new_intervals[2].count
+
+    assert_equal os_point_dates[0], new_intervals[0].interval_start
+    assert_equal os_point_dates[3], new_intervals[0].interval_end
+    assert_equal os_point_dates[3], new_intervals[1].interval_start
+    assert_equal os_point_dates[5], new_intervals[1].interval_end
+    assert_equal os_point_dates[5], new_intervals[2].interval_start
   end
 
   test 'trends:clean' do
