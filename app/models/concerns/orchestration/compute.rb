@@ -73,9 +73,13 @@ module Orchestration::Compute
   def setCompute
     logger.info "Adding Compute instance for #{name}"
     add_interfaces_to_compute_attrs
-    self.vm = compute_resource.create_vm compute_attributes.merge(:name => Setting[:use_shortname_for_vms] ? shortname : name)
+    self.vm = compute_resource.create_vm compute_attributes.merge(:name => vm_name)
   rescue => e
     failure _("Failed to create a compute %{compute_resource} instance %{name}: %{message}\n ") % { :compute_resource => compute_resource, :name => name, :message => e.message }, e.backtrace
+  end
+
+  def vm_name
+    Setting[:use_shortname_for_vms] ? shortname : name
   end
 
   def setUserData
@@ -95,6 +99,7 @@ module Orchestration::Compute
 
     self.compute_attributes[:user_data] = unattended_render(template.template)
     self.handle_ca
+
     return false if errors.any?
     logger.info "Revoked old certificates and enabled autosign for UserData"
   end
