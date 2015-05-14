@@ -1,3 +1,5 @@
+<%= include_javascript %>
+
 <% title _("Partition Tables") %>
 <% title_actions display_link_if_authorized(_("New Partition Table"), hash_for_new_ptable_path),
                  documentation_button('4.4.4PartitionTables'),
@@ -9,20 +11,26 @@
       <th><%= sort :name, :as => s_("Ptable|Name") %></th>
       <th><%= sort :family, :as => s_("Ptable|Os family") %></th>
       <th><%= _("Operating systems") %></th>
+      <th><%= sort :snippet, :as => s_("Ptable|Snippet") %></th>
+      <th><%= sort :locked, :as => s_("Ptable|Locked"), :default => "DESC" %></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    <% for ptable in @ptables %>
+    <% for ptable in @templates %>
       <tr>
         <td class="display-two-pane"><%= link_to_if_authorized trunc_with_tooltip(ptable), hash_for_edit_ptable_path(:id => ptable).merge(:auth_object => ptable, :authorizer => authorizer) %></td>
         <td><%= lookup_family(ptable.os_family) %></td>
         <td><%= ptable.operatingsystems.map(&:to_label).to_sentence %></td>
+        <td align='center'><%= checked_icon ptable.snippet %></td>
+        <td align='center'>
+          <%= locked_icon ptable.locked?, _("This template is locked for editing.") %>
+        </td>
         <td>
-          <%= display_delete_if_authorized hash_for_ptable_path(:id => ptable).merge(:auth_object => ptable, :authorizer => authorizer), :confirm => _("Delete %s?") % ptable.name%>
+          <%= action_buttons(*permitted_actions(ptable)) %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<%= will_paginate_with_info @ptables %>
+<%= will_paginate_with_info @templates %>

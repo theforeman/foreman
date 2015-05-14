@@ -13,10 +13,10 @@ child :ptables do
   attributes :id, :name
 end
 
-child :config_templates do
+child :provisioning_templates do
   attributes :name, :id
 end
 
 child :os_default_templates do
-  attributes :id, :config_template_id, :template_kind_id
+  attributes :id => :id, :provisioning_template_id => :config_template_id, :template_kind_id => :template_kind_id
 end

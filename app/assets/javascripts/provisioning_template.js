@@ -2,7 +2,7 @@ var Editor;
 
 $(document).on('ContentLoad', function(){onEditorLoad()});
 
-$(document).on('click','#config_template_submit', function(){
+$(document).on('click','#provisioning_template_submit', function(){
   if($('.diffMode').exists()){
     set_edit_mode( $(".template_text"));
   }
@@ -166,7 +166,7 @@ function revert_template(item){
         set_edit_mode($('.template_text'));
       }
       var time = $(item).closest('div.row').find('h6 span').attr('data-original-title');
-      $('#config_template_audit_comment').text(Jed.sprintf(__("Revert to revision from: %s"), time))
+      $('#provisioning_template_audit_comment').text(Jed.sprintf(__("Revert to revision from: %s"), time))
     }
   })
 }

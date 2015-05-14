@@ -165,7 +165,7 @@ class LocationsControllerTest < ActionController::TestCase
                                  :medium_ids => location_dup.medium_ids,
                                  :user_ids => location_dup.user_ids,
                                  :smart_proxy_ids => location_dup.smart_proxy_ids,
-                                 :config_template_ids => location_dup.config_template_ids,
+                                 :provisioning_template_ids => location_dup.provisioning_template_ids,
                                  :compute_resource_ids => location_dup.compute_resource_ids,
                                  :organization_ids => location_dup.organization_ids
                                }
@@ -182,7 +182,7 @@ class LocationsControllerTest < ActionController::TestCase
     assert_equal new_location.medium_ids.sort, location.medium_ids.sort
     assert_equal new_location.user_ids.sort, location.user_ids.sort
     assert_equal new_location.smart_proxy_ids.sort, location.smart_proxy_ids.sort
-    assert_equal new_location.config_template_ids.sort, location.config_template_ids.sort
+    assert_equal new_location.provisioning_template_ids.sort, location.provisioning_template_ids.sort
     assert_equal new_location.compute_resource_ids.sort, location.compute_resource_ids.sort
     assert_equal new_location.organization_ids.sort, location.organization_ids.sort
   end

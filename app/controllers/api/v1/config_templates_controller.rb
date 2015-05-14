@@ -2,7 +2,9 @@ module Api
   module V1
     class ConfigTemplatesController < V1::BaseController
       include Foreman::Renderer
-      include Foreman::Controller::ConfigTemplates
+      include Foreman::Controller::ProvisioningTemplates
+
+      before_filter :deprecated
 
       before_filter :find_resource, :only => %w{show update destroy}
       before_filter :handle_template_upload, :only => [:create, :update]
@@ -15,8 +17,8 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @config_templates = ConfigTemplate.
-          authorized(:view_templates).
+        @config_templates = ProvisioningTemplate.
+          authorized(:view_provisioning_templates).
           search_for(*search_options).paginate(paginate_options).
           includes(:operatingsystems, :template_combinations, :template_kind)
       end
@@ -40,7 +42,7 @@ module Api
       end
 
       def create
-        @config_template = ConfigTemplate.new(params[:config_template])
+        @config_template = ProvisioningTemplate.new(params[:config_template])
         process_response @config_template.save
       end
 
@@ -78,8 +80,22 @@ module Api
       api :GET, "/config_templates/build_pxe_default", "Change the default PXE menu on all configured TFTP servers"
 
       def build_pxe_default
-        status, msg = ConfigTemplate.authorized(:deploy_templates).build_pxe_default(self)
+        status, msg = ProvisioningTemplate.authorized(:deploy_provisioning_templates).build_pxe_default(self)
         render :json => msg, :status => status
+      end
+
+      private
+
+      def type_name_singular
+        @type_name_singular ||= resource_name
+      end
+
+      def resource_class
+        ProvisioningTemplate
+      end
+
+      def deprecated
+        ::ActiveSupport::Deprecation.warn('Config templates were renamed to provisioning templates')
       end
     end
   end

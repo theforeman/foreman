@@ -43,7 +43,7 @@ class UnattendedController < ApplicationController
   def template
     return head(:not_found) unless (params.has_key?("id") and params.has_key?(:hostgroup))
 
-    template = ConfigTemplate.find(params['id'])
+    template = ProvisioningTemplate.find(params['id'])
     @host = Hostgroup.find(params['hostgroup'])
 
     return head(:not_found) unless template and @host
@@ -77,7 +77,7 @@ class UnattendedController < ApplicationController
   private
 
   def render_template(type)
-    if (config = @host.configTemplate({ :kind => type }))
+    if (config = @host.provisioning_template({ :kind => type }))
       logger.debug "rendering DB template #{config.name} - #{type}"
       safe_render config
     else
@@ -285,7 +285,7 @@ class UnattendedController < ApplicationController
     @template_name = 'Unnamed'
     if template.is_a?(String)
       @unsafe_template  = template
-    elsif template.is_a?(ConfigTemplate)
+    elsif template.is_a?(ProvisioningTemplate)
       @unsafe_template  = template.template
       @template_name = template.name
     else

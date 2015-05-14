@@ -80,7 +80,7 @@ module Orchestration::Compute
 
   def setUserData
     logger.info "Rendering UserData template for #{name}"
-    template   = configTemplate(:kind => "user_data")
+    template   = provisioning_template(:kind => "user_data")
     @host      = self
     # For some reason this renders as 'built' in spoof view but 'provision' when
     # actually used. For now, use foreman_url('built') in the template

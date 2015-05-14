@@ -16,6 +16,19 @@ FactoryGirl.define do
   factory :ptable do
     sequence(:name) { |n| "ptable#{n}" }
     layout 'zerombr yes\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=<%= 10 * 10 %> --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended'
+    os_family 'Redhat'
+
+    trait :ubuntu do
+      sequence(:name) { |n| "ubuntu default#{n}" }
+      layout "d-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular..."
+      os_family 'Debian'
+    end
+
+    trait :suse do
+      sequence(:name) { |n| "suse default#{n}" }
+      layout "<partitioning  config:type=\"list\">\n  <drive>\n    <device>/dev/hda</device>\n    <use>all</use>\n  </drive>\n</partitioning>"
+      os_family 'Suse'
+    end
   end
 
   factory :parameter do

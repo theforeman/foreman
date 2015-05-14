@@ -3,13 +3,15 @@ require 'test_helper'
 class Api::V2::HostsControllerTest < ActionController::TestCase
   def setup
     @host = FactoryGirl.create(:host)
+    @ptable = FactoryGirl.create(:ptable)
+    @ptable.operatingsystems =  [ Operatingsystem.find_by_name('Redhat') ]
   end
 
   def basic_attrs
     { :name                => 'testhost11',
       :environment_id      => environments(:production).id,
       :domain_id           => domains(:mydomain).id,
-      :ptable_id           => ptables(:one).id,
+      :ptable_id           => @ptable.id,
       :medium_id           => media(:one).id,
       :architecture_id     => Architecture.find_by_name('x86_64').id,
       :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,

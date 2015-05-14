@@ -204,9 +204,13 @@ module ApplicationHelper
     end
   end
 
+  def auto_complete_controller_name
+    controller.respond_to?(:auto_complete_controller_name) ? controller.auto_complete_controller_name : controller_name
+  end
+
   def auto_complete_search(name, val, options = {})
     path = options[:full_path]
-    path ||= (options[:path] || send("#{controller_name}_path")) + "/auto_complete_#{name}"
+    path ||= (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{name}"
     options.merge!(:class => "autocomplete-input form-control", :'data-url' => path )
     text_field_tag(name, val, options)
   end

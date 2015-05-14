@@ -1,13 +1,14 @@
 class TaxHost
   FOREIGN_KEYS = [:location_id, :organization_id, :hostgroup_id,
                   :environment_id, :domain_id, :medium_id,
-                  :subnet_id, :compute_resource_id, :realm_id]
+                  :subnet_id, :compute_resource_id, :realm_id,
+                  :ptable_id]
 
   HASH_KEYS = [:location_ids, :organization_ids, :hostgroup_ids,
                :environment_ids, :domain_ids, :medium_ids,
                :subnet_ids, :compute_resource_ids,
-               :smart_proxy_ids, :user_ids, :config_template_ids,
-               :realm_ids]
+               :smart_proxy_ids, :user_ids, :provisioning_template_ids,
+               :realm_ids, :ptable_ids]
 
   def initialize(taxonomy, hosts = nil)
     @taxonomy = taxonomy
@@ -146,7 +147,7 @@ class TaxHost
     #   return taxonomy.hosts.pluck(:domain_id)
     # end
     define_method "#{key}s".to_sym do
-      #TODO see if distinct pluck makes more sense
+      # can't use pluck(key), :domain_id is delegated method, not SQL column, performance diff wasn't big
       hosts.map(&key).uniq.compact
     end
   end
@@ -157,8 +158,8 @@ class TaxHost
     User.unscoped.joins(:direct_hosts).where({ :hosts => { :id => hosts }, :users => { :admin => false } }).pluck('DISTINCT users.id')
   end
 
-  def config_template_ids(hosts = self.hosts)
-    ConfigTemplate.template_ids_for(hosts)
+  def provisioning_template_ids(hosts = self.hosts)
+    ProvisioningTemplate.template_ids_for(hosts)
   end
 
   def smart_proxy_ids(hosts = self.hosts)

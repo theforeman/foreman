@@ -1,4 +1,8 @@
 class MakeTemplatesDefault < ActiveRecord::Migration
+  class FakeConfigTemplate < ActiveRecord::Base
+    self.table_name = 'config_templates'
+  end
+
   def up
     update_templates_default_to true
   end
@@ -19,7 +23,7 @@ class MakeTemplatesDefault < ActiveRecord::Migration
       "Preseed default user data", "UserData default", "WAIK default PXELinux", "Junos default SLAX", "Junos default ZTP config"]
 
     templates.each do |template|
-      if (template = ConfigTemplate.find_by_name(template))
+      if (template = FakeConfigTemplate.find_by_name(template))
         template.update_attribute(:default, flag)
       end
     end

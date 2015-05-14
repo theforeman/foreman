@@ -5,18 +5,18 @@ FactoryGirl.define do
 
     trait :with_os_defaults do
       after(:create) do |os,evaluator|
-        os.config_templates.each do |tmpl|
+        os.provisioning_templates.each do |tmpl|
           FactoryGirl.create(:os_default_template,
                              :operatingsystem => os,
-                             :config_template => tmpl,
+                             :provisioning_template => tmpl,
                              :template_kind => tmpl.template_kind)
         end
       end
     end
 
     trait :with_provision do
-      config_templates {
-        [FactoryGirl.create(:config_template, :template_kind => TemplateKind.find_by_name('provision'))]
+      provisioning_templates {
+        [FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('provision'))]
       }
       with_os_defaults
     end

@@ -1,19 +1,19 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  config_template: mystring
+  provisioning_template: mystring
   hostgroup: common
   environment: production
 
 two:
-  config_template: mystring2
+  provisioning_template: mystring2
   hostgroup_id: unusual
 
 three:
-  config_template: myfinish
+  provisioning_template: myfinish
   environment: production
 
 four:
-   config_template: mystring2
+   provisioning_template: mystring2
    hostgroup: common
    environment: production

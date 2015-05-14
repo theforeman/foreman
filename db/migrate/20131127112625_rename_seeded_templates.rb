@@ -35,12 +35,20 @@ class RenameSeededTemplates < ActiveRecord::Migration
     "Ubuntu Mirror" => "Ubuntu mirror"
   }
 
+  class FakeConfigTemplate < ActiveRecord::Base
+    self.table_name = 'config_templates'
+  end
+
+  class FakePtable < ActiveRecord::Base
+    self.table_name = 'ptables'
+  end
+
   def up
     CONFIG_RENAMES.each do |old,new|
-      ConfigTemplate.find_by_name(old).try(:update_attributes, :name => new)
+      FakeConfigTemplate.find_by_name(old).try(:update_attributes, :name => new)
     end
     PTABLE_RENAMES.each do |old,new|
-      Ptable.find_by_name(old).try(:update_attributes, :name => new)
+      FakePtable.find_by_name(old).try(:update_attributes, :name => new)
     end
     MEDIA_RENAMES.each do |old,new|
       Medium.find_by_name(old).try(:update_attributes, :name => new)
@@ -50,10 +58,10 @@ class RenameSeededTemplates < ActiveRecord::Migration
 
   def down
     CONFIG_RENAMES.each do |old,new|
-      ConfigTemplate.find_by_name(new).try(:update_attributes, :name => old)
+      FakeConfigTemplate.find_by_name(new).try(:update_attributes, :name => old)
     end
     PTABLE_RENAMES.each do |old,new|
-      Ptable.find_by_name(new).try(:update_attributes, :name => old)
+      FakePtable.find_by_name(new).try(:update_attributes, :name => old)
     end
     MEDIA_RENAMES.each do |old,new|
       Medium.find_by_name(new).try(:update_attributes, :name => old)

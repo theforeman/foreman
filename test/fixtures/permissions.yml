@@ -81,27 +81,27 @@
     updated_at: "2013-12-04 08:41:04.481549"
   view_templates:
     name: view_templates
-    resource_type: ConfigTemplate
+    resource_type: ProvisioningTemplate
     created_at: "2013-12-04 08:41:04.540648"
     updated_at: "2013-12-04 08:41:04.540648"
   create_templates:
     name: create_templates
-    resource_type: ConfigTemplate
+    resource_type: ProvisioningTemplate
     created_at: "2013-12-04 08:41:04.548631"
     updated_at: "2013-12-04 08:41:04.548631"
   edit_templates:
     name: edit_templates
-    resource_type: ConfigTemplate
+    resource_type: ProvisioningTemplate
     created_at: "2013-12-04 08:41:04.556639"
     updated_at: "2013-12-04 08:41:04.556639"
   destroy_templates:
     name: destroy_templates
-    resource_type: ConfigTemplate
+    resource_type: ProvisioningTemplate
     created_at: "2013-12-04 08:41:04.564948"
     updated_at: "2013-12-04 08:41:04.564948"
   deploy_templates:
     name: deploy_templates
-    resource_type: ConfigTemplate
+    resource_type: ProvisioningTemplate
     created_at: "2013-12-04 08:41:04.573359"
     updated_at: "2013-12-04 08:41:04.573359"
   access_dashboard:

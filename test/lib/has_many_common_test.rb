@@ -11,31 +11,31 @@ class HasManyCommonTest < ActiveSupport::TestCase
   ### has_many ###
   #
   # Test default AR extenstion *_names where method is :name by default
-  test "should return config_template names using method #config_template_names" do
+  test "should return provisioning_template names using method #provisioning_template_names" do
     env = environments(:production)
-    assert_equal 3, env.config_template_ids.count
-    assert_equal 3, env.config_template_names.count
-    assert_equal ["MyFinish", "MyString", "MyString2"], env.config_template_names.sort
+    assert_equal 3, env.provisioning_template_ids.count
+    assert_equal 3, env.provisioning_template_names.count
+    assert_equal ["MyFinish", "MyString", "MyString2"], env.provisioning_template_names.sort
   end
 
-  test "should add config_template association by passing array of names" do
+  test "should add provisioning_template association by passing array of names" do
     env = environments(:production)
-    assert_difference('env.config_template_names.count') do
-      env.config_template_names = ["MyFinish", "MyString", "MyString2", "PXELinux global default"]
+    assert_difference('env.provisioning_template_names.count') do
+      env.provisioning_template_names = ["MyFinish", "MyString", "MyString2", "PXELinux global default"]
     end
-    assert_equal 4, env.config_template_ids.count
-    assert_equal 4, env.config_template_names.count
-    assert_equal ["MyFinish", "MyString", "MyString2", "PXELinux global default"], env.config_template_names.sort
+    assert_equal 4, env.provisioning_template_ids.count
+    assert_equal 4, env.provisioning_template_names.count
+    assert_equal ["MyFinish", "MyString", "MyString2", "PXELinux global default"], env.provisioning_template_names.sort
   end
 
-  test "should delete config_template association by passing array of names" do
+  test "should delete provisioning_template association by passing array of names" do
     env = environments(:production)
-    assert_difference('env.config_template_names.count', -1) do
-      env.config_template_names = ["MyFinish", "MyString"]
+    assert_difference('env.provisioning_template_names.count', -1) do
+      env.provisioning_template_names = ["MyFinish", "MyString"]
     end
-    assert_equal 2, env.config_template_ids.count
-    assert_equal 2, env.config_template_names.count
-    assert_equal ["MyFinish", "MyString"], env.config_template_names.sort
+    assert_equal 2, env.provisioning_template_ids.count
+    assert_equal 2, env.provisioning_template_names.count
+    assert_equal ["MyFinish", "MyString"], env.provisioning_template_names.sort
   end
 
   # Test non-default AR extension *_names where method is :label for has_many :hostgroups

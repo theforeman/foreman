@@ -4,13 +4,16 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
+      before_filter :rename_config_template
       before_filter :find_required_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, '/operatingsystems/:operatingsystem_id/os_default_templates', N_('List default templates combinations for an operating system')
       api :GET, '/config_templates/:config_template_id/os_default_templates', N_('List operating systems where this template is set as a default')
+      api :GET, '/provisioning_templates/:provisioning_template_id/os_default_templates', N_('List operating systems where this template is set as a default')
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param :config_template_id, String, :desc => N_('ID of provisioning template')
+      param :provisioning_template_id, String, :desc => N_('ID of provisioning template')
       param_group :pagination, ::Api::V2::BaseController
 
       def index
@@ -59,8 +62,15 @@ module Api
 
       private
 
+      def rename_config_template
+        if !params[:config_template_id].nil?
+          params[:provisioning_template_id] = params.delete(:config_template_id)
+          ::ActiveSupport::Deprecation.warn('Config templates were renamed to provisioning templates')
+        end
+      end
+
       def allowed_nested_id
-        %w(operatingsystem_id config_template_id)
+        %w(operatingsystem_id provisioning_template_id)
       end
     end
   end

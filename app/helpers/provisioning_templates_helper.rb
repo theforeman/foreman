@@ -1,4 +1,4 @@
-module ConfigTemplatesHelper
+module ProvisioningTemplatesHelper
   def combination(template)
     template.template_combinations.map do |comb|
       str = []
@@ -8,8 +8,12 @@ module ConfigTemplatesHelper
     end.to_sentence
   end
 
+  def template_kind(template)
+    template.template_kind
+  end
+
   def include_javascript
-    javascript 'config_template', 'ace/ace',
+    javascript 'provisioning_template', 'ace/ace',
                'ace/theme-twilight', 'ace/theme-dawn', 'ace/theme-clouds', 'ace/theme-textmate',
                'ace/mode-diff', 'diff', 'ace/mode-ruby', 'ace/keybinding-vim', 'ace/keybinding-emacs'
   end
@@ -29,10 +33,10 @@ module ConfigTemplatesHelper
     end
   end
 
-  def permitted_actions(config_template)
-    actions = [display_link_if_authorized(_('Clone'), hash_for_clone_config_template_path(:id => config_template))]
+  def permitted_actions(template)
+    actions = [display_link_if_authorized(_('Clone'), template_hash_for_member(template, 'clone_template'))]
 
-    if config_template.locked?
+    if template.locked?
       confirm = [
         _("You are about to unlock a locked template."),
 
@@ -44,22 +48,22 @@ module ConfigTemplatesHelper
           _("This is for every location and organization that uses it.")
         end,
 
-        if config_template.vendor
+        if template.vendor
           _("It is not recommended to unlock this template, as it is provided by %{vendor} and may be overwritten. Please consider cloning it instead.") %
-            {:vendor => config_template.vendor}
+            {:vendor => template.vendor}
         end,
 
         _("Continue?")
       ].compact
 
-      actions << display_link_if_authorized(_('Unlock'), hash_for_unlock_config_template_path(:id => config_template),
+      actions << display_link_if_authorized(_('Unlock'), template_hash_for_member(template, 'unlock'),
                                             {:confirm => confirm.join(" "), :style => 'color: red'})
 
     else
-      actions << display_link_if_authorized(_('Lock'), hash_for_lock_config_template_path(:id => config_template))
-      actions << display_delete_if_authorized(hash_for_config_template_path(:id => config_template.to_param).
-         merge(:auth_object => config_template, :authorizer => authorizer, :permission => 'destroy_templates'),
-         :confirm => _("Delete %s?") % config_template)
+      actions << display_link_if_authorized(_('Lock'), template_hash_for_member(template, 'lock'))
+      actions << display_delete_if_authorized(template_hash_for_member(template).
+         merge(:auth_object => template, :authorizer => authorizer, :permission => "destroy_#{@type_name_plural}"),
+         :confirm => _("Delete %s?") % template)
     end
   end
 

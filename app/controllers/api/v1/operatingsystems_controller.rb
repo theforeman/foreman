@@ -16,7 +16,7 @@ module Api
       def index
         @operatingsystems = Operatingsystem.
           authorized(:view_operatingsystems).
-          includes(:media, :architectures, :ptables, :config_templates, :os_default_templates).
+          includes(:media, :architectures, :ptables, :provisioning_templates, :os_default_templates).
           search_for(*search_options).paginate(paginate_options)
       end
 

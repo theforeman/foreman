@@ -13,7 +13,7 @@ kinds = {}
 end
 
 # Provisioning templates
-ConfigTemplate.without_auditing do
+ProvisioningTemplate.without_auditing do
   [
     # Generic PXE files
     { :name => 'PXELinux global default', :source => 'pxe/PXELinux_default.erb', :template_kind => kinds[:PXELinux] },
@@ -64,12 +64,12 @@ ConfigTemplate.without_auditing do
     { :name => 'redhat_register', :source => 'snippets/_redhat_register.erb', :snippet => true },
     { :name => 'saltstack_minion', :source => 'snippets/_saltstack_minion.erb', :snippet => true }
   ].each do |input|
-    next if ConfigTemplate.find_by_name(input[:name])
-    next if audit_modified? ConfigTemplate, input[:name]
+    next if ProvisioningTemplate.find_by_name(input[:name])
+    next if audit_modified? ProvisioningTemplate, input[:name]
 
     input.merge!(:default => true)
 
-    t = ConfigTemplate.create({
+    t = ProvisioningTemplate.create({
       :snippet  => false,
       :template => File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
     }.merge(input))

@@ -80,7 +80,7 @@ Foreman::Application.configure do |app|
                   compute_resources/ovirt/nic_info
                   compute_resources/vmware/nic_info
                   lookup_keys
-                  config_template
+                  provisioning_template
                   ace/ace
                   ace/theme-twilight
                   ace/theme-dawn

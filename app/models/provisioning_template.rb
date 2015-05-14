@@ -1,22 +1,17 @@
-class ConfigTemplate < ActiveRecord::Base
+class ProvisioningTemplate < Template
   include Authorizable
   extend FriendlyId
   friendly_id :name
-  include Taxonomix
   include Parameterizable::ByIdName
 
-  validates_lengths_from_database
   audited :allow_mass_assignment => true
   self.auditing_enabled = !Foreman.in_rake?('db:migrate')
-  attr_accessible :name, :template, :template_kind, :template_kind_id, :snippet, :template_combinations_attributes,
-                  :operatingsystems, :operatingsystem_ids, :audit_comment, :location_ids, :organization_ids, :locked,
-                  :vendor, :default
-  validates :name, :presence => true, :uniqueness => true
-  validates :template, :presence => true
+
+  attr_accessible :template_kind, :template_kind_id, :template_combinations_attributes,
+                  :operatingsystems, :operatingsystem_ids, :vendor
+  validates :name, :uniqueness => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
-  validates :audit_comment, :length => {:maximum => 255 }
-  validate :template_changes, :if => lambda { |template| (template.locked? || template.locked_changed?) && !Foreman.in_rake? }
-  before_destroy :check_if_template_is_locked
+
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
   has_many :hostgroups, :through => :template_combinations
   has_many :environments, :through => :template_combinations
@@ -25,15 +20,11 @@ class ConfigTemplate < ActiveRecord::Base
   accepts_nested_attributes_for :template_combinations, :allow_destroy => true, :reject_if => lambda {|tc| tc[:environment_id].blank? and tc[:hostgroup_id].blank? }
   has_and_belongs_to_many :operatingsystems
   has_many :os_default_templates
-  before_save :check_for_snippet_assoications, :remove_trailing_chars
-  # with proc support, default_scope can no longer be chained
-  # include all default scoping here
-  default_scope lambda {
-    with_taxonomy_scope do
-      order("config_templates.name")
-    end
-  }
+  before_save :check_for_snippet_assoications
 
+  # these can't be shared in parent class, scoped search can't handle STI properly
+  # tested with scoped_search 3.2.0
+  include Taxonomix
   scoped_search :on => :name,    :complete_value => true, :default_order => true
   scoped_search :on => :locked,  :complete_value => {:true => true, :false => false}
   scoped_search :on => :snippet, :complete_value => {:true => true, :false => false}
@@ -44,8 +35,37 @@ class ConfigTemplate < ActiveRecord::Base
   scoped_search :in => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => true
   scoped_search :in => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
 
-  class Jail < Safemode::Jail
-    allow :name
+  # Override method in Taxonomix as Template is not used attached to a Host,
+  # and matching a Host does not prevent removing a template from its taxonomy.
+  def used_taxonomy_ids(type)
+    []
+  end
+
+  # with proc support, default_scope can no longer be chained
+  # include all default scoping here
+  default_scope lambda {
+    with_taxonomy_scope do
+      order("#{Template.table_name}.name")
+    end
+  }
+
+  # TODO: review if we can improve SQL
+  def self.template_ids_for(hosts)
+    hosts.with_os.map do |host|
+      host.provisioning_template.try(:id)
+    end.uniq.compact
+  end
+
+  # we have to override the base_class because polymorphic associations does not detect it correctly, more details at
+  # http://apidock.com/rails/ActiveRecord/Associations/ClassMethods/has_many#1010-Polymorphic-has-many-within-inherited-class-gotcha
+  def self.base_class
+    self
+  end
+  # not sure why but this changes table_name so we set it explicitly (same does not apply for Ptable)
+  self.table_name = 'templates'
+
+  def self.template_includes
+    super + [:template_kind, :template_combinations => [:hostgroup, :environment]]
   end
 
   def clone
@@ -53,19 +73,12 @@ class ConfigTemplate < ActiveRecord::Base
                     :except  => [:name, :locked, :default, :vendor])
   end
 
-  # TODO: review if we can improve SQL
-  def self.template_ids_for(hosts)
-    hosts.with_os.map do |host|
-      host.configTemplate.try(:id)
-    end.uniq.compact
-  end
-
   def self.find_template(opts = {})
     raise ::Foreman::Exception.new(N_("Must provide template kind")) unless opts[:kind]
     raise ::Foreman::Exception.new(N_("Must provide an operating systems")) unless opts[:operatingsystem_id]
 
     # first filter valid templates to our OS and requested template kind.
-    templates = ConfigTemplate.joins(:operatingsystems, :template_kind).where('operatingsystems.id' => opts[:operatingsystem_id], 'template_kinds.name' => opts[:kind])
+    templates = ProvisioningTemplate.joins(:operatingsystems, :template_kind).where('operatingsystems.id' => opts[:operatingsystem_id], 'template_kinds.name' => opts[:kind])
 
     # once a template has been matched, we no longer look for others.
 
@@ -92,7 +105,7 @@ class ConfigTemplate < ActiveRecord::Base
 
     # fall back to the os default template
     template ||= templates.joins(:os_default_templates).where("os_default_templates.operatingsystem_id" => opts[:operatingsystem_id]).first
-    template.is_a?(ConfigTemplate) ? template : nil
+    template.is_a?(ProvisioningTemplate) ? template : nil
   end
 
   def self.build_pxe_default(renderer)
@@ -100,7 +113,7 @@ class ConfigTemplate < ActiveRecord::Base
       error_msg = _("No TFTP proxies defined, can't continue")
     end
 
-    if (default_template = ConfigTemplate.find_by_name("PXELinux global default")).nil?
+    if (default_template = ProvisioningTemplate.find_by_name("PXELinux global default")).nil?
       error_msg = _("Could not find a Configuration Template with the name \"PXELinux global default\", please create one.")
     end
 
@@ -141,47 +154,10 @@ class ConfigTemplate < ActiveRecord::Base
     [200, _("PXE Default file has been deployed to all Smart Proxies")]
   end
 
-  def skip_strip_attrs
-    ['template']
-  end
-
-  def locked?
-    locked && !Foreman.in_rake?
-  end
-
-  # Override method in Taxonomix as ConfigTemplate is not used attached to a Host,
-  # and matching a Host does not prevent removing a template from its taxonomy.
-  def used_taxonomy_ids(type)
-    []
-  end
-
   private
 
-  def check_if_template_is_locked
-    errors.add(:base, _("This template is locked and may not be removed.")) if locked?
-  end
-
-  def template_changes
-    actual_changes = changes
-
-    # Locked & Default are Special
-    if actual_changes.include? 'locked'
-      unless User.current.can?(:lock_templates, self)
-        errors.add(:base, _("You are not authorized to lock templates."))
-      end
-    end
-
-    if actual_changes.include? 'default'
-      unless User.current.can?(:create_organizations) || User.current.can?(:create_locations)
-        errors.add(:base, _("You are not authorized to make a template default."))
-      end
-    end
-
-    allowed_changes = %w(template_combinations template_associations locked default)
-
-    unless actual_changes.delete_if { |k, v| allowed_changes.include? k }.empty?
-      errors.add(:base, _("This template is locked. Please clone it to a new template to customize."))
-    end
+  def allowed_changes
+    super + %w(template_combinations template_associations)
   end
 
   # check if our template is a snippet, and remove its associations just in case they were selected.
@@ -194,15 +170,11 @@ class ConfigTemplate < ActiveRecord::Base
     self.template_kind = nil
   end
 
-  def remove_trailing_chars
-    self.template.gsub!("\r","") unless template.empty?
-  end
-
   # get a list of all hostgroup, template combinations that a pxemenu will be
   # generated for
   def self.pxe_default_combos
     combos = []
-    ConfigTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).each do |template|
+    ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).each do |template|
       template.template_combinations.each do |combination|
         hostgroup = combination.hostgroup
         if hostgroup and hostgroup.operatingsystem and hostgroup.architecture and hostgroup.medium

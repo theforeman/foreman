@@ -57,7 +57,7 @@ module Orchestration::TFTP
     return unless tftp?
     return unless host.operatingsystem
     return if Rails.env == "test"
-    if host.configTemplate({:kind => host.operatingsystem.template_kind}).nil? && host.configTemplate({:kind => "iPXE"}).nil?
+    if host.provisioning_template({:kind => host.operatingsystem.template_kind}).nil? && host.provisioning_template({:kind => "iPXE"}).nil?
       failure _("No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings") %
                 { :template_kind => host.operatingsystem.template_kind, :os => host.operatingsystem }
     end
@@ -71,12 +71,12 @@ module Orchestration::TFTP
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
     @host = self.host
     if build?
-      pxe_render host.configTemplate({:kind => host.operatingsystem.template_kind})
+      pxe_render host.provisioning_template({:kind => host.operatingsystem.template_kind})
     else
       if host.operatingsystem.template_kind == "PXEGrub"
-        pxe_render ConfigTemplate.find_by_name("PXEGrub default local boot")
+        pxe_render ProvisioningTemplate.find_by_name("PXEGrub default local boot")
       else
-        pxe_render ConfigTemplate.find_by_name("PXELinux default local boot")
+        pxe_render ProvisioningTemplate.find_by_name("PXELinux default local boot")
       end
     end
   rescue => e

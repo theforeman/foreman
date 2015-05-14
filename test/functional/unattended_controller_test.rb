@@ -5,21 +5,26 @@ class UnattendedControllerTest < ActionController::TestCase
     Host::Managed.any_instance.stubs(:handle_ca).returns(true)
     as_admin do
       disable_orchestration # avoids dns errors
+      ptable = FactoryGirl.create(:ptable, :name => 'default',
+                                  :operatingsystem_ids => [operatingsystems(:redhat).id])
+      ptable_ubuntu = FactoryGirl.create(:ptable, :ubuntu, :name => 'ubuntu default',
+        :layout => 'd-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...',
+                                         :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
       @rh_host = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :build => true,
                                     :operatingsystem => operatingsystems(:redhat),
-                                    :ptable => ptables(:one),
+                                    :ptable => ptable,
                                     :medium => media(:one),
                                     :architecture => architectures(:x86_64)
                                    )
       @ub_host = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :build => true,
                                     :operatingsystem => operatingsystems(:ubuntu1010),
-                                    :ptable => ptables(:ubuntu),
+                                    :ptable => ptable_ubuntu,
                                     :medium => media(:ubuntu),
                                     :architecture => architectures(:x86_64)
                                    )
       @host_with_template_subnet = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :with_tftp_subnet, :build => true,
                                     :operatingsystem => operatingsystems(:ubuntu1010),
-                                    :ptable => ptables(:ubuntu),
+                                    :ptable => ptable_ubuntu,
                                     :medium => media(:ubuntu),
                                     :architecture => architectures(:x86_64)
                                    )
@@ -197,21 +202,22 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test "template with hostgroup should be identified as hostgroup provisioning" do
-    ConfigTemplate.any_instance.stubs(:template).returns("type:<%= @provisioning_type %>")
+    ProvisioningTemplate.any_instance.stubs(:template).returns("type:<%= @provisioning_type %>")
+    hostgroups(:common).update_attribute :ptable_id, FactoryGirl.create(:ptable).id
     get :template, {:id => "MyString2", :hostgroup => "Common"}
     assert_response :success
     assert_match(%r{type:hostgroup}, @response.body)
   end
 
   test "template with host should be identified as host provisioning" do
-    ConfigTemplate.any_instance.stubs(:template).returns("type:<%= @provisioning_type %>")
+    ProvisioningTemplate.any_instance.stubs(:template).returns("type:<%= @provisioning_type %>")
     get :provision, {:hostname => @ub_host.name}, set_session_user
     assert_response :success
     assert_match(%r{type:host\z}, @response.body)
   end
 
   test "template with hostgroup should be rendered even if both have periods in their names" do
-    config_templates(:mystring).update_attributes(:name => 'My.String')
+    templates(:mystring).update_attributes(:name => 'My.String')
     hostgroups(:common).update_attributes(:name => 'Com.mon')
     assert_routing '/unattended/template/My.String/Com.mon', {:controller => 'unattended', :action => 'template', :id => "My.String", :hostgroup => "Com.mon"}
     get :template, {:id => "My.String", :hostgroup => "Com.mon"}
@@ -341,7 +347,7 @@ class UnattendedControllerTest < ActionController::TestCase
 
   test "should return and log error when template not found" do
     @request.env["REMOTE_ADDR"] = @ub_host.ip
-    Host::Managed.any_instance.expects(:configTemplate).returns(nil)
+    Host::Managed.any_instance.expects(:provisioning_template).returns(nil)
     Rails.logger.expects(:error).with(regexp_matches(/unable to find provision template/))
     get :provision
     assert_response :not_found

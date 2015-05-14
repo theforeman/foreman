@@ -1,5 +1,5 @@
 module AuditsHelper
-  MAIN_OBJECTS = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ConfigTemplate ComputeProfile ComputeAttribute
+  MAIN_OBJECTS = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ProvisioningTemplate ComputeProfile ComputeAttribute
                     Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup)
 
   # lookup the Model representing the numerical id and return its label
@@ -54,8 +54,7 @@ module AuditsHelper
   end
 
   def audit_template?(audit)
-    audit.auditable_type == "ConfigTemplate" && audit.action == 'update' && audit.audited_changes["template"] &&
-      audit.audited_changes["template"][0] != audit.audited_changes["template"][1]
+    audit.audited_changes["template"] && audit.audited_changes["template"][0] != audit.audited_changes["template"][1]
   end
 
   def audit_login?(audit)

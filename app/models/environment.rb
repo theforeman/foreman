@@ -16,7 +16,7 @@ class Environment < ActiveRecord::Base
 
   validates :name, :uniqueness => true, :presence => true, :alphanumeric => true
   has_many :template_combinations, :dependent => :destroy
-  has_many :config_templates, :through => :template_combinations
+  has_many :provisioning_templates, :through => :template_combinations
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here

@@ -6191,7 +6191,7 @@ msgstr "Path"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Os family"
-msgstr "Operating system family"
+msgstr "OS families"
 
 msgid "New installation medium"
 msgstr ""
@@ -6409,7 +6409,7 @@ msgstr "Name"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Os family"
-msgstr ""
+msgstr "OS families"
 
 msgid "Partition table configuration"
 msgstr ""
