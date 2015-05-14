@@ -146,12 +146,6 @@ module Foreman
         child.helper helpers
       end
     end
-
-    # Secure cookies if the connection is via SSL
-    if !!SETTINGS[:require_ssl]
-      config.session_options[:secure] = !!SETTINGS[:require_ssl]
-      middleware.use config.session_store, config.session_options
-    end
   end
 
   def self.setup_console
