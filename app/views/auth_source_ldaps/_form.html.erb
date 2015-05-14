@@ -27,6 +27,8 @@
       <%= text_f f, :ldap_filter, :label => _("LDAP filter"), :help_inline => _("Custom LDAP search filter, <i>optional</i>").html_safe, :size => "col-md-8" %>
       <%= checkbox_f f, :onthefly_register,
                         :help_inline => _("LDAP users will have their Foreman account automatically created the first time they log into Foreman") %>
+      <%= checkbox_f f, :usergroup_sync,
+                        :help_inline => _("External user groups will be synced on login, else relies on periodic cronjob to check group membership") %>
     </div>
     <div class="tab-pane" id="attributes">
       <%= text_f f, :attr_login, :help_inline => _("e.g. uid") %>

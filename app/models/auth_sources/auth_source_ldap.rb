@@ -98,6 +98,11 @@ class AuthSourceLdap < AuthSource
       return
     end
 
+    unless usergroup_sync?
+      logger.info "Skipping user group update for user #{login} as usergroup_sync is disabled"
+      return
+    end
+
     internal = User.find(login).external_usergroups.map(&:name)
     external = ldap_con.group_list(login)
     (internal | external).each do |name|
