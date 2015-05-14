@@ -33,7 +33,7 @@ class Setting < ActiveRecord::Base
   validates :value, :inclusion => {:in => [true,false]}, :if => Proc.new {|s| s.settings_type == "boolean"}
   validates :value, :presence => true, :if => Proc.new {|s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
   validates :settings_type, :inclusion => {:in => TYPES}, :allow_nil => true, :allow_blank => true
-  validates :value, :uri => true, :if => Proc.new {|s| URI_ATTRS.include?(s.name) }
+  validates :value, :uri => true, :presence => true, :if => Proc.new {|s| URI_ATTRS.include?(s.name) }
   before_validation :set_setting_type_from_value
   before_save :clear_value_when_default
   before_save :clear_cache
