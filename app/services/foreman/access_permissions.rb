@@ -107,36 +107,42 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :console_compute_resources_vms, {:compute_resources_vms => [:console]}
   end
 
-  permission_set.security_block :config_templates do |map|
-    map.permission :view_templates,    {:config_templates => [:index, :show, :revision, :auto_complete_search],
+  permission_set.security_block :provisioning_templates do |map|
+    map.permission :view_provisioning_templates,    {:provisioning_templates => [:index, :show, :revision, :auto_complete_search],
                                         :"api/v1/config_templates" => [:index, :show, :revision],
                                         :"api/v2/config_templates" => [:index, :show, :revision],
+                                        :"api/v2/provisioning_templates" => [:index, :show, :revision],
                                         :"api/v2/template_combinations" => [:index, :show],
                                         :"api/v1/template_kinds" => [:index],
                                         :"api/v2/template_kinds" => [:index]
                                       }
-    map.permission :create_templates,  {:config_templates => [:new, :create, :clone],
+    map.permission :create_provisioning_templates,  {:provisioning_templates => [:new, :create, :clone_template],
                                         :"api/v1/config_templates" => [:create],
                                         :"api/v2/config_templates" => [:create, :clone],
+                                        :"api/v2/provisioning_templates" => [:create, :clone],
                                         :"api/v2/template_combinations" => [:create]
                                       }
-    map.permission :edit_templates,    {:config_templates => [:edit, :update],
+    map.permission :edit_provisioning_templates,    {:provisioning_templates => [:edit, :update],
                                         :"api/v1/config_templates" => [:update],
                                         :"api/v2/config_templates" => [:update],
+                                        :"api/v2/provisioning_templates" => [:update],
                                         :"api/v2/template_combinations" => [:update]
                                       }
-    map.permission :destroy_templates, {:config_templates => [:destroy],
+    map.permission :destroy_provisioning_templates, {:provisioning_templates => [:destroy],
                                         :"api/v1/config_templates" => [:destroy],
                                         :"api/v2/config_templates" => [:destroy],
+                                        :"api/v2/provisioning_templates" => [:destroy],
                                         :"api/v2/template_combinations" => [:destroy]
                                       }
-    map.permission :deploy_templates,  {:config_templates => [:build_pxe_default],
+    map.permission :deploy_provisioning_templates,  {:provisioning_templates => [:build_pxe_default],
                                         :"api/v1/config_templates" => [:build_pxe_default],
-                                        :"api/v2/config_templates" => [:build_pxe_default]
+                                        :"api/v2/config_templates" => [:build_pxe_default],
+                                        :"api/v2/provisioning_templates" => [:build_pxe_default]
                                       }
 
-    map.permission :lock_templates,    {:config_templates => [:lock, :unlock],
-                                        :"api/v2/config_templates" => [:lock, :unlock]
+    map.permission :lock_provisioning_templates,    {:provisioning_templates => [:lock, :unlock],
+                                        :"api/v2/config_templates" => [:lock, :unlock],
+                                        :"api/v2/provisioning_templates" => [:lock, :unlock]
                                       }
   end
 
@@ -492,13 +498,13 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :partition_tables do |map|
-    map.permission :view_ptables,    {:ptables => [:index, :show, :auto_complete_search],
+    map.permission :view_ptables,    {:ptables => [:index, :show, :auto_complete_search, :revision],
                                       :"api/v1/ptables" => [:index, :show],
-                                      :"api/v2/ptables" => [:index, :show]
+                                      :"api/v2/ptables" => [:index, :show, :revision]
     }
-    map.permission :create_ptables,  {:ptables => [:new, :create],
+    map.permission :create_ptables,  {:ptables => [:new, :create, :clone_template],
                                       :"api/v1/ptables" => [:create],
-                                      :"api/v2/ptables" => [:create]
+                                      :"api/v2/ptables" => [:create, :clone]
     }
     map.permission :edit_ptables,    {:ptables => [:edit, :update],
                                       :"api/v1/ptables" => [:update],
@@ -508,6 +514,9 @@ Foreman::AccessControl.map do |permission_set|
                                       :"api/v1/ptables" => [:destroy],
                                       :"api/v2/ptables" => [:destroy]
     }
+    map.permission :lock_ptables,    {:ptables => [:lock, :unlock],
+                                       :"api/v2/ptables" => [:lock, :unlock]
+                                      }
   end
 
   permission_set.security_block :puppetclasses do |map|

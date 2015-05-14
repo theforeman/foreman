@@ -111,19 +111,19 @@ _('ConfigGroup|Hosts count')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('ConfigGroup|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Config template')
+_('Provisioning template')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('ConfigTemplate|Default')
+_('ProvisioningTemplate|Default')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('ConfigTemplate|Locked')
+_('ProvisioningTemplate|Locked')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('ConfigTemplate|Name')
+_('ProvisioningTemplate|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('ConfigTemplate|Snippet')
+_('ProvisioningTemplate|Snippet')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('ConfigTemplate|Template')
+_('ProvisioningTemplate|Template')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('ConfigTemplate|Vendor')
+_('ProvisioningTemplate|Vendor')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Domain')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages

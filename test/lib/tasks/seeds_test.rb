@@ -87,15 +87,15 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test 'populates config templates' do
-    count = ConfigTemplate.count
+    count = ProvisioningTemplate.count
     seed
-    assert_not_equal count, ConfigTemplate.count
+    assert_not_equal count, ProvisioningTemplate.count
 
     Dir["#{Rails.root}/app/views/unattended/**/*.erb"].each do |tmpl|
       if tmpl =~ /disklayout/
-        assert Ptable.where(:layout => File.read(tmpl)).any?, "No partition table containing #{tmpl}"
+        assert Ptable.where(:template => File.read(tmpl)).any?, "No partition table containing #{tmpl}"
       else
-        assert ConfigTemplate.where(:template => File.read(tmpl)).any?, "No template containing #{tmpl}"
+        assert ProvisioningTemplate.where(:template => File.read(tmpl)).any?, "No template containing #{tmpl}"
       end
     end
   end
@@ -114,18 +114,18 @@ class SeedsTest < ActiveSupport::TestCase
 
   test "doesn't add a template back that was deleted" do
     seed
-    assert_equal 1, ConfigTemplate.destroy_all(:name => 'Kickstart default').size
+    assert_equal 1, ProvisioningTemplate.destroy_all(:name => 'Kickstart default').size
     seed
-    refute ConfigTemplate.find_by_name('Kickstart default')
+    refute ProvisioningTemplate.find_by_name('Kickstart default')
   end
 
   test "doesn't add a template back that was renamed" do
     seed
-    tmpl = ConfigTemplate.find_by_name('Kickstart default')
+    tmpl = ProvisioningTemplate.find_by_name('Kickstart default')
     tmpl.name = 'test'
     tmpl.save!
     seed
-    refute ConfigTemplate.find_by_name('Kickstart default')
+    refute ProvisioningTemplate.find_by_name('Kickstart default')
   end
 
   test "no audits are recorded" do

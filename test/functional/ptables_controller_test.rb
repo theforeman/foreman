@@ -1,46 +1,50 @@
 require 'test_helper'
 
 class PtablesControllerTest < ActionController::TestCase
-  def test_index
+  def setup
+    @ptable = FactoryGirl.create(:ptable)
+  end
+
+  test 'index' do
     get :index, {}, set_session_user
     assert_template 'index'
   end
 
-  def test_new
+  test 'new' do
     get :new, {}, set_session_user
     assert_template 'new'
   end
 
-  def test_create_invalid
+  test 'create_invalid' do
     Ptable.any_instance.stubs(:valid?).returns(false)
     post :create, {}, set_session_user
     assert_template 'new'
   end
 
-  def test_create_valid
+  test 'create_valid' do
     Ptable.any_instance.stubs(:valid?).returns(true)
-    post :create, {:ptable => {:name => "dummy", :layout => "dummy"}}, set_session_user
+    post :create, {:ptable => { :name => "dummy", :layout => "dummy"}}, set_session_user
     assert_redirected_to ptables_url
   end
 
-  def test_edit
+  test 'edit' do
     get :edit, {:id => Ptable.first.id}, set_session_user
     assert_template 'edit'
   end
 
-  def test_update_invalid
+  test 'update_invalid' do
     Ptable.any_instance.stubs(:valid?).returns(false)
     put :update, {:id => Ptable.first.id}, set_session_user
     assert_template 'edit'
   end
 
-  def test_update_valid
+  test 'update_valid' do
     Ptable.any_instance.stubs(:valid?).returns(true)
     put :update, {:id => Ptable.first.id}, set_session_user
     assert_redirected_to ptables_url
   end
 
-  def test_destroy
+  test 'destroy' do
     ptable = Ptable.first
     ptable.hosts.delete_all
     ptable.hostgroups.delete_all
@@ -56,13 +60,13 @@ class PtablesControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a partition table' do
     setup_view_user
-    get :edit, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, {:id => @ptable.id}, set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should fail to delete a partition table' do
     setup_view_user
-    delete :destroy, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:one).id)
+    delete :destroy, {:id => @ptable.id}, set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
@@ -85,15 +89,15 @@ class PtablesControllerTest < ActionController::TestCase
 
   test 'user with editing rights should succeed in editing a partition table' do
     setup_edit_user
-    get :edit, {:id => Ptable.first.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, {:id => @ptable.id }, set_session_user.merge(:user => users(:one).id)
     assert_response :success
   end
 
   test 'user with editing rights should succeed in deleting a partition table' do
     setup_edit_user
-    delete :destroy, {:id => ptables(:four).id}, set_session_user.merge(:user => users(:one).id)
+    delete :destroy, {:id => @ptable.id}, set_session_user.merge(:user => users(:one).id)
     assert_redirected_to ptables_url
-    assert_equal "Successfully deleted four.", flash[:notice]
+    assert_equal "Successfully deleted #{@ptable.name}.", flash[:notice]
   end
 
   test 'user with editing rights should succeed in creating a partition table' do

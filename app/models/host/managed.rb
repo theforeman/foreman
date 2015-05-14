@@ -289,14 +289,19 @@ class Host::Managed < Host::Base
     pxe_render((disk.empty? ? ptable.layout : disk).gsub("\r",""))
   end
 
+  def configTemplate(args = {})
+    ::ActiveSupport::Deprecation.warn 'configTemplate was renamed to provisioning_template'
+    self.provisioning_template(args)
+  end
+
   # returns a configuration template (such as kickstart) to a given host
-  def configTemplate(opts = {})
+  def provisioning_template(opts = {})
     opts[:kind]               ||= "provision"
     opts[:operatingsystem_id] ||= operatingsystem_id
     opts[:hostgroup_id]       ||= hostgroup_id
     opts[:environment_id]     ||= environment_id
 
-    ConfigTemplate.find_template opts
+    ProvisioningTemplate.find_template opts
   end
 
   # reports methods
@@ -777,11 +782,11 @@ class Host::Managed < Host::Base
             end
 
     kinds.map do |kind|
-      ConfigTemplate.find_template({ :kind               => kind.name,
-                                     :operatingsystem_id => operatingsystem_id,
-                                     :hostgroup_id       => hostgroup_id,
-                                     :environment_id     => environment_id
-                                   })
+      ProvisioningTemplate.find_template({ :kind               => kind.name,
+                                           :operatingsystem_id => operatingsystem_id,
+                                           :hostgroup_id       => hostgroup_id,
+                                           :environment_id     => environment_id
+                                         })
     end.compact
   end
 

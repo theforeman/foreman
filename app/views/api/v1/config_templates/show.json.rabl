@@ -1,4 +1,4 @@
-object @config_template
+object @config_template => :config_template
 
 attributes :name, :template, :snippet, :audit_comment, :id
 

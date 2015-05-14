@@ -15,7 +15,8 @@ class Taxonomy < ActiveRecord::Base
   has_many :smart_proxies, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'SmartProxy'
   has_many :compute_resources, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ComputeResource'
   has_many :media, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Medium'
-  has_many :config_templates, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ConfigTemplate'
+  has_many :provisioning_templates, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ProvisioningTemplate'
+  has_many :ptables, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Ptable'
   has_many :domains, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Domain'
   has_many :realms, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Realm'
   has_many :hostgroups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Hostgroup'
@@ -130,7 +131,7 @@ class Taxonomy < ActiveRecord::Base
     new.smart_proxies     = smart_proxies
     new.subnets           = subnets
     new.compute_resources = compute_resources
-    new.config_templates  = config_templates
+    new.provisioning_templates  = provisioning_templates
     new.media             = media
     new.domains           = domains
     new.realms            = realms
@@ -168,7 +169,9 @@ class Taxonomy < ActiveRecord::Base
            :to => :tax_host
 
   def assign_default_templates
-    self.config_templates << ConfigTemplate.where(:default => true)
+    Template.where(:default => true).each do |template|
+      self.send("#{template.class.to_s.underscore.pluralize}") << template
+    end
   end
 
   def sanitize_ignored_types

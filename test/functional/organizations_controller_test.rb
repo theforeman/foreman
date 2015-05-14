@@ -162,7 +162,7 @@ class OrganizationsControllerTest < ActionController::TestCase
                                        :medium_ids => organization_dup.medium_ids,
                                        :user_ids => organization_dup.user_ids,
                                        :smart_proxy_ids => organization_dup.smart_proxy_ids,
-                                       :config_template_ids => organization_dup.config_template_ids,
+                                       :provisioning_template_ids => organization_dup.provisioning_template_ids,
                                        :compute_resource_ids => organization_dup.compute_resource_ids,
                                        :location_ids => organization_dup.location_ids
       }
@@ -179,7 +179,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal new_organization.medium_ids.sort, organization.medium_ids.sort
     assert_equal new_organization.user_ids.sort, organization.user_ids.sort
     assert_equal new_organization.smart_proxy_ids.sort, organization.smart_proxy_ids.sort
-    assert_equal new_organization.config_template_ids.sort, organization.config_template_ids.sort
+    assert_equal new_organization.provisioning_template_ids.sort, organization.provisioning_template_ids.sort
     assert_equal new_organization.compute_resource_ids.sort, organization.compute_resource_ids.sort
     assert_equal new_organization.location_ids.sort, organization.location_ids.sort
   end

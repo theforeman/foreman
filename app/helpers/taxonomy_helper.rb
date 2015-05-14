@@ -156,11 +156,11 @@ module TaxonomyHelper
       association = resource.to_s.classify.constantize
     end
     return unless User.current.allowed_to?("view_#{resource}".to_sym)
-    ids = "#{association.table_name.singularize}_ids".to_sym
+    ids = "#{association.scoped.klass.to_s.underscore.singularize}_ids".to_sym
 
     content_tag(:div, :id => resource, :class => "tab-pane") do
       all_checkbox(f, resource) +
-      multiple_selects(f, association.table_name.to_sym, association, taxonomy.selected_or_inherited_ids[ids],
+      multiple_selects(f, association.scoped.klass.to_s.underscore.pluralize.to_sym, association, taxonomy.selected_or_inherited_ids[ids],
                            {:disabled => taxonomy.used_and_selected_or_inherited_ids[ids],
                             :label => translated_label(resource, :select)},
                            {'data-mismatches' => taxonomy.need_to_be_selected_ids[ids].to_json,
@@ -175,7 +175,8 @@ module TaxonomyHelper
                :subnets => { :all => _("All subnets"), :select => _("Select subnets") },
                :compute_resources => { :all => _("All compute resources"), :select => _("Select compute resources") },
                :media => { :all => _("All media"), :select => _("Select media") },
-               :templates => { :all => _("All templates"), :select => _("Select templates") },
+               :provisioning_templates => { :all => _("All provisioning templates"), :select => _("Select provisioning templates") },
+               :ptables => { :all => _("All partition tables"), :select => _("Select partition tables") },
                :domains => { :all => _("All domains"), :select => _("Select domains") },
                :realms => { :all => _("All realms"), :select => _("Select realms") },
                :environments => { :all => _("All environments"), :select => _("Select environments") },

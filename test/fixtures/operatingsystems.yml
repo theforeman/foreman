@@ -7,7 +7,6 @@ centos5_3:
   type: Redhat
   media: one
   architectures: x86_64
-  ptables: one
   title: 'centos 5.3'
 
 redhat:
@@ -16,7 +15,6 @@ redhat:
   minor: 1
   type: Redhat
   description: RHEL 6.1
-  ptables: one
   architectures: x86_64
   media: one
   title: 'RHEL 6.1'
@@ -26,7 +24,6 @@ ubuntu1010:
   major: 10
   minor: 10
   type: Debian
-  ptables: ubuntu
   media: ubuntu
   architectures: x86_64
   title: 'Ubuntu 10.10'
@@ -40,7 +37,6 @@ solaris10:
   architectures: sparc
   release_name: hw0910
   title: 'Solaris 5.10'
-  ptables: one
 
 no_hosts_os:
   name: NoHosts

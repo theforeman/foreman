@@ -33,7 +33,7 @@ module Orchestration::SSHProvision
 
   def setSSHProvisionScript
     logger.info "About to start post launch script on #{name}"
-    template   = configTemplate(:kind => "finish")
+    template   = provisioning_template(:kind => "finish")
     @host      = self
     logger.info "generating template to upload to #{name}"
     self.template_file = unattended_render_to_temp_file(template)
@@ -96,7 +96,7 @@ module Orchestration::SSHProvision
     return if Rails.env == "test"
     status = true
     begin
-      template = configTemplate(:kind => "finish")
+      template = provisioning_template(:kind => "finish")
     rescue => e
       logger.error e.message
       logger.error e.backtrace.join("\n")

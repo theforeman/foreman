@@ -535,7 +535,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "should not save if IP is not in the right subnet" do
       if unattended?
-        host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03", :ptable => ptables(:one),
+        host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03", :ptable => FactoryGirl.create(:ptable),
           :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :managed => true, :medium => media(:one),
           :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first, :puppet_proxy => smart_proxies(:puppetmaster)
         assert !host.valid?
@@ -543,7 +543,8 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "should save if owner_type is User or Usergroup" do
-      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :ptable => ptables(:one), :medium => media(:one),
+      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03",
+        :ptable => FactoryGirl.create(:ptable, :operatingsystem_ids => [operatingsystems(:redhat).id]), :medium => media(:one),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
         :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
         :owner_type => "User", :root_pass => "xybxa6JUkz63w"
@@ -559,7 +560,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "should not save if installation media is missing" do
-      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :ptable => ptables(:one),
+      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :ptable => FactoryGirl.create(:ptable),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
         :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true, :build => true,
         :owner_type => "User", :root_pass => "xybxa6JUkz63w"
@@ -675,26 +676,26 @@ class HostTest < ActiveSupport::TestCase
       end
 
       test "retrieves iPXE template if associated to the correct env and host group" do
-        assert_equal ConfigTemplate.find_by_name("MyString"), @host.configTemplate({:kind => "iPXE"})
+        assert_equal ProvisioningTemplate.find_by_name("MyString"), @host.provisioning_template({:kind => "iPXE"})
       end
 
       test "retrieves provision template if associated to the correct host group only" do
-        assert_equal ConfigTemplate.find_by_name("MyString2"), @host.configTemplate({:kind => "provision"})
+        assert_equal ProvisioningTemplate.find_by_name("MyString2"), @host.provisioning_template({:kind => "provision"})
       end
 
       test "retrieves script template if associated to the correct OS only" do
-        assert_equal ConfigTemplate.find_by_name("MyScript"), @host.configTemplate({:kind => "script"})
+        assert_equal ProvisioningTemplate.find_by_name("MyScript"), @host.provisioning_template({:kind => "script"})
       end
 
       test "retrieves finish template if associated to the correct environment only" do
-        assert_equal ConfigTemplate.find_by_name("MyFinish"), @host.configTemplate({:kind => "finish"})
+        assert_equal ProvisioningTemplate.find_by_name("MyFinish"), @host.provisioning_template({:kind => "finish"})
       end
 
       test "available_template_kinds finds templates for a PXE host" do
         os_dt = FactoryGirl.create(:os_default_template, :template_kind=> TemplateKind.find('finish'))
         host  = FactoryGirl.create(:host, :operatingsystem => os_dt.operatingsystem)
 
-        assert_equal [os_dt.config_template], host.available_template_kinds('build')
+        assert_equal [os_dt.provisioning_template], host.available_template_kinds('build')
       end
 
       test "available_template_kinds finds templates for an image host" do
@@ -705,7 +706,7 @@ class HostTest < ActiveSupport::TestCase
                            :compute_resource => host.compute_resource)
         host.compute_attributes = {:image_id => 'abcde'}
 
-        assert_equal [os_dt.config_template], host.available_template_kinds('image')
+        assert_equal [os_dt.provisioning_template], host.available_template_kinds('image')
       end
     end
 

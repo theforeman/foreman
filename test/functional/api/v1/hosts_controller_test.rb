@@ -3,6 +3,8 @@ require 'test_helper'
 class Api::V1::HostsControllerTest < ActionController::TestCase
   def setup
     @host = FactoryGirl.create(:host)
+    @ptable = FactoryGirl.create(:ptable)
+    @ptable.operatingsystems = [ Operatingsystem.find_by_name('Redhat') ]
   end
 
   def valid_attrs
@@ -11,7 +13,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
       :domain_id           => domains(:mydomain).id,
       :ip                  => '10.0.0.20',
       :mac                 => '52:53:00:1e:85:93',
-      :ptable_id           => ptables(:one).id,
+      :ptable_id           => @ptable.id,
       :medium_id           => media(:one).id,
       :architecture_id     => Architecture.find_by_name('x86_64').id,
       :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,

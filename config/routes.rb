@@ -254,18 +254,38 @@ Foreman::Application.routes.draw do
   end
 
   if SETTINGS[:unattended]
-    resources :config_templates, :except => [:show] do
-      member do
-        get 'clone'
-        get 'lock'
-        get 'unlock'
-      end
+    resources :provisioning_templates, :only => [] do
       collection do
-        get 'auto_complete_search'
         get 'build_pxe_default'
-        get 'revision'
       end
     end
+
+    scope 'templates' do
+      resources :ptables, :except => [:show] do
+        member do
+          get 'clone_template'
+          get 'lock'
+          get 'unlock'
+        end
+        collection do
+          get 'revision'
+          get 'auto_complete_search'
+        end
+      end
+
+      resources :provisioning_templates, :except => [:show] do
+        member do
+          get 'clone_template'
+          get 'lock'
+          get 'unlock'
+        end
+        collection do
+          get 'revision'
+          get 'auto_complete_search'
+        end
+      end
+    end
+
     constraints(:id => /[^\/]+/) do
       resources :domains, :except => [:show] do
         collection do
@@ -295,12 +315,6 @@ Foreman::Application.routes.draw do
     end
 
     resources :architectures, :except => [:show] do
-      collection do
-        get 'auto_complete_search'
-      end
-    end
-
-    resources :ptables, :except => [:show] do
       collection do
         get 'auto_complete_search'
       end

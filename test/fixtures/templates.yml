@@ -4,6 +4,7 @@ mystring:
   template_kind: ipxe
   operatingsystems: centos5_3, redhat
   locked: false
+  type: ProvisioningTemplate
 
 myscript:
   name: MyScript
@@ -11,6 +12,7 @@ myscript:
   template_kind: script
   operatingsystems: centos5_3, redhat
   locked: false
+  type: ProvisioningTemplate
 
 mystring2:
   name: MyString2
@@ -18,6 +20,7 @@ mystring2:
   template_kind: provision
   operatingsystems: centos5_3, redhat, ubuntu1010
   locked: false
+  type: ProvisioningTemplate
 
 myfinish:
    name: MyFinish
@@ -25,6 +28,7 @@ myfinish:
    template_kind: finish
    operatingsystems: centos5_3, redhat, ubuntu1010
    locked: false
+   type: ProvisioningTemplate
 
 pxekickstart:
     name: centos5_3_pxelinux
@@ -32,6 +36,7 @@ pxekickstart:
     template_kind: pxelinux
     operatingsystems: centos5_3, redhat, ubuntu1010
     locked: false
+    type: ProvisioningTemplate
 
 pxe_menu:
    name: PXE Default Menu
@@ -39,6 +44,7 @@ pxe_menu:
    template_kind: PXELinux
    operatingsystems: centos5_3
    locked: false
+   type: ProvisioningTemplate
 
 pxe_default:
    name: PXELinux global default
@@ -46,6 +52,7 @@ pxe_default:
    template_kind: pxelinux
    operatingsystems: centos5_3, redhat
    locked: false
+   type: ProvisioningTemplate
 
 pxe_local_default:
    name: PXELinux default local boot
@@ -53,6 +60,7 @@ pxe_local_default:
    template_kind: pxelinux
    operatingsystems: centos5_3, redhat
    locked: false
+   type: ProvisioningTemplate
 
 ipxe:
    name: iPXE Dummy Menu
@@ -60,6 +68,7 @@ ipxe:
    template_kind: ipxe
    operatingsystems: centos5_3
    locked: false
+   type: ProvisioningTemplate
 
 pxegrub:
    name: PXEGrub Dummy Menu
@@ -67,6 +76,7 @@ pxegrub:
    template_kind: pxegrub
    operatingsystems: centos5_3, redhat
    locked: false
+   type: ProvisioningTemplate
 
 locked:
   name: Locked Template
@@ -74,3 +84,4 @@ locked:
   template_kind: provision
   operatingsystems: centos5_3
   locked: true
+  type: ProvisioningTemplate

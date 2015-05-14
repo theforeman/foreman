@@ -14,7 +14,7 @@ module Nic
     # Interface normally are not executed by them self, so we use the host queue and related methods.
     # this ensures our orchestration works on both a host and a managed interface
     delegate :progress_report_id, :capabilities, :compute_resource,
-             :operatingsystem, :configTemplate, :jumpstart?, :build, :build?, :os, :arch,
+             :operatingsystem, :provisioning_template, :jumpstart?, :build, :build?, :os, :arch,
              :image_build?, :pxe_build?, :pxe_build?, :token, :to_ip_address, :model, :to => :host
     delegate :operatingsystem_id, :hostgroup_id, :environment_id,
              :overwrite?, :to => :host, :allow_nil => true

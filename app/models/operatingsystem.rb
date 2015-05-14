@@ -16,10 +16,10 @@ class Operatingsystem < ActiveRecord::Base
   has_and_belongs_to_many :ptables
   has_and_belongs_to_many :architectures
   has_and_belongs_to_many :puppetclasses
-  has_and_belongs_to_many :config_templates
+  has_and_belongs_to_many :provisioning_templates
   has_many :os_default_templates, :dependent => :destroy
   accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,
-    :reject_if => :reject_empty_config_template
+    :reject_if => :reject_empty_provisioning_template
 
   validates :major, :numericality => {:greater_than_or_equal_to => 0}, :presence => { :message => N_("Operating System version is required") }
   has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :operatingsystem
@@ -52,7 +52,7 @@ class Operatingsystem < ActiveRecord::Base
 
   scoped_search :in => :architectures,    :on => :name,  :complete_value => :true, :rename => "architecture", :only_explicit => true
   scoped_search :in => :media,            :on => :name,  :complete_value => :true, :rename => "medium", :only_explicit => true
-  scoped_search :in => :config_templates, :on => :name,  :complete_value => :true, :rename => "template", :only_explicit => true
+  scoped_search :in => :provisioning_templates, :on => :name,  :complete_value => :true, :rename => "template", :only_explicit => true
   scoped_search :in => :os_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :rename => :params, :only_explicit => true
 
   FAMILIES = { 'Debian'    => %r{Debian|Ubuntu}i,
@@ -268,10 +268,10 @@ class Operatingsystem < ActiveRecord::Base
     end
   end
 
-  def reject_empty_config_template(attributes)
+  def reject_empty_provisioning_template(attributes)
     template_exists = attributes[:id].present?
-    config_template_id_empty = attributes[:config_template_id].blank?
-    attributes.merge!({:_destroy => 1}) if template_exists && config_template_id_empty
-    (!template_exists && config_template_id_empty)
+    provisioning_template_id_empty = attributes[:provisioning_template_id].blank?
+    attributes.merge!({:_destroy => 1}) if template_exists && provisioning_template_id_empty
+    (!template_exists && provisioning_template_id_empty)
   end
 end

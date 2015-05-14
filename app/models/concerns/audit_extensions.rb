@@ -8,7 +8,7 @@ module AuditExtensions
     belongs_to :search_hosts, :class_name => 'Host', :foreign_key => :auditable_id
     belongs_to :search_hostgroups, :class_name => 'Hostgroup', :foreign_key => :auditable_id
     belongs_to :search_parameters, :class_name => 'Parameter', :foreign_key => :auditable_id
-    belongs_to :search_templates, :class_name => 'ConfigTemplate', :foreign_key => :auditable_id
+    belongs_to :search_templates, :class_name => 'ProvisioningTemplate', :foreign_key => :auditable_id
     belongs_to :search_os, :class_name => 'Operatingsystem', :foreign_key => :auditable_id
     belongs_to :search_class, :class_name => 'Puppetclass', :foreign_key => :auditable_id
 
@@ -18,7 +18,7 @@ module AuditExtensions
     scoped_search :on => :action, :complete_value => { :create => 'create', :update => 'update', :delete => 'destroy' }
     scoped_search :on => :auditable_type, :complete_value => { :host => 'Host', :parameter => 'Parameter', :architecture => 'Architecture',
                                                                :puppetclass => 'Puppetclass', :os => 'Operatingsystem', :hostgroup => 'Hostgroup',
-                                                               :template => "ConfigTemplate" }, :rename => :type
+                                                               :template => "ProvisioningTemplate" }, :rename => :type
 
     scoped_search :in => :search_parameters, :on => :name, :complete_value => true, :rename => :parameter, :only_explicit => true
     scoped_search :in => :search_templates, :on => :name, :complete_value => true, :rename => :template, :only_explicit => true

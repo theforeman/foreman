@@ -1,16 +1,19 @@
 module Api
   module V2
     class TemplateCombinationsController < V2::BaseController
+      before_filter :rename_config_template
       before_filter :find_required_nested_object
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
       def_param_group :template_combination_identifiers do
         param :config_template_id, String, :desc => N_("ID of config template")
+        param :provisioning_template_id, String, :desc => N_("ID of config template")
         param :hostgroup_id, String, :desc => N_("ID of host group")
         param :environment_id, String, :desc => N_("ID of environment")
       end
 
       api :GET, "/config_templates/:config_template_id/template_combinations", N_("List template combination")
+      api :GET, "/provisioning_templates/:provisioning_template_id/template_combinations", N_("List template combination")
       api :GET, "/hostgroups/:hostgroup_id/template_combinations", N_("List template combination")
       api :GET, "/environments/:environment_id/template_combinations", N_("List template combination")
       param_group :template_combination_identifiers
@@ -63,7 +66,14 @@ module Api
       private
 
       def allowed_nested_id
-        %w(environment_id hostgroup_id config_template_id)
+        %w(environment_id hostgroup_id provisioning_template_id)
+      end
+
+      def rename_config_template
+        if !params[:config_template_id].nil?
+          params[:provisioning_template_id] = params.delete(:config_template_id)
+          ::ActiveSupport::Deprecation.warn('Config templates were renamed to provisioning templates')
+        end
       end
     end
   end

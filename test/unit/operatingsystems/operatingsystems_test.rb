@@ -9,7 +9,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     test "os label for #{os}" do
       stub_os = FactoryGirl.build(config['os'],
                                   :architectures => [architectures((config['arch']))],
-                                  :ptables => [ptables(:one)],
+                                  :ptables => [FactoryGirl.create(:ptable)],
                                   :media => [FactoryGirl.build(:medium)])
       assert_equal(config['expected'], stub_os.to_label)
     end
@@ -23,7 +23,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     test "pxedir  for #{os}" do
       stub_os = FactoryGirl.build(config['os'],
                              :architectures => [architectures((config['arch']))],
-                             :ptables => [ptables(:one)],
+                             :ptables => [FactoryGirl.create(:ptable)],
                              :media => [FactoryGirl.build(:medium)])
 
       assert_equal(config['expected'], stub_os.pxedir)
@@ -40,7 +40,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
       host = FactoryGirl.build(:host,
                                :operatingsystem => FactoryGirl.build(config['os'],
                                                                      :architectures => [arch],
-                                                                     :ptables => [ptables(:one)],
+                                                                     :ptables => [FactoryGirl.create(:ptable)],
                                                                      :media => [FactoryGirl.build(:medium)]),
                                :architecture => arch)
       assert_equal(config['expected'], host.operatingsystem.kernel(host.arch))
@@ -57,7 +57,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
       host = FactoryGirl.build(:host,
                                :operatingsystem => FactoryGirl.build(config['os'],
                                                                      :architectures => [arch],
-                                                                     :ptables => [ptables(:one)],
+                                                                     :ptables => [FactoryGirl.create(:ptable)],
                                                                      :media => [FactoryGirl.build(:medium)]),
                                :architecture => arch)
       assert_equal(config['expected'], host.operatingsystem.initrd(host.arch))
@@ -74,7 +74,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
       host = FactoryGirl.build(:host,
                                :operatingsystem => FactoryGirl.build(config['os'],
                                                                      :architectures => [arch],
-                                                                     :ptables => [ptables(:one)],
+                                                                     :ptables => [FactoryGirl.create(:ptable)],
                                                                      :media => [FactoryGirl.build(:medium)]),
                                :architecture => arch)
       assert_equal(config['expected'], host.operatingsystem.pxe_prefix(host.arch))
@@ -100,7 +100,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
       arch = architectures(config['arch'])
       operatingsystem = FactoryGirl.build(config['os'],
                                           :architectures => [arch],
-                                          :ptables => [ptables(:one)],
+                                          :ptables => [FactoryGirl.create(:ptable)],
                                           :media => [medium])
       host = FactoryGirl.build(:host,
                                :operatingsystem => operatingsystem,

@@ -1,0 +1,33 @@
+<div class="tab-pane" id="template_type">
+  <%= checkbox_f f, :snippet, :onchange => "snippet_changed(this)", :label=>_('Snippet'), :disabled => @template.locked? %>
+
+  <div id="kind_selector" <%= display? @template.snippet %>>
+    <%= select_f f, :template_kind_id, TemplateKind.all, :id, :name, {:include_blank => true, :selected => @template_kind_id},
+                 {:disabled => @template.locked?, :label => _("Type")} %>
+  </div>
+</div>
+
+<div class="tab-pane" id="template_associations">
+  <p id="snippet_message" class="alert alert-info" <%= display? !@template.snippet %> ><%= _("Not relevant for snippet") %></p>
+
+  <div id="association" <%= display? @template.snippet %> >
+    <div class="alert alert-success alert-dismissable">
+      <%= alert_close %>
+
+      <h3><%= _("How templates are determined") %><br></h3>
+
+      <p><%= _("When editing a Template, you must assign a list of Operating Systems which this Template can be used with. Optionally, you can restrict a template to a list of Hostgroups and/or Environments") %></p>
+
+      <p><%= _("When a Host requests a template (e.g. during provisioning), Foreman will select the best match from the available templates of that type, in the following order:") %></p>
+      <ul>
+        <li><%= _("Host group and Environment") %></li>
+        <li><%= _("Host group only") %></li>
+        <li><%= _("Environment only") %></li>
+        <li><%= _("Operating system default") %></li>
+      </ul>
+      <%= (_("The final entry, Operating System default, can be set by editing the %s page.") % (link_to _("Operating System"), operatingsystems_path)).html_safe %>
+    </div>
+    <%= multiple_selects f, :operatingsystems, Operatingsystem, @operatingsystems.try(:map, &:id), :label => _("Applicable<br>Operating Systems").html_safe %>
+    <%= render "provisioning_templates/combinations", :f => f %>
+  </div>
+</div>

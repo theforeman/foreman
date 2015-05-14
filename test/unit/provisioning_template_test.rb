@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class ConfigTemplateTest < ActiveSupport::TestCase
+class ProvisioningTemplateTest < ActiveSupport::TestCase
   test "should be valid when selecting a kind" do
-    tmplt               = ConfigTemplate.new
+    tmplt               = ProvisioningTemplate.new
     tmplt.name          = "Default Kickstart"
     tmplt.template      = "Some kickstart goes here"
     tmplt.template_kind = template_kinds(:ipxe)
@@ -10,7 +10,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
   end
 
   test "should be valid as a snippet" do
-    tmplt          = ConfigTemplate.new
+    tmplt          = ProvisioningTemplate.new
     tmplt.name     = "Default Kickstart"
     tmplt.template = "Some kickstart goes here"
     tmplt.snippet  = true
@@ -18,11 +18,11 @@ class ConfigTemplateTest < ActiveSupport::TestCase
   end
 
   test "should be invalid" do
-    assert !ConfigTemplate.new.valid?
+    assert !ProvisioningTemplate.new.valid?
   end
 
   test "should save assoications if not snippet" do
-    tmplt = ConfigTemplate.new
+    tmplt = ProvisioningTemplate.new
     tmplt.name = "Some finish script"
     tmplt.template = "echo $HOME"
     tmplt.template_kind = template_kinds(:finish)
@@ -38,7 +38,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
   end
 
   test "should not save assoications if snippet" do
-    tmplt          = ConfigTemplate.new
+    tmplt          = ProvisioningTemplate.new
     tmplt.name     = "Default Kickstart"
     tmplt.template = "Some kickstart goes here"
     tmplt.snippet  = true
@@ -57,7 +57,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
   # If the template is not a snippet is should require the specific declaration
   # of a type (ipxe, finish, etc.)
   test "should require a template kind" do
-    tmplt = ConfigTemplate.new
+    tmplt = ProvisioningTemplate.new
     tmplt.name = "Some finish script"
     tmplt.template = "echo $HOME"
 
@@ -65,7 +65,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
   end
 
   test "should be able to clone" do
-    tmplt          = ConfigTemplate.new
+    tmplt          = ProvisioningTemplate.new
     tmplt.name     = "Finish It"
     tmplt.template = "some content"
     tmplt.snippet  = false
@@ -82,13 +82,13 @@ class ConfigTemplateTest < ActiveSupport::TestCase
   end
 
   test "should not edit a locked template" do
-    tmplt = config_templates(:locked)
+    tmplt = templates(:locked)
     tmplt.name = "something else"
     refute_valid tmplt, :base, /is locked/
   end
 
   test "should clone a locked template as unlocked" do
-    tmplt = config_templates(:locked)
+    tmplt = templates(:locked)
     clone = tmplt.clone
     assert_equal clone.name, nil
     assert_equal clone.operatingsystems, tmplt.operatingsystems
@@ -99,12 +99,12 @@ class ConfigTemplateTest < ActiveSupport::TestCase
   end
 
   test "should not remove a locked template" do
-    tmplt = config_templates(:locked)
+    tmplt = templates(:locked)
     refute_with_errors tmplt.destroy, tmplt, :base, /locked/
   end
 
   test "should not unlock a template if not allowed" do
-    tmplt = ConfigTemplate.create :name => "Vendor Template", :template => "provision test",
+    tmplt = ProvisioningTemplate.create :name => "Vendor Template", :template => "provision test",
                                   :template_kind => template_kinds(:provision), :default => true,
                                   :vendor => "Katello"
     tmplt.update_attribute(:locked, true)
@@ -115,7 +115,7 @@ class ConfigTemplateTest < ActiveSupport::TestCase
 
   test "should change a locked template while in rake" do
     Foreman.stubs(:in_rake?).returns(true)
-    tmplt = config_templates(:locked)
+    tmplt = templates(:locked)
     tmplt.template = "changing the template content"
     tmplt.name = "giving it a new name too"
     assert tmplt.locked
@@ -135,65 +135,65 @@ class ConfigTemplateTest < ActiveSupport::TestCase
       @tk = FactoryGirl.create(:template_kind)
 
       # Most specific template association
-      @ct1 = FactoryGirl.create(:config_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct1 = FactoryGirl.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
       @ct1.template_combinations.create(:hostgroup => @hg1, :environment => @ev1)
 
       # HG only
       # We add an association on HG2/EV2 to ensure that we're not just blindly
       # selecting all template_combinations where environment_id => nil
-      @ct2 = FactoryGirl.create(:config_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct2 = FactoryGirl.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
       @ct2.template_combinations.create(:hostgroup => @hg1, :environment => nil)
       @ct2.template_combinations.create(:hostgroup => @hg2, :environment => @ev2)
 
       # Env only
       # We add an association on HG2/EV2 to ensure that we're not just blindly
       # selecting all template_combinations where hostgroup_id => nil
-      @ct3 = FactoryGirl.create(:config_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct3 = FactoryGirl.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
       @ct3.template_combinations.create(:hostgroup => nil, :environment => @ev1)
       @ct3.template_combinations.create(:hostgroup => @hg2, :environment => @ev2)
 
       # Default template for the OS
-      @ctd = FactoryGirl.create(:config_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ctd = FactoryGirl.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
       @ctd.os_default_templates.create(:operatingsystem => @os1,
                                       :template_kind_id => @ctd.template_kind_id)
     end
 
     test "find_template finds a matching template with hg and env" do
       assert_equal @ct1.name,
-        ConfigTemplate.find_template({:kind => @tk.name,
+        ProvisioningTemplate.find_template({:kind => @tk.name,
                                       :operatingsystem_id => @os1.id,
                                       :hostgroup_id => @hg1.id,
                                       :environment_id => @ev1.id}).name
     end
     test "find_template finds a matching template with hg only" do
       assert_equal @ct2.name,
-        ConfigTemplate.find_template({:kind => @tk.name,
+        ProvisioningTemplate.find_template({:kind => @tk.name,
                                       :operatingsystem_id => @os1.id,
                                       :hostgroup_id => @hg1.id}).name
     end
     test "find_template finds a matching template with hg and mismatched env" do
       assert_equal @ct2.name,
-        ConfigTemplate.find_template({:kind => @tk.name,
+        ProvisioningTemplate.find_template({:kind => @tk.name,
                                       :operatingsystem_id => @os1.id,
                                       :hostgroup_id => @hg1.id,
                                       :environment_id => @ev3.id}).name
     end
     test "find_template finds a matching template with env only" do
       assert_equal @ct3.name,
-        ConfigTemplate.find_template({:kind => @tk.name,
+        ProvisioningTemplate.find_template({:kind => @tk.name,
                                       :operatingsystem_id => @os1.id,
                                       :environment_id => @ev1.id}).name
     end
     test "find_template finds a matching template with env and mismatched hg" do
       assert_equal @ct3.name,
-        ConfigTemplate.find_template({:kind => @tk.name,
+        ProvisioningTemplate.find_template({:kind => @tk.name,
                                       :operatingsystem_id => @os1.id,
                                       :hostgroup_id => @hg3.id,
                                       :environment_id => @ev1.id}).name
     end
     test "find_template finds the default template when hg and env do not match" do
       assert_equal @ctd.name,
-        ConfigTemplate.find_template({:kind => @tk.name,
+        ProvisioningTemplate.find_template({:kind => @tk.name,
                                       :operatingsystem_id => @os1.id,
                                       :hostgroup_id => @hg3.id,
                                       :environment_id => @ev3.id}).name

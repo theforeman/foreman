@@ -3,6 +3,10 @@ require 'test_helper'
 class Api::V1::PtablesControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'ptable_test', :layout => 'd-i partman-auto/disk' }
 
+  def setup
+    @ptable = FactoryGirl.create(:ptable)
+  end
+
   test "should get index" do
     get :index, { }
     assert_response :success
@@ -12,7 +16,7 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => ptables(:one).to_param }
+    get :show, { :id => @ptable.to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -26,20 +30,22 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
   end
 
   test "should update ptable" do
-    put :update, { :id => ptables(:one).to_param, :ptable => { } }
+    put :update, { :id => @ptable.to_param, :ptable => { } }
     assert_response :success
   end
 
   test "should NOT destroy ptable in use" do
+    FactoryGirl.create(:host, :ptable_id => @ptable.id)
+
     assert_difference('Ptable.count', -0) do
-      delete :destroy, { :id => ptables(:one).to_param }
+      delete :destroy, { :id => @ptable.to_param }
     end
     assert_response :unprocessable_entity
   end
 
   test "should destroy ptable that is NOT in use" do
     assert_difference('Ptable.count', -1) do
-      delete :destroy, { :id => ptables(:four).to_param }
+      delete :destroy, { :id => @ptable.to_param }
     end
     assert_response :success
   end

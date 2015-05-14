@@ -3,18 +3,18 @@ require 'test_helper'
 class HostsControllerTest < ActionController::TestCase
   setup :initialize_host
 
-  def test_show
+  test 'show' do
     get :show, {:id => Host.first.name}, set_session_user
     assert_template 'show'
   end
 
-  def test_create_invalid
+  test 'create_invalid' do
     Host.any_instance.stubs(:valid?).returns(false)
     post :create, {}, set_session_user
     assert_template 'new'
   end
 
-  def test_create_valid
+  test 'create_valid' do
     Host.any_instance.stubs(:valid?).returns(true)
     post :create, {:host => {:name => "test"}}, set_session_user
     assert_redirected_to host_url(assigns('host'))
@@ -650,16 +650,6 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   #Optimistic - Location
-  test "update multiple location succeeds on optimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
-    location = taxonomies(:location1)
-    post :update_multiple_location, {
-      :location => {:id => location.id, :optimistic_import => "yes"},
-      :host_ids => Host.pluck('hosts.id')
-    }, set_session_user
-    assert_redirected_to :controller => :hosts, :action => :index
-    assert_equal "Updated hosts: Changed Location", flash[:notice]
-  end
   test "update multiple location updates location of hosts if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
@@ -670,6 +660,8 @@ class HostsControllerTest < ActionController::TestCase
         :host_ids => Host.pluck('hosts.id')
       }, set_session_user
     end
+    assert_redirected_to :controller => :hosts, :action => :index
+    assert_equal "Updated hosts: Changed Location", flash[:notice]
   end
   test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path

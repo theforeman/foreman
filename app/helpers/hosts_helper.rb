@@ -156,8 +156,8 @@ module HostsHelper
   end
 
   def template_path(opts = {})
-    if (t = @host.configTemplate(opts))
-      link_to t, edit_config_template_path(t)
+    if (t = @host.provisioning_template(opts))
+      link_to t, edit_provisioning_template_path(t)
     else
       _("N/A")
     end
@@ -216,7 +216,7 @@ module HostsHelper
     end
     begin
       templates = Hash[TemplateKind.order(:name).map do |k|
-        template = @host.configTemplate(:kind => k.name)
+        template = @host.provisioning_template(:kind => k.name)
         next if template.nil?
         [k.name, template]
       end.compact]
@@ -237,7 +237,7 @@ module HostsHelper
           content_tag(:td, _("%s Template") % kind) +
             content_tag(:td,
                         action_buttons(
-                          display_link_if_authorized(_("Edit"), hash_for_edit_config_template_path(:id => tmplt.to_param), :rel => "external"),
+                          display_link_if_authorized(_("Edit"), hash_for_edit_provisioning_template_path(:id => tmplt.to_param), :rel => "external"),
                           link_to(_("Review"), url_for(:controller => '/unattended', :action => kind, :hostname => @host.name),
                                   :rel => 'external', :"data-provisioning-template" => true))
             )
@@ -439,7 +439,7 @@ module HostsHelper
   def build_error_link(type, id)
     case type
       when :templates
-        link_to_if_authorized(_("Edit"), hash_for_edit_config_template_path(:id => id).merge(:auth_object => id),
+        link_to_if_authorized(_("Edit"), hash_for_edit_provisioning_template_path(:id => id).merge(:auth_object => id),
                               :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type) )
     end
   end

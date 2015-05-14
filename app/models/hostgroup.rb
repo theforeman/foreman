@@ -24,7 +24,7 @@ class Hostgroup < ActiveRecord::Base
   has_many_hosts :after_add => :update_puppetclasses_total_hosts,
                  :after_remove => :update_puppetclasses_total_hosts
   has_many :template_combinations, :dependent => :destroy
-  has_many :config_templates, :through => :template_combinations
+  has_many :provisioning_templates, :through => :template_combinations
 
   include CounterCacheFix
   counter_cache = "#{model_name.split(":").first.pluralize.downcase}_count".to_sym  # e.g. :hosts_count
@@ -77,7 +77,7 @@ class Hostgroup < ActiveRecord::Base
     scoped_search :in => :operatingsystem,  :on => :minor,       :complete_value => true,  :rename => :os_minor
     scoped_search :in => :operatingsystem,  :on => :id,          :complete_enabled => false, :rename => :os_id, :only_explicit => true
     scoped_search :in => :medium,           :on => :name,        :complete_value => true,  :rename => "medium"
-    scoped_search :in => :config_templates, :on => :name,        :complete_value => true,  :rename => "template"
+    scoped_search :in => :provisioning_templates, :on => :name,        :complete_value => true,  :rename => "template"
   end
 
   # returns reports for hosts in the User's filter set

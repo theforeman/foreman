@@ -4,7 +4,9 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
       include Foreman::Renderer
-      include Foreman::Controller::ConfigTemplates
+      include Foreman::Controller::ProvisioningTemplates
+
+      before_filter :deprecated
 
       before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy clone}
@@ -22,7 +24,7 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @config_templates = resource_scope_for_index(:permission => :view_templates).includes(:template_kind)
+        @config_templates = resource_scope_for_index(:permission => :view_provisioning_templates).includes(:template_kind)
       end
 
       api :GET, "/config_templates/:id", N_("Show provisioning template details")
@@ -50,7 +52,7 @@ module Api
       param_group :config_template, :as => :create
 
       def create
-        @config_template = ConfigTemplate.new(params[:config_template])
+        @config_template = ProvisioningTemplate.new(params[:config_template])
         process_response @config_template.save
       end
 
@@ -80,7 +82,7 @@ module Api
       api :GET, "/config_templates/build_pxe_default", N_("Update the default PXE menu on all configured TFTP servers")
 
       def build_pxe_default
-        status, msg = ConfigTemplate.authorized(:deploy_templates).build_pxe_default(self)
+        status, msg = ProvisioningTemplate.authorized(:deploy_provisioning_templates).build_pxe_default(self)
         render_message(msg, :status => status)
       end
 
@@ -96,12 +98,28 @@ module Api
 
       def clone
         @config_template = @config_template.clone
-        load_vars_from_config_template
+        load_vars_from_template
         @config_template.name = params[:config_template][:name]
         process_response @config_template.save
       end
 
+      def resource_name
+        'config_template'
+      end
+
       private
+
+      def type_name_singular
+        @type_name_singular ||= resource_name
+      end
+
+      def deprecated
+        ::ActiveSupport::Deprecation.warn('The resources /config_templates were moved to /provisioning_templates. Please use the new path instead.')
+      end
+
+      def resource_class
+        ProvisioningTemplate
+      end
 
       def process_operatingsystems
         return unless (ct = params[:config_template]) and (operatingsystems = ct.delete(:operatingsystems))
@@ -110,6 +128,10 @@ module Api
 
       def allowed_nested_id
         %w(operatingsystem_id location_id organization_id)
+      end
+
+      def controller_permission
+        @controller_permission ||= resource_class.to_s.underscore.pluralize
       end
 
       def action_permission

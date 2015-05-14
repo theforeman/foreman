@@ -37,7 +37,7 @@ class LocationTest < ActiveSupport::TestCase
   test 'location is valid if ignore all types' do
     location = taxonomies(:location1)
     location.organization_ids = [taxonomies(:organization1).id]
-    location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource", "Realm"]
+    location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ProvisioningTemplate", "ComputeResource", "Realm"]
     assert location.valid?
   end
 
@@ -64,7 +64,7 @@ class LocationTest < ActiveSupport::TestCase
                        :subnet           => subnet,
                        :organization     => nil)
     FactoryGirl.create(:os_default_template,
-                       :config_template  => config_templates(:mystring2),
+                       :provisioning_template  => templates(:mystring2),
                        :operatingsystem  => operatingsystems(:centos5_3),
                        :template_kind    => TemplateKind.find_by_name('provision'))
     # run used_ids method
@@ -79,7 +79,7 @@ class LocationTest < ActiveSupport::TestCase
     compute_resource_ids = Host.where(:location_id => location.id).uniq.pluck(:compute_resource_id).compact
     user_ids = Host.where(:location_id => location.id).where(:owner_type => 'User').uniq.pluck(:owner_id).compact
     smart_proxy_ids = Host.where(:location_id => location.id).map {|host| host.smart_proxies.map(&:id)}.flatten.compact.uniq
-    config_template_ids = Host.where("location_id = #{location.id} and operatingsystem_id > 0").map {|host| host.configTemplate.try(:id)}.compact.uniq
+    provisioning_template_ids = Host.where("location_id = #{location.id} and operatingsystem_id > 0").map {|host| host.provisioning_template.try(:id)}.compact.uniq
     # match to above retrieved data
     assert_equal used_ids[:environment_ids], environment_ids
     assert_equal used_ids[:hostgroup_ids], hostgroup_ids
@@ -90,7 +90,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal used_ids[:compute_resource_ids], compute_resource_ids
     assert_equal used_ids[:user_ids].sort, user_ids.sort
     assert_equal used_ids[:smart_proxy_ids].sort, smart_proxy_ids.sort
-    assert_equal used_ids[:config_template_ids], config_template_ids
+    assert_equal used_ids[:provisioning_template_ids], provisioning_template_ids
     # match to raw fixtures data
     assert_equal used_ids[:environment_ids].sort, [environments(:production).id]
     assert_equal used_ids[:hostgroup_ids], []
@@ -101,7 +101,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal used_ids[:user_ids], [users(:restricted).id]
     assert_includes used_ids[:smart_proxy_ids].sort, smart_proxies(:puppetmaster).id
     assert_includes used_ids[:smart_proxy_ids].sort, smart_proxies(:realm).id
-    assert_equal used_ids[:config_template_ids], [config_templates(:mystring2).id]
+    assert_equal used_ids[:provisioning_template_ids], [templates(:mystring2).id]
   end
 
   test 'it should return selected_ids array of selected values only (when types are not ignored)' do
@@ -116,7 +116,7 @@ class LocationTest < ActiveSupport::TestCase
     medium_ids = location.media.pluck('media.id')
     user_ids = location.users.pluck('users.id')
     smart_proxy_ids = location.smart_proxies.pluck('smart_proxies.id')
-    config_template_ids = location.config_templates.pluck('config_templates.id')
+    provisioning_template_ids = location.provisioning_templates.pluck('templates.id')
     compute_resource_ids = location.compute_resources.pluck('compute_resources.id')
     # check if they match
     assert_equal selected_ids[:environment_ids].sort, environment_ids.sort
@@ -126,7 +126,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:medium_ids].sort, medium_ids.sort
     assert_equal selected_ids[:user_ids].sort, user_ids.sort
     assert_equal selected_ids[:smart_proxy_ids].sort, smart_proxy_ids.sort
-    assert_equal selected_ids[:config_template_ids].sort, config_template_ids.sort
+    assert_equal selected_ids[:provisioning_template_ids].sort, provisioning_template_ids.sort
     assert_equal selected_ids[:compute_resource_ids].sort, compute_resource_ids.sort
     # match to manually generated taxable_taxonomies
     assert_equal selected_ids[:environment_ids], [environments(:production).id]
@@ -136,14 +136,14 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:medium_ids], [media(:one).id]
     assert_equal selected_ids[:user_ids], []
     assert_equal selected_ids[:smart_proxy_ids].sort, [smart_proxies(:puppetmaster).id, smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:realm).id].sort
-    assert_equal selected_ids[:config_template_ids], [config_templates(:mystring2).id]
+    assert_equal selected_ids[:provisioning_template_ids], [templates(:mystring2).id]
     assert_equal selected_ids[:compute_resource_ids], [compute_resources(:one).id]
   end
 
   test 'it should return selected_ids array of ALL values (when types are ignored)' do
     location = taxonomies(:location1)
     # ignore all types
-    location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ConfigTemplate", "ComputeResource", "Realm"]
+    location.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ProvisioningTemplate", "ComputeResource", "Realm"]
     # run selected_ids method
     selected_ids = location.selected_ids
     # should return all when type is ignored
@@ -155,7 +155,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:medium_ids].sort, Medium.pluck(:id).sort
     assert_equal selected_ids[:user_ids].sort, User.pluck(:id).sort
     assert_equal selected_ids[:smart_proxy_ids].sort, SmartProxy.pluck(:id).sort
-    assert_equal selected_ids[:config_template_ids].sort, ConfigTemplate.pluck(:id).sort
+    assert_equal selected_ids[:provisioning_template_ids].sort, ProvisioningTemplate.pluck(:id).sort
     assert_equal selected_ids[:compute_resource_ids].sort, ComputeResource.pluck(:id).sort
   end
 
@@ -172,7 +172,7 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal location_dup.medium_ids.sort, location.medium_ids.sort
     assert_equal location_dup.user_ids.sort, location.user_ids.sort
     assert_equal location_dup.smart_proxy_ids.sort, location.smart_proxy_ids.sort
-    assert_equal location_dup.config_template_ids.sort, location.config_template_ids.sort
+    assert_equal location_dup.provisioning_template_ids.sort, location.provisioning_template_ids.sort
     assert_equal location_dup.compute_resource_ids.sort, location.compute_resource_ids.sort
     assert_equal location_dup.realm_ids.sort, location.realm_ids.sort
     assert_equal location_dup.organization_ids.sort, location.organization_ids.sort
@@ -238,7 +238,7 @@ class LocationTest < ActiveSupport::TestCase
                        :location         => parent,
                        :domain           => domain2)
     FactoryGirl.create(:os_default_template,
-                       :config_template  => config_templates(:mystring2),
+                       :provisioning_template  => templates(:mystring2),
                        :operatingsystem  => operatingsystems(:centos5_3),
                        :template_kind    => TemplateKind.find_by_name('provision'))
 

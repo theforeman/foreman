@@ -25,7 +25,7 @@ class HostObserverTest < ActiveSupport::TestCase
                          :name => "foo",
                          :mac => "aabbeeddccff",
                          :ip => "2.3.4.244",
-                         :ptable => ptables(:one),
+                         :ptable => FactoryGirl.create(:ptable, :operatingsystem_ids => [operatingsystems(:redhat).id]),
                          :medium => media(:one),
                          :build => true,
                          :architecture => architectures(:x86_64),

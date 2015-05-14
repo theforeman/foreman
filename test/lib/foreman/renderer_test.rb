@@ -40,14 +40,14 @@ class RendererTest < ActiveSupport::TestCase
       snippet = mock("snippet")
       snippet.stubs(:name).returns("test")
       snippet.stubs(:template).returns("content")
-      ConfigTemplate.expects(:where).with(:name => "test", :snippet => true).returns([snippet])
+      Template.expects(:where).with(:name => "test", :snippet => true).returns([snippet])
       tmpl = snippet('test')
       assert_equal 'content', tmpl
     end
 
     test "#{renderer_name} should not raise error when snippet is not found" do
       send "setup_#{renderer_name}"
-      ConfigTemplate.expects(:where).with(:name => "test", :snippet => true).returns([])
+      Template.expects(:where).with(:name => "test", :snippet => true).returns([])
       assert_nil snippet_if_exists('test')
     end
 
