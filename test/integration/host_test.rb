@@ -293,6 +293,7 @@ class HostTest < ActionDispatch::IntegrationTest
       # remove hosts cookie on submit
       index_modal.find('.btn-primary').trigger('click')
       assert_empty(page.driver.cookies['_ForemanSelectedhosts'])
+      assert has_selector?("div", :text => "Updated hosts: changed environment")
     end
   end
 end
