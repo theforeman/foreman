@@ -23,7 +23,12 @@ namespace :reports do
 end
 # TRANSLATORS: do not translate
 desc <<-END_DESC
-Send an email summarising hosts reports (and lack of it).
+Send an email summarising hosts Puppet reports (and lack of it).
+
+Users can configure the frequency they desire to receive mail notifications under
+My account -> Mail Preferences -> Notifications, and this task will send emails to
+users according to their preferences.
+e.g: rake reports:daily sends reports to users who want daily notifications.
 
 Available conditions:
   * days             => number of days to scan backwards (defaults to 1)
@@ -33,20 +38,15 @@ Available conditions:
   * email            => override default email addresses
 
   Example:
-    # Sends out a summary email for the last 3 days.
-    rake reports:summarize days=3 RAILS_ENV="production" # Sends out a summary email for the last 3 days.
+    # Sends out a monthly summary email only for hosts that belong in the 'production' environment
+    rake reports:monthly environment=production RAILS_ENV="production"
 
-    # Sends out a summary email for the last 12 hours.
-    rake reports:summarize hours=12 RAILS_ENV="production" # Sends out a summary email for the last 12 hours.
+    # Sends out a weekly summary email only for hosts matching a certain fact name and value
+    rake reports:weekly fact=domain:theforeman.org RAILS_ENV="production"
 
-    # Sends out a summary email only for hosts which belongs to production puppet environment
-    rake reports:summarize environment=production RAILS_ENV="production"
-
-    # Sends out a summary email only for hosts which has a certian fact name and a value
-    rake reports:summarize fact=domain:theforeman.org RAILS_ENV="production"
-
-    # Sends out a summary email only for hosts which belongs to testing puppet environment to a special email address
-    rake reports:summarize environment=testing email=testuser@domain RAILS_ENV="production"
+    # Sends out a weekly summary email containing only hosts that belong in the 'testing'
+    # environment to an email address 'testuser@domain'
+    rake reports:weekly environment=testing email=testuser@domain RAILS_ENV="production"
 END_DESC
 namespace :reports do
   def mail_options
