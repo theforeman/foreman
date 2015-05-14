@@ -154,7 +154,7 @@ class AuthSourceLdap < AuthSource
         value = entry[value].is_a?(Array) ? entry[value].first : entry[value]
         [name, value.to_s]
       end
-    end]
+    end.compact]
   end
 
   def store_avatar(avatar)
