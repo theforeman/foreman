@@ -93,8 +93,13 @@ class AuthSourceLdap < AuthSource
   end
 
   def update_usergroups(login)
+    if use_user_login_for_service?
+      logger.info "Skipping user group update for user #{login} as $login is in use, group sync is unsupported"
+      return
+    end
+
     internal = User.find(login).external_usergroups.map(&:name)
-    external = ldap_con(account, account_password).group_list(login)
+    external = ldap_con.group_list(login)
     (internal | external).each do |name|
       begin
         external_usergroup = external_usergroups.find_by_name(name)

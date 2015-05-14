@@ -179,6 +179,13 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     end
   end
 
+  test 'update_usergroups is no-op with $login service account' do
+    ldap = FactoryGirl.build(:auth_source_ldap, :account => 'DOMAIN/$login')
+    User.any_instance.expects(:external_usergroups).never
+    ExternalUsergroup.any_instance.expects(:refresh).never
+    ldap.send(:update_usergroups, 'test')
+  end
+
   test '#to_config with dedicated service account returns hash' do
     conf = FactoryGirl.build(:auth_source_ldap, :service_account).to_config
     assert_kind_of Hash, conf
