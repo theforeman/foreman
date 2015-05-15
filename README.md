@@ -51,7 +51,7 @@ Foreman is a mature project, deployed in [many organizations](http://projects.th
 ![Installation media](http://i.imgur.com/5Uz9LFa.png)
 
 # Installation
-Read the [quickstart section](theforeman.org/manuals/latest/#2.Quickstart) of the manual. If you know your setup has some specific needs, read the [installation scenarios section](http://theforeman.org/manuals/latest/#3.2.3InstallationScenarios).
+Read the [quickstart section](http://theforeman.org/manuals/latest/#2.Quickstart) of the manual. If you know your setup has some specific needs, read the [installation scenarios section](http://theforeman.org/manuals/latest/#3.2.3InstallationScenarios).
 
 # Documentation
 Our main documentation reference is the [Foreman manual](http://theforeman.org/manuals/latest/). If you find some gaps you would like to fill in the manual, please contribute in [this repo](https://github.com/theforeman/theforeman.org).
