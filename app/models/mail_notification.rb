@@ -4,7 +4,7 @@ class MailNotification < ActiveRecord::Base
   INTERVALS = [N_("Daily"), N_("Weekly"), N_("Monthly")]
   SUBSCRIPTION_TYPES = %w(alert report)
 
-  attr_accessible :description, :mailer, :method, :name, :subscriptable, :subscription_type, :category
+  attr_accessible :description, :mailer, :method, :name, :subscriptable, :subscription_type, :category, :queryable
 
   has_many :user_mail_notifications, :dependent => :destroy
   has_many :users, :through => :user_mail_notifications

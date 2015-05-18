@@ -6,6 +6,7 @@ FactoryGirl.define do
     mailer_method "test_mail"
     description "Notifies a user"
     subscription_type "report"
+    queryable false
   end
 end
 

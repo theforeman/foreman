@@ -285,7 +285,7 @@ module LayoutHelper
   end
 
   def icon_text(i, text = "", opts = {})
-    (content_tag(:i,"", :class=>"glyphicon glyphicon-#{i} #{opts[:class]}") + " " + text).html_safe
+    (content_tag(:i,"", :class=>"glyphicon glyphicon-#{i} #{opts[:class]}", :title => opts[:title]) + " " + text).html_safe
   end
 
   def alert(opts = {})
