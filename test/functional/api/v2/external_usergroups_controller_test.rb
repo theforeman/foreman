@@ -33,7 +33,7 @@ class Api::V2::ExternalUsergroupsControllerTest < ActionController::TestCase
   end
 
   test 'refresh external user group' do
-    ExternalUsergroup.any_instance.expects(:users).returns([]).twice
+    ExternalUsergroup.any_instance.expects(:users).returns([])
     put :refresh, { :usergroup_id => @external_usergroup.usergroup_id,
                     :id           => @external_usergroup.id }
     assert_response :success
