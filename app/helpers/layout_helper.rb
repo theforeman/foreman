@@ -143,13 +143,13 @@ module LayoutHelper
 
   def autocomplete_f(f, attr, options = {})
     field(f, attr, options) do
-      path = options.delete(:path) || send("#{f.object.class.pluralize.underscore}_path")
+      path = options.delete(:path) || send("#{f.object.class.pluralize.underscore}_path") if options[:full_path].nil?
       auto_complete_search(attr,
                            f.object.send(attr).try(:squeeze, " "),
                            options.merge(
                                :placeholder => _("Filter") + ' ...',
                                :path        => path,
-                               :name       => "#{f.object_name}[#{attr}]"
+                               :name        => "#{f.object_name}[#{attr}]"
                            )
       ).html_safe
     end
