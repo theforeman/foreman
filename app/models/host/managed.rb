@@ -213,8 +213,8 @@ class Host::Managed < Host::Base
 
   def set_token
     return unless Setting[:token_duration] != 0
-    self.create_token(:value => Foreman.uuid,
-                      :expires => Time.now.utc + Setting[:token_duration].minutes)
+    self.build_token(:value => Foreman.uuid,
+                     :expires => Time.now.utc + Setting[:token_duration].minutes)
   end
 
   def expire_token

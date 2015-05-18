@@ -1508,6 +1508,26 @@ class HostTest < ActiveSupport::TestCase
       assert h.require_ip_validation?
     end
 
+    test "test tokens are not created until host is saved" do
+      class Host::Test < Host::Base
+        def lookup_value_match
+          'no_match'
+        end
+
+        def to_managed!
+          host       = self.becomes(::Host::Managed)
+          host.type  = 'Host::Managed'
+          host.build = true
+          host
+        end
+      end
+      Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+      test_host    = Host::Test.create(:name => 'testhost', :interfaces => [FactoryGirl.build(:nic_primary_and_provision)])
+      managed_host = test_host.to_managed!
+      refute managed_host.valid?
+      assert_empty Token.where(:host_id => managed_host.id)
+    end
+
     test "compute attributes are populated by hardware profile from hostgroup" do
       # hostgroups(:common) fixture has compute_profiles(:one)
       host = FactoryGirl.build(:host, :managed,
