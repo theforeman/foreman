@@ -146,4 +146,18 @@ class LookupValueTest < ActiveSupport::TestCase
     assert_equal lv.value_before_type_cast, "<%= [4,5,6] %>"
     assert_equal lv.value, "<%= [4,5,6] %>"
   end
+
+  test "boolean lookup value should allow for false value" do
+    #boolean key
+    key = lookup_keys(:three)
+    value = LookupValue.new(:value => false, :match => "hostgroup=Common", :lookup_key_id => key.id)
+    assert value.valid?
+  end
+
+  test "boolean lookup value should not allow for nil" do
+    #boolean key
+    key = lookup_keys(:three)
+    value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id)
+    refute value.valid?
+  end
 end
