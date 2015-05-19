@@ -204,6 +204,14 @@ class PuppetclassTest < ActiveSupport::TestCase
     end
   end
 
+  test 'changes in total_hosts are not audited' do
+    puppetclass = FactoryGirl.create(:puppetclass)
+    host = FactoryGirl.create(:host)
+    assert_difference('Audit.count') do
+      host.puppetclasses << puppetclass
+    end
+  end
+
   context "all_hostgroups should show hostgroups and their descendants" do
     setup do
       @class = FactoryGirl.create(:puppetclass)
