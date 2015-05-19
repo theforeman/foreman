@@ -24,7 +24,7 @@ class Puppetclass < ActiveRecord::Base
     :source => :lookup_key, :conditions => 'environment_classes.lookup_key_id is NOT NULL'
   accepts_nested_attributes_for :class_params, :reject_if => lambda { |a| a[:key].blank? }, :allow_destroy => true
   validates :name, :uniqueness => true, :presence => true, :no_whitespace => true
-  audited :allow_mass_assignment => true
+  audited :allow_mass_assignment => true, :except => :total_hosts
 
   alias_attribute :smart_variables, :lookup_keys
   alias_attribute :smart_variable_ids, :lookup_key_ids
