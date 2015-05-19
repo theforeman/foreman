@@ -172,7 +172,11 @@ module Host
         rescue ArgumentError
           logger.debug "invalid mac during parsing: #{attributes[:macaddress]}"
         end
-        base = self.interfaces.where(:mac => macaddress)
+        base = [
+          self.interfaces.where(:identifier => name, :mac => macaddress),
+          self.interfaces.where(:mac => macaddress).where(Nic::Base.mac.not_eq('ff:ff:ff:ff:ff:ff')),
+          self.interfaces.where(:identifier => name),
+        ].flatten
 
         if attributes[:virtual]
           # for virtual devices we don't check only mac address since it's not unique,
