@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-03-26 10:08+0000\n"
+"PO-Revision-Date: 2015-05-04 01:21+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/f"
 "oreman/language/en_GB/)\n"
@@ -2375,7 +2375,7 @@ msgid "Use this puppet server as an initial Puppet Server or to execute puppet r
 msgstr ""
 
 msgid "New Host"
-msgstr ""
+msgstr "New Host"
 
 msgid "View last report details"
 msgstr ""
@@ -2485,7 +2485,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Domain"
-msgstr ""
+msgstr "Domain"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
@@ -2836,7 +2836,7 @@ msgid "Environment"
 msgstr ""
 
 msgid "Operating system"
-msgstr ""
+msgstr "Operating system"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
@@ -3967,7 +3967,7 @@ msgid "New host"
 msgstr ""
 
 msgid "Provisioning Setup"
-msgstr ""
+msgstr "Provisioning Setup"
 
 msgid "Operating systems"
 msgstr ""
@@ -3979,7 +3979,7 @@ msgid "Partition tables"
 msgstr ""
 
 msgid "Installation media"
-msgstr ""
+msgstr "Installation media"
 
 msgid "Hardware models"
 msgstr ""
@@ -4123,7 +4123,7 @@ msgid "Available Providers"
 msgstr ""
 
 msgid "Compute Resources"
-msgstr ""
+msgstr "Compute Resources"
 
 msgid "Plugins"
 msgstr ""
@@ -4161,7 +4161,7 @@ msgid "No compute resource to show"
 msgstr ""
 
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 msgid "No plugins found"
 msgstr ""
@@ -5579,7 +5579,7 @@ msgid "Manage Organizations"
 msgstr "Manage Organisations"
 
 msgid "Hostname"
-msgstr ""
+msgstr "Hostname"
 
 msgid ""
 "<b style=\"color: #6bb5df;\">%{hosts_sum}</b>\n"
@@ -8086,7 +8086,7 @@ msgstr "Settings type"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Smart proxy"
-msgstr ""
+msgstr "Smart proxy"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Source"

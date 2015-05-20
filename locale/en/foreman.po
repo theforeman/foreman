@@ -37,13 +37,13 @@ msgstr ""
 msgid "Loading"
 msgstr ""
 
+msgid "Fact distribution chart"
+msgstr ""
+
 msgid "%s host"
 msgid_plural "%s hosts"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Fact distribution chart"
-msgstr ""
 
 msgid "Failed to load chart"
 msgstr ""
@@ -138,10 +138,10 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-msgid "Build"
+msgid "Reboot and build"
 msgstr ""
 
-msgid "Reboot and build"
+msgid "Build"
 msgstr ""
 
 msgid "All items"
@@ -154,10 +154,10 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-msgid "Deselect All"
+msgid "Selected items"
 msgstr ""
 
-msgid "Selected items"
+msgid "Deselect All"
 msgstr ""
 
 msgid "Select this since it belongs to a host"
@@ -175,6 +175,9 @@ msgstr ""
 msgid "new"
 msgstr ""
 
+msgid "Strong"
+msgstr ""
+
 msgid "Very Strong"
 msgstr ""
 
@@ -182,9 +185,6 @@ msgid "Normal"
 msgstr ""
 
 msgid "Weak"
-msgstr ""
-
-msgid "Strong"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -245,6 +245,9 @@ msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
 msgid "unknown permission for %s"
+msgstr ""
+
+msgid "sync external user groups on login"
 msgstr ""
 
 msgid "for Libvirt and VMware only"
@@ -1730,10 +1733,10 @@ msgstr ""
 msgid "You must create at least one organization before continuing."
 msgstr ""
 
-msgid "OK"
+msgid "Error"
 msgstr ""
 
-msgid "Error"
+msgid "OK"
 msgstr ""
 
 msgid "Invalid authenticity token"
@@ -1897,10 +1900,10 @@ msgstr ""
 msgid "The marked fields will need reviewing"
 msgstr ""
 
-msgid "Template locked"
+msgid "Template unlocked"
 msgstr ""
 
-msgid "Template unlocked"
+msgid "Template locked"
 msgstr ""
 
 msgid "External user group %{name} refreshed"
@@ -1912,16 +1915,16 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr ""
 
-msgid "Disk"
+msgid "BIOS"
+msgstr ""
+
+msgid "PXE"
 msgstr ""
 
 msgid "CDROM"
 msgstr ""
 
-msgid "BIOS"
-msgstr ""
-
-msgid "PXE"
+msgid "Disk"
 msgstr ""
 
 msgid "Unable to generate output, Check log files"
@@ -2070,10 +2073,10 @@ msgstr ""
 msgid "Role cloned from role %{old_name}"
 msgstr ""
 
-msgid "No changes found when refreshing features from %s."
+msgid "Successfully refreshed features from %s."
 msgstr ""
 
-msgid "Successfully refreshed features from %s."
+msgid "No changes found when refreshing features from %s."
 msgstr ""
 
 msgid "%s core"
@@ -2171,10 +2174,10 @@ msgstr ""
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr ""
 
-msgid "<b>Source:</b> %{type} %{name}"
+msgid "Additional info"
 msgstr ""
 
-msgid "Additional info"
+msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
 
 msgid "Paused"
@@ -2189,10 +2192,10 @@ msgstr ""
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr ""
 
-msgid "Resume"
+msgid "Pause"
 msgstr ""
 
-msgid "Pause"
+msgid "Resume"
 msgstr ""
 
 msgid "Are you sure you want to %{act} %{vm}?"
@@ -2454,10 +2457,10 @@ msgstr ""
 msgid "Failed restarts"
 msgstr ""
 
-msgid "Runtime"
+msgid "Config Retrieval"
 msgstr ""
 
-msgid "Config Retrieval"
+msgid "Runtime"
 msgstr ""
 
 msgid "Reports from the last %{days} days - %{count} reports found"
@@ -2555,10 +2558,10 @@ msgstr ""
 msgid "Browse host facts"
 msgstr ""
 
-msgid "Reports"
+msgid "Browse host reports"
 msgstr ""
 
-msgid "Browse host reports"
+msgid "Reports"
 msgstr ""
 
 msgid "Puppet external nodes YAML dump"
@@ -2595,10 +2598,10 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-msgid "Image ID"
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
 
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgid "Image ID"
 msgstr ""
 
 msgid "Submit"
@@ -2658,13 +2661,13 @@ msgstr ""
 msgid "How values are validated"
 msgstr ""
 
+msgid "Validator type"
+msgstr ""
+
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
 " rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expr"
 "ession in the Validator rule field.</dd></dl>"
-msgstr ""
-
-msgid "Validator type"
 msgstr ""
 
 msgid "Validation types"
@@ -2687,21 +2690,21 @@ msgid ""
 "iption:</b>: %s"
 msgstr ""
 
-msgid "No value warning"
-msgstr ""
-
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
 "><b>Description:</b> %s"
 msgstr ""
 
-msgid "valid"
+msgid "No value warning"
 msgstr ""
 
 msgid "revoked"
 msgstr ""
 
 msgid "pending"
+msgstr ""
+
+msgid "valid"
 msgstr ""
 
 msgid "in %s"
@@ -2756,16 +2759,16 @@ msgstr ""
 msgid "Show log messages:"
 msgstr ""
 
-msgid "Errors only"
+msgid "All messages"
 msgstr ""
 
 msgid "Warnings and errors"
 msgstr ""
 
-msgid "Notices, warnings and errors"
+msgid "Errors only"
 msgstr ""
 
-msgid "All messages"
+msgid "Notices, warnings and errors"
 msgstr ""
 
 msgid ""
@@ -2812,13 +2815,13 @@ msgstr ""
 msgid "Average memory usage"
 msgstr ""
 
+msgid "used swap"
+msgstr ""
+
 msgid "Average swap usage"
 msgstr ""
 
 msgid "free swap"
-msgstr ""
-
-msgid "used swap"
 msgstr ""
 
 msgid "Any Organization"
@@ -2827,10 +2830,10 @@ msgstr ""
 msgid "Any Location"
 msgstr ""
 
-msgid "New Location"
+msgid "New Organization"
 msgstr ""
 
-msgid "New Organization"
+msgid "New Location"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -2842,11 +2845,11 @@ msgid "Operating system"
 msgstr "Name"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Compute resource"
+msgid "Model"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Model"
+msgid "Compute resource"
 msgstr ""
 
 msgid "Trend of the last %s days."
@@ -3027,6 +3030,9 @@ msgid "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
 
 msgid "Selected image does not belong to %s"
+msgstr ""
+
+msgid "Could not find virtual machine network interface matching %s"
 msgstr ""
 
 msgid ""
@@ -3294,6 +3300,9 @@ msgstr ""
 msgid "Unknown power management support - can't continue"
 msgstr ""
 
+msgid "Some interfaces are invalid"
+msgstr ""
+
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
@@ -3318,25 +3327,25 @@ msgstr ""
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
-msgid "json"
-msgstr ""
-
-msgid "integer"
-msgstr ""
-
-msgid "yaml"
-msgstr ""
-
-msgid "real"
+msgid "string"
 msgstr ""
 
 msgid "hash"
 msgstr ""
 
-msgid "string"
+msgid "real"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
+
+msgid "integer"
+msgstr ""
+
+msgid "json"
+msgstr ""
+
+msgid "yaml"
 msgstr ""
 
 msgid "array"
@@ -3384,10 +3393,10 @@ msgstr ""
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
-msgid "Daily"
+msgid "Weekly"
 msgstr ""
 
-msgid "Weekly"
+msgid "Daily"
 msgstr ""
 
 msgid "Monthly"
@@ -3425,6 +3434,12 @@ msgstr ""
 msgid "host already has provision interface"
 msgstr ""
 
+msgid "is not defined for host's organization."
+msgstr ""
+
+msgid "is not defined for host's location."
+msgstr ""
+
 msgid "Unable to find a proxy with BMC feature"
 msgstr ""
 
@@ -3444,6 +3459,9 @@ msgid "subnet boot mode is not %s"
 msgstr ""
 
 msgid "Operating System version is required"
+msgstr ""
+
+msgid "Operating system version already exists"
 msgstr ""
 
 msgid ""
@@ -4054,19 +4072,19 @@ msgstr ""
 msgid "state"
 msgstr ""
 
-msgid "on"
+msgid "off"
 msgstr ""
 
-msgid "off"
+msgid "on"
 msgstr ""
 
 msgid "soft"
 msgstr ""
 
-msgid "status"
+msgid "ready?"
 msgstr ""
 
-msgid "ready?"
+msgid "status"
 msgstr ""
 
 msgid "cycle"
@@ -4339,6 +4357,11 @@ msgid ""
 "e they log into Foreman"
 msgstr ""
 
+msgid ""
+"External user groups will be synced on login, else relies on periodic cronjob "
+"to check group membership"
+msgstr ""
+
 msgid "e.g. uid"
 msgstr ""
 
@@ -4351,10 +4374,10 @@ msgstr ""
 msgid "e.g. mail"
 msgstr ""
 
-msgid "e.g. jpegPhoto"
+msgid "Photo attribute"
 msgstr ""
 
-msgid "Photo attribute"
+msgid "e.g. jpegPhoto"
 msgstr ""
 
 msgid "Edit LDAP Auth Source"
@@ -4465,10 +4488,10 @@ msgstr ""
 msgid "You would probably need to attach the"
 msgstr ""
 
-msgid "Full trace"
+msgid "and relevant log entries."
 msgstr ""
 
-msgid "and relevant log entries."
+msgid "Full trace"
 msgstr ""
 
 msgid "None Found"
@@ -4511,13 +4534,13 @@ msgstr ""
 msgid "Check/Uncheck all %s changes"
 msgstr ""
 
-msgid "Remove:"
-msgstr ""
-
 msgid "Add:"
 msgstr ""
 
 msgid "Update:"
+msgstr ""
+
+msgid "Remove:"
 msgstr ""
 
 msgid "Update"
@@ -4532,10 +4555,10 @@ msgstr ""
 msgid "Add Bookmark"
 msgstr ""
 
-msgid "Build from OS image"
+msgid "OS Image"
 msgstr ""
 
-msgid "OS Image"
+msgid "Build from OS image"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4780,12 +4803,12 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-msgid "Disabled"
-msgstr ""
-
 #, fuzzy
 msgid "Enabled"
 msgstr "Partition Table"
+
+msgid "Disabled"
+msgstr ""
 
 msgid "There was an error listing VMs: %s"
 msgstr ""
@@ -4808,10 +4831,10 @@ msgstr ""
 msgid "Storage"
 msgstr ""
 
-msgid "add new storage volume"
+msgid "Add Volume"
 msgstr ""
 
-msgid "Add Volume"
+msgid "add new storage volume"
 msgstr ""
 
 msgid "Flavor"
@@ -4839,10 +4862,10 @@ msgstr ""
 msgid "Managed IP"
 msgstr ""
 
-msgid "Private"
+msgid "Public"
 msgstr ""
 
-msgid "Public"
+msgid "Private"
 msgstr ""
 
 msgid "Machine type"
@@ -4931,10 +4954,10 @@ msgstr ""
 msgid "Storage domain"
 msgstr ""
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -4985,10 +5008,10 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-msgid "Associate VM"
+msgid "Associate VM to a Foreman host"
 msgstr ""
 
-msgid "Associate VM to a Foreman host"
+msgid "Associate VM"
 msgstr ""
 
 msgid "Properties"
@@ -5073,10 +5096,10 @@ msgstr ""
 msgid "clone"
 msgstr ""
 
-msgid "Useful template functions and macros"
+msgid "Note: %s "
 msgstr ""
 
-msgid "Note: %s "
+msgid "Useful template functions and macros"
 msgstr ""
 
 msgid "Template editor"
@@ -5114,10 +5137,10 @@ msgstr ""
 msgid "Show Diff"
 msgstr ""
 
-msgid "No history found"
+msgid "Save something and try again"
 msgstr ""
 
-msgid "Save something and try again"
+msgid "No history found"
 msgstr ""
 
 msgid "Not relevant for snippet"
@@ -5423,12 +5446,12 @@ msgstr ""
 msgid "Full name describing the domain"
 msgstr ""
 
-msgid "DNS Proxy"
-msgstr ""
-
 msgid ""
 "DNS proxy to use within this domain for managing A records, note that PTR reco"
 "rds are managed via Subnet DNS proxy"
+msgstr ""
+
+msgid "DNS Proxy"
 msgstr ""
 
 msgid "Edit Domain"
@@ -5737,13 +5760,13 @@ msgid ""
 "ference would be the parameter/variables settings)."
 msgstr ""
 
-msgid "Select Hosts"
-msgstr ""
-
 msgid "Assign Selected Hosts"
 msgstr ""
 
 msgid "Create %s"
+msgstr ""
+
+msgid "Select Hosts"
 msgstr ""
 
 msgid "<b class='select_count'>0</b> selected"
@@ -5870,10 +5893,10 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-msgid "items selected. Uncheck to Clear"
+msgid "Select all items in this page"
 msgstr ""
 
-msgid "Select all items in this page"
+msgid "items selected. Uncheck to Clear"
 msgstr ""
 
 msgid "Last report"
@@ -5945,10 +5968,10 @@ msgstr ""
 msgid "Troubleshooting"
 msgstr ""
 
-msgid "New window"
+msgid "Open Spice in a new window"
 msgstr ""
 
-msgid "Open Spice in a new window"
+msgid "New window"
 msgstr ""
 
 msgid "Connecting (unencrypted) to: %s"
@@ -6177,12 +6200,12 @@ msgid ""
 "em managed via Foreman is housed."
 msgstr ""
 
+msgid "organizations"
+msgstr ""
+
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
 " are locations. Locations also work nicely when used in tandem with "
-msgstr ""
-
-msgid "organizations"
 msgstr ""
 
 msgid "Variable"
@@ -6668,16 +6691,16 @@ msgstr ""
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr ""
 
-msgid "Realm type"
-msgstr ""
-
 msgid "Type of realm, e.g. FreeIPA"
 msgstr ""
 
-msgid "Realm proxy to use within this realm"
+msgid "Realm type"
 msgstr ""
 
 msgid "Realm proxy"
+msgstr ""
+
+msgid "Realm proxy to use within this realm"
 msgstr ""
 
 msgid "Edit Realm"
@@ -7126,10 +7149,10 @@ msgstr ""
 msgid "Show linked external user groups"
 msgstr ""
 
-msgid "link external user group with this user group"
+msgid "Add external user group"
 msgstr ""
 
-msgid "Add external user group"
+msgid "link external user group with this user group"
 msgstr ""
 
 msgid "Edit User group"
@@ -7141,12 +7164,12 @@ msgstr ""
 msgid "Mail Preferences"
 msgstr ""
 
-msgid "Language"
-msgstr ""
-
 #, fuzzy
 msgid "Browser locale"
 msgstr "Email address"
+
+msgid "Language"
+msgstr ""
 
 msgid "Browser timezone"
 msgstr ""
@@ -7496,10 +7519,6 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Tls"
 msgstr "TLS"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "AuthSource|Usergroup sync"
-msgstr "User group syncing"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark"
