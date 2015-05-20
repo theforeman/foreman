@@ -1,6 +1,11 @@
 class Suse < Operatingsystem
   PXEFILES = {:kernel => "linux", :initrd => "initrd"}
 
+  # Simple output of the media url
+  def mediumpath(host)
+    medium_uri(host).to_s
+  end
+
   def pxe_type
     "yast"
   end
