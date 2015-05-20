@@ -1,3 +1,83 @@
+2015-05-20	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.8.1
+	* i18n - extracting new, updating rails, pulling from tx
+	* fixes #10482 - get external user group members only once during refresh
+	* fixes #10509 - add toggle for LDAP usergroup updating
+	* fixes #10493 - disable usergroup sync on login when $login is used
+	* fixes #10510 - move secure flag to existing session configuration
+	* fixes #10336 - move rbvmomi CR loading before our CR loading
+	* fixes #10403 - resync names of unmanaged hosts to their primary NIC
+	* fixes #10298 - handle destroyed but present interfaces
+	* fixes #10343 - only log cache deletion failures when saving settings
+	* refs #5554 - revert string change, save unnecessary retranslation
+	* fixes #8817 - look up reports with all joins from host scoped_search
+	* fixes #9982 - update fog to 1.29.0
+	* fixes #5909 - return r/w resources from authorized scope
+
+2015-05-20	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #10355 - Prevent turbolinks loading puppetclass import
+	* Fixes #7515 - Prevent label line breaks in add bookmark modal
+	* Fixes #4787 - prevent unneeded AJAX requests on popover clicks
+	* Fixes #8593 - remove N+1 queries on puppetclass index page
+
+2015-05-20	Eric-Olivier Lamey <eric-olivier.lamey-ext@cloudwatt.com>
+	* Fixes #9170 - wrong nic order in libvirt domain
+
+2015-05-20	Ori Rabin <orabin@redhat.com>
+	* Fixes #9634 - creating a host with an interface and without os returns a validation message
+	* Fixes #8333 - correct matcher values with multi-key matchers
+	* Fixes #5554 - fixed hostgroup and fqdn validations in multiple matchers
+
+2015-05-20	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10379 - disables cloning if unattended mode is disabled
+	* Fixes #10212 - validate DNS name uniqueness of interfaces
+	* Fixes #10412 - display interface tooltip after type change
+	* Fixes #7458 - allow searching hosts by their ip and mac addresses
+	* Fixes #9506 - Add granular permissions to config groups
+	* Fixes #9687 - respect custom controller permissions
+	* Fixes #9884 - refresh deleted external usergroups
+	* Fixes #9878 - refresh external usergroup on API manipulation
+
+2015-05-20	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9966 - More debug messages for matching nics from fog
+
+2015-05-20	Jon McKenzie <jcmcken@gmail.com>
+	* Fixes #5568 - Improves performance of trends:clean rake task
+
+2015-05-20	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #10275 - Add secure cookie when in ssl (CVE-2015-3155)
+	* fixes #10030 - use override method to display templates in folders
+	* fixes #7743 - ensure name is unique in scope of major and minor
+	* fixes #9617 - rescue from empty vmware clusters
+
+2015-05-20	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #10307 - editing host with 'unattended: false' no longer results in error
+	* Fixes #10228 - adding index to source_id in logs table
+
+2015-05-20	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #10441 - sort time and count-based columns in descending order
+	* fixes #9773 - correctly render template URL
+
+2015-05-20	karmab <karimboumedhel@gmail.com>
+	* Fixes #10305 - complete handling for cloudinit-like in vsphere feature
+
+2015-05-20	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10230 - Host clone uses create_hosts permission
+	* fixes #10234 - Fix NIC taxonomies validation tests
+	* Fixes #10123 - Tests API v2 external user groups
+
+2015-05-20	Avi Tal <avi@primarydata.com>
+	* fixes #10342 - adding :host_parameters_attributes to except list in template_used()
+
+2015-05-20	Tom Caspy <tcaspy@gmail.com>
+	* fixes #9240 - in case of hash with indifferent access, serialize as hash
+
+2015-05-20	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #10269 - host template preview now opens in a new tab
+
+2015-05-20	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #9391 - Added validation code to NIC, so it validates that host's location/org is compatible with the one set on NIC's subnet
+
 2015-04-28	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.8.0
 	* i18n - extracting new, updating rails, pulling from tx
