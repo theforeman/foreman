@@ -284,7 +284,7 @@ function auth_source_selected(){
 
 function show_release(element){
   var os_family = $(element).val();
-  if (os_family == 'Debian' || os_family == 'Solaris') {
+  if ($.inArray(os_family, ['Debian', 'Solaris', 'Coreos']) != -1) {
     $("#release_name").show();
   } else {
     $("#release_name").hide();
