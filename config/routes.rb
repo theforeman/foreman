@@ -300,9 +300,11 @@ Foreman::Application.routes.draw do
       end
     end
 
-    resources :ptables, :except => [:show] do
-      collection do
-        get 'auto_complete_search'
+    constraints(:id => /[^\/]+/) do
+      resources :ptables, :except => [:show] do
+        collection do
+          get 'auto_complete_search'
+        end
       end
     end
 

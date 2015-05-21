@@ -22,4 +22,16 @@ class PtableTest < ActionDispatch::IntegrationTest
     assert_submit_button(ptables_path)
     assert page.has_link? 'debian default'
   end
+
+  test "make sure that ptable names with dot work" do
+    visit ptables_path
+    click_link "ubuntu default"
+    fill_in "ptable_name", :with => "partition-scheme-1.0"
+    fill_in "ptable_layout", :with => "d-i partman-auto/disk string /dev/sda\nd-i"
+    assert_submit_button(ptables_path)
+
+    assert page.has_link? 'partition-scheme-1.0'
+    click_link "partition-scheme-1.0"
+    assert page.has_field?("ptable_name") #not 404
+  end
 end
