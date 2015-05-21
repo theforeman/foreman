@@ -199,7 +199,7 @@ class Subnet < ActiveRecord::Base
   # overwrite method in taxonomix, since subnet is not direct association of host anymore
   def used_taxonomy_ids(type)
     return [] if new_record?
-    Host::Base.joins(:primary_interface).where(:nics => {:subnet_id => id}).pluck(type).compact.uniq
+    Host::Base.joins(:primary_interface).where(:nics => {:subnet_id => id}).uniq.pluck(type).compact
   end
 
   def as_json(options = {})

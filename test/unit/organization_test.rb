@@ -70,14 +70,14 @@ class OrganizationTest < ActiveSupport::TestCase
     # run used_ids method
     used_ids = organization.used_ids
     # get results from Host object
-    environment_ids = Host.where(:organization_id => organization.id).pluck(:environment_id).compact.uniq
-    hostgroup_ids = Host.where(:organization_id => organization.id).pluck(:hostgroup_id).compact.uniq
-    subnet_ids = Host.where(:organization_id => organization.id).joins(:primary_interface => :subnet).pluck(:subnet_id).map(&:to_i).compact.uniq
-    domain_ids = Host.where(:organization_id => organization.id).joins(:primary_interface => :domain).pluck(:domain_id).map(&:to_i).compact.uniq
-    realm_ids = Host.where(:organization_id => organization.id).pluck(:realm_id).compact.uniq
-    medium_ids = Host.where(:organization_id => organization.id).pluck(:medium_id).compact.uniq
-    compute_resource_ids = Host.where(:organization_id => organization.id).pluck(:compute_resource_id).compact.uniq
-    user_ids = Host.where(:organization_id => organization.id).where(:owner_type => 'User').pluck(:owner_id).compact.uniq
+    environment_ids = Host.where(:organization_id => organization.id).uniq.pluck(:environment_id).compact
+    hostgroup_ids = Host.where(:organization_id => organization.id).uniq.pluck(:hostgroup_id).compact
+    subnet_ids = Host.where(:organization_id => organization.id).joins(:primary_interface => :subnet).uniq.pluck(:subnet_id).map(&:to_i).compact
+    domain_ids = Host.where(:organization_id => organization.id).joins(:primary_interface => :domain).uniq.pluck(:domain_id).map(&:to_i).compact
+    realm_ids = Host.where(:organization_id => organization.id).uniq.pluck(:realm_id).compact
+    medium_ids = Host.where(:organization_id => organization.id).uniq.pluck(:medium_id).compact
+    compute_resource_ids = Host.where(:organization_id => organization.id).uniq.pluck(:compute_resource_id).compact
+    user_ids = Host.where(:organization_id => organization.id).where(:owner_type => 'User').uniq.pluck(:owner_id).compact
     smart_proxy_ids = Host.where(:organization_id => organization.id).map {|host| host.smart_proxies.map(&:id)}.flatten.compact.uniq
     config_template_ids = Host.where("organization_id = #{organization.id} and operatingsystem_id > 0").map {|host| host.configTemplate.try(:id)}.compact.uniq
     # match to above retrieved data
