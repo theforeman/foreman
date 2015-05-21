@@ -2,13 +2,11 @@ class UserMailer < ApplicationMailer
   helper :reports
 
   def welcome(options = {})
-    user = User.find(options[:user])
+    user = options[:user]
     @login = user.login
 
-    set_locale_for user
-
-    mail(:to      => user.mail,
-         :subject => _("Welcome to Foreman"),
-         :date    => Time.zone.now)
+    set_locale_for(user) do
+      mail(:to => user.mail, :subject => _("Welcome to Foreman"))
+    end
   end
 end
