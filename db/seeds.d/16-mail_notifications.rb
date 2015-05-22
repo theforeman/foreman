@@ -35,6 +35,13 @@ notifications = [
     :method             => 'summary',
     :subscription_type  => 'report',
     :queryable          => true
+  },
+
+  {:name               => :host_built,
+   :description        => N_('A notification when a host finishes building'),
+   :mailer             => 'HostMailer',
+   :method             => 'host_built',
+   :subscription_type  => 'alert'
   }
 ]
 

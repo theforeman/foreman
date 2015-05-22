@@ -38,7 +38,16 @@ class HostMailer < ApplicationMailer
     @report = report
     @host = @report.host
     set_locale_for(options[:user]) do
-      mail(:to => options[:user].mail, :subject => (_("Puppet error on %s") % @host.to_label))
+      mail(:to => options[:user].mail, :subject => (_("Puppet error on %s") % @host))
+    end
+  end
+
+  def host_built(host, options = {})
+    @host = host
+    set_url
+
+    set_locale_for(options[:user]) do
+      mail(:to => options[:user].mail, :subject => (_("Host %s is built") % @host))
     end
   end
 

@@ -19,3 +19,10 @@ welcome:
   mailer: UserMailer
   method: welcome
   subscriptable: false
+
+host_built:
+  name: host_built
+  description: A notification when a host finishes building
+  mailer: HostMailer
+  method: host_built
+  subscription_type: alert

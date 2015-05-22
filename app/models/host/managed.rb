@@ -229,10 +229,15 @@ class Host::Managed < Host::Base
     self.build        = false
     self.otp          = nil
     self.installed_at = Time.now.utc if installed
-    self.save
-  rescue => e
-    logger.warn "Failed to set Build on #{self}: #{e}"
-    false
+
+    if self.save
+      recipients = owner ? owner.recipients_for(:host_built) : []
+      MailNotification[:host_built].deliver(self, :users => recipients) if recipients.present?
+      true
+    else
+      logger.warn "Failed to set Build on #{self}: #{self.errors.full_messages}"
+      false
+    end
   end
 
   #retuns fqdn of host puppetmaster
