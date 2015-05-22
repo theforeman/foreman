@@ -319,6 +319,16 @@ class UsersControllerTest < ActionController::TestCase
     refute session[:foo], "session contains 'foo', but should have been reset"
   end
 
+  test "#login renders login page" do
+    get :login
+    assert_response :success
+  end
+
+  test "#login renders login page with 401 status from parameter" do
+    get :login, :status => '401'
+    assert_response 401
+  end
+
   context 'default taxonomies' do
     test 'logging in loads default taxonomies' do
       users(:one).update_attributes(:default_location_id     => taxonomies(:location1).id,
