@@ -25,13 +25,13 @@ module Api
       param :compute_resource, Hash, :required => true do
         param :name, String, :required => true
         param :provider, String, :desc => "Providers include #{ComputeResource.providers.join(', ')}"
-        param :url, String, :desc => "URL for Libvirt, Ovirt, and Openstack"
+        param :url, String, :desc => "URL for Libvirt, oVirt, and OpenStack"
         param :description, String
-        param :user, String, :desc => "Username for Ovirt, EC2, VMware, Openstack. Access Key for EC2."
-        param :password, String, :desc => "Password for Ovirt, EC2, VMware, Openstack. Secret key for EC2"
-        param :uuid, String, :desc => "for Ovirt, VMware Datacenter"
+        param :user, String, :desc => "Username for oVirt, EC2, VMware, OpenStack. Access Key for EC2."
+        param :password, String, :desc => "Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2"
+        param :uuid, String, :desc => "for oVirt, VMware Datacenter"
         param :region, String, :desc => "for EC2 only"
-        param :tenant, String, :desc => "for Openstack only"
+        param :tenant, String, :desc => "for OpenStack only"
         param :server, String, :desc => "for VMware"
         param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
       end
@@ -46,13 +46,13 @@ module Api
       param :compute_resource, Hash, :required => true do
         param :name, String
         param :provider, String, :desc => "Providers include #{ComputeResource.providers.join(', ')}"
-        param :url, String, :desc => "URL for Libvirt, Ovirt, and Openstack"
+        param :url, String, :desc => "URL for Libvirt, oVirt, and OpenStack"
         param :description, String
-        param :user, String, :desc => "Username for Ovirt, EC2, VMware, Openstack. Access Key for EC2."
-        param :password, String, :desc => "Password for Ovirt, EC2, VMware, Openstack. Secret key for EC2"
-        param :uuid, String, :desc => "for Ovirt, VMware Datacenter"
+        param :user, String, :desc => "Username for oVirt, EC2, VMware, OpenStack. Access Key for EC2."
+        param :password, String, :desc => "Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2"
+        param :uuid, String, :desc => "for oVirt, VMware Datacenter"
         param :region, String, :desc => "for EC2 only"
-        param :tenant, String, :desc => "for Openstack only"
+        param :tenant, String, :desc => "for OpenStack only"
         param :server, String, :desc => "for VMware"
       end
 
