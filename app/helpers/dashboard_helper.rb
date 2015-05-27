@@ -14,6 +14,9 @@ module DashboardHelper
   end
 
   def render_widget(widget)
+    if widget.data.include?('trend_id')
+      @trend = Trend.find(widget.data['trend_id'])
+    end
     render(:partial => widget.template, :locals => widget.data)
   end
 

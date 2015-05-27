@@ -2,9 +2,7 @@
 <% content_for(:search_bar) { trend_days_filter } %>
 <div class="row">
   <div class="stats-well col-md-12">
-    <h4 class="ca"><%= "#{trend_title(@trend)}" %></h4>
-    <h6 class="ca"><%= n_("last %s day", "last %s days", range) % range %></h6>
-    <%= flot_chart 'trend_graph','' ,_('Number of Hosts') , chart_data(@trend, range.days.ago), :class=>'statistics-chart stack', :legend => 'external' %>
+    <%= render :partial => 'trends/trend_chart', :locals => {:range => range} %>
   </div>
 </div>
 <div id="legendContainer"></div>
@@ -22,3 +20,4 @@
     </tbody>
   <% end %>
 </table>
+<%= add_to_dashboard :template => 'trends/trend_chart', :name => _("Trends for %s") % trend_title(@trend), :sizex=>5, :sizey => 1, :data =>{:trend_id => @trend.id, :range => range} %>
