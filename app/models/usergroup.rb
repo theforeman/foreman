@@ -36,25 +36,25 @@ class Usergroup < ActiveRecord::Base
   # This methods retrieves all user addresses in a usergroup
   # Returns: Array of strings representing the user's email addresses
   def recipients
-    all_users.map(&:mail).flatten.sort.uniq
+    all_users.map(&:mail).flatten.uniq.sort
   end
 
   def recipients_for(notification)
-    all_users.select { |user| user if user.receives?(notification) }.sort.uniq
+    all_users.select { |user| user if user.receives?(notification) }.uniq.sort
   end
 
   # This methods retrieves all users in a usergroup
   # Returns: Array of users
   def all_users(group_list = [self], user_list = [])
     retrieve_users_and_groups group_list, user_list
-    user_list.sort.uniq
+    user_list.uniq.sort
   end
 
   # This methods retrieves all usergroups in a usergroup
   # Returns: Array of unique usergroups
   def all_usergroups(group_list = [self], user_list = [])
     retrieve_users_and_groups group_list, user_list
-    group_list.sort.uniq
+    group_list.uniq.sort
   end
 
   def expire_topbar_cache(sweeper)

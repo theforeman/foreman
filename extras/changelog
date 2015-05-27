@@ -35,5 +35,5 @@ file.close
 file = File.new(contributors_file,"w")
 file.puts "Contributors (sorted alphabetically)"
 file.puts "\n"
-file.puts contributors.sort.uniq.join("\n")
+file.puts contributors.uniq.sort.join("\n")
 file.close
