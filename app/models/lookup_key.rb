@@ -30,7 +30,7 @@ class LookupKey < ActiveRecord::Base
                                 :reject_if => lambda { |a| a[:value].blank? && (a[:use_puppet_default].nil? || a[:use_puppet_default] == "0")},
                                 :allow_destroy => true
 
-  before_validation :validate_and_cast_default_value
+  before_validation :validate_and_cast_default_value, :unless => Proc.new{|p| p.use_puppet_default }
   validates :key, :uniqueness => {:scope => :is_param }, :unless => Proc.new{|p| p.is_param?}
 
   validates :key, :presence => true

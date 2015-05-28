@@ -10,7 +10,7 @@ class LookupValue < ActiveRecord::Base
   validate :value_present?
   delegate :key, :to => :lookup_key
   before_validation :sanitize_match
-  before_validation :validate_and_cast_value
+  before_validation :validate_and_cast_value, :unless => Proc.new{|p| p.use_puppet_default }
   validate :validate_list, :validate_regexp, :ensure_fqdn_exists, :ensure_hostgroup_exists
 
   attr_accessor :host_or_hostgroup
