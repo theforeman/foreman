@@ -430,3 +430,26 @@ function setPowerState(item, status){
   power_actions.hide();
   $('[rel="twipsy"]').tooltip();
 }
+
+function set_fullscreen(element){
+  var exit_button = $('<div class="exit-fullscreen"><a class="btn btn-default btn-lg" href="#" onclick="exit_fullscreen(); return false;" title="'+__('Exit Full Screen')+'"><i class="glyphicon glyphicon-resize-small"></i></a></div>');
+  element.data('origin',element.parent())
+         .addClass('fullscreen')
+         .append(exit_button)
+         .appendTo($('#main'))
+         .resize();
+  $('#content').addClass('hidden');
+  $('.navbar').addClass('hidden');
+  $(window).scrollTop();
+}
+
+function exit_fullscreen(){
+  var element = $('.fullscreen');
+  $('#content').removeClass('hidden');
+  $('.navbar').removeClass('hidden');
+  element.removeClass('fullscreen')
+         .appendTo(element.data('origin'))
+         .resize();
+  $('.exit-fullscreen').remove();
+}
+

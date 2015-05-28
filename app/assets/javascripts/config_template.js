@@ -1,4 +1,4 @@
-var $editor
+var Editor;
 
 $(document).on('ContentLoad', function(){onEditorLoad()});
 
@@ -25,7 +25,6 @@ $(document).keyup(function(e) {
 function onEditorLoad(){
   var template_text = $(".template_text");
    if ($.browser && $.browser.msie && $.browser.version.slice(0,1) < 10) {
-     $('.subnav').hide();
      if ($('.diffMode').exists()) {
        IE_diff_mode(template_text);
      }
@@ -50,7 +49,7 @@ function set_keybinding(){
     vim,
     emacs];
 
-  $editor.setKeyboardHandler(keybindings[$("#keybinding")[0].selectedIndex]);
+  Editor.setKeyboardHandler(keybindings[$("#keybinding")[0].selectedIndex]);
 }
 
 function upload_file(evt){
@@ -78,9 +77,9 @@ function upload_file(evt){
   }else{
     // Browser can't read the file content,
     // the file will be uploaded to the server on form submit.
-    // Set editor to read only mode
-    $editor.setTheme("ace/theme/clouds");
-    $editor.setReadOnly(true);
+    // SetEditor to read only mode
+    Editor.setTheme("ace/theme/clouds");
+    Editor.setReadOnly(true);
   }
 }
 
@@ -93,57 +92,20 @@ function snippet_changed(item){
 
 function create_editor(item) {
   item.parent().prepend("<div id='editor1'></div>");
-
-  $("#editor1")
-      .css("position","relative")
-      .height(item.height() || '360')
-      .width(item.width()+10)
-      .css('top', '-20px');
   item.hide();
-
-  $editor = ace.edit("editor1");
-  $editor.setShowPrintMargin(false);
-  $editor.renderer.setShowGutter(false);
+  Editor = ace.edit("editor1");
+  Editor.setShowPrintMargin(false);
+  Editor.renderer.setShowGutter(false);
+  $(document).on('resize','#editor1', function(){Editor.resize()});
   if (item.is(':disabled')) {
     $('.ace_text-input').attr('disabled', true)
   }
 }
 
-function set_fullscreen(){
-  $('#main').append($("#editor1"));
-  $("#editor1")
-     .height($(window).height()-50)
-     .width($('#content').width())
-     .css('top', 10)
-     .addClass('container');
-  $('#content').hide();
-  $('.navbar').addClass('hidden');
-  $('.logo-bar').addClass('hidden');
-  $editor.resize();
-  $('#main').append($('.exit-fullscreen'));
-  $('.exit-fullscreen').show();
-  $(window).scrollTop();
-}
-
-function exit_fullscreen(){
-  $(".template_text").show();
-  $('#content').show();
-  $('.navbar').removeClass('hidden');
-  $('.logo-bar').removeClass('hidden');
-  $(".template_text").parent().prepend($("#editor1"))
-  $("#editor1")
-      .height($(".template_text").height() || '360')
-      .width($(".template_text").width()-16)
-      .css('top', -20)
-  $(".template_text").hide();
-  $editor.resize();
-  $('.exit-fullscreen').addClass('hidden');
-}
-
 function set_preview(){
   if($('.template_text').hasClass('diffMode')) return;
   $('.template_text').addClass('diffMode');
-  $('#new').val($editor.getSession().getValue());
+  $('#new').val(Editor.getSession().getValue());
   set_diff_mode($('.template_text'))
 }
 
@@ -153,10 +115,10 @@ function set_code(){
 }
 
 function set_edit_mode(item){
-  if( $editor == undefined) return;
-  $editor.setTheme("ace/theme/twilight");
-  $editor.setReadOnly(false);
-  var session = $editor.getSession();
+  if( Editor == undefined) return;
+  Editor.setTheme("ace/theme/twilight");
+  Editor.setReadOnly(false);
+  var session = Editor.getSession();
   session.setMode("ace/mode/ruby");
 
   session.setValue($('#new').val());
@@ -166,9 +128,9 @@ function set_edit_mode(item){
 }
 
 function set_diff_mode(item){
-  $editor.setTheme("ace/theme/clouds");
-  $editor.setReadOnly(true);
-  var session = $editor.getSession();
+  Editor.setTheme("ace/theme/clouds");
+  Editor.setReadOnly(true);
+  var session = Editor.getSession();
   session.setMode("ace/mode/diff");
   var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').val(), $('#new').val());
   patch = patch.replace(/^(.*\n){0,4}/,'');
