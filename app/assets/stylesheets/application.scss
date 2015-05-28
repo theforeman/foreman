@@ -515,3 +515,9 @@ table {
 .removable-item {
   margin-bottom: 25px;
 }
+
+.fullscreen{
+  position: fixed !important;
+  height: 100vh !important;
+  width: 100vw !important;
+}
