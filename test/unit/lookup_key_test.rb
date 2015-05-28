@@ -228,4 +228,21 @@ class LookupKeyTest < ActiveSupport::TestCase
     refute key.valid?
     assert_include key.errors.keys, :default_value
   end
+
+  context "when key is a boolean and default_value is a string" do
+    def setup
+      @key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                               :override => true, :key_type => 'boolean',
+                               :default_value => 'whatever', :puppetclass => puppetclasses(:one), :use_puppet_default => true)
+    end
+
+    test "default_value is not validated if use_puppet_default is true" do
+      assert @key.valid?
+    end
+
+    test "default_value is validated if use_puppet_default is false" do
+      @key.use_puppet_default = false
+      refute @key.valid?
+    end
+  end
 end

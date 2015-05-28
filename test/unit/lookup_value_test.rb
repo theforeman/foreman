@@ -160,4 +160,22 @@ class LookupValueTest < ActiveSupport::TestCase
     value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id)
     refute value.valid?
   end
+
+  context "when key is a boolean and default_value is a string" do
+    def setup
+      @key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                                :override => true, :key_type => 'boolean',
+                                :default_value => 'whatever', :puppetclass => puppetclasses(:one), :use_puppet_default => true)
+      @value = LookupValue.new(:value => 'abc', :match => "hostgroup=Common", :lookup_key_id => @key.id, :use_puppet_default => true)
+    end
+
+    test "value is not validated if use_puppet_default is true" do
+      assert_valid @value
+    end
+
+    test "value is validated if use_puppet_default is false" do
+      @value.use_puppet_default = false
+      refute_valid @value
+    end
+  end
 end
