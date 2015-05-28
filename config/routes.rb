@@ -244,7 +244,11 @@ Foreman::Application.routes.draw do
 
     resources :permissions, :only => [:index]
 
-    resources :auth_source_ldaps, :except => [:show]
+    resources :auth_source_ldaps, :except => [:show] do
+      collection do
+        put 'test_connection'
+      end
+    end
 
     resources :external_usergroups, :except => [:index, :new, :create, :show, :edit, :update, :destroy] do
       member do

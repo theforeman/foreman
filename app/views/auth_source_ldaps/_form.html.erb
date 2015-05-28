@@ -40,4 +40,13 @@
   </div>
 
   <%= submit_or_cancel f %>
+  <button id="aid_test_connection_button_auth_source_ldap" class="btn btn-info" data-id="aid_test_connection_auth_source_ldap" type="button" style="margin-left:3px;" onclick="test_connection('<%= url_for(:controller => 'auth_source_ldaps', :action=>'test_connection') %>');">
+    <span class="glyphicon glyphicon-random"></span>
+    <span> <%= _('Test Connection') %> </span>
+  </button>
+  <script type="text/javascript">
+    // A more cleaner implementation will definitely listen to an event emitted when a two-pane page is done loading
+    // Add button as a part of .form-actions
+    $(".form-actions").append($("#aid_test_connection_button_auth_source_ldap"));
+  </script>
 <% end %>
