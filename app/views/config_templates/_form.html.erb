@@ -44,7 +44,7 @@
                 <input type="radio" name="options" id="option2" ><%= _("Preview") %>
               </label>
             </div>
-            <button type='button' class='btn btn-default btn-sm' onclick='set_fullscreen()' title="<%= _("Full screen") %>"><i class="glyphicon glyphicon-resize-full"></i></button>
+            <button type='button' class='btn btn-default btn-sm' onclick='set_fullscreen($("#editor1"))' title="<%= _("Full screen") %>"><i class="glyphicon glyphicon-resize-full"></i></button>
             <div class="fr">
               <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'form-control input-sm') %>
             </div>
@@ -119,9 +119,6 @@
 
       <%= submit_or_cancel f %>
     </div>
-  <div class='exit-fullscreen hidden'>
-    <%= link_to_function icon_text('resize-small'), 'exit_fullscreen()', :class => 'btn btn-default btn-lg', :'data-placement'=>'bottom', :title => _('Exit Full Screen') %>
-  </div>
   <%# These hidden inputs are used for the diff Preview. They intentionally do
       not have a 'name' attribute so browsers will not send them in the form POST. %>
   <input type="hidden" id="old" value="<%= @config_template.template %>" />
