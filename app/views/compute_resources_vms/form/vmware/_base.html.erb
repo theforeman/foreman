@@ -6,6 +6,7 @@
 <%# selectable_f f, :resource_pool, compute_resource.resource_pools, { }, :class => "col-md-2", :disabled => !new_host %>
 <%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :class => "col-md-2", :disabled => !new_host } %>
 <%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new_host } %>
+<%= select_f f, :scsi_controller_type, compute_resource.scsi_controller_types, :first, :last, {}, { :label => _("SCSI controller"), :class => "col-md-2", :disabled => !new_host } %>
 <%= select_f f, :hardware_version, compute_resource.vm_hw_versions, :first, :last, {}, { :label => _("Virtual H/W version"), :class => "col-md-2", :disabled => !new_host } %>
 
 <!--TODO # Move to a helper-->
