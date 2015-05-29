@@ -47,14 +47,16 @@ class FactParserTest < ActiveSupport::TestCase
   end
 
   test "#interfaces gets facts hash for desired interfaces, keeping same values it gets from parser" do
-    parser.stub(:get_interfaces, ['eth1', 'lo', 'eth0', 'eth0.0', 'local', 'usb0', 'vnet0', 'br0', 'virbr0']) do
+    parser.stub(:get_interfaces, ['eth1', 'lo', 'eth0', 'eth0.0', 'local', 'usb0', 'vnet0', 'br0', 'virbr0', 'Local_Area_Connection_2']) do
       parser.expects(:get_facts_for_interface).with('eth1').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'custom' => 'value'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eth0.0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('br0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:ef'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('virbr0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:ab:ef'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('local_area_connection_2').returns({'link' => 'true', 'macaddress' => '00:00:00:00:de:ef'}.with_indifferent_access)
       result = parser.interfaces
       refute_includes result.keys, 'lo'
+      refute_includes result.keys, 'local'
       refute_includes result.keys, 'usb0'
       refute_includes result.keys, 'vnet0'
       assert_includes result.keys, 'br0'
@@ -62,6 +64,7 @@ class FactParserTest < ActiveSupport::TestCase
       assert_includes result.keys, 'eth1'
       assert_includes result.keys, 'eth0'
       assert_includes result.keys, 'eth0.0'
+      assert_includes result.keys, 'local_area_connection_2'
       assert_equal 'true', result['eth0']['link']
       assert_equal 'false', result['eth1']['link']
       assert_equal 'value', result[:eth0]['custom']

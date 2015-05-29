@@ -89,7 +89,7 @@ class PuppetFactParser < FactParser
   def interfaces
     interfaces = super
 
-    underscore_device_regexp = /(.*)_(\d+)/
+    underscore_device_regexp = /\A([^_]*)_(\d+)\z/
     interfaces.clone.each do |identifier, _|
       matches = identifier.match(underscore_device_regexp)
       next unless matches
