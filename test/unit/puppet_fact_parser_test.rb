@@ -220,6 +220,19 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_equal '192.168.0.4', parser.interfaces['eth2'][:ipaddress]
   end
 
+  test "#interfaces are mapped case-insensitively and parses Windows LAN name" do
+    parser = get_parser({:interfaces => 'Local_Area_Connection_2',
+                         :ipaddress_local_area_connection_2 => '172.30.43.87',
+                         :macaddress_local_area_connection_2 => '00:50:56:B7:69:F6',
+                         :netmask_local_area_connection_2 => '255.255.255.0',
+                         :network_local_area_connection_2 => '172.30.43.0'})
+    assert_not_nil parser.interfaces['local_area_connection_2']
+    assert_equal '172.30.43.87', parser.interfaces['local_area_connection_2'][:ipaddress]
+    assert_equal '255.255.255.0', parser.interfaces['local_area_connection_2'][:netmask]
+    assert_equal '00:50:56:B7:69:F6', parser.interfaces['local_area_connection_2'][:macaddress]
+    assert_equal '172.30.43.0', parser.interfaces['local_area_connection_2'][:network]
+  end
+
   private
 
   def get_parser(facts)
