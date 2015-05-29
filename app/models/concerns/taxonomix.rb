@@ -27,8 +27,8 @@ module Taxonomix
     # default inner_method includes children (subtree_ids)
     def with_taxonomy_scope(loc = Location.current, org = Organization.current, inner_method = :subtree_ids)
       self.which_ancestry_method = inner_method
-      self.which_location        = Location.expand(loc)
-      self.which_organization    = Organization.expand(org)
+      self.which_location        = Location.expand(loc) if SETTINGS[:locations_enabled]
+      self.which_organization    = Organization.expand(org) if SETTINGS[:organizations_enabled]
       scope =  block_given? ? yield : where('1=1')
       scope = scope.where(:id => taxable_ids) if taxable_ids
       scope.readonly(false)

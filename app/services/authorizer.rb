@@ -24,14 +24,16 @@ class Authorizer
     base = user.filters.joins(:permissions).where(["#{Permission.table_name}.resource_type = ?", resource_name(resource_class)])
     all_filters = permission.nil? ? base : base.where(["#{Permission.table_name}.name = ?", permission])
 
-    organization_ids = allowed_organizations(resource_class)
-    location_ids     = allowed_locations(resource_class)
+    if Taxonomy.enabled_taxonomies.any?
+      organization_ids = allowed_organizations(resource_class)
+      location_ids     = allowed_locations(resource_class)
 
-    organizations, locations, values = taxonomy_conditions(organization_ids, location_ids)
-    all_filters = all_filters.joins(taxonomy_join).where(["#{TaxableTaxonomy.table_name}.id IS NULL " +
-                                                              "OR (#{organizations}) " +
-                                                              "OR (#{locations})",
-                                                          *values]).uniq
+      organizations, locations, values = taxonomy_conditions(organization_ids, location_ids)
+      all_filters = all_filters.joins(taxonomy_join).where(["#{TaxableTaxonomy.table_name}.id IS NULL " +
+                                                                "OR (#{organizations}) " +
+                                                                "OR (#{locations})",
+                                                            *values]).uniq
+    end
 
     all_filters = all_filters.all # load all records, so #empty? does not call extra COUNT(*) query
 
