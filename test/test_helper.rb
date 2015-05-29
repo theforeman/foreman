@@ -112,7 +112,7 @@ Spork.prefork do
     end
 
     def in_taxonomy(taxonomy)
-      new_taxonomy = taxonomies(taxonomy)
+      new_taxonomy = taxonomy.is_a?(Taxonomy) ? taxonomy : taxonomies(taxonomy)
       saved_taxonomy = new_taxonomy.class.current
       new_taxonomy.class.current = new_taxonomy
       result = yield

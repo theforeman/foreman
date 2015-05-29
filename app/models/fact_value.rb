@@ -23,8 +23,8 @@ class FactValue < ActiveRecord::Base
     joins(:fact_name).where("fact_names.name = ?",:_timestamp)
   }
   scope :my_facts, lambda {
-    unless User.current.admin? and Organization.current.nil? and Location.current.nil?
-      joins_authorized(Host, :view_hosts)
+    if !User.current.admin? || Organization.expand(Organization.current).present? || Location.expand(Location.current).present?
+      joins_authorized(Host, :view_hosts, :where => Host.taxonomy_conditions)
     end
   }
 

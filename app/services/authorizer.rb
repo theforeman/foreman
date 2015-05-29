@@ -43,6 +43,10 @@ class Authorizer
       assoc_name ||= options[:joined_on].reflect_on_all_associations.find { |a| a.klass.base_class == resource_class.base_class }.name
 
       scope = options[:joined_on].joins(assoc_name => scope_components[:includes]).readonly(false)
+
+      # allow user to add their own further clauses
+      scope_components[:where] << options[:where] if options[:where].present?
+
       # apply every where clause to the scope consecutively
       scope_components[:where].inject(scope) do |scope_build,where|
         where.is_a?(Hash) ? scope_build.where(resource_class.table_name => where) : scope_build.where(where)
@@ -58,7 +62,7 @@ class Authorizer
     result = { where: [], includes: [], joins: [] }
 
     if all_filters.empty? || (!@base_collection.nil? && @base_collection.empty?)
-      result[:where] << '1=0'
+      result[:where] << (user.admin? ? '1=1' : '1=0')
       return result
     end
 
@@ -104,8 +108,8 @@ class Authorizer
     taxonomy_ids = []
     if resource_class.respond_to?("used_#{type}_ids")
       taxonomy_ids = resource_class.send("used_#{type}_ids")
-      if taxonomy_ids.empty? && !User.current.try(:admin?)
-        taxonomy_ids = User.current.try("#{type}_ids")
+      if taxonomy_ids.empty? && !user.try(:admin?)
+        taxonomy_ids = user.try("#{type}_ids")
       end
     end
     taxonomy_ids
