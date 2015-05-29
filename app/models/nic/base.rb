@@ -36,7 +36,8 @@ module Nic
     validate :valid_domain, :if => Proc.new { |nic| nic.host_managed? && nic.primary? }
     validates :ip, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.require_ip_validation? }
 
-    validate :validate_host_taxonomy
+    validate :validate_host_location, :if => Proc.new { |nic| SETTINGS[:locations_enabled] && nic.subnet.present? }
+    validate :validate_host_organization, :if => Proc.new { |nic| SETTINGS[:organizations_enabled] && nic.subnet.present? }
 
     scope :bootable, lambda { where(:type => "Nic::Bootable") }
     scope :bmc, lambda { where(:type => "Nic::BMC") }
@@ -235,13 +236,14 @@ module Nic
       end
     end
 
-    def validate_host_taxonomy
-      return true if self.subnet.nil?
-      return true if self.host.organization.nil? && self.subnet.organizations.empty? &&
-                     self.host.location.nil? && self.subnet.locations.empty?
-
-      errors.add(:subnet, _("is not defined for host's organization.")) unless include_or_empty?(self.subnet.organizations, self.host.organization)
+    def validate_host_location
+      return true if self.host.location.nil? && self.subnet.locations.empty?
       errors.add(:subnet, _("is not defined for host's location.")) unless include_or_empty?(self.subnet.locations, self.host.location)
+    end
+
+    def validate_host_organization
+      return true if self.host.organization.nil? && self.subnet.organizations.empty?
+      errors.add(:subnet, _("is not defined for host's organization.")) unless include_or_empty?(self.subnet.organizations, self.host.organization)
     end
 
     private
