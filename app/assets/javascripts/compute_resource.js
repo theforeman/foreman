@@ -47,8 +47,7 @@ function testConnection(item) {
     complete:function (result) {
       //we need to restore the password field as it is not sent back from the server.
       $("input#compute_resource_password").val(password);
-      $('#test_connection_indicator').hide();
-      $('[rel="twipsy"]').tooltip();
+      reloadOnAjaxComplete('#test_connection_indicator');
     }
   });
 }
@@ -71,8 +70,7 @@ function ovirt_templateSelected(item){
         $.each(result.volumes, function() {add_volume(this);});
       },
       complete: function(){
-        $(item).indicator_hide();
-        $('[rel="twipsy"]').tooltip();
+        reloadOnAjaxComplete(item);
       }
     })
   }
@@ -124,8 +122,7 @@ function ovirt_clusterSelected(item){
         });
       },
       complete: function(){
-        $(item).indicator_hide();
-        $('[rel="twipsy"]').tooltip();
+        reloadOnAjaxComplete(item);
       }
     })
 }
@@ -183,8 +180,7 @@ function libvirt_image_selected(item){
         $('#storage_volumes').children('.fields').find('[id$=format_type]')[0].value = 'qcow2';
       },
       complete: function(){
-        $(item).indicator_hide();
-        $('[rel="twipsy"]').tooltip();
+        reloadOnAjaxComplete(item);
       }
     })
   }
