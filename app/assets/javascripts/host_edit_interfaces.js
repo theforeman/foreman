@@ -29,6 +29,7 @@ function show_interface_modal(modal_content) {
   modal_window.modal({'show': true});
 
   modal_window.find('a[rel="popover-modal"]').popover({html: true});
+  $('select').select2();
 }
 
 function save_interface_modal() {

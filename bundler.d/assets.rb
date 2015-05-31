@@ -17,4 +17,5 @@ group :assets do
   gem 'gridster-rails', '~> 0.1'
   gem 'jquery_pwstrength_bootstrap', '~> 1.2'
   gem 'jquery-turbolinks', '~> 2.1'
+  gem 'select2-rails', '~> 3.5'
 end
