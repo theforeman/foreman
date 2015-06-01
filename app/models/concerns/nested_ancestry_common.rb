@@ -10,8 +10,6 @@ module NestedAncestryCommon
     after_save :set_other_titles, :on => [:update, :destroy]
     after_save :update_matchers, :on => :update, :if => Proc.new { |obj| obj.title_changed? }
 
-    validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
-    validates :title, :presence => true, :uniqueness => true
     validate :title_and_lookup_key_length
 
     scoped_search :on => :title, :complete_value => true, :default_order => true

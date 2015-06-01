@@ -4,7 +4,11 @@ class Hostgroup < ActiveRecord::Base
   friendly_id :title
   include Taxonomix
   include HostCommon
+
   include NestedAncestryCommon
+  validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
+  validates :title, :presence => true, :uniqueness => true
+
   include ScopedSearchExtensions
   include PuppetclassTotalHosts::Indirect
 
