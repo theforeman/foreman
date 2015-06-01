@@ -39,7 +39,7 @@ module Foreman
             elsif proxy.present? && proxy.has_feature?('Templates') && @host.try(:token).present?
               temp_url = ProxyAPI::Template.new(:url => proxy.url).template_url
               if temp_url.nil?
-                logger.warn("unable to obtain template url set by proxy #{proxy.url}. falling back on proxy url.")
+                Rails.logger.warn("unable to obtain template url set by proxy #{proxy.url}. falling back on proxy url.")
                 temp_url = proxy.url
               end
               temp_url
@@ -69,7 +69,7 @@ module Foreman
 
     def snippet(name, options = {})
       if (template = ConfigTemplate.where(:name => name, :snippet => true).first)
-        logger.debug "rendering snippet #{template.name}"
+        Rails.logger.debug "rendering snippet #{template.name}"
         begin
           return unattended_render(template)
         rescue => exc
