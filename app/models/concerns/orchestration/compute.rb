@@ -265,7 +265,7 @@ module Orchestration::Compute
     attrs_name = "#{compute_resource.interfaces_attrs_name}_attributes"
     return unless compute_attributes[attrs_name].blank?
     compute_attributes[attrs_name] = {}
-    self.interfaces.each_with_index do |nic, index|
+    self.interfaces.select(&:physical?).each_with_index do |nic, index|
       compute_attributes[attrs_name][index.to_s] = nic.compute_attributes
     end
   end
@@ -291,7 +291,7 @@ module Orchestration::Compute
     fog_nics = vm.interfaces.dup
 
     logger.debug "Orchestration::Compute: Trying to match network interfaces from fog #{fog_nics.inspect}"
-    self.interfaces.each do |nic|
+    self.interfaces.select(&:physical?).each do |nic|
       selected_nic = vm.select_nic(fog_nics, nic)
       if selected_nic.nil? # found no matching fog nic for this Foreman nic
         logger.warn "Orchestration::Compute: Could not match network interface #{nic.inspect}"
