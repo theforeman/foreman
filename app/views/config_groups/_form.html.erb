@@ -2,10 +2,29 @@
 
 <%= form_for(@config_group) do |f| %>
   <%= base_errors_for @config_group %>
+  <% if show_taxonomy_tabs? %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#primary" data-toggle="tab"><%= _("Config Groups") %></a></li>
+      <% if show_location_tab? %>
+        <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+      <% end %>
+      <% if show_organization_tab? %>
+        <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+      <% end %>
+    </ul>
+  <% end%>
 
-  <%= text_f f, :name %>
-  <%= render 'puppetclasses/class_selection', :obj => @config_group %>
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
 
-  <%= submit_or_cancel f %>
+      <%= text_f f, :name %>
+      <%= render 'puppetclasses/class_selection', :obj => @config_group %>
+
+    </div>
+
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @config_group %>
+    <%= submit_or_cancel f %>
+
+  </div>
 
 <% end %>
