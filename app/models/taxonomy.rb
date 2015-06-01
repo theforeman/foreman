@@ -23,6 +23,10 @@ class Taxonomy < ActiveRecord::Base
   has_many :subnets, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Subnet'
 
   validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
+
+  validates :name, :presence => true, :uniqueness => {:scope => [:ancestry, :type], :case_sensitive => false}
+  validates :title, :presence => true, :uniqueness => {:scope => :type}
+
   before_validation :sanitize_ignored_types
   after_create :assign_default_templates
 
