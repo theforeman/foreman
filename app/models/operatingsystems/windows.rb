@@ -26,7 +26,7 @@ class Windows < Operatingsystem
       else
         pxe_dir = ""
       end
-      
+
       URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/#{pxe_dir}/#{img}").normalize
     end
   end
