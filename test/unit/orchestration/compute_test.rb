@@ -9,6 +9,38 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     assert host.errors.full_messages.first =~ /associate it/
   end
 
+  describe 'only physical interfaces are matched' do
+    setup do
+      @cr = FactoryGirl.build(:libvirt_cr)
+      @cr.stubs(:provided_attributes).returns({:mac => :mac})
+      @physical = FactoryGirl.build(:nic_base, :virtual => false)
+      @virtual = FactoryGirl.build(:nic_base, :virtual => true)
+
+      @host = FactoryGirl.build(:host,
+                                :compute_resource => @cr)
+      @host.interfaces = [ @virtual, @physical ]
+      @host.vm = mock("vm")
+      @host.vm.stubs(:interfaces).returns([])
+    end
+
+    test 'matching fog attributes only for physical interfaces' do
+      @host.vm.expects(:select_nic).once.returns(OpenStruct.new)
+      @host.vm.expects(:select_nic).never.with([], @virtual).returns(OpenStruct.new)
+      @host.stubs(:validate_foreman_attr).returns(true)
+      @host.send(:match_macs_to_nics, :nic_attrs)
+    end
+
+    test 'adding only physical interfaces' do
+      @physical.stubs(:compute_attributes).returns({:virtual => false})
+      @virtual.stubs(:compute_attributes).returns({:virtual => true})
+
+      attrs = {}
+      @host.stubs(:compute_attributes).returns(attrs)
+      @host.send :add_interfaces_to_compute_attrs
+      assert_equal 1, attrs['nics_attributes'].select { |k, v| v.present? }.size
+    end
+  end
+
   describe "error message for NICs that can't be matched with those on virtual machine" do
     def host_for_nic_orchestration(nic)
       cr = FactoryGirl.build(:vmware_cr)
