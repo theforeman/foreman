@@ -1,6 +1,6 @@
 class Windows < Operatingsystem
   PXEFILES = {:kernel => "wimboot", :initrd => "bootmgr", :bcd => "bcd", :bootsdi => "boot.sdi", :bootwim => "boot.wim"}
-  
+
   def pxe_type
     "waik"
   end
