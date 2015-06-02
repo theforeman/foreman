@@ -78,4 +78,12 @@ class TaxonomyTest < ActiveSupport::TestCase
       assert_equal [org1, org2], Organization.expand([org1, org2])
     end
   end
+
+  test "name uniqueness" do
+    FactoryGirl.create(:organization, :name => "ACME")
+    # If there's a validation error the create method raises an exception
+    assert_nothing_raised do
+      FactoryGirl.create(:location, :name => "ACME")
+    end
+  end
 end
