@@ -23,7 +23,7 @@ class UsergroupsControllerTest < ActionController::TestCase
 
   def test_create_valid
     Usergroup.any_instance.stubs(:valid?).returns(true)
-    post :create, {}, set_session_user
+    post :create, { :usergroup => { :name => 'usergroup' } }, set_session_user
     assert_redirected_to usergroups_url
   end
 
