@@ -15,7 +15,7 @@ module CommonParametersHelper
       text_area_tag("value_#{value[:safe_value]}", value[:safe_value], :rows => (value[:safe_value].to_s.lines.count || 1 rescue 1),
                     :class => "col-md-6", :disabled => true, :'data-hidden-value' => Parameter.hidden_value) +
         fullscreen_button +
-        content_tag(:span, :class => "help-inline") { popover(_("Additional info"), _("<b>Source:</b> %{type} %{name}") % {:type => _(value[:source].to_s), :name => source_name})}
+        content_tag(:span, :class => "help-inline") { popover("", _("<b>Source:</b> %{type} %{name}") % {:type => _(value[:source].to_s), :name => source_name})}
     end
   end
 

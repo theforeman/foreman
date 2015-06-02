@@ -74,6 +74,9 @@ function remove_puppet_class(item){
   $('#params-tab').removeClass("tab-error");
   if ($("#params").find('.form-group.error').length > 0) $('#params-tab').addClass('tab-error');
 
+  // trigger load_puppet_class_parameters in host_edit.js which is fired by custom event handler called 'AddedClass'
+  $(document.body).trigger('RemovedClass');
+
   return false;
 }
 

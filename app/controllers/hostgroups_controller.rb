@@ -89,8 +89,12 @@ class HostgroupsController < ApplicationController
 
   def puppetclass_parameters
     Taxonomy.as_taxonomy @organization, @location do
+      parameters = params[:hostgroup].dup
+      parameters.delete(:group_parameters_attributes)
+      hostgroup = Hostgroup.find(params[:hostgroup_id])
+      hostgroup.attributes = parameters
       render :partial => "puppetclasses/classes_parameters",
-             :locals => { :obj => Hostgroup.find(params['hostgroup_id']) }
+             :locals => { :obj => hostgroup, :f => nil }
     end
   end
 

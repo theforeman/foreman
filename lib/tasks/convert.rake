@@ -81,6 +81,7 @@ namespace :db do
       ActiveRecord::Base.establish_connection(:production)
       skip_tables = ["schema_info", "schema_migrations"]
       (ActiveRecord::Base.connection.tables - skip_tables).each do |table_name|
+        begin
         time = Time.now
 
         ProductionModelClass.establish_connection(:production)
@@ -149,6 +150,8 @@ namespace :db do
         DevelopmentModelClass.connection.execute(sql) unless sql.blank?
 
         print "#{count} records converted in #{Time.now - time} seconds\n"
+      rescue
+      end
       end
     end
   end

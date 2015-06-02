@@ -156,7 +156,7 @@ class HostsController < ApplicationController
 
   def puppetclass_parameters
     Taxonomy.as_taxonomy @organization, @location do
-      render :partial => "puppetclasses/classes_parameters", :locals => { :obj => refresh_host}
+      render :partial => "puppetclasses/classes_parameters", :locals => { :obj => refresh_host, :f => nil, :inherited_parameters => refresh_host.host_inherited_params(true)}
     end
   end
 

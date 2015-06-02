@@ -1,14 +1,57 @@
-<table class="table table-condensed" id="inherited_puppetclasses_parameters">
-  <thead>
-    <tr>
-      <th class='col-md-3'><%= _('Puppet class') %></th>
-      <th class='col-md-2'><%= _('Name') %></th>
-      <th class='col-md-6'><%= _('Value') %></th>
-      <th><%= _('Actions') %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= render :partial => "puppetclasses/class_parameters", :collection => interesting_klasses(obj), :as => :puppetclass,
-             :locals => { :obj => obj } %>
-  </tbody>
-</table>
+<% @interesting_klasses ||= interesting_klasses(obj) %>
+<% f ||= set_f_for(obj) %>
+<%# Interesting classes is our name for classes which the object has values for%>
+<div class="smart-var-left col-md-2">
+  <ul class="nav nav-pills nav-stacked smart-var-tabs" data-tabs="pills">
+    <li class="<%="active" if @interesting_klasses.blank?%>">
+      <a data-toggle="tab"  href="#global_parameters"><%=_("Global")%></a>
+    </li>
+    <li class="seperator">
+      <h4><%=_("Puppet")%></h4>
+    </li>
+    <% @interesting_klasses.each do |klass| %>
+        <li class="<%= "active" if @interesting_klasses.first == klass%>">
+          <a data-toggle="tab" id="pill_<%= klass[:klass].to_s.gsub(':', '_') + '_' + klass[:klass].id.to_s %>"
+             href="#<%= klass[:klass].to_s.gsub(':', '_') + '_' + klass[:klass].id.to_s %>"><%= klass[:klass].name %></a>
+        </li>
+    <% end %>
+  </ul>
+</div>
+
+<div class="tab-content col-md-9 stacked-content">
+  <div class="tab-pane <%="active" if @interesting_klasses.blank?%>" id="global_parameters">
+    <% if obj.is_a?(Hostgroup) %>
+      <h4><%= _('Host group parameters') %></h4>
+      <p/>
+      <% if obj.parent.present? %>
+          <%= render "common_parameters/parent_parameter", :f => f %>
+      <% end %>
+      <p/>
+      <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
+    <% else %>
+      <h4><%= _('Included Parameters via inheritance') %></h4>
+      <%= render "common_parameters/inherited_parameters", { :inherited_parameters => inherited_parameters } %>
+      <p></p>
+
+      <h4><%= _('Host Parameters') %></h4>
+
+      <p></p>
+      <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
+    <% end %>
+  </div>
+  <%# This is the classes on the big window on the right %>
+  <% if @interesting_klasses.present? %>
+    <% @interesting_klasses.each do |klass| %>
+        <%= render :partial => "puppetclasses/class_parameters", :locals => { :obj => obj, :puppetclass => klass[:klass], :lookup_keys => klass[:keys], :active =>  @interesting_klasses.first == klass } %>
+    <% end %>
+  <% else %>
+    <p><%= _("You don't seem to have any Puppet classes with parameters.") %></p>
+    <p><%= _("Go to the puppet classes tab to select some and come back.") %></p>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+$(".lookup_key_row").each(function(i, row){
+  new LookupValueController($(row));
+});
+</script>

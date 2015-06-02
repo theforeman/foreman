@@ -1,18 +1,54 @@
 <% lookup_keys = overridable_lookup_keys(puppetclass, obj) %>
 <% value_hash  = Classification::ClassParam.new(:host=>obj).inherited_values.merge(Classification::GlobalParam.new(:host=>obj).inherited_values) if obj.class.model_name == "Host" %>
-<% lookup_keys.each_with_index do |key,i| %>
-    <tr id="puppetclass_<%= puppetclass.id %>_params[<%= key.id %>]">
-      <%= content_tag :td, (i == 0 ? {:rowspan => lookup_keys.size} : {:class => 'hide'}) do
-        # In order to use the class .hide-first-col, we must have an extra, invisible cell.
-        # Plus, we make the class name available from javascript without having to look at any previous row.
-        content_tag :span, trunc_with_tooltip(puppetclass.name), :'data-property' => 'class'
-      end %>
-      <td>
-        <%= content_tag :span, trunc_with_tooltip(key.key), :class => "#{"override-param" if key.overridden?(obj)}", :'data-property' => 'name' %></td>
-      <td><%= obj.class.model_name == "Host" ? host_key_with_diagnostic(obj, value_hash, key) : hostgroup_key_with_diagnostic(obj, key)%></td>
-      <td>
-          <%= link_to_function(_("override"), "override_class_param(this)", :title => _("Override this value"),
-                               :'data-tag' => 'override', :class =>"btn btn-default") if authorized_via_my_scope("host_editing", "create_params") && !key.overridden?(obj) %>
-      </td>
+<div id='<%= puppetclass.to_s.gsub(':', '_') + '_' + puppetclass.id.to_s %>' class='tab-pane fields <%="active" if active%>'>
+  <table class="table table-condensed">
+    <thead>
+    <tr>
+      <th class='col-md-2'><%= _('Name') %></th>
+      <th class='col-md-7'><%= _('Value') %></th>
+      <th class='col-md-1'><%= _('Use Puppet Default') %></th>
+      <th><%= _('Actions') %></th>
     </tr>
-<% end %>
+    </thead>
+    <tbody>
+    <% lookup_keys.each_with_index do |key, i| %>
+        <tr class="lookup_key_row <%="overridden" if key.overridden?(obj) %>" data-lookup-key-id="<%=key.id%>">
+          <td class='col-md-2'>
+            <%= content_tag :span, trunc_with_tooltip(key.key), :class => "col-md-2 lookup_key_name", :'data-property' => 'name' %></td>
+          <td class='col-md-7'><%= obj.class.model_name == "Host" ? host_key_with_diagnostic(obj, value_hash, key) : hostgroup_key_with_diagnostic(obj, key) %></td>
+          <td></td>
+          <td>
+            <%= link_to(_("override"), nil, :title => _("Override this value"),
+                                 :'data-tag' => 'override', :class => "btn btn-default override_button" ) if authorized_via_my_scope("host_editing", "create_params") %>
+          </td>
+        </tr>
+        <tr id="lookup_value_for_<%=key.id%>" class="lookup_key_override_row <%="visible" if key.overridden?(obj) %>">
+          <% value = key.overriding_value(obj) %>
+          <td class='col-md-2'>
+            <%= content_tag :span, trunc_with_tooltip(key.key), :class => "col-md-2 lookup_key_name", :'data-property' => 'name' %></td>
+          <td class='col-md-7'>
+              <%= hidden_field_tag "#{resource_name}[lookup_values_attributes][#{key.id}][lookup_key_id]", key.id %>
+              <%= hidden_field_tag("#{resource_name}[lookup_values_attributes][#{key.id}][id]", value.id) if value.present? %>
+              <%= hidden_field_tag "#{resource_name}[lookup_values_attributes][#{key.id}][_destroy]", value.blank?, :class => "destroyer" %>
+              <% if key.hidden? %>
+                <%= password_field_tag "#{resource_name}[lookup_values_attributes][#{key.id}][value]", value.try(:value), :class => "overriding-value col-md-5", :id => "override_for_#{key.id}"%>
+              <% else %>
+                <%= text_area_tag("#{resource_name}[lookup_values_attributes][#{key.id}][value]", value.try(:value),
+                            :class => "overriding-value col-md-5",
+                            :rows => 1,
+                            :id => "override_for_#{key.id}",
+                            :placeholder => _("Value")) %>
+              <% end %>
+              <%= fullscreen_button("#('#override_for_#{key.id}')")%>
+              <%= @diagnostic_helper %>
+          </td>
+          <td><%= check_box_tag "#{resource_name}[lookup_values_attributes][#{key.id}][use_puppet_default]", nil, value.try(:use_puppet_default) %></td>
+          <td>
+            <%= link_to(_("remove"), nil, :title => _("Remove this value"),
+                                 :'data-tag' => 'remove', :class => "btn btn-default remove_override_button" ) if authorized_via_my_scope("host_editing", "create_params") %>
+          </td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
