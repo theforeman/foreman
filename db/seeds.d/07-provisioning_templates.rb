@@ -6,7 +6,7 @@ os_windows = Operatingsystem.where(:type => "Windows")
 
 # Template kinds
 kinds = {}
-[:PXELinux, :PXEGrub, :iPXE, :provision, :finish, :script, :user_data, :ZTP, :POAP].each do |type|
+TemplateKind.default_template_labels.keys.collect(&:to_sym).each do |type|
   kinds[type] = TemplateKind.find_by_name(type)
   kinds[type] ||= TemplateKind.create(:name => type)
   raise "Unable to create template kind: #{format_errors kinds[type]}" if kinds[type].nil? || kinds[type].errors.any?

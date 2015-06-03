@@ -166,7 +166,7 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test 'should route built notifications' do
-    assert_routing '/unattended/built', {:controller => 'unattended', :action => 'built'}
+    assert_routing '/unattended/built', {:controller => 'unattended', :action => 'built', :format => 'text'}
   end
 
   test "should accept built notifications" do
@@ -228,7 +228,7 @@ class UnattendedControllerTest < ActionController::TestCase
   test "template with hostgroup should be rendered even if both have periods in their names" do
     templates(:mystring).update_attributes(:name => 'My.String')
     hostgroups(:common).update_attributes(:name => 'Com.mon')
-    assert_routing '/unattended/template/My.String/Com.mon', {:controller => 'unattended', :action => 'hostgroup_template', :id => "My.String", :hostgroup => "Com.mon"}
+    assert_routing '/unattended/template/My.String/Com.mon', {:controller => 'unattended', :action => 'hostgroup_template', :id => "My.String", :hostgroup => "Com.mon", :format => 'text'}
     get :hostgroup_template, {:id => "My.String", :hostgroup => "Com.mon"}
     assert_response :success
   end
@@ -358,12 +358,39 @@ class UnattendedControllerTest < ActionController::TestCase
   test "should return and log error when template not found" do
     @request.env["REMOTE_ADDR"] = @ub_host.ip
     Host::Managed.any_instance.expects(:provisioning_template).returns(nil)
-    Rails.logger.expects(:error).with(regexp_matches(/unable to find provision template/))
+    Rails.logger.expects(:error).with(regexp_matches(/unable to find.*template/))
     get :host_template, {:kind => 'provision'}
     assert_response :not_found
   end
 
   test 'host template provision URL can be generated from routes' do
-    assert_routing '/unattended/provision', {:controller => 'unattended', :action => 'host_template', :kind => 'provision'}
+    assert_routing '/unattended/provision', {:controller => 'unattended', :action => 'host_template', :kind => 'provision', :format => 'text'}
+  end
+
+  test "should not render a template to anonymous user" do
+    get :host_template, {:kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text'}
+    assert_response :redirect
+  end
+
+  test "should not render a template to user w/o email" do
+    user = FactoryGirl.create(:user)
+    get :host_template, {:kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text'}, set_session_user(user)
+    assert_response :unprocessable_entity
+  end
+
+  test 'should render a template to user with valid filter' do
+    user = FactoryGirl.create(:user, :with_mail, :admin => false)
+    FactoryGirl.create(:filter, :role => user.roles.first, :permissions => Permission.where(:name => 'view_hosts'), :search => "name = #{@rh_host.name}")
+    get :host_template, {:kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text'}, set_session_user(user)
+    assert_response :success
+    assert @response.body.include?("linux")
+  end
+
+  test 'should not render a template to user with invalid filter' do
+    user = FactoryGirl.create(:user, :with_mail, :admin => false)
+    FactoryGirl.create(:filter, :role => user.roles.first, :permissions => Permission.where(:name => 'view_hosts'), :search => "name = does_not_exist")
+    get :host_template, {:kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text'}, set_session_user(user)
+    assert_response :not_found
+    assert_match /unable to find a host/, @response.body
   end
 end

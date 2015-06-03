@@ -73,8 +73,17 @@ class ApplicationController < ActionController::Base
 
   def require_mail
     if User.current && !User.current.hidden? && User.current.mail.blank?
-      error _("Email is Required")
-      redirect_to edit_user_path(:id => User.current)
+      msg = _("Email is Required")
+      respond_to do |format|
+        format.html do
+          error msg
+          redirect_to edit_user_path(:id => User.current)
+        end
+        format.text do
+          render :text => msg, :status => :unprocessable_entity, :content_type => Mime::TEXT
+        end
+      end
+      true
     end
   end
 
@@ -217,7 +226,7 @@ class ApplicationController < ActionController::Base
     end
 
     respond_to do |format|
-      format.html { render :template => "common/403", :layout => !request.xhr?, :status => :forbidden }
+      format.html { render :template => "common/403", :layout => !ajax?, :status => :forbidden }
       format.any  { head :forbidden }
     end
     false

@@ -125,7 +125,7 @@ Foreman::Application.routes.draw do
       end
     end
 
-    get 'unattended/template/:id/*hostgroup', :to => "unattended#hostgroup_template", hostgroup: /.+/
+    get 'unattended/template/:id/*hostgroup', :to => "unattended#hostgroup_template", hostgroup: /.+/, :format => 'text'
   end
 
   resources :settings, :only => [:index, :update] do
@@ -424,12 +424,12 @@ Foreman::Application.routes.draw do
   get 'status', :to => 'home#status', :as => "status"
 
   # get only for alterator unattended scripts
-  get 'unattended/provision/:metadata', :controller => 'unattended', :action => 'host_template', :format => 'html',
+  get 'unattended/provision/:metadata', :controller => 'unattended', :action => 'host_template', :format => 'text',
     :constraints => { :metadata => /(autoinstall\.scm|vm-profile\.scm|pkg-groups\.tar)/ }
   # get for end of build action
-  get 'unattended/built/(:id(:format))', :controller => 'unattended', :action => 'built'
+  get 'unattended/built/(:id(:format))', :controller => 'unattended', :action => 'built', :format => 'text'
   # get for all unattended scripts
-  get 'unattended/(:kind/(:id(:format)))', :controller => 'unattended', :action => 'host_template'
+  get 'unattended/(:kind/(:id(:format)))', :controller => 'unattended', :action => 'host_template', :format => 'text'
 
   resources :tasks, :only => [:show]
 
