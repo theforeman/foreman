@@ -134,27 +134,35 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test "seed organization when environment SEED_ORGANIZATION specified" do
+    Organization.stubs(:any?).returns(false)
     with_env('SEED_ORGANIZATION' => 'seed_test') do
       seed
     end
     assert Organization.find_by_name('seed_test')
+  end
 
-    with_env('SEED_ORGANIZATION' => 'seed_test2') do
+  test "don't seed organization when an org already exists" do
+    Organization.stubs(:any?).returns(true)
+    with_env('SEED_ORGANIZATION' => 'seed_test') do
       seed
     end
-    assert Organization.find_by_name('seed_test2')
+    refute Organization.find_by_name('seed_test')
   end
 
   test "seed location when environment SEED_LOCATION specified" do
+    Location.stubs(:any?).returns(false)
     with_env('SEED_LOCATION' => 'seed_test') do
       seed
     end
     assert Location.find_by_name('seed_test')
+  end
 
-    with_env('SEED_LOCATION' => 'seed_test_a') do
+  test "don't seed location when a location already exists" do
+    Location.stubs(:any?).returns(true)
+    with_env('SEED_LOCATION' => 'seed_test') do
       seed
     end
-    assert Location.find_by_name('seed_test_a')
+    refute Location.find_by_name('seed_test')
   end
 
   test "all access permissions are created by permissions seed" do
