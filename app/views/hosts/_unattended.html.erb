@@ -2,10 +2,6 @@
   <%= render('hosts/compute', :compute_resource => @host.compute_resource) if @host.compute_resource %>
 </div>
 
-<div class="tab-pane"  id="network">
-  <%= render 'hosts/interfaces', :host => @host, :f => f %>
-</div>
-
 <div class="tab-pane"  id="os">
   <%= render 'hosts/operating_system', :host => @host, :f => f %>
 </div>
