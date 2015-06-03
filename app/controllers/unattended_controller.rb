@@ -57,6 +57,12 @@ class UnattendedController < ApplicationController
 
   private
 
+  def render_custom_error(status, error_message, params)
+    logger.error error_message % params
+    # add a comment character (works with Red Hat and Debian systems) to avoid parsing errors
+    render(:text => '# ' + _(error_message) % params, :status => status, :content_type => 'text/plain')
+  end
+
   def render_template(type)
     # Compatibility with older URLs
     type = 'iPXE' if type == 'gPXE'
@@ -65,9 +71,8 @@ class UnattendedController < ApplicationController
       logger.debug "rendering DB template #{config.name} - #{type}"
       safe_render config
     else
-      msg = "unable to find #{type} template for [#{@host.name}] running [#{@host.operatingsystem}]"
-      logger.error msg
-      render :text => msg, :status => :not_found
+      error_message = N_("unable to find %{type} template for %{host} running %{os}")
+      render_custom_error(:not_found, error_message, {:type => type, :host => @host.name, :os => @host.operatingsystem})
     end
   end
 
@@ -78,24 +83,26 @@ class UnattendedController < ApplicationController
   def get_host_details
     @host = find_host_by_spoof || find_host_by_token || find_host_by_ip_or_mac
     unless @host
-      logger.info "#{controller_name}: unable to find a host that matches the request from #{request.env['REMOTE_ADDR']}"
-      head(:not_found) and return
+      error_message = N_("%{controller}: unable to find a host that matches the request from %{addr}")
+      render_custom_error(:not_found, error_message, {:controller => controller_name, :addr => request.env['REMOTE_ADDR']})
+      return
     end
     unless @host.operatingsystem
-      logger.error "#{controller_name}: #{@host.name}'s operating system is missing!"
-      head(:conflict) and return
+      error_message = N_("%{controller}: %{host}'s operating system is missing")
+      render_custom_error(:conflict, error_message, {:controller => controller_name, :host => @host.name})
+      return
     end
     unless @host.operatingsystem.family
-      # Then, for some reason, the OS has not been specialized into a Redhat or Debian class
-      logger.error "#{controller_name}: #{@host.name}'s operating system [#{@host.operatingsystem.fullname}] has no OS family!"
-      head(:conflict) and return
+      error_message = N_("%{controller}: %{host}'s operating system %{os} has no OS family")
+      render_custom_error(:conflict, error_message, {:controller => controller_name, :host => @host.name, :os => @host.operatingsystem.fullname})
+      return
     end
-    logger.info "Found #{@host}"
+    logger.debug "Found #{@host}"
   end
 
   def find_host_by_spoof
-    host = Nic::Base.primary.find_by_ip(params.delete('spoof')).try(:host) if params['spoof'].present?
-    host ||= Host.find_by_name(params.delete('hostname')) if params['hostname'].present?
+    host = Host.authorized('view_hosts').joins(:primary_interface).where("#{Nic::Base.table_name}.ip" => params['spoof']).first if params['spoof'].present?
+    host ||= Host.authorized('view_hosts').find_by_name(params['hostname']) if params['hostname'].present?
     @spoof = host.present?
     host
   end

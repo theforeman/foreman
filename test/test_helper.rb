@@ -123,7 +123,8 @@ Spork.prefork do
     end
 
     def set_session_user(user = :admin)
-      SETTINGS[:login] ? {:user => users(user).id, :expires_at => 5.minutes.from_now} : {}
+      user = user.is_a?(User) ? user : users(user)
+      SETTINGS[:login] ? {:user => user.id, :expires_at => 5.minutes.from_now} : {}
     end
 
     def as_user(user)
