@@ -103,7 +103,12 @@ module Foreman::Model
     private
 
     def client
-      @client ||= ::Fog::Compute.new(:provider => 'google', :google_project => project, :google_client_email => email, :google_key_location => key_path)
+      @client ||= ::Fog::Compute.new(
+        :provider            => 'google',
+        :google_project      => project,
+        :google_client_email => email,
+        :google_key_location => key_path,
+        :instrumentor        => FogExtensions::Debug::DebugHttpInstrumentor)
     end
 
     def check_google_key_path

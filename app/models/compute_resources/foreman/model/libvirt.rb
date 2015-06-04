@@ -156,7 +156,10 @@ module Foreman::Model
     def client
       # WARNING potential connection leak
       tries ||= 3
-      Thread.current[url] ||= ::Fog::Compute.new(:provider => "Libvirt", :libvirt_uri => url)
+      Thread.current[url] ||= ::Fog::Compute.new(
+        :provider           => "Libvirt",
+        :libvirt_uri        => url,
+        :connection_options => { :instrumentor => FogExtensions::Debug::DebugHttpInstrumentor })
     rescue ::Libvirt::RetrieveError
       Thread.current[url] = nil
       retry unless (tries -= 1).zero?

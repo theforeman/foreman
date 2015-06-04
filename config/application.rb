@@ -144,7 +144,11 @@ module Foreman
     )
 
     # Check that the loggers setting exist to configure the app and sql loggers
-    Foreman::Logging.add_loggers(SETTINGS[:loggers] || {:app => {:enabled => true}, :sql => {:enabled => true}})
+    Foreman::Logging.add_loggers(SETTINGS[:loggers] || {
+      :app => {:enabled => true},
+      :sql => {:enabled => true},
+      :crs => {:enabled => true}
+    })
 
     config.logger = Foreman::Logging.logger('app')
     config.active_record.logger = Foreman::Logging.logger('sql')

@@ -446,8 +446,8 @@ module Foreman::Model
         :vsphere_username             => user,
         :vsphere_password             => password,
         :vsphere_server               => server,
-        :vsphere_expected_pubkey_hash => pubkey_hash
-      )
+        :vsphere_expected_pubkey_hash => pubkey_hash,
+        :vsphere_debug                => ::Foreman::Logging.logger('crs').debug?)
     rescue => e
       if e.message =~ /The remote system presented a public key with hash (\w+) but we're expecting a hash of/
         raise Foreman::FingerprintException.new(

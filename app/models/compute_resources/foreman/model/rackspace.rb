@@ -97,12 +97,13 @@ module Foreman::Model
 
     def client
       @client ||= Fog::Compute.new(
-        :provider => "Rackspace",
-        :version => 'v2',
-        :rackspace_api_key => password,
+        :provider           => "Rackspace",
+        :version            => 'v2',
+        :rackspace_api_key  => password,
         :rackspace_username => user,
         :rackspace_auth_url => url,
-        :rackspace_region => region.downcase.to_sym
+        :rackspace_region   => region.downcase.to_sym,
+        :connection_options => { :instrumentor => FogExtensions::Debug::DebugHttpInstrumentor }
       )
     end
 

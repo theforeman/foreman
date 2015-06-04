@@ -252,7 +252,8 @@ module Foreman::Model
           :ovirt_password   => password,
           :ovirt_url        => url,
           :ovirt_datacenter => uuid,
-          :ovirt_ca_cert_store => ca_cert_store(public_key)
+          :ovirt_ca_cert_store => ca_cert_store(public_key),
+          :instrumentor => FogExtensions::Debug::DebugHttpInstrumentor
       )
       client.datacenters
       @client = client

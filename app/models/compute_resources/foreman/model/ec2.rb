@@ -113,7 +113,12 @@ module Foreman::Model
     end
 
     def client
-      @client ||= ::Fog::Compute.new(:provider => "AWS", :aws_access_key_id => user, :aws_secret_access_key => password, :region => region)
+      @client ||= ::Fog::Compute.new(
+        :provider              => "AWS",
+        :aws_access_key_id     => user,
+        :aws_secret_access_key => password,
+        :region                => region,
+        :connection_options    => { :instrumentor => FogExtensions::Debug::DebugHttpInstrumentor })
     end
 
     # this method creates a new key pair for each new ec2 compute resource
