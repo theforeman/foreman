@@ -8,7 +8,7 @@ class LookupKey < ActiveRecord::Base
   KEY_DELM = ","
   EQ_DELM  = "="
 
-  audited :associated_with => :audit_class, :allow_mass_assignment => true
+  audited :associated_with => :audit_class, :allow_mass_assignment => true, :except => :lookup_values_count
   validates_lengths_from_database
 
   serialize :default_value

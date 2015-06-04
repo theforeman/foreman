@@ -1,5 +1,5 @@
 class ConfigGroup < ActiveRecord::Base
-  audited :allow_mass_assignment => true
+  audited :allow_mass_assignment => true, :except => [:hosts_count, :hostgroups_count]
   include Authorizable
   include Parameterizable::ByIdName
   include PuppetclassTotalHosts::Indirect
