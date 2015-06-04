@@ -168,6 +168,8 @@ done
 
 [ $DEBUG -eq 0 -a $EUID -ne 0 ] && error "This script must be run as root" && exit 1
 
+[ $UPLOAD -eq 1 -a $NOTAR -eq 1 ] && error "Options -u and -a cannot be used together" && exit 2
+
 # determine distribution family
 if [ -f /etc/debian_version ]; then
     OS=debian
