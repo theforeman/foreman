@@ -1,4 +1,6 @@
 require 'open3'
+require 'socket'
+require 'timeout'
 
 class PortInUse < StandardError; end
 
@@ -21,22 +23,37 @@ class WsProxy
     proxy.start_proxy
   end
 
+  def free_port? port
+    socket = Socket.new :INET, :STREAM
+    socket.bind(Socket.pack_sockaddr_in(port, '127.0.0.1'))
+    return true
+  rescue Errno::EADDRINUSE
+    return false
+  ensure
+    socket.close unless socket.nil?
+  end
+
   def start_proxy
-    # try to execute our web sockets proxy
-    port = PORTS.first
+    # randomly preselect free tcp port from the range
+    port = 0
+    Timeout::timeout(5) do
+      until free_port?(port = rand(PORTS)); end
+    end
+    # execute websockify proxy
     begin
       cmd  = "#{ws_proxy} --daemon --idle-timeout=#{idle_timeout} --timeout=#{timeout} #{port} #{host}:#{host_port}"
       cmd += " --ssl-target" if ssl_target
       cmd += " --cert #{Setting[:websockets_ssl_cert]}" if Setting[:websockets_ssl_cert]
       cmd += " --key #{Setting[:websockets_ssl_key]}" if Setting[:websockets_ssl_key]
       execute(cmd)
-      # if the port is already in use, try another one from the pool
-      # this is not ideal, as it would try all ports in order
-      # but it avoids any threading issues etc.
-      # TODO: try to select a port from a pool randomly, so we always hit all active connections.
     rescue PortInUse
+      # fallback just in case of race condition
       port += 1
-      retry if port <= PORTS.last
+      if port >= PORTS.last
+        raise ::Foreman::Exception, _('No free ports for websockify, try later')
+      else
+        retry
+      end
     end
     @proxy_port = port
 
