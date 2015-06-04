@@ -3,7 +3,7 @@
 
 
 <%= text_f f, :mac, :class => :interface_mac %>
-<%= text_f f, :identifier, :disabled => !f.object.new_record?,
+<%= text_f f, :identifier,
               :help_inline => popover(
                       _("Device identifier"),
                       _("Device identifier for this interface. This may be different on various platforms and environments, here are some common examples.<br/><ul>" +
