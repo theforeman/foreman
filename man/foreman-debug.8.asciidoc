@@ -47,8 +47,32 @@ The following options are available:
   -p      Additionally print all passwords which are being filtered
   -q      Quiet mode
   -v      Verbose mode
+  -u      Upload tarball
   -h      Shows this message
 
+CONFIGURATION
+-------------
+
+Additional configuration can be provided via configuration file that must be
+stored as /etc/foreman/foreman-debug.conf. The file has shell syntax and the
+following environmental variables can be defined:
+
+ - DIR: Directory to place the tarball in (string)
+ - NOGENERIC:  Skip generic info (0 or 1)
+ - NOTAR:  Do not create tarballs (0 or 1)
+ - MAXLINES: Maximum lines to keep for files (integer)
+ - COMPRESS: Compress program to pipe the tarball through (string)
+ - PRINTPASS: Print passwords which are filtered out on stdout (0 or 1)
+ - QUIET: Quiet mode (0 or 1)
+ - VERBOSE: Verbose mode (0 or 1)
+ - DEBUG: Debug mode (0 or 1)
+ - UPLOAD: Upload tarbal after each run (0 or 1)
+ - UPLOAD_DISABLED: Permanently disable upload feature (0 or 1)
+ - FILTER_WORDS: Tokens that are fileted out (shell array)
+
+Most of the configured options are default values and can be overriden by
+command line options, others are unique and can only be set via the
+configuraiton file.
 
 SEE ALSO
 --------
