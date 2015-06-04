@@ -127,6 +127,10 @@ module Foreman::Model
       true
     end
 
+    def zones
+      @zones ||= (client.list_zones.body["availabilityZoneInfo"].try(:map){|i| i["zoneName"]} || [])
+    end
+
     private
 
     def fog_credentials
