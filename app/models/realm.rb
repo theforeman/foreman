@@ -7,7 +7,7 @@ class Realm < ActiveRecord::Base
   TYPES = ["FreeIPA", "Active Directory"]
 
   validates_lengths_from_database
-  audited :allow_mass_assignment => true
+  audited :allow_mass_assignment => true, :except => [:hosts_count, :hostgroups_count]
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 
   belongs_to :realm_proxy, :class_name => "SmartProxy"
