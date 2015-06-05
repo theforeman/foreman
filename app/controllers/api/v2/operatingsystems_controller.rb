@@ -78,7 +78,7 @@ module Api
         arch   = Architecture.authorized(:view_architectures).find(params[:architecture])
         render :json => @operatingsystem.pxe_files(medium, arch)
       rescue => e
-        render :json => e.to_s, :status => :unprocessable_entity
+        render_message(e.to_s, :status => :unprocessable_entity)
       end
 
       private

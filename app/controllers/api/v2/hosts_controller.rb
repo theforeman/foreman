@@ -177,7 +177,7 @@ Return value may either be one of the following:
         @host, state = detect_host_type.import_host_and_facts params[:name], params[:facts], params[:certname], detected_proxy.try(:id)
         process_response state
       rescue ::Foreman::Exception => e
-        render :json => {'message'=>e.to_s}, :status => :unprocessable_entity
+        render_message(e.to_s, :status => :unprocessable_entity)
       end
 
       private
