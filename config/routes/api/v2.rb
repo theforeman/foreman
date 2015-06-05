@@ -268,6 +268,7 @@ Foreman::Application.routes.draw do
         end
         resources :hosts, :except => [:new, :edit] do
           get :status, :on => :member
+          get :vm_compute_attributes, :on => :member
           put :puppetrun, :on => :member
           put :disassociate, :on => :member
           put :boot, :on => :member
