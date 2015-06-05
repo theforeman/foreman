@@ -252,6 +252,16 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  test "should show hosts vm attributes" do
+    host = FactoryGirl.create(:host, :compute_resource => compute_resources(:one))
+    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns( :cpus => 4 )
+    get :vm_compute_attributes, { :id => host.to_param }
+    assert_response :success
+    data = JSON.parse(@response.body)
+    assert_equal data, "compute_attributes" => { "cpus" => 4 }
+    ComputeResource.any_instance.unstub(:vm_compute_attributes_for)
+  end
+
   def set_remote_user_to(user)
     @request.env['REMOTE_USER'] = user.login
   end

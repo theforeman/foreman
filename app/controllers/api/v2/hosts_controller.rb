@@ -126,6 +126,29 @@ Return value may either be one of the following:
         render :json => { :status => @host.host_status }.to_json if @host
       end
 
+      api :GET, "/hosts/:id/vm_compute_attributes", N_("Get vm attributes of host")
+      param :id, :identifier_dottable, :required => true
+      description <<-eos
+Return the host's compute attributes that can be used to create a clone of this VM
+      eos
+
+      def vm_compute_attributes
+        render :json => {} unless @host
+        attrs = @host.vm_compute_attributes
+        safe_attrs = {}
+        attrs.each_pair do |k,v|
+          # clean up the compute attributes to be suitable for output
+          if v.is_a?(Proc)
+            safe_attrs[k] = v.call
+          elsif v.respond_to?('parent')
+            # don't add folders, causes recursive json issues
+          else
+            safe_attrs[k] = v
+          end
+        end
+        render :json => { :compute_attributes => safe_attrs }
+      end
+
       api :PUT, "/hosts/:id/puppetrun", N_("Force a Puppet agent run on the host")
       param :id, :identifier_dottable, :required => true
 
@@ -221,6 +244,8 @@ Return value may either be one of the following:
             :console
           when 'disassociate'
             :edit
+          when 'vm_compute_attributes'
+            :view
           else
             super
         end

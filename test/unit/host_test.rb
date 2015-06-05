@@ -147,6 +147,17 @@ class HostTest < ActiveSupport::TestCase
     host.update_attributes!(:mac => "52:54:00:dd:ee:ff")
   end
 
+  test "can fetch vm compute attributes" do
+    host = FactoryGirl.create(:host, :compute_resource => compute_resources(:one))
+    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({:cpus => 4})
+    assert_equal host.vm_compute_attributes, :cpus => 4
+  end
+
+  test "fetches nil vm compute attributes for bare metal" do
+    host = FactoryGirl.create(:host)
+    assert_equal host.vm_compute_attributes, nil
+  end
+
   context "when unattended is false" do
     def setup
       SETTINGS[:unattended] = false
