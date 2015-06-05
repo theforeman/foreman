@@ -171,6 +171,25 @@ class ComputeResourceTest < ActiveSupport::TestCase
     refute as_admin { cr.send(:associate_by, 'mac', '11:22:33:44:55:1a') }.readonly?
   end
 
+  describe "find_vm_by_uuid" do
+    before do
+      servers = mock()
+      servers.stubs(:get).returns(nil)
+
+      client = mock()
+      client.stubs(:servers).returns(servers)
+
+      @cr = ComputeResource.new
+      @cr.stubs(:client).returns(client)
+    end
+
+    it "raises RecordNotFound when the vm does not exist" do
+      assert_raises ActiveRecord::RecordNotFound do
+        @cr.find_vm_by_uuid('abc')
+      end
+    end
+  end
+
   describe "vm_compute_attributes_for" do
     before do
       plain_attrs = {
@@ -223,6 +242,24 @@ class ComputeResourceTest < ActiveSupport::TestCase
         :cpus => 5,
         :volumes_attributes => {}
       }
+      attrs = @cr.vm_compute_attributes_for('abc')
+
+      assert_equal expected_attrs, attrs
+    end
+
+    test "returns default attributes when the vm no longer exists" do
+      @cr.stubs(:find_vm_by_uuid).returns(nil)
+
+      expected_attrs = {}
+      attrs = @cr.vm_compute_attributes_for('abc')
+
+      assert_equal expected_attrs, attrs
+    end
+
+    test "returns default attributes when the vm no longer exists and provider raises exception" do
+      @cr.stubs(:find_vm_by_uuid).raises(ActiveRecord::RecordNotFound)
+
+      expected_attrs = {}
       attrs = @cr.vm_compute_attributes_for('abc')
 
       assert_equal expected_attrs, attrs

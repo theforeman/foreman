@@ -26,7 +26,7 @@ module Foreman::Model
     end
 
     def find_vm_by_uuid(uuid)
-      client.servers.get(uuid)
+      super
     rescue ::Libvirt::RetrieveError => e
       Foreman::Logging.exception("Failed retrieving libvirt vm by uuid #{ uuid }", e)
       raise ActiveRecord::RecordNotFound

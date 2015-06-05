@@ -8,6 +8,32 @@ class LibvirtTest < ActiveSupport::TestCase
     assert_equal host, as_admin { cr.associated_host(iface) }
   end
 
+  describe "find_vm_by_uuid" do
+    before do
+      @servers = mock()
+      @servers.stubs(:get).returns(nil)
+
+      client = mock()
+      client.stubs(:servers).returns(@servers)
+
+      @cr = Foreman::Model::Libvirt.new
+      @cr.stubs(:client).returns(client)
+    end
+
+    it "raises RecordNotFound when the vm does not exist" do
+      assert_raises ActiveRecord::RecordNotFound do
+        @cr.find_vm_by_uuid('abc')
+      end
+    end
+
+    it "raises RecordNotFound when the compute raises retrieve error" do
+      @servers.stubs(:get).raises(Libvirt::RetrieveError)
+      assert_raises ActiveRecord::RecordNotFound do
+        @cr.find_vm_by_uuid('abc')
+      end
+    end
+  end
+
   describe "compute_attributes_for" do
     test "returns memory in bytes" do
       vm = mock()
