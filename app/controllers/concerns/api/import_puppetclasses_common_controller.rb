@@ -71,7 +71,7 @@ module Api::ImportPuppetclassesCommonController
       else
         msg = e.message
       end
-      render :json => {:message => msg}, :status => :internal_server_error and return false
+      render_message(msg, :status => :internal_server_error) and return false
     end
 
     # PuppetClassImporter expects [kind][env] to be in json format
@@ -89,7 +89,7 @@ module Api::ImportPuppetclassesCommonController
       OpenStruct.new(:name => name)
     end
 
-    render :json => {:message => _("No changes to your environments detected")} and return false unless @environments.any?
+    render_message(_("No changes to your environments detected")) and return false unless @environments.any?
     @environments.any?
   end
 

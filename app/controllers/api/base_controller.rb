@@ -110,6 +110,11 @@ module Api
       end
     end
 
+    def render_message(msg, render_options = {})
+      render_options[:json] = { :message => msg }
+      render render_options
+    end
+
     def log_resource_errors(resource)
       logger.error "Unprocessable entity #{resource.class.name} (id: #{resource.try(:id) || "new"}):\n  #{resource.errors.full_messages.join("\n  ")}\n"
     end

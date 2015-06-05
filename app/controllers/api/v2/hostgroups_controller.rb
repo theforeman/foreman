@@ -64,7 +64,7 @@ module Api
 
       def destroy
         if @hostgroup.has_children?
-          render :json => {'message'=> _("Cannot delete group %{current} because it has nested host groups.") % { :current => @hostgroup.title } }, :status => :conflict
+          render_message(_("Cannot delete group %{current} because it has nested host groups.") % { :current => @hostgroup.title }, :status => :conflict)
         else
           process_response @hostgroup.destroy
         end

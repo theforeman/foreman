@@ -81,7 +81,7 @@ module Api
 
       def build_pxe_default
         status, msg = ConfigTemplate.authorized(:deploy_templates).build_pxe_default(self)
-        render :json => msg, :status => status
+        render_message(msg, :status => status)
       end
 
       def_param_group :config_template_clone do
