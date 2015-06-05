@@ -1,36 +1,34 @@
 # Debug logging from net-ldap and ldap_fluff events sent via ActiveSupport::Notifications
 module Foreman
-  class NetLdapSubscriber < ActiveSupport::LogSubscriber
-    def self.define_log(action, log_name)
+  class LdapSubscriber < ActiveSupport::LogSubscriber
+    def logger
+      ::Foreman::Logging.logger('ldap')
+    end
+
+    def self.define_log(action, log_name, color)
       define_method(action) do |event|
         return unless logger.debug?
         name = '%s (%.1fms)' % [log_name, event.duration]
-        debug "  #{color(name, YELLOW, true)}  [ #{yield(event.payload)} ]"
+        debug "  #{color(name, color, true)}  [ #{yield(event.payload)} ]"
       end
     end
-
-    define_log(:bind, 'LDAP-op bind') { |payload| "result=#{payload[:bind].status}" }
-    define_log(:search, 'LDAP-op search') { |payload| "filter=#{payload[:filter]}, base=#{payload[:base]}" }
   end
 
-  class LdapFluffSubscriber < ActiveSupport::LogSubscriber
-    def self.define_log(action, log_name)
-      define_method(action) do |event|
-        return unless logger.debug?
-        name = '%s (%.1fms)' % [log_name, event.duration]
-        debug "  #{color(name, GREEN, true)}  [ #{yield(event.payload)} ]"
-      end
-    end
+  class NetLdapSubscriber < LdapSubscriber
+    define_log(:bind, 'op bind', YELLOW) { |payload| "result=#{payload[:bind].status}" }
+    define_log(:search, 'op search', YELLOW) { |payload| "filter=#{payload[:filter]}, base=#{payload[:base]}" }
+  end
 
-    define_log(:authenticate, 'LDAP authenticate') { |payload| "user=#{payload[:uid]}" }
-    define_log(:test, 'LDAP test') {}
-    define_log(:user_list, 'LDAP user_list') { |payload| "group=#{payload[:gid]}" }
-    define_log(:valid_group?, 'LDAP valid_group?') { |payload| "group=#{payload[:gid]}" }
-    define_log(:find_group, 'LDAP find_group') { |payload| "group=#{payload[:gid]}" }
-    define_log(:group_list, 'LDAP group_list') { |payload| "user=#{payload[:uid]}" }
-    define_log(:valid_user?, 'LDAP valid_user?') { |payload| "user=#{payload[:uid]}" }
-    define_log(:find_user, 'LDAP find_user') { |payload| "user=#{payload[:uid]}" }
-    define_log(:is_in_groups?, 'LDAP is_in_groups?') { |payload| "user=#{payload[:uid]}, grouplist=#{payload[:grouplist].inspect}" }
+  class LdapFluffSubscriber < LdapSubscriber
+    define_log(:authenticate, 'authenticate', GREEN) { |payload| "user=#{payload[:uid]}" }
+    define_log(:test, 'test', GREEN) {}
+    define_log(:user_list, 'user_list', GREEN) { |payload| "group=#{payload[:gid]}" }
+    define_log(:valid_group?, 'valid_group?', GREEN) { |payload| "group=#{payload[:gid]}" }
+    define_log(:find_group, 'find_group', GREEN) { |payload| "group=#{payload[:gid]}" }
+    define_log(:group_list, 'group_list', GREEN) { |payload| "user=#{payload[:uid]}" }
+    define_log(:valid_user?, 'valid_user?', GREEN) { |payload| "user=#{payload[:uid]}" }
+    define_log(:find_user, 'find_user', GREEN) { |payload| "user=#{payload[:uid]}" }
+    define_log(:is_in_groups?, 'is_in_groups?', GREEN) { |payload| "user=#{payload[:uid]}, grouplist=#{payload[:grouplist].inspect}" }
   end
 end
 

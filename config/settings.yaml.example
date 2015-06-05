@@ -28,8 +28,11 @@
 #:logging:
 #  :level: debug
 
-:loggers:
-  :app:
-    :enabled: true
-  :sql:
-    :enabled: true
+# Individual logging types can be toggled on/off here
+#:loggers:
+#  :app:
+#    :enabled: true
+#  :ldap:
+#    :enabled: false
+#  :sql:
+#    :enabled: true
