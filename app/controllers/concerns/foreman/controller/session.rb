@@ -8,7 +8,7 @@ module Foreman::Controller::Session
       expire_session
     end
   rescue => e
-    logger.warn "failed to determine if user sessions needs to be expired, expiring anyway: #{e}"
+    Foreman::Logging.exception("failed to determine if user sessions needs to be expired, expiring anyway", e)
     expire_session
   end
 

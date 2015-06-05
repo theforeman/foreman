@@ -175,8 +175,7 @@ class HostsController < ApplicationController
         format.yml { render :text => @host.info.to_yaml }
       end
     rescue => e
-      logger.warn "Failed to generate external nodes for #{@host} with #{e}"
-      logger.debug(e.backtrace.join("\n"))
+      Foreman::Logging.exception("Failed to generate external nodes for #{@host}", e)
       render :text => _('Unable to generate output, Check log files'),
              :status => :precondition_failed
     end
@@ -204,9 +203,9 @@ class HostsController < ApplicationController
         begin
           process_success :success_msg => _("Enabled %s for reboot and rebuild") % (@host), :success_redirect => :back if @host.power.reset
         rescue => error
-          logger.warn(error.to_s)
-          logger.debug error.backtrace.join("\n")
-          warning(_('Failed to reboot %s.') % @host)
+          message = _('Failed to reboot %s.') % @host
+          warning(message)
+          Foreman::Logging.exception(message, error)
           process_success :success_msg => _("Enabled %s for rebuild on next boot") % (@host), :success_redirect => :back
         end
       else
@@ -306,6 +305,7 @@ class HostsController < ApplicationController
                "hosts/console/log"
            end
   rescue => e
+    Foreman::Logging.exception("Failed to set console", e)
     process_error :redirect => :back, :error_msg => _("Failed to set console: %s") % (e)
   end
 
@@ -618,6 +618,7 @@ class HostsController < ApplicationController
       render :unprocessable_entity
     end
   rescue => e
+    Foreman::Logging.exception("Something went wrong while changing host type", e)
     error _("Something went wrong while changing host type - %s") % (e)
   end
 
@@ -677,10 +678,10 @@ class HostsController < ApplicationController
     end
 
     return @hosts
-  rescue => e
-    error _("Something went wrong while selecting hosts - %s") % (e)
-    logger.debug e.message
-    logger.debug e.backtrace.join("\n")
+  rescue => error
+    message = _("Something went wrong while selecting hosts - %s") % error
+    error(message)
+    Foreman::Logging.exception(message, error)
     redirect_to hosts_path and return false
   end
 

@@ -97,7 +97,7 @@ class Foreman::Provision::SSH
       rescue Timeout::Error
         retry
       rescue => e
-        logger.debug "SSH error: #{e.message}\n " + e.backtrace.join("\n ")
+        Foreman::Logging.exception("SSH error", e)
       end
     end
   end

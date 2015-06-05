@@ -15,7 +15,7 @@ module Orchestration::Puppetca
     @puppetca = ProxyAPI::Puppetca.new :url => puppet_ca_proxy.url
     true
   rescue => e
-    failure _("Failed to initialize the PuppetCA proxy: %s") % e
+    failure _("Failed to initialize the PuppetCA proxy: %s") % e, e
   end
 
   # Removes the host's puppet certificate from the puppetmaster's CA

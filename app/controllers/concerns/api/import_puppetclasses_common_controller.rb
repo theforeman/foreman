@@ -69,6 +69,7 @@ module Api::ImportPuppetclassesCommonController
       if e.message =~ /puppet feature/i
         msg = _('No proxy found to import classes from, ensure that the smart proxy has the Puppet feature enabled.')
       else
+        Foreman::Logging.exception("Error while importing Puppet classes", e)
         msg = e.message
       end
       render_message(msg, :status => :internal_server_error) and return false
@@ -114,8 +115,7 @@ module Api::ImportPuppetclassesCommonController
   def find_optional_environment
     @environment = Environment.authorized(:view_environments).find(@env_id)
   rescue ActiveRecord::RecordNotFound => e
-    logger.debug e.message
-    logger.debug e.backtrace.join("\n")
+    Foreman::Logging.exception("Resource not found", e, :level => :debug)
     nil
   end
 end

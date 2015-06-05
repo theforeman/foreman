@@ -14,7 +14,7 @@ module Orchestration::Realm
     return unless realm?
     @realm_api = ProxyAPI::Realm.new :url => realm.realm_proxy.url, :realm_name => realm.name
   rescue => e
-    failure _("Failed to initialize the realm proxy: %s") % e
+    failure _("Failed to initialize the realm proxy: %s") % e, e
   end
 
   # Removes the host from the realm
@@ -35,7 +35,7 @@ module Orchestration::Realm
     self.otp = result["randompassword"]
     result
   rescue => e
-    failure _("Failed to create %{name}'s realm entry: %{e}") % { :name => name, :e => e }
+    failure _("Failed to create %{name}'s realm entry: %{e}") % { :name => name, :e => e }, e
   end
 
   def update_realm

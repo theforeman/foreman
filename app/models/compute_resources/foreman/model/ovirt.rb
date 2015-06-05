@@ -240,6 +240,7 @@ module Foreman::Model
     def bootstrap(args)
       client.servers.bootstrap vm_instance_defaults.merge(args.to_hash)
     rescue Fog::Errors::Error => e
+      Foreman::Logging.exception("Failed to bootstrap vm", e)
       errors.add(:base, e.to_s)
       false
     end

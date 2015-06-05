@@ -8,6 +8,7 @@ class LookupValuesController < ApplicationController
       values = LookupValue.search_for(params[:search], :order => params[:order])
     rescue => e
       error e.to_s
+      Foreman::Logging.exception("Failed loading lookup values", e)
       values = LookupValue.search_for ""
     end
     @lookup_values = values.paginate(:page => params[:page])

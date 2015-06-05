@@ -142,7 +142,7 @@ class UnattendedController < ApplicationController
           mac_list << request.env[header].split[1].strip.downcase if header =~ /^HTTP_X_RHN_PROVISIONING_MAC_/
         end
       rescue => e
-        logger.info "unknown RHN_PROVISIONING header #{e}"
+        Foreman::Logging.exception("unknown RHN_PROVISIONING header", e)
         mac_list = []
       end
     end
@@ -294,9 +294,10 @@ class UnattendedController < ApplicationController
 
     begin
       render :inline => "<%= unattended_render(@unsafe_template, @template_name).html_safe %>" and return
-    rescue => exc
+    rescue => error
       msg = _("There was an error rendering the %s template: ") % (@template_name)
-      render :text => msg + exc.message, :status => :internal_server_error and return
+      Foreman::Logging.exception(msg, error)
+      render :text => msg + error.message, :status => :internal_server_error and return
     end
   end
 end

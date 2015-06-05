@@ -32,8 +32,19 @@ module Orchestration
   end
 
   # log and add to errors
-  def failure(msg, backtrace = nil, dest = :base)
-    logger.warn(backtrace ? msg + backtrace.join("\n") : msg)
+  def failure(msg, exception_or_backtrace = nil, dest = :base)
+    if exception_or_backtrace
+      if exception_or_backtrace.is_a? Exception
+        exception = exception_or_backtrace
+      else
+        exception = StandardError.new(msg)
+        exception.set_backtrace(exception_or_backtrace)
+        logger.warn("DEPRECATION: passing backtrace to failure method is deprecated, pass the exception instead")
+      end
+      Foreman::Logging.exception(msg, exception)
+    else
+      logger.warn(msg)
+    end
     errors.add dest, msg
     false
   end
@@ -90,7 +101,7 @@ module Orchestration
         failure e.message, nil, :conflict
       rescue => e
         task.status = "failed"
-        failure _("%{task} task failed with the following error: %{e}") % { :task => task.name, :e => e }, e.backtrace
+        failure _("%{task} task failed with the following error: %{e}") % { :task => task.name, :e => e }, e
       end
     end
 
@@ -110,7 +121,7 @@ module Orchestration
         execute({:action => task.action, :rollback => true})
       rescue => e
         # if the operation failed, we can just report upon it
-        failure _("Failed to perform rollback on %{task} - %{e}") % { :task => task.name, :e => e }
+        failure _("Failed to perform rollback on %{task} - %{e}") % { :task => task.name, :e => e }, e
       end
     end
 

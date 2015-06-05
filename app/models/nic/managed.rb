@@ -102,7 +102,7 @@ module Nic
 
     # log errors to host object since we can't read it later (even if host.destroy fails host.interfaces is
     # always set to [] so we lose interfaces errors)
-    def failure(msg, backtrace = nil, dest = :base)
+    def failure(msg, exception_or_backtrace = nil, dest = :base)
       result = super
       host.errors.add(dest, msg)
       result

@@ -48,7 +48,7 @@ module Foreman::Model
       args[:associate_public_ip] = subnet_implies_is_vpc?(args) && args[:managed_ip] == 'public'
       super(args)
     rescue Fog::Errors::Error => e
-      logger.error "Unhandled EC2 error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
+      Foreman::Logging.exception("Unhandled EC2 error", e)
       raise e
     end
 
@@ -122,9 +122,7 @@ module Foreman::Model
       key = client.key_pairs.create :name => "foreman-#{id}#{Foreman.uuid}"
       KeyPair.create! :name => key.name, :compute_resource_id => self.id, :secret => key.private_key
     rescue => e
-      logger.warn "failed to generate key pair"
-      logger.error e.message
-      logger.error e.backtrace.join("\n")
+      Foreman::Logging.exception("Failed to generate key pair", e)
       destroy_key_pair
       raise
     end

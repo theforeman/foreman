@@ -9,8 +9,7 @@ module PowerManager
       rescue Timeout::Error
         raise Foreman::Exception.new(N_("Timeout has occurred while communicating with %s"), host.compute_resource)
       rescue => e
-        logger.warn "Error has occurred while communicating to #{host.compute_resource}: #{e}"
-        logger.debug e.backtrace
+        Foreman::Logging.exception("Error has occurred while communicating to #{host.compute_resource}", e)
         raise Foreman::Exception.new(N_("Error has occurred while communicating with %{cr}: %{e}"), { :cr => host.compute_resource, :e => e })
       end
     end

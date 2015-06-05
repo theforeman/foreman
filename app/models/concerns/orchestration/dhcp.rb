@@ -52,7 +52,7 @@ module Orchestration::DHCP
 
     failure _("Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services.")
   rescue => e
-    failure _("failed to detect boot server: %s") % e
+    failure _("failed to detect boot server: %s") % e, e
   end
 
   private

@@ -37,7 +37,7 @@ module Menu
     def authorized?
       User.current.allowed_to?(url_hash.slice(:controller, :action, :id))
     rescue => error
-      Rails.logger.error "#{error.message} (#{error.class})\n#{error.backtrace.join("\n")}"
+      Foreman::Logging.exception("Error while evaluating permissions", error)
       false
     end
 

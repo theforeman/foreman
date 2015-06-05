@@ -18,7 +18,7 @@ module Api
     after_filter :log_response_body
 
     rescue_from StandardError, :with => lambda { |error|
-      logger.error "#{error.message} (#{error.class})\n#{error.backtrace.join("\n")}"
+      Foreman::Logging.exception("Action failed", error)
       render_error 'standard_error', :status => :internal_server_error, :locals => { :exception => error }
     }
 

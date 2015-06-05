@@ -53,7 +53,8 @@ module ComputeResourcesHelper
   rescue Foreman::FingerprintException => e
     compute.errors[:pubkey_hash] = e
     []
-  rescue
+  rescue => e
+    Foreman::Logging.exception("Failed listing datacenters", e)
     []
   end
 
