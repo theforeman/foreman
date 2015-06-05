@@ -28,8 +28,7 @@ module Foreman::Model
     def find_vm_by_uuid(uuid)
       client.servers.get(uuid)
     rescue ::Libvirt::RetrieveError => e
-      logger.error e.message
-      logger.error e.backtrace.join("\n")
+      Foreman::Logging.exception("Failed retrieving libvirt vm by uuid #{ uuid }", e)
       raise ActiveRecord::RecordNotFound
     end
 
@@ -121,7 +120,7 @@ module Foreman::Model
       create_volumes :prefix => vm.name, :volumes => vm.volumes, :backing_id => args[:image_id]
       vm.save
     rescue Fog::Errors::Error => e
-      logger.error "Unhandled LibVirt error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
+      Foreman::Logging.exception("Unhandled Libvirt error", e)
       destroy_vm vm.id if vm
       raise e
     end

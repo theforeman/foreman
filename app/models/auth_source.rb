@@ -70,7 +70,7 @@ class AuthSource < ActiveRecord::Base
           attrs[:auth_source_id] = source.id
         end
       rescue => e
-        logger.error "Error during authentication against '#{source}': #{e.message}"
+        Foreman::Logging.exception("Error during authentication against '#{source}'", e)
         attrs = nil
       end
       return attrs if attrs

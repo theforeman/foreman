@@ -326,7 +326,7 @@ module Foreman::Model
         vm.save
       end
     rescue Fog::Errors::Error => e
-      logger.error "Unhandled VMware error: #{e.class}:#{e.message}\n " + e.backtrace.join("\n ")
+      Foreman::Logging.exception("Unhandled VMware error", e)
       destroy_vm vm.id if vm
       raise e
     end

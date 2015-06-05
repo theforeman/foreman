@@ -80,7 +80,7 @@ module Orchestration::TFTP
       end
     end
   rescue => e
-    failure _("Failed to generate %{template_kind} template: %{e}") % { :template_kind => host.operatingsystem.template_kind, :e => e }
+    failure _("Failed to generate %{template_kind} template: %{e}") % { :template_kind => host.operatingsystem.template_kind, :e => e }, e
   end
 
   def queue_tftp

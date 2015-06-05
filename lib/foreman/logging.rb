@@ -52,6 +52,23 @@ module Foreman
       fail "Trying to use logger #{name} which has not been configured."
     end
 
+    # standard way for logging exceptions to get the most data to
+    # the log.
+    # The behehaviour can be influenced by this options:
+    #   * :logger - the name of the logger to put the exception in ('app' by default)
+    #   * :level - the logging level (:warn by default)
+    def exception(context_message, exception, options = {})
+      options.assert_valid_keys :level, :logger
+      logger_name = options[:logger] || 'app'
+      level       = options[:level] || :warn
+      unless ::Logging::LEVELS.keys.include?(level.to_s)
+        raise "Unexpected log level #{level}, expected one of #{ ::Logging::LEVELS.keys }"
+      end
+      self.logger(logger_name).public_send(level) do
+        ([context_message, "#{exception.class}: #{exception.message}"] + exception.backtrace).join("\n")
+      end
+    end
+
     private
 
     def load_config(environment, overrides = {})

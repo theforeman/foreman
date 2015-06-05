@@ -54,6 +54,5 @@ begin
 rescue LoadError
   Rails.logger.info "Fog is not installed - unable to manage compute resources"
 rescue => exception
-  Rails.logger.warn "Fog initialization failed - #{exception}"
-  Rails.logger.debug exception.backtrace.join("\n")
+  Foreman::Logging.exception("Fog initialization failed", exception)
 end

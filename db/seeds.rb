@@ -55,8 +55,7 @@ Foreman::Plugin.registered_plugins.each do |name, plugin|
     engine = (name.to_s.tr('-', '_').camelize + '::Engine').constantize
     foreman_seeds += Dir.glob(engine.root + 'db/seeds.d/*.rb')
   rescue NameError => e
-    Rails.logger.error e.message
-    Rails.logger.error e.backtrace.join("\n")
+    Foreman::Logging.exception("Failed to register plugin #{ name }", e)
   end
 end
 

@@ -95,9 +95,9 @@ class ApplicationController < ActionController::Base
 
   def api_deprecation_error(exception = nil)
     if request.format.try(:json?) && !request.env['REQUEST_URI'].match(/\/api\//i)
-      logger.error "#{exception.message} (#{exception.class})\n#{exception.backtrace.join("\n")}"
       msg = "/api/ prefix must now be used to access API URLs, e.g. #{request.env['HTTP_HOST']}/api#{request.env['REQUEST_URI']}"
       logger.error "DEPRECATION: #{msg}."
+      Foreman::Logging.exception(msg, exception, :level => :debug)
       render :json => {:message => msg}, :status => :bad_request
     else
       raise exception
@@ -106,8 +106,7 @@ class ApplicationController < ActionController::Base
 
   def smart_proxy_exception(exception = nil)
     process_error(:redirect => :back, :error_msg => exception.message)
-    logger.warn "ProxyAPI operation FAILED: #{exception}"
-    logger.debug exception.backtrace.join("\n")
+    Foreman::Logging.exception("ProxyAPI operation FAILED", exception)
   end
 
   # this method sets the Current user to be the Admin
@@ -279,10 +278,9 @@ class ApplicationController < ActionController::Base
   def process_ajax_error(exception, action = nil)
     action ||= action_name
     origin = exception.original_exception if exception.present? && exception.respond_to?(:original_exception)
+    Foreman::Logging.exception("Failed to #{action}", exception)
+    Foreman::Logging.exception("Originally caused by", origin) if origin
     message = (origin || exception).message
-    logger.warn "Failed to #{action}: #{message}"
-    logger.debug "Original exception backtrace:\n" + origin.backtrace.join("\n") if origin.present?
-    logger.debug "Causing backtrace:\n" + exception.backtrace.join("\n")
     render :json => _("Failure: %s") % message, :status => :internal_server_error
   end
 
@@ -295,8 +293,7 @@ class ApplicationController < ActionController::Base
   end
 
   def generic_exception(exception)
-    logger.warn "Operation FAILED: #{exception}"
-    logger.debug exception.backtrace.join("\n")
+    Foreman::Logging.exception("Action failed", exception)
     render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception => exception}
   end
 

@@ -55,7 +55,7 @@ module Orchestration::SSHProvision
     self.client = Foreman::Provision::SSH.new provision_ip, image.username, { :template => template_file.path, :uuid => uuid }.merge(credentials)
 
   rescue => e
-    failure _("Failed to login via SSH to %{name}: %{e}") % { :name => name, :e => e }, e.backtrace
+    failure _("Failed to login via SSH to %{name}: %{e}") % { :name => name, :e => e }, e
   end
 
   def delSSHWaitForResponse; end
@@ -72,7 +72,7 @@ module Orchestration::SSHProvision
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
     end
   rescue => e
-    failure _("Failed to remove certificates for %{name}: %{e}") % { :name => name, :e => e }, e.backtrace
+    failure _("Failed to remove certificates for %{name}: %{e}") % { :name => name, :e => e }, e
   end
 
   def setSSHProvision
@@ -86,7 +86,7 @@ module Orchestration::SSHProvision
     end
 
   rescue => e
-    failure _("Failed to launch script on %{name}: %{e}") % { :name => name, :e => e }, e.backtrace
+    failure _("Failed to launch script on %{name}: %{e}") % { :name => name, :e => e }, e
   end
 
   def delSSHProvision; end
@@ -98,8 +98,7 @@ module Orchestration::SSHProvision
     begin
       template = provisioning_template(:kind => "finish")
     rescue => e
-      logger.error e.message
-      logger.error e.backtrace.join("\n")
+      Foreman::Logging.exception("Error while validating ssh provisioning", e)
       status = false
     end
     status = false if template.nil?
