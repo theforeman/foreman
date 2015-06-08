@@ -2,5 +2,22 @@
   .fields {
     border-top: 1px dotted lightgrey;
     padding-top: 10px;
+    &:nth-child(3) {
+      border-top: none;
+    }
+  }
+}
+
+.lookup-keys-container {
+  h6 {
+    margin-top: 0px;
+  }
+
+  .help-block {
+    margin: 0px;
+  }
+
+  input[type=checkbox]{
+    margin-top: 11px;
   }
 }
