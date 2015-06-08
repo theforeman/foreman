@@ -1,6 +1,9 @@
 module Api
   module V2
     class DomainsController < V2::BaseController
+
+      wrap_parameters :domain, :include => (Domain.attribute_names + ['subnet_ids', 'location_ids', 'organization_ids'])
+
       include Api::Version2
       include Api::TaxonomyScope
 
@@ -41,7 +44,7 @@ module Api
           param :name, String, :required => true, :desc => N_("The full DNS domain name")
           param :fullname, String, :required => false, :allow_nil => true, :desc => N_("Description of the domain")
           param :dns_id, :number, :required => false, :allow_nil => true, :desc => N_("DNS proxy to use within this domain")
-          param :domain_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters (name, value)")
+          param :subnet_ids, Array, :desc => (N_("Array of subnet IDs to associate.") + DESC_WARNING_IDS)
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end

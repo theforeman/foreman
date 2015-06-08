@@ -1,6 +1,9 @@
 module Api
   module V2
     class SmartProxiesController < V2::BaseController
+
+      wrap_parameters :smart_proxy, :include => (SmartProxy.attribute_names + ['location_ids', 'organization_ids'])
+
       include Api::Version2
       include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController

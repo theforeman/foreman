@@ -1,6 +1,10 @@
 module Api
   module V2
     class MediaController < V2::BaseController
+
+      wrap_parameters :medium, :include => (Medium.attribute_names +
+                                            ['operatingsystem_ids', 'location_ids', 'organization_ids'])
+
       include Api::Version2
       include Api::TaxonomyScope
 
@@ -43,7 +47,7 @@ Solaris and Debian media may also use $release.
           param :name, String, :required => true, :desc => N_("Name of media")
           param :path, String, :required => true, :desc => PATH_INFO
           param :os_family, String, :require => false, :desc => OS_FAMILY_INFO
-          param :operatingsystem_ids, Array, :require => false
+          param :operatingsystem_ids, Array, :desc => (N_("Array of operating system IDs to associate.") + DESC_WARNING_IDS)
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end

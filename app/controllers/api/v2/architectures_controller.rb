@@ -1,6 +1,11 @@
 module Api
   module V2
     class ArchitecturesController < V2::BaseController
+
+      wrap_parameters :architecture, :include => (Architecture.attribute_names + ['operatingsystem_ids'])
+
+      include Api::Version2
+
       before_filter :find_optional_nested_object
       before_filter :find_resource, :only => %w{show update destroy}
 
@@ -22,7 +27,7 @@ module Api
       def_param_group :architecture do
         param :architecture, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
-          param :operatingsystem_ids, Array, :desc => N_("Operating system IDs")
+          param :operatingsystem_ids, Array, :desc => (N_("Operating system IDs") + DESC_WARNING_IDS)
         end
       end
 

@@ -1,6 +1,9 @@
 module Api
   module V2
     class FiltersController < V2::BaseController
+
+      wrap_parameters :filter, :include => (Filter.attribute_names + ['permission_ids', 'organization_ids', 'location_ids'])
+
       include Api::Version2
       include Api::TaxonomyScope
 

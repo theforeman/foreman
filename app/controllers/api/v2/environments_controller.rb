@@ -1,6 +1,9 @@
 module Api
   module V2
     class EnvironmentsController < V2::BaseController
+
+      wrap_parameters :architecture, :include => (Environment.attribute_names + ['location_ids', 'organization_ids'])
+
       include Api::Version2
       include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController

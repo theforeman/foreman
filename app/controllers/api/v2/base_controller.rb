@@ -19,9 +19,11 @@ module Api
         param_group :pagination, ::Api::V2::BaseController
       end
 
+      DESC_WARNING_IDS = N_(" WARNING: Existing associations may be deleted if they are not included in the array.")
+
       def_param_group :taxonomies do
-        param :location_ids, Array, :required => false, :desc => N_("REPLACE locations with given ids") if SETTINGS[:locations_enabled]
-        param :organization_ids, Array, :required => false, :desc => N_("REPLACE organizations with given ids.") if SETTINGS[:organizations_enabled]
+        param :location_ids, Array, :required => false, :desc => (N_("REPLACE locations with given ids.") + DESC_WARNING_IDS) if SETTINGS[:locations_enabled]
+        param :organization_ids, Array, :required => false, :desc => (N_("REPLACE organizations with given ids.") + DESC_WARNING_IDS) if SETTINGS[:organizations_enabled]
       end
 
       def_param_group :taxonomy_scope do

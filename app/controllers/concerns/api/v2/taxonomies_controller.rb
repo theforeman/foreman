@@ -2,10 +2,9 @@ module Api::V2::TaxonomiesController
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_optional_nested_object
-    before_filter :find_taxonomy, :only => %w(show update destroy settings
-                                              domain_ids subnet_ids hostgroup_ids config_template_ids compute_resource_ids
-                                              medium_ids smart_proxy_ids environment_ids user_ids organization_ids realm_ids)
+    before_filter :find_taxonomy, :only => %w(show update destroy)
+    before_filter :find_optional_nested_object, :only => %w(index show)
+    DESC_WARNING_IDS = Api::V2::BaseController::DESC_WARNING_IDS # gives error if not defined
     before_filter :params_match_database, :only => %w(create update)
   end
 
@@ -15,16 +14,16 @@ module Api::V2::TaxonomiesController
     param :resource, Hash, :required => true, :action_aware => true do
       param :name, String, :required => true
       param :description, String, :required => false
-      param :user_ids, Array, N_("User IDs"), :required => false
-      param :smart_proxy_ids, Array, N_("Smart proxy IDs"), :required => false
-      param :compute_resource_ids, Array, N_("Compute resource IDs"), :required => false
-      param :media_ids, Array, N_("Media IDs"), :required => false
-      param :config_template_ids, Array, N_("Provisioning template IDs"), :required => false
-      param :domain_ids, Array, N_("Domain IDs"), :required => false
-      param :realm_ids, Array, N_("Realm IDs"), :required => false
-      param :hostgroup_ids, Array, N_("Host group IDs"), :required => false
-      param :environment_ids, Array, N_("Environment IDs"), :required => false
-      param :subnet_ids, Array, N_("Subnet IDs"), :required => false
+      param :user_ids, Array, :desc => (N_("Array of user IDs to associate.") + DESC_WARNING_IDS)
+      param :smart_proxy_ids, Array, :desc => (N_("Array of smart proxy IDs to associate.") + DESC_WARNING_IDS)
+      param :compute_resource_ids, Array, :desc => (N_("Array of compute resource IDs to associate.") + DESC_WARNING_IDS)
+      param :media_ids, Array, :desc => (N_("Array of media IDs to associate.") + DESC_WARNING_IDS)
+      param :config_template_ids, Array, :desc => (N_("Array of provisioning template IDs to associate.") + DESC_WARNING_IDS)
+      param :domain_ids, Array, :desc => (N_("Array of domain IDs to associate.") + DESC_WARNING_IDS)
+      param :realm_ids, Array, :desc => (N_("Array of realm IDs to associate.") + DESC_WARNING_IDS)
+      param :hostgroup_ids, Array, :desc => (N_("Array of host group IDs to associate.") + DESC_WARNING_IDS)
+      param :environment_ids, Array, :desc => (N_("Array of environment IDs to associate.") + DESC_WARNING_IDS)
+      param :subnet_ids, Array, :desc => (N_("Array of subnet IDs to associate.") + DESC_WARNING_IDS)
     end
   end
 

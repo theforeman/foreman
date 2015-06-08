@@ -4,7 +4,9 @@ module Api
       wrap_parameters ComputeResource, :include => (ComputeResource.attribute_names + ['tenant', 'image_id', 'managed_ip', 'provider',
                                                    'template', 'templates', 'set_console_password', 'project', 'key_path', 'email', 'zone',
                                                    'display_type', 'ovirt_quota', 'public_key', 'region', 'server', 'datacenter', 'pubkey_hash',
-                                                   'nics_attributes', 'volumes_attributes', 'memory'])
+                                                   'nics_attributes', 'volumes_attributes', 'memory',
+                                                   'interfaces_attributes', 'volumes_attributes', 'ovirt_quota',
+                                                   'location_ids', 'organization_ids'])
 
       include Api::Version2
       include Api::TaxonomyScope

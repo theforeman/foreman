@@ -1,6 +1,10 @@
 module Api
   module V2
     class ConfigTemplatesController < V2::BaseController
+
+      wrap_parameters :config_template, :include => (ConfigTemplate.attribute_names +
+                                                     ['operatingsystem_ids', 'location_ids', 'organization_ids'])
+
       include Api::Version2
       include Api::TaxonomyScope
       include Foreman::Renderer
@@ -40,8 +44,8 @@ module Api
           param :template_kind_id, :number, :allow_nil => true, :desc => N_("not relevant for snippet")
           param :template_combinations_attributes, Array,
                 :desc => N_("Array of template combinations (hostgroup_id, environment_id)")
-          param :operatingsystem_ids, Array, :desc => N_("Array of operating system IDs to associate with the template")
           param :locked, :bool, :desc => N_("Whether or not the template is locked for editing")
+          param :operatingsystem_ids, Array, :desc => (N_("Array of operating system IDs to associate with the template") + DESC_WARNING_IDS)
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end
