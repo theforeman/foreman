@@ -202,7 +202,10 @@ Foreman::Application.routes.draw do
       resources :template_kinds, :only => [:index]
 
       resources :template_combinations, :only => [:show, :destroy]
-      resources :config_groups, :except => [:new, :edit]
+      resources :config_groups, :except => [:new, :edit] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+      end
 
       resources :compute_attributes, :only => [:create, :update]
 
@@ -306,6 +309,7 @@ Foreman::Application.routes.draw do
           resources :environments, :only => [:index, :show]
           resources :users, :only => [:index, :show]
           resources :config_templates, :only => [:index, :show]
+          resources :config_groups, :only => [:index, :show]
           resources :compute_resources, :only => [:index, :show]
           resources :media, :only => [:index, :show]
           resources :smart_proxies, :only => [:index, :show]
@@ -326,6 +330,7 @@ Foreman::Application.routes.draw do
             resources :environments, :only => [:index, :show]
             resources :users, :only => [:index, :show]
             resources :config_templates, :only => [:index, :show]
+            resources :config_groups, :only => [:index, :show]
             resources :compute_resources, :only => [:index, :show]
             resources :media, :only => [:index, :show]
             resources :smart_proxies, :only => [:index, :show]
@@ -345,6 +350,7 @@ Foreman::Application.routes.draw do
           resources :environments, :only => [:index, :show]
           resources :users, :only => [:index, :show]
           resources :config_templates, :only => [:index, :show]
+          resources :config_groups, :only => [:index, :show]
           resources :compute_resources, :only => [:index, :show]
           resources :media, :only => [:index, :show]
           resources :smart_proxies, :only => [:index, :show]
@@ -365,6 +371,7 @@ Foreman::Application.routes.draw do
             resources :environments, :only => [:index, :show]
             resources :users, :only => [:index, :show]
             resources :config_templates, :only => [:index, :show]
+            resources :config_groups, :only => [:index, :show]
             resources :compute_resources, :only => [:index, :show]
             resources :media, :only => [:index, :show]
             resources :smart_proxies, :only => [:index, :show]

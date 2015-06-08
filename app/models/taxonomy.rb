@@ -21,6 +21,7 @@ class Taxonomy < ActiveRecord::Base
   has_many :hostgroups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Hostgroup'
   has_many :environments, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Environment'
   has_many :subnets, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Subnet'
+  has_many :config_groups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ConfigGroup'
 
   validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
 

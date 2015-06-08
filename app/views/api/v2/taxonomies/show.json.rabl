@@ -42,6 +42,10 @@ child :hostgroups do
   extends "api/v2/hostgroups/base"
 end
 
+child :config_groups do
+  extends "api/v2/config_groups/base"
+end
+
 if @taxonomy.kind_of?(Location)
   child :organizations => :organizations  do
     extends "api/v2/taxonomies/base"

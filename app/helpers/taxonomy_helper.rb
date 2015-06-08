@@ -180,6 +180,7 @@ module TaxonomyHelper
                :realms => { :all => _("All realms"), :select => _("Select realms") },
                :environments => { :all => _("All environments"), :select => _("Select environments") },
                :hostgroups => { :all => _("All host groups"), :select => _("Select host groups") },
+               :config_groups => { :all => _("All config groups"), :select => _("Select config groups") },
     }
     labels[resource][verb]
   end

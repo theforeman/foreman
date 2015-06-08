@@ -3,10 +3,11 @@ class ConfigGroup < ActiveRecord::Base
   include Authorizable
   include Parameterizable::ByIdName
   include PuppetclassTotalHosts::Indirect
+  include Taxonomix
 
   validates_lengths_from_database
 
-  attr_accessible :name, :puppetclass_ids
+  attr_accessible :name, :puppetclass_ids, :location_ids, :organization_ids
 
   has_many :config_group_classes
   has_many :puppetclasses, :through => :config_group_classes, :dependent => :destroy
@@ -33,5 +34,11 @@ class ConfigGroup < ActiveRecord::Base
   # for auditing
   def to_label
     name
+  end
+
+  # overriding as there is no way to pass a join into the condition hash.
+  def used_taxonomy_ids(type)
+    return [] if new_record?
+    Host::Managed.joins(:config_groups).where('config_groups.id' => id).uniq.pluck(type).compact
   end
 end

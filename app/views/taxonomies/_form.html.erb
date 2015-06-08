@@ -36,6 +36,9 @@
       <% if User.current.allowed_to?(:view_hostgroups) %>
         <li><a href="#hostgroups" data-toggle="tab"><%= _("Host Groups") %></a></li>
       <% end %>
+      <% if User.current.allowed_to?(:view_config_groups) %>
+        <li><a href="#config_groups" data-toggle="tab"><%= _("Config Groups") %></a></li>
+      <% end %>
       <% if taxonomy.is_a?(Organization) && show_location_tab? %>
         <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
       <% end %>
@@ -74,6 +77,7 @@
 
       <%= show_resource_if_allowed(f, taxonomy, :environments) %>
       <%= show_resource_if_allowed(f, taxonomy, :hostgroups) %>
+      <%= show_resource_if_allowed(f, taxonomy, :config_groups) %>
 
       <% if taxonomy.is_a?(Location) && show_organization_tab? %>
         <div class="tab-pane" id="organizations">

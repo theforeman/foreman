@@ -1,13 +1,13 @@
 class TaxHost
   FOREIGN_KEYS = [:location_id, :organization_id, :hostgroup_id,
                   :environment_id, :domain_id, :medium_id,
-                  :subnet_id, :compute_resource_id, :realm_id]
+                  :subnet_id, :compute_resource_id, :realm_id, :config_group_ids]
 
   HASH_KEYS = [:location_ids, :organization_ids, :hostgroup_ids,
                :environment_ids, :domain_ids, :medium_ids,
                :subnet_ids, :compute_resource_ids,
                :smart_proxy_ids, :user_ids, :config_template_ids,
-               :realm_ids]
+               :realm_ids, :config_group_ids]
 
   def initialize(taxonomy, hosts = nil)
     @taxonomy = taxonomy
@@ -163,6 +163,12 @@ class TaxHost
 
   def smart_proxy_ids(hosts = self.hosts)
     SmartProxy.smart_proxy_ids_for(hosts)
+  end
+
+  def config_group_ids(hosts = self.hosts)
+    HostConfigGroup.where(:host_id => hosts).
+      where(["host_config_groups.host_type = (?) OR host_config_groups.host_type = (?)", 'Host::Base', 'Host::Managed']).
+      pluck('host_config_groups.host_id')
   end
 
   # helpers
