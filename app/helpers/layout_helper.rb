@@ -66,7 +66,7 @@ module LayoutHelper
     text = options.delete(:help_text)
     inline = options.delete(:help_inline)
     field(f, attr, options) do
-      help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-block")
+      help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
       f.check_box(attr, options, checked_value, unchecked_value) + " #{text} " + help_inline.html_safe
     end
   end
@@ -193,26 +193,59 @@ module LayoutHelper
   end
 
   def field(f, attr, options = {})
-    error = f.object.errors[attr] if f && f.object.respond_to?(:errors)
+    table_field = options.delete(:table_field)
+    error       = f.object.errors[attr] if f && f.object.respond_to?(:errors)
     help_inline = help_inline(options.delete(:help_inline), error)
-    help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
-    size_class = options.delete(:size) || "col-md-4"
-    content_tag(:div, :class=> "clearfix") do
-      content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
-                  :id          => options.delete(:control_group_id) do
-        required = options.delete(:required) # we don't want to use html5 required attr so we delete the option
-        required_mark = ' *' if required.nil? ? is_required?(f, attr) : required
-        label   = options[:label] == :none ? '' : options.delete(:label)
-        label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
-            s_(clazz.gettext_translation_for_attribute_name attr)) if f
-        label   = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe, :class => "col-md-2 control-label") : ''
-        fullscreen = options[:fullscreen] ? fullscreen_button("$(this).prev().find('textarea')") : ""
-        label.html_safe +
-          content_tag(:div, :class => size_class) do
-            yield.html_safe + help_block.html_safe
-          end.html_safe + fullscreen + help_inline.html_safe
+    size_class  = options.delete(:size) || "col-md-4"
+    label = add_label(options, f, attr)
+
+    if table_field
+      add_help_to_label(size_class, label, help_inline, '') do
+        yield
       end.html_safe
+    else
+      help_block = content_tag(:span, options.delete(:help_block), :class => "help-block")
+
+      content_tag(:div, :class => "clearfix") do
+        content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
+                    :id => options.delete(:control_group_id) do
+          fullscreen = options[:fullscreen] ? fullscreen_button("$(this).prev().find('textarea')") : ""
+          add_help_to_label(size_class, label, help_inline, fullscreen) do
+            yield.html_safe + help_block.html_safe
+          end
+        end.html_safe
+      end
     end
+  end
+
+  def add_help_to_label(size_class, label, help_inline, fullscreen)
+    label.html_safe +
+        content_tag(:div, :class => size_class) do
+          yield
+        end.html_safe + fullscreen + help_inline.html_safe
+  end
+
+  # The target should have class="collapse [out|in]" out means collapsed on load and in means expanded.
+  # Target must also have a unique id.
+  def collapsing_legend(title, target, collapsed = '')
+    content_tag(:legend, :class => "expander #{collapsed}", :data => {:toggle => 'collapse', :target => target}) do
+      content_tag(:span, '', :class => 'caret') + title
+    end
+  end
+
+  def check_required options, f, attr
+    required = options.delete(:required) # we don't want to use html5 required attr so we delete the option
+    return ' *' if required.nil? ? is_required?(f, attr) : required
+  end
+
+  def add_label options, f, attr
+    label_size = options.delete(:label_size) || "col-md-2"
+    required_mark = check_required(options, f, attr)
+    label = options[:label] == :none ? '' : options.delete(:label)
+    label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
+        s_(clazz.gettext_translation_for_attribute_name attr)) if f
+    label = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe, :class => label_size + " control-label") : ''
+    label
   end
 
   def is_required?(f, attr)
@@ -381,7 +414,7 @@ module LayoutHelper
   end
 
   def fullscreen_button(element = "$(this).prev()")
-    button_tag(:type => 'button', :class => 'btn btn-default btn-sm', :onclick => "set_fullscreen(#{element})", :title => _("Full screen")) do
+    button_tag(:type => 'button', :class => 'btn btn-default btn-sm btn-fullscreen', :onclick => "set_fullscreen(#{element})", :title => _("Full screen")) do
       icon_text('resize-full')
     end
   end

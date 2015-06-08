@@ -7,6 +7,7 @@ class LookupKey < ActiveRecord::Base
 
   KEY_DELM = ","
   EQ_DELM  = "="
+  VALUE_REGEX =/\A[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+(#{KEY_DELM}[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+)*\Z/
 
   audited :associated_with => :audit_class, :allow_mass_assignment => true, :except => :lookup_values_count
   validates_lengths_from_database
@@ -27,7 +28,7 @@ class LookupKey < ActiveRecord::Base
 
   has_many :lookup_values, :dependent => :destroy, :inverse_of => :lookup_key
   accepts_nested_attributes_for :lookup_values,
-                                :reject_if => lambda { |a| a[:value].blank? && (a[:use_puppet_default].nil? || a[:use_puppet_default] == "0")},
+                                :reject_if => :reject_invalid_lookup_values,
                                 :allow_destroy => true
 
   before_validation :validate_and_cast_default_value, :unless => Proc.new{|p| p.use_puppet_default }
@@ -123,6 +124,12 @@ class LookupKey < ActiveRecord::Base
     return unless v
     using_default = v.tr("\r","") == array2path(Setting["Default_variables_Lookup_Path"])
     write_attribute(:path, using_default ? nil : v)
+  end
+
+  def reject_invalid_lookup_values(attributes)
+    attributes[:match].empty? ||
+        (attributes[:value].blank? &&
+            (attributes[:use_puppet_default].nil? || attributes[:use_puppet_default] == "0"))
   end
 
   def default_value_before_type_cast

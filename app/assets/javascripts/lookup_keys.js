@@ -1,5 +1,5 @@
 //on load
-$(function() {
+$(document).on("ContentLoad", function() {
   //select the first tab
   select_first_tab();
   $(document).on('click', '.nav-tabs a[data-toggle="tab"]', function(){select_first_tab();});
@@ -7,6 +7,11 @@ $(function() {
   $('.tabs-left .col-md-4').removeClass('col-md-4').addClass('col-md-8')
   //remove variable click event
   $(document).on('click', '.smart-var-tabs li a span', function(){ remove_node(this);});
+  fill_in_matchers();
+  $('.matchers').parents('form').on('submit', function(){
+    build_match();
+  })
+  $('.matcher_key').select2('destroy');
 })
 
 function select_first_tab(){
@@ -66,7 +71,6 @@ function add_child_node(item) {
     content = fix_template_context(content, context);
     var new_id = new Date().getTime();
     content = fix_template_names(content, assoc, new_id);
-
     var field   = '';
     if (assoc == 'lookup_keys') {
       $('#smart_vars .smart-var-tabs .active, #smart_vars .stacked-content .active').removeClass('active');
@@ -74,13 +78,15 @@ function add_child_node(item) {
       $('#smart_vars .smart-var-tabs').prepend(pill);
       field = $('#smart_vars .stacked-content').prepend($(content).addClass('active'));
       $('#smart_vars .smart-var-tabs li.active a').show('highlight', 500);
+    } else if (assoc == 'lookup_values') {
+      field = $(item).parent().find('tbody').first().append($(content).find('tr'));
+      $(item).parent().find('table').removeClass('hidden');
     } else {
       field = $(content).insertBefore($(item));
     }
     $(item).closest("form").trigger({type: 'nested:fieldAdded', field: field});
     $('a[rel="popover"]').popover({html: true});
     $('a[rel="twipsy"]').tooltip();
-    $(field).find('select').select2({ allowClear: true });
     return new_id;
 }
 
@@ -170,10 +176,13 @@ function keyTypeChange(item) {
   var mergeOverrides = fields.find("[id$='_merge_overrides']");
   var avoidDuplicates = fields.find("[id$='_avoid_duplicates']");
   var overrideMergeDiv = fields.find("[id$='lookup_key_override_merge']");
+  var validators = fields.find("[id^='optional_input_validators']");
 
   changeCheckboxEnabledStatus(mergeOverrides, keyType == 'array' || keyType == 'hash');
   changeCheckboxEnabledStatus(avoidDuplicates, keyType == 'array' && $(mergeOverrides).attr('checked') == 'checked');
   overrideMergeDiv.toggle(keyType == 'array' || keyType == 'hash');
+  validators.collapse('show');
+  validators.parent().find('legend').removeClass('collapsed');
 }
 
 function mergeOverridesChanged(item) {
@@ -193,21 +202,21 @@ function toggleUsePuppetDefaultValue(item, value_field) {
 
 function filterByEnvironment(item){
   if ($(item).val()=="") {
-    $('ul.smart-var-tabs li[data-used-environments] a').removeClass('text-muted');
+    $('ul.smart-var-tabs li[data-used-environments] a').removeClass('hidden');
     return;
   }
   var selected = $(item).find('option:selected').text();
-  $('ul.smart-var-tabs li[data-used-environments] a').addClass('text-muted');
-  $('ul.smart-var-tabs li[data-used-environments*="'+selected+'"] a').removeClass('text-muted');
+  $('ul.smart-var-tabs li[data-used-environments] a').addClass('hidden');
+  $('ul.smart-var-tabs li[data-used-environments*="'+selected+'"] a').removeClass('hidden');
 }
 
 function filterByClassParam(item) {
   var term = $(item).val().trim();
   if (term.length > 0) {
-    $('ul.smart-var-tabs li[data-used-environments]').removeClass('search-marker').addClass('hide');
-    $('ul.smart-var-tabs li[data-used-environments] a[href*='+term+']:not(.selected-marker)').parent().addClass('search-marker').removeClass('hide');
+    $('ul.smart-var-tabs li[data-used-environments]').removeClass('search-marker').addClass('hidden');
+    $('ul.smart-var-tabs li[data-used-environments] a[href*='+term+']:not(.selected-marker)').parent().addClass('search-marker').removeClass('hidden');
   } else{
-    $('ul.smart-var-tabs li[data-used-environments]:not(.selected-marker)').addClass('search-marker').removeClass('hide');
+    $('ul.smart-var-tabs li[data-used-environments]:not(.selected-marker)').addClass('search-marker').removeClass('hidden');
   }
   return false;
 }
@@ -217,3 +226,62 @@ function validatorTypeSelected(item){
   var validator_rule_field = $(item).closest('.fields').find("[id$='_validator_rule']");
   validator_rule_field.attr('disabled', validatorType == "" ? 'disabled' : null);
 }
+
+const KEY_DELM = ",";
+const EQ_DELM  = "=";
+
+function match_to_key_value(match){
+  var regex = new RegExp('[' + KEY_DELM + EQ_DELM + ']');
+
+  var keys = [], values = [],
+  split_matcher = match.replace(/(\s+,) | (,\s+)/g, '').split(regex);
+
+  $.each(split_matcher, function (index, value) {
+    if (index % 2 === 0) {
+      keys.push(value);
+    } else {
+      values.push(value);
+    }
+  });
+
+  return [keys.join(KEY_DELM), values.join(KEY_DELM)];
+}
+
+function key_value_to_match(keys, values){
+  var match = "";
+  keys.split(KEY_DELM).forEach(function (el, index) {
+   match += el + EQ_DELM + values.split(KEY_DELM)[index] + KEY_DELM;
+  });
+
+  return match.slice(0, -1);
+}
+
+function fill_in_matchers(){
+  $('.matchers').each(function () {
+    var matcher = $(this);
+    var match = matcher.find('.match').val();
+    var matcher_key = matcher.find('.matcher_key');
+    var matcher_value = matcher.find('.matcher_value');
+    var order = matcher.closest('.matcher-parent').find('#order').val().split('\n');
+    matcher_key.empty();
+    matcher_key.append("<option></option>");
+    $.each(order, function (index, value) {
+      matcher_key.append($("<option>", {value: _.escape(value), html: _.escape(value)}));
+    });
+    if (match) {
+      var key_value = match_to_key_value(match);
+      matcher_key.find("option[value='" + key_value[0] + "']").attr('selected', 'selected');
+      matcher_value.val(key_value[1]);
+    }
+  });
+}
+
+function build_match() {
+  $('.matchers').each(function () {
+    var match = $(this).find('.match');
+    var matcher_key = $(this).find('.matcher_key');
+    var matcher_value = $(this).find('.matcher_value');
+    match.val(key_value_to_match(matcher_key.val(), matcher_value.val()));
+  });
+}
+

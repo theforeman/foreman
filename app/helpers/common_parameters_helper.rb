@@ -19,7 +19,7 @@ module CommonParametersHelper
     end
   end
 
-  def use_puppet_default_help link_title = _("Explain use Puppet default"), title = _("Use Puppet default")
+  def use_puppet_default_help link_title = nil, title = _("Use Puppet default")
     popover(link_title, _("Do not send this parameter via the ENC.<br>Puppet will use the value defined in the manifest."), :title => title)
   end
 end

@@ -529,3 +529,20 @@ table {
   height: 100vh !important;
   width: 100vw !important;
 }
+
+.expander {
+  cursor: pointer;
+  *cursor: hand;
+  .caret{
+    border-width: 8px;
+    transform: rotate(0deg);
+    transition-duration: 0.8s;
+  }
+  &.collapsed .caret{
+    transform: rotate(-90deg);
+  }
+}
+
+.btn-fullscreen{
+  margin-right: 10px;
+}

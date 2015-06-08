@@ -6,7 +6,7 @@ class LookupValue < ActiveRecord::Base
   audited :associated_with => :lookup_key, :allow_mass_assignment => true
 
   belongs_to :lookup_key, :counter_cache => true
-  validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}
+  validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX
   validate :value_present?
   delegate :key, :to => :lookup_key
   before_validation :sanitize_match

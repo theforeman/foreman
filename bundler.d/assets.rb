@@ -18,4 +18,5 @@ group :assets do
   gem 'select2-rails', '~> 3.5'
   gem 'gridster-rails', github: "hampei/gridster-rails", branch: "rails4"
   gem 'jquery_pwstrength_bootstrap', github: "unorthodoxgeek/jquery_pwstrength_bootstrap-gem"
+  gem 'underscore-rails', '~> 1.8'
 end
