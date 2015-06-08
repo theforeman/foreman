@@ -665,6 +665,10 @@ class Host::Managed < Host::Base
     bmc_nic.try(:name)
   end
 
+  def vm_compute_attributes
+    compute_resource ? compute_resource.vm_compute_attributes_for(uuid) : nil
+  end
+
   def host_status
     if build
       N_("Pending Installation")
