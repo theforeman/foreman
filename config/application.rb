@@ -147,6 +147,7 @@ module Foreman
     Foreman::Logging.add_loggers((SETTINGS[:loggers] || {}).reverse_merge(
       :app => {:enabled => true},
       :ldap => {:enabled => false},
+      :permissions => {:enabled => false},
       :sql => {:enabled => true},
     ))
 

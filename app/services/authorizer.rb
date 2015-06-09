@@ -19,6 +19,7 @@ class Authorizer
 
   def find_collection(resource_class, options = {})
     permission = options.delete :permission
+    Foreman::Logging.logger('permissions').debug "checking permission #{permission}"
 
     # retrieve all filters relevant to this permission for the user
     base = user.filters.joins(:permissions).where(["#{Permission.table_name}.resource_type = ?", resource_name(resource_class)])
@@ -26,7 +27,9 @@ class Authorizer
 
     if Taxonomy.enabled_taxonomies.any?
       organization_ids = allowed_organizations(resource_class)
+      Foreman::Logging.logger('permissions').debug "organization_ids: #{organization_ids.inspect}"
       location_ids     = allowed_locations(resource_class)
+      Foreman::Logging.logger('permissions').debug "location_ids: #{location_ids.inspect}"
 
       organizations, locations, values = taxonomy_conditions(organization_ids, location_ids)
       all_filters = all_filters.joins(taxonomy_join).where(["#{TaxableTaxonomy.table_name}.id IS NULL " +
@@ -36,6 +39,11 @@ class Authorizer
     end
 
     all_filters = all_filters.all # load all records, so #empty? does not call extra COUNT(*) query
+    Foreman::Logging.logger('permissions').debug do
+      all_filters.map do |f|
+        "filter with role_id: #{f.role_id} limited: #{f.limited?} search: #{f.search} taxonomy_search: #{f.taxonomy_search}"
+      end.join("\n")
+    end
 
     # retrieve hash of scoping data parsed from filters (by scoped_search), e.g. where clauses, joins
     scope_components = build_filtered_scope_components(resource_class, all_filters, options)
@@ -60,6 +68,8 @@ class Authorizer
     result = { where: [], includes: [], joins: [] }
 
     if all_filters.empty? || (!@base_collection.nil? && @base_collection.empty?)
+      Foreman::Logging.logger('permissions').debug 'no filters found for given permission' if all_filters.empty?
+      Foreman::Logging.logger('permissions').debug 'base collection of objects is empty' if !@base_collection.nil? && @base_collection.empty?
       result[:where] << '1=0'
       return result
     end
