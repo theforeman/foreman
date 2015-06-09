@@ -77,11 +77,11 @@ module Api
         process_response @provisioning_template.destroy
       end
 
-      api :GET, "/provisioning_templates/build_pxe_default", N_("Update the default PXE menu on all configured TFTP servers")
+      api :POST, "/provisioning_templates/build_pxe_default", N_("Update the default PXE menu on all configured TFTP servers")
 
       def build_pxe_default
         status, msg = ProvisioningTemplate.authorized(:deploy_provisioning_templates).build_pxe_default(self)
-        render :json => msg, :status => status
+        render_message(msg, :status => status)
       end
 
       def_param_group :provisioning_template_clone do
