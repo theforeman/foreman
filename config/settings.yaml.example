@@ -34,5 +34,7 @@
 #    :enabled: true
 #  :ldap:
 #    :enabled: false
+#  :permissions:
+#    :enabled: false
 #  :sql:
 #    :enabled: true
