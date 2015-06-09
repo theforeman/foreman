@@ -79,9 +79,10 @@ module Api
         process_response @config_template.destroy
       end
 
-      api :GET, "/config_templates/build_pxe_default", N_("Update the default PXE menu on all configured TFTP servers")
+      api :POST, "/config_templates/build_pxe_default", N_("Update the default PXE menu on all configured TFTP servers")
 
       def build_pxe_default
+        ::ActiveSupport::Deprecation.warn('GET method for build pxe default is deprecated. Please use POST instead.') if request.method == "GET"
         status, msg = ProvisioningTemplate.authorized(:deploy_provisioning_templates).build_pxe_default(self)
         render_message(msg, :status => status)
       end
