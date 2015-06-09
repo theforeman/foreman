@@ -290,7 +290,7 @@ class Host::Managed < Host::Base
   end
 
   def configTemplate(args = {})
-    ::ActiveSupport::Deprecation.warn 'configTemplate was renamed to provisioning_template'
+    Foreman::Deprecation.deprecation_warning("1.11", 'configTemplate was renamed to provisioning_template')
     self.provisioning_template(args)
   end
 

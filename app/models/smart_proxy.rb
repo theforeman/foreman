@@ -42,7 +42,7 @@ class SmartProxy < ActiveRecord::Base
   Feature.name_map.each do |f, v|
     scope "#{f}_proxies".to_sym,
       lambda {
-        ActiveSupport::Deprecation.warn "Scope 'SmartProxy.#{f}_proxies' has been deprecated. Please use 'SmartProxy.with_features' instead", caller
+        Foreman::Deprecation.deprecation_warning("1.11", "Scope 'SmartProxy.#{f}_proxies' has been deprecated, use SmartProxy.with_features", caller)
         where(:features => { :name => v }).joins(:features)
       }
   end

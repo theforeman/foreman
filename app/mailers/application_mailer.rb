@@ -15,7 +15,7 @@ class ApplicationMailer < ActionMailer::Base
 
   class GroupMail
     def initialize(emails)
-      ActiveSupport::Deprecation.warn 'GroupMail will be removed as mailers should not generate multiple messages, use MailNotification#deliver'
+      Foreman::Deprecation.deprecation_warning("1.11", "GroupMail will be removed as mailers should not generate multiple messages, use MailNotification.deliver")
       @emails = emails
     end
 
@@ -31,8 +31,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def group_mail(users, options)
-    ActiveSupport::Deprecation.warn '#group_mail is replaced by MailNotification#deliver with :users in the options hash, this does not function properly'
-
+    Foreman::Deprecation.deprecation_warning("1.11", "group_mail is replaced by MailNotification.deliver with :users in the options hash")
     mails = users.map do |user|
       @user = user
       set_locale_for user
