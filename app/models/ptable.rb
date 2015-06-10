@@ -10,7 +10,6 @@ class Ptable < Template
   include ValidateOsFamily
 
   audited :allow_mass_assignment => true
-  self.auditing_enabled = !Foreman.in_rake?('db:migrate')
   has_many :audits, :as => :auditable, :class_name => Audited.audit_class.name
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)

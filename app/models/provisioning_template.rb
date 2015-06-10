@@ -5,7 +5,6 @@ class ProvisioningTemplate < Template
   include Parameterizable::ByIdName
 
   audited :allow_mass_assignment => true
-  self.auditing_enabled = !Foreman.in_rake?('db:migrate')
 
   attr_accessible :template_kind, :template_kind_id, :template_combinations_attributes,
                   :operatingsystems, :operatingsystem_ids, :vendor
