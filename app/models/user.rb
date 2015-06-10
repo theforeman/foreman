@@ -9,7 +9,6 @@ class User < ActiveRecord::Base
   include Taxonomix
   include DirtyAssociations
   audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation], :allow_mass_assignment => true
-  self.auditing_enabled = !Foreman.in_rake?('db:migrate')
 
   ANONYMOUS_ADMIN = 'foreman_admin'
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
