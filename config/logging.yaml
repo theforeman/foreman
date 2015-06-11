@@ -60,5 +60,8 @@
   :filename: "development.log"
 
 :test:
-  :level: debug
+  :colorize: false
+  :console_inline: true
+  :level: error
+  :log_trace: true
   :filename: "test.log"
