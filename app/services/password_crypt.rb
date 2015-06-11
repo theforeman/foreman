@@ -5,7 +5,9 @@ class PasswordCrypt
 
   def self.passw_crypt(passwd, hash_alg = 'SHA256')
     raise Foreman::Exception.new(N_("Unsupported password hash function '%s'"), hash_alg) unless ALGORITHMS.has_key?(hash_alg)
-    hash_alg == 'Base64' ? Base64.strict_encode64(passwd) : passwd.crypt("#{ALGORITHMS[hash_alg]}#{SecureRandom.base64(6)}")
+    result = (hash_alg == 'Base64') ? Base64.strict_encode64(passwd) : passwd.crypt("#{ALGORITHMS[hash_alg]}#{SecureRandom.base64(6)}")
+    result.force_encoding(Encoding::UTF_8) if result.encoding != Encoding::UTF_8
+    result
   end
 
   def self.grub2_passw_crypt(passw)

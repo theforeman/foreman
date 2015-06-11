@@ -923,6 +923,8 @@ class HostTest < ActiveSupport::TestCase
       host.root_pass = "12345678"
       assert host.save
       assert_not_equal first_password, host.root_pass
+      # Encrypted passwords should have UTF-8 encoding
+      assert_equal Encoding::UTF_8, host.root_pass.encoding
     end
 
     test "should pass through existing salt when saving root pw" do
@@ -942,6 +944,8 @@ class HostTest < ActiveSupport::TestCase
       host.root_pass = unencrypted_password
       assert host.save!
       assert_equal host.root_pass, 'eHlieGE2SlVrejYzdw=='
+      # Encrypted passwords should have UTF-8 encoding
+      assert_equal Encoding::UTF_8, host.root_pass.encoding
     end
 
     test "should use hostgroup root password" do
