@@ -457,7 +457,7 @@ class Host::Managed < Host::Base
     else
       self.environment ||= importer.environment unless importer.environment.blank?
     end
-
+    operatingsystem.architectures << architecture if operatingsystem && architecture && !operatingsystem.architectures.include?(architecture)
     self.save(:validate => false)
   end
 

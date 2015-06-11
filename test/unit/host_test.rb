@@ -2137,6 +2137,13 @@ class HostTest < ActiveSupport::TestCase
     assert_equal 'foo', host.shortname
   end
 
+  test 'check operatingsystem and architecture association' do
+    host = FactoryGirl.build(:host, :interfaces => [FactoryGirl.build(:nic_primary_and_provision)])
+    assert_nil Operatingsystem.find_by_name('RedHat-test'), "operatingsystem already exist"
+    host.populate_fields_from_facts(:architecture => "x86_64", :operatingsystem => 'RedHat-test', :operatingsystemrelease => '6.2')
+    assert host.operatingsystem.architectures.include?(host.architecture), "no association between operatingsystem and architecture"
+  end
+
   private
 
   def parse_json_fixture(relative_path)
