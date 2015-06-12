@@ -11,6 +11,8 @@ config/settings.yaml
 config/settings.plugins.d
 config/email.yaml
 config/database.yml
+config/initializers/0_custom*rb
+config/initializers/z_custom*rb
 config/initializers/local_secret_token.rb
 config/initializers/encryption_key.rb
 Gemfile.lock
