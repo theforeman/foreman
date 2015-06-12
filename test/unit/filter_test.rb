@@ -50,6 +50,10 @@ class FilterTest < ActiveSupport::TestCase
     assert_nil Filter.get_resource_class('BookmarkThatDoesNotExist')
   end
 
+  test ".get_resource_class nil" do
+    assert_nil Filter.get_resource_class(nil)
+  end
+
   test "#resource_class" do
     f = FactoryGirl.build(:filter, :resource_type => 'Bookmark')
     Filter.stub :get_resource_class, Architecture do

@@ -61,7 +61,12 @@ class Filter < ActiveRecord::Base
     { :conditions => conditions }
   end
 
+  # This method attempts to return an existing class that is derived from the resource_type.
+  # In some instances, this may not be a real class (e.g. a typo) or may be nil in the case
+  # of a filter not having been saved yet and thus the permissions objects not being currently
+  # accessible.
   def self.get_resource_class(resource_type)
+    return nil if resource_type.nil?
     resource_type.constantize
   rescue NameError => e
     Foreman::Logging.exception("unknown class #{resource_type}, ignoring", e)
