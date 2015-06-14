@@ -199,6 +199,10 @@ $(document).ready(function() {
       e.preventDefault();
       $(".role_checkbox").prop('checked', false);
   });
+
+  $('#login-form').submit(function(e){
+      $(".jnotify-container").remove();
+  });
 });
 
 
