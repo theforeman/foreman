@@ -59,7 +59,7 @@ function onContentLoad(){
   }
 
   // highlight tabs with errors
-  var errorFields = $(".tab-content .form-group.has-error");
+  var errorFields = $(".tab-content .has-error");
   errorFields.parents(".tab-pane").each(function() {
       $("a[href=#"+this.id+"]").addClass("tab-error");
   })

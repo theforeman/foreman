@@ -1,6 +1,6 @@
   <% if obj.errors[:puppetclasses].any? %>
-    <%= alert :class => "alert-block alert-danger base in fade",
-              :text => obj.errors[:puppetclasses].map { |e| "<li>#{e}</li>" }.to_s.html_safe %>
+    <%= alert :class => "alert-block alert-danger base in fade has-error",
+              :text => obj.errors[:puppetclasses].map { |e| "<li>#{e}</li>" }.join.html_safe %>
   <% end %>
 
   <%= render("config_groups/config_groups_selection", :obj => obj, :type => obj_type(obj)) if (controller_name != 'config_groups' && ConfigGroup.count > 0) %>
