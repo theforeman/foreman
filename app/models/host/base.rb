@@ -292,12 +292,12 @@ module Host
     end
 
     def self.find_by_ip(ip)
-      logger.warn 'DEPRECATION WARNING: Host#find_by_ip has been deprecated, you should search for primary interfaces'
+      Foreman::Deprecation.deprecation_warning("1.11", "Host#find_by_ip has been deprecated, you should search for primary interfaces")
       Nic::Base.primary.find_by_ip(ip).try(:host)
     end
 
     def self.find_by_mac(mac)
-      logger.warn 'DEPRECATION WARNING: Host#find_by_mac has been deprecated, you should search for provision interfaces'
+      Foreman::Deprecation.deprecation_warning("1.11", "Host#find_by_mac has been deprecated, you should search for provision interfaces")
       Nic::Base.provision.find_by_mac(mac).try(:host)
     end
 

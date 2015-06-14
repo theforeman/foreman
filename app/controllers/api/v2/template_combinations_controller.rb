@@ -72,7 +72,7 @@ module Api
       def rename_config_template
         if !params[:config_template_id].nil?
           params[:provisioning_template_id] = params.delete(:config_template_id)
-          ::ActiveSupport::Deprecation.warn('Config templates were renamed to provisioning templates')
+          Foreman::Deprecation.deprecation_warning("1.11", "Config templates were renamed to provisioning templates")
         end
       end
     end

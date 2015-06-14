@@ -82,7 +82,7 @@ module Api
       api :POST, "/config_templates/build_pxe_default", N_("Update the default PXE menu on all configured TFTP servers")
 
       def build_pxe_default
-        ::ActiveSupport::Deprecation.warn('GET method for build pxe default is deprecated. Please use POST instead.') if request.method == "GET"
+        Foreman::Deprecation.deprecation_warning("1.11", "GET method for build pxe default is deprecated. Please use POST instead") if request.method == "GET"
         status, msg = ProvisioningTemplate.authorized(:deploy_provisioning_templates).build_pxe_default(self)
         render_message(msg, :status => status)
       end
@@ -115,7 +115,7 @@ module Api
       end
 
       def deprecated
-        ::ActiveSupport::Deprecation.warn('The resources /config_templates were moved to /provisioning_templates. Please use the new path instead.')
+        Foreman::Deprecation.deprecation_warning("1.11", "The resources /config_templates were moved to /provisioning_templates. Please use the new path instead")
       end
 
       def resource_class
