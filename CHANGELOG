@@ -1,3 +1,38 @@
+2015-06-15	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.8.2
+	* i18n - extracting new, updating rails, pulling from tx
+	* fixes #10627 - apply host taxonomy scope to facts/report joins
+	* fixes #10646 - disable NIC subnet taxonomy checks when feature's disabled
+	* fixes #10397 - parse Windows Local_Area_Connection interface name
+	* fixes #10613 - restore VMware SCSI controller field
+	* fixes #9873 - generate unique alert mails for each user group member
+
+2015-06-15	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10260 - allow NIC management in attended mode and for unmanage hosts
+	* Fixes #10642 - save the interface regardless of validation errors
+	* Fixes #10566 - allow identifier modifications that do not change interface type
+
+2015-06-15	Walden Raines <walden@redhat.com>
+	* Fixes #10542: correct path for auto complete search on filters page.
+
+2015-06-15	Jan Pazdziora <jpazdziora@redhat.com>
+	* fixes #10586 - make the 401 status comparison actually match.
+
+2015-06-15	Tom Caspy <tcaspy@gmail.com>
+	* fixes #8597 - escape slashes for ptable URL parameters
+
+2015-06-15	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10568 - Show release field when OS family is CoreOS
+
+2015-06-15	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7533 - auto resize pie chart labels to prevent overflow
+
+2015-06-15	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #9594 - adds admin field to the hostgroup rabl
+
+2015-06-15	Ori Rabin <orabin@redhat.com>
+	* Fixes #10535 - building a token instead of creating it until host is saved
+
 2015-05-20	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.8.1
 	* i18n - extracting new, updating rails, pulling from tx
