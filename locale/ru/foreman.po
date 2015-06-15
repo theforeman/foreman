@@ -7,15 +7,15 @@
 # Alexander Savchenko, 2013
 # Andrei Burd <burdandrei@gmail.com>, 2013
 # Evgrafov Denis <stereodenis@gmail.com>, 2014
-# Dominic Cleal <dcleal@redhat.com>, 2014
+# Dominic Cleal <dcleal@redhat.com>, 2014-2015
 # Evgrafov Denis <stereodenis@gmail.com>, 2014
 # Vladimir Pavlov <v.pavlov@i-teco.ru>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-04-01 13:11+0000\n"
-"Last-Translator: Vladimir Pavlov <v.pavlov@i-teco.ru>\n"
+"PO-Revision-Date: 2015-06-02 14:31+0000\n"
+"Last-Translator: Dominic Cleal <dcleal@redhat.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/foreman/language/r"
 "u/)\n"
 "MIME-Version: 1.0\n"
@@ -7045,7 +7045,7 @@ msgid "Override all parameters"
 msgstr "Перезаписать все параметры"
 
 msgid "This will set all parameters of the class %s as overridden. Continue?"
-msgstr "Это установит все параметры класса % как перезаписываемые. Продолжить?"
+msgstr "Это установит все параметры класса %s как перезаписываемые. Продолжить?"
 
 msgid "This will reset parameters of the class %s to their default values. Continue?"
 msgstr "Это сбросит все параметры класса %s в значения по умолчанию. Продолжить?"

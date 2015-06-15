@@ -2302,11 +2302,11 @@ msgstr ""
 msgid "Number Of Clients"
 msgstr ""
 
-#. TRANSLATORS: initial character of Applied
-msgid "Applied|A"
+msgid "Applied"
 msgstr ""
 
-msgid "Applied"
+#. TRANSLATORS: initial character of Applied
+msgid "Applied|A"
 msgstr ""
 
 msgid "Restarted"
@@ -2457,10 +2457,10 @@ msgstr ""
 msgid "Failed restarts"
 msgstr ""
 
-msgid "Config Retrieval"
+msgid "Runtime"
 msgstr ""
 
-msgid "Runtime"
+msgid "Config Retrieval"
 msgstr ""
 
 msgid "Reports from the last %{days} days - %{count} reports found"
@@ -2546,10 +2546,10 @@ msgstr ""
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr ""
 
-msgid "Audits"
+msgid "Host audit entries"
 msgstr ""
 
-msgid "Host audit entries"
+msgid "Audits"
 msgstr ""
 
 msgid "Facts"
@@ -2558,16 +2558,16 @@ msgstr ""
 msgid "Browse host facts"
 msgstr ""
 
-msgid "Browse host reports"
-msgstr ""
-
 msgid "Reports"
 msgstr ""
 
-msgid "Puppet external nodes YAML dump"
+msgid "Browse host reports"
 msgstr ""
 
 msgid "YAML"
+msgstr ""
+
+msgid "Puppet external nodes YAML dump"
 msgstr ""
 
 msgid "Allocation (GB)"
@@ -2598,10 +2598,10 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgid "Image ID"
 msgstr ""
 
-msgid "Image ID"
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
 
 msgid "Submit"
@@ -2698,10 +2698,10 @@ msgstr ""
 msgid "No value warning"
 msgstr ""
 
-msgid "revoked"
+msgid "pending"
 msgstr ""
 
-msgid "pending"
+msgid "revoked"
 msgstr ""
 
 msgid "valid"
@@ -2759,16 +2759,16 @@ msgstr ""
 msgid "Show log messages:"
 msgstr ""
 
-msgid "All messages"
+msgid "Errors only"
 msgstr ""
 
 msgid "Warnings and errors"
 msgstr ""
 
-msgid "Errors only"
+msgid "Notices, warnings and errors"
 msgstr ""
 
-msgid "Notices, warnings and errors"
+msgid "All messages"
 msgstr ""
 
 msgid ""
@@ -2809,10 +2809,10 @@ msgstr ""
 msgid "free memory"
 msgstr ""
 
-msgid "used memory"
+msgid "Average memory usage"
 msgstr ""
 
-msgid "Average memory usage"
+msgid "used memory"
 msgstr ""
 
 msgid "used swap"
@@ -2861,9 +2861,6 @@ msgstr ""
 msgid ""
 "Puppet Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} F"
 "R:%{failed_restarts} T:%{total}"
-msgstr ""
-
-msgid "unable to find recipients"
 msgstr ""
 
 msgid "Puppet error on %s"
@@ -3327,13 +3324,10 @@ msgstr ""
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "string"
+msgid "yaml"
 msgstr ""
 
-msgid "hash"
-msgstr ""
-
-msgid "real"
+msgid "json"
 msgstr ""
 
 msgid "boolean"
@@ -3342,13 +3336,16 @@ msgstr ""
 msgid "integer"
 msgstr ""
 
-msgid "json"
-msgstr ""
-
-msgid "yaml"
+msgid "real"
 msgstr ""
 
 msgid "array"
+msgstr ""
+
+msgid "hash"
+msgstr ""
+
+msgid "string"
 msgstr ""
 
 msgid "list"
@@ -3393,13 +3390,13 @@ msgstr ""
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
-msgid "Weekly"
+msgid "Monthly"
 msgstr ""
 
 msgid "Daily"
 msgstr ""
 
-msgid "Monthly"
+msgid "Weekly"
 msgstr ""
 
 msgid ""
@@ -3434,10 +3431,10 @@ msgstr ""
 msgid "host already has provision interface"
 msgstr ""
 
-msgid "is not defined for host's organization."
+msgid "is not defined for host's location."
 msgstr ""
 
-msgid "is not defined for host's location."
+msgid "is not defined for host's organization."
 msgstr ""
 
 msgid "Unable to find a proxy with BMC feature"
@@ -3453,6 +3450,9 @@ msgid "Only one bootable interface is allowed"
 msgstr ""
 
 msgid "Bootable"
+msgstr ""
+
+msgid "Can't add or remove `%s` from identifier"
 msgstr ""
 
 msgid "subnet boot mode is not %s"
@@ -4057,13 +4057,7 @@ msgstr ""
 msgid "start"
 msgstr ""
 
-msgid "stop"
-msgstr ""
-
 msgid "poweroff"
-msgstr ""
-
-msgid "reboot"
 msgstr ""
 
 msgid "reset"
@@ -4072,22 +4066,28 @@ msgstr ""
 msgid "state"
 msgstr ""
 
-msgid "off"
+msgid "stop"
+msgstr ""
+
+msgid "reboot"
+msgstr ""
+
+msgid "cycle"
 msgstr ""
 
 msgid "on"
 msgstr ""
 
-msgid "soft"
+msgid "status"
 msgstr ""
 
 msgid "ready?"
 msgstr ""
 
-msgid "status"
+msgid "off"
 msgstr ""
 
-msgid "cycle"
+msgid "soft"
 msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
@@ -4803,12 +4803,12 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
+msgid "Disabled"
+msgstr ""
+
 #, fuzzy
 msgid "Enabled"
 msgstr "Partition Table"
-
-msgid "Disabled"
-msgstr ""
 
 msgid "There was an error listing VMs: %s"
 msgstr ""
@@ -4816,10 +4816,10 @@ msgstr ""
 msgid "Network interfaces"
 msgstr ""
 
-msgid "add new network interface"
+msgid "Add Interface"
 msgstr ""
 
-msgid "Add Interface"
+msgid "add new network interface"
 msgstr ""
 
 msgid "No networks found."
@@ -4843,10 +4843,10 @@ msgstr ""
 msgid "Please select an image"
 msgstr ""
 
-msgid "Availability zone"
+msgid "No preference"
 msgstr ""
 
-msgid "No preference"
+msgid "Availability zone"
 msgstr ""
 
 msgid "EC2"
@@ -4859,13 +4859,13 @@ msgstr ""
 msgid "Security groups"
 msgstr ""
 
-msgid "Managed IP"
-msgstr ""
-
 msgid "Public"
 msgstr ""
 
 msgid "Private"
+msgstr ""
+
+msgid "Managed IP"
 msgstr ""
 
 msgid "Machine type"
@@ -4883,10 +4883,10 @@ msgstr ""
 msgid "Memory"
 msgstr ""
 
-msgid "Start"
+msgid "Power ON this machine"
 msgstr ""
 
-msgid "Power ON this machine"
+msgid "Start"
 msgstr ""
 
 msgid "Image to use"
@@ -4954,10 +4954,10 @@ msgstr ""
 msgid "Storage domain"
 msgstr ""
 
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -4976,6 +4976,9 @@ msgid "Folder"
 msgstr ""
 
 msgid "Guest OS"
+msgstr ""
+
+msgid "SCSI controller"
 msgstr ""
 
 msgid "Virtual H/W version"
@@ -5008,10 +5011,10 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-msgid "Associate VM to a Foreman host"
+msgid "Associate VM"
 msgstr ""
 
-msgid "Associate VM"
+msgid "Associate VM to a Foreman host"
 msgstr ""
 
 msgid "Properties"
@@ -5096,10 +5099,10 @@ msgstr ""
 msgid "clone"
 msgstr ""
 
-msgid "Note: %s "
+msgid "Useful template functions and macros"
 msgstr ""
 
-msgid "Useful template functions and macros"
+msgid "Note: %s "
 msgstr ""
 
 msgid "Template editor"
@@ -5760,13 +5763,13 @@ msgid ""
 "ference would be the parameter/variables settings)."
 msgstr ""
 
-msgid "Assign Selected Hosts"
-msgstr ""
-
 msgid "Create %s"
 msgstr ""
 
 msgid "Select Hosts"
+msgstr ""
+
+msgid "Assign Selected Hosts"
 msgstr ""
 
 msgid "<b class='select_count'>0</b> selected"
@@ -5863,10 +5866,10 @@ msgstr ""
 msgid "Host Parameters"
 msgstr ""
 
-msgid "Owned By"
+msgid "select an owner"
 msgstr ""
 
-msgid "select an owner"
+msgid "Owned By"
 msgstr ""
 
 msgid "Include this host within Foreman reporting"
@@ -5983,10 +5986,10 @@ msgstr ""
 msgid "Canvas not supported."
 msgstr ""
 
-msgid "Manage host"
+msgid "Unmanage host"
 msgstr ""
 
-msgid "Unmanage host"
+msgid "Manage host"
 msgstr ""
 
 msgid "Disassociate host"
@@ -6158,10 +6161,10 @@ msgstr ""
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
-msgid "Image path"
+msgid "Full path to backing image used to create new volumes."
 msgstr ""
 
-msgid "Full path to backing image used to create new volumes."
+msgid "Image path"
 msgstr ""
 
 msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
@@ -6200,18 +6203,18 @@ msgid ""
 "em managed via Foreman is housed."
 msgstr ""
 
-msgid "organizations"
-msgstr ""
-
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
 " are locations. Locations also work nicely when used in tandem with "
 msgstr ""
 
-msgid "Variable"
+msgid "organizations"
 msgstr ""
 
 msgid "Remove %s?"
+msgstr ""
+
+msgid "Variable"
 msgstr ""
 
 msgid "Whether the smart variable value is managed by Foreman"
@@ -6501,10 +6504,10 @@ msgstr ""
 msgid "Please save the Operating System first and try again."
 msgstr ""
 
-msgid "you probably need to configure your %s first."
+msgid "No templates found!"
 msgstr ""
 
-msgid "No templates found!"
+msgid "you probably need to configure your %s first."
 msgstr ""
 
 msgid "Edit Operating System"
@@ -6542,10 +6545,10 @@ msgstr ""
 msgid "locations"
 msgstr ""
 
-msgid "a script as well"
+msgid "you may use %s"
 msgstr ""
 
-msgid "you may use %s"
+msgid "a script as well"
 msgstr ""
 
 msgid "Edit Partition Table"

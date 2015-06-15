@@ -4,7 +4,7 @@
 #
 # Translators:
 # Dominic Cleal <dcleal@redhat.com>, 2014
-# Giuseppe Pignataro <anubisteam01@gmail.com>, 2014
+# Giuseppe Pignataro <rogepix@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-20 09:46+0100\n"
-"PO-Revision-Date: 2015-05-20 09:46+0100\n"
+"POT-Creation-Date: 2015-06-15 12:02+0100\n"
+"PO-Revision-Date: 2015-06-15 12:02+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -30,32 +30,32 @@ msgstr ""
 msgid "Loading ..."
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:165 ../app/views/audits/show.html.erb:15
+#: ../app/assets/javascripts/charts.js:175 ../app/views/audits/show.html.erb:15
 #: ../app/views/compute_resources/show.html.erb:23
 #: ../app/views/hosts/show.html.erb:10
 msgid "Details"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:189
+#: ../app/assets/javascripts/charts.js:199
 msgid "Reset zoom"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:255
+#: ../app/assets/javascripts/charts.js:265
 #: ../app/assets/javascripts/two-pane.js:122
 msgid "Loading"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:268
+#: ../app/assets/javascripts/charts.js:278
 msgid "Fact distribution chart"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:268
+#: ../app/assets/javascripts/charts.js:278
 msgid "%s host"
 msgid_plural "%s hosts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/assets/javascripts/charts.js:340
+#: ../app/assets/javascripts/charts.js:350
 msgid "Failed to load chart"
 msgstr ""
 
@@ -138,7 +138,7 @@ msgstr ""
 
 #: ../app/assets/javascripts/host_edit.js:541
 #: ../app/views/hostgroups/_form.html.erb:51
-#: ../app/views/nic/_base_form.html.erb:26
+#: ../app/views/nic/_base_form.html.erb:27
 msgid "No subnets"
 msgstr ""
 
@@ -1155,7 +1155,7 @@ msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/ta
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:68
-#: ../app/views/hosts/_form.html.erb:115
+#: ../app/views/hosts/_form.html.erb:119
 msgid "Additional information about this host"
 msgstr ""
 
@@ -1353,7 +1353,7 @@ msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr ""
 
 #: ../app/controllers/api/v2/interfaces_controller.rb:42
-#: ../app/views/nic/_base_form.html.erb:42
+#: ../app/views/nic/_base_form.html.erb:45
 msgid ""
 "Should this interface be managed via DHCP and DNS smart proxy and should it be"
 " configured during provisioning?"
@@ -2981,33 +2981,33 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:214
+#: ../app/helpers/application_helper.rb:215
 msgid "Help"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:236
+#: ../app/helpers/application_helper.rb:237
 msgid "Expand the chart"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:339
+#: ../app/helpers/application_helper.rb:340
 msgid "Change your avatar at gravatar.com"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:371
+#: ../app/helpers/application_helper.rb:372
 msgid "no value"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:372
+#: ../app/helpers/application_helper.rb:373
 msgid "Inherit parent (%s)"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:389
+#: ../app/helpers/application_helper.rb:390
 #: ../app/views/about/index.html.erb:122
 #: ../app/views/common/_searchbar.html.erb:19
 msgid "Documentation"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:403
+#: ../app/helpers/application_helper.rb:404
 msgid "Click to edit"
 msgstr ""
 
@@ -3263,14 +3263,14 @@ msgstr ""
 msgid "Number Of Clients"
 msgstr ""
 
-#. TRANSLATORS: initial character of Applied
-#: ../app/helpers/dashboard_helper.rb:65
-msgid "Applied|A"
-msgstr ""
-
 #: ../app/helpers/dashboard_helper.rb:65 ../app/helpers/hosts_helper.rb:180
 #: ../app/views/reports/_list.html.erb:8
 msgid "Applied"
+msgstr ""
+
+#. TRANSLATORS: initial character of Applied
+#: ../app/helpers/dashboard_helper.rb:65
+msgid "Applied|A"
 msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:67 ../app/helpers/hosts_helper.rb:184
@@ -3471,12 +3471,12 @@ msgstr ""
 msgid "Failed restarts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:193
-msgid "Config Retrieval"
+#: ../app/helpers/hosts_helper.rb:193 ../app/views/hosts/show.html.erb:83
+msgid "Runtime"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:193 ../app/views/hosts/show.html.erb:88
-msgid "Runtime"
+#: ../app/helpers/hosts_helper.rb:193
+msgid "Config Retrieval"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:199
@@ -3617,13 +3617,13 @@ msgstr ""
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr ""
 
+#: ../app/helpers/hosts_helper.rb:349
+msgid "Host audit entries"
+msgstr ""
+
 #: ../app/helpers/hosts_helper.rb:349 ../app/services/menu/loader.rb:51
 #: ../app/views/audits/index.html.erb:1
 msgid "Audits"
-msgstr ""
-
-#: ../app/helpers/hosts_helper.rb:349
-msgid "Host audit entries"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:350 ../app/helpers/trends_helper.rb:6
@@ -3635,21 +3635,21 @@ msgstr ""
 msgid "Browse host facts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:351
-msgid "Browse host reports"
-msgstr ""
-
 #: ../app/helpers/hosts_helper.rb:351 ../app/services/menu/loader.rb:46
 #: ../app/views/reports/index.html.erb:1
 msgid "Reports"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:352
-msgid "Puppet external nodes YAML dump"
+#: ../app/helpers/hosts_helper.rb:351
+msgid "Browse host reports"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:352
 msgid "YAML"
+msgstr ""
+
+#: ../app/helpers/hosts_helper.rb:352
+msgid "Puppet external nodes YAML dump"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:360
@@ -3697,17 +3697,17 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:10
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:37
 #: ../app/views/compute_resources_vms/form/rackspace/_base.html.erb:8
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:23
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:24
 #: model_attributes.rb:244
 msgid "Image"
 msgstr ""
 
 #: ../app/helpers/images_helper.rb:10
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgid "Image ID"
 msgstr ""
 
 #: ../app/helpers/images_helper.rb:10
-msgid "Image ID"
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
 
 #: ../app/helpers/layout_helper.rb:212
@@ -3837,11 +3837,11 @@ msgid "No value warning"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:3
-msgid "revoked"
+msgid "pending"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:3
-msgid "pending"
+msgid "revoked"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:3
@@ -3915,7 +3915,7 @@ msgid "Show log messages:"
 msgstr ""
 
 #: ../app/helpers/reports_helper.rb:43
-msgid "All messages"
+msgid "Errors only"
 msgstr ""
 
 #: ../app/helpers/reports_helper.rb:43
@@ -3923,11 +3923,11 @@ msgid "Warnings and errors"
 msgstr ""
 
 #: ../app/helpers/reports_helper.rb:43
-msgid "Errors only"
+msgid "Notices, warnings and errors"
 msgstr ""
 
 #: ../app/helpers/reports_helper.rb:43
-msgid "Notices, warnings and errors"
+msgid "All messages"
 msgstr ""
 
 #: ../app/helpers/settings_helper.rb:6
@@ -3983,11 +3983,11 @@ msgid "free memory"
 msgstr ""
 
 #: ../app/helpers/statistics_helper.rb:11
-msgid "used memory"
+msgid "Average memory usage"
 msgstr ""
 
 #: ../app/helpers/statistics_helper.rb:11
-msgid "Average memory usage"
+msgid "used memory"
 msgstr ""
 
 #: ../app/helpers/statistics_helper.rb:12
@@ -4060,21 +4060,17 @@ msgstr ""
 msgid "Must specify a user with email enabled"
 msgstr ""
 
-#: ../app/mailers/host_mailer.rb:16
+#: ../app/mailers/host_mailer.rb:23
 msgid ""
 "Puppet Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} F"
 "R:%{failed_restarts} T:%{total}"
 msgstr ""
 
-#: ../app/mailers/host_mailer.rb:43
-msgid "unable to find recipients"
-msgstr ""
-
-#: ../app/mailers/host_mailer.rb:47
+#: ../app/mailers/host_mailer.rb:40
 msgid "Puppet error on %s"
 msgstr ""
 
-#: ../app/mailers/user_mailer.rb:11 ../app/views/users/extlogout.html.erb:18
+#: ../app/mailers/user_mailer.rb:9 ../app/views/users/extlogout.html.erb:18
 #: ../app/views/users/login.html.erb:32
 msgid "Welcome to Foreman"
 msgstr ""
@@ -4574,15 +4570,15 @@ msgstr ""
 msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
-#: ../app/models/host/base.rb:403
+#: ../app/models/host/base.rb:407
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:409
+#: ../app/models/host/base.rb:413
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:427
+#: ../app/models/host/base.rb:431
 msgid "some interfaces are invalid"
 msgstr ""
 
@@ -4676,7 +4672,7 @@ msgstr ""
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:896 ../app/models/nic/interface.rb:93
+#: ../app/models/host/managed.rb:896 ../app/models/nic/interface.rb:107
 msgid "must not include periods"
 msgstr ""
 
@@ -4689,15 +4685,11 @@ msgid "could not be found in %s"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
-msgid "string"
+msgid "yaml"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
-msgid "hash"
-msgstr ""
-
-#: ../app/models/lookup_key.rb:5
-msgid "real"
+msgid "json"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
@@ -4709,15 +4701,19 @@ msgid "integer"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
-msgid "json"
-msgstr ""
-
-#: ../app/models/lookup_key.rb:5
-msgid "yaml"
+msgid "real"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
 msgid "array"
+msgstr ""
+
+#: ../app/models/lookup_key.rb:5
+msgid "hash"
+msgstr ""
+
+#: ../app/models/lookup_key.rb:5
+msgid "string"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:6
@@ -4780,7 +4776,7 @@ msgid "%{match} does not match an existing host group"
 msgstr ""
 
 #: ../app/models/mail_notification.rb:4
-msgid "Weekly"
+msgid "Monthly"
 msgstr ""
 
 #: ../app/models/mail_notification.rb:4
@@ -4788,7 +4784,7 @@ msgid "Daily"
 msgstr ""
 
 #: ../app/models/mail_notification.rb:4
-msgid "Monthly"
+msgid "Weekly"
 msgstr ""
 
 #: ../app/models/medium.rb:23
@@ -4805,40 +4801,40 @@ msgstr ""
 msgid "%{record} is used by host in build mode %{what}"
 msgstr ""
 
-#: ../app/models/nic/base.rb:154
+#: ../app/models/nic/base.rb:155
 msgid "can't use the same value as the primary interface"
 msgstr ""
 
-#: ../app/models/nic/base.rb:157
+#: ../app/models/nic/base.rb:158
 msgid "already in use"
 msgstr ""
 
-#: ../app/models/nic/base.rb:173
+#: ../app/models/nic/base.rb:174
 msgid "can't find domain with this id"
 msgstr ""
 
-#: ../app/models/nic/base.rb:189
+#: ../app/models/nic/base.rb:190
 msgid "can't delete primary interface of managed host"
 msgstr ""
 
-#: ../app/models/nic/base.rb:192
+#: ../app/models/nic/base.rb:193
 msgid "can't delete provision interface of managed host"
 msgstr ""
 
-#: ../app/models/nic/base.rb:201
+#: ../app/models/nic/base.rb:202
 msgid "host already has primary interface"
 msgstr ""
 
-#: ../app/models/nic/base.rb:208
+#: ../app/models/nic/base.rb:209
 msgid "host already has provision interface"
 msgstr ""
 
-#: ../app/models/nic/base.rb:236
-msgid "is not defined for host's organization."
+#: ../app/models/nic/base.rb:234
+msgid "is not defined for host's location."
 msgstr ""
 
-#: ../app/models/nic/base.rb:237
-msgid "is not defined for host's location."
+#: ../app/models/nic/base.rb:239
+msgid "is not defined for host's organization."
 msgstr ""
 
 #: ../app/models/nic/bmc.rb:20
@@ -4862,7 +4858,11 @@ msgstr ""
 msgid "Bootable"
 msgstr ""
 
-#: ../app/models/nic/interface.rb:59
+#: ../app/models/nic/interface.rb:66
+msgid "Can't add or remove `%s` from identifier"
+msgstr ""
+
+#: ../app/models/nic/interface.rb:73
 msgid "subnet boot mode is not %s"
 msgstr ""
 
@@ -5708,15 +5708,7 @@ msgid "start"
 msgstr ""
 
 #: ../app/services/power_manager.rb:2
-msgid "stop"
-msgstr ""
-
-#: ../app/services/power_manager.rb:2
 msgid "poweroff"
-msgstr ""
-
-#: ../app/services/power_manager.rb:2
-msgid "reboot"
 msgstr ""
 
 #: ../app/services/power_manager.rb:2
@@ -5727,8 +5719,16 @@ msgstr ""
 msgid "state"
 msgstr ""
 
+#: ../app/services/power_manager.rb:2
+msgid "stop"
+msgstr ""
+
+#: ../app/services/power_manager.rb:2
+msgid "reboot"
+msgstr ""
+
 #: ../app/services/power_manager.rb:3
-msgid "off"
+msgid "cycle"
 msgstr ""
 
 #: ../app/services/power_manager.rb:3
@@ -5736,7 +5736,7 @@ msgid "on"
 msgstr ""
 
 #: ../app/services/power_manager.rb:3
-msgid "soft"
+msgid "status"
 msgstr ""
 
 #: ../app/services/power_manager.rb:3
@@ -5744,11 +5744,11 @@ msgid "ready?"
 msgstr ""
 
 #: ../app/services/power_manager.rb:3
-msgid "status"
+msgid "off"
 msgstr ""
 
 #: ../app/services/power_manager.rb:3
-msgid "cycle"
+msgid "soft"
 msgstr ""
 
 #: ../app/services/power_manager/base.rb:9
@@ -6781,13 +6781,13 @@ msgstr ""
 #: ../app/views/compute_resources/show/_libvirt.html.erb:11
 #: ../app/views/compute_resources/show/_vmware.html.erb:7
 #: ../app/views/images/index.html.erb:21
-msgid "Enabled"
+msgid "Disabled"
 msgstr ""
 
 #: ../app/views/compute_resources/show/_libvirt.html.erb:11
 #: ../app/views/compute_resources/show/_vmware.html.erb:7
 #: ../app/views/images/index.html.erb:21
-msgid "Disabled"
+msgid "Enabled"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/_error.html.erb:4
@@ -6800,12 +6800,12 @@ msgid "Network interfaces"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:20
-msgid "add new network interface"
+#: ../app/views/hosts/_interfaces.html.erb:43
+msgid "Add Interface"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:20
-#: ../app/views/hosts/_interfaces.html.erb:43
-msgid "Add Interface"
+msgid "add new network interface"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:25
@@ -6840,16 +6840,16 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:16
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:32
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:22
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:23
 msgid "Please select an image"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:9
-msgid "Availability zone"
+msgid "No preference"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:9
-msgid "No preference"
+msgid "Availability zone"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:14
@@ -6868,15 +6868,15 @@ msgid "Security groups"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:30
-msgid "Managed IP"
-msgstr ""
-
-#: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:30
 msgid "Public"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:30
 msgid "Private"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:30
+msgid "Managed IP"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:1
@@ -6917,14 +6917,14 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:24
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:13
-msgid "Start"
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:14
+msgid "Power ON this machine"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:24
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:13
-msgid "Power ON this machine"
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:14
+msgid "Start"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:21
@@ -7019,11 +7019,11 @@ msgid "Storage domain"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:9
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:9
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:13
@@ -7053,6 +7053,10 @@ msgid "Guest OS"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:9
+msgid "SCSI controller"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:10
 msgid "Virtual H/W version"
 msgstr ""
 
@@ -7099,11 +7103,11 @@ msgid "Create"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/show.html.erb:9
-msgid "Associate VM to a Foreman host"
+msgid "Associate VM"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/show.html.erb:9
-msgid "Associate VM"
+msgid "Associate VM to a Foreman host"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_ec2.html.erb:5
@@ -7228,11 +7232,11 @@ msgid "clone"
 msgstr ""
 
 #: ../app/views/config_templates/_form.html.erb:32
-msgid "Note: %s "
+msgid "Useful template functions and macros"
 msgstr ""
 
 #: ../app/views/config_templates/_form.html.erb:32
-msgid "Useful template functions and macros"
+msgid "Note: %s "
 msgstr ""
 
 #: ../app/views/config_templates/_form.html.erb:37
@@ -8092,10 +8096,6 @@ msgid ""
 msgstr ""
 
 #: ../app/views/hosts/_assign_hosts.html.erb:5
-msgid "Assign Selected Hosts"
-msgstr ""
-
-#: ../app/views/hosts/_assign_hosts.html.erb:5
 #: ../app/views/taxonomies/_step1.html.erb:3
 #: ../app/views/taxonomies/_step2.html.erb:5
 msgid "Create %s"
@@ -8105,6 +8105,10 @@ msgstr ""
 #: ../app/views/taxonomies/_step1.html.erb:3
 #: ../app/views/taxonomies/_step2.html.erb:5
 msgid "Select Hosts"
+msgstr ""
+
+#: ../app/views/hosts/_assign_hosts.html.erb:5
+msgid "Assign Selected Hosts"
 msgstr ""
 
 #: ../app/views/hosts/_assign_hosts.html.erb:35
@@ -8195,7 +8199,7 @@ msgstr ""
 msgid "Please correct the error(s) below and submit your changes again."
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:17
+#: ../app/views/hosts/_form.html.erb:16
 msgid "Interfaces"
 msgstr ""
 
@@ -8219,31 +8223,31 @@ msgstr ""
 msgid "Deploy on"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:89
+#: ../app/views/hosts/_form.html.erb:93
 msgid "Puppet classes Parameters"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:92
+#: ../app/views/hosts/_form.html.erb:96
 msgid "Included Parameters via inheritance"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:95
+#: ../app/views/hosts/_form.html.erb:99
 msgid "Host Parameters"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:106
-msgid "Owned By"
-msgstr ""
-
-#: ../app/views/hosts/_form.html.erb:106
+#: ../app/views/hosts/_form.html.erb:110
 msgid "select an owner"
 msgstr ""
 
 #: ../app/views/hosts/_form.html.erb:110
+msgid "Owned By"
+msgstr ""
+
+#: ../app/views/hosts/_form.html.erb:114
 msgid "Include this host within Foreman reporting"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:113
+#: ../app/views/hosts/_form.html.erb:117
 msgid "Hardware Model"
 msgstr ""
 
@@ -8398,11 +8402,11 @@ msgid "Canvas not supported."
 msgstr ""
 
 #: ../app/views/hosts/edit.html.erb:3
-msgid "Manage host"
+msgid "Unmanage host"
 msgstr ""
 
 #: ../app/views/hosts/edit.html.erb:3
-msgid "Unmanage host"
+msgid "Manage host"
 msgstr ""
 
 #: ../app/views/hosts/edit.html.erb:5
@@ -8511,70 +8515,70 @@ msgstr ""
 msgid "VM"
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:36
+#: ../app/views/hosts/show.html.erb:35
 msgid "NICs"
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:43
+#: ../app/views/hosts/show.html.erb:41
 msgid "Loading host information ..."
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:48
+#: ../app/views/hosts/show.html.erb:46
 msgid "No puppet activity for this host in the last %s days"
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:56
+#: ../app/views/hosts/show.html.erb:54
 msgid "Loading template information ..."
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:63
+#: ../app/views/hosts/show.html.erb:61
 msgid "Loading VM information ..."
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:71
+#: ../app/views/hosts/show.html.erb:68
 msgid "Loading NICs information ..."
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:80
+#: ../app/views/hosts/show.html.erb:75
 msgid "Loading BMC information ..."
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:89 ../app/views/hosts/show.html.erb:99
+#: ../app/views/hosts/show.html.erb:84 ../app/views/hosts/show.html.erb:94
 #: ../app/views/trends/show.html.erb:6
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/views/hosts/show.html.erb:93
+#: ../app/views/hosts/show.html.erb:88
 msgid "Loading runtime information ..."
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:98 apipie.rb:5
+#: ../app/views/hosts/show.html.erb:93 apipie.rb:5
 msgid "Resources"
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:103
+#: ../app/views/hosts/show.html.erb:98
 msgid "Loading resources information ..."
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:114
+#: ../app/views/hosts/show.html.erb:109
 msgid "Review build status for %s"
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:117
+#: ../app/views/hosts/show.html.erb:112
 msgid "Warning: This will delete this host and all of its data!"
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:118
+#: ../app/views/hosts/show.html.erb:113
 msgid "This host's stored facts and reports will be deleted too."
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:133
+#: ../app/views/hosts/show.html.erb:128
 msgid "Loading..."
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:136
+#: ../app/views/hosts/show.html.erb:131
 msgid "Please wait while your request is being processed"
 msgstr ""
 
@@ -8640,12 +8644,12 @@ msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
 #: ../app/views/images/form/_libvirt.html.erb:3
-#: ../app/views/images/form/_vmware.html.erb:4
-msgid "Image path"
+msgid "Full path to backing image used to create new volumes."
 msgstr ""
 
 #: ../app/views/images/form/_libvirt.html.erb:3
-msgid "Full path to backing image used to create new volumes."
+#: ../app/views/images/form/_vmware.html.erb:4
+msgid "Image path"
 msgstr ""
 
 #: ../app/views/images/form/_vmware.html.erb:4
@@ -8695,22 +8699,22 @@ msgid ""
 msgstr ""
 
 #: ../app/views/locations/welcome.html.erb:8
-msgid "organizations"
-msgstr ""
-
-#: ../app/views/locations/welcome.html.erb:8
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
 " are locations. Locations also work nicely when used in tandem with "
 msgstr ""
 
-#: ../app/views/lookup_keys/_fields.html.erb:6
-#: ../app/views/lookup_keys/index.html.erb:7
-msgid "Variable"
+#: ../app/views/locations/welcome.html.erb:8
+msgid "organizations"
 msgstr ""
 
 #: ../app/views/lookup_keys/_fields.html.erb:6
 msgid "Remove %s?"
+msgstr ""
+
+#: ../app/views/lookup_keys/_fields.html.erb:6
+#: ../app/views/lookup_keys/index.html.erb:7
+msgid "Variable"
 msgstr ""
 
 #: ../app/views/lookup_keys/_fields.html.erb:13
@@ -8974,19 +8978,19 @@ msgstr ""
 msgid "Primary interface's DNS name and domain define host's FQDN"
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:21
+#: ../app/views/nic/_base_form.html.erb:22
 msgid "No domains"
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:33
+#: ../app/views/nic/_base_form.html.erb:35
 msgid "Suggest new"
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:35
+#: ../app/views/nic/_base_form.html.erb:37
 msgid "IP address auto-suggest"
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:36
+#: ../app/views/nic/_base_form.html.erb:38
 msgid ""
 "An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on"
 " the subnet selected above.<br/><br/>The IP address can be left blank when:<br"
@@ -8995,11 +8999,11 @@ msgid ""
 "not manage DHCP reservations</li></ul>"
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:44
+#: ../app/views/nic/_base_form.html.erb:48
 msgid "The Primary interface is used for constructing the FQDN of the host"
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:47
+#: ../app/views/nic/_base_form.html.erb:51
 msgid ""
 "The Provisioning interface is used for TFTP of PXELinux (or SSH for image-base"
 "d hosts)"
@@ -9074,11 +9078,11 @@ msgid "Please save the Operating System first and try again."
 msgstr ""
 
 #: ../app/views/operatingsystems/_template_defaults.html.erb:11
-msgid "you probably need to configure your %s first."
+msgid "No templates found!"
 msgstr ""
 
 #: ../app/views/operatingsystems/_template_defaults.html.erb:11
-msgid "No templates found!"
+msgid "you probably need to configure your %s first."
 msgstr ""
 
 #: ../app/views/operatingsystems/edit.html.erb:1
@@ -9127,11 +9131,11 @@ msgid "locations"
 msgstr ""
 
 #: ../app/views/ptables/_form.html.erb:5
-msgid "a script as well"
+msgid "you may use %s"
 msgstr ""
 
 #: ../app/views/ptables/_form.html.erb:5
-msgid "you may use %s"
+msgid "a script as well"
 msgstr ""
 
 #: ../app/views/ptables/edit.html.erb:1

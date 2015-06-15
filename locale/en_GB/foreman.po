@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-05-04 01:21+0000\n"
+"PO-Revision-Date: 2015-05-28 23:40+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/f"
 "oreman/language/en_GB/)\n"
@@ -3958,7 +3958,7 @@ msgid "Trends"
 msgstr ""
 
 msgid "Hosts"
-msgstr ""
+msgstr "Hosts"
 
 msgid "All hosts"
 msgstr ""
@@ -4519,7 +4519,7 @@ msgid "Update"
 msgstr ""
 
 msgid "Search"
-msgstr ""
+msgstr "Search"
 
 msgid "Bookmark this search"
 msgstr ""
@@ -4776,7 +4776,7 @@ msgid "URL"
 msgstr ""
 
 msgid "Enabled"
-msgstr ""
+msgstr "Enabled"
 
 msgid "Disabled"
 msgstr ""
@@ -4849,10 +4849,10 @@ msgid "External IP"
 msgstr ""
 
 msgid "CPUs"
-msgstr ""
+msgstr "CPUs"
 
 msgid "Memory"
-msgstr ""
+msgstr "Memory"
 
 msgid "Start"
 msgstr ""
@@ -5623,7 +5623,7 @@ msgid "None!"
 msgstr ""
 
 msgid "Last Report"
-msgstr ""
+msgstr "Last Report"
 
 msgid "<b>Foreman</b> Puppet summary"
 msgstr ""
@@ -5735,13 +5735,13 @@ msgid "Boot device"
 msgstr ""
 
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 msgid "Netmask"
 msgstr ""
 
 msgid "MAC"
-msgstr ""
+msgstr "MAC"
 
 msgid "Gateway"
 msgstr ""
@@ -5852,7 +5852,7 @@ msgid "items selected. Uncheck to Clear"
 msgstr "items selected. Uncheck to Clear"
 
 msgid "Last report"
-msgstr ""
+msgstr "Last report"
 
 msgid "Please Confirm"
 msgstr "Please Confirm"
