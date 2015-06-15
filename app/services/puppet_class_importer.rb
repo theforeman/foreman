@@ -88,7 +88,7 @@ class PuppetClassImporter
     return [] unless db_environments.include?(environment) && actual_environments.include?(environment)
     HashWithIndifferentAccess[
       db_classes(environment).map do |db_class|
-        params = EnvironmentClass.all_parameters_for_class(db_class.id, find_or_create_env(environment).id).map(&:lookup_key)
+        params = EnvironmentClass.all_parameters_for_class(db_class.id, find_or_create_env(environment).id).map(&:puppetclass_lookup_key)
         compare_classes(environment, db_class.name, params)
       end.compact
     ]
@@ -274,8 +274,8 @@ class PuppetClassImporter
 
   def find_or_create_puppet_class_param(klass, param_name, value)
     klass.class_params.where(:key => param_name).first ||
-      LookupKey.create!(:key            => param_name, :is_param => true,
-                        :required       => value.nil?, :override => value.nil?, :default_value => value,
-                        :key_type => Foreman::ImporterPuppetclass.suggest_key_type(value))
+      PuppetclassLookupKey.create!(:key => param_name, :required => value.nil?,
+                                   :override => value.nil?, :default_value => value,
+                                   :key_type => Foreman::ImporterPuppetclass.suggest_key_type(value))
   end
 end

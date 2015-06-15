@@ -4,7 +4,7 @@
       <tr class="form-group <%= 'error' if f.object.errors.any? %>">
         <td class="col-md-3">
           <%= f.hidden_field :lookup_key_id, :'data-property' => 'lookup_key_id' %>
-          <% puppetclass = f.object.lookup_key ? f.object.lookup_key.puppetclass || f.object.lookup_key.param_class : nil %>
+          <% puppetclass = f.object.lookup_key ? f.object.lookup_key.param_class : nil %>
           <%= text_field_tag '', (puppetclass.name rescue ''), :class => 'form-control', :'data-property' => 'class', :disabled => true, :title => _('Puppetclass') %>
         </td>
         <td class="col-md-2">

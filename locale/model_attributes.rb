@@ -265,31 +265,59 @@ _('KeyPair|Secret')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Lookup key')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Avoid duplicates')
+_('Variable lookup key')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Default value')
+_('VariableLookupKey|Avoid duplicates')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Description')
+_('VariableLookupKey|Default value')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Is param')
+_('VariableLookupKey|Description')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Key')
+_('VariableLookupKey|Is param')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Key type')
+_('VariableLookupKey|Key')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Lookup values count')
+_('VariableLookupKey|Key type')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Merge overrides')
+_('VariableLookupKey|Variable lookup values count')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Override')
+_('VariableLookupKey|Merge overrides')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Path')
+_('VariableLookupKey|Override')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Required')
+_('VariableLookupKey|Path')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Validator rule')
+_('VariableLookupKey|Required')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('LookupKey|Validator type')
+_('VariableLookupKey|Validator rule')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('VariableLookupKey|Validator type')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Puppetclass lookup key')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Avoid duplicates')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Default value')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Description')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Is param')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Key')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Key type')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Merge overrides')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Override')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Path')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Required')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Validator rule')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('PuppetclassLookupKey|Validator type')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Lookup value')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
