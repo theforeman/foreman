@@ -31,12 +31,40 @@ else
   end
 end
 
-SETTINGS[:libvirt]   = defined?(::Fog::Libvirt) && defined?(::Libvirt)
-SETTINGS[:ovirt]     = defined?(::Fog) && defined?(::OVIRT)
-SETTINGS[:vmware]    = defined?(::Fog) && defined?(::RbVmomi)
-SETTINGS[:gce]       = defined?(::Fog::Google) && defined?(::Google::APIClient::VERSION)
+# For standalone CR bundler groups, check that all dependencies are laoded
+SETTINGS[:libvirt]   = !!(defined?(::Fog::Libvirt) && defined?(::Libvirt))
+SETTINGS[:gce]       = !!(defined?(::Fog::Google) && defined?(::Google::APIClient::VERSION))
 SETTINGS[:ec2]       = !!defined?(::Fog::AWS)
-SETTINGS[:openstack] = SETTINGS[:rackspace] = !!defined?(::Fog)
+
+SETTINGS.merge! :openstack => false, :ovirt => false, :rackspace => false, :vmware => false
+
+# CRs in fog core with extra dependencies will have those deps loaded, so then
+# load the corresponding bit of fog
+if defined?(::OVIRT)
+  require 'fog/ovirt'
+  SETTINGS[:ovirt] = Fog::Compute.providers.include?(:ovirt)
+end
+
+if defined?(::RbVmomi)
+  require 'fog/vsphere'
+  SETTINGS[:vmware] = Fog::Compute.providers.include?(:vsphere)
+end
+
+# CRs in fog core need to be loaded to find out if they're present as
+# bundler is configured not to load fog
+begin
+  require 'fog/openstack'
+  SETTINGS[:openstack] = Fog::Compute.providers.include?(:openstack)
+rescue LoadError
+  # ignore as the fog group is missing
+end
+
+begin
+  require 'fog/rackspace'
+  SETTINGS[:rackspace] = Fog::Compute.providers.include?(:rackspace)
+rescue LoadError
+  # ignore as the fog group is missing
+end
 
 require File.expand_path('../../lib/foreman.rb', __FILE__)
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
