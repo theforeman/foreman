@@ -14,64 +14,38 @@ class LookupKey < ActiveRecord::Base
 
   serialize :default_value
 
-  belongs_to :puppetclass, :inverse_of => :lookup_keys, :counter_cache => true
-  has_many :environment_classes, :dependent => :destroy
-  has_many :environments, :through => :environment_classes, :uniq => true
-  has_many :param_classes, :through => :environment_classes, :source => :puppetclass
-  def param_class
-    param_classes.first
-  end
-
-  def audit_class
-    param_class || puppetclass
-  end
-
   has_many :lookup_values, :dependent => :destroy, :inverse_of => :lookup_key
   accepts_nested_attributes_for :lookup_values,
                                 :reject_if => :reject_invalid_lookup_values,
                                 :allow_destroy => true
 
-  before_validation :cast_default_value, :unless => Proc.new{|p| p.use_puppet_default }
-  validates :key, :uniqueness => {:scope => :is_param }, :unless => Proc.new{|p| p.is_param?}
+  before_validation :cast_default_value
 
   validates :key, :presence => true
-  validates :puppetclass, :presence => true, :unless => Proc.new {|k| k.is_param?}
   validates :validator_type, :inclusion => { :in => VALIDATOR_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validates :key_type, :inclusion => {:in => KEY_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validate :validate_default_value
   validates_associated :lookup_values
-  validate :ensure_type, :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default
+  validate :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default
 
   before_save :sanitize_path
   attr_name :key
 
-  scoped_search :on => :key, :complete_value => true, :default_order => true
-  scoped_search :on => :lookup_values_count, :rename => :values_count
-  scoped_search :on => :override, :complete_value => {:true => true, :false => false}
-  scoped_search :on => :merge_overrides, :complete_value => {:true => true, :false => false}
-  scoped_search :on => :merge_default, :complete_value => {:true => true, :false => false}
-  scoped_search :on => :avoid_duplicates, :complete_value => {:true => true, :false => false}
-  scoped_search :in => :param_classes, :on => :name, :rename => :puppetclass, :complete_value => true
-  scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
+  def self.inherited(child)
+    child.instance_eval do
+      scoped_search :on => :key, :complete_value => true, :default_order => true
+      scoped_search :on => :lookup_values_count, :rename => :values_count
+      scoped_search :on => :override, :complete_value => {:true => true, :false => false}
+      scoped_search :on => :merge_overrides, :complete_value => {:true => true, :false => false}
+      scoped_search :on => :merge_default, :complete_value => {:true => true, :false => false}
+      scoped_search :on => :avoid_duplicates, :complete_value => {:true => true, :false => false}
+      scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
+    end
+  end
 
   default_scope -> { order('lookup_keys.key') }
 
   scope :override, -> { where(:override => true) }
-
-  scope :smart_class_parameters_for_class, lambda { |puppetclass_ids, environment_id|
-    joins(:environment_classes).where(:environment_classes => {:puppetclass_id => puppetclass_ids, :environment_id => environment_id})
-  }
-
-  scope :parameters_for_class, lambda { |puppetclass_ids, environment_id|
-    override.smart_class_parameters_for_class(puppetclass_ids,environment_id)
-  }
-
-  scope :global_parameters_for_class, lambda { |puppetclass_ids|
-    where(:puppetclass_id => puppetclass_ids)
-  }
-
-  scope :smart_variables, -> { where('lookup_keys.puppetclass_id > 0').readonly(false) }
-  scope :smart_class_parameters, -> { where(:is_param => true).joins(:environment_classes).readonly(false) }
 
   # new methods for API instead of revealing db names
   alias_attribute :parameter, :key
@@ -88,16 +62,12 @@ class LookupKey < ActiveRecord::Base
     nil
   end
 
+  def audit_class
+    self
+  end
+
   def to_label
     "#{audit_class}::#{key}"
-  end
-
-  def is_smart_variable?
-    puppetclass_id.to_i > 0
-  end
-
-  def is_smart_class_parameter?
-    is_param? && environment_classes.any?
   end
 
   def supports_merge?
@@ -172,6 +142,10 @@ class LookupKey < ActiveRecord::Base
     lookup_values.find_by_match(host.send(:lookup_value_match)).present?
   end
 
+  def puppet?
+    false
+  end
+
   private
 
   # Generate possible lookup values type matches to a given host
@@ -229,12 +203,6 @@ class LookupKey < ActiveRecord::Base
       JSON.load value
     rescue
       YAML.load value
-    end
-  end
-
-  def ensure_type
-    if puppetclass_id.present? and is_param?
-      self.errors.add(:base, _('Global variable or class Parameter, not both'))
     end
   end
 

@@ -13,7 +13,7 @@ module Classification
     protected
 
     def class_parameters
-      @keys ||= LookupKey.global_parameters_for_class(puppetclass_ids)
+      @keys ||= VariableLookupKey.global_parameters_for_class(puppetclass_ids)
     end
   end
 end

@@ -7,50 +7,50 @@
 one:
   puppetclass: one
   environment: production
-  lookup_key_id: nil
+  puppetclass_lookup_key: nil
 
 two:
   puppetclass: one
   environment: production
-  lookup_key: complex
+  puppetclass_lookup_key: complex
 
 three:
   puppetclass: two
   environment: production
-  lookup_key: five
+  puppetclass_lookup_key: five
 
 four:
   puppetclass: four
   environment: production
-  lookup_key: five_same_same
+  puppetclass_lookup_key: five_same_same
 
 five:
   puppetclass: three
   environment: testing
-  lookup_key_id: nil
+  puppetclass_lookup_key: nil
 
 five_production:
   puppetclass: five
   environment: production
-  lookup_key_id: nil
+  puppetclass_lookup_key: nil
 
 six_production:
   puppetclass: six
   environment: production
-  lookup_key_id: nil
+  puppetclass_lookup_key: nil
 
 seven_production:
   puppetclass: seven
   environment: production
-  lookup_key_id: nil
+  puppetclass_lookup_key: nil
 
 eight_production:
   puppetclass: eight
   environment: production
-  lookup_key_id: nil
+  puppetclass_lookup_key: nil
 
 nine:
   puppetclass: three
   environment: global_puppetmaster
-  lookup_key_id: nil
+  puppetclass_lookup_key: nil
   
