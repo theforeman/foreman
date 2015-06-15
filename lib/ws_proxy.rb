@@ -50,7 +50,7 @@ class WsProxy
       # fallback just in case of race condition
       port += 1
       if port >= PORTS.last
-        raise ::Foreman::Exception, _('No free ports for websockify, try later')
+        raise ::Foreman::Exception.new(N_('No free ports available for websockify, try again later'))
       else
         retry
       end
