@@ -1,6 +1,6 @@
 desc 'Apipie cache specific tasks'
 namespace :apipie do
-  desc 'Generate cache index'
+  desc 'Generate cache index for all langs (override with FOREMAN_APIPIE_LANGS envvar)'
   task 'cache:index' do |t, args|
     ENV['cache_part'] = 'index'
     Rake::Task['apipie:cache'].invoke
