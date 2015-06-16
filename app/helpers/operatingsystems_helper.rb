@@ -34,6 +34,8 @@ module OperatingsystemsHelper
       "OracleLinux"
     when /CoreOS/i
       "CoreOS"
+    when /NXOS/i
+      "NXOS"
     else
       return "" if record.family.blank?
       record.family
