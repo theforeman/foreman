@@ -312,6 +312,14 @@ class UserTest < ActiveSupport::TestCase
     assert record.save
   end
 
+  test "user cannot set admin password" do
+    setup_user "edit"
+    record = users(:admin)
+    record.password = "123332211"
+    assert_not record.valid?
+    assert_includes record.errors.keys, :password
+  end
+
   test "should be able to remove the admin flag when another admin exists" do
     u = FactoryGirl.create(:user, :with_mail, :admin => true)
     u.admin = false
