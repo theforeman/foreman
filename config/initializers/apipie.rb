@@ -11,7 +11,7 @@ Apipie.configure do |config|
   config.doc_base_url = "/apidoc"
   config.use_cache = Rails.env.production? || File.directory?(config.cache_dir)
   # config.languages = [] # turn off localized API docs and CLI, useful for development
-  config.languages = FastGettext.available_locales # generate API docs for all available locales
+  config.languages = ENV['FOREMAN_APIPIE_LANGS'].try(:split, ' ') || FastGettext.available_locales
   config.default_locale = FastGettext.default_locale
   config.locale = lambda { |loc| loc ? FastGettext.set_locale(loc) : FastGettext.locale }
 
