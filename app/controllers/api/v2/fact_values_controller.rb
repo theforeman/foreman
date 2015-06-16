@@ -8,7 +8,12 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        values = resource_scope_for_index.includes(:fact_name, :host)
+        values = FactValue.
+          authorized(:view_facts).
+          my_facts.
+          no_timestamp_facts.
+          search_for(*search_options).paginate(paginate_options).
+          includes(:fact_name, :host)
         @fact_values = FactValue.build_facts_hash(values.all)
       end
     end
