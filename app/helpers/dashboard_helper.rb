@@ -33,6 +33,8 @@ module DashboardHelper
 
   def render_widget(widget)
     render(:partial => widget.template, :locals => widget.data)
+  rescue ActionView::MissingTemplate
+    ::Foreman::Exception.new(N_("Missing template '%{template}' for widget '%{widget}'."), :widget => _(widget.name), :template => widget.template)
   end
 
   def widget_data(widget)
