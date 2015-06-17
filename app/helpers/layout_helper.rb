@@ -220,7 +220,8 @@ module LayoutHelper
     content_tag(:div, :class => "clearfix") do
       content_tag(:div, :class => "form-actions") do
         text    = overwrite ? _("Overwrite") : _("Submit")
-        options = overwrite ? {:class => "btn btn-danger"} : {:class => "btn btn-primary"}
+        options = {}
+        options[:class] = "btn btn-#{overwrite ? 'danger' : 'primary'} remove_form_templates"
         options.merge! :'data-id' => form_to_submit_id(f) unless options.has_key?(:'data-id')
         link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " +
             f.submit(text, options)

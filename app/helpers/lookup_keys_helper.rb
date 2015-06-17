@@ -21,7 +21,7 @@ module LookupKeysHelper
     options[:form_builder_local] ||= :f
     options[:form_builder_attrs] ||= {}
 
-    content_tag(:div, :class => "#{association}_fields_template", :style => "display: none;") do
+    content_tag(:div, :class => "#{association}_fields_template form_template", :style => "display: none;") do
       form_builder.fields_for(association, options[:object], :child_index => "new_#{association}") do |f|
         render(:partial => options[:partial],
                :layout => options[:layout],
