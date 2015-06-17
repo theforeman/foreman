@@ -37,10 +37,6 @@ class ComputeAttribute < ActiveRecord::Base
 
   def attribute_values(attr_name)
     attr_key = "#{attr_name}_attributes"
-    if vm_attrs[attr_key]
-      vm_attrs[attr_key].select { |k,v| k.to_s != "new_#{attr_name}" }.values
-    else
-      []
-    end
+    vm_attrs[attr_key].try(:values) || []
   end
 end

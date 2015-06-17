@@ -120,6 +120,9 @@ function onContentLoad(){
   $('select').select2();
   $("#new_lookup_keys_ select").select2('destroy');
 
+  $('input.remove_form_templates').closest('form').submit(function(event) {
+    $(this).find('.form_template').remove()
+  })
 }
 
 function preserve_selected_options(elem) {
