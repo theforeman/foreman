@@ -14,12 +14,16 @@ child :architectures do
   extends "api/v2/architectures/base"
 end
 
-child :ptables do
+child :ptables => :ptables do
   extends "api/v2/ptables/base"
 end
 
-child :config_templates do
+child :provisioning_templates => :config_templates do
   extends "api/v2/config_templates/base"
+end
+
+child :provisioning_templates => :provisioning_templates do
+  extends "api/v2/provisioning_templates/base"
 end
 
 child :os_default_templates do
