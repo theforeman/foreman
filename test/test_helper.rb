@@ -36,7 +36,6 @@ Spork.prefork do
   Foreman::Plugin.register :skip_test do
     tests_to_skip "CustomRunnerTest" => [ "custom runner is working" ]
   end
-  require 'test_runner'
 
   # Turn of Apipie validation for tests
   Apipie.configuration.validate = false
