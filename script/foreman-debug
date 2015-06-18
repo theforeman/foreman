@@ -5,6 +5,7 @@ export LC_ALL=C
 export SCLNAME=ruby193
 
 usage() {
+[[ $UPLOAD_DISABLED -ne 0 ]] && UPLOAD_INFO=" (feature disabled by configuration)"
 cat <<USAGE
 $0 - configuration and log data collector
 
@@ -13,10 +14,6 @@ USAGE: $0 [options]
 Collects configuration and log data for Foreman, Smart Proxies, backend
 services and system information while removing security information like
 passwords, tokens and keys.
-
-You may want to upload the tarball (with -u) to our public server via rsync.
-This is a write-only directory (readable only by Foreman core developers)
-Please note that the rsync transmission is UNENCRYPTED.
 
 This program can be used on Foreman instances, Smart Proxy instances or
 backend services separately.
@@ -30,10 +27,16 @@ OPTIONS:
   -p      Additionally print password patterns being filtered out
   -q      Quiet mode
   -v      Verbose mode
-  -u      Upload tarball (default: false)
+  -u      Upload tarball$UPLOAD_INFO
   -h      Shows this message
 
 USAGE
+[[ $UPLOAD_DISABLED -eq 0 ]] && cat <<UPLOADUSAGE
+You may want to upload the tarball (with -u) to our public server via rsync.
+This is a write-only directory (readable only by Foreman core developers)
+Please note that the rsync transmission is UNENCRYPTED.
+
+UPLOADUSAGE
 }
 
 # filter for patterns like password=XYZ or secret: abc!@#$123
@@ -89,11 +92,7 @@ add_files() {
   done
 }
 
-# when running via sosreport close STDIN - http://projects.theforeman.org/issues/4200
-if ps -p $PPID | grep -q sosreport; then
-  exec 0</dev/null
-fi
-
+# default values
 DIR=""
 NOGENERIC=0
 NOTAR=0
@@ -104,6 +103,7 @@ QUIET=0
 VERBOSE=0
 DEBUG=0
 UPLOAD=0
+UPLOAD_DISABLED=0
 
 if type -p xz >/dev/null; then
   COMPRESS="xz -9"
@@ -118,6 +118,10 @@ else
   COMPRESS="cat"
   EXTENSION=""
 fi
+
+# read optional configuration file with user-defined defaults
+CONF_FILE=/usr/share/foreman/config/foreman-debug.conf
+test -f $CONF_FILE && source $CONF_FILE
 
 while getopts "d:gam:j:uqpvhx" opt; do
   case $opt in
@@ -303,12 +307,12 @@ else
 fi
 
 # upload if -u was passed in
-if [ $UPLOAD -eq 1 ]; then
+if [ $UPLOAD_DISABLED -eq 0 -a $UPLOAD -eq 1 ]; then
   qprintf "Uploading...\n"
   rsync $TARBALL rsync://theforeman.org/debug-incoming
   qprintf "The tarball has been uploaded, please contact us on our mailing list or IRC\n"
-  qprintf "referencing the following URL:\n"
-  qprintf "    http://debugs.theforeman.org/$(basename $TARBALL)\n"
+  qprintf "referencing the following URL:\n\n"
+  qprintf "    http://debugs.theforeman.org/$(basename $TARBALL)\n\n"
 else
-  qprintf "To upload a tarball to our secure site, please use the -u option.\n"
+  [[ $UPLOAD_DISABLED -eq 0 ]] && qprintf "To upload a tarball to our secure site, please use the -u option.\n"
 fi
