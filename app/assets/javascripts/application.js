@@ -18,6 +18,7 @@
 //= require jquery.gridster
 //= require hidden_values
 //= require select_on_click
+//= require select2
 
 $(document).on('ContentLoad', function(){onContentLoad()});
 Turbolinks.enableProgressBar();
@@ -116,6 +117,9 @@ function onContentLoad(){
   $.cookie('timezone', tz.name(), { path: '/', secure: location.protocol === 'https:' });
 
   $('.full-value').SelectOnClick();
+  $('select').select2();
+  $("#new_lookup_keys_ select").select2('destroy');
+
 }
 
 function preserve_selected_options(elem) {
@@ -234,6 +238,7 @@ function template_info(div, url) {
     data: form,
     success: function(response, status, xhr) {
       $(div).html(response);
+      $('select').select2();
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $(div).html('<div class="alert alert-warning alert-dismissable">' +
@@ -326,8 +331,15 @@ function attribute_hash(attributes){
         $("*[id*="+attributes[i]+"]:checked").each(function(index,item){
           attrs[attributes[i]].push($(item).val());
         })
-      }else{
-        if (attr.val() != null) attrs[attributes[i]] = attr.val();
+      } else {
+        if (attr.length > 1) {
+          // select2 adds a div, so now we have a select && div
+          attrs[attributes[i]] = $($.grep(attr, function(a) {
+            return $(a).is("select");
+          })).val();
+        } else {
+          if (attr.val() != null) attrs[attributes[i]] = attr.val();
+        }
       }
     }
   }
@@ -375,7 +387,7 @@ function update_puppetclasses(element) {
       $('[rel="twipsy"]').tooltip();
     },
     complete: function() {
-      $(element).indicator_hide();
+      reloadOnAjaxComplete(element);
     }
   })
 }
@@ -430,6 +442,12 @@ function setPowerState(item, status){
   }
   power_actions.hide();
   $('[rel="twipsy"]').tooltip();
+}
+
+function reloadOnAjaxComplete(element) {
+  $(element).indicator_hide();
+  $('[rel="twipsy"]').tooltip();
+  $('select').select2();
 }
 
 function set_fullscreen(element){

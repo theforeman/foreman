@@ -274,7 +274,9 @@ function architecture_selected(element){
     data: attrs,
     type:'post',
     url: url,
-    complete: function(){  $(element).indicator_hide();},
+    complete: function(){
+      reloadOnAjaxComplete(element);
+    },
     success: function(request) {
       $('#os_select').html(request);
     }
@@ -289,7 +291,9 @@ function os_selected(element){
     data: attrs,
     type:'post',
     url: url,
-    complete: function(){  $(element).indicator_hide();},
+    complete: function(){
+      reloadOnAjaxComplete(element);
+    },
     success: function(request) {
       $('#media_select').html(request);
       reload_host_params();
@@ -543,7 +547,7 @@ function interface_domain_selected(element) {
         subnet_options.append($("<option />").text(__('No subnets')));
         subnet_options.attr('disabled', true);
       }
-      $(element).indicator_hide();
+      reloadOnAjaxComplete(element);
     }
   });
 }
@@ -629,6 +633,7 @@ function interface_type_selected(element) {
   request.done(function() {
     password_caps_lock_hint();
     $("#interfaceModal").find('a[rel="popover-modal"]').popover({html: true});
+    $('select').select2();
   });
 }
 
