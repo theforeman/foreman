@@ -27,7 +27,7 @@
             display_link_if_authorized(_("Edit"), hash_for_edit_taxonomy_path(taxonomy) ),
             display_link_if_authorized(_("Nest"), hash_for_nest_taxonomy_path(taxonomy) ),
             display_link_if_authorized(_("Clone"), hash_for_clone_taxonomy_path(taxonomy) ),
-            display_delete_if_authorized(hash_for_taxonomy_path(taxonomy), :confirm => _("Delete %s?") % taxonomy.name, :action => :destroy),
+            display_delete_if_authorized(hash_for_taxonomy_path(taxonomy), :data => { :confirm => _("Delete %s?") % taxonomy.name }, :action => :destroy),
             (link_to((_("Select hosts to assign to %s") % taxonomy.name), assign_hosts_taxonomy_path(taxonomy)) if @count_nil_hosts > 0),
             (link_to(n_("Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}", "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}", @count_nil_hosts) % {:count => @count_nil_hosts, :taxonomy_single => taxonomy_single, :taxonomy_name => taxonomy.name}  ,
                 assign_all_hosts_taxonomy_path(taxonomy),

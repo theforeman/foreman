@@ -27,7 +27,7 @@
         <td><%=h last_login_on_column(user)%></td>
         <td><%=h auth_source_column(user)%></td>
         <td><%= display_delete_if_authorized hash_for_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer),
-                                             :confirm => _("Delete %s?") % user.name %></td>
+          :data => { :confirm => _("Delete %s?") % user.name } %></td>
       </tr>
     <% end %>
   </tbody>

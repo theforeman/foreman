@@ -18,7 +18,7 @@
         <td class="display-two-pane"><%= link_to_if_authorized trunc_with_tooltip(puppet_class), hash_for_edit_puppetclass_path(:id => puppet_class).merge(:auth_object => puppet_class, :authorizer => @puppetclass_authorizer) if puppet_class %></td>
         <td><%=h lookup_key.lookup_values_count %></td>
         <td><%= display_delete_if_authorized hash_for_lookup_key_path(:id => lookup_key).merge(:auth_object => lookup_key, :permission => 'destroy_external_variables', :authorizer => authorizer),
-                                           :confirm => _("Delete %s?") % lookup_key.key %></td>
+          :data => { :confirm => _("Delete %s?") % lookup_key.key } %></td>
       </tr>
     <% end %>
   </tbody>

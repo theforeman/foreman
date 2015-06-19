@@ -20,7 +20,7 @@
         <td><%= image.uuid %></td>
         <td><%= image.user_data? ? _("Enabled") : _("Disabled") %></td>
         <td><%= action_buttons(link_to(_('Edit'), edit_compute_resource_image_path(@compute_resource, image)),
-       link_to(_('Destroy'), [@compute_resource, image], :confirm => _('Are you sure?'), :method => :delete)) %></td>
+                               link_to(_('Destroy'), [@compute_resource, image], :data => { :confirm => _('Are you sure?') }, :method => :delete)) %></td>
       </tr>
     <% end %>
   </tbody>

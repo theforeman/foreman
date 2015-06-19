@@ -24,6 +24,10 @@ module ApplicationHelper
         end
         html_options.merge!(:'data-id' => "aid_#{id}")
       end
+      if html_options[:confirm]
+        html_options[:data] ||= {}
+        html_options[:data][:confirm] = html_options.delete(:confirm)
+      end
       super(args[0], args[1], html_options)
     end
   end
@@ -148,7 +152,7 @@ module ApplicationHelper
 
   def display_delete_if_authorized(options = {}, html_options = {})
     options = {:auth_action => :destroy}.merge(options)
-    html_options = {:confirm => _('Are you sure?'), :method => :delete, :class => 'delete'}.merge(html_options)
+    html_options = { :data => { :confirm => _('Are you sure?') }, :method => :delete, :class => 'delete' }.merge(html_options)
     display_link_if_authorized(_("Delete"), options, html_options)
   end
 
