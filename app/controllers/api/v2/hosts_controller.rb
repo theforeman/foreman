@@ -134,7 +134,7 @@ Return the host's compute attributes that can be used to create a clone of this 
 
       def vm_compute_attributes
         render :json => {} unless @host
-        attrs = @host.vm_compute_attributes
+        attrs = @host.vm_compute_attributes || {}
         safe_attrs = {}
         attrs.each_pair do |k,v|
           # clean up the compute attributes to be suitable for output
@@ -146,7 +146,7 @@ Return the host's compute attributes that can be used to create a clone of this 
             safe_attrs[k] = v
           end
         end
-        render :json => { :compute_attributes => safe_attrs }
+        render :json => safe_attrs
       end
 
       api :PUT, "/hosts/:id/puppetrun", N_("Force a Puppet agent run on the host")
