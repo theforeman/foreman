@@ -16,7 +16,7 @@
         <td><%= action_buttons(
                   display_link_if_authorized(_('Edit'), hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer, :auth_action => 'edit')),
                   display_link_if_authorized(_('Rename'), hash_for_edit_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer)),
-                  display_delete_if_authorized(hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer), :confirm => _('Delete %s?') % compute_profile.name))%>
+                  display_delete_if_authorized(hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer), :data => { :confirm => _('Delete %s?') % compute_profile.name }))%>
         </td>
       </tr>
     <% end %>

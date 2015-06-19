@@ -22,8 +22,9 @@
         <td><%= lookup_family(medium.os_family) %></td>
         <td><%= medium.operatingsystems.map(&:to_label).to_sentence %></td>
         <td>
-          <%= display_delete_if_authorized hash_for_medium_path(:id => medium).merge(:auth_object => medium, :authorizer => authorizer),
-                                           :confirm => _("Delete %s?") % medium.name %>
+          <%= display_delete_if_authorized hash_for_medium_path(:id => medium).
+            merge(:auth_object => medium, :authorizer => authorizer),
+            :data => { :confirm => _("Delete %s?") % medium.name } %>
         </td>
       </tr>
     <% end %>

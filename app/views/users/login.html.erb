@@ -25,7 +25,7 @@
           </div>
           <div class="form-group">
             <div class="col-xs-offset-8 col-xs-4 submit">
-              <%= submit_tag(_("Login").html_safe, :class => "btn btn-primary", :disable_with => _("Please wait...")) %>
+              <%= submit_tag(_("Login").html_safe, :class => "btn btn-primary", :data => { :disable_with => _("Please wait...") }) %>
             </div>
           </div>
       <% end %>

@@ -23,7 +23,7 @@
         <td><%=subnet.vlanid %></td>
         <td><%=subnet.dhcp %></td>
         <td align="right">
-          <%= display_delete_if_authorized hash_for_subnet_path(:id => subnet).merge(:auth_object => subnet, :authorizer => authorizer), :confirm => _("Delete %s?") % subnet.name %>
+          <%= display_delete_if_authorized hash_for_subnet_path(:id => subnet).merge(:auth_object => subnet, :authorizer => authorizer), :data => { :confirm => _("Delete %s?") % subnet.name } %>
         </td>
       </tr>
     <% end %>

@@ -39,7 +39,7 @@
                             merge(:auth_object => filter, :authorizer => authorizer)),
                     display_delete_if_authorized(hash_for_filter_path(:id => filter, :role_id => @role).
                                                          merge(:auth_object => filter, :authorizer => authorizer),
-                                                 :confirm => (_("Delete filter?")))
+                                                         :data => { :confirm => (_("Delete filter?")) } )
             )
         %>
         </td>

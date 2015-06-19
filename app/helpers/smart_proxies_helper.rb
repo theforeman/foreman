@@ -14,6 +14,6 @@ module SmartProxiesHelper
      display_link_if_authorized(_("Refresh features"), hash_for_refresh_smart_proxy_path(:id => proxy).
                                merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => authorizer), :method => :put),
 
-     display_delete_if_authorized(hash_for_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer), :confirm => _("Delete %s?") % proxy.name)]
+     display_delete_if_authorized(hash_for_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer), :data => { :confirm => _("Delete %s?") % proxy.name })]
   end
 end

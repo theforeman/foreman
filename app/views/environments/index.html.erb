@@ -20,7 +20,7 @@
         <td>
           <%= action_buttons(link_to(_('Classes'), puppetclasses_path(:search => "environment = #{environment}")),
                              import_proxy_links(hash_for_import_environments_environments_path(:env => environment)),
-                             display_delete_if_authorized(hash_for_environment_path(:id => environment).merge(:auth_object => environment, :authorizer => authorizer), :confirm => "Delete #{environment.name}?")) %>
+                             display_delete_if_authorized(hash_for_environment_path(:id => environment).merge(:auth_object => environment, :authorizer => authorizer), :data => { :confirm => "Delete #{environment.name}?" })) %>
         </td>
       </tr>
     <% end %>
