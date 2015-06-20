@@ -2,6 +2,7 @@ module Api::V2::TaxonomiesController
   extend ActiveSupport::Concern
 
   included do
+    before_filter :rename_config_template, :only => %w{update create}
     before_filter :find_optional_nested_object
     before_filter :find_taxonomy, :only => %w(show update destroy settings
                                               domain_ids subnet_ids hostgroup_ids config_template_ids compute_resource_ids
@@ -19,7 +20,8 @@ module Api::V2::TaxonomiesController
       param :smart_proxy_ids, Array, N_("Smart proxy IDs"), :required => false
       param :compute_resource_ids, Array, N_("Compute resource IDs"), :required => false
       param :media_ids, Array, N_("Media IDs"), :required => false
-      param :config_template_ids, Array, N_("Provisioning template IDs"), :required => false
+      param :config_template_ids, Array, N_("Provisioning template IDs"), :required => false # FIXME: deprecated
+      param :provisioning_template_ids, Array, N_("Provisioning template IDs"), :required => false
       param :domain_ids, Array, N_("Domain IDs"), :required => false
       param :realm_ids, Array, N_("Realm IDs"), :required => false
       param :hostgroup_ids, Array, N_("Host group IDs"), :required => false
@@ -53,7 +55,7 @@ module Api::V2::TaxonomiesController
   api :POST, '/:resource_id', N_('Create :a_resource')
   param_group :resource, :as => :create
   def create
-    @taxonomy = taxonomy_class.new(params[taxonomy_single.to_sym])
+    @taxonomy = taxonomy_class.new(params[taxonomy_single])
     instance_variable_set("@#{taxonomy_single}", @taxonomy)
     process_response @taxonomy.save
   end
@@ -64,7 +66,7 @@ module Api::V2::TaxonomiesController
     # NOTE - if not ! and invalid, the error is undefined method `permission_failed?' for #<Location:0x7fe38c1d3ec8> (NoMethodError)
     # removed process_response & added explicit render 'api/v2/taxonomies/update'.  Otherwise, *_ids are not returned
 
-    process_response  @taxonomy.update_attributes(params[taxonomy_single.to_sym])
+    process_response  @taxonomy.update_attributes(params[taxonomy_single])
   end
 
   api :DELETE, '/:resource_id/:id', N_('Delete :a_resource')
@@ -76,12 +78,19 @@ module Api::V2::TaxonomiesController
 
   private
 
+  def rename_config_template
+    if params[taxonomy_single] && params[taxonomy_single][:config_template_ids].present?
+      params[taxonomy_single][:provisioning_template_ids] = params[taxonomy_single].delete(:config_template_ids)
+      ::ActiveSupport::Deprecation.warn('Config templates were renamed to provisioning templates')
+    end
+  end
+
   def params_match_database
     # change params[:select_all_types] to params[:ignore_types] to match database
-    if params[taxonomy_single.to_sym].try(:[], :select_all_types)
-      params[taxonomy_single.to_sym][:ignore_types] = params[taxonomy_single.to_sym][:select_all_types]
-      params[taxonomy_single.to_sym]                = params[taxonomy_single.to_sym].reject { |k, v| k == "select_all_types" }
-      return params[taxonomy_single.to_sym]
+    if params[taxonomy_single].try(:[], :select_all_types)
+      params[taxonomy_single][:ignore_types] = params[taxonomy_single][:select_all_types]
+      params[taxonomy_single]                = params[taxonomy_single].reject { |k, v| k == "select_all_types" }
+      return params[taxonomy_single]
     end
   end
 
