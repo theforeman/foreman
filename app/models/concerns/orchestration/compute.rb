@@ -82,6 +82,10 @@ module Orchestration::Compute
     Setting[:use_shortname_for_vms] ? shortname : name
   end
 
+  def vm_name
+    Setting[:use_shortname_for_vms] ? shortname : name
+  end
+
   def setUserData
     logger.info "Rendering UserData template for #{name}"
     template   = provisioning_template(:kind => "user_data")
