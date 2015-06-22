@@ -5,6 +5,7 @@ module Nic
     before_validation { |nic| nic.provider.upcase! }
     validates :provider, :presence => true, :inclusion => { :in => PROVIDERS }
     validates :mac, :presence => true, :if => :managed?
+    validate :validate_bmc_proxy
 
     def virtual
       false
@@ -14,10 +15,7 @@ module Nic
     register_to_enc_transformation :type, lambda { |type| type.constantize.humanized_name }
 
     def proxy
-      if subnet.present?
-        proxy = subnet.proxies.find { |subnet_proxy| subnet_proxy.has_feature?('BMC') }
-      end
-      proxy ||= SmartProxy.with_features("BMC").first
+      proxy = bmc_proxy
       raise Foreman::Exception.new(N_('Unable to find a proxy with BMC feature')) if proxy.nil?
       ProxyAPI::BMC.new({ :host_ip  => ip,
                           :url      => proxy.url,
@@ -38,6 +36,24 @@ module Nic
 
     def enc_attributes
       @enc_attributes ||= (super + %w(username password provider))
+    end
+
+    private
+
+    def bmc_proxy
+      if subnet.present?
+        proxy = subnet.proxies.find { |subnet_proxy| subnet_proxy.has_feature?('BMC') }
+      end
+      proxy ||= SmartProxy.unscoped.with_features("BMC").first
+      proxy
+    end
+
+    def validate_bmc_proxy
+      return true unless managed?
+      return true if host && !host_managed?
+      unless bmc_proxy
+        errors.add(:type, N_('There is no proxy with BMC feature set up. Please register a smart proxy with this feature.'))
+      end
     end
   end
 
