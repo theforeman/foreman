@@ -66,7 +66,8 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test "provision interface DHCP records should contain filename/next-server attributes" do
     ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
-    h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_orchestration)
+    subnet = FactoryGirl.build(:subnet, :dhcp, :tftp)
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_orchestration, :subnet => subnet)
     assert_equal 'pxelinux.0', h.provision_interface.dhcp_record.filename
     assert_equal '192.168.1.1', h.provision_interface.dhcp_record.nextServer
   end
