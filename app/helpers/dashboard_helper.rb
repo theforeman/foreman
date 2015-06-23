@@ -18,7 +18,8 @@ module DashboardHelper
   end
 
   def widget_data(widget)
-    {:data=>{:id => widget.id, :name => widget.name, :row => widget.row, :col => widget.col, :sizex=>widget.sizex, :sizey => widget.sizey, :hide=>widget.hide}}
+    { :data => { :id    => widget.id,    :name  => _(widget.name), :row  => widget.row, :col => widget.col,
+                 :sizex => widget.sizex, :sizey =>  widget.sizey,  :hide => widget.hide } }
   end
 
   def count_reports(hosts)
