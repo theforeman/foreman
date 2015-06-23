@@ -1,5 +1,6 @@
 class Image < ActiveRecord::Base
   include Authorizable
+  include ActiveModel::ForbiddenAttributesProtection
 
   audited :allow_mass_assignment => true
 

@@ -32,7 +32,8 @@ class Api::V2::ImagesControllerTest < ActionController::TestCase
   end
 
   test "should update image" do
-    put :update, { :compute_resource_id => images(:two).compute_resource_id, :id => images(:one).to_param, :image => { } }
+    put :update, { :compute_resource_id => images(:two).compute_resource_id, :id => images(:one).to_param,
+                   :image => { :name => 'foo' } }
     assert_response :success
   end
 
