@@ -117,7 +117,7 @@ function onContentLoad(){
   $.cookie('timezone', tz.name(), { path: '/', secure: location.protocol === 'https:' });
 
   $('.full-value').SelectOnClick();
-  $('select').select2();
+  $('select').select2({ allowClear: true });
   $("#new_lookup_keys_ select").select2('destroy');
 
   $('input.remove_form_templates').closest('form').submit(function(event) {
@@ -241,7 +241,7 @@ function template_info(div, url) {
     data: form,
     success: function(response, status, xhr) {
       $(div).html(response);
-      $('select').select2();
+      $('select').select2({ allowClear: true });
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $(div).html('<div class="alert alert-warning alert-dismissable">' +
@@ -450,7 +450,7 @@ function setPowerState(item, status){
 function reloadOnAjaxComplete(element) {
   $(element).indicator_hide();
   $('[rel="twipsy"]').tooltip();
-  $('select').select2();
+  $('select').select2({ allowClear: true });
 }
 
 function set_fullscreen(element){
