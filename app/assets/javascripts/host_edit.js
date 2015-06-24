@@ -633,7 +633,7 @@ function interface_type_selected(element) {
   request.done(function() {
     password_caps_lock_hint();
     $("#interfaceModal").find('a[rel="popover-modal"]').popover({html: true});
-    $('select').select2();
+    $('select').select2({ allowClear: true });
   });
 }
 
