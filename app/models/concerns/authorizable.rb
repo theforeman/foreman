@@ -32,14 +32,11 @@ module Authorizable
     #
     # Or you may simply use authorized for User.current
     #
-    # The default scope of `resource` is NOT applied since it's a join, instead
-    # any extra conditions can be given in `opts[:where]`.
-    #
-    scope :joins_authorized_as, Proc.new { |user, resource, permission, opts = {}|
+    scope :joins_authorized_as, Proc.new { |user, resource, permission|
       if user.nil?
         self.where('1=0')
       else
-        Authorizer.new(user).find_collection(resource, {:permission => permission, :joined_on => self}.merge(opts) )
+        Authorizer.new(user).find_collection(resource, :permission => permission, :joined_on => self)
       end
     }
 
@@ -66,8 +63,8 @@ module Authorizable
       authorized_as(User.current, permission, resource)
     end
 
-    def joins_authorized(resource, permission = nil, opts = {})
-      joins_authorized_as(User.current, resource, permission, opts)
+    def joins_authorized(resource, permission = nil)
+      joins_authorized_as(User.current, resource, permission)
     end
   end
 end
