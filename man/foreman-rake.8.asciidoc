@@ -22,21 +22,21 @@ foreman-rake --help
 DESCRIPTION
 -----------
 
-The foreman-rake is an utility which is a simple wrapper around the Ruby rake
-command. Normally, it calls rake command, but on environments with Software
+The foreman-rake command is a simple wrapper utility around the Ruby rake
+command. Normally, it calls the rake command, but on environments with Software
 Collections, it also enables the appropriate collection.
 
 Additionally, it does the following:
 
-- changes to foreman system account
-- changes working directory to foreman user's home directory
+- changes to the foreman system account
+- changes working directory to the foreman user's home directory
 - sets RAILS_ENV to production
-- executes rake command with or without SCL
+- executes the rake command with or without SCL
 
 OPTIONS
 -------
 
-Please refer to the rake documentation to find out supported options:
+Please refer to the rake documentation for information about supported options:
 
     foreman-rake -T
 
