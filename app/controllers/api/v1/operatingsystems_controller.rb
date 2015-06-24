@@ -5,6 +5,7 @@ module Api
         name 'Operating systems'
       end
 
+      before_filter :rename_config_templates, :only => %w{update create}
       before_filter :find_resource, :only => %w{show edit update destroy bootfiles}
 
       api :GET, "/operatingsystems/", "List all operating systems."
@@ -35,6 +36,8 @@ module Api
         param :family, String
         param :release_name, String
         param :password_hash, String, :desc => 'Root password hash function to use, one of MD5, SHA256, SHA512, Base64'
+        param :config_template_ids, Array, :desc => "IDs of associated provisioning templates" # FIXME: deprecated
+        param :provisioning_template_ids, Array, :desc => "IDs of associated provisioning templates"
       end
 
       def create
@@ -52,6 +55,8 @@ module Api
         param :family, String
         param :release_name, String
         param :password_hash, String, :desc => 'Root password hash function to use, one of MD5, SHA256, SHA512, Base64'
+        param :config_template_ids, Array, :desc => "IDs of associated provisioning templates" # FIXME: deprecated
+        param :provisioning_template_ids, Array, :desc => "IDs of associated provisioning templates"
       end
 
       def update
@@ -76,6 +81,15 @@ module Api
         render :json => @operatingsystem.pxe_files(medium, arch)
       rescue => e
         render :json => e.to_s, :status => :unprocessable_entity
+      end
+
+      private
+
+      def rename_config_templates
+        if params[:operatingsystem] && params[:operatingsystem][:config_template_ids].present?
+          params[:operatingsystem][:provisioning_template_ids] = params[:operatingsystem].delete(:config_template_ids)
+          ::ActiveSupport::Deprecation.warn('Config templates were renamed to provisioning templates')
+        end
       end
     end
   end
