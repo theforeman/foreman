@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'unit/compute_resources/cr_test_helpers'
 
 class EC2Test < ActiveSupport::TestCase
+  include CRTestHelpers
+
   test "#associated_host matches any NIC" do
     host = FactoryGirl.create(:host, :ip => '10.0.0.154')
     cr = FactoryGirl.build(:ec2_cr)
@@ -9,28 +12,14 @@ class EC2Test < ActiveSupport::TestCase
   end
 
   describe "find_vm_by_uuid" do
-    before do
-      @servers = mock()
-      @servers.stubs(:get).returns(nil)
-
-      client = mock()
-      client.stubs(:servers).returns(@servers)
-
-      @cr = Foreman::Model::EC2.new
-      @cr.stubs(:client).returns(client)
-    end
-
     it "raises RecordNotFound when the vm does not exist" do
-      assert_raises ActiveRecord::RecordNotFound do
-        @cr.find_vm_by_uuid('abc')
-      end
+      cr = mock_cr_servers(Foreman::Model::EC2.new, empty_servers)
+      assert_find_by_uuid_raises(ActiveRecord::RecordNotFound, cr)
     end
 
     it "raises RecordNotFound when the compute raises rackspace error" do
-      @servers.stubs(:get).raises(Fog::Compute::AWS::Error)
-      assert_raises ActiveRecord::RecordNotFound do
-        @cr.find_vm_by_uuid('abc')
-      end
+      cr = mock_cr_servers(Foreman::Model::EC2.new, servers_raising_exception(Fog::Compute::AWS::Error))
+      assert_find_by_uuid_raises(ActiveRecord::RecordNotFound, cr)
     end
   end
 end

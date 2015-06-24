@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'unit/compute_resources/cr_test_helpers'
 
 class LibvirtTest < ActiveSupport::TestCase
+  include CRTestHelpers
+
   test "#associated_host matches any NIC" do
     host = FactoryGirl.create(:host, :mac => 'ca:d0:e6:32:16:97')
     cr = FactoryGirl.build(:libvirt_cr)
@@ -9,28 +12,14 @@ class LibvirtTest < ActiveSupport::TestCase
   end
 
   describe "find_vm_by_uuid" do
-    before do
-      @servers = mock()
-      @servers.stubs(:get).returns(nil)
-
-      client = mock()
-      client.stubs(:servers).returns(@servers)
-
-      @cr = Foreman::Model::Libvirt.new
-      @cr.stubs(:client).returns(client)
-    end
-
     it "raises RecordNotFound when the vm does not exist" do
-      assert_raises ActiveRecord::RecordNotFound do
-        @cr.find_vm_by_uuid('abc')
-      end
+      cr = mock_cr_servers(Foreman::Model::Libvirt.new, empty_servers)
+      assert_find_by_uuid_raises(ActiveRecord::RecordNotFound, cr)
     end
 
     it "raises RecordNotFound when the compute raises retrieve error" do
-      @servers.stubs(:get).raises(Libvirt::RetrieveError)
-      assert_raises ActiveRecord::RecordNotFound do
-        @cr.find_vm_by_uuid('abc')
-      end
+      cr = mock_cr_servers(Foreman::Model::Libvirt.new, servers_raising_exception(Libvirt::RetrieveError))
+      assert_find_by_uuid_raises(ActiveRecord::RecordNotFound, cr)
     end
   end
 
