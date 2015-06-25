@@ -12,7 +12,7 @@ module Api
         param :environment_id, String, :desc => N_("ID of environment")
       end
 
-      api :GET, "/config_templates/:config_template_id/template_combinations", N_("List template combination")
+      api :GET, "/config_templates/:config_template_id/template_combinations", N_("List template combination"), :deprecated => true
       api :GET, "/provisioning_templates/:provisioning_template_id/template_combinations", N_("List template combination")
       api :GET, "/hostgroups/:hostgroup_id/template_combinations", N_("List template combination")
       api :GET, "/environments/:environment_id/template_combinations", N_("List template combination")
@@ -29,7 +29,8 @@ module Api
         end
       end
 
-      api :POST, "/config_templates/:config_template_id/template_combinations", N_("Add a template combination")
+      api :POST, "/config_templates/:config_template_id/template_combinations", N_("Add a template combination"), :deprecated => true
+      api :POST, "/provisioning_templates/:provisioning_template_id/template_combinations", N_("Add a template combination")
       api :POST, "/hostgroups/:hostgroup_id/template_combinations", N_("Add a template combination")
       api :POST, "/environments/:environment_id/template_combinations", N_("Add a template combination")
       param_group :template_combination_identifiers
@@ -41,11 +42,17 @@ module Api
       end
 
       api :GET, "/template_combinations/:id", N_("Show template combination")
+      api :GET, "/config_templates/:config_template_id/template_combinations/:id", N_("Show template combination"), :deprecated => true
+      api :GET, "/provisioning_templates/:provisioning_template_id/template_combinations/:id", N_("Show template combination")
+      api :GET, "/hostgroups/:hostgroup_id/template_combinations/:id", N_("Show template combination")
+      api :GET, "/environments/:environment_id/template_combinations/:id", N_("Show template combination")
+      param_group :template_combination_identifiers
       param :id, :identifier, :required => true
       def show
       end
 
-      api :PUT, "/config_templates/:config_template_id/template_combinations/:id", N_("Update template combination")
+      api :PUT, "/provisioning_templates/:provisioning_template_id/template_combinations/:id", N_("Update template combination")
+      api :PUT, "/config_templates/:config_template_id/template_combinations/:id", N_("Update template combination"), :deprecated => true
       api :PUT, "/hostgroups/:hostgroup_id/template_combinations/:id", N_("Update template combination")
       api :PUT, "/environments/:environment_id/template_combinations/:id", N_("Update template combination")
       param :id, :identifier, :required => true

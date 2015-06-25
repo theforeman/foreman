@@ -44,7 +44,7 @@ Foreman::Application.routes.draw do
           post 'build_pxe_default'
           get 'revision'
         end
-        resources :template_combinations, :only => [:index, :create]
+        resources :template_combinations, :only => [:index, :create, :update, :show]
         resources :operatingsystems, :except => [:new, :edit]
         resources :os_default_templates, :except => [:new, :edit]
       end
