@@ -350,7 +350,7 @@ module Host
       iface.link = attributes.delete(:link) if attributes.has_key?(:link)
       iface.identifier = name
       iface.host = self
-      update_virtuals(iface.identifier_was, name) if iface.identifier_changed? && !iface.virtual? && iface.persisted?
+      update_virtuals(iface.identifier_was, name) if iface.identifier_changed? && !iface.virtual? && iface.persisted? && iface.identifier_was.present?
       iface.attrs = attributes
 
       logger.debug "Saving #{name} NIC for host #{self.name}"
