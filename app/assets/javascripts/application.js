@@ -119,6 +119,8 @@ function onContentLoad(){
   $('.full-value').SelectOnClick();
   $('select').select2({ allowClear: true });
   $("#new_lookup_keys_ select").select2('destroy');
+  // Interface selects are initiated separately
+  $("#interfaces select").select2('destroy');
 
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
