@@ -40,7 +40,11 @@ name: freeipa_register
 ## IPA Client Installation
 ##
 
-<% if @host.params['freeipa_server'] -%>
+<% if @host.params['freeipa_domain'] -%>
+freeipa_domain="--domain <%= @host.params['freeipa_domain'] %>"
+<% end -%>
+
+<% if @host.params['freeipa_server'] && @host.params['freeipa_domain'] -%>
 freeipa_server="--server <%= @host.params['freeipa_server'] %>"
 <% end -%>
 
@@ -56,7 +60,7 @@ freeipa_ssh="--no-ssh"
 freeipa_opts="<%= @host.params['freeipa_opts'] %>"
 <% end -%>
 
-/usr/sbin/ipa-client-install -w '<%= @host.otp %>' --realm=<%= @host.realm %> -U $freeipa_mkhomedir $freeipa_opts $freeipa_server $freeipa_ssh
+/usr/sbin/ipa-client-install -w '<%= @host.otp %>' --realm=<%= @host.realm %> -U $freeipa_mkhomedir $freeipa_opts $freeipa_domain $freeipa_server $freeipa_ssh
 
 ##
 ## Automounter
