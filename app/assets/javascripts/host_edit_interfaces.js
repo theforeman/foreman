@@ -10,7 +10,6 @@ function edit_interface(interface_id) {
     form = get_interface_template_clone();
   else
     form = $('#interfaces #interfaceHidden'+interface_id).clone(true);
-
   show_interface_modal(form);
 }
 
@@ -29,7 +28,7 @@ function show_interface_modal(modal_content) {
   modal_window.modal({'show': true});
 
   modal_window.find('a[rel="popover-modal"]').popover({html: true});
-  $('select').select2({ allowClear: true });
+  modal_window.find('select').select2({ allowClear: true });
 }
 
 function save_interface_modal() {
