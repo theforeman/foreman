@@ -171,22 +171,7 @@ module Host
       end
 
       parser.interfaces.each do |name, attributes|
-        begin
-          macaddress = Net::Validations.normalize_mac(attributes[:macaddress])
-        rescue ArgumentError
-          logger.debug "invalid mac during parsing: #{attributes[:macaddress]}"
-        end
-        base = self.interfaces.where(:mac => macaddress)
-
-        if attributes[:virtual]
-          # for virtual devices we don't check only mac address since it's not unique,
-          # if we want to update the device it must have same identifier
-          base = base.virtual.where(:identifier => name)
-        else
-          base = base.physical
-        end
-
-        iface = base.first || interface_class(name).new(:managed => false)
+        iface = get_interface_scope(name, attributes).first || interface_class(name).new(:managed => false)
         # create or update existing interface
         set_interface(attributes, name, iface)
       end
@@ -329,6 +314,30 @@ module Host
     def build_required_interfaces(attrs = {})
       self.interfaces.build(attrs.merge(:primary => true, :type => 'Nic::Managed')) if self.primary_interface.nil?
       self.primary_interface.provision = true if self.provision_interface.nil?
+    end
+
+    def get_interface_scope(name, attributes, base = self.interfaces)
+      case interface_class(name).to_s
+        # we search bonds based on identifiers, e.g. ubuntu sets random MAC after each reboot se we can't
+        # rely on mac
+        when 'Nic::Bond'
+          base.virtual.where(:identifier => name)
+        # for other interfaces we distinguish between virtual and physical interfaces
+        # for virtual devices we don't check only mac address since it's not unique,
+        # if we want to update the device it must have same identifier
+        else
+          begin
+            macaddress = Net::Validations.normalize_mac(attributes[:macaddress])
+          rescue ArgumentError
+            logger.debug "invalid mac during parsing: #{attributes[:macaddress]}"
+          end
+          base = base.where(:mac => macaddress)
+          if attributes[:virtual]
+            base.virtual.where(:identifier => name)
+          else
+            base.physical
+          end
+      end
     end
 
     def set_interface(attributes, name, iface)
