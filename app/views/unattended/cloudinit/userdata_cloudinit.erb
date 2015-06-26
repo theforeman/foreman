@@ -10,6 +10,9 @@ oses:
 - Fedora 17
 - Fedora 18
 - Fedora 19
+- Fedora 20
+- Fedora 21
+- Fedora 22
 - Debian 6.0
 - Debian 7.
 - Ubuntu 10.04
@@ -20,6 +23,19 @@ oses:
 hostname: <%= @host.shortname %>
 fqdn: <%= @host %>
 manage_etc_hosts: true
+
+groups:
+ - admin
+
+users:
+ - default
+ - name: admin
+   primary-group: admin
+   groups: users
+   shell: /bin/bash
+   sudo: ['ALL=(ALL) ALL']
+   lock-passwd: false
+   passwd: <%= @host.root_pass %>
 
 <%# Contact Foreman to confirm instance is built -%>
 phone_home:

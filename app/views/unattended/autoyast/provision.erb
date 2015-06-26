@@ -4,6 +4,8 @@ kind: provision
 name: AutoYaST default
 %>
 <%
+  os_major = @host.operatingsystem.major.to_i
+  os_minor = @host.operatingsystem.minor.to_i
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
   puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
@@ -69,11 +71,13 @@ name: AutoYaST default
     </patterns>
     <packages config:type="list">
       <package>lsb-release</package>
+<% if ((os_minor < 2) && (os_major < 14)) -%>
       <package>yast2-runlevel</package>
+<% end -%>
 <% if puppet_enabled -%>
       <package>puppet</package>
 <% end -%>
-<% if salt_enabled %>
+<% if salt_enabled -%>
       <package>salt-minion</package>
 <% end -%>
     </packages>
@@ -108,8 +112,9 @@ cp /etc/resolv.conf /mnt/etc
         <interpreter>shell</interpreter>
         <notification>Setting up Puppet / Foreman ...</notification>
         <source><![CDATA[
+/bin/hostname <%= @host.name %>
 <% if puppet_enabled -%>
-          cat > /etc/puppet/puppet.conf << EOF
+cat > /etc/puppet/puppet.conf << EOF
 <%= snippet 'puppet.conf' -%>
 EOF
 if [ -f "/etc/sysconfig/puppet" ]

@@ -7,9 +7,9 @@ oses:
 - SLES 12
 %>
 <%
-  # safemode renderer does not support unary negation
   os_major = @host.operatingsystem.major.to_i
   os_minor = @host.operatingsystem.minor.to_i
+  # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
   puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
   salt_enabled = @host.params['salt_master'] ? true : false
@@ -138,7 +138,7 @@ chkconfig salt-minion on
 # Running salt-call to trigger key signing
 salt-call --no-color --grains >/dev/null
 <% end -%>
-<% if spacewalk_enabled %>
+<% if spacewalk_enabled -%>
 <%= snippet 'redhat_register' %>
 <% end -%>
 
@@ -210,7 +210,7 @@ rm /etc/resolv.conf
       </listentry>
 <% end -%>
 <% end -%>
-<% if salt_enabled %>
+<% if salt_enabled -%>
       <listentry>
         <media_url><![CDATA[http://download.opensuse.org/repositories/devel:languages:python/SLE_<%= os_major %><%= sles_minor_string %>/]]></media_url>
         <name>devel_languages_python</name>
@@ -232,7 +232,7 @@ rm /etc/resolv.conf
         </signature-handling>
       </listentry>
 <% end -%>
-<% if spacewalk_enabled %>
+<% if spacewalk_enabled -%>
       <listentry>
         <media_url><![CDATA[http://download.opensuse.org/repositories/systemsmanagement:/spacewalk/SLE_<%= os_major %><%= sles_minor_string %>/]]></media_url>
         <name>systemsmanagement_spacewalk</name>

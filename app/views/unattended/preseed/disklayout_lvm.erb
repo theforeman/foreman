@@ -13,7 +13,7 @@ oses:
 <% if @host.params['install-disk'] -%>
 d-i partman-auto/disk string <%= @host.params['install-disk'] %>
 <% else -%>
-d-i partman-auto/disk string /dev/sda /dev/vda
+d-i partman-auto/disk string /dev/sda /dev/vda /dev/xvda
 <% end -%>
 d-i partman-auto/method string lvm
 
