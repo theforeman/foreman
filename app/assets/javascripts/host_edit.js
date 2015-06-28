@@ -302,9 +302,9 @@ function os_selected(element){
   update_provisioning_image();
 }
 function update_provisioning_image(){
-  var compute_id = $('[id$="_compute_resource_id"]').val();
-  var arch_id = $('[id$="_architecture_id"]').val();
-  var os_id = $('[id$="_operatingsystem_id"]').val();
+  var compute_id = $('[name$="[compute_resource_id]"]').val();
+  var arch_id = $('[name$="[architecture_id]"]').val();
+  var os_id = $('[name$="[operatingsystem_id]"]').val();
   if((compute_id == undefined) || (compute_id == "") || (arch_id == "") || (os_id == "")) return;
   var term = 'operatingsystem=' + os_id + ' architecture=' + arch_id;
   var image_options = $('#image_selection select').empty();
