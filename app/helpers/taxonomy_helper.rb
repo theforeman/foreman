@@ -144,7 +144,7 @@ module TaxonomyHelper
                  {:label => translated_label(resource, :all),
                   :multiple => true,
                   :onchange => 'ignore_checked(this)'},
-                  resource.to_s.humanize)
+                  resource.to_s.classify)
   end
 
   def show_resource_if_allowed(f, taxonomy, resource_options)
