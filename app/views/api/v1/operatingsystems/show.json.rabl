@@ -9,11 +9,11 @@ child :architectures do
   attributes :id, :name
 end
 
-child :ptables do
+child :ptables => :ptables do
   attributes :id, :name
 end
 
-child :provisioning_templates do
+child :provisioning_templates => :config_templates do
   attributes :name, :id
 end
 
