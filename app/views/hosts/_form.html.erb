@@ -48,7 +48,7 @@
             },
             :help_inline => :indicator } %>
 
-        <%= select_f f, :compute_resource_id, ComputeResource.with_taxonomy_scope_override(@location,@organization).authorized(:view_compute_resources).order(:name), :id, :to_label,
+        <%= select_f f, :compute_resource_id, ComputeResource.with_taxonomy_scope_override(@location,@organization).authorized(:view_compute_resources).order('compute_resources.name'), :id, :to_label,
           { :include_blank => _('Bare Metal') },
           {:label => _('Deploy on'), :disabled => !@host.new_record?, :'data-url' => compute_resource_selected_hosts_path,
             :onchange => 'computeResourceSelected(this);',
