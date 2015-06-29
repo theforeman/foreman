@@ -21,9 +21,9 @@
         <tbody>
           <% setting.each do |item| %>
             <tr>
-              <td><%=h item.name %></td>
+              <td ><%= translate_full_name(item) %></td>
               <td class="setting_value"><%= value(item) %></td>
-              <td><%=h _(item.description) %></td>
+              <td><%= _(item.description) %></td>
             </tr>
           <% end %>
         </tbody>
