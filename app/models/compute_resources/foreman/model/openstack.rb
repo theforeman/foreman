@@ -74,12 +74,12 @@ module Foreman::Model
     end
 
     def create_vm(args = {})
-      boot_from_volume(args) if args[:boot_from_volume]
+      boot_from_volume(args) if Foreman::Cast.to_bool(args[:boot_from_volume])
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
       args[:nics].map! {|nic| { 'net_id' => nic } }
-      vm      = super(args)
+      vm = super(args)
       if network.present?
         address = allocate_address(network)
         assign_floating_ip(address, vm)
@@ -178,9 +178,7 @@ module Foreman::Model
     end
 
     def vm_instance_defaults
-      super.merge(
-        :key_name  => key_pair.name
-      )
+      super.merge(:key_name => key_pair.name)
     end
 
     def assign_floating_ip(address, vm)
