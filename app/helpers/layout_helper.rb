@@ -354,10 +354,15 @@ module LayoutHelper
     "<button type='button' class='close' data-dismiss='#{data_dismiss}' aria-hidden='true'>&times;</button>".html_safe
   end
 
-  def trunc_with_tooltip(text, length = 32)
-    text    = text.to_s
-    options = text.size > length ? { :'data-original-title' => text, :rel => 'twipsy' } : {}
-    content_tag(:span, truncate(text, :length => length), options).html_safe
+  def trunc_with_tooltip(text, length = 32, tooltip_text = "", shorten = true)
+    text = text.to_s.empty? ? tooltip_text.to_s : text.to_s
+    tooltip_text = tooltip_text.to_s.empty? ? text : tooltip_text.to_s
+    options = shorten && (text.size < length) ? {} : { :'data-original-title' => tooltip_text, :rel => 'twipsy' }
+    if shorten
+      content_tag(:span, truncate(text, :length => length), options).html_safe
+    else
+      content_tag(:span, text, options).html_safe
+    end
   end
 
   def modal_close(data_dismiss = 'modal', text = _('Close'))
