@@ -266,6 +266,7 @@ add_files /var/lib/puppet/ssl/certs/$(hostname -f).pem /var/lib/puppet/ssl/certs
 add_files /etc/{httpd,apache2}/conf/*
 add_files /etc/{httpd,apache2}/conf.d/*
 add_files /var/log/{httpd,apache2}/*error_log*
+add_files /var/log/{httpd,apache2}/foreman-ssl_access_ssl.log*
 add_cmd "echo \"select id,name,value from settings where name not similar to '%(pass|key|secret)'\" | su postgres -c 'psql foreman'" "foreman_settings_table"
 add_cmd "echo 'select type,name,host,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources' | su postgres -c 'psql foreman'" "foreman_auth_table"
 add_cmd "foreman-selinux-relabel -nv" "foreman_filecontexts"
