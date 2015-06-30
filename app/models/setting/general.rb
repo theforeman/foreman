@@ -19,7 +19,7 @@ class Setting::General < Setting
         self.set('entries_per_page', N_("Number of records shown per page in Foreman"), 20),
         self.set('fix_db_cache', N_('Fix DB cache on next Foreman restart'), false),
         self.set('max_trend', N_("Max days for Trends graphs"), 30),
-        self.set('use_gravatar', N_("Foreman will use gravatar to display user icons"), true),
+        self.set('use_gravatar', N_("Foreman will use gravatar to display user icons"), false),
         self.set('db_pending_migration', N_("Should the `foreman-rake db:migrate` be executed on the next run of the installer modules?"), true),
         self.set('db_pending_seed', N_("Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"), true),
         self.set('proxy_request_timeout', N_("Max timeout for REST client requests to smart-proxy"), 60)
