@@ -67,6 +67,15 @@ module ProvisioningTemplatesHelper
     end
   end
 
+  def pxe_with_building_hosts?(template)
+    kinds = ["PXELinux", "PXEGrub"]
+    os_ids = template.operatingsystem_ids
+    template.respond_to?(:template_kind) &&
+      template.template_kind.present? &&
+      kinds.include?(template.template_kind.name) &&
+      Host.where(:build => true, :operatingsystem_id => os_ids).any?
+  end
+
   private
 
   def locations_only?
