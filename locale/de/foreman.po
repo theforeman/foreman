@@ -7110,7 +7110,7 @@ msgid "Resource"
 msgstr "Ressource"
 
 msgid "message"
-msgstr "Naricht"
+msgstr "Nachricht"
 
 msgid "Nothing to show"
 msgstr "Nichts anzuzeigen"
