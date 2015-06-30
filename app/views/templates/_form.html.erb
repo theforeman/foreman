@@ -35,6 +35,11 @@
                                                                              "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.4.3ProvisioningTemplates", :rel => 'external')).html_safe) %>
       <% end -%>
 
+      <% if pxe_with_building_hosts?(@template) -%>
+        <%= alert :class => 'alert-warning', :header => '',
+                  :text => icon_text("warning-sign", (_("Warning: The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates."))) %>
+      <% end -%>
+
       <div class='form-group'>
         <label class="control-label" for="template"><%= _("Template editor") %></label>
         <div class="navbar navbar-form">
