@@ -46,4 +46,13 @@ class DashboardIntegrationTest < ActionDispatch::IntegrationTest
   test "dashboard link hosts with alerts disabled" do
     assert_dashboard_link 'Hosts with alerts disabled'
   end
+
+  test 'widgets not in dashboard show up in list' do
+    deleted_widget = users(:admin).widgets.last
+    users(:admin).widgets.destroy(deleted_widget)
+    Capybara.reset_sessions!
+    login_admin
+    visit dashboard_path
+    assert_equal deleted_widget.name, page.find('li.widget-add a').text
+  end
 end

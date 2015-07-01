@@ -6,7 +6,7 @@ class Widget < ActiveRecord::Base
 
   serialize :data
 
-  before_validation  :default_values
+  before_validation :default_values
 
   def default_values
     self.sizex ||= 4
@@ -15,5 +15,10 @@ class Widget < ActiveRecord::Base
     self.row   ||= 1
     self.hide  ||= false
     self.data  ||= {}
+  end
+
+  # Returns widget representation as the hash object Dashboard::Manager uses in memory
+  def to_hash
+    { :template => template, :sizex => sizex, :sizey => sizey, :name => name }
   end
 end
