@@ -253,6 +253,7 @@ class ComputeResource < ActiveRecord::Base
     end
     vm_attrs
   rescue ActiveRecord::RecordNotFound
+    logger.debug("vm with uuid '#{uuid}' not found")
     {}
   end
 

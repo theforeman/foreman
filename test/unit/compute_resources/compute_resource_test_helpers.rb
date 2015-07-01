@@ -1,4 +1,4 @@
-module CRTestHelpers
+module ComputeResourceTestHelpers
   def empty_servers
     servers = mock()
     servers.stubs(:get).returns(nil)

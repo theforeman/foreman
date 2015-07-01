@@ -1,8 +1,8 @@
 require 'test_helper'
-require 'unit/compute_resources/cr_test_helpers'
+require 'unit/compute_resources/compute_resource_test_helpers'
 
 class RackspaceTest < ActiveSupport::TestCase
-  include CRTestHelpers
+  include ComputeResourceTestHelpers
 
   test "#associated_host matches any NIC" do
     host = FactoryGirl.create(:host, :ip => '10.0.0.154')

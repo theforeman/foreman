@@ -152,7 +152,12 @@ module Foreman::Model
 
     def vm_compute_attributes_for(uuid)
       vm_attrs = super
-      vm_attrs[:memory] = vm_attrs[:memory_size]*1024 rescue nil # value is returned in megabytes, we need bytes
+      if vm_attrs[:memory_size].nil?
+        vm_attrs[:memory] = nil
+        logger.debug("compute attributes for vm '#{uuid}' didin't contain :memory_size")
+      else
+        vm_attrs[:memory] = vm_attrs[:memory_size]*1024 # value is returned in megabytes, we need bytes
+      end
       vm_attrs
     end
 
