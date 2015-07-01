@@ -5,11 +5,12 @@ class WidgetTest < ActiveSupport::TestCase
     @user = FactoryGirl.create(:user)
   end
 
-  test 'new user should have no widgets' do
-    assert_blank(@user.widgets)
+  test 'new user should have default widgets' do
+    assert_equal Dashboard::Manager.default_widgets.count, FactoryGirl.create(:user).widgets.count
   end
 
   test 'reset to default should add default widgets to user' do
+    @user.widgets = []
     assert_difference('@user.widgets.count', Dashboard::Manager.default_widgets.count) do
       Dashboard::Manager.reset_user_to_default(@user)
     end
@@ -18,13 +19,14 @@ class WidgetTest < ActiveSupport::TestCase
   test 'adding widget to user should fill in default values for missing fields' do
     widget_hash = { :template => Dashboard::Manager.default_widgets[0][:template],
                     :name => Dashboard::Manager.default_widgets[0][:name] }
-    assert Dashboard::Manager.add_widget_to_user(@user, widget_hash)
-    assert_equal @user.widgets.count, 1
-    widget = @user.widgets.first
-    assert_equal widget.sizex, 4
-    assert_equal widget.sizey, 1
-    assert_equal widget.col, 1
-    assert_equal widget.row, 1
+    assert_difference('@user.widgets.count', 1) do
+      Dashboard::Manager.add_widget_to_user(@user, widget_hash)
+    end
+    widget = @user.widgets.last
+    assert_equal 4, widget.sizex
+    assert_equal 1, widget.sizey
+    assert_equal 1, widget.col
+    assert_equal 1, widget.row
     refute widget.hide
     assert_blank widget.data
     assert_equal widget.user_id, @user.id
