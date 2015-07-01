@@ -34,6 +34,15 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should assign operating system" do
+    put :update, { :id => @ptable.to_param, :ptable => {
+      :operatingsystem_ids => [operatingsystems(:redhat).to_param] } }
+    assert_response :success
+    get :show, { :id => @ptable.to_param }
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal operatingsystems(:redhat).id, show_response["operatingsystems"].first["id"]
+  end
+
   test "should NOT destroy ptable in use" do
     FactoryGirl.create(:host, :ptable_id => @ptable.id)
     assert_difference('Ptable.count', -0) do

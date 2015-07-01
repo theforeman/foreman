@@ -30,6 +30,9 @@ module Api
           param :audit_comment, String, :allow_nil => true
           param :locked, :bool, :desc => N_("Whether or not the template is locked for editing")
           param :os_family, String, :required => false
+          param :operatingsystem_ids, Array, :desc => N_("Array of operating system IDs to associate with the partition table")
+          param :host_ids, Array, :desc => N_("Array of host IDs to associate with the partition table")
+          param :hostgroup_ids, Array, :desc => N_("Array of host group IDs to associate with the partition table")
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end
