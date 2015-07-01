@@ -5,6 +5,7 @@ module Orchestration::DHCP
     after_validation :dhcp_conflict_detected?, :queue_dhcp
     before_destroy :queue_dhcp_destroy
     validate :ip_belongs_to_subnet?
+    register_rebuild(:rebuild_dhcp, N_('DHCP'))
   end
 
   def dhcp?
@@ -19,7 +20,32 @@ module Orchestration::DHCP
     @dhcp_record ||= (provision? && jumpstart?) ? Net::DHCP::SparcRecord.new(dhcp_attrs) : Net::DHCP::Record.new(dhcp_attrs)
   end
 
+  def rebuild_dhcp
+    if dhcp?
+      del_dhcp_safe
+      begin
+        set_dhcp
+      rescue => e
+        Foreman::Logging.exception "Failed to rebuild DHCP record for #{name}, #{ip}", e, :level => :error
+        false
+      end
+    else
+      logger.info "DHCP not supported for #{name}, #{ip}, skipping orchestration rebuild"
+      true
+    end
+  end
+
   protected
+
+  def del_dhcp_safe
+    if dhcp_record
+      begin
+        del_dhcp
+      rescue => e
+        Foreman::Logging.exception "Proxy failed to delete DHCP record for #{name}, #{ip}", e, :level => :error
+      end
+    end
+  end
 
   def set_dhcp
     dhcp_record.create

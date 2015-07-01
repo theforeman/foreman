@@ -13,6 +13,22 @@ module Orchestration
     after_destroy :on_destroy
   end
 
+  module ClassMethods
+    def rebuild_methods
+      @rebuild_methods || {}
+    end
+
+    def rebuild_methods=(methods)
+      @rebuild_methods = methods || {}
+    end
+
+    def register_rebuild(method, pretty_name)
+      @rebuild_methods ||= {}
+      fail "Method :#{method} is already registered, choose different name for your method" if @rebuild_methods[method]
+      @rebuild_methods.merge!(method => pretty_name)
+    end
+  end
+
   protected
 
   def on_save

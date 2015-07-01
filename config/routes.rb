@@ -86,6 +86,8 @@ Foreman::Application.routes.draw do
         post 'update_multiple_organization'
         get  'select_multiple_location'
         post 'update_multiple_location'
+        get  'rebuild_config'
+        post 'submit_rebuild_config'
       end
 
       constraints(:host_id => /[^\/]+/) do

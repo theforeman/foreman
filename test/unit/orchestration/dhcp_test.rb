@@ -195,4 +195,24 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     refute h.valid?
     assert_equal h.errors[:operatingsystem_id].first, "can't be blank"
   end
+
+  test "should rebuild dhcp" do
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+    Nic::Managed.any_instance.expects(:del_dhcp)
+    Nic::Managed.any_instance.expects(:set_dhcp).returns(true)
+    assert h.interfaces.first.rebuild_dhcp
+  end
+
+  test "should skip dhcp rebuild" do
+    nic = FactoryGirl.build(:nic_managed)
+    nic.expects(:set_dhcp).never
+    assert nic.rebuild_dhcp
+  end
+
+  test "should fail with exception" do
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+    Nic::Managed.any_instance.expects(:del_dhcp)
+    Nic::Managed.any_instance.expects(:set_dhcp).raises(StandardError, 'DHCP test failure')
+    refute h.interfaces.first.rebuild_dhcp
+  end
 end
