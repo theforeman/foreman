@@ -14,7 +14,7 @@ class FactParser
   end
 
   def self.register_fact_importer(key, klass)
-    ActiveSupport::Deprecation.warn('FactParser#register_fact_importer was renamed to FactParser#register_fact_parser, please update your code')
+    Foreman::Deprecation.deprecation_warning("1.11", "Use factParser.register_fact_parser instead")
     register_fact_parser(key, klass)
   end
 

@@ -81,7 +81,7 @@ module Api::V2::TaxonomiesController
   def rename_config_template
     if params[taxonomy_single] && params[taxonomy_single][:config_template_ids].present?
       params[taxonomy_single][:provisioning_template_ids] = params[taxonomy_single].delete(:config_template_ids)
-      ::ActiveSupport::Deprecation.warn('Config templates were renamed to provisioning templates')
+      Foreman::Deprecation.deprecation_warning('1,11', 'Config templates were renamed to provisioning templates')
     end
   end
 
