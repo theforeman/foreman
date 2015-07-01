@@ -39,7 +39,7 @@ module Orchestration
       else
         exception = StandardError.new(msg)
         exception.set_backtrace(exception_or_backtrace)
-        logger.warn("DEPRECATION: passing backtrace to failure method is deprecated, pass the exception instead")
+        Foreman::Deprecation.deprecation_warning("1.11", "Passing backtrace to failure method is deprecated, pass the exception instead")
       end
       Foreman::Logging.exception(msg, exception)
     else

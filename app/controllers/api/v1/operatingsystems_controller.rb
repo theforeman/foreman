@@ -88,7 +88,7 @@ module Api
       def rename_config_templates
         if params[:operatingsystem] && params[:operatingsystem][:config_template_ids].present?
           params[:operatingsystem][:provisioning_template_ids] = params[:operatingsystem].delete(:config_template_ids)
-          ::ActiveSupport::Deprecation.warn('Config templates were renamed to provisioning templates')
+          Foreman::Deprecation.api_deprecation_warning('Config templates were renamed to provisioning templates')
         end
       end
     end

@@ -95,7 +95,7 @@ module Api
       end
 
       def deprecated
-        ::ActiveSupport::Deprecation.warn('Config templates were renamed to provisioning templates')
+        Foreman::Deprecation.api_deprecation_warning("Config templates were renamed to provisioning templates")
       end
     end
   end

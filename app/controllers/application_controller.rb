@@ -96,7 +96,7 @@ class ApplicationController < ActionController::Base
   def api_deprecation_error(exception = nil)
     if request.format.try(:json?) && !request.env['REQUEST_URI'].match(/\/api\//i)
       msg = "/api/ prefix must now be used to access API URLs, e.g. #{request.env['HTTP_HOST']}/api#{request.env['REQUEST_URI']}"
-      logger.error "DEPRECATION: #{msg}."
+      Foreman::Deprecation.deprecation_warning("1.11", msg)
       Foreman::Logging.exception(msg, exception, :level => :debug)
       render :json => {:message => msg}, :status => :bad_request
     else
