@@ -12,8 +12,10 @@ class DashboardController < ApplicationController
   end
 
   def create
-    Dashboard::Manager.add_widget_to_user(User.current, params[:widget])
-    redirect_to root_path
+    widget = Dashboard::Manager.find_default_widget_by_name(params[:name])
+    (not_found and return) unless widget.present?
+    Dashboard::Manager.add_widget_to_user(User.current, widget.first)
+    render :json => { :name => params[:name] }, :status => :ok
   end
 
   def destroy

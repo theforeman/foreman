@@ -27,5 +27,9 @@ module Dashboard
         add_widget_to_user(user, widget)
       }
     end
+
+    def self.find_default_widget_by_name(name)
+      @default_widgets.select { |widget| widget[:name] == name }
+    end
   end
 end
