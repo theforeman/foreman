@@ -226,6 +226,18 @@ Return the host's compute attributes that can be used to create a clone of this 
         render_message(e.to_s, :status => :unprocessable_entity)
       end
 
+      api :PUT, "/hosts/:id/rebuild_config", N_("Rebuild orchestration config")
+      param :id, :identifier_dottable, :required => true
+      def rebuild_config
+        result = @host.recreate_config
+        failures = result.reject { |key, value| value }.keys.map{ |k| _(k) }
+        if failures.empty?
+          render_message _("Configuration successfully rebuilt."), :status => :ok
+        else
+          render_message (_("Configuration rebuild failed for: %s.") % failures.to_sentence), :status => :unprocessable_entity
+        end
+      end
+
       private
 
       def merge_interfaces(host)
@@ -270,6 +282,8 @@ Return the host's compute attributes that can be used to create a clone of this 
             :edit
           when 'vm_compute_attributes', 'get_status'
             :view
+          when 'rebuild_config'
+            :build
           else
             super
         end

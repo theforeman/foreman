@@ -298,6 +298,7 @@ Foreman::Application.routes.draw do
           put :disassociate, :on => :member
           put :boot, :on => :member
           put :power, :on => :member
+          put :rebuild_config, :on => :member
           post :facts, :on => :collection
           resources :audits, :only => :index
           resources :facts,  :only => :index, :controller => :fact_values

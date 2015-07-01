@@ -67,7 +67,16 @@ module ProvisioningTemplatesHelper
       template.respond_to?(:operatingsystem_ids) &&
       template.template_kind.present? &&
       kinds.include?(template.template_kind.name) &&
-      Host.where(:build => true, :operatingsystem_id => template.operatingsystem_ids).any?
+      building_hosts(template).any?
+  end
+
+  def building_hosts(template)
+    Host.where(:build => true, :operatingsystem_id => template.operatingsystem_ids)
+  end
+
+  def building_hosts_path(template)
+    oses = template.operatingsystem_ids.map { |id| "os_id = #{id}" }.join(" or ")
+    hosts_path(:search => "build = true and ( #{oses} )")
   end
 
   private

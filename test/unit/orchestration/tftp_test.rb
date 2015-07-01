@@ -54,4 +54,22 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
       assert_equal template,expected
     end
   end
+
+  def test_should_rebuild_tftp
+    h = FactoryGirl.create(:host, :with_tftp_orchestration)
+    Nic::Managed.any_instance.expects(:setTFTP).returns(true)
+    assert h.interfaces.first.rebuild_tftp
+  end
+
+  def test_should_fail_rebuild_tftp_with_exception
+    h = FactoryGirl.create(:host, :with_tftp_orchestration)
+    Nic::Managed.any_instance.expects(:setTFTP).raises(StandardError, 'TFTP rebuild failed')
+    refute h.interfaces.first.rebuild_tftp
+  end
+
+  def test_should_skip_rebuild_tftp
+    nic = FactoryGirl.build(:nic_managed)
+    nic.expects(:setTFTP).never
+    assert nic.rebuild_tftp
+  end
 end

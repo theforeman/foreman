@@ -891,6 +891,28 @@ class HostsControllerTest < ActionController::TestCase
     assert_template :partial => '_form'
   end
 
+  def test_submit_multiple_rebuild_config_optimistic
+    @request.env['HTTP_REFERER'] = hosts_path
+    Host.any_instance.expects(:recreate_config).returns({"TFTP" => true, "DHCP" => true, "DNS" => true})
+    h = FactoryGirl.create(:host)
+    post :submit_rebuild_config, {:host_ids => [h.id]}, set_session_user
+
+    assert_response :found
+    assert_redirected_to hosts_path
+    assert_not_nil flash[:notice]
+  end
+
+  def test_submit_multiple_rebuild_config_pessimistic
+    @request.env['HTTP_REFERER'] = hosts_path
+    Host.any_instance.expects(:recreate_config).returns({"TFTP" => false, "DHCP" => false, "DNS" => false})
+    h = FactoryGirl.create(:host)
+    post :submit_rebuild_config, {:host_ids => [h.id]}, set_session_user
+
+    assert_response :found
+    assert_redirected_to hosts_path
+    assert_not_nil flash[:error]
+  end
+
   private
 
   def initialize_host

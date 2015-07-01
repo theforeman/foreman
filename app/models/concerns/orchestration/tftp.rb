@@ -7,6 +7,7 @@ module Orchestration::TFTP
 
     # required for pxe template url helpers
     include Rails.application.routes.url_helpers
+    register_rebuild(:rebuild_tftp, N_('TFTP'))
   end
 
   def tftp?
@@ -17,6 +18,20 @@ module Orchestration::TFTP
 
   def tftp
     subnet.tftp_proxy(:variant => host.operatingsystem.pxe_variant) if tftp?
+  end
+
+  def rebuild_tftp
+    if tftp?
+      begin
+        setTFTP
+      rescue => e
+        Foreman::Logging.exception "Failed to rebuild TFTP record for #{name}, #{ip}", e, :level => :error
+        false
+      end
+    else
+      logger.info "TFTP not supported for #{name}, #{ip}, skipping orchestration rebuild"
+      true
+    end
   end
 
   protected

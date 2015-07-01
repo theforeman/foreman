@@ -913,6 +913,24 @@ class Host::Managed < Host::Base
   def build_status_label(options = {})
     @build_status_label ||= get_status(HostStatus::BuildStatus).to_label(options)
   end
+  # rebuilds orchestration configuration for a host
+  # takes all the methods from Orchestration modules that are registered for configuration rebuild
+  # returns  : Hash with 'true' if rebuild was a success for a given key (Example: {"TFTP" => true, "DNS" => false})
+  def recreate_config
+    result = {}
+    Nic::Managed.rebuild_methods.map do |method, pretty_name|
+      interfaces.map do |interface|
+        value = interface.send method
+        result[pretty_name] = value if !result.has_key?(pretty_name) || (result[pretty_name] && !value)
+      end
+    end
+
+    self.class.rebuild_methods.map do |method, pretty_name|
+      raise ::Foreman::Exception.new(N_("There are orchestration modules with methods for configuration rebuild that have identical name: '%s'") % pretty_name) if result[pretty_name]
+      result[pretty_name] = self.send method
+    end
+    result
+  end
 
   private
 
