@@ -90,6 +90,7 @@ class User < ActiveRecord::Base
   before_save       :set_lower_login
 
   after_create :welcome_mail
+  after_create :set_default_widgets
 
   scoped_search :on => :login, :complete_value => :true
   scoped_search :on => :firstname, :complete_value => :true
@@ -446,6 +447,10 @@ class User < ActiveRecord::Base
     interval_empty = attributes[:interval].blank?
     attributes.merge!({:_destroy => 1}) if user_mail_notification_exists && interval_empty
     (!user_mail_notification_exists && interval_empty)
+  end
+
+  def set_default_widgets
+    Dashboard::Manager.reset_user_to_default(self)
   end
 
   protected
