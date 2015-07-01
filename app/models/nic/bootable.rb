@@ -9,7 +9,7 @@ module Nic
     register_to_enc_transformation :type, lambda { |type| type.constantize.humanized_name }
 
     def initialize(*args)
-      ActiveSupport::Deprecation.warn 'Nic::Bootable is replaced by Nic::Managed with provision: true, this class will be removed'
+      Foreman::Deprecation.deprecation_warning("1.11", "Use Nic::Managed setting provision: true")
       super(*args)
     end
 
