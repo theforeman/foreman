@@ -1,7 +1,7 @@
 <% title _("PuppetCA on %s") % @proxy.name %>
 <% search_bar _("Filter by state: %s") % state_filter %>
 <% title_actions display_link_if_authorized(_("Autosign Entries"), hash_for_smart_proxy_autosign_index_path(:smart_proxy_id => @proxy)) %>
-<table class='table table-bordered table-striped table-condensed'>
+<table class="table table-bordered table-striped table-condensed">
   <thead>
     <tr>
       <th><%= _("Certificate Name") %></th>
