@@ -66,7 +66,7 @@ function computeResourceSelected(item){
     })
   }
   update_nics(function() {
-    interface_subnet_selected(primary_nic_form().find('.interface_subnet'));
+    interface_subnet_selected(primary_nic_form().find('select.interface_subnet'));
   });
 }
 
@@ -499,7 +499,7 @@ $(document).on('change', '.interface_domain', function () {
 
 $(document).on('click', '.suggest_new_ip', function (e) {
   $(this).closest('fieldset').find('.interface_ip').val('');
-  interface_subnet_selected($(this).closest('fieldset').find('.interface_subnet'));
+  interface_subnet_selected($(this).closest('fieldset').find('select.interface_subnet'));
   e.preventDefault();
 });
 
