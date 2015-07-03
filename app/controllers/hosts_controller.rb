@@ -52,13 +52,13 @@ class HostsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html {
+      format.html do
         # filter graph time range
         @range = (params["range"].empty? ? 7 : params["range"].to_i)
 
         # summary report text
         @report_summary = Report.summarise(@range.days.ago, @host)
-      }
+      end
       format.yaml { render :text => @host.info.to_yaml }
       format.json
     end

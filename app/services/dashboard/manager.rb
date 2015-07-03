@@ -23,9 +23,9 @@ module Dashboard
 
     def self.reset_user_to_default(user)
       user.widgets.clear
-      @default_widgets.each {|widget|
+      @default_widgets.each do |widget|
         add_widget_to_user(user, widget)
-      }
+      end
     end
   end
 end

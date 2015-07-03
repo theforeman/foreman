@@ -17,20 +17,20 @@ module Api
 
     after_filter :log_response_body
 
-    rescue_from StandardError, :with => lambda { |error|
+    rescue_from StandardError do |error|
       Foreman::Logging.exception("Action failed", error)
       render_error 'standard_error', :status => :internal_server_error, :locals => { :exception => error }
-    }
+    end
 
-    rescue_from ScopedSearch::QueryNotSupported, Apipie::ParamError, :with => lambda { |error|
+    rescue_from ScopedSearch::QueryNotSupported, Apipie::ParamError do |error|
       logger.info "#{error.message} (#{error.class})"
       render_error 'param_error', :status => :bad_request, :locals => { :exception => error }
-    }
+    end
 
-    rescue_from ActiveRecord::RecordNotFound, :with => lambda { |error|
+    rescue_from ActiveRecord::RecordNotFound do |error|
       logger.info "#{error.message} (#{error.class})"
       not_found
-    }
+    end
 
     def get_resource
       instance_variable_get :"@#{resource_name}" or raise 'no resource loaded'

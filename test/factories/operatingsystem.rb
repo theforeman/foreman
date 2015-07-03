@@ -15,9 +15,9 @@ FactoryGirl.define do
     end
 
     trait :with_provision do
-      provisioning_templates {
+      provisioning_templates do
         [FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('provision'))]
-      }
+      end
       with_os_defaults
     end
 
