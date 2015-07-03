@@ -10,7 +10,7 @@ FactoryGirl.define do
     server_type 'posix'
   end
 
-  trait :posix do end
+  trait :posix
 
   trait :free_ipa do
     server_type 'free_ipa'

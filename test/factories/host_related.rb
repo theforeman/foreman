@@ -51,11 +51,11 @@ FactoryGirl.define do
     sequence(:mac) { |n| "00:00:00:00:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
 
     trait :with_subnet do
-      subnet {
+      subnet do
         FactoryGirl.build(:subnet,
           :organizations => host ? [host.organization] : [],
           :locations => host ? [host.location] : [])
-      }
+      end
     end
   end
 
@@ -183,9 +183,9 @@ FactoryGirl.define do
 
     trait :with_puppet do
       environment
-      puppet_proxy { FactoryGirl.create(:smart_proxy,
-                        :features => [FactoryGirl.create(:feature, :puppet)])
-      }
+      puppet_proxy do
+        FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppet)])
+      end
     end
 
     trait :managed do
@@ -204,7 +204,7 @@ FactoryGirl.define do
       managed
       association :compute_resource, :factory => :libvirt_cr
       domain
-      subnet {
+      subnet do
         overrides = {
           :dhcp => FactoryGirl.create(:smart_proxy,
                      :features => [FactoryGirl.create(:feature, :dhcp)])
@@ -216,16 +216,16 @@ FactoryGirl.define do
           :subnet,
           overrides
         )
-      }
-      interfaces { [ FactoryGirl.build(:nic_primary_and_provision,
-                                       :ip => subnet.network.sub(/0\Z/, '1')) ]
-      }
+      end
+      interfaces do
+        [FactoryGirl.build(:nic_primary_and_provision, :ip => subnet.network.sub(/0\Z/, '1'))]
+      end
     end
 
     trait :with_dns_orchestration do
       managed
       association :compute_resource, :factory => :libvirt_cr
-      subnet {
+      subnet do
         overrides = {:dns => FactoryGirl.create(:smart_proxy,
                                                 :features => [FactoryGirl.create(:feature, :dns)])}
         #add taxonomy overrides in case it's set in the host object
@@ -233,19 +233,19 @@ FactoryGirl.define do
         overrides[:organizations] = [organization] unless organization.nil?
 
         FactoryGirl.create(:subnet, overrides)
-      }
-      domain {
+      end
+      domain do
         FactoryGirl.create(:domain,
           :dns => FactoryGirl.create(:smart_proxy,
                     :features => [FactoryGirl.create(:feature, :dns)])
         )
-      }
-      interfaces { [ FactoryGirl.build(:nic_managed,
-                                       :primary => true,
-                                       :provision => true,
-                                       :domain => FactoryGirl.build(:domain),
-                                       :ip => subnet.network.sub(/0\Z/, '1')) ]
-      }
+      end
+      interfaces do
+        [FactoryGirl.build(:nic_managed, :primary => true,
+                                         :provision => true,
+                                         :domain => FactoryGirl.build(:domain),
+                                         :ip => subnet.network.sub(/0\Z/, '1'))]
+      end
     end
 
     trait :with_tftp_subnet do
@@ -255,13 +255,13 @@ FactoryGirl.define do
     trait :with_tftp_orchestration do
       managed
       with_tftp_subnet
-      interfaces { [ FactoryGirl.build(:nic_managed,
-                                       :primary => true,
-                                       :provision => true,
-                                       :domain => FactoryGirl.build(:domain),
-                                       :subnet => subnet,
-                                       :ip => subnet.network.sub(/0\Z/, '2')) ]
-      }
+      interfaces do
+        [FactoryGirl.build(:nic_managed, :primary => true,
+                                         :provision => true,
+                                         :domain => FactoryGirl.build(:domain),
+                                         :subnet => subnet,
+                                         :ip => subnet.network.sub(/0\Z/, '2'))]
+      end
     end
 
     trait :with_puppet_orchestration do
@@ -270,9 +270,9 @@ FactoryGirl.define do
       association :compute_resource, :factory => :libvirt_cr
       domain
       interfaces { [ FactoryGirl.build(:nic_primary_and_provision) ] }
-      puppet_ca_proxy { FactoryGirl.create(:smart_proxy,
-                                            :features => [FactoryGirl.create(:feature, :puppetca)])
-      }
+      puppet_ca_proxy do
+        FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppetca)])
+      end
     end
 
     trait :with_realm do
@@ -321,15 +321,15 @@ FactoryGirl.define do
     trait :with_puppet_orchestration do
       architecture
       ptable
-      operatingsystem { FactoryGirl.create(:operatingsystem,
-                                           :architectures => [architecture], :ptables => [ptable] )
-      }
-      puppet_ca_proxy { FactoryGirl.create(:smart_proxy,
-                                            :features => [FactoryGirl.create(:feature, :puppetca)])
-      }
-      puppet_proxy { FactoryGirl.create(:smart_proxy,
-                        :features => [FactoryGirl.create(:feature, :puppet)])
-      }
+      operatingsystem do
+        FactoryGirl.create(:operatingsystem, :architectures => [architecture], :ptables => [ptable])
+      end
+      puppet_ca_proxy do
+        FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppetca)])
+      end
+      puppet_proxy do
+        FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppet)])
+      end
     end
   end
 end
