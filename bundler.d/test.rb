@@ -13,4 +13,5 @@ group :test do
   gem 'factory_girl_rails', '~> 4.5', :require => false
   gem 'rubocop-checkstyle_formatter', '~> 0.1'
   gem "poltergeist"
+  gem 'test-unit' if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.2.0')
 end
