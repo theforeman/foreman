@@ -1,6 +1,7 @@
 module Api
   module V1
     class ReportsController < V1::BaseController
+      before_filter :deprecated
       before_filter :find_resource, :only => %w{show destroy}
       before_filter :setup_search_options, :only => [:index, :last]
 
@@ -11,8 +12,8 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @reports = Report.
-          authorized(:view_reports).
+        @reports = ConfigReport.
+          authorized(:view_config_reports).
           my_reports.
           includes(:logs => [:source, :message]).
           search_for(*search_options).paginate(paginate_options)
@@ -43,8 +44,17 @@ module Api
 
       private
 
+      def deprecated
+        Foreman::Deprecation.api_deprecation_warning("Reports were renamed to ConfigReports")
+      end
+
       def resource_scope(options = {})
+        options.merge!(:permission => :view_config_reports)
         super(options).my_reports
+      end
+
+      def resource_class
+        ConfigReport
       end
 
       def action_permission

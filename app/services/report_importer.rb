@@ -2,14 +2,29 @@ class ReportImporter
   delegate :logger, :to => :Rails
   attr_reader :report
 
+  # When writing your own Report importer, provide feature(s) of authorized Smart Proxies
+  def self.authorized_smart_proxy_features
+    @authorized_smart_proxy_features ||= []
+  end
+
+  def self.register_smart_proxy_feature(feature)
+    @authorized_smart_proxy_features = (authorized_smart_proxy_features + [ feature ]).uniq
+  end
+
+  def self.unregister_smart_proxy_feature(feature)
+    @authorized_smart_proxy_features -= [ feature ]
+  end
+
   def self.import(raw, proxy_id = nil)
     importer = new(raw, proxy_id)
     importer.import
     importer.report
   end
 
-  def self.report_features
-    ['Puppet', 'Chef Proxy']
+  # to be overriden in children
+  def report_name_class
+    Foreman::Deprecation.deprecation_warning('1.13', "Report model has turned to be STI, please use child classes")
+    Report
   end
 
   def initialize(raw, proxy_id = nil)
@@ -22,37 +37,11 @@ class ReportImporter
     start_time = Time.now
     logger.info "processing report for #{name}"
     logger.debug { "Report: #{raw.inspect}" }
-
-    if host.new_record? && !Setting[:create_new_host_when_report_is_uploaded]
-      logger.info("skipping report for #{name} as its an unknown host and create_new_host_when_report_is_uploaded setting is disabled")
-      return Report.new
+    create_report_and_logs
+    if report.persisted?
+      logger.info("Imported report for #{name} in #{(Time.now - start_time).round(2)} seconds")
+      host.refresh_statuses
     end
-
-    # convert report status to bit field
-    st = ReportStatusCalculator.new(:counters => raw['status']).calculate
-
-    # we update our host record, so we won't need to lookup the report information just to display the host list / info
-    host.last_report     = time if host.last_report.nil? or host.last_report.utc < time
-
-    # if proxy authentication is enabled and we have no puppet proxy set, use it.
-    host.puppet_proxy_id ||= proxy_id
-
-    # we save the host without validation for two reasons:
-    # 1. It might be auto imported, therefore might not be valid (e.g. missing partition table etc)
-    # 2. We want this to be fast and light on the db.
-    # at this point, the report is important, not the host
-    host.save(:validate => false)
-
-    # and save our report
-    @report = Report.new(:host => host, :reported_at => time, :status => st, :metrics => raw['metrics'])
-    return report unless report.save
-    # Store all Puppet message logs
-    import_log_messages
-    # Check for errors
-    inspect_report
-    logger.info("Imported report for #{name} in #{(Time.now - start_time).round(2)} seconds")
-
-    host.refresh_statuses
   end
 
   private
@@ -96,7 +85,11 @@ class ReportImporter
     end
   end
 
-  def inspect_report
+  def report_status
+    raise NotImplementedError
+  end
+
+  def notify_on_report_error(mail_error_state)
     if report.error?
       # found a report with errors
       # notify via email IF enabled is set to true
@@ -109,10 +102,31 @@ class ReportImporter
       owners = host.owner.present? ? host.owner.recipients_for(:puppet_error_state) : []
       if owners.present?
         logger.debug "sending alert to #{owners.map(&:login).join(',')}"
-        MailNotification[:puppet_error_state].deliver(report, :users => owners)
+        MailNotification[mail_error_state].deliver(report, :users => owners)
       else
         logger.debug "no owner or recipients for alert on #{name}"
       end
     end
+  end
+
+  def create_report_and_logs
+    if host.new_record? && !Setting[:create_new_host_when_report_is_uploaded]
+      logger.info("skipping report for #{name} as its an unknown host and create_new_host_when_report_is_uploaded setting is disabled")
+      @report = report_name_class.new
+      return @report
+    end
+
+    # we save the host without validation for two reasons:
+    # 1. It might be auto imported, therefore might not be valid (e.g. missing partition table etc)
+    # 2. We want this to be fast and light on the db.
+    # at this point, the report is important, not the host
+    host.save(:validate => false)
+
+    status = report_status
+
+    # and save our report
+    @report = report_name_class.new(:host => host, :reported_at => time, :status => status, :metrics => raw['metrics'])
+    @report.save
+    @report
   end
 end

@@ -14,7 +14,7 @@
     <tbody>
       <% events.each do |report| %>
         <tr>
-          <td><%= link_to trunc_with_tooltip(report.host, 14), host_reports_path(report.host) %></td>
+          <td><%= link_to trunc_with_tooltip(report.host, 14), host_config_reports_path(report.host) %></td>
           <td><%= report_event_column(report.applied, "label-info") %></td>
           <td><%= report_event_column(report.restarted, "label-info") %></td>
           <td><%= report_event_column(report.failed, "label-danger") %></td>

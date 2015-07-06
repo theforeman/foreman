@@ -1,18 +1,18 @@
 require 'test_helper'
 require 'functional/shared/report_host_permissions_test'
 
-class ReportsControllerTest < ActionController::TestCase
+class ConfigReportsControllerTest < ActionController::TestCase
   include ::ReportHostPermissionsTest
 
   def test_index
     get :index, {}, set_session_user
     assert_response :success
-    assert_not_nil assigns('reports')
+    assert_not_nil assigns('config_reports')
     assert_template 'index'
   end
 
   def test_show
-    report = FactoryGirl.create(:report)
+    report = FactoryGirl.create(:config_report)
     get :show, {:id => report.id}, set_session_user
     assert_template 'show'
   end
@@ -24,7 +24,7 @@ class ReportsControllerTest < ActionController::TestCase
   end
 
   def test_show_last
-    FactoryGirl.create(:report)
+    FactoryGirl.create(:config_report)
     get :show, {:id => "last"}, set_session_user
     assert_template 'show'
   end
@@ -36,7 +36,7 @@ class ReportsControllerTest < ActionController::TestCase
   end
 
   def test_show_last_report_for_host
-    report   = FactoryGirl.create(:report)
+    report   = FactoryGirl.create(:config_report)
     get :show, {:id => "last", :host_id => report.host.to_param}, set_session_user
     assert_template 'show'
   end
@@ -48,10 +48,10 @@ class ReportsControllerTest < ActionController::TestCase
   end
 
   def test_destroy
-    report = FactoryGirl.create(:report)
+    report = FactoryGirl.create(:config_report)
     delete :destroy, {:id => report}, set_session_user
-    assert_redirected_to reports_url
-    assert !Report.exists?(report.id)
+    assert_redirected_to config_reports_url
+    assert !ConfigReport.exists?(report.id)
   end
 
   test "should show report" do
@@ -66,16 +66,16 @@ class ReportsControllerTest < ActionController::TestCase
     create_a_report
     assert @report.save!
 
-    assert_difference('Report.count', -1) do
+    assert_difference('ConfigReport.count', -1) do
       delete :destroy, {:id => @report.id}, set_session_user
     end
 
-    assert_redirected_to reports_path
+    assert_redirected_to config_reports_path
   end
 
   test 'cannot view the last report without hosts view permission' do
-    setup_user('view', 'reports')
-    report = FactoryGirl.create(:report)
+    setup_user('view', 'config_reports')
+    report = FactoryGirl.create(:config_report)
     get :show, { :id => 'last', :host_id => report.host.id }, set_session_user.merge(:user => User.current)
     assert_response :not_found
   end
@@ -83,6 +83,6 @@ class ReportsControllerTest < ActionController::TestCase
   private
 
   def create_a_report
-    @report = Report.import JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-empty.json")))
+    @report = ConfigReport.import JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-empty.json")))
   end
 end

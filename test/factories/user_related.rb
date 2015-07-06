@@ -45,7 +45,7 @@ FactoryGirl.define do
     end
 
     trait :report do
-      resource_type 'Report'
+      resource_type 'ConfigReport'
     end
   end
 
