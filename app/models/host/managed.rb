@@ -5,8 +5,8 @@ class Host::Managed < Host::Base
   has_many :host_classes, :foreign_key => :host_id
   has_many :puppetclasses, :through => :host_classes, :dependent => :destroy
   belongs_to :hostgroup
-  has_many :reports, :foreign_key => :host_id
-  has_one :last_report_object, :foreign_key => :host_id, :order => "#{Report.table_name}.id DESC", :class_name => 'Report'
+  has_many :reports, :foreign_key => :host_id, :class_name => 'ConfigReport'
+  has_one :last_report_object, :foreign_key => :host_id, :order => "#{Report.table_name}.id DESC", :class_name => 'ConfigReport'
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :host
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "HostParameter"
   accepts_nested_attributes_for :host_parameters, :allow_destroy => true
@@ -236,19 +236,19 @@ class Host::Managed < Host::Base
     self.owner = oid
   end
 
-  def clearReports
+  def clear_reports
     # Remove any reports that may be held against this host
     Report.where("host_id = #{id}").delete_all
   end
 
-  def clearFacts
+  def clear_facts
     FactValue.where("host_id = #{id}").delete_all
   end
 
   def clear_data_on_build
     return unless respond_to?(:old) && old && build? && !old.build?
-    clearFacts
-    clearReports
+    clear_facts
+    clear_reports
   end
 
   def set_token
@@ -925,7 +925,7 @@ class Host::Managed < Host::Base
   end
 
   def puppet_status
-    Foreman::Deprecation.deprecation_warning('1.12', 'Host#puppet_status has been deprecated, you should use configuration_status')
+    Foreman::Deprecation.deprecation_warning('1.13', 'Host#puppet_status has been deprecated, you should use configuration_status')
     configuration_status
   end
 

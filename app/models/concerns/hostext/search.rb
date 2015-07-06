@@ -17,7 +17,7 @@ module Hostext
       scoped_search :on => :owner_type,    :complete_value => true, :only_explicit => true
       scoped_search :on => :owner_id,      :complete_enabled => false, :only_explicit => true
 
-      scoped_search :in => :configuration_status_object, :on => :status, :offset => 0, :word_size => Report::BIT_NUM*4, :rename => :'status.interesting', :complete_value => {:true => true, :false => false}
+      scoped_search :in => :configuration_status_object, :on => :status, :offset => 0, :word_size => ConfigReport::BIT_NUM*4, :rename => :'status.interesting', :complete_value => {:true => true, :false => false}
       scoped_search_status "applied",         :in => :configuration_status_object, :on => :status, :rename => :'status.applied'
       scoped_search_status "restarted",       :in => :configuration_status_object, :on => :status, :rename => :'status.restarted'
       scoped_search_status "failed",          :in => :configuration_status_object, :on => :status, :rename => :'status.failed'

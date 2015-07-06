@@ -1,7 +1,7 @@
 module HostStatus
   class ConfigurationStatus < Status
     delegate :error?, :changes?, :pending?, :to => :calculator
-    delegate(*Report::METRIC, :to => :calculator)
+    delegate(*ConfigReport::METRIC, :to => :calculator)
 
     def last_report
       self.last_report = host.last_report_object unless @last_report_set
@@ -86,7 +86,7 @@ module HostStatus
     end
 
     def self.bit_mask(config_status)
-      "#{Report::BIT_NUM * Report::METRIC.index(config_status)} & #{Report::MAX}"
+      "#{ConfigReport::BIT_NUM * ConfigReport::METRIC.index(config_status)} & #{ConfigReport::MAX}"
     end
 
     private
@@ -103,7 +103,7 @@ module HostStatus
     end
 
     def calculator
-      ReportStatusCalculator.new(:bit_field => status)
+      ConfigReportStatusCalculator.new(:bit_field => status)
     end
   end
 end

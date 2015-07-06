@@ -1,9 +1,7 @@
 class Report < ActiveRecord::Base
-  METRIC = %w[applied restarted failed failed_restarts skipped pending]
-  BIT_NUM = 6
-  MAX = (1 << BIT_NUM) -1 # maximum value per metric
   LOG_LEVELS = %w[debug info notice warning err alert emerg crit]
 
+  include Foreman::STI
   include Authorizable
   include ConfigurationStatusScopedSearch
 
@@ -16,7 +14,7 @@ class Report < ActiveRecord::Base
   has_one :hostgroup, :through => :host
 
   validates :host_id, :status, :presence => true
-  validates :reported_at, :presence => true, :uniqueness => {:scope => :host_id}
+  validates :reported_at, :presence => true, :uniqueness => {:scope => [:host_id, :type]}
 
   scoped_search :in => :host,        :on => :name,  :complete_value => true, :rename => :host
   scoped_search :in => :environment, :on => :name,  :complete_value => true, :rename => :environment
@@ -27,21 +25,6 @@ class Report < ActiveRecord::Base
   scoped_search :in => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_title
 
   scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc,    :rename => :reported, :only_explicit => true
-  scoped_search :on => :status, :offset => 0, :word_size => 4*BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
-
-  scoped_search_status 'applied',         :on => :status, :rename => :applied
-  scoped_search_status 'restarted',       :on => :status, :rename => :restarted
-  scoped_search_status 'failed',          :on => :status, :rename => :failed
-  scoped_search_status 'failed_restarts', :on => :status, :rename => :failed_restarts
-  scoped_search_status 'skipped',         :on => :status, :rename => :skipped
-  scoped_search_status 'pending',         :on => :status, :rename => :pending
-
-  # search for a metric - e.g.:
-  # Report.with("failed") --> all reports which have a failed counter > 0
-  # Report.with("failed",20) --> all reports which have a failed counter > 20
-  scope :with, lambda { |*arg|
-    where("(#{report_status} >> #{HostStatus::ConfigurationStatus.bit_mask(arg[0].to_s)}) > #{arg[1] || 0}")
-  }
 
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
@@ -56,22 +39,9 @@ class Report < ActiveRecord::Base
   # with_changes
   scope :interesting, -> { where("status <> 0") }
 
-  # a method that save the report values (e.g. values from METRIC)
-  # it is not supported to edit status values after it has been written once.
-  def status=(st)
-    s = case st
-          when Integer, Fixnum
-            st
-          when Hash
-            ReportStatusCalculator.new(:counters => st).calculate
-          else
-            raise Foreman::Exception(N_('Unsupported report status format'))
-        end
-    write_attribute(:status, s)
-  end
-
   # extracts serialized metrics and keep them as a hash_with_indifferent_access
   def metrics
+    return {} if read_attribute(:metrics).nil?
     YAML.load(read_attribute(:metrics)).with_indifferent_access
   end
 
@@ -84,37 +54,9 @@ class Report < ActiveRecord::Base
     "#{host.name} / #{reported_at}"
   end
 
-  def config_retrieval
-    metrics[:time][:config_retrieval].round(2) rescue 0
-  end
-
-  def runtime
-    (metrics[:time][:total] || metrics[:time].values.sum).round(2) rescue 0
-  end
-
   def self.import(report, proxy_id = nil)
-    ReportImporter.import(report, proxy_id)
-  end
-
-  # returns a hash of hosts and their recent reports metric counts which have values
-  # e.g. non zero metrics.
-  # first argument is time range, everything afterwards is a host list.
-  # TODO: improve SQL query (so its not N+1 queries)
-  def self.summarise(time = 1.day.ago, *hosts)
-    list = {}
-    raise ::Foreman::Exception.new(N_("invalid host list")) unless hosts
-    hosts.flatten.each do |host|
-      # set default of 0 per metric
-      metrics = {}
-      METRIC.each {|m| metrics[m] = 0 }
-      host.reports.recent(time).select(:status).each do |r|
-        metrics.each_key do |m|
-          metrics[m] += r.status_of(m)
-        end
-      end
-      list[host.name] = {:metrics => metrics, :id => host.id} if metrics.values.sum > 0
-    end
-    list
+    Foreman::Deprecation.deprecation_warning('1.13', "Report model has turned to be STI, please use child classes")
+    ConfigReportImporter.import(report, proxy_id)
   end
 
   # add sort by report time
@@ -130,34 +72,16 @@ class Report < ActiveRecord::Base
     cond = "reports.created_at < \'#{(Time.now.utc - timerange).to_formatted_s(:db)}\'"
     cond += " and reports.status = #{status}" unless status.nil?
 
-    Log.joins(:report).where(:report_id => Report.where(cond)).delete_all
+    Log.joins(:report).where(:report_id => where(cond)).delete_all
     Message.where("id not IN (#{Log.unscoped.select('DISTINCT message_id').to_sql})").delete_all
     Source.where("id not IN (#{Log.unscoped.select('DISTINCT source_id').to_sql})").delete_all
-    count = Report.where(cond).delete_all
-    logger.info Time.now.to_s + ": Expired #{count} Reports"
+    count = where(cond).delete_all
+    logger.info Time.now.to_s + ": Expired #{count} #{to_s.underscore.humanize.pluralize}"
     count
   end
 
   # represent if we have a report --> used to ensure consistency across host report state the report itself
   def no_report
     false
-  end
-
-  def summaryStatus
-    return _("Failed")   if error?
-    return _("Modified") if changes?
-    _("Success")
-  end
-
-  # puppet report status table column name
-  def self.report_status
-    "status"
-  end
-
-  delegate :error?, :changes?, :pending?, :status, :status_of, :to => :calculator
-  delegate(*METRIC, :to => :calculator)
-
-  def calculator
-    ReportStatusCalculator.new(:bit_field => read_attribute(self.class.report_status))
   end
 end

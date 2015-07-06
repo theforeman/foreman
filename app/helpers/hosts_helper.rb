@@ -63,7 +63,7 @@ module HostsHelper
   def last_report_column(record)
     time = record.last_report? ? _("%s ago") % time_ago_in_words(record.last_report): ""
     link_to_if_authorized(time,
-                          hash_for_host_report_path(:host_id => record.to_param, :id => "last"),
+                          hash_for_host_config_report_path(:host_id => record.to_param, :id => "last"),
                           last_report_tooltip(record))
   end
 
@@ -388,7 +388,7 @@ module HostsHelper
   def show_appropriate_host_buttons(host)
     [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries"), :class => 'btn btn-default'),
       (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts"), :class => 'btn btn-default') if host.fact_values.any?),
-      (link_to_if_authorized(_("Reports"), hash_for_host_reports_path(:host_id => host), :title => _("Browse host reports"), :class => 'btn btn-default') if host.reports.any?),
+      (link_to_if_authorized(_("Reports"), hash_for_host_config_reports_path(:host_id => host), :title => _("Browse host config management reports"), :class => 'btn btn-default') if host.reports.any?),
       (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump"), :class => 'btn btn-default') if SmartProxy.with_features("Puppet").any?)
     ].compact
   end

@@ -1,6 +1,6 @@
-object @report
+object @config_report
 
-extends "api/v2/reports/main"
+extends "api/v2/config_reports/main"
 
 child :logs do
   child :source do
@@ -12,6 +12,6 @@ child :logs do
   attribute :level
 end
 
-node :summary do |report|
-  report.summary_status
+node :summary do |config_report|
+  config_report.summary_status
 end

@@ -33,7 +33,7 @@
         <td style="<%= td_style %>">
       <% end %>
       <% if v > 0 %>
-        <%= link_to v, reports_path(:search=>"host = #{host} and #{m} > 0", :host => @url.host, :port => @url.port, :protocol => @url.scheme, :only_path => false) %>
+        <%= link_to v, config_reports_path(:search=>"host = #{host} and #{m} > 0", :host => @url.host, :port => @url.port, :protocol => @url.scheme, :only_path => false) %>
       <% else %>
         <%= v %>
       <% end %>

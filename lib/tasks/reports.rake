@@ -3,22 +3,35 @@ desc <<-END_DESC
 Expire Reports automatically
 
 Available conditions:
-  * days     => number of days to keep reports (defaults to 7)
-  * status   => status of the report (defaults to 0 --> "reports with no errors")
+  * days        => number of days to keep reports (defaults to 7)
+  * status      => status of the report (defaults to 0 --> "reports with no errors")
+  * report_type => report type (defaults to config_report), accepts either underscore / class name styles
 
   Example:
     rake reports:expire days=7 RAILS_ENV="production" # expires all reports regardless of their status
     rake reports:expire days=1 status=0 RAILS_ENV="production" # expires all non interesting reports after one day
+    rake reports:expire report_type=my_report days=3 # expires all reports of type MyReport (underscored style) from the last 3 days.
+    rake reports:expire report_type=MyReport days=3 # expires all reports of type MyReport (class name style) from the last 3 days.
 
 END_DESC
 
 namespace :reports do
+  def report_type
+    return ConfigReport if ENV['report_type'].blank?
+    begin
+      return ENV['report_type'].camelize.constantize
+    rescue NameError => e
+      puts "Could not find a report of type #{ENV['report_type']}, please check spelling / underscore errors"
+      raise e
+    end
+  end
+
   task :expire => :environment do
     conditions = {}
     conditions[:timerange] = ENV['days'].to_i.days if ENV['days']
     conditions[:status] = ENV['status'].to_i if ENV['status']
 
-    Report.expire(conditions)
+    report_type.expire(conditions)
   end
 end
 # TRANSLATORS: do not translate
