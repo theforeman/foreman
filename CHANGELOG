@@ -1,3 +1,723 @@
+2015-07-06	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.9.0-RC1
+	* i18n - extracting new, updating rails, pulling from tx
+	* fixes #10470 - update fog to 1.32.0
+
+2015-07-02	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #10964 - [js] search env_id by name attribute
+	* fixes #10965 - remove select css classes from days_filter
+	* fixes #10868 - use classify for a Symbol instead of humanize
+	* fixes #10933 - in api/v1 templates should be name as config_templates
+	* fixes #10876 - Search for compute / arch /os by name and not by id
+
+2015-07-02	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10928 - Default dashboard widgets for new users
+
+2015-07-02	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #10976 - Suggest new ip button does not work
+
+2015-07-02	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #10635 - Formalize deprecation warning
+	* Fixes #10729 - clear notifications on login
+
+2015-07-02	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #10963 - partition table can't access os ids
+
+2015-07-02	Pavel Moravec <pmoravec@redhat.com>
+	* Fixes #10945 - foreman-debug to collect foreman http request log
+
+2015-07-02	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10607 - match bonds based on identifier only
+	* Fixes #10888 - skip attached_to updates if identifier was blank
+
+2015-06-26	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+	* templates - sync from community-templates
+
+2015-06-26	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #10917 - Update API docs for template combinations
+
+2015-06-26	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10740 - ignore auditing of all models in migrations
+
+2015-06-26	untsakas <raul.laansoo@gmail.com>
+	* Fixes #10683 - Permission to view individual compute resource VMs is incorrect
+
+2015-06-25	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #10910 - initiate select2 separately on interfaces selects
+
+2015-06-25	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #10916 - convert config_template_ids in operatingsystems
+
+2015-06-25	Dominic Cleal <dcleal@redhat.com>
+	* refs #10072 - derestrict fog-libvirt per semver
+
+2015-06-25	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10911 - reinitialize select2 on templated forms
+
+2015-06-25	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #10879 - reported_at column is NOT NULL
+
+2015-06-25	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #7574 - Rails 4 :data attributes substitute deprecated HTML options
+	* Fixes #10909 - Clear value on select2 dropdown
+	* Fixes #10090 - Minimised dashboard widget names are translated
+
+2015-06-24	David O'Brien <daobrien@redhat.com>
+	* Fixes #10921 - Rephrase foreman-rake manpage
+
+2015-06-24	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10899 - removes deprecated smart proxies scopes code
+
+2015-06-24	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #10727 - Added validation to require BMC Smart proxy in order to add BMC nic
+
+2015-06-24	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #10633 - Associate architechture to OS during fact import
+
+2015-06-23	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10849 - remove hidden template fields on submit
+
+2015-06-23	Dominic Cleal <dcleal@redhat.com>
+	* refs #10701 - fix spelling mistakes
+
+2015-06-22	Fernando Carolo <carolo@gmail.com>
+	* Fixes #10526 - Support for Cisco POAP
+
+2015-06-22	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #10853 - add config_template_ids back to organization
+
+2015-06-19	Walter Huf <whuf@skybox.com>
+	* Refs #10720 - Use API v2 response for vm_compute_attributes
+
+2015-06-19	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* Fixes #10072: Support for user-data during image-based provisioning with libvirt (used for creating of Atomic libvirt VM)
+
+2015-06-19	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #10887 - Removed debug statement from clear_cache
+
+2015-06-18	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #10641 - Introduce select2.js for searching in select lists and apply to CR select
+
+2015-06-18	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #10701 - foreman-debug config file support
+
+2015-06-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #10861 - Remove unused columns from the hosts table
+
+2015-06-18	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #10854 - config_templates missing from show in taxonomies and os
+
+2015-06-17	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #10780 - factory girl examples for provisioning
+
+2015-06-17	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #9793 - API v2 fact_values index works for non-admins
+
+2015-06-16	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #10829 - non-admin user cannot update admin password
+
+2015-06-16	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10409 - Rails 4 compatible changes with Rails 3
+	* Fixes #4551 - GCE provisioning support
+
+2015-06-16	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10817 - Initialize all autocomplete fields that needs it
+
+2015-06-16	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #10815 - introduced FOREMAN_APIPIE_LANGS env variable
+
+2015-06-16	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #10738 - Added javascript to focus on alert in puppetclasses tab
+
+2015-06-15	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10787 - load fog extensions based on available CRs
+	* refs #10703 - use N_() for exception messages
+
+2015-06-12	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10793 - rename old class name in taxonomy ignore_types
+
+2015-06-12	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #10703 - websockify is now randomly selected
+
+2015-06-11	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #10656 - Prevent audits on counter cache update
+
+2015-06-11	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10627 - apply host taxonomy scope to facts/report joins
+
+2015-06-10	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #6976 - Build default PXE menu should be POST request
+
+2015-06-10	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10736 - Add permission specific logger
+
+2015-06-09	Ivan Nečas <inecas@redhat.com>
+	* Fixes #10713 - improved backtrace logging
+
+2015-06-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #7096 - Adds STI to templates
+
+2015-06-08	Walter Huf <hufman@google.com>
+	* fixes #10720 - Adds API to get host vm attributes
+
+2015-06-08	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10260 - allow NIC management in attended mode and for unmanage hosts
+	* Fixes #10642 - save the interface regardless of validation errors
+
+2015-06-08	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #10715 - api build_pxe_default returns non-JSON message
+
+2015-06-08	Justin Sherrill <jsherril@redhat.com>
+	* fixes #9301 - make puppet environment optional for hosts
+
+2015-06-05	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10711 - move LDAP logging to a separate logger
+
+2015-06-05	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #10695 - don't seed initial taxonomies if there are any already
+
+2015-06-04	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10566 - allow identifier modifications that do not change interface type
+
+2015-06-04	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #10699 - foreman debug options -au are exclusive
+
+2015-06-04	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #3856 - Make parameter value fields expandable
+
+2015-06-04	Ori Rabin <orabin@redhat.com>
+	* Fixes #9187 - Overrideable empty class parameters don't validate default value
+
+2015-06-04	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #10487: Add custom logging support
+
+2015-06-03	Dmitry Kireev <dmitry@kireev.co>
+	* Fixes #9299 - Windows installation media works without bcd patching
+
+2015-06-03	Marek Hulan <mhulan@redhat.com>
+	* Fixes #3711 - usergroup name can't be null
+	* Fixes #10684 - re-adding missing code
+
+2015-06-02	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10646 - disable NIC subnet taxonomy checks when feature's disabled
+	* fixes #6332 - skip taxonomy queries when features are disabled
+	* fixes #10397 - parse Windows Local_Area_Connection interface name
+	* fixes #10613 - restore VMware SCSI controller field
+
+2015-06-02	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10664 - map only physical interfaces in compute orchestration
+
+2015-06-02	Tom Caspy <tcaspy@gmail.com>
+	* fixes #10660 - taxonomies are able to have the same name for different classes
+
+2015-06-01	Aaron Stone <aaron@serendipity.cx>
+	* Refs #6518 - Use #find instead of #select #first to choose a BMC proxy for the subnet
+
+2015-06-01	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #9031 - Add routes to view template_combinations per hostgroup / environment
+
+2015-05-28	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #10638 - decouple full screen button from template editor
+
+2015-05-28	Francois Herbert <francois@herbert.org.nz>
+	* fixes #10151 - Unable to get resourcePool
+
+2015-05-27	alongoldboim <alongoldboim@gmail.com>
+	* fixes #9632 - updated compute resource names to follow brand names
+
+2015-05-27	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #10584 - Replace sort.uniq with uniq.sort
+
+2015-05-22	Walden Raines <walden@redhat.com>
+	* Fixes #10542: correct path for auto complete search on filters page.
+
+2015-05-22	Adam Price <komidore64@gmail.com>
+	* fixes #10284 - improves foreman-debug usage for consumption from other tools
+
+2015-05-22	Jan Pazdziora <jpazdziora@redhat.com>
+	* fixes #10586 - make the 401 status comparison actually match.
+
+2015-05-22	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #1510 - notification when host finishes building
+
+2015-05-22	Ori Rabin <orabin@redhat.com>
+	* Fixes #9424 - orchestration progress no longer triggers twice
+
+2015-05-22	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #10583 - perform uniq in database instead of in memory when possible
+
+2015-05-22	Tom Caspy <tcaspy@gmail.com>
+	* fixes #8597 - escape slashes for ptable URL parameters
+
+2015-05-21	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10568 - Show release field when OS family is CoreOS
+	* Fixes #10513 - Substitute reports:summarize docs for reports:daily
+
+2015-05-21	Dominic Cleal <dcleal@redhat.com>
+	* fixes #9873 - generate unique alert mails for each user group member
+
+2015-05-21	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7337 - Only list authorized items on multiple select
+
+2015-05-20	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7533 - auto resize pie chart labels to prevent overflow
+	* Fixes #10288 - prevent audits on update of puppetclass total hosts counter
+
+2015-05-20	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #9594 - adds admin field to the hostgroup rabl
+
+2015-05-19	Ori Rabin <orabin@redhat.com>
+	* Fixes #10535 - building a token instead of creating it until host is saved
+
+2015-05-19	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #10439 - add tests for trends:reduce task to deal with additions
+
+2015-05-19	Walden Raines <walden@redhat.com>
+	* Fixes #10402: add to_bool function for converting to boolean.
+
+2015-05-19	Tom Caspy <tcaspy@gmail.com>
+	* fixes #10528 - lookup value should allow false and 0 values
+
+2015-05-19	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10482 - get external user group members only once during refresh
+
+2015-05-18	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #10355 - Prevent turbolinks loading puppetclass import
+
+2015-05-18	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #1213 - Get email reports of audit changes
+
+2015-05-18	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10509 - add toggle for LDAP usergroup updating
+	* fixes #10493 - disable usergroup sync on login when $login is used
+	* fixes #10510 - move secure flag to existing session configuration
+
+2015-05-18	John McCabe <john@johnmccabe.net>
+	* fixes #10518 - Broken quickstart section URL
+
+2015-05-14	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10507 - wait for completion of update env request
+	* fixes #4769 - fix deprecation warning while syncing LDAP attrs
+	* fixes #10336 - move rbvmomi CR loading before our CR loading
+
+2015-05-14	Eric-Olivier Lamey <eric-olivier.lamey-ext@cloudwatt.com>
+	* Fixes #9170 - wrong nic order in libvirt domain
+
+2015-05-14	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10442 - dry up host managed logic
+
+2015-05-14	Ori Rabin <orabin@redhat.com>
+	* Fixes #9634 - creating a host with an interface and without os returns a validation message
+
+2015-05-14	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #9613 - foreman_url can't be blank
+
+2015-05-14	Joseph Magen <jmagen@redhat.com>
+	* fixes #10492 - permission name should be unique and not scoped by resource_type
+
+2015-05-13	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10406 - add LDAP instrumentation and extra logging
+
+2015-05-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10379 - disables cloning if unattended mode is disabled
+	* Fixes #10212 - validate DNS name uniqueness of interfaces
+
+2015-05-13	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9966 - More debug messages for matching nics from fog
+
+2015-05-13	Jon McKenzie <jcmcken@gmail.com>
+	* Fixes #5568 - Improves performance of trends:clean rake task
+
+2015-05-12	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #9194 - displays full fact value
+	* fixes #10471 - use Rails' force_ssl
+	* fixes #10275 - Add secure cookie when in ssl (CVE-2015-3155)
+
+2015-05-12	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7532 - prevent wrapping of host parameter table headers in ja_jp
+
+2015-05-11	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #8525 - Rename "Mail" to "Email" in user preferences
+
+2015-05-11	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10403 - resync names of unmanaged hosts to their primary NIC
+	* fixes #10261 - update fog to 1.30.0
+	* fixes #10298 - handle destroyed but present interfaces
+
+2015-05-11	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #10307 - editing host with 'unattended: false' no longer results in error
+
+2015-05-11	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #10437 - remove incorrect/duplicate hash statements
+
+2015-05-11	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #10441 - sort time and count-based columns in descending order
+
+2015-05-09	Ori Rabin <orabin@redhat.com>
+	* Fixes #8333 - correct matcher values with multi-key matchers
+
+2015-05-09	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8502 - update scoped_search to 3.x
+
+2015-05-08	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10412 - display interface tooltip after type change
+
+2015-05-07	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #10337 - Update Host searches to use outofsync_interval
+	* Refs #3809 - Remove nested ternary and nil checking
+
+2015-05-06	Marek Hulan <mhulan@redhat.com>
+	* Fixes #7458 - allow searching hosts by their ip and mac addresses
+
+2015-05-06	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10382 - Allow lowercase IPMI provider
+	* Fixes #10263 - Encrypt LDAP password in db
+
+2015-05-06	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7454 - extract period for l10n on taxonomy help pages.
+
+2015-05-06	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #9879 - improve wording of host delete dialog
+	* Fixes #5649 - unattended_url validation fix
+
+2015-05-06	Craig Parker <craig@paragon.net.uk>
+	* Fixes #10337 - Added setting out of sync duration
+
+2015-05-05	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10343 - only log cache deletion failures when saving settings
+
+2015-05-05	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7515 - Prevent label line breaks in add bookmark modal
+
+2015-05-05	karmab <karimboumedhel@gmail.com>
+	* Fixes #10305 - complete handling for cloudinit-like in vsphere feature
+
+2015-05-05	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #10030 - use override method to display templates in folders
+
+2015-05-05	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10230 - Host clone uses create_hosts permission
+
+2015-05-05	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #8566 - reorganized settings categories
+
+2015-05-04	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #9812 - Adds validation on override value, ensure match returns error if blank
+
+2015-05-01	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #10194 - help text for token_duration setting
+	* Fixes #10228 - adding index to source_id in logs table
+
+2015-05-01	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9506 - Add granular permissions to config groups
+	* Fixes #9687 - respect custom controller permissions
+
+2015-05-01	Avi Tal <avi@primarydata.com>
+	* fixes #10342 - adding :host_parameters_attributes to except list in template_used()
+
+2015-05-01	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #9674 - Handle ProxyAPI exceptions on PuppetCA controller
+
+2015-04-30	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #10287 - provide helper methods for proxy features
+
+2015-04-29	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* Fixes #10289: default root password hash is SHA256 now
+
+2015-04-29	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #7335 - Refactor taxonomy form, display "select all" checkbox only if permitted
+
+2015-04-28	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #7743 - ensure name is unique in scope of major and minor
+
+2015-04-28	Dominic Cleal <dcleal@redhat.com>
+	* refs #5554 - revert string change, save unnecessary retranslation
+	* fixes #8817 - look up reports with all joins from host scoped_search
+
+2015-04-28	Tom Caspy <tcaspy@gmail.com>
+	* fixes #9240 - in case of hash with indifferent access, serialize as hash
+
+2015-04-28	Ori Rabin <orabin@redhat.com>
+	* Fixes #5554 - fixed hostgroup and fqdn validations in multiple matchers
+
+2015-04-28	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #3809 - Remove semicolon cop
+
+2015-04-28	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #9773 - correctly render template URL
+
+2015-04-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #10269 - host template preview now opens in a new tab
+
+2015-04-27	Francois Herbert <F.Herbert@massey.ac.nz>
+	* Fixes #10186 - find host NICs on vsphere using Network Distributed PortGroup
+
+2015-04-24	Dominic Cleal <dcleal@redhat.com>
+	* refs #10168 - fix test that created a duplicate primary interface
+	* fixes #9982 - update fog to 1.29.0
+	* fixes #10168 - delegate fqdn/shortname to primary interface
+
+2015-04-24	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #9454 - Add axis labels and reposition legend in charts
+
+2015-04-24	Ori Rabin <orabin@redhat.com>
+	* Fixes #8861 - Lengthy organization or location names showed in tooltip
+
+2015-04-24	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10111 - Use a dummy primary interface for unmanaged hosts
+
+2015-04-22	Daniel Lobato <elobatocs@gmail.com>
+	* fixes #10234 - Fix NIC taxonomies validation tests
+
+2015-04-22	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #9391 - Added validation code to NIC, so it validates that host's location/org is compatible with the one set on NIC's subnet
+
+2015-04-22	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10158 - use full column name to avoid ambiguity on Rails 3.2.8
+
+2015-04-21	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #9998 - Add styling to error reporting
+
+2015-04-20	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #10153 - pull in host_edit_interfaces.js also in hostgroups
+
+2015-04-20	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #8106 - Add helper for add to dashboard button
+
+2015-04-20	Joseph Magen <jmagen@redhat.com>
+	* fixes #10167 - change default API from v1 to v2
+
+2015-04-17	Ori Rabin <orabin@redhat.com>
+	* Fixes #8217, #8214 - Rearranging override section in smart class parameter page and host page
+
+2015-04-17	Dominic Cleal <dcleal@redhat.com>
+	* fixes #10020 - add next-server/filename attrs to provision NIC DHCP record
+
+2015-04-14	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #10124 - collect /var/log/syslog in foreman-debug
+
+2015-04-13	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10123 - Tests API v2 external user groups
+
+2015-04-13	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #9617 - rescue from empty vmware clusters
+
+2015-04-13	Chad Walstrom <chad.walstrom@govdelivery.com>
+	* Fixes #10093 - VMware#create_vm calls clone_vm
+
+2015-04-13	Christine Fouant <cfouant@redhat.com>
+	* fixes #9993 - Removes root password and partition table reqs unless build mode selected
+
+2015-04-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9884 - refresh deleted external usergroups
+	* Fixes #9878 - refresh external usergroup on API manipulation
+	* Fixes #10025 - move generic taxonomies code to base class
+
+2015-04-13	Francois Herbert <F.Herbert@massey.ac.nz>
+	* fixes #10087 - Pass nic_type to vm_clone
+
+2015-04-10	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10100 - License file is outdated
+
+2015-04-10	Dominic Cleal <dcleal@redhat.com>
+	* templates - sync from community-templates
+
+2015-04-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9947 - restrict user taxonomies if none is set
+	* Fixes #7615 - filter ignore current context
+
+2015-04-09	Dominic Cleal <dcleal@redhat.com>
+	* refs #4521 - extract string, fix capitalisation
+
+2015-04-09	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #4787 - prevent unneeded AJAX requests on popover clicks
+
+2015-04-09	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #10099 - pin execjs gem for Ruby 1.9
+
+2015-04-09	jslatten <justin.slatten@gmail.com>
+	* refs #4521 - Openstack Compute Resource: Boot from Volume on new Host
+
+2015-04-08	johscheuer <joh.scheuer@gmail.com>
+	* Fixes #9362 - Corrected CoreOS mediapath
+
+2015-04-08	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #9439 - 'white spaces' changed to 'spaces' in validation error message
+
+2015-04-08	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #9969 - remove N+1 queries on host edit page
+
+2015-04-07	Julien Pivotto <roidelapluie@inuits.eu>
+	* Fixes #8812 - Pass model type so search_for is called on Host
+
+2015-04-07	Dominic Cleal <dcleal@redhat.com>
+	* fixes #9973 - API doc keyword substitution with sprintf needs symbols
+	* fixes #5909 - return r/w resources from authorized scope
+
+2015-04-07	Keenan Brock <keenan@thebrocks.net>
+	* Fixes #10002 - Add attribute ancestry to taxonomies API v2
+
+2015-04-03	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9957 - rename and fix auth source tests
+
+2015-04-02	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #8106 - Dashboard rewrite to allow better customization
+	* Fixes #8593 - remove N+1 queries on puppetclass index page
+
+2015-04-02	Dominic Cleal <dcleal@redhat.com>
+	* fixes #9778 - return r/w host when finding and associating to CRs
+
+2015-04-02	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9921 - specify requirements on apidoc params for NICs
+
+2015-04-02	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9967 - make sure User.current is isolated
+
+2015-04-01	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9926 - do not always set LDAP encryption method
+
+2015-03-26	William Hefter <william@whefter.de>
+	* Fixes #8890 - Allow selection of plaintext "encryption" method for root password
+
+2015-03-26	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9618 - make identifier uniq per host
+
+2015-03-26	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #8727 - DHCP validation does not fail on discovered leases
+
+2015-03-25	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #9886 - Caps on password warning is not html safe
+
+2015-03-25	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #7378 - fixed API lookup keys filters
+
+2015-03-25	Dominic Cleal <dcleal@redhat.com>
+	* templates - sync from community-templates
+
+2015-03-25	Tom Caspy <tcaspy@gmail.com>
+	* fixes #8516 - removing the require 'fog' from the project, requiring only what we use
+	* fixes #6568 - showing ovirt template version if applicable
+
+2015-03-25	Shlomi Zadok <shlomi@ben-hanna.com>
+	* refs #9877 - s/variable/class parameter/ on param :override
+
+2015-03-24	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9885 - pass verify_mode to net/ldap
+	* Fixes #9869 - propagate LDAP errors
+
+2015-03-24	karmab <karimboumedhel@gmail.com>
+	* Fixes #8601 - Cloudinit userdata in VMware
+
+2015-03-24	Tom Caspy <tcaspy@gmail.com>
+	* fixes #7407 - puppet class parameters should be cloned in #clone
+
+2015-03-24	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #9877 - Add descriptions to smart_class_parameters in api/v2
+
+2015-03-24	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9836 - use provider type in host helpers
+
+2015-03-24	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #9444 - prevent 404 error on current_parameters and domain_selected
+
+2015-03-24	Dominic Cleal <dcleal@redhat.com>
+	* fixes #9775 - always load Encryptable when key's missing, log runtime warning
+
+2015-03-23	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #9823 - Add description to smart variables
+	* fixes #9469 - redirect to reports#index on destroy
+
+2015-03-23	Daniel Lobato García <elobatocs@gmail.com>
+	* Add web IRC channel link to README
+
+2015-03-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9434 - managed alias accepts only static boot mode subnet
+	* Fixes #8779 - add vlanid to subnet ENC
+	* Fixes #9842 - rename the register method which deprecates the old one
+	* Fixes #9787 - correctly typecast default values
+
+2015-03-22	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #9795 - check if mail is enabled before sending a notification
+
+2015-03-22	Tom McKay <thomasmckay@redhat.com>
+	* fixes #9856 - include locations and organizations in user output
+
+2015-03-22	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9824 - missing compute resource assets
+	* Fixes #9827 - compute resource info in API doesn't send provider type
+
+2015-03-19	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #9806 - Minor typo when building PXE default
+	* Fixes #9589 - Add documentation button to various models
+	* Fixes #6454 - Display error message when user_data is needed but not set
+	* Fixes #8898 - Caps lock warning in password fields
+
+2015-03-19	Tom Caspy <tcaspy@gmail.com>
+	* fixes #4424 - overriden attributes get overridden in the UI
+
+2015-03-15	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9631 - adds missing bond test
+	* Fixes #9673 - treat YAML and JSON lookup keys as strings
+	* Fixes #9693 - Clarify bond identifier BSD info
+
+2015-03-15	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #9751:  Correct examples for rake config usage.
+
+2015-03-15	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9723 - missing owner_type in host api docs
+
+2015-03-12	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9657 - merge NICs from compute profile in host create API
+
+2015-03-11	Ori Rabin <orabin@redhat.com>
+	* Fixes #9606 - ANSI color codes should not be used in production log
+
+2015-03-11	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #7505 - Changed the way trends are stored in the DB. Now they are stored as intervals
+
+2015-03-10	Dominic Cleal <dcleal@redhat.com>
+	* templates - sync from community-templates
+
+2015-03-10	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9678 - Can't update admin flag for users via API
+
+2015-03-09	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #8358 - validate domain on host update
+
+2015-03-08	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9650 - use textarea for global parameters
+
+2015-03-08	Baptiste AGASSE <baptiste.agasse@lyra-network.com>
+	* Fixes #1536 - Foreman should check DHCP entries on build.
+
+2015-03-05	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9435 - adds tooltip for interface identifier
+
+2015-03-05	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9480 - multiple NICs integration with compute profiles
+
+2015-03-05	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #8316: Removing a host can create a huge transaction
+
+2015-03-04	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9615 - Adds inheriting_mac method
+
+2015-03-04	ripcurld00d <ripcurld.github@gmail.com>
+	* Fixes #2135 - During puppet class import, puppet class description box should close itself
+
+2015-03-04	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #9593 - replace .all.map(&:<attr>) with .pluck(:attr)
+
+2015-03-04	Joey D <jobewan@gmail.com>
+	* fixes #8878 - ensure domain fact is downcased prior to import
+
+2015-03-04	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #9430 - provisioning on VMWare fails with invalid MAC address
+
+2015-03-03	Dominic Cleal <dcleal@redhat.com>
+	* Bump version to 1.9-develop
+
 2015-03-02	Lukas Zapletal <lzap+git@redhat.com>
 	* Fixes #5701 - removed extra id/name HTML attributes
 
