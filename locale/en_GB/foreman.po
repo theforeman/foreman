@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-05-28 23:40+0000\n"
+"PO-Revision-Date: 2015-06-27 08:46+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/f"
 "oreman/language/en_GB/)\n"
@@ -25,6 +25,9 @@ msgid "Sorry but no templates were configured."
 msgstr ""
 
 msgid "Loading ..."
+msgstr ""
+
+msgid "Exit Full Screen"
 msgstr ""
 
 msgid "Details"
@@ -68,18 +71,19 @@ msgstr ""
 msgid "physical @ bridge %s"
 msgstr ""
 
-msgid "You are about to override the editor content, are you sure?"
+msgid "Are you sure you want to delete this widget from your dashboard?"
 msgstr ""
 
-msgid "No changes"
+msgid "Widget removed from dashboard."
 msgstr ""
 
-msgid ""
-"You are about to override the editor content with a previous version, are you "
-"sure?"
+msgid "Error removing widget from dashboard."
 msgstr ""
 
-msgid "Revert to revision from: %s"
+msgid "Widget positions successfully saved."
+msgstr ""
+
+msgid "Failed to save widget positions."
 msgstr ""
 
 msgid "Nothing to restore"
@@ -137,10 +141,10 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-msgid "Build"
+msgid "Reboot and build"
 msgstr ""
 
-msgid "Reboot and build"
+msgid "Build"
 msgstr ""
 
 msgid "Select All"
@@ -153,10 +157,10 @@ msgstr ""
 msgid "All items"
 msgstr ""
 
-msgid "Deselect All"
+msgid "Selected items"
 msgstr ""
 
-msgid "Selected items"
+msgid "Deselect All"
 msgstr ""
 
 msgid "Select this since it belongs to a host"
@@ -180,11 +184,11 @@ msgstr ""
 msgid "Weak"
 msgstr ""
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Medium"
+msgid "Very Strong"
 msgstr ""
 
-msgid "Very Strong"
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Medium"
 msgstr ""
 
 msgid "Strong"
@@ -212,6 +216,20 @@ msgid "password match"
 msgstr ""
 
 msgid "passwords do not match"
+msgstr ""
+
+msgid "You are about to override the editor content, are you sure?"
+msgstr ""
+
+msgid "No changes"
+msgstr ""
+
+msgid ""
+"You are about to override the editor content with a previous version, are you "
+"sure?"
+msgstr ""
+
+msgid "Revert to revision from: %s"
 msgstr ""
 
 msgid "View Diff"
@@ -244,6 +262,15 @@ msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
 msgid "unknown permission for %s"
+msgstr ""
+
+msgid "sync external user groups on login"
+msgstr ""
+
+msgid ""
+"Foreman API v1 is deprecated. Please use v2. If you still need to use v1, you "
+"may do so by either passing 'version=1' in the Accept Header or using api/v1/ "
+"in the URL."
 msgstr ""
 
 msgid "for Libvirt and VMware only"
@@ -309,9 +336,7 @@ msgstr ""
 msgid "List all autosign entries"
 msgstr ""
 
-msgid ""
-"Foreman v2 is stable and recommended for use. You may use v2 by either passing"
-" 'version=2' in the Accept Header or using api/v2/ in the URL."
+msgid "Foreman API v2 is currently the default API version."
 msgstr ""
 
 msgid "paginate results"
@@ -398,22 +423,22 @@ msgstr ""
 msgid "Providers include %{providers}"
 msgstr ""
 
-msgid "URL for Libvirt, Ovirt, and Openstack"
+msgid "URL for Libvirt, oVirt, and OpenStack"
 msgstr ""
 
-msgid "Username for Ovirt, EC2, VMware, Openstack. Access Key for EC2."
+msgid "Username for oVirt, EC2, VMware, OpenStack. Access Key for EC2."
 msgstr ""
 
-msgid "Password for Ovirt, EC2, VMware, Openstack. Secret key for EC2"
+msgid "Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2"
 msgstr ""
 
-msgid "for Ovirt, VMware Datacenter"
+msgid "for oVirt, VMware Datacenter"
 msgstr ""
 
 msgid "for EC2 only"
 msgstr ""
 
-msgid "for Openstack only"
+msgid "for OpenStack only"
 msgstr ""
 
 msgid "for VMware"
@@ -805,6 +830,9 @@ msgstr ""
 msgid "Get status of host"
 msgstr ""
 
+msgid "Get vm attributes of host"
+msgstr ""
+
 msgid "Force a Puppet agent run on the host"
 msgstr ""
 
@@ -903,13 +931,13 @@ msgstr ""
 msgid "ID or name of interface"
 msgstr ""
 
-msgid "MAC address of interface"
+msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr ""
 
 msgid "IP address of interface"
 msgstr ""
 
-msgid "Interface type, e.g: bmc"
+msgid "Interface type, e.g. bmc. Default is %{default_nic_type}"
 msgstr ""
 
 msgid "Interface's DNS name"
@@ -918,7 +946,9 @@ msgstr ""
 msgid "Foreman subnet ID of interface"
 msgstr ""
 
-msgid "Foreman domain ID of interface"
+msgid ""
+"Foreman domain ID of interface. Required for primary interfaces on managed hos"
+"ts."
 msgstr ""
 
 msgid "Device identifier, e.g. eth0 or eth1.1"
@@ -990,13 +1020,13 @@ msgstr ""
 msgid "a location"
 msgstr ""
 
-msgid "List of mail notifications"
+msgid "List of email notifications"
 msgstr ""
 
-msgid "Show a mail notification"
+msgid "Show an email notification"
 msgstr ""
 
-msgid "Numerical ID or mail notification name"
+msgid "Numerical ID or email notification name"
 msgstr ""
 
 msgid "Operating system family, available values: %{operatingsystem_families}"
@@ -1071,7 +1101,7 @@ msgstr ""
 msgid "Show an operating system"
 msgstr ""
 
-msgid "Root password hash function to use, one of MD5, SHA256, SHA512"
+msgid "Root password hash function to use, one of MD5, SHA256, SHA512, Base64"
 msgstr ""
 
 msgid "IDs of associated architectures"
@@ -1132,6 +1162,12 @@ msgid "Show an override value for a specific smart variable"
 msgstr ""
 
 msgid "Show an override value for a specific smart class parameter"
+msgstr ""
+
+msgid "Override match"
+msgstr ""
+
+msgid "Override value"
 msgstr ""
 
 msgid "Create an override value for a specific smart variable"
@@ -1284,6 +1320,12 @@ msgstr ""
 msgid "List all partition tables for an operating system"
 msgstr ""
 
+msgid "List all partition tables per location"
+msgstr ""
+
+msgid "List all partition tables per organization"
+msgstr ""
+
 msgid "Show a partition table"
 msgstr ""
 
@@ -1294,6 +1336,9 @@ msgid "Update a partition table"
 msgstr ""
 
 msgid "Delete a partition table"
+msgstr ""
+
+msgid "Clone a template"
 msgstr ""
 
 msgid "List all Puppet classes"
@@ -1606,10 +1651,10 @@ msgstr ""
 msgid "List all tasks for a given orchestration event"
 msgstr ""
 
-msgid "List template combination"
+msgid "ID of config template"
 msgstr ""
 
-msgid "Add a template combination"
+msgid "List template combination"
 msgstr ""
 
 msgid "environment id"
@@ -1618,7 +1663,13 @@ msgstr ""
 msgid "host group id"
 msgstr ""
 
+msgid "Add a template combination"
+msgstr ""
+
 msgid "Show template combination"
+msgstr ""
+
+msgid "Update template combination"
 msgstr ""
 
 msgid "Delete a template combination"
@@ -1693,7 +1744,7 @@ msgstr ""
 msgid "You are trying to delete your own account"
 msgstr ""
 
-msgid "Mail is Required"
+msgid "Email is Required"
 msgstr ""
 
 msgid "Invalid query"
@@ -1893,15 +1944,6 @@ msgstr ""
 msgid "Selected hosts are now assigned to %s"
 msgstr ""
 
-msgid "The marked fields will need reviewing"
-msgstr ""
-
-msgid "Template locked"
-msgstr ""
-
-msgid "Template unlocked"
-msgstr ""
-
 msgid "External user group %{name} refreshed"
 msgstr ""
 
@@ -1914,13 +1956,16 @@ msgstr ""
 msgid "Disk"
 msgstr ""
 
-msgid "PXE"
+msgid "CDROM"
 msgstr ""
 
 msgid "BIOS"
 msgstr ""
 
-msgid "CDROM"
+msgid "PXE"
+msgstr ""
+
+msgid "The marked fields will need reviewing"
 msgstr ""
 
 msgid "Unable to generate output, Check log files"
@@ -2063,16 +2108,16 @@ msgstr ""
 msgid "No parameters to override for Puppet class %s"
 msgstr ""
 
-msgid "Successfully destroyed report."
+msgid "Successfully deleted report."
 msgstr ""
 
 msgid "Role cloned from role %{old_name}"
 msgstr ""
 
-msgid "Successfully refreshed features from %s."
+msgid "No changes found when refreshing features from %s."
 msgstr ""
 
-msgid "No changes found when refreshing features from %s."
+msgid "Successfully refreshed features from %s."
 msgstr ""
 
 msgid "%s core"
@@ -2087,6 +2132,12 @@ msgid "No subnets selected"
 msgstr ""
 
 msgid "Imported Subnets"
+msgstr ""
+
+msgid "Template unlocked"
+msgstr ""
+
+msgid "Template locked"
 msgstr ""
 
 msgid ""
@@ -2170,10 +2221,21 @@ msgstr "%s ago"
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr ""
 
+msgid "Additional info"
+msgstr ""
+
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
 
-msgid "Additional info"
+msgid "Explain use Puppet default"
+msgstr ""
+
+msgid "Use Puppet default"
+msgstr ""
+
+msgid ""
+"Do not send this parameter via the ENC.<br>Puppet will use the value defined i"
+"n the manifest."
 msgstr ""
 
 msgid "Paused"
@@ -2188,10 +2250,10 @@ msgstr ""
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr ""
 
-msgid "Resume"
+msgid "Pause"
 msgstr ""
 
-msgid "Pause"
+msgid "Resume"
 msgstr ""
 
 msgid "Are you sure you want to %{act} %{vm}?"
@@ -2215,49 +2277,8 @@ msgstr ""
 msgid "Virtual (NAT)"
 msgstr ""
 
-msgid "None"
+msgid "Add to dashboard"
 msgstr ""
-
-msgid "Default templates are automatically added to new locations"
-msgstr ""
-
-msgid "Default templates are automatically added to new organizations"
-msgstr "Default templates are automatically added to new organisations"
-
-msgid "Default templates are automatically added to new organizations and locations"
-msgstr "Default templates are automatically added to new organisations and locations"
-
-msgid "Clone"
-msgstr ""
-
-msgid "You are about to unlock a locked template."
-msgstr ""
-
-msgid "This is for every location that uses it."
-msgstr ""
-
-msgid "This is for every organization that uses it."
-msgstr "This is for every organisation that uses it."
-
-msgid "This is for every location and organization that uses it."
-msgstr "This is for every location and organisation that uses it."
-
-msgid ""
-"It is not recommended to unlock this template, as it is provided by %{vendor} "
-"and may be overwritten. Please consider cloning it instead."
-msgstr ""
-
-msgid "Continue?"
-msgstr ""
-
-msgid "Unlock"
-msgstr ""
-
-msgid "Lock"
-msgstr ""
-
-msgid "Delete %s?"
-msgstr "Delete %s?"
 
 msgid "Generated at %s"
 msgstr ""
@@ -2292,53 +2313,53 @@ msgstr ""
 msgid "Host Configuration Status"
 msgstr ""
 
+msgid "Number Of Clients"
+msgstr ""
+
 msgid "Minutes Ago"
 msgstr ""
 
-msgid "Number Of Clients"
+msgid "Applied"
 msgstr ""
 
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr ""
 
-msgid "Applied"
+msgid "Restarted"
 msgstr ""
 
 #. TRANSLATORS: initial character of Restarted
 msgid "Restarted|R"
 msgstr ""
 
-msgid "Restarted"
+msgid "Failed"
 msgstr ""
 
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
 msgstr ""
 
-msgid "Failed"
+msgid "Failed Restarts"
 msgstr ""
 
 #. TRANSLATORS: initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
 msgstr ""
 
-msgid "Failed Restarts"
+msgid "Skipped"
 msgstr ""
 
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
 msgstr ""
 
-msgid "Skipped"
-msgstr ""
-
-msgid "Pending"
-msgstr ""
-
 #. TRANSLATORS: initial character of Pending
 #. TRANSLATORS: host's status: first character of "pending"
 msgid "Pending|P"
+msgstr ""
+
+msgid "Pending"
 msgstr ""
 
 msgid "New Puppet Environment"
@@ -2351,6 +2372,9 @@ msgid "Show all %s fact values"
 msgstr ""
 
 msgid "Expand nested items"
+msgstr ""
+
+msgid "Show full value"
 msgstr ""
 
 msgid "Any Context"
@@ -2453,10 +2477,10 @@ msgstr "%s - The following hosts are about to be changed"
 msgid "Failed restarts"
 msgstr ""
 
-msgid "Config Retrieval"
+msgid "Runtime"
 msgstr ""
 
-msgid "Runtime"
+msgid "Config Retrieval"
 msgstr ""
 
 msgid "Reports from the last %{days} days - %{count} reports found"
@@ -2542,10 +2566,18 @@ msgstr ""
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr ""
 
-msgid "Host audit entries"
+msgid ""
+"Are you sure you want to delete host %s? This will delete the virtual machine "
+"and its disks, and is irreversible."
+msgstr ""
+
+msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
 msgid "Audits"
+msgstr ""
+
+msgid "Host audit entries"
 msgstr ""
 
 msgid "Facts"
@@ -2554,22 +2586,25 @@ msgstr ""
 msgid "Browse host facts"
 msgstr ""
 
-msgid "Reports"
-msgstr ""
-
 msgid "Browse host reports"
 msgstr ""
 
-msgid "Puppet external nodes YAML dump"
+msgid "Reports"
 msgstr ""
 
 msgid "YAML"
+msgstr ""
+
+msgid "Puppet external nodes YAML dump"
 msgstr ""
 
 msgid "Allocation (GB)"
 msgstr ""
 
 msgid "Full"
+msgstr ""
+
+msgid "None"
 msgstr ""
 
 msgid "Size"
@@ -2594,17 +2629,20 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgstr ""
+
 msgid "Image ID"
 msgstr "Image ID"
 
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgid "Caps lock ON"
+msgstr ""
+
+msgid "Overwrite"
 msgstr ""
 
 msgid "Submit"
 msgstr "Submit"
-
-msgid "Overwrite"
-msgstr ""
 
 msgid "Unable to save"
 msgstr ""
@@ -2635,10 +2673,21 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
+msgid "last %s day"
+msgid_plural "last %s days"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Full screen"
+msgstr ""
+
 msgid "Puppet class"
 msgstr ""
 
 msgid "Puppet Class"
+msgstr ""
+
+msgid "Parameter types"
 msgstr ""
 
 msgid ""
@@ -2651,19 +2700,16 @@ msgid ""
 "nput.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
 msgstr ""
 
-msgid "Parameter types"
-msgstr ""
-
 msgid "How values are validated"
-msgstr ""
-
-msgid "Validator type"
 msgstr ""
 
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
 " rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expr"
 "ession in the Validator rule field.</dd></dl>"
+msgstr ""
+
+msgid "Validator type"
 msgstr ""
 
 msgid "Validation types"
@@ -2677,12 +2723,12 @@ msgstr ""
 msgid "Default value"
 msgstr ""
 
+msgid "No value error"
+msgstr ""
+
 msgid ""
 "Required parameter without value.<br/><b>Please override!</b> <br><br><b>Descr"
 "iption:</b>: %s"
-msgstr ""
-
-msgid "No value error"
 msgstr ""
 
 msgid "No value warning"
@@ -2693,10 +2739,51 @@ msgid ""
 "><b>Description:</b> %s"
 msgstr ""
 
-msgid "valid"
+msgid "Default templates are automatically added to new locations"
 msgstr ""
 
+msgid "Default templates are automatically added to new organizations"
+msgstr "Default templates are automatically added to new organisations"
+
+msgid "Default templates are automatically added to new organizations and locations"
+msgstr "Default templates are automatically added to new organisations and locations"
+
+msgid "Clone"
+msgstr ""
+
+msgid "You are about to unlock a locked template."
+msgstr ""
+
+msgid "This is for every location that uses it."
+msgstr ""
+
+msgid "This is for every organization that uses it."
+msgstr "This is for every organisation that uses it."
+
+msgid "This is for every location and organization that uses it."
+msgstr "This is for every location and organisation that uses it."
+
+msgid ""
+"It is not recommended to unlock this template, as it is provided by %{vendor} "
+"and may be overwritten. Please consider cloning it instead."
+msgstr ""
+
+msgid "Continue?"
+msgstr ""
+
+msgid "Unlock"
+msgstr ""
+
+msgid "Lock"
+msgstr ""
+
+msgid "Delete %s?"
+msgstr "Delete %s?"
+
 msgid "revoked"
+msgstr ""
+
+msgid "valid"
 msgstr ""
 
 msgid "pending"
@@ -2757,10 +2844,10 @@ msgstr ""
 msgid "All messages"
 msgstr ""
 
-msgid "Notices, warnings and errors"
+msgid "Errors only"
 msgstr ""
 
-msgid "Errors only"
+msgid "Notices, warnings and errors"
 msgstr ""
 
 msgid "Warnings and errors"
@@ -2801,16 +2888,13 @@ msgstr ""
 msgid "Class Distribution"
 msgstr ""
 
-msgid "Average memory usage"
-msgstr ""
-
 msgid "free memory"
 msgstr ""
 
 msgid "used memory"
 msgstr ""
 
-msgid "Average swap usage"
+msgid "Average memory usage"
 msgstr ""
 
 msgid "used swap"
@@ -2819,24 +2903,93 @@ msgstr ""
 msgid "free swap"
 msgstr ""
 
+msgid "Average swap usage"
+msgstr ""
+
 msgid "Any Organization"
 msgstr "Any Organisation"
 
 msgid "Any Location"
 msgstr ""
 
-msgid "New Location"
-msgstr ""
-
 msgid "New Organization"
 msgstr "New Organisation"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Environment"
+msgid "New Location"
+msgstr ""
+
+msgid "All users"
+msgstr ""
+
+msgid "Select users"
+msgstr ""
+
+msgid "Select smart proxies"
+msgstr ""
+
+msgid "All smart proxies"
+msgstr ""
+
+msgid "Select subnets"
+msgstr ""
+
+msgid "All subnets"
+msgstr ""
+
+msgid "Select compute resources"
+msgstr ""
+
+msgid "All compute resources"
+msgstr ""
+
+msgid "All media"
+msgstr ""
+
+msgid "Select media"
+msgstr ""
+
+msgid "All provisioning templates"
+msgstr ""
+
+msgid "Select provisioning templates"
+msgstr ""
+
+msgid "Select partition tables"
+msgstr ""
+
+msgid "All partition tables"
+msgstr ""
+
+msgid "All domains"
+msgstr ""
+
+msgid "Select domains"
+msgstr ""
+
+msgid "Select realms"
+msgstr ""
+
+msgid "All realms"
+msgstr ""
+
+msgid "All environments"
+msgstr ""
+
+msgid "Select environments"
+msgstr ""
+
+msgid "Select host groups"
+msgstr ""
+
+msgid "All host groups"
 msgstr ""
 
 msgid "Operating system"
 msgstr "Operating system"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Environment"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
@@ -2849,7 +3002,18 @@ msgstr "Model"
 msgid "Trend of the last %s days."
 msgstr ""
 
+msgid ""
+":foreman_url is not set, please configure in the Foreman Web UI (Administer ->"
+" Settings -> General)"
+msgstr ""
+
 msgid "Must specify a user with email enabled"
+msgstr ""
+
+msgid "Audit summary"
+msgstr ""
+
+msgid "Must specify a valid user with email enabled"
 msgstr ""
 
 msgid ""
@@ -2857,10 +3021,10 @@ msgid ""
 "R:%{failed_restarts} T:%{total}"
 msgstr ""
 
-msgid "unable to find recipients"
+msgid "Puppet error on %s"
 msgstr ""
 
-msgid "Puppet error on %s"
+msgid "Host %s is built"
 msgstr ""
 
 msgid "Welcome to Foreman"
@@ -3026,12 +3190,18 @@ msgstr ""
 msgid "Selected image does not belong to %s"
 msgstr ""
 
+msgid "Could not find virtual machine network interface matching %s"
+msgstr ""
+
 msgid ""
 "Unable to determine the host's boot server. The DHCP smart proxy failed to pro"
 "vide this information and this subnet is not provided with TFTP services."
 msgstr ""
 
 msgid "failed to detect boot server: %s"
+msgstr ""
+
+msgid "DHCP not supported for this NIC"
 msgstr ""
 
 msgid "Create DHCP Settings for %s"
@@ -3161,41 +3331,6 @@ msgstr ""
 msgid "must be one of [ %s ]"
 msgstr ""
 
-msgid "Must provide template kind"
-msgstr ""
-
-msgid "Must provide an operating systems"
-msgstr ""
-
-msgid "No TFTP proxies defined, can't continue"
-msgstr ""
-
-msgid ""
-"Could not find a Configuration Template with the name \"PXELinux global default"
-"\", please create one."
-msgstr ""
-
-msgid "failed to process template: %s"
-msgstr ""
-
-msgid "There was an error creating the PXE Default file: %s"
-msgstr ""
-
-msgid "PXE Default file has been deployed to all Smart Proxies"
-msgstr ""
-
-msgid "This template is locked and may not be removed."
-msgstr ""
-
-msgid "You are not authorized to lock templates."
-msgstr ""
-
-msgid "You are not authorized to make a template default."
-msgstr ""
-
-msgid "This template is locked. Please clone it to a new template to customize."
-msgstr "This template is locked. Please clone it to a new template to customise."
-
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr ""
 
@@ -3235,6 +3370,9 @@ msgstr ""
 msgid "managed host must have one provision interface"
 msgstr ""
 
+msgid "some interfaces are invalid"
+msgstr ""
+
 msgid "invalid time range"
 msgstr ""
 
@@ -3245,9 +3383,6 @@ msgid "should not be blank - consider setting a global or host group default"
 msgstr ""
 
 msgid "can't be blank unless a custom partition has been defined"
-msgstr ""
-
-msgid "should follow this format: 0,9600n8"
 msgstr ""
 
 msgid "is unknown"
@@ -3285,6 +3420,9 @@ msgstr ""
 msgid "Unknown power management support - can't continue"
 msgstr ""
 
+msgid "Some interfaces are invalid"
+msgstr ""
+
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
@@ -3309,28 +3447,28 @@ msgstr ""
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "string"
-msgstr ""
-
 msgid "json"
-msgstr ""
-
-msgid "hash"
-msgstr ""
-
-msgid "array"
-msgstr ""
-
-msgid "yaml"
-msgstr ""
-
-msgid "boolean"
 msgstr ""
 
 msgid "integer"
 msgstr ""
 
 msgid "real"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "yaml"
+msgstr ""
+
+msgid "array"
+msgstr ""
+
+msgid "hash"
 msgstr ""
 
 msgid "list"
@@ -3375,13 +3513,13 @@ msgstr ""
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
+msgid "Weekly"
+msgstr ""
+
 msgid "Daily"
 msgstr ""
 
 msgid "Monthly"
-msgstr ""
-
-msgid "Weekly"
 msgstr ""
 
 msgid ""
@@ -3416,10 +3554,21 @@ msgstr ""
 msgid "host already has provision interface"
 msgstr ""
 
+msgid "is not defined for host's location."
+msgstr ""
+
+msgid "is not defined for host's organization."
+msgstr ""
+
 msgid "Unable to find a proxy with BMC feature"
 msgstr ""
 
 msgid "BMC"
+msgstr ""
+
+msgid ""
+"There is no proxy with BMC feature set up. Please register a smart proxy with "
+"this feature."
 msgstr ""
 
 msgid "Bond"
@@ -3431,13 +3580,16 @@ msgstr ""
 msgid "Bootable"
 msgstr ""
 
+msgid "Can't add or remove `%s` from identifier"
+msgstr ""
+
 msgid "subnet boot mode is not %s"
 msgstr ""
 
-msgid "DHCP not supported for this NIC"
+msgid "Operating System version is required"
 msgstr ""
 
-msgid "Operating System version is required"
+msgid "Operating system version already exists"
 msgstr ""
 
 msgid ""
@@ -3457,6 +3609,9 @@ msgstr ""
 msgid "invalid architecture for %s"
 msgstr ""
 
+msgid "Function not available for %s"
+msgstr ""
+
 msgid "parameters require an associated domain, operating system, host or host group"
 msgstr ""
 
@@ -3465,6 +3620,29 @@ msgstr ""
 
 msgid "You do not have permission to %s this organization parameter"
 msgstr "You do not have permission to %s this organisation parameter"
+
+msgid "Must provide template kind"
+msgstr ""
+
+msgid "Must provide an operating systems"
+msgstr ""
+
+msgid "No TFTP proxies defined, can't continue"
+msgstr ""
+
+msgid ""
+"Could not find a Configuration Template with the name \"PXELinux global default"
+"\", please create one."
+msgstr ""
+
+msgid "failed to process template: %s"
+msgstr ""
+
+msgid "There was an error creating the PXE Default file: %s"
+msgstr ""
+
+msgid "PXE Default file has been deployed to all Smart Proxies"
+msgstr ""
 
 msgid "Unsupported report status format"
 msgstr ""
@@ -3540,12 +3718,32 @@ msgid ""
 "ort importers and ENC output"
 msgstr ""
 
+msgid "SSL Certificate path that Foreman would use to communicate with its proxies"
+msgstr ""
+
+msgid "SSL CA file that Foreman will use to communicate with its proxies"
+msgstr ""
+
+msgid "SSL Private Key file that Foreman will use to communicate with its proxies"
+msgstr ""
+
 msgid "Environment variable containing the subject DN from a client SSL certificate"
 msgstr ""
 
 msgid ""
 "Environment variable containing the verification status of a client SSL certif"
 "icate"
+msgstr ""
+
+msgid ""
+"Should Foreman encrypt websockets (VNC console access). Choose on, off or auto"
+"."
+msgstr ""
+
+msgid "Private key that Foreman will use to encrypt websockets "
+msgstr ""
+
+msgid "Certificate that Foreman will use to encrypt websockets "
 msgstr ""
 
 msgid ""
@@ -3557,6 +3755,19 @@ msgid ""
 "Name of the external auth source where unknown externally authentication users"
 " (see authorize_login_delegation) should be created (keep unset to prevent the"
 " autocreation)"
+msgstr ""
+
+msgid "Authorize login delegation with REMOTE_USER environment variable"
+msgstr "Authorise login delegation with REMOTE_USER environment variable"
+
+msgid ""
+"Authorize login delegation with REMOTE_USER environment variable for API calls"
+" too"
+msgstr ""
+"Authorise login delegation with REMOTE_USER environment variable for API calls"
+" too"
+
+msgid "Log out idle users after a certain number of minutes"
 msgstr ""
 
 msgid "The default administrator email address"
@@ -3573,26 +3784,13 @@ msgstr ""
 msgid "Prefix to add to all outgoing email"
 msgstr ""
 
-msgid "Send a welcome mail including username and URL to new users"
+msgid "Send a welcome email including username and URL to new users"
 msgstr ""
 
 msgid "Number of records shown per page in Foreman"
 msgstr ""
 
 msgid "Fix DB cache on next Foreman restart"
-msgstr ""
-
-msgid "Authorize login delegation with REMOTE_USER environment variable"
-msgstr "Authorise login delegation with REMOTE_USER environment variable"
-
-msgid ""
-"Authorize login delegation with REMOTE_USER environment variable for API calls"
-" too"
-msgstr ""
-"Authorise login delegation with REMOTE_USER environment variable for API calls"
-" too"
-
-msgid "Log out idle users after a certain number of minutes"
 msgstr ""
 
 msgid "Max days for Trends graphs"
@@ -3625,15 +3823,6 @@ msgstr ""
 msgid "Enable safe mode config templates rendering (recommended)"
 msgstr ""
 
-msgid "SSL Certificate path that Foreman would use to communicate with its proxies"
-msgstr ""
-
-msgid "SSL CA file that Foreman will use to communicate with its proxies"
-msgstr ""
-
-msgid "SSL Private Key file that Foreman will use to communicate with its proxies"
-msgstr ""
-
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr ""
 
@@ -3653,7 +3842,9 @@ msgid ""
 "lancers, i.e: (10.0.0.1|127.0.0.1)"
 msgstr ""
 
-msgid "Time in minutes installation tokens should be valid for, 0 to disable"
+msgid ""
+"Time in minutes installation tokens should be valid for, 0 to disable token ge"
+"neration"
 msgstr ""
 
 msgid ""
@@ -3669,18 +3860,12 @@ msgid ""
 "al machines"
 msgstr ""
 
-msgid ""
-"Should Foreman encrypt websockets (VNC console access). Choose on, off or auto"
-"."
-msgstr ""
-
-msgid "Private key that Foreman will use to encrypt websockets "
-msgstr ""
-
-msgid "Certificate that Foreman will use to encrypt websockets "
-msgstr ""
-
 msgid "Puppet interval in minutes"
+msgstr ""
+
+msgid ""
+"Duration in minutes after the Puppet interval for servers to be classed as out"
+" of sync."
 msgstr ""
 
 msgid "Foreman will default to this puppet environment if it cannot auto detect one"
@@ -3781,10 +3966,10 @@ msgstr ""
 msgid "Please check the proxy is configured and running on the host."
 msgstr ""
 
-msgid "DHCP"
+msgid "Static"
 msgstr ""
 
-msgid "Static"
+msgid "DHCP"
 msgstr ""
 
 msgid "Internal DB"
@@ -3813,6 +3998,18 @@ msgstr ""
 
 msgid "organization"
 msgstr "organisation"
+
+msgid "This template is locked and may not be removed."
+msgstr ""
+
+msgid "You are not authorized to lock templates."
+msgstr ""
+
+msgid "You are not authorized to make a template default."
+msgstr ""
+
+msgid "This template is locked. Please clone it to a new template to customize."
+msgstr "This template is locked. Please clone it to a new template to customise."
 
 msgid "already exists"
 msgstr ""
@@ -3844,6 +4041,9 @@ msgstr ""
 msgid "you can't change administrator flag"
 msgstr ""
 
+msgid "cannot be changed by a non-admin user"
+msgstr ""
+
 msgid "default locations need to be user locations first"
 msgstr ""
 
@@ -3872,6 +4072,9 @@ msgid "Report summary"
 msgstr ""
 
 msgid "Distribution chart"
+msgstr ""
+
+msgid "Unallowed template for dashboard widget: %s"
 msgstr ""
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
@@ -3969,22 +4172,25 @@ msgstr ""
 msgid "Provisioning Setup"
 msgstr "Provisioning Setup"
 
-msgid "Operating systems"
+msgid "Architectures"
 msgstr ""
 
-msgid "Provisioning templates"
-msgstr ""
-
-msgid "Partition tables"
+msgid "Hardware models"
 msgstr ""
 
 msgid "Installation media"
 msgstr "Installation media"
 
-msgid "Hardware models"
+msgid "Operating systems"
 msgstr ""
 
-msgid "Architectures"
+msgid "Templates"
+msgstr ""
+
+msgid "Partition tables"
+msgstr ""
+
+msgid "Provisioning templates"
 msgstr ""
 
 msgid "Configure"
@@ -4035,22 +4241,22 @@ msgstr ""
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "poweroff"
-msgstr ""
-
-msgid "start"
-msgstr ""
-
-msgid "reset"
+msgid "reboot"
 msgstr ""
 
 msgid "stop"
 msgstr ""
 
+msgid "reset"
+msgstr ""
+
 msgid "state"
 msgstr ""
 
-msgid "reboot"
+msgid "start"
+msgstr ""
+
+msgid "poweroff"
 msgstr ""
 
 msgid "soft"
@@ -4059,7 +4265,7 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-msgid "cycle"
+msgid "status"
 msgstr ""
 
 msgid "ready?"
@@ -4068,7 +4274,7 @@ msgstr ""
 msgid "off"
 msgstr ""
 
-msgid "status"
+msgid "cycle"
 msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
@@ -4110,7 +4316,7 @@ msgstr ""
 msgid "is not a valid MAC address"
 msgstr ""
 
-msgid "can't contain white spaces."
+msgid "can't contain spaces."
 msgstr ""
 
 msgid "System Status"
@@ -4276,6 +4482,23 @@ msgid ""
 "nd a selector block is provided to allow you to select valid combinations."
 msgstr ""
 
+msgid "<b>Foreman</b> audit summary"
+msgstr ""
+
+msgid "Displaying %{num_audits} of %{total_audits} audit"
+msgid_plural "Displaying %{num_audits} of %{total_audits} audits"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "No audit changes for this period"
+msgstr ""
+
+msgid "Full audits list"
+msgstr ""
+
+msgid "Foreman audit summary"
+msgstr ""
+
 msgid "Logged-in"
 msgstr ""
 
@@ -4324,15 +4547,20 @@ msgstr ""
 msgid "Groups base DN"
 msgstr ""
 
-msgid "Custom LDAP search filter, <i>optional</i>"
+msgid "LDAP filter"
 msgstr ""
 
-msgid "LDAP filter"
+msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr ""
 
 msgid ""
 "LDAP users will have their Foreman account automatically created the first tim"
 "e they log into Foreman"
+msgstr ""
+
+msgid ""
+"External user groups will be synced on login, else relies on periodic cronjob "
+"to check group membership"
 msgstr ""
 
 msgid "e.g. uid"
@@ -4347,10 +4575,10 @@ msgstr ""
 msgid "e.g. mail"
 msgstr ""
 
-msgid "e.g. jpegPhoto"
+msgid "Photo attribute"
 msgstr ""
 
-msgid "Photo attribute"
+msgid "e.g. jpegPhoto"
 msgstr ""
 
 msgid "Edit LDAP Auth Source"
@@ -4452,10 +4680,10 @@ msgstr ""
 msgid "Oops, we're sorry but something went wrong"
 msgstr ""
 
-msgid "If you feel this is an error with Foreman itself, please open a new issue with"
+msgid "Foreman ticketing system"
 msgstr ""
 
-msgid "Foreman ticketing system"
+msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr ""
 
 msgid "You would probably need to attach the"
@@ -4506,13 +4734,13 @@ msgstr ""
 msgid "Check/Uncheck all %s changes"
 msgstr ""
 
-msgid "Remove:"
+msgid "Add:"
 msgstr ""
 
 msgid "Update:"
 msgstr ""
 
-msgid "Add:"
+msgid "Remove:"
 msgstr ""
 
 msgid "Update"
@@ -4546,9 +4774,6 @@ msgstr ""
 msgid "Scope"
 msgstr ""
 
-msgid "Use Puppet default"
-msgstr ""
-
 msgid "Actions"
 msgstr ""
 
@@ -4567,6 +4792,9 @@ msgstr ""
 msgid "remove"
 msgstr ""
 
+msgid "Global Parameters"
+msgstr ""
+
 msgid "Add Parameter"
 msgstr ""
 
@@ -4580,18 +4808,13 @@ msgstr ""
 msgid "Parameter type"
 msgstr ""
 
-msgid ""
-"Do not send this parameter via the ENC. Puppet will use the value defined in t"
-"he puppet manifest for this parameter"
+msgid "Puppet class overrides"
 msgstr ""
 
 msgid "Override a Puppetclass Parameter"
 msgstr ""
 
 msgid "Edit Global Parameter"
-msgstr ""
-
-msgid "Global Parameters"
 msgstr ""
 
 msgid "New Parameter"
@@ -4657,10 +4880,10 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
-msgid "Load Regions"
+msgid "Test Connection"
 msgstr ""
 
-msgid "Test Connection"
+msgid "Load Regions"
 msgstr ""
 
 msgid "Google Project ID"
@@ -4775,11 +4998,11 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-msgid "Enabled"
-msgstr "Enabled"
-
 msgid "Disabled"
 msgstr ""
+
+msgid "Enabled"
+msgstr "Enabled"
 
 msgid "There was an error listing VMs: %s"
 msgstr ""
@@ -4787,10 +5010,10 @@ msgstr ""
 msgid "Network interfaces"
 msgstr ""
 
-msgid "Add Interface"
+msgid "add new network interface"
 msgstr ""
 
-msgid "add new network interface"
+msgid "Add Interface"
 msgstr ""
 
 msgid "No networks found."
@@ -4802,10 +5025,10 @@ msgstr ""
 msgid "Storage"
 msgstr ""
 
-msgid "add new storage volume"
+msgid "Add Volume"
 msgstr ""
 
-msgid "Add Volume"
+msgid "add new storage volume"
 msgstr ""
 
 msgid "Flavor"
@@ -4830,10 +5053,10 @@ msgstr "Subnet"
 msgid "Security groups"
 msgstr ""
 
-msgid "Private"
+msgid "Managed IP"
 msgstr ""
 
-msgid "Managed IP"
+msgid "Private"
 msgstr ""
 
 msgid "Public"
@@ -4846,6 +5069,9 @@ msgid "Network"
 msgstr ""
 
 msgid "External IP"
+msgstr ""
+
+msgid "Size (GB)"
 msgstr ""
 
 msgid "CPUs"
@@ -4883,9 +5109,6 @@ msgstr ""
 msgid "Storage pool"
 msgstr ""
 
-msgid "Size (GB)"
-msgstr ""
-
 msgid "Security group"
 msgstr ""
 
@@ -4893,6 +5116,18 @@ msgid "Internal network"
 msgstr ""
 
 msgid "Floating IP network"
+msgstr ""
+
+msgid "Boot from volume"
+msgstr ""
+
+msgid "Create new boot volume from image"
+msgstr ""
+
+msgid "New boot volume size (GB)"
+msgstr ""
+
+msgid "Defaults to image size if left blank"
 msgstr ""
 
 msgid "Cluster"
@@ -4937,6 +5172,9 @@ msgstr ""
 msgid "Guest OS"
 msgstr ""
 
+msgid "SCSI controller"
+msgstr ""
+
 msgid "Virtual H/W version"
 msgstr ""
 
@@ -4967,10 +5205,10 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-msgid "Associate VM"
+msgid "Associate VM to a Foreman host"
 msgstr ""
 
-msgid "Associate VM to a Foreman host"
+msgid "Associate VM"
 msgstr ""
 
 msgid "Properties"
@@ -5027,159 +5265,6 @@ msgstr ""
 msgid "New Config group"
 msgstr ""
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Hostgroup"
-msgstr "Host Group"
-
-msgid "Valid host group and environment combinations"
-msgstr ""
-
-msgid "Add combination"
-msgstr ""
-
-msgid "Template diff"
-msgstr ""
-
-msgid "Provisioning Template"
-msgstr ""
-
-msgid "Association"
-msgstr ""
-
-msgid ""
-"Warning: This template is locked. You may only change the associations. Please"
-" %s it to customize."
-msgstr ""
-"Warning: This template is locked. You may only change the associations. Please"
-" %s it to customise."
-
-msgid "clone"
-msgstr ""
-
-msgid "Useful template functions and macros"
-msgstr ""
-
-msgid "Note: %s "
-msgstr ""
-
-msgid "Template editor"
-msgstr ""
-
-msgid "Code"
-msgstr ""
-
-msgid "Preview"
-msgstr ""
-
-msgid "Full screen"
-msgstr ""
-
-msgid "Key Binding"
-msgstr ""
-
-msgid "Selecting a file will override the editor and load the file instead"
-msgstr ""
-
-msgid "Audit Comment"
-msgstr ""
-
-msgid ""
-"The Audit Comment field is saved with the template auditing to document the te"
-"mplate changes"
-msgstr ""
-
-msgid "Snippet"
-msgstr ""
-
-msgid "Revert"
-msgstr ""
-
-msgid "Show Diff"
-msgstr ""
-
-msgid "Save something and try again"
-msgstr ""
-
-msgid "No history found"
-msgstr ""
-
-msgid "Not relevant for snippet"
-msgstr ""
-
-msgid "How templates are determined"
-msgstr ""
-
-msgid ""
-"When editing a Template, you must assign a list of Operating Systems which thi"
-"s Template can be used with. Optionally, you can restrict a template to a list"
-" of Hostgroups and/or Environments"
-msgstr ""
-
-msgid ""
-"When a Host requests a template (e.g. during provisioning), Foreman will selec"
-"t the best match from the available templates of that type, in the following o"
-"rder:"
-msgstr ""
-
-msgid "Host group and Environment"
-msgstr ""
-
-msgid "Host group only"
-msgstr ""
-
-msgid "Environment only"
-msgstr ""
-
-msgid "Operating system default"
-msgstr ""
-
-msgid "The final entry, Operating System default, can be set by editing the %s page."
-msgstr ""
-
-msgid "Applicable<br>Operating Systems"
-msgstr ""
-
-msgid "Exit Full Screen"
-msgstr ""
-
-msgid "Edit Template"
-msgstr ""
-
-msgid "Provisioning Templates"
-msgstr ""
-
-msgid "New Template"
-msgstr ""
-
-msgid "Build PXE Default"
-msgstr ""
-
-msgid ""
-"You Are about to change the default PXE menu on all configured TFTP servers - "
-"continue ?"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigTemplate|Name"
-msgstr "Name"
-
-msgid "Host group / Environment"
-msgstr ""
-
-msgid "Kind"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigTemplate|Snippet"
-msgstr "Snippet"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigTemplate|Locked"
-msgstr ""
-
-msgid "This template is locked for editing."
-msgstr ""
-
 msgid "Run distribution in the last %s minute"
 msgid_plural "Run distribution in the last %s minutes"
 msgstr[0] ""
@@ -5219,6 +5304,9 @@ msgid "Total Hosts: %s"
 msgstr ""
 
 msgid "Overview"
+msgstr ""
+
+msgid "Get default dashboard widgets"
 msgstr ""
 
 msgid "Welcome"
@@ -5311,12 +5399,12 @@ msgstr ""
 msgid "For internal Users, simply create a new user at the %s page"
 msgstr ""
 
+msgid "LDAP"
+msgstr ""
+
 msgid ""
 "If you chose to use LDAP authentication then you must provide connection detai"
 "ls for your authentication provider on %s page"
-msgstr ""
-
-msgid "LDAP"
 msgstr ""
 
 msgid "For Roles and permissions, see the %s page"
@@ -5403,12 +5491,12 @@ msgstr ""
 msgid "Full name describing the domain"
 msgstr ""
 
-msgid "DNS Proxy"
-msgstr ""
-
 msgid ""
 "DNS proxy to use within this domain for managing A records, note that PTR reco"
 "rds are managed via Subnet DNS proxy"
+msgstr ""
+
+msgid "DNS Proxy"
 msgstr ""
 
 msgid "Edit Domain"
@@ -5614,6 +5702,18 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Level"
+msgstr ""
+
+msgid "Resource"
+msgstr ""
+
+msgid "message"
+msgstr ""
+
+msgid "No logs to show"
+msgstr ""
+
 msgid "Total of one host"
 msgid_plural "Total of %{hosts} hosts"
 msgstr[0] ""
@@ -5624,6 +5724,27 @@ msgstr ""
 
 msgid "Last Report"
 msgstr "Last Report"
+
+msgid "<b>Foreman</b> Puppet error report"
+msgstr ""
+
+msgid "<b>Foreman</b> Build Complete"
+msgstr ""
+
+msgid "IP"
+msgstr "IP"
+
+msgid "Your host has finished building:"
+msgstr ""
+
+msgid "Hostname:"
+msgstr ""
+
+msgid "IP:"
+msgstr ""
+
+msgid "View in Foreman:"
+msgstr ""
 
 msgid "<b>Foreman</b> Puppet summary"
 msgstr ""
@@ -5642,6 +5763,10 @@ msgstr ""
 
 msgid "Hosts which Foreman reporting is disabled"
 msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Hostgroup"
+msgstr "Host Group"
 
 msgid "Puppet Classes"
 msgstr ""
@@ -5716,10 +5841,10 @@ msgstr ""
 msgid "Create %s"
 msgstr ""
 
-msgid "Select Hosts"
+msgid "Assign Selected Hosts"
 msgstr ""
 
-msgid "Assign Selected Hosts"
+msgid "Select Hosts"
 msgstr ""
 
 msgid "<b class='select_count'>0</b> selected"
@@ -5733,9 +5858,6 @@ msgstr ""
 
 msgid "Boot device"
 msgstr ""
-
-msgid "IP"
-msgstr "IP"
 
 msgid "Netmask"
 msgstr ""
@@ -5845,11 +5967,11 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-msgid "Select all items in this page"
-msgstr "Select all items in this page"
-
 msgid "items selected. Uncheck to Clear"
 msgstr "items selected. Uncheck to Clear"
+
+msgid "Select all items in this page"
+msgstr "Select all items in this page"
 
 msgid "Last report"
 msgstr "Last report"
@@ -6016,9 +6138,6 @@ msgstr "Select Organisation"
 msgid "Metrics"
 msgstr ""
 
-msgid "Templates"
-msgstr ""
-
 msgid "VM"
 msgstr ""
 
@@ -6042,11 +6161,6 @@ msgstr ""
 
 msgid "Loading BMC information ..."
 msgstr ""
-
-msgid "last %s day"
-msgid_plural "last %s days"
-msgstr[0] ""
-msgstr[1] ""
 
 msgid "Loading runtime information ..."
 msgstr ""
@@ -6157,7 +6271,8 @@ msgstr "organisations"
 
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
-" are locations. Locations also work nicely when used in tandem with "
+" are locations. Locations also work nicely when used in tandem with %{organiza"
+"tions}."
 msgstr ""
 
 msgid "Remove %s?"
@@ -6167,11 +6282,6 @@ msgid "Variable"
 msgstr ""
 
 msgid "Whether the smart variable value is managed by Foreman"
-msgstr ""
-
-msgid ""
-"Do not send this parameter via the ENC. Puppet will use the value defined in t"
-"he Puppet manifest for this parameter."
 msgstr ""
 
 msgid "Optional input validator"
@@ -6187,7 +6297,7 @@ msgid ""
 "ovide a value."
 msgstr ""
 
-msgid "Override value for specific hosts"
+msgid "Override merging options"
 msgstr ""
 
 msgid ""
@@ -6197,6 +6307,9 @@ msgid ""
 msgstr ""
 
 msgid "Should the matched result avoid duplicate values (only array type)."
+msgstr ""
+
+msgid "Override value for specific hosts"
 msgstr ""
 
 msgid "Order"
@@ -6209,10 +6322,10 @@ msgid ""
 "b servers\", environment = production</code>"
 msgstr ""
 
-msgid "add a new matcher-value pair"
+msgid "Add Matcher-Value"
 msgstr ""
 
-msgid "Add Matcher-Value"
+msgid "add a new matcher-value pair"
 msgstr ""
 
 msgid ""
@@ -6226,9 +6339,6 @@ msgid "Explain matchers"
 msgstr ""
 
 msgid "Matcher"
-msgstr ""
-
-msgid "Explain use Puppet default"
 msgstr ""
 
 msgid "remove value"
@@ -6420,7 +6530,9 @@ msgstr ""
 msgid "Virtual NIC"
 msgstr ""
 
-msgid "Enable if this is an alias or VLAN interface"
+msgid ""
+"Enable if this is an alias or VLAN interface, note that alias can be used only"
+" with static boot mode subnet"
 msgstr ""
 
 msgid "OS name from facter; e.g. RedHat"
@@ -6492,16 +6604,99 @@ msgstr ""
 "Organisations are particularly useful for Foreman installations where several "
 "customers or business units are managed with a single Foreman install."
 
-msgid "Organizations also work nicely in tandem with"
-msgstr "Organisations also work nicely in tandem with"
-
 msgid "locations"
 msgstr ""
 
-msgid "a script as well"
+msgid "Organizations also work nicely in tandem with %{locations}."
 msgstr ""
 
-msgid "you may use %s"
+msgid "Valid host group and environment combinations"
+msgstr ""
+
+msgid "Add combination"
+msgstr ""
+
+msgid "Association"
+msgstr ""
+
+msgid "Snippet"
+msgstr ""
+
+msgid "Not relevant for snippet"
+msgstr ""
+
+msgid "How templates are determined"
+msgstr ""
+
+msgid ""
+"When editing a Template, you must assign a list of Operating Systems which thi"
+"s Template can be used with. Optionally, you can restrict a template to a list"
+" of Hostgroups and/or Environments"
+msgstr ""
+
+msgid ""
+"When a Host requests a template (e.g. during provisioning), Foreman will selec"
+"t the best match from the available templates of that type, in the following o"
+"rder:"
+msgstr ""
+
+msgid "Host group and Environment"
+msgstr ""
+
+msgid "Host group only"
+msgstr ""
+
+msgid "Environment only"
+msgstr ""
+
+msgid "Operating system default"
+msgstr ""
+
+msgid "The final entry, Operating System default, can be set by editing the %s page."
+msgstr ""
+
+msgid "Applicable<br>Operating Systems"
+msgstr ""
+
+msgid "Template diff"
+msgstr ""
+
+msgid "Edit Template"
+msgstr ""
+
+msgid "Provisioning Templates"
+msgstr ""
+
+msgid "New Template"
+msgstr ""
+
+msgid "Build PXE Default"
+msgstr ""
+
+msgid ""
+"You are about to change the default PXE menu on all configured TFTP servers - "
+"continue?"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "ProvisioningTemplate|Name"
+msgstr ""
+
+msgid "Host group / Environment"
+msgstr ""
+
+msgid "Kind"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "ProvisioningTemplate|Snippet"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "ProvisioningTemplate|Locked"
+msgstr ""
+
+msgid "This template is locked for editing."
 msgstr ""
 
 msgid "Edit Partition Table"
@@ -6520,6 +6715,12 @@ msgstr "Name"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Os family"
 msgstr "Operating system family"
+
+msgid "Ptable|Snippet"
+msgstr ""
+
+msgid "Ptable|Locked"
+msgstr ""
 
 msgid "Partition table configuration"
 msgstr ""
@@ -6647,16 +6848,16 @@ msgstr ""
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr ""
 
-msgid "Realm type"
-msgstr ""
-
 msgid "Type of realm, e.g. FreeIPA"
 msgstr ""
 
-msgid "Realm proxy"
+msgid "Realm type"
 msgstr ""
 
 msgid "Realm proxy to use within this realm"
+msgstr ""
+
+msgid "Realm proxy"
 msgstr ""
 
 msgid "Edit Realm"
@@ -6686,15 +6887,6 @@ msgid "Report Metrics"
 msgstr ""
 
 msgid "Total"
-msgstr ""
-
-msgid "Level"
-msgstr ""
-
-msgid "Resource"
-msgstr ""
-
-msgid "message"
 msgstr ""
 
 msgid "Nothing to show"
@@ -6866,66 +7058,6 @@ msgstr "Network address"
 msgid "Subnet|Vlanid"
 msgstr "VLAN ID"
 
-msgid "All users"
-msgstr ""
-
-msgid "Select users"
-msgstr ""
-
-msgid "All smart proxies"
-msgstr ""
-
-msgid "Select smart proxies"
-msgstr ""
-
-msgid "All subnets"
-msgstr ""
-
-msgid "Select subnets"
-msgstr ""
-
-msgid "All compute resources"
-msgstr ""
-
-msgid "Select compute resources"
-msgstr ""
-
-msgid "All media"
-msgstr ""
-
-msgid "Select media"
-msgstr ""
-
-msgid "All templates"
-msgstr ""
-
-msgid "Select templates"
-msgstr ""
-
-msgid "All domains"
-msgstr ""
-
-msgid "Select domains"
-msgstr ""
-
-msgid "All realms"
-msgstr ""
-
-msgid "Select realms"
-msgstr ""
-
-msgid "All environments"
-msgstr ""
-
-msgid "Select environments"
-msgstr ""
-
-msgid "All host groups"
-msgstr ""
-
-msgid "Select host groups"
-msgstr ""
-
 msgid "Select organizations"
 msgstr "Select organisations"
 
@@ -7009,6 +7141,57 @@ msgstr ""
 
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "All hosts data matches configurations for locations and organisations."
+
+msgid ""
+"Warning: This template is locked. You may only change the associations. Please"
+" %s it to customize."
+msgstr ""
+"Warning: This template is locked. You may only change the associations. Please"
+" %s it to customise."
+
+msgid "clone"
+msgstr ""
+
+msgid "Note: %s "
+msgstr ""
+
+msgid "Useful template functions and macros"
+msgstr ""
+
+msgid "Template editor"
+msgstr ""
+
+msgid "Code"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Key Binding"
+msgstr ""
+
+msgid "Selecting a file will override the editor and load the file instead"
+msgstr ""
+
+msgid "Audit Comment"
+msgstr ""
+
+msgid ""
+"The Audit Comment field is saved with the template auditing to document the te"
+"mplate changes"
+msgstr ""
+
+msgid "Revert"
+msgstr ""
+
+msgid "Show Diff"
+msgstr ""
+
+msgid "No history found"
+msgstr ""
+
+msgid "Save something and try again"
+msgstr ""
 
 msgid "Please Select"
 msgstr ""
@@ -7105,10 +7288,10 @@ msgstr "Synchronise group from authentication source"
 msgid "Show linked external user groups"
 msgstr ""
 
-msgid "Add external user group"
+msgid "link external user group with this user group"
 msgstr ""
 
-msgid "link external user group with this user group"
+msgid "Add external user group"
 msgstr ""
 
 msgid "Edit User group"
@@ -7117,13 +7300,16 @@ msgstr ""
 msgid "New User group"
 msgstr ""
 
-msgid "Mail Preferences"
+msgid "Build a query for %{mailer}"
 msgstr ""
 
-msgid "Browser locale"
+msgid "Email Preferences"
 msgstr ""
 
 msgid "Language"
+msgstr ""
+
+msgid "Browser locale"
 msgstr ""
 
 msgid "Browser timezone"
@@ -7141,7 +7327,7 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-msgid "Please save the user first before assigning mail notifications."
+msgid "Please save the user first before assigning email notifications."
 msgstr ""
 
 msgid "Notifications"
@@ -7303,6 +7489,9 @@ msgid "Unable to detect TFTP boot server"
 msgstr ""
 
 msgid "Unable to create default TFTP boot menu"
+msgstr ""
+
+msgid "No free ports available for websockify, try again later"
 msgstr ""
 
 msgid "No documentation found"
@@ -7545,19 +7734,19 @@ msgid "ConfigGroup|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Config template"
+msgid "Provisioning template"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigTemplate|Default"
+msgid "ProvisioningTemplate|Default"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigTemplate|Template"
-msgstr "Template"
+msgid "ProvisioningTemplate|Template"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigTemplate|Vendor"
+msgid "ProvisioningTemplate|Vendor"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages

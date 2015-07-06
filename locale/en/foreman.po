@@ -142,26 +142,26 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-msgid "Reboot and build"
-msgstr ""
-
 msgid "Build"
 msgstr ""
 
+msgid "Reboot and build"
+msgstr ""
+
 msgid "Select All"
+msgstr ""
+
+msgid "All items"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr ""
 
-msgid "All items"
+msgid "Deselect All"
 msgstr ""
 
 msgid "Selected items"
-msgstr ""
-
-msgid "Deselect All"
 msgstr ""
 
 msgid "Select this since it belongs to a host"
@@ -1330,6 +1330,15 @@ msgstr ""
 msgid "Show a partition table"
 msgstr ""
 
+msgid "Array of operating system IDs to associate with the partition table"
+msgstr ""
+
+msgid "Array of host IDs to associate with the partition table"
+msgstr ""
+
+msgid "Array of host group IDs to associate with the partition table"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr ""
 
@@ -1781,10 +1790,10 @@ msgstr ""
 msgid "You must create at least one organization before continuing."
 msgstr ""
 
-msgid "Error"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Error"
 msgstr ""
 
 msgid "Invalid authenticity token"
@@ -1954,16 +1963,16 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr ""
 
-msgid "Disk"
-msgstr ""
-
-msgid "CDROM"
-msgstr ""
-
 msgid "BIOS"
 msgstr ""
 
+msgid "Disk"
+msgstr ""
+
 msgid "PXE"
+msgstr ""
+
+msgid "CDROM"
 msgstr ""
 
 msgid "The marked fields will need reviewing"
@@ -2115,10 +2124,10 @@ msgstr ""
 msgid "Role cloned from role %{old_name}"
 msgstr ""
 
-msgid "No changes found when refreshing features from %s."
+msgid "Successfully refreshed features from %s."
 msgstr ""
 
-msgid "Successfully refreshed features from %s."
+msgid "No changes found when refreshing features from %s."
 msgstr ""
 
 msgid "%s core"
@@ -2135,10 +2144,10 @@ msgstr ""
 msgid "Imported Subnets"
 msgstr ""
 
-msgid "Template unlocked"
+msgid "Template locked"
 msgstr ""
 
-msgid "Template locked"
+msgid "Template unlocked"
 msgstr ""
 
 msgid ""
@@ -2222,10 +2231,10 @@ msgstr ""
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr ""
 
-msgid "Additional info"
+msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
 
-msgid "<b>Source:</b> %{type} %{name}"
+msgid "Additional info"
 msgstr ""
 
 msgid "Explain use Puppet default"
@@ -2334,11 +2343,11 @@ msgstr ""
 msgid "Restarted|R"
 msgstr ""
 
-msgid "Failed"
-msgstr ""
-
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
+msgstr ""
+
+msgid "Failed"
 msgstr ""
 
 msgid "Failed Restarts"
@@ -2348,11 +2357,11 @@ msgstr ""
 msgid "Failed Restarts|FR"
 msgstr ""
 
-msgid "Skipped"
-msgstr ""
-
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
+msgstr ""
+
+msgid "Skipped"
 msgstr ""
 
 #. TRANSLATORS: initial character of Pending
@@ -2478,10 +2487,10 @@ msgstr ""
 msgid "Failed restarts"
 msgstr ""
 
-msgid "Runtime"
+msgid "Config Retrieval"
 msgstr ""
 
-msgid "Config Retrieval"
+msgid "Runtime"
 msgstr ""
 
 msgid "Reports from the last %{days} days - %{count} reports found"
@@ -2575,40 +2584,40 @@ msgstr ""
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-msgid "Audits"
-msgstr ""
-
 msgid "Host audit entries"
 msgstr ""
 
-msgid "Facts"
+msgid "Audits"
 msgstr ""
 
 msgid "Browse host facts"
 msgstr ""
 
-msgid "Browse host reports"
+msgid "Facts"
 msgstr ""
 
 msgid "Reports"
 msgstr ""
 
-msgid "YAML"
+msgid "Browse host reports"
 msgstr ""
 
 msgid "Puppet external nodes YAML dump"
 msgstr ""
 
+msgid "YAML"
+msgstr ""
+
 msgid "Allocation (GB)"
 msgstr ""
 
-msgid "Full"
+msgid "Size"
 msgstr ""
 
 msgid "None"
 msgstr ""
 
-msgid "Size"
+msgid "Full"
 msgstr ""
 
 msgid "remove network interface"
@@ -2688,9 +2697,6 @@ msgstr ""
 msgid "Puppet Class"
 msgstr ""
 
-msgid "Parameter types"
-msgstr ""
-
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2699,6 +2705,9 @@ msgid ""
 "valuate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that mu"
 "st evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML i"
 "nput.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
+msgstr ""
+
+msgid "Parameter types"
 msgstr ""
 
 msgid "How values are validated"
@@ -2733,12 +2742,12 @@ msgid ""
 "iption:</b>: %s"
 msgstr ""
 
-msgid "No value warning"
-msgstr ""
-
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
 "><b>Description:</b> %s"
+msgstr ""
+
+msgid "No value warning"
 msgstr ""
 
 msgid "Default templates are automatically added to new locations"
@@ -2782,10 +2791,10 @@ msgstr ""
 msgid "Delete %s?"
 msgstr ""
 
-msgid "revoked"
+msgid "valid"
 msgstr ""
 
-msgid "valid"
+msgid "revoked"
 msgstr ""
 
 msgid "pending"
@@ -2843,16 +2852,16 @@ msgstr ""
 msgid "Show log messages:"
 msgstr ""
 
-msgid "All messages"
+msgid "Errors only"
 msgstr ""
 
-msgid "Errors only"
+msgid "Warnings and errors"
 msgstr ""
 
 msgid "Notices, warnings and errors"
 msgstr ""
 
-msgid "Warnings and errors"
+msgid "All messages"
 msgstr ""
 
 msgid ""
@@ -2890,22 +2899,22 @@ msgstr ""
 msgid "Class Distribution"
 msgstr ""
 
+msgid "Average memory usage"
+msgstr ""
+
 msgid "free memory"
 msgstr ""
 
 msgid "used memory"
 msgstr ""
 
-msgid "Average memory usage"
-msgstr ""
-
-msgid "used swap"
+msgid "Average swap usage"
 msgstr ""
 
 msgid "free swap"
 msgstr ""
 
-msgid "Average swap usage"
+msgid "used swap"
 msgstr ""
 
 msgid "Any Organization"
@@ -2914,10 +2923,10 @@ msgstr ""
 msgid "Any Location"
 msgstr ""
 
-msgid "New Organization"
+msgid "New Location"
 msgstr ""
 
-msgid "New Location"
+msgid "New Organization"
 msgstr ""
 
 msgid "All users"
@@ -2932,10 +2941,10 @@ msgstr ""
 msgid "All smart proxies"
 msgstr ""
 
-msgid "Select subnets"
+msgid "All subnets"
 msgstr ""
 
-msgid "All subnets"
+msgid "Select subnets"
 msgstr ""
 
 msgid "Select compute resources"
@@ -2944,10 +2953,10 @@ msgstr ""
 msgid "All compute resources"
 msgstr ""
 
-msgid "All media"
+msgid "Select media"
 msgstr ""
 
-msgid "Select media"
+msgid "All media"
 msgstr ""
 
 msgid "All provisioning templates"
@@ -2962,10 +2971,10 @@ msgstr ""
 msgid "All partition tables"
 msgstr ""
 
-msgid "All domains"
+msgid "Select domains"
 msgstr ""
 
-msgid "Select domains"
+msgid "All domains"
 msgstr ""
 
 msgid "Select realms"
@@ -2974,16 +2983,20 @@ msgstr ""
 msgid "All realms"
 msgstr ""
 
+msgid "Select environments"
+msgstr ""
+
 msgid "All environments"
 msgstr ""
 
-msgid "Select environments"
+msgid "All host groups"
 msgstr ""
 
 msgid "Select host groups"
 msgstr ""
 
-msgid "All host groups"
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Environment"
 msgstr ""
 
 #, fuzzy
@@ -2991,15 +3004,11 @@ msgid "Operating system"
 msgstr "Name"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Environment"
+msgid "Model"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Model"
 msgstr ""
 
 msgid "Trend of the last %s days."
@@ -3453,31 +3462,31 @@ msgstr ""
 msgid "json"
 msgstr ""
 
+msgid "array"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
+
+msgid "yaml"
+msgstr ""
+
 msgid "integer"
 msgstr ""
 
 msgid "real"
 msgstr ""
 
-msgid "boolean"
+msgid "hash"
 msgstr ""
 
 msgid "string"
 msgstr ""
 
-msgid "yaml"
-msgstr ""
-
-msgid "array"
-msgstr ""
-
-msgid "hash"
+msgid "regexp"
 msgstr ""
 
 msgid "list"
-msgstr ""
-
-msgid "regexp"
 msgstr ""
 
 msgid "invalid"
@@ -3516,13 +3525,13 @@ msgstr ""
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
-msgid "Weekly"
-msgstr ""
-
 msgid "Daily"
 msgstr ""
 
 msgid "Monthly"
+msgstr ""
+
+msgid "Weekly"
 msgstr ""
 
 msgid ""
@@ -3962,10 +3971,10 @@ msgstr ""
 msgid "Please check the proxy is configured and running on the host."
 msgstr ""
 
-msgid "Static"
+msgid "DHCP"
 msgstr ""
 
-msgid "DHCP"
+msgid "Static"
 msgstr ""
 
 msgid "Internal DB"
@@ -4072,6 +4081,9 @@ msgid "Distribution chart"
 msgstr ""
 
 msgid "Unallowed template for dashboard widget: %s"
+msgstr ""
+
+msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr ""
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
@@ -4239,16 +4251,10 @@ msgstr ""
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "reboot"
-msgstr ""
-
-msgid "stop"
-msgstr ""
-
 msgid "reset"
 msgstr ""
 
-msgid "state"
+msgid "stop"
 msgstr ""
 
 msgid "start"
@@ -4257,22 +4263,28 @@ msgstr ""
 msgid "poweroff"
 msgstr ""
 
-msgid "soft"
+msgid "state"
 msgstr ""
 
-msgid "on"
-msgstr ""
-
-msgid "status"
-msgstr ""
-
-msgid "ready?"
+msgid "reboot"
 msgstr ""
 
 msgid "off"
 msgstr ""
 
+msgid "on"
+msgstr ""
+
 msgid "cycle"
+msgstr ""
+
+msgid "ready?"
+msgstr ""
+
+msgid "soft"
+msgstr ""
+
+msgid "status"
 msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
