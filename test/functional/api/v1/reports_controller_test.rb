@@ -47,7 +47,7 @@ class Api::V1::ReportsControllerTest < ActionController::TestCase
   end
 
   test "should get last report" do
-    reports = FactoryGirl.create_list(:report, 5)
+    reports = FactoryGirl.create_list(:config_report, 5)
     get :last
     assert_response :success
     assert_not_nil assigns(:report)
@@ -57,7 +57,7 @@ class Api::V1::ReportsControllerTest < ActionController::TestCase
   end
 
   test "should get last report for given host only" do
-    main_report   = FactoryGirl.create(:report)
+    main_report   = FactoryGirl.create(:config_report)
     FactoryGirl.create_list(:report, 5)
     get :last, {:host_id => main_report.host.to_param }
     assert_response :success

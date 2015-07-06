@@ -10,7 +10,11 @@ Foreman::Application.routes.draw do
   #ENC requests goes here
   match "node/:name" => 'hosts#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
 
-  resources :reports, :only => [:index, :show, :destroy] do
+  # Redirect reports with deprecation warning
+  get "/reports", :to => redirect { |params, request| DeprecationRedirect.new("config_reports", params, request.query_string, '1.12', 'Reports are renamed to Config Reports').redirect_url }
+  get "/reports/:id", :to => redirect { |params, request| DeprecationRedirect.new("config_reports", params, request.query_string, '1.12', 'Reports are renamed to Config Reports').redirect_url }
+
+  resources :config_reports, :only => [:index, :show, :destroy] do
     collection do
       get 'auto_complete_search'
     end
@@ -89,7 +93,7 @@ Foreman::Application.routes.draw do
       end
 
       constraints(:host_id => /[^\/]+/) do
-        resources :reports,       :only => [:index, :show]
+        resources :config_reports, :only => [:index, :show]
         resources :audits,        :only => :index
         resources :facts,         :only => :index, :controller => :fact_values
         resources :puppetclasses, :only => :index

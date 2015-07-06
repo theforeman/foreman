@@ -43,12 +43,14 @@ module Menu
       Manager.map :top_menu do |menu|
         menu.sub_menu :monitor_menu,    :caption => N_('Monitor') do
           menu.item :dashboard,         :caption => N_('Dashboard')
-          menu.item :reports,           :caption => N_('Reports'),
-                    :url_hash => {:controller => '/reports', :action => 'index', :search => 'eventful = true'}
           menu.item :fact_values,       :caption => N_('Facts')
           menu.item :statistics,        :caption => N_('Statistics')
           menu.item :trends,            :caption => N_('Trends')
           menu.item :audits,            :caption => N_('Audits')
+          menu.divider                  :caption => N_('Reports')
+          menu.item :reports,           :caption => N_('Config management'),
+                    :url_hash => {:controller => '/config_reports', :action => 'index', :search => 'eventful = true'}
+          menu.divider
         end
 
         menu.sub_menu :hosts_menu,      :caption => N_('Hosts') do

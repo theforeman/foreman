@@ -28,8 +28,8 @@ class ReportsTest < ActiveSupport::TestCase
       report = read_json_fixture('report-errors.json')
       report["host"] = @host.name
 
-      ReportImporter.import report
-      Report.update_all(:reported_at => 1.minute.ago)
+      ConfigReportImporter.import report
+      ConfigReport.update_all(:reported_at => 1.minute.ago)
     end
 
     Rake.application.invoke_task 'reports:daily'

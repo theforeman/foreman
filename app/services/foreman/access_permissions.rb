@@ -708,16 +708,19 @@ Foreman::AccessControl.map do |permission_set|
     }
   end
 
-  permission_set.security_block :reports do |map|
-    map.permission :view_reports,    {:reports     => [:index, :show, :auto_complete_search],
-                                      :"api/v1/reports" => [:index, :show, :last],
-                                      :"api/v2/reports" => [:index, :show, :last]
-    }
-    map.permission :destroy_reports, {:reports     => [:destroy],
-                                      :"api/v1/reports" => [:destroy],
-                                      :"api/v2/reports" => [:destroy]
-    }
-    map.permission :upload_reports,  {:"api/v2/reports" => [:create] }
+  permission_set.security_block :config_reports do |map|
+    map.permission :view_config_reports, {:"api/v1/reports"        => [:index, :show, :last],
+                                          :"api/v2/reports"        => [:index, :show, :last],
+                                          :config_reports          => [:index, :show, :auto_complete_search],
+                                          :"api/v2/config_reports" => [:index, :show, :last]
+                                       }
+    map.permission :destroy_config_reports, {:config_reports          => [:destroy],
+                                             :"api/v1/reports"        => [:destroy],
+                                             :"api/v2/reports"        => [:destroy],
+                                             :"api/v2/config_reports" => [:destroy]
+                                          }
+    map.permission :upload_config_reports, {:"api/v2/reports"        => [:create],
+                                            :"api/v2/config_reports" => [:create]}
   end
 
   permission_set.security_block :facts do |map|

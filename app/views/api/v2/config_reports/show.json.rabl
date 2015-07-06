@@ -1,6 +1,6 @@
-object @report
+object @config_report
 
-extends "api/v2/reports/main"
+extends "api/v2/config_reports/main"
 
 child :logs do
   child :source do

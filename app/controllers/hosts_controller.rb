@@ -40,7 +40,7 @@ class HostsController < ApplicationController
       format.html do
         @hosts = search.includes(included_associations).paginate(:page => params[:page])
         # SQL optimizations queries
-        @last_reports = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
+        @last_reports = ConfigReport.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
         # rendering index page for non index page requests (out of sync hosts etc)
         @hostgroup_authorizer = Authorizer.new(User.current, :collection => @hosts.map(&:hostgroup_id).compact.uniq)
         render :index if title and (@title = title)
@@ -57,7 +57,7 @@ class HostsController < ApplicationController
         @range = (params["range"].empty? ? 7 : params["range"].to_i)
 
         # summary report text
-        @report_summary = Report.summarise(@range.days.ago, @host)
+        @report_summary = ConfigReport.summarise(@range.days.ago, @host)
       end
       format.yaml { render :text => @host.info.to_yaml }
       format.json

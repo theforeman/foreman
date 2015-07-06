@@ -13,5 +13,5 @@ child :logs do
 end
 
 node :summary do |report|
-  report.summaryStatus
+  report.summary_status
 end

@@ -1,26 +1,26 @@
 <%= javascript 'reports', 'ace/ace' %>
-<% title "#{@report.host}"%>
+<% title "#{@config_report.host}"%>
 
-<p class='ra'> <%= _("Reported at %s ") % @report.reported_at %> </p>
+<p class='ra'> <%= _("Reported at %s ") % @config_report.reported_at %> </p>
 <% if @offset > 10 %>
   <div class="alert alert-block alert-danger alert-dismissable">
     <%= alert_close %>
     <h3><%= _("Host times seems to be adrift!") %></h3>
-    <%= (_("Host reported time is <em>%s</em>") % @report.reported_at).html_safe %> <br/>
-    <%= (_("Foreman report creation time is <em>%s</em>") % @report.created_at).html_safe %> <br/>
-    <%= (_("Which is an offset of <b>%s</b>") % distance_of_time_in_words(@report.reported_at, @report.created_at, true)).html_safe %>
+    <%= (_("Host reported time is <em>%s</em>") % @config_report.reported_at).html_safe %> <br/>
+    <%= (_("Foreman report creation time is <em>%s</em>") % @config_report.created_at).html_safe %> <br/>
+    <%= (_("Which is an offset of <b>%s</b>") % distance_of_time_in_words(@config_report.reported_at, @config_report.created_at, true)).html_safe %>
   </div>
 <% end %>
 
 <% content_for(:search_bar) {logs_show} %>
 
-<%= render 'output', :logs => @report.logs%>
-<%= render 'metrics', :status => @report.status, :metrics => @report.metrics["time"] if @report.metrics["time"] %>
+<%= render 'output', :logs => @config_report.logs%>
+<%= render 'metrics', :status => @config_report.status, :metrics => @config_report.metrics["time"] if @config_report.metrics["time"] %>
 
 <%= title_actions link_to(_('Back'), :back),
-  display_delete_if_authorized(hash_for_report_path(:id => @report), :class=> "btn btn-danger"),
-  link_to(_("Host details"), @report.host),
-  link_to(_("Other reports for this host"), host_reports_path(@report.host))
+  display_delete_if_authorized(hash_for_config_report_path(:id => @config_report), :class=> "btn btn-danger"),
+  link_to(_("Host details"), @config_report.host),
+  link_to(_("Other reports for this host"), host_config_reports_path(@config_report.host))
 %>
 
 <div id="diff-modal" class="modal fade">

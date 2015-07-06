@@ -1,30 +1,30 @@
 module Api
   module V2
-    class ReportsController < V2::BaseController
+    class ConfigReportsController < V2::BaseController
       include Api::Version2
       include Foreman::Controller::SmartProxyAuth
-      before_filter :deprecated
+
       before_filter :find_resource, :only => %w{show update destroy}
       before_filter :setup_search_options, :only => [:index, :last]
 
       add_smart_proxy_filters :create, :features => ConfigReportImporter.authorized_smart_proxy_features
 
-      api :GET, "/reports/", N_("List all reports")
+      api :GET, "/config_reports/", N_("List all reports")
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @reports = resource_scope_for_index.my_reports.includes(:logs => [:source, :message])
-        @total = resource_class.my_reports.count
+        @config_reports = resource_scope_for_index.my_reports.includes(:logs => [:source, :message])
+        @total = ConfigReport.my_reports.count
       end
 
-      api :GET, "/reports/:id/", N_("Show a report")
+      api :GET, "/config_reports/:id/", N_("Show a report")
       param :id, :identifier, :required => true
 
       def show
       end
 
-      def_param_group :report do
-        param :report, Hash, :required => true, :action_aware => true do
+      def_param_group :config_report do
+        param :config_report, Hash, :required => true, :action_aware => true do
           param :host, String, :required => true, :desc => N_("Hostname or certname")
           param :reported_at, String, :required => true, :desc => N_("UTC time of report")
           param :status, Hash, :required => true, :desc => N_("Hash of status type totals")
@@ -33,41 +33,31 @@ module Api
         end
       end
 
-      api :POST, "/reports/", N_("Create a report")
-      param_group :report, :as => :create
+      api :POST, "/config_reports/", N_("Create a report")
+      param_group :config_report, :as => :create
 
       def create
-        @report = resource_class.import(params[:report], detected_proxy.try(:id))
-        process_response @report.errors.empty?
+        @config_report = ConfigReport.import(params[:config_report], detected_proxy.try(:id))
+        process_response @config_report.errors.empty?
       rescue ::Foreman::Exception => e
         render_message(e.to_s, :status => :unprocessable_entity)
       end
 
-      api :DELETE, "/reports/:id/", N_("Delete a report")
+      api :DELETE, "/config_reports/:id/", N_("Delete a report")
       param :id, String, :required => true
 
       def destroy
-        process_response @report.destroy
+        process_response @config_report.destroy
       end
 
-      api :GET, "/hosts/:host_id/reports/last", N_("Show the last report for a host")
+      api :GET, "/hosts/:host_id/config_reports/last", N_("Show the last report for a host")
       param :id, :identifier, :required => true
 
       def last
         conditions = { :host_id => Host.find(params[:host_id]).id } unless params[:host_id].blank?
-        max_id = resource_class.authorized(:view_config_reports).my_reports.where(conditions).maximum(:id)
-        @report = resource_class.authorized(:view_config_reports).includes(:logs => [:message, :source]).find(max_id)
+        max_id = ConfigReport.authorized(:view_config_reports).my_reports.where(conditions).maximum(:id)
+        @config_report = ConfigReport.authorized(:view_config_reports).includes(:logs => [:message, :source]).find(max_id)
         render :show
-      end
-
-      private
-
-      def deprecated
-        Foreman::Deprecation.api_deprecation_warning("The resources /reports were moved to /config_reports. Please use the new path instead")
-      end
-
-      def resource_class
-        ConfigReport
       end
     end
   end
