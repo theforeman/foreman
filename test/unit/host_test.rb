@@ -2315,6 +2315,26 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  describe 'rendering interface' do
+    let(:host) { FactoryGirl.build(:host, :managed) }
+
+    test "#multiboot" do
+      host.respond_to?(:multiboot)
+    end
+
+    test "#jumpstart_path" do
+      host.respond_to?(:jumpstart_path)
+    end
+
+    test "#install_path" do
+      host.respond_to?(:install_path)
+    end
+
+    test "#miniroot" do
+      host.respond_to?(:miniroot)
+    end
+  end
+
   private
 
   def parse_json_fixture(relative_path)
