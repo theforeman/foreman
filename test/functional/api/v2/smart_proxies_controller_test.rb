@@ -46,7 +46,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     assert_difference('SmartProxy.count') do
       post :create, { :smart_proxy => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update smart_proxy" do

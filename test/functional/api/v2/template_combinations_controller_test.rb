@@ -33,7 +33,7 @@ class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
     assert_equal(template_combination["environment_id"], environments(:production).id)
     assert_equal(template_combination["hostgroup_id"], hostgroups(:unusual).id)
     assert_equal(template_combination["config_template_id"], templates(:mystring2).id)
-    assert_response 200
+    assert_response :created
   end
 
   test "should update template combination" do

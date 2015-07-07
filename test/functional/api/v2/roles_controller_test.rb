@@ -22,7 +22,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     assert_difference('Role.count') do
       post :create, { :role => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update role" do

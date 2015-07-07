@@ -81,14 +81,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_difference('Host.count') do
       post :create, { :host => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should create interfaces" do
     disable_orchestration
 
     post :create, { :host => basic_attrs.merge!(:interfaces_attributes => nics_attrs) }
-    assert_response :success
+    assert_response :created
     assert_equal 2, last_host.interfaces.count
 
     assert last_host.interfaces.find_by_mac('00:11:22:33:44:00').primary?
@@ -103,7 +103,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
 
     post :create, { :host => basic_attrs.merge!(:interfaces_attributes => hash_nics_attrs) }
-    assert_response :success
+    assert_response :created
     assert_equal 2, last_host.interfaces.count
 
     assert last_host.interfaces.find_by_mac('00:11:22:33:44:00').primary?
@@ -127,7 +127,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
     compute_attrs = compute_attributes(:with_interfaces)
     post :create, { :host => basic_attrs_with_profile(compute_attrs).merge(:interfaces_attributes =>  nics_attrs) }
-    assert_response :success
+    assert_response :created
 
     assert_equal compute_attrs.vm_interfaces.count, last_host.interfaces.count
     assert_equal expected_compute_attributes(compute_attrs, 0), last_host.interfaces.find_by_mac('00:11:22:33:44:00').compute_attributes
@@ -137,7 +137,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   test "should create host with managed is false if parameter is passed" do
     disable_orchestration
     post :create, { :host => valid_attrs.merge!(:managed => false) }
-    assert_response :success
+    assert_response :created
     assert_equal false, last_host.managed?
   end
 

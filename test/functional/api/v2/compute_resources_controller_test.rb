@@ -28,7 +28,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should create valid compute resource" do
     post :create, { :compute_resource => valid_attrs }
-    assert_response :success
+    assert_response :created
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end

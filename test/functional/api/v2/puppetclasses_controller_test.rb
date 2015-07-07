@@ -23,7 +23,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_difference('Puppetclass.count') do
       post :create, { :puppetclass => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update puppetclass" do

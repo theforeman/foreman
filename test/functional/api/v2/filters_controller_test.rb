@@ -21,7 +21,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
     assert_difference('Filter.count') do
       post :create, { :filter => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update filter" do

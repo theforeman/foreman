@@ -22,7 +22,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_difference('Hostgroup.count') do
       post :create, { :hostgroup => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update hostgroup" do

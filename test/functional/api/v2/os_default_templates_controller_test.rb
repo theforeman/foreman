@@ -25,7 +25,7 @@ class Api::V2::OsDefaultTemplatesControllerTest < ActionController::TestCase
                                                                                                           :template_kind_id => template_kinds(:ipxe).id}
                     }
     end
-    assert_response :success
+    assert_response :created
     assert_not_nil assigns(:os_default_template)
   end
 

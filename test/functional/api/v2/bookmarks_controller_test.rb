@@ -33,14 +33,14 @@ class Api::V2::BookmarksControllerTest < ActionController::TestCase
     assert_difference('Bookmark.count') do
       post :create, { :bookmark => simple_bookmark }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should create bookmark with a dot" do
     assert_difference('Bookmark.count') do
       post :create, { :bookmark => dot_bookmark }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update bookmark" do

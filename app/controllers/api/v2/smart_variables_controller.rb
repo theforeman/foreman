@@ -44,7 +44,7 @@ module Api
       def create
         @smart_variable   = LookupKey.new(params[:smart_variable]) unless @puppetclass
         @smart_variable ||= @puppetclass.lookup_keys.build(params[:smart_variable])
-        @smart_variable.save!
+        process_response @smart_variable.save
       end
 
       api :PUT, "/smart_variables/:id", N_("Update a smart variable")

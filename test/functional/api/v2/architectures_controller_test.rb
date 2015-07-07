@@ -30,7 +30,7 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
     assert_difference('Architecture.count') do
       post :create, { :architecture => arch_i386 }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update architecture" do

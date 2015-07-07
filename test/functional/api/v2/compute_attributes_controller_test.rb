@@ -9,7 +9,7 @@ class Api::V2::ComputeAttributesControllerTest < ActionController::TestCase
                      :compute_resource_id => compute_resources(:one).id
                     }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update compute attribute" do

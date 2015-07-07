@@ -38,7 +38,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count') do
       post :create,  {:smart_class_parameter_id => lookup_keys(:complex).to_param, :override_value => smart_class_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should show specific override values for specific smart variable" do
