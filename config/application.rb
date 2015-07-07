@@ -3,6 +3,8 @@ require 'apipie/middleware/checksum_in_headers'
 
 require 'rails/all'
 
+require File.expand_path('../../config/settings', __FILE__)
+
 if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
   # If there is a Gemfile.in file, we will not use Bundler but BundlerExt
   # gem which parses this file and loads all dependencies from the system
