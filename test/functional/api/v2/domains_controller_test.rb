@@ -16,7 +16,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
 
   test "should create valid domain" do
     post :create, { :domain => { :name => "domain.net" } }
-    assert_response :success
+    assert_response :created
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end

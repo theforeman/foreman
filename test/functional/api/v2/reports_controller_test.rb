@@ -37,7 +37,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])
       post :create, {:report => create_a_puppet_transaction_report }
       assert_nil @controller.detected_proxy
-      assert_response :success
+      assert_response :created
     end
 
     test 'hosts with a registered smart proxy on should create a report successfully' do
@@ -49,7 +49,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       Resolv.any_instance.stubs(:getnames).returns([host])
       post :create, {:report => create_a_puppet_transaction_report }
       assert_equal proxy, @controller.detected_proxy
-      assert_response :success
+      assert_response :created
     end
 
     test 'hosts without a registered smart proxy on should not be able to create a report' do
@@ -69,7 +69,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
       @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
       post :create, {:report => create_a_puppet_transaction_report }
-      assert_response :success
+      assert_response :created
     end
 
     test 'hosts without a registered smart proxy but with an SSL cert should not be able to create a report' do
@@ -112,7 +112,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
 
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])
       post :create, {:report => create_a_puppet_transaction_report }
-      assert_response :success
+      assert_response :created
     end
   end
 

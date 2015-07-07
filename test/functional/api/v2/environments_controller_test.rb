@@ -22,7 +22,7 @@ class Api::V2::EnvironmentsControllerTest < ActionController::TestCase
     assert_difference('Environment.count') do
       post :create, { :environment => development_environment }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update environment" do

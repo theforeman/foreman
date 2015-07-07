@@ -22,7 +22,7 @@ module Api
         params[:compute_attribute].merge!(:compute_profile_id => params[:compute_profile_id],
                                           :compute_resource_id => params[:compute_resource_id])
         @compute_attribute = ComputeAttribute.create!(params[:compute_attribute])
-        render :json => @compute_attribute.to_json
+        process_response @compute_attribute
       end
 
       api :PUT, "/compute_resources/:compute_resource_id/compute_profiles/:compute_profile_id/compute_attributes/:id", N_("Update a compute attributes set")

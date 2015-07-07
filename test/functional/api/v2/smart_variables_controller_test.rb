@@ -50,7 +50,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
         post :create, { :smart_variable => valid_attrs }
       end
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should show specific smart variable" do

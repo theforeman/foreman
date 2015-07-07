@@ -30,14 +30,14 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
     assert_difference('@host.interfaces.count') do
       post :create, { :host_id => @host.to_param, :interface => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "create interface with old style type" do
     assert_difference('@host.interfaces.count') do
       post :create, { :host_id => @host.to_param, :interface => valid_attrs.merge('type' => 'Nic::BMC') }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "create interface with unknown type" do

@@ -25,7 +25,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     assert_difference('Operatingsystem.count') do
       post :create, { :operatingsystem => os }
     end
-    assert_response :success
+    assert_response :created
     assert_not_nil assigns(:operatingsystem)
   end
 

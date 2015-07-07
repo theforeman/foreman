@@ -29,7 +29,7 @@ class Api::V2::ExternalUsergroupsControllerTest < ActionController::TestCase
       post :create, { :usergroup_id       => usergroup.to_param,
                       :external_usergroup => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test 'refresh external user group' do

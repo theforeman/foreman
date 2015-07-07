@@ -82,7 +82,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_difference('@host.parameters.count') do
       post :create, { :host_id => @host.to_param, :parameter => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should create domain parameter" do
@@ -90,7 +90,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_difference('domain.parameters.count') do
       post :create, { :domain_id => domain.to_param, :parameter => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should create hostgroup parameter" do
@@ -98,7 +98,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_difference('hostgroup.group_parameters.count') do
       post :create, { :hostgroup_id => hostgroup.to_param, :parameter => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should create os parameter" do
@@ -106,7 +106,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_difference('os.parameters.count') do
       post :create, { :operatingsystem_id => os.to_param, :parameter => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update nested host parameter" do

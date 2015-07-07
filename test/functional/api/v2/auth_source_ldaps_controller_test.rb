@@ -22,7 +22,7 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
     assert_difference('AuthSourceLdap.count', 1) do
       post :create, { :auth_source_ldap => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update auth_source_ldap" do

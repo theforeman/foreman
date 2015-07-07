@@ -22,7 +22,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     assert_difference('Subnet.count') do
       post :create, { :subnet => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "does not create subnet with non-existent domain" do

@@ -26,7 +26,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_difference('Ptable.count') do
       post :create, { :ptable => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update ptable" do

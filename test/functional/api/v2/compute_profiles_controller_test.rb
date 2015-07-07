@@ -20,7 +20,7 @@ class Api::V2::ComputeProfilesControllerTest < ActionController::TestCase
     assert_difference('ComputeProfile.count') do
       post :create, { :compute_profile => {:name => '4-Xlarge'} }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update compute_profile" do

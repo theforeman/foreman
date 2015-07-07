@@ -22,7 +22,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     post :create, { :provisioning_template => valid_attrs }
     template = ActiveSupport::JSON.decode(@response.body)
     assert template["name"] == "RandomName"
-    assert_response 200
+    assert_response :created
   end
 
   test "should not create invalid" do

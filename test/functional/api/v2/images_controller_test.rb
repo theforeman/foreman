@@ -28,7 +28,7 @@ class Api::V2::ImagesControllerTest < ActionController::TestCase
     assert_difference('Image.count') do
       post :create, { :compute_resource_id => images(:two).compute_resource_id, :image => valid_attrs }
     end
-    assert_response :success
+    assert_response :created
   end
 
   test "should update image" do
