@@ -74,7 +74,7 @@ module Menu
           menu.item :common_parameters, :caption => N_('Global parameters')
           menu.divider                  :caption => N_('Puppet')
           menu.item :environments,      :caption => N_('Environments')
-          menu.item :puppetclasses,     :caption => N_('Puppet classes')
+          menu.item :puppetclasses,     :caption => N_('Classes')
           menu.item :config_groups,     :caption => N_('Config groups')
           menu.item :lookup_keys,       :caption => N_('Smart variables')
         end
