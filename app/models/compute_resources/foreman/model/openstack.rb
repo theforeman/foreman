@@ -129,30 +129,27 @@ module Foreman::Model
 
     private
 
+    def fog_credentials
+      { :provider => :openstack,
+        :openstack_api_key  => password,
+        :openstack_username => user,
+        :openstack_auth_url => url,
+        :openstack_tenant   => tenant,
+        :openstack_identity_endpoint => url }
+    end
+
     def client
-      @client ||= ::Fog::Compute.new(:provider           => :openstack,
-                                     :openstack_api_key  => password,
-                                     :openstack_username => user,
-                                     :openstack_auth_url => url,
-                                     :openstack_tenant   => tenant)
+      @client ||= ::Fog::Compute.new(fog_credentials)
     end
 
     def network_client
-      @network_client ||= ::Fog::Network.new(:provider           => :openstack,
-                                             :openstack_api_key  => password,
-                                             :openstack_username => user,
-                                             :openstack_auth_url => url,
-                                             :openstack_tenant   => tenant)
+      @network_client ||= ::Fog::Network.new(fog_credentials)
     rescue
       @network_client = nil
     end
 
     def volume_client
-      @volume_client ||= ::Fog::Volume.new(:provider           => :openstack,
-                                           :openstack_api_key  => password,
-                                           :openstack_username => user,
-                                           :openstack_auth_url => url,
-                                           :openstack_tenant   => tenant)
+      @volume_client ||= ::Fog::Volume.new(fog_credentials)
     end
 
     def setup_key_pair
