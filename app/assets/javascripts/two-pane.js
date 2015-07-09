@@ -69,16 +69,23 @@ function two_pane_submit(){
 
   var url = $('.two-pane-right form').attr('action');
   var data;
-  if (!("FormData" in window))
-    data = $('form').serialize();
-  else
-    data = new FormData($('form')[0]);
+  if (!("FormData" in window)) {
+    data = $('.two-pane-right form').serialize();
+    content_type = 'application/x-www-form-urlencoded; charset=UTF-8';
+    process_data = true;
+  } else {
+    data = new FormData($('.two-pane-right form')[0]);
+    content_type = false;
+    process_data = false;
+  }
 
   $.ajax({
     type:'POST',
     url: url,
     headers: {"X-Foreman-Layout": "two-pane"},
     data: data,
+    processData: process_data,
+    contentType: content_type,
     success: function(response){
       right_pane_content(response);
     },
