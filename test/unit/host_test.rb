@@ -2170,6 +2170,14 @@ class HostTest < ActiveSupport::TestCase
     assert_equal 'foo', host.shortname
   end
 
+  test 'lookup_value_match returns host name instead of fqdn when there is no primary interface' do
+    host = FactoryGirl.build(:host, :managed)
+    host_name = host.name
+    host.interfaces.delete_all
+    assert_nil host.primary_interface
+    assert_equal host.send(:lookup_value_match), "fqdn=#{host_name}"
+  end
+
   test 'check operatingsystem and architecture association' do
     host = FactoryGirl.build(:host, :interfaces => [FactoryGirl.build(:nic_primary_and_provision)])
     assert_nil Operatingsystem.find_by_name('RedHat-test'), "operatingsystem already exist"
