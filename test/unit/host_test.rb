@@ -2095,6 +2095,14 @@ class HostTest < ActiveSupport::TestCase
     assert_equal 'foo', host.shortname
   end
 
+  test 'lookup_value_match returns host name instead of fqdn when there is no primary interface' do
+    host = FactoryGirl.build(:host, :managed)
+    host_name = host.name
+    host.interfaces.delete_all
+    assert_nil host.primary_interface
+    assert_equal host.send(:lookup_value_match), "fqdn=#{host_name}"
+  end
+
   private
 
   def parse_json_fixture(relative_path)
