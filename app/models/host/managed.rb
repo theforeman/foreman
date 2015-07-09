@@ -820,7 +820,7 @@ class Host::Managed < Host::Base
   end
 
   def lookup_value_match
-    "fqdn=#{fqdn}"
+    "fqdn=#{fqdn || name}"
   end
 
   def lookup_keys_params
