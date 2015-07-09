@@ -122,6 +122,12 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     assert_valid tmplt
   end
 
+  test '#preview_host_collection obeys view_hosts permission' do
+    provisioning_template = FactoryGirl.build(:provisioning_template)
+    Host.expects(:authorized).with(:view_hosts).returns(Host.scoped)
+    provisioning_template.preview_host_collection
+  end
+
   describe "Association cascading" do
     setup do
       @os1 = FactoryGirl.create(:operatingsystem)
