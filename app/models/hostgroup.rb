@@ -106,7 +106,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def diskLayout
-    ptable.layout.gsub("\r","")
+    ptable.layout.tr("\r", '')
   end
 
   def all_config_groups

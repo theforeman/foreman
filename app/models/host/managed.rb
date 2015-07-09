@@ -284,7 +284,8 @@ class Host::Managed < Host::Base
   # returns the host correct disk layout, custom or common
   def diskLayout
     @host = self
-    pxe_render((disk.empty? ? ptable.layout : disk).gsub("\r",""))
+    template = disk.blank? ? ptable.layout : disk
+    pxe_render(template.tr("\r", ''))
   end
 
   def configTemplate(args = {})

@@ -99,14 +99,32 @@ function create_editor(item) {
 
 function set_preview(){
   if($('.template_text').hasClass('diffMode')) return;
+  $("#preview_host_selector").hide();
+  if ($('.template_text').hasClass('renderMode')) { // coming from renderMode, don't store code
+    $('.template_text').removeClass('renderMode');
+  } else {
+    $('#new').val(Editor.getSession().getValue());
+  }
   $('.template_text').addClass('diffMode');
-  $('#new').val(Editor.getSession().getValue());
   set_diff_mode($('.template_text'))
 }
 
 function set_code(){
-  $('.template_text').removeClass('diffMode');
+  $("#preview_host_selector").hide();
+  $('.template_text').removeClass('diffMode renderMode');
   set_edit_mode($('.template_text'));
+}
+
+function set_render() {
+  if ($('.template_text').hasClass('renderMode')) return;
+  $("#preview_host_selector").show();
+  if ($('.template_text').hasClass('diffMode')) {  // coming from diffMode, don't store code
+    $('.template_text').removeClass('diffMode');
+  } else {
+    $('#new').val(Editor.getSession().getValue());
+  }
+  $('.template_text').addClass('renderMode');
+  set_render_mode();
 }
 
 function set_edit_mode(item){
@@ -136,8 +154,39 @@ function set_diff_mode(item){
   session.setValue(patch);
 }
 
+function set_render_mode() {
+  Editor.setTheme("ace/theme/twilight");
+  Editor.setReadOnly(true);
+  var session = Editor.getSession();
+  session.setMode("ace/mode/text");
+  $(session).off('change');
+  get_rendered_template();
+}
+
+function get_rendered_template(){
+  var session = Editor.getSession();
+  host_id = $("#preview_host_selector select").val();
+  url = $('.template_text').data('render-path');
+  template = $('#new').val();
+  params = { template: template };
+  if (host_id != null) {
+    params.preview_host_id = host_id
+  }
+
+  session.setValue(__('Rendering the template, please wait...'));
+  $.post(url, params, function(response) {
+    $("div#preview_error").hide();
+    $("div#preview_error span.text").html('');
+    session.setValue(response);
+  }).fail(function(response){
+    $("div#preview_error span.text").html(response.responseText);
+    $("div#preview_error").show();
+    session.setValue(__('There was an error during rendering, return to the Code tab to edit the template.'));
+  });
+}
+
 function submit_code() {
-  if($('.template_text').hasClass('diffMode')) {
+  if($('.template_text').is('.diffMode,.renderMode')) {
     set_code();
   }
 }

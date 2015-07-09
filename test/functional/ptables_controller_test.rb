@@ -106,4 +106,20 @@ class PtablesControllerTest < ActionController::TestCase
     assert_redirected_to ptables_url
     assert_equal "Successfully created dummy.", flash[:notice]
   end
+
+  test 'preview' do
+    host = FactoryGirl.create(:host, :managed, :operatingsystem => FactoryGirl.create(:suse, :with_archs))
+    template = FactoryGirl.create(:ptable)
+
+    # works for given host
+    post :preview, { :preview_host_id => host.id, :template => '<%= @host.name -%>', :id => template }, set_session_user
+    assert_equal "#{host.hostname}", @response.body
+
+    # without host specified it uses first one
+    post :preview, { :template => '<%= 1+1 -%>', :id => template }, set_session_user
+    assert_equal '2', @response.body
+
+    post :preview, { :template => '<%= 1+ -%>', :id => template }, set_session_user
+    assert_includes @response.body, 'There was an error'
+  end
 end
