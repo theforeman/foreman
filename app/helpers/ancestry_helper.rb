@@ -9,6 +9,6 @@ module AncestryHelper
     link_to_if_authorized(
       content_tag(:span,
                   content_tag(:span, nesting, :class => 'gray nbsp') + name, options),
-      send("hash_for_edit_#{obj.class.name.tableize.singularize}_path", obj).merge(:auth_object => obj, :authorizer => authorizer))
+      send("hash_for_edit_#{obj.class.name.to_s.tableize.singularize}_path", obj).merge(:auth_object => obj, :authorizer => authorizer))
   end
 end

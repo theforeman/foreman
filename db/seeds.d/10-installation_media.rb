@@ -1,4 +1,4 @@
-os_suse = Operatingsystem.find_all_by_type "Suse" || Operatingsystem.where("name LIKE ?", "suse")
+os_suse = Operatingsystem.where(:type => "Suse") || Operatingsystem.where("name LIKE ?", "suse")
 
 # Installation media: default mirrors
 Medium.without_auditing do

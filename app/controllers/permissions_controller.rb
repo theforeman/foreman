@@ -5,7 +5,7 @@ class PermissionsController < ApplicationController
 
   def index
     type = params[:resource_type].blank? ? nil : params[:resource_type]
-    @permissions = Permission.find_all_by_resource_type(type)
+    @permissions = Permission.where(:resource_type => type)
     @search_path = search_path(type)
     @granular = granular?(type)
 

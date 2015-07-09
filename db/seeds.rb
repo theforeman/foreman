@@ -43,7 +43,7 @@ def create_role(role_name, permission_names, builtin)
   role         = Role.new(:name => role_name)
   role.builtin = builtin
   role.save!
-  permissions = Permission.find_all_by_name permission_names
+  permissions = Permission.where(:name => permission_names)
   create_filters(role, permissions)
 end
 

@@ -13,9 +13,9 @@ module Api
         type = params[:resource_type].blank? ? nil : params[:resource_type]
         name = params[:name].blank? ? nil : params[:name]
         if type
-          @permissions = Permission.find_all_by_resource_type(type)
+          @permissions = Permission.where(:resource_type => type)
         elsif name
-          @permissions = Permission.find_all_by_name(name)
+          @permissions = Permission.where(:name => name)
         else
           @permissions = Permission.all
         end
