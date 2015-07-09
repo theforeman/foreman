@@ -46,6 +46,6 @@ notifications = [
 ]
 
 notifications.each do |notification|
-  MailNotification.find_or_create_by_name(notification)
+  MailNotification.create(notification) if MailNotification.where(:name => notification[:name]).blank?
 end
 
