@@ -25,6 +25,8 @@ module Nic
               :if => Proc.new { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true
 
+    validates :name, :uniqueness => {:scope => :host_id}
+
     # TODO uniq on primary per host
     # validate :uniq_with_hosts
 
