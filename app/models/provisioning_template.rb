@@ -153,6 +153,10 @@ class ProvisioningTemplate < Template
     [200, _("PXE Default file has been deployed to all Smart Proxies")]
   end
 
+  def preview_host_collection
+    super.where(:managed => true)
+  end
+
   private
 
   def allowed_changes

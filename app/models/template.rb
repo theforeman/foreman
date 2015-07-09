@@ -29,6 +29,10 @@ class Template < ActiveRecord::Base
     []
   end
 
+  def preview_host_collection
+    Host.authorized(:view_hosts).order(:name).limit(100)
+  end
+
   private
 
   def allowed_changes

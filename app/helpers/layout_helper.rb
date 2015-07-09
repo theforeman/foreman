@@ -300,11 +300,11 @@ module LayoutHelper
     opts[:text]   ||= _("Alert")
     html_class    = "alert #{opts[:class]} "
     html_class    += 'alert-dismissable' if opts[:close]
-    content_tag :div, :class => html_class do
+    content_tag :div, :class => html_class, :id => opts[:id] do
       result = "".html_safe
       result += alert_close if opts[:close]
       result += alert_header(opts[:header])
-      result += opts[:text].html_safe
+      result += content_tag(:span, opts[:text].html_safe, :class => 'text')
       result
     end
   end
