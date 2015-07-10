@@ -26,7 +26,7 @@ class Api::V1::CommonParametersControllerTest < ActionController::TestCase
   end
 
   test "should update common_parameter" do
-    put :update, { :id => parameters(:common).to_param, :common_parameter => { } }
+    put :update, { :id => parameters(:common).to_param, :common_parameter => valid_attrs }
     assert_response :success
   end
 

@@ -1,13 +1,11 @@
 location1:
   name: "Location 1"
   type: "Location"
-  organizations: organization1
   title: "Location 1"
 
 location2:
   name: "Location 2"
   type: "Location"
-  organizations: organization2
   title: "Location 2"
 
 organization1:

@@ -13,13 +13,13 @@ class MediaControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Medium.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:medium => {:name => nil}}, set_session_user
     assert_template 'new'
   end
 
   def test_create_valid
     Medium.any_instance.stubs(:valid?).returns(true)
-    post :create, {}, set_session_user
+    post :create, {:medium => {:name => "MyMedia"}}, set_session_user
     assert_redirected_to media_url
   end
 
@@ -30,13 +30,13 @@ class MediaControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Medium.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Medium.first}, set_session_user
+    put :update, {:id => Medium.first, :medium => {:name => nil}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Medium.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Medium.first}, set_session_user
+    put :update, {:id => Medium.first, :medium => {:name => "MyUpdatedMedia"}}, set_session_user
     assert_redirected_to media_url
   end
 

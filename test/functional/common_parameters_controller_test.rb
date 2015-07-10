@@ -13,13 +13,13 @@ class CommonParametersControllerTest < ActionController::TestCase
 
   def test_create_invalid
     CommonParameter.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:common_parameter => {:name => nil}}, set_session_user
     assert_template 'new'
   end
 
   def test_create_valid
     CommonParameter.any_instance.stubs(:valid?).returns(true)
-    post :create, {}, set_session_user
+    post :create, {:common_parameter => {:name => CommonParameter.first.name}}, set_session_user
     assert_redirected_to common_parameters_url
   end
 
@@ -30,13 +30,13 @@ class CommonParametersControllerTest < ActionController::TestCase
 
   def test_update_invalid
     CommonParameter.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => CommonParameter.first}, set_session_user
+    put :update, {:id => CommonParameter.first, :common_parameter => {:name => nil}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     CommonParameter.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => CommonParameter.first}, set_session_user
+    put :update, {:id => CommonParameter.first, :common_parameter => {:name => "Reference", :value => "foreman"}}, set_session_user
     assert_redirected_to common_parameters_url
   end
 

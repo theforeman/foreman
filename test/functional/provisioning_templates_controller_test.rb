@@ -13,13 +13,13 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
 
   test "create invalid" do
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:provisioning_template => {:name => "123"}}, set_session_user
     assert_template 'new'
   end
 
   test "create valid" do
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
-    post :create, {}, set_session_user
+    post :create, {:provisioning_template => {:name => "123"}}, set_session_user
     assert_redirected_to provisioning_templates_url
   end
 
@@ -49,13 +49,13 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
 
   test "update invalid" do
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => templates(:pxekickstart).to_param }, set_session_user
+    put :update, {:id => templates(:pxekickstart).to_param, :provisioning_template => {:name => "123"} }, set_session_user
     assert_template 'edit'
   end
 
   test "update valid" do
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => templates(:pxekickstart).to_param }, set_session_user
+    put :update, {:id => templates(:pxekickstart).to_param, :provisioning_template => {:name => "123"} }, set_session_user
     assert_redirected_to provisioning_templates_url
   end
 

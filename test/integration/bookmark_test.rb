@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BookmarkTest < ActionDispatch::IntegrationTest
+class BookmarkIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
     assert_index_page(bookmarks_path,"Manage Bookmarks",false,false,true)
   end

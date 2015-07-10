@@ -487,7 +487,7 @@ class HostTest < ActiveSupport::TestCase
       Setting[:root_pass] = ''
       host = Host.new :name => "myfullhost", :managed => true, :build => false
       host.valid?
-      refute host.errors[:root_pass].any?
+      refute host.errors[:root_pass].present?
     end
 
     test "should save if root password is undefined when the compute resource is image capable and in build mode" do
@@ -500,7 +500,7 @@ class HostTest < ActiveSupport::TestCase
       Setting[:root_pass] = ''
       host = Host.new :name => "myfullhost", :managed => true, :build => true
       refute host.valid?
-      assert_present host.errors[:root_pass]
+      assert host.errors[:root_pass].present?
     end
 
     test "should not save if neither ptable or disk are defined when the host is managed" do
@@ -692,14 +692,16 @@ class HostTest < ActiveSupport::TestCase
       end
 
       test "available_template_kinds finds templates for a PXE host" do
-        os_dt = FactoryGirl.create(:os_default_template, :template_kind=> TemplateKind.find('finish'))
+        os_dt = FactoryGirl.create(:os_default_template,
+                                   :template_kind=> TemplateKind.find('finish'))
         host  = FactoryGirl.create(:host, :operatingsystem => os_dt.operatingsystem)
 
         assert_equal [os_dt.provisioning_template], host.available_template_kinds('build')
       end
 
       test "available_template_kinds finds templates for an image host" do
-        os_dt = FactoryGirl.create(:os_default_template, :template_kind=> TemplateKind.find('finish'))
+        os_dt = FactoryGirl.create(:os_default_template,
+                                   :template_kind=> TemplateKind.find('finish'))
         host  = FactoryGirl.create(:host, :on_compute_resource,
                                    :operatingsystem => os_dt.operatingsystem)
         FactoryGirl.create(:image, :uuid => 'abcde',
@@ -970,7 +972,7 @@ class HostTest < ActiveSupport::TestCase
       g.parent = p
       g.save
       assert h.save
-      assert_present h.root_pass
+      assert h.root_pass.present?
       assert_equal p.root_pass, h.root_pass
       assert_equal p.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host'
     end
@@ -980,7 +982,7 @@ class HostTest < ActiveSupport::TestCase
       h = FactoryGirl.create(:host, :managed)
       h.root_pass = nil
       assert h.save
-      assert_present h.root_pass
+      assert h.root_pass.present?
       assert_equal Setting[:root_pass], h.root_pass
       assert_equal Setting[:root_pass], h.read_attribute(:root_pass), 'should copy root_pass to host'
     end
@@ -992,7 +994,7 @@ class HostTest < ActiveSupport::TestCase
       h.root_pass = ""
       h.save
       assert_valid h
-      assert_present h.root_pass
+      assert h.root_pass.present?
       assert_equal Setting[:root_pass], h.root_pass
       assert_equal Setting[:root_pass], h.read_attribute(:root_pass), 'should copy root_pass to host'
     end
@@ -1069,7 +1071,6 @@ class HostTest < ActiveSupport::TestCase
     test "#set_interfaces updates existing physical interface" do
       host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.200', :link => false})
       FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :link => true)
-
       assert_no_difference 'Nic::Base.count' do
         host.set_interfaces(parser)
       end
@@ -1267,8 +1268,8 @@ class HostTest < ActiveSupport::TestCase
       host.primary_interface.identifier = 'eth0'
       nic = host.interfaces.build(:identifier => 'eth0')
       refute host.valid?
-      assert_present nic.errors[:identifier]
-      assert_present host.errors[:interfaces]
+      assert nic.errors[:identifier].present?
+      assert host.errors[:interfaces].present?
       nic.identifier = 'eth1'
       host.valid?
       refute_includes nic.errors.keys, :identifier
@@ -1939,7 +1940,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'facts are deleted when build set to true' do
     host = FactoryGirl.create(:host, :with_facts)
-    assert_present host.fact_values
+    assert host.fact_values.present?
     refute host.build?
     host.update_attributes(:build => true)
     assert_empty host.fact_values.reload
@@ -1947,7 +1948,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'reports are deleted when build set to true' do
     host = FactoryGirl.create(:host, :with_reports)
-    assert_present host.reports
+    assert host.reports.present?
     refute host.build?
     host.update_attributes(:build => true)
     assert_empty host.reports.reload
@@ -2032,7 +2033,7 @@ class HostTest < ActiveSupport::TestCase
   test '#drop_primary_interface_cache' do
     host = FactoryGirl.create(:host, :managed)
     refute_nil host.primary_interface
-    host.interfaces = []
+    host.interfaces.clear
     # existing host must cache interface
     refute_nil host.primary_interface
     host.drop_primary_interface_cache
@@ -2042,7 +2043,7 @@ class HostTest < ActiveSupport::TestCase
   test '#drop_provision_interface_cache' do
     host = FactoryGirl.create(:host, :managed)
     refute_nil host.provision_interface
-    host.interfaces = []
+    host.interfaces.clear
     # existing host must cache interface
     refute_nil host.provision_interface
     host.drop_provision_interface_cache

@@ -34,7 +34,7 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
   end
 
   test "should update architecture" do
-    put :update, { :id => architectures(:x86_64).to_param, :architecture => { } }
+    put :update, { :id => architectures(:x86_64).to_param, :architecture => {:name => 'newx86_64'} }
     assert_response :success
   end
 
@@ -55,7 +55,7 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
   test "user with viewer rights should fail to update an architecture" do
     user_one_as_anonymous_viewer
     as_user :one do
-      put :update, { :id => architectures(:x86_64).to_param, :architecture => { } }
+      put :update, { :id => architectures(:x86_64).to_param, :architecture => {:name => 'newx86_64'} }
     end
     assert_response :forbidden
   end
@@ -63,7 +63,7 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
   test "user with manager rights should success to update an architecture" do
     user_one_as_manager
     as_user :one do
-      put :update, { :id => architectures(:x86_64).to_param, :architecture => { } }
+      put :update, { :id => architectures(:x86_64).to_param, :architecture => {:name => 'newx86_64'} }
     end
     assert_response :success
   end

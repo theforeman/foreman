@@ -26,7 +26,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "should update hostgroup" do
-    put :update, { :id => hostgroups(:common).to_param, :hostgroup => { } }
+    put :update, { :id => hostgroups(:common).to_param, :hostgroup => valid_attrs }
     assert_response :success
   end
 

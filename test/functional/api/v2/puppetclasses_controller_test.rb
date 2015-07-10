@@ -27,7 +27,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should update puppetclass" do
-    put :update, { :id => puppetclasses(:one).to_param, :puppetclass => { } }
+    put :update, { :id => puppetclasses(:one).to_param, :puppetclass => valid_attrs }
     assert_response :success
   end
 
@@ -125,7 +125,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should update puppetclass" do
-    put :update, { :id => puppetclasses(:one).to_param, :puppetclass => { } }
+    put :update, { :id => puppetclasses(:one).to_param, :puppetclass => valid_attrs }
     assert_response :success
   end
 

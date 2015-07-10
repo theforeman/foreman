@@ -116,9 +116,9 @@ class NicTest < ActiveSupport::TestCase
 
   test "Nic::Managed#hostname should return blank for blank hostnames" do
     i = Nic::Managed.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => FactoryGirl.create(:host), :subnet => subnets(:one), :domain => subnets(:one).domains.first, :name => ""
-    assert_blank i.name
-    assert_present i.domain
-    assert_blank i.hostname
+    assert i.name.blank?
+    assert i.domain.present?
+    assert i.hostname.blank?
   end
 
   test "Mac address uniqueness validation is skipped for virtual NICs and unmanaged hosts" do
@@ -349,14 +349,15 @@ class NicTest < ActiveSupport::TestCase
       class DisallowedTestNic < Nic::Base
       end
 
-      Nic::Base.allowed_types.clear
       Nic::Base.register_type(DefaultTestNic)
       Nic::Base.register_type(HumanizedTestNic)
     end
 
     test "base registers allowed nic types" do
       expected_types = [DefaultTestNic, HumanizedTestNic]
-      assert_equal expected_types.map(&:name), Nic::Base.allowed_types.map(&:name)
+      expected_types.map(&:name).each do |type|
+        assert Nic::Base.allowed_types.map(&:name).include? type
+      end
     end
 
     test "type_by_name returns nil for an unknown name" do

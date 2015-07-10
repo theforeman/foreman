@@ -26,13 +26,14 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "should update hostgroup" do
-    put :update, { :id => hostgroups(:common).to_param, :hostgroup => { } }
+    put :update, { :id => hostgroups(:common).to_param, :hostgroup => valid_attrs }
     assert_response :success
   end
 
   test "should destroy hostgroups" do
+    hostgroup = FactoryGirl.create(:hostgroup)
     assert_difference('Hostgroup.count', -1) do
-      delete :destroy, { :id => hostgroups(:unusual).to_param }
+      delete :destroy, :id => hostgroup
     end
     assert_response :success
   end

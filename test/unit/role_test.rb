@@ -129,7 +129,7 @@ class RoleTest < ActiveSupport::TestCase
         User.current.roles<< first
       end
 
-      subject { Role.for_current_user.all }
+      subject { Role.for_current_user.to_a }
       it { subject.must_include(first) }
       it { subject.wont_include(second) }
     end

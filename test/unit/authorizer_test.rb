@@ -48,7 +48,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain     = FactoryGirl.create(:domain)
     auth       = Authorizer.new(@user)
 
-    assert_include auth.find_collection(Domain, :permission => :view_domains), domain
+    assert_includes auth.find_collection(Domain, :permission => :view_domains), domain
     assert auth.can?(:view_domains, domain)
   end
 
@@ -59,7 +59,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain     = FactoryGirl.create(:domain)
     auth       = Authorizer.new(@user)
 
-    assert_include auth.find_collection(Domain, :permission => :view_domains), domain
+    assert_includes auth.find_collection(Domain, :permission => :view_domains), domain
     assert auth.can?(:view_domains, domain)
   end
 
@@ -72,7 +72,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain              = FactoryGirl.create(:domain)
     auth                = Authorizer.new(@user)
 
-    assert_include auth.find_collection(Domain, :permission => :view_domains), domain
+    assert_includes auth.find_collection(Domain, :permission => :view_domains), domain
     assert auth.can?(:view_domains, domain)
   end
 
@@ -83,7 +83,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain     = FactoryGirl.create(:domain)
     auth       = Authorizer.new(@user)
 
-    assert_not_include auth.find_collection(Domain, :permission => :view_domains), domain
+    assert_not_includes auth.find_collection(Domain, :permission => :view_domains), domain
     refute auth.can?(:view_domains, domain)
   end
 
@@ -96,8 +96,8 @@ class AuthorizerTest < ActiveSupport::TestCase
     auth       = Authorizer.new(@user)
 
     collection = auth.find_collection(Domain, :permission => :view_domains)
-    assert_not_include collection, domain1
-    assert_include collection, domain2
+    assert_not_includes collection, domain1
+    assert_includes collection, domain2
     refute auth.can?(:view_domains, domain1)
     assert auth.can?(:view_domains, domain2)
   end
@@ -136,10 +136,10 @@ class AuthorizerTest < ActiveSupport::TestCase
     # unlimited filter on Domain permission does add the domain
     FactoryGirl.create(:filter, :role => @role, :permissions => [permission1])
     collection = auth.find_collection(Domain)
-    assert_include collection, domain1
-    assert_include collection, domain2
-    assert_include collection, domain3
-    assert_include collection, domain4
+    assert_includes collection, domain1
+    assert_includes collection, domain2
+    assert_includes collection, domain3
+    assert_includes collection, domain4
   end
 
   test "#can?(:view_domains, @host) for user without filter" do
@@ -149,7 +149,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     auth       = Authorizer.new(FactoryGirl.create(:user))
 
     result = auth.find_collection(Domain, :permission => :view_domains)
-    assert_not_include result, domain
+    assert_not_includes result, domain
     assert_kind_of ActiveRecord::Relation, result
     refute auth.can?(:view_domains, domain)
   end
