@@ -44,7 +44,7 @@ class Api::V2::BookmarksControllerTest < ActionController::TestCase
   end
 
   test "should update bookmark" do
-    put :update, { :id => bookmarks(:one).to_param, :bookmark => { } }
+    put :update, { :id => bookmarks(:one).to_param, :bookmark => dot_bookmark }
     assert_response :success
   end
 

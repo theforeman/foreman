@@ -47,7 +47,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test "should update smart_proxy" do
-    put :update, { :id => smart_proxies(:one).to_param, :smart_proxy => { } }
+    put :update, { :id => smart_proxies(:one).to_param, :smart_proxy => valid_attrs }
     assert_response :success
   end
 

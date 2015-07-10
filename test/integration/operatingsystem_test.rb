@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class OperatingsystemTest < ActionDispatch::IntegrationTest
+class OperatingsystemIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
     assert_index_page(operatingsystems_path,"Operating systems","New Operating system")
   end

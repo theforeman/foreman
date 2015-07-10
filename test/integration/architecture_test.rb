@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ArchitectureTest < ActionDispatch::IntegrationTest
+class ArchitectureIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
     assert_index_page(architectures_path,"Architectures","New Architecture")
   end

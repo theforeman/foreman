@@ -123,3 +123,13 @@ twentyfour:
   taxonomy: organization1
   taxable: myrealm
   taxable_type: Realm
+
+twentyfive:
+  taxonomy: organization1
+  taxable: Location 1
+  taxable_type: Taxonomy
+
+twentysix:
+  taxonomy: organization2
+  taxable: Location 2
+  taxable_type: Taxonomy

@@ -2,14 +2,9 @@ require 'test_helper'
 
 class ComputeResourcesVmsControllerTest < ActionController::TestCase
   setup do
-#    Fog.mock!
     @compute_resource = compute_resources(:mycompute)
     @your_compute_resource = compute_resources(:yourcompute)
     get_test_vm
-  end
-
-  teardown do
-#    Fog.unmock!
   end
 
   def setup_user(operation, type = 'compute_resources_vms')

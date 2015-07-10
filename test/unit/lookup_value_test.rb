@@ -96,12 +96,12 @@ class LookupValueTest < ActiveSupport::TestCase
     lk1 = LookupValue.new(:value => "---\n  foo: bar", :match => "hostgroup=Common", :lookup_key => lookup_keys(:six))
     assert lk1.save!
     assert lk1.value.is_a? Hash
-    assert_include lk1.value_before_type_cast, "foo: bar"
+    assert_includes lk1.value_before_type_cast, 'foo: bar'
 
     lk2 = LookupValue.new(:value => "{'foo': 'bar'}", :match => "environment=Production", :lookup_key => lookup_keys(:six))
     assert lk2.save!
     assert lk2.value.is_a? Hash
-    assert_include lk2.value_before_type_cast, "foo: bar"
+    assert_includes lk2.value_before_type_cast, 'foo: bar'
   end
 
   test "should cast and uncast string containing an Array" do

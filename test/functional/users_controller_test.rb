@@ -78,7 +78,7 @@ class UsersControllerTest < ActionController::TestCase
   test "user changes should expire topbar cache" do
     user = FactoryGirl.create(:user, :with_mail)
     User.any_instance.expects(:expire_topbar_cache).once
-    put :update, { :id => user.id, :user => {:admin => true} }, set_session_user
+    put :update, { :id => user.id, :user => {:admin => true, :mail => user.mail} }, set_session_user
   end
 
   test "role changes should expire topbar cache" do
@@ -233,6 +233,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should create and login external user" do
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache_mod'
+    @request.session = nil
     @request.env['REMOTE_USER'] = 'ares'
     get :extlogin, {}, {}
     assert_redirected_to edit_user_path(User.find_by_login('ares'))
@@ -306,7 +307,7 @@ class UsersControllerTest < ActionController::TestCase
     User.expects(:try_to_login).with(u.login, 'password').returns(nil)
     post :login, {:login => {'login' => u.login, 'password' => 'password'}}
     assert_redirected_to login_users_path
-    assert_present flash[:error]
+    assert flash[:error].present?
   end
 
   test "#login retains taxonomy session attributes in new session" do

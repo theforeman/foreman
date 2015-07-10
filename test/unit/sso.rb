@@ -21,6 +21,6 @@ class SSOTest < ActiveSupport::TestCase
   def test_get_available_should_find_first_available_method
     stub(SSO).all { [ DummyFalseMethod, DummyTrueMethod, DummyFalseMethod ] }
     available = SSO.get_available(Object.new)
-    assert_present available
+    assert available.present?
   end
 end

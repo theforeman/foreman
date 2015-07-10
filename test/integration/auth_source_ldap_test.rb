@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AuthSourceLdapTest < ActionDispatch::IntegrationTest
+class AuthSourceLdapIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
     assert_index_page(auth_source_ldaps_path,"LDAP Authentication","New LDAP Source",false,false)
   end

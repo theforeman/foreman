@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PtableTest < ActionDispatch::IntegrationTest
+class PtableIntegrationTest < ActionDispatch::IntegrationTest
   setup do
     @ptable = FactoryGirl.create(:ptable, :ubuntu, :name => 'ubuntu default')
   end

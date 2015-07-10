@@ -7,7 +7,7 @@ class HostBuildStatusTest < ActiveSupport::TestCase
     User.current = users(:admin)
     @host = Host.new(:name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => FactoryGirl.create(:ptable), :medium => media(:one),
                     :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
-                    :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+                    :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
                     :owner_type => "User", :root_pass => "xybxa6JUkz63w")
     @build = @host.build_status
     # bypass host.valid?
@@ -15,7 +15,7 @@ class HostBuildStatusTest < ActiveSupport::TestCase
   end
 
   test "should be able to render a template" do
-    assert_blank build.errors[:templates]
+    assert build.errors[:templates].blank?
   end
 
   test "should fail rendering a template" do

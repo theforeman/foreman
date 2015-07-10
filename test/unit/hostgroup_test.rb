@@ -272,18 +272,18 @@ class HostgroupTest < ActiveSupport::TestCase
   test "available_puppetclasses should return all if no environment" do
     hostgroup = hostgroups(:common)
     hostgroup.update_attribute(:environment_id, nil)
-    assert_equal Puppetclass.scoped, hostgroup.available_puppetclasses
+    assert_equal Puppetclass.all, hostgroup.available_puppetclasses
   end
 
   test "available_puppetclasses should return environment-specific classes" do
     hostgroup = hostgroups(:common)
-    refute_equal Puppetclass.scoped, hostgroup.available_puppetclasses
+    refute_equal Puppetclass.all, hostgroup.available_puppetclasses
     assert_equal hostgroup.environment.puppetclasses.sort, hostgroup.available_puppetclasses.sort
   end
 
   test "available_puppetclasses should return environment-specific classes (and that are NOT already inherited by parent)" do
     hostgroup = hostgroups(:inherited)
-    refute_equal Puppetclass.scoped, hostgroup.available_puppetclasses
+    refute_equal Puppetclass.all, hostgroup.available_puppetclasses
     refute_equal hostgroup.environment.puppetclasses.sort, hostgroup.available_puppetclasses.sort
     assert_equal (hostgroup.environment.puppetclasses - hostgroup.parent_classes).sort, hostgroup.available_puppetclasses.sort
   end
@@ -309,7 +309,7 @@ class HostgroupTest < ActiveSupport::TestCase
     hostgroup = FactoryGirl.build(:hostgroup, :parent => parent, :root_pass => '')
     assert_equal parent.read_attribute(:root_pass), hostgroup.root_pass
     hostgroup.save!
-    assert_blank hostgroup.read_attribute(:root_pass), 'root_pass should not be copied and stored on child'
+    assert hostgroup.read_attribute(:root_pass).blank?, 'root_pass should not be copied and stored on child'
   end
 
   test "root_pass inherited from settings if blank" do
@@ -317,7 +317,7 @@ class HostgroupTest < ActiveSupport::TestCase
     hostgroup = FactoryGirl.build(:hostgroup, :root_pass => '')
     assert_equal '12345678', hostgroup.root_pass
     hostgroup.save!
-    assert_blank hostgroup.read_attribute(:root_pass), 'root_pass should not be copied and stored on child'
+    assert hostgroup.read_attribute(:root_pass).blank?, 'root_pass should not be copied and stored on child'
   end
 
   test "root_pass inherited from settings if group and parent are blank" do
@@ -326,7 +326,7 @@ class HostgroupTest < ActiveSupport::TestCase
     hostgroup = FactoryGirl.build(:hostgroup, :parent => parent, :root_pass => '')
     assert_equal '12345678', hostgroup.root_pass
     hostgroup.save!
-    assert_blank hostgroup.read_attribute(:root_pass), 'root_pass should not be copied and stored on child'
+    assert hostgroup.read_attribute(:root_pass).blank?, 'root_pass should not be copied and stored on child'
   end
 
   test "hostgroup name can't be too big to create lookup value matcher over 255 characters" do

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ComputeResourceTest < ActionDispatch::IntegrationTest
+class ComputeResourceIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
     assert_index_page(compute_resources_path,"Compute Resources","New Compute Resource")
   end

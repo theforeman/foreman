@@ -81,7 +81,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   test "should not alter description field if already set" do
     # Need to instantiate @importer once with normal facts
-    assert_present @importer.operatingsystem
+    assert @importer.operatingsystem.present?
     # Now re-import with a different description
     facts_with_desc = facts.merge({:lsbdistdescription => "A different string"})
     @importer = PuppetFactParser.new facts_with_desc

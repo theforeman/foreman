@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class HostgroupTest < ActionDispatch::IntegrationTest
+class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
     assert_index_page(hostgroups_path,"Host Groups","New Host Group")
   end

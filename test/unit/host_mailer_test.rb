@@ -58,6 +58,6 @@ class HostMailerTest < ActionMailer::TestCase
     assert_includes mail.from, Setting["email_reply_address"]
     assert_includes mail.to, user.mail
     assert_includes mail.subject, report.host.name
-    assert_present mail.body
+    assert mail.body.present?
   end
 end

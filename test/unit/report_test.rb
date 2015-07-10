@@ -114,6 +114,7 @@ class ReportTest < ActiveSupport::TestCase
       orgs = FactoryGirl.create_pair(:organization)
       locs = FactoryGirl.create_pair(:location)
       @target_host.update_attributes(:location => locs.last, :organization => orgs.last)
+      @target_host.hostgroup.update_attributes(:locations => [locs.last], :organizations => [orgs.last])
 
       user_role.owner.update_attributes(:locations => [locs.first], :organizations => [orgs.first])
       as_user user_role.owner do

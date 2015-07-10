@@ -26,7 +26,7 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   test "should not create invalid" do
-    post :create
+    post :create, {:config_template => {:name => ""}}
     assert_response :unprocessable_entity
   end
 

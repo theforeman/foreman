@@ -26,7 +26,7 @@ class Api::V1::RolesControllerTest < ActionController::TestCase
   end
 
   test "should update role" do
-    put :update, { :id => roles(:manager).to_param, :role => { } }
+    put :update, { :id => roles(:manager).to_param, :role => valid_attrs }
     assert_response :success
   end
 
