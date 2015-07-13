@@ -43,8 +43,10 @@ class WsProxy
     begin
       cmd  = "#{ws_proxy} --daemon --idle-timeout=#{idle_timeout} --timeout=#{timeout} #{port} #{host}:#{host_port}"
       cmd += " --ssl-target" if ssl_target
-      cmd += " --cert #{Setting[:websockets_ssl_cert]}" if Setting[:websockets_ssl_cert]
-      cmd += " --key #{Setting[:websockets_ssl_key]}" if Setting[:websockets_ssl_key]
+      if Setting[:websockets_encrypt]
+        cmd += " --cert #{Setting[:websockets_ssl_cert]}" if Setting[:websockets_ssl_cert]
+        cmd += " --key #{Setting[:websockets_ssl_key]}" if Setting[:websockets_ssl_key]
+      end
       execute(cmd)
     rescue PortInUse
       # fallback just in case of race condition

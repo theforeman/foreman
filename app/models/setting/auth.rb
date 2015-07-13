@@ -24,7 +24,7 @@ class Setting::Auth < Setting
         self.set('ssl_priv_key', N_("SSL Private Key file that Foreman will use to communicate with its proxies"), ssl_priv_key),
         self.set('ssl_client_dn_env', N_('Environment variable containing the subject DN from a client SSL certificate'), 'SSL_CLIENT_S_DN'),
         self.set('ssl_client_verify_env', N_('Environment variable containing the verification status of a client SSL certificate'), 'SSL_CLIENT_VERIFY'),
-        self.set('websockets_encrypt', N_("Should Foreman encrypt websockets (VNC console access). Choose on, off or auto."), "auto"),
+        self.set('websockets_encrypt', N_("VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"), SETTINGS[:require_ssl]),
         self.set('websockets_ssl_key', N_("Private key that Foreman will use to encrypt websockets "), nil),
         self.set('websockets_ssl_cert', N_("Certificate that Foreman will use to encrypt websockets "), nil),
         self.set('login_delegation_logout_url', N_('Redirect your users to this url on logout (authorize_login_delegation should also be enabled)'), nil),
@@ -36,5 +36,23 @@ class Setting::Auth < Setting
     end
 
     true
+  end
+
+  def validate_websockets_encrypt(record)
+    if record.value && (Setting["websockets_ssl_key"].empty? || Setting["websockets_ssl_cert"].empty?)
+      record.errors[:base] << _("Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_ssl_cert is missing")
+    end
+  end
+
+  def validate_websockets_ssl_key(record)
+    if record.value.empty? && Setting["websockets_encrypt"]
+      record.errors[:base] << _("Unable to unset websockets_ssl_key when websockets_encrypt is on")
+    end
+  end
+
+  def validate_websockets_ssl_cert(record)
+    if record.value.empty? && Setting["websockets_encrypt"]
+      record.errors[:base] << _("Unable to unset websockets_ssl_cert when websockets_encrypt is on")
+    end
   end
 end
