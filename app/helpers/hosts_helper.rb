@@ -307,6 +307,12 @@ module HostsHelper
               link_to(_("Loading power state ..."), '#', :disabled => true, :id => :loading_power_state)
           )
         end,
+        if host.cockpit_enabled?
+          button_group(
+              link_to_if_authorized(_('Console'), hash_for_console_host_path(:id => host), :id => :cockpit_console),
+              link_to_if_authorized(_('Journal'), hash_for_journal_host_path(:id => host), :id => :cockpit_journal)
+          )
+        end,
         button_group(
           if host.try(:puppet_proxy)
             link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_object => host, :permission => 'puppetrun_hosts'),

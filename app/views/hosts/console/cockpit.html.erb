@@ -1,0 +1,3 @@
+<% title "Cockpit console: #{@console[:name]}".html_safe %>
+<iframe width="700px" height="420px" frameBorder="0"
+  src="http://<%= @console[:fqdn] %>:9090/cockpit/@localhost/system/terminal.html"/>

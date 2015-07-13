@@ -32,6 +32,7 @@ Foreman::Application.routes.draw do
         post 'environment_selected'
         put 'power'
         get 'console'
+        get 'journal'
         get 'overview'
         get 'bmc'
         get 'vm'
