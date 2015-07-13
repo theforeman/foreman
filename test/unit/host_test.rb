@@ -2185,6 +2185,31 @@ class HostTest < ActiveSupport::TestCase
     assert host.operatingsystem.architectures.include?(host.architecture), "no association between operatingsystem and architecture"
   end
 
+  context "lookup value attributes" do
+    test "invoking lookup_values_attributes= does not save lookup values in db until #save is invoked" do
+      host = FactoryGirl.create(:host)
+      assert_no_difference('LookupValue.count') do
+        host.lookup_values_attributes = {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}}
+      end
+
+      assert_difference('LookupValue.count') do
+        host.save
+      end
+    end
+
+    test "same works for destruction of lookup keys" do
+      host = FactoryGirl.create(:host, :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}})
+      lookup_value = host.lookup_values.first
+      assert_no_difference('LookupValue.count') do
+        host.lookup_values_attributes = {"lv" => {:id => lookup_value.id, :_destroy => true}}
+      end
+
+      assert_difference('LookupValue.count', -1) do
+        host.save
+      end
+    end
+  end
+
   private
 
   def parse_json_fixture(relative_path)
