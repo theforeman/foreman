@@ -19,7 +19,7 @@
       <%= render 'fields', :f => f %>
     </div>
     <div class="tab-pane" id="domains">
-      <%= multiple_checkboxes f, :domain, f.object, Domain, :help_inline => _("Domains in which this subnet is part"), :label => _("Domain"), :prefix=>f.object_name %>
+      <%= multiple_checkboxes f, :domain, f.object, Domain, {:help_inline => _("Domains in which this subnet is part"),:size => 'col-md-6'}, :label => _("Domain"), :prefix=>f.object_name %>
     </div>
     <div class="tab-pane" id="proxies">
       <%= select_f f, :dhcp_id, SmartProxy.with_features("DHCP"), :id, :name,
