@@ -1,7 +1,7 @@
 <% title _("Autosign entries for %s") % @proxy %>
 <% title_actions display_link_if_authorized(_("Certificates"), hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => @proxy).merge(:auth_object => @proxy, :permission => 'view_smart_proxies_puppetca')),
   autosign_form %>
-<table class="table table-bordered table-striped table-condensed">
+<table class='<%= table_css_classes %>'>
   <thead>
     <tr>
       <th><%= _("Name") %></th>

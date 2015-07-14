@@ -349,4 +349,8 @@ module LayoutHelper
   def authorized_associations(associations)
     associations.included_modules.include?(Authorizable) ? associations.authorized : associations
   end
+
+  def table_css_classes(classes = '')
+    "table table-bordered table-striped table-condensed " + classes
+  end
 end

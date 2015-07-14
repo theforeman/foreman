@@ -23,4 +23,12 @@ class LayoutHelperTest < ActionView::TestCase
     refute is_required?(f, :architecture_id) # not required because of :if
     refute is_required?(f, :mac)             # not required because of :unless
   end
+
+  test "table css classes should return the regular classes for table" do
+    assert_equal table_css_classes,"table table-bordered table-striped table-condensed "
+  end
+
+  test "table css classes should return the regular classes for table plus the added classes" do
+    assert_equal table_css_classes("test-class"),"table table-bordered table-striped table-condensed test-class"
+  end
 end
