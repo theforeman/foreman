@@ -27,7 +27,7 @@ $(document).on('mouseleave', '.collapse .dropdown.menu_tab_dropdown', function()
       $('.loc-submenu').hide();
     }
     $(this).find('.dropdown-toggle:first').click();
-  }
+    }
 });
 
 // keep submenu for loc/org picker open when mouse is moved diagonally and not hovering over menu
