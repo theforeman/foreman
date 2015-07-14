@@ -28,7 +28,11 @@ class AccessPermissionsTest < ActiveSupport::TestCase
 
     # App controller stubs
     "testable/index", "api/testable/index", "api/testable/raise_error",
+    "api/testable/required_nested_values", "api/testable/optional_nested_values", "api/testable/nested_values",
     "api/v2/testable/index", "api/v2/testable/create",
+
+    #test stubs
+    "testable_resources/index",
 
     # Content Security Policy report forwarding endpoint - noop if not configured.
     # See https://github.com/twitter/secureheaders/issues/113

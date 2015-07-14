@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class Api::TestableController < Api::V1::BaseController
+  before_filter :find_required_nested_object, :only => [:required_nested_values, :nested_values]
+  before_filter :find_optional_nested_object, :only => [:optional_nested_values]
+  before_filter :find_resource, :only => [:nested_values]
+
   def index
     render :text => Time.zone.name, :status => 200
   end
@@ -9,6 +13,26 @@ class Api::TestableController < Api::V1::BaseController
     render_error 'standard_error', :status => :internal_server_error,
                                    :locals => { :exception => StandardError }
   end
+
+  def required_nested_values
+    render :text => Time.zone.name, :status => 200
+  end
+
+  def optional_nested_values
+    render :text => Time.zone.name, :status => 200
+  end
+
+  def nested_values
+    render :text => @testable.to_s, :status => 200
+  end
+
+  def authorized
+    true
+  end
+end
+
+class Testable < ActiveRecord::Base
+  belongs_to :domain
 end
 
 class Api::TestableControllerTest < ActionController::TestCase
@@ -144,16 +168,91 @@ class Api::TestableControllerTest < ActionController::TestCase
     end
   end
 
-  context 'nested objects' do
-    it "should use auth scope of nested object" do
-      ctrl = Api::TestableController.new
-      ctrl.expects(:params).at_least_once.returns(HashWithIndifferentAccess.new(:domain_id => 1, :action => 'index'))
-      ctrl.expects(:allowed_nested_id).at_least_once.returns(['domain_id'])
-      scope = mock('scope')
-      obj = mock('domain')
-      scope.expects(:find).with(1).returns(obj)
-      Domain.expects(:authorized).with('view_domains', Domain).returns(scope)
-      assert_equal obj, ctrl.send(:find_required_nested_object)
+  context 'using nested objects' do
+    setup do
+      @controller.stubs(:allowed_nested_id).returns(['domain_id'])
+      @controller.stubs(:action_permission).returns('view')
+      @nested_obj = FactoryGirl.create(:domain, :id => 1)
+    end
+
+    it 'should return 404 error, if association not defined for required parameters' do
+      get :required_nested_values, :xxx_id => 1
+
+      assert_equal 404, @response.status
+    end
+
+    it 'should return error, if required nested resource requested, but not found' do
+      get :required_nested_values, :domain_id => 2, :action => 'index'
+
+      assert_match /.*message.*not found.*/, @response.body
+    end
+
+    it 'should return error, if required nested resource not requested' do
+      get :required_nested_values, :action => 'index'
+
+      assert_match /.*message.*not found.*/, @response.body
+    end
+
+    it 'should not return error, if association not defined for optional parameters' do
+      get :optional_nested_values, :xxx_id => 1
+
+      assert_equal @response.status, 200
+    end
+
+    it 'should return error, if optional nested resource requested, but not found' do
+      get :optional_nested_values, :domain_id => 2, :action => 'index'
+
+      assert_match /.*message.*not found.*/, @response.body
+    end
+
+    it 'should not return error, if optional nested resource not requested' do
+      get :optional_nested_values, :action => 'index'
+
+      assert_equal @response.status, 200
+    end
+
+    it 'should return nested resource for unauthorized resource' do
+      child_associacion = mock('child_associacion')
+      testable_scope1 = mock('testable_scope1')
+      testable_scope2 = mock('testable_scope2')
+      testable_obj = mock('testable1')
+
+      Testable.stubs(:joins).returns(child_associacion)
+      Testable.stubs(:where).returns(testable_scope2)
+      Testable.stubs(:scoped).returns(testable_scope2)
+      testable_scope2.stubs(:merge).returns(testable_scope1)
+      child_associacion.stubs(:merge).returns(testable_scope1)
+      testable_scope1.stubs(:readonly).returns(testable_scope1)
+
+      testable_scope1.expects(:find).with('1').returns(testable_obj)
+
+      get :nested_values, :domain_id => 1, :id => 1
+
+      assert_equal testable_obj, @controller.instance_variable_get('@testable')
+      assert_equal @nested_obj, @controller.instance_variable_get('@nested_obj')
+    end
+
+    it 'should return nested resource scope for authorized resource' do
+      child_auth_scope = mock('child_auth_scope')
+      child_associacion = mock('child_associacion')
+      testable_scope1 = mock('testable_scope1')
+      testable_scope2 = mock('testable_scope2')
+      testable_obj = mock('testable1')
+
+      Testable.stubs(:authorized).returns(child_auth_scope)
+      Testable.stubs(:joins).returns(child_associacion)
+      testable_scope2.stubs(:merge).returns(testable_scope1)
+      child_associacion.stubs(:merge).returns(testable_scope1)
+      child_auth_scope.stubs(:where).returns(testable_scope2)
+      child_auth_scope.stubs(:scoped).returns(testable_scope2)
+      testable_scope1.stubs(:readonly).returns(testable_scope1)
+
+      testable_scope1.expects(:find).with('1').returns(testable_obj)
+
+      get :nested_values, :domain_id => 1, :id => 1
+
+      assert_equal testable_obj, @controller.instance_variable_get('@testable')
+      assert_equal @nested_obj, @controller.instance_variable_get('@nested_obj')
     end
   end
 
