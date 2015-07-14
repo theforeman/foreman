@@ -1,6 +1,6 @@
 if Rails.env.test?
   Foreman::Application.routes.draw do
-    resources :testable, :only => :index
+    resources :testable_resources, :only => :index
 
     namespace :api do
       namespace :v2 do
@@ -9,6 +9,9 @@ if Rails.env.test?
 
       resources :testable, :only => :index do
         get :raise_error, :on => :collection
+        get :required_nested_values, :on => :collection
+        get :optional_nested_values, :on => :collection
+        get :nested_values, :on => :collection
       end
     end
   end
