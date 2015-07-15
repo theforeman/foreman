@@ -23,6 +23,10 @@
 $(document).on('ContentLoad', function(){onContentLoad()});
 Turbolinks.enableProgressBar();
 
+$(window).bind('beforeunload', function() {
+  $(".jnotify-container").remove();
+});
+
 $(function() {
   $(document).trigger('ContentLoad');
 });
@@ -208,10 +212,6 @@ $(document).ready(function() {
   $("#uncheck_all_roles").click(function(e) {
       e.preventDefault();
       $(".role_checkbox").prop('checked', false);
-  });
-
-  $('#login-form').submit(function(e){
-      $(".jnotify-container").remove();
   });
 });
 
