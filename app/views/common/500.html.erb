@@ -3,10 +3,13 @@
 
 <%= alert :class => 'alert-block alert-danger base in fade', :text => h(exception.message) %>
 
+<div class="pull-right">
+  <%= documentation_button("7.3GettingHelp")%>
+</div>
 <p>
   <%= _("If you feel this is an error with Foreman itself, please open a new issue with") %> <%= link_to _("Foreman ticketing system"), "http://theforeman.org/projects/foreman/issues", :rel => "external" %>,
   <%= _("You would probably need to attach the") %>
-  <%= link_to_function(_("Full trace"), "$('#backtrace').toggle()")%> <%= _("and relevant log entries.") %>
+  <%= link_to_function(_("Full trace"), "$('#backtrace').toggle()")%> <%= _(", relevant log entries, and it is highly recommended to also attach the foreman-debug output.") %>
 </p>
 
 <div id="backtrace" class="alert alert-block alert-danger base in fade hide">
