@@ -4,8 +4,7 @@
   <%= base_errors_for @template %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Template") %></a></li>
-
-    <%= render "#{@type_name_plural}/custom_tab_headers" %>
+    <%= render "#{@type_name_plural}/custom_tab_headers" if type == 'provisioning_template'%>
 
     <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
     <% if show_location_tab? %>
