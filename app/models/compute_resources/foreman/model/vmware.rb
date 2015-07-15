@@ -353,10 +353,10 @@ module Foreman::Model
     # because it has no children.
     def clone_vm(args)
       args = parse_args args
-      path_replace = %r{/Datacenters/#{datacenter}/vm(/|)}
+      path_replace = %r{/[^/]+/#{datacenter}/vm(/|)}
 
       interfaces = client.list_vm_interfaces(args[:image_id])
-      interface = interfaces.detect{|i| i[:name] == "Network adapter 1" }
+      interface = interfaces.detect{|i| i[:name].end_with?('1') }
       network_adapter_device_key = interface[:key]
 
       opts = {
