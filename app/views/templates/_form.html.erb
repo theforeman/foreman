@@ -4,8 +4,7 @@
   <%= base_errors_for @template %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Template") %></a></li>
-
-    <%= render "#{@type_name_plural}/custom_tab_headers" %>
+    <%= render "#{@type_name_plural}/custom_tab_headers" unless type == 'ptable'%>
 
     <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
     <% if show_location_tab? %>
@@ -24,6 +23,7 @@
         <%= checkbox_f f, :default, :label=>_('Default'), :help_block => default_template_description %>
       <% end -%>
 
+
       <% if @template.locked? -%>
         <%= alert :class => 'alert-warning', :header => '',
                   :text  => icon_text("warning-sign", (_("Warning: This template is locked. You may only change the associations. Please %s it to customize.") %
@@ -34,6 +34,7 @@
                   :text  => icon_text("info-sign", (_('Note: %s ') % link_to(_('Useful template functions and macros'),
                                                                              "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.4.3ProvisioningTemplates", :rel => 'external')).html_safe) %>
       <% end -%>
+      <%= render "custom_tabs", :f => f %>
 
       <% if pxe_with_building_hosts?(@template) -%>
         <%= alert :class => 'alert-warning', :header => '',
@@ -89,7 +90,6 @@
     </div>
 
 
-    <%= render "custom_tabs", :f => f %>
 
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @template %>
 
