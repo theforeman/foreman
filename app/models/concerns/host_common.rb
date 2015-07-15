@@ -38,15 +38,15 @@ module HostCommon
     def lookup_values_attributes=(lookup_values_attributes)
       lookup_values_attributes.each_value do |attribute|
         attr = attribute.dup
-        if attr.has_key? :id
-          lookup_value = lookup_values.find attr.delete(:id)
+        if id = attr.delete(:id)
+          lookup_value = self.lookup_values.to_a.select{|i| i.id == id}.first
           if lookup_value
             mark_for_destruction = ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
             lookup_value.attributes = attr
-            mark_for_destruction ? lookup_values.delete(lookup_value) : lookup_value.save!
+            lookup_value.mark_for_destruction if mark_for_destruction
           end
         elsif !ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
-          LookupValue.create(attr.merge(:match => lookup_value_match, :host_or_hostgroup => self))
+          self.lookup_values.build(attr.merge(:match => lookup_value_match, :host_or_hostgroup => self))
         end
       end
     end
