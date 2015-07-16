@@ -48,16 +48,25 @@
               <input type="radio" name="options" id="option1" ><%= _("Code") %>
             </label>
             <label class="btn btn-default btn-sm" onclick="set_preview()">
-              <input type="radio" name="options" id="option2" ><%= _("Preview") %>
+              <input type="radio" name="options" id="option2" ><%= _("Diff") %>
+            </label>
+            <label class="btn btn-default btn-sm" onclick="set_render()">
+              <input type="radio" name="options" id="option3" ><%= _("Preview") %>
             </label>
           </div>
+          <span id="preview_host_selector" style="display:none">
+            <%= select_tag :preview_host_id, options_from_collection_for_select(@template.preview_host_collection, :id, :name),
+                           :onchange => 'get_rendered_template()' %>
+          </span>
           <%= fullscreen_button("$('#editor1')") %>
           <div class="fr">
             <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'form-control input-sm') %>
           </div>
         </div>
       </div>
-      <%= textarea_f f, :template, :class => "template_text", :label =>:none, :disabled => @template.locked?, :size => "max", :'data-file-name' => @template.name %>
+      <%= alert :class => 'alert-danger hide', :id => 'preview_error', :close => false %>
+      <%= textarea_f f, :template, :class => "template_text", :label =>:none, :disabled => @template.locked?, :size => "max",
+                     :'data-file-name' => @template.name, :'data-render-path' => url_for(template_hash_for_member(@template, 'preview')) %>
 
       <% unless @template.locked? -%>
         <%= file_field_f f, :template, :class => "template_file",:size => "col-md-10", :id => 'template_file',

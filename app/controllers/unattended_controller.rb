@@ -1,4 +1,6 @@
 class UnattendedController < ApplicationController
+  include Foreman::Renderer
+
   layout false
 
   # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
@@ -50,11 +52,6 @@ class UnattendedController < ApplicationController
 
     load_template_vars if template.template_kind.name == 'provision'
     safe_render template.template
-  end
-
-  def pxe_config
-    @kernel = @host.operatingsystem.kernel @host.arch
-    @initrd = @host.operatingsystem.initrd @host.arch
   end
 
   # Generate an action for each template kind
@@ -184,77 +181,6 @@ class UnattendedController < ApplicationController
 
   def set_content_type
     response.headers['Content-Type'] = 'text/plain'
-  end
-
-  def load_template_vars
-    # load the os family default variables
-    send "#{@host.operatingsystem.pxe_type}_attributes"
-
-    @provisioning_type = @host.is_a?(Hostgroup) ? 'hostgroup' : 'host'
-
-    # force static network configuration if static http parameter is defined, in the future this needs to go into the GUI
-    @static = !params[:static].empty?
-
-    # this is sent by the proxy when the templates feature is enabled
-    # and is needed to direct the host to the correct url. without it, we increase
-    # latency by requesting the correct url directly from the proxy.
-    @template_url = params['url']
-  end
-
-  def alterator_attributes
-    @mediapath   = @host.operatingsystem.mediumpath @host
-    @mediaserver = URI(@mediapath).host
-    @metadata    = params[:metadata].to_s
-  end
-
-  def jumpstart_attributes
-    if @host.operatingsystem.supports_image and @host.use_image
-      @install_type     = "flash_install"
-      # We have an individual override for the host's image file
-      @archive_location = @host.image_file ? @host.image_file : @host.default_image_file
-    else
-      @install_type = "initial_install"
-      @system_type  = "standalone"
-      @cluster      = "SUNWCreq"
-      @packages     = "SUNWgzip"
-      @locale       = "C"
-    end
-    @disk = @host.diskLayout
-  end
-
-  def kickstart_attributes
-    @dynamic   = @host.diskLayout =~ /^#Dynamic/
-    @arch      = @host.architecture.name
-    @osver     = @host.operatingsystem.major.to_i
-    @mediapath = @host.operatingsystem.mediumpath @host
-    @repos     = @host.operatingsystem.repos @host
-  end
-
-  def preseed_attributes
-    @preseed_path   = @host.operatingsystem.preseed_path   @host
-    @preseed_server = @host.operatingsystem.preseed_server @host
-  end
-
-  def yast_attributes
-  end
-
-  def coreos_attributes
-    @mediapath = @host.operatingsystem.mediumpath @host
-  end
-
-  def aif_attributes
-    @mediapath = @host.operatingsystem.mediumpath @host
-  end
-
-  def memdisk_attributes
-    @mediapath = @host.operatingsystem.mediumpath @host
-  end
-
-  def ZTP_attributes
-    @mediapath = @host.operatingsystem.mediumpath @host
-  end
-
-  def waik_attributes
   end
 
   # This method updates the IP held by Foreman from the incoming request.

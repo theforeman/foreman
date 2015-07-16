@@ -53,4 +53,8 @@ class Ptable < Template
   def self.template_includes
     super + [:operatingsystems]
   end
+
+  def preview_host_collection
+    super.where(:managed => true)
+  end
 end

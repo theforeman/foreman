@@ -87,4 +87,10 @@ class PtableTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test '#preview_host_collection obeys view_hosts permission' do
+    ptable = FactoryGirl.build(:ptable)
+    Host.expects(:authorized).with(:view_hosts).returns(Host.scoped)
+    ptable.preview_host_collection
+  end
 end

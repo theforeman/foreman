@@ -1,10 +1,10 @@
 class TemplatesController < ApplicationController
-  include Foreman::Renderer
+  include UnattendedHelper # includes also Foreman::Renderer
   include Foreman::Controller::ProvisioningTemplates
   include Foreman::Controller::AutoCompleteSearch
 
   before_filter :handle_template_upload, :only => [:create, :update]
-  before_filter :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock]
+  before_filter :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock, :preview]
   before_filter :load_history, :only => :edit
   before_filter :type_name_plural, :type_name_singular, :resource_class
 
@@ -78,7 +78,30 @@ class TemplatesController < ApplicationController
     type_name_plural
   end
 
+  def preview
+    base = @template.preview_host_collection
+    @host = params[:preview_host_id].present? ? base.find(params[:preview_host_id]) : base.first
+    if @host.nil?
+      render :text => _('No host could be used for rendering the template'), :status => :not_found
+      return
+    end
+
+    @template.template = params[:template]
+    safe_render(@template)
+  end
+
   private
+
+  def safe_render(template)
+    begin
+      load_template_vars
+      render :text => unattended_render(template)
+    rescue => error
+      Foreman::Logging.exception("Error rendering the #{template.name} template", error)
+      render :text => _("There was an error rendering the %{name} template: %{error}") % {:name => template.name, :error => error.message},
+             :status => :internal_server_error
+    end
+  end
 
   def set_locked(locked)
     @template.locked = locked
@@ -98,7 +121,7 @@ class TemplatesController < ApplicationController
     case params[:action]
       when 'lock', 'unlock'
         :lock
-      when 'clone_template'
+      when 'clone_template', 'preview'
         :view
       else
         super

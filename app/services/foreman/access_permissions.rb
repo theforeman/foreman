@@ -108,7 +108,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :provisioning_templates do |map|
-    map.permission :view_provisioning_templates,    {:provisioning_templates => [:index, :show, :revision, :auto_complete_search],
+    map.permission :view_provisioning_templates,    {:provisioning_templates => [:index, :show, :revision, :auto_complete_search, :preview],
                                         :"api/v1/config_templates" => [:index, :show, :revision],
                                         :"api/v2/config_templates" => [:index, :show, :revision],
                                         :"api/v2/provisioning_templates" => [:index, :show, :revision],
@@ -498,7 +498,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :partition_tables do |map|
-    map.permission :view_ptables,    {:ptables => [:index, :show, :auto_complete_search, :revision],
+    map.permission :view_ptables,    {:ptables => [:index, :show, :auto_complete_search, :revision, :preview],
                                       :"api/v1/ptables" => [:index, :show],
                                       :"api/v2/ptables" => [:index, :show, :revision]
     }
