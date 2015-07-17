@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class Api::V2::UsersControllerTest < ActionController::TestCase
+  AuthSourceInternal.create(:name => "Internal") unless AuthSourceInternal.first.present?
   valid_attrs = { :login => "johnsmith",
                   :mail => 'john@example.com',
                   :auth_source_id => AuthSourceInternal.first.id,
