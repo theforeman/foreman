@@ -29,10 +29,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-07-01 19:51+0000\n"
-"Last-Translator: Christina Gurski <Gurski_christina@yahoo.de>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/foreman/language/de"
-"/)\n"
+"PO-Revision-Date: 2015-07-06 09:10+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
+"Language-Team: German (http://www.transifex.com/p/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -166,27 +165,27 @@ msgstr "virtuell"
 msgid "physical"
 msgstr "physikalisch"
 
-msgid "Reboot and build"
-msgstr "Neustarten und erstellen"
-
 msgid "Build"
 msgstr "Erstellen"
 
+msgid "Reboot and build"
+msgstr "Neustarten und erstellen"
+
 msgid "Select All"
 msgstr "Alles auswählen"
+
+msgid "All items"
+msgstr "Alle Items"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr "Filter"
 
-msgid "All items"
-msgstr "Alle Items"
+msgid "Deselect All"
+msgstr "Alle abwählen"
 
 msgid "Selected items"
 msgstr "Ausgewählte Elemente"
-
-msgid "Deselect All"
-msgstr "Alle abwählen"
 
 msgid "Select this since it belongs to a host"
 msgstr "Wählen Sie dies, da es zu einem Host gehört"
@@ -1404,6 +1403,15 @@ msgstr "Alle Partitionstabellen pro Organisation auflisten"
 msgid "Show a partition table"
 msgstr "Partitionstabelle anzeigen"
 
+msgid "Array of operating system IDs to associate with the partition table"
+msgstr ""
+
+msgid "Array of host IDs to associate with the partition table"
+msgstr ""
+
+msgid "Array of host group IDs to associate with the partition table"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "Partitionstabelle erstellen"
 
@@ -1865,11 +1873,11 @@ msgstr "Du musst mindestens einen Ort erstellen, bevor du fortfahren kannst."
 msgid "You must create at least one organization before continuing."
 msgstr "Du musst mindestens eine Organisation anlegen, bevor du fortfahren kannst."
 
-msgid "Error"
-msgstr "Fehler"
-
 msgid "OK"
 msgstr "OK"
+
+msgid "Error"
+msgstr "Fehler"
 
 msgid "Invalid authenticity token"
 msgstr "Ungültiger Authentifizierungs-Token"
@@ -2054,17 +2062,17 @@ msgstr "Externe Benutzergruppe %{name} konnte nicht aktualisiert werden"
 msgid "The following fields would need reviewing"
 msgstr "Die folgenden Felder müssen nochmals geprüft werden"
 
-msgid "Disk"
-msgstr "Festplatte"
-
-msgid "CDROM"
-msgstr "CD-ROM"
-
 msgid "BIOS"
 msgstr "BIOS"
 
+msgid "Disk"
+msgstr "Festplatte"
+
 msgid "PXE"
 msgstr "PXE"
+
+msgid "CDROM"
+msgstr "CD-ROM"
 
 msgid "The marked fields will need reviewing"
 msgstr "Die markierten Felder benötigen eine Prüfung"
@@ -2227,11 +2235,11 @@ msgstr "Bericht erfolgreich gelöscht."
 msgid "Role cloned from role %{old_name}"
 msgstr "Rolle geklont von Rolle %{old_name}"
 
-msgid "No changes found when refreshing features from %s."
-msgstr "Beim Aktualisieren der Funktionen von %s wurden keine Änderungen gefunden"
-
 msgid "Successfully refreshed features from %s."
 msgstr "Funktionen erfolgreich von %s aktualisiert."
+
+msgid "No changes found when refreshing features from %s."
+msgstr "Beim Aktualisieren der Funktionen von %s wurden keine Änderungen gefunden"
 
 msgid "%s core"
 msgid_plural "%s cores"
@@ -2247,11 +2255,11 @@ msgstr "Keine Subnetze"
 msgid "Imported Subnets"
 msgstr "Importierte Subnetze"
 
-msgid "Template unlocked"
-msgstr "Vorlage entsperrt"
-
 msgid "Template locked"
 msgstr "Vorlage gesperrt"
+
+msgid "Template unlocked"
+msgstr "Vorlage entsperrt"
 
 msgid ""
 "Failed to clean any old certificates or add the autosign entry. Terminating th"
@@ -2338,11 +2346,11 @@ msgstr "vor %s"
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr "Parameter, welche mit Hosts in dieser %s verknüpft würden"
 
-msgid "Additional info"
-msgstr "Zusätzliche Informationen"
-
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr "<b>Quelle:</b> %{type} %{name}"
+
+msgid "Additional info"
+msgstr "Zusätzliche Informationen"
 
 msgid "Explain use Puppet default"
 msgstr "Erläutere die Verwendung des Puppet-Standards"
@@ -2452,12 +2460,12 @@ msgstr "Neu gestartet"
 msgid "Restarted|R"
 msgstr "Neu gestartet|N"
 
-msgid "Failed"
-msgstr "Fehlgeschlagen"
-
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
 msgstr "Fehlgeschlagen|F"
+
+msgid "Failed"
+msgstr "Fehlgeschlagen"
 
 msgid "Failed Restarts"
 msgstr "fehlgeschlagene Neustarts"
@@ -2466,12 +2474,12 @@ msgstr "fehlgeschlagene Neustarts"
 msgid "Failed Restarts|FR"
 msgstr "Fehlgeschlagene Neustarts|FN"
 
-msgid "Skipped"
-msgstr "Übersprungen"
-
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
 msgstr "Übersprungen|Ü"
+
+msgid "Skipped"
+msgstr "Übersprungen"
 
 #. TRANSLATORS: initial character of Pending
 #. TRANSLATORS: host's status: first character of "pending"
@@ -2598,11 +2606,11 @@ msgstr "%s - Die folgenden Hosts werden geändert"
 msgid "Failed restarts"
 msgstr "Fehlgeschlagene Neustarts"
 
-msgid "Runtime"
-msgstr "Laufzeit"
-
 msgid "Config Retrieval"
 msgstr "Konfigurationsabfrage"
+
+msgid "Runtime"
+msgstr "Laufzeit"
 
 msgid "Reports from the last %{days} days - %{count} reports found"
 msgstr "Berichte aus den letzten %{days} Tagen - %{count} Berichte gefunden"
@@ -2701,41 +2709,41 @@ msgstr ""
 "Sind Sie sicher, dass Sie den Host %s löschen möchten? Diese Aktion ist unwide"
 "rruflich."
 
-msgid "Audits"
-msgstr "Prüfungen"
-
 msgid "Host audit entries"
 msgstr "Hostaudit-Einträge"
 
-msgid "Facts"
-msgstr "Fakten"
+msgid "Audits"
+msgstr "Prüfungen"
 
 msgid "Browse host facts"
 msgstr "Systemfakten durchsuchen"
 
-msgid "Browse host reports"
-msgstr "Systemreporte durchsuchen"
+msgid "Facts"
+msgstr "Fakten"
 
 msgid "Reports"
 msgstr "Reporte"
 
-msgid "YAML"
-msgstr "YAML"
+msgid "Browse host reports"
+msgstr "Systemreporte durchsuchen"
 
 msgid "Puppet external nodes YAML dump"
 msgstr "YAML-Ausgabe des externen Puppet-Knotens"
 
+msgid "YAML"
+msgstr "YAML"
+
 msgid "Allocation (GB)"
 msgstr "Zuweisung (GB)"
 
-msgid "Full"
-msgstr "Voll"
+msgid "Size"
+msgstr "Größe"
 
 msgid "None"
 msgstr "Keine"
 
-msgid "Size"
-msgstr "Größe"
+msgid "Full"
+msgstr "Voll"
 
 msgid "remove network interface"
 msgstr "Netzwerkschnittstelle löschen"
@@ -2814,9 +2822,6 @@ msgstr "Puppet-Klasse"
 msgid "Puppet Class"
 msgstr "Puppet-Klasse"
 
-msgid "Parameter types"
-msgstr "Parametertypen"
-
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2834,6 +2839,9 @@ msgstr ""
 "t> <dd>Eine gültige JSON- oder YAML-Eingabe, welche zu einem Objekt/map/dict/h"
 "ash passt.</dd><dt>YAML</dt> <dd>Jede gültige YAML-Eingabe.</dd><dt>JSON</dt> "
 "<dd>Jede gültige JSON-Eingabe.</dd></dl>"
+
+msgid "Parameter types"
+msgstr "Parametertypen"
 
 msgid "How values are validated"
 msgstr "Wie Werte überprüft werden"
@@ -2873,15 +2881,15 @@ msgstr ""
 "Benötigter Parameter ohne Wert.<br/><b>Bitte überschreiben!</b> <br><br><b>Bes"
 "chreibung:</b>: %s"
 
-msgid "No value warning"
-msgstr "Keine Werte-Warnung"
-
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
 "><b>Description:</b> %s"
 msgstr ""
 "Optionaler Parameter ohne Wert.<br/><i>Wird nicht an Puppet weitergegeben.</i>"
 " <br><br><b>Beschreibung:</b> %s"
+
+msgid "No value warning"
+msgstr "Keine Werte-Warnung"
 
 msgid "Default templates are automatically added to new locations"
 msgstr "Standardvorlagen werden automatisch zu neuen Standorten hinzugefügt."
@@ -2929,11 +2937,11 @@ msgstr "Sperren"
 msgid "Delete %s?"
 msgstr "%s löschen?"
 
-msgid "revoked"
-msgstr "zurückgezogen"
-
 msgid "valid"
 msgstr "gültig"
+
+msgid "revoked"
+msgstr "zurückgezogen"
 
 msgid "pending"
 msgstr "ausstehend"
@@ -2990,17 +2998,17 @@ msgstr "Zeitraum auswählen"
 msgid "Show log messages:"
 msgstr "Protokollmeldungen anzeigen:"
 
-msgid "All messages"
-msgstr "Alle Meldungen"
-
 msgid "Errors only"
 msgstr "Nur Fehler"
+
+msgid "Warnings and errors"
+msgstr "Warnungen und Fehler"
 
 msgid "Notices, warnings and errors"
 msgstr "Hinweise, Warnungen und Fehler"
 
-msgid "Warnings and errors"
-msgstr "Warnungen und Fehler"
+msgid "All messages"
+msgstr "Alle Meldungen"
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -3039,23 +3047,23 @@ msgstr "Hardware"
 msgid "Class Distribution"
 msgstr "Klassenverteilung"
 
+msgid "Average memory usage"
+msgstr "Durchschnittliche Speicherauslastung"
+
 msgid "free memory"
 msgstr "Freier Speicher"
 
 msgid "used memory"
 msgstr "Belegter Speicher"
 
-msgid "Average memory usage"
-msgstr "Durchschnittliche Speicherauslastung"
-
-msgid "used swap"
-msgstr "verbraucher Swap"
+msgid "Average swap usage"
+msgstr "Durchschnittliche Swap-Verwendung"
 
 msgid "free swap"
 msgstr "freier Swap"
 
-msgid "Average swap usage"
-msgstr "Durchschnittliche Swap-Verwendung"
+msgid "used swap"
+msgstr "verbraucher Swap"
 
 msgid "Any Organization"
 msgstr "Jede Organisation"
@@ -3063,11 +3071,11 @@ msgstr "Jede Organisation"
 msgid "Any Location"
 msgstr "Jeder Standort"
 
-msgid "New Organization"
-msgstr "Neue Organisation"
-
 msgid "New Location"
 msgstr "Neuer Ort"
+
+msgid "New Organization"
+msgstr "Neue Organisation"
 
 msgid "All users"
 msgstr "Alle Benutzer"
@@ -3081,11 +3089,11 @@ msgstr "Smart Proxys auswählen"
 msgid "All smart proxies"
 msgstr "Alle Smart Proxys"
 
-msgid "Select subnets"
-msgstr "Subnetze auswählen"
-
 msgid "All subnets"
 msgstr "Alle Subnetze"
+
+msgid "Select subnets"
+msgstr "Subnetze auswählen"
 
 msgid "Select compute resources"
 msgstr "Rechenressource auswählen"
@@ -3093,11 +3101,11 @@ msgstr "Rechenressource auswählen"
 msgid "All compute resources"
 msgstr "Alle Rechenressourcen"
 
-msgid "All media"
-msgstr "Alle Medien"
-
 msgid "Select media"
 msgstr "Medien auswählen"
+
+msgid "All media"
+msgstr "Alle Medien"
 
 msgid "All provisioning templates"
 msgstr "Alle Bereitstellungsvorlagen"
@@ -3111,11 +3119,11 @@ msgstr "Partitionstabelle auswählen"
 msgid "All partition tables"
 msgstr "Alle Partitionstabellen"
 
-msgid "All domains"
-msgstr "Alle Domänen"
-
 msgid "Select domains"
 msgstr "Domänen auswählen"
+
+msgid "All domains"
+msgstr "Alle Domänen"
 
 msgid "Select realms"
 msgstr "Realms auswählen"
@@ -3123,32 +3131,32 @@ msgstr "Realms auswählen"
 msgid "All realms"
 msgstr "Alle Realms"
 
-msgid "All environments"
-msgstr "Alle Umgebungen"
-
 msgid "Select environments"
 msgstr "Umgebungen auswählen"
 
-msgid "Select host groups"
-msgstr "Hostgruppen auswählen"
+msgid "All environments"
+msgstr "Alle Umgebungen"
 
 msgid "All host groups"
 msgstr "Alle Hostgruppen"
 
-msgid "Operating system"
-msgstr "Betriebssystem"
+msgid "Select host groups"
+msgstr "Hostgruppen auswählen"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Umgebung"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Compute resource"
-msgstr "Rechenressource"
+msgid "Operating system"
+msgstr "Betriebssystem"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
 msgstr "Modell"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Compute resource"
+msgstr "Rechenressource"
 
 msgid "Trend of the last %s days."
 msgstr "Trend der letzten %s Tage."
@@ -3646,32 +3654,32 @@ msgstr "konnte in %s nicht gefunden werden"
 msgid "json"
 msgstr "json"
 
+msgid "array"
+msgstr "Datenfeld"
+
+msgid "boolean"
+msgstr "Boolesch"
+
+msgid "yaml"
+msgstr "yaml"
+
 msgid "integer"
 msgstr "Ganzzahl"
 
 msgid "real"
 msgstr "echt"
 
-msgid "boolean"
-msgstr "Boolesch"
+msgid "hash"
+msgstr "Hash"
 
 msgid "string"
 msgstr "Zeichenkette"
 
-msgid "yaml"
-msgstr "yaml"
-
-msgid "array"
-msgstr "Datenfeld"
-
-msgid "hash"
-msgstr "Hash"
+msgid "regexp"
+msgstr "regulärer Ausdruck"
 
 msgid "list"
 msgstr "Liste"
-
-msgid "regexp"
-msgstr "regulärer Ausdruck"
 
 msgid "invalid"
 msgstr "ungültig"
@@ -3711,14 +3719,14 @@ msgstr "%{match} passt zu keinem existierenden Host"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} passt zu keiner existierenden Gruppe"
 
-msgid "Weekly"
-msgstr "Wöchentlich"
-
 msgid "Daily"
 msgstr "Täglich"
 
 msgid "Monthly"
 msgstr "Monatlich"
+
+msgid "Weekly"
+msgstr "Wöchentlich"
 
 msgid ""
 "Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nf"
@@ -4244,11 +4252,11 @@ msgstr "Es konnte nicht mit dem Proxy kommuniziert werden: %s"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Bitte überprüfe, ob der Proxy konfiguriert ist und auf dem System läuft."
 
-msgid "Static"
-msgstr "Statisch"
-
 msgid "DHCP"
 msgstr "DHCP"
+
+msgid "Static"
+msgstr "Statisch"
 
 msgid "Internal DB"
 msgstr "Interne DB"
@@ -4356,6 +4364,9 @@ msgstr "Verteilungsdiagramm"
 
 msgid "Unallowed template for dashboard widget: %s"
 msgstr "Template %s für Dashboard Widget nicht erlaubt"
+
+msgid "Invalid version format, please enter in x.y (only major version)."
+msgstr ""
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
 msgstr "%{id} Plugin benötigt Foreman %{matcher}, ist aktuell aber %{current}"
@@ -4523,17 +4534,11 @@ msgstr "Realms"
 msgid "Unsupported password hash function '%s'"
 msgstr "Passwort Hashfunktion '%s' nicht unterstützt"
 
-msgid "reboot"
-msgstr "neustarten"
-
-msgid "stop"
-msgstr "Stop"
-
 msgid "reset"
 msgstr "zurücksetzen"
 
-msgid "state"
-msgstr "Status"
+msgid "stop"
+msgstr "Stop"
 
 msgid "start"
 msgstr "Start"
@@ -4541,23 +4546,29 @@ msgstr "Start"
 msgid "poweroff"
 msgstr "ausschalten"
 
-msgid "soft"
-msgstr "soft"
-
-msgid "on"
-msgstr "an"
-
-msgid "status"
+msgid "state"
 msgstr "Status"
 
-msgid "ready?"
-msgstr "bereit?"
+msgid "reboot"
+msgstr "neustarten"
 
 msgid "off"
 msgstr "aus"
 
+msgid "on"
+msgstr "an"
+
 msgid "cycle"
 msgstr "Zyklus"
+
+msgid "ready?"
+msgstr "bereit?"
+
+msgid "soft"
+msgstr "soft"
+
+msgid "status"
+msgstr "Status"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr ""

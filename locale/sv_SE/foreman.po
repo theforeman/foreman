@@ -11,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-06-27 08:46+0000\n"
+"PO-Revision-Date: 2015-07-06 09:10+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
-"Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/foreman/l"
-"anguage/sv_SE/)\n"
+"Language-Team: Swedish (Sweden) (http://www.transifex.com/p/foreman/language/s"
+"v_SE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -144,26 +144,26 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-msgid "Reboot and build"
-msgstr ""
-
 msgid "Build"
 msgstr "Bygg"
 
+msgid "Reboot and build"
+msgstr ""
+
 msgid "Select All"
 msgstr "Välj Alla"
+
+msgid "All items"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr "Filter"
 
-msgid "All items"
+msgid "Deselect All"
 msgstr ""
 
 msgid "Selected items"
-msgstr ""
-
-msgid "Deselect All"
 msgstr ""
 
 msgid "Select this since it belongs to a host"
@@ -1334,6 +1334,15 @@ msgstr ""
 msgid "Show a partition table"
 msgstr ""
 
+msgid "Array of operating system IDs to associate with the partition table"
+msgstr ""
+
+msgid "Array of host IDs to associate with the partition table"
+msgstr ""
+
+msgid "Array of host group IDs to associate with the partition table"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr ""
 
@@ -1785,11 +1794,11 @@ msgstr "Du måste skapa mine en lokation innan du fortsätter."
 msgid "You must create at least one organization before continuing."
 msgstr "Du måste kapa minst en organisation innan du fortsätter."
 
-msgid "Error"
-msgstr "Fel"
-
 msgid "OK"
 msgstr "OK"
+
+msgid "Error"
+msgstr "Fel"
 
 msgid "Invalid authenticity token"
 msgstr ""
@@ -1958,17 +1967,17 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr "Följande fält behöver granskas"
 
-msgid "Disk"
-msgstr "Hårddisk"
-
-msgid "CDROM"
-msgstr "CDläsare"
-
 msgid "BIOS"
 msgstr "BIOS"
 
+msgid "Disk"
+msgstr "Hårddisk"
+
 msgid "PXE"
 msgstr "PXE"
+
+msgid "CDROM"
+msgstr "CDläsare"
 
 msgid "The marked fields will need reviewing"
 msgstr "Markerade fält behöver granskas"
@@ -2121,11 +2130,11 @@ msgstr ""
 msgid "Role cloned from role %{old_name}"
 msgstr ""
 
-msgid "No changes found when refreshing features from %s."
-msgstr "Inga ändringar funna vid uppdatering av funktioner från %s."
-
 msgid "Successfully refreshed features from %s."
 msgstr "Lyckades uppdatera funktioner från %s."
+
+msgid "No changes found when refreshing features from %s."
+msgstr "Inga ändringar funna vid uppdatering av funktioner från %s."
 
 msgid "%s core"
 msgid_plural "%s cores"
@@ -2141,10 +2150,10 @@ msgstr "Inga subnet markerade"
 msgid "Imported Subnets"
 msgstr "Importerade Subnät"
 
-msgid "Template unlocked"
+msgid "Template locked"
 msgstr ""
 
-msgid "Template locked"
+msgid "Template unlocked"
 msgstr ""
 
 msgid ""
@@ -2230,11 +2239,11 @@ msgstr "%s sedan"
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr "Parametrar som skulle bli associerade med denna värd i denna %s"
 
-msgid "Additional info"
-msgstr "Ytterliggare info:"
-
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
+
+msgid "Additional info"
+msgstr "Ytterliggare info:"
 
 msgid "Explain use Puppet default"
 msgstr ""
@@ -2342,12 +2351,12 @@ msgstr "Omstartad"
 msgid "Restarted|R"
 msgstr "R"
 
-msgid "Failed"
-msgstr "Misslyckad"
-
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
 msgstr "F"
+
+msgid "Failed"
+msgstr "Misslyckad"
 
 msgid "Failed Restarts"
 msgstr "Misslyckade Omstarter"
@@ -2356,12 +2365,12 @@ msgstr "Misslyckade Omstarter"
 msgid "Failed Restarts|FR"
 msgstr "FR"
 
-msgid "Skipped"
-msgstr "Skippad"
-
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
 msgstr "S"
+
+msgid "Skipped"
+msgstr "Skippad"
 
 #. TRANSLATORS: initial character of Pending
 #. TRANSLATORS: host's status: first character of "pending"
@@ -2488,11 +2497,11 @@ msgstr "%s - Följande värdar kommer att ändras"
 msgid "Failed restarts"
 msgstr "Misslyckade omstarter"
 
-msgid "Runtime"
-msgstr "Exekveringsmiljö"
-
 msgid "Config Retrieval"
 msgstr "Konfigurationshämtning"
+
+msgid "Runtime"
+msgstr "Exekveringsmiljö"
 
 msgid "Reports from the last %{days} days - %{count} reports found"
 msgstr "Rapporter från de senaste %{days} dagarna - %{count} rapporter funna"
@@ -2585,41 +2594,41 @@ msgstr ""
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-msgid "Audits"
-msgstr "Revisioner"
-
 msgid "Host audit entries"
 msgstr "Värdgranskningslogg"
 
-msgid "Facts"
-msgstr "Fakta"
+msgid "Audits"
+msgstr "Revisioner"
 
 msgid "Browse host facts"
 msgstr "Bläddra värdfakta"
 
-msgid "Browse host reports"
-msgstr "Bläddra värdrapporter"
+msgid "Facts"
+msgstr "Fakta"
 
 msgid "Reports"
 msgstr "Rapporter"
 
-msgid "YAML"
-msgstr "YAML"
+msgid "Browse host reports"
+msgstr "Bläddra värdrapporter"
 
 msgid "Puppet external nodes YAML dump"
 msgstr "Puppet externa noder YAML-export"
 
+msgid "YAML"
+msgstr "YAML"
+
 msgid "Allocation (GB)"
 msgstr "Allokering(GB)"
 
-msgid "Full"
-msgstr "Full"
+msgid "Size"
+msgstr "Storlek"
 
 msgid "None"
 msgstr "Ingen"
 
-msgid "Size"
-msgstr "Storlek"
+msgid "Full"
+msgstr "Full"
 
 msgid "remove network interface"
 msgstr "ta bort nätvärkskort"
@@ -2698,9 +2707,6 @@ msgstr "Puppetklass"
 msgid "Puppet Class"
 msgstr "Puppet Klass"
 
-msgid "Parameter types"
-msgstr ""
-
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2717,6 +2723,9 @@ msgstr ""
 "a till en array.</dd><dt>Hash</dt> <dd>Giltig JSON- eller YAML-indata som måst"
 "e evaluera till object/map/dict/hash.</dd><dt>YAML</dt> <dd>All giltig YAML-in"
 "data.</dd><dt>JSON</dt> <dd>All giltig JSON-indata.</dd></dl>"
+
+msgid "Parameter types"
+msgstr ""
 
 msgid "How values are validated"
 msgstr "Hur värden valideras"
@@ -2756,15 +2765,15 @@ msgstr ""
 "Nödvändig parameter utan värde. <br/><b>Var vänlig och forcera!</b> <br><br><b"
 ">Beskrivning:</b>: %s"
 
-msgid "No value warning"
-msgstr "Varning, inget värde"
-
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
 "><b>Description:</b> %s"
 msgstr ""
 "Valfri parameter utan värde. <br/><i>Kommer inte att skickas till Puppet.</i> "
 "<br><br><b>Beskrivning:</b> %s"
+
+msgid "No value warning"
+msgstr "Varning, inget värde"
 
 msgid "Default templates are automatically added to new locations"
 msgstr ""
@@ -2807,11 +2816,11 @@ msgstr ""
 msgid "Delete %s?"
 msgstr "Radera %s"
 
-msgid "revoked"
-msgstr "återkallad"
-
 msgid "valid"
 msgstr "giltig"
+
+msgid "revoked"
+msgstr "återkallad"
 
 msgid "pending"
 msgstr "kommande"
@@ -2868,17 +2877,17 @@ msgstr "Välj en period"
 msgid "Show log messages:"
 msgstr "Visa loggmeddelanden:"
 
-msgid "All messages"
-msgstr "Alla meddelanden"
-
 msgid "Errors only"
 msgstr "Enbart fel"
+
+msgid "Warnings and errors"
+msgstr "Varningar och fel"
 
 msgid "Notices, warnings and errors"
 msgstr "Notiser, varningar och fel"
 
-msgid "Warnings and errors"
-msgstr "Varningar och fel"
+msgid "All messages"
+msgstr "Alla meddelanden"
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -2917,23 +2926,23 @@ msgstr "Hårdvara"
 msgid "Class Distribution"
 msgstr "Klassdistribution"
 
+msgid "Average memory usage"
+msgstr "Genomsnittlig minnesanvändning"
+
 msgid "free memory"
 msgstr ""
 
 msgid "used memory"
 msgstr ""
 
-msgid "Average memory usage"
-msgstr "Genomsnittlig minnesanvändning"
-
-msgid "used swap"
-msgstr ""
+msgid "Average swap usage"
+msgstr "Genomsnittlig växlingsanvändning"
 
 msgid "free swap"
 msgstr ""
 
-msgid "Average swap usage"
-msgstr "Genomsnittlig växlingsanvändning"
+msgid "used swap"
+msgstr ""
 
 msgid "Any Organization"
 msgstr "Alla Organisationer"
@@ -2941,11 +2950,11 @@ msgstr "Alla Organisationer"
 msgid "Any Location"
 msgstr "Alla Platser"
 
-msgid "New Organization"
-msgstr "Ny Organisation"
-
 msgid "New Location"
 msgstr "Ny Lokation"
+
+msgid "New Organization"
+msgstr "Ny Organisation"
 
 msgid "All users"
 msgstr "Alla användare"
@@ -2959,11 +2968,11 @@ msgstr "Välj smarta proxies"
 msgid "All smart proxies"
 msgstr "Alla smarta proxies"
 
-msgid "Select subnets"
-msgstr "Välj subnät"
-
 msgid "All subnets"
 msgstr "Alla subnät"
+
+msgid "Select subnets"
+msgstr "Välj subnät"
 
 msgid "Select compute resources"
 msgstr "Välj beräkningsresurser"
@@ -2971,11 +2980,11 @@ msgstr "Välj beräkningsresurser"
 msgid "All compute resources"
 msgstr "Alla beräkningsresurser"
 
-msgid "All media"
-msgstr "Alla media"
-
 msgid "Select media"
 msgstr "Välj media"
+
+msgid "All media"
+msgstr "Alla media"
 
 msgid "All provisioning templates"
 msgstr ""
@@ -2989,11 +2998,11 @@ msgstr ""
 msgid "All partition tables"
 msgstr ""
 
-msgid "All domains"
-msgstr "Alla domäner"
-
 msgid "Select domains"
 msgstr "Välj domäner"
+
+msgid "All domains"
+msgstr "Alla domäner"
 
 msgid "Select realms"
 msgstr ""
@@ -3001,32 +3010,32 @@ msgstr ""
 msgid "All realms"
 msgstr ""
 
-msgid "All environments"
-msgstr "Alla miljöer"
-
 msgid "Select environments"
 msgstr "Välj miljöer"
 
-msgid "Select host groups"
-msgstr "Välj värdgrupper"
+msgid "All environments"
+msgstr "Alla miljöer"
 
 msgid "All host groups"
 msgstr "Alla värdgrupper"
 
-msgid "Operating system"
-msgstr "Operativsystem"
+msgid "Select host groups"
+msgstr "Välj värdgrupper"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Miljö"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Compute resource"
-msgstr "Beräkningsresurs"
+msgid "Operating system"
+msgstr "Operativsystem"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
 msgstr "Modell"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Compute resource"
+msgstr "Beräkningsresurs"
 
 msgid "Trend of the last %s days."
 msgstr "Trenden för de senaste %s dagarna."
@@ -3506,31 +3515,31 @@ msgstr ""
 msgid "json"
 msgstr ""
 
+msgid "array"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
+
+msgid "yaml"
+msgstr ""
+
 msgid "integer"
 msgstr ""
 
 msgid "real"
 msgstr ""
 
-msgid "boolean"
+msgid "hash"
 msgstr ""
 
 msgid "string"
 msgstr ""
 
-msgid "yaml"
-msgstr ""
-
-msgid "array"
-msgstr ""
-
-msgid "hash"
+msgid "regexp"
 msgstr ""
 
 msgid "list"
-msgstr ""
-
-msgid "regexp"
 msgstr ""
 
 msgid "invalid"
@@ -3569,13 +3578,13 @@ msgstr "%{match} matchar inte en existerande värd"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} matchar inte en existerande värdgrupp"
 
-msgid "Weekly"
-msgstr ""
-
 msgid "Daily"
 msgstr ""
 
 msgid "Monthly"
+msgstr ""
+
+msgid "Weekly"
 msgstr ""
 
 msgid ""
@@ -4039,10 +4048,10 @@ msgstr "Kan inte kommunisera med proxyn: %s"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Vänligen kontrollera att proxyn är konfigurerad och körs på värden."
 
-msgid "Static"
+msgid "DHCP"
 msgstr ""
 
-msgid "DHCP"
+msgid "Static"
 msgstr ""
 
 msgid "Internal DB"
@@ -4148,6 +4157,9 @@ msgid "Distribution chart"
 msgstr ""
 
 msgid "Unallowed template for dashboard widget: %s"
+msgstr ""
+
+msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr ""
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
@@ -4318,17 +4330,11 @@ msgstr ""
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "reboot"
-msgstr "omstart"
-
-msgid "stop"
-msgstr "stop"
-
 msgid "reset"
 msgstr "återställ"
 
-msgid "state"
-msgstr "tillstånd"
+msgid "stop"
+msgstr "stop"
 
 msgid "start"
 msgstr "start"
@@ -4336,23 +4342,29 @@ msgstr "start"
 msgid "poweroff"
 msgstr "stäng av"
 
-msgid "soft"
-msgstr "mjuk"
+msgid "state"
+msgstr "tillstånd"
 
-msgid "on"
-msgstr "på"
-
-msgid "status"
-msgstr "status"
-
-msgid "ready?"
-msgstr ""
+msgid "reboot"
+msgstr "omstart"
 
 msgid "off"
 msgstr "av"
 
+msgid "on"
+msgstr "på"
+
 msgid "cycle"
 msgstr "period"
+
+msgid "ready?"
+msgstr ""
+
+msgid "soft"
+msgstr "mjuk"
+
+msgid "status"
+msgstr "status"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "Felaktig strömläges begäran: %{action}, åtgärder som stöds är %{supported}"

@@ -7,10 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-06-27 08:46+0000\n"
+"PO-Revision-Date: 2015-07-06 09:10+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
-"Language-Team: Korean (http://www.transifex.com/projects/p/foreman/language/ko"
-"/)\n"
+"Language-Team: Korean (http://www.transifex.com/p/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -140,27 +139,27 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-msgid "Reboot and build"
-msgstr ""
-
 msgid "Build"
 msgstr "빌드 "
 
+msgid "Reboot and build"
+msgstr ""
+
 msgid "Select All"
 msgstr "모두 선택 "
+
+msgid "All items"
+msgstr "전체 항목 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr "필터 "
 
-msgid "All items"
-msgstr "전체 항목 "
+msgid "Deselect All"
+msgstr "모든 선택 해제 "
 
 msgid "Selected items"
 msgstr "선택한 항목 "
-
-msgid "Deselect All"
-msgstr "모든 선택 해제 "
 
 msgid "Select this since it belongs to a host"
 msgstr "호스트에 속해 있으므로 이를 선택합니다 "
@@ -1328,6 +1327,15 @@ msgstr ""
 msgid "Show a partition table"
 msgstr ""
 
+msgid "Array of operating system IDs to associate with the partition table"
+msgstr ""
+
+msgid "Array of host IDs to associate with the partition table"
+msgstr ""
+
+msgid "Array of host group IDs to associate with the partition table"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr ""
 
@@ -1779,11 +1787,11 @@ msgstr "계속 진행하기 전 최소 하나의 위치를 생성해야 합니�
 msgid "You must create at least one organization before continuing."
 msgstr "계속 진행하기 전 최소 하나의 조직을 생성해야 합니다. "
 
-msgid "Error"
-msgstr "오류 "
-
 msgid "OK"
 msgstr "OK"
+
+msgid "Error"
+msgstr "오류 "
 
 msgid "Invalid authenticity token"
 msgstr ""
@@ -1951,17 +1959,17 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr "다음 필드를 확인해야 합니다 "
 
-msgid "Disk"
-msgstr "디스크"
-
-msgid "CDROM"
-msgstr "CDROM"
-
 msgid "BIOS"
 msgstr "BIOS"
 
+msgid "Disk"
+msgstr "디스크"
+
 msgid "PXE"
 msgstr "PXE"
+
+msgid "CDROM"
+msgstr "CDROM"
 
 msgid "The marked fields will need reviewing"
 msgstr "표시된 필드는 확인해야 합니다 "
@@ -2112,11 +2120,11 @@ msgstr ""
 msgid "Role cloned from role %{old_name}"
 msgstr "역할 %{old_name}에서 역할이 복제되었습니다 "
 
-msgid "No changes found when refreshing features from %s."
-msgstr "%s에서 기능을 새로 고침시 변경 사항을 찾을 수 없습니다. "
-
 msgid "Successfully refreshed features from %s."
 msgstr "%s에서 기능을 성공적으로 새로고침했습니다. "
+
+msgid "No changes found when refreshing features from %s."
+msgstr "%s에서 기능을 새로 고침시 변경 사항을 찾을 수 없습니다. "
 
 msgid "%s core"
 msgid_plural "%s cores"
@@ -2131,10 +2139,10 @@ msgstr "선택된 서브넷이 없음 "
 msgid "Imported Subnets"
 msgstr "가져오기한 서브넷 "
 
-msgid "Template unlocked"
+msgid "Template locked"
 msgstr ""
 
-msgid "Template locked"
+msgid "Template unlocked"
 msgstr ""
 
 msgid ""
@@ -2218,11 +2226,11 @@ msgstr "%s 전 "
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr "%s에서 호스트와 연관된 매개 변수 "
 
-msgid "Additional info"
-msgstr "추가 정보 "
-
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
+
+msgid "Additional info"
+msgstr "추가 정보 "
 
 msgid "Explain use Puppet default"
 msgstr ""
@@ -2330,12 +2338,12 @@ msgstr "다시 시작됨 "
 msgid "Restarted|R"
 msgstr "R"
 
-msgid "Failed"
-msgstr "실패 "
-
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
 msgstr "F"
+
+msgid "Failed"
+msgstr "실패 "
 
 msgid "Failed Restarts"
 msgstr "다시 시작 실패 "
@@ -2344,12 +2352,12 @@ msgstr "다시 시작 실패 "
 msgid "Failed Restarts|FR"
 msgstr "FR"
 
-msgid "Skipped"
-msgstr "건너 뛰기 "
-
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
 msgstr "S"
+
+msgid "Skipped"
+msgstr "건너 뛰기 "
 
 #. TRANSLATORS: initial character of Pending
 #. TRANSLATORS: host's status: first character of "pending"
@@ -2474,11 +2482,11 @@ msgstr "%s - 다음 호스트는 즉시 변경됩니다 "
 msgid "Failed restarts"
 msgstr "다시 시작 실패 "
 
-msgid "Runtime"
-msgstr "런타임 "
-
 msgid "Config Retrieval"
 msgstr "설정 검색 "
+
+msgid "Runtime"
+msgstr "런타임 "
 
 msgid "Reports from the last %{days} days - %{count} reports found"
 msgstr "지난 %{days} 일의  보고서 - %{count} 개의 보고서 검색 "
@@ -2571,41 +2579,41 @@ msgstr ""
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-msgid "Audits"
-msgstr "감사 "
-
 msgid "Host audit entries"
 msgstr "호스트 감사 항목 "
 
-msgid "Facts"
-msgstr "정보 "
+msgid "Audits"
+msgstr "감사 "
 
 msgid "Browse host facts"
 msgstr "호스트 정보 검색 "
 
-msgid "Browse host reports"
-msgstr "호스트 보고서 검색 "
+msgid "Facts"
+msgstr "정보 "
 
 msgid "Reports"
 msgstr "보고서 "
 
-msgid "YAML"
-msgstr "YAML"
+msgid "Browse host reports"
+msgstr "호스트 보고서 검색 "
 
 msgid "Puppet external nodes YAML dump"
 msgstr "Puppet 외부 노드 YAML 덤프 "
 
+msgid "YAML"
+msgstr "YAML"
+
 msgid "Allocation (GB)"
 msgstr "할당 (GB)"
 
-msgid "Full"
-msgstr "전체 "
+msgid "Size"
+msgstr "사이즈"
 
 msgid "None"
 msgstr "없음 "
 
-msgid "Size"
-msgstr "사이즈"
+msgid "Full"
+msgstr "전체 "
 
 msgid "remove network interface"
 msgstr "네트워크 인터페이스 삭제 "
@@ -2682,9 +2690,6 @@ msgstr "Puppet 클래스 "
 msgid "Puppet Class"
 msgstr "Puppet 클래스 "
 
-msgid "Parameter types"
-msgstr ""
-
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2700,6 +2705,9 @@ msgstr ""
 ".</dd><dt>Hash</dt> <dd>object/map/dict/hash로 평가해야 하는 유효한 JSON 또는 YAML 입력입니다.<"
 "/dd><dt>YAML</dt> <dd>모든 유효한 YAML 입력입니다.</dd><dt>JSON</dt> <dd>모든 유효한 JSON 입력입"
 "니다.</dd></dl>"
+
+msgid "Parameter types"
+msgstr ""
 
 msgid "How values are validated"
 msgstr "값 검증 방법 "
@@ -2734,13 +2742,13 @@ msgid ""
 "iption:</b>: %s"
 msgstr "값이 없는 필수 매개 변수입니다. <br/><b>덮어쓰기하십시오!</b> <br><br><b>상세 정보:</b>: %s"
 
-msgid "No value warning"
-msgstr "값 경고가 없습니다 "
-
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
 "><b>Description:</b> %s"
 msgstr "값이 없는 매개 변수 옵션입니다.<br/><i>Puppet에 전달할 수 없습니다.</i> <br><br><b>상세 정보:</b> %s"
+
+msgid "No value warning"
+msgstr "값 경고가 없습니다 "
 
 msgid "Default templates are automatically added to new locations"
 msgstr ""
@@ -2783,11 +2791,11 @@ msgstr ""
 msgid "Delete %s?"
 msgstr "%s을(를) 삭제하시겠습니까?"
 
-msgid "revoked"
-msgstr "취소됨 "
-
 msgid "valid"
 msgstr "유효함"
+
+msgid "revoked"
+msgstr "취소됨 "
 
 msgid "pending"
 msgstr "보류 중 "
@@ -2840,17 +2848,17 @@ msgstr "기간 선택 "
 msgid "Show log messages:"
 msgstr "로그 메세지 표시: "
 
-msgid "All messages"
-msgstr "전체 메세지 "
-
 msgid "Errors only"
 msgstr "오류만 "
+
+msgid "Warnings and errors"
+msgstr "경고 및 오류 "
 
 msgid "Notices, warnings and errors"
 msgstr "주의, 경고 및 오류 "
 
-msgid "Warnings and errors"
-msgstr "경고 및 오류 "
+msgid "All messages"
+msgstr "전체 메세지 "
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -2887,23 +2895,23 @@ msgstr "하드웨어 "
 msgid "Class Distribution"
 msgstr "클래스 배포판 "
 
+msgid "Average memory usage"
+msgstr "평균 메모리 사용량 "
+
 msgid "free memory"
 msgstr "여유 메모리"
 
 msgid "used memory"
 msgstr "사용된 메모리 "
 
-msgid "Average memory usage"
-msgstr "평균 메모리 사용량 "
-
-msgid "used swap"
-msgstr "사용된 swap"
+msgid "Average swap usage"
+msgstr "평균 swap 사용량 "
 
 msgid "free swap"
 msgstr "여유 swap "
 
-msgid "Average swap usage"
-msgstr "평균 swap 사용량 "
+msgid "used swap"
+msgstr "사용된 swap"
 
 msgid "Any Organization"
 msgstr "모든 조직 "
@@ -2911,11 +2919,11 @@ msgstr "모든 조직 "
 msgid "Any Location"
 msgstr "모든 위치 "
 
-msgid "New Organization"
-msgstr "새 조직 "
-
 msgid "New Location"
 msgstr "새 위치 "
+
+msgid "New Organization"
+msgstr "새 조직 "
 
 msgid "All users"
 msgstr "전체 사용자 "
@@ -2929,11 +2937,11 @@ msgstr ""
 msgid "All smart proxies"
 msgstr ""
 
-msgid "Select subnets"
-msgstr "서브넷 선택 "
-
 msgid "All subnets"
 msgstr "전체 서브넷 "
+
+msgid "Select subnets"
+msgstr "서브넷 선택 "
 
 msgid "Select compute resources"
 msgstr "컴퓨터 리소스 선택 "
@@ -2941,11 +2949,11 @@ msgstr "컴퓨터 리소스 선택 "
 msgid "All compute resources"
 msgstr "전체 컴퓨터 리소스 "
 
-msgid "All media"
-msgstr "전체 미디어 "
-
 msgid "Select media"
 msgstr "미디어 선택 "
+
+msgid "All media"
+msgstr "전체 미디어 "
 
 msgid "All provisioning templates"
 msgstr ""
@@ -2959,11 +2967,11 @@ msgstr ""
 msgid "All partition tables"
 msgstr ""
 
-msgid "All domains"
-msgstr "전체 도메인 "
-
 msgid "Select domains"
 msgstr "도메인 선택 "
+
+msgid "All domains"
+msgstr "전체 도메인 "
 
 msgid "Select realms"
 msgstr "영역 선택 "
@@ -2971,32 +2979,32 @@ msgstr "영역 선택 "
 msgid "All realms"
 msgstr "전체 영역 "
 
-msgid "All environments"
-msgstr "전체 환경 "
-
 msgid "Select environments"
 msgstr "환경 선택 "
 
-msgid "Select host groups"
-msgstr "호스트 그룹 선택 "
+msgid "All environments"
+msgstr "전체 환경 "
 
 msgid "All host groups"
 msgstr "전체 호스트 그룹 "
 
-msgid "Operating system"
-msgstr "운영 체제 "
+msgid "Select host groups"
+msgstr "호스트 그룹 선택 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "환경 "
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Compute resource"
-msgstr "컴퓨터 리소스 "
+msgid "Operating system"
+msgstr "운영 체제 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
 msgstr "모델 "
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Compute resource"
+msgstr "컴퓨터 리소스 "
 
 msgid "Trend of the last %s days."
 msgstr "지난 %s일 트렌드입니다. "
@@ -3453,31 +3461,31 @@ msgstr ""
 msgid "json"
 msgstr ""
 
+msgid "array"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
+
+msgid "yaml"
+msgstr ""
+
 msgid "integer"
 msgstr ""
 
 msgid "real"
 msgstr ""
 
-msgid "boolean"
+msgid "hash"
 msgstr ""
 
 msgid "string"
 msgstr ""
 
-msgid "yaml"
-msgstr ""
-
-msgid "array"
-msgstr ""
-
-msgid "hash"
+msgid "regexp"
 msgstr ""
 
 msgid "list"
-msgstr ""
-
-msgid "regexp"
 msgstr ""
 
 msgid "invalid"
@@ -3516,13 +3524,13 @@ msgstr "%{match}은(는) 기존 호스트와 일치하지 않습니다 "
 msgid "%{match} does not match an existing host group"
 msgstr "%{match}은(는) 기존 호스트 그룹과 일치하지 않습니다 "
 
-msgid "Weekly"
-msgstr ""
-
 msgid "Daily"
 msgstr ""
 
 msgid "Monthly"
+msgstr ""
+
+msgid "Weekly"
 msgstr ""
 
 msgid ""
@@ -3972,11 +3980,11 @@ msgstr "프록시와 통신할 수 없습니다: %s"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "프록시가 설정되어 호스트에서 실행되고 있는지 확인하십시오. "
 
-msgid "Static"
-msgstr ""
-
 msgid "DHCP"
 msgstr "DHCP"
+
+msgid "Static"
+msgstr ""
 
 msgid "Internal DB"
 msgstr ""
@@ -4081,6 +4089,9 @@ msgid "Distribution chart"
 msgstr ""
 
 msgid "Unallowed template for dashboard widget: %s"
+msgstr ""
+
+msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr ""
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
@@ -4247,17 +4258,11 @@ msgstr "영역 "
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "reboot"
-msgstr "재부팅 "
-
-msgid "stop"
-msgstr "중지 "
-
 msgid "reset"
 msgstr "재설정 "
 
-msgid "state"
-msgstr "상태 "
+msgid "stop"
+msgstr "중지 "
 
 msgid "start"
 msgstr "시작 "
@@ -4265,23 +4270,29 @@ msgstr "시작 "
 msgid "poweroff"
 msgstr "전원 끄기 "
 
-msgid "soft"
-msgstr "소프트 "
-
-msgid "on"
-msgstr "켜기 "
-
-msgid "status"
+msgid "state"
 msgstr "상태 "
 
-msgid "ready?"
-msgstr ""
+msgid "reboot"
+msgstr "재부팅 "
 
 msgid "off"
 msgstr "끄기 "
 
+msgid "on"
+msgstr "켜기 "
+
 msgid "cycle"
 msgstr "사이클 "
+
+msgid "ready?"
+msgstr ""
+
+msgid "soft"
+msgstr "소프트 "
+
+msgid "status"
+msgstr "상태 "
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "잘못된 전원 상태 요청: %{action}, 지원되는 동작은 %{supported}입니다 "

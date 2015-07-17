@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-06 08:27+0100\n"
-"PO-Revision-Date: 2015-07-06 08:27+0100\n"
+"POT-Creation-Date: 2015-07-17 14:02+0100\n"
+"PO-Revision-Date: 2015-07-17 14:02+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -475,15 +475,28 @@ msgstr ""
 msgid "required if onthefly_register is true"
 msgstr ""
 
-#: ../app/controllers/api/v2/auth_source_ldaps_controller.rb:38
+#: ../app/controllers/api/v2/auth_source_ldaps_controller.rb:35
+msgid "groups base DN"
+msgstr ""
+
+#: ../app/controllers/api/v2/auth_source_ldaps_controller.rb:36
+msgid "type of the LDAP server"
+msgstr ""
+
+#: ../app/controllers/api/v2/auth_source_ldaps_controller.rb:37
+#: ../app/views/auth_source_ldaps/_form.html.erb:27
+msgid "LDAP filter"
+msgstr ""
+
+#: ../app/controllers/api/v2/auth_source_ldaps_controller.rb:41
 msgid "Create an LDAP authentication source"
 msgstr ""
 
-#: ../app/controllers/api/v2/auth_source_ldaps_controller.rb:46
+#: ../app/controllers/api/v2/auth_source_ldaps_controller.rb:49
 msgid "Update an LDAP authentication source"
 msgstr ""
 
-#: ../app/controllers/api/v2/auth_source_ldaps_controller.rb:54
+#: ../app/controllers/api/v2/auth_source_ldaps_controller.rb:57
 msgid "Delete an LDAP authentication source"
 msgstr ""
 
@@ -2797,21 +2810,21 @@ msgid "The following fields would need reviewing"
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:10
+msgid "PXE"
+msgstr ""
+
+#: ../app/controllers/hosts_controller.rb:10
 msgid "BIOS"
+msgstr ""
+
+#: ../app/controllers/hosts_controller.rb:10
+msgid "CDROM"
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:10
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:45
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:39
 msgid "Disk"
-msgstr ""
-
-#: ../app/controllers/hosts_controller.rb:10
-msgid "PXE"
-msgstr ""
-
-#: ../app/controllers/hosts_controller.rb:10
-msgid "CDROM"
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:76
@@ -3015,11 +3028,11 @@ msgid "Role cloned from role %{old_name}"
 msgstr ""
 
 #: ../app/controllers/smart_proxies_controller.rb:36
-msgid "Successfully refreshed features from %s."
+msgid "No changes found when refreshing features from %s."
 msgstr ""
 
 #: ../app/controllers/smart_proxies_controller.rb:36
-msgid "No changes found when refreshing features from %s."
+msgid "Successfully refreshed features from %s."
 msgstr ""
 
 #: ../app/controllers/statistics_controller.rb:7
@@ -3307,16 +3320,11 @@ msgid "Host Configuration Status"
 msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:49
-msgid "Number Of Clients"
-msgstr ""
-
-#: ../app/helpers/dashboard_helper.rb:49
 msgid "Minutes Ago"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:74 ../app/helpers/hosts_helper.rb:180
-#: ../app/views/reports/_list.html.erb:8
-msgid "Applied"
+#: ../app/helpers/dashboard_helper.rb:49
+msgid "Number Of Clients"
 msgstr ""
 
 #. TRANSLATORS: initial character of Applied
@@ -3324,14 +3332,19 @@ msgstr ""
 msgid "Applied|A"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:76 ../app/helpers/hosts_helper.rb:184
-#: ../app/views/reports/_list.html.erb:9
-msgid "Restarted"
+#: ../app/helpers/dashboard_helper.rb:74 ../app/helpers/hosts_helper.rb:180
+#: ../app/views/reports/_list.html.erb:8
+msgid "Applied"
 msgstr ""
 
 #. TRANSLATORS: initial character of Restarted
 #: ../app/helpers/dashboard_helper.rb:76
 msgid "Restarted|R"
+msgstr ""
+
+#: ../app/helpers/dashboard_helper.rb:76 ../app/helpers/hosts_helper.rb:184
+#: ../app/views/reports/_list.html.erb:9
+msgid "Restarted"
 msgstr ""
 
 #. TRANSLATORS: initial character of Failed
@@ -3344,13 +3357,13 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:80
-msgid "Failed Restarts"
-msgstr ""
-
 #. TRANSLATORS: initial characters of Failed Restarts
 #: ../app/helpers/dashboard_helper.rb:80
 msgid "Failed Restarts|FR"
+msgstr ""
+
+#: ../app/helpers/dashboard_helper.rb:80
+msgid "Failed Restarts"
 msgstr ""
 
 #. TRANSLATORS: initial character of Skipped
@@ -3681,13 +3694,13 @@ msgstr ""
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:360
-msgid "Host audit entries"
-msgstr ""
-
 #: ../app/helpers/hosts_helper.rb:360 ../app/services/menu/loader.rb:51
 #: ../app/views/audits/index.html.erb:1
 msgid "Audits"
+msgstr ""
+
+#: ../app/helpers/hosts_helper.rb:360
+msgid "Host audit entries"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:361
@@ -3709,11 +3722,11 @@ msgid "Browse host reports"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:363
-msgid "Puppet external nodes YAML dump"
+msgid "YAML"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:363
-msgid "YAML"
+msgid "Puppet external nodes YAML dump"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:371
@@ -3778,11 +3791,11 @@ msgid "Image"
 msgstr ""
 
 #: ../app/helpers/images_helper.rb:10
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgid "Image ID"
 msgstr ""
 
 #: ../app/helpers/images_helper.rb:10
-msgid "Image ID"
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
 
 #: ../app/helpers/layout_helper.rb:60 ../app/views/users/login.html.erb:23
@@ -3881,14 +3894,14 @@ msgid "How values are validated"
 msgstr ""
 
 #: ../app/helpers/lookup_keys_helper.rb:67
+msgid "Validator type"
+msgstr ""
+
+#: ../app/helpers/lookup_keys_helper.rb:67
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
 " rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expr"
 "ession in the Validator rule field.</dd></dl>"
-msgstr ""
-
-#: ../app/helpers/lookup_keys_helper.rb:67
-msgid "Validator type"
 msgstr ""
 
 #: ../app/helpers/lookup_keys_helper.rb:70
@@ -3917,13 +3930,13 @@ msgid ""
 msgstr ""
 
 #: ../app/helpers/lookup_keys_helper.rb:104
-msgid ""
-"Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
-"><b>Description:</b> %s"
+msgid "No value warning"
 msgstr ""
 
 #: ../app/helpers/lookup_keys_helper.rb:104
-msgid "No value warning"
+msgid ""
+"Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
+"><b>Description:</b> %s"
 msgstr ""
 
 #: ../app/helpers/provisioning_templates_helper.rb:28
@@ -4002,7 +4015,7 @@ msgid "Delete %s?"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:3
-msgid "valid"
+msgid "pending"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:3
@@ -4010,7 +4023,7 @@ msgid "revoked"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:3
-msgid "pending"
+msgid "valid"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:13
@@ -4084,11 +4097,11 @@ msgid "Errors only"
 msgstr ""
 
 #: ../app/helpers/reports_helper.rb:43
-msgid "Warnings and errors"
+msgid "Notices, warnings and errors"
 msgstr ""
 
 #: ../app/helpers/reports_helper.rb:43
-msgid "Notices, warnings and errors"
+msgid "Warnings and errors"
 msgstr ""
 
 #: ../app/helpers/reports_helper.rb:43
@@ -4144,7 +4157,7 @@ msgid "Class Distribution"
 msgstr ""
 
 #: ../app/helpers/statistics_helper.rb:11
-msgid "Average memory usage"
+msgid "used memory"
 msgstr ""
 
 #: ../app/helpers/statistics_helper.rb:11
@@ -4152,11 +4165,7 @@ msgid "free memory"
 msgstr ""
 
 #: ../app/helpers/statistics_helper.rb:11
-msgid "used memory"
-msgstr ""
-
-#: ../app/helpers/statistics_helper.rb:12
-msgid "Average swap usage"
+msgid "Average memory usage"
 msgstr ""
 
 #: ../app/helpers/statistics_helper.rb:12
@@ -4165,6 +4174,10 @@ msgstr ""
 
 #: ../app/helpers/statistics_helper.rb:12
 msgid "used swap"
+msgstr ""
+
+#: ../app/helpers/statistics_helper.rb:12
+msgid "Average swap usage"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:17
@@ -4178,13 +4191,13 @@ msgid "Any Location"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:47
-#: ../app/views/locations/welcome.html.erb:1
-msgid "New Location"
+#: ../app/views/organizations/welcome.html.erb:1
+msgid "New Organization"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:47
-#: ../app/views/organizations/welcome.html.erb:1
-msgid "New Organization"
+#: ../app/views/locations/welcome.html.erb:1
+msgid "New Location"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:173
@@ -4196,11 +4209,11 @@ msgid "Select users"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:174
-msgid "Select smart proxies"
+msgid "All smart proxies"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:174
-msgid "All smart proxies"
+msgid "Select smart proxies"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:175
@@ -4212,11 +4225,11 @@ msgid "Select subnets"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:176
-msgid "Select compute resources"
+msgid "All compute resources"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:176
-msgid "All compute resources"
+msgid "Select compute resources"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:177
@@ -4228,11 +4241,11 @@ msgid "All media"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:178
-msgid "All provisioning templates"
+msgid "Select provisioning templates"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:178
-msgid "Select provisioning templates"
+msgid "All provisioning templates"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:179
@@ -4260,11 +4273,11 @@ msgid "All realms"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:182
-msgid "Select environments"
+msgid "All environments"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:182
-msgid "All environments"
+msgid "Select environments"
 msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:183
@@ -4273,6 +4286,13 @@ msgstr ""
 
 #: ../app/helpers/taxonomy_helper.rb:183
 msgid "Select host groups"
+msgstr ""
+
+#: ../app/helpers/trends_helper.rb:5
+#: ../app/views/common/os_selection/_architecture.html.erb:4
+#: ../app/views/hosts/_assign_hosts.html.erb:13
+#: ../app/views/hosts/_list.html.erb:8
+msgid "Operating system"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4285,13 +4305,6 @@ msgstr ""
 #: ../app/views/provisioning_templates/_combination.html.erb:4
 #: model_attributes.rb:138
 msgid "Environment"
-msgstr ""
-
-#: ../app/helpers/trends_helper.rb:5
-#: ../app/views/common/os_selection/_architecture.html.erb:4
-#: ../app/views/hosts/_assign_hosts.html.erb:13
-#: ../app/views/hosts/_list.html.erb:8
-msgid "Operating system"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4907,30 +4920,6 @@ msgid "could not be found in %s"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:5
-msgid "json"
-msgstr ""
-
-#: ../app/models/lookup_key.rb:5
-msgid "array"
-msgstr ""
-
-#: ../app/models/lookup_key.rb:5
-msgid "boolean"
-msgstr ""
-
-#: ../app/models/lookup_key.rb:5
-msgid "yaml"
-msgstr ""
-
-#: ../app/models/lookup_key.rb:5
-msgid "integer"
-msgstr ""
-
-#: ../app/models/lookup_key.rb:5
-msgid "real"
-msgstr ""
-
-#: ../app/models/lookup_key.rb:5
 msgid "hash"
 msgstr ""
 
@@ -4938,12 +4927,36 @@ msgstr ""
 msgid "string"
 msgstr ""
 
-#: ../app/models/lookup_key.rb:6
-msgid "regexp"
+#: ../app/models/lookup_key.rb:5
+msgid "real"
+msgstr ""
+
+#: ../app/models/lookup_key.rb:5
+msgid "yaml"
+msgstr ""
+
+#: ../app/models/lookup_key.rb:5
+msgid "json"
+msgstr ""
+
+#: ../app/models/lookup_key.rb:5
+msgid "integer"
+msgstr ""
+
+#: ../app/models/lookup_key.rb:5
+msgid "boolean"
+msgstr ""
+
+#: ../app/models/lookup_key.rb:5
+msgid "array"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:6
 msgid "list"
+msgstr ""
+
+#: ../app/models/lookup_key.rb:6
+msgid "regexp"
 msgstr ""
 
 #: ../app/models/lookup_key.rb:38 ../app/models/lookup_key.rb:39
@@ -4998,15 +5011,15 @@ msgid "%{match} does not match an existing host group"
 msgstr ""
 
 #: ../app/models/mail_notification.rb:4
-msgid "Daily"
-msgstr ""
-
-#: ../app/models/mail_notification.rb:4
 msgid "Monthly"
 msgstr ""
 
 #: ../app/models/mail_notification.rb:4
 msgid "Weekly"
+msgstr ""
+
+#: ../app/models/mail_notification.rb:4
+msgid "Daily"
 msgstr ""
 
 #: ../app/models/medium.rb:23
@@ -5571,12 +5584,12 @@ msgstr ""
 msgid "Please check the proxy is configured and running on the host."
 msgstr ""
 
-#: ../app/models/subnet.rb:3 ../app/models/subnet.rb:4
-msgid "DHCP"
-msgstr ""
-
 #: ../app/models/subnet.rb:3
 msgid "Static"
+msgstr ""
+
+#: ../app/models/subnet.rb:3 ../app/models/subnet.rb:4
+msgid "DHCP"
 msgstr ""
 
 #: ../app/models/subnet.rb:4
@@ -6008,15 +6021,15 @@ msgid "Unsupported password hash function '%s'"
 msgstr ""
 
 #: ../app/services/power_manager.rb:2
-msgid "reset"
-msgstr ""
-
-#: ../app/services/power_manager.rb:2
 msgid "stop"
 msgstr ""
 
 #: ../app/services/power_manager.rb:2
 msgid "start"
+msgstr ""
+
+#: ../app/services/power_manager.rb:2
+msgid "reset"
 msgstr ""
 
 #: ../app/services/power_manager.rb:2
@@ -6048,11 +6061,11 @@ msgid "ready?"
 msgstr ""
 
 #: ../app/services/power_manager.rb:3
-msgid "soft"
+msgid "status"
 msgstr ""
 
 #: ../app/services/power_manager.rb:3
-msgid "status"
+msgid "soft"
 msgstr ""
 
 #: ../app/services/power_manager/base.rb:9
@@ -6290,13 +6303,13 @@ msgid "Issue tracker"
 msgstr ""
 
 #: ../app/views/about/index.html.erb:137
-msgid ""
-"We use Redmine to report and track bugs and feature requests, which can be fou"
-"nd here:"
+msgid "issue tracker"
 msgstr ""
 
 #: ../app/views/about/index.html.erb:137
-msgid "issue tracker"
+msgid ""
+"We use Redmine to report and track bugs and feature requests, which can be fou"
+"nd here:"
 msgstr ""
 
 #: ../app/views/about/index.html.erb:140
@@ -6469,10 +6482,6 @@ msgstr ""
 
 #: ../app/views/auth_source_ldaps/_form.html.erb:26
 msgid "Groups base DN"
-msgstr ""
-
-#: ../app/views/auth_source_ldaps/_form.html.erb:27
-msgid "LDAP filter"
 msgstr ""
 
 #: ../app/views/auth_source_ldaps/_form.html.erb:27
@@ -6722,15 +6731,15 @@ msgid "Check/Uncheck all %s changes"
 msgstr ""
 
 #: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:42
+msgid "Remove:"
+msgstr ""
+
+#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:42
 msgid "Add:"
 msgstr ""
 
 #: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:42
 msgid "Update:"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:42
-msgid "Remove:"
 msgstr ""
 
 #: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:56
@@ -6750,11 +6759,11 @@ msgid "Add Bookmark"
 msgstr ""
 
 #: ../app/views/common/os_selection/_image_details.html.erb:3
-msgid "OS Image"
+msgid "Build from OS image"
 msgstr ""
 
 #: ../app/views/common/os_selection/_image_details.html.erb:3
-msgid "Build from OS image"
+msgid "OS Image"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -6785,12 +6794,12 @@ msgstr ""
 
 #: ../app/views/common_parameters/_inherited_parameters.html.erb:20
 #: ../app/views/puppetclasses/_class_parameters.html.erb:14
-msgid "override"
+msgid "Override this value"
 msgstr ""
 
 #: ../app/views/common_parameters/_inherited_parameters.html.erb:20
 #: ../app/views/puppetclasses/_class_parameters.html.erb:14
-msgid "Override this value"
+msgid "override"
 msgstr ""
 
 #: ../app/views/common_parameters/_parameter.html.erb:8
@@ -6932,16 +6941,16 @@ msgid "Region"
 msgstr ""
 
 #: ../app/views/compute_resources/form/_ec2.html.erb:6
+msgid "Load Regions"
+msgstr ""
+
+#: ../app/views/compute_resources/form/_ec2.html.erb:6
 #: ../app/views/compute_resources/form/_gce.html.erb:7
 #: ../app/views/compute_resources/form/_libvirt.html.erb:12
 #: ../app/views/compute_resources/form/_openstack.html.erb:7
 #: ../app/views/compute_resources/form/_ovirt.html.erb:7
 #: ../app/views/compute_resources/form/_rackspace.html.erb:6
 msgid "Test Connection"
-msgstr ""
-
-#: ../app/views/compute_resources/form/_ec2.html.erb:6
-msgid "Load Regions"
 msgstr ""
 
 #: ../app/views/compute_resources/form/_gce.html.erb:1
@@ -7109,13 +7118,13 @@ msgstr ""
 #: ../app/views/compute_resources/show/_libvirt.html.erb:11
 #: ../app/views/compute_resources/show/_vmware.html.erb:7
 #: ../app/views/images/index.html.erb:21
-msgid "Disabled"
+msgid "Enabled"
 msgstr ""
 
 #: ../app/views/compute_resources/show/_libvirt.html.erb:11
 #: ../app/views/compute_resources/show/_vmware.html.erb:7
 #: ../app/views/images/index.html.erb:21
-msgid "Enabled"
+msgid "Disabled"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/_error.html.erb:4
@@ -7128,12 +7137,12 @@ msgid "Network interfaces"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:20
-msgid "add new network interface"
+#: ../app/views/hosts/_interfaces.html.erb:43
+msgid "Add Interface"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:20
-#: ../app/views/hosts/_interfaces.html.erb:43
-msgid "Add Interface"
+msgid "add new network interface"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:25
@@ -7150,11 +7159,11 @@ msgid "Storage"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/_volumes.html.erb:16
-msgid "Add Volume"
+msgid "add new storage volume"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/_volumes.html.erb:16
-msgid "add new storage volume"
+msgid "Add Volume"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:1
@@ -7173,11 +7182,11 @@ msgid "Please select an image"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:9
-msgid "Availability zone"
+msgid "No preference"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:9
-msgid "No preference"
+msgid "Availability zone"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:14
@@ -7196,7 +7205,7 @@ msgid "Security groups"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:30
-msgid "Managed IP"
+msgid "Public"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:30
@@ -7204,7 +7213,7 @@ msgid "Private"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:30
-msgid "Public"
+msgid "Managed IP"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:1
@@ -7253,13 +7262,13 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:24
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:14
-msgid "Start"
+msgid "Power ON this machine"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:24
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:14
-msgid "Power ON this machine"
+msgid "Start"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:21
@@ -7315,11 +7324,11 @@ msgid "Create new boot volume from image"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:19
-msgid "New boot volume size (GB)"
+msgid "Defaults to image size if left blank"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:19
-msgid "Defaults to image size if left blank"
+msgid "New boot volume size (GB)"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:8
@@ -7349,11 +7358,11 @@ msgid "Storage domain"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:9
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:9
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:13
@@ -7828,14 +7837,14 @@ msgid "Full name describing the domain"
 msgstr ""
 
 #: ../app/views/domains/_form.html.erb:20
-msgid ""
-"DNS proxy to use within this domain for managing A records, note that PTR reco"
-"rds are managed via Subnet DNS proxy"
+#: ../app/views/subnets/_form.html.erb:30
+msgid "DNS Proxy"
 msgstr ""
 
 #: ../app/views/domains/_form.html.erb:20
-#: ../app/views/subnets/_form.html.erb:30
-msgid "DNS Proxy"
+msgid ""
+"DNS proxy to use within this domain for managing A records, note that PTR reco"
+"rds are managed via Subnet DNS proxy"
 msgstr ""
 
 #: ../app/views/domains/edit.html.erb:1
@@ -8290,7 +8299,7 @@ msgstr ""
 #: ../app/views/hosts/_assign_hosts.html.erb:5
 #: ../app/views/taxonomies/_step1.html.erb:3
 #: ../app/views/taxonomies/_step2.html.erb:5
-msgid "Create %s"
+msgid "Select Hosts"
 msgstr ""
 
 #: ../app/views/hosts/_assign_hosts.html.erb:5
@@ -8300,7 +8309,7 @@ msgstr ""
 #: ../app/views/hosts/_assign_hosts.html.erb:5
 #: ../app/views/taxonomies/_step1.html.erb:3
 #: ../app/views/taxonomies/_step2.html.erb:5
-msgid "Select Hosts"
+msgid "Create %s"
 msgstr ""
 
 #: ../app/views/hosts/_assign_hosts.html.erb:35
@@ -8570,11 +8579,11 @@ msgid "Troubleshooting"
 msgstr ""
 
 #: ../app/views/hosts/console/spice.html.erb:8
-msgid "Open Spice in a new window"
+msgid "New window"
 msgstr ""
 
 #: ../app/views/hosts/console/spice.html.erb:8
-msgid "New window"
+msgid "Open Spice in a new window"
 msgstr ""
 
 #: ../app/views/hosts/console/spice.html.erb:17
@@ -8820,12 +8829,12 @@ msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
 #: ../app/views/images/form/_libvirt.html.erb:4
-msgid "Full path to backing image used to create new volumes."
+#: ../app/views/images/form/_vmware.html.erb:4
+msgid "Image path"
 msgstr ""
 
 #: ../app/views/images/form/_libvirt.html.erb:4
-#: ../app/views/images/form/_vmware.html.erb:4
-msgid "Image path"
+msgid "Full path to backing image used to create new volumes."
 msgstr ""
 
 #: ../app/views/images/form/_vmware.html.erb:4
@@ -10067,11 +10076,11 @@ msgid "Show Diff"
 msgstr ""
 
 #: ../app/views/templates/_form.html.erb:82
-msgid "No history found"
+msgid "Save something and try again"
 msgstr ""
 
 #: ../app/views/templates/_form.html.erb:82
-msgid "Save something and try again"
+msgid "No history found"
 msgstr ""
 
 #: ../app/views/trends/_form.html.erb:5

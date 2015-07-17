@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-06-27 08:46+0000\n"
+"PO-Revision-Date: 2015-07-06 09:10+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/foreman/la"
-"nguage/zh_CN/)\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/p/foreman/language/zh"
+"_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -143,27 +143,27 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-msgid "Reboot and build"
-msgstr ""
-
 msgid "Build"
 msgstr "创建"
 
+msgid "Reboot and build"
+msgstr ""
+
 msgid "Select All"
 msgstr "选择所有"
+
+msgid "All items"
+msgstr "所有项目"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr "筛选"
 
-msgid "All items"
-msgstr "所有项目"
+msgid "Deselect All"
+msgstr "删除所有"
 
 msgid "Selected items"
 msgstr "已选项目"
-
-msgid "Deselect All"
-msgstr "删除所有"
 
 msgid "Select this since it belongs to a host"
 msgstr "选择这个因为它属于主机"
@@ -1331,6 +1331,15 @@ msgstr ""
 msgid "Show a partition table"
 msgstr ""
 
+msgid "Array of operating system IDs to associate with the partition table"
+msgstr ""
+
+msgid "Array of host IDs to associate with the partition table"
+msgstr ""
+
+msgid "Array of host group IDs to associate with the partition table"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr ""
 
@@ -1782,11 +1791,11 @@ msgstr "继续操作前必须创建至少一个位置。"
 msgid "You must create at least one organization before continuing."
 msgstr "继续操作前必须创建至少一个机构。"
 
-msgid "Error"
-msgstr "错误"
-
 msgid "OK"
 msgstr "OK"
+
+msgid "Error"
+msgstr "错误"
 
 msgid "Invalid authenticity token"
 msgstr ""
@@ -1954,17 +1963,17 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr "需要检查以下字段"
 
-msgid "Disk"
-msgstr "磁盘"
-
-msgid "CDROM"
-msgstr "光驱"
-
 msgid "BIOS"
 msgstr "BIOS"
 
+msgid "Disk"
+msgstr "磁盘"
+
 msgid "PXE"
 msgstr "PXE"
+
+msgid "CDROM"
+msgstr "光驱"
 
 msgid "The marked fields will need reviewing"
 msgstr "需要检查标出的字段"
@@ -2115,11 +2124,11 @@ msgstr ""
 msgid "Role cloned from role %{old_name}"
 msgstr "使用角色 %{old_name} 克隆的角色"
 
-msgid "No changes found when refreshing features from %s."
-msgstr "刷新 %s 功能时未发现有任何变化。"
-
 msgid "Successfully refreshed features from %s."
 msgstr "成功刷新  %s 功能。"
+
+msgid "No changes found when refreshing features from %s."
+msgstr "刷新 %s 功能时未发现有任何变化。"
 
 msgid "%s core"
 msgid_plural "%s cores"
@@ -2134,10 +2143,10 @@ msgstr "没有选择子网"
 msgid "Imported Subnets"
 msgstr "导入子网"
 
-msgid "Template unlocked"
+msgid "Template locked"
 msgstr ""
 
-msgid "Template locked"
+msgid "Template unlocked"
 msgstr ""
 
 msgid ""
@@ -2221,11 +2230,11 @@ msgstr "%s 前"
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr "将与 %s 中的主机关联的参数"
 
-msgid "Additional info"
-msgstr "附加信息"
-
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
+
+msgid "Additional info"
+msgstr "附加信息"
 
 msgid "Explain use Puppet default"
 msgstr ""
@@ -2333,11 +2342,11 @@ msgstr "已重启"
 msgid "Restarted|R"
 msgstr "已重启"
 
-msgid "Failed"
-msgstr "失败"
-
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
+msgstr "失败"
+
+msgid "Failed"
 msgstr "失败"
 
 msgid "Failed Restarts"
@@ -2347,11 +2356,11 @@ msgstr "重启失败"
 msgid "Failed Restarts|FR"
 msgstr "重启失败"
 
-msgid "Skipped"
-msgstr "忽略"
-
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
+msgstr "忽略"
+
+msgid "Skipped"
 msgstr "忽略"
 
 #. TRANSLATORS: initial character of Pending
@@ -2477,11 +2486,11 @@ msgstr "%s - 以下的主机将要发生更改"
 msgid "Failed restarts"
 msgstr "重启失败"
 
-msgid "Runtime"
-msgstr "运行时"
-
 msgid "Config Retrieval"
 msgstr "配置检索"
+
+msgid "Runtime"
+msgstr "运行时"
 
 msgid "Reports from the last %{days} days - %{count} reports found"
 msgstr "最后  %{days} 天 - %{count} 报告找到的报告"
@@ -2574,41 +2583,41 @@ msgstr ""
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-msgid "Audits"
-msgstr "审计"
-
 msgid "Host audit entries"
 msgstr "主机审计项"
 
-msgid "Facts"
-msgstr "详情"
+msgid "Audits"
+msgstr "审计"
 
 msgid "Browse host facts"
 msgstr "浏览主机详情"
 
-msgid "Browse host reports"
-msgstr "浏览主机报告"
+msgid "Facts"
+msgstr "详情"
 
 msgid "Reports"
 msgstr "报告"
 
-msgid "YAML"
-msgstr "YAML"
+msgid "Browse host reports"
+msgstr "浏览主机报告"
 
 msgid "Puppet external nodes YAML dump"
 msgstr "Puppet 外部节点 YAML 转储"
 
+msgid "YAML"
+msgstr "YAML"
+
 msgid "Allocation (GB)"
 msgstr "分配（GB）"
 
-msgid "Full"
-msgstr "全"
+msgid "Size"
+msgstr "大小"
 
 msgid "None"
 msgstr "无"
 
-msgid "Size"
-msgstr "大小"
+msgid "Full"
+msgstr "全"
 
 msgid "remove network interface"
 msgstr "删除网络接口"
@@ -2685,9 +2694,6 @@ msgstr "Puppet 类"
 msgid "Puppet Class"
 msgstr "Puppet 类"
 
-msgid "Parameter types"
-msgstr ""
-
 msgid ""
 "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> "
 "<dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt>"
@@ -2702,6 +2708,9 @@ msgstr ""
 "> <dd>有效的 JSON 或者 YAML 输入，但必须是一个阵列。</dd><dt>Hash</dt> <dd>有效 JSON 或者 YAML 输入，必"
 "须是 object/map/dict/hash。</dd><dt>YAML</dt> <dd>任意有效 YAML 输入。</dd><dt>JSON</dt>"
 " <dd>任意有效 JSON 输入。</dd></dl>"
+
+msgid "Parameter types"
+msgstr ""
 
 msgid "How values are validated"
 msgstr "如何验证值"
@@ -2736,13 +2745,13 @@ msgid ""
 "iption:</b>: %s"
 msgstr "需要没有数值的参数。<br/><b>请覆盖！</b> <br><br><b>描述：</b>: %s"
 
-msgid "No value warning"
-msgstr "没有警告"
-
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
 "><b>Description:</b> %s"
 msgstr "没有数值的可选参数。<br/><i>不会向 Puppet 提供。</i> <br><br><b>描述：</b> %s"
+
+msgid "No value warning"
+msgstr "没有警告"
 
 msgid "Default templates are automatically added to new locations"
 msgstr ""
@@ -2785,11 +2794,11 @@ msgstr ""
 msgid "Delete %s?"
 msgstr "删除 %s"
 
-msgid "revoked"
-msgstr "撤销"
-
 msgid "valid"
 msgstr "合法"
+
+msgid "revoked"
+msgstr "撤销"
 
 msgid "pending"
 msgstr "未决定"
@@ -2842,17 +2851,17 @@ msgstr "选择一个时期"
 msgid "Show log messages:"
 msgstr "显示登录信息："
 
-msgid "All messages"
-msgstr "所有信息"
-
 msgid "Errors only"
 msgstr "错误"
+
+msgid "Warnings and errors"
+msgstr "警告和错误"
 
 msgid "Notices, warnings and errors"
 msgstr "通知、警告及错误"
 
-msgid "Warnings and errors"
-msgstr "警告和错误"
+msgid "All messages"
+msgstr "所有信息"
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -2889,23 +2898,23 @@ msgstr "硬件"
 msgid "Class Distribution"
 msgstr "组分布"
 
+msgid "Average memory usage"
+msgstr "内存平均使用情况"
+
 msgid "free memory"
 msgstr "剩余内存"
 
 msgid "used memory"
 msgstr "已使用内存"
 
-msgid "Average memory usage"
-msgstr "内存平均使用情况"
-
-msgid "used swap"
-msgstr "已使用 swap"
+msgid "Average swap usage"
+msgstr "交换分区平均使用情况"
 
 msgid "free swap"
 msgstr "剩余 swap"
 
-msgid "Average swap usage"
-msgstr "交换分区平均使用情况"
+msgid "used swap"
+msgstr "已使用 swap"
 
 msgid "Any Organization"
 msgstr "任意组织"
@@ -2913,11 +2922,11 @@ msgstr "任意组织"
 msgid "Any Location"
 msgstr "任意位置"
 
-msgid "New Organization"
-msgstr "新建组织"
-
 msgid "New Location"
 msgstr "新建外置"
+
+msgid "New Organization"
+msgstr "新建组织"
 
 msgid "All users"
 msgstr "所有用户"
@@ -2931,11 +2940,11 @@ msgstr ""
 msgid "All smart proxies"
 msgstr ""
 
-msgid "Select subnets"
-msgstr "选择子网"
-
 msgid "All subnets"
 msgstr "所有子网"
+
+msgid "Select subnets"
+msgstr "选择子网"
 
 msgid "Select compute resources"
 msgstr "选择计算资源"
@@ -2943,11 +2952,11 @@ msgstr "选择计算资源"
 msgid "All compute resources"
 msgstr "所有计算资源"
 
-msgid "All media"
-msgstr "所有介质"
-
 msgid "Select media"
 msgstr "选择介质"
+
+msgid "All media"
+msgstr "所有介质"
 
 msgid "All provisioning templates"
 msgstr ""
@@ -2961,11 +2970,11 @@ msgstr ""
 msgid "All partition tables"
 msgstr ""
 
-msgid "All domains"
-msgstr "所有域"
-
 msgid "Select domains"
 msgstr "选择域"
+
+msgid "All domains"
+msgstr "所有域"
 
 msgid "Select realms"
 msgstr "选择范围"
@@ -2973,32 +2982,32 @@ msgstr "选择范围"
 msgid "All realms"
 msgstr "所有范围"
 
-msgid "All environments"
-msgstr "所有环境"
-
 msgid "Select environments"
 msgstr "选择环境"
 
-msgid "Select host groups"
-msgstr "选择主机组"
+msgid "All environments"
+msgstr "所有环境"
 
 msgid "All host groups"
 msgstr "所有主机组"
 
-msgid "Operating system"
-msgstr "操作系统"
+msgid "Select host groups"
+msgstr "选择主机组"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "环境"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Compute resource"
-msgstr "计算机资源"
+msgid "Operating system"
+msgstr "操作系统"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
 msgstr "型号"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Compute resource"
+msgstr "计算机资源"
 
 msgid "Trend of the last %s days."
 msgstr "前 %s 天的趋势"
@@ -3451,31 +3460,31 @@ msgstr ""
 msgid "json"
 msgstr ""
 
+msgid "array"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
+
+msgid "yaml"
+msgstr ""
+
 msgid "integer"
 msgstr ""
 
 msgid "real"
 msgstr ""
 
-msgid "boolean"
+msgid "hash"
 msgstr ""
 
 msgid "string"
 msgstr ""
 
-msgid "yaml"
-msgstr ""
-
-msgid "array"
-msgstr ""
-
-msgid "hash"
+msgid "regexp"
 msgstr ""
 
 msgid "list"
-msgstr ""
-
-msgid "regexp"
 msgstr ""
 
 msgid "invalid"
@@ -3514,13 +3523,13 @@ msgstr "%{match} "
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} 与现有主机组不映射。"
 
-msgid "Weekly"
-msgstr ""
-
 msgid "Daily"
 msgstr ""
 
 msgid "Monthly"
+msgstr ""
+
+msgid "Weekly"
 msgstr ""
 
 msgid ""
@@ -3964,11 +3973,11 @@ msgstr "无法与代理服务器沟通：%s"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "请检查代理是否已配置并在此主机上运行"
 
-msgid "Static"
-msgstr ""
-
 msgid "DHCP"
 msgstr "DHCP"
+
+msgid "Static"
+msgstr ""
 
 msgid "Internal DB"
 msgstr ""
@@ -4073,6 +4082,9 @@ msgid "Distribution chart"
 msgstr ""
 
 msgid "Unallowed template for dashboard widget: %s"
+msgstr ""
+
+msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr ""
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
@@ -4239,17 +4251,11 @@ msgstr "范围"
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "reboot"
-msgstr "重启"
-
-msgid "stop"
-msgstr "停止"
-
 msgid "reset"
 msgstr "重置"
 
-msgid "state"
-msgstr "状态"
+msgid "stop"
+msgstr "停止"
 
 msgid "start"
 msgstr "开始"
@@ -4257,23 +4263,29 @@ msgstr "开始"
 msgid "poweroff"
 msgstr "关闭"
 
-msgid "soft"
-msgstr "软"
-
-msgid "on"
-msgstr "打开"
-
-msgid "status"
+msgid "state"
 msgstr "状态"
 
-msgid "ready?"
-msgstr ""
+msgid "reboot"
+msgstr "重启"
 
 msgid "off"
 msgstr "关闭"
 
+msgid "on"
+msgstr "打开"
+
 msgid "cycle"
 msgstr "循环"
+
+msgid "ready?"
+msgstr ""
+
+msgid "soft"
+msgstr "软"
+
+msgid "status"
+msgstr "状态"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "无效电源状态请求：%{action}，支持的操作为 %{supported}。"
