@@ -9,8 +9,8 @@ class FactValue < ActiveRecord::Base
 
   has_one :parent_fact_name, :through => :fact_name, :source => :parent
 
-  scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
-  scoped_search :on => :value, :default_order => true
+  scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
+  scoped_search :on => :value, :default_order => true, :ext_method => :search_value_cast_facts
   scoped_search :in => :fact_name, :on => :name, :complete_value => true, :alias => "fact"
   scoped_search :in => :host,      :on => :name, :complete_value => true, :rename => :host, :ext_method => :search_by_host, :only_explicit => true
   scoped_search :in => :hostgroup, :on => :name, :complete_value => true, :rename => :"host.hostgroup", :only_explicit => true
@@ -101,5 +101,18 @@ class FactValue < ActiveRecord::Base
       fv.value.to_gb
     end
     [ values.sum, values.size ]
+  end
+
+  def self.search_cast_facts(key, operator, value)
+    {
+      :conditions => "fact_names.name = '#{key.split('.')[1]}' AND #{cast_facts(key,operator,value)}",
+      :include    => :fact_name,
+    }
+  end
+
+  def self.search_value_cast_facts(key, operator, value)
+    {
+      :conditions => cast_facts(key,operator,value)
+    }
   end
 end

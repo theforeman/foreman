@@ -53,7 +53,7 @@ module Hostext
       scoped_search :in => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac
 
       scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
-      scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
+      scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
       scoped_search :in => :search_parameters, :on => :value, :on_key=> :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true
 
       if SETTINGS[:locations_enabled]
@@ -169,6 +169,13 @@ module Hostext
         opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
         opts = "hosts.id < 0"                                 if host_ids.blank? && hostgroup_ids.blank?
         {:conditions => opts, :include => :hostgroup}
+      end
+
+      def search_cast_facts(key, operator, value)
+        {
+          :conditions => "fact_names.name = '#{key.split('.')[1]}' AND #{cast_facts(key,operator,value)}",
+          :include    => :fact_names,
+        }
       end
 
       private

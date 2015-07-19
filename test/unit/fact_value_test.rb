@@ -69,6 +69,22 @@ class FactValueTest < ActiveSupport::TestCase
     assert_empty results
   end
 
+  test 'numeric searches should use numeric comparsion' do
+    host = FactoryGirl.create(:host)
+    FactoryGirl.create(:fact_value, :value => '64498',:host => host,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'memory_mb'))
+    results = FactValue.search_for("facts.memory_mb > 112889")
+    assert_empty results
+    results = FactValue.search_for("facts.memory_mb > 6544")
+    refute_empty results
+    results = FactValue.search_for("value > 112889")
+    assert_empty results
+    results = FactValue.search_for("value > 6544")
+    refute_empty results
+    results = FactValue.search_for("name = memory_mb AND value > 6544")
+    refute_empty results
+  end
+
   describe '.my_facts' do
     let(:target_host) { FactoryGirl.create(:host, :with_hostgroup, :with_facts) }
     let(:other_host) { FactoryGirl.create(:host, :with_hostgroup, :with_facts) }
