@@ -5,6 +5,7 @@ Foreman::AccessControl.map do |permission_set|
   permission_set.security_block :public do |map|
     map.permission :user_logout, { :users => [:logout] }, :public => true
     map.permission :my_account, { :users => [:edit] }, :public => true
+    map.permission :api_status, { :"api/v1/home" => [:status], :"api/v2/home" => [:status]}, :public => true
   end
 
   permission_set.security_block :architectures do |map|
