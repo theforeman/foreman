@@ -294,7 +294,10 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should run puppet for specific host" do
-    as_admin { @phost = FactoryGirl.create(:host, :with_puppet) }
+    as_admin do
+      @asp = FactoryGirl.create(:puppet_aspect, :with_proxy)
+      @phost = FactoryGirl.create(:host, :puppet_aspect => @asp)
+    end
     User.current=nil
     ProxyAPI::Puppet.any_instance.stubs(:run).returns(true)
     put :puppetrun, { :id => @phost.to_param }

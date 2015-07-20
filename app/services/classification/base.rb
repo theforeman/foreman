@@ -1,10 +1,14 @@
 module Classification
   class Base
-    delegate :hostgroup, :environment_id, :puppetclass_ids, :classes,
-             :to => :host
+    delegate :hostgroup, :to => :host
+    delegate :environment_id, :puppetclass_ids, :classes,
+             :to => :puppet_aspect
+    delegate :environment, :puppetclass,
+             :to => :puppet_aspect
 
     def initialize(args = {})
       @host = args[:host]
+      @puppet_aspect = @host.try(:puppet_aspect)
       @safe_render = SafeRender.new(:variables => {:host => host})
     end
 
@@ -19,7 +23,7 @@ module Classification
 
     protected
 
-    attr_reader :host
+    attr_reader :host, :puppet_aspect
 
     #override this method to return the relevant parameters for a given set of classes
     def class_parameters
@@ -124,6 +128,7 @@ module Classification
     # translates an element such as domain to its real value per host
     # tries to find the host attribute first, parameters and then fallback to a puppet fact.
     def attr_to_value(element)
+      return self.send(element) if self.respond_to?(element)
       # direct host attribute
       return host.send(element) if host.respond_to?(element)
       # host parameter

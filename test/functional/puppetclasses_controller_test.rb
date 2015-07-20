@@ -49,7 +49,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test 'new db rows are not added to HostClass when POST to parameters' do
-    host = FactoryGirl.create(:host)
+    host = FactoryGirl.create(:host, :with_puppet)
     puppetclass = puppetclasses(:two)  #puppetclass to be added to host
     host_puppetclass_ids = host.host_classes.pluck(:puppetclass_id)
     assert_difference('HostClass.count', 0) do
@@ -71,7 +71,8 @@ class PuppetclassesControllerTest < ActionController::TestCase
   # special_info is a smart_variable that is added independant of environment
   # custom_class_param is a smart_class_param for production environment only AND is marked as :override => TRUE
   test 'puppetclass lookup keys are added to partial _class_parameters on EXISTING host form through ajax POST to parameters' do
-    host = FactoryGirl.create(:host, :environment => environments(:production))
+    puppet_aspect = FactoryGirl.create(:puppet_aspect, :environment => environments(:production))
+    host = FactoryGirl.create(:host, :puppet_aspect => puppet_aspect)
     puppetclass = puppetclasses(:two)
     post :parameters, {:id => puppetclass.id, :host_id => host.id, :host => host.attributes }, set_session_user
     assert_response :success
@@ -83,9 +84,16 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'puppetclass smart class parameters are NOT added if environment does not match' do
     # below is the same test as above, except environment is changed from production to global_puppetmaster, so custom_class_param is NOT added
-    host = FactoryGirl.create(:host, :environment => environments(:production))
+    puppet_aspect = FactoryGirl.create(:puppet_aspect, :environment => environments(:production))
+    host = FactoryGirl.create(:host, :puppet_aspect => puppet_aspect)
     puppetclass = puppetclasses(:two)
-    post :parameters, {:id => puppetclass.id, :host_id => host.id, :host => host.attributes.merge!('environment_id' => environments(:global_puppetmaster).id) }, set_session_user
+    post :parameters, {
+      :id => puppetclass.id,
+      :host_id => host.id,
+      :host => host.attributes.merge!(
+        'puppet_aspect_attributes' => {
+          'environment_id' => environments(:global_puppetmaster).id}) },
+    set_session_user
     assert_response :success
     lookup_keys_added = overridable_lookup_keys(puppetclass, assigns(:obj))
     assert_equal 1, lookup_keys_added.count
@@ -106,9 +114,11 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test 'puppetclass lookup keys are added to partial _class_parameters on NEW host form through ajax POST to parameters' do
-    host = Host::Managed.new(:name => "new_host", :environment_id => environments(:production).id)
+    host = Host::Managed.new(:name => "new_host", :puppet_aspect_attributes => { :environment_id => environments(:production).id } )
+    attributes = host.attributes
+    attributes['puppet_aspect_attributes'] = host.puppet_aspect.attributes.reject { |key, _| ['id', 'created_at', 'updated_at'].include? key }
     puppetclass = puppetclasses(:two)
-    post :parameters, {:id => puppetclass.id, :host_id => 'null', :host => host.attributes }, set_session_user
+    post :parameters, {:id => puppetclass.id, :host_id => 'null', :host => attributes }, set_session_user
     assert_response :success
     lookup_keys_added = overridable_lookup_keys(puppetclass, host)
     assert_equal 2, lookup_keys_added.count

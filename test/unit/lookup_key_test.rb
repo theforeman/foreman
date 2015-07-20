@@ -2,11 +2,15 @@ require 'test_helper'
 
 class LookupKeyTest < ActiveSupport::TestCase
   def setup
+    puppet_aspect1, puppet_aspect2, puppet_aspect3 = FactoryGirl.create_list(:puppet_aspect, 3,
+                                                       :environment   => environments(:production))
     @host1, @host2, @host3 = FactoryGirl.create_list(:host, 3,
                                :location      => taxonomies(:location1),
                                :organization  => taxonomies(:organization1),
-                               :puppetclasses => [puppetclasses(:one)],
-                               :environment   => environments(:production))
+                               :puppetclasses => [puppetclasses(:one)])
+    @host1.puppet_aspect = puppet_aspect1
+    @host2.puppet_aspect = puppet_aspect2
+    @host3.puppet_aspect = puppet_aspect3
   end
 
   def test_element_seperations
@@ -63,12 +67,12 @@ class LookupKeyTest < ActiveSupport::TestCase
 
   def test_multiple_paths
     @host1.hostgroup = hostgroups(:common)
-    @host1.environment = environments(:testing)
+    @host1.puppet_aspect.environment = environments(:testing)
 
     @host2.hostgroup = hostgroups(:unusual)
-    @host2.environment = environments(:testing)
+    @host2.puppet_aspect.environment = environments(:testing)
 
-    @host3.environment = environments(:testing)
+    @host3.puppet_aspect.environment = environments(:testing)
 
     default = "default"
     key    = ""

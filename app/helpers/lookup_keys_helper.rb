@@ -71,7 +71,7 @@ module LookupKeysHelper
   end
 
   def overridable_lookup_keys(klass, host)
-    klass.class_params.override.where(:environment_classes => {:environment_id => host.environment}) + klass.lookup_keys
+    klass.class_params.override.where(:environment_classes => {:environment_id => host.is_a?(Hostgroup) ? host.environment : host.puppet_aspect.environment }) + klass.lookup_keys
   end
 
   def hostgroup_key_with_diagnostic(hostgroup, key)

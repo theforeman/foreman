@@ -140,9 +140,9 @@ class EnvironmentsControllerTest < ActionController::TestCase
     disable_orchestration
     setup_import_classes
     as_admin do
-      host = FactoryGirl.create(:host)
+      host = FactoryGirl.create(:host, :with_puppet)
       Environment.find_by_name("env1").puppetclasses += [puppetclasses(:one)]
-      host.environment_id = Environment.find_by_name("env1").id
+      host.puppet_aspect.environment_id = Environment.find_by_name("env1").id
       assert host.save!
       assert host.errors.empty?
       assert Environment.find_by_name("env1").hosts.count > 0

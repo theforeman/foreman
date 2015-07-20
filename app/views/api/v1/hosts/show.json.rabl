@@ -17,7 +17,7 @@ if SETTINGS[:locations_enabled]
 end
 
 node :environment do |host|
-  {:environment => {:id => host.environment_id, :name => host.environment_name}}
+  {:environment => {:id => host.puppet_aspect.try(:environment_id), :name => host.environment_name}}
 end
 
 child :host_parameters do

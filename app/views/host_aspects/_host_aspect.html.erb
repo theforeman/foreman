@@ -1,0 +1,6 @@
+<%= f.fields_for :host_aspects do |ff| %>
+  <%= ff.hidden_field :aspect_type %>
+  <%= ff.hidden_field :execution_model_type %>
+  <%= ff.hidden_field :execution_model_id %>
+  <%= render host_aspect.execution_model, :f => f %>
+<% end %>

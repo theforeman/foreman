@@ -137,8 +137,8 @@ class HostTest < ActiveSupport::TestCase
     Host.any_instance.expects(:set_compute_attributes).once.returns(true)
     Host.create! :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
-      :environment => environments(:production), :disk => "empty partition"
+      :subnet => subnets(:two), :architecture => architectures(:x86_64),
+      :disk => "empty partition"
   end
 
   test "doesn't set compute attributes on update" do
@@ -181,7 +181,7 @@ class HostTest < ActiveSupport::TestCase
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+      :subnet => subnets(:two), :architecture => architectures(:x86_64),
       :environment => environments(:production), :disk => "empty partition"
     assert host.valid?
     assert !host.new_record?
@@ -193,7 +193,7 @@ class HostTest < ActiveSupport::TestCase
     assert_difference('LookupValue.count') do
       assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "2.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
-      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
+      :subnet => subnets(:two), :architecture => architectures(:x86_64), :medium => media(:one),
       :environment => environments(:production), :disk => "empty partition",
       :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}}
     end
@@ -203,7 +203,7 @@ class HostTest < ActiveSupport::TestCase
     assert_difference('LookupValue.where(:lookup_key_id => lookup_keys(:five).id, :match => "fqdn=abc.mydomain.net").count') do
       Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "2.3.4.3",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64),
         :environment => environments(:production), :disk => "empty partition",
         :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:five).id, "value"=>"some_value"}}
     end
@@ -514,22 +514,22 @@ class HostTest < ActiveSupport::TestCase
 
     test "should save if neither ptable or disk are defined when the host is not managed" do
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
         :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
       assert host.valid?
     end
 
     test "should save if ptable is defined" do
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :ptable => Ptable.first
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :ptable => Ptable.first
       assert !host.new_record?
     end
 
     test "should save if disk is defined" do
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :medium => media(:one),
-        :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa", :puppet_proxy => smart_proxies(:puppetmaster)
+        :architecture => architectures(:x86_64), :disk => "aaa"
       assert !host.new_record?
     end
 
@@ -537,7 +537,7 @@ class HostTest < ActiveSupport::TestCase
       if unattended?
         host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03", :ptable => FactoryGirl.create(:ptable),
           :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :managed => true, :medium => media(:one),
-          :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first, :puppet_proxy => smart_proxies(:puppetmaster)
+          :architecture => Architecture.first, :ptable => Ptable.first
         assert !host.valid?
       end
     end
@@ -545,24 +545,24 @@ class HostTest < ActiveSupport::TestCase
     test "should save if owner_type is User or Usergroup" do
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03",
         :ptable => FactoryGirl.create(:ptable, :operatingsystem_ids => [operatingsystems(:redhat).id]), :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :managed => true,
         :owner_type => "User", :root_pass => "xybxa6JUkz63w"
       assert host.valid?
     end
 
     test "should not save if owner_type is not User or Usergroup" do
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :managed => true,
         :owner_type => "UserGr(up" # should be Usergroup
       assert !host.valid?
     end
 
     test "should not save if installation media is missing" do
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :ptable => FactoryGirl.create(:ptable),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true, :build => true,
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :managed => true, :build => true,
         :owner_type => "User", :root_pass => "xybxa6JUkz63w"
       refute host.valid?
       assert_equal "can't be blank", host.errors[:medium_id][0]
@@ -570,8 +570,8 @@ class HostTest < ActiveSupport::TestCase
 
     test "should save if owner_type is empty and Host is unmanaged" do
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :managed => false
       assert host.valid?
     end
 
@@ -582,8 +582,11 @@ class HostTest < ActiveSupport::TestCase
       Parameter.destroy_all
       host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "3.3.4.12", :medium => media(:one),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
-        :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa",
-        :puppet_proxy => smart_proxies(:puppetmaster)
+        :architecture => architectures(:x86_64), :disk => "aaa",
+        :puppet_aspect_attributes => {
+          :puppet_proxy => smart_proxies(:puppetmaster),
+          :environment => environments(:production)
+        }
 
       # dummy external node info
       nodeinfo = {"environment" => "production",
@@ -626,18 +629,18 @@ class HostTest < ActiveSupport::TestCase
                     "vlanid" => "41",
                     "ipam"=>"DHCP"}}]},
                     "classes"=>{"apache"=>{"custom_class_param"=>"abcdef"}, "base"=>{"cluster"=>"secret"}} }
-
       host.importNode nodeinfo
       nodeinfo["parameters"]["special_info"] = "secret"  # smart variable on apache
 
       info = host.info
       assert_includes info.keys, 'environment'
-      assert_equal 'production', host.environment.name
+      assert_equal 'production', host.puppet_aspect.environment.name
       assert_includes info.keys, 'parameters'
       assert_includes info.keys, 'classes'
       assert_equal({ 'apache' => { 'custom_class_param' => 'abcdef' }, 'base' => { 'cluster' => 'secret' } }, info['classes'])
       parameters = info['parameters']
-      assert_equal 'puppet', parameters['puppetmaster']
+      # puppetmaster is not overriden - irrelevant
+      # assert_equal 'puppet', parameters['puppetmaster']
       assert_equal 'xybxa6JUkz63w', parameters['root_pw']
       assert_includes parameters.keys, 'foreman_subnets'
       assert_includes parameters.keys, 'foreman_interfaces'
@@ -672,7 +675,7 @@ class HostTest < ActiveSupport::TestCase
                             :operatingsystem => Operatingsystem.find_by_name("Redhat"),
                             :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
                             :architecture => Architecture.first, :disk => "aaa",
-                            :environment => Environment.find_by_name("production"))
+                            :puppet_aspect_attributes => { :environment => Environment.find_by_name("production") })
       end
 
       test "retrieves iPXE template if associated to the correct env and host group" do
@@ -708,87 +711,6 @@ class HostTest < ActiveSupport::TestCase
 
         assert_equal [os_dt.provisioning_template], host.available_template_kinds('image')
       end
-    end
-
-    test "handle_ca must not perform actions when the manage_puppetca setting is false" do
-      h = FactoryGirl.create(:host)
-      Setting[:manage_puppetca] = false
-      h.expects(:initialize_puppetca).never
-      h.expects(:setAutosign).never
-      assert h.handle_ca
-    end
-
-    test "handle_ca must not perform actions when no Puppet CA proxy is associated even if associated with hostgroup" do
-      hostgroup = FactoryGirl.create(:hostgroup, :with_puppet_orchestration)
-      h = FactoryGirl.create(:host, :managed, :with_environment, :hostgroup => hostgroup)
-      Setting[:manage_puppetca] = true
-      assert h.puppet_proxy.present?
-      assert h.puppetca?
-
-      h.puppet_proxy_id = h.puppet_ca_proxy_id = nil
-      h.save
-
-      refute h.puppetca?
-
-      h.expects(:initialize_puppetca).never
-      assert h.handle_ca
-    end
-
-    test "handle_ca must not perform actions when no Puppet CA proxy is associated" do
-      h = FactoryGirl.create(:host)
-      Setting[:manage_puppetca] = true
-      refute h.puppetca?
-      h.expects(:initialize_puppetca).never
-      assert h.handle_ca
-    end
-
-    test "handle_ca must call initialize, delete cert and add autosign methods" do
-      h = FactoryGirl.create(:host, :with_puppet_orchestration)
-      Setting[:manage_puppetca] = true
-      assert h.puppetca?
-      h.expects(:initialize_puppetca).returns(true)
-      h.expects(:delCertificate).returns(true)
-      h.expects(:setAutosign).returns(true)
-      assert h.handle_ca
-    end
-
-    test "if the user toggles off the use_uuid_for_certificates option, revoke the UUID and autosign the hostname" do
-      h = FactoryGirl.create(:host, :with_puppet_orchestration)
-      Setting[:manage_puppetca] = true
-      assert h.puppetca?
-
-      Setting[:use_uuid_for_certificates] = false
-      some_uuid = Foreman.uuid
-      h.certname = some_uuid
-
-      h.expects(:initialize_puppetca).returns(true)
-      mock_puppetca = Object.new
-      mock_puppetca.expects(:del_certificate).with(some_uuid).returns(true)
-      mock_puppetca.expects(:set_autosign).with(h.name).returns(true)
-      h.instance_variable_set("@puppetca", mock_puppetca)
-
-      assert h.handle_ca
-      assert_equal h.certname, h.name
-    end
-
-    test "if the user changes a hostname in non-use_uuid_for_cetificates mode, revoke the old hostname and autosign the new hostname" do
-      Setting[:use_uuid_for_certificates] = false
-      Setting[:manage_puppetca] = true
-
-      h = FactoryGirl.create(:host, :with_puppet_orchestration)
-      assert h.puppetca?
-
-      old_name = 'oldhostname'
-      h.certname = old_name
-
-      h.expects(:initialize_puppetca).returns(true)
-      mock_puppetca = Object.new
-      mock_puppetca.expects(:del_certificate).with(old_name).returns(true)
-      mock_puppetca.expects(:set_autosign).with(h.name).returns(true)
-      h.instance_variable_set("@puppetca", mock_puppetca)
-
-      assert h.handle_ca
-      assert_equal h.certname, h.name
     end
 
     test "custom_disk_partition_with_erb" do
@@ -829,59 +751,7 @@ class HostTest < ActiveSupport::TestCase
       assert_equal ["#{h.architecture} does not belong to #{h.os} operating system"], h.errors[:architecture_id]
     end
 
-    test "host puppet classes must belong to the host environment" do
-      h = FactoryGirl.create(:host, :with_environment)
-
-      pc = puppetclasses(:three)
-      h.puppetclasses << pc
-      assert !h.environment.puppetclasses.map(&:id).include?(pc.id)
-      assert !h.valid?
-      assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
-    end
-
-    test "when changing host environment, its puppet classes should be verified" do
-      h = FactoryGirl.create(:host, :environment => environments(:production))
-      pc = puppetclasses(:one)
-      h.puppetclasses << pc
-      assert h.save
-      h.environment = environments(:testing)
-      assert !h.save
-      assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
-    end
-
-    test "when setting host environment to nil, its puppet classes should be removed" do
-      h = FactoryGirl.create(:host, :environment => environments(:production))
-      pc = puppetclasses(:one)
-      h.puppetclasses << pc
-      assert h.save
-      h.environment = nil
-      h.save!
-      assert_empty h.puppetclasses
-    end
-
-    test "when setting host environment to nil, its config groups should be removed" do
-      h = FactoryGirl.create(:host, :environment => environments(:production))
-      pc = config_groups(:one)
-      h.config_groups << pc
-      assert h.save
-      h.environment = nil
-      h.save!
-      assert_empty h.config_groups
-    end
-
-    test "when saving a host, do not require a puppet environment" do
-      h = FactoryGirl.build(:host, :environment => environments(:production), :puppet_proxy => nil)
-      h.environment = nil
-      assert h.valid?
-    end
-
-    test "when saving a host, require puppet environment if puppet master is set" do
-      h = FactoryGirl.build(:host, :environment => environments(:production), :puppet_proxy => smart_proxies(:puppetmaster))
-      h.environment = nil
-      refute h.valid?
-    end
-
-    test "should not allow short root passwords for managed host in build mode" do
+    test "should not allow short root passwords for managed host" do
       h = FactoryGirl.create(:host, :managed)
       h.build = true
       h.root_pass = "2short"
@@ -1454,7 +1324,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "can search hosts by inherited params from a hostgroup" do
       hg = hostgroups(:common)
-      host = FactoryGirl.create(:host, :hostgroup => hg)
+      host = FactoryGirl.create(:host, :with_puppet, :hostgroup => hg)
       parameter = hg.group_parameters.first
       results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
       assert results.include?(host)
@@ -1464,7 +1334,7 @@ class HostTest < ActiveSupport::TestCase
     test "can search hosts by inherited params from a parent hostgroup" do
       parent_hg = hostgroups(:common)
       hg = FactoryGirl.create(:hostgroup, :parent => parent_hg)
-      host = FactoryGirl.create(:host, :hostgroup => hg)
+      host = FactoryGirl.create(:host, :with_puppet, :hostgroup => hg)
       parameter = parent_hg.group_parameters.first
       results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
       assert results.include?(host)
@@ -1505,21 +1375,6 @@ class HostTest < ActiveSupport::TestCase
       results = Host.search_for("class = #{puppetclass.name}")
       assert_equal 1, results.count
       assert_equal host, results.first
-    end
-
-    test "should update puppet_proxy_id to the id of the validated proxy" do
-      sp = smart_proxies(:puppetmaster)
-      raw = parse_json_fixture('/facts_with_caps.json')
-      Host.import_host_and_facts(raw['name'], raw['facts'], nil, sp.id)
-      assert_equal sp.id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
-    end
-
-    test "shouldn't update puppet_proxy_id if it has been set" do
-      Host.new(:name => 'sinn1636.lan', :puppet_proxy_id => smart_proxies(:puppetmaster).id).save(:validate => false)
-      sp = smart_proxies(:puppetmaster)
-      raw = parse_json_fixture('/facts_with_certname.json')
-      assert Host.import_host_and_facts(raw['name'], raw['facts'], nil, sp.id)
-      assert_equal smart_proxies(:puppetmaster).id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
     end
 
     # Ip validations
@@ -1678,7 +1533,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "#provision_method must be within capabilities" do
-    host = FactoryGirl.create(:host, :managed, :with_environment)
+    host = FactoryGirl.create(:host, :managed)
     host.provision_method = 'image'
     host.expects(:capabilities).returns([:build])
     host.valid?
@@ -1709,29 +1564,16 @@ class HostTest < ActiveSupport::TestCase
   test "classes_in_groups should return the puppetclasses of a config group only if it is in host environment" do
     group1 = config_groups(:one)
     group2 = config_groups(:two)
+    puppet_aspect = FactoryGirl.create(:puppet_aspect, :environment => environments(:production))
     host = FactoryGirl.create(:host,
+                              :puppet_aspect => puppet_aspect,
                               :location => taxonomies(:location1),
                               :organization => taxonomies(:organization1),
-                              :environment => environments(:production),
                               :config_groups => [group1, group2])
-    group_classes = host.classes_in_groups
+    group_classes = host.puppet_aspect.classes_in_groups
     # four classes in config groups, all are in same environment
     assert_equal 4, (group1.puppetclasses + group2.puppetclasses).uniq.count
     assert_equal ['chkmk', 'nagios', 'pam', 'auth'].sort, group_classes.map(&:name).sort
-  end
-
-  test "should return all classes for environment only" do
-    host = FactoryGirl.create(:host,
-                              :location => taxonomies(:location1),
-                              :organization => taxonomies(:organization1),
-                              :environment => environments(:production),
-                              :config_groups => [config_groups(:one), config_groups(:two)],
-                              :puppetclasses => [puppetclasses(:one)])
-    all_classes = host.classes
-    # four classes in config groups plus one manually added
-    assert_equal 5, all_classes.count
-    assert_equal ['base', 'chkmk', 'nagios', 'pam', 'auth'].sort, all_classes.map(&:name).sort
-    assert_equal all_classes, host.all_puppetclasses
   end
 
   test "search hostgroups by config group" do
@@ -1743,32 +1585,6 @@ class HostTest < ActiveSupport::TestCase
                               :config_groups => [config_groups(:one)])
     hosts = Host::Managed.search_for("config_group = #{config_group.name}")
     assert_equal [host.name], hosts.map(&:name)
-  end
-
-  test "parent_classes should return parent_classes if host has hostgroup and environment are the same" do
-    hostgroup        = FactoryGirl.create(:hostgroup, :with_puppetclass)
-    host             = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
-    assert host.hostgroup
-    refute_empty host.parent_classes
-    assert_equal host.parent_classes, host.hostgroup.classes
-  end
-
-  test "parent_classes should not return parent classes that do not match environment" do
-    # one class in the right env, one in a different env
-    pclass1 = FactoryGirl.create(:puppetclass, :environments => [environments(:testing), environments(:production)])
-    pclass2 = FactoryGirl.create(:puppetclass, :environments => [environments(:production)])
-    hostgroup        = FactoryGirl.create(:hostgroup, :puppetclasses => [pclass1, pclass2], :environment => environments(:testing))
-    host             = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => environments(:production))
-    assert host.hostgroup
-    refute_empty host.parent_classes
-    refute_equal host.environment, host.hostgroup.environment
-    refute_equal host.parent_classes, host.hostgroup.classes
-  end
-
-  test "parent_classes should return empty array if host does not have hostgroup" do
-    host = FactoryGirl.create(:host)
-    assert_nil host.hostgroup
-    assert_empty host.parent_classes
   end
 
   test "parent_config_groups should return parent config_groups if host has hostgroup" do
@@ -1784,37 +1600,8 @@ class HostTest < ActiveSupport::TestCase
     assert_empty host.parent_config_groups
   end
 
-  test "individual puppetclasses added to host (that can be removed) does not include classes that are included by config group" do
-    host   = FactoryGirl.create(:host, :with_config_group)
-    pclass = FactoryGirl.create(:puppetclass, :environments => [host.environment])
-    host.puppetclasses << pclass
-    # not sure why, but .classes and .puppetclasses don't return the same thing here...
-    assert_equal (host.config_groups.first.classes + [pclass]).map(&:name).sort, host.classes.map(&:name).sort
-    assert_equal [pclass.name], host.individual_puppetclasses.map(&:name)
-  end
-
-  test "available_puppetclasses should return all if no environment" do
-    host = FactoryGirl.create(:host)
-    host.update_attribute(:environment_id, nil)
-    assert_equal Puppetclass.scoped, host.available_puppetclasses
-  end
-
-  test "available_puppetclasses should return environment-specific classes" do
-    host = FactoryGirl.create(:host, :with_environment)
-    refute_equal Puppetclass.scoped, host.available_puppetclasses
-    assert_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
-  end
-
-  test "available_puppetclasses should return environment-specific classes (and that are NOT already inherited by parent)" do
-    hostgroup        = FactoryGirl.create(:hostgroup, :with_puppetclass)
-    host             = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
-    refute_equal Puppetclass.scoped, host.available_puppetclasses
-    refute_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
-    assert_equal (host.environment.puppetclasses - host.parent_classes).sort, host.available_puppetclasses.sort
-  end
-
   test "#info ENC YAML omits root_pw when password_hash is set to Base64" do
-    host = FactoryGirl.build(:host, :managed)
+    host = FactoryGirl.build(:host, :managed, :with_puppet)
     host.hostgroup = nil
 
     unencrypted_password = "xybxa6JUkz63w"
@@ -1834,27 +1621,9 @@ class HostTest < ActiveSupport::TestCase
     refute_nil enc['parameters']['root_pw']
   end
 
-  test "#info ENC YAML uses all_puppetclasses for non-parameterized output" do
-    Setting[:Parametrized_Classes_in_ENC] = false
-    myclass = mock('myclass')
-    myclass.expects(:name).returns('myclass')
-    host = FactoryGirl.build(:host, :with_environment)
-    host.expects(:all_puppetclasses).returns([myclass])
-    enc = host.info
-    assert_kind_of Hash, enc
-    assert_equal ['myclass'], enc['classes']
-  end
-
-  test "#info ENC YAML omits environment if not set" do
-    host = FactoryGirl.build(:host)
-    host.environment = nil
-    enc = host.info
-    refute_includes enc.keys, 'environment'
-  end
-
   test "#info ENC YAML returns no puppet classes if no environment" do
     puppetclass = FactoryGirl.create(:puppetclass)
-    host             = FactoryGirl.create(:host, :puppetclasses => [puppetclass])
+    host             = FactoryGirl.create(:host, :with_puppet, :puppetclasses => [puppetclass])
 
     assert_empty host.info['classes']
   end
@@ -1862,8 +1631,8 @@ class HostTest < ActiveSupport::TestCase
   test "#info ENC YAML uses Classification::ClassParam for parameterized output" do
     Setting[:Parametrized_Classes_in_ENC] = true
     Setting[:Enable_Smart_Variables_in_ENC] = true
-    host = FactoryGirl.build(:host, :with_environment)
-    classes = {'myclass' => {'myparam' => 'myvalue'}}
+    host = FactoryGirl.create(:host, :with_puppetclass)
+    classes = {host.host_classes.first.puppetclass.name => {'myparam' => 'myvalue'}}
     classification = mock('Classification::ClassParam')
     classification.expects(:enc).returns(classes)
     Classification::ClassParam.expects(:new).with(:host => host).returns(classification)

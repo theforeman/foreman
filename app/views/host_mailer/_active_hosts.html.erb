@@ -24,7 +24,7 @@
       <%= host_object.hostgroup %>
     </td>
     <td style="<%= td_style %>">
-      <%= host_object.environment %>
+      <%= host_object.puppet_aspect.try(:environment) %>
     </td>
     <% params[:metrics].each do |m,v| %>
       <% if m =~ /failed|failed_restart/ and v > 0 %>

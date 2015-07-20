@@ -125,7 +125,10 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   # Mismatches
   test "should show all mismatches and button Fix All Mismatches if there are" do
-    FactoryGirl.create_list(:host, 2, :with_environment, :organization => taxonomies(:organization1))
+    org = FactoryGirl.create(:organization)
+    pa = FactoryGirl.create(:puppet_aspect)
+    pa.environment.organizations << org
+    FactoryGirl.create(:host, :puppet_aspect => pa, :organization => org)
     TaxableTaxonomy.delete_all
     get :mismatches, {}, set_session_user
     assert_response :success

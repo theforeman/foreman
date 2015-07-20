@@ -7,12 +7,10 @@ module Orchestration::Puppetca
     before_destroy :initialize_puppetca, :queue_puppetca_destroy unless Rails.env == "test"
   end
 
-  protected
-
   def initialize_puppetca
-    return unless puppetca?
+    return unless puppet_aspect and puppet_aspect.puppetca?
     return unless Setting[:manage_puppetca]
-    @puppetca = ProxyAPI::Puppetca.new :url => puppet_ca_proxy.url
+    @puppetca = ProxyAPI::Puppetca.new :url => puppet_aspect.puppet_ca_proxy.url
     true
   rescue => e
     failure _("Failed to initialize the PuppetCA proxy: %s") % e, e
@@ -24,14 +22,16 @@ module Orchestration::Puppetca
     puppetca.del_certificate certname
   end
 
-  # Empty method for rollbacks - maybe in the future we would support creating the certificates directly
-  def setCertificate; end
-
   # Adds the host's name to the autosign.conf file
   def setAutosign
     logger.info "Adding autosign entry for #{name}"
     puppetca.set_autosign certname
   end
+
+  protected
+
+  # Empty method for rollbacks - maybe in the future we would support creating the certificates directly
+  def setCertificate; end
 
   # Removes the host's name from the autosign.conf file
   def delAutosign
@@ -42,7 +42,7 @@ module Orchestration::Puppetca
   private
 
   def queue_puppetca
-    return unless puppetca? and errors.empty?
+    return unless puppet_aspect and puppet_aspect.puppetca? and errors.empty?
     return unless Setting[:manage_puppetca]
     new_record? ? queue_puppetca_create : queue_puppetca_update
   end
@@ -60,7 +60,7 @@ module Orchestration::Puppetca
   end
 
   def queue_puppetca_destroy
-    return unless puppetca? and errors.empty?
+    return unless puppet_aspect and puppet_aspect.puppetca? and errors.empty?
     return unless Setting[:manage_puppetca]
     queue.create(:name => _("Delete PuppetCA certificates for %s") % self, :priority => 50,
                  :action => [self, :delCertificate])

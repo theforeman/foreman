@@ -11,7 +11,10 @@ class HostTest < ActionDispatch::IntegrationTest
     SETTINGS[:organizations_enabled] = false
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.start
-    as_admin { @host = FactoryGirl.create(:host, :with_puppet, :managed) }
+    as_admin do
+      puppet_aspect = FactoryGirl.create(:puppet_aspect, :with_proxy)
+      @host = FactoryGirl.create(:host, :managed, :puppet_aspect => puppet_aspect)
+    end
   end
 
   after do
@@ -272,7 +275,7 @@ class HostTest < ActionDispatch::IntegrationTest
       page.find('#check_all').click
 
       # Ensure all hosts are checked
-      assert page.find('input.host_select_boxes').checked?
+      assert page.first('input.host_select_boxes').checked?
 
       # Dropdown visible?
       assert multiple_actions_div.find('.dropdown-toggle').visible?
@@ -288,7 +291,7 @@ class HostTest < ActionDispatch::IntegrationTest
         click_on('Change Environment')
       end
       assert index_modal.visible?, "Modal window was shown"
-      page.find('#environment_id').find("option[value='#{@host.environment_id}']").select_option
+      page.find('#environment_id').find("option[value='#{@host.puppet_aspect.environment_id}']").select_option
 
       # remove hosts cookie on submit
       index_modal.find('.btn-primary').trigger('click')

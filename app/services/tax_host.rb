@@ -147,8 +147,19 @@ class TaxHost
     #   return taxonomy.hosts.pluck(:domain_id)
     # end
     define_method "#{key}s".to_sym do
-      # can't use pluck(key), :domain_id is delegated method, not SQL column, performance diff wasn't big
-      hosts.map(&key).uniq.compact
+      ids = []
+      hosts.each do |host|
+        host.host_aspects.each do |aspect|
+          if aspect.execution_model && aspect.execution_model.respond_to?(key.to_sym)
+            ids << aspect.execution_model.send(key.to_sym)
+          end
+        end
+        if host.respond_to?(key)
+          ids << host.send(key)
+        end
+      end
+      #TODO see if distinct pluck makes more sense
+      ids.uniq.compact
     end
   end
 

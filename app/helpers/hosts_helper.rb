@@ -252,7 +252,6 @@ module HostsHelper
       [_("Realm"), (link_to(host.realm, hosts_path(:search => "realm = #{host.realm}")) if host.realm)],
       [_("IP Address"), host.ip],
       [_("MAC Address"), host.mac],
-      [_("Puppet Environment"), (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")) if host.environment)],
       [_("Host Architecture"), (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")) if host.arch)],
       [_("Operating System"), (link_to(host.operatingsystem.to_label, hosts_path(:search => "os_description = #{host.operatingsystem.description}")) if host.operatingsystem)],
       [_("Host group"), (link_to(host.hostgroup, hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"})) if host.hostgroup)],
@@ -281,47 +280,42 @@ module HostsHelper
   end
 
   def host_title_actions(host)
-    title_actions(
-        button_group(
-            link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host),
-                                    :title    => _("Edit your host"), :id => "edit-button"),
-            if host.build
-              link_to_if_authorized(_("Cancel build"), hash_for_cancelBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
-                                    :disabled => host.can_be_built?,
-                                    :title    => _("Cancel build request for this host"), :id => "cancel-build-button")
-            else
-              link_to_if_authorized(_("Build"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts', :anchor => "review_before_build"),
-                                    :disabled => !host.can_be_built?,
-                                    :title    => _("Enable rebuild on next host boot"),
-                                    :class    => "btn",
-                                    :id       => "build-review",
-                                    :data     => { :toggle => 'modal',
-                                                   :target => '#review_before_build',
-                                                   :url    => review_before_build_host_path(:id => host)
-                                    }
-              )
-            end
-        ),
-        if host.compute_resource_id || host.bmc_available?
-          button_group(
-              link_to(_("Loading power state ..."), '#', :disabled => true, :id => :loading_power_state)
+    title_actions(host_title_buttons(host))
+  end
+
+  def host_title_buttons(host)
+    [button_group(
+        link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host),
+                                :title    => _("Edit your host"), :id => "edit-button"),
+        if host.build
+          link_to_if_authorized(_("Cancel build"), hash_for_cancelBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
+                                :disabled => host.can_be_built?,
+                                :title    => _("Cancel build request for this host"), :id => "cancel-build-button")
+        else
+          link_to_if_authorized(_("Build"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts', :anchor => "review_before_build"),
+                                :disabled => !host.can_be_built?,
+                                :title    => _("Enable rebuild on next host boot"),
+                                :class    => "btn",
+                                :id       => "build-review",
+                                :data     => { :toggle => 'modal',
+                                               :target => '#review_before_build',
+                                               :url    => review_before_build_host_path(:id => host)
+                                }
           )
-        end,
-        button_group(
-          if host.try(:puppet_proxy)
-            link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_object => host, :permission => 'puppetrun_hosts'),
-                                  :disabled => !Setting[:puppetrun],
-                                  :title    => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))
-          end
-        ),
-        button_group(
-            link_to_if_authorized(_("Delete"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'destroy_hosts'),
-                                  :class => "btn btn-danger",
-                                  :id => "delete-button",
-                                  :data => { :message => delete_host_dialog(host) },
-                                  :method => :delete)
-        )
-    )
+        end
+    ),
+    if host.compute_resource_id || host.bmc_available?
+      button_group(
+          link_to(_("Loading power state ..."), '#', :disabled => true, :id => :loading_power_state)
+      )
+    end,
+    button_group(
+        link_to_if_authorized(_("Delete"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'destroy_hosts'),
+                              :class => "btn btn-danger",
+                              :id => "delete-button",
+                              :data => { :message => delete_host_dialog(host) },
+                              :method => :delete)
+    )]
   end
 
   def delete_host_dialog(host)
@@ -441,6 +435,23 @@ module HostsHelper
       when :templates
         link_to_if_authorized(_("Edit"), hash_for_edit_provisioning_template_path(:id => id).merge(:auth_object => id),
                               :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type) )
+    end
+  end
+
+  def host_additional_tabs(host)
+    []
+  end
+
+  def load_tabs(host)
+    @tabs = host_additional_tabs(host)
+  end
+
+  def load_aspects(host)
+    @host_aspects = {}
+
+    HostAspects.registry.values.each do |aspect|
+      val = host.send(aspect.name)
+      @host_aspects[aspect.subject] = val if val
     end
   end
 end

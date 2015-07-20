@@ -2,12 +2,14 @@ require "test_helper"
 
 class ClassificationTest < ActiveSupport::TestCase
   def setup
+    puppet_aspect = FactoryGirl.create(:puppet_aspect,
+                                       :environment => environments(:production))
     host = FactoryGirl.create(:host,
+                              :puppet_aspect => puppet_aspect,
                               :location => taxonomies(:location1),
                               :organization => taxonomies(:organization1),
                               :operatingsystem => operatingsystems(:redhat),
-                              :puppetclasses => [puppetclasses(:one)],
-                              :environment => environments(:production))
+                              :puppetclasses => [puppetclasses(:one)])
     @classification = Classification::ClassParam.new(:host => host)
     @global_param_classification = Classification::GlobalParam.new(:host => host)
   end
@@ -46,15 +48,15 @@ class ClassificationTest < ActiveSupport::TestCase
 
   test "#classes is delegated to the host" do
     pc = FactoryGirl.build(:puppetclass)
-    host = FactoryGirl.build(:host)
-    host.expects(:classes).returns([pc])
+    host = FactoryGirl.build(:host, :with_puppet)
+    host.puppet_aspect.expects(:classes).returns([pc])
     assert_equal [pc], Classification::ClassParam.new(:host => host).classes
   end
 
   test "#puppetclass_ids is delegated to the host" do
     pc = FactoryGirl.build(:puppetclass)
-    host = FactoryGirl.build(:host)
-    host.expects(:puppetclass_ids).returns([pc.id])
+    host = FactoryGirl.build(:host, :with_puppet)
+    host.puppet_aspect.expects(:puppetclass_ids).returns([pc.id])
     assert_equal [pc.id], Classification::ClassParam.new(:host => host).puppetclass_ids
   end
 

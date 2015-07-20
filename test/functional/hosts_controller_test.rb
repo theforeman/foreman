@@ -190,10 +190,10 @@ class HostsControllerTest < ActionController::TestCase
     setup_user operation, 'hosts', filter, &block
 
     as_admin do
-      @host1           = FactoryGirl.create(:host)
+      @host1           = FactoryGirl.create(:host, :with_puppet)
       @host1.owner     = users(:admin)
       @host1.save!
-      @host2           = FactoryGirl.create(:host)
+      @host2           = FactoryGirl.create(:host, :with_puppet)
       @host2.owner     = users(:admin)
       @host2.save!
     end
@@ -314,27 +314,27 @@ class HostsControllerTest < ActionController::TestCase
   def setup_multiple_environments
     setup_user_and_host "edit"
     as_admin do
-      @host1, @host2 = FactoryGirl.create_list(:host, 2, :environment => environments(:production))
+      @host1, @host2 = FactoryGirl.create_list(:host, 2, :puppet_aspect_attributes => { :environment => environments(:production) })
     end
   end
 
   test "user with edit host rights with update environments should change environments" do
     @request.env['HTTP_REFERER'] = hosts_path
     setup_multiple_environments
-    assert @host1.environment == environments(:production)
-    assert @host2.environment == environments(:production)
+    assert @host1.puppet_aspect.environment == environments(:production)
+    assert @host2.puppet_aspect.environment == environments(:production)
     post :update_multiple_environment, { :host_ids => [@host1.id, @host2.id],
       :environment => { :id => environments(:global_puppetmaster).id}},
       set_session_user.merge(:user => users(:admin).id)
-    assert Host.find(@host1.id).environment == environments(:global_puppetmaster)
-    assert Host.find(@host2.id).environment == environments(:global_puppetmaster)
+    assert Host.find(@host1.id).puppet_aspect.environment == environments(:global_puppetmaster)
+    assert Host.find(@host2.id).puppet_aspect.environment == environments(:global_puppetmaster)
   end
 
   test "should inherit the hostgroup environment if *inherit from hostgroup* selected" do
     @request.env['HTTP_REFERER'] = hosts_path
     setup_multiple_environments
-    assert @host1.environment == environments(:production)
-    assert @host2.environment == environments(:production)
+    assert @host1.puppet_aspect.environment == environments(:production)
+    assert @host2.puppet_aspect.environment == environments(:production)
 
     hostgroup = hostgroups(:common)
     hostgroup.environment = environments(:global_puppetmaster)
@@ -351,8 +351,8 @@ class HostsControllerTest < ActionController::TestCase
     post :update_multiple_environment, params,
       set_session_user.merge(:user => users(:admin).id)
 
-    assert Host.find(@host1.id).environment == hostgroup.environment
-    assert Host.find(@host2.id).environment == hostgroup.environment
+    assert Host.find(@host1.id).puppet_aspect.environment == hostgroup.environment
+    assert Host.find(@host2.id).puppet_aspect.environment == hostgroup.environment
   end
 
   test "user with edit host rights with update parameters should change parameters" do
@@ -864,13 +864,15 @@ class HostsControllerTest < ActionController::TestCase
                         :domain_id          => domains(:mydomain).id,
                         :operatingsystem_id => operatingsystems(:redhat).id,
                         :architecture_id    => architectures(:x86_64).id,
-                        :environment_id     => environments(:production).id,
                         :subnet_id          => subnets(:one).id,
                         :disk               => "empty partition",
-                        :puppet_proxy_id    => smart_proxies(:puppetmaster).id,
                         :root_pass          => "123456789",
                         :location_id        => taxonomies(:location1).id,
-                        :organization_id    => taxonomies(:organization1).id
+                        :organization_id    => taxonomies(:organization1).id,
+                        :puppet_aspect_attributes => {
+                          :environment_id     => environments(:production).id,
+                          :puppet_proxy_id    => smart_proxies(:puppetmaster).id,
+                        }
                        )
   end
 end
