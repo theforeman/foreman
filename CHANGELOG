@@ -1,3 +1,33 @@
+2015-07-20	Dominic Cleal <dcleal@redhat.com>
+	* templates - sync from community-templates
+
+2015-07-17	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+	* fixes #10994 - remove new_* data from compute profile attributes
+	* fixes #11048 - add script to sync unattended templates from community-templates
+	* fixes #11024 - update smart proxy realm docs link
+	* fixes #11018 - correct syntax error in version number
+	* fixes #10216 - sort report log messages in natural order
+
+2015-07-17	Timo Goebel <timo.goebel@dm.de>
+	* fixes #5630 - fixes VMWare clone from template fails if VMWare is in foreign language
+
+2015-07-17	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #10985 - Set css class for width of filter select on Puppet CA index
+
+2015-07-17	Ori Rabin <orabin@redhat.com>
+	* Fixes #10915 - Deleting a host removes all host specific overrides
+
+2015-07-17	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #11023 - Pass identity_endpoint to Openstack Fog 1.32.0
+	* Fixes #10867 - OpenStack boot_from_volume is true only when checked
+
+2015-07-17	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #10438 - Removed trends:clean task, as it is no longer needed
+
+2015-07-17	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #11033 - adding missing params to auth_source ldap API docs
+
 2015-07-06	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.9.0-RC1
 	* i18n - extracting new, updating rails, pulling from tx
