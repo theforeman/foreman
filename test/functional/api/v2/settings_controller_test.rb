@@ -16,9 +16,9 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
-  test "should update setting" do
+  test "should not update setting" do
     put :update, { :id => settings(:attributes1).to_param, :setting => { } }
-    assert_response :success
+    assert_response 422
   end
 
   test "should parse string values" do
