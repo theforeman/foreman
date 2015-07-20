@@ -23,8 +23,8 @@ echo ifconfig_`ifconfig -l | cut -d ' ' -f 1`=DHCP >>/etc/rc.conf
 
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
+/bin/hostname <%= @host.name %>
 cp /usr/share/zoneinfo/<%= @host.params['time-zone'] || 'UTC' %> /etc/localtime
-touch /etc/wall_cmos_clock
 adjkerntz -a
 ntpdate <%= @host.params['ntp-server'] || '0.freebsd.pool.ntp.org' %>
 env ASSUME_ALWAYS_YES=YES pkg bootstrap

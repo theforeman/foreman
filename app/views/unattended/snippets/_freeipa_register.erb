@@ -39,9 +39,10 @@ name: freeipa_register
 ##
 ## IPA Client Installation
 ##
-
 <% if @host.params['freeipa_server'] -%>
-freeipa_server="--server <%= @host.params['freeipa_server'] %>"
+<% domain = @host.params['freeipa_domain'] || @host.realm.name.downcase -%>
+
+freeipa_server="--server <%= @host.params['freeipa_server'] %> --domain <%=domain %>"
 <% end -%>
 
 <% unless @host.param_false? 'freeipa_mkhomedir' %>
