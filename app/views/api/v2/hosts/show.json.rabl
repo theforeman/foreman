@@ -15,7 +15,7 @@ child :puppetclasses do
 end
 
 node do |host|
-  { :all_puppetclasses => partial("api/v2/puppetclasses/base", :object => host.all_puppetclasses) }
+  { :all_puppetclasses => partial("api/v2/puppetclasses/base", :object => host.try(:puppet_aspect).try(:all_puppetclasses)) }
 end
 
 child :config_groups do

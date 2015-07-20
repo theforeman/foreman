@@ -84,7 +84,7 @@ module Api::V2::LookupKeysCommonController
     return LookupKey.authorized(:view_external_variables).smart_variables unless (@puppetclass || @host || @hostgroup)
     puppetclass_ids   = @puppetclass.id if @puppetclass
     puppetclass_ids ||= @hostgroup.all_puppetclasses.map(&:id) if @hostgroup
-    puppetclass_ids ||= @host.all_puppetclasses.map(&:id) if @host
+    puppetclass_ids ||= @host.puppet_aspect.all_puppetclasses.map(&:id) if @host.try(:puppet_aspect)
     LookupKey.authorized(:view_external_variables).global_parameters_for_class(puppetclass_ids)
   end
 
@@ -114,8 +114,8 @@ module Api::V2::LookupKeysCommonController
       puppetclass_ids = @environment.environment_classes.pluck(:puppetclass_id).uniq
       base.smart_class_parameters_for_class(puppetclass_ids, @environment.id)
     elsif @host || @hostgroup
-      puppetclass_ids = (@host || @hostgroup).all_puppetclasses.map(&:id)
-      environment_id  = (@host || @hostgroup).environment_id
+      puppetclass_ids = (@host.try(:puppet_aspect) || @hostgroup).all_puppetclasses.map(&:id)
+      environment_id  = (@host.try(:puppet_aspect) || @hostgroup).environment_id
       # scope :parameters_for_class uses .override
       base.parameters_for_class(puppetclass_ids, environment_id)
     end

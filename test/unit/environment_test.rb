@@ -34,7 +34,8 @@ class EnvironmentTest < ActiveSupport::TestCase
   test "should update hosts_count" do
     environment = environments(:testing)
     assert_difference "environment.hosts_count" do
-      FactoryGirl.create(:host).update_attribute(:environment, environment)
+      pa = FactoryGirl.create(:puppet_aspect, :environment => environment)
+      FactoryGirl.create(:host, :puppet_aspect => pa)
       environment.reload
     end
   end

@@ -154,7 +154,7 @@ Return the host's compute attributes that can be used to create a clone of this 
 
       def puppetrun
         return deny_access unless Setting[:puppetrun]
-        process_response @host.puppetrun!
+        process_response @host.puppet_aspect.puppetrun!
       end
 
       api :PUT, "/hosts/:id/disassociate", N_("Disassociate the host from a VM")

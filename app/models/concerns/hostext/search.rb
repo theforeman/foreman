@@ -35,8 +35,8 @@ module Hostext
       scoped_search :in => :realm,       :on => :id,      :complete_enabled => false,  :rename => :realm_id, :only_explicit => true
       scoped_search :in => :environment, :on => :name,    :complete_value => true,  :rename => :environment
       scoped_search :in => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
-      scoped_search :in => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster
-      scoped_search :in => :puppet_ca_proxy, :on => :name,    :complete_value => true, :rename => :puppet_ca
+      #scoped_search :in => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster
+      #scoped_search :in => :puppet_ca_proxy, :on => :name,    :complete_value => true, :rename => :puppet_ca
       scoped_search :in => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
       scoped_search :in => :compute_resource, :on => :id,      :complete_enabled => false, :rename => :compute_resource_id, :only_explicit => true
       scoped_search :in => :image, :on => :name, :complete_value => true
@@ -52,7 +52,7 @@ module Hostext
       scoped_search :in => :interfaces, :on => :ip, :complete_value => true, :rename => :has_ip
       scoped_search :in => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac
 
-      scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
+      #scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
       scoped_search :in => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true
       scoped_search :in => :search_parameters, :on => :value, :on_key=> :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true
 
@@ -108,22 +108,22 @@ module Hostext
         {:conditions => " hosts.id #{opts} " }
       end
 
-      def search_by_puppetclass(key, operator, value)
-        conditions    = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
-        config_group_ids = ConfigGroup.where(conditions).joins(:puppetclasses).pluck('config_groups.id')
-        host_ids         = Host.authorized(:view_hosts, Host).where(conditions).joins(:puppetclasses).uniq.pluck('hosts.id')
-        host_ids        += HostConfigGroup.where(:host_type => 'Host::Base').where(:config_group_id => config_group_ids).pluck(:host_id)
-        hostgroups       = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:puppetclasses)
-        hostgroups      += Hostgroup.unscoped.with_taxonomy_scope.joins(:host_config_groups).where("host_config_groups.config_group_id IN (#{config_group_ids.join(',')})") if config_group_ids.any?
-        hostgroup_ids    = hostgroups.map(&:subtree_ids).flatten.uniq
-
-        opts  = ''
-        opts += "hosts.id IN(#{host_ids.join(',')})"            unless host_ids.blank?
-        opts += " OR "                                          unless host_ids.blank? || hostgroup_ids.blank?
-        opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
-        opts  = "hosts.id < 0"                                  if host_ids.blank? && hostgroup_ids.blank?
-        {:conditions => opts, :include => :hostgroup}
-      end
+      #def search_by_puppetclass(key, operator, value)
+      #  conditions    = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
+      #  config_group_ids = ConfigGroup.where(conditions).joins(:puppetclasses).pluck('config_groups.id')
+      #  host_ids         = Host.authorized(:view_hosts, Host).where(conditions).joins(:puppetclasses).uniq.map(&:id)
+      #  host_ids        += HostConfigGroup.where(:host_type => 'Host::Base').where(:config_group_id => config_group_ids).pluck(:host_id)
+      #  hostgroups       = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:puppetclasses)
+      #  hostgroups      += Hostgroup.unscoped.with_taxonomy_scope.joins(:host_config_groups).where("host_config_groups.config_group_id IN (#{config_group_ids.join(',')})") if config_group_ids.any?
+      #  hostgroup_ids    = hostgroups.map(&:subtree_ids).flatten.uniq
+      #
+      #  opts  = ''
+      #  opts += "hosts.id IN(#{host_ids.join(',')})"            unless host_ids.blank?
+      #  opts += " OR "                                          unless host_ids.blank? || hostgroup_ids.blank?
+      #  opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
+      #  opts  = "hosts.id < 0"                                  if host_ids.blank? && hostgroup_ids.blank?
+      #  {:conditions => opts, :include => :hostgroup}
+      #end
 
       def search_by_hostgroup_and_descendants(key, operator, value)
         conditions     = sanitize_sql_for_conditions(["hostgroups.title #{operator} ?", value_to_sql(operator, value)])

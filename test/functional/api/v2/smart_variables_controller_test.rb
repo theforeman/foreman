@@ -11,9 +11,10 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
   end
 
   test "should get smart variables for a specific host" do
+    puppet_aspect = FactoryGirl.create(:puppet_aspect, :environment => environments(:production))
     @host = FactoryGirl.create(:host,
-                               :puppetclasses => [puppetclasses(:one)],
-                               :environment => environments(:production))
+                               :puppet_aspect => puppet_aspect,
+                               :puppetclasses => [puppetclasses(:one)])
     get :index, {:host_id => @host.to_param}
     assert_response :success
     assert_not_nil assigns(:smart_variables)

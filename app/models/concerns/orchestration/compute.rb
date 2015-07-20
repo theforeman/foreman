@@ -108,7 +108,7 @@ module Orchestration::Compute
     # Mostly copied from SSHProvision, should probably refactor to have both use a common set of PuppetCA actions
     compute_attributes.merge!(:user_data => nil) # Unset any badly formatted data
     # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
-    if puppetca?
+    if puppet_aspect and puppet_aspect.puppetca?
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
     end
   rescue => e

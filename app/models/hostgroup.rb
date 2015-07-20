@@ -12,10 +12,15 @@ class Hostgroup < ActiveRecord::Base
   include ScopedSearchExtensions
   include PuppetclassTotalHosts::Indirect
 
-  validates_lengths_from_database :except => [:name]
-  before_destroy EnsureNotUsedBy.new(:hosts)
+  #temporary - will be moved to concern
+  belongs_to :puppet_proxy,    :class_name => "SmartProxy"
+  belongs_to :puppet_ca_proxy, :class_name => "SmartProxy"
   has_many :hostgroup_classes
   has_many :puppetclasses, :through => :hostgroup_classes, :dependent => :destroy
+  has_many :group_puppetclasses, :through => :config_groups, :source => :puppetclasses
+
+  validates_lengths_from_database :except => [:name]
+  before_destroy EnsureNotUsedBy.new(:hosts)
   validates :name, :presence => true
   validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
@@ -215,6 +220,51 @@ class Hostgroup < ActiveRecord::Base
     unscoped_find(ancestry_was.to_s.split('/').last.to_i).update_puppetclasses_total_hosts if ancestry_was.present?
     unscoped_find(ancestry.to_s.split('/').last.to_i).update_puppetclasses_total_hosts if ancestry.present?
   end
+
+  # Duplicated from puppet_aspect, should get out and merge once puppet moves out completely
+  def hg_class_ids
+    hg_ids = path_ids
+    HostgroupClass.where(:hostgroup_id => hg_ids).pluck(:puppetclass_id)
+  end
+
+  def cg_class_ids
+    cg_ids = path.each.map(&:config_group_ids).flatten.uniq
+    ConfigGroupClass.where(:config_group_id => cg_ids).pluck(:puppetclass_id)
+  end
+
+  def all_puppetclass_ids
+    cg_class_ids + hg_class_ids
+  end
+
+  def classes(env = environment)
+    conditions = {:id => all_puppetclass_ids }
+    if env
+      env.puppetclasses.where(conditions)
+    else
+      Puppetclass.where(conditions)
+    end
+  end
+
+  def classes_in_groups
+    conditions = {:id => cg_class_ids }
+    if environment
+      environment.puppetclasses.where(conditions) - parent_classes
+    else
+      Puppetclass.where(conditions) - parent_classes
+    end
+  end
+
+  def individual_puppetclasses
+    puppetclasses - classes_in_groups
+  end
+
+  def available_puppetclasses
+    return Puppetclass.scoped if environment_id.blank?
+    environment.puppetclasses - parent_classes
+  end
+  alias_method :all_puppetclasses, :classes
+
+  # End of puppet - specific fields
 
   private
 

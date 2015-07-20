@@ -7,8 +7,8 @@ class HostBuildStatusTest < ActiveSupport::TestCase
     User.current = users(:admin)
     @host = Host.new(:name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => FactoryGirl.create(:ptable), :medium => media(:one),
                     :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
-                    :subnet => subnets(:one), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
-                    :owner_type => "User", :root_pass => "xybxa6JUkz63w")
+                    :subnet => subnets(:one), :architecture => architectures(:x86_64), :managed => true,
+                    :owner_type => "User", :root_pass => "xybxa6JUkz63w", :puppet_aspect_attributes => { :environment => environments(:production) })
     @build = @host.build_status
     # bypass host.valid?
     HostBuildStatus.any_instance.stubs(:host_status).returns(true)
@@ -21,7 +21,13 @@ class HostBuildStatusTest < ActiveSupport::TestCase
   test "should fail rendering a template" do
     host = @host
     kind = FactoryGirl.create(:template_kind)
-    FactoryGirl.create(:provisioning_template, :template => "provision script <%= @foreman.server.status %>",:name => "My Failed Template", :template_kind => kind, :operatingsystem_ids => [host.operatingsystem_id], :environment_ids => [host.environment_id], :hostgroup_ids => [host.hostgroup_id]  )
+    FactoryGirl.create(:provisioning_template,
+      :template => "provision script <%= @foreman.server.status %>",
+      :name => "My Failed Template",
+      :template_kind => kind,
+      :operatingsystem_ids => [host.operatingsystem_id],
+      :environment_ids => [host.puppet_aspect.environment_id],
+      :hostgroup_ids => [host.hostgroup_id])
     @build = host.build_status
     refute_empty @build.errors[:templates]
   end

@@ -7,12 +7,11 @@
 
   <%= form_for @host,  :html => {:data => {:id => @host.try(:id), :type_changed => @host.type_changed?, :submit => 'progress_bar'}} do |f| %>
     <%= base_errors_for @host %>
+    <% load_tabs @host %>
+    <% load_aspects(@host) %>
 
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab"><%= _('Host') %></a></li>
-      <% if SmartProxy.with_features("Puppet").count > 0 %>
-        <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') %></a></li>
-      <% end %>
       <li id="network_tab" data-refresh-url="<%= interfaces_hosts_path %>"><a href="#network" data-toggle="tab"><%= _('Interfaces') %></a></li>
       <% if SETTINGS[:unattended] and @host.managed %>
         <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
@@ -22,6 +21,14 @@
       <% end %>
       <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
       <li><a href="#info" data-toggle="tab"><%= _('Additional Information') %></a></li>
+
+      <% @host_aspects.each do |aspect_subject, aspect| %>
+        <li><a href="#<%= aspect_subject %>" data-toggle="tab"><%= _(aspect_subject) %></a></li>
+      <% end %>
+
+      <% @tabs.each do |tab| %>
+        <%= tab[0] %>
+      <% end %>
     </ul>
 
     <div class="tab-content">
@@ -62,22 +69,8 @@
         </div>
         <% end %>
 
-        <%= select_f f, :environment_id, Environment.with_taxonomy_scope_override(@location,@organization).order(:name), :id, :to_label, { :include_blank => true },
-            {:onchange => 'update_puppetclasses(this)', :'data-url' => hostgroup_or_environment_selected_hosts_path,
-            :'data-host-id' => @host.id, :help_inline => :indicator} %>
-
-        <%= puppet_master_fields f %>
-
         <%= realm_field f %>
 
-      </div>
-
-      <div class="tab-pane" id="puppet_klasses">
-        <% if @environment or @hostgroup %>
-          <%= render 'puppetclasses/class_selection', :obj => @host %>
-        <% else %>
-          <%= alert :class => 'alert-warning', :text =>  _('Please select an environment first') %>
-        <% end %>
       </div>
 
       <%= f.hidden_field :managed %>
@@ -93,7 +86,7 @@
       <div class="tab-pane"  id="params">
         <h4><%= _('Puppet classes Parameters') %></h4>
         <p></p>
-        <%= render "puppetclasses/classes_parameters", { :obj => @host } %>
+        <%= render "puppetclasses/classes_parameters", { :obj => @host.puppet_aspect } %>
         <h4><%= _('Included Parameters via inheritance') %></h4>
         <p></p>
         <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true) } %>
@@ -119,6 +112,16 @@
         </div>
         <%= textarea_f f, :comment, :help_block => _("Additional information about this host"), :size => "col-md-8", :rows => "3" %>
       </div>
+
+      <% @host_aspects.each do |aspect_subject, aspect| %>
+        <div class="tab-pane"  id="<%= aspect_subject %>">
+          <%= render aspect, :f => f %>
+        </div>
+      <% end %>
+
+      <% @tabs.each do |tab| %>
+        <%= tab[1] %>
+      <% end %>
 
     </div>
 

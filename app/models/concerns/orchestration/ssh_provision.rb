@@ -68,7 +68,7 @@ module Orchestration::SSHProvision
 
   def delSSHCert
     # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
-    if puppetca?
+    if puppet_aspect and puppet_aspect.puppetca?
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
     end
   rescue => e
@@ -80,7 +80,7 @@ module Orchestration::SSHProvision
     if client.deploy!
       # since we are in a after_commit callback, we need to fetch our host again, and clean up puppet ca on our own
       Host.find(id).built
-      respond_to?(:initialize_puppetca,true) && initialize_puppetca && delAutosign if puppetca?
+      respond_to?(:initialize_puppetca,true) && initialize_puppetca && delAutosign if puppet_aspect and puppet_aspect.puppetca?
     else
       raise ::Foreman::Exception.new(N_("Provision script had a non zero exit, removing instance"))
     end

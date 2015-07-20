@@ -54,15 +54,16 @@ class OrganizationTest < ActiveSupport::TestCase
     FactoryGirl.create(:host,
                        :compute_resource => compute_resources(:one),
                        :domain           => domain,
-                       :environment      => environments(:production),
                        :medium           => media(:one),
                        :operatingsystem  => operatingsystems(:centos5_3),
                        :organization     => organization,
                        :owner            => users(:restricted),
-                       :puppet_proxy     => smart_proxies(:puppetmaster),
                        :realm            => realms(:myrealm),
                        :subnet           => subnet,
-                       :location         => nil)
+                       :location         => nil,
+                       :puppet_aspect_attributes => {
+                         :puppet_proxy => smart_proxies(:puppetmaster),
+                         :environment => environments(:production) })
     FactoryGirl.create(:os_default_template,
                        :provisioning_template  => templates(:mystring2),
                        :operatingsystem  => operatingsystems(:centos5_3),
@@ -70,7 +71,7 @@ class OrganizationTest < ActiveSupport::TestCase
     # run used_ids method
     used_ids = organization.used_ids
     # get results from Host object
-    environment_ids = Host.where(:organization_id => organization.id).uniq.pluck(:environment_id).compact
+    environment_ids = Host.where(:organization_id => organization.id).joins(:puppet_aspect).pluck('puppet_aspects.environment_id').compact.uniq
     hostgroup_ids = Host.where(:organization_id => organization.id).uniq.pluck(:hostgroup_id).compact
     subnet_ids = Host.where(:organization_id => organization.id).joins(:primary_interface => :subnet).uniq.pluck(:subnet_id).map(&:to_i).compact
     domain_ids = Host.where(:organization_id => organization.id).joins(:primary_interface => :domain).uniq.pluck(:domain_id).map(&:to_i).compact

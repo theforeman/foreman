@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+#one:
+#  puppet_status: 1
+#  environment_id: 1
+#  puppet_ca_proxy_id: 1
+#  puppet_proxy_id: 1
+#
+#two:
+#  puppet_status: 1
+#  environment_id: 1
+#  puppet_ca_proxy_id: 1
+#  puppet_proxy_id: 1

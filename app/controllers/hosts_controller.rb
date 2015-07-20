@@ -66,6 +66,11 @@ class HostsController < ApplicationController
 
   def new
     @host = Host.new :managed => true
+    @host.send("build_#{HostAspects.configuration_aspect.name}")
+    config_aspect = HostAspect.new :aspect_type => :configuration
+    config_aspect.host = @host
+    config_aspect.execution_model = @host.send(HostAspects.configuration_aspect.name)
+    @host.host_aspects << config_aspect
   end
 
   # Clone the host
@@ -80,6 +85,11 @@ class HostsController < ApplicationController
   def create
     @host = Host.new(params[:host])
     @host.managed = true if (params[:host] && params[:host][:managed].nil?)
+    @host.host_aspects.each do |aspect|
+      assoc = Host.reflect_on_all_associations.find {|a| a.class_name == aspect.execution_model_type}
+      obj = @host.send(assoc.name)
+      aspect.execution_model = obj
+    end
     forward_url_options
     if @host.save
       process_success :success_redirect => host_path(@host)
@@ -138,8 +148,8 @@ class HostsController < ApplicationController
 
   def hostgroup_or_environment_selected
     Taxonomy.as_taxonomy @organization, @location do
-      if params['host']['environment_id'].present? || params['host']['hostgroup_id'].present?
-        render :partial => 'puppetclasses/class_selection', :locals => {:obj => (refresh_host)}
+      if params['host']['puppet_aspect_attributes']['environment_id'].present? || params['host']['hostgroup_id'].present?
+        render :partial => 'puppetclasses/class_selection', :locals => {:obj => (refresh_host.puppet_aspect)}
       else
         logger.info "environment_id or hostgroup_id is required to render puppetclasses"
       end
@@ -154,7 +164,7 @@ class HostsController < ApplicationController
 
   def puppetclass_parameters
     Taxonomy.as_taxonomy @organization, @location do
-      render :partial => "puppetclasses/classes_parameters", :locals => { :obj => refresh_host}
+      render :partial => "puppetclasses/classes_parameters", :locals => { :obj => refresh_host.puppet_aspect}
     end
   end
 
@@ -407,7 +417,8 @@ class HostsController < ApplicationController
 
     #update the hosts
     @hosts.each do |host|
-      host.environment = (id == 'inherit' && host.hostgroup.present? ) ? host.hostgroup.environment : ev
+      host.build_puppet_aspect unless host.puppet_aspect
+      host.puppet_aspect.environment = (id == 'inherit' && host.hostgroup.present? ) ? host.hostgroup.environment : ev
       host.save(:validate => false)
     end
 
@@ -469,7 +480,7 @@ class HostsController < ApplicationController
 
   def update_multiple_puppetrun
     return deny_access unless Setting[:puppetrun]
-    if @hosts.map(&:puppetrun!).uniq == [true]
+    if @hosts.map{|host| host.puppet_aspect.puppetrun!}.uniq == [true]
       notice _("Successfully executed, check reports and/or log files for more details")
     else
       error _("Some or all hosts execution failed, Please check log files for more information")
@@ -654,7 +665,7 @@ class HostsController < ApplicationController
     return unless @host
 
     taxonomy_scope
-    @environment     = @host.environment
+    @environment     = @host.puppet_aspect.try(:environment)
     @architecture    = @host.architecture
     @domain          = @host.domain
     @operatingsystem = @host.operatingsystem

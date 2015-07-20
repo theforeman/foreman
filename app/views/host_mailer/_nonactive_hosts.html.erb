@@ -21,7 +21,7 @@
       <%= host.hostgroup %>
     </td>
     <td style="<%= td_style %>">
-      <%= host.environment %>
+      <%= host.puppet_aspect.try(:environment) %>
     </td>
     <% if host.last_report %>
       <td style="<%= td_style %>">

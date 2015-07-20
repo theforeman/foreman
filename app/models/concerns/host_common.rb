@@ -15,20 +15,15 @@ module HostCommon
     belongs_to :operatingsystem, :counter_cache => counter_cache
     belongs_to :medium
     belongs_to :ptable
-    belongs_to :puppet_proxy,    :class_name => "SmartProxy"
-    belongs_to :puppet_ca_proxy, :class_name => "SmartProxy"
     belongs_to :realm,           :counter_cache => counter_cache
     belongs_to :compute_profile
 
-    before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
+    before_save :crypt_root_pass
 
     has_many :host_config_groups, :as => :host
     has_many :config_groups, :through => :host_config_groups, :after_add => :update_config_group_counters,
                                                               :after_remove => :update_config_group_counters
     has_many :config_group_classes, :through => :config_groups
-    has_many :group_puppetclasses, :through => :config_groups, :source => :puppetclasses
-
-    alias_method :all_puppetclasses, :classes
 
     has_many :lookup_values, :finder_sql => Proc.new { LookupValue.where('lookup_values.match' => lookup_value_match).to_sql }, :dependent => :destroy, :validate => false
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
@@ -58,19 +53,18 @@ module HostCommon
   end
 
   def puppetca?
-    return false if self.respond_to?(:managed?) and !managed?
-    !!(puppet_ca_proxy and puppet_ca_proxy.url.present?)
+    raise "Old design"
   end
 
   # no need to store anything in the db if the entry is plain "puppet"
   # If the system is using smart proxies and the user has run the smartproxy:migrate task
   # then the puppetmaster functions handle smart proxy objects
   def puppetmaster
-    puppet_proxy.to_s
+    raise "Old design"
   end
 
   def puppet_ca_server
-    puppet_ca_proxy.to_s
+    raise "Old design"
   end
 
   # If the host/hostgroup has a medium then use the path from there
@@ -156,55 +150,41 @@ module HostCommon
   end
 
   def host_class_ids
-    is_a?(Host::Base) ? host_classes.pluck(:puppetclass_id) : []
+    debugger
+    throw 'Old code'
   end
 
   def all_puppetclass_ids
-    cg_class_ids + hg_class_ids + host_class_ids
+    debugger
+    throw 'Old code'
   end
 
   def classes(env = environment)
-    conditions = {:id => all_puppetclass_ids }
-    if env
-      env.puppetclasses.where(conditions)
-    else
-      Puppetclass.where(conditions)
-    end
+    debugger
+    throw 'Old code'
   end
 
   def puppetclass_ids
-    classes.reorder('').pluck('puppetclasses.id')
+    debugger
+    throw 'Old code'
   end
 
   def classes_in_groups
-    conditions = {:id => cg_class_ids }
-    if environment
-      environment.puppetclasses.where(conditions) - parent_classes
-    else
-      Puppetclass.where(conditions) - parent_classes
-    end
+    debugger
+    throw 'Old code'
   end
 
   def individual_puppetclasses
-    puppetclasses - classes_in_groups
+    debugger
+    throw 'Old code'
   end
 
   def available_puppetclasses
-    return Puppetclass.scoped if environment_id.blank?
-    environment.puppetclasses - parent_classes
+    debugger
+    throw 'Old code'
   end
 
   private
-
-  # fall back to our puppet proxy in case our puppet ca is not defined/used.
-  def check_puppet_ca_proxy_is_required?
-    return true if puppet_ca_proxy_id.present? or puppet_proxy_id.blank?
-    if puppet_proxy.has_feature?('Puppet CA')
-      self.puppet_ca_proxy ||= puppet_proxy
-    end
-  rescue
-    true # we don't want to break anything, so just skipping.
-  end
 
   def cnt_hostgroups(config_group)
     Hostgroup.search_for(%{config_group="#{config_group.name}"}).count
