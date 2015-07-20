@@ -1,7 +1,7 @@
 module Api
   module V2
     class HomeController < V2::BaseController
-      before_filter :require_admin
+      before_filter :require_admin, :only => [:index]
       layout false
 
       api :GET, "/", N_("Show available API links")
