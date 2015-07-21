@@ -34,7 +34,10 @@
                   :text  => icon_text("info-sign", (_('Note: %s ') % link_to(_('Useful template functions and macros'),
                                                                              "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.4.3ProvisioningTemplates", :rel => 'external')).html_safe) %>
       <% end -%>
-      <%= render "custom_tabs", :f => f %>
+
+      <% if type == 'ptable' %>
+        <%= render "custom_tabs", :f => f %>
+      <% end -%>
 
       <% if pxe_with_building_hosts?(@template) -%>
         <%= alert :class => 'alert-warning', :header => '',
@@ -99,7 +102,7 @@
     </div>
 
 
-
+    <%= render "custom_tabs", :f => f unless type == 'ptable'%>
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @template %>
 
     <%= submit_or_cancel f, false, :cancel_path => template_path_for(@template.class) %>
