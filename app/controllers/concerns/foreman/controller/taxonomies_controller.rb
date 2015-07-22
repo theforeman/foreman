@@ -3,8 +3,8 @@ module Foreman::Controller::TaxonomiesController
 
   included do
     before_filter :find_resource, :only => %w{edit update destroy clone_taxonomy assign_hosts
-                                            assign_selected_hosts assign_all_hosts step2 select
-                                            parent_taxonomy_selected}
+                                              assign_selected_hosts assign_all_hosts step2 select
+                                              parent_taxonomy_selected}
     before_filter :count_nil_hosts, :only => %w{index create step2}
     skip_before_filter :authorize, :set_taxonomy, :only => %w{select clear}
   end

@@ -268,7 +268,7 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :hostgroups do |map|
     ajax_actions = [:architecture_selected, :domain_selected, :environment_selected, :medium_selected, :os_selected,
-      :use_image_selected, :process_hostgroup, :current_parameters, :puppetclass_parameters]
+                    :use_image_selected, :process_hostgroup, :current_parameters, :puppetclass_parameters]
     host_ajax_actions = [:process_hostgroup]
     pc_ajax_actions = [:parameters]
 
@@ -313,16 +313,16 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :hosts do |map|
     ajax_actions = [:architecture_selected, :compute_resource_selected, :domain_selected, :environment_selected,
-      :hostgroup_or_environment_selected, :medium_selected, :os_selected, :use_image_selected, :process_hostgroup,
-      :process_taxonomy, :current_parameters, :puppetclass_parameters, :template_used, :interfaces]
+                    :hostgroup_or_environment_selected, :medium_selected, :os_selected, :use_image_selected, :process_hostgroup,
+                    :process_taxonomy, :current_parameters, :puppetclass_parameters, :template_used, :interfaces]
     cr_ajax_actions = [:cluster_selected, :template_selected, :provider_selected]
     pc_ajax_actions = [:parameters]
     subnets_ajax_actions = [:freeip]
     tasks_ajax_actions = [:show]
 
     map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled, :pending, :vm,
-                                      :externalNodes, :pxe_config, :storeconfig_klasses, :auto_complete_search, :bmc,
-                                      :runtime, :resources, :templates, :overview, :nics],
+                                               :externalNodes, :pxe_config, :storeconfig_klasses, :auto_complete_search, :bmc,
+                                               :runtime, :resources, :templates, :overview, :nics],
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => [:template, :provision],
                                      :"api/v1/hosts" => [:index, :show, :status],
@@ -342,12 +342,12 @@ Foreman::AccessControl.map do |permission_set|
                                      :"api/v2/tasks" => [:index]
                                   }
     map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple, :submit_multiple_enable,
-                                      :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,
-                                      :multiple_parameters, :multiple_disable, :multiple_enable, :update_multiple_environment,
-                                      :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage,
-                                      :select_multiple_organization, :update_multiple_organization,
-                                      :disassociate, :multiple_disassociate, :update_multiple_disassociate,
-                                      :select_multiple_location, :update_multiple_location].push(*ajax_actions),
+                                               :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,
+                                               :multiple_parameters, :multiple_disable, :multiple_enable, :update_multiple_environment,
+                                               :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage,
+                                               :select_multiple_organization, :update_multiple_organization,
+                                               :disassociate, :multiple_disassociate, :update_multiple_disassociate,
+                                               :select_multiple_location, :update_multiple_location].push(*ajax_actions),
                                     :compute_resources => [:associate].push(cr_ajax_actions),
                                     :compute_resources_vms => [:associate],
                                     :puppetclasses => pc_ajax_actions,

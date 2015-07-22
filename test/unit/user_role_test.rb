@@ -71,7 +71,7 @@ class UserRoleTest < ActiveSupport::TestCase
     @admins.usergroups     = [@superadmins]
 
     @semiadmin_users = [FactoryGirl.create(:user, :login => 'ur_semiadmin1'),
-                       FactoryGirl.create(:user, :login => 'ur_semiadmin2')]
+                        FactoryGirl.create(:user, :login => 'ur_semiadmin2')]
     @admin_user      = FactoryGirl.create(:user, :login => 'ur_admin1')
     @superadmin_user = FactoryGirl.create(:user, :login => 'ur_superadmin1')
 

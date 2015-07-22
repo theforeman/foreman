@@ -19,9 +19,9 @@ class HostsController < ApplicationController
 
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
-                                         :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
-                                         :runtime, :resources, :templates, :nics, :ipmi_boot, :console,
-                                         :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
+                                          :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
+                                          :runtime, :resources, :templates, :nics, :ipmi_boot, :console,
+                                          :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
 
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
