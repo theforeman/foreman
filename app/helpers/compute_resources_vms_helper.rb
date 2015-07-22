@@ -76,14 +76,12 @@ module ComputeResourcesVmsHelper
   end
 
   def vsphere_datastores(compute)
-    compute.datastores.map do |ds|
-      [
-        ds.freespace && ds.capacity ?
-          "#{ds.name} (#{_('free')}: #{number_to_human_size(ds.freespace)}, #{_('prov')}: #{number_to_human_size(ds.capacity + (ds.uncommitted || 0) - ds.freespace)}, #{_('total')}: #{number_to_human_size(ds.capacity)})" :
-          ds.name,
-        ds.name
-      ]
-    end
+    compute.datastores.map { |datastore| [datastore_stats(datastore), datastore.name] }
+  end
+
+  def datastore_stats(datastore)
+    return datastore.name unless datastore.freespace && datastore.capacity
+    "#{datastore.name} (#{_('free')}: #{number_to_human_size(datastore.freespace)}, #{_('prov')}: #{number_to_human_size(datastore.capacity + (datastore.uncommitted || 0) - datastore.freespace)}, #{_('total')}: #{number_to_human_size(datastore.capacity)})"
   end
 
   def available_actions(vm, authorizer = nil)

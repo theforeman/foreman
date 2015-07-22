@@ -21,9 +21,12 @@ class MigrateWebsocketsSetting < ActiveRecord::Migration
     return unless encrypt = FakeSetting.find_by_name("websockets_encrypt")
     encrypt.settings_type = "boolean"
     if encrypt.value == "auto"
-      encrypt.value = (Setting[:websockets_ssl_key].nil? ||
-                       Setting[:websockets_ssl_cert].nil?) ? false : true
-    elsif !encrypt.value.nil?
+      encrypt.value = if Setting[:websockets_ssl_key].present? && Setting[:websockets_ssl_cert].present?
+                        true
+                      else
+                        false
+                      end
+    elsif encrypt.value.present?
       encrypt.value = Foreman::Cast.to_bool(encrypt.value)
     end
     encrypt.default = !!SETTINGS[:require_ssl]
