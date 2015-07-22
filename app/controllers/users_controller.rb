@@ -125,6 +125,8 @@ class UsersController < ApplicationController
     session[:original_uri] = nil
     set_current_taxonomies(user, {:session => session})
     TopbarSweeper.expire_cache(self)
-    redirect_to (uri || hosts_path)
+    homepage = User.current.try(:homepage)
+    homepage = "/#{homepage}" if homepage && !homepage.starts_with?('/')
+    redirect_to (uri || homepage || hosts_path)
   end
 end

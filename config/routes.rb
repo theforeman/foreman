@@ -373,7 +373,7 @@ Foreman::Application.routes.draw do
     end
   end
 
-  root :to => 'dashboard#index'
+  root :to => 'home#index'
   match 'dashboard', :to => 'dashboard#index', :as => "dashboard"
   match 'dashboard/auto_complete_search', :to => 'hosts#auto_complete_search', :as => "auto_complete_search_dashboards"
   match 'statistics', :to => 'statistics#index', :as => "statistics"
