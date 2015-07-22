@@ -2,6 +2,7 @@ class OrganizationParameter < Parameter
   belongs_to :organization, :foreign_key => :reference_id, :inverse_of => :organization_parameters
   audited :except => [:priority], :associated_with => :organization, :allow_mass_assignment => true
   validates :name, :uniqueness => {:scope => :reference_id}
+  validates :organization, :presence => true
 
   private
 

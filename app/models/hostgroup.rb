@@ -194,20 +194,10 @@ class Hostgroup < ActiveRecord::Base
 
   # Clone the hostgroup
   def clone(name = "")
-    new = self.dup
-    new.name = name
-    new.puppetclasses = puppetclasses
-    new.locations     = locations
-    new.organizations = organizations
+    new = self.deep_clone(:include => [:group_parameters, :locations, :organizations, :puppetclasses, :lookup_values],
+                          :except  => [:name])
     new.config_groups = config_groups
-
-    # Clone any parameters as well
-    self.group_parameters.each{|param| new.group_parameters << param.clone}
-    self.lookup_values.each do |lookup_value|
-      new_lookup_value = lookup_value.dup
-      new_lookup_value.match = "hostgroup=#{new.title}"
-      new.lookup_values << new_lookup_value
-    end
+    new.name = name
     new
   end
 
