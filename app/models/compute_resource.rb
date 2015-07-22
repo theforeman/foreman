@@ -300,8 +300,6 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def ensure_provider_not_changed
-    if self.type_changed?
-      errors.add(:provider, _("cannot be changed"))
-    end
+    errors.add(:provider, _("cannot be changed")) if self.type_changed?
   end
 end

@@ -65,9 +65,7 @@ module Classification
           value = update_generic_matcher(sorted_lookup_values, options)
         end
 
-        if value.present?
-          values[key.id][key.key] = value
-        end
+        values[key.id][key.key] = value if value.present?
       end
       values
     end

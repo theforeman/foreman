@@ -406,9 +406,7 @@ module Host
     # provision is required only for managed host and defaults to primary
     def host_has_required_interfaces
       check_primary_interface
-      if self.managed?
-        check_provision_interface
-      end
+      check_provision_interface if self.managed?
     end
 
     def check_primary_interface

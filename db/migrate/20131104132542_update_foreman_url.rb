@@ -11,8 +11,6 @@ class UpdateForemanUrl < ActiveRecord::Migration
 
   def down
     return unless (val = Setting.find_by_name('foreman_url').try(:value))
-    if URI.parse(val).host.present?
-      Setting[:foreman_url]=URI.parse(val).host
-    end
+    Setting[:foreman_url] = URI.parse(val).host if URI.parse(val).host.present?
   end
 end
