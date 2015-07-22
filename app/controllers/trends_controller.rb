@@ -10,6 +10,7 @@ class TrendsController < ApplicationController
   end
 
   def show
+    render 'trends/_empty_data' if @trend.values.joins(:trend_counters).empty?
   end
 
   def create
