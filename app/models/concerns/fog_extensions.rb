@@ -1,9 +1,7 @@
 module FogExtensions
 end
 
-if defined? Fog::Model
-  Fog::Model.send(:include, FogExtensions::Model)
-end
+Fog::Model.send(:include, FogExtensions::Model) if defined? Fog::Model
 
 # Fog is required by bundler, and depending on the group configuration,
 # different providers will be available - determined in config/application.rb

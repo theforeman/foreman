@@ -210,11 +210,6 @@ Style/FormatString:
 Style/GuardClause:
   Enabled: false
 
-# Offense count: 18
-# Configuration parameters: MaxLineLength.
-Style/IfUnlessModifier:
-  Enabled: false
-
 # Offense count: 91
 Style/Lambda:
   Enabled: false

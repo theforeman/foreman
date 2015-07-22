@@ -111,11 +111,7 @@ module Menu
       end
 
       def position_of(name)
-        @menu_items.each do |node|
-          if node.name == name
-            return node.position
-          end
-        end
+        @menu_items.each { |node| return node.position if node.name == name }
       end
     end
   end
