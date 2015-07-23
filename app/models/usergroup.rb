@@ -6,7 +6,7 @@ class Usergroup < ActiveRecord::Base
   include Parameterizable::ByIdName
 
   validates_lengths_from_database
-  before_destroy EnsureNotUsedBy.new(:hosts), :ensure_last_admin_group_is_not_deleted
+  before_destroy EnsureNotUsedBy.new([:hosts, :owner_id]), :ensure_last_admin_group_is_not_deleted
 
   has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
   has_many :roles, :through => :user_roles, :dependent => :destroy

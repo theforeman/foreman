@@ -38,8 +38,12 @@ class ActiveRecord::Base
     end
 
     def before_destroy(record)
-      klasses.each do |klass|
-        record.send(klass.to_sym).each do |what|
+      klasses.each do |klass, foreign_key|
+        record_class = record.class
+        association = record_class.reflect_on_association(klass)
+        foreign_key ||= "#{record_class.name}_id".to_sym
+        related_associations = association.class_name.constantize.unscoped.where(foreign_key => record.id)
+        related_associations.each do |what|
           what = what.to_label unless what.is_a? String
           record.errors.add :base, _("%{record} is used by %{what}") % { :record => record, :what => what }
         end
