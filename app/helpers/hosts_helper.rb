@@ -113,7 +113,7 @@ module HostsHelper
   end
 
   def days_ago(time)
-    ((Time.zone.now - time) / 1.day).round.to_i
+    ((Time.zone.now - time) / 1.day).ceil.to_i
   end
 
   def authorized?
