@@ -92,11 +92,12 @@ module Foreman #:nodoc:
     end
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
-    attr_reader :id, :logging
+    attr_reader :id, :logging, :default_roles
 
     def initialize(id)
       @id = id.to_sym
       @logging = Plugin::Logging.new(@id)
+      @default_roles = {}
     end
 
     def after_initialize
@@ -207,7 +208,8 @@ module Foreman #:nodoc:
 
     # Add a new role if it doesn't exist
     def role(name, permissions)
-      return false if pending_migrations
+      @default_roles[name] = permissions
+      return false if pending_migrations || Rails.env.test?
 
       Role.transaction do
         role = Role.find_or_create_by_name(name)
