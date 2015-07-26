@@ -1,8 +1,9 @@
 module Encryptable
   extend ActiveSupport::Concern
 
+  ENCRYPTION_PREFIX = "encrypted-"
+
   included do
-    ENCRYPTION_PREFIX = "encrypted-"
     before_save :encrypt_setters
   end
 
