@@ -144,6 +144,8 @@ Foreman::Application.routes.draw do
       end
 
       resources :ptables, :except => [:new, :edit] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         post :clone, :on => :member
         collection do
           get 'revision'
