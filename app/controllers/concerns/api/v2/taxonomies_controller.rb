@@ -5,7 +5,7 @@ module Api::V2::TaxonomiesController
     before_filter :rename_config_template, :only => %w{update create}
     before_filter :find_optional_nested_object
     before_filter :find_taxonomy, :only => %w(show update destroy settings
-                                              domain_ids subnet_ids hostgroup_ids config_template_ids compute_resource_ids
+                                              domain_ids subnet_ids hostgroup_ids config_template_ids ptable_ids compute_resource_ids
                                               medium_ids smart_proxy_ids environment_ids user_ids organization_ids realm_ids)
     before_filter :params_match_database, :only => %w(create update)
   end
@@ -21,6 +21,7 @@ module Api::V2::TaxonomiesController
       param :compute_resource_ids, Array, N_("Compute resource IDs"), :required => false
       param :media_ids, Array, N_("Media IDs"), :required => false
       param :config_template_ids, Array, N_("Provisioning template IDs"), :required => false # FIXME: deprecated
+      param :ptable_ids, Array, N_("Partition template IDs"), :required => false
       param :provisioning_template_ids, Array, N_("Provisioning template IDs"), :required => false
       param :domain_ids, Array, N_("Domain IDs"), :required => false
       param :realm_ids, Array, N_("Realm IDs"), :required => false
