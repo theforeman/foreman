@@ -121,6 +121,8 @@ function onContentLoad(){
   $("#new_lookup_keys_ select").select2('destroy');
   // Interface selects are initiated separately
   $("#interfaces select").select2('destroy');
+  // Compute profiles additional nics & volumes are initiated separately
+  $(".nics_fields_template select, .volumes_fields_template select").select2('destroy');
 
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
