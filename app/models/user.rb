@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation
   after_save :ensure_default_role
-  before_destroy EnsureNotUsedBy.new(:direct_hosts), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
+  before_destroy EnsureNotUsedBy.new([:direct_hosts, :hosts]), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
 
   belongs_to :auth_source
   belongs_to :default_organization, :class_name => 'Organization'
