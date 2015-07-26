@@ -86,7 +86,7 @@ module LayoutHelper
   # add hidden field for options[:disabled]
   def multiple_selects(f, attr, associations, selected_ids, options = {}, html_options = {})
     options.merge!(:size => "col-md-10")
-    authorized = authorized_associations(associations).all
+    authorized = AssociationAuthorizer.authorized_associations(associations).all
     unauthorized = selected_ids.blank? ? [] : selected_ids - authorized.map(&:id)
     field(f, attr, options) do
       attr_ids = (attr.to_s.singularize+"_ids").to_sym
@@ -442,26 +442,6 @@ module LayoutHelper
   end
 
   private
-
-  def authorized_associations(associations)
-    if associations.included_modules.include?(Authorizable)
-      if associations.respond_to?(:klass)
-        associations.authorized(authorized_associations_permission_name(associations.klass), associations.klass)
-      else
-        associations.authorized(authorized_associations_permission_name(associations), associations)
-      end
-    else
-      associations
-    end
-  end
-
-  def authorized_associations_permission_name(klass)
-    permission = "view_#{klass.to_s.underscore.pluralize}"
-    unless Permission.where(:name => permission).present?
-      raise Foreman::Exception.new(N_('unknown permission %s'), permission)
-    end
-    permission
-  end
 
   def table_css_classes(classes = '')
     "table table-bordered table-striped table-condensed " + classes
