@@ -724,8 +724,6 @@ class HostTest < ActiveSupport::TestCase
       hostgroup = FactoryGirl.create(:hostgroup, :with_puppet_orchestration)
       h = FactoryGirl.create(:host, :managed, :with_environment, :hostgroup => hostgroup)
       Setting[:manage_puppetca] = true
-      assert h.puppet_proxy.present?
-      assert h.puppetca?
 
       h.puppet_proxy_id = h.puppet_ca_proxy_id = nil
       h.save
@@ -2228,6 +2226,92 @@ class HostTest < ActiveSupport::TestCase
       assert_difference('LookupValue.count', -1) do
         host.save
       end
+    end
+  end
+
+  describe '#apply_inherited_attributes' do
+    test 'should be no-op if no hostgroup selected' do
+      host = FactoryGirl.build(:host, :managed)
+      attributes = { 'environment_id' => 1 }
+
+      actual_attr = host.apply_inherited_attributes(attributes)
+
+      assert_equal actual_attr, attributes
+    end
+
+    test 'should take new hostgroup if hostgroup_id present' do
+      host = FactoryGirl.build(:host, :managed, :with_hostgroup)
+      new_environment = FactoryGirl.create(:environment)
+      new_hostgroup = FactoryGirl.create(:hostgroup, :environment => new_environment)
+      assert_not_equal new_environment.id, host.hostgroup.environment.try(:id)
+
+      attributes = { 'hostgroup_id' => new_hostgroup.id }
+      actual_attr = host.apply_inherited_attributes(attributes)
+
+      assert_equal actual_attr['environment_id'], new_environment.id
+    end
+
+    test 'should take new hostgroup if hostgroup_name present' do
+      host = FactoryGirl.build(:host, :managed, :with_hostgroup)
+      new_environment = FactoryGirl.create(:environment)
+      new_hostgroup = FactoryGirl.create(:hostgroup, :environment => new_environment)
+      assert_not_equal new_environment.id, host.hostgroup.environment.try(:id)
+
+      attributes = { 'hostgroup_name' => new_hostgroup.title }
+      actual_attr = host.apply_inherited_attributes(attributes)
+
+      assert_equal actual_attr['environment_id'], new_environment.id
+    end
+
+    test 'should take old hostgroup if hostgroup not updated' do
+      environment = FactoryGirl.create(:environment)
+      host = FactoryGirl.build(:host, :managed, :with_hostgroup, :environment => environment)
+      Hostgroup.expects(:find).never
+
+      attributes = { 'hostgroup_id' => host.hostgroup.id }
+      actual_attr = host.apply_inherited_attributes(attributes)
+
+      assert_equal actual_attr['environment_id'], host.hostgroup.environment.id
+    end
+
+    test 'should accept non-existing hostgroup' do
+      host = FactoryGirl.build(:host, :managed, :with_hostgroup)
+      Hostgroup.expects(:find).with(1111).returns(nil)
+
+      attributes = { 'hostgroup_id' => 1111 }
+      actual_attr = host.apply_inherited_attributes(attributes)
+
+      assert_nil actual_attr['environment_id']
+    end
+
+    test 'should not touch attribute set explicitly' do
+      host = FactoryGirl.build(:host, :managed, :with_hostgroup)
+
+      attributes = { 'hostgroup_id' => host.hostgroup.id, 'environment_id' => 1111 }
+      actual_attr = host.apply_inherited_attributes(attributes)
+
+      assert_equal actual_attr['environment_id'], 1111
+    end
+
+    test 'should inherit attribute value, if not set explicitly' do
+      host = FactoryGirl.build(:host, :managed, :with_hostgroup)
+      environment = FactoryGirl.create(:environment)
+      host.hostgroup.environment = environment
+      host.hostgroup.save!
+
+      attributes = { 'hostgroup_id' => host.hostgroup.id }
+      actual_attr = host.apply_inherited_attributes(attributes)
+
+      assert_equal actual_attr['environment_id'], host.hostgroup.environment.id
+    end
+
+    test 'should not touch non-inherited attributes' do
+      host = FactoryGirl.build(:host, :managed, :with_hostgroup)
+
+      attributes = { 'hostgroup_id' => host.hostgroup.id, 'zzz_id' => 1111 }
+      actual_attr = host.apply_inherited_attributes(attributes)
+
+      assert_equal actual_attr['zzz_id'], 1111
     end
   end
 

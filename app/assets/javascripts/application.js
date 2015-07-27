@@ -170,11 +170,11 @@ function mark_params_override(){
     $('#inherited_parameters').find('[id^=name_]').each(function(){
       if (param_name.val() == $(this).text()){
         $(this).addClass('override-param');
-        $(this).closest('tr').find('textarea').addClass('override-param')
+        $(this).closest('tr').find('textarea').addClass('override-param');
         $(this).closest('tr').find('[data-tag=override]').hide();
       }
-    })
-  })
+    });
+  });
   $('#inherited_puppetclasses_parameters .override-param').removeClass('override-param');
   $('#inherited_puppetclasses_parameters [data-tag=override]').show();
   $('#puppetclasses_parameters').find('[data-property=class]:visible').each(function(){
@@ -485,4 +485,34 @@ function exit_fullscreen(){
          .resize();
   $('.exit-fullscreen').remove();
   $(window).scrollTop(element.data('position'));
+}
+
+function disableButtonToggle(item, explicit) {
+  if (explicit === undefined) {
+    explicit = true;
+  }
+  
+  item = $(item);
+  item.data('explicit', explicit);
+  var isActive = item.hasClass("active");
+  var formControl = item.closest('.input-group').find('.form-control');
+  if (!isActive) {
+    var blankValue = formControl.children("option[value='']");
+    if (blankValue.length == 0) {
+      $(item).data('no-blank', true);
+      $(formControl).append("<option value='' />");
+    }
+  } else {
+    var blankAttr = item.data('no-blank');
+    if (blankAttr == 'true') {
+      $(formControl).children("[value='']").remove();
+    }
+  }
+
+  formControl.attr('disabled', !isActive);
+  if (!isActive) {
+    $(formControl).val('');
+  }
+
+  $(item).blur();
 }

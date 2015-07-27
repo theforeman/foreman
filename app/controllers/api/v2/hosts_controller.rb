@@ -94,7 +94,7 @@ module Api
       param_group :host
 
       def update
-        @host.attributes = host_attributes(params[:host])
+        @host.attributes = host_attributes(params[:host], @host)
         merge_interfaces(@host)
 
         process_response @host.save
@@ -210,7 +210,7 @@ Return the host's compute attributes that can be used to create a clone of this 
         merge.run(host.interfaces, host.compute_resource.try(:compute_profile_for, host.compute_profile_id))
       end
 
-      def host_attributes(params)
+      def host_attributes(params, host = nil)
         return {} if params.nil?
 
         params = params.deep_clone
@@ -224,6 +224,7 @@ Return the host's compute attributes that can be used to create a clone of this 
             interface_attributes(nic_attr)
           end
         end
+        params = host.apply_inherited_attributes(params) if host
         params
       end
 

@@ -97,7 +97,9 @@ class HostsController < ApplicationController
   def update
     forward_url_options
     Taxonomy.no_taxonomy_scope do
-      if @host.update_attributes(params[:host])
+      attributes = @host.apply_inherited_attributes(params[:host])
+
+      if @host.update_attributes(attributes)
         process_success :success_redirect => host_path(@host)
       else
         taxonomy_scope
@@ -521,7 +523,7 @@ class HostsController < ApplicationController
     @host = if params[:host][:id]
               host = Host::Base.authorized(:view_hosts, Host).find(params[:host][:id])
               host = host.becomes Host::Managed
-              host.attributes = params[:host]
+              host.attributes = host.apply_inherited_attributes(params[:host])
               host
             else
               Host.new(params[:host])

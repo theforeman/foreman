@@ -113,10 +113,47 @@ module LayoutHelper
   end
 
   def select_f(f, attr, array, id, method, select_options = {}, html_options = {})
+    array = array.to_a
+    disable_button = select_options.delete(:disable_button)
+    include_blank = select_options.delete(:include_blank)
+    disable_button_enabled = select_options.delete(:disable_button_enabled)
+    user_set = !!select_options.delete(:user_set)
+
+    if include_blank
+      blank_value = include_blank.is_a?(TrueClass) ? nil : include_blank
+      blank_option = OpenStruct.new({id => '', method => blank_value })
+      array.insert(0, blank_option)
+    end
+
+    select_options[:disabled] = '' if select_options[:disabled] == include_blank
+    html_options.merge!(:disabled => true) if disable_button_enabled
+
     html_options.merge!(:size => 'col-md-10') if html_options[:multiple]
     field(f, attr, html_options) do
       addClass html_options, "form-control"
-      f.collection_select attr, array, id, method, select_options, html_options
+
+      collection_select = f.collection_select(attr, array, id, method, select_options, html_options)
+
+      if disable_button
+        button_part =
+          content_tag :span, class: 'input-group-btn' do
+            content_tag(:button, disable_button, :type => 'button', :href => '#',
+                                       :name => 'is_overridden_btn',
+                                       :onclick => "disableButtonToggle(this)",
+                                       :class => 'btn btn-default btn-can-disable' + (disable_button_enabled ? ' active' : ''),
+                                       :data => { :toggle => 'button', :explicit => user_set })
+          end
+
+        input_group collection_select, button_part
+      else
+        collection_select
+      end
+    end
+  end
+
+  def input_group(*controls)
+    content_tag :div, class: 'input-group' do
+      controls.map { |control_html| concat(control_html) }
     end
   end
 

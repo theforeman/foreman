@@ -62,6 +62,35 @@ class HostsControllerTest < ActionController::TestCase
     assert_redirected_to host_url(assigns['host'])
   end
 
+  test "should create new host with hostgroup inherited fields" do
+    leftovers = Host.search_for('myotherfullhost').first
+    refute leftovers
+    hostgroup = hostgroups(:common)
+    assert_difference 'Host.count' do
+      post :create, { :commit => "Create",
+        :host => {:name => "myotherfullhost",
+          :mac => "aabbecddee06",
+          :ip => "2.3.4.125",
+          :domain_id => domains(:mydomain).id,
+          :hostgroup_id => hostgroup.id,
+          :operatingsystem_id => operatingsystems(:redhat).id,
+          :architecture_id => architectures(:x86_64).id,
+          :subnet_id => subnets(:one).id,
+          :medium_id => media(:one).id,
+          :realm_id => realms(:myrealm).id,
+          :disk => "empty partition",
+          :root_pass           => "xybxa6JUkz63w",
+          :location_id => taxonomies(:location1).id,
+          :organization_id => taxonomies(:organization1).id
+        }
+      }, set_session_user
+    end
+    new_host = Host.search_for('myotherfullhost').first
+    assert_equal new_host.environment, hostgroup.environment
+    assert_equal new_host.puppet_proxy, hostgroup.puppet_proxy
+    assert_redirected_to host_url(assigns['host'])
+  end
+
   test "should get edit" do
     get :edit, {:id => @host.name}, set_session_user
     assert_response :success
