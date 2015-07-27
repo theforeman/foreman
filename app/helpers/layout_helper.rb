@@ -5,7 +5,8 @@ module LayoutHelper
   end
 
   def title_actions(*elements)
-    content_for(:title_actions) { elements.join(" ").html_safe }
+    plugins_html = Foreman::Plugin.call_title_actions_for_path(self, request.path)
+    content_for(:title_actions) { elements.join(" ").html_safe + plugins_html }
   end
 
   def button_group(*elements)

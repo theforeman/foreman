@@ -89,6 +89,10 @@ module Foreman #:nodoc:
       def installed?(id)
         registered_plugins[id.to_sym].present?
       end
+
+      def call_title_actions_for_path(obj, path)
+        registered_plugins.values.collect {|p| p.call_title_actions_for_path(obj, path)}.compact.join(" ").html_safe
+      end
     end
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
@@ -97,6 +101,7 @@ module Foreman #:nodoc:
     def initialize(id)
       @id = id.to_sym
       @logging = Plugin::Logging.new(@id)
+      @title_actions_for_path = {}
     end
 
     def after_initialize
@@ -267,6 +272,15 @@ module Foreman #:nodoc:
         Apipie.configuration.ignored.concat(controllers)
       end
       @apipie_ignored_controllers
+    end
+
+    def title_actions_for_path(path, &block)
+      @title_actions_for_path[path] = Proc.new(&block)
+    end
+
+    def call_title_actions_for_path(obj, path)
+      prc = @title_actions_for_path[path]
+      obj.instance_eval(&prc) if prc
     end
   end
 end
