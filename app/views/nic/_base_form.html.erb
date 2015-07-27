@@ -1,5 +1,5 @@
 <%= selectable_f f, :type, interfaces_types, {},
-                 :class => 'interface_type', :disabled => !f.object.new_record? %>
+                 :class => 'interface_type without_select2', :disabled => !f.object.new_record? %>
 
 
 <%= text_f f, :mac, :class => :interface_mac %>
@@ -22,12 +22,12 @@
                { :include_blank => accessible_domains.any? ? true : _("No domains")},
                { :disabled => accessible_domains.empty? ? true : false,
                  :help_inline => :indicator,
-                 :class => :interface_domain, :'data-url' => domain_selected_hosts_path } %>
+                 :class => 'interface_domain without_select2', :'data-url' => domain_selected_hosts_path } %>
   <%= select_f f, :subnet_id, accessible_subnets, :id, :to_label,
                { :include_blank => accessible_subnets.any? ? true : _("No subnets")},
                { :disabled => accessible_subnets.empty? ? true : false,
                  :help_inline => :indicator,
-                 :class => :interface_subnet, :'data-url' => freeip_subnets_path } %>
+                 :class => 'interface_subnet without_select2', :'data-url' => freeip_subnets_path } %>
 <% end %>
 <%= text_f f, :ip,
               :class => :interface_ip,

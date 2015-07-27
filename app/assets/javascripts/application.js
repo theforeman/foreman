@@ -117,12 +117,7 @@ function onContentLoad(){
   $.cookie('timezone', tz.name(), { path: '/', secure: location.protocol === 'https:' });
 
   $('.full-value').SelectOnClick();
-  $('select').select2({ allowClear: true });
-  $("#new_lookup_keys_ select").select2('destroy');
-  // Interface selects are initiated separately
-  $("#interfaces select").select2('destroy');
-  // Compute profiles additional nics & volumes are initiated separately
-  $(".nics_fields_template select, .volumes_fields_template select").select2('destroy');
+  $('select:not(.without_select2)').select2({ allowClear: true });
 
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
