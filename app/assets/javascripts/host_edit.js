@@ -208,12 +208,34 @@ function hostgroup_changed(element) {
     } else if (host_changed == undefined) { // hostgroup changes parent
       update_form(element);
     } else { // edit host
+      set_inherited_value(element);
       update_puppetclasses(element);
       reload_host_params();
     }
   } else { // a new host
+    set_inherited_value(element);
     update_form(element);
   }
+}
+
+function set_inherited_value(hostgroup_elem) {
+  var had_hostgroup = $(hostgroup_elem).data("had-hostgroup")
+
+  if (had_hostgroup) {
+    return;
+  }
+
+  var hostgroup_selected = hostgroup_elem.value != ""
+  $("[name=is_overridden_btn]").each(function(i, btn) {
+    var item = $(btn)
+    var is_active = item.hasClass("active");
+    var is_explicit = item.data('explicit');
+    if (!is_explicit &&
+        ((hostgroup_selected && !is_active) ||
+        (!hostgroup_selected && is_active))) {
+      disableButtonToggle(item, false);
+    }
+  })
 }
 
 function organization_changed(element) {
