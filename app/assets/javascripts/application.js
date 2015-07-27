@@ -122,11 +122,8 @@ function onContentLoad(){
 
   $('.full-value').SelectOnClick();
   $('select').select2({ allowClear: true });
-  $("#new_lookup_keys_ select").select2('destroy');
-  // Interface selects are initiated separately
-  $("#interfaces select").select2('destroy');
-  // Compute profiles additional nics & volumes are initiated separately
-  $(".nics_fields_template select, .volumes_fields_template select").select2('destroy');
+  // Select fields we wish to disable select2 or that are initialized elsewhere (e.g., ajax)
+  $('select.without_select2').select2('destroy');
 
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
