@@ -1,6 +1,8 @@
 module Api
   module V2
     class OsDefaultTemplatesController < V2::BaseController
+      wrap_parameters OsDefaultTemplate, :include => (OsDefaultTemplate.attribute_names + ['config_template_id'])
+
       include Api::Version2
       include Api::TaxonomyScope
 
@@ -30,7 +32,8 @@ module Api
       def_param_group :os_default_template do
         param :os_default_template, Hash, :required => true, :action_aware => true do
           param :template_kind_id, :number
-          param :config_template_id, :number
+          param :config_template_id, :number, N_('ID of provisioning template') # FIXME: deprecated
+          param :provisioning_template_id, :number, N_('ID of provisioning template')
         end
       end
 
@@ -63,10 +66,15 @@ module Api
       private
 
       def rename_config_template
-        if !params[:config_template_id].nil?
+        if params[:config_template_id].present?
           params[:provisioning_template_id] = params.delete(:config_template_id)
-          Foreman::Deprecation.api_deprecation_warning("Config templates were renamed to provisioning templates")
+          applied = true
         end
+        if params[:os_default_template] && params[:os_default_template][:config_template_id].present?
+          params[:os_default_template][:provisioning_template_id] = params[:os_default_template].delete(:config_template_id)
+          applied = true
+        end
+        Foreman::Deprecation.api_deprecation_warning("Config templates were renamed to provisioning templates") if applied
       end
 
       def allowed_nested_id
