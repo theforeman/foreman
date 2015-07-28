@@ -99,6 +99,7 @@ class HostgroupsController < ApplicationController
 
     @hostgroup ||= Hostgroup.new
     @hostgroup.environment = @environment if @environment
+    @hostgroup.puppetclasses = Puppetclass.where(:id => params[:hostgroup][:puppetclass_ids])
     render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@hostgroup), :type => 'hostgroup'}
   end
 
