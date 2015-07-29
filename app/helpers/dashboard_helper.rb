@@ -4,19 +4,22 @@ module DashboardHelper
   end
 
   def dashboard_actions
-    [_("Generated at %s") % Time.zone.now.to_s(:short),
-     select_action_button(
-        _("Manage dashboard"), {},
-       link_to_function(_("Save dashboard"), "save_position('#{save_positions_widgets_path}')"),
-       link_to(_("Reset to default"), reset_default_widgets_path, :method => :put),
-       content_tag(:li, '', :class=>'divider'),
-       content_tag(:li, _("Restore widgets"), :class=>'nav-header', :id=>'restore_list'),
-       content_tag(:li, '', :class=>'divider'),
-       content_tag(:li, _("Add widgets"), :class=>'nav-header'),
-       content_tag(:li, '', :class=>'widget-add') do
-         widgets_to_add
-       end
-     )]
+    [
+      _("Generated at %s") % Time.zone.now.to_s(:short),
+      select_action_button(
+        _('Manage'), {},
+        link_to_function(_('Save dashboard'), "save_position('#{save_positions_widgets_path}')"),
+        link_to(_('Reset to default'), reset_default_widgets_path, :method => :put),
+        content_tag(:li, '', :class=>'divider'),
+        content_tag(:li, _("Restore widgets"), :class=>'nav-header', :id=>'restore_list'),
+        content_tag(:li, '', :class=>'divider'),
+        content_tag(:li, _("Add widgets"), :class=>'nav-header'),
+        content_tag(:li, '', :class=>'widget-add') do
+          widgets_to_add
+        end
+      ),
+      documentation_button
+    ]
   end
 
   def removed_widgets
