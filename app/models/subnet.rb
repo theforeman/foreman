@@ -25,8 +25,7 @@ class Subnet < ActiveRecord::Base
   has_many :primary_hosts, :through => :primary_interfaces, :source => :host
   validates :network, :mask, :name, :presence => true
   validates_associated    :subnet_domains
-  validates :network, :uniqueness => true,
-                      :format => {:with => Net::Validations::IP_REGEXP}
+  validates :network, :format => {:with => Net::Validations::IP_REGEXP}
   validates :gateway, :dns_primary, :dns_secondary,
                       :allow_blank => true,
                       :allow_nil => true,
