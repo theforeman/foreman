@@ -28,10 +28,9 @@ class ApplicationController < ActionController::Base
   cache_sweeper :topbar_sweeper
 
   def welcome
-    @searchbar = true
-    klass = controller_name == "dashboard" ? "Host" : controller_name.camelize.singularize
+    klass = controller_name.camelize.singularize
     if (klass.constantize.first.nil? rescue false)
-      @searchbar = false
+      @welcome = true
       render :welcome rescue nil and return
     end
   rescue

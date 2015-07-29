@@ -200,8 +200,7 @@ module ApplicationHelper
   end
 
   def searchable?
-    return false if (SETTINGS[:login] and !User.current )
-    return false unless @searchbar
+    return false if (SETTINGS[:login] && !User.current) || @welcome
     if (controller.action_name == "index") or (defined?(SEARCHABLE_ACTIONS) and (SEARCHABLE_ACTIONS.include?(controller.action_name)))
       controller.respond_to?(:auto_complete_search)
     end
@@ -393,10 +392,15 @@ module ApplicationHelper
     (obj.new_record? && obj.class.count > 0) || (!obj.new_record? && obj.class.count > 1)
   end
 
-  def documentation_button(section)
+  def documentation_button(section = nil)
+    url = if section
+            "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html##{section}"
+          else
+            "http://www.theforeman.org/documentation.html##{SETTINGS[:version].short}"
+          end
+
     link_to(icon_text('question-sign', _('Documentation'), :class => 'icon-white'),
-            "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html##{section}",
-            :rel => 'external', :class => 'btn btn-info', :target => '_blank')
+      url, :rel => 'external', :class => 'btn btn-info', :target => '_blank')
   end
 
   private
