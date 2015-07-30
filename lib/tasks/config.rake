@@ -63,6 +63,7 @@ BANNER
     end
 
     def run(args)
+      args.shift if args.first == '--'
       parser.parse!(args)
 
       if @key && @key_values.any?
