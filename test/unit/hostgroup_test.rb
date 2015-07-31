@@ -266,7 +266,7 @@ class HostgroupTest < ActiveSupport::TestCase
     # nagios puppetclasses(:five) is also in config_groups(:one) Monitoring
     hostgroup.puppetclasses << puppetclasses(:five)
     assert_equal ['git', 'nagios'].sort, hostgroup.puppetclasses.map(&:name).sort
-    assert_equal ['git'], hostgroup.individual_puppetclasses.map(&:name)
+    assert_equal [], hostgroup.individual_puppetclasses.map(&:name)
   end
 
   test "available_puppetclasses should return all if no environment" do

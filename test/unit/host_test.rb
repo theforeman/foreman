@@ -1933,16 +1933,34 @@ class HostTest < ActiveSupport::TestCase
     assert_equal classes, enc['classes']
   end
 
-  test 'clone host including its relationships' do
-    host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
-    copy = host.clone
-    assert_equal host.host_classes.map(&:puppetclass_id), copy.host_classes.map(&:puppetclass_id)
-    assert_equal host.host_parameters.map(&:name), copy.host_parameters.map(&:name)
-    assert_equal host.host_parameters.map(&:value), copy.host_parameters.map(&:value)
-    assert_equal host.host_config_groups.map(&:config_group_id), copy.host_config_groups.map(&:config_group_id)
-  end
-
   describe 'cloning' do
+    test 'relationships are copied' do
+      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
+      copy = host.clone
+      assert_equal host.host_classes.map(&:puppetclass_id), copy.host_classes.map(&:puppetclass_id)
+      assert_equal host.host_parameters.map(&:name), copy.host_parameters.map(&:name)
+      assert_equal host.host_parameters.map(&:value), copy.host_parameters.map(&:value)
+      assert_equal host.host_config_groups.map(&:config_group_id), copy.host_config_groups.map(&:config_group_id)
+    end
+
+    test '#classes etc. on cloned host return the same' do
+      hostgroup = FactoryGirl.create(:hostgroup, :with_config_group, :with_puppetclass)
+      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter, :hostgroup => hostgroup, :environment => hostgroup.environment)
+      copy = host.clone
+      assert_equal host.individual_puppetclasses.map(&:id), copy.individual_puppetclasses.map(&:id)
+      assert_equal host.classes_in_groups.map(&:id), copy.classes_in_groups.map(&:id)
+      assert_equal host.classes.map(&:id), copy.classes.map(&:id)
+      assert_equal host.available_puppetclasses.map(&:id), copy.available_puppetclasses.map(&:id)
+    end
+
+    test 'lookup values are copied' do
+      host = FactoryGirl.create(:host, :with_puppetclass)
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
+      copy = host.clone
+      assert_equal 1, copy.lookup_values.size
+      assert_equal host.lookup_values.map(&:value), copy.lookup_values.map(&:value)
+    end
+
     test 'clone host should not copy name, system fields (mac, ip, etc)' do
       host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
       copy = host.clone
