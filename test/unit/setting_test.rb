@@ -434,4 +434,18 @@ class SettingTest < ActiveSupport::TestCase
     Setting[name] = options[:value]
     assert_nil Rails.cache.read(name)
   end
+
+  test "should be valid to assign home_page to existing route path" do
+    s = Setting.find_by_name('home_page')
+    Setting.home_page = '/domains'
+    assert_valid s
+  end
+
+  test "should be invalid to assign home_page to non-existing route path existing good route path" do
+    s = Setting.find_by_name('home_page')
+    assert_raise ActiveRecord::RecordInvalid do
+      Setting.home_page = '/domains-non-existing'
+    end
+  end
+
 end

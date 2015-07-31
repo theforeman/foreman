@@ -3,6 +3,12 @@ class HomeController < ApplicationController
   skip_before_filter :authorize, :set_taxonomy, :only => [:status]
   skip_before_filter :session_expiry, :update_activity_time, :only => :status
 
+  def index
+    homepage = User.current.try(:homepage) || 'dashboard'
+    homepage = "/#{homepage}" if homepage && !homepage.starts_with?('/')
+    redirect_to homepage
+  end
+
   def settings
   end
 

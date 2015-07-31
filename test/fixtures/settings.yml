@@ -261,3 +261,9 @@ attributes55:
   category: Setting::Puppet
   default: 5
   description: "Duration in minutes after the Puppet interval for servers to be classed as out of sync."
+attributes55:
+  name: home_page
+  settings_type: string
+  category: Setting::General
+  default: dashboard
+  description: "Path for home page that user lands on after login"

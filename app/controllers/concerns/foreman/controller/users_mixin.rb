@@ -29,6 +29,7 @@ module Foreman::Controller::UsersMixin
                              :lastname,
                              :locale,
                              :timezone,
+                             :homepage,
                              :default_organization_id,
                              :default_location_id,
                              :user_mail_notifications_attributes,

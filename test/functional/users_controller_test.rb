@@ -320,6 +320,17 @@ class UsersControllerTest < ActionController::TestCase
     refute session[:foo], "session contains 'foo', but should have been reset"
   end
 
+  test "should redirect to homepage for per user setting after login" do
+    assert User.find_by_login('secret_admin').update_attributes(:homepage => '/hosts/new')
+    post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
+    assert_redirected_to '/hosts/new'
+  end
+
+  test "should redirect to hosts after login in no user setting for homepage" do
+    post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
+    assert_redirected_to hosts_path
+  end
+
   test "#login renders login page" do
     get :login
     assert_response :success

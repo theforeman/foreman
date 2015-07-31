@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   ANONYMOUS_ADMIN = 'foreman_admin'
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
 
-  validates_lengths_from_database  :except => [:firstname, :lastname, :format, :mail, :login]
+  validates_lengths_from_database  :except => [:firstname, :lastname, :format, :mail, :login, :homepage]
   attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation
   after_save :ensure_default_role
@@ -86,6 +86,7 @@ class User < ActiveRecord::Base
   validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
            :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :validate_timezone, :ensure_admin_password_changed_by_admin
+  validate :is_valid_route
   before_validation :prepare_password, :normalize_mail
   before_save       :set_lower_login
 
@@ -449,6 +450,16 @@ class User < ActiveRecord::Base
 
   def set_default_widgets
     Dashboard::Manager.reset_user_to_default(self)
+  end
+
+  def is_valid_route
+    return true if self.homepage.blank?
+    # ignore everything after # in the route string
+    route_path = self.homepage.split('#').first
+    Rails.application.routes.recognize_path(route_path)
+  rescue ActionController::RoutingError
+    errors.add(:homepage, _("must be an existing path"))
+    return false
   end
 
   protected
