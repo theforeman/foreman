@@ -9,7 +9,7 @@ class HostgroupClass < ActiveRecord::Base
 
   attr_accessible :hostgroup_id, :hostgroup, :puppetclass_id, :puppetclass
 
-  validates :hostgroup_id, :presence => true
+  validates :hostgroup, :presence => true
   validates :puppetclass_id, :presence => true, :uniqueness => {:scope => :hostgroup_id}
 
   def name

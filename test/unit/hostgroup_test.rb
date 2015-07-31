@@ -371,8 +371,7 @@ class HostgroupTest < ActiveSupport::TestCase
     test "clone should clone puppet classes" do
       group.puppetclasses << FactoryGirl.create(:puppetclass)
       cloned = group.clone("new_name")
-      assert cloned.puppetclasses.size == 1
-      assert_equal cloned.puppetclasses, group.puppetclasses
+      assert_equal group.hostgroup_classes.map(&:puppetclass_id), cloned.hostgroup_classes.map(&:puppetclass_id)
     end
 
     test "clone should clone parameters values but update ids" do
@@ -391,6 +390,17 @@ class HostgroupTest < ActiveSupport::TestCase
       cloned = group.clone("new_name")
       cloned.save
       assert_equal cloned.lookup_values.map(&:value), group.lookup_values.map(&:value)
+    end
+
+    test '#classes etc. on cloned group return the same' do
+      parent = FactoryGirl.create(:hostgroup, :with_config_group, :with_puppetclass)
+      group = FactoryGirl.create(:hostgroup, :with_config_group, :with_puppetclass, :parent => parent)
+      cloned = group.clone('cloned')
+      assert_equal group.individual_puppetclasses.map(&:id), cloned.individual_puppetclasses.map(&:id)
+      assert_equal group.classes_in_groups.map(&:id), cloned.classes_in_groups.map(&:id)
+      assert_equal group.classes.map(&:id), cloned.classes.map(&:id)
+      assert_equal group.available_puppetclasses.map(&:id), cloned.available_puppetclasses.map(&:id)
+      assert_valid cloned
     end
   end
 end

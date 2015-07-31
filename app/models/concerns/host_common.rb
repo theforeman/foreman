@@ -146,9 +146,9 @@ module HostCommon
     cg_ids = if is_a?(Hostgroup)
                path.each.map(&:config_group_ids).flatten.uniq
              else
-               config_group_ids + (hostgroup ? hostgroup.path.each.map(&:config_group_ids).flatten.uniq : [] )
+               hostgroup ? hostgroup.path.each.map(&:config_group_ids).flatten.uniq : []
              end
-    ConfigGroupClass.where(:config_group_id => cg_ids).pluck(:puppetclass_id)
+    ConfigGroupClass.where(:config_group_id => (config_group_ids + cg_ids)).pluck(:puppetclass_id)
   end
 
   def hg_class_ids
