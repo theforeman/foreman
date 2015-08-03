@@ -347,6 +347,22 @@ module LayoutHelper
   private
 
   def authorized_associations(associations)
-    associations.included_modules.include?(Authorizable) ? associations.authorized : associations
+    if associations.included_modules.include?(Authorizable)
+      if associations.respond_to?(:klass)
+        associations.authorized(authorized_associations_permission_name(associations.klass), associations.klass)
+      else
+        associations.authorized(authorized_associations_permission_name(associations), associations)
+      end
+    else
+      associations
+    end
+  end
+
+  def authorized_associations_permission_name(klass)
+    permission = "view_#{klass.to_s.underscore.pluralize}"
+    unless Permission.where(:name => permission).present?
+      raise Foreman::Exception.new(N_('unknown permission %s'), permission)
+    end
+    permission
   end
 end
