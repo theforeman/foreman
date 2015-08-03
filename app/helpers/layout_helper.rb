@@ -347,6 +347,18 @@ module LayoutHelper
   private
 
   def authorized_associations(associations)
-    associations.included_modules.include?(Authorizable) ? associations.authorized : associations
+    if associations.included_modules.include?(Authorizable)
+      if associations.respond_to?(:klass)
+        associations.authorized(authorized_associations_permission_name(associations.klass), associations.klass)
+      else
+        associations.authorized(authorized_associations_permission_name(associations), associations)
+      end
+    else
+      associations
+    end
+  end
+
+  def authorized_associations_permission_name(klass)
+    Permission.find_by_name("view_#{klass.to_s.underscore.pluralize}").try(:name)
   end
 end
