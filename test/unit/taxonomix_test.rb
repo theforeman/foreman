@@ -161,4 +161,30 @@ class TaxonomixTest < ActiveSupport::TestCase
     visible.each { |env| assert_includes taxable_ids, env.id }
     invisible.each { |env| refute_includes taxable_ids, env.id }
   end
+
+  test "validation does not prevent taxonomy association if user does not have permissions of already assigned taxonomies" do
+    filter = FactoryGirl.create(:filter, :search => 'name ~ visible*')
+    filter.permissions = Permission.where(:name => [ 'view_organizations', 'assign_organizations' ])
+    role = FactoryGirl.create(:role)
+    role.filters = [ filter ]
+
+    user = FactoryGirl.create(:user)
+    user.roles = [ role ]
+    org1 = FactoryGirl.create :organization, :name => 'visible1'
+    org2 = FactoryGirl.create :organization, :name => 'visible2'
+    org3 = FactoryGirl.create :organization, :name => 'hidden'
+    user.organizations = [ org1 ]
+
+    resource = FactoryGirl.create(:domain, :organizations => [ org1, org3 ])
+    assert_includes resource.organizations, org3
+
+    as_user user do
+      resource.organization_ids = [ org1, org2, org3 ].map(&:id)
+      assert resource.save!
+    end
+
+    assert_includes resource.organizations, org1
+    assert_includes resource.organizations, org2
+    assert_includes resource.organizations, org3
+  end
 end
