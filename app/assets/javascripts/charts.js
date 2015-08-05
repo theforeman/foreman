@@ -58,6 +58,8 @@ function resize_label(label){
 }
 
 function expanded_pie(target, data){
+    var max={data:0}, sum = 0;
+    $(data).each(function(i, el){sum = sum + el.data; if (max.data< el.data) max = el;});
   $.plot(target, data, {
     colors: ['#0099d3', '#393f44','#00618a','#505459','#057d9f','#025167'],
     series: {
@@ -65,9 +67,15 @@ function expanded_pie(target, data){
         show: true,
         innerRadius: 0.8*3/4,
         radius: 0.8,
-        labels: {
-          show:true,
-          radius: 1
+        label: {
+          show: true,
+          radius: 0.001,
+          formatter: function(label, series) {
+            return '<div class="percent">' + Math.round(100 * max.data / sum) + '%</div>' + max.label;
+          }
+        },
+        highlight: {
+          opacity: 0.1
         }
       }
     },
@@ -79,7 +87,10 @@ function expanded_pie(target, data){
       clickable: true
     }
   });
-
+    bind_hover_event(target, function(item){
+      var percent = Math.round(item.series.percent);
+      return item.series.label + ' ('+percent+'%)';
+    });
   target.bind("plotclick", function (event, pos, item) {
     search_on_click(event, item);
   });
@@ -214,21 +225,23 @@ function showTooltip(pos, item, formater) {
     top: pos.pageY - 40,
     left: pos.pageX -10,
     'border-color': item.series.color
-  }).appendTo("body").show();
+  }).appendTo("body").zIndex(5000).show();
 }
 
 $previousPoint=null;
 function bind_hover_event(target, formater){
   $(target).bind("plothover", function (event, pos, item) {
     if (item) {
+      $(target).css('cursor','pointer');
       if ($previousPoint != item.datapoint) {
         $previousPoint = item.datapoint;
         $("#flot-tooltip").remove();
         showTooltip(pos, item, formater);
       }
     } else {
-      $("#flot-tooltip").remove();
-      $previousPoint = null;
+        $(target).css('cursor','default');
+        $("#flot-tooltip").remove();
+        $previousPoint = null;
     }
   });
 }
