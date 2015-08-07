@@ -1,4 +1,25 @@
+2015-08-07	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.9.0-RC3
+	* i18n - extracting new, updating rails, pulling from tx
+
+2015-08-06	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #11172 - disable select2 with css class (and enable elsewhere)
+	* fixes #11171 - compute profiles nics & volumes select2 are initiated separately
+	* fixes #11122 - initialize ENCRYPTION_PREFIX only once
+	* fixes #11175 - [API] Add taxonomies to ptables, display ptables in taxonomies
+
+2015-08-06	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #11219 - rename config_template attributes in os_default_templates
+
+2015-08-06	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #11230 - foreman-debug calls 'plugin:list' now
+	* Fixes #11206 - plugin API now expose default role permissions
+
+2015-08-06	Marek Hulan <mhulan@redhat.com>
+	* Fixes #11035 - template preview feature
+
 2015-07-20	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.9.0-RC2
 	* templates - sync from community-templates
 
 2015-07-17	Dominic Cleal <dcleal@redhat.com>
