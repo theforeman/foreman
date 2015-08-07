@@ -11,9 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-07-06 09:10+0000\n"
+"PO-Revision-Date: 2015-07-18 09:12+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
-"Language-Team: Japanese (http://www.transifex.com/p/foreman/language/ja/)\n"
+"Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
+")\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -326,6 +327,15 @@ msgstr ""
 
 msgid "required if onthefly_register is true"
 msgstr "onthefly_register が true の場合に必要です"
+
+msgid "groups base DN"
+msgstr ""
+
+msgid "type of the LDAP server"
+msgstr ""
+
+msgid "LDAP filter"
+msgstr "LDAP フィルター"
 
 msgid "Create an LDAP authentication source"
 msgstr "LDAP 認証元の作成"
@@ -1966,17 +1976,17 @@ msgstr "外部ユーザーグループ %{name} をリフレッシュすること
 msgid "The following fields would need reviewing"
 msgstr "以下のフィールドは確認が必要です"
 
-msgid "BIOS"
-msgstr "BIOS"
-
-msgid "Disk"
-msgstr "ディスク"
-
 msgid "PXE"
 msgstr "PXE"
 
+msgid "BIOS"
+msgstr "BIOS"
+
 msgid "CDROM"
 msgstr "CDROM"
+
+msgid "Disk"
+msgstr "ディスク"
 
 msgid "The marked fields will need reviewing"
 msgstr "マークが付いたフィールドは確認が必要です"
@@ -2127,11 +2137,11 @@ msgstr "レポートの削除に成功しました。"
 msgid "Role cloned from role %{old_name}"
 msgstr "ロール %{old_name} からクローン作成したロール"
 
-msgid "Successfully refreshed features from %s."
-msgstr "%s からの機能の更新が正常に行なわれました."
-
 msgid "No changes found when refreshing features from %s."
 msgstr "%s からの機能の更新時に変更が見つかりませんでした."
+
+msgid "Successfully refreshed features from %s."
+msgstr "%s からの機能の更新が正常に行なわれました."
 
 msgid "%s core"
 msgid_plural "%s cores"
@@ -2325,25 +2335,25 @@ msgstr "通知の無効化"
 msgid "Host Configuration Status"
 msgstr "ホスト設定のステータス"
 
-msgid "Number Of Clients"
-msgstr "クライアント数"
-
 msgid "Minutes Ago"
 msgstr "分前"
 
-msgid "Applied"
-msgstr "適用"
+msgid "Number Of Clients"
+msgstr "クライアント数"
 
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr "A"
 
-msgid "Restarted"
-msgstr "再起動"
+msgid "Applied"
+msgstr "適用"
 
 #. TRANSLATORS: initial character of Restarted
 msgid "Restarted|R"
 msgstr "R"
+
+msgid "Restarted"
+msgstr "再起動"
 
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
@@ -2352,12 +2362,12 @@ msgstr "F"
 msgid "Failed"
 msgstr "失敗"
 
-msgid "Failed Restarts"
-msgstr "再起動失敗"
-
 #. TRANSLATORS: initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
 msgstr "FR"
+
+msgid "Failed Restarts"
+msgstr "再起動失敗"
 
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
@@ -2586,11 +2596,11 @@ msgstr ""
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-msgid "Host audit entries"
-msgstr "ホスト監査項目"
-
 msgid "Audits"
 msgstr "監査"
+
+msgid "Host audit entries"
+msgstr "ホスト監査項目"
 
 msgid "Browse host facts"
 msgstr "ホスト情報の閲覧"
@@ -2604,11 +2614,11 @@ msgstr "レポート"
 msgid "Browse host reports"
 msgstr "ホストレポートの参照"
 
-msgid "Puppet external nodes YAML dump"
-msgstr "Puppet 外部ノード YAML ダンプ"
-
 msgid "YAML"
 msgstr "YAML"
+
+msgid "Puppet external nodes YAML dump"
+msgstr "Puppet 外部ノード YAML ダンプ"
 
 msgid "Allocation (GB)"
 msgstr "割り当て (GB)"
@@ -2641,11 +2651,11 @@ msgstr "%s の編集"
 msgid "Image"
 msgstr "イメージ"
 
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
-msgstr "コンピュートリソースによって提供されるイメージ ID ( 例: ami-.."
-
 msgid "Image ID"
 msgstr "イメージ ID"
+
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgstr "コンピュートリソースによって提供されるイメージ ID ( 例: ami-.."
 
 msgid "Caps lock ON"
 msgstr "Caps lock が有効です"
@@ -2718,6 +2728,9 @@ msgstr "パラメータータイプ"
 msgid "How values are validated"
 msgstr "値の検証方法"
 
+msgid "Validator type"
+msgstr "バリデータの種類"
+
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
 " rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expr"
@@ -2725,9 +2738,6 @@ msgid ""
 msgstr ""
 "<dl><dt>List</dt> <dd>「バリデータールール」フィールドで指定される、許可される値の一覧です。</dd><dt>Regexp</dt> "
 "<dd>「バリデータールール」フィールドの正規表現による入力の検証を行います。</dd></dl>"
-
-msgid "Validator type"
-msgstr "バリデータの種類"
 
 msgid "Validation types"
 msgstr "検証タイプ"
@@ -2748,13 +2758,13 @@ msgid ""
 "iption:</b>: %s"
 msgstr "値なしの必須パラメーターです。<br/><b>上書きしてください!</b> <br><br><b>詳細:</b>: %s"
 
+msgid "No value warning"
+msgstr "値警告がありません"
+
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
 "><b>Description:</b> %s"
 msgstr "値のないオプションのパラメーターです。<br/><i>Puppet には渡されません。</i> <br><br><b>詳細:</b> %s"
-
-msgid "No value warning"
-msgstr "値警告がありません"
 
 msgid "Default templates are automatically added to new locations"
 msgstr "デフォルトテンプレートは自動的に新しいロケーションに追加されます"
@@ -2797,14 +2807,14 @@ msgstr "ロック"
 msgid "Delete %s?"
 msgstr "%s を削除しますか?"
 
-msgid "valid"
-msgstr "有効な"
+msgid "pending"
+msgstr "保留"
 
 msgid "revoked"
 msgstr "取り消し済み"
 
-msgid "pending"
-msgstr "保留"
+msgid "valid"
+msgstr "有効な"
 
 msgid "in %s"
 msgstr "(%s)"
@@ -2856,11 +2866,11 @@ msgstr "ログメッセージの表示:"
 msgid "Errors only"
 msgstr "エラーのみ"
 
-msgid "Warnings and errors"
-msgstr "警告とエラー"
-
 msgid "Notices, warnings and errors"
 msgstr "注意、警告およびエラー"
+
+msgid "Warnings and errors"
+msgstr "警告とエラー"
 
 msgid "All messages"
 msgstr "すべてのメッセージ"
@@ -2900,17 +2910,14 @@ msgstr "ハードウェア"
 msgid "Class Distribution"
 msgstr "クラスの統計"
 
-msgid "Average memory usage"
-msgstr "平均メモリ使用率"
+msgid "used memory"
+msgstr "使用済みメモリ"
 
 msgid "free memory"
 msgstr "空きメモリ"
 
-msgid "used memory"
-msgstr "使用済みメモリ"
-
-msgid "Average swap usage"
-msgstr "平均スワップ使用率"
+msgid "Average memory usage"
+msgstr "平均メモリ使用率"
 
 msgid "free swap"
 msgstr "空きスワップ"
@@ -2918,17 +2925,20 @@ msgstr "空きスワップ"
 msgid "used swap"
 msgstr "使用済みスワップ"
 
+msgid "Average swap usage"
+msgstr "平均スワップ使用率"
+
 msgid "Any Organization"
 msgstr "任意の組織"
 
 msgid "Any Location"
 msgstr "任意のロケーション"
 
-msgid "New Location"
-msgstr "新規ロケーション"
-
 msgid "New Organization"
 msgstr "新規の組織"
+
+msgid "New Location"
+msgstr "新規ロケーション"
 
 msgid "All users"
 msgstr "すべてのユーザー"
@@ -2936,11 +2946,11 @@ msgstr "すべてのユーザー"
 msgid "Select users"
 msgstr "ユーザーを選択してください"
 
-msgid "Select smart proxies"
-msgstr "スマートプロキシの選択"
-
 msgid "All smart proxies"
 msgstr "すべてのスマートプロキシ"
+
+msgid "Select smart proxies"
+msgstr "スマートプロキシの選択"
 
 msgid "All subnets"
 msgstr "すべてのサブネット"
@@ -2948,11 +2958,11 @@ msgstr "すべてのサブネット"
 msgid "Select subnets"
 msgstr "サブネットの選択"
 
-msgid "Select compute resources"
-msgstr "コンピュートリソースの選択"
-
 msgid "All compute resources"
 msgstr "すべてのコンピュートリソース"
+
+msgid "Select compute resources"
+msgstr "コンピュートリソースの選択"
 
 msgid "Select media"
 msgstr "メディアの選択"
@@ -2960,11 +2970,11 @@ msgstr "メディアの選択"
 msgid "All media"
 msgstr "すべてのメディア"
 
-msgid "All provisioning templates"
-msgstr "すべてのプロビジョニングテンプレート"
-
 msgid "Select provisioning templates"
 msgstr "プロビジョニングテンプレートを選択"
+
+msgid "All provisioning templates"
+msgstr "すべてのプロビジョニングテンプレート"
 
 msgid "Select partition tables"
 msgstr "パーティションテーブルを選択"
@@ -2984,11 +2994,11 @@ msgstr "レルムの選択"
 msgid "All realms"
 msgstr "すべてのレルム"
 
-msgid "Select environments"
-msgstr "環境の選択"
-
 msgid "All environments"
 msgstr "すべての環境"
+
+msgid "Select environments"
+msgstr "環境の選択"
 
 msgid "All host groups"
 msgstr "すべてのホストグループ"
@@ -2996,12 +3006,12 @@ msgstr "すべてのホストグループ"
 msgid "Select host groups"
 msgstr "ホストグループの選択"
 
+msgid "Operating system"
+msgstr "オペレーティングシステム"
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "環境"
-
-msgid "Operating system"
-msgstr "オペレーティングシステム"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -3462,35 +3472,35 @@ msgstr "ホストグループ"
 msgid "could not be found in %s"
 msgstr "%s の中で見つかりませんでした"
 
-msgid "json"
-msgstr "json"
-
-msgid "array"
-msgstr "array"
-
-msgid "boolean"
-msgstr "boolean"
-
-msgid "yaml"
-msgstr "yaml"
-
-msgid "integer"
-msgstr "integer"
-
-msgid "real"
-msgstr "real"
-
 msgid "hash"
 msgstr "hash"
 
 msgid "string"
 msgstr "string"
 
-msgid "regexp"
-msgstr "regexp"
+msgid "real"
+msgstr "real"
+
+msgid "yaml"
+msgstr "yaml"
+
+msgid "json"
+msgstr "json"
+
+msgid "integer"
+msgstr "integer"
+
+msgid "boolean"
+msgstr "boolean"
+
+msgid "array"
+msgstr "array"
 
 msgid "list"
 msgstr "list"
+
+msgid "regexp"
+msgstr "regexp"
 
 msgid "invalid"
 msgstr "無効"
@@ -3528,14 +3538,14 @@ msgstr "%{match} は既存ホストに一致しません"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} は既存のホストグループに一致しません"
 
-msgid "Daily"
-msgstr "毎日"
-
 msgid "Monthly"
 msgstr "毎月"
 
 msgid "Weekly"
 msgstr "毎週"
+
+msgid "Daily"
+msgstr "毎日"
 
 msgid ""
 "Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nf"
@@ -3986,11 +3996,11 @@ msgstr "プロキシと通信できません: %s"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "プロキシが設定され、ホスト上で実行されていることを確認してください."
 
-msgid "DHCP"
-msgstr "DHCP"
-
 msgid "Static"
 msgstr "静的"
+
+msgid "DHCP"
+msgstr "DHCP"
 
 msgid "Internal DB"
 msgstr "Internal DB"
@@ -4264,14 +4274,14 @@ msgstr "レルム"
 msgid "Unsupported password hash function '%s'"
 msgstr "'%s' はサポートされていないパスワードハッシュです"
 
-msgid "reset"
-msgstr "リセット"
-
 msgid "stop"
 msgstr "停止"
 
 msgid "start"
 msgstr "開始"
+
+msgid "reset"
+msgstr "リセット"
 
 msgid "poweroff"
 msgstr "パワーオフ"
@@ -4294,11 +4304,11 @@ msgstr "サイクル"
 msgid "ready?"
 msgstr "準備できましたか?"
 
-msgid "soft"
-msgstr "ソフト"
-
 msgid "status"
 msgstr "状態"
+
+msgid "soft"
+msgstr "ソフト"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "パワー状態の無効な要求: %{action}、サポートされているアクション: %{supported}"
@@ -4446,13 +4456,13 @@ msgstr "Foreman 開発者"
 msgid "Issue tracker"
 msgstr "問題トラッカー"
 
+msgid "issue tracker"
+msgstr "問題トラッカー"
+
 msgid ""
 "We use Redmine to report and track bugs and feature requests, which can be fou"
 "nd here:"
 msgstr "以下にあるようにバグのレポートと追跡、および機能要求に Redmine を使用します:"
-
-msgid "issue tracker"
-msgstr "問題トラッカー"
 
 msgid "System Information"
 msgstr "システム情報"
@@ -4575,9 +4585,6 @@ msgstr "ベース DN"
 
 msgid "Groups base DN"
 msgstr "グループベース DN"
-
-msgid "LDAP filter"
-msgstr "LDAP フィルター"
 
 msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr "カスタム LDAP 検索フィルター: <i>オプション</i>"
@@ -4765,14 +4772,14 @@ msgstr "Puppet モジュール"
 msgid "Check/Uncheck all %s changes"
 msgstr "%s の全変更の選択/選択解除"
 
+msgid "Remove:"
+msgstr "削除:"
+
 msgid "Add:"
 msgstr "追加:"
 
 msgid "Update:"
 msgstr "更新:"
-
-msgid "Remove:"
-msgstr "削除:"
 
 msgid "Update"
 msgstr "更新"
@@ -4786,11 +4793,11 @@ msgstr "この検索のブックマーク"
 msgid "Add Bookmark"
 msgstr "ブックマークの追加"
 
-msgid "OS Image"
-msgstr "OS イメージ"
-
 msgid "Build from OS image"
 msgstr "OS イメージからのビルド"
+
+msgid "OS Image"
+msgstr "OS イメージ"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
@@ -4808,11 +4815,11 @@ msgstr "スコープ"
 msgid "Actions"
 msgstr "アクション"
 
-msgid "override"
-msgstr "上書き"
-
 msgid "Override this value"
 msgstr "この値の上書き"
+
+msgid "override"
+msgstr "上書き"
 
 msgid "Global"
 msgstr "グローバル"
@@ -4911,11 +4918,11 @@ msgstr "秘密鍵"
 msgid "Region"
 msgstr "リージョン"
 
-msgid "Test Connection"
-msgstr "テスト接続"
-
 msgid "Load Regions"
 msgstr "リージョンのロード"
+
+msgid "Test Connection"
+msgstr "テスト接続"
 
 msgid "Google Project ID"
 msgstr "グローバルプロジェクト ID"
@@ -5029,11 +5036,11 @@ msgstr "VM 属性"
 msgid "URL"
 msgstr "URL"
 
-msgid "Disabled"
-msgstr "無効"
-
 msgid "Enabled"
 msgstr "有効化"
+
+msgid "Disabled"
+msgstr "無効"
 
 msgid "There was an error listing VMs: %s"
 msgstr "VM のリストにエラーがありました: %s"
@@ -5041,11 +5048,11 @@ msgstr "VM のリストにエラーがありました: %s"
 msgid "Network interfaces"
 msgstr "ネットワークインターフェース"
 
-msgid "add new network interface"
-msgstr "新規ネットワークインターフェースの追加"
-
 msgid "Add Interface"
 msgstr "インターフェースの追加"
+
+msgid "add new network interface"
+msgstr "新規ネットワークインターフェースの追加"
 
 msgid "No networks found."
 msgstr "ネットワークが見つかりません."
@@ -5056,11 +5063,11 @@ msgstr "ストレージボリュームの削除"
 msgid "Storage"
 msgstr "ストレージ"
 
-msgid "Add Volume"
-msgstr "ボリュームの追加"
-
 msgid "add new storage volume"
 msgstr "新規ストレージボリュームの追加"
+
+msgid "Add Volume"
+msgstr "ボリュームの追加"
 
 msgid "Flavor"
 msgstr "フレーバー"
@@ -5068,11 +5075,11 @@ msgstr "フレーバー"
 msgid "Please select an image"
 msgstr "イメージを選択してください"
 
-msgid "Availability zone"
-msgstr "利用可能ゾーン"
-
 msgid "No preference"
 msgstr "設定がありません"
+
+msgid "Availability zone"
+msgstr "利用可能ゾーン"
 
 msgid "EC2"
 msgstr "EC2"
@@ -5084,14 +5091,14 @@ msgstr "サブネット"
 msgid "Security groups"
 msgstr "セキュリティーグループ"
 
-msgid "Managed IP"
-msgstr "管理 IP"
+msgid "Public"
+msgstr "パブリック"
 
 msgid "Private"
 msgstr "プライベート"
 
-msgid "Public"
-msgstr "パブリック"
+msgid "Managed IP"
+msgstr "管理 IP"
 
 msgid "Machine type"
 msgstr "マシンタイプ"
@@ -5111,11 +5118,11 @@ msgstr "CPUs"
 msgid "Memory"
 msgstr "メモリ"
 
-msgid "Start"
-msgstr "開始"
-
 msgid "Power ON this machine"
 msgstr "このマシンのパワーをオンにする"
+
+msgid "Start"
+msgstr "開始"
 
 msgid "Image to use"
 msgstr "使用するイメージ"
@@ -5155,11 +5162,11 @@ msgstr "ボリュームからの起動"
 msgid "Create new boot volume from image"
 msgstr "イメージから新しいブートボリュームを作成します。"
 
-msgid "New boot volume size (GB)"
-msgstr "新しいブートボリュームサイズ (GB)"
-
 msgid "Defaults to image size if left blank"
 msgstr "空白の場合、イメージサイズはデフォルトです。"
+
+msgid "New boot volume size (GB)"
+msgstr "新しいブートボリュームサイズ (GB)"
 
 msgid "Cluster"
 msgstr "クラスター"
@@ -5179,11 +5186,11 @@ msgstr "コア数"
 msgid "Storage domain"
 msgstr "ストレージドメイン"
 
-msgid "Uses thin provisioning if unchecked"
-msgstr "チェックしない場合はシンプロビジョニングを使用します"
-
 msgid "Preallocate disk"
 msgstr "事前割り当てディスク"
+
+msgid "Uses thin provisioning if unchecked"
+msgstr "チェックしない場合はシンプロビジョニングを使用します"
 
 msgid "Only one volume can be bootable"
 msgstr "1 つのボリュームのみがブート可能です"
@@ -5529,15 +5536,15 @@ msgstr "パラメーター"
 msgid "Full name describing the domain"
 msgstr "ドメインを表すフルネーム"
 
+msgid "DNS Proxy"
+msgstr "DNS プロキシ"
+
 msgid ""
 "DNS proxy to use within this domain for managing A records, note that PTR reco"
 "rds are managed via Subnet DNS proxy"
 msgstr ""
 "レコードを管理するためにドメイン内で使用する DNS プロキシ。 PTR レコードはサブネット DNS プロキシを経由して管理されていることに注意してくださ"
 "い"
-
-msgid "DNS Proxy"
-msgstr "DNS プロキシ"
 
 msgid "Edit Domain"
 msgstr "ドメインの編集"
@@ -5893,14 +5900,14 @@ msgid ""
 "ference would be the parameter/variables settings)."
 msgstr "これらの 2 つのオプションは個々に定義されるものであるため、各自でそれぞれ定義してください (主な違いはパラメーター/変数の設定です)."
 
-msgid "Create %s"
-msgstr "%s の作成"
+msgid "Select Hosts"
+msgstr "ホストの選択"
 
 msgid "Assign Selected Hosts"
 msgstr "選択したホストの割り当て"
 
-msgid "Select Hosts"
-msgstr "ホストの選択"
+msgid "Create %s"
+msgstr "%s の作成"
 
 msgid "<b class='select_count'>0</b> selected"
 msgstr "<b class='select_count'>0</b> 項目選択済み"
@@ -6099,11 +6106,11 @@ msgstr "Ctrl-Alt-Del"
 msgid "Troubleshooting"
 msgstr "トラブルシューティング"
 
-msgid "Open Spice in a new window"
-msgstr "新規ウィンドウで SPICE を開く"
-
 msgid "New window"
 msgstr "新規ウィンドウ"
+
+msgid "Open Spice in a new window"
+msgstr "新規ウィンドウで SPICE を開く"
 
 msgid "Connecting (unencrypted) to: %s"
 msgstr "以下に接続中です （暗号化解除） : %s"
@@ -6279,11 +6286,11 @@ msgstr "(オプション) このイメージを作成する際に使用する Fo
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr "認証に使用するパスワード - SSH の最終ステップで使用されます."
 
-msgid "Full path to backing image used to create new volumes."
-msgstr "新規ボリュームを作成するために使用されるバッキングイメージの完全なパスです."
-
 msgid "Image path"
 msgstr "イメージパス"
+
+msgid "Full path to backing image used to create new volumes."
+msgstr "新規ボリュームを作成するために使用されるバッキングイメージの完全なパスです."
 
 msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
 msgstr "データセンターに関連したテンプレートのパス (例: My templates/RHEL 6)"
@@ -7272,11 +7279,11 @@ msgstr "戻す"
 msgid "Show Diff"
 msgstr "差分の表示"
 
-msgid "No history found"
-msgstr "履歴が見つかりません"
-
 msgid "Save something and try again"
 msgstr "保存してからやり直してください"
+
+msgid "No history found"
+msgstr "履歴が見つかりません"
 
 msgid "Please Select"
 msgstr "選択してください"

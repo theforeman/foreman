@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-07-06 09:10+0000\n"
+"PO-Revision-Date: 2015-07-18 09:12+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/p/foreman/language/z"
-"h_TW/)\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
+"uage/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -325,6 +325,15 @@ msgstr ""
 
 msgid "required if onthefly_register is true"
 msgstr ""
+
+msgid "groups base DN"
+msgstr ""
+
+msgid "type of the LDAP server"
+msgstr ""
+
+msgid "LDAP filter"
+msgstr "LDAP過濾器"
 
 msgid "Create an LDAP authentication source"
 msgstr ""
@@ -1964,17 +1973,17 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr "下列欄位需要重新檢查"
 
-msgid "BIOS"
-msgstr "BIOS"
-
-msgid "Disk"
-msgstr "磁碟"
-
 msgid "PXE"
 msgstr "PXE"
 
+msgid "BIOS"
+msgstr "BIOS"
+
 msgid "CDROM"
 msgstr "CDROM"
+
+msgid "Disk"
+msgstr "磁碟"
 
 msgid "The marked fields will need reviewing"
 msgstr "標記的欄位需要再次檢查"
@@ -2125,11 +2134,11 @@ msgstr ""
 msgid "Role cloned from role %{old_name}"
 msgstr "由 %{old_name} 角色複製的角色"
 
-msgid "Successfully refreshed features from %s."
-msgstr "已成功由 %s 更新了功能"
-
 msgid "No changes found when refreshing features from %s."
 msgstr "更新來自於 %s 的功能時未發現變更。"
+
+msgid "Successfully refreshed features from %s."
+msgstr "已成功由 %s 更新了功能"
 
 msgid "%s core"
 msgid_plural "%s cores"
@@ -2324,25 +2333,25 @@ msgstr "已停用通知"
 msgid "Host Configuration Status"
 msgstr "主機配置狀態"
 
-msgid "Number Of Clients"
-msgstr "客戶端數量"
-
 msgid "Minutes Ago"
 msgstr "幾分鐘前"
 
-msgid "Applied"
-msgstr "已套用"
+msgid "Number Of Clients"
+msgstr "客戶端數量"
 
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr "A"
 
-msgid "Restarted"
-msgstr "已重新啟動"
+msgid "Applied"
+msgstr "已套用"
 
 #. TRANSLATORS: initial character of Restarted
 msgid "Restarted|R"
 msgstr "R"
+
+msgid "Restarted"
+msgstr "已重新啟動"
 
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
@@ -2351,12 +2360,12 @@ msgstr "F"
 msgid "Failed"
 msgstr "失敗"
 
-msgid "Failed Restarts"
-msgstr "重新啟動失敗"
-
 #. TRANSLATORS: initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
 msgstr "FR"
+
+msgid "Failed Restarts"
+msgstr "重新啟動失敗"
 
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
@@ -2585,11 +2594,11 @@ msgstr ""
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-msgid "Host audit entries"
-msgstr "主機稽核項目"
-
 msgid "Audits"
 msgstr "稽核"
+
+msgid "Host audit entries"
+msgstr "主機稽核項目"
 
 msgid "Browse host facts"
 msgstr "瀏覽主機詳情"
@@ -2603,11 +2612,11 @@ msgstr "報告"
 msgid "Browse host reports"
 msgstr "瀏覽主機回報"
 
-msgid "Puppet external nodes YAML dump"
-msgstr "Puppet 外部節點 YAML 傾印"
-
 msgid "YAML"
 msgstr "YAML"
+
+msgid "Puppet external nodes YAML dump"
+msgstr "Puppet 外部節點 YAML 傾印"
 
 msgid "Allocation (GB)"
 msgstr "配置（GB）"
@@ -2640,11 +2649,11 @@ msgstr "編輯 %s"
 msgid "Image"
 msgstr "映像檔"
 
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
-msgstr "由運算資源所提供的映像檔 ID，例如 ami-.."
-
 msgid "Image ID"
 msgstr "映像檔 ID"
+
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgstr "由運算資源所提供的映像檔 ID，例如 ami-.."
 
 msgid "Caps lock ON"
 msgstr ""
@@ -2719,6 +2728,9 @@ msgstr ""
 msgid "How values are validated"
 msgstr "驗證值的方式"
 
+msgid "Validator type"
+msgstr ""
+
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
 " rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expr"
@@ -2726,9 +2738,6 @@ msgid ""
 msgstr ""
 "<dl><dt>列表</dt> <dd>一個可以允許加入驗證規則欄位的值列表.</dd><dt>正規表示法</dt> <dd>在驗證規則欄位中利用正規表示法"
 "來驗證輸入值.</dd></dl>"
-
-msgid "Validator type"
-msgstr ""
 
 msgid "Validation types"
 msgstr "驗證類型"
@@ -2749,13 +2758,13 @@ msgid ""
 "iption:</b>: %s"
 msgstr "必要的參數未提供值。<br/><b>請覆寫！</b> <br><br><b>描述：</b>：%s"
 
+msgid "No value warning"
+msgstr "未提供值的警示"
+
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
 "><b>Description:</b> %s"
 msgstr "沒有值的選用性參數。<br/><i>不會提供給 Puppet。</i> <br><br><b>描述：</b> %s"
-
-msgid "No value warning"
-msgstr "未提供值的警示"
 
 msgid "Default templates are automatically added to new locations"
 msgstr ""
@@ -2798,14 +2807,14 @@ msgstr ""
 msgid "Delete %s?"
 msgstr "是否刪除 %s？"
 
-msgid "valid"
-msgstr "有效"
+msgid "pending"
+msgstr "正在處理"
 
 msgid "revoked"
 msgstr "已撤銷"
 
-msgid "pending"
-msgstr "正在處理"
+msgid "valid"
+msgstr "有效"
 
 msgid "in %s"
 msgstr "%s 中"
@@ -2858,11 +2867,11 @@ msgstr "顯示日誌訊息："
 msgid "Errors only"
 msgstr "只有錯誤"
 
-msgid "Warnings and errors"
-msgstr "警告與錯誤"
-
 msgid "Notices, warnings and errors"
 msgstr "注意事項、警告和錯誤"
+
+msgid "Warnings and errors"
+msgstr "警告與錯誤"
 
 msgid "All messages"
 msgstr "所有訊息"
@@ -2902,17 +2911,14 @@ msgstr "硬體"
 msgid "Class Distribution"
 msgstr "類別發佈"
 
-msgid "Average memory usage"
-msgstr "平均記憶體使用量"
+msgid "used memory"
+msgstr "已使用的記憶體"
 
 msgid "free memory"
 msgstr "可用記憶體"
 
-msgid "used memory"
-msgstr "已使用的記憶體"
-
-msgid "Average swap usage"
-msgstr "平均 swap 使用量"
+msgid "Average memory usage"
+msgstr "平均記憶體使用量"
 
 msgid "free swap"
 msgstr "可用 swap"
@@ -2920,17 +2926,20 @@ msgstr "可用 swap"
 msgid "used swap"
 msgstr "已使用的 swap"
 
+msgid "Average swap usage"
+msgstr "平均 swap 使用量"
+
 msgid "Any Organization"
 msgstr "任何組織"
 
 msgid "Any Location"
 msgstr "任何位置"
 
-msgid "New Location"
-msgstr "新增位置"
-
 msgid "New Organization"
 msgstr "新增組織"
+
+msgid "New Location"
+msgstr "新增位置"
 
 msgid "All users"
 msgstr "所有使用者"
@@ -2938,10 +2947,10 @@ msgstr "所有使用者"
 msgid "Select users"
 msgstr "選擇使用者"
 
-msgid "Select smart proxies"
+msgid "All smart proxies"
 msgstr ""
 
-msgid "All smart proxies"
+msgid "Select smart proxies"
 msgstr ""
 
 msgid "All subnets"
@@ -2950,11 +2959,11 @@ msgstr "所有子網路"
 msgid "Select subnets"
 msgstr "選擇子網路"
 
-msgid "Select compute resources"
-msgstr "選擇運算資源"
-
 msgid "All compute resources"
 msgstr "所有運算資源"
+
+msgid "Select compute resources"
+msgstr "選擇運算資源"
 
 msgid "Select media"
 msgstr "選擇媒介"
@@ -2962,10 +2971,10 @@ msgstr "選擇媒介"
 msgid "All media"
 msgstr "所有媒介"
 
-msgid "All provisioning templates"
+msgid "Select provisioning templates"
 msgstr ""
 
-msgid "Select provisioning templates"
+msgid "All provisioning templates"
 msgstr ""
 
 msgid "Select partition tables"
@@ -2986,11 +2995,11 @@ msgstr "選擇領域"
 msgid "All realms"
 msgstr "所有領域"
 
-msgid "Select environments"
-msgstr "選擇環境"
-
 msgid "All environments"
 msgstr "所有環境"
+
+msgid "Select environments"
+msgstr "選擇環境"
 
 msgid "All host groups"
 msgstr "所有主機群組"
@@ -2998,12 +3007,12 @@ msgstr "所有主機群組"
 msgid "Select host groups"
 msgstr "選擇主機群組"
 
+msgid "Operating system"
+msgstr "作業系統"
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "環境"
-
-msgid "Operating system"
-msgstr "作業系統"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -3463,34 +3472,34 @@ msgstr "主機群組"
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "json"
-msgstr ""
-
-msgid "array"
-msgstr ""
-
-msgid "boolean"
-msgstr ""
-
-msgid "yaml"
-msgstr ""
-
-msgid "integer"
-msgstr ""
-
-msgid "real"
-msgstr ""
-
 msgid "hash"
 msgstr ""
 
 msgid "string"
 msgstr ""
 
-msgid "regexp"
+msgid "real"
+msgstr ""
+
+msgid "yaml"
+msgstr ""
+
+msgid "json"
+msgstr ""
+
+msgid "integer"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "list"
+msgstr ""
+
+msgid "regexp"
 msgstr ""
 
 msgid "invalid"
@@ -3529,13 +3538,13 @@ msgstr "%{match} 與既有的主機不相符"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} 與目前的主機群組不相符"
 
-msgid "Daily"
-msgstr ""
-
 msgid "Monthly"
 msgstr ""
 
 msgid "Weekly"
+msgstr ""
+
+msgid "Daily"
 msgstr ""
 
 msgid ""
@@ -3977,11 +3986,11 @@ msgstr "無法與協定通訊：%s"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "請檢查協定是否已配置並在主機上運作。"
 
-msgid "DHCP"
-msgstr "DHCP"
-
 msgid "Static"
 msgstr ""
+
+msgid "DHCP"
+msgstr "DHCP"
 
 msgid "Internal DB"
 msgstr ""
@@ -4255,14 +4264,14 @@ msgstr "領域"
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "reset"
-msgstr "重設"
-
 msgid "stop"
 msgstr "停止"
 
 msgid "start"
 msgstr "起始"
+
+msgid "reset"
+msgstr "重設"
 
 msgid "poweroff"
 msgstr "關閉電源"
@@ -4285,11 +4294,11 @@ msgstr "循環"
 msgid "ready?"
 msgstr ""
 
-msgid "soft"
-msgstr "soft"
-
 msgid "status"
 msgstr "狀態"
+
+msgid "soft"
+msgstr "soft"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "無效的電源狀態請求：%{action}，支援的動作為 %{supported}"
@@ -4435,13 +4444,13 @@ msgstr "Foreman 開發人員"
 msgid "Issue tracker"
 msgstr "問題追蹤器"
 
+msgid "issue tracker"
+msgstr "問題追蹤器"
+
 msgid ""
 "We use Redmine to report and track bugs and feature requests, which can be fou"
 "nd here:"
 msgstr "我們使用 Redmine 來回報和追蹤錯誤與功能請求，欲取得更多資訊請至："
-
-msgid "issue tracker"
-msgstr "問題追蹤器"
 
 msgid "System Information"
 msgstr "系統資訊"
@@ -4564,9 +4573,6 @@ msgstr "Base DN"
 
 msgid "Groups base DN"
 msgstr ""
-
-msgid "LDAP filter"
-msgstr "LDAP過濾器"
 
 msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr "自訂的 LDAP 搜尋篩選器，<i>選用性</i>"
@@ -4754,14 +4760,14 @@ msgstr "Puppet 模組"
 msgid "Check/Uncheck all %s changes"
 msgstr "選取/反選所有 %s 變更"
 
+msgid "Remove:"
+msgstr "移除："
+
 msgid "Add:"
 msgstr "新增："
 
 msgid "Update:"
 msgstr "更新："
-
-msgid "Remove:"
-msgstr "移除："
 
 msgid "Update"
 msgstr "更新"
@@ -4775,11 +4781,11 @@ msgstr "將此搜尋加入書籤"
 msgid "Add Bookmark"
 msgstr "新增書籤"
 
-msgid "OS Image"
-msgstr "OS 映像檔"
-
 msgid "Build from OS image"
 msgstr "由 OS 映像檔組建"
+
+msgid "OS Image"
+msgstr "OS 映像檔"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
@@ -4797,11 +4803,11 @@ msgstr "範圍"
 msgid "Actions"
 msgstr "動作"
 
-msgid "override"
-msgstr "覆寫"
-
 msgid "Override this value"
 msgstr "置換這個值"
+
+msgid "override"
+msgstr "覆寫"
 
 msgid "Global"
 msgstr "全域"
@@ -4900,11 +4906,11 @@ msgstr "密鑰"
 msgid "Region"
 msgstr "區域"
 
-msgid "Test Connection"
-msgstr "測試連線"
-
 msgid "Load Regions"
 msgstr "載入區域"
+
+msgid "Test Connection"
+msgstr "測試連線"
 
 msgid "Google Project ID"
 msgstr "Google Project ID"
@@ -5018,11 +5024,11 @@ msgstr "VM 屬性"
 msgid "URL"
 msgstr "URL"
 
-msgid "Disabled"
-msgstr "已停用"
-
 msgid "Enabled"
 msgstr "已啟用"
+
+msgid "Disabled"
+msgstr "已停用"
 
 msgid "There was an error listing VMs: %s"
 msgstr "列出虛擬機器時發生了錯誤：%s"
@@ -5030,11 +5036,11 @@ msgstr "列出虛擬機器時發生了錯誤：%s"
 msgid "Network interfaces"
 msgstr "網路介面卡"
 
-msgid "add new network interface"
-msgstr "新增網路介面卡"
-
 msgid "Add Interface"
 msgstr "新增介面"
+
+msgid "add new network interface"
+msgstr "新增網路介面卡"
 
 msgid "No networks found."
 msgstr ""
@@ -5045,11 +5051,11 @@ msgstr ""
 msgid "Storage"
 msgstr "儲存"
 
-msgid "Add Volume"
-msgstr "新增卷冊"
-
 msgid "add new storage volume"
 msgstr "新增儲存卷冊"
+
+msgid "Add Volume"
+msgstr "新增卷冊"
 
 msgid "Flavor"
 msgstr "類別"
@@ -5057,11 +5063,11 @@ msgstr "類別"
 msgid "Please select an image"
 msgstr "請選擇一個映像檔"
 
-msgid "Availability zone"
-msgstr "可用性區域"
-
 msgid "No preference"
 msgstr "無偏好設定"
+
+msgid "Availability zone"
+msgstr "可用性區域"
 
 msgid "EC2"
 msgstr "EC2"
@@ -5073,14 +5079,14 @@ msgstr "子網路"
 msgid "Security groups"
 msgstr "安全性群組"
 
-msgid "Managed IP"
-msgstr "管理IP"
+msgid "Public"
+msgstr "公開的"
 
 msgid "Private"
 msgstr "私有的"
 
-msgid "Public"
-msgstr "公開的"
+msgid "Managed IP"
+msgstr "管理IP"
 
 msgid "Machine type"
 msgstr "機器類型"
@@ -5100,11 +5106,11 @@ msgstr "CPU"
 msgid "Memory"
 msgstr "記憶體"
 
-msgid "Start"
-msgstr "起始"
-
 msgid "Power ON this machine"
 msgstr "開啟這部機器的電源"
+
+msgid "Start"
+msgstr "起始"
 
 msgid "Image to use"
 msgstr "欲使用的映像檔"
@@ -5144,10 +5150,10 @@ msgstr ""
 msgid "Create new boot volume from image"
 msgstr ""
 
-msgid "New boot volume size (GB)"
+msgid "Defaults to image size if left blank"
 msgstr ""
 
-msgid "Defaults to image size if left blank"
+msgid "New boot volume size (GB)"
 msgstr ""
 
 msgid "Cluster"
@@ -5168,10 +5174,10 @@ msgstr "核心"
 msgid "Storage domain"
 msgstr "儲存網域"
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -5517,12 +5523,12 @@ msgstr "參數"
 msgid "Full name describing the domain"
 msgstr "描述區域的完整名稱"
 
+msgid "DNS Proxy"
+msgstr ""
+
 msgid ""
 "DNS proxy to use within this domain for managing A records, note that PTR reco"
 "rds are managed via Subnet DNS proxy"
-msgstr ""
-
-msgid "DNS Proxy"
 msgstr ""
 
 msgid "Edit Domain"
@@ -5870,14 +5876,14 @@ msgid ""
 "ference would be the parameter/variables settings)."
 msgstr "這兩項乃選用性選項（主要差別為參數/變數設定）。"
 
-msgid "Create %s"
-msgstr "建立 %s"
+msgid "Select Hosts"
+msgstr "選擇主機"
 
 msgid "Assign Selected Hosts"
 msgstr "指定選擇的主機"
 
-msgid "Select Hosts"
-msgstr "選擇主機"
+msgid "Create %s"
+msgstr "建立 %s"
 
 msgid "<b class='select_count'>0</b> selected"
 msgstr "已選擇了 <b class='select_count'>0</b> 個"
@@ -6074,11 +6080,11 @@ msgstr "Ctrl-Alt-Del"
 msgid "Troubleshooting"
 msgstr "疑難排解"
 
-msgid "Open Spice in a new window"
-msgstr "在新視窗中開啟 Spice"
-
 msgid "New window"
 msgstr "新增視窗"
+
+msgid "Open Spice in a new window"
+msgstr "在新視窗中開啟 Spice"
 
 msgid "Connecting (unencrypted) to: %s"
 msgstr "正在連線（未加密）至：%s"
@@ -6254,11 +6260,11 @@ msgstr "(選擇性) 當Fog 用來創建此VM時使用的 IAM 角色."
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr "用來進行認證的密碼 - 用於 SSH 完成步驟。"
 
-msgid "Full path to backing image used to create new volumes."
-msgstr "使用來建立新卷冊的支援映像檔之完整路徑。"
-
 msgid "Image path"
 msgstr "映像檔路徑"
+
+msgid "Full path to backing image used to create new volumes."
+msgstr "使用來建立新卷冊的支援映像檔之完整路徑。"
 
 msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
 msgstr "範本的路徑，與資料中心相聯（例如 My templates/RHEL 6）"
@@ -7220,11 +7226,11 @@ msgstr "還原"
 msgid "Show Diff"
 msgstr "顯示差異"
 
-msgid "No history found"
-msgstr "找不到歷史記錄"
-
 msgid "Save something and try again"
 msgstr "進行儲存並重新嘗試"
+
+msgid "No history found"
+msgstr "找不到歷史記錄"
 
 msgid "Please Select"
 msgstr "請選擇"

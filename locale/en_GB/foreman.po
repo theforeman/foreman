@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-07-06 09:10+0000\n"
+"PO-Revision-Date: 2015-07-22 22:57+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
-"Language-Team: English (United Kingdom) (http://www.transifex.com/p/foreman/la"
-"nguage/en_GB/)\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
+"man/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -324,6 +324,15 @@ msgstr ""
 msgid "required if onthefly_register is true"
 msgstr ""
 
+msgid "groups base DN"
+msgstr ""
+
+msgid "type of the LDAP server"
+msgstr ""
+
+msgid "LDAP filter"
+msgstr ""
+
 msgid "Create an LDAP authentication source"
 msgstr ""
 
@@ -340,16 +349,16 @@ msgid "Foreman API v2 is currently the default API version."
 msgstr ""
 
 msgid "paginate results"
-msgstr ""
+msgstr "paginate results"
 
 msgid "number of entries per request"
-msgstr ""
+msgstr "number of entries per request"
 
 msgid "filter results"
-msgstr ""
+msgstr "filter results"
 
 msgid "sort results"
-msgstr ""
+msgstr "sort results"
 
 msgid "REPLACE locations with given ids"
 msgstr ""
@@ -775,7 +784,7 @@ msgid "required if host is managed and value is not inherited from host group"
 msgstr ""
 
 msgid "not required if using a subnet with DHCP proxy"
-msgstr ""
+msgstr "not required if using a subnet with DHCP proxy"
 
 msgid ""
 "required for managed host that is bare metal, not required if it's a virtual m"
@@ -807,7 +816,7 @@ msgid ""
 msgstr ""
 
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
-msgstr ""
+msgstr "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 
 msgid "Additional information about this host"
 msgstr ""
@@ -860,7 +869,7 @@ msgid "Unknown device: available devices are %s"
 msgstr ""
 
 msgid "Upload facts for a host, creating the host if required"
-msgstr ""
+msgstr "Upload facts for a host, creating the host if required"
 
 msgid "hostname of the host"
 msgstr ""
@@ -1962,16 +1971,16 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr ""
 
-msgid "BIOS"
-msgstr ""
-
-msgid "Disk"
-msgstr ""
-
 msgid "PXE"
 msgstr ""
 
+msgid "BIOS"
+msgstr ""
+
 msgid "CDROM"
+msgstr ""
+
+msgid "Disk"
 msgstr ""
 
 msgid "The marked fields will need reviewing"
@@ -2123,10 +2132,10 @@ msgstr ""
 msgid "Role cloned from role %{old_name}"
 msgstr ""
 
-msgid "Successfully refreshed features from %s."
+msgid "No changes found when refreshing features from %s."
 msgstr ""
 
-msgid "No changes found when refreshing features from %s."
+msgid "Successfully refreshed features from %s."
 msgstr ""
 
 msgid "%s core"
@@ -2206,7 +2215,7 @@ msgid "Click to edit"
 msgstr ""
 
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 msgid "NA"
 msgstr ""
@@ -2322,24 +2331,24 @@ msgstr ""
 msgid "Host Configuration Status"
 msgstr ""
 
-msgid "Number Of Clients"
-msgstr ""
-
 msgid "Minutes Ago"
 msgstr ""
 
-msgid "Applied"
+msgid "Number Of Clients"
 msgstr ""
 
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr ""
 
-msgid "Restarted"
+msgid "Applied"
 msgstr ""
 
 #. TRANSLATORS: initial character of Restarted
 msgid "Restarted|R"
+msgstr ""
+
+msgid "Restarted"
 msgstr ""
 
 #. TRANSLATORS: initial character of Failed
@@ -2349,11 +2358,11 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-msgid "Failed Restarts"
-msgstr ""
-
 #. TRANSLATORS: initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
+msgstr ""
+
+msgid "Failed Restarts"
 msgstr ""
 
 #. TRANSLATORS: initial character of Skipped
@@ -2525,7 +2534,7 @@ msgid "Realm"
 msgstr ""
 
 msgid "IP Address"
-msgstr ""
+msgstr "IP Address"
 
 msgid "MAC Address"
 msgstr ""
@@ -2540,7 +2549,7 @@ msgid "Operating System"
 msgstr ""
 
 msgid "Host group"
-msgstr ""
+msgstr "Host group"
 
 msgid "Location"
 msgstr "Location"
@@ -2583,10 +2592,10 @@ msgstr ""
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-msgid "Host audit entries"
+msgid "Audits"
 msgstr ""
 
-msgid "Audits"
+msgid "Host audit entries"
 msgstr ""
 
 msgid "Browse host facts"
@@ -2601,10 +2610,10 @@ msgstr ""
 msgid "Browse host reports"
 msgstr ""
 
-msgid "Puppet external nodes YAML dump"
+msgid "YAML"
 msgstr ""
 
-msgid "YAML"
+msgid "Puppet external nodes YAML dump"
 msgstr ""
 
 msgid "Allocation (GB)"
@@ -2638,11 +2647,11 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
-msgstr ""
-
 msgid "Image ID"
 msgstr "Image ID"
+
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgstr ""
 
 msgid "Caps lock ON"
 msgstr ""
@@ -2712,13 +2721,13 @@ msgstr ""
 msgid "How values are validated"
 msgstr ""
 
+msgid "Validator type"
+msgstr ""
+
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
 " rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expr"
 "ession in the Validator rule field.</dd></dl>"
-msgstr ""
-
-msgid "Validator type"
 msgstr ""
 
 msgid "Validation types"
@@ -2740,12 +2749,12 @@ msgid ""
 "iption:</b>: %s"
 msgstr ""
 
+msgid "No value warning"
+msgstr ""
+
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
 "><b>Description:</b> %s"
-msgstr ""
-
-msgid "No value warning"
 msgstr ""
 
 msgid "Default templates are automatically added to new locations"
@@ -2789,13 +2798,13 @@ msgstr ""
 msgid "Delete %s?"
 msgstr "Delete %s?"
 
-msgid "valid"
+msgid "pending"
 msgstr ""
 
 msgid "revoked"
 msgstr ""
 
-msgid "pending"
+msgid "valid"
 msgstr ""
 
 msgid "in %s"
@@ -2853,10 +2862,10 @@ msgstr ""
 msgid "Errors only"
 msgstr ""
 
-msgid "Warnings and errors"
+msgid "Notices, warnings and errors"
 msgstr ""
 
-msgid "Notices, warnings and errors"
+msgid "Warnings and errors"
 msgstr ""
 
 msgid "All messages"
@@ -2897,16 +2906,13 @@ msgstr ""
 msgid "Class Distribution"
 msgstr ""
 
-msgid "Average memory usage"
+msgid "used memory"
 msgstr ""
 
 msgid "free memory"
 msgstr ""
 
-msgid "used memory"
-msgstr ""
-
-msgid "Average swap usage"
+msgid "Average memory usage"
 msgstr ""
 
 msgid "free swap"
@@ -2915,17 +2921,20 @@ msgstr ""
 msgid "used swap"
 msgstr ""
 
+msgid "Average swap usage"
+msgstr ""
+
 msgid "Any Organization"
 msgstr "Any Organisation"
 
 msgid "Any Location"
 msgstr ""
 
-msgid "New Location"
-msgstr ""
-
 msgid "New Organization"
 msgstr "New Organisation"
+
+msgid "New Location"
+msgstr ""
 
 msgid "All users"
 msgstr ""
@@ -2933,10 +2942,10 @@ msgstr ""
 msgid "Select users"
 msgstr ""
 
-msgid "Select smart proxies"
+msgid "All smart proxies"
 msgstr ""
 
-msgid "All smart proxies"
+msgid "Select smart proxies"
 msgstr ""
 
 msgid "All subnets"
@@ -2945,10 +2954,10 @@ msgstr ""
 msgid "Select subnets"
 msgstr ""
 
-msgid "Select compute resources"
+msgid "All compute resources"
 msgstr ""
 
-msgid "All compute resources"
+msgid "Select compute resources"
 msgstr ""
 
 msgid "Select media"
@@ -2957,10 +2966,10 @@ msgstr ""
 msgid "All media"
 msgstr ""
 
-msgid "All provisioning templates"
+msgid "Select provisioning templates"
 msgstr ""
 
-msgid "Select provisioning templates"
+msgid "All provisioning templates"
 msgstr ""
 
 msgid "Select partition tables"
@@ -2981,10 +2990,10 @@ msgstr ""
 msgid "All realms"
 msgstr ""
 
-msgid "Select environments"
+msgid "All environments"
 msgstr ""
 
-msgid "All environments"
+msgid "Select environments"
 msgstr ""
 
 msgid "All host groups"
@@ -2993,12 +3002,12 @@ msgstr ""
 msgid "Select host groups"
 msgstr ""
 
+msgid "Operating system"
+msgstr "Operating system"
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr ""
-
-msgid "Operating system"
-msgstr "Operating system"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -3456,34 +3465,34 @@ msgstr ""
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "json"
-msgstr ""
-
-msgid "array"
-msgstr ""
-
-msgid "boolean"
-msgstr ""
-
-msgid "yaml"
-msgstr ""
-
-msgid "integer"
-msgstr ""
-
-msgid "real"
-msgstr ""
-
 msgid "hash"
 msgstr ""
 
 msgid "string"
 msgstr ""
 
-msgid "regexp"
+msgid "real"
+msgstr ""
+
+msgid "yaml"
+msgstr ""
+
+msgid "json"
+msgstr ""
+
+msgid "integer"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "list"
+msgstr ""
+
+msgid "regexp"
 msgstr ""
 
 msgid "invalid"
@@ -3522,13 +3531,13 @@ msgstr ""
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
-msgid "Daily"
-msgstr ""
-
 msgid "Monthly"
 msgstr ""
 
 msgid "Weekly"
+msgstr ""
+
+msgid "Daily"
 msgstr ""
 
 msgid ""
@@ -3975,10 +3984,10 @@ msgstr ""
 msgid "Please check the proxy is configured and running on the host."
 msgstr ""
 
-msgid "DHCP"
+msgid "Static"
 msgstr ""
 
-msgid "Static"
+msgid "DHCP"
 msgstr ""
 
 msgid "Internal DB"
@@ -4253,13 +4262,13 @@ msgstr ""
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "reset"
-msgstr ""
-
 msgid "stop"
 msgstr ""
 
 msgid "start"
+msgstr ""
+
+msgid "reset"
 msgstr ""
 
 msgid "poweroff"
@@ -4283,10 +4292,10 @@ msgstr ""
 msgid "ready?"
 msgstr ""
 
-msgid "soft"
+msgid "status"
 msgstr ""
 
-msgid "status"
+msgid "soft"
 msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
@@ -4431,12 +4440,12 @@ msgstr ""
 msgid "Issue tracker"
 msgstr ""
 
+msgid "issue tracker"
+msgstr ""
+
 msgid ""
 "We use Redmine to report and track bugs and feature requests, which can be fou"
 "nd here:"
-msgstr ""
-
-msgid "issue tracker"
 msgstr ""
 
 msgid "System Information"
@@ -4557,9 +4566,6 @@ msgid "Base DN"
 msgstr ""
 
 msgid "Groups base DN"
-msgstr ""
-
-msgid "LDAP filter"
 msgstr ""
 
 msgid "Custom LDAP search filter, <i>optional</i>"
@@ -4746,13 +4752,13 @@ msgstr ""
 msgid "Check/Uncheck all %s changes"
 msgstr ""
 
+msgid "Remove:"
+msgstr ""
+
 msgid "Add:"
 msgstr ""
 
 msgid "Update:"
-msgstr ""
-
-msgid "Remove:"
 msgstr ""
 
 msgid "Update"
@@ -4767,10 +4773,10 @@ msgstr ""
 msgid "Add Bookmark"
 msgstr ""
 
-msgid "OS Image"
+msgid "Build from OS image"
 msgstr ""
 
-msgid "Build from OS image"
+msgid "OS Image"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4789,10 +4795,10 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-msgid "override"
+msgid "Override this value"
 msgstr ""
 
-msgid "Override this value"
+msgid "override"
 msgstr ""
 
 msgid "Global"
@@ -4892,10 +4898,10 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
-msgid "Test Connection"
+msgid "Load Regions"
 msgstr ""
 
-msgid "Load Regions"
+msgid "Test Connection"
 msgstr ""
 
 msgid "Google Project ID"
@@ -5010,11 +5016,11 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-msgid "Disabled"
-msgstr ""
-
 msgid "Enabled"
 msgstr "Enabled"
+
+msgid "Disabled"
+msgstr ""
 
 msgid "There was an error listing VMs: %s"
 msgstr ""
@@ -5022,10 +5028,10 @@ msgstr ""
 msgid "Network interfaces"
 msgstr ""
 
-msgid "add new network interface"
+msgid "Add Interface"
 msgstr ""
 
-msgid "Add Interface"
+msgid "add new network interface"
 msgstr ""
 
 msgid "No networks found."
@@ -5037,10 +5043,10 @@ msgstr ""
 msgid "Storage"
 msgstr ""
 
-msgid "Add Volume"
+msgid "add new storage volume"
 msgstr ""
 
-msgid "add new storage volume"
+msgid "Add Volume"
 msgstr ""
 
 msgid "Flavor"
@@ -5049,10 +5055,10 @@ msgstr "Flavour"
 msgid "Please select an image"
 msgstr ""
 
-msgid "Availability zone"
+msgid "No preference"
 msgstr ""
 
-msgid "No preference"
+msgid "Availability zone"
 msgstr ""
 
 msgid "EC2"
@@ -5065,13 +5071,13 @@ msgstr "Subnet"
 msgid "Security groups"
 msgstr ""
 
-msgid "Managed IP"
+msgid "Public"
 msgstr ""
 
 msgid "Private"
 msgstr ""
 
-msgid "Public"
+msgid "Managed IP"
 msgstr ""
 
 msgid "Machine type"
@@ -5092,10 +5098,10 @@ msgstr "CPUs"
 msgid "Memory"
 msgstr "Memory"
 
-msgid "Start"
+msgid "Power ON this machine"
 msgstr ""
 
-msgid "Power ON this machine"
+msgid "Start"
 msgstr ""
 
 msgid "Image to use"
@@ -5136,10 +5142,10 @@ msgstr ""
 msgid "Create new boot volume from image"
 msgstr ""
 
-msgid "New boot volume size (GB)"
+msgid "Defaults to image size if left blank"
 msgstr ""
 
-msgid "Defaults to image size if left blank"
+msgid "New boot volume size (GB)"
 msgstr ""
 
 msgid "Cluster"
@@ -5152,7 +5158,7 @@ msgid "oVirt/RHEV template to use"
 msgstr ""
 
 msgid "Template"
-msgstr ""
+msgstr "Template"
 
 msgid "Cores"
 msgstr ""
@@ -5160,10 +5166,10 @@ msgstr ""
 msgid "Storage domain"
 msgstr ""
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -5503,12 +5509,12 @@ msgstr ""
 msgid "Full name describing the domain"
 msgstr ""
 
+msgid "DNS Proxy"
+msgstr ""
+
 msgid ""
 "DNS proxy to use within this domain for managing A records, note that PTR reco"
 "rds are managed via Subnet DNS proxy"
-msgstr ""
-
-msgid "DNS Proxy"
 msgstr ""
 
 msgid "Edit Domain"
@@ -5590,7 +5596,7 @@ msgid "Fact Values"
 msgstr ""
 
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "FactValue|Value"
@@ -5850,13 +5856,13 @@ msgid ""
 "ference would be the parameter/variables settings)."
 msgstr ""
 
-msgid "Create %s"
+msgid "Select Hosts"
 msgstr ""
 
 msgid "Assign Selected Hosts"
 msgstr ""
 
-msgid "Select Hosts"
+msgid "Create %s"
 msgstr ""
 
 msgid "<b class='select_count'>0</b> selected"
@@ -6054,10 +6060,10 @@ msgstr ""
 msgid "Troubleshooting"
 msgstr ""
 
-msgid "Open Spice in a new window"
+msgid "New window"
 msgstr ""
 
-msgid "New window"
+msgid "Open Spice in a new window"
 msgstr ""
 
 msgid "Connecting (unencrypted) to: %s"
@@ -6236,10 +6242,10 @@ msgstr ""
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
-msgid "Full path to backing image used to create new volumes."
+msgid "Image path"
 msgstr ""
 
-msgid "Image path"
+msgid "Full path to backing image used to create new volumes."
 msgstr ""
 
 msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
@@ -7199,10 +7205,10 @@ msgstr ""
 msgid "Show Diff"
 msgstr ""
 
-msgid "No history found"
+msgid "Save something and try again"
 msgstr ""
 
-msgid "Save something and try again"
+msgid "No history found"
 msgstr ""
 
 msgid "Please Select"
