@@ -12,12 +12,6 @@ module ProvisioningTemplatesHelper
     template.template_kind
   end
 
-  def include_javascript
-    javascript 'provisioning_template', 'ace/ace',
-               'ace/theme-twilight', 'ace/theme-dawn', 'ace/theme-clouds', 'ace/theme-textmate',
-               'ace/mode-diff', 'diff', 'ace/mode-ruby', 'ace/keybinding-vim', 'ace/keybinding-emacs'
-  end
-
   def show_default?
     rights = Taxonomy.enabled_taxonomies.select { |taxonomy| User.current.can?("create_#{taxonomy}".to_sym) }
     rights.all? && !rights.blank?
