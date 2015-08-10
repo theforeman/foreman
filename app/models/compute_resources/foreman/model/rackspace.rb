@@ -16,7 +16,7 @@ module Foreman::Model
     end
 
     def find_vm_by_uuid(uuid)
-      client.servers.get(uuid)
+      super
     rescue Fog::Compute::Rackspace::Error
       raise(ActiveRecord::RecordNotFound)
     end
