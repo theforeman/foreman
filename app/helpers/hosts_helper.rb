@@ -443,4 +443,11 @@ module HostsHelper
                               :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type) )
     end
   end
+
+  def inherited_by_default?(field, host)
+    return false unless host.hostgroup && host.hostgroup_id_was.nil?
+    return false if params[:action] == 'clone'
+    return true unless params[:host]
+    !params[:host][field]
+  end
 end
