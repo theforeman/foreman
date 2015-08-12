@@ -211,6 +211,15 @@ class HostsControllerTest < ActionController::TestCase
     refute assigns(:host).mac
   end
 
+  def test_clone_with_hostgroup
+    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
+    host = FactoryGirl.create(:host, :with_hostgroup)
+    get :clone, {:id => host.id}, set_session_user
+    assert assigns(:clone_host)
+    assert_template 'clone'
+    assert_response :success
+  end
+
   def setup_user(operation, type = 'hosts', filter = nil)
     super
   end

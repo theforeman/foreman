@@ -60,7 +60,7 @@ module HostsAndHostgroupsHelper
     select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
              { :include_blank => blank_or_inherit_f(f, :puppet_ca_proxy),
                :disable_button => can_override ? _(INHERIT_TEXT) : nil,
-               :disable_button_enabled => override && !params[:host][:puppet_ca_proxy_id],
+               :disable_button_enabled => override && !explicit_value?(:puppet_ca_proxy_id),
                :user_set => params[:host] && params[:host][:puppet_ca_proxy_id]
              },
              { :label       => _("Puppet CA"),
@@ -75,7 +75,7 @@ module HostsAndHostgroupsHelper
     select_f f, :puppet_proxy_id, proxies, :id, :name,
              { :include_blank => blank_or_inherit_f(f, :puppet_proxy),
                :disable_button => can_override ? _(INHERIT_TEXT) : nil,
-               :disable_button_enabled => override && !params[:host][:puppet_proxy_id],
+               :disable_button_enabled => override && !explicit_value?(:puppet_proxy_id),
                :user_set => params[:host] && params[:host][:puppet_proxy_id]
 
              },
@@ -93,7 +93,7 @@ module HostsAndHostgroupsHelper
                 :id, :to_label,
                 { :include_blank => true,
                   :disable_button => can_override ? _(INHERIT_TEXT) : nil,
-                  :disable_button_enabled => override && !params[:host][:realm_id],
+                  :disable_button_enabled => override && !explicit_value?(:realm_id),
                   :user_set => params[:host] && params[:host][:realm_id]
                 },
                 { :help_inline   => :indicator }
@@ -108,5 +108,11 @@ module HostsAndHostgroupsHelper
     klasses    = (smart_vars + class_vars).uniq
 
     classes.where(:id => klasses)
+  end
+
+  def explicit_value?(field)
+    return true if params[:action] == 'clone'
+    return false unless params[:host]
+    !!params[:host][field]
   end
 end
