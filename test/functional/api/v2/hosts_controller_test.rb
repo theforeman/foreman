@@ -260,7 +260,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     get :vm_compute_attributes, { :id => host.to_param }
     assert_response :success
     data = JSON.parse(@response.body)
-    assert_equal data, "cpus" => 4
+    assert_equal data, "cpus" => 4, "memory" => nil
     ComputeResource.any_instance.unstub(:vm_compute_attributes_for)
   end
 

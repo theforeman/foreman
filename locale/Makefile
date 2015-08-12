@@ -45,18 +45,15 @@ uniq-po:
 
 tx-pull:
 	tx pull -f
-	-git commit -a -m "i18n - extracting new, updating rails, pulling from tx"
-
-update-rails:
-	-[ -x ../script/update-rails-locales.sh ] && ../script/update-rails-locales.sh
+	-git commit -a -m "i18n - extracting new, pulling from tx"
 
 extract-strings:
 	bundle exec rake locale:po_to_json locale:find DOMAIN=$(DOMAIN) SKIP_MODEL=1
 
-tx-update: update-rails tx-pull extract-strings
+tx-update: tx-pull extract-strings
 	# merging po files is unnecessary when using transifex.com (amend that)
 	git checkout -- ../locale/*/*po
-	git commit -a --amend -m "i18n - extracting new, updating rails, pulling from tx"
+	git commit -a --amend -m "i18n - extracting new, pulling from tx"
 	-echo Changes commited!
 
 # Remove all MO files

@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'unit/compute_resources/compute_resource_test_helpers'
 
 class OpenstackTest < ActiveSupport::TestCase
+  include ComputeResourceTestHelpers
+
   setup do
     @compute_resource = FactoryGirl.build(:openstack_cr)
   end
@@ -21,6 +24,13 @@ class OpenstackTest < ActiveSupport::TestCase
     @compute_resource.expects(:boot_from_volume).never
     @compute_resource.create_vm(:boot_from_volume => 'false', :nics => [""],
                                 :flavor_ref => 'foo_flavor', :image_ref => 'foo_image')
+  end
+
+  describe "find_vm_by_uuid" do
+    it "raises RecordNotFound when the vm does not exist" do
+      cr = mock_cr_servers(Foreman::Model::Openstack.new, empty_servers)
+      assert_find_by_uuid_raises(ActiveRecord::RecordNotFound, cr)
+    end
   end
 
   private
