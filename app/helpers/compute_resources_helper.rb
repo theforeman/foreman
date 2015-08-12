@@ -43,8 +43,9 @@ module ComputeResourcesHelper
     opts.map{|n| [number_to_human_size(n*Foreman::SIZE[:giga]), (n*Foreman::SIZE[:giga]).to_i] unless n > (max_memory / Foreman::SIZE[:giga])}.compact
   end
 
-  def password_placeholder(obj)
-    obj.id ? "********" : ""
+  def password_placeholder(obj, attr = nil)
+    pass = obj.read_attribute(attr).present? || obj.has_attribute?(:password_hash)
+    pass ? "********" : ''
   end
 
   def list_datacenters(compute)

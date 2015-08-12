@@ -1,6 +1,6 @@
 <%= text_f f, :server, :label => _("VCenter/Server"), :size => "col-md-8", :help_inline => documentation_button('5.2.9VMwareNotes') %>
 <%= text_f f, :user %>
-<%= password_f f, :password, :placeholder => password_placeholder(f.object) %>
+<%= password_f f, :password %>
 <% datacenters = list_datacenters f.object%>
 <%= selectable_f(f, :datacenter, datacenters, {}, {:label => _('Datacenter'),
                  :help_inline => link_to_function(datacenters.empty? ? "Load Datacenters" : "Test Connection", "testConnection(this)",

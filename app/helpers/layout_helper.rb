@@ -53,7 +53,7 @@ module LayoutHelper
     password_field_tag(:fakepassword, nil, :style => 'display: none') +
     field(f, attr, options) do
       options[:autocomplete]   ||= 'off'
-      options[:placeholder]    ||= password_placeholder(f.object)
+      options[:placeholder]    ||= password_placeholder(f.object, attr)
       addClass options, 'form-control'
       f.password_field(attr, options) +
       '<span class="glyphicon glyphicon-warning-sign input-addon"
