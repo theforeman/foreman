@@ -57,9 +57,18 @@ function resize_label(label){
   label.css('right', labelOffset); //make sure it is centered
 }
 
+function trunc_with_tooltip(val){
+  if (val.length > 10) {
+    var trunced_val = val.substring(0, 10) + "...";
+    val = '<small data-toggle="tooltip" title=' + val + '>' + trunced_val + '</small>';
+  }
+  return val;
+}
+
 function expanded_pie(target, data){
-    var max={data:0}, sum = 0;
-    $(data).each(function(i, el){sum = sum + el.data; if (max.data< el.data) max = el;});
+  var max = {data:0}, sum = 0;
+  var label_exist = false;
+  $(data).each(function(i, el){sum = sum + el.data; if (max.data< el.data) max = el;});
   $.plot(target, data, {
     colors: ['#0099d3', '#393f44','#00618a','#505459','#057d9f','#025167'],
     series: {
@@ -71,7 +80,12 @@ function expanded_pie(target, data){
           show: true,
           radius: 0.001,
           formatter: function(label, series) {
-            return '<div class="percent">' + Math.round(100 * max.data / sum) + '%</div>' + max.label;
+            if (label_exist)
+              return '';
+            else{
+              label_exist = true;
+              return '<div id="test"> <div class="percent">' + Math.round(100 * max.data / sum) + '%</div>' + trunc_with_tooltip(max.label);
+            }
           }
         },
         highlight: {
@@ -80,13 +94,18 @@ function expanded_pie(target, data){
       }
     },
     legend: {
-      show: false
+      show: true,
+      container: $(".legend"),
+      labelFormatter: function(label, series) {
+        return trunc_with_tooltip(label)
+      }
     },
     grid: {
       hoverable: true,
       clickable: true
     }
   });
+  
     bind_hover_event(target, function(item){
       var percent = Math.round(item.series.percent);
       return item.series.label + ' ('+percent+'%)';
@@ -277,7 +296,10 @@ function get_pie_chart(div, url) {
   {
     $('body').append('<div id="' + div + '" class="modal fade"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
     $("#"+div+" .modal-content").append('<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title"></h4></div>')
-        .append('<div id="' + div + '-body" class="fact_chart modal-body">' + __('Loading') + ' ...</div>')
+        .append('<div class="container">')
+        .append('<div id="' + div + '-body" class="fact_chart modal-body">' + __('Loading') + ' ... </div>')
+        .append('<div class="legend" ></div>')
+        .append('</div>')
         .append('<div class="modal-footer"></div>');
 
     $("#"+div).modal('show');
@@ -366,6 +388,7 @@ function updateChart(item, status) {
 }
 
 $(function() {
+  $('[data-toggle="tooltip"]').tooltip();
   $(".statistics-pie").flot_pie();
   $(".statistics-bar").flot_bar();
   $(".statistics-chart").flot_chart();
