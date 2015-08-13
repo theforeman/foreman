@@ -1,5 +1,15 @@
 class AddUniqueIndexToParameter < ActiveRecord::Migration
   def up
+    found = []
+    Parameter.find_each do |param|
+      new_param = {:name => param.name, :type => param.type, :reference_id => param.reference_id}
+      if found.include?(new_param)
+        param.destroy
+      else
+        found << new_param
+      end
+    end
+
     add_index :parameters, [:type, :reference_id, :name], :unique => true
   end
 
