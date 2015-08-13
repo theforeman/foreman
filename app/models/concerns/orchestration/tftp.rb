@@ -48,18 +48,20 @@ module Orchestration::TFTP
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
     @host = self.host
     if build?
-      pxe_template = host.provisioning_template({:kind => host.operatingsystem.template_kind})
-      failure_missing_template unless pxe_template
-      pxe_render pxe_template
+      template = host.provisioning_template({:kind => host.operatingsystem.template_kind})
+      failure_missing_template unless template
+      template_name = template.name
     else
       if host.operatingsystem.template_kind == "PXEGrub"
-        pxe_render ProvisioningTemplate.find_by_name("PXEGrub default local boot")
+        template_name = "PXEGrub default local boot"
       else
-        pxe_render ProvisioningTemplate.find_by_name("PXELinux default local boot")
+        template_name = "PXELinux default local boot"
       end
+      template = ProvisioningTemplate.find_by_name(template_name)
     end
+    unattended_render template, template_name
   rescue => e
-    failure _("Failed to generate %{template_kind} template: %{e}") % { :template_kind => host.operatingsystem.template_kind, :e => e }, e
+    failure _("Failed to generate %{template_kind} template %{template_name}: %{e}") % { :template_kind => host.operatingsystem.template_kind, :template_name => template_name.nil? ? '' : template_name, :e => e }, e
   end
 
   protected

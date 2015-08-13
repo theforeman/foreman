@@ -981,10 +981,19 @@ class HostTest < ActiveSupport::TestCase
 
     test "custom_disk_partition_with_erb" do
       h = FactoryGirl.create(:host)
-      h.disk = "<%= 1 + 1 %>"
+      h.disk = "<%= @template_name %>"
       assert h.save
       assert h.disk.present?
-      assert_equal "2", h.diskLayout
+      assert_equal "Custom disk layout", h.diskLayout
+    end
+
+    test "custom_disk_partition_with_ptable" do
+      h = FactoryGirl.create(:host, :managed)
+      h.disk = ''
+      h.ptable.stubs(:name).returns("some_name")
+      h.ptable.stubs(:layout).returns("<%= @template_name %>")
+      assert h.save
+      assert_equal "some_name", h.diskLayout
     end
 
     test "models are updated when host.model has no value" do

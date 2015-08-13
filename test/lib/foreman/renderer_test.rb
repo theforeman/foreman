@@ -93,6 +93,14 @@ class RendererTest < ActiveSupport::TestCase
       tmpl = render_safe("<% @host.interfaces.each do |int| -%><%= int.to_s -%><% end -%>", [], { :host => host })
       assert_equal host.name, tmpl
     end
+
+    test "#{renderer_name} should error out when template was not found" do
+      send "setup_#{renderer_name}"
+      ex = assert_raises Foreman::Exception do
+        unattended_render(nil)
+      end
+      assert_match(/is either missing or has an invalid organization or location/, ex.message)
+    end
   end
 
   test 'ActiveRecord::AssociationRelation jail test' do
