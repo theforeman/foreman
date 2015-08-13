@@ -320,7 +320,8 @@ class Host::Managed < Host::Base
   def diskLayout
     @host = self
     template = disk.blank? ? ptable.layout : disk
-    pxe_render(template.tr("\r", ''))
+    template_name = disk.blank? ? ptable.name : 'Custom disk layout'
+    unattended_render(template.tr("\r", ''), template_name)
   end
 
   # returns a configuration template (such as kickstart) to a given host

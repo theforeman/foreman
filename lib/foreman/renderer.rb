@@ -105,14 +105,20 @@ module Foreman
       prefix + text.gsub(/\n/, "\n#{prefix}")
     end
 
+    # accepts either template object or plain string
     def unattended_render(template, template_name = nil)
-      content = template.respond_to?(:template) ? template.template : template
       template_name ||= template.respond_to?(:name) ? template.name : 'Unnamed'
+      raise ::Foreman::Exception.new(N_("Template '%s' is either missing or has an invalid organization or location"), template_name) if template.nil?
+      content = template.respond_to?(:template) ? template.template : template
       allowed_variables = allowed_variables_mapping(ALLOWED_VARIABLES)
       allowed_variables[:template_name] = template_name
       render_safe content, ALLOWED_HELPERS, allowed_variables
     end
-    alias_method :pxe_render, :unattended_render
+
+    def pxe_render(template, template_name = nil)
+      ::Foreman::Deprecation.deprecation_warning("1.14", "method pxe_render will be removed, use unattended_render instead")
+      unattended_render(template, template_name)
+    end
 
     def unattended_render_to_temp_file(content, prefix = id.to_s, options = {})
       file = ""
