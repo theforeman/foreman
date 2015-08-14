@@ -4,9 +4,7 @@ class Log < ActiveRecord::Base
   belongs_to :report
   validates :message_id, :source_id, :report_id, :level_id, :presence => true
 
-  default_scope do
-    order('logs.id')
-  end
+  default_scope -> { order('logs.id') }
 
   LEVELS = [:debug, :info, :notice, :warning, :err, :alert, :emerg, :crit]
 

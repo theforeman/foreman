@@ -12,7 +12,7 @@ class Location < Taxonomy
   accepts_nested_attributes_for :location_parameters, :allow_destroy => true
   include ParameterValidators
 
-  scope :completer_scope, lambda { |opts| my_locations }
+  scope :completer_scope, ->(opts) { my_locations }
 
   scope :my_locations, lambda {
     conditions = User.current.admin? ? {} : sanitize_sql_for_conditions([" (taxonomies.id in (?))", User.current.location_and_child_ids])

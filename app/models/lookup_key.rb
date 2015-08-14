@@ -54,24 +54,24 @@ class LookupKey < ActiveRecord::Base
   scoped_search :in => :param_classes, :on => :name, :rename => :puppetclass, :complete_value => true
   scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
 
-  default_scope lambda { order('lookup_keys.key') }
+  default_scope -> { order('lookup_keys.key') }
 
-  scope :override, lambda { where(:override => true) }
+  scope :override, -> { where(:override => true) }
 
-  scope :smart_class_parameters_for_class, lambda {|puppetclass_ids, environment_id|
+  scope :smart_class_parameters_for_class, lambda { |puppetclass_ids, environment_id|
     joins(:environment_classes).where(:environment_classes => {:puppetclass_id => puppetclass_ids, :environment_id => environment_id})
   }
 
-  scope :parameters_for_class, lambda {|puppetclass_ids, environment_id|
+  scope :parameters_for_class, lambda { |puppetclass_ids, environment_id|
     override.smart_class_parameters_for_class(puppetclass_ids,environment_id)
   }
 
-  scope :global_parameters_for_class, lambda {|puppetclass_ids|
+  scope :global_parameters_for_class, lambda { |puppetclass_ids|
     where(:puppetclass_id => puppetclass_ids)
   }
 
-  scope :smart_variables, lambda { where('lookup_keys.puppetclass_id > 0').readonly(false) }
-  scope :smart_class_parameters, lambda { where(:is_param => true).joins(:environment_classes).readonly(false) }
+  scope :smart_variables, -> { where('lookup_keys.puppetclass_id > 0').readonly(false) }
+  scope :smart_class_parameters, -> { where(:is_param => true).joins(:environment_classes).readonly(false) }
 
   # new methods for API instead of revealing db names
   alias_attribute :parameter, :key

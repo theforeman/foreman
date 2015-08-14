@@ -50,18 +50,18 @@ child :hostgroups do
   extends "api/v2/hostgroups/base"
 end
 
-if @taxonomy.kind_of?(Location)
+if @taxonomy.is_a?(Location)
   child :organizations => :organizations  do
     extends "api/v2/taxonomies/base"
   end
 end
 
-if @taxonomy.kind_of?(Organization)
+if @taxonomy.is_a?(Organization)
   child :locations => :locations do
     extends "api/v2/taxonomies/base"
   end
 end
 
 node do |taxonomy|
-   { :parameters => partial("api/v2/parameters/base", :object => taxonomy.parameters) }
+  { :parameters => partial("api/v2/parameters/base", :object => taxonomy.parameters) }
 end

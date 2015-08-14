@@ -36,7 +36,7 @@ class Taxonomy < ActiveRecord::Base
   delegate :import_missing_ids, :inherited_ids, :used_and_selected_or_inherited_ids, :selected_or_inherited_ids,
            :non_inherited_ids, :used_or_inherited_ids, :used_ids, :to => :tax_host
 
-  default_scope lambda { order(:title) }
+  default_scope -> { order(:title) }
 
   scope :completer_scope, lambda{|opts|
     if opts[:controller] == 'organizations'

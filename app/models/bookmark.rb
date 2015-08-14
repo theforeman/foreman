@@ -16,7 +16,7 @@ class Bookmark < ActiveRecord::Base
                          :inclusion => {
                            :in => ["dashboard"] + ActiveRecord::Base.connection.tables.map(&:to_s),
                            :message => _("%{value} is not a valid controller") }
-  default_scope lambda { order(:name) }
+  default_scope -> { order(:name) }
   before_validation :set_default_user
 
   scope :my_bookmarks, lambda {
@@ -28,7 +28,7 @@ class Bookmark < ActiveRecord::Base
     where(conditions)
   }
 
-  scope :controller, lambda { |*args| where("controller = ?", (args.first || '')) }
+  scope :controller, ->(*args) { where("controller = ?", (args.first || '')) }
 
   def set_default_user
     self.owner ||= User.current

@@ -10,11 +10,5 @@ attributes :ip, :environment_id, :environment_name, :last_report, :mac, :realm_i
            :compute_profile_id, :compute_profile_name, :capabilities, :provision_method,
            :puppet_proxy_id, :certname, :image_id, :image_name, :created_at, :updated_at,
            :last_compile, :puppet_status
-
-if SETTINGS[:organizations_enabled]
-  attributes :organization_id, :organization_name
-end
-
-if SETTINGS[:locations_enabled]
-  attributes :location_id, :location_name
-end
+attributes :organization_id, :organization_name if SETTINGS[:organizations_enabled]
+attributes :location_id, :location_name         if SETTINGS[:locations_enabled]

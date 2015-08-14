@@ -71,37 +71,41 @@ class Host::Managed < Host::Base
 
   attr_reader :cached_host_params
 
-  scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]} }
-  scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]} }
+  scope :recent,      ->(*args) { {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]} }
+  scope :out_of_sync, ->(*args) { {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]} }
 
-  scope :with_os, lambda { where('hosts.operatingsystem_id IS NOT NULL') }
+  scope :with_os, -> { where('hosts.operatingsystem_id IS NOT NULL') }
 
-  scope :with_error, lambda { where("(puppet_status > 0) and
+  scope :with_error, lambda {
+    where("(puppet_status > 0) and
    ( ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
     ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) != 0) )")
   }
 
-  scope :without_error, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) = 0) and
+  scope :without_error, lambda {
+    where("((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) = 0) and
      ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) = 0)")
   }
 
-  scope :with_changes, lambda { where("(puppet_status > 0) and
+  scope :with_changes, lambda {
+    where("(puppet_status > 0) and
     ( ((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) != 0) or
     ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) != 0) )")
   }
 
-  scope :without_changes, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) = 0) and
+  scope :without_changes, lambda {
+    where("((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) = 0) and
      ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) = 0)")
   }
 
-  scope :with_pending_changes, lambda { where("(puppet_status > 0) and ((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) != 0)") }
-  scope :without_pending_changes, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) = 0)") }
+  scope :with_pending_changes, -> { where("(puppet_status > 0) and ((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) != 0)") }
+  scope :without_pending_changes, -> { where("((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) = 0)") }
 
-  scope :successful, lambda { without_changes.without_error.without_pending_changes}
+  scope :successful, -> { without_changes.without_error.without_pending_changes}
 
-  scope :alerts_disabled, lambda { where(:enabled => false) }
+  scope :alerts_disabled, -> { where(:enabled => false) }
 
-  scope :alerts_enabled, lambda { where(:enabled => true) }
+  scope :alerts_enabled, -> { where(:enabled => true) }
 
   scope :run_distribution, lambda { |fromtime,totime|
     if fromtime.nil? or totime.nil?
@@ -111,9 +115,9 @@ class Host::Managed < Host::Base
     end
   }
 
-  scope :for_token, lambda { |token| joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
+  scope :for_token, ->(token) { joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
 
-  scope :for_vm, lambda { |cr,vm| where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity)) }
+  scope :for_vm, ->(cr,vm) { where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity)) }
 
   # audit the changes to this model
   audited :except => [:last_report, :puppet_status, :last_compile], :allow_mass_assignment => true
