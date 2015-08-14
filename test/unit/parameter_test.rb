@@ -4,6 +4,7 @@ class ParameterTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
   end
+
   test  "names may be reused in different parameter groups" do
     host = FactoryGirl.create(:host)
     p1 = HostParameter.new   :name => "param", :value => "value1", :reference_id => host.id
@@ -51,5 +52,21 @@ class ParameterTest < ActiveSupport::TestCase
     host.host_parameters << HostParameter.create(:name => "animal", :value => "pig")
     host.clear_host_parameters_cache!
     assert_equal "pig", host.host_params["animal"]
+  end
+
+  test 'parameters are unique scoped by reference_id and type' do
+    assert_difference('Parameter.count', 1) do
+      2.times do |time|
+        foo = Parameter.new(:name => 'foo', :reference_id => 2)
+        foo.type = 'DomainParameter'
+
+        assert foo.save if time == 0
+        refute foo.save if time == 1
+      end
+    end
+
+    foo = Parameter.new(:name => 'foo', :reference_id => 2)
+    foo.type = 'GroupParameter'
+    assert foo.valid?
   end
 end
