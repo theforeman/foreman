@@ -6,7 +6,7 @@ class Template < ActiveRecord::Base
   validates :name, :presence => true
   validates :template, :presence => true
   validates :audit_comment, :length => {:maximum => 255}
-  validate :template_changes, :if => lambda { |template| (template.locked? || template.locked_changed?) && template.persisted? && !Foreman.in_rake? }
+  validate :template_changes, :if => ->(template) { (template.locked? || template.locked_changed?) && template.persisted? && !Foreman.in_rake? }
 
   before_destroy :check_if_template_is_locked
 

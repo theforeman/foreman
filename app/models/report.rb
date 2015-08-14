@@ -39,10 +39,10 @@ class Report < ActiveRecord::Base
   }
 
   # returns recent reports
-  scope :recent, lambda { |*args| where("reported_at > ?", (args.first || 1.day.ago)).order(:reported_at) }
+  scope :recent, ->(*args) { where("reported_at > ?", (args.first || 1.day.ago)).order(:reported_at) }
 
   # with_changes
-  scope :interesting, lambda { where("status <> 0") }
+  scope :interesting, -> { where("status <> 0") }
 
   # a method that save the report values (e.g. values from METRIC)
   # it is not supported to edit status values after it has been written once.

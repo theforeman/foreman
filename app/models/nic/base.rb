@@ -39,18 +39,18 @@ module Nic
     validate :validate_host_location, :if => Proc.new { |nic| SETTINGS[:locations_enabled] && nic.subnet.present? }
     validate :validate_host_organization, :if => Proc.new { |nic| SETTINGS[:organizations_enabled] && nic.subnet.present? }
 
-    scope :bootable, lambda { where(:type => "Nic::Bootable") }
-    scope :bmc, lambda { where(:type => "Nic::BMC") }
-    scope :bonds, lambda { where(:type => "Nic::Bond") }
-    scope :interfaces, lambda { where(:type => "Nic::Interface") }
-    scope :managed, lambda { where(:type => "Nic::Managed") }
+    scope :bootable, -> { where(:type => "Nic::Bootable") }
+    scope :bmc, -> { where(:type => "Nic::BMC") }
+    scope :bonds, -> { where(:type => "Nic::Bond") }
+    scope :interfaces, -> { where(:type => "Nic::Interface") }
+    scope :managed, -> { where(:type => "Nic::Managed") }
 
-    scope :virtual, lambda { where(:virtual => true) }
-    scope :physical, lambda { where(:virtual => false) }
-    scope :is_managed, lambda { where(:managed => true) }
+    scope :virtual, -> { where(:virtual => true) }
+    scope :physical, -> { where(:virtual => false) }
+    scope :is_managed, -> { where(:managed => true) }
 
-    scope :primary, lambda { { :conditions => { :primary => true } } }
-    scope :provision, lambda { { :conditions => { :provision => true } } }
+    scope :primary, -> { { :conditions => { :primary => true } } }
+    scope :provision, -> { { :conditions => { :provision => true } } }
 
     belongs_to :subnet
     belongs_to :domain, :counter_cache => 'hosts_count'

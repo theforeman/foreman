@@ -19,7 +19,7 @@ module Nic
     delegate :operatingsystem_id, :hostgroup_id, :environment_id,
              :overwrite?, :to => :host, :allow_nil => true
 
-    register_to_enc_transformation :type, lambda { |type| type.constantize.humanized_name }
+    register_to_enc_transformation :type, ->(type) { type.constantize.humanized_name }
 
     # this ensures we can create an interface even when there is no host queue
     # e.g. outside to Host nested attributes

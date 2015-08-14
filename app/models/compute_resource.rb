@@ -39,7 +39,7 @@ class ComputeResource < ActiveRecord::Base
   has_many :compute_profiles, :through => :compute_attributes
 
   # The DB may contain compute resource from disabled plugins - filter them out here
-  scope :live_descendants, lambda { where(:type => self.descendants.map(&:to_s)) unless Rails.env.development? }
+  scope :live_descendants, -> { where(:type => self.descendants.map(&:to_s)) unless Rails.env.development? }
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here

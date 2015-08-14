@@ -13,7 +13,7 @@ Apipie.configure do |config|
   # config.languages = [] # turn off localized API docs and CLI, useful for development
   config.languages = ENV['FOREMAN_APIPIE_LANGS'].try(:split, ' ') || FastGettext.available_locales
   config.default_locale = FastGettext.default_locale
-  config.locale = lambda { |loc| loc ? FastGettext.set_locale(loc) : FastGettext.locale }
+  config.locale = ->(loc) { loc ? FastGettext.set_locale(loc) : FastGettext.locale }
 
   substitutions = {
     :operatingsystem_families => Operatingsystem.families.join(", "),

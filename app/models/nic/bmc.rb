@@ -12,7 +12,7 @@ module Nic
     end
     alias_method :virtual?, :virtual
 
-    register_to_enc_transformation :type, lambda { |type| type.constantize.humanized_name }
+    register_to_enc_transformation :type, ->(type) { type.constantize.humanized_name }
 
     def proxy
       proxy = bmc_proxy

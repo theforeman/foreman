@@ -12,7 +12,7 @@ class Organization < Taxonomy
   accepts_nested_attributes_for :organization_parameters, :allow_destroy => true
   include ParameterValidators
 
-  scope :completer_scope, lambda { |opts| my_organizations }
+  scope :completer_scope, ->(opts) { my_organizations }
 
   scope :my_organizations, lambda {
     conditions = User.current.admin? ? {} : sanitize_sql_for_conditions([" (taxonomies.id in (?))", User.current.organization_and_child_ids])

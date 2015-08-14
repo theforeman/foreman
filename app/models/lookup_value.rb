@@ -19,7 +19,7 @@ class LookupValue < ActiveRecord::Base
   serialize :value
   attr_name :match
 
-  scope :default, lambda { where(:match => "default").limit(1) }
+  scope :default, -> { where(:match => "default").limit(1) }
 
   scoped_search :on => :value, :complete_value => true, :default_order => true
   scoped_search :on => :match, :complete_value => true

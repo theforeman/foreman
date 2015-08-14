@@ -4,7 +4,7 @@ class EncOutputTest < ActiveSupport::TestCase
   class SampleModel
     attr_accessor :name, :attrs, :subnet, :mac, :password, :subnet
     include EncOutput
-    register_to_enc_transformation :mac, lambda { |v| v.upcase }
+    register_to_enc_transformation :mac, ->(v) { v.upcase }
 
     def attributes
       {
