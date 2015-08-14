@@ -154,11 +154,43 @@ class LookupValueTest < ActiveSupport::TestCase
     assert value.valid?
   end
 
-  test "boolean lookup value should not allow for nil" do
+  test "boolean lookup value should not allow for nil value" do
     #boolean key
     key = lookup_keys(:three)
     value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id)
     refute value.valid?
+  end
+
+  test "lookup value should allow valid key" do
+    key = lookup_keys(:three)
+    value = LookupValue.new(:value => true, :match => "hostgroup=Common", :lookup_key_id => key.id)
+    assert_valid value
+  end
+
+  test "lookup value should allow valid multiple key" do
+    key = lookup_keys(:three)
+    value = LookupValue.new(:value => true, :match => "hostgroup=Common,domain=example.com", :lookup_key_id => key.id)
+    assert_valid value
+  end
+
+  test "lookup value should not allow for nil key" do
+    key = lookup_keys(:three)
+    value = LookupValue.new(:value => true, :match => "", :lookup_key_id => key.id)
+    refute_valid value
+  end
+
+  test "lookup value will be rejected for invalid key" do
+    key = lookup_keys(:three)
+    value = LookupValue.new(:value => true, :match => "hostgroup=", :lookup_key_id => key.id)
+    refute_valid value
+    assert_equal "is invalid", value.errors[:match].first
+  end
+
+  test "lookup value will be rejected for invalid multiple key" do
+    key = lookup_keys(:three)
+    value = LookupValue.new(:value => true, :match => "hostgroup=Common,domain=", :lookup_key_id => key.id)
+    refute_valid value
+    assert_equal "is invalid", value.errors[:match].first
   end
 
   context "when key is a boolean and default_value is a string" do

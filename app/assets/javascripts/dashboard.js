@@ -1,6 +1,21 @@
-$(document).on('ContentLoad', function(){start_gridster()});
+$(document).on('ContentLoad', function(){start_gridster(); auto_refresh()});
+
 $(document).on("click",".widget_control .minimize" ,function(){ hide_widget(this);});
 $(document).on("click",".widget_control .remove" ,function(){ remove_widget(this);});
+
+var refresh_timeout;
+function auto_refresh(){
+  var element = $(".auto-refresh");
+  clearTimeout(refresh_timeout);
+
+  if (element[0]) {
+    refresh_timeout = setTimeout(function(){
+      if ($(".auto-refresh").hasClass("on")) {
+        Turbolinks.visit(location.toString());
+      }
+    },60000);
+  }
+}
 
 function start_gridster(){
     var gridster = $(".gridster>ul").gridster({

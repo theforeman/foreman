@@ -19,6 +19,7 @@
 //= require hidden_values
 //= require select_on_click
 //= require select2
+//= require underscore
 
 $(document).on('ContentLoad', function(){onContentLoad()});
 Turbolinks.enableProgressBar();

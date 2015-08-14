@@ -18,7 +18,8 @@ module DashboardHelper
           widgets_to_add
         end
       ),
-      documentation_button
+      documentation_button,
+      auto_refresh_button(:defaults_to => true)
     ]
   end
 
@@ -119,5 +120,19 @@ module DashboardHelper
       :reports_missing => "#DB843D",
       :disabled_hosts => "#92A8CD"
     }
+  end
+
+  def auto_refresh_button(options = {})
+    on = options[:defaults_to] ? "on" : "off"
+    if params[:auto_refresh].present?
+      on = params[:auto_refresh] == "0" ? "off" : "on"
+    end
+    if on == "on"
+      tooltip = _("Auto refresh on")
+    else
+      tooltip = _("Auto refresh off")
+    end
+    link = link_to(icon_text("refresh"), {:auto_refresh => (on == "on" ? "0" : "1")}, { :'data-original-title' => tooltip, :rel => 'twipsy' })
+    "<div class='btn-toolbar pull-right auto-refresh #{on}'>#{link}</div>"
   end
 end

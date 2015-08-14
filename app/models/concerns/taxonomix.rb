@@ -179,7 +179,7 @@ module Taxonomix
 
       next if (User.current.nil? || User.current.send("#{assoc}").empty?) || (!new_record? && !self.send("#{key}_changed?"))
 
-      allowed = taxonomy.authorized("assign_#{assoc}", taxonomy).pluck(:id).to_set
+      allowed = taxonomy.authorized("assign_#{assoc}", taxonomy).pluck(:id).to_set.union(self.send("#{key}_was"))
       tried = self.send(key).to_set
 
       if tried.empty? || !tried.subset?(allowed)
