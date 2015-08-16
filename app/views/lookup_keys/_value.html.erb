@@ -4,7 +4,7 @@
 <tr class="fields matchers form-group <%= 'has-error' if f.object.errors.any? %>">
   <td>
     <%= f.hidden_field :match, :class => 'match' %>
-    <%= select_tag '', nil, :class => 'matcher_key' %>
+    <%= select_tag '', nil, :class => 'matcher_key without_select2' %>
     =
     <%= text_field_tag '', nil, :class => 'matcher_value' %>
   </td>
