@@ -44,6 +44,7 @@ module Api
         param :parameter_type, LookupKey::KEY_TYPES, :desc => N_("Types of variable values")
         param :required, :bool, :desc => N_("If true, will raise an error if there is no default value and no matcher provide a value")
         param :merge_overrides, :bool, :desc => N_("Merge all matching values (only array/hash type)")
+        param :merge_default, :bool, :desc => N_("Include default value when merging all matching values")
         param :avoid_duplicates, :bool, :desc => N_("Remove duplicate values (only array type)")
       end
 

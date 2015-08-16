@@ -53,11 +53,12 @@ module Classification
         end
         value = nil
         if key.merge_overrides
+          default = key.merge_default ? key.default_value : nil
           case key.key_type
             when "array"
-              value = update_array_matcher(key.avoid_duplicates, sorted_lookup_values, options)
+              value = update_array_matcher(default, key.avoid_duplicates, sorted_lookup_values, options)
             when "hash"
-              value = update_hash_matcher(sorted_lookup_values, options)
+              value = update_hash_matcher(default, sorted_lookup_values, options)
             else
               raise "merging enabled for non mergeable key #{key.key}"
           end
@@ -178,10 +179,16 @@ module Classification
       computed_lookup_value
     end
 
-    def update_array_matcher(should_avoid_duplicates, lookup_values, options)
+    def update_array_matcher(default, should_avoid_duplicates, lookup_values, options)
       elements = []
       values = []
       element_names = []
+
+      unless default.nil?
+        values += default
+        elements << s_("LookupKey|Default value")
+        element_names << s_("LookupKey|Default value")
+      end
 
       lookup_values.each do |lookup_value|
         element, element_name = get_element_and_element_name(lookup_value)
@@ -199,10 +206,16 @@ module Classification
       {:value => values, :element => elements, :element_name => element_names}
     end
 
-    def update_hash_matcher(lookup_values, options)
+    def update_hash_matcher(default, lookup_values, options)
       elements = []
       values = {}
       element_names = []
+
+      unless default.nil?
+        values = default
+        elements << s_("LookupKey|Default value")
+        element_names << s_("LookupKey|Default value")
+      end
 
       # to make sure seep merge overrides by priority, putting in the values with the lower priority first
       # and then merging with higher priority

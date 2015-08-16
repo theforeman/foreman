@@ -40,7 +40,7 @@ class LookupKey < ActiveRecord::Base
   validates :key_type, :inclusion => {:in => KEY_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validate :validate_default_value
   validates_associated :lookup_values
-  validate :ensure_type, :disable_merge_overrides, :disable_avoid_duplicates
+  validate :ensure_type, :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default
 
   before_save :sanitize_path
   attr_name :key
@@ -49,6 +49,7 @@ class LookupKey < ActiveRecord::Base
   scoped_search :on => :lookup_values_count, :rename => :values_count
   scoped_search :on => :override, :complete_value => {:true => true, :false => false}
   scoped_search :on => :merge_overrides, :complete_value => {:true => true, :false => false}
+  scoped_search :on => :merge_default, :complete_value => {:true => true, :false => false}
   scoped_search :on => :avoid_duplicates, :complete_value => {:true => true, :false => false}
   scoped_search :in => :param_classes, :on => :name, :rename => :puppetclass, :complete_value => true
   scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
@@ -253,6 +254,12 @@ class LookupKey < ActiveRecord::Base
   def disable_avoid_duplicates
     if avoid_duplicates && (!merge_overrides || !supports_uniq?)
       self.errors.add(:avoid_duplicates, _("can only be set for arrays that have merge_overrides set to true"))
+    end
+  end
+
+  def disable_merge_default
+    if merge_default && !merge_overrides
+      self.errors.add(:merge_default, _("can only be set when merge overrides is set"))
     end
   end
 end
