@@ -61,7 +61,6 @@ function add_child_node(item) {
     // Setup
     var assoc   = $(item).attr('data-association');           // Name of child
     var template_class = '.' + assoc + '_fields_template';
-    $(item).parent().find(template_class).find('select').select2('destroy');
     var content = $(item).parent().find(template_class).html(); // Fields template
     if (content == undefined) {content = $(template_class).html()};
 
@@ -87,6 +86,7 @@ function add_child_node(item) {
     $(item).closest("form").trigger({type: 'nested:fieldAdded', field: field});
     $('a[rel="popover"]').popover({html: true});
     $('a[rel="twipsy"]').tooltip();
+    $(field).find('select:not(.matcher_key)').select2()
     return new_id;
 }
 
