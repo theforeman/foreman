@@ -27,18 +27,19 @@ module Api
 
       def_param_group :hostgroup do
         param :hostgroup, Hash, :required => true, :action_aware => true do
-          param :name, String, :required => true
-          param :parent_id, :number
-          param :environment_id, :number
-          param :operatingsystem_id, :number
-          param :architecture_id, :number
-          param :medium_id, :number
-          param :ptable_id, :number
-          param :puppet_ca_proxy_id, :number
-          param :subnet_id, :number
-          param :domain_id, :number
-          param :realm_id, :number
-          param :puppet_proxy_id, :number
+          param :name, String, :required => true, :desc => N_('Name of the host group')
+          param :parent_id, :number, :desc => N_('Parent ID of the host group')
+          param :environment_id, :number, :desc => N_('Environment ID')
+          param :operatingsystem_id, :number, :desc => N_('Operating system ID')
+          param :architecture_id, :number, :desc => N_('Architecture id')
+          param :medium_id, :number, :desc => N_('Media ID')
+          param :ptable_id, :number, :desc => N_('Partition table ID')
+          param :puppet_ca_proxy_id, :number, :desc => N_('Puppet CA proxy ID')
+          param :subnet_id, :number, :desc => N_('Subnet ID')
+          param :domain_id, :number, :desc => N_('Domain ID')
+          param :realm_id, :number, :desc => N_('Realm ID')
+          param :puppet_proxy_id, :number, :desc => N_('Puppet proxy ID')
+          param :root_pass, String, :desc => N_('Root password on provisioned hosts')
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end
