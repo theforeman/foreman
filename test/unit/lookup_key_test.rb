@@ -181,6 +181,21 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert_valid key
   end
 
+  test "should be able to merge overrides with default_value for a hash" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'hash', :merge_overrides => true, :merge_default => true,
+                            :default_value => {}, :puppetclass => puppetclasses(:one))
+    assert_valid key
+  end
+
+  test "should not be able to merge default when merge_override is false" do
+    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'hash', :merge_overrides => false, :merge_default => true,
+                            :default_value => {}, :puppetclass => puppetclasses(:one))
+    refute_valid key
+    assert_equal "can only be set when merge overrides is set", key.errors[:merge_default].first
+  end
+
   test "should not be able to avoid duplicates for a hash" do
     key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'hash', :merge_overrides => true, :avoid_duplicates => true,

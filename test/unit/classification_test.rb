@@ -418,14 +418,10 @@ class ClassificationTest < ActiveSupport::TestCase
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => {:a => 'test'}},
                           :use_puppet_default => false
-    end
-    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
                           :use_puppet_default => false
-    end
-    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "os=#{operatingsystems(:redhat)}",
                           :value => {:example => {:a => 'test3'}},
@@ -437,6 +433,49 @@ class ClassificationTest < ActiveSupport::TestCase
                                          :element => ['location', 'os', 'organization'],
                                          :element_name => ['Location 1', 'Redhat 6.1', 'Organization 1']}}},
                  global_param_classification.send(:values_hash))
+  end
+
+  test 'smart variable of hash without merge_default should not merge with default value' do
+    key = FactoryGirl.create(:lookup_key, :key_type => 'hash', :merge_overrides => true,
+                             :default_value => {:default => 'example'}, :path => "organization\nos\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:a => 'test2'},
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => {:a => 'test2' },
+                                         :element => ['organization'],
+                                         :element_name => ['Organization 1']}}},
+                 global_param_classification.send(:values_hash))
+  end
+
+  test 'smart class parameter of hash with merge_overrides and merge_default should return merge all values' do
+    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'hash', :merge_overrides => true, :merge_default => true,
+                             :default_value => { :default => 'default' }, :path => "organization\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => {:example => {:a => 'test'}},
+                          :use_puppet_default => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:example => {:b => 'test2'}},
+                          :use_puppet_default => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => {:default => 'default', :example => {:a => 'test', :b => 'test2'}},
+                                         :element => ['Default value', 'location', 'organization'],
+                                         :element_name => ['Default value', 'Location 1', 'Organization 1']}}},
+                 classification.send(:values_hash))
   end
 
   test "#enc should not return class parameters when default value should use puppet default" do
