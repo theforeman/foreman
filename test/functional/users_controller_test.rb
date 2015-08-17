@@ -1,28 +1,19 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
+  basic_index_test('users')
+  basic_new_test
+  basic_edit_test(User.last, 'user')
+
   def setup
     setup_users
     Setting::Auth.load_defaults
-  end
-
-  test "should get index" do
-    get :index, {}, set_session_user
-    assert_response :success
   end
 
   test "#index should not show hidden users" do
     get :index, { :search => "login = #{users(:anonymous).login}" }, set_session_user
     assert_response :success
     assert_empty assigns(:users)
-  end
-
-  test "should get edit" do
-    u = User.new :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
-    assert u.save!
-    logger.info "************ ID = #{u.id}"
-    get :edit, {:id => u.id}, set_session_user
-    assert_response :success
   end
 
   test "#edit should not find a hidden user" do

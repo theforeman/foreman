@@ -1,20 +1,9 @@
 require 'test_helper'
 
 class TokenTest < ActiveSupport::TestCase
-  test "a token has a value" do
-    t = Token.new
-    assert !t.save
-  end
-
-  test "a token has an expiry" do
-    t = Token.new :value => "aaaaaa"
-    assert !t.save
-  end
-
-  test "a token is assigned to a host" do
-    t = Token.new :value => "aaaaaa", :expires => Time.now
-    assert !t.save
-  end
+  should validate_presence_of(:value)
+  should validate_presence_of(:expires)
+  should validate_presence_of(:host_id)
 
   test "a token expires when set to expire" do
     expiry = Time.now

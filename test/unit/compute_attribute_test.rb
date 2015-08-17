@@ -13,15 +13,10 @@ class ComputeAttributeTest < ActiveSupport::TestCase
     Fog.unmock!
   end
 
-  test "save if unique" do
-    set = ComputeAttribute.new :compute_resource_id => @compute_resource.id, :compute_profile_id => compute_profiles(:three).id
-    assert set.save
-  end
-
-  test "do not save if not unique" do
-    set = ComputeAttribute.new :compute_resource_id => @compute_resource.id, :compute_profile_id => @compute_profile.id
-    assert !set.save
-  end
+  should validate_uniqueness_of(:compute_profile_id).
+    scoped_to(:compute_resource_id)
+  should validate_uniqueness_of(:compute_resource_id).
+    scoped_to(:compute_profile_id)
 
   test "getter attributes in vm_attrs hash" do
     assert_equal 'm1.small', @set.flavor_id

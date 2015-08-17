@@ -5,24 +5,14 @@ class PuppetclassTest < ActiveSupport::TestCase
     User.current = users :admin
   end
 
-  test "name can't be blank" do
-    puppet_class = Puppetclass.new
-    assert !puppet_class.save
-  end
+  should validate_presence_of(:name)
+  should validate_uniqueness_of(:name)
 
   test "name strips leading and trailing white spaces" do
     puppet_class = Puppetclass.new :name => "   testclass   "
     assert puppet_class.save
     refute puppet_class.name.ends_with?(' ')
     refute puppet_class.name.starts_with?(' ')
-  end
-
-  test "name must be unique" do
-    puppet_class = Puppetclass.new :name => "testclass"
-    assert puppet_class.save
-
-    other_puppet_class = Puppetclass.new :name => "testclass"
-    assert !other_puppet_class.save
   end
 
   test "looking for a nonexistent host returns no puppetclasses" do

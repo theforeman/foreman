@@ -35,7 +35,8 @@ module Foreman
       end
 
       def validate_list
-        return true if contains_erb?(value) && Setting[:interpolate_erb_in_parameters]
+        return true if contains_erb?(value) && Setting[:interpolate_erb_in_parameters] ||
+          @options[:validate_with].blank?
         unless @options[:validate_with].split(KEY_DELM).map(&:strip).include?(value.to_s)
           add_error(_("%{value} is not one of %{rules}") % { :value => value, :rules => @options[:validate_with] })
           return false

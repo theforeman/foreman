@@ -9,6 +9,14 @@ class LookupKeyTest < ActiveSupport::TestCase
                                :environment   => environments(:production))
   end
 
+  should validate_presence_of(:key)
+  should validate_inclusion_of(:validator_type).
+    in_array(LookupKey::VALIDATOR_TYPES).allow_blank.allow_nil.
+    with_message('invalid')
+  should validate_inclusion_of(:key_type).
+    in_array(LookupKey::KEY_TYPES).allow_blank.allow_nil.
+    with_message('invalid')
+
   def test_element_seperations
     key = ""
     as_admin do
@@ -324,12 +332,6 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert_equal key.default_value, key.safe_value
     key.hidden_value = true
     assert_equal key.hidden_value, key.safe_value
-  end
-
-  test 'smart variable key should not contain whitespace' do
-    key = FactoryGirl.build(:variable_lookup_key, :key => 'bad name', :puppetclass => puppetclasses(:one))
-    refute key.valid?
-    assert_include key.errors.keys, :key
   end
 
   context "when key is a boolean and default_value is a string" do

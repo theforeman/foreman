@@ -9,24 +9,16 @@ class UsergroupTest < ActiveSupport::TestCase
     assert FactoryGirl.build(:usergroup).valid?
   end
 
-  test "name should be unique" do
-    one = FactoryGirl.create(:usergroup)
-    two = FactoryGirl.build(:usergroup, :name => one.name)
-
-    refute two.valid?
-  end
-
-  test "name can't be blank" do
-    group = FactoryGirl.build(:usergroup, :name => "")
-    refute group.valid?
-  end
-
   test "name is unique across user as well as usergroup" do
-    user = User.create :auth_source => auth_sources(:one), :login => "user", :mail  => "user@someware.com"
-    usergroup = FactoryGirl.build(:usergroup, :name => user.login)
-
+    User.expects(:where).with(:login => 'usergroup1').returns(['fakeuser'])
+    usergroup = FactoryGirl.build(:usergroup, :name => 'usergroup1')
     refute usergroup.valid?
   end
+
+  should validate_uniqueness_of(:name)
+  should validate_presence_of(:name)
+  should have_many(:usergroup_members).dependent(:destroy)
+  should have_many(:users).dependent(:destroy)
 
   def populate_usergroups
     (1..6).each do |number|
@@ -89,15 +81,6 @@ class UsergroupTest < ActiveSupport::TestCase
     assert @ug1.destroy
     assert @ug2.reload
     assert_empty UsergroupMember.where(:member_id => @ug2.id)
-  end
-
-  test "removes user join model records" do
-    ug1 = Usergroup.where(:name => "ug1").first_or_create
-    u1  = FactoryGirl.build(:user)
-    ug1.users = [u1]
-    assert_difference('UsergroupMember.count', -1) do
-      ug1.destroy
-    end
   end
 
   test "removes all cached_user_roles when roles are disassociated" do

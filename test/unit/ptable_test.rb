@@ -5,11 +5,10 @@ class PtableTest < ActiveSupport::TestCase
     User.current = users :admin
   end
 
-  test "name can't be blank" do
-    partition_table = Ptable.new :name => "   ", :layout => "any layout"
-    assert partition_table.name.strip.empty?
-    assert !partition_table.save
-  end
+  should validate_presence_of(:name)
+  should_not allow_value('  ').for(:name)
+  should validate_uniqueness_of(:name)
+  should validate_presence_of(:layout)
 
   test "name strips leading and trailing white spaces" do
     partition_table = Ptable.new :name => "   Archlinux        default  ", :layout => "any layout"
@@ -17,12 +16,6 @@ class PtableTest < ActiveSupport::TestCase
 
     refute partition_table.name.ends_with?(' ')
     refute partition_table.name.starts_with?(' ')
-  end
-
-  test "layout can't be blank" do
-    partition_table = Ptable.new :name => "Archlinux default", :layout => "   "
-    assert partition_table.layout.strip.empty?
-    assert !partition_table.save
   end
 
   test "os family can be one of defined os families" do
@@ -60,14 +53,6 @@ class PtableTest < ActiveSupport::TestCase
   #    partition_table.layout.strip!.squeeze!(" ")
   #    assert partition_table.save
   #  end
-
-  test "name must be unique" do
-    partition_table_one = Ptable.new :name => "Archlinux default", :layout => "some layout"
-    assert partition_table_one.save
-
-    partition_table_two = Ptable.new :name => "Archlinux default", :layout => "some other layout"
-    assert !partition_table_two.save
-  end
 
   test "should not destroy while using" do
     partition_table = Ptable.new :name => "Ubuntu default", :layout => "some layout"

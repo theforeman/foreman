@@ -1,15 +1,9 @@
 require 'test_helper'
 
 class ArchitecturesControllerTest < ActionController::TestCase
-  def test_index
-    get :index, {}, set_session_user
-    assert_template 'index'
-  end
-
-  def test_new
-    get :new, {}, set_session_user
-    assert_template 'new'
-  end
+  basic_index_test
+  basic_new_test
+  basic_edit_test(Architecture.first)
 
   def test_new_submit_button_id
     get :new, {}, set_session_user
@@ -31,11 +25,6 @@ class ArchitecturesControllerTest < ActionController::TestCase
     Architecture.any_instance.stubs(:valid?).returns(true)
     post :create, {:architecture => {:name => 'i386'}}, set_session_user
     assert_redirected_to architectures_url
-  end
-
-  def test_edit
-    get :edit, {:id => Architecture.first}, set_session_user
-    assert_template 'edit'
   end
 
   def test_edit_submit_button_id

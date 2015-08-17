@@ -11,22 +11,10 @@ class DomainTest < ActiveSupport::TestCase
     end
   end
 
-  test "should not save without a name" do
-    assert !@new_domain.save
-  end
-
-  test "should exists a unique name" do
-    other_domain = Domain.new(:name => "mydomain.net")
-    assert !other_domain.save
-  end
-
-  test "should exists a unique fullname" do
-    @domain.fullname = "full_name"
-    @domain.save
-
-    other_domain = Domain.new(:name => "otherDomain", :fullname => "full_name")
-    assert !other_domain.save
-  end
+  should validate_presence_of(:name)
+  should validate_uniqueness_of(:name)
+  should validate_uniqueness_of(:fullname).allow_nil
+  should validate_uniqueness_of(:fullname).allow_blank
 
   test "when cast to string should return the name" do
     s = @domain.to_s
