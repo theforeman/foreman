@@ -5,6 +5,11 @@ class SettingTest < ActiveSupport::TestCase
     Setting.cache.clear
   end
 
+  should validate_presence_of(:name)
+  should validate_presence_of(:default)
+  should validate_uniqueness_of(:name)
+  should validate_inclusion_of(:settings_type).in_array(Setting::TYPES)
+
   def test_should_not_find_a_value_if_doesnt_exists
     assert_nil Setting["no_such_thing"]
   end
@@ -53,7 +58,7 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal nil, Setting["foo"]
   end
 
-  def test_should_return_updated_value_only_after_it_gets_presistent
+  def test_should_return_updated_value_only_after_it_is_saved
     setting = Setting.create(:name => "foo", :value => 5, :default => 5, :description => "test foo")
 
     setting.value = 3

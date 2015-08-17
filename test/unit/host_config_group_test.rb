@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class HostConfigGroupTest < ActiveSupport::TestCase
+  should belong_to(:host)
+  should belong_to(:config_group)
+  should validate_uniqueness_of(:host_id).scoped_to(:config_group_id, :host_type)
+
   test 'relationship host.group_puppetclasses' do
     host = FactoryGirl.create(:host, :config_groups => [
       FactoryGirl.create(:config_group, :puppetclasses => [
@@ -32,38 +36,5 @@ class HostConfigGroupTest < ActiveSupport::TestCase
     hostgroup = hostgroups(:common)
     assert_equal 2, hostgroup.config_groups.count
     assert_equal ['Monitoring','Tools'].sort, hostgroup.config_groups.pluck(:name).sort
-  end
-
-  context "host and hostgroup both have id=1" do
-    setup do
-      @host = Host.where(:id => 1).first
-      @host ||= FactoryGirl.create(:host, :id => 1)
-
-      @hostgroup = Hostgroup.where(:id => 1).first
-      @hostgroup ||= FactoryGirl.create(:hostgroup, :id => 1)
-
-      @config_group = FactoryGirl.create(:config_group)
-    end
-
-    it 'validation error if same config group is added to host more than once' do
-      assert_difference('HostConfigGroup.count') do
-        @host.config_groups << @config_group
-      end
-      assert_difference('HostConfigGroup.count', 0) do
-        assert_raise ActiveRecord::RecordInvalid do
-          @host.config_groups << @config_group
-        end
-      end
-    end
-
-    it 'no validation error if config groups has hostgroup and host with same id' do
-      assert_equal @host.id, @hostgroup.id
-      assert_difference('HostConfigGroup.count') do
-        @host.config_groups << @config_group
-      end
-      assert_difference('HostConfigGroup.count') do
-        @hostgroup.config_groups << @config_group
-      end
-    end
   end
 end

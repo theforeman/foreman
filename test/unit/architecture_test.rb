@@ -9,26 +9,11 @@ class ArchitectureTest < ActiveSupport::TestCase
     end
   end
 
-  test "should not save without a name" do
-    architecture = Architecture.new
-    assert_not architecture.save
-  end
+  should validate_presence_of(:name)
+  should validate_uniqueness_of(:name)
+  should_not allow_value('  ').for(:name)
 
-  test "name should not be blank" do
-    architecture = Architecture.new :name => "   "
-    assert_empty architecture.name.strip
-    assert_not architecture.save
-  end
-
-  test "name should be unique" do
-    architecture = Architecture.new :name => "i386"
-    assert architecture.save
-
-    other_architecture = Architecture.new :name => "i386"
-    assert_not other_architecture.save
-  end
-
-  test "to_s retrives name" do
+  test "to_s retrieves name" do
     architecture = Architecture.new :name => "i386"
     assert architecture.to_s == architecture.name
   end

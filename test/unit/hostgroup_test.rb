@@ -4,29 +4,18 @@ class HostgroupTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
   end
-  test "name can't be blank" do
-    host_group = Hostgroup.new :name => "  "
-    assert host_group.name.strip.empty?
-    assert !host_group.save
-  end
+
+  should validate_presence_of(:name)
+  should validate_uniqueness_of(:name)
+  should allow_value(nil).for(:root_pass)
+  should validate_length_of(:root_pass).is_at_least(8).
+    with_message('should be 8 characters or more')
 
   test "name strips leading and trailing white spaces" do
     host_group = Hostgroup.new :name => " all    hosts in the     world    "
     assert host_group.save
     refute host_group.name.ends_with?(' ')
     refute host_group.name.starts_with?(' ')
-  end
-
-  test "name must be unique" do
-    host_group = Hostgroup.new :name => "some hosts"
-    assert host_group.save
-
-    other_host_group = Hostgroup.new :name => "some hosts"
-    assert !other_host_group.save
-  end
-
-  def setup_user(operation)
-    super operation, "hostgroups"
   end
 
   test "should be able to nest a group parameters" do
@@ -302,22 +291,6 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal (hostgroup.environment.puppetclasses - hostgroup.parent_classes).sort, hostgroup.available_puppetclasses.sort
   end
 
-  test "hostgroup root pass can be blank" do
-    hostgroup = FactoryGirl.create(:hostgroup)
-    hostgroup.root_pass = nil
-    assert hostgroup.valid?
-  end
-
-  test "hostgroup root pass be must at least 8 characters if not blank" do
-    hostgroup = FactoryGirl.build(:hostgroup)
-    assert hostgroup.valid?
-    hostgroup.root_pass = '1234567'
-    refute hostgroup.valid?
-    assert_equal "should be 8 characters or more", hostgroup.errors[:root_pass].first
-    hostgroup.root_pass = '12345678'
-    assert hostgroup.valid?
-  end
-
   test "root_pass inherited from parent if blank" do
     parent = FactoryGirl.create(:hostgroup, :root_pass => '12345678')
     hostgroup = FactoryGirl.build(:hostgroup, :parent => parent, :root_pass => '')
@@ -528,5 +501,11 @@ class HostgroupTest < ActiveSupport::TestCase
     nested_group = FactoryGirl.create(:hostgroup, :parent => group)
     FactoryGirl.create_list(:host, 4, :managed, :hostgroup => nested_group )
     assert_equal(7, group.parent.children_hosts_count)
+  end
+
+  private
+
+  def setup_user(operation)
+    super operation, "hostgroups"
   end
 end

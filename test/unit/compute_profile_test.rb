@@ -5,15 +5,9 @@ class ComputeProfileTest < ActiveSupport::TestCase
     User.current = users :admin
   end
 
-  test "name can't be blank" do
-    cp = ComputeProfile.new :name => "   "
-    assert !cp.save
-  end
-
-  test "name must be unique" do
-    cp = ComputeProfile.new :name => "1-Small"
-    assert !cp.save
-  end
+  should validate_presence_of(:name)
+  should validate_uniqueness_of(:name)
+  should_not allow_value('   ').for(:name)
 
   test "should not destroy if in use by hostgroup" do
     #hostgroups(:common) uses compute_profiles(:one)

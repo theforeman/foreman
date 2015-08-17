@@ -1,15 +1,9 @@
 require 'test_helper'
 
 class AuthSourceLdapsControllerTest < ActionController::TestCase
-  def test_index
-    get :index, {}, set_session_user
-    assert_template 'index'
-  end
-
-  def test_new
-    get :new, {}, set_session_user
-    assert_template 'new'
-  end
+  basic_index_test
+  basic_new_test
+  basic_edit_test(AuthSourceLdap.first)
 
   def test_create_invalid
     AuthSourceLdap.any_instance.stubs(:valid?).returns(false)
@@ -21,11 +15,6 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     AuthSourceLdap.any_instance.stubs(:valid?).returns(true)
     post :create, {:auth_source_ldap => {:name => AuthSourceLdap.first.name}}, set_session_user
     assert_redirected_to auth_source_ldaps_url
-  end
-
-  def test_edit
-    get :edit, {:id => AuthSourceLdap.first}, set_session_user
-    assert_template 'edit'
   end
 
   def test_update_invalid

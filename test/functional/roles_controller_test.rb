@@ -18,43 +18,15 @@
 require 'test_helper'
 
 class RolesControllerTest < ActionController::TestCase
-  test 'get index' do
-    get :index, {}, set_session_user
-    assert_response :success
-    assert_template 'index'
-
-    assert_not_nil assigns(:roles)
-    assert_equal Role.order(:name).to_a, assigns(:roles)
-
-    assert_tag :tag => 'a', :attributes => { :href => '/roles/1-Manager/edit' },
-      :content => 'Manager'
-  end
-
-  test 'get new' do
-    get :new, {}, set_session_user
-    assert_response :success
-    assert_template 'new'
-  end
-
-  test 'empty name validation' do
-    post :create, { :role => {:name => ''}}, set_session_user
-
-    assert_response :success
-    assert_template 'new'
-  end
+  basic_index_test('roles')
+  basic_new_test
+  basic_edit_test(Role.first)
 
   test 'creates role' do
     post :create, { :role => {:name => 'test role'}}, set_session_user
 
     assert_redirected_to roles_path
     assert Role.find_by_name('test role')
-  end
-
-  test 'get edit goes to right template' do
-    get :edit, {:id => 1}, set_session_user
-    assert_response :success
-    assert_template 'edit'
-    assert_equal Role.find(1), assigns(:role)
   end
 
   test 'put edit updates role' do

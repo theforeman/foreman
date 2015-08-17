@@ -7,119 +7,30 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     User.current = users(:admin)
   end
 
-  test "should exists a name" do
-    missing(:name)
-    refute @auth_source_ldap.save
-
-    set(:name)
-    assert @auth_source_ldap.save
-  end
-
-  test "should exists a host" do
-    missing(:host)
-    refute @auth_source_ldap.save
-
-    set(:host)
-    assert @auth_source_ldap.save
-  end
-
-  test "should exists a attr_login" do
-    missing(:attr_login)
-    @auth_source_ldap.onthefly_register = true
-    refute @auth_source_ldap.save
-
-    set(:attr_login)
-    set(:attr_firstname)
-    set(:attr_lastname)
-    set(:attr_mail)
-    @auth_source_ldap.onthefly_register = true
-    assert @auth_source_ldap.save
-  end
+  should validate_presence_of(:name)
+  should validate_presence_of(:host)
+  should validate_presence_of(:server_type)
+  should validate_presence_of(:port)
+  should validate_numericality_of(:port).only_integer
+  should_not validate_presence_of(:ldap_filter)
+  should_not allow_value('(').for(:ldap_filter)
+  should allow_value('').for(:ldap_filter)
+  should allow_value('    ').for(:ldap_filter)
+  should allow_value('key=value').for(:ldap_filter)
+  should validate_length_of(:name).is_at_most(60)
+  should validate_length_of(:host).is_at_most(60)
+  should validate_length_of(:account_password).is_at_most(60)
+  should validate_length_of(:account).is_at_most(255)
+  should validate_length_of(:base_dn).is_at_most(255)
+  should validate_length_of(:ldap_filter).is_at_most(255)
+  should validate_length_of(:attr_login).is_at_most(30)
+  should validate_length_of(:attr_firstname).is_at_most(30)
+  should validate_length_of(:attr_lastname).is_at_most(30)
+  should validate_length_of(:attr_mail).is_at_most(30)
 
   test "after initialize if port == 0 should automatically change to 389" do
     other_auth_source_ldap = AuthSourceLdap.new
     assert_equal 389, other_auth_source_ldap.port
-  end
-
-  test "the name should not exceed the 60 characters" do
-    missing(:name)
-    assigns_a_string_of_length_greater_than(60, :name=)
-    refute @auth_source_ldap.save
-  end
-
-  test "the host should not exceed the 60 characters" do
-    missing(:host)
-    assigns_a_string_of_length_greater_than(60, :host=)
-    refute @auth_source_ldap.save
-  end
-
-  test "the account_password should not exceed the 60 characters" do
-    assigns_a_string_of_length_greater_than(60, :account_password=)
-    refute @auth_source_ldap.save
-  end
-
-  test "the account should not exceed the 255 characters" do
-    assigns_a_string_of_length_greater_than(255, :account=)
-    refute @auth_source_ldap.save
-  end
-
-  test "the base_dn should not exceed the 255 characters" do
-    assigns_a_string_of_length_greater_than(255, :base_dn=)
-    refute @auth_source_ldap.save
-  end
-
-  test "the ldap_filter should not exceed the 255 characters" do
-    assigns_a_string_of_length_greater_than(255, :ldap_filter=)
-    refute @auth_source_ldap.save
-  end
-
-  test "the attr_login should not exceed the 30 characters" do
-    missing(:attr_login)
-    assigns_a_string_of_length_greater_than(30, :attr_login=)
-    refute @auth_source_ldap.save
-  end
-
-  test "the attr_firstname should not exceed the 30 characters" do
-    assigns_a_string_of_length_greater_than(30, :attr_firstname=)
-    refute @auth_source_ldap.save
-  end
-
-  test "the attr_lastname should not exceed the 30 characters" do
-    assigns_a_string_of_length_greater_than(30, :attr_lastname=)
-    refute @auth_source_ldap.save
-  end
-
-  test "the attr_mail should not exceed the 30 characters" do
-    assigns_a_string_of_length_greater_than(30, :attr_mail=)
-    refute @auth_source_ldap.save
-  end
-
-  test "port should be a integer" do
-    missing(:port)
-    @auth_source_ldap.port = "crap"
-    refute @auth_source_ldap.save
-
-    @auth_source_ldap.port = 123
-    assert @auth_source_ldap.save
-  end
-
-  test "invalid ldap_filter fails validation" do
-    @auth_source_ldap.ldap_filter = "("
-    refute @auth_source_ldap.valid?
-  end
-
-  test "valid ldap_filter passes validation" do
-    missing(:ldap_filter)
-    assert @auth_source_ldap.valid?
-
-    @auth_source_ldap.ldap_filter = ""
-    assert @auth_source_ldap.valid?
-
-    @auth_source_ldap.ldap_filter = "   "
-    assert @auth_source_ldap.valid?
-
-    @auth_source_ldap.ldap_filter = "key=value"
-    assert @auth_source_ldap.valid?
   end
 
   test "should strip the ldap attributes before validate" do
@@ -317,17 +228,5 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     end
     LdapFluff.any_instance.stubs(:valid_user?).returns(true)
     LdapFluff.any_instance.stubs(:find_user).returns([entry])
-  end
-
-  def missing(attr)
-    @auth_source_ldap.send("#{attr}=", nil)
-  end
-
-  def set(attr)
-    @auth_source_ldap.send("#{attr}=", FactoryGirl.attributes_for(:auth_source_ldap)[attr])
-  end
-
-  def assigns_a_string_of_length_greater_than(length, method)
-    @auth_source_ldap.send method, "this is010this is020this is030this is040this is050this is060this is070this is080this is090this is100this is110this is120this is130this is140this is150this is160this is170this is180this is190this is200this is210this is220this is230this is240this is250 and something else"
   end
 end

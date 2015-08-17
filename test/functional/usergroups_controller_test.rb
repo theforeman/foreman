@@ -1,19 +1,13 @@
 require 'test_helper'
 
 class UsergroupsControllerTest < ActionController::TestCase
-  def setup
+  setup do
     as_admin { FactoryGirl.create(:usergroup) }
   end
 
-  def test_index
-    get :index, {}, set_session_user
-    assert_template 'index'
-  end
-
-  def test_new
-    get :new, {}, set_session_user
-    assert_template 'new'
-  end
+  basic_index_test
+  basic_new_test
+  basic_edit_test(Usergroup.first || FactoryGirl.create(:usergroup))
 
   def test_create_invalid
     Usergroup.any_instance.stubs(:valid?).returns(false)
@@ -25,11 +19,6 @@ class UsergroupsControllerTest < ActionController::TestCase
     Usergroup.any_instance.stubs(:valid?).returns(true)
     post :create, { :usergroup => { :name => 'Managing users' }}, set_session_user
     assert_redirected_to usergroups_url
-  end
-
-  def test_edit
-    get :edit, {:id => Usergroup.first}, set_session_user
-    assert_template 'edit'
   end
 
   def test_update_invalid

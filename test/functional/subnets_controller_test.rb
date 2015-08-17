@@ -1,15 +1,9 @@
 require 'test_helper'
 
 class SubnetsControllerTest < ActionController::TestCase
-  def test_index
-    get :index, {}, set_session_user
-    assert_template 'index'
-  end
-
-  def test_new
-    get :new, {}, set_session_user
-    assert_template 'new'
-  end
+  basic_index_test
+  basic_new_test
+  basic_edit_test(Subnet.first)
 
   def test_create_invalid
     Subnet.any_instance.stubs(:valid?).returns(false)
@@ -21,11 +15,6 @@ class SubnetsControllerTest < ActionController::TestCase
     Subnet.any_instance.stubs(:valid?).returns(true)
     post :create, {:subnet => {:network => "192.168.0.1", :mask => "255.255.255.0"}}, set_session_user
     assert_redirected_to subnets_url
-  end
-
-  def test_edit
-    get :edit, {:id => Subnet.first}, set_session_user
-    assert_template 'edit'
   end
 
   def test_update_invalid

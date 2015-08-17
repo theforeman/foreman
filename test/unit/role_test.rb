@@ -19,38 +19,12 @@
 require "test_helper"
 
 class RoleTest < ActiveSupport::TestCase
-  it "should respond_to user_roles" do
-    role = roles(:manager)
-    role.must_respond_to :user_roles
-    role.must_respond_to :users
-  end
-
-  it "should have unique name" do
-    # Manager is in role fixtures
-    Role.new(:name => "Manager").wont_be :valid?
-    role = Role.new(:name => "Supervisor")
-    role.must_be :valid?
-  end
-
-  it "should not be valid without a name" do
-    role = Role.new(:name => "")
-    role.wont_be :valid?
-  end
-
-  it "should allow value 'a role name' for name" do
-    role = Role.new(:name => "a role name")
-    role.must_be :valid?
-  end
-
-  it "should allow utf characters in name" do
-    role = Role.new(:name => "トメル３４；。")
-    role.must_be :valid?
-  end
-
-  it "should allow email address in name" do
-    role = Role.new(:name => "test@example.com")
-    role.must_be :valid?
-  end
+  should have_many(:user_roles)
+  should validate_presence_of(:name)
+  should validate_uniqueness_of(:name)
+  should allow_value('a role name').for(:name)
+  should allow_value('トメル３４；。').for(:name)
+  should allow_value('test@example.com').for(:name)
 
   it "should strip leading space on name" do
     role = Role.new(:name => " a role name")

@@ -23,6 +23,7 @@ Spork.prefork do
   require 'capybara/rails'
   require 'factory_girl_rails'
   require 'capybara/poltergeist'
+  require 'functional/shared/basic_rest_response_test'
 
   Capybara.register_driver :poltergeist do |app|
     opts = {
@@ -102,7 +103,8 @@ Spork.prefork do
     alias_method :assert_include,     :assert_includes
     alias_method :assert_not_include, :assert_not_includes
     class <<self
-      alias_method :test,  :it
+      alias_method :test, :it
+      alias_method :context, :describe
     end
 
     # Add more helper methods to be used by all tests here...
@@ -333,6 +335,7 @@ end
 Spork.each_run do
   # This code will be run each time you run your specs.
   class ActionController::TestCase
+    include ::BasicRestResponseTest
     setup :setup_set_script_name, :set_api_user, :turn_of_login
 
     def turn_of_login

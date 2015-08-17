@@ -7,9 +7,22 @@ class UserTest < ActiveSupport::TestCase
     @user = User.create :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
   end
 
-  test "should have login" do
-    refute_valid FactoryGirl.build(:user, :login => nil), :login
-  end
+  # Presence
+  should validate_presence_of(:login)
+  should validate_presence_of(:auth_source_id)
+  should validate_uniqueness_of(:login).case_insensitive.
+    with_message('already exists')
+  # Length
+  should validate_length_of(:login).is_at_most(100)
+  should validate_length_of(:firstname).is_at_most(50)
+  should validate_length_of(:lastname).is_at_most(50)
+  should validate_length_of(:mail).is_at_most(60)
+  # Format
+  should allow_value('').for(:mail).on(:create)
+  should allow_value('é ô à', "C_r'a-z.y( )<,Na=me;>").for(:firstname)
+  should allow_value('é ô à', "C_r'a-z.y( )<,Na=me;>").for(:lastname)
+  should_not allow_value('The Riddle?').for(:firstname)
+  should_not allow_value("it's the JOKER$$$").for(:lastname)
 
   test "mail address is optional on creation" do
     assert_valid FactoryGirl.build(:user, :mail => nil)
@@ -33,24 +46,11 @@ class UserTest < ActiveSupport::TestCase
     assert_valid u
   end
 
-  test "login should be unique" do
-    u = User.new :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
-    refute_valid u, :login
-  end
-
-  test "login should also be unique across usergroups" do
-    Usergroup.create :name => "foo"
-    u = User.new :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
-
+  test 'login should also be unique across usergroups' do
+    Usergroup.expects(:where).with(:name => 'foo').returns(['fakeuser'])
+    u = FactoryGirl.build(:user, :auth_source => auth_sources(:one),
+                          :login => "foo", :mail  => "foo@bar.com")
     refute u.valid?
-  end
-
-  test "duplicate login should be detected case insensitively" do
-    u1 = User.new :auth_source => auth_sources(:one), :login => "UsEr", :mail  => "foo1@bar.com", :password => "foo"
-    u2 = User.new :auth_source => auth_sources(:one), :login => "user", :mail  => "foo2@bar.com", :password => "foo"
-    assert u1.save
-    refute u2.save
-    assert u2.errors.messages[:login].include? "already exists"
   end
 
   test "user should login case insensitively" do
@@ -67,51 +67,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "mail should have format" do
-    u = User.new :auth_source => auth_sources(:one), :login => "foo", :mail => "bar"
-    refute u.valid?
-  end
-
-  test "login size should not exceed the 100 characters" do
-    u = User.new :auth_source => auth_sources(:one), :login => "a" * 101, :mail => "foo@bar.com"
-    refute u.save
-  end
-
-  test "firstname should have the correct format" do
-    @user.firstname = "The Riddle?"
-    refute @user.save
-
-    @user.firstname = "C_r'a-z.y( )<,Na=me;>"
-    assert @user.save
-
-    @user.firstname = "é ô à"
-    assert @user.save
-  end
-
-  test "lastname should have the correct format" do
-    @user.lastname = "it's the JOKER$$$"
-    refute @user.save
-
-    @user.lastname = "C_r'a-z.y( )<,Na=me;>"
-    assert @user.save
-
-    @user.lastname = "é ô à"
-    assert @user.save
-  end
-
-  test "firstname should not exceed the 50 characters" do
-    @user.firstname = "a" * 51
-    refute @user.save
-  end
-
-  test "lastname should not exceed the 50 characters" do
-    @user.firstname = "a" * 51
-    refute @user.save
-  end
-
-  test "mail should not exceed the 60 characters" do
-    u = User.create :auth_source => auth_sources(:one), :login => "foo"
-    u.mail = "foo" * 20 + "@bar.com"
-    refute u.save
+    refute User.new(:auth_source => auth_sources(:one), :login => "foo", :mail => "bar").valid?
   end
 
   test "to_label method should return a firstname and the lastname" do
@@ -791,7 +747,7 @@ class UserTest < ActiveSupport::TestCase
     refute_valid u, :auth_source, /permitted/
   end
 
-  describe ".random_password" do
+  context ".random_password" do
     it "should return password" do
       assert_match /\A[a-zA-Z0-9]{16}\z/, User.random_password
     end

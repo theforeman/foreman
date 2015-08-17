@@ -15,4 +15,6 @@ group :test do
   gem "poltergeist"
   gem 'test-unit' if RUBY_VERSION >= '2.2'
   gem 'test_after_commit', '~> 0.4'
+  gem 'shoulda-matchers', '2.8.0'
+  gem 'shoulda-context', '~> 1.2'
 end

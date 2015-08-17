@@ -1,22 +1,12 @@
 require 'test_helper'
 
 class FiltersControllerTest < ActionController::TestCase
+  basic_index_test('filters')
+  basic_new_test
+  basic_edit_test(Filter.first, 'filter')
+
   setup do
     User.current = users(:admin)
-  end
-
-  test 'get index' do
-    get :index, {}, set_session_user
-    assert_response :success
-    assert_template 'index'
-
-    assert_not_nil assigns(:filters)
-  end
-
-  test 'get new' do
-    get :new, {}, set_session_user
-    assert_response :success
-    assert_template 'new'
   end
 
   test "changes should expire topbar cache" do
@@ -39,21 +29,11 @@ class FiltersControllerTest < ActionController::TestCase
     assert_equal Filter.search_for("role = #{role.name}").count, assigns(:filters).count
   end
 
-  test "should get new" do
-    get :new, {}, set_session_user
-    assert_response :success
-  end
-
   test "should create filter" do
     assert_difference('Filter.count') do
       post :create, {:filter => { :role_id => roles(:manager).id, :permission_ids => [permissions(:access_dashboard).id] }}, set_session_user
     end
     assert_redirected_to filters_path
-  end
-
-  test "should get edit" do
-    get :edit, {:id => filters(:manager_1)}, set_session_user
-    assert_response :success
   end
 
   test "should update filter" do
