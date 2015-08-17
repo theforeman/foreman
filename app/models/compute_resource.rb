@@ -223,6 +223,11 @@ class ComputeResource < ActiveRecord::Base
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
+  # this method is overwritten for Libvirt
+  def editable_network_interfaces?
+    networks.any?
+  end
+
   # this method is overwritten for Libvirt and VMware
   def set_console_password?
     false
