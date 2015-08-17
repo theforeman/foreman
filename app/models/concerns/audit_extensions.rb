@@ -23,12 +23,14 @@ module AuditExtensions
     scoped_search :in => :search_parameters, :on => :name, :complete_value => true, :rename => :parameter, :only_explicit => true
     scoped_search :in => :search_templates, :on => :name, :complete_value => true, :rename => :template, :only_explicit => true
     scoped_search :in => :search_os, :on => :name, :complete_value => true, :rename => :os, :only_explicit => true
+    scoped_search :in => :search_os, :on => :title, :complete_value => true, :rename => :os_title, :only_explicit => true
     scoped_search :in => :search_class, :on => :name, :complete_value => true, :rename => :puppetclass, :only_explicit => true
     scoped_search :in => :search_hosts, :on => :name, :complete_value => true, :rename => :host, :only_explicit => true
     scoped_search :in => :search_hostgroups, :on => :name, :complete_value => true, :rename => :hostgroup, :only_explicit => true
+    scoped_search :in => :search_hostgroups, :on => :title, :complete_value => true, :rename => :hostgroup_title, :only_explicit => true
     scoped_search :in => :search_users, :on => :login, :complete_value => true, :rename => :user, :only_explicit => true
 
-    before_save :ensure_username, :ensure_audtiable_and_associated_name
+    before_save :ensure_username, :ensure_auditable_and_associated_name
     after_validation :fix_auditable_type
 
     include Authorizable
@@ -49,7 +51,7 @@ module AuditExtensions
     self.associated_type = auditable.type if auditable_type == "Taxonomy" && auditable
   end
 
-  def ensure_audtiable_and_associated_name
+  def ensure_auditable_and_associated_name
     self.auditable_name  ||= self.auditable.try(:to_label)
     self.associated_name ||= self.associated.try(:to_label)
   end
