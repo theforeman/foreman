@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-07-18 09:12+0000\n"
+"PO-Revision-Date: 2015-08-07 09:13+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -37,13 +37,13 @@ msgstr "줌 재설정 "
 msgid "Loading"
 msgstr "로딩 중 "
 
-msgid "Fact distribution chart"
-msgstr ""
-
 msgid "%s host"
 msgid_plural "%s hosts"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "Fact distribution chart"
+msgstr ""
 
 msgid "Failed to load chart"
 msgstr ""
@@ -139,11 +139,11 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-msgid "Build"
-msgstr "빌드 "
-
 msgid "Reboot and build"
 msgstr ""
+
+msgid "Build"
+msgstr "빌드 "
 
 msgid "Select All"
 msgstr "모두 선택 "
@@ -176,20 +176,20 @@ msgstr "부모가 이미 선택되어 있습니다 "
 msgid "new"
 msgstr "새 "
 
-msgid "Normal"
-msgstr ""
-
-msgid "Weak"
-msgstr ""
-
-msgid "Very Strong"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr "미디어 "
 
+msgid "Very Strong"
+msgstr ""
+
+msgid "Normal"
+msgstr ""
+
 msgid "Strong"
+msgstr ""
+
+msgid "Weak"
 msgstr ""
 
 msgid "Your password is too short"
@@ -221,6 +221,14 @@ msgstr "편집기의 컨텐츠를 덮어쓰기하려고 합니다. 정말로 실
 
 msgid "No changes"
 msgstr "변경 사항 없음 "
+
+msgid "Rendering the template, please wait..."
+msgstr ""
+
+msgid ""
+"There was an error during rendering, return to the Code tab to edit the templa"
+"te."
+msgstr ""
 
 msgid ""
 "You are about to override the editor content with a previous version, are you "
@@ -1796,11 +1804,11 @@ msgstr "계속 진행하기 전 최소 하나의 위치를 생성해야 합니�
 msgid "You must create at least one organization before continuing."
 msgstr "계속 진행하기 전 최소 하나의 조직을 생성해야 합니다. "
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Error"
 msgstr "오류 "
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Invalid authenticity token"
 msgstr ""
@@ -1888,6 +1896,9 @@ msgid "Media IDs"
 msgstr ""
 
 msgid "Provisioning template IDs"
+msgstr ""
+
+msgid "Partition template IDs"
 msgstr ""
 
 msgid "Domain IDs"
@@ -2148,6 +2159,12 @@ msgstr "선택된 서브넷이 없음 "
 msgid "Imported Subnets"
 msgstr "가져오기한 서브넷 "
 
+msgid "No host could be found for rendering the template"
+msgstr ""
+
+msgid "There was an error rendering the %{name} template: %{error}"
+msgstr ""
+
 msgid "Template locked"
 msgstr ""
 
@@ -2241,10 +2258,10 @@ msgstr ""
 msgid "Additional info"
 msgstr "추가 정보 "
 
-msgid "Explain use Puppet default"
+msgid "Use Puppet default"
 msgstr ""
 
-msgid "Use Puppet default"
+msgid "Explain use Puppet default"
 msgstr ""
 
 msgid ""
@@ -2255,20 +2272,20 @@ msgstr ""
 msgid "Paused"
 msgstr "일시정지 "
 
-msgid "Off"
-msgstr "비활성화 "
-
 msgid "On"
 msgstr "활성화 "
+
+msgid "Off"
+msgstr "비활성화 "
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "%{vm}의 %{act}을(를) 실행하시겠습니까?"
 
-msgid "Pause"
-msgstr "일시 정지 "
-
 msgid "Resume"
 msgstr "다시 시작 "
+
+msgid "Pause"
+msgstr "일시 정지 "
 
 msgid "Are you sure you want to %{act} %{vm}?"
 msgstr "%{vm}의 %{act}을(를) 실행하시겠습니까?"
@@ -2327,25 +2344,25 @@ msgstr "통지가 비활성화됨 "
 msgid "Host Configuration Status"
 msgstr "호스트 설정 상태 "
 
+msgid "Number Of Clients"
+msgstr "클라이언트 수 "
+
 msgid "Minutes Ago"
 msgstr "분 전 "
 
-msgid "Number Of Clients"
-msgstr "클라이언트 수 "
+msgid "Applied"
+msgstr "적용됨 "
 
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr "A"
 
-msgid "Applied"
-msgstr "적용됨 "
+msgid "Restarted"
+msgstr "다시 시작됨 "
 
 #. TRANSLATORS: initial character of Restarted
 msgid "Restarted|R"
 msgstr "R"
-
-msgid "Restarted"
-msgstr "다시 시작됨 "
 
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
@@ -2606,23 +2623,23 @@ msgstr "보고서 "
 msgid "Browse host reports"
 msgstr "호스트 보고서 검색 "
 
-msgid "YAML"
-msgstr "YAML"
-
 msgid "Puppet external nodes YAML dump"
 msgstr "Puppet 외부 노드 YAML 덤프 "
 
+msgid "YAML"
+msgstr "YAML"
+
 msgid "Allocation (GB)"
 msgstr "할당 (GB)"
-
-msgid "Size"
-msgstr "사이즈"
 
 msgid "None"
 msgstr "없음 "
 
 msgid "Full"
 msgstr "전체 "
+
+msgid "Size"
+msgstr "사이즈"
 
 msgid "remove network interface"
 msgstr "네트워크 인터페이스 삭제 "
@@ -2643,20 +2660,20 @@ msgstr "%s 편집 "
 msgid "Image"
 msgstr "이미지 "
 
-msgid "Image ID"
-msgstr "이미지 ID"
-
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "컴퓨터 리소스에 의해 지정된 이미지 ID, 예: ami-.."
+
+msgid "Image ID"
+msgstr "이미지 ID"
 
 msgid "Caps lock ON"
 msgstr ""
 
-msgid "Overwrite"
-msgstr "덮어쓰기"
-
 msgid "Submit"
 msgstr "제출 "
+
+msgid "Overwrite"
+msgstr "덮어쓰기"
 
 msgid "Unable to save"
 msgstr "저장할 수 없음 "
@@ -2721,9 +2738,6 @@ msgstr ""
 msgid "How values are validated"
 msgstr "값 검증 방법 "
 
-msgid "Validator type"
-msgstr ""
-
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
 " rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expr"
@@ -2731,6 +2745,9 @@ msgid ""
 msgstr ""
 "<dl><dt>List</dt> <dd>유효성 검증 규칙 필드에 지정된 서용되는 값의 목록입니다.</dd><dt>Regexp</dt> <dd"
 ">유효성 검증 규칙 필드에 있는 정규식 표현 입력을 검증합니다.</dd></dl>"
+
+msgid "Validator type"
+msgstr ""
 
 msgid "Validation types"
 msgstr "검증 유형 "
@@ -2800,14 +2817,14 @@ msgstr ""
 msgid "Delete %s?"
 msgstr "%s을(를) 삭제하시겠습니까?"
 
-msgid "pending"
-msgstr "보류 중 "
+msgid "valid"
+msgstr "유효함"
 
 msgid "revoked"
 msgstr "취소됨 "
 
-msgid "valid"
-msgstr "유효함"
+msgid "pending"
+msgstr "보류 중 "
 
 msgid "in %s"
 msgstr "%s"
@@ -2857,17 +2874,17 @@ msgstr "기간 선택 "
 msgid "Show log messages:"
 msgstr "로그 메세지 표시: "
 
-msgid "Errors only"
-msgstr "오류만 "
-
 msgid "Notices, warnings and errors"
 msgstr "주의, 경고 및 오류 "
+
+msgid "All messages"
+msgstr "전체 메세지 "
 
 msgid "Warnings and errors"
 msgstr "경고 및 오류 "
 
-msgid "All messages"
-msgstr "전체 메세지 "
+msgid "Errors only"
+msgstr "오류만 "
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -2907,17 +2924,17 @@ msgstr "클래스 배포판 "
 msgid "used memory"
 msgstr "사용된 메모리 "
 
-msgid "free memory"
-msgstr "여유 메모리"
-
 msgid "Average memory usage"
 msgstr "평균 메모리 사용량 "
 
-msgid "free swap"
-msgstr "여유 swap "
+msgid "free memory"
+msgstr "여유 메모리"
 
 msgid "used swap"
 msgstr "사용된 swap"
+
+msgid "free swap"
+msgstr "여유 swap "
 
 msgid "Average swap usage"
 msgstr "평균 swap 사용량 "
@@ -2928,11 +2945,11 @@ msgstr "모든 조직 "
 msgid "Any Location"
 msgstr "모든 위치 "
 
-msgid "New Organization"
-msgstr "새 조직 "
-
 msgid "New Location"
 msgstr "새 위치 "
+
+msgid "New Organization"
+msgstr "새 조직 "
 
 msgid "All users"
 msgstr "전체 사용자 "
@@ -2958,11 +2975,11 @@ msgstr "전체 컴퓨터 리소스 "
 msgid "Select compute resources"
 msgstr "컴퓨터 리소스 선택 "
 
-msgid "Select media"
-msgstr "미디어 선택 "
-
 msgid "All media"
 msgstr "전체 미디어 "
+
+msgid "Select media"
+msgstr "미디어 선택 "
 
 msgid "Select provisioning templates"
 msgstr ""
@@ -2970,10 +2987,10 @@ msgstr ""
 msgid "All provisioning templates"
 msgstr ""
 
-msgid "Select partition tables"
+msgid "All partition tables"
 msgstr ""
 
-msgid "All partition tables"
+msgid "Select partition tables"
 msgstr ""
 
 msgid "Select domains"
@@ -2982,11 +2999,11 @@ msgstr "도메인 선택 "
 msgid "All domains"
 msgstr "전체 도메인 "
 
-msgid "Select realms"
-msgstr "영역 선택 "
-
 msgid "All realms"
 msgstr "전체 영역 "
+
+msgid "Select realms"
+msgstr "영역 선택 "
 
 msgid "All environments"
 msgstr "전체 환경 "
@@ -3000,20 +3017,20 @@ msgstr "전체 호스트 그룹 "
 msgid "Select host groups"
 msgstr "호스트 그룹 선택 "
 
-msgid "Operating system"
-msgstr "운영 체제 "
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "환경 "
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Model"
-msgstr "모델 "
+msgid "Operating system"
+msgstr "운영 체제 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
 msgstr "컴퓨터 리소스 "
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Model"
+msgstr "모델 "
 
 msgid "Trend of the last %s days."
 msgstr "지난 %s일 트렌드입니다. "
@@ -3467,34 +3484,34 @@ msgstr "호스트그룹 "
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "hash"
-msgstr ""
-
-msgid "string"
-msgstr ""
-
 msgid "real"
-msgstr ""
-
-msgid "yaml"
-msgstr ""
-
-msgid "json"
-msgstr ""
-
-msgid "integer"
 msgstr ""
 
 msgid "boolean"
 msgstr ""
 
+msgid "integer"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "json"
+msgstr ""
+
+msgid "hash"
+msgstr ""
+
+msgid "yaml"
+msgstr ""
+
 msgid "array"
 msgstr ""
 
-msgid "list"
+msgid "regexp"
 msgstr ""
 
-msgid "regexp"
+msgid "list"
 msgstr ""
 
 msgid "invalid"
@@ -3533,13 +3550,13 @@ msgstr "%{match}은(는) 기존 호스트와 일치하지 않습니다 "
 msgid "%{match} does not match an existing host group"
 msgstr "%{match}은(는) 기존 호스트 그룹과 일치하지 않습니다 "
 
-msgid "Monthly"
+msgid "Daily"
 msgstr ""
 
 msgid "Weekly"
 msgstr ""
 
-msgid "Daily"
+msgid "Monthly"
 msgstr ""
 
 msgid ""
@@ -3989,11 +4006,11 @@ msgstr "프록시와 통신할 수 없습니다: %s"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "프록시가 설정되어 호스트에서 실행되고 있는지 확인하십시오. "
 
-msgid "Static"
-msgstr ""
-
 msgid "DHCP"
 msgstr "DHCP"
+
+msgid "Static"
+msgstr ""
 
 msgid "Internal DB"
 msgstr ""
@@ -4267,8 +4284,8 @@ msgstr "영역 "
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "stop"
-msgstr "중지 "
+msgid "reboot"
+msgstr "재부팅 "
 
 msgid "start"
 msgstr "시작 "
@@ -4276,32 +4293,32 @@ msgstr "시작 "
 msgid "reset"
 msgstr "재설정 "
 
-msgid "poweroff"
-msgstr "전원 끄기 "
-
 msgid "state"
 msgstr "상태 "
 
-msgid "reboot"
-msgstr "재부팅 "
+msgid "stop"
+msgstr "중지 "
 
-msgid "off"
-msgstr "끄기 "
+msgid "poweroff"
+msgstr "전원 끄기 "
+
+msgid "soft"
+msgstr "소프트 "
 
 msgid "on"
 msgstr "켜기 "
 
-msgid "cycle"
-msgstr "사이클 "
+msgid "status"
+msgstr "상태 "
 
 msgid "ready?"
 msgstr ""
 
-msgid "status"
-msgstr "상태 "
+msgid "cycle"
+msgstr "사이클 "
 
-msgid "soft"
-msgstr "소프트 "
+msgid "off"
+msgstr "끄기 "
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "잘못된 전원 상태 요청: %{action}, 지원되는 동작은 %{supported}입니다 "
@@ -4451,13 +4468,13 @@ msgstr "Foreman 개발자 "
 msgid "Issue tracker"
 msgstr "문제 추적기 "
 
-msgid "issue tracker"
-msgstr "문제 추적기 "
-
 msgid ""
 "We use Redmine to report and track bugs and feature requests, which can be fou"
 "nd here:"
 msgstr "다음과 같이 버그 보고, 추적, 기능 요구에 Redmine을 사용합니다: "
+
+msgid "issue tracker"
+msgstr "문제 추적기 "
 
 msgid "System Information"
 msgstr "시스템 정보 "
@@ -4767,11 +4784,11 @@ msgstr "Puppet 모듈 "
 msgid "Check/Uncheck all %s changes"
 msgstr "전체 %s 변경 선택/선택 해제 "
 
-msgid "Remove:"
-msgstr "삭제: "
-
 msgid "Add:"
 msgstr "추가:"
+
+msgid "Remove:"
+msgstr "삭제: "
 
 msgid "Update:"
 msgstr "업데이트: "
@@ -4810,11 +4827,11 @@ msgstr "범위 "
 msgid "Actions"
 msgstr "동작 "
 
-msgid "Override this value"
-msgstr "이 값 덮어쓰기 "
-
 msgid "override"
 msgstr "덮어쓰기 "
+
+msgid "Override this value"
+msgstr "이 값 덮어쓰기 "
 
 msgid "Global"
 msgstr "글로벌"
@@ -5031,11 +5048,11 @@ msgstr "VM 속성 "
 msgid "URL"
 msgstr "URL"
 
-msgid "Enabled"
-msgstr "활성화됨 "
-
 msgid "Disabled"
 msgstr "비활성화됨 "
+
+msgid "Enabled"
+msgstr "활성화됨 "
 
 msgid "There was an error listing VMs: %s"
 msgstr "VM을 나열하는 도중 오류가 발생했습니다: %s"
@@ -5070,11 +5087,11 @@ msgstr "종류 "
 msgid "Please select an image"
 msgstr "이미지를 선택하십시오"
 
-msgid "No preference"
-msgstr "설정이 없습니다 "
-
 msgid "Availability zone"
 msgstr "사용 가능한 영역 "
+
+msgid "No preference"
+msgstr "설정이 없습니다 "
 
 msgid "EC2"
 msgstr "EC2"
@@ -5113,11 +5130,11 @@ msgstr "CPU"
 msgid "Memory"
 msgstr "메모리 "
 
-msgid "Power ON this machine"
-msgstr "컴퓨터의 전원 켜기 "
-
 msgid "Start"
 msgstr "시작 "
+
+msgid "Power ON this machine"
+msgstr "컴퓨터의 전원 켜기 "
 
 msgid "Image to use"
 msgstr "사용할 이미지 "
@@ -5151,10 +5168,10 @@ msgstr ""
 msgid "Floating IP network"
 msgstr "부동 IP 네트워크 "
 
-msgid "Boot from volume"
+msgid "Create new boot volume from image"
 msgstr ""
 
-msgid "Create new boot volume from image"
+msgid "Boot from volume"
 msgstr ""
 
 msgid "Defaults to image size if left blank"
@@ -5238,11 +5255,11 @@ msgstr "새 가상 머신 "
 msgid "Create"
 msgstr ""
 
-msgid "Associate VM to a Foreman host"
-msgstr "VM을 Foreman 호스트에 연결 "
-
 msgid "Associate VM"
 msgstr "VM 연결 "
+
+msgid "Associate VM to a Foreman host"
+msgstr "VM을 Foreman 호스트에 연결 "
 
 msgid "Properties"
 msgstr "속성 "
@@ -5531,12 +5548,12 @@ msgstr "매개 변수 "
 msgid "Full name describing the domain"
 msgstr "도메인을 나타내는 전체 이름 "
 
-msgid "DNS Proxy"
-msgstr ""
-
 msgid ""
 "DNS proxy to use within this domain for managing A records, note that PTR reco"
 "rds are managed via Subnet DNS proxy"
+msgstr ""
+
+msgid "DNS Proxy"
 msgstr ""
 
 msgid "Edit Domain"
@@ -5986,11 +6003,11 @@ msgstr "상속을 통해 내장된 매개 변수 "
 msgid "Host Parameters"
 msgstr "호스트 매개 변수 "
 
-msgid "Owned By"
-msgstr "소유자 "
-
 msgid "select an owner"
 msgstr "소유자 선택 "
+
+msgid "Owned By"
+msgstr "소유자 "
 
 msgid "Include this host within Foreman reporting"
 msgstr "이 호스트를 Foreman 보고서에 포함 "
@@ -6016,11 +6033,11 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-msgid "items selected. Uncheck to Clear"
-msgstr "항목이 선택되어 있습니다. 삭제하려면 선택 해제합니다 "
-
 msgid "Select all items in this page"
 msgstr "이 페이지에 있는 모든 항목을 선택 "
+
+msgid "items selected. Uncheck to Clear"
+msgstr "항목이 선택되어 있습니다. 삭제하려면 선택 해제합니다 "
 
 msgid "Last report"
 msgstr "마지막 보고 "
@@ -6108,11 +6125,11 @@ msgstr ""
 msgid "Canvas not supported."
 msgstr "Canvas가 지원되지 않습니다."
 
-msgid "Manage host"
-msgstr "호스트 관리 "
-
 msgid "Unmanage host"
 msgstr "관리되지 않는 호스트 "
+
+msgid "Manage host"
+msgstr "호스트 관리 "
 
 msgid "Disassociate host"
 msgstr "호스트 연결 해제 "
@@ -6315,14 +6332,14 @@ msgid ""
 "em managed via Foreman is housed."
 msgstr "위치는 Foreman을 통해 관리되는 시스템이 있는 물리적 위치를 관리하고 구별하는데 사용됩니다."
 
-msgid "organizations"
-msgstr "조직 "
-
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
 " are locations. Locations also work nicely when used in tandem with %{organiza"
 "tions}."
 msgstr ""
+
+msgid "organizations"
+msgstr "조직 "
 
 msgid "Remove %s?"
 msgstr "%s을(를) 삭제하시겠습니까? "
@@ -6374,11 +6391,11 @@ msgstr ""
 " 들어 <code>host group, environment</code> 순서의 경우 <code>hostgroup = \"web servers"
 "\", environment = production</code>과 같은 matcher를 예상할 수 있습니다 "
 
-msgid "Add Matcher-Value"
-msgstr "Matcher 값 추가"
-
 msgid "add a new matcher-value pair"
 msgstr "새 matcher-value 쌍 추가 "
+
+msgid "Add Matcher-Value"
+msgstr "Matcher 값 추가"
 
 msgid ""
 "Matcher is a combination of an attribute and its value, if they match, the val"
@@ -6424,11 +6441,11 @@ msgstr "jumpstart 제어 파일로의 NFS 경로입니다. "
 msgid "The NFS path to the image directory."
 msgstr "이미지 디렉토리로의 NFS 경로입니다. "
 
-msgid "Operating system family"
-msgstr ""
-
 msgid "Choose a family"
 msgstr "제품군 선택 "
+
+msgid "Operating system family"
+msgstr ""
 
 msgid "Edit Medium"
 msgstr "미디어 편집 "
@@ -6918,11 +6935,11 @@ msgstr ""
 msgid "Realm type"
 msgstr "영역 유형 "
 
-msgid "Realm proxy to use within this realm"
-msgstr "이 영역에 사용할 영역 프록시 "
-
 msgid "Realm proxy"
 msgstr "영역 프록시 "
+
+msgid "Realm proxy to use within this realm"
+msgstr "이 영역에 사용할 영역 프록시 "
 
 msgid "Edit Realm"
 msgstr "영역 편집 "
@@ -7213,17 +7230,20 @@ msgstr ""
 msgid "clone"
 msgstr ""
 
-msgid "Note: %s "
-msgstr ""
-
 msgid "Useful template functions and macros"
 msgstr "유용한 템플릿 기능 및 매크로 "
+
+msgid "Note: %s "
+msgstr ""
 
 msgid "Template editor"
 msgstr "템플릿 편집기 "
 
 msgid "Code"
 msgstr "코드 "
+
+msgid "Diff"
+msgstr ""
 
 msgid "Preview"
 msgstr "미리 보기 "
@@ -7349,11 +7369,11 @@ msgstr ""
 msgid "Show linked external user groups"
 msgstr "링크된 외부 사용자 그룹 표시 "
 
-msgid "link external user group with this user group"
-msgstr "외부 사용자 그룹이 이 사용자 그룹에 연결되어 있습니다 "
-
 msgid "Add external user group"
 msgstr "외부 사용자 그룹 추가 "
+
+msgid "link external user group with this user group"
+msgstr "외부 사용자 그룹이 이 사용자 그룹에 연결되어 있습니다 "
 
 msgid "Edit User group"
 msgstr "사용자 그룹 편집 "
@@ -7367,11 +7387,11 @@ msgstr ""
 msgid "Email Preferences"
 msgstr ""
 
-msgid "Language"
-msgstr "언어"
-
 msgid "Browser locale"
 msgstr "브라우저 로케일 "
+
+msgid "Language"
+msgstr "언어"
 
 msgid "Browser timezone"
 msgstr ""

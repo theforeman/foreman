@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-07-18 09:12+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2015-08-10 13:40+0000\n"
+"Last-Translator: Vladimir Pavlov <v.pavlov@i-teco.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -47,15 +47,15 @@ msgstr "Восстановить масштаб"
 msgid "Loading"
 msgstr "Загрузка"
 
-msgid "Fact distribution chart"
-msgstr "График распределения"
-
 msgid "%s host"
 msgid_plural "%s hosts"
 msgstr[0] "%s узел"
 msgstr[1] "%s узла"
 msgstr[2] "%s узлов"
 msgstr[3] "%s узлов"
+
+msgid "Fact distribution chart"
+msgstr "График распределения"
 
 msgid "Failed to load chart"
 msgstr "Ошибка загрузки графика"
@@ -153,11 +153,11 @@ msgstr "виртуальный"
 msgid "physical"
 msgstr "физический"
 
-msgid "Build"
-msgstr "Сборка"
-
 msgid "Reboot and build"
 msgstr "Перезагрузить и собрать"
+
+msgid "Build"
+msgstr "Сборка"
 
 msgid "Select All"
 msgstr "Выбрать все"
@@ -190,21 +190,21 @@ msgstr "Родитель уже выбран"
 msgid "new"
 msgstr "новый"
 
-msgid "Normal"
-msgstr "Обычный"
-
-msgid "Weak"
-msgstr "Слабый"
-
-msgid "Very Strong"
-msgstr "Очень сильный"
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr "Носитель"
 
+msgid "Very Strong"
+msgstr "Очень сильный"
+
+msgid "Normal"
+msgstr "Обычный"
+
 msgid "Strong"
 msgstr "Сильный"
+
+msgid "Weak"
+msgstr "Слабый"
 
 msgid "Your password is too short"
 msgstr "Ваш пароль слишком короткий"
@@ -235,6 +235,16 @@ msgstr "Содержимое окна редактора будет переоп
 
 msgid "No changes"
 msgstr "Нет изменений"
+
+msgid "Rendering the template, please wait..."
+msgstr "Отрисовка шаблона, пожалуйста подождите..."
+
+msgid ""
+"There was an error during rendering, return to the Code tab to edit the templa"
+"te."
+msgstr ""
+"Произошла ошибка во время отрисовки, вернитесь на вкладку Кода для редактирова"
+"ния шаблона."
 
 msgid ""
 "You are about to override the editor content with a previous version, are you "
@@ -342,10 +352,10 @@ msgid "required if onthefly_register is true"
 msgstr "required if onthefly_register is true"
 
 msgid "groups base DN"
-msgstr ""
+msgstr "базовый DN для групп"
 
 msgid "type of the LDAP server"
-msgstr ""
+msgstr "тип LDAP сервера"
 
 msgid "LDAP filter"
 msgstr "Фильтр LDAP"
@@ -1395,13 +1405,13 @@ msgid "Show a partition table"
 msgstr "Показать таблицу разделов"
 
 msgid "Array of operating system IDs to associate with the partition table"
-msgstr ""
+msgstr "Массив кодов операционных систем связанных с таблицей разделов"
 
 msgid "Array of host IDs to associate with the partition table"
-msgstr ""
+msgstr "Массив кодов узлов связанных с таблицей разделов"
 
 msgid "Array of host group IDs to associate with the partition table"
-msgstr ""
+msgstr "Массив кодов групп узлов связанных с таблицей разделов"
 
 msgid "Create a partition table"
 msgstr "Создать таблицу разделов"
@@ -1866,11 +1876,11 @@ msgstr "Для продолжения необходимо создать уча
 msgid "You must create at least one organization before continuing."
 msgstr "Для продолжения необходимо создать организацию."
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Error"
 msgstr "Ошибка"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Invalid authenticity token"
 msgstr "Неверный ключ аутентификации"
@@ -1967,6 +1977,9 @@ msgstr "Код носителя"
 
 msgid "Provisioning template IDs"
 msgstr "Код шаблона подготовки"
+
+msgid "Partition template IDs"
+msgstr "Код шаблона таблицы разделов"
 
 msgid "Domain IDs"
 msgstr "Код домена"
@@ -2237,6 +2250,12 @@ msgstr "Необходимо выбрать подсеть"
 msgid "Imported Subnets"
 msgstr "Импортированные подсети"
 
+msgid "No host could be found for rendering the template"
+msgstr "Не найдено узлов для отрисовки шаблона"
+
+msgid "There was an error rendering the %{name} template: %{error}"
+msgstr "Ошибка отрисовки шаблона %{name}: %{error}"
+
 msgid "Template locked"
 msgstr "Шаблон заблокирован"
 
@@ -2332,11 +2351,11 @@ msgstr "<b>Источник:</b> %{type} %{name}"
 msgid "Additional info"
 msgstr "Дополнительная информация"
 
-msgid "Explain use Puppet default"
-msgstr "Объяснение Puppet по умолчанию"
-
 msgid "Use Puppet default"
 msgstr "Использование Puppet по умолчанию"
+
+msgid "Explain use Puppet default"
+msgstr "Объяснение Puppet по умолчанию"
 
 msgid ""
 "Do not send this parameter via the ENC.<br>Puppet will use the value defined i"
@@ -2348,20 +2367,20 @@ msgstr ""
 msgid "Paused"
 msgstr "Приостановлена"
 
-msgid "Off"
-msgstr "выкл."
-
 msgid "On"
 msgstr "вкл."
+
+msgid "Off"
+msgstr "выкл."
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "Вы действительно хотите %{act} %{vm}?"
 
-msgid "Pause"
-msgstr "Пауза"
-
 msgid "Resume"
 msgstr "Возобновить работу"
+
+msgid "Pause"
+msgstr "Пауза"
 
 msgid "Are you sure you want to %{act} %{vm}?"
 msgstr "Вы действительно хотите %{act} %{vm}?"
@@ -2420,25 +2439,25 @@ msgstr "Уведомления отключены"
 msgid "Host Configuration Status"
 msgstr "Состояние конфигурации узлов"
 
+msgid "Number Of Clients"
+msgstr "Число клиентов"
+
 msgid "Minutes Ago"
 msgstr "мин. назад"
 
-msgid "Number Of Clients"
-msgstr "Число клиентов"
+msgid "Applied"
+msgstr "Примененно"
 
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr "П"
 
-msgid "Applied"
-msgstr "Примененно"
+msgid "Restarted"
+msgstr "Перезапущено"
 
 #. TRANSLATORS: initial character of Restarted
 msgid "Restarted|R"
 msgstr "П"
-
-msgid "Restarted"
-msgstr "Перезапущено"
 
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
@@ -2701,23 +2720,23 @@ msgstr "Отчеты"
 msgid "Browse host reports"
 msgstr "Просмотр отчетов узла"
 
-msgid "YAML"
-msgstr "YAML"
-
 msgid "Puppet external nodes YAML dump"
 msgstr "YAML-дамп внешних узлов Puppet"
 
+msgid "YAML"
+msgstr "YAML"
+
 msgid "Allocation (GB)"
 msgstr "Выделено (ГБ)"
-
-msgid "Size"
-msgstr "Размер"
 
 msgid "None"
 msgstr "Нет"
 
 msgid "Full"
 msgstr "Полностью"
+
+msgid "Size"
+msgstr "Размер"
 
 msgid "remove network interface"
 msgstr "удалить сетевой интерфейс"
@@ -2738,20 +2757,20 @@ msgstr "Изменить %s"
 msgid "Image"
 msgstr "Образ"
 
-msgid "Image ID"
-msgstr "Код образа"
-
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "Код образа, выбранный ресурсом, например, ami-..."
+
+msgid "Image ID"
+msgstr "Код образа"
 
 msgid "Caps lock ON"
 msgstr "Включен Caps lock"
 
-msgid "Overwrite"
-msgstr "Перезаписать"
-
 msgid "Submit"
 msgstr "Подтвердить"
+
+msgid "Overwrite"
+msgstr "Перезаписать"
 
 msgid "Unable to save"
 msgstr "Не удалось сохранить"
@@ -2823,9 +2842,6 @@ msgstr "Типы параметров"
 msgid "How values are validated"
 msgstr "Допустимые типы"
 
-msgid "Validator type"
-msgstr "Типы проверяльщиков"
-
 msgid ""
 "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator"
 " rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expr"
@@ -2834,6 +2850,9 @@ msgstr ""
 "<dl><dt>Список</dt> <dd>Список разрешенных значений в поле правил проверки.</d"
 "d><dt>Регулярное выражение</dt> <dd>Проверка ввода в соответствии с регулярным"
 " выражением.</dd></dl>"
+
+msgid "Validator type"
+msgstr "Типы проверяльщиков"
 
 msgid "Validation types"
 msgstr "Типы проверок"
@@ -2913,14 +2932,14 @@ msgstr "Заблокировать"
 msgid "Delete %s?"
 msgstr "Удалить %s?"
 
-msgid "pending"
-msgstr "ожидание"
+msgid "valid"
+msgstr "действительный"
 
 msgid "revoked"
 msgstr "отозван"
 
-msgid "valid"
-msgstr "действительный"
+msgid "pending"
+msgstr "ожидание"
 
 msgid "in %s"
 msgstr "в %s"
@@ -2984,17 +3003,17 @@ msgstr "Выберите интервал"
 msgid "Show log messages:"
 msgstr "Показать сообщения журнала"
 
-msgid "Errors only"
-msgstr "Только ошибки"
-
 msgid "Notices, warnings and errors"
 msgstr "Примечания, предупреждения и ошибки"
+
+msgid "All messages"
+msgstr "Все сообщения"
 
 msgid "Warnings and errors"
 msgstr "Предупреждения и ошибки"
 
-msgid "All messages"
-msgstr "Все сообщения"
+msgid "Errors only"
+msgstr "Только ошибки"
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -3034,17 +3053,17 @@ msgstr "Классы"
 msgid "used memory"
 msgstr "Используемая память"
 
-msgid "free memory"
-msgstr "Свободная память"
-
 msgid "Average memory usage"
 msgstr "Среднее использование памяти"
 
-msgid "free swap"
-msgstr "Свободный область подкачки"
+msgid "free memory"
+msgstr "Свободная память"
 
 msgid "used swap"
 msgstr "Используемая область подкачки"
+
+msgid "free swap"
+msgstr "Свободный область подкачки"
 
 msgid "Average swap usage"
 msgstr "Среднее использование области подкачки"
@@ -3055,11 +3074,11 @@ msgstr "Любая организация"
 msgid "Any Location"
 msgstr "Любое местонахождение"
 
-msgid "New Organization"
-msgstr "Новая организация"
-
 msgid "New Location"
 msgstr "Новый участок"
+
+msgid "New Organization"
+msgstr "Новая организация"
 
 msgid "All users"
 msgstr "Все пользователи"
@@ -3085,11 +3104,11 @@ msgstr "Все ресурсы"
 msgid "Select compute resources"
 msgstr "Выберите ресурс"
 
-msgid "Select media"
-msgstr "Выберите носитель"
-
 msgid "All media"
 msgstr "Все носители"
+
+msgid "Select media"
+msgstr "Выберите носитель"
 
 msgid "Select provisioning templates"
 msgstr "Выберите шаблоны подготовки"
@@ -3097,11 +3116,11 @@ msgstr "Выберите шаблоны подготовки"
 msgid "All provisioning templates"
 msgstr "Все шаблоны подготовки"
 
-msgid "Select partition tables"
-msgstr "Выберите таблицы разделов"
-
 msgid "All partition tables"
 msgstr "Все таблицы разделов"
+
+msgid "Select partition tables"
+msgstr "Выберите таблицы разделов"
 
 msgid "Select domains"
 msgstr "Выберите домены"
@@ -3109,11 +3128,11 @@ msgstr "Выберите домены"
 msgid "All domains"
 msgstr "Все домены"
 
-msgid "Select realms"
-msgstr "Выберите области"
-
 msgid "All realms"
 msgstr "Все области"
+
+msgid "Select realms"
+msgstr "Выберите области"
 
 msgid "All environments"
 msgstr "Все окружения"
@@ -3127,20 +3146,20 @@ msgstr "Все группы узлов"
 msgid "Select host groups"
 msgstr "Выберите группы"
 
-msgid "Operating system"
-msgstr "Операционная система"
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Окружение"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Model"
-msgstr "Модель"
+msgid "Operating system"
+msgstr "Операционная система"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
 msgstr "Ресурс"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Model"
+msgstr "Модель"
 
 msgid "Trend of the last %s days."
 msgstr " Динамика последних дней (за %s дн.)"
@@ -3634,35 +3653,35 @@ msgstr "группа узлов"
 msgid "could not be found in %s"
 msgstr "не может быть найден в %s"
 
-msgid "hash"
-msgstr "хэш"
-
-msgid "string"
-msgstr "строка"
-
 msgid "real"
 msgstr "вещественный"
-
-msgid "yaml"
-msgstr "YAML"
-
-msgid "json"
-msgstr "JSON"
-
-msgid "integer"
-msgstr "целый"
 
 msgid "boolean"
 msgstr "логический"
 
+msgid "integer"
+msgstr "целый"
+
+msgid "string"
+msgstr "строка"
+
+msgid "json"
+msgstr "JSON"
+
+msgid "hash"
+msgstr "хэш"
+
+msgid "yaml"
+msgstr "YAML"
+
 msgid "array"
 msgstr "массив"
 
-msgid "list"
-msgstr "список"
-
 msgid "regexp"
 msgstr "регулярное выражение"
+
+msgid "list"
+msgstr "список"
 
 msgid "invalid"
 msgstr "недействительно"
@@ -3702,14 +3721,14 @@ msgstr "%{match} не соответствует доступным узлам"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} не соответствует доступным группам узлов"
 
-msgid "Monthly"
-msgstr "Ежемесячный"
+msgid "Daily"
+msgstr "Ежедневный"
 
 msgid "Weekly"
 msgstr "Еженедельный"
 
-msgid "Daily"
-msgstr "Ежедневный"
+msgid "Monthly"
+msgstr "Ежемесячный"
 
 msgid ""
 "Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nf"
@@ -4208,11 +4227,11 @@ msgstr "Не удалось связаться с прокси: %s"
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Убедитесь, что прокси настроен и активен на узле."
 
-msgid "Static"
-msgstr "Статический"
-
 msgid "DHCP"
 msgstr "DHCP"
+
+msgid "Static"
+msgstr "Статический"
 
 msgid "Internal DB"
 msgstr "Внутренняя БД"
@@ -4320,7 +4339,7 @@ msgid "Unallowed template for dashboard widget: %s"
 msgstr "Не разрешенный шаблон для виджета обзора: %s"
 
 msgid "Invalid version format, please enter in x.y (only major version)."
-msgstr ""
+msgstr "Не верный формат версии, введите x.y (только основной релиз)."
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
 msgstr "Модуль %{id} ожидает подстановку %{matcher}, но обнаружено %{current}"
@@ -4488,8 +4507,8 @@ msgstr "Области"
 msgid "Unsupported password hash function '%s'"
 msgstr "Неподдерживаемая хэш функция  '%s' для пароля"
 
-msgid "stop"
-msgstr "останов"
+msgid "reboot"
+msgstr "перезагрузка"
 
 msgid "start"
 msgstr "запуск"
@@ -4497,32 +4516,32 @@ msgstr "запуск"
 msgid "reset"
 msgstr "сброс"
 
-msgid "poweroff"
-msgstr "выключение"
-
 msgid "state"
 msgstr "состояние"
 
-msgid "reboot"
-msgstr "перезагрузка"
+msgid "stop"
+msgstr "останов"
 
-msgid "off"
-msgstr "выкл."
+msgid "poweroff"
+msgstr "выключение"
+
+msgid "soft"
+msgstr "мягкий"
 
 msgid "on"
 msgstr "вкл."
 
-msgid "cycle"
-msgstr "цикл"
+msgid "status"
+msgstr "состояние"
 
 msgid "ready?"
 msgstr "готово?"
 
-msgid "status"
-msgstr "состояние"
+msgid "cycle"
+msgstr "цикл"
 
-msgid "soft"
-msgstr "мягкий"
+msgid "off"
+msgstr "выкл."
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr ""
@@ -4677,13 +4696,13 @@ msgstr "Разработчики Foreman"
 msgid "Issue tracker"
 msgstr "Отслеживание задач"
 
-msgid "issue tracker"
-msgstr "отслеживание задач"
-
 msgid ""
 "We use Redmine to report and track bugs and feature requests, which can be fou"
 "nd here:"
 msgstr "Для создания отчетов и отслеживания ошибок мы используем Redmine:"
+
+msgid "issue tracker"
+msgstr "отслеживание задач"
 
 msgid "System Information"
 msgstr "Сведения о системе"
@@ -5009,11 +5028,11 @@ msgstr "Модули Puppet"
 msgid "Check/Uncheck all %s changes"
 msgstr "Выбрать/отменить выбор изменений (всего %s)"
 
-msgid "Remove:"
-msgstr "Удалить:"
-
 msgid "Add:"
 msgstr "Добавить:"
+
+msgid "Remove:"
+msgstr "Удалить:"
 
 msgid "Update:"
 msgstr "Обновление:"
@@ -5052,11 +5071,11 @@ msgstr "Область применения"
 msgid "Actions"
 msgstr "Действия"
 
-msgid "Override this value"
-msgstr "Переопределить значение"
-
 msgid "override"
 msgstr "переопределить"
+
+msgid "Override this value"
+msgstr "Переопределить значение"
 
 msgid "Global"
 msgstr "Глобальные"
@@ -5276,11 +5295,11 @@ msgstr "Атрибуты виртуальной машины"
 msgid "URL"
 msgstr "URL"
 
-msgid "Enabled"
-msgstr "Включен"
-
 msgid "Disabled"
 msgstr "Отключен"
+
+msgid "Enabled"
+msgstr "Включен"
 
 msgid "There was an error listing VMs: %s"
 msgstr "Произошла ошибка при получении списка виртуальных машин: %s"
@@ -5315,11 +5334,11 @@ msgstr "Шаблон конфигурации"
 msgid "Please select an image"
 msgstr "Выберите образ"
 
-msgid "No preference"
-msgstr "Нет предпочтений"
-
 msgid "Availability zone"
 msgstr "Доступная зона"
+
+msgid "No preference"
+msgstr "Нет предпочтений"
 
 msgid "EC2"
 msgstr "EC2"
@@ -5358,11 +5377,11 @@ msgstr "Процессоры"
 msgid "Memory"
 msgstr "Память"
 
-msgid "Power ON this machine"
-msgstr "Включить машину"
-
 msgid "Start"
 msgstr "Начало"
+
+msgid "Power ON this machine"
+msgstr "Включить машину"
 
 msgid "Image to use"
 msgstr "Образ для использования"
@@ -5398,11 +5417,11 @@ msgstr "Внутренняя сеть"
 msgid "Floating IP network"
 msgstr "Сеть с плавающим IP"
 
-msgid "Boot from volume"
-msgstr "Загрузить с тома"
-
 msgid "Create new boot volume from image"
 msgstr "Создать новый загрузочный том из образа"
+
+msgid "Boot from volume"
+msgstr "Загрузить с тома"
 
 msgid "Defaults to image size if left blank"
 msgstr "По умолчанию размер образа, если останется пустым"
@@ -5485,11 +5504,11 @@ msgstr "Новая виртуальная машина"
 msgid "Create"
 msgstr "Создать"
 
-msgid "Associate VM to a Foreman host"
-msgstr "Связать виртуальную машину с узлом Foreman"
-
 msgid "Associate VM"
 msgstr "Связать с виртуальной машиной"
+
+msgid "Associate VM to a Foreman host"
+msgstr "Связать виртуальную машину с узлом Foreman"
 
 msgid "Properties"
 msgstr "Свойства "
@@ -5797,15 +5816,15 @@ msgstr "Параметры"
 msgid "Full name describing the domain"
 msgstr "Описательное имя домена"
 
-msgid "DNS Proxy"
-msgstr "DNS прокси"
-
 msgid ""
 "DNS proxy to use within this domain for managing A records, note that PTR reco"
 "rds are managed via Subnet DNS proxy"
 msgstr ""
 "DNC прокси используется с этим доменом для управления записями типа A, это зна"
 "чит что PTR записи управляются через DNS прокси подсети."
+
+msgid "DNS Proxy"
+msgstr "DNS прокси"
 
 msgid "Edit Domain"
 msgstr "Изменить домен"
@@ -6303,11 +6322,11 @@ msgstr "Унаследованные параметры"
 msgid "Host Parameters"
 msgstr "Параметры узла"
 
-msgid "Owned By"
-msgstr "Владелец"
-
 msgid "select an owner"
 msgstr "выберите владельца"
+
+msgid "Owned By"
+msgstr "Владелец"
 
 msgid "Include this host within Foreman reporting"
 msgstr "Включить этот узел в отчетность Foreman"
@@ -6333,11 +6352,11 @@ msgstr "FQDN"
 msgid "Ok"
 msgstr "Ок"
 
-msgid "items selected. Uncheck to Clear"
-msgstr "пункты выбраны. Снимите, чтобы Очистить"
-
 msgid "Select all items in this page"
 msgstr "Выбрать все пункты на этой странице"
+
+msgid "items selected. Uncheck to Clear"
+msgstr "пункты выбраны. Снимите, чтобы Очистить"
 
 msgid "Last report"
 msgstr "Последний отчет"
@@ -6425,11 +6444,11 @@ msgstr "Пароль:"
 msgid "Canvas not supported."
 msgstr "Холст не поддерживается."
 
-msgid "Manage host"
-msgstr "Управление узлом"
-
 msgid "Unmanage host"
 msgstr "Отменить управление узлом"
+
+msgid "Manage host"
+msgstr "Управление узлом"
 
 msgid "Disassociate host"
 msgstr "Удалить связь с узлом"
@@ -6640,9 +6659,6 @@ msgstr ""
 "Местоположение определяет физическое расположение системы, которая находится п"
 "од управлением Foreman."
 
-msgid "organizations"
-msgstr "организации"
-
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
 " are locations. Locations also work nicely when used in tandem with %{organiza"
@@ -6650,6 +6666,9 @@ msgid ""
 msgstr ""
 "Например, можно создать местоположения для центров данных в Москве и Лондоне. "
 "Они отлично работают в парах — местоположения и %{organizations}."
+
+msgid "organizations"
+msgstr "организации"
 
 msgid "Remove %s?"
 msgstr "Удалить %s?"
@@ -6709,11 +6728,11 @@ msgstr ""
 "roup, environment</code> может выглядеть так:  <code>hostgroup = \"web servers\""
 ", environment = production</code>"
 
-msgid "Add Matcher-Value"
-msgstr "Добавить подстановку"
-
 msgid "add a new matcher-value pair"
 msgstr "добавить условие подстановки"
+
+msgid "Add Matcher-Value"
+msgstr "Добавить подстановку"
 
 msgid ""
 "Matcher is a combination of an attribute and its value, if they match, the val"
@@ -6765,11 +6784,11 @@ msgstr "Путь NFS к управляющим файлам jumpstart."
 msgid "The NFS path to the image directory."
 msgstr "Путь NFS к каталогу с образами."
 
-msgid "Operating system family"
-msgstr "Семейство операционных систем"
-
 msgid "Choose a family"
 msgstr "Выберите семейство"
+
+msgid "Operating system family"
+msgstr "Семейство операционных систем"
 
 msgid "Edit Medium"
 msgstr "Изменить носитель"
@@ -7308,11 +7327,11 @@ msgstr "Тип области, например FreeIPA"
 msgid "Realm type"
 msgstr "Тип области"
 
-msgid "Realm proxy to use within this realm"
-msgstr "Прокси для этой области"
-
 msgid "Realm proxy"
 msgstr "Прокси для области"
+
+msgid "Realm proxy to use within this realm"
+msgstr "Прокси для этой области"
 
 msgid "Edit Realm"
 msgstr "Изменить область определения"
@@ -7629,17 +7648,20 @@ msgstr ""
 msgid "clone"
 msgstr "клон"
 
-msgid "Note: %s "
-msgstr "Примечание: %s"
-
 msgid "Useful template functions and macros"
 msgstr "Примеры шаблонов функций и макросов"
+
+msgid "Note: %s "
+msgstr "Примечание: %s"
 
 msgid "Template editor"
 msgstr "Редактор шаблонов"
 
 msgid "Code"
 msgstr "Код"
+
+msgid "Diff"
+msgstr "Отличие"
 
 msgid "Preview"
 msgstr "Просмотр"
@@ -7774,11 +7796,11 @@ msgstr "Синхронизировать группу с источником а
 msgid "Show linked external user groups"
 msgstr "Показать связанные внешние группы пользователей"
 
-msgid "link external user group with this user group"
-msgstr "связать внешнюю группу пользователей с этой группой"
-
 msgid "Add external user group"
 msgstr "Добавить внешнюю группу пользователей"
+
+msgid "link external user group with this user group"
+msgstr "связать внешнюю группу пользователей с этой группой"
 
 msgid "Edit User group"
 msgstr "Параметры группы пользователей"
@@ -7792,11 +7814,11 @@ msgstr "Собрать запрос для %{mailer}"
 msgid "Email Preferences"
 msgstr "Почтовые предпочтения"
 
-msgid "Language"
-msgstr "Язык"
-
 msgid "Browser locale"
 msgstr "Язык обозревателя"
+
+msgid "Language"
+msgstr "Язык"
 
 msgid "Browser timezone"
 msgstr "Временная зона обозревателя"
