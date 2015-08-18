@@ -211,8 +211,8 @@ Return the host's compute attributes that can be used to create a clone of this 
         merge.run(host.interfaces, host.compute_resource.try(:compute_profile_for, host.compute_profile_id))
       end
 
-      def host_attributes(params, host = nil)
-        return {} if params.nil?
+      def host_attributes(parameters, host = nil)
+        return {} if parameters.nil?
 
         parameters = parameters.deep_clone
         if parameters[:interfaces_attributes]
@@ -225,8 +225,8 @@ Return the host's compute attributes that can be used to create a clone of this 
             interface_attributes(nic_attr)
           end
         end
-        params = host.apply_inherited_attributes(params) if host
-        params
+        parameters = host.apply_inherited_attributes(parameters) if host
+        parameters
       end
 
       def interface_attributes(parameters)

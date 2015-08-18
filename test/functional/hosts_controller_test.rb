@@ -792,7 +792,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "blank root password submitted does not erase existing password" do
     old_root_pass = @host.root_pass
-    put :update, { :commit => "Update", :id => @host.name, :host => {:root_pass => '' } }, set_session_user
+    put :update, { :commit => "Update", :id => @host.name, :host => {:root_pass => '', :name => "foo" } }, set_session_user
     @host = Host.find(@host.id)
     assert_equal old_root_pass, @host.root_pass
   end

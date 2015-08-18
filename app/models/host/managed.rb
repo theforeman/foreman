@@ -563,16 +563,15 @@ class Host::Managed < Host::Base
 
   def apply_inherited_attributes(attributes, initialized = true)
     return nil unless attributes
-    #don't change the source to minimize side effects.
-    attributes = hash_clone(attributes)
 
     new_hostgroup_id = attributes['hostgroup_id'] || attributes['hostgroup_name']
+
     #hostgroup didn't change, no inheritance needs update.
     return attributes if new_hostgroup_id.blank?
 
     new_hostgroup = self.hostgroup if initialized
     unless [new_hostgroup.try(:id), new_hostgroup.try(:friendly_id)].include? new_hostgroup_id
-      new_hostgroup = Hostgroup.find(new_hostgroup_id)
+      new_hostgroup = Hostgroup.friendly.find(new_hostgroup_id)
     end
     return attributes unless new_hostgroup
 

@@ -25,6 +25,12 @@ class LookupValue < ActiveRecord::Base
   scoped_search :on => :match, :complete_value => true
   scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
 
+  def []=(attr_name, value)
+    unless [:managed_id, :hostgroup_id].include?(attr_name.to_sym)
+      super
+    end
+  end
+
   def value_present?
     self.errors.add(:value, :blank) if value.nil?
   end

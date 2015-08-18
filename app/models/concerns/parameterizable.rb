@@ -17,13 +17,8 @@ module Parameterizable
     extend ActiveSupport::Concern
 
     included do
-      extend ::Parameterizable::Finder
       def to_param
         id.to_s
-      end
-
-      def self.from_param(id)
-        self.where(:id => id.to_i).first
       end
     end
   end

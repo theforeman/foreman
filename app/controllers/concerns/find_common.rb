@@ -6,7 +6,15 @@ module FindCommon
   # example: @host = Host.find(params[:id])
   def find_resource
     not_found and return if params[:id].blank?
-    instance_variable_set("@#{resource_name}", resource_scope.find(params[:id]))
+    instance_variable_set("@#{resource_name}", finder)
+  end
+
+  def finder
+    if resource_scope.respond_to?(:from_param)
+      resource_scope.from_param(params[:id]) || raise(ActiveRecord::RecordNotFound)
+    else
+      resource_scope.find(params[:id])
+    end
   end
 
   def resource_name(resource = controller_name)
@@ -15,7 +23,7 @@ module FindCommon
 
   def resource_class
     @resource_class ||= resource_class_for(resource_name)
-    raise NameError, "Could not find resource class for resource #{resource_name}" if @resource_class.nil?
+    raise NameError, "Could not find resource class for resource #{resource_name}" if  @resource_class.nil?
     @resource_class
   end
 
@@ -35,7 +43,8 @@ module FindCommon
     end
 
     scope = resource.where(options)
-    scope.respond_to?(:friendly) ? scope.friendly : scope
+    friendly = scope.respond_to?(:friendly) && (resource_class.respond_to?(:friendly) rescue false)
+    friendly ? scope.friendly : scope
   end
 
   def resource_class_for(resource)

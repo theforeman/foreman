@@ -437,5 +437,5 @@ Foreman::Application.routes.draw do
 
   resources :interfaces, :only => :new
 
-  resources :testable_resources if Rails.env.test?
+  resources :testable_resources, :only => :index if Rails.env.test?
 end

@@ -1,5 +1,8 @@
 class Hostgroup < ActiveRecord::Base
   include Authorizable
+  extend FriendlyId
+  friendly_id :name
+
   include Parameterizable::ByIdName
   include Taxonomix
   include HostCommon
@@ -201,16 +204,18 @@ class Hostgroup < ActiveRecord::Base
   def clone(name = "")
     new = self.dup
     new.name = name
+    new.title = name
     new.puppetclasses = puppetclasses
     new.locations     = locations
     new.organizations = organizations
     new.config_groups = config_groups
+    new.set_lookup_value_matcher
 
     # Clone any parameters as well
     self.group_parameters.each{|param| new.group_parameters << param.clone}
     self.lookup_values.each do |lookup_value|
       new_lookup_value = lookup_value.dup
-      new_lookup_value.match = "hostgroup=#{new.title}"
+      new_lookup_value.match = new.lookup_value_matcher
       new.lookup_values << new_lookup_value
     end
     new

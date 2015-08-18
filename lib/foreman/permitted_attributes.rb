@@ -254,7 +254,7 @@ module Foreman
     ]
 
     @@ptable_attributes = [
-      :name, :layout, :os_family, :audit_comment, :template
+      :name, :layout, :os_family, :audit_comment, :template, {:operatingsystem_ids => []}
     ]
 
     @@override_value_attributes = [

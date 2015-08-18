@@ -219,7 +219,8 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
-  test "should be able to delete existing lookup value on update_attributes" do
+  #test "should be able to delete existing lookup value on update_attributes" do
+  def test_fuck
     host = FactoryGirl.create(:host)
     lookup_key = FactoryGirl.create(:lookup_key, :is_param)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
@@ -2269,7 +2270,9 @@ class HostTest < ActiveSupport::TestCase
 
     test 'should accept non-existing hostgroup' do
       host = FactoryGirl.build(:host, :managed, :with_hostgroup)
-      Hostgroup.expects(:find).with(1111).returns(nil)
+      hg = Object.new
+      Hostgroup.stubs(:friendly).returns(hg)
+      hg.expects(:find).with(1111).returns(nil)
 
       attributes = { 'hostgroup_id' => 1111 }
       actual_attr = host.apply_inherited_attributes(attributes)

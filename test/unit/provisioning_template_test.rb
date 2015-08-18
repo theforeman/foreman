@@ -124,7 +124,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
 
   test '#preview_host_collection obeys view_hosts permission' do
     provisioning_template = FactoryGirl.build(:provisioning_template)
-    Host.expects(:authorized).with(:view_hosts).returns(Host.scoped)
+    Host.expects(:authorized).with(:view_hosts).returns(Host.all)
     provisioning_template.preview_host_collection
   end
 
