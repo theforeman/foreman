@@ -132,10 +132,6 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test ".try_to_login if password is empty should return nil" do
-    assert_nil User.try_to_login("anything", "")
-  end
-
   context "try to login" do
     test "when password is empty should return nil" do
       assert_nil User.try_to_login("anything", "")
@@ -611,26 +607,33 @@ class UserTest < ActiveSupport::TestCase
 
   context 'auto create users' do
     setup do
-      ldap_attrs = { :firstname => "Foo", :lastname => "Bar", :mail => "baz@qux.com" }
-      AuthSourceLdap.any_instance.stubs(:authenticate).
-                                  returns(ldap_attrs)
+      ldap_attrs = { :firstname => "Foo", :lastname => "Bar", :mail => "baz@qux.com",
+                     :login => 'FoOBaR' }
+      AuthSourceLdap.any_instance.stubs(:authenticate).returns(ldap_attrs)
       @ldap_server = AuthSource.find_by_name("ldap-server")
     end
 
     test "enabled on-the-fly registration" do
       AuthSourceLdap.any_instance.expects(:update_usergroups).
-                                  with('fakeuser').returns(true)
+                                  with('FoOBaR').returns(true)
       @ldap_server.update_attribute(:onthefly_register, true)
       assert_difference("User.count", 1) do
-        assert User.try_to_auto_create_user('fakeuser','fakepass')
+        assert User.try_to_auto_create_user('foobar','fakepass')
       end
     end
 
     test "disabled on-the-fly registration" do
       @ldap_server.update_attribute(:onthefly_register, false)
       assert_difference("User.count", 0) do
-        refute User.try_to_auto_create_user('fakeuser','fakepass')
+        refute User.try_to_auto_create_user('foobar','fakepass')
       end
+    end
+
+    test "use LDAP login attribute as login" do
+      AuthSourceLdap.any_instance.expects(:update_usergroups).
+                                  with('FoOBaR').returns(true)
+      created_user = User.try_to_auto_create_user('foobar','fakepass')
+      assert_equal created_user.login, "FoOBaR"
     end
   end
 

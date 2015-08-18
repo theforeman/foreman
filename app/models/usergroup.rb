@@ -62,12 +62,11 @@ class Usergroup < ActiveRecord::Base
   end
 
   def add_users(userlist)
-    users << User.where( {:login => userlist } )
+    users << User.where(:lower_login => userlist.map(&:downcase))
   end
 
   def remove_users(userlist)
-    old_users = User.select { |user| userlist.include?(user.login) }
-    self.users = self.users - old_users
+    self.users = self.users - User.where(:lower_login => userlist.map(&:downcase))
   end
 
   protected
