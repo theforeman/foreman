@@ -74,7 +74,7 @@ module Foreman::Model
     end
 
     def create_vm(args = {})
-      boot_from_volume(args) if Foreman::Cast.to_bool(args[:boot_from_volume])
+      boot_from_volume(args) if ['1', 'true'].include?(args[:boot_from_volume])
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
