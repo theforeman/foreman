@@ -1,3 +1,15 @@
+2015-08-18	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.9.0
+
+2015-08-17	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, updating rails, pulling from tx
+
+2015-08-17	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #11376 - show location tab in organization editor
+
+2015-08-17	Marek Hulan <mhulan@redhat.com>
+	* Fixes #11187 - explicitly pass resource_type and permission to check
+
 2015-08-07	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.9.0-RC3
 	* i18n - extracting new, updating rails, pulling from tx
