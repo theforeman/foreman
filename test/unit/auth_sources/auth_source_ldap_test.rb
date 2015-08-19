@@ -167,12 +167,23 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     end
 
     test 'update_usergroups calls refresh_ldap if entry belongs to some group' do
-      ExternalUsergroup.expects(:find_by_name).with('ipausers').returns(ExternalUsergroup.new)
+      @auth_source_ldap.expects(:valid_group?).with('ipausers').returns(true)
+      FactoryGirl.create(:external_usergroup, :name => 'ipausers', :auth_source => @auth_source_ldap)
+      ExternalUsergroup.any_instance.expects(:refresh)
       @auth_source_ldap.send(:update_usergroups, 'test')
     end
 
+    test 'update_usergroups matches LDAP gids with external user groups case insensitively' do
+      @auth_source_ldap.expects(:valid_group?).with('IPAUSERS').returns(true)
+      external = FactoryGirl.create(:external_usergroup, :auth_source => @auth_source_ldap, :name => 'IPAUSERS')
+      ldap_user = FactoryGirl.create(:user, :login => 'JohnSmith', :mail => 'a@b.com', :auth_source => @auth_source_ldap)
+      AuthSourceLdap.any_instance.expects(:users_in_group).with('IPAUSERS').returns(['JohnSmith'])
+      @auth_source_ldap.send(:update_usergroups, 'test')
+      assert_include ldap_user.usergroups, external.usergroup
+    end
+
     test 'update_usergroups refreshes on all external user groups, in LDAP and in Foreman auth source' do
-      @auth_source_ldap.stubs(:valid_group?).returns(true)
+      @auth_source_ldap.expects(:valid_group?).with('external_usergroup1').returns(true)
       external = FactoryGirl.create(:external_usergroup, :auth_source => @auth_source_ldap)
       User.any_instance.expects(:external_usergroups).returns([external])
       @auth_source_ldap.send(:update_usergroups, 'test')
