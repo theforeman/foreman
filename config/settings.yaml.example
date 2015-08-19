@@ -37,4 +37,4 @@
 #  :permissions:
 #    :enabled: false
 #  :sql:
-#    :enabled: true
+#    :enabled: false
