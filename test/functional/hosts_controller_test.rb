@@ -10,7 +10,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'create_invalid' do
     Host.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:host => {:name => nil}}, set_session_user
     assert_template 'new'
   end
 
@@ -62,6 +62,35 @@ class HostsControllerTest < ActionController::TestCase
     assert_redirected_to host_url(assigns['host'])
   end
 
+  test "should create new host with hostgroup inherited fields" do
+    leftovers = Host.search_for('myotherfullhost').first
+    refute leftovers
+    hostgroup = hostgroups(:common)
+    assert_difference 'Host.count' do
+      post :create, { :commit => "Create",
+        :host => {:name => "myotherfullhost",
+          :mac => "aabbecddee06",
+          :ip => "2.3.4.125",
+          :domain_id => domains(:mydomain).id,
+          :hostgroup_id => hostgroup.id,
+          :operatingsystem_id => operatingsystems(:redhat).id,
+          :architecture_id => architectures(:x86_64).id,
+          :subnet_id => subnets(:one).id,
+          :medium_id => media(:one).id,
+          :realm_id => realms(:myrealm).id,
+          :disk => "empty partition",
+          :root_pass           => "xybxa6JUkz63w",
+          :location_id => taxonomies(:location1).id,
+          :organization_id => taxonomies(:organization1).id
+        }
+      }, set_session_user
+    end
+    new_host = Host.search_for('myotherfullhost').first
+    assert_equal new_host.environment, hostgroup.environment
+    assert_equal new_host.puppet_proxy, hostgroup.puppet_proxy
+    assert_redirected_to host_url(assigns['host'])
+  end
+
   test "should get edit" do
     get :edit, {:id => @host.name}, set_session_user
     assert_response :success
@@ -76,13 +105,13 @@ class HostsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Host.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Host.first.name, :host => {}}, set_session_user
+    put :update, {:id => Host.first.name, :host => {:disk => 'ntfs'}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Host.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Host.first.name, :host => {}}, set_session_user
+    put :update, {:id => Host.first.name, :host => {:name => "Updated_#{Host.first.name}"}}, set_session_user
     assert_redirected_to host_url(assigns(:host))
   end
 
@@ -97,14 +126,14 @@ class HostsControllerTest < ActionController::TestCase
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     get :externalNodes, {:name => @host.name}, set_session_user
     assert_response :success
-    assert_template :text => @host.info.to_yaml.gsub("\n","<br/>")
+    assert_equal "<pre>#{ERB::Util.html_escape(@host.info.to_yaml)}</pre>", response.body
   end
 
   test "externalNodes should render yml request correctly" do
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
     assert_response :success
-    assert_template :text => @host.info.to_yaml
+    assert_equal @host.info.to_yaml, response.body
   end
 
   test "when host is not saved after setBuild, the flash should inform it" do
@@ -180,6 +209,15 @@ class HostsControllerTest < ActionController::TestCase
     refute assigns(:host).name
     refute assigns(:host).ip
     refute assigns(:host).mac
+  end
+
+  def test_clone_with_hostgroup
+    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
+    host = FactoryGirl.create(:host, :with_hostgroup)
+    get :clone, {:id => host.id}, set_session_user
+    assert assigns(:clone_host)
+    assert_template 'clone'
+    assert_response :success
   end
 
   def setup_user(operation, type = 'hosts', filter = nil)
@@ -749,10 +787,9 @@ class HostsControllerTest < ActionController::TestCase
 
   test "can change sti type to valid subtype" do
     class Host::Valid < Host::Managed; end
-    host = FactoryGirl.create(:host)
-    put :update, { :commit => "Update", :id => host.name, :host => {:type => "Host::Valid"} }, set_session_user
-    host = Host::Base.find(host.id)
-    assert_equal "Host::Valid", host.type
+    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, set_session_user
+    @host = Host::Base.find(@host.id)
+    assert_equal "Host::Valid", @host.type
   end
 
   test "cannot change sti type to invalid subtype" do
@@ -764,7 +801,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "blank root password submitted does not erase existing password" do
     old_root_pass = @host.root_pass
-    put :update, { :commit => "Update", :id => @host.name, :host => {:root_pass => ''} }, set_session_user
+    put :update, { :commit => "Update", :id => @host.name, :host => {:root_pass => '' } }, set_session_user
     @host = Host.find(@host.id)
     assert_equal old_root_pass, @host.root_pass
   end

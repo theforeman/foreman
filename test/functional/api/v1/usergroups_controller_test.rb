@@ -30,7 +30,7 @@ class Api::V1::UsergroupsControllerTest < ActionController::TestCase
   end
 
   test "should update usergroup" do
-    put :update, { :id => @usergroup.to_param, :usergroup => { } }
+    put :update, { :id => @usergroup.to_param, :usergroup => valid_attrs }
     assert_response :success
   end
 

@@ -31,7 +31,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
   end
 
   test "should update subnet" do
-    put :update, { :id => subnets(:one).to_param, :subnet => { } }
+    put :update, { :id => subnets(:one).to_param, :subnet => valid_attrs }
     assert_response :success
   end
 

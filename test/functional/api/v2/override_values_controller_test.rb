@@ -68,7 +68,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  [{ :value => 'xyz=10'}, { :match => 'string'}].each do |override_value|
+  [{ :value => 'xyz=10'}, { :match => 'os=string'}].each do |override_value|
     test "should not create override value without #{override_value.keys.first}" do
       lookup_key = FactoryGirl.create(:lookup_key, :puppetclass => puppetclasses(:two))
       refute lookup_key.override

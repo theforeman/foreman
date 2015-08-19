@@ -5,7 +5,7 @@ class Setting < ActiveRecord::Base
   self.inheritance_column = 'category'
 
   TYPES= %w{ integer boolean hash array string }
-  FROZEN_ATTRS = %w{ name category }
+  FROZEN_ATTRS = %w{ name category full_name }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend outofsync_interval }
   BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret }
   URI_ATTRS = %w{ foreman_url unattended_url }
@@ -24,7 +24,7 @@ class Setting < ActiveRecord::Base
     end
   end
 
-  attr_accessible :name, :value, :description, :category, :settings_type, :default
+  attr_accessible :name, :value, :description, :category, :settings_type, :default, :full_name
 
   validates_lengths_from_database
   # audit the changes to this model
@@ -159,6 +159,7 @@ class Setting < ActiveRecord::Base
 
   def self.create(opts)
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
+      column_check(opts)
       super opts.merge(:value => SETTINGS[opts[:name].to_sym] || opts[:value])
     else
       create_existing(s, opts)
@@ -167,6 +168,7 @@ class Setting < ActiveRecord::Base
 
   def self.create!(opts)
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
+      column_check(opts)
       super opts.merge(:value => SETTINGS[opts[:name].to_sym] || opts[:value])
     else
       create_existing(s, opts)
@@ -177,10 +179,12 @@ class Setting < ActiveRecord::Base
 
   def self.create_existing(s, opts)
     bypass_readonly(s) do
-      to_update = Hash[opts.select { |k,v| [:default, :description].include? k }]
+      attrs = column_check([:default, :description, :full_name])
+      to_update = Hash[opts.select { |k,v| attrs.include? k }]
       to_update.merge!(:value => SETTINGS[opts[:name].to_sym]) if SETTINGS.key?(opts[:name].to_sym)
       s.update_attributes(to_update)
       s.update_column :category, opts[:category] if s.category != opts[:category]
+      s.update_column :full_name, opts[:full_name] if !column_check([:full_name]).empty?
     end
     s
   end
@@ -249,11 +253,15 @@ class Setting < ActiveRecord::Base
     true
   end
 
-  def self.set(name, description, default, value = nil)
-    {:name => name, :value => value, :description => description, :default => default}
+  def self.set(name, description, default, full_name = nil, value = nil)
+    {:name => name, :value => value, :description => description, :default => default, :full_name => full_name}
   end
 
   def self.model_name
     ActiveModel::Name.new(Setting)
+  end
+
+  def self.column_check(opts)
+    opts.keep_if { |k, v| Setting.column_names.include?(k.to_s) }
   end
 end

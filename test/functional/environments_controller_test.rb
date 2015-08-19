@@ -85,7 +85,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 #    db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
 #    disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
     get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
-    assert_template "puppetclasses_or_envs_changed"
+    assert_template "common/_puppetclasses_or_envs_changed"
     assert_select 'input#changed_new_env1'
     post :obsolete_and_new,
       {"changed" =>
@@ -104,7 +104,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     #db_tree   of {"env1" => ["a", "b", "c", "d"], "env2" => ["a", "b", "c"]}
     #disk_tree of {"env1" => ["a", "b", "c"],      "env2" => ["a", "b", "c"]}
     get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
-    assert_template "puppetclasses_or_envs_changed"
+    assert_template "common/_puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env1[value*="d"]'
     post :obsolete_and_new,
       {"changed" =>
@@ -123,7 +123,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     #db_tree   of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
     get :import_environments, {:proxy => smart_proxies(:puppetmaster).id}, set_session_user
-    assert_template "puppetclasses_or_envs_changed"
+    assert_template "common/_puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env3'
     post :obsolete_and_new,
       {"changed" =>

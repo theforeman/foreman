@@ -4,17 +4,41 @@ module DashboardHelper
   end
 
   def dashboard_actions
-    [_("Generated at %s") % Time.zone.now.to_s(:short),
-     select_action_button(_("Manage dashboard"), {},
-                          link_to_function(_("Save dashboard"), "save_position('#{save_positions_widgets_path}')"),
-                          link_to(_("Reset to default"), reset_default_widgets_path, :method => :put),
-                          content_tag(:li,'',:class=>'divider'),
-                          content_tag(:li,_("Restore widgets"), :class=>'nav-header', :id=>'restore_list' )
-     )]
+    [
+      _("Generated at %s") % Time.zone.now.to_s(:short),
+      select_action_button(
+        _('Manage'), {},
+        link_to_function(_('Save dashboard'), "save_position('#{save_positions_widgets_path}')"),
+        link_to(_('Reset to default'), reset_default_widgets_path, :method => :put),
+        content_tag(:li, '', :class=>'divider'),
+        content_tag(:li, _("Restore widgets"), :class=>'nav-header', :id=>'restore_list'),
+        content_tag(:li, '', :class=>'divider'),
+        content_tag(:li, _("Add widgets"), :class=>'nav-header'),
+        content_tag(:li, '', :class=>'widget-add') do
+          widgets_to_add
+        end
+      ),
+      documentation_button,
+      auto_refresh_button(:defaults_to => true)
+    ]
+  end
+
+  def removed_widgets
+    Dashboard::Manager.default_widgets - User.current.widgets.map(&:to_hash)
+  end
+
+  def widgets_to_add
+    return link_to(_('Nothing to add'), '#') unless removed_widgets.present?
+    removed_widgets.each do |removed_widget|
+      concat(link_to_function(_(removed_widget[:name]),
+                              "add_widget('#{removed_widget[:name]}')"))
+    end
   end
 
   def render_widget(widget)
     render(:partial => widget.template, :locals => widget.data)
+  rescue ActionView::MissingTemplate
+    ::Foreman::Exception.new(N_("Missing template '%{template}' for widget '%{widget}'."), :widget => _(widget.name), :template => widget.template)
   end
 
   def widget_data(widget)
@@ -96,5 +120,19 @@ module DashboardHelper
       :reports_missing => "#DB843D",
       :disabled_hosts => "#92A8CD"
     }
+  end
+
+  def auto_refresh_button(options = {})
+    on = options[:defaults_to] ? "on" : "off"
+    if params[:auto_refresh].present?
+      on = params[:auto_refresh] == "0" ? "off" : "on"
+    end
+    if on == "on"
+      tooltip = _("Auto refresh on")
+    else
+      tooltip = _("Auto refresh off")
+    end
+    link = link_to(icon_text("refresh"), {:auto_refresh => (on == "on" ? "0" : "1")}, { :'data-original-title' => tooltip, :rel => 'twipsy' })
+    "<div class='btn-toolbar pull-right auto-refresh #{on}'>#{link}</div>"
   end
 end

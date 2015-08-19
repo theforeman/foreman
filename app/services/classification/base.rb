@@ -65,9 +65,7 @@ module Classification
           value = update_generic_matcher(sorted_lookup_values, options)
         end
 
-        if value.present?
-          values[key.id][key.key] = value
-        end
+        values[key.id][key.key] = value if value.present?
       end
       values
     end
@@ -146,12 +144,12 @@ module Classification
 
     def validate_lookup_value(key, value)
       lookup_value = key.lookup_values.build(:value => value)
-      return true if lookup_value.send(:validate_list) && lookup_value.send(:validate_regexp)
+      return true if lookup_value.validate_value
       raise "Invalid value '#{value}' of parameter #{key.id} '#{key.key}'"
     end
 
     def type_cast(key, value)
-      key.cast_validate_value(value)
+      Foreman::Parameters::Caster.new(key, :attribute_name => :value, :to => key.key_type, :value => value).cast
     rescue TypeError
       Rails.logger.warn "Unable to type cast #{value} to #{key.key_type}"
     end

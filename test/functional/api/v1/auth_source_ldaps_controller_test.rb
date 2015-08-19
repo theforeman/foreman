@@ -26,7 +26,7 @@ class Api::V1::AuthSourceLdapsControllerTest < ActionController::TestCase
   end
 
   test "should update auth_source_ldap" do
-    put :update, { :id => auth_sources(:one).to_param, :auth_source_ldap => { } }
+    put :update, { :id => auth_sources(:one).to_param, :auth_source_ldap => { :host => "ldap3" } }
     assert_response :success
   end
 

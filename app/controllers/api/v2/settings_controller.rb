@@ -24,7 +24,12 @@ module Api
       end
 
       def update
-        process_response (@setting.parse_string_value(params[:setting][:value]) && @setting.save)
+        value = params[:setting][:value]
+        if value.nil?
+          render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => _("No setting value provided.") }
+        else
+          process_response (@setting.parse_string_value(value) && @setting.save)
+        end
       end
     end
   end

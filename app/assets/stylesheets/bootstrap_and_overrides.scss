@@ -96,9 +96,9 @@ a {
 
 // help-inline is not defined in Bootstrap3
 .help-inline{
-  margin: 0 5px;
-  line-height: 2.428571;
+  margin: 0;
   display: inline;
+  color: #737373;
 }
 
 .well {
@@ -221,4 +221,8 @@ body.modal-open {
 // eof form-control-feedback
 .puppetca-filters {
   min-width: 150px;
+}
+
+legend {
+  margin-bottom: 10px;
 }

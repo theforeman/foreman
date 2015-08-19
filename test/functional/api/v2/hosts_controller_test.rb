@@ -142,7 +142,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should update host" do
-    put :update, { :id => @host.to_param, :host => { } }
+    put :update, { :id => @host.to_param, :host => valid_attrs }
     assert_response :success
   end
 
@@ -199,7 +199,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     disable_orchestration
     host = FactoryGirl.create(:host, :owner => users(:restricted))
     setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-    put :update, { :id => host.to_param, :host => {} }
+    put :update, { :id => host.to_param, :host => valid_attrs }
     assert_response :success
   end
 
@@ -260,7 +260,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     get :vm_compute_attributes, { :id => host.to_param }
     assert_response :success
     data = JSON.parse(@response.body)
-    assert_equal data, "cpus" => 4
+    assert_equal data, "cpus" => 4, "memory" => nil
     ComputeResource.any_instance.unstub(:vm_compute_attributes_for)
   end
 

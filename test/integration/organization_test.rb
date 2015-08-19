@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class OrganizationTest < ActionDispatch::IntegrationTest
+class OrganizationIntegrationTest < ActionDispatch::IntegrationTest
   def setup
     FactoryGirl.create(:host)
   end

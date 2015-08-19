@@ -12,9 +12,7 @@ module Classification
             key_value = value_of_key(key, values)
             klasses[klass.name][key.to_s] = key_value unless key_value.nil?
           end
-          if klasses[klass.name] == {}
-            klasses[klass.name] = nil
-          end
+          klasses[klass.name] = nil if klasses[klass.name] == {}
         else
           klasses[klass.name] = nil
         end

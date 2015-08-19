@@ -19,9 +19,14 @@
 //= require hidden_values
 //= require select_on_click
 //= require select2
+//= require underscore
 
 $(document).on('ContentLoad', function(){onContentLoad()});
 Turbolinks.enableProgressBar();
+
+$(window).bind('beforeunload', function() {
+  $(".jnotify-container").remove();
+});
 
 $(function() {
   $(document).trigger('ContentLoad');
@@ -117,10 +122,7 @@ function onContentLoad(){
   $.cookie('timezone', tz.name(), { path: '/', secure: location.protocol === 'https:' });
 
   $('.full-value').SelectOnClick();
-  $('select').select2({ allowClear: true });
-  $("#new_lookup_keys_ select").select2('destroy');
-  // Interface selects are initiated separately
-  $("#interfaces select").select2('destroy');
+  $('select:not(.without_select2)').select2({ allowClear: true });
 
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
@@ -166,11 +168,11 @@ function mark_params_override(){
     $('#inherited_parameters').find('[id^=name_]').each(function(){
       if (param_name.val() == $(this).text()){
         $(this).addClass('override-param');
-        $(this).closest('tr').find('textarea').addClass('override-param')
+        $(this).closest('tr').find('textarea').addClass('override-param');
         $(this).closest('tr').find('[data-tag=override]').hide();
       }
-    })
-  })
+    });
+  });
   $('#inherited_puppetclasses_parameters .override-param').removeClass('override-param');
   $('#inherited_puppetclasses_parameters [data-tag=override]').show();
   $('#puppetclasses_parameters').find('[data-property=class]:visible').each(function(){
@@ -208,10 +210,6 @@ $(document).ready(function() {
   $("#uncheck_all_roles").click(function(e) {
       e.preventDefault();
       $(".role_checkbox").prop('checked', false);
-  });
-
-  $('#login-form').submit(function(e){
-      $(".jnotify-container").remove();
   });
 });
 
@@ -485,4 +483,34 @@ function exit_fullscreen(){
          .resize();
   $('.exit-fullscreen').remove();
   $(window).scrollTop(element.data('position'));
+}
+
+function disableButtonToggle(item, explicit) {
+  if (explicit === undefined) {
+    explicit = true;
+  }
+  
+  item = $(item);
+  item.data('explicit', explicit);
+  var isActive = item.hasClass("active");
+  var formControl = item.closest('.input-group').find('.form-control');
+  if (!isActive) {
+    var blankValue = formControl.children("option[value='']");
+    if (blankValue.length == 0) {
+      $(item).data('no-blank', true);
+      $(formControl).append("<option value='' />");
+    }
+  } else {
+    var blankAttr = item.data('no-blank');
+    if (blankAttr == 'true') {
+      $(formControl).children("[value='']").remove();
+    }
+  }
+
+  formControl.attr('disabled', !isActive);
+  if (!isActive) {
+    $(formControl).val('');
+  }
+
+  $(item).blur();
 }

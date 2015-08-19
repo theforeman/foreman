@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
                    :length => { :maximum => 60 },
                    :allow_blank => true
   validates :mail, :presence => true, :on => :update,
-                   :if => Proc.new { |u| !AuthSourceHidden.where(:id => u.auth_source_id).any? }
+                   :if => Proc.new { |u| !AuthSourceHidden.where(:id => u.auth_source_id).any? && u.mail_was.present? }
 
   validates :locale, :format => { :with => /\A\w{2}([_-]\w{2})?\Z/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
   before_validation :normalize_locale
@@ -433,9 +433,7 @@ class User < ActiveRecord::Base
   end
 
   def normalize_locale
-    if self.respond_to?(:locale)
-      self.locale = nil if locale.empty?
-    end
+    self.locale = nil if self.respond_to?(:locale) && locale.empty?
   end
 
   def normalize_mail
@@ -520,9 +518,7 @@ class User < ActiveRecord::Base
 
   def ensure_default_role
     role = Role.find_by_name('Anonymous')
-    if role.present?
-      self.roles << role unless self.role_ids.include?(role.id)
-    end
+    self.roles << role if role.present? && !self.role_ids.include?(role.id)
   end
 
   def ensure_admin_password_changed_by_admin

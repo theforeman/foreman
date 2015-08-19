@@ -30,7 +30,7 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
   end
 
   test "should update ptable" do
-    put :update, { :id => @ptable.to_param, :ptable => { } }
+    put :update, { :id => @ptable.to_param, :ptable => valid_attrs }
     assert_response :success
   end
 

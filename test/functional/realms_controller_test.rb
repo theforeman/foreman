@@ -13,13 +13,13 @@ class RealmsControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Realm.any_instance.stubs(:valid?).returns(false)
-    post :create, {}, set_session_user
+    post :create, {:realm => {:name => nil}}, set_session_user
     assert_template 'new'
   end
 
   def test_create_valid
     Realm.any_instance.stubs(:valid?).returns(true)
-    post :create, {}, set_session_user
+    post :create, {:realm => {:name => "MyRealm"}}, set_session_user
     assert_redirected_to realms_url
   end
 
@@ -30,13 +30,15 @@ class RealmsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Realm.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Realm.first}, set_session_user
+    put :update, {:id => Realm.first.name, :realm => {:name => nil}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Realm.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Realm.first}, set_session_user
+    put :update, {:id => Realm.first.name,
+                  :realm => { :realm_proxy_id => SmartProxy.first.id } }, set_session_user
+    assert_equal SmartProxy.first.id, Realm.first.realm_proxy_id
     assert_redirected_to realms_url
   end
 

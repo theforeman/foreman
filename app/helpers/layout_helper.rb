@@ -66,7 +66,7 @@ module LayoutHelper
     text = options.delete(:help_text)
     inline = options.delete(:help_inline)
     field(f, attr, options) do
-      help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-block")
+      help_inline = inline.blank? ? '' : content_tag(:span, inline, :class => "help-inline")
       f.check_box(attr, options, checked_value, unchecked_value) + " #{text} " + help_inline.html_safe
     end
   end
@@ -113,10 +113,47 @@ module LayoutHelper
   end
 
   def select_f(f, attr, array, id, method, select_options = {}, html_options = {})
+    array = array.to_a
+    disable_button = select_options.delete(:disable_button)
+    include_blank = select_options.delete(:include_blank)
+    disable_button_enabled = select_options.delete(:disable_button_enabled)
+    user_set = !!select_options.delete(:user_set)
+
+    if include_blank
+      blank_value = include_blank.is_a?(TrueClass) ? nil : include_blank
+      blank_option = OpenStruct.new({id => '', method => blank_value })
+      array.insert(0, blank_option)
+    end
+
+    select_options[:disabled] = '' if select_options[:disabled] == include_blank
+    html_options.merge!(:disabled => true) if disable_button_enabled
+
     html_options.merge!(:size => 'col-md-10') if html_options[:multiple]
     field(f, attr, html_options) do
       addClass html_options, "form-control"
-      f.collection_select attr, array, id, method, select_options, html_options
+
+      collection_select = f.collection_select(attr, array, id, method, select_options, html_options)
+
+      if disable_button
+        button_part =
+          content_tag :span, class: 'input-group-btn' do
+            content_tag(:button, disable_button, :type => 'button', :href => '#',
+                                       :name => 'is_overridden_btn',
+                                       :onclick => "disableButtonToggle(this)",
+                                       :class => 'btn btn-default btn-can-disable' + (disable_button_enabled ? ' active' : ''),
+                                       :data => { :toggle => 'button', :explicit => user_set })
+          end
+
+        input_group collection_select, button_part
+      else
+        collection_select
+      end
+    end
+  end
+
+  def input_group(*controls)
+    content_tag :div, class: 'input-group' do
+      controls.map { |control_html| concat(control_html) }
     end
   end
 
@@ -156,26 +193,59 @@ module LayoutHelper
   end
 
   def field(f, attr, options = {})
-    error = f.object.errors[attr] if f && f.object.respond_to?(:errors)
+    table_field = options.delete(:table_field)
+    error       = f.object.errors[attr] if f && f.object.respond_to?(:errors)
     help_inline = help_inline(options.delete(:help_inline), error)
-    help_block  = content_tag(:span, options.delete(:help_block), :class => "help-block")
-    size_class = options.delete(:size) || "col-md-4"
-    content_tag(:div, :class=> "clearfix") do
-      content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
-                  :id          => options.delete(:control_group_id) do
-        required = options.delete(:required) # we don't want to use html5 required attr so we delete the option
-        required_mark = ' *' if required.nil? ? is_required?(f, attr) : required
-        label   = options[:label] == :none ? '' : options.delete(:label)
-        label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
-            s_(clazz.gettext_translation_for_attribute_name attr)) if f
-        label   = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe, :class => "col-md-2 control-label") : ''
-        fullscreen = options[:fullscreen] ? fullscreen_button("$(this).prev().find('textarea')") : ""
-        label.html_safe +
-          content_tag(:div, :class => size_class) do
-            yield.html_safe + help_block.html_safe
-          end.html_safe + fullscreen + help_inline.html_safe
+    size_class  = options.delete(:size) || "col-md-4"
+    label = add_label(options, f, attr)
+
+    if table_field
+      add_help_to_label(size_class, label, help_inline, '') do
+        yield
       end.html_safe
+    else
+      help_block = content_tag(:span, options.delete(:help_block), :class => "help-block")
+
+      content_tag(:div, :class => "clearfix") do
+        content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
+                    :id => options.delete(:control_group_id) do
+          fullscreen = options[:fullscreen] ? fullscreen_button("$(this).prev().find('textarea')") : ""
+          add_help_to_label(size_class, label, help_inline, fullscreen) do
+            yield.html_safe + help_block.html_safe
+          end
+        end.html_safe
+      end
     end
+  end
+
+  def add_help_to_label(size_class, label, help_inline, fullscreen)
+    label.html_safe +
+        content_tag(:div, :class => size_class) do
+          yield
+        end.html_safe + fullscreen + help_inline.html_safe
+  end
+
+  # The target should have class="collapse [out|in]" out means collapsed on load and in means expanded.
+  # Target must also have a unique id.
+  def collapsing_legend(title, target, collapsed = '')
+    content_tag(:legend, :class => "expander #{collapsed}", :data => {:toggle => 'collapse', :target => target}) do
+      content_tag(:span, '', :class => 'caret') + title
+    end
+  end
+
+  def check_required options, f, attr
+    required = options.delete(:required) # we don't want to use html5 required attr so we delete the option
+    return ' *' if required.nil? ? is_required?(f, attr) : required
+  end
+
+  def add_label options, f, attr
+    label_size = options.delete(:label_size) || "col-md-2"
+    required_mark = check_required(options, f, attr)
+    label = options[:label] == :none ? '' : options.delete(:label)
+    label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
+        s_(clazz.gettext_translation_for_attribute_name attr)) if f
+    label = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe, :class => label_size + " control-label") : ''
+    label
   end
 
   def is_required?(f, attr)
@@ -317,10 +387,15 @@ module LayoutHelper
     "<button type='button' class='close' data-dismiss='#{data_dismiss}' aria-hidden='true'>&times;</button>".html_safe
   end
 
-  def trunc_with_tooltip(text, length = 32)
-    text    = text.to_s
-    options = text.size > length ? { :'data-original-title' => text, :rel => 'twipsy' } : {}
-    content_tag(:span, truncate(text, :length => length), options).html_safe
+  def trunc_with_tooltip(text, length = 32, tooltip_text = "", shorten = true)
+    text = text.to_s.empty? ? tooltip_text.to_s : text.to_s
+    tooltip_text = tooltip_text.to_s.empty? ? text : tooltip_text.to_s
+    options = shorten && (text.size < length) ? {} : { :'data-original-title' => tooltip_text, :rel => 'twipsy' }
+    if shorten
+      content_tag(:span, truncate(text, :length => length), options).html_safe
+    else
+      content_tag(:span, text, options).html_safe
+    end
   end
 
   def modal_close(data_dismiss = 'modal', text = _('Close'))
@@ -339,7 +414,7 @@ module LayoutHelper
   end
 
   def fullscreen_button(element = "$(this).prev()")
-    button_tag(:type => 'button', :class => 'btn btn-default btn-sm', :onclick => "set_fullscreen(#{element})", :title => _("Full screen")) do
+    button_tag(:type => 'button', :class => 'btn btn-default btn-sm btn-fullscreen', :onclick => "set_fullscreen(#{element})", :title => _("Full screen")) do
       icon_text('resize-full')
     end
   end
@@ -347,6 +422,26 @@ module LayoutHelper
   private
 
   def authorized_associations(associations)
-    associations.included_modules.include?(Authorizable) ? associations.authorized : associations
+    if associations.included_modules.include?(Authorizable)
+      if associations.respond_to?(:klass)
+        associations.authorized(authorized_associations_permission_name(associations.klass), associations.klass)
+      else
+        associations.authorized(authorized_associations_permission_name(associations), associations)
+      end
+    else
+      associations
+    end
+  end
+
+  def authorized_associations_permission_name(klass)
+    permission = "view_#{klass.to_s.underscore.pluralize}"
+    unless Permission.where(:name => permission).present?
+      raise Foreman::Exception.new(N_('unknown permission %s'), permission)
+    end
+    permission
+  end
+
+  def table_css_classes(classes = '')
+    "table table-bordered table-striped table-condensed " + classes
   end
 end

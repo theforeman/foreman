@@ -1,11 +1,23 @@
-
-$(document).on('ContentLoad', function(){start_gridster()});
+$(document).on('ContentLoad', function(){start_gridster(); auto_refresh()});
 
 $(document).on("click",".widget_control .minimize" ,function(){ hide_widget(this);});
 $(document).on("click",".widget_control .remove" ,function(){ remove_widget(this);});
 
-function start_gridster(){
+var refresh_timeout;
+function auto_refresh(){
+  var element = $(".auto-refresh");
+  clearTimeout(refresh_timeout);
 
+  if (element[0]) {
+    refresh_timeout = setTimeout(function(){
+      if ($(".auto-refresh").hasClass("on")) {
+        Turbolinks.visit(location.toString());
+      }
+    },60000);
+  }
+}
+
+function start_gridster(){
     var gridster = $(".gridster>ul").gridster({
         widget_margins: [10, 10],
         widget_base_dimensions: [82, 340],
@@ -31,7 +43,6 @@ function hide_widget(item){
     gridster.remove_widget(widget);
     $(".gridster>ul").append(widget);
     fill_restore_list();
-
 }
 
 function remove_widget(item){
@@ -39,11 +50,12 @@ function remove_widget(item){
     var gridster = $(".gridster>ul").gridster().data('gridster');
     if (confirm(__("Are you sure you want to delete this widget from your dashboard?"))){
         $.ajax({
-            type: 'delete',
+            type: 'DELETE',
             url: $(item).data('url'),
             success: function(){
                 $.jnotify(__("Widget removed from dashboard."), 'success', false);
-               gridster.remove_widget(widget);
+                gridster.remove_widget(widget);
+                window.location.reload();
             },
             error: function(){
                 $.jnotify(__("Error removing widget from dashboard."), 'error', true);
@@ -52,18 +64,36 @@ function remove_widget(item){
     }
 }
 
+function add_widget(name){
+    $.ajax({
+        type: 'POST',
+        url: 'widgets',
+        data: {'name': name},
+        success: function(){
+            $.jnotify(__("Widget added to dashboard."), 'success', false);
+            window.location.reload();
+        },
+        error: function(){
+            $.jnotify(__("Error adding widget to dashboard."), 'error', true);
+        },
+        dataType: 'json'
+    });
+}
+
 function save_position(path){
     var positions = serialize_grid();
-    $.ajax({type: 'POST',
-            url: path,
-            data: {'widgets': positions},
-            success: function(){
-                $.jnotify(__("Widget positions successfully saved."), 'success', false);
-            },
-            error: function(){
-                $.jnotify(__("Failed to save widget positions."), 'error', true);
-            },
-            dataType: 'json'});
+    $.ajax({
+        type: 'POST',
+        url: path,
+        data: {'widgets': positions},
+        success: function(){
+            $.jnotify(__("Widget positions successfully saved."), 'success', false);
+        },
+        error: function(){
+            $.jnotify(__("Failed to save widget positions."), 'error', true);
+        },
+        dataType: 'json'
+    });
 }
 
 function serialize_grid(){
@@ -82,19 +112,20 @@ function serialize_grid(){
     return result;
 }
 
-
 function fill_restore_list(){
    $("ul>li.widget-restore").remove();
    var restore_list = [];
    var hidden_widgets = $(".gridster>ul>li[data-hide='true']");
    if (hidden_widgets.exists()){
        hidden_widgets.each(function(i, widget) {
-           restore_list.push( "<li class='widget-restore'><a href='#' onclick='show_widget(\""+$(widget).attr('data-id')+"\")'>" + $(widget).attr('data-name') + "</a></li>" );
+           restore_list.push("<li class='widget-restore'><a href='#' onclick='show_widget(\"" +
+               $(widget).attr('data-id') + "\")'>" +
+               $(widget).attr('data-name') + "</a></li>");
        });
    } else {
        restore_list.push("<li class='widget-restore'><a>" + __('Nothing to restore') + "</a></li>");
    }
-   $('#restore_list').parent('ul').append(restore_list.join(" "));
+   $('#restore_list').after(restore_list.join(" "));
 }
 
 function show_widget(id){

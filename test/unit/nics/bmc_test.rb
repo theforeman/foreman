@@ -6,6 +6,13 @@ class BMCTest < ActiveSupport::TestCase
     assert FactoryGirl.build(:nic_bmc, :host => host, :provider => 'ipmi').valid?
   end
 
+  test 'upcasing provider does not fail if provider is not present' do
+    host = FactoryGirl.build(:host, :managed)
+    assert_nothing_raised do
+      FactoryGirl.build(:nic_bmc, :host => host, :provider => nil).valid?
+    end
+  end
+
   context "no BMC smart proxy exists" do
     def setup
       SmartProxy.with_features('BMC').destroy_all

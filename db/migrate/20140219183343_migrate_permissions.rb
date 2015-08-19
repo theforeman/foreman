@@ -243,12 +243,8 @@ class MigratePermissions < ActiveRecord::Migration
     end
 
     # taxonomies
-    if SETTINGS[:organizations_enabled]
-      orgs = user.organizations
-    end
-    if SETTINGS[:locations_enabled]
-      locs = user.locations
-    end
+    orgs = user.organizations if SETTINGS[:organizations_enabled]
+    locs = user.locations     if SETTINGS[:locations_enabled]
 
     [ search, orgs, locs ]
   end

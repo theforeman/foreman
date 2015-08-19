@@ -231,9 +231,7 @@ module Nic
 
     def sync_name
       synchronizer = NameSynchronizer.new(self)
-      if synchronizer.sync_required?
-        synchronizer.sync_name
-      end
+      synchronizer.sync_name if synchronizer.sync_required?
     end
 
     def validate_host_location

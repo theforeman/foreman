@@ -28,10 +28,9 @@ class ApplicationController < ActionController::Base
   cache_sweeper :topbar_sweeper
 
   def welcome
-    @searchbar = true
-    klass = controller_name == "dashboard" ? "Host" : controller_name.camelize.singularize
+    klass = controller_name.camelize.singularize
     if (klass.constantize.first.nil? rescue false)
-      @searchbar = false
+      @welcome = true
       render :welcome rescue nil and return
     end
   rescue
@@ -145,9 +144,11 @@ class ApplicationController < ActionController::Base
 
   # not all models includes Authorizable so we detect whether we should apply authorized scope or not
   def resource_base
-    @resource_base ||= model_of_controller.respond_to?(:authorized) ?
-        model_of_controller.authorized(current_permission) :
-        model_of_controller.scoped
+    @resource_base ||= if model_of_controller.respond_to?(:authorized)
+                         model_of_controller.authorized(current_permission)
+                       else
+                         model_of_controller.scoped
+                       end
   end
 
   def notice(notice)

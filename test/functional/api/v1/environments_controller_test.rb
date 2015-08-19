@@ -26,7 +26,7 @@ class Api::V1::EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should update environment" do
-    put :update, { :id => environments(:production).to_param, :environment => { } }
+    put :update, { :id => environments(:production).to_param, :environment => development_environment }
     assert_response :success
   end
 

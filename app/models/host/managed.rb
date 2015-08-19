@@ -39,6 +39,11 @@ class Host::Managed < Host::Base
   before_save :clear_puppetinfo, :if => :environment_id_changed?
   after_save :update_hostgroups_puppetclasses, :if => :hostgroup_id_changed?
 
+  def initialize(attributes = nil, options = {})
+    attributes = apply_inherited_attributes(attributes, false)
+    super(attributes, options)
+  end
+
   def build_hooks
     return unless respond_to?(:old) && old && (build? != old.build?)
     if build?
@@ -60,7 +65,8 @@ class Host::Managed < Host::Base
       :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method,
       :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent, :primary_interface,
       :provision_interface, :interfaces, :bond_interfaces, :interfaces_with_identifier, :managed_interfaces, :facts, :facts_hash, :root_pass,
-      :sp_name, :sp_ip, :sp_mac, :sp_subnet
+      :sp_name, :sp_ip, :sp_mac, :sp_subnet, :use_image,
+      :multiboot, :jumpstart_path, :install_path, :miniroot
   end
 
   attr_reader :cached_host_params
@@ -552,13 +558,49 @@ class Host::Managed < Host::Base
     operatingsystem.family == "Solaris" and architecture.name =~/Sparc/i rescue false
   end
 
+  def hostgroup_inherited_attributes
+    %w{puppet_proxy_id puppet_ca_proxy_id environment_id compute_profile_id realm_id}
+  end
+
+  def apply_inherited_attributes(attributes, initialized = true)
+    return nil unless attributes
+    #don't change the source to minimize side effects.
+    attributes = hash_clone(attributes)
+
+    new_hostgroup_id = attributes['hostgroup_id'] || attributes['hostgroup_name']
+    #hostgroup didn't change, no inheritance needs update.
+    return attributes if new_hostgroup_id.blank?
+
+    new_hostgroup = self.hostgroup if initialized
+    unless [new_hostgroup.try(:id), new_hostgroup.try(:friendly_id)].include? new_hostgroup_id
+      new_hostgroup = Hostgroup.find(new_hostgroup_id)
+    end
+    return attributes unless new_hostgroup
+
+    inherited_attributes = hostgroup_inherited_attributes - attributes.keys
+
+    inherited_attributes.each do |attribute|
+      value = new_hostgroup.send("inherited_#{attribute}")
+      attributes[attribute] = value
+    end
+
+    attributes
+  end
+
+  def hash_clone(value)
+    if value.is_a? Hash
+      hash_type = value.class
+      return hash_type[value.map{ |k, v| [k, hash_clone(v)] }]
+    end
+
+    value
+  end
+
   def set_hostgroup_defaults
     return unless hostgroup
-    assign_hostgroup_attributes(%w{environment_id domain_id compute_profile_id})
-    assign_hostgroup_attributes(["puppet_proxy_id"]) if new_record? || (!new_record? && !puppet_proxy_id.blank?)
-    assign_hostgroup_attributes(["puppet_ca_proxy_id"]) if new_record? || (!new_record? && !puppet_ca_proxy_id.blank?)
+    assign_hostgroup_attributes(%w{domain_id compute_profile_id})
     if SETTINGS[:unattended] and (new_record? or managed?)
-      assign_hostgroup_attributes(%w{operatingsystem_id architecture_id realm_id})
+      assign_hostgroup_attributes(%w{operatingsystem_id architecture_id})
       assign_hostgroup_attributes(%w{medium_id ptable_id subnet_id}) if pxe_build?
     end
   end

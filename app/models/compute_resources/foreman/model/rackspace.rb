@@ -16,7 +16,7 @@ module Foreman::Model
     end
 
     def find_vm_by_uuid(uuid)
-      client.servers.get(uuid)
+      super
     rescue Fog::Compute::Rackspace::Error
       raise(ActiveRecord::RecordNotFound)
     end
@@ -80,9 +80,7 @@ module Foreman::Model
     end
 
     def ensure_valid_region
-      unless regions.include?(region.upcase)
-        errors.add(:region, 'is not valid')
-      end
+      errors.add(:region, 'is not valid') unless regions.include?(region.upcase)
     end
 
     def associated_host(vm)

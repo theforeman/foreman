@@ -113,11 +113,6 @@ Style/AccessModifierIndentation:
 Style/AccessorMethodName:
   Enabled: false
 
-# Offense count: 28
-# Cop supports --auto-correct.
-Style/AlignArray:
-  Enabled: false
-
 # Offense count: 317
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle, SupportedLastArgumentHashStyles.
@@ -210,11 +205,6 @@ Style/FormatString:
 Style/GuardClause:
   Enabled: false
 
-# Offense count: 18
-# Configuration parameters: MaxLineLength.
-Style/IfUnlessModifier:
-  Enabled: false
-
 # Offense count: 91
 Style/Lambda:
   Enabled: false
@@ -254,10 +244,6 @@ Style/MultilineBlockLayout:
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 Style/MultilineOperationIndentation:
-  Enabled: false
-
-# Offense count: 6
-Style/MultilineTernaryOperator:
   Enabled: false
 
 # Offense count: 6

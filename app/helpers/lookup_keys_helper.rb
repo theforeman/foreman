@@ -48,7 +48,7 @@ module LookupKeysHelper
   def param_type_selector(f, options = {})
     selectable_f f, :key_type, options_for_select(LookupKey::KEY_TYPES.map { |e| [_(e),e] }, f.object.key_type),{},
                  options.merge({ :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
-                 :help_block => popover(_("Parameter types"),_("<dl>" +
+                 :help_inline => popover("",_("<dl>" +
                "<dt>String</dt> <dd>Everything is taken as a string.</dd>" +
                "<dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd>" +
                "<dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd>" +
@@ -64,7 +64,7 @@ module LookupKeysHelper
     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e),e]  }, f.object.validator_type),{:include_blank => _("None")},
                { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
                  :onchange => 'validatorTypeSelected(this)',
-                 :help_block => popover(_("Validator type"),_("<dl>" +
+                 :help_inline => popover("",_("<dl>" +
                "<dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>" +
                "<dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd>" +
                "</dl>"), :title => _("Validation types")).html_safe}

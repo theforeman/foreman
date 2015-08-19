@@ -7,9 +7,7 @@ class HostObserver < ActiveRecord::Observer
   def after_validation(host)
     return unless SETTINGS[:unattended]
     # new server in build mode
-    if host.new_record? and host.build?
-      host.set_token
-    end
+    host.set_token if host.new_record? && host.build?
     # existing server change build mode
     if host.respond_to?(:old) and host.old and host.build? != host.old.build?
       host.build? ? host.set_token : host.expire_token

@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class TopBarTest < ActionDispatch::IntegrationTest
+class TopBarIntegrationTest < ActionDispatch::IntegrationTest
   def setup
     FactoryGirl.create(:fact_value, :value => '2.6.9',:host => FactoryGirl.create(:host),
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+                       :fact_name => FactoryGirl.create(:fact_name) )
   end
 
   test "top bar links" do

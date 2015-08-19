@@ -26,7 +26,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
   end
 
   test "should not create invalid" do
-    post :create
+    post :create, {:provisioning_template => {:name => "no"}}
     assert_response 422
   end
 

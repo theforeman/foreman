@@ -101,10 +101,11 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def test_set_method_prepares_attrs_for_creation
-    options = Setting.set "test_attr", "some_description", "default_value", "my_value"
+    options = Setting.set "test_attr", "some_description", "default_value", "full_name","my_value"
     assert_equal "test_attr", options[:name]
     assert_equal "some_description", options[:description]
     assert_equal "default_value", options[:default]
+    assert_equal "full_name", options[:full_name]
     assert_equal "my_value", options[:value]
   end
 
@@ -112,7 +113,7 @@ class SettingTest < ActiveSupport::TestCase
     options = Setting.set "test_attr", "some_description", "default_value"
     refute options[:value]
 
-    options = Setting.set "test_attr", "some_description", "default_value", "my_value"
+    options = Setting.set "test_attr", "some_description", "default_value", "full_name", "my_value"
     assert_equal "my_value", options[:value]
   end
 

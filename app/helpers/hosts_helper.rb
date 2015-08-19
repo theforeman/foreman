@@ -113,7 +113,7 @@ module HostsHelper
   end
 
   def days_ago(time)
-    ((Time.zone.now - time) / 1.day).round.to_i
+    ((Time.zone.now - time) / 1.day).ceil.to_i
   end
 
   def authorized?
@@ -442,5 +442,12 @@ module HostsHelper
         link_to_if_authorized(_("Edit"), hash_for_edit_provisioning_template_path(:id => id).merge(:auth_object => id),
                               :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type) )
     end
+  end
+
+  def inherited_by_default?(field, host)
+    return false unless host.hostgroup && host.hostgroup_id_was.nil?
+    return false if params[:action] == 'clone'
+    return true unless params[:host]
+    !params[:host][field]
   end
 end

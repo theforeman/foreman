@@ -18,9 +18,7 @@ module ActiveSupport
           value.nested_under_indifferent_access
         end
       elsif value.is_a?(Array)
-        unless options[:for] == :assignment
-          value = value.dup
-        end
+        value = value.dup unless options[:for] == :assignment
         value.map! { |e| deep_convert_value(e, options) }
       else
         value

@@ -63,9 +63,7 @@ module Taxonomix
     # default scope is not called if we just use #scoped therefore we have to enforce quering
     # to get correct default values
     def enforce_default
-      if which_ancestry_method.nil?
-        self.scoped.limit(0).all
-      end
+      self.scoped.limit(0).all unless which_ancestry_method.present?
     end
 
     def taxable_ids(loc = which_location, org = which_organization, inner_method = which_ancestry_method)
@@ -181,7 +179,7 @@ module Taxonomix
 
       next if (User.current.nil? || User.current.send("#{assoc}").empty?) || (!new_record? && !self.send("#{key}_changed?"))
 
-      allowed = taxonomy.authorized("assign_#{assoc}", taxonomy).pluck(:id).to_set
+      allowed = taxonomy.authorized("assign_#{assoc}", taxonomy).pluck(:id).to_set.union(self.send("#{key}_was"))
       tried = self.send(key).to_set
 
       if tried.empty? || !tried.subset?(allowed)

@@ -40,11 +40,15 @@
 
         <%= select_f f, :hostgroup_id, accessible_hostgroups, :id, :to_label,
           { :include_blank => true},
-          { :onchange => 'hostgroup_changed(this);', :'data-host-id' => @host.id,
-            :'data-url' => (@host.new_record? || @host.type_changed?) ? process_hostgroup_hosts_path : hostgroup_or_environment_selected_hosts_path,
+          { :onchange => 'hostgroup_changed(this);',
+            :data => {
+              :'host-id' => @host.id,
+              :'url' => (@host.new_record? || @host.type_changed?) ? process_hostgroup_hosts_path : hostgroup_or_environment_selected_hosts_path,
+              :'had-hostgroup' => !!@host.hostgroup_id_was
+            },
             :help_inline => :indicator } %>
 
-        <%= select_f f, :compute_resource_id, ComputeResource.with_taxonomy_scope_override(@location,@organization).authorized(:view_compute_resources).order(:name), :id, :to_label,
+        <%= select_f f, :compute_resource_id, ComputeResource.with_taxonomy_scope_override(@location,@organization).authorized(:view_compute_resources).order('compute_resources.name'), :id, :to_label,
           { :include_blank => _('Bare Metal') },
           {:label => _('Deploy on'), :disabled => !@host.new_record?, :'data-url' => compute_resource_selected_hosts_path,
             :onchange => 'computeResourceSelected(this);',
@@ -55,20 +59,27 @@
          be different from the defaults, or the defaults could have changed after the vm was created. %>
         <div id="compute_profile" <%= display?(!@host.compute_resource_id) %> >
           <%= select_f f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
-            { :include_blank => true },
+            { :disable_button => _(HostsAndHostgroupsHelper::INHERIT_TEXT),
+              :disable_button_enabled => inherited_by_default?(:compute_profile_id, @host),
+              :user_set => params[:host] && params[:host][:compute_profile_id]
+            },
             { :label => _("Compute profile"), :'data-url' => compute_resource_selected_hosts_path,
               :onchange => 'computeResourceSelected(this);',
               :help_inline => :indicator } if SETTINGS[:unattended] %>
         </div>
         <% end %>
 
-        <%= select_f f, :environment_id, Environment.with_taxonomy_scope_override(@location,@organization).order(:name), :id, :to_label, { :include_blank => true },
-            {:onchange => 'update_puppetclasses(this)', :'data-url' => hostgroup_or_environment_selected_hosts_path,
+        <%= select_f f, :environment_id, Environment.with_taxonomy_scope_override(@location,@organization).order(:name), :id, :to_label, { :include_blank => true,
+             :disable_button => _(HostsAndHostgroupsHelper::INHERIT_TEXT),
+             :disable_button_enabled => inherited_by_default?(:environment_id, @host),
+             :user_set => params[:host] && params[:host][:environment_id]
+           },
+           {:onchange => 'update_puppetclasses(this)', :'data-url' => hostgroup_or_environment_selected_hosts_path,
             :'data-host-id' => @host.id, :help_inline => :indicator} %>
 
-        <%= puppet_master_fields f %>
+        <%= puppet_master_fields f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
 
-        <%= realm_field f %>
+        <%= realm_field f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
 
       </div>
 
