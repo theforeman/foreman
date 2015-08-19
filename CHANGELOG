@@ -1,3 +1,19 @@
+2015-08-19	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.8.3
+
+2015-08-18	Dominic Cleal <dcleal@redhat.com>
+	* refs #10867 - bool cast compatibility with 1.8
+
+2015-08-18	Ori Rabin <orabin@redhat.com>
+	* Fixes #10915 - Deleting a host removes all host specific overrides
+
+2015-08-18	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10867 - OpenStack boot_from_volume is true only when checked
+
+2015-08-18	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10607 - match bonds based on identifier only
+	* Fixes #10888 - skip attached_to updates if identifier was blank
+
 2015-06-15	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.8.2
 	* i18n - extracting new, updating rails, pulling from tx
