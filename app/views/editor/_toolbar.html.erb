@@ -1,0 +1,26 @@
+<div class="navbar navbar-form navbar-full-width">
+    <div class="btn-group" data-toggle="buttons" >
+      <label class="btn btn-default btn-sm active" onclick="set_code()">
+        <input type="radio" name="options" id="option1" ><%= _("Input") %>
+      </label>
+      <label class="btn btn-default btn-sm" onclick="set_preview()">
+        <input type="radio" name="options" id="option2" ><%= _("Diff") %>
+      </label>
+      <% if show_preview %>
+        <label class="btn btn-default btn-sm" onclick="set_render()">
+          <input type="radio" name="options" id="option3" ><%= _("Preview") %>
+        </label>
+      <% end %>
+    </div>
+    <%= fullscreen_button("$('.editor')") %>
+
+    <ul class="nav navbar-nav navbar-right navbar-editor">
+      <li>
+        <%= select_tag('mode', content_tag(:optgroup, options_for_select(['text', 'json', 'ruby', 'sh', 'xml', 'yaml']), :label => _('Syntax Highlighting')), :class => 'form-control input-sm without_select2') %>
+      </li>
+
+      <li>
+        <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'form-control input-sm without_select2') %>
+      </li>
+    </ul>
+</div>

@@ -20,6 +20,7 @@
 //= require select_on_click
 //= require select2
 //= require underscore
+//= require editor
 
 $(document).on('ContentLoad', function(){onContentLoad()});
 Turbolinks.enableProgressBar();
