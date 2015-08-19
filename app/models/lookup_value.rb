@@ -14,7 +14,6 @@ class LookupValue < ActiveRecord::Base
   validate :validate_list, :validate_regexp, :ensure_fqdn_exists, :ensure_hostgroup_exists
 
   attr_accessor :host_or_hostgroup
-  attr_writer :managed_id, :hostgroup_id
 
   serialize :value
   attr_name :match
