@@ -9,9 +9,8 @@ die() {
 
 cd ~foreman || die "Cannot change to foreman home directory"
 [ -f Gemfile ] && BUNDLER_CMD="bundle exec"
-CMD="$BUNDLER_CMD $RAKE_CMD $*"
 if [ $USERNAME = foreman ]; then
-  RAILS_ENV=production $CMD
+  RAILS_ENV=production $BUNDLER_CMD $RAKE_CMD "$@"
 else
-  su - foreman -s /bin/bash -c "RAILS_ENV=production $CMD"
+  sudo -u foreman RAILS_ENV=production -- $BUNDLER_CMD $RAKE_CMD "$@"
 fi
