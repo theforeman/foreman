@@ -3,13 +3,13 @@ class AddLookupValueMatchToHostAndHostgroup < ActiveRecord::Migration
     add_column :hosts, :lookup_value_matcher, :string
     add_column :hostgroups, :lookup_value_matcher, :string
 
-    Host::Managed.where(:type => 'Host::Managed').find_in_batches(:batch_size => 100).each do |group|
+    Host::Managed.where(:type => 'Host::Managed').find_in_batches(:batch_size => 100) do |group|
       group.each do |host|
         host.update_attribute(:lookup_value_matcher, host.send(:lookup_value_match))
       end
     end
 
-    Hostgroup.find_in_batches(:batch_size => 100).each do |group|
+    Hostgroup.find_in_batches(:batch_size => 100) do |group|
       group.each do |hostgroup|
         hostgroup.update_attribute(:lookup_value_matcher, hostgroup.send(:lookup_value_match))
       end

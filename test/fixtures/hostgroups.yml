@@ -17,6 +17,7 @@ unusual:
   name: Unusual
   puppet_proxy: puppetmaster
   title: Unusual
+  lookup_value_matcher: hostgroup=Unusual
 
 db:
   name: db
@@ -26,6 +27,7 @@ db:
   medium: one
   puppet_proxy: puppetmaster
   title: db
+  lookup_value_matcher: hostgroup=db
 
 parent:
   name: Parent
@@ -40,9 +42,11 @@ parent:
   subnet: three
   compute_profile: one
   id: 1
+  lookup_value_matcher: hostgroup=Parent
 
 inherited:
   name: inherited
   environment: production
   title: Parent/inherited
   ancestry: 1
+  lookup_value_matcher: hostgroup=inherited

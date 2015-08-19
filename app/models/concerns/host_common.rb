@@ -64,6 +64,10 @@ module HostCommon
     self.lookup_value_matcher = lookup_value_match
   end
 
+  def set_lookup_value_matcher
+    self.lookup_value_matcher = lookup_value_match
+  end
+
   # Returns a url pointing to boot file
   def url_for_boot(file)
     "#{os.medium_uri(self)}/#{os.url_for_boot(file)}"
