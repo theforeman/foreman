@@ -93,7 +93,7 @@ function create_editor(item) {
   Editor.renderer.setShowGutter(false);
   $(document).on('resize','#editor1', function(){Editor.resize()});
   if (item.is(':disabled')) {
-    $('.ace_text-input').attr('disabled', true)
+    Editor.setReadOnly(true);
   }
 }
 
@@ -130,7 +130,9 @@ function set_render() {
 function set_edit_mode(item){
   if( Editor == undefined) return;
   Editor.setTheme("ace/theme/twilight");
-  Editor.setReadOnly(false);
+  if (!item.is(':disabled')) {
+    Editor.setReadOnly(false);
+  }
   var session = Editor.getSession();
   session.setMode("ace/mode/ruby");
 
