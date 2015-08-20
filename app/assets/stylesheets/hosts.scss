@@ -36,3 +36,30 @@
     }
   }
 }
+
+.lookup_key_row {
+  &.overridden {
+    display: none;
+  }
+}
+
+.lookup_key_override_row {
+  display: none;
+  background: #eee;
+  &.visible {
+    display: table-row;
+  }
+  .overriding-value {
+    width: 75%;
+  }
+  label {
+    font-weight: normal;
+  }
+  .btn-sm {
+    margin-top: -4px;
+  }
+}
+
+.push-down {
+  margin-bottom: 10px;
+}

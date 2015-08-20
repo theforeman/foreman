@@ -74,16 +74,24 @@ module LookupKeysHelper
     klass.class_params.override.where(:environment_classes => {:environment_id => host.environment}) + klass.lookup_keys
   end
 
+  def value_tag(key, original_value, text_area_class)
+    if key.hidden?
+      row_count = original_value.to_s.lines.count rescue 1
+      password_field_tag("value_#{key.key}", original_value, :class => text_area_class, :'data-property' => 'value', :disabled => true)
+    else
+      text_area_tag("value_#{key.key}", original_value, :rows => (row_count == 0 ? 1 : row_count),
+        :class => text_area_class, :'data-property' => 'value', :disabled => true)
+    end
+  end
+
   def hostgroup_key_with_diagnostic(hostgroup, key)
     value, origin = hostgroup.inherited_lookup_value key
     original_value = key.value_before_type_cast value
-    diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => origin})
+    @diagnostic_helper = popover(_(""), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => origin})
     content_tag :div, :class => ['form-group', 'condensed'] do
-      row_count = original_value.to_s.lines.count rescue 1
-      text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
-                    :class => ['col-md-6'], :'data-property' => 'value', :disabled => true) +
+      value_tag(key, original_value, ['col-md-6']) +
         fullscreen_button +
-        content_tag(:span, :class => "help-inline") { diagnostic_helper }
+        content_tag(:span, :class => "help-inline") { @diagnostic_helper }
     end
   end
 
@@ -94,25 +102,24 @@ module LookupKeysHelper
     no_value = value.nil? && key.lookup_values.find_by_match("fqdn=#{host.fqdn}")
 
     diagnostic_class = []
-    diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => matcher})
+    @diagnostic_helper = popover(_(""), _("<b>Original value:</b> %{original_value}<br/><b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => matcher, :original_value => value})
     if no_value
       if key.required
         diagnostic_class << 'error'
-        diagnostic_helper = popover(_('No value error'), _("Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s") % key.description)
+        @diagnostic_helper = popover(_(''), _("<b>Original value:</b> %{original_value}<br/>Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %{description}") % { :description => key.description, :original_value => value })
       else
         diagnostic_class << 'warning'
-        diagnostic_helper = popover(_('No value warning'), _("Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i> <br><br><b>Description:</b> %s") % key.description)
+        @diagnostic_helper = popover(_(''), _("<b>Original value:</b> %{original_value}<br/>Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i> <br><br><b>Description:</b> %{description}") % { :description => key.description, :original_value => value })
       end
     end
 
     text_area_class = ['col-md-6']
     text_area_class << "override-param" if key.overridden?(host)
+
     content_tag :div, :class => ['form-group', 'condensed'] + diagnostic_class do
-      row_count = original_value.to_s.lines.count rescue 1
-      text_area_tag("value_#{key.key}", original_value, :rows => (row_count == 0 ? 1 : row_count),
-                    :class => text_area_class, :'data-property' => 'value', :disabled => true) +
+      value_tag(key, original_value, text_area_class) +
         fullscreen_button +
-        content_tag(:span, :class => "help-inline") { diagnostic_helper }
+        content_tag(:span, :class => "help-inline") { @diagnostic_helper }
     end
   end
 end

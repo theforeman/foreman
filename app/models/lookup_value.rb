@@ -8,7 +8,7 @@ class LookupValue < ActiveRecord::Base
   belongs_to :lookup_key, :counter_cache => true
   validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX
   validate :value_present?
-  delegate :key, :to => :lookup_key
+  delegate :key, :hidden?, :to => :lookup_key
   before_validation :sanitize_match
 
   before_validation :validate_and_cast_value, :unless => Proc.new{|p| p.use_puppet_default }
@@ -25,6 +25,10 @@ class LookupValue < ActiveRecord::Base
   scoped_search :on => :value, :complete_value => true, :default_order => true
   scoped_search :on => :match, :complete_value => true
   scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
+
+  def hidden=(val)
+    lookup_key.update_attribute(:hidden, val)
+  end
 
   def value_present?
     self.errors.add(:value, :blank) if value.nil?

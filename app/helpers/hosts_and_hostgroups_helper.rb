@@ -107,7 +107,13 @@ module HostsAndHostgroupsHelper
     class_vars = LookupKey.reorder('').joins(:environment_classes).where(:environment_classes => { :puppetclass_id => classes_ids }).uniq.pluck('environment_classes.puppetclass_id')
     klasses    = (smart_vars + class_vars).uniq
 
-    classes.where(:id => klasses)
+    interesting_classes = classes.where(:id => klasses).map do |klass|
+      {
+        :klass => klass,
+        :keys => overridable_lookup_keys(klass, obj)
+      }
+    end
+    interesting_classes.reject{|klass| klass[:keys].blank?}
   end
 
   def explicit_value?(field)

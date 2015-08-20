@@ -9,7 +9,7 @@
       <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
       <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
     <% end %>
-    <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hostgroups_path %>' data-url2='<%= puppetclass_parameters_hostgroups_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+    <li><a href="#params" id='params-tab' data-url='<%= puppetclass_parameters_hostgroups_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
     <% end %>
@@ -65,19 +65,7 @@
     </div>
 
     <div class="tab-pane" id="params">
-      <h4><%= _('Puppet classes parameters') %></h4>
-      <p/>
-      <%= render "puppetclasses/classes_parameters", { :obj => @hostgroup } %>
-      <p/>
-      <%= render "common_parameters/puppetclasses_parameters", :f => f %>
-      <p/>
-      <h4><%= _('Host group parameters') %></h4>
-      <p/>
-      <% if @hostgroup.parent.present? %>
-          <%= render "common_parameters/parent_parameter", :f => f %>
-      <% end %>
-      <p/>
-      <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
+      <%= render "puppetclasses/classes_parameters", { :obj => @hostgroup, :f => f } %>
     </div>
 
     <%= render "taxonomies/loc_org_tabs", :f => f, :obj => @hostgroup %>

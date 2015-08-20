@@ -168,7 +168,13 @@ class LookupKey < ActiveRecord::Base
 
   def overridden?(host)
     return false unless host.is_a?(Host::Base) || host.is_a?(Hostgroup)
-    lookup_values.find_by_match(host.send(:lookup_value_match)).present?
+    overriding_value(host).present?
+  end
+
+  def overriding_value(host)
+    return nil unless host.is_a?(Host::Base) || host.is_a?(Hostgroup)
+    @overriding_values ||= {}
+    @overriding_values[host] = lookup_values.find_by_match(host.send(:lookup_value_match))
   end
 
   private

@@ -1,0 +1,26 @@
+<% @interesting_klasses = interesting_klasses(obj) %>
+
+<div class="tab-pane" id="params">
+  <div class="tab-content">
+    <ul class="nav nav-pills push-down" data-tabs="tabs">
+      <li class="<%="active" if @interesting_klasses.present?%>"><a href="#puppet_parameters" data-toggle="tab"><%= _('Class Parameters') %></a></li>
+      <li class="<%="active" if @interesting_klasses.blank?%>"><a href="#global_parameters" data-toggle="tab"><%= _('Global Parameters') %></a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane <%="active" if @interesting_klasses.present?%>" id="puppet_parameters">
+        <%= render "puppetclasses/classes_parameters", { :obj => obj } %>
+      </div>
+
+      <div class="tab-pane <%="active" if @interesting_klasses.blank?%>" id="global_parameters">
+        <h4><%= _('Included Parameters via inheritance') %></h4>
+        <%= render "common_parameters/inherited_parameters", { :inherited_parameters => inherited_parameters } %>
+        <p></p>
+
+        <h4><%= _('Host Parameters') %></h4>
+
+        <p></p>
+        <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -49,7 +49,7 @@ class PuppetclassesController < ApplicationController
     puppetclass = Puppetclass.find(params[:id])
     render :partial => "puppetclasses/class_parameters",
            :locals => { :puppetclass => puppetclass,
-                        :obj         => get_host_or_hostgroup }
+                        :obj         => get_host_or_hostgroup, :active => false }
   end
 
   private

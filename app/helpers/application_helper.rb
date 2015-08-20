@@ -32,6 +32,14 @@ module ApplicationHelper
     end
   end
 
+  def resource_name
+    controller_name.singularize
+  end
+
+  def set_f_for(obj)
+    form_for(obj) {|form| return form }
+  end
+
   protected
 
   def contract(model)
