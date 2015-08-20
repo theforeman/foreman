@@ -113,7 +113,7 @@ module LayoutHelper
   end
 
   def select_f(f, attr, array, id, method, select_options = {}, html_options = {})
-    array = array.to_a
+    array = array.to_a.dup
     disable_button = select_options.delete(:disable_button)
     include_blank = select_options.delete(:include_blank)
     disable_button_enabled = select_options.delete(:disable_button_enabled)
