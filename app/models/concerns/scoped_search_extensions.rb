@@ -14,7 +14,7 @@ module ScopedSearchExtensions
       # Once Postgresql 8 support is removed (used in CentOS 6), this could be replaced to only keep the first form (working well with PG 9)
       if (is_int && !is_pg)
         casted = "CAST(fact_values.value AS DECIMAL) #{operator} #{value}"
-      elsif (is_int && is_pg)
+      elsif (is_int && is_pg && operator !~ /LIKE/i)
         casted = "fact_values.value ~ E'^\\\\d+$' AND CAST(fact_values.value AS DECIMAL) #{operator} #{value}"
       else
         casted = "fact_values.value #{operator} '#{value}'"
