@@ -426,7 +426,8 @@ module Host
     def uniq_interfaces_identifiers
       success = true
       identifiers = []
-      self.interfaces.each do |interface|
+      relevant_interfaces = self.interfaces.select { |i| !i.marked_for_destruction? }
+      relevant_interfaces.each do |interface|
         next if interface.identifier.blank?
         if identifiers.include?(interface.identifier)
           interface.errors.add :identifier, :taken
