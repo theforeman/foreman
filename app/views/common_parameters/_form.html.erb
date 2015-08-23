@@ -10,6 +10,6 @@
                       :fullscreen => :true,
                       :placeholder => _("Value")) %>
   <% end %>
-  <%= checkbox_f f, :hidden_value, :class => 'hidden_value_textarea_switch', :checked => f.object.hidden_value? %>
+  <%= checkbox_f f, :hidden_value, :class => 'hidden_value_textarea_switch', :onchange => 'turn_textarea_switch(this)', :checked => f.object.hidden_value? %>
   <%= submit_or_cancel f %>
 <% end %>
