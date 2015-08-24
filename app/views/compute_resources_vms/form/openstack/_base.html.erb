@@ -4,6 +4,7 @@
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)
 %>
+<%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")}, :label => _('Availability zone') %>
 <div id='image_selection'>
   <%= select_f f, :image_ref, images, :uuid, :name,
                { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
