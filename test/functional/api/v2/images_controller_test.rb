@@ -32,7 +32,7 @@ class Api::V2::ImagesControllerTest < ActionController::TestCase
   end
 
   test "should update image" do
-    Foreman::Model::EC2.any_instance.expects(:image_exists?).returns(true)
+    Foreman::Model::EC2.any_instance.stubs(:image_exists?).returns(true)
     put :update, { :compute_resource_id => images(:two).compute_resource_id, :id => images(:one).to_param, :image => valid_attrs }
     assert_response :success
   end
