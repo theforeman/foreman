@@ -156,6 +156,7 @@ a {
  .popover-content {
     max-height: 200px;
     overflow-y: auto;
+    color: #737373;
   }
 }
 
@@ -234,6 +235,9 @@ legend {
   margin-bottom: 10px;
 }
 
-textarea.no-stretch {
-  resize: vertical;
+textarea {
+  overflow-x: hidden; /* fix for FF adding an extra row to textareas */
+  &.no-stretch {
+    resize: vertical;
+  }
 }

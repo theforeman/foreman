@@ -200,7 +200,7 @@ module LayoutHelper
     label = add_label(options, f, attr)
 
     if table_field
-      add_help_to_label(size_class, label, help_inline, '') do
+      add_help_to_label(size_class, label, help_inline) do
         yield
       end.html_safe
     else
@@ -209,20 +209,24 @@ module LayoutHelper
       content_tag(:div, :class => "clearfix") do
         content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
                     :id => options.delete(:control_group_id) do
-          fullscreen = options[:fullscreen] ? fullscreen_button("$(this).prev().find('textarea')") : ""
-          add_help_to_label(size_class, label, help_inline, fullscreen) do
-            yield.html_safe + help_block.html_safe
+          input = if options[:fullscreen]
+                    content_tag(:div, yield.html_safe + fullscreen_input, :class => "input-group")
+                  else
+                    yield.html_safe
+                  end
+          add_help_to_label(size_class, label, help_inline) do
+            input + help_block.html_safe
           end
         end.html_safe
       end
     end
   end
 
-  def add_help_to_label(size_class, label, help_inline, fullscreen)
+  def add_help_to_label(size_class, label, help_inline)
     label.html_safe +
         content_tag(:div, :class => size_class) do
           yield
-        end.html_safe + fullscreen + help_inline.html_safe
+        end.html_safe + help_inline.html_safe
   end
 
   # The target should have class="collapse [out|in]" out means collapsed on load and in means expanded.
@@ -308,14 +312,15 @@ module LayoutHelper
   end
 
   def popover(title, msg, options = {})
-    content_tag(:a, icon_text("info-sign", title), { :rel => "popover",
-                                                     :data => { :content => msg,
-                                                                :"original-title" => title,
-                                                                :trigger => "focus",
-                                                                :container => 'body',
-                                                                :html => true },
-                                                     :role => 'button',
-                                                     :tabindex => '-1' }.merge(options))
+    options[:icon] ||= 'info-sign'
+    content_tag(:a, icon_text(options[:icon], title), { :rel => "popover",
+                                                        :data => { :content => msg,
+                                                                   :"original-title" => title,
+                                                                   :trigger => "focus",
+                                                                   :container => 'body',
+                                                                   :html => true },
+                                                        :role => 'button',
+                                                        :tabindex => '-1' }.deep_merge(options))
   end
 
   def will_paginate(collection = nil, options = {})
@@ -421,9 +426,13 @@ module LayoutHelper
   end
 
   def fullscreen_button(element = "$(this).prev()")
-    button_tag(:type => 'button', :class => 'btn btn-default btn-sm btn-fullscreen', :onclick => "set_fullscreen(#{element})", :title => _("Full screen")) do
+    button_tag(:type => 'button', :class => 'btn btn-default btn-md btn-fullscreen', :onclick => "set_fullscreen(#{element})", :title => _("Full screen")) do
       icon_text('resize-full')
     end
+  end
+
+  def fullscreen_input(element = "$(this).parent().prev()")
+    content_tag(:span, fullscreen_button(element), :class => 'input-group-btn')
   end
 
   private

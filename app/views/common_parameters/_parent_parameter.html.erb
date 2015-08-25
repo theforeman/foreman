@@ -1,21 +1,24 @@
 <div class="fields">
-  <% @hostgroup.ancestors.map(&:group_parameters).flatten.each_with_index do |parameter, i|  %>
-    <% next if @hostgroup.group_parameters.map(&:name).include? parameter.name %>
-    <table class="row">
-      <thead>
+  <table class="table">
+    <thead>
       <tr>
         <th class='col-md-4'><%= _("Name") %></th>
         <th class='col-md-8'><%= _("Value") %></th>
       </tr>
-      </thead>
+    </thead>
+    <% @hostgroup.ancestors.map(&:group_parameters).flatten.each_with_index do |parameter, i|  %>
+      <% next if @hostgroup.group_parameters.map(&:name).include? parameter.name %>
       <tr>
-        <td class="col-md-4">
+        <td>
           <%= text_field_tag("parent_parameter_#{i}_key", '', :class => "form-control", :placeholder => parameter.name) %>
         </td>
-        <td class="col-md-8">
-          <%= text_area_tag("parent_parameter_#{i}_value", '', :class => "form-control no-stretch", :rows => 1, :placeholder => parameter.value) %>
+        <td>
+          <div class="input-group">
+            <%= text_area_tag("parent_parameter_#{i}_value", '', :class => "form-control no-stretch", :rows => 1, :placeholder => parameter.value) %>
+            <%= fullscreen_input %>
+          </div>
         </td>
       </tr>
-    </table>
-  <% end %>
+    <% end %>
+  </table>
 </div>
