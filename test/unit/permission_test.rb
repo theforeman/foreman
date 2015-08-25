@@ -14,4 +14,20 @@ class PermissionTest < ActiveSupport::TestCase
     Permission.stubs(:with_translations).returns([['Z', 'z'], ['A', 'b'], ['H', 'a']])
     assert_equal [['A', 'b'], ['H', 'a'], ['Z', 'z']], Permission.resources_with_translations
   end
+
+  test "can search permissions by name" do
+    permission = FactoryGirl.create :permission, :domain, :name => 'view_all_domains'
+    as_admin do
+      permissions = Permission.search_for('name = view_all_domains')
+      assert_includes permissions, permission
+    end
+  end
+
+  test "can search permissions by resource_type" do
+    permission = FactoryGirl.create :permission, :domain, :name => 'view_all_domains'
+    as_admin do
+      permissions = Permission.search_for('resource_type = Domain')
+      assert_includes permissions, permission
+    end
+  end
 end

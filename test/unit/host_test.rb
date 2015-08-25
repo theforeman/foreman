@@ -1361,6 +1361,10 @@ class HostTest < ActiveSupport::TestCase
       assert_equal hosts.count, 1
       assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
 
+      hosts = Host::Managed.search_for("facts.memory_mb ~ 64498")
+      assert_equal hosts.count, 1
+      assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
+
       hosts = Host::Managed.search_for("facts.custom_fact = find_me")
       assert_equal hosts.count, 1
       assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
