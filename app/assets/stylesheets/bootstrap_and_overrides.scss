@@ -154,9 +154,10 @@ a {
   max-width: none;
   z-index: 2000;
  .popover-content {
-    max-height: 200px;
-    overflow-y: auto;
-  }
+   max-height: 200px;
+   overflow-y: auto;
+   color: #737373;
+ }
 }
 
 @-moz-document url-prefix() {

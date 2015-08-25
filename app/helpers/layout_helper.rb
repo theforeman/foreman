@@ -308,14 +308,15 @@ module LayoutHelper
   end
 
   def popover(title, msg, options = {})
-    content_tag(:a, icon_text("info-sign", title), { :rel => "popover",
-                                                     :data => { :content => msg,
-                                                                :"original-title" => title,
-                                                                :trigger => "focus",
-                                                                :container => 'body',
-                                                                :html => true },
-                                                     :role => 'button',
-                                                     :tabindex => '-1' }.merge(options))
+    options[:icon] ||= "info-sign"
+    content_tag(:a, icon_text(options[:icon], title), { :rel => "popover",
+                                                        :data => { :content => msg,
+                                                                   :"original-title" => title,
+                                                                   :trigger => "focus",
+                                                                   :container => 'body',
+                                                                   :html => true },
+                                                        :role => 'button',
+                                                        :tabindex => '-1' }.merge(options))
   end
 
   def will_paginate(collection = nil, options = {})
