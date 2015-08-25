@@ -1,27 +1,26 @@
 <% disabled = (not authorized_via_my_scope("host_editing", "edit_params")) %>
 <div class="fields">
-  <table class="row">
+  <table class="table-condensed">
     <tbody>
       <tr class="form-group <%= 'has-error' if f.object.errors.any? %>">
         <td class="col-md-4">
           <%= f.text_field(:name,  :class => "form-control", :disabled => disabled, :placeholder => _("Name")) %>
         </td>
-        <td class="col-md-5 value">
-          <% if f.object.hidden_value? %>
-            <%= f.password_field(:value, :class => 'form-control',
-                             :disabled => disabled,
-                             :value => f.object.value) %>
-          <% else %>
-            <%= f.text_area(:value,
-                        :class => "form-control no-stretch",
-                        :rows => line_count(f, :value),
-                        :disabled => disabled,
-                        :placeholder => _("Value")) %>
-
-          <% end %>
-        </td>
-        <td class="col-md-1">
-          <%= fullscreen_button("$(this).parent().prev().find('textarea')") unless f.object.hidden_value? %>
+        <td class="col-md-6 value">
+          <div class="input-group col-md-12">
+            <% if f.object.hidden_value? %>
+              <%= f.password_field(:value, :class => 'form-control',
+                               :disabled => disabled,
+                               :value => f.object.value) %>
+            <% else %>
+              <%= f.text_area(:value,
+                          :class => "form-control no-stretch",
+                          :rows => 1,
+                          :disabled => disabled,
+                          :placeholder => _("Value")) %>
+            <% end %>
+            <%= fullscreen_input %>
+          </div>
         </td>
         <td class="col-md-2">
           <%= f.check_box(:hidden_value,

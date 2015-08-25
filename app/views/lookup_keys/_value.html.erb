@@ -9,12 +9,12 @@
     <%= text_field_tag '', nil, :class => 'matcher_value' %>
   </td>
   <td>
-    <%= f.text_area :value, :rows => line_count(f, :value), :class => 'form-control no-stretch', :'data-property' => 'value',
-                    :disabled => f.object.use_puppet_default,
-                    :placeholder => _("Value") %>
-  </td>
-  <td>
-    <%= fullscreen_button("$(this).parent().prev().find('textarea')") %>
+    <div class="input-group">
+      <%= f.text_area :value, :rows => 1, :class => 'form-control no-stretch', :'data-property' => 'value',
+                      :disabled => f.object.use_puppet_default,
+                      :placeholder => _("Value") %>
+      <%= fullscreen_input %>
+    </div>
   </td>
   <td class="ca">
     <%= f.check_box :use_puppet_default, :'data-property' => 'use_puppet_default',
