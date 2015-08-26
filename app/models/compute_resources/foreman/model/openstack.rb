@@ -73,8 +73,27 @@ module Foreman::Model
       } ]
     end
 
+    def new_volume(attr = { })
+      volume_client.volumes.new attr.merge(:size => 0)
+    end
+
+    def create_additional_volume(args)
+      vm_name = args[:name]
+      add_vol = volume_client.volumes.create( { :display_name => "#{vm_name}-vol1", :volumeType => "Volume", :size => args[:volumes][:size].to_i } )
+      @add_vol_id = add_vol.id.tr('"', '')
+      add_vol.wait_for { status == 'available'  }
+      args[:block_device_mapping_v2] << {
+        :boot_index       => 1,
+        :uuid => @add_vol_id,
+        :source_type => "volume",
+        :destination_type => "volume",
+        :delete_on_termination => true
+      }
+    end
+
     def create_vm(args = {})
       boot_from_volume(args) if Foreman::Cast.to_bool(args[:boot_from_volume])
+      create_additional_volume(args) if args[:volumes][:size].to_i > 0 and Foreman::Cast.to_bool(args[:boot_from_volume])
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
@@ -90,6 +109,7 @@ module Foreman::Model
       logger.warn "failed to create vm: #{message}"
       destroy_vm vm.id if vm
       volume_client.volumes.delete(@boot_vol_id) if args[:boot_from_volume]
+      volume_client.volumes.delete(@add_vol_id) if args[:volumes][:size].to_i > 0 and Foreman::Cast.to_bool(args[:boot_from_volume])
       raise message
     end
 
