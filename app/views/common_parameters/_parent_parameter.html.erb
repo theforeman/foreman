@@ -2,14 +2,17 @@
   <% @hostgroup.ancestors.map(&:group_parameters).flatten.each_with_index do |parameter, i|  %>
     <% next if @hostgroup.group_parameters.map(&:name).include? parameter.name %>
     <table class="row">
+      <thead>
       <tr>
-        <td class="col-md-2">
-          <%= content_tag(:input, '', :class => "form-control", :disabled => true,  :value => _('Global'), :type=> :text ) %>
-        </td>
-        <td class="col-md-2">
+        <th class='col-md-4'><%= _("Name") %></th>
+        <th class='col-md-8'><%= _("Value") %></th>
+      </tr>
+      </thead>
+      <tr>
+        <td class="col-md-4">
           <%= text_field_tag("parent_parameter_#{i}_key", '', :class => "form-control", :placeholder => parameter.name) %>
         </td>
-        <td class="col-md-7">
+        <td class="col-md-8">
           <%= text_area_tag("parent_parameter_#{i}_value", '', :class => "form-control", :rows => 1, :placeholder => parameter.value) %>
         </td>
       </tr>
