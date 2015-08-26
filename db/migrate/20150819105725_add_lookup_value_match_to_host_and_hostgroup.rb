@@ -2,6 +2,8 @@ class AddLookupValueMatchToHostAndHostgroup < ActiveRecord::Migration
   def up
     add_column :hosts, :lookup_value_matcher, :string
     add_column :hostgroups, :lookup_value_matcher, :string
+    Host::Managed.reset_column_information
+    Hostgroup.reset_column_information
 
     Host::Managed.where(:type => 'Host::Managed').find_in_batches(:batch_size => 100) do |group|
       group.each do |host|
