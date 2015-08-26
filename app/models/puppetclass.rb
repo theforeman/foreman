@@ -86,7 +86,7 @@ class Puppetclass < ActiveRecord::Base
   def host_ids_from_config_groups(host_type)
     ids = config_groups.joins(:host_config_groups)
                  .where("host_config_groups.host_type='#{host_type}'")
-                 .pluck('host_config_groups.host_id') unless config_group_classes.empty?
+                 .pluck(:host_id) unless config_group_classes.empty?
     ids || []
   end
 
@@ -197,7 +197,7 @@ class Puppetclass < ActiveRecord::Base
 
   def self.search_by_host(key, operator, value)
     conditions = sanitize_sql_for_conditions(["hosts.name #{operator} ?", value_to_sql(operator, value)])
-    direct     = Puppetclass.joins(:hosts).where(conditions).uniq.pluck('puppetclasses.id')
+    direct     = Puppetclass.joins(:hosts).where(conditions).uniq.pluck(:id)
     hostgroup  = Hostgroup.joins(:hosts).where(conditions).first
     indirect   = hostgroup.blank? ? [] : HostgroupClass.where(:hostgroup_id => hostgroup.path_ids).uniq.pluck('puppetclass_id')
     return { :conditions => "1=0" } if direct.blank? && indirect.blank?

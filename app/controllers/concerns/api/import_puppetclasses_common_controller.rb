@@ -97,7 +97,7 @@ module Api::ImportPuppetclassesCommonController
   def find_required_puppet_proxy
     id = params.keys.include?('smart_proxy_id') ? params['smart_proxy_id'] : params['id']
     @smart_proxy = SmartProxy.authorized(:view_smart_proxies).find(id)
-    unless @smart_proxy && SmartProxy.with_features("Puppet").pluck("smart_proxies.id").include?(@smart_proxy.id)
+    unless @smart_proxy && SmartProxy.with_features("Puppet").pluck(:id).include?(@smart_proxy.id)
       not_found _('No proxy found to import classes from, ensure that the smart proxy has the Puppet feature enabled.')
     end
     @smart_proxy

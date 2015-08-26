@@ -176,7 +176,7 @@ module HostCommon
   end
 
   def puppetclass_ids
-    classes.reorder('').pluck('puppetclasses.id')
+    classes.reorder('').pluck(:id)
   end
 
   def classes_in_groups

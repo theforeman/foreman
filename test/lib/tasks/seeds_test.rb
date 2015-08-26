@@ -168,7 +168,7 @@ class SeedsTest < ActiveSupport::TestCase
   test "all access permissions are created by permissions seed" do
     seed
     access_permissions = Foreman::AccessControl.permissions.reject(&:public?).reject(&:plugin?).map(&:name).map(&:to_s)
-    seeded_permissions = Permission.pluck('permissions.name')
+    seeded_permissions = Permission.pluck(:name)
     # Check all access control have a matching seeded permission
     assert_equal [], access_permissions - seeded_permissions
     # Check all seeded permissions have a matching access control
