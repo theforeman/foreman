@@ -296,7 +296,7 @@ qprintf "%10s %s\n" "FOREMAN:" "$(cat /usr/share/foreman/VERSION 2>/dev/null)"
 qprintf "%10s %s\n" "RUBY:" "$(ruby --version 2>/dev/null)"
 qprintf "%10s %s\n" "PUPPET:" "$(puppet --version 2>/dev/null)"
 test -f /var/log/audit/audit.log && \
-  qprintf "%10s %s\n" "DENIALS:" "$(grep AVC /var/log/audit/audit.log | wc -l)"
+  qprintf "%10s %s\n" "DENIALS:" "$(ausearch -m AVC -r | wc -l)"
 qprintf "\n\n"
 
 if [ "$NOTAR" -eq 0 ]; then
