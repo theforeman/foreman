@@ -93,7 +93,11 @@ module Foreman::Model
 
     def create_vm(args = {})
       boot_from_volume(args) if Foreman::Cast.to_bool(args[:boot_from_volume])
+<<<<<<< HEAD
       create_additional_volume(args) if args[:volumes][:size].to_i > 0 and Foreman::Cast.to_bool(args[:boot_from_volume])
+=======
+      create_additional_volume(args) if args[:volumes][:size].to_i > 0
+>>>>>>> 7819e2875cb071367ab1840d952a176563b44741
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
@@ -109,7 +113,11 @@ module Foreman::Model
       logger.warn "failed to create vm: #{message}"
       destroy_vm vm.id if vm
       volume_client.volumes.delete(@boot_vol_id) if args[:boot_from_volume]
+<<<<<<< HEAD
       volume_client.volumes.delete(@add_vol_id) if args[:volumes][:size].to_i > 0 and Foreman::Cast.to_bool(args[:boot_from_volume])
+=======
+      volume_client.volumes.delete(@add_vol_id) if args[:volumes][:size].to_i > 0
+>>>>>>> 7819e2875cb071367ab1840d952a176563b44741
       raise message
     end
 
