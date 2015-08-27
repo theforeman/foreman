@@ -31,10 +31,13 @@ class MigrateWebsocketsSetting < ActiveRecord::Migration
     end
     encrypt.default = !!SETTINGS[:require_ssl]
     encrypt.save!
+    Rails.cache.delete(encrypt.name.to_s)
   end
 
   def down
     # delete and reset on next app server start
-    FakeSetting.find_by_name("websockets_encrypt").delete
+    encrypt = FakeSetting.find_by_name("websockets_encrypt")
+    Rails.cache.delete(encrypt.name.to_s)
+    encrypt.delete
   end
 end
