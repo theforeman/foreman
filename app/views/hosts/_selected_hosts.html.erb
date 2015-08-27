@@ -4,13 +4,13 @@
       <thead>
         <tr>
           <th>
-            Name
+            <%= _("Name") %>
           </th>
           <th>
-            Hostgroup
+            <%= _("Host group") %>
           </th>
           <th>
-            Environment
+            <%= _("Environment") %>
           </th>
           <%= raw("<th>" + _("Location") + "</th>") if SETTINGS[:locations_enabled]%>
           <%= raw("<th>" + _("Organization") + "</th>") if SETTINGS[:organizations_enabled]%>
