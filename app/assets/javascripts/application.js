@@ -76,7 +76,7 @@ function onContentLoad(){
 
 
   //set the tooltips
-  $('a[rel="popover"]').popover({html: true});
+  $('a[rel="popover"]').popover();
   $('[rel="twipsy"]').tooltip({ container: 'body' });
   $('*[title]').not('*[rel]').tooltip();
   $('[data-table=inline]').not('.dataTable').dataTable(
@@ -191,7 +191,7 @@ function mark_params_override(){
   });
   $('#params-tab').removeClass("tab-error");
   if ($("#params").find('.form-group.error').length > 0) $('#params-tab').addClass('tab-error');
-  $('a[rel="popover"]').popover({html: true});
+  $('a[rel="popover"]').popover();
 }
 
 function add_fields(link, association, content) {
@@ -489,7 +489,7 @@ function disableButtonToggle(item, explicit) {
   if (explicit === undefined) {
     explicit = true;
   }
-  
+
   item = $(item);
   item.data('explicit', explicit);
   var isActive = item.hasClass("active");

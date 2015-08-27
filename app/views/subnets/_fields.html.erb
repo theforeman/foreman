@@ -12,7 +12,6 @@
                                    "<ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP</li>" +
                                    "<li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode</li>" +
                                    "<li><strong>None</strong> - leave IP management solely on user, no auto-suggestion</li></ul>"),
-                         :rel => 'popover',
                          :'data-placement' => "top"
                  ).html_safe %>
 <div id='ipam_options' class ='<%= f.object.ipam? ? "" : "hide" %>'>

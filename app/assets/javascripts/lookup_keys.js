@@ -84,7 +84,7 @@ function add_child_node(item) {
       field = $(content).insertBefore($(item));
     }
     $(item).closest("form").trigger({type: 'nested:fieldAdded', field: field});
-    $('a[rel="popover"]').popover({html: true});
+    $('a[rel="popover"]').popover();
     $('a[rel="twipsy"]').tooltip();
     $(field).find('select:not(.matcher_key)').select2()
     return new_id;

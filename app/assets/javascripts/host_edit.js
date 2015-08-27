@@ -193,7 +193,7 @@ function load_puppet_class_parameters(item) {
     success: function(result, textstatus, xhr) {
       var params = $(result);
       placeholder.replaceWith(params);
-      params.find('a[rel="popover"]').popover({html: true});
+      params.find('a[rel="popover"]').popover();
       if (params.find('.error').length > 0) $('#params-tab').addClass('tab-error');
     }
   });
@@ -654,7 +654,7 @@ function interface_type_selected(element) {
 
   request.done(function() {
     password_caps_lock_hint();
-    $("#interfaceModal").find('a[rel="popover-modal"]').popover({html: true});
+    $("#interfaceModal").find('a[rel="popover-modal"]').popover();
     $('select').select2({ allowClear: true });
   });
 }

@@ -94,7 +94,6 @@ Foreman::Application.configure do |app|
                   host_edit
                   host_edit_interfaces
                   hosts
-                  puppetclasses_or_envs_changed
                   jquery.cookie
                   host_checkbox
                   nfs_visibility
