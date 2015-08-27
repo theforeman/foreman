@@ -19,12 +19,12 @@ function add_puppet_class(item){
   var content = $(item).closest('li').clone();
   content.attr('id', 'selected_puppetclass_'+ id);
   content.append("<input id='" + type +"_puppetclass_ids_' name='" + type +"[puppetclass_ids][]' type='hidden' value=" +id+ ">");
-  content.children('span').tooltip();
 
   var link = content.children('a');
   var links = content.find('a');
+
   links.attr('onclick', 'remove_puppet_class(this)');
-  links.attr('data-original-title', __('Click to undo adding this class'));
+  links.attr('data-original-title', Jed.sprintf(__('Click to remove %s'), link.data("class-name")));
   links.tooltip();
   link.removeClass('glyphicon-plus-sign').addClass('glyphicon-minus-sign');
 
