@@ -150,7 +150,14 @@ a {
   float: none;
 }
 
-.popover{max-width: none}
+.popover{
+  max-width: none;
+  z-index: 2000;
+ .popover-content {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+}
 
 @-moz-document url-prefix() {
   /* Workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
