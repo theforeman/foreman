@@ -43,6 +43,10 @@ FactoryGirl.define do
     trait :architecture do
       resource_type 'Architecture'
     end
+
+    trait :report do
+      resource_type 'Report'
+    end
   end
 
   factory :role do
