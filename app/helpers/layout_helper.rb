@@ -434,7 +434,12 @@ module LayoutHelper
   end
 
   def authorized_associations_permission_name(klass)
-    permission = "view_#{klass.to_s.underscore.pluralize}"
+    permission = if klass.respond_to?(:permission_name)
+                   klass.permission_name :view
+                 else
+                   "view_#{klass.to_s.underscore.pluralize}"
+                 end
+
     unless Permission.where(:name => permission).present?
       raise Foreman::Exception.new(N_('unknown permission %s'), permission)
     end
