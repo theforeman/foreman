@@ -52,9 +52,8 @@ module Foreman
       fail "Trying to use logger #{name} which has not been configured."
     end
 
-    # standard way for logging exceptions to get the most data to
-    # the log.
-    # The behehaviour can be influenced by this options:
+    # Standard way for logging exceptions to get the most data in the log.
+    # The behaviour can be influenced by this options:
     #   * :logger - the name of the logger to put the exception in ('app' by default)
     #   * :level - the logging level (:warn by default)
     def exception(context_message, exception, options = {})

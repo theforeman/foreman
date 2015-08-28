@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
-  rescue_from ActionView::MissingTemplate, :with => :api_deprecation_error
   rescue_from ProxyAPI::ProxyException, :with => :smart_proxy_exception
 
   # standard layout to all controllers
@@ -90,17 +89,6 @@ class ApplicationController < ActionController::Base
       format.any { head :status => :not_found}
     end
     true
-  end
-
-  def api_deprecation_error(exception = nil)
-    if request.format.try(:json?) && !request.env['REQUEST_URI'].match(/\/api\//i)
-      msg = "/api/ prefix must now be used to access API URLs, e.g. #{request.env['HTTP_HOST']}/api#{request.env['REQUEST_URI']}"
-      Foreman::Deprecation.deprecation_warning("1.11", msg)
-      Foreman::Logging.exception(msg, exception, :level => :debug)
-      render :json => {:message => msg}, :status => :bad_request
-    else
-      raise exception
-    end
   end
 
   def smart_proxy_exception(exception = nil)

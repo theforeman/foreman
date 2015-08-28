@@ -47,22 +47,16 @@ module Orchestration
     raise ActiveRecord::Rollback
   end
 
-  # log and add to errors
-  def failure(msg, exception_or_backtrace = nil, dest = :base)
-    if exception_or_backtrace
-      if exception_or_backtrace.is_a? Exception
-        exception = exception_or_backtrace
-      else
-        exception = StandardError.new(msg)
-        exception.set_backtrace(exception_or_backtrace)
-        Foreman::Deprecation.deprecation_warning("1.11", "Passing backtrace to failure method is deprecated, pass the exception instead")
-      end
-      Foreman::Logging.exception(msg, exception)
-    else
-      logger.warn(msg)
-    end
-    errors.add dest, msg
+  # Log and add error to model
+  def failure(message, exception = nil, dest = :base)
+    log_failure(message, exception)
+    errors.add(dest, message)
     false
+  end
+
+  def log_failure(message, exception)
+    return Foreman::Logging.exception(message, exception) if exception.present?
+    logger.warn(message)
   end
 
   public

@@ -8,11 +8,6 @@ module Nic
 
     register_to_enc_transformation :type, ->(type) { type.constantize.humanized_name }
 
-    def initialize(*args)
-      Foreman::Deprecation.deprecation_warning("1.11", "Use Nic::Managed setting provision: true")
-      super(*args)
-    end
-
     def self.human_name
       N_('Bootable')
     end
