@@ -169,7 +169,7 @@ class UnattendedControllerTest < ActionController::TestCase
     @request.env["REMOTE_ADDR"] = @ub_host.ip
     get :built
     assert_response :created
-    host = Host.find_by_ip(@ub_host.ip)
+    host = Nic::Base.primary.find_by_ip(@ub_host.ip)
     assert_equal host.build,false
   end
 

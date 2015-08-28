@@ -13,11 +13,6 @@ class FactParser
     @parsers ||= { :puppet => PuppetFactParser }.with_indifferent_access
   end
 
-  def self.register_fact_importer(key, klass)
-    Foreman::Deprecation.deprecation_warning("1.11", "Use factParser.register_fact_parser instead")
-    register_fact_parser(key, klass)
-  end
-
   def self.register_fact_parser(key, klass)
     parsers[key.to_sym] = klass
   end

@@ -329,11 +329,6 @@ class Host::Managed < Host::Base
     pxe_render(template.tr("\r", ''))
   end
 
-  def configTemplate(args = {})
-    Foreman::Deprecation.deprecation_warning("1.11", 'configTemplate was renamed to provisioning_template')
-    self.provisioning_template(args)
-  end
-
   # returns a configuration template (such as kickstart) to a given host
   def provisioning_template(opts = {})
     opts[:kind]               ||= "provision"
