@@ -109,7 +109,8 @@ $(function() {
 });
 
 function submit_modal_form() {
-  removeForemanHostsCookie();
+  if (!$('#keep_selected').is(':checked'))
+    removeForemanHostsCookie();
   $("#confirmation-modal form").submit();
   $('#confirmation-modal').modal('hide');
 }
