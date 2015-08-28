@@ -233,3 +233,7 @@ body.modal-open {
 legend {
   margin-bottom: 10px;
 }
+
+textarea.no-stretch {
+  resize: vertical;
+}

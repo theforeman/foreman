@@ -5,7 +5,7 @@
     <%= password_f f, :value, :size => "col-md-8", :value => @common_parameter.value %>
   <% else %>
     <%= textarea_f(f, :value,
-                      :class => "form-control value col-md-8",
+                      :class => "form-control value col-md-8 no-stretch",
                       :rows => line_count(f, :value),
                       :fullscreen => :true,
                       :placeholder => _("Value")) %>

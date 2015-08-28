@@ -9,7 +9,7 @@
     <%= text_field_tag '', nil, :class => 'matcher_value' %>
   </td>
   <td>
-    <%= f.text_area :value, :rows => line_count(f, :value), :class => 'form-control', :'data-property' => 'value',
+    <%= f.text_area :value, :rows => line_count(f, :value), :class => 'form-control no-stretch', :'data-property' => 'value',
                     :disabled => f.object.use_puppet_default,
                     :placeholder => _("Value") %>
   </td>
