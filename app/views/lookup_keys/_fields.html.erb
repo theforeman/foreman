@@ -6,7 +6,7 @@
     <legend><%= _("Parameter details") %></legend>
     <%= text_f f, :key, :disabled => f.object.is_param, :size => "col-md-8" %>
     <%= f.hidden_field :key if is_param %>
-    <%= textarea_f f, :description, :rows => :auto, :size => "col-md-8" %>
+    <%= textarea_f f, :description, :rows => :auto, :size => "col-md-8", :class => "no-stretch" %>
     <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence, :label => _('Puppet Environments'), :size => "col-md-8", :disabled => true) if is_param %>
     <%= show_puppet_class f %>
   </fieldset>
@@ -20,7 +20,9 @@
     <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast, :size => "col-md-8",
                    :disabled => (f.object.is_param && (!f.object.override || f.object.use_puppet_default)),
                    :fullscreen => :true,
-                   :rows => :auto, :help_inline => popover('', _("Value to use when there is no match.")) %>
+                   :rows => :auto,
+                   :help_inline => popover('', _("Value to use when there is no match.")),
+                   :class => "no-stretch" %>
     <%= checkbox_f(f, :use_puppet_default, :label => _('Use Puppet default'), :size => "col-md-8",
                    :help_inline => use_puppet_default_help,
                    :onchange => 'toggleUsePuppetDefaultValue(this, "default_value")',
@@ -37,7 +39,7 @@
                      :help_inline        => popover('', _("If checked, will raise an error if there is no default value and no matcher provide a value."))
           ) if is_param %>
       <%= validator_type_selector f %>
-      <%= text_f f, :validator_rule, :size => "col-md-8", :disabled => f.object.validator_type.blank? %>
+      <%= text_f f, :validator_rule, :size => "col-md-8", :disabled => f.object.validator_type.blank?, :class => "no-stretch" %>
     </div>
   </fieldset>
   </br>
@@ -46,7 +48,7 @@
       <legend><%= _("Prioritize attribute order") %></legend>
       <h6><%= popover("", _("The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"),
                       :title => _("The order in which values are resolved.")).html_safe %> <%= _("Set the order in which values are resolved.") %></h6>
-      <%= textarea_f f, :path, :rows => :auto, :label => _("Order"), :id => 'order', :size => "col-md-8", :onchange => 'fill_in_matchers()', :value => f.object.path %>
+      <%= textarea_f f, :path, :rows => :auto, :label => _("Order"), :id => 'order', :size => "col-md-8", :onchange => 'fill_in_matchers()', :value => f.object.path, :class => "no-stretch" %>
       <%= checkbox_f(f, :merge_overrides, :onchange => 'mergeOverridesChanged(this)', :table_field => true,
                         :disabled => !f.object.supports_merge?, :size => "col-md-1", :label_size => "col-md-3",
                         :help_inline => popover("", _("Continue to look for matches after first find (only array/hash type)? Note: merging overrides ignores all matchers that use Puppet default."))) %>

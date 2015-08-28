@@ -13,7 +13,7 @@
           <%= text_field_tag("parent_parameter_#{i}_key", '', :class => "form-control", :placeholder => parameter.name) %>
         </td>
         <td class="col-md-8">
-          <%= text_area_tag("parent_parameter_#{i}_value", '', :class => "form-control", :rows => 1, :placeholder => parameter.value) %>
+          <%= text_area_tag("parent_parameter_#{i}_value", '', :class => "form-control no-stretch", :rows => 1, :placeholder => parameter.value) %>
         </td>
       </tr>
     </table>

@@ -13,7 +13,7 @@
                              :value => f.object.value) %>
           <% else %>
             <%= f.text_area(:value,
-                        :class => "form-control",
+                        :class => "form-control no-stretch",
                         :rows => line_count(f, :value),
                         :disabled => disabled,
                         :placeholder => _("Value")) %>
