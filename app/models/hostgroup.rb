@@ -137,40 +137,27 @@ class Hostgroup < ActiveRecord::Base
     [key.default_value, _("Default value")]
   end
 
-  # returns self and parent parameters as a hash
-  def parameters(include_source = false)
+  def parent_params(include_source = false)
     hash = {}
     ids = ancestor_ids
-    ids << id unless new_record? or self.frozen?
     # need to pull out the hostgroups to ensure they are sorted first,
     # otherwise we might be overwriting the hash in the wrong order.
-    groups = ids.size == 1 ? [self] : Hostgroup.sort_by_ancestry(Hostgroup.includes(:group_parameters).find(ids))
+    groups = Hostgroup.sort_by_ancestry(Hostgroup.includes(:group_parameters).find(ids))
     groups.each do |hg|
       hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('hostgroup').to_sym, :safe_value => p.safe_value, :source_name => hg.title} : p.value }
     end
+    hash
+  end
 
+  # returns self and parent parameters as a hash
+  def parameters(include_source = false)
+    hash = parent_params(include_source)
+    group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('hostgroup').to_sym, :safe_value => p.safe_value, :source_name => title} : p.value }
     hash
   end
 
   def global_parameters
     Hostgroup.sort_by_ancestry(Hostgroup.includes(:group_parameters).find(ancestor_ids + id)).map(&:group_parameters).uniq
-  end
-
-  def inherited_params(include_source = false)
-    # same method in Host, similar method below
-    hp = {}
-    # read common parameters
-    CommonParameter.all.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('common').to_sym} : p.value] }
-    # read organization and location parameters
-    hp.update organization.parameters(include_source) if SETTINGS[:organizations_enabled] && organization
-    hp.update location.parameters(include_source)     if SETTINGS[:locations_enabled] && location
-    # read domain parameters
-    domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('domain').to_sym} : p.value] } unless domain.nil?
-    # read OS parameters
-    operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('os').to_sym} : p.value] } unless operatingsystem.nil?
-    # read group parameters only if a host belongs to a group
-    hp.update hostgroup.parameters(include_source) if hostgroup
-    hp
   end
 
   def params
