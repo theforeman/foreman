@@ -111,7 +111,7 @@
         <br/>
         <fieldset>
           <legend><%= _('Global parameters') %></legend>
-          <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true) } %>
+          <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true), :parameters => @host.host_parameters  } %>
           <h4><%= _('Host parameters') %></h4>
           <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
         </fieldset>

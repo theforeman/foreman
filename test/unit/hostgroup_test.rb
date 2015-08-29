@@ -69,7 +69,7 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test "should inherit parent classes" do
-    child, top = nil
+    child = nil
     as_admin do
       top = Hostgroup.create!(:name => "topA")
       top.puppetclasses << Puppetclass.first
@@ -78,6 +78,20 @@ class HostgroupTest < ActiveSupport::TestCase
     end
 
     assert_equal [Puppetclass.first, Puppetclass.last].sort, child.classes.sort
+  end
+
+  test "should show parent parameters" do
+    pid = Time.now.to_i
+    child = nil
+
+    as_admin do
+      top = FactoryGirl.create(:hostgroup, :name => "topA",
+                               :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "1"},
+                                                                 pid += 1 => {"name" => "topB", "value" => "1"}})
+      child = Hostgroup.create!(:name => "secondB", :parent_id => top.id)
+    end
+
+    assert_equal({ "topA" => "1", "topB" => "1" }, child.parent_params)
   end
 
   test "blocks deletion of hosts with children" do
