@@ -2011,6 +2011,16 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "fqdn=#{host.shortname}.yourdomain.net", LookupValue.find(lookup_value.id).match
   end
 
+  test "destroying host should destroy lookup values" do
+    host = FactoryGirl.create(:host)
+    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                      :match => "fqdn=#{host.fqdn}", :value => '8080')
+    host.reload
+    host.destroy
+    assert LookupValue.where(:id => lookup_value.id).first.blank?
+  end
+
   test '#setup_clone skips new records' do
     assert_nil FactoryGirl.build(:host, :managed).send(:setup_clone)
   end
