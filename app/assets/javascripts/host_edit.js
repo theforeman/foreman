@@ -520,7 +520,7 @@ $(document).on('change', '.interface_domain', function () {
 });
 
 $(document).on('click', '.suggest_new_ip', function (e) {
-  $(this).closest('fieldset').find('.interface_ip').val('');
+  clearError($(this).closest('fieldset').find('.interface_ip'));
   interface_subnet_selected($(this).closest('fieldset').find('select.interface_subnet'));
   e.preventDefault();
 });
@@ -627,8 +627,7 @@ function interface_subnet_selected(element) {
       update_interface_table();
     },
     error: function(request, status, error) {
-      interface_ip.addClass('tab-error');
-      interface_ip.val(Jed.sprintf(__("Error generating IP: %s"), error))
+      setError(interface_ip, Jed.sprintf(__("Error generating IP: %s"), error));
     },
     complete:function () {
       $(element).indicator_hide();
@@ -685,4 +684,20 @@ function selectedSubnetHasIPAM() {
   var subnets =  subnet.data("subnets");
   if (subnet_id == '') return true;
   return subnets[subnet_id]['ipam'];
+};
+
+function setError(field, text) {
+  var form_group = field.parents(".form-group").first();
+  form_group.addClass("has-error");
+  var help_block = form_group.children(".help-inline").first();
+  var span = $( document.createElement('span') );
+  span.addClass("error-message").html(text);
+  help_block.prepend(span);
+};
+
+function clearError(field) {
+  var form_group = field.parents(".form-group").first();
+  form_group.removeClass("has-error");
+  var error_block = form_group.children(".help-inline").children(".error-message");
+  error_block.remove();
 };
