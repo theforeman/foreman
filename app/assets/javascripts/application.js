@@ -20,6 +20,7 @@
 //= require select_on_click
 //= require select2
 //= require underscore
+//= require editor
 
 $(document).on('ContentLoad', function(){onContentLoad()});
 Turbolinks.enableProgressBar();
@@ -483,6 +484,49 @@ function exit_fullscreen(){
          .resize();
   $('#fullscreen-placeholder').remove();
   $('.exit-fullscreen').remove();
+  $(window).scrollTop(element.data('position'));
+}
+
+function set_fullscreen_editor (element, relativeTo){
+  var $element = $(element);
+
+  if (relativeTo) {
+    $element = $(relativeTo).find(element);
+  }
+
+  $element.children().removeClass('hidden');
+
+  $element.data('origin', $element.parent())
+    .data('position', $(window).scrollTop())
+    .addClass('fullscreen')
+    .appendTo($('#main'))
+    .resize();
+
+  $('.navbar').not('.navbar-editor').addClass('hidden');
+
+  $('.btn-fullscreen').addClass("hidden");
+  $('.btn-exit-fullscreen').removeClass("hidden");
+
+  $('#content').addClass('hidden');
+  $(document).on('keyup', function(e) {
+    if (e.keyCode == 27) {    // esc
+      exit_fullscreen_editor();
+    }
+  });
+}
+
+function exit_fullscreen_editor (){
+  var element = $('.fullscreen');
+
+  $('#content').removeClass('hidden');
+  $('.navbar').removeClass('hidden');
+  element.removeClass('fullscreen')
+    .prependTo(element.data('origin'))
+    .resize();
+
+  $('.btn-exit-fullscreen').addClass("hidden");
+  $('.btn-fullscreen').removeClass("hidden");
+
   $(window).scrollTop(element.data('position'));
 }
 

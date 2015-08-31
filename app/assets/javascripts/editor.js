@@ -2,38 +2,41 @@ var Editor;
 
 $(document).on('ContentLoad', function(){onEditorLoad()});
 
-$(document).on('click','#provisioning_template_submit', function(){
+$(document).on('click','#editor_submit', function(){
   if($('.diffMode').exists()){
-    set_edit_mode( $(".template_text"));
+    set_edit_mode( $(".editor_source"));
   }
-})
+});
 
-$(document).on('change', '.template_file', function(e){
-  if ($('.template_file').val() != '') upload_file(e);
-})
+$(document).on('change', '.editor_file_source', function(e){
+  if ($('.editor_file_source').val() != '') editor_file_source(e);
+});
 
 $(document).on('change','#keybinding', function(){
   set_keybinding()
-})
+});
 
+$(document).on('change','#mode', function(){
+  set_mode()
+});
 
 function onEditorLoad(){
-  var template_text = $(".template_text");
-   if ($.browser && $.browser.msie && $.browser.version.slice(0,1) < 10) {
-     if ($('.diffMode').exists()) {
-       IE_diff_mode(template_text);
-     }
-   }else{
-     if (template_text.exists()){
-       create_editor(template_text)
-     }
+  var editor_source = $(".editor_source");
+  if ($.browser && $.browser.msie && $.browser.version.slice(0,1) < 10) {
+    if ($('.diffMode').exists()) {
+      IE_diff_mode(editor_source);
+    }
+  }else{
+    if (editor_source.exists()){
+      create_editor();
+    }
 
-     if ($('.diffMode').exists()) {
-       set_diff_mode(template_text);
-     } else {
-       set_edit_mode(template_text);
-     }
-   }
+    if ($('.diffMode').exists()) {
+      set_diff_mode(editor_source);
+    } else {
+      set_edit_mode(editor_source);
+    }
+  }
 }
 
 function set_keybinding(){
@@ -47,11 +50,25 @@ function set_keybinding(){
   Editor.setKeyboardHandler(keybindings[$("#keybinding")[0].selectedIndex]);
 }
 
-function upload_file(evt){
+function set_mode () {
+  var session = Editor.getSession();
+  var modes = [
+    "ace/mode/text",
+    "ace/mode/json",
+    "ace/mode/ruby",
+    "ace/mode/sh",
+    "ace/mode/xml",
+    "ace/mode/yaml"
+  ];
+
+  session.setMode(modes[$("#mode")[0].selectedIndex]);
+}
+
+function editor_file_source(evt){
   if(window.File && window.FileList && window.FileReader)
   {
     if (!confirm(__("You are about to override the editor content, are you sure?"))) {
-      $('.template_file').val('');
+      $('.editor_file_source').val('');
       return;
     }
 
@@ -62,12 +79,12 @@ function upload_file(evt){
       reader.onloadend = function(evt) {
         if (evt.target.readyState == FileReader.DONE) { // DONE == 2
           $('#new').val((evt.target.result));
-          set_edit_mode($('.template_text'));
+          set_edit_mode($('.editor_source'));
         }
       };
       // Read in the file as text.
       reader.readAsText(f);
-      $('.template_file').val("");
+      $('.editor_file_source').val("");
     }
   }else{
     // Browser can't read the file content,
@@ -85,45 +102,50 @@ function snippet_changed(item){
   $('#association').toggle(!checked);
 }
 
-function create_editor(item) {
-  item.parent().prepend("<div id='editor1'></div>");
-  item.hide();
-  Editor = ace.edit("editor1");
+function create_editor() {
+  var editorId = "editor-" + Math.random(),
+    $editorContainer = $('.editor-container'),
+    $editorSource = $editorContainer.find('.editor_source');
+
+  $editorContainer.append('<div id="' + editorId + '" class="editor"></div>');
+  $editorSource.hide();
+
+  Editor = ace.edit(editorId);
   Editor.setShowPrintMargin(false);
   Editor.renderer.setShowGutter(false);
-  $(document).on('resize','#editor1', function(){Editor.resize()});
-  if (item.is(':disabled')) {
+  $(document).on('resize', editorId, function(){Editor.resize()});
+  if ($editorSource.is(':disabled')) {
     Editor.setReadOnly(true);
   }
 }
 
 function set_preview(){
-  if($('.template_text').hasClass('diffMode')) return;
+  if($('.editor_source').hasClass('diffMode')) return;
   $("#preview_host_selector").hide();
-  if ($('.template_text').hasClass('renderMode')) { // coming from renderMode, don't store code
-    $('.template_text').removeClass('renderMode');
+  if ($('.editor_source').hasClass('renderMode')) { // coming from renderMode, don't store code
+    $('.editor_source').removeClass('renderMode');
   } else {
     $('#new').val(Editor.getSession().getValue());
   }
-  $('.template_text').addClass('diffMode');
-  set_diff_mode($('.template_text'))
+  $('.editor_source').addClass('diffMode');
+  set_diff_mode($('.editor_source'))
 }
 
 function set_code(){
   $("#preview_host_selector").hide();
-  $('.template_text').removeClass('diffMode renderMode');
-  set_edit_mode($('.template_text'));
+  $('.editor_source').removeClass('diffMode renderMode');
+  set_edit_mode($('.editor_source'));
 }
 
 function set_render() {
-  if ($('.template_text').hasClass('renderMode')) return;
+  if ($('.editor_source').hasClass('renderMode')) return;
   $("#preview_host_selector").show();
-  if ($('.template_text').hasClass('diffMode')) {  // coming from diffMode, don't store code
-    $('.template_text').removeClass('diffMode');
+  if ($('.editor_source').hasClass('diffMode')) {  // coming from diffMode, don't store code
+    $('.editor_source').removeClass('diffMode');
   } else {
     $('#new').val(Editor.getSession().getValue());
   }
-  $('.template_text').addClass('renderMode');
+  $('.editor_source').addClass('renderMode');
   set_render_mode();
 }
 
@@ -133,9 +155,10 @@ function set_edit_mode(item){
   if (!item.is(':disabled')) {
     Editor.setReadOnly(false);
   }
-  var session = Editor.getSession();
-  session.setMode("ace/mode/ruby");
 
+  set_mode("ace/mode/ruby");
+
+  var session = Editor.getSession();
   session.setValue($('#new').val());
   session.on('change', function(){
     item.text(session.getValue());
@@ -168,7 +191,7 @@ function set_render_mode() {
 function get_rendered_template(){
   var session = Editor.getSession();
   host_id = $("#preview_host_selector select").val();
-  url = $('.template_text').data('render-path');
+  url = $('.editor_source').data('render-path');
   template = $('#new').val();
   params = { template: template };
   if (host_id != null) {
@@ -188,7 +211,7 @@ function get_rendered_template(){
 }
 
 function submit_code() {
-  if($('.template_text').is('.diffMode,.renderMode')) {
+  if($('.editor_source').is('.diffMode,.renderMode')) {
     set_code();
   }
 }
@@ -211,10 +234,10 @@ function revert_template(item){
     complete: function(res) {
       $('#primary_tab').click();
       if ($.browser.msie && $.browser.version.slice(0,1) < 10){
-        $('.template_text').val(res.responseText);
+        $('.editor_source').val(res.responseText);
       } else {
         $('#new').val(res.responseText);
-        set_edit_mode($('.template_text'));
+        set_edit_mode($('.editor_source'));
       }
       var time = $(item).closest('div.row').find('h6 span').attr('data-original-title');
       $('#provisioning_template_audit_comment').text(Jed.sprintf(__("Revert to revision from: %s"), time))
