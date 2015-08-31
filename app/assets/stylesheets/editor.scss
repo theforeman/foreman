@@ -1,0 +1,21 @@
+.editor.ace_editor {
+  position: relative;
+  height: 360px;
+  width: 100%;
+}
+
+.navbar-full-width {
+  width: 100%;
+}
+
+.navbar-nav.navbar-right.navbar-editor:last-child {
+  margin-right: 0;
+
+  li {
+    padding-right: 5px;
+  }
+}
+
+.fullscreen .editor {
+  height: 100%;
+}

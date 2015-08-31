@@ -1,15 +1,26 @@
-<%= form_for @common_parameter do |f| %>
+<%= form_for @common_parameter, :html => { :onsubmit => 'submit_code();' } do |f| %>
   <%= base_errors_for @common_parameter %>
   <%= text_f f, :name %>
   <% if @common_parameter.hidden_value? %>
     <%= password_f f, :value, :size => "col-md-8", :value => @common_parameter.value %>
   <% else %>
-    <%= textarea_f(f, :value,
-                      :class => "form-control value col-md-8 no-stretch",
-                      :rows => line_count(f, :value),
-                      :fullscreen => :true,
-                      :placeholder => _("Value")) %>
+    <div class='form-group'>
+      <label class="control-label col-md-2" for="common_parameter_value"><%= _("Value") %></label>
+
+      <div class="col-md-9">
+        <div class="editor-container">
+          <%= render :partial => 'editor/toolbar', :locals => {:show_preview => false} %>
+          <%= f.text_area(:value,
+                         :class => "form-control value editor_source",
+                         :rows => line_count(f, :value),
+                         :placeholder => _("Value")) %>
+        </div>
+      </div>
+    </div>
   <% end %>
   <%= checkbox_f f, :hidden_value, :class => 'hidden_value_textarea_switch', :onchange => 'turn_textarea_switch(this)', :checked => f.object.hidden_value? %>
   <%= submit_or_cancel f %>
+
+  <input type="hidden" id="old" value="<%= @common_parameter.value %>" />
+  <input type="hidden" id="new" value="<%= @common_parameter.value %>" />
 <% end %>
