@@ -116,7 +116,7 @@ class Host::Managed < Host::Base
   scope :for_vm, lambda { |cr,vm| where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity)) }
 
   # audit the changes to this model
-  audited :except => [:last_report, :puppet_status, :last_compile], :allow_mass_assignment => true
+  audited :except => [:last_report, :puppet_status, :last_compile, :lookup_value_matcher], :allow_mass_assignment => true
   has_associated_audits
 
   # some shortcuts
