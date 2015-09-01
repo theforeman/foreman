@@ -24,6 +24,9 @@ class UserRole < ActiveRecord::Base
   validates :role_id, :presence => true
   validates :owner_id, :presence => true, :uniqueness => {:scope => [:role_id, :owner_type],
                                                           :message => N_("has this role already")}
+
+  delegate :expire_topbar_cache, :to => :owner
+
   def user_role?
     self.owner_type == 'User'
   end
@@ -35,10 +38,6 @@ class UserRole < ActiveRecord::Base
   before_save :remove_cache!
   after_save :cache_user_roles!
   before_destroy :remove_cache!
-
-  def expire_topbar_cache(sweeper)
-    owner.expire_topbar_cache(sweeper)
-  end
 
   private
 

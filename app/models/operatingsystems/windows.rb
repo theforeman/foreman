@@ -1,6 +1,10 @@
 class Windows < Operatingsystem
   PXEFILES = {:kernel => "wimboot", :initrd => "bootmgr", :bcd => "bcd", :bootsdi => "boot.sdi", :bootwim => "boot.wim"}
 
+  class << self
+    delegate :model_name, :to => :superclass
+  end
+
   def pxe_type
     "waik"
   end
@@ -29,10 +33,6 @@ class Windows < Operatingsystem
 
       URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/#{pxe_dir}/#{img}").normalize
     end
-  end
-
-  def self.model_name
-    superclass.model_name
   end
 
   def display_family
