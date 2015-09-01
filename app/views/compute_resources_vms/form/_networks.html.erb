@@ -8,7 +8,7 @@
 
     <%= field_set_tag _("Network interfaces"), :id => "network_interfaces" do %>
 
-      <% if compute_resource.networks.any? or compute_resource.interfaces.any? %>
+      <% if compute_resource.editable_network_interfaces? %>
         <%= f.fields_for compute_resource.interfaces_attrs_name do |i| %>
 
           <%= render :partial => provider_partial(compute_resource, 'network'),
