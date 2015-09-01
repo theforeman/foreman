@@ -1,6 +1,10 @@
 class Gentoo < Operatingsystem
   PXEFILES = {}
 
+  class << self
+    delegate :model_name, :to => :superclass
+  end
+
   def mediumpath(host)
   end
 
@@ -15,9 +19,5 @@ class Gentoo < Operatingsystem
 
   def display_family
     "Gentoo"
-  end
-
-  def self.model_name
-    superclass.model_name
   end
 end

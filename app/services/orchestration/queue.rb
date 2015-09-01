@@ -5,6 +5,9 @@ module Orchestration
     attr_reader :items
     STATUS = %w[ pending running failed completed rollbacked conflict canceled]
 
+    delegate :count, :empty?, :to => :items
+    delegate :to_json, :to => :all
+
     def initialize
       @items = []
     end
@@ -26,20 +29,8 @@ module Orchestration
       items.sort
     end
 
-    def count
-      items.count
-    end
-
-    def empty?
-      items.empty?
-    end
-
     def clear
       @items = [] && true
-    end
-
-    def to_json
-      all.to_json
     end
 
     STATUS.each do |s|

@@ -83,11 +83,6 @@ Rails/ActionFilter:
 Rails/DefaultScope:
   Enabled: false
 
-# Offense count: 19
-# Cop supports --auto-correct.
-Rails/Delegate:
-  Enabled: false
-
 # Offense count: 14
 # Configuration parameters: Include.
 Rails/HasAndBelongsToMany:

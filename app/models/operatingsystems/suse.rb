@@ -1,6 +1,10 @@
 class Suse < Operatingsystem
   PXEFILES = {:kernel => "linux", :initrd => "initrd"}
 
+  class << self
+    delegate :model_name, :to => :superclass
+  end
+
   def pxe_type
     "yast"
   end
@@ -25,9 +29,5 @@ class Suse < Operatingsystem
     s.squeeze! " "
     s.strip!
     s.blank? ? description : s
-  end
-
-  def self.model_name
-    superclass.model_name
   end
 end

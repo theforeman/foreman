@@ -3,12 +3,10 @@ module FogExtensions
     module Server
       extend ActiveSupport::Concern
 
+      delegate :flavors, :to => :service
+
       def pretty_machine_type
         machine_type.split('/')[-1]
-      end
-
-      def flavors
-        service.flavors
       end
 
       def image_id

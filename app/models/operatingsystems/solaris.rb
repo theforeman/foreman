@@ -1,6 +1,10 @@
 class Solaris < Operatingsystem
   PXEFILES = {:initrd => "x86.miniroot", :kernel => "multiboot"}
 
+  class << self
+    delegate :model_name, :to => :superclass
+  end
+
   def file_prefix
     "#{self}".gsub(/[\s\(\)]/,"-").gsub("--", "-").gsub(/-\Z/, "")
   end
@@ -101,10 +105,6 @@ class Solaris < Operatingsystem
 
   def display_family
     "Solaris"
-  end
-
-  def self.model_name
-    superclass.model_name
   end
 
   private

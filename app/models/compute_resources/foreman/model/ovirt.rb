@@ -9,6 +9,8 @@ module Foreman::Model
 
     alias_attribute :datacenter, :uuid
 
+    delegate :clusters, :quotas, :templates, :to => :client
+
     def self.model_name
       ComputeResource.model_name
     end
@@ -40,10 +42,6 @@ module Foreman::Model
       16*Foreman::SIZE[:giga]
     end
 
-    def quotas
-      client.quotas
-    end
-
     def ovirt_quota=(ovirt_quota_id)
       self.attrs[:ovirt_quota_id] = ovirt_quota_id
     end
@@ -56,10 +54,6 @@ module Foreman::Model
       end
     end
 
-    def templates(opts = {})
-      client.templates
-    end
-
     def available_images
       templates
     end
@@ -69,10 +63,6 @@ module Foreman::Model
       compute.interfaces
       compute.volumes
       compute
-    end
-
-    def clusters
-      client.clusters
     end
 
     # Check if HTTPS is mandatory, since rest_client will fail with a POST
