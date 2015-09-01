@@ -69,13 +69,17 @@
       <p/>
       <%= render "puppetclasses/classes_parameters", { :obj => @hostgroup } %>
       <p/>
+      <h4><%= _('Puppet classes overrides') %></h4>
+      <p/>
       <%= render "common_parameters/puppetclasses_parameters", :f => f %>
       <p/>
-      <h4><%= _('Global host group parameters') %></h4>
-      <p/>
       <% if @hostgroup.parent.present? %>
+          <h4><%= _('Host group inherited parameters') %></h4>
+          <p/>
           <%= render "common_parameters/parent_parameter", :f => f %>
+          <p/>
       <% end %>
+      <h4><%= _('Host group parameters') %></h4>
       <p/>
       <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
     </div>

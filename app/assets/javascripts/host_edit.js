@@ -1,5 +1,75 @@
 $(document).on('ContentLoad', function(){onHostEditLoad()});
 $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(link)});
+$(document).on('click', '#params-tab', function() {
+  toggleTableHeader('#inherited_parameters', 'inherited-none');
+  toggleTableHeader('#puppetclasses_parameters_table', "classes-none");
+  hideParamsTable('#global_parameters_table', 'global-none');
+});
+
+function toggleTableHeader(selectionIdSelector, noneId){
+  hideTableHeader(selectionIdSelector, noneId);
+  showTableHeader(selectionIdSelector, noneId);
+}
+
+function hideTableHeader(selectionIdSelector, noneId){
+  if($(selectionIdSelector + " > tbody").find("tr").length < 1 && $(selectionIdSelector).is(":visible")){
+    $(selectionIdSelector).hide();
+    if(noneId){
+      $(selectionIdSelector).prev("p").after('<p id="' + noneId + '">None!<br/></p>');
+    }
+  }
+}
+
+function showTableHeader(selectionIdSelector, noneId){
+ if( ($(selectionIdSelector + " > tbody").find("tr").length > 0) && $(selectionIdSelector).is(":hidden")){
+    $(selectionIdSelector).show();
+    if(noneId){
+      $(selectionIdSelector).siblings("#" + noneId).remove();
+    }
+  }
+}
+
+function hideParamsTable(selectionIdSelector, noneId){
+   var allInvisible = true,
+       items = $(selectionIdSelector).siblings("div.fields");
+
+  for(var i = 0; i < items.length; i++){
+    if($(items[i]).is(":visible")){
+      allInvisible = false;
+    }
+  }
+
+  if(allInvisible && $(selectionIdSelector).is(":visible")){
+    $(selectionIdSelector).hide();
+    if(noneId){
+      $(selectionIdSelector).prev("p").after('<p id="' + noneId + '">None!<br/></p>');
+    }
+  }
+}
+
+function showParamsTableHeader(selectionIdSelector, noneId){
+  if( $(selectionIdSelector).siblings("div.fields").length > 0 && $(selectionIdSelector).is(":hidden")){
+    $(selectionIdSelector).show();
+    if(noneId){
+      $(selectionIdSelector).siblings("#" + noneId).remove();
+    }
+  }
+}
+
+function hideGlobalParamsTableHeader(link){
+  remove_fields(link);
+  hideParamsTable('#global_parameters_table', 'global-none');
+}
+
+function addHostParamFields(link, association, content){
+  add_fields(link, association, content);
+  showParamsTableHeader('#global_parameters_table', 'global-none');
+}
+
+function removePuppetOverride(link){
+  remove_fields(link);
+  hideParamsTable("#puppetclasses_parameters_table", "classes-none");
+}
 
 function update_nics(success_callback) {
   var data = $('form').serialize().replace('method=put', 'method=post');
@@ -423,6 +493,7 @@ function override_class_param(item){
   new_param.find('[data-property=name]').val(n);
   new_param.find('[data-property=value]').val(v);
   new_param.find('[data-property=type]').val(t);
+  showParamsTableHeader('#puppetclasses_parameters_table', 'classes-none');
   mark_params_override();
 }
 
