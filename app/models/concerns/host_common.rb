@@ -30,7 +30,7 @@ module HostCommon
 
     alias_method :all_puppetclasses, :classes
 
-    has_many :lookup_values, :primary_key => :lookup_value_matcher, :foreign_key => :match, :validate => false
+    has_many :lookup_values, :primary_key => :lookup_value_matcher, :foreign_key => :match, :validate => false, :dependent => :destroy
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
     accepts_nested_attributes_for :lookup_values
 
