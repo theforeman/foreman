@@ -1,6 +1,6 @@
 class ConfigReport < Report
-  def self.model_name
-    superclass.model_name
+  class << self
+    delegate :model_name, :to => :superclass
   end
 
   def self.import(report, proxy_id = nil)

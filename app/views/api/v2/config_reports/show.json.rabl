@@ -12,6 +12,6 @@ child :logs do
   attribute :level
 end
 
-node :summary do |report|
-  report.summary_status
+node :summary do |config_report|
+  config_report.summary_status
 end

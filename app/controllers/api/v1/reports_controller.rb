@@ -2,7 +2,7 @@ module Api
   module V1
     class ReportsController < V1::BaseController
       before_filter :deprecated
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :find_resource, :only => %w{show destroy}
       before_filter :setup_search_options, :only => [:index, :last]
 
       api :GET, "/reports/", "List all reports."
@@ -36,9 +36,9 @@ module Api
       param :id, :identifier, :required => true
 
       def last
-        conditions = { :host_id => Host.find(params[:host_id]).try(:id) } unless params[:host_id].blank?
-        max_id = ConfigReport.authorized(:view_config_reports).my_reports.where(conditions).maximum(:id)
-        @report = ConfigReport.authorized(:view_config_reports).includes(:logs => [:message, :source]).find(max_id)
+        conditions = { :host_id => Host.authorized(:view_hosts).find(params[:host_id]).try(:id) } if params[:host_id].present?
+        max_id = resource_scope.my_reports.where(conditions).maximum(:id)
+        @report = resource_scope.includes(:logs => [:message, :source]).find(max_id)
         render :show
       end
 
@@ -46,6 +46,19 @@ module Api
 
       def deprecated
         Foreman::Deprecation.api_deprecation_warning("Reports were renamed to ConfigReports")
+      end
+
+      def resource_scope(options = {})
+        ConfigReport.authorized(:view_config_reports)
+      end
+
+      def action_permission
+        case params[:action]
+        when 'last'
+          'view'
+        else
+          super
+        end
       end
     end
   end

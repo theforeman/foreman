@@ -4,14 +4,13 @@ class ConfigReportsController < ApplicationController
   before_filter :setup_search_options, :only => :index
 
   def index
-    report_authorized = resource_base.my_reports
-    @config_reports = report_authorized.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page]).includes(:host)
+    @config_reports = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page]).includes(:host)
   end
 
   def show
     # are we searching for the last report?
     if params[:id] == "last"
-      conditions = { :host_id => Host.find(params[:host_id]).try(:id) } unless params[:host_id].blank?
+      conditions = { :host_id => Host.authorized(:view_hosts).find(params[:host_id]).try(:id) } if params[:host_id].present?
       params[:id] = resource_base.where(conditions).maximum(:id)
     end
 
@@ -24,9 +23,15 @@ class ConfigReportsController < ApplicationController
   def destroy
     @config_report = resource_base.find(params[:id])
     if @config_report.destroy
-      process_success :success_msg => _("Successfully deleted report."), :success_redirect => reports_path
+      process_success(:success_msg => _("Successfully deleted report."), :success_redirect => reports_path)
     else
       process_error
     end
+  end
+
+  private
+
+  def resource_base
+    super.my_reports
   end
 end

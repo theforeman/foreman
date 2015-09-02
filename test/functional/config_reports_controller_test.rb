@@ -1,9 +1,8 @@
 require 'test_helper'
+require 'functional/shared/report_host_permissions_test'
 
 class ConfigReportsControllerTest < ActionController::TestCase
-  setup do
-    User.current = users :admin
-  end
+  include ::ReportHostPermissionsTest
 
   def test_index
     get :index, {}, set_session_user
@@ -18,10 +17,22 @@ class ConfigReportsControllerTest < ActionController::TestCase
     assert_template 'show'
   end
 
+  test '404 on show when id is blank' do
+    get :show, {:id => ' '}, set_session_user
+    assert_response :missing
+    assert_template 'common/404'
+  end
+
   def test_show_last
     FactoryGirl.create(:report)
     get :show, {:id => "last"}, set_session_user
     assert_template 'show'
+  end
+
+  test '404 on last when no reports available' do
+    get :show, { :id => 'last', :host_id => FactoryGirl.create(:host) }, set_session_user
+    assert_response :missing
+    assert_template 'common/404'
   end
 
   def test_show_last_report_for_host
@@ -62,18 +73,16 @@ class ConfigReportsControllerTest < ActionController::TestCase
     assert_redirected_to reports_path
   end
 
+  test 'cannot view the last report without hosts view permission' do
+    setup_user('view', 'config_reports')
+    report = FactoryGirl.create(:report)
+    get :show, { :id => 'last', :host_id => report.host.id }, set_session_user.merge(:user => User.current)
+    assert_response :not_found
+  end
+
+  private
+
   def create_a_report
-    @report = Report.import JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-empty.json")))
-  end
-
-  def user_setup
-    @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
-  end
-
-  test 'user with viewer rights should succeed in viewing reports' do
-    user_setup
-    get :index, {}, set_session_user
-    assert_response :success
+    @report = ConfigReport.import JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-empty.json")))
   end
 end

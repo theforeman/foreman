@@ -163,7 +163,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
 
   test "should get last report" do
     reports = FactoryGirl.create_list(:config_report, 5)
-    get :last
+    get :last, set_session_user
     assert_response :success
     assert_not_nil assigns(:report)
     report = ActiveSupport::JSON.decode(@response.body)
@@ -174,7 +174,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
   test "should get last report for given host only" do
     main_report = FactoryGirl.create(:config_report)
     FactoryGirl.create_list(:config_report, 5)
-    get :last, {:host_id => main_report.host.to_param }
+    get :last, {:host_id => main_report.host.to_param }, set_session_user
     assert_response :success
     assert_not_nil assigns(:report)
     report = ActiveSupport::JSON.decode(@response.body)
@@ -189,7 +189,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
   end
 
   test 'cannot view the last report without hosts view permission' do
-    setup_user('view', 'reports')
+    setup_user('view', 'config_reports')
     report = FactoryGirl.create(:report)
     get :last, { :host_id => report.host.id }, set_session_user.merge(:user => User.current)
     assert_response :not_found

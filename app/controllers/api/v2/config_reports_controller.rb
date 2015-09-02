@@ -4,7 +4,7 @@ module Api
       include Api::Version2
       include Foreman::Controller::SmartProxyAuth
 
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :find_resource, :only => %w{show destroy}
       before_filter :setup_search_options, :only => [:index, :last]
 
       add_smart_proxy_filters :create, :features => ConfigReportImporter.authorized_smart_proxy_features
@@ -54,10 +54,29 @@ module Api
       param :id, :identifier, :required => true
 
       def last
-        conditions = { :host_id => Host.find(params[:host_id]).id } unless params[:host_id].blank?
-        max_id = ConfigReport.authorized(:view_config_reports).my_reports.where(conditions).maximum(:id)
-        @config_report = ConfigReport.authorized(:view_config_reports).includes(:logs => [:message, :source]).find(max_id)
+        conditions = { :host_id => Host.authorized(:view_hosts).find(params[:host_id]).try(:id) } if params[:host_id].present?
+        max_id = resource_scope.where(conditions).maximum(:id)
+        @config_report = resource_scope.includes(:logs => [:message, :source]).find(max_id)
         render :show
+      end
+
+      private
+
+      def resource_class
+        ConfigReport
+      end
+
+      def resource_scope(options = {})
+        resource_class.authorized(:view_config_reports).my_reports
+      end
+
+      def action_permission
+        case params[:action]
+          when 'last'
+            'view'
+          else
+            super
+        end
       end
     end
   end
