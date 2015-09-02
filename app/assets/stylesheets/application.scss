@@ -231,25 +231,6 @@ tr.override-param{
   td{
     vertical-align: top
   }
-
-  &.condensed {
-    margin-bottom: 0;
-    textarea {
-      border-color: #f5f5f5;
-      background-color: #f5f5f5;
-      @include box-shadow(none);
-      resize: none;
-      cursor: text;
-    }
-
-    &.error textarea {
-      border-color: #b94a48;
-    }
-
-    &.warning textarea {
-      border-color: #c09853;
-    }
-  }
 }
 
 .avatar {
@@ -541,10 +522,6 @@ table {
   &.collapsed .caret{
     transform: rotate(-90deg);
   }
-}
-
-.btn-fullscreen{
-  margin-right: 10px;
 }
 
 .error-message{

@@ -1,6 +1,5 @@
 $(document).on('ContentLoad', function(){onHostEditLoad()});
 $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(link)});
-$(document).on('click', '#params-tab', function() { resizeTextareas($('#params')); });
 
 function update_nics(success_callback) {
   var data = $('form').serialize().replace('method=put', 'method=post');
@@ -662,19 +661,6 @@ function disable_vm_form_fields() {
   $("#update_not_supported").show();
   $("[id^=host_compute_attributes]").each(function () {
     $(this).attr("disabled", "disabled");
-  });
-}
-
-function resizeTextareas (elem) {
-  elem.find('textarea').each(function() {
-    if (this.scrollHeight !== undefined){
-      if (this.scrollHeight <= 100){
-        this.style.height = this.scrollHeight+parseInt(this.style.paddingTop)+parseInt(this.style.paddingBottom)+ 'px';
-      }
-      else{
-        this.style.height = 100+'px';
-      }
-    }
   });
 }
 
