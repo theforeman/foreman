@@ -29,8 +29,8 @@ module HostsHelper
     selected_taxonomy = @host.new_record? ? taxonomy.current.try(:id) : @host.send(taxonomy_id)
     select_opts = { :include_blank => !@host.managed? || @host.send(taxonomy_id).nil?,
                     :selected => selected_taxonomy }
-    html_opts = { :disabled => !@host.new_record?,
-                  :onchange => "#{taxonomy.to_s.downcase}_changed(this);",
+    html_opts = { :disabled => !!@host.taxonomy_edit_enabled ^ !@host.new_record?,
+                  :onchange => !!@host.taxonomy_edit_enabled ? '' : "#{taxonomy.to_s.downcase}_changed(this);",
                   :label => _(taxonomy.to_s),
                   :'data-host-id' => @host.id,
                   :'data-url' => process_taxonomy_hosts_path,

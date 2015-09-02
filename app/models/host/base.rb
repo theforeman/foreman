@@ -36,6 +36,8 @@ module Host
     validate :host_has_required_interfaces
     validate :uniq_interfaces_identifiers
 
+    attr_accessor :taxonomy_edit_enabled
+
     default_scope lambda {
       where(taxonomy_conditions)
     }
