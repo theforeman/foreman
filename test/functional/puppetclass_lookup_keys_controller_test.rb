@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class LookupKeysControllerTest < ActionController::TestCase
+class PuppetclassLookupKeysControllerTest < ActionController::TestCase
   test "should get index" do
     get :index, {}, set_session_user
     assert_response :success
@@ -13,16 +13,16 @@ class LookupKeysControllerTest < ActionController::TestCase
   end
 
   test "should update lookup_keys" do
-    lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param, :puppetclass => puppetclasses(:one), :override => true, :default_value => 'test')
+    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => puppetclasses(:one), :override => true, :default_value => 'test')
     put :update, {:id => lkey.to_param, :lookup_key => { :description => "test that" }}, set_session_user
-    assert_redirected_to lookup_keys_path
+    assert_redirected_to puppetclass_lookup_keys_path
   end
 
   test "should destroy lookup_keys" do
-    assert_difference('LookupKey.count', -1) do
+    assert_difference('PuppetclassLookupKey.count', -1) do
       delete :destroy, {:id => lookup_keys(:one).to_param}, set_session_user
     end
-    assert_redirected_to lookup_keys_path
+    assert_redirected_to puppetclass_lookup_keys_path
   end
 
   def setup_user
@@ -32,7 +32,7 @@ class LookupKeysControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit an external variable' do
     setup_user
-    get :edit, {:id => LookupKey.first.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, {:id => PuppetclassLookupKey.first.id}, set_session_user.merge(:user => users(:one).id)
     assert_equal response.status, 403
   end
 

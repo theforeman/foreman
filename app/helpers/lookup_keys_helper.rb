@@ -35,7 +35,7 @@ module LookupKeysHelper
     # Show the parent puppetclass as a context, but permit no change.
     if params["puppetclass_id"]
       select_f f, :puppetclass_id, [Puppetclass.find(params["puppetclass_id"])], :id, :to_label, {}, {:label => _("Puppet class"), :disabled => true}
-    elsif f.object.is_param && f.object.param_class
+    elsif f.object.puppet? && f.object.param_class
       field(f, :puppetclass_id, :label => _('Puppet Class')) do
         content_tag(:input, nil, :value => f.object.param_class, :type => 'text', :disabled => true)
       end
@@ -47,7 +47,7 @@ module LookupKeysHelper
 
   def param_type_selector(f, options = {})
     selectable_f f, :key_type, options_for_select(LookupKey::KEY_TYPES.map { |e| [_(e),e] }, f.object.key_type),{},
-                 options.merge({ :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8", :class=> "without_select2",
+                 options.merge({ :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class=> "without_select2",
                  :help_inline => popover("",_("<dl>" +
                "<dt>String</dt> <dd>Everything is taken as a string.</dd>" +
                "<dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd>" +
@@ -62,7 +62,7 @@ module LookupKeysHelper
 
   def validator_type_selector(f)
     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e),e]  }, f.object.validator_type),{:include_blank => _("None")},
-               { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8", :class=> "without_select2",
+               { :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class=> "without_select2",
                  :onchange => 'validatorTypeSelected(this)',
                  :help_inline => popover("",_("<dl>" +
                "<dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>" +

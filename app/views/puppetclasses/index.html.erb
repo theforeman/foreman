@@ -27,8 +27,9 @@
         <td><%= puppetclass.all_hostgroups(false).map {|hg| link_to_if_authorized trunc_with_tooltip(hg), hash_for_edit_hostgroup_path(:id=>hg).merge(:auth_object => hg, :authorizer => @hostgroups_authorizer)}.to_sentence.html_safe %></td>
         <td> <%= link_to puppetclass.total_hosts, hosts_path(:search => "class = #{puppetclass.name}")%></td>
         <td><%= puppetclass.global_class_params_count %> </td>
-        <td><%= puppetclass.lookup_keys_count %> </td>
-        <td><%
+        <td><%= puppetclass.variable_lookup_keys_count %> </td>
+        <td>
+          <%
           links = [display_delete_if_authorized(hash_for_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer), :data => { :confirm => _("Delete %s?") % puppetclass.name }, :action => :delete)]
           links.push(display_link_if_authorized(_('Override all parameters'), hash_for_override_puppetclass_path(:enable => true, :id => puppetclass), :method => :post, :data => { :confirm => _("This will set all parameters of the class %s as overridden. Continue?") % puppetclass.name })) if puppetclass.class_params.present? && !overridden?(puppetclass)
           links.push(display_link_if_authorized(_('Set parameters to defaults'), hash_for_override_puppetclass_path(:enable => false, :id => puppetclass), :method => :post, :data => { :confirm => _("This will reset parameters of the class %s to their default values. Continue?") % puppetclass.name })) if puppetclass.class_params.present? && overridden?(puppetclass)

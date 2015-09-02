@@ -12,7 +12,7 @@ class LookupKeyTest < ActiveSupport::TestCase
   def test_element_seperations
     key = ""
     as_admin do
-      key = LookupKey.create!(:key => "ntp", :path => "domain,hostgroup\n domain", :puppetclass => Puppetclass.first)
+      key = VariableLookupKey.create!(:key => "ntp", :path => "domain,hostgroup\n domain", :puppetclass => Puppetclass.first)
     end
     elements = key.send(:path_elements) # hack to access private method
     assert_equal "domain", elements[0][0]
@@ -24,7 +24,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     key   = ""
     value = ""
     as_admin do
-      key   = LookupKey.create!(:key => "ntp", :path => "domain", :puppetclass => Puppetclass.first)
+      key   = VariableLookupKey.create!(:key => "ntp", :path => "domain", :puppetclass => Puppetclass.first)
       value = LookupValue.create!(:value => "ntp.mydomain.net", :match => "domain =  mydomain.net", :lookup_key => key)
     end
 
@@ -38,7 +38,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     puppetclass = puppetclasses(:one)
 
     as_admin do
-      key   = LookupKey.create!(:key => "dns", :path => "domain\npuppetversion", :puppetclass => puppetclass,:override=>true)
+      key   = PuppetclassLookupKey.create!(:key => "dns", :path => "domain\npuppetversion", :override=>true)
       value = LookupValue.create!(:value => "[1.2.3.4,2.3.4.5]", :match => "domain =  mydomain.net", :lookup_key => key)
       EnvironmentClass.create!(:puppetclass => puppetclass, :environment => environments(:production), :lookup_key => key)
     end
@@ -54,7 +54,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     key   = ""
     value = ""
     as_admin do
-      key   = LookupKey.create!(:key => "ntp", :path => "hostgroup", :puppetclass => Puppetclass.first)
+      key   = VariableLookupKey.create!(:key => "ntp", :path => "hostgroup", :puppetclass => Puppetclass.first)
       value = LookupValue.create!(:value => "ntp.pool.org", :match => "hostgroup =  Common", :lookup_key => key)
     end
     @host1.hostgroup = hostgroups(:common)
@@ -76,7 +76,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     value2 = ""
     puppetclass = Puppetclass.first
     as_admin do
-      key    = LookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass, :default_value => default, :override=>true)
+      key    = PuppetclassLookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :default_value => default, :override=>true)
       value1 = LookupValue.create!(:value => "v1", :match => "environment=testing,hostgroup=Common", :lookup_key => key)
       value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
 
@@ -107,7 +107,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     puppetclass = Puppetclass.first
 
     as_admin do
-      key    = LookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass,
+      key    = VariableLookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass,
                                  :default_value => default, :override=>true)
       value1 = LookupValue.create!(:value => "v1", :match => "hostgroup=Common", :lookup_key => key)
       value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
@@ -133,11 +133,11 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   test "this is a smart variable?" do
-    assert lookup_keys(:two).is_smart_variable?
+    assert lookup_keys(:two).class == VariableLookupKey
   end
 
   test "this is a smart class parameter?" do
-    assert lookup_keys(:complex).is_smart_class_parameter?
+    assert lookup_keys(:complex).puppet?
   end
 
   test "when changed, an audit entry should be added" do
@@ -156,18 +156,18 @@ class LookupKeyTest < ActiveSupport::TestCase
     env = FactoryGirl.create(:environment)
     pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
     key = pc.class_params.first
-    smart_variable = LookupKey.create!(:key => key.key, :path => "hostgroup", :puppetclass => Puppetclass.first)
+    smart_variable = VariableLookupKey.create!(:key => key.key, :path => "hostgroup", :puppetclass => Puppetclass.first)
     assert_valid smart_variable
   end
 
   test "should not create two smart variables with the same name" do
-    LookupKey.create!(:key => "smart-varialble", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default")
-    smart_variable2 = LookupKey.new(:key => "smart-varialble", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default2")
+    VariableLookupKey.create!(:key => "smart-varialble", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default")
+    smart_variable2 = VariableLookupKey.new(:key => "smart-varialble", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default2")
     refute_valid smart_variable2
   end
 
   test "should not be able to merge overrides for a string" do
-    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+    key = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'string', :merge_overrides => true,
                             :puppetclass => puppetclasses(:one))
     refute_valid key
@@ -175,21 +175,21 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   test "should be able to merge overrides for a hash" do
-    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+    key = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'hash', :merge_overrides => true,
                             :default_value => {}, :puppetclass => puppetclasses(:one))
     assert_valid key
   end
 
   test "should be able to merge overrides with default_value for a hash" do
-    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+    key = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'hash', :merge_overrides => true, :merge_default => true,
                             :default_value => {}, :puppetclass => puppetclasses(:one))
     assert_valid key
   end
 
   test "should not be able to merge default when merge_override is false" do
-    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+    key = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'hash', :merge_overrides => false, :merge_default => true,
                             :default_value => {}, :puppetclass => puppetclasses(:one))
     refute_valid key
@@ -197,7 +197,7 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   test "should not be able to avoid duplicates for a hash" do
-    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+    key = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'hash', :merge_overrides => true, :avoid_duplicates => true,
                             :default_value => {}, :puppetclass => puppetclasses(:one))
     refute_valid key
@@ -205,14 +205,14 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   test "should be able to merge overrides for a array" do
-    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+    key = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
                             :default_value => [], :puppetclass => puppetclasses(:one))
     assert_valid key
   end
 
   test "should not be able to avoid duplicates when merge_override is false" do
-    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+    key = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'array', :merge_overrides => false, :avoid_duplicates => true,
                             :default_value => [], :puppetclass => puppetclasses(:one))
     refute_valid key
@@ -220,7 +220,7 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   test "should detect erb" do
-    key = FactoryGirl.build(:lookup_key)
+    key = FactoryGirl.build(:puppetclass_lookup_key)
     assert key.contains_erb?('<% object_id %>')
     assert key.contains_erb?('<%= object_id %>')
     assert key.contains_erb?('[<% object_id %>, <% self %>]')
@@ -230,14 +230,14 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   test "array key is valid even with string value containing erb" do
-    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+    key = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
                             :default_value => '<%= [1,2,3] %>', :puppetclass => puppetclasses(:one))
     assert key.valid?
   end
 
   test "array key is invalid with string value without erb" do
-    key = FactoryGirl.build(:lookup_key, :as_smart_class_param,
+    key = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
                             :default_value => 'whatever', :puppetclass => puppetclasses(:one))
     refute key.valid?
@@ -246,7 +246,7 @@ class LookupKeyTest < ActiveSupport::TestCase
 
   context "when key is a boolean and default_value is a string" do
     def setup
-      @key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+      @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                                :override => true, :key_type => 'boolean',
                                :default_value => 'whatever', :puppetclass => puppetclasses(:one), :use_puppet_default => true)
     end

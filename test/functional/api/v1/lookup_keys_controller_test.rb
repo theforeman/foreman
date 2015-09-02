@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Api::V1::LookupKeysControllerTest < ActionController::TestCase
-  valid_attrs = { :key => 'testkey', :is_param => true }
+  valid_attrs = { :key => 'testkey' }
 
   test "should get index" do
     get :index, { }

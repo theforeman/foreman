@@ -5,44 +5,61 @@ FactoryGirl.define do
 
   factory :environment_class
 
-  factory :lookup_key do
-    sequence(:key) {|n| "param#{n}" }
-
-    transient do
-      overrides({})
-    end
-    after(:create) do |lkey,evaluator|
-      evaluator.overrides.each do |match,value|
-        FactoryGirl.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match, :use_puppet_default => false
-      end
-      lkey.reload
+  FactoryGirl.define do
+    factory :lookup_key, class: 'LookupKey' do
+      sequence(:key) { |n| "param#{n}" }
     end
 
-    trait :is_param do
-      is_param true
-    end
-
-    trait :with_override do
-      override true
-      default_value "default value"
-      path "comment"
-      overrides({"comment=override" => "overridden value"})
-    end
-
-    trait :as_smart_class_param do
-      is_param true
+    factory :puppetclass_lookup_key, parent: :lookup_key, class: 'PuppetclassLookupKey' do
       transient do
-        puppetclass nil
+        overrides({})
       end
-      after(:create) do |lkey,evaluator|
-        evaluator.puppetclass.environments.each do |env|
-          FactoryGirl.create :environment_class, :puppetclass_id => evaluator.puppetclass.id, :environment_id => env.id, :lookup_key_id => lkey.id
+      after(:create) do |lkey, evaluator|
+        evaluator.overrides.each do |match, value|
+          FactoryGirl.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match, :use_puppet_default => false
+        end
+        lkey.reload
+      end
+
+      trait :with_override do
+        override true
+        default_value "default value"
+        path "comment"
+        overrides({ "comment=override" => "overridden value" })
+      end
+
+      trait :as_smart_class_param do
+        transient do
+          puppetclass nil
+        end
+        after(:create) do |lkey, evaluator|
+          evaluator.puppetclass.environments.each do |env|
+            FactoryGirl.create :environment_class, :puppetclass_id => evaluator.puppetclass.id, :environment_id => env.id, :lookup_key_id => lkey.id
+          end
         end
       end
+
+      trait :with_use_puppet_default do
+        use_puppet_default true
+      end
     end
 
-    trait :with_use_puppet_default do
-      use_puppet_default true
+    factory :variable_lookup_key, parent: :lookup_key, class: 'VariableLookupKey' do
+      transient do
+        overrides({})
+      end
+      after(:create) do |lkey, evaluator|
+        evaluator.overrides.each do |match, value|
+          FactoryGirl.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match
+        end
+        lkey.reload
+      end
+
+      trait :with_override do
+        default_value "default value"
+        path "comment"
+        overrides({ "comment=override" => "overridden value" })
+      end
     end
   end
 
@@ -73,7 +90,7 @@ FactoryGirl.define do
       after(:create) do |pc,evaluator|
         evaluator.parameter_count.times do
           evaluator.environments.each do |env|
-            lkey = FactoryGirl.create :lookup_key, :is_param => true
+            lkey = FactoryGirl.create :puppetclass_lookup_key
             FactoryGirl.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id, :lookup_key_id => lkey.id
           end
         end
