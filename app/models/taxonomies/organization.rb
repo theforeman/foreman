@@ -19,20 +19,6 @@ class Organization < Taxonomy
     where(conditions)
   }
 
-  # returns self and parent parameters as a hash
-  def parameters(include_source = false)
-    hash = {}
-    ids = ancestor_ids
-    ids << id unless new_record? or self.frozen?
-    # need to pull out the organizations to ensure they are sorted first,
-    # otherwise we might be overwriting the hash in the wrong order.
-    orgs = ids.size == 1 ? [self] : Organization.sort_by_ancestry(Organization.includes(:organization_parameters).find(ids))
-    orgs.each do |org|
-      org.organization_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('organization').to_sym, :source_name => org.title} : p.value }
-    end
-    hash
-  end
-
   def dup
     new = super
     new.locations = locations
