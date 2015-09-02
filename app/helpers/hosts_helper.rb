@@ -24,6 +24,13 @@ module HostsHelper
     javascript_include_tag("compute_resources/#{compute_resource.provider.downcase}/nic_info.js")
   end
 
+  def value_hash_cache(host)
+    @value_hash_cache ||= {}
+    @value_hash_cache[host.id] ||= begin
+      Classification::ClassParam.new(:host=>host).inherited_values.merge(Classification::GlobalParam.new(:host=>host).inherited_values)
+    end
+  end
+
   def host_taxonomy_select(f, taxonomy)
     taxonomy_id = "#{taxonomy.to_s.downcase}_id"
     selected_taxonomy = @host.new_record? ? taxonomy.current.try(:id) : @host.send(taxonomy_id)
