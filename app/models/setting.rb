@@ -123,7 +123,7 @@ class Setting < ActiveRecord::Base
       self.value = boolean
 
     when "integer"
-      if val =~ /\A\d+\Z/
+      if val.to_s =~ /\A\d+\Z/
         self.value = val.to_i
       else
         invalid_value_error _("must be integer")
