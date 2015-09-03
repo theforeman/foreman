@@ -1,6 +1,11 @@
 class Report < ActiveRecord::Base
+  METRIC = %w[applied restarted failed failed_restarts skipped pending]
+  BIT_NUM = 6
+  MAX = (1 << BIT_NUM) -1 # maximum value per metric
+  LOG_LEVELS = %w[debug info notice warning err alert emerg crit]
+
   include Authorizable
-  include ReportCommon
+  include ConfigurationStatusScopedSearch
 
   validates_lengths_from_database
   belongs_to_host
@@ -24,12 +29,19 @@ class Report < ActiveRecord::Base
   scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc,    :rename => :reported, :only_explicit => true
   scoped_search :on => :status, :offset => 0, :word_size => 4*BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
 
-  scoped_search :on => :status, :offset => METRIC.index("applied"),         :word_size => BIT_NUM, :rename => :applied
-  scoped_search :on => :status, :offset => METRIC.index("restarted"),       :word_size => BIT_NUM, :rename => :restarted
-  scoped_search :on => :status, :offset => METRIC.index("failed"),          :word_size => BIT_NUM, :rename => :failed
-  scoped_search :on => :status, :offset => METRIC.index("failed_restarts"), :word_size => BIT_NUM, :rename => :failed_restarts
-  scoped_search :on => :status, :offset => METRIC.index("skipped"),         :word_size => BIT_NUM, :rename => :skipped
-  scoped_search :on => :status, :offset => METRIC.index("pending"),         :word_size => BIT_NUM, :rename => :pending
+  scoped_search_status 'applied',         :on => :status, :rename => :applied
+  scoped_search_status 'restarted',       :on => :status, :rename => :restarted
+  scoped_search_status 'failed',          :on => :status, :rename => :failed
+  scoped_search_status 'failed_restarts', :on => :status, :rename => :failed_restarts
+  scoped_search_status 'skipped',         :on => :status, :rename => :skipped
+  scoped_search_status 'pending',         :on => :status, :rename => :pending
+
+  # search for a metric - e.g.:
+  # Report.with("failed") --> all reports which have a failed counter > 0
+  # Report.with("failed",20) --> all reports which have a failed counter > 20
+  scope :with, lambda { |*arg|
+    where("(#{report_status} >> #{HostStatus::ConfigurationStatus.bit_mask(arg[0].to_s)}) > #{arg[1] || 0}")
+  }
 
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
@@ -55,8 +67,7 @@ class Report < ActiveRecord::Base
           else
             raise Foreman::Exception(N_('Unsupported report status format'))
         end
-    @calc = nil
-    write_attribute(:status,s)
+    write_attribute(:status, s)
   end
 
   # extracts serialized metrics and keep them as a hash_with_indifferent_access
@@ -98,7 +109,7 @@ class Report < ActiveRecord::Base
       METRIC.each {|m| metrics[m] = 0 }
       host.reports.recent(time).select(:status).each do |r|
         metrics.each_key do |m|
-          metrics[m] += r.status(m)
+          metrics[m] += r.status_of(m)
         end
       end
       list[host.name] = {:metrics => metrics, :id => host.id} if metrics.values.sum > 0
@@ -141,5 +152,12 @@ class Report < ActiveRecord::Base
   # puppet report status table column name
   def self.report_status
     "status"
+  end
+
+  delegate :error?, :changes?, :pending?, :status, :status_of, :to => :calculator
+  delegate(*METRIC, :to => :calculator)
+
+  def calculator
+    ReportStatusCalculator.new(:bit_field => read_attribute(self.class.report_status))
   end
 end

@@ -62,7 +62,7 @@ module HostsHelper
 
   def last_report_tooltip(record)
     opts = { :rel => "twipsy" }
-    if @last_reports[record.id]
+    if @last_report_ids[record.id]
       opts.merge!( "data-original-title" => _("View last report details"))
     else
       opts.merge!(:disabled => true, :class => "disabled", :onclick => 'return false')
@@ -72,44 +72,47 @@ module HostsHelper
   end
 
   # method that reformat the hostname column by adding the status icons
-  def name_column(record)
-    label = record.host_status
-    case label
-    when "Pending Installation"
-      style ="label-info"
-      # TRANSLATORS: host's status: first character of "build"
-      short = s_("Build|B")
-    when "Alerts disabled"
-      style = "label-default"
-      # TRANSLATORS: host's status: first character of "disabled"
-      short = s_("Disabled|D")
-    when "No reports"
-      style = "label-default"
-      # TRANSLATORS: host's status: first character of "no reports"
-      short = s_("No reports|N")
-    when "Out of sync"
-      style = "label-warning"
-      # TRANSLATORS: host's status: first character of "sync" (out of sync)
-      short = s_("Sync|S")
-    when "Error"
-      style = "label-danger"
-      # TRANSLATORS: host's status: first character of "error"
-      short = s_("Error|E")
-    when "Active"
-      style = "label-info"
-      # TRANSLATORS: host's status: first character of "active"
-      short = s_("Active|A")
-    when "Pending"
-      style = "label-warning"
-      # TRANSLATORS: host's status: first character of "pending"
-      short = s_("Pending|P")
-    else
-      style = "label-success"
-      # TRANSLATORS: host's status: first character of "OK"
-      short = s_("OK|O")
+  def name_column(host)
+    style = host_global_status_icon_class_for_host(host)
+    tooltip = host.host_statuses.select(&:relevant?).sort_by(&:type).map { |status| "#{_(status.name)}: #{_(status.to_label)}" }.join(', ')
+
+    content = content_tag(:span, "", {:rel => "twipsy", :class => style, :"data-original-title" => tooltip} )
+    content += link_to(trunc_with_tooltip("  #{host}"), host_path(host))
+    content
+  end
+
+  def host_global_status_icon_class_for_host(host)
+    options = {}
+    options[:last_reports] = @last_reports unless @last_reports.nil?
+    host_global_status_icon_class(host.build_global_status(options).status)
+  end
+
+  def host_global_status_icon_class(status)
+    icon_class = case status
+      when HostStatus::Global::OK
+        'glyphicon-ok-sign'
+      when HostStatus::Global::WARN
+        'glyphicon-info-sign'
+      when HostStatus::Global::ERROR
+        'glyphicon-exclamation-sign'
+      else
+        'glyphicon-question-sign'
     end
-    content_tag(:span, short, {:rel => "twipsy", :class => "label label-light " + style, :"data-original-title" => _(label)} ) +
-      link_to(trunc_with_tooltip("  #{record}"), host_path(record))
+
+    "host-status glyphicon #{icon_class} #{host_global_status_class(status)}"
+  end
+
+  def host_global_status_class(status)
+    case status
+      when HostStatus::Global::OK
+        'status-ok'
+      when HostStatus::Global::WARN
+        'status-warn'
+      when HostStatus::Global::ERROR
+        'status-error'
+      else
+        'status-question'
+    end
   end
 
   def days_ago(time)
@@ -247,7 +250,14 @@ module HostsHelper
   end
 
   def overview_fields(host)
+    global_status = host.build_global_status
     fields = [
+      [_("Status"), content_tag(:i, ''.html_safe, :class => host_global_status_icon_class(global_status.status)) +
+                    content_tag(:span, _(global_status.to_label), :class => host_global_status_class(global_status.status))
+      ]
+    ]
+    fields += host_detailed_status_list(host)
+    fields += [
       [_("Domain"), (link_to(host.domain, hosts_path(:search => "domain = #{host.domain}")) if host.domain)],
       [_("Realm"), (link_to(host.realm, hosts_path(:search => "realm = #{host.realm}")) if host.realm)],
       [_("IP Address"), host.ip],
@@ -268,6 +278,17 @@ module HostsHelper
     end
     fields += [[_("Certificate Name"), host.certname]] if Setting[:use_uuid_for_certificates]
     fields
+  end
+
+  def host_detailed_status_list(host)
+    host.host_statuses.sort_by(&:type).map do |status|
+      next unless status.relevant?
+      [
+        _(status.name),
+        content_tag(:i, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +
+          content_tag(:span, _(status.to_label), :class => host_global_status_class(status.to_global))
+      ]
+    end
   end
 
   def possible_images(cr, arch = nil, os = nil)

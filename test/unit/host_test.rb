@@ -405,6 +405,48 @@ class HostTest < ActiveSupport::TestCase
     assert_nil host
   end
 
+  test 'host #refresh_global_status defaults to OK' do
+    host = FactoryGirl.build(:host)
+    assert_empty host.host_statuses
+    host.refresh_global_status
+    assert_equal HostStatus::Global::OK, host.global_status
+  end
+
+  test 'host #get_status(type) builds a new status if there is none yet and returns existing one otherwise' do
+    host = FactoryGirl.build(:host)
+    status = host.get_status(HostStatus::BuildStatus)
+    assert status.new_record?
+    assert_equal host, status.host
+
+    status.refresh!
+    new_status = host.get_status(HostStatus::BuildStatus)
+    assert_equal status, new_status
+  end
+
+  test 'host #refresh_statuses saves all relevant statuses and refreshes global status' do
+    host = FactoryGirl.build(:host)
+    host.global_status = 1
+
+    host.refresh_statuses
+    assert_equal 0, host.global_status
+    refute_empty host.host_statuses
+    assert host.get_status(HostStatus::BuildStatus).new_record? # BuildStatus was not #relevant? for unmanaged host
+    refute host.get_status(HostStatus::ConfigurationStatus).new_record?
+  end
+
+  test 'build status is updated on host validation' do
+    host = FactoryGirl.build(:host)
+    host.build = false
+    host.valid?
+    original_status = host.get_status(HostStatus::BuildStatus).to_status
+
+    host.build = true
+    host.valid?
+    new_status = host.get_status(HostStatus::BuildStatus).to_status
+
+    refute_equal original_status, new_status
+  end
+
   test "assign a host to a location" do
     host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
     location = Location.create :name => "New York"
