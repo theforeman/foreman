@@ -93,11 +93,6 @@ Rails/HasAndBelongsToMany:
 Rails/Output:
   Enabled: false
 
-# Offense count: 37
-# Configuration parameters: Include.
-Rails/ReadWriteAttribute:
-  Enabled: false
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.

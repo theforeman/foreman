@@ -42,7 +42,7 @@ class Parameter < ActiveRecord::Base
   private
 
   def set_priority
-    t = read_attribute(:type)
+    t = self[:type]
     self.priority = PRIORITY[t.to_s.underscore.to_sym] unless t.blank?
   end
 

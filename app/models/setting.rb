@@ -91,22 +91,22 @@ class Setting < ActiveRecord::Base
 
   def value=(v)
     v = v.to_yaml unless v.nil?
-    write_attribute :value, v
+    self[:value] = v
   end
 
   def value
-    v = read_attribute(:value)
+    v = self[:value]
     v.nil? ? default : YAML.load(v)
   end
   alias_method :value_before_type_cast, :value
 
   def default
-    d = read_attribute(:default)
+    d = self[:default]
     d.nil? ? nil : YAML.load(d)
   end
 
   def default=(v)
-    write_attribute :default, v.to_yaml
+    self[:default] = v.to_yaml
   end
   alias_method :default_before_type_cast, :default
 
@@ -228,9 +228,7 @@ class Setting < ActiveRecord::Base
   end
 
   def clear_value_when_default
-    if read_attribute(:value) == read_attribute(:default)
-      write_attribute(:value, nil)
-    end
+    self[:value] = nil if self[:value] == self[:default]
   end
 
   def clear_cache

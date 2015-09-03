@@ -77,7 +77,7 @@ class Operatingsystem < ActiveRecord::Base
   # family are the same thing then rails converts the record to a Debian or a solaris object as required.
   # Manually managing the 'type' field allows us to control the inheritance chain and the available methods
   def family
-    read_attribute(:type)
+    self[:type]
   end
 
   def family=(value)

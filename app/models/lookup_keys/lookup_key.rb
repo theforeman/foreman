@@ -87,14 +87,14 @@ class LookupKey < ActiveRecord::Base
   end
 
   def path
-    path = read_attribute(:path)
+    path = self[:path]
     path.blank? ? array2path(Setting["Default_variables_Lookup_Path"]) : path
   end
 
   def path=(v)
     return unless v
     using_default = v.tr("\r","") == array2path(Setting["Default_variables_Lookup_Path"])
-    write_attribute(:path, using_default ? nil : v)
+    self[:path] = using_default ? nil : v
   end
 
   def reject_invalid_lookup_values(attributes)

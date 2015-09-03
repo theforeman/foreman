@@ -159,7 +159,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def provider
-    read_attribute(:type).to_s.split('::').last
+    self[:type].to_s.split('::').last
   end
 
   def provider=(value)
