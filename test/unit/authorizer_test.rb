@@ -258,7 +258,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
   test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report) for admin" do
     host       = FactoryGirl.create(:host)
-    report     = FactoryGirl.create(:report, :host => host)
+    report     = FactoryGirl.create(:config_report, :host => host)
     @user.update_attribute(:admin, true)
     auth       = Authorizer.new(@user)
 
@@ -269,7 +269,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     permission = Permission.find_by_name('view_hosts')
     FactoryGirl.create(:filter, :role => @role, :permissions => [permission], :unlimited => true)
     host       = FactoryGirl.create(:host)
-    report     = FactoryGirl.create(:report, :host => host)
+    report     = FactoryGirl.create(:config_report, :host => host)
     auth       = Authorizer.new(@user)
 
     assert_includes auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report), report
@@ -280,7 +280,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
                                 :search => 'hostgroup ~ hostgroup*')
     host       = FactoryGirl.create(:host, :with_hostgroup)
-    report     = FactoryGirl.create(:report, :host => host)
+    report     = FactoryGirl.create(:config_report, :host => host)
     auth       = Authorizer.new(@user)
 
     assert_includes auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report), report
@@ -291,8 +291,8 @@ class AuthorizerTest < ActiveSupport::TestCase
     FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
                                 :search => 'hostgroup ~ hostgroup*')
     (host1, host2) = FactoryGirl.create_pair(:host, :with_hostgroup)
-    report1        = FactoryGirl.create(:report, :host => host1)
-    report2        = FactoryGirl.create(:report, :host => host2)
+    report1        = FactoryGirl.create(:config_report, :host => host1)
+    report2        = FactoryGirl.create(:config_report, :host => host2)
     auth           = Authorizer.new(@user, :collection => [host2])
 
     collection = auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report)
@@ -304,8 +304,8 @@ class AuthorizerTest < ActiveSupport::TestCase
     permission = Permission.find_by_name('view_hosts')
     FactoryGirl.create(:filter, :role => @role, :permissions => [permission], :unlimited => true)
     hosts      = FactoryGirl.create_pair(:host)
-    report1    = FactoryGirl.create(:report, :host => hosts.first)
-    report2    = FactoryGirl.create(:report, :host => hosts.last)
+    report1    = FactoryGirl.create(:config_report, :host => hosts.first)
+    report2    = FactoryGirl.create(:config_report, :host => hosts.last)
     auth       = Authorizer.new(@user)
 
     collection = auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report,

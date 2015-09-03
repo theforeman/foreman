@@ -14,7 +14,7 @@ class TopBarIntegrationTest < ActionDispatch::IntegrationTest
     within("div.navbar-inner") do
       assert page.has_link?("Dashboard", :href => "/dashboard")
       assert page.has_link?("All hosts", :href => "/hosts")
-      assert page.has_link?("Reports", :href => "/reports?search=eventful+%3D+true")
+      assert page.has_link?("Config management", :href => "/config_reports?search=eventful+%3D+true")
       assert page.has_link?("Facts", :href => "/fact_values")
       assert page.has_link?("Audits", :href => "/audits")
       assert page.has_link?("Statistics", :href => "/statistics")

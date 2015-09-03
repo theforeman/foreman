@@ -1,13 +1,13 @@
 require 'test_helper'
 require 'functional/shared/report_host_permissions_test'
 
-class ReportsControllerTest < ActionController::TestCase
+class ConfigReportsControllerTest < ActionController::TestCase
   include ::ReportHostPermissionsTest
 
   def test_index
     get :index, {}, set_session_user
     assert_response :success
-    assert_not_nil assigns('reports')
+    assert_not_nil assigns('config_reports')
     assert_template 'index'
   end
 
@@ -74,7 +74,7 @@ class ReportsControllerTest < ActionController::TestCase
   end
 
   test 'cannot view the last report without hosts view permission' do
-    setup_user('view', 'reports')
+    setup_user('view', 'config_reports')
     report = FactoryGirl.create(:report)
     get :show, { :id => 'last', :host_id => report.host.id }, set_session_user.merge(:user => User.current)
     assert_response :not_found
@@ -83,6 +83,6 @@ class ReportsControllerTest < ActionController::TestCase
   private
 
   def create_a_report
-    @report = Report.import JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-empty.json")))
+    @report = ConfigReport.import JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/../fixtures/report-empty.json")))
   end
 end

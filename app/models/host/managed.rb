@@ -205,19 +205,19 @@ class Host::Managed < Host::Base
     self.owner = oid
   end
 
-  def clearReports
+  def clear_reports
     # Remove any reports that may be held against this host
     Report.where("host_id = #{id}").delete_all
   end
 
-  def clearFacts
+  def clear_facts
     FactValue.where("host_id = #{id}").delete_all
   end
 
   def clear_data_on_build
     return unless respond_to?(:old) && old && build? && !old.build?
-    clearFacts
-    clearReports
+    clear_facts
+    clear_reports
   end
 
   def set_token

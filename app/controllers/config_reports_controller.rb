@@ -1,10 +1,10 @@
-class ReportsController < ApplicationController
+class ConfigReportsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   before_filter :setup_search_options, :only => :index
 
   def index
-    @reports = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page]).includes(:host)
+    @config_reports = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page]).includes(:host)
   end
 
   def show
@@ -13,13 +13,16 @@ class ReportsController < ApplicationController
       conditions = { :host_id => Host.authorized(:view_hosts).find(params[:host_id]).try(:id) } if params[:host_id].present?
       params[:id] = resource_base.where(conditions).maximum(:id)
     end
-    @report = resource_base.includes(:logs => [:message, :source]).find(params[:id])
-    @offset = @report.reported_at - @report.created_at
+
+    return not_found if params[:id].blank?
+
+    @config_report = resource_base.includes(:logs => [:message, :source]).find(params[:id])
+    @offset = @config_report.reported_at - @config_report.created_at
   end
 
   def destroy
-    @report = resource_base.find(params[:id])
-    if @report.destroy
+    @config_report = resource_base.find(params[:id])
+    if @config_report.destroy
       process_success(:success_msg => _("Successfully deleted report."), :success_redirect => reports_path)
     else
       process_error
