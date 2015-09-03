@@ -9,7 +9,7 @@ class HostBuildStatusTest < ActiveSupport::TestCase
                     :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
                     :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
                     :owner_type => "User", :root_pass => "xybxa6JUkz63w")
-    @build = @host.build_status
+    @build = @host.build_status_checker
     # bypass host.valid?
     HostBuildStatus.any_instance.stubs(:host_status).returns(true)
   end
@@ -22,7 +22,7 @@ class HostBuildStatusTest < ActiveSupport::TestCase
     host = @host
     kind = FactoryGirl.create(:template_kind)
     FactoryGirl.create(:provisioning_template, :template => "provision script <%= @foreman.server.status %>",:name => "My Failed Template", :template_kind => kind, :operatingsystem_ids => [host.operatingsystem_id], :environment_ids => [host.environment_id], :hostgroup_ids => [host.hostgroup_id]  )
-    @build = host.build_status
+    @build = host.build_status_checker
     refute_empty @build.errors[:templates]
   end
 
