@@ -45,7 +45,7 @@
     <div class="row">
       <%= render "puppetclasses/classes",
         :puppetclasses => obj.available_puppetclasses,
-        :selected_puppet_classes => obj.classes,
+        :selected_puppet_classes => (obj.classes + obj.puppetclasses).uniq,
         :type => obj_type(obj)
       %>
     </div>
