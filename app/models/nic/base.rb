@@ -21,8 +21,9 @@ module Nic
 
     validates :mac, :uniqueness => {:scope => :virtual},
               :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? }, :allow_blank => true
+    validate :compute_resource_requires_fields, :if => Proc.new {|nic| nic.mac.blank? && (nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? &&!nic.virtual?)}
     validates :mac, :presence => true,
-              :if => Proc.new { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? }
+              :if => Proc.new { |nic| !nic.skip_mac_validation && nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? &&!nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true
 
     # TODO uniq on primary per host
@@ -70,6 +71,8 @@ module Nic
 
     # provider specific attributes
     serialize :compute_attributes, Hash
+
+    attr_reader :skip_mac_validation
 
     class Jail < ::Safemode::Jail
       allow :managed?, :subnet, :virtual?, :physical?, :mac, :ip, :identifier, :attached_to,
@@ -147,6 +150,13 @@ module Nic
     end
 
     protected
+
+    def compute_resource_requires_fields
+      if host.compute_resource.present?
+        host.errors.add(:compute_profile, _("is required, or use compute attributes"))
+        @skip_mac_validation = true
+      end
+    end
 
     def uniq_fields_with_hosts
       self.virtual? ? [] : [:mac]
