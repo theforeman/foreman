@@ -139,8 +139,7 @@ module Foreman::Model
         :openstack_username => user,
         :openstack_auth_url => url,
         :openstack_tenant   => tenant,
-        :openstack_identity_endpoint => url,
-        :openstack_identity_public_endpoint => url }
+        :openstack_identity_endpoint => url }
     end
 
     def client
