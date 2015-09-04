@@ -920,7 +920,7 @@ class Host::Managed < Host::Base
   # because the validation happens before transaction is committed, so data are not in DB
   # yet, this is the reason why we "reimplement" uniqueness validation
   def validate_dns_name_uniqueness
-    dups = self.interfaces.group_by { |i| [ i.name, i.domain_id ] }.detect { |dns, nics| dns.first.present? && nics.count > 1 }
+    dups = self.interfaces.select { |i| !i.marked_for_destruction? }.group_by { |i| [ i.name, i.domain_id ] }.detect { |dns, nics| dns.first.present? && nics.count > 1 }
     if dups.present?
       dups.last.first.errors.add(:name, :taken)
       self.errors.add :interfaces, _('Some interfaces are invalid')
