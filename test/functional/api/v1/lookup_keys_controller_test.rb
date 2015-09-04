@@ -30,9 +30,16 @@ class Api::V1::LookupKeysControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should destroy lookup_keys" do
-    assert_difference('LookupKey.count', -1) do
+  test "should not destroy PuppetclassLookupKey" do
+    assert_difference('LookupKey.count', 0) do
       delete :destroy, { :id => lookup_keys(:one).to_param }
+    end
+    assert_response 422
+  end
+
+  test "should destroy VariableLookupKey" do
+    assert_difference('LookupKey.count', -1) do
+      delete :destroy, { :id => lookup_keys(:two).to_param }
     end
     assert_response :success
   end

@@ -62,7 +62,7 @@ Foreman::Application.routes.draw do
         end
         resources :puppetclasses, :except => [:new, :edit] do
           resources :smart_class_parameters, :except => [:new, :edit, :create] do
-            resources :override_values, :except => [:new, :edit]
+            resources :override_values, :except => [:new, :edit, :destroy]
           end
         end
         resources :hosts, :except => [:new, :edit]
@@ -132,11 +132,11 @@ Foreman::Application.routes.draw do
           resources :override_values, :except => [:new, :edit]
         end
         resources :smart_class_parameters, :except => [:new, :edit, :create] do
-          resources :override_values, :except => [:new, :edit]
+          resources :override_values, :except => [:new, :edit, :destroy]
         end
         resources :environments, :only => [] do
           resources :smart_class_parameters, :except => [:new, :edit, :create] do
-            resources :override_values, :except => [:new, :edit]
+            resources :override_values, :except => [:new, :edit, :destroy]
           end
         end
         resources :hostgroups, :only => [:index, :show]
@@ -182,7 +182,7 @@ Foreman::Application.routes.draw do
         resources :override_values, :except => [:new, :edit]
       end
 
-      resources :smart_class_parameters, :except => [:new, :edit, :create] do
+      resources :smart_class_parameters, :except => [:new, :edit, :create, :destroy] do
         resources :override_values, :except => [:new, :edit]
       end
 
