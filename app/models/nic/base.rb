@@ -25,9 +25,6 @@ module Nic
               :if => Proc.new { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true
 
-    # TODO uniq on primary per host
-    # validate :uniq_with_hosts
-
     validates :host, :presence => true, :if => Proc.new { |nic| nic.require_host? }
 
     validate :exclusive_primary_interface
@@ -147,28 +144,6 @@ module Nic
     end
 
     protected
-
-    def uniq_fields_with_hosts
-      self.virtual? ? [] : [:mac]
-    end
-
-    # make sure we don't have a conflicting interface with an host record
-    def uniq_with_hosts
-      failed = false
-      uniq_fields_with_hosts.each do |attr|
-        value = self.send(attr)
-        unless value.blank?
-          if host && host.send(attr) == value
-            errors.add(attr, _("can't use the same value as the primary interface"))
-            failed = true
-          elsif Host.where(attr => value).limit(1).pluck(attr).any?
-            errors.add(attr, _("already in use"))
-            failed = true
-          end
-        end
-      end
-      !failed
-    end
 
     def normalize_mac
       self.mac = Net::Validations.normalize_mac(mac)

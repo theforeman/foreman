@@ -74,10 +74,6 @@ module Nic
       end
     end
 
-    def uniq_fields_with_hosts
-      super + (self.virtual? ? [] : [:ip])
-    end
-
     def normalize_ip
       self.ip = Net::Validations.normalize_ip(ip)
     end
