@@ -1163,7 +1163,8 @@ class HostTest < ActiveSupport::TestCase
 
     test "#set_interfaces creates new interface even if another virtual interface has same MAC but another identifier" do
       host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.2', :identifier => 'eth0_1', :attached_to => 'eth0'})
-      FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :virtual => true, :identifier => 'eth0_0', :attached_to => 'eth0')
+      host.update_attribute :mac, '00:00:00:11:22:44'
+      FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :virtual => true, :identifier => 'eth0_0', :attached_to => 'eth0', :name => 'second')
 
       assert_difference 'host.interfaces(true).count' do
         host.set_interfaces(parser)
