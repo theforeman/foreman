@@ -251,4 +251,11 @@ class PluginTest < ActiveSupport::TestCase
     plugin.logging.expects(:add_logger).with(:test_logger, {:enabled => true})
     plugin.logger(:test_logger, {:enabled => true})
   end
+
+  def test_test_task
+    plugin = Foreman::Plugin.find(:foo)
+    plugin.test_task('test')
+
+    assert_equal 'test', plugin.test_task
+  end
 end

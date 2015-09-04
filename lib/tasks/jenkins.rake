@@ -8,10 +8,19 @@ begin
   end
 
   namespace :jenkins do
+    desc "CI test task for the full test suite"
     task :unit => ["jenkins:setup:minitest", 'rake:test:units', 'rake:test:lib', 'rake:test:functionals']
+    
+    desc "CI test task for the integration test suite"
     task :integration => ["jenkins:setup:minitest", 'rake:test:integration']
+    
+    desc "CI test task for the lib test suite"
     task :lib => ["jenkins:setup:minitest", 'rake:test:lib']
+    
+    desc "CI test task for the functionals test suite"
     task :functionals => ["jenkins:setup:minitest", 'rake:test:functionals']
+    
+    desc "CI test task for the unit test suite"
     task :units => ["jenkins:setup:minitest", 'rake:test:units']
 
     namespace :setup do

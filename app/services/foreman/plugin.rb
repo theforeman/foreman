@@ -92,7 +92,7 @@ module Foreman #:nodoc:
     end
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
-    attr_reader :id, :logging, :default_roles
+    attr_reader :id, :logging, :default_roles, :test_task_name
 
     def initialize(id)
       @id = id.to_sym
@@ -269,6 +269,11 @@ module Foreman #:nodoc:
         Apipie.configuration.ignored.concat(controllers)
       end
       @apipie_ignored_controllers
+    end
+
+    def test_task(task=nil)
+      return @test_task_name unless task
+      @test_task_name = task
     end
   end
 end
