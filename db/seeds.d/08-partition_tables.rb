@@ -17,7 +17,7 @@ Ptable.without_auditing do
     next if audit_modified? Ptable, input[:name]
     p = Ptable.create({
       :layout => File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
-    }.merge(input))
+    }.merge(input.merge(:default => true)))
     raise "Unable to create partition table: #{format_errors p}" if p.nil? || p.errors.any?
   end
 end
