@@ -73,10 +73,6 @@ module Nic
 
     protected
 
-    def uniq_fields_with_hosts
-      super + [:name]
-    end
-
     def copy_hostname_from_host
       self.name = host.read_attribute :name
     end
