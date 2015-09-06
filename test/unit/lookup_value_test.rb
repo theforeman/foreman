@@ -161,6 +161,13 @@ class LookupValueTest < ActiveSupport::TestCase
     refute value.valid?
   end
 
+  test "boolean lookup value should allow nil value if use_puppet_default is true" do
+    #boolean key
+    key = lookup_keys(:three)
+    value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id, :use_puppet_default => true)
+    assert_valid value
+  end
+
   test "lookup value should allow valid key" do
     key = lookup_keys(:three)
     value = LookupValue.new(:value => true, :match => "hostgroup=Common", :lookup_key_id => key.id)
