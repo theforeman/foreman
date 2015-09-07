@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class LayoutHelperTest < ActionView::TestCase
+  include LayoutHelper
   test "alert should be closable" do
     result = alert(:close => true)
     assert_include result, 'alert-dismissable'
@@ -30,5 +31,20 @@ class LayoutHelperTest < ActionView::TestCase
 
   test "table css classes should return the regular classes for table plus the added classes" do
     assert_equal table_css_classes("test-class"),"table table-bordered table-striped table-condensed test-class"
+  end
+
+  context '#select_f' do
+    test 'include_blank works with #to_s as retreival method' do
+      form_for User.new do |f|
+        fields_for :user_mail_notifications do |notifications|
+          #f = ActionView::Helpers::FormBuilder.new(:mail_notification, MailNotification.new, @mail_notification, {}, {})
+          values = ['one', :two]
+
+          html = select_f(notifications, :interval, values, :to_s, :to_sym, { :include_blank => _('No emails') }, {})
+          assert_match /one/, html
+          assert_no_match /to_s/, html
+        end
+      end
+    end
   end
 end
