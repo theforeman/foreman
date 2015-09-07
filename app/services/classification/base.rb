@@ -35,9 +35,9 @@ module Classification
 
     def values_hash(options = {})
       values = Hash.new { |h,k| h[k] = {} }
-      all_lookup_values = LookupValue.where(:match => path2matches).where(:lookup_key_id => class_parameters)
+      all_lookup_values = LookupValue.where(:match => path2matches).where(:lookup_key_id => class_parameters, :use_puppet_default => false).includes(:lookup_key).to_a
       class_parameters.each do |key|
-        lookup_values_for_key = all_lookup_values.where(:lookup_key_id => key.id, :use_puppet_default => false).includes(:lookup_key)
+        lookup_values_for_key = all_lookup_values.select{|i| i.lookup_key_id == key.id}
         sorted_lookup_values = lookup_values_for_key.sort_by do |lv|
           matcher_key = ''
           matcher_value = ''
