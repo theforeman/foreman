@@ -1,5 +1,5 @@
 <%= javascript 'host_edit', 'host_edit_interfaces', 'class_edit', 'lookup_keys' %>
-<%= form_for @hostgroup, :html => {:data => {:id => @hostgroup.try(:id)}} do |f| %>
+<%= form_for @hostgroup, :html => {:data => {:id => @hostgroup.try(:id), :submit => 'progress_bar' }} do |f| %>
   <%= base_errors_for @hostgroup %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
