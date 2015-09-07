@@ -118,4 +118,26 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
     Nic::Managed.any_instance.stubs(:recreate_ptr_record).raises(StandardError, 'DNS test fail')
     refute h.interfaces.first.rebuild_dns
   end
+
+  test 'test_host_should_error_timeout_error_properly' do
+    if unattended?
+      h = FactoryGirl.create(:host, :with_dns_orchestration, :location => nil, :organization => nil)
+      Net::DNS::ARecord.any_instance.stubs(:conflicting?).returns(true)
+      Net::DNS::ARecord.any_instance.stubs(:conflicts).raises(Net::Error)
+      h.primary_interface.domain.stubs(:nameservers).returns(["1.2.3.4"])
+      h.primary_interface.send(:dns_conflict_detected?)
+      assert_match /^Error connecting .* DNS servers/, h.errors[:base].first
+    end
+  end
+
+  test 'test_host_should_error_timeout_error_properly' do
+    if unattended?
+      h = FactoryGirl.create(:host, :with_dns_orchestration, :location => nil, :organization => nil)
+      Net::DNS::ARecord.any_instance.stubs(:conflicting?).returns(true)
+      Net::DNS::ARecord.any_instance.stubs(:conflicts).raises(Net::Error)
+      h.primary_interface.domain.stubs(:nameservers).returns([])
+      h.primary_interface.send(:dns_conflict_detected?)
+      assert_match /^Error connecting to system DNS/, h.errors[:base].first
+    end
+  end
 end
