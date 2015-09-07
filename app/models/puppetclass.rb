@@ -98,15 +98,15 @@ class Puppetclass < ActiveRecord::Base
     hgs
   end
 
-  def all_hosts
+  def all_host_ids
     ids = host_ids
-    ids += all_hostgroups.flat_map(&:host_ids)
+    ids += Host::Managed.unscoped.where(:hostgroup_id => all_hostgroups.map(&:id)).pluck(:id)
     ids += host_ids_from_config_groups('Host::Base')
-    Host::Managed.unscoped.where(:id => ids.uniq)
+    ids.uniq
   end
 
   def update_total_hosts
-    update_attribute(:total_hosts, all_hosts.count)
+    update_attribute(:total_hosts, all_host_ids.size)
   end
 
   # Populates the rdoc tree with information about all the classes in your modules.
