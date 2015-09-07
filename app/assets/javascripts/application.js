@@ -455,7 +455,7 @@ function setPowerState(item, status){
 function reloadOnAjaxComplete(element) {
   $(element).indicator_hide();
   $('[rel="twipsy"]').tooltip();
-  $('select').select2({ allowClear: true });
+  $('select:not(.without_select2)').select2({ allowClear: true });
 }
 
 function set_fullscreen(element){
