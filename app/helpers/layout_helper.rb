@@ -122,6 +122,10 @@ module LayoutHelper
     if include_blank
       blank_value = include_blank.is_a?(TrueClass) ? nil : include_blank
       blank_option = OpenStruct.new({id => '', method => blank_value })
+      # if the method is to_s, OpenStruct will respond with its own version.
+      # in this case, I need to undefine its own alias to to_s, and use the attribute
+      # that was defined in the struct.
+      blank_option.instance_eval('undef to_s') if method.to_s == 'to_s' || id.to_s == 'to_s'
       array.insert(0, blank_option)
     end
 
