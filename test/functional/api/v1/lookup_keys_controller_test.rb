@@ -34,7 +34,8 @@ class Api::V1::LookupKeysControllerTest < ActionController::TestCase
     assert_difference('LookupKey.count', 0) do
       delete :destroy, { :id => lookup_keys(:one).to_param }
     end
-    assert_response 422
+    assert_response :unprocessable_entity
+    assert_match 'Smart class parameters cannot be destroyed', @response.body
   end
 
   test "should destroy VariableLookupKey" do

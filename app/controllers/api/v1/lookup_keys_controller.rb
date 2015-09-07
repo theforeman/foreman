@@ -58,9 +58,10 @@ module Api
 
       def destroy
         if @lookup_key.type == "PuppetclassLookupKey"
-          render_error 'unprocessable_entity', :status => :unprocessable_entity
+          render_message 'Smart class parameters cannot be destroyed',
+            :status => :unprocessable_entity
         else
-          process_response @lookup_key.destroy
+          process_response(@lookup_key.destroy)
         end
       end
     end
