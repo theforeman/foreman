@@ -1,14 +1,14 @@
 <div class="fields">
-  <table class="row">
+  <table>
     <tbody>
-      <tr class="form-group <%= 'error' if f.object.errors.any? %>">
+      <tr class="<%= 'error' if f.object.errors.any? %>">
         <td class="col-md-3">
           <%= f.hidden_field :lookup_key_id, :'data-property' => 'lookup_key_id' %>
           <% puppetclass = f.object.lookup_key ? f.object.lookup_key.param_class : nil %>
-          <%= text_field_tag '', (puppetclass.name rescue ''), :class => 'form-control', :'data-property' => 'class', :disabled => true, :title => _('Puppetclass') %>
+          <%= content_tag :span, (trunc_with_tooltip(puppetclass.name, 20) rescue ''), :'data-property' => 'class' %>
         </td>
         <td class="col-md-2">
-          <%= text_field_tag '', (f.object.lookup_key.key rescue ''), :class => 'form-control', :'data-property' => 'name', :disabled => true, :title => _('Parameter name') %>
+          <%= content_tag :span, (trunc_with_tooltip(f.object.lookup_key.key,20) rescue ''), :'data-property' => 'name' %>
         </td>
         <td class="col-md-5">
           <div class="input-group">

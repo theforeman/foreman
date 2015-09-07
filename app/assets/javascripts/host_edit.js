@@ -410,19 +410,24 @@ function override_param(item){
 
 function override_class_param(item){
   var param = $(item).closest('tr[id^="puppetclass_"][id*="_params\\["][id$="\\]"]');
-  var id = param.attr('id').replace(/puppetclass_\d+_params\[(\d+)\]/, '$1')
-  var c = param.find('[data-property=class]').text();
-  var n = param.find('[data-property=name]').text();
-  var v = param.find('[data-property=value]').val();
-  var t = param.find('[data-property=type]').text();
-
+  var id = param.attr('id').replace(/puppetclass_\d+_params\[(\d+)\]/, '$1');
+  var class_name = param.find('[data-property=class]').text();
+  var name = param.find('[data-property=name]').text();
+  var value = param.find('[data-property=value]').val();
+  var type = param.find('[data-property=type]').text();
+  var class_tooltip = param.find('[data-property=class]').children('span').attr('data-original-title');
+  var name_tooltip = param.find('[data-property=name]').children('span').attr('data-original-title');
   $('#puppetclasses_parameters').find('.btn-success').click();
-  var new_param = param.closest('.tab-pane').find('[id*=_lookup_values]:visible').last().parents('.form-group');
+  var new_param = param.closest('.tab-pane').find('[id*=_lookup_values]:visible').last().parents('tr');
   new_param.find('[data-property=lookup_key_id]').val(id);
-  new_param.find('[data-property=class]').val(c);
-  new_param.find('[data-property=name]').val(n);
-  new_param.find('[data-property=value]').val(v);
-  new_param.find('[data-property=type]').val(t);
+  new_param.find('[data-property=class]').text(class_name);
+  new_param.find('[data-property=name]').text(name);
+  new_param.find('[data-property=value]').val(value);
+  new_param.find('[data-property=type]').val(type);
+  if (name_tooltip != undefined)
+    new_param.find('[data-property=name]')[0].setAttribute("title", name_tooltip);
+  if (class_tooltip !=undefined)
+    new_param.find('[data-property=class]')[0].setAttribute("title", class_tooltip);
   mark_params_override();
 }
 

@@ -177,8 +177,8 @@ function mark_params_override(){
   $('#inherited_puppetclasses_parameters .override-param').removeClass('override-param');
   $('#inherited_puppetclasses_parameters [data-tag=override]').show();
   $('#puppetclasses_parameters').find('[data-property=class]:visible').each(function(){
-    var klass = $(this).val();
-    var name = $(this).closest('tr').find('[data-property=name]').val();
+    var klass = $(this).text();
+    var name = $(this).closest('tr').find('[data-property=name]').text();
     $('#inherited_puppetclasses_parameters [id^="puppetclass_"][id*="_params\\["][id$="\\]"]').each(function(){
       var param = $(this);
       if (param.find('[data-property=class]').text() == klass && param.find('[data-property=name]').text() == name) {
