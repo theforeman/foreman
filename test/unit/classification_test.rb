@@ -768,6 +768,13 @@ class ClassificationTest < ActiveSupport::TestCase
     end
   end
 
+  test 'type cast allows nil values' do
+    key = FactoryGirl.create(:lookup_key)
+    assert_nothing_raised do
+      @classification.send(:type_cast, key, nil)
+    end
+  end
+
   context 'lookup value type cast error' do
     setup do
       @lookup_key = mock('lookup_key')

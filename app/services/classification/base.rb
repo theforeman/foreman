@@ -150,7 +150,7 @@ module Classification
     end
 
     def type_cast(key, value)
-      Foreman::Parameters::Caster.new(key, :attribute_name => :value, :to => key.key_type, :value => value).cast
+      Foreman::Parameters::Caster.new(key, :attribute_name => :default_value, :to => key.key_type, :value => value).cast
     rescue TypeError
       Rails.logger.warn "Unable to type cast #{value} to #{key.key_type}"
     end
