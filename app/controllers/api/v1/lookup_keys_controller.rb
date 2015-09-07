@@ -57,7 +57,11 @@ module Api
       param :id, :identifier, :required => true
 
       def destroy
-        process_response @lookup_key.destroy
+        if @lookup_key.type == "PuppetclassLookupKey"
+          render_error 'unprocessable_entity', :status => :unprocessable_entity
+        else
+          process_response @lookup_key.destroy
+        end
       end
     end
   end
