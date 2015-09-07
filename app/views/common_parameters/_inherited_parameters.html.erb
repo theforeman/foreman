@@ -11,7 +11,7 @@
       <% keys = inherited_parameters.keys.sort %>
       <% keys.each do |name| %>
         <tr class="<%="override-param" if @host.host_parameters.map(&:name).include?(name)%>">
-          <td><%= content_tag :span, name, :id => "name_#{name}"%>
+          <td><%= content_tag :span, trunc_with_tooltip(name), :id => "name_#{name}"%>
           </td>
           <td><%= parameter_value_field inherited_parameters[name] %></td>
           <td>
