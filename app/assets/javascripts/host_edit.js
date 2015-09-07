@@ -548,6 +548,7 @@ function interface_domain_selected(element) {
         subnet_options.attr('disabled', true);
       }
       reloadOnAjaxComplete(element);
+      subnet_options.filter('select').select2({allowClear: true})
     }
   });
 }

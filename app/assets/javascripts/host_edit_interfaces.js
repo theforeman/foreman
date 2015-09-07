@@ -46,6 +46,7 @@ function save_interface_modal() {
     $('#interfaceForms .interface_provision:checked').attr("checked", false);
   }
 
+  modal_form.find('select').select2('destroy')
   var interface_hidden = get_interface_hidden(interface_id);
   interface_hidden.html('');
   interface_hidden.append(modal_form);
