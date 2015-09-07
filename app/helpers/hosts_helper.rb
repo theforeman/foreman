@@ -295,7 +295,7 @@ module HostsHelper
         content_tag(:i, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +
           content_tag(:span, _(status.to_label), :class => host_global_status_class(status.to_global))
       ]
-    end
+    end.compact
   end
 
   def possible_images(cr, arch = nil, os = nil)
