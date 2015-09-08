@@ -7384,6 +7384,10 @@ msgstr "Administrator"
 msgid "User|Last login on"
 msgstr "Last login time"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "User|Mail enabled"
+msgstr "Email enabled"
+
 msgid "Login"
 msgstr ""
 
