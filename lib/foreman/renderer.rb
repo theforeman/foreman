@@ -54,7 +54,7 @@ module Foreman
 
       url_for :only_path => false, :controller => "/unattended", :action => action,
               :protocol  => protocol, :host => host, :port => port, :script_name => path,
-              :token     => (@host.token.value unless @host.token.nil?)
+              :token     => (@host.token.value unless @host.try(:token).nil?)
     end
 
     # provide embedded snippets support as simple erb templates
