@@ -73,14 +73,23 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "blank root password submitted does not erase existing password" do
+  test "hostgroup update without root password in the params does not erase existing password" do
     hostgroup = hostgroups(:common)
     old_root_pass = hostgroup.root_pass
+    as_admin do
+      put :update, {:commit => "Update", :id => hostgroup.id, :hostgroup => {:name => hostgroup.name} }, set_session_user
+    end
+    hostgroup = Hostgroup.find(hostgroup.id)
+    assert_equal old_root_pass, hostgroup.root_pass
+  end
+
+  test 'blank root password submitted does erase existing password' do
+    hostgroup = hostgroups(:common)
     as_admin do
       put :update, {:commit => "Update", :id => hostgroup.id, :hostgroup => {:root_pass => '', :name => hostgroup.name} }, set_session_user
     end
     hostgroup = Hostgroup.find(hostgroup.id)
-    assert_equal old_root_pass, hostgroup.root_pass
+    assert hostgroup.root_pass.empty?
   end
 
   test "hostgroup rename changes matcher" do

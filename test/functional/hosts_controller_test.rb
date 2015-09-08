@@ -799,21 +799,36 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal old_type, @host.type
   end
 
-  test "blank root password submitted does not erase existing password" do
+  test "host update without root password in the params does not erase existing password" do
     old_root_pass = @host.root_pass
-    put :update, { :commit => "Update", :id => @host.name, :host => {:root_pass => '' } }, set_session_user
+    put :update, {:commit => "Update", :id => @host.name, :host => {:name => @host.name} }, set_session_user
     @host = Host.find(@host.id)
     assert_equal old_root_pass, @host.root_pass
   end
 
-  test "blank BMC password submitted does not erase existing password" do
+  test 'blank root password submitted in host does erase existing password' do
+    put :update, {:commit => "Update", :id => @host.name, :host => {:root_pass => '' } }, set_session_user
+    @host = Host.find(@host.id)
+    assert @host.root_pass.empty?
+  end
+
+  test "host update without BMC paasword in the params does not erase existing password" do
     bmc1 = @host.interfaces.build(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
                       :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
     assert bmc1.save
     old_password = bmc1.password
-    put :update, { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => ''} } } }, set_session_user
+    put :update, { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id} } } }, set_session_user
     @host = Host.find(@host.id)
     assert_equal old_password, @host.interfaces.bmc.first.password
+  end
+
+  test 'blank BMC password submitted in host does erase existing password' do
+    bmc1 = @host.interfaces.build(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
+                      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
+    assert bmc1.save
+    put :update, { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => ''} } } }, set_session_user
+    @host = Host.find(@host.id)
+    assert @host.interfaces.bmc.first.password.empty?
   end
 
   # To test that work-around for Rails bug - https://github.com/rails/rails/issues/11031

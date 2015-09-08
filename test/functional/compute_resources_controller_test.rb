@@ -74,6 +74,21 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     assert_response 403
   end
 
+  test "host update without  password in the params does not erase existing password" do
+    old_password = @compute_resource.password
+    setup_user "edit"
+    put :update, {:id => @compute_resource.to_param, :compute_resource => {:name => "editing_self"}}, set_session_user
+    @compute_resource = ComputeResource.find(@compute_resource.id)
+    assert_equal old_password, @compute_resource.password
+  end
+
+  test 'blank password submitted in compute resource edit form unsets password' do
+    setup_user "edit"
+    put :update, {:id => @compute_resource.to_param, :compute_resource => {:name => "editing_self", :password => ''}}, set_session_user
+    @compute_resource = ComputeResource.find(@compute_resource.id)
+    assert @compute_resource.password.empty?
+  end
+
   test "should not get edit when restricted" do
     setup_user "edit"
     get :edit, {:id => @your_compute_resource.to_param}, set_session_user
