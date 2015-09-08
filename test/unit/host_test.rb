@@ -221,7 +221,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "should be able to delete existing lookup value on update_attributes" do
     host = FactoryGirl.create(:host)
-    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -234,7 +234,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "should be able to update lookup value on update_attributes" do
     host = FactoryGirl.create(:host)
-    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -403,6 +403,48 @@ class HostTest < ActiveSupport::TestCase
     Setting[:create_new_host_when_report_is_uploaded] =
       Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
     assert_nil host
+  end
+
+  test 'host #refresh_global_status defaults to OK' do
+    host = FactoryGirl.build(:host)
+    assert_empty host.host_statuses
+    host.refresh_global_status
+    assert_equal HostStatus::Global::OK, host.global_status
+  end
+
+  test 'host #get_status(type) builds a new status if there is none yet and returns existing one otherwise' do
+    host = FactoryGirl.build(:host)
+    status = host.get_status(HostStatus::BuildStatus)
+    assert status.new_record?
+    assert_equal host, status.host
+
+    status.refresh!
+    new_status = host.get_status(HostStatus::BuildStatus)
+    assert_equal status, new_status
+  end
+
+  test 'host #refresh_statuses saves all relevant statuses and refreshes global status' do
+    host = FactoryGirl.build(:host)
+    host.global_status = 1
+
+    host.refresh_statuses
+    assert_equal 0, host.global_status
+    refute_empty host.host_statuses
+    assert host.get_status(HostStatus::BuildStatus).new_record? # BuildStatus was not #relevant? for unmanaged host
+    refute host.get_status(HostStatus::ConfigurationStatus).new_record?
+  end
+
+  test 'build status is updated on host validation' do
+    host = FactoryGirl.build(:host)
+    host.build = false
+    host.valid?
+    original_status = host.get_status(HostStatus::BuildStatus).to_status
+
+    host.build = true
+    host.valid?
+    new_status = host.get_status(HostStatus::BuildStatus).to_status
+
+    refute_equal original_status, new_status
   end
 
   test "assign a host to a location" do
@@ -1367,6 +1409,10 @@ class HostTest < ActiveSupport::TestCase
       assert_equal hosts.count, 1
       assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
 
+      hosts = Host::Managed.search_for("facts.memory_mb ~ 64498")
+      assert_equal hosts.count, 1
+      assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
+
       hosts = Host::Managed.search_for("facts.custom_fact = find_me")
       assert_equal hosts.count, 1
       assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
@@ -1970,7 +2016,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'changing name with a fqdn should rename lookup_value matcher' do
     host = FactoryGirl.create(:host)
-    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -1983,7 +2029,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'changing only name should rename lookup_value matcher' do
     host = FactoryGirl.create(:host, :domain => FactoryGirl.create(:domain))
-    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -1996,7 +2042,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'changing host domain should rename lookup_value matcher' do
     host = FactoryGirl.create(:host)
-    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -2005,6 +2051,16 @@ class HostTest < ActiveSupport::TestCase
     host.domain = domains(:yourdomain)
     host.save!
     assert_equal "fqdn=#{host.shortname}.yourdomain.net", LookupValue.find(lookup_value.id).match
+  end
+
+  test "destroying host should destroy lookup values" do
+    host = FactoryGirl.create(:host)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
+    lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                      :match => "fqdn=#{host.fqdn}", :value => '8080')
+    host.reload
+    host.destroy
+    assert LookupValue.where(:id => lookup_value.id).first.blank?
   end
 
   test '#setup_clone skips new records' do
@@ -2332,6 +2388,30 @@ class HostTest < ActiveSupport::TestCase
 
     test "#miniroot" do
       host.respond_to?(:miniroot)
+    end
+  end
+
+  describe 'interface identifiers validation' do
+    let(:host) { FactoryGirl.build(:host, :managed) }
+    let(:additional_interface) { host.interfaces.build }
+
+    context 'additional interface has different identifier' do
+      test 'host is valid' do
+        assert host.valid?
+      end
+    end
+
+    context 'additional interface has same identifier' do
+      before { additional_interface.identifier = host.primary_interface.identifier }
+
+      test 'host is valid' do
+        refute host.valid?
+      end
+
+      test 'validation ignores interfaces marked for destruction' do
+        additional_interface.mark_for_destruction
+        assert host.valid?
+      end
     end
   end
 

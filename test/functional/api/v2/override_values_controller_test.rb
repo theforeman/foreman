@@ -20,7 +20,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   end
 
   test 'should mark override on creation' do
-    k = FactoryGirl.create(:lookup_key, :puppetclass => puppetclasses(:two))
+    k = FactoryGirl.create(:variable_lookup_key, :puppetclass => puppetclasses(:two))
     refute k.override
     post :create,  {:smart_variable_id => k.id, :override_value => smart_variable_attrs }
     k.reload
@@ -70,7 +70,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
 
   [{ :value => 'xyz=10'}, { :match => 'os=string'}].each do |override_value|
     test "should not create override value without #{override_value.keys.first}" do
-      lookup_key = FactoryGirl.create(:lookup_key, :puppetclass => puppetclasses(:two))
+      lookup_key = FactoryGirl.create(:variable_lookup_key, :puppetclass => puppetclasses(:two))
       refute lookup_key.override
       assert_difference('LookupValue.count', 0) do
         post :create, { :smart_variable_id => lookup_key.id, :override_value => override_value }

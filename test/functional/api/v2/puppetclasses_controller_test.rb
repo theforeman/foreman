@@ -137,4 +137,13 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  test "should not remove puppetclass params" do
+    klass = FactoryGirl.create(:puppetclass, :environments => [FactoryGirl.create(:environment)])
+    FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => klass)
+    assert_equal 1, klass.class_params.length
+    put :update, { :id => klass.id, :smart_class_parameter_ids => [] }
+    klass.reload
+    assert_equal 1, klass.class_params.length
+  end
 end

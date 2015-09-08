@@ -1,10 +1,10 @@
 group :assets do
+  gem 'ace-rails-ap', '~> 3.0.3'
   gem 'sass-rails', '~> 3.2'
   gem 'uglifier', '>= 1.0.3'
   gem 'execjs', '>= 1.4.0', '<2.5.0'
   gem 'jquery-rails', '2.0.3'
   gem 'jquery-ui-rails', '< 5.0.0'
-  gem 'therubyracer', '0.11.3', :require => 'v8'
   gem 'bootstrap-sass', '3.0.3.0'
   gem 'spice-html5-rails', '~> 0.1.4'
   gem 'flot-rails', '0.0.3'

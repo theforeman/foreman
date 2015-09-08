@@ -11,9 +11,10 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @lookup_keys = LookupKey.
-          authorized(:view_external_variables).
-          search_for(*search_options).paginate(paginate_options)
+        @lookup_keys = PuppetclassLookupKey.authorized(:view_external_variables).
+          search_for(*search_options).paginate(paginate_options).to_a +
+            VariableLookupKey.authorized(:view_external_variables).
+            search_for(*search_options).paginate(paginate_options).to_a
       end
 
       api :GET, "/lookup_keys/:id/", "Show a lookup key."
@@ -56,7 +57,11 @@ module Api
       param :id, :identifier, :required => true
 
       def destroy
-        process_response @lookup_key.destroy
+        if @lookup_key.type == "PuppetclassLookupKey"
+          render_error 'unprocessable_entity', :status => :unprocessable_entity
+        else
+          process_response @lookup_key.destroy
+        end
       end
     end
   end

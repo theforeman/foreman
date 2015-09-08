@@ -136,4 +136,16 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :partial => "common_parameters/_inherited_parameters"
   end
+
+  test "should return the selected puppet classes on environment change" do
+    env = FactoryGirl.create(:environment)
+    klass = FactoryGirl.create(:puppetclass)
+    hg = FactoryGirl.create(:hostgroup, :environment => env)
+    assert_equal 0, hg.puppetclasses.length
+    post :environment_selected, { :id => hg.id,
+                                  :hostgroup => { :name => hg.name,
+                                                  :puppetclass_ids => [klass.id],
+                                                  :environment_id => "" }}, set_session_user
+    assert_equal(1, (assigns(:hostgroup).puppetclasses.length))
+  end
 end

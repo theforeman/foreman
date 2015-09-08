@@ -8,13 +8,8 @@ attributes :name, :id, :ip, :environment_id, :last_report, :updated_at, :created
            :puppet_proxy_id, :certname, :image_id, :created_at, :updated_at,
            :last_compile, :puppet_status, :root_pass
 
-if SETTINGS[:organizations_enabled]
-  attribute :organization_id
-end
-
-if SETTINGS[:locations_enabled]
-  attribute :location_id
-end
+attribute :organization_id if SETTINGS[:organizations_enabled]
+attribute :location_id if SETTINGS[:locations_enabled]
 
 node :environment do |host|
   {:environment => {:id => host.environment_id, :name => host.environment_name}}
@@ -25,5 +20,5 @@ child :host_parameters do
 end
 
 node do |host|
-   { :interfaces => partial("api/v1/interfaces/show", :object => host.interfaces) }
+  { :interfaces => partial("api/v1/interfaces/show", :object => host.interfaces) }
 end

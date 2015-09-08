@@ -15,14 +15,23 @@
 }
 
 .fact_chart {
+  float: left;
   min-height: 450px !important;
-  width: 560px !important;
+  width: 485px !important;
   padding: 0 !important;
   text-align: center;
-  font-weight: bold;
   overflow: hidden;
 }
 
+.legend {
+  margin-left: 485px;
+  margin-top: 10px;
+  height: 450px;
+  width: 110px;
+  text-align: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 #statistics{
   .stats-well{
     float: left;

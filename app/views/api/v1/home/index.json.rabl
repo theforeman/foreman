@@ -1,8 +1,8 @@
 object false
 child(:links => "links") do
-
   # gather index methods of resources
-  index_method_description_apis = Apipie.app.resource_descriptions[Apipie.configuration.default_version].map do |name, resource_description|
+  index_method_description_apis = Apipie.app.resource_descriptions[Apipie.configuration.default_version]
+    .map do |name, resource_description|
     if (description = Apipie.app["#{name}#index"])
       description.method_apis_to_json.first
     end

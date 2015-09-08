@@ -125,7 +125,7 @@ class LookupValueTest < ActiveSupport::TestCase
   test "when changed, an audit entry should be added" do
     env = FactoryGirl.create(:environment)
     pc = FactoryGirl.create(:puppetclass, :environments => [env])
-    key = FactoryGirl.create(:lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
+    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
     lvalue = key.lookup_values.first
     assert_difference('Audit.count') do
       lvalue.value = 'new overridden value'
@@ -135,7 +135,7 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "shuld not cast string with erb" do
-    key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
                             :default_value => [1,2,3], :puppetclass => puppetclasses(:one))
 
@@ -159,6 +159,13 @@ class LookupValueTest < ActiveSupport::TestCase
     key = lookup_keys(:three)
     value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id)
     refute value.valid?
+  end
+
+  test "boolean lookup value should allow nil value if use_puppet_default is true" do
+    #boolean key
+    key = lookup_keys(:three)
+    value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id, :use_puppet_default => true)
+    assert_valid value
   end
 
   test "lookup value should allow valid key" do
@@ -195,7 +202,7 @@ class LookupValueTest < ActiveSupport::TestCase
 
   context "when key is a boolean and default_value is a string" do
     def setup
-      @key = FactoryGirl.create(:lookup_key, :as_smart_class_param,
+      @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                                 :override => true, :key_type => 'boolean',
                                 :default_value => 'whatever', :puppetclass => puppetclasses(:one), :use_puppet_default => true)
       @value = LookupValue.new(:value => 'abc', :match => "hostgroup=Common", :lookup_key_id => @key.id, :use_puppet_default => true)

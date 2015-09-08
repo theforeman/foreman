@@ -12,7 +12,7 @@ class Parameter < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => true
 
-  default_scope lambda { order("parameters.name") }
+  default_scope -> { order("parameters.name") }
 
   attr_accessor :nested
   before_validation :strip_whitespaces

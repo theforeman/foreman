@@ -30,9 +30,12 @@ module HostCommon
 
     alias_method :all_puppetclasses, :classes
 
-    has_many :lookup_values, :finder_sql => Proc.new { LookupValue.where('lookup_values.match' => lookup_value_match).to_sql }, :dependent => :destroy, :validate => false
+    has_many :lookup_values, :primary_key => :lookup_value_matcher, :foreign_key => :match, :validate => false, :dependent => :destroy
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
     accepts_nested_attributes_for :lookup_values
+
+    before_save :set_lookup_value_matcher
+
     # Replacement of accepts_nested_attributes_for :lookup_values,
     # to work around the lack of `host_id` column in lookup_values.
     def lookup_values_attributes=(lookup_values_attributes)
@@ -192,6 +195,12 @@ module HostCommon
   def available_puppetclasses
     return Puppetclass.scoped if environment_id.blank?
     environment.puppetclasses - parent_classes
+  end
+
+  protected
+
+  def set_lookup_value_matcher
+    self.lookup_value_matcher = lookup_value_match
   end
 
   private

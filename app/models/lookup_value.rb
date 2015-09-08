@@ -10,23 +10,23 @@ class LookupValue < ActiveRecord::Base
   validate :value_present?
   delegate :key, :to => :lookup_key
   before_validation :sanitize_match
+
   before_validation :validate_and_cast_value, :unless => Proc.new{|p| p.use_puppet_default }
-  validate :validate_list, :validate_regexp, :ensure_fqdn_exists, :ensure_hostgroup_exists
+  validate :validate_value, :ensure_fqdn_exists, :ensure_hostgroup_exists
 
   attr_accessor :host_or_hostgroup
-  attr_writer :managed_id, :hostgroup_id
 
   serialize :value
   attr_name :match
 
-  scope :default, lambda { where(:match => "default").limit(1) }
+  scope :default, -> { where(:match => "default").limit(1) }
 
   scoped_search :on => :value, :complete_value => true, :default_order => true
   scoped_search :on => :match, :complete_value => true
   scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
 
   def value_present?
-    self.errors.add(:value, :blank) if value.nil?
+    self.errors.add(:value, :blank) if value.nil? && !use_puppet_default
   end
 
   def value=(val)
@@ -46,6 +46,13 @@ class LookupValue < ActiveRecord::Base
     lookup_key.value_before_type_cast self.value
   end
 
+  def validate_value
+    Foreman::Parameters::Validator.new(self,
+      :type => lookup_key.validator_type,
+      :validate_with => lookup_key.validator_rule,
+      :getter => :value).validate!
+  end
+
   private
 
   #TODO check multi match with matchers that have space (hostgroup = web servers,environment = production)
@@ -57,7 +64,7 @@ class LookupValue < ActiveRecord::Base
     return true if self.marked_for_destruction? or !self.value.is_a? String
     begin
       unless self.lookup_key.contains_erb?(value)
-        self.value = lookup_key.cast_validate_value self.value
+        Foreman::Parameters::Caster.new(self, :attribute_name => :value, :to => lookup_key.key_type).cast!
       end
       true
     rescue StandardError, SyntaxError => e
@@ -65,20 +72,6 @@ class LookupValue < ActiveRecord::Base
       errors.add(:value, _("is invalid %s") % lookup_key.key_type)
       false
     end
-  end
-
-  def validate_regexp
-    return true if (lookup_key.validator_type != 'regexp' || (lookup_key.contains_erb?(value) && Setting[:interpolate_erb_in_parameters]))
-    valid = (value =~ /#{lookup_key.validator_rule}/)
-    errors.add(:value, _("is invalid")) unless valid
-    valid
-  end
-
-  def validate_list
-    return true if (lookup_key.validator_type != 'list' || (lookup_key.contains_erb?(value) && Setting[:interpolate_erb_in_parameters]))
-    valid = lookup_key.validator_rule.split(LookupKey::KEY_DELM).map(&:strip).include?(value)
-    errors.add(:value, _("%{value} is not one of %{rules}") % { :value => value, :rules => lookup_key.validator_rule }) unless valid
-    valid
   end
 
   def ensure_fqdn_exists

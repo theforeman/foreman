@@ -20,7 +20,7 @@ class ConfigGroup < ActiveRecord::Base
   scoped_search :on => :hostgroups_count
   scoped_search :on => :config_group_classes_count
 
-  default_scope lambda { order('config_groups.name') }
+  default_scope -> { order('config_groups.name') }
 
   # the following methods are required for app/views/puppetclasses/_class_selection.html.erb
   alias_method :classes, :puppetclasses

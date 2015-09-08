@@ -7,6 +7,9 @@ class Permission < ActiveRecord::Base
   has_many :filterings, :dependent => :destroy
   has_many :filters, :through => :filterings
 
+  scoped_search :on => :name, :complete_value => true
+  scoped_search :on => :resource_type
+
   def self.resources
     @all_resources ||= Permission.uniq.order(:resource_type).pluck(:resource_type).compact
   end

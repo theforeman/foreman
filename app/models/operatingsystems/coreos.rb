@@ -1,6 +1,10 @@
 class Coreos < Operatingsystem
   PXEFILES = {:kernel => 'coreos_production_pxe.vmlinuz', :initrd => 'coreos_production_pxe_image.cpio.gz'}
 
+  class << self
+    delegate :model_name, :to => :superclass
+  end
+
   def pxe_type
     'coreos'
   end
@@ -28,9 +32,5 @@ class Coreos < Operatingsystem
   # Does this OS family use release_name in its naming scheme
   def use_release_name?
     true
-  end
-
-  def self.model_name
-    superclass.model_name
   end
 end

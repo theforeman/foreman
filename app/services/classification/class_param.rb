@@ -23,7 +23,7 @@ module Classification
     protected
 
     def class_parameters
-      @keys ||= LookupKey.includes(:environment_classes).parameters_for_class(puppetclass_ids, environment_id)
+      @keys ||= PuppetclassLookupKey.includes(:environment_classes).parameters_for_class(puppetclass_ids, environment_id)
     end
 
     private

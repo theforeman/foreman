@@ -61,7 +61,6 @@ function add_child_node(item) {
     // Setup
     var assoc   = $(item).attr('data-association');           // Name of child
     var template_class = '.' + assoc + '_fields_template';
-    $(item).parent().find(template_class).find('select').select2('destroy');
     var content = $(item).parent().find(template_class).html(); // Fields template
     if (content == undefined) {content = $(template_class).html()};
 
@@ -85,8 +84,9 @@ function add_child_node(item) {
       field = $(content).insertBefore($(item));
     }
     $(item).closest("form").trigger({type: 'nested:fieldAdded', field: field});
-    $('a[rel="popover"]').popover({html: true});
+    $('a[rel="popover"]').popover();
     $('a[rel="twipsy"]').tooltip();
+    $(field).find('select:not(.matcher_key)').select2()
     return new_id;
 }
 
@@ -175,12 +175,13 @@ function keyTypeChange(item) {
   var fields = reloadedItem.closest('.fields');
   var mergeOverrides = fields.find("[id$='_merge_overrides']");
   var avoidDuplicates = fields.find("[id$='_avoid_duplicates']");
-  var overrideMergeDiv = fields.find("[id$='lookup_key_override_merge']");
+  var mergeDefault = fields.find("[id$='_merge_default']");
   var validators = fields.find("[id^='optional_input_validators']");
 
   changeCheckboxEnabledStatus(mergeOverrides, keyType == 'array' || keyType == 'hash');
-  changeCheckboxEnabledStatus(avoidDuplicates, keyType == 'array' && $(mergeOverrides).attr('checked') == 'checked');
-  overrideMergeDiv.toggle(keyType == 'array' || keyType == 'hash');
+  var mergeOverrideChecked = $(mergeOverrides).attr('checked') == 'checked';
+  changeCheckboxEnabledStatus(avoidDuplicates, keyType == 'array' && mergeOverrideChecked);
+  changeCheckboxEnabledStatus(mergeDefault, mergeOverrideChecked);
   validators.collapse('show');
   validators.parent().find('legend').removeClass('collapsed');
 }
@@ -189,7 +190,9 @@ function mergeOverridesChanged(item) {
   var fields = $(item).closest('.fields');
   var keyType = fields.find("[id$='_key_type']").val();
   var avoidDuplicates = fields.find("[id$='_avoid_duplicates']");
+  var mergeDefault = fields.find("[id$='_merge_default']");
   changeCheckboxEnabledStatus(avoidDuplicates, keyType == 'array' && item.checked);
+  changeCheckboxEnabledStatus(mergeDefault, item.checked);
 }
 
 function toggleUsePuppetDefaultValue(item, value_field) {

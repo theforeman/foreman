@@ -210,24 +210,32 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :external_variables do |map|
     map.permission :view_external_variables,    {:lookup_keys => [:index, :show, :auto_complete_search],
+                                                 :puppetclass_lookup_keys => [:index, :show, :auto_complete_search],
+                                                 :variable_lookup_keys => [:index, :show, :auto_complete_search],
                                                  :lookup_values => [:index],
                                                  :"api/v1/lookup_keys" => [:index, :show],
                                                  :"api/v2/smart_variables" => [:index, :show],
                                                  :"api/v2/smart_class_parameters" => [:index, :show],
                                                  :"api/v2/override_values" => [:index, :show]}
     map.permission :create_external_variables,  {:lookup_keys => [:new, :create],
+                                                 :puppetclass_lookup_keys => [:new, :create],
+                                                 :variable_lookup_keys => [:new, :create],
                                                  :lookup_values => [:create],
                                                  :"api/v1/lookup_keys" => [:create],
                                                  :"api/v2/smart_variables" => [:create],
                                                  :"api/v2/smart_class_parameters" => [:create],
                                                  :"api/v2/override_values" => [:create]}
     map.permission :edit_external_variables,    {:lookup_keys => [:edit, :update],
+                                                 :puppetclass_lookup_keys => [:edit, :update],
+                                                 :variable_lookup_keys => [:edit, :update],
                                                  :lookup_values => [:create, :update, :destroy],
                                                  :"api/v1/lookup_keys" => [:update],
                                                  :"api/v2/smart_variables" => [:update],
                                                  :"api/v2/smart_class_parameters" => [:update],
                                                  :"api/v2/override_values" => [:create, :update, :destroy]}
     map.permission :destroy_external_variables, {:lookup_keys => [:destroy],
+                                                 :puppetclass_lookup_keys => [:destroy],
+                                                 :variable_lookup_keys => [:destroy],
                                                  :lookup_values => [:destroy],
                                                  :"api/v1/lookup_keys" => [:destroy],
                                                  :"api/v2/smart_variables" => [:destroy],
@@ -326,7 +334,7 @@ Foreman::AccessControl.map do |permission_set|
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => [:template, :provision],
                                      :"api/v1/hosts" => [:index, :show, :status],
-                                     :"api/v2/hosts" => [:index, :show, :status, :vm_compute_attributes],
+                                     :"api/v2/hosts" => [:index, :show, :status, :get_status, :vm_compute_attributes],
                                      :"api/v2/interfaces" => [:index, :show],
                                      :locations =>  [:mismatches],
                                      :organizations =>  [:mismatches]

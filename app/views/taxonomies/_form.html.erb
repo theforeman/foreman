@@ -87,7 +87,7 @@
                                      'data-inheriteds' => taxonomy.inherited_ids[:organization_ids].to_json,
                                      'data-useds' => taxonomy.used_ids[:organization_ids].to_json } %>
         </div>
-      <% if taxonomy.is_a?(Organization) && show_location_tab? %>
+      <% elsif taxonomy.is_a?(Organization) && show_location_tab? %>
         <div class="tab-pane" id="locations">
           <%= location_selects f, taxonomy.selected_or_inherited_ids[:location_ids],
                                { :disabled => taxonomy.used_and_selected_or_inherited_ids[:location_ids], :label => _('Select locations')},
@@ -95,7 +95,6 @@
                                  'data-inheriteds' => taxonomy.inherited_ids[:location_ids].to_json,
                                  'data-useds' => taxonomy.used_ids[:location_ids].to_json } %>
         </div>
-        <% end %>
       <% end %>
 
       <% if User.current.allowed_to?(:view_params) %>

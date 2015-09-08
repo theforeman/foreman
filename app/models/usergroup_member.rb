@@ -7,8 +7,8 @@ class UsergroupMember < ActiveRecord::Base
   after_save :add_new_cache
   after_destroy :remove_old_cache
 
-  scope :user_memberships, lambda { where("member_type = 'User'") }
-  scope :usergroup_memberships, lambda { where("member_type = 'Usergroup'") }
+  scope :user_memberships, -> { where("member_type = 'User'") }
+  scope :usergroup_memberships, -> { where("member_type = 'Usergroup'") }
 
   private
 

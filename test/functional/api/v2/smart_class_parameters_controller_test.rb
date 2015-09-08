@@ -124,13 +124,6 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     refute_equal orig_value, new_value
   end
 
-  test "should destroy smart class parameter" do
-    assert_difference('LookupKey.count', -1) do
-      delete :destroy, { :id => lookup_keys(:five).to_param }
-    end
-    assert_response :success
-  end
-
   test "should return error if smart class parameter if it does not belong to specified puppetclass" do
     get :show, {:id => lookup_keys(:five).id, :puppetclass_id => puppetclasses(:one).id}
     assert_response 404

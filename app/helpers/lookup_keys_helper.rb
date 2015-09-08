@@ -35,7 +35,7 @@ module LookupKeysHelper
     # Show the parent puppetclass as a context, but permit no change.
     if params["puppetclass_id"]
       select_f f, :puppetclass_id, [Puppetclass.find(params["puppetclass_id"])], :id, :to_label, {}, {:label => _("Puppet class"), :disabled => true}
-    elsif f.object.is_param && f.object.param_class
+    elsif f.object.puppet? && f.object.param_class
       field(f, :puppetclass_id, :label => _('Puppet Class')) do
         content_tag(:input, nil, :value => f.object.param_class, :type => 'text', :disabled => true)
       end
@@ -47,7 +47,7 @@ module LookupKeysHelper
 
   def param_type_selector(f, options = {})
     selectable_f f, :key_type, options_for_select(LookupKey::KEY_TYPES.map { |e| [_(e),e] }, f.object.key_type),{},
-                 options.merge({ :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
+                 options.merge({ :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class=> "without_select2",
                  :help_inline => popover("",_("<dl>" +
                "<dt>String</dt> <dd>Everything is taken as a string.</dd>" +
                "<dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd>" +
@@ -62,7 +62,7 @@ module LookupKeysHelper
 
   def validator_type_selector(f)
     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e),e]  }, f.object.validator_type),{:include_blank => _("None")},
-               { :disabled => (f.object.is_param && !f.object.override), :size => "col-md-8",
+               { :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class=> "without_select2",
                  :onchange => 'validatorTypeSelected(this)',
                  :help_inline => popover("",_("<dl>" +
                "<dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>" +
@@ -77,14 +77,8 @@ module LookupKeysHelper
   def hostgroup_key_with_diagnostic(hostgroup, key)
     value, origin = hostgroup.inherited_lookup_value key
     original_value = key.value_before_type_cast value
-    diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => origin})
-    content_tag :div, :class => ['form-group', 'condensed'] do
-      row_count = original_value.to_s.lines.count rescue 1
-      text_area_tag("value_#{key.key}", original_value, :rows => row_count == 0 ? 1 : row_count,
-                    :class => ['col-md-6'], :'data-property' => 'value', :disabled => true) +
-        fullscreen_button +
-        content_tag(:span, :class => "help-inline") { diagnostic_helper }
-    end
+    diagnostic_helper = popover('', _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => origin}, :data => { :placement => 'top' })
+    parameter_value_content("value_#{key.key}", original_value, :popover => diagnostic_helper)
   end
 
   def host_key_with_diagnostic(host, value_hash, key)
@@ -93,26 +87,22 @@ module LookupKeysHelper
     original_value = key.value_before_type_cast value
     no_value = value.nil? && key.lookup_values.find_by_match("fqdn=#{host.fqdn}")
 
-    diagnostic_class = []
-    diagnostic_helper = popover(_("Additional info"), _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => matcher})
     if no_value
       if key.required
-        diagnostic_class << 'error'
-        diagnostic_helper = popover(_('No value error'), _("Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s") % key.description)
+        diagnostic_class = 'error'
+        diagnostic_helper = popover('', _("Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s") % key.description, :icon => "exclamation-sign")
       else
-        diagnostic_class << 'warning'
-        diagnostic_helper = popover(_('No value warning'), _("Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i> <br><br><b>Description:</b> %s") % key.description)
+        diagnostic_class = 'warning'
+        diagnostic_helper = popover('', _("Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i> <br><br><b>Description:</b> %s") % key.description, :icon => "warning-sign")
       end
+    else
+      diagnostic_helper = popover('', _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => matcher}, :data => { :placement => 'top' })
     end
 
-    text_area_class = ['col-md-6']
-    text_area_class << "override-param" if key.overridden?(host)
-    content_tag :div, :class => ['form-group', 'condensed'] + diagnostic_class do
-      row_count = original_value.to_s.lines.count rescue 1
-      text_area_tag("value_#{key.key}", original_value, :rows => (row_count == 0 ? 1 : row_count),
-                    :class => text_area_class, :'data-property' => 'value', :disabled => true) +
-        fullscreen_button +
-        content_tag(:span, :class => "help-inline") { diagnostic_helper }
-    end
+    text_area_class = "override-param" if key.overridden?(host)
+
+    parameter_value_content("value_#{key.key}", original_value, { :popover => diagnostic_helper,
+                                                                  :wrapper_class => diagnostic_class,
+                                                                  :text_area_class => text_area_class })
   end
 end

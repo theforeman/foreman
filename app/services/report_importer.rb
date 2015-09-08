@@ -29,12 +29,10 @@ class ReportImporter
     end
 
     # convert report status to bit field
-    st                   = ReportStatusCalculator.new(:counters => raw['status']).calculate
+    st = ReportStatusCalculator.new(:counters => raw['status']).calculate
 
     # we update our host record, so we won't need to lookup the report information just to display the host list / info
     host.last_report     = time if host.last_report.nil? or host.last_report.utc < time
-    # we save the report bit status value in our host too.
-    host.puppet_status   = st
 
     # if proxy authentication is enabled and we have no puppet proxy set, use it.
     host.puppet_proxy_id ||= proxy_id
@@ -53,6 +51,8 @@ class ReportImporter
     # Check for errors
     inspect_report
     logger.info("Imported report for #{name} in #{(Time.now - start_time).round(2)} seconds")
+
+    host.refresh_statuses
   end
 
   private

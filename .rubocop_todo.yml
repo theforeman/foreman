@@ -83,11 +83,6 @@ Rails/ActionFilter:
 Rails/DefaultScope:
   Enabled: false
 
-# Offense count: 19
-# Cop supports --auto-correct.
-Rails/Delegate:
-  Enabled: false
-
 # Offense count: 14
 # Configuration parameters: Include.
 Rails/HasAndBelongsToMany:
@@ -205,10 +200,6 @@ Style/FormatString:
 Style/GuardClause:
   Enabled: false
 
-# Offense count: 91
-Style/Lambda:
-  Enabled: false
-
 # Offense count: 183
 # Cop supports --auto-correct.
 Style/LeadingCommentSpace:
@@ -233,11 +224,6 @@ Style/MethodDefParentheses:
 # Offense count: 50
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 Style/MethodName:
-  Enabled: false
-
-# Offense count: 11
-# Cop supports --auto-correct.
-Style/MultilineBlockLayout:
   Enabled: false
 
 # Offense count: 121

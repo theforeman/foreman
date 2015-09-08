@@ -44,6 +44,7 @@ module Api
         param :parameter_type, LookupKey::KEY_TYPES, :desc => N_("Types of variable values")
         param :required, :bool, :desc => N_("If true, will raise an error if there is no default value and no matcher provide a value")
         param :merge_overrides, :bool, :desc => N_("Merge all matching values (only array/hash type)")
+        param :merge_default, :bool, :desc => N_("Include default value when merging all matching values")
         param :avoid_duplicates, :bool, :desc => N_("Remove duplicate values (only array type)")
       end
 
@@ -51,11 +52,6 @@ module Api
         #Note:  User must manually set :override => true. It is not automatically updated if optional input validator fields are updated.
         @smart_class_parameter.update_attributes!(params[:smart_class_parameter])
         render 'api/v2/smart_class_parameters/show'
-      end
-
-      def destroy
-        @smart_class_parameter.destroy
-        render 'api/v2/smart_class_parameters/destroy'
       end
 
       # overwrite Api::BaseController

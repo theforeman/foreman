@@ -289,6 +289,7 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "parse integer attribute from string" do
+    check_parsed_value "integer", 8, 8
     check_parsed_value "integer", 8, "8"
     check_parsed_value_failure "integer", "unknown"
   end

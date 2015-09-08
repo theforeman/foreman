@@ -338,8 +338,7 @@ class ApplicationController < ActionController::Base
   # If the user has a fact_filter then we need to include :fact_values
   # We do not include most associations unless we are processing a html page
   def included_associations(include = [])
-    include += [:hostgroup, :compute_resource, :operatingsystem, :environment, :model ]
-    include
+    include + [ :hostgroup, :compute_resource, :operatingsystem, :environment, :model, :host_statuses ]
   end
 
   def errors_hash(errors)

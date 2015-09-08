@@ -7,8 +7,8 @@ class FactName < ActiveRecord::Base
   has_many :fact_values, :dependent => :destroy
   has_many_hosts :through => :fact_values
 
-  scope :no_timestamp_fact, lambda { where("fact_names.name <> ?",:_timestamp) }
-  scope :timestamp_facts,  lambda { where(:name => :_timestamp) }
+  scope :no_timestamp_fact, -> { where("fact_names.name <> ?",:_timestamp) }
+  scope :timestamp_facts, -> { where(:name => :_timestamp) }
   scope :with_parent_id, lambda { |find_ids|
     conds, binds = [], []
     [find_ids].flatten.each do |find_id|
@@ -18,7 +18,7 @@ class FactName < ActiveRecord::Base
     where(conds.join(' OR '), *binds)
   }
 
-  default_scope lambda { order('fact_names.name') }
+  default_scope -> { order('fact_names.name') }
 
   validates :name, :uniqueness => { :scope => :type }
 

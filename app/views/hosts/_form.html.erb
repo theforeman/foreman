@@ -48,7 +48,7 @@
             },
             :help_inline => :indicator } %>
 
-        <%= select_f f, :compute_resource_id, ComputeResource.with_taxonomy_scope_override(@location,@organization).authorized(:view_compute_resources).order(:name), :id, :to_label,
+        <%= select_f f, :compute_resource_id, ComputeResource.with_taxonomy_scope_override(@location,@organization).authorized(:view_compute_resources).order('compute_resources.name'), :id, :to_label,
           { :include_blank => _('Bare Metal') },
           {:label => _('Deploy on'), :disabled => !@host.new_record?, :'data-url' => compute_resource_selected_hosts_path,
             :onchange => 'computeResourceSelected(this);',
@@ -105,12 +105,12 @@
         <h4><%= _('Puppet classes Parameters') %></h4>
         <p></p>
         <%= render "puppetclasses/classes_parameters", { :obj => @host } %>
-        <h4><%= _('Included Parameters via inheritance') %></h4>
+        <h4><%= _('Included global Parameters via inheritance') %></h4>
         <p></p>
         <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true) } %>
         <p></p>
         <%= render "common_parameters/puppetclasses_parameters", :f => f %>
-        <h4><%= _('Host Parameters') %></h4>
+        <h4><%= _('Global Host Parameters') %></h4>
         <p></p>
         <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
       </div>
@@ -128,7 +128,7 @@
         <div id='model_name'>
           <%= select_f f, :model_id, Model.all, :id, :to_label, { :include_blank => true }, {:label => _("Hardware Model")} unless @host.compute_resource_id%>
         </div>
-        <%= textarea_f f, :comment, :help_block => _("Additional information about this host"), :size => "col-md-8", :rows => "3" %>
+        <%= textarea_f f, :comment, :help_block => _("Additional information about this host"), :size => "col-md-8", :rows => "3", :class => "no-stretch" %>
       </div>
 
     </div>

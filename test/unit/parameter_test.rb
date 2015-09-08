@@ -52,4 +52,20 @@ class ParameterTest < ActiveSupport::TestCase
     host.clear_host_parameters_cache!
     assert_equal "pig", host.host_params["animal"]
   end
+
+  test "parameters should display correct safe value for nested taxonomies" do
+    loc1 = FactoryGirl.create(:location)
+    loc2 = FactoryGirl.create(:location, :parent => loc1)
+    host = FactoryGirl.create(:host, :location => loc2)
+
+    loc1.location_parameters << LocationParameter.create(:name => "animal", :value => "lion")
+    params = host.host_inherited_params(true)
+    assert_equal "lion", params["animal"][:safe_value]
+    assert_equal loc1.title, params["animal"][:source_name]
+
+    loc2.location_parameters << LocationParameter.create(:name => "animal", :value => "dog")
+    params = host.host_inherited_params(true)
+    assert_equal "dog", params["animal"][:safe_value]
+    assert_equal loc2.title, params["animal"][:source_name]
+  end
 end

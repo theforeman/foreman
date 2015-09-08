@@ -1,5 +1,4 @@
 class Host::Managed < Host::Base
-  include ReportCommon
   include Hostext::Search
   PROVISION_METHODS = %w[build image]
 
@@ -7,6 +6,7 @@ class Host::Managed < Host::Base
   has_many :puppetclasses, :through => :host_classes, :dependent => :destroy
   belongs_to :hostgroup
   has_many :reports, :foreign_key => :host_id
+  has_one :last_report_object, :foreign_key => :host_id, :order => "#{Report.table_name}.id DESC", :class_name => 'Report'
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :host
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "HostParameter"
   accepts_nested_attributes_for :host_parameters, :allow_destroy => true
@@ -14,6 +14,9 @@ class Host::Managed < Host::Base
   belongs_to :owner, :polymorphic => true
   belongs_to :compute_resource
   belongs_to :image
+  has_many :host_statuses, :class_name => 'HostStatus::Status', :foreign_key => 'host_id', :inverse_of => :host,
+           :dependent => :destroy
+  has_one :configuration_status_object, :class_name => 'HostStatus::ConfigurationStatus', :foreign_key => 'host_id'
 
   has_one :token, :foreign_key => :host_id, :dependent => :destroy
   before_destroy :remove_reports
@@ -32,6 +35,8 @@ class Host::Managed < Host::Base
   # Define custom hook that can be called in model by magic methods (before, after, around)
   define_model_callbacks :build, :only => :after
   define_model_callbacks :provision, :only => :before
+
+  before_validation :refresh_build_status, :if => :build_changed?
 
   # Custom hooks will be executed after_commit
   after_commit :build_hooks
@@ -71,37 +76,67 @@ class Host::Managed < Host::Base
 
   attr_reader :cached_host_params
 
-  scope :recent,      lambda { |*args| {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]} }
-  scope :out_of_sync, lambda { |*args| {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]} }
+  scope :recent,      ->(*args) { {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]} }
+  scope :out_of_sync, ->(*args) { {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]} }
 
-  scope :with_os, lambda { where('hosts.operatingsystem_id IS NOT NULL') }
+  scope :with_os, -> { where('hosts.operatingsystem_id IS NOT NULL') }
 
-  scope :with_error, lambda { where("(puppet_status > 0) and
-   ( ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
-    ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) != 0) )")
+  scope :with_status, lambda { |status_type|
+    includes(:host_statuses).where("host_status.type = '#{status_type}'")
   }
 
-  scope :without_error, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) = 0) and
-     ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) = 0)")
+  scope :with_config_status, lambda {
+    with_status('HostStatus::ConfigurationStatus')
   }
 
-  scope :with_changes, lambda { where("(puppet_status > 0) and
-    ( ((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) != 0) or
-    ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) != 0) )")
+  # search for a metric - e.g.:
+  # Host::Managed.with("failed") --> all reports which have a failed counter > 0
+  # Host::Managed.with("failed",20) --> all reports which have a failed counter > 20
+  scope :with, lambda { |*arg|
+    with_config_status.where("(host_status.status >> #{HostStatus::ConfigurationStatus.bit_mask(arg[0].to_s)}) > #{arg[1] || 0}")
   }
 
-  scope :without_changes, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) = 0) and
-     ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) = 0)")
+  scope :with_error, lambda {
+    with_config_status.where("(host_status.status > 0) and (
+      #{HostStatus::ConfigurationStatus.is('failed')} or
+      #{HostStatus::ConfigurationStatus.is('failed_restarts')}
+    )")
   }
 
-  scope :with_pending_changes, lambda { where("(puppet_status > 0) and ((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) != 0)") }
-  scope :without_pending_changes, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) = 0)") }
+  scope :without_error, lambda {
+    with_config_status.where("
+      #{HostStatus::ConfigurationStatus.is_not('failed')} and
+      #{HostStatus::ConfigurationStatus.is_not('failed_restarts')}
+    ")
+  }
 
-  scope :successful, lambda { without_changes.without_error.without_pending_changes}
+  scope :with_changes, lambda {
+    with_config_status.where("(host_status.status > 0) and (
+      #{HostStatus::ConfigurationStatus.is('applied')} or
+      #{HostStatus::ConfigurationStatus.is('restarted')}
+    )")
+  }
 
-  scope :alerts_disabled, lambda { where(:enabled => false) }
+  scope :without_changes, lambda {
+    with_config_status.where("
+      #{HostStatus::ConfigurationStatus.is_not('applied')} and
+      #{HostStatus::ConfigurationStatus.is_not('restarted')}
+    ")
+  }
 
-  scope :alerts_enabled, lambda { where(:enabled => true) }
+  scope :with_pending_changes, lambda {
+    with_config_status.where("(host_status.status > 0) AND (#{HostStatus::ConfigurationStatus.is('pending')})")
+  }
+
+  scope :without_pending_changes, lambda {
+    with_config_status.where("#{HostStatus::ConfigurationStatus.is_not('pending')}")
+  }
+
+  scope :successful, -> { without_changes.without_error.without_pending_changes}
+
+  scope :alerts_disabled, -> { where(:enabled => false) }
+
+  scope :alerts_enabled, -> { where(:enabled => true) }
 
   scope :run_distribution, lambda { |fromtime,totime|
     if fromtime.nil? or totime.nil?
@@ -111,9 +146,9 @@ class Host::Managed < Host::Base
     end
   }
 
-  scope :for_token, lambda { |token| joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
+  scope :for_token, ->(token) { joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
 
-  scope :for_vm, lambda { |cr,vm| where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity)) }
+  scope :for_vm, ->(cr,vm) { where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity)) }
 
   # audit the changes to this model
   audited :except => [:last_report, :puppet_status, :last_compile], :allow_mass_assignment => true
@@ -682,7 +717,7 @@ class Host::Managed < Host::Base
     if self.compute_resource
       host.compute_attributes = host.compute_resource.vm_compute_attributes_for(self.uuid)
     end
-    host.puppet_status = 0
+    host.refresh_global_status
     host
   end
 
@@ -712,26 +747,6 @@ class Host::Managed < Host::Base
 
   def vm_compute_attributes
     compute_resource ? compute_resource.vm_compute_attributes_for(uuid) : nil
-  end
-
-  def host_status
-    if build
-      N_("Pending Installation")
-    elsif respond_to?(:enabled) && !enabled
-      N_("Alerts disabled")
-    elsif respond_to?(:last_report) && last_report.nil?
-      N_("No reports")
-    elsif no_report
-      N_("Out of sync")
-    elsif error?
-      N_("Error")
-    elsif changes?
-      N_("Active")
-    elsif pending?
-      N_("Pending")
-    else
-      N_("No changes")
-    end
   end
 
   def smart_proxies
@@ -835,7 +850,7 @@ class Host::Managed < Host::Base
     unattended_render(template)
   end
 
-  def build_status
+  def build_status_checker
     build_status = HostBuildStatus.new(self)
     build_status.check_all_statuses
     build_status
@@ -846,6 +861,57 @@ class Host::Managed < Host::Base
   def setup_clone
     return if new_record?
     @old = super { |clone| clone.interfaces = self.interfaces.map {|i| setup_object_clone(i) } }
+  end
+
+  def refresh_global_status
+    self.global_status = build_global_status.status
+  end
+
+  def refresh_statuses
+    HostStatus.status_registry.each do |status_class|
+      status = get_status(status_class)
+      status.refresh! if status.relevant?
+    end
+    host_statuses.reload
+    refresh_global_status
+  end
+
+  def get_status(type)
+    status = self.new_record? ? host_statuses.detect { |s| s.type == type.to_s } : host_statuses.find_by_type(type.to_s)
+    if status.nil?
+      host_statuses.new(:host => self, :type => type.to_s)
+    else
+      status
+    end
+  end
+
+  def build_global_status(options = {})
+    HostStatus::Global.build(host_statuses, options)
+  end
+
+  def global_status_label(options = {})
+    HostStatus::Global.build(host_statuses, options).to_label
+  end
+
+  def configuration_status(options = {})
+    @configuration_status ||= get_status(HostStatus::ConfigurationStatus).to_status(options)
+  end
+
+  def configuration_status_label(options = {})
+    @configuration_status_label ||= get_status(HostStatus::ConfigurationStatus).to_label(options)
+  end
+
+  def puppet_status
+    Foreman::Deprecation.deprecation_warning('1.12', 'Host#puppet_status has been deprecated, you should use configuration_status')
+    configuration_status
+  end
+
+  def build_status(options = {})
+    @build_status ||= get_status(HostStatus::BuildStatus).to_status(options)
+  end
+
+  def build_status_label(options = {})
+    @build_status_label ||= get_status(HostStatus::BuildStatus).to_label(options)
   end
 
   private
@@ -902,16 +968,6 @@ class Host::Managed < Host::Base
       end
     end if environment
     status
-  end
-
-  # alias to ensure same method that resolves the last report between the hosts and reports tables.
-  def reported_at
-    last_report
-  end
-
-  # puppet report status table column name
-  def self.report_status
-    "puppet_status"
   end
 
   # converts a name into ip address using DNS.
@@ -984,5 +1040,9 @@ class Host::Managed < Host::Base
       self.puppetclasses = []
       self.config_groups = []
     end
+  end
+
+  def refresh_build_status
+    self.get_status(HostStatus::BuildStatus).refresh
   end
 end

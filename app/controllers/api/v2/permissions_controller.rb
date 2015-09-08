@@ -1,11 +1,13 @@
 module Api
   module V2
     class PermissionsController < V2::BaseController
+      include Api::Version2
+
       before_filter :find_resource, :only => %w{show}
+      before_filter :parameter_deprecation, :only => %w(index)
 
       api :GET, "/permissions/", N_("List all permissions")
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :search_and_pagination, ::Api::V2::BaseController
       param :resource_type, String
       param :name, String
 
@@ -13,13 +15,13 @@ module Api
         type = params[:resource_type].blank? ? nil : params[:resource_type]
         name = params[:name].blank? ? nil : params[:name]
         if type
-          @permissions = Permission.where(:resource_type => type)
+          @permissions = Permission.where(:resource_type => type).paginate(paginate_options)
         elsif name
-          @permissions = Permission.where(:name => name)
+          @permissions = Permission.where(:name => name).paginate(paginate_options)
         else
-          @permissions = Permission.all
+          @permissions = resource_scope_for_index
         end
-        @permissions = @permissions.paginate(paginate_options)
+        @permissions
       end
 
       api :GET, "/permissions/:id/", N_("Show a permission")
@@ -33,6 +35,15 @@ module Api
         @resource_types = Permission.resources
         @total = @resource_types.size
         render :resource_types, :layout => 'api/v2/layouts/index_layout'
+      end
+
+      private
+
+      def parameter_deprecation
+        return true unless params[:resource_type] || params[:name]
+        Foreman::Deprecation.api_deprecation_warning(
+          "The name and resource_type parameters are deprecated, use search syntax to search by those parameters."
+        )
       end
     end
   end

@@ -80,7 +80,7 @@ Foreman::Application.configure do |app|
                   compute_resources/ovirt/nic_info
                   compute_resources/vmware/nic_info
                   lookup_keys
-                  provisioning_template
+                  editor
                   ace/ace
                   ace/theme-twilight
                   ace/theme-dawn
@@ -94,7 +94,6 @@ Foreman::Application.configure do |app|
                   host_edit
                   host_edit_interfaces
                   hosts
-                  puppetclasses_or_envs_changed
                   jquery.cookie
                   host_checkbox
                   nfs_visibility

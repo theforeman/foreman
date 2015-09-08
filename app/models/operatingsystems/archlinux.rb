@@ -1,6 +1,10 @@
 class Archlinux < Operatingsystem
   PXEFILES = {:kernel => "linux", :initrd => "initrd"}
 
+  class << self
+    delegate :model_name, :to => :superclass
+  end
+
   # Simple output of the media url
   def mediumpath(host)
     medium_uri(host).to_s
@@ -20,9 +24,5 @@ class Archlinux < Operatingsystem
 
   def display_family
     "Arch Linux"
-  end
-
-  def self.model_name
-    superclass.model_name
   end
 end

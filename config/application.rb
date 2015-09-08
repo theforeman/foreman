@@ -103,6 +103,8 @@ module Foreman
 
     config.autoload_paths += %W(#{config.root}/app/models/auth_sources)
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
+    config.autoload_paths += %W(#{config.root}/app/models/lookup_keys)
+    config.autoload_paths += %W(#{config.root}/app/models/host_status)
     config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
     config.autoload_paths += %W(#{config.root}/app/models/parameters)
     config.autoload_paths += %W(#{config.root}/app/models/trends)
@@ -178,7 +180,7 @@ module Foreman
       :app => {:enabled => true},
       :ldap => {:enabled => false},
       :permissions => {:enabled => false},
-      :sql => {:enabled => true},
+      :sql => {:enabled => false},
     ))
 
     config.logger = Foreman::Logging.logger('app')
