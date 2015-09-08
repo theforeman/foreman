@@ -12,6 +12,12 @@ class RendererTest < ActiveSupport::TestCase
     Setting[:safemode_render] = true
   end
 
+  test "foreman_url should run with @host as nil" do
+    @host = nil
+    self.expects(:url_for).returns("url")
+    assert_nothing_raised(NoMethodError) { foreman_url }
+  end
+
   [:normal_renderer, :safemode_renderer].each do |renderer_name|
     test "#{renderer_name} is properly configured" do
       send "setup_#{renderer_name}"
