@@ -559,6 +559,8 @@ _('User|Password hash')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User|Password salt')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('User|Mail enabled')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User role')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('UserRole|Owner type')
