@@ -33,8 +33,8 @@ function add_puppet_class(item){
   $("#selected_puppetclass_"+ id).show('highlight', 5000);
   $("#puppetclass_"+ id).addClass('selected-marker').hide();
   findElementsForRemoveIcon($("#puppetclass_"+ id));
-  // trigger load_puppet_class_parameters in host_edit.js which is fired by custom event handler called 'AddedClass'
-  $(document.body).trigger('AddedClass', link);
+  // trigger load_puppet_class_parameters in host_edit.js which is fired by custom event handler called 'ChangedClass'
+  $(document.body).trigger('ChangedClass', link);
 }
 
 function add_group_puppet_class(item){
@@ -58,8 +58,8 @@ function add_group_puppet_class(item){
   $("#selected_puppetclass_"+ id).show('highlight', 5000);
   $("#puppetclass_"+ id).addClass('selected-marker').hide();
 
-  // trigger load_puppet_class_parameters in host_edit.js which is fired by custom event handler called 'AddedClass'
-  $(document.body).trigger('AddedClass', link);
+  // trigger load_puppet_class_parameters in host_edit.js which is fired by custom event handler called 'ChangedClass'
+  $(document.body).trigger('ChangedClass', link);
 }
 
 function remove_puppet_class(item){
@@ -73,6 +73,8 @@ function remove_puppet_class(item){
   $('[id^="puppetclass_' + id + '_params\\["]').remove();
   $('#params-tab').removeClass("tab-error");
   if ($("#params").find('.form-group.error').length > 0) $('#params-tab').addClass('tab-error');
+  var link = $(item).closest('li').clone().children('a');
+  $(document.body).trigger('ChangedClass', link);
 
   return false;
 }

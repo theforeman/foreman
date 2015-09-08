@@ -46,13 +46,26 @@ class PuppetclassesController < ApplicationController
 
   # form AJAX methods
   def parameters
-    puppetclass = Puppetclass.find(params[:id])
-    render :partial => "puppetclasses/class_parameters",
-           :locals => { :puppetclass => puppetclass,
-                        :obj         => get_host_or_hostgroup }
+    @puppetclass = get_puppetclass
+    @obj = get_host_or_hostgroup
+    @obj.puppetclasses = @obj.puppetclasses + [@puppetclass] if @puppetclass
+    render :partial => "puppetclasses/classes_parameters",
+           :locals => { :obj => @obj }
   end
 
   private
+
+  def get_puppetclass
+    if params[:host]
+      puppetclass_id_in_params params[:host][:puppetclass_ids]
+    else
+      puppetclass_id_in_params params[:hostgroup][:puppetclass_ids]
+    end
+  end
+
+  def puppetclass_id_in_params(item)
+    item.include?(params[:id]) ? Puppetclass.find(params[:id]) : nil
+  end
 
   def get_host_or_hostgroup
     # params['host_id'] = 'null' if NEW since hosts/form and hostgroups/form has data-id="null"
