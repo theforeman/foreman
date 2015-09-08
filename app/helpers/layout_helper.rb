@@ -49,16 +49,35 @@ module LayoutHelper
     end
   end
 
+  def button_input_group(content, options = {}, glyph = nil)
+    options[:type] ||= 'button'
+    options[:herf] ||= '#'
+    options[:class] ||= 'btn btn-default'
+    content_tag :span, class: 'input-group-btn' do
+      content_tag :button, content, options  do
+        content_tag :span,content, :class => glyph
+      end
+    end
+  end
+
   def password_f(f, attr, options = {})
+    unset_button = options.delete(:unset)
     password_field_tag(:fakepassword, nil, :style => 'display: none') +
     field(f, attr, options) do
       options[:autocomplete]   ||= 'off'
       options[:placeholder]    ||= password_placeholder(f.object, attr)
+      options[:disabled] = true if unset_button
       addClass options, 'form-control'
-      f.password_field(attr, options) +
+      pass = f.password_field(attr, options) +
       '<span class="glyphicon glyphicon-warning-sign input-addon"
              title="'.html_safe + _('Caps lock ON') +
              '" style="display:none"></span>'.html_safe
+      if unset_button
+        button = button_input_group '', {:id => 'disable-pass-btn', :onclick => "toggle_input_group(this)", :title => _("Change the password")}, 'glyphicon glyphicon-pencil'
+        input_group pass, button
+      else
+        pass
+      end
     end
   end
 

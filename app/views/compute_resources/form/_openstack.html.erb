@@ -1,6 +1,6 @@
 <%= text_f f, :url, :size => "col-md-8", :help_block => _("e.g. http://openstack:5000/v2.0/tokens"), :help_inline => documentation_button('5.2.6OpenStackNotes') %>
 <%= text_f f, :user %>
-<%= password_f f, :password %>
+<%= password_f f, :password, :unset => action_name == "edit" %>
 
 <% tenants = f.object.tenants rescue [] %>
 <%= selectable_f(f, :tenant, tenants, {}, {:label => _('Tenant'), :disabled => tenants.empty?,
