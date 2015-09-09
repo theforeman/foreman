@@ -81,15 +81,6 @@ Foreman::Application.configure do |app|
                   compute_resources/vmware/nic_info
                   lookup_keys
                   editor
-                  ace/ace
-                  ace/theme-twilight
-                  ace/theme-dawn
-                  ace/theme-clouds
-                  ace/theme-textmate
-                  ace/mode-diff
-                  ace/mode-ruby
-                  ace/keybinding-vim
-                  ace/keybinding-emacs
                   diff
                   host_edit
                   host_edit_interfaces
