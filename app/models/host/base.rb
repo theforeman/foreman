@@ -437,5 +437,13 @@ module Host
       errors.add(:interfaces, _('some interfaces are invalid')) unless success
       success
     end
+
+    def password_base64_encrypted?
+      if root_pass_changed?
+        root_pass == hostgroup.try(:read_attribute, :root_pass)
+      else
+        true
+      end
+    end
   end
 end
