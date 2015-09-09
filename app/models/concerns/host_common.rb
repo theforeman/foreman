@@ -117,7 +117,9 @@ module HostCommon
                        end
 
     if unencrypted_pass.present?
-      is_actually_encrypted = if PasswordCrypt.crypt_gnu_compatible?
+      is_actually_encrypted = if operatingsystem.try(:password_hash) == "Base64"
+                                password_base64_encrypted?
+                              elsif PasswordCrypt.crypt_gnu_compatible?
                                 unencrypted_pass.match('^\$\d+\$.+\$.+')
                               else
                                 unencrypted_pass.starts_with?("$")

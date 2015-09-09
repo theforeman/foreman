@@ -985,9 +985,43 @@ class HostTest < ActiveSupport::TestCase
       host.operatingsystem.password_hash = 'Base64'
       host.root_pass = unencrypted_password
       assert host.save!
-      assert_equal host.root_pass, 'eHlieGE2SlVrejYzdw=='
+      assert_equal 'eHlieGE2SlVrejYzdw==', host.root_pass
       # Encrypted passwords should have UTF-8 encoding
       assert_equal Encoding::UTF_8, host.root_pass.encoding
+    end
+
+    test "should not reencode base64 passwords" do
+      unencrypted_password = "xybxa6JUkz63w"
+      host = FactoryGirl.create(:host, :managed)
+      host.hostgroup = nil
+      host.operatingsystem.password_hash = 'Base64'
+      host.operatingsystem.save
+      host.root_pass = unencrypted_password
+      assert host.save!
+      host.reload
+      host.name = "whatever"
+      assert host.save!
+      assert_equal 'eHlieGE2SlVrejYzdw==', host.root_pass
+      #then let's check that we can change root pass
+      host.root_pass = "oh my pass"
+      assert host.save!
+      refute_equal host.root_pass, 'eHlieGE2SlVrejYzdw=='
+    end
+
+    test "should use hostgroup base64 root password without reencoding" do
+      Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+      hg = FactoryGirl.create(:hostgroup, :with_os)
+      hg.operatingsystem.update_attribute(:password_hash, 'Base64')
+      hg.root_pass = "abcdefghi"
+      hg.save!
+      assert_equal "YWJjZGVmZ2hp", hg.root_pass
+
+      h = FactoryGirl.create(:host, :managed, :hostgroup => hg, :operatingsystem => nil)
+      h.root_pass = nil
+      h.save!
+      assert h.root_pass.present?
+      assert_equal h.hostgroup.root_pass, h.root_pass
+      assert_equal h.hostgroup.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host unmodified'
     end
 
     test "should use hostgroup root password" do
