@@ -210,6 +210,10 @@ module HostCommon
 
   private
 
+  def inside_clone?
+    Thread.current[:inside_clone]
+  end
+
   # fall back to our puppet proxy in case our puppet ca is not defined/used.
   def check_puppet_ca_proxy_is_required?
     return true if puppet_ca_proxy_id.present? or puppet_proxy_id.blank?
@@ -229,10 +233,16 @@ module HostCommon
   end
 
   def update_config_group_counters(record)
-    return unless persisted?
-    record.update_attribute(:hostgroups_count, cnt_hostgroups(record))
-    record.update_attribute(:hosts_count, cnt_hosts(record))
+    return if new_record? && inside_clone?
+
+    record.update_attribute(:hostgroups_count, cnt_hostgroups(record) + creation_delta_for(Hostgroup))
+    record.update_attribute(:hosts_count, cnt_hosts(record) + creation_delta_for(Host::Base))
 
     record.update_puppetclasses_total_hosts
+  end
+
+  def creation_delta_for(klass)
+    #on remove this would still work because new_record is false.
+    self.is_a?(klass) && new_record? ? 1 : 0
   end
 end

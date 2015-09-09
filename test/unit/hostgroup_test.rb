@@ -218,6 +218,12 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal ["Common", "Parent", "inherited"].sort, hostgroups.map(&:name).sort
   end
 
+  test "hostgroup created with config group updates the correct count" do
+    hostgroup = FactoryGirl.create(:hostgroup, :with_config_group)
+    assert_equal 0, hostgroup.config_groups.last.hosts_count
+    assert_equal 1, hostgroup.config_groups.last.hostgroups_count
+  end
+
   test "parent_classes should return parent classes if hostgroup has parent and environment are the same" do
     hostgroup = hostgroups(:inherited)
     assert hostgroup.parent

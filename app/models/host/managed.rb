@@ -708,6 +708,7 @@ class Host::Managed < Host::Base
   end
 
   def clone
+    Thread.current[:inside_clone] = true
     # do not copy system specific attributes
     host = self.deep_clone(:include => [:config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values],
                            :except  => [:name, :mac, :ip, :uuid, :certname, :last_report])
@@ -719,6 +720,8 @@ class Host::Managed < Host::Base
     end
     host.refresh_global_status
     host
+  ensure
+    Thread.current[:inside_clone] = false
   end
 
   def bmc_nic

@@ -1854,6 +1854,12 @@ class HostTest < ActiveSupport::TestCase
     assert_equal [pclass.name], host.individual_puppetclasses.map(&:name)
   end
 
+  test "host created with config group updates the correct count" do
+    host = FactoryGirl.create(:host, :with_config_group)
+    assert_equal 1, host.config_groups.last.hosts_count
+    assert_equal 0, host.config_groups.last.hostgroups_count
+  end
+
   test "available_puppetclasses should return all if no environment" do
     host = FactoryGirl.create(:host)
     host.update_attribute(:environment_id, nil)
