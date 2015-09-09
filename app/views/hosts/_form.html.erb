@@ -102,17 +102,19 @@
       <%= render('hosts/unattended', :f => f) if SETTINGS[:unattended] and @host.managed %>
 
       <div class="tab-pane"  id="params">
-        <h4><%= _('Puppet classes Parameters') %></h4>
-        <p></p>
-        <%= render "puppetclasses/classes_parameters", { :obj => @host } %>
-        <h4><%= _('Included global Parameters via inheritance') %></h4>
-        <p></p>
-        <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true) } %>
-        <p></p>
-        <%= render "common_parameters/puppetclasses_parameters", :f => f %>
-        <h4><%= _('Global Host Parameters') %></h4>
-        <p></p>
-        <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
+        <fieldset>
+          <legend><%= _('Puppet classes parameters') %></legend>
+          <%= render "puppetclasses/classes_parameters", { :obj => @host } %>
+          <h4><%= _('Puppet class overrides') %></h4>
+          <%= render "common_parameters/puppetclasses_parameters", :f => f %>
+        </fieldset>
+        <br/>
+        <fieldset>
+          <legend><%= _('Global parameters') %></legend>
+          <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true) } %>
+          <h4><%= _('Host parameters') %></h4>
+          <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
+        </fieldset>
       </div>
 
       <div class="tab-pane"  id="info">
