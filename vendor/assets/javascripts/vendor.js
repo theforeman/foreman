@@ -18,8 +18,3 @@
 //= require ace/mode-xml
 //= require ace/mode-yaml
 //= require ace/theme-twilight
-//= require ace/worker-coffee
-//= require ace/worker-css
-//= require ace/worker-javascript
-//= require ace/worker-json
-//= require ace/worker-xquery
