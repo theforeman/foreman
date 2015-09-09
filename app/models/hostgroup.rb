@@ -238,4 +238,8 @@ class Hostgroup < ActiveRecord::Base
     return [] if new_record? && parent_id.blank?
     Host::Base.where(:hostgroup_id => self.path_ids).uniq.pluck(type).compact
   end
+
+  def password_base64_encrypted?
+    !root_pass_changed?
+  end
 end
