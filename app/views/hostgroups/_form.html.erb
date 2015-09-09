@@ -65,19 +65,22 @@
     </div>
 
     <div class="tab-pane" id="params">
-      <h4><%= _('Puppet classes parameters') %></h4>
-      <p/>
-      <%= render "puppetclasses/classes_parameters", { :obj => @hostgroup } %>
-      <p/>
-      <%= render "common_parameters/puppetclasses_parameters", :f => f %>
-      <p/>
-      <h4><%= _('Global host group parameters') %></h4>
-      <p/>
-      <% if @hostgroup.parent.present? %>
-          <%= render "common_parameters/parent_parameter", :f => f %>
-      <% end %>
-      <p/>
-      <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
+      <fieldset>
+        <legend><%= _('Puppet class parameters') %></legend>
+        <%= render "puppetclasses/classes_parameters", { :obj => @hostgroup } %>
+        <h4><%= _('Puppet class overrides') %></h4>
+        <%= render "common_parameters/puppetclasses_parameters", :f => f %>
+      </fieldset>
+      <br/>
+      <fieldset>
+        <legend><%= _('Global parameters') %></legend>
+        <% if @hostgroup.parent.present? %>
+            <h4><%= _('Parent parameters') %></h4>
+            <%= render "common_parameters/parent_parameter", :f => f %>
+        <% end %>
+        <h4><%= _('Host group parameters') %></h4>
+        <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
+      </fieldset>
     </div>
 
     <%= render "taxonomies/loc_org_tabs", :f => f, :obj => @hostgroup %>
