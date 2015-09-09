@@ -50,7 +50,7 @@ function set_keybinding(){
   Editor.setKeyboardHandler(keybindings[$("#keybinding")[0].selectedIndex]);
 }
 
-function set_mode () {
+function set_mode (mode) {
   var session = Editor.getSession();
   var modes = [
     "ace/mode/text",
@@ -61,7 +61,15 @@ function set_mode () {
     "ace/mode/yaml"
   ];
 
-  session.setMode(modes[$("#mode")[0].selectedIndex]);
+  if (mode) {
+    if (modes.indexOf(mode) >= 0 ) {
+      $("#mode").val(mode.replace('ace/mode/', ''));
+    }
+  } else {
+    mode = modes[$("#mode")[0].selectedIndex];
+  }
+
+  session.setMode(mode);
 }
 
 function editor_file_source(evt){
@@ -113,6 +121,7 @@ function create_editor() {
   Editor = ace.edit(editorId);
   Editor.setShowPrintMargin(false);
   Editor.renderer.setShowGutter(false);
+  set_mode('ace/mode/ruby');
   $(document).on('resize', editorId, function(){Editor.resize()});
   if ($editorSource.is(':disabled')) {
     Editor.setReadOnly(true);
