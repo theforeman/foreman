@@ -74,6 +74,20 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
     assert_equal 1, importer.counters[:added]
   end
 
+  test "importer retains 'other' facts" do
+    assert_equal '2.6.9', value('kernelversion')
+    FactoryGirl.create(:fact_value, :value => 'othervalue',:host => @host,
+                       :fact_name => FactoryGirl.create(:fact_name_other, :name => 'otherfact'))
+    import('ipaddress' => '10.0.19.5', 'uptime' => '1 picosecond')
+    assert_equal 'othervalue', value('otherfact')
+    assert_nil value('kernelversion')
+    assert_equal '10.0.19.5', value('ipaddress')
+    assert_equal '1 picosecond', value('uptime')
+    assert_equal 1, importer.counters[:deleted]
+    assert_equal 1, importer.counters[:updated]
+    assert_equal 1, importer.counters[:added]
+  end
+
   def import(facts)
     @importer = PuppetFactImporter.new(@host, facts)
     importer.import!

@@ -8,4 +8,9 @@ FactoryGirl.define do
     sequence(:value) {|n| "value#{n}" }
     host
   end
+
+  factory :fact_name_other, :class => FactName do
+    type 'FactNameOther'
+    sequence(:name) {|n| "fact#{n}" }
+  end
 end
