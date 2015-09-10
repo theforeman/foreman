@@ -1,14 +1,24 @@
 function turn_textarea_switch(checkbox) {
-  var id = checkbox.id.replace(/hidden_value$/,"value");
+  var target, session;
+  var id = checkbox.id.replace(/hidden_value$/, "value");
   var source = document.getElementById(id);
-  if (checkbox.checked) {
-    var target = '<input class="form-control" type="password" id="' + id + '" name="' + source.name + '" value ="' + source.value + '"></input>'
-  } else {
-    var target = '<textarea class="form-control" id="' + id + '" name="' + source.name + '" placeholder="Value" rows="1">' + source.value + '</textarea>'
-  }
-  $(source).replaceWith(target);
-}
+  var $editorContainer = $('.editor-container');
 
+  if (checkbox.checked) {
+    target = '<input class="form-control" type="password" id="' + id + '" name="' + source.name + '" value ="' + source.value + '"></input>'
+    $editorContainer.find('.navbar').hide();
+    $editorContainer.find('.ace_editor').remove();
+    $(source).replaceWith(target);
+  } else {
+    target = '<textarea class="form-control editor_source hide" id="' + id + '" name="' + source.name + '" placeholder="Value" rows="1">' + source.value + '</textarea>'
+    $editorContainer.find('.navbar').show();
+    $(source).replaceWith(target);
+
+    onEditorLoad();
+    session = Editor.getSession();
+    session.setValue($(source).val());
+  }
+}
 function hidden_value_control(){
   $(".toggle-hidden-value a").click(function(event){
     event.preventDefault();

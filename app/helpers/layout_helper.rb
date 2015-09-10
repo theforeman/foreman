@@ -201,7 +201,9 @@ module LayoutHelper
     error       = f.object.errors[attr] if f && f.object.respond_to?(:errors)
     help_inline = help_inline(options.delete(:help_inline), error)
     size_class  = options.delete(:size) || "col-md-4"
-    label = add_label(options, f, attr)
+    wrapper_class = options.delete(:wrapper_class) || "form-group"
+
+    label = options[:no_label] ? "" : add_label(options, f, attr)
 
     if table_field
       add_help_to_label(size_class, label, help_inline) do
@@ -211,7 +213,7 @@ module LayoutHelper
       help_block = content_tag(:span, options.delete(:help_block), :class => "help-block")
 
       content_tag(:div, :class => "clearfix") do
-        content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
+        content_tag :div, :class => "#{wrapper_class} #{error.empty? ? "" : 'has-error'}",
                     :id => options.delete(:control_group_id) do
           input = if options[:fullscreen]
                     content_tag(:div, yield.html_safe + fullscreen_input, :class => "input-group")

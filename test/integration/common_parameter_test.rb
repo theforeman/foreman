@@ -21,4 +21,11 @@ class CommonParameterIntegrationTest < ActionDispatch::IntegrationTest
     assert_submit_button(common_parameters_path)
     assert page.has_content? 'mynewvalue'
   end
+
+  test "does not display editor on hidden value" do
+    visit common_parameters_path
+    click_link "test"
+    check "common_parameter_hidden_value"
+    page.assert_no_selector 'editor_source'
+  end
 end
