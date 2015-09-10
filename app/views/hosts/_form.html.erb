@@ -109,6 +109,7 @@
         <p></p>
         <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true) } %>
         <p></p>
+        <h4><%= _('Puppet classes overrides') %></h4>
         <%= render "common_parameters/puppetclasses_parameters", :f => f %>
         <h4><%= _('Global Host Parameters') %></h4>
         <p></p>

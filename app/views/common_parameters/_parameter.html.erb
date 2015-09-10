@@ -29,7 +29,7 @@
                     :checked => f.object.hidden_value?,
                     :disabled => disabled) %>
           <%= _('hide') %><br />
-          <%= link_to_remove_fields('', f) if authorized_via_my_scope("host_editing", "destroy_params") %><%= _('remove') %>
+          <%= link_to_remove_fields('', f, :js_func => "hideGlobalParamsTableHeader") if authorized_via_my_scope("host_editing", "destroy_params") %><%= _('remove') %>
         </td>
         <span class="help-block">
           <%= f.object.errors.full_messages.to_sentence %>

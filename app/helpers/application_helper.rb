@@ -48,7 +48,8 @@ module ApplicationHelper
   end
 
   def link_to_remove_fields(name, f, options = {})
-    f.hidden_field(:_destroy) + link_to_function(icon_text("remove", name), "remove_fields(this)", options.merge(:title => _("Remove Parameter")))
+    custom_js_func = options[:js_func] ? options[:js_func] : "remove_fields"
+    f.hidden_field(:_destroy) + link_to_function(icon_text("remove", name), "#{custom_js_func}(this)", options.merge(:title => _("Remove Parameter")))
   end
 
   # Creates a link to a javascript function that creates field entries for the association on the web page
@@ -61,7 +62,8 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, ("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, add_html_classes(options, "btn btn-success") )
+    custom_js_func = options[:js_func] ? options[:js_func] : "add_fields"
+    link_to_function(name, ("#{custom_js_func}(this, \"#{association}\", \"#{escape_javascript(fields)}\")").html_safe, add_html_classes(options, "btn btn-success") )
   end
 
   def link_to_remove_puppetclass(klass, type)
