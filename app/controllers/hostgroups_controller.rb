@@ -41,7 +41,7 @@ class HostgroupsController < ApplicationController
   def create
     @hostgroup = Hostgroup.new(params[:hostgroup])
     if @hostgroup.save
-      process_success
+      process_success :success_redirect => hostgroups_path
     else
       load_vars_for_ajax
       process_error
@@ -56,7 +56,7 @@ class HostgroupsController < ApplicationController
     # remove from hash :root_pass if blank?
     params[:hostgroup].except!(:root_pass) if params[:hostgroup][:root_pass].blank?
     if @hostgroup.update_attributes(params[:hostgroup])
-      process_success
+      process_success :success_redirect => hostgroups_path
     else
       taxonomy_scope
       load_vars_for_ajax
@@ -67,7 +67,7 @@ class HostgroupsController < ApplicationController
   def destroy
     begin
       if @hostgroup.destroy
-        process_success
+        process_success :success_redirect => hostgroups_path
       else
         load_vars_for_ajax
         process_error

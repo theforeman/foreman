@@ -97,10 +97,17 @@ function update_capabilities(capabilities){
 
 var stop_pooling;
 
-function submit_host(){
-  var url = window.location.pathname.replace(/\/edit$|\/new$/,'');
-  if(/\/clone$/.test(window.location.pathname)){ url = foreman_url('/hosts'); }
-  $('#host_submit').attr('disabled', true);
+function submit_with_all_params(){
+  var url = window.location.pathname.replace(/\/edit$|\/new|\/\d+.*\/nest$/,'');
+  if (url.match('hostgroups')) {
+    resource = 'hostgroup'
+  } else {
+    resource = 'host'
+  }
+  resources = resource + 's';
+  capitalized_resource = resource[0].toUpperCase + resource.slice(1);
+  if(/\/clone$/.test(window.location.pathname)){ url = foreman_url('/' + resources); }
+  $('form input[type="submit"]').attr('disabled', true);
   stop_pooling = false;
   $("body").css("cursor", "progress");
   clear_errors();
@@ -111,11 +118,11 @@ function submit_host(){
     url: url,
     data: $('form').serialize(),
     success: function(response){
-      $("#host-progress").hide();
+      $('#' + resource + '-progress').hide();
       $('#content').replaceWith($("#content", response));
       $(document.body).trigger('ContentLoad');
       if($("[data-history-url]").exists()){
-          history.pushState({}, "Host show", $("[data-history-url]").data('history-url'));
+          history.pushState({}, capitalized_resource + " show", $("[data-history-url]").data('history-url'));
       }
     },
     error: function(response){
@@ -124,7 +131,7 @@ function submit_host(){
     complete: function(){
       stop_pooling = true;
       $("body").css("cursor", "auto");
-      $('#host_submit').attr('disabled', false);
+      $('form input[type="submit"]').attr('disabled', false);
     }
   });
   return false;
@@ -482,7 +489,7 @@ function onHostEditLoad(){
 $(document).on('submit',"[data-submit='progress_bar']", function() {
   // onContentLoad function clears any un-wanted parameters from being sent to the server by
   // binding 'click' function before this submit. see '$('form').on('click', 'input[type="submit"]', function()'
-  submit_host();
+  submit_with_all_params();
   return false;
 });
 
