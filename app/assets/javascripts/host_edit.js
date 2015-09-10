@@ -1,5 +1,5 @@
 $(document).on('ContentLoad', function(){onHostEditLoad()});
-$(document).on('AddedClass', function(event, link){load_puppet_class_parameters(link)});
+$(document).on('ChangedClass', function(event, link){load_puppet_class_parameters(link)});
 
 function update_nics(success_callback) {
   var data = $('form').serialize().replace('method=put', 'method=post');
@@ -182,9 +182,9 @@ function load_puppet_class_parameters(item) {
   }
 
   if (url == undefined) return; // no parameters
-  var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
-      '<td colspan="5">' + spinner_placeholder(__('Loading parameters...')) + '</td></tr>');
-  $('#inherited_puppetclasses_parameters').append(placeholder);
+  var placeholder = $('<div id="puppetclass_'+id+'_params_loading">'+
+      '<td colspan="5">' + spinner_placeholder(__('Loading parameters...')) + '</div>');
+  $('#inherited_puppetclasses_parameters').replaceWith(placeholder);
   $.ajax({
     url: url,
     type: 'post',
