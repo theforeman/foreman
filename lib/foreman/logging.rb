@@ -76,7 +76,13 @@ module Foreman
       fail "Logging configuration 'config/logging.yaml' not present" unless File.exist?('config/logging.yaml')
       overrides ||= {}
       @config = YAML.load_file('config/logging.yaml')
-      @config = @config[:default].deep_merge(@config[environment.to_sym]).deep_merge(overrides)
+      if @config.keys.include? environment.to_sym
+        @config = @config[:default].deep_merge(@config[environment.to_sym]).
+          deep_merge(overrides)
+      else
+        @config = @config[:default].deep_merge(overrides)
+        @config[:filename] = "#{environment}.log"
+      end
     end
 
     def ensure_log_directory(log_directory)
