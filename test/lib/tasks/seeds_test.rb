@@ -9,8 +9,6 @@ class SeedsTest < ActiveSupport::TestCase
     DatabaseCleaner.clean_with :truncation
     Setting.stubs(:[]).with(:administrator).returns("root@localhost")
     Setting.stubs(:[]).with(:send_welcome_email).returns(false)
-    Setting.stubs(:[]).with(:default_organization).returns('seed_test')
-    Setting.stubs(:[]).with(:default_location).returns('seed_test')
   end
 
   def seed
@@ -114,14 +112,14 @@ class SeedsTest < ActiveSupport::TestCase
     seed
   end
 
-  test 'does not add a template back that was deleted' do
+  test "doesn't add a template back that was deleted" do
     seed
     assert_equal 1, ProvisioningTemplate.destroy_all(:name => 'Kickstart default').size
     seed
     refute ProvisioningTemplate.find_by_name('Kickstart default')
   end
 
-  test 'does not add a template back that was renamed' do
+  test "doesn't add a template back that was renamed" do
     seed
     tmpl = ProvisioningTemplate.find_by_name('Kickstart default')
     tmpl.name = 'test'
@@ -130,12 +128,12 @@ class SeedsTest < ActiveSupport::TestCase
     refute ProvisioningTemplate.find_by_name('Kickstart default')
   end
 
-  test 'no audits are recorded' do
+  test "no audits are recorded" do
     seed
     assert_equal [], Audit.all
   end
 
-  test 'seed organization when environment SEED_ORGANIZATION specified' do
+  test "seed organization when environment SEED_ORGANIZATION specified" do
     Organization.stubs(:any?).returns(false)
     with_env('SEED_ORGANIZATION' => 'seed_test') do
       seed
@@ -143,16 +141,7 @@ class SeedsTest < ActiveSupport::TestCase
     assert Organization.find_by_name('seed_test')
   end
 
-  test 'seeded organization is set as default' do
-    Organization.stubs(:any?).returns(false)
-    Setting.stubs(:[]).with(:default_organization).returns('')
-    Setting.expects(:[]=).with(:default_organization, 'seed_test')
-    with_env('SEED_ORGANIZATION' => 'seed_test') do
-      seed
-    end
-  end
-
-  test 'do not seed organization when an org already exists' do
+  test "don't seed organization when an org already exists" do
     Organization.stubs(:any?).returns(true)
     with_env('SEED_ORGANIZATION' => 'seed_test') do
       seed
@@ -160,7 +149,7 @@ class SeedsTest < ActiveSupport::TestCase
     refute Organization.find_by_name('seed_test')
   end
 
-  test 'seed location when environment SEED_LOCATION specified' do
+  test "seed location when environment SEED_LOCATION specified" do
     Location.stubs(:any?).returns(false)
     with_env('SEED_LOCATION' => 'seed_test') do
       seed
@@ -168,16 +157,7 @@ class SeedsTest < ActiveSupport::TestCase
     assert Location.find_by_name('seed_test')
   end
 
-  test 'seeded location is set as default' do
-    Location.stubs(:any?).returns(false)
-    Setting.stubs(:[]).with(:default_location).returns('')
-    Setting.expects(:[]=).with(:default_location, 'seed_test')
-    with_env('SEED_LOCATION' => 'seed_test') do
-      seed
-    end
-  end
-
-  test 'do not seed location when a location already exists' do
+  test "don't seed location when a location already exists" do
     Location.stubs(:any?).returns(true)
     with_env('SEED_LOCATION' => 'seed_test') do
       seed
@@ -185,7 +165,7 @@ class SeedsTest < ActiveSupport::TestCase
     refute Location.find_by_name('seed_test')
   end
 
-  test 'all access permissions are created by permissions seed' do
+  test "all access permissions are created by permissions seed" do
     seed
     access_permissions = Foreman::AccessControl.permissions.reject(&:public?).reject(&:plugin?).map(&:name).map(&:to_s)
     seeded_permissions = Permission.pluck('permissions.name')
@@ -195,7 +175,7 @@ class SeedsTest < ActiveSupport::TestCase
     assert_equal [], seeded_permissions - access_permissions
   end
 
-  test 'viewer role contains all view permissions' do
+  test "viewer role contains all view permissions" do
     seed
     view_permissions = Permission.all.select { |permission| permission.name.match(/view/) }
     assert_equal [], view_permissions - Role.find_by_name('Viewer').permissions
