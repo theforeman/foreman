@@ -39,6 +39,22 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_not_empty parameters
   end
 
+  test "should get index for specific location" do
+    get :index, { :location_id => taxonomies(:location1).to_param }
+    assert_response :success
+    assert_not_nil assigns(:parameters)
+    parameters = ActiveSupport::JSON.decode(@response.body)
+    assert_not_empty parameters
+  end
+
+  test "should get index for specific organization" do
+    get :index, { :organization_id => taxonomies(:organization1).to_param }
+    assert_response :success
+    assert_not_nil assigns(:parameters)
+    parameters = ActiveSupport::JSON.decode(@response.body)
+    assert_not_empty parameters
+  end
+
   test "should show a host parameter" do
     get :show, { :host_id => @host.to_param, :id => @host.parameters.first.to_param }
     assert_response :success
@@ -62,6 +78,20 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
   test "should show an os parameter" do
     get :show, {:operatingsystem_id => operatingsystems(:redhat).to_param,:id => parameters(:os).to_param }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_not_empty show_response
+  end
+
+  test "should show a location parameter" do
+    get :show,  { :location_id => taxonomies(:location1).to_param, :id => parameters(:location).to_param }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_not_empty show_response
+  end
+
+  test "should show an organization parameter" do
+    get :show,  { :organization_id => taxonomies(:organization1).to_param, :id => parameters(:org).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
