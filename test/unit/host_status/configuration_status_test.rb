@@ -25,6 +25,16 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     assert_nil @status.last_report
   end
 
+  test '#no_reports? results in warning only if puppet reports are expected' do
+    @status.stubs(:error? => false)
+    @status.stubs(:out_of_sync? => false)
+    @status.stubs(:no_reports? => true)
+    assert_equal HostStatus::Global::OK, @status.to_global
+
+    @host.stubs(:puppet_proxy => :something)
+    assert_equal HostStatus::Global::WARN, @status.to_global
+  end
+
   test '#out_of_sync? is false if host reporting is disabled' do
     assert @status.out_of_sync?
 
