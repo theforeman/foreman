@@ -34,8 +34,11 @@ module HostStatus
       elsif out_of_sync?
         # out of sync
         return HostStatus::Global::WARN
+      elsif no_reports? && host.puppet_proxy
+        # no reports and puppet is set
+        return HostStatus::Global::WARN
       else
-        # active, pending, no changes, no reports
+        # active, pending, no changes, no reports (and puppet proxy is not set)
         return HostStatus::Global::OK
       end
     end
