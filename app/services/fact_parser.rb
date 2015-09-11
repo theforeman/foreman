@@ -2,7 +2,7 @@ class FactParser
   delegate :logger, :to => :Rails
   VIRTUAL = /\A([a-z0-9]+)_(\d+)\Z/
   BRIDGES = /\A(vir)?br\d+(_nic)?\Z/
-  BONDS = /\A(bond\d+)|(lagg\d+)\Z/
+  BONDS = /\A(bond\d+)\Z|\A(lagg\d+)\Z/
   VIRTUAL_NAMES = /#{VIRTUAL}|#{BRIDGES}|#{BONDS}/
 
   def self.parser_for(type)
