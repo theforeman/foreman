@@ -7,6 +7,13 @@ class FactParserTest < ActiveSupport::TestCase
     @parser = get_parser
   end
 
+  test "bond regexp matches only bonds" do
+    assert_match FactParser::BONDS, 'bond0'
+    assert_match FactParser::BONDS, 'lagg0'
+    refute_match FactParser::BONDS, 'bond0.0'
+    refute_match FactParser::BONDS, 'bond0:0'
+  end
+
   test "default parsers" do
     assert_includes FactParser.parsers.keys, 'puppet'
     assert_equal PuppetFactParser, FactParser.parser_for(:puppet)
