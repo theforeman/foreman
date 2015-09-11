@@ -3,6 +3,7 @@ module Foreman::Model
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
 
     delegate :flavors, :subnets, :to => :client
+    delegate :security_groups, :flavors, :zones, :to => :self, :prefix => 'available'
     validates :user, :password, :presence => true
 
     after_create :setup_key_pair
