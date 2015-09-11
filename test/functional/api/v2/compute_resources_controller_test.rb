@@ -148,6 +148,36 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert !available_storage_domains.empty?
   end
 
+  context 'ec2' do
+    setup do
+      @ec2_object = Object.new
+      @ec2_object.stubs(:name).returns('test_ec2_object')
+    end
+
+    teardown do
+      assert_response :success
+      available_objects = ActiveSupport::JSON.decode(@response.body)
+      assert_not_empty available_objects
+    end
+
+    test "should get available flavors" do
+      @ec2_object.stubs(:id).returns('123')
+      Foreman::Model::EC2.any_instance.stubs(:available_flavors).returns([@ec2_object])
+      get :available_flavors, { :id => compute_resources(:ec2).to_param }
+    end
+
+    test "should get available security groups" do
+      @ec2_object.stubs(:group_id).returns('123')
+      Foreman::Model::EC2.any_instance.stubs(:available_security_groups).returns([@ec2_object])
+      get :available_security_groups, { :id => compute_resources(:ec2).to_param }
+    end
+
+    test "should get available zones" do
+      Foreman::Model::EC2.any_instance.stubs(:available_zones).returns(['test_ec2_object'])
+      get :available_zones, { :id => compute_resources(:ec2).to_param }
+    end
+  end
+
   context 'vmware' do
     setup do
       @vmware_object = Object.new

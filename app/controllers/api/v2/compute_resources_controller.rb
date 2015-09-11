@@ -13,8 +13,9 @@ module Api
       include Api::TaxonomyScope
 
       before_filter :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
-                                              :available_clusters, :available_folders, :available_networks,
-                                              :available_resource_pools, :available_storage_domains]
+                                              :available_clusters, :available_flavors, :available_folders,
+                                              :available_networks, :available_resource_pools, :available_security_groups, :available_storage_domains,
+                                              :available_zones]
 
       api :GET, "/compute_resources/", N_("List all compute resources")
       param_group :taxonomy_scope, ::Api::V2::BaseController
@@ -83,11 +84,25 @@ module Api
         render :available_clusters, :layout => 'api/v2/layouts/index_layout'
       end
 
+      api :GET, "/compute_resources/:id/available_flavors", N_("List available flavors for a compute resource")
+      param :id, :identifier, :required => true
+      def available_flavors
+        @available_flavors = @compute_resource.available_flavors
+        render :available_flavors, :layout => 'api/v2/layouts/index_layout'
+      end
+
       api :GET, "/compute_resources/:id/available_folders", N_("List available folders for a compute resource")
       param :id, :identifier, :required => true
       def available_folders
         @available_folders = @compute_resource.available_folders
         render :available_folders, :layout => 'api/v2/layouts/index_layout'
+      end
+
+      api :GET, "/compute_resources/:id/available_zones", N_("List available zone for a compute resource")
+      param :id, :identifier, :required => true
+      def available_zones
+        @available_zones = @compute_resource.available_zones
+        render :available_zones, :layout => 'api/v2/layouts/index_layout'
       end
 
       api :GET, "/compute_resources/:id/available_networks", N_("List available networks for a compute resource")
@@ -117,6 +132,13 @@ module Api
         render :available_storage_domains, :layout => 'api/v2/layouts/index_layout'
       end
 
+      api :GET, "/compute_resources/:id/available_security_groups", N_("List available security groups for a compute resource")
+      param :id, :identifier, :required => true
+      def available_security_groups
+        @available_security_groups = @compute_resource.available_security_groups
+        render :available_security_groups, :layout => 'api/v2/layouts/index_layout'
+      end
+
       api :PUT, "/compute_resources/:id/associate/", N_("Associate VMs to Hosts")
       param :id, :identifier, :required => true
       def associate
@@ -139,7 +161,7 @@ module Api
 
       def action_permission
         case params[:action]
-          when 'available_images', 'available_clusters', 'available_folders', 'available_networks', 'available_resource_pools', 'available_storage_domains', 'associate'
+          when 'available_images', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'available_zones', 'associate'
             :view
           else
             super
