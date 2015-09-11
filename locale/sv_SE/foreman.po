@@ -6,13 +6,14 @@
 # Dominic Cleal <dcleal@redhat.com>, 2014
 # Fredrik Wendt <fredrik@wendt.se>, 2014
 # johnny.westerlund <johnny.westerlund@gmail.com>, 2013-2014
+# Kami Gerami <kami.gerami@gmail.com>, 2015
 # Mikael Fridh <frimik@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-08-07 09:13+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2015-08-18 12:43+0000\n"
+"Last-Translator: Kami Gerami <kami.gerami@gmail.com>\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/foreman/foreman/lang"
 "uage/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -90,7 +91,7 @@ msgid "Failed to save widget positions."
 msgstr ""
 
 msgid "Nothing to restore"
-msgstr ""
+msgstr "Inget att återställa"
 
 msgid "Loading interfaces information ..."
 msgstr ""
@@ -145,7 +146,7 @@ msgid "physical"
 msgstr ""
 
 msgid "Reboot and build"
-msgstr ""
+msgstr "Starta om och bygg"
 
 msgid "Build"
 msgstr "Bygg"
@@ -198,10 +199,10 @@ msgid "Weak"
 msgstr ""
 
 msgid "Your password is too short"
-msgstr ""
+msgstr "Ditt lösenord är för kort"
 
 msgid "Do not use your email as your password"
-msgstr ""
+msgstr "Använd inte din email som ditt lösenord"
 
 msgid "Your password cannot contain your username"
 msgstr ""
@@ -368,7 +369,7 @@ msgid "number of entries per request"
 msgstr ""
 
 msgid "filter results"
-msgstr ""
+msgstr "filtrera resultat"
 
 msgid "sort results"
 msgstr ""
