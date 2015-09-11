@@ -1,3 +1,70 @@
+2015-09-11	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.9.1
+	* i18n - extracting new, updating rails, pulling from tx
+	* fixes #11473 - remove re-init of domain select2 on env selection
+
+2015-09-09	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #11579 - Reports show/destroy restricted by host authorization (CVE-2015-5233)
+	* Fixes #11621 - n+1 query on User Groups index
+	* Fixes #11428 - External user groups refresh shouldn't be case sensitive
+	* Fixes #11379 - Audit search for hostgroup/OS title
+	* Fixes #10929 - Add removed widgets to dashboard
+
+2015-09-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #11031 - ignore identifiers of interfaces being destroyed
+	* Fixes #11258 - validation handles blank provider
+
+2015-09-09	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #11727 - Added proper human readable description to User#mail_enabled field (cherry picked from commit 1d7d78a045d907338f253b683e91225fa2068b6a)
+
+2015-09-09	Tom Caspy <tcaspy@gmail.com>
+	* fixes #9108 - parent parameters are now overrideable
+	* fixes #11095 - lookup keys do not get saved to db on setter invokation
+
+2015-09-09	Ori Rabin <orabin@redhat.com>
+	* Fixes #11663 - Empty lookup value not validated when use_puppet_default is checked
+
+2015-09-09	Ivan Nečas <inecas@redhat.com>
+	* Fixes #11673 - accept integer value when setting the integer via API
+	* Fixes #10850 - handled errors when missing template when rendering widget
+
+2015-09-09	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #11650 - show global parameter value inherited from parent taxonomy
+	* Fixes #11231 - Correctly stubbify global parameters
+	* Fixes #10133 - Prevent deadlocks when fixing counter_cache
+
+2015-09-09	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #11619 - only check template changes when persisted
+
+2015-09-09	Dominic Cleal <dcleal@redhat.com>
+	* fixes #11170 - pass quoted args through foreman-rake
+
+2015-09-09	Avi Tal <avi3tal@gmail.com>
+	* fixes #11220 - column ambiguity for non-admin host creation
+
+2015-09-09	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #11339 - ensure unique parameters before adding uniq index
+
+2015-09-09	Phirince Philip <pphilip@linkedin.com>
+	* fixes #11312 - Allow plugins to update the Rabl view_paths
+
+2015-09-09	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #4468 - Dropdown shows '1' when all reports within last 24 hours
+	* Fixes #6854 - Api status allowed for all users
+
+2015-09-09	Pavel Moravec <pmoravec@redhat.com>
+	* fixes #11149 - foreman-debug to collect two httpd katello.conf files
+
+2015-09-09	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #11014 - increased space for subnet domain assocation(up to 70 chars).
+	* Fixes #9293 - Organization/location menu closes correctly
+
+2015-09-09	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #11111 - action dropdowns pulled right
+
+2015-09-08	Dominic Cleal <dcleal@redhat.com>
+	* fixes #11719 - mysql2 dep must match ActiveRecord's runtime dep
+
 2015-08-18	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.9.0
 
