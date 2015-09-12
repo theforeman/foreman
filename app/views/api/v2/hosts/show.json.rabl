@@ -6,6 +6,10 @@ child :host_parameters => :parameters do
   extends "api/v2/parameters/base"
 end
 
+node do |host|
+  { :all_parameters => partial("api/v2/parameters/base", :object => host.host_inherited_params_objects) }
+end
+
 child :interfaces => :interfaces do
   extends "api/v2/interfaces/base"
 end

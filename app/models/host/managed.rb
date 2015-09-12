@@ -445,17 +445,19 @@ class Host::Managed < Host::Base
 
   def host_inherited_params(include_source = false)
     hp = {}
-    # read common parameters
-    CommonParameter.all.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('common').to_sym, :safe_value => p.safe_value} : p.value] }
-    # read organization and location parameters
-    hp.update organization.parameters(include_source) if SETTINGS[:organizations_enabled] && organization
-    hp.update location.parameters(include_source)     if SETTINGS[:locations_enabled] && location
-    # read domain parameters
-    domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('domain').to_sym, :safe_value => p.safe_value, :source_name => domain.name} : p.value] } unless domain.nil?
-    # read OS parameters
-    operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('os').to_sym, :safe_value => p.safe_value, :source_name => operatingsystem.to_label} : p.value] } unless operatingsystem.nil?
-    # read group parameters only if a host belongs to a group
-    hp.update hostgroup.parameters(include_source) if hostgroup
+    params = host_inherited_params_objects
+    params.each do |param|
+      case param
+        when CommonParameter
+          hp.update(Hash[param.name => include_source ? {:value => param.value, :source => N_('common').to_sym, :safe_value => param.safe_value} : param.value])
+        when GroupParameter
+          hp.update(Hash[param.name => include_source ? {:value => param.value, :source => N_('hostgroup').to_sym, :safe_value => param.safe_value, :source_name => hostgroup.title} : param.value])
+        else
+          source = param.class.to_s.gsub('Parameter', '').downcase
+          source = 'operatingsystem' if source == 'os'
+          hp.update(Hash[param.name => include_source ? {:value => param.value, :source => N_(source).to_sym, :safe_value => param.safe_value, :source_name => param.send(source).to_label} : param.value])
+      end
+    end
     hp
   end
 
@@ -465,6 +467,26 @@ class Host::Managed < Host::Base
     # and now read host parameters, override if required
     host_parameters.each {|p| hp.update Hash[p.name => p.value] }
     @cached_host_params = hp
+  end
+
+  def host_inherited_params_objects
+    params = CommonParameter.all
+    if SETTINGS[:organizations_enabled] && organization
+      Organization.sort_by_ancestry(organization.ancestors).each {|o| params += o.organization_parameters}
+      params += organization.organization_parameters
+    end
+
+    if SETTINGS[:locations_enabled] && location
+      Location.sort_by_ancestry(location.ancestors).each {|l| params += l.location_parameters}
+      params += location.location_parameters
+    end
+    params += domain.domain_parameters if domain
+    params += operatingsystem.os_parameters if operatingsystem
+    if hostgroup
+      Hostgroup.sort_by_ancestry(hostgroup.ancestors).each {|g| params += g.group_parameters }
+      params += hostgroup.group_parameters
+    end
+    params
   end
 
   # JSON is auto-parsed by the API, so these should be in the right format
