@@ -36,5 +36,20 @@ class AuthSourceTest < ActiveSupport::TestCase
       @auth_source.update_attributes(:type => AuthSourceHidden.name)
     end
   end
+
+  test "should return search results if search free text is auth source name" do
+    @auth_source.name = 'remote'
+    @auth_source.save
+    results = AuthSource.search_for('remote')
+    assert_equal(1, results.count)
+  end
+
+  test "should return search results for name = auth source name" do
+    @auth_source.name = 'my_ldap'
+    @auth_source.save
+    results = AuthSource.search_for('name = my_ldap')
+    assert_equal(1, results.count)
+    assert_equal 'my_ldap', results.first.name
+  end
 end
 
