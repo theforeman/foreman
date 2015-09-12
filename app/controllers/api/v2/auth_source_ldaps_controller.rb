@@ -4,10 +4,10 @@ module Api
       before_filter :find_resource, :only => %w{show update destroy}
 
       api :GET, "/auth_source_ldaps/", N_("List all LDAP authentication sources")
-      param_group :pagination, ::Api::V2::BaseController
+      param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @auth_source_ldaps = resource_scope.paginate(paginate_options)
+        @auth_source_ldaps = resource_scope_for_index
       end
 
       api :GET, "/auth_source_ldaps/:id/", N_("Show an LDAP authentication source")
