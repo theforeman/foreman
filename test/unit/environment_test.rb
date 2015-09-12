@@ -10,14 +10,14 @@ class EnvironmentTest < ActiveSupport::TestCase
 
   test "should have name" do
     env = Environment.new
-    assert !env.valid?
+    refute env.valid?
   end
 
   test "name should be unique" do
     as_admin do
       env = Environment.create :name => "foo"
       env2 = Environment.new :name => env.name
-      assert !env2.valid?
+      refute env2.valid?
     end
   end
 
@@ -45,5 +45,10 @@ class EnvironmentTest < ActiveSupport::TestCase
       hostgroups(:common).update_attribute(:environment, environment)
       environment.reload
     end
+  end
+
+  test "Should create environment with the name 'new'" do
+    environment = Environment.new(:name => 'new')
+    assert environment.valid?
   end
 end
