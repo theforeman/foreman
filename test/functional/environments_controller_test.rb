@@ -24,7 +24,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
-    get :edit, {:id => environment.name}, set_session_user
+    get :edit, {:id => environment.to_param}, set_session_user
     assert_response :success
   end
 
@@ -33,7 +33,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
-    put :update, { :commit => "Update", :id => environment.name, :environment => {:name => "other_environment"} }, set_session_user
+    put :update, { :commit => "Update", :id => environment.to_param, :environment => {:name => "other_environment"} }, set_session_user
     env = Environment.find(environment)
     assert env.name == "other_environment"
 
@@ -46,7 +46,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert environment.save!
 
     assert_difference('Environment.count', -1) do
-      delete :destroy, {:id => environment.name}, set_session_user
+      delete :destroy, {:id => environment.to_param}, set_session_user
     end
 
     assert_redirected_to environments_path
@@ -97,6 +97,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
     assert Environment.find_by_name("env1").puppetclasses.map(&:name).sort == ["a", "b", "c"]
   end
+
   test "should handle disk environment containing less classes" do
     setup_import_classes
     as_admin {Puppetclass.create(:name => "d")}
@@ -191,5 +192,18 @@ class EnvironmentsControllerTest < ActionController::TestCase
     setup_user
     get :index, {}, set_session_user
     assert_response :success
+  end
+
+  test "should accept environment with name 'name'" do
+    @request.env["HTTP_REFERER"] = environments_url
+    ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["new"])
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
+    post :obsolete_and_new,
+         {"changed" =>
+              {"new" =>
+                   {"new" => '{"a":{"new":{}}}'}
+              }
+         }, set_session_user
+    assert(Environment.all.map(&:name).include?('new'), 'Should include environment with name "new"')
   end
 end

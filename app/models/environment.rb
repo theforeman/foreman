@@ -1,9 +1,7 @@
 class Environment < ActiveRecord::Base
-  extend FriendlyId
-  friendly_id :name
   include Taxonomix
   include Authorizable
-  include Parameterizable::ByName
+  include Parameterizable::ByIdName
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
