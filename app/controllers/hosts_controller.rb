@@ -729,7 +729,7 @@ class HostsController < ApplicationController
     attributes = params[:host].dup
     if params[:host][:interfaces_attributes]
       attributes[:interfaces_attributes] = params[:host][:interfaces_attributes].dup.except(:created_at, :updated_at, :attrs)
-      attributes[:interfaces_attributes][:id] = nil
+      attributes[:interfaces_attributes][:id] = nil if attributes[:interfaces_attributes][:id]
     end
     attributes
   end
