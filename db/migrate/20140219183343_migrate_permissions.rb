@@ -5,11 +5,11 @@ require Rails.root + 'db/seeds.d/03-permissions'
 # original models changes later (e.g. add validation on columns that are not
 # present at this moment)
 class FakePermission < ActiveRecord::Base
-  set_table_name 'permissions'
+  self.table_name = 'permissions'
 end
 
 class FakeFilter < ActiveRecord::Base
-  set_table_name 'filters'
+  self.table_name = 'filters'
   # we need this for polymorphic relation to work, it has class name hardcoded in AR
   def self.name
     'Filter'
@@ -31,25 +31,25 @@ class FakeFilter < ActiveRecord::Base
 end
 
 class FakeUserRole < ActiveRecord::Base
-  set_table_name 'user_roles'
+  self.table_name = 'user_roles'
   belongs_to :owner, :polymorphic => true
   belongs_to :role, :class_name => 'FakeRole'
 end
 
 class FakeRole < ActiveRecord::Base
-  set_table_name 'roles'
+  self.table_name = 'roles'
   has_many :filters, :dependent => :destroy, :class_name => 'FakeFilter', :foreign_key => 'role_id'
   has_many :permissions, :through => :filters, :class_name => 'FakePermission', :foreign_key => 'permission_id'
 end
 
 class FakeFiltering < ActiveRecord::Base
-  set_table_name 'filterings'
+  self.table_name = 'filterings'
   belongs_to :filter, :class_name => 'FakeFilter'
   belongs_to :permission, :class_name => 'FakePermission'
 end
 
 class FakeUser < ActiveRecord::Base
-  set_table_name 'users'
+  self.table_name = 'users'
   # we need this for polymorphic relation to work, it has class name hardcoded in AR
   def self.name
     'User'
