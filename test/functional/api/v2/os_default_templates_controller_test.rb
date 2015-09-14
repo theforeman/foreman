@@ -14,7 +14,8 @@ class Api::V2::OsDefaultTemplatesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:os_default_template)
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    refute show_response.empty?
+    assert(show_response.has_key?('operatingsystem_id'))
   end
 
   test 'should create os_default_template for os' do
