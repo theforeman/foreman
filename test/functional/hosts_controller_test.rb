@@ -881,8 +881,10 @@ class HostsControllerTest < ActionController::TestCase
     @host.setBuild
     nic=FactoryGirl.create(:nic_managed, :host => @host)
     attrs = @host.attributes
-    attrs[:interfaces_attributes] = nic.attributes
-    xhr :put, :template_used, {:provisioning => 'build', :host => attrs }, set_session_user
+    attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
+    ActiveRecord::Base.any_instance.expects(:destroy).never
+    ActiveRecord::Base.any_instance.expects(:save).never
+    xhr :put, :template_used, {:provisioning => 'build', :host => attrs, :id => @host.id }, set_session_user
     assert_response :success
     assert_template :partial => '_provisioning'
   end
@@ -891,15 +893,19 @@ class HostsControllerTest < ActionController::TestCase
     @host.setBuild
     attrs = @host.attributes
     attrs[:host_parameters_attributes] = {'0' => {:name => 'foo', :value => 'bar', :id => '34'}}
+    ActiveRecord::Base.any_instance.expects(:destroy).never
+    ActiveRecord::Base.any_instance.expects(:save).never
     xhr :put, :template_used, {:provisioning => 'build', :host => attrs }, set_session_user
     assert_response :success
     assert_template :partial => '_provisioning'
   end
 
   test 'process_taxonomy renders a host from the params correctly' do
-    nic=FactoryGirl.create(:nic_managed, :host => @host)
+    nic = FactoryGirl.build(:nic_managed, :host => @host)
     attrs = @host.attributes
-    attrs[:interfaces_attributes] = nic.attributes
+    attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
+    ActiveRecord::Base.any_instance.expects(:destroy).never
+    ActiveRecord::Base.any_instance.expects(:save).never
     xhr :put, :process_taxonomy, { :host => attrs }, set_session_user
     assert_response :success
     assert response.body.include?(nic.attributes["mac"])

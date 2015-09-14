@@ -565,7 +565,7 @@ class HostsController < ApplicationController
 
   def process_taxonomy
     return head(:not_found) unless @location || @organization
-    @host = Host.new(clean_interfaces_attributes)
+    @host = Host.new(params[:host])
     # revert compute resource to "Bare Metal" (nil) if selected
     # compute resource is not included taxonomy
     Taxonomy.as_taxonomy @organization, @location do
@@ -575,8 +575,14 @@ class HostsController < ApplicationController
     render :partial => 'form'
   end
 
+  # on persisted record calling has_many `relations=` triggers saving/deletion immediately
+  # so we have to filter such parameters
+  # we don't need any has_many relation to determine what proxies are used and the view
+  # renders only resulting templates set so the rest of form is unaffected
   def template_used
-    host      = Host.new(clean_interfaces_attributes.except(:host_parameters_attributes))
+    host = params[:id] ? Host.readonly.find(params[:id]) : Host.new
+    association_keys = params[:host].keys.select { |k| k =~ /.*_ids\Z/ }
+    host.attributes = params[:host].except(:host_parameters_attributes).except(*association_keys)
     templates = host.available_template_kinds(params[:provisioning])
     return not_found if templates.empty?
     render :partial => 'provisioning', :locals => { :templates => templates }
@@ -743,14 +749,5 @@ class HostsController < ApplicationController
   # is rendered differently and the next save operation will be forced
   def offer_to_overwrite_conflicts
     @host.overwrite = "true" if @host.errors.any? and @host.errors.are_all_conflicts?
-  end
-
-  def clean_interfaces_attributes
-    attributes = params[:host].dup
-    if params[:host][:interfaces_attributes]
-      attributes[:interfaces_attributes] = params[:host][:interfaces_attributes].dup.except(:created_at, :updated_at, :attrs)
-      attributes[:interfaces_attributes][:id] = nil
-    end
-    attributes
   end
 end
