@@ -372,9 +372,12 @@ Foreman::AccessControl.map do |permission_set|
                                     :"api/v2/hosts" => [:destroy],
                                     :"api/v2/interfaces" => [:destroy]
                                   }
-    map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build, :review_before_build],
+    map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build, :review_before_build,
+                                               :rebuild_config, :submit_rebuild_config],
                                     :tasks => tasks_ajax_actions,
-                                    :"api/v2/tasks" => [:index] }
+                                    :"api/v2/tasks" => [:index],
+                                    :"api/v2/hosts" => [:rebuild_config],
+                                     }
     map.permission :power_hosts,   {:hosts          => [:power],
                                     :"api/v2/hosts" => [:power] }
     map.permission :console_hosts, {:hosts => [:console] }

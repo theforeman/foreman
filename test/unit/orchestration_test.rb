@@ -63,4 +63,68 @@ class OrchestrationTest < ActiveSupport::TestCase
     @nic.valid?
     SETTINGS[:unattended] = original
   end
+
+  context "when subscribing orchestration methods to nic" do
+    setup do
+      module Orchestration::TestModule
+        extend ActiveSupport::Concern
+
+        included do
+          register_rebuild(:rebuild_test, N_('TEST'))
+        end
+
+        def rebuild_test
+        end
+      end
+      @nic.class.send :include, Orchestration::TestModule
+    end
+
+    test "register_rebuild can register methods" do
+      assert @nic.class.respond_to? :register_rebuild
+      assert @nic.class.ancestors.include? Orchestration::TestModule
+    end
+
+    test "we can retrieve registered methods" do
+      assert @nic.class.rebuild_methods.keys.include? :rebuild_test
+    end
+  end
+
+  context "when subscribing orchestration methods to host" do
+    setup do
+      module Orchestration::HostTest
+        extend ActiveSupport::Concern
+
+        included do
+          register_rebuild(:rebuild_host, N_('HOST'))
+        end
+
+        def rebuild_host
+        end
+      end
+      @host.class.send :include, Orchestration::HostTest
+    end
+
+    test "register_rebuild can register methods" do
+      assert @host.class.respond_to? :register_rebuild
+      assert @host.class.ancestors.include? Orchestration::HostTest
+    end
+
+    test "we can retrieve registered methods" do
+      assert @host.class.rebuild_methods.keys.include? :rebuild_host
+    end
+
+    test "we cannot override already subscribed methods" do
+      module Orchestration::HostTest2
+        extend ActiveSupport::Concern
+
+        included do
+          register_rebuild(:rebuild_host, N_('HOST'))
+        end
+
+        def rebuild_host
+        end
+      end
+      assert_raises(RuntimeError) { @host.class.send :include, Orchestration::HostTest2 }
+    end
+  end
 end

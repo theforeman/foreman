@@ -13,7 +13,8 @@ class HostsController < ApplicationController
                         multiple_destroy submit_multiple_destroy multiple_build
                         submit_multiple_build multiple_disable submit_multiple_disable
                         multiple_enable submit_multiple_enable multiple_puppetrun
-                        update_multiple_puppetrun multiple_disassociate update_multiple_disassociate)
+                        update_multiple_puppetrun multiple_disassociate update_multiple_disassociate
+                        rebuild_config submit_rebuild_config)
 
   add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
 
@@ -417,6 +418,36 @@ class HostsController < ApplicationController
   def multiple_build
   end
 
+  def rebuild_config
+  end
+
+  def submit_rebuild_config
+    all_fails = {}
+    @hosts.each do |host|
+      result = host.recreate_config
+      result.each_pair do |k, v|
+        all_fails[k] ||= []
+        all_fails[k] << host.name unless v
+      end
+    end
+
+    message = ''
+    all_fails.each_pair do |key, values|
+      unless values.empty?
+        message << ((n_("%{config_type} rebuild failed for host: %{host_names}.",
+                        "%{config_type} rebuild failed for hosts: %{host_names}.",
+                         values.count) % {:config_type => _(key), :host_names => values.to_sentence})) + " "
+      end
+    end
+
+    if message.blank?
+      notice _('Configuration successfully rebuilt.')
+    else
+      error message
+    end
+    redirect_to hosts_path
+  end
+
   def submit_multiple_build
     @hosts.delete_if do |host|
       forward_url_options(host)
@@ -565,7 +596,8 @@ class HostsController < ApplicationController
         :view
       when 'puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'
         :puppetrun
-      when 'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build', 'review_before_build'
+      when 'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build', 'review_before_build',
+           'rebuild_config', 'submit_rebuild_config'
         :build
       when 'power'
         :power

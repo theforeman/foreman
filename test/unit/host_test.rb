@@ -2467,6 +2467,70 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  context "recreating host config" do
+    setup do
+      @nic = FactoryGirl.build(:nic_primary_and_provision)
+      @nic.expects(:rebuild_tftp).returns(true)
+      @nic.expects(:rebuild_dns).returns(true)
+      @nic.expects(:rebuild_dhcp).returns(true)
+      Nic::Managed.expects(:rebuild_methods).returns(:rebuild_dhcp => "DHCP", :rebuild_dns => "DNS", :rebuild_tftp => "TFTP")
+    end
+
+    test "recreate config with success" do
+      Host::Managed.expects(:rebuild_methods).returns(:rebuild_test => "TEST")
+      host = FactoryGirl.build(:host, :interfaces => [@nic])
+      host.expects(:rebuild_test).returns(true)
+      result = host.recreate_config
+      assert result["DHCP"]
+      assert result["DNS"]
+      assert result["TFTP"]
+      assert result["TEST"]
+    end
+
+    test "recreate config with clashing methods" do
+      Host::Managed.expects(:rebuild_methods).returns(:rebuild_dns => "DNS")
+      host = FactoryGirl.build(:host, :interfaces => [@nic])
+      assert_raises(Foreman::Exception) { host.recreate_config }
+    end
+
+    context "recreate with multiple nics and failures" do
+      setup do
+        @nic2 = FactoryGirl.build(:nic_managed)
+        @nic2.expects(:rebuild_tftp).returns(false)
+        @nic2.expects(:rebuild_dns).returns(false)
+        @nic2.expects(:rebuild_dhcp).returns(false)
+      end
+
+      test "second is a failure" do
+        host = FactoryGirl.build(:host, :interfaces => [@nic, @nic2])
+        result = host.recreate_config
+        refute result["DHCP"]
+        refute result["DNS"]
+        refute result["TFTP"]
+      end
+
+      test "first is a failure" do
+        host = FactoryGirl.build(:host, :interfaces => [@nic2, @nic])
+        result = host.recreate_config
+        refute result["DHCP"]
+        refute result["DNS"]
+        refute result["TFTP"]
+      end
+    end
+
+    test "recreate with multiple nics, all are success" do
+      nic = FactoryGirl.build(:nic_managed)
+      nic.expects(:rebuild_tftp).returns(true)
+      nic.expects(:rebuild_dns).returns(true)
+      nic.expects(:rebuild_dhcp).returns(true)
+      host = FactoryGirl.build(:host, :interfaces => [@nic, nic])
+      result = host.recreate_config
+      assert result["DHCP"]
+      assert result["DNS"]
+      assert result["TFTP"]
+    end
+  end
+
   private
 
   def parse_json_fixture(relative_path)
