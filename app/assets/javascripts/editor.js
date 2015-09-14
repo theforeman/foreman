@@ -29,12 +29,11 @@ function onEditorLoad(){
   }else{
     if (editor_source.exists()){
       create_editor();
-    }
-
-    if ($('.diffMode').exists()) {
-      set_diff_mode(editor_source);
-    } else {
-      set_edit_mode(editor_source);
+      if ($('.diffMode').exists()) {
+          set_diff_mode(editor_source);
+      } else {
+          set_edit_mode(editor_source);
+      }
     }
   }
 }
