@@ -343,9 +343,10 @@ module Foreman::Model
       dc_networks = networks
       args["interfaces_attributes"].each do |key, interface|
         # Convert network id into name
-        net = dc_networks.find { |n| [n.id, n.name].include?(interface["network"]) }
+        net = dc_networks.detect { |n| [n.id, n.name].include?(interface["network"]) }
         raise "Unknown Network ID: #{interface['network']}" if net.nil?
         interface["network"] = net.name
+        interface["virtualswitch"] = net.virtualswitch
       end if args["interfaces_attributes"]
       args
     end
