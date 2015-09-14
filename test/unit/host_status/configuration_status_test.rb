@@ -31,7 +31,7 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     @status.stubs(:no_reports? => true)
     assert_equal HostStatus::Global::OK, @status.to_global
 
-    @host.stubs(:puppet_proxy => :something)
+    @host.stubs(:puppet_proxy_id => :something)
     assert_equal HostStatus::Global::WARN, @status.to_global
   end
 
