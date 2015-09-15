@@ -771,7 +771,7 @@ class HostTest < ActiveSupport::TestCase
 
       test "available_template_kinds finds templates for a PXE host" do
         os_dt = FactoryGirl.create(:os_default_template,
-                                   :template_kind=> TemplateKind.find('finish'))
+                                   :template_kind=> TemplateKind.friendly.find('finish'))
         host  = FactoryGirl.create(:host, :operatingsystem => os_dt.operatingsystem)
 
         assert_equal [os_dt.provisioning_template], host.available_template_kinds('build')
@@ -779,7 +779,7 @@ class HostTest < ActiveSupport::TestCase
 
       test "available_template_kinds finds templates for an image host" do
         os_dt = FactoryGirl.create(:os_default_template,
-                                   :template_kind=> TemplateKind.find('finish'))
+                                   :template_kind=> TemplateKind.friendly.find('finish'))
         host  = FactoryGirl.create(:host, :on_compute_resource,
                                    :operatingsystem => os_dt.operatingsystem)
         FactoryGirl.create(:image, :uuid => 'abcde',
@@ -1749,6 +1749,8 @@ class HostTest < ActiveSupport::TestCase
 
     test "test tokens are not created until host is saved" do
       class Host::Test < Host::Base
+        attr_accessible :interfaces
+
         def lookup_value_match
           'no_match'
         end
@@ -2450,7 +2452,9 @@ class HostTest < ActiveSupport::TestCase
 
     test 'should accept non-existing hostgroup' do
       host = FactoryGirl.build(:host, :managed, :with_hostgroup)
-      Hostgroup.expects(:find).with(1111).returns(nil)
+      hostgroup_friendly_scope = stub
+      hostgroup_friendly_scope.stubs(:find).with(1111).returns(nil)
+      Hostgroup.stubs(:friendly).returns(hostgroup_friendly_scope)
 
       attributes = { 'hostgroup_id' => 1111 }
       actual_attr = host.apply_inherited_attributes(attributes)

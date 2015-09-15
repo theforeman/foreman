@@ -1,12 +1,6 @@
 begin
   require "ci/reporter/rake/minitest"
 
-  namespace :foreman do
-    task :set_test_runner do
-      ENV['TESTOPTS'] = "#{ENV['TESTOPTS']} #{Rails.root}/test/test_runner.rb"
-    end
-  end
-
   namespace :jenkins do
     task :unit => ["jenkins:setup:minitest", 'rake:test:units', 'rake:test:lib', 'rake:test:functionals']
     task :integration => ["jenkins:setup:minitest", 'rake:test:integration']
@@ -19,7 +13,7 @@ begin
         ENV["CI_REPORTS"] = 'jenkins/reports/unit/'
         gem 'ci_reporter'
       end
-      task :minitest  => [:pre_ci, "ci:setup:minitest", "foreman:set_test_runner"]
+      task :minitest  => [:pre_ci, "ci:setup:minitest"]
     end
 
     task :rubocop do

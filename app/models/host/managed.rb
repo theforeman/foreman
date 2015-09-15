@@ -63,6 +63,11 @@ class Host::Managed < Host::Base
   end
 
   include HostCommon
+  attr_accessible :interfaces_attributes, :ip, :mac, :lookup_values_attributes, :hostgroup,
+    :progress_report_id, :is_owned_by, :overwrite, :id, :created_at, :updated_at, :domain_id,
+    :last_compile, :last_report, :installed_at, :owner_id, :owner_type, :use_image, :image_file,
+    :uuid, :certname, :image_id, :otp, :grub_pass, :lookup_value_matcher, :global_status, :owner,
+    :location, :organization, :ptable, :medium, :operatingsystem, :puppet_proxy, :architecture, :environment
 
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
@@ -482,7 +487,7 @@ class Host::Managed < Host::Base
 
   def host_params_objects
     # Host parameters should always be first for the uniq order
-    (host_parameters + host_inherited_params_objects.reverse!).uniq {|param| param.name}
+    (host_parameters + host_inherited_params_objects.to_a.reverse!).uniq {|param| param.name}
   end
 
   # JSON is auto-parsed by the API, so these should be in the right format
@@ -631,7 +636,7 @@ class Host::Managed < Host::Base
 
     new_hostgroup = self.hostgroup if initialized
     unless [new_hostgroup.try(:id), new_hostgroup.try(:friendly_id)].include? new_hostgroup_id
-      new_hostgroup = Hostgroup.find(new_hostgroup_id)
+      new_hostgroup = Hostgroup.friendly.find(new_hostgroup_id)
     end
     return attributes unless new_hostgroup
 
@@ -849,11 +854,11 @@ class Host::Managed < Host::Base
               cr     = ComputeResource.find_by_id(self.compute_resource_id)
               images = cr.try(:images)
               if images.blank?
-                [TemplateKind.find('finish')]
+                [TemplateKind.friendly.find('finish')]
               else
                 uuid       = self.compute_attributes[cr.image_param_name]
                 image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
-                [TemplateKind.find(image_kind)]
+                [TemplateKind.friendly.find(image_kind)]
               end
             else
               TemplateKind.all

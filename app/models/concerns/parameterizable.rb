@@ -12,7 +12,7 @@ module Parameterizable
       end
 
       def self.from_param(id)
-        self.find(id.to_i)
+        self.find_by_id(id.to_i)
       end
     end
   end
@@ -27,7 +27,7 @@ module Parameterizable
       end
 
       def self.from_param(id_name)
-        self.find(id_name.to_i)
+        self.find_by_id(id_name.to_i)
       end
     end
   end

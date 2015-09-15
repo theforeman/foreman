@@ -7,7 +7,7 @@ class HostClass < ActiveRecord::Base
   belongs_to_host
   belongs_to :puppetclass
 
-  validates :host, :presence => true
+#  validates :host, :presence => true
   validates :puppetclass_id, :presence => true, :uniqueness => {:scope => :host_id}
 
   def name

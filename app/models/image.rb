@@ -1,12 +1,14 @@
 class Image < ActiveRecord::Base
   include Authorizable
 
+  attr_accessible :name, :compute_resource_id, :operatingsystem_id, :architecture_id,
+        :username, :password, :uuid, :user_data, :iam_role
+
   audited :allow_mass_assignment => true
 
   belongs_to :operatingsystem
   belongs_to :compute_resource
   belongs_to :architecture
-
   has_many_hosts :dependent => :nullify
 
   validates_lengths_from_database

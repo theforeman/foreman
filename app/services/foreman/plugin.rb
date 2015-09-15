@@ -218,7 +218,7 @@ module Foreman #:nodoc:
     end
 
     def pending_migrations
-      migrations = ActiveRecord::Migrator.new(:up, ActiveRecord::Migrator.migrations_paths).pending_migrations
+      migrations = ActiveRecord::Migrator.new(:up, ActiveRecord::Migrator.migrations(ActiveRecord::Migrator.migrations_paths)).pending_migrations
       migrations.size > 0
     end
 

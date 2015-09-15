@@ -4,7 +4,6 @@ class Report < ActiveRecord::Base
   include Foreman::STI
   include Authorizable
   include ConfigurationStatusScopedSearch
-
   validates_lengths_from_database
   belongs_to_host
   has_many :messages, :through => :logs
@@ -29,7 +28,7 @@ class Report < ActiveRecord::Base
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
     if !User.current.admin? || Organization.expand(Organization.current).present? || Location.expand(Location.current).present?
-      joins_authorized(Host, :view_hosts, :where => Host.taxonomy_conditions)
+      joins_authorized(Host, :view_hosts)
     end
   }
 

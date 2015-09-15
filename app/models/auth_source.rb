@@ -17,6 +17,11 @@
 
 class AuthSource < ActiveRecord::Base
   include Authorizable
+
+  attr_accessible :name, :host, :tls, :port, :server_type, :account,
+      :base_dn, :groups_base, :ldap_filter, :onthefly_register,
+      :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :attr_photo
+
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database :except => [:name, :account_password, :host, :attr_login, :attr_firstname, :attr_lastname, :attr_mail]

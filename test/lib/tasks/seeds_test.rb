@@ -9,6 +9,7 @@ class SeedsTest < ActiveSupport::TestCase
     DatabaseCleaner.clean_with :truncation
     Setting.stubs(:[]).with(:administrator).returns("root@localhost")
     Setting.stubs(:[]).with(:send_welcome_email).returns(false)
+    Setting.stubs(:[]).with('entries_per_page').returns(20)
   end
 
   def seed

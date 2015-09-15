@@ -47,6 +47,12 @@ module Api
       def destroy
         process_response @model.destroy
       end
+
+      private
+
+      def find_resource
+        @model = Model.friendly.find(params[:id]) || super
+      end
     end
   end
 end

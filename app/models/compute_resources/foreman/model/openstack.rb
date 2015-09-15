@@ -7,6 +7,7 @@ module Foreman::Model
     delegate :flavors, :to => :client
     delegate :tenants, :to => :client
     delegate :security_groups, :to => :client
+    attr_accessible :key_pair, :tenant
 
     validates :user, :password, :presence => true
 

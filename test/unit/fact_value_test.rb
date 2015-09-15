@@ -112,22 +112,22 @@ class FactValueTest < ActiveSupport::TestCase
     end
 
     test "only return facts from host in user's taxonomies" do
-      user_role = FactoryGirl.create(:user_user_role)
-      FactoryGirl.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :search => "hostgroup_id = #{target_host.hostgroup_id}")
+      setup_user('view', 'hosts', "hostgroup_id = #{target_host.hostgroup_id}")
 
       orgs = FactoryGirl.create_pair(:organization)
       locs = FactoryGirl.create_pair(:location)
-      target_host.update_attributes(:location => locs.last, :organization => orgs.last)
-
-      user_role.owner.update_attributes(:locations => [locs.first], :organizations => [orgs.first])
-      as_user user_role.owner do
-        assert_equal [], FactValue.my_facts.map(&:id).sort
+      as_admin do
+        [orgs, locs].map { |taxonomy| taxonomy.map { |t| t.update_attributes(:users => []) } }
+        users(:one).update_attributes(:locations => [], :organizations => [])
+        target_host.update_attributes(:location  => locs.last, :organization => orgs.last)
+        Hostgroup.find(target_host.hostgroup_id).update_attributes(:organizations => [orgs.last], :locations => [locs.last])
       end
 
-      user_role.owner.update_attributes(:locations => [locs.last], :organizations => [orgs.last])
-      as_user user_role.owner do
-        assert_equal target_host.fact_values.map(&:id).sort, FactValue.my_facts.map(&:id).sort
-      end
+      users(:one).update_attributes(:locations => [locs.first], :organizations => [orgs.first])
+      assert_equal [], FactValue.my_facts.map(&:id).sort
+
+      users(:one).update_attributes(:locations => [locs.last], :organizations => [orgs.last])
+      assert_equal target_host.fact_values.map(&:id).sort, FactValue.my_facts.map(&:id).sort
     end
 
     test "only return facts from host in admin's currently selected taxonomy" do
