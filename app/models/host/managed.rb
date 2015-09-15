@@ -358,6 +358,11 @@ class Host::Managed < Host::Base
     not enabled?
   end
 
+  # Determine if host is setup for configuration
+  def configuration?
+    !!puppet_proxy
+  end
+
   # the environment used by #clases nees to be self.environment and not self.parent.environment
   def parent_classes
     return [] unless hostgroup
