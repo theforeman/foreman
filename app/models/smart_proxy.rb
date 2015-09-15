@@ -19,7 +19,7 @@ class SmartProxy < ActiveRecord::Base
   has_many :puppet_ca_hosts, :class_name => 'Host::Managed',  :foreign_key => 'puppet_ca_proxy_id'
   has_many :puppet_ca_hostgroups, :class_name => 'Hostgroup', :foreign_key => 'puppet_ca_proxy_id'
   has_many :realms,                                           :foreign_key => 'realm_proxy_id'
-  URL_HOSTNAME_MATCH = %r{^(?:http|https):\/\/([^:\/]+)}
+  URL_HOSTNAME_MATCH = %r{\A(?:http|https):\/\/([^:\/]+)}
   validates :name, :uniqueness => true, :presence => true
   validates :url, :presence => true, :format => { :with => URL_HOSTNAME_MATCH, :message => N_('is invalid - only  http://, https:// are allowed') },
             :uniqueness     => { :message => N_('Only one declaration of a proxy is allowed') }
