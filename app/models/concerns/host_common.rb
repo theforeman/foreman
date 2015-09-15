@@ -42,7 +42,7 @@ module HostCommon
       lookup_values_attributes.each_value do |attribute|
         attr = attribute.dup
         if id = attr.delete(:id)
-          lookup_value = self.lookup_values.to_a.select{|i| i.id == id}.first
+          lookup_value = self.lookup_values.to_a.find {|i| i.id.to_i == id.to_i }
           if lookup_value
             mark_for_destruction = ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
             lookup_value.attributes = attr
