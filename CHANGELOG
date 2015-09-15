@@ -1,3 +1,15 @@
+2015-09-15	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.8.4
+
+2015-09-15	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #11579 - Reports show/destroy restricted by host authorization (CVE-2015-5233)
+
+2015-09-15	Marek Hulan <mhulan@redhat.com>
+	* Fixes #11031 - ignore identifiers of interfaces being destroyed
+
+2015-09-08	Dominic Cleal <dcleal@redhat.com>
+	* fixes #11719 - mysql2 dep must match ActiveRecord's runtime dep
+
 2015-08-19	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.8.3
 
