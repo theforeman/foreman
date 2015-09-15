@@ -20,7 +20,7 @@ class Subnet < ActiveRecord::Base
   has_many :subnet_domains, :dependent => :destroy
   has_many :domains, :through => :subnet_domains
   has_many :interfaces, :class_name => 'Nic::Base'
-  has_many :primary_interfaces, :class_name => 'Nic::Base', :conditions => { :primary => true }
+  has_many :primary_interfaces, -> { where(:primary => true) }, :class_name => 'Nic::Base'
   has_many :hosts, :through => :interfaces
   has_many :primary_hosts, :through => :primary_interfaces, :source => :host
   validates :network, :mask, :name, :presence => true
