@@ -181,7 +181,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   test "should obsolete puppetclasses" do
     setup_import_classes
     as_admin do
-      assert_difference('Environment.find("env1").puppetclasses.count', -2) do
+      assert_difference('Environment.find_by_name("env1").puppetclasses.count', -2) do
         post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
       end
     end

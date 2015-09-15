@@ -176,6 +176,9 @@ module Foreman #:nodoc:
     end
 
     def tests_to_skip(hash)
+      Rails.logger.warn "Minitest 5 deprecated the runner API and plugin tests \
+can't be skipped right now. Future versions of Foreman might bring back this \
+feature"
       # Format is { "testclass" => [ "skip1", "skip2" ] }
       hash.each do |testclass,tests|
         if self.class.tests_to_skip[testclass].nil?
@@ -219,8 +222,12 @@ module Foreman #:nodoc:
     end
 
     def pending_migrations
-      migrations = ActiveRecord::Migrator.new(:up, ActiveRecord::Migrator.migrations_paths).pending_migrations
-      migrations.size > 0
+      migration_paths = ActiveRecord::Migrator.migrations(
+        ActiveRecord::Migrator.migrations_paths)
+      pending_migrations = ActiveRecord::Migrator.new(:up, migration_paths).
+        pending_migrations
+
+      pending_migrations.size > 0
     end
 
     # List of helper methods allowed for templates in safe mode

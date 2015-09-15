@@ -118,20 +118,21 @@ function submit_modal_form() {
 function build_modal(element, url) {
   var url = url + "?" + $.param({host_ids: $.foremanSelectedHosts});
   var title = $(element).attr('data-dialog-title');
-    $('#confirmation-modal .modal-header h4').text(title);
-    $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='/assets/spinner.gif'>");
-    $('#confirmation-modal').modal();
-    $("#confirmation-modal .modal-body").load(url + " #content",
-        function(response, status, xhr) {
-          $("#loading").hide();
-          $('#submit_multiple').val('');
-          var b = $("#confirmation-modal .btn-primary");
-          if ($(response).find('#content form select').length > 0)
-            b.addClass("disabled").attr("disabled", true);
-          else
-            b.removeClass("disabled").attr("disabled", false);
-          });
-    return false;
+  $('#confirmation-modal .modal-header h4').text(title);
+  $('#confirmation-modal .modal-body').empty()
+    .append("<img class='modal-loading' src='<%= asset_path('spinner.gif') %>'");
+  $('#confirmation-modal').modal();
+  $("#confirmation-modal .modal-body").load(url + " #content",
+      function(response, status, xhr) {
+        $("#loading").hide();
+        $('#submit_multiple').val('');
+        var b = $("#confirmation-modal .btn-primary");
+        if ($(response).find('#content form select').length > 0)
+          b.addClass("disabled").attr("disabled", true);
+        else
+          b.removeClass("disabled").attr("disabled", false);
+      });
+  return false;
 
 }
 

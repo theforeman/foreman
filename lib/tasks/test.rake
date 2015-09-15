@@ -19,10 +19,3 @@ end
 Rake::Task[:test].enhance do
   Rake::Task['test:lib'].invoke
 end
-
-Rake::Task[:test].enhance ['foreman:set_test_runner']
-Rake::Task['test:units'].enhance ['foreman:set_test_runner']
-Rake::Task['test:functionals'].enhance ['foreman:set_test_runner']
-Rake::Task['test:integration'].enhance ['foreman:set_test_runner']
-Rake::Task['test:lib'].enhance ['foreman:set_test_runner']
-Rake::Task['test:api'].enhance ['foreman:set_test_runner']

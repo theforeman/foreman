@@ -41,8 +41,9 @@ module HasManyCommon
     end
 
     #### has_many ####
-    def has_many(association, options = {})
-      has_many_names_for(association, options)
+    def has_many(*args)
+      options = args.last.is_a?(Hash) ? args.last : {}
+      has_many_names_for(args.first, options)
       super
     end
 
@@ -69,8 +70,9 @@ module HasManyCommon
     end
 
     #### belongs_to ####
-    def belongs_to(association, options = {})
-      belongs_to_name_for(association, options)
+    def belongs_to(*args)
+      options = args.last.is_a?(Hash) ? args.last : {}
+      belongs_to_name_for(args.first, options)
       super
     end
 

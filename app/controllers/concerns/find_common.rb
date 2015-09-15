@@ -1,12 +1,18 @@
-# this mixin is used by both ApplicationController and Api::BaseController
-# searches for an object based on its id, name, label, etc and assign it to an instance variable
+# This mixin is used by both ApplicationController and Api::BaseController
+# Searches for an object based on its id, name, label, etc and assign it to an instance variable
 # friendly_id performs the logic if params[:id] is 'id' or 'id-name' or 'name'
 
 module FindCommon
-  # example: @host = Host.find(params[:id])
   def find_resource
-    not_found and return if params[:id].blank?
-    instance_variable_set("@#{resource_name}", resource_scope.find(params[:id]))
+    instance_variable_set("@#{resource_name}",
+                          resource_finder(resource_scope, params[:id]))
+  end
+
+  def resource_finder(scope, id)
+    raise ActiveRecord::RecordNotFound if scope.empty?
+    result = scope.from_param(id) if scope.respond_to?(:from_param)
+    result ||= scope.friendly.find(id) if scope.respond_to?(:friendly)
+    result || scope.find(id)
   end
 
   def resource_name(resource = controller_name)

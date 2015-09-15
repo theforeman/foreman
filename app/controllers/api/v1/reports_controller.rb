@@ -36,7 +36,7 @@ module Api
       param :id, :identifier, :required => true
 
       def last
-        conditions = { :host_id => Host.authorized(:view_hosts).find(params[:host_id]).try(:id) } if params[:host_id].present?
+        conditions = { :host_id => Host.authorized(:view_hosts).friendly.find(params[:host_id]).try(:id) } if params[:host_id].present?
         max_id = resource_scope.where(conditions).maximum(:id)
         @report = resource_scope.includes(:logs => [:message, :source]).find(max_id)
         render :show

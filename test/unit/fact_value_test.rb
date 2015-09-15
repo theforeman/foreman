@@ -121,41 +121,60 @@ class FactValueTest < ActiveSupport::TestCase
       end
     end
 
-    test "only return facts from host in user's taxonomies" do
-      user_role = FactoryGirl.create(:user_user_role)
-      FactoryGirl.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :search => "hostgroup_id = #{target_host.hostgroup_id}")
-
-      orgs = FactoryGirl.create_pair(:organization)
-      locs = FactoryGirl.create_pair(:location)
-      target_host.update_attributes(:location => locs.last, :organization => orgs.last)
-
-      user_role.owner.update_attributes(:locations => [locs.first], :organizations => [orgs.first])
-      as_user user_role.owner do
-        assert_equal [], FactValue.my_facts.map(&:id).sort
+    context 'taxonomies' do
+      setup do
+        @orgs = FactoryGirl.create_pair(:organization)
+        @locs = FactoryGirl.create_pair(:location)
       end
 
-      user_role.owner.update_attributes(:locations => [locs.last], :organizations => [orgs.last])
-      as_user user_role.owner do
-        assert_equal target_host.fact_values.map(&:id).sort, FactValue.my_facts.map(&:id).sort
-      end
-    end
+      context 'limited view permissions' do
+        setup do
+          setup_user('view', 'hosts',
+                     "hostgroup_id = #{target_host.hostgroup_id}")
 
-    test "only return facts from host in admin's currently selected taxonomy" do
-      user = as_admin { FactoryGirl.create(:user, :admin) }
-      orgs = FactoryGirl.create_pair(:organization)
-      locs = FactoryGirl.create_pair(:location)
-      target_host.update_attributes(:location => locs.last, :organization => orgs.last)
+          as_admin do
+            target_host.location = @locs.last
+            target_host.organization = @orgs.last
+            target_host.save
 
-      as_user user do
-        in_taxonomy(orgs.first) do
-          in_taxonomy(locs.first) do
-            refute_includes FactValue.my_facts, target_host.fact_values.first
+            hostgroup = Hostgroup.find(target_host.hostgroup_id)
+            hostgroup.organizations = [@orgs.last]
+            hostgroup.locations = [@locs.last]
+            hostgroup.save
           end
         end
 
-        in_taxonomy(orgs.last) do
-          in_taxonomy(locs.last) do
-            assert_includes FactValue.my_facts, target_host.fact_values.first
+        test 'user cannot view host taxonomy, my_facts is empty' do
+          users(:one).locations = [@locs.first]
+          users(:one).organizations = [@orgs.first]
+
+          assert_equal [], FactValue.my_facts.map(&:id).sort
+        end
+
+        test 'user can view host taxonomy, my_facts contains host facts' do
+          users(:one).locations = [@locs.last]
+          users(:one).organizations = [@orgs.last]
+
+          assert_equal target_host.fact_values.map(&:id).sort,
+            FactValue.my_facts.map(&:id).sort
+        end
+      end
+
+      test "only return facts from host in admin's currently selected taxonomy" do
+        user = as_admin { FactoryGirl.create(:user, :admin) }
+        target_host.update_attributes(:location => @locs.last, :organization => @orgs.last)
+
+        as_user user do
+          in_taxonomy(@orgs.first) do
+            in_taxonomy(@locs.first) do
+              refute_includes FactValue.my_facts, target_host.fact_values.first
+            end
+          end
+
+          in_taxonomy(@orgs.last) do
+            in_taxonomy(@locs.last) do
+              assert_includes FactValue.my_facts, target_host.fact_values.first
+            end
           end
         end
       end

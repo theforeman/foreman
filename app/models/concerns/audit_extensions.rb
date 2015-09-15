@@ -5,7 +5,8 @@ module AuditExtensions
   included do
     belongs_to :user, :class_name => 'User'
     belongs_to :search_users, :class_name => 'User', :foreign_key => :user_id
-    belongs_to :search_hosts, :class_name => 'Host', :foreign_key => :auditable_id, :conditions => { :audits => { :auditable_type => 'Host' } }
+    belongs_to :search_hosts, -> { where(:audits => { :auditable_type => 'Host' }) },
+      :class_name => 'Host', :foreign_key => :auditable_id
     belongs_to :search_hostgroups, :class_name => 'Hostgroup', :foreign_key => :auditable_id
     belongs_to :search_parameters, :class_name => 'Parameter', :foreign_key => :auditable_id
     belongs_to :search_templates, :class_name => 'ProvisioningTemplate', :foreign_key => :auditable_id

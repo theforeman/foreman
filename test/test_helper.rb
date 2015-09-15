@@ -1,7 +1,5 @@
 require 'rubygems'
 require 'spork'
-# $LOAD_PATH required for testdrb party of spork-minitest
-$LOAD_PATH << "test"
 
 require 'simplecov'
 SimpleCov.start 'rails' do
@@ -84,7 +82,9 @@ Spork.prefork do
     alias_method :assert_no_match,  :refute_match
     alias_method :assert_not_nil,   :refute_nil
     alias_method :assert_not_equal, :refute_equal
-    alias_method :assert_raise,     :assert_raises
+    alias_method :assert_raise,       :assert_raises
+    alias_method :assert_include,     :assert_includes
+    alias_method :assert_not_include, :assert_not_includes
     class <<self
       alias_method :test,  :it
     end

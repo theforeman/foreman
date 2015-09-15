@@ -243,7 +243,7 @@ class UnattendedControllerTest < ActionController::TestCase
     @request.env["REMOTE_ADDR"] = @ub_host.ip
     @ub_host.create_token(:value => token, :expires => Time.now + 5.minutes)
     get :provision, {'token' => @ub_host.token.value }
-    assert @response.body.include?("#{Setting[:unattended_url]}:443/unattended/finish?token=#{token}")
+    assert @response.body.include?("#{Setting[:unattended_url]}/unattended/finish?token=#{token}")
   end
 
   test "hosts with unknown ip and valid token should render a template" do
@@ -314,7 +314,7 @@ class UnattendedControllerTest < ActionController::TestCase
       @request.env["REMOTE_ADDR"] = @ub_host.ip
       @ub_host.create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
       get :provision
-      assert @response.body.include?("http://test.host:80/unattended/finish?token=aaaaaa")
+      assert @response.body.include?("http://test.host/unattended/finish?token=aaaaaa")
     end
   end # end of context "location or organizations are not enabled"
 

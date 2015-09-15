@@ -1,5 +1,5 @@
 desc 'Compile engine assets - called via rake plugin:assets:precompile[plugin_name]'
-task 'plugin:assets:precompile', :engine do |t, args|
+task 'plugin:assets:precompile', [:engine] do |t, args|
   # This task will generate assets for a plugin and namespace them in
   # plugin_name/public/assets/<plugin_name>. The generated manifest.yaml found
   # in the assets directory of the plugin is used to add the asset digest paths
@@ -34,60 +34,51 @@ task 'plugin:assets:precompile', :engine do |t, args|
   #     }
   #   }
 
-  def compile_assets(args = {})
-    _ = ActionView::Base
+  module Foreman
+    class PluginAssetsTask < Sprockets::Rails::Task
+      attr_accessor :engine
 
-    app = Rails.application
-    assets = app.config.assets
-    env = app.assets
-    target = File.join(@engine_root, 'public', 'assets')
+      def initialize(engine_name)
+        @engine = "#{engine_name.camelize}::Engine".constantize
+        Rails.application.config.assets.precompile = SETTINGS[@engine.engine_name.to_sym][:assets][:precompile]
+        Rails.application.assets.js_compressor = :uglifier
+        super(Rails.application)
+      end
 
-    assets.digests        = {}
-    assets.manifest       = File.join(target, @engine.engine_name)
-    assets.compile        = SETTINGS[@engine.engine_name.to_sym][:assets][:compile] || assets.compile
-    assets.compress       = SETTINGS[@engine.engine_name.to_sym][:assets][:compress] || assets.compress
-    assets.digest         = args.fetch(:digest, true)
-    assets.js_compressor  = SETTINGS[@engine.engine_name.to_sym][:assets][:js_compressor]
-
-    precompile = SETTINGS[@engine.engine_name.to_sym][:assets][:precompile]
-    precompile = fix_indexes(precompile)
-
-    Sprockets::Bootstrap.new(Rails.application).run
-    compiler = Sprockets::StaticCompiler.new(env,
-                                             target,
-                                             precompile,
-                                             :manifest_path => assets.manifest,
-                                             :digest => assets.digest,
-                                             :manifest => true)
-    compiler.compile
-  end
-
-  # Used to add index manifest files to the paths for
-  # proper resolution and addition when running Rails 3.2.8
-  # in the SCL
-  def fix_indexes(precompile)
-    if Rails.version == '3.2.8'
-      precompile.each do |asset|
-        if File.basename(asset)[/[^\.]+/, 0] == 'index'
-          asset.sub!(/\/index\./, '.')
-          precompile << asset
+      def compile
+        with_logger do
+          manifest.compile(assets)
         end
       end
-    end
 
-    precompile
+      def environment
+        env = Rails.application.assets
+        Rails.application.config.assets.paths.each do |path|
+          env.append_path path
+        end
+        env
+      end
+
+      def output
+        File.join(@engine.root, 'public', 'assets')
+      end
+
+      def manifest_path
+        File.join(output, @engine.engine_name, "#{@engine.engine_name}.json")
+      end
+
+      def manifest
+        Sprockets::Manifest.new(index, output, manifest_path)
+      end
+    end
   end
 
   if args[:engine]
     # Partially load the Rails environment to avoid
     # the need of a database being setup
     Rails.application.initialize!(:assets)
-
-    @engine = "#{args[:engine].camelize}::Engine".constantize
-    @engine_root = @engine.root
-
-    compile_assets(:digest => false)
-    compile_assets
+    task = Foreman::PluginAssetsTask.new(args[:engine])
+    task.compile
   else
     puts "You must specify the name of the plugin (e.g. rake plugin:assets:precompile['my_plugin'])"
   end

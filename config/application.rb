@@ -1,6 +1,8 @@
+if defined?(Rake.application) && Rake.application.top_level_tasks.grep(/jenkins/).any?
+  ENV['RAILS_ENV'] ||= 'test'
+end
 require File.expand_path('../boot', __FILE__)
 require 'apipie/middleware/checksum_in_headers'
-
 require 'rails/all'
 
 require File.expand_path('../../config/settings', __FILE__)
@@ -14,13 +16,13 @@ if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
   BundlerExt.system_require(File.expand_path('../../Gemfile.in', __FILE__), :all)
 else
   # If you have a Gemfile, require the gems listed there
-  # Note that :default, :test, :development, :production, and :assets groups
+  # Note that :default, :test, :development and :production groups
   # will be included by default (and dependending on the current environment)
   if defined?(Bundler)
     Class.new Rails::Railtie do
       console {Foreman.setup_console}
     end
-    Bundler.require(*Rails.groups(:assets => %w(development test)))
+    Bundler.require(*Rails.groups)
     if SETTINGS[:unattended]
       %w[ec2 fog libvirt ovirt vmware gce].each do |group|
         begin
@@ -85,7 +87,9 @@ end
 module Foreman
   class Application < Rails::Application
     # Setup additional routes by loading all routes file from routes directory
-    config.paths["config/routes"] += Dir[Rails.root.join("config/routes/**/*.rb")]
+    Dir["#{Rails.root}/config/routes/**/*.rb"].each do |route_file|
+      config.paths['config/routes.rb'] << route_file
+    end
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

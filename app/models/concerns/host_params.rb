@@ -7,6 +7,7 @@ module HostParams
     accepts_nested_attributes_for :host_parameters, :allow_destroy => true
     include ParameterValidators
     attr_reader :cached_host_params
+    attr_accessible :host_parameters_attributes
 
     def params
       host_params.update(lookup_keys_params)
@@ -58,7 +59,7 @@ module HostParams
 
     def host_params_objects
       # Host parameters should always be first for the uniq order
-      (host_parameters + host_inherited_params_objects.reverse!).uniq {|param| param.name}
+      (host_parameters + host_inherited_params_objects.to_a.reverse!).uniq {|param| param.name}
     end
   end
 end

@@ -11,7 +11,6 @@ class AddLookUpKeyIdToPuppetClass < ActiveRecord::Migration
     add_column :lookup_keys, :validator_type, :string
     add_column :lookup_keys, :validator_rule, :string
     rename_column :lookup_values, :priority, :match
-    add_index :lookup_values, :match
   end
 
   def down
