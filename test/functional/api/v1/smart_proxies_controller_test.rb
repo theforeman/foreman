@@ -100,7 +100,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     as_admin do
       ["a", "b", "c"].each  {|name| Puppetclass.create :name => name}
       for name in ["env1", "env2"] do
-        e = Environment.create!(:name => name)
+        e = PuppetEnvironment.create!(:name => name)
         e.puppetclasses = Puppetclass.all
       end
     end

@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :environment do
+  factory :environment, :class => PuppetEnvironment do
     sequence(:name) {|n| "environment#{n}" }
   end
 

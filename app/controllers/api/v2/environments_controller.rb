@@ -37,7 +37,7 @@ module Api
       param_group :environment, :as => :create
 
       def create
-        @environment = Environment.new(params[:environment])
+        @environment = PuppetEnvironment.new(params[:environment])
         process_response @environment.save
       end
 

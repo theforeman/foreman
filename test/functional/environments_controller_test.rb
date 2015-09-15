@@ -14,7 +14,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   test "should create new environment" do
     assert_difference 'Environment.count' do
-      post :create, { :commit => "Create", :environment => {:name => "some_environment"} }, set_session_user
+      post :create, { :commit => "Create", :puppet_environment => {:name => "some_environment"} }, set_session_user
     end
     assert_redirected_to environments_path
   end
@@ -33,7 +33,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
-    put :update, { :commit => "Update", :id => environment.name, :environment => {:name => "other_environment"} }, set_session_user
+    put :update, { :commit => "Update", :id => environment.name, :puppet_environment => {:name => "other_environment"} }, set_session_user
     env = Environment.find(environment)
     assert env.name == "other_environment"
 
@@ -42,7 +42,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   test "should destroy environment" do
     setup_users
-    environment = Environment.new :name => "some_environment"
+    environment = PuppetEnvironment.new :name => "some_environment"
     assert environment.save!
 
     assert_difference('Environment.count', -1) do
@@ -65,7 +65,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     as_admin do
       ["a", "b", "c"].each  {|name| Puppetclass.create :name => name}
       for name in ["env1", "env2"] do
-        e = Environment.create!(:name => name)
+        e = PuppetEnvironment.create!(:name => name)
         e.puppetclasses += [Puppetclass.find_by_name("a"), Puppetclass.find_by_name("b"), Puppetclass.find_by_name("c")]
       end
     end
@@ -119,7 +119,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
   test "should handle disk environment containing less environments" do
     setup_import_classes
-    as_admin {Environment.create(:name => "env3")}
+    as_admin {PuppetEnvironment.create(:name => "env3")}
     #db_tree   of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
     get :import_environments, {:proxy => smart_proxies(:puppetmaster).id}, set_session_user
@@ -164,7 +164,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     @request.env["HTTP_REFERER"] = environments_url
     setup_import_classes
     as_admin do
-      Environment.create :name => "env3"
+      PuppetEnvironment.create :name => "env3"
       Environment.find_by_name("env2").destroy
     end
     #db_tree   of {"env1" => ["a", "b", "c"], "env3" => []}
