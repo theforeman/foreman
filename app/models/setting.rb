@@ -6,8 +6,8 @@ class Setting < ActiveRecord::Base
 
   TYPES= %w{ integer boolean hash array string }
   FROZEN_ATTRS = %w{ name category full_name }
-  NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend outofsync_interval }
-  BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret }
+  NONZERO_ATTRS = %w{ configuration_interval idle_timeout entries_per_page max_trend outofsync_interval }
+  BLANK_ATTRS = %w{ trusted_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret }
   URI_ATTRS = %w{ foreman_url unattended_url }
 
   class UriValidator < ActiveModel::EachValidator
@@ -57,7 +57,7 @@ class Setting < ActiveRecord::Base
   def self.per_page; 20 end # can't use our own settings
 
   def self.[](name)
-    name = name.to_s
+    name = get_deprecated(name) || name.to_s
     cache_value = Setting.cache.read(name)
     if cache_value.nil?
       value = where(:name => name).first.try(:value)
@@ -69,7 +69,7 @@ class Setting < ActiveRecord::Base
   end
 
   def self.[]=(name, value)
-    name   = name.to_s
+    name   = get_deprecated(name) || name.to_s
     record = find_or_create_by_name name
     record.value = value
     record.save!
@@ -198,6 +198,20 @@ class Setting < ActiveRecord::Base
 
   def self.cache
     Rails.cache
+  end
+
+  def self.get_deprecated(setting)
+    case setting.to_s
+    when 'puppet_interval'
+      Foreman::Deprecation.deprecation_warning('1.12', 'Use Setting[:configuration_interval] instead')
+      'configuration_interval'
+    when 'trusted_puppetmaster_hosts'
+      Foreman::Deprecation.deprecation_warning('1.12', 'Use Setting[:trusted_hosts] instead')
+      'trusted_hosts'
+    when 'ignore_puppet_facts_for_provisioning'
+      Foreman::Deprecation.deprecation_warning('1.12', 'Use Setting[:ignore_facts_for_provisioning] instead')
+      'ignore_facts_for_provisioning'
+    end
   end
 
   def invalid_value_error(error)

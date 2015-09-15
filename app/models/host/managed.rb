@@ -76,8 +76,8 @@ class Host::Managed < Host::Base
 
   attr_reader :cached_host_params
 
-  scope :recent,      ->(*args) { {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]} }
-  scope :out_of_sync, ->(*args) { {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]} }
+  scope :recent,      ->(*args) { {:conditions => ["last_report > ?", (args.first || (Setting[:configuration_interval] + Setting[:outofsync_interval]).minutes.ago)]} }
+  scope :out_of_sync, ->(*args) { {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:configuration_interval] + Setting[:outofsync_interval]).minutes.ago), false]} }
 
   scope :with_os, -> { where('hosts.operatingsystem_id IS NOT NULL') }
 
@@ -351,7 +351,7 @@ class Host::Managed < Host::Base
   end
 
   def no_report
-    last_report.nil? or last_report < Time.now - (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes and enabled?
+    last_report.nil? or last_report < Time.now - (Setting[:configuration_interval] + Setting[:outofsync_interval]).minutes and enabled?
   end
 
   def disabled?
@@ -403,7 +403,7 @@ class Host::Managed < Host::Base
       param["owner_email"] = owner.is_a?(User) ? owner.mail : owner.users.map(&:mail)
     end
 
-    if Setting[:ignore_puppet_facts_for_provisioning]
+    if Setting[:ignore_facts_for_provisioning]
       param["ip"]  = ip
       param["mac"] = mac
     end

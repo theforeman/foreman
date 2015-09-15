@@ -31,10 +31,10 @@ class FactParserTest < ActiveSupport::TestCase
 
   test "#parse_interfaces? should answer based on current setttings" do
     parser.stub(:support_interfaces_parsing?, true) do
-      Setting.expects(:[]).with('ignore_puppet_facts_for_provisioning').returns(false)
+      Setting.expects(:[]).with('ignore_facts_for_provisioning').returns(false)
       assert parser.parse_interfaces?
 
-      Setting.expects(:[]).with('ignore_puppet_facts_for_provisioning').returns(true)
+      Setting.expects(:[]).with('ignore_facts_for_provisioning').returns(true)
       refute parser.parse_interfaces?
     end
   end

@@ -48,11 +48,11 @@ module DashboardHelper
 
   def count_reports(hosts)
     data = []
-    interval = Setting[:puppet_interval] / 10
-    start = Time.zone.now - Setting[:puppet_interval].minutes
+    interval = Setting[:configuration_interval] / 10
+    start = Time.zone.now - Setting[:configuration_interval].minutes
     (0..9).each do |i|
       t = start + (interval.minutes * i)
-      data << [Setting[:puppet_interval] - i*interval, hosts.run_distribution(t, t + interval.minutes).count]
+      data << [Setting[:configuration_interval] - i*interval, hosts.run_distribution(t, t + interval.minutes).count]
     end
     data
   end

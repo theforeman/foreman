@@ -1,7 +1,8 @@
 <% title _("Settings") %>
 <% title_actions documentation_button('3.5.2ConfigurationOptions') %>
 <ul class="nav nav-tabs" data-tabs="tabs">
-  <% @settings.group_by(&:category).each do |category, setting| %>
+    <% @settings.group_by(&:category).each do |category, setting| %>
+    <% next if setting.blank? %>
     <li class='<%= category == @settings.first.category ? "active" : ""%>'>
       <a href='<%= "##{short_cat(category)}" %>' data-toggle="tab"><%= _(short_cat(category)) %></a>
     </li>
@@ -9,6 +10,7 @@
 </ul>
 <div class="tab-content">
   <% @settings.group_by(&:category).each do |category, setting| %>
+    <% next if setting.blank? %>
     <div class="tab-pane <%= "active" if category == @settings.first.category %>" id='<%= short_cat(category) %>' >
       <table class="table table-bordered table-striped">
         <thead>
