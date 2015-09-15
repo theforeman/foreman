@@ -8,7 +8,10 @@ class Taxonomy < ApplicationRecord
   serialize :ignore_types, Array
 
   belongs_to :user
+
+  before_create :assign_default_templates
   after_create :assign_taxonomy_to_user
+  before_validation :sanitize_ignored_types
 
   has_many :taxable_taxonomies, :dependent => :destroy
   has_many :users, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'User'
@@ -24,11 +27,7 @@ class Taxonomy < ApplicationRecord
   has_many :subnets, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Subnet'
 
   validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
-
   validates :name, :presence => true, :uniqueness => {:scope => [:ancestry, :type], :case_sensitive => false}
-
-  before_validation :sanitize_ignored_types
-  after_create :assign_default_templates
 
   def self.inherited(child)
     child.instance_eval do
@@ -220,8 +219,8 @@ class Taxonomy < ApplicationRecord
            :to => :tax_host
 
   def assign_default_templates
-    Template.where(:default => true).each do |template|
-      self.send((template.class.to_s.underscore.pluralize).to_s) << template
+    Template.where(:default => true).group_by { |t| t.class.to_s.underscore.pluralize }.each do |association, templates|
+      self.send("#{association}=", self.send(association) + templates)
     end
   end
 
