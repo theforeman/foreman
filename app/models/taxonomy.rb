@@ -29,7 +29,7 @@ class Taxonomy < ActiveRecord::Base
   validates :title, :presence => true, :uniqueness => {:scope => :type}
 
   before_validation :sanitize_ignored_types
-  after_create :assign_default_templates
+  before_create :assign_default_templates
 
   scoped_search :on => :description, :complete_enabled => :false, :only_explicit => true
 
@@ -183,8 +183,8 @@ class Taxonomy < ActiveRecord::Base
            :to => :tax_host
 
   def assign_default_templates
-    Template.where(:default => true).each do |template|
-      self.send("#{template.class.to_s.underscore.pluralize}") << template
+    Template.where(:default => true).group_by { |t| t.class.to_s.underscore.pluralize }.each do |association, templates|
+      self.send("#{association}=", self.send(association) + templates)
     end
   end
 
