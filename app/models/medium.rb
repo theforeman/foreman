@@ -19,7 +19,7 @@ class Medium < ActiveRecord::Base
   VALID_NFS_PATH=/\A([-\w\d\.]+):(\/[\w\d\/\$\.]+)\Z/
   validates :name, :uniqueness => true, :presence => true
   validates :path, :uniqueness => true, :presence => true,
-                   :format => { :with => /^(http|https|ftp|nfs):\/\//,
+                   :format => { :with => /\A(http|https|ftp|nfs):\/\//,
                                 :message => N_("Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nfs://server/vol/dir)")
                               }
   validates :media_path, :config_path, :image_path, :allow_blank => true,
