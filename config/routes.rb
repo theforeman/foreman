@@ -8,7 +8,7 @@ Foreman::Application.routes.draw do
   end
 
   #ENC requests goes here
-  match "node/:name" => 'hosts#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
+  get "node/:name" => 'hosts#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
 
   resources :reports, :only => [:index, :show, :destroy] do
     collection do
@@ -16,7 +16,7 @@ Foreman::Application.routes.draw do
     end
   end
 
-  match '(:controller)/help', :action => 'welcome', :as => "help"
+  get '(:controller)/help', :action => 'welcome', :as => "help"
   constraints(:id => /[^\/]+/) do
     resources :hosts do
       member do
@@ -115,7 +115,7 @@ Foreman::Application.routes.draw do
     end
 
     constraints(:hostgroup => /[^\/]+/) do
-      match 'unattended/template/:id/:hostgroup', :to => "unattended#template"
+      get 'unattended/template/:id/:hostgroup', :to => "unattended#template"
     end
   end
 
@@ -378,16 +378,16 @@ Foreman::Application.routes.draw do
   end
 
   root :to => 'dashboard#index'
-  match 'dashboard', :to => 'dashboard#index', :as => "dashboard"
-  match 'dashboard/auto_complete_search', :to => 'hosts#auto_complete_search', :as => "auto_complete_search_dashboards"
-  match 'statistics', :to => 'statistics#index', :as => "statistics"
-  match 'status', :to => 'home#status', :as => "status"
+  get 'dashboard', :to => 'dashboard#index', :as => "dashboard"
+  get 'dashboard/auto_complete_search', :to => 'hosts#auto_complete_search', :as => "auto_complete_search_dashboards"
+  get 'statistics', :to => 'statistics#index', :as => "statistics"
+  get 'status', :to => 'home#status', :as => "status"
 
-  # match only for alterator unattended scripts
-  match 'unattended/provision/:metadata', :controller => 'unattended', :action => 'provision', :format => 'html',
+  # get only for alterator unattended scripts
+  get 'unattended/provision/:metadata', :controller => 'unattended', :action => 'provision', :format => 'html',
     :constraints => { :metadata => /(autoinstall\.scm|vm-profile\.scm|pkg-groups\.tar)/ }
-  # match for all unattended scripts
-  match 'unattended/(:action/(:id(.format)))', :controller => 'unattended'
+  # get for all unattended scripts
+  get 'unattended/(:action/(:id(.format)))', :controller => 'unattended'
 
   resources :tasks, :only => [:show]
 
@@ -396,7 +396,7 @@ Foreman::Application.routes.draw do
       resources :hosts, :only => :index
       member do
         get 'select'
-        match "clone" => 'locations#clone_taxonomy'
+        get "clone" => 'locations#clone_taxonomy'
         get 'nest'
         post 'import_mismatches'
         get 'step2'
@@ -418,7 +418,7 @@ Foreman::Application.routes.draw do
     resources :organizations, :except => [:show] do
       member do
         get 'select'
-        match "clone" => 'organizations#clone_taxonomy'
+        get "clone" => 'organizations#clone_taxonomy'
         get 'nest'
         post 'import_mismatches'
         get 'step2'

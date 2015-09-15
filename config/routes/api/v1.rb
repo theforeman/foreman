@@ -66,8 +66,8 @@ Foreman::Application.routes.draw do
       resources :users, :except => [:new, :edit]
       resources :template_kinds, :only => [:index]
 
-      match '/', :to => 'home#index'
-      match 'status', :to => 'home#status', :as => "status"
+      get '/', :to => 'home#index'
+      get 'status', :to => 'home#status', :as => "status"
     end
   end
 end
