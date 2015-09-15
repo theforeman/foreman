@@ -49,4 +49,7 @@ Foreman::Application.configure do
 
   # Use separate cache stores for parallel_tests
   config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV['TEST_ENV_NUMBER']}")
+
+  # Enable automatic creation/migration of the test DB when running tests
+  config.active_record.maintain_test_schema = true
 end

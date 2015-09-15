@@ -50,7 +50,7 @@ $(document).on('mouseleave','.loc-submenu', function(){
 function mark_active_menu() {
   var menus = $('.menu_tab_dropdown'),
       path = window.location.pathname + window.location.search,
-      link = $("[href='%s'".replace('%s', path));
+      link = $("[href='%s']".replace('%s', path));
 
   menus.removeClass('active');
   $("[class^='menu_tab_']").removeClass('active');

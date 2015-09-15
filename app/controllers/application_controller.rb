@@ -193,7 +193,7 @@ class ApplicationController < ActionController::Base
   end
 
   def display_layout?
-    return nil if two_pane?
+    return false if two_pane?
     "application"
   end
 

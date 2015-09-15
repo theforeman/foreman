@@ -169,7 +169,7 @@ class HostsController < ApplicationController
   def externalNodes
     certname = params[:name]
     @host ||= resource_base.find_by_certname certname
-    @host ||= resource_base.find certname
+    @host ||= resource_base.friendly.find certname
     not_found and return unless @host
 
     begin
@@ -352,7 +352,7 @@ class HostsController < ApplicationController
       skipped = []
       params[:name].each do |name, value|
         next if value.empty?
-        if (host_param = host.host_parameters.find(name))
+        if (host_param = host.host_parameters.friendly.find(name))
           counter += 1 if host_param.update_attribute(:value, value)
         else
           skipped << name
@@ -698,7 +698,7 @@ class HostsController < ApplicationController
   # overwrite application_controller
   def find_resource
     not_found and return false if (id = params[:id]).blank?
-    @host   = resource_base.find(id)
+    @host   = resource_base.friendly.find(id)
     @host ||= resource_base.find_by_mac params[:host][:mac] if params[:host] && params[:host][:mac]
 
     not_found and return(false) unless @host

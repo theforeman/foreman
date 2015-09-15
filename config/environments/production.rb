@@ -42,6 +42,7 @@ Foreman::Application.configure do |app|
 
   # Eager load all classes under lib directory
   config.eager_load_paths += ["#{config.root}/lib"]
+  config.eager_load = true
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found)
@@ -51,11 +52,11 @@ Foreman::Application.configure do |app|
   config.active_support.deprecation = :notify
 
   # Compress JavaScripts and CSS
-  config.assets.compress = true
+  config.assets.js_compressor = :uglifier
 
   # Fallback to assets pipeline if a precompiled asset is missed:
   # that's the case when an engine with it's own assets is added to Foreman later in production.
-  config.assets.compile = true
+  config.assets.compile = false
 
   # Generate digests for assets URLs
   config.assets.digest = true
@@ -70,7 +71,7 @@ Foreman::Application.configure do |app|
   config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
 
   # Precompile additional assets
-  config.assets.precompile += %w( .svg .eot .woff .ttf )
+  config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   #  config.assets.precompile += %w()
@@ -125,17 +126,29 @@ Foreman::Application.configure do |app|
 
   # Adds plugin assets to the application digests hash if a manifest file exists for a plugin
   config.after_initialize do
-    ::Rails::Engine.subclasses.map(&:instance).each do |engine|
-      [engine.root, app.root].each do |root_dir|
-        manifest_path = File.join(root_dir, "public/assets/#{engine.engine_name}/manifest.yml")
+    if manifest_file = Dir.glob("#{Rails.root}/public/assets/manifest*.json").first
+      foreman_manifest = JSON.parse(File.read(manifest_file))
 
-        if File.file?(manifest_path)
-          assets = YAML.load_file(manifest_path)
+      ::Rails::Engine.subclasses.map(&:instance).each do |engine|
+        [engine.root, app.root].each do |root_dir|
+          manifest_path = File.join(root_dir, "public/assets/#{engine.engine_name}/#{engine.engine_name}.json")
 
-          assets.each_pair do |file, digest|
-            config.assets.digests[file] = digest
+          if File.file?(manifest_path)
+            assets =  JSON.parse(File.read(manifest_path))
+
+            foreman_manifest['files'] = foreman_manifest['files'].merge(assets['files'])
+            foreman_manifest['assets'] = foreman_manifest['assets'].merge(assets['assets'])
           end
         end
+      end
+
+      manifest_filename = "asset_manifest.json"
+      tmp_path = "#{Rails.root}/tmp"
+
+      Tempfile.open(manifest_filename, tmp_path) do |file|
+        file.write(foreman_manifest.to_json)
+        app.assets_manifest = Sprockets::Manifest.new(app.assets, file.path)
+        ActionView::Base.assets_manifest = app.assets_manifest
       end
     end
   end

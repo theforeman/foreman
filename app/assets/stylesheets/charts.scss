@@ -122,9 +122,9 @@
 }
 
 .statistics-pie.small .overlay {
-  background: url(/assets/pie_overlay.png) no-repeat;
+  background: image-url('/assets/pie_overlay.png') no-repeat;
   background-size: cover;
-  -ms-behavior: url(/assets/background-size.htc);
+  -ms-behavior: asset-url('/assets/background-size.htc');
   z-index: 1;
 }
 

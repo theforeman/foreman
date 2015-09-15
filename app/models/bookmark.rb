@@ -7,7 +7,7 @@ class Bookmark < ActiveRecord::Base
   validates_lengths_from_database
 
   belongs_to :owner, :polymorphic => true
-  attr_accessible :name, :controller, :query, :public
+  attr_accessible :name, :query, :public, :controller
   audited :allow_mass_assignment => true
 
   validates :name, :uniqueness => {:scope => :controller}, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}

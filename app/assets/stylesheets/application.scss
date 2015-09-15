@@ -108,11 +108,11 @@ a.config_group_name {
 }
 
 .editable {
-  background: url("edit.png") no-repeat scroll 98% 6px transparent;
+  background: image-url("edit.png") no-repeat scroll 98% 6px transparent;
   cursor: pointer;
   padding: 4px 26px 4px 0;
   &:hover {
-    background: url("edit-hover.png") no-repeat scroll 98% 6px #F2F2F2;
+    background: image-url("edit-hover.png") no-repeat scroll 98% 6px #F2F2F2;
   }
 }
 
@@ -282,23 +282,23 @@ table {
   }
 
   .sorting {
-    background: url('sort_both.png') no-repeat center right;
+    background: image-url('sort_both.png') no-repeat center right;
   }
 
   .sorting_asc {
-    background: url('sort_asc.png') no-repeat center right;
+    background: image-url('sort_asc.png') no-repeat center right;
   }
 
   .sorting_desc {
-    background: url('sort_desc.png') no-repeat center right;
+    background: image-url('sort_desc.png') no-repeat center right;
   }
 
   .sorting_asc_disabled {
-    background: url('sort_asc_disabled.png') no-repeat center right;
+    background: image-url('sort_asc_disabled.png') no-repeat center right;
   }
 
   .sorting_desc_disabled {
-    background: url('sort_desc_disabled.png') no-repeat center right;
+    background: image-url('sort_desc_disabled.png') no-repeat center right;
   }
 }
 
@@ -340,7 +340,7 @@ table {
 .spinner-placeholder {
   width: 16px;
   height: 16px;
-  background: url('spinner.gif');
+  background: image-url('spinner.gif');
   text-indent: 20px;
   white-space: nowrap;
   margin: 20% 30% 0 40%;
@@ -536,4 +536,8 @@ span.glyphicon.host-status {
   white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
   word-wrap: break-word; /* IE */
   word-break: break-all;
+}
+
+.ms-container {
+  background: transparent image-url('switch.png') no-repeat 270px 80px;
 }

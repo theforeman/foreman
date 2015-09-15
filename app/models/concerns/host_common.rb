@@ -208,7 +208,7 @@ module HostCommon
   end
 
   def available_puppetclasses
-    return Puppetclass.where(nil) if environment_id.blank?
+    return Puppetclass.where(nil) if environment.blank?
     environment.puppetclasses - parent_classes
   end
 

@@ -3,13 +3,13 @@ group :test do
   gem 'simplecov', '~> 0.9'
   gem 'spork-minitest', '0.0.3'
   gem 'single_test', '~> 0.6'
-  gem 'minitest', '~> 4.7'
-  gem 'minitest-spec-rails', '~> 4.7'
-  gem 'ci_reporter', '>= 1.6.3', '< 2.0.0', :require => false
+  gem 'minitest', '~> 5.1.0'
+  gem 'minitest-spec-rails', '~> 5.3'
+  gem 'ci_reporter_minitest', :require => false
   gem 'capybara', '~> 2.0'
   gem 'database_cleaner', '~> 1.3'
   gem 'launchy', '~> 2.4'
-  gem 'spork', '~> 0.9'
+  gem 'spork-rails', '~> 4.0.0'
   gem 'factory_girl_rails', '~> 4.5', :require => false
   gem 'rubocop-checkstyle_formatter', '~> 0.2'
   gem "poltergeist"

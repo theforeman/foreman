@@ -33,7 +33,7 @@
   <div class="container">
     <!-- menu -->
     <% if User.current %>
-      <% cache(TopbarSweeper.fragment_name) do %>
+      <% cache(TopbarSweeper.fragment_name, :skip_digest => true) do %>
         <ul class="nav navbar-nav navbar-menu navbar-collapse collapse" id="menu">
           <%= render "home/org_switcher" %>
           <%= render_menu :top_menu %>

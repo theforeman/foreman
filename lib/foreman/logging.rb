@@ -1,6 +1,8 @@
 require 'logging'
 require 'fileutils'
 
+::Logging::Logger.send(:include, ActiveRecord::SessionStore::Extension::LoggerSilencer)
+
 module Foreman
   class LoggingImpl
     private_class_method :new

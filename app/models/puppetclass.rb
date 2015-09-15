@@ -8,7 +8,7 @@ class Puppetclass < ActiveRecord::Base
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many :environment_classes, :dependent => :destroy
-  has_many :environments, :through => :environment_classes, :uniq => true
+  has_many :environments, -> { uniq }, :through => :environment_classes
   has_and_belongs_to_many :operatingsystems
   has_many :hostgroup_classes
   has_many :hostgroups, :through => :hostgroup_classes, :dependent => :destroy
@@ -19,8 +19,8 @@ class Puppetclass < ActiveRecord::Base
   has_many :lookup_keys, :inverse_of => :puppetclass, :dependent => :destroy, :class_name => 'VariableLookupKey'
   accepts_nested_attributes_for :lookup_keys, :reject_if => ->(a) { a[:key].blank? }, :allow_destroy => true
   # param classes
-  has_many :class_params, :through => :environment_classes, :uniq => true,
-    :source => :puppetclass_lookup_key, :conditions => 'environment_classes.puppetclass_lookup_key_id is NOT NULL'
+  has_many :class_params, -> { where('environment_classes.puppetclass_lookup_key_id is NOT NULL').uniq },
+    :through => :environment_classes, :source => :puppetclass_lookup_key
   accepts_nested_attributes_for :class_params, :reject_if => ->(a) { a[:key].blank? }, :allow_destroy => true
 
   validates :name, :uniqueness => true, :presence => true, :no_whitespace => true
@@ -202,7 +202,7 @@ class Puppetclass < ActiveRecord::Base
 
   def self.search_by_host(key, operator, value)
     conditions = sanitize_sql_for_conditions(["hosts.name #{operator} ?", value_to_sql(operator, value)])
-    direct     = Puppetclass.joins(:hosts).where(conditions).uniq.pluck('puppetclasses.id')
+    direct     = Puppetclass.joins(:hosts).where(conditions).pluck('puppetclasses.id').uniq
     hostgroup  = Hostgroup.joins(:hosts).where(conditions).first
     indirect   = hostgroup.blank? ? [] : HostgroupClass.where(:hostgroup_id => hostgroup.path_ids).uniq.pluck('puppetclass_id')
     return { :conditions => "1=0" } if direct.blank? && indirect.blank?
