@@ -124,6 +124,7 @@ class NicTest < ActiveSupport::TestCase
   test "Mac address uniqueness validation is skipped for virtual NICs and unmanaged hosts" do
     host = FactoryGirl.create(:host, :managed)
     Nic::Base.create! :mac => "cabbccddeeff", :host => host # physical
+    host.reload
     virtual = Nic::Base.new :mac => "cabbccddeeff", :host => host, :virtual => true
     assert virtual.valid?
     assert virtual.save
@@ -206,7 +207,7 @@ class NicTest < ActiveSupport::TestCase
   context 'BMC' do
     setup do
       disable_orchestration
-      @subnet    = FactoryGirl.create(:subnet, :dhcp)
+      @subnet    = FactoryGirl.create(:subnet, :dhcp, :ipam => Subnet::IPAM_MODES[:db])
       @domain    = FactoryGirl.create(:domain)
       @interface = FactoryGirl.create(:nic_bmc, :ip => @subnet.unused_ip,
                                       :host => FactoryGirl.create(:host),
