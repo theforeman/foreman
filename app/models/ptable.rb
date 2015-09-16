@@ -15,7 +15,7 @@ class Ptable < Template
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts
   has_many :hostgroups
-  has_and_belongs_to_many :operatingsystems
+  has_and_belongs_to_many :operatingsystems, :join_table => :operatingsystems_ptables, :association_foreign_key => :operatingsystem_id, :foreign_key => :ptable_id
   validates :layout, :presence => true
   validates :name, :uniqueness => true
   validate_inclusion_in_families :os_family
