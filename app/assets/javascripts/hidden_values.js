@@ -9,7 +9,7 @@ function turn_textarea_switch(checkbox) {
     $editorContainer.find('.navbar').hide();
     $editorContainer.find('.ace_editor').remove();
     $(source).replaceWith(target);
-  } else {
+  } else if ($('.editor-container').length > 0) {
     target = '<textarea class="form-control editor_source hide" id="' + id + '" name="' + source.name + '" placeholder="Value" rows="1">' + source.value + '</textarea>'
     $editorContainer.find('.navbar').show();
     $(source).replaceWith(target);
@@ -17,6 +17,9 @@ function turn_textarea_switch(checkbox) {
     onEditorLoad();
     session = Editor.getSession();
     session.setValue($(source).val());
+  } else {
+    var target = '<textarea class="form-control" id="' + id + '" name="' + source.name + '" placeholder="Value" rows="1">' + source.value + '</textarea>'
+    $(source).replaceWith(target);
   }
 }
 function hidden_value_control(){
