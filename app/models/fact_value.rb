@@ -28,7 +28,6 @@ class FactValue < ActiveRecord::Base
     end
   }
 
-  scope :distinct, -> { select('DISTINCT fact_values.value') }
   scope :required_fields, -> { includes(:host, :fact_name) }
   scope :facts_counter, ->(value, name_id) { where(:value => value, :fact_name_id => name_id) }
   scope :with_fact_parent_id, ->(find_ids) { joins(:fact_name).merge FactName.with_parent_id(find_ids) }
