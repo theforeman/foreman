@@ -5,12 +5,12 @@ function turn_textarea_switch(checkbox) {
   var $editorContainer = $('.editor-container');
 
   if (checkbox.checked) {
-    target = '<input class="form-control" type="password" id="' + id + '" name="' + source.name + '" value ="' + source.value + '"></input>'
+    target = $('<input/>').attr({ type: 'password', id: id, name: source.name, value: $(source).val(), class: 'form-control'});
     $editorContainer.find('.navbar').hide();
     $editorContainer.find('.ace_editor').remove();
     $(source).replaceWith(target);
   } else if ($('.editor-container').length > 0) {
-    target = '<textarea class="form-control editor_source hide" id="' + id + '" name="' + source.name + '" placeholder="Value" rows="1">' + source.value + '</textarea>'
+    target = $('<textarea/>').attr({class: 'form-control editor_source hide', id: id, name: source.name, placeholder: 'Value', rows: 1, value: $(source).val()});
     $editorContainer.find('.navbar').show();
     $(source).replaceWith(target);
 
@@ -18,7 +18,7 @@ function turn_textarea_switch(checkbox) {
     session = Editor.getSession();
     session.setValue($(source).val());
   } else {
-    var target = '<textarea class="form-control" id="' + id + '" name="' + source.name + '" placeholder="Value" rows="1">' + source.value + '</textarea>'
+    var target = $('<textarea/>').attr({class: 'form-control', id: id, name: source.name, placeholder: 'Value', rows: 1, value: $(source).val()});
     $(source).replaceWith(target);
   }
 }
