@@ -266,6 +266,15 @@ class HostTest < ActiveSupport::TestCase
     refute host.primary_interface.managed?
   end
 
+  test "#configuration? returns true when host has puppetmaster" do
+    host = FactoryGirl.build(:host)
+    refute host.configuration?
+
+    proxy = FactoryGirl.build(:smart_proxy)
+    host.puppet_proxy = proxy
+    assert host.configuration?
+  end
+
   context 'import host and facts' do
     test 'should import facts from json of a new host when certname is not specified' do
       refute Host.find_by_name('sinn1636.lan')
