@@ -21,6 +21,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
   include ParameterValidators
+  alias_attribute :hostgroup_parameters, :group_parameters
   has_many_hosts :after_add => :update_puppetclasses_total_hosts,
                  :after_remove => :update_puppetclasses_total_hosts
   has_many :template_combinations, :dependent => :destroy

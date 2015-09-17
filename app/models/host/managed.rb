@@ -472,20 +472,16 @@ class Host::Managed < Host::Base
   def host_inherited_params_objects
     params = CommonParameter.all
     if SETTINGS[:organizations_enabled] && organization
-      Organization.sort_by_ancestry(organization.ancestors).each {|o| params += o.organization_parameters}
-      params += organization.organization_parameters
+      params += extract_params_from_object_ancestors(organization)
     end
 
     if SETTINGS[:locations_enabled] && location
-      Location.sort_by_ancestry(location.ancestors).each {|l| params += l.location_parameters}
-      params += location.location_parameters
+      params += extract_params_from_object_ancestors(location)
     end
+
     params += domain.domain_parameters if domain
     params += operatingsystem.os_parameters if operatingsystem
-    if hostgroup
-      Hostgroup.sort_by_ancestry(hostgroup.ancestors).each {|g| params += g.group_parameters }
-      params += hostgroup.group_parameters
-    end
+    params += extract_params_from_object_ancestors(hostgroup) if hostgroup
     params
   end
 
@@ -1089,5 +1085,13 @@ class Host::Managed < Host::Base
 
   def refresh_build_status
     self.get_status(HostStatus::BuildStatus).refresh
+  end
+
+  def extract_params_from_object_ancestors(object)
+    params = []
+    object_parameters_symbol = "#{object.class.to_s.downcase}_parameters".to_sym
+    object.class.sort_by_ancestry(object.ancestors).each {|o| params += o.send(object_parameters_symbol)}
+    params += object.send(object_parameters_symbol)
+    params
   end
 end
