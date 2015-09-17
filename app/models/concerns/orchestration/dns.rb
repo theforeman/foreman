@@ -175,8 +175,7 @@ module Orchestration::DNS
     if domain.nameservers.empty?
       failure(_("Error connecting to system DNS server(s) - check /etc/resolv.conf"), e)
     else
-      dns1, dns2 = domain.nameservers
-      failure(_("Error connecting to '%{domain}' domain DNS servers: %{dns1}, %{dns2} - check query_local_nameservers and dns_conflict_timeout settings") % {:domain => domain.try(:name), :dns1 => dns1, :dns2 => dns2}, e)
+      failure(_("Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_conflict_timeout settings") % {:domain => domain.try(:name), :servers => domain.nameservers.join(',')}, e)
     end
   end
 end
