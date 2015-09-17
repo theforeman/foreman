@@ -137,7 +137,9 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   test "this is a smart class parameter?" do
-    assert lookup_keys(:complex).puppet?
+    assert_not_deprecated do
+      assert lookup_keys(:complex).puppet?
+    end
   end
 
   test "when changed, an audit entry should be added" do
