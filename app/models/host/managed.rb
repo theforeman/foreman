@@ -360,7 +360,7 @@ class Host::Managed < Host::Base
 
   # Determine if host is setup for configuration
   def configuration?
-    !!puppet_proxy
+    puppet_proxy_id.present?
   end
 
   # the environment used by #clases nees to be self.environment and not self.parent.environment
