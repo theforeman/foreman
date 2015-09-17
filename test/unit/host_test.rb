@@ -2553,6 +2553,16 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test 'should display inherited parameters' do
+    host = FactoryGirl.create(:host,
+                              :location => taxonomies(:location1),
+                              :organization => taxonomies(:organization1),
+                              :domain => domains(:mydomain))
+    location_parameter = LocationParameter.new(:name => 'location', :value => 'parameter')
+    host.location.location_parameters = [location_parameter]
+    assert(host.host_inherited_params_objects.include?(location_parameter), 'Taxonomy parameters should be included')
+  end
+
   private
 
   def parse_json_fixture(relative_path)
