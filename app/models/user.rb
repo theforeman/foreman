@@ -55,8 +55,10 @@ class User < ActiveRecord::Base
         where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
   }
   scope :except_hidden, lambda {
-    if (hidden = AuthSourceHidden.all).present?
-      where("#{self.table_name}.auth_source_id <> ?", hidden)
+    if (hidden = AuthSourceHidden.pluck('auth_sources.id')).present?
+      where(self.arel_table[:auth_source_id].not_in(hidden))
+    else
+      where(nil)
     end
   }
   scope :visible,         -> { except_hidden }
