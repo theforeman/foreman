@@ -148,7 +148,7 @@ class HostgroupsController < ApplicationController
     parameters_hash.each_with_index do |val, i|
       key, value = val[0], val[1]
       id = GroupParameter.last.id + 1 + i
-      parameters[id] = { 'name' => key, 'value' => value, 'nested' => true } if value.present?
+      parameters[id] = { 'name' => key, 'value' => value } if value.present?
     end
     parameters
   end
