@@ -21,6 +21,8 @@ class Setting::Provisioning < Setting
         self.set('update_ip_from_built_request', N_("Foreman will update the host IP with the IP that made the built request"), false, N_('Update IP from built request')),
         self.set('use_shortname_for_vms', N_("Foreman will use the short hostname instead of the FQDN for creating new virtual machines"), false, N_('Use short name for VMs')),
         self.set('dns_conflict_timeout', N_("Timeout for DNS conflict validation (in seconds)"), 3, N_('DNS conflict timeout')),
+        self.set('safemode_extra_variables', N_("Extra variables allowed in safe mode"), '', N_('Safemode extra variables')),
+        self.set('safemode_extra_helpers', N_("Extra helpers allowed in safe mode"), '', N_('Safemode extra helpers')),
       ].each { |s| self.create! s.update(:category => "Setting::Provisioning")}
     end
 
