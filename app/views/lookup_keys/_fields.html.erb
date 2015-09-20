@@ -1,7 +1,7 @@
 <div id='<%= (f.object.key || 'new_lookup_keys').to_s.gsub(' ', '_') + '_' + f.object.id.to_s %>' class='tab-pane fields'>
   <% is_param = f.object.puppet? %>
 
-  <%= remove_child_link(_("Remove %s?") % (f.object.new_record? ? _("Variable") : f.object), f, { :class => 'btn btn-danger hide' }) unless controller_name == "variable_lookup_keys" ||  "puppetclass_lookup_keys" %>
+  <%= remove_child_link(_("Remove %s?") % (f.object.new_record? ? _("Variable") : f.object), f, { :class => 'btn btn-danger hide' }) if controller_name ==  "puppetclasses" && !is_param %>
   <fieldset>
     <legend><%= _("Parameter details") %></legend>
     <%= text_f f, :key, :disabled => is_param, :size => "col-md-8" %>
