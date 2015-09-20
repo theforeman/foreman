@@ -3,10 +3,10 @@
   <table class="table-condensed">
     <tbody>
       <tr class="form-group <%= 'has-error' if f.object.errors.any? %>">
-        <td class="col-md-4">
+        <td class="col-md-3">
           <%= f.text_field(:name,  :class => "form-control", :disabled => disabled, :placeholder => _("Name")) %>
         </td>
-        <td class="col-md-6 value">
+        <td class="col-md-8 value">
           <div class="input-group col-md-12">
             <% if f.object.hidden_value? %>
               <%= f.password_field(:value, :class => 'form-control',
@@ -22,7 +22,7 @@
             <%= fullscreen_input %>
           </div>
         </td>
-        <td class="col-md-2">
+        <td>
           <%= f.check_box(:hidden_value,
                     :class => 'hidden_value_textarea_switch',
                     :onchange => 'turn_textarea_switch(this)',

@@ -2,8 +2,9 @@
   <table class="table">
     <thead>
       <tr>
-        <th class='col-md-4'><%= _("Name") %></th>
+        <th class='col-md-3'><%= _("Name") %></th>
         <th class='col-md-8'><%= _("Value") %></th>
+        <th></th>
       </tr>
     </thead>
     <% @hostgroup.ancestors.map(&:group_parameters).flatten.each_with_index do |parameter, i|  %>
