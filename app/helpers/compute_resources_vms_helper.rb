@@ -142,4 +142,9 @@ module ComputeResourcesVmsHelper
   def new_host?(host)
     host.try(:new_record?)
   end
+
+  def vsphere_resource_pools(form, compute_resource)
+    resource_pools = compute_resource.available_resource_pools(:cluster_id => form.object.cluster) rescue []
+    selectable_f form, :resource_pool, resource_pools, { }, :class => "col-md-2", :label => _('Resource pool')
+  end
 end

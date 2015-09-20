@@ -1,6 +1,6 @@
 class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  AJAX_REQUESTS = [:template_selected, :cluster_selected]
+  AJAX_REQUESTS = [:template_selected, :cluster_selected, :resource_pools]
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_resource, :only => [:show, :edit, :associate, :update, :destroy, :ping] + AJAX_REQUESTS
 
@@ -111,13 +111,21 @@ class ComputeResourcesController < ApplicationController
     end
   end
 
+  def resource_pools
+    return head(:method_not_allowed) unless @compute_resource.is_a? Foreman::Model::Vmware
+    pools = @compute_resource.available_resource_pools(:cluster_id => params[:cluster_id])
+    respond_to do |format|
+      format.json { render :json => pools }
+    end
+  end
+
   private
 
   def action_permission
     case params[:action]
       when 'associate'
         'edit'
-      when 'ping', 'template_selected', 'cluster_selected'
+      when 'ping', 'template_selected', 'cluster_selected', 'resource_pools'
         'view'
       else
         super
