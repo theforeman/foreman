@@ -164,6 +164,36 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     end
   end
 
+  context 'vmware' do
+    setup do
+      @compute_resource = compute_resources(:vmware)
+      Fog.mock!
+    end
+
+    teardown do
+      Fog.unmock!
+    end
+
+    test 'resource_pools' do
+      resource_pools = ['swimming-pool', 'fishing-pool']
+      Foreman::Model::Vmware.any_instance.stubs(:resource_pools).returns(resource_pools)
+      xhr :get, :resource_pools, {:id => @compute_resource, :cluster_id => 'my_cluster'}, set_session_user
+      assert_response :success
+      assert_equal(resource_pools, JSON.parse(response.body))
+    end
+
+    test 'resource_pools for non-vmware compute resource should return not allowed' do
+      compute_resource = compute_resources(:mycompute)
+      xhr :get, :resource_pools, {:id => compute_resource, :cluster_id => 'my_cluster'}, set_session_user
+      assert_response :method_not_allowed
+    end
+
+    test 'resource_pools should respond only to ajax call' do
+      get :resource_pools, {:id => @compute_resource, :cluster_id => 'my_cluster'}, set_session_user
+      assert_response :method_not_allowed
+    end
+  end
+
   def set_session_user
     User.current = users(:admin) unless User.current
     SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}

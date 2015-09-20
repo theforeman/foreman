@@ -365,6 +365,7 @@ module Foreman::Model
         "numCPUs" => args[:cpus],
         "memoryMB" => args[:memory_mb],
         "datastore" => args[:volumes].first[:datastore],
+        "resource_pool" => [args[:cluster], args[:resource_pool]],
       }
 
       vm_model = new_vm(raw_args)

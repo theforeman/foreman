@@ -1,13 +1,18 @@
-<%= text_f f, :name, :label => _('Name'), :label_size => "col-md-3", :disabled => !new_host if show_vm_name? %>
-<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('CPUs'), :label_size => "col-md-3" %>
-<%= selectable_f f, :corespersocket, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('Cores per socket'), :label_size => "col-md-3" %>
-<%= text_f f, :memory_mb, :class => "col-md-2", :disabled => !new_host, :label => _("Memory (MB)"), :label_size => "col-md-3" %>
-<%= selectable_f f, :cluster, compute_resource.clusters, { }, :class => "col-md-2", :disabled => !new_host, :label => _('Cluster'), :label_size => "col-md-3" %>
-<%# selectable_f f, :resource_pool, compute_resource.resource_pools, { }, :class => "col-md-2", :disabled => !new_host %>
-<%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :label_size => "col-md-3", :class => "col-md-2", :disabled => !new_host } %>
-<%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :label_size => "col-md-3", :class => "col-md-2", :disabled => !new_host } %>
-<%= select_f f, :scsi_controller_type, compute_resource.scsi_controller_types, :first, :last, {}, { :label => _("SCSI controller"), :label_size => "col-md-3", :class => "col-md-2", :disabled => !new_host } %>
-<%= select_f f, :hardware_version, compute_resource.vm_hw_versions, :first, :last, {}, { :label => _("Virtual H/W version"), :label_size => "col-md-3", :class => "col-md-2", :disabled => !new_host } %>
+<%= javascript 'compute_resource' %>
+<%= text_f f, :name, :label => _('Name'), :disabled => !new_host if show_vm_name? %>
+<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('CPUs') %>
+<%= selectable_f f, :corespersocket, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('Cores per socket') %>
+<%= text_f f, :memory_mb, :class => "col-md-2", :disabled => !new_host, :label => _("Memory (MB)") %>
+<%= selectable_f f, :cluster, compute_resource.clusters, { :include_blank => _('Please select a cluster') },
+                    :class => "col-md-2", :disabled => !new_host,
+                    :label => _('Cluster'), :onchange => 'vsphereGetResourcePools(this)',
+                    :help_inline => :indicator,
+                    :data => {:url => resource_pools_compute_resource_path(compute_resource)} %>
+<%= vsphere_resource_pools(f, compute_resource)%>
+<%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :class => "col-md-2", :disabled => !new_host } %>
+<%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new_host } %>
+<%= select_f f, :scsi_controller_type, compute_resource.scsi_controller_types, :first, :last, {}, { :label => _("SCSI controller"), :class => "col-md-2", :disabled => !new_host } %>
+<%= select_f f, :hardware_version, compute_resource.vm_hw_versions, :first, :last, {}, { :label => _("Virtual H/W version"), :class => "col-md-2", :disabled => !new_host } %>
 
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
