@@ -4,9 +4,9 @@ $(document).on("ContentLoad", function() {
   select_first_tab();
   $(document).on('click', '.nav-tabs a[data-toggle="tab"]', function(){select_first_tab();});
   // expend inner form fields
-  $('.tabs-left .col-md-4').removeClass('col-md-4').addClass('col-md-8')
+  $('.tabs-left .col-md-4').removeClass('col-md-4').addClass('col-md-8');
   //remove variable click event
-  $(document).on('click', '.smart-var-tabs li a span', function(){ remove_node(this);});
+  $(document).on('click', '.smart-var-tabs .close', function(){ remove_node(this);});
   fill_in_matchers();
   $('.matchers').parents('form').on('submit', function(){
     build_match();
@@ -51,7 +51,6 @@ function fix_template_context(content, context) {
   return content;
 }
 
-
 function fix_template_names(content, assoc, new_id) {
   var regexp  = new RegExp('new_' + assoc, 'g');
   return content.replace(regexp, "new_" + new_id);
@@ -86,7 +85,7 @@ function add_child_node(item) {
     $(item).closest("form").trigger({type: 'nested:fieldAdded', field: field});
     $('a[rel="popover"]').popover();
     $('a[rel="twipsy"]').tooltip();
-    $(field).find('select:not(.matcher_key)').select2()
+    $(field).find('select:not(.matcher_key)').select2();
     return new_id;
 }
 
@@ -98,7 +97,7 @@ function remove_child_node(item) {
 
   $(item).closest('.fields').hide();
   if($(item).parent().hasClass('fields')) {
-    var pill_id = '#pill_' + $(item).closest('.fields')[0].id
+    var pill_id = '#pill_' + $(item).closest('.fields')[0].id;
     var pill = $(pill_id);
     var undo_link = $("<a href='#'>" +pill.html()+"</a>").attr("data-pill", pill_id);
 
