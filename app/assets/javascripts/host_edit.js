@@ -409,9 +409,9 @@ function override_param(item){
   var v = param_value.val();
 
   $('#parameters').find('.btn-success').click();
-  var new_param = param.closest('.tab-pane').find('td.col-md-6 [id*=host_host_parameters]:visible').parent().parent().last();
+  var new_param = $('#parameters').find('.fields').last();
   new_param.find('[id$=_name]').val(n);
-  new_param.find('td.col-md-6 [id$=_value]').val(v == param_value.data('hidden-value') ? '' : v);
+  new_param.find('[id$=_value]').val(v == param_value.data('hidden-value') ? '' : v);
   mark_params_override();
 }
 
