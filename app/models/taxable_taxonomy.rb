@@ -6,7 +6,7 @@ class TaxableTaxonomy < ActiveRecord::Base
 
   scope :without, lambda{ |types|
     if types.empty?
-      {}
+      where({})
     else
       where(["taxable_taxonomies.taxable_type NOT IN (?)",types])
     end

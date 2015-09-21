@@ -9,11 +9,11 @@ class SettingsController < ApplicationController
   end
 
   def index
-    @settings = Setting.live_descendants.search_for(params[:search])
+    @settings = Setting.live_descendants.search_for(params[:search]).all
   end
 
   def update
-    @setting = Setting.find(params[:id])
+    @setting = Setting.friendly.find(params[:id])
     if @setting.parse_string_value(params[:setting][:value]) && @setting.save
       render :json => @setting
     else

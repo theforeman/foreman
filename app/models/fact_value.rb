@@ -17,17 +17,18 @@ class FactValue < ActiveRecord::Base
   scoped_search :in => :fact_name, :on => :short_name, :complete_value => true, :alias => "fact_short_name"
 
   scope :no_timestamp_facts, lambda {
-    includes(:fact_name).where("fact_names.name <> ?",:_timestamp)
+    includes(:fact_name).where("fact_names.name <> ?",:_timestamp).references(:fact_names)
   }
   scope :timestamp_facts, lambda {
-    joins(:fact_name).where("fact_names.name = ?",:_timestamp)
+    joins(:fact_name).where("fact_names.name = ?",:_timestamp).references(:fact_names)
   }
   scope :my_facts, lambda {
     if !User.current.admin? || Organization.expand(Organization.current).present? || Location.expand(Location.current).present?
-      joins_authorized(Host, :view_hosts, :where => Host.taxonomy_conditions)
+      joins_authorized(Host, :view_hosts)
     end
   }
 
+  scope :distinct_value, -> { select('DISTINCT fact_values.value') }
   scope :required_fields, -> { includes(:host, :fact_name) }
   scope :facts_counter, ->(value, name_id) { where(:value => value, :fact_name_id => name_id) }
   scope :with_fact_parent_id, ->(find_ids) { joins(:fact_name).merge FactName.with_parent_id(find_ids) }

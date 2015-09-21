@@ -7,7 +7,7 @@ module CounterCacheFix
   extend ActiveSupport::Concern
 
   included do
-    after_commit :update_counter_caches
+    #after_commit :update_counter_caches
 
     def update_counter_caches
       self.changes.each do |key, (old_value, new_value)|

@@ -245,27 +245,27 @@ Return the host's compute attributes that can be used to create a clone of this 
         merge.run(host.interfaces, host.compute_resource.try(:compute_profile_for, host.compute_profile_id))
       end
 
-      def host_attributes(params, host = nil)
-        return {} if params.nil?
+      def host_attributes(parameters, host = nil)
+        return {} if parameters.nil?
 
-        params = params.deep_clone
-        if params[:interfaces_attributes]
+        parameters = parameters.deep_clone
+        if parameters[:interfaces_attributes]
           # handle both hash and array styles of nested attributes
-          if params[:interfaces_attributes].is_a? Hash
-            params[:interfaces_attributes] = params[:interfaces_attributes].values
+          if params[:host][:interfaces_attributes].is_a? Hash
+            parameters[:interfaces_attributes] = params[:host][:interfaces_attributes].values
           end
           # map interface types
-          params[:interfaces_attributes] = params[:interfaces_attributes].map do |nic_attr|
+          parameters[:interfaces_attributes] = parameters[:interfaces_attributes].map do |nic_attr|
             interface_attributes(nic_attr)
           end
         end
-        params = host.apply_inherited_attributes(params) if host
-        params
+        parameters = host.apply_inherited_attributes(parameters) if host
+        parameters
       end
 
-      def interface_attributes(params)
-        params[:type] = InterfaceTypeMapper.map(params[:type])
-        params
+      def interface_attributes(parameters)
+        parameters[:type] = InterfaceTypeMapper.map(parameters[:type])
+        parameters
       end
 
       def action_permission

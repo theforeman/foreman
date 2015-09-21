@@ -1,7 +1,5 @@
 class ComputeProfile < ActiveRecord::Base
   include Authorizable
-  extend FriendlyId
-  friendly_id :name
   include Parameterizable::ByIdName
 
   validates_lengths_from_database
@@ -20,5 +18,5 @@ class ComputeProfile < ActiveRecord::Base
   scoped_search :on => :name, :complete_value => true
   default_scope -> { order('compute_profiles.name') }
 
-  scope :visibles, -> { includes(:compute_attributes).where('compute_attributes.id > 0') }
+  scope :visibles, -> { includes(:compute_attributes).where('compute_attributes.id > 0').references(:compute_attributes) }
 end

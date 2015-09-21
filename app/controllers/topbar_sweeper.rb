@@ -17,6 +17,11 @@ class TopbarSweeper < ActionController::Caching::Sweeper
     record.expire_topbar_cache(self)
   end
 
+  if Rails.env.test?
+    def expire_fragment(*args)
+    end
+  end
+
   def self.fragment_name(id = User.current.id)
     "tabs_and_title_records-#{id}"
   end

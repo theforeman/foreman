@@ -35,6 +35,7 @@ module HostCommon
     accepts_nested_attributes_for :lookup_values
 
     before_save :set_lookup_value_matcher
+    after_destroy :destroy_lookup_values
 
     # Replacement of accepts_nested_attributes_for :lookup_values,
     # to work around the lack of `host_id` column in lookup_values.
@@ -53,6 +54,18 @@ module HostCommon
         end
       end
     end
+
+    def destroy_lookup_values
+      lookup_values.destroy_all
+    end
+  end
+
+  def set_lookup_value_matcher
+    self.lookup_value_matcher = lookup_value_match
+  end
+
+  def set_lookup_value_matcher
+    self.lookup_value_matcher = lookup_value_match
   end
 
   # Returns a url pointing to boot file
@@ -126,11 +139,12 @@ module HostCommon
                               end
 
       if is_actually_encrypted
-        self.root_pass =  self.grub_pass = unencrypted_pass
+        self.root_pass = unencrypted_pass
       else
         self.root_pass = operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash)
-        self.grub_pass = PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
       end
+
+      self.grub_pass = !!(is_actually_encrypted) ? unencrypted_pass : PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
     end
   end
 
@@ -200,7 +214,7 @@ module HostCommon
   end
 
   def available_puppetclasses
-    return Puppetclass.scoped if environment_id.blank?
+    return Puppetclass.all if environment_id.blank?
     environment.puppetclasses - parent_classes
   end
 

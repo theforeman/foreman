@@ -15,6 +15,8 @@ module Api
           search_for(*search_options).paginate(paginate_options).
           includes(:fact_name, :host)
         @fact_values = FactValue.build_facts_hash(values.all)
+          includes(:fact_name, :host).to_a
+        @fact_values = FactValue.build_facts_hash(values)
       end
     end
   end

@@ -1,7 +1,5 @@
 class Architecture < ActiveRecord::Base
   include Authorizable
-  extend FriendlyId
-  friendly_id :name
   include Parameterizable::ByIdName
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)

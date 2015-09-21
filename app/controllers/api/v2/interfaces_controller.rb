@@ -6,6 +6,8 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
+      LEGACY_TYPE_NAMES = Nic::Base.allowed_types.map{ |t| t.name }
+
       before_filter :find_required_nested_object, :only => [:index, :show, :create, :destroy]
       before_filter :find_resource, :only => [:show, :update, :destroy]
       before_filter :convert_type, :only => [:create, :update]
@@ -104,6 +106,10 @@ module Api
         params[:interface][:type] = InterfaceTypeMapper.map(params[:interface][:type])
       rescue InterfaceTypeMapper::UnknownTypeExeption => e
         render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.to_s }
+      end
+
+      def allowed_type_names
+        Nic::Base.allowed_types.map{ |t| t.humanized_name.downcase }
       end
     end
   end
