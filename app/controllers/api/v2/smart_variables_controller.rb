@@ -34,6 +34,7 @@ module Api
           param :validator_rule, String, :desc => N_("Used to enforce certain values for the parameter values")
           param :variable_type, LookupKey::KEY_TYPES, :desc => N_("Types of variable values")
           param :merge_overrides, :bool, :desc => N_("Merge all matching values (only array/hash type)")
+          param :merge_default, :bool, :desc => N_("Include default value when merging all matching values")
           param :avoid_duplicates, :bool, :desc => N_("Remove duplicate values (only array type)")
         end
       end

@@ -11,7 +11,7 @@ class MailNotification < ActiveRecord::Base
   scoped_search :on => :description, :complete_value => true
   scoped_search :in => :users, :on => :login, :complete_value => true, :rename => :user
 
-  scope :subscriptable, lambda { where(:subscriptable => true) }
+  scope :subscriptable, -> { where(:subscriptable => true) }
 
   validates :name, :presence => true, :uniqueness => true
   validates :subscription_type, :inclusion => { :in => SUBSCRIPTION_TYPES }, :allow_blank => true
@@ -19,9 +19,7 @@ class MailNotification < ActiveRecord::Base
   validates :method, :presence => true
   alias_attribute :mailer_method, :method
 
-  default_scope lambda {
-    order("mail_notifications.name")
-  }
+  default_scope -> { order("mail_notifications.name") }
 
   # Easy way to reference the notification to support something like:
   #   MailNotification[:some_error_notification].deliver(options)

@@ -5,6 +5,7 @@ class HostgroupsController < ApplicationController
   before_filter :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy]
   before_filter :ajax_request,   :only => [:process_hostgroup, :current_parameters, :puppetclass_parameters]
   before_filter :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
+  before_filter :update_parent_params!, :only => [:update, :create]
 
   def index
     @hostgroups = resource_base.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
@@ -40,7 +41,7 @@ class HostgroupsController < ApplicationController
   def create
     @hostgroup = Hostgroup.new(foreman_params)
     if @hostgroup.save
-      process_success
+      process_success :success_redirect => hostgroups_path
     else
       load_vars_for_ajax
       process_error
@@ -52,13 +53,10 @@ class HostgroupsController < ApplicationController
   end
 
   def update
-    if params[:hostgroup][:group_parameters_attributes].present?
-      params[:hostgroup][:group_parameters_attributes].merge(parse_parent_params(params.select { |k| k.match(/parent.*/) } ))
-    end
     # remove from hash :root_pass if blank?
     params[:hostgroup].except!(:root_pass) if params[:hostgroup][:root_pass].blank?
     if @hostgroup.update_attributes(foreman_params)
-      process_success
+      process_success :success_redirect => hostgroups_path
     else
       taxonomy_scope
       load_vars_for_ajax
@@ -69,7 +67,7 @@ class HostgroupsController < ApplicationController
   def destroy
     begin
       if @hostgroup.destroy
-        process_success
+        process_success :success_redirect => hostgroups_path
       else
         load_vars_for_ajax
         process_error
@@ -88,9 +86,10 @@ class HostgroupsController < ApplicationController
   end
 
   def puppetclass_parameters
+    @obj = params[:hostgroup][:id].empty? ? Hostgroup.new(params[:hostgroup]) : Hostgroup.find(params[:hostgroup_id])
     Taxonomy.as_taxonomy @organization, @location do
       render :partial => "puppetclasses/classes_parameters",
-             :locals => { :obj => Hostgroup.find(params['hostgroup_id']) }
+             :locals => { :obj => @obj }
     end
   end
 
@@ -99,6 +98,7 @@ class HostgroupsController < ApplicationController
 
     @hostgroup ||= Hostgroup.new
     @hostgroup.environment = @environment if @environment
+    @hostgroup.puppetclasses = Puppetclass.where(:id => params[:hostgroup][:puppetclass_ids])
     render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@hostgroup), :type => 'hostgroup'}
   end
 
@@ -140,16 +140,29 @@ class HostgroupsController < ApplicationController
   end
 
   def parse_parent_params(parameters)
-    parameters.reject! { |k, v| v.empty? }
     parameter_keys   = parameters.select { |p| p.match(/key/) }.values
     parameter_values = parameters.select { |p| p.match(/value/) }.values
     parameters = {}
+    parameters_hash = parameter_keys.zip(parameter_values).reject{|k, v| v.blank?}
 
-    parameter_keys.zip(parameter_values).each do |key, value|
-      id = GroupParameter.last.id + 1
-      parameters[id] = { 'name' => key, 'value' => value }
+    parameters_hash.each_with_index do |val, i|
+      key, value = val[0], val[1]
+      id = GroupParameter.last.id + 1 + i
+      parameters[id] = { 'name' => key, 'value' => value } if value.present?
     end
     parameters
+  end
+
+  def update_parent_params!
+    parent_params = parse_parent_params(params.select { |k| k.match(/parent.*/) } )
+    if params[:hostgroup] && (params[:hostgroup][:group_parameters_attributes].present? || parent_params.present?)
+      params[:hostgroup][:group_parameters_attributes] ||= []
+      if params[:hostgroup][:group_parameters_attributes].is_a?(Array)
+        params[:hostgroup][:group_parameters_attributes] += parent_params.values
+      else
+        params[:hostgroup][:group_parameters_attributes].merge!(parent_params)
+      end
+    end
   end
 
   def define_parent

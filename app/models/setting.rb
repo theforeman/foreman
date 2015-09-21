@@ -44,10 +44,10 @@ class Setting < ActiveRecord::Base
   before_save :clear_cache
   validate :validate_frozen_attributes
   after_find :readonly_when_overridden_in_SETTINGS
-  default_scope lambda { order(:name) }
+  default_scope -> { order(:name) }
 
   # The DB may contain settings from disabled plugins - filter them out here
-  scope :live_descendants, lambda { where(:category => self.descendants.map(&:to_s)) unless Rails.env.development? }
+  scope :live_descendants, -> { where(:category => self.descendants.map(&:to_s)) unless Rails.env.development? }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :description, :complete_value => :true
@@ -121,7 +121,7 @@ class Setting < ActiveRecord::Base
       self.value = boolean
 
     when "integer"
-      if val =~ /\A\d+\Z/
+      if val.to_s =~ /\A\d+\Z/
         self.value = val.to_i
       else
         invalid_value_error _("must be integer")

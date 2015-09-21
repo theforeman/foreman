@@ -180,6 +180,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show specific status hosts" do
+    get :get_status, { :id => @host.to_param, :type => 'global' }
+    assert_response :success
+  end
+
   test "should be able to create hosts even when restricted" do
     disable_orchestration
     assert_difference('Host.count') do
@@ -299,6 +304,20 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     ProxyAPI::Puppet.any_instance.stubs(:run).returns(true)
     put :puppetrun, { :id => @phost.to_param }
     assert_response :success
+  end
+
+  def test_rebuild_config_optimistic
+    Host.any_instance.expects(:recreate_config).returns({ "TFTP" => true, "DNS" => true, "DHCP" => true })
+    host = FactoryGirl.create(:host)
+    post :rebuild_config, { :id => host.to_param }, set_session_user
+    assert_response :success
+  end
+
+  def test_rebuild_config_pessimistic
+    Host.any_instance.expects(:recreate_config).returns({ "TFTP" => false, "DNS" => false, "DHCP" => false })
+    host = FactoryGirl.create(:host)
+    post :rebuild_config, { :id => host.to_param }, set_session_user
+    assert_response 422
   end
 
   def test_create_valid_node_from_json_facts_object_without_certname

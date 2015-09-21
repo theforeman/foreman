@@ -1,5 +1,4 @@
 class Host::Managed < Host::Base
-  include ReportCommon
   include Hostext::Search
   PROVISION_METHODS = %w[build image]
 
@@ -7,6 +6,7 @@ class Host::Managed < Host::Base
   has_many :puppetclasses, :through => :host_classes, :dependent => :destroy
   belongs_to :hostgroup
   has_many :reports, :foreign_key => :host_id
+  has_one :last_report_object, :foreign_key => :host_id, :order => "#{Report.table_name}.id DESC", :class_name => 'Report'
   has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :host
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "HostParameter"
   accepts_nested_attributes_for :host_parameters, :allow_destroy => true
@@ -14,6 +14,9 @@ class Host::Managed < Host::Base
   belongs_to :owner, :polymorphic => true
   belongs_to :compute_resource
   belongs_to :image
+  has_many :host_statuses, :class_name => 'HostStatus::Status', :foreign_key => 'host_id', :inverse_of => :host,
+           :dependent => :destroy
+  has_one :configuration_status_object, :class_name => 'HostStatus::ConfigurationStatus', :foreign_key => 'host_id'
 
   has_one :token, :foreign_key => :host_id, :dependent => :destroy
   before_destroy :remove_reports
@@ -32,6 +35,8 @@ class Host::Managed < Host::Base
   # Define custom hook that can be called in model by magic methods (before, after, around)
   define_model_callbacks :build, :only => :after
   define_model_callbacks :provision, :only => :before
+
+  before_validation :refresh_build_status, :if => :build_changed?
 
   # Custom hooks will be executed after_commit
   after_commit :build_hooks
@@ -71,36 +76,67 @@ class Host::Managed < Host::Base
 
   attr_reader :cached_host_params
 
-  scope :recent,      lambda { |*args| where(["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]) }
-  scope :out_of_sync, lambda { |*args| where(["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]) }
-  scope :with_os, lambda { where('hosts.operatingsystem_id IS NOT NULL') }
+  scope :recent,      ->(*args) { where(["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]) }
+  scope :out_of_sync, ->(*args) { where(["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]) }
 
-  scope :with_error, lambda { where("(puppet_status > 0) and
-   ( ((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) != 0) or
-    ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) != 0) )")
+  scope :with_os, -> { where('hosts.operatingsystem_id IS NOT NULL') }
+
+  scope :with_status, lambda { |status_type|
+    includes(:host_statuses).where("host_status.type = '#{status_type}'")
   }
 
-  scope :without_error, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("failed")} & #{MAX}) = 0) and
-     ((puppet_status >> #{BIT_NUM*METRIC.index("failed_restarts")} & #{MAX}) = 0)")
+  scope :with_config_status, lambda {
+    with_status('HostStatus::ConfigurationStatus')
   }
 
-  scope :with_changes, lambda { where("(puppet_status > 0) and
-    ( ((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) != 0) or
-    ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) != 0) )")
+  # search for a metric - e.g.:
+  # Host::Managed.with("failed") --> all reports which have a failed counter > 0
+  # Host::Managed.with("failed",20) --> all reports which have a failed counter > 20
+  scope :with, lambda { |*arg|
+    with_config_status.where("(host_status.status >> #{HostStatus::ConfigurationStatus.bit_mask(arg[0].to_s)}) > #{arg[1] || 0}")
   }
 
-  scope :without_changes, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("applied")} & #{MAX}) = 0) and
-     ((puppet_status >> #{BIT_NUM*METRIC.index("restarted")} & #{MAX}) = 0)")
+  scope :with_error, lambda {
+    with_config_status.where("(host_status.status > 0) and (
+      #{HostStatus::ConfigurationStatus.is('failed')} or
+      #{HostStatus::ConfigurationStatus.is('failed_restarts')}
+    )").joins(:host_statuses).references(:host_status)
   }
 
-  scope :with_pending_changes, lambda { where("(puppet_status > 0) and ((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) != 0)") }
-  scope :without_pending_changes, lambda { where("((puppet_status >> #{BIT_NUM*METRIC.index("pending")} & #{MAX}) = 0)") }
+  scope :without_error, lambda {
+    with_config_status.where("
+      #{HostStatus::ConfigurationStatus.is_not('failed')} and
+      #{HostStatus::ConfigurationStatus.is_not('failed_restarts')}
+    ").joins(:host_statuses).references(:host_status)
+  }
 
-  scope :successful, lambda { without_changes.without_error.without_pending_changes}
+  scope :with_changes, lambda {
+    with_config_status.where("(host_status.status > 0) and (
+      #{HostStatus::ConfigurationStatus.is('applied')} or
+      #{HostStatus::ConfigurationStatus.is('restarted')}
+    )").joins(:host_statuses).references(:host_status)
+  }
 
-  scope :alerts_disabled, lambda { where(:enabled => false) }
+  scope :without_changes, lambda {
+    with_config_status.where("
+      #{HostStatus::ConfigurationStatus.is_not('applied')} and
+      #{HostStatus::ConfigurationStatus.is_not('restarted')}
+    ").joins(:host_statuses).references(:host_status)
+  }
 
-  scope :alerts_enabled, lambda { where(:enabled => true) }
+  scope :with_pending_changes, lambda {
+    with_config_status.where("(host_status.status > 0) AND (#{HostStatus::ConfigurationStatus.is('pending')})").joins(:host_statuses).references(:host_status)
+  }
+
+  scope :without_pending_changes, lambda {
+    with_config_status.where("#{HostStatus::ConfigurationStatus.is_not('pending')}").joins(:host_statuses).references(:host_status)
+  }
+
+  scope :successful, -> { without_changes.without_error.without_pending_changes}
+
+  scope :alerts_disabled, -> { where(:enabled => false) }
+
+  scope :alerts_enabled, -> { where(:enabled => true) }
 
   scope :run_distribution, lambda { |fromtime,totime|
     if fromtime.nil? or totime.nil?
@@ -110,12 +146,12 @@ class Host::Managed < Host::Base
     end
   }
 
-  scope :for_token, lambda { |token| joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
+  scope :for_token, ->(token) { joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
 
-  scope :for_vm, lambda { |cr,vm| where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity)) }
+  scope :for_vm, ->(cr,vm) { where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity)) }
 
   # audit the changes to this model
-  audited :except => [:last_report, :puppet_status, :last_compile], :allow_mass_assignment => true
+  audited :except => [:last_report, :puppet_status, :last_compile, :lookup_value_matcher], :allow_mass_assignment => true
   has_associated_audits
 
   # some shortcuts
@@ -322,6 +358,11 @@ class Host::Managed < Host::Base
     not enabled?
   end
 
+  # Determine if host is setup for configuration
+  def configuration?
+    puppet_proxy_id.present?
+  end
+
   # the environment used by #clases nees to be self.environment and not self.parent.environment
   def parent_classes
     return [] unless hostgroup
@@ -404,17 +445,19 @@ class Host::Managed < Host::Base
 
   def host_inherited_params(include_source = false)
     hp = {}
-    # read common parameters
-    CommonParameter.all.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('common').to_sym, :safe_value => p.safe_value} : p.value] }
-    # read organization and location parameters
-    hp.update organization.parameters(include_source) if SETTINGS[:organizations_enabled] && organization
-    hp.update location.parameters(include_source)     if SETTINGS[:locations_enabled] && location
-    # read domain parameters
-    domain.domain_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('domain').to_sym, :safe_value => p.safe_value, :source_name => domain.name} : p.value] } unless domain.nil?
-    # read OS parameters
-    operatingsystem.os_parameters.each {|p| hp.update Hash[p.name => include_source ? {:value => p.value, :source => N_('os').to_sym, :safe_value => p.safe_value, :source_name => operatingsystem.to_label} : p.value] } unless operatingsystem.nil?
-    # read group parameters only if a host belongs to a group
-    hp.update hostgroup.parameters(include_source) if hostgroup
+    params = host_inherited_params_objects
+    params.each do |param|
+      case param
+        when CommonParameter
+          hp.update(Hash[param.name => include_source ? {:value => param.value, :source => N_('common').to_sym, :safe_value => param.safe_value} : param.value])
+        when GroupParameter
+          hp.update(Hash[param.name => include_source ? {:value => param.value, :source => N_('hostgroup').to_sym, :safe_value => param.safe_value, :source_name => hostgroup.title} : param.value])
+        else
+          source = param.class.to_s.gsub('Parameter', '').downcase
+          source = 'operatingsystem' if source == 'os'
+          hp.update(Hash[param.name => include_source ? {:value => param.value, :source => N_(source).to_sym, :safe_value => param.safe_value, :source_name => param.send(source).to_label} : param.value])
+      end
+    end
     hp
   end
 
@@ -424,6 +467,22 @@ class Host::Managed < Host::Base
     # and now read host parameters, override if required
     host_parameters.each {|p| hp.update Hash[p.name => p.value] }
     @cached_host_params = hp
+  end
+
+  def host_inherited_params_objects
+    params = CommonParameter.all
+    if SETTINGS[:organizations_enabled] && organization
+      params += extract_params_from_object_ancestors(organization)
+    end
+
+    if SETTINGS[:locations_enabled] && location
+      params += extract_params_from_object_ancestors(location)
+    end
+
+    params += domain.domain_parameters if domain
+    params += operatingsystem.os_parameters if operatingsystem
+    params += extract_params_from_object_ancestors(hostgroup) if hostgroup
+    params
   end
 
   # JSON is auto-parsed by the API, so these should be in the right format
@@ -672,7 +731,7 @@ class Host::Managed < Host::Base
 
   def clone
     # do not copy system specific attributes
-    host = self.deep_clone(:include => [:host_config_groups, :host_classes, :host_parameters],
+    host = self.deep_clone(:include => [:config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values],
                            :except  => [:name, :uuid, :certname, :last_report])
     self.interfaces.each do |nic|
       host.interfaces << nic.clone
@@ -680,7 +739,7 @@ class Host::Managed < Host::Base
     if self.compute_resource
       host.compute_attributes = host.compute_resource.vm_compute_attributes_for(self.uuid)
     end
-    host.puppet_status = 0
+    host.refresh_global_status
     host
   end
 
@@ -710,26 +769,6 @@ class Host::Managed < Host::Base
 
   def vm_compute_attributes
     compute_resource ? compute_resource.vm_compute_attributes_for(uuid) : nil
-  end
-
-  def host_status
-    if build
-      N_("Pending Installation")
-    elsif respond_to?(:enabled) && !enabled
-      N_("Alerts disabled")
-    elsif respond_to?(:last_report) && last_report.nil?
-      N_("No reports")
-    elsif no_report
-      N_("Out of sync")
-    elsif error?
-      N_("Error")
-    elsif changes?
-      N_("Active")
-    elsif pending?
-      N_("Pending")
-    else
-      N_("No changes")
-    end
   end
 
   def smart_proxies
@@ -833,7 +872,7 @@ class Host::Managed < Host::Base
     unattended_render(template)
   end
 
-  def build_status
+  def build_status_checker
     build_status = HostBuildStatus.new(self)
     build_status.check_all_statuses
     build_status
@@ -844,6 +883,75 @@ class Host::Managed < Host::Base
   def setup_clone
     return if new_record?
     @old = super { |clone| clone.interfaces = self.interfaces.map {|i| setup_object_clone(i) } }
+  end
+
+  def refresh_global_status
+    self.global_status = build_global_status.status
+  end
+
+  def refresh_statuses
+    HostStatus.status_registry.each do |status_class|
+      status = get_status(status_class)
+      status.refresh! if status.relevant?
+    end
+    host_statuses.reload
+    refresh_global_status
+  end
+
+  def get_status(type)
+    status = self.new_record? ? host_statuses.detect { |s| s.type == type.to_s } : host_statuses.find_by_type(type.to_s)
+    if status.nil?
+      host_statuses.new(:host => self, :type => type.to_s)
+    else
+      status
+    end
+  end
+
+  def build_global_status(options = {})
+    HostStatus::Global.build(host_statuses, options)
+  end
+
+  def global_status_label(options = {})
+    HostStatus::Global.build(host_statuses, options).to_label
+  end
+
+  def configuration_status(options = {})
+    @configuration_status ||= get_status(HostStatus::ConfigurationStatus).to_status(options)
+  end
+
+  def configuration_status_label(options = {})
+    @configuration_status_label ||= get_status(HostStatus::ConfigurationStatus).to_label(options)
+  end
+
+  def puppet_status
+    Foreman::Deprecation.deprecation_warning('1.12', 'Host#puppet_status has been deprecated, you should use configuration_status')
+    configuration_status
+  end
+
+  def build_status(options = {})
+    @build_status ||= get_status(HostStatus::BuildStatus).to_status(options)
+  end
+
+  def build_status_label(options = {})
+    @build_status_label ||= get_status(HostStatus::BuildStatus).to_label(options)
+  end
+  # rebuilds orchestration configuration for a host
+  # takes all the methods from Orchestration modules that are registered for configuration rebuild
+  # returns  : Hash with 'true' if rebuild was a success for a given key (Example: {"TFTP" => true, "DNS" => false})
+  def recreate_config
+    result = {}
+    Nic::Managed.rebuild_methods.map do |method, pretty_name|
+      interfaces.map do |interface|
+        value = interface.send method
+        result[pretty_name] = value if !result.has_key?(pretty_name) || (result[pretty_name] && !value)
+      end
+    end
+
+    self.class.rebuild_methods.map do |method, pretty_name|
+      raise ::Foreman::Exception.new(N_("There are orchestration modules with methods for configuration rebuild that have identical name: '%s'") % pretty_name) if result[pretty_name]
+      result[pretty_name] = self.send method
+    end
+    result
   end
 
   # converts a name into ip address using DNS.
@@ -868,7 +976,7 @@ class Host::Managed < Host::Base
   # because the validation happens before transaction is committed, so data are not in DB
   # yet, this is the reason why we "reimplement" uniqueness validation
   def validate_dns_name_uniqueness
-    dups = self.interfaces.group_by { |i| [ i.name, i.domain_id ] }.detect { |dns, nics| dns.first.present? && nics.count > 1 }
+    dups = self.interfaces.select { |i| !i.marked_for_destruction? }.group_by { |i| [ i.name, i.domain_id ] }.detect { |dns, nics| dns.first.present? && nics.count > 1 }
     if dups.present?
       dups.last.first.errors.add(:name, :taken)
       self.errors.add :interfaces, _('Some interfaces are invalid')
@@ -982,5 +1090,17 @@ class Host::Managed < Host::Base
       self.puppetclasses = []
       self.config_groups = []
     end
+  end
+
+  def refresh_build_status
+    self.get_status(HostStatus::BuildStatus).refresh
+  end
+
+  def extract_params_from_object_ancestors(object)
+    params = []
+    object_parameters_symbol = "#{object.class.to_s.downcase}_parameters".to_sym
+    object.class.sort_by_ancestry(object.ancestors).each {|o| params += o.send(object_parameters_symbol)}
+    params += object.send(object_parameters_symbol)
+    params
   end
 end

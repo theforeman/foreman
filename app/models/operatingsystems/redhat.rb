@@ -1,6 +1,10 @@
 class Redhat < Operatingsystem
   PXEFILES = {:kernel => "vmlinuz", :initrd => "initrd.img"}
 
+  class << self
+    delegate :model_name, :to => :superclass
+  end
+
   # outputs kickstart installation medium based on the medium type (NFS or URL)
   # it also convert the $arch string to the current host architecture
   def mediumpath(host)
@@ -42,9 +46,5 @@ class Redhat < Operatingsystem
     s.squeeze! " "
     s.strip!
     s.blank? ? description : s
-  end
-
-  def self.model_name
-    superclass.model_name
   end
 end

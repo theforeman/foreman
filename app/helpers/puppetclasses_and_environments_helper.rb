@@ -35,13 +35,13 @@ module PuppetclassesAndEnvironmentsHelper
       num = hash[key].size
       num_tag = "<span class='label label-info'>#{num}</span>".html_safe
       content_tag(:a, key, { :rel => "popover",
-                             :data => {
-                               "content" => hash[key].sort.join('<br>').html_safe,
-                               "original-title" => n_("%{name} has %{num_tag} class", "%{name} has %{num_tag} classes", num) % {:name => key, :num_tag => num_tag},
-                               "trigger" => "manual",
-                               "toggle" => "popover"
-                             }
-                           })
+                             :data => { :content => hash[key].sort.join('<br>').html_safe,
+                                        :"original-title" => n_("%{name} has %{num_tag} class", "%{name} has %{num_tag} classes", num) % {:name => key, :num_tag => num_tag},
+                                        :trigger => "focus",
+                                        :container => 'body',
+                                        :html => true },
+                             :role => 'button',
+                             :tabindex => '-1' })
     end.to_sentence.html_safe
   end
 end

@@ -25,7 +25,10 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @hosts = resource_scope_for_index
+        @hosts = resource_scope_for_index.includes([ :host_statuses, :compute_resource, :hostgroup, :operatingsystem, :interfaces])
+        # SQL optimizations queries
+        @last_report_ids = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
+        @last_reports = Report.where(:id => @last_report_ids.values)
       end
 
       api :GET, "/hosts/:id/", N_("Show a host")
@@ -110,7 +113,7 @@ module Api
         process_response @host.destroy
       end
 
-      api :GET, "/hosts/:id/status", N_("Get status of host")
+      api :GET, "/hosts/:id/status", N_("Get configuration status of host")
       param :id, :identifier_dottable, :required => true
       description <<-eos
 Return value may either be one of the following:
@@ -124,7 +127,27 @@ Return value may either be one of the following:
       eos
 
       def status
-        render :json => { :status => @host.host_status }.to_json if @host
+        Foreman::Deprecation.api_deprecation_warning('The /status route is deprecated, please use the new /status/configuration instead')
+        render :json => { :status => @host.get_status(HostStatus::ConfigurationStatus).to_label }.to_json if @host
+      end
+
+      api :GET, "/hosts/:id/status/:type", N_("Get status of host")
+      param :id, :identifier_dottable, :required => true
+      param :type, [ HostStatus::Global ] + HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(<<-eos
+status type, can be one of
+* global
+* configuration
+* build
+eos
+)
+      description N_('Returns string representing a host status of a given type')
+      def get_status
+        case params[:type]
+          when 'global'
+            @status = @host.build_global_status
+          else
+            @status = @host.get_status(HostStatus.find_status_by_humanized_name(params[:type]))
+        end
       end
 
       api :GET, "/hosts/:id/vm_compute_attributes", N_("Get vm attributes of host")
@@ -204,6 +227,18 @@ Return the host's compute attributes that can be used to create a clone of this 
         render_message(e.to_s, :status => :unprocessable_entity)
       end
 
+      api :PUT, "/hosts/:id/rebuild_config", N_("Rebuild orchestration config")
+      param :id, :identifier_dottable, :required => true
+      def rebuild_config
+        result = @host.recreate_config
+        failures = result.reject { |key, value| value }.keys.map{ |k| _(k) }
+        if failures.empty?
+          render_message _("Configuration successfully rebuilt."), :status => :ok
+        else
+          render_message (_("Configuration rebuild failed for: %s.") % failures.to_sentence), :status => :unprocessable_entity
+        end
+      end
+
       private
 
       def merge_interfaces(host)
@@ -246,8 +281,10 @@ Return the host's compute attributes that can be used to create a clone of this 
             :console
           when 'disassociate'
             :edit
-          when 'vm_compute_attributes'
+          when 'vm_compute_attributes', 'get_status'
             :view
+          when 'rebuild_config'
+            :build
           else
             super
         end

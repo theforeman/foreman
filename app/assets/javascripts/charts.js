@@ -57,7 +57,18 @@ function resize_label(label){
   label.css('right', labelOffset); //make sure it is centered
 }
 
+function trunc_with_tooltip(val){
+  if (val.length > 10) {
+    var trunced_val = val.substring(0, 10) + "...";
+    val = '<small data-toggle="tooltip" title=' + val + '>' + trunced_val + '</small>';
+  }
+  return val;
+}
+
 function expanded_pie(target, data){
+  var max = {data:0}, sum = 0;
+  var label_exist = false;
+  $(data).each(function(i, el){sum = sum + el.data; if (max.data< el.data) max = el;});
   $.plot(target, data, {
     colors: ['#0099d3', '#393f44','#00618a','#505459','#057d9f','#025167'],
     series: {
@@ -65,21 +76,40 @@ function expanded_pie(target, data){
         show: true,
         innerRadius: 0.8*3/4,
         radius: 0.8,
-        labels: {
-          show:true,
-          radius: 1
+        label: {
+          show: true,
+          radius: 0.001,
+          formatter: function(label, series) {
+            if (label_exist)
+              return '';
+            else{
+              label_exist = true;
+              return '<div id="test"> <div class="percent">' + Math.round(100 * max.data / sum) + '%</div>' + trunc_with_tooltip(max.label);
+            }
+          }
+        },
+        highlight: {
+          opacity: 0.1
         }
       }
     },
     legend: {
-      show: false
+      show: true,
+      container: $(".legend"),
+      labelFormatter: function(label, series) {
+        return trunc_with_tooltip(label)
+      }
     },
     grid: {
       hoverable: true,
       clickable: true
     }
   });
-
+  
+    bind_hover_event(target, function(item){
+      var percent = Math.round(item.series.percent);
+      return item.series.label + ' ('+percent+'%)';
+    });
   target.bind("plotclick", function (event, pos, item) {
     search_on_click(event, item);
   });
@@ -214,21 +244,23 @@ function showTooltip(pos, item, formater) {
     top: pos.pageY - 40,
     left: pos.pageX -10,
     'border-color': item.series.color
-  }).appendTo("body").show();
+  }).appendTo("body").zIndex(5000).show();
 }
 
 $previousPoint=null;
 function bind_hover_event(target, formater){
   $(target).bind("plothover", function (event, pos, item) {
     if (item) {
+      $(target).css('cursor','pointer');
       if ($previousPoint != item.datapoint) {
         $previousPoint = item.datapoint;
         $("#flot-tooltip").remove();
         showTooltip(pos, item, formater);
       }
     } else {
-      $("#flot-tooltip").remove();
-      $previousPoint = null;
+        $(target).css('cursor','default');
+        $("#flot-tooltip").remove();
+        $previousPoint = null;
     }
   });
 }
@@ -264,7 +296,10 @@ function get_pie_chart(div, url) {
   {
     $('body').append('<div id="' + div + '" class="modal fade"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
     $("#"+div+" .modal-content").append('<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title"></h4></div>')
-        .append('<div id="' + div + '-body" class="fact_chart modal-body">' + __('Loading') + ' ...</div>')
+        .append('<div class="container">')
+        .append('<div id="' + div + '-body" class="fact_chart modal-body">' + __('Loading') + ' ... </div>')
+        .append('<div class="legend" ></div>')
+        .append('</div>')
         .append('<div class="modal-footer"></div>');
 
     $("#"+div).modal('show');
@@ -353,6 +388,7 @@ function updateChart(item, status) {
 }
 
 $(function() {
+  $('[data-toggle="tooltip"]').tooltip();
   $(".statistics-pie").flot_pie();
   $(".statistics-bar").flot_bar();
   $(".statistics-chart").flot_chart();

@@ -39,7 +39,7 @@ class ComputeResource < ActiveRecord::Base
   has_many :compute_profiles, :through => :compute_attributes
 
   # The DB may contain compute resource from disabled plugins - filter them out here
-  scope :live_descendants, lambda { where(:type => self.descendants.map(&:to_s)) unless Rails.env.development? }
+  scope :live_descendants, -> { where(:type => self.descendants.map(&:to_s)) unless Rails.env.development? }
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -199,6 +199,10 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
+  def available_zones
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
   def available_images
     []
   end
@@ -215,12 +219,25 @@ class ComputeResource < ActiveRecord::Base
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
+  def available_flavors
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
   def available_resource_pools
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  def available_security_groups
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
   def available_storage_domains(storage_domain = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  # this method is overwritten for Libvirt
+  def editable_network_interfaces?
+    networks.any?
   end
 
   # this method is overwritten for Libvirt and VMware

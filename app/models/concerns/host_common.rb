@@ -30,7 +30,7 @@ module HostCommon
 
     alias_method :all_puppetclasses, :classes
 
-    has_many :lookup_values, :primary_key => :lookup_value_matcher, :foreign_key => :match, :validate => false
+    has_many :lookup_values, :primary_key => :lookup_value_matcher, :foreign_key => :match, :validate => false, :dependent => :destroy
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
     accepts_nested_attributes_for :lookup_values
 
@@ -43,7 +43,7 @@ module HostCommon
       lookup_values_attributes.each_value do |attribute|
         attr = attribute.dup
         if id = attr.delete(:id)
-          lookup_value = self.lookup_values.to_a.select{|i| i.id == id}.first
+          lookup_value = self.lookup_values.to_a.find {|i| i.id.to_i == id.to_i }
           if lookup_value
             mark_for_destruction = ActiveRecord::ConnectionAdapters::Column.value_to_boolean attr.delete(:_destroy)
             lookup_value.attributes = attr
@@ -130,11 +130,13 @@ module HostCommon
                        end
 
     if unencrypted_pass.present?
-      if PasswordCrypt.passw_crypt("test_this").match('^\$\d+\$.+\$.+')
-        is_actually_encrypted = unencrypted_pass.match('^\$\d+\$.+\$.+')
-      else
-        is_actually_encrypted = unencrypted_pass.starts_with?("$")
-      end
+      is_actually_encrypted = if operatingsystem.try(:password_hash) == "Base64"
+                                password_base64_encrypted?
+                              elsif PasswordCrypt.crypt_gnu_compatible?
+                                unencrypted_pass.match('^\$\d+\$.+\$.+')
+                              else
+                                unencrypted_pass.starts_with?("$")
+                              end
 
       if is_actually_encrypted
         self.root_pass = unencrypted_pass
@@ -173,7 +175,7 @@ module HostCommon
   end
 
   def host_class_ids
-    is_a?(Host::Base) ? host_classes.pluck(:puppetclass_id) : []
+    (is_a?(Host::Base) ? host_classes : hostgroup_classes).map(&:puppetclass_id)
   end
 
   def all_puppetclass_ids
@@ -203,12 +205,23 @@ module HostCommon
   end
 
   def individual_puppetclasses
-    puppetclasses - classes_in_groups
+    conditions = {:id => host_class_ids - cg_class_ids}
+    if environment
+      environment.puppetclasses.where(conditions)
+    else
+      Puppetclass.where(conditions)
+    end
   end
 
   def available_puppetclasses
     return Puppetclass.all if environment_id.blank?
     environment.puppetclasses - parent_classes
+  end
+
+  protected
+
+  def set_lookup_value_matcher
+    self.lookup_value_matcher = lookup_value_match
   end
 
   private
@@ -232,6 +245,7 @@ module HostCommon
   end
 
   def update_config_group_counters(record)
+    return unless persisted?
     record.update_attribute(:hostgroups_count, cnt_hostgroups(record))
     record.update_attribute(:hosts_count, cnt_hosts(record))
 

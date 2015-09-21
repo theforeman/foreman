@@ -4,6 +4,7 @@ module Orchestration::DNS
   included do
     after_validation :dns_conflict_detected?, :queue_dns
     before_destroy :queue_dns_destroy
+    register_rebuild(:rebuild_dns, N_('DNS'))
   end
 
   def dns?
@@ -18,6 +19,23 @@ module Orchestration::DNS
     (host.nil? || host.managed?) && managed? && hostname.present? && ip_available? && !subnet.nil? && subnet.dns? && SETTINGS[:unattended]
   end
 
+  def rebuild_dns
+    logger.info "DNS not supported for #{name}, #{ip}, skipping orchestration rebuild" unless dns?
+    logger.info "Reverse DNS not supported for #{name}, #{ip}, skipping orchestration rebuild" unless reverse_dns?
+    return true unless dns? || reverse_dns?
+    del_dns_a_record_safe
+    del_dns_ptr_record_safe
+    a_record_result, ptr_record_result = true, true
+    begin
+      a_record_result = recreate_a_record if dns?
+      ptr_record_result = recreate_ptr_record if reverse_dns?
+      a_record_result && ptr_record_result
+    rescue => e
+      Foreman::Logging.exception "Failed to rebuild DNS record for #{name}, #{ip}", e, :level => :error
+      false
+    end
+  end
+
   def dns_a_record
     return unless dns? or @dns_a_record
     @dns_a_record ||= Net::DNS::ARecord.new dns_record_attrs
@@ -28,7 +46,35 @@ module Orchestration::DNS
     @dns_ptr_record ||= Net::DNS::PTRRecord.new reverse_dns_record_attrs
   end
 
+  def del_dns_a_record_safe
+    if dns_a_record
+      begin
+        del_dns_a_record
+      rescue => e
+        Foreman::Logging.exception "Proxy failed to delete DNS a_record for #{name}, #{ip}", e, :level => :error
+      end
+    end
+  end
+
+  def del_dns_ptr_record_safe
+    if dns_ptr_record
+      begin
+        del_dns_ptr_record
+      rescue => e
+        Foreman::Logging.exception "Proxy failed to delete DNS ptr_record for #{name}, #{ip}", e, :level => :error
+      end
+    end
+  end
+
   protected
+
+  def recreate_a_record
+    set_dns_a_record unless dns_a_record.nil? || dns_a_record.valid?
+  end
+
+  def recreate_ptr_record
+    set_dns_ptr_record unless dns_ptr_record.nil? || dns_ptr_record.valid?
+  end
 
   def set_dns_a_record
     dns_a_record.create
@@ -125,5 +171,11 @@ module Orchestration::DNS
     status = failure(_("DNS A Records %s already exists") % dns_a_record.conflicts.to_sentence, nil, :conflict) if dns? and dns_a_record and dns_a_record.conflicting?
     status = failure(_("DNS PTR Records %s already exists") % dns_ptr_record.conflicts.to_sentence, nil, :conflict) if reverse_dns? and dns_ptr_record and dns_ptr_record.conflicting?
     not status #failure method returns 'false'
+  rescue Net::Error => e
+    if domain.nameservers.empty?
+      failure(_("Error connecting to system DNS server(s) - check /etc/resolv.conf"), e)
+    else
+      failure(_("Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_conflict_timeout settings") % {:domain => domain.try(:name), :servers => domain.nameservers.join(',')}, e)
+    end
   end
 end

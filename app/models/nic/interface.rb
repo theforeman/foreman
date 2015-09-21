@@ -1,8 +1,10 @@
 module Nic
   class Interface < Base
-    validates :ip, :uniqueness => true, :format => {:with => Net::Validations::IP_REGEXP}, :allow_blank => true
+    validates :ip, :format => {:with => Net::Validations::IP_REGEXP}, :allow_blank => true
 
     validate :normalize_ip
+
+    validate :ip_uniqueness, :if => Proc.new { |i| i.ip.present? }
 
     validates :attached_to, :presence => true, :if => Proc.new { |o| o.virtual && o.instance_of?(Nic::Managed) && !o.bridge? }
 
@@ -10,10 +12,9 @@ module Nic
     before_validation :copy_hostname_from_host, :if => Proc.new { |nic| nic.primary? && nic.hostname.blank? }
     before_validation :normalize_name
 
-    validates :name,  :uniqueness => {:scope => :domain_id},
-              :allow_nil => true,
-              :allow_blank => true,
-              :format => {:with => Net::Validations::HOST_REGEXP}
+    validates :name, :allow_nil => true, :allow_blank => true, :format => {:with => Net::Validations::HOST_REGEXP}
+
+    validate :name_uniqueness, :if => Proc.new { |i| i.name.present? }
 
     # aliases and vlans require identifiers so we can differentiate and properly configure them
     validates :identifier, :presence => true, :if => Proc.new { |o| o.virtual? && o.managed? && o.instance_of?(Nic::Managed) }
@@ -51,6 +52,14 @@ module Nic
 
     protected
 
+    def ip_uniqueness
+      interface_attribute_uniqueness(:ip)
+    end
+
+    def name_uniqueness
+      interface_attribute_uniqueness(:name, Nic::Base.where(:domain_id => self.domain_id))
+    end
+
     # we don't allow changes to identifier which would change the interface type e.g. eth0 -> eth0,1 would make
     # a vlan virtual interface from physical one
     def identifier_change
@@ -68,10 +77,6 @@ module Nic
       if self.managed? && self.alias? && self.subnet && self.subnet.boot_mode != Subnet::BOOT_MODES[:static]
         errors.add(:subnet_id, _('subnet boot mode is not %s' % _(Subnet::BOOT_MODES[:static])))
       end
-    end
-
-    def uniq_fields_with_hosts
-      super + (self.virtual? ? [] : [:ip])
     end
 
     def normalize_ip

@@ -38,6 +38,8 @@ module Foreman
       :image_attributes,
       :interface_attributes,
       :lookup_key_attributes,
+      :variable_lookup_key_attributes,
+      :puppetclass_lookup_key_attributes,
       :lookup_value_attributes,
       :medium_attributes,
       :model_attributes,
@@ -205,7 +207,7 @@ module Foreman
       :parent_id, :name, :environment_id, :compute_profile_id,
       :puppet_ca_proxy_id, :puppet_proxy_id, :domain_id, :subnet_id,
       :realm_id, :architecture_id, :operatingsystem_id, :medium_id,
-      :ptable_id, :root_pass, {:config_group_ids => [], :puppetclass_ids => []},
+      :ptable_id, :root_pass, {:config_group_ids => [], :puppetclass_ids => [], :group_parameters_attributes => {}},
       *@@location_organization_attributes
     ]
 
@@ -229,7 +231,7 @@ module Foreman
       :name, :ip, :mac, :username, :password, :provider, :type, :primary
     ]
 
-    @@lookup_key_attributes = [
+    @@lookup_key_attributes = @@variable_lookup_key_attributes = @@puppetclass_lookup_key_attributes = [
       :key, :description, :override, :key_type, :default_value, :required, :validator_type, :use_puppet_default,
       :validator_rule, :path, :variable, :_destroy, :id, :is_param, :puppetclass_id, {:lookup_values_attributes => [:id, :value, :match, :use_puppet_default, :_destroy]}
     ]

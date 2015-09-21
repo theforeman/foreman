@@ -5,7 +5,7 @@ class SmartProxy < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database
-  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, :puppet_ca_hosts, :puppet_ca_hostgroups, :realms)
+  before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, [:puppet_ca_hosts, :hosts], [:puppet_ca_hostgroups, :hostgroups], :realms)
   #TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
   has_and_belongs_to_many :features
@@ -36,7 +36,7 @@ class SmartProxy < ActiveRecord::Base
     end
   }
 
-  scope :with_features, lambda {|*feature_names| where(:features => { :name => feature_names }).joins(:features) if feature_names.any? }
+  scope :with_features, ->(*feature_names) { where(:features => { :name => feature_names }).joins(:features) if feature_names.any? }
 
   def hostname
     # This will always match as it is validated

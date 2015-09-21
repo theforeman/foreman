@@ -38,7 +38,7 @@ class Operatingsystem < ActiveRecord::Base
   before_save :set_family
 
   audited :allow_mass_assignment => true, :except => [:hosts_count, :hostgroups_count]
-  default_scope lambda { order(:title) }
+  default_scope -> { order(:title) }
 
   scoped_search :on => :name,        :complete_value => :true
   scoped_search :on => :major,       :complete_value => :true

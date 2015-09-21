@@ -11,11 +11,19 @@ module CommonParametersHelper
 
   def parameter_value_field(value)
     source_name = value[:source_name] ? "(#{value[:source_name]})" : nil
-    content_tag :div, :class => "form-group condensed" do
-      text_area_tag("value_#{value[:safe_value]}", value[:safe_value], :rows => (value[:safe_value].to_s.lines.count || 1 rescue 1),
-                    :class => "col-md-6", :disabled => true, :'data-hidden-value' => Parameter.hidden_value) +
-        fullscreen_button +
-        content_tag(:span, :class => "help-inline") { popover(_("Additional info"), _("<b>Source:</b> %{type} %{name}") % {:type => _(value[:source].to_s), :name => source_name})}
+    popover_tag = popover('', _("<b>Source:</b> %{type} %{name}") % { :type => _(value[:source].to_s), :name => source_name }, :data => { :placement => 'top' })
+    parameter_value_content("value_#{value[:safe_value]}", value[:safe_value], :popover => popover_tag)
+  end
+
+  def parameter_value_content(id, value, options)
+    content_tag :div, :class => 'input-group ' + options[:wrapper_class].to_s do
+      content_tag(:span, options[:popover], :class => "help-block input-group-addon") +
+        text_area_tag(id, value, { :rows => 1,
+                                   :class => 'form-control no-stretch ' + options[:text_area_class].to_s,
+                                   :'data-property' => 'value',
+                                   :'data-hidden-value' => Parameter.hidden_value,
+                                   :disabled => true }) +
+        fullscreen_input
     end
   end
 

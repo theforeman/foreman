@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   validates_lengths_from_database  :except => [:firstname, :lastname, :format, :mail, :login]
   attr_accessor :password, :password_confirmation
   after_save :ensure_default_role
-  before_destroy EnsureNotUsedBy.new(:direct_hosts), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
+  before_destroy EnsureNotUsedBy.new([:direct_hosts, :hosts]), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
 
   belongs_to :auth_source
   belongs_to :default_organization, :class_name => 'Organization'
@@ -60,8 +60,8 @@ class User < ActiveRecord::Base
       all
     end
   }
-  scope :visible,         lambda { except_hidden }
-  scope :completer_scope, lambda { |opts| visible }
+  scope :visible,         -> { except_hidden }
+  scope :completer_scope, ->(opts) { visible }
 
   validates :mail, :format => { :with => /\A(([\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+((\.\"[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\")*\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+)*)|(\"[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\"))
                                           @[a-z0-9]+((\.[a-z0-9]+)*|(\-[a-z0-9]+)*)*\z/ix },
@@ -196,7 +196,7 @@ class User < ActiveRecord::Base
             logger.debug("Updating user #{user.login} attributes from auth source: #{attrs.keys}")
             user.update_attributes(valid_attrs)
           end
-          user.auth_source.update_usergroups(login)
+          user.auth_source.update_usergroups(user.login)
         end
 
         # clean up old avatar if it exists and the image isn't in use by anyone else
@@ -418,11 +418,10 @@ class User < ActiveRecord::Base
     if (attrs = AuthSource.authenticate(login, password))
       attrs.delete(:dn)
       user = new(attrs)
-      user.login = login
       # The default user can't auto create users, we need to change to Admin for this to work
       User.as_anonymous_admin do
         if user.save
-          AuthSource.find(attrs[:auth_source_id]).update_usergroups(login)
+          AuthSource.find(attrs[:auth_source_id]).update_usergroups(user.login)
           logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
         else
           logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"

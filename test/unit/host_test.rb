@@ -222,7 +222,7 @@ class HostTest < ActiveSupport::TestCase
   #test "should be able to delete existing lookup value on update_attributes" do
   def test_fuck
     host = FactoryGirl.create(:host)
-    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -235,7 +235,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "should be able to update lookup value on update_attributes" do
     host = FactoryGirl.create(:host)
-    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -265,6 +265,15 @@ class HostTest < ActiveSupport::TestCase
                                     :interfaces => 'eth0')
     assert_equal 'example.com', host.domain.name
     refute host.primary_interface.managed?
+  end
+
+  test "#configuration? returns true when host has puppetmaster" do
+    host = FactoryGirl.build(:host)
+    refute host.configuration?
+
+    proxy = FactoryGirl.create(:smart_proxy)
+    host.puppet_proxy = proxy
+    assert host.configuration?
   end
 
   context 'import host and facts' do
@@ -404,6 +413,48 @@ class HostTest < ActiveSupport::TestCase
     Setting[:create_new_host_when_report_is_uploaded] =
       Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
     assert_nil host
+  end
+
+  test 'host #refresh_global_status defaults to OK' do
+    host = FactoryGirl.build(:host)
+    assert_empty host.host_statuses
+    host.refresh_global_status
+    assert_equal HostStatus::Global::OK, host.global_status
+  end
+
+  test 'host #get_status(type) builds a new status if there is none yet and returns existing one otherwise' do
+    host = FactoryGirl.build(:host)
+    status = host.get_status(HostStatus::BuildStatus)
+    assert status.new_record?
+    assert_equal host, status.host
+
+    status.refresh!
+    new_status = host.get_status(HostStatus::BuildStatus)
+    assert_equal status, new_status
+  end
+
+  test 'host #refresh_statuses saves all relevant statuses and refreshes global status' do
+    host = FactoryGirl.build(:host)
+    host.global_status = 1
+
+    host.refresh_statuses
+    assert_equal 0, host.global_status
+    refute_empty host.host_statuses
+    assert host.get_status(HostStatus::BuildStatus).new_record? # BuildStatus was not #relevant? for unmanaged host
+    refute host.get_status(HostStatus::ConfigurationStatus).new_record?
+  end
+
+  test 'build status is updated on host validation' do
+    host = FactoryGirl.build(:host)
+    host.build = false
+    host.valid?
+    original_status = host.get_status(HostStatus::BuildStatus).to_status
+
+    host.build = true
+    host.valid?
+    new_status = host.get_status(HostStatus::BuildStatus).to_status
+
+    refute_equal original_status, new_status
   end
 
   test "assign a host to a location" do
@@ -937,9 +988,43 @@ class HostTest < ActiveSupport::TestCase
       host.operatingsystem.password_hash = 'Base64'
       host.root_pass = unencrypted_password
       assert host.save!
-      assert_equal host.root_pass, 'eHlieGE2SlVrejYzdw=='
+      assert_equal 'eHlieGE2SlVrejYzdw==', host.root_pass
       # Encrypted passwords should have UTF-8 encoding
       assert_equal Encoding::UTF_8, host.root_pass.encoding
+    end
+
+    test "should not reencode base64 passwords" do
+      unencrypted_password = "xybxa6JUkz63w"
+      host = FactoryGirl.create(:host, :managed)
+      host.hostgroup = nil
+      host.operatingsystem.password_hash = 'Base64'
+      host.operatingsystem.save
+      host.root_pass = unencrypted_password
+      assert host.save!
+      host.reload
+      host.name = "whatever"
+      assert host.save!
+      assert_equal 'eHlieGE2SlVrejYzdw==', host.root_pass
+      #then let's check that we can change root pass
+      host.root_pass = "oh my pass"
+      assert host.save!
+      refute_equal host.root_pass, 'eHlieGE2SlVrejYzdw=='
+    end
+
+    test "should use hostgroup base64 root password without reencoding" do
+      Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+      hg = FactoryGirl.create(:hostgroup, :with_os)
+      hg.operatingsystem.update_attribute(:password_hash, 'Base64')
+      hg.root_pass = "abcdefghi"
+      hg.save!
+      assert_equal "YWJjZGVmZ2hp", hg.root_pass
+
+      h = FactoryGirl.create(:host, :managed, :hostgroup => hg, :operatingsystem => nil)
+      h.root_pass = nil
+      h.save!
+      assert h.root_pass.present?
+      assert_equal h.hostgroup.root_pass, h.root_pass
+      assert_equal h.hostgroup.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host unmodified'
     end
 
     test "should use hostgroup root password" do
@@ -1099,7 +1184,8 @@ class HostTest < ActiveSupport::TestCase
 
     test "#set_interfaces creates new interface even if another virtual interface has same MAC but another identifier" do
       host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.2', :identifier => 'eth0_1', :attached_to => 'eth0'})
-      FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :virtual => true, :identifier => 'eth0_0', :attached_to => 'eth0')
+      host.update_attribute :mac, '00:00:00:11:22:44'
+      FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :virtual => true, :identifier => 'eth0_0', :attached_to => 'eth0', :name => 'second')
 
       assert_difference 'host.interfaces(true).count' do
         host.set_interfaces(parser)
@@ -1885,16 +1971,34 @@ class HostTest < ActiveSupport::TestCase
     assert_equal classes, enc['classes']
   end
 
-  test 'clone host including its relationships' do
-    host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
-    copy = host.clone
-    assert_equal host.host_classes.map(&:puppetclass_id), copy.host_classes.map(&:puppetclass_id)
-    assert_equal host.host_parameters.map(&:name), copy.host_parameters.map(&:name)
-    assert_equal host.host_parameters.map(&:value), copy.host_parameters.map(&:value)
-    assert_equal host.host_config_groups.map(&:config_group_id), copy.host_config_groups.map(&:config_group_id)
-  end
-
   describe 'cloning' do
+    test 'relationships are copied' do
+      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
+      copy = host.clone
+      assert_equal host.host_classes.map(&:puppetclass_id), copy.host_classes.map(&:puppetclass_id)
+      assert_equal host.host_parameters.map(&:name), copy.host_parameters.map(&:name)
+      assert_equal host.host_parameters.map(&:value), copy.host_parameters.map(&:value)
+      assert_equal host.host_config_groups.map(&:config_group_id), copy.host_config_groups.map(&:config_group_id)
+    end
+
+    test '#classes etc. on cloned host return the same' do
+      hostgroup = FactoryGirl.create(:hostgroup, :with_config_group, :with_puppetclass)
+      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter, :hostgroup => hostgroup, :environment => hostgroup.environment)
+      copy = host.clone
+      assert_equal host.individual_puppetclasses.map(&:id), copy.individual_puppetclasses.map(&:id)
+      assert_equal host.classes_in_groups.map(&:id), copy.classes_in_groups.map(&:id)
+      assert_equal host.classes.map(&:id), copy.classes.map(&:id)
+      assert_equal host.available_puppetclasses.map(&:id), copy.available_puppetclasses.map(&:id)
+    end
+
+    test 'lookup values are copied' do
+      host = FactoryGirl.create(:host, :with_puppetclass)
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
+      copy = host.clone
+      assert_equal 1, copy.lookup_values.size
+      assert_equal host.lookup_values.map(&:value), copy.lookup_values.map(&:value)
+    end
+
     test 'clone host should not copy name, system fields (mac, ip, etc)' do
       host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
       copy = host.clone
@@ -1968,7 +2072,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'changing name with a fqdn should rename lookup_value matcher' do
     host = FactoryGirl.create(:host)
-    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -1981,7 +2085,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'changing only name should rename lookup_value matcher' do
     host = FactoryGirl.create(:host, :domain => FactoryGirl.create(:domain))
-    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -1994,7 +2098,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'changing host domain should rename lookup_value matcher' do
     host = FactoryGirl.create(:host)
-    lookup_key = FactoryGirl.create(:lookup_key, :is_param)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -2003,6 +2107,16 @@ class HostTest < ActiveSupport::TestCase
     host.domain = domains(:yourdomain)
     host.save!
     assert_equal "fqdn=#{host.shortname}.yourdomain.net", LookupValue.find(lookup_value.id).match
+  end
+
+  test "destroying host should destroy lookup values" do
+    host = FactoryGirl.create(:host)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
+    lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                      :match => "fqdn=#{host.fqdn}", :value => '8080')
+    host.reload
+    host.destroy
+    assert LookupValue.where(:id => lookup_value.id).first.blank?
   end
 
   test '#setup_clone skips new records' do
@@ -2214,6 +2328,18 @@ class HostTest < ActiveSupport::TestCase
       end
     end
 
+    test "lookup_values_attributes= updates existing lookup values" do
+      host = FactoryGirl.create(:host, :with_puppetclass)
+      lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => host.classes.first, :overrides => {"fqdn=#{host.name}" => 'old value'})
+      lval = host.lookup_values.first
+
+      host.lookup_values_attributes = {'0' => {'lookup_key_id' => lkey.id.to_s, 'value' => 'new value', '_destroy' => 'false', 'id' => lval.id.to_s}}.with_indifferent_access
+      assert_equal 'old value', LookupValue.find(lval.id).value
+
+      host.save!
+      assert_equal 'new value', LookupValue.find(lval.id).value
+    end
+
     test "same works for destruction of lookup keys" do
       host = FactoryGirl.create(:host, :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}})
       lookup_value = host.lookup_values.first
@@ -2333,6 +2459,104 @@ class HostTest < ActiveSupport::TestCase
     test "#miniroot" do
       host.respond_to?(:miniroot)
     end
+  end
+
+  describe 'interface identifiers validation' do
+    let(:host) { FactoryGirl.build(:host, :managed) }
+    let(:additional_interface) { host.interfaces.build }
+
+    context 'additional interface has different identifier' do
+      test 'host is valid' do
+        assert host.valid?
+      end
+    end
+
+    context 'additional interface has same identifier' do
+      before { additional_interface.identifier = host.primary_interface.identifier }
+
+      test 'host is valid' do
+        refute host.valid?
+      end
+
+      test 'validation ignores interfaces marked for destruction' do
+        additional_interface.mark_for_destruction
+        assert host.valid?
+      end
+    end
+  end
+
+  context "recreating host config" do
+    setup do
+      @nic = FactoryGirl.build(:nic_primary_and_provision)
+      @nic.expects(:rebuild_tftp).returns(true)
+      @nic.expects(:rebuild_dns).returns(true)
+      @nic.expects(:rebuild_dhcp).returns(true)
+      Nic::Managed.expects(:rebuild_methods).returns(:rebuild_dhcp => "DHCP", :rebuild_dns => "DNS", :rebuild_tftp => "TFTP")
+    end
+
+    test "recreate config with success" do
+      Host::Managed.expects(:rebuild_methods).returns(:rebuild_test => "TEST")
+      host = FactoryGirl.build(:host, :interfaces => [@nic])
+      host.expects(:rebuild_test).returns(true)
+      result = host.recreate_config
+      assert result["DHCP"]
+      assert result["DNS"]
+      assert result["TFTP"]
+      assert result["TEST"]
+    end
+
+    test "recreate config with clashing methods" do
+      Host::Managed.expects(:rebuild_methods).returns(:rebuild_dns => "DNS")
+      host = FactoryGirl.build(:host, :interfaces => [@nic])
+      assert_raises(Foreman::Exception) { host.recreate_config }
+    end
+
+    context "recreate with multiple nics and failures" do
+      setup do
+        @nic2 = FactoryGirl.build(:nic_managed)
+        @nic2.expects(:rebuild_tftp).returns(false)
+        @nic2.expects(:rebuild_dns).returns(false)
+        @nic2.expects(:rebuild_dhcp).returns(false)
+      end
+
+      test "second is a failure" do
+        host = FactoryGirl.build(:host, :interfaces => [@nic, @nic2])
+        result = host.recreate_config
+        refute result["DHCP"]
+        refute result["DNS"]
+        refute result["TFTP"]
+      end
+
+      test "first is a failure" do
+        host = FactoryGirl.build(:host, :interfaces => [@nic2, @nic])
+        result = host.recreate_config
+        refute result["DHCP"]
+        refute result["DNS"]
+        refute result["TFTP"]
+      end
+    end
+
+    test "recreate with multiple nics, all are success" do
+      nic = FactoryGirl.build(:nic_managed)
+      nic.expects(:rebuild_tftp).returns(true)
+      nic.expects(:rebuild_dns).returns(true)
+      nic.expects(:rebuild_dhcp).returns(true)
+      host = FactoryGirl.build(:host, :interfaces => [@nic, nic])
+      result = host.recreate_config
+      assert result["DHCP"]
+      assert result["DNS"]
+      assert result["TFTP"]
+    end
+  end
+
+  test 'should display inherited parameters' do
+    host = FactoryGirl.create(:host,
+                              :location => taxonomies(:location1),
+                              :organization => taxonomies(:organization1),
+                              :domain => domains(:mydomain))
+    location_parameter = LocationParameter.new(:name => 'location', :value => 'parameter')
+    host.location.location_parameters = [location_parameter]
+    assert(host.host_inherited_params_objects.include?(location_parameter), 'Taxonomy parameters should be included')
   end
 
   private

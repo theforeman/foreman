@@ -21,9 +21,7 @@ module PuppetclassTotalHosts
       after_save :update_total_hosts
       after_destroy :update_total_hosts
 
-      def update_total_hosts
-        puppetclass.update_total_hosts
-      end
+      delegate :update_total_hosts, :to => :puppetclass
     end
   end
 end

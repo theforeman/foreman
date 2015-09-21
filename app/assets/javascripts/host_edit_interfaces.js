@@ -27,7 +27,7 @@ function show_interface_modal(modal_content) {
   modal_window.find('.modal-title').html(__('Interface') + ' ' + String(identifier));
   modal_window.modal({'show': true});
 
-  modal_window.find('a[rel="popover-modal"]').popover({html: true});
+  modal_window.find('a[rel="popover-modal"]').popover();
   modal_window.find('select').select2({ allowClear: true });
 }
 
@@ -46,6 +46,7 @@ function save_interface_modal() {
     $('#interfaceForms .interface_provision:checked').attr("checked", false);
   }
 
+  modal_form.find('select').select2('destroy')
   var interface_hidden = get_interface_hidden(interface_id);
   interface_hidden.html('');
   interface_hidden.append(modal_form);
@@ -83,7 +84,7 @@ function get_interface_template_clone() {
   var hidden = $(content);
 
   $('#interfaceForms').closest("form").trigger({type: 'nested:fieldAdded', field: hidden});
-  $('a[rel="popover"]').popover({html: true});
+  $('a[rel="popover"]').popover();
   $('a[rel="twipsy"]').tooltip();
 
   hidden.attr('id', 'interfaceHidden'+interface_id);

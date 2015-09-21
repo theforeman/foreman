@@ -217,10 +217,10 @@ if [ $NOGENERIC -eq 0 ]; then
   add_cmd "iptables -L -v -n" "iptables"
   add_cmd "ifconfig -a" "ifconfig"
   add_cmd "route -n" "route"
-  add_cmd "netstat -tulpn" "netstat"
+  add_cmd "netstat -putna" "netstat"
   add_cmd "ip a" "ip_a"
   add_cmd "ip r" "ip_r"
-  add_cmd "ss -tulpn" "ss"
+  add_cmd "ss -putna" "ss"
   add_cmd "cat /etc/hosts" "hosts"
   add_cmd "ping -c1 -W1 localhost" "ping_localhost"
   add_cmd "ping -c1 -W1 $(hostname)" "ping_hostname"
@@ -296,7 +296,7 @@ qprintf "%10s %s\n" "FOREMAN:" "$(cat /usr/share/foreman/VERSION 2>/dev/null)"
 qprintf "%10s %s\n" "RUBY:" "$(ruby --version 2>/dev/null)"
 qprintf "%10s %s\n" "PUPPET:" "$(puppet --version 2>/dev/null)"
 test -f /var/log/audit/audit.log && \
-  qprintf "%10s %s\n" "DENIALS:" "$(grep AVC /var/log/audit/audit.log | wc -l)"
+  qprintf "%10s %s\n" "DENIALS:" "$(ausearch -m AVC -r | wc -l)"
 qprintf "\n\n"
 
 if [ "$NOTAR" -eq 0 ]; then

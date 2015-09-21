@@ -20,6 +20,7 @@
 //= require select_on_click
 //= require select2
 //= require underscore
+//= require editor
 
 $(document).on('ContentLoad', function(){onContentLoad()});
 Turbolinks.enableProgressBar();
@@ -76,7 +77,7 @@ function onContentLoad(){
 
 
   //set the tooltips
-  $('a[rel="popover"]').popover({html: true});
+  $('a[rel="popover"]').popover();
   $('[rel="twipsy"]').tooltip({ container: 'body' });
   $('*[title]').not('*[rel]').tooltip();
   $('[data-table=inline]').not('.dataTable').dataTable(
@@ -191,7 +192,7 @@ function mark_params_override(){
   });
   $('#params-tab').removeClass("tab-error");
   if ($("#params").find('.form-group.error').length > 0) $('#params-tab').addClass('tab-error');
-  $('a[rel="popover"]').popover({html: true});
+  $('a[rel="popover"]').popover();
 }
 
 function add_fields(link, association, content) {
@@ -454,12 +455,12 @@ function setPowerState(item, status){
 function reloadOnAjaxComplete(element) {
   $(element).indicator_hide();
   $('[rel="twipsy"]').tooltip();
-  $('select').select2({ allowClear: true });
+  $('select:not(.without_select2)').select2({ allowClear: true });
 }
 
 function set_fullscreen(element){
   var exit_button = $('<div class="exit-fullscreen"><a class="btn btn-default btn-lg" href="#" onclick="exit_fullscreen(); return false;" title="'+__('Exit Full Screen')+'"><i class="glyphicon glyphicon-resize-small"></i></a></div>');
-  element.data('origin',element.parent())
+  element.before("<span id='fullscreen-placeholder'></span>")
          .data('position', $(window).scrollTop())
          .addClass('fullscreen')
          .appendTo($('#main'))
@@ -479,9 +480,53 @@ function exit_fullscreen(){
   $('#content').removeClass('hidden');
   $('.navbar').removeClass('hidden');
   element.removeClass('fullscreen')
-         .prependTo(element.data('origin'))
+         .insertAfter('#fullscreen-placeholder')
          .resize();
+  $('#fullscreen-placeholder').remove();
   $('.exit-fullscreen').remove();
+  $(window).scrollTop(element.data('position'));
+}
+
+function set_fullscreen_editor (element, relativeTo){
+  var $element = $(element);
+
+  if (relativeTo) {
+    $element = $(relativeTo).find(element);
+  }
+
+  $element.children().removeClass('hidden');
+
+  $element.data('origin', $element.parent())
+    .data('position', $(window).scrollTop())
+    .addClass('fullscreen')
+    .appendTo($('#main'))
+    .resize();
+
+  $('.navbar').not('.navbar-editor').addClass('hidden');
+
+  $('.btn-fullscreen').addClass("hidden");
+  $('.btn-exit-fullscreen').removeClass("hidden");
+
+  $('#content').addClass('hidden');
+  $(document).on('keyup', function(e) {
+    if (e.keyCode == 27) {    // esc
+      exit_fullscreen_editor();
+    }
+  });
+}
+
+function exit_fullscreen_editor (){
+  var element = $('.fullscreen');
+
+  $('#content').removeClass('hidden');
+  $('.navbar').removeClass('hidden');
+  element.removeClass('fullscreen')
+    .prependTo(element.data('origin'))
+    .resize();
+
+  $('.btn-exit-fullscreen').addClass("hidden");
+  $('.btn-fullscreen').removeClass("hidden");
+
   $(window).scrollTop(element.data('position'));
 }
 
@@ -489,7 +534,7 @@ function disableButtonToggle(item, explicit) {
   if (explicit === undefined) {
     explicit = true;
   }
-  
+
   item = $(item);
   item.data('explicit', explicit);
   var isActive = item.hasClass("active");

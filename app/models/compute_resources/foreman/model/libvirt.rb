@@ -25,6 +25,10 @@ module Foreman::Model
       [:build, :image]
     end
 
+    def editable_network_interfaces?
+      interfaces.any? or networks.any?
+    end
+
     def find_vm_by_uuid(uuid)
       super
     rescue ::Libvirt::RetrieveError => e

@@ -36,13 +36,11 @@ class HostConfigGroupTest < ActiveSupport::TestCase
 
   context "host and hostgroup both have id=1" do
     setup do
-      @host = FactoryGirl.create(:host)
-      @hostgroup = FactoryGirl.create(:hostgroup)
-      if @host.id > @hostgroup.id
-        @hostgroup = FactoryGirl.create(:hostgroup, :id => @host.id)
-      elsif @host.id != @hostgroup.id
-        @host = FactoryGirl.create(:host, :id => @hostgroup.id)
-      end
+      @host = Host.where(:id => 1).first
+      @host ||= FactoryGirl.create(:host, :id => 1)
+
+      @hostgroup = Hostgroup.where(:id => 1).first
+      @hostgroup ||= FactoryGirl.create(:hostgroup, :id => 1)
       @config_group = FactoryGirl.create(:config_group)
     end
 

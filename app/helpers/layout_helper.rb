@@ -86,7 +86,7 @@ module LayoutHelper
   # add hidden field for options[:disabled]
   def multiple_selects(f, attr, associations, selected_ids, options = {}, html_options = {})
     options.merge!(:size => "col-md-10")
-    authorized = authorized_associations(associations).all
+    authorized = AssociationAuthorizer.authorized_associations(associations).all
     unauthorized = selected_ids.blank? ? [] : selected_ids - authorized.map(&:id)
     field(f, attr, options) do
       attr_ids = (attr.to_s.singularize+"_ids").to_sym
@@ -113,7 +113,7 @@ module LayoutHelper
   end
 
   def select_f(f, attr, array, id, method, select_options = {}, html_options = {})
-    array = array.to_a
+    array = array.to_a.dup
     disable_button = select_options.delete(:disable_button)
     include_blank = select_options.delete(:include_blank)
     disable_button_enabled = select_options.delete(:disable_button_enabled)
@@ -122,6 +122,10 @@ module LayoutHelper
     if include_blank
       blank_value = include_blank.is_a?(TrueClass) ? nil : include_blank
       blank_option = OpenStruct.new({id => '', method => blank_value })
+      # if the method is to_s, OpenStruct will respond with its own version.
+      # in this case, I need to undefine its own alias to to_s, and use the attribute
+      # that was defined in the struct.
+      blank_option.instance_eval('undef to_s') if method.to_s == 'to_s' || id.to_s == 'to_s'
       array.insert(0, blank_option)
     end
 
@@ -197,32 +201,38 @@ module LayoutHelper
     error       = f.object.errors[attr] if f && f.object.respond_to?(:errors)
     help_inline = help_inline(options.delete(:help_inline), error)
     size_class  = options.delete(:size) || "col-md-4"
-    label = add_label(options, f, attr)
+    wrapper_class = options.delete(:wrapper_class) || "form-group"
+
+    label = options[:no_label] ? "" : add_label(options, f, attr)
 
     if table_field
-      add_help_to_label(size_class, label, help_inline, '') do
+      add_help_to_label(size_class, label, help_inline) do
         yield
       end.html_safe
     else
       help_block = content_tag(:span, options.delete(:help_block), :class => "help-block")
 
       content_tag(:div, :class => "clearfix") do
-        content_tag :div, :class => "form-group #{error.empty? ? "" : 'has-error'}",
+        content_tag :div, :class => "#{wrapper_class} #{error.empty? ? "" : 'has-error'}",
                     :id => options.delete(:control_group_id) do
-          fullscreen = options[:fullscreen] ? fullscreen_button("$(this).prev().find('textarea')") : ""
-          add_help_to_label(size_class, label, help_inline, fullscreen) do
-            yield.html_safe + help_block.html_safe
+          input = if options[:fullscreen]
+                    content_tag(:div, yield.html_safe + fullscreen_input, :class => "input-group")
+                  else
+                    yield.html_safe
+                  end
+          add_help_to_label(size_class, label, help_inline) do
+            input + help_block.html_safe
           end
         end.html_safe
       end
     end
   end
 
-  def add_help_to_label(size_class, label, help_inline, fullscreen)
+  def add_help_to_label(size_class, label, help_inline)
     label.html_safe +
         content_tag(:div, :class => size_class) do
           yield
-        end.html_safe + fullscreen + help_inline.html_safe
+        end.html_safe + help_inline.html_safe
   end
 
   # The target should have class="collapse [out|in]" out means collapsed on load and in means expanded.
@@ -308,7 +318,15 @@ module LayoutHelper
   end
 
   def popover(title, msg, options = {})
-    content_tag(:a, icon_text("info-sign", title), { :rel => "popover", :data => {"content" => msg, "original-title" => title} }.merge(options))
+    options[:icon] ||= 'info-sign'
+    content_tag(:a, icon_text(options[:icon], title), { :rel => "popover",
+                                                        :data => { :content => msg,
+                                                                   :"original-title" => title,
+                                                                   :trigger => "focus",
+                                                                   :container => 'body',
+                                                                   :html => true },
+                                                        :role => 'button',
+                                                        :tabindex => '-1' }.deep_merge(options))
   end
 
   def will_paginate(collection = nil, options = {})
@@ -414,32 +432,16 @@ module LayoutHelper
   end
 
   def fullscreen_button(element = "$(this).prev()")
-    button_tag(:type => 'button', :class => 'btn btn-default btn-sm btn-fullscreen', :onclick => "set_fullscreen(#{element})", :title => _("Full screen")) do
+    button_tag(:type => 'button', :class => 'btn btn-default btn-md btn-fullscreen', :onclick => "set_fullscreen(#{element})", :title => _("Full screen")) do
       icon_text('resize-full')
     end
   end
 
+  def fullscreen_input(element = "$(this).parent().prev()")
+    content_tag(:span, fullscreen_button(element), :class => 'input-group-btn')
+  end
+
   private
-
-  def authorized_associations(associations)
-    if associations.included_modules.include?(Authorizable)
-      if associations.respond_to?(:klass)
-        associations.authorized(authorized_associations_permission_name(associations.klass), associations.klass)
-      else
-        associations.authorized(authorized_associations_permission_name(associations), associations)
-      end
-    else
-      associations
-    end
-  end
-
-  def authorized_associations_permission_name(klass)
-    permission = "view_#{klass.to_s.underscore.pluralize}"
-    unless Permission.where(:name => permission).present?
-      raise Foreman::Exception.new(N_('unknown permission %s'), permission)
-    end
-    permission
-  end
 
   def table_css_classes(classes = '')
     "table table-bordered table-striped table-condensed " + classes

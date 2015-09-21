@@ -125,7 +125,8 @@ Return value may either be one of the following:
       eos
 
       def status
-        render :json => { :status => @host.host_status }.to_json if @host
+        Foreman::Deprecation.api_deprecation_warning('The /status route is deprecated, please use the new /status/configuration instead')
+        render :json => { :status => @host.get_status(HostStatus::ConfigurationStatus).to_label }.to_json if @host
       end
 
       private

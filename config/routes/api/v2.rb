@@ -62,7 +62,7 @@ Foreman::Application.routes.draw do
         end
         resources :puppetclasses, :except => [:new, :edit] do
           resources :smart_class_parameters, :except => [:new, :edit, :create] do
-            resources :override_values, :except => [:new, :edit]
+            resources :override_values, :except => [:new, :edit, :destroy]
           end
         end
         resources :hosts, :except => [:new, :edit]
@@ -132,11 +132,11 @@ Foreman::Application.routes.draw do
           resources :override_values, :except => [:new, :edit]
         end
         resources :smart_class_parameters, :except => [:new, :edit, :create] do
-          resources :override_values, :except => [:new, :edit]
+          resources :override_values, :except => [:new, :edit, :destroy]
         end
         resources :environments, :only => [] do
           resources :smart_class_parameters, :except => [:new, :edit, :create] do
-            resources :override_values, :except => [:new, :edit]
+            resources :override_values, :except => [:new, :edit, :destroy]
           end
         end
         resources :hostgroups, :only => [:index, :show]
@@ -182,7 +182,7 @@ Foreman::Application.routes.draw do
         resources :override_values, :except => [:new, :edit]
       end
 
-      resources :smart_class_parameters, :except => [:new, :edit, :create] do
+      resources :smart_class_parameters, :except => [:new, :edit, :create, :destroy] do
         resources :override_values, :except => [:new, :edit]
       end
 
@@ -241,11 +241,14 @@ Foreman::Application.routes.draw do
           get :available_images, :on => :member
           get :available_clusters, :on => :member
           get :available_folders, :on => :member
+          get :available_flavors, :on => :member
           get :available_networks, :on => :member
+          get :available_security_groups, :on => :member
           get :available_storage_domains, :on => :member
           get 'available_storage_domains/(:storage_domain)', :to => 'compute_resources#available_storage_domains', :on => :member
           get 'available_clusters/(:cluster_id)/available_networks', :to => 'compute_resources#available_networks', :on => :member
           get 'available_clusters/(:cluster_id)/available_resource_pools', :to => 'compute_resources#available_resource_pools', :on => :member
+          get :available_zones, :on => :member
           put :associate, :on => :member
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
@@ -289,11 +292,13 @@ Foreman::Application.routes.draw do
         end
         resources :hosts, :except => [:new, :edit] do
           get :status, :on => :member
+          get 'status/:type', :on => :member, :action => :get_status
           get :vm_compute_attributes, :on => :member
           put :puppetrun, :on => :member
           put :disassociate, :on => :member
           put :boot, :on => :member
           put :power, :on => :member
+          put :rebuild_config, :on => :member
           post :facts, :on => :collection
           resources :audits, :only => :index
           resources :facts,  :only => :index, :controller => :fact_values

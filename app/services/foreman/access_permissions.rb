@@ -81,7 +81,8 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :view_compute_resources,    {:compute_resources => [:index, :show, :auto_complete_search, :ping, :available_images],
                                                 :"api/v1/compute_resources" => [:index, :show],
                                                 :"api/v2/compute_resources" => [:index, :show, :available_images, :available_clusters, :available_folders,
-                                                                                :available_networks, :available_resource_pools, :available_storage_domains]
+                                                                                :available_flavors, :available_networks, :available_resource_pools,
+                                                                                :available_security_groups, :available_storage_domains, :available_zones]
     }
     map.permission :create_compute_resources,  {:compute_resources => [:new, :create].push(*ajax_actions),
                                                 :"api/v1/compute_resources" => [:create],
@@ -210,24 +211,32 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :external_variables do |map|
     map.permission :view_external_variables,    {:lookup_keys => [:index, :show, :auto_complete_search],
+                                                 :puppetclass_lookup_keys => [:index, :show, :auto_complete_search],
+                                                 :variable_lookup_keys => [:index, :show, :auto_complete_search],
                                                  :lookup_values => [:index],
                                                  :"api/v1/lookup_keys" => [:index, :show],
                                                  :"api/v2/smart_variables" => [:index, :show],
                                                  :"api/v2/smart_class_parameters" => [:index, :show],
                                                  :"api/v2/override_values" => [:index, :show]}
     map.permission :create_external_variables,  {:lookup_keys => [:new, :create],
+                                                 :puppetclass_lookup_keys => [:new, :create],
+                                                 :variable_lookup_keys => [:new, :create],
                                                  :lookup_values => [:create],
                                                  :"api/v1/lookup_keys" => [:create],
                                                  :"api/v2/smart_variables" => [:create],
                                                  :"api/v2/smart_class_parameters" => [:create],
                                                  :"api/v2/override_values" => [:create]}
     map.permission :edit_external_variables,    {:lookup_keys => [:edit, :update],
+                                                 :puppetclass_lookup_keys => [:edit, :update],
+                                                 :variable_lookup_keys => [:edit, :update],
                                                  :lookup_values => [:create, :update, :destroy],
                                                  :"api/v1/lookup_keys" => [:update],
                                                  :"api/v2/smart_variables" => [:update],
                                                  :"api/v2/smart_class_parameters" => [:update],
                                                  :"api/v2/override_values" => [:create, :update, :destroy]}
     map.permission :destroy_external_variables, {:lookup_keys => [:destroy],
+                                                 :puppetclass_lookup_keys => [:destroy],
+                                                 :variable_lookup_keys => [:destroy],
                                                  :lookup_values => [:destroy],
                                                  :"api/v1/lookup_keys" => [:destroy],
                                                  :"api/v2/smart_variables" => [:destroy],
@@ -326,7 +335,7 @@ Foreman::AccessControl.map do |permission_set|
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => [:template, :provision],
                                      :"api/v1/hosts" => [:index, :show, :status],
-                                     :"api/v2/hosts" => [:index, :show, :status, :vm_compute_attributes],
+                                     :"api/v2/hosts" => [:index, :show, :status, :get_status, :vm_compute_attributes],
                                      :"api/v2/interfaces" => [:index, :show],
                                      :locations =>  [:mismatches],
                                      :organizations =>  [:mismatches]
@@ -363,9 +372,12 @@ Foreman::AccessControl.map do |permission_set|
                                     :"api/v2/hosts" => [:destroy],
                                     :"api/v2/interfaces" => [:destroy]
                                   }
-    map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build, :review_before_build],
+    map.permission :build_hosts,   {:hosts => [:setBuild, :cancelBuild, :multiple_build, :submit_multiple_build, :review_before_build,
+                                               :rebuild_config, :submit_rebuild_config],
                                     :tasks => tasks_ajax_actions,
-                                    :"api/v2/tasks" => [:index] }
+                                    :"api/v2/tasks" => [:index],
+                                    :"api/v2/hosts" => [:rebuild_config],
+                                     }
     map.permission :power_hosts,   {:hosts          => [:power],
                                     :"api/v2/hosts" => [:power] }
     map.permission :console_hosts, {:hosts => [:console] }

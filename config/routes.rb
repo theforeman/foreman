@@ -86,6 +86,8 @@ Foreman::Application.routes.draw do
         post 'update_multiple_organization'
         get  'select_multiple_location'
         post 'update_multiple_location'
+        get  'rebuild_config'
+        post 'submit_rebuild_config'
       end
 
       constraints(:host_id => /[^\/]+/) do
@@ -97,10 +99,12 @@ Foreman::Application.routes.draw do
     end
 
     resources :bookmarks, :except => [:show]
-    resources :lookup_keys, :except => [:show, :new, :create] do
-      resources :lookup_values, :only => [:index, :create, :update, :destroy]
-      collection do
-        get 'auto_complete_search'
+    [:lookup_keys, :variable_lookup_keys, :puppetclass_lookup_keys].each do |key|
+      resources key, :except => [:show, :new, :create] do
+        resources :lookup_values, :only => [:index, :create, :update, :destroy]
+        collection do
+          get 'auto_complete_search'
+        end
       end
     end
 
@@ -379,10 +383,10 @@ Foreman::Application.routes.draw do
   get 'statistics', :to => 'statistics#index', :as => "statistics"
   get 'status', :to => 'home#status', :as => "status"
 
-  # match only for alterator unattended scripts
+  # get only for alterator unattended scripts
   get 'unattended/provision/:metadata', :controller => 'unattended', :action => 'provision', :format => 'html',
     :constraints => { :metadata => /(autoinstall\.scm|vm-profile\.scm|pkg-groups\.tar)/ }
-  # match for all unattended scripts
+  # get for all unattended scripts
   get 'unattended/(:action/(:id(.:format)))', :controller => 'unattended'
 
   resources :tasks, :only => [:show]

@@ -7,6 +7,7 @@ module Orchestration::TFTP
 
     # required for pxe template url helpers
     include Rails.application.routes.url_helpers
+    register_rebuild(:rebuild_tftp, N_('TFTP'))
   end
 
   def tftp?
@@ -19,6 +20,20 @@ module Orchestration::TFTP
     subnet.tftp_proxy(:variant => host.operatingsystem.pxe_variant) if tftp?
   end
 
+  def rebuild_tftp
+    if tftp?
+      begin
+        setTFTP
+      rescue => e
+        Foreman::Logging.exception "Failed to rebuild TFTP record for #{name}, #{ip}", e, :level => :error
+        false
+      end
+    else
+      logger.info "TFTP not supported for #{name}, #{ip}, skipping orchestration rebuild"
+      true
+    end
+  end
+
   def generate_pxe_template
     # this is the only place we generate a template not via a web request
     # therefore some workaround is required to "render" the template.
@@ -27,16 +42,16 @@ module Orchestration::TFTP
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
     @host = self.host
     if build?
-      pxe_render host.configTemplate({:kind => host.operatingsystem.template_kind})
+      pxe_render host.provisioning_template({:kind => host.operatingsystem.template_kind})
     else
       if host.operatingsystem.template_kind == "PXEGrub"
-        pxe_render ConfigTemplate.find_by_name("PXEGrub default local boot")
+        pxe_render ProvisioningTemplate.find_by_name("PXEGrub default local boot")
       else
-        pxe_render ConfigTemplate.find_by_name("PXELinux default local boot")
+        pxe_render ProvisioningTemplate.find_by_name("PXELinux default local boot")
       end
     end
   rescue => e
-    failure _("Failed to generate %{template_kind} template: %{e}") % { :template_kind => host.operatingsystem.template_kind, :e => e }
+    failure _("Failed to generate %{template_kind} template: %{e}") % { :template_kind => host.operatingsystem.template_kind, :e => e }, e
   end
 
   protected

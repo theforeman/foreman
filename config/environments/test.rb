@@ -7,7 +7,7 @@ Foreman::Application.configure do
   # and recreated between test runs.  Don't rely on the data there!
   config.cache_classes = true
 
-  config.eager_load = true
+  config.eager_load = false
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -44,4 +44,7 @@ Foreman::Application.configure do
 
   #enables a few aliases - context, should, and should_eventually methods
   config.minitest_spec_rails.mini_shoulda = true
+
+  # Use separate cache stores for parallel_tests
+  config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV['TEST_ENV_NUMBER']}")
 end

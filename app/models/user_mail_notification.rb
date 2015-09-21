@@ -5,9 +5,9 @@ class UserMailNotification < ActiveRecord::Base
   #validates :user_id, :presence => true
   validates :mail_notification, :presence => true
 
-  scope :daily, lambda { where(:interval => 'Daily') }
-  scope :weekly,  lambda { where(:interval => 'Weekly') }
-  scope :monthly, lambda { where(:interval => 'Monthly') }
+  scope :daily, -> { where(:interval => 'Daily') }
+  scope :weekly, -> { where(:interval => 'Weekly') }
+  scope :monthly, -> { where(:interval => 'Monthly') }
 
   def deliver(options = {})
     return unless user.mail_enabled?

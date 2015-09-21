@@ -109,6 +109,8 @@ module Foreman
 
     config.autoload_paths += %W(#{config.root}/app/models/auth_sources)
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
+    config.autoload_paths += %W(#{config.root}/app/models/lookup_keys)
+    config.autoload_paths += %W(#{config.root}/app/models/host_status)
     config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
     config.autoload_paths += %W(#{config.root}/app/models/parameters)
     config.autoload_paths += %W(#{config.root}/app/models/trends)

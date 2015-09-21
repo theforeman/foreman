@@ -13,14 +13,11 @@ module Nic
     after_validation :set_validated
     before_destroy :not_required_interface
 
-    validates :mac, :uniqueness => {:scope => :virtual},
-              :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? }, :allow_blank => true
+    validate :mac_uniqueness,
+             :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && nic.mac.present? }
     validates :mac, :presence => true,
               :if => Proc.new { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true
-
-    # TODO uniq on primary per host
-    # validate :uniq_with_hosts
 
     validates :host, :presence => true, :if => Proc.new { |nic| nic.require_host? }
 
@@ -33,18 +30,18 @@ module Nic
     validate :validate_host_location, :if => Proc.new { |nic| SETTINGS[:locations_enabled] && nic.subnet.present? }
     validate :validate_host_organization, :if => Proc.new { |nic| SETTINGS[:organizations_enabled] && nic.subnet.present? }
 
-    scope :bootable, lambda { where(:type => "Nic::Bootable") }
-    scope :bmc, lambda { where(:type => "Nic::BMC") }
-    scope :bonds, lambda { where(:type => "Nic::Bond") }
-    scope :interfaces, lambda { where(:type => "Nic::Interface") }
-    scope :managed, lambda { where(:type => "Nic::Managed") }
+    scope :bootable, -> { where(:type => "Nic::Bootable") }
+    scope :bmc, -> { where(:type => "Nic::BMC") }
+    scope :bonds, -> { where(:type => "Nic::Bond") }
+    scope :interfaces, -> { where(:type => "Nic::Interface") }
+    scope :managed, -> { where(:type => "Nic::Managed") }
 
-    scope :virtual, lambda { where(:virtual => true) }
-    scope :physical, lambda { where(:virtual => false) }
-    scope :is_managed, lambda { where(:managed => true) }
+    scope :virtual, -> { where(:virtual => true) }
+    scope :physical, -> { where(:virtual => false) }
+    scope :is_managed, -> { where(:managed => true) }
 
-    scope :primary, lambda { where(:primary => true) }
-    scope :provision, lambda { where( :provision => true ) }
+    scope :primary, -> { where(:primary => true) }
+    scope :provision, -> { where( :provision => true ) }
 
     belongs_to :subnet
     belongs_to :domain, :counter_cache => 'hosts_count'
@@ -152,28 +149,6 @@ module Nic
 
     protected
 
-    def uniq_fields_with_hosts
-      self.virtual? ? [] : [:mac]
-    end
-
-    # make sure we don't have a conflicting interface with an host record
-    def uniq_with_hosts
-      failed = false
-      uniq_fields_with_hosts.each do |attr|
-        value = self.send(attr)
-        unless value.blank?
-          if host && host.send(attr) == value
-            errors.add(attr, _("can't use the same value as the primary interface"))
-            failed = true
-          elsif Host.where(attr => value).limit(1).pluck(attr).any?
-            errors.add(attr, _("already in use"))
-            failed = true
-          end
-        end
-      end
-      !failed
-    end
-
     def normalize_mac
       self.mac = Net::Validations.normalize_mac(mac)
     rescue ArgumentError => e
@@ -236,7 +211,18 @@ module Nic
       errors.add(:subnet, _("is not defined for host's organization.")) unless include_or_empty?(self.subnet.organizations, self.host.organization)
     end
 
+    def mac_uniqueness
+      interface_attribute_uniqueness(:mac)
+    end
+
     private
+
+    def interface_attribute_uniqueness(attr, base = Nic::Base.all)
+      in_memory_candidates = self.host.present? ? self.host.interfaces.select { |i| i.persisted? && !i.marked_for_destruction? } : [self]
+      db_candidates = base.where(attr => self.public_send(attr))
+      db_candidates = db_candidates.select { |c| c.id != self.id && in_memory_candidates.map(&:id).include?(c.id) }
+      errors.add(attr, :taken) if db_candidates.present?
+    end
 
     def include_or_empty?(list, item)
       (list.empty? && item.nil?) || list.include?(item)

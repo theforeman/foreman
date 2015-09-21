@@ -279,17 +279,17 @@ class OperatingsystemTest < ActiveSupport::TestCase
   test "should create os with two different parameters" do
     pid = Time.now.to_i
     operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
-        {pid += 1=>{"name"=>"a", "value"=>"1", :nested => ""},
-         pid +  1=>{"name"=>"b", "value"=>"1", :nested => ""}})
+        {pid += 1=>{"name"=>"a", "value"=>"1"},
+         pid +  1=>{"name"=>"b", "value"=>"1"}})
     assert_valid operatingsystem
   end
 
   test "should not create os with two new parameters with the same name" do
     pid = Time.now.to_i
     operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
-        {pid += 1=>{"name"=>"a", "value"=>"1", :nested => true},
-         pid += 1=>{"name"=>"a", "value"=>"2", :nested => true},
-         pid +  1=>{"name"=>"b", "value"=>"1", :nested => true}})
+        {pid += 1=>{"name"=>"a", "value"=>"1"},
+         pid += 1=>{"name"=>"a", "value"=>"2"},
+         pid +  1=>{"name"=>"b", "value"=>"1"}})
     refute_valid operatingsystem
     assert_equal "has already been taken", operatingsystem.os_parameters.select {|param| param.name=='a'}.sort[1].errors[:name].first
     assert_equal "Please ensure the following parameters name are unique", operatingsystem.errors[:os_parameters].first
@@ -306,9 +306,9 @@ class OperatingsystemTest < ActiveSupport::TestCase
   test "should not create os with an invalid parameter - no name" do
     pid = Time.now.to_i
     operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
-        {pid += 1=>{"value"=>"1", :nested => ""},
-         pid += 1=>{"name"=>"a", "value"=>"2", :nested => ""},
-         pid +  1=>{"name"=>"b", "value"=>"1", :nested => ""}})
+        {pid += 1=>{"value"=>"1"},
+         pid += 1=>{"name"=>"a", "value"=>"2"},
+         pid +  1=>{"name"=>"b", "value"=>"1"}})
     refute_valid operatingsystem
   end
 

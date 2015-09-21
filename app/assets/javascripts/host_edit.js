@@ -1,6 +1,5 @@
 $(document).on('ContentLoad', function(){onHostEditLoad()});
 $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(link)});
-$(document).on('click', '#params-tab', function() { resizeTextareas($('#params')); });
 
 function update_nics(success_callback) {
   var data = $('form').serialize().replace('method=put', 'method=post');
@@ -98,10 +97,17 @@ function update_capabilities(capabilities){
 
 var stop_pooling;
 
-function submit_host(){
-  var url = window.location.pathname.replace(/\/edit$|\/new$/,'');
-  if(/\/clone$/.test(window.location.pathname)){ url = foreman_url('/hosts'); }
-  $('#host_submit').attr('disabled', true);
+function submit_with_all_params(){
+  var url = window.location.pathname.replace(/\/edit$|\/new|\/\d+.*\/nest$/,'');
+  if (url.match('hostgroups')) {
+    resource = 'hostgroup'
+  } else {
+    resource = 'host'
+  }
+  resources = resource + 's';
+  capitalized_resource = resource[0].toUpperCase + resource.slice(1);
+  if(/\/clone$/.test(window.location.pathname)){ url = foreman_url('/' + resources); }
+  $('form input[type="submit"]').attr('disabled', true);
   stop_pooling = false;
   $("body").css("cursor", "progress");
   clear_errors();
@@ -112,11 +118,11 @@ function submit_host(){
     url: url,
     data: $('form').serialize(),
     success: function(response){
-      $("#host-progress").hide();
+      $('#' + resource + '-progress').hide();
       $('#content').replaceWith($("#content", response));
       $(document.body).trigger('ContentLoad');
       if($("[data-history-url]").exists()){
-          history.pushState({}, "Host show", $("[data-history-url]").data('history-url'));
+          history.pushState({}, capitalized_resource + " show", $("[data-history-url]").data('history-url'));
       }
     },
     error: function(response){
@@ -125,7 +131,7 @@ function submit_host(){
     complete: function(){
       stop_pooling = true;
       $("body").css("cursor", "auto");
-      $('#host_submit').attr('disabled', false);
+      $('form input[type="submit"]').attr('disabled', false);
     }
   });
   return false;
@@ -193,7 +199,7 @@ function load_puppet_class_parameters(item) {
     success: function(result, textstatus, xhr) {
       var params = $(result);
       placeholder.replaceWith(params);
-      params.find('a[rel="popover"]').popover({html: true});
+      params.find('a[rel="popover"]').popover();
       if (params.find('.error').length > 0) $('#params-tab').addClass('tab-error');
     }
   });
@@ -483,7 +489,7 @@ function onHostEditLoad(){
 $(document).on('submit',"[data-submit='progress_bar']", function() {
   // onContentLoad function clears any un-wanted parameters from being sent to the server by
   // binding 'click' function before this submit. see '$('form').on('click', 'input[type="submit"]', function()'
-  submit_host();
+  submit_with_all_params();
   return false;
 });
 
@@ -520,7 +526,7 @@ $(document).on('change', '.interface_domain', function () {
 });
 
 $(document).on('click', '.suggest_new_ip', function (e) {
-  $(this).closest('fieldset').find('.interface_ip').val('');
+  clearError($(this).closest('fieldset').find('.interface_ip'));
   interface_subnet_selected($(this).closest('fieldset').find('select.interface_subnet'));
   e.preventDefault();
 });
@@ -570,6 +576,7 @@ function interface_domain_selected(element) {
         subnet_options.attr('disabled', true);
       }
       reloadOnAjaxComplete(element);
+      subnet_options.filter('select').select2({allowClear: true})
     }
   });
 }
@@ -627,8 +634,7 @@ function interface_subnet_selected(element) {
       update_interface_table();
     },
     error: function(request, status, error) {
-      interface_ip.addClass('tab-error');
-      interface_ip.val(Jed.sprintf(__("Error generating IP: %s"), error))
+      setError(interface_ip, Jed.sprintf(__("Error generating IP: %s"), error));
     },
     complete:function () {
       $(element).indicator_hide();
@@ -654,7 +660,7 @@ function interface_type_selected(element) {
 
   request.done(function() {
     password_caps_lock_hint();
-    $("#interfaceModal").find('a[rel="popover-modal"]').popover({html: true});
+    $("#interfaceModal").find('a[rel="popover-modal"]').popover();
     $('select').select2({ allowClear: true });
   });
 }
@@ -666,23 +672,26 @@ function disable_vm_form_fields() {
   });
 }
 
-function resizeTextareas (elem) {
-  elem.find('textarea').each(function() {
-    if (this.scrollHeight !== undefined){
-      if (this.scrollHeight <= 100){
-        this.style.height = this.scrollHeight+parseInt(this.style.paddingTop)+parseInt(this.style.paddingBottom)+ 'px';
-      }
-      else{
-        this.style.height = 100+'px';
-      }
-    }
-  });
-}
-
 function selectedSubnetHasIPAM() {
   var subnet = $("#host_subnet_id")
   var subnet_id = subnet.val();
   var subnets =  subnet.data("subnets");
   if (subnet_id == '') return true;
   return subnets[subnet_id]['ipam'];
+};
+
+function setError(field, text) {
+  var form_group = field.parents(".form-group").first();
+  form_group.addClass("has-error");
+  var help_block = form_group.children(".help-inline").first();
+  var span = $( document.createElement('span') );
+  span.addClass("error-message").html(text);
+  help_block.prepend(span);
+};
+
+function clearError(field) {
+  var form_group = field.parents(".form-group").first();
+  form_group.removeClass("has-error");
+  var error_block = form_group.children(".help-inline").children(".error-message");
+  error_block.remove();
 };

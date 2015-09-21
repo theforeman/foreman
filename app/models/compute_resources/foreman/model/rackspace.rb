@@ -3,6 +3,8 @@ module Foreman::Model
     validates :user, :password, :region, :presence => true
     validate :ensure_valid_region
 
+    delegate :flavors, :to => :client
+
     def provided_attributes
       super.merge({ :ip => :public_ip_address })
     end
@@ -38,10 +40,6 @@ module Foreman::Model
 
     def zones
       ["rackspace"]
-    end
-
-    def flavors
-      client.flavors
     end
 
     def available_images

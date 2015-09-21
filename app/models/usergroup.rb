@@ -24,12 +24,12 @@ class Usergroup < ActiveRecord::Base
 
   # The text item to see in a select dropdown menu
   alias_attribute :select_title, :to_s
-  default_scope lambda { order('usergroups.name') }
-  scope :visible, lambda { }
+  default_scope -> { order('usergroups.name') }
+  scope :visible, -> { }
   scoped_search :on => :name, :complete_value => :true
   validate :ensure_uniq_name, :ensure_last_admin_remains_admin
 
-  accepts_nested_attributes_for :external_usergroups, :reject_if => lambda { |a| a[:name].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :external_usergroups, :reject_if => ->(a) { a[:name].blank? }, :allow_destroy => true
 
   # This methods retrieves all user addresses in a usergroup
   # Returns: Array of strings representing the user's email addresses
@@ -60,12 +60,11 @@ class Usergroup < ActiveRecord::Base
   end
 
   def add_users(userlist)
-    users << User.where( {:login => userlist } )
+    users << User.where(:lower_login => userlist.map(&:downcase))
   end
 
   def remove_users(userlist)
-    old_users = User.select { |user| userlist.include?(user.login) }
-    self.users = self.users - old_users
+    self.users = self.users - User.where(:lower_login => userlist.map(&:downcase))
   end
 
   protected

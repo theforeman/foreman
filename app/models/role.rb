@@ -25,8 +25,8 @@ class Role < ActiveRecord::Base
   BUILTIN_ANONYMOUS     = 2
   audited :allow_mass_assignment => true
 
-  scope :givable, lambda { where(:builtin => 0).order(:name) }
-  scope :for_current_user, lambda { User.current.admin? ? all : where(:id => User.current.role_ids) }
+  scope :givable, -> { where(:builtin => 0).order(:name) }
+  scope :for_current_user, -> { User.current.admin? ? all : where(:id => User.current.role_ids) }
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first
     where("#{compare} builtin = 0")

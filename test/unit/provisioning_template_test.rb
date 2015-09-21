@@ -81,6 +81,10 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     assert_equal clone.template, tmplt.template
   end
 
+  test "can instantiate a locked template" do
+    assert FactoryGirl.create(:provisioning_template, :locked => true)
+  end
+
   test "should not edit a locked template" do
     tmplt = templates(:locked)
     tmplt.name = "something else"

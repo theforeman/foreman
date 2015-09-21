@@ -328,7 +328,7 @@ Spork.prefork do
     helper Rails.application.routes.url_helpers
   end
 
-  ::Rails::Engine.subclasses.map{|i| i.send(:new)}.each do |engine|
+  ::Rails::Engine.subclasses.map(&:instance).each do |engine|
     support_file = "#{engine.root}/test/support/foreman_test_helper_additions.rb"
     require support_file if File.exist?(support_file)
   end

@@ -34,17 +34,19 @@ module Host
     validate :host_has_required_interfaces
     validate :uniq_interfaces_identifiers
 
-    default_scope lambda {
+    default_scope -> { where(taxonomy_conditions) }
+
+    def self.taxonomy_conditions
       org = Organization.expand(Organization.current) if SETTINGS[:organizations_enabled]
       loc = Location.expand(Location.current) if SETTINGS[:locations_enabled]
       conditions = {}
       conditions[:organization_id] = Array(org).map { |o| o.subtree_ids }.flatten.uniq if org.present?
       conditions[:location_id] = Array(loc).map { |l| l.subtree_ids }.flatten.uniq if loc.present?
-      where(conditions)
-    }
+      conditions
+    end
 
-    scope :no_location, lambda { where(:location_id => nil) }
-    scope :no_organization, lambda { where(:organization_id => nil) }
+    scope :no_location,     -> { where(:location_id => nil) }
+    scope :no_organization, -> { where(:organization_id => nil) }
 
     # primary interface is mandatory because of delegated methods so we build it if it's missing
     # similar for provision interface
@@ -420,7 +422,8 @@ module Host
     def uniq_interfaces_identifiers
       success = true
       identifiers = []
-      self.interfaces.each do |interface|
+      relevant_interfaces = self.interfaces.select { |i| !i.marked_for_destruction? }
+      relevant_interfaces.each do |interface|
         next if interface.identifier.blank?
         if identifiers.include?(interface.identifier)
           interface.errors.add :identifier, :taken
@@ -431,6 +434,14 @@ module Host
 
       errors.add(:interfaces, _('some interfaces are invalid')) unless success
       success
+    end
+
+    def password_base64_encrypted?
+      if root_pass_changed?
+        root_pass == hostgroup.try(:read_attribute, :root_pass)
+      else
+        true
+      end
     end
   end
 end

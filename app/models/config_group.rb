@@ -9,7 +9,8 @@ class ConfigGroup < ActiveRecord::Base
   has_many :config_group_classes, :validate => false
   has_many :puppetclasses, :through => :config_group_classes, :dependent => :destroy
   has_many :host_config_groups
-  has_many_hosts :through => :host_config_groups
+  has_many_hosts :through => :host_config_groups, :source => :host, :source_type => 'Host::Managed'
+  has_many :hostgroups, :through => :host_config_groups, :source => :host, :source_type => 'Hostgroup'
 
   validates :name, :presence => true, :uniqueness => true
 
@@ -18,7 +19,7 @@ class ConfigGroup < ActiveRecord::Base
   scoped_search :on => :hostgroups_count
   scoped_search :on => :config_group_classes_count
 
-  default_scope lambda { order('config_groups.name') }
+  default_scope -> { order('config_groups.name') }
 
   # the following methods are required for app/views/puppetclasses/_class_selection.html.erb
   alias_method :classes, :puppetclasses

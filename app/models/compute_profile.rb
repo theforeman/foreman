@@ -15,7 +15,7 @@ class ComputeProfile < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
 
   scoped_search :on => :name, :complete_value => true
-  default_scope lambda { order('compute_profiles.name') }
+  default_scope -> { order('compute_profiles.name') }
 
-  scope :visibles, lambda { includes(:compute_attributes).where('compute_attributes.id > 0').references(:compute_attributes) }
+  scope :visibles, -> { includes(:compute_attributes).where('compute_attributes.id > 0').references(:compute_attributes) }
 end

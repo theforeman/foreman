@@ -45,3 +45,14 @@ module ActiveRecord::Associations::Builder
     end
   end
 end
+
+module ActiveRecord
+  module Delegation # :nodoc:
+    module DelegateCache
+      def relation_delegate_class(klass) # :nodoc:
+        initialize_relation_delegate_cache if @relation_delegate_cache.nil?
+        @relation_delegate_cache[klass]
+      end
+    end
+  end
+end

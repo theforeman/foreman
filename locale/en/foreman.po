@@ -7384,6 +7384,10 @@ msgstr "Administrator"
 msgid "User|Last login on"
 msgstr "Last login time"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "User|Mail enabled"
+msgstr "Email enabled"
+
 msgid "Login"
 msgstr ""
 
@@ -7979,55 +7983,111 @@ msgid "Lookup key"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Avoid duplicates"
+msgid "Variable lookup key"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Default value"
+msgid "VariableLookupKey|Avoid duplicates"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "VariableLookupKey|Default value"
 msgstr "Default value"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Description"
+msgid "VariableLookupKey|Description"
 msgstr "Description"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Is param"
+msgid "VariableLookupKey|Is param"
 msgstr "Is parameter"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Key"
+msgid "VariableLookupKey|Key"
 msgstr "Parameter"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Key type"
+msgid "VariableLookupKey|Key type"
 msgstr "Parameter type"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Lookup values count"
+msgid "VariableLookupKey|Variable lookup values count"
 msgstr "Number of values"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Merge overrides"
+msgid "VariableLookupKey|Merge overrides"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Override"
+msgid "VariableLookupKey|Override"
 msgstr "Override"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Path"
+msgid "VariableLookupKey|Path"
 msgstr "Path"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Required"
+msgid "VariableLookupKey|Required"
 msgstr "Required"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Validator rule"
+msgid "VariableLookupKey|Validator rule"
 msgstr "Validator rule"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Validator type"
+msgid "VariableLookupKey|Validator type"
+msgstr "Validator type"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass lookup key"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Avoid duplicates"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Default value"
+msgstr "Default value"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Description"
+msgstr "Description"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Is param"
+msgstr "Is parameter"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Key"
+msgstr "Parameter"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Key type"
+msgstr "Parameter type"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Merge overrides"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Override"
+msgstr "Override"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Path"
+msgstr "Path"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Required"
+msgstr "Required"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Validator rule"
+msgstr "Validator rule"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Validator type"
 msgstr "Validator type"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages

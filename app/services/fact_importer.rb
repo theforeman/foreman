@@ -50,7 +50,7 @@ class FactImporter
 
   def delete_removed_facts
     #in rails4 join makes the returned set read only, so let's collect the ids and fetch everything again. :(
-    to_delete_ids = host.fact_values.joins(:fact_name).where('fact_names.name NOT IN (?)', facts.keys).pluck(:id)
+    to_delete_ids = host.fact_values.joins(:fact_name).where("fact_names.type = '#{fact_name_class}' AND fact_names.name NOT IN (?)", facts.keys).pluck(:id)
     to_delete = host.fact_values.where(id: to_delete_ids)
     # N+1 DELETE SQL, but this would allow us to use callbacks (e.g. auditing) when deleting.
     deleted = to_delete.destroy_all
@@ -98,6 +98,6 @@ class FactImporter
   end
 
   def db_facts
-    @db_facts ||= host.fact_values.includes(:fact_name).index_by(&:name)
+    @db_facts ||= host.fact_values.includes(:fact_name).references(:fact_names).where("fact_names.type = '#{fact_name_class}'").index_by(&:name)
   end
 end

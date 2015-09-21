@@ -2,7 +2,8 @@ module Foreman::Model
   class EC2 < ComputeResource
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
 
-    delegate :subnets, :to => :client
+    delegate :flavors, :subnets, :to => :client
+    delegate :security_groups, :flavors, :zones, :to => :self, :prefix => 'available'
     validates :user, :password, :presence => true
 
     after_create :setup_key_pair
@@ -65,10 +66,6 @@ module Foreman::Model
 
     def zones
       @zones ||= client.describe_availability_zones.body["availabilityZoneInfo"].map { |r| r["zoneName"] if r["regionName"] == region }.compact
-    end
-
-    def flavors
-      client.flavors
     end
 
     def test_connection(options = {})

@@ -1,4 +1,3 @@
-<%= include_javascript %>
 <%# url = @template.persisted? ? public_send("#{@type_name_singular}_path", @template) : public_send("#{@type_name_singular}_path", @resource_class.new) %>
 <%= form_for @template, :html => { :multipart => true, :onsubmit => 'submit_code();' } do |f| %>
   <%= base_errors_for @template %>
@@ -38,40 +37,34 @@
 
 
       <% if pxe_with_building_hosts?(@template) -%>
+        <% warning_text = (_("Warning: The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates or choose to %s their configuration from 'Select Action' menu") % link_to(_('recreate'), building_hosts_path(@template))).html_safe %>
         <%= alert :class => 'alert-warning', :header => '',
-                  :text => icon_text("warning-sign", (_("Warning: The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates."))) %>
+                  :text => icon_text("warning-sign", warning_text) %>
       <% end -%>
 
       <div class='form-group'>
-        <label class="control-label" for="template"><%= _("Template editor") %></label>
-        <div class="navbar navbar-form">
-          <div class="btn-group" data-toggle="buttons" >
-            <label class="btn btn-default btn-sm active" onclick="set_code()">
-              <input type="radio" name="options" id="option1" ><%= _("Code") %>
-            </label>
-            <label class="btn btn-default btn-sm" onclick="set_preview()">
-              <input type="radio" name="options" id="option2" ><%= _("Diff") %>
-            </label>
-            <label class="btn btn-default btn-sm" onclick="set_render()">
-              <input type="radio" name="options" id="option3" ><%= _("Preview") %>
-            </label>
-          </div>
-          <span id="preview_host_selector" style="display:none">
-            <%= select_tag :preview_host_id, options_from_collection_for_select(@template.preview_host_collection, :id, :name),
-                           :onchange => 'get_rendered_template()' %>
-          </span>
-          <%= fullscreen_button("$('#editor1')") %>
-          <div class="fr">
-            <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'form-control input-sm') %>
+        <div class="col-md-12">
+            <label class="control-label"  for="template"><%= _("Template editor") %></label>
+        </div>
+
+        <div class="col-md-12">
+          <div class="editor-container">
+            <%= render :partial => 'editor/toolbar', :locals => {:show_preview => true} %>
+
+            <span id="preview_host_selector" style="display:none">
+              <%= select_tag :preview_host_id, options_from_collection_for_select(@template.preview_host_collection, :id, :name),
+                             :onchange => 'get_rendered_template()' %>
+            </span>
+
+            <%= alert :class => 'alert-danger hide', :id => 'preview_error', :close => false %>
+            <%= textarea_f f, :template, :class => "editor_source", :label =>:none, :disabled => @template.locked?, :size => "max",
+                            :'data-file-name' => @template.name, :'data-render-path' => url_for(template_hash_for_member(@template, 'preview')) %>
           </div>
         </div>
       </div>
-      <%= alert :class => 'alert-danger hide', :id => 'preview_error', :close => false %>
-      <%= textarea_f f, :template, :class => "template_text", :label =>:none, :disabled => @template.locked?, :size => "max",
-                     :'data-file-name' => @template.name, :'data-render-path' => url_for(template_hash_for_member(@template, 'preview')) %>
 
       <% unless @template.locked? -%>
-        <%= file_field_f f, :template, :class => "template_file",:size => "col-md-10", :id => 'template_file',
+        <%= file_field_f f, :template, :class => "editor_file_source",:size => "col-md-10", :id => 'template_file',
                          :help_block  => _("Selecting a file will override the editor and load the file instead") %>
       <% end -%>
 

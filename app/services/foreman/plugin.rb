@@ -270,5 +270,10 @@ module Foreman #:nodoc:
       end
       @apipie_ignored_controllers
     end
+
+    # register custom host status class, it should inherit from HostStatus::Status
+    def register_custom_status(klass)
+      HostStatus.status_registry.add(klass)
+    end
   end
 end

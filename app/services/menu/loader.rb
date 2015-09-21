@@ -76,7 +76,8 @@ module Menu
           menu.item :environments,      :caption => N_('Environments')
           menu.item :puppetclasses,     :caption => N_('Classes')
           menu.item :config_groups,     :caption => N_('Config groups')
-          menu.item :lookup_keys,       :caption => N_('Smart variables')
+          menu.item :variable_lookup_keys, :caption => N_('Smart variables')
+          menu.item :puppetclass_lookup_keys, :caption => N_('Smart class parameters')
         end
 
         menu.sub_menu :infrastructure_menu, :caption => N_('Infrastructure') do

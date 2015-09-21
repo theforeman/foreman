@@ -7,13 +7,13 @@ class Bookmark < ActiveRecord::Base
   belongs_to :owner, :polymorphic => true
   audited :allow_mass_assignment => true
 
-  validates :name, :uniqueness => true, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
+  validates :name, :uniqueness => {:scope => :controller}, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
   validates :name, :query, :presence => true
   validates :controller, :presence => true, :no_whitespace => true,
                          :inclusion => {
                            :in => ["dashboard"] + ActiveRecord::Base.connection.tables.map(&:to_s),
                            :message => _("%{value} is not a valid controller") }
-  default_scope lambda { order(:name) }
+  default_scope -> { order(:name) }
   before_validation :set_default_user
 
   scope :my_bookmarks, lambda {
@@ -26,7 +26,7 @@ class Bookmark < ActiveRecord::Base
     where(conditions)
   }
 
-  scope :controller, lambda { |*args| where("controller = ?", (args.first || '')) }
+  scope :controller, ->(*args) { where("controller = ?", (args.first || '')) }
 
   def set_default_user
     self.owner ||= User.current

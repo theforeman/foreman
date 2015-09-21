@@ -131,19 +131,20 @@ class UsergroupTest < ActiveSupport::TestCase
     assert_equal 3, user.reload.cached_user_roles.size
   end
 
-  test 'add_users adds users in list and does not add nonexistent users' do
+  test 'add_users is case insensitive and does not add nonexistent users' do
     usergroup = FactoryGirl.create(:usergroup)
-    usergroup.send(:add_users, ['one', 'two', 'three'])
+    usergroup.send(:add_users, ['OnE', 'TwO', 'tHREE'])
 
     # users 'one' 'two' are defined in fixtures, 'three' is not defined
     assert_equal ['one', 'two'], usergroup.users.map(&:login).sort
   end
 
-  test 'remove_users removes user list' do
+  test 'remove_users removes user list and is case insensitive' do
     usergroup = FactoryGirl.create(:usergroup)
-    usergroup.send(:add_users, ['one', 'two'])
+    usergroup.send(:add_users, ['OnE', 'tWo'])
+    assert_equal ['one', 'two'], usergroup.users.map(&:login).sort
 
-    usergroup.send(:remove_users, ['one', 'two'])
+    usergroup.send(:remove_users, ['ONE', 'TWO'])
     assert_equal [], usergroup.users
   end
 

@@ -10,26 +10,12 @@ class Organization < Taxonomy
   accepts_nested_attributes_for :organization_parameters, :allow_destroy => true
   include ParameterValidators
 
-  scope :completer_scope, lambda { |opts| my_organizations }
+  scope :completer_scope, ->(opts) { my_organizations }
 
   scope :my_organizations, lambda {
     conditions = User.current.admin? ? {} : sanitize_sql_for_conditions([" (taxonomies.id in (?))", User.current.organization_and_child_ids])
     where(conditions)
   }
-
-  # returns self and parent parameters as a hash
-  def parameters(include_source = false)
-    hash = {}
-    ids = ancestor_ids
-    ids << id unless new_record? or self.frozen?
-    # need to pull out the organizations to ensure they are sorted first,
-    # otherwise we might be overwriting the hash in the wrong order.
-    orgs = ids.size == 1 ? [self] : Organization.sort_by_ancestry(Organization.includes(:organization_parameters).find(ids))
-    orgs.each do |org|
-      org.organization_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('organization').to_sym, :source_name => org.title} : p.value }
-    end
-    hash
-  end
 
   def dup
     new = super

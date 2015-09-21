@@ -251,4 +251,13 @@ class PluginTest < ActiveSupport::TestCase
     plugin.logging.expects(:add_logger).with(:test_logger, {:enabled => true})
     plugin.logger(:test_logger, {:enabled => true})
   end
+
+  def test_register_custom_status
+    status = Struct.new(:status)
+    @klass.register :foo do
+      register_custom_status(status)
+    end
+    assert_includes HostStatus.status_registry, status
+    HostStatus.status_registry.delete status
+  end
 end

@@ -26,7 +26,7 @@ class FiltersHelperTest < ActionView::TestCase
   end
 
   def test_engine_search_path_is_used_when_engine_override_available
-    FiltersHelperOverrides.override_search_path("TestOverride", lambda { |resource| "test_override/auto_complete_search" })
+    FiltersHelperOverrides.override_search_path("TestOverride", ->(resource) { 'test_override/auto_complete_search' } )
     assert_equal "test_override/auto_complete_search", search_path('TestOverride::Resource')
   end
 end
