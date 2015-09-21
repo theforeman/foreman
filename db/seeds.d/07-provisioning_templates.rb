@@ -7,7 +7,7 @@ os_windows = Operatingsystem.where(:type => "Windows")
 # Template kinds
 kinds = {}
 [:PXELinux, :PXEGrub, :iPXE, :provision, :finish, :script, :user_data, :ZTP, :POAP].each do |type|
-  kinds[type] = TemplateKind.find_by_name(type)
+  kinds[type] = TemplateKind.where(:name => type).first
   kinds[type] ||= TemplateKind.create(:name => type)
   raise "Unable to create template kind: #{format_errors kinds[type]}" if kinds[type].nil? || kinds[type].errors.any?
 end
@@ -64,7 +64,7 @@ ProvisioningTemplate.without_auditing do
     { :name => 'redhat_register', :source => 'snippets/_redhat_register.erb', :snippet => true },
     { :name => 'saltstack_minion', :source => 'snippets/_saltstack_minion.erb', :snippet => true }
   ].each do |input|
-    next if ProvisioningTemplate.find_by_name(input[:name]).present?
+    next if ProvisioningTemplate.where(:name => input[:name]).present?
     next if audit_modified? ProvisioningTemplate, input[:name]
 
     input.merge!(:default => true)

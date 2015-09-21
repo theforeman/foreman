@@ -22,12 +22,12 @@ class FakeFilter < ActiveRecord::Base
     @resource_type ||= permissions.first.try(:resource_type)
   end
 
-  taxonomy_join_table = "taxable_taxonomies"
+  taxonomy_join_table = :taxable_taxonomies
   has_many taxonomy_join_table, :dependent => :destroy, :as => :taxable, :foreign_key => 'taxable_id'
-  has_many :locations,     :through => taxonomy_join_table, :source => :taxonomy,
-           :conditions => "taxonomies.type='Location'", :validate => false
-  has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
-           :conditions => "taxonomies.type='Organization'", :validate => false
+  has_many :locations,     lambda{where("taxonomies.type='Location'")}, :through => taxonomy_join_table, :source => :taxonomy,
+           :validate => false
+  has_many :organizations, lambda{where("taxonomies.type='Organization'")}, :through => taxonomy_join_table, :source => :taxonomy,
+           :validate => false
 end
 
 class FakeUserRole < ActiveRecord::Base
@@ -61,15 +61,15 @@ class FakeUser < ActiveRecord::Base
   has_many :hostgroups, :through => :user_hostgroups
   has_many :user_facts, :dependent => :destroy, :foreign_key => 'user_id'
   has_many :facts, :through => :user_facts, :source => :fact_name
-  has_many :user_roles, :dependent => :destroy, :foreign_key => 'owner_id',
-           :conditions => {:owner_type => 'User'}, :class_name => 'FakeUserRole'
+  has_many :user_roles, lambda{where(:owner_type => 'User')}, :dependent => :destroy, :foreign_key => 'owner_id',
+           :class_name => 'FakeUserRole'
   has_many :roles, :through => :user_roles, :dependent => :destroy, :class_name => 'FakeRole'
-  taxonomy_join_table = "taxable_taxonomies"
+  taxonomy_join_table = :taxable_taxonomies
   has_many taxonomy_join_table, :dependent => :destroy, :as => :taxable, :foreign_key => 'taxable_id'
-  has_many :locations,     :through => taxonomy_join_table, :source => :taxonomy,
-           :conditions => "taxonomies.type='Location'", :validate => false
-  has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
-           :conditions => "taxonomies.type='Organization'", :validate => false
+  has_many :locations, lambda{where("taxonomies.type='Location'")},     :through => taxonomy_join_table, :source => :taxonomy,
+           :validate => false
+  has_many :organizations, lambda{where("taxonomies.type='Organization'")}, :through => taxonomy_join_table, :source => :taxonomy,
+           :validate => false
   has_many :cached_usergroup_members, :foreign_key => 'user_id'
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
 end
@@ -82,7 +82,7 @@ class MigratePermissions < ActiveRecord::Migration
   def make_sure_all_permissions_are_present
     engine_permissions = Foreman::AccessControl.permissions.select { |p| p.engine.present? }
     engine_permissions.each do |permission|
-      FakePermission.find_or_create_by_name_and_resource_type(permission.name, permission.resource_type)
+      FakePermission.find_or_create_by(:name => permission.name, :resource_type => permission.resource_type)
     end
   end
 
@@ -133,7 +133,7 @@ class MigratePermissions < ActiveRecord::Migration
     end
   end
 
-  def self.clear_old_permission(role)
+  def clear_old_permission(role)
     say "Clearing old permissions for role '#{role.name}'"
     if FakeRole.update_all("permissions = NULL", "id = #{role.id}") == 1
       say "... OK"

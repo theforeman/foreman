@@ -45,8 +45,9 @@ if Apipie.configuration.use_cache
   cache_name = File.join(Apipie.configuration.cache_dir, Apipie.configuration.doc_base_url + '.json')
   if File.exist? cache_name
     target = max = File.mtime(cache_name)
-    roots = Rails.application.railties.engines.collect{ |e| e.root }
+    roots = Rails::Engine.subclasses.map(&:instance).collect{ |e| e.root }
     roots << Rails.root
+
     roots.each do |root|
       path = "#{root}/app/controllers/api"
       Find.find(path) do |e|

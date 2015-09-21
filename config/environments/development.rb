@@ -30,13 +30,6 @@ Foreman::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
-
-  # Log the query plan for queries taking more than this (works
-  # with SQLite, MySQL, and PostgreSQL)
-  config.active_record.auto_explain_threshold_in_seconds = 0.5
-
   config.after_initialize do
     Bullet.enable = true
     Bullet.bullet_logger = true
@@ -44,5 +37,8 @@ Foreman::Application.configure do
     Bullet.rails_logger = true
     Bullet.add_footer = true
   end if defined?(Bullet)
+  # For development of Strong Params, this has been put in development.rb
+  # Need to consider putting it env-wise or initializer
+  config.action_controller.action_on_unpermitted_parameters = :raise
 end
 
