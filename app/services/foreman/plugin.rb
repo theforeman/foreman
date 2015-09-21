@@ -199,7 +199,7 @@ module Foreman #:nodoc:
       return false if pending_migrations
 
       options[:engine] ||= self.id.to_s
-      Permission.find_or_create_by_name_and_resource_type(name, options[:resource_type])
+      Permission.where(:name => name).first_or_create(:resource_type => options[:resource_type])
       options.merge!(:security_block => @security_block)
       Foreman::AccessControl.map do |map|
         map.permission name, hash, options
@@ -212,7 +212,7 @@ module Foreman #:nodoc:
       return false if pending_migrations || Rails.env.test?
 
       Role.transaction do
-        role = Role.find_or_create_by_name(name)
+        role = Role.where(:name => name).first_or_create
         role.add_permissions!(permissions) if role.permissions.empty?
       end
     end

@@ -284,7 +284,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'user with edit host rights and facts are set should succeed in viewing host1 but fail for host2' do
     setup_user_and_host "view", "facts.architecture = \"x86_64\""
     as_admin do
-      fn_id = FactName.find_or_create_by_name("architecture").id
+      fn_id = FactName.where(:name => "architecture").first_or_create.id
       FactValue.create! :host => @host1, :fact_name_id => fn_id, :value    => "x86_64"
       FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
     end

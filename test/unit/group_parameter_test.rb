@@ -10,7 +10,7 @@ class GroupParameterTest < ActiveSupport::TestCase
 
     group_parameter.name = "valid"
     group_parameter.value = "valid"
-    hostgroup = Hostgroup.find_or_create_by_name("valid")
+    hostgroup = Hostgroup.where(:name => "valid").first_or_create
     group_parameter.reference_id = hostgroup.id
     assert group_parameter.save
   end

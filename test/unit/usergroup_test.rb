@@ -29,19 +29,11 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   def populate_usergroups
-    @u1 = User.find_or_create_by_login :login => "u1", :mail => "u1@someware.com", :firstname => "u1", :auth_source => auth_sources(:one)
-    @u2 = User.find_or_create_by_login :login => "u2", :mail => "u2@someware.com", :firstname => "u2", :auth_source => auth_sources(:one)
-    @u3 = User.find_or_create_by_login :login => "u3", :mail => "u3@someware.com", :firstname => "u3", :auth_source => auth_sources(:one)
-    @u4 = User.find_or_create_by_login :login => "u4", :mail => "u4@someware.com", :firstname => "u4", :auth_source => auth_sources(:one)
-    @u5 = User.find_or_create_by_login :login => "u5", :mail => "u5@someware.com", :firstname => "u5", :auth_source => auth_sources(:one)
-    @u6 = User.find_or_create_by_login :login => "u6", :mail => "u6@someware.com", :firstname => "u6", :auth_source => auth_sources(:one)
-
-    @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
-    @ug2 = Usergroup.find_or_create_by_name :name => "ug2"
-    @ug3 = Usergroup.find_or_create_by_name :name => "ug3"
-    @ug4 = Usergroup.find_or_create_by_name :name => "ug4"
-    @ug5 = Usergroup.find_or_create_by_name :name => "ug5"
-    @ug6 = Usergroup.find_or_create_by_name :name => "ug6"
+    (1..6).each do |number|
+      instance_variable_set("@ug#{number}", FactoryGirl.create(:usergroup, :name=> "ug#{number}"))
+      instance_variable_set("@u#{number}", FactoryGirl.create(:user, :mail => "u#{number}@someware.com",
+                                                              :login => "u#{number}"))
+    end
 
     @ug1.users      = [@u1, @u2]
     @ug2.users      = [@u2, @u3]
@@ -83,7 +75,7 @@ class UsergroupTest < ActiveSupport::TestCase
 
   test "cannot be destroyed when in use by a host" do
     disable_orchestration
-    @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
+    @ug1 = Usergroup.where(:name => "ug1").first_or_create
     @h1  = FactoryGirl.create(:host)
     @h1.update_attributes :owner => @ug1
     @ug1.destroy
@@ -91,8 +83,8 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "can be destroyed when in use by another usergroup, it removes association automatically" do
-    @ug1 = Usergroup.find_or_create_by_name :name => "ug1"
-    @ug2 = Usergroup.find_or_create_by_name :name => "ug2"
+    @ug1 = Usergroup.where(:name => "ug1").first_or_create
+    @ug2 = Usergroup.where(:name => "ug2").first_or_create
     @ug1.usergroups = [@ug2]
     assert @ug1.destroy
     assert @ug2.reload
@@ -100,8 +92,8 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "removes user join model records" do
-    ug1 = Usergroup.find_or_create_by_name :name => "ug1"
-    u1  = User.find_or_create_by_login :login => "u1", :mail => "u1@someware.com", :auth_source => auth_sources(:one)
+    ug1 = Usergroup.where(:name => "ug1").first_or_create
+    u1  = FactoryGirl.build(:user)
     ug1.users = [u1]
     assert_difference('UsergroupMember.count', -1) do
       ug1.destroy

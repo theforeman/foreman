@@ -37,7 +37,7 @@ class PuppetclassTest < ActiveSupport::TestCase
       filter1.permissions = Permission.where(:name => ['create_external_variables'])
       filter2 = FactoryGirl.build(:filter)
       filter2.permissions = Permission.where(:name => ['edit_puppetclasses'])
-      role = Role.find_or_create_by_name :name => "testing_role"
+      role = Role.where(:name => "testing_role").first_or_create
       role.filters = [ filter1, filter2 ]
       role.save!
       filter1.role = role

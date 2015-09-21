@@ -6,7 +6,7 @@ class DomainParameterTest < ActiveSupport::TestCase
     assert !parameter.save
 
     setup_user "create"
-    domain = Domain.find_or_create_by_name("domain")
+    domain = Domain.where(:name => "domain").first_or_create
     parameter.reference_id = domain.id
     assert parameter.save
   end

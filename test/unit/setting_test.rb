@@ -235,7 +235,8 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "foreman_url must be a URI" do
-    assert Setting.find_or_create_by_name(:name => "foreman_url", :default => "http://foo.com")
+    attrs = { :name => "foreman_url", :default => "http://foo.com" }
+    assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("foreman_url")
     setting.value="##"
     assert !setting.save
@@ -243,7 +244,8 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "foreman_url must have proper URI format" do
-    assert Setting.find_or_create_by_name(:name => "foreman_url", :default => "http://foo.com")
+    attrs = { :name => "foreman_url", :default => "http://foo.com" }
+    assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("foreman_url")
     setting.value = "random_string"
     assert !setting.save
@@ -251,14 +253,16 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "foreman_url cannot be blank" do
-    setting = Setting.find_or_create_by_name(:name => "foreman_url", :default => "http://foo.com")
+    attrs = { :name => "foreman_url", :default => "http://foo.com" }
+    setting = Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting.value = ""
     assert !setting.save
     assert_equal "must be a valid URI", setting.errors[:value].first
   end
 
   test "unattended_url must be a URI" do
-    assert Setting.find_or_create_by_name(:name => "unattended_url", :default => "http://foo.com")
+    attrs = { :name => "unattended_url", :default => "http://foo.com" }
+    assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("unattended_url")
     setting.value="##"
     assert !setting.save
@@ -266,7 +270,8 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "unattended_url must have proper URI format" do
-    assert Setting.find_or_create_by_name(:name => "foreman_url", :default => "http://foo.com")
+    attrs = { :name => "foreman_url", :default => "http://foo.com" }
+    assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("foreman_url")
     setting.value = "random_string"
     assert !setting.save
@@ -364,7 +369,8 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def check_frozen_change(attr_name, value)
-    assert Setting.find_or_create_by_name(:name => "foo", :default => 5, :description => "test foo")
+    attrs = { :name => "foo", :default => 5, :description => "test foo" }
+    assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("foo")
 
     setting.send("#{attr_name}=", value)
@@ -373,7 +379,8 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def check_zero_value_not_allowed_for(setting_name)
-    setting = Setting.find_or_create_by_name(setting_name, :value => 0, :default => 30)
+    attrs = { :name => setting_name, :value => 0, :default => 30 }
+    setting = Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting.value = 0
 
     refute_valid setting, :value, "must be greater than 0"
@@ -383,7 +390,8 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def check_length_must_be_under_8(setting_name)
-    setting = Setting.find_or_create_by_name(setting_name, :default => 30)
+    attrs = { :name => setting_name, :default => 30 }
+    setting = Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting.value = 123456789
 
     refute_valid setting, :value, /is too long \(maximum is 8 characters\)/
@@ -393,7 +401,8 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def check_empty_array_allowed_for(setting_name)
-    setting = Setting.find_or_create_by_name(setting_name, :value => [], :default => [])
+    attrs = { :name => setting_name, :value => [], :default => [] }
+    setting = Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting.value = []
     assert_valid setting
 
@@ -407,7 +416,7 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def check_properties_saved_and_loaded_ok(options = {})
-    assert Setting.find_or_create_by_name(options)
+    assert Setting.where(:name => options[:name]).first || Setting.create(options)
     s = Setting.find_by_name options[:name]
     assert_equal options[:value], s.value
     assert_equal options[:default], s.default
