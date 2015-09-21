@@ -257,7 +257,7 @@ class PluginTest < ActiveSupport::TestCase
     @klass.register :foo do
       register_custom_status(status)
     end
-    assert_include HostStatus.status_registry, status
+    assert_includes HostStatus.status_registry, status
     HostStatus.status_registry.delete status
   end
 end

@@ -1,5 +1,9 @@
 require 'test_helper'
 
+def OpenStruct.i18n_scope
+  :en
+end
+
 class EnsureNoCycleTest < ActiveSupport::TestCase
   def setup
     base = []
@@ -9,6 +13,11 @@ class EnsureNoCycleTest < ActiveSupport::TestCase
     base.push edge(3, 5)
     base.push edge(2, 6)
     @graph = ActiveRecord::Base::EnsureNoCycle.new(base, :source, :target)
+  end
+
+  #apparently, ActiveModel::Errors calls that...
+  def self.i18n_scope
+    :en
   end
 
   def edge(source, target)
@@ -45,7 +54,7 @@ class EnsureNoCycleTest < ActiveSupport::TestCase
     assert_raises Foreman::CyclicGraphException do
       @graph.ensure(record)
     end
-    assert_present record.errors[:base], 'cycle did not add error to record'
+    assert record.errors[:base].present?, 'cycle did not add error to record'
   end
 
   test "#ensure passes when record does not create cycle" do

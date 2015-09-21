@@ -28,7 +28,7 @@ class FactValueTest < ActiveSupport::TestCase
   test '.root_only scope returns only roots' do
     result = FactValue.root_only
     assert_includes result, @fact_value
-    assert_not_include result, @child_value
+    assert_not_includes result, @child_value
   end
 
   test '.with_fact_parent_id scope returns only children for given id' do
@@ -118,6 +118,7 @@ class FactValueTest < ActiveSupport::TestCase
       orgs = FactoryGirl.create_pair(:organization)
       locs = FactoryGirl.create_pair(:location)
       target_host.update_attributes(:location => locs.last, :organization => orgs.last)
+      target_host.hostgroup.update_attributes(:locations => [locs.last], :organizations => [orgs.last])
 
       user_role.owner.update_attributes(:locations => [locs.first], :organizations => [orgs.first])
       as_user user_role.owner do

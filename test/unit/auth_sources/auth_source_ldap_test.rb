@@ -179,7 +179,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       ldap_user = FactoryGirl.create(:user, :login => 'JohnSmith', :mail => 'a@b.com', :auth_source => @auth_source_ldap)
       AuthSourceLdap.any_instance.expects(:users_in_group).with('IPAUSERS').returns(['JohnSmith'])
       @auth_source_ldap.send(:update_usergroups, 'test')
-      assert_include ldap_user.usergroups, external.usergroup
+      assert_includes ldap_user.usergroups, external.usergroup
     end
 
     test 'update_usergroups refreshes on all external user groups, in LDAP and in Foreman auth source' do

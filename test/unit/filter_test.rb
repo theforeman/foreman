@@ -21,12 +21,12 @@ class FilterTest < ActiveSupport::TestCase
 
   test ".limited" do
     f = FactoryGirl.create(:filter, :on_name_all)
-    assert_include Filter.limited, f
+    assert_includes Filter.limited, f
   end
 
   test ".unlimited" do
     f = FactoryGirl.create(:filter)
-    assert_include Filter.unlimited, f
+    assert_includes Filter.unlimited, f
   end
 
   test "#resource_type for empty permissions collection" do
@@ -105,16 +105,16 @@ class FilterTest < ActiveSupport::TestCase
       f = FactoryGirl.build(:filter, :search => '', :unlimited => '1', :organization_ids => [@organization.id])
       assert f.valid?
       assert f.limited?
-      assert_include f.taxonomy_search, "(organization_id = #{@organization.id})"
-      assert_not_include f.taxonomy_search, ' and '
-      assert_not_include f.taxonomy_search, ' or '
+      assert_includes f.taxonomy_search, "(organization_id = #{@organization.id})"
+      assert_not_includes f.taxonomy_search, ' and '
+      assert_not_includes f.taxonomy_search, ' or '
     end
 
     test "filter with location set is always limited before validation" do
       f = FactoryGirl.build(:filter, :search => '', :unlimited => '1', :location_ids => [@location.id])
       assert f.valid?
       assert f.limited?
-      assert_include f.taxonomy_search, "(location_id = #{@location.id})"
+      assert_includes f.taxonomy_search, "(location_id = #{@location.id})"
     end
 
     test "filter with location set is always limited before validation" do
@@ -122,9 +122,9 @@ class FilterTest < ActiveSupport::TestCase
                          :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id])
       assert f.valid?
       assert f.limited?
-      assert_include f.taxonomy_search, "(location_id = #{@location.id})"
-      assert_include f.taxonomy_search, "organization_id = #{@organization.id}"
-      assert_include f.taxonomy_search, "organization_id = #{@organization1.id}"
+      assert_includes f.taxonomy_search, "(location_id = #{@location.id})"
+      assert_includes f.taxonomy_search, "organization_id = #{@organization.id}"
+      assert_includes f.taxonomy_search, "organization_id = #{@organization1.id}"
     end
 
     test "removing all organizations and locations from filter nilify taxonomy search" do

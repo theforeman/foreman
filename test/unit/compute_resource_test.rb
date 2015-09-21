@@ -28,6 +28,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
     end
     assert_equal compute_resource.password, "abcdef"
     refute_equal compute_resource.password_in_db, "abcdef"
+    Fog.unmock!
   end
 
   test "random_password should return nil when set_console_password is false" do

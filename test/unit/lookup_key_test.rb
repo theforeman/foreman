@@ -137,9 +137,7 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   test "this is a smart class parameter?" do
-    assert_not_deprecated do
-      assert lookup_keys(:complex).puppet?
-    end
+    assert lookup_keys(:complex).puppet?
   end
 
   test "when changed, an audit entry should be added" do
@@ -243,7 +241,7 @@ class LookupKeyTest < ActiveSupport::TestCase
                             :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
                             :default_value => 'whatever', :puppetclass => puppetclasses(:one))
     refute key.valid?
-    assert_include key.errors.keys, :default_value
+    assert_includes key.errors.keys, :default_value
   end
 
   context "when key is a boolean and default_value is a string" do

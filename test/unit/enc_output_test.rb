@@ -61,7 +61,7 @@ class EncOutputTest < ActiveSupport::TestCase
   end
 
   test '#to_enc does not include all attributes' do
-    assert_not_include @sample.to_enc.keys, 'password'
+    assert_not_includes @sample.to_enc.keys, 'password'
   end
 
   test '#to_enc values are dumped recursively with embed associations and transformations are applied' do

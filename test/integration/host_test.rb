@@ -2,6 +2,7 @@ require 'test_helper'
 
 class HostIntegrationTest < ActionDispatch::IntegrationTest
   def setup
+    generate_all_fixtures!
     Capybara.current_driver = Capybara.javascript_driver
     login_admin
   end
@@ -9,15 +10,12 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   before do
     SETTINGS[:locations_enabled] = false
     SETTINGS[:organizations_enabled] = false
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.start
     as_admin { @host = FactoryGirl.create(:host, :with_puppet, :managed) }
   end
 
   after do
     SETTINGS[:locations_enabled] = true
     SETTINGS[:organizations_enabled] = true
-    DatabaseCleaner.clean
   end
 
   def go_to_interfaces_tab
@@ -268,11 +266,14 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
 
   describe "hosts index multiple actions" do
     def test_show_action_buttons
+      first_host = Host.first
       visit hosts_path
       page.find('#check_all').click
 
       # Ensure all hosts are checked
-      assert page.find('input.host_select_boxes').checked?
+      page.all('input.host_select_boxes').each do |checkbox|
+        assert checkbox.checked?
+      end
 
       # Dropdown visible?
       assert multiple_actions_div.find('.dropdown-toggle').visible?
@@ -281,7 +282,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
 
       # Hosts are added to cookie
       host_ids_on_cookie = JSON.parse(CGI::unescape(page.driver.cookies['_ForemanSelectedhosts'].value))
-      assert(host_ids_on_cookie.include? @host.id)
+      assert(host_ids_on_cookie.include? first_host.id)
 
       # Open modal box
       within('#submit_multiple') do

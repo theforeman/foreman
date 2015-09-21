@@ -45,7 +45,36 @@ Spork.prefork do
     ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
   end
 
+  require 'active_record/fixtures'
+
+  def generate_all_fixtures!
+    fixtures_dir = File.join(Rails.root, '/test/fixtures') #change '/spec/fixtures' to match your fixtures location
+    Dir.glob(File.join(fixtures_dir,'*.yml')).each do |file|
+      base_name = File.basename(file, '.*')
+      ActiveRecord::FixtureSet.create_fixtures(fixtures_dir, base_name)
+    end
+  end
+
+  class ActionController::TestCase
+    def self.test_order
+      :alpha
+    end
+  end
+
+  class ActionDispatch::IntegrationTest
+    def self.test_order
+      :alpha
+    end
+  end
+
   class ActiveSupport::TestCase
+    before do
+      User.current = nil
+    end
+
+    def self.test_order
+      :alpha
+    end
     # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
     # Note: You'll currently still have to declare fixtures explicitly in integration tests
     # -- they do not yet inherit this setting
@@ -135,7 +164,7 @@ Spork.prefork do
       User.current = users :admin
       user = User.find_by_login("one")
       @request.session[:user] = user.id
-      @request.session[:expires_at] = 5.minutes.from_now.to_i
+      @request.session[:expires_at] = 500.minutes.from_now.to_i
       user.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
       user.save!
     end
@@ -147,7 +176,7 @@ Spork.prefork do
         permission = Permission.find_by_name("#{operation}_#{type}") || FactoryGirl.create(:permission, :name => "#{operation}_#{type}")
         filter = FactoryGirl.build(:filter, :search => search)
         filter.permissions = [ permission ]
-        role = Role.find_or_create_by_name :name => "#{operation}_#{type}"
+        role = Role.find_or_create_by(:name => "#{operation}_#{type}")
         role.filters = [ filter ]
         role.save!
         filter.role = role
@@ -200,8 +229,8 @@ Spork.prefork do
     def refute_with_errors(condition, model, field = nil, match = nil)
       refute condition, "#{model.inspect} errors: #{model.errors.full_messages.join(';')}"
       if field
-        assert_blank model.errors.map { |a,m| model.errors.full_message(a, m) unless field == a }.compact
-        assert_present model.errors[field].find { |e| e.match(match) },
+        assert(model.errors.map { |a,m| model.errors.full_message(a, m) unless field == a }.compact).blank?
+        assert model.errors[field].find { |e| e.match(match) }.present?,
                        "#{field} error matching #{match} not found: #{model.errors[field].inspect}" if match
       end
     end
@@ -232,6 +261,7 @@ Spork.prefork do
   # uses a separate server thread, which the transactions would be hidden
   # from. We hence use DatabaseCleaner to truncate our test database.
   DatabaseCleaner.strategy = :truncation
+  DatabaseCleaner.clean
 
   class ActionDispatch::IntegrationTest
     # Make the Capybara DSL available in all integration tests
@@ -302,8 +332,9 @@ end
 Spork.each_run do
   # This code will be run each time you run your specs.
   class ActionController::TestCase
+    self.use_transactional_fixtures = true
     setup :setup_set_script_name, :set_api_user, :reset_setting_cache, :turn_of_login
-    teardown :reset_setting_cache
+    teardown :reset_setting_cache, :remove_raise_strong_parameters
 
     def turn_of_login
       SETTINGS[:require_ssl] = false
@@ -328,13 +359,18 @@ Spork.each_run do
       @request.env['CONTENT_TYPE'] = 'application/json'
       @request.env['HTTP_ACCEPT'] = 'application/json'
     end
+
+    def remove_raise_strong_parameters
+      # Removes :raise from strong parameters tests.
+      ActionController::Parameters.action_on_unpermitted_parameters = :log
+    end
   end
 
   class ActionDispatch::IntegrationTest
+    self.use_transactional_fixtures = false
     setup :login_admin
 
     teardown do
-      DatabaseCleaner.clean       # Truncate the database
       Capybara.reset_sessions!    # Forget the (simulated) browser state
       Capybara.use_default_driver # Revert Capybara.current_driver to Capybara.default_driver
     end
