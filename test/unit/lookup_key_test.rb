@@ -190,6 +190,15 @@ class LookupKeyTest < ActiveSupport::TestCase
       assert_equal '["<%= @host.name %>"]', param.default_value
       assert_equal default, param.default_value_before_type_cast
     end
+
+    test "when invalid, just returns the invalid value" do
+      val = '{"foo" => "bar"}'
+      param = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
+                                :override => true, :key_type => 'hash',
+                                :default_value => val, :puppetclass => puppetclasses(:one))
+      refute param.valid?
+      assert_equal val, param.default_value_before_type_cast
+    end
   end
 
   test "this is a smart variable?" do

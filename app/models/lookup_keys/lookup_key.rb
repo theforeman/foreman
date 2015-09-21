@@ -105,6 +105,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   def default_value_before_type_cast
+    return read_attribute(:default_value) if errors[:default_value].present?
     value_before_type_cast default_value
   end
 

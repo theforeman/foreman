@@ -111,6 +111,12 @@ class LookupValueTest < ActiveSupport::TestCase
     assert_equal lk.value_before_type_cast, "[{\"foo\":\"bar\"},{\"baz\":\"qux\"},\"baz\"]"
   end
 
+  test "should not cast string if object invalid" do
+    lk = LookupValue.new(:value => '{"foo" => "bar"}', :match => "hostgroup=Common", :lookup_key => lookup_keys(:seven))
+    refute lk.valid?
+    assert_equal lk.value_before_type_cast, '{"foo" => "bar"}'
+  end
+
   test "when created, an audit entry should be added" do
     env = FactoryGirl.create(:environment)
     pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])

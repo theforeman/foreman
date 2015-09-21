@@ -77,5 +77,12 @@ class CasterTest < ActiveSupport::TestCase
         Foreman::Parameters::Caster.new(item, :attribute_name => :foo, :to => :zibi).cast!
       end
     end
+
+    test "caster raises error on invalid hash" do
+      item = OpenStruct.new(:foo => "{:foo => :bar}")
+      assert_raises(JSON::ParserError) do
+        Foreman::Parameters::Caster.new(item, :attribute_name => :foo, :to => :hash).cast!
+      end
+    end
   end
 end
