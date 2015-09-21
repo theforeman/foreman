@@ -112,9 +112,9 @@ module Foreman
       def load_yaml_or_json
         return value unless value.is_a? String
         begin
-          JSON.load value
-        rescue
           YAML.load value
+        rescue Psych::SyntaxError
+          JSON.load value
         end
       end
     end
