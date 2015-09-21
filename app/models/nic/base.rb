@@ -3,17 +3,11 @@
 module Nic
   class Base < ActiveRecord::Base
     include Foreman::STI
+    cattr_accessor :allowed_types
 
     self.table_name = 'nics'
 
     validates_lengths_from_database
-    attr_accessible :host_id, :host,
-                    :mac, :name, :type,
-                    :provider, :username, :password,
-                    :identifier, :virtual, :link, :tag, :attached_to,
-                    :managed, :bond_options, :attached_devices, :mode,
-                    :primary, :provision, :compute_attributes,
-                    :_destroy # used for nested_attributes
 
     before_validation :normalize_mac
     after_validation :set_validated
@@ -46,8 +40,8 @@ module Nic
     scope :physical, -> { where(:virtual => false) }
     scope :is_managed, -> { where(:managed => true) }
 
-    scope :primary, -> { { :conditions => { :primary => true } } }
-    scope :provision, -> { { :conditions => { :provision => true } } }
+    scope :primary, -> { where(:primary => true) }
+    scope :provision, -> { where( :provision => true ) }
 
     belongs_to :subnet
     belongs_to :domain, :counter_cache => 'hosts_count'
@@ -88,16 +82,14 @@ module Nic
     end
 
     def self.type_by_name(name)
+      self.allowed_types ||= []
       allowed_types.find { |nic_class| nic_class.humanized_name.downcase == name.to_s.downcase }
     end
 
     # NIC types have to be registered to to expose them to users
     def self.register_type(type)
-      allowed_types << type
-    end
-
-    def self.allowed_types
-      @allowed_types ||= []
+      self.allowed_types ||= []
+      self.allowed_types << type
     end
 
     # after every name change, we synchronize it to host object
@@ -141,6 +133,18 @@ module Nic
     # everything as unmanaged
     def host_managed?
       self.host && self.host.managed? && SETTINGS[:unattended]
+    end
+
+    def require_ip_validation?
+      # if it's not managed there's nowhere to specify an IP anyway
+      return false if !self.host.managed? || !self.managed? || !self.provision?
+      # if the CR will provide an IP, then don't validate yet
+      return false if host.compute_provides?(:ip)
+      ip_for_dns     = (subnet.present? && subnet.dns_id.present?) || (domain.present? && domain.dns_id.present?)
+      ip_for_dhcp    = subnet.present? && subnet.dhcp_id.present?
+      ip_for_token   = Setting[:token_duration] == 0 && (host.pxe_build? || (host.image_build? && host.image.try(:user_data?)))
+      # Any of these conditions will require an IP, so chain with OR
+      ip_for_dns or ip_for_dhcp or ip_for_token
     end
 
     protected
@@ -192,18 +196,6 @@ module Nic
       end
     end
 
-    def require_ip_validation?
-      # if it's not managed there's nowhere to specify an IP anyway
-      return false if !self.host.managed? || !self.managed? || !self.provision?
-      # if the CR will provide an IP, then don't validate yet
-      return false if host.compute_provides?(:ip)
-      ip_for_dns     = (subnet.present? && subnet.dns_id.present?) || (domain.present? && domain.dns_id.present?)
-      ip_for_dhcp    = subnet.present? && subnet.dhcp_id.present?
-      ip_for_token   = Setting[:token_duration] == 0 && (host.pxe_build? || (host.image_build? && host.image.try(:user_data?)))
-      # Any of these conditions will require an IP, so chain with OR
-      ip_for_dns or ip_for_dhcp or ip_for_token
-    end
-
     def sync_name
       synchronizer = NameSynchronizer.new(self)
       synchronizer.sync_name if synchronizer.sync_required?
@@ -225,7 +217,7 @@ module Nic
 
     private
 
-    def interface_attribute_uniqueness(attr, base = Nic::Base.scoped)
+    def interface_attribute_uniqueness(attr, base = Nic::Base.all)
       in_memory_candidates = self.host.present? ? self.host.interfaces.select { |i| i.persisted? && !i.marked_for_destruction? } : [self]
       db_candidates = base.where(attr => self.public_send(attr))
       db_candidates = db_candidates.select { |c| c.id != self.id && in_memory_candidates.map(&:id).include?(c.id) }

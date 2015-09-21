@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   skip_before_filter :update_admin_flag, :only => :update
 
   def index
-    @users = User.authorized(:view_users).except_hidden.search_for(params[:search], :order => params[:order]).includes(:auth_source, :cached_usergroups).paginate(:page => params[:page])
+    @users = User.authorized(:view_users).except_hidden.search_for(params[:search], :order => params[:order]).includes(:auth_source, :cached_usergroups).references(:auth_source, :cached_usergroups).paginate(:page => params[:page])
   end
 
   def new
@@ -36,9 +36,8 @@ class UsersController < ApplicationController
     editing_self?
     @user = find_resource(:edit_users)
     update_admin_flag
-    if @user.update_attributes(params[:user])
+    if @user.update_attributes(user_params)
       update_sub_hostgroups_owners
-
       process_success((editing_self? && !current_user.allowed_to?({:controller => 'users', :action => 'index'})) ? { :success_redirect => hosts_path } : {})
     else
       process_error

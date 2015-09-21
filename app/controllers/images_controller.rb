@@ -16,7 +16,7 @@ class ImagesController < ApplicationController
   end
 
   def create
-    @image = Image.new(params[:image])
+    @image = Image.new(foreman_params)
     if @image.save
       process_success :success_redirect => compute_resource_path(@compute_resource)
     else
@@ -29,7 +29,7 @@ class ImagesController < ApplicationController
 
   def update
     params[:image].except!(:password) if params[:image][:password].blank?
-    if @image.update_attributes(params[:image])
+    if @image.update_attributes(foreman_params)
       process_success :success_redirect => compute_resource_path(@compute_resource)
     else
       process_error

@@ -4,8 +4,7 @@
 # modified version of one of these in textual form
 class Ptable < Template
   include Authorizable
-  extend FriendlyId
-  friendly_id :name
+
   include Parameterizable::ByIdName
   include ValidateOsFamily
 
@@ -31,9 +30,6 @@ class Ptable < Template
   scoped_search :on => :template, :complete_value => false, :rename => 'layout'
   scoped_search :on => :os_family, :rename => 'family', :complete_value => :true
 
-  attr_accessible :layout, :os_family, :operatingsystem_ids, :operatingsystem_names,
-                  :hostgroup_ids, :hostgroup_names, :host_ids, :host_names
-
   alias_attribute :layout, :template
 
   # with proc support, default_scope can no longer be chained
@@ -51,7 +47,7 @@ class Ptable < Template
   end
 
   def self.template_includes
-    super + [:operatingsystems]
+    super #+ [:operatingsystems]
   end
 
   def preview_host_collection

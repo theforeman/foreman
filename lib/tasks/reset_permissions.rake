@@ -14,8 +14,8 @@ END_DESC
 
   task :reset => :environment do
     User.as_anonymous_admin do
-      user = User.find_or_create_by_login(:login => ENV["username"] || 'admin', :firstname => 'Admin', :lastname => 'User', :mail => Setting[:administrator])
-      src  = AuthSourceInternal.find_or_create_by_type "AuthSourceInternal"
+      user = User.find_or_create_by(:login => ENV["username"] || 'admin', :firstname => 'Admin', :lastname => 'User', :mail => Setting[:administrator])
+      src  = AuthSourceInternal.find_or_create_by(:type => "AuthSourceInternal")
       src.update_attribute :name, "Internal"
       user.admin = true
       user.auth_source = src

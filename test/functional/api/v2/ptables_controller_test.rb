@@ -34,7 +34,8 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should assign operating system" do
+  #test "should assign operating system" do
+  def test_foo
     put :update, { :id => @ptable.to_param, :ptable => {
       :operatingsystem_ids => [operatingsystems(:redhat).to_param] } }
     assert_response :success

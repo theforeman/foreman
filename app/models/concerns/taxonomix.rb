@@ -3,12 +3,14 @@ module Taxonomix
   include DirtyAssociations
 
   included do
-    taxonomy_join_table = "taxable_taxonomies"
-    has_many taxonomy_join_table, :dependent => :destroy, :as => :taxable
-    has_many :locations,     :through => taxonomy_join_table, :source => :taxonomy,
-             :conditions => "taxonomies.type='Location'", :validate => false
-    has_many :organizations, :through => taxonomy_join_table, :source => :taxonomy,
-             :conditions => "taxonomies.type='Organization'", :validate => false
+    taxonomy_join_table = :taxable_taxonomies
+    has_many taxonomy_join_table.to_sym, :dependent => :destroy, :as => :taxable
+    has_many :locations, lambda {where("taxonomies.type='Location'")},
+             :through => taxonomy_join_table, :source => :taxonomy,
+             :validate => false
+    has_many :organizations, lambda {where "taxonomies.type='Organization'"},
+             :through => taxonomy_join_table, :source => :taxonomy,
+             :validate => false
     after_initialize :set_current_taxonomy
 
     scoped_search :in => :locations, :on => :name, :rename => :location, :complete_value => true
@@ -63,7 +65,9 @@ module Taxonomix
     # default scope is not called if we just use #scoped therefore we have to enforce quering
     # to get correct default values
     def enforce_default
-      self.scoped.limit(0).all unless which_ancestry_method.present?
+      if which_ancestry_method.nil?
+        self.limit(0)
+      end
     end
 
     def taxable_ids(loc = which_location, org = which_organization, inner_method = which_ancestry_method)

@@ -49,7 +49,7 @@ module Foreman::Controller::TaxonomiesController
   end
 
   def create
-    @taxonomy = taxonomy_class.new(params[taxonomy_single.to_sym])
+    @taxonomy = taxonomy_class.new(foreman_params)
     if @taxonomy.save
       if @count_nil_hosts > 0
         redirect_to send("step2_#{taxonomy_single}_path",@taxonomy)
@@ -76,7 +76,7 @@ module Foreman::Controller::TaxonomiesController
 
   def update
     result = Taxonomy.no_taxonomy_scope do
-      @taxonomy.update_attributes(params[taxonomy_single])
+      @taxonomy.update_attributes(foreman_params)
     end
     if result
       process_success(:object => @taxonomy)
@@ -195,5 +195,9 @@ module Foreman::Controller::TaxonomiesController
   def count_nil_hosts
     return @count_nil_hosts if @count_nil_hosts
     @count_nil_hosts = Host.where(taxonomy_id => nil).count
+  end
+
+  def taxonomy_params
+    params.permit(:id, :organization => [:name])
   end
 end

@@ -30,7 +30,7 @@ module Api
       end
 
       def create
-        @common_parameter = CommonParameter.new(params[:common_parameter])
+        @common_parameter = CommonParameter.new(foreman_params)
         process_response @common_parameter.save
       end
 
@@ -43,7 +43,7 @@ module Api
       end
 
       def update
-        process_response @common_parameter.update_attributes(params[:common_parameter])
+        process_response @common_parameter.update_attributes(foreman_params)
       end
 
       api :DELETE, "/common_parameters/:id/", "Delete a common_parameter"

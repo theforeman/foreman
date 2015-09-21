@@ -155,7 +155,7 @@ class TaxHost
   # populate used_ids for 3 non-standard_id's
   def user_ids(hosts = self.hosts)
     #TODO: when migrating to rails 3.1+ switch to inner select on users.
-    User.unscoped.joins(:direct_hosts).where({ :hosts => { :id => hosts }, :users => { :admin => false } }).pluck('DISTINCT users.id')
+    User.unscoped.joins(:direct_hosts).where({ :hosts => { :id => hosts.map(&:id) }, :users => { :admin => false } }).pluck('DISTINCT users.id')
   end
 
   def provisioning_template_ids(hosts = self.hosts)

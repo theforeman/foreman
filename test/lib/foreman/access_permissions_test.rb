@@ -29,7 +29,8 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     # App controller stubs
     "testable/index", "api/testable/index", "api/testable/raise_error",
     "api/testable/required_nested_values", "api/testable/optional_nested_values", "api/testable/nested_values",
-    "api/v2/testable/index", "api/v2/testable/create",
+    "api/v2/testable/index", "api/v2/testable/create", "testable_strong_params/create",
+    "my_hosts/create", "testable_no_params/create",
 
     #test stubs
     "testable_resources/index",

@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
 
   validates_lengths_from_database  :except => [:firstname, :lastname, :format, :mail, :login]
-  attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation
   after_save :ensure_default_role
   before_destroy EnsureNotUsedBy.new([:direct_hosts, :hosts]), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
@@ -26,10 +25,10 @@ class User < ActiveRecord::Base
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
   has_many :direct_hosts,      :class_name => 'Host',    :as => :owner
   has_many :usergroup_member,  :dependent => :destroy,   :as => :member
-  has_many :user_roles,        :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
+  has_many :user_roles,        lambda {where(:owner_type => "User")}, :dependent => :destroy, :foreign_key => 'owner_id'
   has_many :cached_user_roles, :dependent => :destroy
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
-  has_many :cached_roles,      :through => :cached_user_roles,        :source => :role, :uniq => true
+  has_many :cached_roles,      lambda {uniq}, :through => :cached_user_roles,        :source => :role
   has_many :usergroups,        :through => :usergroup_member, :dependent => :destroy
   has_many :roles,             :through => :user_roles,       :dependent => :destroy
   has_many :filters,           :through => :cached_roles
@@ -48,15 +47,17 @@ class User < ActiveRecord::Base
     includes(:cached_usergroups).
         where(["(#{self.table_name}.admin = ? OR #{self.table_name}.admin IS NULL) AND " +
                    "(#{Usergroup.table_name}.admin = ? OR #{Usergroup.table_name}.admin IS NULL)",
-               false, false])
+               false, false]).references(:users, :usergroups)
   }
   scope :only_admin, lambda {
     includes(:cached_usergroups).
-        where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
+        where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true]).references(:users, :usergroups)
   }
   scope :except_hidden, lambda {
-    if (hidden = AuthSourceHidden.all).present?
-      where("#{self.table_name}.auth_source_id <> ?", hidden)
+    if (hidden = AuthSourceHidden.all.select(:id)).present?
+      where("#{self.table_name}.auth_source_id <> (?)", hidden).references(:users)
+    else
+      all
     end
   }
   scope :visible,         -> { except_hidden }
@@ -237,7 +238,7 @@ class User < ActiveRecord::Base
       # we know this auth source and it's user's auth source, we'll update user attributes
       if auth_source && (user.auth_source_id == auth_source.id)
         auth_source_external_groups = auth_source.external_usergroups.pluck(:usergroup_id)
-        new_usergroups = user.usergroups.includes(:external_usergroups).where('usergroups.id NOT IN (?)', auth_source_external_groups)
+        new_usergroups = user.usergroups.includes(:external_usergroups).where('usergroups.id NOT IN (?)', auth_source_external_groups).references(:usergroups)
 
         new_usergroups += auth_source.external_usergroups.includes(:usergroup).where(:name => external_groups).map(&:usergroup)
         user.update_attributes(Hash[attrs.select { |k, v| v.present? }])
@@ -384,7 +385,7 @@ class User < ActiveRecord::Base
   end
 
   def expire_topbar_cache(sweeper)
-    sweeper.expire_fragment(TopbarSweeper.fragment_name(id))
+    sweeper.expire_fragment(TopbarSweeper.fragment_name(id)) rescue nil
   end
 
   def external_usergroups

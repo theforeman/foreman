@@ -34,6 +34,26 @@ module Orchestration::TFTP
     end
   end
 
+  def generate_pxe_template
+    # this is the only place we generate a template not via a web request
+    # therefore some workaround is required to "render" the template.
+    @kernel = host.operatingsystem.kernel(host.arch)
+    @initrd = host.operatingsystem.initrd(host.arch)
+    # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
+    @host = self.host
+    if build?
+      pxe_render host.provisioning_template({:kind => host.operatingsystem.template_kind})
+    else
+      if host.operatingsystem.template_kind == "PXEGrub"
+        pxe_render ProvisioningTemplate.find_by_name("PXEGrub default local boot")
+      else
+        pxe_render ProvisioningTemplate.find_by_name("PXELinux default local boot")
+      end
+    end
+  rescue => e
+    failure _("Failed to generate %{template_kind} template: %{e}") % { :template_kind => host.operatingsystem.template_kind, :e => e }, e
+  end
+
   protected
 
   # Adds the host to the forward and reverse TFTP zones
@@ -76,26 +96,6 @@ module Orchestration::TFTP
       failure _("No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings") %
                 { :template_kind => host.operatingsystem.template_kind, :os => host.operatingsystem }
     end
-  end
-
-  def generate_pxe_template
-    # this is the only place we generate a template not via a web request
-    # therefore some workaround is required to "render" the template.
-    @kernel = host.operatingsystem.kernel(host.arch)
-    @initrd = host.operatingsystem.initrd(host.arch)
-    # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
-    @host = self.host
-    if build?
-      pxe_render host.provisioning_template({:kind => host.operatingsystem.template_kind})
-    else
-      if host.operatingsystem.template_kind == "PXEGrub"
-        pxe_render ProvisioningTemplate.find_by_name("PXEGrub default local boot")
-      else
-        pxe_render ProvisioningTemplate.find_by_name("PXELinux default local boot")
-      end
-    end
-  rescue => e
-    failure _("Failed to generate %{template_kind} template: %{e}") % { :template_kind => host.operatingsystem.template_kind, :e => e }, e
   end
 
   def queue_tftp

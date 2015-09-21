@@ -7,7 +7,9 @@ class HostClass < ActiveRecord::Base
   belongs_to_host
   belongs_to :puppetclass
 
-  validates :host_id, :presence => true
+  #this validation fails when host class is created with host, and no host_id present
+  #TODO: try to find a bypass
+  #validates :host_id, :presence => true
   validates :puppetclass_id, :presence => true, :uniqueness => {:scope => :host_id}
 
   def name

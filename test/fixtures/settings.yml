@@ -264,5 +264,5 @@ attributes55:
 attributes56:
   name: email_reply_address
   category: Setting::General
-  default: "Foreman-noreply@#{SETTINGS[:domain]}"
+  default: "noreply@foreman.example.org"
   description: 'Email reply address for emails that Foreman is sending'

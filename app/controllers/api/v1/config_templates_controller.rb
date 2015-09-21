@@ -42,7 +42,7 @@ module Api
       end
 
       def create
-        @config_template = ProvisioningTemplate.new(params[:config_template])
+        @config_template = ProvisioningTemplate.new(foreman_params)
         process_response @config_template.save
       end
 
@@ -59,7 +59,7 @@ module Api
       end
 
       def update
-        process_response @config_template.update_attributes(params[:config_template])
+        process_response @config_template.update_attributes(foreman_params)
       end
 
       api :GET, "/config_templates/revision"

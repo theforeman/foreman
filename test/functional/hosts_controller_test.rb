@@ -284,7 +284,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'user with edit host rights and facts are set should succeed in viewing host1 but fail for host2' do
     setup_user_and_host "view", "facts.architecture = \"x86_64\""
     as_admin do
-      fn_id = FactName.find_or_create_by_name("architecture").id
+      fn_id = FactName.find_or_create_by(:name => "architecture").id
       FactValue.create! :host => @host1, :fact_name_id => fn_id, :value    => "x86_64"
       FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
     end
@@ -787,21 +787,21 @@ class HostsControllerTest < ActionController::TestCase
 
   test "can change sti type to valid subtype" do
     class Host::Valid < Host::Managed; end
-    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, set_session_user
+    patch :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, set_session_user
     @host = Host::Base.find(@host.id)
     assert_equal "Host::Valid", @host.type
   end
 
   test "cannot change sti type to invalid subtype" do
     old_type = @host.type
-    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Notvalid"} }, set_session_user
+    patch :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Notvalid", :disk => @host.disk } }, set_session_user
     @host = Host.find(@host.id)
     assert_equal old_type, @host.type
   end
 
   test "blank root password submitted does not erase existing password" do
     old_root_pass = @host.root_pass
-    put :update, { :commit => "Update", :id => @host.name, :host => {:root_pass => '' } }, set_session_user
+    put :update, { :commit => "Update", :id => @host.name, :host => {:root_pass => '', :name => "foo" } }, set_session_user
     @host = Host.find(@host.id)
     assert_equal old_root_pass, @host.root_pass
   end

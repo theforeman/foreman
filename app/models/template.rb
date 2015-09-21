@@ -1,7 +1,7 @@
 class Template < ActiveRecord::Base
-  validates_lengths_from_database
+  include Parameterizable::ByIdName
 
-  attr_accessible :name, :template, :snippet, :audit_comment, :location_ids, :organization_ids, :locked, :default
+  validates_lengths_from_database
 
   validates :name, :presence => true
   validates :template, :presence => true

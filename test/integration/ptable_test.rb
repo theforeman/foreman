@@ -9,6 +9,10 @@ class PtableIntegrationTest < ActionDispatch::IntegrationTest
     assert_index_page(ptables_path,"Partition Tables","New Partition Table")
   end
 
+  test "index page" do
+    assert_index_page(ptables_path,"Partition Tables","New Partition Table")
+  end
+
   test "edit page" do
     visit ptables_path
     click_link "ubuntu default"

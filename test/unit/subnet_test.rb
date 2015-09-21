@@ -85,7 +85,7 @@ class SubnetTest < ActiveSupport::TestCase
   end
 
   def create_a_domain_with_the_subnet
-    @domain = Domain.find_or_create_by_name("domain")
+    @domain = Domain.find_or_create_by(name: "domain")
     @subnet = Subnet.new(:network => "123.123.123.1",:mask => "255.255.255.0",:name => "valid")
     assert @subnet.save
     assert @subnet.domain_ids = [domains(:mydomain).id]

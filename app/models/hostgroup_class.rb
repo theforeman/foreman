@@ -7,9 +7,9 @@ class HostgroupClass < ActiveRecord::Base
   belongs_to :hostgroup
   belongs_to :puppetclass, :counter_cache => :hostgroups_count
 
-  attr_accessible :hostgroup_id, :hostgroup, :puppetclass_id, :puppetclass
-
-  validates :hostgroup_id, :presence => true
+  #disabled because when created with hostgroup, fails validation
+  #TODO: find a way to fix this
+  #validates :hostgroup_id, :presence => true
   validates :puppetclass_id, :presence => true, :uniqueness => {:scope => :hostgroup_id}
 
   def name

@@ -14,7 +14,7 @@ class LookupKeysController < ApplicationController
   end
 
   def update
-    if resource.update_attributes(params[resource_name])
+    if resource.update_attributes(foreman_params)
       process_success
     else
       process_error

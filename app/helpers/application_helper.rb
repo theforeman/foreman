@@ -32,6 +32,13 @@ module ApplicationHelper
     end
   end
 
+  def link_to_function(name, function, html_options = {})
+    onclick = "#{"#{html_options[:onclick]}; " if html_options[:onclick]}#{function}; return false;"
+    href = html_options[:href] || '#'
+
+    content_tag(:a, name, html_options.merge(:href => href, :onclick => onclick))
+  end
+
   protected
 
   def contract(model)
@@ -43,8 +50,9 @@ module ApplicationHelper
   end
 
   def edit_habtm(klass, association, prefix = nil, options = {})
+    association_array = association.respond_to?(:to_a) ? association.to_a : association.all
     render :partial => 'common/edit_habtm', :locals =>{:prefix => prefix, :klass => klass, :options => options,
-                                                       :associations => association.all.sort.delete_if{|e| e == klass}}
+                                                       :associations => association_array.sort.delete_if{|e| e == klass}}
   end
 
   def link_to_remove_fields(name, f, options = {})
@@ -369,7 +377,7 @@ module ApplicationHelper
   end
 
   def obj_type(obj)
-    obj.class.model_name.tableize.singularize
+    obj.class.model_name.to_s.tableize.singularize
   end
 
   def class_in_environment?(environment,puppetclass)

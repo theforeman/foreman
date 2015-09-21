@@ -4,8 +4,7 @@ require 'uri'
 class Operatingsystem < ActiveRecord::Base
   include Authorizable
   include ValidateOsFamily
-  extend FriendlyId
-  friendly_id :title
+  include Parameterizable::ByIdName
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
@@ -140,6 +139,10 @@ class Operatingsystem < ActiveRecord::Base
 
   def to_param
     Parameterizable.parameterize("#{id}-#{title}")
+  end
+
+  def self.from_param(id_name)
+    where(id: id_name.to_i).first || where(name: id_name.split(" ")[0..-2].join(' ')).first || where(description: id_name).first
   end
 
   def release

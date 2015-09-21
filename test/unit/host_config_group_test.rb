@@ -41,7 +41,6 @@ class HostConfigGroupTest < ActiveSupport::TestCase
 
       @hostgroup = Hostgroup.where(:id => 1).first
       @hostgroup ||= FactoryGirl.create(:hostgroup, :id => 1)
-
       @config_group = FactoryGirl.create(:config_group)
     end
 

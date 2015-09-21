@@ -33,7 +33,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should return an error for no params" do
     post :create
-    assert_response :unprocessable_entity
+    assert_response :error
   end
 
   test "should create valid location" do

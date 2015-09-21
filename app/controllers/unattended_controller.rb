@@ -4,16 +4,16 @@ class UnattendedController < ApplicationController
   layout false
 
   # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
-  PXE_CONFIG_URLS = TemplateKind.where("name LIKE ?","PXELinux").map(&:name)
-  PXEGRUB_CONFIG_URLS = TemplateKind.where("name LIKE ?", "PXEGrub").map(&:name)
-  IPXE_CONFIG_URLS = TemplateKind.where("name LIKE ?", "iPXE").map(&:name) + ['gPXE']
+  PXE_CONFIG_URLS = ["PXELinux"]
+  PXEGRUB_CONFIG_URLS = ["PXEGrub"]
+  IPXE_CONFIG_URLS = ['gPXE', "iPXE"]
   CONFIG_URLS = PXE_CONFIG_URLS + IPXE_CONFIG_URLS + PXEGRUB_CONFIG_URLS
 
   # Methods which return valid provision instructions, used by the OS
-  PROVISION_URLS = TemplateKind.where("name LIKE ?", "provision").map(&:name)
+  PROVISION_URLS = ["provision"]
 
   # Methods which returns post install instructions for OS's which require it
-  FINISH_URLS = TemplateKind.where("name LIKE ?", "finish").map(&:name)
+  FINISH_URLS = ["finish"]
 
   # We dont require any of these methods for provisioning
   FILTERS = [:require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize]
@@ -45,8 +45,8 @@ class UnattendedController < ApplicationController
   def template
     return head(:not_found) unless (params.has_key?("id") and params.has_key?(:hostgroup))
 
-    template = ProvisioningTemplate.find(params['id'])
-    @host = Hostgroup.find(params['hostgroup'])
+    template = ProvisioningTemplate.find(params['id']) || ProvisioningTemplate.where(:name => params[:id]).first
+    @host = Hostgroup.find(params['hostgroup']) || Hostgroup.where(:name => params[:hostgroup]).first
 
     return head(:not_found) unless template and @host
 
@@ -56,9 +56,9 @@ class UnattendedController < ApplicationController
 
   # Generate an action for each template kind
   # i.e. /unattended/provision will render the provisioning template for the requesting host
-  TemplateKind.all.each do |kind|
-    define_method kind.name do
-      render_template kind.name
+  TemplateKind.all.map(&:name).each do |name|
+    define_method name do
+      render_template name
     end
   end
   # Using alias_method causes test failures as iPXE method is unknown in an empty DB
@@ -107,8 +107,8 @@ class UnattendedController < ApplicationController
   end
 
   def find_host_by_spoof
-    host = Nic::Base.primary.find_by_ip(params.delete('spoof')).try(:host) if params['spoof'].present?
-    host ||= Host.find(params.delete('hostname')) if params['hostname'].present?
+    host   = Nic::Base.primary.find_by_ip(params.delete('spoof')).try(:host) if params['spoof'].present?
+    host ||= Host.friendly.find(params.delete('hostname')) if params['hostname'].present?
     @spoof = host.present?
     host
   end

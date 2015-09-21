@@ -39,7 +39,7 @@ class HostgroupsController < ApplicationController
   end
 
   def create
-    @hostgroup = Hostgroup.new(params[:hostgroup])
+    @hostgroup = Hostgroup.new(foreman_params)
     if @hostgroup.save
       process_success :success_redirect => hostgroups_path
     else
@@ -55,7 +55,7 @@ class HostgroupsController < ApplicationController
   def update
     # remove from hash :root_pass if blank?
     params[:hostgroup].except!(:root_pass) if params[:hostgroup][:root_pass].blank?
-    if @hostgroup.update_attributes(params[:hostgroup])
+    if @hostgroup.update_attributes(foreman_params)
       process_success :success_redirect => hostgroups_path
     else
       taxonomy_scope
@@ -156,8 +156,12 @@ class HostgroupsController < ApplicationController
   def update_parent_params!
     parent_params = parse_parent_params(params.select { |k| k.match(/parent.*/) } )
     if params[:hostgroup] && (params[:hostgroup][:group_parameters_attributes].present? || parent_params.present?)
-      params[:hostgroup][:group_parameters_attributes] ||= {}
-      params[:hostgroup][:group_parameters_attributes].merge!(parent_params)
+      params[:hostgroup][:group_parameters_attributes] ||= []
+      if params[:hostgroup][:group_parameters_attributes].is_a?(Array)
+        params[:hostgroup][:group_parameters_attributes] += parent_params.values
+      else
+        params[:hostgroup][:group_parameters_attributes].merge!(parent_params)
+      end
     end
   end
 

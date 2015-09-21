@@ -50,7 +50,7 @@ Available families:
       end
 
       def create
-        @medium = Medium.new(params[:medium])
+        @medium = Medium.new(foreman_params)
         process_response @medium.save
       end
 
@@ -64,7 +64,7 @@ Available families:
       api :PUT, "/media/:id/", "Update a medium."
 
       def update
-        process_response @medium.update_attributes(params[:medium])
+        process_response @medium.update_attributes(foreman_params)
       end
 
       param :id, :identifier, :required => true

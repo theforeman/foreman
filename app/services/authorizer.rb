@@ -53,17 +53,13 @@ class Authorizer
       assoc_name ||= options[:joined_on].reflect_on_all_associations.find { |a| a.klass.base_class == resource_class.base_class }.name
 
       scope = options[:joined_on].joins(assoc_name => scope_components[:includes]).readonly(false)
-
-      # allow user to add their own further clauses
-      scope_components[:where] << options[:where] if options[:where].present?
-
       # apply every where clause to the scope consecutively
       scope_components[:where].inject(scope) do |scope_build,where|
         where.is_a?(Hash) ? scope_build.where(resource_class.table_name => where) : scope_build.where(where)
       end
     else
       # build regular filtered scope for "resource_class"
-      scope = resource_class.includes(scope_components[:includes]).joins(scope_components[:joins]).readonly(false)
+      scope = resource_class.includes(scope_components[:includes]).references(scope_components[:includes]).joins(scope_components[:joins]).readonly(false)
       scope_components[:where].inject(scope) { |scope_build,where| scope_build.where(where) }
     end
   end
@@ -80,6 +76,7 @@ class Authorizer
 
     result[:where] << { id: base_ids } if @base_collection.present?
     return result if all_filters.any?(&:unlimited?)
+    # return resource_class.all if all_filters.any?(&:unlimited?)
 
     search_string = build_scoped_search_condition(all_filters.select(&:limited?))
     find_options = ScopedSearch::QueryBuilder.build_query(resource_class.scoped_search_definition, search_string, options)

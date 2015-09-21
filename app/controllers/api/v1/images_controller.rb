@@ -37,7 +37,7 @@ module Api
       end
 
       def create
-        @image = @compute_resource.images.new(params[:image])
+        @image = @compute_resource.images.new(foreman_params)
         process_response @image.save, @compute_resource
       end
 
@@ -54,7 +54,7 @@ module Api
       end
 
       def update
-        process_response @image.update_attributes(params[:image])
+        process_response @image.update_attributes(foreman_params)
       end
 
       api :DELETE, "/compute_resources/:compute_resource_id/images/:id/", "Delete an image."

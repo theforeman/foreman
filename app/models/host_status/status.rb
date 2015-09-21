@@ -6,7 +6,7 @@ module HostStatus
 
     belongs_to_host :inverse_of => :host_statuses
 
-    attr_accessible :host, :type
+    #attr_accessible :host, :type
 
     def to_global(options = {})
       HostStatus::Global::OK

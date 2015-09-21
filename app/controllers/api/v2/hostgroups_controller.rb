@@ -48,7 +48,7 @@ module Api
       param_group :hostgroup, :as => :create
 
       def create
-        @hostgroup = Hostgroup.new(params[:hostgroup])
+        @hostgroup = Hostgroup.new(foreman_params)
         process_response @hostgroup.save
       end
 
@@ -57,7 +57,7 @@ module Api
       param_group :hostgroup
 
       def update
-        process_response @hostgroup.update_attributes(params[:hostgroup])
+        process_response @hostgroup.update_attributes(foreman_params)
       end
 
       api :DELETE, "/hostgroups/:id/", N_("Delete a host group")

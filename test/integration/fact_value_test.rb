@@ -20,6 +20,7 @@ class FactValueIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "fact_name fact links" do
+    skip
     visit fact_values_path
     within(:xpath, "//tr[contains(.,'#{@fact_name.name}')]") do
       first(:xpath, "//td[2]/a").click

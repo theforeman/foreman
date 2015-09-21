@@ -17,7 +17,7 @@ class ComputeProfilesController < ApplicationController
   end
 
   def create
-    @compute_profile = ComputeProfile.new(params[:compute_profile])
+    @compute_profile = ComputeProfile.new(foreman_params)
     if @compute_profile.save
       process_success :success_redirect => compute_profile_path(@compute_profile)
     else
@@ -26,7 +26,7 @@ class ComputeProfilesController < ApplicationController
   end
 
   def update
-    if @compute_profile.update_attributes(params[:compute_profile])
+    if @compute_profile.update_attributes(foreman_params)
       process_success
     else
       process_error

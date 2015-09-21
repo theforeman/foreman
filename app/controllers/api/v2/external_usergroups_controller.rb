@@ -35,7 +35,7 @@ module Api
       param_group :external_usergroup, :as => :create
 
       def create
-        @external_usergroup = @nested_obj.external_usergroups.new(params[:external_usergroup])
+        @external_usergroup = @nested_obj.external_usergroups.new(foreman_params)
         process_response @external_usergroup.save
       end
 
@@ -45,7 +45,7 @@ module Api
       param_group :external_usergroup
 
       def update
-        process_response @external_usergroup.update_attributes(params[:external_usergroup])
+        process_response @external_usergroup.update_attributes(foreman_params)
       end
 
       api :PUT, '/usergroups/:usergroup_id/external_usergroups/:id/refresh', N_('Refresh external user group')

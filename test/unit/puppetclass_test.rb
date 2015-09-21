@@ -26,7 +26,7 @@ class PuppetclassTest < ActiveSupport::TestCase
   end
 
   test "looking for a nonexistent host returns no puppetclasses" do
-    assert_equal [], Puppetclass.search_for("host = imaginaryhost.nodomain.what")
+    assert_equal [], Puppetclass.reorder(nil).search_for("host = imaginaryhost.nodomain.what")
   end
 
   test "user with create external_variables permission can create smart variable for puppetclass" do
@@ -37,7 +37,7 @@ class PuppetclassTest < ActiveSupport::TestCase
       filter1.permissions = Permission.where(:name => ['create_external_variables'])
       filter2 = FactoryGirl.build(:filter)
       filter2.permissions = Permission.where(:name => ['edit_puppetclasses'])
-      role = Role.find_or_create_by_name :name => "testing_role"
+      role = Role.find_or_create_by(:name => "testing_role")
       role.filters = [ filter1, filter2 ]
       role.save!
       filter1.role = role

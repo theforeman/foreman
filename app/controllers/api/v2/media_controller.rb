@@ -52,7 +52,7 @@ Solaris and Debian media may also use $release.
       param_group :medium, :as => :create
 
       def create
-        @medium = Medium.new(params[:medium])
+        @medium = Medium.new(foreman_params)
         process_response @medium.save
       end
 
@@ -61,7 +61,7 @@ Solaris and Debian media may also use $release.
       param_group :medium
 
       def update
-        process_response @medium.update_attributes(params[:medium])
+        process_response @medium.update_attributes(foreman_params)
       end
 
       param :id, :identifier, :required => true

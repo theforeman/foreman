@@ -100,7 +100,7 @@ class UsergroupMember < ActiveRecord::Base
   end
 
   def find_all_user_roles_for(usergroup)
-    usergroup.user_roles + usergroup.parents.map { |g| find_all_user_roles_for(g) }
+    (UserRole.where(owner: usergroup) + usergroup.parents.map { |g| find_all_user_roles_for(g) }).flatten
   end
 
   def find_all_usergroups

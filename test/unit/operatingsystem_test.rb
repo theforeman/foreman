@@ -5,8 +5,8 @@ class OperatingsystemTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
     Operatingsystem.all.each do |o| #because we load from fixtures, counters aren't updated
-      Operatingsystem.reset_counters(o.id,:hosts)
-      Operatingsystem.reset_counters(o.id,:hostgroups)
+      #Operatingsystem.reset_counters(o.id,:hosts)
+      #Operatingsystem.reset_counters(o.id,:hostgroups)
     end
   end
 

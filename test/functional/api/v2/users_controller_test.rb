@@ -40,7 +40,8 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   end
 
   test "should update user" do
-    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
+    valid_attrs[:auth_source_id] = AuthSourceInternal.first.id
+    user = User.create! :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     put :update, { :id => user.id, :user => valid_attrs }
     assert_response :success
 

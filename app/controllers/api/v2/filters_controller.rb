@@ -34,7 +34,7 @@ module Api
       param_group :filter, :as => :create
 
       def create
-        @filter = nested_obj ? nested_obj.filters.build(params[:filter]) : Filter.new(params[:filter])
+        @filter = nested_obj ? nested_obj.filters.build(foreman_params) : Filter.new(foreman_params)
         process_response @filter.save
       end
 
@@ -43,7 +43,7 @@ module Api
       param_group :filter
 
       def update
-        process_response @filter.update_attributes(params[:filter])
+        process_response @filter.update_attributes(foreman_params)
       end
 
       api :DELETE, "/filters/:id/", N_("Delete a filter")

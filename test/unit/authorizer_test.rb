@@ -299,18 +299,4 @@ class AuthorizerTest < ActiveSupport::TestCase
     refute_includes collection, report1
     assert_includes collection, report2
   end
-
-  test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report, :where => ..) applies where clause" do
-    permission = Permission.find_by_name('view_hosts')
-    FactoryGirl.create(:filter, :role => @role, :permissions => [permission], :unlimited => true)
-    hosts      = FactoryGirl.create_pair(:host)
-    report1    = FactoryGirl.create(:report, :host => hosts.first)
-    report2    = FactoryGirl.create(:report, :host => hosts.last)
-    auth       = Authorizer.new(@user)
-
-    collection = auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report,
-                                      :where => {'name' => hosts.first.name})
-    assert_includes collection, report1
-    refute_includes collection, report2
-  end
 end

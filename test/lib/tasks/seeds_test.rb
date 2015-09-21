@@ -9,6 +9,8 @@ class SeedsTest < ActiveSupport::TestCase
     DatabaseCleaner.clean_with :truncation
     Setting.stubs(:[]).with(:administrator).returns("root@localhost")
     Setting.stubs(:[]).with(:send_welcome_email).returns(false)
+    Setting.stubs(:[]).with(:entries_per_page)
+    Setting.stubs(:[]).with('entries_per_page')
   end
 
   def seed
@@ -33,9 +35,9 @@ class SeedsTest < ActiveSupport::TestCase
     end
     [User::ANONYMOUS_ADMIN, User::ANONYMOUS_API_ADMIN].each do |login|
       user = User.unscoped.find_by_login(login)
-      assert_present user, "cannot find user #{login}"
-      assert_blank user.password_hash
-      assert_blank user.password_salt
+      assert user.present?, "cannot find user #{login}"
+      assert user.password_hash.blank?
+      assert user.password_salt.blank?
       assert user.admin?
       assert user.hidden?
       assert_valid user
@@ -48,8 +50,8 @@ class SeedsTest < ActiveSupport::TestCase
         seed
       end
       user = User.find_by_login('admin')
-      assert_present user.password_hash
-      assert_present user.password_salt
+      assert user.password_hash.present?
+      assert user.password_salt.present?
       assert user.admin?
       assert_valid user
     end

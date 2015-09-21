@@ -24,7 +24,7 @@ module Api
       end
 
       def create
-        @role = Role.new(params[:role])
+        @role = Role.new(foreman_params)
         process_response @role.save
       end
 
@@ -35,7 +35,7 @@ module Api
       end
 
       def update
-        process_response @role.update_attributes(params[:role])
+        process_response @role.update_attributes(foreman_params)
       end
 
       api :DELETE, "/roles/:id/", "Delete an role."

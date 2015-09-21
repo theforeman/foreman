@@ -27,7 +27,7 @@ module Api
       end
 
       def create
-        @smart_proxy = SmartProxy.new(params[:smart_proxy])
+        @smart_proxy = SmartProxy.new(foreman_params)
         process_response @smart_proxy.save
       end
 
@@ -39,7 +39,7 @@ module Api
       end
 
       def update
-        process_response @smart_proxy.update_attributes(params[:smart_proxy])
+        process_response @smart_proxy.update_attributes(foreman_params)
       end
 
       api :DELETE, "/smart_proxies/:id/", "Delete a smart_proxy."
@@ -69,7 +69,7 @@ module Api
 
       def proxies_by_type(type)
         return SmartProxy.authorized(:view_smart_proxies).includes(:features).with_features(type) if type.present?
-        SmartProxy.authorized(:view_smart_proxies).includes(:features).all
+        SmartProxy.authorized(:view_smart_proxies).includes(:features).to_a
       end
 
       def check_feature_type

@@ -26,7 +26,7 @@ module Api
       param_group :compute_profile, :as => :create
 
       def create
-        @compute_profile = ComputeProfile.new(params[:compute_profile])
+        @compute_profile = ComputeProfile.new(foreman_params)
         process_response @compute_profile.save
       end
 
@@ -35,7 +35,7 @@ module Api
       param_group :compute_profile
 
       def update
-        process_response @compute_profile.update_attributes(params[:compute_profile])
+        process_response @compute_profile.update_attributes(foreman_params)
       end
 
       api :DELETE, "/compute_profiles/:id/", N_("Delete a compute profile")
