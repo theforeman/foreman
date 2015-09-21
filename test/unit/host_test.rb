@@ -219,8 +219,7 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
-  #test "should be able to delete existing lookup value on update_attributes" do
-  def test_fuck
+  test "should be able to delete existing lookup value on update_attributes" do
     host = FactoryGirl.create(:host)
     lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
