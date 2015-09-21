@@ -2,7 +2,7 @@
 
 <%= content_tag :span, :id => 'bmc_fields' do %>
   <%= text_f f, :username %>
-  <%= password_f f, :password %>
+  <%= password_f f, :password, :unset => action_name == "edit"%>
   <%= selectable_f f, :provider, Nic::BMC::PROVIDERS %>
 <% end %>
 

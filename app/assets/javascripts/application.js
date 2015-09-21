@@ -452,6 +452,18 @@ function setPowerState(item, status){
   $('[rel="twipsy"]').tooltip();
 }
 
+function toggle_input_group(item) {
+  item =  $(item);
+  var formControl = item.closest('.input-group').find('.form-control');
+  if ($(formControl).is(':disabled') ) {
+    $(formControl).prop('disabled', false);
+    $(formControl).attr("placeholder", "");
+    $(item).blur();
+  }
+  else
+    $(formControl).prop('disabled', true);
+}
+
 function reloadOnAjaxComplete(element) {
   $(element).indicator_hide();
   $('[rel="twipsy"]').tooltip();

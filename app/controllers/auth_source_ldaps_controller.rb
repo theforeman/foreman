@@ -22,8 +22,6 @@ class AuthSourceLdapsController < ApplicationController
   end
 
   def update
-    # remove from hash :account_password if blank?
-    params[:auth_source_ldap].except!(:account_password) if params[:auth_source_ldap][:account_password].blank?
     if @auth_source_ldap.update_attributes(params[:auth_source_ldap])
       process_success
     else
