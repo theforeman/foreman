@@ -3,6 +3,8 @@ class Environment < ActiveRecord::Base
   include Authorizable
   include Parameterizable::ByIdName
 
+  attr_accessible :name, :location_ids, :organization_ids
+
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 

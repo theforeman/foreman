@@ -11,6 +11,14 @@ module Host
     friendly_id :name
     OWNER_TYPES = %w(User Usergroup)
 
+    attr_accessible :name, :organization_id, :location_id, :hostgroup_id,
+      :compute_resource_id, :compute_profile_id, :environment_id,
+      :puppet_ca_proxy_id, :puppet_proxy_id, :managed, :progress_report_id,
+      :type, :domain_id, :realm_id, :start, :mac, :subnet_id, :ip, :architecture_id,
+      :operatingsystem_id, :provision_method, :build, :medium_id, :ptable_id, :disk,
+      :root_pass, :is_owned_by, :enabled, :model_id, :comment, :overwrite, :capabilities,
+      :rpovider, :config_group_ids, :puppetclass_ids, :location_ids, :organization_ids
+
     validates_lengths_from_database
     belongs_to :model, :counter_cache => :hosts_count
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id

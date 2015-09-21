@@ -3,6 +3,8 @@ class Usergroup < ActiveRecord::Base
   include Authorizable
   include Parameterizable::ByIdName
 
+  attr_accessible  :name, :admin, :user_ids, :role_ids, :usergroup_ids
+
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_last_admin_group_is_not_deleted
 

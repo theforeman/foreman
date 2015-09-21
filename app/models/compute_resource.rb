@@ -6,6 +6,12 @@ class ComputeResource < ActiveRecord::Base
   include Parameterizable::ByIdName
   encrypts :password
 
+  attr_accessible :name, :provider, :description,
+      :url, :display_type, :set_console_password, :zone, :project,
+      :user, :password, :uuid, :ovirt_quota, :public_key,
+      :region, :server, :pubkey_hash, :tenant, :project, :email, :key_path,
+      :location_ids, :organization_ids
+
   class_attribute :supported_providers
   self.supported_providers = {
     'Libvirt'   => 'Foreman::Model::Libvirt',

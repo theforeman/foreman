@@ -9,6 +9,9 @@ class LookupKey < ActiveRecord::Base
   EQ_DELM  = "="
   VALUE_REGEX =/\A[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+(#{KEY_DELM}[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+)*\Z/
 
+  attr_accessible :key, :description, :override, :key_type, :default_value, :required, :validator_type, :use_puppet_default,
+      :validator_rule, :path, :variable, :id, :is_param, :puppetclass_id, :lookup_values_attributes
+
   audited :associated_with => :audit_class, :allow_mass_assignment => true, :except => :lookup_values_count
   validates_lengths_from_database
 

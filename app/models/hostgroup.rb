@@ -8,6 +8,13 @@ class Hostgroup < ActiveRecord::Base
   include HostCommon
 
   include NestedAncestryCommon
+
+  attr_accessible :parent_id, :name, :environment_id, :compute_profile_id,
+      :puppet_ca_proxy_id, :puppet_proxy_id, :domain_id, :subnet_id,
+      :realm_id, :architecture_id, :operatingsystem_id, :medium_id,
+      :ptable_id, :root_pass, :config_group_ids, :puppetclass_ids,
+      :group_parameters_attributes, :location_ids, :organization_ids
+
   validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
   validates :title, :presence => true, :uniqueness => true
 

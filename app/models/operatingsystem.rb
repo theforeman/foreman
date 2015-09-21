@@ -6,6 +6,10 @@ class Operatingsystem < ActiveRecord::Base
   include ValidateOsFamily
   include Parameterizable::ByIdName
 
+  attr_accessible :name, :major, :minor, :description, :family,
+      :release_name, :password_hash, :architectures, :architecture_ids, :architecture_names,
+      :ptable_ids, :medium_ids, :os_default_templates_attributes
+
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts

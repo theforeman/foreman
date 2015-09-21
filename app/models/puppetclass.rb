@@ -3,6 +3,7 @@ class Puppetclass < ActiveRecord::Base
   include ScopedSearchExtensions
   include Parameterizable::ByIdName
 
+  attr_accessible :name, :hostgroup_ids
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many :environment_classes, :dependent => :destroy
