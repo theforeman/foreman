@@ -29,6 +29,7 @@ module Foreman::Controller::SmartProxyAuth
 
   # Permits registered Smart Proxies or a user with permission
   def require_smart_proxy_or_login(features = nil)
+    features = features.call if features.respond_to?(:call)
     allowed_smart_proxies = features.blank? ? SmartProxy.all : SmartProxy.with_features(features)
 
     if !Setting[:restrict_registered_smart_proxies] or auth_smart_proxy(allowed_smart_proxies, Setting[:require_ssl_smart_proxies])

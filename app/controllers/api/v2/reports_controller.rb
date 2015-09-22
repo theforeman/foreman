@@ -7,7 +7,7 @@ module Api
       before_filter :find_resource, :only => %w{show destroy}
       before_filter :setup_search_options, :only => [:index, :last]
 
-      add_smart_proxy_filters :create, :features => ReportImporter.report_features
+      add_smart_proxy_filters :create, :features => Proc.new { ReportImporter.report_features }
 
       api :GET, "/reports/", N_("List all reports")
       param_group :search_and_pagination, ::Api::V2::BaseController

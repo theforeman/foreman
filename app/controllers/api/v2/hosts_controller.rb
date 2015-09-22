@@ -11,7 +11,7 @@ module Api
       before_filter :find_resource, :except => [:index, :create, :facts]
       before_filter :permissions_check, :only => %w{power boot puppetrun}
 
-      add_smart_proxy_filters :facts, :features => FactImporter.fact_features
+      add_smart_proxy_filters :facts, :features => Proc.new { FactImporter.fact_features }
 
       api :GET, "/hosts/", N_("List all hosts")
       api :GET, "/hostgroups/:hostgroup_id/hosts", N_("List all hosts for a host group")
