@@ -2233,7 +2233,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "lookup_values_attributes= updates existing lookup values" do
       host = FactoryGirl.create(:host, :with_puppetclass)
-      lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => host.classes.first, :overrides => {"fqdn=#{host.name}" => 'old value'})
+      lkey = FactoryGirl.create(:lookup_key, :as_smart_class_param, :puppetclass => host.classes.first, :overrides => {"fqdn=#{host.name}" => 'old value'})
       lval = host.lookup_values.first
 
       host.lookup_values_attributes = {'0' => {'lookup_key_id' => lkey.id.to_s, 'value' => 'new value', '_destroy' => '0', 'id' => lval.id.to_s}}.with_indifferent_access
