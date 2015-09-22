@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-11 08:40+0100\n"
-"PO-Revision-Date: 2015-09-11 08:40+0100\n"
+"POT-Creation-Date: 2015-09-22 09:06+0100\n"
+"PO-Revision-Date: 2015-09-22 09:06+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -4408,7 +4408,7 @@ msgstr ""
 msgid "Cannot create LDAP configuration for %s without dedicated service account"
 msgstr ""
 
-#: ../app/models/auth_sources/auth_source_ldap.rb:184
+#: ../app/models/auth_sources/auth_source_ldap.rb:185
 msgid "invalid LDAP filter syntax"
 msgstr ""
 
@@ -4809,7 +4809,7 @@ msgstr ""
 msgid "must be one of [ %s ]"
 msgstr ""
 
-#: ../app/models/environment.rb:39
+#: ../app/models/environment.rb:37
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr ""
 
@@ -4821,7 +4821,7 @@ msgstr ""
 msgid "LDAP error - %{message}"
 msgstr ""
 
-#: ../app/models/external_usergroup.rb:47 ../app/models/user.rb:548
+#: ../app/models/external_usergroup.rb:47 ../app/models/user.rb:547
 msgid "is not permitted"
 msgstr ""
 
@@ -5696,51 +5696,51 @@ msgstr ""
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr ""
 
-#: ../app/models/user.rb:460
+#: ../app/models/user.rb:459
 msgid "A user group already exists with this name"
 msgstr ""
 
-#: ../app/models/user.rb:466
+#: ../app/models/user.rb:465
 msgid "Can't delete the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:474 ../app/models/usergroup.rb:95
+#: ../app/models/user.rb:473 ../app/models/usergroup.rb:94
 msgid "cannot be removed from the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:483
+#: ../app/models/user.rb:482
 msgid "Can't delete internal admin account"
 msgstr ""
 
-#: ../app/models/user.rb:492
+#: ../app/models/user.rb:491
 msgid "cannot be removed from an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:498
+#: ../app/models/user.rb:497
 msgid "cannot be changed on an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:510
+#: ../app/models/user.rb:509
 msgid "you can't assign some of roles you selected"
 msgstr ""
 
-#: ../app/models/user.rb:517
+#: ../app/models/user.rb:516
 msgid "you can't change administrator flag"
 msgstr ""
 
-#: ../app/models/user.rb:530
+#: ../app/models/user.rb:529
 msgid "cannot be changed by a non-admin user"
 msgstr ""
 
-#: ../app/models/user.rb:536
+#: ../app/models/user.rb:535
 msgid "default locations need to be user locations first"
 msgstr ""
 
-#: ../app/models/user.rb:542
+#: ../app/models/user.rb:541
 msgid "default organizations need to be user organizations first"
 msgstr ""
 
-#: ../app/models/user.rb:553
+#: ../app/models/user.rb:552
 msgid "is not valid"
 msgstr ""
 
@@ -5748,11 +5748,11 @@ msgstr ""
 msgid "has this role already"
 msgstr ""
 
-#: ../app/models/usergroup.rb:90
+#: ../app/models/usergroup.rb:89
 msgid "is already used by a user account"
 msgstr ""
 
-#: ../app/models/usergroup.rb:103
+#: ../app/models/usergroup.rb:102
 msgid "Can't delete the last admin user group"
 msgstr ""
 
