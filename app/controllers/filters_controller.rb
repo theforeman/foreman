@@ -54,7 +54,7 @@ class FiltersController < ApplicationController
     @resource_base ||= if @role.present?
                          @role.filters.authorized(current_permission)
                        else
-                         Filter.scoped.authorized(current_permission)
+                         Filter.where(nil).authorized(current_permission)
                        end
   end
 
