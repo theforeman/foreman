@@ -2,7 +2,6 @@ module Host
   class Base < ActiveRecord::Base
     include Foreman::STI
     include Authorizable
-    include CounterCacheFix
     include Parameterizable::ByName
     include DestroyFlag
 

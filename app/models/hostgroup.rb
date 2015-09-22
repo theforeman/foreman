@@ -27,7 +27,6 @@ class Hostgroup < ActiveRecord::Base
   has_many :template_combinations, :dependent => :destroy
   has_many :provisioning_templates, :through => :template_combinations
 
-  include CounterCacheFix
   counter_cache = "#{model_name.to_s.split(":").first.pluralize.downcase}_count".to_sym  # e.g. :hosts_count
   belongs_to :domain, :counter_cache => counter_cache
   belongs_to :subnet
