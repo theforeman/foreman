@@ -28,7 +28,7 @@ class Role < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
   scope :givable, -> { where(:builtin => 0).order(:name) }
-  scope :for_current_user, -> { User.current.admin? ? {} : where(:id => User.current.role_ids) }
+  scope :for_current_user, -> { User.current.admin? ? where('0 != 0') : where(:id => User.current.role_ids) }
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first
     where("#{compare} builtin = 0")

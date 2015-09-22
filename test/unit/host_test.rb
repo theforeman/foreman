@@ -1936,19 +1936,19 @@ class HostTest < ActiveSupport::TestCase
   test "available_puppetclasses should return all if no environment" do
     host = FactoryGirl.create(:host)
     host.update_attribute(:environment_id, nil)
-    assert_equal Puppetclass.scoped, host.available_puppetclasses
+    assert_equal Puppetclass.where(nil), host.available_puppetclasses
   end
 
   test "available_puppetclasses should return environment-specific classes" do
     host = FactoryGirl.create(:host, :with_environment)
-    refute_equal Puppetclass.scoped, host.available_puppetclasses
+    refute_equal Puppetclass.where(nil), host.available_puppetclasses
     assert_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
   end
 
   test "available_puppetclasses should return environment-specific classes (and that are NOT already inherited by parent)" do
     hostgroup        = FactoryGirl.create(:hostgroup, :with_puppetclass)
     host             = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
-    refute_equal Puppetclass.scoped, host.available_puppetclasses
+    refute_equal Puppetclass.where(nil), host.available_puppetclasses
     refute_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
     assert_equal (host.environment.puppetclasses - host.parent_classes).sort, host.available_puppetclasses.sort
   end

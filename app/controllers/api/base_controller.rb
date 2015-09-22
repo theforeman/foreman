@@ -49,7 +49,7 @@ module Api
     def parent_scope
       parent_name, scope = parent_resource_details
 
-      return resource_class.scoped unless scope
+      return resource_class.where(nil) unless scope
 
       association = resource_class.reflect_on_all_associations.find {|assoc| assoc.plural_name == parent_name.pluralize}
       resource_class.joins(association.name).merge(scope)
