@@ -200,8 +200,9 @@ Spork.prefork do
     def refute_with_errors(condition, model, field = nil, match = nil)
       refute condition, "#{model.inspect} errors: #{model.errors.full_messages.join(';')}"
       if field
-        assert_blank model.errors.map { |a,m| model.errors.full_message(a, m) unless field == a }.compact
-        assert_present model.errors[field].find { |e| e.match(match) },
+        model_errors = model.errors.map { |a,m| model.errors.full_message(a, m) unless field == a }.compact
+        assert model_errors.blank?, "#{model} contains #{model_errors}, it should not contain any"
+        assert model.errors[field].find { |e| e.match(match) }.present?,
                        "#{field} error matching #{match} not found: #{model.errors[field].inspect}" if match
       end
     end
