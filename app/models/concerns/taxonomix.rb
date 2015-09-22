@@ -65,7 +65,7 @@ module Taxonomix
     # default scope is not called if we just use #scoped therefore we have to enforce quering
     # to get correct default values
     def enforce_default
-      self.scoped.limit(0).all unless which_ancestry_method.present?
+      self.where(nil).limit(0).all unless which_ancestry_method.present?
     end
 
     def taxable_ids(loc = which_location, org = which_organization, inner_method = which_ancestry_method)

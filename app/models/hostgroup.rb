@@ -176,7 +176,7 @@ class Hostgroup < ActiveRecord::Base
   def params
     parameters = {}
     # read common parameters
-    CommonParameter.scoped.each {|p| parameters.update Hash[p.name => p.value] }
+    CommonParameter.where(nil).each {|p| parameters.update Hash[p.name => p.value] }
     # read OS parameters
     operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } if operatingsystem
     # read group parameters only if a host belongs to a group
