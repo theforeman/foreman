@@ -1,3 +1,27 @@
+2015-09-22	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.9.2
+	* i18n - extracting new, updating rails, pulling from tx
+	* refs #11807 - fix renamed factory
+	* refs #11807 - change nested lookup_values destroy test params to match UI
+	* fixes #11807 - update existing lookup value when changed from nested host form
+
+2015-09-22	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #11037 - Add ByIdName to environment model
+
+2015-09-22	Phirince Philip <phirince@gmail.com>
+	* fixes #11723 - foreman_url usable from default PXE template
+
+2015-09-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10805 - match vlans attached to bonds correctly
+	* Fixes #11263 - set newly seeded partition tables default
+
+2015-09-22	Tom Caspy <tcaspy@gmail.com>
+	* fixes #11715 - base64 encoded passwords must not be reencoded
+	* fixes #10589 - removing N+1 queries from after_save callbacks when changing hostgroup
+
+2015-09-22	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #11407 - Uppercase logins from LDAP break external user group sync
+
 2015-09-11	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.9.1
 	* i18n - extracting new, updating rails, pulling from tx
