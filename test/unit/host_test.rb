@@ -2001,6 +2001,7 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryGirl.create(:host, :with_puppetclass)
       FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
       copy = host.clone
+      assert_equal 1, host.lookup_values.reload.size
       assert_equal 1, copy.lookup_values.size
       assert_equal host.lookup_values.map(&:value), copy.lookup_values.map(&:value)
     end
@@ -2026,6 +2027,14 @@ class HostTest < ActiveSupport::TestCase
       assert interface.name.blank?
       assert interface.mac.blank?
       assert interface.ip.blank?
+    end
+
+    test 'without save makes no changes' do
+      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
+      ActiveRecord::Base.any_instance.expects(:destroy).never
+      ActiveRecord::Base.any_instance.expects(:save).never
+      host.clone
     end
   end
 
