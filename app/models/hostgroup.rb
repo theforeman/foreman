@@ -199,6 +199,10 @@ class Hostgroup < ActiveRecord::Base
                           :except => [:name, :title, :lookup_value_matcher])
     new.name = name
     new.title = name
+    new.lookup_values.each do |lv|
+      lv.match = new.lookup_value_match
+      lv.host_or_hostgroup = new
+    end
     new
   end
 
@@ -207,11 +211,13 @@ class Hostgroup < ActiveRecord::Base
     unscoped_find(ancestry.to_s.split('/').last.to_i).update_puppetclasses_total_hosts if ancestry.present?
   end
 
-  private
+  protected
 
   def lookup_value_match
     "hostgroup=#{to_label}"
   end
+
+  private
 
   def nested_root_pw
     Hostgroup.sort_by_ancestry(ancestors).reverse.each do |a|
