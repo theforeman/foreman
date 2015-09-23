@@ -196,6 +196,7 @@ class Hostgroup < ActiveRecord::Base
   def clone(name = "")
     new = self.dup
     new.name = name
+    new.title = name
     new.puppetclasses = puppetclasses
     new.locations     = locations
     new.organizations = organizations
@@ -206,6 +207,7 @@ class Hostgroup < ActiveRecord::Base
     self.lookup_values.each do |lookup_value|
       new_lookup_value = lookup_value.dup
       new_lookup_value.match = "hostgroup=#{new.title}"
+      new_lookup_value.host_or_hostgroup = new
       new.lookup_values << new_lookup_value
     end
     new

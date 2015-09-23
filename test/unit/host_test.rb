@@ -247,6 +247,33 @@ class HostTest < ActiveSupport::TestCase
     assert_equal '80', lookup_value.value
   end
 
+  test "should be able to update complex YAML lookup value" do
+    host = FactoryGirl.create(:host)
+    lookup_key = FactoryGirl.create(:lookup_key, :is_param, :key_type => 'yaml')
+    lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                      :match => "fqdn=#{host.fqdn}", :value => YAML.dump(:foo => :bar))
+    host.reload
+    assert_difference('LookupValue.count', 0) do
+      assert host.update_attributes!(:lookup_values_attributes => {'0' =>
+                                                                   {:lookup_key_id => lookup_key.id.to_s, :value => YAML.dump(:updated => :value),
+                                                                    :match => "fqdn=#{host.fqdn}",
+                                                                    :id => lookup_value.id.to_s, :_destroy => 'false'}})
+    end
+    lookup_value.reload
+    assert_equal({:updated => :value}, lookup_value.value)
+  end
+
+  test "should raise nested lookup value validation errors" do
+    lookup_key = FactoryGirl.create(:lookup_key, :is_param, :key_type => 'hash')
+    host = FactoryGirl.build(:host)
+    host.attributes = {:lookup_values_attributes => {'0' =>
+                                                     {:lookup_key_id => lookup_key.id.to_s, :value => '{"a":',
+                                                      :match => "fqdn=#{host.fqdn}",
+                                                      :_destroy => 'false'}}}
+    assert host.lookup_values.first.present?
+    refute_valid host, :'lookup_values.value', /invalid hash/
+  end
+
   test "should import facts from json stream" do
     h=Host.new(:name => "sinn1636.lan")
     h.disk = "!" # workaround for now
