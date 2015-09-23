@@ -70,7 +70,7 @@ class Setting < ActiveRecord::Base
 
   def self.[]=(name, value)
     name   = name.to_s
-    record = find_or_create_by_name name
+    record = find_or_create_by(:name => name)
     record.value = value
     record.save!
   end

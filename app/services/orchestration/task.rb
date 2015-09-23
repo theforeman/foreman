@@ -24,7 +24,7 @@ module Orchestration
     end
 
     def as_json(options = {})
-      super :only => [:name, :timestamp, :status]
+      {:name => name, :timestamp => timestamp, :status => status, :priority => priority}.as_json
     end
 
     private

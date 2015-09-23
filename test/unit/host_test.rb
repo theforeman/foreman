@@ -21,7 +21,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should not save hostname with periods in shortname" do
-    host = Host.new :name => "my.host", :domain => Domain.find_or_create_by_name("mydomain.net"), :managed => true
+    host = Host.new :name => "my.host", :domain => Domain.find_or_create_by(:name => "mydomain.net"), :managed => true
     host.valid?
     assert_equal "must not include periods", host.errors[:name].first
   end
@@ -103,25 +103,25 @@ class HostTest < ActiveSupport::TestCase
 
   test "should add domain name to hostname" do
     host = Host.create :name => "myhost", :mac => "aabbccddeeff", :ip => "123.01.02.03",
-      :domain => Domain.find_or_create_by_name("company.com")
+      :domain => Domain.find_or_create_by(:name => "company.com")
     assert_equal "myhost.company.com", host.name
   end
 
   test "should not add domain name to hostname if it already include it" do
     host = Host.create :name => "myhost.company.com", :mac => "aabbccddeeff", :ip => "123.1.2.3",
-      :domain => Domain.find_or_create_by_name("company.com")
+      :domain => Domain.find_or_create_by(:name => "company.com")
     assert_equal "myhost.company.com", host.name
   end
 
   test "should add hostname if it contains domain name" do
     host = Host.create :name => "myhost.company.com", :mac => "aabbccddeeff", :ip => "123.01.02.03",
-      :domain => Domain.find_or_create_by_name("company.com")
+      :domain => Domain.find_or_create_by(:name => "company.com")
     assert_equal "myhost.company.com", host.name
   end
 
   test "should not append domainname to fqdn for unmanaged host" do
     host = Host.create :name => "myhost.sub.comp.net", :mac => "aabbccddeeff", :ip => "123.01.02.03",
-      :domain => Domain.find_or_create_by_name("company.com"),
+      :domain => Domain.find_or_create_by(:name => "company.com"),
       :certname => "myhost.sub.comp.net",
       :managed => false
     assert_equal "myhost.sub.comp.net", host.name
@@ -129,7 +129,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "should save hosts with full stop in their name" do
     host = Host.create :name => "my.host.company.com", :mac => "aabbccddeeff", :ip => "123.01.02.03",
-      :domain => Domain.find_or_create_by_name("company.com")
+      :domain => Domain.find_or_create_by(:name => "company.com")
     assert_equal "my.host.company.com", host.name
   end
 
@@ -744,7 +744,7 @@ class HostTest < ActiveSupport::TestCase
 
       test "available_template_kinds finds templates for a PXE host" do
         os_dt = FactoryGirl.create(:os_default_template,
-                                   :template_kind=> TemplateKind.find('finish'))
+                                   :template_kind => TemplateKind.friendly.find('finish'))
         host  = FactoryGirl.create(:host, :operatingsystem => os_dt.operatingsystem)
 
         assert_equal [os_dt.provisioning_template], host.available_template_kinds('build')
@@ -752,7 +752,7 @@ class HostTest < ActiveSupport::TestCase
 
       test "available_template_kinds finds templates for an image host" do
         os_dt = FactoryGirl.create(:os_default_template,
-                                   :template_kind=> TemplateKind.find('finish'))
+                                   :template_kind => TemplateKind.friendly.find('finish'))
         host  = FactoryGirl.create(:host, :on_compute_resource,
                                    :operatingsystem => os_dt.operatingsystem)
         FactoryGirl.create(:image, :uuid => 'abcde',
@@ -806,18 +806,11 @@ class HostTest < ActiveSupport::TestCase
     test "if the user toggles off the use_uuid_for_certificates option, revoke the UUID and autosign the hostname" do
       h = FactoryGirl.create(:host, :with_puppet_orchestration)
       Setting[:manage_puppetca] = true
+
+      ProxyAPI::Puppetca.any_instance.expects(:del_certificate).returns(true)
+      ProxyAPI::Puppetca.any_instance.expects(:set_autosign).returns(true)
+
       assert h.puppetca?
-
-      Setting[:use_uuid_for_certificates] = false
-      some_uuid = Foreman.uuid
-      h.certname = some_uuid
-
-      h.expects(:initialize_puppetca).returns(true)
-      mock_puppetca = Object.new
-      mock_puppetca.expects(:del_certificate).with(some_uuid).returns(true)
-      mock_puppetca.expects(:set_autosign).with(h.name).returns(true)
-      h.instance_variable_set("@puppetca", mock_puppetca)
-
       assert h.handle_ca
       assert_equal h.certname, h.name
     end
@@ -1469,7 +1462,7 @@ class HostTest < ActiveSupport::TestCase
         filter = FactoryGirl.build(:filter)
         filter.permissions = [ Permission.find_by_name('edit_hosts') ]
         filter.save!
-        role = Role.find_or_create_by_name :name => "testing_role"
+        role = Role.find_or_create_by :name => "testing_role"
         role.filters = [ filter ]
         role.save!
         @one.roles = [ role ]
@@ -1901,19 +1894,19 @@ class HostTest < ActiveSupport::TestCase
   test "available_puppetclasses should return all if no environment" do
     host = FactoryGirl.create(:host)
     host.update_attribute(:environment_id, nil)
-    assert_equal Puppetclass.scoped, host.available_puppetclasses
+    assert_equal Puppetclass.all, host.available_puppetclasses
   end
 
   test "available_puppetclasses should return environment-specific classes" do
     host = FactoryGirl.create(:host, :with_environment)
-    refute_equal Puppetclass.scoped, host.available_puppetclasses
+    refute_equal Puppetclass.all, host.available_puppetclasses
     assert_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
   end
 
   test "available_puppetclasses should return environment-specific classes (and that are NOT already inherited by parent)" do
     hostgroup        = FactoryGirl.create(:hostgroup, :with_puppetclass)
     host             = FactoryGirl.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
-    refute_equal Puppetclass.scoped, host.available_puppetclasses
+    refute_equal Puppetclass.all, host.available_puppetclasses
     refute_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
     assert_equal (host.environment.puppetclasses - host.parent_classes).sort, host.available_puppetclasses.sort
   end
@@ -2406,7 +2399,9 @@ class HostTest < ActiveSupport::TestCase
 
     test 'should accept non-existing hostgroup' do
       host = FactoryGirl.build(:host, :managed, :with_hostgroup)
-      Hostgroup.expects(:find).with(1111).returns(nil)
+      hg = Object.new
+      Hostgroup.stubs(:friendly).returns(hg)
+      hg.expects(:find).with(1111).returns(nil)
 
       attributes = { 'hostgroup_id' => 1111 }
       actual_attr = host.apply_inherited_attributes(attributes)

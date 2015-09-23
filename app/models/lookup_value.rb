@@ -2,6 +2,8 @@ class LookupValue < ActiveRecord::Base
   include Authorizable
   include CounterCacheFix
 
+  attr_accessible :match, :value, :lookup_key_id, :id, :_destroy
+
   validates_lengths_from_database
   audited :associated_with => :lookup_key, :allow_mass_assignment => true
 
@@ -24,6 +26,12 @@ class LookupValue < ActiveRecord::Base
   scoped_search :on => :value, :complete_value => true, :default_order => true
   scoped_search :on => :match, :complete_value => true
   scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
+
+  def []=(attr_name, value)
+    unless [:managed_id, :hostgroup_id].include?(attr_name.to_sym)
+      super
+    end
+  end
 
   def value_present?
     self.errors.add(:value, :blank) if value.nil? && !use_puppet_default

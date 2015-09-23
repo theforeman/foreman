@@ -1,6 +1,8 @@
 class ComputeResourcesVmsController < ApplicationController
   def index
     @compute_resource = find_compute_resource(:view_compute_resources_vms)
+    #@compute_resource.vms is not an active record object, it is a fog collection.
+    #thus, the #all method is legitimate here.
     @vms = @compute_resource.vms.all(params[:filters] || {})
     @authorizer = Authorizer.new(User.current, :collection => [@compute_resource])
     respond_to do |format|

@@ -6,7 +6,7 @@ class PuppetclassesController < ApplicationController
 
   def index
     @puppetclasses = resource_base.search_for(params[:search], :order => params[:order]).includes(:config_group_classes, :class_params, :environments, :hostgroups).paginate(:page => params[:page])
-    @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.where(:puppetclass_id => @puppetclasses.map(&:id)).uniq.pluck(:hostgroup_id))
+    @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.where(:puppetclass_id => @puppetclasses.map(&:id)).to_a.compact.uniq.map(&:hostgroup_id))
   end
 
   def edit
@@ -61,7 +61,7 @@ class PuppetclassesController < ApplicationController
       @obj ||= Hostgroup.new(params['hostgroup']) if params['hostgroup']
     else
       if params['host']
-        @obj = Host::Base.find(params['host_id'])
+        @obj = Host::Base.friendly.find(params['host_id'])
         unless @obj.is_a?(Host::Managed)
           @obj      = @obj.becomes(Host::Managed)
           @obj.type = "Host::Managed"

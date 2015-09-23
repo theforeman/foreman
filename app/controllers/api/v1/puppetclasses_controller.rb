@@ -13,11 +13,14 @@ module Api
 
       def index
         values = Puppetclass.
+        values = Puppetclass.reorder(nil).
           authorized(:view_puppetclasses).
           search_for(*search_options).paginate(paginate_options).
           select([:name, :id]).
           includes(:lookup_keys)
         render :json => Puppetclass.classes2hash(values.all)
+          includes(:lookup_keys).to_a
+        render :json => Puppetclass.classes2hash(values)
       end
 
       api :GET, "/puppetclasses/:id/", "Show a puppetclass."

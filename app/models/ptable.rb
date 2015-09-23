@@ -4,8 +4,7 @@
 # modified version of one of these in textual form
 class Ptable < Template
   include Authorizable
-  extend FriendlyId
-  friendly_id :name
+
   include Parameterizable::ByIdName
   include ValidateOsFamily
 

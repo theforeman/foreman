@@ -190,7 +190,7 @@ class PuppetClassImporter
 
   def add_classes_to_foreman(env_name, klasses)
     env         = find_or_create_env env_name
-    new_classes = klasses.map { |k| Puppetclass.find_or_create_by_name(k[0]) }
+    new_classes = klasses.map { |k| Puppetclass.find_or_create_by(:name => k[0]) }
 
     new_classes.each do |new_class|
       EnvironmentClass.create! :puppetclass_id => new_class.id, :environment_id => env.id

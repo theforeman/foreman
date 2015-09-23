@@ -3,10 +3,16 @@ require 'test_helper'
 class ApplicationMailerTest < ActiveSupport::TestCase
   setup { ActionMailer::Base.deliveries = [] }
 
+  class TestMailer < ::ApplicationMailer
+    def test
+      mail(:to => 'nobody@example.com', :subject => 'Danger, Will Robinson!') do |format|
+        format.text { render plain: "This is a test mail." }
+      end
+    end
+  end
+
   def mail
-    ApplicationMailer.mail(:to => 'nobody@example.com', :subject => 'Danger, Will Robinson!') do |mail|
-      format.text "This is a test mail."
-    end.deliver
+    TestMailer.test.deliver
     ActionMailer::Base.deliveries.last
   end
 

@@ -101,6 +101,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   end
 
   test "should destroy vm" do
+    Fog.mock!
     # We have to work on a new vm, instead of deleting the test one,
     # which is automatically created for each new connection.
     # Another solution would be to disconnect between each test,
@@ -115,6 +116,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to compute_resource_vms_path
+    Fog.unmock!
   end
 
   test "should not power vm when not permitted" do

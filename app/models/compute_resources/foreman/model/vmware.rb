@@ -64,7 +64,7 @@ module Foreman::Model
       if opts[:storage_domain]
         name_sort(dc.datastores.get(opts[:storage_domain]))
       else
-        name_sort(dc.datastores.all(:accessible => true))
+        name_sort(dc.datastores.where(:accessible => true).all)
       end
     end
 
@@ -73,12 +73,12 @@ module Foreman::Model
     end
 
     def networks(opts = {})
-      name_sort(dc.networks.all(:accessible => true))
+      name_sort(dc.networks.where(:accessible => true).all)
     end
 
     def resource_pools(opts = {})
       cluster = cluster(opts[:cluster_id])
-      name_sort(cluster.resource_pools.all(:accessible => true))
+      name_sort(cluster.resource_pools.where(:accessible => true).all)
     end
 
     def available_clusters

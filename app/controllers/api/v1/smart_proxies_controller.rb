@@ -69,7 +69,7 @@ module Api
 
       def proxies_by_type(type)
         return SmartProxy.authorized(:view_smart_proxies).includes(:features).with_features(type) if type.present?
-        SmartProxy.authorized(:view_smart_proxies).includes(:features).all
+        SmartProxy.authorized(:view_smart_proxies).includes(:features).to_a
       end
 
       def check_feature_type

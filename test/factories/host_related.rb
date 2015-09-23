@@ -1,5 +1,17 @@
 # Helpers
 
+def random_mac_part(n)
+  n.to_s(16).rjust(2, '0')
+end
+
+def random_mac(n)
+  "#{random_mac_part(rand(255))}:#{random_mac_part(rand(255))}:#{random_mac_part(rand(255))}:#{random_mac_part(rand(255))}:" + n.to_s(16).rjust(4, '0').insert(2, ':')
+end
+
+def random_ip(n)
+  "#{rand(255)}.#{rand(255) % n}.#{rand(255)}.#{n%255}"
+end
+
 def deferred_nic_attrs
   [:ip, :mac, :subnet, :domain]
 end
@@ -48,7 +60,7 @@ FactoryGirl.define do
   factory :nic_base, :class => Nic::Base do
     type 'Nic::Base'
     sequence(:identifier) { |n| "eth#{n}" }
-    sequence(:mac) { |n| "00:00:00:00:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
+    sequence(:mac) { |n| random_mac(n) }
 
     trait :with_subnet do
       subnet do
@@ -65,14 +77,14 @@ FactoryGirl.define do
 
   factory :nic_managed, :class => Nic::Managed, :parent => :nic_interface do
     type 'Nic::Managed'
-    sequence(:mac) { |n| "01:23:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
-    sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
+    sequence(:mac) { |n| random_mac(n) }
+    sequence(:ip) { |n| random_ip(n) }
   end
 
   factory :nic_bmc, :class => Nic::BMC, :parent => :nic_managed do
     type 'Nic::BMC'
-    sequence(:mac) { |n| "01:23:56:cd:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
-    sequence(:ip) { |n| IPAddr.new(255 + n, Socket::AF_INET).to_s }
+    sequence(:mac) { |n| random_mac(n) }
+    sequence(:ip) { |n| random_ip(n) }
     provider 'IPMI'
     username 'admin'
     password 'admin'
@@ -86,8 +98,8 @@ FactoryGirl.define do
   factory :nic_primary_and_provision, :parent => :nic_managed, :class => Nic::Managed do
     primary true
     provision true
-    sequence(:mac) { |n| "01:23:67:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
-    sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
+    sequence(:mac) { |n| random_mac(n) }
+    sequence(:ip) { |n| random_ip(n) }
   end
 
   factory :model do
@@ -95,8 +107,8 @@ FactoryGirl.define do
   end
 
   factory :host do
-    sequence(:name) { |n| "host#{n}" }
-    sequence(:hostname) { |n| "host#{n}" }
+    sequence(:name) { |n| "hosta#{n}" }
+    sequence(:hostname) { |n| "hostb#{n}" }
     root_pass 'xybxa6JUkz63w'
 
     # This allows a test to declare build/create(:host, :ip => '1.2.3.4') and
@@ -165,7 +177,7 @@ FactoryGirl.define do
     trait :on_compute_resource do
       uuid Foreman.uuid
       association :compute_resource, :factory => :ec2_cr
-      after(:build) { |host| host.class.skip_callback(:validation, :after, :queue_compute) }
+      after(:build) { |host| host.stubs(:queue_compute) }
     end
 
     trait :with_subnet do
@@ -281,7 +293,7 @@ FactoryGirl.define do
   end
 
   factory :hostgroup do
-    sequence(:name) { |n| "hostgroup#{n}" }
+    sequence(:name) { |n| "hostgroupa#{n}" }
 
     trait :with_parent do
       association :parent, :factory => :hostgroup

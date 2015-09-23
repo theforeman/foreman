@@ -1,11 +1,20 @@
 class Hostgroup < ActiveRecord::Base
   include Authorizable
   extend FriendlyId
-  friendly_id :title
+  friendly_id :name
+
+  include Parameterizable::ByIdName
   include Taxonomix
   include HostCommon
 
   include NestedAncestryCommon
+
+  attr_accessible :parent_id, :name, :environment_id, :compute_profile_id,
+      :puppet_ca_proxy_id, :puppet_proxy_id, :domain_id, :subnet_id,
+      :realm_id, :architecture_id, :operatingsystem_id, :medium_id,
+      :ptable_id, :root_pass, :config_group_ids, :puppetclass_ids,
+      :group_parameters_attributes, :location_ids, :organization_ids
+
   validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
   validates :title, :presence => true, :uniqueness => true
 
@@ -14,7 +23,7 @@ class Hostgroup < ActiveRecord::Base
 
   validates_lengths_from_database :except => [:name]
   before_destroy EnsureNotUsedBy.new(:hosts)
-  has_many :hostgroup_classes
+  has_many :hostgroup_classes, :dependent => :destroy
   has_many :puppetclasses, :through => :hostgroup_classes, :dependent => :destroy
   validates :name, :presence => true
   validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
@@ -102,6 +111,11 @@ class Hostgroup < ActiveRecord::Base
 
   #TODO: add a method that returns the valid os for a hostgroup
 
+  def to_param
+    # remove characters unsafe for urls, keep unicode ones
+    Parameterizable.parameterize("#{id}-#{title}")
+  end
+
   def hostgroup
     self
   end
@@ -177,7 +191,7 @@ class Hostgroup < ActiveRecord::Base
   def params
     parameters = {}
     # read common parameters
-    CommonParameter.scoped.each {|p| parameters.update Hash[p.name => p.value] }
+    CommonParameter.all.each {|p| parameters.update Hash[p.name => p.value] }
     # read OS parameters
     operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } if operatingsystem
     # read group parameters only if a host belongs to a group

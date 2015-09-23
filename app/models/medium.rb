@@ -1,11 +1,11 @@
 class Medium < ActiveRecord::Base
   include Authorizable
-  extend FriendlyId
-  friendly_id :name
   include Taxonomix
   include ValidateOsFamily
   include Parameterizable::ByIdName
   audited :allow_mass_assignment => true
+
+  attr_accessible :name, :path, :media_path, :config_path, :image_path, :os_family, :location_ids, :organization_ids
 
   validates_lengths_from_database
 

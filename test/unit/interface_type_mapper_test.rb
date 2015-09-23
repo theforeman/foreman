@@ -2,6 +2,7 @@ require 'test_helper'
 
 class InterfaceTypeMapperTest < ActiveSupport::TestCase
   def setup
+    generate_all_fixtures!
     @mapper = InterfaceTypeMapper
   end
 

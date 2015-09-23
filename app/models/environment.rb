@@ -3,11 +3,13 @@ class Environment < ActiveRecord::Base
   include Authorizable
   include Parameterizable::ByIdName
 
+  attr_accessible :name, :location_ids, :organization_ids
+
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 
   has_many :environment_classes, :dependent => :destroy
-  has_many :puppetclasses, :through => :environment_classes, :uniq => true
+  has_many :puppetclasses, lambda {uniq}, :through => :environment_classes
   has_many_hosts
   has_many :hostgroups
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"

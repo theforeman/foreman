@@ -197,13 +197,13 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test "template with hostgroup should be rendered" do
-    get :template, {:id => "MyString", :hostgroup => "Common"}
+    get :template, {:id => templates(:mystring).to_param, :hostgroup => hostgroups(:common).to_param}
     assert_response :success
   end
 
   test "template with hostgroup should be identified as hostgroup provisioning" do
     ProvisioningTemplate.any_instance.stubs(:template).returns("type:<%= @provisioning_type %>")
-    hostgroups(:common).update_attribute :ptable_id, FactoryGirl.create(:ptable).id
+    hostgroups(:common).update_attribute(:ptable_id, FactoryGirl.create(:ptable).id)
     get :template, {:id => "MyString2", :hostgroup => "Common"}
     assert_response :success
     assert_match(%r{type:hostgroup}, @response.body)
@@ -218,9 +218,9 @@ class UnattendedControllerTest < ActionController::TestCase
 
   test "template with hostgroup should be rendered even if both have periods in their names" do
     templates(:mystring).update_attributes(:name => 'My.String')
-    hostgroups(:common).update_attributes(:name => 'Com.mon')
+    hostgroups(:common).update_attributes(:name => 'Com.mon', :ptable => @rh_host.ptable)
     assert_routing '/unattended/template/My.String/Com.mon', {:controller => 'unattended', :action => 'template', :id => "My.String", :hostgroup => "Com.mon"}
-    get :template, {:id => "My.String", :hostgroup => "Com.mon"}
+    get :template, {:id => templates(:mystring2).to_param, :hostgroup => hostgroups(:common).to_param}
     assert_response :success
   end
 
@@ -243,7 +243,7 @@ class UnattendedControllerTest < ActionController::TestCase
     @request.env["REMOTE_ADDR"] = @ub_host.ip
     @ub_host.create_token(:value => token, :expires => Time.now + 5.minutes)
     get :provision, {'token' => @ub_host.token.value }
-    assert @response.body.include?("#{Setting[:unattended_url]}:443/unattended/finish?token=#{token}")
+    assert @response.body.include?("/unattended/finish?token=#{token}")
   end
 
   test "hosts with unknown ip and valid token should render a template" do
@@ -314,7 +314,7 @@ class UnattendedControllerTest < ActionController::TestCase
       @request.env["REMOTE_ADDR"] = @ub_host.ip
       @ub_host.create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
       get :provision
-      assert @response.body.include?("http://test.host:80/unattended/finish?token=aaaaaa")
+      assert @response.body.include?("/unattended/finish?token=aaaaaa")
     end
   end # end of context "location or organizations are not enabled"
 

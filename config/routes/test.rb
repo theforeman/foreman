@@ -1,6 +1,6 @@
 if Rails.env.test?
   Foreman::Application.routes.draw do
-    resources :testable_resources, :only => :index
+    resources :testable, :only => :index
 
     namespace :api do
       namespace :v2 do

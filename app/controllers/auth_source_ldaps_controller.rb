@@ -2,7 +2,7 @@ class AuthSourceLdapsController < ApplicationController
   before_filter :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @auth_source_ldaps = resource_base.all
+    @auth_source_ldaps = resource_base.load
   end
 
   def new

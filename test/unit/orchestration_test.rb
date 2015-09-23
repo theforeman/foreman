@@ -1,6 +1,28 @@
 require 'test_helper'
 
 class OrchestrationTest < ActiveSupport::TestCase
+  module Orchestration::HostTest
+    extend ActiveSupport::Concern
+
+    included do
+      register_rebuild(:rebuild_host, N_('HOST'))
+    end
+
+    def rebuild_host
+    end
+  end
+
+  module Orchestration::TestModule
+    extend ActiveSupport::Concern
+
+    included do
+      register_rebuild(:rebuild_test, N_('TEST'))
+    end
+
+    def rebuild_test
+    end
+  end
+
   def test_host_should_have_queue
     h = Host.new
     assert_respond_to h, :queue
@@ -65,18 +87,8 @@ class OrchestrationTest < ActiveSupport::TestCase
   end
 
   context "when subscribing orchestration methods to nic" do
-    setup do
-      module Orchestration::TestModule
-        extend ActiveSupport::Concern
-
-        included do
-          register_rebuild(:rebuild_test, N_('TEST'))
-        end
-
-        def rebuild_test
-        end
-      end
-      @nic.class.send :include, Orchestration::TestModule
+    before do
+      @nic.class.send(:include, Orchestration::TestModule) unless @nic.is_a?(Orchestration::TestModule)
     end
 
     test "register_rebuild can register methods" do
@@ -90,18 +102,8 @@ class OrchestrationTest < ActiveSupport::TestCase
   end
 
   context "when subscribing orchestration methods to host" do
-    setup do
-      module Orchestration::HostTest
-        extend ActiveSupport::Concern
-
-        included do
-          register_rebuild(:rebuild_host, N_('HOST'))
-        end
-
-        def rebuild_host
-        end
-      end
-      @host.class.send :include, Orchestration::HostTest
+    before do
+      @host.class.send(:include, Orchestration::HostTest) unless @host.is_a?(Orchestration::HostTest)
     end
 
     test "register_rebuild can register methods" do

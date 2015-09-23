@@ -1,8 +1,8 @@
 class Architecture < ActiveRecord::Base
   include Authorizable
-  extend FriendlyId
-  friendly_id :name
   include Parameterizable::ByIdName
+
+  attr_accessible :name, :operatingsystem_ids
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   validates_lengths_from_database

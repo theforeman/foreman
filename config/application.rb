@@ -84,8 +84,14 @@ end
 
 module Foreman
   class Application < Rails::Application
+    def logger
+      Rails.logger
+    end
     # Setup additional routes by loading all routes file from routes directory
-    config.paths["config/routes"] += Dir[Rails.root.join("config/routes/**/*.rb")]
+
+    Dir["#{Rails.root}/config/routes/**/*.rb"].each do |route_file|
+      config.paths['config/routes.rb'] << route_file
+    end
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -192,6 +198,14 @@ module Foreman
     end
   end
 
+begin
+  require 'rack/openid'
+  require 'openid/store/filesystem'
+  openid_store_path = Pathname.new(Rails.root).join('db').join('openid-store')
+  Rails.configuration.middleware.use Rack::OpenID, OpenID::Store::Filesystem.new(openid_store_path)
+rescue LoadError
+  nil
+end
   def self.setup_console
     Bundler.require(:console)
     Wirb.start
