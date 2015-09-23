@@ -34,7 +34,7 @@ FactoryGirl.define do
         end
         after(:create) do |lkey, evaluator|
           evaluator.puppetclass.environments.each do |env|
-            FactoryGirl.create :environment_class, :puppetclass_id => evaluator.puppetclass.id, :environment_id => env.id, :lookup_key_id => lkey.id
+            FactoryGirl.create :environment_class, :puppetclass_id => evaluator.puppetclass.id, :environment_id => env.id, :puppetclass_lookup_key_id => lkey.id
           end
         end
       end

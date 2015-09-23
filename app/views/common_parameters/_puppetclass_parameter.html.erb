@@ -1,7 +1,16 @@
+<%
+# LookupValue#match is generated automatically by Host#lookup_values_attributes=
+# from the name, so don't present errors directly to the user.  Any validation
+# errors should also be visible against the Host#name field.
+if f.object.errors[:match].any?
+  logger.debug("Ignoring #{f.object.inspect} match errors: #{f.object.errors[:match]}")
+  f.object.errors.delete(:match)
+end
+%>
 <div class="fields">
   <table>
     <tbody>
-      <tr class="<%= 'error' if f.object.errors.any? %>">
+      <tr class="<%= 'has-error' if f.object.errors.any? %>">
         <td class="col-md-3">
           <%= f.hidden_field :lookup_key_id, :'data-property' => 'lookup_key_id' %>
           <% puppetclass = f.object.lookup_key ? f.object.lookup_key.param_class : nil %>
