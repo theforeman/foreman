@@ -98,7 +98,7 @@ class Role < ActiveRecord::Base
   # Return the builtin 'default user' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.default_user
-    default_user_role = first(:conditions => {:builtin => BUILTIN_DEFAULT_USER})
+    default_user_role = where(:builtin => BUILTIN_DEFAULT_USER).first
     if default_user_role.nil?
       default_user_role = create!(:name => 'Default user') do |role|
         role.builtin = BUILTIN_DEFAULT_USER
@@ -111,7 +111,7 @@ class Role < ActiveRecord::Base
   # Return the builtin 'anonymous' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.anonymous
-    anonymous_role = first(:conditions => {:builtin => BUILTIN_ANONYMOUS})
+    anonymous_role = where(:builtin => BUILTIN_ANONYMOUS).first
     if anonymous_role.nil?
       anonymous_role = create!(:name => 'Anonymous') do |role|
         role.builtin = BUILTIN_ANONYMOUS

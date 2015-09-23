@@ -472,16 +472,45 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['REMOTE_USER'] = user.login
   end
 
-  def test_submit_multiple_build
-    host1, host2 = FactoryGirl.create_list(:host, 2, :managed)
-    assert !host1.build
-    assert !host2.build
-    post :submit_multiple_build, {:host_ids => [host1.id, host2.id]}, set_session_user
-    assert_response :found
-    assert_redirected_to hosts_path
-    assert flash[:notice] == "The selected hosts will execute a build operation on next reboot"
-    assert Host.find(host1).build
-    assert Host.find(host2).build
+  context 'submit actions with multiple hosts' do
+    setup do
+      @host1, @host2 = FactoryGirl.create_list(:host, 2, :managed)
+    end
+
+    test 'build' do
+      assert !@host1.build
+      assert !@host2.build
+      multiple_hosts_submit_request('build', [@host1.id, @host2.id],
+                                    'The selected hosts will execute a build operation on next reboot')
+      assert Host.find(@host1).build
+      assert Host.find(@host2).build
+    end
+
+    test 'destroy' do
+      multiple_hosts_submit_request('destroy', [@host1.id, @host2.id], 'Destroyed selected hosts')
+      assert Host.where(:id => [@host1.id, @host2.id]).empty?
+    end
+
+    test 'disable notifications' do
+      multiple_hosts_submit_request('disable', [@host1.id, @host2.id], 'Disabled selected hosts')
+      refute Host.find(@host1).enabled
+      refute Host.find(@host2).enabled
+    end
+
+    test 'enable notifications' do
+      multiple_hosts_submit_request('enable', [@host1.id, @host2.id], 'Enabled selected hosts')
+      assert Host.find(@host1).enabled
+      assert Host.find(@host2).enabled
+    end
+
+    private
+
+    def multiple_hosts_submit_request(method, ids, notice)
+      post :"submit_multiple_#{method}",  {:host_ids => ids}, set_session_user
+      assert_response :found
+      assert_redirected_to hosts_path
+      assert_equal notice, flash[:notice]
+    end
   end
 
   def test_set_manage

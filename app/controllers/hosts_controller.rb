@@ -448,7 +448,7 @@ class HostsController < ApplicationController
   end
 
   def submit_multiple_build
-    @hosts.delete_if do |host|
+    @hosts.to_a.delete_if do |host|
       forward_url_options(host)
       host.setBuild
     end
@@ -464,7 +464,7 @@ class HostsController < ApplicationController
 
   def submit_multiple_destroy
     # keep all the ones that were not deleted for notification.
-    @hosts.delete_if {|host| host.destroy}
+    @hosts.to_a.delete_if {|host| host.destroy}
 
     missed_hosts = @hosts.map(&:name).to_sentence
     if @hosts.empty?
@@ -720,7 +720,7 @@ class HostsController < ApplicationController
 
   def toggle_hostmode(mode = true)
     # keep all the ones that were not disabled for notification.
-    @hosts.delete_if { |host| host.update_attribute(:enabled, mode) }
+    @hosts.to_a.delete_if { |host| host.update_attribute(:enabled, mode) }
     action = mode ? "enabled" : "disabled"
 
     missed_hosts       = @hosts.map(&:name).to_sentence
