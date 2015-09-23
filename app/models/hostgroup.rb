@@ -196,7 +196,7 @@ class Hostgroup < ActiveRecord::Base
   # Clone the hostgroup
   def clone(name = "")
     new = self.deep_clone(:include => [:config_groups, :lookup_values, :hostgroup_classes, :locations, :organizations, :group_parameters],
-                          :except => [:name, :title])
+                          :except => [:name, :title, :lookup_value_matcher])
     new.name = name
     new.title = name
     new
