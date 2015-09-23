@@ -31,7 +31,7 @@ class Filter < ActiveRecord::Base
 
   validates_lengths_from_database
 
-  default_scope -> { order(['role_id', "#{self.table_name}.id"]) }
+  default_scope -> { order(["#{self.table_name}.role_id", "#{self.table_name}.id"]) }
   scope :unlimited, -> { where(:search => nil, :taxonomy_search => nil) }
   scope :limited, -> { where("search IS NOT NULL OR taxonomy_search IS NOT NULL") }
 
