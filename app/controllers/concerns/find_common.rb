@@ -6,7 +6,12 @@ module FindCommon
   # example: @host = Host.find(params[:id])
   def find_resource
     not_found and return if params[:id].blank?
-    instance_variable_set("@#{resource_name}", resource_scope.find(params[:id]))
+    instance_variable_set("@#{resource_name}", finder)
+  end
+
+  def finder
+    resource_scope.find(params[:id]) unless resource_scope.respond_to?(:from_param)
+    resource_scope.from_param(params[:id]) || raise(ActiveRecord::RecordNotFound)
   end
 
   def resource_name(resource = controller_name)
