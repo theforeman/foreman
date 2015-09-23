@@ -76,13 +76,13 @@ class Host::Managed < Host::Base
 
   attr_reader :cached_host_params
 
-  scope :recent,      ->(*args) { {:conditions => ["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]} }
-  scope :out_of_sync, ->(*args) { {:conditions => ["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]} }
+  scope :recent,      ->(*args) { where(["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]) }
+  scope :out_of_sync, ->(*args) { where(["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]) }
 
   scope :with_os, -> { where('hosts.operatingsystem_id IS NOT NULL') }
 
   scope :with_status, lambda { |status_type|
-    includes(:host_statuses).where("host_status.type = '#{status_type}'")
+    joins(:host_statuses).where("host_status.type = '#{status_type}'")
   }
 
   scope :with_config_status, lambda {
@@ -733,7 +733,7 @@ class Host::Managed < Host::Base
   def clone
     # do not copy system specific attributes
     host = self.deep_clone(:include => [:config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values],
-                           :except  => [:name, :mac, :ip, :uuid, :certname, :last_report, :lookup_value_matcher])
+                           :except  => [:name, :uuid, :certname, :last_report, :lookup_value_matcher])
     self.interfaces.each do |nic|
       host.interfaces << nic.clone
     end

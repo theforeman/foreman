@@ -448,7 +448,7 @@ class HostsController < ApplicationController
   end
 
   def submit_multiple_build
-    @hosts.delete_if do |host|
+    @hosts.to_a.delete_if do |host|
       forward_url_options(host)
       host.setBuild
     end

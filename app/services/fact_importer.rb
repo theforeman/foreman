@@ -63,7 +63,7 @@ class FactImporter
     # if the host does not exists yet, we don't have an host_id to use the fact_values table.
     if facts_to_create.present?
       method          = host.new_record? ? :build : :create!
-      fact_names      = fact_name_class.maximum(:id, :group => 'name')
+      fact_names      = fact_name_class.group(:name).maximum(:id)
       facts_to_create.each do |name|
         host.fact_values.send(method, :value => facts[name],
                               :fact_name_id  => fact_names[name] || fact_name_class.create!(:name => name).id)
@@ -96,6 +96,6 @@ class FactImporter
   end
 
   def db_facts
-    @db_facts ||= host.fact_values.includes(:fact_name).where("fact_names.type = '#{fact_name_class}'").index_by(&:name)
+    @db_facts ||= host.fact_values.joins(:fact_name).where("fact_names.type = '#{fact_name_class}'").index_by(&:name)
   end
 end
