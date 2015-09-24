@@ -44,7 +44,7 @@ module ComputeResourcesHelper
   end
 
   def password_placeholder(obj, attr = nil)
-    pass = obj.read_attribute(attr).present? || obj.has_attribute?(:password_hash)
+    pass = obj.read_attribute(attr).present? || obj.read_attribute(:password_hash).present?
     pass ? "********" : ''
   end
 
