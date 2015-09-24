@@ -145,7 +145,17 @@ module Api
 
       def parameters_method
         # hostgroup.rb has a method def parameters, so I didn't create has_many :parameters like Host, Domain, Os
-        nested_obj.is_a?(Hostgroup) ? :group_parameters : :parameters
+        # locations and organizations inherit def parameters from taxonomies
+        case nested_obj
+        when Hostgroup
+          :group_parameters
+        when Location
+          :location_parameters
+        when Organization
+          :organization_parameters
+        else
+          :parameters
+        end
       end
 
       def allowed_nested_id
