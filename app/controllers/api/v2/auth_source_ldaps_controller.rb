@@ -1,7 +1,7 @@
 module Api
   module V2
     class AuthSourceLdapsController < V2::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :find_resource, :only => %w{show update destroy test}
 
       api :GET, "/auth_source_ldaps/", N_("List all LDAP authentication sources")
       param_group :search_and_pagination, ::Api::V2::BaseController
@@ -54,11 +54,34 @@ module Api
         process_response @auth_source_ldap.update_attributes(params[:auth_source_ldap])
       end
 
+      api :PUT, "/auth_source_ldaps/:id/test/", N_("Test LDAP connection")
+      param :id, String, :required => true
+
+      def test
+        begin
+          test = @auth_source_ldap.test_connection
+        rescue Foreman::Exception => exception
+          render :test, :locals => {:success => false, :message => exception.message} and return
+        end
+        render :test, :locals => {:success => true, :message => test[:message]}
+      end
+
       api :DELETE, "/auth_source_ldaps/:id/", N_("Delete an LDAP authentication source")
       param :id, String, :required => true
 
       def destroy
         process_response @auth_source_ldap.destroy
+      end
+
+      private
+
+      def action_permission
+        case params[:action]
+          when 'test'
+            'edit'
+          else
+            super
+        end
       end
     end
   end

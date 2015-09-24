@@ -11,7 +11,8 @@
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name %>
-      <%= text_f f, :host %>
+      <%= text_f f, :host, :help_inline => link_to_function(_("Test Connection"), "test_connection(this, '#{url_for test_connection_auth_source_ldaps_url}')",
+                      :title => _("Test LDAP connectivity"), :id => "test_connection_button", :class =>"btn btn-success") + image_tag('/assets/spinner.gif', :id => 'test_connection_indicator', :class => 'hide').html_safe %>
       <%= checkbox_f(f, :tls, {:label => "LDAPS", :onchange => 'change_ldap_port(this)'}) %>
       <%= number_f f, :port, :min => 1, :max => 65535,
                       :data => { :default_ports => AuthSourceLdap::DEFAULT_PORTS } %>

@@ -38,4 +38,19 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  test "LDAP testing success" do
+    AuthSourceLdap.any_instance.stubs(:test_connection).returns(:message => 'success')
+    put :test, { :id => auth_sources(:one).to_param }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+  end
+
+  test "LDAP testing failed" do
+    AuthSourceLdap.any_instance.stubs(:test_connection).raises(Foreman::Exception)
+    put :test, { :id => auth_sources(:one).to_param }
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response[:success]
+  end
 end
