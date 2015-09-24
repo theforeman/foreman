@@ -35,39 +35,39 @@ attributes7:
   default: /var/lib/puppet/ssl/private_keys/super.some.host.fqdn.pem
   description: SSL Private Key file that foreman would use to communicate with its proxies
 attributes8:
-  name: puppet_interval
+  name: configuration_interval
   settings_type: integer
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: 30
-  description: Setting::Puppet interval in minutes
+  description: Setting::Configuration interval in minutes
 attributes9:
   name: default_puppet_environment
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: production
-  description: "The Setting::Puppet environment foreman would default to in case it can't auto detect it"
+  description: "The Setting::Configuration environment foreman would default to in case it can't auto detect it"
 attributes10:
   name: modulepath
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: /etc/puppet/modules
-  description: "The Setting::Puppet default module path in case that Foreman can't auto detect it"
+  description: "The Setting::Configuration default module path in case that Foreman can't auto detect it"
 attributes11:
   name: document_root
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: /home/olevy/git/foreman/public/puppet/rdoc
   description: Document root where puppetdoc files should be created
 attributes12:
   name: puppet_server
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: puppet
-  description: Default Setting::Puppet Server hostname
+  description: Default Setting::Configuration Server hostname
 attributes13:
   name: failed_report_email_notification
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: "false"
   description: Enable Email Alerts per each failed puppet report
 attributes14:
   name: Default_variables_Lookup_Path
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: ["fqdn", "hostgroup", "os", "domain"]
   description: The Default path in which foreman resolves host specific variables
 attributes15:
@@ -82,7 +82,7 @@ attributes16:
   description: The amount of records shown per page in foreman
 attributes17:
   name: update_environment_from_facts
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: "false"
   description: Foreman will update a hosts environment from its facts
 attributes18:
@@ -92,12 +92,12 @@ attributes18:
   description: idle timeout
 attributes19:
   name: enc_environment
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: "true"
   description: Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)
 attributes20:
   name: use_uuid_for_certificates
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: "false"
   description: "Should Foreman use random UUID's for certificate signing instead of hostnames"
 attributes21:
@@ -122,9 +122,9 @@ attributes24:
   description: "Setting::Authorize login delegation with REMOTE_USER environment variable for API calls"
 attributes25:
   name: Parametrized_Classes_in_ENC
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: "false"
-  description: "Should Foreman use the new format (2.6.5+) to answer Setting::Puppet in its ENC yaml output?"
+  description: "Should Foreman use the new format (2.6.5+) to answer Setting::Configuration in its ENC yaml output?"
 attribute26:
   name: token_duration
   category: Setting::Provisioning
@@ -151,7 +151,7 @@ attribute30:
   default: "SSL_CLIENT_VERIFY"
   description: "Environment variable containing the verification status of a client SSL certificate"
 attribute32:
-  name: trusted_puppetmaster_hosts
+  name: trusted_hosts
   category: Setting::Auth
   default: []
   description: "Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
@@ -162,12 +162,12 @@ attribute33:
   description: "Should Foreman use gravatar to display user icons"
 attribute36:
   name: puppetrun
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: "true"
   description: "Enables Puppetrun Support"
 attribute37:
   name: create_new_host_when_facts_are_uploaded
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: "true"
   description: "Foreman will create the host when new facts are received"
 attribute38:
@@ -177,12 +177,12 @@ attribute38:
   description: "Should we use the originating IP of the built request to update the Host's IP?"
 attribute39:
   name: legacy_puppet_hostname
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: "false"
   description: "Foreman will truncate hostname to 'puppet' if it starts with puppet"
 attribute40:
   name: interpolate_erb_in_parameters
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: "true"
   description: "Should Foreman parse ERB to return dynamic parameters?"
 attribute41:
@@ -192,7 +192,7 @@ attribute41:
   description: "Should Foreman use the short hostname instead of the FQDN for creating new virtual machines"
 attribute42:
   name: create_new_host_when_report_is_uploaded
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: "true"
   description: "Foreman will create the host when a report is received"
 attributes43:
@@ -202,27 +202,27 @@ attributes43:
   description: The URL Foreman should point to in templates etc
 attributes44:
   name: default_organization
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: 'Organization 1'
   description: 'Default organization when importing hosts'
 attributes45:
   name: default_location
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: 'Location 1'
   description: 'Default location when importing hosts'
 attributes46:
   name: location_fact
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: 'foreman_location'
   description: 'Fact to set location from when importing hosts'
 attributes47:
   name: organization_fact
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: 'foreman_organization'
   description: 'Fact to set organization from when importing hosts'
 attributes48:
   name: Enable_Smart_Variables_in_ENC
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: "true"
   description: "Foreman smart variables will be exposed via the ENC yaml output"
 attributes49:
@@ -258,7 +258,7 @@ attributes54:
 attributes55:
   name: outofsync_interval
   settings_type: integer
-  category: Setting::Puppet
+  category: Setting::Configuration
   default: 5
   description: "Duration in minutes after the Puppet interval for servers to be classed as out of sync."
 attributes56:

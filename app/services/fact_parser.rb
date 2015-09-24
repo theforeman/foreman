@@ -92,7 +92,7 @@ class FactParser
   end
 
   def parse_interfaces?
-    support_interfaces_parsing? && !Setting['ignore_puppet_facts_for_provisioning']
+    support_interfaces_parsing? && !Setting['ignore_facts_for_provisioning']
   end
 
   private

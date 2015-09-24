@@ -226,12 +226,27 @@ class SettingTest < ActiveSupport::TestCase
     check_zero_value_not_allowed_for 'entries_per_page'
   end
 
-  test "puppet_interval should not be zero" do
-    check_zero_value_not_allowed_for 'puppet_interval'
+  test "puppet_interval is deprecated" do
+    Foreman::Deprecation.expects(:deprecation_warning).with('1.12', 'Use Setting[:configuration_interval] instead')
+    assert_equal Setting[:puppet_interval], Setting[:configuration_interval]
   end
 
-  test "trusted_puppetmaster_hosts can be empty array" do
-    check_empty_array_allowed_for "trusted_puppetmaster_hosts"
+  test "configuration_interval should not be zero" do
+    check_zero_value_not_allowed_for 'configuration_interval'
+  end
+
+  test "trusted_puppetmaster_hosts is deprecated" do
+    Foreman::Deprecation.expects(:deprecation_warning).with('1.12', 'Use Setting[:trusted_hosts] instead')
+    assert_equal Setting[:trusted_puppetmaster_hosts], Setting[:trusted_hosts]
+  end
+
+  test "trusted_hosts can be empty array" do
+    check_empty_array_allowed_for "trusted_hosts"
+  end
+
+  test "ignore_puppet_facts_for_provisioning is deprecated" do
+    Foreman::Deprecation.expects(:deprecation_warning).with('1.12', 'Use Setting[:ignore_facts_for_provisioning] instead')
+    assert_equal Setting[:ignore_puppet_facts_for_provisioning], Setting[:ignore_facts_for_provisioning]
   end
 
   test "foreman_url must be a URI" do

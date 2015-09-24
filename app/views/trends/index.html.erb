@@ -7,7 +7,7 @@
     <%= alert_close %>
     <p><strong><%= _("No trend counter defined.") %></strong></p>
     <p><%= _("To define trend counters, use the Add Trend Counter button.") %><br/>
-      <%= (_("To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' every Puppet Interval (%s minutes).") % Setting.puppet_interval).html_safe %></p>
+      <%= (_("To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' every Puppet Interval (%s minutes).") % Setting[:configuration_interval]).html_safe %></p>
   </div>
 <% end %>
 
@@ -15,7 +15,7 @@
   <div class="alert alert-info alert-dismissable">
     <%= alert_close %>
     <p><strong><%= _("No trend counter found.") %></strong></p>
-    <p><%= ( _("To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting.puppet_interval).html_safe %>
+    <p><%= ( _("To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting[:configuration_interval]).html_safe %>
     </p>
   </div>
 <% end %>

@@ -17,7 +17,7 @@ module HostStatus
       if (host && !host.enabled?) || no_reports?
         false
       else
-        !reported_at.nil? && reported_at < (Time.now - (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes)
+        !reported_at.nil? && reported_at < (Time.now - (Setting[:configuration_interval] + Setting[:outofsync_interval]).minutes)
       end
     end
 
