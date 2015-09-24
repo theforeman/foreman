@@ -389,7 +389,9 @@ class HostgroupTest < ActiveSupport::TestCase
       lv.save!
       cloned = group.clone("new_name")
       cloned.save
-      assert_equal cloned.lookup_values.map(&:value), group.lookup_values.map(&:value)
+      assert_equal 1, group.lookup_values.reload.count
+      assert_equal 1, cloned.lookup_values.count
+      assert_equal group.lookup_values.map(&:value), cloned.lookup_values.map(&:value)
     end
 
     test '#classes etc. on cloned group return the same' do
@@ -401,6 +403,14 @@ class HostgroupTest < ActiveSupport::TestCase
       assert_equal group.classes.map(&:id), cloned.classes.map(&:id)
       assert_equal group.available_puppetclasses.map(&:id), cloned.available_puppetclasses.map(&:id)
       assert_valid cloned
+    end
+
+    test 'without save makes no changes' do
+      group = FactoryGirl.create(:hostgroup, :with_config_group, :with_puppetclass)
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => group.puppetclasses.first, :overrides => {group.lookup_value_matcher => 'test'})
+      ActiveRecord::Base.any_instance.expects(:destroy).never
+      ActiveRecord::Base.any_instance.expects(:save).never
+      group.clone
     end
   end
 end

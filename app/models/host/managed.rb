@@ -733,7 +733,7 @@ class Host::Managed < Host::Base
   def clone
     # do not copy system specific attributes
     host = self.deep_clone(:include => [:config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values],
-                           :except  => [:name, :mac, :ip, :uuid, :certname, :last_report])
+                           :except  => [:name, :mac, :ip, :uuid, :certname, :last_report, :lookup_value_matcher])
     self.interfaces.each do |nic|
       host.interfaces << nic.clone
     end
