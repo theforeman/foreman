@@ -409,6 +409,7 @@ Foreman::Application.routes.draw do
       end
       get 'orchestration/(:id)/tasks', :to => 'tasks#index'
       resources :plugins, :only => [:index]
+      put 'auth_source_ldaps/(:id)/test', :to => 'auth_source_ldaps#test'
     end
   end
 end

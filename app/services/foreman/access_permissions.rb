@@ -28,17 +28,18 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :authentication_providers do |map|
+    ajax_actions = [:test_connection]
     map.permission :view_authenticators,    {:auth_source_ldaps => [:index, :show],
                                              :"api/v1/auth_source_ldaps" => [:index, :show],
                                              :"api/v2/auth_source_ldaps" => [:index, :show]
     }
-    map.permission :create_authenticators,  {:auth_source_ldaps => [:new, :create],
+    map.permission :create_authenticators,  {:auth_source_ldaps => [:new, :create].push(*ajax_actions),
                                              :"api/v1/auth_source_ldaps" => [:create],
                                              :"api/v2/auth_source_ldaps" => [:create]
     }
-    map.permission :edit_authenticators,    {:auth_source_ldaps => [:edit, :update],
+    map.permission :edit_authenticators,    {:auth_source_ldaps => [:edit, :update].push(*ajax_actions),
                                              :"api/v1/auth_source_ldaps" => [:update],
-                                             :"api/v2/auth_source_ldaps" => [:update]
+                                             :"api/v2/auth_source_ldaps" => [:update, :test]
     }
     map.permission :destroy_authenticators, {:auth_source_ldaps => [:destroy],
                                              :"api/v1/auth_source_ldaps" => [:destroy],

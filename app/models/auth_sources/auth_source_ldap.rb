@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'net/ldap'
+require 'timeout'
 
 class AuthSourceLdap < AuthSource
   SERVER_TYPES = { :free_ipa => 'FreeIPA', :active_directory => 'Active Directory',
@@ -128,6 +129,20 @@ class AuthSourceLdap < AuthSource
 
   def users_in_group(name)
     ldap_con.user_list(name)
+  end
+
+  def test_connection
+    result = {}
+    begin
+      Timeout::timeout(20) do
+        self.ldap_con.test
+      end
+      result[:success] = true
+      result[:message] = _("Test connection to LDAP server was successful.")
+    rescue Timeout::Error, Net::LDAP::Error, StandardError => exception
+      raise ::Foreman::WrappedException.new exception, N_("Unable to connect to LDAP server")
+    end
+    result
   end
 
   private

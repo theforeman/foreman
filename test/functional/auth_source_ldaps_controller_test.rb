@@ -88,4 +88,16 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     auth_source_ldap = AuthSourceLdap.find(auth_source_ldap.id)
     assert_equal old_pass, auth_source_ldap.account_password
   end
+
+  test "LDAP test succeeded" do
+    AuthSourceLdap.any_instance.stubs(:test_connection).returns(:success => true)
+    put :test_connection, {:id => AuthSourceLdap.first, :auth_source_ldap => {:name => AuthSourceLdap.first.name} }, set_session_user
+    assert_response :success
+  end
+
+  test "LDAP test failed" do
+    AuthSourceLdap.any_instance.stubs(:test_connection).raises(Foreman::Exception, 'Exception message')
+    put :test_connection, {:id => AuthSourceLdap.first, :auth_source_ldap => {:name => AuthSourceLdap.first.name} }, set_session_user
+    assert_response :unprocessable_entity
+  end
 end

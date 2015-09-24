@@ -1,3 +1,25 @@
+function test_connection(item, url) {
+  $('#test_connection_indicator').show();
+  $(item).addClass("disabled");
+  var data = $("form").serialize();
+  $.ajax({
+    url: url,
+    type: 'put',
+    data: data,
+    success: function (result, textstatus, xhr) {
+      notify("<p>" + result.message + "</p>", 'success');
+    },
+    error: function (xhr) {
+      var error = $.parseJSON(xhr.responseText).message;
+      notify("<p>" + error + "</p>", 'error');
+    },
+    complete: function (result) {
+      $('#test_connection_indicator').hide();
+      $(item).removeClass("disabled");
+    }
+  })
+}
+
 function change_ldap_port(item) {
   var port = $('#auth_source_ldap_port');
   if (port.length > 0) {

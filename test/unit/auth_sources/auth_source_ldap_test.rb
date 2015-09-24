@@ -246,6 +246,18 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     refute_equal ldap.ldap_con('user', 'pass'), ldap.ldap_con('user', 'pass')
   end
 
+  test "test connection succeed" do
+    setup_ldap_stubs
+    LdapFluff.any_instance.stubs(:test).returns(true)
+    assert_nothing_raised {@auth_source_ldap.send(:test_connection)}
+  end
+
+  test "test connection failed" do
+    setup_ldap_stubs
+    LdapFluff.any_instance.stubs(:test).raises(StandardError, 'Exception message')
+    assert_raise(Foreman::WrappedException) {@auth_source_ldap.send(:test_connection)}
+  end
+
   context 'account_password encryption' do
     setup do
       AuthSourceLdap.any_instance.expects(:encryption_key).at_least_once
