@@ -262,4 +262,14 @@ class LookupKeyTest < ActiveSupport::TestCase
       refute @key.valid?
     end
   end
+
+  test "#overridden? works for unsaved hosts" do
+    key = FactoryGirl.create(:puppetclass_lookup_key)
+    host = FactoryGirl.build(:host)
+    refute key.overridden?(host)
+
+    host.lookup_values_attributes = {'0' => {'lookup_key_id' => key.id.to_s, '_destroy' => 'false'}}.with_indifferent_access
+    assert_equal 1, host.lookup_values.size
+    assert key.overridden?(host)
+  end
 end

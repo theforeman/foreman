@@ -139,8 +139,8 @@ class LookupKey < ActiveRecord::Base
   end
 
   def overridden?(host)
-    return false unless host.is_a?(Host::Base) || host.is_a?(Hostgroup)
-    lookup_values.find_by_match(host.send(:lookup_value_match)).present?
+    return false unless host.respond_to? :lookup_values
+    host.lookup_values.any? { |lv| lv.lookup_key_id == id }
   end
 
   def puppet?
