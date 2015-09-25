@@ -82,7 +82,11 @@ module Orchestration::SSHProvision
       Host.find(id).built
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delAutosign if puppetca?
     else
-      raise ::Foreman::Exception.new(N_("Provision script had a non zero exit, removing instance"))
+      if Setting[:clean_up_failed_deployment]
+        logger.info "Deleting host #{name} because of non zero exit code of deployment script."
+        Host.find(id).destroy
+      end
+      raise ::Foreman::Exception.new(N_("Provision script had a non zero exit"))
     end
 
   rescue => e
