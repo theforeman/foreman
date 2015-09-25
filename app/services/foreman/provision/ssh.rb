@@ -51,7 +51,7 @@ class Foreman::Provision::SSH
   end
 
   def command
-    "#{command_prefix} bash -c 'chmod 0701 #{remote_script} && #{command_prefix} #{remote_script}' | tee #{remote_script}.log"
+    "#{command_prefix} bash -c '(chmod 0701 #{remote_script} && #{command_prefix} #{remote_script}) | tee #{remote_script}.log; exit ${PIPESTATUS[0]}'"
   end
 
   def defaults
