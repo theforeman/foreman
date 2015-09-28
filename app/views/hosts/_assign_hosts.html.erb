@@ -1,6 +1,6 @@
 <%= javascript "jquery.cookie", "host_checkbox" %>
 <% assign_selected_hosts_taxonomy_path = (@taxonomy_type == "Location") ? assign_selected_hosts_location_path : assign_selected_hosts_organization_path %>
-<%= form_for taxonomy, :url => assign_selected_hosts_taxonomy_path do |f| %>
+<%= form_for taxonomy, :url => assign_selected_hosts_taxonomy_path, :method => 'PUT' do |f| %>
   <%= base_errors_for taxonomy %>
   <%= wizard_header 3, _("Create %s") % taxonomy.class.name, _("Select Hosts"), _("Assign Selected Hosts") %>
   <div class="row">
