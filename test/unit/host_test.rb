@@ -2572,6 +2572,62 @@ class HostTest < ActiveSupport::TestCase
     assert(host.host_inherited_params_objects.include?(location_parameter), 'Taxonomy parameters should be included')
   end
 
+  describe '#param_true?' do
+    test 'returns false for unknown parameter' do
+      Foreman::Cast.expects(:to_bool).never
+      refute FactoryGirl.build(:host).param_true?('unknown')
+    end
+
+    test 'returns false for parameter with false-like value' do
+      Foreman::Cast.expects(:to_bool).with('0').returns(false)
+      host = FactoryGirl.create(:host)
+      FactoryGirl.create(:host_parameter, :host => host, :name => 'host_param', :value => '0')
+      refute host.reload.param_true?('host_param')
+    end
+
+    test 'returns true for parameter with true-like value' do
+      Foreman::Cast.expects(:to_bool).with('1').returns(true)
+      host = FactoryGirl.create(:host)
+      FactoryGirl.create(:host_parameter, :host => host, :name => 'host_param', :value => '1')
+      assert host.reload.param_true?('host_param')
+    end
+
+    test 'uses inherited parameters' do
+      Foreman::Cast.expects(:to_bool).with('1').returns(true)
+      host = FactoryGirl.create(:host, :with_hostgroup)
+      FactoryGirl.create(:hostgroup_parameter, :hostgroup => host.hostgroup, :name => 'group_param', :value => '1')
+      assert host.reload.param_true?('group_param')
+    end
+  end
+
+  describe '#param_false?' do
+    test 'returns false for unknown parameter' do
+      Foreman::Cast.expects(:to_bool).never
+      refute FactoryGirl.build(:host).param_false?('unknown')
+    end
+
+    test 'returns true for parameter with false-like value' do
+      Foreman::Cast.expects(:to_bool).with('0').returns(false)
+      host = FactoryGirl.create(:host)
+      FactoryGirl.create(:host_parameter, :host => host, :name => 'host_param', :value => '0')
+      assert host.reload.param_false?('host_param')
+    end
+
+    test 'returns false for parameter with true-like value' do
+      Foreman::Cast.expects(:to_bool).with('1').returns(true)
+      host = FactoryGirl.create(:host)
+      FactoryGirl.create(:host_parameter, :host => host, :name => 'host_param', :value => '1')
+      refute host.reload.param_false?('host_param')
+    end
+
+    test 'uses inherited parameters' do
+      Foreman::Cast.expects(:to_bool).with('0').returns(false)
+      host = FactoryGirl.create(:host, :with_hostgroup)
+      FactoryGirl.create(:hostgroup_parameter, :hostgroup => host.hostgroup, :name => 'group_param', :value => '0')
+      assert host.reload.param_false?('group_param')
+    end
+  end
+
   private
 
   def parse_json_fixture(relative_path)
