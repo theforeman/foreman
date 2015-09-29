@@ -118,7 +118,7 @@ class FactParser
   end
 
   def find_virtual_interface(interfaces)
-    interfaces.detect { |int, _| int.to_s =~ /#{FactParser::BONDS}/ }
+    interfaces.detect { |int, _| int.to_s =~ FactParser::VIRTUAL_NAMES }
   end
 
   # adds attributes like virtual
