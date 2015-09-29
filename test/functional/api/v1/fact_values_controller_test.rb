@@ -29,4 +29,16 @@ class Api::V1::FactValuesControllerTest < ActionController::TestCase
     expected_hash = FactValue.build_facts_hash(FactValue.where(:host_id => @host.id))
     assert_equal expected_hash, fact_values
   end
+
+  test "should get facts as non-admin user with joined search" do
+    user = as_admin { FactoryGirl.create(:user, :roles => [roles(:viewer)]) }
+    @host.update_attribute(:hostgroup, FactoryGirl.create(:hostgroup))
+    as_user(user) do
+      get :index, {:search => "host.hostgroup = #{@host.hostgroup.name}"}
+    end
+    assert_response :success
+    fact_values   = ActiveSupport::JSON.decode(@response.body)
+    expected_hash = FactValue.build_facts_hash(FactValue.where(:host_id => @host.id))
+    assert_equal expected_hash, fact_values
+  end
 end
