@@ -17,10 +17,10 @@ class FactValue < ActiveRecord::Base
   scoped_search :in => :fact_name, :on => :short_name, :complete_value => true, :alias => "fact_short_name"
 
   scope :no_timestamp_facts, lambda {
-    includes(:fact_name).where("fact_names.name <> ?",:_timestamp)
+    eager_load(:fact_name).where("fact_names.name <> ?",:_timestamp)
   }
   scope :timestamp_facts, lambda {
-    joins(:fact_name).where("fact_names.name = ?",:_timestamp)
+    eager_load(:fact_name).where("fact_names.name = ?",:_timestamp)
   }
   scope :my_facts, lambda {
     if !User.current.admin? || Organization.expand(Organization.current).present? || Location.expand(Location.current).present?

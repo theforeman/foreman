@@ -63,7 +63,7 @@ class Authorizer
       end
     else
       # build regular filtered scope for "resource_class"
-      scope = resource_class.includes(scope_components[:includes]).joins(scope_components[:joins]).readonly(false)
+      scope = resource_class.eager_load(scope_components[:includes]).joins(scope_components[:joins]).readonly(false)
       scope_components[:where].inject(scope) { |scope_build,where| scope_build.where(where) }
     end
   end

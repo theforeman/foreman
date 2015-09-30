@@ -49,7 +49,7 @@ class FactImporter
   attr_reader :host, :facts
 
   def delete_removed_facts
-    to_delete = host.fact_values.joins(:fact_name).where("fact_names.type = '#{fact_name_class}' AND fact_names.name NOT IN (?)", facts.keys)
+    to_delete = host.fact_values.eager_load(:fact_name).where("fact_names.type = '#{fact_name_class}' AND fact_names.name NOT IN (?)", facts.keys)
     # N+1 DELETE SQL, but this would allow us to use callbacks (e.g. auditing) when deleting.
     deleted = to_delete.destroy_all
     @counters[:deleted] = deleted.size
@@ -96,6 +96,6 @@ class FactImporter
   end
 
   def db_facts
-    @db_facts ||= host.fact_values.includes(:fact_name).where("fact_names.type = '#{fact_name_class}'").index_by(&:name)
+    @db_facts ||= host.fact_values.eager_load(:fact_name).where("fact_names.type = '#{fact_name_class}'").index_by(&:name)
   end
 end
