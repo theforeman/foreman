@@ -46,11 +46,12 @@ module Nic
     scope :physical, -> { where(:virtual => false) }
     scope :is_managed, -> { where(:managed => true) }
 
-    scope :primary, -> { { :conditions => { :primary => true } } }
-    scope :provision, -> { { :conditions => { :provision => true } } }
+    scope :primary, -> { where(:primary => true) }
+    scope :provision, -> { where(:provision => true) }
 
     belongs_to :subnet
     belongs_to :domain, :counter_cache => 'hosts_count'
+    include AccessibleAttributes
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
     # do counter cache only for primary interfaces
@@ -225,7 +226,7 @@ module Nic
 
     private
 
-    def interface_attribute_uniqueness(attr, base = Nic::Base.scoped)
+    def interface_attribute_uniqueness(attr, base = Nic::Base.where(nil))
       in_memory_candidates = self.host.present? ? self.host.interfaces.select { |i| i.persisted? && !i.marked_for_destruction? } : [self]
       db_candidates = base.where(attr => self.public_send(attr))
       db_candidates = db_candidates.select { |c| c.id != self.id && in_memory_candidates.map(&:id).include?(c.id) }

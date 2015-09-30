@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class UserRole < ActiveRecord::Base
+  include AccessibleAttributes
   belongs_to :owner, :polymorphic => true
   belongs_to :role
 
@@ -58,7 +59,7 @@ class UserRole < ActiveRecord::Base
   end
 
   def build_user_role_cache
-    [ self.cached_user_roles.build(:user => owner, :role => role) ]
+    [ self.cached_user_roles.build(:user_id => owner.id, :role_id => role.id) ]
   end
 
   def build_user_group_role_cache(owner)

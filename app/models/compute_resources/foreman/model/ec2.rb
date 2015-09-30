@@ -11,6 +11,7 @@ module Foreman::Model
 
     alias_attribute :access_key, :user
     alias_attribute :region, :url
+    attr_accessible :access_key, :region
 
     def to_label
       "#{name} (#{region}-#{provider_friendly_name})"

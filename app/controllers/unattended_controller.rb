@@ -45,8 +45,8 @@ class UnattendedController < ApplicationController
   def template
     return head(:not_found) unless (params.has_key?("id") and params.has_key?(:hostgroup))
 
-    template = ProvisioningTemplate.find(params['id'])
-    @host = Hostgroup.find(params['hostgroup'])
+    template = ProvisioningTemplate.friendly.find(params['id'])
+    @host = Hostgroup.friendly.find(params['hostgroup'])
 
     return head(:not_found) unless template and @host
 
@@ -108,7 +108,7 @@ class UnattendedController < ApplicationController
 
   def find_host_by_spoof
     host = Nic::Base.primary.find_by_ip(params.delete('spoof')).try(:host) if params['spoof'].present?
-    host ||= Host.find(params.delete('hostname')) if params['hostname'].present?
+    host ||= Host.friendly.find(params.delete('hostname')) if params['hostname'].present?
     @spoof = host.present?
     host
   end
@@ -193,7 +193,7 @@ class UnattendedController < ApplicationController
 
     # @host has been changed even if the save fails, so we have to change it back
     old_ip = @host.ip
-    @host.ip = old_ip unless @host.update_attributes({'ip' => ip})
+    @host.ip = old_ip unless @host.update_attribute(:ip, ip)
   end
 
   def ip_from_request_env

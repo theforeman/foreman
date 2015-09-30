@@ -6,8 +6,6 @@ module HostCommon
   extend ActiveSupport::Concern
 
   included do
-    include CounterCacheFix
-
     counter_cache = "#{model_name.to_s.split(":").first.pluralize.downcase}_count".to_sym  # e.g. :hosts_count
 
     belongs_to :architecture,    :counter_cache => counter_cache
@@ -200,7 +198,7 @@ module HostCommon
   end
 
   def available_puppetclasses
-    return Puppetclass.scoped if environment_id.blank?
+    return Puppetclass.where(nil) if environment_id.blank?
     environment.puppetclasses - parent_classes
   end
 

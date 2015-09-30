@@ -1,4 +1,5 @@
 class UsergroupMember < ActiveRecord::Base
+  include AccessibleAttributes
   belongs_to :member, :polymorphic => true
   belongs_to :usergroup
 

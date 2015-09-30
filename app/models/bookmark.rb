@@ -1,5 +1,6 @@
 class Bookmark < ActiveRecord::Base
   include Authorizable
+  include AccessibleAttributes
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
@@ -7,7 +8,6 @@ class Bookmark < ActiveRecord::Base
   validates_lengths_from_database
 
   belongs_to :owner, :polymorphic => true
-  attr_accessible :name, :controller, :query, :public
   audited :allow_mass_assignment => true
 
   validates :name, :uniqueness => {:scope => :controller}, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
@@ -21,10 +21,11 @@ class Bookmark < ActiveRecord::Base
 
   scope :my_bookmarks, lambda {
     user = User.current
-    return {} unless SETTINGS[:login] and !user.nil?
-
-    user       = User.current
-    conditions = sanitize_sql_for_conditions(["((bookmarks.public = ?) OR (bookmarks.owner_id = ? AND bookmarks.owner_type = 'User'))", true, user.id])
+    if !SETTINGS[:login] || user.nil?
+      conditions = {}
+    else
+      conditions = sanitize_sql_for_conditions(["((bookmarks.public = ?) OR (bookmarks.owner_id = ? AND bookmarks.owner_type = 'User'))", true, user.id])
+    end
     where(conditions)
   }
 

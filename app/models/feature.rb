@@ -1,4 +1,5 @@
 class Feature < ActiveRecord::Base
+  include AccessibleAttributes
   extend FriendlyId
   friendly_id :name
   has_and_belongs_to_many :smart_proxies

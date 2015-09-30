@@ -2,7 +2,6 @@ module Host
   class Base < ActiveRecord::Base
     include Foreman::STI
     include Authorizable
-    include CounterCacheFix
     include Parameterizable::ByName
     include DestroyFlag
 
@@ -15,18 +14,17 @@ module Host
     belongs_to :model, :counter_cache => :hosts_count
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
     has_many :fact_names, :through => :fact_values
-    has_many :interfaces, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base',
-             :foreign_key => :host_id, :order => 'identifier'
-    has_one :primary_interface, :class_name => 'Nic::Base', :foreign_key => 'host_id',
-            :conditions => { :primary => true }
-    has_one :provision_interface, :class_name => 'Nic::Base', :foreign_key => 'host_id',
-            :conditions => { :provision => true }
+    has_many :interfaces, -> { order(:identifier) }, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base',
+             :foreign_key => :host_id
+    has_one :primary_interface, -> { where(:primary => true) }, :class_name => 'Nic::Base', :foreign_key => 'host_id'
+    has_one :provision_interface, -> { where(:provision => true) }, :class_name => 'Nic::Base', :foreign_key => 'host_id'
     has_one :domain, :through => :primary_interface
     has_one :subnet, :through => :primary_interface
     accepts_nested_attributes_for :interfaces, :allow_destroy => true
 
     belongs_to :location
     belongs_to :organization
+    include AccessibleAttributes
 
     alias_attribute :hostname, :name
     validates :name, :presence   => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP}

@@ -6,8 +6,8 @@ class FactValue < ActiveRecord::Base
   belongs_to :fact_name
   delegate :name, :short_name, :compose, :to => :fact_name
   has_many :hostgroup, :through => :host
-
   has_one :parent_fact_name, :through => :fact_name, :source => :parent
+  include AccessibleAttributes
 
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
   scoped_search :on => :value, :default_order => true, :ext_method => :search_value_cast_facts
@@ -17,10 +17,10 @@ class FactValue < ActiveRecord::Base
   scoped_search :in => :fact_name, :on => :short_name, :complete_value => true, :alias => "fact_short_name"
 
   scope :no_timestamp_facts, lambda {
-    includes(:fact_name).where("fact_names.name <> ?",:_timestamp)
+    eager_load(:fact_name).where("fact_names.name <> ?",:_timestamp)
   }
   scope :timestamp_facts, lambda {
-    joins(:fact_name).where("fact_names.name = ?",:_timestamp)
+    eager_load(:fact_name).where("fact_names.name = ?",:_timestamp)
   }
   scope :my_facts, lambda {
     if !User.current.admin? || Organization.expand(Organization.current).present? || Location.expand(Location.current).present?

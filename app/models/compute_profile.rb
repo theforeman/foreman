@@ -1,11 +1,11 @@
 class ComputeProfile < ActiveRecord::Base
   include Authorizable
+  include AccessibleAttributes
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
 
   validates_lengths_from_database
-  attr_accessible :name
   audited
   has_associated_audits
 
@@ -20,5 +20,5 @@ class ComputeProfile < ActiveRecord::Base
   scoped_search :on => :name, :complete_value => true
   default_scope -> { order('compute_profiles.name') }
 
-  scope :visibles, -> { includes(:compute_attributes).where('compute_attributes.id > 0') }
+  scope :visibles, -> { eager_load(:compute_attributes).where('compute_attributes.id > 0') }
 end

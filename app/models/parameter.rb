@@ -1,6 +1,7 @@
 class Parameter < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
+  include AccessibleAttributes
   include Parameterizable::ByIdName
 
   validates_lengths_from_database

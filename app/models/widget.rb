@@ -1,4 +1,5 @@
 class Widget < ActiveRecord::Base
+  include AccessibleAttributes
   belongs_to :user
 
   validates :user_id, :name, :template, :presence => true

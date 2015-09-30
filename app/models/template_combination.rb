@@ -1,4 +1,6 @@
 class TemplateCombination < ActiveRecord::Base
+  include AccessibleAttributes
+
   belongs_to :provisioning_template
   belongs_to :environment
   belongs_to :hostgroup

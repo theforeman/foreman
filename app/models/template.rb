@@ -1,8 +1,6 @@
 class Template < ActiveRecord::Base
   validates_lengths_from_database
 
-  attr_accessible :name, :template, :snippet, :audit_comment, :location_ids, :organization_ids, :locked, :default
-
   validates :name, :presence => true
   validates :template, :presence => true
   validates :audit_comment, :length => {:maximum => 255}

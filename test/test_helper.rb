@@ -1,12 +1,9 @@
 require 'rubygems'
 require 'spork'
+require 'fileutils'
+
 # $LOAD_PATH required for testdrb party of spork-minitest
 $LOAD_PATH << "test"
-
-require 'simplecov'
-SimpleCov.start 'rails' do
-  add_group 'API', 'app/controllers/api'
-end
 
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,

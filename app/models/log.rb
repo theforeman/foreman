@@ -1,4 +1,5 @@
 class Log < ActiveRecord::Base
+  include AccessibleAttributes
   belongs_to :message
   belongs_to :source
   belongs_to :report

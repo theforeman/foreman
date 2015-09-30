@@ -64,7 +64,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     get :index, {:puppetclass_id => non_existing_id}
     assert_response :not_found
     results = ActiveSupport::JSON.decode(@response.body)
-    assert_equal "Puppet class with id '#{non_existing_id}' was not found", results["error"]["message"]
+    assert_equal "Puppetclass with id '#{non_existing_id}' was not found", results["error"]["message"]
   end
 
   test "should get smart class parameters for a specific environment" do

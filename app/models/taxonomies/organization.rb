@@ -11,6 +11,7 @@ class Organization < Taxonomy
   has_many :default_users,           :class_name => 'User',                  :foreign_key => :default_organization_id, :dependent => :nullify
   accepts_nested_attributes_for :organization_parameters, :allow_destroy => true
   include ParameterValidators
+  include AccessibleAttributes
 
   scope :completer_scope, ->(opts) { my_organizations }
 

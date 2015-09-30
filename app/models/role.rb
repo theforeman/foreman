@@ -17,6 +17,7 @@
 
 class Role < ActiveRecord::Base
   include Authorizable
+  include AccessibleAttributes
   extend FriendlyId
   friendly_id :name
 
@@ -28,7 +29,7 @@ class Role < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
   scope :givable, -> { where(:builtin => 0).order(:name) }
-  scope :for_current_user, -> { User.current.admin? ? {} : where(:id => User.current.role_ids) }
+  scope :for_current_user, -> { User.current.admin? ? where('0 != 0') : where(:id => User.current.role_ids) }
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first
     where("#{compare} builtin = 0")
@@ -56,6 +57,10 @@ class Role < ActiveRecord::Base
   def initialize(*args)
     super(*args)
     self.builtin = 0
+  end
+
+  def permissions=(new_permissions)
+    add_permissions(new_permissions.map(&:name)) if new_permissions.present?
   end
 
   # Returns true if the role has the given permission
@@ -98,7 +103,7 @@ class Role < ActiveRecord::Base
   # Return the builtin 'default user' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.default_user
-    default_user_role = first(:conditions => {:builtin => BUILTIN_DEFAULT_USER})
+    default_user_role = where(:builtin => BUILTIN_DEFAULT_USER).first
     if default_user_role.nil?
       default_user_role = create!(:name => 'Default user') do |role|
         role.builtin = BUILTIN_DEFAULT_USER
@@ -111,7 +116,7 @@ class Role < ActiveRecord::Base
   # Return the builtin 'anonymous' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.anonymous
-    anonymous_role = first(:conditions => {:builtin => BUILTIN_ANONYMOUS})
+    anonymous_role = where(:builtin => BUILTIN_ANONYMOUS).first
     if anonymous_role.nil?
       anonymous_role = create!(:name => 'Anonymous') do |role|
         role.builtin = BUILTIN_ANONYMOUS

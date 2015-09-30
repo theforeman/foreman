@@ -27,7 +27,6 @@ class Hostgroup < ActiveRecord::Base
   has_many :template_combinations, :dependent => :destroy
   has_many :provisioning_templates, :through => :template_combinations
 
-  include CounterCacheFix
   counter_cache = "#{model_name.to_s.split(":").first.pluralize.downcase}_count".to_sym  # e.g. :hosts_count
   belongs_to :domain, :counter_cache => counter_cache
   belongs_to :subnet
@@ -41,6 +40,8 @@ class Hostgroup < ActiveRecord::Base
 
   nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
                        :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :realm_id
+  attr_accessible :parent, :parent_id, :os, :os_id, :arch, :arch_id, :group_parameters_attributes
+  include AccessibleAttributes
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -177,7 +178,7 @@ class Hostgroup < ActiveRecord::Base
   def params
     parameters = {}
     # read common parameters
-    CommonParameter.scoped.each {|p| parameters.update Hash[p.name => p.value] }
+    CommonParameter.where(nil).each {|p| parameters.update Hash[p.name => p.value] }
     # read OS parameters
     operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } if operatingsystem
     # read group parameters only if a host belongs to a group

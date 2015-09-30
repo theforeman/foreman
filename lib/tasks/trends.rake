@@ -13,7 +13,7 @@ namespace :trends do
     current_record = 0
 
     trends.each do |trend_id|
-      puts "Working on trend_id #{trend_id}, #{(current_record += 1)} of #{trends_count}"
+      puts "Working on trend_id #{trend_id}, #{(current_record += 1)} of #{trends_count}" unless Rails.env.test?
 
       current_interval = TrendCounter.where(trend_id: trend_id).order(:created_at).first
       next if current_interval.nil?

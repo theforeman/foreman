@@ -1,5 +1,5 @@
 class Permission < ActiveRecord::Base
-  attr_accessible :name, :resource_type
+  include AccessibleAttributes
 
   validates_lengths_from_database
   validates :name, :presence => true, :uniqueness => true

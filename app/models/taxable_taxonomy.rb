@@ -1,6 +1,7 @@
 class TaxableTaxonomy < ActiveRecord::Base
   belongs_to :taxonomy
   belongs_to :taxable, :polymorphic => true
+  include AccessibleAttributes
 
   validates :taxonomy_id, :uniqueness => {:scope => [:taxable_id, :taxable_type]}
 

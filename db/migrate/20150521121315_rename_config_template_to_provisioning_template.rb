@@ -5,15 +5,15 @@ class RenameConfigTemplateToProvisioningTemplate < ActiveRecord::Migration
     old_name = 'ConfigTemplate'
     new_name = 'ProvisioningTemplate'
 
-    Template.update_all "type = '#{new_name}'", "type = '#{old_name}'"
-    Audit.update_all "auditable_type = '#{new_name}'", "auditable_type = '#{old_name}'"
-    TaxableTaxonomy.update_all "taxable_type = '#{new_name}'", "taxable_type = '#{old_name}'"
-    Permission.update_all "resource_type = '#{new_name}'", "resource_type = '#{old_name}'"
+    Template.where("type = '#{old_name}'").update_all("type = '#{new_name}'")
+    Audit.where("auditable_type = '#{old_name}'").update_all("auditable_type = '#{new_name}'")
+    TaxableTaxonomy.where("taxable_type = '#{old_name}'").update_all("taxable_type = '#{new_name}'")
+    Permission.where("resource_type = '#{old_name}'").update_all("resource_type = '#{new_name}'")
 
     PERMISSIONS.each do |from|
       to = from.sub('templates', 'provisioning_templates')
       say "renaming permission #{from} to #{to}"
-      Permission.update_all "name = '#{to}'", "name = '#{from}'"
+      Permission.where("name = '#{from}'").update_all("name = '#{to}'")
     end
 
     if foreign_keys('os_default_templates').find { |f| f.options[:name] == 'os_default_templates_config_template_id_fk' }.present?
@@ -56,15 +56,15 @@ class RenameConfigTemplateToProvisioningTemplate < ActiveRecord::Migration
     PERMISSIONS.each do |to|
       from = to.sub('provisioning_templates', 'templates')
       say "renaming permission #{from} to #{to}"
-      Permission.update_all "name = '#{to}'", "name = '#{from}'"
+      Permission.where("name = '#{from}'").update_all("name = '#{to}'")
     end
 
     old_name = 'ConfigTemplate'
     new_name = 'ProvisioningTemplate'
 
-    Template.update_all "type = '#{old_name}'", "type = '#{new_name}'"
-    Audit.update_all "auditable_type = '#{old_name}'", "auditable_type = '#{new_name}'"
-    TaxableTaxonomy.update_all "taxable_type = '#{old_name}'", "taxable_type = '#{new_name}'"
-    Permission.update_all "resource_type = '#{old_name}'", "resource_type = '#{new_name}'"
+    Template.where("type = '#{new_name}").update_all("type = '#{old_name}'")
+    Audit.where("auditable_type = '#{new_name}").update_all("auditable_type = '#{old_name}'")
+    TaxableTaxonomy.where("taxable_type = '#{new_name}'").update_all("taxable_type = '#{old_name}'")
+    Permission.where("resource_type = '#{new_name}'").update_all("resource_type = '#{old_name}'")
   end
 end

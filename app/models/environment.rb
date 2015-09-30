@@ -1,13 +1,14 @@
 class Environment < ActiveRecord::Base
   include Taxonomix
   include Authorizable
+  include AccessibleAttributes
   include Parameterizable::ByIdName
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 
   has_many :environment_classes, :dependent => :destroy
-  has_many :puppetclasses, :through => :environment_classes, :uniq => true
+  has_many :puppetclasses, -> { uniq }, :through => :environment_classes
   has_many_hosts
   has_many :hostgroups
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
