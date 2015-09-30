@@ -12,6 +12,14 @@
         </label>
       <% end %>
     </div>
+
+    <% if show_preview %>
+      <span id="preview_host_selector" style="display:none">
+        <%= select_tag :preview_host_id, options_from_collection_for_select(@template.preview_host_collection, :id, :name),
+                       :onchange => 'get_rendered_template()' %>
+      </span>
+    <% end %>
+
     <a class="btn btn-default btn-sm btn-fullscreen" href="#" onclick="set_fullscreen_editor('.editor-container');">
       <i class="glyphicon glyphicon-resize-full"></i>
     </a>
