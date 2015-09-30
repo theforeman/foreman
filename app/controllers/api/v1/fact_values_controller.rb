@@ -16,7 +16,7 @@ module Api
           my_facts.
           no_timestamp_facts.
           search_for(*search_options).paginate(paginate_options).
-          includes(:fact_name, :host)
+          preload(:fact_name, :host)
         render :json => FactValue.build_facts_hash(values.all)
       end
     end
