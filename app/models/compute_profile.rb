@@ -20,5 +20,5 @@ class ComputeProfile < ActiveRecord::Base
   scoped_search :on => :name, :complete_value => true
   default_scope -> { order('compute_profiles.name') }
 
-  scope :visibles, -> { includes(:compute_attributes).where('compute_attributes.id > 0') }
+  scope :visibles, -> { eager_load(:compute_attributes).where('compute_attributes.id > 0') }
 end
