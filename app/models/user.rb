@@ -3,6 +3,7 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   include Authorizable
+  include AccessibleAttributes
   extend FriendlyId
   friendly_id :login
   include Foreman::ThreadSession::UserModel

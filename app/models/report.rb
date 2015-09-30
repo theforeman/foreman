@@ -6,7 +6,6 @@ class Report < ActiveRecord::Base
 
   include Authorizable
   include ConfigurationStatusScopedSearch
-
   validates_lengths_from_database
   belongs_to_host
   has_many :messages, :through => :logs
@@ -14,6 +13,7 @@ class Report < ActiveRecord::Base
   has_many :logs, :dependent => :destroy
   has_one :environment, :through => :host
   has_one :hostgroup, :through => :host
+  include AccessibleAttributes
 
   validates :host_id, :status, :presence => true
   validates :reported_at, :presence => true, :uniqueness => {:scope => :host_id}

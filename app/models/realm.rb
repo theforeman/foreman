@@ -3,6 +3,7 @@ class Realm < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
   include Taxonomix
+  include AccessibleAttributes
 
   TYPES = ["FreeIPA", "Active Directory"]
 

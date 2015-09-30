@@ -1,4 +1,6 @@
 class Source < ActiveRecord::Base
+  include AccessibleAttributes
+
   validates_lengths_from_database
   has_many :reports, :through => :logs
   has_many :logs

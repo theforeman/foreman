@@ -63,6 +63,8 @@ class Host::Managed < Host::Base
   end
 
   include HostCommon
+  include AccessibleAttributes
+  attr_accessible :interfaces_attributes
 
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,

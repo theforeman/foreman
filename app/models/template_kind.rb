@@ -1,4 +1,5 @@
 class TemplateKind < ActiveRecord::Base
+  include AccessibleAttributes
   extend FriendlyId
   friendly_id :name
   validates_lengths_from_database

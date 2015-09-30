@@ -1,4 +1,5 @@
 class SubnetDomain < ActiveRecord::Base
+  include AccessibleAttributes
   belongs_to :domain
   belongs_to :subnet
 

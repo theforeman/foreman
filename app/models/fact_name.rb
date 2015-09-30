@@ -1,4 +1,5 @@
 class FactName < ActiveRecord::Base
+  include AccessibleAttributes
   include Parameterizable::ByIdName
 
   SEPARATOR = '::'

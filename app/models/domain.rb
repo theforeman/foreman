@@ -5,6 +5,7 @@ class Domain < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
   include Taxonomix
+  include AccessibleAttributes
   include StripLeadingAndTrailingDot
   include Parameterizable::ByIdName
 

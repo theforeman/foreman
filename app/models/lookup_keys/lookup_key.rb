@@ -56,6 +56,8 @@ class LookupKey < ActiveRecord::Base
   alias_attribute :override_values_count, :lookup_values_count
   alias_attribute :override_values, :lookup_values
   alias_attribute :override_value_ids, :lookup_value_ids
+  attr_accessible :lookup_values_attributes, :is_param, :id, :variable
+  include AccessibleAttributes
 
   # to prevent errors caused by find_resource from override_values controller
   def self.find_by_name(str)

@@ -1,4 +1,6 @@
 class EnvironmentClass < ActiveRecord::Base
+  include AccessibleAttributes
+
   belongs_to :environment
   belongs_to :puppetclass
   belongs_to :puppetclass_lookup_key

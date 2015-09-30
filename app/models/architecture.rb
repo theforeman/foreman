@@ -1,5 +1,6 @@
 class Architecture < ActiveRecord::Base
   include Authorizable
+  include AccessibleAttributes
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName

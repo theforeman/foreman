@@ -1,5 +1,6 @@
 class Usergroup < ActiveRecord::Base
   audited :allow_mass_assignment => true
+  include AccessibleAttributes
   include Authorizable
   extend FriendlyId
   friendly_id :name

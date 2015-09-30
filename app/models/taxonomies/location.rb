@@ -11,6 +11,7 @@ class Location < Taxonomy
   has_many :default_users,       :class_name => 'User',              :foreign_key => :default_location_id
   accepts_nested_attributes_for :location_parameters, :allow_destroy => true
   include ParameterValidators
+  include AccessibleAttributes
 
   scope :completer_scope, ->(opts) { my_locations }
 

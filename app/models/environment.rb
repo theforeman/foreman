@@ -1,6 +1,7 @@
 class Environment < ActiveRecord::Base
   include Taxonomix
   include Authorizable
+  include AccessibleAttributes
   include Parameterizable::ByIdName
 
   validates_lengths_from_database

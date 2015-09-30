@@ -1,11 +1,11 @@
 class ComputeProfile < ActiveRecord::Base
   include Authorizable
+  include AccessibleAttributes
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
 
   validates_lengths_from_database
-  attr_accessible :name
   audited
   has_associated_audits
 

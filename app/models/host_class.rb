@@ -1,5 +1,6 @@
 class HostClass < ActiveRecord::Base
   include Authorizable
+  include AccessibleAttributes
   include PuppetclassTotalHosts::JoinTable
 
   validates_lengths_from_database

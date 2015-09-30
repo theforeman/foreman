@@ -17,6 +17,7 @@
 
 class Role < ActiveRecord::Base
   include Authorizable
+  include AccessibleAttributes
   extend FriendlyId
   friendly_id :name
 

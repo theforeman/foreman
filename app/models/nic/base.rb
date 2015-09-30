@@ -51,6 +51,7 @@ module Nic
 
     belongs_to :subnet
     belongs_to :domain, :counter_cache => 'hosts_count'
+    include AccessibleAttributes
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
     # do counter cache only for primary interfaces

@@ -1,5 +1,5 @@
 class Filtering < ActiveRecord::Base
-  attr_accessible :filter_id, :permission_id
+  include AccessibleAttributes
 
   belongs_to :filter
   belongs_to :permission

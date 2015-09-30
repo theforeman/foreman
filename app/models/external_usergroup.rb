@@ -1,4 +1,5 @@
 class ExternalUsergroup < ActiveRecord::Base
+  include AccessibleAttributes
   extend FriendlyId
   friendly_id :name
 

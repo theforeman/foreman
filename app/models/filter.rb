@@ -20,14 +20,13 @@ class Filter < ActiveRecord::Base
     false
   end
 
-  attr_accessible :search, :resource_type, :permission_ids, :role_id, :unlimited,
-                  :organization_ids, :location_ids
   attr_writer :resource_type
   attr_accessor :unlimited
 
   belongs_to :role
   has_many :filterings, :dependent => :destroy
   has_many :permissions, :through => :filterings
+  include AccessibleAttributes
 
   validates_lengths_from_database
 

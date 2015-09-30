@@ -1,4 +1,5 @@
 class OsDefaultTemplate < ActiveRecord::Base
+  include AccessibleAttributes
   belongs_to :provisioning_template
   belongs_to :template_kind
   belongs_to :operatingsystem

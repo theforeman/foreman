@@ -6,8 +6,6 @@ class ProvisioningTemplate < Template
 
   audited :allow_mass_assignment => true
 
-  attr_accessible :template_kind, :template_kind_id, :template_combinations_attributes,
-                  :operatingsystems, :operatingsystem_ids, :vendor
   validates :name, :uniqueness => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
 
@@ -21,6 +19,7 @@ class ProvisioningTemplate < Template
   has_and_belongs_to_many :operatingsystems, :join_table => :operatingsystems_provisioning_templates, :association_foreign_key => :operatingsystem_id, :foreign_key => :provisioning_template_id
   has_many :os_default_templates
   before_save :check_for_snippet_assoications
+  include AccessibleAttributes
 
   # these can't be shared in parent class, scoped search can't handle STI properly
   # tested with scoped_search 3.2.0
