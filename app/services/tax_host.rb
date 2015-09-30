@@ -26,7 +26,7 @@ class TaxHost
     return @selected_ids if @selected_ids
     ids = default_ids_hash
     #types NOT ignored - get ids that are selected
-    taxonomy.taxable_taxonomies.without(taxonomy.ignore_types).group_by { |d| d[:taxable_type] }.map do |k, v|
+    (taxonomy.taxable_taxonomies - taxonomy.ignore_types).group_by { |d| d[:taxable_type] }.map do |k, v|
       ids["#{k.tableize.singularize}_ids"] = v.map { |i| i[:taxable_id] }
     end
     #types that ARE ignored - get ALL ids for object
@@ -196,7 +196,13 @@ class TaxHost
   end
 
   def union_deep_hashes(h1, h2)
-    h1.merge!(h2) {|k, v1, v2| v1.is_a?(Array) && v2.is_a?(Array) ? v1 | v2 : v1 }
+    h1.merge!(h2) do |k, v1, v2|
+      if v1.is_a?(Array) && v2.is_a?(Array)
+        v1 | v2
+      else
+        v1
+      end
+    end
   end
 
   def substract_deep_hashes(h1, h2)

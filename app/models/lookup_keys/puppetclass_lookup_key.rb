@@ -1,5 +1,5 @@
 class PuppetclassLookupKey < LookupKey
-  has_many :environment_classes, :dependent => :destroy
+  has_many :environment_classes, :dependent => :destroy, :foreign_key => :puppetclass_lookup_key_id
   has_many :environments, -> { uniq }, :through => :environment_classes
   has_many :param_classes, :through => :environment_classes, :source => :puppetclass
 

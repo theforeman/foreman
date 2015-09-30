@@ -29,7 +29,7 @@ class Role < ActiveRecord::Base
   audited :allow_mass_assignment => true
 
   scope :givable, -> { where(:builtin => 0).order(:name) }
-  scope :for_current_user, -> { User.current.admin? ? where(0) : where(:id => User.current.role_ids) }
+  scope :for_current_user, -> { User.current.admin? ? where('0 != 0') : where(:id => User.current.role_ids) }
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first
     where("#{compare} builtin = 0")
@@ -57,6 +57,10 @@ class Role < ActiveRecord::Base
   def initialize(*args)
     super(*args)
     self.builtin = 0
+  end
+
+  def permissions=(new_permissions)
+    add_permissions(new_permissions.map(&:name)) if new_permissions.present?
   end
 
   # Returns true if the role has the given permission

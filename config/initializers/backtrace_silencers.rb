@@ -4,11 +4,6 @@
 
 # keep the lines from plugins in the backtrace
 Rails.backtrace_cleaner.remove_silencers!
-Rails.backtrace_cleaner.add_silencer do |line|
-  line !~ Rails::BacktraceCleaner::APP_DIRS_PATTERN &&
-      !(Foreman::Plugin.all.any? { |plugin| line.include?(plugin.name) })
-end
-
 Rails.backtrace_cleaner.add_silencer { |line| line =~ /passenger/ }
 
 # You can also remove all the silencers if you're trying do debug a problem that might steem from framework code.

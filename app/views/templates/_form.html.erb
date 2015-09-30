@@ -1,4 +1,9 @@
-<% url = @template.persisted? ? public_send("#{@type_name_singular}_path", @template) : public_send("#{@type_name_singular}_path", @resource_class.new) %>
+<% url = if @template.persisted?
+           public_send("#{@type_name_singular}_path", :id => @template)
+         else
+           public_send("#{@type_name_singular}_path", :id => @resource_class.new)
+         end
+%>
 <%= form_for @template, :url => url, :html => { :multipart => true, :onsubmit => 'submit_code();' } do |f| %>
   <%= base_errors_for @template %>
   <ul class="nav nav-tabs" data-tabs="tabs">

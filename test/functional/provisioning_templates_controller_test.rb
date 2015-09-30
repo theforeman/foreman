@@ -100,10 +100,10 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     ProvisioningTemplate.find_by_name('PXELinux global default').update_attribute(:template, template)
 
     ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
-    Setting[:unattended_url] = "http://foreman.unattended.url"
+    Setting[:unattended_url] = "http://foreman.unattended.url:80"
     @request.env['HTTP_REFERER'] = provisioning_templates_path
 
-    ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url:80\/unattended\/template/))).returns(true)
+    ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template/))).returns(true)
 
     get :build_pxe_default, {}, set_session_user
     assert_redirected_to provisioning_templates_path

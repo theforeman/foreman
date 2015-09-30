@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
   has_many :direct_hosts,      :class_name => 'Host',    :as => :owner
   has_many :usergroup_member,  :dependent => :destroy,   :as => :member
-  has_many :user_roles,        -> { where(:owner_type => self.to_s) }, :dependent => :destroy, :foreign_key => 'owner_id'
+  has_many :user_roles,        -> { where(:owner_type => 'User') }, :dependent => :destroy, :foreign_key => 'owner_id'
   has_many :cached_user_roles, :dependent => :destroy
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
   has_many :cached_roles,      -> { uniq }, :through => :cached_user_roles, :source => :role
@@ -387,7 +387,7 @@ class User < ActiveRecord::Base
   end
 
   def expire_topbar_cache(sweeper)
-    sweeper.expire_fragment(TopbarSweeper.fragment_name(id))
+    ActionController::Base.new.expire_fragment(TopbarSweeper.fragment_name(id))
   end
 
   def external_usergroups

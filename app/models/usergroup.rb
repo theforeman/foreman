@@ -19,7 +19,7 @@ class Usergroup < ActiveRecord::Base
 
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
   has_many :cached_usergroup_members, :foreign_key => 'usergroup_id'
-  has_many :usergroup_parents, -> { where(:conditions => "member_type = 'Usergroup'") }, :dependent => :destroy,
+  has_many :usergroup_parents, -> { where("member_type = 'Usergroup'") }, :dependent => :destroy,
     :foreign_key => 'member_id', :class_name => 'UsergroupMember'
   has_many :parents,    :through => :usergroup_parents, :source => :usergroup, :dependent => :destroy
 

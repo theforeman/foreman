@@ -224,7 +224,8 @@ class Api::TestableControllerTest < ActionController::TestCase
       child_associacion.stubs(:merge).returns(testable_scope1)
       testable_scope1.stubs(:readonly).returns(testable_scope1)
 
-      testable_scope1.expects(:find).with('1').returns(testable_obj)
+      testable_scope1.expects(:find).with('1').returns(testable_obj).twice
+      testable_scope1.expects(:empty?).returns(false).twice
 
       get :nested_values, :domain_id => 1, :id => 1
 
@@ -247,7 +248,8 @@ class Api::TestableControllerTest < ActionController::TestCase
       child_auth_scope.stubs(:scoped).returns(testable_scope2)
       testable_scope1.stubs(:readonly).returns(testable_scope1)
 
-      testable_scope1.expects(:find).with('1').returns(testable_obj)
+      testable_scope1.expects(:find).with('1').returns(testable_obj).twice
+      testable_scope1.expects(:empty?).returns(false).twice
 
       get :nested_values, :domain_id => 1, :id => 1
 

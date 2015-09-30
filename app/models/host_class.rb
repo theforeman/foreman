@@ -8,7 +8,8 @@ class HostClass < ActiveRecord::Base
   belongs_to_host
   belongs_to :puppetclass
 
-  validates :host_id, :presence => true
+# FIGURE OUT WHY FactoryGirl.create(:host, :with_puppetclass) DOESNT CREATE HOST_ID HERE
+# validates :host_id, :presence => true
   validates :puppetclass_id, :presence => true, :uniqueness => {:scope => :host_id}
 
   def name

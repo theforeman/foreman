@@ -5,13 +5,25 @@
 module FindCommon
   # example: @host = Host.find(params[:id])
   def find_resource
-    not_found and return if params[:id].blank?
+    not_found and return if params[:id].blank? || finder.nil?
     instance_variable_set("@#{resource_name}", finder)
   end
 
   def finder
-    resource_scope.find(params[:id]) unless resource_scope.respond_to?(:from_param)
-    resource_scope.from_param(params[:id]) || raise(ActiveRecord::RecordNotFound)
+    return nil if resource_scope.empty?
+    if resource_scope.respond_to? :from_param
+      resource_scope.from_param(params[:id])
+    elsif resource_scope.respond_to? :friendly
+      resource_scope.friendly.find(params[:id])
+    else
+      resource_scope.find(params[:id])
+    end
+  rescue
+    if resource_scope.respond_to? :friendly
+      resource_scope.friendly.find(params[:id]) || raise(ActiveRecord::RecordNotFound)
+    else
+      resource_scope.find(params[:id]) || raise(ActiveRecord::RecordNotFound)
+    end
   end
 
   def resource_name(resource = controller_name)

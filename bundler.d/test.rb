@@ -1,6 +1,5 @@
 group :test do
   gem 'mocha', '~> 1.1', :require => false
-  gem 'simplecov', '~> 0.9'
   gem 'spork-minitest', '0.0.3'
   gem 'single_test', '~> 0.6'
   gem 'minitest', '~> 5.1.0'
