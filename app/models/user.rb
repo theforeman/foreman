@@ -46,14 +46,14 @@ class User < ActiveRecord::Base
   attr_name :login
 
   scope :except_admin, lambda {
-    includes(:cached_usergroups).
+    eager_load(:cached_usergroups).
         where(["(#{self.table_name}.admin = ? OR #{self.table_name}.admin IS NULL) AND " +
                    "(#{Usergroup.table_name}.admin = ? OR #{Usergroup.table_name}.admin IS NULL)",
-               false, false])
+                   false, false])
   }
   scope :only_admin, lambda {
-    includes(:cached_usergroups).
-        where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
+    eager_load(:cached_usergroups).
+    where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
   }
   scope :except_hidden, lambda {
     if (hidden = AuthSourceHidden.pluck('auth_sources.id')).present?

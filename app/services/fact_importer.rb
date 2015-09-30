@@ -96,6 +96,6 @@ class FactImporter
   end
 
   def db_facts
-    @db_facts ||= host.fact_values.joins(:fact_name).where("fact_names.type = '#{fact_name_class}'").index_by(&:name)
+    @db_facts ||= host.fact_values.eager_load(:fact_name).where("fact_names.type = '#{fact_name_class}'").index_by(&:name)
   end
 end

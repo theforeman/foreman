@@ -84,7 +84,7 @@ class Host::Managed < Host::Base
   scope :with_os, -> { where('hosts.operatingsystem_id IS NOT NULL') }
 
   scope :with_status, lambda { |status_type|
-    joins(:host_statuses).where("host_status.type = '#{status_type}'")
+    eager_load(:host_statuses).where("host_status.type = '#{status_type}'")
   }
 
   scope :with_config_status, lambda {
