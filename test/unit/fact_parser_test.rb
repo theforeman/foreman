@@ -79,6 +79,84 @@ class FactParserTest < ActiveSupport::TestCase
     end
   end
 
+  context "with physical and virtual interfaces" do
+    setup do
+      parser.expects(:get_interfaces).returns(['eth0', 'eth0_0', 'br0', 'bond0'])
+      parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('eth0_0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'custom' => 'value'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('br0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('bond0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:ef'}.with_indifferent_access)
+    end
+
+    test "#find_physical_interface finds the first physical interface" do
+      result = parser.send(:find_physical_interface, parser.interfaces)
+      refute_includes result, 'eth0_0'
+      refute_includes result, 'br0'
+      refute_includes result, 'bond0'
+      assert_includes result, 'eth0'
+    end
+
+    test "#find_virtual_interface finds the first virtual interface" do
+      result = parser.send(:find_virtual_interface, parser.interfaces)
+      assert_includes result, 'eth0_0'
+      refute_includes result, 'br0'
+      refute_includes result, 'bond0'
+      refute_includes result, 'eth0'
+    end
+  end
+
+  test "#find_virtual_interface finds a bridge interface" do
+    parser.stub(:get_interfaces, ['eth0', 'br0']) do
+      parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('br0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      result = parser.send(:find_virtual_interface, parser.interfaces)
+      assert_includes result, 'br0'
+      refute_includes result, 'eth0'
+    end
+  end
+
+  test "#find_virtual_interface finds a bond interface" do
+    parser.stub(:get_interfaces, ['eth0', 'bond0']) do
+      parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('bond0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      result = parser.send(:find_virtual_interface, parser.interfaces)
+      assert_includes result, 'bond0'
+      refute_includes result, 'eth0'
+    end
+  end
+
+  test "#find_virtual_interface finds a vlan interface" do
+    parser.stub(:get_interfaces, ['eth0', 'eth0_0']) do
+      parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('eth0_0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      result = parser.send(:find_virtual_interface, parser.interfaces)
+      assert_includes result, 'eth0_0'
+      refute_includes result, 'eth0'
+    end
+  end
+
+  test "#find_virtual_interface does not find physical interfaces" do
+    parser.stub(:get_interfaces, ['eth0', 'enp0s25', 'em1', 'eno1']) do
+      parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('enp0s25').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('em1').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('eno1').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      result = parser.send(:find_virtual_interface, parser.interfaces)
+      assert_equal result, nil
+    end
+  end
+
+  test "#find_physical_interface does not find virtual interfaces" do
+    parser.stub(:get_interfaces, ['eth0_0', 'br42', 'virbr0', 'bond7']) do
+      parser.expects(:get_facts_for_interface).with('eth0_0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('br42').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('virbr0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('bond7').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      result = parser.send(:find_physical_interface, parser.interfaces)
+      assert_equal result, nil
+    end
+  end
+
   test "#set_additional_attributes detects physical interface" do
     result = parser.send(:set_additional_attributes, {}, 'eth0')
     refute result[:virtual]
@@ -166,11 +244,11 @@ class FactParserTest < ActiveSupport::TestCase
       assert_equal '00:00:00:00:00:10', found.last[:macaddress]
     end
 
-    test "#suggested_primary_interface primary interface detection falls back to bond with ip and mac if no physical" do
+    test "#suggested_primary_interface primary interface detection falls back to first with ip and mac if no physical" do
       parser.stubs(:interfaces).returns({
-        'br0' => {'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'},
         'bond1' => {'ipaddress' => '', 'macaddress' => ''},
         'bond0' => {'ipaddress' => '15.0.0.15', 'macaddress' => '00:00:00:00:00:15'},
+        'br0' => {'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'},
       }.with_indifferent_access)
 
       Resolv::DNS.any_instance.stubs(:getnames).returns([])
