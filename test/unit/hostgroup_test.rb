@@ -388,7 +388,7 @@ class HostgroupTest < ActiveSupport::TestCase
       lv.match = group.send(:lookup_value_match)
       lv.save!
       cloned = group.clone("new_name")
-      cloned.save
+      cloned.save!
       assert_equal 1, group.lookup_values.reload.count
       assert_equal 1, cloned.lookup_values.count
       assert_equal group.lookup_values.map(&:value), cloned.lookup_values.map(&:value)
