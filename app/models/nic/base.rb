@@ -220,7 +220,7 @@ module Nic
     end
 
     def mac_uniqueness
-      interface_attribute_uniqueness(:mac)
+      interface_attribute_uniqueness(:mac, Nic::Base.physical.is_managed)
     end
 
     private
