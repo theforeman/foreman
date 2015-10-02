@@ -125,7 +125,7 @@ Foreman::Application.configure do |app|
 
   # Adds plugin assets to the application digests hash if a manifest file exists for a plugin
   config.after_initialize do
-    app.railties.engines.each do |engine|
+    ::Rails::Engine.subclasses.map(&:instance).each do |engine|
       [engine.root, app.root].each do |root_dir|
         manifest_path = File.join(root_dir, "public/assets/#{engine.engine_name}/manifest.yml")
 
@@ -142,7 +142,7 @@ Foreman::Application.configure do |app|
 
   # Serve plugin static assets if the application is configured to do so
   if config.serve_static_assets
-    app.railties.engines.each do |engine|
+    ::Rails::Engine.subclasses.map(&:instance).each do |engine|
       if File.exist?("#{engine.root}/public/assets")
         app.middleware.use ::ActionDispatch::Static, "#{engine.root}/public"
       end
