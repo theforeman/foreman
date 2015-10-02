@@ -56,6 +56,18 @@ class NicBaseTest < ActiveSupport::TestCase
         host.primary_interface.mark_for_destruction
         assert nic.valid?
       end
+
+      test 'it is valid if conflicting interface is virtual' do
+        host.primary_interface.update_attribute :virtual, true
+        nic.ip = nil
+        assert nic.valid?
+      end
+
+      test 'it is valid if conflicting interface is unmanaged' do
+        host.primary_interface.update_attribute :managed, false
+        nic.ip = nil
+        assert nic.valid?
+      end
     end
 
     describe 'creation of another nic with the same name' do
