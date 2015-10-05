@@ -27,7 +27,7 @@ class AuthSourceLdap < AuthSource
   include Encryptable
   encrypts :account_password
 
-  validates :host, :presence => true, :length => {:maximum => 60}, :allow_nil => true
+  validates :host, :presence => true, :length => {:maximum => 60}
   validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :presence => true, :if => Proc.new { |auth| auth.onthefly_register? }
   validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :length => {:maximum => 30}, :allow_nil => true
   validates :account_password, :length => {:maximum => 60}, :allow_nil => true
