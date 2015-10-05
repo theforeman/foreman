@@ -1162,6 +1162,14 @@ class HostTest < ActiveSupport::TestCase
       assert_equal 2, h.interfaces.count
     end
 
+    test "#set_interfaces handles no interfaces" do
+      host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
+      parser = stub(:ipmi_interface => {}, :interfaces => {}, :suggested_primary_interface => [ nil, nil ])
+      host.set_interfaces(parser)
+      assert host.primary_interface
+      assert_empty host.primary_interface.mac
+    end
+
     test "#set_interfaces updates primary physical interface" do
       host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.200', :identifier => 'eth1'})
       host.update_attribute :mac, '00:00:00:11:22:33'
