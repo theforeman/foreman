@@ -40,7 +40,8 @@ class LookupKeyTest < ActiveSupport::TestCase
     as_admin do
       key   = PuppetclassLookupKey.create!(:key => "dns", :path => "domain\npuppetversion", :override=>true)
       value = LookupValue.create!(:value => "[1.2.3.4,2.3.4.5]", :match => "domain =  mydomain.net", :lookup_key => key)
-      EnvironmentClass.create!(:puppetclass => puppetclass, :environment => environments(:production), :lookup_key => key)
+      EnvironmentClass.create!(:puppetclass => puppetclass, :environment => environments(:production),
+                               :puppetclass_lookup_key => key)
     end
 
     key.reload
@@ -81,7 +82,8 @@ class LookupKeyTest < ActiveSupport::TestCase
       value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
 
       LookupValue.create!(:value => "v22", :match => "fqdn=#{@host2.fqdn}", :lookup_key => key)
-      EnvironmentClass.create!(:puppetclass => puppetclass, :environment => environments(:testing), :lookup_key => key)
+      EnvironmentClass.create!(:puppetclass => puppetclass, :environment => environments(:testing),
+                               :puppetclass_lookup_key => key)
       HostClass.create!(:host => @host1,:puppetclass=>puppetclass)
       HostClass.create!(:host => @host2,:puppetclass=>puppetclass)
       HostClass.create!(:host => @host3,:puppetclass=>puppetclass)

@@ -242,7 +242,8 @@ class PuppetClassImporter
   def add_new_parameter(env, klass, changed_params)
     changed_params["new"].map do |param_name, value|
       param = find_or_create_puppet_class_param klass, param_name, value
-      EnvironmentClass.create! :puppetclass_id => klass.id, :environment_id => env.id, :lookup_key_id => param.id
+      EnvironmentClass.create! :puppetclass_id => klass.id, :environment_id => env.id,
+        :puppetclass_lookup_key_id => param.id
     end
   end
 
