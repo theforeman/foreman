@@ -28,7 +28,7 @@ function show_interface_modal(modal_content) {
   modal_window.modal({'show': true});
 
   modal_window.find('a[rel="popover-modal"]').popover();
-  modal_window.find('select').select2({ allowClear: true });
+  modal_window.find('select:not(.without_select2)').select2({ allowClear: true });
 }
 
 function save_interface_modal() {
