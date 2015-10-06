@@ -4,23 +4,23 @@
                  documentation_button('4.4.2InstallationMedia'),
                  help_path %>
 
-<table class="table table-bordered table-striped table-two-pane">
+<table class="table table-bordered table-striped table-two-pane table-fixed">
   <thead>
     <tr>
-      <th><%= sort :name, :as => s_("Medium|Name") %></th>
-      <th><%= sort :path, :as => s_("Medium|Path") %></th>
-      <th><%= sort :family, :as => s_("Medium|Os family") %></th>
-      <th><%= _("Operating Systems") %></th>
+      <th class="col-md-2"><%= sort :name, :as => s_("Medium|Name") %></th>
+      <th class="col-md-6"><%= sort :path, :as => s_("Medium|Path") %></th>
+      <th class="col-md-1"><%= sort :family, :as => s_("Medium|Os family") %></th>
+      <th class="col-md-2"><%= _("Operating Systems") %></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <% for medium in @media %>
       <tr>
-        <td class="display-two-pane"><%= link_to_if_authorized trunc_with_tooltip(medium), hash_for_edit_medium_path(:id => medium).merge(:auth_object => medium, :authorizer => authorizer) %></td>
-        <td><%= medium.path %></td>
-        <td><%= lookup_family(medium.os_family) %></td>
-        <td><%= medium.operatingsystems.map(&:to_label).to_sentence %></td>
+        <td class="display-two-pane ellipsis"><%= link_to_if_authorized medium, hash_for_edit_medium_path(:id => medium).merge(:auth_object => medium, :authorizer => authorizer) %></td>
+        <td class="ellipsis"><%= medium.path %></td>
+        <td class="ellipsis"><%= lookup_family(medium.os_family) %></td>
+        <td class="ellipsis"><%= medium.operatingsystems.map(&:to_label).to_sentence %></td>
         <td>
           <%= display_delete_if_authorized hash_for_medium_path(:id => medium).
             merge(:auth_object => medium, :authorizer => authorizer),

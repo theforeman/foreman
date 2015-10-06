@@ -7,26 +7,26 @@
                 documentation_button('4.4.3ProvisioningTemplates')
 %>
 
-<table class="table table-bordered table-striped table-two-pane">
+<table class="table table-bordered table-striped table-two-pane table-fixed">
   <thead>
     <tr>
-      <th><%= sort :name, :as => s_("ProvisioningTemplate|Name") %></th>
-      <th><%= _("Host group / Environment") %></th>
-      <th><%= sort :kind, :as => _("Kind") %></th>
-      <th><%= sort :snippet, :as => s_("ProvisioningTemplate|Snippet") %></th>
-      <th><%= sort :locked, :as => s_("ProvisioningTemplate|Locked"), :default => "DESC" %></th>
-      <th></th>
+      <th class="col-md-3"><%= sort :name, :as => s_("ProvisioningTemplate|Name") %></th>
+      <th class="col-md-4"><%= _("Host group / Environment") %></th>
+      <th class="col-md-2"><%= sort :kind, :as => _("Kind") %></th>
+      <th class="col-md-1"><%= sort :snippet, :as => s_("ProvisioningTemplate|Snippet") %></th>
+      <th class="col-md-1"><%= sort :locked, :as => s_("ProvisioningTemplate|Locked"), :default => "DESC" %></th>
+      <th class="col-md-1"></th>
     </tr>
   </thead>
   <tbody>
     <% for provisioning_template in @templates %>
     <tr>
-        <td class="display-two-pane"><%= link_to_if_authorized trunc_with_tooltip(provisioning_template),
+        <td class="display-two-pane ellipsis"><%= link_to_if_authorized provisioning_template,
                                          hash_for_edit_provisioning_template_path(:id => provisioning_template.to_param).
                                          merge(:auth_object => provisioning_template, :authorizer => authorizer,
                                          :permission => 'edit_provisioning_templates') %>
         </td>
-        <td><%= combination provisioning_template %></td>
+        <td class="ellipsis"><%= combination provisioning_template %></td>
         <td><%= provisioning_template.try(:template_kind) %></td>
         <td align='center'><%= checked_icon provisioning_template.snippet %></td>
         <td align='center'><%= locked_icon provisioning_template.locked?, _("This template is locked for editing.") %>

@@ -1,15 +1,15 @@
 <%= javascript "jquery.cookie", "host_checkbox" %>
 <% title header ||= "" %>
-<table class="table table-bordered table-striped table-condensed" >
+<table class="table table-fixed table-bordered table-striped table-condensed" >
   <thead>
     <tr>
-      <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
-      <th class=''><%= sort :name, :as => _('Name') %></th>
-      <th class="hidden-xs"><%= sort :os, :as => _("Operating system") %></th>
-      <th class="hidden-xs"><%= sort :environment, :as => _('Environment') %></th>
-      <th class="hidden-tablet hidden-xs"><%= sort :model, :as => _('Model') %></th>
-      <th class="hidden-tablet hidden-xs"><%= sort :hostgroup, :as => _("Host group") %></th>
-      <th class="hidden-tablet hidden-xs"><%= sort :last_report, :as => _('Last report'), :default => 'DESC' %></th>
+      <th class="ca" width="40px"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
+      <th width="30%"><%= sort :name, :as => _('Name') %></th>
+      <th class="hidden-xs" width="12%"><%= sort :os, :as => _("Operating system") %></th>
+      <th class="hidden-xs" width="10%"><%= sort :environment, :as => _('Environment') %></th>
+      <th class="hidden-tablet hidden-xs" width="10%"><%= sort :model, :as => _('Model') %></th>
+      <th class="hidden-tablet hidden-xs" width="18%"><%= sort :hostgroup, :as => _("Host group") %></th>
+      <th class="hidden-tablet hidden-xs" width="10%"><%= sort :last_report, :as => _('Last report'), :default => 'DESC' %></th>
       <th></th>
     </tr>
   </thead>
@@ -19,13 +19,13 @@
         <td class="ca">
           <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' %>
         </td>
-        <td class='ellipsis'><%= name_column(host) %>
+        <td class="ellipsis"><%= name_column(host) %>
         </td>
-        <td class="hidden-xs"><%= (icon(host.operatingsystem, :size => "18x18") + trunc_with_tooltip(" #{host.operatingsystem.to_label}",14)).html_safe if host.operatingsystem %></td>
-        <td class="hidden-xs"><%= trunc_with_tooltip(host.try(:environment), 14) %></td>
+        <td class="hidden-xs ellipsis"><%= (icon(host.operatingsystem, :size => "18x18") + " #{host.operatingsystem.to_label}").html_safe if host.operatingsystem %></td>
+        <td class="hidden-xs ellipsis"><%= host.environment %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= model_name host %></td>
-        <td class="hidden-tablet hidden-xs ellipsis"><%= label_with_link host.hostgroup, 26, @hostgroup_authorizer %></td>
-        <td class="hidden-tablet hidden-xs"><%= last_report_column(host) %></td>
+        <td class="hidden-tablet hidden-xs"><%= label_with_link host.hostgroup, 26, @hostgroup_authorizer %></td>
+        <td class="hidden-tablet hidden-xs ellipsis"><%= last_report_column(host) %></td>
         <td>
           <%= action_buttons(
                       display_link_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host, :authorizer => authorizer)),

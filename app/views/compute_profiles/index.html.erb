@@ -2,17 +2,17 @@
 
 <% title_actions display_link_if_authorized(_('New Compute Profile'), hash_for_new_compute_profile_path),
                  documentation_button('5.2.2UsingComputeProfiles') %>
-<table class="table table-bordered table-striped table-two-pane">
+<table class="table table-bordered table-striped table-two-pane table-fixed">
   <thead>
     <tr>
-      <th><%= sort :name %></th>
+      <th class="col-md-11"><%= sort :name %></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <% @compute_profiles.each do |compute_profile| %>
       <tr>
-        <td><%= link_to_if_authorized trunc_with_tooltip(compute_profile.name), hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer, :auth_action => 'edit') %></td>
+        <td class="ellipsis"><%= link_to_if_authorized compute_profile.name, hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer, :auth_action => 'edit') %></td>
         <td><%= action_buttons(
                   display_link_if_authorized(_('Edit'), hash_for_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer, :auth_action => 'edit')),
                   display_link_if_authorized(_('Rename'), hash_for_edit_compute_profile_path(compute_profile).merge(:auth_object => compute_profile, :authorizer => authorizer)),
