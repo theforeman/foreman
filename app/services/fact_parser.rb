@@ -163,11 +163,16 @@ class FactParser
 
   # these interfaces are ignored when parsing interface facts
   def ignored_interfaces
-    /\A(lo(?!cal_area_connection)|usb|vnet|macvtap)/
+    @ignored_interfaces ||= Setting.convert_array_to_regexp(Setting[:ignored_interface_identifiers])
   end
 
   def remove_ignored(interfaces)
-    interfaces.clone.delete_if { |i| i.match(ignored_interfaces) }
+    interfaces.clone.delete_if do |identifier|
+      if (remove = identifier.match(ignored_interfaces))
+        logger.debug "skipping interface with identifier '#{identifier}' since it was matched by 'ignored_interface_identifiers' setting "
+      end
+      remove
+    end
   end
 
   def normalize_interfaces(interfaces)

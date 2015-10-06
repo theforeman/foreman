@@ -175,6 +175,14 @@ class Setting < ActiveRecord::Base
     end
   end
 
+  def self.regexp_expand_wildcard_string(string)
+    "\\A#{Regexp.escape(string).gsub('\*', '.*')}\\Z"
+  end
+
+  def self.convert_array_to_regexp(array)
+    Regexp.new(array.map {|string| regexp_expand_wildcard_string(string) }.join('|'))
+  end
+
   private
 
   def self.create_existing(s, opts)
