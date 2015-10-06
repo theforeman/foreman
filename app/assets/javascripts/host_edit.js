@@ -37,6 +37,9 @@ function computeResourceSelected(item){
     $("#compute_resource_tab").hide();
     $("#compute_profile").hide();
     update_capabilities('build');
+    update_nics(function() {
+      interface_subnet_selected(primary_nic_form().find('select.interface_subnet'));
+    });
   } else {
     //Real compute resource or any compute profile
     $("#model_name").hide();
@@ -52,7 +55,12 @@ function computeResourceSelected(item){
       type:'post',
       url: url,
       data: data,
-      complete: function(){$(item).indicator_hide()},
+      complete: function(){
+        $(item).indicator_hide()
+        update_nics(function() {
+          interface_subnet_selected(primary_nic_form().find('select.interface_subnet'));
+        });
+      },
       error: function(jqXHR, status, error){
         $('#compute_resource').html(Jed.sprintf(__("Error loading virtual machine information: %s"), error));
         $('#compute_resource_tab a').addClass('tab-error');
@@ -64,9 +72,6 @@ function computeResourceSelected(item){
       }
     })
   }
-  update_nics(function() {
-    interface_subnet_selected(primary_nic_form().find('select.interface_subnet'));
-  });
 }
 
 function update_capabilities(capabilities){
