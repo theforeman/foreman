@@ -6,6 +6,7 @@ require File.expand_path('../lib/regexp_extensions', FOREMAN_GEMFILE)
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.21'
+gem 'rack-cache', '< 1.3.0'
 gem 'json', '~> 1.5'
 gem 'rest-client', '~> 1.6.0', :require => 'rest_client'
 gem 'audited-activerecord', '3.0.0'
