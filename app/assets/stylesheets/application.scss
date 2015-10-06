@@ -259,6 +259,10 @@ table {
   }
 }
 
+.table-fixed {
+  table-layout: fixed;
+}
+
 /*table sorter bootstrap css*/
 .dataTables_length {
     label {
@@ -342,6 +346,7 @@ table {
 }
 
 .ellipsis {
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }

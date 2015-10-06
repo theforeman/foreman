@@ -4,7 +4,7 @@ module HostsAndHostgroupsHelper
   def model_name(host)
     name = host.try(:model)
     name = host.compute_resource.name if host.compute_resource
-    trunc_with_tooltip(name, 14)
+    name
   end
 
   def accessible_hostgroups
