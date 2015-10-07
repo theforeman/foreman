@@ -45,4 +45,30 @@ class LayoutHelperTest < ActionView::TestCase
       end
     end
   end
+
+  context '#field' do
+    test 'uses custom errors' do
+      user = User.new
+      user.mail = 'aaaa'
+      user.valid?
+      form_for User.new do |f|
+        html = field(f, :login, :error => user.errors[:mail]) do
+          'zzz'
+        end
+        assert_match /is invalid/, html
+      end
+    end
+
+    test 'uses object errors, if no custom errors defined' do
+      user = User.new
+      user.mail = 'aaaa'
+      user.valid?
+      form_for user do |f|
+        html = field(f, :login) do
+          'zzz'
+        end
+        assert_match /blank/, html
+      end
+    end
+  end
 end

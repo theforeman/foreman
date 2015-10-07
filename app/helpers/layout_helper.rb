@@ -217,7 +217,7 @@ module LayoutHelper
 
   def field(f, attr, options = {})
     table_field = options.delete(:table_field)
-    error       = f.object.errors[attr] if f && f.object.respond_to?(:errors)
+    error       = options.delete(:error) || f.object.errors[attr] if f && f.object.respond_to?(:errors)
     help_inline = help_inline(options.delete(:help_inline), error)
     size_class  = options.delete(:size) || "col-md-4"
     wrapper_class = options.delete(:wrapper_class) || "form-group"
