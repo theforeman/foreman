@@ -10,6 +10,7 @@ oses:
 <%#
 This template accepts the following parameters:
 - lang: string (default="en_US.UTF-8")
+- selinux: string (default="enforcing")
 - keyboard: string (default="us")
 - time-zone: string (default="UTC")
 - http-proxy: string (default="")
@@ -18,6 +19,7 @@ This template accepts the following parameters:
 - enable-puppetlabs-repo: boolean (default=false)
 - salt_master: string (default=undef)
 - ntp-server: string (default="0.fedora.pool.ntp.org")
+- bootloader-append: string (default="nofb quiet splash=quiet")
 %>
 <%
   os_major = @host.operatingsystem.major.to_i
@@ -32,7 +34,7 @@ This template accepts the following parameters:
 install
 <%= @mediapath %><%= proxy_string %>
 lang <%= @host.params['lang'] || 'en_US.UTF-8' %>
-selinux --enforcing
+selinux --<%= @host.params['selinux'] || 'enforcing' %>
 keyboard <%= @host.params['keyboard'] || 'us' %>
 skipx
 
@@ -63,7 +65,7 @@ repo --name=puppetlabs-deps --baseurl=http://yum.puppetlabs.com/el/<%= @host.ope
 <% end -%>
 <% end -%>
 
-bootloader --location=mbr --append="nofb quiet splash=quiet" <%= grub_pass %>
+bootloader --location=mbr --append="<%= @host.params['bootloader-append'] || 'nofb quiet splash=quiet' %>" <%= grub_pass %>
 <% if os_major == 5 -%>
 key --skip
 <% end -%>

@@ -11,7 +11,8 @@ Ptable.without_auditing do
     { :name => 'Kickstart default', :os_family => 'Redhat', :source => 'kickstart/disklayout.erb' },
     { :name => 'Preseed default', :os_family => 'Debian', :source => 'preseed/disklayout.erb' },
     { :name => 'Preseed custom LVM', :os_family => 'Debian', :source => 'preseed/disklayout_lvm.erb' },
-    { :name => 'Junos default fake', :os_family => 'Junos', :source => 'ztp/disklayout.erb' }
+    { :name => 'Junos default fake', :os_family => 'Junos', :source => 'ztp/disklayout.erb' },
+    { :name => 'NX-OS default fake', :os_family => 'NXOS', :source => 'poap/disklayout.erb' }
   ].each do |input|
     next if Ptable.find_by_name(input[:name])
     next if audit_modified? Ptable, input[:name]

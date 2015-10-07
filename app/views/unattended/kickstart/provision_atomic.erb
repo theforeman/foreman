@@ -1,0 +1,40 @@
+<%#
+kind: provision
+name: Atomic Kickstart default
+%>
+
+lang <%= @host.params['lang'] || 'en_US.UTF-8' %>
+keyboard <%= @host.params['keyboard'] || 'us' %>
+timezone --utc <%= @host.params['time-zone'] || 'UTC' %>
+
+# Partition table should create /boot and a volume atomicos
+<% if @dynamic -%>
+%include /tmp/diskpart.cfg
+<% else -%>
+<%= @host.diskLayout %>
+<% end -%>
+
+bootloader --timeout=3
+text
+
+<% if @host.os.name.match /.*fedora.*/i -%>
+ostreesetup --nogpg --osname=fedora-atomic --remote=fedora-atomic --url=<%= @host.params['atomic-upstream'] == 'true' ? "https://dl.fedoraproject.org/pub/fedora/linux/atomic/#{@host.os.major}/" : "#{@host.operatingsystem.medium_uri(@host)}/content/repo/" %> --ref=fedora-atomic/f<%= @host.os.major %>/<%= @host.architecture %>/docker-host
+<% elsif @host.os.name.match /.*centos.*/i -%>
+ostreesetup --nogpg --osname=centos-atomic-host --remote=centos-atomic-host --url=<%= @host.params['atomic-upstream'] == 'true' ? "http://mirror.centos.org/centos/#{@host.os.major}/atomic/#{@host.architecture}/repo/" : @host.operatingsystem.medium_uri(@host) %> --ref=centos-atomic-host/<%= @host.os.major %>/<%= @host.architecture %>/standard
+<% else -%>
+ostreesetup --nogpg --osname=rhel-atomic-host --remote=rhel-atomic-host --url=file:///install/ostree --ref=rhel-atomic-host/<%= @host.os.major %>/<%= @host.architecture %>/standard
+<% end -%>
+services --disabled cloud-init,cloud-config,cloud-final,cloud-init-local
+rootpw --iscrypted <%= root_pass %>
+
+reboot
+
+%post
+(
+# Report success back to Foreman
+curl -s -o /dev/null --insecure <%= foreman_url %>
+) 2>&1 | tee /mnt/sysimage/root/install.post.log
+
+exit 0
+
+%end

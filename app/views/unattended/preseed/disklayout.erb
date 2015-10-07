@@ -10,6 +10,13 @@ oses:
 - Ubuntu 13.04
 - Ubuntu 14.04
 %>
+<%
+  partitioning_method = @host.params['partitioning-method'] ? @host.params['partitioning-method'] : 'regular'
+  partitioning_recipe = @host.params['partitioning-recipe'] ? @host.params['partitioning-recipe'] : 'atomic'
+  partitioning_expert_recipe = @host.params['partitioning-expert-recipe'] ? @host.params['partitioning-expert-recipe'] : ''
+  vg_name = @host.params['partitioning-vg-name'] ? @host.params['partitioning-vg-name'] : ''
+  partitioning_filesystem = @host.params['partitioning-filesystem'] ? @host.params['partitioning-filesystem'] : ''
+-%>
 
 <% if @host.params['install-disk'] -%>
 d-i partman-auto/disk string <%= @host.params['install-disk'] %>
@@ -19,11 +26,7 @@ d-i partman-auto/disk string /dev/sda /dev/vda /dev/xvda
 
 ### Partitioning
 # The presently available methods are: "regular", "lvm" and "crypto"
-<% if @host.params['partitioning-method'] -%>
-d-i partman-auto/method string <%= @host.params['partitioning-method'] %>
-<% else -%>
-d-i partman-auto/method string regular
-<% end -%>
+d-i partman-auto/method string <%= partitioning_method %>
 
 # If one of the disks that are going to be automatically partitioned
 # contains an old LVM configuration, the user will normally receive a
@@ -35,27 +38,35 @@ d-i partman-md/device_remove_md boolean true
 d-i partman-lvm/confirm boolean true
 d-i partman-lvm/confirm_nooverwrite boolean true
 
-<% if @host.params['partitioning-method'] && @host.params['partitioning-method'] == 'lvm' -%>
+<% if partitioning_method == 'lvm' -%>
 # For LVM partitioning, you can select how much of the volume group to use
 # for logical volumes.
 d-i partman-auto-lvm/guided_size string max
+<% if vg_name != '' -%>
+d-i partman-auto-lvm/new_vg_name string <%= vg_name %>
+<% end -%>
 <% end -%>
 
 # You can choose one of the three predefined partitioning recipes:
 # - atomic: all files in one partition
 # - home:   separate /home partition
-# - multi:  separate /home, /usr, /var, and /tmp partitions
-<% if @host.params['partitioning-recipe'] -%>
-d-i partman-auto/choose_recipe select <%= @host.params['partitioning-recipe'] %>
-<% else -%>
-d-i partman-auto/choose_recipe select atomic
+# - multi:  separate /home, /var, and /tmp partitions (/usr was removed in jessie)
+d-i partman-auto/choose_recipe select <%= partitioning_recipe %>
+
+<% if partitioning_expert_recipe != '' -%>
+# Or provide a recipe of your own...
+# If you have a way to get a recipe file into the d-i environment, you can
+# just point at it.
+d-i partman-auto/expert_recipe string \
+<%= partitioning_expert_recipe.gsub(/$/, " \\") %>
+
 <% end -%>
 
-# If you just want to change the default filesystem from ext3 to something
+# If you just want to change the default filesystem to something
 # else, you can do that without providing a full recipe.
-<% if @host.params['partitioning-filesystem'] -%>
-d-i partman/default_filesystem string <%= @host.params['partitioning-filesystem'] %>
-<% end %>
+<% if partitioning_filesystem != '' -%>
+d-i partman/default_filesystem string <%= partitioning_filesystem %>
+<% end -%>
 
 # This makes partman automatically partition without confirmation, provided
 # that you told it what to do using one of the methods above.

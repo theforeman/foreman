@@ -24,6 +24,7 @@ ProvisioningTemplate.without_auditing do
     { :name => 'Alterator default', :source => 'alterator/provision.erb', :template_kind => kinds[:provision] },
     { :name => 'Alterator default finish', :source => 'alterator/finish.erb', :template_kind => kinds[:finish] },
     { :name => 'Alterator default PXELinux', :source => 'alterator/PXELinux.erb', :template_kind => kinds[:PXELinux] },
+    { :name => 'Atomic Kickstart default', :source => 'kickstart/provision_atomic.erb', :template_kind => kinds[:provision] },
     { :name => 'AutoYaST default', :source => 'autoyast/provision.erb', :template_kind => kinds[:provision], :operatingsystems => os_suse },
     { :name => 'AutoYaST SLES default', :source => 'autoyast/provision_sles.erb', :template_kind => kinds[:provision], :operatingsystems => os_suse },
     { :name => 'AutoYaST default PXELinux', :source => 'autoyast/PXELinux.erb', :template_kind => kinds[:PXELinux], :operatingsystems => os_suse },
@@ -52,6 +53,7 @@ ProvisioningTemplate.without_auditing do
     { :name => "Junos default SLAX", :source => 'ztp/provision.erb', :template_kind => kinds[:provision], :operatingsystems => os_junos },
     { :name => "Junos default ZTP config", :source => 'ztp/ZTP.erb', :template_kind => kinds[:ZTP], :operatingsystems => os_junos },
     { :name => "Junos default finish", :source => 'ztp/finish.erb', :template_kind => kinds[:finish], :operatingsystems => os_junos },
+    { :name => 'NX-OS default POAP setup', :source => 'poap/provision.erb', :template_kind => kinds[:POAP] },
     # snippets
     { :name => 'alterator_pkglist', :source => 'snippets/_alterator_pkglist.erb', :snippet => true },
     { :name => 'coreos_cloudconfig', :source => 'snippets/_coreos_cloudconfig.erb', :snippet => true },

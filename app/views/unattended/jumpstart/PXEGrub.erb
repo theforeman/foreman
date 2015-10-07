@@ -5,8 +5,8 @@ name: Jumpstart default PXEGrub
 default=0
 timeout=10
 title Solaris_10 Jumpstart
-        kernel <%= multiboot %> kernel/unix - install dhcp nowin -B install_config=<%= jumpstart_path %>,sysid_config=<%= jumpstart_path %>/sysidcfg/sysidcfg_primary,install_media=<%= install_path %>,install_boot=<%= install_path %>/boot
-        module <%= miniroot %>
+        kernel <%= @host.multiboot %> kernel/unix - install dhcp nowin -B install_config=<%= @host.jumpstart_path %>,sysid_config=<%= @host.jumpstart_path %>/sysidcfg/sysidcfg_primary,install_media=<%= @host.install_path %>,install_boot=<%= @host.install_path %>/boot
+        module <%= @host.miniroot %>
 title Solaris 10
         findroot (rootfs0,0,a)
         kernel$ /platform/i86pc/multiboot
