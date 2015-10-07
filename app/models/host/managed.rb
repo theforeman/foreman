@@ -1,5 +1,6 @@
 class Host::Managed < Host::Base
   include Hostext::Search
+  include HostAspects::ManagedHostExtensions
   PROVISION_METHODS = %w[build image]
 
   has_many :host_classes, :foreign_key => :host_id
@@ -427,6 +428,11 @@ class Host::Managed < Host::Base
     info_hash['parameters'] = param
     info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"] && param["foreman_env"]
 
+    host_aspects.each do |aspect|
+      aspect_hash = aspect.respond_to?(:info) ? aspect.info : {}
+      info_hash.deep_merge! aspect_hash if aspect_hash
+    end
+
     info_hash
   end
 
@@ -517,6 +523,9 @@ class Host::Managed < Host::Base
     else
       self.environment ||= importer.environment unless importer.environment.blank?
     end
+
+    host_aspects.each { |aspect| aspect.populate_fields_from_facts(importer, type) }
+
     operatingsystem.architectures << architecture if operatingsystem && architecture && !operatingsystem.architectures.include?(architecture)
     self.save(:validate => false)
   end
@@ -726,8 +735,13 @@ class Host::Managed < Host::Base
   end
 
   def clone
+    aspects = host_aspects.map do |aspect|
+      assoc = Host.reflect_on_all_associations.find {|a| a.class_name == aspect.execution_model_type}
+      assoc.name.to_sym
+    end
+
     # do not copy system specific attributes
-    host = self.deep_clone(:include => [:config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values],
+    host = self.deep_clone(:include => [:config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values] + aspects,
                            :except  => [:name, :uuid, :certname, :last_report, :lookup_value_matcher])
     self.interfaces.each do |nic|
       host.interfaces << nic.clone
@@ -736,6 +750,11 @@ class Host::Managed < Host::Base
       host.compute_attributes = host.compute_resource.vm_compute_attributes_for(self.uuid)
     end
     host.refresh_global_status
+
+    host.host_aspects.each do |aspect|
+      aspect.after_clone
+    end
+
     host
   end
 
@@ -790,6 +809,12 @@ class Host::Managed < Host::Base
     [puppet_proxy_id, puppet_ca_proxy_id, hostgroup.try(:puppet_proxy_id), hostgroup.try(:puppet_ca_proxy_id)].compact.each do |p|
       ids << p
     end
+
+    host_aspects.each do |aspect|
+      aspect_ids = aspect.smart_proxy_ids if aspect.respond_to? :smart_proxy_ids
+      ids += aspect_ids if aspect_ids
+    end
+
     ids.uniq.compact
   end
 
@@ -855,12 +880,23 @@ class Host::Managed < Host::Base
             end
 
     kinds.map do |kind|
-      ProvisioningTemplate.find_template({ :kind               => kind.name,
-                                           :operatingsystem_id => operatingsystem_id,
-                                           :hostgroup_id       => hostgroup_id,
-                                           :environment_id     => environment_id
-                                         })
+      filter = {
+        :kind => kind.name,
+        :operatingsystem_id => operatingsystem_id,
+        :hostgroup_id       => hostgroup_id,
+        :environment_id     => environment_id
+      }
+      template_filter_from_aspects(kind, filter)
+
+      ProvisioningTemplate.find_template(filter)
     end.compact
+  end
+
+  def template_filter_from_aspects(kind, base_filter)
+    host_aspects.each do |aspect|
+      base_filter.deep_merge!(aspect.template_filter_options(kind) || {})
+    end
+    base_filter
   end
 
   def render_template(template)
