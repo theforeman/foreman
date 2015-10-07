@@ -22,7 +22,7 @@
 //= require underscore
 //= require editor
 
-$(document).on('ContentLoad', function(){onContentLoad()});
+$(document).on('ContentLoad', onContentLoad);
 Turbolinks.enableProgressBar();
 
 $(window).bind('beforeunload', function() {
@@ -79,6 +79,9 @@ function onContentLoad(){
   //set the tooltips
   $('a[rel="popover"]').popover();
   $('[rel="twipsy"]').tooltip({ container: 'body' });
+  $('.ellipsis').tooltip({ container: 'body',
+                           title: function(){return (this.scrollWidth > this.clientWidth) ? this.textContent : null;}
+                        });
   $('*[title]').not('*[rel]').tooltip();
   $('[data-table=inline]').not('.dataTable').dataTable(
       {

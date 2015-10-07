@@ -1,20 +1,20 @@
 <%= javascript "lookup_keys" %>
 <% title _("Smart class parameters") %>
 <% title_actions documentation_button('4.2.5ParameterizedClasses') %>
-<table class="table table-bordered table-striped table-two-pane">
+<table class="table table-bordered table-striped table-two-pane table-fixed">
   <thead>
     <tr>
-      <th><%= sort :key, :as => _("Parameter") %></th>
-      <th><%= sort :puppetclass, :as => _("Puppetclass") %></th>
+      <th class="col-md-5"><%= sort :key, :as => _("Parameter") %></th>
+      <th class="col-md-5"><%= sort :puppetclass, :as => _("Puppetclass") %></th>
       <th><%= sort :values_count, :as => _('Number of values'), :default => "DESC" %></th>
     </tr>
   </thead>
   <tbody>
     <% @lookup_keys.each do |lookup_key| %>
       <tr>
-        <td class="display-two-pane"><%= link_to_if_authorized trunc_with_tooltip(lookup_key.key), hash_for_edit_puppetclass_lookup_key_path(:id => lookup_key).merge(:auth_object => lookup_key, :permission => 'edit_external_variables', :authorizer => authorizer) %></td>
+        <td class="display-two-pane ellipsis"><%= link_to_if_authorized lookup_key.key, hash_for_edit_puppetclass_lookup_key_path(:id => lookup_key).merge(:auth_object => lookup_key, :permission => 'edit_external_variables', :authorizer => authorizer) %></td>
         <% puppet_class = lookup_key.param_class %>
-        <td><%= link_to_if_authorized trunc_with_tooltip(puppet_class), hash_for_edit_puppetclass_path(:id => puppet_class).merge(:auth_object => puppet_class, :authorizer => @puppetclass_authorizer) if puppet_class %></td>
+        <td class="ellipsis"><%= link_to_if_authorized puppet_class, hash_for_edit_puppetclass_path(:id => puppet_class).merge(:auth_object => puppet_class, :authorizer => @puppetclass_authorizer) if puppet_class %></td>
         <td><%=h lookup_key.lookup_values_count %></td>
       </tr>
     <% end %>

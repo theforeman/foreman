@@ -3,21 +3,21 @@
 <% title_actions display_link_if_authorized(_("New Smart Proxy"), hash_for_new_smart_proxy_path),
                  documentation_button('4.3SmartProxies') %>
 
-<table class="table table-bordered table-striped table-two-pane">
+<table class="table table-bordered table-striped table-two-pane table-fixed">
   <thead>
     <tr>
-      <th><%= s_("SmartProxy|Name") %></th>
-      <th><%= s_("SmartProxy|Url") %></th>
-      <th><%= _("Features") %></th>
+      <th class="col-md-2"><%= s_("SmartProxy|Name") %></th>
+      <th class="col-md-5"><%= s_("SmartProxy|Url") %></th>
+      <th class="col-md-3"><%= _("Features") %></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <% for proxy in @smart_proxies %>
       <tr>
-        <td class="display-two-pane"><%= link_to_if_authorized trunc_with_tooltip(proxy.name), hash_for_edit_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer) %></td>
-        <td><%=h proxy.url %></td>
-        <td><%=h proxy.features.to_sentence %></td>
+        <td class="display-two-pane ellipsis"><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer) %></td>
+        <td class="ellipsis"><%= proxy.url %></td>
+        <td class="ellipsis"><%= proxy.features.to_sentence %></td>
         <td><%= action_buttons(*proxy_actions(proxy, authorizer)) %></td>
       </tr>
     <% end %>
