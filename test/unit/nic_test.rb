@@ -401,6 +401,26 @@ class NicTest < ActiveSupport::TestCase
     assert_equal(interface.domain, domain)
   end
 
+  test 'new nic name containing existing subdomain should set nic domain correctly' do
+    nic_name = 'hostname.sub.bigdomain'
+    interface = FactoryGirl.build_stubbed(:nic_managed, :name => nic_name)
+    subdomain = FactoryGirl.create(:domain, :name => 'sub.bigdomain')
+    Domain.expects(:find_by).with(:name => subdomain.name).returns(subdomain)
+    interface.send(:normalize_name)
+    assert_equal subdomain, interface.domain
+  end
+
+  test 'new nic name containing non-existing subdomain should not set nic domain' do
+    nic_name = 'hostname.undefined-subdomain.bigdomain'
+    FactoryGirl.create(:domain, :name => 'bigdomain')
+    interface = FactoryGirl.build_stubbed(:nic_managed, :name => nic_name)
+    Domain.expects(:find_by).
+      with(:name => 'undefined-subdomain.bigdomain').
+      returns(nil)
+    interface.send(:normalize_name)
+    refute interface.domain
+  end
+
   test 'new nic with non-existing domain should not set nic domain' do
     host = FactoryGirl.create(:host)
     nic_name = [host.name, 'domain.name'].join('.')
