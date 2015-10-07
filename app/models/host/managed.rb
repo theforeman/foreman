@@ -24,11 +24,13 @@ class Host::Managed < Host::Base
   def self.complete_for(query, opts = {})
     matcher = /(\s*(?:(?:user\.[a-z]+)|owner)\s*[=~])\s*(\S*)\s*\z/
     matches = matcher.match(query)
+    query.gsub!(/domain\s+=\s+(\p{Word}+)/u){ "domain = #{SimpleIDN.to_ascii($1)}" }
     output = super(query, opts)
     if matches.present? && 'current_user'.starts_with?(matches[2])
       current_user_result = query.sub(matcher, '\1 current_user')
       output = [current_user_result] + output
     end
+    Domain.complete_for_domain_name(query, output, 'domain')
     output
   end
 
@@ -216,6 +218,10 @@ class Host::Managed < Host::Base
 
   def <=>(other)
     self.name <=> other.name
+  end
+
+  def to_label
+    SimpleIDN.to_unicode(name)
   end
 
   # method to return the correct owner list for host edit owner select dropbox

@@ -9,6 +9,8 @@ class Subnet < ActiveRecord::Base
   include Taxonomix
   include Parameterizable::ByIdName
   include EncOutput
+  include ScopedSearchExtensions
+
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database :except => [:gateway]
@@ -50,7 +52,7 @@ class Subnet < ActiveRecord::Base
   scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary,
                         :vlanid, :ipam, :boot_mode], :complete_value => true
 
-  scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
+  scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true, :ext_method => :search_by_domain
 
   class Jail < ::Safemode::Jail
     allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary,
@@ -67,6 +69,21 @@ class Subnet < ActiveRecord::Base
 
   def self.ipam_modes_with_translations
     modes_with_translations(IPAM_MODES)
+  end
+
+  def self.complete_for(query, opts = {})
+    query.gsub!(/domain\s+=\s+(\p{Word}+)/u){ "domain = #{SimpleIDN.to_ascii($1)}" }
+    output = super(query, opts)
+    Domain.complete_for_domain_name(query, output, 'domain')
+    output
+  end
+
+  def self.search_by_domain(key, operator, value)
+    value = SimpleIDN.to_ascii(value)
+    conditions = sanitize_sql_for_conditions(["domains.name #{operator} ?", value_to_sql(operator, value)])
+    subnets = Domain.joins(:subnets).where(conditions).select('subnets.id')
+    opts  = subnets.empty? ? "< 0" : "IN (#{subnets.map(&:id).join(',')})"
+    {:conditions => " subnets.id #{opts} " }
   end
 
   # Subnets are displayed in the form of their network network/network mask

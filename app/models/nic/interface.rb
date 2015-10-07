@@ -51,7 +51,7 @@ module Nic
     def fqdn_was
       domain_was = Domain.find(domain_id_was) unless domain_id_was.blank?
       return name_was if name_was.blank? || domain_was.blank?
-      name_was.include?('.') ? name_was : "#{name_was}.#{domain_was}"
+      name_was.include?('.') ? name_was : "#{name_was}.#{domain_was.name}"
     end
 
     protected
