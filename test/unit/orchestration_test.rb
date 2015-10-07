@@ -1,6 +1,28 @@
 require 'test_helper'
 
 class OrchestrationTest < ActiveSupport::TestCase
+  module Orchestration::TestModule
+    extend ActiveSupport::Concern
+
+    included do
+      register_rebuild(:rebuild_test, N_('TEST'))
+    end
+
+    def rebuild_test
+    end
+  end
+
+  module Orchestration::HostTest
+    extend ActiveSupport::Concern
+
+    included do
+      register_rebuild(:rebuild_host, N_('HOST'))
+    end
+
+    def rebuild_host
+    end
+  end
+
   def test_host_should_have_queue
     h = Host.new
     assert_respond_to h, :queue
@@ -66,16 +88,6 @@ class OrchestrationTest < ActiveSupport::TestCase
 
   context "when subscribing orchestration methods to nic" do
     setup do
-      module Orchestration::TestModule
-        extend ActiveSupport::Concern
-
-        included do
-          register_rebuild(:rebuild_test, N_('TEST'))
-        end
-
-        def rebuild_test
-        end
-      end
       @nic.class.send :include, Orchestration::TestModule
     end
 
@@ -91,16 +103,6 @@ class OrchestrationTest < ActiveSupport::TestCase
 
   context "when subscribing orchestration methods to host" do
     setup do
-      module Orchestration::HostTest
-        extend ActiveSupport::Concern
-
-        included do
-          register_rebuild(:rebuild_host, N_('HOST'))
-        end
-
-        def rebuild_host
-        end
-      end
       @host.class.send :include, Orchestration::HostTest
     end
 
