@@ -40,4 +40,12 @@ class ValidatorTest < ActiveSupport::TestCase
     assert validator.validate!
     assert @item.errors.blank?
   end
+
+  it "validates list of integers" do
+    validator_rule = "1,2"
+    @item.value = 1
+    validator = Foreman::Parameters::Validator.new(@item, :type => :list, :validate_with => validator_rule, :getter => :value)
+    assert validator.validate!
+    refute @item.errors.present?
+  end
 end
