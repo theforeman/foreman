@@ -43,6 +43,12 @@ function testConnection(item) {
       var res = $('<div>' + result + '</div>');
       $('#compute_connection').html(res.find("#compute_connection"));
       $('#compute_connection').prepend(res.find(".alert"));
+      if (!$("#compute_resource_provider").prop('disabled')) {
+        $("#compute_resource_password").prop('disabled', false);
+      }
+      if (!/alert-danger/i.test(result)) {
+        notify("<p>" + __("Test connection was successful") + "</p>", 'success')
+      }
     },
     complete:function (result) {
       //we need to restore the password field as it is not sent back from the server.

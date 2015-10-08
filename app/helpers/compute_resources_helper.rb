@@ -64,4 +64,8 @@ module ComputeResourcesHelper
       [ComputeResource.provider_class(provider).constantize.provider_friendly_name, provider]
     end
   end
+
+  def unset_password?
+    action_name == "edit" || action_name == "test_connection"
+  end
 end
