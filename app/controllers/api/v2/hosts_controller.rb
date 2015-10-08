@@ -97,7 +97,7 @@ module Api
       def create
         @host = Host.new(host_attributes(params[:host]))
         @host.managed = true if (params[:host] && params[:host][:managed].nil?)
-        merge_interfaces(@host)
+        apply_compute_profile(@host)
 
         forward_request_url
         process_response @host.save
@@ -111,7 +111,7 @@ module Api
 
       def update
         @host.attributes = host_attributes(params[:host], @host)
-        merge_interfaces(@host)
+        apply_compute_profile(@host)
 
         process_response @host.save
       rescue InterfaceTypeMapper::UnknownTypeExeption => e
@@ -265,9 +265,9 @@ Return the host's compute attributes that can be used to create a clone of this 
 
       private
 
-      def merge_interfaces(host)
-        merge = InterfaceMerge.new
-        merge.run(host.interfaces, host.compute_resource.try(:compute_profile_for, host.compute_profile_id))
+      def apply_compute_profile(host)
+        host.apply_compute_profile(InterfaceMerge.new)
+        host.apply_compute_profile(ComputeAttributeMerge.new)
       end
 
       def host_attributes(params, host = nil)

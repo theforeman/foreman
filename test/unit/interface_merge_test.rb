@@ -20,7 +20,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
     interfaces = [
       FactoryGirl.build(:nic_managed, :identifier => 'eth0')
     ]
-    @merge.run(interfaces, nil)
+    @merge.run(stub(:interfaces => interfaces), nil)
 
     assert_equal 1, interfaces.length
     assert_equal EMPTY_ATTRS, interfaces[0].compute_attributes
@@ -33,7 +33,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
       FactoryGirl.build(:nic_managed, :identifier => 'eth1'),
       FactoryGirl.build(:nic_managed, :identifier => 'eth2')
     ]
-    @merge.run(interfaces, @attributes)
+    @merge.run(stub(:interfaces => interfaces), @attributes)
 
     assert_equal 3, interfaces.length
     assert_equal expected_attrs(1), interfaces[0].compute_attributes
@@ -50,7 +50,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
     interfaces = [
       FactoryGirl.build(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9}),
     ]
-    @merge.run(interfaces, @attributes)
+    @merge.run(stub(:interfaces => interfaces), @attributes)
 
     assert_equal expected_attrs(9), interfaces[0].compute_attributes
     assert_equal 'eth0', interfaces[0].identifier
@@ -58,7 +58,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
 
   test "it creates NICs when there aren't any" do
     interfaces = []
-    @merge.run(interfaces, @attributes)
+    @merge.run(stub(:interfaces => interfaces), @attributes)
 
     assert_equal 2, interfaces.length
     assert_equal expected_attrs(1), interfaces[0].compute_attributes
@@ -69,7 +69,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
     interfaces = [
       FactoryGirl.build(:nic_managed, :identifier => 'eth0')
     ]
-    @merge.run(interfaces, @attributes)
+    @merge.run(stub(:interfaces => interfaces), @attributes)
 
     assert_equal 2, interfaces.length
     assert_equal expected_attrs(1), interfaces[0].compute_attributes

@@ -69,4 +69,29 @@ FactoryGirl.define do
     operatingsystem
     architecture
   end
+
+  factory :compute_attribute do
+    sequence(:name) { |n| "attributes#{n}" }
+    vm_attrs(
+    {
+      :flavor_id => 'm1.small',
+      :availability_zone => 'eu-west-1a'
+    })
+  end
+
+  factory :compute_profile do
+    sequence(:name) { |n| "profile#{n}" }
+
+    trait :with_compute_attribute do
+      transient do
+        compute_resource nil
+      end
+
+      after(:create) do |compute_profile, evaluator|
+        compute_profile.compute_attributes << FactoryGirl.create(:compute_attribute,
+          :compute_resource => evaluator.compute_resource,
+          :compute_profile => compute_profile)
+      end
+    end
+  end
 end

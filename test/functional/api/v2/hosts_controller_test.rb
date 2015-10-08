@@ -61,6 +61,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     Host.order('id asc').last
   end
 
+  def expect_attribute_modifiers(*modifier_classes)
+    modifier_classes.each do |modifier_class|
+      Host.any_instance.expects(:apply_compute_profile).once.with do |modifier|
+        modifier.is_a? modifier_class
+      end
+    end
+  end
+
   test "should get index" do
     get :index, { }
     assert_response :success
@@ -167,6 +175,18 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     post :create, { :host => valid_attrs.merge!(:managed => false) }
     assert_response :created
     assert_equal false, last_host.managed?
+  end
+
+  test "create applies attribute modifiers on the new host" do
+    disable_orchestration
+    expect_attribute_modifiers(ComputeAttributeMerge, InterfaceMerge)
+    post :create, { :host => valid_attrs }
+  end
+
+  test "update applies attribute modifiers on the host" do
+    disable_orchestration
+    expect_attribute_modifiers(ComputeAttributeMerge, InterfaceMerge)
+    put :update, { :id => @host.to_param, :host => valid_attrs }
   end
 
   test "should update host" do

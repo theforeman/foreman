@@ -2902,6 +2902,91 @@ class HostTest < ActiveSupport::TestCase
     assert_equal 42, host.hardware_model_id
   end
 
+  describe "loading compute_attributes from compute profile" do
+    setup do
+      @compute_attrs = compute_attributes(:one)
+
+      @host = FactoryGirl.build(:host)
+      @host.compute_attributes = {}
+      @host.compute_resource = @compute_attrs.compute_resource
+      @host.compute_profile = @compute_attrs.compute_profile
+    end
+
+    test "should create host with compute profile when compute_attributes are empty" do
+      @host.compute_resource.expects(:create_vm).once.with do |vm_attrs|
+        vm_attrs['flavor_id'] == @compute_attrs.vm_attrs['flavor_id'] &&
+        vm_attrs['availability_zone'] == @compute_attrs.vm_attrs['availability_zone']
+      end
+
+      @host.valid?
+      @host.send(:setCompute)
+    end
+
+    test "should create host with compute profile when compute_attributes are nil" do
+      @host.compute_attributes = nil
+      @host.compute_resource.expects(:create_vm).once.with do |vm_attrs|
+        vm_attrs['flavor_id'] == @compute_attrs.vm_attrs['flavor_id'] &&
+        vm_attrs['availability_zone'] == @compute_attrs.vm_attrs['availability_zone']
+      end
+
+      @host.valid?
+      @host.send(:setCompute)
+    end
+
+    test "should create host without compute profile when compute_attributes contain some data" do
+      @host.compute_attributes = {
+        "volumes_attributes"=>{
+          '0' => {
+            'size' => 20
+          }
+        },
+        "interfaces_attributes"=>{},
+        "nics_attributes"=>{}
+      }
+
+      @host.compute_resource.expects(:create_vm).once.with do |vm_attrs|
+        (vm_attrs['volumes_attributes']['0']['size'] == 20) &&
+        vm_attrs['flavor_id'].nil? &&
+        vm_attrs['availability_zone'].nil?
+      end
+
+      @host.valid?
+      @host.send(:setCompute)
+    end
+  end
+
+  describe 'apply_compute_profile' do
+    test 'modificator gets correct paramaters' do
+      host = FactoryGirl.build(:host, :on_compute_resource, :with_compute_profile)
+
+      modificator = stub
+      modificator.expects(:run).with do |_host, attrs|
+        (attrs.compute_resource == host.compute_resource) &&
+        (attrs.compute_profile == host.compute_profile)
+      end
+
+      host.apply_compute_profile(modificator)
+    end
+
+    test 'modificator gets nil when the compute_resource does not exist' do
+      host = FactoryGirl.build(:host)
+
+      modificator = stub
+      modificator.expects(:run).with(host, nil)
+
+      host.apply_compute_profile(modificator)
+    end
+
+    test 'modificator gets nil when the compute_profile does not exist' do
+      host = FactoryGirl.build(:host, :on_compute_resource)
+
+      modificator = stub
+      modificator.expects(:run).with(host, nil)
+
+      host.apply_compute_profile(modificator)
+    end
+  end
+
   private
 
   def parse_json_fixture(relative_path)
