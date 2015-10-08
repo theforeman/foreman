@@ -15,7 +15,16 @@ class Api::V2::EnvironmentsControllerTest < ActionController::TestCase
     get :show, { :id => environments(:production).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    refute show_response.empty?
+  end
+
+  test "should show environment by id or name" do
+    get :show, { :id => environments(:production).id }
+    assert_response :success
+    get :show, { :id => environments(:production).to_param }
+    assert_response :success
+    get :show, { :id => environments(:production).name }
+    assert_response :success
   end
 
   test "should create environment" do
