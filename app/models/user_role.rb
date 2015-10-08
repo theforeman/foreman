@@ -22,8 +22,9 @@ class UserRole < ActiveRecord::Base
   has_many :cached_user_roles, :dependent => :destroy
 
   validates :role_id, :presence => true
-  validates :owner_id, :presence => true, :uniqueness => {:scope => [:role_id, :owner_type],
-                                                          :message => N_("has this role already")}
+  validates :owner_id, :uniqueness => {:scope => [:role_id, :owner_type],
+                                       :message => N_("has this role already")},
+                                       :unless => -> {owner.blank?}
 
   delegate :expire_topbar_cache, :to => :owner
 
