@@ -1,5 +1,5 @@
 <%= text_f f, :user, :label => _("Access Key"), :help_inline => documentation_button('5.2.3EC2Notes') %>
-<%= password_f f, :password, :label => _("Secret Key"), :unset => action_name == "edit" %>
+<%= password_f f, :password, :label => _("Secret Key"), :unset => unset_password? %>
 
 <% regions = f.object.regions rescue [] %>
 <%= selectable_f(f, :region, regions, {}, {:label => _('Region'), :disabled => regions.empty?,
