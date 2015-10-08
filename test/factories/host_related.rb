@@ -170,7 +170,13 @@ FactoryGirl.define do
     trait :on_compute_resource do
       uuid Foreman.uuid
       association :compute_resource, :factory => :ec2_cr
-      after(:build) { |host| host.expects(:queue_compute) }
+      before(:create) { |host| host.expects(:queue_compute) }
+    end
+
+    trait :with_compute_profile do
+      after(:build) do |host|
+        host.compute_profile = FactoryGirl.create(:compute_profile, :with_compute_attribute, :compute_resource => host.compute_resource)
+      end
     end
 
     trait :with_subnet do

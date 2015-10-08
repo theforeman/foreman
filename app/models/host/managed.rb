@@ -196,7 +196,7 @@ class Host::Managed < Host::Base
     validates :medium_id, :presence => true, :if => Proc.new { |host| host.validate_media? }
     validate :provision_method_in_capabilities
     validate :short_name_periods
-    before_validation :set_compute_attributes, :on => :create, :if => Proc.new { compute_attributes.empty? }
+    before_validation :set_compute_attributes, :on => :create, :if => Proc.new { compute_attributes_empty? }
     validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
   else
     def fqdn
@@ -625,7 +625,7 @@ class Host::Managed < Host::Base
   end
 
   def set_compute_attributes
-    return unless compute_profile_id && compute_resource_id
+    return unless compute_profile_present?
     self.compute_attributes = compute_resource.compute_profile_attributes_for(compute_profile_id)
   end
 
@@ -928,7 +928,19 @@ class Host::Managed < Host::Base
     raise ::Foreman::WrappedException.new(e, N_("Unable to find IP address for '%s'"), name_or_ip)
   end
 
+  def apply_compute_profile(modification)
+    modification.run(self, compute_resource.try(:compute_profile_for, compute_profile_id))
+  end
+
   private
+
+  def compute_profile_present?
+    !(compute_profile_id.nil? || compute_resource_id.nil?)
+  end
+
+  def compute_attributes_empty?
+    compute_attributes.nil? || compute_attributes.empty?
+  end
 
   # validate uniqueness can't prevent saving two interfaces that has same DNS name
   # because the validation happens before transaction is committed, so data are not in DB
