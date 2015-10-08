@@ -85,10 +85,26 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     assert FactoryGirl.create(:provisioning_template, :locked => true)
   end
 
-  test "should not edit a locked template" do
-    tmplt = templates(:locked)
-    tmplt.name = "something else"
-    refute_valid tmplt, :base, /is locked/
+  context 'locked templates outside of rake' do
+    setup do
+      Foreman.expects(:in_rake?).returns(false).at_least_once
+      @template = templates(:locked)
+    end
+
+    test "should not edit a locked template" do
+      @template.name = "something else"
+      refute_valid @template, :base, /is locked/
+    end
+
+    test "should not remove a locked template" do
+      refute_with_errors @template.destroy, @template, :base, /locked/
+    end
+
+    test "should not unlock a template if not allowed" do
+      User.current = FactoryGirl.create(:user)
+      @template.locked = false
+      refute_valid @template, :base, /not authorized/
+    end
   end
 
   test "should clone a locked template as unlocked" do
@@ -100,21 +116,6 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     assert_equal clone.template, tmplt.template
     assert tmplt.locked
     refute clone.locked
-  end
-
-  test "should not remove a locked template" do
-    tmplt = templates(:locked)
-    refute_with_errors tmplt.destroy, tmplt, :base, /locked/
-  end
-
-  test "should not unlock a template if not allowed" do
-    tmplt = ProvisioningTemplate.create :name => "Vendor Template", :template => "provision test",
-                                  :template_kind => template_kinds(:provision), :default => true,
-                                  :vendor => "Katello"
-    tmplt.update_attribute(:locked, true)
-    User.current = FactoryGirl.create(:user)
-    tmplt.locked = false
-    refute_valid tmplt, :base, /not authorized/
   end
 
   test "should change a locked template while in rake" do
