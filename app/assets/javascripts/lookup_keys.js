@@ -141,20 +141,15 @@ function undo_remove_child_node(item){
 function toggleOverrideValue(item) {
   var override = $(item).is(':checked');
   var fields = $(item).closest('.fields');
-  var mandatory = fields.find("[id$='_required']");
-  var type_field = fields.find("[id$='_key_type']");
-  var validator_type_field = fields.find("[id$='_validator_type']");
+  var fields_to_disable = fields.find("[id$='_required'],[id$='_key_type'],[id$='_validator_type'],[id$='use_puppet_default']");
+  var use_puppet_default = fields.find("[id$='use_puppet_default']").is(':checked');
   var default_value_field = fields.find("[id$='_default_value']");
-  var use_puppet_default = fields.find("[id$='use_puppet_default']");
-  var override_value_div = fields.find("[id$='lookup_key_override_value']");
   var pill_icon = $('#pill_' + fields[0].id +' i');
+  var override_value_div = fields.find("[id$='lookup_key_override_value']");
 
-  mandatory.attr('disabled', override ? null : 'disabled');
-  type_field.attr('disabled', override ? null : 'disabled');
-  validator_type_field.attr('disabled', override ? null : 'disabled');
-  default_value_field.attr('disabled', override && !$(use_puppet_default).is(':checked') ? null : 'disabled' );
-  use_puppet_default.attr('disabled', override ? null : 'disabled' );
-  pill_icon.attr("class", override ? 'glyphicon glyphicon-flag' : "glyphicon- ");
+  fields_to_disable.prop('disabled', !override);
+  default_value_field.prop('disabled', !override || use_puppet_default);
+  override ? pill_icon.addClass('glyphicon-flag') : pill_icon.removeClass('glyphicon-flag');
   override_value_div.toggle(override);
 }
 
