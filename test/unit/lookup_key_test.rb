@@ -124,12 +124,72 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert_equal default, Classification::GlobalParam.new(:host=>@host3).enc['dns']
   end
 
-  def test_value_should_not_be_changed
-    param = lookup_keys(:three)
-    default = param.default_value
-    param.save
-    assert_equal default, param.default_value
-    assert_equal default, param.default_value_before_type_cast
+  describe '#default_value_before_type_cast' do
+    test 'nil value should remain nil' do
+      param = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
+                                :override => true, :key_type => 'string',
+                                :default_value => nil, :puppetclass => puppetclasses(:one))
+      param.valid?
+      assert_nil param.default_value
+      assert_nil param.default_value_before_type_cast
+    end
+
+    test 'boolean value should remain casted' do
+      param = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
+                                :override => true, :key_type => 'boolean',
+                                :default_value => 'false', :puppetclass => puppetclasses(:one))
+      param.valid?
+      assert_equal false, param.default_value
+      assert_equal false, param.default_value_before_type_cast
+    end
+
+    test 'array value should be an unchanged string' do
+      param = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
+                                :override => true, :key_type => 'array',
+                                :default_value => '["test"]', :puppetclass => puppetclasses(:one))
+      default = param.default_value
+      param.valid?
+      assert_equal ['test'], param.default_value
+      assert_equal default, param.default_value_before_type_cast
+    end
+
+    test 'JSON value should be an unchanged string' do
+      param = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
+                                :override => true, :key_type => 'json',
+                                :default_value => '["test"]', :puppetclass => puppetclasses(:one))
+      default = param.default_value
+      param.valid?
+      assert_equal ['test'], param.default_value
+      assert_equal default, param.default_value_before_type_cast
+    end
+
+    test 'hash value should be an unchanged string' do
+      param = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
+                                :override => true, :key_type => 'hash',
+                                :default_value => "foo: bar\n", :puppetclass => puppetclasses(:one))
+      param.valid?
+      assert_equal({'foo' => 'bar'}, param.default_value)
+      assert_equal "foo: bar\n", param.default_value_before_type_cast
+    end
+
+    test 'YAML value should be an unchanged string' do
+      param = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
+                                :override => true, :key_type => 'yaml',
+                                :default_value => "- test\n", :puppetclass => puppetclasses(:one))
+      param.valid?
+      assert_equal ['test'], param.default_value
+      assert_equal "- test\n", param.default_value_before_type_cast
+    end
+
+    test 'uncast value containing ERB should be an unchanged string' do
+      param = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
+                                :override => true, :key_type => 'array',
+                                :default_value => '["<%= @host.name %>"]', :puppetclass => puppetclasses(:one))
+      default = param.default_value
+      param.valid?
+      assert_equal '["<%= @host.name %>"]', param.default_value
+      assert_equal default, param.default_value_before_type_cast
+    end
   end
 
   test "this is a smart variable?" do
