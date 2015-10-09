@@ -109,6 +109,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   def value_before_type_cast(val)
+    return val if val.nil? || contains_erb?(val)
     case key_type.to_sym
       when :json, :array
         begin
