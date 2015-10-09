@@ -50,11 +50,32 @@ module Foreman::Controller::SmartProxyAuth
   def auth_smart_proxy(proxies = SmartProxy.all, require_cert = true)
     request_hosts = nil
     if request.ssl?
-      dn = request.env[Setting[:ssl_client_dn_env]]
-      if dn && dn =~ /CN=([^\s\/,]+)/i
+      # If we have the client certficate in the request environment we can extract the dn and sans from there
+      # if not we use the dn in the request environment
+      # SAN validation requires "SSLOptions +ExportCertData" in Apache httpd
+      if request.env.has_key?(Setting[:ssl_client_cert_env]) && request.env[Setting[:ssl_client_cert_env]].present?
+        logger.debug "Examining client certificate to extract dn and sans"
+        cert_raw = request.env[Setting[:ssl_client_cert_env]]
+        certificate = CertificateExtract.new(cert_raw)
+        logger.debug "Client sent certificate with subject '#{certificate.subject}' and subject alt names '#{certificate.subject_alternative_names.inspect}'"
+      else
+        dn = request.env[Setting[:ssl_client_dn_env]]
+      end
+
+      if (dn && dn =~ /CN=([^\s\/,]+)/i) || certificate
         verify = request.env[Setting[:ssl_client_verify_env]]
         if verify == 'SUCCESS'
-          request_hosts = [$1]
+          # If the client sent certificate contains a subject or sans, use them for request_hosts, else fall back to the dn set in the request environment
+          request_hosts = []
+          if certificate
+            if certificate.subject_alternative_names
+              request_hosts += certificate.subject_alternative_names
+            elsif certificate.subject
+              request_hosts << certificate.subject
+            end
+          else
+            request_hosts << $1 if $1
+          end
         else
           logger.warn "SSL cert has not been verified (#{verify}) - request from #{request.ip}, #{dn}"
         end
@@ -72,7 +93,7 @@ module Foreman::Controller::SmartProxyAuth
 
     hosts = Hash[proxies.map { |p| [URI.parse(p.url).host, p] }]
     allowed_hosts = hosts.keys.push(*Setting[:trusted_puppetmaster_hosts])
-    logger.debug { ("Verifying request from #{request_hosts} against #{allowed_hosts.inspect}") }
+    logger.debug { ("Verifying request from #{request_hosts.inspect} against #{allowed_hosts.inspect}") }
     unless host = allowed_hosts.detect { |p| request_hosts.include? p }
       logger.warn "No smart proxy server found on #{request_hosts.inspect} and is not in trusted_puppetmaster_hosts"
       return false
