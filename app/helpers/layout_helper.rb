@@ -106,6 +106,13 @@ module LayoutHelper
   def multiple_selects(f, attr, associations, selected_ids, options = {}, html_options = {})
     options.merge!(:size => "col-md-10")
     authorized = AssociationAuthorizer.authorized_associations(associations).all
+
+    # select2.js breaks the multiselects disabled items location
+    # http://projects.theforeman.org/issues/12028
+    html_options["class"] ||= ""
+    html_options["class"] += " without_select2"
+    html_options["class"].strip!
+
     unauthorized = selected_ids.blank? ? [] : selected_ids - authorized.map(&:id)
     field(f, attr, options) do
       attr_ids = (attr.to_s.singularize+"_ids").to_sym
