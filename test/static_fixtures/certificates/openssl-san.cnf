@@ -1,0 +1,33 @@
+[ req ]
+default_bits       = 4096
+default_md         = sha256
+default_keyfile    = key.pem
+prompt             = no
+encrypt_key        = no
+
+# base request
+distinguished_name = req_distinguished_name
+
+# extensions
+req_extensions     = v3_req
+
+# distinguished_name
+[ req_distinguished_name ]
+countryName            = "XX"                              # C=
+stateOrProvinceName    = "Example"                         # ST=
+localityName           = "Example"                         # L=
+organizationName       = "Exampe Inc."                     # O=
+commonName             = "example.com"                     # CN=
+
+# req_extensions
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = www.example.com
+DNS.2 = www.example.net
+DNS.3 = www.example.org
+
+# vim:ft=config

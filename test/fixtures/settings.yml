@@ -150,6 +150,11 @@ attribute30:
   category: Setting::Auth
   default: "SSL_CLIENT_VERIFY"
   description: "Environment variable containing the verification status of a client SSL certificate"
+attribute31:
+  name: ssl_client_cert_env
+  category: Setting::Auth
+  default: "SSL_CLIENT_CERT"
+  description: "Environment variable containing a client SSL certificate"
 attribute32:
   name: trusted_puppetmaster_hosts
   category: Setting::Auth
