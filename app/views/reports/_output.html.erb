@@ -10,8 +10,8 @@
     <% logs.each do |log| %>
       <tr>
         <td><span <%= report_tag log.level %>><%= h log.level %></span></td>
-        <td><%= h log.source %></td>
-        <td><%= h log.message %></td>
+        <td class="break-me"><%= h log.source %></td>
+        <td class="break-me"><%= h log.message %></td>
       </tr>
     <% end %>
     <tr id='ntsh' <%= "style='display: none;'".html_safe if logs.size > 0%>><td colspan="3">
