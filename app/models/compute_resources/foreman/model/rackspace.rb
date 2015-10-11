@@ -50,7 +50,7 @@ module Foreman::Model
       super and flavors
     rescue Excon::Errors::Unauthorized => e
       errors[:base] << e.response.body
-    rescue Fog::Compute::Rackspace::Error => e
+    rescue Fog::Compute::Rackspace::Error, Excon::Errors::SocketError=> e
       errors[:base] << e.message
     end
 
