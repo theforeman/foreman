@@ -480,6 +480,11 @@ class Host::Managed < Host::Base
     params
   end
 
+  def host_params_objects
+    # Host parameters should always be first for the uniq order
+    (host_parameters + host_inherited_params_objects.reverse!).uniq {|param| param.name}
+  end
+
   # JSON is auto-parsed by the API, so these should be in the right format
   def self.import_host_and_facts(hostname, facts, certname = nil, proxy_id = nil)
     raise(::Foreman::Exception.new("Invalid Facts, must be a Hash")) unless facts.is_a?(Hash)

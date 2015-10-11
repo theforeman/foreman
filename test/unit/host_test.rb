@@ -2607,6 +2607,30 @@ class HostTest < ActiveSupport::TestCase
     assert(host.host_inherited_params_objects.include?(location_parameter), 'Taxonomy parameters should be included')
   end
 
+  test '#host_params_objects should display all parameters with overrides' do
+    host = FactoryGirl.create(:host,
+                              :location => taxonomies(:location1),
+                              :organization => taxonomies(:organization1),
+                              :domain => domains(:mydomain))
+    location_parameter = LocationParameter.new(:name => 'location', :value => 'parameter')
+    host.location.location_parameters = [location_parameter]
+    host_location_override = HostParameter.new(:name => 'location', :value => 'the moon')
+    host.host_parameters += [host_location_override]
+    assert(host.host_params_objects.include?(host_location_override), 'Location parameter should be overriden')
+    refute(host.host_params_objects.include?(location_parameter), 'Location parameter should not be included')
+  end
+
+  test 'host_params_objects should display parameters in the right order' do
+    host = FactoryGirl.create(:host,
+                              :location => taxonomies(:location1),
+                              :organization => taxonomies(:organization1),
+                              :domain => domains(:mydomain))
+    domain_parameter = DomainParameter.new(:name => 'domain', :value => 'here.there')
+    host.domain.domain_parameters = [domain_parameter]
+    assert_equal(domain_parameter, host.host_params_objects.first, 'with no hostgroup, DomainParameter should be first parameter')
+    assert(host.host_params_objects.last.is_a?(CommonParameter), 'CommonParameter should be last parameter')
+  end
+
   describe '#param_true?' do
     test 'returns false for unknown parameter' do
       Foreman::Cast.expects(:to_bool).never
