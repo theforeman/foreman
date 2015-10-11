@@ -21,4 +21,8 @@ class Permission < ActiveRecord::Base
   def self.with_translations
     resources.map { |r| [_(Filter.get_resource_class(r).try(:humanize_class_name) || r), r] }
   end
+
+  def self.reset_resources
+    @all_resources = nil
+  end
 end
