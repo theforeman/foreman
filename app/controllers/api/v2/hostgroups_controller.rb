@@ -30,6 +30,7 @@ module Api
           param :name, String, :required => true, :desc => N_('Name of the host group')
           param :parent_id, :number, :desc => N_('Parent ID of the host group')
           param :environment_id, :number, :desc => N_('Environment ID')
+          param :compute_profile_id, :number, :desc => N_('Compute profile ID')
           param :operatingsystem_id, :number, :desc => N_('Operating system ID')
           param :architecture_id, :number, :desc => N_('Architecture ID')
           param :medium_id, :number, :desc => N_('Media ID')
