@@ -266,3 +266,8 @@ attributes56:
   category: Setting::General
   default: "Foreman-noreply@#{SETTINGS[:domain]}"
   description: 'Email reply address for emails that Foreman is sending'
+attributes57:
+  name: clean_up_failed_deployment
+  category: Setting::Provisioning
+  default: false
+  description: "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
