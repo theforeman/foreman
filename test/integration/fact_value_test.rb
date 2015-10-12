@@ -33,3 +33,33 @@ class FactValueIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal "facts.#{@fact_name.name} = \"#{@value.value}\"", find_field('search').value
   end
 end
+
+class ChildFactValueIntegrationTest < ActionDispatch::IntegrationTest
+  def setup
+    @host = FactoryGirl.create(:host)
+    @parent_name = FactoryGirl.create(:fact_name, :compose => true)
+    @parent_value = FactoryGirl.create(:fact_value, :value => nil, :host => @host, :fact_name => @parent_name)
+
+    @child_suffix = 'child'
+    @child_name = FactoryGirl.create(:fact_name, :name => "#{@parent_name.name}::#{@child_suffix}", :short_name => @child_suffix, :ancestry => @parent_name.id)
+    @child_value = FactoryGirl.create(:fact_value, :host => @host, :fact_name => @child_name)
+  end
+
+  test "parent name links to child list" do
+    visit fact_values_path
+    assert page.has_link? @parent_name.name
+
+    #click on the parent name link
+    within(:xpath, "//tr[contains(.,'#{@parent_name.name}')]") do
+      assert_equal "Show all #{@parent_name.name} children fact values", first(:xpath, "//td[2]/span/a")[:title]
+      first(:xpath, "//td[2]/a").click
+    end
+
+    #click on the child name link
+    within(:xpath, "//tr[contains(.,'#{@child_name.name}')]") do
+      first(:xpath, "//td[2]/a").click
+    end
+
+    assert_equal "Show all #{@parent_name.name} children fact values", first(:xpath, "//td[2]/a")[:'title']
+  end
+end
