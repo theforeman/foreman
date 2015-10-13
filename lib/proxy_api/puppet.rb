@@ -22,7 +22,7 @@ module ProxyAPI
       pcs = parse(get "environments/#{env}/classes")
       Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
     rescue RestClient::ResourceNotFound
-      []
+      {}
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to get classes from Puppet for %s"), env)
     end
