@@ -119,6 +119,9 @@ class PtablesControllerTest < ActionController::TestCase
     post :preview, { :template => '<%= 1+1 -%>', :id => template }, set_session_user
     assert_equal '2', @response.body
 
+    post :preview, { :template => '<%= 1+1 -%>' }, set_session_user
+    assert_equal '2', @response.body
+
     post :preview, { :template => '<%= 1+ -%>', :id => template }, set_session_user
     assert_includes @response.body, 'There was an error'
   end
