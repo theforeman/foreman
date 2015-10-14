@@ -19,6 +19,9 @@ class Bookmark < ActiveRecord::Base
   default_scope -> { order(:name) }
   before_validation :set_default_user
 
+  scoped_search :on => :controller, :complete_value => true
+  scoped_search :on => :name, :complete_value => true
+
   scope :my_bookmarks, lambda {
     user = User.current
     if !SETTINGS[:login] || user.nil?
