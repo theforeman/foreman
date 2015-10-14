@@ -277,6 +277,7 @@ Foreman::Application.routes.draw do
           post 'preview'
         end
         collection do
+          post 'preview'
           get 'revision'
           get 'auto_complete_search'
         end
@@ -290,6 +291,7 @@ Foreman::Application.routes.draw do
           post 'preview'
         end
         collection do
+          post 'preview'
           get 'revision'
           get 'auto_complete_search'
         end
