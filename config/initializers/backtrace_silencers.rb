@@ -6,7 +6,7 @@
 Rails.backtrace_cleaner.remove_silencers!
 Rails.backtrace_cleaner.add_silencer do |line|
   line !~ Rails::BacktraceCleaner::APP_DIRS_PATTERN &&
-      !(Foreman::Plugin.all.any? { |plugin| line.include?(plugin.name) })
+      !(Foreman::Plugin.all.any? { |plugin| !plugin.name.nil? && line.include?(plugin.name) })
 end
 
 Rails.backtrace_cleaner.add_silencer { |line| line =~ /passenger/ }
