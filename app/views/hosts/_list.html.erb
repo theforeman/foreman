@@ -5,7 +5,7 @@
     <tr>
       <th class="ca" width="40px"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
       <th width="30%"><%= sort :name, :as => _('Name') %></th>
-      <th class="hidden-xs" width="12%"><%= sort :os, :as => _("Operating system") %></th>
+      <th class="hidden-xs" width="12%"><%= sort :os_title, :as => _("Operating system") %></th>
       <th class="hidden-xs" width="10%"><%= sort :environment, :as => _('Environment') %></th>
       <th class="hidden-tablet hidden-xs" width="10%"><%= sort :model, :as => _('Model') %></th>
       <th class="hidden-tablet hidden-xs" width="18%"><%= sort :hostgroup, :as => _("Host group") %></th>
