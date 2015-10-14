@@ -291,6 +291,8 @@ Foreman::Application.routes.draw do
         end
       end
     end
+    post "/templates/provisioning_templates/preview", :to => "ProvisioningTemplates#preview"
+    post "/templates/ptables/preview", :to => "ptables#preview"
 
     constraints(:id => /[^\/]+/) do
       resources :domains, :except => [:show] do
