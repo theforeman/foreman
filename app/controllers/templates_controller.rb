@@ -4,7 +4,7 @@ class TemplatesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   before_filter :handle_template_upload, :only => [:create, :update]
-  before_filter :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock, :preview]
+  before_filter :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock]
   before_filter :load_history, :only => :edit
   before_filter :type_name_plural, :type_name_singular, :resource_class
 
@@ -79,15 +79,22 @@ class TemplatesController < ApplicationController
   end
 
   def preview
-    base = @template.preview_host_collection
-    @host = params[:preview_host_id].present? ? base.find(params[:preview_host_id]) : base.first
+    if params[:id]
+      find_resource
+      base = @template.preview_host_collection
+      @host = params[:preview_host_id].present? ? base.find(params[:preview_host_id]) : base.first
+    else
+      type = request.original_url.split("/")[4]
+      @host = Host.find(params[:preview_host_id])
+      @template = resource_class.new(params[type])
+    end
     if @host.nil?
       render :text => _('No host could be found for rendering the template'), :status => :not_found
       return
     end
-
     @template.template = params[:template]
-    safe_render(@template)
+    safe_render(params[:id] ? @template : @template.delete)
+
   end
 
   private
