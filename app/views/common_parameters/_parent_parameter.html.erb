@@ -11,7 +11,7 @@
       <% next if @hostgroup.group_parameters.map(&:name).include? parameter.name %>
       <tr>
         <td>
-          <%= text_field_tag("parent_parameter_#{i}_key", '', :class => "form-control", :value => parameter.name, :readonly => true) %>
+          <%= content_tag :span, trunc_with_tooltip(parameter.name, 20)  %>
         </td>
         <td>
           <div class="input-group">
