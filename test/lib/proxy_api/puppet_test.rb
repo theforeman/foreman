@@ -9,7 +9,8 @@ class ProxyApiPuppetTest < ActiveSupport::TestCase
   test "should return empty hash incase of empty classes" do
     @puppet.stubs(:get).raises(RestClient::ResourceNotFound, 'Resource Not Found')
     response = @puppet.classes('production')
-    empty_hash = Hash.new
+    empty_hash = {}
     assert_equal(response, empty_hash)
   end
 end
+
