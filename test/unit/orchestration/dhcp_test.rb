@@ -159,7 +159,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
       Nic::BMC.create! :host => h, :mac => "aa:aa:aa:ab:bd:bb", :ip => h.ip.succ, :domain => h.domain,
                        :subnet => h.subnet, :name => "bmc1-#{h}", :provider => 'IPMI'
     end
-    h.reload
+    h = Host.find(h.id)
     bmc = h.interfaces.bmc.first
     bmc.mac = next_mac(bmc.mac)
     assert h.valid?
@@ -176,7 +176,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     end
     h.reload
     h.mac = next_mac(h.mac)
-    bmc = h.interfaces.bmc.first
+    bmc = h.interfaces.bmc.first.reload
     assert !bmc.new_record?
     bmc.mac = next_mac(bmc.mac)
     assert h.valid?
