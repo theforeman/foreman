@@ -6,7 +6,7 @@ class ProxyApiPuppetTest < ActiveSupport::TestCase
     @puppet = ProxyAPI::Puppet.new({:url => @url})
   end
 
-  test "constructor should complete" do
+  test "should return empty hash incase of empty classes" do
     @puppet.stubs(:get).raises(RestClient::ResourceNotFound, 'Resource Not Found')
     response = @puppet.classes('production')
     empty_hash = Hash.new
