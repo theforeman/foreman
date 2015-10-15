@@ -9,6 +9,7 @@ class SeedsTest < ActiveSupport::TestCase
     DatabaseCleaner.clean_with :truncation
     Setting.stubs(:[]).with(:administrator).returns("root@localhost")
     Setting.stubs(:[]).with(:send_welcome_email).returns(false)
+    Foreman.stubs(:in_rake?).returns(true)
   end
 
   def seed
