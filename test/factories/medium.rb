@@ -4,22 +4,22 @@ FactoryGirl.define do
     sequence(:path) {|n| "http://www.example.com/path#{n}" }
 
     trait :coreos do
-      sequence(:name) {'CoreOS Mirror'}
+      sequence(:name) { |n| "CoreOS Mirror #{n}"}
       sequence(:path) {'http://$release.release.core-os.net'}
     end
 
     trait :ubuntu do
-      sequence(:name) {'Ubuntu Mirror'}
+      sequence(:name) { |n| "Ubuntu Mirror #{n}"}
       sequence(:path) {'http://archive.ubuntu.com/ubuntu'}
     end
 
     trait :debian do
-      sequence(:name) {'Debian Mirror'}
+      sequence(:name) { |n| "Debian Mirror #{n}"}
       sequence(:path) {'http://ftp.debian.org/debian'}
     end
 
     trait :suse do
-      sequence(:name) {'OpenSuse Mirror'}
+      sequence(:name) { |n| "OpenSuse Mirror #{n}"}
       sequence(:path) {'http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss'}
     end
   end
