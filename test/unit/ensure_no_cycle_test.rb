@@ -3,16 +3,23 @@ require 'test_helper'
 class EnsureNoCycleTest < ActiveSupport::TestCase
   def setup
     base = []
-    base.push edge(1, 2)
-    base.push edge(2, 3)
-    base.push edge(3, 4)
-    base.push edge(3, 5)
-    base.push edge(2, 6)
+    base.push Edge.new(1, 2)
+    base.push Edge.new(2, 3)
+    base.push Edge.new(3, 4)
+    base.push Edge.new(3, 5)
+    base.push Edge.new(2, 6)
     @graph = ActiveRecord::Base::EnsureNoCycle.new(base, :source, :target)
   end
 
-  def edge(source, target)
-    OpenStruct.new(:source => source, :target => target)
+  class Edge < OpenStruct
+    include ActiveModel::Validations
+    extend ActiveModel::Naming
+    attr_accessor :source, :target
+
+    def initialize(source, target)
+      self.source = source
+      self.target = target
+    end
   end
 
   test "#tsort_each_node iterates over all nodes" do
@@ -40,8 +47,7 @@ class EnsureNoCycleTest < ActiveSupport::TestCase
   end
 
   test "#ensure detects cycle and raises an exception" do
-    record = edge(6, 1)
-    record.errors = ActiveModel::Errors.new(record)
+    record = Edge.new(6, 1)
     assert_raises Foreman::CyclicGraphException do
       @graph.ensure(record)
     end
@@ -49,7 +55,7 @@ class EnsureNoCycleTest < ActiveSupport::TestCase
   end
 
   test "#ensure passes when record does not create cycle" do
-    record = edge(2, 4)
+    record = Edge.new(2, 4)
     assert_nothing_raised do
       assert @graph.ensure(record)
     end
