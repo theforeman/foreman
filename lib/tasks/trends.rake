@@ -32,6 +32,6 @@ namespace :trends do
 
     TrendCounter.unscoped.where(interval_start: nil).delete_all
 
-    puts "It took #{Time.now - start} seconds to complete"
+    puts "It took #{Time.now - start} seconds to complete" unless Rails.env.test?
   end
 end
