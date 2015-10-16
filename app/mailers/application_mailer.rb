@@ -1,7 +1,7 @@
 require 'uri'
 
 class ApplicationMailer < ActionMailer::Base
-  default :from => -> { Setting[:email_reply_address] || "noreply@foreman.example.org" }
+  default :from => Proc.new { Setting[:email_reply_address] || "noreply@foreman.example.org" }
 
   def mail(headers = {}, &block)
     if headers.present?
