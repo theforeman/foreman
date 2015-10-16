@@ -2,13 +2,55 @@ require 'tempfile'
 
 module Foreman
   module Renderer
-    ALLOWED_HELPERS = [ :foreman_url, :grub_pass, :snippet, :snippets,
-                        :snippet_if_exists, :ks_console, :root_pass,
-                        :media_path, :param_true?, :param_false?, :match, :indent ]
 
-    ALLOWED_VARIABLES = [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
-                          :repos, :dynamic, :kernel, :initrd,
-                          :preseed_server, :preseed_path, :provisioning_type ]
+    def self.allowed_variables
+      @allowed_variables ||= [
+        # keep sorted
+        :arch,
+        :dynamic,
+        :host,
+        :initrd,
+        :kernel,
+        :mediapath,
+        :mediaserver,
+        :osver,
+        :preseed_path,
+        :preseed_server,
+        :provisioning_type,
+        :repos,
+        :static,
+      ]
+      @allowed_variables + (Setting[:safemode_extra_variables].split(',').map{|x| x.strip.to_sym} rescue [])
+    end
+
+    def self.allowed_helpers
+      @allowed_helpers ||= [
+        # keep sorted
+        :foreman_url,
+        :grub_pass,
+        :indent,
+        :ks_console,
+        :match,
+        :media_path,
+        :param_false?,
+        :param_true?,
+        :root_pass,
+        :snippet,
+        :snippet_if_exists,
+        :snippets,
+     ]
+     @allowed_helpers + (Setting[:safemode_extra_helpers].split(',').map{|x| x.strip.to_sym} rescue [])
+    end
+
+    def self.add_allowed_variables *args
+      allowed_variables.concat(args.map(&:to_sym))
+      Rails.logger.debug("Added #{args.inspect} to allowed variables, totals: #{@allowed_variables.size}")
+    end
+
+    def self.add_allowed_helpers *args
+      allowed_helpers.concat(args.map(&:to_sym))
+      Rails.logger.debug("Added #{args.inspect} to allowed helpers, totals: #{@allowed_helpers.size}")
+    end
 
     def render_safe(template, allowed_methods = [], allowed_vars = {})
       if Setting[:safemode_render]
@@ -96,11 +138,11 @@ module Foreman
     def unattended_render(template, template_name = nil)
       content = template.respond_to?(:template) ? template.template : template
       template_name ||= template.respond_to?(:name) ? template.name : 'Unnamed'
-      allowed_variables = ALLOWED_VARIABLES.reduce({}) do |mapping, var|
+      allowed_variables = Foreman::Renderer.allowed_variables.reduce({}) do |mapping, var|
         mapping.update(var => instance_variable_get("@#{var}"))
       end
       allowed_variables[:template_name] = template_name
-      render_safe content, ALLOWED_HELPERS, allowed_variables
+      render_safe content, Foreman::Renderer.allowed_helpers, allowed_variables
     end
     alias_method :pxe_render, :unattended_render
 
