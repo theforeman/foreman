@@ -5447,7 +5447,7 @@ msgstr "사용자 인증 "
 msgid ""
 "Foreman, by default, operates in anonymous mode where all operations are perfo"
 "rmed without reference to the user who is performing the task."
-msgstr "기본값으로 Foreman은 작업을 수행하는 사용자를 챀조하지 않고 모든 작업을 수행하는 익명 모드에서 작동합니다. "
+msgstr "기본값으로 Foreman은 작업을 수행하는 사용자를 참조하지 않고 모든 작업을 수행하는 익명 모드에서 작동합니다. "
 
 msgid ""
 "If you wish to track the actions of a particular user then it is possible to u"
