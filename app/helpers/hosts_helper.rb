@@ -397,7 +397,7 @@ module HostsHelper
     active = 'Size'
     active = 'None' if f.object.allocation.to_i == 0
     active = 'Full' if f.object.allocation == f.object.capacity
-    text_f f, :allocation, :class => "input-mini", :label => _("Allocation (GB)"),
+    text_f f, :allocation, :class => "input-mini", :label => _("Allocation (GB)"), :label_size => "col-md-3",
     :readonly => (active == 'Size') ? false : true,
     :help_inline => (content_tag(:span, :class => 'btn-group', :'data-toggle' => 'buttons-radio') do
       [N_('None'), N_('Size'), N_('Full')].collect do |label|
