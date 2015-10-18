@@ -3,19 +3,19 @@
 
 
 <%= text_f f, :mac, :class => :interface_mac %>
-<%= text_f f, :identifier,
-              :help_inline => popover(
-                      _("Device identifier"),
+<%= text_f f, :identifier, :label => _("Device identifier"),
+              :help_inline => popover('',
                       _("Device identifier for this interface. This may be different on various platforms and environments, here are some common examples.<br/><ul>" +
                                 "<li>Use the basic name for physical interface identifiers, e.g. <strong>eth0</strong> or <strong>em0</strong> with biosdevname.</li>" +
                                 "<li>For virtual interfaces, use either alias notation (<strong>eth0:1</strong>, name:index) or VLAN notation (<strong>eth0.15</strong>, name.tag).</li>" +
                                 "<li>For bonds it's common to use <strong>bond0</strong> on Linux, <strong>lagg0</strong> on FreeBSD systems.</li></ul>"),
+                      :title => _("Device identifier"),
                       :rel => 'popover-modal',
                       :'data-placement' => "top"
               ),
               :class => :interface_identifier %>
 <%= text_f f, :name, :label => _("DNS name"), :value => f.object.shortname,
-              :help_inline => _("Primary interface's DNS name and domain define host's FQDN"),
+              :help_inline => popover('', _("Primary interface's DNS name and domain define host's FQDN"), :rel => 'popover-modal'),
               :class => :interface_name %>
 <% if SETTINGS[:unattended] %>
   <%= select_f f, :domain_id, accessible_domains, :id, :to_label,
@@ -33,20 +33,20 @@
               :class => :interface_ip,
               :autocomplete => 'off',
               :help_block => link_to(_("Suggest new"), '#', :class => 'suggest_new_ip'),
-              :help_inline => popover(
-                  _("IP address auto-suggest"),
+              :help_inline => popover('',
                   _("An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on the subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"),
+                  :title => _("IP address auto-suggest"),
                   :rel => 'popover-modal',
                   :'data-placement' => "top"
                 ).html_safe %>
 
 <% if SETTINGS[:unattended] %>
   <%= checkbox_f f, :managed,
-                 :help_inline => _("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?") %>
+                 :help_inline => popover('',_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?"), :rel => 'popover-modal') %>
 <% end %>
 <%= checkbox_f f, :primary,
-               :help_inline => _("The Primary interface is used for constructing the FQDN of the host"),
+               :help_inline => popover('',_("The Primary interface is used for constructing the FQDN of the host"), :rel => 'popover-modal'),
                :class => :interface_primary %>
 <%= checkbox_f f, :provision,
-               :help_inline => _("The Provisioning interface is used for TFTP of PXELinux (or SSH for image-based hosts)"),
+               :help_inline => popover('',_("The Provisioning interface is used for TFTP of PXELinux (or SSH for image-based hosts)"), :rel => 'popover-modal'),
                :class => :interface_provision %>
