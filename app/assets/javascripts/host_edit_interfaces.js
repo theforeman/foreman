@@ -35,6 +35,10 @@ function save_interface_modal() {
   var modal_window = $('#interfaceModal');
   var interface_id = modal_window.data('current-id');
 
+  //destroy ui tools so when opening the modal again they will show correctly
+  modal_window.find('a[rel="popover-modal"]').popover('destroy');
+  modal_window.find('select').select2('destroy')
+
   // mark the selected values to preserve them for form hiding
   preserve_selected_options(modal_window);
 
@@ -46,7 +50,6 @@ function save_interface_modal() {
     $('#interfaceForms .interface_provision:checked').attr("checked", false);
   }
 
-  modal_form.find('select').select2('destroy')
   var interface_hidden = get_interface_hidden(interface_id);
   interface_hidden.html('');
   interface_hidden.append(modal_form);
