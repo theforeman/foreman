@@ -357,6 +357,20 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal "#{hostgroup.id}-a-b",  hostgroup.to_param
   end
 
+  test "to_param calls ancestry when title is not yet saved" do
+    parent = FactoryGirl.create(:hostgroup, :name => 'a')
+    hostgroup = Hostgroup.new(:parent => parent, :name => 'b')
+    hostgroup.expects(:ancestry).once
+    hostgroup.to_param
+  end
+
+  test "to_param doesn't call ancestry when title is saved" do
+    parent = FactoryGirl.create(:hostgroup, :name => 'a')
+    hostgroup = Hostgroup.create(:parent => parent, :name => 'b')
+    hostgroup.expects(:ancestry).never
+    hostgroup.to_param
+  end
+
   context "#clone" do
     let(:group) {FactoryGirl.create(:hostgroup, :name => 'a')}
 
