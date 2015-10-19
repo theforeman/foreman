@@ -69,4 +69,21 @@ class ReportImporterTest < ActiveSupport::TestCase
       ReportImporter.import read_json_fixture('report-applied.json')
     end
   end
+
+  test 'when a host does not exist, it builds a new one' do
+    report = read_json_fixture('report-errors.json')
+    report["host"] = 'SOMETHING'
+    reporter = ReportImporter.new(report)
+    host = reporter.send(:host)
+    assert_equal 'something', host.name
+  end
+
+  test 'hostname is matched downcased' do
+    db_host = FactoryGirl.create(:host)
+    report = read_json_fixture('report-errors.json')
+    report["host"] = db_host.name.upcase
+    reporter = ReportImporter.new(report)
+    host = reporter.send(:host)
+    assert_equal host, db_host
+  end
 end
