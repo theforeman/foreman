@@ -81,14 +81,16 @@ module LookupKeysHelper
     inherited_value = lookup_key.value_before_type_cast(value)
     effective_value = lookup_value.id.nil? ?  inherited_value.to_s : lookup_value.value_before_type_cast.to_s
     warnings  = lookup_key_warnings(lookup_key.required, effective_value.present?)
+    popover_value = lookup_key.hidden_value? ? lookup_key.hidden_value : inherited_value
 
     parameter_value_content(
       "#{parameters_receiver}_lookup_values_attributes_#{lookup_key.id}_value",
       effective_value,
-      :popover => diagnostic_popover(lookup_key, matcher, inherited_value, warnings),
+      :popover => diagnostic_popover(lookup_key, matcher, popover_value, warnings),
       :name => "#{lookup_value_name_prefix(lookup_key.id)}[value]",
       :disabled => !lookup_key.overridden?(obj) || lookup_value.use_puppet_default,
-      :inherited_value => inherited_value)
+      :inherited_value => inherited_value,
+      :lookup_key => lookup_key)
   end
 
   def value_matcher(obj, lookup_key)
@@ -139,11 +141,25 @@ module LookupKeysHelper
     link_to_function(icon_text('edit'), "override_class_param(this)",
                      :title => _("Override this value"),
                      :'data-tag' => 'override',
-                     :class =>"btn btn-default btn-md #{'hide' if overridden}") +
+                     :class =>"btn btn-default btn-md btn-override #{'hide' if overridden}") +
       link_to_function(icon_text('remove'), "override_class_param(this)",
                        :title => _("Remove this override"),
                       :'data-tag' => 'remove',
-                      :class =>"btn btn-default btn-md #{'hide' unless overridden}")
+                      :class =>"btn btn-default btn-md btn-override #{'hide' unless overridden}")
+  end
+
+  def hidden_toggle(hidden, hide_icon = 'eye-close', unhide_icon = 'eye-open', strikethrough = false)
+    return unless can_edit_params?
+    if strikethrough && !hidden
+      link_to_function(icon_text(hide_icon), "", :class =>"btn btn-default btn-md btn-hide disabled")
+    else
+      link_to_function(icon_text(unhide_icon), "input_group_hidden(this)",
+                       :title => _("Unhide this value"),
+                       :class =>"btn btn-default btn-md btn-hide #{'hide' unless hidden}") +
+          link_to_function(icon_text(hide_icon, "", :class => "#{'btn-strike' if strikethrough}"), "input_group_hidden(this)",
+                           :title => _("Hide this value"),
+                           :class =>"btn btn-default btn-md btn-hide #{'hide' if hidden}")
+    end
   end
 
   def lookup_value(host_or_hostgroup, lookup_key)

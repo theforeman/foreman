@@ -242,3 +242,7 @@ textarea {
     min-height: 34px; // prevent firefox from resizing smaller then one line height
   }
 }
+
+.btn-strike {
+  text-decoration: line-through;
+}

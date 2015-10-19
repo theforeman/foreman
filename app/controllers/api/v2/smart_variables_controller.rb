@@ -28,6 +28,7 @@ module Api
           param :variable, String, :required => true, :desc => N_("Name of variable")
           param :puppetclass_id, :number, :desc => N_("Puppet class ID")
           param :default_value, String, :desc => N_("Default value of variable")
+          param :hidden_value, :bool, :desc => N_("When enabled the parameter is hidden in the UI")
           param :override_value_order, String, :desc => N_("The order in which values are resolved")
           param :description, String, :desc => N_("Description of variable")
           param :validator_type, LookupKey::VALIDATOR_TYPES, :desc => N_("Types of validation values")

@@ -1,31 +1,12 @@
-<% disabled = (not authorized_via_my_scope("host_editing", "edit_params")) %>
 <tr class="fields <%= 'has-error' if f.object.errors.any? %>">
   <td>
-    <%= f.text_field(:name,  :class => "form-control", :disabled => disabled, :placeholder => _("Name")) %>
+    <%= f.text_field(:name,  :class => "form-control", :disabled => !can_edit_params?, :placeholder => _("Name")) %>
   </td>
   <td>
-    <div class="input-group col-md-12">
-      <% if f.object.hidden_value? %>
-        <%= f.password_field(:value, :class => 'form-control',
-                         :disabled => disabled,
-                         :value => f.object.value) %>
-      <% else %>
-        <%= f.text_area(:value,
-                    :class => "form-control no-stretch",
-                    :rows => 1,
-                    :disabled => disabled,
-                    :placeholder => _("Value")) %>
-      <% end %>
-      <%= fullscreen_input %>
-    </div>
+    <%= hidden_value_field(f, :value, f.object.value, !can_edit_params?) %>
   </td>
   <td>
-    <%= f.check_box(:hidden_value,
-              :class => 'hidden_value_textarea_switch',
-              :onchange => 'turn_textarea_switch(this)',
-              :checked => f.object.hidden_value?,
-              :disabled => disabled) %>
-    <%= _('hide') %><br />
+    <%= f.check_box(:hidden_value, :class => 'set_hidden_value hide', :checked => f.object.hidden_value?) if can_edit_params? %>
     <%= link_to_remove_fields('', f) if authorized_via_my_scope("host_editing", "destroy_params") %><%= _('remove') %>
   </td>
   <span class="help-block">

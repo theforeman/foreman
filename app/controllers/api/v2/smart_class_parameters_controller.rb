@@ -36,6 +36,7 @@ module Api
         param :override, :bool, :desc => N_("Whether the smart class parameter value is managed by Foreman")
         param :description, String, :desc => N_("Description of smart class")
         param :default_value, String, :desc => N_("Value to use when there is no match")
+        param :hidden_value, :bool, :desc => N_("When enabled the parameter is hidden in the UI")
         param :use_puppet_default, :bool, :desc => N_("Do not send this parameter via the ENC. Puppet will use the value defined in the Puppet manifest for this parameter")
         param :path, String, :desc => N_("The order in which values are resolved")
         param :validator_type, LookupKey::VALIDATOR_TYPES, :desc => N_("Types of validation values")

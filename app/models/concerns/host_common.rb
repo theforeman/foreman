@@ -21,7 +21,6 @@ module HostCommon
     belongs_to :compute_profile
 
     before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
-
     has_many :host_config_groups, :as => :host
     has_many :config_groups, :through => :host_config_groups, :after_add => :update_config_group_counters,
                                                               :after_remove => :update_config_group_counters
@@ -33,6 +32,7 @@ module HostCommon
     has_many :lookup_values, :primary_key => :lookup_value_matcher, :foreign_key => :match, :dependent => :destroy
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
     accepts_nested_attributes_for :lookup_values
+    has_many :lookup_keys, :through => :lookup_values
 
     attr_accessible :compute_profile, :compute_profile_id, :compute_profile_name,
       :grub_pass, :image_id, :image_name, :image_file, :lookup_value_matcher,
@@ -45,6 +45,7 @@ module HostCommon
     def lookup_values_attributes=(lookup_values_attributes)
       lookup_values_attributes.each_value do |attribute|
         attr = attribute.dup
+
         id = attr.delete(:id)
         if id.present?
           lookup_value = self.lookup_values.to_a.find {|i| i.id.to_i == id.to_i }
