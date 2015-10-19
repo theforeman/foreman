@@ -440,14 +440,14 @@ function override_param(item){
 
 function override_class_param(item){
   var remove = $(item).data('tag') == 'remove';
-  var row = $(item).parents('tr').toggleClass('overridden');
+  var row = $(item).closest('tr').toggleClass('overridden');
   var value = row.find('textarea');
   row.find('[type=checkbox]').prop('checked', false).toggle();
   row.find('input, textarea').prop('disabled', remove);
   row.find('.send_to_remove').prop('disabled', false);
   row.find('.destroy').val(remove);
   value.val(value.data('inherited-value'));
-  $(item).hide().siblings().show();
+  $(item).hide().siblings('.btn-override').show();
 }
 
 function reload_host_params(){

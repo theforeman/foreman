@@ -391,7 +391,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
       refute page.has_selector?('#inherited_parameters .btn[data-tag=override]')
-      page.find('#global_parameters_table a').click
+      page.find('#global_parameters_table a[data-original-title="Remove Parameter"]').click
       assert page.has_selector?('#inherited_parameters .btn[data-tag=override]')
     end
 

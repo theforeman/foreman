@@ -187,6 +187,12 @@ module LayoutHelper
     end
   end
 
+  def input_group_btn(*controls)
+    content_tag :span, class: 'input-group-btn' do
+      controls.join(' ').html_safe
+    end
+  end
+
   def time_zone_select_f(f, attr, default_timezone, select_options = {}, html_options = {})
     field(f, attr, html_options) do
       addClass html_options, "form-control"
@@ -465,7 +471,7 @@ module LayoutHelper
     end
   end
 
-  def fullscreen_input(element = "$(this).parent().prev()")
+  def fullscreen_input(element = "$(this).closest('.input-group').find('input,textarea')")
     content_tag(:span, fullscreen_button(element), :class => 'input-group-btn')
   end
 

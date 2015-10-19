@@ -278,3 +278,34 @@ function build_match() {
   });
 }
 
+function toggle_lookupkey_hidden(checkbox) {
+  var default_value = $('#'+checkbox.id.replace(/hidden_value$/, "default_value"));
+  var lookup_values = $(checkbox.closest('.fields')).find('.lookup_values>table [id$="value"]');
+  toggle_value_hidden(default_value, checkbox.checked);
+  lookup_values.each(function () {
+    toggle_value_hidden($(this, checkbox.checked));
+  });
+}
+
+function toggle_value_hidden(target, shown){
+  var attrs = {
+    id: target.attr('id'),
+    name: target.attr('name'),
+    value: $(target).val(),
+    disabled: target.prop('disabled'),
+    class: target.attr('class'),
+    'data-inherited-value': target.data('inherited-value')
+  };
+  target.closest('tr').find('.set_hidden_value').prop('checked', shown);
+  if (shown) {
+    $(target).replaceWith($('<input/>').attr(_.extend({ type: 'password' }, attrs)));
+  } else {
+    $(target).replaceWith($('<textarea/>').attr(_.extend({ placeholder: _('Value'), rows: 1 }, attrs)));
+  }
+}
+
+function input_group_hidden(btn) {
+  target = $(btn).closest('.input-group').find('textarea, input');
+  toggle_value_hidden(target, target.is('textarea'));
+  $(btn).hide().siblings('.btn-hide').show();
+}
