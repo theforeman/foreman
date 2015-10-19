@@ -14,4 +14,5 @@ group :test do
   gem 'rubocop-checkstyle_formatter', '~> 0.1'
   gem "poltergeist"
   gem 'test-unit' if RUBY_VERSION >= '2.2'
+  gem 'test_after_commit', '~> 0.4'
 end
