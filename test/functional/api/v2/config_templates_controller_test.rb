@@ -37,6 +37,20 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     assert_response :ok
   end
 
+  test "should update associated operating systems with unwrapped parameters" do
+    tpl = templates(:pxekickstart)
+    os = operatingsystems(:solaris10)
+    refute tpl.operatingsystem_ids.include?(os.id), "OS can't be associated to the config template before the test"
+
+    ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
+    put :update, { :id => tpl.to_param,
+                   :operatingsystem_ids => [os.to_param] }
+    assert_response :ok
+
+    tpl.reload
+    assert tpl.operatingsystem_ids.include?(os.id), "OS was not assigned to the config template"
+  end
+
   test "should not update invalid" do
     put :update, { :id              => templates(:pxekickstart).to_param,
                    :config_template => { :name => "" } }
