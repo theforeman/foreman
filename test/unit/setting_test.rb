@@ -351,6 +351,23 @@ class SettingTest < ActiveSupport::TestCase
     assert_valid Setting.create!(:name => 'test_broken_cache', :description => 'foo', :default => 'default')
   end
 
+  test '.expand_wildcard_string wraps the regexp with \A and \Z' do
+    assert Setting.regexp_expand_wildcard_string('a').start_with? '\A'
+    assert Setting.regexp_expand_wildcard_string('a').end_with? '\Z'
+  end
+
+  test '.regexp_expand_wildcard_string converts all * to .*' do
+    assert_equal '\A.*a.*\Z', Setting.regexp_expand_wildcard_string('*a*')
+  end
+
+  test '.regexp_expand_wildcard_string escape other regexp characters, e.g. dot' do
+    assert_equal '\A.*\..*\Z', Setting.regexp_expand_wildcard_string('*.*')
+  end
+
+  test '.convert_array_to_regexp joins all strings with pipe and makes it regexp' do
+    assert_equal /\Aa.*\Z|\Ab.*\Z/, Setting.convert_array_to_regexp(['a*', 'b*'])
+  end
+
   private
 
   def check_parsed_value(settings_type, expected_value, string_value)
