@@ -1,6 +1,8 @@
 module Api
   module V2
     class ConfigTemplatesController < V2::BaseController
+      wrap_parameters :config_template
+
       include Api::Version2
       include Api::TaxonomyScope
       include Foreman::Renderer
