@@ -268,4 +268,41 @@ class SubnetTest < ActiveSupport::TestCase
     assert_includes subnet.known_ips, '192.168.2.4'
     assert_equal 4, subnet.known_ips.size
   end
+
+  context 'import subnets' do
+    setup do
+      @mock_proxy = mock('dhcp_proxy')
+      @mock_proxy.stubs(:has_feature? => true)
+      @mock_proxy.stubs(:url => 'http://fake')
+    end
+
+    test 'options are imported from the dhcp proxy' do
+      dhcp_options = { 'routers' => ['192.168.11.1'],
+                       'domain_name_servers' => ['192.168.11.1', '8.8.8.8'],
+                       'range' => ['192.168.11.0', '192.168.11.200'] }
+      ProxyAPI::DHCP.any_instance.
+        stubs(:subnets => [ { 'network' => '192.168.11.0',
+                              'netmask' => '255.255.255.0',
+                              'options' => dhcp_options } ])
+      Subnet.expects(:new).with(:network => "192.168.11.0",
+                                :mask => "255.255.255.0",
+                                :gateway => "192.168.11.1",
+                                :dns_primary => "192.168.11.1",
+                                :dns_secondary => "8.8.8.8",
+                                :from => "192.168.11.0",
+                                :to => "192.168.11.200",
+                                :dhcp => @mock_proxy)
+      Subnet.import(@mock_proxy)
+    end
+
+    test 'imports subnets without options' do
+      ProxyAPI::DHCP.any_instance.
+        stubs(:subnets => [ { 'network' => '192.168.11.0',
+                              'netmask' => '255.255.255.0' } ])
+      Subnet.expects(:new).with(:network => "192.168.11.0",
+                                :mask => "255.255.255.0",
+                                :dhcp => @mock_proxy)
+      Subnet.import(@mock_proxy)
+    end
+  end
 end
