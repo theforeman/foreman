@@ -64,9 +64,10 @@ class ReportImporter
   end
 
   def host
-    @host ||= Host::Base.find_by_certname(name) ||
-      Host::Base.find_by_name(name) ||
-      Host::Managed.new(:name => name)
+    hostname = name.downcase
+    @host ||= Host::Base.find_by_certname(hostname) ||
+      Host::Base.find_by_name(hostname) ||
+      Host::Managed.new(:name => hostname)
   end
 
   def time
