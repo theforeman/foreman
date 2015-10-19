@@ -7,10 +7,10 @@ module CounterCacheFix
   extend ActiveSupport::Concern
 
   included do
-    after_commit :update_counter_caches
+    after_commit :update_counter_caches, :on => :update
 
     def update_counter_caches
-      self.changes.each do |key, (old_value, new_value)|
+      self.previous_changes.each do |key, (old_value, new_value)|
         if key =~ /_id/
           association = self.association(key.sub(/_id$/, '').to_sym)
           if association.options[ :counter_cache ]
