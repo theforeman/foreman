@@ -34,7 +34,7 @@ module NestedAncestryCommon
   alias_method :get_label, :get_title
 
   def to_param
-    Parameterizable.parameterize("#{id}-#{get_title}")
+    Parameterizable.parameterize("#{id}-#{title}")
   end
 
   module ClassMethods
