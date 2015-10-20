@@ -41,6 +41,20 @@ module Menu
       false
     end
 
+    # Node#content_hash for more info
+    def content_hash
+      hash = Digest::MD5.new()
+      hash << super
+      hash << @url.to_s if @url
+      hash << @url_hash.to_s if @url_hash
+      hash << @condition.to_s if @condition
+      hash << @caption.to_s if @caption
+      hash << @html_options.to_s if @html_options
+      hash << @turbolinks.to_s if @turbolinks
+      @child_menus.each{|x| hash << x.content_hash} if @child_menus
+      hash.hexdigest
+    end
+
     private
 
     def add_relative_path(path)
