@@ -20,7 +20,7 @@ class InterfaceMerge
   private
 
   def merge(nic, vm_nic, compute_attrs)
-    nic.compute_attributes = vm_nic
+    nic.compute_attributes = vm_nic.merge(nic.compute_attributes)
     nic.compute_attributes['from_profile'] = compute_attrs.compute_profile.name
     nic
   end
