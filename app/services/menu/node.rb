@@ -95,5 +95,15 @@ module Menu
       root = root.parent while root.parent
       root
     end
+
+    # Recursive content hash. Everytime a menu is modified (item is added, html_options are changed)
+    # this value changes and top bar cache is invalidated. This usually happens during upgrades
+    # or plugin un/installations.
+    def content_hash
+      hash = Digest::MD5.new()
+      hash << @name.to_s if @name
+      @children.each{|x| hash << x.content_hash} if @children
+      hash.hexdigest
+    end
   end
 end
