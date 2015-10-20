@@ -1,3 +1,3 @@
 collection @available_clusters
 
-attribute :name, :id
+attribute :name, :id, :full_path
