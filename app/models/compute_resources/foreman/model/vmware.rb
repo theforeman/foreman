@@ -82,7 +82,7 @@ module Foreman::Model
     end
 
     def available_clusters
-      clusters
+      name_sort(dc.clusters)
     end
 
     def available_folders
