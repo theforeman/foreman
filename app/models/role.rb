@@ -58,6 +58,10 @@ class Role < ActiveRecord::Base
     self.builtin = 0
   end
 
+  def permissions=(new_permissions)
+    add_permissions(new_permissions.map(&:name)) if new_permissions.present?
+  end
+
   # Returns true if the role has the given permission
   def has_permission?(perm)
     permission_names.include?(perm.name.to_sym)
