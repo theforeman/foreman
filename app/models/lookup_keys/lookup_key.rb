@@ -139,9 +139,17 @@ class LookupKey < ActiveRecord::Base
     value =~ /<%.*%>/
   end
 
-  def overridden?(host)
-    return false unless host.respond_to? :lookup_values
-    host.lookup_values.any? { |lv| lv.lookup_key_id == id }
+  def overridden?(obj)
+    return false unless obj.respond_to? :lookup_values
+    overridden_value(obj).present?
+  end
+
+  # check if obj has a lookupvalue that relates to this key and return it
+  # we cannot search the database, in case the lookup value hasn't been saved yet
+  def overridden_value(obj)
+    obj.lookup_values.detect do |lookup_value|
+      lookup_value.lookup_key_id == self.id
+    end
   end
 
   def puppet?

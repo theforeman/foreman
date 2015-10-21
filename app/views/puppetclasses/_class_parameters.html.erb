@@ -1,18 +1,27 @@
 <% lookup_keys = overridable_lookup_keys(puppetclass, obj) %>
-<% value_hash  = value_hash_cache(obj) if obj.class.model_name == "Host" %>
-<% lookup_keys.each_with_index do |key,i| %>
-    <tr id="puppetclass_<%= puppetclass.id %>_params[<%= key.id %>]">
-      <%= content_tag :td, (i == 0 ? {:rowspan => lookup_keys.size} : {:class => 'hide'}) do
-        # In order to use the class .hide-first-col, we must have an extra, invisible cell.
-        # Plus, we make the class name available from javascript without having to look at any previous row.
-        content_tag :span, trunc_with_tooltip(puppetclass.name, 20), :'data-property' => 'class'
-      end %>
-      <td>
-        <%= content_tag :span, trunc_with_tooltip(key.key, 20), :class => "#{"override-param" if key.overridden?(obj)}", :'data-property' => 'name' %></td>
-      <td><%= obj.class.model_name == "Host" ? host_key_with_diagnostic(obj, value_hash, key) : hostgroup_key_with_diagnostic(obj, key)%></td>
-      <td>
-          <%= link_to_function(_("override"), "override_class_param(this)", :title => _("Override this value"),
-                               :'data-tag' => 'override', :class =>"btn btn-default") if authorized_via_my_scope("host_editing", "create_params") && !key.overridden?(obj) %>
-      </td>
-    </tr>
+<% lookup_keys.each_with_index do |lookup_key, index| %>
+  <% lookup_value = lookup_value(obj, lookup_key) %>
+  <% overridden = lookup_key.overridden?(obj) %>
+  <% disabled = can_edit_params? && !overridden %>
+  <% error = lookup_value.errors %>
+  <tr id="puppetclass_<%= puppetclass.id %>_params[<%= lookup_key.id %>]"
+    class="fields <%= 'overridden' if overridden %>">
+    <%= content_tag(:td, puppetclass.name, :rowspan => lookup_keys.size, :class => "ellipsis") if index == 0 %>
+    <td class="ellipsis param_name">
+      <%= lookup_key.key %>
+    </td>
+    <td <%= "class=has-error" if error.present? %>>
+      <div class="input-group">
+        <%= lookup_key_with_diagnostic(obj, lookup_key, lookup_value) %>
+        <span class="input-group-btn">
+          <%= fullscreen_button("$(this).parent().prev()") %>
+          <%= override_toggle(overridden) %>
+        </span>
+      </div>
+      <%= content_tag(:span, error.full_messages.to_sentence, :class => "help-block") if error.present? %>
+    <td class="ca">
+      <%= use_puppet_default_check_box(lookup_key, lookup_value, disabled) %>
+      <%= hidden_lookup_value_fields(lookup_key, lookup_value, disabled) %>
+    </td>
+  </tr>
 <% end %>

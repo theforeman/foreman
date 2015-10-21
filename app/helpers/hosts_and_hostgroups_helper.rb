@@ -100,7 +100,7 @@ module HostsAndHostgroupsHelper
             ).html_safe
   end
 
-  def interesting_klasses(obj)
+  def interesting_puppetclasses(obj)
     classes    = obj.all_puppetclasses
     classes_ids = classes.reorder('').pluck('puppetclasses.id')
     smart_vars = VariableLookupKey.reorder('').where(:puppetclass_id => classes_ids).uniq.pluck(:puppetclass_id)

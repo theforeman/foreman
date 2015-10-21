@@ -27,7 +27,8 @@ module HostsHelper
   def value_hash_cache(host)
     @value_hash_cache ||= {}
     @value_hash_cache[host.id] ||= begin
-      Classification::ClassParam.new(:host=>host).inherited_values.merge(Classification::GlobalParam.new(:host=>host).inherited_values)
+      Classification::ClassParam.new(:host=>host).inherited_values.
+        merge(Classification::GlobalParam.new(:host=>host).inherited_values)
     end
   end
 

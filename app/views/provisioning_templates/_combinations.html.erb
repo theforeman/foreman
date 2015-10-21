@@ -2,5 +2,5 @@
   <%= f.fields_for :template_combinations do |builder| %>
     <%= render 'provisioning_templates/combination', :f => builder %>
   <% end %>
-  <p><%= link_to_add_fields('+ ' + _("Add combination"), f, :template_combinations, "provisioning_templates/combination") %></p>
 <% end %>
+<p><%= link_to_add_fields('+ ' + _("Add combination"), f, :template_combinations, "provisioning_templates/combination", :target => '#template_combination') %></p>
