@@ -1157,25 +1157,21 @@ class HostTest < ActiveSupport::TestCase
       assert_equal "myhost1.mydomain.net", host.name
     end
 
-    test "should have only one bootable interface" do
+    test "should have only one provision interface" do
       organization = FactoryGirl.create(:organization)
       location = FactoryGirl.create(:location)
       subnet = FactoryGirl.create(:subnet, :organizations => [organization], :locations => [location])
-      h = FactoryGirl.create(:host, :managed,
-                             :organization => organization,
-                             :location => location,
-                             :subnet => subnet,
-                             :ip => subnet.network.succ)
-      assert_equal 1, h.interfaces.count # we already have primary interface
-      Nic::Bootable.create! :host => h, :name => "dummy-bootable", :ip => "2.3.4.102", :mac => "aa:bb:cd:cd:ee:ff",
-                            :subnet => h.subnet, :type => 'Nic::Bootable', :domain => h.domain, :managed => false
-      assert_equal 2, h.interfaces.count
-      h.interfaces_attributes = [{:name => "dummy-bootable2", :ip => "2.3.4.103", :mac => "aa:bb:cd:cd:ee:ff",
-                                  :subnet_id => h.subnet_id, :type => 'Nic::Bootable', :domain_id => h.domain_id,
-                                  :managed => false }]
-      refute h.valid?
-      assert_equal "Only one bootable interface is allowed", h.errors['interfaces.type'][0]
-      assert_equal 2, h.interfaces.count
+      host = FactoryGirl.create(:host, :managed, :organization => organization,
+                                :location => location, :subnet => subnet,
+                                :ip => subnet.network.succ)
+      host.interfaces_attributes = [
+        { :name => "dummy-bootable2", :ip => "2.3.4.103",
+          :mac => "aa:bb:cd:cd:ee:ff", :subnet_id => host.subnet_id,
+          :type => 'Nic::Managed', :domain_id => host.domain_id,
+          :provision => true } ]
+      refute host.valid?
+      assert_equal ['host already has provision interface'], host.errors['interfaces.provision']
+      assert_equal 1, host.interfaces.count
     end
 
     test "#set_interfaces handles no interfaces" do
