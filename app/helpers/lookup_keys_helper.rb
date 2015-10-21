@@ -72,35 +72,41 @@ module LookupKeysHelper
     klass.class_params.override.where(:environment_classes => {:environment_id => host.environment}) + klass.lookup_keys
   end
 
-  def hostgroup_key_with_diagnostic(hostgroup, key)
-    value, origin = hostgroup.inherited_lookup_value key
-    original_value = key.value_before_type_cast value
-    diagnostic_helper = popover('', _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => origin}, :data => { :placement => 'top' })
-    parameter_value_content("value_#{key.key}", original_value, :popover => diagnostic_helper)
-  end
-
-  def host_key_with_diagnostic(host, value_hash, key)
-    value_for_key = value_hash[key.id] && value_hash[key.id][key.key]
-    value, matcher = value_for_key ? [value_for_key[:value], "#{value_for_key[:element]} (#{value_for_key[:element_name]})"] : [key.default_value, _("Default value")]
-    original_value = key.value_before_type_cast value
-    no_value = value.nil? && key.lookup_values.find_by_match("fqdn=#{host.fqdn}")
-
-    if no_value
-      if key.required
-        diagnostic_class = 'error'
-        diagnostic_helper = popover('', _("Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s") % key.description, :icon => "exclamation-sign")
-      else
-        diagnostic_class = 'warning'
-        diagnostic_helper = popover('', _("Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i> <br><br><b>Description:</b> %s") % key.description, :icon => "warning-sign")
-      end
-    else
-      diagnostic_helper = popover('', _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => matcher}, :data => { :placement => 'top' })
+  def key_with_diagnostic(obj, key, index, lookup_value, value_hash = nil)
+    if obj.class.model_name == "Hostgroup"
+      value, matcher = obj.inherited_lookup_value key
+    else # host
+      value_for_key = value_hash[key.id] && value_hash[key.id][key.key]
+      value, matcher = value_for_key ? [value_for_key[:value], "#{value_for_key[:element]} (#{value_for_key[:element_name]})"] : [key.default_value, _("Default value")]
     end
 
-    text_area_class = "override-param" if key.overridden?(host)
+    original_value = key.value_before_type_cast value
+    overriden_value = lookup_value.try(:value)
+    no_value = value.to_s.empty? && overriden_value.to_s.empty?
 
-    parameter_value_content("value_#{key.key}", original_value, { :popover => diagnostic_helper,
-                                                                  :wrapper_class => diagnostic_class,
-                                                                  :text_area_class => text_area_class })
+    explanation = _("<b>Description:</b> %{desc}<br/>
+                     <b>Type:</b> %{type}<br/>
+                     <b>Matcher:</b> %{matcher}<br/>
+                     <b>Inherited value:</b> %{original_value}") %
+                    { :desc => key.description, :type => key.key_type, :matcher => matcher, :original_value => original_value }
+    if no_value && obj.class.model_name == "Host"
+      if key.required
+        explanation.prepend(_("Required parameter without value.<br/><b>Please override!</b><br/>"))
+        icon = "warning-sign"
+      else
+        explanation.prepend(_("Optional parameter without value.<br/><i>Won't be given to Puppet.</i><br/>"))
+        icon = "exclamation-sign"
+      end
+    end
+    diagnostic_helper = popover('', explanation, :data => { :placement => 'top' }, :title => _("Original value info"), :icon => icon)
+
+    value_for_form = overriden_value.nil? ? original_value : overriden_value
+    parameter_value_content("#{obj.class.model_name.downcase}_lookup_values_attributes_#{index}_value",
+                            value_for_form,
+                            { :popover => diagnostic_helper,
+                              :name => "#{obj.class.model_name.downcase}[lookup_values_attributes][#{index}][value]",
+                              :disabled => !key.overridden?(obj) || lookup_value.try(:use_puppet_default),
+                              :original_value => original_value
+                            })
   end
 end

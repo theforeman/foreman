@@ -30,11 +30,10 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
     visit edit_hostgroup_path(group)
     assert page.has_link?('Parameters', :href => '#params')
     click_link 'Parameters'
-    assert page.has_no_selector?('#params tr.has-error')
-
+    assert page.has_no_selector?('#params .input-group.has-error')
     fill_in 'hostgroup_lookup_values_attributes_0_value', :with => 'invalid'
     click_button('Submit')
-    assert page.has_selector?('#params tr.has-error')
+    assert page.has_selector?('#params td.has-error')
   end
 
   test 'clone shows no errors on lookup values' do

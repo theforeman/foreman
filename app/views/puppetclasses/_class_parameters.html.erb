@@ -1,18 +1,48 @@
 <% lookup_keys = overridable_lookup_keys(puppetclass, obj) %>
 <% value_hash  = value_hash_cache(obj) if obj.class.model_name == "Host" %>
+<% can_edit    = authorized_via_my_scope("host_editing", "edit_params") %>
 <% lookup_keys.each_with_index do |key,i| %>
-    <tr id="puppetclass_<%= puppetclass.id %>_params[<%= key.id %>]">
-      <%= content_tag :td, (i == 0 ? {:rowspan => lookup_keys.size} : {:class => 'hide'}) do
-        # In order to use the class .hide-first-col, we must have an extra, invisible cell.
-        # Plus, we make the class name available from javascript without having to look at any previous row.
-        content_tag :span, trunc_with_tooltip(puppetclass.name, 20), :'data-property' => 'class'
-      end %>
-      <td>
-        <%= content_tag :span, trunc_with_tooltip(key.key, 20), :class => "#{"override-param" if key.overridden?(obj)}", :'data-property' => 'name' %></td>
-      <td><%= obj.class.model_name == "Host" ? host_key_with_diagnostic(obj, value_hash, key) : hostgroup_key_with_diagnostic(obj, key)%></td>
-      <td>
-          <%= link_to_function(_("override"), "override_class_param(this)", :title => _("Override this value"),
-                               :'data-tag' => 'override', :class =>"btn btn-default") if authorized_via_my_scope("host_editing", "create_params") && !key.overridden?(obj) %>
+  <% overridden = key.overridden?(obj) %>
+  <% disabled = can_edit && !overridden %>
+  <% lookup_value = obj.lookup_values.detect{|v| v.lookup_key_id == key.id} %>
+  <% puppet_default = lookup_value.try(:use_puppet_default) %>
+  <% error = lookup_value.try(:errors) %>
+  <% value_prefix = "#{obj.class.model_name.downcase}[lookup_values_attributes][#{i}]" %>
+    <tr id="puppetclass_<%= puppetclass.id %>_params[<%= key.id %>]" class="fields <%= 'overridden' if overridden %>">
+      <%= content_tag(:td, puppetclass.name, :rowspan => lookup_keys.size, :class => "ellipsis") if i == 0 %>
+      <td class="ellipsis param_name">
+        <%= key.key %>
+      </td>
+      <td <%= "class=has-error" if error.present? %>>
+        <div class="input-group">
+          <%= key_with_diagnostic(obj, key, i, lookup_value, value_hash) %>
+          <span class="input-group-btn">
+            <%= fullscreen_button("$(this).parent().prev()") %>
+            <% if can_edit %>
+              <%= link_to_function(icon_text('edit'), "override_class_param(this)", :title => _("Override this value"),
+                                   :'data-tag' => 'override', :class =>"btn btn-default btn-md #{'hide' if overridden}")%>
+              <%= link_to_function(icon_text('remove'), "override_class_param(this)", :title => _("Remove this override"),
+                                   :'data-tag' => 'remove', :class =>"btn btn-default btn-md #{'hide' if !overridden}")%>
+            <% end %>
+          </span>
+        </div>
+        <% if error.present? %>
+          <%= content_tag(:span, error.messages[:value].try(:to_sentence), :class => "help-block") %>
+        <% end %>
+      </td>
+      <td class="ca">
+        <%= check_box(value_prefix, :use_puppet_default,
+                      :value    => lookup_value.try(:id),
+                      :disabled => disabled,
+                      :onchange => "toggleUsePuppetDefaultValue(this, 'value')",
+                      :hidden   => disabled,
+                      :title    => _('Use Puppet default'),
+                      :checked  => puppet_default) if key.type == "PuppetclassLookupKey" %>
+        <% if can_edit %>
+          <%= hidden_field(value_prefix, :lookup_key_id, :value => key.id, :disabled => disabled, :class => 'send_to_remove') %>
+          <%= hidden_field(value_prefix, :id, :value => lookup_value.try(:id), :disabled => disabled, :class => 'send_to_remove') %>
+          <%= hidden_field(value_prefix, :_destroy, :value => false, :disabled => disabled, :class => 'send_to_remove destroy') %>
+        <% end %>
       </td>
     </tr>
 <% end %>

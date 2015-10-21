@@ -307,11 +307,11 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
-      assert page.has_no_selector?('#params tr.has-error')
+      assert page.has_no_selector?('#params td.has-error')
 
       fill_in 'host_lookup_values_attributes_0_value', :with => 'invalid'
       click_button('Submit')
-      assert page.has_selector?('#params tr.has-error')
+      assert page.has_selector?('#params td.has-error')
     end
   end
 

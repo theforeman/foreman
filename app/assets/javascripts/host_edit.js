@@ -421,26 +421,15 @@ function override_param(item){
 }
 
 function override_class_param(item){
-  var param = $(item).closest('tr[id^="puppetclass_"][id*="_params\\["][id$="\\]"]');
-  var id = param.attr('id').replace(/puppetclass_\d+_params\[(\d+)\]/, '$1');
-  var class_name = param.find('[data-property=class]').text();
-  var name = param.find('[data-property=name]').text();
-  var value = param.find('[data-property=value]').val();
-  var type = param.find('[data-property=type]').text();
-  var class_tooltip = param.find('[data-property=class]').children('span').attr('data-original-title');
-  var name_tooltip = param.find('[data-property=name]').children('span').attr('data-original-title');
-  $('#puppetclasses_parameters').find('.btn-success').click();
-  var new_param = param.closest('.tab-pane').find('[id*=_lookup_values]:visible').last().parents('tr');
-  new_param.find('[data-property=lookup_key_id]').val(id);
-  new_param.find('[data-property=class]').text(class_name);
-  new_param.find('[data-property=name]').text(name);
-  new_param.find('[data-property=value]').val(value);
-  new_param.find('[data-property=type]').val(type);
-  if (name_tooltip != undefined)
-    new_param.find('[data-property=name]')[0].setAttribute("title", name_tooltip);
-  if (class_tooltip !=undefined)
-    new_param.find('[data-property=class]')[0].setAttribute("title", class_tooltip);
-  mark_params_override();
+  var remove = $(item).data('tag') == 'remove';
+  var row = $(item).parents('tr').toggleClass('overridden');
+  var value = row.find('textarea');
+  row.find('[type=checkbox]').prop('checked', false).toggle();
+  row.find('input, textarea').prop('disabled', remove);
+  row.find('.send_to_remove').prop('disabled', false);
+  row.find('.destroy').val(remove);
+  value.val(value.data('original-value'));
+  $(item).hide().siblings().show();
 }
 
 function reload_host_params(){
