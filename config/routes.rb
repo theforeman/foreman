@@ -254,6 +254,8 @@ Foreman::Application.routes.draw do
       end
     end
 
+    put 'users/(:id)/test_mail', :to => 'users#test_mail', :as => 'test_mail_user'
+
     resources :external_usergroups, :except => [:index, :new, :create, :show, :edit, :update, :destroy] do
       member do
         put 'refresh'
