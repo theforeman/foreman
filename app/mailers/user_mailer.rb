@@ -9,4 +9,12 @@ class UserMailer < ApplicationMailer
       mail(:to => user.mail, :subject => _("Welcome to Foreman"))
     end
   end
+
+  def tester(options = {})
+    user = options[:user]
+
+    set_locale_for(user) do
+      mail(:to => options[:email], :subject => _("Foreman test email"))
+    end
+  end
 end

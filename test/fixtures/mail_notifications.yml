@@ -26,3 +26,10 @@ host_built:
   mailer: HostMailer
   method: host_built
   subscription_type: alert
+
+tester:
+    name: tester
+    description: Test email configurations
+    mailer: UserMailer
+    method: tester
+    subscriptable: false

@@ -330,6 +330,20 @@ class UsersControllerTest < ActionController::TestCase
     assert_response 401
   end
 
+  test "test email was deliver an email successfuly" do
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
+    put :test_mail, { :id => user.id, :user => {:login => user.login}, :user_email => user.mail }, set_session_user
+    mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Foreman test email/ }
+    assert mail
+  end
+
+  test "test email deliver failed" do
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
+    MailNotification.any_instance.stubs(:deliver).raises(Net::SMTPFatalError, 'Exception message')
+    put :test_mail, { :id => user.id, :user => {:login => "johnsmith"}, :user_email => "foo@bar.com" }, set_session_user
+    assert_response :unprocessable_entity
+  end
+
   context 'default taxonomies' do
     test 'logging in loads default taxonomies' do
       users(:one).update_attributes(:default_location_id     => taxonomies(:location1).id,
