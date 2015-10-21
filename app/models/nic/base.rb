@@ -38,7 +38,6 @@ module Nic
     validate :validate_host_location, :if => Proc.new { |nic| SETTINGS[:locations_enabled] && nic.subnet.present? }
     validate :validate_host_organization, :if => Proc.new { |nic| SETTINGS[:organizations_enabled] && nic.subnet.present? }
 
-    scope :bootable, -> { where(:type => "Nic::Bootable") }
     scope :bmc, -> { where(:type => "Nic::BMC") }
     scope :bonds, -> { where(:type => "Nic::Bond") }
     scope :bridges, -> { where(:type => "Nic::Bridge") }

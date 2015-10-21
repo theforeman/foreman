@@ -53,7 +53,7 @@ class OrchestrationTest < ActiveSupport::TestCase
 
   test "orchestration can clone object with type attribute" do
     @nic.ip = '192.168.0.1'
-    @nic.type = 'Nic::Bootable'
+    @nic.type = 'Nic::Managed'
     clone = @nic.send :setup_object_clone, @nic
     refute_equal @nic.object_id, clone.object_id
     refute_equal @nic.updated_at, clone.updated_at
