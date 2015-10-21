@@ -190,10 +190,7 @@ function mergeOverridesChanged(item) {
 
 function toggleUsePuppetDefaultValue(item, value_field) {
   var use_puppet_default = $(item).is(':checked');
-  var fields = $(item).closest('.fields');
-  var value_field = fields.find('[id$=' + value_field + ']');
-
-  value_field.attr('disabled', use_puppet_default ? 'disabled' : null );
+  $(item).closest('.fields').find('[id$=' + value_field + ']').prop('disabled', use_puppet_default);
 }
 
 function filterByEnvironment(item){
