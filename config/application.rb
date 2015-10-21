@@ -151,6 +151,16 @@ module Foreman
     # enables JSONP support in the Rack middleware
     config.middleware.use Rack::JSONP if SETTINGS[:support_jsonp]
 
+    # Enable Rack OpenID middleware
+    begin
+      require 'rack/openid'
+      require 'openid/store/filesystem'
+      openid_store_path = Pathname.new(Rails.root).join('db').join('openid-store')
+      config.middleware.use Rack::OpenID, OpenID::Store::Filesystem.new(openid_store_path)
+    rescue LoadError
+      nil
+    end
+
     # Enable the asset pipeline
     config.assets.enabled = true
 
