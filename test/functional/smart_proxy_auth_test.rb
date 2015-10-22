@@ -35,6 +35,18 @@ class SmartProxyAuthApiTest < ActionController::TestCase
 
     assert @controller.send(:require_smart_proxy_or_login)
   end
+
+  def test_require_smart_proxy_or_login_accepts_callable_features
+    User.current = users(:admin)
+
+    @controller.stubs(:auth_smart_proxy).returns(false)
+    @controller.stubs(:require_login).returns(true)
+    @controller.stubs(:authorize).returns(true)
+
+    assert_raise ArgumentError, 'test' do
+      @controller.send(:require_smart_proxy_or_login, Proc.new { raise ArgumentError, 'test' } )
+    end
+  end
 end
 
 class SmartProxyAuthWebUITest < ActionController::TestCase
