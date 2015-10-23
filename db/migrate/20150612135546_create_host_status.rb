@@ -10,7 +10,7 @@ class CreateHostStatus < ActiveRecord::Migration
     add_foreign_key "host_status", "hosts", :name => "host_status_hosts_host_id_fk", :column => 'host_id'
     add_column :hosts, :global_status, :integer, :default => 0, :null => false
 
-    Host.all.each do |host|
+    Host.includes(:host_statuses, :last_report_object).find_each do |host|
       host.refresh_statuses
     end
 
@@ -23,7 +23,7 @@ class CreateHostStatus < ActiveRecord::Migration
     remove_foreign_key "host_status", :name => "host_status_hosts_host_id_fk"
     remove_index :host_status, :host_id
 
-    Host.all.each do |host|
+    Host.includes(:host_statuses).find_each do |host|
       config_status = host.host_statuses.find_by_type("HostStatus::ConfigurationStatus")
       unless config_status.nil?
         host.puppet_status = config_status.status
