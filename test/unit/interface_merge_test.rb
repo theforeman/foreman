@@ -46,6 +46,16 @@ class InterfaceMergeTest < ActiveSupport::TestCase
     assert_equal 'eth2', interfaces[2].identifier
   end
 
+  test "it does not overwrite compute attributes already set" do
+    interfaces = [
+      FactoryGirl.build(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9}),
+    ]
+    @merge.run(interfaces, @attributes)
+
+    assert_equal expected_attrs(9), interfaces[0].compute_attributes
+    assert_equal 'eth0', interfaces[0].identifier
+  end
+
   test "it creates NICs when there aren't any" do
     interfaces = []
     @merge.run(interfaces, @attributes)
