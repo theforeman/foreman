@@ -61,7 +61,7 @@ class Role < ActiveRecord::Base
   end
 
   def permissions=(new_permissions)
-    add_permissions(new_permissions.map(&:name)) if new_permissions.present?
+    add_permissions(new_permissions.map(&:name).uniq) if new_permissions.present?
   end
 
   # Returns true if the role has the given permission
