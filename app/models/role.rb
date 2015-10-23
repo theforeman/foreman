@@ -35,6 +35,7 @@ class Role < ActiveRecord::Base
   }
 
   validates_lengths_from_database
+
   before_destroy :check_deletable
 
   has_many :user_roles, :dependent => :destroy

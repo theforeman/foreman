@@ -8,6 +8,7 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
+        params[:order] ||= 'name'
         @roles = resource_scope_for_index
       end
 
