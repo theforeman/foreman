@@ -239,13 +239,15 @@ module LayoutHelper
       help_block = content_tag(:span, options.delete(:help_block), :class => "help-block")
 
       content_tag(:div, :class => "clearfix") do
-        content_tag :div, :class => "#{wrapper_class} #{error.empty? ? "" : 'has-error'}",
-                    :id => options.delete(:control_group_id) do
-          input = if options[:fullscreen]
-                    content_tag(:div, yield.html_safe + fullscreen_input, :class => "input-group")
-                  else
-                    yield.html_safe
-                  end
+        content_tag(:div, :class => "#{wrapper_class} #{error.empty? ? "" : 'has-error'}",
+                    :id => options.delete(:control_group_id)) do
+          input = capture do
+            if options[:fullscreen]
+              content_tag(:div, yield.html_safe + fullscreen_input, :class => "input-group")
+            else
+              yield.html_safe
+            end
+          end
           add_help_to_label(size_class, label, help_inline) do
             input + help_block.html_safe
           end
