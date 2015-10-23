@@ -20,6 +20,7 @@ class RolesController < ApplicationController
   before_filter :find_resource, :only => [:clone, :edit, :update, :destroy]
 
   def index
+    params[:order] ||= 'name'
     @roles = Role.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
   end
 
