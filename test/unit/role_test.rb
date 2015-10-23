@@ -135,6 +135,20 @@ class RoleTest < ActiveSupport::TestCase
     end
   end
 
+  describe ".permissions=" do
+    let(:role) { FactoryGirl.build(:role) }
+
+    it 'accepts not unique list of permissions' do
+      role.expects(:add_permissions).once.with(['a','b'])
+      role.permissions = [
+        FactoryGirl.build(:permission, :name => 'a'),
+        FactoryGirl.build(:permission, :name => 'b'),
+        FactoryGirl.build(:permission, :name => 'a'),
+        FactoryGirl.build(:permission, :name => 'b')
+      ]
+    end
+  end
+
   describe "#add_permissions" do
     setup do
       @permission1 = FactoryGirl.create(:permission, :name => 'permission1')
