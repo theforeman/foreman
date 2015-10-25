@@ -28,17 +28,8 @@
       <% end -%>
 
       <%= render "custom_tabs", :f => f if type == 'ptable' %>
+      <%= render_if_exists "#{@type_name_plural}/_alerts" %>
 
-      <% if @template.locked? -%>
-        <%= alert :class => 'alert-warning', :header => '',
-                  :text  => icon_text("warning-sign", (_("Warning: This template is locked. You may only change the associations. Please %s it to customize.") %
-                                                            link_to(_('clone'), template_hash_for_member(::Template.find(params[:id]), 'clone_template'))).html_safe) %>
-
-      <% else -%>
-        <%= alert :class => 'alert-success', :header => '',
-                  :text  => icon_text("info-sign", (_('Note: %s ') % link_to(_('Useful template functions and macros'),
-                                                                             "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.4.3ProvisioningTemplates", :rel => 'external')).html_safe) %>
-      <% end -%>
 
 
       <% if pxe_with_building_hosts?(@template) -%>
