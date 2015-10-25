@@ -23,4 +23,14 @@ module TemplatePathsHelper
     # hash_for is protected method
     send("hash_for_#{member}#{template_route_prefix(template.class).singularize}_path", :id => template)
   end
+
+  def render_if_exists(partial)
+    partial_exists = lookup_context.find_all(partial).any?
+    if partial_exists
+      render :partial => partial.split("_").last
+    else
+      logger.debug("Did not load partial #{partial} because it could not be found.")
+      nil
+    end
+  end
 end
