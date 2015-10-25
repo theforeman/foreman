@@ -16,7 +16,6 @@ class Hostgroup < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :hostgroup_classes
   has_many :puppetclasses, :through => :hostgroup_classes, :dependent => :destroy
-  validates :name, :presence => true
   validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
@@ -195,7 +194,7 @@ class Hostgroup < ActiveRecord::Base
 
   # Clone the hostgroup
   def clone(name = "")
-    new = self.deep_clone(:include => [:config_groups, :lookup_values, :hostgroup_classes, :locations, :organizations, :group_parameters],
+    new = self.deep_clone(:include => [:lookup_values, :hostgroup_classes, :locations, :organizations, :group_parameters],
                           :except => [:name, :title, :lookup_value_matcher])
     new.name = name
     new.title = name
@@ -203,6 +202,8 @@ class Hostgroup < ActiveRecord::Base
       lv.match = new.lookup_value_match
       lv.host_or_hostgroup = new
     end
+
+    new.config_groups = self.config_groups
     new
   end
 

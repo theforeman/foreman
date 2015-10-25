@@ -426,6 +426,13 @@ class HostgroupTest < ActiveSupport::TestCase
       ActiveRecord::Base.any_instance.expects(:save).never
       group.clone
     end
+
+    test "clone with config group should run validations once" do
+      group = FactoryGirl.create(:hostgroup, :with_config_group)
+      cloned = group.clone
+      refute cloned.valid?
+      assert_equal 1, cloned.errors[:name].size
+    end
   end
 
   describe '#param_true?' do
