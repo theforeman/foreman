@@ -1,9 +1,11 @@
 <%= selectable_f f, :type, interfaces_types, {},
-                 :class => 'interface_type without_select2', :disabled => !f.object.new_record? %>
+                    :class => 'interface_type without_select2',
+                    :disabled => !f.object.new_record?,
+                    :size => "col-md-8", :label_size => "col-md-3" %>
 
-
-<%= text_f f, :mac, :class => :interface_mac %>
-<%= text_f f, :identifier, :label => _("Device identifier"),
+<%= text_f f, :mac, :class => :interface_mac, :size => "col-md-8", :label_size => "col-md-3" %>
+<%= text_f f, :identifier,
+              :label => _("Device identifier"),
               :help_inline => popover('',
                       _("Device identifier for this interface. This may be different on various platforms and environments, here are some common examples.<br/><ul>" +
                                 "<li>Use the basic name for physical interface identifiers, e.g. <strong>eth0</strong> or <strong>em0</strong> with biosdevname.</li>" +
@@ -13,21 +15,25 @@
                       :rel => 'popover-modal',
                       :'data-placement' => "top"
               ),
-              :class => :interface_identifier %>
+              :class => :interface_identifier,
+              :size => "col-md-8", :label_size => "col-md-3" %>
 <%= text_f f, :name, :label => _("DNS name"), :value => f.object.shortname,
               :help_inline => popover('', _("Primary interface's DNS name and domain define host's FQDN"), :rel => 'popover-modal'),
-              :class => :interface_name %>
+              :class => :interface_name,
+              :size => "col-md-8", :label_size => "col-md-3" %>
 <% if SETTINGS[:unattended] %>
   <%= select_f f, :domain_id, accessible_domains, :id, :to_label,
                { :include_blank => accessible_domains.any? ? true : _("No domains")},
                { :disabled => accessible_domains.empty? ? true : false,
                  :help_inline => :indicator,
-                 :class => 'interface_domain without_select2', :'data-url' => domain_selected_hosts_path } %>
+                 :class => 'interface_domain without_select2', :'data-url' => domain_selected_hosts_path,
+                 :size => "col-md-8", :label_size => "col-md-3" } %>
   <%= select_f f, :subnet_id, accessible_subnets, :id, :to_label,
                { :include_blank => accessible_subnets.any? ? true : _("No subnets")},
                { :disabled => accessible_subnets.empty? ? true : false,
                  :help_inline => :indicator,
-                 :class => 'interface_subnet without_select2', :'data-url' => freeip_subnets_path } %>
+                 :class => 'interface_subnet without_select2', :'data-url' => freeip_subnets_path,
+                 :size => "col-md-8", :label_size => "col-md-3" } %>
 <% end %>
 <%= text_f f, :ip,
               :class => :interface_ip,
@@ -38,15 +44,19 @@
                   :title => _("IP address auto-suggest"),
                   :rel => 'popover-modal',
                   :'data-placement' => "top"
-                ).html_safe %>
+                ).html_safe,
+                :size => "col-md-8", :label_size => "col-md-3" %>
 
 <% if SETTINGS[:unattended] %>
   <%= checkbox_f f, :managed,
-                 :help_inline => popover('',_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?"), :rel => 'popover-modal') %>
+                 :help_inline => popover('',_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?"), :rel => 'popover-modal'),
+                 :size => "col-md-8", :label_size => "col-md-3" %>
 <% end %>
 <%= checkbox_f f, :primary,
                :help_inline => popover('',_("The Primary interface is used for constructing the FQDN of the host"), :rel => 'popover-modal'),
-               :class => :interface_primary %>
+               :class => :interface_primary,
+               :size => "col-md-8", :label_size => "col-md-3" %>
 <%= checkbox_f f, :provision,
                :help_inline => popover('',_("The Provisioning interface is used for TFTP of PXELinux (or SSH for image-based hosts)"), :rel => 'popover-modal'),
-               :class => :interface_provision %>
+               :class => :interface_provision,
+               :size => "col-md-8", :label_size => "col-md-3" %>

@@ -1,9 +1,9 @@
 <%= render 'nic/base_form', :f => f %>
 
 <%= content_tag :span, :id => 'bmc_fields' do %>
-  <%= text_f f, :username %>
-  <%= password_f f, :password, :unset => action_name == "edit"%>
-  <%= selectable_f f, :provider, Nic::BMC::PROVIDERS %>
+  <%= text_f f, :username, :size => "col-md-8", :label_size => "col-md-3" %>
+  <%= password_f f, :password, :unset => action_name == "edit", :size => "col-md-8", :label_size => "col-md-3" %>
+  <%= selectable_f f, :provider, Nic::BMC::PROVIDERS, {}, :size => "col-md-8", :label_size => "col-md-3" %>
 <% end %>
 
 <%= render 'nic/provider_specific_form', :f => f %>
