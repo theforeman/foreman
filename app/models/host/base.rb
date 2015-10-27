@@ -437,3 +437,5 @@ module Host
     end
   end
 end
+
+require_dependency 'host/managed'
