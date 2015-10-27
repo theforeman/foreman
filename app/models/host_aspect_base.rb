@@ -4,22 +4,33 @@ class HostAspectBase < ActiveRecord::Base
   def self.inherited(subclass)
     super
     subclass.class_eval do
-      belongs_to_host :inverse_of => subclass.name.underscore.to_sym
+      belongs_to_host
     end
   end
 
-  def write_attribute(attr_name, value)
-    host_changed(attr_name, read_attribute(attr_name), value) if attr_name == 'host'
-    super
+  def info
+    {}
   end
 
-  private
+  def smart_proxy_ids
+    []
+  end
 
-  def host_changed(attr, old_val, new_val)
-    super
-    return unless new_val
+  def after_clone
+  end
 
-    record = self.host.host_aspects.build
-    record.execution_model = self
+  def template_filter_options(kind)
+    {}
+  end
+
+  def provisioning_template_options(base_options)
+    base_options
+  end
+
+  def self.inherited_attributes(hostgroup, aspect_attributes)
+    aspect_attributes
+  end
+
+  def self.populate_fields_from_facts(host, importer, type, proxy_id)
   end
 end

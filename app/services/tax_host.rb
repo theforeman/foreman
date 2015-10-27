@@ -148,7 +148,15 @@ class TaxHost
     # end
     define_method "#{key}s".to_sym do
       # can't use pluck(key), :domain_id is delegated method, not SQL column, performance diff wasn't big
-      hosts.map(&key).uniq.compact
+      ids = []
+      hosts.each do |host|
+        host.host_aspects.each do |aspect|
+          ids << aspect.send(key.to_sym) if aspect.respond_to?(key.to_sym)
+        end
+        ids << host.send(key) if host.respond_to?(key)
+      end
+      #TODO see if distinct pluck makes more sense
+      ids.uniq.compact
     end
   end
 

@@ -5,50 +5,35 @@ class HostAspectsHelperTest < ActionView::TestCase
   class TestAspect < HostAspectBase
   end
 
-  module TestableHelper
-    def host_additional_tabs(host, form)
-      {}
-    end
-  end
-
-  # Make super calls on aspects helper available.
-  include TestableHelper
   include HostAspectsHelper
 
   context 'aspects related' do
     setup do
-      @host_form = mock('host_form')
       @aspect_model = TestAspect.new
-      self.expects(:render).with() { |val, locals| val == @aspect_model && locals[:f] == @host_form }.returns("tab stub")
+      @host = mock('host')
+      @aspect_config = HostAspects::Entry.new(:test_aspect, 'HostAspectsHelperTest::TestAspect')
+      @host.stubs(:host_aspects_with_definitions).returns({ @aspect_model => @aspect_config })
     end
 
-    test '#aspect_tab creates a valid tab' do
-      html = aspect_tab(:my_subject, @aspect_model, @host_form)
+    test '#load_tabs returns hash of aspects' do
+      tabs = load_aspects(@host)
 
-      assert_match /tab stub/, html
-      assert_match /tab-pane/, html
+      assert_equal @aspect_model, tabs[:test_aspect]
     end
 
-    test '#load_aspects returns hash of subjects to displayable tabs' do
-      host = Host::Managed.new
-      ha = host.host_aspects.build(:aspect_subject => :my_subject)
-      ha.execution_model = @aspect_model
+    test '#helper_tabs returns hash if hash specified' do
+      @aspect_config.tabs = {:my_new_tab => 'my/tab/template.html.erb'}
+      tabs = helper_tabs(@host)
 
-      aspects_hash = load_aspects(host, @host_form)
-
-      aspect_tab = aspects_hash[:my_subject]
-      assert_not_nil aspect_tab
+      assert_equal 'my/tab/template.html.erb', tabs[:my_new_tab]
     end
 
-    test '#host_additional_tabs returns all aspects' do
-      host = Host::Managed.new
-      ha = host.host_aspects.build(:aspect_subject => :my_subject)
-      ha.execution_model = @aspect_model
+    test '#helper_tabs returns hash if method specified' do
+      expects(:my_tabs_method).returns({:my_new_tab => 'my/tab/template.html.erb'})
+      @aspect_config.tabs = :my_tabs_method
+      tabs = helper_tabs(@host)
 
-      aspects_hash = host_additional_tabs(host, @host_form)
-
-      aspect_tab = aspects_hash[:my_subject]
-      assert_not_nil aspect_tab
+      assert_equal 'my/tab/template.html.erb', tabs[:my_new_tab]
     end
   end
 end

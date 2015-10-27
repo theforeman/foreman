@@ -580,15 +580,20 @@ class HostsController < ApplicationController
   # we don't need any has_many relation to determine what proxies are used and the view
   # renders only resulting templates set so the rest of form is unaffected
   def template_used
-    host = params[:id] ? Host.readonly.find(params[:id]) : Host.new
     association_keys = params[:host].keys.select { |k| k =~ /.*_ids\Z/ }
-    host.attributes = params[:host].except(:host_parameters_attributes).except(*association_keys)
+    host_params = params[:host].except(:host_parameters_attributes).except(*association_keys)
+    host = find_or_create_host(host_params)
+    host.attributes = host_params
     templates = host.available_template_kinds(params[:provisioning])
     return not_found if templates.empty?
     render :partial => 'provisioning', :locals => { :templates => templates }
   end
 
   private
+
+  def find_or_create_host(host_params)
+    host_params[:id] ? Host.readonly.find(host_params[:id]) : Host.new(host_params)
+  end
 
   def resource_base
     @resource_base ||= Host.authorized(current_permission, Host)

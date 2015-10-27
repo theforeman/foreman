@@ -481,11 +481,13 @@ module HostsHelper
     !params[:host][field]
   end
 
-  def host_additional_tabs(host, host_form)
-    {}
+  def load_tabs(host)
+    @tabs = host_additional_tabs(host)
   end
 
-  def load_tabs(host, host_form)
-    @tabs = host_additional_tabs(host, host_form)
+  def host_tab(id, val, host_form)
+    content_tag(:div, :id => id, :class => "tab-pane") do
+      render(val, :f => host_form)
+    end
   end
 end

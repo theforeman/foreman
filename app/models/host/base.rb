@@ -103,7 +103,7 @@ module Host
     end
 
     # expect a facts hash
-    def import_facts(facts)
+    def import_facts(facts, proxy_id = nil)
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
       raise ::Foreman::Exception.new('Host is pending for Build') if build?
 
@@ -121,7 +121,7 @@ module Host
       importer.import!
 
       save(:validate => false)
-      populate_fields_from_facts(facts, type)
+      populate_fields_from_facts(facts, type, proxy_id)
       set_taxonomies(facts)
 
       # we are saving here with no validations, as we want this process to be as fast
@@ -136,7 +136,7 @@ module Host
       [ :model ]
     end
 
-    def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
+    def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet', proxy_id = nil)
       # we don't import facts for host in build mode
       return if build?
 

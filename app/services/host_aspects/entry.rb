@@ -1,9 +1,7 @@
 module HostAspects
   class Entry
-    ATTRIBUTES = [:name, :model, :helper, :extension]
+    ATTRIBUTES = [:name, :model, :helper, :extension, :tabs]
     attr_accessor(*ATTRIBUTES)
-
-    attr_accessor :subject
 
     ATTRIBUTES.each do |attr|
       define_method "#{attr}_class".to_sym do
@@ -12,14 +10,18 @@ module HostAspects
       end
     end
 
-    def initialize(aspect_name, aspect_model, aspect_subject)
+    def initialize(aspect_name, aspect_model)
       self.name = to_name(aspect_name)
       self.model = to_model(aspect_model)
-      self.subject = aspect_subject
     end
 
     def add_helper(aspect_helper)
       self.helper = aspect_helper.try(:to_sym)
+    end
+
+    def add_tabs(tabs)
+      raise ArgumentError, 'tabs should be a hash or a helper method symbol' unless tabs.is_a?(Hash) || tabs.is_a?(Symbol)
+      self.tabs = tabs
     end
 
     def extend_model(extension_symbol)
