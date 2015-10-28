@@ -11,22 +11,29 @@ module Host
     friendly_id :name
     OWNER_TYPES = %w(User Usergroup)
 
+    attr_accessible :name, :organization_id, :location_id, :hostgroup_id,
+      :compute_resource_id, :compute_profile_id, :environment_id,
+      :puppet_ca_proxy_id, :puppet_proxy_id, :managed, :progress_report_id,
+      :type, :domain_id, :realm_id, :start, :mac, :subnet_id, :ip, :architecture_id,
+      :operatingsystem_id, :provision_method, :build, :medium_id, :ptable_id, :disk,
+      :root_pass, :is_owned_by, :enabled, :model_id, :comment, :overwrite, :capabilities,
+      :rpovider, :config_group_ids, :puppetclass_ids, :location_ids, :organization_ids
+
     validates_lengths_from_database
     belongs_to :model, :counter_cache => :hosts_count
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
     has_many :fact_names, :through => :fact_values
-    has_many :interfaces, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base',
-             :foreign_key => :host_id, :order => 'identifier'
-    has_one :primary_interface, :class_name => 'Nic::Base', :foreign_key => 'host_id',
-            :conditions => { :primary => true }
-    has_one :provision_interface, :class_name => 'Nic::Base', :foreign_key => 'host_id',
-            :conditions => { :provision => true }
+    has_many :interfaces, -> { order(:identifier) }, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base',
+             :foreign_key => :host_id
+    has_one :primary_interface, -> { where(:primary => true) }, :class_name => 'Nic::Base', :foreign_key => 'host_id'
+    has_one :provision_interface, -> { where(:provision => true) }, :class_name => 'Nic::Base', :foreign_key => 'host_id'
     has_one :domain, :through => :primary_interface
     has_one :subnet, :through => :primary_interface
     accepts_nested_attributes_for :interfaces, :allow_destroy => true
 
     belongs_to :location
     belongs_to :organization
+    attr_accessible :hostgroup_name, :id, :created_at, :updated_at
 
     alias_attribute :hostname, :name
     validates :name, :presence   => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP}

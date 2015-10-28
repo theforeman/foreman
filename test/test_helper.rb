@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'spork'
+
 # $LOAD_PATH required for testdrb party of spork-minitest
 $LOAD_PATH << "test"
 
@@ -28,7 +29,7 @@ Spork.prefork do
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(app, {:js_errors => true, :timeout => 60})
   end
-  Capybara.default_wait_time = 30
+  Capybara.default_max_wait_time = 30
 
   Capybara.javascript_driver = :poltergeist
 
@@ -85,6 +86,8 @@ Spork.prefork do
     alias_method :assert_not_nil,   :refute_nil
     alias_method :assert_not_equal, :refute_equal
     alias_method :assert_raise,     :assert_raises
+    alias_method :assert_include, :assert_includes
+    alias_method :assert_not_include, :assert_not_includes
     class <<self
       alias_method :test,  :it
     end

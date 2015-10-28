@@ -7,6 +7,10 @@ class Operatingsystem < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title
 
+  attr_accessible :name, :major, :minor, :description, :family,
+      :release_name, :password_hash, :architectures, :architecture_ids, :architecture_names,
+      :ptable_ids, :medium_ids, :os_default_templates_attributes
+
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts
@@ -27,6 +31,8 @@ class Operatingsystem < ActiveRecord::Base
   accepts_nested_attributes_for :os_parameters, :allow_destroy => true
   include ParameterValidators
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
+
+  attr_accessible :architecture_names, :os_default_templates_attributes, :to_label, :family
   attr_name :to_label
   validates :minor, :numericality => {:greater_than_or_equal_to => 0}, :allow_nil => true, :allow_blank => true
   validates :name, :presence => true, :no_whitespace => true,

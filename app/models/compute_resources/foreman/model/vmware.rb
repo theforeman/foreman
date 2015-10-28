@@ -7,6 +7,7 @@ module Foreman::Model
 
     validates :user, :password, :server, :datacenter, :presence => true
     before_create :update_public_key
+    attr_accessible :pubkey_hash
 
     def self.model_name
       ComputeResource.model_name

@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
 
   validates_lengths_from_database  :except => [:firstname, :lastname, :format, :mail, :login]
-  attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation
   after_save :ensure_default_role
   before_destroy EnsureNotUsedBy.new([:direct_hosts, :hosts]), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
@@ -26,10 +25,10 @@ class User < ActiveRecord::Base
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
   has_many :direct_hosts,      :class_name => 'Host',    :as => :owner
   has_many :usergroup_member,  :dependent => :destroy,   :as => :member
-  has_many :user_roles,        :dependent => :destroy, :foreign_key => 'owner_id', :conditions => {:owner_type => self.to_s}
+  has_many :user_roles,        -> { where(:owner_type => 'User') }, :dependent => :destroy, :foreign_key => 'owner_id'
   has_many :cached_user_roles, :dependent => :destroy
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
-  has_many :cached_roles,      :through => :cached_user_roles,        :source => :role, :uniq => true
+  has_many :cached_roles,      -> { uniq }, :through => :cached_user_roles, :source => :role
   has_many :usergroups,        :through => :usergroup_member, :dependent => :destroy
   has_many :roles,             :through => :user_roles,       :dependent => :destroy
   has_many :filters,           :through => :cached_roles
@@ -41,6 +40,12 @@ class User < ActiveRecord::Base
   has_many :mail_notifications, :through => :user_mail_notifications
 
   accepts_nested_attributes_for :user_mail_notifications, :allow_destroy => true, :reject_if => :reject_empty_intervals
+  attr_accessible :password, :password_confirmation, :login, :firstname,
+                  :lastname, :mail, :locale, :timezone, :auth_source_id,
+                  :mail_enabled, :location_ids, :default_location_id,
+                  :organization_ids, :default_organization_id, :auth_source,
+                  :default_location_id, :default_organization_id, :role_ids,
+                  :mail_notification_ids, :locations, :organizations
 
   attr_name :login
 
@@ -386,7 +391,7 @@ class User < ActiveRecord::Base
   end
 
   def expire_topbar_cache(sweeper)
-    sweeper.expire_fragment(TopbarSweeper.fragment_name(id))
+    ActionController::Base.new.expire_fragment(TopbarSweeper.fragment_name(id))
   end
 
   def external_usergroups

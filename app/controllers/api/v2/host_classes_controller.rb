@@ -35,7 +35,7 @@ module Api
       # overwrite resource_name so it's host and and not host_class, since we want to return @host
       def find_host
         not_found and return false if params[:host_id].blank?
-        @host = Host.find(params[:host_id]) if Host::Managed.respond_to?(:authorized) &&
+        @host = Host.friendly.find(params[:host_id]) if Host::Managed.respond_to?(:authorized) &&
                                                Host::Managed.authorized("view_host", Host::Managed)
       end
     end

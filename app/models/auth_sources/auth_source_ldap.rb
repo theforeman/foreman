@@ -27,6 +27,11 @@ class AuthSourceLdap < AuthSource
   include Encryptable
   encrypts :account_password
 
+
+  attr_accessible :name, :host, :tls, :port, :server_type, :account,
+    :base_dn, :groups_base, :ldap_filter, :onthefly_register, :attr_photo,
+    :account_password, :attr_login, :attr_firstname, :attr_lastname, :attr_mail
+
   validates :host, :presence => true, :length => {:maximum => 60}
   validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :presence => true, :if => Proc.new { |auth| auth.onthefly_register? }
   validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :length => {:maximum => 30}, :allow_nil => true

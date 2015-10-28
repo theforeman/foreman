@@ -43,7 +43,7 @@ module Api
       param_group :smart_variable, :as => :create
 
       def create
-        @smart_variable   = LookupKey.new(params[:smart_variable]) unless @puppetclass
+        @smart_variable   = VariableLookupKey.new(params[:smart_variable]) unless @puppetclass
         @smart_variable ||= @puppetclass.lookup_keys.build(params[:smart_variable])
         process_response @smart_variable.save
       end

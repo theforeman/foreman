@@ -6,6 +6,14 @@ class Hostgroup < ActiveRecord::Base
   include HostCommon
 
   include NestedAncestryCommon
+
+  attr_accessible :parent_id, :name, :environment_id, :compute_profile_id,
+      :puppet_ca_proxy_id, :puppet_proxy_id, :domain_id, :subnet_id,
+      :realm_id, :architecture_id, :operatingsystem_id, :medium_id,
+      :ptable_id, :root_pass, :config_group_ids, :puppetclass_ids,
+      :group_parameters_attributes, :location_ids, :organization_ids,
+      :use_image, :image_file, :ancestry, :vm_defaults, :title, :grub_pass, :lookup_value_matcher
+
   validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
   validates :title, :presence => true, :uniqueness => true
 
@@ -40,6 +48,8 @@ class Hostgroup < ActiveRecord::Base
 
   nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
                        :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :realm_id
+  attr_accessible :parent, :parent_id, :os, :os_id, :arch, :arch_id, :group_parameters_attributes,
+    :lookup_values_attributes, :id, :created_at, :updated_at, :organizations, :locations
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here

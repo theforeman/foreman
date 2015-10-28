@@ -6,13 +6,12 @@ class ConfigGroup < ActiveRecord::Base
 
   validates_lengths_from_database
 
-  attr_accessible :name, :puppetclass_ids
-
   has_many :config_group_classes
   has_many :puppetclasses, :through => :config_group_classes, :dependent => :destroy
   has_many :host_config_groups
   has_many_hosts :through => :host_config_groups, :source => :host, :source_type => 'Host::Managed'
   has_many :hostgroups, :through => :host_config_groups, :source => :host, :source_type => 'Hostgroup'
+  attr_accessible :class_environments, :name
 
   validates :name, :presence => true, :uniqueness => true
 

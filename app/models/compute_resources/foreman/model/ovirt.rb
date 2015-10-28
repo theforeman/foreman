@@ -8,6 +8,7 @@ module Foreman::Model
     before_create :update_public_key
 
     alias_attribute :datacenter, :uuid
+    attr_accessible :datacenter, :ovirt_quota, :public_key
 
     delegate :clusters, :quotas, :templates, :to => :client
 

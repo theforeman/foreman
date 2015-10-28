@@ -4,10 +4,11 @@ class Bookmark < ActiveRecord::Base
   friendly_id :name
   include Parameterizable::ByIdName
 
+  attr_accessible :name, :query, :public, :controller
+
   validates_lengths_from_database
 
   belongs_to :owner, :polymorphic => true
-  attr_accessible :name, :controller, :query, :public
   audited :allow_mass_assignment => true
 
   validates :name, :uniqueness => {:scope => :controller}, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}

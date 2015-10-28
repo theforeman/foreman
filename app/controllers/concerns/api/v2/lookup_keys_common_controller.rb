@@ -19,22 +19,6 @@ module Api::V2::LookupKeysCommonController
     before_filter :return_if_smart_mismatch, :only => [:show, :update, :destroy]
   end
 
-  def puppetclass_id?
-    params.keys.include?('puppetclass_id')
-  end
-
-  def environment_id?
-    params.keys.include?('environment_id')
-  end
-
-  def host_id?
-    params.keys.include?('host_id')
-  end
-
-  def hostgroup_id?
-    params.keys.include?('hostgroup_id')
-  end
-
   def smart_variable_id?
     params.keys.include?('smart_variable_id') || controller_name.match(/smart_variables/)
   end
@@ -43,28 +27,22 @@ module Api::V2::LookupKeysCommonController
     params.keys.include?('smart_class_parameter_id') || controller_name.match(/smart_class_parameters/)
   end
 
-  def find_puppetclass
-    @puppetclass = Puppetclass.authorized(:view_puppetclasses).find(params['puppetclass_id'])
-  rescue ActiveRecord::RecordNotFound
-    not_found({ :error => { :message => (_("Puppet class with id '%{id}' was not found") % { :id => params['puppetclass_id'] }) } })
-  end
+  [Puppetclass, Environment, Host::Base, Hostgroup].each do |model|
+    model_string = model.to_s.split('::').first.downcase
 
-  def find_environment
-    @environment = Environment.authorized(:view_environments).find(params['environment_id'])
-  rescue ActiveRecord::RecordNotFound
-    not_found({ :error => { :message => (_("Environment with id '%{id}' was not found") % { :id => params['environment_id'] }) } })
-  end
+    define_method("#{model_string}_id?") do
+      params.keys.include?("#{model_string}_id")
+    end
 
-  def find_host
-    @host = Host::Base.authorized(:view_hosts).find(params['host_id'])
-  rescue ActiveRecord::RecordNotFound
-    not_found({ :error => { :message => (_("Host with id '%{id}' was not found") % { :id => params['host_id'] }) } })
-  end
-
-  def find_hostgroup
-    @hostgroup = Hostgroup.authorized(:view_hostgroups).find(params['hostgroup_id'])
-  rescue ActiveRecord::RecordNotFound
-    not_found({ :error => { :message => (_("Hostgroup with id '%{id}' was not found") % { :id => params['hostgroup_id'] }) } })
+    define_method("find_#{model_string}") do
+      scope = model.authorized(:"view_#{model_string.pluralize}")
+      begin
+        instance_variable_set("@#{model_string}",
+                              resource_finder(scope, params["#{model_string}_id"]))
+      rescue ActiveRecord::RecordNotFound
+        model_not_found(model_string)
+      end
+    end
   end
 
   def find_smart_variable
@@ -143,5 +121,12 @@ module Api::V2::LookupKeysCommonController
            end
       not_found "#{obj} not found by id '#{id}'"
     end
+  end
+
+  private
+
+  def model_not_found(model_name)
+    not_found(:error => { :message => (_("#{model_name.capitalize} with id '%{id}' was not found") %
+                                         { :id => params["#{model_name}_id"] } ) } )
   end
 end

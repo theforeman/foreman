@@ -8,11 +8,30 @@ begin
   end
 
   namespace :jenkins do
-    task :unit => ["jenkins:setup:minitest", 'rake:test:units', 'rake:test:lib', 'rake:test:functionals']
-    task :integration => ["jenkins:setup:minitest", 'rake:test:integration']
-    task :lib => ["jenkins:setup:minitest", 'rake:test:lib']
-    task :functionals => ["jenkins:setup:minitest", 'rake:test:functionals']
-    task :units => ["jenkins:setup:minitest", 'rake:test:units']
+    task :unit do
+      system "rake jenkins:setup:minitest test RAILS_ENV=test"
+      exit($?.exitstatus)
+    end
+
+    task :integration do
+      system "rake test:integration RAILS_ENV=test"
+      exit($?.exitstatus)
+    end
+
+    task :lib do
+      system "rake test:lib RAILS_ENV=test"
+      exit($?.exitstatus)
+    end
+
+    task :functionals do
+      system "rake test:functionals RAILS_ENV=test"
+      exit($?.exitstatus)
+    end
+
+    task :units do
+      system "rake test:units RAILS_ENV=test"
+      exit($?.exitstatus)
+    end
 
     namespace :setup do
       task :pre_ci do
@@ -33,4 +52,3 @@ begin
 rescue LoadError
   # ci/reporter/rake/rspec not present, skipping this definition
 end
-

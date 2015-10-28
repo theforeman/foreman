@@ -133,6 +133,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
 
   test "should pause openstack vm" do
     Fog.mock!
+    teardown { Fog.unmock! }
     @compute_resource = compute_resources(:openstack)
     @compute_resource.tenant = 'personal'
     Fog.credentials[:openstack_auth_url] = @compute_resource.url
@@ -144,7 +145,6 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     Fog::Compute::OpenStack::Server.any_instance.expects(:pause).returns(true)
     get :pause, { :format => 'json', :id => @test_vm.id, :compute_resource_id => @compute_resource.to_param}, set_session_user
     assert_redirected_to compute_resource_vm_path(:compute_resource_id => @compute_resource.to_param, :id => @test_vm.identity)
-    Fog.unmock!
   end
 
   test "should power vm" do
