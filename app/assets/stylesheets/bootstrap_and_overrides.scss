@@ -239,5 +239,6 @@ textarea {
   overflow-x: hidden; /* fix for FF adding an extra row to textareas */
   &.no-stretch {
     resize: vertical;
+    min-height: 34px; // prevent firefox from resizing smaller then one line height
   }
 }
