@@ -13,7 +13,7 @@ module ValidateOsFamily
       end
 
       define_method "#{family_attr_name}=" do |value|
-        write_attribute(family_attr_name, value.blank? ? nil : value)
+        self[family_attr_name] = value.blank? ? nil : value
       end
     end
   end

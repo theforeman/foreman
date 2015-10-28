@@ -67,17 +67,17 @@ class Report < ActiveRecord::Base
           else
             raise Foreman::Exception(N_('Unsupported report status format'))
         end
-    write_attribute(:status, s)
+    self[:status] = s
   end
 
   # extracts serialized metrics and keep them as a hash_with_indifferent_access
   def metrics
-    YAML.load(read_attribute(:metrics)).with_indifferent_access
+    YAML.load(self[:metrics]).with_indifferent_access
   end
 
   # serialize metrics as YAML
   def metrics=(m)
-    write_attribute(:metrics,m.to_yaml) unless m.nil?
+    self[:metrics] = m.to_yaml unless m.nil?
   end
 
   def to_label
@@ -158,6 +158,6 @@ class Report < ActiveRecord::Base
   delegate(*METRIC, :to => :calculator)
 
   def calculator
-    ReportStatusCalculator.new(:bit_field => read_attribute(self.class.report_status))
+    ReportStatusCalculator.new(:bit_field => self[self.class.report_status])
   end
 end
