@@ -57,7 +57,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     h = FactoryGirl.build(:host, :with_dhcp_orchestration,
                           :model => FactoryGirl.create(:model, :vendor_class => 'Sun-Fire-V210'))
     h.expects(:jumpstart?).at_least_once.returns(true)
-    h.os.expects(:jumpstart_params).at_least_once.with(h.provision_interface, h.model.vendor_class).returns(:vendor => '<Sun-Fire-V210>')
+    h.os.expects(:jumpstart_params).at_least_once.with(h, h.model.vendor_class).returns(:vendor => '<Sun-Fire-V210>')
     h.valid?
     d = h.provision_interface.dhcp_record
     assert_instance_of Net::DHCP::SparcRecord, d
