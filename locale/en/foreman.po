@@ -765,6 +765,9 @@ msgstr ""
 msgid "Environment ID"
 msgstr "Name"
 
+msgid "Compute profile ID"
+msgstr ""
+
 #, fuzzy
 msgid "Operating system ID"
 msgstr "Name"
@@ -3538,6 +3541,9 @@ msgid ""
 "ve identical name: '%s'"
 msgstr ""
 
+msgid "Unable to find IP address for '%s'"
+msgstr ""
+
 msgid "Some interfaces are invalid"
 msgstr ""
 
@@ -3545,9 +3551,6 @@ msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
 msgid "%{e} does not belong to the %{environment} environment"
-msgstr ""
-
-msgid "Unable to find IP address for '%s'"
 msgstr ""
 
 msgid "is an unsupported provisioning method"

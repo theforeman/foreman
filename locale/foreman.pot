@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-07 13:29+0100\n"
-"PO-Revision-Date: 2015-10-07 13:29+0100\n"
+"POT-Creation-Date: 2015-10-29 08:27+0000\n"
+"PO-Revision-Date: 2015-10-29 08:27+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -162,30 +162,30 @@ msgstr ""
 msgid "Error loading interfaces information: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:47
+#: ../app/assets/javascripts/host_edit.js:50
 msgid "Loading virtual machine information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:57
+#: ../app/assets/javascripts/host_edit.js:65
 msgid "Error loading virtual machine information: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:193
-#: ../app/assets/javascripts/host_edit.js:469
+#: ../app/assets/javascripts/host_edit.js:198
+#: ../app/assets/javascripts/host_edit.js:474
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:570
+#: ../app/assets/javascripts/host_edit.js:575
 msgid "Please select"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:580
+#: ../app/assets/javascripts/host_edit.js:585
 #: ../app/views/hostgroups/_form.html.erb:51
 #: ../app/views/nic/_base_form.html.erb:27
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:642
+#: ../app/assets/javascripts/host_edit.js:647
 msgid "Error generating IP: %s"
 msgstr ""
 
@@ -250,7 +250,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/assets/javascripts/jquery.multi-select.js:8
-#: ../app/helpers/layout_helper.rb:210
+#: ../app/helpers/layout_helper.rb:217
 #: ../app/views/common/_searchbar.html.erb:3
 #: ../app/views/filters/_form.html.erb:6 model_attributes.rb:168
 msgid "Filter"
@@ -354,7 +354,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../app/assets/javascripts/settings.js:43 ../app/helpers/layout_helper.rb:325
+#: ../app/assets/javascripts/settings.js:43 ../app/helpers/layout_helper.rb:332
 #: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:54
 #: ../app/views/common/_searchbar.html.erb:39
 #: ../app/views/hosts/_assign_hosts.html.erb:39
@@ -1129,62 +1129,66 @@ msgid "Environment ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:33
-msgid "Operating system ID"
+msgid "Compute profile ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:34
-msgid "Architecture ID"
+msgid "Operating system ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:35
-msgid "Media ID"
+msgid "Architecture ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:36
-msgid "Partition table ID"
+msgid "Media ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:37
-msgid "Puppet CA proxy ID"
+msgid "Partition table ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:38
-msgid "Subnet ID"
+msgid "Puppet CA proxy ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:39
-msgid "Domain ID"
+msgid "Subnet ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:40
-msgid "Realm ID"
+msgid "Domain ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:41
-msgid "Puppet proxy ID"
+msgid "Realm ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:42
+msgid "Puppet proxy ID"
+msgstr ""
+
+#: ../app/controllers/api/v2/hostgroups_controller.rb:43
 msgid "Root password on provisioned hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:47
+#: ../app/controllers/api/v2/hostgroups_controller.rb:48
 msgid "Create a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:55
+#: ../app/controllers/api/v2/hostgroups_controller.rb:56
 msgid "Update a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:63
+#: ../app/controllers/api/v2/hostgroups_controller.rb:64
 msgid "Delete a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:68
+#: ../app/controllers/api/v2/hostgroups_controller.rb:69
 msgid "Cannot delete group %{current} because it has nested host groups."
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:74
+#: ../app/controllers/api/v2/hostgroups_controller.rb:75
 msgid "Clone a host group"
 msgstr ""
 
@@ -3931,64 +3935,64 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:321
+#: ../app/helpers/layout_helper.rb:328
 msgid "Overwrite"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:321
+#: ../app/helpers/layout_helper.rb:328
 #: ../app/views/common/_searchbar.html.erb:40
 #: ../app/views/hosts/_list.html.erb:50 ../app/views/trends/edit.html.erb:45
 msgid "Submit"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:333
+#: ../app/helpers/layout_helper.rb:340
 msgid "Unable to save"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:356
+#: ../app/helpers/layout_helper.rb:363
 msgid "&laquo;"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:357
+#: ../app/helpers/layout_helper.rb:364
 msgid "&raquo;"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:363
+#: ../app/helpers/layout_helper.rb:370
 msgid "No entries found"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:366
+#: ../app/helpers/layout_helper.rb:373
 msgid "Displaying <b>%{count}</b> entry"
 msgid_plural "Displaying <b>all %{count}</b> entries"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/helpers/layout_helper.rb:368
+#: ../app/helpers/layout_helper.rb:375
 msgid "Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:406
+#: ../app/helpers/layout_helper.rb:413
 msgid "Warning!"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:407
+#: ../app/helpers/layout_helper.rb:414
 msgid "Alert"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:438
+#: ../app/helpers/layout_helper.rb:445
 #: ../app/views/hosts/_interfaces.html.erb:58
 #: ../app/views/reports/show.html.erb:37
 msgid "Close"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:450 ../app/views/hosts/show.html.erb:84
+#: ../app/helpers/layout_helper.rb:457 ../app/views/hosts/show.html.erb:84
 #: ../app/views/hosts/show.html.erb:94 ../app/views/trends/show.html.erb:6
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/helpers/layout_helper.rb:454
+#: ../app/helpers/layout_helper.rb:461
 msgid "Full screen"
 msgstr ""
 
@@ -4989,55 +4993,55 @@ msgstr ""
 msgid "hostgroup"
 msgstr ""
 
-#: ../app/models/host/managed.rb:549
+#: ../app/models/host/managed.rb:554
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
 "ng"
 msgstr ""
 
-#: ../app/models/host/managed.rb:690
+#: ../app/models/host/managed.rb:695
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
-#: ../app/models/host/managed.rb:696
+#: ../app/models/host/managed.rb:701
 msgid "failed to execute puppetrun: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:818
+#: ../app/models/host/managed.rb:823
 msgid "Unknown power management support - can't continue"
 msgstr ""
 
-#: ../app/models/host/managed.rb:952
+#: ../app/models/host/managed.rb:957
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:967
-msgid "Some interfaces are invalid"
-msgstr ""
-
-#: ../app/models/host/managed.rb:1000
-msgid "%{value} does not belong to %{os} operating system"
-msgstr ""
-
-#: ../app/models/host/managed.rb:1007
-msgid "%{e} does not belong to the %{environment} environment"
-msgstr ""
-
-#: ../app/models/host/managed.rb:1027
+#: ../app/models/host/managed.rb:976
 msgid "Unable to find IP address for '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1042
-msgid "is an unsupported provisioning method"
+#: ../app/models/host/managed.rb:988
+msgid "Some interfaces are invalid"
+msgstr ""
+
+#: ../app/models/host/managed.rb:1021
+msgid "%{value} does not belong to %{os} operating system"
+msgstr ""
+
+#: ../app/models/host/managed.rb:1028
+msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
 #: ../app/models/host/managed.rb:1047
+msgid "is an unsupported provisioning method"
+msgstr ""
+
+#: ../app/models/host/managed.rb:1052
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1052 ../app/models/nic/interface.rb:112
+#: ../app/models/host/managed.rb:1057 ../app/models/nic/interface.rb:112
 msgid "must not include periods"
 msgstr ""
 
@@ -6131,7 +6135,7 @@ msgstr ""
 msgid "Can't delete the last admin user group"
 msgstr ""
 
-#: ../app/services/association_authorizer.rb:21
+#: ../app/services/association_authorizer.rb:22
 msgid "unknown permission %s"
 msgstr ""
 
@@ -6166,7 +6170,7 @@ msgstr ""
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr ""
 
-#: ../app/services/foreman/parameters/validator.rb:41
+#: ../app/services/foreman/parameters/validator.rb:40
 msgid "%{value} is not one of %{rules}"
 msgstr ""
 
@@ -6526,7 +6530,7 @@ msgstr ""
 msgid "Invalid report"
 msgstr ""
 
-#: ../app/services/report_importer.rb:92
+#: ../app/services/report_importer.rb:93
 msgid "Invalid log level: %s"
 msgstr ""
 
@@ -8963,11 +8967,11 @@ msgstr ""
 msgid "This host's stored facts and reports will be deleted too."
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:128
+#: ../app/views/hosts/show.html.erb:127
 msgid "Loading..."
 msgstr ""
 
-#: ../app/views/hosts/show.html.erb:131
+#: ../app/views/hosts/show.html.erb:130
 msgid "Please wait while your request is being processed"
 msgstr ""
 
