@@ -9,6 +9,7 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
+        params[:order] ||= 'name'
         @roles = Role.search_for(*search_options).paginate(paginate_options)
       end
 

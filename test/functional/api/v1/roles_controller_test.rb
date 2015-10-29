@@ -9,6 +9,7 @@ class Api::V1::RolesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:roles)
     roles = ActiveSupport::JSON.decode(@response.body)
     assert !roles.empty?
+    assert_equal Role.order(:name).pluck(:name), roles.map { |r| r['role']['name'] }
   end
 
   test "should show individual record" do
