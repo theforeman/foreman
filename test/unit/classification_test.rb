@@ -96,7 +96,7 @@ class ClassificationTest < ActiveSupport::TestCase
     classparam.expects(:puppetclass_ids).returns(Array.wrap(pc).map(&:id))
     classparam.expects(:attr_to_value).with('comment').returns('override')
 
-    assert_equal({lkey.id => {lkey.key => {:value => 'overridden value', :element => 'comment', :element_name => 'override'}}}, classparam.send(:values_hash))
+    assert_equal({lkey.id => {lkey.key => {:value => 'overridden value', :element => 'comment', :element_name => 'override', :managed => false}}}, classparam.send(:values_hash))
   end
 
   test "#values_hash should treat yaml and json parameters as string" do
@@ -300,6 +300,22 @@ class ClassificationTest < ActiveSupport::TestCase
                                          :element => ['location', 'os', 'organization'],
                                          :element_name => ['Location 1', 'Redhat 6.1', 'Organization 1']}}},
                  classification.send(:values_hash))
+  end
+
+  test 'smart class parameter with use_puppet_default on specific matcher does not send a value to puppet' do
+    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'string',
+                             :default_value => "123", :path => "organization\nos\nlocation",
+                             :puppetclass => puppetclasses(:one))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => "345",
+                          :use_puppet_default => true
+    end
+    enc = classification.enc
+    refute enc['base'].has_key?(key.key)
   end
 
   test 'smart variable of array with avoid_duplicates should return lookup_value array without duplicates' do
@@ -709,7 +725,8 @@ class ClassificationTest < ActiveSupport::TestCase
 
     assert_equal({key.id => {key.key => {:value => '<%= [3,4] %>',
                                          :element => 'organization',
-                                         :element_name => 'Organization 1'}}},
+                                         :element_name => 'Organization 1',
+                                         :managed => false}}},
                                          classification.send(:values_hash))
     assert_equal [3,4], classification.enc['base'][key.key]
   end
