@@ -1,3 +1,29 @@
+2015-10-29	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.10.0-RC2
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+
+2015-10-28	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #12132 - [API] Host all parameters should include host parameters
+
+2015-10-28	Marek Hulan <mhulan@redhat.com>
+	* Fixes #12185 - host created via reports has downcased name
+
+2015-10-28	Timo Goebel <timo.goebel@dm.de>
+	* fixes #11345 - API GET request available_clusters sends empty hash
+
+2015-10-28	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #12162 - Sort operating systems in host list by title
+
+2015-10-28	Kamjar Gerami <kami.gerami@gmail.com>
+	* fixes #11881 - Searching for "puppet" in Puppet Classes takes long - Set only_explicit to host and config groups definitions in puppetclasses
+
+2015-10-28	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #11908 - removed the close button from the loading alert
+
+2015-10-28	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #11813 - Use new engines listing syntax in initializers
+
 2015-10-14	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.10.0-RC1
 
