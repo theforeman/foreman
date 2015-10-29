@@ -86,8 +86,25 @@ add_files() {
       printv " - $FILE"
       SUBDIR=$(dirname $FILE)
       [ ! -d "$DIR$SUBDIR" ] && mkdir -p "$DIR$SUBDIR"
-      tail -n "$MAXLINES" "$FILE" | sed -r "$FILTER" > "$DIR$FILE"
-      [ $PRINTPASS -eq 1 ] && grep -E "($FILTER_WORDS_STR)" "$DIR$FILE"
+      MIME=$(file -bi "$FILE" | cut -d\; -f1)
+      case $MIME in
+        application/x-gzip)
+          zcat "$FILE" | tail -n "$MAXLINES" | sed -r "$FILTER" > "$DIR$FILE.txt"
+          ;;
+        application/x-bzip2)
+          bzcat "$FILE" | tail -n "$MAXLINES" | sed -r "$FILTER" > "$DIR$FILE.txt"
+          ;;
+        application/x-xz)
+          xzcat "$FILE" | tail -n "$MAXLINES" | sed -r "$FILTER" > "$DIR$FILE.txt"
+          ;;
+        text/plain)
+          tail -n "$MAXLINES" "$FILE" | sed -r "$FILTER" > "$DIR$FILE"
+          [ $PRINTPASS -eq 1 ] && grep -H "\*\*\*\*\*" "$DIR$FILE"
+          ;;
+        ?)
+          echo "Skipping file $FILE: unknown MIME type $MIME" >> "$DIR/skipped_files"
+          ;;
+      esac
     fi
   done
 }
