@@ -10,7 +10,7 @@ module Foreman
         }
         options.reverse_merge!(defaults)
         @item, @options = item, options
-        @value = @options[:value] || @item.send(@options[:attribute_name])
+        @value = @options[:value].nil? ? @item.send(@options[:attribute_name]) : @options[:value]
       end
 
       def cast!
