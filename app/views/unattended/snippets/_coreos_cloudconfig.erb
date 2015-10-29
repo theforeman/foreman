@@ -4,14 +4,16 @@ kind: snippet
 name: coreos_cloudconfig
 %>
       coreos:
-        etcd:
+        etcd2:
 <% if @host.params['etcd_discovery_url'] -%>
           discovery: <%= @host.params['etcd_discovery_url'] %>
 <% end -%>
-          addr: <%= @host.ip %>:4001
-          peer-addr: <%= @host.ip %>:7001
+          advertise-client-urls: http://<%= @host.ip %>:2379,http://<%= @host.ip %>:4001
+          initial-advertise-peer-urls: http://<%= @host.ip %>:2380,http://<%= @host.ip %>:7001
+          listen-client-urls: http://0.0.0.0:2379,http://0.0.0.0:4001
+          listen-peer-urls: http://0.0.0.0:2380,http://0.0.0.0:7001
         units:
-          - name: etcd.service
+          - name: etcd2.service
             command: start
           - name: fleet.service
             command: start
@@ -21,12 +23,12 @@ name: coreos_cloudconfig
             content: |
               [Unit]
               Description=Docker Socket for the API
-              
+
               [Socket]
               ListenStream=2375
               BindIPv6Only=both
               Service=docker.service
-              
+
               [Install]
               WantedBy=sockets.target
           - name: enable-docker-tcp.service
@@ -34,10 +36,37 @@ name: coreos_cloudconfig
             content: |
               [Unit]
               Description=Enable the Docker Socket for the API
-              
+
               [Service]
               Type=oneshot
               ExecStart=/usr/bin/systemctl enable docker-tcp.socket
+<% if @host.subnet.respond_to?(:dhcp_boot_mode?) -%>
+<% dhcp = @host.subnet.dhcp_boot_mode? && !@static -%>
+<% else -%>
+<% dhcp = !@static -%>
+<% end -%>
+<% unless dhcp -%>
+          - name: systemd-networkd.service
+            command: stop
+          - name: static.network
+            command: start
+            content: |
+              [Match]
+              MACAddress=<%= @host.mac %>
+              [Network]
+              Gateway=<%= @host.subnet.gateway %>
+              Address=<%= @host.ip %>/<%= @host.subnet.cidr %>
+              DNS=<%= @host.subnet.dns_primary %>
+              DNS=<%= @host.subnet.dns_secondary %>
+          - name: down-interfaces.service
+            command: start
+            content: |
+              [Service]
+              Type=oneshot
+              ExecStart=/usr/bin/bash -c 'for i in $(/usr/bin/ls /sys/class/net/); do [ $i == "lo" ] || (/usr/bin/ip link set $i down; /usr/bin/ip addr flush dev $i); done'
+          - name: systemd-networkd.service
+            command: restart
+<% end -%>
 <% if @host.params['ssh_authorized_keys'] -%>
       ssh_authorized_keys:
   <% @host.params['ssh_authorized_keys'].split(',').map(&:strip).each do |ssh_key| -%>
