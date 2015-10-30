@@ -9,7 +9,7 @@ module ApplicationHelper
     else
       options = args[1] || {}
       html_options = args[2] || {}
-      unless html_options.has_key? :'data-id'
+      unless html_options.has_key?(:'data-id') || (options.is_a?(String) and options.starts_with?("mailto:"))
         begin
           path = URI.split(url_for(options) || html_options['href'])[5].split(/\//).select {|x| !x.empty?}
           if path.size > 0
