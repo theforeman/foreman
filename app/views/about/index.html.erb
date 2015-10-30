@@ -91,21 +91,21 @@
           <% if @plugins.empty? %>
             <p class="ca"><%= _("No plugins found") %></p>
           <% else %>
-            <table class="table table-striped">
+            <table class="table table-striped table-fixed">
               <thead>
                 <tr>
-                  <th><%= _("Name") %></th>
-                  <th><%= _("Description") %></th>
-                  <th><%= _("Author") %></th>
-                  <th><%= _("Version") %></th>
+                  <th class="col-md-4"><%= _("Name") %></th>
+                  <th class="col-md-6"><%= _("Description") %></th>
+                  <th class="col-md-2"><%= _("Author") %></th>
+                  <th class="col-md-2"><%= _("Version") %></th>
                 </tr>
               </thead>
               <tbody>
               <% @plugins.each do |plugin| %>
                 <tr>
                   <td><%= plugin.url.blank? ? plugin.name : link_to(plugin.name, plugin.url, :rel=>'external')%></td>
-                  <td><%= _(plugin.description) %></td>
-                  <td><%= plugin.author_url.blank? ? plugin.author : link_to(plugin.author, plugin.author_url)%></td>
+                  <td class="ellipsis"><%= _(plugin.description) %></td>
+                  <td class="ellipsis"><%= plugin.author_url.blank? ? plugin.author : link_to(plugin.author, plugin.author_url)%></td>
                   <td><%= plugin.version %></td>
                 </tr>
               <% end %>
