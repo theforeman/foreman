@@ -1,4 +1,4 @@
-<div id='<%= (f.object.key || 'new_lookup_keys').to_s.gsub(' ', '_') + '_' + f.object.id.to_s %>' class='tab-pane fields'>
+<div id='<%= (f.object.to_param || 'new_lookup_keys') %>' class='tab-pane fields'>
   <% is_param = f.object.puppet? %>
 
   <%= remove_child_link(_("Remove %s?") % (f.object.new_record? ? _("Variable") : f.object), f, { :class => 'btn btn-danger hide' }) if controller_name ==  "puppetclasses" && !is_param %>
