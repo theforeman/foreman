@@ -232,3 +232,23 @@ function allocation_switcher(element, action) {
   $(element).button('toggle');
   return false;
 }
+
+function vsphereGetResourcePools(item) {
+  var data = {cluster_id: $(item).val()};
+  var url = $(item).data('url');
+  $(item).indicator_show();
+  $.ajax({
+    type: 'get',
+    url: url,
+    data: data,
+    complete: function() { $(item).indicator_hide();},
+    success: function(request) {
+      $('#compute_attribute_vm_attrs_resource_pool').select2('destroy').empty();
+      for (var i = 0; i < request.length; i++) {
+        var option = request[i].name;
+        $('<option>').text(option).val(option).appendTo($('#compute_attribute_vm_attrs_resource_pool'));
+      }
+      $('#compute_attribute_vm_attrs_resource_pool').select2();
+    }
+  })
+}
