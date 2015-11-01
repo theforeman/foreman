@@ -1,0 +1,58 @@
+---
+plugins:
+  - angular
+
+env:
+  browser: true
+  node: true
+
+globals:
+  angular: true
+  _: true
+  $: true
+
+rules:
+  strict: 0
+  quotes: 0
+  camelcase: 2
+  indent: 2
+  new-cap:
+    - 2
+    - {"newIsCap": true, "capIsNew": false}
+  no-mixed-spaces-and-tabs: 2
+  no-multiple-empty-lines: 2
+  no-trailing-spaces: 2
+  space-after-function-name: 2
+  space-after-keywords: 2
+  space-before-blocks: 2
+  space-infix-ops: 2
+  brace-style: 2
+  semi: 2
+  block-scoped-var: 2
+  consistent-return: 2
+  curly: 2
+  eqeqeq: 2
+  guard-for-in: 2
+  no-else-return: 2
+  no-loop-func: 2
+  vars-on-top: 2
+  no-debugger: 2
+  no-cond-assign: 2
+  no-console: 2
+  no-extra-semi: 2
+  no-irregular-whitespace: 2
+  dot-notation:
+    - 2
+    - {"allowPattern": "^[a-z]+(_[a-z]+)+$"}
+
+  # Angular Plugin Rules
+  angular:
+    ng_angularelement: 2
+    ng_directive_name:
+      - 2
+      - bst
+    ng_empty_controller: 2
+    ng_module_name:
+      - 2
+      - Bastion
+

@@ -1,6 +1,6 @@
 <%= form_tag send("#{auto_complete_controller_name}_path"), :method => "get",:id =>"search-form" do %>
   <div class="input-group">
-    <%= auto_complete_search(:search, params[:search].try(:squeeze," "), :placeholder => _("Filter") + ' ...').html_safe %>
+    <input tfm-autocomplete="<%= send("#{auto_complete_controller_name}_path") %>" search="<%= params[:search] %>"/>
     <span class="input-group-btn">
       <button class="btn btn-default" type="submit">
         <%= icon_text("search", content_tag(:span,_("Search"), :class=>"hidden-xs")) %>

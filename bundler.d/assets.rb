@@ -19,4 +19,6 @@ group :assets do
   gem 'jquery-turbolinks', '~> 2.1'
   gem 'select2-rails', '~> 3.5'
   gem 'underscore-rails', '~> 1.8'
+  gem 'angularjs-rails', '~> 1.4.0'
+  gem 'angular-ui-bootstrap-rails', '~> 0.14.3'
 end
