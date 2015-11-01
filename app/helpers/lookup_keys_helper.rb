@@ -36,9 +36,7 @@ module LookupKeysHelper
     if params["puppetclass_id"]
       select_f f, :puppetclass_id, [Puppetclass.find(params["puppetclass_id"])], :id, :to_label, {}, {:label => _("Puppet class"), :disabled => true}
     elsif f.object.puppet? && f.object.param_class
-      field(f, :puppetclass_id, :label => _('Puppet Class')) do
-        content_tag(:input, nil, :value => f.object.param_class, :type => 'text', :disabled => true)
-      end
+      text_f(f, :puppetclass_id, :label => _('Puppet Class'), :value => f.object.param_class, :disabled => true)
     else # new smart-var with no particular context
          # Give a select for choosing the parent puppetclass
       select_f(f, :puppetclass_id, Puppetclass.all, :id, :to_label, { :include_blank => _('None') }, {:label => _("Puppet class")})
