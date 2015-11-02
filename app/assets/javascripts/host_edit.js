@@ -66,7 +66,7 @@ function computeResourceSelected(item){
         $('#compute_resource_tab a').addClass('tab-error');
       },
       success: function(result){
-        $('#compute_resource').html(result);
+        $('#compute_resource').html(result).find('select:not(without_select2)').select2();
         if ($('#compute_resource').find('.alert-danger').length > 0) $('#compute_resource_tab a').addClass('tab-error');
         update_capabilities($('#capabilities').val());
       }
