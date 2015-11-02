@@ -62,7 +62,6 @@ function add_child_node(item) {
     var template_class = '.' + assoc + '_fields_template';
     var content = $(item).parent().find(template_class).html(); // Fields template
     if (content == undefined) {content = $(template_class).html()};
-
     // Make the context correct by replacing new_<parents> with the generated ID
     // of each of the parent objects
     var context = ($(item).closest('.fields').find('input:first').attr('name') || '').replace(new RegExp('\[[a-z]+\]$'), '');
@@ -74,7 +73,7 @@ function add_child_node(item) {
       $('#smart_vars .smart-var-tabs .active, #smart_vars .stacked-content .active').removeClass('active');
       var pill = "<li class='active'><a data-toggle='pill' href='#new_" + new_id + "' id='pill_new_" + new_id + "'><div class='clip'>" + __('new') + "</div><span class='close pull-right'>&times;</span></a></li>"
       $('#smart_vars .smart-var-tabs').prepend(pill);
-      field = $('#smart_vars .stacked-content').prepend($(content).addClass('active'));
+      field = $('#smart_vars .stacked-content').prepend($(content).addClass('active').prop('id','new_'+new_id));
       $('#smart_vars .smart-var-tabs li.active a').show('highlight', 500);
     } else if (assoc == 'lookup_values') {
       field = $(item).parent().find('tbody').first().append($(content).find('tr'));
