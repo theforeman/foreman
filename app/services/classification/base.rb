@@ -35,7 +35,7 @@ module Classification
 
     def values_hash(options = {})
       values = Hash.new { |h,k| h[k] = {} }
-      all_lookup_values = LookupValue.where(:match => path2matches).where(:lookup_key_id => class_parameters, :use_puppet_default => false).includes(:lookup_key).to_a
+      all_lookup_values = LookupValue.where(:match => path2matches).where(:lookup_key_id => class_parameters).includes(:lookup_key).to_a
       class_parameters.each do |key|
         lookup_values_for_key = all_lookup_values.select{|i| i.lookup_key_id == key.id}
         sorted_lookup_values = lookup_values_for_key.sort_by do |lv|
@@ -73,7 +73,7 @@ module Classification
 
     def value_of_key(key, values)
       value = if values[key.id] and values[key.id][key.to_s]
-                {:value => values[key.id][key.to_s][:value]}
+                {:value => values[key.id][key.to_s][:value], :managed => values[key.id][key.to_s][:managed] }
               else
                 default_value_method = %w(yaml json).include?(key.key_type) ? :default_value_before_type_cast : :default_value
                 {:value => key.send(default_value_method), :managed => key.use_puppet_default}
@@ -173,7 +173,7 @@ module Classification
         next if (options[:skip_fqdn] && element=="fqdn")
         value_method = %w(yaml json).include?(lookup_value.lookup_key.key_type) ? :value_before_type_cast : :value
         computed_lookup_value = {:value => lookup_value.send(value_method), :element => element,
-                                 :element_name => element_name}
+                                 :element_name => element_name, :managed => lookup_value.use_puppet_default}
         break
       end
       computed_lookup_value
@@ -192,7 +192,7 @@ module Classification
 
       lookup_values.each do |lookup_value|
         element, element_name = get_element_and_element_name(lookup_value)
-        next if (options[:skip_fqdn] && element=="fqdn")
+        next if ((options[:skip_fqdn] && element=="fqdn") || lookup_value.use_puppet_default)
         elements << element
         element_names << element_name
         if should_avoid_duplicates
@@ -221,7 +221,7 @@ module Classification
       # and then merging with higher priority
       lookup_values.reverse.each do |lookup_value|
         element, element_name = get_element_and_element_name(lookup_value)
-        next if (options[:skip_fqdn] && element=="fqdn")
+        next if ((options[:skip_fqdn] && element=="fqdn") || lookup_value.use_puppet_default)
         elements << element
         element_names << element_name
         values.deep_merge!(lookup_value.value)
