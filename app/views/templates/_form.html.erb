@@ -30,21 +30,26 @@
       <%= render "custom_tabs", :f => f if type == 'ptable' %>
 
       <% if @template.locked? -%>
-        <%= alert :class => 'alert-warning', :header => '',
-                  :text  => icon_text("warning-sign", (_("Warning: This template is locked. You may only change the associations. Please %s it to customize.") %
-                                                            link_to(_('clone'), template_hash_for_member(::Template.find(params[:id]), 'clone_template'))).html_safe) %>
-
+        <div class="alert-warning">
+          <%= alert :class => 'alert-warning', :header => '',
+                    :text  => icon_text("warning-sign", (_("Warning: This template is locked. You may only change the associations. Please %s it to customize.") %
+                                                              link_to(_('clone'), template_hash_for_member(::Template.find(params[:id]), 'clone_template'))).html_safe) %>
+        </div>
       <% else -%>
-        <%= alert :class => 'alert-success', :header => '',
-                  :text  => icon_text("info-sign", (_('Note: %s ') % link_to(_('Useful template functions and macros'),
-                                                                             "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.4.3ProvisioningTemplates", :rel => 'external')).html_safe) %>
+        <div class="alert-success">
+          <%= alert :class => 'alert-success', :header => '',
+                    :text  => icon_text("info-sign", (_('Note: %s ') % link_to(_('Useful template functions and macros'),
+                                                                               "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#4.4.3ProvisioningTemplates", :rel => 'external')).html_safe) %>
+        </div>
       <% end -%>
 
 
       <% if pxe_with_building_hosts?(@template) -%>
         <% warning_text = (_("Warning: The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates or choose to %s their configuration from 'Select Action' menu") % link_to(_('recreate'), building_hosts_path(@template))).html_safe %>
-        <%= alert :class => 'alert-warning', :header => '',
-                  :text => icon_text("warning-sign", warning_text) %>
+        <div class="alert-warning">
+          <%= alert :class => 'alert-warning', :header => '',
+                    :text => icon_text("warning-sign", warning_text) %>
+        </div>
       <% end -%>
 
       <div class='form-group'>
