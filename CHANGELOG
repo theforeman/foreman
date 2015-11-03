@@ -1,3 +1,32 @@
+2015-11-03	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.9.3
+
+2015-10-30	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #11953 - Add STI controllers to bookmark via permissions
+	* Fixes #12004, #11999 - Remove reserved words from Environment friendly_id
+
+2015-10-30	Ranjan <rankumar@redhat.com>
+	* fixes #12151 - return empty classes hash when missing environment
+
+2015-10-30	Julien Pivotto <roidelapluie@inuits.eu>
+	* Fixes #12028 - Put multiselects out of select2 control
+
+2015-10-30	Dominic Cleal <dcleal@redhat.com>
+	* fixes #11375, #11782 - validate a host's lookup_values
+	* fixes #11945 - fix undefined variable in param_true/false helpers
+
+2015-10-23	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #12089 - fix using unwrapped parameters in config templates API controller
+
+2015-10-08	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #12074: Pin rack-cache to less than 1.3.0
+
+2015-10-01	David Davis <daviddavis@redhat.com>
+	* Fixes #12015 - Pin version of fog-google
+
+2015-09-29	Dominic Cleal <dcleal@redhat.com>
+	* fixes #11980 - pin net-ssh to 2.x on Ruby 1.9.3
+
 2015-09-22	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.9.2
 	* i18n - extracting new, updating rails, pulling from tx
