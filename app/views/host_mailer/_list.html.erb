@@ -1,12 +1,12 @@
-<div style="background: #ffffff; margin: 5px 0px; padding: 5px 20px;">
+<div class="host-list">
   <h2><%= title %></h2>
   <% if list.size > 0 %>
-    <table style="border: 1px solid #cccccc; padding: 5px; background-color: #ffffff; border-collapse: collapse; text-align: justify; width: 100%;" bgcolor="#ffffff">
+    <table>
       <tbody>
         <%= render :partial => "#{state}_hosts", :locals => {:list => list } %>
       </tbody>
     </table>
-    <p style="background-color: #e1e2e3; margin: 5px 0px; padding: 0px; line-height: 24px;"><%= n_('Total of one host', 'Total of %{hosts} hosts', list.size) % {:hosts => list.size} %></p>
+    <p class="total"><%= n_('Total of one host', 'Total of %{hosts} hosts', list.size) % {:hosts => list.size} %></p>
   <% else %>
     <b><%= _('None!') %></b>
   <% end %>

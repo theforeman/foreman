@@ -5,4 +5,4 @@
   <%= _("IP:") %>       <%= @host.ip %>
 
 <%= _("View in Foreman:") %>
-  <%= host_url(:id => @host, :host => @url.host, :port => @url.port, :protocol => @url.scheme) %>
+  <%= host_path(:id => @host) %>

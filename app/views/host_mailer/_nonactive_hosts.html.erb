@@ -1,34 +1,32 @@
-<% th_style = "text-align: left; border-collapse: collapse;  background: #f5f5f5; background: linear-gradient(#f5f5f5, #e8e8e8); padding: 4px; border: 1px solid #cccccc;" %>
-<% td_style = "text-align: left; border-collapse: collapse; background-color: #FFFFFF; padding: 4px; border: 1px solid #cccccc;" %>
 <tr>
-  <th style="<%= th_style %>">
+  <th>
     <%= _('Hostname') %>
   </th>
-  <th style="<%= th_style %>">
+  <th>
     <%= _('Host group') %>
   </th>
-  <th style="<%= th_style %>">
+  <th>
     <%= _('Environment') %>
   </th>
-  <th style="<%= th_style %>">
+  <th>
     <%= _('Last Report') %>
   </th>
 </tr>
 <% list.each do |host| %>
   <tr>
     <%= render 'link_to_host', :host => host %>
-    <td style="<%= td_style %>">
+    <td class="hosts-rows">
       <%= host.hostgroup %>
     </td>
-    <td style="<%= td_style %>">
+    <td class="hosts-rows">
       <%= host.environment %>
     </td>
     <% if host.last_report %>
-      <td style="<%= td_style %>">
+      <td class="hosts-rows">
         <%= time_ago_in_words(host.last_report) %>
       </td>
     <% else %>
-      <td style="<%= td_style %>">
+      <td class="hosts-rows">
         <%= _('Unknown') %>
       </td>
     <% end %>

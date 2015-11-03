@@ -1,6 +1,7 @@
 require 'uri'
 
 class ApplicationMailer < ActionMailer::Base
+  include Roadie::Rails::Automatic
   default :from => Proc.new { Setting[:email_reply_address] || "noreply@foreman.example.org" }
 
   def mail(headers = {}, &block)
@@ -9,6 +10,13 @@ class ApplicationMailer < ActionMailer::Base
       headers['X-Foreman-Server'] = URI.parse(Setting[:foreman_url]).host unless Setting[:foreman_url].blank?
     end
     super
+  end
+
+  protected
+
+  def roadie_options
+    url = URI.parse(Setting[:foreman_url])
+    super.merge(url_options: {:host => url.host, :port => url.port, :protocol => url.scheme})
   end
 
   private

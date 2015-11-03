@@ -1,14 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  </head>
-  <body style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #3f3f3f; background-color: #f1f1f1; padding: 10px 24px">
-    <h2 style="font-weight: normal; text-transform: uppercase; font-size: 120%;"><%= _("<b>Foreman</b> Puppet error report").html_safe %></h2>
-    <div style="background: #e1e2e3; padding: 20px 40px; margin: 5px 0px 10px;">
-      <%= render :partial => 'error_states', :locals => {:logs => @report.logs } %>
-      <br>
-      <%= link_to _("For more information"), config_report_url(@report, :host => @url.host, :port => @url.port, :protocol => @url.scheme)  %>
-    </div>
-  </body>
-</html>
+<h2 class="headline"><%= _("<b>Foreman</b> Puppet error report").html_safe %></h2>
+<div class="dashboard">
+  <%= render :partial => 'error_states', :locals => {:logs => @report.logs} %>
+  <br>
+  <%= link_to _("For more information"), config_report_path(@report) %>
+</div>

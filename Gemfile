@@ -37,6 +37,7 @@ gem 'protected_attributes', '~> 1.1.1'
 gem 'sprockets', '~> 3'
 gem 'sprockets-rails', '>= 2.3.3', '< 3'
 gem 'responders', '~> 2.0'
+gem 'roadie-rails', '~> 1.1'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))
