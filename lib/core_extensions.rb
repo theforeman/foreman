@@ -148,6 +148,10 @@ class String
       raise "Unknown string: #{self.inspect}!"
     end
   end
+
+  def to_utf8
+    self.encode('utf-8', :invalid => :replace, :undef => :replace, :replace => '_')
+  end
 end
 
 class ActiveModel::Errors

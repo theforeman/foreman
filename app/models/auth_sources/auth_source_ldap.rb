@@ -169,12 +169,13 @@ class AuthSourceLdap < AuthSource
   end
 
   def store_avatar(avatar)
+    avatar = avatar.to_utf8
     avatar_path = "#{Rails.public_path}/assets/avatars"
     avatar_hash = Digest::SHA1.hexdigest(avatar)
     avatar_file = "#{avatar_path}/#{avatar_hash}.jpg"
     unless FileTest.exist? avatar_file
       FileUtils.mkdir_p(avatar_path)
-      File.open(avatar_file, 'w') { |f| f.write(avatar) }
+      File.open(avatar_file, 'wb') { |f| f.write(Base64.decode64(avatar)) }
     end
     avatar_hash
   end

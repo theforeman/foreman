@@ -14,4 +14,5 @@ group :test do
   gem 'rubocop-checkstyle_formatter', '~> 0.1'
   gem "poltergeist"
   gem 'test_after_commit', '~> 0.4'
+  gem 'fakefs', :require => 'fakefs/safe'
 end
