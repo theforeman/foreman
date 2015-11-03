@@ -135,6 +135,16 @@ class FactParserTest < ActiveSupport::TestCase
     end
   end
 
+  test "#find_virtual_interface finds an interface with an alphanum alias" do
+    parser.stub(:get_interfaces, ['eth0', 'eth0_bar']) do
+      parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('eth0_bar').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      result = parser.send(:find_virtual_interface, parser.interfaces)
+      assert_includes result, 'eth0_bar'
+      refute_includes result, 'eth0'
+    end
+  end
+
   test "#find_virtual_interface does not find physical interfaces" do
     parser.stub(:get_interfaces, ['eth0', 'enp0s25', 'em1', 'eno1']) do
       parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
