@@ -6,8 +6,20 @@ class ApplicationMailerTest < ActiveSupport::TestCase
   class TestMailer < ::ApplicationMailer
     def test
       mail(:to => 'nobody@example.com', :subject => 'Danger, Will Robinson!') do |format|
-        format.text { render :plain => "This is a test mail." }
+        format.html { render :text =>  html_mail }
       end
+    end
+
+    def html_mail
+      %|<html>
+          <head>
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <link href="/assets/unimported/email.css" media="screen" rel="stylesheet" />
+          </head>
+          <body>
+            <h2 class="headline"><b>Foreman</b> test email</h2>
+          </body>
+        </html>|.html_safe
     end
   end
 
@@ -18,6 +30,10 @@ class ApplicationMailerTest < ActiveSupport::TestCase
 
   test 'foreman server header is set' do
     assert_equal mail.header['X-Foreman-Server'].to_s, 'foreman.some.host.fqdn'
+  end
+
+  test 'application mailer can use external css' do
+    assert mail.body.include? 'style='
   end
 
   test 'foreman subject prefix is attached' do

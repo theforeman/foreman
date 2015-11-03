@@ -30,7 +30,9 @@ class HostMailer < ApplicationMailer
         :total => total
       }
 
-      mail(:to => user.mail, :subject => subject)
+      mail(:to => user.mail, :subject => subject) do |format|
+        format.html { render :layout => 'application_mailer' }
+      end
     end
   end
 
@@ -39,16 +41,20 @@ class HostMailer < ApplicationMailer
     @host = @report.host
     set_url
     set_locale_for(options[:user]) do
-      mail(:to => options[:user].mail, :subject => (_("Puppet error on %s") % @host))
+      mail(:to => options[:user].mail, :subject => (_("Puppet error on %s") % @host)) do |format|
+        format.html { render :layout => 'application_mailer' }
+      end
     end
   end
 
   def host_built(host, options = {})
     @host = host
-    set_url
 
     set_locale_for(options[:user]) do
-      mail(:to => options[:user].mail, :subject => (_("Host %s is built") % @host))
+      mail(:to => options[:user].mail, :subject => (_("Host %s is built") % @host)) do |format|
+        format.html { render :layout => 'application_mailer' }
+        format.text
+      end
     end
   end
 

@@ -1,23 +1,23 @@
-<table style="border: 1px solid #cccccc; padding: 5px; background-color: #ffffff; border-collapse: collapse; text-align: center; width: 100%;">
+<table class="center" >
   <tbody>
     <tr>
-      <td style="font-size: 125%; width: 33%; padding: 5px; border: 1px solid #ccc;">
+      <td class="dashboard">
         <%= (n_('<b style="color: #6bb5df;">%{hosts_sum}</b>
-               <p style="font-weight: bold; margin: 5px; padding: 0px;">Changed</p>',
+               <p>Changed</p>',
               '<b style="color: #6bb5df;">%{hosts_sum}</b>
-               <p style="font-weight: bold; margin: 5px; padding: 0px;">Changed</p>', hosts_sum) % { :hosts_sum => hosts_sum }).html_safe %>
+               <p>Changed</p>', hosts_sum) % { :hosts_sum => hosts_sum }).html_safe %>
       </td>
-      <td style="font-size: 125%; width: 33%; padding: 5px; border: 1px solid #ccc;">
+      <td class="dashboard">
         <%= (n_('<b style="color: #6bb5df;">%{out_of_sync_sum}</b>
-               <p style="font-weight: bold; margin: 5px; padding: 0px;">Out of sync</p>',
+               <p>Out of sync</p>',
               '<b style="color: #6bb5df;">%{out_of_sync_sum}</b>
-               <p style="font-weight: bold; margin: 5px; padding: 0px;">Out of sync</p>', out_of_sync_sum) % { :out_of_sync_sum => out_of_sync_sum }).html_safe %>
+               <p>Out of sync</p>', out_of_sync_sum) % { :out_of_sync_sum => out_of_sync_sum }).html_safe %>
       </td>
-      <td style="font-size: 125%; width: 33%; padding: 5px; border: 1px solid #ccc;">
+      <td class="dashboard">
         <%= (n_('<b style="color: #6bb5df;">%{disabled_sum}</b>
-               <p style="font-weight: bold; margin: 5px; padding: 0px;">Disabled</p>',
+               <p>Disabled</p>',
               '<b style="color: #6bb5df;">%{disabled_sum}</b>
-               <p style="font-weight: bold; margin: 5px; padding: 0px;">Disabled</p>', disabled_sum) % { :disabled_sum => disabled_sum }).html_safe %>
+               <p>Disabled</p>', disabled_sum) % { :disabled_sum => disabled_sum }).html_safe %>
       </td>
     </tr>
   </tbody>

@@ -1,20 +1,17 @@
-<body style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #3f3f3f; background-color: #f1f1f1; padding: 10px 24px">
-<h2 style="font-weight: normal; text-transform: uppercase; font-size: 120%;"><%= _("<b>Foreman</b> audit summary").html_safe %></h2>
-<ul style="list-style-type: none;">
+<h2 class="headline"><%= _("<b>Foreman</b> audit summary").html_safe %></h2>
+<ul class="none">
   <% if @audits.size > 0 %>
     <%= n_('Displaying %{num_audits} of %{total_audits} audit',
            'Displaying %{num_audits} of %{total_audits} audits', @count) % {:num_audits => @limit, :total_audits => @count} %>
     <% @audits.each do |audit| %>
-      <li style="margin: 5px 15px; border-bottom: 1px solid #ccc; padding-bottom: 10px; width: 70%; font-size: 120%;">
-        <%
-           login = audit.user.login rescue nil
-           user_search_param = login ? "user = #{login}" : %Q{username = "#{audit.username}"}
-        %>
+      <li class="item">
+        <% login = audit.user.login rescue nil
+           user_search_param = login ? "user = #{login}" : %Q{username = "#{audit.username}"} %>
         <b>
-          <%= link_to(audit.username, audits_url(:host => @url.host, :port => @url.port, :protocol => @url.scheme, :search => user_search_param)) %>
+          <%= link_to(audit.username, audits_path(:search => user_search_param)) %>
           <span style="color: #cccccc"><%= audit_remote_address audit %></span>
           <%= audit_action_name audit%> <%= audited_type audit %>:
-          <%=link_to(audit_title(audit), audit_url(:id => audit, :host => @url.host, :port => @url.port, :protocol => @url.scheme), {:style => 'color: #2a6496'}) %>
+          <%= link_to(audit_title(audit), audit_path(:id => audit), {:style => 'color: #2a6496'}) %>
         </b>
         <ul style="list-style-type: none;">
           <% details(audit).each do |detail| -%>
@@ -32,6 +29,5 @@
   <% end %>
 </ul>
 <p>
-  <%= link_to(_('Full audits list'), audits_url(:host => @url.host, :port => @url.port, :protocol => @url.scheme, :search => @query)) %>
+  <%= link_to(_('Full audits list'), audits_path(:search => @query)) %>
 </p>
-</body>

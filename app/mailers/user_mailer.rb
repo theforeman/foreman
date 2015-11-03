@@ -14,7 +14,10 @@ class UserMailer < ApplicationMailer
     user = options[:user]
 
     set_locale_for(user) do
-      mail(:to => options[:email], :subject => _("Foreman test email"))
+      mail(:to => options[:email], :subject => _("Foreman test email")) do |format|
+        format.html { render :layout => 'application_mailer' }
+        format.text
+      end
     end
   end
 end

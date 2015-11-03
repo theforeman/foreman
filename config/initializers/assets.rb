@@ -53,7 +53,7 @@ Foreman::Application.configure do |app|
 
   javascript += FastGettext.default_available_locales.map { |loc| "locale/#{loc}/app" }
 
-  stylesheets = %w( )
+  stylesheets = %w( unimported/email.css )
 
   # Add the fonts path
   config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
