@@ -538,4 +538,19 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_equal @bmchost.name, response['search']
     end
   end
+
+  test 'template should return rendered template' do
+    managed_host = FactoryGirl.create(:host, :managed)
+    Host::Managed.any_instance.stubs(:provisioning_template).with({:kind => 'provision'}).returns(FactoryGirl.create(:provisioning_template))
+    get :template, { :id => managed_host.to_param, :kind => 'provision' }
+    assert_response :success
+    assert @response.body =~ /template content/
+  end
+
+  test 'wrong template name should return not found' do
+    managed_host = FactoryGirl.create(:host, :managed)
+    Host::Managed.any_instance.stubs(:provisioning_template).with({:kind => 'provitamin'}).returns(nil)
+    get :template, { :id => managed_host.to_param, :kind => 'provitamin' }
+    assert_response :not_found
+  end
 end

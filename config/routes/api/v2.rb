@@ -300,6 +300,7 @@ Foreman::Application.routes.draw do
           get :status, :on => :member
           get 'status/:type', :on => :member, :action => :get_status
           get :vm_compute_attributes, :on => :member
+          get 'template/:kind', :on => :member, :action => :template
           put :puppetrun, :on => :member
           put :disassociate, :on => :member
           put :boot, :on => :member

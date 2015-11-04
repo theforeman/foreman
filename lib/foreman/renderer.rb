@@ -118,7 +118,10 @@ module Foreman
     # can be used to load additional variable relevant for give pxe type, requires @host to be present
     def load_template_vars
       # load the os family default variables
-      send "#{@host.operatingsystem.pxe_type}_attributes"
+      if @host.operatingsystem.respond_to?(:pxe_type)
+        send "#{@host.operatingsystem.pxe_type}_attributes"
+        pxe_config
+      end
 
       @provisioning_type = @host.is_a?(Hostgroup) ? 'hostgroup' : 'host'
 

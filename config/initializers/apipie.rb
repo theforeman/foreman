@@ -19,6 +19,7 @@ Apipie.configure do |config|
     :operatingsystem_families => Operatingsystem.families.join(", "),
     :providers => ComputeResource.providers.join(', '),
     :default_nic_type => InterfaceTypeMapper::DEFAULT_TYPE.humanized_name.downcase,
+    :template_kinds => -> { TemplateKind.scoped.map(&:name).join(", ") },
   }
 
   config.translate = lambda do |str, loc|
@@ -26,7 +27,7 @@ Apipie.configure do |config|
     FastGettext.set_locale(loc)
     if str
       trans = _(str)
-      trans = trans % substitutions
+      trans = trans % Hash[substitutions.map { |k,v| [k, v.respond_to?(:call) ? v.call : v] }]
     end
     FastGettext.set_locale(old_loc)
     trans

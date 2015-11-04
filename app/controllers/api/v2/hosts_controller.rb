@@ -238,6 +238,18 @@ Return the host's compute attributes that can be used to create a clone of this 
         end
       end
 
+      api :GET, "/hosts/:id/template/:kind", N_("Preview rendered provisioning template content")
+      param :id, :identifier_dottable, :required => true
+      param :kind, String, :required => true, :desc => N_("Template kinds, available values: %{template_kinds}")
+      def template
+        template = @host.provisioning_template({ :kind => params[:kind] })
+        if template.nil?
+          not_found(_("No template with kind %{kind} for %{host}") % {:kind => params[:kind], :host => @host.to_label})
+        else
+          render :json => { :template => @host.render_template(template) }, :status => :ok
+        end
+      end
+
       private
 
       def merge_interfaces(host)
@@ -280,7 +292,7 @@ Return the host's compute attributes that can be used to create a clone of this 
             :console
           when 'disassociate'
             :edit
-          when 'vm_compute_attributes', 'get_status'
+          when 'vm_compute_attributes', 'get_status', 'template'
             :view
           when 'rebuild_config'
             :build
