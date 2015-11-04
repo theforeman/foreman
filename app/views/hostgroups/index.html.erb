@@ -6,6 +6,8 @@
   <thead>
     <tr>
       <th><%= sort :label, :as => _('Hostgroup|Name') %></th>
+      <th><%= sort :hosts_count, :as => _('Hosts'), :default => "DESC" %></th>
+      <th><%= _('Hosts including sub-groups') %></th>
       <th></th>
     </tr>
   </thead>
@@ -14,6 +16,12 @@
       <tr>
         <td>
           <%= label_with_link(hostgroup, 150, authorizer) %>
+        </td>
+        <td>
+          <%= link_to hostgroup.hosts_count, hosts_path(:search => "hostgroup_fullname = #{hostgroup.title}") %>
+        </td>
+        <td>
+          <%= link_to hostgroup.children_hosts_count, hosts_path(:search => "parent_hostgroup = #{hostgroup.title}") %>
         </td>
         <td>
           <%= action_buttons(

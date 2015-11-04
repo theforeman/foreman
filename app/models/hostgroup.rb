@@ -58,6 +58,7 @@ class Hostgroup < ActiveRecord::Base
   # for legacy purposes, keep search on :label
   scoped_search :on => :title, :complete_value => true, :rename => :label
   scoped_search :in => :config_groups, :on => :name, :complete_value => true, :rename => :config_group, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_config_group
+  scoped_search :on => :hosts_count
 
   def self.search_by_config_group(key, operator, value)
     conditions  = sanitize_sql_for_conditions(["config_groups.name #{operator} ?", value_to_sql(operator, value)])
@@ -197,6 +198,10 @@ class Hostgroup < ActiveRecord::Base
   def update_ancestry_puppetclasses
     unscoped_find(ancestry_was.to_s.split('/').last.to_i).update_puppetclasses_total_hosts if ancestry_was.present?
     unscoped_find(ancestry.to_s.split('/').last.to_i).update_puppetclasses_total_hosts if ancestry.present?
+  end
+
+  def children_hosts_count
+    subtree.sum(:hosts_count)
   end
 
   protected
