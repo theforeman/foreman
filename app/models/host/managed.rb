@@ -164,7 +164,7 @@ class Host::Managed < Host::Base
 
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
-    include Foreman::Renderer
+    include UnattendedHelper # which also includes Foreman::Renderer
     include Orchestration
     # DHCP orchestration delegation
     delegate :dhcp?, :dhcp_record, :to => :primary_interface
@@ -870,6 +870,7 @@ class Host::Managed < Host::Base
 
   def render_template(template)
     @host = self
+    load_template_vars
     unattended_render(template)
   end
 

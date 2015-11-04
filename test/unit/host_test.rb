@@ -788,6 +788,13 @@ class HostTest < ActiveSupport::TestCase
 
         assert_equal [os_dt.provisioning_template], host.available_template_kinds('image')
       end
+
+      test "#render_template" do
+        provision_template = @host.provisioning_template({:kind => "provision"})
+        @host.expects(:load_template_vars)
+        rendered_template = @host.render_template(provision_template)
+        assert(rendered_template.include?("http://foreman.some.host.fqdn:80/unattended/finish"), "rendred template should parse foreman_url")
+      end
     end
 
     test "handle_ca must not perform actions when the manage_puppetca setting is false" do

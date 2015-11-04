@@ -29,8 +29,7 @@ class UnattendedController < ApplicationController
   before_filter :handle_ca, :only => PROVISION_URLS
   before_filter :handle_realm, :only => PROVISION_URLS
   # load "helper" variables to be available in the templates
-  before_filter :load_template_vars, :only => PROVISION_URLS
-  before_filter :pxe_config, :only => CONFIG_URLS
+  before_filter :load_template_vars, :only => PROVISION_URLS + CONFIG_URLS
   # all of our requests should be returned in text/plain
   after_filter :set_content_type
   before_filter :set_admin_user, :only => :built
