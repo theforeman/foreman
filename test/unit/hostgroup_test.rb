@@ -490,4 +490,22 @@ class HostgroupTest < ActiveSupport::TestCase
       assert group.reload.param_false?('group_param')
     end
   end
+
+  test 'should update hosts_count' do
+    host = FactoryGirl.create(:host)
+    hostgroup = FactoryGirl.create(:hostgroup)
+    assert_difference "hostgroup.hosts_count" do
+      host.update_attributes(:hostgroup => hostgroup)
+      hostgroup.reload
+    end
+  end
+
+  test '#children_hosts_count' do
+    group = FactoryGirl.create(:hostgroup, :with_parent)
+    FactoryGirl.create_list(:host, 3, :managed, :hostgroup => group )
+    assert_equal(3, group.parent.children_hosts_count)
+    nested_group = FactoryGirl.create(:hostgroup, :parent => group)
+    FactoryGirl.create_list(:host, 4, :managed, :hostgroup => nested_group )
+    assert_equal(7, group.parent.children_hosts_count)
+  end
 end

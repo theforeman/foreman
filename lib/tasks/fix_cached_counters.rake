@@ -13,5 +13,7 @@ task :fix_cached_counters => :environment do
   puts "ConfigGroup corrected"
   LookupKey.all.each{|el| LookupKey.reset_counters(el.id, :lookup_values)}
   puts "LookupKey corrected"
+  Hostgroup.all.each{|el| Hostgroup.reset_counters(el.id, :hosts)}
+  puts "Hostgroup corrected"
 end
 
