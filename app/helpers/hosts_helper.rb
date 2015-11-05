@@ -3,7 +3,7 @@ module HostsHelper
   include HostsAndHostgroupsHelper
   include ComputeResourcesVmsHelper
   include BmcHelper
-  include HostAspectsHelper
+  include FacetsHelper
 
   def provider_partial_exist?(compute_resource, partial)
     return false unless compute_resource

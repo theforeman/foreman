@@ -1,4 +1,4 @@
-module HostAspects
+module Facets
   class Entry
     ATTRIBUTES = [:name, :model, :helper, :extension, :tabs]
     attr_accessor(*ATTRIBUTES)
@@ -10,13 +10,13 @@ module HostAspects
       end
     end
 
-    def initialize(aspect_name, aspect_model)
-      self.name = to_name(aspect_name)
-      self.model = to_model(aspect_model)
+    def initialize(facet_name, facet_model)
+      self.name = to_name(facet_name)
+      self.model = to_model(facet_model)
     end
 
-    def add_helper(aspect_helper)
-      self.helper = aspect_helper.try(:to_sym)
+    def add_helper(facet_helper)
+      self.helper = facet_helper.try(:to_sym)
     end
 
     def add_tabs(tabs)
@@ -30,12 +30,12 @@ module HostAspects
 
     private
 
-    def to_name(aspect_name)
-      aspect_name.to_sym
+    def to_name(facet_name)
+      facet_name.to_sym
     end
 
-    def to_model(aspect_model)
-      aspect_model.try(:to_sym) || self.name.to_s.underscore.to_sym
+    def to_model(facet_model)
+      facet_model.try(:to_sym) || self.name.to_s.underscore.to_sym
     end
 
     private

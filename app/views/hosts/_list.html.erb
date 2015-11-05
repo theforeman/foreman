@@ -6,7 +6,7 @@
       <th class="ca" width="40px"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
       <th width="25%"><%= sort :name, :as => _('Name') %></th>
 
-      <% HostAspects.configuration.registered_aspects.values.each do |config| %>
+      <% Facets.configuration.registered_facets.values.each do |config| %>
       <%= render "#{config.name}/host/list_headers" %>
       <% end %>
 
@@ -27,7 +27,7 @@
         <td class="ellipsis"><%= name_column(host) %>
         </td>
 
-        <% HostAspects.configuration.registered_aspects.values.each do |config| %>
+        <% Facets.configuration.registered_facets.values.each do |config| %>
         <%= render "#{config.name}/host/list", :locals => { :host => host } %>
         <% end %>
 

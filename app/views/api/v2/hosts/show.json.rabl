@@ -32,8 +32,8 @@ host_additional_views(@host).each do |id, tab|
       partial "api/v2/#{tab}", :object => host
     end
   else
-    child tab => id.to_sym do |aspect|
-      class_name = tab.class.name.underscore
+    child tab => id.to_sym do |facet|
+      class_name = tab.class.name.demodulize.underscore
       extends "api/v2/#{class_name.pluralize}/base"
     end
   end

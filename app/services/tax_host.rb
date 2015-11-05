@@ -150,8 +150,8 @@ class TaxHost
       # can't use pluck(key), :domain_id is delegated method, not SQL column, performance diff wasn't big
       ids = []
       hosts.each do |host|
-        host.host_aspects.each do |aspect|
-          ids << aspect.send(key.to_sym) if aspect.respond_to?(key.to_sym)
+        host.host_facets.each do |facet|
+          ids << facet.send(key.to_sym) if facet.respond_to?(key.to_sym)
         end
         ids << host.send(key) if host.respond_to?(key)
       end

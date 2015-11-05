@@ -13,7 +13,7 @@ class Host::Managed < Host::Base
   end
 
   include Hostext::Search
-  include HostAspects::ManagedHostExtensions
+  include Facets::ManagedHostExtensions
   PROVISION_METHODS = %w[build image]
 
   has_many :host_classes, :foreign_key => :host_id
@@ -350,8 +350,8 @@ class Host::Managed < Host::Base
     opts[:hostgroup_id]       ||= hostgroup_id
     opts[:environment_id]     ||= environment_id
 
-    host_aspects.each do |aspect|
-      opts = aspect.provisioning_template_options(opts)
+    host_facets.each do |facet|
+      opts = facet.provisioning_template_options(opts)
     end
 
     ProvisioningTemplate.find_template opts
@@ -445,8 +445,8 @@ class Host::Managed < Host::Base
     info_hash['parameters'] = param
     info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"] && param["foreman_env"]
 
-    host_aspects.each do |aspect|
-      info_hash.deep_merge! aspect.info
+    host_facets.each do |facet|
+      info_hash.deep_merge! facet.info
     end
 
     info_hash
@@ -540,8 +540,8 @@ class Host::Managed < Host::Base
       self.environment ||= importer.environment unless importer.environment.blank?
     end
 
-    HostAspects.configuration.registered_aspects.values.each do |aspect_config|
-      aspect_config.model_class.populate_fields_from_facts(self, importer, type, proxy_id)
+    Facets.configuration.registered_facets.values.each do |facet_config|
+      facet_config.model_class.populate_fields_from_facts(self, importer, type, proxy_id)
     end
 
     operatingsystem.architectures << architecture if operatingsystem && architecture && !operatingsystem.architectures.include?(architecture)
@@ -657,10 +657,10 @@ class Host::Managed < Host::Base
     end
     return attributes unless new_hostgroup
 
-    HostAspects.configuration.registered_aspects.values.each do |aspect_config|
-      aspect_attributes = attributes["#{aspect_config.model}_attributes"]
-      aspect_attributes = aspect_config.model_class.inherited_attributes(new_hostgroup, aspect_attributes)
-      attributes["#{aspect_config.model}_attributes"] = aspect_attributes if aspect_attributes
+    Facets.configuration.registered_facets.values.each do |facet_config|
+      facet_attributes = attributes["#{facet_config.model}_attributes"]
+      facet_attributes = facet_config.model_class.inherited_attributes(new_hostgroup, facet_attributes)
+      attributes["#{facet_config.model}_attributes"] = facet_attributes if facet_attributes
     end
 
     inherited_attributes = hostgroup_inherited_attributes - attributes.keys
@@ -668,20 +668,6 @@ class Host::Managed < Host::Base
     inherited_attributes.each do |attribute|
       value = new_hostgroup.send("inherited_#{attribute}")
       attributes[attribute] = value
-    end
-
-    attributes
-  end
-
-  def filter_aspect_ids(attributes)
-    return nil unless attributes
-
-    #don't change the source to minimize side effects.
-    attributes = hash_clone(attributes)
-
-    HostAspects.configuration.registered_aspects.values.each do |aspect_config|
-      attributes_key = "#{aspect_config.model}_attributes"
-      attributes[attributes_key] = attributes[attributes_key].except(:id) if attributes[attributes_key]
     end
 
     attributes
@@ -786,8 +772,8 @@ class Host::Managed < Host::Base
     end
     host.refresh_global_status
 
-    host.host_aspects.each do |aspect|
-      aspect.after_clone
+    host.host_facets.each do |facet|
+      facet.after_clone
     end
 
     host
@@ -845,8 +831,8 @@ class Host::Managed < Host::Base
       ids << p
     end
 
-    host_aspects.each do |aspect|
-      ids += aspect.smart_proxy_ids
+    host_facets.each do |facet|
+      ids += facet.smart_proxy_ids
     end
 
     ids.uniq.compact
@@ -920,15 +906,15 @@ class Host::Managed < Host::Base
         :hostgroup_id       => hostgroup_id,
         :environment_id     => environment_id
       }
-      template_filter_from_aspects(kind, filter)
+      template_filter_from_facets(kind, filter)
 
       ProvisioningTemplate.find_template(filter)
     end.compact
   end
 
-  def template_filter_from_aspects(kind, base_filter)
-    host_aspects.each do |aspect|
-      base_filter.deep_merge!(aspect.template_filter_options(kind))
+  def template_filter_from_facets(kind, base_filter)
+    host_facets.each do |facet|
+      base_filter.deep_merge!(facet.template_filter_options(kind))
     end
     base_filter
   end

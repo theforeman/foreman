@@ -1,4 +1,4 @@
-class HostAspectBase < ActiveRecord::Base
+class HostFacetBase < ActiveRecord::Base
   self.abstract_class = true
 
   def self.inherited(subclass)
@@ -8,7 +8,7 @@ class HostAspectBase < ActiveRecord::Base
     end
   end
 
-  # Add aspect's details to host's ENC by returning it from this method
+  # Add facet's details to host's ENC by returning it from this method
   # Basic ENC hash structure:
   # ---
   # classes:
@@ -21,12 +21,12 @@ class HostAspectBase < ActiveRecord::Base
     {}
   end
 
-  # Specify any smart proxy id's used by this aspect.
+  # Specify any smart proxy id's used by this facet.
   def smart_proxy_ids
     []
   end
 
-  # This method will be called after a host with all its aspects is cloned.
+  # This method will be called after a host with all its facets is cloned.
   def after_clone
   end
 
@@ -40,13 +40,13 @@ class HostAspectBase < ActiveRecord::Base
     base_options
   end
 
-  # Change attributes that will be sent to an aspect based on inherited values from the hostgroup.
-  def self.inherited_attributes(hostgroup, aspect_attributes)
-    aspect_attributes
+  # Change attributes that will be sent to an facet based on inherited values from the hostgroup.
+  def self.inherited_attributes(hostgroup, facet_attributes)
+    facet_attributes
   end
 
   # Use this method to populate host's fields based on fact values exposed by the importer.
-  # You can populate fields in the associted host's aspects too.
+  # You can populate fields in the associted host's facets too.
   def self.populate_fields_from_facts(host, importer, type, proxy_id)
   end
 end

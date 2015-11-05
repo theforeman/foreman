@@ -1,7 +1,7 @@
-module HostAspects
+module Facets
   class << self
     def configuration
-      @configuration ||= HostAspects::Configuration.new
+      @configuration ||= Facets::Configuration.new
     end
 
     def configure(&block)
