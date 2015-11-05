@@ -1,9 +1,7 @@
 module HostAspectsHelper
   # override host's tabs to add all aspects as tabs
-  def host_additional_tabs(host)
-    base_tabs = {}
-    aspect_tabs = load_aspects(host)
-    base_tabs.merge!(aspect_tabs)
+  def host_additional_views(host)
+    base_tabs = load_aspects(host)
     base_tabs.merge!(helper_tabs(host))
     base_tabs
   end

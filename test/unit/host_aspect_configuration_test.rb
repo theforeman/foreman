@@ -1,47 +1,55 @@
 require 'test_helper'
 
 class HostAspectConfigurationTest < ActiveSupport::TestCase
-  class MyCoolClass
+  class TestClass
+  end
+
+  test 'enables block configuration' do
+    config = HostAspects::Configuration.new
+    HostAspects.expects(:configuration).returns(config)
+
+    assert_difference('config.registered_aspects.count', 1) do
+      HostAspects.configure do
+        register 'TestAspect', :test_model
+      end
+    end
   end
 
   test 'gives readonly access to the registry' do
     config = HostAspects::Configuration.new
-    config.register 'MyCoolAspect', :my_cool_model
-    hash = config.registered_aspects
-    assert_equal 1, hash.count
-    hash.delete(:MyCoolAspect)
-    assert_equal 0, hash.count
-    hash = config.registered_aspects
-    assert_equal 1, hash.count
+    config.register 'TestAspect', :test_model
+    assert_difference('config.registered_aspects.count', 0) do
+      config.registered_aspects.delete(:TestAspect)
+    end
   end
 
   context 'single entry' do
     test 'defaults initialization' do
       config = HostAspects::Configuration.new
-      config.register 'MyCoolAspect'
-      res = config.registered_aspects[:MyCoolAspect]
-      assert_equal :MyCoolAspect, res.name
-      assert_equal :my_cool_aspect, res.model
+      config.register 'TestAspect'
+      aspect_configuration = config.registered_aspects[:TestAspect]
+      assert_equal :TestAspect, aspect_configuration.name
+      assert_equal :test_aspect, aspect_configuration.model
     end
 
     test 'extended initialization' do
       config = HostAspects::Configuration.new
-      config.register 'MyCoolAspect', :my_cool_model do
-        add_helper :my_cool_helper
-        extend_model :my_cool_extension
+      config.register 'TestAspect', :test_model do
+        add_helper :test_helper
+        extend_model :test_extension
       end
-      res = config.registered_aspects[:MyCoolAspect]
-      assert_equal :MyCoolAspect, res.name
-      assert_equal :my_cool_model, res.model
-      assert_equal :my_cool_helper, res.helper
-      assert_equal :my_cool_extension, res.extension
+      aspect_configuration = config.registered_aspects[:TestAspect]
+      assert_equal :TestAspect, aspect_configuration.name
+      assert_equal :test_model, aspect_configuration.model
+      assert_equal :test_helper, aspect_configuration.helper
+      assert_equal :test_extension, aspect_configuration.extension
     end
 
     test 'exposes xxx_class properties' do
       config = HostAspects::Configuration.new
-      config.register 'MyCoolAspect', 'HostAspectConfigurationTest::MyCoolClass'
-      res = config.registered_aspects[:MyCoolAspect]
-      assert_equal HostAspectConfigurationTest::MyCoolClass, res.model_class
+      config.register 'TestAspect', 'HostAspectConfigurationTest::TestClass'
+      aspect_configuration = config.registered_aspects[:TestAspect]
+      assert_equal HostAspectConfigurationTest::TestClass, aspect_configuration.model_class
     end
   end
 end

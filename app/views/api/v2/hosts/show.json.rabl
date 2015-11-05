@@ -26,7 +26,7 @@ child :config_groups do
   extends "api/v2/config_groups/main"
 end
 
-host_additional_tabs(@host).each do |id, tab|
+host_additional_views(@host).each do |id, tab|
   if tab.is_a? String
     node do |host|
       partial "api/v2/#{tab}", :object => host

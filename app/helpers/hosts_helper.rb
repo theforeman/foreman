@@ -482,7 +482,7 @@ module HostsHelper
   end
 
   def load_tabs(host)
-    @tabs = host_additional_tabs(host)
+    @tabs = host_additional_views(host)
   end
 
   def host_tab(id, val, host_form)

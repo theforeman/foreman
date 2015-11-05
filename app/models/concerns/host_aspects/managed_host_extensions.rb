@@ -6,7 +6,7 @@ module HostAspects
 
     included do
       HostAspects::ManagedHostExtensions.refresh_aspect_relations(self)
-      after_save :reload #should be removed after moving to rails 4. Fixes an issue with save! that breaks :inverse_of.
+      after_save :clear_association_cache #should be removed after moving to rails 4. Fixes an issue with save! that breaks :inverse_of.
 
       def attributes
         hash = super

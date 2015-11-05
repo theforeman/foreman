@@ -243,6 +243,8 @@ class HostsControllerTest < ActionController::TestCase
     setup_user_and_host "view", "domain_id = #{domains(:mydomain).id}"
 
     as_admin do
+      @host1.reload
+      @host2.reload
       @host1.update_attribute(:domain, domains(:mydomain))
       @host2.update_attribute(:domain, domains(:yourdomain))
     end
