@@ -135,6 +135,11 @@ function build_modal(element, url) {
 
 }
 
+function build_redirect(url) {
+  var url = url + "?" + $.param({host_ids: $.foremanSelectedHosts});
+  window.location.replace(url);
+}
+
 function update_counter() {
   var item = $("#check_all");
   if ($.foremanSelectedHosts) {
