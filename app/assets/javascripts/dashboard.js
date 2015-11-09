@@ -20,7 +20,7 @@ function auto_refresh(){
 function start_gridster(){
     var gridster = $(".gridster>ul").gridster({
         widget_margins: [10, 10],
-        widget_base_dimensions: [82, 340],
+        widget_base_dimensions: [75, 340],
         max_size_x: 12,
         min_cols: 12,
         max_cols: 12,
@@ -37,7 +37,7 @@ function start_gridster(){
 
 function hide_widget(item){
     var gridster = $(".gridster>ul").gridster().data('gridster');
-    var widget = $(item).parents('li.gs_w');
+    var widget = $(item).parents('li.gs-w');
 
     widget.attr('data-hide', 'true').hide();
     gridster.remove_widget(widget);
@@ -46,7 +46,7 @@ function hide_widget(item){
 }
 
 function remove_widget(item){
-    var widget = $(item).parents('li.gs_w');
+    var widget = $(item).parents('li.gs-w');
     var gridster = $(".gridster>ul").gridster().data('gridster');
     if (confirm(__("Are you sure you want to delete this widget from your dashboard?"))){
         $.ajax({
