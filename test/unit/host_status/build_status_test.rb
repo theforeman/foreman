@@ -7,6 +7,10 @@ class BuildStatusTest < ActiveSupport::TestCase
     @status.host = @host
   end
 
+  test 'is valid' do
+    assert_valid @status
+  end
+
   test '#to_label changes based on waiting_for_build?' do
     @status.stub(:waiting_for_build?, true) do
       assert_equal 'Pending installation', @status.to_label

@@ -459,8 +459,17 @@ class HostTest < ActiveSupport::TestCase
     assert_equal status, new_status
   end
 
-  test 'host #refresh_statuses saves all relevant statuses and refreshes global status' do
+  test 'host #get_status(type) only builds a new status once' do
     host = FactoryGirl.build(:host)
+    status1 = host.get_status(HostStatus::BuildStatus)
+    assert status1.new_record?
+    status2 = host.get_status(HostStatus::BuildStatus)
+    assert_equal status1.object_id, status2.object_id
+  end
+
+  test 'host #refresh_statuses saves all relevant statuses and refreshes global status' do
+    host = FactoryGirl.create(:host, :with_puppet, :with_reports)
+    host.reload
     host.global_status = 1
 
     host.refresh_statuses
