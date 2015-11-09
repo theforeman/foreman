@@ -13,10 +13,12 @@
 <%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new_host } %>
 <%= select_f f, :scsi_controller_type, compute_resource.scsi_controller_types, :first, :last, {}, { :label => _("SCSI controller"), :class => "col-md-2", :disabled => !new_host } %>
 <%= select_f f, :hardware_version, compute_resource.vm_hw_versions, :first, :last, {}, { :label => _("Virtual H/W version"), :class => "col-md-2", :disabled => !new_host } %>
+<%= checkbox_f f, :memoryHotAddEnabled, { :help_inline => _("Memory hot add lets you add memory resources for a virtual machine while the machine is powered on."), :label => _('Memory hot add'), :label_size => "col-md-2", :disabled => !new_host } %>
+<%= checkbox_f f, :cpuHotAddEnabled, { :help_inline => _("CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."), :label => _('CPU hot add'), :label_size => "col-md-2", :disabled => !new_host } %>
 
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-3" } if new_host and controller_name != 'compute_attributes' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_host and controller_name != 'compute_attributes' %>
 
 <%
   arch ||= nil ; os ||= nil
