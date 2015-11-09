@@ -271,8 +271,7 @@ class Host::Managed < Host::Base
     self.installed_at = Time.now.utc if installed
 
     if self.save
-      recipients = owner ? owner.recipients_for(:host_built) : []
-      MailNotification[:host_built].deliver(self, :users => recipients) if recipients.present?
+      send_built_notification if installed
       true
     else
       logger.warn "Failed to set Build on #{self}: #{self.errors.full_messages}"
@@ -1088,5 +1087,10 @@ class Host::Managed < Host::Base
     object.class.sort_by_ancestry(object.ancestors).each {|o| params += o.send(object_parameters_symbol)}
     params += object.send(object_parameters_symbol)
     params
+  end
+
+  def send_built_notification
+    recipients = owner ? owner.recipients_for(:host_built) : []
+    MailNotification[:host_built].deliver(self, :users => recipients) if recipients.present?
   end
 end
