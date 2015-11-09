@@ -902,7 +902,7 @@ class Host::Managed < Host::Base
   end
 
   def get_status(type)
-    status = self.new_record? ? host_statuses.detect { |s| s.type == type.to_s } : host_statuses.find_by_type(type.to_s)
+    status = host_statuses.detect { |s| s.type == type.to_s }
     if status.nil?
       host_statuses.new(:host => self, :type => type.to_s)
     else
