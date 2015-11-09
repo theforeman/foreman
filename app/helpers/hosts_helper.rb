@@ -156,7 +156,13 @@ module HostsHelper
   def multiple_actions_select
     select_action_button( _("Select Action"), {:id => 'submit_multiple'},
       multiple_actions.map do |action|
-        link_to_function(action[0], "build_modal(this, '#{action[1]}')", :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
+        # If the action array has 3 entries, the third one is whether to use a modal dialog or not
+        modal = action.size == 3 ? action[3] : true
+        if modal
+          link_to_function(action[0], "build_modal(this, '#{action[1]}')", :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
+        else
+          link_to_function(action[0], "build_redirect('#{action[1]}')")
+        end
       end.flatten
     )
   end
