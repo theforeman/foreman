@@ -1544,14 +1544,25 @@ class HostTest < ActiveSupport::TestCase
       end
     end
 
-    test "built should send host built mail" do
-      ActionMailer::Base.deliveries = []
-      User.current.mail_notifications << MailNotification[:host_built]
-      host = FactoryGirl.create(:host, :managed, :owner => User.current)
-      host.built
-      email = ActionMailer::Base.deliveries.detect { |mail| mail.subject =~ /Host #{host} is built/ }
-      assert email
-      assert_match /Your host has finished/, email.body.encoded
+    context "built notifications" do
+      let(:host) { FactoryGirl.build(:host, :managed, :owner => User.current) }
+
+      setup do
+        ActionMailer::Base.deliveries = []
+        User.current.mail_notifications << MailNotification[:host_built]
+      end
+
+      test "is sent notification when installed" do
+        host.built(true)
+        email = ActionMailer::Base.deliveries.detect { |mail| mail.subject =~ /Host #{host} is built/ }
+        assert email
+        assert_match /Your host has finished/, email.body.encoded
+      end
+
+      test "is not sent when not installed" do
+        host.built(false)
+        assert_empty ActionMailer::Base.deliveries
+      end
     end
 
     test "can auto-complete searches by host name" do
