@@ -52,6 +52,8 @@ module Api
       return resource_class.where(nil) unless scope
 
       association = resource_class.reflect_on_all_associations.find {|assoc| assoc.plural_name == parent_name.pluralize}
+      #if couldn's find an association by name, try to find one by class
+      association ||= resource_class.reflect_on_all_associations.find {|assoc| assoc.class_name == parent_name.camelize}
       resource_class.joins(association.name).merge(scope)
     end
 

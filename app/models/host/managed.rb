@@ -153,6 +153,8 @@ class Host::Managed < Host::Base
   # audit the changes to this model
   audited :except => [:last_report, :puppet_status, :last_compile, :lookup_value_matcher], :allow_mass_assignment => true
   has_associated_audits
+  #redefine audits relation because of the type change (by default the relation will look for auditable_type = 'Host::Managed')
+  has_many :audits, :foreign_key => :auditable_id, :class_name => Audited.audit_class.name, :conditions => { :auditable_type => 'Host' }
 
   # some shortcuts
   alias_attribute :os, :operatingsystem
