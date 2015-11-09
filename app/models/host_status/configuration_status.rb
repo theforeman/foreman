@@ -77,6 +77,10 @@ module HostStatus
       end
     end
 
+    def relevant?
+      host.configuration?
+    end
+
     def self.is(config_status)
       "((host_status.status >> #{bit_mask(config_status)}) != 0)"
     end

@@ -6,6 +6,12 @@ module HostStatus
 
     belongs_to_host :inverse_of => :host_statuses
 
+    validates :host, :presence => true
+    validates :host_id, :uniqueness => {:scope => :type}
+    validates :reported_at, :presence => true
+
+    before_validation :update_timestamp, :if => ->(status) { status.reported_at.blank? }
+
     attr_accessible :host, :type
 
     def to_global(options = {})
@@ -42,6 +48,8 @@ module HostStatus
       update_status
     end
 
+    # Whether this status should be displayed to users, it may not be relevant for certain
+    # types of hosts
     def relevant?
       true
     end
