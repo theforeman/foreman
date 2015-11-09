@@ -2,7 +2,6 @@ module Api
   module V2
     class AuditsController < V2::BaseController
       before_filter :find_resource, :only => %w{show}
-      before_filter :setup_search_options, :only => :index
 
       api :GET, "/audits/", N_("List all audits")
       api :GET, "/hosts/:host_id/audits/", N_("List all audits for a given host")
