@@ -6,6 +6,7 @@ $row-margin: 10px;
 .gridster ul{
   padding-left: 0;
   list-style: none;
+  max-width: 100%;
 }
 
 $col-margin-left: 15px;
@@ -109,7 +110,7 @@ $col-margin-fallback: 1.5%;
   }
 }
 
-.gs_w {
+.gs-w {
   padding: 19px;
   margin-bottom: 10px;
   border: 1px solid #e3e3e3;

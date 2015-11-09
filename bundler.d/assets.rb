@@ -14,7 +14,7 @@ group :assets do
   #   https://github.com/nubis/gettext_i18n_rails_js/pull/23
   gem 'gettext', '~> 3.1', :require => false
   gem 'multi-select-rails', '~> 0.9'
-  gem 'gridster-rails', '~> 0.1'
+  gem 'gridster-rails', '~> 0.5'
   gem 'jquery_pwstrength_bootstrap', '~> 1.2'
   gem 'jquery-turbolinks', '~> 2.1'
   gem 'select2-rails', '~> 3.5'
