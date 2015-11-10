@@ -481,7 +481,8 @@ module Foreman::Model
         :interfaces => [new_interface],
         :volumes    => [new_volume],
         :scsi_controller => { :type => scsi_controller_default_type },
-        :datacenter => datacenter
+        :datacenter => datacenter,
+        :boot_order => ['network', 'disk'],
       )
     end
   end
