@@ -1,6 +1,5 @@
 group :development do
   gem 'maruku', '~> 0.7'
-  gem 'term-ansicolor'
   gem 'rubocop', '0.28.0'
 
   # for generating i18n files
@@ -10,6 +9,9 @@ group :development do
   gem 'immigrant', '~> 0.1'
 
   gem 'pry'
+  gem 'term-ansicolor'
+  gem 'tins', '< 1.7.0', :require => false if RUBY_VERSION.start_with? '1.9.'
+
   gem 'bullet'
   gem "parallel_tests"
 end
