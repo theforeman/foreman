@@ -1,6 +1,6 @@
 group :development do
   gem 'maruku', '~> 0.7'
-  gem 'term-ansicolor'
+  gem 'term-ansicolor' if RUBY_VERSION.to_f > 1.9
   gem 'rubocop', '0.28.0'
 
   # for generating i18n files
