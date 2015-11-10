@@ -133,6 +133,17 @@ class RoleTest < ActiveSupport::TestCase
       it { subject.must_include(first) }
       it { subject.wont_include(second) }
     end
+
+    context "when current user is admin for_current_user should return all roles" do
+      setup do
+        User.current = users(:admin)
+      end
+
+      test "Admin user should query Role model with no restrictions" do
+        Role.expects(:where).with('0 = 0')
+        Role.for_current_user
+      end
+    end
   end
 
   describe "#add_permissions" do
