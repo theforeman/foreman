@@ -20,7 +20,8 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert !show_response.empty?
     #assert child nodes are included in response'
     NODES = ["users", "smart_proxies", "subnets", "compute_resources", "media", "config_templates",
-             "domains", "environments", "hostgroups", "organizations", "parameters"].sort
+             "provisioning_templates", "domains", "ptables", "realms", "environments", "hostgroups",
+             "organizations", "parameters"].sort
     NODES.each do |node|
       assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"
     end

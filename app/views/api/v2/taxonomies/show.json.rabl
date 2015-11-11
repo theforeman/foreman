@@ -42,6 +42,10 @@ child :domains do
   extends "api/v2/domains/base"
 end
 
+child :realms do
+  extends "api/v2/realms/base"
+end
+
 child :environments do
   extends "api/v2/environments/base"
 end
