@@ -25,23 +25,29 @@ module Facets
     end
 
     def extend_model(extension_symbol)
-      self.extension = extension_symbol.to_sym
+      self.extension = to_symbol(extension_symbol)
     end
 
     private
 
     def to_name(facet_name)
-      facet_name.to_sym
+      to_symbol(facet_name)
     end
 
     def to_model(facet_model)
-      facet_model.try(:to_sym) || self.name.to_s.underscore.to_sym
+      to_symbol(facet_model) || self.name
     end
 
     private
 
     def to_class(symbol)
       symbol.to_s.camelize.constantize if symbol
+    end
+
+    def to_symbol(input)
+      return nil unless input
+      input = input.name if input.is_a? Class
+      input.to_s.underscore.to_sym
     end
   end
 end

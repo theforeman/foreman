@@ -4,13 +4,45 @@ require 'facet_test_helper'
 class TestFacet < HostFacetBase
 end
 
+module TestModule
+  class ModuleTestFacet < HostFacetBase
+  end
+end
+
 class FacetTest < ActiveSupport::TestCase
+  setup do
+    @config = Facets::Configuration.new
+    Facets.stubs(:configuration).returns(@config)
+  end
+
+  teardown do
+    Host::Managed.cloned_parameters[:include].delete(:test_model)
+    Host::Managed.cloned_parameters[:include].delete(:test_facet)
+    Host::Managed.cloned_parameters[:include].delete(:namespaced_facet)
+  end
+
+  context 'namespaced facets' do
+    setup do
+      @config.register :namespaced_facet, 'TestModule::ModuleTestFacet'
+
+      @host = Host::Managed.new
+      @facet = @host.build_namespaced_facet
+    end
+
+    test 'can create a namespaced facet' do
+      assert_equal @facet, @host.host_facets.first
+    end
+
+    test 'returns facets attributes' do
+      attributes = @host.attributes
+
+      assert_not_nil attributes["namespaced_facet_attributes"]
+    end
+  end
+
   context 'managed host behavior' do
     setup do
-      @config = Facets::Configuration.new
-      Facets.stubs(:configuration).returns(@config)
       @config.register 'TestFacet'
-      Facets::ManagedHostExtensions.refresh_facet_relations(Host::Managed)
 
       @host = Host::Managed.new
       @facet = @host.build_test_facet

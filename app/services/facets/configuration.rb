@@ -10,6 +10,8 @@ module Facets
       entry.instance_eval(&block) if block_given?
 
       facets_registry[entry.name] = entry
+
+      Facets::ManagedHostExtensions.register_facet_relation(Host::Managed, entry)
     end
 
     def definition_for(facet_instance)
