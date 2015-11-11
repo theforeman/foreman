@@ -8,7 +8,10 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     @report.reported_at = '2015-01-01 00:00:00'
     @report.save
     @status = HostStatus::ConfigurationStatus.new(:host => @host)
-    @status.refresh!
+  end
+
+  test 'is valid' do
+    assert_valid @status
   end
 
   test '#last_report defaults to host\'s last if nothing was set yet' do
@@ -36,6 +39,7 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
   end
 
   test '#out_of_sync? is false if host reporting is disabled' do
+    @status.refresh!
     assert @status.out_of_sync?
 
     @host.enabled = false
@@ -43,6 +47,7 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
   end
 
   test '#out_of_sync? is true if reported_at is set and is too long ago' do
+    @status.refresh!
     assert @status.reported_at.present?
     window = (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes
     assert @status.reported_at < Time.now - window
@@ -73,6 +78,14 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     @status.refresh
 
     assert_equal @report.reported_at, @status.reported_at
+  end
+
+  test '#relevant? only for hosts with #configuration? true' do
+    @host.expects(:configuration?).returns(true)
+    assert @status.relevant?
+
+    @host.expects(:configuration?).returns(false)
+    refute @status.relevant?
   end
 
   test '.is_not' do
