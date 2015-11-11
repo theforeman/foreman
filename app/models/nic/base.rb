@@ -27,6 +27,10 @@ module Nic
 
     validates :host, :presence => true, :if => Proc.new { |nic| nic.require_host? }
 
+    validates :identifier, :uniqueness => { :scope => :host_id },
+              :if => Proc.new { |nic| nic.identifier && nic.host },
+              :unless => Proc.new { |nic| nic.identifier_was.present? }
+
     validate :exclusive_primary_interface
     validate :exclusive_provision_interface
     validates :domain, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.primary? }

@@ -98,5 +98,18 @@ class NicBaseTest < ActiveSupport::TestCase
         end
       end
     end
+
+    describe 'creation of another nic with already used identifier' do
+      let(:nic) do
+        nic = host.interfaces.build(:managed => true, :type => 'Nic::Managed')
+        nic.identifier = host.primary_interface.identifier
+        nic
+      end
+
+      test 'it is invalid because of conflicting identifier' do
+        refute nic.valid?
+        assert nic.errors.has_key?(:identifier)
+      end
+    end
   end
 end
