@@ -92,6 +92,10 @@ module Hostext
         scoped_search :in => :search_users, :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :in => :search_users, :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
       end
+
+      private
+
+      cattr_accessor :fact_values_table_counter
     end
 
     module ClassMethods
@@ -176,9 +180,10 @@ module Hostext
       end
 
       def search_cast_facts(key, operator, value)
+        table_id = self.fact_values_table_counter = (self.fact_values_table_counter || 0) + 1
         {
-          :conditions => "#{sanitize_sql_for_conditions(["fact_names.name = ?", key.split('.')[1]])} AND #{cast_facts(key,operator,value)}",
-          :include    => :fact_names,
+          :joins => %{ INNER JOIN fact_values fact_values_#{table_id} ON (hosts.id = fact_values_#{table_id}.host_id) INNER JOIN fact_names fact_names_#{table_id} ON (fact_names_#{table_id}.id = fact_values_#{table_id}.fact_name_id)},
+          :conditions => "#{sanitize_sql_for_conditions(["fact_names_#{table_id}.name = ?", key.split('.')[1]])} AND #{cast_facts("fact_values_#{table_id}", key, operator, value)}",
         }
       end
 
