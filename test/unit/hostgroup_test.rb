@@ -447,6 +447,13 @@ class HostgroupTest < ActiveSupport::TestCase
       refute cloned.valid?
       assert_equal 1, cloned.errors[:name].size
     end
+
+    test "when updating environment for a new (or cloned) hostgroup, the individual_puppetclasses method should return correctly" do
+      group = FactoryGirl.create(:hostgroup, :with_config_group, :with_puppetclass)
+      cloned = Hostgroup.new
+      cloned.puppetclasses = group.puppetclasses
+      assert_equal cloned.individual_puppetclasses, group.individual_puppetclasses
+    end
   end
 
   describe '#param_true?' do
