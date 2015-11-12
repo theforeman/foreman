@@ -177,7 +177,7 @@ module Hostext
 
       def search_cast_facts(key, operator, value)
         {
-          :conditions => "fact_names.name = '#{key.split('.')[1]}' AND #{cast_facts(key,operator,value)}",
+          :conditions => "#{sanitize_sql_for_conditions(["fact_names.name = ?", key.split('.')[1]])} AND #{cast_facts(key,operator,value)}",
           :include    => :fact_names,
         }
       end
