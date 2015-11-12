@@ -1358,6 +1358,21 @@ class HostTest < ActiveSupport::TestCase
       assert_equal 'eth4', virtual5.attached_to
     end
 
+    test "#set_interfaces updates virtuals with :attached_to defined" do
+      host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
+      FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'em1')
+      virtual = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'bond0', :attached_to => 'em1')
+      hash = { :em1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
+               :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.42', :virtual => true, :attached_to => nil},
+      }.with_indifferent_access
+      parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+
+      host.set_interfaces(parser)
+      virtual.reload
+      assert_equal 'em1', virtual.attached_to
+      assert_equal '10.10.0.42', virtual.ip
+    end
+
     test "#set_interfaces does not allow two physical devices with same IP, it ignores the second" do
       host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
       hash = { :eth0 => {:macaddress => '00:00:00:55:66:77', :ipaddress => '10.10.0.1', :virtual => false },

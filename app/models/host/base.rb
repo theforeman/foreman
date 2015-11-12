@@ -344,7 +344,7 @@ module Host
       iface.ip = attributes.delete(:ipaddress)
       iface.virtual = attributes.delete(:virtual) || false
       iface.tag = attributes.delete(:tag) || ''
-      iface.attached_to = attributes.delete(:attached_to) || ''
+      iface.attached_to = attributes.delete(:attached_to) if attributes[:attached_to].present?
       iface.link = attributes.delete(:link) if attributes.has_key?(:link)
       iface.identifier = name
       iface.host = self
