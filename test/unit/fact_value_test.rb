@@ -85,6 +85,16 @@ class FactValueTest < ActiveSupport::TestCase
     refute_empty results
   end
 
+  test "search by fact name is not vulnerable to SQL injection in name" do
+    query = "facts.a'b = c or facts.#{@fact_name.name} = \"#{@fact_value.value}\""
+    assert_equal [@fact_value], FactValue.search_for(query)
+  end
+
+  test "search by fact name is not vulnerable to SQL injection in value" do
+    query = "facts.a = \"a'b\" or facts.#{@fact_name.name} = \"#{@fact_value.value}\""
+    assert_equal [@fact_value], FactValue.search_for(query)
+  end
+
   describe '.my_facts' do
     let(:target_host) { FactoryGirl.create(:host, :with_hostgroup, :with_facts) }
     let(:other_host) { FactoryGirl.create(:host, :with_hostgroup, :with_facts) }

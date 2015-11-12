@@ -17,7 +17,7 @@ module ScopedSearchExtensions
       elsif (is_int && is_pg && operator !~ /LIKE/i)
         casted = "fact_values.value ~ E'^\\\\d+$' AND CAST(fact_values.value AS DECIMAL) #{operator} #{value}"
       else
-        casted = "fact_values.value #{operator} '#{value}'"
+        casted = sanitize_sql_for_conditions(["fact_values.value #{operator} ?", value])
       end
       casted
     end
