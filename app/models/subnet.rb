@@ -187,7 +187,9 @@ class Subnet < ActiveRecord::Base
     ProxyAPI::DHCP.new(:url => proxy.url).subnets.map do |s|
       # do not import existing networks.
       attrs = { :network => s["network"], :mask => s["netmask"] }
+
       next if first(:conditions => attrs)
+      attrs.merge!(parse_dhcp_options(s['options'])) if s['options'].present?
       new(attrs.update(:dhcp => proxy))
     end.compact
   end
@@ -211,6 +213,17 @@ class Subnet < ActiveRecord::Base
   end
 
   private
+
+  # Translate ISC dhcp subnet options names provided by dhcp proxy into foreman subnet attributes names
+  def self.parse_dhcp_options(options)
+    attrs = {}
+    attrs[:gateway]          = options["routers"][0]             if options["routers"] && options["routers"][0]
+    attrs[:dns_primary]      = options["domain_name_servers"][0] if options["domain_name_servers"] && options["domain_name_servers"][0]
+    attrs[:dns_secondary]    = options["domain_name_servers"][1] if options["domain_name_servers"] && options["domain_name_servers"][1]
+    attrs[:from], attrs[:to] = options["range"]                  if options["range"] && options["range"][0] && options["range"][1]
+
+    attrs
+  end
 
   def validate_ranges
     errors.add(:from, _("invalid IP address"))            if from.present? and !from =~ Net::Validations::IP_REGEXP
