@@ -1,0 +1,5 @@
+<% if @template.locked? -%>
+  <%= alert :class => 'alert-warning', :header => '', :text  => icon_text("warning-sign", (_("Warning: This template is locked. You may only change the associations. Please %s it to customize.") % link_to(_('clone'), template_hash_for_member(::Template.find(params[:id]), 'clone_template'))).html_safe) %>
+<% else -%>
+  <%= alert :class => 'alert-success', :header => '', :text  => icon_text("info-sign", (_('Note: %s ') % link_to(_('Useful template functions and macros'), documentation_url("4.4.3ProvisioningTemplates"), :rel => 'external')).html_safe) %>
+<% end -%>

@@ -381,13 +381,8 @@ module ApplicationHelper
     (obj.new_record? && obj.class.count > 0) || (!obj.new_record? && obj.class.count > 1)
   end
 
-  def documentation_button(section = nil)
-    url = if section
-            "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html##{section}"
-          else
-            "http://www.theforeman.org/documentation.html##{SETTINGS[:version].short}"
-          end
-
+  def documentation_button(section = "")
+    url = documentation_url section
     link_to(icon_text('question-sign', _('Documentation'), :class => 'icon-white'),
       url, :rel => 'external', :class => 'btn btn-info', :target => '_blank')
   end
@@ -406,6 +401,14 @@ module ApplicationHelper
 
     content_tag_for :span, object, opts do
       h(value)
+    end
+  end
+
+  def documentation_url(section = "")
+    if section.empty?
+      "http://www.theforeman.org/documentation.html##{SETTINGS[:version].short}"
+    else
+      "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#" + section
     end
   end
 
