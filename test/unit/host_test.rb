@@ -1506,6 +1506,18 @@ class HostTest < ActiveSupport::TestCase
       assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
     end
 
+    test "search by fact name is not vulnerable to SQL injection in name" do
+      host = FactoryGirl.create(:host, :with_facts, :fact_count => 1)
+      query = "facts.a'b = c or facts.#{host.facts.keys.first} = #{host.facts.values.first}"
+      assert_equal [host], Host::Managed.search_for(query)
+    end
+
+    test "search by fact name is not vulnerable to SQL injection in value" do
+      host = FactoryGirl.create(:host, :with_facts, :fact_count => 1)
+      query = "facts.a = \"a'b\" or facts.#{host.facts.keys.first} = #{host.facts.values.first}"
+      assert_equal [host], Host::Managed.search_for(query)
+    end
+
     test "non-admin user with edit_hosts permission can update interface" do
       @one = users(:one)
       # add permission for user :one
