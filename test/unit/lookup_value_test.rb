@@ -223,4 +223,26 @@ class LookupValueTest < ActiveSupport::TestCase
       refute_valid @value
     end
   end
+
+  context "when key type is puppetclass lookup and value is empty" do
+    def setup
+      @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+                                :with_override, :with_use_puppet_default,
+                                :key_type => 'string',
+                                :puppetclass => puppetclasses(:one))
+      @value = FactoryGirl.build_stubbed(:lookup_value, :value => "",
+                                         :match => "hostgroup=Common",
+                                         :lookup_key_id => @key.id,
+                                         :use_puppet_default => true)
+    end
+
+    test "value is validated if use_puppet_default is true" do
+      assert_valid @value
+    end
+
+    test "value is not validated if use_puppet_default is false" do
+      @value.use_puppet_default = false
+      refute_valid @value
+    end
+  end
 end
