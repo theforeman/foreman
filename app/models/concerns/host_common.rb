@@ -191,7 +191,10 @@ module HostCommon
   end
 
   def individual_puppetclasses
-    conditions = {:id => host_class_ids - cg_class_ids}
+    ids = host_class_ids - cg_class_ids
+    return puppetclasses if ids.blank? && new_record?
+
+    conditions = {:id => ids}
     if environment
       environment.puppetclasses.where(conditions)
     else
