@@ -188,7 +188,7 @@ class Subnet < ActiveRecord::Base
       # do not import existing networks.
       attrs = { :network => s["network"], :mask => s["netmask"] }
 
-      next if first(:conditions => attrs)
+      next if exists?(attrs)
       attrs.merge!(parse_dhcp_options(s['options'])) if s['options'].present?
       new(attrs.update(:dhcp => proxy))
     end.compact
