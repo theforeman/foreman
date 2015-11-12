@@ -104,14 +104,14 @@ class FactValue < ActiveRecord::Base
 
   def self.search_cast_facts(key, operator, value)
     {
-      :conditions => "#{sanitize_sql_for_conditions(["fact_names.name = ?", key.split('.')[1]])} AND #{cast_facts(key,operator,value)}",
+      :conditions => "#{sanitize_sql_for_conditions(["fact_names.name = ?", key.split('.')[1]])} AND #{cast_facts('fact_values', key, operator, value)}",
       :include    => :fact_name,
     }
   end
 
   def self.search_value_cast_facts(key, operator, value)
     {
-      :conditions => cast_facts(key,operator,value)
+      :conditions => cast_facts('fact_values', key, operator, value)
     }
   end
 end
