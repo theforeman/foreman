@@ -76,6 +76,10 @@ class LookupKey < ActiveRecord::Base
     nil
   end
 
+  def reject_invalid_lookup_values(attributes)
+    attributes[:match].empty?
+  end
+
   def audit_class
     self
   end
@@ -109,12 +113,6 @@ class LookupKey < ActiveRecord::Base
     return unless v
     using_default = v.tr("\r","") == array2path(Setting["Default_variables_Lookup_Path"])
     write_attribute(:path, using_default ? nil : v)
-  end
-
-  def reject_invalid_lookup_values(attributes)
-    attributes[:match].empty? ||
-        (attributes[:value].blank? &&
-            (attributes[:use_puppet_default].nil? || attributes[:use_puppet_default] == "0"))
   end
 
   def default_value_before_type_cast

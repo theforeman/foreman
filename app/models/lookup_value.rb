@@ -28,7 +28,7 @@ class LookupValue < ActiveRecord::Base
   scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
 
   def value_present?
-    self.errors.add(:value, :blank) if value.nil? && !use_puppet_default
+    self.errors.add(:value, :blank) if value.to_s.empty? && !use_puppet_default && lookup_key.puppet?
   end
 
   def value=(val)
