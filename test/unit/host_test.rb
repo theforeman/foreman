@@ -1504,6 +1504,10 @@ class HostTest < ActiveSupport::TestCase
       hosts = Host::Managed.search_for("facts.custom_fact = find_me")
       assert_equal hosts.count, 1
       assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
+
+      hosts = Host::Managed.search_for("facts.memory_mb > 6544 and facts.custom_fact = find_me")
+      assert_equal hosts.count, 1
+      assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
     end
 
     test "search by fact name is not vulnerable to SQL injection in name" do
