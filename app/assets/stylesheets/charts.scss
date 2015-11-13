@@ -31,6 +31,9 @@
   text-align: center;
   overflow-y: auto;
   overflow-x: hidden;
+  .legendLabel{
+    text-align: left;
+  }
 }
 #statistics{
   .stats-well{
