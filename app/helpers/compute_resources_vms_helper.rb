@@ -84,6 +84,14 @@ module ComputeResourcesVmsHelper
     "#{datastore.name} (#{_('free')}: #{number_to_human_size(datastore.freespace)}, #{_('prov')}: #{number_to_human_size(datastore.capacity + (datastore.uncommitted || 0) - datastore.freespace)}, #{_('total')}: #{number_to_human_size(datastore.capacity)})"
   end
 
+  def vsphere_storage_pods(compute)
+    compute.storage_pods.map { |pod| [storage_pod_stats(pod), pod.name] }
+  end
+
+  def storage_pod_stats(pod)
+    "#{pod.name} (#{_('free')}: #{number_to_human_size(pod.freespace)}, #{_('prov')}: #{number_to_human_size(pod.capacity - pod.freespace)}, #{_('total')}: #{number_to_human_size(pod.capacity)})"
+  end
+
   def available_actions(vm, authorizer = nil)
     case vm
     when Fog::Compute::OpenStack::Server

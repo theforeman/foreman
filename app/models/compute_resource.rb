@@ -238,6 +238,10 @@ class ComputeResource < ActiveRecord::Base
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
+  def available_storage_pods(storage_pod = nil)
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
   # this method is overwritten for Libvirt
   def editable_network_interfaces?
     networks.any?

@@ -69,6 +69,26 @@ module Foreman::Model
       end
     end
 
+    def storage_pods(opts = {})
+      if opts[:storage_pod]
+        begin
+          dc.storage_pods.get(opts[:storage_pod])
+        rescue RbVmomi::VIM::InvalidArgument
+          {} # Return an empty storage pod hash if vsphere does not support the feature
+        end
+      else
+        begin
+          name_sort(dc.storage_pods.all())
+        rescue RbVmomi::VIM::InvalidArgument
+          [] # Return an empty set of storage pods if vsphere does not support the feature
+        end
+      end
+    end
+
+    def available_storage_pods(storage_pod = nil)
+      storage_pods({:storage_pod => storage_pod})
+    end
+
     def folders
       dc.vm_folders.sort_by{|f| [f.path, f.name]}
     end
@@ -376,6 +396,7 @@ module Foreman::Model
         "numCPUs" => args[:cpus],
         "memoryMB" => args[:memory_mb],
         "datastore" => args[:volumes].first[:datastore],
+        "storage_pod" => args[:volumes].first[:storage_pod],
         "resource_pool" => [args[:cluster], args[:resource_pool]],
       }
 
