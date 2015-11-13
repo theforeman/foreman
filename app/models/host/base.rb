@@ -164,7 +164,7 @@ module Host
       if !self.managed? && self.primary_interface.mac.blank? && self.primary_interface.identifier.blank?
         identifier, values = parser.suggested_primary_interface(self)
         self.primary_interface.mac = Net::Validations.normalize_mac(values[:macaddress]) if values.present?
-        self.primary_interface.identifier = identifier
+        self.primary_interface.update_attribute(:identifier, identifier)
         self.primary_interface.save!
       end
 
