@@ -259,3 +259,39 @@ function vsphereGetResourcePools(item) {
     }
   })
 }
+
+function vsphereStoragePodSelected(item) {
+  selected = $(item).val();
+  datastore = $('select[id*=datastore]')
+  if(!selected || 0 === selected.length) {
+    enable_vsphere_dropdown(datastore);
+  } else {
+    disable_vsphere_dropdown(datastore);
+  }
+  return false;
+}
+
+function vsphereStoragePodLoad() {
+  items = $('select[id*=storage_pod]');
+  if(items.length < 1) {
+    return false;
+  }
+  items.each(function() {
+    selected = $(this).val();
+    if(selected || ! (0 === selected.length)) {
+      datastore = $('select[id*=datastore]');
+      disable_vsphere_dropdown(datastore);
+    }
+  });
+  return false;
+}
+
+$(document).on('ContentLoad', function(){vsphereStoragePodLoad()});
+
+function disable_vsphere_dropdown(item){
+  item.attr("disabled", true);
+}
+
+function enable_vsphere_dropdown(item){
+  item.attr("disabled", false);
+}

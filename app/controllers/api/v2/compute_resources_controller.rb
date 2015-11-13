@@ -15,7 +15,7 @@ module Api
       before_filter :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
                                               :available_clusters, :available_flavors, :available_folders,
                                               :available_networks, :available_resource_pools, :available_security_groups, :available_storage_domains,
-                                              :available_zones]
+                                              :available_zones, :available_storage_pods]
 
       api :GET, "/compute_resources/", N_("List all compute resources")
       param_group :taxonomy_scope, ::Api::V2::BaseController
@@ -131,6 +131,15 @@ module Api
         render :available_storage_domains, :layout => 'api/v2/layouts/index_layout'
       end
 
+      api :GET, "/compute_resources/:id/available_storage_pods", N_("List storage pods for a compute resource")
+      api :GET, "/compute_resources/:id/available_storage_pods/:storage_pod", N_("List attributes for a given storage pod")
+      param :id, :identifier, :required => true
+      param :storage_pod, String
+      def available_storage_pods
+        @available_storage_pods = @compute_resource.available_storage_pods(params[:storage_pod])
+        render :available_storage_pods, :layout => 'api/v2/layouts/index_layout'
+      end
+
       api :GET, "/compute_resources/:id/available_security_groups", N_("List available security groups for a compute resource")
       param :id, :identifier, :required => true
       def available_security_groups
@@ -160,7 +169,7 @@ module Api
 
       def action_permission
         case params[:action]
-          when 'available_images', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'available_zones', 'associate'
+          when 'available_images', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'available_zones', 'associate', 'available_storage_pods'
             :view
           else
             super

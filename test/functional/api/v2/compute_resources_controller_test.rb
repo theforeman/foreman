@@ -206,6 +206,11 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
       get :available_storage_domains, { :id => compute_resources(:vmware).to_param }
     end
 
+    test "should get available vmware storage pods" do
+      Foreman::Model::Vmware.any_instance.stubs(:available_storage_pods).returns([@vmware_object])
+      get :available_storage_pods, { :id => compute_resources(:vmware).to_param }
+    end
+
     test "should get available vmware resource pools" do
       Foreman::Model::Vmware.any_instance.stubs(:available_resource_pools).returns([@vmware_object])
       get :available_resource_pools, { :id => compute_resources(:vmware).to_param, :cluster_id => '123-456-789' }
@@ -228,6 +233,19 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert_response :success
     available_storage_domains = ActiveSupport::JSON.decode(@response.body)
     assert_equal storage_domain.id, available_storage_domains['results'].first.try(:[], 'id')
+  end
+
+  test "should get specific vmware storage pod" do
+    storage_pod = Object.new
+    storage_pod.stubs(:name).returns('test_vmware_pod')
+    storage_pod.stubs(:id).returns('group-p123456')
+
+    Foreman::Model::Vmware.any_instance.expects(:available_storage_pods).with('test_vmware_pod').returns([storage_pod])
+
+    get :available_storage_pods, { :id => compute_resources(:vmware).to_param, :storage_pod => 'test_vmware_pod' }
+    assert_response :success
+    available_storage_pods = ActiveSupport::JSON.decode(@response.body)
+    assert_equal storage_pod.id, available_storage_pods['results'].first.try(:[], 'id')
   end
 
   test "should associate hosts that match" do
