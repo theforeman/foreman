@@ -682,7 +682,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :users do |map|
-    ajax_actions = [:auth_source_selected]
+    ajax_actions = [:auth_source_selected, :test_mail]
 
     map.permission :view_users,
                    :users => [:index, :show, :auto_complete_search],

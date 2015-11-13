@@ -42,6 +42,14 @@ notifications = [
    :mailer             => 'HostMailer',
    :method             => 'host_built',
    :subscription_type  => 'alert'
+  },
+
+  {
+    :name               => :tester,
+    :description        => N_('A test message to check the email configuration is working'),
+    :mailer             => 'UserMailer',
+    :method             => 'tester',
+    :subscription_type  => false
   }
 ]
 

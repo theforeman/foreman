@@ -113,6 +113,18 @@ class UsersController < ApplicationController
     render :extlogout, :layout => 'login'
   end
 
+  def test_mail
+    begin
+      render :json => {:message => _("Email address was not found")}, :status => :unprocessable_entity and return if params[:user_email].blank?
+      user = find_resource(:edit_users)
+      MailNotification[:tester].deliver(:user => user, :email => params[:user_email])
+    rescue => e
+      Foreman::Logging.exception("Unable to send email", e)
+      render :json => {:message => _("Unable to send email, check server logs for more information")}, :status => :unprocessable_entity and return
+    end
+    render :json => {:message => _("Email was sent successfully")}, :status => :ok
+  end
+
   private
 
   def find_resource(permission = :view_users)
