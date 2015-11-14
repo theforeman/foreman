@@ -7,7 +7,8 @@ module Api
                                                      'project', 'key_path', 'email', 'zone',
                                                      'display_type', 'ovirt_quota', 'public_key',
                                                      'region', 'server', 'datacenter', 'pubkey_hash',
-                                                     'nics_attributes', 'volumes_attributes', 'memory'])
+                                                     'nics_attributes', 'volumes_attributes', 'memory',
+                                                     'api_revision'])
 
       include Api::Version2
       include Api::TaxonomyScope
@@ -44,6 +45,7 @@ module Api
           param :tenant, String, :desc => N_("for OpenStack only")
           param :server, String, :desc => N_("for VMware")
           param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
+          param :api_revision, String, :desc => N_("API revision, for VMware only")
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end
