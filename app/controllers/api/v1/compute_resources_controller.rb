@@ -34,6 +34,7 @@ module Api
         param :tenant, String, :desc => "for OpenStack only"
         param :server, String, :desc => "for VMware"
         param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
+        param :api_revision, String, :desc => "API revision, for VMware only"
       end
 
       def create
@@ -54,6 +55,7 @@ module Api
         param :region, String, :desc => "for EC2 only"
         param :tenant, String, :desc => "for OpenStack only"
         param :server, String, :desc => "for VMware"
+        param :api_revision, String, :desc => "API revision, for VMware only"
       end
 
       def update

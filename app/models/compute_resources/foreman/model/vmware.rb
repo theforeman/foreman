@@ -418,6 +418,18 @@ module Foreman::Model
       attrs[:pubkey_hash] = key
     end
 
+    def api_revision
+      attrs[:api_revision] || '5.0'
+    end
+
+    def api_revision=(rev)
+      attrs[:api_revision] = rev
+    end
+
+    def api_revisions
+      ['4.0', '5.0', '5.5', '6.0']
+    end
+
     def associated_host(vm)
       associate_by("mac", vm.mac)
     end
@@ -445,7 +457,8 @@ module Foreman::Model
         :vsphere_username             => user,
         :vsphere_password             => password,
         :vsphere_server               => server,
-        :vsphere_expected_pubkey_hash => pubkey_hash
+        :vsphere_expected_pubkey_hash => pubkey_hash,
+        :vsphere_rev                  => api_revision,
       )
     rescue => e
       if e.message =~ /The remote system presented a public key with hash (\w+) but we're expecting a hash of/
