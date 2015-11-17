@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-10-15 20:41+0000\n"
+"PO-Revision-Date: 2015-10-29 23:25+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -796,6 +796,9 @@ msgstr "Übergeordnete Kennung der Hostgruppe"
 
 msgid "Environment ID"
 msgstr "Umgebungskennung"
+
+msgid "Compute profile ID"
+msgstr "Rechenprofilkennung"
 
 msgid "Operating system ID"
 msgstr "Betriebssystemkennung"
@@ -3728,6 +3731,9 @@ msgid ""
 "ve identical name: '%s'"
 msgstr ""
 
+msgid "Unable to find IP address for '%s'"
+msgstr "IP-Adresse für \"%s\" konnte nicht gefunden werden"
+
 msgid "Some interfaces are invalid"
 msgstr "Einige Schnittstellen sind ungültig"
 
@@ -3736,9 +3742,6 @@ msgstr "%{value} gehört nicht zum Betriebssystem %{os}"
 
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr "%{e} gehört nicht zur Umgebung %{environment}"
-
-msgid "Unable to find IP address for '%s'"
-msgstr "IP-Adresse für \"%s\" konnte nicht gefunden werden"
 
 msgid "is an unsupported provisioning method"
 msgstr "ist eine nicht unterstützte Bereitstellungsmethode"
@@ -4172,7 +4175,7 @@ msgstr ""
 "ufrufe"
 
 msgid "Idle timeout"
-msgstr ""
+msgstr "Leerlaufzeitlimit"
 
 msgid "Log out idle users after a certain number of minutes"
 msgstr "Inaktive Anwender nach einer bestimmten Zeit in Minuten abmelden"
@@ -6004,7 +6007,7 @@ msgstr ""
 "und steht auch als Parameter für externe Knoten zur Verfügung"
 
 msgid "Input"
-msgstr ""
+msgstr "Eingabe"
 
 msgid "Diff"
 msgstr "Diff"
@@ -8124,7 +8127,7 @@ msgid "%{record} is used by %{what}"
 msgstr "%{record} wird von %{what} benutzt"
 
 msgid "%{record} is being used by a hidden %{what} resource"
-msgstr ""
+msgstr "%{record} wird von einer versteckten Ressource %{what} verwendet"
 
 msgid "Adding would cause a cycle!"
 msgstr "Hinzufügen würde einen Kreislauf verursachen!"

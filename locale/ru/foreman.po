@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-10-18 16:37+0000\n"
-"Last-Translator: Alexander Savchenko\n"
+"PO-Revision-Date: 2015-10-29 09:27+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -778,6 +778,9 @@ msgid "Parent ID of the host group"
 msgstr ""
 
 msgid "Environment ID"
+msgstr ""
+
+msgid "Compute profile ID"
 msgstr ""
 
 msgid "Operating system ID"
@@ -3697,6 +3700,9 @@ msgid ""
 "ve identical name: '%s'"
 msgstr ""
 
+msgid "Unable to find IP address for '%s'"
+msgstr "IP-адрес «%s» не найден"
+
 msgid "Some interfaces are invalid"
 msgstr "Некоторые интерфейсы не верны"
 
@@ -3705,9 +3711,6 @@ msgstr "%{value} не принадлежит к операционной сис�
 
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr "%{e} не принадлежит окружению %{environment}"
-
-msgid "Unable to find IP address for '%s'"
-msgstr "IP-адрес «%s» не найден"
 
 msgid "is an unsupported provisioning method"
 msgstr "не поддерживается"

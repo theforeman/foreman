@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-10-14 08:16+0000\n"
+"PO-Revision-Date: 2015-10-29 09:27+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
@@ -762,6 +762,9 @@ msgid "Parent ID of the host group"
 msgstr ""
 
 msgid "Environment ID"
+msgstr ""
+
+msgid "Compute profile ID"
 msgstr ""
 
 msgid "Operating system ID"
@@ -3528,6 +3531,9 @@ msgid ""
 "ve identical name: '%s'"
 msgstr ""
 
+msgid "Unable to find IP address for '%s'"
+msgstr "无法找到 '%s' 的 IP 地址"
+
 msgid "Some interfaces are invalid"
 msgstr ""
 
@@ -3536,9 +3542,6 @@ msgstr "%{value} 不属于 %{os} 操作系统"
 
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr "%{e} 不属于 %{environment} 环境"
-
-msgid "Unable to find IP address for '%s'"
-msgstr "无法找到 '%s' 的 IP 地址"
 
 msgid "is an unsupported provisioning method"
 msgstr "是不支持的置备方法"
