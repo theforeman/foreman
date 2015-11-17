@@ -1,11 +1,11 @@
-<%= text_f f, :server, :label => _("VCenter/Server"), :size => "col-md-8", :help_inline => documentation_button('5.2.9VMwareNotes') %>
+<%= text_f f, :server, {:label => _("VCenter/Server"), :size => "col-md-8"}, {:button_group => true, :label => '5.2.9VMwareNotes', :documentation => true} %>
 <%= text_f f, :user %>
 <%= password_f f, :password, :unset => unset_password? %>
-<% datacenters = list_datacenters f.object%>
-<%= selectable_f(f, :datacenter, datacenters, {}, {:label => _('Datacenter'),
-                 :help_inline => link_to_function(datacenters.empty? ? _("Load Datacenters") : _("Test Connection"), "testConnection(this)",
-                 :class => "btn + #{datacenters.empty? ? "btn-default" : "btn-success"}",
-                 :'data-url' => test_connection_compute_resources_path) + hidden_spinner('', :id => 'test_connection_indicator').html_safe }) %>
+<% datacenters = list_datacenters f.object %>
+<%= selectable_f(f, :datacenter, datacenters, {}, {:label => _('Datacenter'),:size => "col-md-6",
+                 :help_inline =>  hidden_spinner('', :id => 'test_connection_indicator').html_safe},
+                 {:button_group => true, :label => datacenters.empty? ? _("Load Datacenters") : _("Test Connection"),
+                  :class => "btn #{datacenters.empty? ? "btn-default" : "btn-success"}", :id => 'btn_datacenter', :onclick => "testConnection(this)", :'data-url' => test_connection_compute_resources_path }) %>
 <%= text_f f, :pubkey_hash, :disabled => true, :label => _("Fingerprint"), :size => "col-md-8" %>
 <%= checkbox_f f, :set_console_password, :checked => f.object.set_console_password?,
                   :label => _("Console passwords"),

@@ -32,6 +32,7 @@ function providerSelected(item)
 }
 
 function testConnection(item) {
+  $(item).addClass("disabled");
   var cr_id = $("form").data('id');
   var password = $("input#compute_resource_password").val();
   $('.tab-error').removeClass('tab-error');
@@ -48,13 +49,14 @@ function testConnection(item) {
         $("#compute_resource_password").prop('disabled', false);
       }
       if (!/alert-danger/i.test(result)) {
-        notify("<p>" + __("Test connection was successful") + "</p>", 'success')
+        notify("<p>" + __("Test connection was successful") + "</p>", 'success');
       }
     },
     complete:function (result) {
       //we need to restore the password field as it is not sent back from the server.
       $("input#compute_resource_password").val(password);
       reloadOnAjaxComplete('#test_connection_indicator');
+      $(item).removeClass("disabled");
     }
   });
 }
@@ -139,7 +141,7 @@ function ovirt_clusterSelected(item){
 }
 
 function ovirt_datacenterSelected(item){
-  testConnection($('#test_connection_button'));
+  testConnection($('#btn_datacenter'));
 }
 
 function libvirt_network_selected(item){

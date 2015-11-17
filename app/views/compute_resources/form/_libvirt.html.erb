@@ -1,4 +1,4 @@
-<%= text_f f, :url, :size => "col-md-8", :help_block => _("e.g. qemu://host.example.com/system"), :help_inline => documentation_button('5.2.5LibvirtNotes') %>
+<%= text_f f, :url, {:size => "col-md-8", :help_block => _("e.g. qemu://host.example.com/system")}, {:button_group => true, :label => '5.2.5LibvirtNotes', :documentation => true} %>
 
 <%= select_f f,   :display_type, %w[VNC SPICE],:upcase, :to_s, { }, :label => _("Display type") %>
 <%= checkbox_f f, :set_console_password, :checked => f.object.set_console_password?,
