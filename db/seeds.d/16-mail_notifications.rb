@@ -5,7 +5,7 @@
 
 notifications = [
   {
-    :name              => :puppet_summary,
+    :name              => 'puppet_summary',
     :description       => N_('A summary of eventful puppet reports'),
     :mailer            => 'HostMailer',
     :method            => 'summary',
@@ -13,7 +13,7 @@ notifications = [
   },
 
   {
-    :name              => :puppet_error_state,
+    :name              => 'puppet_error_state',
     :description       => N_('A notification when a host reports a puppet error'),
     :mailer            => 'HostMailer',
     :method            => 'error_state',
@@ -21,7 +21,7 @@ notifications = [
   },
 
   {
-    :name              => :welcome,
+    :name              => 'welcome',
     :description       => N_('A mail a user receives upon account creation'),
     :mailer            => 'UserMailer',
     :method            => 'welcome',
@@ -29,7 +29,7 @@ notifications = [
   },
 
   {
-    :name               => :audit_summary,
+    :name               => 'audit_summary',
     :description        => N_('A summary of audit changes report'),
     :mailer             => 'AuditMailer',
     :method             => 'summary',
@@ -37,23 +37,31 @@ notifications = [
     :queryable          => true
   },
 
-  {:name               => :host_built,
-   :description        => N_('A notification when a host finishes building'),
-   :mailer             => 'HostMailer',
-   :method             => 'host_built',
-   :subscription_type  => 'alert'
+  {
+    :name               => 'host_built',
+    :description        => N_('A notification when a host finishes building'),
+    :mailer             => 'HostMailer',
+    :method             => 'host_built',
+    :subscription_type  => 'alert'
   },
 
   {
-    :name               => :tester,
+    :name               => 'tester',
     :description        => N_('A test message to check the email configuration is working'),
     :mailer             => 'UserMailer',
     :method             => 'tester',
-    :subscription_type  => false
+    :subscriptable      => false,
+    :subscription_type  => nil
   }
 ]
 
 notifications.each do |notification|
-  MailNotification.create(notification) if MailNotification.where(:name => notification[:name]).blank?
+  if (mail = MailNotification.find_by_name(notification[:name]))
+    mail.attributes = notification
+    mail.save! if mail.changed?
+  else
+    created_notification = MailNotification.create(notification)
+    raise ::Foreman::Exception.new(N_("Unable to create mail notification: %s"),
+                                   format_errors(created_notification)) if created_notification.nil? || created_notification.errors.any?
+  end
 end
-
