@@ -1,3 +1,42 @@
+2015-11-17	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.10.0-RC3
+	* i18n - extracting new, pulling from tx
+
+2015-11-17	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12424 - Labels in chart legends are aligned to left
+
+2015-11-17	Tom Caspy <tcaspy@gmail.com>
+	* fixes #12342 - unsaved (new or cloned) hostgroups keep their puppetclasses
+
+2015-11-16	Dominic Cleal <dcleal@redhat.com>
+	* fixes #12194 - join fact tables multiple times for each search term
+	* fixes #12458 - escape values in fact searches to prevent SQL injection
+	* fixes #12431 - pin tins for Ruby 1.9.3 compatibility
+	* fixes #11771 - ensure created HostStatuses are saved correctly
+
+2015-11-16	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12418 - Correct dashboard behaviour for updated gridster
+
+2015-11-16	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12201 - Made parent associations finder less dependent on association name
+
+2015-11-16	Ori Rabin <orabin@redhat.com>
+	* Fixes #12343 - Fixing parameters caster for boolean values
+
+2015-11-16	Marek Hulan <mhulan@redhat.com>
+	* Fixes #12280 - fix label for field helper
+	* Fixes #11972 - ignore specific interfaces via settings
+
+2015-11-16	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #11953 - Add STI controllers to bookmark via permissions
+	* Fixes #12004, #11999 - Remove reserved words from Environment friendly_id
+
+2015-11-16	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #12089 - fix using unwrapped parameters in config templates API controller
+
+2015-11-16	Ranjan <rankumar@redhat.com>
+	* fixes #12151 - return empty classes hash when missing environment
+
 2015-10-29	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.10.0-RC2
 	* templates - sync from community-templates
