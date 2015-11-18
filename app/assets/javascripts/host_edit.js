@@ -2,7 +2,7 @@ $(document).on('ContentLoad', function(){onHostEditLoad()});
 $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(link)});
 
 function update_nics(success_callback) {
-  var data = $('form').serialize().replace('method=put', 'method=post');
+  var data = serializeForm().replace('method=put', 'method=post');
   $('#network').html(spinner_placeholder(__('Loading interfaces information ...')));
   $('#network_tab a').removeClass('tab-error');
 
@@ -46,7 +46,7 @@ function computeResourceSelected(item){
     $("#compute_resource_tab").show();
     $("#compute_profile").show();
     $('#vm_details').empty();
-    var data = $('form').serialize().replace('method=put', 'method=post');
+    var data = serializeForm().replace('method=put', 'method=post');
     $('#compute_resource').html(spinner_placeholder(__('Loading virtual machine information ...')));
     $('#compute_resource_tab a').removeClass('tab-error');
     $(item).indicator_show();
@@ -121,7 +121,7 @@ function submit_with_all_params(){
   $.ajax({
     type:'POST',
     url: url,
-    data: $('form').serialize(),
+    data: serializeForm(),
     success: function(response){
       $('#' + resource + '-progress').hide();
       $('#content').replaceWith($("#content", response));
@@ -186,7 +186,7 @@ function load_puppet_class_parameters(item) {
   if ($('#puppetclass_' + id + '_params_loading').length > 0) return; // already loading
   if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
   var url = $(item).attr('data-url');
-  var data = $("form").serialize().replace('method=put', 'method=post');
+  var data = serializeForm().replace('method=put', 'method=post');
   if (url.match('hostgroups')) {
     data = data + '&hostgroup_id=' + host_id
   } else {
@@ -261,7 +261,7 @@ function location_changed(element) {
 function update_form(element, options) {
   options = options || {};
   var url = $(element).data('url');
-  var data = $('form').serialize().replace('method=put', 'method=post');
+  var data = serializeForm().replace('method=put', 'method=post');
   if (options.data) data = data+options.data;
   $(element).indicator_show();
   $.ajax({
@@ -281,6 +281,20 @@ function update_form(element, options) {
       $(document.body).trigger('ContentLoad');
     }
   })
+}
+
+//Serializes only those input elements from form that are set explicitly
+function serializeForm() {
+  return $($('form')[0].elements).filter(isExplicit).serialize()
+}
+
+//This function decides for a given input element is it set explicitly by the user.
+function isExplicit(index, element) {
+  if (element.nextSibling == undefined) return true;
+  if (element.nextSibling.children == undefined) return true;
+  if (element.nextSibling.children[0] == undefined) return true;
+  if (element.nextSibling.children[0].dataset == undefined) return true;
+  return element.nextSibling.children[0].dataset.explicit == 'true';
 }
 
 function subnet_contains(number, cidr, ip){

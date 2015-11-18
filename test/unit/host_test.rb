@@ -2719,6 +2719,22 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  context 'hostgroup defaults' do
+    setup do
+      @group1 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:one))
+      @group2 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
+    end
+
+    test 'sets proper compute attributes on hostgroup change' do
+      host = FactoryGirl.create(:host, :managed, :compute_resource => compute_resources(:one), :hostgroup => @group1)
+      assert_not_equal 4, host.compute_attributes['cpus']
+
+      host.attributes = host.apply_inherited_attributes('hostgroup_id' => @group2.id)
+      host.set_hostgroup_defaults
+      assert_equal 4, host.compute_attributes['cpus']
+    end
+  end
+
   private
 
   def parse_json_fixture(relative_path)
