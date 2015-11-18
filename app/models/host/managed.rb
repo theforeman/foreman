@@ -62,6 +62,11 @@ class Host::Managed < Host::Base
   end
 
   include HostCommon
+  attr_accessible :build, :certname, :disk, :global_status,
+    :installed_at,  :last_report, :otp, :provision_method, :uuid,
+    :compute_attributes,
+    :compute_resource, :compute_resource_id, :compute_resource_name,
+    :owner, :owner_id, :owner_name, :owner_type
 
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,

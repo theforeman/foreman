@@ -7,6 +7,13 @@ class Operatingsystem < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title
 
+  attr_accessible :name, :major, :minor, :description, :family, :to_label,
+      :release_name, :password_hash,
+      :architectures, :architecture_ids, :architecture_names,
+      :medium_ids, :medium_names,
+      :os_default_templates_attributes, :os_parameters_attributes,
+      :ptable_ids, :ptable_names
+
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts

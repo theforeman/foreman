@@ -19,6 +19,9 @@ module Taxonomix
     dirty_has_many_associations :organizations, :locations
 
     validate :ensure_taxonomies_not_escalated, :if => Proc.new { User.current.nil? || !User.current.admin? }
+
+    attr_accessible :locations, :location_ids, :location_names, :organizations,
+      :organization_ids, :organization_names
   end
 
   module ClassMethods

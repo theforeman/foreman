@@ -9,6 +9,9 @@ class Subnet < ActiveRecord::Base
   include Taxonomix
   include Parameterizable::ByIdName
   include EncOutput
+  attr_accessible :name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :ipam, :from,
+    :to, :vlanid, :boot_mode, :dhcp_id, :tftp_id, :dns_id, :domain_ids, :domain_names
+
   audited :allow_mass_assignment => true
 
   validates_lengths_from_database :except => [:gateway]

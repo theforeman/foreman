@@ -4,6 +4,8 @@ module Foreman::Model
 
     validates :url, :format => { :with => URI.regexp }
 
+    attr_accessible :display_type
+
     # Some getters/setters for the attrs Hash
     def display_type
       self.attrs[:display].present? ? self.attrs[:display] : 'vnc'

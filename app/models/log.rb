@@ -2,6 +2,8 @@ class Log < ActiveRecord::Base
   belongs_to :message
   belongs_to :source
   belongs_to :report
+
+  attr_accessible :level, :message_id, :source_id, :report
   validates :message_id, :source_id, :report_id, :level_id, :presence => true
 
   default_scope -> { order('logs.id') }
