@@ -29,6 +29,13 @@ gem 'i18n', '~> 0.6.4'
 gem 'rails-i18n', '~> 3.0.0'
 gem 'turbolinks', '~> 2.5'
 gem 'logging', '>= 1.8.0', '< 3.0.0'
+gem 'fog-core', '1.34.0'
+gem 'net-scp'
+if RUBY_VERSION.start_with? '1.9.'
+  gem 'net-ssh', '< 3'
+else
+  gem 'net-ssh'
+end
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))
