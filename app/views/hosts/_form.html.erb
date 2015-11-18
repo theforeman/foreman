@@ -59,7 +59,8 @@
          be different from the defaults, or the defaults could have changed after the vm was created. %>
         <div id="compute_profile" <%= display?(!@host.compute_resource_id) %> >
           <%= select_f f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
-            { :disable_button => _(HostsAndHostgroupsHelper::INHERIT_TEXT),
+            { :include_blank => true,
+              :disable_button => _(HostsAndHostgroupsHelper::INHERIT_TEXT),
               :disable_button_enabled => inherited_by_default?(:compute_profile_id, @host),
               :user_set => params[:host] && params[:host][:compute_profile_id]
             },

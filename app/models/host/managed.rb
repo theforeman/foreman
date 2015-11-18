@@ -194,7 +194,7 @@ class Host::Managed < Host::Base
     validates :medium_id, :presence => true, :if => Proc.new { |host| host.validate_media? }
     validate :provision_method_in_capabilities
     validate :short_name_periods
-    before_validation :set_compute_attributes, :on => :create
+    before_validation :set_compute_attributes, :on => :create, :if => Proc.new { compute_attributes.empty? }
     validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
   else
     def fqdn
@@ -658,6 +658,9 @@ class Host::Managed < Host::Base
   def set_hostgroup_defaults
     return unless hostgroup
     assign_hostgroup_attributes(%w{domain_id compute_profile_id})
+
+    set_compute_attributes if compute_profile_id_changed?
+
     if SETTINGS[:unattended] and (new_record? or managed?)
       assign_hostgroup_attributes(%w{operatingsystem_id architecture_id})
       assign_hostgroup_attributes(%w{medium_id ptable_id subnet_id}) if pxe_build?
@@ -665,7 +668,6 @@ class Host::Managed < Host::Base
   end
 
   def set_compute_attributes
-    return unless compute_attributes.empty?
     return unless compute_profile_id && compute_resource_id
     self.compute_attributes = compute_resource.compute_profile_attributes_for(compute_profile_id)
   end
