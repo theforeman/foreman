@@ -73,7 +73,7 @@ module Orchestration::Compute
   def setCompute
     logger.info "Adding Compute instance for #{name}"
     add_interfaces_to_compute_attrs
-    self.vm = compute_resource.create_vm compute_attributes.merge(:name => vm_name)
+    self.vm = compute_resource.create_vm compute_attributes.merge(:name => vm_name, :provision_method => provision_method)
   rescue => e
     failure _("Failed to create a compute %{compute_resource} instance %{name}: %{message}\n ") % { :compute_resource => compute_resource, :name => name, :message => e.message }, e
   end
