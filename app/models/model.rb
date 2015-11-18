@@ -3,9 +3,12 @@ class Model < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
 
+  attr_accessible :name, :hardware_model, :vendor_class, :info
+
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many_hosts
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
+
   validates_lengths_from_database
   validates :name, :uniqueness => true, :presence => true
 

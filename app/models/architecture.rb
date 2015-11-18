@@ -4,6 +4,10 @@ class Architecture < ActiveRecord::Base
   friendly_id :name
   include Parameterizable::ByIdName
 
+  attr_accessible :name, :host_names, :host_ids, :hostgroup_ids,
+    :hostgroup_names, :image_names, :image_ids, :operatingsystem_ids,
+    :operatingsystem_names
+
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   validates_lengths_from_database
 

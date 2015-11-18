@@ -4,6 +4,7 @@ module Foreman::Model
     before_create :setup_key_pair
     validate :check_google_key_path
     validates :key_path, :project, :email, :presence => true
+    attr_accessible :key_pair, :key_path, :project, :email
 
     delegate :flavors, :to => :client
 

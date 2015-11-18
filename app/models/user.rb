@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
 
   validates_lengths_from_database  :except => [:firstname, :lastname, :format, :mail, :login]
-  attr_protected :password_hash, :password_salt, :admin
   attr_accessor :password, :password_confirmation
   after_save :ensure_default_role
   before_destroy EnsureNotUsedBy.new([:direct_hosts, :hosts]), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
@@ -41,6 +40,14 @@ class User < ActiveRecord::Base
   has_many :mail_notifications, :through => :user_mail_notifications
 
   accepts_nested_attributes_for :user_mail_notifications, :allow_destroy => true, :reject_if => :reject_empty_intervals
+  attr_accessible :password, :password_confirmation, :login, :firstname,
+    :lastname, :mail, :locale, :timezone, :mail_enabled,
+    :default_location_id, :default_organization_id,
+    :auth_source_name, :auth_source, :auth_source_id,
+    :mail_notification_ids, :mail_notification_names,
+    :mail_notification_attributes,
+    :roles, :role_ids, :role_names,
+    :user_mail_notifications_attributes
 
   attr_name :login
 

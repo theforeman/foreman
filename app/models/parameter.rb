@@ -3,6 +3,8 @@ class Parameter < ActiveRecord::Base
   friendly_id :name
   include Parameterizable::ByIdName
 
+  attr_accessible :name, :value, :hidden_value, :_destroy, :id, :nested, :reference_id
+
   validates_lengths_from_database
 
   include Authorizable

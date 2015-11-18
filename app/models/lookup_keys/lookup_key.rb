@@ -58,6 +58,19 @@ class LookupKey < ActiveRecord::Base
   alias_attribute :override_values, :lookup_values
   alias_attribute :override_value_ids, :lookup_value_ids
 
+  attr_accessible :avoid_duplicates, :default_value, :description,
+    :key, :key_type,
+    :lookup_values_attributes, :lookup_values, :lookup_value_ids,
+    :lookup_values_count,
+    :merge_overrides,
+    :override, :override_value_order, :override_values_count, :override_values,
+    :override_value_ids,
+    :path,
+    :puppetclass_id,
+    :use_puppet_default,
+    :validator_type, :validator_rule,
+    :variable, :variable_type
+
   # to prevent errors caused by find_resource from override_values controller
   def self.find_by_name(str)
     nil

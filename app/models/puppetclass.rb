@@ -31,6 +31,11 @@ class Puppetclass < ActiveRecord::Base
   alias_attribute :smart_class_parameters, :class_params
   alias_attribute :smart_class_parameter_ids, :class_param_ids
 
+  attr_accessible :class_params_attributes, :hostgroup_ids, :hostgroup_names,
+    :name, :smart_variables, :smart_variable_ids, :smart_variable_names,
+    :smart_class_parameters, :smart_class_parameter_ids, :smart_class_parameter_names,
+    :lookup_keys_attributes
+
   default_scope -> { order('puppetclasses.name') }
 
   scoped_search :on => :name, :complete_value => :true

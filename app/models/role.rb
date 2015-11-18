@@ -27,6 +27,8 @@ class Role < ActiveRecord::Base
   BUILTIN_ANONYMOUS     = 2
   audited :allow_mass_assignment => true
 
+  attr_accessible :name, :permissions
+
   scope :givable, -> { where(:builtin => 0).order(:name) }
   scope :for_current_user, -> { User.current.admin? ? where('0 = 0') : where(:id => User.current.role_ids) }
   scope :builtin, lambda { |*args|
@@ -47,7 +49,6 @@ class Role < ActiveRecord::Base
   has_many :filters, :dependent => :destroy
 
   has_many :permissions, :through => :filters
-  attr_protected :builtin
 
   validates :name, :presence => true, :uniqueness => true
   validates :builtin, :inclusion => { :in => 0..2 }

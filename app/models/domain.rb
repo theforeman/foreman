@@ -9,6 +9,7 @@ class Domain < ActiveRecord::Base
   include Parameterizable::ByIdName
 
   audited :allow_mass_assignment => true, :except => [:total_hosts, :hostgroups_count]
+  attr_accessible :name, :fullname, :dns_id, :domain_parameters_attributes
 
   validates_lengths_from_database
   has_many :hostgroups
