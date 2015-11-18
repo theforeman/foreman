@@ -320,7 +320,7 @@ module Foreman::Model
 
       args = parse_networks(args)
       args = args.with_indifferent_access
-      if args[:image_id].present?
+      if args[:provision_method] == 'image'
         clone_vm(args)
       else
         vm = new_vm(args)
