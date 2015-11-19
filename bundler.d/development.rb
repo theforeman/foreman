@@ -1,6 +1,6 @@
 group :development do
   gem 'maruku', '~> 0.7'
-  gem 'rubocop', '0.28.0'
+  gem 'rubocop', '0.35.1'
 
   # for generating i18n files
   gem 'gettext', '~> 3.1', :require => false
