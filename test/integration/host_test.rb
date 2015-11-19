@@ -300,18 +300,18 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   describe 'edit page' do
     test 'shows errors on invalid lookup values' do
       host = FactoryGirl.create(:host, :with_puppetclass)
-      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                         :key_type => 'boolean', :default_value => true,
-                         :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
+      lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+                                      :key_type => 'boolean', :default_value => true,
+                                      :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
-      assert page.has_no_selector?('#params tr.has-error')
+      assert page.has_no_selector?('#params td.has-error')
 
-      fill_in 'host_lookup_values_attributes_0_value', :with => 'invalid'
+      fill_in "host_lookup_values_attributes_#{lookup_key.id}_value", :with => 'invalid'
       click_button('Submit')
-      assert page.has_selector?('#params tr.has-error')
+      assert page.has_selector?('#params td.has-error')
     end
   end
 

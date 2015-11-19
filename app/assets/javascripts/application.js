@@ -82,7 +82,7 @@ function onContentLoad(){
   $('.ellipsis').tooltip({ container: 'body',
                            title: function(){return (this.scrollWidth > this.clientWidth) ? this.textContent : null;}
                         });
-  $('*[title]').not('*[rel]').tooltip();
+  $('*[title]').not('*[rel]').tooltip({ container: 'body' });
   $('[data-table=inline]').not('.dataTable').dataTable(
       {
         "sDom": "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
@@ -177,31 +177,15 @@ function mark_params_override(){
       }
     });
   });
-  $('#inherited_puppetclasses_parameters .override-param').removeClass('override-param');
-  $('#inherited_puppetclasses_parameters [data-tag=override]').show();
-  $('#puppetclasses_parameters').find('[data-property=class]:visible').each(function(){
-    var klass = $(this).text();
-    var name = $(this).closest('tr').find('[data-property=name]').text();
-    $('#inherited_puppetclasses_parameters [id^="puppetclass_"][id*="_params\\["][id$="\\]"]').each(function(){
-      var param = $(this);
-      if (param.find('[data-property=class]').text() == klass && param.find('[data-property=name]').text() == name) {
-        param.find('.error').removeClass('error');
-        param.find('.warning').removeClass('warning');
-        param.closest('tr').find('[data-property=name]').addClass('override-param');
-        param.find('input, textarea').addClass('override-param');
-        param.find('[data-tag=override]').hide();
-      }
-    });
-  });
   $('#params-tab').removeClass("tab-error");
   if ($("#params").find('.form-group.error').length > 0) $('#params-tab').addClass('tab-error');
   $('a[rel="popover"]').popover();
 }
 
-function add_fields(link, association, content) {
+function add_fields(target, association, content) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g");
-  $(link).before(content.replace(regexp, new_id));
+  $(target).append(content.replace(regexp, new_id));
 }
 
 $(document).ready(function() {

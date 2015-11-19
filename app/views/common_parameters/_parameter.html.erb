@@ -1,40 +1,34 @@
 <% disabled = (not authorized_via_my_scope("host_editing", "edit_params")) %>
-<div class="fields">
-  <table class="table-condensed">
-    <tbody>
-      <tr class="form-group <%= 'has-error' if f.object.errors.any? %>">
-        <td class="col-md-3">
-          <%= f.text_field(:name,  :class => "form-control", :disabled => disabled, :placeholder => _("Name")) %>
-        </td>
-        <td class="col-md-8 value">
-          <div class="input-group col-md-12">
-            <% if f.object.hidden_value? %>
-              <%= f.password_field(:value, :class => 'form-control',
-                               :disabled => disabled,
-                               :value => f.object.value) %>
-            <% else %>
-              <%= f.text_area(:value,
-                          :class => "form-control no-stretch",
-                          :rows => 1,
-                          :disabled => disabled,
-                          :placeholder => _("Value")) %>
-            <% end %>
-            <%= fullscreen_input %>
-          </div>
-        </td>
-        <td>
-          <%= f.check_box(:hidden_value,
-                    :class => 'hidden_value_textarea_switch',
-                    :onchange => 'turn_textarea_switch(this)',
-                    :checked => f.object.hidden_value?,
-                    :disabled => disabled) %>
-          <%= _('hide') %><br />
-          <%= link_to_remove_fields('', f) if authorized_via_my_scope("host_editing", "destroy_params") %><%= _('remove') %>
-        </td>
-        <span class="help-block">
-          <%= f.object.errors.full_messages.to_sentence %>
-        </span>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<tr class="fields <%= 'has-error' if f.object.errors.any? %>">
+  <td>
+    <%= f.text_field(:name,  :class => "form-control", :disabled => disabled, :placeholder => _("Name")) %>
+  </td>
+  <td>
+    <div class="input-group col-md-12">
+      <% if f.object.hidden_value? %>
+        <%= f.password_field(:value, :class => 'form-control',
+                         :disabled => disabled,
+                         :value => f.object.value) %>
+      <% else %>
+        <%= f.text_area(:value,
+                    :class => "form-control no-stretch",
+                    :rows => 1,
+                    :disabled => disabled,
+                    :placeholder => _("Value")) %>
+      <% end %>
+      <%= fullscreen_input %>
+    </div>
+  </td>
+  <td>
+    <%= f.check_box(:hidden_value,
+              :class => 'hidden_value_textarea_switch',
+              :onchange => 'turn_textarea_switch(this)',
+              :checked => f.object.hidden_value?,
+              :disabled => disabled) %>
+    <%= _('hide') %><br />
+    <%= link_to_remove_fields('', f) if authorized_via_my_scope("host_editing", "destroy_params") %><%= _('remove') %>
+  </td>
+  <span class="help-block">
+    <%= f.object.errors.full_messages.to_sentence %>
+  </span>
+</tr>

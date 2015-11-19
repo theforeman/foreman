@@ -1,4 +1,4 @@
-<table class="table table-condensed" id="inherited_parameters">
+<table class="table table-condensed table-fixed" id="inherited_parameters">
   <thead>
     <tr>
       <th class='col-md-3'><%= _("Name") %></th>
@@ -12,7 +12,7 @@
       <% keys.each do |name| %>
         <% overriden = parameters.detect{|param| param.name == name}.present? %>
         <tr class="<%="override-param" if overriden %>">
-          <td><%= content_tag :span, trunc_with_tooltip(name), :id => "name_#{name}"%>
+          <td class="ellipsis"><%= content_tag :span, name, :id => "name_#{name}"%>
           </td>
           <td><%= parameter_value_field inherited_parameters[name] %></td>
           <td>
