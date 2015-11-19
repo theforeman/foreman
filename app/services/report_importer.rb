@@ -100,9 +100,12 @@ class ReportImporter
       end
 
       owners = host.owner.present? ? host.owner.recipients_for(:puppet_error_state) : []
+      users = MailNotification::PuppetError.all_hosts.flat_map(& :users)
+      users.select { |user| Host.authorized_as(user, :view_hosts).find(host.id).present? }
+      owners.concat users
       if owners.present?
         logger.debug "sending alert to #{owners.map(&:login).join(',')}"
-        MailNotification[mail_error_state].deliver(report, :users => owners)
+        MailNotification[mail_error_state].deliver(report, :users => owners.uniq)
       else
         logger.debug "no owner or recipients for alert on #{name}"
       end
