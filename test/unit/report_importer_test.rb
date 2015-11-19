@@ -20,6 +20,31 @@ class ReportImporterTest < ActiveSupport::TestCase
     assert_empty r.logs
   end
 
+  context 'puppet error state notification' do
+    setup do
+      @user =  as_admin { FactoryGirl.create(:user, :admin, :with_mail) }
+      @user.mail_notifications << PuppetError.first
+      @host = FactoryGirl.create(:host)
+    end
+
+    test "when a user is subscribed to all hosts notification,  a mail should be sent on error" do
+      @user.user_mail_notifications.all.each { |notification| notification.update_attribute(:interval, 'Subscribe to all hosts') }
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        report = read_json_fixture('report-errors.json')
+        report["host"] = @host.name
+        ConfigReportImporter.import report
+      end
+    end
+
+    test "when a user is subscribed to his hosts, a mail shouldn't be sent on other host error" do
+      assert_no_difference 'ActionMailer::Base.deliveries.size' do
+        report = read_json_fixture('report-errors.json')
+        report["host"] = @host.name
+        ConfigReportImporter.import report
+      end
+    end
+  end
+
   context 'with user owner' do
     setup do
       @owner = as_admin { FactoryGirl.create(:user, :admin, :with_mail) }
@@ -28,7 +53,8 @@ class ReportImporterTest < ActiveSupport::TestCase
 
     # Only ConfigReportImporter is set to send puppet error states
     test 'when owner is subscribed to notification, a mail should be sent on error' do
-      @owner.mail_notifications << MailNotification[:puppet_error_state]
+      @owner.mail_notifications << PuppetError.first
+      @owner.user_mail_notifications.all.each { |notification| notification.update_attribute(:interval, 'Subscribe to my hosts') }
       assert_difference 'ActionMailer::Base.deliveries.size' do
         report = read_json_fixture('report-errors.json')
         report["host"] = @host.name

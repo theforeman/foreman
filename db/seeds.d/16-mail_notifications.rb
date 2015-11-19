@@ -2,7 +2,6 @@
 # and method, and need to define the corresponding ActionMailer and method.
 # For system notifications, set subscriptable to false.  For recurring reports,
 # set subscription_type to 'report', and for ad hoc mails, use 'alert'
-
 notifications = [
   {
     :name              => 'puppet_summary',
@@ -10,14 +9,6 @@ notifications = [
     :mailer            => 'HostMailer',
     :method            => 'summary',
     :subscription_type => 'report'
-  },
-
-  {
-    :name              => 'puppet_error_state',
-    :description       => N_('A notification when a host reports a puppet error'),
-    :mailer            => 'HostMailer',
-    :method            => 'error_state',
-    :subscription_type => 'alert'
   },
 
   {
@@ -52,6 +43,14 @@ notifications = [
     :method             => 'tester',
     :subscriptable      => false,
     :subscription_type  => nil
+  },
+
+  {
+    :name               => 'puppet_error_state',
+    :description        => N_('A notification when a host reports a puppet error'),
+    :mailer             => 'HostMailer',
+    :method             => 'error_state',
+    :subscription_type  => 'alert',
   }
 ]
 
