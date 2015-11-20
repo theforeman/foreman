@@ -10,12 +10,4 @@ class PuppetclassIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_link? 'vim'
     assert page.has_link? 'Common'
   end
-
-  # PENDING
-  # test "smart variables" do
-  # end
-
-  # PENDING
-  # test "smart class parameters" do
-  # end
 end

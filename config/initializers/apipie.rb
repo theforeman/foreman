@@ -111,3 +111,5 @@ class IdentifierDottableValidator < Apipie::Validator::BaseValidator
         "dot(.), space, underscore(_), hypen(-) with no leading or trailing space."
   end
 end
+
+Apipie.reload_documentation

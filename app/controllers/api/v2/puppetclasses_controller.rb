@@ -63,7 +63,7 @@ module Api
       param_group :puppetclass, :as => :create
 
       def create
-        @puppetclass = Puppetclass.new(params[:puppetclass])
+        @puppetclass = Puppetclass.new(safe_params)
         process_response @puppetclass.save
       end
 
@@ -72,7 +72,7 @@ module Api
       param_group :puppetclass
 
       def update
-        class_params = params[:puppetclass].merge!(:smart_class_parameter_ids => @puppetclass.smart_class_parameters.map(&:id))
+        class_params = safe_params.merge!(:smart_class_parameter_ids => @puppetclass.smart_class_parameters.map(&:id))
         process_response @puppetclass.update_attributes(class_params)
       end
 
