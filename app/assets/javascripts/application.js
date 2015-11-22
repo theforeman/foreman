@@ -166,14 +166,11 @@ function remove_fields(link) {
 
 function mark_params_override(){
   $('#inherited_parameters .override-param').removeClass('override-param');
-  $('#inherited_parameters [data-tag=override]').show();
   $('#parameters').find('[id$=_name]:visible').each(function(){
     var param_name = $(this);
     $('#inherited_parameters').find('[id^=name_]').each(function(){
       if (param_name.val() == $(this).text()){
-        $(this).addClass('override-param');
-        $(this).closest('tr').find('textarea').addClass('override-param');
-        $(this).closest('tr').find('[data-tag=override]').hide();
+        $(this).closest('tr').addClass('override-param');
       }
     });
   });
