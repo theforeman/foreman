@@ -298,6 +298,26 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   describe 'edit page' do
+    test 'correctly override global params' do
+      host = FactoryGirl.create(:host)
+
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert page.has_selector?('#inherited_parameters .btn[data-tag=override]')
+      page.find('#inherited_parameters .btn[data-tag=override]').click
+      refute page.has_selector?('#inherited_parameters .btn[data-tag=override]')
+      click_button('Submit')
+      assert page.has_link?("Edit")
+
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      refute page.has_selector?('#inherited_parameters .btn[data-tag=override]')
+      page.find('#global_parameters_table a').click
+      assert page.has_selector?('#inherited_parameters .btn[data-tag=override]')
+    end
+
     test 'shows errors on invalid lookup values' do
       host = FactoryGirl.create(:host, :with_puppetclass)
       lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
