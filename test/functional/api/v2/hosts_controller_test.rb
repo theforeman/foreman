@@ -84,6 +84,24 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  test "should create host with host_parameters_attributes" do
+    disable_orchestration
+    assert_difference('Host.count') do
+      attrs = [{"name" => "compute_resource_id", "value" => "1", "nested" => "true"}]
+      post :create, { :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
+    end
+    assert_response :created
+  end
+
+  test "should create host with host_parameters_attributes sent in a hash" do
+    disable_orchestration
+    assert_difference('Host.count') do
+      attrs = {"0" => {"name" => "compute_resource_id", "value" => "1", "nested" => "true"}}
+      post :create, { :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
+    end
+    assert_response :created
+  end
+
   test "should create interfaces" do
     disable_orchestration
 
