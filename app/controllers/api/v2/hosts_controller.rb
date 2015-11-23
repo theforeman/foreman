@@ -7,6 +7,9 @@ module Api
       include Api::TaxonomyScope
       include Foreman::Controller::SmartProxyAuth
 
+      include Api::CompatibilityChecker
+      before_filter :check_create_host_nested, :only => [:create, :update]
+
       before_filter :find_optional_nested_object, :except => [:facts]
       before_filter :find_resource, :except => [:index, :create, :facts]
       before_filter :permissions_check, :only => %w{power boot puppetrun}
@@ -62,7 +65,10 @@ module Api
           param :owner_type, Host::Base::OWNER_TYPES, :desc => N_("Host's owner type")
           param :puppet_ca_proxy_id, :number
           param :image_id, :number
-          param :host_parameters_attributes, Array
+          param :host_parameters_attributes, Array, :desc => N_("Host's parameters (array or indexed hash)") do
+            param :name, String, :desc => N_("Name of the parameter"), :required => true
+            param :value, String, :desc => N_("Parameter value"), :required => true
+          end
           param :build, :bool
           param :enabled, :bool
           param :provision_method, String
