@@ -1,6 +1,9 @@
 module Api
   module V1
     class HostsController < V1::BaseController
+      include Api::CompatibilityChecker
+      before_filter :check_create_host_nested, :only => [:create, :update]
+
       before_filter :find_resource, :only => %w{show update destroy status}
 
       api :GET, "/hosts/", "List all hosts."
@@ -45,7 +48,10 @@ module Api
         param :owner_id, :number
         param :puppet_ca_proxy_id, :number
         param :image_id, :number
-        param :host_parameters_attributes, Array
+        param :host_parameters_attributes, Array, :desc => "Host's parameters (array or indexed hash)" do
+          param :name, String, :desc => "Name of the parameter", :required => true
+          param :value, String, :desc => "Parameter value", :required => true
+        end
         param :build, :bool
         param :enabled, :bool
         param :provision_method, String
