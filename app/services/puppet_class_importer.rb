@@ -230,7 +230,7 @@ class PuppetClassImporter
       key        = db_class.class_params.find_by_key param_name
       key_in_env = EnvironmentClass.key_in_environment(env, db_class, key)
 
-      if key && key_in_env && !key.override?
+      if key && key_in_env
         #detach
         key_in_env.destroy
         # destroy if the key is not in any environment.
