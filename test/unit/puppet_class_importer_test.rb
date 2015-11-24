@@ -55,6 +55,41 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     assert !importer.actual_environments.include?("foreman-testing")
   end
 
+  context '#update_classes_in_foreman removes parameters' do
+    setup do
+      @envs = FactoryGirl.create_list(:environment, 2)
+      @pc = FactoryGirl.create(:puppetclass, :environments => @envs)
+    end
+
+    test 'from one environment' do
+      lks = FactoryGirl.create_list(:puppetclass_lookup_key, 2, :as_smart_class_param, :puppetclass => @pc)
+      get_an_instance.send(:update_classes_in_foreman, @envs.first.name,
+                           {@pc.name => {'obsolete' => [lks.first.key]}})
+      assert_equal [@envs.last], lks.first.environments
+      assert_equal @envs, lks.last.environments
+    end
+
+    test 'when overridden' do
+      lks = FactoryGirl.create_list(:puppetclass_lookup_key, 2, :as_smart_class_param, :with_override, :puppetclass => @pc)
+      get_an_instance.send(:update_classes_in_foreman, @envs.first.name,
+                           {@pc.name => {'obsolete' => [lks.first.key]}})
+      assert_equal [@envs.last], lks.first.environments
+      assert_equal @envs, lks.last.environments
+    end
+
+    test 'deletes the key from all environments' do
+      lks = FactoryGirl.create_list(:puppetclass_lookup_key, 2, :as_smart_class_param, :with_override, :puppetclass => @pc)
+      lval = lks.first.lookup_values.first
+      get_an_instance.send(:update_classes_in_foreman, @envs.first.name,
+                           {@pc.name => {'obsolete' => [lks.first.key]}})
+      get_an_instance.send(:update_classes_in_foreman, @envs.last.name,
+                           {@pc.name => {'obsolete' => [lks.first.key]}})
+      refute PuppetclassLookupKey.find_by_id(lks.first.id)
+      refute LookupValue.find_by_id(lval.id)
+      assert_equal @envs, lks.last.environments
+    end
+  end
+
   private
 
   def get_an_instance
