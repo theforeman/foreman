@@ -5,7 +5,7 @@
   <ul>
     <li> <%= _("An explicit layout for the partitions of your hard drive(s). E.G.") %></li>
 <pre>
-zerombr yes
+zerombr
 clearpart --all --initlabel
 part /boot --fstype ext3 --size=100 --asprimary
 part /     --fstype ext3 --size=1024 --grow
@@ -30,7 +30,7 @@ fi
 
 #copy all the HDD partitions to the temp file for execution
 cat &lt&lt EOF &gt /tmp/diskpart.cfg
-zerombr yes
+zerombr
 clearpart --all --initlabel
 part swap --size 250 --maxsize "$swap_size" --grow
 part /boot --fstype ext3 --size 100 --asprimary
