@@ -192,6 +192,7 @@ Foreman::Application.routes.draw do
     member do
       post 'ping'
       put 'refresh'
+      get 'version'
     end
     constraints(:id => /[^\/]+/) do
       resources :puppetca, :only => [:index, :update, :destroy]

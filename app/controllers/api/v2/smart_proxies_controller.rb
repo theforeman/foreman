@@ -4,7 +4,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController
-      before_filter :find_resource, :only => %w{show update destroy refresh}
+      before_filter :find_resource, :only => %w{show update destroy refresh version}
 
       api :GET, "/smart_proxies/", N_("List all smart proxies")
       param_group :taxonomy_scope, ::Api::V2::BaseController
@@ -58,12 +58,23 @@ module Api
         process_response @smart_proxy.refresh.blank? && @smart_proxy.save
       end
 
+      def version
+        begin
+          version = @smart_proxy.version
+        rescue Foreman::Exception => exception
+          render :version, :locals => {:success => false, :message => exception.message} and return
+        end
+        render :version, :locals => {:success => true, :message => version[:message]}
+      end
+
       private
 
       def action_permission
         case params[:action]
         when 'refresh'
           :edit
+        when 'version'
+          :view
         else
           super
         end

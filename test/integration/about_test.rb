@@ -16,4 +16,9 @@ class AboutIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_link?("Ohad Levy", :href => "mailto:ohadlevy@gmail.com")
     assert page.has_content?("Version")
   end
+
+  test "about page proxies should have version" do
+    visit about_index_path
+    assert page.has_selector?('th', :text => "Version")
+  end
 end

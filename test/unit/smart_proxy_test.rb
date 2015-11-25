@@ -61,4 +61,29 @@ class SmartProxyTest < ActiveSupport::TestCase
   test "should get used and selected location ids for host" do
     assert_equal [taxonomies(:location1).id], smart_proxies(:puppetmaster).used_or_selected_location_ids
   end
+
+  context "#version" do
+    test "should succeed" do
+      proxy = smart_proxies(:one)
+      fake_version = {:version => '1.11'}
+      ProxyAPI::Version.any_instance.expects(:get).returns(fake_response(fake_version))
+      assert_equal(fake_version[:version], proxy.version[:message])
+    end
+
+    test "should raise error" do
+      proxy = smart_proxies(:one)
+      ProxyAPI::Version.any_instance.expects(:get).raises(Errno::ECONNRESET)
+      assert_raises(ProxyAPI::ProxyException) do
+        proxy.version
+      end
+    end
+  end
+
+  private
+
+  def fake_response(data)
+    net_http_resp = Net::HTTPResponse.new(1.0, 200, "OK")
+    net_http_resp.add_field 'Set-Cookie', 'Monster'
+    RestClient::Response.create(JSON(data), net_http_resp, nil)
+  end
 end

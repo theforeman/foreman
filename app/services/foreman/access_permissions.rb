@@ -576,9 +576,9 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :smart_proxies do |map|
-    map.permission :view_smart_proxies,    {:smart_proxies => [:index, :ping, :auto_complete_search],
+    map.permission :view_smart_proxies,    {:smart_proxies => [:index, :ping, :auto_complete_search, :version],
                                           :"api/v1/smart_proxies" => [:index, :show],
-                                          :"api/v2/smart_proxies" => [:index, :show]
+                                          :"api/v2/smart_proxies" => [:index, :show, :version]
     }
     map.permission :create_smart_proxies,  {:smart_proxies => [:new, :create],
                                           :"api/v1/smart_proxies" => [:create],

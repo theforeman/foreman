@@ -1,6 +1,6 @@
 class SmartProxiesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_resource, :only => [:edit, :update, :refresh, :ping, :destroy]
+  before_filter :find_resource, :only => [:edit, :update, :refresh, :ping, :version, :destroy]
 
   def index
     @smart_proxies = resource_base.includes(:features).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
@@ -40,6 +40,15 @@ class SmartProxiesController < ApplicationController
     end
   end
 
+  def version
+    begin
+      version = @smart_proxy.version
+    rescue Foreman::Exception => exception
+      render :json => {:success => false, :message => exception.message} and return
+    end
+    render :json => {:success => true, :message => version[:message]}
+  end
+
   def update
     if @smart_proxy.update_attributes(params[:smart_proxy])
       process_success :object => @smart_proxy
@@ -62,7 +71,7 @@ class SmartProxiesController < ApplicationController
     case params[:action]
       when 'refresh'
         :edit
-      when 'ping'
+      when 'ping', 'version'
         :view
       else
         super

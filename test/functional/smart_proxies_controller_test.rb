@@ -92,4 +92,20 @@ class SmartProxiesControllerTest < ActionController::TestCase
     refute_empty assigns(:smart_proxies)
     assert assigns(:smart_proxies).include?(smart_proxies(:three))
   end
+
+  test "smart proxy version succeeded" do
+    SmartProxy.any_instance.stubs(:version).returns({:success => true, :message => '1.11'})
+    get :version, { :id => smart_proxies(:one).to_param }, set_session_user
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal('1.11', show_response['message'])
+  end
+
+  test "smart proxy version failed" do
+    SmartProxy.any_instance.stubs(:version).raises(Foreman::Exception, 'Exception message')
+    get :version, { :id => smart_proxies(:one).to_param }, set_session_user
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_match(/Exception message/, show_response['message'])
+  end
 end
