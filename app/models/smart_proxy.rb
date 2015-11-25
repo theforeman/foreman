@@ -41,6 +41,9 @@ class SmartProxy < ActiveRecord::Base
 
   scope :with_features, ->(*feature_names) { where(:features => { :name => feature_names }).joins(:features) if feature_names.any? }
 
+  HTTP_ERRORS = [Errno::EINVAL, Errno::ECONNRESET, EOFError, Timeout::Error,
+                 Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError]
+
   def hostname
     # This will always match as it is validated
     url.match(URL_HOSTNAME_MATCH)[1]
@@ -88,6 +91,20 @@ class SmartProxy < ActiveRecord::Base
 
   def has_feature?(feature)
     self.features.any? { |proxy_feature| proxy_feature.name == feature }
+  end
+
+  def version
+    result = {}
+    begin
+      Timeout::timeout(20) do
+        version = ProxyAPI::Version.new(:url => url).version
+        result[:success] = true
+        result[:message] = version
+      end
+    rescue *HTTP_ERRORS => exception
+      raise ::Foreman::WrappedException.new exception, N_("Unable to connect to smart proxy")
+    end
+    result
   end
 
   private

@@ -24,6 +24,7 @@
                   <th><%= _("Name") %></th>
                   <th><%= _("Features") %></th>
                   <th><%= _("Status") %></th>
+                  <th><%= _("Version") %></th>
                 </tr>
               </thead>
               <tbody>
@@ -32,6 +33,7 @@
                   <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(proxy) %></td>
                   <td><%=h proxy.features.to_sentence %></td>
                   <td><div class="proxy-status" data-url=<%= ping_smart_proxy_path(proxy) %>><%= _("Connecting..") %></div></td>
+                  <td><div class="proxy-version" data-url=<%= version_smart_proxy_path(proxy) %>><%= _("Connecting..") %></div></td>
                 </tr>
               <% end %>
               </tbody>

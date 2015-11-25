@@ -1,4 +1,23 @@
 $(function() {
+  $(".proxy-version").each(function(index, item) {
+    var item = $(item);
+    var url = item.data('url');
+    $.ajax({
+      type: 'get',
+      url:  url,
+      success: function(response) {
+        item.attr('title',response.message);
+        if(response.success == true) {
+          item.addClass('label label-success')
+          item.text(__(response.message));
+        } else {
+          item.addClass('label label-danger')
+          item.text(__('Error'));
+        }
+        item.tooltip({html: true});
+      }
+    })
+  });
   $(".proxy-status, .compute-status").each(function(index, item) {
     var item = $(item);
     var url = item.data('url');
@@ -16,5 +35,5 @@ $(function() {
         item.tooltip({html: true});
       }
     })
-  })
+  });
 });
