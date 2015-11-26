@@ -265,5 +265,10 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
       assert_equal expected_attrs, attrs
     end
+
+    test "compute resource name can have spaces" do
+      cr = FactoryGirl.build(:compute_resource, :ec2, name: 'My Compute Resource')
+      assert(cr.valid?, 'ComputeResource can have spaces in name')
+    end
   end
 end
