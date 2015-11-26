@@ -11,6 +11,7 @@ class Hostgroup < ActiveRecord::Base
 
   include ScopedSearchExtensions
   include PuppetclassTotalHosts::Indirect
+  include SelectiveClone
 
   validates_lengths_from_database :except => [:name]
   before_destroy EnsureNotUsedBy.new(:hosts)
@@ -180,10 +181,12 @@ class Hostgroup < ActiveRecord::Base
     Setting[:root_pass]
   end
 
+  include_in_clone :lookup_values, :hostgroup_classes, :locations, :organizations, :group_parameters
+  exclude_from_clone :name, :title, :lookup_value_matcher
+
   # Clone the hostgroup
   def clone(name = "")
-    new = self.deep_clone(:include => [:lookup_values, :hostgroup_classes, :locations, :organizations, :group_parameters],
-                          :except => [:name, :title, :lookup_value_matcher])
+    new = self.selective_clone
     new.name = name
     new.title = name
     new.lookup_values.each do |lv|
