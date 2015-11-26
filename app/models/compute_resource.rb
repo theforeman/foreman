@@ -24,7 +24,7 @@ class ComputeResource < ActiveRecord::Base
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   before_destroy EnsureNotUsedBy.new(:hosts)
-  validates :name, :presence => true, :uniqueness => true, :no_whitespace => true
+  validates :name, :presence => true, :uniqueness => true
   validate :ensure_provider_not_changed, :on => :update
   validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
   validates :url, :presence => true
