@@ -1,5 +1,6 @@
 class Host::Managed < Host::Base
   include Hostext::Search
+  include SelectiveClone
   PROVISION_METHODS = %w[build image]
 
   has_many :host_classes, :foreign_key => :host_id
@@ -733,10 +734,13 @@ class Host::Managed < Host::Base
     Setting[:root_pass]
   end
 
+  include_in_clone :config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values
+  exclude_from_clone :name, :uuid, :certname, :last_report, :lookup_value_matcher
+
   def clone
     # do not copy system specific attributes
-    host = self.deep_clone(:include => [:config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values],
-                           :except  => [:name, :uuid, :certname, :last_report, :lookup_value_matcher])
+    host = self.selective_clone
+
     self.interfaces.each do |nic|
       host.interfaces << nic.clone
     end
