@@ -77,7 +77,7 @@ module LookupKeysHelper
   def hostgroup_key_with_diagnostic(hostgroup, key)
     value, origin = hostgroup.inherited_lookup_value key
     original_value = key.value_before_type_cast value
-    diagnostic_helper = popover('', _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => origin}, :data => { :placement => 'top' })
+    diagnostic_helper = popover('', _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => html_escape(key.description), :type => key.key_type, :matcher => html_escape(origin)}, :data => { :placement => 'top' })
     parameter_value_content("value_#{key.key}", original_value, :popover => diagnostic_helper)
   end
 
@@ -90,13 +90,13 @@ module LookupKeysHelper
     if no_value
       if key.required
         diagnostic_class = 'error'
-        diagnostic_helper = popover('', _("Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s") % key.description, :icon => "exclamation-sign")
+        diagnostic_helper = popover('', _("Required parameter without value.<br/><b>Please override!</b> <br><br><b>Description:</b>: %s") % html_escape(key.description), :icon => "exclamation-sign")
       else
         diagnostic_class = 'warning'
-        diagnostic_helper = popover('', _("Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i> <br><br><b>Description:</b> %s") % key.description, :icon => "warning-sign")
+        diagnostic_helper = popover('', _("Optional parameter without value.<br/><i>Won\'t be given to Puppet.</i> <br><br><b>Description:</b> %s") % html_escape(key.description), :icon => "warning-sign")
       end
     else
-      diagnostic_helper = popover('', _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => key.description, :type => key.key_type, :matcher => matcher}, :data => { :placement => 'top' })
+      diagnostic_helper = popover('', _("<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matcher}") % { :desc => html_escape(key.description), :type => key.key_type, :matcher => html_escape(matcher)}, :data => { :placement => 'top' })
     end
 
     text_area_class = "override-param" if key.overridden?(host)

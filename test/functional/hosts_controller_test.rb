@@ -403,6 +403,23 @@ class HostsControllerTest < ActionController::TestCase
     assert Host.find(@host1.id).host_parameters[0][:value] == "hello"
     assert Host.find(@host2.id).host_parameters[0][:value] == "hello"
   end
+
+  test "parameter details should be html escaped" do
+    hg = FactoryGirl.create(:hostgroup, :name => "<script>alert('hacked')</script>")
+    host = FactoryGirl.create(:host, :with_puppetclass, :hostgroup => hg)
+    FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+                                :override => true, :key_type => 'string',
+                                :default_value => "<script>alert('hacked!');</script>",
+                                :description => "<script>alert('hacked!');</script>",
+                                :puppetclass => host.puppetclasses.first)
+    FactoryGirl.create(:hostgroup_parameter, :hostgroup => hg)
+    get :edit, {:id => host.name}, set_session_user
+    refute response.body.include?("<script>alert(")
+    assert response.body.include?("&lt;script&gt;alert(")
+    assert_equal 2, response.body.scan("&lt;script&gt;alert(").size
+    assert_equal 2, response.body.scan("&amp;lt;script&amp;gt;alert(").size
+  end
+
   test "should get errors" do
     get :errors, {}, set_session_user
     assert_response :success
