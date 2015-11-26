@@ -118,8 +118,8 @@ module LookupKeysHelper
      <b>Type:</b> %{type}<br/>
      <b>Matcher:</b> %{matcher}<br/>
      <b>Inherited value:</b> %{inherited_value}") %
-    { :desc => lookup_key.description, :type => lookup_key.key_type,
-      :matcher => matcher, :inherited_value => inherited_value }
+    { :desc => html_escape(lookup_key.description), :type => lookup_key.key_type,
+      :matcher => html_escape(matcher), :inherited_value => html_escape(inherited_value) }
   end
 
   def lookup_key_warnings(required, has_value)
