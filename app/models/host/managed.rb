@@ -669,7 +669,7 @@ class Host::Managed < Host::Base
 
   def set_compute_attributes
     return unless compute_profile_id && compute_resource_id
-    self.compute_attributes = compute_resource.compute_profile_attributes_for(compute_profile_id)
+    self.compute_attributes = compute_resource.compute_profile_attributes_for(compute_profile_id).merge(self.compute_attributes || {})
   end
 
   def set_ip_address

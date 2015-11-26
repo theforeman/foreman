@@ -147,6 +147,16 @@ class HostTest < ActiveSupport::TestCase
     host.update_attributes!(:mac => "52:54:00:dd:ee:ff")
   end
 
+  test "set_compute_attributes does not override existing compute_attributes" do
+    host = FactoryGirl.build(:host)
+    host.compute_attributes = { :image_id => 'test' }.with_indifferent_access
+    host.compute_profile = compute_profiles(:one)
+    host.compute_resource = compute_resources(:one)
+    host.set_compute_attributes
+    assert_equal 'test', host.compute_attributes['image_id']
+    assert_equal 536870912, host.compute_attributes['memory'] # comes from compute profile
+  end
+
   test "can fetch vm compute attributes" do
     host = FactoryGirl.create(:host, :compute_resource => compute_resources(:ec2))
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({:cpus => 4})
