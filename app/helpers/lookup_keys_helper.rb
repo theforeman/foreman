@@ -79,12 +79,12 @@ module LookupKeysHelper
   def lookup_key_with_diagnostic(obj, lookup_key, lookup_value)
     value, matcher = value_matcher(obj, lookup_key)
     inherited_value = lookup_key.value_before_type_cast(value)
-    overridden  = inherited_value.present? || lookup_value.value.present?
-    warnings  = lookup_key_warnings(lookup_key.required, overridden)
+    effective_value = lookup_value.id.nil? ?  inherited_value.to_s : lookup_value.value.to_s
+    warnings  = lookup_key_warnings(lookup_key.required, effective_value.present?)
 
     parameter_value_content(
       "#{parameters_receiver}_lookup_values_attributes_#{lookup_key.id}_value",
-      lookup_value.value || inherited_value,
+      effective_value,
       :popover => diagnostic_popover(lookup_key, matcher, inherited_value, warnings),
       :name => "#{lookup_value_name_prefix(lookup_key.id)}[value]",
       :disabled => !lookup_key.overridden?(obj) || lookup_value.use_puppet_default,
@@ -122,8 +122,8 @@ module LookupKeysHelper
       :matcher => matcher, :inherited_value => inherited_value }
   end
 
-  def lookup_key_warnings(required, overridden)
-    return { :text => '', :icon => 'info-sign' } if overridden
+  def lookup_key_warnings(required, has_value)
+    return { :text => '', :icon => 'info-sign' } if has_value
 
     if required
       { :text => _("Required parameter without value.<br/><b>Please override!</b><br/>"),

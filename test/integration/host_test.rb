@@ -57,6 +57,10 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     page.find('#submit_multiple')
   end
 
+  def class_params
+    page.find('#inherited_puppetclasses_parameters')
+  end
+
   test "index page" do
     assert_index_page(hosts_path,"Hosts","New Host")
   end
@@ -298,6 +302,65 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   describe 'edit page' do
+    test 'class parameters and overrides are displayed correctly for booleans' do
+      host = FactoryGirl.create(:host, :with_puppetclass)
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+                                      :key_type => 'boolean', :default_value => true,
+                                      :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert_equal class_params.find("textarea").value, "false"
+      refute class_params.find("textarea")[:disabled]
+      class_params.find("a[data-tag='remove']").click
+      click_button('Submit')
+      assert page.has_link?("Edit")
+
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert_equal class_params.find("textarea").value, "true"
+      assert class_params.find("textarea")[:disabled]
+      class_params.find("a[data-tag='override']").click
+      refute class_params.find("textarea")[:disabled]
+      class_params.find("textarea").set("false")
+      click_button('Submit')
+      assert page.has_link?("Edit")
+
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert_equal class_params.find("textarea").value, "false"
+      refute class_params.find("textarea")[:disabled]
+    end
+
+    test 'can override puppetclass lookup values' do
+      host = FactoryGirl.create(:host, :with_puppetclass)
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+                                      :key_type => 'boolean', :default_value => "true",
+                                      :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => "false"})
+
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert class_params.has_selector?("a[data-tag='remove']", :visible => :visible)
+      assert class_params.has_selector?("a[data-tag='override']", :visible => :hidden)
+      assert_equal class_params.find("textarea").value, "false"
+      refute class_params.find("textarea")[:disabled]
+
+      class_params.find("a[data-tag='remove']").click
+      assert class_params.has_selector?("a[data-tag='remove']", :visible => :hidden)
+      assert class_params.has_selector?("a[data-tag='override']", :visible => :visible)
+      assert_equal class_params.find("textarea").value, "true"
+      assert class_params.find("textarea")[:disabled]
+
+      class_params.find("a[data-tag='override']").click
+      assert class_params.has_selector?("a[data-tag='remove']", :visible => :visible)
+      assert class_params.has_selector?("a[data-tag='override']", :visible => :hidden)
+      assert_equal class_params.find("textarea").value, "true"
+      refute class_params.find("textarea")[:disabled]
+    end
+
     test 'correctly override global params' do
       host = FactoryGirl.create(:host)
 
