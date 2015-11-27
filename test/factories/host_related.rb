@@ -169,7 +169,7 @@ FactoryGirl.define do
     trait :on_compute_resource do
       uuid Foreman.uuid
       association :compute_resource, :factory => :ec2_cr
-      after(:build) { |host| host.class.skip_callback(:validation, :after, :queue_compute) }
+      after(:build) { |host| host.expects(:queue_compute) }
     end
 
     trait :with_subnet do
