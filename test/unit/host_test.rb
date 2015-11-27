@@ -2763,6 +2763,21 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  describe '.for_vm' do
+    test 'returns hosts with matching CR and identity' do
+      uuid = Foreman.uuid
+      vm = mock('vm', :identity => uuid)
+      host = FactoryGirl.create(:host, :on_compute_resource, :uuid => uuid)
+      assert_equal [host], Host::Managed.for_vm(host.compute_resource, vm).to_a
+    end
+
+    test 'returns hosts with matching an integer identity' do
+      vm = mock('vm', :identity => 42)
+      host = FactoryGirl.create(:host, :on_compute_resource, :uuid => '42')
+      assert_equal [host], Host::Managed.for_vm(host.compute_resource, vm).to_a
+    end
+  end
+
   private
 
   def parse_json_fixture(relative_path)
