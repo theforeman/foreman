@@ -83,6 +83,10 @@ FactoryGirl.define do
     mode 'balance-rr'
   end
 
+  factory :nic_bridge, :class => Nic::Bridge, :parent => :nic_managed do
+    type 'Nic::Bridge'
+  end
+
   factory :nic_primary_and_provision, :parent => :nic_managed, :class => Nic::Managed do
     primary true
     provision true

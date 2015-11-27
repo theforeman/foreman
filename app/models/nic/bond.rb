@@ -1,35 +1,16 @@
 module Nic
   class Bond < Managed
-    SEPARATOR = ','
+    include Nic::WithAttachedDevices
+
     MODES     = %w(balance-rr active-backup balance-xor broadcast 802.3ad balance-tlb balance-alb)
     validates :mode, :presence => true, :inclusion => { :in => MODES }
-    validates :attached_devices, :format => { :with => /\A[a-z0-9#{SEPARATOR}.:_-]+\Z/ }, :allow_blank => true
-    validates :identifier, :presence => true, :if => :managed?
-
-    before_validation :ensure_virtual
-
-    register_to_enc_transformation :type, ->(type) { type.constantize.humanized_name }
-
-    def virtual
-      true
-    end
-    alias_method :virtual?, :virtual
-
-    def attached_devices=(devices)
-      devices = devices.split(SEPARATOR) if devices.is_a?(String)
-      super(devices.map { |i| i.downcase.strip }.join(SEPARATOR))
-    end
-
-    def attached_devices_identifiers
-      attached_devices.split(SEPARATOR)
-    end
 
     def add_slave(identifier)
-      self.attached_devices = attached_devices_identifiers.push(identifier).uniq.join(SEPARATOR)
+      self.add_device(identifier)
     end
 
     def remove_slave(identifier)
-      self.attached_devices = attached_devices_identifiers.tap { |a| a.delete(identifier) }.join(SEPARATOR)
+      self.remove_device(identifier)
     end
 
     def self.humanized_name
@@ -38,12 +19,8 @@ module Nic
 
     private
 
-    def ensure_virtual
-      self.virtual = true
-    end
-
     def enc_attributes
-      @enc_attributes ||= (super + %w(mode attached_devices bond_options))
+      @enc_attributes ||= (super + %w(mode bond_options))
     end
   end
 

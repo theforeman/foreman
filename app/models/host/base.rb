@@ -248,6 +248,10 @@ module Host
       self.interfaces.bonds.is_managed.all
     end
 
+    def bridge_interfaces
+      self.interfaces.bridges.is_managed.all
+    end
+
     def interfaces_with_identifier(identifiers)
       self.interfaces.is_managed.where(:identifier => identifiers).all
     end
@@ -308,7 +312,7 @@ module Host
       case interface_class(name).to_s
         # we search bonds based on identifiers, e.g. ubuntu sets random MAC after each reboot se we can't
         # rely on mac
-        when 'Nic::Bond'
+        when 'Nic::Bond', 'Nic::Bridge'
           base.virtual.where(:identifier => name)
         # for other interfaces we distinguish between virtual and physical interfaces
         # for virtual devices we don't check only mac address since it's not unique,
@@ -367,6 +371,8 @@ module Host
       case name
         when FactParser::BONDS
           Nic::Bond
+        when FactParser::BRIDGES
+          Nic::Bridge
         else
           Nic::Managed
       end

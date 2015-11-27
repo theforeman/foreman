@@ -43,6 +43,7 @@ module Nic
     scope :bootable, -> { where(:type => "Nic::Bootable") }
     scope :bmc, -> { where(:type => "Nic::BMC") }
     scope :bonds, -> { where(:type => "Nic::Bond") }
+    scope :bridges, -> { where(:type => "Nic::Bridge") }
     scope :interfaces, -> { where(:type => "Nic::Interface") }
     scope :managed, -> { where(:type => "Nic::Managed") }
 
