@@ -1340,6 +1340,23 @@ class HostTest < ActiveSupport::TestCase
       assert_equal '10.10.0.3', bond0.ip
     end
 
+    test "#set_interfaces matches bridges based on identifier and even updates its mac" do
+      # interface with empty identifier was renamed to eth5 (same MAC)
+      host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup), :mac => '00:00:00:11:22:33')
+      hash = { :br0 => {:macaddress => 'aa:bb:cc:44:55:66', :ipaddress => '10.10.0.3', :virtual => true},
+               :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'},
+      }.with_indifferent_access
+      parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+      br0 = FactoryGirl.create(:nic_bridge, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'br0')
+
+      host.set_interfaces(parser)
+      host.interfaces.reload
+      assert_equal 1, host.interfaces.bridges.size
+      br0.reload
+      assert_equal 'aa:bb:cc:44:55:66', br0.mac
+      assert_equal '10.10.0.3', br0.ip
+    end
+
     test "#set_interfaces updates associated virtuals identifier on identifier change mutualy exclusively" do
       # eth4 was renamed to eth5 and eth5 renamed to eth4
       host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))

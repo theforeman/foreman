@@ -118,4 +118,5 @@ end
 
 require_dependency 'nic/bmc'
 require_dependency 'nic/bond'
+require_dependency 'nic/bridge'
 require_dependency 'nic/bootable'
