@@ -51,6 +51,17 @@
       border-bottom-right-radius: 4px;
     }
   }
+
+  .override-param {
+    text-decoration: line-through;
+    a, i {
+      text-decoration: none;
+    }
+    .btn[data-tag]{
+      display: none;
+    }
+  }
+
 }
 
 #interfaceModal .modal-dialog{

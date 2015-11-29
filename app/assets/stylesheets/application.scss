@@ -193,20 +193,6 @@ select {
   margin-top: 9px;
 }
 
-.override-param {
-  text-decoration: line-through;
-}
-
-tr.override-param{
-  text-decoration: none;
-  span.col-md-2, textarea {
-    text-decoration: line-through;
-  }
-  a, i {
-    text-decoration: none;
-  }
-}
-
 #title_action{
   padding-bottom: 12px;
 }
