@@ -105,7 +105,7 @@ class DhcpTest < ActiveSupport::TestCase
       "starts": "2014-05-09 11:55:21 UTC",
       "ends": "2214-05-09 12:05:21 UTC",
       "state": "active",
-      "mac": "aa:bb:cc:dd:ee:ff",
+      "mac": "aa:bb:cc:dd:ee:01",
       "subnet": "127.0.0.0/255.0.0.0",
       "ip": "127.0.0.2"
     }'
@@ -113,7 +113,7 @@ class DhcpTest < ActiveSupport::TestCase
     lease2.stubs(:body).returns(lease2)
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/127.0.0.1").returns(@lease1)
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/127.0.0.2").returns(lease2)
-    record1 = Net::DHCP::Record.new(:hostname => "discovered_host1", :mac => "aa:bb:cc:dd:ee:ff",
+    record1 = Net::DHCP::Record.new(:hostname => "discovered_host1", :mac => "aa:bb:cc:dd:ee:01",
                                     :network => "127.0.0.0", :ip => "127.0.0.2",
                                     "proxy" => subnets(:one).dhcp_proxy)
     assert record1.conflicts.empty?
