@@ -1907,6 +1907,23 @@ class HostTest < ActiveSupport::TestCase
     assert host.errors[:provision_method].include?("can't be updated after host is provisioned")
   end
 
+  test "#provision_methods must include build and image by default" do
+    assert_includes Host::Managed.provision_methods.keys, 'build'
+    assert_includes Host::Managed.provision_methods.keys, 'image'
+  end
+
+  test 'validation of a host should work with a newly registered provision method' do
+    host = FactoryGirl.build(:host, :managed, :provision_method => 'awesome')
+    host.stubs(:capabilities).returns([:build, :awesome])
+    refute_valid host
+    assert host.errors[:provision_method].include?('is unknown')
+    Foreman::Plugin.register :awesome_provision do
+      name 'Awesome provision'
+      provision_method 'awesome', 'Awesomeness Based'
+    end
+    assert_valid host
+  end
+
   test "#image_build? must be true when provision_method is image" do
     host = FactoryGirl.create(:host, :managed)
     host.provision_method = 'image'

@@ -20,6 +20,7 @@ Apipie.configure do |config|
     :providers => ComputeResource.providers.join(', '),
     :default_nic_type => InterfaceTypeMapper::DEFAULT_TYPE.humanized_name.downcase,
     :template_kinds => -> { TemplateKind.scoped.map(&:name).join(", ") },
+    :provision_methods => -> { Host::Managed.provision_methods.map { |method, friendly_name| "#{method} (#{_(friendly_name)})" }.join(', ') },
   }
 
   config.translate = lambda do |str, loc|

@@ -20,6 +20,20 @@ module HostsHelper
     "compute_resources_vms/form/#{compute_resource_name}/#{partial}"
   end
 
+  def provision_method_partial_exist?(provision_method, partial)
+    return false unless provision_method
+
+    ActionController::Base.view_paths.any? do |path|
+      File.exist?(File.join(path, 'hosts', 'provision_method', provision_method, "_#{partial}.html.erb"))
+    end
+  end
+
+  def provision_method_partial(provision_method, partial)
+    return nil unless provision_method
+
+    "hosts/provision_method/#{provision_method}/#{partial}"
+  end
+
   def nic_info_js(compute_resource)
     javascript_include_tag("compute_resources/#{compute_resource.provider.downcase}/nic_info.js")
   end
