@@ -1,5 +1,19 @@
 class Host::Managed < Host::Base
+  cattr_accessor :cloned_parameters
+  self.cloned_parameters = {}
+
+  def self.include_in_clone(*attributes)
+    cloned_parameters[:include] ||= []
+    cloned_parameters[:include] += attributes
+  end
+
+  def self.exclude_from_clone(*attributes)
+    cloned_parameters[:except] ||= []
+    cloned_parameters[:except] += attributes
+  end
+
   include Hostext::Search
+  include Facets::ManagedHostExtensions
   PROVISION_METHODS = %w[build image]
 
   has_many :host_classes, :foreign_key => :host_id
@@ -337,6 +351,10 @@ class Host::Managed < Host::Base
     opts[:hostgroup_id]       ||= hostgroup_id
     opts[:environment_id]     ||= environment_id
 
+    host_facets.each do |facet|
+      opts = facet.provisioning_template_options(opts)
+    end
+
     ProvisioningTemplate.find_template opts
   end
 
@@ -428,6 +446,10 @@ class Host::Managed < Host::Base
     info_hash['parameters'] = param
     info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"] && param["foreman_env"]
 
+    host_facets.each do |facet|
+      info_hash.deep_merge! facet.info
+    end
+
     info_hash
   end
 
@@ -508,7 +530,7 @@ class Host::Managed < Host::Base
     host.puppet_proxy_id ||= proxy_id
 
     host.save(:validate => false) if host.new_record?
-    state = host.import_facts(facts)
+    state = host.import_facts(facts, proxy_id)
     [host, state]
   end
 
@@ -516,13 +538,18 @@ class Host::Managed < Host::Base
     super + [:domain, :architecture, :operatingsystem]
   end
 
-  def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
+  def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet', proxy_id = nil)
     importer = super
     if Setting[:update_environment_from_facts]
       set_non_empty_values importer, [:environment]
     else
       self.environment ||= importer.environment unless importer.environment.blank?
     end
+
+    Facets.configuration.registered_facets.values.each do |facet_config|
+      facet_config.model_class.populate_fields_from_facts(self, importer, type, proxy_id)
+    end
+
     operatingsystem.architectures << architecture if operatingsystem && architecture && !operatingsystem.architectures.include?(architecture)
     self.save(:validate => false)
   end
@@ -636,6 +663,12 @@ class Host::Managed < Host::Base
     end
     return attributes unless new_hostgroup
 
+    Facets.configuration.registered_facets.values.each do |facet_config|
+      facet_attributes = attributes["#{facet_config.model}_attributes"]
+      facet_attributes = facet_config.model_class.inherited_attributes(new_hostgroup, facet_attributes)
+      attributes["#{facet_config.model}_attributes"] = facet_attributes if facet_attributes
+    end
+
     inherited_attributes = hostgroup_inherited_attributes - attributes.keys
 
     inherited_attributes.each do |attribute|
@@ -733,10 +766,12 @@ class Host::Managed < Host::Base
     Setting[:root_pass]
   end
 
+  include_in_clone(:config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values)
+  exclude_from_clone(:name, :uuid, :certname, :last_report, :lookup_value_matcher)
+
   def clone
-    # do not copy system specific attributes
-    host = self.deep_clone(:include => [:config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values],
-                           :except  => [:name, :uuid, :certname, :last_report, :lookup_value_matcher])
+    host = self.deep_clone(self.cloned_parameters)
+
     self.interfaces.each do |nic|
       host.interfaces << nic.clone
     end
@@ -744,6 +779,11 @@ class Host::Managed < Host::Base
       host.compute_attributes = host.compute_resource.vm_compute_attributes_for(self.uuid)
     end
     host.refresh_global_status
+
+    host.host_facets.each do |facet|
+      facet.after_clone
+    end
+
     host
   end
 
@@ -798,6 +838,11 @@ class Host::Managed < Host::Base
     [puppet_proxy_id, puppet_ca_proxy_id, hostgroup.try(:puppet_proxy_id), hostgroup.try(:puppet_ca_proxy_id)].compact.each do |p|
       ids << p
     end
+
+    host_facets.each do |facet|
+      ids += facet.smart_proxy_ids
+    end
+
     ids.uniq.compact
   end
 
@@ -863,12 +908,23 @@ class Host::Managed < Host::Base
             end
 
     kinds.map do |kind|
-      ProvisioningTemplate.find_template({ :kind               => kind.name,
-                                           :operatingsystem_id => operatingsystem_id,
-                                           :hostgroup_id       => hostgroup_id,
-                                           :environment_id     => environment_id
-                                         })
+      filter = {
+        :kind => kind.name,
+        :operatingsystem_id => operatingsystem_id,
+        :hostgroup_id       => hostgroup_id,
+        :environment_id     => environment_id
+      }
+      template_filter_from_facets(kind, filter)
+
+      ProvisioningTemplate.find_template(filter)
     end.compact
+  end
+
+  def template_filter_from_facets(kind, base_filter)
+    host_facets.each do |facet|
+      base_filter.deep_merge!(facet.template_filter_options(kind))
+    end
+    base_filter
   end
 
   def render_template(template)

@@ -3,6 +3,7 @@ module HostsHelper
   include HostsAndHostgroupsHelper
   include ComputeResourcesVmsHelper
   include BmcHelper
+  include FacetsHelper
 
   def provider_partial_exist?(compute_resource, partial)
     return false unless compute_resource
@@ -485,5 +486,15 @@ module HostsHelper
     return false if params[:action] == 'clone'
     return true unless params[:host]
     !params[:host][field]
+  end
+
+  def load_tabs(host)
+    @tabs = host_additional_views(host)
+  end
+
+  def host_tab(id, val, host_form)
+    content_tag(:div, :id => id, :class => "tab-pane") do
+      render(val, :f => host_form)
+    end
   end
 end

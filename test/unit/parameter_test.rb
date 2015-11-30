@@ -64,6 +64,7 @@ class ParameterTest < ActiveSupport::TestCase
     assert_equal loc1.title, params["animal"][:source_name]
 
     loc2.location_parameters << LocationParameter.create(:name => "animal", :value => "dog")
+    host.reload
     params = host.host_inherited_params(true)
     assert_equal "dog", params["animal"][:safe_value]
     assert_equal loc2.title, params["animal"][:source_name]
