@@ -1,6 +1,7 @@
 class Host::Managed < Host::Base
   include Hostext::Search
   include SelectiveClone
+  include HostParams
   PROVISION_METHODS = %w[build image]
 
   has_many :host_classes, :foreign_key => :host_id
@@ -8,10 +9,7 @@ class Host::Managed < Host::Base
   belongs_to :hostgroup, :counter_cache => :hosts_count
   has_many :reports, :foreign_key => :host_id, :class_name => 'ConfigReport'
   has_one :last_report_object, :foreign_key => :host_id, :order => "#{Report.table_name}.id DESC", :class_name => 'ConfigReport'
-  has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :host
-  has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "HostParameter"
-  accepts_nested_attributes_for :host_parameters, :allow_destroy => true
-  include ParameterValidators
+
   belongs_to :owner, :polymorphic => true
   belongs_to :compute_resource
   belongs_to :image
@@ -74,8 +72,6 @@ class Host::Managed < Host::Base
       :managed_interfaces, :facts, :facts_hash, :root_pass, :sp_name, :sp_ip, :sp_mac, :sp_subnet, :use_image,
       :multiboot, :jumpstart_path, :install_path, :miniroot
   end
-
-  attr_reader :cached_host_params
 
   scope :recent,      ->(*args) { where(["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]) }
   scope :out_of_sync, ->(*args) { where(["last_report < ? and enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]) }
@@ -430,61 +426,6 @@ class Host::Managed < Host::Base
     info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"] && param["foreman_env"]
 
     info_hash
-  end
-
-  def params
-    host_params.update(lookup_keys_params)
-  end
-
-  def clear_host_parameters_cache!
-    @cached_host_params = nil
-  end
-
-  def host_inherited_params(include_source = false)
-    hp = {}
-    params = host_inherited_params_objects
-    params.each do |param|
-      case param
-        when CommonParameter
-          hp.update(Hash[param.name => include_source ? {:value => param.value, :source => N_('common').to_sym, :safe_value => param.safe_value} : param.value])
-        when GroupParameter
-          hp.update(Hash[param.name => include_source ? {:value => param.value, :source => N_('hostgroup').to_sym, :safe_value => param.safe_value, :source_name => hostgroup.title} : param.value])
-        else
-          source = param.class.to_s.gsub('Parameter', '').downcase
-          source = 'operatingsystem' if source == 'os'
-          hp.update(Hash[param.name => include_source ? {:value => param.value, :source => N_(source).to_sym, :safe_value => param.safe_value, :source_name => param.send(source).to_label} : param.value])
-      end
-    end
-    hp
-  end
-
-  def host_params
-    return cached_host_params unless cached_host_params.blank?
-    hp = host_inherited_params
-    # and now read host parameters, override if required
-    host_parameters.each {|p| hp.update Hash[p.name => p.value] }
-    @cached_host_params = hp
-  end
-
-  def host_inherited_params_objects
-    params = CommonParameter.all
-    if SETTINGS[:organizations_enabled] && organization
-      params += extract_params_from_object_ancestors(organization)
-    end
-
-    if SETTINGS[:locations_enabled] && location
-      params += extract_params_from_object_ancestors(location)
-    end
-
-    params += domain.domain_parameters if domain
-    params += operatingsystem.os_parameters if operatingsystem
-    params += extract_params_from_object_ancestors(hostgroup) if hostgroup
-    params
-  end
-
-  def host_params_objects
-    # Host parameters should always be first for the uniq order
-    (host_parameters + host_inherited_params_objects.reverse!).uniq {|param| param.name}
   end
 
   # JSON is auto-parsed by the API, so these should be in the right format
