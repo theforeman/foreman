@@ -44,9 +44,10 @@ end
 
 if SETTINGS[:openstack]
   require 'fog/openstack'
+  require 'fog/openstack/compute'
+  Fog::Compute::OpenStack::Real.send(:include, FogExtensions::Openstack::Core)
   require 'fog/openstack/models/compute/server'
   Fog::Compute::OpenStack::Server.send(:include, FogExtensions::Openstack::Server)
-
   require 'fog/openstack/models/compute/flavor'
   Fog::Compute::OpenStack::Flavor.send(:include, FogExtensions::Openstack::Flavor)
 end
