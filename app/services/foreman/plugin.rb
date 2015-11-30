@@ -92,12 +92,13 @@ module Foreman #:nodoc:
     end
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
-    attr_reader :id, :logging, :default_roles
+    attr_reader :id, :logging, :default_roles, :provision_methods
 
     def initialize(id)
       @id = id.to_sym
       @logging = Plugin::Logging.new(@id)
       @default_roles = {}
+      @provision_methods = {}
     end
 
     def after_initialize
@@ -274,6 +275,12 @@ module Foreman #:nodoc:
     # register custom host status class, it should inherit from HostStatus::Status
     def register_custom_status(klass)
       HostStatus.status_registry.add(klass)
+    end
+
+    # register a provision method
+    def provision_method(name, friendly_name)
+      return if @provision_methods.key?(name.to_s)
+      @provision_methods[name.to_s] = friendly_name
     end
   end
 end

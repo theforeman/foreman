@@ -2,7 +2,6 @@ class Host::Managed < Host::Base
   include Hostext::Search
   include SelectiveClone
   include HostParams
-  PROVISION_METHODS = %w[build image]
 
   has_many :host_classes, :foreign_key => :host_id
   has_many :puppetclasses, :through => :host_classes, :dependent => :destroy
@@ -192,7 +191,7 @@ class Host::Managed < Host::Base
                           :if => Proc.new { |host| host.managed && host.pxe_build? && build? }
     validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
                           :if => Proc.new { |host| host.managed and host.disk.empty? and not Foreman.in_rake? and host.pxe_build? and host.build? }
-    validates :provision_method, :inclusion => {:in => PROVISION_METHODS, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
+    validates :provision_method, :inclusion => {:in => Proc.new { self.provision_methods }, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
     validates :medium_id, :presence => true, :if => Proc.new { |host| host.validate_media? }
     validate :provision_method_in_capabilities
     validate :short_name_periods
@@ -550,6 +549,17 @@ class Host::Managed < Host::Base
     association.camelize.constantize.find(counter.keys.compact).map {|i| {:label=>i.to_label, :data =>counter[i.id]}}
   end
 
+  def self.provision_methods
+    {
+      'build' => N_('Network Based'),
+      'image' => N_('Image Based'),
+    }.merge(registered_provision_methods)
+  end
+
+  def self.registered_provision_methods
+    Foreman::Plugin.all.map(&:provision_methods).inject(:merge) || {}
+  end
+
   def classes_from_storeconfigs
     klasses = resources.select(:title).where(:restype => "Class").where("title <> ? AND title <> ?", "main", "Settings").order(:title)
     klasses.map!(&:title).delete(:main)
@@ -662,7 +672,11 @@ class Host::Managed < Host::Base
   end
 
   def capabilities
-    compute_resource ? compute_resource.capabilities : [:build]
+    compute_resource ? compute_resource.capabilities : bare_metal_capabilities
+  end
+
+  def bare_metal_capabilities
+    [:build]
   end
 
   def provider

@@ -36,7 +36,7 @@ function computeResourceSelected(item){
     $('#vm_details').empty();
     $("#compute_resource_tab").hide();
     $("#compute_profile").hide();
-    update_capabilities('build');
+    update_capabilities($('#bare_metal_capabilities').val());
     update_nics(function() {
       interface_subnet_selected(primary_nic_form().find('select.interface_subnet'));
     });
@@ -75,24 +75,29 @@ function computeResourceSelected(item){
 }
 
 function update_capabilities(capabilities){
+  capabilities = capabilities.split(" ")
   $('#image_provisioning').empty();
   $('#image_selection').appendTo($('#image_provisioning'));
   update_provisioning_image();
   $('#manage_network').empty();
   $('#subnet_selection').appendTo($('#manage_network'));
 
-  var build = (/build/i.test(capabilities));
-  var image = (/image/i.test(capabilities));
-  if (build){
+  $('input[id^=host_provision_method_]').attr('disabled', true);
+  for (i = 0; i < capabilities.length; i++) {
+    $('input[id^=host_provision_method_' + capabilities[i] + ']').attr('disabled', false);
+  }
+
+  var build = (capabilities.indexOf('build') > -1);
+  if (build) {
     $('#manage_network_build').show();
     $('#host_provision_method_build').click();
     build_provision_method_selected();
-  } else {
+  } else if(capabilities.length > 0) {
     $('#manage_network_build').hide();
-    $('#host_provision_method_image').click();
-    image_provision_method_selected();
+    $("#host_provision_method_" + capabilities[0]).click();
   }
-  if(build && image){
+
+  if(capabilities.length >= 2){
     $('#provisioning_method').show();
   }else{
     $('#provisioning_method').hide();
@@ -276,7 +281,7 @@ function update_form(element, options) {
       if( !$('#host_compute_resource_id').val() ) {
         $('#host_compute_resource_id').change();
       }
-      update_capabilities($('#host_compute_resource_id').val() ? $('#capabilities').val() : 'build');
+      update_capabilities($('#host_compute_resource_id').val() ? $('#capabilities').val() : $('#bare_metal_capabilities').val());
 
       $(document.body).trigger('ContentLoad');
     }
@@ -494,6 +499,10 @@ function onHostEditLoad(){
      $('#host-conflicts-modal').modal('hide');
    });
   $('#image_selection').appendTo($('#image_provisioning'));
+  var compute = $('#host_compute_resource_id');
+  if (compute.val() == '' && compute.attr('disabled') == 'disabled') {
+    update_capabilities($('#bare_metal_capabilities').val());
+  }
   $('#params-tab').on('shown', function(){mark_params_override()});
   if ($('#supports_update') && !$('#supports_update').data('supports-update')) disable_vm_form_fields();
 }
@@ -506,8 +515,8 @@ $(document).on('submit',"[data-submit='progress_bar']", function() {
 });
 
 function build_provision_method_selected() {
+  $('div[id*=_provisioning]').hide();
   $('#network_provisioning').show();
-  $('#image_provisioning').hide();
   $('#image_selection select').attr('disabled', true);
   if ($('#provider').val() == 'Ovirt')
     $('#host_compute_attributes_template').attr('disabled', false);
@@ -515,7 +524,7 @@ function build_provision_method_selected() {
 $(document).on('change', '#host_provision_method_build', build_provision_method_selected);
 
 function image_provision_method_selected() {
-  $('#network_provisioning').hide();
+  $('div[id*=_provisioning]').hide();
   $('#image_provisioning').show();
   $('#network_selection select').attr('disabled', true);
   var image_options = $('#image_selection select');

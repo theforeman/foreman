@@ -260,4 +260,12 @@ class PluginTest < ActiveSupport::TestCase
     assert_include HostStatus.status_registry, status
     HostStatus.status_registry.delete status
   end
+
+  def test_add_provision_method
+    Foreman::Plugin.register :awesome_provision do
+      name 'Awesome provision'
+      provision_method 'awesome', 'Awesomeness Based'
+    end
+    assert_equal 'Awesomeness Based', Host::Managed.provision_methods['awesome']
+  end
 end

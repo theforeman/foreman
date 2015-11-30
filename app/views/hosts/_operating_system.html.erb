@@ -8,27 +8,19 @@
 </span>
 
 <div id='provisioning_method' <%= display? (@host.capabilities.size < 2)  %> >
-  <%= field(f, :provision_method, :label => _('Provisioning Method'), :required => true) do
-      radio_button_f(f, :provision_method, :value=>'build', :checked=> @host.pxe_build?, :text=> _("Network Based"), :disabled => !@host.new_record?)+
-      radio_button_f(f, :provision_method, :value=>'image', :checked=> @host.image_build?, :text=> _("Image Based"), :disabled => !@host.new_record?)
+  <%= field(f, :provision_method, :label => _('Provisioning Method'), :required => true, :size => 'col-md-10') do
+    Host::Managed.provision_methods.sort_by { |name, friendly_name| name }.collect do |provision_method, friendly_name|
+      radio_button_f(f, :provision_method, :value=>provision_method, :text=> _(friendly_name), :disabled => !@host.new_record?)
+    end.join(' ').html_safe
   end %>
 </div>
-<div id='network_provisioning' <%= display? !@host.pxe_build? %> >
-  <% if @host.new_record? or @host.type_changed? -%>
-      <%= checkbox_f f, :build, :checked => true, :help_inline => _("Enable this host for provisioning") %>
+
+<% Host::Managed.provision_methods.sort_by { |name, friendly_name| name }.each do |provision_method, friendly_name| %>
+  <% if provision_method_partial_exist?(provision_method, 'form') %>
+    <%= render provision_method_partial(provision_method, 'form'), :f => f, :host => @host %>
   <% end %>
-  <span id="media_select">
-    <%= render 'common/os_selection/operatingsystem', :item => @host %>
-  </span>
+<% end %>
 
-
-  <%= textarea_f f, :disk, :size => "col-md-8", :rows => "4",
-           :help_block => _("What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field") %>
-</div>
-
-<div id='image_provisioning' <%= display? !@host.image_build? %> >
-
-</div>
 <div id='root_password'>
   <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more"), :required => true, :unset => action_name == "edit" %>
 </div>
