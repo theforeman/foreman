@@ -104,8 +104,8 @@ Spork.prefork do
       Rails.logger
     end
 
-    def set_session_user
-      SETTINGS[:login] ? {:user => users(:admin).id, :expires_at => 5.minutes.from_now} : {}
+    def set_session_user(user = :admin)
+      SETTINGS[:login] ? {:user => users(user).id, :expires_at => 5.minutes.from_now} : {}
     end
 
     def as_user(user)
