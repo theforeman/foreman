@@ -165,7 +165,7 @@ class Hostgroup < ActiveRecord::Base
     # otherwise we might be overwriting the hash in the wrong order.
     groups = Hostgroup.sort_by_ancestry(Hostgroup.includes(:group_parameters).find(ids))
     groups.each do |hg|
-      hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('hostgroup').to_sym, :safe_value => p.safe_value, :source_name => hg.title} : p.value }
+      hg.group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => p.associated_type, :safe_value => p.safe_value, :source_name => hg.title} : p.value }
     end
     hash
   end
@@ -173,7 +173,7 @@ class Hostgroup < ActiveRecord::Base
   # returns self and parent parameters as a hash
   def parameters(include_source = false)
     hash = parent_params(include_source)
-    group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => N_('hostgroup').to_sym, :safe_value => p.safe_value, :source_name => title} : p.value }
+    group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => p.associated_type, :safe_value => p.safe_value, :source_name => title} : p.value }
     hash
   end
 

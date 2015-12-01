@@ -7,4 +7,12 @@ class HostParameter < Parameter
   def to_s
     "#{host.id ? host.name : "unassociated"}: #{name} = #{value}"
   end
+
+  def associated_type
+    N_('host')
+  end
+
+  def associated_label
+    host.to_label
+  end
 end

@@ -4,6 +4,14 @@ class LocationParameter < Parameter
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :location, :presence => true
 
+  def associated_type
+    N_('location')
+  end
+
+  def associated_label
+    location.to_label
+  end
+
   private
 
   def enforce_permissions(operation)

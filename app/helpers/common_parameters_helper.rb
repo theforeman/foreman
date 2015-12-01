@@ -11,7 +11,7 @@ module CommonParametersHelper
 
   def parameter_value_field(value)
     source_name = value[:source_name] ? "(#{value[:source_name]})" : nil
-    popover_tag = popover('', _("<b>Source:</b> %{type} %{name}") % { :type => _(value[:source].to_s), :name => source_name }, :data => { :placement => 'top' })
+    popover_tag = popover('', _("<b>Source:</b> %{type} %{name}") % { :type => _(value[:source]), :name => source_name }, :data => { :placement => 'top' })
     content_tag(:div, parameter_value_content("value_#{value[:safe_value]}", value[:safe_value], :popover => popover_tag, :disabled => true) + fullscreen_input, :class => 'input-group')
   end
 

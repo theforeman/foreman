@@ -4,6 +4,14 @@ class OrganizationParameter < Parameter
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :organization, :presence => true
 
+  def associated_type
+    N_('organization')
+  end
+
+  def associated_label
+    organization.to_label
+  end
+
   private
 
   def enforce_permissions(operation)
