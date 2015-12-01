@@ -20,35 +20,16 @@ module HostParams
       hp = {}
       params = host_inherited_params_objects
       params.each do |param|
-        source = param_source(param.class.to_s.sub('Parameter', ''))
+        source = param.associated_type
         options = {:value => param.value,
-                   :source => source.to_sym,
+                   :source => source,
                    :safe_value => param.safe_value }
-        if source !=  'common'
-          options.merge!(:source_name => param.send(source).to_label)
+        if source !=  'global'
+          options.merge!(:source_name => param.associated_label)
         end
         hp.update(Hash[param.name => include_source ? options : param.value])
       end
       hp
-    end
-
-    def param_source(param_type)
-      case param_type
-        when 'Common'
-          N_('common')
-        when 'Os'
-          N_('operatingsystem')
-        when 'Location'
-          N_('location')
-        when 'Organization'
-          N_('organization')
-        when 'Domain'
-          N_('domain')
-        when 'Host'
-          N_('host')
-        when 'Group'
-          N_('hostgroup')
-      end
     end
 
     def host_params

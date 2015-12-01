@@ -3,4 +3,12 @@ class OsParameter < Parameter
   audited :except => [:priority], :associated_with => :operatingsystem, :allow_mass_assignment => true
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :operatingsystem, :presence => true
+
+  def associated_type
+    N_('operating system')
+  end
+
+  def associated_label
+    operatingsystem.to_label
+  end
 end
