@@ -18,7 +18,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
 
   test "should create valid" do
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
-    valid_attrs = { :template => "This is a test template", :template_kind_id => template_kinds(:ipxe).id, :name => "RandomName" }
+    valid_attrs = { :template => "This is a test template", :template_kind_id => template_kinds(:ipxe).id, :name => "RandomName", :locked => true }
     post :create, { :provisioning_template => valid_attrs }
     template = ActiveSupport::JSON.decode(@response.body)
     assert template["name"] == "RandomName"
