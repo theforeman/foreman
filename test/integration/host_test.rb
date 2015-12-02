@@ -61,6 +61,14 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     page.find('#inherited_puppetclasses_parameters')
   end
 
+  def select2(value, attrs)
+    first("#s2id_#{attrs[:from]}").click
+    find(".select2-input").set(value)
+    within ".select2-results" do
+      find("span", text: value).click
+    end
+  end
+
   test "index page" do
     assert_index_page(hosts_path,"Hosts","New Host")
   end
@@ -107,6 +115,29 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       # test the tlags are set properly
       assert table.find('td.flags .primary-flag.active')
       assert table.find('td.flags .provision-flag.active')
+    end
+
+    test 'enables override of hostgroup defaults' do
+      env1 = FactoryGirl.create(:environment)
+      env2 = FactoryGirl.create(:environment)
+      hg1 = FactoryGirl.create(:hostgroup, :environment => env1)
+      hg2 = FactoryGirl.create(:hostgroup, :environment => env2)
+
+      visit new_host_path
+
+      select2 hg1.name, :from => 'host_hostgroup_id'
+
+      Timeout.timeout(Capybara.default_wait_time) do
+        loop until page.evaluate_script('jQuery.active').zero?
+      end
+
+      find("#host_environment_id + .input-group-btn .btn").click
+
+      select2 hg2.name, :from => 'host_hostgroup_id'
+
+      environment = find("#s2id_host_environment_id .select2-chosen").text
+
+      assert_equal env1.name, environment
     end
 
     describe "NIC modal window" do

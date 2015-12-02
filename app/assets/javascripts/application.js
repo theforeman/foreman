@@ -532,17 +532,17 @@ function disableButtonToggle(item, explicit) {
   }
 
   item = $(item);
-  item.data('explicit', explicit);
+  item.attr('data-explicit', explicit);
   var isActive = item.hasClass("active");
   var formControl = item.closest('.input-group').find('.form-control');
   if (!isActive) {
     var blankValue = formControl.children("option[value='']");
     if (blankValue.length == 0) {
-      $(item).data('no-blank', true);
+      $(item).attr('data-no-blank', true);
       $(formControl).append("<option value='' />");
     }
   } else {
-    var blankAttr = item.data('no-blank');
+    var blankAttr = item.attr('data-no-blank');
     if (blankAttr == 'true') {
       $(formControl).children("[value='']").remove();
     }
