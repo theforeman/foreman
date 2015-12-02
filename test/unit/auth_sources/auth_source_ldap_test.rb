@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'test_helper'
 
 class AuthSourceLdapTest < ActiveSupport::TestCase
@@ -153,6 +154,17 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert_not_nil AuthSourceLdap.authenticate("test123", "changeme")
   end
 
+  test "attributes should be encoded and handled in UTF-8" do
+    # stubs out all the actual ldap connectivity, but tests the authenticate
+    # method of auth_source_ldap
+    setup_ldap_stubs('Bär')
+    LdapFluff.any_instance.stubs(:authenticate?).returns(true)
+    LdapFluff.any_instance.stubs(:group_list).returns([])
+    attrs = AuthSourceLdap.authenticate('Bär', 'changeme')
+    assert_equal Encoding::UTF_8, attrs[:firstname].encoding
+    assert_equal 'Bär', attrs[:firstname]
+  end
+
   test 'update_usergroups returns if entry does not belong to any group' do
     setup_ldap_stubs
     ExternalUsergroup.any_instance.expects(:refresh).never
@@ -297,11 +309,11 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
   private
 
-  def setup_ldap_stubs
+  def setup_ldap_stubs(givenname = 'test')
     # stub out all the LDAP connectivity
     entry = Net::LDAP::Entry.new
-    {:givenname=>["test"], :dn=>["uid=test123,cn=users,cn=accounts,dc=example,dc=com"], :mail=>["test123@example.com"], :sn=>["test"]}.each do |k, v|
-      entry[k] = v
+    {:givenname=>[givenname], :dn=>["uid=test123,cn=users,cn=accounts,dc=example,dc=com"], :mail=>["test123@example.com"], :sn=>["test"]}.each do |k, v|
+      entry[k] = v.map { |e| e.encode('UTF-8').force_encoding('ASCII-8BIT') }
     end
     LdapFluff.any_instance.stubs(:valid_user?).returns(true)
     LdapFluff.any_instance.stubs(:find_user).returns([entry])
