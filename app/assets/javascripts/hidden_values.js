@@ -18,7 +18,7 @@ function turn_textarea_switch(checkbox) {
     session = Editor.getSession();
     session.setValue($(source).val());
   } else {
-    var target = $('<textarea/>').attr({class: 'form-control', id: id, name: source.name, placeholder: 'Value', rows: 1, value: $(source).val()});
+    var target = $('<textarea/>').attr({class: 'form-control no-stretch', id: id, name: source.name, placeholder: 'Value', rows: 1, value: $(source).val()});
     $(source).replaceWith(target);
   }
 }
