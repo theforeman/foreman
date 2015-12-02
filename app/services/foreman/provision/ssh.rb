@@ -59,7 +59,7 @@ class Foreman::Provision::SSH
       :keys_only    => true,
       :config       => false,
       :auth_methods => %w( publickey ),
-      :compression  => "zlib",
+      :compression  => true,
       :logger       => logger,
     }
   end
