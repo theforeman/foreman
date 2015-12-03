@@ -580,6 +580,7 @@ class HostsController < ApplicationController
               Host.new(params[:host])
             end
     @host.set_hostgroup_defaults
+    @host.set_compute_attributes unless params[:host][:compute_profile_id]
     render :partial => "form"
   end
 
