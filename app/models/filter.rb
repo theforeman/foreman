@@ -2,8 +2,10 @@ class Filter < ActiveRecord::Base
   include Taxonomix
   include Authorizable
 
-  attr_accessible :role_id, :resource_type, :permissions, :search,
-    :permission_ids, :permission_names
+  attr_writer :resource_type
+  attr_accessor :unlimited
+  attr_accessible :search, :unlimited, :resource_type, :permissions,
+    :permission_ids, :permission_names, :role_id
 
   class ScopedSearchValidator < ActiveModel::Validator
     def validate(record)
@@ -22,11 +24,6 @@ class Filter < ActiveRecord::Base
   def add_current_location?
     false
   end
-
-  attr_accessible :search, :resource_type, :permission_ids, :role_id, :unlimited,
-                  :organization_ids, :location_ids
-  attr_writer :resource_type
-  attr_accessor :unlimited
 
   belongs_to :role
   has_many :filterings, :dependent => :destroy
