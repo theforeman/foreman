@@ -1,13 +1,8 @@
 module Nic
   class Interface < Base
-    attr_accessible :ip
-
     validates :ip, :format => {:with => Net::Validations::IP_REGEXP}, :allow_blank => true
-
     validate :normalize_ip
-
     validate :ip_uniqueness, :if => Proc.new { |i| i.ip.present? }
-
     validates :attached_to, :presence => true, :if => Proc.new { |o| o.virtual && o.instance_of?(Nic::Managed) && !o.bridge? }
 
     attr_accessible :name, :subnet_id, :subnet, :domain_id, :domain
