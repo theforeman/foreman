@@ -361,6 +361,18 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       refute class_params.find("textarea")[:disabled]
     end
 
+    test 'correctly show hash type overrides' do
+      host = FactoryGirl.create(:host, :with_puppetclass)
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+                                      :key_type => 'hash', :default_value => 'a: b',
+                                      :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'a: c'})
+
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert_equal class_params.find("textarea").value, "a: c\n"
+    end
+
     test 'correctly override global params' do
       host = FactoryGirl.create(:host)
 
