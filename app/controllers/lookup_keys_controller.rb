@@ -7,7 +7,7 @@ class LookupKeysController < ApplicationController
     @lookup_keys = resource_base.search_for(params[:search], :order => params[:order])
                                 .includes(:puppetclass)
                                 .paginate(:page => params[:page])
-    @puppetclass_authorizer = Authorizer.new(User.current, :collection => @lookup_keys.pluck(:puppetclass_id).compact.uniq)
+    @puppetclass_authorizer = Authorizer.new(User.current, :collection => @lookup_keys.map(&:puppetclass_id).compact.uniq)
   end
 
   def edit
