@@ -9,8 +9,6 @@ group :development do
   gem 'immigrant', '~> 0.1'
 
   gem 'pry'
-  gem 'term-ansicolor'
-  gem 'tins', '< 1.7.0', :require => false if RUBY_VERSION.start_with? '1.9.'
 
   gem 'bullet'
   gem "parallel_tests"
