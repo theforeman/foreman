@@ -51,7 +51,7 @@ class UsergroupsController < ApplicationController
 
   def get_external_usergroups_to_refresh
     # we need to load current status, so we call all explicitly
-    @external_usergroups = @usergroup.external_usergroups.all
+    @external_usergroups = @usergroup.external_usergroups.to_a
   end
 
   def external_usergroups
