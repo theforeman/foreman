@@ -604,9 +604,7 @@ class Host::Managed < Host::Base
 
   def set_hostgroup_defaults
     return unless hostgroup
-    assign_hostgroup_attributes(%w{domain_id compute_profile_id})
-
-    set_compute_attributes if compute_profile_id_changed?
+    assign_hostgroup_attributes(%w{domain_id})
 
     if SETTINGS[:unattended] and (new_record? or managed?)
       assign_hostgroup_attributes(%w{operatingsystem_id architecture_id})
