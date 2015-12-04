@@ -19,10 +19,9 @@ class SmartProxy < ActiveRecord::Base
   has_many :puppet_ca_hosts, :class_name => 'Host::Managed',  :foreign_key => 'puppet_ca_proxy_id'
   has_many :puppet_ca_hostgroups, :class_name => 'Hostgroup', :foreign_key => 'puppet_ca_proxy_id'
   has_many :realms,                                           :foreign_key => 'realm_proxy_id'
-  URL_HOSTNAME_MATCH = %r{\A(?:http|https):\/\/([^:\/]+)}
   validates :name, :uniqueness => true, :presence => true
-  validates :url, :presence => true, :format => { :with => URL_HOSTNAME_MATCH, :message => N_('is invalid - only  http://, https:// are allowed') },
-            :uniqueness     => { :message => N_('Only one declaration of a proxy is allowed') }
+  validates :url, :presence => true, :url_schema => ['http', 'https'],
+    :uniqueness => { :message => N_('Only one declaration of a proxy is allowed') }
 
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
   before_save :sanitize_url, :associate_features
@@ -45,16 +44,12 @@ class SmartProxy < ActiveRecord::Base
                  Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError]
 
   def hostname
-    # This will always match as it is validated
-    url.match(URL_HOSTNAME_MATCH)[1]
+    URI(url).host
   end
 
   def to_s
-    if Setting[:legacy_puppet_hostname]
-      hostname =~ /^puppet\./ ? 'puppet' : hostname
-    else
-      hostname
-    end
+    return hostname unless Setting[:legacy_puppet_hostname]
+    hostname.match(/^puppet\./) ? 'puppet' : hostname
   end
 
   def self.smart_proxy_ids_for(hosts)

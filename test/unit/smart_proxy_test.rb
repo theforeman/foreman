@@ -1,51 +1,47 @@
 require 'test_helper'
 
 class SmartProxyTest < ActiveSupport::TestCase
-  test "should be valid" do
-    proxy = SmartProxy.new
-    proxy.name = "test proxy"
-    proxy.url  = "https://secure.proxy:4568"
-    assert proxy.valid?
-  end
+  context 'url validations' do
+    setup do
+      @proxy = FactoryGirl.
+        build_stubbed(:smart_proxy, :url => 'https://secure.proxy:4568')
+    end
 
-  test "should not be modified if has no leading slashes" do
-    proxy = SmartProxy.new
-    proxy.name = "test proxy"
-    proxy.url  = "https://secure.proxy:4568"
-    assert proxy.valid?
-    assert_equal proxy.url, "https://secure.proxy:4568"
+    test "should be valid" do
+      assert_valid @proxy
+    end
+
+    test "should not be modified if has no leading slashes" do
+      assert_equal @proxy.url, "https://secure.proxy:4568"
+    end
   end
 
   test "should not include trailing slash" do
-    proxy = SmartProxy.new
-    proxy.name = "test a proxy"
-    proxy.url  = "http://some.proxy:4568/"
-    as_admin do
-      assert proxy.save
+    @proxy = FactoryGirl.build(:smart_proxy)
+    @proxy.url = 'http://some.proxy:4568/'
+    as_admin { assert @proxy.save }
+    assert_equal @proxy.url, "http://some.proxy:4568"
+  end
+
+  context 'legacy puppet hostname' do
+    setup do
+      @proxy = FactoryGirl.build_stubbed(:smart_proxy)
+      @proxy.url = "http://puppet.example.com:4568"
     end
-    assert_equal proxy.url, "http://some.proxy:4568"
-  end
 
-  test "should honor legacy puppet hostname true setting" do
-    Setting[:legacy_puppet_hostname] = true
-    proxy = SmartProxy.new
-    proxy.name = "test proxy"
-    proxy.url = "http://puppet.example.com:4568"
+    test "when true returns puppet part of hostname" do
+      Setting.expects(:[]).with(:legacy_puppet_hostname).returns(true)
+      assert_equal "puppet", @proxy.to_s
+    end
 
-    assert_equal proxy.to_s, "puppet"
-  end
-
-  test "should honor legacy puppet hostname false setting" do
-    Setting[:legacy_puppet_hostname] = false
-    proxy = SmartProxy.new
-    proxy.name = "test proxy"
-    proxy.url = "http://puppet.example.com:4568"
-
-    assert_equal proxy.to_s, "puppet.example.com"
+    test "when false returns whole hostname" do
+      Setting.expects(:[]).with(:legacy_puppet_hostname).returns(false)
+      assert_equal "puppet.example.com", @proxy.to_s
+    end
   end
 
   test "proxy should respond correctly to has_feature? method" do
-    proxy = FactoryGirl.create(:template_smart_proxy)
+    proxy = FactoryGirl.build_stubbed(:template_smart_proxy)
     assert proxy.has_feature?('Templates')
     refute proxy.has_feature?('Puppet CA')
   end
