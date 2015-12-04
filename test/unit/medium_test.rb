@@ -27,18 +27,24 @@ class MediumTest < ActiveSupport::TestCase
     assert !other_medium.save
   end
 
-  test "path can't be blank" do
-    medium = Medium.new :name => "Archlinux mirror", :path => "  "
-    assert medium.path.strip.empty?
-    assert !medium.save
-  end
+  context 'path validations' do
+    setup do
+      @medium = FactoryGirl.build(:medium)
+    end
 
-  test "path must be unique" do
-    medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
-    assert medium.save!
+    test "can't be blank" do
+      @medium.path = '  '
+      assert @medium.path.strip.empty?
+      refute_valid @medium
+    end
 
-    other_medium = Medium.new :name => "Ubuntu mirror", :path => "http://www.google.com"
-    assert !other_medium.save
+    test 'must be unique' do
+      @medium.path = 'http://www.google.com'
+      assert @medium.save!
+
+      other_medium = FactoryGirl.build(:medium, :path => @medium.path)
+      refute_valid other_medium
+    end
   end
 
   test "should destroy and nullify host.medium_id if medium is in use but host.build? is false" do
