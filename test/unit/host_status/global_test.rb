@@ -22,7 +22,7 @@ class GlobalTest < ActiveSupport::TestCase
 
   test '.build(statuses, :last_reports => [reports]) uses reports cache for configuration statuses' do
     status = HostStatus::ConfigurationStatus.new
-    report = Report.new(:host_id => 1)
+    report = Report.new(:host => Host.last)
     status.expects(:relevant?).returns(true)
     status.expects(:to_global).returns(:result)
     global = HostStatus::Global.build([ status ], :last_reports => [ report ])
