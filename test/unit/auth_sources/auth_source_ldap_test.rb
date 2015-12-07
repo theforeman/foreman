@@ -271,27 +271,27 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   end
 
   context 'save external avatar' do
-    def setup
-      require 'fakefs/safe'
-      FakeFS.activate!
-    end
+    let(:temp_dir){Dir.mktmpdir}
 
-    def teardown
-      FakeFS.deactivate!
+    setup do
+      AuthSourceLdap.any_instance.stubs(:avatar_path).returns(temp_dir)
     end
 
     test 'store_avatar can save 8bit ascii files' do
-      auth = AuthSourceLdap.new
-      FileUtils.mkdir_p(File.join(Rails.root, 'tmp'))
-      file = File.open("#{Rails.root}/tmp/out.txt", 'wb+')
-      file_string = File.open(file, 'rb') {|f| f.read} # set the file_string to binary
-      file_string += 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg=='
-      avatar_hash = Digest::SHA1.hexdigest(file_string)
-      assert_equal(Encoding::ASCII_8BIT, file_string.encoding)
-      assert_nothing_raised do
-        auth.send(:store_avatar, file_string)
+      begin
+        auth = AuthSourceLdap.new
+        file = File.open("#{temp_dir}/out.txt", 'wb+')
+        file_string = File.open(file, 'rb') {|f| f.read} # set the file_string to binary
+        file_string += 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg=='
+        avatar_hash = Digest::SHA1.hexdigest(file_string)
+        assert_equal(Encoding::ASCII_8BIT, file_string.encoding)
+        assert_nothing_raised do
+          auth.send(:store_avatar, file_string)
+        end
+        assert(File.exist?("#{temp_dir}/#{avatar_hash}.jpg"))
+      ensure
+        FileUtils.remove_entry temp_dir
       end
-      assert(File.exist?("#{Rails.public_path}/assets/avatars/#{avatar_hash}.jpg"))
     end
   end
 
