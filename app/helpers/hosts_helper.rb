@@ -301,8 +301,8 @@ module HostsHelper
     if SETTINGS[:login]
       if host.owner_type == _("User")
         fields += [[_("Owner"), (link_to(host.owner, hosts_path(:search => "user.login = #{host.owner.login}")) if host.owner)]]
-      else
-        fields += [[_("Owner"), host.owner]]
+      elsif host.owner_type == ("Usergroup")
+        fields += [[_("Owner"), (link to(host.owner, hosts_path(:search => "owner_type = Usergroup and owner_id = #{host.owner.id}")) if host.owner)]]
       end
     end
     fields += [[_("Certificate Name"), host.certname]] if Setting[:use_uuid_for_certificates]
