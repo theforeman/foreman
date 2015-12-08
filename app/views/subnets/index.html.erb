@@ -11,19 +11,22 @@
       <th class="col-md-3"><%= _("Domains") %></th>
       <th class="col-md-1"><%= sort :vlanid, :as => s_('Subnet|Vlanid') %></th>
       <th class="col-md-2"><%= _("DHCP Proxy") %></th>
-      <th></th>
+      <th><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>
-    <% for subnet in @subnets %>
+    <% @subnets.each do |subnet| %>
       <tr>
         <td class="display-two-pane ellipsis"><%=link_to_if_authorized subnet.name, hash_for_edit_subnet_path(:id => subnet).merge(:auth_object => subnet, :authorizer => authorizer) %></td>
         <td><%=subnet.network_address %></td>
         <td class="ellipsis"><%=subnet.domains.to_sentence %></td>
         <td><%=subnet.vlanid %></td>
         <td class="ellipsis"><%=subnet.dhcp %></td>
-        <td>
-          <%= display_delete_if_authorized hash_for_subnet_path(:id => subnet).merge(:auth_object => subnet, :authorizer => authorizer), :data => { :confirm => _("Delete %s?") % subnet.name } %>
+        <td class="col-md-1">
+          <%= action_buttons(display_delete_if_authorized(
+            hash_for_subnet_path(:id => subnet).
+            merge(:auth_object => subnet, :authorizer => authorizer),
+            :data => { :confirm => _("Delete %s?") % subnet.name })) %>
         </td>
       </tr>
     <% end %>

@@ -36,44 +36,29 @@
     </ul>
     <div id="myTabContent" class="tab-content">
       <div class="tab-pane active in" id="properties" data-ajax-url='<%= overview_host_path(@host)%>'>
-        <p id="spinner">
-          <%= image_tag 'spinner.gif' %>
-          <%= _('Loading host information ...') %>
-        </p>
+        <%= spinner(_('Loading host information ...')) %>
       </div>
       <div class="tab-pane" id="metrics">
         <% if @report_summary.size == 0 %>
-          <div class="alert alert-warning"><%= _('No puppet activity for this host in the last %s days') % @range %></div>
+          <%= alert :class => 'alert-warning', :header => '',
+            :text => _('No puppet activity for this host in the last %s days') % @range %>
         <% else %>
           <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
         <% end %>
       </div>
       <div class="tab-pane" id="template" data-ajax-url='<%= templates_host_path(@host)%>'>
-        <p id="spinner">
-          <%= image_tag 'spinner.gif' %>
-          <%= _('Loading template information ...') %>
-        </p>
+        <%= spinner(_('Loading template information ...')) %>
       </div>
       <%  if @host.compute_resource_id %>
         <div class="tab-pane" id="vm" data-ajax-url='<%= vm_host_path(@host)%>' data-on-complete='setPowerState'>
-          <p id="spinner">
-            <%= image_tag 'spinner.gif' %>
-            <%= _('Loading VM information ...') %>
-          </p>
-        </div>
+        <%= spinner(_('Loading VM information ...')) %>
       <% end %>
       <div id="nics" class="tab-pane" data-ajax-url='<%= nics_host_path(@host)%>' data-on-complete='onContentLoad'>
-        <p id="spinner">
-          <%= image_tag 'spinner.gif' %>
-          <%= _('Loading NICs information ...') %>
-        </p>
+        <%= spinner(_('Loading NICs information ...')) %>
       </div>
       <% if @host.bmc_available? %>
         <div id="bmc" class="tab-pane" data-ajax-url='<%= bmc_host_path(@host) %>' data-on-complete='setPowerState'>
-          <p id="spinner">
-            <%= image_tag 'spinner.gif' %>
-            <%= _('Loading BMC information ...') %>
-          </p>
+          <%= spinner(_('Loading BMC information ...')) %>
         </div>
       <% end %>
     </div>
@@ -83,20 +68,14 @@
       <h4 class="ca"><%= _("Runtime") %></h4>
       <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
       <div class="chart" data-ajax-url='<%= runtime_host_path(@host, :range => @range) %>' data-on-complete='updateChart'>
-        <p id="spinner">
-          <%= image_tag 'spinner.gif' %>
-          <%= _('Loading runtime information ...') %>
-        </p>
+        <%= spinner(_('Loading runtime information ...')) %>
       </div>
     </div>
     <div class="stats-well">
       <h4 class="ca"><%= _("Resources") %></h4>
       <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
       <div class="chart" data-ajax-url='<%= resources_host_path(@host, :range => @range) %>' data-on-complete='updateChart'>
-        <p id="spinner">
-          <%= image_tag 'spinner.gif' %>
-          <%= _('Loading resources information ...') %>
-        </p>
+        <%= spinner(_('Loading resources information ...')) %>
       </div>
     </div>
   </div>
@@ -114,7 +93,7 @@
                   :close  => false,
                   :class => 'alert-warning'
                  ) %>
-        <div class="loading"><%= image_tag 'spinner.gif' %></div>
+        <div class="loading"><%= spinner %></div>
         <div id="build_status"></div>
       </div>
     </div>
@@ -124,8 +103,8 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title"><%= _('Loading...') %>
-          <%= image_tag 'spinner.gif' %></h4>
+        <%= alert_close('modal') %>
+        <%= spinner %>
       </div>
       <div class="modal-body"><%= _('Please wait while your request is being processed') %></div>
     </div>

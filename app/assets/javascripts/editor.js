@@ -127,6 +127,37 @@ function create_editor() {
   }
 }
 
+function set_fullscreen(){
+  $('#main').append($("#editor1"));
+  $("#editor1")
+     .height($('#main').height())
+     .width($('#main').width())
+     .css('top', 0)
+     .addClass('container');
+  $('#content').hide();
+  $('.navbar').addClass('hidden');
+  $('.logo-bar').addClass('hidden');
+  $editor.resize();
+  $('#main').append($('.exit-fullscreen'));
+  $('.exit-fullscreen').show();
+  $(window).scrollTop();
+}
+
+function exit_fullscreen(){
+  $(".template_text").show();
+  $('#content').show();
+  $('.navbar').removeClass('hidden');
+  $('.logo-bar').removeClass('hidden');
+  $(".template_text").parent().prepend($("#editor1"))
+  $("#editor1")
+      .height($(".template_text").height() || '360')
+      .width($(".template_text").width()-16)
+      .css('top', -20)
+  $(".template_text").hide();
+  $editor.resize();
+  $('.exit-fullscreen').addClass('hidden');
+}
+
 function set_preview(){
   if($('.editor_source').hasClass('diffMode')) return;
   $("#preview_host_selector").hide();

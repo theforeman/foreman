@@ -5,7 +5,7 @@
     <%= wizard_header 2, _("Create %s") % taxonomy_title, _("Select Hosts"), _("Edit Properties") %>
 
   <% if @count_nil_hosts > 0 %>
-    <%= alert :header => _("Notice"),:class => 'alert-info',
+    <%= alert :class => 'alert-info',
               :text => _("Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using.") % {:taxonomy_name => taxonomy.name }%>
     <%=  option_button _("Assign All"), assign_all_hosts_taxonomy_path(taxonomy), :class => 'btn btn-success',:method => :post,
                        :help_inline => n_("Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}", "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}", @count_nil_hosts) %

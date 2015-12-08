@@ -1,7 +1,7 @@
 <% title _("Fact Values") %>
 <% title_actions documentation_button('3.5.5FactsandtheENC') %>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped ellipsis">
   <thead>
     <tr>
       <% unless params[:host_id] %>
@@ -10,7 +10,7 @@
       <th><%= sort :name, :as => _("Name")  %></th>
       <th><%= sort :value, :as => s_("FactValue|Value") %></th>
       <th><%= _('Reported at') %></th>
-      <th></th>
+      <th><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>

@@ -114,11 +114,7 @@ $col-margin-fallback: 1.5%;
   padding: 19px;
   margin-bottom: 10px;
   border: 1px solid #e3e3e3;
-  border-radius: 4px;
-  @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.05));
   background-size: 100%;
-  @include linear_gradient(#f7f7f7, #eee);
-
   &:hover{
     border: 1px solid #00618a;
   }

@@ -1,4 +1,4 @@
-<% title _("Provisioning Templates") %>
+% title _("Provisioning Templates") %>
 
 <% title_actions display_link_if_authorized(_("New Template"), hash_for_new_provisioning_template_path),
                  display_link_if_authorized(_("Build PXE Default"), { :controller => 'provisioning_templates', :action => :build_pxe_default },{
@@ -15,7 +15,7 @@
       <th class="col-md-2"><%= sort :kind, :as => _("Kind") %></th>
       <th class="col-md-1"><%= sort :snippet, :as => s_("ProvisioningTemplate|Snippet") %></th>
       <th class="col-md-1"><%= sort :locked, :as => s_("ProvisioningTemplate|Locked"), :default => "DESC" %></th>
-      <th class="col-md-1"></th>
+      <th class="col-md-1"><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>

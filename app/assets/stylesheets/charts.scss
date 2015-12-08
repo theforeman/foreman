@@ -2,10 +2,8 @@
 
 .stats-well {
  border: 1px solid #d7d7d7;
- border-radius: 3px;
  background-size: 100%;
- @include linear-gradient(#f7f7f7,#eee);
- padding: 13px;
+ padding: 15px;
  min-width: 280px;
  min-height: 100px;
  margin-bottom: 15px;
@@ -36,6 +34,9 @@
   }
 }
 #statistics{
+  margin: 0px auto;
+  text-align: left;
+  width: 90%;
   .stats-well{
     float: left;
     padding: 10px 20px;

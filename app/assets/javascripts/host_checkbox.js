@@ -119,7 +119,7 @@ function build_modal(element, url) {
   var url = url + "?" + $.param({host_ids: $.foremanSelectedHosts});
   var title = $(element).attr('data-dialog-title');
     $('#confirmation-modal .modal-header h4').text(title);
-    $('#confirmation-modal .modal-body').empty().append("<img class='modal-loading' src='/assets/spinner.gif'>");
+    $('#confirmation-modal .modal-body').empty().append("<div class='spinner spinner-xs spinner-inline'></div>");
     $('#confirmation-modal').modal();
     $("#confirmation-modal .modal-body").load(url + " #content",
         function(response, status, xhr) {
