@@ -50,6 +50,8 @@ Foreman::Application.routes.draw do
         post 'update_multiple_hostgroup'
         get 'select_multiple_environment'
         post 'update_multiple_environment'
+        get 'select_multiple_owner'
+        post 'update_multiple_owner'
         get 'multiple_puppetrun'
         post 'update_multiple_puppetrun'
         get 'multiple_destroy'

@@ -14,7 +14,7 @@ class HostsController < ApplicationController
                         submit_multiple_build multiple_disable submit_multiple_disable
                         multiple_enable submit_multiple_enable multiple_puppetrun
                         update_multiple_puppetrun multiple_disassociate update_multiple_disassociate
-                        rebuild_config submit_rebuild_config)
+                        rebuild_config submit_rebuild_config select_multiple_owner update_multiple_owner)
 
   add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
 
@@ -411,6 +411,26 @@ class HostsController < ApplicationController
     redirect_back_or_to hosts_path
   end
 
+  def select_multiple_owner
+  end
+
+  def update_multiple_owner
+    # simple validations
+    if (params[:owner].nil?) or (id=params["owner"]["id"]).nil?
+      error _('No owner selected!')
+      redirect_to(select_multiple_owner_hosts_path) and return
+    end
+
+    #update the hosts
+    @hosts.each do |host|
+      host.is_owned_by = id
+      host.save(:validate => false)
+    end
+
+    notice _('Updated hosts: changed owner')
+    redirect_back_or_to hosts_path
+  end
+
   def multiple_destroy
   end
 
@@ -616,7 +636,8 @@ class HostsController < ApplicationController
           'multiple_enable', 'submit_multiple_enable',
           'update_multiple_organization', 'select_multiple_organization',
           'update_multiple_location', 'select_multiple_location',
-          'disassociate', 'update_multiple_disassociate', 'multiple_disassociate'
+          'disassociate', 'update_multiple_disassociate', 'multiple_disassociate',
+          'select_multiple_owner', 'update_multiple_owner'
         :edit
       when 'multiple_destroy', 'submit_multiple_destroy'
         :destroy
