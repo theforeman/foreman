@@ -161,6 +161,7 @@ module Api
     end
 
     def render_error(error, options = { })
+      options = set_error_details(error, options)
       render options.merge(:template => "/api/v#{api_version}/errors/#{error}")
     end
 
@@ -229,6 +230,20 @@ module Api
           not_found _("%{resource_name} not found by id '%{id}'") % { :resource_name => obj_id.humanize, :id => params[obj_id] }
         end
       end
+    end
+
+    def missing_permissions
+      Foreman::AccessControl.permissions_for_controller_action(path_to_authenticate)
+    end
+
+    def set_error_details(error, options)
+      case error
+      when 'access_denied'
+        if options.fetch(:locals, {}).fetch(:details, nil).blank?
+          options = options.deep_merge({:locals => {:details => _('Missing one of the required permissions: %s') % missing_permissions.map(&:name).join(', ') }})
+        end
+      end
+      options
     end
 
     protected

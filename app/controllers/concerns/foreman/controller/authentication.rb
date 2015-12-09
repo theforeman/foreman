@@ -35,7 +35,11 @@ module Foreman::Controller::Authentication
   end
 
   def authorized
-    User.current.allowed_to?(params.slice(:controller, :action, :id))
+    User.current.allowed_to?(path_to_authenticate)
+  end
+
+  def path_to_authenticate
+    Foreman::AccessControl.normalize_path_hash(params.slice(:controller, :action, :id))
   end
 
   def require_login

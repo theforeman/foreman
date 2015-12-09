@@ -328,8 +328,7 @@ class User < ActiveRecord::Base
   def allowed_to?(action)
     return true if admin?
     if action.is_a? Hash
-      # normalize controller name
-      action[:controller] = action[:controller].to_s.gsub(/::/, "_").sub(/^\//,'').underscore
+      action = Foreman::AccessControl.normalize_path_hash(action)
       return true if editing_self?(action)
     end
     cached_roles.detect {|role| role.allowed_to?(action)}.present?
