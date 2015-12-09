@@ -2107,11 +2107,16 @@ class HostTest < ActiveSupport::TestCase
   describe 'cloning' do
     test 'relationships are copied' do
       host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
+      key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'string',
+                                :override => true, :puppetclass => host.puppetclasses.first)
+      LookupValue.create(:value => 'abc', :match => host.lookup_value_matcher, :lookup_key_id => key.id)
       copy = host.clone
       assert_equal host.host_classes.map(&:puppetclass_id), copy.host_classes.map(&:puppetclass_id)
       assert_equal host.host_parameters.map(&:name), copy.host_parameters.map(&:name)
       assert_equal host.host_parameters.map(&:value), copy.host_parameters.map(&:value)
       assert_equal host.host_config_groups.map(&:config_group_id), copy.host_config_groups.map(&:config_group_id)
+      assert_equal host.lookup_values.map(&:key), copy.lookup_values.map(&:key)
+      assert_equal host.lookup_values.map(&:value), copy.lookup_values.map(&:value)
     end
 
     test '#classes etc. on cloned host return the same' do

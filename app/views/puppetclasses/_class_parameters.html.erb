@@ -1,6 +1,15 @@
 <% lookup_keys = overridable_lookup_keys(puppetclass, obj) %>
 <% lookup_keys.each_with_index do |lookup_key, index| %>
   <% lookup_value = lookup_value(obj, lookup_key) %>
+    <%
+       # LookupValue#match is generated automatically by Host#lookup_values_attributes=
+       # from the name, so don't present errors directly to the user.  Any validation
+       # errors should also be visible against the Host#name field.
+       if lookup_value.errors[:match].any?
+         logger.debug("Ignoring #{lookup_value.inspect} match errors: #{lookup_value.errors[:match]}")
+         lookup_value.errors.delete(:match)
+       end
+    %>
   <% overridden = lookup_key.overridden?(obj) %>
   <% disabled = can_edit_params? && !overridden %>
   <% error = lookup_value.errors %>
