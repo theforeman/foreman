@@ -393,6 +393,18 @@ class HostsControllerTest < ActionController::TestCase
     assert Host.find(@host2.id).environment == hostgroup.environment
   end
 
+  test "user with edit host rights with update owner should change owner" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    setup_user_and_host "edit"
+    assert_equal users(:admin).id_and_type, @host1.is_owned_by
+    assert_equal users(:admin).id_and_type, @host2.is_owned_by
+    post :update_multiple_owner, { :host_ids => [@host1.id, @host2.id],
+      :owner => { :id => users(:one).id_and_type}},
+      set_session_user.merge(:user => users(:admin).id)
+    assert_equal users(:one).id_and_type, Host.find(@host1.id).is_owned_by
+    assert_equal users(:one).id_and_type, Host.find(@host2.id).is_owned_by
+  end
+
   test "user with edit host rights with update parameters should change parameters" do
     setup_multiple_environments
     @host1.host_parameters = [HostParameter.create(:name => "p1", :value => "yo")]
