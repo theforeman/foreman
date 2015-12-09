@@ -413,6 +413,19 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   describe 'clone page' do
+    test 'clones lookup values' do
+      host = FactoryGirl.create(:host, :with_puppetclass)
+      lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+                                      :puppetclass => host.puppetclasses.first)
+      lookup_value = LookupValue.create(:value => 'abc', :match => host.lookup_value_matcher, :lookup_key_id => lookup_key.id)
+
+      visit clone_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      a = page.find("#host_lookup_values_attributes_#{lookup_key.id}_value")
+      assert_equal lookup_value.value, a.value
+    end
+
     test 'shows no errors on lookup values' do
       host = FactoryGirl.create(:host, :with_puppetclass)
       FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
@@ -421,7 +434,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       visit clone_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
-      assert page.has_no_selector?('#params tr.has-error')
+      assert page.has_no_selector?('#params .has-error')
     end
   end
 end

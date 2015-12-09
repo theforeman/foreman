@@ -79,7 +79,7 @@ module LookupKeysHelper
   def lookup_key_with_diagnostic(obj, lookup_key, lookup_value)
     value, matcher = value_matcher(obj, lookup_key)
     inherited_value = lookup_key.value_before_type_cast(value)
-    effective_value = lookup_value.id.nil? ?  inherited_value.to_s : lookup_value.value_before_type_cast.to_s
+    effective_value = lookup_value.lookup_key_id.nil? ?  inherited_value.to_s : lookup_value.value_before_type_cast.to_s
     warnings  = lookup_key_warnings(lookup_key.required, effective_value.present?)
 
     parameter_value_content(

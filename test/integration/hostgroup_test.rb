@@ -36,6 +36,19 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_selector?('#params td.has-error')
   end
 
+  test 'clones lookup values' do
+    group = FactoryGirl.create(:hostgroup, :with_puppetclass)
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+                                    :puppetclass => group.puppetclasses.first)
+    lookup_value = LookupValue.create(:value => 'abc', :match => group.lookup_value_matcher, :lookup_key_id => lookup_key.id)
+
+    visit clone_hostgroup_path(group)
+    assert page.has_link?('Parameters', :href => '#params')
+    click_link 'Parameters'
+    a = page.find("#hostgroup_lookup_values_attributes_#{lookup_key.id}_value")
+    assert_equal lookup_value.value, a.value
+  end
+
   test 'clone shows no errors on lookup values' do
     group = FactoryGirl.create(:hostgroup, :with_puppetclass)
     FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
@@ -44,6 +57,6 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
     visit clone_hostgroup_path(group)
     assert page.has_link?('Parameters', :href => '#params')
     click_link 'Parameters'
-    assert page.has_no_selector?('#params tr.has-error')
+    assert page.has_no_selector?('#params .has-error')
   end
 end
