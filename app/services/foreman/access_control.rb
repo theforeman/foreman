@@ -29,6 +29,21 @@ module Foreman
         @permissions
       end
 
+      def permissions_for_controller_action(controller_action)
+        controller_action = path_hash_to_string(controller_action) if controller_action.is_a?(Hash)
+        @permissions.select { |p| p.actions.include?(controller_action) }
+      end
+
+      def normalize_path_hash(hash)
+        hash[:controller] = hash[:controller].to_s.gsub(/::/, "_").underscore
+        hash[:controller] = hash[:controller][1..-1] if hash[:controller].starts_with?('/')
+        hash
+      end
+
+      def path_hash_to_string(hash)
+        "#{hash[:controller]}/#{hash[:action]}"
+      end
+
       # Returns the permission of given name or nil if it wasn't found
       # Argument should be a symbol
       def permission(name)

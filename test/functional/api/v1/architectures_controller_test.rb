@@ -75,4 +75,12 @@ class Api::V1::ArchitecturesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  test "403 response contains missing permissions" do
+    as_user :one do
+      get :index, { }
+    end
+    assert_response :forbidden
+    assert_includes @response.body, 'view_architectures'
+  end
 end

@@ -64,6 +64,13 @@ class ArchitecturesControllerTest < ActionController::TestCase
     assert !Architecture.exists?(architecture.id)
   end
 
+  test "403 response contains missing permissions" do
+    setup_user
+    get :edit, { :id => Architecture.first.id },  {:user => users(:one).id, :expires_at => 5.minutes.from_now}
+    assert_response :forbidden
+    assert_includes @response.body, 'edit_architectures'
+  end
+
   def setup_user
     @request.session[:user] = users(:one).id
     users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]

@@ -201,13 +201,21 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     unless User.current.admin?
-      render_403
+      render_403(_('Administrator user account required'))
       return false
     end
     true
   end
 
-  def render_403
+  def render_403(msg = nil)
+    if msg.nil?
+      @missing_permissions = Foreman::AccessControl.permissions_for_controller_action(path_to_authenticate)
+      Foreman::Logging.logger('permissions').debug "rendering 403 because of missing permission #{@missing_permissions.map(&:name).join(', ')}"
+    else
+      @missing_permissions = []
+      Foreman::Logging.logger('permissions').debug msg
+    end
+
     respond_to do |format|
       format.html { render :template => "common/403", :layout => !request.xhr?, :status => :forbidden }
       format.any  { head :forbidden }
@@ -217,7 +225,7 @@ class ApplicationController < ActionController::Base
 
   # this is only used in hosts_controller (by SmartProxyAuth module) to render 403's
   def render_error(msg, status)
-    render_403
+    render_403(msg)
   end
 
   def process_success(hash = {})
