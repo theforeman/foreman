@@ -24,7 +24,6 @@ class SmartProxiesController < ApplicationController
   end
 
   def ping
-    @proxy = @smart_proxy
     respond_to do |format|
       format.json {render :json => errors_hash(@smart_proxy.refresh)}
     end
