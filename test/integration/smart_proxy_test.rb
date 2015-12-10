@@ -3,6 +3,8 @@ require 'test_helper'
 class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
     assert_index_page(smart_proxies_path,"Smart Proxies","New Smart Proxy",false)
+    visit smart_proxies_path
+    assert page.has_selector?('th', :text => "Status")
   end
 
   test "create new page" do
