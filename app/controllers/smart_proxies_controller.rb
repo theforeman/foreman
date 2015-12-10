@@ -1,9 +1,13 @@
 class SmartProxiesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_resource, :only => [:edit, :update, :refresh, :ping, :version, :destroy]
+
+  before_filter :find_resource, :only => [:show, :edit, :update, :refresh, :ping, :tftp_server, :destroy]
 
   def index
     @smart_proxies = resource_base.includes(:features).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+  end
+
+  def show
   end
 
   def new
@@ -23,30 +27,22 @@ class SmartProxiesController < ApplicationController
     @proxy = @smart_proxy
   end
 
-  def ping
-    @proxy = @smart_proxy
-    respond_to do |format|
-      format.json {render :json => errors_hash(@smart_proxy.refresh)}
-    end
-  end
-
   def refresh
-    old_features = @smart_proxy.features
+    old_features = @smart_proxy.features.to_a
     if @smart_proxy.refresh.blank? && @smart_proxy.save
-      msg = @smart_proxy.features == old_features ? _("No changes found when refreshing features from %s.") : _("Successfully refreshed features from %s.")
+      msg = @smart_proxy.features.to_a == old_features ? _("No changes found when refreshing features from %s.") : _("Successfully refreshed features from %s.")
       process_success :object => @smart_proxy, :success_msg => msg % @smart_proxy.name
     else
       process_error :object => @smart_proxy
     end
   end
 
-  def version
-    begin
-      version = @smart_proxy.version
-    rescue Foreman::Exception => exception
-      render :json => {:success => false, :message => exception.message} and return
-    end
-    render :json => {:success => true, :message => version[:message]}
+  def ping
+    requested_data(:version)
+  end
+
+  def tftp_server
+    requested_data(:tftp_server)
   end
 
   def update
@@ -67,11 +63,18 @@ class SmartProxiesController < ApplicationController
 
   private
 
+  def requested_data(data_name)
+    data = @smart_proxy.public_send(data_name)
+    render :json => {:success => true, :message => data}
+  rescue Foreman::Exception => exception
+    render :json => {:success => false, :message => exception.message} and return
+  end
+
   def action_permission
     case params[:action]
       when 'refresh'
         :edit
-      when 'ping', 'version'
+      when 'ping', 'tftp_server'
         :view
       else
         super

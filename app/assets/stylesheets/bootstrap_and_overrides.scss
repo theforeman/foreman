@@ -246,3 +246,16 @@ textarea {
 .btn-strike {
   text-decoration: line-through;
 }
+
+#proxy-tab {
+  margin-bottom: 0px;
+}
+.proxy-content.tab-content {
+  padding: 19px;
+  min-height: 0px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  border-top: 0px;
+  float: left;
+  width: 100%;
+}

@@ -1,0 +1,10 @@
+<div class="row">
+  <h3><%= _('DHCP') %></h3>
+  <%= render :partial => 'smart_proxies/plugins/plugin_version', :locals => {:feature => feature, :proxy => @smart_proxy} %>
+  <div class="col-md-4">
+    <%= _('Subnets') %>
+  </div>
+  <div class="col-md-8">
+    <%= generate_links_for(@smart_proxy.subnets).html_safe %>
+  </div>
+</div>
