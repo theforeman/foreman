@@ -340,10 +340,10 @@ table {
 .spinner-placeholder {
   width: 16px;
   height: 16px;
-  background: image-url('spinner.gif');
+  background: image-url('spinner.gif') no-repeat top left;
   text-indent: 20px;
   white-space: nowrap;
-  margin: 20% 30% 0 40%;
+  display: block;
 }
 
 .exit-fullscreen {
@@ -540,4 +540,9 @@ span.glyphicon.host-status {
 
 .ms-container {
   background: transparent image-url('switch.png') no-repeat 270px 80px;
+}
+
+.big {
+  font-size: 3rem;
+  color: #797979;
 }

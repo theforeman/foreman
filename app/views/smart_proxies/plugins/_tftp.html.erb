@@ -1,0 +1,12 @@
+<div class="row">
+  <h3><%= _('TFTP') %></h3>
+  <%= render :partial => 'smart_proxies/plugins/plugin_version', :locals => {:feature => feature, :proxy => @smart_proxy} %>
+  <div class="col-md-4">
+    <%= _('TFTP server') %>
+  </div>
+  <div class="col-md-8">
+    <span class="proxy-tftp" data-url="<%= tftp_server_smart_proxy_path(@smart_proxy) %>">
+      <%= spinner %>
+    </span>
+  </div>
+</div>

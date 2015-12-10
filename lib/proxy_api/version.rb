@@ -6,13 +6,9 @@ module ProxyAPI
     end
 
     def proxy_versions
-      parse get
+      @proxy_versions ||= parse(get)
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to detect version"))
-    end
-
-    def version
-      proxy_versions["version"]
     end
   end
 end

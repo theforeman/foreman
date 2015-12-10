@@ -28,6 +28,13 @@ $(document).on('click', "a[href$='new'].new_two_pane", function(e) {
   }
 });
 
+$(document).on('click', "a[href$='edit'].edit_two_pane", function(e) {
+  if ($('.table-two-pane').length) {
+    e.preventDefault();
+    two_pane_open(this);
+  }
+});
+
 $(document).on('submit','.two-pane-right', function() {
   two_pane_submit();
   return false;

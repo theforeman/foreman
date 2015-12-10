@@ -39,7 +39,7 @@ module ProxyAPI
 
     # returns the TFTP boot server for this proxy
     def bootServer
-      if (response = parse(get("serverName"))) and response["serverName"].present?
+      if (response = parse(get("serverName"))) && response["serverName"].present?
         return response["serverName"]
       end
       false

@@ -395,6 +395,11 @@ module ApplicationHelper
       url, :rel => 'external', :class => 'btn btn-info', :target => '_blank')
   end
 
+  def generate_links_for(sub_model)
+    return _("None found") if sub_model.empty?
+    sub_model.map {|model| link_to(model.to_label, { :controller => model.class.model_name.plural.downcase, :action => :index, :search => "name = #{model.name}" })}.to_sentence
+  end
+
   private
 
   def edit_inline(object, property, options = {})
