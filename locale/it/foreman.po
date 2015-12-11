@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-10-29 09:27+0000\n"
+"PO-Revision-Date: 2015-11-18 09:29+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Italian (http://www.transifex.com/foreman/foreman/language/it/)"
 "\n"
@@ -174,11 +174,11 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-msgid "Reboot and build"
-msgstr ""
-
 msgid "Build"
 msgstr "Genera"
+
+msgid "Reboot and build"
+msgstr ""
 
 msgid "Select All"
 msgstr "Seleziona tutto"
@@ -190,11 +190,11 @@ msgstr "Tutti gli elementi"
 msgid "Filter"
 msgstr "Filtro"
 
-msgid "Selected items"
-msgstr "Elementi selezionati"
-
 msgid "Deselect All"
 msgstr "Deseleziona tutti"
+
+msgid "Selected items"
+msgstr "Elementi selezionati"
 
 msgid "Select this since it belongs to a host"
 msgstr "Selezionarlo poichè appartiene ad un host"
@@ -214,17 +214,17 @@ msgstr "nuovo"
 msgid "Very Strong"
 msgstr ""
 
+msgid "Strong"
+msgstr ""
+
+msgid "Normal"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr "Supporto"
 
 msgid "Weak"
-msgstr ""
-
-msgid "Strong"
-msgstr ""
-
-msgid "Normal"
 msgstr ""
 
 msgid "Your password is too short"
@@ -2080,17 +2080,17 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr "Ricontrollare i seguenti campi"
 
-msgid "CDROM"
-msgstr "CDROM"
-
 msgid "BIOS"
 msgstr "BIOS"
 
-msgid "Disk"
-msgstr "Disco"
-
 msgid "PXE"
 msgstr "PXE"
+
+msgid "CDROM"
+msgstr "CDROM"
+
+msgid "Disk"
+msgstr "Disco"
 
 msgid "The marked fields will need reviewing"
 msgstr "Ricontrollare i campi contrassegnati"
@@ -2384,11 +2384,11 @@ msgstr ""
 msgid "Paused"
 msgstr "In pausa"
 
-msgid "On"
-msgstr "On"
-
 msgid "Off"
 msgstr "Off"
+
+msgid "On"
+msgstr "On"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "Sei sicuro di voler attivare %{act} %{vm}?"
@@ -2471,19 +2471,19 @@ msgstr "Minuti fa"
 msgid "Number Of Clients"
 msgstr "Numero di client"
 
-msgid "Applied"
-msgstr "Applicato"
-
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr "A"
 
-#. TRANSLATORS: initial character of Restarted
-msgid "Restarted|R"
-msgstr "R"
+msgid "Applied"
+msgstr "Applicato"
 
 msgid "Restarted"
 msgstr "Riavviato"
+
+#. TRANSLATORS: initial character of Restarted
+msgid "Restarted|R"
+msgstr "R"
 
 msgid "Failed"
 msgstr "Fallito"
@@ -2499,12 +2499,12 @@ msgstr "Riavvii falliti"
 msgid "Failed Restarts|FR"
 msgstr "FR"
 
+msgid "Skipped"
+msgstr "Saltato"
+
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
 msgstr "S"
-
-msgid "Skipped"
-msgstr "Saltato"
 
 #. TRANSLATORS: initial character of Pending
 msgid "Pending|P"
@@ -2612,11 +2612,11 @@ msgstr "%s - I seguenti host stanno per essere modificati"
 msgid "Failed restarts"
 msgstr "Riavvii falliti"
 
-msgid "Runtime"
-msgstr "Runtime"
-
 msgid "Config Retrieval"
 msgstr "Recupero configurazione"
+
+msgid "Runtime"
+msgstr "Runtime"
 
 msgid "Found %{count} reports from the last %{days} days"
 msgstr ""
@@ -2730,11 +2730,11 @@ msgstr "Eventi"
 msgid "Browse host facts"
 msgstr "Sfoglia eventi host"
 
-msgid "Reports"
-msgstr "Report"
-
 msgid "Browse host reports"
 msgstr "Sfoglia riporti dell'host"
+
+msgid "Reports"
+msgstr "Report"
 
 msgid "Puppet external nodes YAML dump"
 msgstr "Dump YAML dei nodi esterni del puppet"
@@ -2773,11 +2773,11 @@ msgstr "Modifica %s"
 msgid "Image"
 msgstr "Immagine"
 
-msgid "Image ID"
-msgstr "ID immagine"
-
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "ID dell'immagine come fornita dalla risorsa di calcolo, es ami-.."
+
+msgid "Image ID"
+msgstr "ID immagine"
 
 msgid "Caps lock ON"
 msgstr ""
@@ -2932,14 +2932,14 @@ msgstr ""
 msgid "Delete %s?"
 msgstr "Rimuovi %s?"
 
-msgid "revoked"
-msgstr "revocato"
+msgid "valid"
+msgstr "valido"
 
 msgid "pending"
 msgstr "in attesa"
 
-msgid "valid"
-msgstr "valido"
+msgid "revoked"
+msgstr "revocato"
 
 msgid "in %s"
 msgstr "in %s"
@@ -2993,17 +2993,17 @@ msgstr "Seleziona un periodo"
 msgid "Show log messages:"
 msgstr "Mostra i messaggi di log:"
 
-msgid "Notices, warnings and errors"
-msgstr "Note, avvertimenti ed errori"
-
-msgid "All messages"
-msgstr "Tutti i messaggi"
-
 msgid "Warnings and errors"
 msgstr "Avvisi ed errori"
 
+msgid "Notices, warnings and errors"
+msgstr "Note, avvertimenti ed errori"
+
 msgid "Errors only"
 msgstr "Solo errori"
+
+msgid "All messages"
+msgstr "Tutti i messaggi"
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -3042,23 +3042,23 @@ msgstr "Hardware"
 msgid "Class Distribution"
 msgstr "Classe distribuzione"
 
-msgid "Average memory usage"
-msgstr "Utilizzo medio della memoria"
+msgid "used memory"
+msgstr "memoria usata"
 
 msgid "free memory"
 msgstr "memoria disponibile"
 
-msgid "used memory"
-msgstr "memoria usata"
-
-msgid "Average swap usage"
-msgstr "Utilizzo medio di swap"
+msgid "Average memory usage"
+msgstr "Utilizzo medio della memoria"
 
 msgid "used swap"
 msgstr "swap utilizzato"
 
 msgid "free swap"
 msgstr "swap disponibile"
+
+msgid "Average swap usage"
+msgstr "Utilizzo medio di swap"
 
 msgid "Any Organization"
 msgstr "Qualsiasi organizzazione"
@@ -3078,10 +3078,10 @@ msgstr "Seleziona utenti"
 msgid "All users"
 msgstr "Tutti gli utenti"
 
-msgid "All smart proxies"
+msgid "Select smart proxies"
 msgstr ""
 
-msgid "Select smart proxies"
+msgid "All smart proxies"
 msgstr ""
 
 msgid "Select subnets"
@@ -3090,22 +3090,22 @@ msgstr "Seleziona sottoreti"
 msgid "All subnets"
 msgstr "Tutte le sottoreti"
 
-msgid "Select compute resources"
-msgstr "Selezione risorse di calcolo"
-
 msgid "All compute resources"
 msgstr "Tutte le risorse di calcolo"
 
-msgid "Select media"
-msgstr "Seleziona dispositivo"
+msgid "Select compute resources"
+msgstr "Selezione risorse di calcolo"
 
 msgid "All media"
 msgstr "Tutti i dispositivi"
 
-msgid "All provisioning templates"
-msgstr ""
+msgid "Select media"
+msgstr "Seleziona dispositivo"
 
 msgid "Select provisioning templates"
+msgstr ""
+
+msgid "All provisioning templates"
 msgstr ""
 
 msgid "All partition tables"
@@ -3132,26 +3132,26 @@ msgstr "Seleziona ambienti"
 msgid "All environments"
 msgstr "Tutti gli ambienti"
 
-msgid "All host groups"
-msgstr "Tutti i gruppi host"
-
 msgid "Select host groups"
 msgstr "Seleziona gruppi host"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Environment"
-msgstr "Ambiente"
+msgid "All host groups"
+msgstr "Tutti i gruppi host"
 
 msgid "Operating system"
 msgstr "Sistema operativo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Compute resource"
-msgstr "Risorsa di calcolo"
+msgid "Environment"
+msgstr "Ambiente"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
 msgstr "Modello"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Compute resource"
+msgstr "Risorsa di calcolo"
 
 msgid "Trend of the last %s days."
 msgstr "Trend negli ultimi %s giorni."
@@ -3189,9 +3189,6 @@ msgstr ""
 
 msgid "invalid LDAP filter syntax"
 msgstr "sintassi filtro LDAP non valido"
-
-msgid "%{value} is not a valid controller"
-msgstr "%{value} non è un controller valido"
 
 msgid "%s is an unknown attribute"
 msgstr "%s è un attributo sconosciuto"
@@ -3665,7 +3662,10 @@ msgstr "os"
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "hash"
+msgid "yaml"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "string"
@@ -3677,13 +3677,10 @@ msgstr ""
 msgid "json"
 msgstr ""
 
-msgid "yaml"
-msgstr ""
-
 msgid "integer"
 msgstr ""
 
-msgid "array"
+msgid "hash"
 msgstr ""
 
 msgid "real"
@@ -3725,13 +3722,13 @@ msgstr "%{match} non corrisponde all'host esistente"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} non corrisponde a un gruppo di host esistente"
 
-msgid "Weekly"
+msgid "Daily"
 msgstr ""
 
 msgid "Monthly"
 msgstr ""
 
-msgid "Daily"
+msgid "Weekly"
 msgstr ""
 
 msgid ""
@@ -3938,9 +3935,6 @@ msgid ""
 "d also be enabled)"
 msgstr ""
 
-msgid "Trusted puppetmaster hosts"
-msgstr ""
-
 msgid ""
 "Hosts that will be trusted in addition to Smart Proxies for access to fact/rep"
 "ort importers and ENC output"
@@ -3948,7 +3942,7 @@ msgstr ""
 "Host che verranno considerati fidati insieme agli Smart Proxy, per l'accesso a"
 "gli importer di riporti/eventi e ouput ENC"
 
-msgid "SSL certificate"
+msgid "Trusted puppetmaster hosts"
 msgstr ""
 
 msgid "SSL Certificate path that Foreman would use to communicate with its proxies"
@@ -3956,30 +3950,30 @@ msgstr ""
 "Percorso del certificato SSL che Foreman utilizza per comunicare con i propri "
 "proxy"
 
+msgid "SSL certificate"
+msgstr ""
+
 msgid "SSL CA file"
 msgstr ""
 
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
 msgstr "File SSL CA che Foreman utilizzerà per comunicare con i propri proxy"
 
-msgid "SSL private key"
-msgstr ""
-
 msgid "SSL Private Key file that Foreman will use to communicate with its proxies"
 msgstr ""
 "File chiave privata SSL che Foreman dovrà usare per comunicare con i propri pr"
 "oxy"
 
-msgid "Environment variable containing the subject DN from a client SSL certificate"
+msgid "SSL private key"
 msgstr ""
-"Variabile d'ambiente contentente il DN dell'oggetto di un certificato SSL del "
-"client"
 
 msgid "SSL client DN env"
 msgstr ""
 
-msgid "SSL client verify env"
+msgid "Environment variable containing the subject DN from a client SSL certificate"
 msgstr ""
+"Variabile d'ambiente contentente il DN dell'oggetto di un certificato SSL del "
+"client"
 
 msgid ""
 "Environment variable containing the verification status of a client SSL certif"
@@ -3987,6 +3981,9 @@ msgid ""
 msgstr ""
 "Variabile d'ambiente contentente lo stato di verifica di un certificato SSL de"
 "l client"
+
+msgid "SSL client verify env"
+msgstr ""
 
 msgid "Websockets SSL key"
 msgstr ""
@@ -4008,15 +4005,15 @@ msgstr ""
 msgid "Websockets encryption"
 msgstr ""
 
-msgid "Login delegation logout URL"
-msgstr ""
-
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should a"
 "lso be enabled)"
 msgstr ""
 "Ridirezionare gli utenti su questo url previo abbandono sessione (authorize_lo"
 "gin_delegation deve essere abiliato)"
+
+msgid "Login delegation logout URL"
+msgstr ""
 
 msgid "Authorize login delegation auth source user autocreate"
 msgstr ""
@@ -4063,11 +4060,11 @@ msgstr ""
 msgid "Unable to unset websockets_ssl_cert when websockets_encrypt is on"
 msgstr ""
 
-msgid "The default administrator email address"
-msgstr "L'indirizzo email predefinito dell'amministratore"
-
 msgid "Administrator email address"
 msgstr ""
+
+msgid "The default administrator email address"
+msgstr "L'indirizzo email predefinito dell'amministratore"
 
 msgid "Foreman URL"
 msgstr ""
@@ -4097,11 +4094,11 @@ msgstr ""
 msgid "Send a welcome email including username and URL to new users"
 msgstr ""
 
-msgid "Entries per page"
-msgstr ""
-
 msgid "Number of records shown per page in Foreman"
 msgstr "Numero di recod mostrati per pagina in Foreman"
+
+msgid "Entries per page"
+msgstr ""
 
 msgid "Fix DB cache"
 msgstr ""
@@ -4109,24 +4106,24 @@ msgstr ""
 msgid "Fix DB cache on next Foreman restart"
 msgstr "Correggi DB cache al riavvio successivo di Foreman"
 
+msgid "Max trends"
+msgstr ""
+
 msgid "Max days for Trends graphs"
 msgstr "Numero massimo di giorni per i diagrammi di Trend"
 
-msgid "Max trends"
+msgid "Use Gravatar"
 msgstr ""
 
 msgid "Foreman will use gravatar to display user icons"
 msgstr "Foreman utilizzerà gravatar per mostrare le icone dell'utente"
 
-msgid "Use Gravatar"
-msgstr ""
-
-msgid "DB pending migration"
-msgstr ""
-
 msgid ""
 "Should the `foreman-rake db:migrate` be executed on the next run of the instal"
 "ler modules?"
+msgstr ""
+
+msgid "DB pending migration"
 msgstr ""
 
 msgid "DB pending seed"
@@ -4143,11 +4140,14 @@ msgstr ""
 msgid "Max timeout for REST client requests to smart-proxy"
 msgstr ""
 
+msgid "Default encrypted root password on provisioned hosts"
+msgstr "Password root cifrata predefinita su host con provisioning "
+
 msgid "Root password"
 msgstr ""
 
-msgid "Default encrypted root password on provisioned hosts"
-msgstr "Password root cifrata predefinita su host con provisioning "
+msgid "Unattended URL"
+msgstr ""
 
 msgid ""
 "URL hosts will retrieve templates from during build (normally http as many ins"
@@ -4155,9 +4155,6 @@ msgid ""
 msgstr ""
 "Gli host URL recupereranno i modelli dalla compilazione (normalmente http poic"
 "hè numerosi installer non supportano https)"
-
-msgid "Unattended URL"
-msgstr ""
 
 msgid "Safemode rendering"
 msgstr ""
@@ -4183,6 +4180,14 @@ msgstr ""
 msgid "Ignore Puppet facts for provisioning"
 msgstr ""
 
+msgid "Ignore interfaces with matching identifier"
+msgstr ""
+
+msgid ""
+"Ignore interfaces that match these values during facts importing, you can use "
+"* wildcard to match names with indexes e.g. macvtap*"
+msgstr ""
+
 msgid ""
 "Foreman will query the locally configured resolver instead of the SOA/NS autho"
 "rities"
@@ -4191,9 +4196,6 @@ msgstr ""
 "SOA"
 
 msgid "Query local nameservers"
-msgstr ""
-
-msgid "Remote address"
 msgstr ""
 
 msgid ""
@@ -4205,15 +4207,15 @@ msgstr ""
 ", è necessario impostare qui l'IP. Questa è una espressione regolare ed è in g"
 "rado di supportare numerosi bilanciatori di carico, es: (10.0.0.1|127.0.0.1)"
 
-msgid ""
-"Time in minutes installation tokens should be valid for, 0 to disable token ge"
-"neration"
+msgid "Remote address"
 msgstr ""
 
 msgid "Token duration"
 msgstr ""
 
-msgid "Libvirt default console address"
+msgid ""
+"Time in minutes installation tokens should be valid for, 0 to disable token ge"
+"neration"
 msgstr ""
 
 msgid ""
@@ -4222,6 +4224,9 @@ msgid ""
 msgstr ""
 "L'indirizzo IP da usare per la console durante il provisioning di nuove macchi"
 "ne virtuali tramite Libvirt"
+
+msgid "Libvirt default console address"
+msgstr ""
 
 msgid "Update IP from built request"
 msgstr ""
@@ -4247,18 +4252,18 @@ msgstr ""
 msgid "Timeout for DNS conflict validation (in seconds)"
 msgstr ""
 
+msgid "Puppet interval in minutes"
+msgstr "Intervallo del puppet in minuti"
+
 msgid "Puppet interval"
 msgstr ""
 
-msgid "Puppet interval in minutes"
-msgstr "Intervallo del puppet in minuti"
+msgid "Out of sync interval"
+msgstr ""
 
 msgid ""
 "Duration in minutes after the Puppet interval for servers to be classed as out"
 " of sync."
-msgstr ""
-
-msgid "Out of sync interval"
 msgstr ""
 
 msgid "Default Puppet environment"
@@ -4285,11 +4290,11 @@ msgstr ""
 msgid "Document root where puppetdoc files should be created"
 msgstr "Root del documento dove creare i file puppetdoc"
 
-msgid "Puppetrun"
-msgstr ""
-
 msgid "Enable puppetrun support"
 msgstr "Abilita il supporto puppetrun"
+
+msgid "Puppetrun"
+msgstr ""
 
 msgid "Puppet server"
 msgstr ""
@@ -4297,19 +4302,19 @@ msgstr ""
 msgid "Default Puppet server hostname"
 msgstr "Hostname del server Puppet predefinito"
 
+msgid "Default variables lookup path"
+msgstr ""
+
 msgid "Foreman will evaluate host smart variables in this order by default"
 msgstr ""
 "Per impostazione predefinita, Foreman valuterà le variabili smart dell'host se"
 "guendo questo ordine"
 
-msgid "Default variables lookup path"
+msgid "Enable smart variables in ENC"
 msgstr ""
 
 msgid "Foreman smart variables will be exposed via the ENC yaml output"
 msgstr "Le variabili smart di Foreman verranno esposte tramite l'output yalm ENC"
-
-msgid "Enable smart variables in ENC"
-msgstr ""
 
 msgid "Parameterized classes in ENC"
 msgstr ""
@@ -4319,11 +4324,11 @@ msgstr ""
 "Foreman utilizzerà il nuovo formato (2.6.5+) per le classi nell'output yalm EN"
 "C"
 
-msgid "Interpolate ERB in parameters"
-msgstr ""
-
 msgid "Foreman will parse ERB in parameters value in the ENC output"
 msgstr "Foreman analizzerà ERB in un valore del parametro all'interno dell'output ENC"
+
+msgid "Interpolate ERB in parameters"
+msgstr ""
 
 msgid ""
 "Foreman will explicitly set the puppet environment in the ENC yaml output. Thi"
@@ -4337,13 +4342,13 @@ msgstr ""
 msgid "ENC environment"
 msgstr ""
 
-msgid "Use UUID for certificates"
-msgstr ""
-
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr ""
 "Foreman utilizzerà UUID randomici per la firma dei certificati al posto di usa"
 "re gli hostname"
+
+msgid "Use UUID for certificates"
+msgstr ""
 
 msgid "Update environment from facts"
 msgstr ""
@@ -4361,25 +4366,22 @@ msgstr ""
 "I dispositivi di confronto del gruppo di host Foreman verranno ereditati dai f"
 "igli durante la valutazione dei parametri smart class"
 
-msgid "Create new host when facts are uploaded"
-msgstr ""
-
 msgid "Foreman will create the host when new facts are received"
 msgstr "Foreman creerà un host previa ricezione di un nuovo evento"
 
-msgid "Foreman will create the host when a report is received"
-msgstr "Foreman creerà un host previa ricezione di un riporto"
+msgid "Create new host when facts are uploaded"
+msgstr ""
 
 msgid "Create new host when report is uploaded"
 msgstr ""
 
-msgid "Legacy Puppet hostname"
-msgstr ""
+msgid "Foreman will create the host when a report is received"
+msgstr "Foreman creerà un host previa ricezione di un riporto"
 
 msgid "Foreman will truncate hostname to 'puppet' if it starts with puppet"
 msgstr "Foreman interromperà l'hostname a 'puppet', se inizia con puppet"
 
-msgid "Location fact"
+msgid "Legacy Puppet hostname"
 msgstr ""
 
 msgid ""
@@ -4390,6 +4392,12 @@ msgstr ""
 "zione indicata dalle informazioni fornite. Il contenuto delle informazioni dev"
 "e rappresentare l'etichetta completa della posizione."
 
+msgid "Location fact"
+msgstr ""
+
+msgid "Organization fact"
+msgstr ""
+
 msgid ""
 "Hosts created after a puppet run will be placed in the organization this fact "
 "dictates. The content of this fact should be the full label of the organizatio"
@@ -4399,18 +4407,15 @@ msgstr ""
 "nizzazione indicata dalle informazioni fornite. Il contenuto delle informazion"
 "i deve rappresentare l'etichetta completa dell'organizzazione."
 
-msgid "Organization fact"
-msgstr ""
-
-msgid "Default location"
-msgstr ""
-
 msgid ""
 "Hosts created after a puppet run that did not send a location fact will be pla"
 "ced in this location"
 msgstr ""
 "Gli host creati dopo l'esecuzione del puppet che non hanno inviato alcuna info"
 "rmazione sulla posizione, verranno archiviati in questa posizione"
+
+msgid "Default location"
+msgstr ""
 
 msgid "Default organization"
 msgstr ""
@@ -4735,26 +4740,29 @@ msgstr ""
 msgid "stop"
 msgstr "stop"
 
-msgid "start"
-msgstr "inizio"
-
-msgid "reset"
-msgstr "reset"
-
-msgid "state"
-msgstr "stato"
-
 msgid "poweroff"
 msgstr "poweroff"
 
 msgid "reboot"
 msgstr "riavvia"
 
-msgid "off"
-msgstr "off"
+msgid "reset"
+msgstr "reset"
+
+msgid "start"
+msgstr "inizio"
+
+msgid "state"
+msgstr "stato"
+
+msgid "soft"
+msgstr "soft"
 
 msgid "on"
 msgstr "on"
+
+msgid "cycle"
+msgstr "ciclo"
 
 msgid "status"
 msgstr "stato"
@@ -4762,11 +4770,8 @@ msgstr "stato"
 msgid "ready?"
 msgstr ""
 
-msgid "soft"
-msgstr "soft"
-
-msgid "cycle"
-msgstr "ciclo"
+msgid "off"
+msgstr "off"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr ""
@@ -4805,6 +4810,9 @@ msgstr ""
 
 msgid "is alphanumeric and cannot contain spaces"
 msgstr "è alfanumerico e non può contenere spazi"
+
+msgid "%{value} is not a valid controller"
+msgstr "%{value} non è un controller valido"
 
 msgid "is not a valid MAC address"
 msgstr ""
@@ -5077,11 +5085,11 @@ msgstr "es. sn"
 msgid "e.g. mail"
 msgstr "es. mail"
 
-msgid "e.g. jpegPhoto"
-msgstr "es. jpegPhoto"
-
 msgid "Photo attribute"
 msgstr "Attributo foto"
+
+msgid "e.g. jpegPhoto"
+msgstr "es. jpegPhoto"
 
 msgid "Edit LDAP Auth Source"
 msgstr "Modifica sorgente di autorizzazione LDAP"
@@ -5265,11 +5273,11 @@ msgstr "Inserire nel segnalibro questa ricerca"
 msgid "Add Bookmark"
 msgstr "Aggiungi segnalibro"
 
-msgid "OS Image"
-msgstr "ImmagineOS"
-
 msgid "Build from OS image"
 msgstr "Creazione da una immagine OS"
+
+msgid "OS Image"
+msgstr "ImmagineOS"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
@@ -5388,11 +5396,11 @@ msgstr "Google Project ID"
 msgid "Client Email"
 msgstr "Email client"
 
-msgid "Certificate path"
-msgstr "Percorso certificato"
-
 msgid "The file path where your p12 file is located"
 msgstr "Il percorso del file dove viene posizionato il file p12"
+
+msgid "Certificate path"
+msgstr "Percorso certificato"
 
 msgid "Zone"
 msgstr "Zona"
@@ -5506,11 +5514,11 @@ msgstr "Si è verificato un errore durante l'elenco delle VM: %s"
 msgid "Network interfaces"
 msgstr "Interfaccia di rete"
 
-msgid "add new network interface"
-msgstr "aggiungi una nuova interfaccia di rete"
-
 msgid "Add Interface"
 msgstr "Aggiungi interfaccia"
+
+msgid "add new network interface"
+msgstr "aggiungi una nuova interfaccia di rete"
 
 msgid "No networks found."
 msgstr ""
@@ -5622,10 +5630,10 @@ msgstr ""
 msgid "Boot from volume"
 msgstr ""
 
-msgid "New boot volume size (GB)"
+msgid "Defaults to image size if left blank"
 msgstr ""
 
-msgid "Defaults to image size if left blank"
+msgid "New boot volume size (GB)"
 msgstr ""
 
 msgid "Cluster"
@@ -5646,10 +5654,10 @@ msgstr "Core"
 msgid "Storage domain"
 msgstr "Dominio di archiviazione"
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -6214,11 +6222,11 @@ msgstr ""
 "Queste due opzioni sono impostazioni personalizzate dell'utente (la differenza"
 " principale sono le impostazioni parametro/variabili)."
 
-msgid "Assign Selected Hosts"
-msgstr "Assegna host selezionati"
-
 msgid "Select Hosts"
 msgstr "Selezionare Host"
+
+msgid "Assign Selected Hosts"
+msgstr "Assegna host selezionati"
 
 msgid "Create %s"
 msgstr "Crea %s"
@@ -6314,11 +6322,11 @@ msgstr "Parametri per le classi del puppet"
 msgid "Host parameters"
 msgstr ""
 
-msgid "Owned By"
-msgstr "Posseduto da"
-
 msgid "select an owner"
 msgstr "seleziona un proprietario"
+
+msgid "Owned By"
+msgstr "Posseduto da"
 
 msgid "Include this host within Foreman reporting"
 msgstr "Includi questo host all'interno del riporto di Foreman"
@@ -6344,11 +6352,11 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-msgid "Select all items in this page"
-msgstr "Seleziona tutti gli elementi in questa pagina"
-
 msgid "items selected. Uncheck to Clear"
 msgstr "oggetti selezionati. Deselezionare per annullare"
+
+msgid "Select all items in this page"
+msgstr "Seleziona tutti gli elementi in questa pagina"
 
 msgid "Last report"
 msgstr "Ultimo riporto"
@@ -6425,11 +6433,11 @@ msgstr "Ctrl-Alt-Del"
 msgid "Troubleshooting"
 msgstr "Troubleshooting"
 
-msgid "Open Spice in a new window"
-msgstr "Aprire Spice in una nuova finestra"
-
 msgid "New window"
 msgstr "Nuova finestra"
+
+msgid "Open Spice in a new window"
+msgstr "Aprire Spice in una nuova finestra"
 
 msgid "Connecting (unencrypted) to: %s"
 msgstr "Connessione a (non cifrata) in corso: %s"
@@ -6508,11 +6516,11 @@ msgstr "*Annulla ambiente*"
 msgid "*Inherit from host group*"
 msgstr "*Eredita dal gruppo di host*"
 
-msgid "Select host group"
-msgstr "Seleziona gruppo host"
-
 msgid "*Clear host group*"
 msgstr "*Annulla gruppo di host*"
+
+msgid "Select host group"
+msgstr "Seleziona gruppo host"
 
 msgid "Select Location"
 msgstr "Seleziona posizione"
@@ -6651,11 +6659,11 @@ msgstr "Stai utilizzando un browser non supportato."
 msgid "Location configuration"
 msgstr "Posizione configurazione "
 
-msgid "Notice"
-msgstr "Nota"
-
 msgid "You must create a location before continuing."
 msgstr "Prima di continuare è necessario creare una posizione."
+
+msgid "Notice"
+msgstr "Nota"
 
 msgid ""
 "Locations are used to manage and differentiate the physical place where a syst"
@@ -6697,12 +6705,12 @@ msgstr ""
 msgid "Optional input validator"
 msgstr ""
 
+msgid "Note"
+msgstr ""
+
 msgid ""
 "If ERB is used in a parameter value, the validation of the value will happen d"
 "uring the ENC request. If the value is invalid, the ENC request will fail."
-msgstr ""
-
-msgid "Note"
 msgstr ""
 
 msgid ""
