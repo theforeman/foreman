@@ -317,6 +317,15 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert_include key.errors.keys, :default_value
   end
 
+  test "safe_value can be shown for key" do
+    key = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param, :hidden_value => false,
+                            :override => true, :key_type => 'string',
+                            :default_value => 'aaa', :puppetclass => puppetclasses(:one))
+    assert_equal key.default_value, key.safe_value
+    key.hidden_value = true
+    assert_equal key.hidden_value, key.safe_value
+  end
+
   context "when key is a boolean and default_value is a string" do
     def setup
       @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
