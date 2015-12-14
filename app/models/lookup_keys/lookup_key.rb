@@ -20,7 +20,7 @@ class LookupKey < ActiveRecord::Base
                                 :reject_if => :reject_invalid_lookup_values,
                                 :allow_destroy => true
 
-  delegate :value, :to => :default_value
+  alias_attribute :value, :default_value
   before_validation :cast_default_value
 
   validates :key, :presence => true

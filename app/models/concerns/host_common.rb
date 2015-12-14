@@ -32,7 +32,6 @@ module HostCommon
     has_many :lookup_values, :primary_key => :lookup_value_matcher, :foreign_key => :match, :dependent => :destroy
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
     accepts_nested_attributes_for :lookup_values
-    has_many :lookup_keys, :through => :lookup_values
 
     attr_accessible :compute_profile, :compute_profile_id, :compute_profile_name,
       :grub_pass, :image_id, :image_name, :image_file, :lookup_value_matcher,
