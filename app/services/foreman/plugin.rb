@@ -175,6 +175,16 @@ module Foreman #:nodoc:
       Menu::Manager.map(menu).delete(item)
     end
 
+    # Extends an already registered extensible page.
+    # Usage:
+    #
+    # extend_page("smart_proxies/show") do |context|
+    #   context.add_pagelet :mountpoint, :name => "Example Pagelet", :partial => "path/to/partial", :priority => 10000, :id => 'custom-html-id'
+    # end
+    def extend_page(page_name, &block)
+      yield Pagelets::Manager.new(page_name) if block_given?
+    end
+
     def tests_to_skip(hash)
       Rails.logger.warn "Minitest 5 deprecated the runner API and plugin tests \
 can't be skipped right now. Future versions of Foreman might bring back this \
