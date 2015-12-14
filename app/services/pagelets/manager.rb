@@ -32,6 +32,10 @@ module Pagelets
         pagelets_at(page_name, mountpoint).sort
       end
 
+      def clear
+        @pagelets.clear
+      end
+
       private
 
       def handle_empty_keys_for(page_name, mountpoint)

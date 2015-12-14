@@ -20,7 +20,7 @@ class PageletTest < ActiveSupport::TestCase
   end
 
   test 'should override default id' do
-    pagelet = ::Pagelets::Pagelet.new("test pagelet", "tests/show", 50, { :id => "custom-id"})
+    pagelet = ::Pagelets::Pagelet.new("test pagelet", "tests/show", 50, { :id => "custom-id" })
     assert_equal "test pagelet", pagelet.name
     assert_equal "custom-id", pagelet.id
   end
