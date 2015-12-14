@@ -39,4 +39,25 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_selector?('h3', :text => "DHCP")
     assert page.has_content? "Version"
   end
+
+  describe 'pagelets on show page' do
+    def teardown
+      Pagelets::Manager.clear
+    end
+
+    test 'show page passes subject into pagelets' do
+      Pagelets::Manager.add_pagelet("smart_proxies/show", :main_tabs,
+                                                          :name => "VisibleTab",
+                                                          :partial => "../../test/static_fixtures/views/test",
+                                                          :onlyif => Proc.new { |subject| subject.has_feature? "DHCP" })
+      Pagelets::Manager.add_pagelet("smart_proxies/show", :main_tabs,
+                                                          :name => "HiddenTab",
+                                                          :partial => "../../test/static_fixtures/views/test",
+                                                          :onlyif => Proc.new { |subject| subject.has_feature? "TFTP" })
+      proxy = smart_proxies(:one)
+      visit smart_proxy_path(proxy)
+      assert page.has_link?("VisibleTab")
+      refute page.has_link?("HiddenTab")
+    end
+  end
 end

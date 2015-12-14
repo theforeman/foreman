@@ -183,7 +183,8 @@ module Foreman #:nodoc:
     #                       :name => N_("Example Pagelet"),
     #                       :partial => "path/to/partial",
     #                       :priority => 10000,
-    #                       :id => 'custom-html-id'
+    #                       :id => 'custom-html-id',
+    #                       :onlyif => Proc.new { |subject| subject.should_show_pagelet? }
     # end
     def extend_page(page_name, &block)
       yield Pagelets::Manager.new(page_name) if block_given?

@@ -28,7 +28,7 @@ module SmartProxiesHelper
       actions << display_link_if_authorized(_("Import subnets"), hash_for_import_subnets_path(:smart_proxy_id => proxy))
     end
 
-    actions << render_pagelets_for(:smart_proxy_title_actions)
+    actions << render_pagelets_for(:smart_proxy_title_actions, :subject => proxy)
 
     actions
   end

@@ -7,6 +7,7 @@ module Pagelets
       @partial = partial
       @priority = priority
       @opts = opts
+      @opts[:onlyif] ||= Proc.new { true }
     end
 
     def <=>(other)
