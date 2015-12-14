@@ -1,0 +1,16 @@
+<div class="col-md-6">
+  <% widgets_column = tab.columns.first %>
+
+  <% service_features.sort.each do |feature| %>
+    <% if(widget = widgets_column.find_widget(feature)) %>
+      <%= render :partial => widget.partial, :locals => { :widget => widget } %>
+    <% else %>
+      <% feature_erb = "smart_proxies/plugins/#{feature}" %>
+      <% if lookup_context.template_exists?(feature_erb, [], true) %>
+        <%= render :partial => feature_erb, :locals => { :feature => feature } %>
+      <% else %>
+        <%= render :partial => "smart_proxies/plugins/no_template", :locals => { :feature => feature } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

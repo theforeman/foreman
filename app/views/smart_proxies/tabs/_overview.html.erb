@@ -1,0 +1,7 @@
+<% tab.columns.each do |column| %>
+  <div class="col-md-<%= 12 / tab.columns.count %>">
+    <% column.widgets.each do |widget| %>
+      <%= render widget.partial, { :smart_proxy => smart_proxy, :widget => widget } %>
+    <% end %>
+  </div>
+<% end %>
