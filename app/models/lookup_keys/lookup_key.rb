@@ -68,7 +68,7 @@ class LookupKey < ActiveRecord::Base
     :key, :key_type, :hidden_value,
     :lookup_values_attributes, :lookup_values, :lookup_value_ids,
     :lookup_values_count,
-    :merge_overrides,
+    :merge_overrides, :merge_default,
     :override, :override_value_order, :override_values_count, :override_values,
     :override_value_ids,
     :path,
