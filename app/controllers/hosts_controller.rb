@@ -468,14 +468,29 @@ class HostsController < ApplicationController
   end
 
   def submit_multiple_build
+    reboot = params[:host][:build] == '1' || false
+
     @hosts.to_a.delete_if do |host|
+      success = true
       forward_url_options(host)
-      host.setBuild
+      begin
+        host.setBuild
+        host.power.reset if host.supports_power_and_running? && reboot
+      rescue => error
+        message = _('Failed to redeploy %s.') % host
+        Foreman::Logging.exception(message, error)
+        success = false
+      end
+      success
     end
 
     missed_hosts = @hosts.map(&:name).to_sentence
     if @hosts.empty?
-      notice _("The selected hosts will execute a build operation on next reboot")
+      if reboot
+        notice _("The selected hosts were enabled for reboot and rebuild")
+      else
+        notice _("The selected hosts will execute a build operation on next reboot")
+      end
     else
       error _("The following hosts failed the build operation: %s") % (missed_hosts)
     end

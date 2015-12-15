@@ -479,14 +479,6 @@ module HostsHelper
     )
   end
 
-  def supports_power_and_running(host)
-    return false unless host.compute_resource_id || host.bmc_available?
-    host.power.ready?
-  # return false if the proxyapi/bmc raised an error (and therefore do not know if power is supported)
-  rescue ProxyAPI::ProxyException
-    false
-  end
-
   def build_error_link(type, id)
     case type
       when :templates
