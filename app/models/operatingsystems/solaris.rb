@@ -100,7 +100,7 @@ class Solaris < Operatingsystem
       :install_server_name   => server_name.split('.').first,           # mediahost
       :install_path          => ipath,                                  # /vol/solgi_5.10/sol10_hw0910
       :sysid_server_path     => "#{jpath}/sysidcfg/sysidcfg_primary/#{network}",
-                                                                        # 192.168.216.241:/vol/jumpstart/sysidcfg/sysidcfg_primary
+                                                                        # 192.168.216.241:/vol/jumpstart/sysidcfg/sysidcfg_primary/192.168.216.0
       :jumpstart_server_path => jpath,                                  # 192.168.216.241:/vol/jumpstart
     }
   end
