@@ -6,14 +6,18 @@ class FiltersHelperOverrides
   end
 
   def self.can_override?(class_or_engine_name)
-    @@overrides.include?(class_or_engine_name.deconstantize)
+    @@overrides.include?(deconstantize_name(class_or_engine_name))
   end
 
   def self.search_path(class_or_engine_name)
-    @@overrides[class_or_engine_name.deconstantize].call(class_or_engine_name)
+    @@overrides[deconstantize_name(class_or_engine_name)].call(class_or_engine_name)
   end
 
   private
+
+  def self.deconstantize_name(name)
+    name.include?('::') ? name.deconstantize : name
+  end
 
   def initialize; end
 end
