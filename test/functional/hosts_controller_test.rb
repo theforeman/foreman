@@ -505,11 +505,27 @@ class HostsControllerTest < ActionController::TestCase
       @host1, @host2 = FactoryGirl.create_list(:host, 2, :managed)
     end
 
-    test 'build' do
+    test 'build without reboot' do
       assert !@host1.build
       assert !@host2.build
       multiple_hosts_submit_request('build', [@host1.id, @host2.id],
-                                    'The selected hosts will execute a build operation on next reboot')
+                                    'The selected hosts will execute a build operation on next reboot',
+                                    {:host => { :build => 0 }})
+      assert Host.find(@host1).build
+      assert Host.find(@host2).build
+    end
+
+    test 'build with reboot' do
+      power_mock = mock('power')
+      power_mock.expects(:reset).twice.returns(nil)
+
+      Host::Managed.any_instance.expects(:supports_power_and_running?).twice.returns(true)
+      Host::Managed.any_instance.expects(:power).twice.returns(power_mock)
+      assert !@host1.build
+      assert !@host2.build
+      multiple_hosts_submit_request('build', [@host1.id, @host2.id],
+                                    'The selected hosts were enabled for reboot and rebuild',
+                                    {:host => { :build => 1 }})
       assert Host.find(@host1).build
       assert Host.find(@host2).build
     end
@@ -533,8 +549,8 @@ class HostsControllerTest < ActionController::TestCase
 
     private
 
-    def multiple_hosts_submit_request(method, ids, notice)
-      post :"submit_multiple_#{method}",  {:host_ids => ids}, set_session_user
+    def multiple_hosts_submit_request(method, ids, notice, params = {})
+      post :"submit_multiple_#{method}",  params.merge({:host_ids => ids}), set_session_user
       assert_response :found
       assert_redirected_to hosts_path
       assert_equal notice, flash[:notice]

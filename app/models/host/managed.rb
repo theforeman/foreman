@@ -783,6 +783,14 @@ class Host::Managed < Host::Base
     end
   end
 
+  def supports_power_and_running?
+    return false unless compute_resource_id || bmc_available?
+    power.ready?
+    # return false if the proxyapi/bmc raised an error (and therefore do not know if power is supported)
+  rescue ProxyAPI::ProxyException
+    false
+  end
+
   def ipmi_boot(booting_device)
     bmc_proxy.boot({:function => 'bootdevice', :device => booting_device})
   end
