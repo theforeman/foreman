@@ -29,4 +29,9 @@ class FiltersHelperTest < ActionView::TestCase
     FiltersHelperOverrides.override_search_path("TestOverride", ->(resource) { 'test_override/auto_complete_search' } )
     assert_equal "test_override/auto_complete_search", search_path('TestOverride::Resource')
   end
+
+  def test_no_deconstantization_if_there_is_no_namespace
+    FiltersHelperOverrides.override_search_path("TestOverride", ->(resource) { 'test_override/auto_complete_search' } )
+    assert_equal "test_override/auto_complete_search", search_path('TestOverride')
+  end
 end
