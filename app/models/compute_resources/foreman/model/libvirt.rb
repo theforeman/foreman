@@ -4,7 +4,7 @@ module Foreman::Model
 
     validates :url, :format => { :with => URI.regexp }
 
-    attr_accessible :display_type
+    attr_accessible :display_type, :uuid
 
     # Some getters/setters for the attrs Hash
     def display_type
