@@ -141,7 +141,7 @@ function toggleOverrideValue(item) {
   var override = $(item).is(':checked');
   var fields = $(item).closest('.fields');
   var fields_to_disable = fields.find("[id$='_required'],[id$='_key_type'],[id$='_validator_type'],[id$='use_puppet_default'],[id$='hidden_value']");
-  var use_puppet_default = fields.find("[id$='use_puppet_default']").is(':checked');
+  var use_puppet_default = $(item).closest('fieldset').find("[id$='use_puppet_default']").is(':checked');
   var default_value_field = fields.find("[id$='_default_value']");
   var pill_icon = $('#pill_' + fields[0].id +' i');
   var override_value_div = fields.find("[id$='lookup_key_override_value']");
