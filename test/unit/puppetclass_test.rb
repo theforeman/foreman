@@ -246,4 +246,30 @@ class PuppetclassTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "three levels of nested attributes still validate nested objects" do
+    klass = FactoryGirl.create(:puppetclass)
+    hostgroup = FactoryGirl.create(:hostgroup)
+    lk = FactoryGirl.create(:variable_lookup_key, puppetclass_id: klass.id)
+    attributes = {"hostgroup_ids"=>[hostgroup.id],
+      "lookup_keys_attributes"=>
+      {"0"=>
+        { "_destroy"=>"false",
+          "key"=>"hahs",
+          "description"=>"",
+          "key_type"=>"hash",
+          "default_value"=>"{\"foo\" => \"bar\"}",
+          "hidden_value"=>"0",
+          "validator_type"=>"",
+          "path"=>"owner\r\nfqdn\r\nhostgroup\r\nos\r\ndomain",
+          "merge_overrides"=>"0",
+          "lookup_values_attributes"=>{"0"=>{"match"=>"owner=sdgsd", "value"=>"{\"foo\" => \"bar\"}", "_destroy"=>"false"}},
+          "id"=>lk.id
+        }
+      }
+    }
+
+    refute klass.update_attributes(attributes)
+    assert klass.errors.messages.keys.include?(:"lookup_keys.lookup_values.value")
+  end
 end
