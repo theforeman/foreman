@@ -28,18 +28,19 @@
                        :help_inline => popover('', _("Value to use when there is no match.")),
                        :class => "no-stretch" %>
     <% end %>
-    <%= checkbox_f(f, :use_puppet_default, :label => _('Use Puppet default'),
-                   :help_inline => use_puppet_default_help,
-                   :size => "col-md-1", :label_size => "col-md-3", :table_field => true,
-                   :onchange => 'toggleUsePuppetDefaultValue(this, "default_value")',
-                   :disabled => (is_param && !f.object.override)) if is_param %>
-    <%= checkbox_f(f, :hidden_value, :label => _('Hidden value'),
-                   :class => 'hidden_value_textarea_switch', :onchange => 'toggle_lookupkey_hidden(this)',
-                   :checked => f.object.hidden_value?,
-                   :help_inline => popover("", _("Hide all values for this parameter.")),
-                   :size => "col-md-1", :label_size => "col-md-3", :table_field => true,
-                   :disabled => (is_param && !f.object.override)) %>
-    </br>
+    <div class="form-group">
+      <%= checkbox_f(f, :use_puppet_default, :label => _('Use Puppet default'),
+                     :help_inline => use_puppet_default_help,
+                     :size => "col-md-1", :label_size => "col-md-3", :table_field => true,
+                     :onchange => 'toggleUsePuppetDefaultValue(this, "default_value")',
+                     :disabled => (is_param && !f.object.override)) if is_param %>
+      <%= checkbox_f(f, :hidden_value, :label => _('Hidden value'),
+                     :class => 'hidden_value_textarea_switch', :onchange => 'toggle_lookupkey_hidden(this)',
+                     :checked => f.object.hidden_value?,
+                     :help_inline => popover("", _("Hide all values for this parameter.")),
+                     :size => "col-md-1", :label_size => "col-md-3", :table_field => true,
+                     :disabled => (is_param && !f.object.override)) %>
+    </div>
   </fieldset>
   <fieldset>
     <%= collapsing_legend _("Optional input validator"), "#optional_input_validators_#{f.object.id}", "collapsed" %>
