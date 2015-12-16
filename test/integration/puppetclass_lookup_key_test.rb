@@ -15,4 +15,25 @@ class PuppetclassLookupKeyIntegrationTest < ActionDispatch::IntegrationTest
     assert_submit_button(puppetclass_lookup_keys_path)
     assert page.has_link? 'ssl'
   end
+
+  describe 'js tests' do
+    setup do
+      @driver = Capybara.current_driver
+      Capybara.current_driver = Capybara.javascript_driver
+      login_admin
+    end
+
+    teardown do
+      Capybara.current_driver = @driver
+    end
+
+    test 'can hide value when overriden' do
+      visit puppetclass_lookup_keys_path
+      within(:xpath, "//table") do
+        click_link "port"
+      end
+      page.find("#puppetclass_lookup_key_override").click
+      refute page.find("#puppetclass_lookup_key_hidden_value")[:disabled]
+    end
+  end
 end
