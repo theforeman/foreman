@@ -140,7 +140,7 @@ function undo_remove_child_node(item){
 function toggleOverrideValue(item) {
   var override = $(item).is(':checked');
   var fields = $(item).closest('.fields');
-  var fields_to_disable = fields.find("[id$='_required'],[id$='_key_type'],[id$='_validator_type'],[id$='use_puppet_default']");
+  var fields_to_disable = fields.find("[id$='_required'],[id$='_key_type'],[id$='_validator_type'],[id$='use_puppet_default'],[id$='hidden_value']");
   var use_puppet_default = fields.find("[id$='use_puppet_default']").is(':checked');
   var default_value_field = fields.find("[id$='_default_value']");
   var pill_icon = $('#pill_' + fields[0].id +' i');
