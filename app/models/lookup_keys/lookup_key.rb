@@ -193,11 +193,10 @@ class LookupKey < ActiveRecord::Base
     return true if default_value.nil? || contains_erb?(default_value)
     begin
       Foreman::Parameters::Caster.new(self, :attribute_name => :default_value, :to => key_type).cast!
-      true
     rescue
       errors.add(:default_value, _("is invalid"))
-      false
     end
+    true
   end
 
   def load_yaml_or_json(value)
