@@ -145,7 +145,7 @@ function toggleOverrideValue(item) {
   var type_field = fields.find("[id$='_key_type']");
   var validator_type_field = fields.find("[id$='_validator_type']");
   var default_value_field = fields.find("[id$='_default_value']");
-  var use_puppet_default = fields.find("[id$='use_puppet_default']");
+  var use_puppet_default = $(item).closest('fieldset').find("[id$='use_puppet_default']")
   var override_value_div = fields.find("[id$='lookup_key_override_value']");
   var pill_icon = $('#pill_' + fields[0].id +' i');
 
