@@ -14,6 +14,7 @@ Spork.prefork do
   # need to restart spork for it take effect.
 
   # Remove previous test log to speed tests up
+  # Comment out these lines to enable test logging
   test_log = File.expand_path('../../log/test.log', __FILE__)
   FileUtils.rm(test_log) if File.exist?(test_log)
 
@@ -26,7 +27,16 @@ Spork.prefork do
   require 'capybara/poltergeist'
 
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, {:js_errors => true, :timeout => 60})
+    opts = {
+      # To enable debugging uncomment `:inspector => true` and
+      # add `page.driver.debug` in code to open webkit inspector
+      # :inspector => true
+      :js_errors => true,
+      :timeout => 60,
+      #disable animations to speed up the tests
+      :extensions => ["#{Rails.root}/test/integration/support/disable_animations.js"],
+    }
+    Capybara::Poltergeist::Driver.new(app, opts)
   end
   Capybara.default_wait_time = 30
 
@@ -287,6 +297,20 @@ Spork.prefork do
     def fix_mismatches
       Location.all_import_missing_ids
       Organization.all_import_missing_ids
+    end
+
+    def select2(value, attrs)
+      first("#s2id_#{attrs[:from]}").click
+      find(".select2-input").set(value)
+      within ".select2-results" do
+        find("span", text: value).click
+      end
+    end
+
+    def wait_for_ajax
+      Timeout.timeout(Capybara.default_wait_time) do
+        loop until page.evaluate_script('jQuery.active').zero?
+      end
     end
   end
 

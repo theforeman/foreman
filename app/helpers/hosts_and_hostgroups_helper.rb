@@ -61,7 +61,7 @@ module HostsAndHostgroupsHelper
              { :include_blank => blank_or_inherit_f(f, :puppet_ca_proxy),
                :disable_button => can_override ? _(INHERIT_TEXT) : nil,
                :disable_button_enabled => override && !explicit_value?(:puppet_ca_proxy_id),
-               :user_set => params[:host] && params[:host][:puppet_ca_proxy_id]
+               :user_set => user_set?(:puppet_ca_proxy_id)
              },
              { :label       => _("Puppet CA"),
                :help_inline => _("Use this puppet server as a CA server") }
@@ -76,7 +76,7 @@ module HostsAndHostgroupsHelper
              { :include_blank => blank_or_inherit_f(f, :puppet_proxy),
                :disable_button => can_override ? _(INHERIT_TEXT) : nil,
                :disable_button_enabled => override && !explicit_value?(:puppet_proxy_id),
-               :user_set => params[:host] && params[:host][:puppet_proxy_id]
+               :user_set => user_set?(:puppet_proxy_id)
 
              },
              { :label       => _("Puppet Master"),
@@ -94,7 +94,7 @@ module HostsAndHostgroupsHelper
                 { :include_blank => true,
                   :disable_button => can_override ? _(INHERIT_TEXT) : nil,
                   :disable_button_enabled => override && !explicit_value?(:realm_id),
-                  :user_set => params[:host] && params[:host][:realm_id]
+                  :user_set => user_set?(:realm_id)
                 },
                 { :help_inline   => :indicator }
             ).html_safe
@@ -114,5 +114,15 @@ module HostsAndHostgroupsHelper
     return true if params[:action] == 'clone'
     return false unless params[:host]
     !!params[:host][field]
+  end
+
+  def user_set?(field)
+    # if the host has no hostgroup
+    return true unless @host && @host.hostgroup
+    # when editing a host, the values are specified explicitly
+    return true if params[:action] == 'edit'
+    return true if params[:action] == 'clone'
+    # check if the user set the field explicitly despite setting a hostgroup.
+    params[:host] && params[:host][:hostgroup_id] && params[:host][field]
   end
 end
