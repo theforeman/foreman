@@ -61,14 +61,6 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     page.find('#inherited_puppetclasses_parameters')
   end
 
-  def select2(value, attrs)
-    first("#s2id_#{attrs[:from]}").click
-    find(".select2-input").set(value)
-    within ".select2-results" do
-      find("span", text: value).click
-    end
-  end
-
   test "index page" do
     assert_index_page(hosts_path,"Hosts","New Host")
   end
@@ -127,9 +119,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
 
       select2 hg1.name, :from => 'host_hostgroup_id'
 
-      Timeout.timeout(Capybara.default_wait_time) do
-        loop until page.evaluate_script('jQuery.active').zero?
-      end
+      wait_for_ajax
 
       find("#host_environment_id + .input-group-btn .btn").click
 
@@ -290,6 +280,91 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
         end
       end
     end
+
+    test 'saves correct values for inherited fields without hostgroup' do
+      env = FactoryGirl.create(:environment)
+      os = FactoryGirl.create(:ubuntu14_10, :with_associations)
+      Nic::Managed.any_instance.stubs(:dns_conflict_detected?).returns(true)
+      visit new_host_path
+
+      fill_in 'host_name', :with => 'myhost1'
+      select2 env.name, :from => 'host_environment_id'
+      click_link 'Operating System'
+      wait_for_ajax
+      select2 os.architectures.first.name, :from => 'host_architecture_id'
+      wait_for_ajax
+      select2 os.title, :from => 'host_operatingsystem_id'
+      uncheck('host_build')
+      wait_for_ajax
+      select2 os.media.first.name, :from => 'host_medium_id'
+      wait_for_ajax
+      select2 os.ptables.first.name, :from => 'host_ptable_id'
+      fill_in 'host_root_pass', :with => '12345678'
+      click_link 'Interfaces'
+      click_button 'Edit'
+      select domains(:unuseddomain).name, :from => 'host_interfaces_attributes_0_domain_id'
+      fill_in 'host_interfaces_attributes_0_mac', :with => '11:11:11:11:11:11'
+      fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
+      click_button 'Ok' #close interfaces
+      #wait for the dialog to close
+      Timeout.timeout(Capybara.default_wait_time) do
+        loop while find(:css, '#interfaceModal', :visible => false).visible?
+      end
+      click_button 'Submit' #create new host
+      wait_for_ajax
+      find('#host-show') #wait for host details page
+
+      host = Host::Managed.search_for('name ~ "myhost1"').first
+      assert_equal env.name, host.environment.name
+    end
+
+    test 'sets fields to "inherit" when hostgroup is selected' do
+      env1 = FactoryGirl.create(:environment)
+      env2 = FactoryGirl.create(:environment)
+      hg = FactoryGirl.create(:hostgroup, :environment => env2)
+      os = FactoryGirl.create(:ubuntu14_10, :with_associations)
+      disable_orchestration
+      visit new_host_path
+
+      fill_in 'host_name', :with => 'myhost1'
+      select2 env1.name, :from => 'host_environment_id'
+      wait_for_ajax
+      select2 hg.name, :from => 'host_hostgroup_id'
+      wait_for_ajax
+      click_link 'Operating System'
+      wait_for_ajax
+      select2 os.architectures.first.name, :from => 'host_architecture_id'
+      wait_for_ajax
+      select2 os.title, :from => 'host_operatingsystem_id'
+      uncheck('host_build')
+      wait_for_ajax
+      select2 os.media.first.name, :from => 'host_medium_id'
+      wait_for_ajax
+      select2 os.ptables.first.name, :from => 'host_ptable_id'
+      fill_in 'host_root_pass', :with => '12345678'
+      click_link 'Interfaces'
+      click_button 'Edit'
+      select domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
+      wait_for_ajax
+      fill_in 'host_interfaces_attributes_0_mac', :with => '11:11:11:11:11:11'
+      wait_for_ajax
+      fill_in 'host_interfaces_attributes_0_ip', :with => '2.3.4.44'
+      wait_for_ajax
+      click_button 'Ok'
+
+      #wait for the dialog to close
+      Timeout.timeout(Capybara.default_wait_time) do
+        loop while find(:css, '#interfaceModal', :visible => false).visible?
+      end
+
+      wait_for_ajax
+      click_button 'Submit' #create new host
+      wait_for_ajax
+      find('#host-show') #wait for host details page
+
+      host = Host::Managed.search_for('name ~ "myhost1"').first
+      assert_equal env2.name, host.environment.name
+    end
   end
 
   test "destroy redirects to hosts index" do
@@ -440,6 +515,23 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       fill_in "host_lookup_values_attributes_#{lookup_key.id}_value", :with => 'invalid'
       click_button('Submit')
       assert page.has_selector?('#params td.has-error')
+    end
+
+    test 'fields are not inherited on edit' do
+      env1 = FactoryGirl.create(:environment)
+      env2 = FactoryGirl.create(:environment)
+      hg = FactoryGirl.create(:hostgroup, :environment => env2)
+      host = FactoryGirl.create(:host, :with_puppet, :hostgroup => hg)
+      visit edit_host_path(host)
+
+      select2 env1.name, :from => 'host_environment_id'
+      wait_for_ajax
+
+      click_button 'Submit' #create new host
+      find_link 'YAML' #wait for host details page
+
+      host.reload
+      assert_equal env1.name, host.environment.name
     end
   end
 
