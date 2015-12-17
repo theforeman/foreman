@@ -23,4 +23,9 @@
   input[type=checkbox]{
     margin-top: 11px;
   }
+
+  .nav a.btn-success:focus{
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+  }
 }
