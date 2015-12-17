@@ -22,6 +22,12 @@
 //= require underscore
 //= require editor
 
+//= require angular
+//= require angular-ui-bootstrap
+//= require angular-ui-bootstrap-tpls
+//= require components/foreman.module
+//= require_tree ./components
+
 $(document).on('ContentLoad', onContentLoad);
 Turbolinks.enableProgressBar();
 
