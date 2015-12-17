@@ -229,9 +229,17 @@ function hostgroup_changed(element) {
       reload_host_params();
     }
   } else { // a new host
+    reset_explicit_values(element);
     set_inherited_value(element);
     update_form(element);
   }
+}
+
+function reset_explicit_values(element) {
+  $("[name=is_overridden_btn]").each(function(i, btn) {
+    var item = $(btn)
+    item.attr('data-explicit', false);
+  })
 }
 
 function set_inherited_value(hostgroup_elem) {
@@ -299,6 +307,7 @@ function isExplicit(index, element) {
   if (element.nextSibling.children == undefined) return true;
   if (element.nextSibling.children[0] == undefined) return true;
   if (element.nextSibling.children[0].dataset == undefined) return true;
+  if (element.nextSibling.children[0].dataset.explicit == undefined) return true;
   return element.nextSibling.children[0].dataset.explicit == 'true';
 }
 
