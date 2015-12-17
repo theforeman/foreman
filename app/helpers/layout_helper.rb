@@ -475,6 +475,24 @@ module LayoutHelper
     content_tag(:span, fullscreen_button(element), :class => 'input-group-btn')
   end
 
+  def new_child_fields_template(form_builder, association, options = { })
+    unless  options[:object].present?
+      association_object = form_builder.object.class.reflect_on_association(association)
+      options[:object] = association_object.klass.new(association_object.foreign_key => form_builder.object.id)
+    end
+    options[:partial]            ||= association.to_s.singularize
+    options[:form_builder_local] ||= :f
+    options[:form_builder_attrs] ||= {}
+
+    content_tag(:div, :class => "#{association}_fields_template form_template", :style => "display: none;") do
+      form_builder.fields_for(association, options[:object], :child_index => "new_#{association}") do |f|
+        render(:partial => options[:partial],
+               :layout => options[:layout],
+               :locals => { options[:form_builder_local] => f }.merge(options[:form_builder_attrs]))
+      end
+    end
+  end
+
   private
 
   def table_css_classes(classes = '')
