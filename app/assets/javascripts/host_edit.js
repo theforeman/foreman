@@ -549,13 +549,20 @@ $(document).on('change', '.interface_domain', function () {
   interface_domain_selected(this);
 });
 
+function clearIpField(parent) {
+  var ip_field = $(parent).closest('fieldset').find('.interface_ip');
+  clearError(ip_field);
+  ip_field.val('');
+}
+
 $(document).on('click', '.suggest_new_ip', function (e) {
-  clearError($(this).closest('fieldset').find('.interface_ip'));
+  clearIpField(this);
   interface_subnet_selected($(this).closest('fieldset').find('select.interface_subnet'));
   e.preventDefault();
 });
 
 $(document).on('change', '.interface_subnet', function () {
+  clearIpField(this);
   interface_subnet_selected(this);
 });
 
