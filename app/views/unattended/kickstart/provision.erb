@@ -99,7 +99,11 @@ text
 reboot
 
 %packages
+<% if @host.operatingsystem.name == 'Fedora' && os_major >= 23 -%>
+dnf
+<% else -%>
 yum
+<% endif -%>
 dhclient
 ntp
 wget
@@ -162,7 +166,11 @@ echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
 <% end -%>
 
 # update all the base packages from the updates repository
+<% if @host.operatingsystem.name == 'Fedora' && os_major >= 23 -%>
+dnf -y -e 0 update
+<% else -%>
 yum -t -y -e 0 update
+<% endif -%>
 
 <% if chef_enabled %>
 echo "Bootstraping chef"
