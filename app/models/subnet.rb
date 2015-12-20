@@ -10,7 +10,7 @@ class Subnet < ActiveRecord::Base
   include Parameterizable::ByIdName
   include EncOutput
   attr_accessible :name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :ipam, :from,
-    :to, :vlanid, :boot_mode, :dhcp_id, :tftp_id, :dns_id, :domain_ids, :domain_names
+    :to, :vlanid, :boot_mode, :dhcp_id, :dhcp, :tftp_id, :tftp, :dns_id, :dns, :domain_ids, :domain_names
 
   audited :allow_mass_assignment => true
 
