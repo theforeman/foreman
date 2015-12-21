@@ -1667,6 +1667,26 @@ class HostTest < ActiveSupport::TestCase
       assert_equal results[0].owner, User.current
     end
 
+    test "search by user returns only the relevant hosts" do
+      host = nil
+      as_user :one do
+        host = FactoryGirl.create(:host)
+      end
+      refute_equal User.current, host.owner
+      results = Host.search_for("owner = " + User.current.login)
+      refute results.include?(host)
+    end
+
+    test "search by params returns only the relevant hosts" do
+      hg = hostgroups(:common)
+      host = FactoryGirl.create(:host, :hostgroup => hg)
+      host2 = FactoryGirl.create(:host, :hostgroup => nil)
+      parameter = hg.group_parameters.first
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+      assert results.include?(host)
+      refute results.include?(host2)
+    end
+
     test "can search hosts by inherited params from a hostgroup" do
       hg = hostgroups(:common)
       host = FactoryGirl.create(:host, :hostgroup => hg)
