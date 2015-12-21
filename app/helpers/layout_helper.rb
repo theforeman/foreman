@@ -161,6 +161,7 @@ module LayoutHelper
     html_options.merge!(:size => 'col-md-10') if html_options[:multiple]
     field(f, attr, html_options) do
       addClass html_options, "form-control"
+      addClass html_options, 'has-explicit' if disable_button
 
       collection_select = f.collection_select(attr, array, id, method, select_options, html_options)
 

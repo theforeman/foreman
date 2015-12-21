@@ -295,10 +295,7 @@ function serializeForm() {
 
 //This function decides for a given input element is it set explicitly by the user.
 function isExplicit(index, element) {
-  if (element.nextSibling == undefined) return true;
-  if (element.nextSibling.children == undefined) return true;
-  if (element.nextSibling.children[0] == undefined) return true;
-  if (element.nextSibling.children[0].dataset == undefined) return true;
+  if (!element.classList.contains("has-explicit")) return true;
   return element.nextSibling.children[0].dataset.explicit == 'true';
 }
 
