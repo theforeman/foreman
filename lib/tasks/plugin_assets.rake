@@ -55,9 +55,20 @@ task 'plugin:assets:precompile', [:engine] do |t, args|
 
       def environment
         env = Rails.application.assets
+        config = Rails.application.config
+
         Rails.application.config.assets.paths.each do |path|
           env.append_path path
         end
+
+        env.version = [
+          'production',
+          config.assets.version,
+          config.action_controller.relative_url_root,
+          (config.action_controller.asset_host unless config.action_controller.asset_host.respond_to?(:call)),
+          Sprockets::Rails::VERSION
+        ].compact.join('-')
+
         env
       end
 
