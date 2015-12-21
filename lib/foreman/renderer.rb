@@ -2,13 +2,13 @@ require 'tempfile'
 
 module Foreman
   module Renderer
-    ALLOWED_HELPERS = [ :foreman_url, :grub_pass, :snippet, :snippets,
-                        :snippet_if_exists, :ks_console, :root_pass,
-                        :media_path, :param_true?, :param_false?, :match, :indent ]
+    ALLOWED_HELPERS ||= [:foreman_url, :grub_pass, :snippet, :snippets,
+                         :snippet_if_exists, :ks_console, :root_pass,
+                         :media_path, :param_true?, :param_false?, :match, :indent]
 
-    ALLOWED_VARIABLES = [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
-                          :repos, :dynamic, :kernel, :initrd,
-                          :preseed_server, :preseed_path, :provisioning_type ]
+    ALLOWED_VARIABLES ||= [:arch, :host, :osver, :mediapath, :mediaserver, :static,
+                           :repos, :dynamic, :kernel, :initrd,
+                           :preseed_server, :preseed_path, :provisioning_type]
 
     def render_safe(template, allowed_methods = [], allowed_vars = {})
       if Setting[:safemode_render]
