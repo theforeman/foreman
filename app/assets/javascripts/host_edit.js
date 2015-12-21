@@ -238,7 +238,8 @@ function hostgroup_changed(element) {
 function reset_explicit_values(element) {
   $("[name=is_overridden_btn]").each(function(i, btn) {
     var item = $(btn)
-    item.attr('data-explicit', false);
+    var formControl = item.closest('.input-group').find('.form-control');
+    formControl.attr('disabled', true);
   })
 }
 
@@ -298,17 +299,7 @@ function update_form(element, options) {
 
 //Serializes only those input elements from form that are set explicitly
 function serializeForm() {
-  return $($('form')[0].elements).filter(isExplicit).serialize()
-}
-
-//This function decides for a given input element is it set explicitly by the user.
-function isExplicit(index, element) {
-  if (element.nextSibling == undefined) return true;
-  if (element.nextSibling.children == undefined) return true;
-  if (element.nextSibling.children[0] == undefined) return true;
-  if (element.nextSibling.children[0].dataset == undefined) return true;
-  if (element.nextSibling.children[0].dataset.explicit == undefined) return true;
-  return element.nextSibling.children[0].dataset.explicit == 'true';
+  return $('form').serialize()
 }
 
 function subnet_contains(number, cidr, ip){
