@@ -3,7 +3,7 @@ module SSO
 
   def self.get_available(controller)
     all_methods = all.map { |method| method.new(controller) }
-    all_methods.select(&:available?).first
+    all_methods.find(&:available?)
   end
 
   def self.all

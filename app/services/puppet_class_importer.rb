@@ -261,10 +261,6 @@ class PuppetClassImporter
     classes.not_in_any_environment.destroy_all
   end
 
-  def logger
-    @logger ||= Rails.logger
-  end
-
   def find_existing_foreman_classes(klasses = [])
     Puppetclass.where(:name => klasses)
   end

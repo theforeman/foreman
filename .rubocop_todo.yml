@@ -15,14 +15,6 @@ Lint/AmbiguousRegexpLiteral:
 Lint/AssignmentInCondition:
   Enabled: false
 
-# Offense count: 1
-Lint/DuplicateMethods:
-  Enabled: false
-
-# Offense count: 6
-Lint/DuplicatedKey:
-  Enabled: false
-
 # Offense count: 5
 # Cop supports --auto-correct.
 # Configuration parameters: AlignWith, SupportedStyles, AutoCorrect.
@@ -101,43 +93,6 @@ Metrics/ParameterLists:
 # Offense count: 99
 Metrics/PerceivedComplexity:
   Max: 24
-
-# Offense count: 20
-# Cop supports --auto-correct.
-Performance/Count:
-  Exclude:
-    - 'test/unit/orchestration/compute_test.rb'
-    - 'test/unit/orchestration/dhcp_test.rb'
-
-# Offense count: 7
-# Cop supports --auto-correct.
-Performance/Detect:
-  Exclude:
-    - 'app/models/compute_resources/foreman/model/gce.rb'
-    - 'app/models/nic/interface.rb'
-    - 'app/services/smart_proxies/puppet_ca.rb'
-    - 'app/services/sso.rb'
-    - 'test/unit/usergroup_test.rb'
-
-# Offense count: 4
-Performance/FixedSize:
-  Exclude:
-    - 'test/unit/hostgroup_test.rb'
-    - 'test/unit/location_test.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Performance/ReverseEach:
-  Exclude:
-    - 'app/models/hostgroup.rb'
-    - 'app/services/classification/base.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Performance/StringReplacement:
-  Exclude:
-    - 'app/models/operatingsystem.rb'
-    - 'app/models/operatingsystems/windows.rb'
 
 # Offense count: 247
 # Cop supports --auto-correct.
