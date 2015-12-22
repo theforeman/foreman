@@ -37,7 +37,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
       attrs = {}
       @host.stubs(:compute_attributes).returns(attrs)
       @host.send :add_interfaces_to_compute_attrs
-      assert_equal 1, attrs['nics_attributes'].select { |k, v| v.present? }.size
+      assert_equal 1, attrs['nics_attributes'].count { |k, v| v.present? }
     end
   end
 

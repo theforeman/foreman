@@ -219,7 +219,7 @@ module Classification
 
       # to make sure seep merge overrides by priority, putting in the values with the lower priority first
       # and then merging with higher priority
-      lookup_values.reverse.each do |lookup_value|
+      lookup_values.reverse_each do |lookup_value|
         element, element_name = get_element_and_element_name(lookup_value)
         next if ((options[:skip_fqdn] && element=="fqdn") || lookup_value.use_puppet_default)
         elements << element

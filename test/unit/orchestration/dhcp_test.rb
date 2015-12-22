@@ -77,7 +77,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert h.new_record?
 
     assert h.valid?
-    assert_equal h.queue.items.select {|x| x.action.last == :set_dhcp }.size, 1
+    assert_equal h.queue.items.count {|x| x.action.last == :set_dhcp }, 1
     assert h.queue.items.select {|x| x.action.last == :del_dhcp }.empty?
   end
 
@@ -93,9 +93,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     primary_interface_tasks = h.queue.items.select { |t| t.action.first == h.primary_interface }
     interface_tasks = h.queue.items.select { |t| t.action.first == bmc }
 
-    assert_equal 1, primary_interface_tasks.select { |t| t.action.last == :set_dhcp }.size
+    assert_equal 1, primary_interface_tasks.count { |t| t.action.last == :set_dhcp }
     assert_empty primary_interface_tasks.select { |t| t.action.last == :del_dhcp }
-    assert_equal 1, interface_tasks.select { |t| t.action.last == :set_dhcp }.size
+    assert_equal 1, interface_tasks.count { |t| t.action.last == :set_dhcp }
     assert_empty interface_tasks.select  { |t| t.action.last == :del_dhcp }
   end
 
@@ -104,9 +104,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     h.ip = h.ip.succ
     assert h.valid?
     # 1st is creation from factory, 2nd is triggered by h.valid?
-    assert_equal 2, h.queue.items.select {|x| x.action == [ h.primary_interface, :set_dhcp ] }.size
+    assert_equal 2, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
     # and also one deletion (of original creation)
-    assert_equal 1, h.primary_interface.queue.items.select {|x| x.action.last == :del_dhcp }.size
+    assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
   end
 
   test "when an existing host change its bmc ip address, its dhcp record should be updated" do
@@ -119,16 +119,16 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     bmc = h.interfaces.bmc.first
     bmc.ip = bmc.ip.succ
     assert bmc.valid?
-    assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc, :set_dhcp ] }.size
-    assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc.old, :del_dhcp ] }.size
+    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc, :set_dhcp ] }
+    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc.old, :del_dhcp ] }
   end
 
   test "when an existing host change its mac address, its dhcp record should be updated" do
     h = FactoryGirl.create(:host, :with_dhcp_orchestration)
     h.mac = next_mac(h.mac)
     assert h.valid?
-    assert_equal 2, h.queue.items.select {|x| x.action == [ h.primary_interface, :set_dhcp ] }.size
-    assert_equal 1, h.primary_interface.queue.items.select {|x| x.action.last == :del_dhcp }.size
+    assert_equal 2, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
+    assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
   end
 
   test "when an existing host trigger a 'rebuild', its dhcp record should be updated if no dhcp record is found" do
@@ -138,8 +138,8 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     h.build = true
 
     assert h.valid?, h.errors.messages.to_s
-    assert_equal 2, h.queue.items.select {|x| x.action == [ h.primary_interface, :set_dhcp ] }.size
-    assert_equal 1, h.primary_interface.queue.items.select {|x| x.action.last == :del_dhcp }.size
+    assert_equal 2, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
+    assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
   end
 
   test "when an existing host trigger a 'rebuild', its dhcp record should not be updated if valid dhcp record is found" do
@@ -149,8 +149,8 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     h.build = true
 
     assert h.valid?, h.errors.messages.to_s
-    assert_equal 1, h.queue.items.select {|x| x.action == [ h.primary_interface, :set_dhcp ] }.size
-    assert_equal 0, h.primary_interface.queue.items.select {|x| x.action.last == :del_dhcp }.size
+    assert_equal 1, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
+    assert_equal 0, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
   end
 
   test "when an existing host change its bmc mac address, its dhcp record should be updated" do
@@ -164,8 +164,8 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     bmc.mac = next_mac(bmc.mac)
     assert h.valid?
     assert bmc.valid?
-    assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc,     :set_dhcp ] }.size
-    assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc.old, :del_dhcp ] }.size
+    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc,     :set_dhcp ] }
+    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc.old, :del_dhcp ] }
   end
 
   test "when an existing host change multiple attributes, both his dhcp and bmc dhcp records should be updated" do
@@ -181,10 +181,10 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     bmc.mac = next_mac(bmc.mac)
     assert h.valid?
     assert bmc.valid?
-    assert_equal 2, h.queue.items.select {|x| x.action == [ h.primary_interface, :set_dhcp ] }.size
-    assert_equal 1, h.queue.items.select {|x| x.action.last == :del_dhcp }.size
-    assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc,     :set_dhcp ] }.size
-    assert_equal 1, bmc.queue.items.select {|x| x.action == [ bmc.old, :del_dhcp ] }.size
+    assert_equal 2, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
+    assert_equal 1, h.queue.items.count {|x| x.action.last == :del_dhcp }
+    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc,     :set_dhcp ] }
+    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc.old, :del_dhcp ] }
   end
 
   test "new host with dhcp and no operating system should show correct validation on save" do
