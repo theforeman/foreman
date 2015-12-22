@@ -88,7 +88,7 @@
         <% if @environment or @hostgroup %>
           <%= render 'puppetclasses/class_selection', :obj => @host %>
         <% else %>
-          <%= alert :class => 'alert-warning', :text =>  _('Please select an environment first') %>
+          <%= alert :class => 'alert-info', :text =>  _('Please select an environment first') %>
         <% end %>
       </div>
 
@@ -104,12 +104,12 @@
 
       <div class="tab-pane"  id="params">
         <fieldset>
-          <legend><%= _('Puppet class parameters') %></legend>
+          <h2><%= _('Puppet class parameters') %></h2>
           <%= render "puppetclasses/classes_parameters", :obj => @host %>
         </fieldset>
         <br/>
         <fieldset>
-          <legend><%= _('Global parameters') %></legend>
+          <h2><%= _('Global parameters') %></h2>
           <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true), :parameters => @host.host_parameters  } %>
           <h4><%= _('Host parameters') %></h4>
           <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>

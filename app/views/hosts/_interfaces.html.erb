@@ -2,9 +2,7 @@
 
 <fieldset id="interfaces" data-url="<%= new_interface_path %>">
   <% if interfaces_invalid %>
-    <p class="alert alert-danger">
-      <%= _("Some of the interfaces are invalid. Please check the table below.") %>
-    </p>
+    <%= alert :class => 'alert-danger', :header => '', :text => _("Some of the interfaces are invalid. Please check the table below.") %>
   <% end %>
   <!-- interface list -->
   <table class="table table-bordered table-striped table-condensed" id="interfaceList">
@@ -17,7 +15,7 @@
         <th class="hidden-xs"><%= _("MAC address") %></th>
         <th class="hidden-xs"><%= _("IP address") %></th>
         <th class="hidden-xs"><%= _("FQDN") %></th>
-        <th></th>
+        <th><%= _('Actions') %></th>
       </tr>
     </thead>
     <tbody>

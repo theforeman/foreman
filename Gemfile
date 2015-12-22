@@ -38,7 +38,6 @@ end
 gem 'activerecord-session_store', '~> 0.1.1'
 gem 'rails-observers', '~> 0.1'
 gem 'protected_attributes', '~> 1.1.1'
-gem 'sprockets-rails', '>= 2.2.2', '< 3'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))

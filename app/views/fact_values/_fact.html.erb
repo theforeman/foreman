@@ -11,7 +11,7 @@
   <td>
     <%= fact_name(fact, parent) %>
   </td>
-  <td>
+  <td class="fact-col">
     <% unless fact.compose %>
       <%= link_to trunc_with_tooltip(fact.value, 40),
                   fact_values_path("search" => "facts.#{fact.name} = \"#{fact.value}\""),

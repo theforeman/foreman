@@ -271,8 +271,8 @@ module LayoutHelper
 
   # The target should have class="collapse [out|in]" out means collapsed on load and in means expanded.
   # Target must also have a unique id.
-  def collapsing_legend(title, target, collapsed = '')
-    content_tag(:legend, :class => "expander #{collapsed}", :data => {:toggle => 'collapse', :target => target}) do
+  def collapsing_header(title, target, collapsed = '')
+    content_tag(:h2, :class => "expander #{collapsed}", :data => {:toggle => 'collapse', :target => target}) do
       content_tag(:span, '', :class => 'caret') + title
     end
   end
@@ -306,7 +306,8 @@ module LayoutHelper
       when blank?
         ""
       when :indicator
-        content_tag(:span, image_tag('spinner.gif', :class => 'hide'), :class => "help-block help-inline")
+        content_tag(:span, content_tag(:div, '', :class => 'hide spinner spinner-sm'),
+                    :class => 'help-block').html_safe
       else
         content_tag(:span, help_inline, :class => "help-block help-inline")
     end
@@ -338,7 +339,7 @@ module LayoutHelper
         options[:class] = "btn btn-#{overwrite ? 'danger' : 'primary'} remove_form_templates"
         options.merge! :'data-id' => form_to_submit_id(f) unless options.has_key?(:'data-id')
         link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " +
-            f.submit(text, options)
+          f.submit(text, options)
       end
     end
   end
@@ -406,14 +407,9 @@ module LayoutHelper
     super record_or_name_or_array, *args, &proc
   end
 
-  def icons(i)
-    content_tag :i, :class=>"glyphicon glyphicon-#{i}" do
-      yield
-    end
-  end
-
   def icon_text(i, text = "", opts = {})
-    (content_tag(:i,"", :class=>"glyphicon glyphicon-#{i} #{opts[:class]}", :title => opts[:title]) + " " + text).html_safe
+    opts[:kind] ||=  "glyphicon"
+    (content_tag(:span,"", :class=>"#{opts[:kind] + " " + opts[:kind]}-#{i} #{opts[:class]}", :title => opts[:title]) + " " + text).html_safe
   end
 
   def alert(opts = {})
@@ -425,14 +421,31 @@ module LayoutHelper
     content_tag :div, :class => html_class, :id => opts[:id] do
       result = "".html_safe
       result += alert_close if opts[:close]
-      result += alert_header(opts[:header])
+      result += alert_header(opts[:header], opts[:class])
       result += content_tag(:span, opts[:text].html_safe, :class => 'text')
+      result += alert_actions(opts[:actions]) if opts[:actions].present?
       result
     end
   end
 
-  def alert_header(text)
-    "<h4 class='alert-heading'>#{text}</h4>".html_safe
+  def alert_header(text, html_class = nil)
+    case html_class
+      when /alert-success/
+        icon = icon_text("ok", "",:kind => "pficon")
+        text ||= _("Notice")
+      when /alert-warning/
+        icon = icon_text("warning-triangle-o", "",:kind => "pficon")
+        text ||= _("Warning")
+      when /alert-info/
+        icon = icon_text("info", "", :kind => "pficon")
+        text ||= _("Notice")
+      when /alert-danger/
+        icon = icon_text("error-circle-o", "", :kind => "pficon")
+        text ||= _("Error")
+    end
+    header = "#{icon}"
+    header += "<h4 class='alert-heading'>#{text}</h4>" if text.present?
+    header.html_safe
   end
 
   def alert_close(data_dismiss = 'alert')
@@ -447,6 +460,12 @@ module LayoutHelper
       content_tag(:span, truncate(text, :length => length), options).html_safe
     else
       content_tag(:span, text, options).html_safe
+    end
+  end
+
+  def alert_actions(actions)
+    content_tag :div, :class => 'alert-actions' do
+      '<hr>'.html_safe + actions
     end
   end
 
@@ -491,10 +510,6 @@ module LayoutHelper
                :locals => { options[:form_builder_local] => f }.merge(options[:form_builder_attrs]))
       end
     end
-  end
-
-  def spinner
-    '<span class="spinner-placeholder" />'.html_safe
   end
 
   private

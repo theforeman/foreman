@@ -3,18 +3,18 @@
                  display_link_if_authorized(_("Mismatches Report"), hash_for_mismatches_taxonomies_path), help_path %>
 
 <% if @count_nil_hosts > 0 %>
-  <div class="alert alert-warning alert-block">
-    <strong><%= _("Notice:") %></strong>
-    <%= n_('There is', 'There are', @count_nil_hosts) %>
-    <%= link_to n_("%{count} host with no %{taxonomy_single} assigned", "%{count} hosts with no %{taxonomy_single} assigned", @count_nil_hosts) % {:count => @count_nil_hosts , :taxonomy_single => taxonomy_single }, hosts_path(:search => "not has #{controller_name.singularize}")  %>
-  </div>
+  <%= alert :class => 'alert-warning', :header => '', :text => n_('There is', 'There are', @count_nil_hosts) + ' ' +
+    link_to(n_("%{count} host with no %{taxonomy_single} assigned",
+               "%{count} hosts with no %{taxonomy_single} assigned", @count_nil_hosts) %
+                 {:count => @count_nil_hosts , :taxonomy_single => taxonomy_single },
+            hosts_path(:search => "not has #{controller_name.singularize}")) %>
 <% end %>
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
       <th><%= sort :title, :as => s_("Taxonomy|Name") %></th>
       <th><%= _("Hosts") %></th>
-      <th></th>
+      <th><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>
