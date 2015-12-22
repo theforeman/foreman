@@ -432,7 +432,7 @@ function override_param(item){
   var param_value = param.find('[id^=value_]');
   var v = param_value.val();
 
-  $('#parameters').find('.btn-success').click();
+  $('#parameters').find('.btn-primary').click();
   var new_param = $('#parameters').find('.fields').last();
   new_param.find('[id$=_name]').val(n);
   new_param.find('[id$=_value]').val(v == param_value.data('hidden-value') ? '' : v);
@@ -543,6 +543,7 @@ function image_provision_method_selected() {
 $(document).on('change', '#host_provision_method_image', image_provision_method_selected);
 
 $(document).on('change', '.interface_domain', function () {
+  clearError($(this).closest('fieldset').find('.interface_ip'));
   interface_domain_selected(this);
 });
 

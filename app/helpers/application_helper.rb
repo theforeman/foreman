@@ -69,7 +69,7 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    link_to_function(name, ("add_fields('#{options[:target]}', '#{association}', '#{escape_javascript(fields)}')").html_safe, add_html_classes(options, "btn btn-success") )
+    link_to_function(name, ("add_fields('#{options[:target]}', '#{association}', '#{escape_javascript(fields)}')").html_safe, add_html_classes(options, "btn btn-primary") )
   end
 
   def link_to_remove_puppetclass(klass, type)
@@ -307,10 +307,11 @@ module ApplicationHelper
 
     #multiple options
     content_tag(:div, options.merge(:class=>'btn-group')) do
-      link_to((title +" " +content_tag(:i, '', :class=>'caret')).html_safe,'#', :class=>"btn btn-default dropdown-toggle", :'data-toggle'=>'dropdown') +
-          content_tag(:ul,:class=>"dropdown-menu pull-right") do
-            args.map{|option| content_tag(:li,option)}.join(" ").html_safe
-          end
+      link_to((title + " " + content_tag(:span, '', :class => 'caret')).html_safe, '#',
+              :class => "btn btn-default dropdown-toggle", :'data-toggle' => 'dropdown') +
+             content_tag(:ul, :class=>"dropdown-menu pull-right") do
+               args.map{ |option| content_tag(:li,option) }.join(" ").html_safe
+             end
     end
   end
 
@@ -328,7 +329,7 @@ module ApplicationHelper
     primary = content_tag(:span, primary, :class=>'btn btn-sm btn-default') if primary !~ /btn/
 
     content_tag(:div,:class => "btn-group") do
-      primary + link_to(content_tag(:i, '', :class=>'caret'),'#', :class=>"btn btn-default #{'btn-sm' if primary =~ /btn-sm/} dropdown-toggle", :'data-toggle'=>'dropdown') +
+      primary + link_to(content_tag(:span, '', :class=>'caret'),'#', :class=>"btn btn-default #{'btn-sm' if primary =~ /btn-sm/} dropdown-toggle", :'data-toggle'=>'dropdown') +
       content_tag(:ul,:class=>"dropdown-menu pull-right") do
         args.map{|option| content_tag(:li,option)}.join(" ").html_safe
       end
@@ -433,5 +434,23 @@ module ApplicationHelper
       :'data-url'        => parameters_puppetclass_path(:id => klass.id),
       :rel               => 'twipsy'
     }
+  end
+
+  def spinner(text = '', options = {})
+    if text.present?
+      "<p class='spinner-label'> #{text} </p><div id='#{options[:id]}' class='spinner spinner-sm spinner-inline #{options[:class]}'>
+      </div>".html_safe
+    else
+      "<div id='#{options[:id]}' class='spinner spinner-sm #{options[:class]}'></div>".html_safe
+    end
+  end
+
+  def hidden_spinner(text = '', options = {})
+    if options[:class]
+      options[:class] += " hide"
+    else
+      options[:class] = "hide"
+    end
+    spinner(text, options)
   end
 end

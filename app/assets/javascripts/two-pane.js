@@ -135,7 +135,6 @@ function hide_columns(){
   }
   var placeholder = spinner_placeholder(__('Loading'));
   $('.two-pane-left').after("<div class='col-md-9 two-pane-right'><div class='well'>" + placeholder + "</div></div>");
-
 }
 
 // place the content into the right pane

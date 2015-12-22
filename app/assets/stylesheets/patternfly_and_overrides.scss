@@ -3,77 +3,62 @@
 
 $navbar-default-bg: $primary_color;
 
-@import "bootstrap";
-
-.dropdown-menu {
-  border-radius: 0 0 6px 6px;
+.control-label{
+  text-align: left;
+  padding-left: 0px;
+  padding-right: 5px;
 }
 
-// Necessary because bootstrap3 nav dropdown does not have top arrow
-.nav li .dropdown-menu:after {
-  content: '';
+.spinner{
+  float: left;
+}
+
+#main {
+  padding: 0 40px;
+}
+
+fieldset > div.col-md-1 {
+  padding-left: 0px;
+}
+
+.children_fields{
+  padding-left: 20px;
+}
+
+.form-control{
   display: inline-block;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #ffffff;
-  position: absolute;
-  top: -6px;
-  left: 10px;
 }
 
-.navbar .navbar-right > li > .dropdown-menu:after,
-.navbar .nav > li > .dropdown-menu.pull-right:after {
-  left: auto;
-  right: 13px;
+textarea.form-control{
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
-.nav li.dropdown-submenu .dropdown-menu:after{
-  display: none;
+.modal-body > fieldset > div.clearfix div.has-error > span.help-inline{
+  padding-left: 80px;
 }
 
-// Necessary because bootstrap3 does not support dropdown sub menus.
-.dropdown-submenu {
-  position:relative;
+.container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1400px; // Max width as per suggested by Patternfly
 }
 
-.dropdown-submenu > .dropdown-menu {
-  top:0;
-  left:100%;
-  margin-top:-6px;
-  margin-left:-1px;
-  max-height: 420px;
-  overflow-y: auto;
+.autocomplete-clear{
+  z-index: 3;
+  position: relative;
 }
 
-.dropdown-submenu > a:after {
-  display:block;content:" ";
-  float:right;
-  width:0;
-  height:0;
-  border-color:transparent;
-  border-style:solid;
-  border-width:5px 0 5px 5px;
-  border-left-color:#cccccc;
-  margin-top:5px;
-  margin-right:-10px;
+.jnotify-close{
+  color: black !important;
 }
 
-.dropdown-submenu:hover > a:after {
-  border-left-color:#ffffff;
+#login {
+  max-width: 100%;
 }
 
-.dropdown-submenu.pull-left {
-  float:none;
-}
-
-.dropdown-submenu.pull-left > .dropdown-menu {
-  left:-100%;
-  margin-left:10px;
-}
-
-// Bootstrap 3 no longer has icon-color classes
-.icon-white {
-  color: white;
+.label{
+  font-size: 75%;
 }
 
 .badge.badge-inverse {
@@ -83,6 +68,10 @@ $navbar-default-bg: $primary_color;
 span.input-group-btn .hidden-xs {display:inline !important;}
 @media (max-width: 768px) {
   span.input-group-btn .hidden-xs {display:none !important;}
+}
+
+.children_fields.lookup_values > th {
+  background-color: white;
 }
 
 span.btn a {
@@ -120,7 +109,6 @@ a {
   background-color: #f8f8f8;
   padding: 10px;
   border: 1px solid #e7e7e7;
-  border-radius: 4px;
   margin-right: 18px;
 }
 
@@ -146,6 +134,10 @@ a {
   vertical-align: middle;
 }
 
+.table > thead {
+  background-image: none;
+}
+
 .btn-toolbar .btn-group{
   float: none;
 }
@@ -153,11 +145,6 @@ a {
 .popover{
   max-width: none;
   z-index: 2000;
- .popover-content {
-    max-height: 200px;
-    overflow-y: auto;
-    color: #737373;
-  }
 }
 
 @-moz-document url-prefix() {
@@ -187,8 +174,6 @@ a {
 .nav.nav-pills.nav-stacked {
   padding-right: 0;
   & > li > a {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
     .clip {
       white-space: nowrap;
       overflow: hidden;
@@ -211,8 +196,6 @@ body.modal-open {
   overflow: visible;
 }
 
-// The following block can be safely replaced by form-control-feedback on Bootstrap 3.1+
-// form-control-feedback backport from Bootstrap 3.1+
 .form-control {
   padding-right: 30px;
 }
@@ -227,6 +210,7 @@ body.modal-open {
   color: black;
 }
 // eof form-control-feedback
+
 .puppetca-filters {
   min-width: 150px;
 }
@@ -239,23 +223,64 @@ textarea {
   overflow-x: hidden; /* fix for FF adding an extra row to textareas */
   &.no-stretch {
     resize: vertical;
-    min-height: 34px; // prevent firefox from resizing smaller then one line height
+    min-height: 26px; // prevent firefox from resizing smaller then one line height
   }
+}
+
+div.form-group .glyphicon-info-sign{
+  color: black;
 }
 
 .btn-strike {
   text-decoration: line-through;
 }
 
-#proxy-tab {
-  margin-bottom: 0px;
+.alert {
+  & > .pficon,
+  & > .pficon-layered {
+    font-size: 21px;
+    position: absolute;
+    left: 6px;
+    top: 6px;
+  }
+  h4 {
+    margin-top: 4px;
+  }
 }
-.proxy-content.tab-content {
-  padding: 19px;
-  min-height: 0px;
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  border-top: 0px;
-  float: left;
-  width: 100%;
+
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus
+.pagination > li > a,
+.pagination > li > span {
+  background-image: none;
+}
+
+.select2-container .select2-choices .select2-search-field input,
+.select2-container .select2-choice,
+.select2-search input,
+.select2-drop.select2-drop-above,
+.select2-container .select2-choice .select2-arrow,
+.select2-dropdown-open.select2-drop-above [class^="select2-choice"],
+.select2-drop,
+.select2-container .select2-choices {
+  border-radius: 0px;
+}
+
+.btn-group > .btn + .dropdown-toggle {
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+.blank-slate-pf {
+  background-color: inherit;
+  border: inherit;
+  padding: inherit;
+}
+
+.col-md-3 b{
+  font-size: 100%;
 }

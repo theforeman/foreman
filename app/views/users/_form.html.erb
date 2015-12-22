@@ -50,14 +50,12 @@
         <%= checkbox_f f, :mail_enabled %>
         <div class='col-md-4'>
             <%= link_to_function(_("Test email"), "test_mail(this, '#{f.object.id}', '#{test_mail_user_url(f.object)}')",
-                                                :title => _("Send a test message to the user's email address to confirm the configuration is working."), :id => "test_mail_button", :class =>"btn btn-success") + image_tag('/assets/spinner.gif', :id => 'test_indicator', :class => 'hide').html_safe if action_name == "edit" %>
+                                                :title => _("Send a test message to the user's email address to confirm the configuration is working."), :id => "test_mail_button", :class =>"btn btn-success") + hidden_spinner('', :id => 'test_indicator').html_safe if action_name == "edit" %>
         </div>
       <% end %>
       </br>
       <% if @user.new_record? %>
-        <div class="alert alert-block alert-warning">
-          <p><strong><%= _("Notice") %></strong> <%= _("Please save the user first before assigning email notifications.") %></p>
-        </div>
+        <%= alert :class => 'alert-warning', :header => '', :text => _("Please save the user first before assigning mail notifications.") %>
       <% else %>
         <%= field_set_tag _("Notifications") do %>
           <%= f.fields_for :user_mail_notifications do |mail_form| %>

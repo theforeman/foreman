@@ -243,9 +243,8 @@ module HostsHelper
 
   def show_templates
     unless SETTINGS[:unattended] and @host.managed?
-      return content_tag(:div, :class =>"alert alert-warning") do
-        _("Provisioning Support is disabled or this host is not managed")
-      end
+      return alert(:class=> 'alert-warning',
+                   :text => _("Provisioning support is disabled or this host is not managed"))
     end
     begin
       templates = Hash[TemplateKind.order(:name).map do |k|
@@ -282,7 +281,7 @@ module HostsHelper
   def overview_fields(host)
     global_status = host.build_global_status
     fields = [
-      [_("Status"), content_tag(:i, ''.html_safe, :class => host_global_status_icon_class(global_status.status)) +
+      [_("Status"), content_tag(:span, ''.html_safe, :class => host_global_status_icon_class(global_status.status)) +
                     content_tag(:span, _(global_status.to_label), :class => host_global_status_class(global_status.status))
       ]
     ]
@@ -315,7 +314,7 @@ module HostsHelper
       next unless status.relevant?
       [
         _(status.name),
-        content_tag(:i, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +
+        content_tag(:span, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +
           content_tag(:span, _(status.to_label), :class => host_global_status_class(status.to_global))
       ]
     end.compact
@@ -419,7 +418,7 @@ module HostsHelper
     active = 'Size'
     active = 'None' if f.object.allocation.to_i == 0
     active = 'Full' if f.object.allocation == f.object.capacity
-    text_f f, :allocation, :class => "input-mini", :label => _("Allocation (GB)"), :label_size => "col-md-3",
+    text_f f, :allocation, :class => "input-mini", :label => _("Allocation (GB)"), :label_size => "col-md-2",
     :readonly => (active == 'Size') ? false : true,
     :help_inline => (content_tag(:span, :class => 'btn-group', :'data-toggle' => 'buttons-radio') do
       [N_('None'), N_('Size'), N_('Full')].collect do |label|

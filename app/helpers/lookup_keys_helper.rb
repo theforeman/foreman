@@ -10,7 +10,7 @@ module LookupKeysHelper
   end
 
   def add_child_link(name, association, opts = {})
-    opts[:class] = [opts[:class], "add_nested_fields btn btn-success"].compact.join(" ")
+    opts[:class] = [opts[:class], "add_nested_fields btn btn-primary"].compact.join(" ")
     opts[:"data-association"] = association
     link_to_function(name.to_s, "add_child_node(this);", opts)
   end

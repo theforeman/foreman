@@ -24,7 +24,10 @@
         </div>
       <% else %>
         <div class="undo-smart-vars alert alert-info hide">
-          <%= _('Undo remove') %>
+          <%= icon_text("info", "",:kind => "pficon") %>
+          <h4 class='alert-heading'>
+            <%= _('Undo remove') %>
+          </h4>
         </div>
         <div class="row">
           <div class='col-md-3'>
@@ -61,7 +64,10 @@
     </div>
     <div class="tab-pane lookup-keys-container" id="smart_vars">
       <div class="undo-smart-vars alert alert-info hide">
-        <%= _('Undo remove') %>
+        <%= icon_text("info", "",:kind => "pficon") %>
+        <h4 class='alert-heading'>
+          <%= _('Undo remove') %>
+        </h4>
       </div>
       <div class='row'>
         <div class='form-group col-md-12 text-right'>
@@ -77,7 +83,7 @@
               </a>
             </li>
           <% end %>
-          <li><%= link_to_function '+ ' + _("Add Variable"), "add_child_node(this);" ,:class=>"btn btn-success",:style=>":hover{}", :"data-association" => :lookup_keys %></li>
+          <li><%= link_to_function '+ ' + _("Add Variable"), "add_child_node(this);" ,:class=>"btn btn-primary",:style=>":hover{}", :"data-association" => :lookup_keys %></li>
         </ul>
       </div>
       <div class="tab-content col-md-9 stacked-content">
