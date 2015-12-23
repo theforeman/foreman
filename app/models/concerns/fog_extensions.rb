@@ -54,6 +54,7 @@ end
 
 if SETTINGS[:vmware]
   require 'fog/vsphere'
+  require 'fog/vsphere/compute'
   require 'fog/vsphere/models/compute/server'
   Fog::Compute::Vsphere::Server.send(:include, FogExtensions::Vsphere::Server)
 
