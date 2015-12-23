@@ -20,41 +20,8 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     DatabaseCleaner.clean
   end
 
-  def go_to_interfaces_tab
-    # go to New Host page
-    assert_new_button(hosts_path, "New Host", new_host_path)
-    # switch to interfaces tab
-    page.find(:link, "Interfaces").click
-  end
-
-  def add_interface
-    page.find(:button, '+ Add Interface').click
-
-    modal = page.find('#interfaceModal')
-    modal.find(:button, "Ok").click
-  end
-
-  def modal
-    page.find('#interfaceModal')
-  end
-
-  def table
-    page.find("table#interfaceList")
-  end
-
-  def assert_interface_change(change, &block)
-    table = page.find("table#interfaceList")
-    original_interface_count = table.all('tr', :visible => true).count
-    yield
-    assert_equal original_interface_count + change, table.all('tr', :visible => true).count
-  end
-
-  def index_modal
-    page.find('#confirmation-modal')
-  end
-
-  def multiple_actions_div
-    page.find('#submit_multiple')
+  def class_params
+    page.find('#inherited_puppetclasses_parameters')
   end
 
   test "index page" do
@@ -105,25 +72,22 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       assert table.find('td.flags .provision-flag.active')
     end
 
-    test 'enables override of hostgroup defaults' do
-      env1 = FactoryGirl.create(:environment)
-      env2 = FactoryGirl.create(:environment)
-      hg1 = FactoryGirl.create(:hostgroup, :environment => env1)
-      hg2 = FactoryGirl.create(:hostgroup, :environment => env2)
+    test 'choosing a hostgroup overrides other host attributes' do
+      original_hostgroup = FactoryGirl.
+        create(:hostgroup, :environment => FactoryGirl.create(:environment))
+      overridden_hostgroup = FactoryGirl.
+        create(:hostgroup, :environment => FactoryGirl.create(:environment))
 
       visit new_host_path
-
-      select2 hg1.name, :from => 'host_hostgroup_id'
-
+      select2(original_hostgroup.name, :from => 'host_hostgroup_id')
       wait_for_ajax
 
-      find("#host_environment_id + .input-group-btn .btn").click
-
-      select2 hg2.name, :from => 'host_hostgroup_id'
+      click_on_inherit('environment')
+      select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
+      wait_for_ajax
 
       environment = find("#s2id_host_environment_id .select2-chosen").text
-
-      assert_equal env1.name, environment
+      assert_equal overridden_hostgroup.environment.name, environment
     end
 
     describe "NIC modal window" do
@@ -436,6 +400,30 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       host.reload
       assert_equal env1.name, host.environment.name
     end
+
+    test 'choosing a hostgroup does not override other host attributes' do
+      original_hostgroup = FactoryGirl.
+        create(:hostgroup, :environment => FactoryGirl.create(:environment))
+
+      # Make host inherit hostgroup environment
+      @host.attributes = @host.apply_inherited_attributes(
+        'hostgroup_id' => original_hostgroup.id)
+      @host.save
+
+      overridden_hostgroup = FactoryGirl.
+        create(:hostgroup, :environment => FactoryGirl.create(:environment))
+
+      visit edit_host_path(@host)
+      select2(original_hostgroup.name, :from => 'host_hostgroup_id')
+      wait_for_ajax
+
+      click_on_inherit('environment')
+      select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
+      wait_for_ajax
+
+      environment = find("#s2id_host_environment_id .select2-chosen").text
+      assert_equal original_hostgroup.environment.name, environment
+    end
   end
 
   describe 'clone page' do
@@ -449,5 +437,48 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       click_link 'Parameters'
       assert page.has_no_selector?('#params tr.has-error')
     end
+  end
+
+  private
+
+  def go_to_interfaces_tab
+    # go to New Host page
+    assert_new_button(hosts_path, "New Host", new_host_path)
+    # switch to interfaces tab
+    page.find(:link, "Interfaces").click
+  end
+
+  def add_interface
+    page.find(:button, '+ Add Interface').click
+
+    modal = page.find('#interfaceModal')
+    modal.find(:button, "Ok").click
+  end
+
+  def modal
+    page.find('#interfaceModal')
+  end
+
+  def table
+    page.find("table#interfaceList")
+  end
+
+  def assert_interface_change(change, &block)
+    table = page.find("table#interfaceList")
+    original_interface_count = table.all('tr', :visible => true).count
+    yield
+    assert_equal original_interface_count + change, table.all('tr', :visible => true).count
+  end
+
+  def index_modal
+    page.find('#confirmation-modal')
+  end
+
+  def multiple_actions_div
+    page.find('#submit_multiple')
+  end
+
+  def click_on_inherit(attribute)
+    find("#host_#{attribute}_id + .input-group-btn .btn").click
   end
 end
