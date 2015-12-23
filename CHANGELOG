@@ -1,3 +1,24 @@
+2015-12-23	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.10.0
+
+2015-12-22	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12793 - reverted field filtration to enabled fields only
+	* Fixes #12794 - Defined logic when properties should be sent to server
+
+2015-12-11	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, pulling from tx
+
+2015-12-11	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12611 - CVE-2015-7518 prevent XSS on host edit form
+
+2015-12-11	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12659 - Fixed "inherit" behavior
+	* Fixes #12618 - Now calls for compute attributes are explicit.
+	* Fixes #12461 - Compute profile is properly selected. (cherry picked from commit 95d706426644f40b7ed434d26bf237e643a17a1b)
+
+2015-12-11	Ori Rabin <orabin@redhat.com>
+	* Fixes #12660 - adding no-stretch class to host parameters textarea after unhiding the value
+
 2015-11-17	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.10.0-RC3
 	* i18n - extracting new, pulling from tx
