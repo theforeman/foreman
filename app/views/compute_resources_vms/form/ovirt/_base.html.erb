@@ -1,4 +1,4 @@
-<% javascript 'compute_resource', 'lookup_keys' %>
+<% javascript 'compute_resource' %>
 <%= text_f f, :name, :label => _('Name'), :label_size => "col-md-3" if show_vm_name? %>
 <% clusters = compute_resource.clusters %>
 <%= select_f f, :cluster, clusters, :id, :name, { },
