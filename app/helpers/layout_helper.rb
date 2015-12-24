@@ -60,9 +60,13 @@ module LayoutHelper
     end
   end
 
+  def fakepassword
+    password_field_tag(:fakepassword, nil, :style => 'display: none')
+  end
+
   def password_f(f, attr, options = {})
     unset_button = options.delete(:unset)
-    password_field_tag(:fakepassword, nil, :style => 'display: none') +
+    fakepassword +
     field(f, attr, options) do
       options[:autocomplete]   ||= 'off'
       options[:placeholder]    ||= password_placeholder(f.object, attr)
