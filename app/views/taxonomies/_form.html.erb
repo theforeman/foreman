@@ -1,4 +1,4 @@
-<% javascript 'taxonomy_edit' %>
+<% javascript 'taxonomy_edit', 'host_edit' %>
 
 <%= form_for taxonomy do |f| %>
   <div class="form-group row">
@@ -99,7 +99,18 @@
 
       <% if User.current.allowed_to?(:view_params) %>
         <div class="tab-pane" id="params">
-          <%= render "common_parameters/parameters", { :f => f, :type => "#{controller_name.singularize}_parameters".to_sym } %>
+          <% taxonomy_type = controller_name.singularize %>
+          <% if taxonomy.parent.present? %>
+              <h4><%= _('Parent parameters') %></h4>
+              <%= render "common_parameters/inherited_parameters", { :inherited_parameters => taxonomy.parent_params(true),
+                                                                     :parameters => taxonomy.send("#{taxonomy_type}_parameters".to_sym)} %>
+          <% end %>
+          <% if taxonomy.is_a?(Location) %>
+              <h4><%= _("Location parameters") %></h4>
+          <% else %>
+              <h4><%= _("Organization parameters") %></h4>
+          <% end %>
+          <%= render "common_parameters/parameters", { :f => f, :type => "#{taxonomy_type}_parameters".to_sym } %>
         </div>
       <% end %>
     </div>
