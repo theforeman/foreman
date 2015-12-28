@@ -21,7 +21,7 @@ module Orchestration::Compute
       # this is mostly relevant when the orchestration had a failure, and later on in the ui we try to retrieve the server again.
       # or when the server was removed not via foreman.
     elsif compute_resource_id.present? && compute_attributes
-      compute_resource.new_vm compute_attributes
+      compute_resource.new_vm compute_attributes rescue nil
     end
   end
 
@@ -106,7 +106,7 @@ module Orchestration::Compute
 
   def delUserData
     # Mostly copied from SSHProvision, should probably refactor to have both use a common set of PuppetCA actions
-    compute_attributes.merge!(:user_data => nil) # Unset any badly formatted data
+    compute_attributes.except!(:user_data) # Unset any badly formatted data
     # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
     if puppetca?
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign

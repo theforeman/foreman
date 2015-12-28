@@ -9,6 +9,20 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     assert host.errors.full_messages.first =~ /associate it/
   end
 
+  test "rolling back userdata after it is set, deletes the attribute" do
+    image = images(:one)
+    host = FactoryGirl.build(:host, :operatingsystem => image.operatingsystem, :image => image,
+                             :compute_resource => image.compute_resource)
+    prov_temp = FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.create(:name =>"user_data"))
+    host.stubs(:provisioning_template).returns(prov_temp)
+    attrs = {}
+    host.stubs(:compute_attributes).returns(attrs)
+    host.send(:setUserData)
+    assert_equal true, host.compute_attributes.key?(:user_data)
+    host.send(:delUserData)
+    assert_equal false, host.compute_attributes.key?(:user_data)
+  end
+
   describe 'only physical interfaces are matched' do
     setup do
       @cr = FactoryGirl.build(:libvirt_cr)
