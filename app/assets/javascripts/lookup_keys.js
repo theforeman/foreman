@@ -291,16 +291,16 @@ function toggle_value_hidden(target, shown){
   var attrs = {
     id: target.attr('id'),
     name: target.attr('name'),
-    value: $(target).val(),
+    value: target.val(),
     disabled: target.prop('disabled'),
     class: target.attr('class'),
     'data-inherited-value': target.data('inherited-value')
   };
   target.closest('tr').find('.set_hidden_value').prop('checked', shown);
   if (shown) {
-    $(target).replaceWith($('<input/>').attr(_.extend({ type: 'password' }, attrs)));
+    target.replaceWith($('<input/>').attr(_.extend({ type: 'password' }, attrs)));
   } else {
-    $(target).replaceWith($('<textarea/>').attr(_.extend({ placeholder: _('Value'), rows: 1 }, attrs)));
+    target.replaceWith($('<textarea/>').attr(_.extend({ placeholder: _('Value'), rows: 1 }, attrs)).val(attrs['value']));
   }
 }
 
