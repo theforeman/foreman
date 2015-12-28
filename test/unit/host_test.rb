@@ -602,7 +602,7 @@ class HostTest < ActiveSupport::TestCase
     test "should save if neither ptable or disk are defined when the host is not managed" do
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :medium => media(:one),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
+        :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
       assert host.valid?
     end
 
@@ -624,7 +624,7 @@ class HostTest < ActiveSupport::TestCase
       if unattended?
         host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03", :ptable => FactoryGirl.create(:ptable),
           :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :managed => true, :medium => media(:one),
-          :architecture => Architecture.first, :environment => Environment.first, :ptable => Ptable.first, :puppet_proxy => smart_proxies(:puppetmaster)
+          :architecture => Architecture.first, :environment => Environment.first, :puppet_proxy => smart_proxies(:puppetmaster)
         assert !host.valid?
       end
     end
@@ -633,7 +633,7 @@ class HostTest < ActiveSupport::TestCase
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03",
         :ptable => FactoryGirl.create(:ptable, :operatingsystem_ids => [operatingsystems(:redhat).id]), :medium => media(:one),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+        :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
         :owner_type => "User", :root_pass => "xybxa6JUkz63w"
       assert host.valid?
     end
@@ -641,7 +641,7 @@ class HostTest < ActiveSupport::TestCase
     test "should not save if owner_type is not User or Usergroup" do
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+        :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
         :owner_type => "UserGr(up" # should be Usergroup
       assert !host.valid?
     end
@@ -649,7 +649,7 @@ class HostTest < ActiveSupport::TestCase
     test "should not save if installation media is missing" do
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :ptable => FactoryGirl.create(:ptable),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true, :build => true,
+        :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true, :build => true,
         :owner_type => "User", :root_pass => "xybxa6JUkz63w"
       refute host.valid?
       assert_equal "can't be blank", host.errors[:medium_id][0]
@@ -658,7 +658,7 @@ class HostTest < ActiveSupport::TestCase
     test "should save if owner_type is empty and Host is unmanaged" do
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
+        :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
       assert host.valid?
     end
 

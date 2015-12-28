@@ -24,3 +24,7 @@ Style/HashSyntax:
 Metrics/ClassLength:
   Exclude:
     - 'test/**/*'
+
+Performance/FixedSize:
+  Exclude:
+    - 'test/**/*'

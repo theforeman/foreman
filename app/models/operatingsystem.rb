@@ -175,7 +175,7 @@ class Operatingsystem < ActiveRecord::Base
 
   # sets the prefix for the tfp files based on the os / arch combination
   def pxe_prefix(arch)
-    "boot/#{self}-#{arch}".gsub(" ","-")
+    "boot/#{self}-#{arch}".tr(" ","-")
   end
 
   def pxe_files(medium, arch, host = nil)

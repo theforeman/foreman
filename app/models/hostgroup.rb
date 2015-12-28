@@ -150,7 +150,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def inherited_lookup_value(key)
-    ancestors.reverse.each do |hg|
+    ancestors.reverse_each do |hg|
       if (v = LookupValue.where(:lookup_key_id => key.id, :id => hg.lookup_values).first)
         return v.value, hg.to_label
       end
@@ -235,7 +235,7 @@ class Hostgroup < ActiveRecord::Base
   private
 
   def nested_root_pw
-    Hostgroup.sort_by_ancestry(ancestors).reverse.each do |a|
+    Hostgroup.sort_by_ancestry(ancestors).reverse_each do |a|
       return a.root_pass unless a.root_pass.blank?
     end if ancestry.present?
     nil

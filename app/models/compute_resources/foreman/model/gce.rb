@@ -79,7 +79,7 @@ module Foreman::Model
 
       if args[:volumes].present?
         if args[:image_id].present?
-          args[:volumes].first[:source_image] = client.images.select { |i| i.id == args[:image_id] }.first.name
+          args[:volumes].first[:source_image] = client.images.find { |i| i.id == args[:image_id] }.name
         end
         args[:disks] = []
         args[:volumes].each_with_index do |vol_args,i|
