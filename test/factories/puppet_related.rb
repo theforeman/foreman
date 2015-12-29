@@ -91,7 +91,7 @@ FactoryGirl.define do
         evaluator.parameter_count.times do
           evaluator.environments.each do |env|
             lkey = FactoryGirl.create :puppetclass_lookup_key
-            FactoryGirl.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id, :lookup_key_id => lkey.id
+            FactoryGirl.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id, :puppetclass_lookup_key_id => lkey.id
           end
         end
       end
