@@ -493,6 +493,10 @@ module LayoutHelper
     end
   end
 
+  def spinner
+    '<span class="spinner-placeholder" />'.html_safe
+  end
+
   private
 
   def table_css_classes(classes = '')

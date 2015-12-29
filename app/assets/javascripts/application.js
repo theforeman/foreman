@@ -12,6 +12,7 @@
 //= require two-pane
 //= require vendor
 //= require about
+//= require proxy_status
 //= require jquery.extentions
 //= require jquery.multi-select
 //= require settings
@@ -555,4 +556,9 @@ function disableButtonToggle(item, explicit) {
   }
 
   $(item).blur();
+}
+
+function icon(name) {
+  "use strict";
+  return '<span class="glyphicon glyphicon-' + name + '" />';
 }

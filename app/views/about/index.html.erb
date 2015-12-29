@@ -29,11 +29,11 @@
               </thead>
               <tbody>
               <% @smart_proxies.each do |proxy| %>
-                <tr>
-                  <td><%= link_to_if_authorized proxy.name, hash_for_edit_smart_proxy_path(proxy) %></td>
+                <tr class="proxy-show"  data-url="<%= ping_smart_proxy_path(proxy) %>">
+                  <td><%= link_to_if_authorized proxy.name, hash_for_smart_proxy_path(proxy) %></td>
                   <td><%=h proxy.features.to_sentence %></td>
-                  <td><div class="proxy-status" data-url=<%= ping_smart_proxy_path(proxy) %>><%= _("Connecting..") %></div></td>
-                  <td><div class="proxy-version" data-url=<%= version_smart_proxy_path(proxy) %>><%= _("Connecting..") %></div></td>
+                  <td><div class="proxy-show-status"><%= spinner %></div></td>
+                  <td><div class="proxy-version"><%= spinner %></div></td>
                 </tr>
               <% end %>
               </tbody>
@@ -81,7 +81,7 @@
                   <tr>
                     <td><%= link_to compute.name, compute %></td>
                     <td><%= compute.provider_friendly_name %></td>
-                    <td><div class="compute-status" data-url=<%= ping_compute_resource_path(compute) %>><%= _("Connecting..") %></div></td>
+                    <td><div class="compute-status" data-url=<%= ping_compute_resource_path(compute) %>><%= spinner %></div></td>
                   </tr>
                 <% end %>
                 </tbody>
