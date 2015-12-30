@@ -2,7 +2,7 @@ $(document).on('ContentLoad', function(){onHostEditLoad()});
 $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(link)});
 
 function update_nics(success_callback) {
-  var data = serializeForm().replace('method=put', 'method=post');
+  var data = serializeForm().replace('method=patch', 'method=post');
   $('#network').html(spinner_placeholder(__('Loading interfaces information ...')));
   $('#network_tab a').removeClass('tab-error');
 
@@ -46,7 +46,7 @@ function computeResourceSelected(item){
     $("#compute_resource_tab").show();
     $("#compute_profile").show();
     $('#vm_details').empty();
-    var data = serializeForm().replace('method=put', 'method=post');
+    var data = serializeForm().replace('method=patch', 'method=post');
     $('#compute_resource').html(spinner_placeholder(__('Loading virtual machine information ...')));
     $('#compute_resource_tab a').removeClass('tab-error');
     $(item).indicator_show();
@@ -191,7 +191,7 @@ function load_puppet_class_parameters(item) {
   if ($('#puppetclass_' + id + '_params_loading').length > 0) return; // already loading
   if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
   var url = $(item).attr('data-url');
-  var data = serializeForm().replace('method=put', 'method=post');
+  var data = serializeForm().replace('method=patch', 'method=post');
   if (url.match('hostgroups')) {
     data = data + '&hostgroup_id=' + host_id
   } else {
@@ -275,7 +275,7 @@ function location_changed(element) {
 function update_form(element, options) {
   options = options || {};
   var url = $(element).data('url');
-  var data = serializeForm().replace('method=put', 'method=post');
+  var data = serializeForm().replace('method=patch', 'method=post');
   if (options.data) data = data+options.data;
   $(element).indicator_show();
   $.ajax({
@@ -453,7 +453,7 @@ function override_class_param(item){
 function reload_host_params(){
   var host_id = $("form").data('id');
   var url = $('#params-tab').data('url');
-  var data = $("[data-submit='progress_bar']").serialize().replace('method=put', 'method=post');
+  var data = $("[data-submit='progress_bar']").serialize().replace('method=patch', 'method=post');
   if (url.match('hostgroups')) {
     var parent_id = $('#hostgroup_parent_id').val()
     data = data + '&hostgroup_id=' + host_id + '&hostgroup_parent_id=' + parent_id
@@ -466,7 +466,7 @@ function reload_host_params(){
 function reload_puppetclass_params(){
   var host_id = $("form").data('id');
   var url2 = $('#params-tab').data('url2');
-  var data = $("[data-submit='progress_bar']").serialize().replace('method=put', 'method=post');
+  var data = $("[data-submit='progress_bar']").serialize().replace('method=patch', 'method=post');
   if (url2.match('hostgroups')) {
     data = data + '&hostgroup_id=' + host_id
   } else {
