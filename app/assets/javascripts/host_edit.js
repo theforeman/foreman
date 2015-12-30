@@ -271,7 +271,6 @@ function location_changed(element) {
   update_form(element);
 }
 
-
 function update_form(element, options) {
   options = options || {};
   var url = $(element).data('url');
@@ -286,11 +285,14 @@ function update_form(element, options) {
     success: function(response) {
       $('form').replaceWith(response);
       multiSelectOnLoad();
-      // to handle case if def process_taxonomy changed compute_resource_id to nil
-      if( !$('#host_compute_resource_id').val() ) {
-        $('#host_compute_resource_id').change();
+      var host_compute_resource_id = $('#host_compute_resource_id');
+      if (host_compute_resource_id.exists()) {
+        // to handle case if def process_taxonomy changed compute_resource_id to nil
+        if (!host_compute_resource_id.val()) {
+          host_compute_resource_id.change();
+        }
+        update_capabilities(host_compute_resource_id.val() ? $('#capabilities').val() : $('#bare_metal_capabilities').val());
       }
-      update_capabilities($('#host_compute_resource_id').val() ? $('#capabilities').val() : $('#bare_metal_capabilities').val());
 
       $(document.body).trigger('ContentLoad');
     }
