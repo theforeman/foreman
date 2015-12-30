@@ -140,18 +140,6 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_template :partial => "common/os_selection/_architecture"
   end
 
-  test "current_parameters should not fail on when hostgoup_parent_id parameter missing" do
-    xhr :post, :current_parameters, {:hostgroup_id => Hostgroup.first, :hostgroup_parent_id => '', :hostgroup => {}}, set_session_user
-    assert_response :success
-    assert_template :partial => "common_parameters/_inherited_parameters"
-  end
-
-  test "current_parameters should not fail on new hostgroup" do
-    xhr :post, :current_parameters, {:hostgroup_id => "null", :hostgroup_parent_id => Hostgroup.first, :hostgroup => {}}, set_session_user
-    assert_response :success
-    assert_template :partial => "common_parameters/_inherited_parameters"
-  end
-
   test "should return the selected puppet classes on environment change" do
     env = FactoryGirl.create(:environment)
     klass = FactoryGirl.create(:puppetclass)
@@ -199,6 +187,21 @@ class HostgroupsControllerTest < ActionController::TestCase
       assert_redirected_to hostgroups_url
       child.reload
       assert_equal "overridden", child.parameters["y"]
+      assert_equal nil, child.parameters["x"]
+    end
+
+    it "changes the hostgroup's parent and check the parameters are updated" do
+      child = FactoryGirl.create(:hostgroup, :parent => @base)
+      assert_equal "original", child.parameters["x"]
+
+      new_parent = FactoryGirl.create(:hostgroup)
+      new_parent.group_parameters << GroupParameter.create(:name => "z", :value => "original")
+
+      post :update, {"id" => child.id, "hostgroup" => {"name" => child.name, "parent_id" => new_parent.id}}, set_session_user
+
+      assert_redirected_to hostgroups_url
+      child.reload
+      assert_equal "original", child.parameters["z"]
       assert_equal nil, child.parameters["x"]
     end
   end
