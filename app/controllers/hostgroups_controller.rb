@@ -3,8 +3,8 @@ class HostgroupsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   before_filter :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy]
-  before_filter :ajax_request,   :only => [:process_hostgroup, :current_parameters, :puppetclass_parameters]
-  before_filter :taxonomy_scope, :only => [:new, :edit, :process_hostgroup, :current_parameters]
+  before_filter :ajax_request,   :only => [:process_hostgroup, :puppetclass_parameters]
+  before_filter :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
 
   def index
     @hostgroups = resource_base.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
@@ -71,15 +71,6 @@ class HostgroupsController < ApplicationController
       end
     rescue Ancestry::AncestryException
       process_error(:error_msg => _("Cannot delete group %{current} because it has nested groups.") % { :current => @hostgroup.title } )
-    end
-  end
-
-  def current_parameters
-    Taxonomy.as_taxonomy @organization, @location do
-      hostgroup_parent_parameters = Hostgroup.authorized(:view_hostgroups).find(params['hostgroup_parent_id']).parameters(true) if params['hostgroup_parent_id'].present?
-      hostgroup_parameters = params['hostgroup_id'] != "null" ? Hostgroup.authorized(:view_hostgroups).find(params['hostgroup_id']).group_parameters : []
-      render :partial => "common_parameters/inherited_parameters",
-             :locals  => { :inherited_parameters => hostgroup_parent_parameters, :parameters => hostgroup_parameters }
     end
   end
 

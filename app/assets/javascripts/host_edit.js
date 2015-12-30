@@ -456,13 +456,10 @@ function reload_host_params(){
   var host_id = $("form").data('id');
   var url = $('#params-tab').data('url');
   var data = $("[data-submit='progress_bar']").serialize().replace('method=patch', 'method=post');
-  if (url.match('hostgroups')) {
-    var parent_id = $('#hostgroup_parent_id').val()
-    data = data + '&hostgroup_id=' + host_id + '&hostgroup_parent_id=' + parent_id
-  } else {
-    data = data + '&host_id=' + host_id
+  if (url.length > 0) {
+    data = data + '&host_id=' + host_id;
+    load_with_placeholder('inherited_parameters', url, data);
   }
-  load_with_placeholder('inherited_parameters', url, data)
 }
 
 function reload_puppetclass_params(){

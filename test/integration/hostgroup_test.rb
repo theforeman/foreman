@@ -87,6 +87,24 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
 
       assert_not_nil group.locations.first{ |l| l.name == new_location.name }
     end
+
+    test 'parameters change after parent update' do
+      group = FactoryGirl.create(:hostgroup)
+      group.group_parameters << GroupParameter.create(:name => "x", :value => "original")
+      child = FactoryGirl.create(:hostgroup)
+
+      visit clone_hostgroup_path(child)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert page.has_no_selector?("#inherited_parameters #name_x")
+
+      click_link 'Hostgroup'
+      select2(group.name, :from => 'hostgroup_parent_id')
+      wait_for_ajax
+
+      click_link 'Parameters'
+      assert page.has_selector?("#inherited_parameters #name_x")
+    end
   end
 
   private
