@@ -18,7 +18,7 @@ function setProxyVersion(item, response) {
 
 function setPluginVersion(item, response) {
   var pluginName = item.data('plugin');
-  var pluginVersion = response.message.modules ? response.message.modules[pluginName] : response.message;
+  var pluginVersion = response.message.modules ? response.message.modules[pluginName] : response.message.version;
   generateItem(item, response.success, pluginVersion);
 }
 
