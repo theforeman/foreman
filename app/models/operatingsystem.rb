@@ -12,6 +12,7 @@ class Operatingsystem < ActiveRecord::Base
       :architectures, :architecture_ids, :architecture_names,
       :medium_ids, :medium_names,
       :os_default_templates_attributes, :os_parameters_attributes,
+      :provisioning_templates, :provisioning_template_names, :provisioning_template_ids,
       :ptable_ids, :ptable_names
 
   validates_lengths_from_database
