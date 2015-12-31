@@ -1,7 +1,6 @@
-<% javascript('proxy_status') %>
 <% title(_('Smart Proxy: %s') % @smart_proxy.to_label) %>
 <%= smart_proxy_title_actions(@smart_proxy, authorizer) %>
-<% service_features = proxy_features_besides_puppet(@smart_proxy) %>
+<% service_features = services_tab_features(@smart_proxy) %>
 <div class="row proxy-show" data-url="<%= ping_smart_proxy_path(@smart_proxy) %>">
   <ul id="proxy-tab" class="nav nav-tabs">
     <li class="active"><a href="#properties" data-toggle="tab"><%= _('Overview') %></a></li>

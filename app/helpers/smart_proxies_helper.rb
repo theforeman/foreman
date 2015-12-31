@@ -1,4 +1,6 @@
 module SmartProxiesHelper
+  TABBED_FEATURES = ["Puppet","Puppet CA"]
+
   def proxy_actions(proxy, authorizer)
     [ display_link_if_authorized(_("Edit"), hash_for_edit_smart_proxy_path(:id => proxy), :class => 'edit_two_pane') ] +
     [if proxy.has_feature?('Puppet CA')
@@ -44,9 +46,7 @@ module SmartProxiesHelper
                                                      merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => authorizer), :method => :put)
   end
 
-  def proxy_features_besides_puppet(proxy)
-    proxy_features_lowercase = proxy.features.pluck("LOWER(REPLACE(name, ' ', '_'))").uniq
-    puppet_features_lowercase = %w(puppet puppet_ca)
-    proxy_features_lowercase - puppet_features_lowercase
+  def services_tab_features(proxy)
+    proxy.features.where('features.name NOT IN (?)', TABBED_FEATURES).pluck("LOWER(REPLACE(name, ' ', '_'))").uniq
   end
 end
