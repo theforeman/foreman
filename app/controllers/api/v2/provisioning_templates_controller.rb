@@ -14,7 +14,7 @@ module Api
       before_filter :process_operatingsystems, :only => [:create, :update]
 
       api :GET, "/provisioning_templates/", N_("List provisioning templates")
-      api :GET, "/operatingsystem/:operatingsystem_id/provisioning_templates", N_("List provisioning templates per operating system")
+      api :GET, "/operatingsystems/:operatingsystem_id/provisioning_templates", N_("List provisioning templates per operating system")
       api :GET, "/locations/:location_id/provisioning_templates/", N_("List provisioning templates per location")
       api :GET, "/organizations/:organization_id/provisioning_templates/", N_("List provisioning templates per organization")
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
@@ -101,8 +101,12 @@ module Api
         process_response @provisioning_template.save
       end
 
-      def resource_name
-        'provisioning_template'
+      def resource_name(resource = nil)
+        if resource.present?
+          super
+        else
+          'provisioning_template'
+        end
       end
 
       private
