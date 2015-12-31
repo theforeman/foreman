@@ -1,3 +1,8 @@
+$(document).on('ContentLoad', function() {
+  showProxies();
+  loadTFTP();
+});
+
 function setItemStatus(item, response) {
   if(response.success) {
     item.attr('title', __('Active'));
@@ -34,12 +39,14 @@ function generateItem(item, status, text) {
   item.tooltip({html: true});
 }
 
-$(function() {
+function showProxies(){
   $('.proxy-show').each(function(index, item) {
     var proxy = new ProxyStatus($(item));
     proxy.getVersions();
   });
+}
 
+function loadTFTP(){
   $('.proxy-tftp').each(function(index, item) {
     var item = $(item);
     var url = item.data('url');
@@ -54,7 +61,7 @@ $(function() {
       }
     });
   });
-});
+}
 
 function ProxyStatus(item) {
   this.url = item.data('url');
@@ -76,18 +83,15 @@ function ProxyStatus(item) {
 }
 
 function populateData(response, item) {
-  $(item.children().find(".proxy-version")).each(function(index, i) {
-    var item = $(i);
-    setProxyVersion(item, response);
+  item.find(".proxy-version").each(function() {
+    setProxyVersion($(this), response);
   });
 
-  $(".plugin-version").each(function(index, i) {
-    var item = $(i);
-    setPluginVersion(item, response);
+  $(".plugin-version").each(function() {
+    setPluginVersion($(this), response);
   });
 
-  $(item.children().find(".proxy-show-status")).each(function(index, i) {
-    var item = $(i);
-    setItemStatus(item, response);
+  item.find(".proxy-show-status").each(function() {
+    setItemStatus($(this), response);
   });
 }
