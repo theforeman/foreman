@@ -106,4 +106,9 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
                    :config_template => {:name => ''} }
     assert_response :unprocessable_entity
   end
+
+  test "should show templates from os" do
+    get :index, { :operatingsystem_id => operatingsystems(:centos5_3).fullname }
+    assert_response :success
+  end
 end
