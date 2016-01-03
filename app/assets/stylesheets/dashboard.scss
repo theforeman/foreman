@@ -1,7 +1,7 @@
 @import "jquery.gridster";
 @import "gridster.scss";
 
-#dashboard{
+.dashboard{
   .status-table{
     li{
       margin: 10px 0;
@@ -46,6 +46,12 @@
     margin: 0 3px;
     &:hover{
       text-decoration: none;
+    }
+  }
+
+  .reports-table {
+    th:not(:first-child){
+      width: 50px;
     }
   }
 }

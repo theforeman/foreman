@@ -1,6 +1,8 @@
 <div class="row">
   <h3><%= _('DNS') %></h3>
-  <%= render :partial => 'smart_proxies/plugins/plugin_version', :locals => {:feature => feature, :proxy => @smart_proxy} %>
+</div>
+<%= show_feature_version('dns') %>
+<div class="row">
   <div class="col-md-4">
     <%= _('Domains') %>
   </div>

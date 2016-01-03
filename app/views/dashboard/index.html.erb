@@ -8,7 +8,7 @@
       <%= link_to(_("Get default dashboard widgets"), reset_default_widgets_path, :method => :put, :class=>'btn btn-default') %>
     </div>
   <% else %>
-    <div id='dashboard' class="gridster col-md-12">
+    <div id='dashboard' class="dashboard gridster col-md-12">
       <ul>
         <% User.current.widgets.each do |widget| %>
           <%= content_tag(:li, widget_data(widget)) do %>

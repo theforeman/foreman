@@ -196,10 +196,21 @@ Foreman::Application.routes.draw do
       get 'version'
       get 'plugin_version'
       get 'tftp_server'
+      get 'puppet_environments'
+      get 'puppet_dashboard'
     end
     constraints(:id => /[^\/]+/) do
-      resources :puppetca, :only => [:index, :update, :destroy]
-      resources :autosign, :only => [:index, :new, :create, :destroy]
+      resources :puppetca, :only => [:index, :update, :destroy] do
+        member do
+          get 'counts'
+          get 'expiry'
+        end
+      end
+      resources :autosign, :only => [:index, :new, :create, :destroy] do
+        member do
+          get 'counts'
+        end
+      end
     end
     collection do
       get 'auto_complete_search'

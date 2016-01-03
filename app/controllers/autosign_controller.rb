@@ -1,42 +1,53 @@
 class AutosignController < ApplicationController
   def index
-    @proxy = SmartProxy.authorized(:view_smart_proxies_autosign).find(params[:smart_proxy_id])
-    setup_proxy
+    find_proxy
+    render :partial => 'autosign/list', :locals => { :autosign => @proxy.statuses[:puppetca].autosign }
+  rescue Foreman::Exception => exception
+    process_ajax_error exception
+  end
 
-    autosign = @api.autosign
-    @autosign = autosign.paginate :page => params[:page], :per_page => Setting::General.entries_per_page
+  def counts
+    find_proxy
+    render :partial => 'autosign/counts', :locals => { :autosign => @proxy.statuses[:puppetca].autosign }
+  rescue Foreman::Exception => exception
+    process_ajax_error exception
   end
 
   def new
-    @proxy = SmartProxy.authorized(:create_smart_proxies_autosign).find(params[:smart_proxy_id])
-    setup_proxy
+    find_proxy(:create_smart_proxies_autosign)
+    render :partial => 'autosign/form'
   end
 
   def create
-    @proxy = SmartProxy.authorized(:create_smart_proxies_autosign).find(params[:smart_proxy_id])
-    setup_proxy
-
-    if @api.set_autosign(params[:id])
-      process_success({:success_redirect => smart_proxy_autosign_index_path(@proxy), :object_name => 'puppet autosign entry'})
-    else
-      process_error({:redirect => smart_proxy_autosign_index_path(@proxy)})
-    end
+    find_proxy(:create_smart_proxies_autosign)
+    api_action(:set_autosign)
   end
 
   def destroy
-    @proxy = SmartProxy.authorized(:destroy_smart_proxies_autosign).find(params[:smart_proxy_id])
-    setup_proxy
-
-    if @api.del_autosign(params[:id])
-      process_success({:success_redirect => smart_proxy_autosign_index_path(@proxy), :object_name => 'puppet autosign entry'})
-    else
-      process_error({:redirect => smart_proxy_autosign_index_path(@proxy)})
-    end
+    find_proxy(:destroy_smart_proxies_autosign)
+    api_action(:del_autosign)
   end
 
   private
 
-  def setup_proxy
-    @api = ProxyAPI::Puppetca.new({:url => @proxy.url})
+  def find_proxy(permission = :view_smart_proxies_autosign)
+    @proxy = SmartProxy.authorized(permission).find(params[:smart_proxy_id])
+  end
+
+  def api_action(action)
+    @proxy.statuses[:puppetca].public_send(action, params[:id])
+    process_success({ :success_redirect => smart_proxy_path(@proxy, :anchor => 'autosign'),
+                        :object_name => 'puppet autosign entry' })
+  rescue => e
+    process_error({:redirect => smart_proxy_path(@proxy, :anchor => 'autosign'), :error_msg => e.message})
+  end
+
+  def action_permission
+    case params[:action]
+      when 'counts'
+        :view
+      else
+        super
+    end
   end
 end

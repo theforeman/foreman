@@ -278,7 +278,8 @@ class ApplicationController < ActionController::Base
     Foreman::Logging.exception("Failed to #{action}", exception)
     Foreman::Logging.exception("Originally caused by", origin) if origin
     message = (origin || exception).message
-    render :json => _("Failure: %s") % message, :status => :internal_server_error
+
+    render :partial => "common/ajax_error", :status => :internal_server_error, :locals => { :message => message }
   end
 
   def redirect_back_or_to(url)
