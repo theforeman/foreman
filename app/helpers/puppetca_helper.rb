@@ -1,8 +1,14 @@
 module PuppetcaHelper
+  STATES = [N_('pending'), N_('valid'), N_('revoked')]
+  CA_ICONS = { 'valid' => 'pficon pficon-ok',
+               'pending' => 'pficon pficon-warning-triangle-o',
+               'revoked' => 'fa fa-ban' }
+
   def state_filter
-    states = [N_('revoked'), N_('pending'), N_('valid')]
-    select_tag "Filter", options_for_select([''] + states.map { |s| [_(s), s] }, params[:state]), :class => "puppetca-filters",
-               :onchange => "window.location.href = '#{smart_proxy_puppetca_index_path(@proxy)}' + (this.value == '' ? '' : ('?state=' + this.value))"
+    select_tag "Filter", options_for_select([[_('valid or pending'), _('valid')+'|'+_('pending')]] +
+                                            STATES.map{|s| _(s)} +
+                                            [[_('all'),'']]),
+               :class => "puppetca-filters"
   end
 
   def time_column(time, opts = {})

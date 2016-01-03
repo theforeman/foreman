@@ -58,6 +58,14 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert_equal [taxonomies(:location1).id], smart_proxies(:puppetmaster).used_or_selected_location_ids
   end
 
+  test "should return environment stats" do
+    proxy = smart_proxies(:puppetmaster)
+    ProxyAPI::Puppet.any_instance.expects(:environments).returns(['env1', 'env2'])
+    ProxyAPI::Puppet.any_instance.expects(:class_count).with('env1').returns(1)
+    ProxyAPI::Puppet.any_instance.expects(:class_count).with('env2').returns(2)
+    assert_equal({'env1' => 1, 'env2' => 2}, proxy.statuses[:puppet].environment_stats)
+  end
+
   private
 
   def fake_response(data)

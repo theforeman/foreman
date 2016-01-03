@@ -1,7 +1,11 @@
 $(document).on('ContentLoad', function() {
+  $('.nav-tabs a').on('shown.bs.tab', refreshCharts);
   showProxies();
   loadTFTP();
+  setTab();
 });
+
+$(window).on('hashchange', setTab); //so buttons that link to an anchor can open that tab
 
 function setItemStatus(item, response) {
   if(response.success) {
@@ -23,7 +27,11 @@ function setProxyVersion(item, response) {
 
 function setPluginVersion(item, response) {
   var pluginName = item.data('plugin');
-  var pluginVersion = response.message.modules ? response.message.modules[pluginName] : response.message.version;
+  var pluginVersion;
+  if (response.success)
+    pluginVersion = response.message.modules ? response.message.modules[pluginName] : response.message.version;
+  else
+    pluginVersion = response.message;
   generateItem(item, response.success, pluginVersion);
 }
 
@@ -94,4 +102,29 @@ function populateData(response, item) {
   item.find(".proxy-show-status").each(function() {
     setItemStatus($(this), response);
   });
+}
+
+// Make sure the correct tab is displayed when loading the page with an anchor,
+// even if the anchor is to a sub-tab.
+function setTab(){
+  var anchor = document.location.hash.split('?')[0];
+  if (anchor.length) {
+    var parent_tab = $(anchor).parents('.tab-pane');
+    if (parent_tab.exists()){
+      $('.nav-tabs a[href=#'+parent_tab[0].id+']').tab('show');
+    }
+    $('.nav-tabs a[href='+anchor+']').tab('show');
+  }
+}
+
+function filterCerts(state) {
+  $('#certificates table').dataTable().fnFilter(state, 1, true);
+}
+
+function certTable() {
+  activateDatatables();
+  var filter = $('.puppetca-filters');
+  filter.select2();
+  filter.on('change', function() {filterCerts(filter.val())});
+  filterCerts(__('valid')+'|'+__('pending'));
 }
