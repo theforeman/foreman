@@ -1,5 +1,5 @@
 <div class="row">
-  <h3><%= _("#{feature.capitalize}") %></h3>
+  <h3><%= feature.capitalize %></h3>
   <%= render :partial => 'smart_proxies/plugins/plugin_version', :locals => {:feature => feature, :proxy => @smart_proxy} %>
   <div class="col-md-12"><%= _('Data not available for %s') % feature %></div>
 </div>
