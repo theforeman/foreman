@@ -42,6 +42,8 @@ task 'plugin:assets:precompile', [:engine] do |t, args|
         @engine = "#{engine_name.camelize}::Engine".constantize
         Rails.application.config.assets.precompile = SETTINGS[@engine.engine_name.to_sym][:assets][:precompile]
         Rails.application.assets.js_compressor = :uglifier
+        Rails.application.assets.css_compressor = :sass
+        Rails.application.assets.cache = nil
         super(Rails.application)
       end
 
