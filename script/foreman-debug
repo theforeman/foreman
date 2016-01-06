@@ -22,7 +22,7 @@ OPTIONS:
   -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
   -g      Skip generic info (CPU, memory, firewall etc.)
   -a      Do not generate a tarball from the resulting directory
-  -m NUM  Maximum lines to keep for each file (default 5000)
+  -m NUM  Maximum lines to keep for each file (default 5000), zero means no limit
   -j PRG  Filter with provided program when creating a tarball
   -p      Additionally print password patterns being filtered out
   -q      Quiet mode
@@ -81,6 +81,11 @@ add_cmd() {
 
 # add and filter if it is a non zero, readable, regular file or symlink (skip otherwise)
 add_files() {
+  if [ $MAXLINES -eq 0 ]; then
+    TAIL_OR_CAT="cat"
+  else
+    TAIL_OR_CAT="tail -n ${MAXLINES}"
+  fi
   for FILE in $*; do
     if [ \( -f "$FILE" -o -h "$FILE" \) -a \( -r "$FILE" -a -s "$FILE" \) ]; then
       printv " - $FILE"
@@ -89,16 +94,16 @@ add_files() {
       MIME=$(file -bi "$FILE" | cut -d\; -f1)
       case $MIME in
         application/x-gzip)
-          zcat "$FILE" | tail -n "$MAXLINES" | sed -r "$FILTER" > "$DIR$FILE.txt"
+          zcat "$FILE" | $TAIL_OR_CAT | sed -r "$FILTER" > "$DIR$FILE.txt"
           ;;
         application/x-bzip2)
-          bzcat "$FILE" | tail -n "$MAXLINES" | sed -r "$FILTER" > "$DIR$FILE.txt"
+          bzcat "$FILE" | $TAIL_OR_CAT | sed -r "$FILTER" > "$DIR$FILE.txt"
           ;;
         application/x-xz)
-          xzcat "$FILE" | tail -n "$MAXLINES" | sed -r "$FILTER" > "$DIR$FILE.txt"
+          xzcat "$FILE" | $TAIL_OR_CAT | sed -r "$FILTER" > "$DIR$FILE.txt"
           ;;
         text/plain)
-          tail -n "$MAXLINES" "$FILE" | sed -r "$FILTER" > "$DIR$FILE"
+          $TAIL_OR_CAT "$FILE" | sed -r "$FILTER" > "$DIR$FILE"
           [ $PRINTPASS -eq 1 ] && grep -H "\*\*\*\*\*" "$DIR$FILE"
           ;;
         ?)
