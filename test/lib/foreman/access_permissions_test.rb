@@ -12,7 +12,10 @@ require 'foreman/access_permissions'
 # an appropriate permission so views using those requests function.
 class AccessPermissionsTest < ActiveSupport::TestCase
   MAY_SKIP_REQUIRE_LOGIN = [
-    "users/login", "users/logout", "users/extlogin", "users/extlogout", "home/status", "notices/destroy", "unattended/",
+    "users/login", "users/logout", "users/extlogin", "users/extlogout", "home/status", "notices/destroy",
+
+    # unattended built action is not for interactive use
+    "unattended/built",
 
     # puppetmaster interfaces
     "fact_values/create", "reports/create",

@@ -328,7 +328,7 @@ class HostsController < ApplicationController
   end
 
   def pxe_config
-    redirect_to(:controller => "unattended", :action => "pxe_#{@host.operatingsystem.pxe_type}_config", :host_id => @host) if @host
+    redirect_to(:controller => "unattended", :action => 'host_template', :kind => "pxe_#{@host.operatingsystem.pxe_type}_config", :host_id => @host) if @host
   end
 
   def storeconfig_klasses

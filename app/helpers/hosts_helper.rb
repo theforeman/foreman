@@ -270,7 +270,8 @@ module HostsHelper
             content_tag(:td,
                         action_buttons(
                           display_link_if_authorized(_("Edit"), hash_for_edit_provisioning_template_path(:id => tmplt.to_param), :rel => "external"),
-                          link_to(_("Review"), url_for(:controller => '/unattended', :action => kind, :hostname => @host.name),
+                          link_to(_("Review"), url_for(:controller => '/unattended', :action => 'host_template',
+                                                       :kind => kind, :hostname => @host.name),
                                   :rel => 'external', :"data-provisioning-template" => true))
             )
         end
