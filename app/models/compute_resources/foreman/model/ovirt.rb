@@ -254,7 +254,7 @@ module Foreman::Model
       client.datacenters
       @client = client
     rescue => e
-      if e.message =~ /SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed/
+      if e.message =~ /SSL_connect.*certificate verify failed/
         raise Foreman::FingerprintException.new(
                   N_("The remote system presented a public key signed by an unidentified certificate authority. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"),
                   ca_cert)
