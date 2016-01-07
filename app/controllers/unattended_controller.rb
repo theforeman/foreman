@@ -3,18 +3,6 @@ class UnattendedController < ApplicationController
 
   layout false
 
-  # Methods which return configuration files for syslinux(pxe), pxegrub or g/ipxe
-  PXE_CONFIG_URLS = TemplateKind.where("name LIKE ?","PXELinux").map(&:name)
-  PXEGRUB_CONFIG_URLS = TemplateKind.where("name LIKE ?", "PXEGrub").map(&:name)
-  IPXE_CONFIG_URLS = TemplateKind.where("name LIKE ?", "iPXE").map(&:name) + ['gPXE']
-  CONFIG_URLS = PXE_CONFIG_URLS + IPXE_CONFIG_URLS + PXEGRUB_CONFIG_URLS
-
-  # Methods which return valid provision instructions, used by the OS
-  PROVISION_URLS = TemplateKind.where("name LIKE ?", "provision").map(&:name)
-
-  # Methods which returns post install instructions for OS's which require it
-  FINISH_URLS = TemplateKind.where("name LIKE ?", "finish").map(&:name)
-
   # We dont require any of these methods for provisioning
   FILTERS = [:require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize]
   FILTERS.each do |f|
@@ -25,11 +13,11 @@ class UnattendedController < ApplicationController
   end
 
   # We want to find out our requesting host
-  before_filter :get_host_details, :allowed_to_install?, :except => :template
-  before_filter :handle_ca, :only => PROVISION_URLS
-  before_filter :handle_realm, :only => PROVISION_URLS
+  before_filter :get_host_details, :allowed_to_install?, :except => :hostgroup_template
+  before_filter :handle_ca, :if => Proc.new { params[:kind] == 'provision' }
+  before_filter :handle_realm, :if => Proc.new { params[:kind] == 'provision' }
   # load "helper" variables to be available in the templates
-  before_filter :load_template_vars, :only => PROVISION_URLS + CONFIG_URLS
+  before_filter :load_template_vars, :only => :host_template
   # all of our requests should be returned in text/plain
   after_filter :set_content_type
   before_filter :set_admin_user, :only => :built
@@ -41,7 +29,7 @@ class UnattendedController < ApplicationController
     head(@host.built ? :created : :conflict)
   end
 
-  def template
+  def hostgroup_template
     return head(:not_found) unless (params.has_key?("id") and params.has_key?(:hostgroup))
 
     template = ProvisioningTemplate.find_by_name(params['id'])
@@ -55,13 +43,10 @@ class UnattendedController < ApplicationController
 
   # Generate an action for each template kind
   # i.e. /unattended/provision will render the provisioning template for the requesting host
-  TemplateKind.all.each do |kind|
-    define_method kind.name do
-      render_template kind.name
-    end
+  def host_template
+    return head(:not_found) unless params[:kind].present?
+    render_template params[:kind]
   end
-  # Using alias_method causes test failures as iPXE method is unknown in an empty DB
-  def gPXE; iPXE; end
 
   protected
 
@@ -73,6 +58,9 @@ class UnattendedController < ApplicationController
   private
 
   def render_template(type)
+    # Compatibility with older URLs
+    type = 'iPXE' if type == 'gPXE'
+
     if (config = @host.provisioning_template({ :kind => type }))
       logger.debug "rendering DB template #{config.name} - #{type}"
       safe_render config

@@ -33,21 +33,21 @@ class UnattendedControllerTest < ActionController::TestCase
 
   test "should get a kickstart" do
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
-    get :provision
+    get :host_template, {:kind => 'provision'}
     assert_response :success
   end
 
   test "should get a kickstart even if not using the first NIC" do
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "unused NIC"
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_3"] = "eth4 #{@rh_host.mac}"
-    get :provision
+    get :host_template, {:kind => 'provision'}
     assert_response :success
   end
 
   test "should get a kickstart even if we are behind a loadbalancer" do
     @request.env["HTTP_X_FORWARDED_FOR"] = @rh_host.ip
     @request.env["REMOTE_ADDR"] = "127.0.0.1"
-    get :provision
+    get :host_template, {:kind => 'provision'}
     assert_response :success
   end
 
@@ -60,31 +60,31 @@ class UnattendedControllerTest < ActionController::TestCase
                               ])
 
     @request.env["REMOTE_ADDR"] = host.provision_interface.ip
-    get :provision
+    get :host_template, {:kind => 'provision'}
     assert_response :success
   end
 
   test "should get a preseed finish script" do
     @request.env["REMOTE_ADDR"] = @ub_host.ip
-    get :finish
+    get :host_template, {:kind => 'finish'}
     assert_response :success
   end
 
   test "should get a preseed finish script with multiple ips in the request header" do
     @request.env["REMOTE_ADDR"] = [@ub_host.ip, '1.2.3.4']
-    get :finish
+    get :host_template, {:kind => 'finish'}
     assert_response :success
   end
 
   test "should get a preseed" do
     @request.env["REMOTE_ADDR"] = @ub_host.ip
-    get :provision
+    get :host_template, {:kind => 'provision'}
     assert_response :success
   end
 
   test "unattended files content type should be text/plain" do
     @request.env["REMOTE_ADDR"] = @ub_host.ip
-    get :provision
+    get :host_template, {:kind => 'provision'}
     assert_response :success
     assert @response.headers["Content-Type"].match("text/plain")
   end
@@ -92,77 +92,81 @@ class UnattendedControllerTest < ActionController::TestCase
   test "should set @static when requested" do
     Setting[:safemode_render]=false
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
-    get(:provision, 'static' => 'true')
+    get(:host_template, 'kind' => 'provision', 'static' => 'true')
     assert_match(%r{static:true}, @response.body)
   end
 
   test "should support spoof" do
-    get :provision, {:spoof => @ub_host.ip}, set_session_user
+    get :host_template, {:kind => 'provision', :spoof => @ub_host.ip}, set_session_user
     assert_response :success
   end
 
   test "should not render spoof when user is not logged in" do
-    get :provision, {:spoof => @ub_host.ip}
+    get :host_template, {:kind => 'provision', :spoof => @ub_host.ip}
     assert_response :redirect
   end
 
   test "should not render hostname spoof when user is not logged in" do
-    get :provision, {:hostname => @ub_host.fqdn}
+    get :host_template, {:kind => 'provision', :hostname => @ub_host.fqdn}
     assert_response :redirect
   end
 
   test "should not render hostname spoof when hostname is empty" do
-    get :provision, {:hostname => nil}, set_session_user
+    get :host_template, {:kind => 'provision', :hostname => nil}, set_session_user
     assert_response 404
   end
 
   test "should not render hostname spoof when spoof is empty" do
-    get :provision, {:spoof => nil}, set_session_user
+    get :host_template, {:kind => 'provision', :spoof => nil}, set_session_user
     assert_response 404
   end
 
   test "should support spoof using hostname" do
-    get :provision, {:hostname => @ub_host.name}, set_session_user
+    get :host_template, {:kind => 'provision', :hostname => @ub_host.name}, set_session_user
     assert_response :success
     assert_equal @ub_host.name, assigns(:host).name
   end
 
   test "should provide pxe config for redhat" do
-    get :PXELinux, {:spoof => @rh_host.ip}, set_session_user
+    get :host_template, {:kind => 'PXELinux', :spoof => @rh_host.ip}, set_session_user
     assert_response :success
   end
 
   test "should provide pxe config for debian" do
-    get :PXELinux, {:spoof => @ub_host.ip}, set_session_user
+    get :host_template, {:kind => 'PXELinux', :spoof => @ub_host.ip}, set_session_user
     assert_response :success
   end
 
   test "should render spoof pxelinux for a host" do
-    get :PXELinux, {:spoof => @rh_host.ip}, set_session_user
+    get :host_template, {:kind => 'PXELinux', :spoof => @rh_host.ip}, set_session_user
     assert assigns(:initrd)
     assert assigns(:kernel)
     assert_response :success
   end
 
   test "should render spoof pxegrub for a host" do
-    get :PXEGrub, {:spoof => @rh_host.ip}, set_session_user
+    get :host_template, {:kind => 'PXEGrub', :spoof => @rh_host.ip}, set_session_user
     assert assigns(:initrd)
     assert assigns(:kernel)
     assert_response :success
   end
 
   test "should render spoof iPXE for a host" do
-    get :iPXE, {:spoof => @rh_host.ip}, set_session_user
+    get :host_template, {:kind => 'iPXE', :spoof => @rh_host.ip}, set_session_user
     assert assigns(:initrd)
     assert assigns(:kernel)
     assert_response :success
   end
 
   test "should render spoof gpxe for a host" do
-    get :gPXE, {:spoof => @rh_host.ip}, set_session_user
+    get :host_template, {:kind => 'gPXE', :spoof => @rh_host.ip}, set_session_user
     assert assigns(:initrd)
     assert assigns(:kernel)
     assert_response :success
+  end
+
+  test 'should route built notifications' do
+    assert_routing '/unattended/built', {:controller => 'unattended', :action => 'built'}
   end
 
   test "should accept built notifications" do
@@ -178,12 +182,12 @@ class UnattendedControllerTest < ActionController::TestCase
     @request.env['REMOTE_ADDR'] = '10.0.1.2'
     get :built
     assert_response :created
-    get :provision
+    get :host_template, {:kind => 'provision'}
     assert_response :method_not_allowed
   end
 
   test "should not provide unattended files to hosts which we don't know about" do
-    get :provision
+    get :host_template, {:kind => 'provision'}
     assert_response :not_found
   end
 
@@ -192,26 +196,26 @@ class UnattendedControllerTest < ActionController::TestCase
 
     @rh_host.update_attribute(:operatingsystem_id, nil)
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
-    get :provision
+    get :host_template, {:kind => 'provision'}
     assert_response :conflict
   end
 
   test "template with hostgroup should be rendered" do
-    get :template, {:id => "MyString", :hostgroup => "Common"}
+    get :hostgroup_template, {:id => "MyString", :hostgroup => "Common"}
     assert_response :success
   end
 
   test "template with hostgroup should be identified as hostgroup provisioning" do
     ProvisioningTemplate.any_instance.stubs(:template).returns("type:<%= @provisioning_type %>")
     hostgroups(:common).update_attribute :ptable_id, FactoryGirl.create(:ptable).id
-    get :template, {:id => "MyString2", :hostgroup => "Common"}
+    get :hostgroup_template, {:id => "MyString2", :hostgroup => "Common"}
     assert_response :success
     assert_match(%r{type:hostgroup}, @response.body)
   end
 
   test "template with host should be identified as host provisioning" do
     ProvisioningTemplate.any_instance.stubs(:template).returns("type:<%= @provisioning_type %>")
-    get :provision, {:hostname => @ub_host.name}, set_session_user
+    get :host_template, {:kind => 'provision', :hostname => @ub_host.name}, set_session_user
     assert_response :success
     assert_match(%r{type:host\z}, @response.body)
   end
@@ -219,18 +223,18 @@ class UnattendedControllerTest < ActionController::TestCase
   test "template with hostgroup should be rendered even if both have periods in their names" do
     templates(:mystring).update_attributes(:name => 'My.String')
     hostgroups(:common).update_attributes(:name => 'Com.mon')
-    assert_routing '/unattended/template/My.String/Com.mon', {:controller => 'unattended', :action => 'template', :id => "My.String", :hostgroup => "Com.mon"}
-    get :template, {:id => "My.String", :hostgroup => "Com.mon"}
+    assert_routing '/unattended/template/My.String/Com.mon', {:controller => 'unattended', :action => 'hostgroup_template', :id => "My.String", :hostgroup => "Com.mon"}
+    get :hostgroup_template, {:id => "My.String", :hostgroup => "Com.mon"}
     assert_response :success
   end
 
   test "template with non-existant  hostgroup should not be rendered" do
-    get :template, {:id => "MyString2", :hostgroup => "NotArealHostgroup"}
+    get :hostgroup_template, {:id => "MyString2", :hostgroup => "NotArealHostgroup"}
     assert_response :not_found
   end
 
   test "requesting a template that does not exist should fail" do
-    get :template, {:id => "kdsfjlkasjdfkl", :hostgroup => "Common"}
+    get :hostgroup_template, {:id => "kdsfjlkasjdfkl", :hostgroup => "Common"}
     assert_response :not_found
   end
 
@@ -242,7 +246,7 @@ class UnattendedControllerTest < ActionController::TestCase
     Setting[:unattended_url]    = "https://test.host"
     @request.env["REMOTE_ADDR"] = @ub_host.ip
     @ub_host.create_token(:value => token, :expires => Time.now + 5.minutes)
-    get :provision, {'token' => @ub_host.token.value }
+    get :host_template, {:kind => 'provision', 'token' => @ub_host.token.value }
     assert @response.body.include?("#{Setting[:unattended_url]}/unattended/finish?token=#{token}")
   end
 
@@ -250,7 +254,7 @@ class UnattendedControllerTest < ActionController::TestCase
     Setting[:token_duration] = 30
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
     @ub_host.create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
-    get :provision, {'token' => @ub_host.token.value }
+    get :host_template, {:kind => 'provision', 'token' => @ub_host.token.value }
     assert_response :success
   end
 
@@ -313,7 +317,7 @@ class UnattendedControllerTest < ActionController::TestCase
       Setting[:unattended_url]    = "http://test.host"
       @request.env["REMOTE_ADDR"] = @ub_host.ip
       @ub_host.create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
-      get :provision
+      get :host_template, {:kind => 'provision'}
       assert @response.body.include?("http://test.host/unattended/finish?token=aaaaaa")
     end
   end # end of context "location or organizations are not enabled"
@@ -323,7 +327,7 @@ class UnattendedControllerTest < ActionController::TestCase
     ProxyAPI::Template.any_instance.stubs(:template_url).returns(template_server_from_proxy)
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
     @host_with_template_subnet.create_token(:value => "aaaaad", :expires => Time.now + 5.minutes)
-    get :provision, {'token' => @host_with_template_subnet.token.value }
+    get :host_template, {:kind => 'provision', 'token' => @host_with_template_subnet.token.value }
     assert @response.body.include?("#{template_server_from_proxy}/unattended/finish?token=aaaaad")
   end
 
@@ -332,7 +336,7 @@ class UnattendedControllerTest < ActionController::TestCase
     Setting[:unattended_url]    = "http://test.host"
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
     @host_with_template_subnet.create_token(:value => "aaaaae", :expires => Time.now + 5.minutes)
-    get :provision, {'token' => @host_with_template_subnet.token.value }
+    get :host_template, {:kind => 'provision', 'token' => @host_with_template_subnet.token.value }
     assert @response.body.include?("#{@host_with_template_subnet.subnet.tftp.url}/unattended/finish?token=aaaaae")
   end
 
@@ -340,7 +344,7 @@ class UnattendedControllerTest < ActionController::TestCase
   test "template should not contain https when ssl enabled" do
     @request.env["HTTPS"] = "on"
     @request.env["REMOTE_ADDR"] = @ub_host.ip
-    get :provision
+    get :host_template, {:kind => 'provision'}
     assert_match(%r{http://}, @response.body)
     assert_no_match(%r{https://}, @response.body)
   end
@@ -349,7 +353,11 @@ class UnattendedControllerTest < ActionController::TestCase
     @request.env["REMOTE_ADDR"] = @ub_host.ip
     Host::Managed.any_instance.expects(:provisioning_template).returns(nil)
     Rails.logger.expects(:error).with(regexp_matches(/unable to find provision template/))
-    get :provision
+    get :host_template, {:kind => 'provision'}
     assert_response :not_found
+  end
+
+  test 'host template provision URL can be generated from routes' do
+    assert_routing '/unattended/provision', {:controller => 'unattended', :action => 'host_template', :kind => 'provision'}
   end
 end
