@@ -2,7 +2,9 @@ require 'uri'
 
 class ApplicationMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
-  default :from => Proc.new { Setting[:email_reply_address] || "noreply@foreman.example.org" }
+  default :delivery_method => Proc.new { Setting[:delivery_method] },
+          :from => Proc.new { Setting[:email_reply_address] || "noreply@foreman.example.org" }
+  after_action :set_delivery_options
 
   def mail(headers = {}, &block)
     if headers.present?
@@ -50,5 +52,9 @@ class ApplicationMailer < ActionMailer::Base
       address = email.split("@")
       address.count == 2 ? Mail::Encodings.decode_encode(address[0],:encode) + '@' + Mail::Encodings.decode_encode(address[1],:encode) : email
     end
+  end
+
+  def set_delivery_options
+    mail.delivery_method.settings.merge!(Setting::Email.delivery_settings.symbolize_keys)
   end
 end

@@ -10,6 +10,7 @@
 <div class="tab-content">
   <% @settings.group_by(&:category).each do |category, setting| %>
     <div class="tab-pane <%= "active" if category == @settings.first.category %>" id='<%= short_cat(category) %>' >
+      <%= render_if_partial_exists "settings/category/#{category.demodulize.downcase}", setting %>
       <table class="<%= table_css_classes %>">
         <thead>
           <tr>
