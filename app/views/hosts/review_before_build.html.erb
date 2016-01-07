@@ -1,11 +1,10 @@
 <% unless @build.state %>
   <div class="alert alert-<%= build_state(@build) %> build_state">
-    <h4>
-      <%= icon_text('remove', _('The following errors may prevent a successful build:')) %>
-      <%= button_tag(icon_text('refresh'), :title => _('Check again'), :class => 'btn btn-default btn-sm pull-right',
-                     :id                          => 'recheck_review', :data => { :url => review_before_build_host_path(:id => @host) }) %>
-    </h4>
-
+    <p>
+    <%= alert_header(_('The following errors may prevent a successful build:'), 'alert-danger') %>
+    <%= button_tag(icon_text('refresh'), :title => _('Check again'), :class => 'btn btn-default btn-sm pull-right',
+                   :id                          => 'recheck_review', :data => { :url => review_before_build_host_path(:id => @host) }) %>
+    </p>
     <%= link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => @host.id).merge(:auth_object => @host.id),
                               :class => "btn btn-default btn-xs pull-right", :title => _('Edit Host')) unless @build.errors[:host].blank? %>
 

@@ -45,7 +45,7 @@ function onContentLoad(){
   $('.flash.error').each(function(index, item) {
      if ($('.alert.alert-danger.base').length == 0) {
        if ($('#host-conflicts-modal').length == 0) {
-         notify(item, 'error');
+         notify(item, 'danger');
        }
      }
    });
@@ -59,10 +59,11 @@ function onContentLoad(){
    });
 
   // adds buttons classes to all links
-  $("#title_action a").addClass("btn btn-default");
+  $("#title_action a").addClass('btn').not('.btn-info, .btn-danger').addClass("btn-default");
+
   $("#title_action li a").removeClass("btn btn-default").addClass("la");
   $("#title_action span").removeClass("btn btn-default").addClass("btn-group");
-  $("#title_action a[href*='new']").removeClass('btn-default').addClass("btn-success");
+  $("#title_action a[href*='new']").removeClass('btn-default').addClass("btn-primary");
 
   if ($("input[focus_on_load=true]").length > 0) {
     $("input[focus_on_load]").first().focus();
@@ -222,9 +223,7 @@ function template_info(div, url) {
   // Ignore method as PUT redirects to host page if used on update
   form = $("form :input[name!='_method']").serialize();
   build = $('input:radio[name$="[provision_method]"]:checked').val();
-
   $(div).html(spinner_placeholder());
-
   // Use a post to avoid request URI too large issues with big forms
   $.ajax({
     type: "POST",
@@ -236,6 +235,7 @@ function template_info(div, url) {
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $(div).html('<div class="alert alert-warning alert-dismissable">' +
+          icon_text("warning-triangle-o", "", "pficon") +
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
         __('Sorry but no templates were configured.') + '</div>');
     }
@@ -392,22 +392,40 @@ function foreman_url(path) {
 }
 
 $.fn.indicator_show = function(){
- $(this).parents('.form-group').find('img').show();
+ $(this).parents('.form-group').find('.spinner').show();
 }
 
 $.fn.indicator_hide = function(){
- $(this).parents('.form-group').find('img').hide();
+ $(this).parents('.form-group').find('.spinner').hide();
 }
 
 function spinner_placeholder(text){
   if (text == undefined) text = "";
-  return "<div class='spinner-placeholder'>" + text + "</div>"
+  return "<div class='spinner-placeholder'><p class='spinner-label'>" + text + "</p><div id='Loading' class='spinner spinner-md spinner-inline'> </div></div>";
 }
 
 function notify(item, type) {
-  var options = { type: type, sticky: (type != 'success') };
-  $.jnotify($(item).text(), options);
+  var icon = typeToIcon(type);
+  var options = { classMessage: "foreman-alert",
+                  classBackground: "",
+                  sticky: (type != 'success'),
+                  type: type };
+  $.jnotify("</div>" + icon + $(item).text(), options);
+  // jnotify does not support multiple classes passed via classMessage so added via jquery.
+  $('.foreman-alert').addClass("alert alert-" + type);
   $(item).remove();
+}
+
+function typeToIcon(type) {
+  switch(type)
+  {
+  case 'success':
+    return icon_text("ok", __('Success') + ": ", "pficon")
+  case 'warning':
+    return icon_text("warning-triangle-o", __('Warning') + ": ", "pficon")
+  case 'danger':
+    return icon_text("error-circle-o", __('Error') + ": ", "pficon")
+  }
 }
 
 function filter_permissions(item){
@@ -558,7 +576,9 @@ function disableButtonToggle(item, explicit) {
   $(item).blur();
 }
 
-function icon(name) {
+function icon_text(name, inner_text, icon_class) {
   "use strict";
-  return '<span class="glyphicon glyphicon-' + name + '" />';
+  var icon = '<span class="' + icon_class + " " + icon_class + "-" + name + '"/>'
+  icon += typeof inner_text === "" ? "" : "<strong>" + inner_text + "</strong>";
+  return icon
 }

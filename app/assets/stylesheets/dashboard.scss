@@ -1,7 +1,5 @@
-/*
- *= require jquery.gridster
- *= require gridster.scss
- */
+@import "jquery.gridster";
+@import "gridster.scss";
 
 #dashboard{
   .status-table{
@@ -69,7 +67,6 @@
 
 .auto-refresh {
   a {
-    border: none;
     background: none;
   }
   margin-left: 5px;

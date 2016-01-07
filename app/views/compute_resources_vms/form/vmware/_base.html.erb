@@ -28,7 +28,7 @@
 <div id='image_selection'>
   <%= select_f f, :image_id, images, :uuid, :name,
                { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
-               { :disabled => images.empty?, :label => _('Image'), :label_size => "col-md-3" } %>
+               { :disabled => images.empty?, :label => _('Image'), :label_size => "col-md-2" } %>
 </div>
 
 <%= nic_info_js(compute_resource) %>

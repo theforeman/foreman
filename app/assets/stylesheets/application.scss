@@ -1,15 +1,17 @@
-/*
- *= require jquery.ui.autocomplete
- *= require vendor
- *= require scoped_search
- *= require multi-select
- *= require select2
- *= require select2-bootstrap
- *= require_self
- *= require_tree .
- */
-
+@import "jquery.ui.theme";
+@import "jquery.ui.core";
+@import "jquery.ui.menu";
+//we need to import all the above because we are using jquery-ui-rails and it uses sprockets require instaed of sass import.
+@import "jquery.ui.autocomplete";
+@import "../../../vendor/assets/stylesheets/vendor";
+@import "scoped_search";
+@import "multi-select";
+@import "select2";
+@import "select2-bootstrap";
+@import "patternfly-sprockets";
+@import "patternfly";
 @import "mixin";
+@import "/**/*";
 
 html {
   height: 100%;
@@ -219,13 +221,19 @@ select {
   }
 }
 
+.form-group > div.control-label{
+  text-align: left;
+  > a {
+    padding-left: 10px;
+  }
+}
+
 .avatar {
   width: 30px;
   height: 30px;
-  border-radius: 3px;
   &.small {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     margin: -2px 5px 0 0;
   }
 }
@@ -247,59 +255,6 @@ table {
 
 .table-fixed {
   table-layout: fixed;
-}
-
-/*table sorter bootstrap css*/
-.dataTables_length {
-    label {
-    float: left;
-    text-align: left;
-  }
-
-  select {
-    width: 75px;
-  }
-}
-
-.dataTables_filter label {
-  float: left;
-}
-
-.dataTables_info {
-  padding-top: 8px;
-}
-
-.dataTables_paginate {
-  float: right;
-  margin: 0;
-}
-
-.dataTable {
-  th {
-    cursor: pointer;
-    *cursor: hand;
-    background-color: #f9f9f9
-  }
-
-  .sorting {
-    background: image-url('sort_both.png') no-repeat center right;
-  }
-
-  .sorting_asc {
-    background: image-url('sort_asc.png') no-repeat center right;
-  }
-
-  .sorting_desc {
-    background: image-url('sort_desc.png') no-repeat center right;
-  }
-
-  .sorting_asc_disabled {
-    background: image-url('sort_asc_disabled.png') no-repeat center right;
-  }
-
-  .sorting_desc_disabled {
-    background: image-url('sort_desc_disabled.png') no-repeat center right;
-  }
 }
 
 .nbsp {
@@ -333,17 +288,14 @@ table {
 
 .ellipsis {
   overflow: hidden;
+  overflow-wrap: break-word;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.spinner-placeholder {
-  width: 16px;
-  height: 16px;
-  background: image-url('spinner.gif') no-repeat top left;
-  text-indent: 20px;
-  white-space: nowrap;
-  display: block;
+.fact-col{
+  white-space: normal;
+  max-width: 500px;
 }
 
 .exit-fullscreen {
@@ -502,11 +454,35 @@ table {
   width: 100vw !important;
 }
 
+.select2-arrow > b{
+  margin: -4px 0 0 0;
+}
+
+.icon-white {
+  color: white;
+}
+
+.select2-container .select2-choices .select2-search-field input, .select2-container .select2-choice, .select2-container .select2-choices .select2-chosen{
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  line-height: 2.2;
+}
+
+.navbar-editor > span > .select2-container .select2-choices .select2-search-field input, .select2-container .select2-choice, .select2-container .select2-choices .select2-chosen {
+  height: 26px;
+}
+
+.select2-chosen, .select2-choice > span:first-child, .select2-container .select2-choices .select2-search-field input{
+  padding: 0 0;
+}
+
+.select2-chosen, .select2-choice > span:first-child, .select2-container .select2-choices .select2-search-field input{
+  padding-left: 6px;
+}
+
 .expander {
   cursor: pointer;
   *cursor: hand;
   .caret{
-    border-width: 8px;
     transform: rotate(0deg);
     transition-duration: 0.8s;
   }
@@ -538,11 +514,41 @@ span.glyphicon.host-status {
   word-break: break-all;
 }
 
-.ms-container {
-  background: transparent image-url('switch.png') no-repeat 270px 80px;
-}
-
 .big {
   font-size: 3rem;
   color: #797979;
+}
+
+html.turbolinks-progress-bar::before {
+  height: 2px !important;
+}
+
+.white-header {
+  background-color: white !important;
+  th {
+    background-color: white !important;
+  }
+}
+
+#proxy-tab {
+  margin-bottom: 0px;
+}
+
+.proxy-content.tab-content {
+  padding: 19px;
+  min-height: 0px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  border-top: 0px;
+  float: left;
+  width: 100%;
+}
+
+.spinner-placeholder{
+  position: absolute;
+}
+
+.spinner-label{
+  display: block;
+  float: left;
 }

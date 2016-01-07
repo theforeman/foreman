@@ -3,21 +3,13 @@
                  documentation_button('4.1.3Trends') %>
 
 <% if @trends.empty? %>
-  <div class="alert alert-info">
-    <%= alert_close %>
-    <p><strong><%= _("No trend counter defined.") %></strong></p>
-    <p><%= _("To define trend counters, use the Add Trend Counter button.") %><br/>
-      <%= (_("To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' every Puppet Interval (%s minutes).") % Setting.puppet_interval).html_safe %></p>
-  </div>
+  <%= alert :class => 'alert-info', :header => _("No trend counter defined"),
+            :text => (_("To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' every Puppet Interval (%s minutes).") % Setting.puppet_interval) %>
 <% end %>
 
 <% if @trends.any? and TrendCounter.unconfigured? %>
-  <div class="alert alert-info alert-dismissable">
-    <%= alert_close %>
-    <p><strong><%= _("No trend counter found.") %></strong></p>
-    <p><%= ( _("To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting.puppet_interval).html_safe %>
-    </p>
-  </div>
+  <%= alert :class => 'alert-info', :header => _("No trend counter found"),
+            :text => (_("To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting.puppet_interval) %>
 <% end %>
 
 <table class="table table-bordered table-striped table-fixed">

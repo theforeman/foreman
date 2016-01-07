@@ -11,7 +11,7 @@ function test_connection(item, url) {
     },
     error: function (xhr) {
       var error = $.parseJSON(xhr.responseText).message;
-      notify("<p>" + error + "</p>", 'error');
+      notify("<p>" + error + "</p>", 'danger');
     },
     complete: function (result) {
       $('#test_connection_indicator').hide();
