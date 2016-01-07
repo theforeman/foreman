@@ -34,7 +34,11 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     @status.stubs(:no_reports? => true)
     assert_equal HostStatus::Global::OK, @status.to_global
 
-    @host.stubs(:configuration? => true)
+    @host.expects(:configuration? => true)
+    assert_equal HostStatus::Global::WARN, @status.to_global
+
+    @host.expects(:configuration? => false)
+    Setting[:always_show_configuration_status] = true
     assert_equal HostStatus::Global::WARN, @status.to_global
   end
 
@@ -80,12 +84,22 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     assert_equal @report.reported_at, @status.reported_at
   end
 
-  test '#relevant? only for hosts with #configuration? true' do
+  test '#relevant? only for hosts with #configuration? true, or a last report, or setting enabled' do
     @host.expects(:configuration?).returns(true)
     assert @status.relevant?
 
     @host.expects(:configuration?).returns(false)
+    @status.expects(:last_report).returns(mock)
+    assert @status.relevant?
+
+    @host.expects(:configuration?).returns(false)
+    @status.expects(:last_report).returns(nil)
     refute @status.relevant?
+
+    @host.expects(:configuration?).returns(false)
+    @status.expects(:last_report).returns(nil)
+    Setting[:always_show_configuration_status] = true
+    assert @status.relevant?
   end
 
   test '.is_not' do

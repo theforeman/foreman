@@ -62,8 +62,10 @@ Spork.prefork do
     set_fixture_class :nics => Nic::BMC
 
     setup :begin_gc_deferment
+    setup :reset_setting_cache
     teardown :reconsider_gc_deferment
     teardown :clear_current_user
+    teardown :reset_setting_cache
 
     DEFERRED_GC_THRESHOLD = (ENV['DEFER_GC'] || 1.0).to_f
 
@@ -85,6 +87,10 @@ Spork.prefork do
 
     def clear_current_user
       User.current = nil
+    end
+
+    def reset_setting_cache
+      Setting.cache.clear
     end
 
     # for backwards compatibility to between Minitest syntax
@@ -327,15 +333,10 @@ end
 Spork.each_run do
   # This code will be run each time you run your specs.
   class ActionController::TestCase
-    setup :setup_set_script_name, :set_api_user, :reset_setting_cache, :turn_of_login
-    teardown :reset_setting_cache
+    setup :setup_set_script_name, :set_api_user, :turn_of_login
 
     def turn_of_login
       SETTINGS[:require_ssl] = false
-    end
-
-    def reset_setting_cache
-      Setting.cache.clear
     end
 
     def setup_set_script_name
