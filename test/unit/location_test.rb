@@ -294,6 +294,19 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal Hash['loc_param', 'abc', 'child_param', '123'], child_location.parameters
   end
 
+  test "parent_params returns only ancestors parameters" do
+    assert_equal [parameters(:location)], taxonomies(:location1).location_parameters
+
+    # inherit parameter from parent
+    child_location = Location.create :name => "floor1", :parent_id => taxonomies(:location1).id
+    assert_equal [], child_location.location_parameters
+
+    # new parameter on child location
+    child_location.location_parameters.create(:name => "child_param", :value => "123")
+
+    assert_equal Hash['loc_param', 'abc'], child_location.parent_params
+  end
+
   test "cannot delete location that is a parent for nested location" do
     parent1 = taxonomies(:location2)
     Location.create :name => "floor1", :parent_id => parent1.id

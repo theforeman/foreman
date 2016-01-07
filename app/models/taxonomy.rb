@@ -179,17 +179,22 @@ class Taxonomy < ActiveRecord::Base
     (users+User.only_admin).each { |u| u.expire_topbar_cache(sweeper) }
   end
 
-  # returns self and parent parameters as a hash
-  def parameters(include_source = false)
+  def parent_params(include_source = false)
     hash = {}
     ids = ancestor_ids
-    ids << id unless new_record? or self.frozen?
     # need to pull out the locations to ensure they are sorted first,
     # otherwise we might be overwriting the hash in the wrong order.
-    elements = ids.size == 1 ? [self] : self.class.sort_by_ancestry(self.class.includes("#{type.downcase}_parameters".to_sym).find(ids))
+    elements = self.class.sort_by_ancestry(self.class.includes("#{type.downcase}_parameters".to_sym).find(ids))
     elements.each do |el|
       el.send("#{type.downcase}_parameters".to_sym).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
     end
+    hash
+  end
+
+  # returns self and parent parameters as a hash
+  def parameters(include_source = false)
+    hash = parent_params(include_source)
+    self.send("#{type.downcase}_parameters".to_sym).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
     hash
   end
 
