@@ -337,23 +337,23 @@ module ApplicationHelper
   end
 
   def avatar_image_tag(user, html_options = {})
-    if user.avatar_hash.nil?
-      default_image = path_to_image("user.jpg")
-      if Setting["use_gravatar"]
-        image_url = gravatar_url(user.mail, default_image)
-        html_options.merge!(:onerror=>"this.src='#{default_image}'", :alt => _('Change your avatar at gravatar.com'))
-      else
-        image_url = default_image
-      end
+    if user.avatar_hash.present?
+      image_tag("avatars/#{user.avatar_hash}.jpg", html_options)
+    elsif Setting[:use_gravatar] && user.mail.present?
+      image_tag(gravatar_image(user.mail),
+                html_options.merge!(gravatar_html_options))
     else
-      image_url = path_to_image("avatars/#{user.avatar_hash}.jpg")
+      image_tag('user.jpg', html_options)
     end
-    image_tag(image_url, html_options)
   end
 
-  def gravatar_url(email, default_image)
-    return default_image if email.blank?
+  def gravatar_image(email)
     "#{request.protocol}secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?d=mm&s=30"
+  end
+
+  def gravatar_html_options
+    { :onerror => "this.src='#{path_to_image('user.jpg')}'",
+      :alt     => _('Change your avatar at gravatar.com') }
   end
 
   def readonly_field(object, property, options = {})
