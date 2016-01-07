@@ -268,4 +268,13 @@ class PluginTest < ActiveSupport::TestCase
     end
     assert_equal 'Awesomeness Based', Host::Managed.provision_methods['awesome']
   end
+
+  def test_proxy_actions
+    Foreman::Plugin.register :foo_plugin do
+      name 'Foo plugin'
+      proxy_action N_('Foo'), {:controller => 'foo', :action => :index, :permission => 'view_smart_proxy_foos'}
+    end
+
+    assert_equal Foreman::Plugin.proxy_actions['Foo'], {:controller => 'foo', :action => :index, :permission => 'view_smart_proxy_foos'}
+  end
 end
