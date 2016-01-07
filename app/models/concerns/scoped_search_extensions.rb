@@ -8,6 +8,10 @@ module ScopedSearchExtensions
       "%#{value}%"
     end
 
+    def escape_str_format(str)
+      str.gsub('%', '%%')
+    end
+
     def cast_facts(table, key, operator, value)
       is_int = (value =~ /\A[-+]?\d+\z/ ) || (value.is_a?(Integer))
       is_pg = ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'postgresql'
@@ -17,7 +21,8 @@ module ScopedSearchExtensions
       elsif (is_int && is_pg && operator !~ /LIKE/i)
         casted = "#{table}.value ~ E'^\\\\d+$' AND CAST(#{table}.value AS DECIMAL) #{operator} #{value}"
       else
-        casted = sanitize_sql_for_conditions(["#{table}.value #{operator} ?", value])
+        # Escape string formatting with %, as conditions will be re-sanitized through scoped_search
+        casted = escape_str_format(sanitize_sql_for_conditions(["#{table}.value #{operator} ?", value_to_sql(operator, value)]))
       end
       casted
     end
