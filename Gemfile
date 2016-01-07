@@ -14,7 +14,11 @@ gem 'will_paginate', '~> 3.0'
 gem 'ancestry', '~> 2.0'
 gem 'scoped_search', '~> 3.0'
 gem 'ldap_fluff', '>= 0.3.5', '< 1.0'
-gem 'net-ldap', '>= 0.8.0'
+if RUBY_VERSION.start_with? '1.9.'
+  gem 'net-ldap', '>= 0.8.0', '< 0.13'
+else
+  gem 'net-ldap', '>= 0.8.0'
+end
 gem 'apipie-rails', '~> 0.2.5'
 gem 'rabl', '~> 0.11'
 gem 'oauth', '~> 0.4'
