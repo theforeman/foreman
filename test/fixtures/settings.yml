@@ -281,3 +281,8 @@ attributes58:
   category: Setting::Provisioning
   default: "['lo', 'usb*', 'vnet*', 'macvtap*']"
   description: 'Ignore interfaces that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*'
+attributes59:
+  name: always_show_configuration_status
+  category: Setting::Puppet
+  default: "false"
+  description: 'All hosts will show a configuration status even when a Puppet smart proxy is not assigned'

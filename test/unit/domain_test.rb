@@ -167,8 +167,17 @@ class DomainTest < ActiveSupport::TestCase
     assert Domain.first.nameservers.empty?
   end
 
-  test "should query remote nameservers" do
-    assert Domain.first.nameservers.empty?
+  test "should query remote nameservers from domain SOA" do
+    domain = FactoryGirl.build(:domain)
+
+    ns = mock
+    ns.expects(:mname).returns('10.1.1.1')
+
+    resolv = mock('Resolv::DNS')
+    resolv.expects(:getresources).with(domain.name, Resolv::DNS::Resource::IN::SOA).returns([ns])
+    Resolv::DNS.expects(:new).returns(resolv)
+
+    assert_equal ['10.1.1.1'], domain.nameservers
   end
 
   # test taxonomix methods

@@ -34,7 +34,7 @@ module HostStatus
       elsif out_of_sync?
         # out of sync
         return HostStatus::Global::WARN
-      elsif no_reports? && host.configuration?
+      elsif no_reports? && (host.configuration? || Setting[:always_show_configuration_status])
         # no reports and configuration is set
         return HostStatus::Global::WARN
       else
@@ -78,7 +78,7 @@ module HostStatus
     end
 
     def relevant?
-      host.configuration?
+      host.configuration? || last_report.present? || Setting[:always_show_configuration_status]
     end
 
     def self.is(config_status)
