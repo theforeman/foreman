@@ -34,9 +34,12 @@ module Foreman #:nodoc:
   class Plugin
     @registered_plugins = {}
     @tests_to_skip = {}
+    @proxy_actions = {}
+
     class << self
       attr_reader   :registered_plugins
-      attr_accessor :tests_to_skip
+      attr_accessor :tests_to_skip, :proxy_actions
+
       private :new
 
       def def_field(*names)
@@ -193,6 +196,10 @@ feature"
       @security_block = name
       self.instance_eval(&block)
       @security_block = nil
+    end
+
+    def proxy_action(link_text, options)
+      self.class.proxy_actions[link_text] = options
     end
 
     # Defines a permission called name for the given controller=>actions
