@@ -220,6 +220,11 @@ class ApplicationController < ActionController::Base
     render_403
   end
 
+  def find_page
+    @page = ::Pages::Manager.find_page(controller_name, action_name)
+    raise Foreman::Exception.new(N_("Page %s has no view assigned", @page.name)) unless @page || @page.view
+  end
+
   def process_success(hash = {})
     hash[:object]                 ||= instance_variable_get("@#{controller_name.singularize}")
     hash[:object_name]            ||= hash[:object].to_s

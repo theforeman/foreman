@@ -175,6 +175,32 @@ module Foreman #:nodoc:
       Menu::Manager.map(menu).delete(item)
     end
 
+    # Extends an already registered extensible page. Usage:
+    #
+    # extend_page({ :controller => :controller_name, :action => :action_name }) do |page|
+    #   Add a widget
+    #   page.add_widget :name => "My widg", :partial => "path/to/partial"
+    #
+    #   Add a tab with 2 columns, widget in right column.
+    #   Ordering of the tabs is given by the descending priority.
+    #   If no priority for a new tab is given, it is added as the last tab.
+    #   page.add_tab(:name => "My tab", :columns_count => 2, :layout => "path/to/partial", :priority => 5) do |tab|
+    #     tab.add_widget :name => "Widget name", :partial => 'path/to/partial', :column => 1
+    #   end
+    # end
+    def extend_page(url_hash, &block)
+      Pages::Manager.extend_page(url_hash, &block)
+    end
+
+    # Extends already registered tab on extensible page. Usage:
+    #
+    # extend_tab({ :controller => :controller_name, :action => :action_name }, tab_name) do |tab|
+    #  tab.add_widget(...)
+    # end
+    def extend_tab(url_hash, tab_name, &block)
+      Pages::Manager.extend_tab(url_hash, tab_name, &block)
+    end
+
     def tests_to_skip(hash)
       Rails.logger.warn "Minitest 5 deprecated the runner API and plugin tests \
 can't be skipped right now. Future versions of Foreman might bring back this \

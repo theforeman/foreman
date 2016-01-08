@@ -1,0 +1,39 @@
+<div class="row">
+  <h3><%= _('Details') %></h3>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <%= _('Communication status') %>
+  </div>
+  <div class="col-md-8">
+    <span class="proxy-show-status">
+      <%= spinner %>
+    </span>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <%= _('URL') %>
+  </div>
+  <div class="col-md-8">
+    <%= smart_proxy.url %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <%= _('Version') %>
+  </div>
+  <div class="col-md-8">
+    <span class="proxy-version" data-url="<%= ping_smart_proxy_path(smart_proxy) %>">
+      <%= spinner %>
+    </span>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <%= _('Features') %>
+  </div>
+  <div class="col-md-8">
+    <%= smart_proxy.features.to_sentence %> <%= refresh_proxy_icon(smart_proxy, authorizer) %>
+  </div>
+</div>
