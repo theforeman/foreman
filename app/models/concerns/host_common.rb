@@ -62,6 +62,10 @@ module HostCommon
 
   def puppetca?
     return false if self.respond_to?(:managed?) and !managed?
+    puppetca_exists?
+  end
+
+  def puppetca_exists?
     !!(puppet_ca_proxy and puppet_ca_proxy.url.present?)
   end
 
