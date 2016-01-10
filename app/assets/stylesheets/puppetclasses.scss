@@ -21,11 +21,19 @@
   }
 
   input[type=checkbox]{
-    margin-top: 11px;
+    margin-top: 8px;
   }
 
   .nav a.btn-success:focus{
     background-color: #5cb85c;
     border-color: #4cae4c;
+  }
+
+  .matcher .matcher-group {
+    display: block;
+  }
+  
+  .matcher_value {
+    width: 70%;
   }
 }
