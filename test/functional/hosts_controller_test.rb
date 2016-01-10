@@ -3,6 +3,10 @@ require 'test_helper'
 class HostsControllerTest < ActionController::TestCase
   setup :initialize_host
 
+  def host_attributes(host)
+    host.attributes.except('id', 'created_at', 'updated_at').slice(*Host::Managed.accessible_attributes.to_a)
+  end
+
   test 'show' do
     get :show, {:id => Host.first.name}, set_session_user
     assert_template 'show'
@@ -962,7 +966,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'template_used returns templates with interfaces' do
     @host.setBuild
     nic=FactoryGirl.create(:nic_managed, :host => @host)
-    attrs = @host.attributes.except('id', 'created_at', 'updated_at')
+    attrs = host_attributes(@host)
     attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
     ActiveRecord::Base.any_instance.expects(:destroy).never
     ActiveRecord::Base.any_instance.expects(:save).never
@@ -973,7 +977,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'template_used returns templates with host parameters' do
     @host.setBuild
-    attrs = @host.attributes.except('id', 'created_at', 'updated_at')
+    attrs = host_attributes(@host)
     attrs[:host_parameters_attributes] = {'0' => {:name => 'foo', :value => 'bar', :id => '34'}}
     ActiveRecord::Base.any_instance.expects(:destroy).never
     ActiveRecord::Base.any_instance.expects(:save).never
@@ -984,7 +988,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'process_taxonomy renders a host from the params correctly' do
     nic = FactoryGirl.build(:nic_managed, :host => @host)
-    attrs = @host.attributes.except('id', 'created_at', 'updated_at')
+    attrs = host_attributes(@host)
     attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
     ActiveRecord::Base.any_instance.expects(:destroy).never
     ActiveRecord::Base.any_instance.expects(:save).never
@@ -1029,7 +1033,7 @@ class HostsControllerTest < ActionController::TestCase
 
     group2 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
 
-    attrs = host.attributes.except('id', 'created_at', 'updated_at')
+    attrs = host_attributes(host)
     attrs['hostgroup_id'] = group2.id
     attrs.delete 'compute_profile_id'
 
@@ -1058,7 +1062,7 @@ class HostsControllerTest < ActionController::TestCase
 
     group2 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
 
-    attrs = host.attributes.except('id', 'created_at', 'updated_at')
+    attrs = host_attributes(host)
     attrs['hostgroup_id'] = group2.id
     attrs['compute_attributes'] = { 'cpus' => 3 }
     attrs.delete 'uuid'
