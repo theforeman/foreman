@@ -8,7 +8,7 @@
     <%= _("The authentication process currently requires an LDAP provider, such as <em>FreeIPA</em>,
             <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>.").html_safe %>
   </p>
-  <p><%= _('Learn more about this') %> <%= link_to _('on the documentation'), documentation_url("4.1.1LDAPAuthentication")%></p>
+  <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("4.1.1LDAPAuthentication")%></p>
   <div class="blank-slate-pf-main-action">
     <%= link_to(_("New authentication source"), new_auth_source_ldap_path, :class => 'btn btn-primary btn-lg') %>
   </div>

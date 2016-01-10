@@ -7,7 +7,7 @@
   <p><%= _("Foreman supports automatically creating realm entries for new hosts.") %></br>
   <%= _("When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password.") %></p>
   <p>
-    <%= _('Learn more about this') %> <%= link_to _('on the documentation.'), documentation_url("4.3.9Realm")%>
+    <%= link_to _('Learn more about this in the documentation.'), documentation_url("4.3.9Realm")%>
   </p>
   <div class="blank-slate-pf-main-action">
     <%= display_link_if_authorized _('New Realm'), hash_for_new_realm_path, :class => "btn btn-primary btn-lg" %>
