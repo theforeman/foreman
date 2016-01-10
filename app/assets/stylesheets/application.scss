@@ -483,6 +483,7 @@ table {
   cursor: pointer;
   *cursor: hand;
   .caret{
+    margin-right: 5px;
     transform: rotate(0deg);
     transition-duration: 0.8s;
   }
