@@ -116,6 +116,14 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test "should show puppetclass name and id" do
+    get :show, {:id => lookup_keys(:five).key, :puppetclass_id => puppetclasses(:two).id}
+    assert_response :success
+    results = ActiveSupport::JSON.decode(@response.body)
+    assert_equal puppetclasses(:two).name, results['puppetclass_name']
+    assert_equal puppetclasses(:two).id, results['puppetclass_id']
+  end
+
   test "should update smart class parameter" do
     orig_value = lookup_keys(:five).default_value
     put :update, { :id => lookup_keys(:five).to_param, :smart_class_parameter => { :default_value => "33333" } }
