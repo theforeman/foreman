@@ -553,3 +553,8 @@ html.turbolinks-progress-bar::before {
   display: block;
   float: left;
 }
+
+.ui-autocomplete {
+  max-height: 300px;
+  overflow-y: auto;
+}
