@@ -24,6 +24,6 @@ class ConfigReportIntegrationTest < ActionDispatch::IntegrationTest
   test "delete a report redirects to reports index" do
     visit config_report_path(@report)
     first(:link, "Delete").click
-    assert_equal(current_path, config_reports_path)
+    assert_current_path config_reports_path
   end
 end
