@@ -3,6 +3,12 @@ require 'test_helper'
 class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
     assert_index_page(smart_proxies_path,"Smart Proxies","New Smart Proxy",false)
+    visit smart_proxies_path
+    if SETTINGS[:locations_enabled]
+      assert page.has_selector?('th', :text => 'Locations')
+    else
+      refute page.has_selector?('th', :text => 'Locations')
+    end
   end
 
   test "create new page" do
@@ -11,7 +17,6 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
     fill_in "smart_proxy_url", :with => "http://dns.example.com"
     assert_submit_button(smart_proxies_path)
     assert page.has_link? "DNS Worldwide"
-    assert page.has_content? "http://dns.example.com"
   end
 
   test "edit page" do

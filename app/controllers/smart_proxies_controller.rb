@@ -79,7 +79,7 @@ class SmartProxiesController < ApplicationController
 
   def destroy
     if @smart_proxy.destroy
-      process_success :object => @smart_proxy
+      process_success :object => @smart_proxy, :success_redirect => smart_proxies_path
     else
       process_error :object => @smart_proxy
     end
@@ -107,5 +107,12 @@ class SmartProxiesController < ApplicationController
       else
         super
     end
+  end
+
+  def resource_base
+    base = super
+    base = base.eager_load(:locations) if SETTINGS[:locations_enabled]
+    base = base.eager_load(:organizations) if SETTINGS[:organizations_enabled]
+    base
   end
 end
