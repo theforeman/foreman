@@ -2,7 +2,11 @@ module SmartProxiesHelper
   TABBED_FEATURES = ["Puppet","Puppet CA"]
 
   def proxy_actions(proxy, authorizer)
-    [ display_link_if_authorized(_("Edit"), hash_for_edit_smart_proxy_path(:id => proxy), :class => 'edit_two_pane') ] +
+    [ display_link_if_authorized(_("Edit"), hash_for_edit_smart_proxy_path(:id => proxy), :class => 'edit_two_pane'),
+      display_link_if_authorized(_("Refresh features"),
+                                 hash_for_refresh_smart_proxy_path(:id => proxy).
+                                 merge(:auth_object => proxy, :permission => 'edit_smart_proxies',
+                                       :authorizer => authorizer), :method => :put) ] +
     [if proxy.has_feature?('Puppet CA')
        [display_link_if_authorized(_("Certificates"), hash_for_smart_proxy_puppetca_index_path(:smart_proxy_id => proxy).
                                                       merge(:auth_object => proxy, :permission => 'view_smart_proxies_puppetca', :authorizer => authorizer)),
