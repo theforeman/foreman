@@ -13,8 +13,21 @@ def format_errors(model = nil)
 end
 
 # Check if audits show an object was renamed or deleted
-def audit_modified?(type, name)
+# additional attributes may be specified for narrowing the scope but note
+# that it can be slow if there's high number of audits for the specified type
+def audit_modified?(type, name, attributes = {})
   au = Audit.where(:auditable_type => type, :auditable_name => name)
+
+  if attributes.present?
+    interesting_au = au.select do |audit|
+      attributes.all? do |attribute, value|
+        changed_attribute = audit.audited_changes[attribute]
+        audit.action == 'update' ? changed_attribute.first == value : changed_attribute == value
+      end
+    end
+    au = au.where(:id => interesting_au.map(&:id))
+  end
+
   return true if au.where(:action => :destroy).present?
   au.where(:action => :update).each do |audit|
     return true if audit.audited_changes['name'].is_a?(Array) && audit.audited_changes['name'].first == name
