@@ -119,20 +119,17 @@ module Orchestration::Compute
     if vm
       attrs = compute_resource.provided_attributes
 
-      attrs.each do |foreman_attr, fog_attr |
+      attrs.each do |foreman_attr, fog_attr|
         if foreman_attr == :mac
-          #TODO, do we need handle :ip as well? for openstack / ec2 we only set a single
-          # interface (so host.ip will be fine), and we'd need to rethink #find_address :/
-
           return false unless match_macs_to_nics(fog_attr)
+        elsif foreman_attr == :ip
+          value = vm.send(fog_attr) || find_address
+          self.send("#{foreman_attr}=", value)
+          return false unless validate_foreman_attr(value, ::Nic::Base, foreman_attr)
         else
           value = vm.send(fog_attr)
-          value ||= find_address if foreman_attr == :ip
           self.send("#{foreman_attr}=", value)
-
-          # validate_foreman_attr handles the failure msg, so we just bubble
-          # the false state up the stack
-          return false unless validate_foreman_attr(value,Host,foreman_attr)
+          return false unless validate_foreman_attr(value, Host, foreman_attr)
         end
       end
       true
