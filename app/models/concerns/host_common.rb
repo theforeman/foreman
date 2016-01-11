@@ -73,6 +73,7 @@ module HostCommon
   def puppetca_exists?
     !!(puppet_ca_proxy and puppet_ca_proxy.url.present?)
   end
+
   # no need to store anything in the db if the entry is plain "puppet"
   # If the system is using smart proxies and the user has run the smartproxy:migrate task
   # then the puppetmaster functions handle smart proxy objects
