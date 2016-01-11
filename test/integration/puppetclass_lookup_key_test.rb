@@ -33,7 +33,7 @@ class PuppetclassLookupKeyIntegrationTest < ActionDispatch::IntegrationTest
         click_link "port"
       end
       page.find("#puppetclass_lookup_key_override").click
-      refute page.find("#puppetclass_lookup_key_hidden_value")[:disabled]
+      assert page.find("#puppetclass_lookup_key_hidden_value:enabled")
     end
   end
 end
