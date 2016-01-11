@@ -11,10 +11,11 @@ plugins.map(&:initializers).flatten.each do |initializer|
   options = initializer.instance_variable_get('@options')
 
   if options.key(:finisher_hook).present? && options.key(:finisher_hook) == :after
-    deprecation_message = "\nInitializing plugins using :after => :finish_hook in\
+    deprecation_message = "\nInitializing plugins using :after => :finish_hook in \
 your engine is deprecated. It delays the load of some assets in Sprockets. \
-If you are the plugin author, please change your plugin engine initializer to use\
-:before => :finisher_hook or after_initialize."
+If you are the plugin author, please change your plugin engine initializer to use \
+:before => :finisher_hook or after_initialize.  Affected initializer name is \
+#{initializer.name}."
     Foreman::Deprecation.deprecation_warning('1.13', deprecation_message)
     options[:before] = options.delete :after
     initializer.instance_variable_set('@options', options)
