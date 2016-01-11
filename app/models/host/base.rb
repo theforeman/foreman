@@ -91,7 +91,7 @@ module Host
         primary_interface_attrs.each do |attr|
           values_for_primary_interface[attr] = new_attrs.delete(attr) if new_attrs.has_key?(attr)
         end
-        args.unshift(new_attrs.to_hash)
+        args.unshift(new_attrs)
       end
 
       super(*args)

@@ -141,6 +141,12 @@ class HostTest < ActiveSupport::TestCase
       :environment => environments(:production), :disk => "empty partition"
   end
 
+  test "should save compute attributes with indifferent access" do
+    h = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3", :compute_attributes => {'attr1' => 'blah'}
+    assert_equal 'blah', h.compute_attributes['attr1']
+    assert_equal 'blah', h.compute_attributes[:attr1]
+  end
+
   test "doesn't set compute attributes on update" do
     host = FactoryGirl.create(:host)
     Host.any_instance.expects(:set_compute_attributes).never
