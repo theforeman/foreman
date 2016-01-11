@@ -1,6 +1,38 @@
 require 'test_helper'
 
 class ComputeOrchestrationTest < ActiveSupport::TestCase
+  describe 'compute details' do
+    setup do
+      @cr = FactoryGirl.build(:libvirt_cr)
+      @host = FactoryGirl.build(:host, :compute_resource => @cr)
+      @host.vm = mock("vm")
+    end
+
+    test "are set for CR providing MAC" do
+      @host.expects(:match_macs_to_nics).returns(true)
+      @cr.stubs(:provided_attributes).returns({:mac => :mac})
+      assert(@host.send :setComputeDetails)
+    end
+
+    test "are set for CR providing IP" do
+      an_ip = '1.2.3.4'
+      @cr.stubs(:provided_attributes).returns({:ip => :ip})
+      @host.vm.expects(:ip).returns(an_ip)
+      @host.expects(:ip=).returns(an_ip)
+      @host.expects(:validate_foreman_attr).returns(true)
+      assert(@host.send :setComputeDetails)
+    end
+
+    test "are set for CR providing an unknown attribute" do
+      a_value = 'value'
+      @cr.stubs(:provided_attributes).returns({:attr => :attr})
+      @host.vm.expects(:attr).returns(a_value)
+      @host.expects(:attr=).returns(a_value)
+      @host.expects(:validate_foreman_attr).returns(true)
+      assert(@host.send :setComputeDetails)
+    end
+  end
+
   test "a helpful error message shows up if no user_data is provided and it's necessary" do
     image = images(:one)
     host = FactoryGirl.build(:host, :operatingsystem => image.operatingsystem, :image => image,
