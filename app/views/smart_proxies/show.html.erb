@@ -60,12 +60,17 @@
     <% if service_features.any? %>
       <div class="tab-pane" id="services">
         <div class="col-md-6">
+          <% service_pagelets = pagelets_for(:service_features) %>
           <% service_features.each do |feature| %>
-            <% feature_erb = "smart_proxies/plugins/#{feature}" %>
-            <% if lookup_context.template_exists?(feature_erb, [], true) %>
-              <%= render :partial => feature_erb, :locals => {:feature => feature} %>
+            <% if pagelet = service_pagelets.find { |pagelet| pagelet.name.downcase == feature } %>
+              <%= render_pagelet pagelet, :smart_proxy => @smart_proxy %>
             <% else %>
-              <%= render :partial => "smart_proxies/plugins/no_template", :locals => {:feature => feature} %>
+              <% feature_erb = "smart_proxies/plugins/#{feature}" %>
+              <% if lookup_context.template_exists?(feature_erb, [], true) %>
+                <%= render :partial => feature_erb, :locals => {:feature => feature} %>
+              <% else %>
+                <%= render :partial => "smart_proxies/plugins/no_template", :locals => {:feature => feature} %>
+              <% end %>
             <% end %>
           <% end %>
         </div>

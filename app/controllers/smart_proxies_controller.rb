@@ -1,6 +1,5 @@
 class SmartProxiesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-
   before_filter :find_resource, :only => [:show, :edit, :update, :refresh, :ping, :tftp_server, :destroy]
 
   def index
