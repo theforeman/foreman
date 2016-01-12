@@ -16,6 +16,11 @@ Foreman::Application.configure do
   config.serve_static_assets  = true
   config.static_cache_control = 'public, max-age=3600'
 
+  # Adds additional error checking when serving assets at runtime.
+  # Checks for improperly declared sprockets dependencies.
+  # Raises helpful error messages.
+  config.assets.raise_runtime_errors = true
+
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
