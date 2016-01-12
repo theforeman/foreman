@@ -175,11 +175,15 @@ module Foreman #:nodoc:
       Menu::Manager.map(menu).delete(item)
     end
 
-    # Extends an already registered extensible page.
+    # Extends page by adding custom pagelet to a mountpoint.
     # Usage:
     #
     # extend_page("smart_proxies/show") do |context|
-    #   context.add_pagelet :mountpoint, :name => "Example Pagelet", :partial => "path/to/partial", :priority => 10000, :id => 'custom-html-id'
+    #   context.add_pagelet :mountpoint,
+    #                       :name => N_("Example Pagelet"),
+    #                       :partial => "path/to/partial",
+    #                       :priority => 10000,
+    #                       :id => 'custom-html-id'
     # end
     def extend_page(page_name, &block)
       yield Pagelets::Manager.new(page_name) if block_given?
