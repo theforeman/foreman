@@ -2,10 +2,18 @@ require 'test_helper'
 
 class GlobalTest < ActiveSupport::TestCase
   class StatusMock < Struct.new(:global, :relevant)
-    alias_method :relevant?, :relevant
+    def relevant?(options = {})
+      relevant
+    end
 
     def to_global(options = {})
       global
+    end
+  end
+
+  class DeprecatedStatusMock
+    def relevant?
+      true
     end
   end
 
@@ -23,9 +31,17 @@ class GlobalTest < ActiveSupport::TestCase
   test '.build(statuses, :last_reports => [reports]) uses reports cache for configuration statuses' do
     status = HostStatus::ConfigurationStatus.new
     report = Report.new(:host => Host.last)
-    status.expects(:relevant?).returns(true)
+    status.expects(:relevant?).with(:last_reports => [ report ]).returns(true)
     status.expects(:to_global).returns(:result)
     global = HostStatus::Global.build([ status ], :last_reports => [ report ])
+    assert_equal :result, global.status
+  end
+
+  test '.build(statuses) works with deprecated #relevant? method without options argument' do
+    status = DeprecatedStatusMock.new
+    status.expects(:to_global).returns(:result)
+    Foreman::Deprecation.expects(:deprecation_warning).with(anything, regexp_matches(/DeprecatedStatusMock/))
+    global = HostStatus::Global.build([ status ])
     assert_equal :result, global.status
   end
 

@@ -77,7 +77,9 @@ module HostStatus
       end
     end
 
-    def relevant?
+    def relevant?(options = {})
+      handle_options(options)
+
       host.configuration? || last_report.present? || Setting[:always_show_configuration_status]
     end
 

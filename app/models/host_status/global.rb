@@ -7,7 +7,16 @@ module HostStatus
     attr_accessor :status
 
     def self.build(statuses, options = {})
-      max_status = statuses.select { |s| s.relevant? }.map { |s| s.to_global(options) }.max
+      relevant_statuses = statuses.select do |s|
+        if s.method(:relevant?).arity.zero?
+          Foreman::Deprecation.deprecation_warning('1.13', "#{s.class.name}#relevant? should take an options argument")
+          s.relevant?
+        else
+          s.relevant?(options)
+        end
+      end
+
+      max_status = relevant_statuses.map { |s| s.to_global(options) }.max
 
       new(max_status || OK)
     end
