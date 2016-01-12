@@ -268,4 +268,15 @@ class PluginTest < ActiveSupport::TestCase
     end
     assert_equal 'Awesomeness Based', Host::Managed.provision_methods['awesome']
   end
+
+  def test_extend_page
+    Foreman::Plugin.register(:foo) do
+      extend_page("tests/show") do |context|
+        context.add_pagelet :main_tabs, :name => "My Tab", :partial => "partial"
+      end
+    end
+
+    assert_equal 1, ::Pagelets::Manager.sorted_pagelets_at("tests/show", :main_tabs).count
+    assert_equal "My Tab", ::Pagelets::Manager.sorted_pagelets_at("tests/show", :main_tabs).first.name
+  end
 end
