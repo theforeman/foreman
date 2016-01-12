@@ -106,6 +106,7 @@ permissions = [
   ['Organization', 'edit_organizations'],
   ['Organization', 'destroy_organizations'],
   ['Organization', 'assign_organizations'],
+  ['Parameter', 'view_params'],
   ['Parameter', 'create_params'],
   ['Parameter', 'edit_params'],
   ['Parameter', 'destroy_params'],

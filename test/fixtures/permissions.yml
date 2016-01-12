@@ -229,6 +229,11 @@
     resource_type: Parameter
     created_at: "2013-12-04 08:41:04.831888"
     updated_at: "2013-12-04 08:41:04.831888"
+  view_params:
+    name: view_params
+    resource_type: Parameter
+    created_at: "2013-12-04 08:41:04.831888"
+    updated_at: "2013-12-04 08:41:04.831888"
   destroy_params:
     name: destroy_params
     resource_type: Parameter

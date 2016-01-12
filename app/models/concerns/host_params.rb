@@ -37,7 +37,7 @@ module HostParams
       return cached_host_params unless cached_host_params.blank?
       hp = host_inherited_params
       # and now read host parameters, override if required
-      host_parameters.each {|p| hp.update Hash[p.name => p.value] }
+      host_parameters.authorized(:view_params).each { |p| hp[p.name] = p.value }
       @cached_host_params = hp
     end
 
@@ -51,10 +51,10 @@ module HostParams
         params += extract_params_from_object_ancestors(location)
       end
 
-      params += domain.domain_parameters if domain
-      params += subnet.subnet_parameters if subnet
-      params += subnet6.subnet_parameters if subnet6
-      params += operatingsystem.os_parameters if operatingsystem
+      params += domain.domain_parameters.authorized(:view_params) if domain
+      params += subnet.subnet_parameters.authorized(:view_params) if subnet
+      params += subnet6.subnet_parameters.authorized(:view_params) if subnet6
+      params += operatingsystem.os_parameters.authorized(:view_params) if operatingsystem
       params += extract_params_from_object_ancestors(hostgroup) if hostgroup
       params
     end

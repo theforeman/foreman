@@ -1,4 +1,8 @@
 FactoryGirl.define do
+  factory :subnet_parameter, :parent => :parameter, :class => SubnetParameter do
+    type 'SubnetParameter'
+  end
+
   factory :subnet do
     sequence(:name) {|n| "subnet#{n}" }
     ipam "None"
@@ -37,6 +41,12 @@ FactoryGirl.define do
 
       trait :ipam_dhcp do
         ipam "DHCP"
+      end
+
+      trait :with_parameter do
+        after(:create) do |subnet,evaluator|
+          FactoryGirl.create(:subnet_parameter, :subnet => subnet)
+        end
       end
     end
 

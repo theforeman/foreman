@@ -101,6 +101,21 @@ class SubnetsControllerTest < ActionController::TestCase
     assert_equal ip, JSON.parse(response.body)['ip']
   end
 
+  test 'user with view_params rights should see parameters in a subnet' do
+    setup_user "edit", "subnets"
+    setup_user "view", "params"
+    subnet = FactoryGirl.create(:subnet_ipv4, :with_parameter)
+    get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
+    assert_not_nil response.body['Parameter']
+  end
+
+  test 'user without view_params rights should not see parameters in a subnet' do
+    setup_user "edit", "subnets"
+    subnet = FactoryGirl.create(:subnet_ipv4, :with_parameter)
+    get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
+    assert_nil response.body['Parameter']
+  end
+
   private
 
   def setup_subnet(subnet)

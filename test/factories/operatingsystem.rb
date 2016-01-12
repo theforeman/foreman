@@ -1,4 +1,8 @@
 FactoryGirl.define do
+  factory :os_parameter, :parent => :parameter, :class => OsParameter do
+    type 'OsParameter'
+  end
+
   factory :operatingsystem, class: Operatingsystem do
     sequence(:name) { |n| "operatingsystem#{n}" }
     sequence(:major) { |n| n }
@@ -37,6 +41,12 @@ FactoryGirl.define do
       with_archs
       with_media
       with_ptables
+    end
+
+    trait :with_parameter do
+      after(:create) do |os,evaluator|
+        FactoryGirl.create(:os_parameter, :operatingsystem => os)
+      end
     end
 
     factory :coreos, class: Coreos do

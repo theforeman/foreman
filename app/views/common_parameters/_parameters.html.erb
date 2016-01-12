@@ -8,9 +8,10 @@
     </tr>
     </thead>
     <tbody>
-      <%= f.fields_for type do |builder| %>
+    <% parameters = f.object.send(type).authorized(:view_params) %>
+    <%= f.fields_for type, parameters do |builder| %>
         <%= render "common_parameters/parameter", :f => builder %>
-      <% end %>
+    <% end %>
     </tbody>
   </table>
   <%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields('+ ' + _("Add Parameter"), f, type, "common_parameters/parameter", :target => '#global_parameters_table tbody') : "" %>

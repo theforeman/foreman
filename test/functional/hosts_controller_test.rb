@@ -130,14 +130,16 @@ class HostsControllerTest < ActionController::TestCase
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     get :externalNodes, {:name => @host.name}, set_session_user
     assert_response :success
-    assert_equal "<pre>#{ERB::Util.html_escape(@host.info.to_yaml)}</pre>", response.body
+    as_admin { @enc = @host.info.to_yaml}
+    assert_equal "<pre>#{ERB::Util.html_escape(@enc)}</pre>", response.body
   end
 
   test "externalNodes should render yml request correctly" do
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
     assert_response :success
-    assert_equal @host.info.to_yaml, response.body
+    as_admin { @enc = @host.info.to_yaml }
+    assert_equal @enc, response.body
   end
 
   test "when host is not saved after setBuild, the flash should inform it" do
@@ -302,6 +304,21 @@ class HostsControllerTest < ActionController::TestCase
     setup_user_and_host "view"
     get :edit, {:id => @host1.id}, set_session_user.merge(:user => @one.id)
     assert_equal @response.status, 403
+  end
+
+  test 'user with view_params rights should see parameters in a host' do
+    setup_user "edit"
+    setup_user "view", "params"
+    subnet = FactoryGirl.create(:host, :with_parameter)
+    get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
+    assert_not_nil response.body['Global parameters']
+  end
+
+  test 'user without view_params rights should not see parameters in a host' do
+    setup_user "edit"
+    subnet = FactoryGirl.create(:host, :with_parameter)
+    get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
+    assert_nil response.body['Global parameters']
   end
 
   test 'multiple without hosts' do

@@ -1067,8 +1067,8 @@ class Host::Managed < Host::Base
   def extract_params_from_object_ancestors(object)
     params = []
     object_parameters_symbol = "#{object.class.to_s.downcase}_parameters".to_sym
-    object.class.sort_by_ancestry(object.ancestors).each {|o| params += o.send(object_parameters_symbol)}
-    params += object.send(object_parameters_symbol)
+    object.class.sort_by_ancestry(object.ancestors).each {|o| params += o.send(object_parameters_symbol).authorized(:view_params)}
+    params += object.send(object_parameters_symbol).authorized(:view_params)
     params
   end
 

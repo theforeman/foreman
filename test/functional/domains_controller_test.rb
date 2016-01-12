@@ -43,11 +43,6 @@ class DomainsControllerTest < ActionController::TestCase
     assert !Domain.exists?(domain.id)
   end
 
-  def setup_user
-    @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
-  end
-
   def user_with_viewer_rights_should_fail_to_edit_a_domain
     setup_users
     get :edit, {:id => Domain.first.id}
@@ -58,5 +53,20 @@ class DomainsControllerTest < ActionController::TestCase
     setup_users
     get :index
     assert_response :success
+  end
+
+  test 'user with view_params rights should see parameters in a domain' do
+    setup_user "edit", "domains"
+    setup_user "view", "params"
+    domain = FactoryGirl.create(:domain, :with_parameter)
+    get :edit, {:id => domain.id}, set_session_user.merge(:user => users(:one).id)
+    assert_not_nil response.body['Parameter']
+  end
+
+  test 'user without view_params rights should not see parameters in a domain' do
+    setup_user "edit", "domains"
+    domain = FactoryGirl.create(:domain, :with_parameter)
+    get :edit, {:id => domain.id}, set_session_user.merge(:user => users(:one).id)
+    assert_nil response.body['Parameter']
   end
 end
