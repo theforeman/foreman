@@ -58,9 +58,9 @@ module HostTemplateHelpers
       path     = config.path
     end
 
-    url_for :only_path => false, :controller => "/unattended", :action => action,
+    url_for :only_path => false, :controller => "/unattended", :action => 'host_template',
       :protocol  => protocol, :host => host, :port => port, :script_name => path,
-      :token     => (@host.token.value unless @host.token.nil?)
+      :token     => (@host.token.value unless @host.token.nil?), :kind => action
   end
 
   attr_writer(:url_options)

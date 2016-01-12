@@ -334,7 +334,7 @@ Foreman::AccessControl.map do |permission_set|
                                                :externalNodes, :pxe_config, :storeconfig_klasses, :auto_complete_search, :bmc,
                                                :runtime, :resources, :templates, :overview, :nics],
                                     :dashboard => [:OutOfSync, :errors, :active],
-                                    :unattended => [:template, :provision],
+                                    :unattended => [:host_template, :hostgroup_template],
                                      :"api/v1/hosts" => [:index, :show, :status],
                                      :"api/v2/hosts" => [:index, :show, :status, :get_status, :vm_compute_attributes, :template],
                                      :"api/v2/interfaces" => [:index, :show],
