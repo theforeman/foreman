@@ -326,6 +326,12 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert_equal key.hidden_value, key.safe_value
   end
 
+  test 'smart variable key should not contain whitespace' do
+    key = FactoryGirl.build(:variable_lookup_key, :key => 'bad name', :puppetclass => puppetclasses(:one))
+    refute key.valid?
+    assert_include key.errors.keys, :key
+  end
+
   context "when key is a boolean and default_value is a string" do
     def setup
       @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,

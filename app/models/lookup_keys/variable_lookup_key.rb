@@ -2,7 +2,7 @@ class VariableLookupKey < LookupKey
   belongs_to :puppetclass, :inverse_of => :lookup_keys, :counter_cache => :variable_lookup_keys_count
 
   validates :puppetclass, :presence => true
-  validates :key, :uniqueness => true
+  validates :key, :uniqueness => true, :no_whitespace => true
 
   scoped_search :in => :puppetclass, :on => :name, :complete_value => true, :rename => :puppetclass
 
