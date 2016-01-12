@@ -186,9 +186,6 @@ module Foreman #:nodoc:
     end
 
     def tests_to_skip(hash)
-      Rails.logger.warn "Minitest 5 deprecated the runner API and plugin tests \
-can't be skipped right now. Future versions of Foreman might bring back this \
-feature"
       # Format is { "testclass" => [ "skip1", "skip2" ] }
       hash.each do |testclass,tests|
         if self.class.tests_to_skip[testclass].nil?

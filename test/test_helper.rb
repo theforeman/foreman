@@ -64,6 +64,8 @@ Spork.prefork do
 
     setup :begin_gc_deferment
     setup :reset_setting_cache
+    setup :skip_if_plugin_asked_to
+
     teardown :reconsider_gc_deferment
     teardown :clear_current_user
     teardown :reset_setting_cache
@@ -83,6 +85,13 @@ Spork.prefork do
         GC.disable
 
         @@last_gc_run = Time.now
+      end
+    end
+
+    def skip_if_plugin_asked_to
+      skips = Foreman::Plugin.tests_to_skip[self.class.name].to_a
+      if skips.any?{|name| @NAME.end_with?(name)}
+        skip "Test was disabled by plugin"
       end
     end
 
