@@ -152,6 +152,21 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_equal(1, (assigns(:hostgroup).puppetclasses.length))
   end
 
+  test 'user with view_params rights should see parameters in a hostgroup' do
+    setup_user "edit"
+    setup_user "view", "params"
+    hg = FactoryGirl.create(:hostgroup, :with_parameter)
+    get :edit, {:id => hg.id}, set_session_user.merge(:user => users(:one).id)
+    assert_not_nil response.body['Parameter']
+  end
+
+  test 'user without view_params rights should not see parameters in a hostgroup' do
+    setup_user "edit"
+    hg = FactoryGirl.create(:hostgroup, :with_parameter)
+    get :edit, {:id => hg.id}, set_session_user.merge(:user => users(:one).id)
+    assert_nil response.body['Parameter']
+  end
+
   describe "parent attributes" do
     before do
       @base = FactoryGirl.create(:hostgroup)

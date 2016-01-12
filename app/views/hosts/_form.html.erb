@@ -20,7 +20,9 @@
           <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab"><%= _('Virtual Machine') %></a></li>
         <% end %>
       <% end %>
-      <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+      <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+        <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+      <% end %>
       <li><a href="#info" data-toggle="tab"><%= _('Additional Information') %></a></li>
     </ul>
 
@@ -102,12 +104,14 @@
           <%= render "puppetclasses/classes_parameters", :obj => @host %>
         </fieldset>
         <br/>
-        <fieldset>
-          <h2><%= _('Global parameters') %></h2>
-          <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true), :parameters => @host.host_parameters  } %>
-          <h2><%= _('Host parameters') %></h2>
-          <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
-        </fieldset>
+        <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+          <fieldset>
+            <h2><%= _('Global parameters') %></h2>
+            <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true), :parameters => @host.host_parameters  } %>
+            <h2><%= _('Host parameters') %></h2>
+            <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
+          </fieldset>
+        <% end %>
       </div>
 
       <div class="tab-pane"  id="info">

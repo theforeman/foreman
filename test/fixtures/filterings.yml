@@ -334,6 +334,9 @@ viewer_21_0:
 viewer_22_0:
   filter: viewer_22
   permission: view_realms
+viewer_23_0:
+  filter: viewer_23
+  permission: view_params
 viewer_24_0:
   filter: viewer_24
   permission: view_external_parameters

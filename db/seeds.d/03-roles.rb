@@ -17,7 +17,7 @@ default_permissions =
                                   :view_globals, :create_globals, :edit_globals, :destroy_globals,
                                   :view_hostgroups, :create_hostgroups, :edit_hostgroups, :destroy_hostgroups,
                                   :view_hosts, :create_hosts, :edit_hosts, :destroy_hosts, :build_hosts, :power_hosts, :console_hosts, :ipmi_boot, :puppetrun_hosts,
-                                  :edit_classes, :create_params, :edit_params, :destroy_params,
+                                  :edit_classes, :view_params, :create_params, :edit_params, :destroy_params,
                                   :view_images, :create_images, :edit_images, :destroy_images,
                                   :view_locations, :create_locations, :edit_locations, :destroy_locations, :assign_locations,
                                   :view_media, :create_media, :edit_media, :destroy_media,

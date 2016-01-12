@@ -304,6 +304,21 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal @response.status, 403
   end
 
+  test 'user with view_params rights should see parameters in a host' do
+    setup_user "edit"
+    setup_user "view", "params"
+    subnet = FactoryGirl.create(:host, :with_parameter)
+    get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
+    assert_not_nil response.body['Parameter']
+  end
+
+  test 'user without view_params rights should not see parameters in a host' do
+    setup_user "edit"
+    subnet = FactoryGirl.create(:host, :with_parameter)
+    get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
+    assert_nil response.body['Parameter']
+  end
+
   test 'multiple without hosts' do
     post :update_multiple_hostgroup, {}, set_session_user
     assert_redirected_to hosts_url
