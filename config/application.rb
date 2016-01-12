@@ -39,19 +39,15 @@ end
 SETTINGS[:libvirt]   = !!(defined?(::Fog::Libvirt) && defined?(::Libvirt))
 SETTINGS[:gce]       = !!(defined?(::Fog::Google) && defined?(::Google::APIClient::VERSION))
 SETTINGS[:ec2]       = !!defined?(::Fog::AWS)
+SETTINGS[:vmware]    = !!(defined?(::Fog::Vsphere))
 
-SETTINGS.merge! :openstack => false, :ovirt => false, :rackspace => false, :vmware => false
+SETTINGS.merge! :openstack => false, :ovirt => false, :rackspace => false
 
 # CRs in fog core with extra dependencies will have those deps loaded, so then
 # load the corresponding bit of fog
 if defined?(::OVIRT)
   require 'fog/ovirt'
   SETTINGS[:ovirt] = Fog::Compute.providers.include?(:ovirt)
-end
-
-if defined?(::RbVmomi)
-  require 'fog/vsphere'
-  SETTINGS[:vmware] = Fog::Compute.providers.include?(:vsphere)
 end
 
 # CRs in fog core need to be loaded to find out if they're present as
