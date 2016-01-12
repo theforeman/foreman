@@ -24,7 +24,7 @@ module PageletsHelper
   def render_tab_header_for(mountpoint, opts = {})
     result = ""
     pagelets_for(mountpoint).each do |pagelet|
-      result += "<li><a href='##{pagelet.id}' data-toggle='tab'>#{pagelet.name}</a></li>"
+      result += "<li><a href='##{pagelet.id}' data-toggle='tab'>#{_(pagelet.name)}</a></li>"
     end
     result.html_safe
   end
