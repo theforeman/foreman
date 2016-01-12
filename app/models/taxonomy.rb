@@ -184,7 +184,7 @@ class Taxonomy < ActiveRecord::Base
     hash = {}
     elements = parents_with_params
     elements.each do |el|
-      el.send("#{type.downcase}_parameters".to_sym).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
+      el.send("#{type.downcase}_parameters".to_sym).authorized(:view_params).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
     end
     hash
   end

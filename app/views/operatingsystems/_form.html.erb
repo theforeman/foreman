@@ -7,7 +7,9 @@
       <li><a href="#media" data-toggle="tab"><%= _("Installation media") %></a></li>
       <li><a href="#templates" data-toggle="tab"><%= _("Templates") %></a></li>
     <% end -%>
-    <li><a href="#params" data-toggle="tab" id="params-tab"><%= _("Parameters") %></a></li>
+    <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+      <li><a href="#params" data-toggle="tab" id="params-tab"><%= _("Parameters") %></a></li>
+    <% end %>
   </ul>
 
   <div class="tab-content">
@@ -36,9 +38,11 @@
         <%= multiple_checkboxes f, :media, @operatingsystem,   os_habtm_family(Medium, f.object), :label => _("Installation media") %>
       </div>
     <% end %>
-    <div class="tab-pane" id="params">
-      <%= render "common_parameters/parameters", { :f => f, :type => :os_parameters } %>
-    </div>
+    <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+      <div class="tab-pane" id="params">
+        <%= render "common_parameters/parameters", { :f => f, :type => :os_parameters } %>
+      </div>
+    <% end %>
   </div>
 
   <%= submit_or_cancel f %>

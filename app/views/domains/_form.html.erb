@@ -2,7 +2,9 @@
   <%= base_errors_for @domain %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Domain") %></a></li>
-    <li><a href="#params" data-toggle="tab"><%= _("Parameters") %></a></li>
+    <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+      <li><a href="#params" data-toggle="tab"><%= _("Parameters") %></a></li>
+    <% end %>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
     <% end %>
@@ -20,11 +22,11 @@
         {:include_blank => _("None")}, {:label => _("DNS Proxy"), :help_inline => _("DNS proxy to use within this domain for managing A records, note that PTR records are managed via Subnet DNS proxy")}
       %>
     </div>
-
-    <div class="tab-pane" id="params">
-      <%= render "common_parameters/parameters", { :f => f, :type => :domain_parameters } %>
-    </div>
-
+    <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+      <div class="tab-pane" id="params">
+        <%= render "common_parameters/parameters", { :f => f, :type => :domain_parameters } %>
+      </div>
+    <% end %>
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @domain %>
 
   </div>
