@@ -50,7 +50,7 @@ module HostStatus
 
     # Whether this status should be displayed to users, it may not be relevant for certain
     # types of hosts
-    def relevant?
+    def relevant?(options = {})
       true
     end
 

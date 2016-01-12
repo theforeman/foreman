@@ -7,7 +7,15 @@ module HostStatus
     attr_accessor :status
 
     def self.build(statuses, options = {})
-      max_status = statuses.select { |s| s.relevant? }.map { |s| s.to_global(options) }.max
+      relevant_statuses = statuses.select do |s|
+        if s.method(:relevant?).arity.zero?
+          s.relevant?
+        else
+          s.relevant?(options)
+        end
+      end
+
+      max_status = relevant_statuses.map { |s| s.to_global(options) }.max
 
       new(max_status || OK)
     end

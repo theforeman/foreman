@@ -26,7 +26,7 @@ module HostStatus
       end
     end
 
-    def relevant?
+    def relevant?(options = {})
       SETTINGS[:unattended] && host.managed?
     end
 
