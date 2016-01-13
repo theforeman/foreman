@@ -551,3 +551,23 @@ span.glyphicon.host-status {
   max-height: 300px;
   overflow-y: auto;
 }
+
+.modal-big {
+  width: 80%;
+}
+
+@media screen and (min-width: 768px) {
+  .modal-big {
+      width: 70%;
+  }
+}
+
+.pre-scrollable-xy-modal {
+  overflow: auto;
+  -ms-word-wrap: normal;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  white-space: pre;
+  max-height: 200px;
+  padding: 4px;
+}

@@ -49,12 +49,29 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <%= _('Features') %>
+            <%= _('Active Features') %>
           </div>
           <div class="col-md-8">
             <%= @smart_proxy.features.to_sentence %> <%= refresh_proxy_icon(@smart_proxy, authorizer) %>
           </div>
         </div>
+        <% if @smart_proxy.has_feature?('Logs') %>
+          <div class="row">
+            <div class="col-md-4">
+              <%= _('Failed Features') %>
+            </div>
+            <div class="col-md-8">
+              <div class="tab-pane" id="failed-modules"
+                data-ajax-url="<%= failed_modules_smart_proxy_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner %></div>
+            </div>
+          </div>
+          <div class="container-fluid container-cards-pf">
+            <div class="row row-cards-pf">
+              <div id="ajax-errors-card" class="col-md-6" data-ajax-url="<%= errors_card_smart_proxy_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner %></div>
+              <div id="ajax-modules-card" class="col-md-6" data-ajax-url="<%= modules_card_smart_proxy_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner %></div>
+            </div>
+          </div>
+        <% end %>
         <%= render_pagelets_for(:overview_content, :subject => @smart_proxy) %>
       </div>
       <div class="col-md-6">

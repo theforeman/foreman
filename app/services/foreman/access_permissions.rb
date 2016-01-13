@@ -580,15 +580,16 @@ Foreman::AccessControl.map do |permission_set|
   permission_set.security_block :smart_proxies do |map|
     map.permission :view_smart_proxies,    {:smart_proxies => [:index, :ping, :auto_complete_search, :version,
                                                                :show, :plugin_version, :tftp_server, :puppet_environments,
-                                                               :puppet_dashboard],
+                                                               :puppet_dashboard, :log_pane, :failed_modules, :errors_card,
+                                                               :modules_card],
                                           :"api/v1/smart_proxies" => [:index, :show],
-                                          :"api/v2/smart_proxies" => [:index, :show, :version]
+                                          :"api/v2/smart_proxies" => [:index, :show, :version, :logs]
     }
     map.permission :create_smart_proxies,  {:smart_proxies => [:new, :create],
                                           :"api/v1/smart_proxies" => [:create],
                                           :"api/v2/smart_proxies" => [:create]
     }
-    map.permission :edit_smart_proxies,    {:smart_proxies => [:edit, :update, :refresh],
+    map.permission :edit_smart_proxies,    {:smart_proxies => [:edit, :update, :refresh, :expire_logs],
                                           :"api/v1/smart_proxies" => [:update, :refresh],
                                           :"api/v2/smart_proxies" => [:update, :refresh]
     }

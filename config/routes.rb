@@ -200,6 +200,11 @@ Foreman::Application.routes.draw do
       get 'tftp_server'
       get 'puppet_environments'
       get 'puppet_dashboard'
+      get 'log_pane'
+      get 'failed_modules'
+      get 'errors_card'
+      get 'modules_card'
+      post 'expire_logs'
     end
     constraints(:id => /[^\/]+/) do
       resources :puppetca, :only => [:index, :update, :destroy] do
