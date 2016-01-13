@@ -11,8 +11,8 @@ module Pagelets
     class << self
       def add_pagelet(page_name, mountpoint, opts)
         handle_empty_keys_for page_name, mountpoint
-        raise ::Foreman::Exception.new(N_("Cannot add pagelet to page %s without partial", page_name)) unless opts[:partial]
-        raise ::Foreman::Exception.new(N_("Cannot add pagelet to page %s without mountpoint", page_name)) if mountpoint.nil?
+        raise ::Foreman::Exception.new(N_("Cannot add pagelet to page %s without partial"), page_name) unless opts[:partial]
+        raise ::Foreman::Exception.new(N_("Cannot add pagelet to page %s without mountpoint"), page_name) if mountpoint.nil?
         priority = opts[:priority] || default_pagelet_priority(page_name, mountpoint)
         pagelet = Pagelets::Pagelet.new(opts.delete(:name), opts.delete(:partial), priority, opts)
         @pagelets[page_name][mountpoint] << pagelet
