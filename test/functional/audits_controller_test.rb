@@ -8,7 +8,16 @@ class AuditsControllerTest < ActionController::TestCase
 
   def test_show
     get :show, {:id => Audit.first}, set_session_user
+    assert_response :success
     assert_template 'show'
+  end
+
+  def test_show_diff
+    audit = FactoryGirl.create(:audit, :with_diff)
+    get :show, {:id => audit.id}, set_session_user
+    assert_response :success
+    assert_template 'show'
+    assert_template '_diff'
   end
 
   def setup_user
