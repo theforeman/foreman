@@ -291,6 +291,7 @@ Foreman::Application.routes.draw do
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
           put :refresh, :on => :member
           get :version, :on => :member
+          get :logs, :on => :member
           post :import_puppetclasses, :on => :member
           resources :environments, :only => [] do
             post :import_puppetclasses, :on => :member

@@ -13,6 +13,8 @@
 //= require vendor
 //= require about
 //= require proxy_status
+//= require proxy_status/puppet
+//= require proxy_status/logs
 //= require jquery.extentions
 //= require jquery.multi-select
 //= require settings

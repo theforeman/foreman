@@ -272,18 +272,34 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test "smart proxy version succeeded" do
-    SmartProxy.any_instance.stubs(:version).returns({:success => true, :message => '1.11'})
+    ProxyStatus::Version.any_instance.stubs(:version).returns({"version" => "1.11", "modules" => {}})
     get :version, { :id => smart_proxies(:one).to_param }, set_session_user
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert_equal('1.11', show_response['message'])
+    assert_equal('1.11', show_response['result']['version'])
   end
 
   test "smart proxy version failed" do
-    SmartProxy.any_instance.stubs(:version).raises(Foreman::Exception, 'Exception message')
+    ProxyStatus::Version.any_instance.stubs(:version).raises(Foreman::Exception, 'Exception message')
     get :version, { :id => smart_proxies(:one).to_param }, set_session_user
+    assert_response :unprocessable_entity
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_match(/Exception message/, show_response['error']['message'])
+  end
+
+  test "smart proxy logs succeeded" do
+    ProxyStatus::Logs.any_instance.stubs(:logs).returns({"info" => {"size" => 1000, "tail_size" => 500, }, "logs" => [] })
+    get :logs, { :id => smart_proxies(:logs).to_param }, set_session_user
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert_match(/Exception message/, show_response['message'])
+    assert_equal(1000, show_response['result']['info']['size'])
+  end
+
+  test "smart proxy logs failed" do
+    ProxyStatus::Logs.any_instance.stubs(:logs).raises(Foreman::Exception, 'Exception message')
+    get :logs, { :id => smart_proxies(:logs).to_param }, set_session_user
+    assert_response :unprocessable_entity
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_match(/Exception message/, show_response['error']['message'])
   end
 end

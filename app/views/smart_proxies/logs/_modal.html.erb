@@ -1,0 +1,41 @@
+<%= render :layout => 'common/modal', :locals => {
+ :id => 'logEntryModal',
+ :title => _("Log entry details"),
+ :big => true,
+ :buttons => [ modal_close(_('Ok')) ]} do %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <%= label_tag(:'modal-bt-time', _("Local time"), :class => 'control-label nbsp') %>
+      </div>
+      <div class="col-md-10" class="" id="modal-bt-time">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <%= label_tag(:'modal-bt-timegmt', _("GMT time"), :class => 'control-label nbsp') %>
+      </div>
+      <div class="col-md-10" class="" id="modal-bt-timegmt">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <%= label_tag(:'modal-bt-level', _("Level"), :class => 'control-label nbsp') %>
+      </div>
+      <div class="col-md-10" class="" id="modal-bt-level">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <%= label_tag(:'modal-bt-message', _("Message"), :class => 'control-label nbsp') %><br/>
+        <div class="code pre-scrollable-xy-modal bg-warning" id="modal-bt-message">N/A</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <%= label_tag(:'modal-bt-backtrace', _("Backtrace"), :class => 'control-label nbsp') %><br/>
+        <div class="code pre-scrollable-xy-modal bg-warning" id="modal-bt-backtrace">N/A</div>
+      </div>
+    </div>
+  </div>
+<% end %>
