@@ -1020,62 +1020,98 @@ class HostsControllerTest < ActionController::TestCase
     assert_not_nil flash[:error]
   end
 
-  test '#process_hostgroup changes compute attributes' do
-    Fog.mock!
-    group1 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:one))
-    host = FactoryGirl.build(:host, :managed, :on_compute_resource)
-    #remove unneeded expectation to :queue_compute
-    host.unstub(:queue_compute)
-    host.hostgroup = group1
-    host.compute_resource = compute_resources(:one)
-    host.compute_profile = compute_profiles(:one)
-    host.set_compute_attributes
+  context 'Fog.mock!' do
+    setup do
+      Fog.mock!
+      Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(stub(:hypervisor))
+      Foreman::Model::Libvirt.any_instance.expects(:max_cpu_count).returns(10)
+      Foreman::Model::Libvirt.any_instance.expects(:max_memory).returns(10000000000)
+    end
 
-    group2 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
+    teardown { Fog.unmock! }
 
-    attrs = host_attributes(host)
-    attrs['hostgroup_id'] = group2.id
-    attrs.delete 'compute_profile_id'
+    test '#process_hostgroup changes compute attributes' do
+      group1 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:one))
+      host = FactoryGirl.build(:host, :managed, :on_compute_resource)
+      #remove unneeded expectation to :queue_compute
+      host.unstub(:queue_compute)
+      host.hostgroup = group1
+      host.compute_resource = compute_resources(:one)
+      host.compute_profile = compute_profiles(:one)
+      host.set_compute_attributes
 
-    host.compute_resource.class.any_instance.expects(:max_cpu_count).returns(10)
-    host.compute_resource.class.any_instance.expects(:max_memory).returns(10000000000)
+      group2 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
 
-    xhr :put, :process_hostgroup, { :host => attrs }, set_session_user
+      attrs = host_attributes(host)
+      attrs['hostgroup_id'] = group2.id
+      attrs.delete 'compute_profile_id'
 
-    assert_response :success
-    assert_template :partial => '_form'
-    assert_select '#host_compute_attributes_cpus option[selected]', "5"
-    Fog.unmock!
+      xhr :put, :process_hostgroup, { :host => attrs }, set_session_user
+
+      assert_response :success
+      assert_template :partial => '_form'
+      assert_select '#host_compute_attributes_cpus option[selected]', "5"
+    end
+
+    test '#process_hostgroup does not change compute attributes if compute profile selected manually' do
+      group1 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:one))
+      host = FactoryGirl.build(:host, :managed, :on_compute_resource)
+      #remove unneeded expectation to :queue_compute
+      host.unstub(:queue_compute)
+      host.hostgroup = group1
+      host.compute_resource = compute_resources(:one)
+      host.compute_profile = compute_profiles(:one)
+      host.set_compute_attributes
+
+      group2 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
+
+      attrs = host_attributes(host)
+      attrs['hostgroup_id'] = group2.id
+      attrs['compute_attributes'] = { 'cpus' => 3 }
+      attrs.delete 'uuid'
+
+      xhr :put, :process_hostgroup, { :host => attrs }, set_session_user
+
+      assert_response :success
+      assert_template :partial => '_form'
+      assert_select '#host_compute_attributes_cpus option[selected]', "3"
+    end
+
+    test '#compute_resource_selected renders compute tab without compute profile' do
+      xhr :get, :compute_resource_selected, { :host => {:compute_resource_id => compute_resources(:one).id}}, set_session_user
+      assert_response :success
+      assert_template :partial => '_compute'
+      assert_select '#host_compute_attributes_cpus option[selected]', '1'
+    end
+
+    test '#compute_resource_selected renders compute tab with explicit compute profile' do
+      xhr :get, :compute_resource_selected, { :host => {:compute_resource_id => compute_resources(:one).id, :compute_profile_id => compute_profiles(:two).id}}, set_session_user
+      assert_response :success
+      assert_template :partial => '_compute'
+      assert_select '#host_compute_attributes_cpus option[selected]', '4'
+    end
+
+    test '#compute_resource_selected renders compute tab with hostgroup\'s compute profile' do
+      group = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
+      xhr :get, :compute_resource_selected, { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, set_session_user
+      assert_response :success
+      assert_template :partial => '_compute'
+      assert_select '#host_compute_attributes_cpus option[selected]', '4'
+    end
+
+    test '#compute_resource_selected renders compute tab with hostgroup parent\'s compute profile' do
+      parent = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
+      group = FactoryGirl.create(:hostgroup, :parent => parent)
+      xhr :get, :compute_resource_selected, { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, set_session_user
+      assert_response :success
+      assert_template :partial => '_compute'
+      assert_select '#host_compute_attributes_cpus option[selected]', '4'
+    end
   end
 
-  test '#process_hostgroup does not change compute attributes if compute profile selected manually' do
-    Fog.mock!
-    group1 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:one))
-    host = FactoryGirl.build(:host, :managed, :on_compute_resource)
-    #remove unneeded expectation to :queue_compute
-    host.unstub(:queue_compute)
-    host.hostgroup = group1
-    host.compute_resource = compute_resources(:one)
-    host.compute_profile = compute_profiles(:one)
-    host.set_compute_attributes
-    Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(stub(:hypervisor))
-
-    group2 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
-
-    attrs = host_attributes(host)
-    attrs['hostgroup_id'] = group2.id
-    attrs['compute_attributes'] = { 'cpus' => 3 }
-    attrs.delete 'uuid'
-
-    host.compute_resource.class.any_instance.expects(:max_cpu_count).returns(10)
-    host.compute_resource.class.any_instance.expects(:max_memory).returns(10000000000)
-
-    xhr :put, :process_hostgroup, { :host => attrs }, set_session_user
-
-    assert_response :success
-    assert_template :partial => '_form'
-    assert_select '#host_compute_attributes_cpus option[selected]', "3"
-    Fog.unmock!
+  test '#compute_resource_selected returns 404 without compute_resource_id' do
+    xhr :get, :compute_resource_selected, { :host => {} }, set_session_user
+    assert_response :not_found
   end
 
   private
