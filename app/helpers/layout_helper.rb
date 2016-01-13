@@ -5,7 +5,10 @@ module LayoutHelper
   end
 
   def title_actions(*elements)
-    content_for(:title_actions) { elements.join(" ").html_safe }
+    content_for(:title_actions) do
+      pagelets = Pagelets::Manager.sorted_pagelets_at(params, :title_action_buttons).collect { |pt| render(pt.partial.chomp).chomp }
+      (pagelets + elements).join(" ").html_safe
+    end
   end
 
   def button_group(*elements)
