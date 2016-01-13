@@ -37,7 +37,7 @@ class FiltersControllerTest < ActionController::TestCase
     assert_response :success
     refute_empty assigns(:filters)
     assert_equal Filter.search_for("role = #{role.name}").count, assigns(:filters).count
-    assert_match "Filter for role Manager", @response.body
+    assert_match "Filters for role Manager", @response.body
   end
 
   test "should get new" do
