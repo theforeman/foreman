@@ -2,6 +2,7 @@ class SmartProxiesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   before_filter :find_resource, :only => [:show, :edit, :update, :refresh, :ping, :tftp_server, :destroy]
+  before_filter :find_status, :only => [:ping, :tftp_server]
 
   def index
     @smart_proxies = resource_base.includes(:features).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
@@ -38,11 +39,19 @@ class SmartProxiesController < ApplicationController
   end
 
   def ping
-    requested_data(:version)
+    requested_data do
+      @proxy_status[:version].version
+    end
   end
 
   def tftp_server
-    requested_data(:tftp_server)
+    if @proxy_status[:tftp]
+      requested_data do
+        @proxy_status[:tftp].server
+      end
+    else
+      render(:json => {:success => false, :message => _('No TFTP feature')})
+    end
   end
 
   def update
@@ -63,9 +72,13 @@ class SmartProxiesController < ApplicationController
 
   private
 
-  def requested_data(data_name)
-    data = @smart_proxy.public_send(data_name)
-    render :json => {:success => true, :message => data}
+  def find_status
+    @proxy_status = @smart_proxy.statuses
+  end
+
+  def requested_data
+    data = yield
+    render :json => {:success => true, :message => data }
   rescue Foreman::Exception => exception
     render :json => {:success => false, :message => exception.message} and return
   end

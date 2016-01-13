@@ -13,7 +13,7 @@ module SmartProxiesHelper
   def feature_actions(proxy, authorizer)
     actions = []
 
-    actions << display_link_if_authorized(_("Refresh features"), hash_for_refresh_smart_proxy_path(:id => proxy).
+    actions << display_link_if_authorized(_("Refresh"), hash_for_refresh_smart_proxy_path(:id => proxy).
                                                                  merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => authorizer), :method => :put)
 
     if proxy.has_feature?('Puppet CA')
