@@ -1,4 +1,8 @@
-<% title _("Filters") %>
+<% if @role
+     title _("Filters for role") + " " + @role.to_s
+   else 
+     title _("Filters")
+   end %>
 
 <% title_actions link_to_if_authorized(_("New filter"), hash_for_new_filter_path(:role_id => @role)),
                  documentation_button('4.1.2RolesandPermissions') %>
