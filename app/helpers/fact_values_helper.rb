@@ -21,7 +21,7 @@ module FactValuesHelper
             url = fact_values_path(parameters)
           end
           link_to(current_name, url,
-                  :title => _("Show all %s children fact values") % value_name)
+                  :title => _("Show all %s children fact values") % memo)
         else
           link_to(current_name, fact_values_path("search" => "name = #{value_name}"),
                   :title => _("Show all %s fact values") % value_name)
