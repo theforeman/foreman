@@ -3,5 +3,16 @@ FactoryGirl.define do
     sequence(:version) {|n| "#{n}" }
     auditable_type "test"
     action "update"
+
+    trait :with_diff do
+      transient do
+        old_template "old\ntemplate"
+        new_template "new\ntemplate"
+      end
+
+      audited_changes do
+        {'template' => [old_template, new_template]}
+      end
+    end
   end
 end
