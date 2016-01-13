@@ -30,8 +30,6 @@ class SmartProxy < ActiveRecord::Base
   scoped_search :on => :url, :complete_value => :true
   scoped_search :in => :features, :on => :name, :rename => :feature, :complete_value => :true
 
-  delegate :version, :tftp_server, :to => :proxy_status
-
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
@@ -67,7 +65,7 @@ class SmartProxy < ActiveRecord::Base
   end
 
   def refresh
-    proxy_status.revoke_cache!
+    statuses.values.each { |status| status.revoke_cache! }
     associate_features
     errors
   end
@@ -88,11 +86,22 @@ class SmartProxy < ActiveRecord::Base
     self.features.any? { |proxy_feature| proxy_feature.name == feature }
   end
 
-  private
+  def statuses
+    return @statuses if @statuses
 
-  def proxy_status
-    @proxy_status ||= ProxyStatus.new(self)
+    @statuses = {}
+    features.each do |feature|
+      name = feature.name.delete(' ')
+      if (status = ProxyStatus.find_status_by_humanized_name(name))
+        @statuses[name.downcase.to_sym] = status.new(self)
+      end
+    end
+    @statuses[:version] = ProxyStatus::Version.new(self)
+
+    @statuses
   end
+
+  private
 
   def sanitize_url
     self.url.chomp!('/') unless url.empty?
