@@ -12,6 +12,13 @@ class FacetConfigurationTest < ActiveSupport::TestCase
   module TestHelper
   end
 
+  teardown do
+    Host::Managed.cloned_parameters[:include].delete(:test_model)
+    Host::Managed.cloned_parameters[:include].delete(:test_facet)
+    Host::Managed.cloned_parameters[:include].delete(:test_class)
+    Host::Managed.cloned_parameters[:include].delete(:facet_name)
+  end
+
   test 'enables block configuration' do
     config = {}
     Facets.stubs(:configuration).returns(config)

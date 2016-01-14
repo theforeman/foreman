@@ -24,3 +24,9 @@ attributes :configuration_status => :puppet_status
 HostStatus.status_registry.each do |status_class|
   attributes "#{status_class.humanized_name}_status", "#{status_class.humanized_name}_status_label", :if => @object.get_status(status_class).relevant?
 end
+
+@object.facets_with_definitions.each do |_facet, definition|
+  node do
+    partial(definition.api_list_view, :object => @object) if definition.api_list_view
+  end
+end
