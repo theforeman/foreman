@@ -113,9 +113,12 @@ a {
   margin-right: 18px;
 }
 
-div#host-show .nav.nav-tabs{
-  margin-bottom: 10px;
-  font-size: 12px;
+.nav.nav-tabs{
+  margin-bottom: 20px;
+  #host-show &{
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
 }
 
 .tab-content{
