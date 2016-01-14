@@ -5,7 +5,7 @@
   <%= wizard_header 3, _("Create %s") % taxonomy.class.name, _("Select Hosts"), _("Assign Selected Hosts") %>
   <div class="row">
     <div class="col-md-11">
-      <table class="table table-bordered table-striped table-condensed" >
+      <table class="table table-bordered table-striped" >
         <thead>
           <tr>
             <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => _("Select All") } %></th>

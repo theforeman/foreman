@@ -515,6 +515,6 @@ module LayoutHelper
   private
 
   def table_css_classes(classes = '')
-    "table table-bordered table-striped table-condensed " + classes
+    "table table-bordered table-striped " + classes
   end
 end
