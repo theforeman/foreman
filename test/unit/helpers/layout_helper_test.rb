@@ -26,11 +26,11 @@ class LayoutHelperTest < ActionView::TestCase
   end
 
   test "table css classes should return the regular classes for table" do
-    assert_equal table_css_classes,"table table-bordered table-striped table-condensed "
+    assert_equal table_css_classes,"table table-bordered table-striped "
   end
 
   test "table css classes should return the regular classes for table plus the added classes" do
-    assert_equal table_css_classes("test-class"),"table table-bordered table-striped table-condensed test-class"
+    assert_equal table_css_classes("test-class"),"table table-bordered table-striped test-class"
   end
 
   context '#select_f' do
