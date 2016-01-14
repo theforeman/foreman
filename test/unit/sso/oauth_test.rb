@@ -35,7 +35,7 @@ class OauthTest < ActiveSupport::TestCase
     end
 
     test 'authenticates normal user' do
-      controller = get_controller(true, {'foreman_user' => users(:one).login})
+      controller = get_controller(true, {'HTTP_FOREMAN_USER' => users(:one).login})
       oauth = SSO::Oauth.new(controller)
       expect_oauth
       assert_equal users(:one).login, oauth.authenticated?
