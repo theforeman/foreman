@@ -12,7 +12,7 @@ class ApplicationMailerTest < ActiveSupport::TestCase
   end
 
   def mail
-    TestMailer.test.deliver
+    TestMailer.test.deliver_now
     ActionMailer::Base.deliveries.last
   end
 

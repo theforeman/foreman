@@ -162,8 +162,9 @@ class Api::TestableControllerTest < ActionController::TestCase
     end
 
     it "works with a CSRF token when there is a session user" do
-      request.headers['X-CSRF-Token'] = 'TEST_TOKEN'
-      post :index, {:authenticity_token => 'TEST_TOKEN'}, set_session_user.merge(:_csrf_token => 'TEST_TOKEN')
+      token = @controller.send(:form_authenticity_token)
+      request.headers['X-CSRF-Token'] = token
+      post :index, {:authenticity_token => token}, set_session_user
       assert_response :success
     end
   end

@@ -20,7 +20,7 @@ class MailNotificationTest < ActiveSupport::TestCase
     users = FactoryGirl.create_pair(:user, :with_mail)
     mailer = FactoryGirl.create(:mail_notification)
     mail = mock('mail')
-    mail.expects(:deliver).twice
+    mail.expects(:deliver_now).twice
     HostMailer.expects(:test_mail).with(:foo, :user => users[0]).returns(mail)
     HostMailer.expects(:test_mail).with(:foo, :user => users[1]).returns(mail)
     mailer.deliver(:foo, :users => users)

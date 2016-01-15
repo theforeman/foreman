@@ -1,8 +1,8 @@
 module Api
   class ApiResponder < ActionController::Responder
     # overview api_behavior
-    def api_behavior(error)
-      raise error unless resourceful?
+    def api_behavior
+      raise MissingRenderer.new(format) unless has_renderer?
 
       if !get? && !post?
         #return resource instead of default "head :no_content" for PUT, PATCH, and DELETE
