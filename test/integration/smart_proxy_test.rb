@@ -46,18 +46,24 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   describe 'pagelets on show page' do
+    setup do
+      @view_paths = SmartProxiesController.view_paths
+      SmartProxiesController.prepend_view_path File.expand_path('../../static_fixtures/views', __FILE__)
+    end
+
     def teardown
       Pagelets::Manager.clear
+      SmartProxiesController.view_paths = @view_paths
     end
 
     test 'show page passes subject into pagelets' do
       Pagelets::Manager.add_pagelet("smart_proxies/show", :main_tabs,
                                                           :name => "VisibleTab",
-                                                          :partial => "../../test/static_fixtures/views/test",
+                                                          :partial => "/test",
                                                           :onlyif => Proc.new { |subject| subject.has_feature? "DHCP" })
       Pagelets::Manager.add_pagelet("smart_proxies/show", :main_tabs,
                                                           :name => "HiddenTab",
-                                                          :partial => "../../test/static_fixtures/views/test",
+                                                          :partial => "/test",
                                                           :onlyif => Proc.new { |subject| subject.has_feature? "TFTP" })
       proxy = smart_proxies(:one)
       visit smart_proxy_path(proxy)
