@@ -279,4 +279,13 @@ class PluginTest < ActiveSupport::TestCase
     assert_equal 1, ::Pagelets::Manager.sorted_pagelets_at("tests/show", :main_tabs).count
     assert_equal "My Tab", ::Pagelets::Manager.sorted_pagelets_at("tests/show", :main_tabs).first.name
   end
+
+  def test_disable_turbolinks
+    Foreman::Plugin.register(:foo) do
+      disable_turbolinks_leading_to ["tests/show", "tests/index"]
+    end
+
+    assert DisableTurbolinks.registered_pages.include? "tests/show"
+    assert DisableTurbolinks.registered_pages.include? "tests/index"
+  end
 end
