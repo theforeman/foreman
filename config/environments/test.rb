@@ -13,7 +13,7 @@ Foreman::Application.configure do
   config.eager_load = false
 
   # Configure static asset server for tests with Cache-Control for performance.
-  config.serve_static_assets  = true
+  config.serve_static_files   = true
   config.static_cache_control = 'public, max-age=3600'
 
   # Adds additional error checking when serving assets at runtime.
@@ -57,4 +57,7 @@ Foreman::Application.configure do
 
   # Enable automatic creation/migration of the test DB when running tests
   config.active_record.maintain_test_schema = true
+
+  # Randomize the order test cases are executed.
+  config.active_support.test_order = :random
 end
