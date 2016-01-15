@@ -6,7 +6,7 @@
 #
 # See https://github.com/theforeman/foreman/pull/2943#issuecomment-168039237 for
 # more details
-plugins = Rails.application.railties.select { |e| e.railtie_name.match /foreman/ }
+plugins = Rails.application.railties.select { |e| !e.class.name.nil? && e.railtie_name =~ /foreman/ }
 plugins.map(&:initializers).flatten.each do |initializer|
   options = initializer.instance_variable_get('@options')
 
