@@ -1,7 +1,22 @@
-$(document).on('ContentLoad', function() {
-  showProxies();
-  loadTFTP();
+var smartProxyContentLoadActions = [
+  showProxies,
+  loadTFTP
+];
+
+$(document).on('ContentLoad', function () {
+  smartProxyContentLoadActions.forEach(function (item) {
+    item.call();
+  });
 });
+
+$(document).on('RegisterLoaderAction', function (event, action) {
+  smartProxyContentLoadActions.push(action);
+});
+
+$(document).on('GenerateItem', function (event, params) {
+  generateItem(params.item, params.status, params.text);
+});
+
 
 function setItemStatus(item, response) {
   if(response.success) {
