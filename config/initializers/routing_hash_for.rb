@@ -2,26 +2,27 @@ module ActionDispatch
   module Routing
     class RouteSet
       class NamedRouteCollection
-        def define_url_helper(route, name, options)
-          helper = UrlHelper.create(route, options.dup)
-
-          @module.remove_possible_method name
-          @module.module_eval do
+        def define_url_helper(mod, route, name, opts, route_key, url_strategy)
+          helper = UrlHelper.create(route, opts, route_key, url_strategy)
+          mod.module_eval do
             define_method(name) do |*args|
-              helper.call self, args
+              options = nil
+              options = args.pop if args.last.is_a? Hash
+              helper.call self, args, options
             end
 
             #because we heavily rely on the removed hash_for method in routes, we must add this monkey patch.
             define_method("hash_for_#{name}") do |*args|
-              unless args.first.is_a? Hash
-                id = args.first.try(:to_param)
-                options[:id] = id if id.present?
-              end
-              helper.send(:handle_positional_args, self, args, options, [])
+              inner_options = nil
+              inner_options = args.pop if args.last.is_a? Hash
+              helper.send(:handle_positional_args,
+                          {},
+                          inner_options || {},
+                          args,
+                          opts.dup,
+                          route.segment_keys.uniq)
             end
           end
-
-          helpers << name
         end
       end
     end

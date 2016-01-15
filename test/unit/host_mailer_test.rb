@@ -30,31 +30,31 @@ class HostMailerTest < ActionMailer::TestCase
   end
 
   test "mail should have the specified recipient" do
-    assert HostMailer.summary(@options).deliver.to.include?("admin@someware.com")
+    assert HostMailer.summary(@options).deliver_now.to.include?("admin@someware.com")
   end
 
   test "mail should have a subject" do
-    assert !HostMailer.summary(@options).deliver.subject.empty?
+    assert !HostMailer.summary(@options).deliver_now.subject.empty?
   end
 
   test "mail should have a body" do
-    assert !HostMailer.summary(@options).deliver.body.empty?
+    assert !HostMailer.summary(@options).deliver_now.body.empty?
   end
 
   test "mail should report at least one host" do
-    assert HostMailer.summary(@options).deliver.body.include?(@host.name)
+    assert HostMailer.summary(@options).deliver_now.body.include?(@host.name)
   end
 
   test "mail should report disabled hosts" do
     @host.enabled = false
     @host.save
-    assert HostMailer.summary(@options).deliver.body.include?(@host.name)
+    assert HostMailer.summary(@options).deliver_now.body.include?(@host.name)
   end
 
   test 'error_state sends mail with correct headers' do
     report = FactoryGirl.create(:report)
     user = FactoryGirl.create(:user, :with_mail)
-    mail = HostMailer.error_state(report, :user => user).deliver
+    mail = HostMailer.error_state(report, :user => user).deliver_now
     assert_includes mail.from, Setting["email_reply_address"]
     assert_includes mail.to, user.mail
     assert_includes mail.subject, report.host.name
