@@ -43,6 +43,7 @@ module Api
       param_group :override_value, :as => :create
 
       def create
+        params[:override_value].merge!(type: "PuppetLookupValue") if @smart.puppet?
         @override_value = @smart.lookup_values.create!(params[:override_value])
         @smart.update_attribute(:override, true)
         process_response @override_value

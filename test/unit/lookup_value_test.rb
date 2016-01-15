@@ -163,7 +163,7 @@ class LookupValueTest < ActiveSupport::TestCase
   test "boolean lookup value should not allow for nil value" do
     #boolean key
     key = lookup_keys(:three)
-    value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id)
+    value = PuppetLookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id)
     refute value.valid?
   end
 
@@ -188,7 +188,7 @@ class LookupValueTest < ActiveSupport::TestCase
 
   test "lookup value should not allow for nil key" do
     key = lookup_keys(:three)
-    value = LookupValue.new(:value => true, :match => "", :lookup_key_id => key.id)
+    value = PuppetLookupValue.new(:value => true, :match => "", :lookup_key_id => key.id)
     refute_valid value
   end
 
@@ -230,7 +230,7 @@ class LookupValueTest < ActiveSupport::TestCase
                                 :with_override, :with_use_puppet_default,
                                 :key_type => 'string',
                                 :puppetclass => puppetclasses(:one))
-      @value = FactoryGirl.build_stubbed(:lookup_value, :value => "",
+      @value = FactoryGirl.build_stubbed(:puppet_lookup_value, :value => "",
                                          :match => "hostgroup=Common",
                                          :lookup_key_id => @key.id,
                                          :use_puppet_default => true)
