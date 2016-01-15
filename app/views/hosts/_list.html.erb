@@ -1,6 +1,6 @@
 <%= javascript "jquery.cookie", "host_checkbox" %>
 <% title header ||= "" %>
-<table class="table table-fixed table-bordered table-striped table-condensed" >
+<table class="table table-fixed table-bordered table-striped" >
   <thead>
     <tr>
       <th class="ca" width="40px"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
