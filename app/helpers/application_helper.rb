@@ -438,10 +438,10 @@ module ApplicationHelper
 
   def spinner(text = '', options = {})
     if text.present?
-      "<p class='spinner-label'> #{text} </p><div id='#{options[:id]}' class='spinner spinner-sm spinner-inline #{options[:class]}'>
+      "<p class='spinner-label'> #{text} </p><div id='#{options[:id]}' class='spinner spinner-xs spinner-inline #{options[:class]}'>
       </div>".html_safe
     else
-      "<div id='#{options[:id]}' class='spinner spinner-sm #{options[:class]}'></div>".html_safe
+      "<div id='#{options[:id]}' class='spinner spinner-xs #{options[:class]}'></div>".html_safe
     end
   end
 
