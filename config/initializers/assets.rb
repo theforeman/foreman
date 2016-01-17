@@ -59,18 +59,9 @@ Foreman::Application.configure do |app|
   config.assets.precompile << /\.(?:svg|eot|woff|gif|ttf)$/
   config.assets.precompile += javascript.map { |js| js + '.js' } + stylesheets + %w(background-size.htc)
 
-  # Serve plugin static assets if the application is configured to do so
-  if config.serve_static_assets
-    ::Rails::Engine.subclasses.map(&:instance).each do |engine|
-      if File.exist?("#{engine.root}/public/assets")
-        app.middleware.use ::ActionDispatch::Static, "#{engine.root}/public"
-      end
-    end
-  end
-
   # Adds plugin assets to the application digests hash if a manifest file exists for a plugin
   config.after_initialize do
-    if (manifest_file = Dir.glob("#{Rails.root}/public/assets/manifest*.json").first)
+    if (manifest_file = Dir.glob("#{Rails.root}/public/assets/.sprockets-manifest*.json").first)
       foreman_manifest = JSON.parse(File.read(manifest_file))
 
       ::Rails::Engine.subclasses.map(&:instance).each do |engine|
