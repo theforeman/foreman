@@ -111,17 +111,17 @@ module HostsHelper
 
   def host_global_status_icon_class(status)
     icon_class = case status
-      when HostStatus::Global::OK
-        'glyphicon-ok-sign'
-      when HostStatus::Global::WARN
-        'glyphicon-info-sign'
-      when HostStatus::Global::ERROR
-        'glyphicon-exclamation-sign'
-      else
-        'glyphicon-question-sign'
-    end
+                 when HostStatus::Global::OK
+                   'pficon-ok'
+                 when HostStatus::Global::WARN
+                   'pficon-info'
+                 when HostStatus::Global::ERROR
+                   'pficon-error-circle-o'
+                 else
+                   'pficon-help'
+                 end
 
-    "host-status glyphicon #{icon_class} #{host_global_status_class(status)}"
+    "host-status #{icon_class} #{host_global_status_class(status)}"
   end
 
   def host_global_status_class(status)
