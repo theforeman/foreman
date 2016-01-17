@@ -54,5 +54,12 @@ class ProxyStatusTest < ActiveSupport::TestCase
         ProxyStatus.new(@proxy).api_versions
       end
     end
+
+    test 'it should catch connection setup exceptions' do
+      ProxyAPI::Version.any_instance.stubs(:proxy_versions).raises(Errno::ENOENT)
+      assert_raise(Foreman::WrappedException, "Unable to connect to smart proxy") do
+        ProxyStatus.new(@proxy).api_versions
+      end
+    end
   end
 end

@@ -5,7 +5,6 @@ class ProxyStatus
   def initialize(proxy, opts = {})
     @proxy = proxy
     @cache_duration = opts[:cache_duration] || 3.minutes
-    @api ||= ProxyAPI::Version.new(:url => proxy.url)
   end
 
   def api_versions
@@ -38,8 +37,12 @@ class ProxyStatus
 
   private
 
-  attr_reader :proxy, :cache_duration, :api
+  attr_reader :proxy, :cache_duration
   alias_method :version, :api_versions
+
+  def api
+    @api ||= ProxyAPI::Version.new(:url => proxy.url)
+  end
 
   def fetch_proxy_data
     begin
