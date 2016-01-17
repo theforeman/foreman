@@ -306,7 +306,7 @@ module LayoutHelper
       when blank?
         ""
       when :indicator
-        content_tag(:span, content_tag(:div, '', :class => 'hide spinner spinner-sm'),
+        content_tag(:span, content_tag(:div, '', :class => 'hide spinner spinner-xs'),
                     :class => 'help-block').html_safe
       else
         content_tag(:span, help_inline, :class => "help-block help-inline")
