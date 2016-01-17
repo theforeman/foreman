@@ -190,6 +190,14 @@ module Foreman
     config.logger = Foreman::Logging.logger('app')
     config.active_record.logger = Foreman::Logging.logger('sql')
 
+    if config.serve_static_assets
+      ::Rails::Engine.subclasses.map(&:instance).each do |engine|
+        if File.exist?("#{engine.root}/public/assets")
+          config.middleware.use ::ActionDispatch::Static, "#{engine.root}/public"
+        end
+      end
+    end
+
     config.to_prepare do
       ApplicationController.descendants.each do |child|
         # reinclude the helper module in case some plugin extended some in the to_prepare phase,
