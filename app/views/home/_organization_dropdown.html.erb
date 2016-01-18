@@ -3,8 +3,8 @@
   <% orgs_count = Organization.my_organizations.count %>
   <%= organization_dropdown orgs_count %>
   <ul class="dropdown-menu org-submenu">
-      <li><%= link_to(_('Any Organization'), main_app.clear_organizations_path) %></li>
-      <%= content_tag(:li, "", :class => "divider") %>
+    <li><%= link_to(_('Any Organization'), main_app.clear_organizations_path) %></li>
+    <%= content_tag(:li, "", :class => "divider") %>
     <% Organization.my_organizations.each do |organization| %>
       <li><%= link_to(trunc_with_tooltip(organization.title), main_app.select_organization_path(organization)) %></li>
     <% end %>
