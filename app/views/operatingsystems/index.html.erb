@@ -16,8 +16,8 @@
         <td class="display-two-pane ellipsis"><%= link_to_if_authorized(os_name(operatingsystem), hash_for_edit_operatingsystem_path(:id => operatingsystem).merge(:auth_object => operatingsystem, :authorizer => authorizer)) %></td>
         <td><%= link_to operatingsystem.hosts_count, hosts_path(:search => "os_id = #{operatingsystem.id}") %></td>
         <td>
-          <%= display_delete_if_authorized hash_for_operatingsystem_path(:id => operatingsystem).merge(:auth_object => operatingsystem, :authorizer => authorizer),
-            :data => { :confirm => _("Delete %s?") % operatingsystem.fullname } %>
+          <%= action_buttons(display_delete_if_authorized hash_for_operatingsystem_path(:id => operatingsystem).merge(:auth_object => operatingsystem, :authorizer => authorizer),
+            :data => { :confirm => _("Delete %s?") % operatingsystem.fullname }) %>
         </td>
       </tr>
     <% end %>

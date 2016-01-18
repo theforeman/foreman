@@ -19,9 +19,9 @@
         <td><%= bookmark.query %></td>
         <td><%= bookmark.controller %></td>
         <td><%= bookmark.public %></td>
-        <td align="right">
-          <%= display_delete_if_authorized hash_for_bookmark_path(bookmark),
-            :data => { :confirm => _("Delete %s?") % bookmark.name } %>
+        <td>
+          <%= action_buttons(display_delete_if_authorized hash_for_bookmark_path(bookmark),
+            :data => { :confirm => _("Delete %s?") % bookmark.name }) %>
         </td>
       </tr>
     <% end %>
