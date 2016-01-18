@@ -3,15 +3,13 @@
   <% location_count = Location.my_locations.count %>
   <%= location_dropdown location_count %>
   <ul class="dropdown-menu loc-submenu">
-    <% if User.current.admin? %>
-      <li><%= link_to(_('Any Location'), main_app.clear_locations_path) %></li>
-      <%= content_tag(:li, "", :class=>"divider") %>
-    <% end %>
+    <li><%= link_to(_('Any Location'), main_app.clear_locations_path) %></li>
+    <%= content_tag(:li, "", :class=>"divider") %>
     <% Location.my_locations.each do |location| %>
       <li><%= link_to(trunc_with_tooltip(location.title), main_app.select_location_path(location)) %></li>
     <% end %>
   </ul>
 </li>
-<% if User.current.allowed_to?(:create_locations) %>
+<% if User.current.allowed_to?(:view_locations) %>
   <li><%= link_to _("Manage Locations"), main_app.locations_path, :class=> "manage-menu" %></li>
 <% end %>
