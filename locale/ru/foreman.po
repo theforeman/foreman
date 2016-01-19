@@ -8,7 +8,7 @@
 # Alexander Savchenko, 2015
 # Andrei Burd <burdandrei@gmail.com>, 2013
 # Evgrafov Denis <stereodenis@gmail.com>, 2014
-# Dominic Cleal <dcleal@redhat.com>, 2014-2015
+# Dominic Cleal <dominic@cleal.org>, 2014-2015
 # Evgrafov Denis <stereodenis@gmail.com>, 2014
 # Vladimir Pavlov <v.pavlov@i-teco.ru>, 2015
 msgid ""

@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
-# Dominic Cleal <dcleal@redhat.com>, 2014
+# Dominic Cleal <dominic@cleal.org>, 2014
 # Fredrik Wendt <fredrik@wendt.se>, 2014
 # johnny.westerlund <johnny.westerlund@gmail.com>, 2013-2014
 # Kami Gerami <kami.gerami@gmail.com>, 2015

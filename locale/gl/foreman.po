@@ -4,7 +4,7 @@
 #
 # Translators:
 # Carmela Rubiños <carmela.rubinos@gmail.com>, 2013,2015
-# Dominic Cleal <dcleal@redhat.com>, 2015
+# Dominic Cleal <dominic@cleal.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"

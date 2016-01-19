@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
-# Dominic Cleal <dcleal@redhat.com>, 2013
-# Dominic Cleal <dcleal@redhat.com>, 2013-2015
+# Dominic Cleal <dominic@cleal.org>, 2013
+# Dominic Cleal <dominic@cleal.org>, 2013-2015
 # Junior Alvim <alvin@intechne.com.br>, 2014
 # Fabio Dias <fabioqos@gmail.com>, 2015
 # Felipe Nogaroto Gonzalez <felipeng84@gmail.com>, 2015
@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-12-11 13:28+0000\n"
-"Last-Translator: Dominic Cleal <dcleal@redhat.com>\n"
+"PO-Revision-Date: 2015-12-15 20:38+0000\n"
+"Last-Translator: luizvasconcelos <luizvasconceloss@yahoo.com.br>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/foreman/foreman/l"
 "anguage/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1365,25 +1365,25 @@ msgid "ID of domain"
 msgstr "ID para um domínio"
 
 msgid "Show a nested parameter for a host"
-msgstr ""
+msgstr "Mostrar um parâmetro nested para um host"
 
 msgid "Show a nested parameter for a host group"
-msgstr ""
+msgstr "Mostrar um parâmetro nested para um grupo de hosts"
 
 msgid "Show a nested parameter for a domain"
-msgstr ""
+msgstr "Mostrar a paramentrô nested para um dominío"
 
 msgid "Show a nested parameter for an operating system"
-msgstr ""
+msgstr "Mostrar um parametrô para um sistema operacional"
 
 msgid "Show a nested parameter for a location"
-msgstr ""
+msgstr "Mostrar um parametrô para uma localizão"
 
 msgid "Show a nested parameter for an organization"
-msgstr ""
+msgstr "Mostrar um parametrô para uma organização"
 
 msgid "ID of parameter"
-msgstr ""
+msgstr "ID do parametrô"
 
 msgid "Create a nested parameter for a host"
 msgstr "Criar um parâmetro aninhado para um host"
@@ -1404,22 +1404,22 @@ msgid "Create a nested parameter for an organization"
 msgstr "Criar um parâmetro aninhado para uma organização"
 
 msgid "Update a nested parameter for a host"
-msgstr ""
+msgstr "Atualizar um paramentrô nested para um host"
 
 msgid "Update a nested parameter for a host group"
-msgstr ""
+msgstr "Atualizar um parametrô nested para um grupo host"
 
 msgid "Update a nested parameter for a domain"
-msgstr ""
+msgstr "Atualizar um parametrô nested para um domínio"
 
 msgid "Update a nested parameter for an operating system"
-msgstr ""
+msgstr "Atualizar um parametrô nested para um sistema operacional"
 
 msgid "Update a nested parameter for a location"
-msgstr ""
+msgstr "Atualizar um parametrô nested para uma localização"
 
 msgid "Update a nested parameter for an organization"
-msgstr ""
+msgstr "Atualizar um parametrô nested para uma organização"
 
 msgid "Delete a nested parameter for a host"
 msgstr "Apagar um parâmetro aninhado para um host"
@@ -1458,40 +1458,40 @@ msgid "Delete all nested parameter for an organization"
 msgstr "Apagar todos os parâmetros aninhados para uma organização"
 
 msgid "List all permissions"
-msgstr ""
+msgstr "Lista de todas as permissões"
 
 msgid "Show a permission"
-msgstr ""
+msgstr "Mostrar permissão"
 
 msgid "List available resource types."
-msgstr ""
+msgstr "Lista de tipos de recursos disponíveis"
 
 msgid "List installed plugins"
-msgstr ""
+msgstr "Lista de plugins instalados"
 
 msgid "List all partition tables"
-msgstr ""
+msgstr "Listar todas as tabelas de partição"
 
 msgid "List all partition tables for an operating system"
-msgstr ""
+msgstr "Lista de todas as tabelas de partições para um sistema operacional"
 
 msgid "List all partition tables per location"
-msgstr ""
+msgstr "Lista de todas as tabelas de partições por localização"
 
 msgid "List all partition tables per organization"
-msgstr ""
+msgstr "Lista de todas as tabelas de partições por organização"
 
 msgid "Show a partition table"
-msgstr ""
+msgstr "Mostrar a tabela de partição"
 
 msgid "Array of operating system IDs to associate with the partition table"
-msgstr ""
+msgstr "Matriz de IDs de sistema operacional para associar com a tabela de partição"
 
 msgid "Array of host IDs to associate with the partition table"
-msgstr ""
+msgstr "Matriz de IDs de host para associar a tabela de partição"
 
 msgid "Array of host group IDs to associate with the partition table"
-msgstr ""
+msgstr "Disposição de IDs de grupo host para associar com a tabela de partição"
 
 msgid "Create a partition table"
 msgstr "Criar uma tabela de partição"
@@ -1503,22 +1503,22 @@ msgid "Delete a partition table"
 msgstr "Apagar uma tabela de partição"
 
 msgid "Clone a template"
-msgstr ""
+msgstr "Clonar um template"
 
 msgid "List all Puppet classes"
-msgstr ""
+msgstr "Listar todas as classes Puppet"
 
 msgid "List all Puppet classes for a host"
 msgstr ""
 
 msgid "List all Puppet classes for a host group"
-msgstr ""
+msgstr "Listar todas as classes Puppet para um host"
 
 msgid "List all Puppet classes for an environment"
-msgstr ""
+msgstr "Listar todas as classes Puppet para um ambiente"
 
 msgid "Show a Puppet class"
-msgstr ""
+msgstr "Exibir uma classe Puppet"
 
 msgid "Show a Puppet class for host"
 msgstr ""
@@ -1533,7 +1533,7 @@ msgid "Create a Puppet class"
 msgstr "Criar uma classe Puppet"
 
 msgid "Update a Puppet class"
-msgstr ""
+msgstr "Atualizar uma classe Puppet"
 
 msgid "Delete a Puppet class"
 msgstr "Apagar uma classe Puppet"
@@ -1569,13 +1569,13 @@ msgid "List all reports"
 msgstr ""
 
 msgid "Show a report"
-msgstr ""
+msgstr "Exibir um relatório"
 
 msgid "Hostname or certname"
-msgstr ""
+msgstr "Hostname ou nome do certificado"
 
 msgid "UTC time of report"
-msgstr ""
+msgstr "hora UTC do relatório"
 
 msgid "Hash of status type totals"
 msgstr ""

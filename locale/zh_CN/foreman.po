@@ -4,7 +4,7 @@
 #
 # Translators:
 # dingtim, 2013
-# Dominic Cleal <dcleal@redhat.com>, 2014-2015
+# Dominic Cleal <dominic@cleal.org>, 2014-2015
 # Martin Liu <liuzh66@gmail.com>, 2015
 # tim123, 2013-2014
 msgid ""

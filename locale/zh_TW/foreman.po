@@ -4,7 +4,7 @@
 #
 # Translators:
 # ChrisLee <chris_lee@hiiir.com>, 2013
-# Dominic Cleal <dcleal@redhat.com>, 2014
+# Dominic Cleal <dominic@cleal.org>, 2014
 # Isaac Tseng <isaac.kuang@gmail.com>, 2013-2014
 msgid ""
 msgstr ""

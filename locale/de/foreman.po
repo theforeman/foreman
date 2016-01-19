@@ -8,8 +8,8 @@
 # bse <bse666@gmail.com>, 2015
 # Christina Gurski <Gurski_christina@yahoo.de>, 2015
 # Hannes Schaller <admin@cyberkov.at>, 2013
-# Dominic Cleal <dcleal@redhat.com>, 2013
-# Dominic Cleal <dcleal@redhat.com>, 2013-2014
+# Dominic Cleal <dominic@cleal.org>, 2013
+# Dominic Cleal <dominic@cleal.org>, 2013-2014
 # Eike Stehr <estehr@gmail.com>, 2015
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2015
 # Hannes Schaller <admin@cyberkov.at>, 2013
@@ -23,14 +23,15 @@
 # stbenjam <stephen@redhat.com>, 2014
 # stbenjam <stephen@redhat.com>, 2014
 # Wiederoder <stefanwiederoder@googlemail.com>, 2013
+# Timo Goebel <mail@timogoebel.name>, 2015
 # Ulrich Habel <rhaen@pkgbox.de>, 2013-2014
 # Wiederoder <stefanwiederoder@googlemail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-11-18 09:29+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2016-01-17 22:47+0000\n"
+"Last-Translator: Timo Goebel <mail@timogoebel.name>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -828,7 +829,7 @@ msgid "Puppet proxy ID"
 msgstr "Puppet-Proxy-Kennung"
 
 msgid "Root password on provisioned hosts"
-msgstr ""
+msgstr "Root-Passwort auf bereitgestellten Hosts"
 
 msgid "Create a host group"
 msgstr "Hostgruppe erstellen"
@@ -2639,7 +2640,7 @@ msgid "Please delete all nested groups before deleting it."
 msgstr "Bitte löschen Sie vorher alle Untergruppen."
 
 msgid "inherit"
-msgstr ""
+msgstr "erben"
 
 msgid "Puppet CA"
 msgstr "Puppet-CA"
@@ -2716,7 +2717,7 @@ msgid "Runtime"
 msgstr "Laufzeit"
 
 msgid "Found %{count} reports from the last %{days} days"
-msgstr ""
+msgstr "%{count} Systemreporte aus den letzten %{days} Tagen gefunden"
 
 msgid "Provisioning Support is disabled or this host is not managed"
 msgstr ""
@@ -3756,7 +3757,7 @@ msgid "Installed"
 msgstr "Installiert"
 
 msgid "Unknown build status"
-msgstr ""
+msgstr "Unbekannter Build-Status"
 
 msgid "Configuration"
 msgstr "Konfiguration"
