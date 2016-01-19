@@ -25,6 +25,10 @@ module NestedAncestryCommon
     read_attribute(:title) || get_title
   end
 
+  def parent_name
+    parent.title if parent.present?
+  end
+
   alias_method :to_label, :title
 
   def get_title

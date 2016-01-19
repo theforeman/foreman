@@ -44,6 +44,15 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test "should create location with parent" do
+    parent_id = Location.first.id
+    post :create, { :location => { :name => "Test Location", :parent_id =>  parent_id } }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+    assert_equal parent_id, show_response['parent_id']
+  end
+
   test "should update location on if valid is location" do
     ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ProvisioningTemplate", "ComputeResource", "Realm"]
     put :update, { :id => @location.to_param, :location => { :name => "New Location", :ignore_types => ignore_types } }
@@ -124,7 +133,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     response = ActiveSupport::JSON.decode(@response.body)
     assert response.is_a?(Hash)
     assert response['results'].is_a?(Array)
-    assert_equal ['ancestry', 'created_at', 'description', 'id', 'name', 'title', 'updated_at'], response['results'][0].keys.sort
+    assert_equal ['ancestry', 'created_at', 'description', 'id', 'name', 'parent_id', 'parent_name', 'title', 'updated_at'], response['results'][0].keys.sort
   end
 
   test "object name on show defaults to object class name" do
