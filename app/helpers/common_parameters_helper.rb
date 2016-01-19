@@ -42,7 +42,7 @@ module CommonParametersHelper
   def hidden_value_field(f, field, value, disabled, options = {})
     hidden = options.delete(:hidden_value)
     if hidden || f.object.hidden_value?
-      input = f.password_field(field, :disabled => disabled, :value => value, :class => 'form-control')
+      input = f.password_field(field, :disabled => disabled, :value => value, :class => 'form-control no-stretch')
     else
       input = f.text_area(field, options.merge(:disabled => disabled,
                                                :class => "form-control no-stretch",

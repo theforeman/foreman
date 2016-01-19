@@ -148,7 +148,7 @@ function toggleOverrideValue(item) {
 
   fields_to_disable.prop('disabled', !override);
   default_value_field.prop('disabled', !override || use_puppet_default);
-  override ? pill_icon.addClass('glyphicon-flag') : pill_icon.removeClass('glyphicon-flag');
+  override ? pill_icon.addClass('fa-flag') : pill_icon.removeClass('fa-flag');
   override_value_div.toggle(override);
 }
 
