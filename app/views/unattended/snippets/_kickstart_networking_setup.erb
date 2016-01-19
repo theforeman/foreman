@@ -62,7 +62,7 @@ EOF
 
 <% subnet = interface.subnet -%>
 <% virtual = interface.virtual? -%>
-<% vlan = virtual && subnet.has_vlanid? -%>
+<% vlan = virtual && (subnet.has_vlanid? || interface.vlanid.present?) -%>
 <% alias_type = virtual && !subnet.nil? && !subnet.has_vlanid? && interface.identifier.include?(':') -%>
 <% dhcp = !subnet.nil? && subnet.dhcp_boot_mode? -%>
 
@@ -108,7 +108,7 @@ EOF
 
 <% subnet = interface.subnet -%>
 <% virtual = interface.virtual? -%>
-<% vlan = virtual && subnet.has_vlanid? -%>
+<% vlan = virtual && (subnet.has_vlanid? || interface.vlanid.present?) -%>
 <% alias_type = virtual && !subnet.has_vlanid? && interface.identifier.include?(':') -%>
 <% dhcp = subnet.dhcp_boot_mode? -%>
 
