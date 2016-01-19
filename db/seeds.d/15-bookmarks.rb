@@ -1,7 +1,7 @@
 # Bookmarks
 Bookmark.without_auditing do
   [
-    { :name => "eventful", :query => "eventful = true", :controller=> "config_reports" },
+    { :name => "eventful", :query => "eventful = true", :controller=> "reports" },
     { :name => "active", :query => 'last_report > "35 minutes ago" and (status.applied > 0 or status.restarted > 0)', :controller=> "hosts" },
     { :name => "out of sync", :query => 'last_report < "30 minutes ago" and status.enabled = true', :controller=> "hosts" },
     { :name => "error", :query => 'last_report > "35 minutes ago" and (status.failed > 0 or status.failed_restarts > 0 or status.skipped > 0)', :controller=> "hosts" },
