@@ -3,11 +3,12 @@ require 'test_helper'
 class UsergroupsControllerTest < ActionController::TestCase
   setup do
     as_admin { FactoryGirl.create(:usergroup) }
+    @model = Usergroup.first
   end
 
   basic_index_test
   basic_new_test
-  basic_edit_test(Usergroup.first || FactoryGirl.create(:usergroup))
+  basic_edit_test
 
   def test_create_invalid
     Usergroup.any_instance.stubs(:valid?).returns(false)

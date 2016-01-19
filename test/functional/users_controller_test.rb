@@ -1,14 +1,15 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
-  basic_index_test('users')
-  basic_new_test
-  basic_edit_test(User.last, 'user')
-
-  def setup
+  setup do
     setup_users
+    @model = User.last
     Setting::Auth.load_defaults
   end
+
+  basic_index_test('users')
+  basic_new_test
+  basic_edit_test('user')
 
   test "#index should not show hidden users" do
     get :index, { :search => "login = #{users(:anonymous).login}" }, set_session_user

@@ -18,9 +18,13 @@
 require 'test_helper'
 
 class RolesControllerTest < ActionController::TestCase
+  setup do
+    @model = Role.first
+  end
+
   basic_index_test('roles')
   basic_new_test
-  basic_edit_test(Role.first)
+  basic_edit_test
 
   test 'creates role' do
     post :create, { :role => {:name => 'test role'}}, set_session_user

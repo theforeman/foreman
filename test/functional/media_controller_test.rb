@@ -1,9 +1,13 @@
 require 'test_helper'
 
 class MediaControllerTest < ActionController::TestCase
+  setup do
+    @model = Medium.first
+  end
+
   basic_index_test
   basic_new_test
-  basic_edit_test(Medium.first)
+  basic_edit_test
 
   def test_create_invalid
     Medium.any_instance.stubs(:valid?).returns(false)

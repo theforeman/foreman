@@ -22,14 +22,17 @@ module BasicRestResponseTest
       end
     end
 
-    def basic_edit_test(model, object_found = nil)
+    def basic_edit_test(object_found = nil)
       context 'GET #edit' do
-        setup { get :edit, { :id => model }, set_session_user }
+        setup do
+          get :edit, { :id => @model }, set_session_user
+        end
+
         should respond_with(:success)
         should render_template(:edit)
         test 'assigns the found object to an instance variable' do
           object_found ||= assigns[:resource_class].to_s.tableize.singularize
-          assert_equal model, assigns(:"#{object_found}")
+          assert_equal @model, assigns(:"#{object_found}")
         end
       end
     end
