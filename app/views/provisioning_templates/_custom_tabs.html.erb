@@ -8,25 +8,9 @@
 </div>
 
 <div class="tab-pane" id="template_associations">
-  <p id="snippet_message" class="alert alert-info" <%= display? !@template.snippet %> ><%= _("Not relevant for snippet") %></p>
-
+  <%= snippet_message(@template) %>
   <div id="association" <%= display? @template.snippet %> >
-    <div class="alert alert-success alert-dismissable">
-      <%= alert_close %>
-
-      <h3><%= _("How templates are determined") %><br></h3>
-
-      <p><%= _("When editing a template, you must assign a list of operating systems which this template can be used with. Optionally, you can restrict a template to a list of host groups and/or environments.") %></p>
-
-      <p><%= _("When a Host requests a template (e.g. during provisioning), Foreman will select the best match from the available templates of that type, in the following order:") %></p>
-      <ul>
-        <li><%= _("Host group and Environment") %></li>
-        <li><%= _("Host group only") %></li>
-        <li><%= _("Environment only") %></li>
-        <li><%= _("Operating system default") %></li>
-      </ul>
-      <%= (_("The final entry, Operating System default, can be set by editing the %s page.") % (link_to _("Operating System"), operatingsystems_path)).html_safe %>
-    </div>
+    <%= how_templates_are_determined %>
     <%= multiple_selects f, :operatingsystems, Operatingsystem, @operatingsystems.try(:map, &:id), :label => _("Applicable<br>Operating Systems").html_safe %>
     <%= render "provisioning_templates/combinations", :f => f %>
   </div>
