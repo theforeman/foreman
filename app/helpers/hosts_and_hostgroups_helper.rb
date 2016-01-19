@@ -125,4 +125,16 @@ module HostsAndHostgroupsHelper
     # check if the user set the field explicitly despite setting a hostgroup.
     params[:host] && params[:host][:hostgroup_id] && params[:host][field]
   end
+
+  def puppetclasses_tab(puppetclasses_receiver)
+    content_tag(:div, :class => 'tab-pane', :id => 'puppet_klasses') do
+      if @environment.present? ||
+          @hostgroup.present? && @hostgroup.environment.present?
+        render 'puppetclasses/class_selection', :obj => puppetclasses_receiver
+      else
+        alert(:class => 'alert-info', :header => _('Notice'),
+              :text => _('Please select an environment first'))
+      end
+    end
+  end
 end

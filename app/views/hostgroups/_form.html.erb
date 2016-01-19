@@ -34,13 +34,7 @@
       <%= puppet_master_fields f %>
     </div>
 
-    <div class="tab-pane" id="puppet_klasses">
-      <% if @environment or @hostgroup.environment %>
-        <%= render 'puppetclasses/class_selection', :obj => @hostgroup %>
-      <% else %>
-        <%= alert :class => 'alert-warning', :text =>  _('Please select an environment first') %>
-      <% end %>
-    </div>
+    <%= puppetclasses_tab(@hostgroup) %>
 
     <div class="tab-pane" id="network">
       <fieldset>

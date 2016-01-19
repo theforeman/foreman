@@ -79,7 +79,8 @@
           </div>
         <% end %>
       <% else %>
-        <%= alert :header => _('No history found'), :text => _('Save something and try again') %>
+        <%= alert(:class => 'alert-info', :header => _('No history found'),
+                  :text => _('Save something and try again')) %>
       <% end %>
     </div>
 

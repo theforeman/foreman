@@ -445,7 +445,7 @@ module LayoutHelper
         text ||= _("Error")
     end
     header = "#{icon}"
-    header += "<h4 class='alert-heading'>#{text}</h4>" if text.present?
+    header += "<strong>#{text}</strong> " if text.present?
     header.html_safe
   end
 

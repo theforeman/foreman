@@ -84,13 +84,7 @@
 
       </div>
 
-      <div class="tab-pane" id="puppet_klasses">
-        <% if @environment or @hostgroup %>
-          <%= render 'puppetclasses/class_selection', :obj => @host %>
-        <% else %>
-          <%= alert :class => 'alert-info', :text =>  _('Please select an environment first') %>
-        <% end %>
-      </div>
+      <%= puppetclasses_tab(@host) %>
 
       <%= f.hidden_field :managed %>
       <%= f.hidden_field :progress_report_id, :data=>{:url=>task_path(@host.progress_report_id)} %>
@@ -111,7 +105,7 @@
         <fieldset>
           <h2><%= _('Global parameters') %></h2>
           <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true), :parameters => @host.host_parameters  } %>
-          <h4><%= _('Host parameters') %></h4>
+          <h2><%= _('Host parameters') %></h2>
           <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
         </fieldset>
       </div>

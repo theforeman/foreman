@@ -12,21 +12,6 @@ module ProvisioningTemplatesHelper
     template.template_kind
   end
 
-  def show_default?
-    rights = Taxonomy.enabled_taxonomies.select { |taxonomy| User.current.can?("create_#{taxonomy}".to_sym) }
-    rights.all? && !rights.blank?
-  end
-
-  def default_template_description
-    if locations_only?
-      _("Default templates are automatically added to new locations")
-    elsif organizations_only?
-      _("Default templates are automatically added to new organizations")
-    elsif locations_and_organizations?
-      _("Default templates are automatically added to new organizations and locations")
-    end
-  end
-
   def permitted_actions(template)
     actions = [display_link_if_authorized(_('Clone'), template_hash_for_member(template, 'clone_template'))]
 
@@ -77,6 +62,23 @@ module ProvisioningTemplatesHelper
   def building_hosts_path(template)
     oses = template.operatingsystem_ids.map { |id| "os_id = #{id}" }.join(" or ")
     hosts_path(:search => "build = true and ( #{oses} )")
+  end
+
+  def how_templates_are_determined
+    alert(:class => 'alert-info', :header => 'How templates are determined',
+          :text => '<p>' + _("When editing a template, you must assign a list\
+of operating systems which this template can be used with. Optionally, you can\
+restrict a template to a list of host groups and/or environments.") + '</p>' +
+'<p>'+ _("When a Host requests a template (e.g. during provisioning), Foreman\
+will select the best match from the available templates of that type, in the\
+following order:") + '</p>' + '<ul>' +
+    '<li>' + _("Host group and Environment") + '</li>' +
+    '<li>' + _("Host group only") + '</li>' +
+    '<li>' + _("Environment only") + '</li>' +
+    '<li>' + _("Operating system default") + '</li>' +
+    '</ul>' +
+    (_("The final entry, Operating System default, can be set by editing the %s page.") %
+     (link_to _("Operating System"), operatingsystems_path)).html_safe)
   end
 
   private
