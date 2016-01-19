@@ -1,13 +1,14 @@
 require 'test_helper'
 
 class FiltersControllerTest < ActionController::TestCase
-  basic_index_test('filters')
-  basic_new_test
-  basic_edit_test(Filter.first, 'filter')
-
   setup do
+    @model = Filter.first
     User.current = users(:admin)
   end
+
+  basic_index_test('filters')
+  basic_new_test
+  basic_edit_test('filter')
 
   test "changes should expire topbar cache" do
     user1 = FactoryGirl.create(:user, :with_mail)

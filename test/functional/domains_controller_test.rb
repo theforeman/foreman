@@ -1,9 +1,13 @@
 require 'test_helper'
 
 class DomainsControllerTest < ActionController::TestCase
+  setup do
+    @model = Domain.first
+  end
+
   basic_index_test
   basic_new_test
-  basic_edit_test(Domain.first)
+  basic_edit_test
 
   def test_create_invalid
     Domain.any_instance.stubs(:valid?).returns(false)

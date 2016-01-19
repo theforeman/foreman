@@ -1,9 +1,13 @@
 require 'test_helper'
 
 class EnvironmentsControllerTest < ActionController::TestCase
+  setup do
+    @model = Environment.first
+  end
+
   basic_index_test
   basic_new_test
-  basic_edit_test(Environment.first)
+  basic_edit_test
 
   test "should create new environment" do
     assert_difference 'Environment.count' do

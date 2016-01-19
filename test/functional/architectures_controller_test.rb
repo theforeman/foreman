@@ -1,9 +1,13 @@
 require 'test_helper'
 
 class ArchitecturesControllerTest < ActionController::TestCase
+  setup do
+    @model = Architecture.first
+  end
+
   basic_index_test
   basic_new_test
-  basic_edit_test(Architecture.first)
+  basic_edit_test
 
   def test_new_submit_button_id
     get :new, {}, set_session_user

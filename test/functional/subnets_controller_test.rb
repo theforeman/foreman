@@ -1,9 +1,13 @@
 require 'test_helper'
 
 class SubnetsControllerTest < ActionController::TestCase
+  setup do
+    @model = Subnet.first
+  end
+
   basic_index_test
   basic_new_test
-  basic_edit_test(Subnet.first)
+  basic_edit_test
 
   def test_create_invalid
     Subnet.any_instance.stubs(:valid?).returns(false)

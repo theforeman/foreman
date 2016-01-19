@@ -1,9 +1,13 @@
 require 'test_helper'
 
 class AuthSourceLdapsControllerTest < ActionController::TestCase
+  setup do
+    @model = AuthSourceLdap.first
+  end
+
   basic_index_test
   basic_new_test
-  basic_edit_test(AuthSourceLdap.first)
+  basic_edit_test
 
   def test_create_invalid
     AuthSourceLdap.any_instance.stubs(:valid?).returns(false)
