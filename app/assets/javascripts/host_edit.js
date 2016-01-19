@@ -172,7 +172,7 @@ function update_progress(data){
   if (task_list_size == 0 || stop_pooling == true) return;
 
   var done_tasks = $('.glyphicon-check',data).length;
-  var failed_tasks = $('.glyphicon-remove',data).length;
+  var failed_tasks = $('.pficon-close',data).length;
 
   $("#host-progress").show();
   if(failed_tasks > 0) {

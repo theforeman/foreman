@@ -353,15 +353,16 @@ module LayoutHelper
   end
 
   def popover(title, msg, options = {})
-    options[:icon] ||= 'info-sign'
-    content_tag(:a, icon_text(options[:icon], title), { :rel => "popover",
-                                                        :data => { :content => msg,
-                                                                   :"original-title" => title,
-                                                                   :trigger => "focus",
-                                                                   :container => 'body',
-                                                                   :html => true },
-                                                        :role => 'button',
-                                                        :tabindex => '-1' }.deep_merge(options))
+    options[:icon] ||= 'info'
+    options[:kind] ||= 'pficon'
+    content_tag(:a, icon_text(options[:icon], title, :kind => options[:kind]), { :rel => "popover",
+                                                                           :data => { :content => msg,
+                                                                                      :"original-title" => title,
+                                                                                      :trigger => "focus",
+                                                                                      :container => 'body',
+                                                                                      :html => true },
+                                                                           :role => 'button',
+                                                                           :tabindex => '-1' }.deep_merge(options))
   end
 
   def will_paginate(collection = nil, options = {})
@@ -486,7 +487,7 @@ module LayoutHelper
 
   def fullscreen_button(element = "$(this).prev()")
     button_tag(:type => 'button', :class => 'btn btn-default btn-md btn-fullscreen', :onclick => "set_fullscreen(#{element})", :title => _("Full screen")) do
-      icon_text('resize-full')
+      icon_text('expand', '', :kind => 'fa')
     end
   end
 
