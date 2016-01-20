@@ -37,6 +37,7 @@ class HostMailer < ApplicationMailer
   def error_state(report, options = {})
     @report = report
     @host = @report.host
+    set_url
     set_locale_for(options[:user]) do
       mail(:to => options[:user].mail, :subject => (_("Puppet error on %s") % @host))
     end
