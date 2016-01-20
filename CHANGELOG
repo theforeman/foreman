@@ -1,3 +1,104 @@
+2016-01-19	Dominic Cleal <dcleal@redhat.com>
+	* i18n - extracting new, pulling from tx
+	* templates - sync from community-templates
+	* refs #13109 - 1.10 reports controller name
+	* fixes #13004 - inherit compute profile from parent host groups
+	* fixes #12271 - update ace editor usage, remove unused JS
+	* fixes #13112 - add options to HostStatus#relevant? to optimise reports
+	* fixes #12959 - escape % in fact search values, auto-add wildcards
+	* fixes #12954 - config status is relevant if reports exist or via setting
+	* fixes #7517 - remove overridden class parameters from envs on import
+	* fixes #12632 - remove hardcoded SSH compression algorithm
+	* fixes #12623 - convert VM IDs to strings for DB lookup
+	* fixes #12095 - prevent escaping of lookup key default value with ERB
+
+2016-01-19	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #12566 - host_parameters_attributes accepts nested flag
+	* Fixes #13040 - oVirt now autoloads SSL certificate
+	* Fixes #12346 - foreman-debug filters compressed files
+
+2016-01-19	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #12130 - reference parent name in fact helptip
+
+2016-01-19	Marek Hulan <mhulan@redhat.com>
+	* Fixes #13109 - seed bookmarks scoped per controller
+	* Fixes #12859 - trigger autosuggesting even when the IP is set
+	* Fixes #12827 - deconstantize resource only when needed
+	* Fixes #11834 - improve host status migration performance
+	* Fixes #12279 - add default order to roles
+	* Fixes #11921 - load dynamic features during runtime
+
+2016-01-19	Tom Caspy <tcaspy@gmail.com>
+	* fixes #12805 - nested LV in puppetclass form are now validated
+	* fixes #11862 - validating that casted hash is valid
+	* fixes #12730 - removing the fakeFS gem
+	* fixes #12207 - objects with ancestors should not call ancestors if cached
+
+2016-01-19	imriz <imrizvik@gmail.com>
+	* Fixes #12946 - Do not fail miserably when compute instance is not found.
+
+2016-01-19	Ori Rabin <orabin@redhat.com>
+	* Fixes #13101 - Smart class parameters show puppetclass in api
+	* Fixes #12965 - provisioning/config templates are shown under OS API
+	* Fixes #12852 - override checkbox always enables default value when use_puppet_default is false
+	* Fixes #12842 - Adding padding below use puppet default checkbox in puppetclass edit form
+	* Fixes #12249 - Use puppet default on specific matchers does not send default value to puppet
+
+2016-01-19	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #10357 - Realms for organizations and locations can be retrieved through API
+
+2016-01-19	julien IPPOLITO <stuxboulot@gmail.com>
+	* fixes #9359 - display puppetca in yaml always when a puppetca is configured
+
+2016-01-19	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12834 - Avoid select2 integration test deadlock
+	* Refs #12155 - Use Proc instead of lambda on mailer for Rails 4
+
+2016-01-19	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12083 - Set nic domain only on full match of fqdn domain
+	* Fixes #12644, #12643 - Correctly authorize in lookup key index
+	* Fixes #12371 - Initialize select2 on virtual machine tab for new hosts
+	* Fixes #12106 - Show popovers correctly on interface modal
+	* Fixes #12241 - Correct counter_cache deadlock fix
+
+2016-01-19	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #12452 - Enable non admin users to do bulk actions on hosts
+	* Fixes #11983 - Added the ability to preview a new template
+
+2016-01-19	Timo Goebel <timo.goebel@dm.de>
+	* fixes #7548 - cannot use UTF8 characters from ldap auth source
+	* fixes #12517 - VMWare VM should be created network based only if it is selected in the gui
+	* fixes #11124 - Interface compute attributes not merged from API request over compute profile
+
+2016-01-19	Fabien Culpo <fabien.culpo@gmail.com>
+	* fixes #12575 - zerombr does not take any argument
+
+2016-01-19	Brandon Weeks <weeks@squareup.com>
+	* Fixes #12478 - don't update :attached_to if parsed :attached_to is nil
+
+2016-01-19	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #11943 - only send built mail when host is installed
+	* Fixes #12155 - register changes in reply address without restart
+
+2016-01-19	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #12325 - Add to_utf8 method and ensure avatar_path returns in utf-8
+	* Fixes #11828 - Use mail_to function to create email link
+
+2016-01-19	josh <josh@yosemite.edu>
+	* fixes #12416 - Add support for esxi 6 hw 11 profile
+
+2016-01-19	Phirince Philip <phirince@gmail.com>
+	* fixes #12345 - fix sparc host creation
+
+2016-01-19	Julien Pivotto <roidelapluie@inuits.eu>
+	* Fixes #12365 - Recognize virtual interfaces with alphanum aliases as such
+
+2016-01-19	amirfefer <amirfefer@gmail.com>
+	* Fixes #12102 - Adds socket errors catching to rackspace test connection
+
+2016-01-08	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #13059 - pin net-ldap to less than 0.13 on ruby 1.9.x
+
 2015-12-23	Dominic Cleal <dcleal@redhat.com>
 	* Release 1.10.0
 
