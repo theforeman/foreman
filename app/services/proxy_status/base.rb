@@ -25,7 +25,7 @@ module ProxyStatus
     def api
       @api = "ProxyAPI::#{self.class.humanized_name}".classify.constantize.new(:url => proxy.url)
     rescue NameError => e
-      raise Foreman::WrappedException.new("ProxyAPI::#{self.class.humanized_name}", e, N_('Unable to initialize ProxyAPI class'))
+      raise Foreman::WrappedException.new(e, N_('Unable to initialize ProxyAPI class %s'), "ProxyAPI::#{self.class.humanized_name}")
     end
 
     def fetch_proxy_data
