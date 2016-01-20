@@ -43,7 +43,7 @@ class Foreman::Provision::SSH
   end
 
   def remote_script
-    File.join("/", "tmp", "bootstrap-#{uuid}")
+    "bootstrap-#{uuid}"
   end
 
   def command_prefix
@@ -51,7 +51,9 @@ class Foreman::Provision::SSH
   end
 
   def command
-    "#{command_prefix} bash -c '(chmod 0701 #{remote_script} && #{command_prefix} #{remote_script}) | tee #{remote_script}.log; exit ${PIPESTATUS[0]}'"
+    # Use the users home to store the provision script since we can't reliably
+    # tell if other locations are writeable or executable by the user.
+    "#{command_prefix} bash -c '(chmod 0701 ./#{remote_script} && #{command_prefix} ./#{remote_script}) | tee #{remote_script}.log; exit ${PIPESTATUS[0]}'"
   end
 
   def defaults
