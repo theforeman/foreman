@@ -567,7 +567,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_empty @host.errors
     put :toggle_manage, {:id => @host.name}, set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
-    assert flash[:notice] == "Foreman now manages the build cycle for #{@host.name}"
+    assert flash[:notice] == _("Foreman now manages the build cycle for %s") %(@host.name)
   end
 
   def test_unset_manage
@@ -576,7 +576,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_empty @host.errors
     put :toggle_manage, {:id => @host.name}, set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
-    assert flash[:notice] == "Foreman now no longer manages the build cycle for #{@host.name}"
+    assert flash[:notice] == _("Foreman now no longer manages the build cycle for %s") %(@host.name)
   end
 
   test 'when ":restrict_registered_smart_proxies" is false, HTTP requests should be able to get externalNodes' do
