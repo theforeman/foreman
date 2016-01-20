@@ -2,6 +2,7 @@ class Host::Managed < Host::Base
   include Hostext::Search
   include SelectiveClone
   include HostParams
+  include Facets::ManagedHostExtensions
 
   has_many :host_classes, :foreign_key => :host_id
   has_many :puppetclasses, :through => :host_classes, :dependent => :destroy
