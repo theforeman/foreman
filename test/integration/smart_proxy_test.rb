@@ -32,7 +32,7 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_content? proxy.url
     assert page.has_link? "Delete"
     assert page.has_link? "Edit"
-    assert page.has_link? "Refresh features"
+    assert page.has_link? "Refresh"
     assert page.has_link? "Services"
     click_link "Services"
     # smart_proxies(:one) has DHCP feature
