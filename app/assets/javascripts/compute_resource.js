@@ -187,7 +187,7 @@ function libvirt_image_selected(item){
 }
 
 function ec2_vpcSelected(form){
-  sg_select = $('.security_group_ids')
+  sg_select = $('select.security_group_ids')
   sg_select.empty();
   security_groups = jQuery.parseJSON( sg_select.attr('data-security-groups') );
   subnets = jQuery.parseJSON( sg_select.attr('data-subnets') );
