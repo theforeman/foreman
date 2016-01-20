@@ -189,6 +189,15 @@ module Foreman #:nodoc:
       yield Pagelets::Manager.new(page_name) if block_given?
     end
 
+    # Allows to disable turbolinks leading to specified pages
+    # Usage:
+    #
+    # disable_turbolinks_leading_to ["smart_proxies/show", "smart_proxies/index"]
+    #
+    def disable_turbolinks_leading_to(page_names)
+      DisableTurbolinks.register page_names
+    end
+
     def tests_to_skip(hash)
       # Format is { "testclass" => [ "skip1", "skip2" ] }
       hash.each do |testclass,tests|
