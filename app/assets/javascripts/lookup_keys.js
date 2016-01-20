@@ -280,14 +280,15 @@ function build_match() {
 
 function toggle_lookupkey_hidden(checkbox) {
   var default_value = $('#'+checkbox.id.replace(/hidden_value$/, "default_value"));
-  var lookup_values = $(checkbox.closest('.fields')).find('.lookup_values>table [id$="value"]');
-  toggle_value_hidden(default_value, checkbox.checked);
+  var lookup_values = $(checkbox).closest('.fields').find('.lookup_values [id$="value"]');
+  toggle_value_hidden(default_value);
   lookup_values.each(function () {
-    toggle_value_hidden($(this, checkbox.checked));
+    toggle_value_hidden($(this));
   });
 }
 
-function toggle_value_hidden(target, shown){
+function toggle_value_hidden(target){
+  shown = target.prop('type') == "textarea";
   var attrs = {
     id: target.attr('id'),
     name: target.attr('name'),

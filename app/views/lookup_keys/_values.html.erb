@@ -17,10 +17,11 @@
   </thead>
 
   <tbody>
-  <%= f.fields_for :lookup_values do |lookup_values| %>
-    <%= render 'lookup_keys/value', :f => lookup_values, :is_param => is_param, :is_template => false %>
+  <%= f.fields_for :lookup_values do |lookup_value| %>
+    <%= render 'lookup_keys/value', :f => lookup_value, :is_param => is_param, :is_template => false, :hidden_value => f.object.hidden_value? %>
   <% end %>
   </tbody>
 </table>
-<%= new_child_fields_template(f, :lookup_values, { :partial => "lookup_keys/value", :form_builder_attrs => { :is_param => is_param, :is_template => true } }) %>
+<%= new_child_fields_template(f, :lookup_values, { :partial => "lookup_keys/value",
+                                                   :form_builder_attrs => { :is_param => is_param, :is_template => true, :hidden_value => f.object.hidden_value? } }) %>
 <%= add_child_link '+ ' + _("Add Matcher"), :lookup_values, { :title => _('add a new matcher') } %>
