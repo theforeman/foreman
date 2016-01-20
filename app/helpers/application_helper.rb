@@ -56,7 +56,7 @@ module ApplicationHelper
   end
 
   def link_to_remove_fields(name, f, options = {})
-    f.hidden_field(:_destroy) + link_to_function(icon_text("remove", name), "remove_fields(this)", options.merge(:title => _("Remove Parameter")))
+    f.hidden_field(:_destroy) + link_to_function(icon_text('close', name, :kind => 'pficon'), "remove_fields(this)", options.merge(:title => _("Remove Parameter")))
   end
 
   # Creates a link to a javascript function that creates field entries for the association on the web page
@@ -392,7 +392,7 @@ module ApplicationHelper
 
   def documentation_button(section = "")
     url = documentation_url section
-    link_to(icon_text('question-sign', _('Documentation'), :class => 'icon-white'),
+    link_to(icon_text('help', _('Documentation'), :class => 'icon-white', :kind => 'pficon'),
       url, :rel => 'external', :class => 'btn btn-info', :target => '_blank')
   end
 

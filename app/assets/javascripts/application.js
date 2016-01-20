@@ -475,7 +475,8 @@ function reloadOnAjaxComplete(element) {
 }
 
 function set_fullscreen(element){
-  var exit_button = $('<div class="exit-fullscreen"><a class="btn btn-default btn-lg" href="#" onclick="exit_fullscreen(); return false;" title="'+__('Exit Full Screen')+'"><i class="glyphicon glyphicon-resize-small"></i></a></div>');
+  var exit_button = $('<div class="exit-fullscreen"><a class="btn btn-default btn-lg" href="#" onclick="exit_fullscreen(); return false;" title="'+
+    __('Exit Full Screen')+'">' + icon_text('expand','','fa') + '</a></div>');
   element.before("<span id='fullscreen-placeholder'></span>")
          .data('position', $(window).scrollTop())
          .addClass('fullscreen')

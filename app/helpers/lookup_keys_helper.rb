@@ -110,38 +110,38 @@ module LookupKeysHelper
   end
 
   def lookup_key_warnings(required, has_value)
-    return { :text => '', :icon => 'info-sign' } if has_value
+    return { :text => '', :icon => 'info' } if has_value
 
     if required
       { :text => _("Required parameter without value.<br/><b>Please override!</b><br/>"),
-        :icon => "warning-sign" }
+        :icon => "error-circle-o" }
     else
       { :text => _("Optional parameter without value.<br/><i>Will not be sent to Puppet.</i><br/>"),
-        :icon => "exclamation-sign" }
+        :icon => "warning-triangle-o" }
     end
   end
 
   def override_toggle(overridden)
     return unless can_edit_params?
-    link_to_function(icon_text('edit'), "override_class_param(this)",
+    link_to_function(icon_text('pencil-square-o', '', :kind => 'fa'), "override_class_param(this)",
                      :title => _("Override this value"),
                      :'data-tag' => 'override',
                      :class =>"btn btn-default btn-md btn-override #{'hide' if overridden}") +
-      link_to_function(icon_text('remove'), "override_class_param(this)",
+      link_to_function(icon_text('times', '', :kind => 'fa'), "override_class_param(this)",
                        :title => _("Remove this override"),
                       :'data-tag' => 'remove',
                       :class =>"btn btn-default btn-md btn-override #{'hide' unless overridden}")
   end
 
-  def hidden_toggle(hidden, hide_icon = 'eye-close', unhide_icon = 'eye-open', strikethrough = false)
+  def hidden_toggle(hidden, hide_icon = 'eye-slash', unhide_icon = 'eye', strikethrough = false)
     return unless can_edit_params?
     if strikethrough && !hidden
-      link_to_function(icon_text(hide_icon), "", :class =>"btn btn-default btn-md btn-hide disabled")
+      link_to_function(icon_text(hide_icon, '', :kind => 'fa'), "", :class =>"btn btn-default btn-md btn-hide disabled")
     else
-      link_to_function(icon_text(unhide_icon), "input_group_hidden(this)",
+      link_to_function(icon_text(unhide_icon, '', :kind => 'fa'), "input_group_hidden(this)",
                        :title => _("Unhide this value"),
                        :class =>"btn btn-default btn-md btn-hide #{'hide' unless hidden}") +
-          link_to_function(icon_text(hide_icon, "", :class => "#{'btn-strike' if strikethrough}"), "input_group_hidden(this)",
+          link_to_function(icon_text(hide_icon, "", :class => "#{'btn-strike' if strikethrough}", :kind => 'fa'), "input_group_hidden(this)",
                            :title => _("Hide this value"),
                            :class =>"btn btn-default btn-md btn-hide #{'hide' if hidden}")
     end
