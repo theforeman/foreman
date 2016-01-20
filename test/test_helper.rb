@@ -37,7 +37,7 @@ Spork.prefork do
     }
     Capybara::Poltergeist::Driver.new(app, opts)
   end
-  Capybara.default_wait_time = 30
+  Capybara.default_max_wait_time = 30
 
   Capybara.javascript_driver = :poltergeist
 
@@ -279,12 +279,12 @@ Spork.prefork do
     def assert_new_button(index_path,new_link_text,new_path)
       visit index_path
       click_link new_link_text
-      assert_equal new_path, current_path, "new path #{new_path} was expected but it was #{current_path}"
+      assert_current_path new_path
     end
 
     def assert_submit_button(redirect_path,button_text = "Submit")
       click_button button_text
-      assert_equal redirect_path, current_path, "redirect path #{redirect_path} was expected but it was #{current_path}"
+      assert_current_path redirect_path
     end
 
     def assert_delete_row(index_path, link_text, delete_text = "Delete", dropdown = false)
@@ -325,7 +325,7 @@ Spork.prefork do
     end
 
     def wait_for_ajax
-      Timeout.timeout(Capybara.default_wait_time) do
+      Timeout.timeout(Capybara.default_max_wait_time) do
         loop until page.evaluate_script('jQuery.active').zero?
       end
     end

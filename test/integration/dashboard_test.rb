@@ -10,7 +10,7 @@ class DashboardIntegrationTest < ActionDispatch::IntegrationTest
     visit dashboard_path
     assert page.has_link?(text), "link '#{text}' was expected, but it does not exist"
     click_link(text)
-    assert_equal hosts_path, current_path, "new path #{hosts_path} was expected but it was #{current_path}"
+    assert_current_path hosts_path, :only_path => true
     assert_not_nil find_field('search').value
   end
 

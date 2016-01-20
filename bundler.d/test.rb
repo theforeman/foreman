@@ -6,7 +6,7 @@ group :test do
   gem 'minitest', '~> 5.1.0'
   gem 'minitest-spec-rails', '~> 5.3'
   gem 'ci_reporter_minitest', :require => false
-  gem 'capybara', '~> 2.0'
+  gem 'capybara', '~> 2.5'
   gem 'database_cleaner', '~> 1.3'
   gem 'launchy', '~> 2.4'
   gem 'spork-rails', '~> 4.0.0'
