@@ -399,7 +399,7 @@ module ApplicationHelper
 
   def generate_links_for(sub_model)
     return _("None found") if sub_model.empty?
-    sub_model.map {|model| link_to(model.to_label, { :controller => model.class.model_name.plural.downcase, :action => :index, :search => "name = #{model.name}" })}.to_sentence
+    sub_model.map {|model| link_to(model.to_label, { :controller => model.class.model_name.plural.downcase, :action => :index, :search => "name = \"#{model.name}\"" })}.to_sentence
   end
 
   private
