@@ -24,8 +24,21 @@
 //= require editor
 //= require lookup_keys
 
+window.foreman = window.foreman || {};
+foreman.tools = foreman.tools || {};
+foreman.tools.showSpinner = function() {
+  $("#turbolinks-progress").show();
+}
+
+foreman.tools.hideSpinner = function() {
+  $("#turbolinks-progress").hide();
+}
+
 $(document).on('ContentLoad', onContentLoad);
-Turbolinks.enableProgressBar();
+
+$(document).on("page:fetch", foreman.tools.showSpinner)
+
+$(document).on("page:change", foreman.tools.hideSpinner)
 
 $(window).bind('beforeunload', function() {
   $(".jnotify-container").remove();
@@ -370,7 +383,7 @@ function update_puppetclasses(element) {
   }
 
   if (env_id == "") return;
-  $(element).indicator_show();
+  foreman.tools.showSpinner();
   $.ajax({
     type: 'post',
     url:  url,
@@ -389,14 +402,6 @@ function update_puppetclasses(element) {
 // generates an absolute, needed in case of running Foreman from a subpath
 function foreman_url(path) {
   return URL_PREFIX + path;
-}
-
-$.fn.indicator_show = function(){
- $(this).parents('.form-group').find('.spinner').show();
-}
-
-$.fn.indicator_hide = function(){
- $(this).parents('.form-group').find('.spinner').hide();
 }
 
 function spinner_placeholder(text){
@@ -469,7 +474,7 @@ function toggle_input_group(item) {
 }
 
 function reloadOnAjaxComplete(element) {
-  $(element).indicator_hide();
+  foreman.tools.hideSpinner()
   $('[rel="twipsy"]').tooltip();
   $('select:not(.without_select2)').select2({ allowClear: true });
 }
