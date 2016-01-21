@@ -189,7 +189,7 @@ module ApplicationHelper
   end
 
   def checked_icon(condition)
-    image_tag("toggle_check.png") if condition
+    icon_text('check', '', :kind => 'fa') if condition
   end
 
   def locked_icon(condition, hovertext)
