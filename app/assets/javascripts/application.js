@@ -528,6 +528,7 @@ function set_fullscreen_editor (element, relativeTo){
       exit_fullscreen_editor();
     }
   });
+  Editor.resize(true);
 }
 
 function exit_fullscreen_editor (){
@@ -543,6 +544,7 @@ function exit_fullscreen_editor (){
   $('.btn-fullscreen').removeClass("hidden");
 
   $(window).scrollTop(element.data('position'));
+  Editor.resize(true);
 }
 
 function disableButtonToggle(item, explicit) {
