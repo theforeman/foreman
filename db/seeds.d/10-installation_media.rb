@@ -6,6 +6,7 @@ Medium.without_auditing do
     { :name => "CentOS mirror", :os_family => "Redhat", :path => "http://mirror.centos.org/centos/$version/os/$arch" },
     { :name => "Debian mirror", :os_family => "Debian", :path => "http://ftp.debian.org/debian" },
     { :name => "Fedora mirror", :os_family => "Redhat", :path => "http://dl.fedoraproject.org/pub/fedora/linux/releases/$major/Server/$arch/os/" },
+    { :name => "Fedora Atomic mirror", :os_family => "Redhat", :path => "http://dl.fedoraproject.org/pub/alt/atomic/stable/Cloud_Atomic/$arch/os/" },
     { :name => "FreeBSD mirror", :os_family => "Freebsd", :path => "http://ftp.freebsd.org/pub/FreeBSD/releases/$arch/$version-RELEASE/" },
     { :name => "OpenSUSE mirror", :os_family => "Suse", :path => "http://download.opensuse.org/distribution/$version/repo/oss", :operatingsystems => os_suse },
     { :name => "Ubuntu mirror", :os_family => "Debian", :path => "http://archive.ubuntu.com/ubuntu" },
