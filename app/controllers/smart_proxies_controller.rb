@@ -30,7 +30,7 @@ class SmartProxiesController < ApplicationController
 
   def refresh
     old_features = @smart_proxy.features.to_a
-    if @smart_proxy.refresh.blank? && @smart_proxy.save
+    if @smart_proxy.refresh
       msg = @smart_proxy.features.to_a == old_features ? _("No changes found when refreshing features from %s.") : _("Successfully refreshed features from %s.")
       process_success :object => @smart_proxy, :success_msg => msg % @smart_proxy.name
     else

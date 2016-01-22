@@ -66,8 +66,7 @@ class SmartProxy < ActiveRecord::Base
 
   def refresh
     statuses.values.each { |status| status.revoke_cache! }
-    associate_features
-    errors
+    save
   end
 
   def taxonomy_foreign_conditions
