@@ -33,9 +33,9 @@
 
 
       <% if pxe_with_building_hosts?(@template) -%>
-        <% warning_text = (_("Warning: The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates or choose to %s their configuration from 'Select Action' menu") % link_to(_('recreate'), building_hosts_path(@template))).html_safe %>
-        <%= alert :class => 'alert-warning', :header => '',
-                  :text => icon_text("warning-sign", warning_text) %>
+        <% warning_text = (_("The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates or choose to %s their configuration from 'Select Action' menu") % link_to(_('recreate'), building_hosts_path(@template))).html_safe %>
+        <%= alert(:class => 'alert-warning', :header => 'Warning',
+                  :text => warning_text) %>
       <% end -%>
 
       <div class='form-group'>
