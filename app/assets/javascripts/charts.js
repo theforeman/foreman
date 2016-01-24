@@ -105,7 +105,7 @@ function expanded_pie(target, data){
       clickable: true
     }
   });
-  
+
     bind_hover_event(target, function(item){
       var percent = Math.round(item.series.percent);
       return item.series.label + ' ('+percent+'%)';
@@ -389,15 +389,16 @@ function updateChart(item, status) {
 
 $(function() {
   $('[data-toggle="tooltip"]').tooltip();
-  $(".statistics-pie").flot_pie();
-  $(".statistics-bar").flot_bar();
-  $(".statistics-chart").flot_chart();
+  refreshCharts();
   $(document).on('click', '.reset-zoom', function () {reset_zoom(this);});
   $(document).on('click', '.legend .legendColorBox, .legend .legendLabel', function() { legend_selected(this);});
   $(document).on('click', '#legendContainer .legendColorBox, .legendContainer .legendLabel', function() { ext_legend_selected(this);});
 });
 
-$(window).resize(function() {
-  $(".statistics-bar").flot_bar();
-  $(".statistics-chart").flot_chart();
-});
+$(window).on('resize', refreshCharts);
+
+function refreshCharts(){
+  $(".statistics-bar:visible").flot_bar();
+  $(".statistics-pie:visible").flot_pie();
+  $(".statistics-chart:visible").flot_chart();
+}

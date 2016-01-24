@@ -131,4 +131,15 @@ class SmartProxiesControllerTest < ActionController::TestCase
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_match(/No TFTP feature/, show_response['message'])
   end
+
+  test '#puppet_environments' do
+    proxy = smart_proxies(:puppetmaster)
+    fake_data = {'env1' => 1, 'special_environment' => 4}
+    ProxyStatus::Puppet.any_instance.expects(:environment_stats).returns(fake_data)
+    xhr :get, :puppet_environments, { :id => proxy.id }, set_session_user
+    assert_response :success
+    assert_template 'smart_proxies/plugins/_puppet_envs'
+    assert @response.body.include?('special_environment')
+    assert @response.body.include?('5') #the total is correct
+  end
 end

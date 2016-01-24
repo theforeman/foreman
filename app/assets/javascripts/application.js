@@ -86,12 +86,7 @@ function onContentLoad(){
                            title: function(){return (this.scrollWidth > this.clientWidth) ? this.textContent : null;}
                         });
   $('*[title]').not('*[rel]').tooltip({ container: 'body' });
-  $('[data-table=inline]').not('.dataTable').dataTable(
-      {
-        "sDom": "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
-        "sPaginationType": "bootstrap"
-      }
-  );
+  activateDatatables();
 
   // Prevents all links with the disabled attribute set to "disabled"
   // from being clicked.
@@ -107,7 +102,10 @@ function onContentLoad(){
     $(this).removeAttr('data-ajax-url');
     $(this).load(url, function(response, status, xhr) {
       if (status == "error") {
-        $(this).closest(".tab-content").find("#spinner").html(__('Failed to fetch: ') + xhr.status + " " + xhr.statusText);
+        if (!response.length){
+          response = __('Failed to fetch: ') + xhr.status + " " + xhr.statusText;
+        }
+        $(this).html(response);
       }
       if ($(this).data('on-complete')){
         window[$(this).data('on-complete')].call(null, this, status);
@@ -134,6 +132,15 @@ function onContentLoad(){
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
   })
+}
+
+function activateDatatables() {
+  $('[data-table=inline]').not('.dataTable').dataTable(
+      {
+        "sDom": "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+        "sPaginationType": "bootstrap"
+      }
+  );
 }
 
 function preserve_selected_options(elem) {

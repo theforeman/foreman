@@ -89,7 +89,7 @@ module DashboardHelper
   end
 
   def translated_header(shortname, longname)
-    "<th><span class='small' title='' data-original-title='#{longname}'>#{shortname}</span></th>"
+    "<th class='ca'><span class='small' title='' data-original-title='#{longname}'>#{shortname}</span></th>"
   end
 
   def latest_headers

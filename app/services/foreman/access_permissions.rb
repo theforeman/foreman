@@ -578,7 +578,8 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :smart_proxies do |map|
     map.permission :view_smart_proxies,    {:smart_proxies => [:index, :ping, :auto_complete_search, :version,
-                                                               :show, :plugin_version, :tftp_server],
+                                                               :show, :plugin_version, :tftp_server, :puppet_environments,
+                                                               :puppet_dashboard],
                                           :"api/v1/smart_proxies" => [:index, :show],
                                           :"api/v2/smart_proxies" => [:index, :show, :version]
     }
@@ -597,7 +598,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :smart_proxies_autosign do |map|
-    map.permission :view_smart_proxies_autosign,    {:autosign => [:index, :show],
+    map.permission :view_smart_proxies_autosign,    {:autosign => [:index, :show, :counts],
                                                      :"api/v1/autosign" => [:index],
                                                      :"api/v2/autosign" => [:index]
                                                     }
@@ -606,7 +607,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :smart_proxies_puppetca do |map|
-    map.permission :view_smart_proxies_puppetca,    {:puppetca => [:index]}
+    map.permission :view_smart_proxies_puppetca,    {:puppetca => [:index, :counts, :expiry]}
     map.permission :edit_smart_proxies_puppetca,    {:puppetca => [:update]}
     map.permission :destroy_smart_proxies_puppetca, {:puppetca => [:destroy]}
   end

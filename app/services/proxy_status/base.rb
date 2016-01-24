@@ -6,8 +6,8 @@ module ProxyStatus
       @cache = opts[:cache].nil? ? true : opts[:cache]
     end
 
-    def revoke_cache!
-      Rails.cache.delete(cache_key)
+    def revoke_cache!(subkey = '')
+      Rails.cache.delete(cache_key+subkey)
     end
 
     def cache_key
@@ -18,19 +18,25 @@ module ProxyStatus
       'Base'
     end
 
+    protected
+
+    def api_class
+      "ProxyAPI::#{self.class.humanized_name}".classify.constantize
+    end
+
     private
 
     attr_reader :proxy, :cache_duration, :cache
 
     def api
-      @api = "ProxyAPI::#{self.class.humanized_name}".classify.constantize.new(:url => proxy.url)
+      @api ||= api_class.new(:url => proxy.url)
     rescue NameError => e
       raise Foreman::WrappedException.new(e, N_('Unable to initialize ProxyAPI class %s'), "ProxyAPI::#{self.class.humanized_name}")
     end
 
-    def fetch_proxy_data
+    def fetch_proxy_data(subkey = '')
       if cache
-        Rails.cache.fetch(cache_key, :expires_in => cache_duration) do
+        Rails.cache.fetch(cache_key+subkey, :expires_in => cache_duration) do
           yield
         end
       else

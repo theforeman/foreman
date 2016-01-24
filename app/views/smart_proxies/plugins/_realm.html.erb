@@ -1,6 +1,8 @@
 <div class="row">
   <h3><%= _('Realm') %></h3>
-  <%= render :partial => 'smart_proxies/plugins/plugin_version', :locals => {:feature => feature, :proxy => @smart_proxy} %>
+</div>
+<%= show_feature_version('realm') %>
+<div class="row">
   <div class="col-md-4">
     <%= _('Realms') %>
   </div>

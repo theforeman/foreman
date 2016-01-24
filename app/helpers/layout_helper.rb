@@ -470,8 +470,8 @@ module LayoutHelper
     end
   end
 
-  def modal_close(data_dismiss = 'modal', text = _('Close'))
-    button_tag(text, :class => 'btn btn-default', :data => { :dismiss => data_dismiss })
+  def modal_close(text = _('Close'))
+    button_tag(text, :class => 'btn btn-default', :data => { :dismiss => 'modal' })
   end
 
   def number_f(f, attr, options = {})
@@ -506,8 +506,7 @@ module LayoutHelper
 
     content_tag(:div, :class => "#{association}_fields_template form_template", :style => "display: none;") do
       form_builder.fields_for(association, options[:object], :child_index => "new_#{association}") do |f|
-        render(:partial => options[:partial],
-               :layout => options[:layout],
+        render(:partial => options[:partial], :layout => options[:layout],
                :locals => { options[:form_builder_local] => f }.merge(options[:form_builder_attrs]))
       end
     end
