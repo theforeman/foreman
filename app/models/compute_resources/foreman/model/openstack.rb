@@ -62,7 +62,13 @@ module Foreman::Model
     def boot_from_volume(args = {})
       vm_name = args[:name]
       args[:size_gb] = image_size(args[:image_ref]) if args[:size_gb].blank?
-      boot_vol = volume_client.volumes.create( { :display_name => "#{vm_name}-vol0", :volumeType => "Volume", :size => args[:size_gb], :imageRef => args[:image_ref] } )
+      volume_name = "#{vm_name}-vol0"
+      boot_vol = volume_client.volumes.create(
+        :name => volume_name, # Name attribute in OpenStack volumes API v2
+        :display_name => volume_name, # Name attribute in API v1
+        :volumeType => "Volume",
+        :size => args[:size_gb],
+        :imageRef => args[:image_ref])
       @boot_vol_id = boot_vol.id.tr('"', '')
       boot_vol.wait_for { status == 'available'  }
       args[:block_device_mapping_v2] = [ {
