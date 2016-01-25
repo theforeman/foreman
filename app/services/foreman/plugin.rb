@@ -301,5 +301,9 @@ module Foreman #:nodoc:
       return if @provision_methods.key?(name.to_s)
       @provision_methods[name.to_s] = friendly_name
     end
+
+    def register_facet(klass, name, &block)
+      Facets.register(klass, name, &block)
+    end
   end
 end
