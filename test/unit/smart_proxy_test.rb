@@ -66,6 +66,14 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert_equal({'env1' => 1, 'env2' => 2}, proxy.statuses[:puppet].environment_stats)
   end
 
+  test "can count connected hosts" do
+    proxy = FactoryGirl.create(:smart_proxy)
+    FactoryGirl.create(:host, :with_environment, :puppet_proxy => proxy)
+    as_admin do
+      assert_equal 1, proxy.hosts_count
+    end
+  end
+
   private
 
   def fake_response(data)

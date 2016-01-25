@@ -64,6 +64,10 @@ class SmartProxy < ActiveRecord::Base
     ids.flatten.compact.map { |i| i.to_i }.uniq
   end
 
+  def hosts_count
+    Host::Managed.search_for("smart_proxy = #{name}").count
+  end
+
   def refresh
     statuses.values.each { |status| status.revoke_cache! }
     associate_features

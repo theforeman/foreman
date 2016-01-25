@@ -1716,6 +1716,21 @@ class HostTest < ActiveSupport::TestCase
       assert_equal parameter.value, results.find(host).params[parameter.name]
     end
 
+    test "can search hosts by smart proxy" do
+      host = FactoryGirl.create(:host)
+      proxy = FactoryGirl.create(:smart_proxy)
+      results = Host.search_for("smart_proxy = #{proxy.name}")
+      assert_equal 0, results.count
+      host.update_attribute(:puppet_proxy_id, proxy.id)
+      results = Host.search_for("smart_proxy = #{proxy.name}")
+      assert_equal 1, results.count
+      assert results.include?(host)
+      #the results should not change even if the host has multiple connections to same proxy
+      host.update_attribute(:puppet_ca_proxy_id, proxy.id)
+      results2 = Host.search_for("smart_proxy = #{proxy.name}")
+      assert_equal results, results2
+    end
+
     test "can search hosts by puppet class" do
       host = FactoryGirl.create(:host, :with_puppetclass)
       results = Host.search_for("class = #{host.puppetclasses.first.name}")

@@ -55,6 +55,14 @@
             <%= @smart_proxy.features.to_sentence %> <%= refresh_proxy_icon(@smart_proxy, authorizer) %>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-4">
+            <%= _('Hosts managed') %>
+          </div>
+          <div class="col-md-8">
+            <%= link_to @smart_proxy.hosts_count, hosts_path(:search => "smart_proxy = \"#{@smart_proxy.name}\"") %>
+          </div>
+        </div>
         <% if @smart_proxy.has_feature?('Logs') %>
           <div class="row">
             <div class="col-md-4">

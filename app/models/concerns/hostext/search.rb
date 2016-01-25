@@ -41,6 +41,7 @@ module Hostext
       scoped_search :in => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
       scoped_search :in => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster
       scoped_search :in => :puppet_ca_proxy, :on => :name,    :complete_value => true, :rename => :puppet_ca
+      scoped_search :in => :puppet_proxy, :on => :name,   :complete_value => true, :rename => :smart_proxy, :ext_method => :search_by_proxy, :only_explicit => true
       scoped_search :in => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
       scoped_search :in => :compute_resource, :on => :id,      :complete_enabled => false, :rename => :compute_resource_id, :only_explicit => true
       scoped_search :in => :image, :on => :name, :complete_value => true
@@ -177,6 +178,20 @@ module Hostext
         {:conditions => opts, :include => :hostgroup}
       end
 
+      def search_by_proxy(key, operator, value)
+        proxy_cond = sanitize_sql_for_conditions(["smart_proxies.name #{operator} ?", value_to_sql(operator, value)])
+        host_ids = Host::Managed.reorder('')
+                                .authorized(:view_hosts, Host)
+                                .eager_load(proxy_connections_tables)
+                                .joins("LEFT JOIN smart_proxies ON smart_proxies.id IN (#{proxy_connections_columns.join(',')})")
+                                .where(proxy_cond)
+                                .uniq
+                                .pluck('hosts.id')
+                                .join(',')
+        host_ids = '-1' if host_ids.empty?
+        {:conditions => "hosts.id IN (#{host_ids})"}
+      end
+
       def search_cast_facts(key, operator, value)
         table_id = self.fact_values_table_counter = (self.fact_values_table_counter || 0) + 1
         {
@@ -204,6 +219,15 @@ module Hostext
           end
         end
         conditions.empty? ? [] : "( #{conditions.join(' OR ')} )"
+      end
+
+      #override these if needed to add connection in plugin
+      def proxy_connections_columns
+        ['subnets.dhcp_id', 'subnets.dns_id', 'subnets.tftp_id', 'domains.dns_id', 'realms.realm_proxy_id', 'hosts.puppet_proxy_id', 'hosts.puppet_ca_proxy_id']
+      end
+
+      def proxy_connections_tables
+        [:realm, :interfaces => [:subnet, :domain]]
       end
     end
   end
