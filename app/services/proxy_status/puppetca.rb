@@ -4,7 +4,7 @@ module ProxyStatus
       fetch_proxy_data('/certs') do
         api.all.map do |name, properties|
           SmartProxies::PuppetCACertificate.new([name.strip, properties['state'], properties['fingerprint'], properties["not_before"], properties["not_after"], self])
-        end.compact.sort_by!(&:valid_from)
+        end.compact
       end
     end
 
@@ -17,7 +17,7 @@ module ProxyStatus
     end
 
     def expiry
-      ca_cert = certs.first
+      ca_cert = find_by_state('valid').sort_by!(&:valid_from).first
       if ca_cert.present?
         ca_cert.expires_at
       else
