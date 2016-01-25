@@ -14,7 +14,8 @@ class HostsController < ApplicationController
                         submit_multiple_build multiple_disable submit_multiple_disable
                         multiple_enable submit_multiple_enable multiple_puppetrun
                         update_multiple_puppetrun multiple_disassociate update_multiple_disassociate
-                        rebuild_config submit_rebuild_config select_multiple_owner update_multiple_owner)
+                        rebuild_config submit_rebuild_config select_multiple_owner update_multiple_owner
+                        select_multiple_power_state update_multiple_power_state)
 
   add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
 
@@ -27,6 +28,7 @@ class HostsController < ApplicationController
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_filter :set_host_type, :only => [:update]
   before_filter :find_multiple, :only => MULTIPLE_ACTIONS
+  before_filter :validate_power_action, :only => :update_multiple_power_state
   helper :hosts, :reports, :interfaces
 
   def index(title = nil)
@@ -431,6 +433,24 @@ class HostsController < ApplicationController
     redirect_back_or_to hosts_path
   end
 
+  def select_multiple_power_state
+  end
+
+  def update_multiple_power_state
+    action = params[:power][:action]
+    @hosts.each do |host|
+      begin
+        host.power.send(action.to_sym) if host.supports_power?
+      rescue => error
+        message = _('Failed to set power state for %s.') % host
+        Foreman::Logging.exception(message, error)
+      end
+    end
+
+    notice _('The power state of the selected hosts will be set to %s') % _(action)
+    redirect_back_or_to hosts_path
+  end
+
   def multiple_destroy
   end
 
@@ -653,7 +673,8 @@ class HostsController < ApplicationController
           'update_multiple_organization', 'select_multiple_organization',
           'update_multiple_location', 'select_multiple_location',
           'disassociate', 'update_multiple_disassociate', 'multiple_disassociate',
-          'select_multiple_owner', 'update_multiple_owner'
+          'select_multiple_owner', 'update_multiple_owner',
+          'select_multiple_power_state', 'update_multiple_power_state'
         :edit
       when 'multiple_destroy', 'submit_multiple_destroy'
         :destroy
@@ -786,5 +807,13 @@ class HostsController < ApplicationController
   # is rendered differently and the next save operation will be forced
   def offer_to_overwrite_conflicts
     @host.overwrite = "true" if @host.errors.any? and @host.errors.are_all_conflicts?
+  end
+
+  def validate_power_action
+    if params[:power].blank? || (action=params[:power][:action]).blank? ||
+        !PowerManager::REAL_ACTIONS.include?(action)
+      error _('No or invalid power state selected!')
+      redirect_to(select_multiple_power_state_hosts_path) and return false
+    end
   end
 end

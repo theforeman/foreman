@@ -358,6 +358,7 @@ Foreman::AccessControl.map do |permission_set|
                                                :select_multiple_organization, :update_multiple_organization,
                                                :disassociate, :multiple_disassociate, :update_multiple_disassociate,
                                                :select_multiple_owner, :update_multiple_owner,
+                                               :select_multiple_power_state, :update_multiple_power_state,
                                                :select_multiple_location, :update_multiple_location].push(*ajax_actions),
                                     :compute_resources => [:associate].push(cr_ajax_actions),
                                     :compute_resources_vms => [:associate],
