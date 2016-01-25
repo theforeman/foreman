@@ -18,6 +18,7 @@
 require 'test_helper'
 
 module Awesome; module Provider; class MyAwesome < ::ComputeResource; end; end; end
+module Awesome; class FakeFacet; end; end
 
 class PluginTest < ActiveSupport::TestCase
   def setup
@@ -278,5 +279,20 @@ class PluginTest < ActiveSupport::TestCase
 
     assert_equal 1, ::Pagelets::Manager.sorted_pagelets_at("tests/show", :main_tabs).count
     assert_equal "My Tab", ::Pagelets::Manager.sorted_pagelets_at("tests/show", :main_tabs).first.name
+  end
+
+  def test_register_facet
+    Facets.stubs(:configuration).returns({})
+
+    Foreman::Plugin.register :awesome_facet do
+      name 'Awesome facet'
+      register_facet(Awesome::FakeFacet, :fake_facet) do
+        api_view :list => 'api/v2/awesome/index', :single => 'api/v2/awesome/show'
+      end
+    end
+
+    assert Facets.registered_facets[:fake_facet]
+
+    Host::Managed.cloned_parameters[:include].delete(:fake_facet)
   end
 end
