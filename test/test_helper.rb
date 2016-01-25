@@ -24,6 +24,7 @@ Spork.prefork do
   require 'factory_girl_rails'
   require 'capybara/poltergeist'
   require 'functional/shared/basic_rest_response_test'
+  require 'facet_test_helper'
 
   Capybara.register_driver :poltergeist do |app|
     opts = {

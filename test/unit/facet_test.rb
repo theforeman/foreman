@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'facet_test_helper'
 
 class TestFacet < HostFacets::Base
 end
