@@ -18,6 +18,15 @@ module ProxyStatus
       'Base'
     end
 
+    # Avoid marshalling @api as it may cause problems when caching https proxies.
+    def marshal_dump
+      [@proxy, @cache_duration, @cache]
+    end
+
+    def marshal_load(array)
+      @proxy, @cache_duration, @cache = array
+    end
+
     protected
 
     def api_class
