@@ -153,20 +153,6 @@ class HostTest < ActiveSupport::TestCase
     assert_equal host.vm_compute_attributes, :cpus => 4
   end
 
-  test "#supports_power_and_running should return true with compute resource" do
-    power_mock = mock('subnet')
-    power_mock.stubs(:ready?).returns(true)
-
-    host = FactoryGirl.build(:host, :compute_resource => compute_resources(:ec2))
-    host.stubs(:power).returns(power_mock)
-    assert host.supports_power_and_running?
-  end
-
-  test "#supports_power_and_running should return false without compute resource" do
-    host = FactoryGirl.build(:host)
-    refute host.supports_power_and_running?
-  end
-
   test "fetches nil vm compute attributes for bare metal" do
     host = FactoryGirl.create(:host)
     assert_equal host.vm_compute_attributes, nil

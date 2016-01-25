@@ -1,5 +1,6 @@
 class Host::Managed < Host::Base
   include Hostext::Search
+  include Hostext::PowerInterface
   include SelectiveClone
   include HostParams
   include Facets::ManagedHostExtensions
@@ -771,25 +772,6 @@ class Host::Managed < Host::Base
     ipmi = bmc_nic
     return false if ipmi.nil?
     ipmi.password.present? && ipmi.username.present? && ipmi.provider == 'IPMI'
-  end
-
-  def power
-    opts = {:host => self}
-    if compute_resource_id && uuid
-      PowerManager::Virt.new(opts)
-    elsif bmc_available?
-      PowerManager::BMC.new(opts)
-    else
-      raise ::Foreman::Exception.new(N_("Unknown power management support - can't continue"))
-    end
-  end
-
-  def supports_power_and_running?
-    return false unless compute_resource_id || bmc_available?
-    power.ready?
-    # return false if the proxyapi/bmc raised an error (and therefore do not know if power is supported)
-  rescue ProxyAPI::ProxyException
-    false
   end
 
   def ipmi_boot(booting_device)

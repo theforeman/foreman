@@ -159,7 +159,8 @@ module HostsHelper
       [_('Disable Notifications'), multiple_disable_hosts_path],
       [_('Enable Notifications'), multiple_enable_hosts_path],
       [_('Disassociate Hosts'), multiple_disassociate_hosts_path],
-      [_('Rebuild Config'), rebuild_config_hosts_path]
+      [_('Rebuild Config'), rebuild_config_hosts_path],
+      [_('Change Power State'), select_multiple_power_state_hosts_path]
     ]
     actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path]) if SETTINGS[:unattended]
     actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun]
@@ -353,7 +354,7 @@ module HostsHelper
               )
             end
         ),
-        if host.compute_resource_id || host.bmc_available?
+        if host.supports_power?
           button_group(
               link_to(_("Loading power state ..."), '#', :disabled => true, :id => :loading_power_state)
           )

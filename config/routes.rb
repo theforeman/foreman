@@ -52,6 +52,8 @@ Foreman::Application.routes.draw do
         post 'update_multiple_environment'
         get 'select_multiple_owner'
         post 'update_multiple_owner'
+        get 'select_multiple_power_state'
+        post 'update_multiple_power_state'
         get 'multiple_puppetrun'
         post 'update_multiple_puppetrun'
         get 'multiple_destroy'
