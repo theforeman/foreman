@@ -8,7 +8,7 @@
     <div style="background: #e1e2e3; padding: 20px 40px; margin: 5px 0px 10px;">
       <%= render :partial => 'error_states', :locals => {:logs => @report.logs } %>
       <br>
-      <%= link_to _("For more information"), config_report_path(@report, :host => @url.host, :port => @url.port, :protocol => @url.scheme, :only_path => false)  %>
+      <%= link_to _("For more information"), config_report_url(@report, :host => @url.host, :port => @url.port, :protocol => @url.scheme)  %>
     </div>
   </body>
 </html>

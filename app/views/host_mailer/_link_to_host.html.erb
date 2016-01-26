@@ -1,4 +1,4 @@
 <% td_style = "text-align: left; border-collapse: collapse; background-color: #FFFFFF; padding: 4px; border: 1px solid #cccccc;" %>
 <td style="<%= td_style %>">
-  <%= link_to host, host_path(:id => host, :host => @url.host, :port => @url.port, :only_path => false, :protocol => @url.scheme) %>
+  <%= link_to host, host_url(:id => host, :host => @url.host, :port => @url.port, :protocol => @url.scheme) %>
 </td>
