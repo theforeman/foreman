@@ -103,7 +103,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "should update host" do
     put :update, { :commit => "Update", :id => @host.name, :host => {:disk => "ntfs"} }, set_session_user
-    @host = Host.find(@host)
+    @host = Host.find(@host.id)
     assert_equal @host.disk, "ntfs"
   end
 
@@ -623,8 +623,8 @@ class HostsControllerTest < ActionController::TestCase
       multiple_hosts_submit_request('build', [@host1.id, @host2.id],
                                     'The selected hosts will execute a build operation on next reboot',
                                     {:host => { :build => 0 }})
-      assert Host.find(@host1).build
-      assert Host.find(@host2).build
+      assert Host.find(@host1.id).build
+      assert Host.find(@host2.id).build
     end
 
     test 'build with reboot' do
@@ -638,8 +638,8 @@ class HostsControllerTest < ActionController::TestCase
       multiple_hosts_submit_request('build', [@host1.id, @host2.id],
                                     'The selected hosts were enabled for reboot and rebuild',
                                     {:host => { :build => 1 }})
-      assert Host.find(@host1).build
-      assert Host.find(@host2).build
+      assert Host.find(@host1.id).build
+      assert Host.find(@host2.id).build
     end
 
     test 'destroy' do
@@ -649,14 +649,14 @@ class HostsControllerTest < ActionController::TestCase
 
     test 'disable notifications' do
       multiple_hosts_submit_request('disable', [@host1.id, @host2.id], 'Disabled selected hosts')
-      refute Host.find(@host1).enabled
-      refute Host.find(@host2).enabled
+      refute Host.find(@host1.id).enabled
+      refute Host.find(@host2.id).enabled
     end
 
     test 'enable notifications' do
       multiple_hosts_submit_request('enable', [@host1.id, @host2.id], 'Enabled selected hosts')
-      assert Host.find(@host1).enabled
-      assert Host.find(@host2).enabled
+      assert Host.find(@host1.id).enabled
+      assert Host.find(@host2.id).enabled
     end
 
     private

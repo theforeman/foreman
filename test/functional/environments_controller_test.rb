@@ -22,7 +22,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert environment.save!
 
     put :update, { :commit => "Update", :id => environment.name, :environment => {:name => "other_environment"} }, set_session_user
-    env = Environment.find(environment)
+    env = Environment.find(environment.id)
     assert env.name == "other_environment"
 
     assert_redirected_to environments_path

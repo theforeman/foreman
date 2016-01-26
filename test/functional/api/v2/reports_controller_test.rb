@@ -195,7 +195,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
   test 'cannot view the last report without hosts view permission' do
     setup_user('view', 'config_reports')
     report = FactoryGirl.create(:report)
-    get :last, { :host_id => report.host.id }, set_session_user.merge(:user => User.current)
+    get :last, { :host_id => report.host.id }, set_session_user.merge(:user => User.current.id)
     assert_response :not_found
   end
 end

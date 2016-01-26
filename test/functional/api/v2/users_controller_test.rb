@@ -113,7 +113,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
       response = ActiveSupport::JSON.decode(@response.body)
       assert_equal "You are trying to delete your own account", response['error']['details']
       assert_equal "Access denied", response['error']['message']
-      assert User.exists?(user)
+      assert User.exists?(user.id)
     end
   end
 

@@ -23,7 +23,7 @@ class HostMailerTest < ActionMailer::TestCase
     # HostMailer relies on .size, and Rails looks to the counter_caches
     # if they exist.  Since fixtures don't populate the counter_caches,
     # we do it here:
-    Environment.reset_counters(@env, :hosts)
+    Environment.reset_counters(@env.id, :hosts)
     @env.reload
 
     ActionMailer::Base.deliveries = []
