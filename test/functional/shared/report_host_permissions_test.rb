@@ -6,14 +6,14 @@ module ReportHostPermissionsTest
 
       test 'cannot view any reports' do
         report = FactoryGirl.create(:config_report)
-        get :show, { :id => report.id }, set_session_user.merge(:user => User.current)
+        get :show, { :id => report.id }, set_session_user.merge(:user => User.current.id)
         assert_response :not_found
       end
 
       test 'cannot delete host reports' do
         setup_user 'destroy', 'config_reports'
         report = FactoryGirl.create(:config_report)
-        delete :destroy, { :id => report.id }, set_session_user.merge(:user => User.current)
+        delete :destroy, { :id => report.id }, set_session_user.merge(:user => User.current.id)
         assert_response :not_found
       end
     end

@@ -137,7 +137,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should delete different user" do
     user = users(:one)
-    delete :destroy, {:id => user}, set_session_user.merge(:user => users(:admin))
+    delete :destroy, {:id => user}, set_session_user.merge(:user => users(:admin).id)
     assert_redirected_to users_url
     assert !User.exists?(user.id)
   end
@@ -161,7 +161,7 @@ class UsersControllerTest < ActionController::TestCase
     user.update_attribute :admin, true
     delete :destroy, {:id => user.id}, set_session_user.merge(:user => user.id)
     assert_redirected_to users_url
-    assert User.exists?(user)
+    assert User.exists?(user.id)
     assert @request.flash[:notice] == "You cannot delete this user while logged in as this user."
   end
 

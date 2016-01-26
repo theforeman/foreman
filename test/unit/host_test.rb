@@ -1703,7 +1703,7 @@ class HostTest < ActiveSupport::TestCase
       parameter = hg.group_parameters.first
       results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
       assert results.include?(host)
-      assert_equal parameter.value, results.find(host).params[parameter.name]
+      assert_equal parameter.value, results.find(host.id).params[parameter.name]
     end
 
     test "can search hosts by inherited params from a parent hostgroup" do
@@ -1713,7 +1713,7 @@ class HostTest < ActiveSupport::TestCase
       parameter = parent_hg.group_parameters.first
       results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
       assert results.include?(host)
-      assert_equal parameter.value, results.find(host).params[parameter.name]
+      assert_equal parameter.value, results.find(host.id).params[parameter.name]
     end
 
     test "can search hosts by smart proxy" do

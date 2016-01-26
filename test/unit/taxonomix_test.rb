@@ -67,8 +67,8 @@ class TaxonomixTest < ActiveSupport::TestCase
 
   test ".used_location_ids can work with array of locations" do
     loc1 = FactoryGirl.create(:location)
-    loc2 = FactoryGirl.create(:location, :parent_id => loc1)
-    loc3 = FactoryGirl.create(:location, :parent_id => loc2)
+    loc2 = FactoryGirl.create(:location, :parent_id => loc1.id)
+    loc3 = FactoryGirl.create(:location, :parent_id => loc2.id)
     loc4 = FactoryGirl.create(:location)
     dummy_class = @dummy.class
     dummy_class.which_ancestry_method = :subtree_ids
@@ -94,8 +94,8 @@ class TaxonomixTest < ActiveSupport::TestCase
 
   test ".used_organization_ids can work with array of organizations" do
     org1 = FactoryGirl.create(:organization)
-    org2 = FactoryGirl.create(:organization, :parent_id => org1)
-    org3 = FactoryGirl.create(:organization, :parent_id => org2)
+    org2 = FactoryGirl.create(:organization, :parent_id => org1.id)
+    org3 = FactoryGirl.create(:organization, :parent_id => org2.id)
     org4 = FactoryGirl.create(:organization)
     dummy_class = @dummy.class
     dummy_class.which_ancestry_method = :subtree_ids
@@ -126,8 +126,8 @@ class TaxonomixTest < ActiveSupport::TestCase
 
   test ".taxable_ids (and .inner_select) can work with array of taxonomies" do
     loc1 = FactoryGirl.create(:location)
-    loc2 = FactoryGirl.create(:location, :parent_id => loc1)
-    loc3 = FactoryGirl.create(:location, :parent_id => loc2)
+    loc2 = FactoryGirl.create(:location, :parent_id => loc1.id)
+    loc3 = FactoryGirl.create(:location, :parent_id => loc2.id)
     loc4 = FactoryGirl.create(:location)
     org = FactoryGirl.create(:organization)
     env1 = FactoryGirl.create(:environment, :organizations => [org], :locations => [loc2])
