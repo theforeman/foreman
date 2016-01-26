@@ -19,7 +19,7 @@
         <td><%= _(cert.state) %></td>
         <td><%= time_column cert.valid_from %></td>
         <td><%= time_column cert.expires_at, :tense => :future %></td>
-        <td><%= cert.fingerprint %></td>
+        <td class="ellipsis"><%= cert.fingerprint %></td>
         <td>
           <%= action_buttons(
                     if cert.state == "pending"
