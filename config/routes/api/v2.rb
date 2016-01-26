@@ -77,7 +77,7 @@ Foreman::Application.routes.draw do
         post :clone, :on => :member
         resources :parameters, :except => [:new, :edit] do
           collection do
-            delete '/', :to => :reset
+            delete '/', :action => :reset
           end
         end
         resources :smart_variables, :except => [:new, :edit, :create] do
@@ -105,7 +105,7 @@ Foreman::Application.routes.draw do
           get :bootfiles, :on => :member
           resources :parameters, :except => [:new, :edit] do
             collection do
-              delete '/', :to => :reset
+              delete '/', :action => :reset
             end
           end
           resources :os_default_templates, :except => [:new, :edit]
@@ -279,7 +279,7 @@ Foreman::Application.routes.draw do
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
           resources :parameters, :except => [:new, :edit] do
             collection do
-              delete '/', :to => :reset
+              delete '/', :action => :reset
             end
           end
           resources :hosts, :except => [:new, :edit]
@@ -317,7 +317,7 @@ Foreman::Application.routes.draw do
           resources :interfaces, :except => [:new, :edit]
           resources :parameters, :except => [:new, :edit] do
             collection do
-              delete '/', :to => :reset
+              delete '/', :action => :reset
             end
           end
           resources :puppetclasses, :except => [:new, :edit]
@@ -356,7 +356,7 @@ Foreman::Application.routes.draw do
           resources :hosts, :except => [:new, :edit]
           resources :parameters, :except => [:new, :edit] do
             collection do
-              delete '/', :to => :reset
+              delete '/', :action => :reset
             end
           end
 
@@ -399,7 +399,7 @@ Foreman::Application.routes.draw do
           resources :hosts, :except => [:new, :edit]
           resources :parameters, :except => [:new, :edit] do
             collection do
-              delete '/', :to => :reset
+              delete '/', :action => :reset
             end
           end
 
