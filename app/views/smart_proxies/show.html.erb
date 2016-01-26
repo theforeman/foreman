@@ -77,17 +77,16 @@
     <% end %>
     <% tab_features.each do |feature| %>
       <div class="tab-pane" id="<%= feature.parameterize %>">
-      <% feature_erb = "smart_proxies/plugins/#{feature.parameterize('_')}" %>
-      <% if lookup_context.template_exists?(feature_erb, [], true) %>
-        <%= render :partial => feature_erb %>
-      <% else %>
-        <div class="col-md-12">
-          <%= render :partial => "smart_proxies/plugins/no_template", :locals => {:feature => feature} %>
-        </div>
-      <% end %>
+        <% feature_erb = "smart_proxies/plugins/#{feature.parameterize('_')}" %>
+        <% if lookup_context.template_exists?(feature_erb, [], true) %>
+          <%= render :partial => feature_erb %>
+        <% else %>
+          <div class="col-md-12">
+            <%= render :partial => "smart_proxies/plugins/no_template", :locals => {:feature => feature} %>
+          </div>
+        <% end %>
       </div>
     <% end %>
-    </div>
     <%= render_tab_content_for(:main_tabs, :subject => @smart_proxy)%>
   </div>
 </div>
