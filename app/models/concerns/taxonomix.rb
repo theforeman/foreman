@@ -90,7 +90,7 @@ module Taxonomix
       inner_ids ||= inner_ids_loc if inner_ids_loc
       inner_ids ||= inner_ids_org if inner_ids_org
       # In the case of users we want the taxonomy scope to get both the users of the taxonomy and admins.
-      inner_ids << admin_ids if inner_ids && self == User
+      inner_ids.concat(admin_ids) if inner_ids && self == User
       inner_ids
     end
 
