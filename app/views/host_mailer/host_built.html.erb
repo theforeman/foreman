@@ -9,7 +9,7 @@
       <table class="hostInfo" style="min-width: 400px; border: 1px solid #cccccc; padding: 5px; background-color: #ffffff; border-collapse: collapse; text-align: justify; width: 100%;" bgcolor="#ffffff">
         <tr>
           <td width="18%" style="text-align: left; border-collapse: collapse; background-image: linear-gradient(#f5f5f5, #e8e8e8); padding: 4px; border: 1px solid #cccccc;" align="left"><b><%= _("Hostname") %></b></td>
-          <td width="82%" style="border-collapse: collapse; text-align: left; background-color: #FFFFFF; padding: 4px; border: 1px solid #cccccc;" align="center" bgcolor="#FFFFFF"><%= link_to @host, host_path(:id => @host, :host => @url.host, :port => @url.port, :only_path => false, :protocol => @url.scheme) %></td>
+          <td width="82%" style="border-collapse: collapse; text-align: left; background-color: #FFFFFF; padding: 4px; border: 1px solid #cccccc;" align="center" bgcolor="#FFFFFF"><%= link_to @host, host_url(:id => @host, :host => @url.host, :port => @url.port, :protocol => @url.scheme) %></td>
         </tr>
         <tr>
           <td width="18%" style="text-align: left; border-collapse: collapse; background-image: linear-gradient(#f5f5f5, #e8e8e8); padding: 4px; border: 1px solid #cccccc;" align="left"><b><%= _("IP") %></b></td>

@@ -11,10 +11,10 @@
            user_search_param = login ? "user = #{login}" : %Q{username = "#{audit.username}"}
         %>
         <b>
-          <%= link_to(audit.username, audits_path(:host => @url.host, :port => @url.port, :only_path => false, :protocol => @url.scheme, :search => user_search_param)) %>
+          <%= link_to(audit.username, audits_url(:host => @url.host, :port => @url.port, :protocol => @url.scheme, :search => user_search_param)) %>
           <span style="color: #cccccc"><%= audit_remote_address audit %></span>
           <%= audit_action_name audit%> <%= audited_type audit %>:
-          <%=link_to(audit_title(audit), audit_path(:id => audit, :host => @url.host, :port => @url.port, :only_path => false, :protocol => @url.scheme), {:style => 'color: #2a6496'}) %>
+          <%=link_to(audit_title(audit), audit_url(:id => audit, :host => @url.host, :port => @url.port, :protocol => @url.scheme), {:style => 'color: #2a6496'}) %>
         </b>
 
       </li>
@@ -26,6 +26,6 @@
   <% end %>
 </ul>
 <p>
-  <%= link_to(_('Full audits list'), audits_path(:host => @url.host, :port => @url.port, :only_path => false, :protocol => @url.scheme, :search => @query)) %>
+  <%= link_to(_('Full audits list'), audits_url(:host => @url.host, :port => @url.port, :protocol => @url.scheme, :search => @query)) %>
 </p>
 </body>
