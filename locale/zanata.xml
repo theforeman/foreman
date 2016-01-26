@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <config xmlns="http://zanata.org/namespace/config/">
     <url>https://translate.zanata.org/zanata/</url> 
-    <project>satellite6-foreman</project> 
-    <project-version>6.0</project-version>
+    <project>foreman</project> 
+    <project-version>develop</project-version>
     <project-type>podir</project-type>
     <locales>
         <locale>fr</locale>
