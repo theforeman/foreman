@@ -22,12 +22,12 @@ function parent_taxonomy_changed(element) {
   var url = $(element).data('url');
   var data = {parent_id: parent_id}
 
-  $(element).indicator_show();
+  foreman.tools.showSpinner();
   $.ajax({
     type: 'post',
     url: url,
     data: data,
-    complete: function(){  $(element).indicator_hide();},
+    complete: function(){ foreman.tools.hideSpinner(); },
     success: function(response) {
       $('form').replaceWith(response);
       $(document.body).trigger('ContentLoad');

@@ -520,8 +520,15 @@ span.glyphicon.host-status {
   color: #797979;
 }
 
-html.turbolinks-progress-bar::before {
-  height: 2px !important;
+#turbolinks-progress {
+  display: none;
+  z-index: 10000;
+  div {
+    margin-left: 15px;
+    margin-top: 2px;
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .white-header {
