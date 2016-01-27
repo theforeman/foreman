@@ -7,18 +7,34 @@
   <thead>
     <tr>
       <th class="col-md-2"><%= s_("SmartProxy|Name") %></th>
-      <th class="col-md-4"><%= s_("SmartProxy|Url") %></th>
-      <th class="col-md-4"><%= _("Features") %></th>
+      <% unless SETTINGS[:locations_enabled] && SETTINGS[:organizations_enabled] %>
+        <th class="hidden-sm hidden-xs nbsp"><%= s_("SmartProxy|Url") %></th>
+      <% end %>
+      <% if SETTINGS[:locations_enabled] %>
+        <th class="col-md-2 hidden-sm hidden-xs nbsp"><%= _('Locations') %></th>
+      <% end %>
+      <% if SETTINGS[:organizations_enabled] %>
+        <th class="col-md-2 hidden-sm hidden-xs nbsp"><%= _('Organizations') %></th>
+      <% end %>
+      <th class="col-md-3"><%= _('Features') %></th>
       <th class="col-md-1"><%= _('Status') %></th>
-      <th><%= _('Actions') %></th>
+      <th class="col-md-1"><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>
     <% for proxy in @smart_proxies %>
       <tr class="proxy-show" data-url="<%= ping_smart_proxy_path(proxy) %>">
-        <td><%= link_to_if_authorized proxy.name, hash_for_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer) %></td>
-        <td><%= proxy.url %></td>
-        <td><%= proxy.features.to_sentence %></td>
+        <td><%= link_to_if_authorized proxy.name, hash_for_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer), :title => proxy.url %></td>
+        <% unless SETTINGS[:locations_enabled] && SETTINGS[:organizations_enabled] %>
+          <td class="hidden-sm hidden-xs nbsp ellipsis"><%= proxy.url %></td>
+        <% end %>
+        <% if SETTINGS[:locations_enabled] %>
+          <td class="hidden-sm hidden-xs nbsp ellipsis"><%= generate_links_for(proxy.locations).html_safe %></td>
+        <% end %>
+        <% if SETTINGS[:organizations_enabled] %>
+          <td class="hidden-sm hidden-xs nbsp ellipsis"><%= generate_links_for(proxy.organizations).html_safe %></td>
+        <% end %>
+        <td class="ellipsis"><%= proxy.features.to_sentence %></td>
         <td>
           <span class="proxy-show-status"><%= spinner %></span>
         </td>
