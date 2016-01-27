@@ -3,7 +3,7 @@ module HostgroupsHelper
   include HostsAndHostgroupsHelper
 
   def warning_message(group)
-    msg = [_("Are you sure?")]
+    msg = [_("Delete %s?") % group.title ]
     if group.has_children?
       msg << _("This group has nested groups!") + "\n"
       msg << _("Please delete all nested groups before deleting it.")
