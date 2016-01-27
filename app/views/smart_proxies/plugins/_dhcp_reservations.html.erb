@@ -1,0 +1,18 @@
+<table id="<%= id %>_reservations" class='<%= table_css_classes %> table-fixed' data-table="inline">
+  <thead>
+    <tr>
+      <th class="col-md-5"><%= _("Hostname") %></th>
+      <th class="col-md-1"><%= _("IP Address") %></th>
+      <th class="col-md-2"><%= _("MAC") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% reservations.each do |record| %>
+      <tr>
+        <td class="ellipsis"><%= record['hostname'] %></td>
+        <td><%=record['ip'] %></td>
+        <td><%= record['mac'] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

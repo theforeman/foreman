@@ -1,5 +1,5 @@
 module SmartProxiesHelper
-  TABBED_FEATURES = ["Puppet","Puppet CA"]
+  TABBED_FEATURES = ["Puppet","Puppet CA", "DHCP"]
 
   def proxy_actions(proxy, authorizer)
     actions = []
@@ -64,5 +64,14 @@ module SmartProxiesHelper
 
   def show_feature_version(feature)
     render :partial => 'smart_proxies/plugins/plugin_version', :locals => { :feature => feature }
+  end
+
+  def subnet_label(subnet)
+    foreman_subnet = Subnet.subnet_for(subnet.network)
+    if foreman_subnet
+      foreman_subnet.to_label
+    else
+      subnet.network
+    end
   end
 end
