@@ -602,6 +602,7 @@ Foreman::AccessControl.map do |permission_set|
                                                                :show, :plugin_version, :tftp_server, :puppet_environments,
                                                                :puppet_dashboard, :log_pane, :failed_modules, :errors_card,
                                                                :modules_card],
+                                          :proxy_subnets => [:index, :show],
                                           :"api/v1/smart_proxies" => [:index, :show],
                                           :"api/v2/smart_proxies" => [:index, :show, :version, :logs]
     }
@@ -611,7 +612,8 @@ Foreman::AccessControl.map do |permission_set|
     }
     map.permission :edit_smart_proxies, {:smart_proxies => [:edit, :update, :refresh, :expire_logs],
                                           :"api/v1/smart_proxies" => [:update, :refresh],
-                                          :"api/v2/smart_proxies" => [:update, :refresh]
+                                          :"api/v2/smart_proxies" => [:update, :refresh],
+                                          :proxy_subnets => [:destroy]
     }
     map.permission :destroy_smart_proxies, {:smart_proxies => [:destroy],
                                           :"api/v1/smart_proxies" => [:destroy],

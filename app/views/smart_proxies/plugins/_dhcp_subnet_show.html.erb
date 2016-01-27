@@ -1,0 +1,66 @@
+<div class="padding-left-20">
+  <% if @details.options %>
+    <h3><%= _('Subnet Options') %></h3>
+    <% @details.options.each do |name, values| %>
+      <div class="row">
+        <div class="col-md-4"><%= name %></div>
+        <div class="col-md-8"><%= values.to_sentence %></div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <h3><%= _('Reservations') %></h3>
+  <table id="<%= @details.network.parameterize %>_reservations" class='<%= table_css_classes %> table-fixed' data-table="inline">
+    <thead>
+      <tr>
+        <th class="col-md-5"><%= _("Hostname") %></th>
+        <th class="col-md-3"><%= _("IP Address") %></th>
+        <th class="col-md-3"><%= _("MAC") %></th>
+        <% if authorized_via_my_scope(:smart_proxy, :edit_smart_proxies, @smart_proxy)%>
+          <th class="col-md-1"><%= _("Delete") %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @details.reservations.each do |record| %>
+        <tr>
+          <td class="ellipsis"><%= link_to_host @details, record['hostname'], @smart_proxy %></td>
+          <td><%= record['ip'] %></td>
+          <td><%= record['mac'] %></td>
+          <% if authorized_via_my_scope(:smart_proxy, :edit_smart_proxies, @smart_proxy)%>
+            <td class="delete-record">
+               <%= link_to_function icon_text("", "", :kind => "pficon", :class => "pficon-close delete"),
+                                    "tfm.proxyStatus.dhcp.createModal(#{record.to_json})"  %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h3><%= _('Leases') %></h3>
+  <table id="<%= @details.network.parameterize %>_leases" class='<%= table_css_classes %> table-fixed' data-table="inline">
+    <thead>
+      <tr>
+        <th class="col-md-3"><%= _("Hostname") %></th>
+        <th class="col-md-2"><%= _("IP Address") %></th>
+        <th class="col-md-2"><%= _("MAC") %></th>
+        <th class="col-md-1"><%= _("State") %></th>
+        <th class="col-md-2"><%= _("Start") %></th>
+        <th class="col-md-2"><%= _("End") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @details.leases.each do |record| %>
+        <tr>
+          <td class="ellipsis"><%= link_to_host @details, record['hostname'], @smart_proxy %></td>
+          <td><%=record['ip'] %></td>
+          <td><%= record['mac'] %></td>
+          <td><%= _(record['state']) %></td>
+          <td><%= record['starts'] %></td>
+          <td><%= record['ends'] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

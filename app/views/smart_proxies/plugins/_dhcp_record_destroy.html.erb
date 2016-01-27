@@ -1,0 +1,13 @@
+<% url = url_for( :controller => "proxy_subnets",
+                  :action => "destroy",
+                  :smart_proxy_id => @smart_proxy.id,
+                  :id => 0) %>
+<% submit_button = link_to_function "Delete", "tfm.proxyStatus.dhcp.deleteRecord(this, '#{url}')", :class => "btn btn-danger" %>
+<%= render :layout => 'common/modal', :locals => { :id => "dhcp-modal",
+                                                   :title => _("Delete Record"),
+                                                   :buttons => [ modal_close(_('Cancel')),
+                                                                 submit_button ]} do %>
+  <p><%= _("The following item will be deleted") %></p>
+  <p id="dhcp-modal-placeholder" class="bolder"></p>
+  <p><%= _('Are you sure?')%></p>
+<% end %>

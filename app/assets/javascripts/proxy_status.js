@@ -6,12 +6,13 @@ $(document).on('ContentLoad', function() {
   $('a[data-toggle="tab"]').on('click', function(e) {
     history.pushState(null, null, $(this).attr('href'));
   });
-  showProxies();
+  tfm.proxyStatus.common.showProxies();
   loadTFTP();
-  setTab();
+  tfm.proxyStatus.common.setTab();
 });
 
-$(window).on('hashchange', setTab); //so buttons that link to an anchor can open that tab
+// so buttons that link to an anchor can open that tab
+$(window).on('hashchange', tfm.proxyStatus.common.setTab);
 
 function setItemStatus(item, response) {
   if(response.success) {
@@ -53,12 +54,12 @@ function generateItem(item, status, text) {
   item.tooltip({html: true});
 }
 
-function showProxies(){
-  $('.proxy-show').each(function(index, item) {
-    var proxy = new ProxyStatus($(item));
-    proxy.getVersions();
-  });
-}
+// function showProxies(){
+//   $('.proxy-show').each(function(index, item) {
+//     var proxy = new ProxyStatus($(item));
+//     proxy.getVersions();
+//   });
+// }
 
 function loadTFTP(){
   $('.proxy-tftp').each(function(index, item) {
@@ -77,24 +78,24 @@ function loadTFTP(){
   });
 }
 
-function ProxyStatus(item) {
-  this.url = item.data('url');
-  this.item = item;
-  var self = this;
+// function ProxyStatus(item) {
+//   this.url = item.data('url');
+//   this.item = item;
+//   var self = this;
 
-  this.getVersions = function() {
-    $.ajax({
-      type: 'get',
-      url: this.url,
-      success: function (response) {
-        populateData(response, self.item);
-      }.bind(this),
-      error: function (response) {
-        populateData(response, self.item);
-      }.bind(this)
-    });
-  };
-}
+//   this.getVersions = function() {
+//     $.ajax({
+//       type: 'get',
+//       url: this.url,
+//       success: function (response) {
+//         populateData(response, self.item);
+//       }.bind(this),
+//       error: function (response) {
+//         populateData(response, self.item);
+//       }.bind(this)
+//     });
+//   };
+// }
 
 function populateData(response, item) {
   item.find(".proxy-version").each(function() {
@@ -108,17 +109,4 @@ function populateData(response, item) {
   item.find(".proxy-show-status").each(function() {
     setItemStatus($(this), response);
   });
-}
-
-// Make sure the correct tab is displayed when loading the page with an anchor,
-// even if the anchor is to a sub-tab.
-function setTab(){
-  var anchor = document.location.hash.split('?')[0];
-  if (anchor.length) {
-    var parent_tab = $(anchor).parents('.tab-pane');
-    if (parent_tab.exists()){
-      $('.nav-tabs a[href=#'+parent_tab[0].id+']').tab('show');
-    }
-    $('.nav-tabs a[href='+anchor+']').tab('show');
-  }
 }

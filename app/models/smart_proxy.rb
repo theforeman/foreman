@@ -104,6 +104,11 @@ class SmartProxy < ActiveRecord::Base
     @statuses
   end
 
+  def dhcp_api
+    raise ForemanException.new(N_("Cannot reach API, proxy %s does not have DHCP feature") % name) unless has_feature?("DHCP")
+    ProxyAPI::DHCP.new(:url => url)
+  end
+
   private
 
   def sanitize_url

@@ -19,7 +19,8 @@ module Foreman::Controller::Parameters::Host
           :compute_profile_id, :compute_profile_name,
           :compute_resource, :compute_resource_id, :compute_resource_name,
           :owner, :owner_id, :owner_name,
-          :owner_type
+          :owner_type,
+          :search
 
         add_host_base_params_filter(filter)
         add_host_common_params_filter(filter)

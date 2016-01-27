@@ -36,6 +36,10 @@ class Domain < ActiveRecord::Base
   validates :fullname, :uniqueness => true, :allow_blank => true, :allow_nil => true
 
   scoped_search :on => [:name, :fullname], :complete_value => true
+
+  scoped_search :on => :total_hosts, :alias => 'hosts_count'
+  scoped_search :on => :hostgroups_count
+  scoped_search :in => :subnets, :on => :name, :complete_value => true, :rename => 'subnet.name'
   scoped_search :in => :domain_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
 
   # with proc support, default_scope can no longer be chained

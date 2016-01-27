@@ -1,0 +1,82 @@
+<ul id="proxy-dhcp-tab" class="nav nav-tabs nav-tabs-pf nav-stacked col-md-3">
+  <li class="active stacked-header"><a href="#dhcp_general" data-toggle="tab"><%= _('General') %></a></li>
+  <% subnets.each do |subnet| %>
+    <li><a href="#<%= subnet.network.parameterize %>"
+           data-placeholder="<%= subnet.network.parameterize %>"
+           data-dhcp-subnet="<%= subnet.to_json %>"
+           class="subnet-menu"
+           data-toggle="tab"
+           data-url="<%= smart_proxy_proxy_subnet_path(:id => @smart_proxy.id)%>"><%= subnet_label subnet, @smart_proxy %></a></li>
+  <% end %>
+</ul>
+
+<div id="proxy-dhcp-tab-content" class="tab-content col-md-9 divided">
+  <div class="tab-pane active in" id="dhcp_general">
+    <div class="container-fluid container-cards-pf">
+      <%= show_feature_version('dhcp') %>
+    </div>
+
+
+    <div class="container-fluid container-cards-pf">
+      <% subnets.each_slice(3).to_a.each do |subnet_triple| %>
+        <div class="row row-cards-pf">
+
+          <% subnet_triple.each do |subnet| %>
+            <% if net = foreman_subnet(subnet, @smart_proxy) %>
+
+              <div class="col-md-3">
+                <div class="card-pf card-pf-aggregate-status card-pf-accented">
+                  <h2 class="card-pf-title">
+                    <%= subnet_label(subnet, @smart_proxy) %>
+                  </h2>
+                  <div class="card-pf-body">
+                    <p class="card-pf-aggregate-status-notifications">
+                      <div class="fa fa-database" data-toggle="tooltip" title="<%= _('View Domains') %>">
+                      </div>
+                        <%= link_to((_('%s Domains') % net.domains.count), domains_for_subnet_path(subnet, @smart_proxy), :target => '_self')%>
+                    </p>
+                    <p class="card-pf-aggregate-status-notifications">
+                      <div class="fa fa-laptop" data-toggle="tooltip" title="<%= _('View Hosts') %>">
+                      </div>
+                        <%= link_to((_('%s Hosts') % net.hosts.count), hosts_for_subnet_path(subnet, @smart_proxy), :target => '_self')%>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <% if subnet.options.present? %>
+              <div class="col-md-3">
+                <div class="card-pf card-pf-aggregate-status card-pf-accented">
+                  <h2 class="card-pf-title">
+                    <a href="#<%= subnet.network.parameterize %>">
+                      <%= subnet_label(subnet, @smart_proxy) %>
+                    </a>
+                  </h2>
+
+                  <div class="card-pf-body">
+                    <p class="card-pf-aggregate-status-notifications">
+                      <% subnet.options.each do |name, values| %>
+                          <dt> <%= name.humanize %> </dt>
+                          <dd> <%= values.to_sentence %> </dd>
+                        <% end %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% subnets.each do |subnet| %>
+    <div class="tab-pane" id="<%= subnet.network.parameterize %>">
+      <div id="subnet-placeholder<%= subnet.network.parameterize %>" ></div>
+    </div>
+  <% end %>
+</div>
+
+<%= render 'smart_proxies/plugins/dhcp_record_destroy' %>
