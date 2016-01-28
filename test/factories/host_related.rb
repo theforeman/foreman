@@ -161,7 +161,8 @@ FactoryGirl.define do
       end
       after(:create) do |host,evaluator|
         evaluator.report_count.times do
-          FactoryGirl.create(:report, :host => host)
+          report = FactoryGirl.create(:report, :host => host)
+          host.last_report = report.reported_at
         end
       end
     end

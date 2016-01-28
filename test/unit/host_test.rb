@@ -2249,6 +2249,14 @@ class HostTest < ActiveSupport::TestCase
     assert_empty host.reports.reload
   end
 
+  test 'host.last_report is deleted when build set to true' do
+    host = FactoryGirl.create(:host, :with_reports)
+    refute host.build?
+    refute host.last_report.blank?
+    host.update_attributes(:build => true)
+    assert host.last_report.blank?
+  end
+
   test 'changing name with a fqdn should rename lookup_value matcher' do
     host = FactoryGirl.create(:host)
     lookup_key = FactoryGirl.create(:puppetclass_lookup_key)
