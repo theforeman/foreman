@@ -53,7 +53,7 @@ class Foreman::Provision::SSH
   def command
     # Use the users home to store the provision script since we can't reliably
     # tell if other locations are writeable or executable by the user.
-    "#{command_prefix} bash -c '(chmod 0701 ./#{remote_script} && #{command_prefix} ./#{remote_script}) | tee #{remote_script}.log; exit ${PIPESTATUS[0]}'"
+    "#{command_prefix} bash -c '(chmod 0701 ./#{remote_script} && #{command_prefix} ./#{remote_script}) 2>&1 | tee #{remote_script}.log; exit ${PIPESTATUS[0]}'"
   end
 
   def defaults
