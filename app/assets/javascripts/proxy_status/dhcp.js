@@ -1,0 +1,4 @@
+function activateDhcpTables() {
+    showProxies();
+    activateDatatables();
+}

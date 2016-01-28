@@ -74,4 +74,17 @@ module SmartProxiesHelper
       subnet.network
     end
   end
+
+  def link_to_host(subnet, hostname, smart_proxy)
+    foreman_subnet = Subnet.where(:network => subnet.network, :netmask => subnet.netmask)
+    return hostname unless foreman_subnet
+    hosts = hosts_with_subnet(subnet, smart_proxy)
+    host = hosts.find { |h| h.name == hostname }
+    host.present? ? link_to(host.to_s, host_path(host)) : hostname
+  end
+
+  def hosts_with_subnet(subnet, smart_proxy)
+    subnets = { :subnets => { :dhcp_id => smart_proxy.id, :network => subnet.network } }
+    @hosts ||= Host.joins(:interfaces => :subnet).where(subnets)
+  end
 end

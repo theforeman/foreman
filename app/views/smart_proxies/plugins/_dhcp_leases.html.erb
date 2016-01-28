@@ -1,8 +1,8 @@
-<table class='<%= table_css_classes %> table-fixed' data-table="inline">
+<table id="<%= subnet.network.parameterize %>_leases" class='<%= table_css_classes %> table-fixed' data-table="inline">
   <thead>
     <tr>
-      <th class="col-md-5"><%= _("Hostname") %></th>
-      <th class="col-md-1"><%= _("IP Address") %></th>
+      <th class="col-md-4"><%= _("Hostname") %></th>
+      <th class="col-md-2"><%= _("IP Address") %></th>
       <th class="col-md-2"><%= _("MAC") %></th>
       <th class="col-md-2"><%= _("State") %></th>
       <th class="col-md-2"><%= _("Start") %></th>
@@ -10,9 +10,9 @@
     </tr>
   </thead>
   <tbody>
-    <% leases.each do |record| %>
+    <% subnet.leases.each do |record| %>
       <tr>
-        <td class="ellipsis"><%= record['hostname'] %></td>
+        <td class="ellipsis"><%= link_to_host subnet, record['hostname'], @smart_proxy %></td>
         <td><%=record['ip'] %></td>
         <td><%= record['mac'] %></td>
         <td><%= _(record['state']) %></td>

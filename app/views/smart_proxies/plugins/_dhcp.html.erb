@@ -1,4 +1,3 @@
-  <div class="col-md-10" id="dhcp_subnets" data-ajax-url="<%= subnets_smart_proxy_path(@smart_proxy) %>">
+  <div class="col-md-12" id="dhcp_subnets" data-ajax-url="<%= subnets_smart_proxy_path(@smart_proxy) %>" data-on-complete="activateDhcpTables">
     <%= spinner %>
   </div>
-</div>
