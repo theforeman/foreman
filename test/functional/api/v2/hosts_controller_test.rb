@@ -76,6 +76,16 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test 'should show host with model name' do
+    model = FactoryGirl.create(:model)
+    @host.update_attribute(:model_id, model.id)
+    get :show, { :id => @host.to_param }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal model.id, show_response['model_id']
+    assert_equal model.name, show_response['model_name']
+  end
+
   test "should create host" do
     disable_orchestration
     assert_difference('Host.count') do

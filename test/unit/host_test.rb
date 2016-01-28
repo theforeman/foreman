@@ -2866,6 +2866,42 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test 'model_name calls hardware_model_name with deprecation' do
+    host = FactoryGirl.build(:host)
+    Foreman::Deprecation.expects(:deprecation_warning).with(anything, regexp_matches(/model_name/))
+    host.expects(:hardware_model_name).returns('foo')
+    assert_equal 'foo', host.model_name
+  end
+
+  test 'model_name= calls hardware_model_name= with deprecation' do
+    host = FactoryGirl.build(:host)
+    Foreman::Deprecation.expects(:deprecation_warning).with(anything, regexp_matches(/model_name=/))
+    host.expects(:hardware_model_name=).with('foo')
+    host.model_name = 'foo'
+  end
+
+  test 'hardware_model_name= sets model_id by name' do
+    model = FactoryGirl.create(:model)
+    host = FactoryGirl.build(:host)
+    Foreman::Deprecation.expects(:deprecation_warning).never
+    host.hardware_model_name = model.name
+    assert_equal model.id, host.model_id
+  end
+
+  test '.new handles model_name without deprecation warning' do
+    model = FactoryGirl.create(:model)
+    Foreman::Deprecation.expects(:deprecation_warning).never
+    assert_equal model.id, Host::Managed.new(:model_name => model.name).model_id
+  end
+
+  test 'hardware_model_id= is aliased to model_id' do
+    host = FactoryGirl.build(:host)
+    Foreman::Deprecation.expects(:deprecation_warning).never
+    host.hardware_model_id = 42
+    assert_equal 42, host.model_id
+    assert_equal 42, host.hardware_model_id
+  end
+
   private
 
   def parse_json_fixture(relative_path)
