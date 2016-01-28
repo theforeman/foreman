@@ -214,6 +214,9 @@ module HostCommon
   protected
 
   def set_lookup_value_matcher
+    #in migrations, this method can get called before the attribute exists
+    #the #attribute_names method is cached, so it's not going to be a performance issue
+    return true unless self.class.attribute_names.include?("lookup_value_matcher")
     self.lookup_value_matcher = lookup_value_match
   end
 
