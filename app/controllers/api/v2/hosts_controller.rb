@@ -1,7 +1,7 @@
 module Api
   module V2
     class HostsController < V2::BaseController
-      wrap_parameters :host, :include => (Host::Base.attribute_names + ['image_file', 'is_owned_by', 'overwrite', 'progress_report_id'])
+      wrap_parameters :host, :include => Host::Managed.accessible_attributes
 
       include Api::Version2
       include Api::TaxonomyScope
