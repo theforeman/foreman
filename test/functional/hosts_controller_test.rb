@@ -409,6 +409,28 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal users(:one).id_and_type, Host.find(@host2.id).is_owned_by
   end
 
+  def setup_multiple_compute_resource
+    setup_user_and_host "edit"
+    as_admin do
+      @host1, @host2 = FactoryGirl.create_list(:host, 2, :on_compute_resource)
+    end
+  end
+
+  test "should change the power of multiple hosts" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    setup_multiple_compute_resource
+
+    params = { :host_ids => [@host1.id, @host2.id],
+      :power => { :action => 'poweroff' } }
+
+    power_mock = mock("power")
+    power_mock.expects(:poweroff).twice
+    Host::Managed.any_instance.stubs(:power).returns(power_mock)
+
+    post :update_multiple_power_state, params,
+      set_session_user.merge(:user => users(:admin).id)
+  end
+
   test "user with edit host rights with update parameters should change parameters" do
     setup_multiple_environments
     @host1.host_parameters = [HostParameter.create(:name => "p1", :value => "yo")]

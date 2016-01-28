@@ -1,0 +1,11 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<%= form_for :power, :url => update_multiple_power_state_hosts_path(:host_ids => params[:host_ids]) do |f| %>
+  <%= selectable_f f,
+    :action,
+    [[_("Select desired state"), "disabled"]] +
+    PowerManager::REAL_ACTIONS.map { |a| [_(a.to_s.capitalize), a] },
+    {},
+    { :onchange => "toggle_multiple_ok_button(this)" }
+  %>
+<% end %>
