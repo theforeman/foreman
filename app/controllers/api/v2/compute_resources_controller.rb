@@ -1,7 +1,7 @@
 module Api
   module V2
     class ComputeResourcesController < V2::BaseController
-      wrap_parameters ComputeResource, :include => (ComputeResource.attribute_names +
+      wrap_parameters ComputeResource, :include => (ComputeResource.accessible_attributes +
                                                     ['tenant', 'image_id', 'managed_ip', 'provider',
                                                      'template', 'templates', 'set_console_password',
                                                      'project', 'key_path', 'email', 'zone',

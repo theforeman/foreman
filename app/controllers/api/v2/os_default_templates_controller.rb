@@ -1,7 +1,7 @@
 module Api
   module V2
     class OsDefaultTemplatesController < V2::BaseController
-      wrap_parameters OsDefaultTemplate, :include => (OsDefaultTemplate.attribute_names + ['config_template_id'])
+      wrap_parameters OsDefaultTemplate, :include => (OsDefaultTemplate.accessible_attributes + ['config_template_id'])
 
       include Api::Version2
       include Api::TaxonomyScope
