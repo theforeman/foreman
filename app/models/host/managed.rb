@@ -242,6 +242,7 @@ class Host::Managed < Host::Base
   def clear_reports
     # Remove any reports that may be held against this host
     Report.where("host_id = #{id}").delete_all
+    self.last_report = nil
   end
 
   def clear_facts
