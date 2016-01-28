@@ -120,6 +120,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
+    FactoryGirl.create(:config_report)
     get :index, { }
     assert_response :success
     assert_not_nil assigns(:config_reports)
@@ -128,17 +129,20 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => reports(:config_report).to_param }
+    report = FactoryGirl.create(:config_report)
+    get :show, { :id => report.to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
 
   test "should destroy report" do
+    report = FactoryGirl.create(:config_report)
     assert_difference('ConfigReport.count', -1) do
-      delete :destroy, { :id => reports(:config_report).to_param }
+      delete :destroy, { :id => report.to_param }
     end
     assert_response :success
+    refute Report.find_by_id(report.id)
   end
 
   test "should get reports for given host only" do

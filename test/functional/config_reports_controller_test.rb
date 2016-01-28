@@ -5,6 +5,7 @@ class ConfigReportsControllerTest < ActionController::TestCase
   include ::ReportHostPermissionsTest
 
   def test_index
+    FactoryGirl.create(:config_report)
     get :index, {}, set_session_user
     assert_response :success
     assert_not_nil assigns('config_reports')
