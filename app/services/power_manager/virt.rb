@@ -20,7 +20,7 @@ module PowerManager
       vm.state
     end
 
-    (SUPPORTED_ACTIONS - ['state', 'status']).each do |method|
+    (SUPPORTED_ACTIONS - ['state']).each do |method|
       define_method method do
         vm.send(action_map[method.to_sym])
       end
@@ -35,6 +35,7 @@ module PowerManager
         :on       => 'start',
         :off      => 'stop',
         :soft     => 'reboot',
+        :reboot   => 'reboot',
         :cycle    => 'reset',
         :status   => 'state',
         :start    => 'start',
