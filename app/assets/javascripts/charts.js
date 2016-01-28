@@ -10,7 +10,7 @@ $.fn.flot_pie = function(){
       series: {
         pie: options.pie || {
           show: true,
-          innerRadius: 0.75,
+          innerRadius: 0.87,
           radius: 1,
           label: {
             show: true,
@@ -74,7 +74,7 @@ function expanded_pie(target, data){
     series: {
       pie: {
         show: true,
-        innerRadius: 0.8*3/4,
+        innerRadius: 0.8*(3.5/4),
         radius: 0.8,
         label: {
           show: true,
