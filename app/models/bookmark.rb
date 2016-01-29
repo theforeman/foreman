@@ -13,6 +13,7 @@ class Bookmark < ActiveRecord::Base
   validates :name, :uniqueness => {:scope => :controller}, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
   validates :name, :query, :presence => true
   validates :controller, :presence => true, :no_whitespace => true, :bookmark_controller => true
+  validates :public, inclusion: { in: [true, false] }
   default_scope -> { order(:name) }
   before_validation :set_default_user
 

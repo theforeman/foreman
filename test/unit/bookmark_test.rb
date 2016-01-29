@@ -42,4 +42,12 @@ class BookmarkTest < ActiveSupport::TestCase
     b = FactoryGirl.build(:bookmark, :name => 'My plugin controller', :controller => 'my_plugins', :query => 'foo=bar', :public => true)
     assert(b.valid?, 'plugin controller bookmark should be valid')
   end
+
+  test "public should default to false" do
+    bookmark = Bookmark.new({:name => "private", :query => "bar", :controller => "hosts"})
+    assert_equal(false, bookmark.public)
+    assert bookmark.valid?
+    bookmark.public = nil
+    refute bookmark.valid?
+  end
 end
