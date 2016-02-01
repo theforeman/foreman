@@ -229,10 +229,13 @@ module HostsHelper
 
   def reports_show
     return unless @host.reports.size > 0
+    number_of_days = days_ago(@host.reports.order(:reported_at).first.reported_at)
+    width = [number_of_days.to_s.size + 2, 4].max
+
     form_tag @host, :id => 'days_filter', :method => :get, :class => "form form-inline" do
       content_tag(:span, (_("Found %{count} reports from the last %{days} days") %
-        { :days  => select(nil, 'range', 1..days_ago(@host.reports.order(:reported_at).first.reported_at),
-                    {:selected => @range}, {:style=>"float:none;", :onchange =>"$('#days_filter').submit();$(this).disabled();"}),
+        { :days  => select(nil, 'range', 1..number_of_days,
+                    {:selected => @range}, {:style=>"float:none; width: #{width}em;", :onchange =>"$('#days_filter').submit();$(this).disabled();"}),
           :count => @host.reports.recent(@range.days.ago).count }).html_safe)
     end
   end
