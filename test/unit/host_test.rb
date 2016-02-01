@@ -2881,20 +2881,6 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
-  test 'model_name calls hardware_model_name with deprecation' do
-    host = FactoryGirl.build(:host)
-    Foreman::Deprecation.expects(:deprecation_warning).with(anything, regexp_matches(/model_name/))
-    host.expects(:hardware_model_name).returns('foo')
-    assert_equal 'foo', host.model_name
-  end
-
-  test 'model_name= calls hardware_model_name= with deprecation' do
-    host = FactoryGirl.build(:host)
-    Foreman::Deprecation.expects(:deprecation_warning).with(anything, regexp_matches(/model_name=/))
-    host.expects(:hardware_model_name=).with('foo')
-    host.model_name = 'foo'
-  end
-
   test 'hardware_model_name= sets model_id by name' do
     model = FactoryGirl.create(:model)
     host = FactoryGirl.build(:host)

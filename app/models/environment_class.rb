@@ -31,16 +31,6 @@ class EnvironmentClass < ActiveRecord::Base
       EnvironmentClass.used_by_other_environment_classes(self.puppetclass_lookup_key, self.id).count > 0
   end
 
-  def lookup_key_id=(val)
-    Foreman::Deprecation.deprecation_warning("1.12", "lookup_key_id= is deprecated, please use puppetclass_lookup_key_id= instead.")
-    self.puppetclass_lookup_key_id=val
-  end
-
-  def lookup_key=(val)
-    Foreman::Deprecation.deprecation_warning("1.12", "lookup_key= is deprecated, please use puppetclass_lookup_key= instead.")
-    self.puppetclass_lookup_key=val
-  end
-
   #TODO move these into scopes?
   def self.is_in_any_environment(puppetclass, puppetclass_lookup_key)
     EnvironmentClass.where(:puppetclass_id => puppetclass, :puppetclass_lookup_key_id => puppetclass_lookup_key ).count > 0
