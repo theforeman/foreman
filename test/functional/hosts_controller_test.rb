@@ -431,6 +431,49 @@ class HostsControllerTest < ActionController::TestCase
       set_session_user.merge(:user => users(:admin).id)
   end
 
+  def setup_multiple_hosts_with_puppet
+    setup_user_and_host "edit"
+    as_admin do
+      @host1, @host2 = FactoryGirl.create_list(:host, 2, :with_puppet)
+    end
+  end
+
+  test "should change the puppet proxy of multiple hosts" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    setup_multiple_hosts_with_puppet
+
+    proxy = FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppet)])
+
+    params = { :host_ids => [@host1.id, @host2.id],
+      :puppet => { :puppet_proxy_id => proxy.id } }
+
+    post :update_multiple_puppet_proxy, params,
+      set_session_user.merge(:user => users(:admin).id)
+
+    @host1.reload
+    @host2.reload
+
+    assert_equal proxy, @host1.puppet_proxy
+    assert_equal proxy, @host2.puppet_proxy
+  end
+
+  test "should clear the puppet proxy of multiple hosts" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    setup_multiple_hosts_with_puppet
+
+    params = { :host_ids => [@host1.id, @host2.id],
+      :puppet => { :puppet_proxy_id => "" } }
+
+    post :update_multiple_puppet_proxy, params,
+      set_session_user.merge(:user => users(:admin).id)
+
+    @host1.reload
+    @host2.reload
+
+    assert_equal nil, @host1.puppet_proxy
+    assert_equal nil, @host2.puppet_proxy
+  end
+
   test "user with edit host rights with update parameters should change parameters" do
     setup_multiple_environments
     @host1.host_parameters = [HostParameter.create(:name => "p1", :value => "yo")]
