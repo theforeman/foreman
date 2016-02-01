@@ -1,6 +1,7 @@
 <%= alert :header => _("Oops, we're sorry but something went wrong"), :class => 'alert-danger',
   :actions => link_to(_('Back'), main_app.root_path, :class => 'btn btn-default'),
-  :text => h(exception.message) %>
+  :text => h(exception.message),
+  :close => false %>
 
 <div class="pull-right">
   <%= documentation_button("7.3GettingHelp")%>
