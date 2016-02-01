@@ -6,5 +6,6 @@
              _("Please request one of the required permissions listed below from a Foreman administrator:") +
              content_tag(:ul, permissions.join.html_safe),
     :actions => link_to(_('Back'), main_app.root_path, :class => 'btn btn-default'),
-    :class => 'alert-danger' %>
+    :class => 'alert-danger',
+    :close => false %>
 </div>
