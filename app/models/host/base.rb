@@ -318,17 +318,6 @@ module Host
       tax_organization.import_missing_ids if organization
     end
 
-    # Provide a deprecated getter/setter for model_name, as it overlaps with the Rails 4.2 model_name method
-    def model_name
-      Foreman::Deprecation.deprecation_warning('1.12', 'Host#model_name is deprecated due to similarity with Rails, use #hardware_model_name')
-      self.hardware_model_name
-    end
-
-    def model_name=(model)
-      Foreman::Deprecation.deprecation_warning('1.12', 'Host#model_name= is deprecated due to similarity with Rails, use #hardware_model_name=')
-      self.hardware_model_name = model
-    end
-
     # Provide _id aliases for consistency with the _name methods
     alias_attribute :hardware_model_id, :model_id
 
