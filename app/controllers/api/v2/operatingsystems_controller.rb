@@ -41,6 +41,10 @@ module Api
           param :description, String
           param :family, String
           param :release_name, String
+          param :os_parameters_attributes, Array, :desc => N_("OS' parameters (array or indexed hash)") do
+            param :name, String, :desc => N_("Name of the parameter"), :required => true
+            param :value, String, :desc => N_("Parameter value"), :required => true
+          end
           param :password_hash, String, :desc => N_('Root password hash function to use, one of MD5, SHA256, SHA512, Base64')
           param :architecture_ids, Array, :desc => N_("IDs of associated architectures")
           param :config_template_ids, Array, :desc => N_("IDs of associated provisioning templates") # FIXME: deprecated
