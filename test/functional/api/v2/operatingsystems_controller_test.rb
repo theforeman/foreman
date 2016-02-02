@@ -29,6 +29,18 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:operatingsystem)
   end
 
+  test "should create os with os parameters" do
+    os_with_params = os.dup
+    os_with_params[:os_parameters_attributes] = {0=>{:name => "foo", :value => "bar"}}
+    assert_difference('OsParameter.count') do
+      assert_difference('Operatingsystem.count') do
+        post :create, { :operatingsystem => os_with_params }
+      end
+    end
+    assert_response :created
+    assert_not_nil assigns(:operatingsystem)
+  end
+
   test "should not create os without version" do
     assert_difference('Operatingsystem.count', 0) do
       post :create, { :operatingsystem => os.except(:major) }
