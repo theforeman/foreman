@@ -191,6 +191,9 @@ done
 
 [ $UPLOAD -eq 1 -a $NOTAR -eq 1 ] && error "Options -u and -a cannot be used together" && exit 2
 
+# some tasks take long time, print a banner (unless quiet mode was selected)
+qprintf "Processing... (takes a while)"
+
 # determine distribution family
 if [ -f /etc/debian_version ]; then
     OS=debian
@@ -335,3 +338,5 @@ if [ $UPLOAD_DISABLED -eq 0 -a $UPLOAD -eq 1 ]; then
 else
   [[ $UPLOAD_DISABLED -eq 0 ]] && qprintf "To upload a tarball to our secure site, please use the -u option.\n"
 fi
+
+exit 0
