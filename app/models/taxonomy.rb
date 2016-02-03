@@ -181,10 +181,7 @@ class Taxonomy < ActiveRecord::Base
 
   def parent_params(include_source = false)
     hash = {}
-    ids = ancestor_ids
-    # need to pull out the locations to ensure they are sorted first,
-    # otherwise we might be overwriting the hash in the wrong order.
-    elements = self.class.sort_by_ancestry(self.class.includes("#{type.downcase}_parameters".to_sym).find(ids))
+    elements = parents_with_params
     elements.each do |el|
       el.send("#{type.downcase}_parameters".to_sym).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
     end
@@ -196,6 +193,25 @@ class Taxonomy < ActiveRecord::Base
     hash = parent_params(include_source)
     self.send("#{type.downcase}_parameters".to_sym).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
     hash
+  end
+
+  def parents_with_params
+    self.class.sort_by_ancestry(self.class.includes("#{type.downcase}_parameters".to_sym).find(ancestor_ids))
+  end
+
+  def taxonomy_inherited_params_objects
+    # need to pull out the locations to ensure they are sorted first,
+    # otherwise we might be overwriting the hash in the wrong order.
+    parents = parents_with_params
+    parents_parameters = []
+    parents.each do |parent|
+      parents_parameters << parent.send("#{parent.type.downcase}_parameters".to_sym)
+    end
+    parents_parameters
+  end
+
+  def params_objects
+    (self.send("#{type.downcase}_parameters".to_sym) + taxonomy_inherited_params_objects.to_a.reverse!).uniq {|param| param.name}
   end
 
   private
