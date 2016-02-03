@@ -86,6 +86,7 @@ module Nic
     def update_lookup_value_fqdn_matchers
       return unless primary?
       return unless fqdn_changed?
+      return unless host.present?
       LookupValue.where(:match => "fqdn=#{fqdn_was}").update_all(:match => host.send(:lookup_value_match))
     end
 
