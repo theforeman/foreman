@@ -1,7 +1,7 @@
 class SmartProxiesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :find_resource, :only => [:show, :edit, :update, :refresh, :ping, :tftp_server, :destroy, :puppet_environments, :puppet_dashboard]
+  before_filter :find_resource, :only => [:show, :edit, :update, :refresh, :ping, :tftp_server, :destroy, :puppet_environments, :puppet_dashboard, :log_pane, :failed_modules, :errors_card, :modules_card, :expire_logs]
   before_filter :find_status, :only => [:ping, :tftp_server, :puppet_environments]
 
   def index
@@ -85,6 +85,51 @@ class SmartProxiesController < ApplicationController
     end
   end
 
+  def log_pane
+    render :partial => 'smart_proxies/logs/list', :locals => {:log_entries => @smart_proxy.statuses[:logs].logs.log_entries}
+  rescue Foreman::Exception => exception
+    process_ajax_error exception
+  end
+
+  def expire_logs
+    from = (params[:from].to_i rescue 0) || 0
+    if from >= 0
+      logger.debug "Expired smart-proxy logs, new timestamp is #{from}"
+      @smart_proxy.expired_logs = from.to_s
+      @smart_proxy.save!
+    end
+    @smart_proxy.statuses[:logs].revoke_cache!
+    log_pane
+  rescue Foreman::Exception => exception
+    process_ajax_error exception
+  end
+
+  def failed_modules
+    modules = @smart_proxy.statuses[:logs].logs.failed_modules || {}
+    render :partial => 'smart_proxies/logs/failed_modules', :locals => {:modules => modules}
+  rescue Foreman::Exception => exception
+    process_ajax_error exception
+  end
+
+  def errors_card
+    logs = @smart_proxy.statuses[:logs].logs
+    render :partial => 'smart_proxies/logs/errors_card', :locals => {:logs => logs}
+  rescue Foreman::Exception => exception
+    process_ajax_error exception
+  end
+
+  def modules_card
+    logs = @smart_proxy.statuses[:logs].logs
+    render :partial => 'smart_proxies/logs/modules_card', :locals => {
+      :logs => logs,
+      :features => @smart_proxy.features,
+      :features_started => @smart_proxy.features.count,
+      :names => logs.failed_module_names
+    }
+  rescue Foreman::Exception => exception
+    process_ajax_error exception
+  end
+
   private
 
   def find_status
@@ -100,9 +145,9 @@ class SmartProxiesController < ApplicationController
 
   def action_permission
     case params[:action]
-      when 'refresh'
+      when 'refresh', 'expire_logs'
         :edit
-      when 'ping', 'tftp_server', 'puppet_environments', 'puppet_dashboard'
+      when 'ping', 'tftp_server', 'puppet_environments', 'puppet_dashboard', 'log_pane', 'failed_modules', 'errors_card', 'modules_card'
         :view
       else
         super

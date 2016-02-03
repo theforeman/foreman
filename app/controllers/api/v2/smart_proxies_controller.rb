@@ -4,7 +4,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController
-      before_filter :find_resource, :only => %w{show update destroy refresh version}
+      before_filter :find_resource, :only => %w{show update destroy refresh version logs}
 
       api :GET, "/smart_proxies/", N_("List all smart proxies")
       param_group :taxonomy_scope, ::Api::V2::BaseController
@@ -59,12 +59,15 @@ module Api
       end
 
       def version
-        begin
-          version = @smart_proxy.version
-        rescue Foreman::Exception => exception
-          render :version, :locals => {:success => false, :message => exception.message} and return
-        end
-        render :version, :locals => {:success => true, :message => version[:message]}
+        render :version, :locals => {:success => true, :result => @smart_proxy.statuses[:version].version}
+      rescue Foreman::Exception => e
+        render_error :custom_error, :status => :unprocessable_entity, :locals => {:message => e.message}
+      end
+
+      def logs
+        render :logs, :locals => {:success => true, :result => @smart_proxy.statuses[:logs].logs}
+      rescue Foreman::Exception => e
+        render_error :custom_error, :status => :unprocessable_entity, :locals => {:message => e.message}
       end
 
       private
@@ -73,7 +76,7 @@ module Api
         case params[:action]
         when 'refresh'
           :edit
-        when 'version'
+        when 'version', 'logs'
           :view
         else
           super

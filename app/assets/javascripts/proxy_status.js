@@ -116,15 +116,3 @@ function setTab(){
     $('.nav-tabs a[href='+anchor+']').tab('show');
   }
 }
-
-function filterCerts(state) {
-  $('#certificates table').dataTable().fnFilter(state, 1, true);
-}
-
-function certTable() {
-  activateDatatables();
-  var filter = $('.puppetca-filters');
-  filter.select2();
-  filter.on('change', function() {filterCerts(filter.val())});
-  filterCerts(__('valid')+'|'+__('pending'));
-}

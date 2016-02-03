@@ -142,4 +142,126 @@ class SmartProxiesControllerTest < ActionController::TestCase
     assert @response.body.include?('special_environment')
     assert @response.body.include?('5') #the total is correct
   end
+
+  test '#log_pane' do
+    proxy = smart_proxies(:logs)
+    fake_data = ::SmartProxies::LogBuffer.new(
+    {
+      'logs' => [{
+        "timestamp" => 1453890750.9860077,
+        "level" => "DEBUG",
+        "message" => "A debug message"
+      }]})
+    ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
+    xhr :get, :log_pane, { :id => proxy.id }, set_session_user
+    assert_response :success
+    assert_template 'smart_proxies/logs/_list'
+    assert @response.body.include?('debug message')
+  end
+
+  test '#expire_logs' do
+    proxy = smart_proxies(:logs)
+    fake_data = ::SmartProxies::LogBuffer.new(
+    {
+      'logs' => [{
+        "timestamp" => 1453890750.9860077,
+        "level" => "DEBUG",
+        "message" => "A debug message"
+      }]})
+    ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
+    SmartProxy.any_instance.expects(:expired_logs=).with('42').returns('42')
+    xhr :get, :expire_logs, { :id => proxy.id, :from => 42 }, set_session_user
+    assert_response :success
+    assert_template 'smart_proxies/logs/_list'
+    assert @response.body.include?('debug message')
+  end
+
+  test '#failed_modules' do
+    proxy = smart_proxies(:logs)
+    fake_data = ::SmartProxies::LogBuffer.new(
+    {
+      'info' => {
+        "failed_modules" => {
+          "BMC" => "Initialization error"
+        }}})
+    ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
+    xhr :get, :failed_modules, { :id => proxy.id }, set_session_user
+    assert_response :success
+    assert_template 'smart_proxies/logs/_failed_modules'
+    assert @response.body.include?('BMC')
+  end
+
+  test '#errors_card' do
+    proxy = smart_proxies(:logs)
+    fake_data = ::SmartProxies::LogBuffer.new(
+    {
+      "info" => {
+        "failed_modules" => {}
+      },
+      "logs" => [
+        { "timestamp" => 1000, "level" => "INFO", "message" => "Message" },
+        { "timestamp" => 1001, "level" => "INFO", "message" => "Message" },
+        { "timestamp" => 1002, "level" => "ERROR", "message" => "Message" },
+        { "timestamp" => 1003, "level" => "FATAL", "message" => "Message" },
+      ]})
+    ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
+    xhr :get, :errors_card, { :id => proxy.id }, set_session_user
+    assert_response :success
+    assert_template 'smart_proxies/logs/_errors_card'
+    assert @response.body.include?('2 log messages')
+    assert @response.body.include?('2 error messages')
+  end
+
+  test '#errors_card_empty' do
+    proxy = smart_proxies(:logs)
+    fake_data = ::SmartProxies::LogBuffer.new(
+    {
+      "info" => {
+        "failed_modules" => {}
+      },
+      "logs" => []})
+    ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
+    xhr :get, :errors_card, { :id => proxy.id }, set_session_user
+    assert_response :success
+    assert_template 'smart_proxies/logs/_errors_card'
+    assert @response.body.include?('pficon-ok')
+    assert @response.body.include?('0 log messages')
+    refute @response.body.include?('warning message')
+    refute @response.body.include?('error message')
+  end
+
+  test '#modules_card' do
+    proxy = smart_proxies(:logs)
+    fake_data = ::SmartProxies::LogBuffer.new(
+    {
+      "info" => {
+        "failed_modules" => {
+          "BMC" => "Message",
+          "Puppet" => "Another message",
+        }
+      },
+      "logs" => []})
+    ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
+    xhr :get, :modules_card, { :id => proxy.id }, set_session_user
+    assert_response :success
+    assert_template 'smart_proxies/logs/_modules_card'
+    assert @response.body.include?('4 active features')
+    assert @response.body.include?('Failed features: BMC, Puppet')
+  end
+
+  test '#modules_card_empty' do
+    proxy = smart_proxies(:logs)
+    fake_data = ::SmartProxies::LogBuffer.new(
+    {
+      "info" => {
+        "failed_modules" => {}
+      },
+      "logs" => []})
+    ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
+    xhr :get, :modules_card, { :id => proxy.id }, set_session_user
+    assert_response :success
+    assert_template 'smart_proxies/logs/_modules_card'
+    assert @response.body.include?('pficon-ok')
+    refute @response.body.include?('BMC')
+  end
 end

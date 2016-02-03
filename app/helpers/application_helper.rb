@@ -147,6 +147,18 @@ module ApplicationHelper
     end
   end
 
+  # Display a link to JS function if user is authorized, otherwise a string
+  # +name+    : String to be displayed
+  # +options+ : Hash containing options for authorized_for and link_to
+  # +html_options+ : Hash containing html options for the link or span
+  def link_to_function_if_authorized(name, function, options = {}, html_options = {})
+    if authorized_for(options)
+      link_to_function name, function, html_options
+    else
+      link_to_function name, nil, html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
+    end
+  end
+
   def display_delete_if_authorized(options = {}, html_options = {})
     text = options.delete(:text) || _("Delete")
     options = {:auth_action => :destroy}.merge(options)
