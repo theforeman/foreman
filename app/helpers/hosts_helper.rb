@@ -288,16 +288,14 @@ module HostsHelper
       ]
     ]
     fields += host_detailed_status_list(host)
-    fields += [
-      [_("Domain"), (link_to(host.domain, hosts_path(:search => "domain = #{host.domain}")) if host.domain)],
-      [_("Realm"), (link_to(host.realm, hosts_path(:search => "realm = #{host.realm}")) if host.realm)],
-      [_("IP Address"), host.ip],
-      [_("MAC Address"), host.mac],
-      [_("Puppet Environment"), (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")) if host.environment)],
-      [_("Host Architecture"), (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")) if host.arch)],
-      [_("Operating System"), (link_to(host.operatingsystem.to_label, hosts_path(:search => "os_description = #{host.operatingsystem.description}")) if host.operatingsystem)],
-      [_("Host group"), (link_to(host.hostgroup, hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"})) if host.hostgroup)],
-    ]
+    fields += [[_("Domain"), (link_to(host.domain, hosts_path(:search => "domain = #{host.domain}")))]] if host.domain.present?
+    fields += [[_("Realm"), (link_to(host.realm, hosts_path(:search => "realm = #{host.realm}")))]] if host.realm.present?
+    fields += [[_("IP Address"), host.ip]] if host.ip.present?
+    fields += [[_("MAC Address"), host.mac]] if host.mac.present?
+    fields += [[_("Puppet Environment"), (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")))]] if host.environment.present?
+    fields += [[_("Host Architecture"), (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")))]] if host.arch.present?
+    fields += [[_("Operating System"), (link_to(host.operatingsystem.to_label, hosts_path(:search => "os_description = #{host.operatingsystem.description}")))]] if host.operatingsystem.present?
+    fields += [[_("Host group"), (link_to(host.hostgroup, hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"})))]] if host.hostgroup.present?
     fields += [[_("Location"), (link_to(host.location.title, hosts_path(:search => "location = #{host.location}")) if host.location)]] if SETTINGS[:locations_enabled]
     fields += [[_("Organization"), (link_to(host.organization.title, hosts_path(:search => "organization = #{host.organization}")) if host.organization)]] if SETTINGS[:organizations_enabled]
     if SETTINGS[:login]
