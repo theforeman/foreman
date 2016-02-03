@@ -1,0 +1,61 @@
+<ul id="proxy-dhcp-tab" class="nav nav-tabs nav-tabs-pf nav-stacked col-md-3">
+  <li class="active"><a href="#dhcp_general"><%= _('General') %></a></li>
+  <% subnets.each do |subnet| %>
+    <li><a href="#<%= subnet.network.parameterize %>"><%= subnet_label subnet %></a></li>
+  <% end %>
+</ul>
+<div id="proxy-dhcp-tab-content" class="tab-content col-md-9">
+  <div class="tab-pane active in" id="dhcp_general">
+    <div class="container-fluid container-cards-pf">
+      <%= show_feature_version('dhcp') %>
+    </div>
+
+
+    <div class="container-fluid container-cards-pf">
+      <% subnets.each do |subnet| %>
+        <div class="row row-cards-pf">
+          <%= render :partial => 'smart_proxies/plugins/dhcp_subnets_card',
+                     :locals => { :subnet => subnet,
+                                  :item => 'Reservations',
+                                  :icon_classes => "fa fa-database",
+                                  :content => subnet.reservations.count} %>
+
+          <%= render :partial => 'smart_proxies/plugins/dhcp_subnets_card',
+                     :locals => { :subnet => subnet,
+                                  :item => 'Leases',
+                                  :icon_classes => "fa fa-laptop",
+                                  :content => subnet.leases.count} %>
+
+          <% if subnet.options.present? %>
+            <div class="col-md-3">
+              <div class="card-pf card-pf-aggregate-status card-pf-accented">
+                <h2 class="card-pf-title">
+                  <a href="#<%= subnet.network.parameterize %>">
+                    <%= subnet_label(subnet) %>
+                  </a>
+                </h2>
+
+                <div class="card-pf-body">
+                  <p class="card-pf-aggregate-status-notifications">
+                    <% subnet.options.each do |name, values| %>
+                        <dt> <%= name.humanize %> </dt>
+                        <dd> <%= values.to_sentence %> </dd>
+                      <% end %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <% subnets.each do |subnet| %>
+    <div class="tab-pane" id="<%= subnet.network.parameterize %>">
+      <h3><%= _('Reservations') %></h3>
+      <%= render :partial => 'smart_proxies/plugins/dhcp_reservations', :locals => { :subnet => subnet } %>
+      <h3><%= _('Leases') %></h3>
+      <%= render :partial => 'smart_proxies/plugins/dhcp_leases', :locals => { :subnet => subnet } %>
+    </div>
+  <% end %>
+</div>

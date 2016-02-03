@@ -200,6 +200,7 @@ Foreman::Application.routes.draw do
       get 'tftp_server'
       get 'puppet_environments'
       get 'puppet_dashboard'
+      get 'subnets'
     end
     constraints(:id => /[^\/]+/) do
       resources :puppetca, :only => [:index, :update, :destroy] do

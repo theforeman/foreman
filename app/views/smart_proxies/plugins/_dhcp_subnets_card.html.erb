@@ -1,0 +1,16 @@
+<div class="col-md-3">
+  <div class="card-pf card-pf-aggregate-status card-pf-accented">
+    <%= render :partial => 'smart_proxies/plugins/dhcp_subnets_card_header', :locals => { :subnet => subnet } %>
+
+    <div class="card-pf-body">
+      <p class="card-pf-aggregate-status-notifications">
+        <div class="<%= icon_classes %>" data-toggle="tooltip" title="<%= _('View %s') % item %>">
+        </div>
+        <a href="#<%= subnet.network.parameterize %>_<%= item.downcase %>">
+            <%= content %>
+            <%= _('%s') % item %>
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
