@@ -307,6 +307,19 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal( { 'loc_param' => 'abc' }, child_location.parent_params)
   end
 
+  test "#params_objects should return location parameters" do
+    location = Location.create :name => "floor1"
+    param = LocationParameter.create(:name => 'name', :value => 'valueable')
+    location.location_parameters = [param]
+    assert(location.params_objects.include?(param))
+  end
+
+  test "#params_objects should return ancestors parameters" do
+    location = Location.create :name => "floor1", :parent_id => taxonomies(:location1).id
+    assert_equal [], location.location_parameters
+    assert_equal [taxonomies(:location1).location_parameters], location.params_objects
+  end
+
   test "cannot delete location that is a parent for nested location" do
     parent1 = taxonomies(:location2)
     Location.create :name => "floor1", :parent_id => parent1.id
