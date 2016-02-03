@@ -290,6 +290,7 @@ Foreman::Application.routes.draw do
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
           put :refresh, :on => :member
+          put :startup_refresh, :to => 'smart_proxies#refresh', :on => :collection
           get :version, :on => :member
           post :import_puppetclasses, :on => :member
           resources :environments, :only => [] do
