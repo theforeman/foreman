@@ -52,24 +52,24 @@ class SmartProxiesControllerTest < ActionController::TestCase
   end
 
   def test_refresh
-    proxy = smart_proxies(:one)
+    proxy = FactoryGirl.create(:dhcp_smart_proxy, :name => "proxyABC")
     SmartProxy.any_instance.stubs(:associate_features).returns(true)
     post :refresh, {:id => proxy}, set_session_user
     assert_redirected_to smart_proxies_url
-    assert_equal "No changes found when refreshing features from DHCP Proxy.", flash[:notice]
+    assert_equal "No changes found when refreshing features from proxyABC.", flash[:notice]
   end
 
   def test_refresh_change
-    proxy = smart_proxies(:one)
+    proxy = FactoryGirl.create(:dhcp_smart_proxy, :name => "proxyABC")
     SmartProxy.any_instance.stubs(:associate_features).returns(true)
     SmartProxy.any_instance.stubs(:features).returns([features(:dns)]).then.returns([features(:dns), features(:tftp)])
     post :refresh, {:id => proxy}, set_session_user
     assert_redirected_to smart_proxies_url
-    assert_equal "Successfully refreshed features from DHCP Proxy.", flash[:notice]
+    assert_equal "Successfully refreshed features from proxyABC.", flash[:notice]
   end
 
   def test_refresh_fail
-    proxy = smart_proxies(:one)
+    proxy = FactoryGirl.create(:dhcp_smart_proxy)
     errors = ActiveModel::Errors.new(Host::Managed.new)
     errors.add :base, "Unable to communicate with the proxy: it is down"
     SmartProxy.any_instance.stubs(:errors).returns(errors)
@@ -80,23 +80,25 @@ class SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test "should search by name" do
-    get :index, { :search => "name=\"DNS Proxy\"" }, set_session_user
+    proxy = FactoryGirl.create(:dns_smart_proxy, :name => "SomeProxyName")
+    get :index, { :search => 'name="SomeProxyName"' }, set_session_user
     assert_response :success
     refute_empty assigns(:smart_proxies)
-    assert assigns(:smart_proxies).include?(smart_proxies(:three))
+    assert assigns(:smart_proxies).include?(proxy)
   end
 
   test "should search by feature" do
+    proxy = FactoryGirl.create(:dns_smart_proxy)
     get :index, { :search => "feature=DNS" }, set_session_user
     assert_response :success
     refute_empty assigns(:smart_proxies)
-    assert assigns(:smart_proxies).include?(smart_proxies(:three))
+    assert assigns(:smart_proxies).include?(proxy)
   end
 
   test "smart proxy version succeeded" do
     expected_response = {'version' => '1.11', 'modules' => {'dns' => '1.11'}}
     ProxyStatus::Version.any_instance.stubs(:version).returns(expected_response)
-    get :ping, { :id => smart_proxies(:one).to_param }, set_session_user
+    get :ping, { :id => FactoryGirl.create(:dhcp_smart_proxy).to_param }, set_session_user
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_equal('1.11', show_response['message']['version'])
@@ -104,14 +106,14 @@ class SmartProxiesControllerTest < ActionController::TestCase
 
   test "smart proxy version failed" do
     ProxyStatus::Version.any_instance.stubs(:version).raises(Foreman::Exception, 'Exception message')
-    get :ping, { :id => smart_proxies(:one).to_param }, set_session_user
+    get :ping, { :id => FactoryGirl.create(:dhcp_smart_proxy).to_param }, set_session_user
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_match(/Exception message/, show_response['message'])
   end
 
   test '#show' do
-    proxy = smart_proxies(:one)
+    proxy = FactoryGirl.create(:dhcp_smart_proxy)
     get :show, { :id => proxy.id }, set_session_user
     assert_response :success
     assert_template 'show'
@@ -119,21 +121,21 @@ class SmartProxiesControllerTest < ActionController::TestCase
 
   test 'tftp_server should return tftp address' do
     ProxyStatus::TFTP.any_instance.stubs(:server).returns('127.13.0.1')
-    get :tftp_server, { :id => smart_proxies(:two).to_param }, set_session_user
+    get :tftp_server, { :id => FactoryGirl.create(:tftp_smart_proxy).to_param }, set_session_user
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_equal('127.13.0.1', show_response['message'])
   end
 
   test 'tftp server should return false if not found' do
-    get :tftp_server, { :id => smart_proxies(:one).to_param }, set_session_user
+    get :tftp_server, { :id => FactoryGirl.create(:dhcp_smart_proxy).to_param }, set_session_user
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_match(/No TFTP feature/, show_response['message'])
   end
 
   test '#puppet_environments' do
-    proxy = smart_proxies(:puppetmaster)
+    proxy = FactoryGirl.create(:puppet_smart_proxy)
     fake_data = {'env1' => 1, 'special_environment' => 4}
     ProxyStatus::Puppet.any_instance.expects(:environment_stats).returns(fake_data)
     xhr :get, :puppet_environments, { :id => proxy.id }, set_session_user
@@ -144,7 +146,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test '#log_pane' do
-    proxy = smart_proxies(:logs)
+    proxy = FactoryGirl.create(:logs_smart_proxy)
     fake_data = ::SmartProxies::LogBuffer.new(
     {
       'logs' => [{
@@ -160,7 +162,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test '#expire_logs' do
-    proxy = smart_proxies(:logs)
+    proxy = FactoryGirl.create(:logs_smart_proxy)
     fake_data = ::SmartProxies::LogBuffer.new(
     {
       'logs' => [{
@@ -177,7 +179,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test '#failed_modules' do
-    proxy = smart_proxies(:logs)
+    proxy = FactoryGirl.create(:logs_smart_proxy)
     fake_data = ::SmartProxies::LogBuffer.new(
     {
       'info' => {
@@ -192,7 +194,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test '#errors_card' do
-    proxy = smart_proxies(:logs)
+    proxy = FactoryGirl.create(:logs_smart_proxy)
     fake_data = ::SmartProxies::LogBuffer.new(
     {
       "info" => {
@@ -213,7 +215,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test '#errors_card_empty' do
-    proxy = smart_proxies(:logs)
+    proxy = FactoryGirl.create(:logs_smart_proxy)
     fake_data = ::SmartProxies::LogBuffer.new(
     {
       "info" => {
@@ -231,7 +233,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test '#modules_card' do
-    proxy = smart_proxies(:logs)
+    proxy = FactoryGirl.create(:logs_smart_proxy)
     fake_data = ::SmartProxies::LogBuffer.new(
     {
       "info" => {
@@ -250,7 +252,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test '#modules_card_empty' do
-    proxy = smart_proxies(:logs)
+    proxy = FactoryGirl.create(:logs_smart_proxy)
     fake_data = ::SmartProxies::LogBuffer.new(
     {
       "info" => {

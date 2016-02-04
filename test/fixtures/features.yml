@@ -27,6 +27,3 @@ chefproxy:
 
 realm:
   name: Realm
-
-logs:
-  name: Logs
