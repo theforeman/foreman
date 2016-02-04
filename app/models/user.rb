@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   include Foreman::ThreadSession::UserModel
   include Taxonomix
   include DirtyAssociations
+  include UserTime
   audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation], :allow_mass_assignment => true
 
   ANONYMOUS_ADMIN = 'foreman_admin'
@@ -41,7 +42,7 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :user_mail_notifications, :allow_destroy => true, :reject_if => :reject_empty_intervals
   attr_accessible :password, :password_confirmation, :login, :firstname,
-    :lastname, :mail, :locale, :timezone, :mail_enabled,
+    :lastname, :mail, :locale, :mail_enabled,
     :default_location_id, :default_organization_id,
     :auth_source_name, :auth_source, :auth_source_id,
     :mail_notification_ids, :mail_notification_names,
@@ -94,7 +95,7 @@ class User < ActiveRecord::Base
   validates :firstname, :lastname, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
   validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
-           :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :validate_timezone, :ensure_admin_password_changed_by_admin
+           :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :ensure_admin_password_changed_by_admin
   before_validation :prepare_password, :normalize_mail
   before_save       :set_lower_login
 
@@ -404,7 +405,7 @@ class User < ActiveRecord::Base
 
   def prepare_password
     unless password.blank?
-      self.password_salt = Digest::SHA1.hexdigest([Time.now, rand].join)
+      self.password_salt = Digest::SHA1.hexdigest([Time.now.utc, rand].join)
       self.password_hash = encrypt_password(password)
     end
   end
@@ -551,9 +552,5 @@ class User < ActiveRecord::Base
     if auth_source_id_changed? && hidden? && ![ANONYMOUS_ADMIN, ANONYMOUS_API_ADMIN].include?(self.login)
       errors.add :auth_source, _("is not permitted")
     end
-  end
-
-  def validate_timezone
-    errors.add(:timezone, _("is not valid")) unless timezone.blank? || Time.find_zone(timezone)
   end
 end

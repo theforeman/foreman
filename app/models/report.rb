@@ -78,7 +78,7 @@ class Report < ActiveRecord::Base
     Message.where("id not IN (#{Log.unscoped.select('DISTINCT message_id').to_sql})").delete_all
     Source.where("id not IN (#{Log.unscoped.select('DISTINCT source_id').to_sql})").delete_all
     count = where(cond).delete_all
-    logger.info Time.now.to_s + ": Expired #{count} #{to_s.underscore.humanize.pluralize}"
+    logger.info Time.now.utc.to_s + ": Expired #{count} #{to_s.underscore.humanize.pluralize}"
     count
   end
 

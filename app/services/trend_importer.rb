@@ -21,7 +21,7 @@ class TrendImporter
   end
 
   def update_trend_counters
-    timestamp = Time.now
+    timestamp = Time.now.utc
     counter_hash = {}
     Trend.types.each do |trend|
       if trend.is_a? FactTrend

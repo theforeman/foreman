@@ -17,7 +17,7 @@ module HostStatus
       if (host && !host.enabled?) || no_reports?
         false
       else
-        !reported_at.nil? && reported_at < (Time.now - (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes)
+        !reported_at.nil? && reported_at < (Time.now.utc - (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes)
       end
     end
 
@@ -105,7 +105,7 @@ module HostStatus
     end
 
     def update_timestamp
-      self.reported_at = last_report.try(:reported_at) || Time.now
+      self.reported_at = last_report.try(:reported_at) || Time.now.utc
     end
 
     def calculator

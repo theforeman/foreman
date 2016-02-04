@@ -27,7 +27,7 @@ module TrendsHelper
     end
   end
 
-  def chart_data(trend, from = Setting.max_trend, to = Time.zone.now)
+  def chart_data(trend, from = Setting.max_trend, to = Time.now.utc)
     chart_colors = ['#4572A7','#AA4643','#89A54E','#80699B','#3D96AE','#DB843D','#92A8CD','#A47D7C','#B5CA92']
     values = trend.values
     labels = {}
@@ -39,7 +39,7 @@ module TrendsHelper
       value.trend_counters.each do |counter|
         #cut the left side of the graph
         interval_start = (counter.interval_start || from) > from ? counter.interval_start : from
-        next_timestamp = counter.try(:interval_end) || Time.now
+        next_timestamp = counter.try(:interval_end) || Time.now.utc
         #transform the timestamp values to flot format - from seconds in Ruby to milliseconds in flot
         data << [interval_start.to_i*1000, counter.count]
         data << [next_timestamp.to_i*1000 - 1, counter.count]

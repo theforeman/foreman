@@ -34,12 +34,12 @@ class ReportImporter
   end
 
   def import
-    start_time = Time.now
+    start_time = Time.now.utc
     logger.info "processing report for #{name}"
     logger.debug { "Report: #{raw.inspect}" }
     create_report_and_logs
     if report.persisted?
-      logger.info("Imported report for #{name} in #{(Time.now - start_time).round(2)} seconds")
+      logger.info("Imported report for #{name} in #{(Time.now.utc - start_time).round(2)} seconds")
       host.refresh_statuses
     end
   end

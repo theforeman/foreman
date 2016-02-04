@@ -1450,7 +1450,7 @@ class HostTest < ActiveSupport::TestCase
     test "built should clean tokens" do
       Setting[:token_duration] = 30
       h = FactoryGirl.create(:host, :managed)
-      h.create_token(:value => "aaaaaa", :expires => Time.now)
+      h.create_token(:value => "aaaaaa", :expires => Time.now.utc)
       assert_equal Token.all.size, 1
       h.expire_token
       assert_equal Token.all.size, 0
@@ -1459,7 +1459,7 @@ class HostTest < ActiveSupport::TestCase
     test "built should clean tokens even when tokens are disabled" do
       Setting[:token_duration] = 0
       h = FactoryGirl.create(:host, :managed)
-      h.create_token(:value => "aaaaaa", :expires => Time.now)
+      h.create_token(:value => "aaaaaa", :expires => Time.now.utc)
       assert_equal Token.all.size, 1
       h.expire_token
       assert_equal Token.all.size, 0
@@ -1482,7 +1482,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "a token can be matched to a host" do
       h = FactoryGirl.create(:host, :managed)
-      h.create_token(:value => "aaaaaa", :expires => Time.now + 1.minutes)
+      h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minutes)
       assert_equal h, Host.for_token("aaaaaa").first
     end
 
