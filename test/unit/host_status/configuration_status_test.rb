@@ -54,7 +54,7 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     @status.refresh!
     assert @status.reported_at.present?
     window = (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes
-    assert @status.reported_at < Time.now - window
+    assert @status.reported_at < Time.now.utc - window
 
     assert @status.out_of_sync?
   end
@@ -65,7 +65,7 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
   end
 
   test '#out_of_sync? is false when window is big enough' do
-    original, Setting[:outofsync_interval] = Setting[:outofsync_interval], (Time.now - @report.reported_at).to_i / 60 + 1
+    original, Setting[:outofsync_interval] = Setting[:outofsync_interval], (Time.now.utc - @report.reported_at).to_i / 60 + 1
     refute @status.out_of_sync?
     Setting[:outofsync_interval] = original
   end

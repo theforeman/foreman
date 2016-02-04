@@ -27,6 +27,6 @@ class Api::V2::TasksControllerTest < ActionController::TestCase
     assert_equal 'create something', task['name']
     assert_equal 'pending', task['status']
     assert_equal 10, task['priority']
-    assert Time.now - Time.parse(task['timestamp']) < 5.seconds
+    assert Time.now.utc - Time.parse(task['timestamp']).utc < 5.seconds
   end
 end

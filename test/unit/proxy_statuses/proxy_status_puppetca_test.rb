@@ -28,14 +28,14 @@ class ProxyStatusPuppetcaTest < ActiveSupport::TestCase
       assert_equal(cert.name, @proxy.hostname)
       assert_equal(cert.state, "valid")
       assert_equal(cert.fingerprint, "SHA256")
-      assert_equal(cert.valid_from, Time.parse("2015-12-12T14:33:10UTC"))
-      assert_equal(cert.expires_at, Time.parse("2020-12-11T14:33:10UTC"))
+      assert_equal(cert.valid_from, Time.parse("2015-12-12T14:33:10UTC").utc)
+      assert_equal(cert.expires_at, Time.parse("2020-12-11T14:33:10UTC").utc)
       assert_equal(cert.status_object, @proxy_status)
     end
 
     test 'it returns expiry for CA certificate' do
       #the CA certificate should be the oldest valid certificate, as it signs all others
-      assert_equal(Time.parse("2020-12-11T14:33:10UTC"), @proxy_status.expiry)
+      assert_equal(Time.parse("2020-12-11T14:33:10UTC").utc, @proxy_status.expiry)
     end
   end
 

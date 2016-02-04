@@ -350,7 +350,7 @@ class Host::Managed < Host::Base
   end
 
   def no_report
-    last_report.nil? or last_report < Time.now - (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes and enabled?
+    last_report.nil? || last_report < Time.now.utc - (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes && enabled?
   end
 
   def disabled?

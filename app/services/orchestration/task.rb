@@ -30,7 +30,7 @@ module Orchestration
     private
 
     def update_ts
-      @timestamp = Time.now
+      @timestamp = Time.now.utc
     end
 
     # sort based on priority

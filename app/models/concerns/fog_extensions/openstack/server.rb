@@ -39,7 +39,7 @@ module FogExtensions
       end
 
       def created_at
-        Time.parse attributes['created']
+        Time.parse(attributes['created']).utc
       end
 
       # the original method requires a server ID, however we want to be able to call this method on new instances too

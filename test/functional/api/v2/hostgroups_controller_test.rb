@@ -39,7 +39,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
 
   test "should clone hostgroup" do
     assert_difference('Hostgroup.count') do
-      post :clone, { :id => hostgroups(:common).to_param, :name => Time.now.to_s }
+      post :clone, { :id => hostgroups(:common).to_param, :name => Time.now.utc.to_s }
     end
     assert_response :success
   end

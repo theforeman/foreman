@@ -57,7 +57,7 @@ module HostStatus
     private
 
     def update_timestamp
-      self.reported_at = Time.now
+      self.reported_at = Time.now.utc
     end
 
     def update_status
