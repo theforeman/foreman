@@ -229,7 +229,7 @@ module Orchestration::Compute
     # Loop over the addresses waiting for one to come up
     ip = nil
     begin
-      Timeout::timeout(120) do
+      Timeout.timeout(120) do
         until ip
           ip = vm.ip_addresses.find { |addr| ssh_open?(addr) }
           sleep 2
@@ -249,7 +249,7 @@ module Orchestration::Compute
 
   def ssh_open?(ip)
     begin
-      Timeout::timeout(1) do
+      Timeout.timeout(1) do
         begin
           s = TCPSocket.new(ip, 22)
           s.close

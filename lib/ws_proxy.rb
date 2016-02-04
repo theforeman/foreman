@@ -36,7 +36,7 @@ class WsProxy
   def start_proxy
     # randomly preselect free tcp port from the range
     port = 0
-    Timeout::timeout(5) do
+    Timeout.timeout(5) do
       until free_port?(port = rand(PORTS)); end
     end
     # execute websockify proxy
@@ -83,7 +83,7 @@ class WsProxy
 
   def execute(cmd)
     logger.debug "Starting VNC Proxy: #{cmd}"
-    Open3::popen3(cmd) do |stdin, stdout, stderr|
+    Open3.popen3(cmd) do |stdin, stdout, stderr|
       stdout.each do |line|
         logger.debug "[#{line}"
       end

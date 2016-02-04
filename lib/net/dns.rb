@@ -12,7 +12,7 @@ module Net
     # Returns: a new DNS record object, A or PTR accordingly
     # We query DNS directly, as its faster then to query our own proxy.
     def self.lookup(query, proxy, resolver = Resolv::DNS.new)
-      Timeout::timeout(Setting[:dns_conflict_timeout]) do
+      Timeout.timeout(Setting[:dns_conflict_timeout]) do
         if (query =~ Validations::IP_REGEXP)
           n = resolver.getname(query).to_s
           i = query

@@ -140,7 +140,7 @@ class AuthSourceLdap < AuthSource
   def test_connection
     result = {}
     begin
-      Timeout::timeout(20) do
+      Timeout.timeout(20) do
         self.ldap_con.test
       end
       result[:success] = true
