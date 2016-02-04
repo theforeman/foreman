@@ -140,15 +140,15 @@ class ApplicationController < ActionController::Base
   end
 
   def notice(notice)
-    flash[:notice] = CGI::escapeHTML(notice)
+    flash[:notice] = CGI.escapeHTML(notice)
   end
 
   def error(error)
-    flash[:error] = CGI::escapeHTML(error)
+    flash[:error] = CGI.escapeHTML(error)
   end
 
   def warning(warning)
-    flash[:warning] = CGI::escapeHTML(warning)
+    flash[:warning] = CGI.escapeHTML(warning)
   end
 
   # this method is used with nested resources, where obj_id is passed into the parameters hash.
@@ -264,7 +264,7 @@ class ApplicationController < ActionController::Base
     hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| _("Conflict - %s") % e}].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten.to_sentence
     if hash[:render]
-      flash.now[:error] = CGI::escapeHTML(hash[:error_msg]) unless hash[:error_msg].empty?
+      flash.now[:error] = CGI.escapeHTML(hash[:error_msg]) unless hash[:error_msg].empty?
       render hash[:render]
     elsif hash[:redirect]
       error(hash[:error_msg]) unless hash[:error_msg].empty?

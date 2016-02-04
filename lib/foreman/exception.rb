@@ -8,8 +8,8 @@ module Foreman
     def self.calculate_error_code(classname, message)
       return 'ERF00-0000' if classname.nil? or message.nil?
       basename = classname.split(':').last
-      class_hash = Zlib::crc32(basename) % 100
-      msg_hash = Zlib::crc32(message) % 10000
+      class_hash = Zlib.crc32(basename) % 100
+      msg_hash = Zlib.crc32(message) % 10000
       sprintf "ERF%02d-%04d", class_hash, msg_hash
     end
 

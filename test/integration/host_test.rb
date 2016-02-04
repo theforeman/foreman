@@ -350,7 +350,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       assert multiple_actions_div.find('ul').visible?
 
       # Hosts are added to cookie
-      host_ids_on_cookie = JSON.parse(CGI::unescape(page.driver.cookies['_ForemanSelectedhosts'].value))
+      host_ids_on_cookie = JSON.parse(CGI.unescape(page.driver.cookies['_ForemanSelectedhosts'].value))
       assert(host_ids_on_cookie.include? @host.id)
 
       # Open modal box
