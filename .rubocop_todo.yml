@@ -143,11 +143,6 @@ Rails/PluralizationGrammar:
 Rails/ReadWriteAttribute:
   Enabled: false
 
-# Offense count: 48
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Rails/TimeZone:
-  Enabled: false
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.

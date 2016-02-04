@@ -16,7 +16,7 @@ class TimedCachedStore < ActiveSupport::Cache::MemoryStore
 
   def write(name, value, options = nil)
     if options and options[:expires_in]
-      time                  = Time.now
+      time                  = Time.now.utc
       ttl                   = time + options[:expires_in].to_i
       @data[ts_field(name)] = { :created_at => time, :expires_at => ttl }
     end
@@ -42,7 +42,7 @@ class TimedCachedStore < ActiveSupport::Cache::MemoryStore
 
   def expired?(name)
     ts = @data[ts_field(name)]
-    ts and (Time.now >= ts[:expires_at])
+    ts and (Time.now.utc >= ts[:expires_at])
   rescue
     false
   end

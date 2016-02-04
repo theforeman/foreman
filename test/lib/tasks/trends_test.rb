@@ -180,7 +180,7 @@ class TrendsTest < ActiveSupport::TestCase
 
   def create_trend_line(trend, values_line)
     point_dates = []
-    point_date = Time.now.beginning_of_day
+    point_date = Time.now.utc.beginning_of_day
     values_line.each do |value|
       point_dates << point_date
       FactoryGirl.create(:trend_counter, :trend => trend, :created_at => point_date, :updated_at => point_date, :count => value)

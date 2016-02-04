@@ -245,7 +245,7 @@ class UnattendedControllerTest < ActionController::TestCase
     Setting[:token_duration] = 30
     Setting[:unattended_url]    = "https://test.host"
     @request.env["REMOTE_ADDR"] = @ub_host.ip
-    @ub_host.create_token(:value => token, :expires => Time.now + 5.minutes)
+    @ub_host.create_token(:value => token, :expires => Time.now.utc + 5.minutes)
     get :host_template, {:kind => 'provision', 'token' => @ub_host.token.value }
     assert @response.body.include?("#{Setting[:unattended_url]}/unattended/finish?token=#{token}")
   end
@@ -253,7 +253,7 @@ class UnattendedControllerTest < ActionController::TestCase
   test "hosts with unknown ip and valid token should render a template" do
     Setting[:token_duration] = 30
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
-    @ub_host.create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
+    @ub_host.create_token(:value => "aaaaaa", :expires => Time.now.utc + 5.minutes)
     get :host_template, {:kind => 'provision', 'token' => @ub_host.token.value }
     assert_response :success
   end
@@ -275,7 +275,7 @@ class UnattendedControllerTest < ActionController::TestCase
       Setting[:update_ip_from_built_request] = false
       @request.env["REMOTE_ADDR"] = '127.0.0.1'
       h=@ub_host
-      h.create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
+      h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 5.minutes)
       get :built, {'token' => h.token.value }
       h_new=Host.find_by_name(h.name)
 
@@ -291,7 +291,7 @@ class UnattendedControllerTest < ActionController::TestCase
       new_ip = h.subnet.network.gsub(/\.0$/,'.100') # Must be in the subnet, which isn't fixed
       @request.env["REMOTE_ADDR"] = new_ip
       refute_equal new_ip, h.ip
-      h.create_token(:value => "aaaaab", :expires => Time.now + 5.minutes)
+      h.create_token(:value => "aaaaab", :expires => Time.now.utc + 5.minutes)
       get :built, {'token' => h.token.value }
       h_new=Host.find_by_name(h.reload.name)
       assert_response :success
@@ -304,7 +304,7 @@ class UnattendedControllerTest < ActionController::TestCase
       Setting[:update_ip_from_built_request] = true
       @request.env["REMOTE_ADDR"] = @rh_host.ip
       h=@ub_host
-      h.create_token(:value => "aaaaac", :expires => Time.now + 5.minutes)
+      h.create_token(:value => "aaaaac", :expires => Time.now.utc + 5.minutes)
       get :built, {'token' => h.token.value }
       assert_response :success
       h_new=Host.find_by_name(h.reload.name)
@@ -316,7 +316,7 @@ class UnattendedControllerTest < ActionController::TestCase
       Setting[:token_duration]    = 30
       Setting[:unattended_url]    = "http://test.host"
       @request.env["REMOTE_ADDR"] = @ub_host.ip
-      @ub_host.create_token(:value => "aaaaaa", :expires => Time.now + 5.minutes)
+      @ub_host.create_token(:value => "aaaaaa", :expires => Time.now.utc + 5.minutes)
       get :host_template, {:kind => 'provision'}
       assert @response.body.include?("http://test.host/unattended/finish?token=aaaaaa")
     end
@@ -326,7 +326,7 @@ class UnattendedControllerTest < ActionController::TestCase
     template_server_from_proxy = 'https://someproxy:8443'
     ProxyAPI::Template.any_instance.stubs(:template_url).returns(template_server_from_proxy)
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
-    @host_with_template_subnet.create_token(:value => "aaaaad", :expires => Time.now + 5.minutes)
+    @host_with_template_subnet.create_token(:value => "aaaaad", :expires => Time.now.utc + 5.minutes)
     get :host_template, {:kind => 'provision', 'token' => @host_with_template_subnet.token.value }
     assert @response.body.include?("#{template_server_from_proxy}/unattended/finish?token=aaaaad")
   end
@@ -335,7 +335,7 @@ class UnattendedControllerTest < ActionController::TestCase
     Setting[:token_duration] = 30
     Setting[:unattended_url]    = "http://test.host"
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
-    @host_with_template_subnet.create_token(:value => "aaaaae", :expires => Time.now + 5.minutes)
+    @host_with_template_subnet.create_token(:value => "aaaaae", :expires => Time.now.utc + 5.minutes)
     get :host_template, {:kind => 'provision', 'token' => @host_with_template_subnet.token.value }
     assert @response.body.include?("#{@host_with_template_subnet.subnet.tftp.url}/unattended/finish?token=aaaaae")
   end
