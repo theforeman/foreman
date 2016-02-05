@@ -28,7 +28,7 @@ class Setting < ActiveRecord::Base
 
   validates_lengths_from_database
   # audit the changes to this model
-  audited :only => [:value], :on => [:update], :allow_mass_assignment => true
+  audited :except => [:name, :description, :category, :settings_type, :full_name], :on => [:update], :allow_mass_assignment => true
 
   validates :name, :presence => true, :uniqueness => true
   validates :description, :presence => true
