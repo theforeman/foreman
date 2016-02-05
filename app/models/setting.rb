@@ -48,11 +48,19 @@ class Setting < ActiveRecord::Base
   after_find :readonly_when_overridden_in_SETTINGS
   default_scope -> { order(:name) }
 
-  # The DB may contain settings from disabled plugins - filter them out here
-  scope :live_descendants, -> { where(:category => self.descendants.map(&:to_s)) unless Rails.env.development? }
+  # Filer out settings from disabled plugins and ones releated to taxonomies when required
+  scope :disabled_plugins, -> { where(:category => self.descendants.map(&:to_s)) unless Rails.env.development? }
+  scope :default_organization, -> { where('name not in (?)', 'default_organization') unless Taxonomy.enabled_taxonomies.include? 'organizations' }
+  scope :organization_fact, -> { where('name not in (?)', 'organization_fact') unless Taxonomy.enabled_taxonomies.include? 'organizations' }
+  scope :default_location, -> { where('name not in (?)', 'default_location') unless Taxonomy.enabled_taxonomies.include? 'locations' }
+  scope :location_fact, -> { where('name not in (?)', 'location_fact') unless Taxonomy.enabled_taxonomies.include? 'locations' }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :description, :complete_value => :true
+
+  def self.live_descendants
+    self.disabled_plugins.default_organization.organization_fact.default_location.location_fact
+  end
 
   def self.per_page; 20 end # can't use our own settings
 
