@@ -35,4 +35,20 @@ class SettingsControllerTest < ActionController::TestCase
     assert_equal 'Value is not a number', assigns(:setting).errors.full_messages.first
     assert :unprocessable_entity
   end
+
+  test "settings shouldnt include ones about organizations when organizations are disabled" do
+    SETTINGS[:organizations_enabled] = false
+    get :index, {}, set_session_user
+    assert_no_match /default_organization/, @response.body
+    assert_no_match /organization_fact/, @response.body
+    SETTINGS[:organizations_enabled] = true
+  end
+
+  test "settings shouldnt include ones about locations when locations are disabled" do
+    SETTINGS[:locations_enabled] = false
+    get :index, {}, set_session_user
+    assert_no_match /default_location/, @response.body
+    assert_no_match /location_fact/, @response.body
+    SETTINGS[:locations_enabled] = true
+  end
 end

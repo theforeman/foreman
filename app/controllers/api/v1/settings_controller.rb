@@ -11,7 +11,7 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @settings = Setting.search_for(*search_options).paginate(paginate_options)
+        @settings = Setting.live_descendants.search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/settings/:id/", "Show an setting."
