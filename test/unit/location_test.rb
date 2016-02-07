@@ -325,9 +325,9 @@ class LocationTest < ActiveSupport::TestCase
   test "location name can't be too big to create lookup value matcher over 255 characters" do
     parent = FactoryGirl.create(:location)
     min_lookupvalue_length = "location=".length + parent.title.length + 1
-    location = Location.new :parent => parent, :name => 'a' * 256
+    location = Location.new :parent => parent, :name => 'a' * (256 - min_lookupvalue_length)
     refute_valid location
-    assert_equal "is too long (maximum is %s characters)" % (255 -  min_lookupvalue_length), location.errors[:name].first
+    assert_equal "is too long (maximum is %s characters)" % (255 - min_lookupvalue_length), location.errors[:name].first
   end
 
   test "location name can be up to 255 characters" do
