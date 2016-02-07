@@ -1,6 +1,7 @@
 class Taxonomy < ActiveRecord::Base
-  include Authorizable
+  validates_lengths_from_database
 
+  include Authorizable
   include NestedAncestryCommon
 
   serialize :ignore_types, Array
@@ -19,9 +20,8 @@ class Taxonomy < ActiveRecord::Base
     :realm_ids, :realm_names,
     :smart_proxy_ids, :smart_proxy_names,
     :subnet_ids, :subnet_names,
-    :user_ids, :users, :user_names,
+    :user_ids, :users, :user_names
 
-  validates_lengths_from_database
   belongs_to :user
   before_destroy EnsureNotUsedBy.new(:hosts)
   after_create :assign_taxonomy_to_user
