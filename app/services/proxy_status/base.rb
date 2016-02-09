@@ -52,7 +52,7 @@ module ProxyStatus
         yield
       end
     rescue *ProxyStatus::CONNECTION_ERRORS => exception
-      raise ::Foreman::WrappedException.new exception, N_("Unable to connect")
+      raise Foreman::WrappedException.new exception, N_("Unable to connect")
     end
   end
 end
