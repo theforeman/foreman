@@ -19,6 +19,7 @@ module Host
       :config_group, :config_group_ids, :config_group_names,
       :domain, :domain_id, :domain_name,
       :environment, :environment_id, :environment_name,
+      :hardware_model_id, :hardware_model_name,
       :hostgroup, :hostgroup_id, :hostgroup_name,
       :host_parameters_attributes,
       :interfaces, :interfaces_attributes,
@@ -36,7 +37,7 @@ module Host
       :subnet, :subnet_id, :subnet_name
 
     validates_lengths_from_database
-    belongs_to :model, :counter_cache => :hosts_count
+    belongs_to :model, :counter_cache => :hosts_count, :name_accessor => 'hardware_model_name'
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
     has_many :fact_names, :through => :fact_values
     has_many :interfaces, -> { order(:identifier) }, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base',
@@ -91,6 +92,10 @@ module Host
         primary_interface_attrs.each do |attr|
           values_for_primary_interface[attr] = new_attrs.delete(attr) if new_attrs.has_key?(attr)
         end
+
+        model_name = new_attrs.delete(:model_name)
+        new_attrs[:hardware_model_name] = model_name if model_name.present?
+
         args.unshift(new_attrs)
       end
 
@@ -312,6 +317,20 @@ module Host
       tax_location.import_missing_ids     if location
       tax_organization.import_missing_ids if organization
     end
+
+    # Provide a deprecated getter/setter for model_name, as it overlaps with the Rails 4.2 model_name method
+    def model_name
+      Foreman::Deprecation.deprecation_warning('1.12', 'Host#model_name is deprecated due to similarity with Rails, use #hardware_model_name')
+      self.hardware_model_name
+    end
+
+    def model_name=(model)
+      Foreman::Deprecation.deprecation_warning('1.12', 'Host#model_name= is deprecated due to similarity with Rails, use #hardware_model_name=')
+      self.hardware_model_name = model
+    end
+
+    # Provide _id aliases for consistency with the _name methods
+    alias_attribute :hardware_model_id, :model_id
 
     private
 

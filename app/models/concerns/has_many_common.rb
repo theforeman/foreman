@@ -78,15 +78,16 @@ module HasManyCommon
 
     def belongs_to_name_for(association, options)
       assoc = association.to_s.tableize.singularize
+      assoc_name = options.delete(:name_accessor) || "#{assoc}_name"
 
       # SETTER _name= method
-      define_method "#{assoc}_name=" do |name_value|
+      define_method "#{assoc_name}=" do |name_value|
         assoc_id = assoc_klass(association).send("find_by_#{assoc_klass(association).attribute_name}", name_value).id
         self.send("#{assoc}_id=", assoc_id)
       end
 
       # GETTER _name method
-      define_method "#{assoc}_name" do
+      define_method assoc_name do
         assoc_id = self.send("#{assoc}_id")
         assoc_klass(association).find_by_id(assoc_id).try(:name_method)
       end
