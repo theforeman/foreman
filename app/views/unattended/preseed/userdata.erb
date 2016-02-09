@@ -2,11 +2,8 @@
 kind: user_data
 name: Preseed default user data
 oses:
-- Debian 6.0
-- Debian 7.
-- Debian 8.
-- Ubuntu 12.04
-- Ubuntu 14.04
+- Debian
+- Ubuntu
 -%>
 #!/bin/bash
 
@@ -16,7 +13,7 @@ oses:
 <%
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
-  puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
+  puppet_enabled = pm_set || @host.param_true?('force-puppet')
 %>
 <% if puppet_enabled %>
 apt-get update

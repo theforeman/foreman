@@ -62,7 +62,7 @@ EOF
 
 <% subnet = interface.subnet -%>
 <% virtual = interface.virtual? -%>
-<% vlan = virtual && subnet.has_vlanid? -%>
+<% vlan = virtual && (subnet.has_vlanid? || interface.vlanid.present?) -%>
 <% alias_type = virtual && !subnet.nil? && !subnet.has_vlanid? && interface.identifier.include?(':') -%>
 <% dhcp = !subnet.nil? && subnet.dhcp_boot_mode? -%>
 
@@ -108,7 +108,7 @@ EOF
 
 <% subnet = interface.subnet -%>
 <% virtual = interface.virtual? -%>
-<% vlan = virtual && subnet.has_vlanid? -%>
+<% vlan = virtual && (subnet.has_vlanid? || interface.vlanid.present?) -%>
 <% alias_type = virtual && !subnet.has_vlanid? && interface.identifier.include?(':') -%>
 <% dhcp = subnet.dhcp_boot_mode? -%>
 
@@ -142,6 +142,12 @@ ONBOOT=yes
 <% if interface.respond_to?(:primary) && interface.primary -%>
 PEERDNS=yes
 PEERROUTES=yes
+<% if !dhcp && !subnet.dns_primary.nil? && !subnet.dns_primary.empty? -%>
+DNS1=<%= subnet.dns_primary %>
+<% if !subnet.dns_secondary.nil? && !subnet.dns_secondary.empty? -%>
+DNS2=<%= subnet.dns_secondary %>
+<% end -%>
+<% end -%>
 <% else -%>
 PEERDNS=no
 PEERROUTES=no

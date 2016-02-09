@@ -18,9 +18,9 @@ bootloader --timeout=3
 text
 
 <% if @host.os.name.match /.*fedora.*/i -%>
-ostreesetup --nogpg --osname=fedora-atomic --remote=fedora-atomic --url=<%= @host.params['atomic-upstream'] == 'true' ? "https://dl.fedoraproject.org/pub/fedora/linux/atomic/#{@host.os.major}/" : "#{@host.operatingsystem.medium_uri(@host)}/content/repo/" %> --ref=fedora-atomic/f<%= @host.os.major %>/<%= @host.architecture %>/docker-host
+ostreesetup --nogpg --osname=fedora-atomic --remote=fedora-atomic --url=<%= @host.param_true?('atomic-upstream') ? "https://dl.fedoraproject.org/pub/fedora/linux/atomic/#{@host.os.major}/" : "#{@host.operatingsystem.medium_uri(@host)}/content/repo/" %> --ref=fedora-atomic/f<%= @host.os.major %>/<%= @host.architecture %>/docker-host
 <% elsif @host.os.name.match /.*centos.*/i -%>
-ostreesetup --nogpg --osname=centos-atomic-host --remote=centos-atomic-host --url=<%= @host.params['atomic-upstream'] == 'true' ? "http://mirror.centos.org/centos/#{@host.os.major}/atomic/#{@host.architecture}/repo/" : @host.operatingsystem.medium_uri(@host) %> --ref=centos-atomic-host/<%= @host.os.major %>/<%= @host.architecture %>/standard
+ostreesetup --nogpg --osname=centos-atomic-host --remote=centos-atomic-host --url=<%= @host.param_true?('atomic-upstream') ? "http://mirror.centos.org/centos/#{@host.os.major}/atomic/#{@host.architecture}/repo/" : @host.operatingsystem.medium_uri(@host) %> --ref=centos-atomic-host/<%= @host.os.major %>/<%= @host.architecture %>/standard
 <% else -%>
 ostreesetup --nogpg --osname=rhel-atomic-host --remote=rhel-atomic-host --url=file:///install/ostree --ref=rhel-atomic-host/<%= @host.os.major %>/<%= @host.architecture %>/standard
 <% end -%>

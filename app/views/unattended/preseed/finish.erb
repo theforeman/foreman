@@ -2,18 +2,13 @@
 kind: finish
 name: Preseed default finish
 oses:
-- Debian 6.0
-- Debian 7.
-- Debian 8.
-- Ubuntu 10.04
-- Ubuntu 12.04
-- Ubuntu 13.04
-- Ubuntu 14.04
+- Debian
+- Ubuntu
 %>
 <%
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
-  puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
+  puppet_enabled = pm_set || @host.param_true?('force-puppet')
   salt_enabled = @host.params['salt_master'] ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 %>
@@ -44,7 +39,7 @@ fi
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
 <% end -%>
 
-<% if @host.info['parameters']['realm'] && @host.otp && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
+<% if @host.info['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
 <%= snippet 'freeipa_register' %>
 <% end -%>
 
@@ -59,5 +54,5 @@ salt-call --no-color --grains >/dev/null
 <% if chef_enabled %>
 <%= respond_to?(:chef_bootstrap) ? chef_bootstrap(@host) : snippet_if_exists("chef-client omnibus bootstrap") %>
 <% end%>
-
+<%= snippet('remote_execution_ssh_keys') %>
 /usr/bin/wget --no-proxy --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>

@@ -2,13 +2,8 @@
 kind: ptable
 name: Preseed default LVM
 oses:
-- Debian 6.0
-- Debian 7.
-- Debian 8.
-- Ubuntu 10.04
-- Ubuntu 12.04
-- Ubuntu 13.04
-- Ubuntu 14.04
+- Debian
+- Ubuntu
 %>
 <%
   partitioning_method = @host.params['partitioning-method'] ? @host.params['partitioning-method'] : 'lvm'

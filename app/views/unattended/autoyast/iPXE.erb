@@ -1,0 +1,11 @@
+#!gpxe
+<%#
+kind: iPXE
+name: AutoYaST default iPXE
+oses:
+- SLES 11
+%>
+
+kernel <%=@host.url_for_boot(:kernel) %> splash=silent install=<%=@host.os.medium_uri(@host)%>  autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=1
+initrd <%=@host.url_for_boot(:initrd) %>
+boot
