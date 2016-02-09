@@ -19,6 +19,8 @@ module HostCommon
     belongs_to :puppet_ca_proxy, :class_name => "SmartProxy"
     belongs_to :realm,           :counter_cache => counter_cache
     belongs_to :compute_profile
+    validates :puppet_ca_proxy, :proxy_features => { :feature => "Puppet CA", :message => N_("does not have the Puppet CA feature") }
+    validates :puppet_proxy, :proxy_features => { :feature => "Puppet", :message => N_("does not have the Puppet feature") }
 
     before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
     has_many :host_config_groups, :as => :host

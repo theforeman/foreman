@@ -13,23 +13,23 @@ FactoryGirl.define do
     end
 
     trait :dhcp do
-      name 'dhcp'
+      name 'DHCP'
     end
 
     trait :dns do
-      name 'dns'
+      name 'DNS'
     end
 
     trait :realm do
-      name 'realm'
+      name 'Realm'
     end
 
     trait :puppetca do
-      name 'puppetca'
+      name 'Puppet CA'
     end
 
     trait :puppet do
-      name 'puppet'
+      name 'Puppet'
     end
   end
 end

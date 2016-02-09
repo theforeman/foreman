@@ -51,5 +51,12 @@ class RealmTest < ActiveSupport::TestCase
   test "should get used and selected location ids for host" do
     assert_equal [taxonomies(:location1).id], realms(:myrealm).used_or_selected_location_ids
   end
+
+  test "should not assign proxy without realm feature" do
+    proxy = smart_proxies(:two)
+    realm = Realm.new(:name => ".otherDomain.", :realm_type => "FreeIPA", :realm_proxy_id => proxy.id)
+    refute realm.save
+    assert_equal "does not have the Realm feature", realm.errors["realm_proxy_id"].first
+  end
 end
 

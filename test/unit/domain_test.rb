@@ -177,5 +177,12 @@ class DomainTest < ActiveSupport::TestCase
   test "should get used and selected location ids for host" do
     assert_equal [taxonomies(:location1).id], domains(:mydomain).used_or_selected_location_ids
   end
+
+  test "should not assign proxy without dns feature" do
+    proxy = smart_proxies(:two)
+    domain = Domain.new(:name => ".otherDomain.", :fullname => "full_name", :dns_id => proxy.id)
+    refute domain.save
+    assert_equal "does not have the DNS feature", domain.errors["dns_id"].first
+  end
 end
 

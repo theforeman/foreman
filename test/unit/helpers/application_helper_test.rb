@@ -4,7 +4,7 @@ class ApplicationHelperTest < ActionView::TestCase
   include ApplicationHelper
 
   def test_generate_link_for
-    proxy = FactoryGirl.create(:smart_proxy)
+    proxy = FactoryGirl.create(:dhcp_smart_proxy)
     subnet = FactoryGirl.create(:subnet, :name => 'My subnet')
     proxy.subnets = [subnet]
     links = generate_links_for(proxy.subnets)

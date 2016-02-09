@@ -503,6 +503,14 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal(7, group.parent.children_hosts_count)
   end
 
+  test "should not associate proxies without appropriate features" do
+    proxy = smart_proxies(:one)
+    hostgroup = Hostgroup.new(:name => ".otherDomain.", :puppet_proxy_id => proxy.id, :puppet_ca_proxy_id => proxy.id)
+    refute hostgroup.save
+    assert_equal "does not have the Puppet feature", hostgroup.errors["puppet_proxy_id"].first
+    assert_equal "does not have the Puppet CA feature", hostgroup.errors["puppet_ca_proxy_id"].first
+  end
+
   private
 
   def setup_user(operation)

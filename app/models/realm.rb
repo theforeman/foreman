@@ -14,6 +14,7 @@ class Realm < ActiveRecord::Base
   belongs_to :realm_proxy, :class_name => "SmartProxy"
   has_many_hosts
   has_many :hostgroups
+  validates :realm_proxy, :proxy_features => { :feature => "Realm", :message => N_('does not have the Realm feature') }
 
   scoped_search :on => :hosts_count
   scoped_search :on => :name, :complete_value => true

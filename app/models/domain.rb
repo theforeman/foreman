@@ -29,6 +29,7 @@ class Domain < ActiveRecord::Base
   include ParameterValidators
   validates :name, :presence => true, :uniqueness => true
   validates :fullname, :uniqueness => true, :allow_blank => true, :allow_nil => true
+  validates :dns, :proxy_features => { :feature => "DNS", :message => N_('does not have the DNS feature') }
 
   scoped_search :on => [:name, :fullname], :complete_value => true
   scoped_search :on => :total_hosts, :alias => 'hosts_count'

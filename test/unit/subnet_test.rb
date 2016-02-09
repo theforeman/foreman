@@ -305,4 +305,18 @@ class SubnetTest < ActiveSupport::TestCase
       Subnet.import(@mock_proxy)
     end
   end
+
+  test "should not assign proxies without adequate features" do
+    proxy = smart_proxies(:puppetmaster)
+    subnet = Subnet.new(:name => "test subnet",
+                        :network => "192.168.100.0",
+                        :mask => "255.255.255.0",
+                        :dhcp_id => proxy.id,
+                        :dns_id => proxy.id,
+                        :tftp_id => proxy.id)
+    refute subnet.save
+    assert_equal "does not have the DNS feature", subnet.errors["dns_id"].first
+    assert_equal "does not have the DHCP feature", subnet.errors["dhcp_id"].first
+    assert_equal "does not have the TFTP feature", subnet.errors["tftp_id"].first
+  end
 end
