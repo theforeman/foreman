@@ -39,6 +39,10 @@ class Subnet < ActiveRecord::Base
   validates :ipam, :inclusion => IPAM_MODES.values
   validates :name,    :length => {:maximum => 255}, :uniqueness => true
 
+  validates :dns, :proxy_features => { :feature => "DNS", :message => N_('does not have the DNS feature') }
+  validates :tftp, :proxy_features => { :feature => "TFTP", :message => N_('does not have the TFTP feature') }
+  validates :dhcp, :proxy_features => { :feature => "DHCP", :message => N_('does not have the DHCP feature') }
+
   validate :ensure_ip_addr_new
   before_validation :cleanup_addresses
 

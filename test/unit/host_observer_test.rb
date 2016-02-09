@@ -30,7 +30,7 @@ class HostObserverTest < ActiveSupport::TestCase
                          :build => true,
                          :architecture => architectures(:x86_64),
                          :environment => Environment.first,
-                         :puppet_proxy_id => smart_proxies(:one).id,
+                         :puppet_proxy_id => smart_proxies(:puppetmaster).id,
                          :domain => Domain.first,
                          :operatingsystem => operatingsystems(:redhat),
                          :subnet => subnets(:one),

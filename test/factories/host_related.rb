@@ -195,7 +195,7 @@ FactoryGirl.define do
     trait :with_puppet do
       environment
       puppet_proxy do
-        FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppet)])
+        FactoryGirl.create(:puppet_smart_proxy)
       end
     end
 
@@ -224,8 +224,7 @@ FactoryGirl.define do
       domain
       subnet do
         overrides = {
-          :dhcp => FactoryGirl.create(:smart_proxy,
-                     :features => [FactoryGirl.create(:feature, :dhcp)])
+          :dhcp => FactoryGirl.create(:dhcp_smart_proxy)
         }
         #add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
@@ -244,8 +243,7 @@ FactoryGirl.define do
       managed
       association :compute_resource, :factory => :libvirt_cr
       subnet do
-        overrides = {:dns => FactoryGirl.create(:smart_proxy,
-                                                :features => [FactoryGirl.create(:feature, :dns)])}
+        overrides = {:dns => FactoryGirl.create(:dns_smart_proxy)}
         #add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
@@ -289,7 +287,7 @@ FactoryGirl.define do
       domain
       interfaces { [ FactoryGirl.build(:nic_primary_and_provision) ] }
       puppet_ca_proxy do
-        FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppetca)])
+        FactoryGirl.create(:puppet_ca_smart_proxy)
       end
     end
 
@@ -343,10 +341,10 @@ FactoryGirl.define do
         FactoryGirl.create(:operatingsystem, :architectures => [architecture], :ptables => [ptable])
       end
       puppet_ca_proxy do
-        FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppetca)])
+        FactoryGirl.create(:puppet_ca_smart_proxy)
       end
       puppet_proxy do
-        FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppet)])
+        FactoryGirl.create(:puppet_smart_proxy)
       end
     end
   end

@@ -5,5 +5,25 @@ FactoryGirl.define do
     factory :template_smart_proxy do
       features { |sp| [sp.association(:template_feature), sp.association(:tftp_feature) ] }
     end
+
+    factory :dhcp_smart_proxy do
+      features { |sp| [sp.association(:feature, :dhcp)] }
+    end
+
+    factory :dns_smart_proxy do
+      features { |sp| [sp.association(:feature, :dns)] }
+    end
+
+    factory :puppet_smart_proxy do
+      features { |sp| [sp.association(:feature, :puppet)] }
+    end
+
+    factory :puppet_ca_smart_proxy do
+      features { |sp| [sp.association(:feature, :puppetca)] }
+    end
+
+    factory :realm_smart_proxy do
+      features { |sp| [sp.association(:feature, :realm)] }
+    end
   end
 end

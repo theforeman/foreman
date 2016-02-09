@@ -9,15 +9,11 @@ FactoryGirl.define do
     end
 
     trait :dhcp do
-      association :dhcp, :factory => :smart_proxy
+      association :dhcp, :factory => :dhcp_smart_proxy
     end
 
     trait :dns do
-      association :dns, :factory => :smart_proxy
-    end
-
-    trait :tftp do
-      association :tftp, :factory => :smart_proxy
+      association :dns, :factory => :dns_smart_proxy
     end
 
     trait :ipam_db do
