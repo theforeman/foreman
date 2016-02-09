@@ -57,7 +57,8 @@ freeipa_ssh="--no-ssh"
 freeipa_opts="<%= @host.params['freeipa_opts'] %>"
 <% end -%>
 
-/usr/sbin/ipa-client-install -w '<%= @host.otp %>' --realm=<%= @host.realm %> -U $freeipa_mkhomedir $freeipa_opts $freeipa_server $freeipa_ssh
+# One-time password will be requested at install time. Otherwise, $HOST[OTP] is used as a placeholder value.
+/usr/sbin/ipa-client-install -w '<%= @host.otp || "$HOST[OTP]" %>' --realm=<%= @host.realm %> -U $freeipa_mkhomedir $freeipa_opts $freeipa_server $freeipa_ssh
 
 ##
 ## Automounter

@@ -20,6 +20,8 @@ ProvisioningTemplate.without_auditing do
     { :name => 'PXELinux default local boot', :source => 'pxe/PXELinux_local.erb', :template_kind => kinds[:PXELinux] },
     { :name => 'PXELinux default memdisk', :source => 'pxe/PXELinux_memdisk.erb', :template_kind => kinds[:PXELinux] },
     { :name => 'PXEGrub default local boot', :source => 'pxe/PXEGrub_local.erb', :template_kind => kinds[:PXEGrub] },
+    { :name => 'PXELinux chain iPXE', :source => 'pxe/PXELinux_chain_iPXE.erb', :template_kind => kinds[:PXELinux] },
+    { :name => 'PXELinux chain iPXE UNDI', :source => 'pxe/PXELinux_chain_iPXE_UNDI.erb', :template_kind => kinds[:PXELinux] },
     # OS specific files
     { :name => 'Alterator default', :source => 'alterator/provision.erb', :template_kind => kinds[:provision] },
     { :name => 'Alterator default finish', :source => 'alterator/finish.erb', :template_kind => kinds[:finish] },
@@ -28,6 +30,7 @@ ProvisioningTemplate.without_auditing do
     { :name => 'AutoYaST default', :source => 'autoyast/provision.erb', :template_kind => kinds[:provision], :operatingsystems => os_suse },
     { :name => 'AutoYaST SLES default', :source => 'autoyast/provision_sles.erb', :template_kind => kinds[:provision], :operatingsystems => os_suse },
     { :name => 'AutoYaST default PXELinux', :source => 'autoyast/PXELinux.erb', :template_kind => kinds[:PXELinux], :operatingsystems => os_suse },
+    { :name => 'AutoYaST default iPXE', :source => 'autoyast/iPXE.erb', :template_kind => kinds[:iPXE] },
     { :name => 'CoreOS provision', :source => 'coreos/provision.erb', :template_kind => kinds[:provision]},
     { :name => 'CoreOS PXELinux', :source => 'coreos/PXELinux.erb', :template_kind => kinds[:PXELinux]},
     { :name => 'FreeBSD (mfsBSD) finish', :source => 'freebsd/finish_FreeBSD_mfsBSD.erb', :template_kind => kinds[:finish] },
@@ -64,6 +67,7 @@ ProvisioningTemplate.without_auditing do
     { :name => 'kickstart_networking_setup', :source => 'snippets/_kickstart_networking_setup.erb', :snippet => true },
     { :name => 'puppet.conf', :source => 'snippets/_puppet.conf.erb', :snippet => true },
     { :name => 'redhat_register', :source => 'snippets/_redhat_register.erb', :snippet => true },
+    { :name => 'remote_execution_ssh_keys', :source => 'snippets/_remote_execution_ssh_keys.erb', :snippet => true },
     { :name => 'saltstack_minion', :source => 'snippets/_saltstack_minion.erb', :snippet => true }
   ].each do |input|
     next if ProvisioningTemplate.find_by_name(input[:name]).present?

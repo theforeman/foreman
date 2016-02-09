@@ -7,7 +7,7 @@ oses:
 <%
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
-  puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
+  puppet_enabled = pm_set || @host.param_true?('force-puppet')
   salt_enabled = @host.params['salt_master'] ? true : false
   proxy_string = @host.params['http-proxy'] ? "http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
 %>
@@ -49,4 +49,5 @@ echo 'salt_minion_paths="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local
 # Running salt-call to trigger key signing
 /usr/local/bin/salt-call --no-color --grains >/dev/null
 <% end -%>
+<%= snippet('remote_execution_ssh_keys') %>
 exit 0

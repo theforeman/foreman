@@ -3,11 +3,8 @@
 kind: iPXE
 name: Preseed default iPXE
 oses:
-- Debian 6.0
-- Debian 7.
-- Debian 8.
-- Ubuntu 12.04
-- Ubuntu 14.04
+- Debian
+- Ubuntu
 %>
 <% if @host.operatingsystem.name == 'Debian' -%>
 <% keyboard_params = "auto=true domain=#{@host.domain}" -%>

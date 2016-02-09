@@ -2,19 +2,14 @@
 kind: provision
 name: Preseed default
 oses:
-- Debian 6.0
-- Debian 7.
-- Debian 8.
-- Ubuntu 10.04
-- Ubuntu 12.04
-- Ubuntu 13.04
-- Ubuntu 14.04
+- Debian
+- Ubuntu
 %>
 <%
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
   proxy_string = @host.params['http-proxy'] ? " http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
-  puppet_enabled = pm_set || @host.params['force-puppet'] && @host.params['force-puppet'] == 'true'
+  puppet_enabled = pm_set || @host.param_true?('force-puppet')
   salt_enabled = @host.params['salt_master'] ? true : false
 %>
 # Locale
@@ -34,6 +29,9 @@ d-i console-keymaps-at/keymap seen true
 <% unless dhcp -%>
 # Static network configuration.
 d-i preseed/early_command string /bin/killall.sh; /bin/netcfg
+d-i netcfg/disable_autoconfig boolean true
+d-i netcfg/dhcp_failed note
+d-i netcfg/dhcp_options select Configure network manually
 d-i netcfg/disable_dhcp boolean true
 d-i netcfg/get_ipaddress string <%= @host.ip %>
 d-i netcfg/get_netmask string <%= subnet.mask %>
@@ -83,7 +81,7 @@ d-i passwd passwd/make-user boolean false
 user-setup-udeb passwd/make-user boolean false
 
 <% repos = 0 %>
-<% if puppet_enabled && @host.params['enable-puppetlabs-repo'] && @host.params['enable-puppetlabs-repo'] == 'true' -%>
+<% if puppet_enabled && @host.param_true?('enable-puppetlabs-repo') -%>
 # Puppetlabs products
 d-i apt-setup/local<%= repos %>/repository string \
       http://apt.puppetlabs.com <%= @host.operatingsystem.release_name %> main
@@ -102,7 +100,7 @@ d-i apt-setup/local<%= repos %>/key string http://apt.puppetlabs.com/pubkey.gpg
 
 <% if salt_enabled -%>
 <% salt_package = 'salt-minion' -%>
-<% if @host.params['enable-saltstack-repo'] && @host.params['enable-saltstack-repo'] == 'true' -%>
+<% if @host.param_true?('enable-saltstack-repo') -%>
 <% if @host.operatingsystem.name == 'Debian' -%>
 d-i apt-setup/local<%= repos %>/repository string http://debian.saltstack.com/debian <%= @host.operatingsystem.release_name %>-saltstack main
 d-i apt-setup/local<%= repos %>/comment string SaltStack Repository
