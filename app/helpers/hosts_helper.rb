@@ -167,6 +167,7 @@ module HostsHelper
     actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
     actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
     actions <<  [_('Change Owner'), select_multiple_owner_hosts_path] if SETTINGS[:login]
+    actions <<  [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path] if SmartProxy.unscoped.with_features("Puppet").count > 0
     actions
   end
 

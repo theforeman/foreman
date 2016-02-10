@@ -1,0 +1,12 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<%= form_for :puppet, :url => update_multiple_puppet_proxy_hosts_path(:host_ids => params[:host_ids]) do |f| %>
+  <%= selectable_f f,
+    :puppet_proxy_id,
+    [[_("Select desired puppet master"), "disabled"]] +
+    [[_("*Clear puppetmaster*"), "" ]] +
+    SmartProxy.with_features("Puppet").map {|p| [p.name, p.id]},
+    {},
+    { :onchange => "toggle_multiple_ok_button(this)" }
+  %>
+<% end %>
