@@ -220,3 +220,9 @@ module Foreman
     puts "For some operations a user must be set, try User.current = User.first"
   end
 end
+
+module ReactTesting
+  class Application < Rails::Application
+    config.react.addons = true
+  end
+end

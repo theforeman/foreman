@@ -1,6 +1,7 @@
 require 'api_constraints'
 
 Foreman::Application.routes.draw do
+  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   resources :mail_notifications, :only => [] do
     collection do
       get 'auto_complete_search'
