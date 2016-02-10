@@ -8,7 +8,8 @@ Foreman::Application.configure do |app|
   # Rails.application.config.assets.precompile += %w( search.js )
 
   #  config.assets.precompile += %w()
-  javascript = %w(compute_resource
+  javascript = %w(components/*
+                  compute_resource
                   compute_resources/libvirt/nic_info
                   compute_resources/ovirt/nic_info
                   compute_resources/vmware/nic_info

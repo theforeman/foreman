@@ -18,4 +18,5 @@ group :test do
   gem 'test_after_commit', '~> 0.4'
   gem 'shoulda-matchers', '2.8.0'
   gem 'shoulda-context', '~> 1.2'
+  gem 'jasmine-rails'
 end

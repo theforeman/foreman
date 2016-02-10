@@ -15,4 +15,8 @@ gem 'uglifier', '>= 1.0.3'
 gem 'sass-rails', '~> 5.0'
 gem 'spice-html5-rails', '~> 0.1.5'
 gem 'quiet_assets', '~> 1.0'
+# Pinned until https://github.com/reactjs/react-rails/issues/431 is resolved
+gem 'react-rails', '1.4.1'
+gem 'c3-rails', '~> 0.4'
+gem 'd3-rails', '~> 3.5'
 gem 'jquery_pwstrength_bootstrap_4', :require => 'jquery_pwstrength_bootstrap'
