@@ -4,9 +4,8 @@
     <%= icon_text("tasks", "", :kind => "fa") %>
   </div>
   <h1><%= _('Hosts') %></h1>
-  <%= _("You don't seem to have any hosts, for more information see") %>
-  <%= link_to _("this page"), root_path %>
-  <p><%= _('Learn more about this') %> <%= link_to _('on the documentation'), documentation_url("4.4Provisioning")%></p>
+  <%= _("You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman.") %>
+  <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("4.4Provisioning")%></p>
   <div class="blank-slate-pf-main-action">
       <%= link_to _('New Host'), new_host_path, :class => "btn btn-primary btn-lg" %>
   </div>
