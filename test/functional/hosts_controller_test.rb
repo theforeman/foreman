@@ -431,47 +431,90 @@ class HostsControllerTest < ActionController::TestCase
       set_session_user.merge(:user => users(:admin).id)
   end
 
-  def setup_multiple_hosts_with_puppet
-    setup_user_and_host "edit"
-    as_admin do
-      @host1, @host2 = FactoryGirl.create_list(:host, 2, :with_puppet)
+  describe "setting puppet proxy on multiple hosts" do
+    before do
+      setup_user_and_host "edit"
+      as_admin do
+        @hosts = FactoryGirl.create_list(:host, 2, :with_puppet)
+      end
+    end
+
+    test "should change the puppet proxy" do
+      @request.env['HTTP_REFERER'] = hosts_path
+
+      proxy = FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppet)])
+
+      params = { :host_ids => @hosts.map(&:id),
+                 :proxy => { :proxy_id => proxy.id } }
+
+      post :update_multiple_puppet_proxy, params,
+        set_session_user.merge(:user => users(:admin).id)
+
+      assert_empty flash[:error]
+
+      @hosts.each do |host|
+        assert_equal nil, host.reload.puppet_ca_proxy
+      end
+    end
+
+    test "should clear the puppet proxy of multiple hosts" do
+      @request.env['HTTP_REFERER'] = hosts_path
+
+      params = { :host_ids => @hosts.map(&:id),
+                 :proxy => { :proxy_id => "" } }
+
+      post :update_multiple_puppet_proxy, params,
+        set_session_user.merge(:user => users(:admin).id)
+
+      assert_empty flash[:error]
+
+      @hosts.each do |host|
+        assert_equal nil, host.reload.puppet_ca_proxy
+      end
     end
   end
 
-  test "should change the puppet proxy of multiple hosts" do
-    @request.env['HTTP_REFERER'] = hosts_path
-    setup_multiple_hosts_with_puppet
+  describe "setting puppet ca proxy on multiple hosts" do
+    before do
+      setup_user_and_host "edit"
+      as_admin do
+        @hosts = FactoryGirl.create_list(:host, 2, :with_puppet_ca)
+      end
+    end
 
-    proxy = FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppet)])
+    test "should change the puppet ca proxy" do
+      @request.env['HTTP_REFERER'] = hosts_path
 
-    params = { :host_ids => [@host1.id, @host2.id],
-      :puppet => { :puppet_proxy_id => proxy.id } }
+      proxy = FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppetca)])
 
-    post :update_multiple_puppet_proxy, params,
-      set_session_user.merge(:user => users(:admin).id)
+      params = { :host_ids => @hosts.map(&:id),
+                 :proxy => { :proxy_id => proxy.id } }
 
-    @host1.reload
-    @host2.reload
+      post :update_multiple_puppet_ca_proxy, params,
+        set_session_user.merge(:user => users(:admin).id)
 
-    assert_equal proxy, @host1.puppet_proxy
-    assert_equal proxy, @host2.puppet_proxy
-  end
+      assert_empty flash[:error]
 
-  test "should clear the puppet proxy of multiple hosts" do
-    @request.env['HTTP_REFERER'] = hosts_path
-    setup_multiple_hosts_with_puppet
+      @hosts.each do |host|
+        assert_equal proxy, host.reload.puppet_ca_proxy
+      end
+    end
 
-    params = { :host_ids => [@host1.id, @host2.id],
-      :puppet => { :puppet_proxy_id => "" } }
+    test "should clear the puppet ca proxy" do
+      @request.env['HTTP_REFERER'] = hosts_path
 
-    post :update_multiple_puppet_proxy, params,
-      set_session_user.merge(:user => users(:admin).id)
+      params = { :host_ids => @hosts.map(&:id),
+                 :proxy => { :proxy_id => "" } }
 
-    @host1.reload
-    @host2.reload
+      post :update_multiple_puppet_ca_proxy, params,
+        set_session_user.merge(:user => users(:admin).id)
 
-    assert_equal nil, @host1.puppet_proxy
-    assert_equal nil, @host2.puppet_proxy
+      assert_empty flash[:error]
+
+      @hosts.each do |host|
+        assert_equal nil, host.reload.puppet_ca_proxy
+      end
+    end
   end
 
   test "user with edit host rights with update parameters should change parameters" do
