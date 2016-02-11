@@ -193,6 +193,13 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_puppet_ca do
+      environment
+      puppet_ca_proxy do
+        FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppetca)])
+      end
+    end
+
     trait :managed do
       managed true
       architecture { operatingsystem.try(:architectures).try(:first) }

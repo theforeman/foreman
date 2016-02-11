@@ -168,6 +168,7 @@ module HostsHelper
     actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
     actions <<  [_('Change Owner'), select_multiple_owner_hosts_path] if SETTINGS[:login]
     actions <<  [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path] if SmartProxy.unscoped.with_features("Puppet").count > 0
+    actions <<  [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path] if SmartProxy.unscoped.with_features("Puppet CA").count > 0
     actions
   end
 
@@ -495,5 +496,15 @@ module HostsHelper
     return false if params[:action] == 'clone'
     return true unless params[:host]
     !params[:host][field]
+  end
+
+  def multiple_proxy_select(form, proxy_feature)
+    selectable_f form,
+      :proxy_id,
+      [[_("Select desired %s proxy") % _(proxy_feature), "disabled"]] +
+      [[_("*Clear %s proxy*") % _(proxy_feature), "" ]] +
+      SmartProxy.with_features(proxy_feature).map {|p| [p.name, p.id]},
+      {},
+      { :onchange => "toggle_multiple_ok_button(this)" }
   end
 end
