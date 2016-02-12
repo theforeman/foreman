@@ -26,7 +26,7 @@ class MoveHostNicsToInterfaces < ActiveRecord::Migration
       nic.subnet_id = host.attributes.with_indifferent_access[:subnet_id]
       nic.domain_id = host.attributes.with_indifferent_access[:domain_id]
       nic.virtual = false
-      nic.identifier = host.primary_interface || "eth0"
+      nic.identifier = host.attributes.with_indifferent_access[:primary_interface] || "eth0"
       nic.managed = host.attributes.with_indifferent_access[:managed]
       nic.primary = true
       nic.provision = true
