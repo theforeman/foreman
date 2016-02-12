@@ -16,7 +16,8 @@ class HostsController < ApplicationController
                         update_multiple_puppetrun multiple_disassociate update_multiple_disassociate
                         rebuild_config submit_rebuild_config select_multiple_owner update_multiple_owner
                         select_multiple_power_state update_multiple_power_state
-                        select_multiple_puppet_proxy update_multiple_puppet_proxy)
+                        select_multiple_puppet_proxy update_multiple_puppet_proxy
+                        select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
 
   add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
 
@@ -31,6 +32,7 @@ class HostsController < ApplicationController
   before_filter :find_multiple, :only => MULTIPLE_ACTIONS
   before_filter :validate_power_action, :only => :update_multiple_power_state
   before_filter :validate_multiple_puppet_proxy, :only => :update_multiple_puppet_proxy
+  before_filter :validate_multiple_puppet_ca_proxy, :only => :update_multiple_puppet_ca_proxy
   helper :hosts, :reports, :interfaces
 
   def index(title = nil)
@@ -457,38 +459,14 @@ class HostsController < ApplicationController
   end
 
   def update_multiple_puppet_proxy
-    puppet_proxy_id = params[:puppet][:puppet_proxy_id]
-    if puppet_proxy_id
-      proxy = SmartProxy.find_by_id(puppet_proxy_id)
-    else
-      proxy = nil
-    end
+    update_multiple_proxy(_('Puppet'), :puppet_proxy=)
+  end
 
-    failed_hosts = {}
+  def select_multiple_puppet_ca_proxy
+  end
 
-    @hosts.each do |host|
-      begin
-        host.puppet_proxy = proxy
-        host.save!
-      rescue => error
-        failed_hosts[host.name] = error
-        message = _('Failed to set puppet proxy for %s.') % host
-        Foreman::Logging.exception(message, error)
-      end
-    end
-
-    if failed_hosts.empty?
-      if proxy
-        notice _('The puppet proxy of the selected hosts was set to %s.') % proxy.name
-      else
-        notice _('The puppet proxy of the selected hosts was cleared.')
-      end
-    else
-      error n_("The puppet proxy could not be set for host: %{host_names}.",
-               "The puppet proxy could not be set for hosts: %{host_names}.",
-               failed_hosts.count) % {:host_names => failed_hosts.map {|h, err| "#{h} (#{err})"}.to_sentence}
-    end
-    redirect_back_or_to hosts_path
+  def update_multiple_puppet_ca_proxy
+    update_multiple_proxy(_('Puppet CA'), :puppet_ca_proxy=)
   end
 
   def multiple_destroy
@@ -715,7 +693,8 @@ class HostsController < ApplicationController
           'disassociate', 'update_multiple_disassociate', 'multiple_disassociate',
           'select_multiple_owner', 'update_multiple_owner',
           'select_multiple_power_state', 'update_multiple_power_state',
-          'select_multiple_puppet_proxy', 'update_multiple_puppet_proxy'
+          'select_multiple_puppet_proxy', 'update_multiple_puppet_proxy',
+          'select_multiple_puppet_ca_proxy', 'update_multiple_puppet_ca_proxy'
         :edit
       when 'multiple_destroy', 'submit_multiple_destroy'
         :destroy
@@ -859,14 +838,57 @@ class HostsController < ApplicationController
   end
 
   def validate_multiple_puppet_proxy
-    if params[:puppet].nil? || (puppet_proxy_id = params[:puppet][:puppet_proxy_id]).nil?
-      error _('No puppet proxy selected!')
-      redirect_to(select_multiple_puppet_proxy_hosts_path) and return false
+    validate_multiple_proxy(select_multiple_puppet_proxy_hosts_path)
+  end
+
+  def validate_multiple_puppet_ca_proxy
+    validate_multiple_proxy(select_multiple_puppet_ca_proxy_hosts_path)
+  end
+
+  def validate_multiple_proxy(redirect_path)
+    if params[:proxy].nil? || (proxy_id = params[:proxy][:proxy_id]).nil?
+      error _('No proxy selected!')
+      redirect_to(redirect_path) and return false
     end
 
-    if !puppet_proxy_id.blank? && !SmartProxy.find_by_id(puppet_proxy_id)
-      error _('Invalid puppet proxy selected!')
-      redirect_to(select_multiple_puppet_proxy_hosts_path) and return false
+    if !proxy_id.blank? && !SmartProxy.find_by_id(proxy_id)
+      error _('Invalid proxy selected!')
+      redirect_to(redirect_path) and return false
     end
+  end
+
+  def update_multiple_proxy(proxy_type, host_update_method)
+    proxy_id = params[:proxy][:proxy_id]
+    if proxy_id
+      proxy = SmartProxy.find_by_id(proxy_id)
+    else
+      proxy = nil
+    end
+
+    failed_hosts = {}
+
+    @hosts.each do |host|
+      begin
+        host.send(host_update_method, proxy)
+        host.save!
+      rescue => error
+        failed_hosts[host.name] = error
+        message = _('Failed to set %{proxy_type} proxy for %{host}.') % {:host => host, :proxy_type => proxy_type}
+        Foreman::Logging.exception(message, error)
+      end
+    end
+
+    if failed_hosts.empty?
+      if proxy
+        notice _('The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}.') % {:proxy_name => proxy.name, :proxy_type => proxy_type}
+      else
+        notice _('The %{proxy_type} proxy of the selected hosts was cleared.') % {:proxy_type => proxy_type}
+      end
+    else
+      error n_("The %{proxy_type} proxy could not be set for host: %{host_names}.",
+               "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}.",
+               failed_hosts.count) % {:proxy_type => proxy_type, :host_names => failed_hosts.map {|h, err| "#{h} (#{err})"}.to_sentence}
+    end
+    redirect_back_or_to hosts_path
   end
 end
