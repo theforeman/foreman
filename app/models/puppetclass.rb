@@ -24,7 +24,7 @@ class Puppetclass < ActiveRecord::Base
   accepts_nested_attributes_for :class_params, :reject_if => ->(a) { a[:key].blank? }, :allow_destroy => true
 
   validates :name, :uniqueness => true, :presence => true, :no_whitespace => true
-  audited :allow_mass_assignment => true, :except => [:total_hosts, :variable_lookup_keys_count, :global_class_params_count]
+  audited :allow_mass_assignment => true, :except => [:total_hosts, :hostgroups_count, :variable_lookup_keys_count, :global_class_params_count]
 
   alias_attribute :smart_variables, :lookup_keys
   alias_attribute :smart_variable_ids, :lookup_key_ids
