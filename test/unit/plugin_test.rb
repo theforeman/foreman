@@ -279,4 +279,12 @@ class PluginTest < ActiveSupport::TestCase
     assert_equal 1, ::Pagelets::Manager.sorted_pagelets_at("tests/show", :main_tabs).count
     assert_equal "My Tab", ::Pagelets::Manager.sorted_pagelets_at("tests/show", :main_tabs).first.name
   end
+
+  def test_skip_permission_test_for
+    Foreman::Plugin.register :foo do
+      skip_permission_test_for ['some_route_prefix']
+    end
+
+    assert Foreman::Plugin.paths_to_skip.include? 'some_route_prefix'
+  end
 end

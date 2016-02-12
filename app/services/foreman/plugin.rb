@@ -34,9 +34,10 @@ module Foreman #:nodoc:
   class Plugin
     @registered_plugins = {}
     @tests_to_skip = {}
+    @paths_to_skip = []
     class << self
       attr_reader   :registered_plugins
-      attr_accessor :tests_to_skip
+      attr_accessor :tests_to_skip, :paths_to_skip
       private :new
 
       def def_field(*names)
@@ -198,6 +199,13 @@ module Foreman #:nodoc:
         else
           self.class.tests_to_skip[testclass] = self.class.tests_to_skip[testclass].push(tests).flatten.uniq
         end
+      end
+    end
+
+    # skip_permission_test_for ['prefix_to_skip', 'another_prefix_to_skip']
+    def skip_permission_test_for(prefix_ary)
+      prefix_ary.each do |prefix|
+        self.class.paths_to_skip << prefix unless self.class.paths_to_skip.include? prefix
       end
     end
 
