@@ -1067,5 +1067,7 @@ class Host::Managed < Host::Base
   def send_built_notification
     recipients = owner ? owner.recipients_for(:host_built) : []
     MailNotification[:host_built].deliver(self, :users => recipients) if recipients.present?
+  rescue SocketError, Net::SMTPError => e
+    Foreman::Logging.exception("Host has been created. Failed to send email", e)
   end
 end
