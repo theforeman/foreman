@@ -20,6 +20,7 @@ function auto_refresh(){
 function start_gridster(){
     var gridster = $(".gridster>ul").gridster({
         widget_margins: [10, 10],
+        widget_base_dimensions: [94, 340],
         max_size_x: 12,
         min_cols: 12,
         max_cols: 12,
