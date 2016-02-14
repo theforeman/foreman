@@ -9,7 +9,7 @@ class ProxyApiTemplateTest < ActiveSupport::TestCase
   def fake_response(data)
     net_http_resp = Net::HTTPResponse.new(1.0, 200, "OK")
     net_http_resp.add_field 'Set-Cookie', 'Monster'
-    RestClient::Response.create(JSON(data), net_http_resp, nil)
+    RestClient::Response.create(JSON(data), net_http_resp, nil, RestClient::Request.new(:method=>'get', :url=>'http://localhost:8443'))
   end
 
   test "constructor sets url base path with /unattended" do
