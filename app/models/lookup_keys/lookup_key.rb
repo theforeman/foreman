@@ -130,14 +130,7 @@ class LookupKey < ActiveRecord::Base
     return val if val.nil? || contains_erb?(val)
     case key_type.to_sym
       when :json, :array
-        begin
-          val = JSON.dump(val)
-        rescue JSON::GeneratorError => error
-          ## http://projects.theforeman.org/issues/9553
-          ## @TODO: remove when upgrading to json >= 1.8
-          logger.debug "Fallback to quirks mode from error: '#{error}'"
-          val = JSON.dump_in_quirks_mode(val)
-        end
+        val = JSON.dump(val)
       when :yaml, :hash
         val = YAML.dump val
         val.sub!(/\A---\s*$\n/, '')
