@@ -179,9 +179,12 @@ function mark_params_override(){
   $('#puppetclasses_parameters').find('[data-property=class]:visible').each(function(){
     var klass = $(this).text();
     var name = $(this).closest('tr').find('[data-property=name]').text();
+    var title = $(this).closest('tr').find('[data-property=name]').attr('title');
     $('#inherited_puppetclasses_parameters [id^="puppetclass_"][id*="_params\\["][id$="\\]"]').each(function(){
       var param = $(this);
-      if (param.find('[data-property=class]').text() == klass && param.find('[data-property=name]').text() == name) {
+      if (param.find('[data-property=class]').text() == klass &&
+         ((param.find('[data-property=name]').text() == name && title == undefined) ||
+         (param.find('[data-property=name]').children('span').attr('data-original-title') == title && title != undefined))) {
         param.find('.error').removeClass('error');
         param.find('.warning').removeClass('warning');
         param.closest('tr').find('[data-property=name]').addClass('override-param');
