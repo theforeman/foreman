@@ -14,6 +14,7 @@ class AssociationAuthorizer
   end
 
   def self.permission_name(klass, permission, should_raise_exception)
+    klass = klass.first if klass.is_a?(Array)
     suffix = klass.respond_to?(:permission_name) ? klass.permission_name : klass.to_s.underscore.pluralize
     permission = "#{permission}_#{suffix}"
     if Permission.where(:name => permission).present?
