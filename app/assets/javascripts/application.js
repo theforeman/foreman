@@ -494,7 +494,7 @@ function set_fullscreen(element){
   element.before("<span id='fullscreen-placeholder'></span>")
          .data('position', $(window).scrollTop())
          .addClass('fullscreen')
-         .appendTo($('#main'))
+         .appendTo($('body'))
          .resize()
          .after(exit_button);
   $('#content').addClass('hidden');
@@ -530,7 +530,7 @@ function set_fullscreen_editor (element, relativeTo){
   $element.data('origin', $element.parent())
     .data('position', $(window).scrollTop())
     .addClass('fullscreen')
-    .appendTo($('#main'))
+    .appendTo($('body'))
     .resize();
 
   $('.navbar').not('.navbar-editor').addClass('hidden');
@@ -558,7 +558,6 @@ function exit_fullscreen_editor (){
 
   $('.btn-exit-fullscreen').addClass("hidden");
   $('.btn-fullscreen').removeClass("hidden");
-
   $(window).scrollTop(element.data('position'));
   Editor.resize(true);
 }
