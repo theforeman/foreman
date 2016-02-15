@@ -49,6 +49,8 @@ class Ptable < Template
   def self.base_class
     self
   end
+  # this changes table_name so we set it explicitly
+  self.table_name = 'templates'
 
   def self.template_includes
     super + [:operatingsystems]

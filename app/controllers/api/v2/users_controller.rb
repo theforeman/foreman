@@ -1,7 +1,7 @@
 module Api
   module V2
     class UsersController < V2::BaseController
-      wrap_parameters User, :include => (User.attribute_names + ['password'])
+      wrap_parameters User, :include => User.accessible_attributes
 
       before_filter :find_resource, :only => %w{show update destroy}
       # find_resource needs to be defined prior to UsersMixin is included, it depends on @user
