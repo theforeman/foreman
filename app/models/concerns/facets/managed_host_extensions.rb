@@ -12,7 +12,7 @@ module Facets
 
         # include all facet attributes by default
         facets_with_definitions.each do |facet, facet_definition|
-          hash["#{facet_definition.name}_attributes"] = facet.attributes.reject { |key, _| %w(created_at updated_at).include? key }
+          hash["#{facet_definition.name}_attributes"] = facet.attributes.reject { |key| %w(created_at updated_at).include? key }
         end
         hash
       end
