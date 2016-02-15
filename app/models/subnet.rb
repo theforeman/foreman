@@ -20,7 +20,7 @@ class Subnet < ActiveRecord::Base
   belongs_to :dhcp, :class_name => "SmartProxy"
   belongs_to :tftp, :class_name => "SmartProxy"
   belongs_to :dns,  :class_name => "SmartProxy"
-  has_many :subnet_domains, :dependent => :destroy
+  has_many :subnet_domains, :dependent => :destroy, :inverse_of => :subnet
   has_many :domains, :through => :subnet_domains
   has_many :interfaces, :class_name => 'Nic::Base'
   has_many :primary_interfaces, -> { where(:primary => true) }, :class_name => 'Nic::Base'

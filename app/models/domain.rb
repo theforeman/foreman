@@ -15,7 +15,7 @@ class Domain < ActiveRecord::Base
   has_many :hostgroups
   #order matters! see https://github.com/rails/rails/issues/670
   before_destroy EnsureNotUsedBy.new(:interfaces, :hostgroups, :subnets)
-  has_many :subnet_domains, :dependent => :destroy
+  has_many :subnet_domains, :dependent => :destroy, :inverse_of => :domain
   has_many :subnets, :through => :subnet_domains
   belongs_to :dns, :class_name => "SmartProxy"
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :domain

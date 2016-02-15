@@ -10,6 +10,12 @@ class SubnetTest < ActiveSupport::TestCase
       :name= => "valid" }
   end
 
+  test 'can be created with domains' do
+    subnet = FactoryGirl.build(:subnet)
+    subnet.domain_ids = [ domains(:mydomain).id ]
+    assert subnet.save
+  end
+
   test "should have a network" do
     create_a_domain_with_the_subnet
     @subnet.network = nil
