@@ -10,7 +10,16 @@ module SettingsHelper
     when "boolean"
       edit_select(setting, :value, {:select_values => {:true => "true", :false => "false"}.to_json } )
     else
-      edit_textfield(setting, :value,{:helper => :show_value})
+      case setting.name
+      when "default_location"
+        edit_select(setting, :value, {:select_values => Hash[Location.all.map{|loc| [loc[:title], loc[:title]]}].to_json } )
+      when "default_organization"
+        edit_select(setting, :value, {:select_values => Hash[Organization.all.map{|org| [org[:title], org[:title]]}].to_json } )
+      when "default_puppet_environment"
+        edit_select(setting, :value, {:select_values => Hash[Environment.all.map{|env| [env[:name], env[:name]]}].to_json } )
+      else
+        edit_textfield(setting, :value,{:helper => :show_value})
+      end
     end
   end
 
