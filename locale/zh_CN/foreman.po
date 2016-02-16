@@ -7453,7 +7453,7 @@ msgstr "添加可能会造成循环！"
 #. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
 #. or Portugues)
 msgid "locale_name"
-msgstr "语言环境"
+msgstr "简体中文"
 
 msgid "Unable to get BMC providers"
 msgstr "无法获取 BMC 供应商"
