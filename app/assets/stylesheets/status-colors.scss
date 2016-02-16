@@ -1,11 +1,11 @@
 .status-ok {
-  color: #5CB85C;
+  color: $brand-success;
 }
 
 .status-error {
-  color: #D9534F
+  color: $brand-danger;
 }
 
 .status-warn, .status-question {
-  color: #DB843D;
+  color: $brand-warning;
 }
