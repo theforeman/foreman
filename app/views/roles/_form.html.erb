@@ -18,7 +18,7 @@
         <%= alert :header => '', :class => 'alert-warning',
                   :text => _("Please save the role first. You can edit it later to add filters") %>
       <% else %>
-        <div data-ajax-url="<%= filters_path(:role_id => @role) %> table">
+        <div data-ajax-url="<%= filters_path(:role_id => @role, :paginate => 'client') %> table" data-on-complete="activateDatatables">
           <%= spinner(_('Loading filters ...')) %>
         </div>
         <hr>
