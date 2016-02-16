@@ -1,13 +1,13 @@
 <% if @role
      title _("Filters for role %s") % @role.to_s
-   else 
+   else
      title _("Filters")
    end %>
 
 <% title_actions link_to_if_authorized(_("New filter"), hash_for_new_filter_path(:role_id => @role)),
                  documentation_button('4.1.2RolesandPermissions') %>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" <%= "data-table='inline'".html_safe if params[:paginate] == 'client' %> >
   <thead>
     <tr>
       <% unless params[:role_id] %>
@@ -51,4 +51,4 @@
     <% end %>
   </tbody>
 </table>
-<%= will_paginate_with_info @filters %>
+<%= will_paginate_with_info(@filters) unless params[:paginate] == 'client' %>
