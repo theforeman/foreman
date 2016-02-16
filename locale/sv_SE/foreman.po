@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-11-18 09:29+0000\n"
+"PO-Revision-Date: 2016-01-20 09:32+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/foreman/foreman/lang"
 "uage/sv_SE/)\n"
@@ -43,13 +43,13 @@ msgstr "Återställ zoom"
 msgid "Loading"
 msgstr "Laddar"
 
-msgid "Fact distribution chart"
-msgstr ""
-
 msgid "%s host"
 msgid_plural "%s hosts"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "Fact distribution chart"
+msgstr ""
 
 msgid "Failed to load chart"
 msgstr ""
@@ -175,11 +175,11 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-msgid "Build"
-msgstr "Bygg"
-
 msgid "Reboot and build"
 msgstr "Starta om och bygg"
+
+msgid "Build"
+msgstr "Bygg"
 
 msgid "Select All"
 msgstr "Välj Alla"
@@ -191,10 +191,10 @@ msgstr ""
 msgid "Filter"
 msgstr "Filter"
 
-msgid "Deselect All"
+msgid "Selected items"
 msgstr ""
 
-msgid "Selected items"
+msgid "Deselect All"
 msgstr ""
 
 msgid "Select this since it belongs to a host"
@@ -215,17 +215,17 @@ msgstr "ny"
 msgid "Very Strong"
 msgstr ""
 
-msgid "Strong"
-msgstr ""
-
-msgid "Normal"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr "Medium"
 
 msgid "Weak"
+msgstr ""
+
+msgid "Strong"
+msgstr ""
+
+msgid "Normal"
 msgstr ""
 
 msgid "Your password is too short"
@@ -877,6 +877,15 @@ msgid ""
 msgstr ""
 
 msgid "Host's owner type"
+msgstr ""
+
+msgid "Host's parameters (array or indexed hash)"
+msgstr ""
+
+msgid "Name of the parameter"
+msgstr ""
+
+msgid "Parameter value"
 msgstr ""
 
 msgid ""
@@ -1895,11 +1904,11 @@ msgstr "Du måste skapa mine en lokation innan du fortsätter."
 msgid "You must create at least one organization before continuing."
 msgstr "Du måste kapa minst en organisation innan du fortsätter."
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Error"
 msgstr "Fel"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Invalid authenticity token"
 msgstr ""
@@ -2071,14 +2080,14 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr "Följande fält behöver granskas"
 
-msgid "BIOS"
-msgstr "BIOS"
-
 msgid "PXE"
 msgstr "PXE"
 
 msgid "CDROM"
 msgstr "CDläsare"
+
+msgid "BIOS"
+msgstr "BIOS"
 
 msgid "Disk"
 msgstr "Hårddisk"
@@ -2265,10 +2274,10 @@ msgstr ""
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr ""
 
-msgid "Template locked"
+msgid "Template unlocked"
 msgstr ""
 
-msgid "Template unlocked"
+msgid "Template locked"
 msgstr ""
 
 msgid ""
@@ -2374,11 +2383,11 @@ msgstr "På"
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "Är du säker på att du vill starta/stänga %{act} %{vm}?"
 
-msgid "Pause"
-msgstr "Paus"
-
 msgid "Resume"
 msgstr "Återuppta"
+
+msgid "Pause"
+msgstr "Paus"
 
 msgid "Are you sure you want to %{act} %{vm}?"
 msgstr "Är du säker att du vill %{act} %{vm}?"
@@ -2446,18 +2455,18 @@ msgstr "Notifiering inaktiverad"
 msgid "Host Configuration Status"
 msgstr "Värdkonfigurationsstatus"
 
+msgid "Number Of Clients"
+msgstr "Antal Klienter"
+
 msgid "Minutes Ago"
 msgstr "Minuter Sedan"
 
-msgid "Number Of Clients"
-msgstr "Antal Klienter"
+msgid "Applied"
+msgstr "Tillämpad"
 
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr "A"
-
-msgid "Applied"
-msgstr "Tillämpad"
 
 msgid "Restarted"
 msgstr "Omstartad"
@@ -2473,19 +2482,19 @@ msgstr "Misslyckad"
 msgid "Failed|F"
 msgstr "F"
 
-msgid "Failed Restarts"
-msgstr "Misslyckade Omstarter"
-
 #. TRANSLATORS: initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
 msgstr "FR"
 
-msgid "Skipped"
-msgstr "Skippad"
+msgid "Failed Restarts"
+msgstr "Misslyckade Omstarter"
 
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
 msgstr "S"
+
+msgid "Skipped"
+msgstr "Skippad"
 
 #. TRANSLATORS: initial character of Pending
 msgid "Pending|P"
@@ -2707,11 +2716,11 @@ msgstr "Fakta"
 msgid "Browse host facts"
 msgstr "Bläddra värdfakta"
 
-msgid "Browse host reports"
-msgstr "Bläddra värdrapporter"
-
 msgid "Reports"
 msgstr "Rapporter"
+
+msgid "Browse host reports"
+msgstr "Bläddra värdrapporter"
 
 msgid "Puppet external nodes YAML dump"
 msgstr "Puppet externa noder YAML-export"
@@ -2722,14 +2731,14 @@ msgstr "YAML"
 msgid "Allocation (GB)"
 msgstr "Allokering(GB)"
 
+msgid "Full"
+msgstr "Full"
+
 msgid "None"
 msgstr "Ingen"
 
 msgid "Size"
 msgstr "Storlek"
-
-msgid "Full"
-msgstr "Full"
 
 msgid "remove network interface"
 msgstr "ta bort nätvärkskort"
@@ -2908,14 +2917,14 @@ msgstr ""
 msgid "Delete %s?"
 msgstr "Radera %s"
 
-msgid "valid"
-msgstr "giltig"
+msgid "revoked"
+msgstr "återkallad"
 
 msgid "pending"
 msgstr "kommande"
 
-msgid "revoked"
-msgstr "återkallad"
+msgid "valid"
+msgstr "giltig"
 
 msgid "in %s"
 msgstr "i %s"
@@ -2969,17 +2978,17 @@ msgstr "Välj en period"
 msgid "Show log messages:"
 msgstr "Visa loggmeddelanden:"
 
-msgid "Warnings and errors"
-msgstr "Varningar och fel"
-
 msgid "Notices, warnings and errors"
 msgstr "Notiser, varningar och fel"
 
-msgid "Errors only"
-msgstr "Enbart fel"
+msgid "Warnings and errors"
+msgstr "Varningar och fel"
 
 msgid "All messages"
 msgstr "Alla meddelanden"
+
+msgid "Errors only"
+msgstr "Enbart fel"
 
 msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
@@ -3018,23 +3027,23 @@ msgstr "Hårdvara"
 msgid "Class Distribution"
 msgstr "Klassdistribution"
 
-msgid "used memory"
+msgid "free memory"
 msgstr ""
 
-msgid "free memory"
+msgid "used memory"
 msgstr ""
 
 msgid "Average memory usage"
 msgstr "Genomsnittlig minnesanvändning"
+
+msgid "Average swap usage"
+msgstr "Genomsnittlig växlingsanvändning"
 
 msgid "used swap"
 msgstr ""
 
 msgid "free swap"
 msgstr ""
-
-msgid "Average swap usage"
-msgstr "Genomsnittlig växlingsanvändning"
 
 msgid "Any Organization"
 msgstr "Alla Organisationer"
@@ -3054,23 +3063,23 @@ msgstr "Välj användare"
 msgid "All users"
 msgstr "Alla användare"
 
-msgid "Select smart proxies"
-msgstr "Välj smarta proxies"
-
 msgid "All smart proxies"
 msgstr "Alla smarta proxies"
 
-msgid "Select subnets"
-msgstr "Välj subnät"
+msgid "Select smart proxies"
+msgstr "Välj smarta proxies"
 
 msgid "All subnets"
 msgstr "Alla subnät"
 
-msgid "All compute resources"
-msgstr "Alla beräkningsresurser"
+msgid "Select subnets"
+msgstr "Välj subnät"
 
 msgid "Select compute resources"
 msgstr "Välj beräkningsresurser"
+
+msgid "All compute resources"
+msgstr "Alla beräkningsresurser"
 
 msgid "All media"
 msgstr "Alla media"
@@ -3084,17 +3093,17 @@ msgstr ""
 msgid "All provisioning templates"
 msgstr ""
 
-msgid "All partition tables"
-msgstr ""
-
 msgid "Select partition tables"
 msgstr ""
 
-msgid "Select domains"
-msgstr "Välj domäner"
+msgid "All partition tables"
+msgstr ""
 
 msgid "All domains"
 msgstr "Alla domäner"
+
+msgid "Select domains"
+msgstr "Välj domäner"
 
 msgid "Select realms"
 msgstr ""
@@ -3638,34 +3647,34 @@ msgstr "os"
 msgid "could not be found in %s"
 msgstr ""
 
-msgid "yaml"
-msgstr ""
-
-msgid "array"
-msgstr ""
-
-msgid "string"
+msgid "integer"
 msgstr ""
 
 msgid "boolean"
 msgstr ""
 
-msgid "json"
-msgstr ""
-
-msgid "integer"
-msgstr ""
-
-msgid "hash"
+msgid "string"
 msgstr ""
 
 msgid "real"
 msgstr ""
 
-msgid "list"
+msgid "array"
+msgstr ""
+
+msgid "hash"
+msgstr ""
+
+msgid "yaml"
+msgstr ""
+
+msgid "json"
 msgstr ""
 
 msgid "regexp"
+msgstr ""
+
+msgid "list"
 msgstr ""
 
 msgid "invalid"
@@ -3698,13 +3707,13 @@ msgstr "%{match} matchar inte en existerande värd"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} matchar inte en existerande värdgrupp"
 
+msgid "Weekly"
+msgstr ""
+
 msgid "Daily"
 msgstr ""
 
 msgid "Monthly"
-msgstr ""
-
-msgid "Weekly"
 msgstr ""
 
 msgid ""
@@ -3871,10 +3880,10 @@ msgstr "är felaktig: %s"
 msgid "is not allowed to change"
 msgstr "tillåts inte att ändras"
 
-msgid "OAuth active"
+msgid "Foreman will use OAuth for API authorization"
 msgstr ""
 
-msgid "Foreman will use OAuth for API authorization"
+msgid "OAuth active"
 msgstr ""
 
 msgid "OAuth consumer key"
@@ -3891,12 +3900,12 @@ msgid ""
 " OAuth requests will have admin rights."
 msgstr ""
 
+msgid "Restrict registered smart proxies"
+msgstr ""
+
 msgid ""
 "Only known Smart Proxies may access features that use Smart Proxy authenticati"
 "on"
-msgstr ""
-
-msgid "Restrict registered smart proxies"
 msgstr ""
 
 msgid "Require SSL for smart proxies"
@@ -3907,6 +3916,9 @@ msgid ""
 "d also be enabled)"
 msgstr ""
 
+msgid "Trusted puppetmaster hosts"
+msgstr ""
+
 msgid ""
 "Hosts that will be trusted in addition to Smart Proxies for access to fact/rep"
 "ort importers and ENC output"
@@ -3914,7 +3926,7 @@ msgstr ""
 "Värdar, utöver Smarta Proxies, som är betrodda med åtkomst till fakta/rapporti"
 "mporterare samt ENC utdata."
 
-msgid "Trusted puppetmaster hosts"
+msgid "SSL certificate"
 msgstr ""
 
 msgid "SSL Certificate path that Foreman would use to communicate with its proxies"
@@ -3922,14 +3934,11 @@ msgstr ""
 "Sökväg till SSLcertifikat som Foreman skall använda för att kommunicera med de"
 "ss proxies"
 
-msgid "SSL certificate"
-msgstr ""
+msgid "SSL CA file that Foreman will use to communicate with its proxies"
+msgstr "SSL CA-fil som Foreman kommer använda för kommunikation med dess proxies"
 
 msgid "SSL CA file"
 msgstr ""
-
-msgid "SSL CA file that Foreman will use to communicate with its proxies"
-msgstr "SSL CA-fil som Foreman kommer använda för kommunikation med dess proxies"
 
 msgid "SSL Private Key file that Foreman will use to communicate with its proxies"
 msgstr ""
@@ -3939,11 +3948,11 @@ msgstr ""
 msgid "SSL private key"
 msgstr ""
 
-msgid "SSL client DN env"
-msgstr ""
-
 msgid "Environment variable containing the subject DN from a client SSL certificate"
 msgstr "Miljövariabel innehållande subjekt DN från en klients SSL certifikat"
+
+msgid "SSL client DN env"
+msgstr ""
 
 msgid ""
 "Environment variable containing the verification status of a client SSL certif"
@@ -3953,10 +3962,10 @@ msgstr "Miljövariabel innehållande verifieringsstatus av en klients SSL certif
 msgid "SSL client verify env"
 msgstr ""
 
-msgid "Websockets SSL key"
+msgid "Private key that Foreman will use to encrypt websockets "
 msgstr ""
 
-msgid "Private key that Foreman will use to encrypt websockets "
+msgid "Websockets SSL key"
 msgstr ""
 
 msgid "Websockets SSL certificate"
@@ -3965,12 +3974,12 @@ msgstr ""
 msgid "Certificate that Foreman will use to encrypt websockets "
 msgstr ""
 
+msgid "Websockets encryption"
+msgstr ""
+
 msgid ""
 "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert s"
 "etting required)"
-msgstr ""
-
-msgid "Websockets encryption"
 msgstr ""
 
 msgid ""
@@ -4001,19 +4010,19 @@ msgstr "Delegera login till REMOTE_USER miljövariabel"
 msgid "Authorize login delegation"
 msgstr ""
 
-msgid "Authorize login delegation API"
-msgstr ""
-
 msgid ""
 "Authorize login delegation with REMOTE_USER environment variable for API calls"
 " too"
 msgstr "Delegera login till REMOTE_USER miljövariabel även för API-anrop"
 
-msgid "Idle timeout"
+msgid "Authorize login delegation API"
 msgstr ""
 
 msgid "Log out idle users after a certain number of minutes"
 msgstr "Logga ut inaktiva användare efter ett antal minuter"
+
+msgid "Idle timeout"
+msgstr ""
 
 msgid ""
 "Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_"
@@ -4032,18 +4041,18 @@ msgstr ""
 msgid "The default administrator email address"
 msgstr "Förinställd epostadress för administratören"
 
-msgid "Foreman URL"
-msgstr ""
-
 msgid ""
 "URL where your Foreman instance is reachable (see also Provisioning > unattend"
 "ed_url)"
 msgstr ""
 
-msgid "Email reply address for emails that Foreman is sending"
+msgid "Foreman URL"
 msgstr ""
 
 msgid "Email reply address"
+msgstr ""
+
+msgid "Email reply address for emails that Foreman is sending"
 msgstr ""
 
 msgid "Prefix to add to all outgoing email"
@@ -4076,10 +4085,13 @@ msgstr ""
 msgid "Max days for Trends graphs"
 msgstr "Max dagar för trendgrafer"
 
+msgid "Foreman will use gravatar to display user icons"
+msgstr ""
+
 msgid "Use Gravatar"
 msgstr ""
 
-msgid "Foreman will use gravatar to display user icons"
+msgid "DB pending migration"
 msgstr ""
 
 msgid ""
@@ -4087,21 +4099,18 @@ msgid ""
 "ler modules?"
 msgstr ""
 
-msgid "DB pending migration"
-msgstr ""
-
-msgid "DB pending seed"
-msgstr ""
-
 msgid ""
 "Should the `foreman-rake db:seed` be executed on the next run of the installer"
 " modules?"
 msgstr ""
 
-msgid "Proxy request timeout"
+msgid "DB pending seed"
 msgstr ""
 
 msgid "Max timeout for REST client requests to smart-proxy"
+msgstr ""
+
+msgid "Proxy request timeout"
 msgstr ""
 
 msgid "Default encrypted root password on provisioned hosts"
@@ -4110,12 +4119,12 @@ msgstr ""
 msgid "Root password"
 msgstr ""
 
-msgid "Unattended URL"
-msgstr ""
-
 msgid ""
 "URL hosts will retrieve templates from during build (normally http as many ins"
 "tallers don't support https)"
+msgstr ""
+
+msgid "Unattended URL"
 msgstr ""
 
 msgid "Safemode rendering"
@@ -4130,12 +4139,12 @@ msgstr ""
 msgid "Manage PuppetCA"
 msgstr ""
 
+msgid "Ignore Puppet facts for provisioning"
+msgstr ""
+
 msgid ""
 "Stop updating IP address and MAC values from Puppet facts (affects all interfa"
 "ces)"
-msgstr ""
-
-msgid "Ignore Puppet facts for provisioning"
 msgstr ""
 
 msgid "Ignore interfaces with matching identifier"
@@ -4154,6 +4163,9 @@ msgstr ""
 msgid "Query local nameservers"
 msgstr ""
 
+msgid "Remote address"
+msgstr ""
+
 msgid ""
 "If Foreman is running behind Passenger or a remote load balancer, the IP shoul"
 "d be set here. This is a regular expression, so it can support several load ba"
@@ -4162,9 +4174,6 @@ msgstr ""
 "Om Foreman körs under Passenger eller bakom en lastbalanserare, fyll i IP-adre"
 "ssen här. Syntaxen är ett reguljärt uttryck för att stödja flera lastbalansera"
 "re, exempel: (10.0.0.1|127.0.0.1)"
-
-msgid "Remote address"
-msgstr ""
 
 msgid "Token duration"
 msgstr ""
@@ -4184,10 +4193,10 @@ msgstr ""
 msgid "Libvirt default console address"
 msgstr ""
 
-msgid "Update IP from built request"
+msgid "Foreman will update the host IP with the IP that made the built request"
 msgstr ""
 
-msgid "Foreman will update the host IP with the IP that made the built request"
+msgid "Update IP from built request"
 msgstr ""
 
 msgid "Use short name for VMs"
@@ -4210,26 +4219,26 @@ msgstr "Puppetintervall i minuter"
 msgid "Puppet interval"
 msgstr ""
 
-msgid "Out of sync interval"
-msgstr ""
-
 msgid ""
 "Duration in minutes after the Puppet interval for servers to be classed as out"
 " of sync."
 msgstr ""
 
-msgid "Default Puppet environment"
+msgid "Out of sync interval"
 msgstr ""
 
 msgid "Foreman will default to this puppet environment if it cannot auto detect one"
 msgstr ""
 
-msgid ""
-"Foreman will set this as the default Puppet module path if it cannot auto dete"
-"ct one"
+msgid "Default Puppet environment"
 msgstr ""
 
 msgid "Module path"
+msgstr ""
+
+msgid ""
+"Foreman will set this as the default Puppet module path if it cannot auto dete"
+"ct one"
 msgstr ""
 
 msgid "Document root"
@@ -4256,22 +4265,22 @@ msgstr ""
 msgid "Foreman will evaluate host smart variables in this order by default"
 msgstr ""
 
-msgid "Enable smart variables in ENC"
-msgstr ""
-
 msgid "Foreman smart variables will be exposed via the ENC yaml output"
 msgstr ""
 
-msgid "Parameterized classes in ENC"
+msgid "Enable smart variables in ENC"
 msgstr ""
 
 msgid "Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
 msgstr ""
 
-msgid "Foreman will parse ERB in parameters value in the ENC output"
+msgid "Parameterized classes in ENC"
 msgstr ""
 
 msgid "Interpolate ERB in parameters"
+msgstr ""
+
+msgid "Foreman will parse ERB in parameters value in the ENC output"
 msgstr ""
 
 msgid ""
@@ -4283,16 +4292,16 @@ msgstr ""
 msgid "ENC environment"
 msgstr ""
 
-msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
-msgstr ""
-
 msgid "Use UUID for certificates"
 msgstr ""
 
-msgid "Update environment from facts"
+msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr ""
 
 msgid "Foreman will update a host's environment from its facts"
+msgstr ""
+
+msgid "Update environment from facts"
 msgstr ""
 
 msgid "Host group matchers inheritance"
@@ -4309,17 +4318,17 @@ msgstr "Foreman kommer skapa värden när nya fakta tas emot"
 msgid "Create new host when facts are uploaded"
 msgstr ""
 
-msgid "Create new host when report is uploaded"
-msgstr ""
-
 msgid "Foreman will create the host when a report is received"
 msgstr "Foreman kommer skapa värden när en rapport tas emot"
 
-msgid "Foreman will truncate hostname to 'puppet' if it starts with puppet"
-msgstr "Foreman kommer att trunkera värdnamnet till 'puppet' om det startar med puppet"
+msgid "Create new host when report is uploaded"
+msgstr ""
 
 msgid "Legacy Puppet hostname"
 msgstr ""
+
+msgid "Foreman will truncate hostname to 'puppet' if it starts with puppet"
+msgstr "Foreman kommer att trunkera värdnamnet till 'puppet' om det startar med puppet"
 
 msgid ""
 "Hosts created after a puppet run will be placed in the location this fact dict"
@@ -4329,13 +4338,13 @@ msgstr ""
 msgid "Location fact"
 msgstr ""
 
-msgid "Organization fact"
-msgstr ""
-
 msgid ""
 "Hosts created after a puppet run will be placed in the organization this fact "
 "dictates. The content of this fact should be the full label of the organizatio"
 "n."
+msgstr ""
+
+msgid "Organization fact"
 msgstr ""
 
 msgid ""
@@ -4352,6 +4361,14 @@ msgstr ""
 msgid ""
 "Hosts created after a puppet run that did not send a organization fact will be"
 " placed in this organization"
+msgstr ""
+
+msgid ""
+"All hosts will show a configuration status even when a Puppet smart proxy is n"
+"ot assigned"
+msgstr ""
+
+msgid "Always show configuration status"
 msgstr ""
 
 msgid "is invalid - only  http://, https:// are allowed"
@@ -4667,26 +4684,23 @@ msgstr ""
 msgid "stop"
 msgstr "stop"
 
+msgid "start"
+msgstr "start"
+
+msgid "reset"
+msgstr "återställ"
+
+msgid "state"
+msgstr "tillstånd"
+
 msgid "poweroff"
 msgstr "stäng av"
 
 msgid "reboot"
 msgstr "omstart"
 
-msgid "reset"
-msgstr "återställ"
-
-msgid "start"
-msgstr "start"
-
-msgid "state"
-msgstr "tillstånd"
-
 msgid "soft"
 msgstr "mjuk"
-
-msgid "on"
-msgstr "på"
 
 msgid "cycle"
 msgstr "period"
@@ -4699,6 +4713,9 @@ msgstr ""
 
 msgid "off"
 msgstr "av"
+
+msgid "on"
+msgstr "på"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "Felaktig strömläges begäran: %{action}, åtgärder som stöds är %{supported}"
