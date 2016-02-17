@@ -49,4 +49,23 @@ class FiltersControllerTest < ActionController::TestCase
     end
     assert_redirected_to filters_path
   end
+
+  test 'should return server pagination controls by default' do
+    role = roles(:manager)
+    get :index, {:role_id => role.id}, set_session_user
+    assert_response :success
+    refute_empty assigns(:filters)
+
+    pagination_line = css_select('div.pagination').first
+    assert_match "Displaying", pagination_line.children.first.content
+  end
+
+  test 'should return data-tables pagination when asked for it' do
+    role = roles(:manager)
+    get :index, {:role_id => role.id, :paginate => 'client'}, set_session_user
+    assert_response :success
+    refute_empty assigns(:filters)
+
+    assert_select "table[data-table='inline']"
+  end
 end
