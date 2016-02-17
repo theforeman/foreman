@@ -124,6 +124,7 @@ module Foreman::Model
     def create_vm(args = { })
       vm = new_vm(args)
       create_volumes :prefix => vm.name, :volumes => vm.volumes, :backing_id => args[:image_id]
+      vm.iso_dir = vm.volumes.first.path.split('/')[0..-2].join('/')
       vm.save
     rescue Fog::Errors::Error => e
       Foreman::Logging.exception("Unhandled Libvirt error", e)
