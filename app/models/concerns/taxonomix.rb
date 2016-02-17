@@ -195,6 +195,10 @@ module Taxonomix
 
   protected
 
+  def has_used_taxonomy_ids?
+    true
+  end
+
   def taxonomy_foreign_key_conditions
     if self.respond_to?(:taxonomy_foreign_conditions)
       taxonomy_foreign_conditions
@@ -204,8 +208,8 @@ module Taxonomix
   end
 
   def used_taxonomy_ids(type)
-    return [] if new_record?
-    Host::Base.where(taxonomy_foreign_key_conditions).uniq.pluck(type).compact
+    return [] if new_record? || !has_used_taxonomy_ids?
+    Host::Base.where(taxonomy_foreign_key_conditions).pluck(type).uniq.compact
   end
 
   def children_of_selected_taxonomy_ids(assoc)

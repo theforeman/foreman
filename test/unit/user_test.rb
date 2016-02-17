@@ -518,6 +518,36 @@ class UserTest < ActiveSupport::TestCase
         new_source = AuthSourceExternal.find_by_name('new_external_source')
         assert_equal new_source.name, created_user.auth_source.name
       end
+
+      context "usergroups and taxonomies association" do
+        before do
+          @auth_source = FactoryGirl.create(:auth_source_ldap)
+          @usergroup = FactoryGirl.create(:usergroup)
+          @usergroup.external_usergroups.new(:auth_source_id => @auth_source.id,
+                                                     :name => @auth_source.name).save(:validate => false)
+          as_admin do
+            @loc = FactoryGirl.create(:location)
+            @org = FactoryGirl.create(:organization)
+          end
+          @usergroup.locations << @loc
+          @usergroup.organizations << @org
+        end
+
+        test "user gets assigned to the correct usergroups" do
+          assert User.find_or_create_external_user({:login => 'not_existing_user2', :groups => @auth_source.external_usergroups.map(&:name)},
+                                                       @auth_source.name)
+          created_user = User.where(:login => 'not_existing_user2').first
+          assert created_user.usergroups.include?(@usergroup)
+        end
+
+        test "user gets assigned to the correct locations and organizations" do
+          assert User.find_or_create_external_user({:login => 'not_existing_user2', :groups => @auth_source.external_usergroups.map(&:name)},
+                                                       @auth_source.name)
+          created_user = User.where(:login => 'not_existing_user2').first
+          assert created_user.locations.include?(@loc)
+          assert created_user.organizations.include?(@org)
+        end
+      end
     end
 
     context "existing AuthSource" do

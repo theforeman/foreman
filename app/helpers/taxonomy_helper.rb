@@ -171,6 +171,7 @@ module TaxonomyHelper
 
   def translated_label(resource, verb)
     labels = { :users => { :all => _("All users"), :select => _("Select users") },
+               :usergroups => { :all => _("All usergroups"), :select => _("Select usergroups") },
                :smart_proxies => { :all => _("All smart proxies"), :select => _("Select smart proxies") },
                :subnets => { :all => _("All subnets"), :select => _("Select subnets") },
                :compute_resources => { :all => _("All compute resources"), :select => _("Select compute resources") },

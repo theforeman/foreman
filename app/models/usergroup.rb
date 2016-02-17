@@ -4,6 +4,7 @@ class Usergroup < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
+  include Taxonomix
 
   attr_accessible  :name, :admin, :user_ids, :user_names, :role_ids,
     :role_names, :usergroup_ids, :usergroup_names, :external_usergroups_attributes
@@ -112,5 +113,9 @@ class Usergroup < ActiveRecord::Base
 
   def other_admins
     User.unscoped.only_admin.except_hidden - all_users
+  end
+
+  def has_used_taxonomy_ids?
+    false
   end
 end
