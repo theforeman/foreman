@@ -331,6 +331,8 @@ add_files /etc/sysconfig/pgsql
 add_files "/var/lib/pgsql/data/pg_log/*"
 add_cmd "foreman-rake plugin:list" "plugin_list"
 
+add_sql "select count(hosts.name), compute_resources.type from hosts, compute_resources where hosts.compute_resource_id = compute_resources.id group by compute_resources.type" compute_resources-stats
+
 if [ $DETAILED -eq 1 ]; then
   printv "Adding detailed information"
   add_sql "select id,name,value from settings where name not similar to '%(pass|key|secret)' order by name" settings
