@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
-# Dominic Cleal <dcleal@redhat.com>, 2013-2015
+# Dominic Cleal <dominic@cleal.org>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-09-11 08:24+0000\n"
+"PO-Revision-Date: 2016-02-12 11:09+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
 "man/language/en_GB/)\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Failed to load chart"
 msgstr ""
 
-msgid "Click to undo adding this class"
+msgid "Click to remove %s"
 msgstr ""
 
 msgid "belongs to config group"
@@ -95,6 +95,28 @@ msgstr ""
 msgid "Nothing to restore"
 msgstr ""
 
+msgid "You are about to override the editor content, are you sure?"
+msgstr ""
+
+msgid "No changes"
+msgstr ""
+
+msgid "Rendering the template, please wait..."
+msgstr ""
+
+msgid ""
+"There was an error during rendering, return to the Code tab to edit the templa"
+"te."
+msgstr ""
+
+msgid ""
+"You are about to override the editor content with a previous version, are you "
+"sure?"
+msgstr ""
+
+msgid "Revert to revision from: %s"
+msgstr ""
+
 msgid "Loading interfaces information ..."
 msgstr ""
 
@@ -123,7 +145,7 @@ msgid "Interface"
 msgstr ""
 
 msgid "Primary"
-msgstr ""
+msgstr "Primary"
 
 msgid "Provisioning"
 msgstr ""
@@ -147,26 +169,26 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-msgid "Build"
-msgstr ""
-
 msgid "Reboot and build"
 msgstr ""
 
-msgid "All items"
+msgid "Build"
 msgstr ""
 
 msgid "Select All"
+msgstr ""
+
+msgid "All items"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr ""
 
-msgid "Deselect All"
+msgid "Selected items"
 msgstr ""
 
-msgid "Selected items"
+msgid "Deselect All"
 msgstr ""
 
 msgid "Select this since it belongs to a host"
@@ -184,6 +206,9 @@ msgstr ""
 msgid "new"
 msgstr ""
 
+msgid "Very Strong"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr ""
@@ -191,13 +216,10 @@ msgstr ""
 msgid "Weak"
 msgstr ""
 
-msgid "Normal"
-msgstr ""
-
 msgid "Strong"
 msgstr ""
 
-msgid "Very Strong"
+msgid "Normal"
 msgstr ""
 
 msgid "Your password is too short"
@@ -224,28 +246,6 @@ msgstr ""
 msgid "passwords do not match"
 msgstr ""
 
-msgid "You are about to override the editor content, are you sure?"
-msgstr ""
-
-msgid "No changes"
-msgstr ""
-
-msgid "Rendering the template, please wait..."
-msgstr ""
-
-msgid ""
-"There was an error during rendering, return to the Code tab to edit the templa"
-"te."
-msgstr ""
-
-msgid ""
-"You are about to override the editor content with a previous version, are you "
-"sure?"
-msgstr ""
-
-msgid "Revert to revision from: %s"
-msgstr ""
-
 msgid "View Diff"
 msgstr ""
 
@@ -267,15 +267,13 @@ msgstr ""
 msgid "Admin permissions required"
 msgstr ""
 
-msgid ""
-"%{param} is not allowed as nested parameter for %{controller_name}. Allowed pa"
-"rameters are %{allowed_params}"
-msgstr ""
-
 msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
 msgid "unknown permission for %s"
+msgstr ""
+
+msgid "unknown parent permission for %s"
 msgstr ""
 
 msgid "sync external user groups on login"
@@ -482,7 +480,13 @@ msgstr ""
 msgid "List available clusters for a compute resource"
 msgstr ""
 
+msgid "List available flavors for a compute resource"
+msgstr ""
+
 msgid "List available folders for a compute resource"
+msgstr ""
+
+msgid "List available zone for a compute resource"
 msgstr ""
 
 msgid "List available networks for a compute resource"
@@ -498,6 +502,9 @@ msgid "List storage domains for a compute resource"
 msgstr ""
 
 msgid "List attributes for a given storage domain"
+msgstr ""
+
+msgid "List available security groups for a compute resource"
 msgstr ""
 
 msgid "Associate VMs to Hosts"
@@ -746,6 +753,48 @@ msgstr "List all host groups per organisation"
 msgid "Show a host group"
 msgstr ""
 
+msgid "Name of the host group"
+msgstr ""
+
+msgid "Parent ID of the host group"
+msgstr ""
+
+msgid "Environment ID"
+msgstr ""
+
+msgid "Compute profile ID"
+msgstr ""
+
+msgid "Operating system ID"
+msgstr ""
+
+msgid "Architecture ID"
+msgstr ""
+
+msgid "Media ID"
+msgstr ""
+
+msgid "Partition table ID"
+msgstr ""
+
+msgid "Puppet CA proxy ID"
+msgstr ""
+
+msgid "Subnet ID"
+msgstr ""
+
+msgid "Domain ID"
+msgstr ""
+
+msgid "Realm ID"
+msgstr ""
+
+msgid "Puppet proxy ID"
+msgstr ""
+
+msgid "Root password on provisioned hosts"
+msgstr ""
+
 msgid "Create a host group"
 msgstr ""
 
@@ -824,6 +873,15 @@ msgstr ""
 msgid "Host's owner type"
 msgstr ""
 
+msgid "Host's parameters (array or indexed hash)"
+msgstr ""
+
+msgid "Name of the parameter"
+msgstr ""
+
+msgid "Parameter value"
+msgstr ""
+
 msgid ""
 "True/False flag whether a host is managed or unmanaged. Note: this value also "
 "determines whether several parameters are required or not"
@@ -850,7 +908,20 @@ msgstr ""
 msgid "Delete a host"
 msgstr ""
 
+msgid "Get configuration status of host"
+msgstr ""
+
 msgid "Get status of host"
+msgstr ""
+
+msgid ""
+"status type, can be one of\n"
+"* global\n"
+"* configuration\n"
+"* build\n"
+msgstr ""
+
+msgid "Returns string representing a host status of a given type"
 msgstr ""
 
 msgid "Get vm attributes of host"
@@ -895,6 +966,15 @@ msgid "optional: certname of the host"
 msgstr ""
 
 msgid "optional: the STI type of host to create"
+msgstr ""
+
+msgid "Rebuild orchestration config"
+msgstr ""
+
+msgid "Configuration successfully rebuilt."
+msgstr ""
+
+msgid "Configuration rebuild failed for: %s."
 msgstr ""
 
 msgid "Invalid type for host creation via facts: %s"
@@ -1487,6 +1567,9 @@ msgstr ""
 msgid "Update a setting"
 msgstr ""
 
+msgid "No setting value provided."
+msgstr ""
+
 msgid "List all smart class parameters"
 msgstr ""
 
@@ -1545,6 +1628,9 @@ msgid ""
 msgstr ""
 
 msgid "Merge all matching values (only array/hash type)"
+msgstr ""
+
+msgid "Include default value when merging all matching values"
 msgstr ""
 
 msgid "Remove duplicate values (only array type)"
@@ -1988,16 +2074,16 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr ""
 
-msgid "CDROM"
-msgstr ""
-
 msgid "PXE"
 msgstr ""
 
-msgid "Disk"
+msgid "CDROM"
 msgstr ""
 
 msgid "BIOS"
+msgstr ""
+
+msgid "Disk"
 msgstr ""
 
 msgid "The marked fields will need reviewing"
@@ -2075,6 +2161,11 @@ msgstr ""
 msgid "Updated hosts: changed environment"
 msgstr ""
 
+msgid "%{config_type} rebuild failed for host: %{host_names}."
+msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "The selected hosts will execute a build operation on next reboot"
 msgstr ""
 
@@ -2149,10 +2240,10 @@ msgstr ""
 msgid "Role cloned from role %{old_name}"
 msgstr ""
 
-msgid "No changes found when refreshing features from %s."
+msgid "Successfully refreshed features from %s."
 msgstr ""
 
-msgid "Successfully refreshed features from %s."
+msgid "No changes found when refreshing features from %s."
 msgstr ""
 
 msgid "%s core"
@@ -2175,10 +2266,10 @@ msgstr ""
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr ""
 
-msgid "Template locked"
+msgid "Template unlocked"
 msgstr ""
 
-msgid "Template unlocked"
+msgid "Template locked"
 msgstr ""
 
 msgid ""
@@ -2202,9 +2293,6 @@ msgid "Logged out - See you soon"
 msgstr ""
 
 msgid "Remove Parameter"
-msgstr ""
-
-msgid "Click to remove %s"
 msgstr ""
 
 msgid "Click to add %s"
@@ -2262,16 +2350,10 @@ msgstr "%s ago"
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr ""
 
-msgid "Additional info"
-msgstr ""
-
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
 
 msgid "Use Puppet default"
-msgstr ""
-
-msgid "Explain use Puppet default"
 msgstr ""
 
 msgid ""
@@ -2291,10 +2373,10 @@ msgstr ""
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr ""
 
-msgid "Pause"
+msgid "Resume"
 msgstr ""
 
-msgid "Resume"
+msgid "Pause"
 msgstr ""
 
 msgid "Are you sure you want to %{act} %{vm}?"
@@ -2324,7 +2406,7 @@ msgstr ""
 msgid "Generated at %s"
 msgstr ""
 
-msgid "Manage dashboard"
+msgid "Manage"
 msgstr ""
 
 msgid "Save dashboard"
@@ -2376,11 +2458,11 @@ msgstr ""
 msgid "Applied|A"
 msgstr ""
 
-#. TRANSLATORS: initial character of Restarted
-msgid "Restarted|R"
+msgid "Restarted"
 msgstr ""
 
-msgid "Restarted"
+#. TRANSLATORS: initial character of Restarted
+msgid "Restarted|R"
 msgstr ""
 
 msgid "Failed"
@@ -2397,19 +2479,24 @@ msgstr ""
 msgid "Failed Restarts"
 msgstr ""
 
+#. TRANSLATORS: initial character of Skipped
+msgid "Skipped|S"
+msgstr ""
+
 msgid "Skipped"
 msgstr ""
 
-#. TRANSLATORS: initial character of Skipped
-msgid "Skipped|S"
+#. TRANSLATORS: initial character of Pending
+msgid "Pending|P"
 msgstr ""
 
 msgid "Pending"
 msgstr ""
 
-#. TRANSLATORS: initial character of Pending
-#. TRANSLATORS: host's status: first character of "pending"
-msgid "Pending|P"
+msgid "Auto refresh on"
+msgstr ""
+
+msgid "Auto refresh off"
 msgstr ""
 
 msgid "New Puppet Environment"
@@ -2436,6 +2523,9 @@ msgstr ""
 msgid "Please delete all nested groups before deleting it."
 msgstr ""
 
+msgid "inherit"
+msgstr ""
+
 msgid "Puppet CA"
 msgstr ""
 
@@ -2455,34 +2545,6 @@ msgid "View last report details"
 msgstr ""
 
 msgid "Report Already Deleted"
-msgstr ""
-
-#. TRANSLATORS: host's status: first character of "build"
-msgid "Build|B"
-msgstr ""
-
-#. TRANSLATORS: host's status: first character of "disabled"
-msgid "Disabled|D"
-msgstr ""
-
-#. TRANSLATORS: host's status: first character of "no reports"
-msgid "No reports|N"
-msgstr ""
-
-#. TRANSLATORS: host's status: first character of "sync" (out of sync)
-msgid "Sync|S"
-msgstr ""
-
-#. TRANSLATORS: host's status: first character of "error"
-msgid "Error|E"
-msgstr ""
-
-#. TRANSLATORS: host's status: first character of "active"
-msgid "Active|A"
-msgstr ""
-
-#. TRANSLATORS: host's status: first character of "OK"
-msgid "OK|O"
 msgstr ""
 
 msgid "Change Group"
@@ -2506,6 +2568,9 @@ msgstr ""
 msgid "Disassociate Hosts"
 msgstr ""
 
+msgid "Rebuild Config"
+msgstr ""
+
 msgid "Build Hosts"
 msgstr ""
 
@@ -2527,13 +2592,13 @@ msgstr "%s - The following hosts are about to be changed"
 msgid "Failed restarts"
 msgstr ""
 
-msgid "Runtime"
-msgstr ""
-
 msgid "Config Retrieval"
 msgstr ""
 
-msgid "Reports from the last %{days} days - %{count} reports found"
+msgid "Runtime"
+msgstr ""
+
+msgid "Found %{count} reports from the last %{days} days"
 msgstr ""
 
 msgid "Provisioning Support is disabled or this host is not managed"
@@ -2555,6 +2620,9 @@ msgid "Edit"
 msgstr ""
 
 msgid "Review"
+msgstr ""
+
+msgid "Status"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -2636,10 +2704,10 @@ msgstr ""
 msgid "Browse host facts"
 msgstr ""
 
-msgid "Browse host reports"
+msgid "Reports"
 msgstr ""
 
-msgid "Reports"
+msgid "Browse host reports"
 msgstr ""
 
 msgid "Puppet external nodes YAML dump"
@@ -2651,10 +2719,10 @@ msgstr ""
 msgid "Allocation (GB)"
 msgstr ""
 
-msgid "None"
+msgid "Full"
 msgstr ""
 
-msgid "Full"
+msgid "None"
 msgstr ""
 
 msgid "Size"
@@ -2679,20 +2747,23 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-msgid "Image ID"
-msgstr "Image ID"
-
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
+
+msgid "Image ID"
+msgstr "Image ID"
 
 msgid "Caps lock ON"
 msgstr ""
 
-msgid "Submit"
-msgstr "Submit"
+msgid "Change the password"
+msgstr ""
 
 msgid "Overwrite"
 msgstr ""
+
+msgid "Submit"
+msgstr "Submit"
 
 msgid "Unable to save"
 msgstr ""
@@ -2747,13 +2818,7 @@ msgid ""
 "nput.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
 msgstr ""
 
-msgid "Parameter types"
-msgstr ""
-
 msgid "How values are validated"
-msgstr ""
-
-msgid "Validator type"
 msgstr ""
 
 msgid ""
@@ -2778,15 +2843,9 @@ msgid ""
 "iption:</b>: %s"
 msgstr ""
 
-msgid "No value error"
-msgstr ""
-
 msgid ""
 "Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
 "><b>Description:</b> %s"
-msgstr ""
-
-msgid "No value warning"
 msgstr ""
 
 msgid "Default templates are automatically added to new locations"
@@ -2830,13 +2889,13 @@ msgstr ""
 msgid "Delete %s?"
 msgstr "Delete %s?"
 
-msgid "valid"
-msgstr ""
-
 msgid "revoked"
 msgstr ""
 
 msgid "pending"
+msgstr ""
+
+msgid "valid"
 msgstr ""
 
 msgid "in %s"
@@ -2894,10 +2953,10 @@ msgstr ""
 msgid "Notices, warnings and errors"
 msgstr ""
 
-msgid "All messages"
+msgid "Warnings and errors"
 msgstr ""
 
-msgid "Warnings and errors"
+msgid "All messages"
 msgstr ""
 
 msgid "Errors only"
@@ -2938,22 +2997,22 @@ msgstr ""
 msgid "Class Distribution"
 msgstr ""
 
+msgid "free memory"
+msgstr ""
+
 msgid "used memory"
 msgstr ""
 
 msgid "Average memory usage"
 msgstr ""
 
-msgid "free memory"
-msgstr ""
-
-msgid "free swap"
+msgid "Average swap usage"
 msgstr ""
 
 msgid "used swap"
 msgstr ""
 
-msgid "Average swap usage"
+msgid "free swap"
 msgstr ""
 
 msgid "Any Organization"
@@ -2962,22 +3021,22 @@ msgstr "Any Organisation"
 msgid "Any Location"
 msgstr ""
 
+msgid "New Location"
+msgstr ""
+
 msgid "New Organization"
 msgstr "New Organisation"
 
-msgid "New Location"
+msgid "Select users"
 msgstr ""
 
 msgid "All users"
 msgstr ""
 
-msgid "Select users"
+msgid "All smart proxies"
 msgstr ""
 
 msgid "Select smart proxies"
-msgstr ""
-
-msgid "All smart proxies"
 msgstr ""
 
 msgid "All subnets"
@@ -2998,10 +3057,10 @@ msgstr ""
 msgid "Select media"
 msgstr ""
 
-msgid "All provisioning templates"
+msgid "Select provisioning templates"
 msgstr ""
 
-msgid "Select provisioning templates"
+msgid "All provisioning templates"
 msgstr ""
 
 msgid "Select partition tables"
@@ -3022,10 +3081,10 @@ msgstr ""
 msgid "All realms"
 msgstr ""
 
-msgid "All environments"
+msgid "Select environments"
 msgstr ""
 
-msgid "Select environments"
+msgid "All environments"
 msgstr ""
 
 msgid "Select host groups"
@@ -3084,9 +3143,6 @@ msgid "Cannot create LDAP configuration for %s without dedicated service account
 msgstr ""
 
 msgid "invalid LDAP filter syntax"
-msgstr ""
-
-msgid "%{value} is not a valid controller"
 msgstr ""
 
 msgid "%s is an unknown attribute"
@@ -3243,6 +3299,9 @@ msgstr ""
 msgid "Could not find virtual machine network interface matching %s"
 msgstr ""
 
+msgid "DHCP"
+msgstr ""
+
 msgid ""
 "Unable to determine the host's boot server. The DHCP smart proxy failed to pro"
 "vide this information and this subnet is not provided with TFTP services."
@@ -3269,6 +3328,9 @@ msgstr ""
 msgid "DHCP records %s already exists"
 msgstr ""
 
+msgid "DNS"
+msgstr ""
+
 msgid "Create DNS record for %s"
 msgstr ""
 
@@ -3291,6 +3353,14 @@ msgid "DNS A Records %s already exists"
 msgstr ""
 
 msgid "DNS PTR Records %s already exists"
+msgstr ""
+
+msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
+msgstr ""
+
+msgid ""
+"Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_l"
+"ocal_nameservers and dns_conflict_timeout settings"
 msgstr ""
 
 msgid "Failed to initialize the PuppetCA proxy: %s"
@@ -3349,15 +3419,18 @@ msgid ""
 "e in your %s settings"
 msgstr ""
 
+msgid "TFTP"
+msgstr ""
+
+msgid "Failed to generate %{template_kind} template: %{e}"
+msgstr ""
+
 msgid "Failed to fetch boot files"
 msgstr ""
 
 msgid ""
 "No %{template_kind} templates were found for this host, make sure you define a"
 "t least one in your %{os} settings"
-msgstr ""
-
-msgid "Failed to generate %{template_kind} template: %{e}"
 msgstr ""
 
 msgid "TFTP Settings for %s"
@@ -3441,10 +3514,7 @@ msgstr ""
 msgid "common"
 msgstr ""
 
-msgid "domain"
-msgstr ""
-
-msgid "os"
+msgid "hostgroup"
 msgstr ""
 
 msgid ""
@@ -3458,16 +3528,15 @@ msgstr ""
 msgid "failed to execute puppetrun: %s"
 msgstr ""
 
-msgid "Pending Installation"
-msgstr ""
-
-msgid "Alerts disabled"
-msgstr ""
-
-msgid "No reports"
-msgstr ""
-
 msgid "Unknown power management support - can't continue"
+msgstr ""
+
+msgid ""
+"There are orchestration modules with methods for configuration rebuild that ha"
+"ve identical name: '%s'"
+msgstr ""
+
+msgid "Unable to find IP address for '%s'"
 msgstr ""
 
 msgid "Some interfaces are invalid"
@@ -3479,9 +3548,6 @@ msgstr ""
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-msgid "Unable to find IP address for '%s'"
-msgstr ""
-
 msgid "is an unsupported provisioning method"
 msgstr ""
 
@@ -3491,7 +3557,34 @@ msgstr ""
 msgid "must not include periods"
 msgstr ""
 
-msgid "hostgroup"
+msgid "Pending installation"
+msgstr ""
+
+msgid "Installed"
+msgstr ""
+
+msgid "Unknown build status"
+msgstr ""
+
+msgid "Configuration"
+msgstr ""
+
+msgid "Alerts disabled"
+msgstr ""
+
+msgid "No reports"
+msgstr ""
+
+msgid "Global"
+msgstr ""
+
+msgid "Warning"
+msgstr "Warning"
+
+msgid "domain"
+msgstr ""
+
+msgid "os"
 msgstr ""
 
 msgid "could not be found in %s"
@@ -3501,6 +3594,9 @@ msgid "integer"
 msgstr ""
 
 msgid "boolean"
+msgstr ""
+
+msgid "string"
 msgstr ""
 
 msgid "real"
@@ -3515,16 +3611,13 @@ msgstr ""
 msgid "yaml"
 msgstr ""
 
-msgid "string"
-msgstr ""
-
 msgid "json"
 msgstr ""
 
-msgid "list"
+msgid "regexp"
 msgstr ""
 
-msgid "regexp"
+msgid "list"
 msgstr ""
 
 msgid "invalid"
@@ -3539,22 +3632,16 @@ msgstr ""
 msgid "is invalid"
 msgstr ""
 
-msgid "Global variable or class Parameter, not both"
-msgstr ""
-
-msgid "%{default_value} is not one of %{validator_rule}"
-msgstr ""
-
 msgid "can only be set for array or hash"
 msgstr ""
 
 msgid "can only be set for arrays that have merge_overrides set to true"
 msgstr ""
 
-msgid "is invalid %s"
+msgid "can only be set when merge overrides is set"
 msgstr ""
 
-msgid "%{value} is not one of %{rules}"
+msgid "is invalid %s"
 msgstr ""
 
 msgid "%{match} does not match an existing host"
@@ -3563,13 +3650,13 @@ msgstr ""
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
-msgid "Monthly"
-msgstr ""
-
 msgid "Weekly"
 msgstr ""
 
 msgid "Daily"
+msgstr ""
+
+msgid "Monthly"
 msgstr ""
 
 msgid ""
@@ -3581,12 +3668,6 @@ msgid "does not appear to be a valid nfs mount path"
 msgstr ""
 
 msgid "%{record} is used by host in build mode %{what}"
-msgstr ""
-
-msgid "can't use the same value as the primary interface"
-msgstr ""
-
-msgid "already in use"
 msgstr ""
 
 msgid "can't find domain with this id"
@@ -3660,9 +3741,6 @@ msgid "invalid architecture for %s"
 msgstr ""
 
 msgid "Function not available for %s"
-msgstr ""
-
-msgid "parameters require an associated domain, operating system, host or host group"
 msgstr ""
 
 msgid "You do not have permission to %s this location parameter"
@@ -3742,10 +3820,16 @@ msgstr ""
 msgid "Foreman will use OAuth for API authorization"
 msgstr "Foreman will use OAuth for API authorisation"
 
+msgid "OAuth active"
+msgstr ""
+
 msgid "OAuth consumer key"
 msgstr ""
 
 msgid "OAuth consumer secret"
+msgstr ""
+
+msgid "OAuth map users"
 msgstr ""
 
 msgid ""
@@ -3753,9 +3837,15 @@ msgid ""
 " OAuth requests will have admin rights."
 msgstr ""
 
+msgid "Restrict registered smart proxies"
+msgstr ""
+
 msgid ""
 "Only known Smart Proxies may access features that use Smart Proxy authenticati"
 "on"
+msgstr ""
+
+msgid "Require SSL for smart proxies"
 msgstr ""
 
 msgid ""
@@ -3763,9 +3853,15 @@ msgid ""
 "d also be enabled)"
 msgstr ""
 
+msgid "Trusted puppetmaster hosts"
+msgstr ""
+
 msgid ""
 "Hosts that will be trusted in addition to Smart Proxies for access to fact/rep"
 "ort importers and ENC output"
+msgstr ""
+
+msgid "SSL certificate"
 msgstr ""
 
 msgid "SSL Certificate path that Foreman would use to communicate with its proxies"
@@ -3774,10 +3870,19 @@ msgstr ""
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
 msgstr ""
 
+msgid "SSL CA file"
+msgstr ""
+
 msgid "SSL Private Key file that Foreman will use to communicate with its proxies"
 msgstr ""
 
+msgid "SSL private key"
+msgstr ""
+
 msgid "Environment variable containing the subject DN from a client SSL certificate"
+msgstr ""
+
+msgid "SSL client DN env"
 msgstr ""
 
 msgid ""
@@ -3785,30 +3890,56 @@ msgid ""
 "icate"
 msgstr ""
 
-msgid ""
-"Should Foreman encrypt websockets (VNC console access). Choose on, off or auto"
-"."
+msgid "SSL client verify env"
 msgstr ""
 
 msgid "Private key that Foreman will use to encrypt websockets "
 msgstr ""
 
+msgid "Websockets SSL key"
+msgstr ""
+
+msgid "Websockets SSL certificate"
+msgstr ""
+
 msgid "Certificate that Foreman will use to encrypt websockets "
+msgstr ""
+
+msgid "Websockets encryption"
+msgstr ""
+
+msgid ""
+"VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert s"
+"etting required)"
 msgstr ""
 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should a"
 "lso be enabled)"
 msgstr ""
+"Redirect your users to this url on logout (authorise login delegation should a"
+"lso be enabled)"
+
+msgid "Login delegation logout URL"
+msgstr ""
+
+msgid "Authorize login delegation auth source user autocreate"
+msgstr "Authorise login delegation auth source user autocreate"
 
 msgid ""
 "Name of the external auth source where unknown externally authentication users"
 " (see authorize_login_delegation) should be created (keep unset to prevent the"
 " autocreation)"
 msgstr ""
+"Name of the external auth source where unknown externally authentication users"
+" (see authorise login delegation) should be created (keep unset to prevent the"
+" autocreation)"
 
 msgid "Authorize login delegation with REMOTE_USER environment variable"
 msgstr "Authorise login delegation with REMOTE_USER environment variable"
+
+msgid "Authorize login delegation"
+msgstr "Authorise login delegation"
 
 msgid ""
 "Authorize login delegation with REMOTE_USER environment variable for API calls"
@@ -3817,7 +3948,27 @@ msgstr ""
 "Authorise login delegation with REMOTE_USER environment variable for API calls"
 " too"
 
+msgid "Authorize login delegation API"
+msgstr "Authorise login delegation API"
+
 msgid "Log out idle users after a certain number of minutes"
+msgstr ""
+
+msgid "Idle timeout"
+msgstr ""
+
+msgid ""
+"Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_"
+"ssl_cert is missing"
+msgstr ""
+
+msgid "Unable to unset websockets_ssl_key when websockets_encrypt is on"
+msgstr ""
+
+msgid "Unable to unset websockets_ssl_cert when websockets_encrypt is on"
+msgstr ""
+
+msgid "Administrator email address"
 msgstr ""
 
 msgid "The default administrator email address"
@@ -3828,10 +3979,22 @@ msgid ""
 "ed_url)"
 msgstr ""
 
+msgid "Foreman URL"
+msgstr ""
+
+msgid "Email reply address"
+msgstr ""
+
 msgid "Email reply address for emails that Foreman is sending"
 msgstr ""
 
 msgid "Prefix to add to all outgoing email"
+msgstr ""
+
+msgid "Email subject prefix"
+msgstr ""
+
+msgid "Send welcome email"
 msgstr ""
 
 msgid "Send a welcome email including username and URL to new users"
@@ -3840,13 +4003,28 @@ msgstr ""
 msgid "Number of records shown per page in Foreman"
 msgstr ""
 
+msgid "Entries per page"
+msgstr ""
+
+msgid "Fix DB cache"
+msgstr ""
+
 msgid "Fix DB cache on next Foreman restart"
+msgstr ""
+
+msgid "Max trends"
 msgstr ""
 
 msgid "Max days for Trends graphs"
 msgstr ""
 
 msgid "Foreman will use gravatar to display user icons"
+msgstr ""
+
+msgid "Use Gravatar"
+msgstr ""
+
+msgid "DB pending migration"
 msgstr ""
 
 msgid ""
@@ -3859,15 +4037,30 @@ msgid ""
 " modules?"
 msgstr ""
 
+msgid "DB pending seed"
+msgstr ""
+
 msgid "Max timeout for REST client requests to smart-proxy"
+msgstr ""
+
+msgid "Proxy request timeout"
 msgstr ""
 
 msgid "Default encrypted root password on provisioned hosts"
 msgstr ""
 
+msgid "Root password"
+msgstr ""
+
 msgid ""
 "URL hosts will retrieve templates from during build (normally http as many ins"
 "tallers don't support https)"
+msgstr ""
+
+msgid "Unattended URL"
+msgstr ""
+
+msgid "Safemode rendering"
 msgstr ""
 
 msgid "Enable safe mode config templates rendering (recommended)"
@@ -3876,9 +4069,23 @@ msgstr ""
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr ""
 
+msgid "Manage PuppetCA"
+msgstr ""
+
+msgid "Ignore Puppet facts for provisioning"
+msgstr ""
+
 msgid ""
 "Stop updating IP address and MAC values from Puppet facts (affects all interfa"
 "ces)"
+msgstr ""
+
+msgid "Ignore interfaces with matching identifier"
+msgstr ""
+
+msgid ""
+"Ignore interfaces that match these values during facts importing, you can use "
+"* wildcard to match names with indexes e.g. macvtap*"
 msgstr ""
 
 msgid ""
@@ -3886,10 +4093,19 @@ msgid ""
 "rities"
 msgstr ""
 
+msgid "Query local nameservers"
+msgstr ""
+
+msgid "Remote address"
+msgstr ""
+
 msgid ""
 "If Foreman is running behind Passenger or a remote load balancer, the IP shoul"
 "d be set here. This is a regular expression, so it can support several load ba"
 "lancers, i.e: (10.0.0.1|127.0.0.1)"
+msgstr ""
+
+msgid "Token duration"
 msgstr ""
 
 msgid ""
@@ -3902,7 +4118,16 @@ msgid ""
 "oning new virtual machines via Libvirt"
 msgstr ""
 
+msgid "Libvirt default console address"
+msgstr ""
+
 msgid "Foreman will update the host IP with the IP that made the built request"
+msgstr ""
+
+msgid "Update IP from built request"
+msgstr ""
+
+msgid "Use short name for VMs"
 msgstr ""
 
 msgid ""
@@ -3910,7 +4135,16 @@ msgid ""
 "al machines"
 msgstr ""
 
+msgid "DNS conflict timeout"
+msgstr ""
+
+msgid "Timeout for DNS conflict validation (in seconds)"
+msgstr ""
+
 msgid "Puppet interval in minutes"
+msgstr ""
+
+msgid "Puppet interval"
 msgstr ""
 
 msgid ""
@@ -3918,12 +4152,24 @@ msgid ""
 " of sync."
 msgstr ""
 
+msgid "Out of sync interval"
+msgstr ""
+
 msgid "Foreman will default to this puppet environment if it cannot auto detect one"
+msgstr ""
+
+msgid "Default Puppet environment"
+msgstr ""
+
+msgid "Module path"
 msgstr ""
 
 msgid ""
 "Foreman will set this as the default Puppet module path if it cannot auto dete"
 "ct one"
+msgstr ""
+
+msgid "Document root"
 msgstr ""
 
 msgid "Document root where puppetdoc files should be created"
@@ -3932,7 +4178,16 @@ msgstr ""
 msgid "Enable puppetrun support"
 msgstr ""
 
+msgid "Puppetrun"
+msgstr ""
+
+msgid "Puppet server"
+msgstr ""
+
 msgid "Default Puppet server hostname"
+msgstr ""
+
+msgid "Default variables lookup path"
 msgstr ""
 
 msgid "Foreman will evaluate host smart variables in this order by default"
@@ -3941,7 +4196,16 @@ msgstr ""
 msgid "Foreman smart variables will be exposed via the ENC yaml output"
 msgstr ""
 
+msgid "Enable smart variables in ENC"
+msgstr ""
+
 msgid "Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
+msgstr ""
+
+msgid "Parameterized classes in ENC"
+msgstr "Parameterised classes in ENC"
+
+msgid "Interpolate ERB in parameters"
 msgstr ""
 
 msgid "Foreman will parse ERB in parameters value in the ENC output"
@@ -3953,10 +4217,22 @@ msgid ""
 "ent set in Foreman"
 msgstr ""
 
+msgid "ENC environment"
+msgstr ""
+
+msgid "Use UUID for certificates"
+msgstr ""
+
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr ""
 
 msgid "Foreman will update a host's environment from its facts"
+msgstr ""
+
+msgid "Update environment from facts"
+msgstr ""
+
+msgid "Host group matchers inheritance"
 msgstr ""
 
 msgid ""
@@ -3967,7 +4243,16 @@ msgstr ""
 msgid "Foreman will create the host when new facts are received"
 msgstr ""
 
+msgid "Create new host when facts are uploaded"
+msgstr ""
+
 msgid "Foreman will create the host when a report is received"
+msgstr ""
+
+msgid "Create new host when report is uploaded"
+msgstr ""
+
+msgid "Legacy Puppet hostname"
 msgstr ""
 
 msgid "Foreman will truncate hostname to 'puppet' if it starts with puppet"
@@ -3976,6 +4261,9 @@ msgstr ""
 msgid ""
 "Hosts created after a puppet run will be placed in the location this fact dict"
 "ates. The content of this fact should be the full label of the location."
+msgstr ""
+
+msgid "Location fact"
 msgstr ""
 
 msgid ""
@@ -3987,10 +4275,19 @@ msgstr ""
 "dictates. The content of this fact should be the full label of the organisatio"
 "n."
 
+msgid "Organization fact"
+msgstr "Organisation fact"
+
 msgid ""
 "Hosts created after a puppet run that did not send a location fact will be pla"
 "ced in this location"
 msgstr ""
+
+msgid "Default location"
+msgstr ""
+
+msgid "Default organization"
+msgstr "Default organisation"
 
 msgid ""
 "Hosts created after a puppet run that did not send a organization fact will be"
@@ -3998,6 +4295,14 @@ msgid ""
 msgstr ""
 "Hosts created after a puppet run that did not send a organisation fact will be"
 " placed in this organisation"
+
+msgid ""
+"All hosts will show a configuration status even when a Puppet smart proxy is n"
+"ot assigned"
+msgstr ""
+
+msgid "Always show configuration status"
+msgstr ""
 
 msgid "is invalid - only  http://, https:// are allowed"
 msgstr ""
@@ -4014,9 +4319,6 @@ msgid "Unable to communicate with the proxy: %s"
 msgstr ""
 
 msgid "Please check the proxy is configured and running on the host."
-msgstr ""
-
-msgid "DHCP"
 msgstr ""
 
 msgid "Static"
@@ -4112,6 +4414,12 @@ msgstr ""
 msgid "Can't delete the last admin user group"
 msgstr ""
 
+msgid "unknown permission %s"
+msgstr ""
+
+msgid "LookupKey|Default value"
+msgstr "Default value"
+
 msgid "Status table"
 msgstr ""
 
@@ -4128,6 +4436,9 @@ msgid "Unallowed template for dashboard widget: %s"
 msgstr ""
 
 msgid "Invalid version format, please enter in x.y (only major version)."
+msgstr ""
+
+msgid "%{value} is not one of %{rules}"
 msgstr ""
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
@@ -4175,7 +4486,7 @@ msgid "Administer"
 msgstr ""
 
 msgid "Locations"
-msgstr ""
+msgstr "Locations"
 
 msgid "Organizations"
 msgstr "Organisations"
@@ -4261,13 +4572,16 @@ msgstr ""
 msgid "Environments"
 msgstr ""
 
-msgid "Puppet classes"
+msgid "Classes"
 msgstr ""
 
 msgid "Config groups"
 msgstr ""
 
 msgid "Smart variables"
+msgstr ""
+
+msgid "Smart class parameters"
 msgstr ""
 
 msgid "Infrastructure"
@@ -4294,19 +4608,19 @@ msgstr ""
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-msgid "start"
+msgid "stop"
 msgstr ""
 
-msgid "poweroff"
+msgid "start"
 msgstr ""
 
 msgid "reset"
 msgstr ""
 
-msgid "stop"
+msgid "state"
 msgstr ""
 
-msgid "state"
+msgid "poweroff"
 msgstr ""
 
 msgid "reboot"
@@ -4315,19 +4629,19 @@ msgstr ""
 msgid "soft"
 msgstr ""
 
-msgid "on"
-msgstr ""
-
 msgid "cycle"
-msgstr ""
-
-msgid "ready?"
 msgstr ""
 
 msgid "status"
 msgstr ""
 
+msgid "ready?"
+msgstr ""
+
 msgid "off"
+msgstr ""
+
+msgid "on"
 msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
@@ -4366,6 +4680,9 @@ msgstr ""
 msgid "is alphanumeric and cannot contain spaces"
 msgstr ""
 
+msgid "%{value} is not a valid controller"
+msgstr ""
+
 msgid "is not a valid MAC address"
 msgstr ""
 
@@ -4396,17 +4713,11 @@ msgstr "Name"
 msgid "Features"
 msgstr ""
 
-msgid "Status"
-msgstr ""
-
 msgid "Connecting.."
 msgstr ""
 
 msgid "Provider"
-msgstr ""
-
-msgid "Installed"
-msgstr ""
+msgstr "Provider"
 
 msgid "Not Installed"
 msgstr ""
@@ -4426,7 +4737,7 @@ msgid "No plugins found"
 msgstr ""
 
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 msgid "Author"
 msgstr ""
@@ -4441,9 +4752,6 @@ msgid "Manual"
 msgstr ""
 
 msgid "Wiki"
-msgstr ""
-
-msgid "First use instructions"
 msgstr ""
 
 msgid "IRC"
@@ -4625,10 +4933,10 @@ msgstr ""
 msgid "e.g. mail"
 msgstr ""
 
-msgid "e.g. jpegPhoto"
+msgid "Photo attribute"
 msgstr ""
 
-msgid "Photo attribute"
+msgid "e.g. jpegPhoto"
 msgstr ""
 
 msgid "Edit LDAP Auth Source"
@@ -4739,7 +5047,9 @@ msgstr ""
 msgid "You would probably need to attach the"
 msgstr ""
 
-msgid "and relevant log entries."
+msgid ""
+", relevant log entries, and it is highly recommended to also attach the forema"
+"n-debug output."
 msgstr ""
 
 msgid "Full trace"
@@ -4784,10 +5094,10 @@ msgstr ""
 msgid "Check/Uncheck all %s changes"
 msgstr ""
 
-msgid "Remove:"
+msgid "Update:"
 msgstr ""
 
-msgid "Update:"
+msgid "Remove:"
 msgstr ""
 
 msgid "Add:"
@@ -4805,10 +5115,10 @@ msgstr ""
 msgid "Add Bookmark"
 msgstr ""
 
-msgid "OS Image"
+msgid "Build from OS image"
 msgstr ""
 
-msgid "Build from OS image"
+msgid "OS Image"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4821,19 +5131,13 @@ msgstr ""
 msgid "Partition table"
 msgstr ""
 
-msgid "Scope"
-msgstr ""
-
 msgid "Actions"
-msgstr ""
-
-msgid "override"
 msgstr ""
 
 msgid "Override this value"
 msgstr ""
 
-msgid "Global"
+msgid "override"
 msgstr ""
 
 msgid "hide"
@@ -4842,29 +5146,19 @@ msgstr ""
 msgid "remove"
 msgstr ""
 
-msgid "Global Parameters"
-msgstr ""
-
 msgid "Add Parameter"
 msgstr ""
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Puppetclass"
-msgstr ""
-
-msgid "Parameter name"
-msgstr ""
-
 msgid "Parameter type"
-msgstr ""
-
-msgid "Puppet class overrides"
 msgstr ""
 
 msgid "Override a Puppetclass Parameter"
 msgstr ""
 
 msgid "Edit Global Parameter"
+msgstr ""
+
+msgid "Global Parameters"
 msgstr ""
 
 msgid "New Parameter"
@@ -4930,10 +5224,10 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
-msgid "Test Connection"
+msgid "Load Regions"
 msgstr ""
 
-msgid "Load Regions"
+msgid "Test Connection"
 msgstr ""
 
 msgid "Google Project ID"
@@ -5046,7 +5340,7 @@ msgid "VM Attributes"
 msgstr ""
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Enabled"
 msgstr "Enabled"
@@ -5060,10 +5354,10 @@ msgstr ""
 msgid "Network interfaces"
 msgstr ""
 
-msgid "add new network interface"
+msgid "Add Interface"
 msgstr ""
 
-msgid "Add Interface"
+msgid "add new network interface"
 msgstr ""
 
 msgid "No networks found."
@@ -5087,10 +5381,10 @@ msgstr "Flavour"
 msgid "Please select an image"
 msgstr ""
 
-msgid "Availability zone"
+msgid "No preference"
 msgstr ""
 
-msgid "No preference"
+msgid "Availability zone"
 msgstr ""
 
 msgid "EC2"
@@ -5103,13 +5397,13 @@ msgstr "Subnet"
 msgid "Security groups"
 msgstr ""
 
-msgid "Public"
+msgid "Private"
 msgstr ""
 
 msgid "Managed IP"
 msgstr ""
 
-msgid "Private"
+msgid "Public"
 msgstr ""
 
 msgid "Machine type"
@@ -5130,10 +5424,10 @@ msgstr "CPUs"
 msgid "Memory"
 msgstr "Memory"
 
-msgid "Start"
+msgid "Power ON this machine"
 msgstr ""
 
-msgid "Power ON this machine"
+msgid "Start"
 msgstr ""
 
 msgid "Image to use"
@@ -5174,10 +5468,10 @@ msgstr ""
 msgid "Boot from volume"
 msgstr ""
 
-msgid "New boot volume size (GB)"
+msgid "Defaults to image size if left blank"
 msgstr ""
 
-msgid "Defaults to image size if left blank"
+msgid "New boot volume size (GB)"
 msgstr ""
 
 msgid "Cluster"
@@ -5198,10 +5492,10 @@ msgstr ""
 msgid "Storage domain"
 msgstr ""
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Preallocate disk"
 msgstr ""
 
-msgid "Preallocate disk"
+msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -5240,9 +5534,6 @@ msgstr ""
 msgid "Virtual Machines on %s"
 msgstr ""
 
-msgid "DNS"
-msgstr ""
-
 msgid "State"
 msgstr ""
 
@@ -5255,10 +5546,10 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-msgid "Associate VM"
+msgid "Associate VM to a Foreman host"
 msgstr ""
 
-msgid "Associate VM to a Foreman host"
+msgid "Associate VM"
 msgstr ""
 
 msgid "Properties"
@@ -5312,6 +5603,9 @@ msgstr ""
 msgid "New Config Group"
 msgstr ""
 
+msgid "Puppet classes"
+msgstr ""
+
 msgid "New Config group"
 msgstr ""
 
@@ -5359,194 +5653,18 @@ msgstr ""
 msgid "Get default dashboard widgets"
 msgstr ""
 
-msgid "Welcome"
-msgstr ""
-
-msgid ""
-"Before you can use Foreman for the first time there are a few tasks that must "
-"be performed."
-msgstr ""
-
-msgid ""
-"You must decide how you wish to use the software, and update the primary setti"
-"ngs file <b>config/settings.yaml</b> and the"
-msgstr ""
-
-msgid "settings"
-msgstr ""
-
-msgid "to indicate your selections."
-msgstr ""
-
-msgid "Operating Mode"
-msgstr ""
-
-msgid ""
-"You may operate Foreman in basic mode, in which it acts as a reporting and ext"
-"ernal node classifier or you may also turn on unattended mode operation in whi"
-"ch Foreman creates and manages the configuration files necessary to completely"
-" configure a new host."
-msgstr ""
-
-msgid ""
-"When operating in unattended mode Foreman will require more information, so ex"
-"pect more questions, but it will be able to automate host installations for Re"
-"d Hat, Debian, SUSE and Solaris operating systems (and their clones), see"
-msgstr ""
-
-msgid "here"
-msgstr ""
-
-msgid "for more details."
-msgstr ""
-
-msgid "Create a Smart Proxy"
-msgstr ""
-
-msgid ""
-"If you're planning to do anything more than just handle reports, you'll be in "
-"need of a smart proxy - either on this machine or elsewhere on your network."
-msgstr ""
-
-msgid "You can find details of how to set up the proxy at"
-msgstr ""
-
-msgid "Smart-Proxy Installation"
-msgstr ""
-
-msgid "Important"
-msgstr ""
-
-msgid "Once installed you should head over to"
-msgstr ""
-
-msgid "to point Foreman at it."
-msgstr ""
-
-msgid "User Authentication"
-msgstr ""
-
-msgid ""
-"Foreman, by default, operates in anonymous mode where all operations are perfo"
-"rmed without reference to the user who is performing the task."
-msgstr ""
-
-msgid ""
-"If you wish to track the actions of a particular user then it is possible to u"
-"se an additional authentication stage and provide a user account."
-msgstr ""
-
-msgid ""
-"At present, authentication is performed against the internal Database or a LDA"
-"P service provided by one or more LDAP servers."
-msgstr ""
-
-msgid ""
-"Additionally, you may restrict user permissions based on many criteria, make s"
-"ure you check the roles settings tab."
-msgstr ""
-
-msgid "For internal Users, simply create a new user at the %s page"
-msgstr ""
-
-msgid ""
-"If you chose to use LDAP authentication then you must provide connection detai"
-"ls for your authentication provider on %s page"
-msgstr ""
-
-msgid "LDAP"
-msgstr ""
-
-msgid "For Roles and permissions, see the %s page"
-msgstr ""
-
-msgid "Notice"
-msgstr ""
-
-msgid ""
-"You would need to enable login in your settings.yml file first and restart for"
-"eman"
-msgstr ""
-
-msgid "The default username and password are <b>admin</b> and <b>changeme</b>"
-msgstr ""
-
-msgid "Import your data"
-msgstr ""
-
-msgid ""
-"Foreman comes with some importers to ease the burden of entering loads of data"
-" about your current installation."
-msgstr ""
-
-msgid ""
-"If you are already using puppet you should consider using some of the rake tas"
-"ks that have been provided."
-msgstr ""
-
-msgid "Inventory browser"
-msgstr ""
-
-msgid "Importing Puppet Facts"
-msgstr ""
-
-msgid "Puppet External Nodes"
-msgstr ""
-
-msgid "Importing Puppet classes and environments"
-msgstr ""
-
-msgid "Reporting"
-msgstr ""
-
-msgid "Puppet Reports integration"
-msgstr ""
-
-msgid "Additional steps"
-msgstr ""
-
-msgid ""
-"You may optionally wish to generate the online documentation for your puppet c"
-"lasses"
-msgstr ""
-
-msgid "puppet class browser"
-msgstr ""
-
-msgid ""
-"After you have decided on the two primary modes of operation and performed any"
-" appropriate imports then it would be good idea if you visited some of the oth"
-"er configuration pages to see if additional setup is required under the Additi"
-"onal settings select box on the top right."
-msgstr ""
-
-msgid "You may also find the"
-msgstr ""
-
-msgid "Howtos"
-msgstr ""
-
-msgid "useful."
-msgstr ""
-
-msgid ""
-"This page will self destruct once Foreman starts to receive data about your ho"
-"sts.  You can view this information again by clicking on the \"First use instru"
-"ctions\" link on the %{about} page."
-msgstr ""
-
 msgid "Parameters"
 msgstr ""
 
 msgid "Full name describing the domain"
 msgstr ""
 
-msgid "DNS Proxy"
-msgstr ""
-
 msgid ""
 "DNS proxy to use within this domain for managing A records, note that PTR reco"
 "rds are managed via Subnet DNS proxy"
+msgstr ""
+
+msgid "DNS Proxy"
 msgstr ""
 
 msgid "Edit Domain"
@@ -5578,6 +5696,21 @@ msgid ""
 "  and also available as an external node parameter"
 msgstr ""
 
+msgid "Input"
+msgstr ""
+
+msgid "Diff"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Syntax Highlighting"
+msgstr ""
+
+msgid "Key Binding"
+msgstr ""
+
 msgid "Edit Environment"
 msgstr ""
 
@@ -5587,9 +5720,6 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Name"
 msgstr "Name"
-
-msgid "Classes"
-msgstr ""
 
 msgid "New Environment"
 msgstr ""
@@ -5830,7 +5960,13 @@ msgstr ""
 msgid "Password must be 8 characters or more"
 msgstr ""
 
-msgid "Puppet classes parameters"
+msgid "Puppet class parameters"
+msgstr ""
+
+msgid "Puppet class overrides"
+msgstr ""
+
+msgid "Parent parameters"
 msgstr ""
 
 msgid "Host group parameters"
@@ -5978,13 +6114,10 @@ msgstr ""
 msgid "Deploy on"
 msgstr ""
 
-msgid "Puppet classes Parameters"
+msgid "Puppet classes parameters"
 msgstr ""
 
-msgid "Included Parameters via inheritance"
-msgstr ""
-
-msgid "Host Parameters"
+msgid "Host parameters"
 msgstr ""
 
 msgid "select an owner"
@@ -6003,13 +6136,13 @@ msgid "Some of the interfaces are invalid. Please check the table below."
 msgstr ""
 
 msgid "Identifier"
-msgstr ""
+msgstr "Identifier"
 
 msgid "MAC address"
-msgstr ""
+msgstr "MAC address"
 
 msgid "IP address"
-msgstr ""
+msgstr "IP address"
 
 msgid "FQDN"
 msgstr ""
@@ -6017,11 +6150,11 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-msgid "Select all items in this page"
-msgstr "Select all items in this page"
-
 msgid "items selected. Uncheck to Clear"
 msgstr "items selected. Uncheck to Clear"
+
+msgid "Select all items in this page"
+msgstr "Select all items in this page"
 
 msgid "Last report"
 msgstr "Last report"
@@ -6063,6 +6196,9 @@ msgid "Number of Events"
 msgstr ""
 
 msgid "Time in Seconds"
+msgstr ""
+
+msgid "Keep selected hosts for a future action"
 msgstr ""
 
 msgid "Fix %s on Mismatch"
@@ -6122,9 +6258,6 @@ msgstr "Provision"
 msgid "these hosts for a build operation on next boot"
 msgstr ""
 
-msgid "Warning"
-msgstr "Warning"
-
 msgid ""
 "This might take a while, as all hosts, facts and reports will be destroyed as "
 "well"
@@ -6150,6 +6283,9 @@ msgid "Run Puppet on the following hosts"
 msgstr ""
 
 msgid "List of hosts which answer to the provided query"
+msgstr ""
+
+msgid "Rebuild orchestration configuration"
 msgstr ""
 
 msgid "The following errors may prevent a successful build:"
@@ -6274,10 +6410,10 @@ msgstr ""
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
-msgid "Full path to backing image used to create new volumes."
+msgid "Image path"
 msgstr ""
 
-msgid "Image path"
+msgid "Full path to backing image used to create new volumes."
 msgstr ""
 
 msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
@@ -6311,13 +6447,13 @@ msgstr ""
 msgid "You must create a location before continuing."
 msgstr ""
 
+msgid "Notice"
+msgstr ""
+
 msgid ""
 "Locations are used to manage and differentiate the physical place where a syst"
 "em managed via Foreman is housed."
 msgstr ""
-
-msgid "organizations"
-msgstr "organisations"
 
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
@@ -6325,21 +6461,39 @@ msgid ""
 "tions}."
 msgstr ""
 
-msgid "Remove %s?"
-msgstr ""
+msgid "organizations"
+msgstr "organisations"
 
 msgid "Variable"
 msgstr ""
 
-msgid "Whether the smart variable value is managed by Foreman"
+msgid "Remove %s?"
+msgstr ""
+
+msgid "Parameter details"
+msgstr ""
+
+msgid "Default behavior"
+msgstr ""
+
+msgid "Override the default value of the Puppet class parameter."
+msgstr ""
+
+msgid "Whether the class parameter value is managed by Foreman."
+msgstr ""
+
+msgid "Value to use when there is no match."
 msgstr ""
 
 msgid "Optional input validator"
 msgstr ""
 
+msgid "Note"
+msgstr ""
+
 msgid ""
-"Note that if you use ERB as a value of parameter, value will be validated duri"
-"ng ENC evaluation. If value is invalid, ENC evaluation will fail."
+"If ERB is used in a parameter value, the validation of the value will happen d"
+"uring the ENC request. If the value is invalid, the ENC request will fail."
 msgstr ""
 
 msgid ""
@@ -6347,23 +6501,8 @@ msgid ""
 "ovide a value."
 msgstr ""
 
-msgid "Override merging options"
-msgstr ""
-
-msgid ""
-"Should the matchers continue to look for matches after first find (only array/"
-"hash type). Note: merging overrides ignores all matchers that use Puppet defau"
-"lt"
-msgstr ""
-
-msgid "Should the matched result avoid duplicate values (only array type)."
-msgstr ""
-
-msgid "Override value for specific hosts"
-msgstr ""
-
-msgid "Order"
-msgstr ""
+msgid "Prioritize attribute order"
+msgstr "Prioritise attribute order"
 
 msgid ""
 "The order in which matchers keys are processed, first match wins.<br> You may "
@@ -6372,32 +6511,46 @@ msgid ""
 "b servers\", environment = production</code>"
 msgstr ""
 
-msgid "add a new matcher-value pair"
+msgid "Set the order in which values are resolved."
 msgstr ""
 
-msgid "Add Matcher-Value"
+msgid "The order in which values are resolved."
+msgstr ""
+
+msgid "Order"
+msgstr ""
+
+msgid ""
+"Continue to look for matches after first find (only array/hash type)? Note: me"
+"rging overrides ignores all matchers that use Puppet default."
+msgstr ""
+
+msgid "Include default value when merging all matching values."
+msgstr ""
+
+msgid "Avoid duplicate values when merging them (only array type)?"
+msgstr ""
+
+msgid "Specify matchers"
+msgstr ""
+
+msgid "Attribute type"
 msgstr ""
 
 msgid ""
 "Matcher is a combination of an attribute and its value, if they match, the val"
-"ue below would be provided.<br> You may use any attribute foreman knows about,"
+"ue below would be provided.<br> You may use any attribute Foreman knows about,"
 " such as facts etc for example: <code> domain = example.com </code> or <code> "
-"is_virtual = true</code>"
+"is_virtual = true</code>."
 msgstr ""
 
 msgid "Explain matchers"
 msgstr ""
 
-msgid "Matcher"
+msgid "Add Matcher"
 msgstr ""
 
-msgid "remove value"
-msgstr ""
-
-msgid "Edit Smart Variable"
-msgstr ""
-
-msgid "Number of values"
+msgid "add a new matcher"
 msgstr ""
 
 msgid ""
@@ -6615,10 +6768,10 @@ msgstr ""
 msgid "Please save the Operating System first and try again."
 msgstr ""
 
-msgid "you probably need to configure your %s first."
+msgid "No templates found!"
 msgstr ""
 
-msgid "No templates found!"
+msgid "you probably need to configure your %s first."
 msgstr ""
 
 msgid "Edit Operating System"
@@ -6679,9 +6832,9 @@ msgid "How templates are determined"
 msgstr ""
 
 msgid ""
-"When editing a Template, you must assign a list of Operating Systems which thi"
-"s Template can be used with. Optionally, you can restrict a template to a list"
-" of Hostgroups and/or Environments"
+"When editing a template, you must assign a list of operating systems which thi"
+"s template can be used with. Optionally, you can restrict a template to a list"
+" of host groups and/or environments."
 msgstr ""
 
 msgid ""
@@ -6821,6 +6974,20 @@ msgstr ""
 msgid "Sign"
 msgstr ""
 
+msgid "Edit Smart class parameters"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Parameter"
+msgstr "Parameter"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass"
+msgstr ""
+
+msgid "Number of values"
+msgstr ""
+
 msgid "Included Classes"
 msgstr ""
 
@@ -6856,6 +7023,9 @@ msgstr ""
 msgid "Filter by name"
 msgstr ""
 
+msgid "All environments - (not filtered)"
+msgstr ""
+
 msgid "Add Variable"
 msgstr ""
 
@@ -6872,10 +7042,10 @@ msgstr ""
 msgid "Variables"
 msgstr ""
 
-msgid "This will set all parameters of the class %s as overridden. Continue?"
+msgid "Override all parameters"
 msgstr ""
 
-msgid "Override all parameters"
+msgid "This will set all parameters of the class %s as overridden. Continue?"
 msgstr ""
 
 msgid "Set parameters to defaults"
@@ -6898,10 +7068,10 @@ msgstr ""
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr ""
 
-msgid "Realm type"
+msgid "Type of realm, e.g. FreeIPA"
 msgstr ""
 
-msgid "Type of realm, e.g. FreeIPA"
+msgid "Realm type"
 msgstr ""
 
 msgid "Realm proxy"
@@ -7202,25 +7372,22 @@ msgstr ""
 msgid "clone"
 msgstr ""
 
-msgid "Note: %s "
-msgstr ""
-
 msgid "Useful template functions and macros"
 msgstr ""
 
+msgid "Note: %s "
+msgstr ""
+
+msgid "recreate"
+msgstr ""
+
+msgid ""
+"Warning: The template is associated to at least one host in build mode. To app"
+"ly the change, disable and enable build mode on hosts to update the live templ"
+"ates or choose to %s their configuration from 'Select Action' menu"
+msgstr ""
+
 msgid "Template editor"
-msgstr ""
-
-msgid "Code"
-msgstr ""
-
-msgid "Diff"
-msgstr ""
-
-msgid "Preview"
-msgstr ""
-
-msgid "Key Binding"
 msgstr ""
 
 msgid "Selecting a file will override the editor and load the file instead"
@@ -7244,6 +7411,15 @@ msgid "Save something and try again"
 msgstr ""
 
 msgid "No history found"
+msgstr ""
+
+msgid "Trends for %s"
+msgstr ""
+
+msgid "No data for this trend."
+msgstr ""
+
+msgid "Is the cron job that executes %s enabled?"
 msgstr ""
 
 msgid "Please Select"
@@ -7298,9 +7474,6 @@ msgstr ""
 msgid "New Trend"
 msgstr ""
 
-msgid "Trends for %s"
-msgstr ""
-
 msgid "Number of Hosts"
 msgstr ""
 
@@ -7341,10 +7514,10 @@ msgstr "Synchronise group from authentication source"
 msgid "Show linked external user groups"
 msgstr ""
 
-msgid "link external user group with this user group"
+msgid "Add external user group"
 msgstr ""
 
-msgid "Add external user group"
+msgid "link external user group with this user group"
 msgstr ""
 
 msgid "Edit User group"
@@ -7437,7 +7610,13 @@ msgstr ""
 msgid "Please wait..."
 msgstr ""
 
+msgid "Edit Smart Variable"
+msgstr ""
+
 msgid "%{record} is used by %{what}"
+msgstr ""
+
+msgid "%{record} is being used by a hidden %{what} resource"
 msgstr ""
 
 msgid "Adding would cause a cycle!"
@@ -8027,56 +8206,112 @@ msgid "Lookup key"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Avoid duplicates"
+msgid "Variable lookup key"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Default value"
-msgstr "Default value"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Description"
-msgstr "Description"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Is param"
-msgstr "Is parameter"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Key"
-msgstr "Parameter"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Key type"
-msgstr "Parameter type"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Lookup values count"
-msgstr "Number of values"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Merge overrides"
+msgid "VariableLookupKey|Avoid duplicates"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Override"
-msgstr "Override"
+msgid "VariableLookupKey|Default value"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Path"
-msgstr "Path"
+msgid "VariableLookupKey|Description"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Required"
-msgstr "Required"
+msgid "VariableLookupKey|Is param"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Validator rule"
-msgstr "Validator rule"
+msgid "VariableLookupKey|Key"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Validator type"
-msgstr "Validator type"
+msgid "VariableLookupKey|Key type"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "VariableLookupKey|Variable lookup values count"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "VariableLookupKey|Merge overrides"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "VariableLookupKey|Override"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "VariableLookupKey|Path"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "VariableLookupKey|Required"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "VariableLookupKey|Validator rule"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "VariableLookupKey|Validator type"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Puppetclass lookup key"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Avoid duplicates"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Default value"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Description"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Is param"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Key"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Key type"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Merge overrides"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Override"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Path"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Required"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Validator rule"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PuppetclassLookupKey|Validator type"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Lookup value"
@@ -8228,10 +8463,6 @@ msgstr "Release name"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Title"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Parameter"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
