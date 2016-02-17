@@ -8,8 +8,19 @@ class HostTest < ActiveSupport::TestCase
     Foreman::Model::EC2.any_instance.stubs(:image_exists?).returns(true)
   end
 
-  test "should not save without a hostname" do
+  test "should provide a default hostname" do
     host = Host.new
+    assert host.name.present?
+  end
+
+  test "should honor default_hostname setting" do
+    Setting.expects(:[]).with('default_hostname').returns(false)
+    host = Host.new
+    refute host.name.present?
+  end
+
+  test "should not save without a hostname" do
+    host = Host.new(:name => '')
     host.valid?
     assert host.errors[:name].include?("can't be blank")
   end
@@ -915,7 +926,7 @@ class HostTest < ActiveSupport::TestCase
       h  = Host.new
       h.hostgroup = hg
       h.architecture = architectures(:sparc)
-      assert !h.valid?
+      assert h.valid?
       assert_equal hg.operatingsystem, h.operatingsystem
       assert_not_equal hg.architecture, h.architecture
       assert_equal h.architecture, architectures(:sparc)
@@ -1531,7 +1542,7 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryGirl.create(:host, :hostname => 'num001.example.com')
       host.import_facts({:architecture => "x86_64", :interfaces => 'eth0', :operatingsystem => 'RedHat-test', :operatingsystemrelease => '6.2',:memory_mb => "64498",:custom_fact => "find_me"})
 
-      hosts = Host::Managed.search_for("facts.memory_mb > 112889")
+      hosts = Host::Managed.search_for("facts.memory_mb > 112890")
       assert_equal hosts.count, 0
 
       hosts = Host::Managed.search_for("facts.memory_mb > 6544")
