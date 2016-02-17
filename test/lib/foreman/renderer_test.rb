@@ -78,12 +78,26 @@ class RendererTest < ActiveSupport::TestCase
       tmpl = render_safe("<% @host.managed_interfaces.each do |int| -%><%= int.to_s -%><% end -%>", [], { :host => host })
       assert_equal host.name, tmpl
     end
+
+    test "#{renderer_name} should render with AR collection proxy method calls" do
+      host = FactoryGirl.create(:host)
+      send "setup_#{renderer_name}"
+      tmpl = render_safe("<% @host.interfaces.each do |int| -%><%= int.to_s -%><% end -%>", [], { :host => host })
+      assert_equal host.name, tmpl
+    end
   end
 
   test 'ActiveRecord::AssociationRelation jail test' do
     allowed = [:[], :each, :first, :to_a]
     allowed.each do |m|
       assert ActiveRecord::AssociationRelation::Jail.allowed?(m), "Method #{m} is not available in ActiveRecord::AssociationRelation::Jail while should be allowed."
+    end
+  end
+
+  test 'ActiveRecord::Associations::CollectionProxy jail test' do
+    allowed = [:[], :each, :first, :to_a]
+    allowed.each do |m|
+      assert ActiveRecord::AssociationRelation::Jail.allowed?(m), "Method #{m} is not available in ActiveRecord::Associations::CollectionProxy::Jail while should be allowed."
     end
   end
 end
