@@ -55,23 +55,6 @@ module ApplicationHelper
                                                        :associations => association.all.sort.delete_if{|e| e == klass}}
   end
 
-  def link_to_remove_fields(name, f, options = {})
-    f.hidden_field(:_destroy) + link_to_function(icon_text('close', name, :kind => 'pficon'), "remove_fields(this)", options.merge(:title => _("Remove Parameter")))
-  end
-
-  # Creates a link to a javascript function that creates field entries for the association on the web page
-  # +name+       : String containing links's text
-  # +f+          : FormBuiler object
-  # +association : The field are created to allow entry into this association
-  # +partial+    : String containing an optional partial into which we render
-  def link_to_add_fields(name, f, association, partial = nil, options = {})
-    new_object = f.object.class.reflect_on_association(association).klass.new
-    fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
-      render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
-    end
-    link_to_function(name, ("add_fields('#{options[:target]}', '#{association}', '#{escape_javascript(fields)}')").html_safe, add_html_classes(options, "btn btn-primary") )
-  end
-
   def link_to_remove_puppetclass(klass, type)
     options = options_for_puppetclass_selection(klass, type)
     text = remove_link_to_function(truncate(klass.name, :length => 28), options)
@@ -381,13 +364,6 @@ module ApplicationHelper
     content_tag_for :span, object, opts do
       h(value)
     end
-  end
-
-  def blank_or_inherit_f(f, attr)
-    return true unless f.object.respond_to?(:parent_id) && f.object.parent_id
-    inherited_value   = f.object.send(attr).try(:name_method)
-    inherited_value ||= _("no value")
-    _("Inherit parent (%s)") % inherited_value
   end
 
   def obj_type(obj)

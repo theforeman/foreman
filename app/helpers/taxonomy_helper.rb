@@ -1,5 +1,6 @@
 module TaxonomyHelper
   include AncestryHelper
+  include FormHelper
 
   def show_location_tab?
     SETTINGS[:locations_enabled] && User.current.allowed_to?(:view_locations)
