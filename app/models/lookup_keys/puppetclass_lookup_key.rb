@@ -2,6 +2,7 @@ class PuppetclassLookupKey < LookupKey
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, -> { uniq }, :through => :environment_classes
   has_many :param_classes, :through => :environment_classes, :source => :puppetclass
+  before_validation :check_override_selected, :if => -> { persisted? }
 
   scoped_search :in => :param_classes, :on => :name, :rename => :puppetclass, :alias => :puppetclass_name, :complete_value => true
 
@@ -39,5 +40,13 @@ class PuppetclassLookupKey < LookupKey
 
   def puppet?
     true
+  end
+
+  def check_override_selected
+    return if only_changed?(['description'])
+    return if only_changed?(['override'])
+    return if only_changed?(['override', 'description'])
+    return if override.present?
+    errors.add(:override, _("must be true to edit the parameter"))
   end
 end

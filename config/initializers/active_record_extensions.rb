@@ -3,6 +3,10 @@ class ActiveRecord::Base
   include HasManyCommon
   include StripWhitespace
   include Parameterizable::ById
+
+  def only_changed?(field_names)
+    self.changes.size == field_names.size && field_names.count{ |field_name| self.changes[field_name].present? } == field_names.size
+  end
 end
 
 # Permit safemode template rendering to have basic read-only access over
