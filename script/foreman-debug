@@ -2,7 +2,7 @@
 # vim:sw=2:ts=2:et
 
 export LC_ALL=C
-export SCLNAME=ruby193
+export SCLNAME=tfm
 
 usage() {
 [[ $UPLOAD_DISABLED -ne 0 ]] && UPLOAD_INFO=" (feature disabled by configuration)"
@@ -19,6 +19,8 @@ This program can be used on Foreman instances, Smart Proxy instances or
 backend services separately.
 
 OPTIONS:
+  -E      Detailed output incl. host names or domains
+          (THIS OPTION ADDS MORE SENSITIVE DATA IN THE REPORT)
   -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
   -g      Skip generic info (CPU, memory, firewall etc.)
   -a      Do not generate a tarball from the resulting directory
@@ -58,10 +60,12 @@ error() {
   echo $* >&2
 }
 
+# print information on stdout (can be supressed with -q option)
 qprintf() {
   [ $QUIET -ne 1 ] && printf "$@"
 }
 
+# print verbose information on stdout (visible only with -v)
 printv() {
   [ $QUIET -ne 1 ] && [ $VERBOSE -eq 1 ] && echo $*
 }
@@ -77,6 +81,21 @@ add_cmd() {
   printv " - $OUT"
   echo -e "COMMAND> $CMD\n" > "$DIR/$OUT"
   eval $CMD >> "$DIR/$OUT" 2>&1
+}
+
+# add outout of the sql and redirect possible errors there
+add_sql() {
+  SQL=$1
+  OUT=$2
+  printv " - $OUT"
+  echo -e "SQL> $SQL\n" > "$DIR/db_$OUT"
+  if [ "$DB_ADAPTER" = "postgresql" ]; then
+    echo "$SQL" | su postgres -c "psql $DB_NAME" >> "$DIR/db_$OUT" 2>&1
+  elif [ "$DB_ADAPTER" = "mysql" ]; then
+    echo "$SQL" | mysql "$DB_NAME" >> "$DIR/db_$OUT" 2>&1
+  else
+    echo "Command not executed, unsupported database in /etc/foreman/database.yml" >> "$DIR/db_$OUT"
+  fi
 }
 
 # add and filter if it is a non zero, readable, regular file or symlink (skip otherwise)
@@ -115,6 +134,7 @@ add_files() {
 }
 
 # default values
+DETAILED=0
 DIR=""
 NOGENERIC=0
 NOTAR=0
@@ -145,8 +165,11 @@ fi
 CONF_FILE=/usr/share/foreman/config/foreman-debug.conf
 test -f $CONF_FILE && source $CONF_FILE
 
-while getopts "d:gam:j:uqpvhx" opt; do
+while getopts "Ed:gam:j:uqpvhx" opt; do
   case $opt in
+    E)
+      DETAILED=1
+      ;;
     d)
       DIR="$OPTARG"
       ;;
@@ -197,7 +220,8 @@ done
 [ $UPLOAD -eq 1 -a $NOTAR -eq 1 ] && error "Options -u and -a cannot be used together" && exit 2
 
 # some tasks take long time, print a banner (unless quiet mode was selected)
-qprintf "Processing... (takes a while)"
+pushd /tmp >/dev/null
+qprintf "Processing... (takes a while)\n"
 
 # determine distribution family
 if [ -f /etc/debian_version ]; then
@@ -224,9 +248,15 @@ if [ -z "$DIR" ]; then
 else
   [ ! -d "$DIR" ] && mkdir -p "$DIR"
 fi
+# allow writing content to non-root users (e.g. postgres)
+chmod o+w $DIR
 printv "Directory $DIR created"
 
 TARBALL="$DIR.tar$EXTENSION"
+
+DB_ADAPTER=$(sed '/^production/,$!d' /etc/foreman/database.yml 2>/dev/null | grep adapter | awk -F ': ' '{print $2}')
+DB_NAME=$(sed '/^production/,$!d' /etc/foreman/database.yml 2>/dev/null | grep database | awk -F ': ' '{print $2}')
+printv "Detected adapter $DB_ADAPTER with database named $DB_NAME"
 
 # GENERIC ARTIFACTS
 
@@ -293,8 +323,6 @@ add_files /etc/{httpd,apache2}/conf.d/*
 add_files /etc/{httpd,apache2}/conf.d/*/*
 add_files /var/log/{httpd,apache2}/*error_log*
 add_files /var/log/{httpd,apache2}/foreman-ssl_access_ssl.log*
-add_cmd "echo \"select id,name,value from settings where name not similar to '%(pass|key|secret)'\" | su postgres -c 'psql foreman'" "foreman_settings_table"
-add_cmd "echo 'select type,name,host,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources' | su postgres -c 'psql foreman'" "foreman_auth_table"
 add_cmd "foreman-selinux-relabel -nv" "foreman_filecontexts"
 
 add_files /etc/{sysconfig,default}/foreman
@@ -302,6 +330,30 @@ add_files /etc/{sysconfig,default}/libvirt*
 add_files /etc/sysconfig/pgsql
 add_files "/var/lib/pgsql/data/pg_log/*"
 add_cmd "foreman-rake plugin:list" "plugin_list"
+
+add_sql "select count(hosts.name), compute_resources.type from hosts, compute_resources where hosts.compute_resource_id = compute_resources.id group by compute_resources.type" compute_resources-stats
+
+if [ $DETAILED -eq 1 ]; then
+  printv "Adding detailed information"
+  add_sql "select id,name,value from settings where name not similar to '%(pass|key|secret)' order by name" settings
+  add_sql "select type,name,host,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources order by name" auth_sources
+  add_sql "select id,name,type from compute_resources order by name" compute_resources
+  add_sql "select id,name,fullname,dns_id from domains order by name" domains
+  add_sql "select id,name,hosts_count from environments order by name" environments
+  add_sql "select id,name as name,managed,build,organization_id,location_id from hosts order by name" hosts
+  add_sql "select id,name,vm_defaults from hostgroups order by name" hostgroups
+  add_sql "select id,name,path,media_path,config_path,image_path,os_family from media order by name" media
+  add_sql "select id,host_id,mac,ip,type,name,subnet_id,domain_id from nics order by host_id,id" nics
+  add_sql "select id,name,major,minor,type,description from operatingsystems order by name" operatingsystems
+  add_sql "select id,name,url from smart_proxies order by name" smart_proxies
+  add_sql "select id,name,network,mask,dhcp_id,tftp_id,dns_id from subnets order by name" subnets
+  add_sql "select id,name,type from taxonomies order by name" taxonomies
+  add_sql "select id,name from provisioning_templates order by name" provisioning_templates
+  add_sql "select id,value as value,expires,host_id from tokens order by expires" tokens
+  add_sql "select id,login as login,admin,auth_source_id from users order by id" users
+  add_sql "select id,name from roles order by name" roles
+  add_sql "copy provisioning_templates(id,name,template) TO '$DIR/db_provisioning_templates.csv' (format csv)" provisioning_templates_export
+fi
 
 # Look for any debug extensions provided by plugins
 if [ -d "/usr/share/foreman/script/foreman-debug.d" ]; then
@@ -343,5 +395,7 @@ if [ $UPLOAD_DISABLED -eq 0 -a $UPLOAD -eq 1 ]; then
 else
   [[ $UPLOAD_DISABLED -eq 0 ]] && qprintf "To upload a tarball to our secure site, please use the -u option.\n"
 fi
+
+popd >/dev/null
 
 exit 0
