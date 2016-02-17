@@ -1,6 +1,5 @@
 # foreman plugins import this file therefore __FILE__ cannot be used
 FOREMAN_GEMFILE = __FILE__ unless defined? FOREMAN_GEMFILE
-require File.expand_path('../lib/regexp_extensions', FOREMAN_GEMFILE)
 
 source 'https://rubygems.org'
 
