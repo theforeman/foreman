@@ -12,5 +12,4 @@ group :development do
 
   gem 'bullet'
   gem "parallel_tests"
-  gem 'jasmine-rails'
 end

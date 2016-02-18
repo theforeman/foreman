@@ -1,9 +1,6 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require turbolinks
-//= require react
-//= require react_ujs
-//= require components
 //= require i18n
 //= require jquery_ujs
 //= require jquery.ui.autocomplete
@@ -28,9 +25,6 @@
 //= require underscore
 //= require editor
 //= require lookup_keys
-//= require d3
-//= require c3
-//= require patternfly
 
 window.foreman = window.foreman || {};
 foreman.tools = foreman.tools || {};
