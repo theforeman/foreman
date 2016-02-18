@@ -19,7 +19,7 @@ Apipie.configure do |config|
     :operatingsystem_families => Operatingsystem.families.join(", "),
     :providers => ComputeResource.providers.join(', '),
     :default_nic_type => InterfaceTypeMapper::DEFAULT_TYPE.humanized_name.downcase,
-    :template_kinds => -> { TemplateKind.pluck(:name).join(", ") },
+    :template_kinds => -> { Rails.cache.fetch("template_kind_names", expires_in: 1.hour) {TemplateKind.pluck(:name).join(", ")} },
     :provision_methods => -> { Host::Managed.provision_methods.map { |method, friendly_name| "#{method} (#{_(friendly_name)})" }.join(', ') },
   }
 
