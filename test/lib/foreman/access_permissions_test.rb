@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'foreman/access_control'
 require 'foreman/access_permissions'
-
+require 'foreman/plugin'
 # Permissions are added in AccessPermissions with lists of controllers and
 # actions that they enable access to.  For non-admin users, we need to test
 # that there are permissions available that cover every controller action, else
@@ -53,7 +53,8 @@ class AccessPermissionsTest < ActiveSupport::TestCase
   app_routes.each do |path, r|
     # Skip if excluded from this test (e.g. user login)
     next if (MAY_SKIP_AUTHORIZED + MAY_SKIP_REQUIRE_LOGIN).include? path
-
+    # Skip those listed explicitly by plugins
+    next if Foreman::Plugin.paths_to_skip.any? { |sp| path.match /^#{sp}/ }
     # Basic check for a filter presence, can't do advanced features (:only, skip_*)
     controller = "#{r.defaults[:controller]}_controller".classify.constantize
     filters    = controller.send(:_process_action_callbacks)
