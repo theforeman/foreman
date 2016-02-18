@@ -31,12 +31,3 @@ bmc:
   name: BMC proxy
   url: http://else.where:45673
   features: bmc
-
-logs:
-  name: A proxy with Logs feature
-  url: http://else.where:45674
-  features:
-    - dhcp
-    - dns
-    - puppet
-    - logs
