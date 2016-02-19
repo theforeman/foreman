@@ -67,7 +67,7 @@ class SmartProxyTest < ActiveSupport::TestCase
   end
 
   test "can count connected hosts" do
-    proxy = FactoryGirl.create(:smart_proxy)
+    proxy = FactoryGirl.create(:puppet_smart_proxy)
     FactoryGirl.create(:host, :with_environment, :puppet_proxy => proxy)
     as_admin do
       assert_equal 1, proxy.hosts_count
