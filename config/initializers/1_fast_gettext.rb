@@ -11,6 +11,7 @@ I18n.config.enforce_available_locales = false
 I18n.config.available_locales = FastGettext.default_available_locales
 
 FastGettext.default_text_domain = locale_domain
+FastGettext.default_locale = "en"
 FastGettext.locale = "en"
 
 Foreman::Gettext::Support.register_human_localenames
