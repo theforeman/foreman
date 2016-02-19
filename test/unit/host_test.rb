@@ -1718,7 +1718,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "can search hosts by smart proxy" do
       host = FactoryGirl.create(:host)
-      proxy = FactoryGirl.create(:smart_proxy)
+      proxy = FactoryGirl.create(:puppet_and_ca_smart_proxy)
       results = Host.search_for("smart_proxy = #{proxy.name}")
       assert_equal 0, results.count
       host.update_attribute(:puppet_proxy_id, proxy.id)

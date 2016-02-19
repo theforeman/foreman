@@ -22,6 +22,10 @@ FactoryGirl.define do
       features { |sp| [sp.association(:feature, :puppetca)] }
     end
 
+    factory :puppet_and_ca_smart_proxy do
+      features { |sp| [sp.association(:feature, :puppet), sp.association(:feature, :puppetca) ] }
+    end
+
     factory :realm_smart_proxy do
       features { |sp| [sp.association(:feature, :realm)] }
     end
