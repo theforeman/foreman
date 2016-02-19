@@ -1,3 +1,953 @@
+2016-02-19	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #13348 - Allow searching of all hosts managed by a smart proxy
+
+2016-02-19	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13664 - rescue smtp errors if mail failed on host built
+
+2016-02-19	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #6241 - Validations for associations with proxies
+
+2016-02-19	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #6342 - merge compute profile when attributes in api host#create
+
+2016-02-18	Tom Caspy <tcaspy@gmail.com>
+	* fixes #11059 - removing unused regexp_extensions file
+	* fixes #12621 - adding cache for template kinds to prevent multiple queries
+
+2016-02-18	Daniel Lobato <elobatocs@gmail.com>
+	* Revert "Fixes #13424 - Add Patternfly Donut Chart React component"
+	* Fixes #13424 - Add Patternfly Donut Chart React component
+
+2016-02-17	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #13084 - compute resource IP orchestration fixed
+
+2016-02-17	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12380 - Added the ability to select pagination mechanism in /filters
+
+2016-02-17	Trey Dockendorf <treydock@gmail.com>
+	* fixes #13745 - Fix usage of primary_interface when migrating interfaces from < 1.8 to >= 1.8
+
+2016-02-17	Marek Hulan <ares@igloonet.cz>
+	* Fixes #13755 - allow reading of AR collections with safe mode enabled
+
+2016-02-17	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13726 - rename delete button on pending certs
+
+2016-02-17	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13157 - adding padding to icons in hosts#show
+	* fixes #13709 - fullscreen editor doesn't need padding in parent element
+
+2016-02-17	Michael Moll <kvedulv@kvedulv.de>
+	* refs #2445 -  move back FreeBSD icon
+	* fixes #12791 - allow access to boot_files_uri and medium in safe_mode
+
+2016-02-17	Ori Rabin <orabin@redhat.com>
+	* Fixes #13257 - nested locations can be created via api
+
+2016-02-17	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #13721 - Some settings should dispaly a drop down list
+
+2016-02-17	Dominic Cleal <dominic@cleal.org>
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+
+2016-02-16	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13730 - change closing tfoot
+
+2016-02-16	Marek Hulan <ares@igloonet.cz>
+	* Fixes #3951 - reverting compatibility with newer jQuery
+
+2016-02-16	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13567 - fixing locale:pack
+
+2016-02-16	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12393 - Clarify parameter override count column header
+
+2016-02-16	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #13729 - fix typo in images header HTML
+
+2016-02-16	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #13426 - Change status colors to adapt to Patternfly palette
+	* Fixes #13557 - Rubocop enforce specifying a timezone
+
+2016-02-15	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #13697 - Remove json from gemfile
+	* Fixes #13353 - Correctly handle widget dragging in dashboard
+	* Fixes #9553 - Remove workaround for older json version
+
+2016-02-15	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13409 - remove early initialisation of test DB
+	* fixes #12873 - update Rails to 4.1.14.1
+
+2016-02-12	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #13356 - OpenStack volumes API v2 needs :name
+
+2016-02-12	Timo Goebel <timo.goebel@dm.de>
+	* fixes #13647 - change puppet ca proxy for several hosts at once
+
+2016-02-12	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #13554 - Setting releated to taxonomies shouldn't be shown if they are disabled
+
+2016-02-11	Bryan Kearney <bkearney@redhat.com>
+	* Fixes #2445 - Fix some Operating systems icons.
+
+2016-02-10	Timo Goebel <timo.goebel@dm.de>
+	* fixes #12436 - as a user I want to deploy vSphere vms on a storage pool
+	* fixes #13494 - change puppet proxy for several hosts at once
+
+2016-02-10	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13311 - improve English and link full sentence to docs
+
+2016-02-10	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #13639 - add host permissions to host show api
+
+2016-02-10	Stephen Benjamin <stbenjam@redhat.com>
+	* templates - sync from community-templates
+
+2016-02-09	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #12909 - Keep 'reset zoom' buttom on the left
+	* Fixes #13386 - Adds taxonomy parameters objects
+	* Fixes #13378 - Ensure taxonomy name length validation is called once
+
+2016-02-09	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13440 - rename Host#model_name to #hardware_model_name
+
+2016-02-08	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #13428 - Temporarily thin flot_pie width to make it look like Patternfly
+
+2016-02-08	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13594 - Pin parser gem to 2.3
+	* Fixes #13245 - Remove duplicate apipie description from compute_resources
+
+2016-02-08	Tom Caspy <tcaspy@gmail.com>
+	* fixes #12669 - making sure that code which requires a new attribute doesn't break migrations
+
+2016-02-08	Daniel Helgenberger <daniel.helgenberger@m-box.de>
+	* Fixes #13584 - Rename 'DNS Proxy' > 'Reverse DNS Proxy'
+
+2016-02-08	Imri Zvik <imrizvik@gmail.com>
+	* Fixes #12949 - Allow selection of external networks as main network in Openstack
+
+2016-02-08	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13574 - remove DB access from Setting class scope
+
+2016-02-05	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13077 - setting width of number of days by what is needed
+	* fixes #13083 - error pages alert box is no longer dismissable
+	* fixes #12920 - allowing os parameters to be set via API
+	* fixes #11346 - on new host, nic shouldn't try to call matcher
+
+2016-02-05	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #13444 - Don't show empty properties
+
+2016-02-04	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #13442 - foreman-debug exits with 0 on success
+
+2016-02-04	David Davis <daviddavis@redhat.com>
+	* Refs #12911 - Fixing colon method calls
+
+2016-02-04	Timo Goebel <timo.goebel@dm.de>
+	* fixes #13430 - add missing actions to virt power manager
+
+2016-02-03	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #12718 - smart proxy log table
+
+2016-02-03	Dominic Cleal <dcleal@redhat.com>
+	* fixes #8874 - rework POT/PO updates for gettext 3's edit.po
+	* fixes #13533 - pin patternfly-sass to < 2.10.0
+
+2016-02-03	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #13340 - Seed Fedora Atomic installation media
+
+2016-02-02	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13067 - dropdown menu alignment fix
+
+2016-01-28	Julien Pivotto <roidelapluie@inuits.eu>
+	* Fixes #13379 - Clear host.last_report when switching to build mode
+
+2016-01-28	Guido Günther <agx@sigxcpu.org>
+	* Fixes 13401 - ssh_provision: safe stderr as well
+
+2016-01-28	Timo Goebel <timo.goebel@dm.de>
+	* fixes #13236 - apply power operations to several hosts at once
+
+2016-01-28	Sean OKeeffe <seanokeeffe797@gmail.com>
+	* Fixes #13411 - Display hostgroup name to the user when deleting a hostgroup
+
+2016-01-27	Guido Günther <agx@sigxcpu.org>
+	* fixes #13298 - ssh_provision: Don't use /tmp
+
+2016-01-27	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13115 - Adds locations and organizations in smart_proxies#index
+
+2016-01-27	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #13370 - Clip long fingerprints on puppetca proxy page
+
+2016-01-27	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #13404 - Removed double closing of a div in proxy show page
+
+2016-01-27	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13355 - facet test tables get created when tests run
+
+2016-01-26	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13292 - replacing the turbolinks progress bar with a spinner
+
+2016-01-26	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #13354 - Correctly show certificates even if some are pending
+	* Refs #12720 - Allow puppet CA cache to work for https proxies
+
+2016-01-25	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #13341 - Seeded Fedora installation media URL is wrong
+
+2016-01-25	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #13107 - compute attributes has indifferent access again
+
+2016-01-25	Andrew Schofield <aas@ourhavens.co.uk>
+	* fixes #13265 - Any Context menu permissions
+
+2016-01-25	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13294 - Add qoutes to search parameter in generate_links_for helper method
+
+2016-01-25	amirfefer <amirfefer@gmail.com>
+	* Fixes #11631 - Adds a link to foreman inpuppet error state mail report
+
+2016-01-25	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12720 - Add tabs for puppet on proxy show page
+
+2016-01-24	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #13307 - Add ids to enable theme plugin overrides easier jquery selection
+
+2016-01-24	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #13079 - Conditionally hide the pagelets
+
+2016-01-24	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #13279 - Fix template for host in build mode alert
+	* Fixes #13343 - Compute resource network modal is misaligned
+
+2016-01-22	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #13309 - Added string extraction for host test
+
+2016-01-21	Guido Günther <agx@sigxcpu.org>
+	* fixes #13297 - ssh_provision: try keyboard-interactive as well
+
+2016-01-21	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #13279 - checked_icon should use fa-check not png
+	* Fixes #13279 - Adapt alerts to Patternfly
+
+2016-01-21	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13168 - permit safemode templates read-only access to AR relations
+
+2016-01-21	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #13171: Prevent frozen array error when plugins have assets
+
+2016-01-21	Stephen Benjamin <stephen@bitbin.de>
+	* fixes #13033 - require new location of gettext_i18n_rails_js tasks
+
+2016-01-21	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13247 - make sure Ace editor resizes on fullscreen
+
+2016-01-20	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #13216 - Added ability to extend API by creating facet subnode This commit adds the ability for plugins to extend Host model with custom data that will be stored in a facet model. In order to show this data an extension point is added to Host's view API, so the properties list can be extended by the facet. Parts that are contained in this PR: 1. Added extension point to API V2: Now each facet will be able to add facet's properties to host's details 2. Added model extensions, now you can enumerate all active facets using Host#facets and Host#facets_with_definitions methods 3. Host#attributes will include the facets by default 4. Includes facets in Host#clone
+
+2016-01-20	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #13235 - content from application layout extracted into a partial
+
+2016-01-20	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13111 - use negated Capybara lookups to wait for JS handlers
+	* refs #13177 - fix usage of WrappedException constructor
+
+2016-01-20	Ori Rabin <orabin@redhat.com>
+	* Fixes #13126 - Corrects smart variable matcher length
+	* Fixes #13258 - Use patternfly icons for parameters
+	* Fixes #12843 - lookup values are hidden when creating them if lookup key is hidden
+
+2016-01-20	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #13272 - use instance variable for basic_edit_test test helper
+
+2016-01-20	Stefan - Zipkid - Goethals <stefan.goethals@vrt.be>
+	* fixes #6535 - EC2 Security Groups show empty box
+
+2016-01-20	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13177, #13255 - Extend ProxyStatus to a base class, handle ProxyAPI errors
+
+2016-01-19	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13256 - unpin i18n gem to get 0.7.x
+
+2016-01-19	Ohad Levy <ohadlevy@gmail.com>
+	* refs #13124 - set OS icons in the host list to match status icon size
+
+2016-01-19	Ori Rabin <orabin@redhat.com>
+	* Fixes #13070 - making actions column consistent
+
+2016-01-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #13124 - use patternfly icons for status
+
+2016-01-15	John Mitsch <jomitsch@redhat.com>
+	* Fixes #13230 - Oauth headers change in rails 4
+
+2016-01-15	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13004 - inherit compute profile from parent host groups
+
+2016-01-15	Ori Rabin <orabin@redhat.com>
+	* Fixes #13146 - Removes table-condensed class
+
+2016-01-15	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #13076 - correct spacing under tabs
+
+2016-01-14	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #13095 - Center Patternfly alerts icon
+
+2016-01-14	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #12566 - host_parameters_attributes accepts nested flag
+
+2016-01-14	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12630 - Facets registration
+
+2016-01-14	Ori Rabin <orabin@redhat.com>
+	* Fixes #12996 - Tests run without errors after removing a plugin
+
+2016-01-14	Dominic Cleal <dcleal@redhat.com>
+	* fixes #12271 - update ace editor usage, remove unused JS
+	* refs #12716 - fix usage of N_() and exception constructor
+	* fixes #13180 - correct closing tbody HTML tag
+	* fixes #13144 - enable missing precompiled asset errors in test env
+
+2016-01-14	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #13076 - Reduced host#show tab headings font size
+
+2016-01-13	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #12130 - reference parent name in fact helptip
+
+2016-01-13	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #13160 - pagelet tab names gets translated
+
+2016-01-13	julien IPPOLITO <stuxboulot@gmail.com>
+	* fixes #13113 - Add roles name in the title of the filters page
+
+2016-01-13	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13112 - add options to HostStatus#relevant? to optimise reports
+
+2016-01-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #13136 - align children fields from right
+	* Fixes #13109 - seed bookmarks scoped per controller
+
+2016-01-13	Timo Goebel <timo.goebel@dm.de>
+	* fixes #5510 - Set network as first boot device for VMs in VMware compute resources
+
+2016-01-13	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13131 - plugin tests to skip is back
+
+2016-01-13	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #11618 - Replace validation tests by shoulda-matchers
+
+2016-01-12	Tom Caspy <tcaspy@gmail.com>
+	* fixes #12805 - nested LV in puppetclass form are now validated
+
+2016-01-12	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #12716 - Extensible pages for smart proxy with mount points
+	* Fixes #10357 - Realms for organizations and locations can be retrieved through API
+
+2016-01-12	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #13074 - sprockets-rails should be in Gemfile
+	* Fixes #13050 - Do not pass paths with /assets to helpers
+
+2016-01-12	amirfefer <amirfefer@gmail.com>
+	* Fixes #8801 - Adds a scrollbar to the search bar auto completer
+
+2016-01-12	Timo Goebel <timo.goebel@dm.de>
+	* fixes #12612 - Update fog to 1.37.0
+
+2016-01-12	imriz <imrizvik@gmail.com>
+	* Fixes #12946 - Do not fail miserably when compute instance is not found.
+
+2016-01-12	Ori Rabin <orabin@redhat.com>
+	* Fixes #12577 - Smart variable key should not contain space
+	* Fixes #13101 - Smart class parameters show puppetclass in api
+	* Fixes #12957 - removing current_parameters from hostgroup
+
+2016-01-12	Dominic Cleal <dcleal@redhat.com>
+	* fixes #12959 - escape % in fact search values, auto-add wildcards
+	* fixes #13039 - remove TemplateKind DB calls from UnattendedCtlr
+
+2016-01-12	Marek Hulan <mhulan@redhat.com>
+	* Fixes #12859 - trigger autosuggesting even when the IP is set
+
+2016-01-11	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13110 - add initializer name to plugin registration deprecation
+	* fixes #12954 - config status is relevant if reports exist or via setting
+
+2016-01-11	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #13075 - Add padding host#show status icon and caption
+	* Fixes #13065 - Improved documentation link text
+	* Fixes #13069 - Center documentation icon
+
+2016-01-11	julien IPPOLITO <stuxboulot@gmail.com>
+	* fixes #9359 - display puppetca in yaml always when a puppetca is configured
+
+2016-01-11	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #13098: Set assets environment the same as core assets
+
+2016-01-11	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #13054 - make proxy action buttons consistent
+
+2016-01-11	Ori Rabin <orabin@redhat.com>
+	* Fixes #12958 - calling update_capabilities only from host
+	* Fixes #12965 - provisioning/config templates are shown under OS API
+	* Fixes #13090 - fixing alignments on Puppet class edit form
+
+2016-01-11	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12870 - FactName compose should be an attr_accessible
+	* Fixes #12245 - Remove Nic
+
+2016-01-10	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #13097 - Vertically center select2 option text
+
+2016-01-08	Marek Hulan <mhulan@redhat.com>
+	* Fixes #12754 - adds permission name to 403 page
+
+2016-01-08	Timo Goebel <timo.goebel@dm.de>
+	* fixes #12830 - Support rebooting hosts when building multiple hosts
+
+2016-01-08	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #13059 - pin net-ldap to less than 0.13 on ruby 1.9.x
+
+2016-01-07	Ori Rabin <orabin@redhat.com>
+	* Fixes #12919 - allows mass assignment of provisioning_template from os
+	* Fixes #12931 - Nested taxonomies show parent parameters
+
+2016-01-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #12914 - update configurations to rails 4.1 structure
+
+2016-01-07	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #13040 - oVirt now autoloads SSL certificate
+
+2016-01-07	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #4629 - Migrate UI to Patternfly
+
+2016-01-07	Pavel Moravec <pmoravec@redhat.com>
+	* Fixes #12978 - foreman-debug -m 0 to collect all files
+
+2016-01-06	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13005 - enable CSS compression in plugin precompilation
+
+2016-01-05	Dominic Cleal <dcleal@redhat.com>
+	* refs #12977 - set max version of sprockets-rails
+
+2016-01-04	Dominic Cleal <dcleal@redhat.com>
+	* fixes #7517 - remove overridden class parameters from envs on import
+	* refs #12714 - i18n extraction and interpolation fixes
+	* fixes #12977 - set minimum sprockets-rails to 2.2.2
+
+2016-01-04	Ori Rabin <orabin@redhat.com>
+	* Fixes #12956 - turned ajax calls to post
+
+2015-12-31	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12963 - correctly show status on proxy list after adding proxy
+	* Refs #12714 - Improve proxy services tab
+	* Fixes #12964 - Show proxy features version for proxy<1.11
+
+2015-12-30	Ori Rabin <orabin@redhat.com>
+	* Fixes #12947 - changes puppetclass_lookup_key factory to use puppetclass_lookup_key_id
+
+2015-12-30	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #12714 - Show proxy status in index, and create a show page for proxy
+
+2015-12-28	Ori Rabin <orabin@redhat.com>
+	* Fixes #12934 - Unhiding paramter values does not clear their value
+	* Fixes #12937 - All parameters can be hidden
+
+2015-12-28	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12884 - Allow importing subnets from smart proxy
+
+2015-12-28	David Davis <daviddavis@redhat.com>
+	* Fixes #12911 - Turning on 0.35.1 cops
+
+2015-12-28	Brandon Weeks <weeks@squareup.com>
+	* Fixes #12514 - update guest types from vSphere API 6.0
+
+2015-12-24	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12834 - Avoid select2 integration test deadlock
+
+2015-12-22	Ori Rabin <orabin@redhat.com>
+	* Fixes #12860 - Moves new_child_fields_template to LayoutHelper and connect new child to parent
+
+2015-12-22	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12793 - reverted field filtration to enabled fields only
+	* Fixes #12794 - Defined logic when properties should be sent to server
+
+2015-12-22	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #12893 - ensure constants are set only once
+
+2015-12-21	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #12219: Pin pg to 0.15.X
+
+2015-12-21	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12083 - Set nic domain only on full match of fqdn domain
+
+2015-12-21	Ori Rabin <orabin@redhat.com>
+	* Fixes #12891 - search_by_params and search_by_user for host return correct results
+
+2015-12-21	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #12892 - moves rails binaries to Rails.root/bin
+
+2015-12-18	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #7230, #12021 - Upgrade to Rails 4.1.5
+
+2015-12-17	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12748 - "Add Smart Variable" button does not change color on click
+
+2015-12-17	Ori Rabin <orabin@redhat.com>
+	* Fixes #12852 - override checkbox always enables default value when use_puppet_default is false
+	* Fixes #12842 - Adding padding below use puppet default checkbox in puppetclass edit form
+	* Refs #6007 - fixing safe_value for lookup key
+
+2015-12-16	Ori Rabin <orabin@redhat.com>
+	* Fixes #12828 - Hidden value checkbox enabled after override button is checked
+
+2015-12-16	Marek Hulan <mhulan@redhat.com>
+	* Fixes #12827 - deconstantize resource only when needed
+
+2015-12-15	Ori Rabin <orabin@redhat.com>
+	* Fixes #12806 - adding merge_default to attr_accessible in lookup_key
+
+2015-12-15	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12799 - Add uuid to Compute Resource attr_accessible
+
+2015-12-15	amirfefer <amirfefer@gmail.com>
+	* Fixes #12180 - lookup_value presence validation moved from lookup_key
+
+2015-12-14	Tom Caspy <tcaspy@gmail.com>
+	* fixes #11862 - validating that casted hash is valid
+
+2015-12-14	Marek Hulan <mhulan@redhat.com>
+	* Fixes #12278 - make sure permission set is uniq for role
+
+2015-12-11	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12698 - Insufficient URL validation Smart Proxy and Medium.
+
+2015-12-11	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12659 - Fixed "inherit" behavior
+	* Fixes #12618 - Now calls for compute attributes are explicit.
+
+2015-12-10	Ori Rabin <orabin@redhat.com>
+	* Fixes #12752 - Host and hostgroup clone should copy smart class parameters overrides
+	* Fixes #6007 - Allowing to hide smart class parameters
+
+2015-12-10	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12691 - Small Rails 4 backwards compatible changes
+
+2015-12-09	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12644, #12643 - Correctly authorize in lookup key index
+	* Fixes #12611 - CVE-2015-7518 prevent XSS on host edit form
+
+2015-12-09	Timo Goebel <timo.goebel@dm.de>
+	* fixes #1584 - bulk owner change
+
+2015-12-09	Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>
+	* i18n - add Catalan Language
+
+2015-12-09	amirfefer <amirfefer@gmail.com>
+	* Fixes #12508 - Test_email subscriptable field changed to false
+
+2015-12-08	Tom Caspy <tcaspy@gmail.com>
+	* fixes #12730 - removing the fakeFS gem
+
+2015-12-08	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #12452 - Enable non admin users to do bulk actions on hosts
+
+2015-12-08	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #12728 - Add attr_accessible to Report
+
+2015-12-07	Timo Goebel <timo.goebel@dm.de>
+	* fixes #12624 - add plugin interface to add provision methods
+
+2015-12-07	oshtaier <alexshtayer@yahoo.com>
+	* Fixes #12554 - Change OS name column heading to match contents
+
+2015-12-07	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12676 - Filter contains two attr_accessible declarations
+
+2015-12-07	Ori Rabin <orabin@redhat.com>
+	* Fixes #12660 - adding no-stretch class to host parameters textarea after unhiding the value
+	* refs #12179 - refactoring extracted strings for host parameters
+
+2015-12-06	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12677 - Nic
+
+2015-12-04	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12642 - Show overriden values before type cast on host edit form
+
+2015-12-03	Timo Goebel <timo.goebel@dm.de>
+	* fixes #7548 - cannot use UTF8 characters from ldap auth source
+
+2015-12-03	Dominic Cleal <dcleal@redhat.com>
+	* fixes #12615 - remove unused term-ansicolor dependency
+	* fixes #12632 - remove hardcoded SSH compression algorithm
+
+2015-12-02	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #12666 - add locked to attr_accessible for templates
+
+2015-12-02	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12523 - Openstack does not work with Fog 1.36
+
+2015-12-01	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #7568 - Use attr_accessible for Rails 4 upgrade
+
+2015-12-01	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #12506 - Show smart proxies version in about page
+
+2015-12-01	Ori Rabin <orabin@redhat.com>
+	* Fixes #12179 - extracting strings in  host_inherited_params correctly
+
+2015-12-01	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #12637 - improved discovered lease test
+
+2015-11-30	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12609 - correctly display boolean parameters on host edit form
+	* Fixes #8799 - Show override button when removing overriden global param
+
+2015-11-30	Timo Goebel <timo.goebel@dm.de>
+	* fixes #12594 - vSphere: resource pools are updated when cluster is changed in the gui for new hosts
+	* fixes #12517 - VMWare VM should be created network based only if it is selected in the gui
+
+2015-11-30	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #7192 - Allow compute resources to have spaces in the name
+
+2015-11-30	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12617 - Created new concern: SelectiveClone
+
+2015-11-30	Dominic Cleal <dcleal@redhat.com>
+	* fixes #12623 - convert VM IDs to strings for DB lookup
+
+2015-11-27	Julien Pivotto <roidelapluie@inuits.eu>
+	* Fixes #7463 - Add basic support for bridges
+
+2015-11-25	Fabien Culpo <fabien.culpo@gmail.com>
+	* fixes #12575 - zerombr does not take any argument
+
+2015-11-23	David Davis <daviddavis@redhat.com>
+	* Fixes #12530 - Upgrade rubocop
+
+2015-11-23	Timo Goebel <timo.goebel@dm.de>
+	* fixes #8295 - add vsphere memory and cpu hot add
+
+2015-11-23	Marek Hulan <mhulan@redhat.com>
+	* Fixes #11834 - improve host status migration performance
+
+2015-11-22	Ori Rabin <orabin@redhat.com>
+	* Refs #11458 - adding missing </td> tag
+
+2015-11-20	Dominic Cleal <dcleal@redhat.com>
+	* fixes #12512 - always install fog-core/net-* dependencies
+
+2015-11-20	Tomer Brisker <tbrisker@redhat.com>
+	* Fixes #11458 - Override inline for class parameters
+
+2015-11-19	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12461 - Compute profile is properly selected.
+
+2015-11-19	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #11643 - [API] Add preview template to host
+
+2015-11-18	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #11307 - Add host count to hostgroups
+
+2015-11-17	Brandon Weeks <weeks@squareup.com>
+	* Fixes #12478 - don't update :attached_to if parsed :attached_to is nil
+
+2015-11-17	Dominic Cleal <dcleal@redhat.com>
+	* fixes #12494 - update fog to 1.36.0
+
+2015-11-16	Brandon Weeks <weeks@squareup.com>
+	* Fixes #12477 - remove duplicate ALT Linux logo
+
+2015-11-16	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12424 - Labels in chart legends are aligned to left
+
+2015-11-16	Tom Caspy <tcaspy@gmail.com>
+	* fixes #12342 - unsaved (new or cloned) hostgroups keep their puppetclasses
+
+2015-11-15	Dominic Cleal <dcleal@redhat.com>
+	* fixes #12194 - join fact tables multiple times for each search term
+
+2015-11-13	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12457 - Use .exists? to check subnet exists on Rails 4
+
+2015-11-13	amirfefer <amirfefer@gmail.com>
+	* Fixes #10649 - Adds Test email button to user's mail preferences
+
+2015-11-13	Brandon Weeks <weeks@squareup.com>
+	* Fixes #12441 - validate uniqueness for nic identifier and host
+
+2015-11-13	Dominic Cleal <dcleal@redhat.com>
+	* fixes #12458 - escape values in fact searches to prevent SQL injection
+
+2015-11-12	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #11943 - only send built mail when host is installed
+
+2015-11-12	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #12303 - Added a correct url to ptables 'Useful template functions and macros'.
+
+2015-11-12	Dominic Cleal <dcleal@redhat.com>
+	* fixes #12431 - pin tins for Ruby 1.9.3 compatibility
+
+2015-11-12	Baptiste Agasse <baptiste.agasse@lyra-network.com>
+	* Fixes #12212 - Import addtitionnal informations from DHCP smart proxy
+
+2015-11-12	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12418 - Correct dashboard behaviour for updated gridster
+
+2015-11-11	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #12432 - Changed roles model so admin could see/attach all permissions
+
+2015-11-11	Dominic Cleal <dcleal@redhat.com>
+	* fixes #11771 - ensure created HostStatuses are saved correctly
+
+2015-11-11	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #12325 - Add to_utf8 method and ensure avatar_path returns in utf-8
+
+2015-11-11	amirfefer <amirfefer@gmail.com>
+	* Fixes #4133 - compute resource test connection provides positive feedback
+
+2015-11-10	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #11309 - allow bulk hosts tool to open in new page
+
+2015-11-09	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #11444 - Correctly count hosts in domain
+
+2015-11-09	Tom Caspy <tcaspy@gmail.com>
+	* refs #12147 - making sure that rails4 seeds think they are in rake
+
+2015-11-09	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #11983 - Added the ability to preview a new template
+
+2015-11-09	amirfefer <amirfefer@gmail.com>
+	* Fixes #7537 - Adds test connection button to LDAP form
+
+2015-11-09	Ori Rabin <orabin@redhat.com>
+	* Fixes #11464 - use host inherited views for hostgroup parent parameters
+
+2015-11-09	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12201 - Made parent associations finder less dependent on association name
+
+2015-11-06	josh <josh@yosemite.edu>
+	* fixes #12416 - Add support for esxi 6 hw 11 profile
+
+2015-11-06	Tom Caspy <tcaspy@gmail.com>
+	* fixes #12404 - rake console now works
+
+2015-11-05	Phirince Philip <phirince@gmail.com>
+	* fixes #12345 - fix sparc host creation
+
+2015-11-04	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #11828 - Use mail_to function to create email link
+
+2015-11-03	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12371 - Initialize select2 on virtual machine tab for new hosts
+	* Fixes #12231 - Allow editing smart variables with periods in puppetclass form
+
+2015-11-03	Julien Pivotto <roidelapluie@inuits.eu>
+	* Fixes #12365 - Recognize virtual interfaces with alphanum aliases as such
+
+2015-11-02	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12344 - Use Rails 4 update_all syntax in migrations
+	* Refs #12089 - Revert fix using unwrapped parameters in config templates API controller
+
+2015-11-02	Ori Rabin <orabin@redhat.com>
+	* Fixes #12249 - Use puppet default on specific matchers does not send default value to puppet
+
+2015-11-02	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #10889 - Allow selection of resource pool
+
+2015-10-30	amirfefer <amirfefer@gmail.com>
+	* Fixes #11460 - cleaner layout in  Host/Hostgroup parameters
+
+2015-10-30	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12204 - Show interface form helptext in popovers
+
+2015-10-30	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #12346 - foreman-debug filters compressed files
+	* Refs #8800 - Avoid clipping on About - Plugins page
+
+2015-10-29	Ori Rabin <orabin@redhat.com>
+	* Fixes #12343 - Fixing parameters caster for boolean values
+
+2015-10-29	Marek Hulan <mhulan@redhat.com>
+	* Fixes #12328 - host STI loads subclasses
+	* Fixes #12280 - fix label for field helper
+	* Fixes #12279 - add default order to roles
+
+2015-10-29	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12222 - prevent resizing textarea to under one line on FF
+
+2015-10-28	Shlomi Zadok <shlomi@ben-hanna.com>
+	* fixes #4151 - enable reports STI
+	* Fixes #11953 - Add STI controllers to bookmark via permissions
+
+2015-10-28	Timo Goebel <timo.goebel@dm.de>
+	* fixes #12127 - verify x509 subject alternative names when authenticating a smart proxy
+
+2015-10-28	Christine Fouant <cfouant@redhat.com>
+	* Fixes #12333 - adds search capabilities to bookmarks
+
+2015-10-27	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #12132 - [API] Host all parameters should include host parameters
+
+2015-10-27	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #11986 - Specify PUT method on form_for tags
+
+2015-10-27	Chris Peters <chrispeters.psu@gmail.com>
+	* Fixes #12311 - Fix issue with failed initialization of rack openid middleware.
+
+2015-10-27	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12106 - Show popovers correctly on interface modal
+
+2015-10-26	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12241 - Correct counter_cache deadlock fix
+
+2015-10-26	Tom Caspy <tcaspy@gmail.com>
+	* fixes #11965 - hostgroup with config group - clone should not run validations more than once
+	* fixes #9981 - making sure lookup_keys with errors get displayed if they're broken
+	* refs #12147 - compatible test updates for api fact value controller
+
+2015-10-26	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #11924 - Substitute .scoped by .where(nil) to force return relation
+	* Fixes #12099 - Template locked? relying on rake makes tests fail
+	* Refs #12147 - Remove trends output from tests
+
+2015-10-23	Timo Goebel <timo.goebel@dm.de>
+	* fixes #11124 - Interface compute attributes not merged from API request over compute profile
+
+2015-10-23	Tom Caspy <tcaspy@gmail.com>
+	* fixes #12109 - removing owner_id presence validation
+
+2015-10-23	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #12089 - fix using unwrapped parameters in config templates API controller
+
+2015-10-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #11921 - load dynamic features during runtime
+	* Fixes #12185 - host created via reports has downcased name
+
+2015-10-22	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #12155 - Use Proc instead of lambda on mailer for Rails 4
+
+2015-10-22	Tom Caspy <tcaspy@gmail.com>
+	* fixes #12207 - objects with ancestors should not call ancestors if cached
+	* Fixes #12252 - Refactor of long line in templates form
+
+2015-10-21	Tomas Strachota <tstrachota@redhat.com>
+	* Refs #12089 - tests for config templates controller param wrapping
+
+2015-10-21	Timo Goebel <timo.goebel@dm.de>
+	* fixes #11345 - API GET request available_clusters sends empty hash
+
+2015-10-21	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12098 - Dangling Fog.mock! makes compute_resource_vms test fail
+	* Refs #11813 - Use new engines listing syntax in initializers
+
+2015-10-21	Marek Hulan <mhulan@redhat.com>
+	* Fixes #12043 - introduces interface for background support of importers
+
+2015-10-21	Ranjan <rankumar@redhat.com>
+	* fixes #12151 - return empty classes hash when missing environment
+
+2015-10-21	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #12004, #11999 - Remove reserved words from Environment friendly_id
+
+2015-10-21	Tom Caspy <tcaspy@gmail.com>
+	* refs #12147 - adding permissions setter to roles
+	* refs #12147 - adding safety guards to method_missing on compute attributes
+
+2015-10-20	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #12215 - "`ruby_22` is not a valid platform"
+
+2015-10-20	Tom Caspy <tcaspy@gmail.com>
+	* refs #12147 - correcting route for unattended controller
+	* refs #12147 - task#as_json should return hash
+
+2015-10-19	amirfefer <amirfefer@gmail.com>
+	* Fixes #12102 - Adds socket errors catching to rackspace test connection
+
+2015-10-19	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #8800 - Fix clipping on global parameter table
+
+2015-10-19	Marek Hulan <mhulan@redhat.com>
+	* Fixes #11972 - ignore specific interfaces via settings
+
+2015-10-16	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12104 - prevent overflow in host list for various locales
+
+2015-10-16	Jiri Machalek <jiri.machalek@tieto.com>
+	* Fixes #11987 - Check exit code of deployment scripts
+
+2015-10-16	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* Fixes #11016: added test-unit gem for ruby 2.2.x
+
+2015-10-15	Dominic Cleal <dcleal@redhat.com>
+	* fixes #12095 - prevent escaping of lookup key default value with ERB
+
+2015-10-15	Tom Caspy <tcaspy@gmail.com>
+	* refs #12147 - fixing dhcp test to work properly with rails 4
+	* refs #12147 - removing informational print from rake task in tests
+	* refs #12147 - factory updates for medium - rails4 compatibility
+	* refs #12147 - updating cycle test to comply with rails4
+
+2015-10-15	Stephen Benjamin <stbenjam@redhat.com>
+	* Fixes #12155 - register changes in reply address without restart
+
+2015-10-14	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #12162 - Sort operating systems in host list by title
+
+2015-10-14	Kamjar Gerami <kami.gerami@gmail.com>
+	* fixes #11881 - Searching for "puppet" in Puppet Classes takes long - Set only_explicit to host and config groups definitions in puppetclasses
+
+2015-10-14	alongoldboim <alongoldboim@gmail.com>
+	* Fixes #11908 - removed the close button from the loading alert
+
+2015-10-12	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #12118 - query model for alternative permission names
+
+2015-10-12	amirfefer <amirfefer@gmail.com>
+	* Fixes #11949 - In new forms password's placeholder should be empty
+
+2015-10-12	Ori Rabin <orabin@redhat.com>
+	* Fixes #11237 - documenting hostgroup association to compute profile
+
+2015-10-12	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #10988 - Remove 1.11 deprecations
+
+2015-10-12	Marek Hulan <mhulan@redhat.com>
+	* Fixes #12120 - drops ptables table
+
+2015-10-12	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #12131 - long strings in reports are hard-wrapped
+
+2015-10-09	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #12068 - Prepend puppetclass or variable to lookup_key_id
+	* Fixes #12059 - AuthSourceLdap allow_nil should be removed
+	* Fixes #12011 - Replace .includes(table).where(table) by .eager_load
+
+2015-10-09	Julien Pivotto <roidelapluie@inuits.eu>
+	* Fixes #12028 - Put multiselects out of select2 control
+
+2015-10-09	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #12055 - select initialization breaks nic table refresh
+
+2015-10-08	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12096 - Fix layout when removing class parameter override
+
+2015-10-08	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #12071 - race condition in loading of providerSpecificNICInfo
+
+2015-10-08	Ori Rabin <orabin@redhat.com>
+	* Fixes #12078 - list validator in smart class parameters validates any string coercible value
+
+2015-10-07	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #8800 - Clip table cells only when needed
+
+2015-10-07	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12079 - Shows the correct error near the password field
+
 2015-10-07	Dominic Cleal <dcleal@redhat.com>
 	* Bump version to 1.11-develop
 	* i18n - extracting new, pulling from tx
