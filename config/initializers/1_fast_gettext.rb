@@ -8,7 +8,7 @@ Foreman::Gettext::Support.register_available_locales locale_domain, locale_dir
 Foreman::Gettext::Support.add_text_domain locale_domain, locale_dir
 
 I18n.config.enforce_available_locales = false
-I18n.config.available_locales = FastGettext.default_available_locales
+I18n.config.available_locales = FastGettext.default_available_locales.map { |loc| loc.tr('_', '-') }
 
 FastGettext.default_text_domain = locale_domain
 FastGettext.default_locale = "en"

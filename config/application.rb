@@ -127,6 +127,9 @@ module Foreman
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    # Don't enforce known locales with exceptions, as fast_gettext has a fallback to default 'en'
+    config.i18n.enforce_available_locales = false
+
     # Disable fieldWithErrors divs
     config.action_view.field_error_proc = Proc.new {|html_tag, instance| "#{html_tag}".html_safe }
 
