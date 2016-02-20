@@ -24,7 +24,7 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
   test 'edit shows errors on invalid lookup values' do
     group = FactoryGirl.create(:hostgroup, :with_puppetclass)
     lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                    :key_type => 'boolean', :default_value => true,
+                                    :key_type => 'integer', :default_value => true,
                                     :puppetclass => group.puppetclasses.first, :overrides => {group.lookup_value_matcher => false})
 
     visit edit_hostgroup_path(group)

@@ -75,7 +75,9 @@ module LookupKeysHelper
       :name => "#{lookup_value_name_prefix(lookup_key.id)}[value]",
       :disabled => !lookup_key.overridden?(obj) || lookup_value.use_puppet_default,
       :inherited_value => inherited_value,
-      :lookup_key => lookup_key)
+      :lookup_key => lookup_key,
+      :lookup_key_hidden_value? => lookup_key.hidden_value?,
+      :lookup_key_type => lookup_key.key_type)
   end
 
   def value_matcher(obj, lookup_key)
