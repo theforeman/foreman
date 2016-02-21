@@ -35,7 +35,7 @@ class LookupKey < ActiveRecord::Base
 
   def self.inherited(child)
     child.instance_eval do
-      scoped_search :on => :key, :complete_value => true, :default_order => true
+      scoped_search :on => :key, :alias => :parameter, :complete_value => true, :default_order => true
       scoped_search :on => :lookup_values_count, :rename => :values_count
       scoped_search :on => :override, :complete_value => {:true => true, :false => false}
       scoped_search :on => :merge_overrides, :complete_value => {:true => true, :false => false}
