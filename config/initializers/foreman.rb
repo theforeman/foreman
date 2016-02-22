@@ -30,7 +30,7 @@ Dashboard::Loader.load
 # clear our users topbar cache
 # The User model may not be loaded or the table may not exist in all cases
 # where this initializer is called such as during initial migration of the database
-if defined?(User)
+if defined?(User) and ActiveRecord::Base.connection.table_exists? "users"
   User.unscoped.pluck(:id).each do |id|
     Rails.cache.delete("views/tabs_and_title_records-#{id}")
   end

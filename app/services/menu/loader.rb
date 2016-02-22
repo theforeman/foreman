@@ -34,7 +34,7 @@ module Menu
             menu.item :roles,            :caption => N_('Roles')
           end
           menu.divider
-          menu.item :bookmarks,          :caption => N_('Bookmarks')
+          menu.item :bookmarks,          :caption => N_('Bookmarks') if User.current && User.current.can?(:edit_bookmarks)
           menu.item :settings,           :caption => N_('Settings')
           menu.item :about_index,        :caption => N_('About')
         end
