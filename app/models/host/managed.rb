@@ -509,8 +509,11 @@ class Host::Managed < Host::Base
     # if we were given a certname but found the Host by hostname we should update the certname
     host.certname = certname if certname.present?
 
-    # if proxy authentication is enabled and we have no puppet proxy set, use it.
-    host.puppet_proxy_id ||= proxy_id
+    # if proxy authentication is enabled and we have no puppet proxy set and the upload came from puppet,
+    # use it as puppet proxy.
+    if facts['_type'].blank? || facts['_type'] == 'puppet'
+      host.puppet_proxy_id ||= proxy_id
+    end
 
     host.save(:validate => false) if host.new_record?
     state = host.import_facts(facts)

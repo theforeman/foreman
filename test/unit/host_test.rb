@@ -1713,6 +1713,14 @@ class HostTest < ActiveSupport::TestCase
       assert_equal sp.id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
     end
 
+    test "should not update puppet_proxy_id if it was not puppet upload" do
+      sp = smart_proxies(:puppetmaster)
+      raw = parse_json_fixture('/facts_with_caps.json')
+      raw['facts']['_type'] = 'chef'
+      Host.import_host_and_facts(raw['name'], raw['facts'], nil, sp.id)
+      assert_nil Host.find_by_name('sinn1636.lan').puppet_proxy_id
+    end
+
     test "shouldn't update puppet_proxy_id if it has been set" do
       Host.new(:name => 'sinn1636.lan', :puppet_proxy_id => smart_proxies(:puppetmaster).id).save(:validate => false)
       sp = smart_proxies(:puppetmaster)
