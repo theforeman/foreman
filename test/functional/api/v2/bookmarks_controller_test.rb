@@ -54,4 +54,16 @@ class Api::V2::BookmarksControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  test "should only show public and user's bookmarks" do
+    get :index, {}, set_session_user
+    assert_response :success
+    assert_includes assigns(:bookmarks), bookmarks(:one)
+    refute_includes assigns(:bookmarks), bookmarks(:two)
+  end
+
+  test "should not allow actions on non public/non user bookmarks" do
+    put :update, {:id => bookmarks(:two).to_param, :bookmark => { :name => 'bar' }}, set_session_user
+    assert_response 404
+  end
 end
