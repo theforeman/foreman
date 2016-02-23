@@ -6,6 +6,7 @@ class Api::V2::ImagesControllerTest < ActionController::TestCase
       :operatingsystem_id  => Operatingsystem.first.id,
       :compute_resource_id => ComputeResource.first.id,
       :architecture_id     => Architecture.first.id,
+      :user_data           => true,
     }
   end
 
