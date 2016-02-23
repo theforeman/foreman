@@ -1,6 +1,8 @@
 module Api
   module V2
     class BookmarksController < V2::BaseController
+      include Foreman::Controller::BookmarkCommon
+
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/bookmarks/", N_("List all bookmarks")
