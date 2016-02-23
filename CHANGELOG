@@ -1,3 +1,50 @@
+2016-02-23	Dominic Cleal <dominic@cleal.org>
+	* Release 1.10.2
+	* templates - sync from community-templates
+	* refs #13430, #13236 - backport REAL_ACTIONS from 8ca6c6b
+
+2016-02-23	Tom Caspy <tcaspy@gmail.com>
+	* fixes #12669 - making sure that code which requires a new attribute doesn't break migrations
+	* fixes #12187 - checking if OpenStack is defined before calling that constant
+	* fixes #11346 - on new host, nic shouldn't try to call matcher
+	* fixes #13247 - make sure Ace editor resizes on fullscreen
+
+2016-02-23	Trey Dockendorf <treydock@gmail.com>
+	* fixes #13745 - Fix usage of primary_interface when migrating interfaces from < 1.8 to >= 1.8
+
+2016-02-23	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #12791 - allow access to boot_files_uri and medium in safe_mode
+
+2016-02-23	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #12909 - Keep 'reset zoom' buttom on the left
+
+2016-02-23	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #13442 - foreman-debug exits with 0 on success
+
+2016-02-23	Timo Goebel <timo.goebel@dm.de>
+	* fixes #13430 - add missing actions to virt power manager
+
+2016-02-23	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #13341 - Seeded Fedora installation media URL is wrong
+
+2016-02-23	Guido Günther <agx@sigxcpu.org>
+	* fixes #13297 - ssh_provision: try keyboard-interactive as well
+
+2016-02-23	Stefan - Zipkid - Goethals <stefan.goethals@vrt.be>
+	* fixes #6535 - EC2 Security Groups show empty box
+
+2016-02-17	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13515 - fix issue where expecting scope but receiving array
+
+2016-02-17	Ori Rabin <orabin@redhat.com>
+	* Fixes #13369 - Override correct long name parameter
+
+2016-02-16	Dominic Cleal <dominic@cleal.org>
+	* i18n - extracting new, pulling from tx
+
+2016-01-20	Dominic Cleal <dcleal@redhat.com>
+	* Release 1.10.1
+
 2016-01-19	Dominic Cleal <dcleal@redhat.com>
 	* i18n - extracting new, pulling from tx
 	* templates - sync from community-templates
