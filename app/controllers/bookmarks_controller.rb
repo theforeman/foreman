@@ -1,4 +1,6 @@
 class BookmarksController < ApplicationController
+  include Foreman::Controller::BookmarkCommon
+
   before_filter :find_resource, :only => [:edit, :update, :destroy]
 
   def index
