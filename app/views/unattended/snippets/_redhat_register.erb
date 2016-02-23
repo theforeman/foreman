@@ -126,8 +126,12 @@ name: redhat_register
   <% end %>
 <% else %>
   echo "Starting the subscription-manager registration process"
-  yum -t -y -e 0 install subscription-manager yum-utils
-  <% (enabled_repos = "yum-config-manager --enable #{@host.params['subscription_manager_repos'].gsub(',', ' ')}") if @host.params['subscription_manager_repos'] %>
+  yum -t -y -e 0 install subscription-manager <%= @host.operatingsystem.major.to_i >= 6 ? 'yum-config-manager' : '' %>
+  <% if @host.operatingsystem.major.to_i >= 6  %>
+    <% ( enabled_repos = "yum-config-manager --enable #{@host.params['subscription_manager_repos'].gsub(',', ' ')}") if @host.params['subscription_manager_repos'] %>
+  <% else %>
+    <% ( enabled_repos = "subscription-manager repos --enable #{@host.params['subscription_manager_repos'].gsub(',', ' --enable')}") if @host.params['subscription_manager_repos'] %>
+  <% end %>
   <% if @host.params['http-proxy'] %>
     subscription-manager config --server.proxy_hostname="<%= @host.params['http-proxy'] %>"
     <% if @host.params['http-proxy-user'] %>

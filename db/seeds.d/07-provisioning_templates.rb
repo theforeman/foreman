@@ -28,6 +28,7 @@ ProvisioningTemplate.without_auditing do
     { :name => 'AutoYaST default', :source => 'autoyast/provision.erb', :template_kind => kinds[:provision], :operatingsystems => os_suse },
     { :name => 'AutoYaST SLES default', :source => 'autoyast/provision_sles.erb', :template_kind => kinds[:provision], :operatingsystems => os_suse },
     { :name => 'AutoYaST default PXELinux', :source => 'autoyast/PXELinux.erb', :template_kind => kinds[:PXELinux], :operatingsystems => os_suse },
+    { :name => 'AutoYaST default iPXE', :source => 'autoyast/iPXE.erb', :template_kind => kinds[:iPXE] },
     { :name => 'CoreOS provision', :source => 'coreos/provision.erb', :template_kind => kinds[:provision]},
     { :name => 'CoreOS PXELinux', :source => 'coreos/PXELinux.erb', :template_kind => kinds[:PXELinux]},
     { :name => 'FreeBSD (mfsBSD) finish', :source => 'freebsd/finish_FreeBSD_mfsBSD.erb', :template_kind => kinds[:finish] },

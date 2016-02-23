@@ -34,6 +34,9 @@ d-i console-keymaps-at/keymap seen true
 <% unless dhcp -%>
 # Static network configuration.
 d-i preseed/early_command string /bin/killall.sh; /bin/netcfg
+d-i netcfg/disable_autoconfig boolean true
+d-i netcfg/dhcp_failed note
+d-i netcfg/dhcp_options select Configure network manually
 d-i netcfg/disable_dhcp boolean true
 d-i netcfg/get_ipaddress string <%= @host.ip %>
 d-i netcfg/get_netmask string <%= subnet.mask %>
