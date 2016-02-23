@@ -1,6 +1,8 @@
 module Api
   module V1
     class BookmarksController < V1::BaseController
+      include Foreman::Controller::BookmarkCommon
+
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/bookmarks/", "List all bookmarks."
@@ -8,7 +10,7 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @bookmarks = Bookmark.paginate(paginate_options)
+        @bookmarks = Bookmark.my_bookmarks.paginate(paginate_options)
       end
 
       api :GET, "/bookmarks/:id/", "Show a bookmark."
