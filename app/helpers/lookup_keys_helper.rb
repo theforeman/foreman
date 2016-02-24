@@ -136,7 +136,7 @@ module LookupKeysHelper
   def hidden_toggle(hidden, hide_icon = 'eye-slash', unhide_icon = 'eye', strikethrough = false)
     return unless can_edit_params?
     if strikethrough && !hidden
-      link_to_function(icon_text(hide_icon, '', :kind => 'fa'), "", :class =>"btn btn-default btn-md btn-hide disabled")
+      link_to_function(icon_text(hide_icon, '', :kind => 'fa'), "", :class =>"btn btn-default btn-md btn-hide", :disabled => "disabled", :rel => "twipsy", :title => "This value is not hidden")
     else
       link_to_function(icon_text(unhide_icon, '', :kind => 'fa'), "input_group_hidden(this)",
                        :title => _("Unhide this value"),
