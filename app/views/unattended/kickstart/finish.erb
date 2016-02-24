@@ -22,6 +22,7 @@ service network restart
   os_major = @host.operatingsystem.major.to_i
   pm_set = @host.puppetmaster.empty? ? false : true
   puppet_enabled = pm_set || @host.param_true?('force-puppet')
+  chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 %>
 
 <% if @host.provision_method == 'image' && !root_pass.empty? -%>
@@ -61,6 +62,10 @@ echo "Configuring puppet"
 cat > /etc/puppet/puppet.conf << EOF
 <%= snippet 'puppet.conf' %>
 EOF
+
+<% if chef_enabled %>
+<%= snippet 'chef_client' %>
+<% end -%>
 
 # Setup puppet to run on system reboot
 <% if @host.operatingsystem.name == 'Fedora' -%>

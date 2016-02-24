@@ -166,9 +166,8 @@ echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
 yum -t -y -e 0 update
 
 <% if chef_enabled %>
-echo "Bootstraping chef"
-<%= respond_to?(:chef_bootstrap) ? chef_bootstrap(@host) : snippet_if_exists("chef-client omnibus bootstrap") %>
-<% end%>
+<%= snippet 'chef_client' %>
+<% end -%>
 
 <% if puppet_enabled %>
 echo "Configuring puppet"

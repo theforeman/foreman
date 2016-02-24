@@ -23,7 +23,7 @@ NETMASK="<%= subnet.mask -%>"
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% end -%>
-DEVICE="$real"
+DEVICE=$real
 HWADDR="<%= @host.mac -%>"
 ONBOOT=yes
 EOF
@@ -46,7 +46,7 @@ NETMASK="<%= subnet.mask -%>"
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% end -%>
-DEVICE="$real"
+DEVICE=$real
 ONBOOT=yes
 PEERDNS=no
 PEERROUTES=no
@@ -81,7 +81,7 @@ sanitized_real=$real
 
 cat << EOF > /etc/sysconfig/network-scripts/ifcfg-$sanitized_real
 BOOTPROTO="none"
-DEVICE="$real"
+DEVICE=$real
 <% unless virtual -%>
 HWADDR="<%= interface.mac -%>"
 <% end -%>
@@ -134,7 +134,7 @@ NETMASK="<%= subnet.mask -%>"
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% end -%>
-DEVICE="$real"
+DEVICE=$real
 <% unless virtual -%>
 HWADDR="<%= interface.mac -%>"
 <% end -%>
