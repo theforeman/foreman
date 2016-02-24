@@ -1,0 +1,17 @@
+{
+  "name": "foreman",
+  "dependencies": {
+    "brace": "0.7.0"
+  },
+  "license": "GPL",
+  "engines": {
+    "node": ">= 0.10"
+  },
+  "description": "![Foreman](https://raw.githubusercontent.com/theforeman/foreman-graphics/master/logo/foreman_medium.png)",
+  "repository": "https://github.com/theforeman/foreman",
+  "version": "1.11.0",
+  "devDependencies": {
+    "browserify-incremental": "~3.0.1",
+    "browserify": "~10.2.6"
+  }
+}
