@@ -9,7 +9,9 @@ class DashboardIntegrationTest < ActionDispatch::IntegrationTest
   def assert_dashboard_link(text)
     visit dashboard_path
     assert page.has_link?(text), "link '#{text}' was expected, but it does not exist"
-    click_link(text)
+    within "li[data-name='Status table']" do
+      click_link(text)
+    end
     assert_current_path hosts_path, :only_path => true
     assert_not_nil find_field('search').value
   end
