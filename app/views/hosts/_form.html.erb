@@ -7,6 +7,7 @@
 
   <%= form_for @host, :url => (@host.new_record? ? hosts_path : host_path(:id => @host.id)), :html => {:data => {:id => @host.try(:id), :type_changed => !!@host.type_changed?, :submit => 'progress_bar'}} do |f| %>
     <%= base_errors_for @host %>
+    <% load_tabs @host %>
 
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab"><%= _('Host') %></a></li>
@@ -25,6 +26,15 @@
       <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
 
       <li><a href="#info" data-toggle="tab"><%= _('Additional Information') %></a></li>
+
+      <% @tabs.each do |facet_name, tabs| %>
+        <% tabs.keys.each do |tab| %>
+          <li>
+            <a href="#<%= tab %>" data-toggle="tab" class="<%=facet_name%>"><%= _(tab) %>
+            </a>
+          </li>
+        <% end %>
+      <% end %>
     </ul>
 
     <div class="tab-content">
@@ -133,6 +143,11 @@
         <%= textarea_f f, :comment, :help_block => _("Additional information about this host"), :size => "col-md-8", :rows => "3", :class => "no-stretch" %>
       </div>
 
+      <% @tabs.each do |group, tabs| %>
+        <% tabs.each do |id, tab| %>
+          <%= host_tab group, id, tab, f %>
+        <% end %>
+      <% end %>
     </div>
 
     <%= hidden_field_tag 'bare_metal_capabilities', @host.bare_metal_capabilities %>

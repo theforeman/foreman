@@ -808,3 +808,39 @@ function pxeLoaderCompatibilityCheck() {
 }
 
 $(document).on('change', '#host_pxe_loader', pxeLoaderCompatibilityCheck);
+
+function disableFacet(name) {
+  var fieldset_name = 'fieldset.' + name;
+  var title_name = 'li>a.' + name;
+  $(fieldset_name).prop('disabled', true);
+  $(title_name).parent().addClass('disabled');
+
+  //disable select2 fields explicitly
+  $(fieldset_name + ' select').each(function(i, select) {
+    var item = $(select)
+    item.prop('oldDisabledState', item.prop('disabled'));
+    item.prop('disabled', true);
+  })
+}
+
+function enableFacet(name) {
+  var fieldset_name = 'fieldset.' + name;
+  var title_name = 'li>a.' + name;
+  $(fieldset_name).prop('disabled', false);
+  $(title_name).parent().removeClass('disabled');
+
+  //revert select2 fields state
+  $(fieldset_name + ' select').each(function(i, select) {
+    var item = $(select)
+    item.prop('disabled', item.prop('oldDisabledState'));
+  })
+}
+
+function triggerFacet(name) {
+  var fieldset_name = 'fieldset.' + name;
+  if ($(fieldset_name).prop('disabled')) {
+    enableFacet(name);
+  } else {
+    disableFacet(name);
+  }
+}
