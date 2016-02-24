@@ -1,4 +1,10 @@
-<% title(_("Fact Values") + " | #{params[:host_id]}")%>
+<%
+if params[:host_id].present?
+  title(_("Fact Values | %{host_name}") % {:host_name => params[:host_id]})
+else
+  title(_("Fact Values"))
+end
+%>
 <% title_actions documentation_button('3.5.5FactsandtheENC') %>
 
 <table class="<%= table_css_classes('ellipsis')%>">
