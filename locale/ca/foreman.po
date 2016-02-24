@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-02-12 09:08+0000\n"
-"Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>\n"
+"PO-Revision-Date: 2016-02-18 09:32+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,15 @@ msgstr "Ho sentim, però cap ni una de les plantilles estava configurada."
 
 msgid "Loading ..."
 msgstr "S'està carregant..."
+
+msgid "Success"
+msgstr "Correcte"
+
+msgid "Warning"
+msgstr "Advertència"
+
+msgid "Error"
+msgstr "Error"
 
 msgid "Exit Full Screen"
 msgstr "Surt de la pantalla completa"
@@ -65,6 +74,9 @@ msgstr "Suprimeix"
 
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "Hi va haver un error en llistar les MV: %(status)s %(statusText)s"
+
+msgid "Test connection was successful"
+msgstr ""
 
 msgid "physical @ NAT %s"
 msgstr "física @ NAT %s"
@@ -184,15 +196,15 @@ msgstr "Reinicia i construeix"
 msgid "Build"
 msgstr "Construeix"
 
-msgid "Select All"
-msgstr "Selecciona-ho tot"
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Filter"
+msgstr "Filtra"
 
 msgid "All items"
 msgstr "Tots els ítems"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Filter"
-msgstr "Filtra"
+msgid "Select All"
+msgstr "Selecciona-ho tot"
 
 msgid "Selected items"
 msgstr "Ítems seleccionats"
@@ -215,21 +227,21 @@ msgstr "El pare ja està seleccionat"
 msgid "new"
 msgstr "nou"
 
-msgid "Very Strong"
-msgstr "Molt fort"
+msgid "Weak"
+msgstr "Dèbil"
+
+msgid "Normal"
+msgstr "Normal"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr "Mitjà"
 
-msgid "Weak"
-msgstr "Dèbil"
-
 msgid "Strong"
 msgstr "Fort"
 
-msgid "Normal"
-msgstr "Normal"
+msgid "Very Strong"
+msgstr "Molt fort"
 
 msgid "Your password is too short"
 msgstr "La vostra contrasenya és massa curta"
@@ -255,6 +267,15 @@ msgstr "la contrasenya coincideix"
 msgid "passwords do not match"
 msgstr "les contrasenyes no coincideixen"
 
+msgid "Active"
+msgstr "Actiu"
+
+msgid "valid"
+msgstr "vàlid"
+
+msgid "pending"
+msgstr "pendent"
+
 msgid "View Diff"
 msgstr "Visualitza les diferències"
 
@@ -278,6 +299,9 @@ msgstr "Es requereixen permisos d'administrador"
 
 msgid "%{resource_name} not found by id '%{id}'"
 msgstr "%{resource_name} no s'ha trobat amb l'id. '%{id}'"
+
+msgid "Missing one of the required permissions: %s"
+msgstr ""
 
 msgid "unknown permission for %s"
 msgstr "permís desconegut per %s"
@@ -362,6 +386,9 @@ msgstr "Crea un origen d'autenticació LDAP"
 
 msgid "Update an LDAP authentication source"
 msgstr "Actualitza un origen d'autenticació LDAP"
+
+msgid "Test LDAP connection"
+msgstr ""
 
 msgid "Delete an LDAP authentication source"
 msgstr "Suprimeix un origen d'autenticació LDAP"
@@ -516,6 +543,12 @@ msgstr "Llista els dominis d'emmagatzemament per a un recurs computacional"
 msgid "List attributes for a given storage domain"
 msgstr "Llista dels atributs per a un domini d'emmagatzematge donat"
 
+msgid "List storage pods for a compute resource"
+msgstr ""
+
+msgid "List attributes for a given storage pod"
+msgstr ""
+
 msgid "List available security groups for a compute resource"
 msgstr "Llista dels grups de seguretat disponibles per a un recurs computacional"
 
@@ -536,6 +569,36 @@ msgstr "Actualitza un grup de configuracions"
 
 msgid "Delete a config group"
 msgstr "Suprimeix un grup de configuracions"
+
+msgid "List all reports"
+msgstr "Llista tots els informes"
+
+msgid "Show a report"
+msgstr "Mostra un informe"
+
+msgid "Hostname or certname"
+msgstr ""
+
+msgid "UTC time of report"
+msgstr "Hora UTC de l'informe"
+
+msgid "Hash of status type totals"
+msgstr ""
+
+msgid "Hash of report metrics, can be just {}"
+msgstr ""
+
+msgid "Optional array of log hashes"
+msgstr ""
+
+msgid "Create a report"
+msgstr "Crea un informe"
+
+msgid "Delete a report"
+msgstr "Suprimeix un informe"
+
+msgid "Show the last report for a host"
+msgstr "Mostra l'últim informe per un amfitrió"
 
 msgid "List provisioning templates"
 msgstr "Llista de les plantilles d'aprovisionament"
@@ -899,6 +962,11 @@ msgid "Parameter value"
 msgstr "Valor del paràmetre"
 
 msgid ""
+"The method used to provision the host. Possible provision_methods may be %{pro"
+"vision_methods}"
+msgstr ""
+
+msgid ""
 "True/False flag whether a host is managed or unmanaged. Note: this value also "
 "determines whether several parameters are required or not"
 msgstr ""
@@ -913,6 +981,9 @@ msgid "Host's network interfaces."
 msgstr "Les interfícies de xarxa dels amfitrions."
 
 msgid "Additional compute resource specific attributes."
+msgstr ""
+
+msgid "Parameters for host's %s facet"
 msgstr ""
 
 msgid "Create a host"
@@ -993,6 +1064,15 @@ msgid "Configuration successfully rebuilt."
 msgstr ""
 
 msgid "Configuration rebuild failed for: %s."
+msgstr ""
+
+msgid "Preview rendered provisioning template content"
+msgstr ""
+
+msgid "Template kinds, available values: %{template_kinds}"
+msgstr ""
+
+msgid "No template with kind %{kind} for %{host}"
 msgstr ""
 
 msgid "Invalid type for host creation via facts: %s"
@@ -1113,8 +1193,8 @@ msgid "Bond mode of the interface, e.g. balance-rr. Only for bond interfaces."
 msgstr ""
 
 msgid ""
-"Identifiers of slave interfaces, e.g. `['eth1', 'eth2']`. Only for bond interf"
-"aces."
+"Identifiers of attached interfaces, e.g. `['eth1', 'eth2']`. For bond interfac"
+"es those are the slaves. Only for bond and bridges interfaces."
 msgstr ""
 
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
@@ -1223,6 +1303,9 @@ msgstr "Id. de la plantilla"
 
 msgid "Show an operating system"
 msgstr "Mostra un sistema operatiu"
+
+msgid "OS' parameters (array or indexed hash)"
+msgstr ""
 
 msgid "Root password hash function to use, one of MD5, SHA256, SHA512, Base64"
 msgstr ""
@@ -1541,36 +1624,6 @@ msgstr "Actualitza un reialme"
 msgid "Delete a realm"
 msgstr "Suprimeix un reialme"
 
-msgid "List all reports"
-msgstr "Llista tots els informes"
-
-msgid "Show a report"
-msgstr "Mostra un informe"
-
-msgid "Hostname or certname"
-msgstr ""
-
-msgid "UTC time of report"
-msgstr "Hora UTC de l'informe"
-
-msgid "Hash of status type totals"
-msgstr ""
-
-msgid "Hash of report metrics, can be just {}"
-msgstr ""
-
-msgid "Optional array of log hashes"
-msgstr ""
-
-msgid "Create a report"
-msgstr "Crea un informe"
-
-msgid "Delete a report"
-msgstr "Suprimeix un informe"
-
-msgid "Show the last report for a host"
-msgstr "Mostra l'últim informe per un amfitrió"
-
 msgid "List all roles"
 msgstr "Llista tots els rols"
 
@@ -1639,6 +1692,9 @@ msgid "Description of smart class"
 msgstr "Descripció de la classe intel·ligent"
 
 msgid "Value to use when there is no match"
+msgstr ""
+
+msgid "When enabled the parameter is hidden in the UI"
 msgstr ""
 
 msgid ""
@@ -1908,6 +1964,9 @@ msgstr ""
 msgid "Invalid query"
 msgstr "consulta no vàlida"
 
+msgid "Administrator user account required"
+msgstr ""
+
 msgid "Successfully created %s."
 msgstr "S'ha creat correctament %s."
 
@@ -1923,9 +1982,6 @@ msgstr ""
 msgid "Conflict - %s"
 msgstr "Conflicte - %s"
 
-msgid "Failure: %s"
-msgstr "Característica: %s"
-
 msgid "Organization you had selected as your context has been deleted."
 msgstr ""
 
@@ -1937,9 +1993,6 @@ msgstr ""
 
 msgid "You must create at least one organization before continuing."
 msgstr ""
-
-msgid "Error"
-msgstr "Error"
 
 msgid "OK"
 msgstr "D'acord"
@@ -2006,16 +2059,7 @@ msgstr ""
 msgid "No changes to your environments detected"
 msgstr ""
 
-msgid "Puppet class with id '%{id}' was not found"
-msgstr ""
-
-msgid "Environment with id '%{id}' was not found"
-msgstr ""
-
-msgid "Host with id '%{id}' was not found"
-msgstr ""
-
-msgid "Hostgroup with id '%{id}' was not found"
+msgid "%{model} with id '%{id}' was not found"
 msgstr ""
 
 msgid "User IDs"
@@ -2105,6 +2149,9 @@ msgstr ""
 msgid "Selected hosts are now assigned to %s"
 msgstr ""
 
+msgid "Successfully deleted report."
+msgstr "S'ha suprimit correctament l'informe."
+
 msgid "External user group %{name} refreshed"
 msgstr "S'ha refrescat el grup d'usuaris externs %{name}"
 
@@ -2114,17 +2161,17 @@ msgstr "No s'ha pogut refrescar el grup d'usuaris externs %{name}"
 msgid "The following fields would need reviewing"
 msgstr ""
 
-msgid "PXE"
-msgstr "PXE"
-
 msgid "CDROM"
 msgstr "CD-ROM"
 
-msgid "BIOS"
-msgstr "BIOS"
+msgid "PXE"
+msgstr "PXE"
 
 msgid "Disk"
 msgstr "Disc"
+
+msgid "BIOS"
+msgstr "BIOS"
 
 msgid "The marked fields will need reviewing"
 msgstr ""
@@ -2201,10 +2248,34 @@ msgstr ""
 msgid "Updated hosts: changed environment"
 msgstr ""
 
+msgid "No owner selected!"
+msgstr ""
+
+msgid "Updated hosts: changed owner"
+msgstr ""
+
+msgid "Failed to set power state for %s."
+msgstr ""
+
+msgid "The power state of the selected hosts will be set to %s"
+msgstr ""
+
+msgid "Puppet"
+msgstr "Puppet"
+
+msgid "Puppet CA"
+msgstr "AC de Puppet"
+
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "Failed to redeploy %s."
+msgstr ""
+
+msgid "The selected hosts were enabled for reboot and rebuild"
+msgstr ""
 
 msgid "The selected hosts will execute a build operation on next reboot"
 msgstr ""
@@ -2265,6 +2336,29 @@ msgstr "%s amfitrions seleccionats"
 msgid "The following hosts were not %{action}: %{missed_hosts}"
 msgstr ""
 
+msgid "No or invalid power state selected!"
+msgstr ""
+
+msgid "No proxy selected!"
+msgstr ""
+
+msgid "Invalid proxy selected!"
+msgstr ""
+
+msgid "Failed to set %{proxy_type} proxy for %{host}."
+msgstr ""
+
+msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}."
+msgstr ""
+
+msgid "The %{proxy_type} proxy of the selected hosts was cleared."
+msgstr ""
+
+msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
+msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Successfully overridden all parameters of Puppet class %s"
 msgstr ""
 
@@ -2274,9 +2368,6 @@ msgstr ""
 msgid "No parameters to override for Puppet class %s"
 msgstr ""
 
-msgid "Successfully deleted report."
-msgstr "S'ha suprimit correctament l'informe."
-
 msgid "Role cloned from role %{old_name}"
 msgstr "S'ha clonat el rol a partir del rol %{old_name}"
 
@@ -2284,6 +2375,9 @@ msgid "Successfully refreshed features from %s."
 msgstr ""
 
 msgid "No changes found when refreshing features from %s."
+msgstr ""
+
+msgid "No TFTP feature"
 msgstr ""
 
 msgid "%s core"
@@ -2332,17 +2426,26 @@ msgstr ""
 msgid "Logged out - See you soon"
 msgstr ""
 
+msgid "Email address is missing"
+msgstr ""
+
+msgid "Unable to send email, check server logs for more information"
+msgstr ""
+
+msgid "Email was sent successfully"
+msgstr ""
+
 msgid "Remove Parameter"
 msgstr "Suprimeix el paràmetre"
 
 msgid "Click to add %s"
 msgstr "Feu clic per afegir %s"
 
-msgid "Are you sure?"
-msgstr "Esteu segur?"
-
 msgid "Delete"
 msgstr "Suprimeix"
+
+msgid "Are you sure?"
+msgstr "Esteu segur?"
 
 msgid "Help"
 msgstr "Ajuda"
@@ -2361,6 +2464,9 @@ msgstr ""
 
 msgid "Documentation"
 msgstr "Documentació"
+
+msgid "None found"
+msgstr ""
 
 msgid "Click to edit"
 msgstr "Feu clic per editar"
@@ -2387,6 +2493,9 @@ msgstr "Usuari"
 msgid "%s ago"
 msgstr "fa %s"
 
+msgid "New"
+msgstr "Nou"
+
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr ""
 
@@ -2400,6 +2509,9 @@ msgid ""
 "Do not send this parameter via the ENC.<br>Puppet will use the value defined i"
 "n the manifest."
 msgstr ""
+
+msgid "Value"
+msgstr "Valor"
 
 msgid "Paused"
 msgstr ""
@@ -2440,6 +2552,9 @@ msgstr "Física (pont)"
 msgid "Virtual (NAT)"
 msgstr "Virtual (NAT)"
 
+msgid "Resource pool"
+msgstr ""
+
 msgid "Add to dashboard"
 msgstr "Afegeix al tauler"
 
@@ -2467,9 +2582,6 @@ msgstr "Res a afegir"
 msgid "Missing template '%{template}' for widget '%{widget}'."
 msgstr ""
 
-msgid "Active"
-msgstr "Actiu"
-
 msgid "Pending changes"
 msgstr "Canvis pendents"
 
@@ -2491,12 +2603,12 @@ msgstr "Nombre de clients"
 msgid "Minutes Ago"
 msgstr "Minuts passats"
 
-msgid "Applied"
-msgstr "Aplicat"
-
 #. TRANSLATORS: initial character of Applied
 msgid "Applied|A"
 msgstr ""
+
+msgid "Applied"
+msgstr "Aplicat"
 
 msgid "Restarted"
 msgstr "Reiniciat"
@@ -2505,33 +2617,33 @@ msgstr "Reiniciat"
 msgid "Restarted|R"
 msgstr ""
 
+#. TRANSLATORS: initial character of Failed
+msgid "Failed|F"
+msgstr ""
+
 msgid "Failed"
 msgstr "Fallat"
 
-#. TRANSLATORS: initial character of Failed
-msgid "Failed|F"
+msgid "Failed Restarts"
 msgstr ""
 
 #. TRANSLATORS: initial characters of Failed Restarts
 msgid "Failed Restarts|FR"
 msgstr ""
 
-msgid "Failed Restarts"
-msgstr ""
+msgid "Skipped"
+msgstr "Omès"
 
 #. TRANSLATORS: initial character of Skipped
 msgid "Skipped|S"
 msgstr ""
 
-msgid "Skipped"
-msgstr "Omès"
+msgid "Pending"
+msgstr "Pendent"
 
 #. TRANSLATORS: initial character of Pending
 msgid "Pending|P"
 msgstr ""
-
-msgid "Pending"
-msgstr "Pendent"
 
 msgid "Auto refresh on"
 msgstr "Auto refresc engegat"
@@ -2557,6 +2669,9 @@ msgstr "Mostra el valor complet"
 msgid "Any Context"
 msgstr "Qualsevol context"
 
+msgid "Delete %s?"
+msgstr "Voleu suprimir %s?"
+
 msgid "This group has nested groups!"
 msgstr ""
 
@@ -2566,9 +2681,6 @@ msgstr ""
 msgid "inherit"
 msgstr ""
 
-msgid "Puppet CA"
-msgstr "AC de Puppet"
-
 msgid "Use this puppet server as a CA server"
 msgstr ""
 
@@ -2577,6 +2689,12 @@ msgstr "Màster de Puppet"
 
 msgid "Use this puppet server as an initial Puppet Server or to execute puppet runs"
 msgstr ""
+
+msgid "Notice"
+msgstr "Avís"
+
+msgid "Please select an environment first"
+msgstr "Si us plau, seleccioneu primer un entorn"
 
 msgid "New Host"
 msgstr "Nou amfitrió"
@@ -2611,6 +2729,9 @@ msgstr ""
 msgid "Rebuild Config"
 msgstr "Reconstrueix la configuració"
 
+msgid "Change Power State"
+msgstr ""
+
 msgid "Build Hosts"
 msgstr "Construeix els amfitrions"
 
@@ -2622,6 +2743,15 @@ msgstr "Assigna l'organització"
 
 msgid "Assign Location"
 msgstr "Assigna la ubicació"
+
+msgid "Change Owner"
+msgstr ""
+
+msgid "Change Puppet Master"
+msgstr ""
+
+msgid "Change Puppet CA"
+msgstr ""
 
 msgid "Select Action"
 msgstr "Selecciona l'acció"
@@ -2641,7 +2771,7 @@ msgstr "Temps d'execució"
 msgid "Found %{count} reports from the last %{days} days"
 msgstr "S'han trobat %{count} informes dels últims %{days} dies"
 
-msgid "Provisioning Support is disabled or this host is not managed"
+msgid "Provisioning support is disabled or this host is not managed"
 msgstr ""
 
 msgid "Unable to find templates as this host has no operating system"
@@ -2732,29 +2862,29 @@ msgstr ""
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-msgid "Audits"
-msgstr "Auditories"
-
 msgid "Host audit entries"
 msgstr ""
 
-msgid "Facts"
-msgstr "Objectes d'interès"
+msgid "Audits"
+msgstr "Auditories"
 
 msgid "Browse host facts"
 msgstr "Navega pels objectes d'interès de l'amfitrió"
 
+msgid "Facts"
+msgstr "Objectes d'interès"
+
 msgid "Reports"
 msgstr "Informes"
 
-msgid "Browse host reports"
-msgstr "Navega pels informes de l'amfitrió"
-
-msgid "Puppet external nodes YAML dump"
+msgid "Browse host config management reports"
 msgstr ""
 
 msgid "YAML"
 msgstr "YAML"
+
+msgid "Puppet external nodes YAML dump"
+msgstr ""
 
 msgid "Allocation (GB)"
 msgstr "Assignació (GB)"
@@ -2762,11 +2892,11 @@ msgstr "Assignació (GB)"
 msgid "Full"
 msgstr "Complet"
 
-msgid "None"
-msgstr "Sense"
-
 msgid "Size"
 msgstr "Mida"
+
+msgid "None"
+msgstr "Sense"
 
 msgid "remove network interface"
 msgstr "suprimeix la interfície de xarxa"
@@ -2783,15 +2913,21 @@ msgstr "S'han produïts errors, la construcció pot fallar"
 msgid "Edit %s"
 msgstr "Edita %s"
 
+msgid "Select desired %s proxy"
+msgstr ""
+
+msgid "*Clear %s proxy*"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Image"
 msgstr "Imatge"
 
-msgid "Image ID as provided by the compute resource, e.g. ami-.."
-msgstr ""
-
 msgid "Image ID"
 msgstr "id. d'imatge"
+
+msgid "Image ID as provided by the compute resource, e.g. ami-.."
+msgstr ""
 
 msgid "Caps lock ON"
 msgstr "Bloq Maj està activat"
@@ -2870,33 +3006,35 @@ msgstr ""
 msgid "Validation types"
 msgstr "Tipus de validació"
 
-msgid ""
-"<b>Description:</b> %{desc}<br><b>Type:</b> %{type}<br> <b>Matcher:</b> %{matc"
-"her}"
-msgstr ""
-"<b>Descripció:</b> %{desc}<br><b>Tipus:</b> %{type}<br> <b>Classificador:</b> "
-"%{matcher}"
-
 msgid "Default value"
 msgstr "Valor per defecte"
 
-msgid ""
-"Required parameter without value.<br/><b>Please override!</b> <br><br><b>Descr"
-"iption:</b>: %s"
+msgid "Original value info"
 msgstr ""
 
 msgid ""
-"Optional parameter without value.<br/><i>Won't be given to Puppet.</i> <br><br"
-"><b>Description:</b> %s"
+"<b>Description:</b> %{desc}<br/>\n"
+"     <b>Type:</b> %{type}<br/>\n"
+"     <b>Matcher:</b> %{matcher}<br/>\n"
+"     <b>Inherited value:</b> %{inherited_value}"
 msgstr ""
 
-msgid "Default templates are automatically added to new locations"
+msgid "Required parameter without value.<br/><b>Please override!</b><br/>"
 msgstr ""
 
-msgid "Default templates are automatically added to new organizations"
+msgid "Optional parameter without value.<br/><i>Will not be sent to Puppet.</i><br/>"
 msgstr ""
 
-msgid "Default templates are automatically added to new organizations and locations"
+msgid "Override this value"
+msgstr "Sobreescriu aquest valor"
+
+msgid "Remove this override"
+msgstr ""
+
+msgid "Unhide this value"
+msgstr ""
+
+msgid "Hide this value"
 msgstr ""
 
 msgid "Clone"
@@ -2928,17 +3066,41 @@ msgstr "Desbloqueja"
 msgid "Lock"
 msgstr "Bloqueja"
 
-msgid "Delete %s?"
-msgstr "Voleu suprimir %s?"
+msgid ""
+"When editing a template, you must assign a listof operating systems which this"
+" template can be used with. Optionally, you canrestrict a template to a list o"
+"f host groups and/or environments."
+msgstr ""
+
+msgid ""
+"When a Host requests a template (e.g. during provisioning), Foremanwill select"
+" the best match from the available templates of that type, in thefollowing ord"
+"er:"
+msgstr ""
+
+msgid "Host group and Environment"
+msgstr "Grup d'amfitrions i entorn"
+
+msgid "Host group only"
+msgstr "Només el grup d'amfitrions"
+
+msgid "Environment only"
+msgstr "Només l'entorn"
+
+msgid "Operating system default"
+msgstr "Sistema operatiu per defecte"
+
+msgid "The final entry, Operating System default, can be set by editing the %s page."
+msgstr ""
 
 msgid "revoked"
 msgstr "revocat"
 
-msgid "pending"
-msgstr "pendent"
+msgid "valid or pending"
+msgstr ""
 
-msgid "valid"
-msgstr "vàlid"
+msgid "all"
+msgstr ""
 
 msgid "in %s"
 msgstr ""
@@ -2992,14 +3154,14 @@ msgstr ""
 msgid "Show log messages:"
 msgstr "Mostra els missatges de registre:"
 
+msgid "All messages"
+msgstr "Tots els missatges"
+
 msgid "Notices, warnings and errors"
 msgstr "Notificacions, advertències i errors"
 
 msgid "Warnings and errors"
 msgstr "Advertències i errors"
-
-msgid "All messages"
-msgstr "Tots els missatges"
 
 msgid "Errors only"
 msgstr "Únicament els errors"
@@ -3008,6 +3170,9 @@ msgid ""
 "This setting is defined in the configuration file 'settings.yaml' and is read-"
 "only."
 msgstr ""
+
+msgid "Refresh"
+msgstr "Refresca"
 
 msgid "Certificates"
 msgstr "Certificats"
@@ -3018,8 +3183,23 @@ msgstr ""
 msgid "Import subnets"
 msgstr "Importa les subxarxes"
 
-msgid "Refresh features"
-msgstr "Refresca les característiques"
+msgid "Expire logs"
+msgstr ""
+
+msgid "Back"
+msgstr "Enrere"
+
+msgid "All"
+msgstr ""
+
+msgid "ERROR or FATAL"
+msgstr ""
+
+msgid "WARNING"
+msgstr ""
+
+msgid "INFO or DEBUG"
+msgstr ""
 
 msgid "OS Distribution"
 msgstr "Distribució del SO"
@@ -3039,20 +3219,20 @@ msgstr "Maquinari"
 msgid "Class Distribution"
 msgstr "Distribució de la classe"
 
-msgid "free memory"
-msgstr "memòria lliure"
-
 msgid "used memory"
 msgstr "memòria utilitzada"
+
+msgid "free memory"
+msgstr "memòria lliure"
 
 msgid "Average memory usage"
 msgstr "Mitjana d'ús de la memòria"
 
-msgid "Average swap usage"
-msgstr "Mitjana d'ús de l'intercanvi"
-
 msgid "used swap"
 msgstr "memòria d'intercanvi utilitzada"
+
+msgid "Average swap usage"
+msgstr "Mitjana d'ús de l'intercanvi"
 
 msgid "free swap"
 msgstr "memòria d'intercanvi lliure"
@@ -3075,23 +3255,23 @@ msgstr "Selecciona els usuaris"
 msgid "All users"
 msgstr "Tots els usuaris"
 
-msgid "All smart proxies"
-msgstr "Tots els servidors intermediaris intel·ligents"
-
 msgid "Select smart proxies"
 msgstr "Selecciona els servidors intermediaris intel·ligents"
 
-msgid "All subnets"
-msgstr "Totes les subxarxes"
+msgid "All smart proxies"
+msgstr "Tots els servidors intermediaris intel·ligents"
 
 msgid "Select subnets"
 msgstr "Selecciona les subxarxes"
 
-msgid "Select compute resources"
-msgstr "Selecciona els recursos computacionals"
+msgid "All subnets"
+msgstr "Totes les subxarxes"
 
 msgid "All compute resources"
 msgstr "Tots els recursos computacionals"
+
+msgid "Select compute resources"
+msgstr "Selecciona els recursos computacionals"
 
 msgid "All media"
 msgstr "Tots els mitjans"
@@ -3099,17 +3279,17 @@ msgstr "Tots els mitjans"
 msgid "Select media"
 msgstr "Selecciona el mitjà"
 
-msgid "Select provisioning templates"
-msgstr "Selecciona les plantilles d'aprovisionament"
-
 msgid "All provisioning templates"
 msgstr "Totes les plantilles d'aprovisionament"
 
-msgid "Select partition tables"
-msgstr "Selecciona les taules de particions"
+msgid "Select provisioning templates"
+msgstr "Selecciona les plantilles d'aprovisionament"
 
 msgid "All partition tables"
 msgstr "Totes les taules de particions"
+
+msgid "Select partition tables"
+msgstr "Selecciona les taules de particions"
 
 msgid "All domains"
 msgstr "Tots els dominis"
@@ -3117,30 +3297,56 @@ msgstr "Tots els dominis"
 msgid "Select domains"
 msgstr "Selecciona els dominis"
 
-msgid "Select realms"
-msgstr "Selecciona els reialmes"
-
 msgid "All realms"
 msgstr "Tots els reialmes"
 
-msgid "Select environments"
-msgstr "Selecciona els entorns"
+msgid "Select realms"
+msgstr "Selecciona els reialmes"
 
 msgid "All environments"
 msgstr "Tots els entorns"
 
-msgid "Select host groups"
-msgstr "Selecciona els grups d'amfitrions"
+msgid "Select environments"
+msgstr "Selecciona els entorns"
 
 msgid "All host groups"
 msgstr "Tots els grups d'amfitrions"
 
-msgid "Operating system"
-msgstr "Sistema operatiu"
+msgid "Select host groups"
+msgstr "Selecciona els grups d'amfitrions"
+
+msgid "Not relevant for snippet"
+msgstr "No és rellevant per al fragment"
+
+msgid "Default templates are automatically added to new locations"
+msgstr ""
+
+msgid "Default templates are automatically added to new organizations"
+msgstr ""
+
+msgid "Default templates are automatically added to new organizations and locations"
+msgstr ""
+
+msgid "Check out some %s"
+msgstr ""
+
+msgid "useful template functions and macros"
+msgstr ""
+
+msgid ""
+"This template is locked. You may only change the                     associati"
+"ons. Please %s it to customize."
+msgstr ""
+
+msgid "clone"
+msgstr "clona"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Entorn"
+
+msgid "Operating system"
+msgstr "Sistema operatiu"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -3181,7 +3387,16 @@ msgstr ""
 msgid "Welcome to Foreman"
 msgstr "Benvingut a Foreman"
 
+msgid "Foreman test email"
+msgstr ""
+
 msgid "Cannot create LDAP configuration for %s without dedicated service account"
+msgstr ""
+
+msgid "Test connection to LDAP server was successful."
+msgstr ""
+
+msgid "Unable to connect to LDAP server"
 msgstr ""
 
 msgid "invalid LDAP filter syntax"
@@ -3263,6 +3478,9 @@ msgid "%{cpus} CPUs and %{memory} MB memory"
 msgstr "%{cpus} CPU i %{memory} MB de memòria"
 
 msgid "Cannot find user %s when switching context"
+msgstr ""
+
+msgid "Unknown power management support - can't continue"
 msgstr ""
 
 msgid "is too long (maximum is 1 character)"
@@ -3450,7 +3668,7 @@ msgstr ""
 msgid "Failed to login via SSH to %{name}: %{e}"
 msgstr "No s'ha pogut iniciar la sessió a través de SSH a %{name}: %{e}"
 
-msgid "Provision script had a non zero exit, removing instance"
+msgid "Provision script had a non zero exit"
 msgstr ""
 
 msgid "Failed to launch script on %{name}: %{e}"
@@ -3493,8 +3711,20 @@ msgstr ""
 msgid "Invalid %s selection, you must select at least one of yours"
 msgstr ""
 
+msgid "is not valid"
+msgstr "no és vàlid"
+
 msgid "must be one of [ %s ]"
 msgstr "ha de ser un de [ %s ]"
+
+msgid "Unsupported report status format"
+msgstr ""
+
+msgid "invalid host list"
+msgstr "llista no vàlida d'amfitrions"
+
+msgid "Modified"
+msgstr "Modificat"
 
 msgid "Can't find a valid Foreman Proxy with a Puppet feature"
 msgstr ""
@@ -3553,15 +3783,15 @@ msgstr ""
 msgid "is unknown"
 msgstr ""
 
-msgid "common"
-msgstr "comú"
-
-msgid "hostgroup"
-msgstr "Grup d'amfitrions"
-
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
 "ng"
+msgstr ""
+
+msgid "Network Based"
+msgstr ""
+
+msgid "Image Based"
 msgstr ""
 
 msgid "no puppet proxy defined - cant continue"
@@ -3569,9 +3799,6 @@ msgstr ""
 
 msgid "failed to execute puppetrun: %s"
 msgstr "no s'ha pogut executar puppetrun: %s"
-
-msgid "Unknown power management support - can't continue"
-msgstr ""
 
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
@@ -3620,41 +3847,32 @@ msgstr "Sense informes"
 msgid "Global"
 msgstr "Global"
 
-msgid "Warning"
-msgstr "Advertència"
-
-msgid "domain"
-msgstr "domini"
-
-msgid "os"
-msgstr "SO"
-
 msgid "could not be found in %s"
 msgstr "no s'ha pogut trobar a %s"
 
 msgid "integer"
 msgstr "enter"
 
-msgid "boolean"
-msgstr "booleà"
-
-msgid "string"
+msgid "array"
 msgstr ""
 
 msgid "real"
 msgstr ""
 
-msgid "array"
+msgid "string"
 msgstr ""
 
 msgid "hash"
 msgstr ""
 
+msgid "json"
+msgstr "json"
+
 msgid "yaml"
 msgstr "yaml"
 
-msgid "json"
-msgstr "json"
+msgid "boolean"
+msgstr "booleà"
 
 msgid "regexp"
 msgstr ""
@@ -3692,19 +3910,14 @@ msgstr ""
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
-msgid "Weekly"
-msgstr "Setmanalment"
+msgid "Monthly"
+msgstr "Mensualment"
 
 msgid "Daily"
 msgstr "Diàriament"
 
-msgid "Monthly"
-msgstr "Mensualment"
-
-msgid ""
-"Only URLs with schema http://, https://, ftp:// or nfs:// are allowed (e.g. nf"
-"s://server/vol/dir)"
-msgstr ""
+msgid "Weekly"
+msgstr "Setmanalment"
 
 msgid "does not appear to be a valid nfs mount path"
 msgstr ""
@@ -3747,10 +3960,7 @@ msgstr ""
 msgid "Bond"
 msgstr "Vinculació"
 
-msgid "Only one bootable interface is allowed"
-msgstr ""
-
-msgid "Bootable"
+msgid "Bridge"
 msgstr ""
 
 msgid "Can't add or remove `%s` from identifier"
@@ -3785,10 +3995,31 @@ msgstr ""
 msgid "Function not available for %s"
 msgstr ""
 
+msgid "global"
+msgstr ""
+
+msgid "domain"
+msgstr "domini"
+
+msgid "host group"
+msgstr ""
+
+msgid "host"
+msgstr ""
+
+msgid "location"
+msgstr "ubicació"
+
 msgid "You do not have permission to %s this location parameter"
 msgstr ""
 
+msgid "organization"
+msgstr "organització"
+
 msgid "You do not have permission to %s this organization parameter"
+msgstr ""
+
+msgid "operating system"
 msgstr ""
 
 msgid "Must provide template kind"
@@ -3813,18 +4044,6 @@ msgstr "Hi va haver un error en la creació del fitxer per defecte de PXE: %s"
 
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr ""
-
-msgid "Unsupported report status format"
-msgstr ""
-
-msgid "invalid host list"
-msgstr "llista no vàlida d'amfitrions"
-
-msgid "Modified"
-msgstr "Modificat"
-
-msgid "Success"
-msgstr "Correcte"
 
 msgid "Unable to create the default user role."
 msgstr "No s'ha pogut crear el rol d'usuari predeterminat."
@@ -3859,20 +4078,17 @@ msgstr "no és vàlid: %s"
 msgid "is not allowed to change"
 msgstr ""
 
-msgid "Foreman will use OAuth for API authorization"
-msgstr "Foreman utilitzarà OAuth per a l'autorització de l'API"
-
 msgid "OAuth active"
 msgstr "OAuth actiu"
+
+msgid "Foreman will use OAuth for API authorization"
+msgstr "Foreman utilitzarà OAuth per a l'autorització de l'API"
 
 msgid "OAuth consumer key"
 msgstr "La clau de consumidor d'OAuth"
 
 msgid "OAuth consumer secret"
 msgstr "El secret de consumidor d'OAuth"
-
-msgid "OAuth map users"
-msgstr "OAuth assigna usuaris"
 
 msgid ""
 "Foreman will map users by username in request-header. If this is set to false,"
@@ -3881,6 +4097,9 @@ msgstr ""
 "Foreman assignarà els usuaris amb el nom d'usuari a la capçalera de la petició"
 ". Si s'estableix a «false», les peticions d'OAuth tindran els drets d'administ"
 "ració."
+
+msgid "OAuth map users"
+msgstr "OAuth assigna usuaris"
 
 msgid "Restrict registered smart proxies"
 msgstr "Restringeix els servidors intermediaris intel·ligents registrats"
@@ -3893,15 +4112,15 @@ msgstr ""
 "es característiques que utilitzen l'autenticació dels servidors intermediaris "
 "intel·ligents"
 
-msgid "Require SSL for smart proxies"
-msgstr "Requereix SSL per als servidors intermediaris intel·ligents"
-
 msgid ""
 "Client SSL certificates are used to identify Smart Proxies (:require_ssl shoul"
 "d also be enabled)"
 msgstr ""
 "Els certificats SSL de client s'utilitzen per a identificar els servidors inte"
 "rmediaris intel·ligents (:require_ssl també ha d'estar habilitat)"
+
+msgid "Require SSL for smart proxies"
+msgstr "Requereix SSL per als servidors intermediaris intel·ligents"
 
 msgid "Trusted puppetmaster hosts"
 msgstr ""
@@ -3911,19 +4130,19 @@ msgid ""
 "ort importers and ENC output"
 msgstr ""
 
+msgid "SSL Certificate path that Foreman would use to communicate with its proxies"
+msgstr ""
+
 msgid "SSL certificate"
 msgstr "Certificat SSL"
 
-msgid "SSL Certificate path that Foreman would use to communicate with its proxies"
-msgstr ""
+msgid "SSL CA file"
+msgstr "Fitxer d'AC SSL"
 
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
 msgstr ""
 "El fitxer de l'AC SSL que Foreman utilitzarà per comunicar-se amb els seus ser"
 "vidors intermediaris"
-
-msgid "SSL CA file"
-msgstr "Fitxer d'AC SSL"
 
 msgid "SSL Private Key file that Foreman will use to communicate with its proxies"
 msgstr ""
@@ -3933,13 +4152,16 @@ msgstr ""
 msgid "SSL private key"
 msgstr "Clau privada SSL"
 
+msgid "SSL client DN env"
+msgstr "env de DN de client SSL"
+
 msgid "Environment variable containing the subject DN from a client SSL certificate"
 msgstr ""
 "La variable d'entorn que conté el DN de l'assumpta a partir del certificat SSL"
 " de client"
 
-msgid "SSL client DN env"
-msgstr "env de DN de client SSL"
+msgid "SSL client verify env"
+msgstr "env de verificació de client SSL"
 
 msgid ""
 "Environment variable containing the verification status of a client SSL certif"
@@ -3948,8 +4170,11 @@ msgstr ""
 "La variable d'entorn que conté l'estat de verificació d'un certificat SSL de c"
 "lient"
 
-msgid "SSL client verify env"
-msgstr "env de verificació de client SSL"
+msgid "Environment variable containing a client's SSL certificate"
+msgstr ""
+
+msgid "SSL client cert env"
+msgstr ""
 
 msgid "Private key that Foreman will use to encrypt websockets "
 msgstr "La clau privada que Foreman utilitzarà per xifrar els WebSockets"
@@ -3963,15 +4188,18 @@ msgstr "Certificat SSL dels WebSockets"
 msgid "Certificate that Foreman will use to encrypt websockets "
 msgstr "El certificat que utilitzarà Foreman per xifrar els WebSockets"
 
-msgid "Websockets encryption"
-msgstr "Xifratge dels WebSockets"
-
 msgid ""
 "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert s"
 "etting required)"
 msgstr ""
 "El xifratge d'accés de la consola del servidor intermediari de WebSockets de V"
 "NC/SPICE (requereix l'establiment de websockets_ssl_key/cert)"
+
+msgid "Websockets encryption"
+msgstr "Xifratge dels WebSockets"
+
+msgid "Login delegation logout URL"
+msgstr ""
 
 msgid ""
 "Redirect your users to this url on logout (authorize_login_delegation should a"
@@ -3980,19 +4208,16 @@ msgstr ""
 "Redirigeix els usuaris a aquest URL en tancar la sessió (authorize_login_deleg"
 "ation també ha d'estar habilitat)"
 
-msgid "Login delegation logout URL"
+msgid ""
+"Name of the external auth source where unknown externally authentication users"
+" (see authorize_login_delegation) should be created (keep unset to prevent the"
+" autocreation)"
 msgstr ""
 
 msgid "Authorize login delegation auth source user autocreate"
 msgstr ""
 "Autoritza l'autocreació dels usuaris de l'origen d'autenticació de la delegaci"
 "ó de l'inici de sessió"
-
-msgid ""
-"Name of the external auth source where unknown externally authentication users"
-" (see authorize_login_delegation) should be created (keep unset to prevent the"
-" autocreation)"
-msgstr ""
 
 msgid "Authorize login delegation with REMOTE_USER environment variable"
 msgstr ""
@@ -4002,6 +4227,9 @@ msgstr ""
 msgid "Authorize login delegation"
 msgstr "Autoritza la delegació de l'inici de sessió"
 
+msgid "Authorize login delegation API"
+msgstr "Autoritza l'API de delegació de l'inici de sessió"
+
 msgid ""
 "Authorize login delegation with REMOTE_USER environment variable for API calls"
 " too"
@@ -4009,14 +4237,11 @@ msgstr ""
 "També per a les crides de l'API, autoritza la delegació de l'inici de sessió a"
 "mb la variable d'entorn REMOTE_USER"
 
-msgid "Authorize login delegation API"
-msgstr "Autoritza l'API de delegació de l'inici de sessió"
+msgid "Idle timeout"
+msgstr "Temps d'expiració d'inactivitat"
 
 msgid "Log out idle users after a certain number of minutes"
 msgstr "Tanca la sessió dels usuaris inactius després d'un nombre determinat de minuts"
-
-msgid "Idle timeout"
-msgstr "Temps d'expiració d'inactivitat"
 
 msgid ""
 "Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_"
@@ -4041,15 +4266,15 @@ msgstr "Adreça de correu electrònic de l'administrador"
 msgid "The default administrator email address"
 msgstr "L'adreça de correu electrònic per defecte de l'administrador"
 
+msgid "Foreman URL"
+msgstr "URL de Foreman"
+
 msgid ""
 "URL where your Foreman instance is reachable (see also Provisioning > unattend"
 "ed_url)"
 msgstr ""
 "L'URL on la vostra instància de Foreman és assolible (vegeu també Aprovisionam"
 "ent > unattended_url)"
-
-msgid "Foreman URL"
-msgstr "URL de Foreman"
 
 msgid "Email reply address"
 msgstr "Adreça de correu electrònic de resposta"
@@ -4059,11 +4284,11 @@ msgstr ""
 "L'adreça de correu electrònic de resposta per als correus electrònics que envi"
 "a Foreman"
 
-msgid "Prefix to add to all outgoing email"
-msgstr "El prefix a afegir a tots els correus electrònics de sortida"
-
 msgid "Email subject prefix"
 msgstr "Prefix del tema del correu electrònic"
+
+msgid "Prefix to add to all outgoing email"
+msgstr "El prefix a afegir a tots els correus electrònics de sortida"
 
 msgid "Send welcome email"
 msgstr "Envia el missatge de benvinguda"
@@ -4073,11 +4298,11 @@ msgstr ""
 "Envia un missatge de benvinguda als nous usuaris que inclou el nom d'usuari i "
 "l'URL"
 
-msgid "Number of records shown per page in Foreman"
-msgstr "El nombre de registres mostrats per pàgina a Foreman"
-
 msgid "Entries per page"
 msgstr "Entrades per pàgina"
+
+msgid "Number of records shown per page in Foreman"
+msgstr "El nombre de registres mostrats per pàgina a Foreman"
 
 msgid "Fix DB cache"
 msgstr "Corregeix la memòria cau de la BD"
@@ -4091,11 +4316,11 @@ msgstr "Tendències màx."
 msgid "Max days for Trends graphs"
 msgstr "Nombre màxim de dies per als gràfics de les tendències"
 
-msgid "Foreman will use gravatar to display user icons"
-msgstr "Foreman utilitzarà Gravatar per mostrar les icones dels usuaris"
-
 msgid "Use Gravatar"
 msgstr "Utilitza Gravatar"
+
+msgid "Foreman will use gravatar to display user icons"
+msgstr "Foreman utilitzarà Gravatar per mostrar les icones dels usuaris"
 
 msgid "DB pending migration"
 msgstr "Migració pendent de la BD"
@@ -4125,19 +4350,19 @@ msgstr ""
 msgid "Proxy request timeout"
 msgstr "Temps d'expiració de sol·licitud de servidor intermediari"
 
+msgid "Root password"
+msgstr "Contrasenya de root"
+
 msgid "Default encrypted root password on provisioned hosts"
 msgstr ""
 
-msgid "Root password"
-msgstr "Contrasenya de root"
+msgid "Unattended URL"
+msgstr "URL desatès"
 
 msgid ""
 "URL hosts will retrieve templates from during build (normally http as many ins"
 "tallers don't support https)"
 msgstr ""
-
-msgid "Unattended URL"
-msgstr "URL desatès"
 
 msgid "Safemode rendering"
 msgstr "Renderització en mode segur"
@@ -4147,19 +4372,19 @@ msgstr ""
 "Habilita la renderització en mode segur de les plantilles de configuració (es "
 "recomana)"
 
-msgid "Foreman will automate certificate signing upon provision of new host"
-msgstr ""
-
 msgid "Manage PuppetCA"
 msgstr "Gestiona l'AC de Puppet"
 
-msgid "Ignore Puppet facts for provisioning"
-msgstr "Ignora els objectes d'interès de Puppet per a l'aprovisionament"
+msgid "Foreman will automate certificate signing upon provision of new host"
+msgstr ""
 
 msgid ""
 "Stop updating IP address and MAC values from Puppet facts (affects all interfa"
 "ces)"
 msgstr ""
+
+msgid "Ignore Puppet facts for provisioning"
+msgstr "Ignora els objectes d'interès de Puppet per a l'aprovisionament"
 
 msgid "Ignore interfaces with matching identifier"
 msgstr "Ignora les interfícies que coincideixin amb l'identificador"
@@ -4169,16 +4394,13 @@ msgid ""
 "* wildcard to match names with indexes e.g. macvtap*"
 msgstr ""
 
+msgid "Query local nameservers"
+msgstr "Consulta als servidors de noms locals"
+
 msgid ""
 "Foreman will query the locally configured resolver instead of the SOA/NS autho"
 "rities"
 msgstr ""
-
-msgid "Query local nameservers"
-msgstr "Consulta als servidors de noms locals"
-
-msgid "Remote address"
-msgstr "Adreça remota"
 
 msgid ""
 "If Foreman is running behind Passenger or a remote load balancer, the IP shoul"
@@ -4186,27 +4408,30 @@ msgid ""
 "lancers, i.e: (10.0.0.1|127.0.0.1)"
 msgstr ""
 
-msgid "Token duration"
-msgstr "Duració del testimoni"
+msgid "Remote address"
+msgstr "Adreça remota"
 
 msgid ""
 "Time in minutes installation tokens should be valid for, 0 to disable token ge"
 "neration"
 msgstr ""
 
+msgid "Token duration"
+msgstr "Duració del testimoni"
+
+msgid "Libvirt default console address"
+msgstr "Adreça de la consola per defecte de Libvirt"
+
 msgid ""
 "The IP address that should be used for the console listen address when provisi"
 "oning new virtual machines via Libvirt"
 msgstr ""
 
-msgid "Libvirt default console address"
-msgstr "Adreça de la consola per defecte de Libvirt"
+msgid "Update IP from built request"
+msgstr "Actualitza la IP a partir de la petició de construcció"
 
 msgid "Foreman will update the host IP with the IP that made the built request"
 msgstr ""
-
-msgid "Update IP from built request"
-msgstr "Actualitza la IP a partir de la petició de construcció"
 
 msgid "Use short name for VMs"
 msgstr "Utilitza el nom curt per a les MV"
@@ -4222,27 +4447,35 @@ msgstr "Temps d'expiració de conflicte DNS"
 msgid "Timeout for DNS conflict validation (in seconds)"
 msgstr "El temps d'expiració per a la validació de conflicte DNS (en segons)"
 
+msgid "Clean up failed deployment"
+msgstr ""
+
+msgid ""
+"Foreman will delete virtual machine if provisioning script ends with non zero "
+"exit code"
+msgstr ""
+
 msgid "Puppet interval in minutes"
 msgstr "L'interval de Puppet en minuts"
 
 msgid "Puppet interval"
 msgstr "Interval de Puppet"
 
+msgid "Out of sync interval"
+msgstr "Interval dels desincronitzats"
+
 msgid ""
 "Duration in minutes after the Puppet interval for servers to be classed as out"
 " of sync."
 msgstr ""
 
-msgid "Out of sync interval"
-msgstr "Interval dels desincronitzats"
+msgid "Default Puppet environment"
+msgstr "Entorn de Puppet per defecte"
 
 msgid "Foreman will default to this puppet environment if it cannot auto detect one"
 msgstr ""
 "Foreman utilitzarà per defecte aquest entorn de puppet si no en pot detectar a"
 "utomàticament un"
-
-msgid "Default Puppet environment"
-msgstr "Entorn de Puppet per defecte"
 
 msgid "Module path"
 msgstr "Camí al mòdul"
@@ -4252,23 +4485,23 @@ msgid ""
 "ct one"
 msgstr ""
 
-msgid "Document root"
-msgstr "Base dels documents"
-
 msgid "Document root where puppetdoc files should be created"
 msgstr "La base dels documents, on s'han de crear els fitxers puppetdoc"
 
-msgid "Enable puppetrun support"
-msgstr "Habilita la compatibilitat amb puppetrun"
+msgid "Document root"
+msgstr "Base dels documents"
 
 msgid "Puppetrun"
 msgstr "Puppetrun"
 
-msgid "Puppet server"
-msgstr "Servidor de Puppet"
+msgid "Enable puppetrun support"
+msgstr "Habilita la compatibilitat amb puppetrun"
 
 msgid "Default Puppet server hostname"
 msgstr "El nom d'amfitrió del servidor de Puppet per defecte"
+
+msgid "Puppet server"
+msgstr "Servidor de Puppet"
 
 msgid "Default variables lookup path"
 msgstr "Camí per defecte de recerca de les variables"
@@ -4278,27 +4511,30 @@ msgstr ""
 "Foreman avaluarà les variables intel·ligents dels amfitrions en aquest ordre p"
 "er defecte"
 
+msgid "Enable smart variables in ENC"
+msgstr "Habilita variables intel·ligents a ENC"
+
 msgid "Foreman smart variables will be exposed via the ENC yaml output"
 msgstr ""
 "Les variables intel·ligents de Foreman s'exposaran a través de la sortida YAML"
 " ENC"
 
-msgid "Enable smart variables in ENC"
-msgstr "Habilita variables intel·ligents a ENC"
+msgid "Parameterized classes in ENC"
+msgstr "Classes parametritzades a ENC"
 
 msgid "Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
 msgstr ""
 "Foreman utilitzarà el nou format (2.6.5+) per a les classes a la sortida YAML "
 "ENC"
 
-msgid "Parameterized classes in ENC"
-msgstr "Classes parametritzades a ENC"
-
 msgid "Interpolate ERB in parameters"
 msgstr "Interpola ERB als paràmetres"
 
 msgid "Foreman will parse ERB in parameters value in the ENC output"
 msgstr ""
+
+msgid "ENC environment"
+msgstr "Entorn ENC"
 
 msgid ""
 "Foreman will explicitly set the puppet environment in the ENC yaml output. Thi"
@@ -4308,9 +4544,6 @@ msgstr ""
 "Foreman establirà explícitament l'entorn de puppet a la sortida YAML ENC. Això"
 " evitarà conflictes entre l'entorn establert al puppet.conf i l'entorn estable"
 "rt a Foreman"
-
-msgid "ENC environment"
-msgstr "Entorn ENC"
 
 msgid "Use UUID for certificates"
 msgstr "Utilitza UUID per als certificats"
@@ -4393,15 +4626,12 @@ msgstr ""
 "Els amfitrions que es creïn després d'una execució de puppet i que no enviïn l"
 "'objecte d'interès d'una organització es ficaran en aquesta organització"
 
-msgid ""
-"All hosts will show a configuration status even when a Puppet smart proxy is n"
-"ot assigned"
-msgstr ""
-
 msgid "Always show configuration status"
 msgstr ""
 
-msgid "is invalid - only  http://, https:// are allowed"
+msgid ""
+"All hosts will show a configuration status even when a Puppet smart proxy is n"
+"ot assigned"
 msgstr ""
 
 msgid "Only one declaration of a proxy is allowed"
@@ -4441,12 +4671,6 @@ msgstr ""
 
 msgid "must be specified if from is defined"
 msgstr ""
-
-msgid "location"
-msgstr "ubicació"
-
-msgid "organization"
-msgstr "organització"
 
 msgid "This template is locked and may not be removed."
 msgstr ""
@@ -4499,9 +4723,6 @@ msgstr ""
 msgid "default organizations need to be user organizations first"
 msgstr ""
 
-msgid "is not valid"
-msgstr "no és vàlid"
-
 msgid "has this role already"
 msgstr ""
 
@@ -4515,6 +4736,9 @@ msgid "unknown permission %s"
 msgstr ""
 
 msgid "LookupKey|Default value"
+msgstr ""
+
+msgid "invalid type %s"
 msgstr ""
 
 msgid "Status table"
@@ -4625,6 +4849,9 @@ msgstr "Estadístiques"
 msgid "Trends"
 msgstr "Tendències"
 
+msgid "Config management"
+msgstr ""
+
 msgid "Hosts"
 msgstr "Amfitrions"
 
@@ -4667,9 +4894,6 @@ msgstr "Grups d'amfitrions"
 msgid "Global parameters"
 msgstr "Paràmetres globals"
 
-msgid "Puppet"
-msgstr "Puppet"
-
 msgid "Environments"
 msgstr "Entorns"
 
@@ -4706,29 +4930,32 @@ msgstr "Dominis"
 msgid "Realms"
 msgstr "Reialmes"
 
+msgid "Cannot add pagelet to page %s without partial"
+msgstr ""
+
+msgid "Cannot add pagelet to page %s without mountpoint"
+msgstr ""
+
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
 msgid "stop"
 msgstr "atura"
 
-msgid "start"
-msgstr "inicia"
-
-msgid "reset"
-msgstr "restableix"
-
-msgid "state"
-msgstr "estat"
-
 msgid "poweroff"
 msgstr "apaga"
+
+msgid "start"
+msgstr "inicia"
 
 msgid "reboot"
 msgstr "reinicia"
 
-msgid "soft"
-msgstr ""
+msgid "state"
+msgstr "estat"
+
+msgid "reset"
+msgstr "restableix"
 
 msgid "cycle"
 msgstr "cicle"
@@ -4736,14 +4963,17 @@ msgstr "cicle"
 msgid "status"
 msgstr "estat"
 
-msgid "ready?"
-msgstr ""
-
 msgid "off"
 msgstr "apagat"
 
 msgid "on"
 msgstr "encès"
+
+msgid "ready?"
+msgstr ""
+
+msgid "soft"
+msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr ""
@@ -4757,19 +4987,22 @@ msgstr ""
 msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "S'ha produït un error mentre s'estava comunicant amb %{cr}: %{e}"
 
+msgid "Unable to initialize ProxyAPI class %s"
+msgstr ""
+
+msgid "Unable to connect"
+msgstr ""
+
+msgid "Could not locate CA certificate."
+msgstr ""
+
 msgid "Invalid report"
 msgstr "Informe no vàlid"
 
 msgid "Invalid log level: %s"
 msgstr ""
 
-msgid "invalid type %s"
-msgstr ""
-
 msgid "SafeRender#parse_string was passed a %s instead of a string"
-msgstr ""
-
-msgid "Must specify a Smart Proxy to use"
 msgstr ""
 
 msgid "unable to sign a non pending certificate"
@@ -4789,6 +5022,9 @@ msgstr ""
 
 msgid "can't contain spaces."
 msgstr "no pot contenir espais."
+
+msgid "URL must be valid and schema must be one of %s"
+msgstr ""
 
 msgid "System Status"
 msgstr "Estat del sistema"
@@ -4814,8 +5050,8 @@ msgstr "Nom"
 msgid "Features"
 msgstr "Característiques"
 
-msgid "Connecting.."
-msgstr "S'està connectant..."
+msgid "Version"
+msgstr "Versió"
 
 msgid "Provider"
 msgstr "Proveïdor"
@@ -4845,9 +5081,6 @@ msgstr "Descripció"
 
 msgid "Author"
 msgstr "Autor"
-
-msgid "Version"
-msgstr "Versió"
 
 msgid "Support"
 msgstr "Suport"
@@ -4933,11 +5166,8 @@ msgstr "Nova arquitectura"
 msgid "Architecture|Name"
 msgstr "Nom"
 
-msgid "New architecture"
-msgstr "Nova arquitectura"
-
-msgid "Architecture configuration"
-msgstr "Configuració de l'arquitectura"
+msgid "Actions"
+msgstr "Accions"
 
 msgid ""
 "Before you proceed to using Foreman you should provide information about one o"
@@ -4954,6 +5184,12 @@ msgid ""
 "Each architecture can also be associated with more than one operating system a"
 "nd a selector block is provided to allow you to select valid combinations."
 msgstr ""
+
+msgid "Learn more about this in the documentation."
+msgstr ""
+
+msgid "New architecture"
+msgstr "Nova arquitectura"
 
 msgid "<b>Foreman</b> audit summary"
 msgstr "Resum de l'auditoria de <b>Foreman</b> "
@@ -4990,12 +5226,6 @@ msgstr "Ítem"
 msgid "Old"
 msgstr "Antic"
 
-msgid "New"
-msgstr "Nou"
-
-msgid "Value"
-msgstr "Valor"
-
 msgid "LDAP server"
 msgstr "Servidor LDAP"
 
@@ -5004,6 +5234,12 @@ msgstr "Compte"
 
 msgid "Attribute mappings"
 msgstr "Assignacions dels atributs"
+
+msgid "Test Connection"
+msgstr "Prova la connexió"
+
+msgid "Test LDAP connectivity"
+msgstr ""
 
 msgid "Choose a server type"
 msgstr "Selecciona un tipus de servidor"
@@ -5082,11 +5318,8 @@ msgstr "LDAPS"
 msgid "New LDAP Auth Source"
 msgstr "Nou origen d'autenticació LDAP"
 
-msgid "New authentication source"
-msgstr "Nou origen d'autenticació"
-
-msgid "Authentication Source Configuration"
-msgstr "Configuració de l'origen d'autenticació"
+msgid "LDAP authentication sources"
+msgstr ""
 
 msgid "Foreman can use LDAP based service for user information and authentication."
 msgstr ""
@@ -5094,13 +5327,21 @@ msgstr ""
 " i la informació dels usuaris."
 
 msgid ""
-"The authentication process currently requires an LDAP provider, such as <em>Op"
-"enLDAP</em> or <em>Microsoft's Active Directory</em>."
+"The authentication process currently requires an LDAP provider, such as <em>Fr"
+"eeIPA</em>,\n"
+"            <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>."
 msgstr ""
-"El procés d'autenticació requereix actualment un proveïdor de LDAP, com ara <e"
-"m>OpenLDAP</em> o <em>Active Directory de Microsoft</em>."
 
-msgid "Autosign entries for %s"
+msgid "New authentication source"
+msgstr "Nou origen d'autenticació"
+
+msgid "Autosign entries"
+msgstr ""
+
+msgid "Add Autosign entry"
+msgstr ""
+
+msgid "View list"
 msgstr ""
 
 msgid "New Autosign Entry"
@@ -5108,9 +5349,6 @@ msgstr ""
 
 msgid "Edit Bookmark"
 msgstr "Edita l'adreça d'interès"
-
-msgid "Manage Bookmarks"
-msgstr "Gestiona les adreces d'interès"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Name"
@@ -5131,26 +5369,27 @@ msgstr "Pública"
 msgid "New Bookmark"
 msgstr "Nova adreça d'interès"
 
-msgid "Bookmarks configuration"
-msgstr "Configuració de les adreces d'interès"
+msgid "You don't seem to have any bookmarks."
+msgstr ""
 
-msgid "Here you can manage bookmarks. Bookmarks are saved search queries."
+msgid ""
+"Bookmarks are saved search queries. To save them, click on 'Bookmark this sear"
+"ch' on the dropdown next to every search button."
 msgstr ""
 
 msgid "Permission denied"
 msgstr "Permís denegat"
 
-msgid "You are not authorized to perform this action"
+msgid "You are not authorized to perform this action."
 msgstr ""
 
-msgid "Please request the required privileges from a foreman administrator"
+msgid ""
+"Please request one of the required permissions listed below from a Foreman adm"
+"inistrator:"
 msgstr ""
 
-msgid "Back"
-msgstr "Enrere"
-
-msgid "Not Found"
-msgstr "No s'ha trobat"
+msgid "not found"
+msgstr ""
 
 msgid "Please try to update your request"
 msgstr ""
@@ -5158,22 +5397,25 @@ msgstr ""
 msgid "Oops, we're sorry but something went wrong"
 msgstr ""
 
-msgid "Foreman ticketing system"
+msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr ""
 
-msgid "If you feel this is an error with Foreman itself, please open a new issue with"
+msgid "Foreman ticketing system"
 msgstr ""
 
 msgid "You would probably need to attach the"
 msgstr ""
+
+msgid "Full trace"
+msgstr "Traça completa"
 
 msgid ""
 ", relevant log entries, and it is highly recommended to also attach the forema"
 "n-debug output."
 msgstr ""
 
-msgid "Full trace"
-msgstr "Traça completa"
+msgid "Failure: %s"
+msgstr "Característica: %s"
 
 msgid "None Found"
 msgstr "No se n'ha trobat cap"
@@ -5217,11 +5459,11 @@ msgstr ""
 msgid "Update:"
 msgstr "Actualitza:"
 
-msgid "Remove:"
-msgstr "Suprimeix:"
-
 msgid "Add:"
 msgstr "Afegeix:"
+
+msgid "Remove:"
+msgstr "Suprimeix:"
 
 msgid "Update"
 msgstr "Actualitza"
@@ -5251,29 +5493,14 @@ msgstr "Mitjà"
 msgid "Partition table"
 msgstr "Taula de particions"
 
-msgid "Actions"
-msgstr "Accions"
-
-msgid "Override this value"
-msgstr "Sobreescriu aquest valor"
-
 msgid "override"
 msgstr "sobreescriu"
-
-msgid "hide"
-msgstr "oculta"
 
 msgid "remove"
 msgstr "suprimeix"
 
 msgid "Add Parameter"
 msgstr "Afegeix un paràmetre"
-
-msgid "Parameter type"
-msgstr "Tipus de paràmetre"
-
-msgid "Override a Puppetclass Parameter"
-msgstr "Sobreescriu un paràmetre de Puppetclass"
 
 msgid "Edit Global Parameter"
 msgstr "Edita els paràmetres globals"
@@ -5347,9 +5574,6 @@ msgstr "Regió"
 msgid "Load Regions"
 msgstr "Carrega les regions"
 
-msgid "Test Connection"
-msgstr "Prova la connexió"
-
 msgid "Google Project ID"
 msgstr "Id. de projecte de Google"
 
@@ -5388,6 +5612,9 @@ msgstr "Inquilí"
 
 msgid "Load Tenants"
 msgstr "Carrega els inquilins"
+
+msgid "Allow external network as main network"
+msgstr ""
 
 msgid "e.g. https://ovirt.example.com/api"
 msgstr "p. ex. https://ovirt.example.com/api"
@@ -5453,8 +5680,8 @@ msgstr "S'està carregant la informació de les màquines virtuals..."
 msgid "New Image"
 msgstr "Nova imatge"
 
-msgid "Loading Images information"
-msgstr "S'està carregant la informació de les imatges"
+msgid "Loading images information ..."
+msgstr ""
 
 msgid "VM Attributes"
 msgstr "Atributs de la MV"
@@ -5501,10 +5728,10 @@ msgstr "Gust"
 msgid "Please select an image"
 msgstr "Si us plau, seleccioneu una imatge"
 
-msgid "No preference"
+msgid "Availability zone"
 msgstr ""
 
-msgid "Availability zone"
+msgid "No preference"
 msgstr ""
 
 msgid "EC2"
@@ -5517,14 +5744,14 @@ msgstr "Subxarxa"
 msgid "Security groups"
 msgstr "Grups de seguretat"
 
+msgid "Public"
+msgstr "Pública"
+
 msgid "Private"
 msgstr "Privada"
 
 msgid "Managed IP"
 msgstr "IP gestionada"
-
-msgid "Public"
-msgstr "Pública"
 
 msgid "Machine type"
 msgstr "Tipus de màquina"
@@ -5544,11 +5771,11 @@ msgstr "Nombre de CPU"
 msgid "Memory"
 msgstr "Memòria"
 
-msgid "Power ON this machine"
-msgstr "Engega aquesta màquina"
-
 msgid "Start"
 msgstr "Inicia"
+
+msgid "Power ON this machine"
+msgstr "Engega aquesta màquina"
 
 msgid "Image to use"
 msgstr "Imatge a utilitzar"
@@ -5563,7 +5790,7 @@ msgid "No bridges"
 msgstr "Sense ponts"
 
 msgid ""
-"your libvirt host does not support interface listing, please enter here the br"
+"Your libvirt host does not support interface listing, please enter here the br"
 "idge name (e.g. br0)"
 msgstr ""
 
@@ -5612,10 +5839,13 @@ msgstr "Nuclis"
 msgid "Storage domain"
 msgstr "Domini d'emmagatzematge"
 
+msgid "Uses thin provisioning if unchecked"
+msgstr ""
+
 msgid "Preallocate disk"
 msgstr ""
 
-msgid "Uses thin provisioning if unchecked"
+msgid "Bootable"
 msgstr ""
 
 msgid "Only one volume can be bootable"
@@ -5630,6 +5860,9 @@ msgstr ""
 msgid "Memory (MB)"
 msgstr "Memòria (MB)"
 
+msgid "Please select a cluster"
+msgstr ""
+
 msgid "Folder"
 msgstr "Carpeta"
 
@@ -5640,6 +5873,28 @@ msgid "SCSI controller"
 msgstr "Controlador SCSI"
 
 msgid "Virtual H/W version"
+msgstr ""
+
+msgid "Memory hot add"
+msgstr ""
+
+msgid ""
+"Memory hot add lets you add memory resources for a virtual machine while the m"
+"achine is powered on."
+msgstr ""
+
+msgid ""
+"CPU hot add lets you add CPU resources for a virtual machine while the machine"
+" is powered on."
+msgstr ""
+
+msgid "CPU hot add"
+msgstr ""
+
+msgid "Deploy VM on selected datastore"
+msgstr ""
+
+msgid "Datastore Cluster"
 msgstr ""
 
 msgid "Data store"
@@ -5729,6 +5984,80 @@ msgstr "Classes de Puppet"
 msgid "New Config group"
 msgstr "Nou grup de configuracions"
 
+msgid "Host"
+msgstr "Amfitrió"
+
+msgid "Last report"
+msgstr "Últim informe"
+
+msgid "Restart<br>Failures"
+msgstr ""
+
+msgid "Delete report for %s?"
+msgstr "Voleu suprimir l'informe per %s?"
+
+msgid "Report Metrics"
+msgstr "Mètriques de l'informe"
+
+msgid "Report Status"
+msgstr ""
+
+msgid "Number of Events"
+msgstr "Nombre d'esdeveniments"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Level"
+msgstr "Nivell"
+
+msgid "Resource"
+msgstr "Recurs"
+
+msgid "message"
+msgstr "missatge"
+
+msgid "Nothing to show"
+msgstr "Res a mostrar"
+
+msgid "Reported at %s "
+msgstr ""
+
+msgid "Host times seems to be adrift!"
+msgstr ""
+
+msgid "Host reported time is <em>%s</em>"
+msgstr ""
+
+msgid "Foreman report creation time is <em>%s</em>"
+msgstr ""
+
+msgid "Which is an offset of <b>%s</b>"
+msgstr ""
+
+msgid "Other reports for this host"
+msgstr "Altres informes per a aquest amfitrió"
+
+msgid "Diff View"
+msgstr "Visualitza les diferències"
+
+msgid "You don't seem to have any reports."
+msgstr ""
+
+msgid ""
+"If you wish to configure Puppet to forward it reports to Foreman, please follo"
+"w"
+msgstr ""
+
+msgid "setting up reporting"
+msgstr "la preparació de l'enviament d'informes"
+
+msgid "and"
+msgstr "i"
+
+msgid "e-mail reporting"
+msgstr "l'enviament d'informes per correu electrònic"
+
 msgid "Run distribution in the last %s minute"
 msgid_plural "Run distribution in the last %s minutes"
 msgstr[0] ""
@@ -5800,23 +6129,25 @@ msgstr "Nou domini"
 msgid "Domain|Fullname"
 msgstr "Nom complet"
 
-msgid "Domain Configuration"
-msgstr "Configuració del domini"
+msgid "Foreman considers a domain and a DNS zone as the same thing."
+msgstr ""
 
 msgid ""
-"Foreman considers a domain and a DNS zone as the same thing. That is, if you a"
-"re planning to manage a site where all the machines are or the form <i>hostnam"
-"e</i>.<b>somewhere.com</b>\n"
-"  then the domain is <b>somewhere.com</b>. This allows Foreman to associate a "
-"puppet variable with a domain/site and automatically append this variable to a"
-"ll external node requests made\n"
-"  by machines at that site."
+"That is, if you are planning to manage a site where all the machines are or th"
+"e form <i>hostname</i>.<b>somewhere.com</b>\n"
+"    then the domain is <b>somewhere.com</b>."
+msgstr ""
+
+msgid ""
+"This allows Foreman to associate a puppet variable with a domain/site and auto"
+"matically append this variable to all external node requests made by machines "
+"at that site."
 msgstr ""
 
 msgid ""
 "The <b>fullname</b> field is used for human readability in reports and other p"
 "ages that refer to domains,\n"
-"  and also available as an external node parameter"
+"    and also available as an external node parameter"
 msgstr ""
 
 msgid "Input"
@@ -5847,8 +6178,8 @@ msgstr "Nom"
 msgid "New Environment"
 msgstr "Nou entorn"
 
-msgid "Puppet environments configuration"
-msgstr "Configuració dels entorns de Puppet"
+msgid "Puppet environments"
+msgstr "Entorns de Puppet"
 
 msgid ""
 "If you are planning to use Foreman as an external node classifier you should p"
@@ -5868,6 +6199,9 @@ msgid ""
 "ent to be declared."
 msgstr ""
 
+msgid "New Puppet environment"
+msgstr ""
+
 msgid "Show %{host} facts"
 msgstr "Mostra els objectes d'interès de %{host}"
 
@@ -5880,9 +6214,6 @@ msgstr "Mostra la gràfica de la distribució"
 msgid "Fact Values"
 msgstr "Valors dels objectes d'interès"
 
-msgid "Host"
-msgstr "Amfitrió"
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "FactValue|Value"
 msgstr "Valor"
@@ -5890,21 +6221,13 @@ msgstr "Valor"
 msgid "Reported at"
 msgstr "Es va informar el"
 
-msgid "Hosts Inventory"
+msgid "Fact values"
 msgstr ""
 
 msgid ""
 "You don't seem to have any facts yet. If you wish to configure fact pushing, p"
-"lease follow"
+"lease follow the documentation."
 msgstr ""
-"Pel que sembla encara no teniu cap objecte d'interès. Si voleu configurar l'em"
-"penyiment de l'objecte d'interès, si us plau, seguiu"
-
-msgid "setting up facts"
-msgstr "la configuració dels objectes d'interès"
-
-msgid "This page will self destruct once inventory data comes in."
-msgstr "Aquesta pàgina s'autodestruirà un cop hi entrin les dades de l'inventari."
 
 msgid "%s Distribution"
 msgstr "Distribució %s"
@@ -5935,6 +6258,9 @@ msgstr ""
 
 msgid "Edit Filter"
 msgstr "Edita el filtre"
+
+msgid "Filters for role %s"
+msgstr ""
 
 msgid "Filters"
 msgstr "Filtres"
@@ -6028,15 +6354,6 @@ msgstr[1] ""
 "               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Inhabi"
 "litats</p>"
 
-msgid "Level"
-msgstr "Nivell"
-
-msgid "Resource"
-msgstr "Recurs"
-
-msgid "message"
-msgstr "missatge"
-
 msgid "No logs to show"
 msgstr "Sense registres a mostrar"
 
@@ -6052,6 +6369,9 @@ msgid "Last Report"
 msgstr "Últim informe"
 
 msgid "<b>Foreman</b> Puppet error report"
+msgstr ""
+
+msgid "For more information"
 msgstr ""
 
 msgid "<b>Foreman</b> Build Complete"
@@ -6100,17 +6420,11 @@ msgstr "Classes de Puppet"
 msgid "Parent"
 msgstr "Pare"
 
-msgid "Please select an environment first"
-msgstr "Si us plau, seleccioneu primer un entorn"
-
 msgid "Password must be 8 characters or more"
 msgstr ""
 
 msgid "Puppet class parameters"
 msgstr "Paràmetres de la classe de Puppet"
-
-msgid "Puppet class overrides"
-msgstr ""
 
 msgid "Parent parameters"
 msgstr ""
@@ -6127,6 +6441,9 @@ msgstr "Nou grup d'amfitrions"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Name"
 msgstr "Nom"
+
+msgid "Hosts including sub-groups"
+msgstr ""
 
 msgid "Nest"
 msgstr ""
@@ -6219,7 +6536,7 @@ msgstr "MAC"
 msgid "Gateway"
 msgstr "Passarel·la"
 
-msgid "VM editing is not implemented for this provider"
+msgid "Virtual machine settings cannot be edited on an existing machine in %s"
 msgstr ""
 
 msgid "'%{host}' not found on '%{resource}'"
@@ -6279,17 +6596,14 @@ msgstr ""
 msgid "Deploy on"
 msgstr "Desplega sobre"
 
-msgid "Puppet classes parameters"
-msgstr "Paràmetres de les classes de Puppet"
-
 msgid "Host parameters"
 msgstr "Paràmetres de l'amfitrió"
 
-msgid "select an owner"
-msgstr "selecciona un propietari"
-
 msgid "Owned By"
 msgstr "Propietat de"
+
+msgid "select an owner"
+msgstr "selecciona un propietari"
 
 msgid "Include this host within Foreman reporting"
 msgstr "Inclou aquest amfitrió dins de l'enviament d'informes de Foreman"
@@ -6321,31 +6635,10 @@ msgstr "ítems seleccionats. Desmarca per netejar"
 msgid "Select all items in this page"
 msgstr "Selecciona tots els ítems en aquesta pàgina"
 
-msgid "Last report"
-msgstr "Últim informe"
-
 msgid "Please Confirm"
 msgstr "Si us plau, confirmeu"
 
-msgid "Report Status"
-msgstr ""
-
 msgid "Provisioning Method"
-msgstr ""
-
-msgid "Network Based"
-msgstr ""
-
-msgid "Image Based"
-msgstr ""
-
-msgid "Enable this host for provisioning"
-msgstr ""
-
-msgid ""
-"What ever text(or ERB template) you use in here, would be used as your OS disk"
-" layout options If you want to use the partition table option, delete all of t"
-"he text from this field"
 msgstr ""
 
 msgid "Resolve"
@@ -6357,8 +6650,11 @@ msgstr ""
 msgid "in Progress"
 msgstr "en progrés"
 
-msgid "Number of Events"
-msgstr "Nombre d'esdeveniments"
+msgid "in progress"
+msgstr ""
+
+msgid "Templates resolved for this operating system"
+msgstr ""
 
 msgid "Time in Seconds"
 msgstr "Temps en segons"
@@ -6393,11 +6689,11 @@ msgstr "Ctrl-Alt-Supr"
 msgid "Troubleshooting"
 msgstr "Solució de problemes"
 
-msgid "New window"
-msgstr "Nova finestra"
-
 msgid "Open Spice in a new window"
 msgstr "Obre Spice en una nova finestra"
+
+msgid "New window"
+msgstr "Nova finestra"
 
 msgid "Connecting (unencrypted) to: %s"
 msgstr "S'està connectant (sense xifratge) a: %s"
@@ -6423,6 +6719,9 @@ msgstr "Aprovisionament"
 msgid "these hosts for a build operation on next boot"
 msgstr ""
 
+msgid "Reboot now"
+msgstr ""
+
 msgid ""
 "This might take a while, as all hosts, facts and reports will be destroyed as "
 "well"
@@ -6445,6 +6744,15 @@ msgstr ""
 msgid "Run Puppet on the following hosts"
 msgstr ""
 
+msgid "Enable this host for provisioning"
+msgstr ""
+
+msgid ""
+"What ever text(or ERB template) you use in here, would be used as your OS disk"
+" layout options If you want to use the partition table option, delete all of t"
+"he text from this field"
+msgstr ""
+
 msgid "List of hosts which answer to the provided query"
 msgstr ""
 
@@ -6460,9 +6768,6 @@ msgstr ""
 msgid "Edit Host"
 msgstr "Edita l'amfitrió"
 
-msgid "Reboot now"
-msgstr ""
-
 msgid "Select environment"
 msgstr "Selecciona l'entorn"
 
@@ -6472,17 +6777,20 @@ msgstr "*Neteja l'entorn*"
 msgid "*Inherit from host group*"
 msgstr ""
 
-msgid "*Clear host group*"
-msgstr "*Neteja el grup d'amfitrions*"
-
 msgid "Select host group"
 msgstr "Selecciona el grup d'amfitrions"
+
+msgid "*Clear host group*"
+msgstr "*Neteja el grup d'amfitrions*"
 
 msgid "Select Location"
 msgstr "Selecciona la ubicació"
 
 msgid "Select Organization"
 msgstr "Selecciona l'organització"
+
+msgid "Select desired state"
+msgstr ""
 
 msgid "Metrics"
 msgstr "Mètriques"
@@ -6529,9 +6837,6 @@ msgstr "Advertència: Això suprimirà aquest amfitrió i totes les seves dades!
 msgid "This host's stored facts and reports will be deleted too."
 msgstr ""
 
-msgid "Loading..."
-msgstr "S'està carregant..."
-
 msgid "Please wait while your request is being processed"
 msgstr ""
 
@@ -6550,14 +6855,10 @@ msgstr ""
 msgid "Back to host list"
 msgstr "Torna a la llista dels amfitrions"
 
-msgid "You don't seem to have any Hosts, for more information see"
-msgstr "Pel que sembla encara no teniu cap amfitrió, per a més informació vegeu"
-
-msgid "this page"
-msgstr "aquesta pàgina"
-
-msgid "This page will self destruct once data comes in."
-msgstr "Aquesta pàgina s'autodestruirà un cop hi entrin dades."
+msgid ""
+"You don't have any visible hosts. Hosts can be added and provisioned from Fore"
+"man, or configured to report to Foreman."
+msgstr ""
 
 msgid ""
 "The user that is used to ssh into the instance, normally cloud-user, ec2-user,"
@@ -6573,11 +6874,11 @@ msgstr ""
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
-msgid "Image path"
-msgstr "Camí a la imatge"
-
 msgid "Full path to backing image used to create new volumes."
 msgstr ""
+
+msgid "Image path"
+msgstr "Camí a la imatge"
 
 msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
 msgstr ""
@@ -6604,14 +6905,8 @@ msgstr "Destrueix"
 msgid "You are using an unsupported browser."
 msgstr ""
 
-msgid "Location configuration"
-msgstr "Configuració de la ubicació"
-
-msgid "You must create a location before continuing."
+msgid "You must create a location before continuing"
 msgstr ""
-
-msgid "Notice"
-msgstr "Avís"
 
 msgid ""
 "Locations are used to manage and differentiate the physical place where a syst"
@@ -6620,12 +6915,17 @@ msgstr ""
 
 msgid ""
 "For example, there might be a data center in London and one in Virginia; these"
-" are locations. Locations also work nicely when used in tandem with %{organiza"
-"tions}."
+" are locations."
 msgstr ""
 
 msgid "organizations"
 msgstr "organitzacions"
+
+msgid "Locations also work nicely when used in tandem with %{organizations}."
+msgstr ""
+
+msgid "New location"
+msgstr ""
 
 msgid "Variable"
 msgstr "Variable"
@@ -6646,6 +6946,12 @@ msgid "Whether the class parameter value is managed by Foreman."
 msgstr ""
 
 msgid "Value to use when there is no match."
+msgstr ""
+
+msgid "Hidden value"
+msgstr ""
+
+msgid "Hide all values for this parameter."
 msgstr ""
 
 msgid "Optional input validator"
@@ -6747,11 +7053,11 @@ msgstr "El camí NFS als fitxers de control de jumpstart."
 msgid "The NFS path to the image directory."
 msgstr "El camí NFS al directori de la imatge."
 
-msgid "Operating system family"
-msgstr "Família de sistema operatiu"
-
 msgid "Choose a family"
 msgstr "Selecciona una família"
+
+msgid "Operating system family"
+msgstr "Família de sistema operatiu"
 
 msgid "Edit Medium"
 msgstr "Edita el mitjà"
@@ -6882,15 +7188,15 @@ msgstr "Sense dominis"
 msgid "Suggest new"
 msgstr ""
 
-msgid "IP address auto-suggest"
-msgstr ""
-
 msgid ""
 "An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on"
 " the subnet selected above.<br/><br/>The IP address can be left blank when:<br"
 "/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage D"
 "NS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does "
 "not manage DHCP reservations</li></ul>"
+msgstr ""
+
+msgid "IP address auto-suggest"
 msgstr ""
 
 msgid "The Primary interface is used for constructing the FQDN of the host"
@@ -6933,8 +7239,8 @@ msgstr "Versió major del SO des del facter; p. ex. 6"
 msgid "OS minor version from facter; e.g. 5"
 msgstr "Versió menor del SO des del facter; p. ex. 5"
 
-msgid "e.g. RHEL 6.5"
-msgstr "p. ex. RHEL 6.5"
+msgid "OS friendly name; e.g. RHEL 6.5"
+msgstr ""
 
 msgid "Family"
 msgstr "Família"
@@ -6948,7 +7254,7 @@ msgstr ""
 msgid "Hash function to use. Change takes effect for new or updated hosts."
 msgstr ""
 
-msgid "It is not possible to assign provisioning templates at this stage"
+msgid "It is not possible to assign provisioning templates at this stage."
 msgstr ""
 
 msgid "Please save the Operating System first and try again."
@@ -6957,7 +7263,7 @@ msgstr ""
 msgid "No templates found!"
 msgstr "No s'ha trobat cap plantilla!"
 
-msgid "you probably need to configure your %s first."
+msgid "You probably need to configure your %s first."
 msgstr ""
 
 msgid "Edit Operating System"
@@ -6967,16 +7273,13 @@ msgid "New Operating system"
 msgstr "Nou sistema operatiu"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Operatingsystem|Name"
-msgstr "Nom"
+msgid "Operatingsystem|Title"
+msgstr "Títol"
 
 msgid "New Operating System"
 msgstr "Nou sistema operatiu"
 
-msgid "Organization configuration"
-msgstr "Configuració de l'organització"
-
-msgid "You must create an organization before continuing."
+msgid "You must create an organization before continuing"
 msgstr ""
 
 msgid ""
@@ -6989,10 +7292,13 @@ msgid ""
 "customers or business units are managed with a single Foreman install."
 msgstr ""
 
+msgid "Organizations also work nicely in tandem with %{locations}."
+msgstr ""
+
 msgid "locations"
 msgstr ""
 
-msgid "Organizations also work nicely in tandem with %{locations}."
+msgid "New organization"
 msgstr ""
 
 msgid "Valid host group and environment combinations"
@@ -7006,39 +7312,6 @@ msgstr "Associació"
 
 msgid "Snippet"
 msgstr "Fragment"
-
-msgid "Not relevant for snippet"
-msgstr "No és rellevant per al fragment"
-
-msgid "How templates are determined"
-msgstr "Com es determinen les plantilles"
-
-msgid ""
-"When editing a template, you must assign a list of operating systems which thi"
-"s template can be used with. Optionally, you can restrict a template to a list"
-" of host groups and/or environments."
-msgstr ""
-
-msgid ""
-"When a Host requests a template (e.g. during provisioning), Foreman will selec"
-"t the best match from the available templates of that type, in the following o"
-"rder:"
-msgstr ""
-
-msgid "Host group and Environment"
-msgstr "Grup d'amfitrions i entorn"
-
-msgid "Host group only"
-msgstr "Només el grup d'amfitrions"
-
-msgid "Environment only"
-msgstr "Només l'entorn"
-
-msgid "Operating system default"
-msgstr "Sistema operatiu per defecte"
-
-msgid "The final entry, Operating System default, can be set by editing the %s page."
-msgstr ""
 
 msgid "Applicable<br>Operating Systems"
 msgstr ""
@@ -7138,13 +7411,10 @@ msgid ""
 " or alternatively set this up later on the %s page"
 msgstr ""
 
-msgid "PuppetCA on %s"
-msgstr "PuppetCA en %s"
+msgid "CA certificate expiry date"
+msgstr ""
 
-msgid "Filter by state: %s"
-msgstr "Filtra amb l'estat: %s"
-
-msgid "Autosign Entries"
+msgid "Filter by state:"
 msgstr ""
 
 msgid "Valid from"
@@ -7155,6 +7425,9 @@ msgstr "Venç"
 
 msgid "Sign"
 msgstr "Signa"
+
+msgid "Revoke"
+msgstr ""
 
 msgid "Edit Smart class parameters"
 msgstr "Edita els paràmetres de la classe intel·ligent"
@@ -7167,8 +7440,8 @@ msgstr "Paràmetre"
 msgid "Puppetclass"
 msgstr "Puppetclass"
 
-msgid "Number of values"
-msgstr "Nombre de valors"
+msgid "Number of overrides"
+msgstr ""
 
 msgid "Included Classes"
 msgstr "Classes incloses"
@@ -7187,9 +7460,6 @@ msgstr "Paràmetre de la classe intel·ligent"
 
 msgid "Smart Variables"
 msgstr "Variables intel·ligents"
-
-msgid "Puppet environments"
-msgstr "Entorns de Puppet"
 
 msgid "This Puppet class has no parameters in its signature."
 msgstr ""
@@ -7224,17 +7494,17 @@ msgstr "Entorns i documentació"
 msgid "Variables"
 msgstr "Variables"
 
+msgid "This will set all parameters of the class %s as overridden. Continue?"
+msgstr ""
+
 msgid "Override all parameters"
 msgstr "Sobreescriu tots els paràmetres"
 
-msgid "This will set all parameters of the class %s as overridden. Continue?"
+msgid "This will reset parameters of the class %s to their default values. Continue?"
 msgstr ""
 
 msgid "Set parameters to defaults"
 msgstr "Estableix els paràmetres als valors per defecte"
-
-msgid "This will reset parameters of the class %s to their default values. Continue?"
-msgstr ""
 
 msgid "Oops"
 msgstr "Oops"
@@ -7272,76 +7542,20 @@ msgstr "Nou reialme"
 msgid "Realm|Name"
 msgstr "Nom"
 
-msgid ""
-"Foreman supports automatically creating realm entries for new hosts.  When a r"
-"ealm is selected for a host, Foreman contacts the relevant realm smart proxy t"
-"o create an entry for the host and retrieve it's one-time registration passwor"
-"d."
+msgid "Foreman supports automatically creating realm entries for new hosts."
 msgstr ""
-
-msgid "Restart<br>Failures"
-msgstr ""
-
-msgid "Delete report for %s?"
-msgstr "Voleu suprimir l'informe per %s?"
-
-msgid "Report Metrics"
-msgstr "Mètriques de l'informe"
-
-msgid "Total"
-msgstr "Total"
-
-msgid "Nothing to show"
-msgstr "Res a mostrar"
-
-msgid "Reported at %s "
-msgstr ""
-
-msgid "Host times seems to be adrift!"
-msgstr ""
-
-msgid "Host reported time is <em>%s</em>"
-msgstr ""
-
-msgid "Foreman report creation time is <em>%s</em>"
-msgstr ""
-
-msgid "Which is an offset of <b>%s</b>"
-msgstr ""
-
-msgid "Other reports for this host"
-msgstr "Altres informes per a aquest amfitrió"
-
-msgid "Diff View"
-msgstr "Visualitza les diferències"
-
-msgid "Puppet Reports"
-msgstr "Informes de Puppet"
 
 msgid ""
-"You don't seem to have any reports, if you wish to configure Puppet to forward"
-" it reports to Foreman, please follow"
+"When a realm is selected for a host, Foreman contacts the relevant realm smart"
+" proxy to create an entry for the host and retrieve it's one-time registration"
+" password."
 msgstr ""
-"Pel que sembla encara no teniu cap informe, si voleu configurar Puppet per ree"
-"nviar els informes a Foreman, si us plau, seguiu"
-
-msgid "setting up reporting"
-msgstr "la preparació de l'enviament d'informes"
-
-msgid "and"
-msgstr "i"
-
-msgid "e-mail reporting"
-msgstr "l'enviament d'informes per correu electrònic"
-
-msgid "This page will self destruct once a report comes in."
-msgstr "Aquesta pàgina s'autodestruirà un cop hi entrin informes."
 
 msgid "Please save the role first. You can edit it later to add filters"
 msgstr ""
 
-msgid "Loading filters..."
-msgstr "S'estan carregant els filtres..."
+msgid "Loading filters ..."
+msgstr ""
 
 msgid "Edit Roles"
 msgstr "Edita els rols"
@@ -7388,8 +7602,93 @@ msgstr "Nom"
 msgid "SmartProxy|Url"
 msgstr "URL"
 
+msgid "%s log message"
+msgid_plural "%s log messages"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s error message"
+msgid_plural "%s error messages"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s warning message"
+msgid_plural "%s warning messages"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Filter by level:"
+msgstr ""
+
+msgid "Log entry details"
+msgstr ""
+
+msgid "Local time"
+msgstr ""
+
+msgid "GMT time"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Message"
+msgstr "Missatge"
+
+msgid "Backtrace"
+msgstr ""
+
+msgid "%s active feature"
+msgid_plural "%s active features"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Failed features: %s"
+msgid_plural "Failed features: %s"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "New Proxy"
 msgstr "Nou servidor intermediari"
+
+msgid "Data not available for %s"
+msgstr ""
+
+msgid "General"
+msgstr "General"
+
+msgid "Hosts managed:"
+msgstr ""
+
+msgid "Certficates"
+msgstr ""
+
+msgid "Number of classes"
+msgstr ""
+
+msgid "No environments found"
+msgstr ""
+
+msgid ""
+"There are no puppet environments set up on this puppet master. Please check th"
+"e puppet master configuration."
+msgstr ""
+
+msgid "TFTP server"
+msgstr ""
+
+msgid "Smart Proxy: %s"
+msgstr ""
+
+msgid "Services"
+msgstr ""
+
+msgid "Communication status"
+msgstr ""
+
+msgid "Active Features"
+msgstr ""
+
+msgid "Failed Features"
+msgstr ""
 
 msgid "Optional: Gateway for this subnet"
 msgstr "Opcional: Passarel·la per a aquesta subxarxa"
@@ -7454,6 +7753,9 @@ msgstr ""
 "stió dels registres PTR, tingueu en compte que els registres A es gestionen a "
 "través del servidor intermediari de DNS del domini"
 
+msgid "Reverse DNS Proxy"
+msgstr ""
+
 msgid "Edit Subnet"
 msgstr "Edita la subxarxa"
 
@@ -7480,6 +7782,12 @@ msgstr "Selecciona les organitzacions"
 
 msgid "Select locations"
 msgstr "Selecciona les ubicacions"
+
+msgid "Location parameters"
+msgstr ""
+
+msgid "Organization parameters"
+msgstr ""
 
 msgid "Default on login"
 msgstr ""
@@ -7521,9 +7829,6 @@ msgstr ""
 msgid "Mismatches Report"
 msgstr ""
 
-msgid "Notice:"
-msgstr "Avís:"
-
 msgid "There is"
 msgid_plural "There are"
 msgstr[0] ""
@@ -7560,26 +7865,12 @@ msgid "All hosts data matches configurations for locations and organizations."
 msgstr ""
 
 msgid ""
-"Warning: This template is locked. You may only change the associations. Please"
-" %s it to customize."
+"The template is associated to at least one host in build mode. To apply the ch"
+"ange, disable and enable build mode on hosts to update the live templates or c"
+"hoose to %s their configuration from 'Select Action' menu"
 msgstr ""
-
-msgid "clone"
-msgstr "clona"
-
-msgid "Useful template functions and macros"
-msgstr ""
-
-msgid "Note: %s "
-msgstr "Nota: %s "
 
 msgid "recreate"
-msgstr ""
-
-msgid ""
-"Warning: The template is associated to at least one host in build mode. To app"
-"ly the change, disable and enable build mode on hosts to update the live templ"
-"ates or choose to %s their configuration from 'Select Action' menu"
 msgstr ""
 
 msgid "Template editor"
@@ -7602,11 +7893,11 @@ msgstr "Reverteix"
 msgid "Show Diff"
 msgstr "Mostra les diferències"
 
-msgid "Save something and try again"
-msgstr "Deseu alguna cosa i torneu-ho a intentar"
-
 msgid "No history found"
 msgstr "No s'ha trobat cap històric"
+
+msgid "Save something and try again"
+msgstr "Deseu alguna cosa i torneu-ho a intentar"
 
 msgid "Trends for %s"
 msgstr "Tendències per %s"
@@ -7635,18 +7926,16 @@ msgstr ""
 msgid "Add Trend Counter"
 msgstr ""
 
-msgid "No trend counter defined."
-msgstr ""
-
-msgid "To define trend counters, use the Add Trend Counter button."
+msgid "No trend counter defined"
 msgstr ""
 
 msgid ""
-"To start collecting trend data, set a cron job to execute 'foreman-rake trends"
-":counter' every Puppet Interval (%s minutes)."
+"To define trend counters, use the Add Trend Counter button.</br> To start coll"
+"ecting trend data, set a cron job to execute 'foreman-rake trends:counter' eve"
+"ry Puppet Interval (%s minutes)."
 msgstr ""
 
-msgid "No trend counter found."
+msgid "No trend counter found"
 msgstr ""
 
 msgid ""
@@ -7671,6 +7960,14 @@ msgstr "Nova tendència"
 
 msgid "Number of Hosts"
 msgstr "Nombre d'amfitrions"
+
+msgid "<b>Foreman</b> test email"
+msgstr ""
+
+msgid ""
+"This is a test message to confirm that Foreman's email configuration is workin"
+"g."
+msgstr ""
 
 msgid "Your Foreman user account has been created:"
 msgstr ""
@@ -7699,9 +7996,6 @@ msgstr "Nom"
 
 msgid "Usergroup|Auth source"
 msgstr "Origen d'autenticació"
-
-msgid "Refresh"
-msgstr "Refresca"
 
 msgid "Synchronize group from authentication source"
 msgstr "Sincronitza el grup des d'un origen d'autenticació"
@@ -7745,13 +8039,16 @@ msgstr "Contrasenya"
 msgid "Verify"
 msgstr "Verificació"
 
-msgid "General"
-msgstr "General"
-
-msgid "Please save the user first before assigning email notifications."
+msgid "Test email"
 msgstr ""
-"Si us plau, primer deseu l'usuari abans d'assignar les notificacions de correu"
-" electrònic."
+
+msgid ""
+"Send a test message to the user's email address to confirm the configuration i"
+"s working."
+msgstr ""
+
+msgid "Please save the user first before assigning mail notifications."
+msgstr ""
 
 msgid "Notifications"
 msgstr "Notificacions"
@@ -7869,6 +8166,9 @@ msgstr ""
 msgid "Unable to detect features"
 msgstr ""
 
+msgid "Unable to fetch logs"
+msgstr ""
+
 msgid "for proxy"
 msgstr "per al servidor intermediari"
 
@@ -7918,6 +8218,9 @@ msgid "Unable to detect TFTP boot server"
 msgstr ""
 
 msgid "Unable to create default TFTP boot menu"
+msgstr ""
+
+msgid "Unable to detect version"
 msgstr ""
 
 msgid "No free ports available for websockify, try again later"
@@ -8535,10 +8838,6 @@ msgid "Medium|Media path"
 msgstr "Camí al mitjà"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Message"
-msgstr "Missatge"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Message|Digest"
 msgstr "Repte"
 
@@ -8647,6 +8946,10 @@ msgid "Operatingsystem|Minor"
 msgstr "Menor"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Operatingsystem|Name"
+msgstr "Nom"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Nameindicator"
 msgstr "Nom"
 
@@ -8657,10 +8960,6 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Release name"
 msgstr "Nom del llançament"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Operatingsystem|Title"
-msgstr "Títol"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Hidden value"
