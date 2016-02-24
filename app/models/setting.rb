@@ -4,6 +4,7 @@ class Setting < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
   include ActiveModel::Validations
+  include EncryptValue
   self.inheritance_column = 'category'
 
   TYPES= %w{ integer boolean hash array string }
@@ -25,7 +26,7 @@ class Setting < ActiveRecord::Base
 
   validates_lengths_from_database
   # audit the changes to this model
-  audited :except => [:name, :description, :category, :settings_type, :full_name], :on => [:update]
+  audited :except => [:name, :description, :category, :settings_type, :full_name, :encrypted], :on => [:update]
 
   validates :name, :presence => true, :uniqueness => true
   validates :description, :presence => true
@@ -107,11 +108,14 @@ class Setting < ActiveRecord::Base
 
   def value=(v)
     v = v.to_yaml unless v.nil?
+    # the has_attribute is for enabling DB migrations on older versions
+    v = encrypt_field(v) if has_attribute?(:encrypted) && encrypted
     write_attribute :value, v
   end
 
   def value
     v = read_attribute(:value)
+    v = decrypt_field(v)
     v.nil? ? default : YAML.load(v)
   end
   alias_method :value_before_type_cast, :value
@@ -201,12 +205,19 @@ class Setting < ActiveRecord::Base
 
   def self.create_existing(s, opts)
     bypass_readonly(s) do
-      attrs = column_check([:default, :description, :full_name])
+      attrs = column_check([:default, :description, :full_name, :encrypted])
       to_update = Hash[opts.select { |k,v| attrs.include? k }]
       to_update.merge!(:value => SETTINGS[opts[:name].to_sym]) if SETTINGS.key?(opts[:name].to_sym)
       s.update_attributes(to_update)
       s.update_column :category, opts[:category] if s.category != opts[:category]
       s.update_column :full_name, opts[:full_name] if !column_check([:full_name]).empty?
+      raw_value = s.read_attribute(:value)
+      if s.is_encryptable?(raw_value) && attrs.include?(:encrypted) && opts[:encrypted]
+        s.update_column :value, s.encrypt_field(raw_value)
+      end
+      if s.is_decryptable?(raw_value) && attrs.include?(:encrypted) && !opts[:encrypted]
+        s.update_column :value, s.decrypt_field(raw_value)
+      end
     end
     s
   end
@@ -237,7 +248,8 @@ class Setting < ActiveRecord::Base
         define_method("#{name}_collection".to_sym){ options[:collection].call }
       end
     end
-    {:name => name, :value => value, :description => description, :default => default, :full_name => full_name}
+    options[:encrypted] ||= false
+    {:name => name, :value => value, :description => description, :default => default, :full_name => full_name, :encrypted => options[:encrypted]}
   end
 
   def self.model_name

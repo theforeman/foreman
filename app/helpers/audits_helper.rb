@@ -13,7 +13,7 @@ module AuditsHelper
       when /.*_id$/
         name.classify.gsub('Id','').constantize.find(change).to_label
       else
-        change.to_s
+        change.to_s == "[encrypted]" ? _(change.to_s) : change.to_s
     end.truncate(50)
   rescue
     _("N/A")

@@ -20,6 +20,27 @@ class SettingTest < ActiveSupport::TestCase
     assert_nil Setting["no_such_thing"]
   end
 
+  test "encrypted value is saved encrypted when created" do
+    setting = Setting.create(:name => "foo", :value => 5, :default => 5, :description => "test foo", :encrypted => true)
+    setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+    setting.value = "123456"
+    as_admin do
+      assert setting.save
+    end
+    assert setting.read_attribute(:value).include? EncryptValue::ENCRYPTION_PREFIX
+  end
+
+  test "update an encrypted value should saved encrypted in db, and decrypted while reading" do
+    setting = settings(:attributes63)
+    setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+    setting.value = '123456'
+    as_admin do
+      assert setting.save
+    end
+    assert setting.read_attribute(:value).include? EncryptValue::ENCRYPTION_PREFIX
+    assert_equal '123456', setting.value
+  end
+
   def test_should_provide_default_if_no_value_defined
     assert Setting.create(:name => "foo", :default => 5, :description => "test foo")
     assert_equal 5, Setting["foo"]
