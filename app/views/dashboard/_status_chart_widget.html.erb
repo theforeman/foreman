@@ -1,4 +1,7 @@
 <h4 class="header">
-  <%= _('Host Configuration Chart') %>
+  <%= title = _('Host Configuration Chart') %>
 </h4>
-<%= render_overview(@report, :class => 'statistics-pie small') %>
+<%= render_overview(@report, :class => 'statistics-pie small', :custom_title => title) %>
+<ul class="ui-helper-hidden">
+  <%= render "dashboard/status_links" %>
+</ul>
