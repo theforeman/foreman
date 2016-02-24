@@ -16,23 +16,7 @@ module CommonParametersHelper
   end
 
   def parameter_value_content(id, value, options)
-    lookup_key = options[:lookup_key]
-
-    option_hash = { :rows => 1,
-                    :class => 'form-control no-stretch',
-                    :'data-property' => 'value',
-                    :'data-hidden-value' => LookupKey.hidden_value,
-                    :'data-inherited-value' => options[:inherited_value],
-                    :name => options[:name].to_s,
-                    :disabled => options[:disabled] }
-
-    if lookup_key.present? && lookup_key.hidden_value?
-      field = password_field_tag(id, value, option_hash)
-    else
-      field = text_area_tag(id, value, option_hash)
-    end
-
-    content_tag(:span, options[:popover], :class => "input-group-addon") + field
+    content_tag(:span, options[:popover], :class => "input-group-addon") + lookup_key_field(id, value, options)
   end
 
   def use_puppet_default_help link_title = nil, title = _("Use Puppet default")
@@ -50,5 +34,30 @@ module CommonParametersHelper
                                                :placeholder => _("Value")))
     end
     input_group(input, input_group_btn(hidden_toggle(f.object.hidden_value?), fullscreen_button("$(this).closest('.input-group').find('input,textarea')")))
+  end
+
+  def lookup_key_field(id, value, options)
+    lookup_key = options[:lookup_key]
+
+    option_hash = { :rows => 1,
+                    :class => 'form-control no-stretch',
+                    :'data-property' => 'value',
+                    :'data-hidden-value' => LookupKey.hidden_value,
+                    :'data-inherited-value' => options[:inherited_value],
+                    :name => options[:name].to_s,
+                    :disabled => options[:disabled] }
+
+    if lookup_key.present? && options[:lookup_key_hidden_value?]
+      password_field_tag(id, value, option_hash)
+    else
+      case options[:lookup_key_type]
+      when "boolean"
+        select_tag(id, options_for_select(['true', 'false'], value), option_hash)
+      when "integer", "real"
+        number_field_tag(id, value, option_hash)
+      else
+        text_area_tag(id, value, option_hash)
+      end
+    end
   end
 end

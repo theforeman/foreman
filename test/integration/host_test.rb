@@ -368,10 +368,10 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   describe 'edit page' do
-    test 'class parameters and overrides are displayed correctly for booleans' do
+    test 'class parameters and overrides are displayed correctly for strings' do
       host = FactoryGirl.create(:host, :with_puppetclass)
       FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                      :key_type => 'boolean', :default_value => true,
+                                      :key_type => 'string', :default_value => true,
                                       :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
@@ -404,7 +404,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     test 'can override puppetclass lookup values' do
       host = FactoryGirl.create(:host, :with_puppetclass)
       FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                      :key_type => 'boolean', :default_value => "true",
+                                      :key_type => 'string', :default_value => "true",
                                       :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => "false"})
 
       visit edit_host_path(host)
@@ -465,7 +465,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     test 'shows errors on invalid lookup values' do
       host = FactoryGirl.create(:host, :with_puppetclass)
       lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                      :key_type => 'boolean', :default_value => true,
+                                      :key_type => 'real', :default_value => true,
                                       :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
 
       visit edit_host_path(host)
@@ -517,6 +517,28 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
 
       environment = find("#s2id_host_environment_id .select2-chosen").text
       assert_equal original_hostgroup.environment.name, environment
+    end
+
+    test 'class parameters and overrides are displayed correctly for booleans' do
+      host = FactoryGirl.create(:host, :with_puppetclass)
+      lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+                                      :key_type => 'boolean', :default_value => 'false',
+                                      :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'false'})
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert class_params.has_selector?("a[data-tag='remove']", :visible => :visible)
+      assert class_params.has_selector?("a[data-tag='override']", :visible => :hidden)
+      assert_equal find("#s2id_host_lookup_values_attributes_#{lookup_key.id}_value .select2-chosen").text, "false"
+      select2 "true", :from => "host_lookup_values_attributes_#{lookup_key.id}_value"
+      click_button('Submit')
+
+      assert page.has_link?("Edit")
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert_equal find("#s2id_host_lookup_values_attributes_#{lookup_key.id}_value .select2-chosen").text, "true"
+      click_button('Submit')
     end
   end
 
