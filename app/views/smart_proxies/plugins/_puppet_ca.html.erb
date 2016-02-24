@@ -1,7 +1,7 @@
 <ul id="proxy-puppetca-tab" class="nav nav-tabs nav-tabs-pf">
   <li class="active"><a href="#ca_general"><%= _("General") %></a></li>
   <% if authorized_via_my_scope(:smart_proxy, :view_smart_proxies_puppet_ca, @smart_proxy) %>
-  <li><a href="#certificates"><%= _("Certficates") %></a></li>
+  <li><a href="#certificates"><%= _("Certificates") %></a></li>
   <% end %>
   <% if authorized_via_my_scope(:smart_proxy, :view_smart_proxies_autosign, @smart_proxy) %>
   <li><a href="#autosign"><%= _("Autosign entries") %></a></li>
