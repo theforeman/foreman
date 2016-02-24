@@ -32,6 +32,7 @@ module AuditExtensions
     scoped_search :in => :search_users, :on => :login, :complete_value => true, :rename => :user, :only_explicit => true
 
     before_save :ensure_username, :ensure_auditable_and_associated_name
+    before_save :filter_encrypted, :if => Proc.new {|audit| audit.audited_changes.present?}
     after_validation :fix_auditable_type
 
     include Authorizable
@@ -42,6 +43,17 @@ module AuditExtensions
   end
 
   private
+
+  def filter_encrypted
+    self.audited_changes.each do |name,change|
+      next if change.nil? || change.to_s.empty?
+      if change.is_a? Array
+        change.map! {|c| c.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX) ? N_("[encrypted]") : c}
+      else
+        audited_changes[name] = N_("[encrypted]") if change.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX)
+      end
+    end
+  end
 
   def ensure_username
     self.user_as_model = User.current

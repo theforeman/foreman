@@ -302,3 +302,9 @@ attributes62:
   category: Setting::Auth
   default: "true"
   description: 'Permits access to BMC interface passwords through ENC YAML output and in templates'
+attributes63:
+  name: password
+  category: Setting::Puppet
+  default: nil
+  description: 'Encrypted password'
+  encrypted: true

@@ -13,8 +13,8 @@ class Setting::Auth < Setting
     self.transaction do
       [
         self.set('oauth_active', N_("Foreman will use OAuth for API authorization"), false, N_('OAuth active')),
-        self.set('oauth_consumer_key', N_("OAuth consumer key"), '', N_('OAuth consumer key')),
-        self.set('oauth_consumer_secret', N_("OAuth consumer secret"), '', N_("OAuth consumer secret")),
+        self.set('oauth_consumer_key', N_("OAuth consumer key"), '', N_('OAuth consumer key'), nil, {:encrypted => true}),
+        self.set('oauth_consumer_secret', N_("OAuth consumer secret"), '', N_("OAuth consumer secret"), nil, {:encrypted => true}),
         self.set('oauth_map_users', N_("Foreman will map users by username in request-header. If this is set to false, OAuth requests will have admin rights."), true, N_('OAuth map users')),
         self.set('restrict_registered_smart_proxies', N_('Only known Smart Proxies may access features that use Smart Proxy authentication'), true, N_('Restrict registered smart proxies')),
         self.set('require_ssl_smart_proxies', N_('Client SSL certificates are used to identify Smart Proxies (:require_ssl should also be enabled)'), true, N_('Require SSL for smart proxies')),
@@ -25,7 +25,7 @@ class Setting::Auth < Setting
         self.set('ssl_client_dn_env', N_('Environment variable containing the subject DN from a client SSL certificate'), 'SSL_CLIENT_S_DN', N_('SSL client DN env')),
         self.set('ssl_client_verify_env', N_('Environment variable containing the verification status of a client SSL certificate'), 'SSL_CLIENT_VERIFY', N_('SSL client verify env')),
         self.set('ssl_client_cert_env', N_("Environment variable containing a client's SSL certificate"), 'SSL_CLIENT_CERT', N_('SSL client cert env')),
-        self.set('websockets_ssl_key', N_("Private key that Foreman will use to encrypt websockets "), nil, N_('Websockets SSL key')),
+        self.set('websockets_ssl_key', N_("Private key file that Foreman will use to encrypt websockets "), nil, N_('Websockets SSL key')),
         self.set('websockets_ssl_cert', N_("Certificate that Foreman will use to encrypt websockets "), nil, N_('Websockets SSL certificate')),
         # websockets_encrypt depends on key/cert when true, so initialize it last
         self.set('websockets_encrypt', N_("VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"), !!SETTINGS[:require_ssl], N_('Websockets encryption')),
