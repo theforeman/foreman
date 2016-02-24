@@ -9,7 +9,7 @@ class Host::Managed < Host::Base
   has_many :puppetclasses, :through => :host_classes, :dependent => :destroy
   belongs_to :hostgroup, :counter_cache => :hosts_count
   has_many :reports, :foreign_key => :host_id, :class_name => 'ConfigReport'
-  has_one :last_report_object, :foreign_key => :host_id, :order => "#{Report.table_name}.id DESC", :class_name => 'ConfigReport'
+  has_one :last_report_object, -> { order("#{Report.table_name}.id DESC") }, :foreign_key => :host_id, :class_name => 'ConfigReport'
 
   belongs_to :owner, :polymorphic => true
   belongs_to :compute_resource
