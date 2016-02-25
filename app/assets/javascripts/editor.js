@@ -22,11 +22,12 @@ $(document).on('change','#mode', function(){
 
 function onEditorLoad(){
   var editor_source = $(".editor_source");
-  if ($.browser && $.browser.msie && $.browser.version.slice(0,1) < 10) {
+  // IE > 11 identifies as Trident
+  if (navigator.userAgent.indexOf('MSIE') != -1) {
     if ($('.diffMode').exists()) {
       IE_diff_mode(editor_source);
     }
-  }else{
+  } else {
     if (editor_source.exists()){
       create_editor();
       if ($('.diffMode').exists()) {
@@ -227,7 +228,7 @@ function submit_code() {
 function IE_diff_mode(item){
   var patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').val(), $('#new').val());
   item.val(patch);
-  item.attr('readOnly', true);
+  item.prop('readOnly', true);
 }
 
 function revert_template(item){

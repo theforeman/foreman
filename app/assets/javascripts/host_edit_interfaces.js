@@ -44,10 +44,10 @@ function save_interface_modal() {
 
   var modal_form = modal_window.find('.modal-body').contents();
   if (modal_form.find('.interface_primary').is(':checked')) {
-    $('#interfaceForms .interface_primary:checked').attr("checked", false);
+    $('#interfaceForms .interface_primary:checked').prop("checked", false);
   }
   if (modal_form.find('.interface_provision').is(':checked')) {
-    $('#interfaceForms .interface_provision:checked').attr("checked", false);
+    $('#interfaceForms .interface_provision:checked').prop("checked", false);
   }
 
   var interface_hidden = get_interface_hidden(interface_id);

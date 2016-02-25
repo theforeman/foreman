@@ -82,9 +82,9 @@ function update_capabilities(capabilities){
   $('#manage_network').empty();
   $('#subnet_selection').appendTo($('#manage_network'));
 
-  $('input[id^=host_provision_method_]').attr('disabled', true);
+  $('input[id^=host_provision_method_]').prop('disabled', true);
   for (i = 0; i < capabilities.length; i++) {
-    $('input[id^=host_provision_method_' + capabilities[i] + ']').attr('disabled', false);
+    $('input[id^=host_provision_method_' + capabilities[i] + ']').prop('disabled', false);
   }
 
   var build = (capabilities.indexOf('build') > -1);
@@ -117,7 +117,7 @@ function submit_with_all_params(){
   resources = resource + 's';
   capitalized_resource = resource[0].toUpperCase + resource.slice(1);
   if(/\/clone$/.test(window.location.pathname)){ url = foreman_url('/' + resources); }
-  $('form input[type="submit"]').attr('disabled', true);
+  $('form input[type="submit"]').prop('disabled', true);
   stop_pooling = false;
   $("body").css("cursor", "progress");
   clear_errors();
@@ -141,7 +141,7 @@ function submit_with_all_params(){
     complete: function(){
       stop_pooling = true;
       $("body").css("cursor", "auto");
-      $('form input[type="submit"]').attr('disabled', false);
+      $('form input[type="submit"]').prop('disabled', false);
     }
   });
   return false;
@@ -239,7 +239,7 @@ function reset_explicit_values(element) {
   $("[name=is_overridden_btn]").each(function(i, btn) {
     var item = $(btn)
     var formControl = item.closest('.input-group').find('.form-control');
-    formControl.attr('disabled', true);
+    formControl.prop('disabled', true);
   })
 }
 
@@ -394,7 +394,7 @@ function medium_selected(element){
   var obj = (type == "hosts" ? "host" : "hostgroup");
   var attrs = {};
   attrs[obj] = attribute_hash(['medium_id', 'operatingsystem_id', 'architecture_id']);
-  attrs[obj]["use_image"] = $('*[id*=use_image]').attr('checked') == "checked";
+  attrs[obj]["use_image"] = $('*[id*=use_image]').is(':checked');
   $.ajax({
     data: attrs,
     type:'post',
@@ -411,7 +411,7 @@ function use_image_selected(element){
   var obj = (type == "hosts" ? "host" : "hostgroup");
   var attrs = {};
   attrs[obj] = attribute_hash(['medium_id', 'operatingsystem_id', 'architecture_id', 'model_id']);
-  attrs[obj]['use_image'] = ($(element).attr('checked') == "checked");
+  attrs[obj]['use_image'] = ($(element).is(':checked'));
   $.ajax({
     data: attrs,
     type: 'post',
@@ -517,24 +517,24 @@ $(document).on('submit',"[data-submit='progress_bar']", function() {
 function build_provision_method_selected() {
   $('div[id*=_provisioning]').hide();
   $('#network_provisioning').show();
-  $('#image_selection select').attr('disabled', true);
+  $('#image_selection select').prop('disabled', true);
   if ($('#provider').val() == 'Ovirt')
-    $('#host_compute_attributes_template').attr('disabled', false);
+    $('#host_compute_attributes_template').prop('disabled', false);
 }
 $(document).on('change', '#host_provision_method_build', build_provision_method_selected);
 
 function image_provision_method_selected() {
   $('div[id*=_provisioning]').hide();
   $('#image_provisioning').show();
-  $('#network_selection select').attr('disabled', true);
+  $('#network_selection select').prop('disabled', true);
   var image_options = $('#image_selection select');
-  image_options.attr('disabled', false);
+  image_options.prop('disabled', false);
   if ($('#provider').val() == 'Libvirt') {
     libvirt_image_selected(image_options);
   } else if ($('#provider').val() == 'Ovirt') {
     var template_options = $('#host_compute_attributes_template');
     if (template_options.length > 0) {
-      template_options.attr('disabled', true);
+      template_options.prop('disabled', true);
       template_options.val(image_options.val());
       ovirt_templateSelected(image_options);
     }
@@ -575,7 +575,7 @@ function interface_domain_selected(element) {
   var domain_id = element.value;
   var subnet_options = $(element).closest('fieldset').find('[id$=_subnet_id]').empty();
 
-  subnet_options.attr('disabled', true);
+  subnet_options.prop('disabled', true);
 
   foreman.tools.showSpinner();
 
@@ -597,12 +597,12 @@ function interface_domain_selected(element) {
         subnet_options.append($("<option />").val(this.subnet.id).text(this.subnet.to_label));
       });
       if (subnet_options.find('option').length > 0) {
-        subnet_options.attr('disabled', false);
+        subnet_options.prop('disabled', false);
         subnet_options.change();
       }
       else {
         subnet_options.append($("<option />").text(__('No subnets')));
-        subnet_options.attr('disabled', true);
+        subnet_options.prop('disabled', true);
       }
       reloadOnAjaxComplete(element);
       subnet_options.filter('select').select2({allowClear: true})
@@ -618,7 +618,7 @@ function interface_subnet_selected(element) {
   if (subnet_id == '') return;
   var interface_ip = $(element).closest('fieldset').find('input[id$=_ip]');
 
-  interface_ip.attr('disabled', true);
+  interface_ip.prop('disabled', true);
   foreman.tools.showSpinner();
 
   // We do not query the proxy if the ip field is filled in and contains an
@@ -631,7 +631,7 @@ function interface_subnet_selected(element) {
     var cidr    = details[1];
 
     if (subnet_contains(network, cidr, interface_ip.val())) {
-      interface_ip.attr('disabled', false);
+      interface_ip.prop('disabled', false);
       foreman.tools.hideSpinner();
       return;
     }
@@ -667,7 +667,7 @@ function interface_subnet_selected(element) {
     },
     complete:function () {
       foreman.tools.hideSpinner();
-      interface_ip.attr('disabled', false);
+      interface_ip.prop('disabled', false);
     }
   });
 }
@@ -697,7 +697,7 @@ function interface_type_selected(element) {
 function disable_vm_form_fields() {
   $("#update_not_supported").show();
   $("[id^=host_compute_attributes]").each(function () {
-    $(this).attr("disabled", "disabled");
+    $(this).prop("disabled", true);
   });
 }
 
