@@ -50,6 +50,12 @@ module Host
     scope :no_location,     -> { rewhere(:location_id => nil) }
     scope :no_organization, -> { rewhere(:organization_id => nil) }
 
+    PRIMARY_INTERFACE_ATTRIBUTES = [:name, :ip, :ip6, :mac,
+                                    :subnet, :subnet_id, :subnet_name,
+                                    :subnet6, :subnet6_id, :subnet6_name,
+                                    :domain, :domain_id, :domain_name,
+                                    :lookup_values_attributes].freeze
+
     # primary interface is mandatory because of delegated methods so we build it if it's missing
     # similar for provision interface
     # we can't set name attribute until we have primary interface so we don't pass it to super
@@ -57,32 +63,13 @@ module Host
     # we can't create primary interface before calling super because args may contain nested
     # interface attributes
     def initialize(*args)
-      primary_interface_attrs = [:name, :ip, :ip6, :mac,
-                                 :subnet, :subnet_id, :subnet_name,
-                                 :subnet6, :subnet6_id, :subnet6_name,
-                                 :domain, :domain_id, :domain_name,
-                                 :lookup_values_attributes]
       values_for_primary_interface = {}
-
-      new_attrs = args.shift
-      unless new_attrs.nil?
-        new_attrs = new_attrs.with_indifferent_access
-        primary_interface_attrs.each do |attr|
-          values_for_primary_interface[attr] = new_attrs.delete(attr) if new_attrs.has_key?(attr)
-        end
-
-        model_name = new_attrs.delete(:model_name)
-        new_attrs[:hardware_model_name] = model_name if model_name.present?
-
-        args.unshift(new_attrs)
-      end
+      build_values_for_primary_interface!(values_for_primary_interface, args)
 
       super(*args)
 
       build_required_interfaces
-      values_for_primary_interface.each do |name, value|
-        self.send "#{name}=", value
-      end
+      update_primary_interface_attributes(values_for_primary_interface)
     end
 
     delegate :ip, :ip6, :mac,
@@ -310,6 +297,28 @@ module Host
     end
 
     private
+
+    def build_values_for_primary_interface!(values_for_primary_interface, args)
+      new_attrs = args.shift
+      unless new_attrs.nil?
+        new_attrs = new_attrs.with_indifferent_access
+        values_for_primary_interface[:name] = NameGenerator.new.next_random_name unless new_attrs.has_key?(:name)
+        PRIMARY_INTERFACE_ATTRIBUTES.each do |attr|
+          values_for_primary_interface[attr] = new_attrs.delete(attr) if new_attrs.has_key?(attr)
+        end
+
+        model_name = new_attrs.delete(:model_name)
+        new_attrs[:hardware_model_name] = model_name if model_name.present?
+
+        args.unshift(new_attrs)
+      end
+    end
+
+    def update_primary_interface_attributes(attrs)
+      attrs.each do |name, value|
+        self.send "#{name}=", value
+      end
+    end
 
     def tax_location
       return nil unless location_id

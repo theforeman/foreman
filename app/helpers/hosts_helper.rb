@@ -471,4 +471,10 @@ module HostsHelper
       {},
       { :onchange => "toggle_multiple_ok_button(this)" }
   end
+
+  def randomize_mac_link
+    link_class = "hide" unless NameGenerator.random_based?
+    link_to_function(icon_text("random", _("Randomize")), "randomizeName()",
+      :title => _('Generate new random name. Visit Settings to disable this feature.'), :'data-placement' => "right", :class => link_class)
+  end
 end

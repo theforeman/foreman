@@ -228,8 +228,7 @@ module FormHelper
         options = {}
         options[:class] = "btn btn-#{overwrite ? 'danger' : 'primary'} remove_form_templates"
         options.merge! :'data-id' => form_to_submit_id(f) unless options.has_key?(:'data-id')
-        link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " +
-            f.submit(text, options)
+        link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " + f.submit(text, options)
       end
     end
   end

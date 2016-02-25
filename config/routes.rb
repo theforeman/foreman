@@ -96,6 +96,7 @@ Foreman::Application.routes.draw do
         post 'update_multiple_location'
         get  'rebuild_config'
         post 'submit_rebuild_config'
+        get 'random_name', :only => :new
       end
 
       constraints(:host_id => /[^\/]+/) do
@@ -482,5 +483,9 @@ Foreman::Application.routes.draw do
   resources :about, :only => :index do
   end
 
-  resources :interfaces, :only => :new
+  resources :interfaces, :only => :new do
+    collection do
+      get :random_name
+    end
+  end
 end

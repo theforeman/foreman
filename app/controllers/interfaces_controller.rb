@@ -23,4 +23,19 @@ class InterfacesController < ApplicationController
 
     render 'nic/new'
   end
+
+  def random_name
+    render :json => { :name => NameGenerator.new.next_mac_name(params[:mac]) }
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'generate random name'
+  end
+
+  def action_permission
+    case params[:action]
+      when 'random_name'
+        :edit
+      else
+        super
+    end
+  end
 end

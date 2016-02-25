@@ -12,6 +12,13 @@ module Host
       assert host.import_facts(JSON.parse(facts_sample_json)['facts'])
     end
 
+    test "should generate a random name" do
+      NameGenerator.any_instance.expects(:next_random_name).returns("some-name")
+      host = Host::Base.new(:domain => FactoryGirl.create(:domain, :name => "domain.net"))
+      host.valid?
+      assert_equal "some-name.domain.net", host.name
+    end
+
     test "should make hostname lowercase" do
       host = Host::Base.new(:name => 'MYHOST',
                             :domain => FactoryGirl.create(:domain, :name => "mydomainlowercase.net"))

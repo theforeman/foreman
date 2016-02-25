@@ -769,3 +769,16 @@ function selectedSubnetHasIPAM() {
   if (subnet_id == '') return true;
   return subnets[subnet_id]['ipam'];
 };
+
+function randomizeName() {
+  $.ajax({
+    type: "GET",
+    url: "/hosts/random_name",
+    success: function(response, status, xhr) {
+      var element = $('#host_name');
+      element.val(response.name);
+      element.focus();
+      element.select();
+    }
+  });
+ }

@@ -1,4 +1,7 @@
-
+$(document).ready(function() {
+  $('#host_name').select();
+  $('#host_name').focus();
+})
 
 function remove_interface(interface_id) {
   $('#interface'+interface_id).remove();
@@ -321,3 +324,21 @@ function update_fqdn() {
 
   $('#hostFQDN').text(name);
 }
+
+$(document).on('change', '.interface_mac', function (event) {
+  if (event.target.id == $('#interfaceModal').find('.interface_mac').attr('id')) {
+    var interface = $('#interfaceModal').find('.interface_mac');
+    var mac = interface.val();
+    var baseurl = interface.attr('data-url');
+    $.ajax({
+      type: "GET",
+      url: baseurl + '?mac=' + mac,
+      success: function(response, status, xhr) {
+        if ($('#host_name').val() == '')
+          $('#host_name').val(response.name);
+        if ($('#interfaceModal').find('.interface_name').val() == '')
+          $('#interfaceModal').find('.interface_name').val(response.name);
+      }
+    });
+  }
+});
