@@ -15,4 +15,21 @@ class AboutController < ApplicationController
       }
     end
   end
+
+  def plugin_updates
+    render :json => Updates.find("updates/wiki").fetch_plugin_updates.to_json
+  end
+
+  def core_updates
+    render :json => Updates.find("updates/wiki").fetch_core_updates.to_json
+  end
+
+  def action_permission
+    case params[:action]
+    when 'plugin_updates', 'core_updates'
+      :view
+    else
+      super
+    end
+  end
 end

@@ -93,6 +93,7 @@ module Foreman #:nodoc:
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id, :logging, :default_roles, :provision_methods, :compute_resources, :to_prepare_callbacks
+    attr_accessor :foreman_req
 
     def initialize(id)
       @id = id.to_sym
@@ -127,6 +128,7 @@ module Foreman #:nodoc:
     # Raises a PluginRequirementError exception if the requirement is not met
     # matcher format is gem dependency format
     def requires_foreman(matcher)
+      @foreman_req = matcher
       current = SETTINGS[:version].notag
       unless Gem::Dependency.new('', matcher).match?('', current)
         raise PluginRequirementError.new(N_("%{id} plugin requires Foreman %{matcher} but current is %{current}" % {:id=>id, :matcher => matcher, :current=>current}))
@@ -323,6 +325,10 @@ module Foreman #:nodoc:
 
     def register_facet(klass, name, &block)
       Facets.register(klass, name, &block)
+    end
+
+    def register_update_source(klass, opts = {})
+      Updates.register_source(klass, opts)
     end
 
     def in_to_prepare(&block)

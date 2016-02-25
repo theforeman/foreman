@@ -22,7 +22,9 @@ class Setting::General < Setting
         self.set('use_gravatar', N_("Foreman will use gravatar to display user icons"), false, N_('Use Gravatar')),
         self.set('db_pending_migration', N_("Should the `foreman-rake db:migrate` be executed on the next run of the installer modules?"), true, N_('DB pending migration')),
         self.set('db_pending_seed', N_("Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"), true, N_('DB pending seed')),
-        self.set('proxy_request_timeout', N_("Max timeout for REST client requests to smart-proxy"), 60, N_('Proxy request timeout'))
+        self.set('proxy_request_timeout', N_("Max timeout for REST client requests to smart-proxy"), 60, N_('Proxy request timeout')),
+        self.set('foreman_updates', N_("Connect to Foreman website for latest information on updates"), false, N_('Find Foreman updates')),
+        self.set('foreman_updates_override', N_("Location of files with information on updates. Takes precedence over connecting to Foreman website. Disabled if empty."), "/etc/foreman/updates", N_('Override for Foreman updates'))
       ].each { |s| self.create! s.update(:category => "Setting::General")}
     end
 
