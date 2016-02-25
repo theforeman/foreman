@@ -65,35 +65,6 @@ class RoleTest < ActiveSupport::TestCase
     end
   end
 
-  context "Default_user" do
-    should "return the default_user role" do
-      role = Role.default_user
-      assert role.builtin?
-      assert_equal Role::BUILTIN_DEFAULT_USER, role.builtin
-    end
-
-    context "with a missing default_user role" do
-      setup do
-        role_ids = Role.where("builtin = #{Role::BUILTIN_DEFAULT_USER}").pluck(:id)
-        UserRole.where(:role_id => role_ids).destroy_all
-        Filter.where(:role_id => role_ids).destroy_all
-        Role.where(:id => role_ids).delete_all
-      end
-
-      should "create a new default_user role" do
-        assert_difference('Role.count') do
-          Role.default_user
-        end
-      end
-
-      should "return the default_user role" do
-        role = Role.default_user
-        assert role.builtin?
-        assert_equal Role::BUILTIN_DEFAULT_USER, role.builtin
-      end
-    end
-  end
-
   describe ".for_current_user" do
     context "there are two roles, one of them is assigned to current user" do
       let(:first) { Role.create(:name => 'First') }

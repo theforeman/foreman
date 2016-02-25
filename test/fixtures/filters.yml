@@ -94,40 +94,6 @@ viewer_21:
   role_id: 5
 viewer_22:
   role_id: 5
-default_user_1:
-  role_id: 6
-default_user_2:
-  role_id: 6
-default_user_3:
-  role_id: 6
-default_user_4:
-  role_id: 6
-default_user_5:
-  role_id: 6
-default_user_6:
-  role_id: 6
-default_user_7:
-  role_id: 6
-default_user_8:
-  role_id: 6
-default_user_9:
-  role_id: 6
-default_user_10:
-  role_id: 6
-default_user_11:
-  role_id: 6
-default_user_12:
-  role_id: 6
-default_user_13:
-  role_id: 6
-default_user_14:
-  role_id: 6
-default_user_15:
-  role_id: 6
-default_user_16:
-  role_id: 6
-default_user_17:
-  role_id: 6
 anonymous_1:
   role_id: 7
 destroy_hosts_1:
