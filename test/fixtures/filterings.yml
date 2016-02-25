@@ -334,8 +334,8 @@ viewer_21_0:
 viewer_22_0:
   filter: viewer_22
   permission: view_realms
-anonymous_1_0:
-  filter: anonymous_1
+default_role_1_0:
+  filter: default_role_1
   permission: view_tasks
 destroy_hosts_1_0:
   filter: destroy_hosts_1

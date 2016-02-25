@@ -42,7 +42,7 @@ class MediaControllerTest < ActionController::TestCase
 
   def setup_user
     @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
   end
 
   test 'user with viewer rights should fail to edit a medium' do

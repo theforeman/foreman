@@ -55,7 +55,7 @@ class PtablesControllerTest < ActionController::TestCase
 
   def setup_view_user
     @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
   end
 
   test 'user with viewer rights should fail to edit a partition table' do
@@ -84,7 +84,7 @@ class PtablesControllerTest < ActionController::TestCase
 
   def setup_edit_user
     @user = User.find_by_login("one")
-    @user.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer'), Role.find_by_name('Edit partition tables')]
+    @user.roles = [Role.default, Role.find_by_name('Viewer'), Role.find_by_name('Edit partition tables')]
   end
 
   test 'user with editing rights should succeed in editing a partition table' do

@@ -94,7 +94,7 @@ viewer_21:
   role_id: 5
 viewer_22:
   role_id: 5
-anonymous_1:
+default_role_1:
   role_id: 7
 destroy_hosts_1:
   role_id: 8

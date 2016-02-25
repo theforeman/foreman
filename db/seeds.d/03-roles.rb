@@ -53,11 +53,11 @@ default_permissions =
                                   :destroy_usergroups, :view_users, :edit_users, :view_realms, :view_mail_notifications],
     }
 
-anonymous_permissions    = [:view_bookmarks, :view_tasks]
+default_role_permissions = [:view_bookmarks, :view_tasks]
 
 Role.without_auditing do
   default_permissions.each do |role_name, permission_names|
     create_role(role_name, permission_names, 0)
   end
-  create_role('Anonymous', anonymous_permissions, Role::BUILTIN_ANONYMOUS)
+  create_role('Default role', default_role_permissions, Role::BUILTIN_DEFAULT_ROLE)
 end

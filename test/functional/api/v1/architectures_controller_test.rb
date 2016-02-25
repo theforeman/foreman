@@ -4,11 +4,11 @@ class Api::V1::ArchitecturesControllerTest < ActionController::TestCase
   arch_i386 = { :name => 'i386' }
 
   def user_one_as_anonymous_viewer
-    users(:one).roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    users(:one).roles = [Role.default, Role.find_by_name('Viewer')]
   end
 
   def user_one_as_manager
-    users(:one).roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Manager')]
+    users(:one).roles = [Role.default, Role.find_by_name('Manager')]
   end
 
   test "should get index" do

@@ -26,7 +26,7 @@ module Api
       api :POST, "/users/", "Create an user."
       # TRANSLATORS: API documentation - do not translate
       description <<-DOC
-        Adds role 'Anonymous' to the user by default
+        Adds role 'Default role' to the user by default
       DOC
       param :user, Hash, :required => true do
         param :login, String, :required => true
@@ -49,7 +49,7 @@ module Api
       api :PUT, "/users/:id/", "Update an user."
       # TRANSLATORS: API documentation - do not translate
       description <<-DOC
-        Adds role 'Anonymous' to the user if it is not already present.
+        Adds role 'Default role' to the user if it is not already present.
         Only admin can set admin account.
       DOC
       param :id, String, :required => true
