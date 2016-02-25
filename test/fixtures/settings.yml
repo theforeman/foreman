@@ -291,3 +291,9 @@ attributes60:
   category: Setting::General
   default: 30
   description: 'Max days for Trends graphs'
+attributes61:
+  name: name_generator_type
+  settings_type: string
+  category: Setting::Provisioning
+  default: "Random-based"
+  description: 'Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)'

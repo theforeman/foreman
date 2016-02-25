@@ -956,6 +956,7 @@ class HostTest < ActiveSupport::TestCase
       # should set os, but not arch
       hg = hostgroups(:common)
       h  = Host.new
+      h.name = nil
       h.hostgroup = hg
       h.architecture = architectures(:sparc)
       assert !h.valid?

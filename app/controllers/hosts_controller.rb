@@ -127,6 +127,12 @@ class HostsController < ApplicationController
   end
 
   # form AJAX methods
+  def random_name
+    render :json => { :name => NameGenerator.new.next_random_name }
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'generate random name'
+  end
+
   def compute_resource_selected
     return not_found unless (params[:host] && (id=params[:host][:compute_resource_id]))
     Taxonomy.as_taxonomy @organization, @location do
@@ -704,7 +710,8 @@ class HostsController < ApplicationController
           'select_multiple_owner', 'update_multiple_owner',
           'select_multiple_power_state', 'update_multiple_power_state',
           'select_multiple_puppet_proxy', 'update_multiple_puppet_proxy',
-          'select_multiple_puppet_ca_proxy', 'update_multiple_puppet_ca_proxy'
+          'select_multiple_puppet_ca_proxy', 'update_multiple_puppet_ca_proxy',
+          'random_name'
         :edit
       when 'multiple_destroy', 'submit_multiple_destroy'
         :destroy
