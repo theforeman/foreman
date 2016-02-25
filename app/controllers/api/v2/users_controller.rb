@@ -51,7 +51,7 @@ module Api
 
       api :POST, "/users/", N_("Create a user")
       description <<-DOC
-        Adds role 'Anonymous' to the user by default
+        Adds role 'Default role' to the user by default
       DOC
       param_group :user, :as => :create
 
@@ -65,7 +65,7 @@ module Api
 
       api :PUT, "/users/:id/", N_("Update a user")
       description <<-DOC
-        Adds role 'Anonymous' to the user if it is not already present.
+        Adds role 'Default role' to the user if it is not already present.
         Only another admin can change the admin account attribute.
       DOC
       param :id, String, :required => true

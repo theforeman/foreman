@@ -43,17 +43,17 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     assert User.find_by_id(user.id).admin?
   end
 
-  test "should not remove the anonymous role" do
+  test "should not remove the default role" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
-    assert user.roles =([roles(:anonymous)])
+    assert user.roles =([roles(:default_role)])
 
     put :update, { :id => user.id, :user => { :login => "johnsmith" } }
     assert_response :success
 
     mod_user = User.find_by_id(user.id)
 
-    assert mod_user.roles =([roles(:anonymous)])
+    assert mod_user.roles =([roles(:default_role)])
   end
 
   test "should set password" do
@@ -105,7 +105,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   end
 
   def user_one_as_anonymous_viewer
-    users(:one).roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+    users(:one).roles = [Role.default, Role.find_by_name('Viewer')]
   end
 
   test 'user with viewer rights should fail to edit a user' do

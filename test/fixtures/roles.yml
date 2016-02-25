@@ -24,8 +24,8 @@ viewer:
   id: "5"
   builtin: "0"
 
-anonymous:
-  name: Anonymous
+default_role:
+  name: Default role
   id: "7"
   builtin: "2"
 

@@ -80,15 +80,15 @@ class UsersControllerTest < ActionController::TestCase
     put :update, { :id => user.id, :user => {:role_ids => [role1.id]} }, set_session_user
   end
 
-  test "should not remove the anonymous role" do
+  test "should not remove the default role" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
-    assert user.roles =([roles(:anonymous)])
+    assert user.roles =([roles(:default_role)])
 
     put :update, { :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
     mod_user = User.find_by_id(user.id)
 
-    assert mod_user.roles =([roles(:anonymous)])
+    assert mod_user.roles =([roles(:default_role)])
   end
 
   test "should set password" do

@@ -232,8 +232,7 @@ class User < ActiveRecord::Base
     logger.debug "Post-login processing for #{login}"
     User.as_anonymous_admin do
       self.update_attribute(:last_login_on, Time.now.utc)
-      anonymous = Role.find_by_name("Anonymous")
-      self.roles << anonymous unless self.roles.include?(anonymous)
+      ensure_default_role
     end
     User.current = self
   end
@@ -526,8 +525,8 @@ class User < ActiveRecord::Base
   end
 
   def ensure_default_role
-    role = Role.find_by_name('Anonymous')
-    self.roles << role if role.present? && !self.role_ids.include?(role.id)
+    default_role = Role.default
+    self.roles << default_role unless self.roles.include?(default_role)
   end
 
   def ensure_admin_password_changed_by_admin

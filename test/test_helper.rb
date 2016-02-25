@@ -165,7 +165,7 @@ Spork.prefork do
       user = User.find_by_login("one")
       @request.session[:user] = user.id
       @request.session[:expires_at] = 5.minutes.from_now.to_i
-      user.roles = [Role.find_by_name('Anonymous'), Role.find_by_name('Viewer')]
+      user.roles = [Role.default, Role.find_by_name('Viewer')]
       user.save!
     end
 

@@ -37,30 +37,30 @@ class RoleTest < ActiveSupport::TestCase
   end
 
   context "System roles" do
-    should "return the anonymous role" do
-      role = Role.anonymous
+    should "return the default role" do
+      role = Role.default
       assert role.builtin?
-      assert_equal Role::BUILTIN_ANONYMOUS, role.builtin
+      assert_equal Role::BUILTIN_DEFAULT_ROLE, role.builtin
     end
 
-    context "with a missing anonymous role" do
+    context "with a missing default role" do
       setup do
-        role_ids = Role.where("builtin = #{Role::BUILTIN_ANONYMOUS}").pluck(:id)
+        role_ids = Role.where("builtin = #{Role::BUILTIN_DEFAULT_ROLE}").pluck(:id)
         UserRole.where(:role_id => role_ids).destroy_all
         Filter.where(:role_id => role_ids).destroy_all
         Role.where(:id => role_ids).delete_all
       end
 
-      should "create a new anonymous role" do
+      should "create a new default role" do
         assert_difference('Role.count') do
-          Role.anonymous
+          Role.default
         end
       end
 
-      should "return the anonymous role" do
-        role = Role.anonymous
+      should "return the default role" do
+        role = Role.default
         assert role.builtin?
-        assert_equal Role::BUILTIN_ANONYMOUS, role.builtin
+        assert_equal Role::BUILTIN_DEFAULT_ROLE, role.builtin
       end
     end
   end
