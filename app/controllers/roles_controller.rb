@@ -25,8 +25,7 @@ class RolesController < ApplicationController
   end
 
   def new
-    # Prefills the form with 'default user' role permissions
-    @role = Role.new({:permissions => Role.default_user.permissions})
+    @role = Role.new
   end
 
   def create

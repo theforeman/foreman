@@ -23,7 +23,6 @@ class Role < ActiveRecord::Base
   include Parameterizable::ByIdName
 
   # Built-in roles
-  BUILTIN_DEFAULT_USER  = 1
   BUILTIN_ANONYMOUS     = 2
   audited :allow_mass_assignment => true
 
@@ -100,23 +99,10 @@ class Role < ActiveRecord::Base
     all(:conditions => {:builtin => 0}, :order => 'name')
   end
 
-  # Return the builtin 'default user' role.  If the role doesn't exist,
-  # it will be created on the fly.
-  def self.default_user
-    default_user_role = where(:builtin => BUILTIN_DEFAULT_USER).first
-    if default_user_role.nil?
-      default_user_role = create!(:name => 'Default user') do |role|
-        role.builtin = BUILTIN_DEFAULT_USER
-      end
-      raise ::Foreman::Exception.new(N_('Unable to create the default user role.')) if default_user_role.new_record?
-    end
-    default_user_role
-  end
-
   # Return the builtin 'anonymous' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.anonymous
-    anonymous_role = where(:builtin => BUILTIN_ANONYMOUS).first
+    anonymous_role = find_by_builtin(BUILTIN_ANONYMOUS)
     if anonymous_role.nil?
       anonymous_role = create!(:name => 'Anonymous') do |role|
         role.builtin = BUILTIN_ANONYMOUS

@@ -24,11 +24,6 @@ viewer:
   id: "5"
   builtin: "0"
 
-default_user:
-  name: Default user
-  id: "6"
-  builtin: "1"
-
 anonymous:
   name: Anonymous
   id: "7"
