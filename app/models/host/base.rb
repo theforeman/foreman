@@ -125,14 +125,19 @@ module Host
     end
 
     def self.import_host_and_facts(json)
-      # noop, overridden by STI descendants
+      Foreman::Deprecation.deprecation_warning('1.13', 'Host::Base#import_host_and_facts has been deprecated, you should use import_host and import_facts method instead')
       [self, true]
     end
 
     # expect a facts hash
     def import_facts(facts)
+      return false unless Setting[:create_new_host_when_facts_are_uploaded]
+
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
       raise ::Foreman::Exception.new('Host is pending for Build') if build?
+      facts = facts.with_indifferent_access
+
+      facts[:domain].try(:downcase!)
 
       time = facts[:_timestamp]
       time = time.to_time if time.is_a?(String)
