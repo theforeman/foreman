@@ -439,31 +439,32 @@ class Host::Managed < Host::Base
     info_hash
   end
 
-  # JSON is auto-parsed by the API, so these should be in the right format
-  def self.import_host_and_facts(hostname, facts, certname = nil, proxy_id = nil)
-    raise(::Foreman::Exception.new("Invalid Facts, must be a Hash")) unless facts.is_a?(Hash)
+  def self.import_host(hostname, import_type, certname = nil, proxy_id = nil)
     raise(::Foreman::Exception.new("Invalid Hostname, must be a String")) unless hostname.is_a?(String)
 
     # downcase everything
     hostname.try(:downcase!)
     certname.try(:downcase!)
-    facts['domain'].try(:downcase!)
 
-    host = certname.present? ? Host.find_by_certname(certname) : nil
-    host ||= Host.find_by_name hostname
-    host ||= Host.new(:name => hostname, :certname => certname) if Setting[:create_new_host_when_facts_are_uploaded]
+    host = Host.find_by_certname(certname) if certname.present?
+    host ||= Host.find_by_name(hostname)
+    host ||= Host.new(:name => hostname) # if no host was found, build a new one
 
-    return Host.new, true if host.nil?
     # if we were given a certname but found the Host by hostname we should update the certname
+    # this also sets certname for newly created hosts
     host.certname = certname if certname.present?
 
     # if proxy authentication is enabled and we have no puppet proxy set and the upload came from puppet,
     # use it as puppet proxy.
-    if facts['_type'].blank? || facts['_type'] == 'puppet'
-      host.puppet_proxy_id ||= proxy_id
-    end
+    host.puppet_proxy_id ||= proxy_id if import_type == 'puppet'
 
-    host.save(:validate => false) if host.new_record?
+    host
+  end
+
+  # JSON is auto-parsed by the API, so these should be in the right format
+  def self.import_host_and_facts(hostname, facts, certname = nil, proxy_id = nil)
+    Foreman::Deprecation.deprecation_warning('1.13', 'Host::Managed#import_host_and_facts has been deprecated, you should use import_host and import_facts method instead')
+    host = import_host(hostname, facts[:_type] || 'puppet', certname, proxy_id)
     state = host.import_facts(facts)
     [host, state]
   end
