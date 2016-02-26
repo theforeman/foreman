@@ -2641,6 +2641,12 @@ class HostTest < ActiveSupport::TestCase
 
       assert_equal actual_attr['zzz_id'], 1111
     end
+
+    test 'should add inherited attributes when hostgroup in attributes' do
+      hg = FactoryGirl.create(:hostgroup, :with_environment)
+      host = Host.new(:name => "test-host", :hostgroup => hg)
+      assert host.environment
+    end
   end
 
   describe 'rendering interface' do
