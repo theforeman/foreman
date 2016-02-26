@@ -303,6 +303,10 @@ FactoryGirl.define do
       association :parent, :factory => :hostgroup
     end
 
+    trait :with_environment do
+      environment
+    end
+
     trait :with_puppetclass do
       environment
       puppetclasses { [ FactoryGirl.create(:puppetclass, :environments => [environment]) ] }
