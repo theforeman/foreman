@@ -158,6 +158,13 @@ class HostTest < ActiveSupport::TestCase
     assert_equal host.vm_compute_attributes, nil
   end
 
+  test "can authorize Host::Managed as non-admin user" do
+    h = FactoryGirl.create(:host, :managed)
+    setup_user('view', 'hosts', 'name ~ *')
+
+    assert_includes Host.authorized('view_hosts'), h
+  end
+
   context "when unattended is false" do
     def setup
       SETTINGS[:unattended] = false

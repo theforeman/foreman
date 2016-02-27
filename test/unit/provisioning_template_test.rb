@@ -209,4 +209,11 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
                                       :environment_id => @ev3.id}).name
     end
   end
+
+  test 'can view templates as non-admin user' do
+    template = FactoryGirl.create(:provisioning_template)
+    setup_user('view', 'provisioning_templates')
+
+    assert_includes ProvisioningTemplate.authorized('view_provisioning_templates').all, template
+  end
 end
