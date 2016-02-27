@@ -2,6 +2,13 @@ module Authorizable
   extend ActiveSupport::Concern
 
   included do
+    def authorized?(permission)
+      return false if User.current.nil?
+      User.current.can?(permission, self)
+    end
+  end
+
+  module ClassMethods
     # permission can be nil (therefore we use Proc instead of lambda)
     # same applies for resource class
     #
@@ -11,8 +18,7 @@ module Authorizable
     #   Host::Base.authorized_as(user, :view_hosts, Host)
     #
     # Or you may simply use authorized for User.current
-    #
-    scope :authorized_as, Proc.new { |user, permission, resource|
+    def authorized_as(user, permission, resource = nil)
       if user.nil?
         self.where('1=0')
       elsif user.admin?
@@ -20,7 +26,7 @@ module Authorizable
       else
         Authorizer.new(user).find_collection(resource || self, :permission => permission)
       end
-    }
+    end
 
     # joins to another class, on which the authorization is applied
     #
@@ -35,21 +41,14 @@ module Authorizable
     # The default scope of `resource` is NOT applied since it's a join, instead
     # any extra conditions can be given in `opts[:where]`.
     #
-    scope :joins_authorized_as, Proc.new { |user, resource, permission, opts = {}|
+    def joins_authorized_as(user, resource, permission, opts = {})
       if user.nil?
         self.where('1=0')
       else
         Authorizer.new(user).find_collection(resource, {:permission => permission, :joined_on => self}.merge(opts) )
       end
-    }
-
-    def authorized?(permission)
-      return false if User.current.nil?
-      User.current.can?(permission, self)
     end
-  end
 
-  module ClassMethods
     def allows_taxonomy_filtering?(taxonomy)
       scoped_search_definition.fields.has_key?(taxonomy)
     end

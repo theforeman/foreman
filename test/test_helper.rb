@@ -181,7 +181,7 @@ Spork.prefork do
         role.save!
         filter.role = role
         filter.save!
-        @one.roles = [ role ]
+        @one.roles << role
         yield(@one) if block_given?
         @one.save!
       end

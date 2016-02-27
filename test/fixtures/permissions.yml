@@ -474,6 +474,11 @@
     resource_type: Report
     created_at: "2013-12-04 08:41:06.107515"
     updated_at: "2013-12-04 08:41:06.107515"
+  view_config_reports:
+    name: view_config_reports
+    resource_type: ConfigReport
+    created_at: "2013-12-04 08:41:06.107515"
+    updated_at: "2013-12-04 08:41:06.107515"
   destroy_reports:
     name: destroy_reports
     resource_type: Report
