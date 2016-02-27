@@ -113,6 +113,14 @@ class ReportTest < ActiveSupport::TestCase
       report = TestReport.new
       assert_equal({}, report.metrics)
     end
+
+    test 'can view host reports as non-admin user' do
+      report = FactoryGirl.create(:config_report)
+      setup_user('view', 'hosts', "name = #{report.host.name}")
+      setup_user('view',  'config_reports')
+
+      assert_includes ConfigReport.authorized('view_config_reports').my_reports, report
+    end
   end
 end
 
