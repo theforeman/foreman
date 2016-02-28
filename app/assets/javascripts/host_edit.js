@@ -231,7 +231,10 @@ function hostgroup_changed(element) {
   } else { // a new host
     reset_explicit_values(element);
     set_inherited_value(element);
-    update_form(element);
+    // call for form update only if there is a hostgroup selected
+    if ($('#host_hostgroup_id').val() != "") {
+      update_form(element);
+    }
   }
 }
 
