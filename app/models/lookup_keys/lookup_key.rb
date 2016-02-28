@@ -72,6 +72,7 @@ class LookupKey < ActiveRecord::Base
     :override, :override_value_order, :override_values_count, :override_values,
     :override_value_ids,
     :path,
+    :parameter_type,
     :puppetclass_id,
     :use_puppet_default,
     :validator_type, :validator_rule,
