@@ -1,6 +1,8 @@
 require 'api_constraints'
 
 Foreman::Application.routes.draw do
+  use_doorkeeper
+
   resources :mail_notifications, :only => [] do
     collection do
       get 'auto_complete_search'

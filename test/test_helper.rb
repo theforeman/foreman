@@ -258,6 +258,15 @@ Spork.prefork do
     end
   end
 
+  class ActionController::TestCase
+    def get_access_token
+      user = users(:admin)
+      User.stubs(:try_to_login).returns(user)
+      row = Doorkeeper::AccessToken.create(:resource_owner_id => user.id, :expires_in => 7200)
+      row.token
+    end
+  end
+
   # Transactional fixtures do not work with Selenium tests, because Capybara
   # uses a separate server thread, which the transactions would be hidden
   # from. We hence use DatabaseCleaner to truncate our test database.

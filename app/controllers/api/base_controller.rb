@@ -8,6 +8,7 @@ module Api
     skip_before_filter :verify_authenticity_token, :unless => :protect_api_from_forgery?
 
     before_filter :set_default_response_format, :authorize, :add_version_header, :set_gettext_locale
+    before_filter :doorkeeper_authorize!, :unless => :is_authenticated?  #Require access token for all API calls unless user is already authenticated
     before_filter :session_expiry, :update_activity_time
     around_filter :set_timezone
 
@@ -63,6 +64,10 @@ module Api
 
     def api_request?
       true
+    end
+
+    def is_authenticated?
+      User.current.present?
     end
 
     protected
