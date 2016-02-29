@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
+  setup do
+    Foreman::Deprecation.expects(:api_deprecation_warning).with(regexp_matches(%r{/config_templates were moved to /provisioning_templates}))
+  end
+
   test "should get index" do
     get :index
     templates = ActiveSupport::JSON.decode(@response.body)
