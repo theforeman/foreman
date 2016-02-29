@@ -6,7 +6,10 @@ attributes :name, :id, :ip, :environment_id, :last_report, :updated_at, :created
            :comment, :disk, :installed_at, :model_id, :hostgroup_id, :owner_id, :owner_type,
            :enabled, :puppet_ca_proxy_id, :managed, :use_image, :image_file, :uuid, :compute_resource_id,
            :puppet_proxy_id, :certname, :image_id, :created_at, :updated_at,
-           :last_compile, :puppet_status, :root_pass
+           :last_compile, :root_pass
+
+# to avoid deprecation warning on puppet_status method
+attributes :configuration_status => :puppet_status
 
 attribute :organization_id if SETTINGS[:organizations_enabled]
 attribute :location_id if SETTINGS[:locations_enabled]
