@@ -18,8 +18,8 @@ module DashboardHelper
           widgets_to_add
         end
       ),
-      documentation_button,
-      auto_refresh_button(:defaults_to => true)
+      auto_refresh_button(:defaults_to => true),
+      documentation_button
     ]
   end
 
@@ -132,7 +132,8 @@ module DashboardHelper
     else
       tooltip = _("Auto refresh off")
     end
-    link = link_to(icon_text("refresh"), {:auto_refresh => (on == "on" ? "0" : "1")}, { :'data-original-title' => tooltip, :rel => 'twipsy' })
-    "<div class='btn-toolbar pull-right auto-refresh #{on}'>#{link}</div>"
+    link_to(icon_text("refresh"),
+            {:auto_refresh => (on == "on" ? "0" : "1")},
+            { :'data-original-title' => tooltip, :rel => 'twipsy', :class => "#{on} auto-refresh btn btn-group"})
   end
 end

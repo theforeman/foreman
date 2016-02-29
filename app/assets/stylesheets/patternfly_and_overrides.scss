@@ -143,9 +143,11 @@ a {
   background-image: none;
 }
 
-.btn-toolbar .btn-group{
-  float: none;
-}
+.btn-toolbar {
+  .btn-group, .btn-docs {
+    float: none
+  }
+ }
 
 .popover{
   max-width: none;
