@@ -102,6 +102,7 @@ module Host
       super(*args)
 
       build_required_interfaces
+      self.name ||= Haikunator.haikunate if Setting['default_hostname']
       values_for_primary_interface.each do |name, value|
         self.send "#{name}=", value
       end
