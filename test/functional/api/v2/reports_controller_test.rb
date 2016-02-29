@@ -4,6 +4,10 @@ require 'functional/shared/report_host_permissions_test'
 class Api::V2::ReportsControllerTest < ActionController::TestCase
   include ::ReportHostPermissionsTest
 
+  setup do
+    Foreman::Deprecation.expects(:api_deprecation_warning).with(regexp_matches(%r{/reports were moved to /config_reports}))
+  end
+
   describe "Non Admin User" do
     def setup
       User.current = users(:one) #use an unprivileged user, not apiadmin
@@ -29,6 +33,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       User.current=nil
       post :create, {:report => create_a_puppet_transaction_report }, set_session_user
       assert_response :success
+      Foreman::Deprecation.expects(:api_deprecation_warning)
       post :create, {:report => create_a_puppet_transaction_report }, set_session_user
       assert_response :unprocessable_entity
     end

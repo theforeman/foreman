@@ -10,12 +10,14 @@ class ReportImporterTest < ActiveSupport::TestCase
   end
 
   test 'it should import reports with no metrics' do
+    expect_deprecation_warning
     r = TestReportImporter.import(read_json_fixture('report-empty.json'))
     assert r
     assert_equal({}, r.metrics)
   end
 
   test 'it should import reports where logs is nil' do
+    expect_deprecation_warning
     r = Report.import read_json_fixture('report-no-logs.json')
     assert_empty r.logs
   end
@@ -37,6 +39,7 @@ class ReportImporterTest < ActiveSupport::TestCase
     end
 
     test 'when owner is not subscribed to notifications, no mail should be sent on error' do
+      expect_deprecation_warning
       @owner.mail_notifications = []
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
         report = read_json_fixture('report-errors.json')
@@ -47,6 +50,7 @@ class ReportImporterTest < ActiveSupport::TestCase
   end
 
   test 'when a host has no owner, no mail should be sent on error' do
+    expect_deprecation_warning
     host = FactoryGirl.create(:host, :owner => nil)
     report = read_json_fixture('report-errors.json')
     report["host"] = host.name
@@ -67,6 +71,7 @@ class ReportImporterTest < ActiveSupport::TestCase
   end
 
   test 'if report has no error, no mail should be sent' do
+    expect_deprecation_warning
     assert_no_difference 'ActionMailer::Base.deliveries.size' do
       TestReportImporter.import read_json_fixture('report-applied.json')
     end
@@ -87,6 +92,12 @@ class ReportImporterTest < ActiveSupport::TestCase
     reporter = ReportImporter.new(report)
     host = reporter.send(:host)
     assert_equal host, db_host
+  end
+
+  private
+
+  def expect_deprecation_warning
+    Foreman::Deprecation.expects(:deprecation_warning).with('1.13', 'Report model has turned to be STI, please use child classes')
   end
 end
 

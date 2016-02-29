@@ -104,6 +104,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should create host with host_parameters_attributes" do
     disable_orchestration
+    Foreman::Deprecation.expects(:api_deprecation_warning).with('Field host_parameters_attributes.nested ignored')
     assert_difference('Host.count') do
       attrs = [{"name" => "compute_resource_id", "value" => "1", "nested" => "true"}]
       post :create, { :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
@@ -113,6 +114,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should create host with host_parameters_attributes sent in a hash" do
     disable_orchestration
+    Foreman::Deprecation.expects(:api_deprecation_warning).with('Field host_parameters_attributes.nested ignored')
     assert_difference('Host.count') do
       attrs = {"0" => {"name" => "compute_resource_id", "value" => "1", "nested" => "true"}}
       post :create, { :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
@@ -224,6 +226,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should show status hosts" do
+    Foreman::Deprecation.expects(:api_deprecation_warning).with(regexp_matches(%r{/status route is deprecated}))
     get :status, { :id => @host.to_param }
     assert_response :success
   end
@@ -266,6 +269,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should allow show status for restricted user who owns the hosts" do
+    Foreman::Deprecation.expects(:api_deprecation_warning).with(regexp_matches(%r{/status route is deprecated}))
     host = FactoryGirl.create(:host, :owner => users(:restricted))
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
     get :status, { :id => host.to_param }

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class SmartProxyAuthApiTest < ActionController::TestCase
-  tests "api/v2/reports"
+  tests "api/v2/config_reports"
 
   def described_class
     Api::V2::ReportsController

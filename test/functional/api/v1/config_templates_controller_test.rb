@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
+  setup do
+    Foreman::Deprecation.expects(:api_deprecation_warning).with('Config templates were renamed to provisioning templates')
+  end
+
   test "should get index" do
     get :index
     templates = ActiveSupport::JSON.decode(@response.body)

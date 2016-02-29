@@ -4,6 +4,10 @@ require 'functional/shared/report_host_permissions_test'
 class Api::V1::ReportsControllerTest < ActionController::TestCase
   include ::ReportHostPermissionsTest
 
+  setup do
+    Foreman::Deprecation.expects(:api_deprecation_warning).with('Reports were renamed to ConfigReports')
+  end
+
   test "should get index" do
     FactoryGirl.create(:report)
     get :index, { }
