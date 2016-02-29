@@ -406,7 +406,7 @@ module ApplicationHelper
   def documentation_button(section = "")
     url = documentation_url section
     link_to(icon_text('help', _('Documentation'), :class => 'icon-white', :kind => 'pficon'),
-      url, :rel => 'external', :class => 'btn btn-info', :target => '_blank')
+      url, :rel => 'external', :class => 'btn btn-info btn-docs', :target => '_blank')
   end
 
   def generate_links_for(sub_model)
