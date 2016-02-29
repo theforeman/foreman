@@ -72,14 +72,11 @@
 }
 
 .auto-refresh {
-  a {
-    background: none;
-  }
-  margin-left: 5px;
-  &.on a {
+  background: none;
+  &.on {
     color: #005C7E;
   }
-  &.off a {
+  &.off {
     color: #ccc;
   }
 }
