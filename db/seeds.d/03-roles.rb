@@ -53,18 +53,11 @@ default_permissions =
                                   :destroy_usergroups, :view_users, :edit_users, :view_realms, :view_mail_notifications],
     }
 
-default_user_permissions = [:view_hosts, :view_puppetclasses, :view_hostgroups, :view_domains,
-                            :view_operatingsystems, :view_media, :view_models, :view_environments,
-                            :view_architectures, :view_ptables, :view_globals, :view_external_variables,
-                            :view_authenticators, :access_settings, :access_dashboard,
-                            :view_config_reports, :view_subnets, :view_facts, :view_locations,
-                            :view_organizations, :view_statistics, :view_realms, :view_mail_notifications]
 anonymous_permissions    = [:view_bookmarks, :view_tasks]
 
 Role.without_auditing do
   default_permissions.each do |role_name, permission_names|
     create_role(role_name, permission_names, 0)
   end
-  create_role('Default user', default_user_permissions, Role::BUILTIN_DEFAULT_USER)
   create_role('Anonymous', anonymous_permissions, Role::BUILTIN_ANONYMOUS)
 end

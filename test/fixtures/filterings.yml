@@ -334,63 +334,6 @@ viewer_21_0:
 viewer_22_0:
   filter: viewer_22
   permission: view_realms
-default_user_1_0:
-  filter: default_user_1
-  permission: view_hosts
-default_user_2_0:
-  filter: default_user_2
-  permission: view_puppetclasses
-default_user_3_0:
-  filter: default_user_3
-  permission: view_hostgroups
-default_user_4_0:
-  filter: default_user_4
-  permission: view_domains
-default_user_5_0:
-  filter: default_user_5
-  permission: view_operatingsystems
-default_user_6_0:
-  filter: default_user_6
-  permission: view_media
-default_user_7_0:
-  filter: default_user_7
-  permission: view_models
-default_user_8_0:
-  filter: default_user_8
-  permission: view_environments
-default_user_9_0:
-  filter: default_user_9
-  permission: view_architectures
-default_user_10_0:
-  filter: default_user_10
-  permission: view_ptables
-default_user_11_0:
-  filter: default_user_11
-  permission: view_globals
-default_user_12_0:
-  filter: default_user_12
-  permission: view_external_variables
-default_user_13_0:
-  filter: default_user_13
-  permission: view_authenticators
-default_user_14_0:
-  filter: default_user_14
-  permission: access_settings
-default_user_14_1:
-  filter: default_user_14
-  permission: access_dashboard
-default_user_14_2:
-  filter: default_user_14
-  permission: view_statistics
-default_user_15_0:
-  filter: default_user_15
-  permission: view_reports
-default_user_16_0:
-  filter: default_user_16
-  permission: view_facts
-default_user_17_0:
-  filter: default_user_17
-  permission: view_realms
 anonymous_1_0:
   filter: anonymous_1
   permission: view_tasks
