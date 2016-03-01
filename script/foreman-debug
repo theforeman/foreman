@@ -102,11 +102,15 @@ add_files() {
         application/x-xz)
           xzcat "$FILE" | $TAIL_OR_CAT | sed -r "$FILTER" > "$DIR$FILE.txt"
           ;;
-        text/plain)
+        text/plain | application/xml)
           $TAIL_OR_CAT "$FILE" | sed -r "$FILTER" > "$DIR$FILE"
           [ $PRINTPASS -eq 1 ] && grep -H "\*\*\*\*\*" "$DIR$FILE"
           ;;
-        ?)
+        inode/symlink)
+          cp -a "$FILE" "$DIR$FILE"
+          add_files $(readlink -f $FILE)
+          ;;
+        *)
           echo "Skipping file $FILE: unknown MIME type $MIME" >> "$DIR/skipped_files"
           ;;
       esac
@@ -283,6 +287,7 @@ add_cmd "scl enable $SCLNAME 'gem list'" "gem_list_scl"
 add_cmd "bundle --local --gemfile=/usr/share/foreman/Gemfile" "bundle_list"
 add_cmd "facter" "facts"
 add_files /etc/foreman/* /var/log/foreman/*.log*
+add_files /etc/foreman-installer/scenarios.d/{*,*/*,*/.*} /var/log/foreman-installer/*.log*
 add_files /usr/share/foreman/Gemfile*
 add_cmd "virsh list" "virsh_list"
 add_files /etc/libvirt/* /etc/libvirt/storage/* /etc/libvirt/qemu/* /etc/libvirt/qemu/networks
