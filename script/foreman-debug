@@ -2,7 +2,7 @@
 # vim:sw=2:ts=2:et
 
 export LC_ALL=C
-export SCLNAME=ruby193
+export SCLNAME=tfm
 
 usage() {
 [[ $UPLOAD_DISABLED -ne 0 ]] && UPLOAD_INFO=" (feature disabled by configuration)"
