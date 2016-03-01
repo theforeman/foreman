@@ -22,7 +22,7 @@ public/apipie-cache
 public/assets
 .DS_Store
 foreman_client
-doc/apidoc*
+doc/
 .rbenv*
 .rvmrc*
 .ruby-version*
