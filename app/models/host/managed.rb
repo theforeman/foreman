@@ -668,8 +668,10 @@ class Host::Managed < Host::Base
     assign_hostgroup_attributes(%w{domain_id})
 
     if SETTINGS[:unattended] and (new_record? or managed?)
-      assign_hostgroup_attributes(%w{operatingsystem_id architecture_id})
-      assign_hostgroup_attributes(%w{medium_id ptable_id subnet_id}) if pxe_build?
+      inherited_attributes = %w{operatingsystem_id architecture_id}
+      inherited_attributes << "subnet_id" unless compute_provides?(:ip)
+      inherited_attributes.concat(%w{medium_id ptable_id}) if pxe_build?
+      assign_hostgroup_attributes(inherited_attributes)
     end
   end
 
