@@ -26,7 +26,7 @@ $(document).ready(function() {
       else
         editable_value = String(editable_value);
 
-      $(this).html(editable_value);
+      $(this).html(_.escape(editable_value));
     },
     onerror     : function(settings, original, xhr) {
       original.reset();
@@ -71,6 +71,8 @@ $(document).ready(function() {
 function onEnterEdit(item){
   item.removeClass("editable");
   item.tooltip('destroy');
+  var unescaped_value = _.unescape(item.find('input').val());
+  item.find('input').val(unescaped_value);
   item.find('input, select').addClass('form-group form-control');
   item.find('button').addClass('btn btn-default btn-sm');
   item.find('button[type="submit"]').addClass('btn-primary').css({'margin-right': '4px'})
