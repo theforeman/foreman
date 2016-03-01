@@ -61,6 +61,8 @@ module Host
 
     default_scope -> { where(taxonomy_conditions) }
 
+    before_destroy :stop_if_locked
+
     def self.taxonomy_conditions
       org = Organization.expand(Organization.current) if SETTINGS[:organizations_enabled]
       loc = Location.expand(Location.current) if SETTINGS[:locations_enabled]
@@ -320,6 +322,26 @@ module Host
 
     # Provide _id aliases for consistency with the _name methods
     alias_attribute :hardware_model_id, :model_id
+
+    def locked?
+      locked_until == -1 || locked_until.to_i > Time.now.to_i
+    end
+
+    # if user wishes to lock host forever, pass -1 as the argument
+    def lock!(lock_until)
+      update_attribute(:locked_until, lock_until.to_i)
+    end
+
+    def unlock!
+      update_attribute(:locked_until, 0)
+    end
+
+    def stop_if_locked
+      return true unless locked?
+
+      errors.add(:base, _("Host is locked, unlock it to perform this action"))
+      false
+    end
 
     private
 

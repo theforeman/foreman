@@ -11,12 +11,19 @@ class HostBuildStatus
   end
 
   def check_all_statuses
+    locked_status
     host_status
     templates_status
     smart_proxies_status
   end
 
   private
+
+  def locked_status
+    return if host.get_status(HostStatus::BuildStatus).try(:status) != HostStatus::BuildStatus::BUILT
+    return unless host.locked?
+    fail!(:host, _("Host is locked, unlock it to build"))
+  end
 
   def host_status
     return if host.valid?

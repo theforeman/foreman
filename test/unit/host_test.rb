@@ -2996,6 +2996,31 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  context "locks" do
+    let(:host){FactoryGirl.create(:host)}
+
+    it "allows to lock a host" do
+      host.lock!(20.days.from_now)
+      assert host.locked?
+    end
+
+    it "allows to unlock a host" do
+      host.lock!(2.days.from_now)
+      host.unlock!
+      refute host.locked?
+    end
+
+    it "isn't locked after lock has passed" do
+      host.lock!(1.day.ago)
+      refute host.locked?
+    end
+
+    it "doesn't allow to destroy if host is locked" do
+      host.lock!(-1)
+      refute host.destroy
+    end
+  end
+
   private
 
   def parse_json_fixture(relative_path)
