@@ -130,5 +130,30 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
       host.send(:setComputeDetails)
       assert_equal expected_message(nic.type), host.errors.full_messages.first
     end
+
+    describe "validate compute provisioning" do
+      setup do
+        @image = images(:one)
+        @host = FactoryGirl.build(:host, :operatingsystem => @image.operatingsystem, :image => @image,
+                                  :compute_resource => @image.compute_resource)
+      end
+
+      test "it checks the image belongs to the compute resource" do
+        @host.provision_method = 'image'
+        @host.compute_attributes = { :image_id => @image.uuid }
+        assert @host.valid?
+
+        @host.compute_attributes = { :image_id => 'not-existing-image' }
+        refute @host.valid?
+        assert @host.errors.full_messages.first =~ /image does not belong to/
+      end
+
+      test "removes the image from compute attributes if the provision method is build" do
+        @host.provision_method = 'build'
+        @host.compute_attributes = { :image_id => @image.uuid }
+        assert @host.valid?
+        assert_not_include @host.compute_attributes, :image_id
+      end
+    end
   end
 end
