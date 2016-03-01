@@ -66,5 +66,24 @@ class FacetTest < ActiveSupport::TestCase
 
       assert_not_nil attributes["test_facet_attributes"]
     end
+
+    test 'facets are updated without specifying id explicitly' do
+      saved_host = FactoryGirl.create(:host)
+      saved_host.build_test_facet
+      saved_host.save!
+      TestFacet.class_eval do
+        def my_attribute
+        end
+
+        def my_attribute=(val)
+        end
+
+        attr_accessible :my_attribute
+      end
+
+      saved_host.attributes = {'test_facet_attributes' => { 'my_attribute' => 'my_value'}}
+
+      assert_not_nil saved_host.test_facet.id
+    end
   end
 end
