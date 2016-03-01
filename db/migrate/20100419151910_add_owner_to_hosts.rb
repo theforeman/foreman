@@ -5,7 +5,7 @@ class AddOwnerToHosts < ActiveRecord::Migration
 
   def up
     add_column :hosts, :owner_id,   :integer
-    add_column :hosts, :owner_type, :string
+    add_column :hosts, :owner_type, :string, :limit => 255
 
     Host.reset_column_information
 

@@ -1,6 +1,6 @@
 class AddLowerloginToUsers < ActiveRecord::Migration
   def up
-    add_column :users, :lower_login, :string
+    add_column :users, :lower_login, :string, :limit => 255
     add_index  :users, :lower_login, :unique => true
 
     User.reset_column_information

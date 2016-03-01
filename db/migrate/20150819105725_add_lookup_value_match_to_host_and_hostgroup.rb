@@ -1,7 +1,7 @@
 class AddLookupValueMatchToHostAndHostgroup < ActiveRecord::Migration
   def up
-    add_column :hosts, :lookup_value_matcher, :string
-    add_column :hostgroups, :lookup_value_matcher, :string
+    add_column :hosts, :lookup_value_matcher, :string, :limit => 255
+    add_column :hostgroups, :lookup_value_matcher, :string, :limit => 255
     Host::Managed.reset_column_information
     Hostgroup.reset_column_information
 

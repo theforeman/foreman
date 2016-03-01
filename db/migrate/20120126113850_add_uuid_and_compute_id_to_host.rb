@@ -1,6 +1,6 @@
 class AddUuidAndComputeIdToHost < ActiveRecord::Migration
   def up
-    add_column :hosts, :uuid, :string
+    add_column :hosts, :uuid, :string, :limit => 255
     add_column :hosts, :compute_resource_id, :integer
   end
 

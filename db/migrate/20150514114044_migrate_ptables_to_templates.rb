@@ -25,7 +25,7 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
     if foreign_keys('hosts').find { |f| f.options[:name] == 'hosts_ptable_id_fk' }.present?
       remove_foreign_key "hosts",  :name => "hosts_ptable_id_fk"
     end
-    add_column :templates, :os_family, :string
+    add_column :templates, :os_family, :string, :limit => 255
 
     FakeOldPtable.all.each do |old_ptable|
       say "migrating partition table #{old_ptable.name}"

@@ -1,6 +1,6 @@
 class AddTitleToOs < ActiveRecord::Migration
   def up
-    add_column :operatingsystems, :title, :string
+    add_column :operatingsystems, :title, :string, :limit => 255
 
     Operatingsystem.reset_column_information
     Operatingsystem.unscoped.each do |os|

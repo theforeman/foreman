@@ -6,8 +6,8 @@ class AddOsFamilyToPtable < ActiveRecord::Migration
   end
 
   def up
-    add_column :ptables, :os_family, :string    unless column_exists? :ptables, :os_family
-    remove_column :ptables, :operatingsystem_id if     column_exists? :ptables, :operatingsystem_id
+    add_column :ptables, :os_family, :string, :limit => 255 unless column_exists? :ptables, :os_family
+    remove_column :ptables, :operatingsystem_id if column_exists? :ptables, :operatingsystem_id
     FakePtableWithoutFamily.reset_column_information
     FakePtableWithoutFamily.all.each do |p|
       family = p.operatingsystems.map(&:family).uniq.first rescue nil
