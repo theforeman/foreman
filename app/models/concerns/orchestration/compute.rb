@@ -207,13 +207,18 @@ module Orchestration::Compute
   end
 
   def validate_compute_provisioning
-    return true unless image_build?
-    return true if ( compute_attributes.nil? or (compute_attributes[:image_id] || compute_attributes[:image_ref]).blank? )
-    img = find_image
-    if img
-      self.image = img
+    return true if compute_attributes.nil?
+    if image_build?
+      return true if (compute_attributes[:image_id] || compute_attributes[:image_ref]).blank?
+      img = find_image
+      if img
+        self.image = img
+      else
+        failure(_("Selected image does not belong to %s") % compute_resource) and return false
+      end
     else
-      failure(_("Selected image does not belong to %s") % compute_resource) and return false
+      # don't send the image information to the compute resource unless using the image provisioning method
+      [:image_id, :image_ref].each { |image_key| compute_attributes.delete(image_key) }
     end
   end
 
