@@ -92,6 +92,17 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert h.queue.items.select {|x| x.action.last == :del_dhcp }.empty?
   end
 
+  test "queue_dhcp doesn't fail when mac address is blank but provided by compute resource" do
+    cr = FactoryGirl.build(:libvirt_cr)
+    cr.stubs(:provided_attributes).returns({:mac => :mac})
+    host = FactoryGirl.build(:host, :with_dhcp_orchestration, :compute_resource => cr)
+    interface = host.interfaces.first
+    interface.mac = nil
+    interface.stubs(:dhcp? => true, :overwrite? => true)
+
+    assert interface.send(:queue_dhcp)
+  end
+
   test "new host should create a BMC dhcp reservation" do
     h = FactoryGirl.build(:host, :with_dhcp_orchestration, :name => 'dummy-123')
     assert h.new_record?
