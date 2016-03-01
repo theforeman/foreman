@@ -1,6 +1,6 @@
 class AddAncestryToFactNames < ActiveRecord::Migration
   def up
-    add_column :fact_names, :ancestry, :string
+    add_column :fact_names, :ancestry, :string, :limit => 255
     add_index :fact_names, :ancestry
   end
 

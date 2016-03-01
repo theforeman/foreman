@@ -1,8 +1,8 @@
 class CreateRealms < ActiveRecord::Migration
   def up
     create_table :realms do |t|
-      t.string      :name, :default => "", :null => false
-      t.string      :realm_type
+      t.string      :name, :default => "", :null => false, :limit => 255
+      t.string      :realm_type, :limit => 255
       t.integer     :realm_proxy_id
       t.integer     :hosts_count, :default => 0
       t.integer     :hostgroups_count, :default => 0
@@ -11,7 +11,7 @@ class CreateRealms < ActiveRecord::Migration
 
     add_index :realms, :name, :unique => true
 
-    add_column :hosts, :otp, :string unless column_exists? :hosts, :otp
+    add_column :hosts, :otp, :string, :limit => 255 unless column_exists? :hosts, :otp
     add_column :hosts, :realm_id, :integer unless column_exists? :hosts, :realm_id
     add_column :hostgroups, :realm_id, :integer unless column_exists? :hostgroups, :realm_id
 

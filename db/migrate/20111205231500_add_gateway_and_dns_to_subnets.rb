@@ -1,8 +1,8 @@
 class AddGatewayAndDnsToSubnets < ActiveRecord::Migration
   def up
-    add_column :subnets, :gateway, :string
-    add_column :subnets, :dns_primary, :string
-    add_column :subnets, :dns_secondary, :string
+    add_column :subnets, :gateway, :string, :limit => 255
+    add_column :subnets, :dns_primary, :string, :limit => 255
+    add_column :subnets, :dns_secondary, :string, :limit => 255
   end
 
   def down

@@ -3,7 +3,7 @@ class CreateTaxableTaxonomies < ActiveRecord::Migration
     create_table :taxable_taxonomies do |t|
       t.integer :taxonomy_id
       t.integer :taxable_id
-      t.string :taxable_type
+      t.string :taxable_type, :limit => 255
 
       t.timestamps
     end

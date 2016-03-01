@@ -1,6 +1,6 @@
 class AddProvisionMethodToHosts < ActiveRecord::Migration
   def up
-    add_column :hosts, :provision_method, :string
+    add_column :hosts, :provision_method, :string, :limit => 255
     Host::Managed.unscoped.each do |h|
       h.update_attribute(:provision_method, h.capabilities.first)
     end
