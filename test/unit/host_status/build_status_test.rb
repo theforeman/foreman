@@ -2,7 +2,7 @@ require 'test_helper'
 
 class BuildStatusTest < ActiveSupport::TestCase
   def setup
-    @host = FactoryGirl.build(:host)
+    @host = FactoryGirl.build_stubbed(:host)
     @status = HostStatus::BuildStatus.new
     @status.host = @host
   end
@@ -11,13 +11,17 @@ class BuildStatusTest < ActiveSupport::TestCase
     assert_valid @status
   end
 
-  test '#to_label changes based on waiting_for_build?' do
-    @status.stub(:waiting_for_build?, true) do
-      assert_equal 'Pending installation', @status.to_label
-    end
-
-    @status.stub(:waiting_for_build?, false) do
-      assert_equal 'Installed', @status.to_label
+  # waiting_for_build?, token_expired?, expectation
+  [ [true,  false, 'Pending installation'],
+    [true,  true,  'Token expired'],
+    [false, true,  'Installed'],
+    [false, false, 'Installed'], ].each do | waiting_for_build, token_expired, expectation |
+    test "#to_label reflects waiting_for_build? = #{waiting_for_build} and token_expired? = #{token_expired}" do
+      @status.stub(:waiting_for_build?, waiting_for_build) do
+        @status.stub(:token_expired?, token_expired) do
+          assert_equal expectation, @status.to_label
+        end
+      end
     end
   end
 
