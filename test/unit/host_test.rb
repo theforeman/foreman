@@ -1717,6 +1717,15 @@ class HostTest < ActiveSupport::TestCase
       refute results.include?(host2)
     end
 
+    test "can search hosts by domain connected to their primary interface" do
+      host = FactoryGirl.create(:host, :managed)
+      domain = host.domain
+      domain.domain_parameters << DomainParameter.create(:name => "animal", :value => "dog")
+      parameter = domain.domain_parameters.first
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+      assert results.include?(host)
+    end
+
     test "can search hosts by inherited params from a hostgroup" do
       hg = hostgroups(:common)
       host = FactoryGirl.create(:host, :hostgroup => hg)
