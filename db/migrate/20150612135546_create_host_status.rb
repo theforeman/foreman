@@ -1,7 +1,7 @@
 class CreateHostStatus < ActiveRecord::Migration
   def up
     create_table :host_status do |t|
-      t.string :type
+      t.string :type, :limit => 255
       t.integer :status, :default => 0, :null => false, :limit => 5
       t.references :host, :null => false
       t.datetime :reported_at, :null => false

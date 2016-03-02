@@ -3,7 +3,7 @@ class CreateKeyPairs < ActiveRecord::Migration
     create_table :key_pairs do |t|
       t.text :secret
       t.integer :compute_resource_id
-      t.string :name
+      t.string :name, :limit => 255
 
       t.timestamps
     end

@@ -1,6 +1,6 @@
 class AddLabelToHostGroup < ActiveRecord::Migration
   def up
-    add_column :hostgroups, :label, :string
+    add_column :hostgroups, :label, :string, :limit => 255
 
     Hostgroup.reset_column_information
     execute "UPDATE hostgroups set label = name WHERE ancestry IS NULL"

@@ -3,7 +3,7 @@ class CreateComputeAttributes < ActiveRecord::Migration
     create_table :compute_attributes do |t|
       t.integer :compute_profile_id
       t.integer :compute_resource_id
-      t.string :name
+      t.string :name, :limit => 255
       t.text :vm_attrs
 
       t.timestamps

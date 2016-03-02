@@ -1,7 +1,7 @@
 class CreateTokens < ActiveRecord::Migration
   def up
     create_table :tokens do |t|
-      t.string :value
+      t.string :value, :limit => 255
       t.datetime :expires
       t.integer :host_id
     end

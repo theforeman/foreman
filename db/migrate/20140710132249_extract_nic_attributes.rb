@@ -29,9 +29,9 @@ end
 
 class ExtractNicAttributes < ActiveRecord::Migration
   def up
-    add_column :nics, :provider, :string
-    add_column :nics, :username, :string
-    add_column :nics, :password, :string
+    add_column :nics, :provider, :string, :limit => 255
+    add_column :nics, :username, :string, :limit => 255
+    add_column :nics, :password, :string, :limit => 255
 
     say "Extracting serialized attributes"
     FakeBMCNic.all.each do |nic|

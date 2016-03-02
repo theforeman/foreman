@@ -4,7 +4,7 @@ class CreateUserMailNotifications < ActiveRecord::Migration
       t.integer :user_id
       t.integer :mail_notification_id
       t.datetime :last_sent
-      t.string :interval
+      t.string :interval, :limit => 255
 
       t.timestamps
     end

@@ -1,7 +1,7 @@
 class CreateEnvironments < ActiveRecord::Migration
   def up
     create_table :environments do |t|
-      t.string :name, :null => false
+      t.string :name, :null => false, :limit => 255
       t.timestamps
     end
     create_table :environments_puppetclasses, :id => false do |t|

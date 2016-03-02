@@ -5,8 +5,8 @@ class AddHostGroupDefaults < ActiveRecord::Migration
     add_column :hostgroups, :architecture_id, :integer
     add_column :hostgroups, :medium_id, :integer
     add_column :hostgroups, :ptable_id, :integer
-    add_column :hostgroups, :root_pass, :string
-    add_column :hostgroups, :puppetmaster, :string
+    add_column :hostgroups, :root_pass, :string, :limit => 255
+    add_column :hostgroups, :puppetmaster, :string, :limit => 255
   end
 
   def down

@@ -1,6 +1,6 @@
 class AddLdapAvatarSupport < ActiveRecord::Migration
   def change
-    add_column :auth_sources, :attr_photo, :string
+    add_column :auth_sources, :attr_photo, :string, :limit => 255
     add_column :users, :avatar_hash, :string, :limit => 128
   end
 

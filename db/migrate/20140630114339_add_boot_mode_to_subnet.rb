@@ -4,7 +4,7 @@ class AddBootModeToSubnet < ActiveRecord::Migration
   end
 
   def up
-    add_column :subnets, :boot_mode, :string, :default => Subnet::BOOT_MODES[:static], :null => false
+    add_column :subnets, :boot_mode, :string, :default => Subnet::BOOT_MODES[:static], :null => false, :limit => 255
 
     FakeSubnet.reset_column_information
     FakeSubnet.all.each do |subnet|

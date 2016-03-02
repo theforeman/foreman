@@ -1,8 +1,8 @@
 class CreatePuppetclasses < ActiveRecord::Migration
   def up
     create_table :puppetclasses do |t|
-      t.string :name
-      t.string :nameindicator
+      t.string :name, :limit => 255
+      t.string :nameindicator, :limit => 255
       t.integer :operatingsystem_id
 
       t.timestamps

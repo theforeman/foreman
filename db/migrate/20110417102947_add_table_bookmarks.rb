@@ -1,12 +1,12 @@
 class AddTableBookmarks < ActiveRecord::Migration
   def up
     create_table :bookmarks, :force => true do |t|
-      t.column :name, :string
-      t.column :query, :string
-      t.column :controller, :string
+      t.column :name, :string, :limit => 255
+      t.column :query, :string, :limit => 255
+      t.column :controller, :string, :limit => 255
       t.column :public, :boolean
       t.column :owner_id, :integer
-      t.column :owner_type, :string
+      t.column :owner_type, :string, :limit => 255
     end
 
     add_index :bookmarks, :name

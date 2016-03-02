@@ -34,7 +34,7 @@ class AddPuppetMasterProxyToHostAndHostGroup < ActiveRecord::Migration
     rename_column :hosts, :puppet_ca_proxy_id, :puppetproxy_id
     remove_column :hostgroups, :puppet_proxy_id
     rename_column :hostgroups, :puppet_ca_proxy_id, :puppetproxy_id
-    add_column :hosts, :puppetmaster_name, :string
-    add_column :hostgroups, :puppetmaster_name, :string
+    add_column :hosts, :puppetmaster_name, :string, :limit => 255
+    add_column :hostgroups, :puppetmaster_name, :string, :limit => 255
   end
 end

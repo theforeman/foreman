@@ -1,7 +1,7 @@
 class CreateConfigTemplates < ActiveRecord::Migration
   def up
     create_table :config_templates do |t|
-      t.string :name
+      t.string :name, :limit => 255
       t.text :template
       t.boolean :snippet
       t.references :template_kind
