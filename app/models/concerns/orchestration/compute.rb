@@ -98,6 +98,7 @@ module Orchestration::Compute
 
     return false if errors.any?
     logger.info "Revoked old certificates and enabled autosign for UserData"
+    true
   end
 
   def delUserData
@@ -106,6 +107,8 @@ module Orchestration::Compute
     # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
     if puppetca?
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
+    else
+      true
     end
   rescue => e
     failure _("Failed to remove certificates for %{name}: %{e}") % { :name => name, :e => e }, e
