@@ -215,6 +215,22 @@ class SettingTest < ActiveSupport::TestCase
     check_value_returns_from_cache_with :name => "test_cache", :default => true, :value => true, :description => "test foo"
   end
 
+  test "create a setting with values collection " do
+    options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => {:a => "a", :b => "b"} } )
+    setting = Setting.create(options)
+    self.extend(SettingsHelper)
+    assert_equal self.send("#{setting.name}_collection"), { :a => "a", :b => "b" }
+  end
+
+  test "create a setting with a dynamic collection" do
+    dynamic_hash = {:a => "a"}
+    options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => dynamic_hash } )
+    setting = Setting.create(options)
+    dynamic_hash[:b] = "b"
+    self.extend(SettingsHelper)
+    assert_equal self.send("#{setting.name}_collection"), { :a => "a", :b => "b" }
+  end
+
   # tests for default type constraints
   test "arrays cannot be empty by default" do
     check_setting_did_not_save_with :name => "foo", :value => [], :default => ["a", "b", "c"], :description => "test foo"

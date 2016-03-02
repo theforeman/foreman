@@ -272,7 +272,12 @@ class Setting < ActiveRecord::Base
     true
   end
 
-  def self.set(name, description, default, full_name = nil, value = nil)
+  def self.set(name, description, default, full_name = nil, value = nil, options = {})
+    if options.has_key? :collection
+      SettingsHelper.module_eval do
+        define_method("#{name}_collection".to_sym){ options[:collection] }
+      end
+    end
     {:name => name, :value => value, :description => description, :default => default, :full_name => full_name}
   end
 
