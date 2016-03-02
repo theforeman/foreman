@@ -112,20 +112,42 @@ class SmartProxy < ActiveRecord::Base
   end
 
   def associate_features
-    return true if Rails.env == 'test'
-
     begin
-      reply = ProxyAPI::Features.new(:url => url).features
-      if reply.is_a?(Array) and reply.any?
-        self.features = Feature.where(:name => reply.map{|f| Feature.name_map[f]})
-      else
-        self.features.clear
-        errors.add :base, _('No features found on this proxy, please make sure you enable at least one feature')
-      end
+      proxy_response = ProxyAPI::Features.new(:url => url).features
     rescue => e
       errors.add(:base, _('Unable to communicate with the proxy: %s') % e)
       errors.add(:base, _('Please check the proxy is configured and running on the host.'))
     end
-    features.any?
+
+    return unless features_present?(proxy_response)
+    self.features = find_features(proxy_response)
+    unknown_features?(proxy_response, features)
+  end
+
+  def find_features(proxy_response)
+    Feature.where(:name => proxy_response.map{ |f| Feature.name_map[f] } )
+  end
+
+  def unknown_features?(proxy_response, features)
+    unknown_features = proxy_response - features.map(&:name).map(&:downcase)
+    if unknown_features.present?
+      errors.add(:base,
+                 _("None of the features found on this proxy"\
+                   "(%{unknown_features}) can be recognized by Foreman. "\
+                   "Please enable at least one feature Foreman %{version}"\
+                   "can recognize") %
+                  { :unknown_features => unknown_features,
+                    :version => SETTINGS[:version] } )
+    end
+  end
+
+  def features_present?(proxy_response)
+    if proxy_response.is_a?(Array) && proxy_response.any?
+      true
+    else
+      errors.add(:base, _("No features found on this proxy, please make sure you"\
+                          "enable at least one feature"))
+      false
+    end
   end
 end

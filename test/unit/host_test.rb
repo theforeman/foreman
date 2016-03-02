@@ -303,7 +303,7 @@ class HostTest < ActiveSupport::TestCase
     host = FactoryGirl.build(:host)
     refute host.configuration?
 
-    proxy = FactoryGirl.create(:smart_proxy)
+    proxy = FactoryGirl.create(:puppet_smart_proxy)
     host.puppet_proxy = proxy
     assert host.configuration?
   end

@@ -40,6 +40,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test "should create smart_proxy" do
+    ProxyAPI::Features.any_instance.stubs(:features).returns(['puppet'])
     assert_difference('SmartProxy.count') do
       post :create, { :smart_proxy => valid_attrs }
     end
@@ -47,6 +48,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test "should update smart_proxy" do
+    ProxyAPI::Features.any_instance.stubs(:features).returns(['puppet'])
     put :update, { :id => smart_proxies(:one).to_param, :smart_proxy => valid_attrs }
     assert_response :success
   end
