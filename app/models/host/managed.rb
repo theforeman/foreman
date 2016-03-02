@@ -262,6 +262,11 @@ class Host::Managed < Host::Base
                      :expires => Time.now.utc + Setting[:token_duration].minutes)
   end
 
+  def token_expired?
+    return false unless Setting[:token_duration] != 0 and self.token.present?
+    self.token.expires < Time.now.utc
+  end
+
   def expire_token
     self.token.delete if self.token.present?
   end
