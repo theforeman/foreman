@@ -111,4 +111,18 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     get :index, { :operatingsystem_id => operatingsystems(:centos5_3).fullname }
     assert_response :success
   end
+
+  test "should list templates with non-admin user" do
+    setup_user('view', 'provisioning_templates')
+    get :index, {}, set_session_user.merge(:user => User.current.id)
+    assert_response :success
+    templates = ActiveSupport::JSON.decode(@response.body)
+    assert !templates.empty?, "Should respond with templates"
+  end
+
+  test "should show template with non-admin user" do
+    setup_user('view', 'provisioning_templates')
+    get :show, { :id => templates(:pxekickstart).to_param }, set_session_user.merge(:user => User.current.id)
+    assert_response :success
+  end
 end

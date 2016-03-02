@@ -284,4 +284,32 @@ class Api::TestableControllerTest < ActionController::TestCase
       assert_equal(@response.body, cookies[:timezone])
     end
   end
+
+  describe '#resource_scope' do
+    it 'uses controller name for permission name suffix by default' do
+      @controller.expects(:action_permission).returns('view')
+      Testable.expects(:authorized).with('view_testable', Testable).returns(Testable)
+      @controller.resource_scope
+    end
+
+    it 'uses controller_permission for permission name suffix' do
+      @controller.expects(:controller_permission).returns('example')
+      @controller.expects(:action_permission).returns('view')
+      Testable.expects(:authorized).with('view_example', Testable).returns(Testable)
+      @controller.resource_scope
+    end
+
+    it 'uses :controller option for permission name suffix if set' do
+      @controller.expects(:controller_permission).never
+      @controller.expects(:action_permission).returns('view')
+      Testable.expects(:authorized).with('view_example', Testable).returns(Testable)
+      @controller.resource_scope(:controller => 'example')
+    end
+
+    it 'uses :permission option for permission name if set' do
+      @controller.expects(:action_permission).never
+      Testable.expects(:authorized).with('overridden', Testable).returns(Testable)
+      @controller.resource_scope(:permission => 'overridden')
+    end
+  end
 end

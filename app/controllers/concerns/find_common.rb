@@ -9,6 +9,10 @@ module FindCommon
     instance_variable_set("@#{resource_name}", resource_scope.find(params[:id]))
   end
 
+  def controller_permission
+    controller_name
+  end
+
   def resource_name(resource = controller_name)
     resource.singularize
   end
@@ -24,7 +28,7 @@ module FindCommon
   end
 
   def scope_for(resource, options = {})
-    controller = options.delete(:controller){ controller_name }
+    controller = options.delete(:controller){ controller_permission }
     # don't call the #action_permission method here, we are not sure if the resource is authorized at this point
     # calling #action_permission here can cause an exception, in order to avoid this, ensure :authorized beforehand
     permission = options.delete(:permission)
