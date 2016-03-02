@@ -162,7 +162,10 @@ module Hostext
 
         conditions += " AND " unless conditions.blank? || negate.blank?
         conditions += " NOT(#{negate})" unless negate.blank?
-        {:conditions => conditions}
+        {
+          :joins =>  :primary_interface,
+          :conditions => conditions
+        }
       end
 
       def search_by_config_group(key, operator, value)
@@ -209,7 +212,7 @@ module Hostext
             when 'CommonParameter'
               # ignore
             when 'DomainParameter'
-              conditions << "hosts.domain_id = #{param.reference_id}"
+              conditions << "nics.domain_id = #{param.reference_id}"
             when 'OsParameter'
               conditions << "hosts.operatingsystem_id = #{param.reference_id}"
             when 'GroupParameter'
