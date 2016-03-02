@@ -64,12 +64,15 @@ module Orchestration::SSHProvision
     self.handle_ca
     return false if errors.any?
     logger.info "Revoked old certificates and enabled autosign"
+    true
   end
 
   def delSSHCert
     # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
     if puppetca?
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
+    else
+      true
     end
   rescue => e
     failure _("Failed to remove certificates for %{name}: %{e}") % { :name => name, :e => e }, e
@@ -80,7 +83,11 @@ module Orchestration::SSHProvision
     if client.deploy!
       # since we are in a after_commit callback, we need to fetch our host again, and clean up puppet ca on our own
       Host.find(id).built
-      respond_to?(:initialize_puppetca,true) && initialize_puppetca && delAutosign if puppetca?
+      if puppetca? && respond_to?(:initialize_puppetca, true)
+        initialize_puppetca && delAutosign
+      else
+        true
+      end
     else
       if Setting[:clean_up_failed_deployment]
         logger.info "Deleting host #{name} because of non zero exit code of deployment script."
