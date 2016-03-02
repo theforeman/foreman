@@ -24,7 +24,7 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @config_templates = resource_scope_for_index(:permission => :view_provisioning_templates).includes(:template_kind)
+        @config_templates = resource_scope_for_index.includes(:template_kind)
       end
 
       api :GET, "/config_templates/:id", N_("Show provisioning template details")
