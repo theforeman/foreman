@@ -1447,55 +1447,75 @@ class HostTest < ActiveSupport::TestCase
 
     # Token tests
 
-    test "built should clean tokens" do
-      Setting[:token_duration] = 30
-      h = FactoryGirl.create(:host, :managed)
-      h.create_token(:value => "aaaaaa", :expires => Time.now.utc)
-      assert_equal Token.all.size, 1
-      h.expire_token
-      assert_equal Token.all.size, 0
+    context "tokens are enabled" do
+      setup do
+        Setting[:token_duration] = 30
+      end
+
+      test "built should clean tokens" do
+        h = FactoryGirl.create(:host, :managed)
+        h.create_token(:value => "aaaaaa", :expires => Time.now.utc)
+        assert_equal Token.all.size, 1
+        h.expire_token
+        assert_equal Token.all.size, 0
+      end
+
+      test "hosts should be able to retrieve their token if one exists" do
+        h = FactoryGirl.create(:host, :managed)
+        assert_equal Token.first, h.token
+      end
+
+      test "a token can be matched to a host" do
+        h = FactoryGirl.create(:host, :managed)
+        h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minutes)
+        assert_equal h, Host.for_token("aaaaaa").first
+      end
+
+      test "a token cannot be matched to a host when expired" do
+        h = FactoryGirl.create(:host, :managed)
+        h.create_token(:value => "aaaaaa", :expires => 1.minutes.ago)
+        refute Host.for_token("aaaaaa").first
+      end
+
+      test "deleting an host with an expired token does not cause a Foreign Key error" do
+        h = FactoryGirl.create(:host, :managed)
+        h.create_token(:value => "aaaaaa", :expires => 5.minutes.ago)
+        assert_nothing_raised(ActiveRecord::InvalidForeignKey) {h.reload.destroy}
+      end
+
+      test "token_expired? should be true if expiration date is in the past" do
+        h = FactoryGirl.create(:host, :managed)
+        h.create_token(:value => "aaaaaa", :expires => Time.now.utc - 1)
+        assert_equal h.token_expired?, true
+      end
+
+      test "token_expired? should be false if expiration date is in the future" do
+        h = FactoryGirl.create(:host, :managed)
+        h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 30)
+        assert_equal h.token_expired?, false
+      end
     end
 
-    test "built should clean tokens even when tokens are disabled" do
-      Setting[:token_duration] = 0
-      h = FactoryGirl.create(:host, :managed)
-      h.create_token(:value => "aaaaaa", :expires => Time.now.utc)
-      assert_equal Token.all.size, 1
-      h.expire_token
-      assert_equal Token.all.size, 0
-    end
+    context "tokens are disabled" do
+      setup do
+        Setting[:token_duration] = 0
+      end
 
-    test "hosts should be able to retrieve their token if one exists" do
-      Setting[:token_duration] = 30
-      h = FactoryGirl.create(:host, :managed)
-      assert_equal Token.first, h.token
-    end
+      test "built should clean tokens even when tokens are disabled" do
+        h = FactoryGirl.create(:host, :managed)
+        h.create_token(:value => "aaaaaa", :expires => Time.now.utc)
+        assert_equal Token.all.size, 1
+        h.expire_token
+        assert_equal Token.all.size, 0
+      end
 
-    test "token should return false when tokens are disabled or invalid" do
-      Setting[:token_duration] = 0
-      h = FactoryGirl.create(:host, :managed)
-      assert_equal h.token, nil
-      Setting[:token_duration] = 30
-      h.reload
-      assert_equal h.token, nil
-    end
-
-    test "a token can be matched to a host" do
-      h = FactoryGirl.create(:host, :managed)
-      h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minutes)
-      assert_equal h, Host.for_token("aaaaaa").first
-    end
-
-    test "a token cannot be matched to a host when expired" do
-      h = FactoryGirl.create(:host, :managed)
-      h.create_token(:value => "aaaaaa", :expires => 1.minutes.ago)
-      refute Host.for_token("aaaaaa").first
-    end
-
-    test "deleting an host with an expired token does not cause a Foreign Key error" do
-      h = FactoryGirl.create(:host, :managed)
-      h.create_token(:value => "aaaaaa", :expires => 5.minutes.ago)
-      assert_nothing_raised(ActiveRecord::InvalidForeignKey) {h.reload.destroy}
+      test "token should return false when tokens are disabled or invalid" do
+        h = FactoryGirl.create(:host, :managed)
+        assert_equal h.token, nil
+        Setting[:token_duration] = 30
+        h.reload
+        assert_equal h.token, nil
+      end
     end
 
     test "can search hosts by hostgroup" do
