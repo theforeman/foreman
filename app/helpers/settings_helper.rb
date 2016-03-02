@@ -1,4 +1,9 @@
 module SettingsHelper
+  extend ActiveSupport::Concern
+  included do
+    alias_method_chain :value, :collection
+  end
+
   def value(setting)
     if setting.readonly?
       return readonly_field(
@@ -7,20 +12,16 @@ module SettingsHelper
     end
 
     case setting.settings_type
-    when "boolean"
-      edit_select(setting, :value, {:select_values => {:true => "true", :false => "false"}.to_json } )
-    else
-      case setting.name
-      when "default_location"
-        edit_select(setting, :value, {:select_values => Hash[Location.all.map{|loc| [loc[:title], loc[:title]]}].to_json } )
-      when "default_organization"
-        edit_select(setting, :value, {:select_values => Hash[Organization.all.map{|org| [org[:title], org[:title]]}].to_json } )
-      when "default_puppet_environment"
-        edit_select(setting, :value, {:select_values => Hash[Environment.all.map{|env| [env[:name], env[:name]]}].to_json } )
+      when "boolean"
+        edit_select(setting, :value, {:select_values => {:true => "true", :false => "false"}.to_json } )
       else
         edit_textfield(setting, :value,{:helper => :show_value})
-      end
     end
+  end
+
+  def value_with_collection(setting)
+    return value_without_collection(setting) unless self.respond_to? "#{setting.name}_collection"
+    edit_select(setting, :value, {:select_values => self.send("#{setting.name}_collection").to_json } )
   end
 
   def show_value(setting)

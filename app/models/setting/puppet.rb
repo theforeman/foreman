@@ -7,7 +7,7 @@ class Setting::Puppet < Setting
       [
         self.set('puppet_interval', N_("Puppet interval in minutes"), 30, N_('Puppet interval')),
         self.set('outofsync_interval', N_("Duration in minutes after the Puppet interval for servers to be classed as out of sync."), 5, N_('Out of sync interval')),
-        self.set('default_puppet_environment', N_("Foreman will default to this puppet environment if it cannot auto detect one"), "production", N_('Default Puppet environment')),
+        self.set('default_puppet_environment', N_("Foreman will default to this puppet environment if it cannot auto detect one"), "production", N_('Default Puppet environment'), nil, { :collection => Hash[Environment.all.map{|env| [env[:name], env[:name]]}] }),
         self.set('modulepath',N_("Foreman will set this as the default Puppet module path if it cannot auto detect one"), "/etc/puppet/modules", N_('Module path')),
         self.set('document_root', N_("Document root where puppetdoc files should be created"), "#{Rails.root}/public/puppet/rdoc", N_('Document root')),
         self.set('puppetrun', N_("Enable puppetrun support"), false, N_('Puppetrun')),
@@ -25,8 +25,8 @@ class Setting::Puppet < Setting
         self.set('legacy_puppet_hostname', N_("Foreman will truncate hostname to 'puppet' if it starts with puppet"), false, N_('Legacy Puppet hostname')),
         self.set('location_fact', N_("Hosts created after a puppet run will be placed in the location this fact dictates. The content of this fact should be the full label of the location."), 'foreman_location', N_('Location fact')),
         self.set('organization_fact', N_("Hosts created after a puppet run will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."), 'foreman_organization', N_('Organization fact')),
-        self.set('default_location', N_("Hosts created after a puppet run that did not send a location fact will be placed in this location"), '', N_('Default location')),
-        self.set('default_organization', N_("Hosts created after a puppet run that did not send a organization fact will be placed in this organization"), '', N_('Default organization')),
+        self.set('default_location', N_("Hosts created after a puppet run that did not send a location fact will be placed in this location"), '', N_('Default location'), nil, { :collection => Hash[Location.all.map{|loc| [loc[:title], loc[:title]]}] }),
+        self.set('default_organization', N_("Hosts created after a puppet run that did not send a organization fact will be placed in this organization"), '', N_('Default organization'), nil, {:collection => Hash[Organization.all.map{|org| [org[:title], org[:title]]}] }),
         self.set('always_show_configuration_status', N_("All hosts will show a configuration status even when a Puppet smart proxy is not assigned"), false, N_('Always show configuration status')),
       ].compact.each { |s| self.create s.update(:category => "Setting::Puppet")}
 
