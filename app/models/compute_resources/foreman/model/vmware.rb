@@ -394,6 +394,7 @@ module Foreman::Model
         "start" => args[:start],
         "name" => args[:name],
         "numCPUs" => args[:cpus],
+        "numCoresPerSocket" => args[:corespersocket],
         "memoryMB" => args[:memory_mb],
         "datastore" => args[:volumes].first[:datastore],
         "storage_pod" => args[:volumes].first[:storage_pod],
