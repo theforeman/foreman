@@ -6,23 +6,23 @@
   }
 
   .sorting {
-    background: url('sort_both.png') no-repeat center right;
+    background: image-url('sort_both.png') no-repeat center right;
   }
 
   .sorting_asc {
-    background: url('sort_asc.png') no-repeat center right;
+    background: image-url('sort_asc.png') no-repeat center right;
   }
 
   .sorting_desc {
-    background: url('sort_desc.png') no-repeat center right;
+    background: image-url('sort_desc.png') no-repeat center right;
   }
 
   .sorting_asc_disabled {
-    background: url('sort_asc_disabled.png') no-repeat center right;
+    background: image-url('sort_asc_disabled.png') no-repeat center right;
   }
 
   .sorting_desc_disabled {
-    background: url('sort_desc_disabled.png') no-repeat center right;
+    background: image-url('sort_desc_disabled.png') no-repeat center right;
   }
 }
 
