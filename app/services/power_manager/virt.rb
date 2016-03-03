@@ -14,37 +14,36 @@ module PowerManager
       end
     end
 
-    def state
+    def virt_state
       # make sure we fetch latest vm status
       vm.reload
       vm.state
     end
 
-    (SUPPORTED_ACTIONS - ['state']).each do |method|
-      define_method method do
-        vm.send(action_map[method.to_sym])
-      end
+    def state_output(result)
+      result = result.to_s
+      return 'on' if result.match(/started/i)
+      return 'off' if result.match(/paused/i)
+      translate_status(result) # unknown output
+    end
+
+    def default_action(action)
+      vm.send(action)
+    end
+
+    def action_map
+      super.deep_merge({
+                         :on       => 'start',
+                         :off      => 'stop',
+                         :soft     => 'reboot',
+                         :cycle    => 'reset',
+                         :status   => {:action => :virt_state, :output => :state_output},
+                         :state    => {:action => :virt_state, :output => :state_output}
+                       })
     end
 
     private
 
     attr_reader :vm
-
-    def action_map
-      {
-        :on       => 'start',
-        :off      => 'stop',
-        :soft     => 'reboot',
-        :reboot   => 'reboot',
-        :cycle    => 'reset',
-        :status   => 'state',
-        :start    => 'start',
-        :stop     => 'stop',
-        :poweroff => 'poweroff',
-        :reset    => 'reset',
-        :state    => 'state',
-        :ready?   => 'ready?'
-      }
-    end
   end
 end

@@ -5,12 +5,6 @@ module PowerManager
       @proxy = host.bmc_proxy
     end
 
-    SUPPORTED_ACTIONS.each do |method|
-      define_method method do # def start
-        proxy.power(:action => action_map[method.to_sym]) #   proxy.power(:action => 'on')
-      end # end
-    end
-
     def ready?
       status == 'on'
     end
@@ -21,19 +15,19 @@ module PowerManager
 
     #TODO: consider moving this to the proxy code, so we can just delegate like as with Virt.
     def action_map
-      {
-        :start    => 'on',
-        :stop     => 'off',
-        :poweroff => 'off',
-        :reboot   => 'soft',
-        :reset    => 'cycle',
-        :state    => 'status',
-        :on       => 'on',
-        :off      => 'off',
-        :soft     => 'soft',
-        :cycle    => 'cycle',
-        :status   => 'status'
-      }
+      super.deep_merge({
+                         :start    => 'on',
+                         :stop     => 'off',
+                         :poweroff => 'off',
+                         :reboot   => 'soft',
+                         :reset    => 'cycle',
+                         :state    => 'status',
+                         :ready?   => 'ready?'
+                       })
+    end
+
+    def default_action(action)
+      proxy.power(:action => action.to_s) #   proxy.power(:action => 'on')
     end
   end
 end
