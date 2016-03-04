@@ -61,6 +61,23 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     assert_equal proxy, @controller.detected_proxy
   end
 
+  def test_certificate_with_dn_and_empty_san_permits_access
+    Setting[:ssl_client_dn_env] = 'SSL_CLIENT_S_DN'
+    Setting[:ssl_client_verify_env] = 'SSL_CLIENT_VERIFY'
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_CERT'] = 'raw certificate'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+
+    mock_cert = mock()
+    mock_cert.expects(:subject).at_least_once.returns('proxy.example.com')
+    mock_cert.expects(:subject_alternative_names).at_least_once.returns([])
+    CertificateExtract.expects(:new).with('raw certificate').returns(mock_cert)
+
+    proxy = FactoryGirl.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
+    assert @controller.send(:auth_smart_proxy)
+    assert_equal proxy, @controller.detected_proxy
+  end
+
   def test_certificate_with_sans_permits_access
     Setting[:ssl_client_cert_env] = 'SSL_CLIENT_CERT'
     Setting[:ssl_client_verify_env] = 'SSL_CLIENT_VERIFY'
