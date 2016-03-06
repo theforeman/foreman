@@ -455,7 +455,7 @@ table {
 }
 
 .select2-arrow > b{
-  margin: -4px 0 0 0;
+  margin: -2px 0 0 0;
 }
 
 .icon-white {
@@ -468,7 +468,10 @@ table {
 }
 
 .navbar-editor > span > .select2-container .select2-choices .select2-search-field input, .select2-container .select2-choice, .select2-container .select2-choices .select2-chosen {
-  height: 26px;
+  height: 24px;
+  .select2-search-choice-close {
+    top: 6px;
+  }
 }
 
 .select2-chosen, .select2-choice > span:first-child, .select2-container .select2-choices .select2-search-field input{
