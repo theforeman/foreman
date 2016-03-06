@@ -9,15 +9,12 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   before do
     SETTINGS[:locations_enabled] = false
     SETTINGS[:organizations_enabled] = false
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.start
     as_admin { @host = FactoryGirl.create(:host, :with_puppet, :managed) }
   end
 
   after do
     SETTINGS[:locations_enabled] = true
     SETTINGS[:organizations_enabled] = true
-    DatabaseCleaner.clean
   end
 
   def class_params
@@ -448,18 +445,18 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
-      assert page.has_selector?('#inherited_parameters .btn[data-tag=override]')
+      assert_selector('#inherited_parameters .btn[data-tag=override]')
       page.find('#inherited_parameters .btn[data-tag=override]').click
-      assert page.has_no_selector?('#inherited_parameters .btn[data-tag=override]')
+      refute_selector('#inherited_parameters .btn[data-tag=override]')
       click_button('Submit')
       assert page.has_link?("Edit")
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
-      assert page.has_no_selector?('#inherited_parameters .btn[data-tag=override]')
+      refute_selector('#inherited_parameters .btn[data-tag=override]')
       page.find('#global_parameters_table a[data-original-title="Remove Parameter"]').click
-      assert page.has_selector?('#inherited_parameters .btn[data-tag=override]')
+      assert_selector('#inherited_parameters .btn[data-tag=override]')
     end
 
     test 'shows errors on invalid lookup values' do

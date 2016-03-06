@@ -20,14 +20,15 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "edit page" do
-    visit smart_proxies_path
-    click_link "DHCP Proxy"
-    click_link "Edit"
-    fill_in "smart_proxy_name", :with => "DHCP Secure"
-    fill_in "smart_proxy_url", :with => "https://secure.net:8443"
-    assert_submit_button(smart_proxy_path(smart_proxies(:one)))
-    assert page.has_title? 'DHCP Secure'
-    assert page.has_content? "https://secure.net:8443"
+    disable_taxonomies do
+      visit edit_smart_proxy_path(smart_proxies(:one))
+      fill_in "smart_proxy_name", :with => "DHCP Secure"
+      fill_in "smart_proxy_url", :with => "https://secure.net:8443"
+      assert_submit_button(smart_proxies_path)
+      click_link "DHCP Secure"
+      assert_title(/DHCP Secure/)
+      assert page.has_content? "https://secure.net:8443"
+    end
   end
 
   test "show page" do
