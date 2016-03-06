@@ -68,7 +68,7 @@ module Foreman::Controller::SmartProxyAuth
           # If the client sent certificate contains a subject or sans, use them for request_hosts, else fall back to the dn set in the request environment
           request_hosts = []
           if certificate
-            if certificate.subject_alternative_names
+            if certificate.subject_alternative_names.present?
               request_hosts += certificate.subject_alternative_names
             elsif certificate.subject
               request_hosts << certificate.subject
