@@ -5,7 +5,7 @@ class UsergroupsController < ApplicationController
   after_filter  :refresh_external_usergroups, :only => [:create, :update]
 
   def index
-    @usergroups = resource_base.includes(:usergroups).paginate(:page => params[:page])
+    @usergroups = resource_base.includes(:usergroups).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new

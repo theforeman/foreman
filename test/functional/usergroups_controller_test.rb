@@ -76,4 +76,18 @@ class UsergroupsControllerTest < ActionController::TestCase
     }}}, set_session_user
     assert_response :redirect
   end
+
+  test 'index supports search' do
+    FactoryGirl.create(:usergroup, :name => 'aaa')
+    FactoryGirl.create(:usergroup, :name => 'bbb')
+
+    get :index, {:search => 'aaa'}, set_session_user
+
+    assert_response :success
+
+    assert_select 'table' do
+      assert_select 'span', {:text => 'aaa'}
+      assert_select 'span', {:text => 'bbb', :count => 0 }
+    end
+  end
 end
