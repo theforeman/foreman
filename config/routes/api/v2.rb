@@ -206,6 +206,11 @@ Foreman::Application.routes.draw do
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         resources :domains, :except => [:new, :edit]
         resources :interfaces, :except => [:new, :edit]
+        resources :parameters, :except => [:new, :edit] do
+          collection do
+            delete '/', :action => :reset
+          end
+        end
       end
 
       resources :usergroups, :except => [:new, :edit] do

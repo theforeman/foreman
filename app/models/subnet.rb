@@ -10,7 +10,8 @@ class Subnet < ActiveRecord::Base
   include Parameterizable::ByIdName
   include EncOutput
   attr_accessible :name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :ipam, :from,
-    :to, :vlanid, :boot_mode, :dhcp_id, :dhcp, :tftp_id, :tftp, :dns_id, :dns, :domain_ids, :domain_names
+    :to, :vlanid, :boot_mode, :dhcp_id, :dhcp, :tftp_id, :tftp, :dns_id, :dns, :domain_ids, :domain_names,
+    :subnet_parameters_attributes
 
   audited :allow_mass_assignment => true
 
@@ -26,6 +27,9 @@ class Subnet < ActiveRecord::Base
   has_many :primary_interfaces, -> { where(:primary => true) }, :class_name => 'Nic::Base'
   has_many :hosts, :through => :interfaces
   has_many :primary_hosts, :through => :primary_interfaces, :source => :host
+  has_many :subnet_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :subnet
+  has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "SubnetParameter"
+  accepts_nested_attributes_for :subnet_parameters, :allow_destroy => true
   validates :network, :mask, :name, :presence => true
   validates_associated    :subnet_domains
   validates :network, :format => {:with => Net::Validations::IP_REGEXP}
@@ -58,6 +62,7 @@ class Subnet < ActiveRecord::Base
                         :vlanid, :ipam, :boot_mode], :complete_value => true
 
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
+  scoped_search :in => :subnet_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
 
   class Jail < ::Safemode::Jail
     allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary,

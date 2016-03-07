@@ -97,6 +97,13 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_not_empty show_response
   end
 
+  test "should show a subnet parameter" do
+    get :show, {:subnet_id => subnets(:five).to_param, :id => parameters(:subnet).to_param }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_not_empty show_response
+  end
+
   test "should show correct parameter if id is name even if name is not unique" do
     # parameters(:os).name = 'os1' in fixtures
     # create DomainParamter with name name
@@ -119,6 +126,14 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     domain = domains(:mydomain)
     assert_difference('domain.parameters.count') do
       post :create, { :domain_id => domain.to_param, :parameter => valid_attrs }
+    end
+    assert_response :created
+  end
+
+  test "should create subnet parameter" do
+    subnet = subnets(:five)
+    assert_difference('subnet.parameters.count') do
+      post :create, { :subnet_id => subnet.to_param, :parameter => valid_attrs }
     end
     assert_response :created
   end
@@ -151,6 +166,12 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_equal Domain.find_by_name("mydomain.net").parameters.order("parameters.updated_at").last.value, "123"
   end
 
+  test "should update nested subnet parameter" do
+    put :update, { :subnet_id => subnets(:five).to_param, :id => parameters(:subnet).to_param, :parameter => valid_attrs  }
+    assert_response :success
+    assert_equal Subnet.find_by_name("five").parameters.order("parameters.updated_at").last.value, "123"
+  end
+
   test "should update nested hostgroup parameter" do
     put :update, { :hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param, :parameter => valid_attrs  }
     assert_response :success
@@ -173,6 +194,13 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should destroy nested domain parameter" do
     assert_difference('DomainParameter.count', -1) do
       delete :destroy, { :domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param }
+    end
+    assert_response :success
+  end
+
+  test "should destroy nested subnet parameter" do
+    assert_difference('SubnetParameter.count', -1) do
+      delete :destroy, { :subnet_id => subnets(:five).to_param, :id => parameters(:subnet).to_param }
     end
     assert_response :success
   end
@@ -201,6 +229,13 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should reset nested domain parameter" do
     assert_difference('DomainParameter.count', -1) do
       delete :reset, { :domain_id => domains(:mydomain).to_param }
+    end
+    assert_response :success
+  end
+
+  test "should reset nested subnet parameter" do
+    assert_difference('SubnetParameter.count', -1) do
+      delete :reset, { :subnet_id => subnets(:five).to_param }
     end
     assert_response :success
   end
@@ -236,6 +271,10 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
     test "should get index for specific domain fitered by name" do
       assert_filtering_works :domain, domains(:mydomain).to_param
+    end
+
+    test "should get index for specific subnet fitered by name" do
+      assert_filtering_works :subnet, subnets(:five).to_param
     end
 
     test "should get index for specific hostgroup fitered by name" do

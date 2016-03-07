@@ -40,3 +40,9 @@ org:
   value: xyz
   type: OrganizationParameter
   organization: organization1
+
+subnet:
+  name: parameter
+  value: subnet1
+  type: SubnetParameter
+  subnet: five

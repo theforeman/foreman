@@ -52,6 +52,7 @@ module HostParams
       end
 
       params += domain.domain_parameters if domain
+      params += subnet.subnet_parameters if subnet
       params += operatingsystem.os_parameters if operatingsystem
       params += extract_params_from_object_ancestors(hostgroup) if hostgroup
       params

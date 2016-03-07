@@ -9,7 +9,7 @@ module Api
 
       resource_description do
         desc <<-DOC
-          These API calls are related to <b>nested parameters for a host, domain, host group, operating system</b>. If you are looking for
+          These API calls are related to <b>nested parameters for a host, domain, subnet, host group, operating system</b>. If you are looking for
           <a href="common_parameters.html">global parameters</a>, go to <a href="common_parameters.html">this link</a>.
         DOC
       end
@@ -20,12 +20,14 @@ module Api
       api :GET, "/operatingsystems/:operatingsystem_id/parameters", N_("List all parameters for an operating system")
       api :GET, "/locations/:location_id/parameters", N_("List all parameters for a location")
       api :GET, "/organizations/:organization_id/parameters", N_("List all parameters for an organization")
+      api :GET, "/subnets/:subnet_id/parameters", N_("List all parameters for a subnet")
       param :host_id, String, :desc => N_("ID of host")
       param :hostgroup_id, String, :desc => N_("ID of host group")
       param :domain_id, String, :desc => N_("ID of domain")
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
+      param :subnet_id, String, :desc => N_("ID of subnet")
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
@@ -39,12 +41,14 @@ module Api
       api :GET, "/operatingsystems/:operatingsystem_id/parameters/:id", N_("Show a nested parameter for an operating system")
       api :GET, "/locations/:location_id/parameters/:id", N_("Show a nested parameter for a location")
       api :GET, "/organizations/:organization_id/parameters/:id", N_("Show a nested parameter for an organization")
+      api :GET, "/subnets/:subnet_id/parameters/:id", N_("Show a nested parameter for a subnet")
       param :host_id, String, :desc => N_("ID of host")
       param :hostgroup_id, String, :desc => N_("ID of host group")
       param :domain_id, String, :desc => N_("ID of domain")
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
+      param :subnet_id, String, :desc => N_("ID of subnet")
       param :id, String, :required => true, :desc => N_("ID of parameter")
 
       def show
@@ -63,12 +67,14 @@ module Api
       api :POST, "/operatingsystems/:operatingsystem_id/parameters/", N_("Create a nested parameter for an operating system")
       api :POST, "/locations/:location_id/parameters/", N_("Create a nested parameter for a location")
       api :POST, "/organizations/:organization_id/parameters/", N_("Create a nested parameter for an organization")
+      api :POST, "/subnets/:subnet_id/parameters/", N_("Create a nested parameter for a subnet")
       param :host_id, String, :desc => N_("ID of host")
       param :hostgroup_id, String, :desc => N_("ID of host group")
       param :domain_id, String, :desc => N_("ID of domain")
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
+      param :subnet_id, String, :desc => N_("ID of subnet")
       param_group :parameter, :as => :create
 
       def create
@@ -83,6 +89,7 @@ module Api
       api :PUT, "/operatingsystems/:operatingsystem_id/parameters/:id", N_("Update a nested parameter for an operating system")
       api :PUT, "/locations/:location_id/parameters/:id", N_("Update a nested parameter for a location")
       api :PUT, "/organizations/:organization_id/parameters/:id", N_("Update a nested parameter for an organization")
+      api :PUT, "/subnets/:subnet_id/parameters/:id", N_("Update a nested parameter for a subnet")
       param :host_id, String, :desc => N_("ID of host")
       param :hostgroup_id, String, :desc => N_("ID of host group")
       param :domain_id, String, :desc => N_("ID of domain")
@@ -90,6 +97,7 @@ module Api
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
       param :id, String, :required => true, :desc => N_("ID of parameter")
+      param :subnet_id, String, :desc => N_("ID of subnet")
       param_group :parameter
 
       def update
@@ -102,6 +110,7 @@ module Api
       api :DELETE, "/operatingsystems/:operatingsystem_id/parameters/:id", N_("Delete a nested parameter for an operating system")
       api :DELETE, "/locations/:location_id/parameters/:id", N_("Delete a nested parameter for a location")
       api :DELETE, "/organizations/:organization_id/parameters/:id", N_("Delete a nested parameter for an organization")
+      api :DELETE, "/subnets/:subnet_id/parameters/:id", N_("Delete a nested parameter for a subnet")
       param :host_id, String, :desc => N_("ID of host")
       param :hostgroup_id, String, :desc => N_("ID of host group")
       param :domain_id, String, :desc => N_("ID of domain")
@@ -109,6 +118,7 @@ module Api
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
       param :id, String, :required => true, :desc => N_("ID of parameter")
+      param :subnet_id, String, :desc => N_("ID of subnet")
 
       def destroy
         process_response @parameter.destroy
@@ -120,12 +130,14 @@ module Api
       api :DELETE, "/operatingsystems/:operatingsystem_id/parameters", N_("Delete all nested parameters for an operating system")
       api :DELETE, "/locations/:location_id/parameters", N_("Delete all nested parameter for a location")
       api :DELETE, "/organizations/:organization_id/parameters", N_("Delete all nested parameter for an organization")
+      api :DELETE, "/subnets/:subnet_id/parameters", N_("Delete all nested parameters for a subnet")
       param :host_id, String, :desc => N_("ID of host")
       param :hostgroup_id, String, :desc => N_("ID of host group")
       param :domain_id, String, :desc => N_("ID of domain")
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
+      param :subnet_id, String, :desc => N_("ID of subnet")
 
       def reset
         @parameter = nested_obj.send(parameters_method)
@@ -159,7 +171,7 @@ module Api
       end
 
       def allowed_nested_id
-        %w(host_id hostgroup_id domain_id operatingsystem_id location_id organization_id)
+        %w(host_id hostgroup_id domain_id subnet_id operatingsystem_id location_id organization_id)
       end
 
       def find_parameter

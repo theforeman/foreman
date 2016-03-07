@@ -29,6 +29,7 @@ module ParameterValidators
       when Domain          then :domain_parameters
       when Organization    then :organization_parameters
       when Location        then :location_parameters
+      when Subnet          then :subnet_parameters
     end
   end
 end
