@@ -10,7 +10,7 @@ task :fix_cached_counters => :environment do
     el.update_attribute('total_hosts', Nic::Base.primary.where(:domain_id => el.id).count)
   end
   puts "Domains corrected"
-  Puppetclass.all.each{|el| Puppetclass.reset_counters(el.id, :hostgroup_classes, :lookup_keys)}
+  Puppetclass.all.each{|el| Puppetclass.reset_counters(el.id, :lookup_keys)}
   puts "Puppetclass corrected"
   Model.all.each{|el| Model.reset_counters(el.id, :hosts)}
   puts "Model corrected"
