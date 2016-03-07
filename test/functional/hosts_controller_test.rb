@@ -1064,6 +1064,20 @@ class HostsControllerTest < ActionController::TestCase
     refute host.compute_resource_id
   end
 
+  test '#multiple_disassociate with vm' do
+    host = FactoryGirl.create(:host, :on_compute_resource)
+    post :multiple_disassociate, {:host_ids => [host.id], :host_names => [host.name]}, set_session_user
+    assert_equal 1, assigns(:non_physical_hosts).count
+    assert_equal 0, assigns(:physical_hosts).count
+  end
+
+  test '#multiple_disassociate with physical host' do
+    host = FactoryGirl.create(:host)
+    post :multiple_disassociate, {:host_ids => [host.id], :host_names => [host.name]}, set_session_user
+    assert_equal 0, assigns(:non_physical_hosts).count
+    assert_equal 1, assigns(:physical_hosts).count
+  end
+
   test '#review_before_build' do
     HostBuildStatus.any_instance.stubs(:host_status).returns(true)
     xhr :get, :review_before_build, {:id => @host.name}, set_session_user

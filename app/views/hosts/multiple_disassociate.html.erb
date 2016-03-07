@@ -1,5 +1,8 @@
-<%= render 'selected_hosts', :hosts => @hosts %>
+<%= render 'selected_hosts', :hosts => @non_physical_hosts %>
 
 <%= form_tag update_multiple_disassociate_hosts_path({:host_ids => params[:host_ids]}) do %>
   <small><%= _('Disassociate the selected hosts from their VMs') %></small>
+  <br>
+  <%= _('The list is excluding %s ') % (@hosts.count - @non_physical_hosts.count) %>
+  <%= link_to(_('physical hosts'), hosts_path(:search => "name ^ (#{@physical_hosts.join(',')})")) %>
 <% end %>
