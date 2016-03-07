@@ -18,7 +18,7 @@ class Parameter < ActiveRecord::Base
   before_validation :strip_whitespaces
   after_initialize :set_priority, :ensure_reference_nil
 
-  PRIORITY = {:common_parameter => 0, :domain_parameter => 1, :os_parameter => 2, :group_parameter => 3, :host_parameter => 4}
+  PRIORITY = {:common_parameter => 0, :domain_parameter => 1, :subnet_parameter => 2, :os_parameter => 3, :group_parameter => 4, :host_parameter => 5}
 
   def self.reassign_priorities
     # priorities will be reassigned because of after_initialize

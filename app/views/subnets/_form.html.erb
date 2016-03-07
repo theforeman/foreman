@@ -5,6 +5,7 @@
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Subnet") %></a></li>
     <li><a href="#domains" data-toggle="tab"><%= _("Domains") %></a></li>
     <li><a href="#proxies" data-toggle="tab"><%= _("Proxies") %></a></li>
+    <li><a href="#params" data-toggle="tab"><%= _("Parameters") %></a></li>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
     <% end %>
@@ -28,6 +29,10 @@
         {:include_blank => _("None")}, :label => _("TFTP Proxy"), :help_inline => _("TFTP Proxy to use within this subnet") %>
       <%= select_f f, :dns_id, SmartProxy.with_features("DNS"), :id, :name,
         {:include_blank => _("None")}, :label => _("Reverse DNS Proxy"), :help_inline => _("DNS Proxy to use within this subnet for managing PTR records, note that A records are managed via Domain DNS proxy") %>
+    </div>
+
+    <div class="tab-pane" id="params">
+      <%= render "common_parameters/parameters", { :f => f, :type => :subnet_parameters } %>
     </div>
 
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @subnet %>

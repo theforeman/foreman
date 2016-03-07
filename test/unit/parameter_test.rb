@@ -18,16 +18,22 @@ class ParameterTest < ActiveSupport::TestCase
     assert p5.save
     p6 = OrganizationParameter.new  :name => "param", :value => "value6", :reference_id => Organization.first.id
     assert p6.save
+    p7 = SubnetParameter.new :name => "param", :value => "value7", :reference_id => Subnet.first.id
+    assert p7.save
+    p8 = OsParameter.new :name => "param", :value => "value8", :reference_id => Operatingsystem.first.id
+    assert p8.save
   end
 
   test "parameters are hierarchically applied" do
     CommonParameter.create :name => "animal", :value => "cat"
 
-    host         = FactoryGirl.create(:host, :with_hostgroup, :managed)
+    host         = FactoryGirl.create(:host, :with_hostgroup, :with_subnet, :managed)
     organization = host.organization
     location     = host.location
     domain       = host.domain
     hostgroup    = host.hostgroup
+    subnet       = host.subnet
+    os           = host.operatingsystem
 
     CommonParameter.create :name => "animal", :value => "cat"
     assert_equal "cat", host.host_params["animal"]
@@ -43,6 +49,14 @@ class ParameterTest < ActiveSupport::TestCase
     domain.domain_parameters << DomainParameter.create(:name => "animal", :value => "dog")
     host.clear_host_parameters_cache!
     assert_equal "dog", host.host_params["animal"]
+
+    subnet.subnet_parameters << SubnetParameter.create(:name => "animal", :value => "pigeon")
+    host.clear_host_parameters_cache!
+    assert_equal "pigeon", host.host_params["animal"]
+
+    os.os_parameters << OsParameter.create(:name => "animal", :value => "tortoise")
+    host.clear_host_parameters_cache!
+    assert_equal "tortoise", host.host_params["animal"]
 
     hostgroup.group_parameters << GroupParameter.create(:name => "animal",:value => "cow")
     host.clear_host_parameters_cache!
