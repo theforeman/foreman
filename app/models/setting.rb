@@ -9,14 +9,9 @@ class Setting < ActiveRecord::Base
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend outofsync_interval }
   BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret }
   URI_ATTRS = %w{ foreman_url unattended_url }
-
-  class UriValidator < ActiveModel::EachValidator
-    def validate_each(record, attribute, value)
-      record.errors.add attribute, _("must be a valid URI") unless %w(http https).include? URI(value).scheme
-    rescue URI::InvalidURIError
-      record.errors.add attribute, _("must be a valid URI")
-    end
-  end
+  URI_BLANK_ATTRS = %w{ login_delegation_logout_url }
+  IP_ATTRS = %w{ libvirt_default_console_address }
+  IP_REGEXP_ATTRS = %w{ remote_addr }
 
   class ValueValidator < ActiveModel::Validator
     def validate(record)
@@ -39,7 +34,13 @@ class Setting < ActiveRecord::Base
   validates :value, :inclusion => {:in => [true,false]}, :if => Proc.new {|s| s.settings_type == "boolean"}
   validates :value, :presence => true, :if => Proc.new {|s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
   validates :settings_type, :inclusion => {:in => TYPES}, :allow_nil => true, :allow_blank => true
-  validates :value, :uri => true, :presence => true, :if => Proc.new {|s| URI_ATTRS.include?(s.name) }
+  validates :value, :url_schema => ['http', 'https'], :if => Proc.new {|s| URI_ATTRS.include?(s.name) }
+
+  validates :value, :url_schema => ['http', 'https'], :if => Proc.new { |s| URI_BLANK_ATTRS.include?(s.name) && s.value.present? }
+
+  validates :value, :format => { :with => Resolv::AddressRegex }, :if => Proc.new { |s| IP_ATTRS.include? s.name }
+  validates :value, :ip_regexp => true, :if => Proc.new { |s| IP_REGEXP_ATTRS.include? s.name }
+  validates :value, :array_type => true, :if => Proc.new { |s| s.settings_type == "array" }
   validates_with ValueValidator, :if => Proc.new {|s| s.respond_to?("validate_#{s.name}") }
   before_validation :set_setting_type_from_value
   before_save :clear_value_when_default

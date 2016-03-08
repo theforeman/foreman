@@ -10,6 +10,12 @@ class SettingTest < ActiveSupport::TestCase
   should validate_uniqueness_of(:name)
   should validate_inclusion_of(:settings_type).in_array(Setting::TYPES)
 
+  def test_should_validate_inclusions
+    assert Setting::URI_BLANK_ATTRS.include? "login_delegation_logout_url"
+    assert Setting::IP_ATTRS.include? "libvirt_default_console_address"
+    assert Setting::IP_REGEXP_ATTRS.include? "remote_addr"
+  end
+
   def test_should_not_find_a_value_if_doesnt_exists
     assert_nil Setting["no_such_thing"]
   end
@@ -239,22 +245,33 @@ class SettingTest < ActiveSupport::TestCase
     check_empty_array_allowed_for "trusted_puppetmaster_hosts"
   end
 
-  test "foreman_url must be a URI" do
+  test "trusted_puppetmaster_hosts must have comma separated values" do
+    attrs = { :name => "trusted_puppetmaster_hosts", :default => [], :description => "desc" }
+    assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
+    setting = Setting.find_by_name("trusted_puppetmaster_hosts")
+    setting.value = ["localhost", "remotehost"]
+    assert setting.save
+    setting.value = ["localhost remotehost"]
+    refute setting.save
+    assert_equal "must be comma separated", setting.errors[:value].first
+  end
+
+  test "foreman_url must have valid formant" do
     attrs = { :name => "foreman_url", :default => "http://foo.com" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("foreman_url")
     setting.value="##"
     assert !setting.save
-    assert_equal "must be a valid URI", setting.errors[:value].first
+    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
   end
 
-  test "foreman_url must have proper URI format" do
+  test "foreman_url must have proper format" do
     attrs = { :name => "foreman_url", :default => "http://foo.com" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("foreman_url")
     setting.value = "random_string"
     assert !setting.save
-    assert_equal "must be a valid URI", setting.errors[:value].first
+    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
   end
 
   test "foreman_url cannot be blank" do
@@ -262,25 +279,60 @@ class SettingTest < ActiveSupport::TestCase
     setting = Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting.value = ""
     assert !setting.save
-    assert_equal "must be a valid URI", setting.errors[:value].first
+    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
   end
 
-  test "unattended_url must be a URI" do
+  test "unattended_url must have a valid format" do
     attrs = { :name => "unattended_url", :default => "http://foo.com" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("unattended_url")
     setting.value="##"
     assert !setting.save
-    assert_equal "must be a valid URI", setting.errors[:value].first
+    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
   end
 
-  test "unattended_url must have proper URI format" do
+  test "unattended_url must have proper format" do
     attrs = { :name => "foreman_url", :default => "http://foo.com" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("foreman_url")
     setting.value = "random_string"
     assert !setting.save
-    assert_equal "must be a valid URI", setting.errors[:value].first
+    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
+  end
+
+  test "login_delegation_logout_url must have proper format or be blank" do
+    attrs = { :name => "login_delegation_logout_url", :default => nil, :description => "desc" }
+    assert Setting.create!(attrs)
+    setting = Setting.find_by_name("login_delegation_logout_url")
+    setting.value = "http://somepage.org"
+    assert setting.save
+    setting.value = nil
+    assert setting.save
+    setting.value = "random value"
+    refute setting.save
+    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
+  end
+
+  test "libvirt_default_console_address must have proper IP format" do
+    attrs = { :name => "libvirt_default_console_address", :default => "127.0.0.1", :description => "desc" }
+    assert Setting.create!(attrs)
+    setting = Setting.find_by_name("libvirt_default_console_address")
+    setting.value = "192.168.100.122"
+    assert setting.save
+    setting.value = "396.158.147.569"
+    refute setting.save
+    assert_equal "is invalid", setting.errors[:value].first
+  end
+
+  test "remote_addr must have a proper IP regexp format" do
+    attrs = { :name => "remote_addr", :default => "127.0.0.1", :description => "desc" }
+    assert Setting.create!(attrs)
+    setting = Setting.find_by_name("remote_addr")
+    setting.value = "192.168.100.122|127.0.0.1"
+    assert setting.save
+    setting.value = "abc"
+    refute setting.save
+    assert_equal "must be a valid IP regexp", setting.errors[:value].first
   end
 
   test "integers in setting cannot be more then 8 characters" do
