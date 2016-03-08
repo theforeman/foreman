@@ -16,13 +16,13 @@ class RenameConfigTemplateToProvisioningTemplate < ActiveRecord::Migration
       Permission.where(:name => from).update_all(:name => to)
     end
 
-    if foreign_keys('os_default_templates').find { |f| f.options[:name] == 'os_default_templates_config_template_id_fk' }.present?
+    if foreign_key_exists?('os_default_templates', :name => 'os_default_templates_config_template_id_fk')
       remove_foreign_key "os_default_templates", :name => "os_default_templates_config_template_id_fk"
     end
-    if foreign_keys('template_combinations').find { |f| f.options[:name] == 'template_combinations_config_template_id_fk' }.present?
+    if foreign_key_exists?('template_combinations', :name => 'template_combinations_config_template_id_fk')
       remove_foreign_key "template_combinations", :name => "template_combinations_config_template_id_fk"
     end
-    if foreign_keys('config_templates_operatingsystems').find { |f| f.options[:name] == 'config_templates_operatingsystems_config_template_id_fk' }.present?
+    if foreign_key_exists?('config_templates_operatingsystems', :name => 'config_templates_operatingsystems_config_template_id_fk')
       remove_foreign_key "config_templates_operatingsystems", :name => "config_templates_operatingsystems_config_template_id_fk"
     end
 

@@ -16,13 +16,13 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
   end
 
   def up
-    if foreign_keys('operatingsystems_ptables').find { |f| f.options[:name] == 'operatingsystems_ptables_ptable_id_fk' }.present?
+    if foreign_key_exists?('operatingsystems_ptables', :name => 'operatingsystems_ptables_ptable_id_fk')
       remove_foreign_key "operatingsystems_ptables", :name => "operatingsystems_ptables_ptable_id_fk"
     end
-    if foreign_keys('hostgroups').find { |f| f.options[:name] == 'hostgroups_ptable_id_fk' }.present?
+    if foreign_key_exists?('hostgroups', :name => 'hostgroups_ptable_id_fk')
       remove_foreign_key "hostgroups", :name => "hostgroups_ptable_id_fk"
     end
-    if foreign_keys('hosts').find { |f| f.options[:name] == 'hosts_ptable_id_fk' }.present?
+    if foreign_key_exists?('hosts', :name => 'hosts_ptable_id_fk')
       remove_foreign_key "hosts",  :name => "hosts_ptable_id_fk"
     end
     add_column :templates, :os_family, :string, :limit => 255
