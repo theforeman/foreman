@@ -8,7 +8,7 @@ module Foreman::Model
     before_create :update_public_key
 
     alias_attribute :datacenter, :uuid
-    attr_accessible :datacenter, :ovirt_quota, :public_key, :uuid
+    attr_accessible :datacenter, :ovirt_quota, :public_key, :uuid, :filtered_api
 
     delegate :clusters, :quotas, :templates, :to => :client
 
@@ -250,7 +250,8 @@ module Foreman::Model
           :ovirt_password   => password,
           :ovirt_url        => url,
           :ovirt_datacenter => uuid,
-          :ovirt_ca_cert_store => ca_cert_store(public_key)
+          :ovirt_ca_cert_store => ca_cert_store(public_key),
+          :ovirt_filtered_api => filtered_api
       )
       client.datacenters
       @client = client
