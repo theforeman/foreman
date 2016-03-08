@@ -48,7 +48,8 @@ Foreman::Application.configure do |app|
                   subnets
                   hidden_values
                   password_strength
-                  proxy_status)
+                  proxy_status
+                  parameter_override)
 
   stylesheets = %w( )
 
