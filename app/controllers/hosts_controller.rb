@@ -323,11 +323,11 @@ class HostsController < ApplicationController
   end
 
   def disassociate
-    if @host.uuid.nil? && @host.compute_resource_id.nil?
-      process_error :error_msg => _("Host %s is not associated with a VM") % @host.name, :redirect => :back
-    else
+    if @host.compute?
       @host.disassociate!
       process_success :success_msg => _("%s has been disassociated from VM") % (@host.name), :success_redirect => :back
+    else
+      process_error :error_msg => _("Host %s is not associated with a VM") % @host.name, :redirect => :back
     end
   end
 
@@ -575,6 +575,8 @@ class HostsController < ApplicationController
   end
 
   def multiple_disassociate
+    @non_physical_hosts = @hosts.with_compute_resource
+    @physical_hosts = @hosts.to_a - @non_physical_hosts.to_a
   end
 
   def update_multiple_disassociate
