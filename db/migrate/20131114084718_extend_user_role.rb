@@ -1,6 +1,6 @@
 class ExtendUserRole < ActiveRecord::Migration
   def up
-    if foreign_keys('user_roles').find { |f| f.options[:name] == 'user_roles_user_id_fk' }.present?
+    if foreign_key_exists?('user_roles', :name => 'user_roles_user_id_fk')
       remove_foreign_key 'user_roles', :name => 'user_roles_user_id_fk'
     end
     add_column :user_roles, :owner_type, :string, :default => 'User', :null => false, :limit => 255
