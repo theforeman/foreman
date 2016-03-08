@@ -154,7 +154,7 @@ module Foreman::Model
       interfaces = nested_attributes_for :interfaces, attr[:interfaces_attributes]
       interfaces.map{ |i| vm.interfaces << new_interface(i)}
       volumes = nested_attributes_for :volumes, attr[:volumes_attributes]
-      volumes.map{ |v| vm.volumes << new_volume(v)}
+      volumes.map { |v| vm.volumes << new_volume(v) }
       vm
     end
 
@@ -163,6 +163,7 @@ module Foreman::Model
     end
 
     def new_volume(attr = {})
+      set_preallocated_attributes!(attr, attr[:preallocate])
       Fog::Compute::Ovirt::Volume.new(attr)
     end
 
@@ -310,13 +311,20 @@ module Foreman::Model
       #add volumes
       volumes = nested_attributes_for :volumes, attrs
       volumes.map do |vol|
-        vol[:sparse] = "true"
-        vol[:format] = "raw"   if vol[:preallocate] == "1"
-        vol[:sparse] = "false" if vol[:preallocate] == "1"
+        set_preallocated_attributes!(vol, vol[:preallocate])
         #The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
         vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(vol)) if vol[:id].blank?
       end
       vm.volumes.reload
+    end
+
+    def set_preallocated_attributes!(volume_attributes, preallocate)
+      if preallocate == '1'
+        volume_attributes[:sparse] = 'false'
+        volume_attributes[:format] = 'raw'
+      else
+        volume_attributes[:sparse] = 'true'
+      end
     end
 
     def update_interfaces(vm, attrs)
