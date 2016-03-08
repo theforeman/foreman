@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'minitest/mock'
 
 class BuildStatusTest < ActiveSupport::TestCase
   def setup

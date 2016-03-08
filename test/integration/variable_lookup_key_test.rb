@@ -1,4 +1,4 @@
-require 'test_helper'
+require 'integration_test_helper'
 
 class VariableLookupKeyIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do

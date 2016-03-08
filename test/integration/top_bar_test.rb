@@ -1,4 +1,4 @@
-require 'test_helper'
+require 'integration_test_helper'
 
 class TopBarIntegrationTest < ActionDispatch::IntegrationTest
   def setup

@@ -1,4 +1,4 @@
-require 'test_helper'
+require 'integration_test_helper'
 
 class StatisticIntegrationTest < ActionDispatch::IntegrationTest
   test "statistics page" do
