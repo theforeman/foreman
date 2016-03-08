@@ -1,4 +1,4 @@
-require 'test_helper'
+require 'integration_test_helper'
 
 class FactValueIntegrationTest < ActionDispatch::IntegrationTest
   def setup
@@ -21,9 +21,7 @@ class FactValueIntegrationTest < ActionDispatch::IntegrationTest
 
   test "fact_name fact links" do
     visit fact_values_path
-    within(:xpath, "//tr[contains(.,'#{@fact_name.name}')]") do
-      first(:xpath, "//td[2]/a").click
-    end
+    find(:xpath, "//tr[contains(.,'#{@fact_name.name}')]//td[2]/a").click
     assert_equal "name = #{@fact_name.name}", find_field('search').value
   end
 
