@@ -38,6 +38,9 @@ else
   # Newer version of safemode contains fixes for Ruby 1.9
   gem 'safemode', '~> 1.2.1'
   gem 'ruby_parser', '~> 3.0.0'
+
+  # rubocop/rake 11.x incompatibility
+  gem 'rake', '< 11'
 end
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
