@@ -222,22 +222,33 @@ function hostgroup_changed(element) {
   var host_id = $("form").data('id');
   var host_changed = $("form").data('type-changed');
   if (host_id) {
-    if (host_changed ){
-      update_form(element,{data:"&host[id]="+host_id});
-    } else if (host_changed == undefined) { // hostgroup changes parent
-      update_form(element);
-    } else { // edit host
-      set_inherited_value(element);
-      update_puppetclasses(element);
-      reload_host_params();
-    }
+    handleHostgroupChangeEdit(element, host_id, host_changed);
   } else { // a new host
-    reset_explicit_values(element);
+    handleHostgroupChangedNew(element);
+  }
+}
+
+function handleHostgroupChangeEdit(element, host_id, host_changed) {
+  if (host_changed){
+    update_form(element,{data:"&host[id]="+host_id})
+  } else if (host_changed == undefined) { // hostgroup changes parent
+    update_form(element)
+  } else { // edit host
     set_inherited_value(element);
-    // call for form update only if there is a hostgroup selected
-    if ($('#host_hostgroup_id').val() != "") {
-      update_form(element);
-    }
+    update_puppetclasses(element);
+    reload_host_params();
+  }
+}
+
+function handleHostgroupChangedNew(element) {
+  reset_explicit_values(element);
+  set_inherited_value(element);
+  // call for form update only if there is a hostgroup selected
+  if ($('#host_hostgroup_id').val() != "") {
+    $("#host_compute_resource_id").prop("disabled", true);
+    return update_form(element).then(function () {
+      $("#host_compute_resource_id").prop("disabled", false);
+    });
   }
 }
 
@@ -283,7 +294,7 @@ function update_form(element, options) {
   var data = serializeForm().replace('method=patch', 'method=post');
   if (options.data) data = data+options.data;
   foreman.tools.showSpinner();
-  $.ajax({
+  return $.ajax({
     type: 'post',
     url: url,
     data: data,
