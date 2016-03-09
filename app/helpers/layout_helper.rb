@@ -21,7 +21,10 @@ module LayoutHelper
   end
 
   def javascript(*args)
-    content_for(:javascripts) { javascript_include_tag(*args.push("data-turbolinks-track" => true)) }
+    content_for(:javascripts) do
+      javascript_include_tag(*args.push("data-turbolinks-track" => true,
+                                        :async => true))
+    end
   end
 
   def addClass(options = {}, new_class = '')

@@ -16,10 +16,10 @@
     <%= yield(:stylesheets) %>
 
     <%= csrf_meta_tags %>
-    <%= javascript_include_tag 'application', "data-turbolinks-track" => true %>
+    <%= javascript_include_tag 'application', "data-turbolinks-track" => true, :async => true %>
     <%= yield(:javascripts) %>
 
-    <script type="text/javascript">
+    <script async defer type="text/javascript">
       var URL_PREFIX = '<%= request.script_name %>';
 
       <% if protect_against_forgery? %>
