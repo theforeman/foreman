@@ -8,6 +8,13 @@ class CoreExtensionsTest <  ActiveSupport::TestCase
       assert_equal(1.0, to_gb_value, "Converted value should be 1.0")
       assert(to_gb_value.is_a?(Float), "Converted value shoud be a float")
     end
+    
+    test '#to_gb with iB values' do
+      value = "1024 MiB"
+      to_gb_value = value.to_gb
+      assert_equal(1.0, to_gb_value, "Converted value should be 1.0")
+      assert(to_gb_value.is_a?(Float), "Converted value shoud be a float")
+    end
 
     test '#to_gb with iB values' do
       value = "1024 MiB"
