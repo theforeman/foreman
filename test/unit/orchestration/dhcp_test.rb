@@ -53,6 +53,17 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
+  test 'static boot mode disables dhcp orchestration' do
+    if unattended?
+      h = FactoryGirl.build(:host, :with_dhcp_orchestration)
+      i = FactoryGirl.build(:nic_managed, :ip => '10.0.0.10', :name => 'eth0:0')
+      i.host   = h
+      i.domain = domains(:mydomain)
+      i.subnet = FactoryGirl.build(:subnet, :dhcp, :boot_mode => 'Static', :ipam => 'Internal DB')
+      refute i.dhcp?
+    end
+  end
+
   test "DHCP record contains jumpstart attributes" do
     h = FactoryGirl.build(:host, :with_dhcp_orchestration,
                           :model => FactoryGirl.create(:model, :vendor_class => 'Sun-Fire-V210'))
