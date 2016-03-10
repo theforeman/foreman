@@ -1,4 +1,4 @@
-# encoding: UTF-8
+#encoding: UTF-8
 require 'test_helper'
 require 'minitest/mock'
 
@@ -386,11 +386,6 @@ class UserTest < ActiveSupport::TestCase
   test "email with special characters in quoted string format allowed" do
     user = User.new :auth_source => auth_sources(:one), :login => "boo", :mail => '"specialchars():;"@example.com'
     assert user.save
-  end
-
-  test "email should not have consecutive dot characters" do
-    user = User.new :auth_source => auth_sources(:one), :login => "boo", :mail => "dots..dots@example.com"
-    refute user.save
   end
 
   test "use that can change admin flag #can_assign? any role" do
