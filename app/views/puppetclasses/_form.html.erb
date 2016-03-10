@@ -1,5 +1,3 @@
-<%= javascript "lookup_keys" %>
-
 <%= form_for @puppetclass, :url => (@puppetclass.new_record? ? puppetclasses_path : puppetclass_path(:id => @puppetclass)) do |f| %>
   <%= base_errors_for @puppetclass %>
   <ul class="nav nav-tabs" data-tabs="tabs">
