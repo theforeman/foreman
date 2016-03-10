@@ -12,6 +12,7 @@ puppet_error_state:
   mailer: HostMailer
   method: error_state
   subscription_type: alert
+  type: PuppetError
 
 welcome:
   name: welcome

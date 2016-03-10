@@ -25,4 +25,9 @@ class MailNotificationTest < ActiveSupport::TestCase
     HostMailer.expects(:test_mail).with(:foo, :user => users[1]).returns(mail)
     mailer.deliver(:foo, :users => users)
   end
+
+  test "when a notification with 'puppet_error_state' name generated, a subclass PuppeError should created" do
+    mailer =  FactoryGirl.build(:mail_notification, :puppet_error)
+    assert mailer.type == 'PuppetError'
+  end
 end
