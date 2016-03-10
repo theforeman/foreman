@@ -1,7 +1,6 @@
 module Foreman
   module Parameters
     class Validator
-      KEY_DELM = ","
 
       def initialize(item, options = {})
         @item, @options = item, options
@@ -37,7 +36,7 @@ module Foreman
       def validate_list
         return true if contains_erb?(value) && Setting[:interpolate_erb_in_parameters] ||
           @options[:validate_with].blank?
-        unless @options[:validate_with].split(KEY_DELM).map(&:strip).include?(value.to_s)
+        unless @options[:validate_with].split(LookupKey::KEY_DELM).map(&:strip).include?(value.to_s)
           add_error(_("%{value} is not one of %{rules}") % { :value => value, :rules => @options[:validate_with] })
           return false
         end
