@@ -63,6 +63,8 @@ cat > /etc/puppet/puppet.conf << EOF
 <%= snippet 'puppet.conf' %>
 EOF
 
+<%= snippet('remote_execution_ssh_keys') %>
+
 <% if chef_enabled %>
 <%= snippet 'chef_client' %>
 <% end -%>
