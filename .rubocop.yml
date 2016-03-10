@@ -3,12 +3,14 @@ inherit_from:
   - .rubocop_todo.yml
 
 AllCops:
-  RunRailsCops: true # always run the rails cops
   Include:
     - 'app/views/api/**/*.rabl'
   Exclude:
     - 'db/schema.rb'
     - 'vendor/**/*'
+
+Rails:
+  Enabled: true
 
 # Don't enforce documentation
 Style/Documentation:
