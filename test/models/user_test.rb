@@ -388,11 +388,6 @@ class UserTest < ActiveSupport::TestCase
     assert user.save
   end
 
-  test "email should not have consecutive dot characters" do
-    user = User.new :auth_source => auth_sources(:one), :login => "boo", :mail => "dots..dots@example.com"
-    refute user.save
-  end
-
   test "use that can change admin flag #can_assign? any role" do
     user       = users(:one)
     extra_role = Role.where(:name => "foobar").first_or_create

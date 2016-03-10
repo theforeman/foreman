@@ -1,3 +1,4 @@
+# encoding: utf-8
 FactoryGirl.define do
   factory :usergroup do
     sequence(:name) {|n| "usergroup#{n}" }
@@ -20,6 +21,10 @@ FactoryGirl.define do
 
     trait :with_mail do
       sequence(:mail) {|n| "email#{n}@example.com" }
+    end
+
+    trait :with_utf8_mail do
+      mail { "Pelé@example.com" }
     end
 
     trait :with_mail_notification do

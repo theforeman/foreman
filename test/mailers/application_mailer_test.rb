@@ -1,11 +1,12 @@
+# encoding: utf-8
 require 'test_helper'
 
 class ApplicationMailerTest < ActiveSupport::TestCase
   setup { ActionMailer::Base.deliveries = [] }
 
   class TestMailer < ::ApplicationMailer
-    def test
-      mail(:to => 'nobody@example.com', :subject => 'Danger, Will Robinson!') do |format|
+    def test(to, subject)
+      mail(:to => to, :subject => subject) do |format|
         format.html { render :text =>  html_mail }
       end
     end
@@ -24,8 +25,8 @@ class ApplicationMailerTest < ActiveSupport::TestCase
     end
   end
 
-  def mail
-    TestMailer.test.deliver_now
+  def mail(to = 'nobody@example.com', subject = 'Danger, Will Robinson!')
+    TestMailer.test(to, subject).deliver_now
     ActionMailer::Base.deliveries.last
   end
 
@@ -53,5 +54,13 @@ class ApplicationMailerTest < ActiveSupport::TestCase
   test 'URL helpers use options from foreman_url setting' do
     Setting[:foreman_url] = 'https://another.example.com:444'
     assert mail.body.include? 'href="https://another.example.com:444/hosts"'
+  end
+
+  test 'address can include non ASCII characters' do
+    user = FactoryGirl.build(:user, :with_utf8_mail)
+    mail(user.mail, 'UTF8')
+    mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /UTF8/ }
+    assert mail
+    assert_equal "Pelé@example.com", Mail::Encodings.decode_encode(mail.to[0],:decode)
   end
 end
