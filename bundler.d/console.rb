@@ -4,6 +4,6 @@ group :console do
   else
     gem 'wirb', '>= 1.0', '< 3.0'
   end
-  gem 'hirb-unicode', '~> 0.0.5'
+  gem 'hirb-unicode-steakknife', '~> 0.0.7', :require => 'hirb-unicode'
   gem 'awesome_print', '~> 1.0', :require => 'ap'
 end

@@ -4,6 +4,7 @@ namespace :test do
     t.libs << "test"
     t.pattern = 'test/functional/api/**/*_test.rb'
     t.verbose = true
+    t.warning = false
   end
 end
 
@@ -13,5 +14,6 @@ namespace :test do
     t.libs << "test"
     t.pattern = 'test/lib/**/*_test.rb'
     t.verbose = true
+    t.warning = false
   end
 end
