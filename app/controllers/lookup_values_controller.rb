@@ -15,7 +15,9 @@ class LookupValuesController < ApplicationController
   end
 
   def create
+    lookup_key = LookupKey.find params[:lookup_key_id]
     @lookup_value = LookupValue.new(params[:lookup_value])
+    @lookup_value.type = lookup_key.present? and lookup_key.puppet? ? "PuppetLookupValue" : "LookupValue"
     if @lookup_value.save
       process_success({:success_redirect => lookup_key_lookup_values_url(params[:lookup_key_id])})
     else

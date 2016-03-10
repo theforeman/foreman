@@ -2,7 +2,7 @@ class LookupValue < ActiveRecord::Base
   include Authorizable
   include CounterCacheFix
 
-  attr_accessible :match, :value, :lookup_key_id, :id, :_destroy, :host_or_hostgroup, :use_puppet_default, :lookup_key, :hidden_value
+  attr_accessible :match, :value, :lookup_key_id, :id, :_destroy, :host_or_hostgroup, :use_puppet_default, :lookup_key, :hidden_value, :type
 
   validates_lengths_from_database
   audited :associated_with => :lookup_key, :allow_mass_assignment => true
@@ -10,7 +10,6 @@ class LookupValue < ActiveRecord::Base
 
   belongs_to :lookup_key, :counter_cache => true
   validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX
-  validate :value_present?
   delegate :key, :to => :lookup_key
   before_validation :sanitize_match
 
@@ -27,10 +26,6 @@ class LookupValue < ActiveRecord::Base
   scoped_search :on => :value, :complete_value => true, :default_order => true
   scoped_search :on => :match, :complete_value => true
   scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
-
-  def value_present?
-    self.errors.add(:value, :blank) if value.to_s.empty? && !use_puppet_default && lookup_key.puppet?
-  end
 
   def value=(val)
     if val.is_a?(HashWithIndifferentAccess)

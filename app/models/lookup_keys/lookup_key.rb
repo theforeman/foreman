@@ -83,6 +83,15 @@ class LookupKey < ActiveRecord::Base
     nil
   end
 
+  def lookup_values_attributes=(attributes)
+    attributes.each  do |key,val|
+      unless val.has_key? 'id'
+        val.merge! :type => puppet? ? "PuppetLookupValue" : "LookupValue"
+      end
+    end
+    super
+  end
+
   def reject_invalid_lookup_values(attributes)
     attributes[:match].empty?
   end
