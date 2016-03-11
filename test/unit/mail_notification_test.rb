@@ -1,6 +1,14 @@
 require 'test_helper'
 
 class MailNotificationTest < ActiveSupport::TestCase
+  test 'can initialize with no arguments' do
+    assert MailNotification.new
+  end
+
+  test 'can initialize with a hash argument' do
+    assert MailNotification.new :name => 'test'
+  end
+
   test "can find notification as hash key" do
     mailer = FactoryGirl.create(:mail_notification)
     assert_equal MailNotification[mailer.name], mailer
@@ -26,8 +34,8 @@ class MailNotificationTest < ActiveSupport::TestCase
     mailer.deliver(:foo, :users => users)
   end
 
-  test "when a notification with 'puppet_error_state' name generated, a subclass PuppeError should created" do
-    mailer =  FactoryGirl.build(:mail_notification, :puppet_error)
-    assert mailer.type == 'PuppetError'
+  test "when name is set to 'puppet_error_state', type should be set to PuppetError" do
+    mailer = MailNotification.new(:name => 'puppet_error_state')
+    assert_equal 'PuppetError', mailer.type
   end
 end
