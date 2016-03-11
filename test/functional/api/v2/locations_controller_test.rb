@@ -4,7 +4,6 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   def setup
     @location = taxonomies(:location1)
     @location.organization_ids = [taxonomies(:organization1).id]
-    Rabl.configuration.use_controller_name_as_json_root = false
   end
 
   test "should get index" do
@@ -110,13 +109,22 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     refute response['locations']
   end
 
-  test "root name on index is configured to be controller name" do
-    Rabl.configuration.use_controller_name_as_json_root = true
-    get :index, {}
-    response = ActiveSupport::JSON.decode(@response.body)
-    assert response.is_a?(Hash)
-    refute response['results']
-    assert response['locations'].is_a?(Array)
+  context "use_controller_name_as_json_root is enabled" do
+    setup do
+      Rabl.configuration.use_controller_name_as_json_root = true
+    end
+
+    teardown do
+      Rabl.configuration.use_controller_name_as_json_root = false
+    end
+
+    test "root name on index is configured to be controller name" do
+      get :index, {}
+      response = ActiveSupport::JSON.decode(@response.body)
+      assert response.is_a?(Hash)
+      refute response['results']
+      assert response['locations'].is_a?(Array)
+    end
   end
 
   test "root name on index can be overwritten by param root_name" do
