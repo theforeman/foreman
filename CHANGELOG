@@ -1,3 +1,48 @@
+2016-03-11	Dominic Cleal <dominic@cleal.org>
+	* Release 1.11.0-RC2
+	* i18n - extracting new, pulling from tx
+
+2016-03-10	Dominic Cleal <dominic@cleal.org>
+	* templates - sync from community-templates
+	* fixes #14028 - use image-url for data table asset URLs
+	* fixes #13883 - replace :order association option with block
+	* fixes #14114 - pin rake to avoid rubocop/rake 11.x incompatibility
+	* fixes #14000 - respect custom controller permissions
+	* fixes #13803 - change activated SCL to 'tfm'
+
+2016-03-10	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14071 - Using Sprockets directive to require host_edit_interfaces.js
+
+2016-03-10	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13068 - Adds options to documentation_button and remove css float
+
+2016-03-10	cyrus-mc <cyrus-mc@users.noreply.github.com>
+	* fixes #13817 - test certificate.subject_alternative_names for presence
+
+2016-03-10	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #13964 - include installer scenarios in foreman-debug
+
+2016-03-10	Marek Hulan <ares@igloonet.cz>
+	* Fixes #13711 - fix subnet/domain validation during creation
+
+2016-03-10	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #13977 - Upgrade Rails to 4.1.14.2 to address 2 CVEs
+	* Fixes #14078 - Correct provision template permission names in seeds and fixtures
+	* Fixes #13929 - Pin test_after_commit to version supporting Ruby 1.9
+
+2016-03-10	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #13417: Provide facet registration through plugin API
+
+2016-03-10	Ori Rabin <orabin@redhat.com>
+	* Fixes #13899 - Can update smart class parameter type from API
+	* Fixes #14045 - resizing select2 to match inherit button
+
+2016-03-10	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #13545 - STI permission checking always using base class
+
+2016-03-10	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13828 - CVE-2016-2100 - only showing relevant bookmarks
+
 2016-02-24	Dominic Cleal <dominic@cleal.org>
 	* Release 1.11.0-RC1
 	* templates - sync from community-templates
