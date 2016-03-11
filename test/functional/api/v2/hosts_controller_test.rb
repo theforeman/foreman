@@ -61,12 +61,10 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     Host.order('id asc').last
   end
 
-  def expect_attribute_modifiers(*modifier_classes)
-    modifier_classes.each do |modifier_class|
-      Host.any_instance.expects(:apply_compute_profile).once.with do |modifier|
-        modifier.is_a? modifier_class
-      end
-    end
+  def expect_attribute_modifier(modifier_class, args)
+    modifier = mock(modifier_class.name)
+    modifier_class.expects(:new).with(*args).returns(modifier)
+    Host.any_instance.expects(:apply_compute_profile).with(modifier)
   end
 
   test "should get index" do
@@ -181,13 +179,15 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "create applies attribute modifiers on the new host" do
     disable_orchestration
-    expect_attribute_modifiers(ComputeAttributeMerge, InterfaceMerge)
+    expect_attribute_modifier(ComputeAttributeMerge, [])
+    expect_attribute_modifier(InterfaceMerge, [{:merge_compute_attributes => true}])
     post :create, { :host => valid_attrs }
   end
 
   test "update applies attribute modifiers on the host" do
     disable_orchestration
-    expect_attribute_modifiers(ComputeAttributeMerge, InterfaceMerge)
+    expect_attribute_modifier(ComputeAttributeMerge, [])
+    expect_attribute_modifier(InterfaceMerge, [{:merge_compute_attributes => true}])
     put :update, { :id => @host.to_param, :host => valid_attrs }
   end
 
