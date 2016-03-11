@@ -27,6 +27,13 @@ FactoryGirl.define do
     end
   end
 
+  trait :adrift do
+    after(:build) do |report|
+      report.created_at  = 20.minutes.ago
+      report.reported_at = 5.minutes.ago
+    end
+  end
+
   factory :log do
     report
     level_id 1
