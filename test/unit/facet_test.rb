@@ -66,11 +66,10 @@ class FacetTest < ActiveSupport::TestCase
 
       assert_not_nil attributes["test_facet_attributes"]
     end
+  end
 
-    test 'facets are updated without specifying id explicitly' do
-      saved_host = FactoryGirl.create(:host)
-      saved_host.build_test_facet
-      saved_host.save!
+  context "managed host facet behavior" do
+    setup do
       TestFacet.class_eval do
         def my_attribute
         end
@@ -81,9 +80,25 @@ class FacetTest < ActiveSupport::TestCase
         attr_accessible :my_attribute
       end
 
-      saved_host.attributes = {'test_facet_attributes' => { 'my_attribute' => 'my_value'}}
+      Facets.register TestFacet
+    end
 
+    test 'facets are updated without specifying id explicitly' do
+      saved_host = FactoryGirl.create(:host)
+      saved_host.build_test_facet
+      saved_host.save!
+      saved_host.attributes = {'test_facet_attributes' => { 'my_attribute' => 'my_value'}}
       assert_not_nil saved_host.test_facet.id
+    end
+
+    test 'facets do not get created for nil attributes and viceversa' do
+      saved_host = FactoryGirl.build(:host)
+
+      saved_host.update_attributes({'test_facet_attributes' => { 'my_attribute' => nil}})
+      assert_nil saved_host.test_facet
+
+      saved_host.update_attributes({'test_facet_attributes' => { 'my_attribute' => "val"}})
+      assert_not_nil saved_host.test_facet
     end
   end
 end
