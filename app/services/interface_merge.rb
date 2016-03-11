@@ -1,4 +1,10 @@
 class InterfaceMerge
+  attr_reader :merge_compute_attributes
+
+  def initialize(opts = {})
+    @merge_compute_attributes = !!opts[:merge_compute_attributes]
+  end
+
   def run(host, compute_attrs)
     return if compute_attrs.nil?
 
@@ -20,7 +26,12 @@ class InterfaceMerge
   private
 
   def merge(nic, vm_nic, compute_attrs)
-    nic.compute_attributes = vm_nic.merge(nic.compute_attributes)
+    nic.compute_attributes = if merge_compute_attributes
+                               vm_nic.merge(nic.compute_attributes)
+                             else
+                               vm_nic
+                             end
+
     nic.compute_attributes['from_profile'] = compute_attrs.compute_profile.name
     nic
   end

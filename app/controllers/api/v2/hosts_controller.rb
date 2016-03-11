@@ -267,7 +267,7 @@ Return the host's compute attributes that can be used to create a clone of this 
       private
 
       def apply_compute_profile(host)
-        host.apply_compute_profile(InterfaceMerge.new)
+        host.apply_compute_profile(InterfaceMerge.new(:merge_compute_attributes => true))
         host.apply_compute_profile(ComputeAttributeMerge.new)
       end
 
