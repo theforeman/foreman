@@ -25,7 +25,7 @@ class MailNotification < ActiveRecord::Base
 
   def initialize(*args)
     params = args.shift
-    params[:type] =  "PuppetError" if params[:name] == 'puppet_error_state'
+    params[:type] = "PuppetError" if params.is_a?(Hash) && params[:name] == 'puppet_error_state'
     args.unshift(params)
     super(*args)
   end
