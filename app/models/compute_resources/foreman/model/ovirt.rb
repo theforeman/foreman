@@ -20,6 +20,12 @@ module Foreman::Model
       ComputeResource.model_name
     end
 
+    def host_compute_attrs(host)
+      super.tap do |attrs|
+        attrs[:os] = { :type => determine_os_type(host) } if supports_operating_systems?
+      end
+    end
+
     def capabilities
       [:build, :image]
     end
@@ -32,6 +38,42 @@ module Foreman::Model
 
     def supports_update?
       true
+    end
+
+    def supports_operating_systems?
+      client.respond_to?(:operating_systems) || rbovirt_client.respond_to?(:operating_systems)
+    end
+
+    def determine_os_type(host)
+      return nil unless host
+      ret = "other_linux"
+      return ret unless host.operatingsystem
+      os_name = os_name_mapping(host)
+      arch_name = arch_name_mapping(host)
+
+      best_match = available_operating_systems.select { |os| os.name.present? }.max_by do |os|
+        rating = 0.0
+        if os.name.include?(os_name)
+          rating += 100
+          rating += (1.0/os.name.length) # prefer the shorter names a bit in case we have not found more important some specifics
+          rating += 10 if os.name.include?("#{os_name}_#{host.operatingsystem.major}")
+          rating += 10 if arch_name && os.name.include?(arch_name)
+        end
+        rating
+      end
+
+      best_match.name if best_match
+    end
+
+    def available_operating_systems
+      return @operating_systems if @operating_systems
+      if client.respond_to?(:operating_systems)
+        @operating_systems = client.operating_systems
+      elsif rbovirt_client.respond_to?(:operating_systems)
+        @operating_systmes = rbovirt_client.operating_systems
+      else
+        raise Foreman::Exception.new("Listing operating systems is not supported by the current version")
+      end
     end
 
     def provided_attributes
@@ -319,6 +361,14 @@ module Foreman::Model
 
     private
 
+    def os_name_mapping(host)
+      host.operatingsystem.name =~ /redhat|centos/i ? 'rhel': host.operatingsystem.name.downcase
+    end
+
+    def arch_name_mapping(host)
+      host.architecture.name == 'x86_64' ? 'x64' : host.architecture.name.downcase if host.architecture
+    end
+
     def create_interfaces(vm, attrs)
       #first remove all existing interfaces
       vm.interfaces.each do |interface|
@@ -365,6 +415,11 @@ module Foreman::Model
         vm.destroy_volume(:id => volume[:id], :blocking => api_version.to_f < 3.1) if volume[:_delete] == '1' && volume[:id].present?
         vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(volume)) if volume[:id].blank?
       end
+    end
+
+    def rbovirt_client
+      # to access the data directly from the rbovirt when something is not exposed via fog
+      client.send(:client)
     end
   end
 end

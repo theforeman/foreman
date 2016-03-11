@@ -329,4 +329,20 @@ class ComputeResourceTest < ActiveSupport::TestCase
       assert(cr.valid?, 'ComputeResource can have spaces in name')
     end
   end
+
+  describe "host_interfaces_attrs" do
+    before do
+      @cr = compute_resources(:mycompute)
+    end
+
+    test "only physical interfaces are added to the compute attributes" do
+      physical_nic = FactoryGirl.build(:nic_base, :virtual => false,
+                                       :compute_attributes => { :id => '1', :virtual => false })
+      virtual_nic = FactoryGirl.build(:nic_base, :virtual => true,
+                                       :compute_attributes => { :id => '2', :virtual => true })
+      host = FactoryGirl.build(:host, :interfaces => [physical_nic, virtual_nic])
+      nic_attributes = @cr.host_interfaces_attrs(host).values.select(&:present?)
+      assert_equal '1', nic_attributes.first[:id]
+    end
+  end
 end

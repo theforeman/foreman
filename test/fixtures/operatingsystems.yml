@@ -28,6 +28,15 @@ ubuntu1010:
   architectures: x86_64
   title: 'Ubuntu 10.10'
 
+ubuntu1210:
+  name: Ubuntu
+  major: 12
+  minor: 10
+  type: Debian
+  media: ubuntu
+  architectures: x86_64
+  title: 'Ubuntu 12.10'
+
 solaris10:
   name: Solaris
   major: 5

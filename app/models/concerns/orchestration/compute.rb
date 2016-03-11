@@ -37,6 +37,10 @@ module Orchestration::Compute
     mac.present? || compute_provides?(:mac)
   end
 
+  def vm_name
+    Setting[:use_shortname_for_vms] ? shortname : name
+  end
+
   protected
 
   def queue_compute
@@ -72,14 +76,12 @@ module Orchestration::Compute
 
   def setCompute
     logger.info "Adding Compute instance for #{name}"
-    add_interfaces_to_compute_attrs
-    self.vm = compute_resource.create_vm compute_attributes.merge(:name => vm_name, :provision_method => provision_method)
+    # TODO: extract the merging into separate class in combination
+    # with ComputeAttributesMerge and InterfacesMerge http://projects.theforeman.org/issues/14536
+    final_compute_attrs = compute_attributes.merge(compute_resource.host_compute_attrs(self))
+    self.vm = compute_resource.create_vm(final_compute_attrs)
   rescue => e
     failure _("Failed to create a compute %{compute_resource} instance %{name}: %{message}\n ") % { :compute_resource => compute_resource, :name => name, :message => e.message }, e
-  end
-
-  def vm_name
-    Setting[:use_shortname_for_vms] ? shortname : name
   end
 
   def setUserData
@@ -264,17 +266,6 @@ module Orchestration::Compute
     end
 
     false
-  end
-
-  def add_interfaces_to_compute_attrs
-    # We now store vm fields in the Nic model, so we need to add them to
-    # compute_attrs before creating the vm
-    attrs_name = "#{compute_resource.interfaces_attrs_name}_attributes"
-    return unless compute_attributes[attrs_name].blank?
-    compute_attributes[attrs_name] = {}
-    self.interfaces.select(&:physical?).each_with_index do |nic, index|
-      compute_attributes[attrs_name][index.to_s] = nic.compute_attributes
-    end
   end
 
   def validate_foreman_attr(value,object,attr)

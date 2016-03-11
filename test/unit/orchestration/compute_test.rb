@@ -75,16 +75,6 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
       @host.stubs(:validate_foreman_attr).returns(true)
       @host.send(:match_macs_to_nics, :nic_attrs)
     end
-
-    test 'adding only physical interfaces' do
-      @physical.stubs(:compute_attributes).returns({:virtual => false})
-      @virtual.stubs(:compute_attributes).returns({:virtual => true})
-
-      attrs = {}
-      @host.stubs(:compute_attributes).returns(attrs)
-      @host.send :add_interfaces_to_compute_attrs
-      assert_equal 1, attrs['nics_attributes'].count { |k, v| v.present? }
-    end
   end
 
   describe "error message for NICs that can't be matched with those on virtual machine" do

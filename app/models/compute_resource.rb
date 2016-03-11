@@ -126,6 +126,18 @@ class ComputeResource < ActiveRecord::Base
     self.class.provider_friendly_name
   end
 
+  def host_compute_attrs(host)
+    { :name => host.vm_name,
+      :provision_method => host.provision_method,
+      "#{interfaces_attrs_name}_attributes" => host_interfaces_attrs(host) }.with_indifferent_access
+  end
+
+  def host_interfaces_attrs(host)
+    host.interfaces.select(&:physical?).each.with_index.reduce({}) do |hash, (nic, index)|
+      hash.merge(index.to_s => nic.compute_attributes)
+    end
+  end
+
   def image_param_name
     :image_id
   end
