@@ -247,7 +247,7 @@ Return the host's compute attributes that can be used to create a clone of this 
       private
 
       def merge_interfaces(host)
-        merge = InterfaceMerge.new
+        merge = InterfaceMerge.new(:merge_compute_attributes => true)
         merge.run(host.interfaces, host.compute_resource.try(:compute_profile_for, host.compute_profile_id))
       end
 

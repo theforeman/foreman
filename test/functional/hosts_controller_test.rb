@@ -1083,6 +1083,15 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  test '#interfaces applies compute profile and returns interfaces partial' do
+    modifier = mock('InterfaceMerge')
+    InterfaceMerge.expects(:new).with().returns(modifier)
+    modifier.expects(:run)
+    xhr :get, :interfaces, { :host => {:compute_resource_id => compute_resources(:one).id, :compute_profile_id => compute_profiles(:one).id}}, set_session_user
+    assert_response :success
+    assert_template :partial => '_interfaces'
+  end
+
   private
 
   def initialize_host
