@@ -36,7 +36,7 @@ module Facets
       def register_facet_relation(klass, facet_config)
         klass.class_eval do
           has_one facet_config.name, :class_name => facet_config.model.name, :foreign_key => :host_id, :inverse_of => :host
-          accepts_nested_attributes_for facet_config.name, :update_only => true
+          accepts_nested_attributes_for facet_config.name, :update_only => true, :reject_if => :all_blank
           alias_method "#{facet_config.name}_attributes", facet_config.name
           attr_accessible "#{facet_config.name}_attributes"
 
