@@ -1,8 +1,10 @@
 require 'integration_test_helper'
 require 'integration/shared/host_finders'
+require 'integration/shared/host_orchestration_stubs'
 
 class HostJSTest < IntegrationTestWithJavascript
   include HostFinders
+  include HostOrchestrationStubs
 
   before do
     SETTINGS[:locations_enabled] = false
@@ -28,8 +30,7 @@ class HostJSTest < IntegrationTestWithJavascript
       assert class_params.find("textarea:enabled")
       class_params.find("a[data-tag='remove']").click
       assert class_params.find("textarea:disabled")
-      click_button('Submit')
-      assert page.has_link?("Edit")
+      click_on_submit
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
@@ -39,8 +40,7 @@ class HostJSTest < IntegrationTestWithJavascript
       class_params.find("a[data-tag='override']").click
       assert class_params.find("textarea:enabled")
       class_params.find("textarea").set("false")
-      click_button('Submit')
-      assert page.has_link?("Edit")
+      click_on_submit
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
@@ -85,8 +85,7 @@ class HostJSTest < IntegrationTestWithJavascript
       assert page.has_selector?('#inherited_parameters .btn[data-tag=override]')
       page.find('#inherited_parameters .btn[data-tag=override]').click
       assert page.has_no_selector?('#inherited_parameters .btn[data-tag=override]')
-      click_button('Submit')
-      assert page.has_link?("Edit")
+      click_on_submit
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
@@ -166,8 +165,7 @@ class HostJSTest < IntegrationTestWithJavascript
       Timeout.timeout(Capybara.default_max_wait_time) do
         loop while find(:css, '#interfaceModal', :visible => false).visible?
       end
-      click_button 'Submit' #create new host
-      wait_for_ajax
+      click_on_submit
       find('#host-show') #wait for host details page
 
       host = Host::Managed.search_for('name ~ "myhost1"').first
@@ -214,9 +212,7 @@ class HostJSTest < IntegrationTestWithJavascript
       end
 
       wait_for_ajax
-      click_button 'Submit' #create new host
-      wait_for_ajax
-      find('#host-show') #wait for host details page
+      click_on_submit
 
       host = Host::Managed.search_for('name ~ "myhost1"').first
       assert_equal env2.name, host.environment.name
@@ -248,7 +244,7 @@ class HostJSTest < IntegrationTestWithJavascript
       page.find('#environment_id').find("option[value='#{@host.environment_id}']").select_option
 
       # remove hosts cookie on submit
-      index_modal.find('.btn-primary').trigger('click')
+      index_modal.find('.btn-primary').click
       assert_empty(page.driver.cookies['_ForemanSelectedhosts'])
       assert has_selector?("div", :text => "Updated hosts: changed environment")
     end
@@ -264,9 +260,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
       select2 env1.name, :from => 'host_environment_id'
       wait_for_ajax
-
-      click_button 'Submit' #create new host
-      find_link 'YAML' #wait for host details page
+      click_on_submit
 
       host.reload
       assert_equal env1.name, host.environment.name
@@ -308,14 +302,12 @@ class HostJSTest < IntegrationTestWithJavascript
       assert class_params.has_selector?("a[data-tag='override']", :visible => :hidden)
       assert_equal find("#s2id_host_lookup_values_attributes_#{lookup_key.id}_value .select2-chosen").text, "false"
       select2 "true", :from => "host_lookup_values_attributes_#{lookup_key.id}_value"
-      click_button('Submit')
+      click_on_submit
 
-      assert page.has_link?("Edit")
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
       assert_equal find("#s2id_host_lookup_values_attributes_#{lookup_key.id}_value .select2-chosen").text, "true"
-      click_button('Submit')
     end
   end
 
