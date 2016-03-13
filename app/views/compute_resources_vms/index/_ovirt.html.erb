@@ -8,21 +8,5 @@
   </tr>
 </thead>
 <tbody>
-  <% @vms.each do |vm| %>
-    <tr>
-      <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :auth_action => 'view', :authorizer => authorizer) %></td>
-      <td><%= vm.cores %></td>
-      <td>
-        <%= number_to_human_size vm.memory %>
-      </td>
-      <td>
-        <span <%= vm_power_class(vm.ready?) %>>
-          <%= vm_state(vm) %></span>
-      </td>
-      <td>
-        <%= action_buttons(vm_power_action(vm, authorizer),
-                           display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id).merge(:auth_object => @compute_resource, :authorizer => authorizer))) %>
-      </td>
-    </tr>
-  <% end %>
+
 </tbody>

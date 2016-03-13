@@ -6,8 +6,9 @@ $(function() {
       if (status == "error") {
         $(this).closest(".tab-content").find("#spinner").html(Jed.sprintf(__("There was an error listing VMs: %(status)s %(statusText)s"), {status: xhr.status, statusText: xhr.statusText}));
       }
-      $('.dropdown-toggle').dropdown();
-      $(document.body).trigger('ContentLoad');
+      else {
+        activateDatatables();
+      }
     });
   });
 });

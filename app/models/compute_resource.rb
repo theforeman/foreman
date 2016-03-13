@@ -136,6 +136,10 @@ class ComputeResource < ActiveRecord::Base
     client.servers
   end
 
+  def supports_vms_pagination?
+    false
+  end
+
   def find_vm_by_uuid(uuid)
     client.servers.get(uuid) || raise(ActiveRecord::RecordNotFound)
   end

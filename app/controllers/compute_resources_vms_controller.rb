@@ -1,11 +1,18 @@
 class ComputeResourcesVmsController < ApplicationController
   def index
     @compute_resource = find_compute_resource(:view_compute_resources_vms)
-    @vms = @compute_resource.vms.all(params[:filters] || {})
+    load_vms
     @authorizer = Authorizer.new(User.current, :collection => [@compute_resource])
     respond_to do |format|
       format.html
-      format.json { render :json => @vms }
+      format.json do
+        if @compute_resource.supports_vms_pagination?
+          render :partial => "compute_resources_vms/index/#{@compute_resource.provider.downcase}.json"
+        else
+          render :json => _('JSON VM listing is not supported for this compute resource.'),
+                 :status => :not_implemented
+        end
+      end
     end
   rescue => e
     Foreman::Logging.exception("Error has occurred while listing VMs on #{@compute_resource}", e)
@@ -114,5 +121,15 @@ class ComputeResourcesVmsController < ApplicationController
   rescue => e
     error _("Error - %{message}") % { :message => _(e.message) }
     redirect_to :back
+  end
+
+  def load_vms
+    if @compute_resource.supports_vms_pagination?
+      return if request.format.html? # html loads only thead, no nead to load all vms
+      opts = @compute_resource.parse_vms_list_params(params)
+    else
+      opts = {}
+    end
+    @vms = @compute_resource.vms.all(opts)
   end
 end
