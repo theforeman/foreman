@@ -43,7 +43,7 @@ class Filter < ActiveRecord::Base
   scoped_search :in => :permissions, :on => :resource_type, :rename => :resource
   scoped_search :in => :permissions, :on => :name,          :rename => :permission
 
-  before_validation :build_taxonomy_search, :nilify_empty_searches
+  before_validation :build_taxonomy_search, :nilify_empty_searches, :fix_to_current_user_permissions
 
   validates :search, :presence => true, :unless => Proc.new { |o| o.search.nil? }
   validates_with ScopedSearchValidator
@@ -178,6 +178,55 @@ class Filter < ActiveRecord::Base
 
     if self.location_ids.present? && !self.allows_location_filtering?
       errors.add(:location_ids, _('You can\'t assign locations to this resource'))
+    end
+  end
+
+  def fix_to_current_user_permissions
+    user = User.current
+    return unless role_id && user
+    return if permission_ids.empty? || user.admin?
+
+    current_filters = user.filters.includes(:permissions).where(
+      :permissions => {
+        :resource_type => resource_type,
+        :id => permissions.map(&:id)}).to_a
+    new_permissions = permissions
+    new_resource_type = resource_type
+
+    if current_filters.empty?
+      errors.add(:resource_type, (_('Current user is not allowed to resource type: %s') % new_resource_type))
+      return
+    end
+
+    current_search = current_filters.map(&:search).uniq
+    if current_search.count > 1
+      errors.add(:permission_ids, _('These permissions are restricted by different filters'))
+      return
+    end
+    current_search = current_search.first
+
+    # allow adding filters to permitted resources only
+    allowed_permissions =  new_permissions & current_filters.map(&:permissions).flatten
+    self.permission_ids = allowed_permissions.map(&:id)
+
+    # restrict filter condition if the user has custom filter:
+    # compare the filters using scoped search tokenizer, to avoid whitespace/syntax differences
+    new_search_tokens = ScopedSearch::QueryLanguage::Compiler.tokenize search || ''
+    if current_search
+      self.unlimited = 0
+      current_search_tokens = ScopedSearch::QueryLanguage::Compiler.tokenize(current_search)
+      unless search == current_search
+        #self.search can be 0: '' 1: 'new_condition' 2:'current_condition and (new_condition)'
+        current_condition = current_search
+        if search.empty?
+          # just copy my search [0]
+          self.search = current_condition
+          # check if the new condition does not begin with old one (not augmented)
+        elsif new_search_tokens.take(current_search_tokens.size) != current_search_tokens
+          current_condition << " and ("
+          self.search = "#{current_condition}#{self.search})"
+        end
+      end
     end
   end
 end

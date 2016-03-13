@@ -203,4 +203,125 @@ class FilterTest < ActiveSupport::TestCase
     f = FactoryGirl.build(:filter, :search => nil, :resource_type => 'Domain')
     assert_valid f
   end
+
+  context 'test current user interactions' do
+    test 'limits resources to authorized to the current user' do
+      user_filter = FactoryGirl.create(:filter, :permissions => [FactoryGirl.build(:permission, :host)])
+      role = FactoryGirl.create(:role, :filters => [user_filter])
+      user = FactoryGirl.build(:user)
+      user.roles << role
+
+      User.stubs(:current).returns(user)
+
+      filter = role.filters.build({:permissions => [FactoryGirl.build(:permission, :domain)]})
+
+      refute filter.valid?
+      assert_match /not allowed to resource type/, filter.errors[:resource_type].first
+    end
+
+    test 'does not allow mixed filters for permissions in the current user' do
+      user_filter1 = FactoryGirl.create(:filter, :permissions => [FactoryGirl.create(:permission, :host)], :search => 'aaa')
+      user_filter2 = FactoryGirl.create(:filter, :permissions => [FactoryGirl.create(:permission, :host)], :search => 'bbb')
+      role = FactoryGirl.create(:role, :filters => [user_filter1, user_filter2])
+      user = FactoryGirl.create(:user)
+      user.roles << role
+
+      User.stubs(:current).returns(user)
+
+      filter = role.filters.build({:permissions => [user_filter1.permissions.first, user_filter2.permissions.first]})
+
+      refute filter.valid?
+      assert_match /restricted by different filters/, filter.errors[:permission_ids].first
+    end
+
+    test 'limits permissions to authorized to the current user' do
+      user_filter = FactoryGirl.create(:filter, :permissions => [FactoryGirl.build(:permission, :host), FactoryGirl.build(:permission, :host)])
+      role = FactoryGirl.create(:role, :filters => [user_filter])
+      user = FactoryGirl.create(:user)
+      user.roles << role
+
+      User.stubs(:current).returns(user)
+
+      filter = role.filters.build({:permissions => [FactoryGirl.build(:permission, :host), user_filter.permissions.first]})
+      assert filter.valid?, filter.errors.messages
+      assert_equal [user_filter.permissions.first], filter.permissions
+    end
+
+    test 'limits filters to current user\'s if nothing else provided' do
+      user_filter = FactoryGirl.create(
+        :filter,
+        :permissions => [FactoryGirl.build(:permission, :host), FactoryGirl.build(:permission, :host)],
+        :search => 'name = b')
+      role = FactoryGirl.create(:role, :filters => [user_filter])
+      user = FactoryGirl.create(:user)
+      user.roles << role
+
+      User.stubs(:current).returns(user)
+
+      filter = role.filters.build({:permissions => [FactoryGirl.build(:permission, :host), user_filter.permissions.first]})
+      assert filter.valid?, filter.errors.messages
+      assert_equal 0, filter.unlimited
+      assert_equal 'name = b', filter.search
+    end
+
+    test 'augments the filter to current user restriction' do
+      user_filter = FactoryGirl.create(
+        :filter,
+        :permissions => [FactoryGirl.build(:permission, :host), FactoryGirl.build(:permission, :host)],
+        :search => 'name = b')
+      role = FactoryGirl.create(:role, :filters => [user_filter])
+      user = FactoryGirl.create(:user)
+      user.roles << role
+
+      User.stubs(:current).returns(user)
+
+      filter = role.filters.build(
+      {
+        :permissions => [FactoryGirl.build(:permission, :host), user_filter.permissions.first],
+        :search => 'comment = c'})
+      assert filter.valid?, filter.errors.messages
+      assert_equal 0, filter.unlimited
+      assert_equal 'name = b and (comment = c)', filter.search
+    end
+
+    test 'does not chain users filter if it is already there' do
+      user_filter = FactoryGirl.create(
+        :filter,
+        :permissions => [FactoryGirl.build(:permission, :host), FactoryGirl.build(:permission, :host)],
+        :search => 'name = b')
+      role = FactoryGirl.create(:role, :filters => [user_filter])
+      user = FactoryGirl.create(:user)
+      user.roles << role
+
+      User.stubs(:current).returns(user)
+
+      filter = role.filters.build(
+      {
+        :permissions => [FactoryGirl.build(:permission, :host), user_filter.permissions.first],
+        :search => 'name = b and (comment = c)'})
+      assert filter.valid?, filter.errors.messages
+      assert_equal 0, filter.unlimited
+      assert_equal 'name = b and (comment = c)', filter.search
+    end
+
+    test 'does not chain users filter if it is already there with different syntax' do
+      user_filter = FactoryGirl.create(
+        :filter,
+        :permissions => [FactoryGirl.build(:permission, :host), FactoryGirl.build(:permission, :host)],
+        :search => 'name = b')
+      role = FactoryGirl.create(:role, :filters => [user_filter])
+      user = FactoryGirl.create(:user)
+      user.roles << role
+
+      User.stubs(:current).returns(user)
+
+      filter = role.filters.build(
+      {
+        :permissions => [FactoryGirl.build(:permission, :host), user_filter.permissions.first],
+        :search => 'name = b && (comment = c)'})
+      assert filter.valid?, filter.errors.messages
+      assert_equal 0, filter.unlimited
+      assert_equal 'name = b && (comment = c)', filter.search
+    end
+  end
 end
