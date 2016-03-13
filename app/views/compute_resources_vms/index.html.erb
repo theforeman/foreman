@@ -1,4 +1,4 @@
 <% title(_("Virtual Machines on %s") % @compute_resource) %>
-<table class='<%= table_css_classes %>' data-table="inline">
+<%= vms_table do %>
   <%= render "compute_resources_vms/index/#{@compute_resource.provider.downcase}" %>
-</table>
+<% end %>
