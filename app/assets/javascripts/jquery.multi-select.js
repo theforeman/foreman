@@ -73,34 +73,9 @@ function sanitize(value){
 
 $(document).on('click', '.ms-select-all', function () {
   // can't use multiSelect('select_all') because it adds filtered out items too.
-    var formGroup = $(this).closest('.form-group'),
-        selected = [];
-
-    selected = itemsToSelect(formGroup);
-
-    $(formGroup).find('select[multiple]').multiSelect('select', selected);
+    $(this).closest('.form-group').find('.ms-selectable .ms-list :visible').click();
     return false;
 });
-
-function findVisibleItems(formGroup) {
-  return $(formGroup).find('.ms-selectable .ms-list :not(.hide) span').map(function (index, ele) {
-    return $(ele).text();
-  });
-}
-
-function itemsToSelect(formGroup) {
-  var visibles = findVisibleItems(formGroup),
-      selected = [];
-  $(formGroup).find('select[multiple]').children().each( function () {
-      var option = $(this);
-      visibles.each( function (index, name) {
-        if(option.text() === name) {
-          selected.push(option.val())
-        }
-      });
-    });
-  return selected;
-}
 
 $(document).on('click', '.ms-deselect-all', function () {
     // can't use multiSelect('deselect_all') because it is deselecting disabled items too.
