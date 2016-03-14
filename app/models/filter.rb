@@ -25,6 +25,18 @@ class Filter < ActiveRecord::Base
     false
   end
 
+  def ensure_taxonomies_not_escalated
+    super if skip_taxonomy_escalation_check?
+  end
+
+  def skip_taxonomy_escalation_check?
+    if self.resource_class.present?
+      !self.resource_class.included_modules.include?(Taxonomix)
+    else
+      true
+    end
+  end
+
   belongs_to :role
   has_many :filterings, :dependent => :destroy
   has_many :permissions, :through => :filterings
