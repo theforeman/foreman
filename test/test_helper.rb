@@ -246,7 +246,7 @@ Spork.prefork do
     alias_method :assert_not_valid, :refute_valid
 
     def with_env(values = {})
-      old_values = ENV.to_hash.slice(values.keys)
+      old_values = values.inject({}) { |ov,(key,val)| ov.update(key => ENV[key]) }
       ENV.update values
       result = yield
       ENV.update old_values
