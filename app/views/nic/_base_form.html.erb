@@ -32,7 +32,7 @@
                { :include_blank => accessible_subnets.any? ? true : _("No subnets")},
                { :disabled => accessible_subnets.empty? ? true : false,
                  :help_inline => :indicator,
-                 :class => 'interface_subnet without_select2', :'data-url' => freeip_subnets_path,
+                 :class => 'interface_subnet', :'data-url' => freeip_subnets_path,
                  :size => "col-md-8", :label_size => "col-md-3" } %>
 <% end %>
 <%= text_f f, :ip,
