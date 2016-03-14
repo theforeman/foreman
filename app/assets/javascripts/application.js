@@ -123,7 +123,7 @@ function onContentLoad(){
   $.cookie('timezone', tz.name(), { path: '/', secure: location.protocol === 'https:' });
 
   $('.full-value').SelectOnClick();
-  $('select:not(.without_select2)').select2({ allowClear: true });
+  activate_select2(':root');
 
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
@@ -249,7 +249,7 @@ function template_info(div, url) {
     data: form,
     success: function(response, status, xhr) {
       $(div).html(response);
-      $('select').select2({ allowClear: true });
+      activate_select2(div);
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $(div).html('<div class="alert alert-warning alert-dismissable">' +
@@ -470,7 +470,7 @@ function toggle_input_group(item) {
 function reloadOnAjaxComplete(element) {
   $(element).indicator_hide();
   $('[rel="twipsy"]').tooltip();
-  $('select:not(.without_select2)').select2({ allowClear: true });
+  activate_select2(':root');
 }
 
 function set_fullscreen(element){
@@ -575,4 +575,12 @@ function disableButtonToggle(item, explicit) {
   }
 
   $(item).blur();
+}
+
+function activate_select2(container, allowClear) {
+  allowClear = typeof allowClear !== 'undefined' ? allowClear : true;
+  $(container).find('select:not(.without_select2)').
+    not('.form_template select').
+    not('#interfaceForms select').
+    select2({ 'allowClear': allowClear });
 }
