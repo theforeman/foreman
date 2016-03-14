@@ -2,7 +2,7 @@
 <%= text_f f,:size_gb, :label => _('Size (GB)'), :label_size => "col-md-2", :disabled => !new_host, :class => "col-md-2" %>
 <%= f.hidden_field :size_gb if !new_host %>
 <%= select_f f, :storage_domain, compute_resource.storage_domains, :id, :name,
-             { }, :label => _('Storage domain'), :label_size => "col-md-2", :disabled => !new_host, :class => "col-md-2 without_select2" %>
+             { }, :label => _('Storage domain'), :label_size => "col-md-2", :disabled => !new_host, :class => "col-md-2" %>
 <%= f.hidden_field :storage_domain if !new_host %>
 <%= f.hidden_field :id %>
 
