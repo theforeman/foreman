@@ -85,4 +85,31 @@ class ComputeAttributeMergeTest < ActiveSupport::TestCase
 
     assert_equal(expected_attrs, @host.compute_attributes)
   end
+
+  test "it does not merge interfaces / nics_attributes" do
+    @profile_attributes.compute_resource.expects(:interfaces_attrs_name).returns(:nics)
+
+    @profile_attributes.stubs(:vm_attrs).returns(
+    {
+      'cpus' => 1,
+      'memory' => 4294967296,
+      'nics_attributes' => {
+        '0' => {
+          'attr0a' => 'a',
+          'attr0b' => 'b'
+        }
+      }
+    })
+    @host.compute_attributes = {
+      'cpus' => 2,
+    }
+    expected_attrs = {
+      'cpus' => 2,
+      'memory' => 4294967296,
+    }
+
+    @merge.run(@host, @profile_attributes)
+
+    assert_equal(expected_attrs, @host.compute_attributes)
+  end
 end
