@@ -221,6 +221,11 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
   end
 
+  test "to_param should replace whitespace with underscore" do
+    lookup_key = VariableLookupKey.new(:key => "smart variable", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default")
+    assert_equal "-smart_variable", lookup_key.to_param
+  end
+
   test "when changed, an audit entry should be added" do
     env = FactoryGirl.create(:environment)
     pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
