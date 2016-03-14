@@ -5,7 +5,7 @@ function filterCerts(state) {
 function certTable() {
   activateDatatables();
   var filter = $('#puppetca-filter');
-  filter.select2();
+  activate_select2(filter);
   filter.on('change', function() {filterCerts(filter.val())});
   filterCerts(__('valid')+'|'+__('pending'));
 }
