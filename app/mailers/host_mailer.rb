@@ -16,8 +16,8 @@ class HostMailer < ApplicationMailer
 
     @hosts = host_data
     @timerange = time
-    @out_of_sync = hosts.out_of_sync
-    @disabled = hosts.alerts_disabled
+    @out_of_sync = hosts.out_of_sync.sort
+    @disabled = hosts.alerts_disabled.sort
     set_url
 
     set_locale_for(user) do
