@@ -10,7 +10,7 @@ module Api
 
       def index
         params[:order] ||= 'name'
-        @roles = Role.search_for(*search_options).paginate(paginate_options)
+        @roles = Role.authorized(:view_roles).search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/roles/:id/", "Show an role."
