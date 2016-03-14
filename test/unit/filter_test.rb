@@ -203,4 +203,19 @@ class FilterTest < ActiveSupport::TestCase
     f = FactoryGirl.build(:filter, :search => nil, :resource_type => 'Domain')
     assert_valid f
   end
+
+  test 'filter for taxable resource does not skip escalation check' do
+    f = FactoryGirl.build(:filter, :resource_type => 'Domain')
+    refute f.skip_taxonomy_escalation_check?
+  end
+
+  test 'filter for nontaxable resource skips escalation check' do
+    f = FactoryGirl.build(:filter, :resource_type => 'Architecture')
+    assert f.skip_taxonomy_escalation_check?
+  end
+
+  test 'filter without resource always skips escalation check' do
+    f = FactoryGirl.build(:filter, :resource_type => nil)
+    assert f.skip_taxonomy_escalation_check?
+  end
 end
