@@ -58,6 +58,7 @@ module Host
                                            :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', ')) }
     validate :host_has_required_interfaces
     validate :uniq_interfaces_identifiers
+    validate :build_managed_only
 
     default_scope -> { where(taxonomy_conditions) }
 
@@ -467,6 +468,12 @@ module Host
 
       errors.add(:interfaces, _('some interfaces are invalid')) unless success
       success
+    end
+
+    def build_managed_only
+      if !managed? && build?
+        errors.add(:build, _('cannot be enabled for an unmanaged host'))
+      end
     end
 
     def password_base64_encrypted?

@@ -30,10 +30,9 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   def test_generate_pxe_template_for_build
     if unattended?
-      h = FactoryGirl.create(:host, :build => true,
-                             :operatingsystem => operatingsystems(:redhat),
-                             :architecture => architectures(:x86_64)
-                            )
+      h = FactoryGirl.build(:host, :managed, :build => true,
+                            :operatingsystem => operatingsystems(:redhat),
+                            :architecture => architectures(:x86_64))
       Setting[:unattended_url] = "http://ahost.com:3000"
 
       template = h.send(:generate_pxe_template).split("~")
