@@ -40,10 +40,22 @@ task 'plugin:assets:precompile', [:engine] do |t, args|
 
       def initialize(engine_name)
         @engine = "#{engine_name.camelize}::Engine".constantize
+
+        env = Rails.application.assets
+        app = Rails.application
+
         Rails.application.config.assets.precompile = SETTINGS[@engine.engine_name.to_sym][:assets][:precompile]
-        Rails.application.assets.js_compressor = :uglifier
-        Rails.application.assets.css_compressor = :sass
-        Rails.application.assets.cache = nil
+
+        env.register_engine '.scss', Sass::Rails::ScssTemplate
+        env.js_compressor = :uglifier
+        env.css_compressor = :sass
+        env.cache = nil
+
+        env.context_class.class_eval do
+          class_attribute :sass_config
+          self.sass_config = app.config.sass
+        end
+
         super(Rails.application)
       end
 
