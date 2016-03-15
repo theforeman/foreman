@@ -68,7 +68,7 @@ class MediumTest < ActiveSupport::TestCase
     medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
     assert medium.save!
 
-    host = FactoryGirl.create(:host, :with_operatingsystem)
+    host = FactoryGirl.create(:host, :with_operatingsystem, :managed)
     host.build = true
     host.medium = medium
     host.operatingsystem.media << medium

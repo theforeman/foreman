@@ -1050,6 +1050,21 @@ class HostTest < ActiveSupport::TestCase
       assert h.errors[:root_pass].include?("should be 8 characters or more")
     end
 
+    test "should allow build mode for managed hosts" do
+      h = FactoryGirl.build(:host, :managed)
+      assert h.valid?
+      h.build = true
+      assert h.valid?
+    end
+
+    test "should not allow build mode for unmanaged hosts" do
+      h = FactoryGirl.build(:host)
+      assert h.valid?
+      h.build = true
+      refute h.valid?
+      assert h.errors[:build].include?("cannot be enabled for an unmanaged host")
+    end
+
     test "should allow to save root pw" do
       h = FactoryGirl.create(:host, :managed)
       pw = h.root_pass
@@ -2348,7 +2363,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'facts are deleted when build set to true' do
-    host = FactoryGirl.create(:host, :with_facts)
+    host = FactoryGirl.create(:host, :with_facts, :managed)
     assert host.fact_values.present?
     refute host.build?
     host.update_attributes(:build => true)
@@ -2356,7 +2371,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'reports are deleted when build set to true' do
-    host = FactoryGirl.create(:host, :with_reports)
+    host = FactoryGirl.create(:host, :with_reports, :managed)
     assert host.reports.present?
     refute host.build?
     host.update_attributes(:build => true)
@@ -2364,7 +2379,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'host.last_report is deleted when build set to true' do
-    host = FactoryGirl.create(:host, :with_reports)
+    host = FactoryGirl.create(:host, :with_reports, :managed)
     refute host.build?
     refute host.last_report.blank?
     host.update_attributes(:build => true)
