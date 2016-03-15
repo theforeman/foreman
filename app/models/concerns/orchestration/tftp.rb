@@ -39,6 +39,12 @@ module Orchestration::TFTP
     # therefore some workaround is required to "render" the template.
     @kernel = host.operatingsystem.kernel(host.arch)
     @initrd = host.operatingsystem.initrd(host.arch)
+
+    # Xen requires additional boot files.
+    if host.operatingsystem.respond_to?(:xen)
+      @xen = host.operatingsystem.xen(host.arch)
+    end
+
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
     @host = self.host
     if build?

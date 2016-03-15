@@ -10,7 +10,7 @@ module Foreman
     ALLOWED_HELPERS ||= ALLOWED_GENERIC_HELPERS + ALLOWED_HOST_HELPERS
 
     ALLOWED_VARIABLES ||= [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
-                            :repos, :dynamic, :kernel, :initrd,
+                            :repos, :dynamic, :kernel, :initrd, :xen,
                             :preseed_server, :preseed_path, :provisioning_type ]
 
     def render_safe(template, allowed_methods = [], allowed_vars = {})
@@ -208,6 +208,11 @@ module Foreman
     end
 
     def waik_attributes
+    end
+
+    def xenserver_attributes
+      @mediapath = @host.operatingsystem.mediumpath @host
+      @xen = @host.operatingsystem.xen @host.arch
     end
 
     def pxe_config
