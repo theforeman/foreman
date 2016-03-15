@@ -13,7 +13,7 @@ class Setting < ActiveRecord::Base
   URI_ATTRS = %w{ foreman_url unattended_url }
   URI_BLANK_ATTRS = %w{ login_delegation_logout_url }
   IP_ATTRS = %w{ libvirt_default_console_address }
-  IP_REGEXP_ATTRS = %w{ remote_addr }
+  REGEXP_ATTRS = %w{ remote_addr }
 
   class ValueValidator < ActiveModel::Validator
     def validate(record)
@@ -41,7 +41,7 @@ class Setting < ActiveRecord::Base
   validates :value, :url_schema => ['http', 'https'], :if => Proc.new { |s| URI_BLANK_ATTRS.include?(s.name) && s.value.present? }
 
   validates :value, :format => { :with => Resolv::AddressRegex }, :if => Proc.new { |s| IP_ATTRS.include? s.name }
-  validates :value, :ip_regexp => true, :if => Proc.new { |s| IP_REGEXP_ATTRS.include? s.name }
+  validates :value, :regexp => true, :if => Proc.new { |s| REGEXP_ATTRS.include? s.name }
   validates :value, :array_type => true, :if => Proc.new { |s| s.settings_type == "array" }
   validates_with ValueValidator, :if => Proc.new {|s| s.respond_to?("validate_#{s.name}") }
   before_validation :set_setting_type_from_value
