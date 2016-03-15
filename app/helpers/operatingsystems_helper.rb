@@ -36,6 +36,8 @@ module OperatingsystemsHelper
       "CoreOS"
     when /NXOS/i
       "NXOS"
+    when /XenServer/i
+      "XenServer"
     else
       return "" if record.family.blank?
       record.family

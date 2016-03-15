@@ -76,7 +76,8 @@ class Operatingsystem < ActiveRecord::Base
                'Freebsd'   => %r{FreeBSD}i,
                'AIX'       => %r{AIX}i,
                'Junos'     => %r{Junos}i,
-               'NXOS'      => %r{NX-OS}i }
+               'NXOS'      => %r{NX-OS}i,
+               'Xenserver' => %r{XenServer}i }
 
   class Jail < Safemode::Jail
     allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri
