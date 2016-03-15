@@ -12,10 +12,19 @@ class ComputeAttribute < ActiveRecord::Base
   before_save :update_name
 
   def method_missing(method, *args, &block)
-    return super if method.to_s[-1]=="="
-    return super unless respond_to?(:vm_attrs)
-    return vm_attrs["#{method}"] if vm_attrs.keys.include?(method.to_s)
-    raise Foreman::Exception.new(N_('%s is an unknown attribute'), method)
+    method = method.to_s
+    return super if method[-1]=="="
+    return super if method == 'vm_attrs'
+
+    if vm_attrs.has_key?(method)
+      vm_attrs[method]
+    else
+      raise Foreman::Exception.new(N_('%s is an unknown attribute'), method)
+    end
+  end
+
+  def respond_to_missing?(method, include_private = false)
+    vm_attrs.has_key?(method.to_s) || super
   end
 
   def vm_interfaces

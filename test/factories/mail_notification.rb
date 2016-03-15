@@ -7,6 +7,12 @@ FactoryGirl.define do
     description "Notifies a user"
     subscription_type "report"
     queryable false
+
+    trait :puppet_error do
+      sequence(:name) {"puppet_error_state"}
+      mailer "HostMailer"
+      mailer_method "puppet"
+      type "PuppetError"
+    end
   end
 end
-

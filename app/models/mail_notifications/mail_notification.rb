@@ -4,7 +4,7 @@ class MailNotification < ActiveRecord::Base
   INTERVALS = [N_("Daily"), N_("Weekly"), N_("Monthly")]
   SUBSCRIPTION_TYPES = %w(alert report)
 
-  attr_accessible :description, :mailer, :method, :name, :subscriptable, :subscription_type, :category, :queryable
+  attr_accessible :description,:mailer_method, :mailer, :name, :subscriptable, :subscription_type, :category, :queryable, :method, :type
 
   has_many :user_mail_notifications, :dependent => :destroy
   has_many :users, :through => :user_mail_notifications
@@ -23,10 +23,21 @@ class MailNotification < ActiveRecord::Base
 
   default_scope -> { order("mail_notifications.name") }
 
+  def initialize(*args)
+    params = args.shift
+    params[:type] = "PuppetError" if params.is_a?(Hash) && params[:name] == 'puppet_error_state'
+    args.unshift(params)
+    super(*args)
+  end
+
   # Easy way to reference the notification to support something like:
   #   MailNotification[:some_error_notification].deliver(options)
   def self.[](name)
     self.find_by_name(name)
+  end
+
+  def subscription_options
+    [N_("Subscribe")]
   end
 
   def deliver(*args)
