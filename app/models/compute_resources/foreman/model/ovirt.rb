@@ -86,17 +86,24 @@ module Foreman::Model
         update_public_key options
         datacenters && test_https_required
       end
-    rescue => e
+    rescue OVIRT::OvirtVersionUnsupportedException
+      errors[:url] << _('Unsupported version of oVirt')
+    rescue OVIRT::OvirtException => e
       case e.message
         when /404/
           errors[:url] << e.message
         when /302/
-          errors[:url] << 'HTTPS URL is required for API access'
+          errors[:url] << _('HTTPS URL is required for API access')
+        when /insufficient permissions/
+          # ovirt does not add code 400 to error message
+          errors[:user] << e.message + ' ' + _('If your username and password is correct, try enabling Filter API calls.')
         when /401/
           errors[:user] << e.message
         else
           errors[:base] << e.message
       end
+    rescue => e
+      errors[:base] << e.message
     end
 
     def datacenters(options = {})

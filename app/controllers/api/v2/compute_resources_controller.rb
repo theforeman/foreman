@@ -40,6 +40,7 @@ module Api
           param :user, String, :desc => N_("Username for oVirt, EC2, VMware, OpenStack. Access Key for EC2.")
           param :password, String, :desc => N_("Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2")
           param :uuid, String, :desc => N_("for oVirt, VMware Datacenter")
+          param :filtered_api, String, :desc => N_("for oVirt, use the 'Filter' header for API calls, which makes them limited and slower, but available to non-admin users.")
           param :region, String, :desc => N_("for EC2 only")
           param :tenant, String, :desc => N_("for OpenStack only")
           param :server, String, :desc => N_("for VMware")
