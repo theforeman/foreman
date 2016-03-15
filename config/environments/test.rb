@@ -58,6 +58,6 @@ Foreman::Application.configure do
   # Enable automatic creation/migration of the test DB when running tests
   config.active_record.maintain_test_schema = true
 
-  # Maintain standard order of running tests in case of leaking changes
-  config.active_support.test_order = :sorted
+  # Randomize the order test cases are executed.
+  config.active_support.test_order = :random
 end
