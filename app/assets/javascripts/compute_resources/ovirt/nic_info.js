@@ -1,3 +1,3 @@
 providerSpecificNICInfo = function(form) {
-  return form.find('.ovirt_name').val() + ' @ ' + form.find('.ovirt_network').text();
+  return form.find('select.ovirt_name').val() + ' @ ' + form.find('select.ovirt_network').text();
 }

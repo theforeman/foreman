@@ -83,7 +83,7 @@ class ActionDispatch::IntegrationTest
   end
 
   def select2(value, attrs)
-    first("#s2id_#{attrs[:from]}").click
+    find("#s2id_#{attrs[:from]}").click
     find(".select2-input").set(value)
     within ".select2-results" do
       find("span", text: value).click

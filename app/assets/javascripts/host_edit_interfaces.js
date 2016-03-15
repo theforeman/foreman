@@ -277,7 +277,7 @@ var providerSpecificNICInfo = null;
 function nic_info(form) {
   var info = "";
   var virtual_types = ['Nic::Bond', 'Nic::Bridge']
-  if (form.find('.virtual').is(':checked') || virtual_types.indexOf(form.find('.interface_type').val()) >= 0) {
+  if (form.find('.virtual').is(':checked') || virtual_types.indexOf(form.find('select.interface_type').val()) >= 0) {
 
     // common virtual
     var attached = form.find('.attached').val();
