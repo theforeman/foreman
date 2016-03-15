@@ -142,7 +142,7 @@ function onContentLoad(){
   $.cookie('timezone', tz.name(), { path: '/', secure: location.protocol === 'https:' });
 
   $('.full-value').SelectOnClick();
-  $('select:not(.without_select2)').select2({ allowClear: true });
+  $('select:not(.without_select2)').not('.form_template select').select2({ allowClear: true });
 
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
