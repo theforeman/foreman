@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class IpRegexpValidatorTest < ActiveSupport::TestCase
+class RegexpValidatorTest < ActiveSupport::TestCase
   class Validatable
     include ActiveModel::Validations
-    validates :ip, :ip_regexp => true
+    validates :ip, :regexp => true
     attr_accessor :ip
   end
 
@@ -26,8 +26,13 @@ class IpRegexpValidatorTest < ActiveSupport::TestCase
     assert_valid @validatable
   end
 
-  test "should not accept random string" do
-    @validatable.ip = "random text here"
+  test "should allow digit matching" do
+    @validatable.ip = '^19\d.\d+.13.\d8|127.0.0.1$'
+    assert_valid @validatable
+  end
+
+  test "should not accept invalid regexp" do
+    @validatable.ip = "\\"
     refute_valid @validatable
   end
 end

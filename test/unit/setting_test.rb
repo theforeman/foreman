@@ -13,7 +13,7 @@ class SettingTest < ActiveSupport::TestCase
   def test_should_validate_inclusions
     assert Setting::URI_BLANK_ATTRS.include? "login_delegation_logout_url"
     assert Setting::IP_ATTRS.include? "libvirt_default_console_address"
-    assert Setting::IP_REGEXP_ATTRS.include? "remote_addr"
+    assert Setting::REGEXP_ATTRS.include? "remote_addr"
   end
 
   def test_should_not_find_a_value_if_doesnt_exists
@@ -330,9 +330,9 @@ class SettingTest < ActiveSupport::TestCase
     setting = Setting.find_by_name("remote_addr")
     setting.value = "192.168.100.122|127.0.0.1"
     assert setting.save
-    setting.value = "abc"
+    setting.value = "\\"
     refute setting.save
-    assert_equal "must be a valid IP regexp", setting.errors[:value].first
+    assert_equal "must be a valid regexp", setting.errors[:value].first
   end
 
   test "integers in setting cannot be more then 8 characters" do
