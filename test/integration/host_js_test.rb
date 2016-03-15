@@ -157,7 +157,7 @@ class HostJSTest < IntegrationTestWithJavascript
       fill_in 'host_root_pass', :with => '12345678'
       click_link 'Interfaces'
       click_button 'Edit'
-      select domains(:unuseddomain).name, :from => 'host_interfaces_attributes_0_domain_id'
+      select2 domains(:unuseddomain).name, :from => 'host_interfaces_attributes_0_domain_id'
       fill_in 'host_interfaces_attributes_0_mac', :with => '11:11:11:11:11:11'
       fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
       click_button 'Ok' #close interfaces
@@ -198,7 +198,7 @@ class HostJSTest < IntegrationTestWithJavascript
       fill_in 'host_root_pass', :with => '12345678'
       click_link 'Interfaces'
       click_button 'Edit'
-      select domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
+      select2 domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
       wait_for_ajax
       fill_in 'host_interfaces_attributes_0_mac', :with => '11:11:11:11:11:11'
       wait_for_ajax
@@ -387,7 +387,7 @@ class HostJSTest < IntegrationTestWithJavascript
         domain = domains(:mydomain)
 
         modal.find('.interface_name').set('name')
-        modal.find('.interface_domain').select(domain.name)
+        select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
 
         subnet_and_domain_are_selected(modal, domain)
 
@@ -407,7 +407,7 @@ class HostJSTest < IntegrationTestWithJavascript
         table.first(:button, 'Edit').click
 
         domain = domains(:mydomain)
-        modal.find('.interface_domain').select(domain.name)
+        select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
         subnet_and_domain_are_selected(modal, domain)
 
         subnet_id = modal.find('#host_interfaces_attributes_0_subnet_id',
