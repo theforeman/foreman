@@ -89,7 +89,7 @@ module Foreman::Model
     def bridges
       # before ruby-libvirt fixes https://bugzilla.redhat.com/show_bug.cgi?id=1317909 we have to use raw XML to get type
       bridges = client.client.list_all_interfaces.select do |libvirt_interface|
-        type_match = libvirt_interface.xml_desc.match /<interface.*type='([a-z]+)'/
+        type_match = libvirt_interface.xml_desc.match /<interface.*?type=['"]([a-z]+)['"]/
         type_match[1] == 'bridge'
       end
       bridge_names = bridges.map(&:name)
