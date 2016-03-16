@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class TaxonomyHelperTest < ActionView::TestCase
-  include LayoutHelper
+  include FormHelper
   include TaxonomyHelper
 
   describe "all_checkbox" do
