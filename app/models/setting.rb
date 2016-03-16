@@ -1,3 +1,5 @@
+require 'resolv'
+
 class Setting < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
