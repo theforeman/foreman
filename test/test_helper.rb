@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'fileutils'
 require 'spork'
 
 Spork.prefork do
