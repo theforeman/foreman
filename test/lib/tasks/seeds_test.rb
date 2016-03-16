@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'database_cleaner'
 
 class SeedsTest < ActiveSupport::TestCase
   # Disable AR transactional fixtures as we use DatabaseCleaner's truncation

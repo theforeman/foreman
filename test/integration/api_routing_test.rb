@@ -1,4 +1,4 @@
-require 'test_helper'
+require 'integration_test_helper'
 
 class RoutingIntegrationTest < ActionDispatch::IntegrationTest
   test "should go to v1 controller for /v1/ passed in URL" do

@@ -1,8 +1,7 @@
-require 'test_helper'
+require 'integration_test_helper'
 
 class DashboardIntegrationTest < ActionDispatch::IntegrationTest
   def setup
-    FactoryGirl.create(:host)
     Dashboard::Manager.reset_user_to_default(users(:admin))
   end
 
@@ -13,7 +12,7 @@ class DashboardIntegrationTest < ActionDispatch::IntegrationTest
       click_link(text)
     end
     assert_current_path hosts_path, :only_path => true
-    assert_not_nil find_field('search').value
+    assert_match(/search=/, current_url)
   end
 
   test "dashboard page" do
