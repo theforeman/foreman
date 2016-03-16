@@ -121,7 +121,8 @@ class ProvisioningTemplate < Template
     if error_msg.empty?
       begin
         @profiles = pxe_default_combos
-        menu = renderer.render_safe(default_template.template, [:default_template_url], {:profiles => @profiles})
+        allowed_helpers = Foreman::Renderer::ALLOWED_GENERIC_HELPERS + [ :default_template_url ]
+        menu = renderer.render_safe(default_template.template, allowed_helpers, :profiles => @profiles)
       rescue => e
         error_msg = _("failed to process template: %s" % e)
       end

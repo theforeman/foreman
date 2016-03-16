@@ -2,13 +2,16 @@ require 'tempfile'
 
 module Foreman
   module Renderer
-    ALLOWED_HELPERS ||= [:foreman_url, :grub_pass, :snippet, :snippets,
-                         :snippet_if_exists, :ks_console, :root_pass,
-                         :media_path, :param_true?, :param_false?, :match, :indent]
+    ALLOWED_GENERIC_HELPERS ||= [ :foreman_url, :snippet, :snippets, :snippet_if_exists, :indent, :foreman_server_fqdn,
+                                  :foreman_server_url ]
+    ALLOWED_HOST_HELPERS ||= [ :grub_pass, :ks_console, :root_pass,
+                               :media_path, :param_true?, :param_false?, :match ]
 
-    ALLOWED_VARIABLES ||= [:arch, :host, :osver, :mediapath, :mediaserver, :static,
-                           :repos, :dynamic, :kernel, :initrd,
-                           :preseed_server, :preseed_path, :provisioning_type]
+    ALLOWED_HELPERS ||= ALLOWED_GENERIC_HELPERS + ALLOWED_HOST_HELPERS
+
+    ALLOWED_VARIABLES ||= [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
+                            :repos, :dynamic, :kernel, :initrd,
+                            :preseed_server, :preseed_path, :provisioning_type ]
 
     def render_safe(template, allowed_methods = [], allowed_vars = {})
       if Setting[:safemode_render]
@@ -57,6 +60,15 @@ module Foreman
               :token     => (@host.token.value unless @host.try(:token).nil?), :kind => action
     end
 
+    def foreman_server_fqdn
+      config = URI.parse(Setting[:foreman_url])
+      config.host
+    end
+
+    def foreman_server_url
+      Setting[:foreman_url]
+    end
+
     # provide embedded snippets support as simple erb templates
     def snippets(file)
       if Template.where(:name => file, :snippet => true).empty?
@@ -96,9 +108,7 @@ module Foreman
     def unattended_render(template, template_name = nil)
       content = template.respond_to?(:template) ? template.template : template
       template_name ||= template.respond_to?(:name) ? template.name : 'Unnamed'
-      allowed_variables = ALLOWED_VARIABLES.reduce({}) do |mapping, var|
-        mapping.update(var => instance_variable_get("@#{var}"))
-      end
+      allowed_variables = allowed_variables_mapping(ALLOWED_VARIABLES)
       allowed_variables[:template_name] = template_name
       render_safe content, ALLOWED_HELPERS, allowed_variables
     end
@@ -135,6 +145,14 @@ module Foreman
     end
 
     private
+
+    # takes variable names array and loads instance variables with the same name like this
+    # { :name => @name, :another => @another }
+    def allowed_variables_mapping(variable_names)
+      variable_names.reduce({}) do |mapping, var|
+        mapping.update(var => instance_variable_get("@#{var}"))
+      end
+    end
 
     def alterator_attributes
       @mediapath   = @host.operatingsystem.mediumpath @host

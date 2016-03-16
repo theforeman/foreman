@@ -18,6 +18,14 @@ class RendererTest < ActiveSupport::TestCase
     assert_nothing_raised(NoMethodError) { foreman_url }
   end
 
+  test "foreman_server_fqdn returns FQDN from foreman_url Setting" do
+    assert_equal 'foreman.some.host.fqdn', self.foreman_server_fqdn
+  end
+
+  test "foreman_server_url returns the value from foreman_url Setting" do
+    assert_equal 'http://foreman.some.host.fqdn', self.foreman_server_url
+  end
+
   [:normal_renderer, :safemode_renderer].each do |renderer_name|
     test "#{renderer_name} is properly configured" do
       send "setup_#{renderer_name}"
@@ -99,5 +107,10 @@ class RendererTest < ActiveSupport::TestCase
     allowed.each do |m|
       assert ActiveRecord::AssociationRelation::Jail.allowed?(m), "Method #{m} is not available in ActiveRecord::Associations::CollectionProxy::Jail while should be allowed."
     end
+  end
+
+  test '#allowed_variables_mapping loads instance variables' do
+    @whatever_random_name = 'has_value'
+    assert_equal({ :whatever_random_name => 'has_value' }, allowed_variables_mapping([ :whatever_random_name ]))
   end
 end
