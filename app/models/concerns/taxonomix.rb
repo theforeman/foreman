@@ -41,8 +41,8 @@ module Taxonomix
 
     # default inner_method includes parents (path_ids)
     def with_taxonomy_scope_override(loc = nil, org = nil, inner_method = :path_ids)
-      # need to .unscoped or default_scope {with_taxonomy_scope} overrides inner_method
-      unscoped.with_taxonomy_scope(loc, org, inner_method)
+      # need to .unscope in case default_scope {with_taxonomy_scope} overrides inner_method
+      unscope(:where => :taxonomy).with_taxonomy_scope(loc, org, inner_method)
     end
 
     def used_taxonomy_ids

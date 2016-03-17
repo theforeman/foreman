@@ -3,7 +3,7 @@
               :text => obj.errors[:puppetclasses].map { |e| "<li>#{e}</li>" }.join.html_safe %>
   <% end %>
 
-  <%= render("config_groups/config_groups_selection", :obj => obj, :type => obj_type(obj)) if (controller_name != 'config_groups' && ConfigGroup.count > 0) %>
+  <%= render("config_groups/config_groups_selection", :obj => obj, :type => obj_type(obj)) if (controller_name != 'config_groups' && accessible_resource_records(:config_group).exists?) %>
 
 <div class="row">
   <div class="col-md-4 classes">
