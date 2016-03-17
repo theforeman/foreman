@@ -1,3 +1,4 @@
+# Here be dragons
 class Authorizer
   attr_accessor :user, :base_collection, :organization_ids, :location_ids
 
