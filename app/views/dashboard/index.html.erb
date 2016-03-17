@@ -10,7 +10,7 @@
   <% else %>
     <div id='dashboard' class="dashboard gridster col-md-12">
       <ul>
-        <% User.current.widgets.each do |widget| %>
+        <% User.current.widgets.order(:id).each do |widget| %>
           <%= content_tag(:li, widget_data(widget)) do %>
             <div class='widget_control'>
               <a class='remove' data-url='<%= widget_path(widget) %>'>&times;</a>
