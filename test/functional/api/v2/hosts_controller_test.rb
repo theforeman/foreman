@@ -397,6 +397,17 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test "when no primary interface is set, defaulting to first one" do
+    disable_orchestration
+    nics = nics_attrs
+    nics.each do |nic|
+      nic.delete(:primary)
+    end
+    post :create, { :host => basic_attrs.merge!(:interfaces_attributes => nics) }
+
+    assert_response :created
+  end
+
   test 'when ":restrict_registered_smart_proxies" is false, HTTP requests should be able to import facts' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_smart_proxies] = false
