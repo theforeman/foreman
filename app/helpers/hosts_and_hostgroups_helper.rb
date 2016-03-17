@@ -7,8 +7,25 @@ module HostsAndHostgroupsHelper
     name
   end
 
-  def accessible_hostgroups
-    Hostgroup.with_taxonomy_scope_override(@location,@organization).order(:title)
+  def accessible_resource_records(resource, order = :name)
+    klass = resource.to_s.classify.constantize
+    klass = klass.with_taxonomy_scope_override(@location, @organization) if klass.include? Taxonomix
+    klass.authorized.reorder(order)
+  end
+
+  def accessible_resource(obj, resource, order = :name)
+    list = accessible_resource_records(resource, order).to_a
+    # we need to allow the current value even if it was filtered
+    current = obj.public_send(resource) if obj.respond_to?(resource)
+    list |= [current] if current.present?
+    list
+  end
+
+  def accessible_related_resource(obj, relation, order = :name)
+    return [] if obj.blank?
+    related = obj.public_send(relation)
+    related = related.with_taxonomy_scope_override(@location, @organization) if obj.class.reflect_on_association(relation).klass.include?(Taxonomix)
+    related.authorized.reorder(order)
   end
 
   def parent_classes(obj)
@@ -17,33 +34,34 @@ module HostsAndHostgroupsHelper
     []
   end
 
-  def accessible_domains
-    Domain.with_taxonomy_scope_override(@location,@organization).order(:name)
+  def accessible_puppet_ca_proxies(obj)
+    list = accessible_resource_records(:smart_proxy).with_features("Puppet CA").to_a
+    current = obj.puppet_ca_proxy
+    list |= [current] if current.present?
+    list
   end
 
-  def accessible_subnets
-    Subnet.with_taxonomy_scope_override(@location,@organization).order(:name)
+  def accessible_puppet_proxies(obj)
+    list = accessible_resource_records(:smart_proxy).with_features("Puppet").to_a
+    current = obj.puppet_proxy
+    list |= [current] if current.present?
+    list
   end
 
-  def domain_subnets(domain = @domain)
-    return [] if domain.blank?
-    ids = domain.subnets.pluck('subnets.id')
-    accessible_subnets.where('subnets.id' => ids)
+  def domain_subnets
+    accessible_related_resource(@domain, :subnets)
   end
 
   def arch_oss
-    return [] if @architecture.blank?
-    @architecture.operatingsystems
+    accessible_related_resource(@architecture, :operatingsystems)
   end
 
   def os_media
-    return [] if @operatingsystem.blank?
-    @operatingsystem.media.with_taxonomy_scope(@location,@organization,:path_ids)
+    accessible_related_resource(@operatingsystem, :media)
   end
 
   def os_ptable
-    return [] if @operatingsystem.blank?
-    @operatingsystem.ptables
+    accessible_related_resource(@operatingsystem, :ptables)
   end
 
   def puppet_master_fields(f, can_override = false, override = false)
@@ -55,8 +73,8 @@ module HostsAndHostgroupsHelper
   def puppet_ca(f, can_override, override)
     # Don't show this if we have no CA proxies, otherwise always include blank
     # so the user can choose not to sign the puppet cert on this host
-    proxies = SmartProxy.unscoped.with_features("Puppet CA").with_taxonomy_scope(@location,@organization,:path_ids)
-    return if proxies.count == 0
+    proxies = accessible_puppet_ca_proxies(f.object)
+    return unless proxies.present?
     select_f f, :puppet_ca_proxy_id, proxies, :id, :name,
              { :include_blank => blank_or_inherit_f(f, :puppet_ca_proxy),
                :disable_button => can_override ? _(INHERIT_TEXT) : nil,
@@ -70,8 +88,8 @@ module HostsAndHostgroupsHelper
   def puppet_master(f, can_override, override)
     # Don't show this if we have no Puppet proxies, otherwise always include blank
     # so the user can choose not to use puppet on this host
-    proxies = SmartProxy.unscoped.with_features("Puppet").with_taxonomy_scope(@location,@organization,:path_ids)
-    return if proxies.count == 0
+    proxies = accessible_puppet_proxies(f.object)
+    return unless proxies.present?
     select_f f, :puppet_proxy_id, proxies, :id, :name,
              { :include_blank => blank_or_inherit_f(f, :puppet_proxy),
                :disable_button => can_override ? _(INHERIT_TEXT) : nil,
@@ -86,10 +104,11 @@ module HostsAndHostgroupsHelper
   def realm_field(f, can_override = false, override = false)
     # Don't show this if we have no Realms, otherwise always include blank
     # so the user can choose not to use a Realm on this host
-    return if Realm.count == 0
     return unless (SETTINGS[:unattended] == true) && @host.managed
+    realms = accessible_resource(f.object, :realm)
+    return unless realms.present?
     select_f(f, :realm_id,
-                Realm.with_taxonomy_scope_override(@location, @organization).authorized(:view_realms),
+                realms,
                 :id, :to_label,
                 { :include_blank => true,
                   :disable_button => can_override ? _(INHERIT_TEXT) : nil,
@@ -117,7 +136,7 @@ module HostsAndHostgroupsHelper
 
     puppet_environment_field(
       form,
-      Environment.with_taxonomy_scope_override(@location,@organization).order(:name),
+      accessible_resource(@host, :environment),
       select_options,
       html_options)
   end
@@ -134,7 +153,7 @@ module HostsAndHostgroupsHelper
 
     puppet_environment_field(
       form,
-      Environment.all,
+      accessible_resource(@hostgroup, :environment),
       select_options,
       html_options)
   end
@@ -181,6 +200,7 @@ module HostsAndHostgroupsHelper
   end
 
   def puppetclasses_tab(puppetclasses_receiver)
+    return unless accessible_puppet_proxies(puppetclasses_receiver).present?
     content_tag(:div, :class => 'tab-pane', :id => 'puppet_klasses') do
       if @environment.present? ||
           @hostgroup.present? && @hostgroup.environment.present?

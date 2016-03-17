@@ -25,7 +25,7 @@
     <div class="row">
       <div class="col-md-6 classes">
         <ul class="config_group_group">
-          <% (ConfigGroup.includes(:puppetclasses).where(nil) - obj.parent_config_groups).each do |config_group| %>
+          <% (ConfigGroup.includes(:puppetclasses).authorized(:view_config_groups) - obj.parent_config_groups).each do |config_group| %>
             <% css_class = obj.config_groups.include?(config_group) ? "hide" : "" %>
             <%= render 'config_groups/config_group', :obj => obj, :config_group => config_group, :added => false, :css_class => css_class %>
           <% end %>

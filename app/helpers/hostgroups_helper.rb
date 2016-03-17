@@ -12,6 +12,7 @@ module HostgroupsHelper
   end
 
   def parent_hostgroups
+    accessible_hostgroups = accessible_resource_records(:hostgroup, :title).to_a
     if @hostgroup.new_record?
       accessible_hostgroups
     else
