@@ -16,9 +16,14 @@ module Dashboard
       @allowed_templates.merge(templates)
     end
 
-    def self.add_widget_to_user(user, widget)
-      raise ::Foreman::Exception.new(N_("Unallowed template for dashboard widget: %s"), widget[:template]) unless @allowed_templates.include?(widget[:template])
-      user.widgets.create!(widget)
+    def self.add_widget_to_user(user, widget_params)
+      raise ::Foreman::Exception.new(N_("Unallowed template for dashboard widget: %s"), widget_params[:template]) unless @allowed_templates.include?(widget_params[:template])
+
+      widget = user.widgets.build(widget_params.except(:name, :template))
+      widget.name = widget_params[:name]
+      widget.template = widget_params[:template]
+      widget.save!
+      widget
     end
 
     def self.reset_user_to_default(user)
