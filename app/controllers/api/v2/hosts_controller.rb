@@ -284,10 +284,6 @@ Return the host's compute attributes that can be used to create a clone of this 
           params[:interfaces_attributes] = params[:interfaces_attributes].map do |nic_attr|
             interface_attributes(nic_attr)
           end
-          #if no primary interface set explicitly, set first one as primary
-          unless params[:interfaces_attributes].any?{|i| i[:primary]}
-            params[:interfaces_attributes].first[:primary] = true
-          end
         end
         params = host.apply_inherited_attributes(params) if host
         params

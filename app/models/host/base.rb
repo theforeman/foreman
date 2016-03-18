@@ -339,7 +339,15 @@ module Host
     end
 
     def build_required_interfaces(attrs = {})
-      self.interfaces.build(attrs.merge(:primary => true, :type => 'Nic::Managed')) if self.primary_interface.nil?
+      if self.primary_interface.nil?
+        if self.interfaces.empty?
+          self.interfaces.build(attrs.merge(:primary => true, :type => 'Nic::Managed'))
+        else
+          interface = self.interfaces.first
+          interface.attributes = attrs
+          interface.primary = true
+        end
+      end
       self.primary_interface.provision = true if self.provision_interface.nil?
     end
 

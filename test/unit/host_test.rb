@@ -40,6 +40,24 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "#{host.shortname}.yourdomain.net", host.name
   end
 
+  test '.new should build host with primary interface' do
+    host = Host.new
+    assert host.primary_interface
+    assert_equal 1, host.interfaces.size
+  end
+
+  test '.new should mark one interfaces as primary if none was chosen explicitly' do
+    host = Host.new(:interfaces_attributes => [ {:ip => '192.168.0.1' }, { :ip => '192.168.1.2' } ])
+    assert host.primary_interface
+    assert_equal 2, host.interfaces.size
+  end
+
+  test '.new does not reset primary flag if it was set explicitly' do
+    host = Host.new(:interfaces_attributes => [ {:ip => '192.168.0.1' }, { :ip => '192.168.1.2', :primary => true } ])
+    assert_equal 2, host.interfaces.size
+    assert_equal '192.168.1.2', host.primary_interface.ip
+  end
+
   test "host should not save without primary interface" do
     host = FactoryGirl.build(:host, :managed)
     host.interfaces = []
