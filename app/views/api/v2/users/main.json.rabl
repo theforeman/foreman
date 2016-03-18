@@ -4,6 +4,8 @@ extends "api/v2/users/base"
 
 attributes :firstname, :lastname, :mail, :admin, :auth_source_id, :auth_source_name, :timezone, :locale, :last_login_on, :created_at, :updated_at
 
+node(:effective_admin) { |u| u.admin? }
+
 if SETTINGS[:locations_enabled]
   child :default_location => :default_location do
     extends "api/v2/taxonomies/base", :taxonomy => :location
