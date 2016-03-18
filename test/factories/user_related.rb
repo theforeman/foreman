@@ -26,6 +26,10 @@ FactoryGirl.define do
       sequence(:mail) {|n| "email#{n}@example.com" }
       mail_notifications { [FactoryGirl.create(:mail_notification)] }
     end
+
+    trait :with_widget do
+      after(:create) { |user,evaluator| FactoryGirl.create(:widget, :user => user) }
+    end
   end
 
   factory :permission do
@@ -94,5 +98,10 @@ FactoryGirl.define do
     trait :on_name_starting_with_b do
       search 'name ~ b*'
     end
+  end
+
+  factory :widget do
+    sequence(:name) {|n| "Status Table #{n}" }
+    template 'status_widget'
   end
 end
