@@ -1,5 +1,5 @@
 class AssociationAuthorizer
-  def self.authorized_associations(associations,  klass_name = nil, should_raise_exception = true, action = 'view')
+  def self.authorized_associations(associations, klass_name = nil, should_raise_exception = true, action = 'view')
     if associations.included_modules.include?(Authorizable)
       associations_klass = associations
       if associations.respond_to?(:klass)
@@ -15,6 +15,7 @@ class AssociationAuthorizer
 
   def self.permission_name(klass, permission, should_raise_exception)
     klass = klass.first if klass.is_a?(Array)
+    klass = klass.class unless klass.is_a?(Class)
     suffix = klass.respond_to?(:permission_name) ? klass.permission_name : klass.to_s.underscore.pluralize
     permission = "#{permission}_#{suffix}"
     if Permission.where(:name => permission).present?
