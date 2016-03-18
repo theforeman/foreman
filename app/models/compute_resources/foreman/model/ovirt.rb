@@ -187,6 +187,20 @@ module Foreman::Model
       true
     end
 
+    def supports_vms_pagination?
+      true
+    end
+
+    def parse_vms_list_params(params)
+      max = (params['iDisplayLength'] || 10).to_i
+      {
+        :search => params['sSearch'] || '',
+        :max => max,
+        :page => (params['iDisplayStart'].to_i / max)+1,
+        :without_details => true
+      }
+    end
+
     def console(uuid)
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" if vm.status == "down"

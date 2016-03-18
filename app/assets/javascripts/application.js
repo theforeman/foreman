@@ -156,6 +156,19 @@ function activateDatatables() {
         "sPaginationType": "bootstrap"
       }
   );
+  $('[data-table=server]').not('.dataTable').each(function () {
+    var url = $(this).data('source');
+    $(this).dataTable(
+      {
+        "bProcessing": true,
+        "bServerSide": true,
+        "bSort": false,
+        "sAjaxSource": url,
+        "sDom": "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'><'col-md-6'p>>",
+        "sPaginationType": "bootstrap"
+      }
+    );
+  });
 }
 
 function preserve_selected_options(elem) {

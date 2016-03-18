@@ -156,4 +156,36 @@ module ComputeResourcesVmsHelper
     resource_pools = compute_resource.available_resource_pools(:cluster_id => form.object.cluster) rescue []
     selectable_f form, :resource_pool, resource_pools, { }, :class => "col-md-2", :label => _('Resource pool')
   end
+
+  def vms_table
+    data = if @compute_resource.supports_vms_pagination?
+             { :table => 'server', :source => compute_resource_vms_path }
+           else
+             { :table => 'inline' }
+           end
+
+    content_tag :table, :class => table_css_classes, :data => data do
+      yield
+    end
+  end
+
+  # Really counting vms is as expansive as loading them all, especially when
+  # a filter is in place. So we create a fake count to get table pagination to work.
+  def ovirt_fake_vms_count
+    params['iDisplayStart'].to_i + 1 + [@vms.length, params['iDisplayLength'].to_i].min
+  end
+
+  def ovirt_vms_data
+    data = @vms.map do |vm|
+      [
+        link_to_if_authorized(html_escape(vm.name), hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id).merge(:auth_object => @compute_resource, :auth_action => 'view', :authorizer => authorizer)),
+        vm.cores,
+        number_to_human_size(vm.memory),
+        "<span #{vm_power_class(vm.ready?)}>#{vm_state(vm)}</span>",
+        action_buttons(vm_power_action(vm, authorizer),
+                       display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id).merge(:auth_object => @compute_resource, :authorizer => authorizer)))
+      ]
+    end
+    JSON.fast_generate(data).html_safe
+  end
 end
