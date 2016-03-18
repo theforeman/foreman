@@ -39,6 +39,18 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     assert_equal nil, show_response['default_organization']
   end
 
+  test "effective_admin is true if group admin is enabled" do
+    user = users(:one)
+    get :show, { :id => user.id }
+    response = ActiveSupport::JSON.decode(@response.body)
+    refute response["effective_admin"]
+
+    FactoryGirl.create(:usergroup, :admin => true, :users => [user])
+    get :show, { :id => user.id }
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert response["effective_admin"]
+  end
+
   test "should update user" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     put :update, { :id => user.id, :user => valid_attrs }
