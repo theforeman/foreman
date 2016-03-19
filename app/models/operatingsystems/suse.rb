@@ -5,6 +5,11 @@ class Suse < Operatingsystem
     delegate :model_name, :to => :superclass
   end
 
+  # Simple output of the media url
+  def mediumpath(host)
+    medium_uri(host).to_s
+  end
+
   def pxe_type
     "yast"
   end
