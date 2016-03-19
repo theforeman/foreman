@@ -189,6 +189,7 @@ module Foreman
     end
 
     def yast_attributes
+      @mediapath = @host.operatingsystem.mediumpath @host
     end
 
     def coreos_attributes

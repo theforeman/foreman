@@ -110,7 +110,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
   end
 
   test 'preview' do
-    host = FactoryGirl.create(:host, :managed, :operatingsystem => FactoryGirl.create(:suse, :with_archs))
+    host = FactoryGirl.create(:host, :managed, :operatingsystem => FactoryGirl.create(:suse, :with_archs, :with_media))
     template = FactoryGirl.create(:provisioning_template)
 
     # works for given host
