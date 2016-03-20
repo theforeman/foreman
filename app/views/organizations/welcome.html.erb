@@ -4,12 +4,15 @@
   </div>
   <h1><%= _('Organization') %></h1>
   <p>
-    <%= _("You must create an organization before continuing") %></br>
-    <%= _('Using the organization system provides a way to group resources together for easy management.') %></br>
-    <%= _('Organizations are particularly useful for Foreman installations where several customers or business units are managed with a single Foreman install.') %></br>
+    <%= _("You must create an organization before continuing.") %>
+  </p>
+  <p>
+    <%= _('Using the organization system provides a way to group resources together for easy management. Organizations are particularly useful for Foreman installations where several customers or business units are managed with a single Foreman install.') %>
+  </p>
+  <p>
     <%= (_('Organizations also work nicely in tandem with %{locations}.') % {:locations => link_to(_("locations"), :controller => "locations", :action => "index")}).html_safe %>
   </p>
   <div class="blank-slate-pf-main-action">
-    <%= link_to(_("New organization"), new_organization_path, :class => 'btn btn-primary btn-lg') %>
+    <%= new_link(_("New organization"), {}, { :class => 'btn-lg' }) %>
   </div>
 </div>

@@ -80,17 +80,6 @@ module ApplicationHelper
         options.merge(:'data-original-title' => _("Click to add %s") % options[:"data-class-name"]))
   end
 
-  def add_html_classes(options, classes)
-    options = options.dup unless options.nil?
-    options ||= {}
-    options[:class] = options[:class].dup if options.has_key? :class
-    options[:class] ||= []
-    options[:class] = options[:class].split /\s+/ if options[:class].is_a? String
-    classes = classes.split /\s+/ if classes.is_a? String
-    options[:class] += classes
-    options
-  end
-
   # Return true if user is authorized for controller/action, otherwise false
   # +options+ : Hash containing
   #             :controller : String or symbol for the controller, defaults to params[:controller]
@@ -162,6 +151,12 @@ module ApplicationHelper
     end
   end
 
+  def new_link(name, options = {}, html_options = {})
+    options[:action] = :new
+    html_options[:class] = "btn btn-primary #{html_options[:class]}"
+    display_link_if_authorized(name, options, html_options)
+  end
+
   def authorized_edit_habtm(klass, association, prefix = nil, options = {})
     if authorized_for :controller => params[:controller], :action => params[:action]
       return edit_habtm(klass, association, prefix, options)
@@ -211,7 +206,7 @@ module ApplicationHelper
   end
 
   def help_path
-    link_to _("Help"), :action => "welcome" if File.exist?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
+    link_to(_("Help"), { :action => "welcome" }, { :class => 'btn btn-default' }) if File.exist?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
   end
 
   def method_path(method)
@@ -288,34 +283,30 @@ module ApplicationHelper
                 }.merge(options))
   end
 
-  def action_buttons(*args)
-    toolbar_action_buttons args
-  end
-
   def select_action_button(title, options = {}, *args)
     # the no-buttons code is needed for users with less permissions
-    return unless args
-    args = args.flatten.map{|arg| arg unless arg.blank?}.compact
-    return if args.length == 0
+    args = args.flatten.select(&:present?)
+    return if args.blank?
 
-    #single button
-    return content_tag(:span, args[0].html_safe, options.merge(:class=>'btn btn-default')) if args.length == 1
-
-    #multiple options
     content_tag(:div, options.merge(:class=>'btn-group')) do
-      link_to((title + " " + content_tag(:span, '', :class => 'caret')).html_safe, '#',
+      #single button
+      if args.length == 1
+        args[0].html_safe
+      #multiple options
+      else
+        link_to((title + " " + content_tag(:span, '', :class => 'caret')).html_safe, '#',
               :class => "btn btn-default dropdown-toggle", :'data-toggle' => 'dropdown') +
              content_tag(:ul, :class=>"dropdown-menu pull-right") do
                args.map{ |option| content_tag(:li,option) }.join(" ").html_safe
              end
+       end
     end
   end
 
-  def toolbar_action_buttons(*args)
+  def action_buttons(*args)
     # the no-buttons code is needed for users with less permissions
-    return unless args
-    args = args.flatten.map{|arg| arg unless arg.blank?}.compact
-    return if args.length == 0
+    args = args.flatten.select(&:present?)
+    return if args.blank?
 
     #single button
     return content_tag(:span, args[0].html_safe, :class=>'btn btn-sm btn-default') if args.length == 1

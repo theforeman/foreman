@@ -4,7 +4,7 @@
      title _("Filters")
    end %>
 
-<% title_actions link_to_if_authorized(_("New filter"), hash_for_new_filter_path(:role_id => @role)),
+<% title_actions new_link(_("New filter"), { :controller => :filters, :role_id => @role }),
                  documentation_button('4.1.2RolesandPermissions') %>
 
 <table class="table table-bordered table-striped" <%= "data-table='inline'".html_safe if params[:paginate] == 'client' %> >
