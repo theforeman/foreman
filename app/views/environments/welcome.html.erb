@@ -4,11 +4,11 @@
     <%= icon_text("th", "", :kind => "fa") %>
   </div>
   <h1><%= _('Environments') %></h1>
-  <p><%= _('If you are planning to use Foreman as an external node classifier you should provide information about one or more environments.') %></p>
-  <%= _('This information is commonly imported from a pre-existing puppet configuration by the use of the') %> <%= link_to  _('Puppet classes and environment importer'), documentation_url("4.2.2Classes"), :rel => "external" %> <%= _('Puppet classes and environment importer') %></a></br>
-  <%= _('Environments may be manually created and only require the name of the environment to be declared.') %></br>
+  <p><%= _("If you are planning to use Foreman as an external node classifier you should provide information about one or more environments. This information is commonly imported from a pre-existing Puppet configuration by the use of the %{link_start}Puppet classes and environment importer%{link_end}.").html_safe % { :link_start => tag(:a, :href => documentation_url("4.2.2Classes"), :rel => 'external'),
+                  :link_end => '</a>'.html_safe} %>
+  </p>
   <p><%= link_to(_('Learn more about this in the documentation.'), documentation_url("4.2.1Environments")) %></p>
   <div class="blank-slate-pf-main-action">
-      <%= link_to _('New Puppet environment'), new_environment_path, :class => "btn btn-primary btn-lg" %>
+      <%= new_link(_('New Puppet environment'), {}, { :class => "btn-lg" }) %>
   </div>
 </div>

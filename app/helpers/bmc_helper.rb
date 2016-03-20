@@ -11,7 +11,7 @@ module BmcHelper
   end
 
   def power_actions
-    toolbar_action_buttons(
+    action_buttons(
       (PowerManager::SUPPORTED_ACTIONS - ['state']).map do |action|
         display_link_if_authorized(_(action.to_s.capitalize),
                                    { :action => "power", :id => @host, :power_action => action, :auth_object => @host },

@@ -4,12 +4,15 @@
   </div>
   <h1><%= _('Locations') %></h1>
   <p>
-    <%= _("You must create a location before continuing") %></br>
-    <%= _("Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed.") %></br>
-    <%= _("For example, there might be a data center in London and one in Virginia; these are locations.") %></br>
+    <%= _("You must create a location before continuing.") %>
+  </p>
+  <p>
+    <%= _("Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed. For example, there might be a data center in London and one in Virginia; these are locations.") %>
+  </p>
+  <p>
     <%= (_('Locations also work nicely when used in tandem with %{organizations}.') % {:organizations => link_to(_("organizations"), :controller => "organizations", :action => "index")}).html_safe %>
   </p>
   <div class="blank-slate-pf-main-action">
-      <%= link_to(_("New location"), new_location_path, :class => "btn btn-primary btn-lg") %>
+      <%= new_link(_("New location"), {} , { :class => "btn-lg" }) %>
   </div>
 </div>

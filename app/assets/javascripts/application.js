@@ -73,13 +73,6 @@ function onContentLoad(){
      notify(item, 'success');
    });
 
-  // adds buttons classes to all links
-  $("#title_action a").addClass('btn').not('.btn-info, .btn-danger').addClass("btn-default");
-
-  $("#title_action li a").removeClass("btn btn-default").addClass("la");
-  $("#title_action span").removeClass("btn btn-default").addClass("btn-group");
-  $("#title_action a[href*='new']").removeClass('btn-default').addClass("btn-primary");
-
   if ($("input[focus_on_load=true]").length > 0) {
     $("input[focus_on_load]").first().focus();
   }

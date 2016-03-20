@@ -134,6 +134,6 @@ module DashboardHelper
     end
     link_to(icon_text("refresh"),
             {:auto_refresh => (on == "on" ? "0" : "1")},
-            { :'data-original-title' => tooltip, :rel => 'twipsy', :class => "#{on} auto-refresh btn btn-group"})
+            { :'data-original-title' => tooltip, :rel => 'twipsy', :class => "#{on} auto-refresh btn btn-group btn-default"})
   end
 end

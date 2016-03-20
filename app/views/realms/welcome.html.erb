@@ -10,6 +10,6 @@
     <%= link_to _('Learn more about this in the documentation.'), documentation_url("4.3.9Realm")%>
   </p>
   <div class="blank-slate-pf-main-action">
-    <%= display_link_if_authorized _('New Realm'), hash_for_new_realm_path, :class => "btn btn-primary btn-lg" %>
+    <%= new_link(_('New Realm'), {}, { :class => "btn-lg" }) %>
   </div>
 </div>
