@@ -38,3 +38,5 @@ _build
 zeus.json
 custom_plan.rb
 pkg/
+app/assets/javascripts/bundle*
+node_modules/
