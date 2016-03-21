@@ -63,7 +63,7 @@ function ovirt_templateSelected(item){
   var template = $(item).val();
   if (template) {
     var url = $(item).attr('data-url');
-    foreman.tools.showSpinner();
+    fTools.showSpinner();
     $.ajax({
       type:'post',
       url: url,
@@ -117,7 +117,7 @@ function bootable_radio(item){
 function ovirt_clusterSelected(item){
   var cluster = $(item).val();
   var url = $(item).attr('data-url');
-  foreman.tools.showSpinner();
+  fTools.showSpinner();
   $.ajax({
       type:'post',
       url: url,
@@ -175,7 +175,7 @@ function libvirt_image_selected(item){
   var template = $(item).val();
   if (template) {
     var url = $(item).attr('data-url');
-    foreman.tools.showSpinner();
+    fTools.showSpinner();
     $.ajax({
       type:'post',
       url: url,
@@ -243,14 +243,14 @@ function allocation_switcher(element, action) {
 function vsphereGetResourcePools(item) {
   var data = {cluster_id: $(item).val()};
   var url = $(item).data('url');
-  foreman.tools.showSpinner();
+  fTools.showSpinner();
   selectbox = $('*[id*=resource_pool]');
   selectbox.select2('destroy').empty();
   $.ajax({
     type: 'get',
     url: url,
     data: data,
-    complete: function() { foreman.tools.hideSpinner();},
+    complete: function() { fTools.hideSpinner();},
     success: function(request) {
       for (var i = 0; i < request.length; i++) {
         var option = request[i].name;

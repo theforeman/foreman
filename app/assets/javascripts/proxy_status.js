@@ -11,11 +11,11 @@ function setItemStatus(item, response) {
   if(response.success) {
     item.attr('title', __('Active'));
     item.addClass('text-success');
-    item.html(icon_text('ok', "", "pficon"));
+    item.html(fTools.iconText('ok', "", "pficon"));
   } else {
     item.attr('title', response.message);
     item.addClass('text-danger');
-    item.html(icon_text('error-circle-o', "", "pficon"));
+    item.html(fTools.iconText('error-circle-o', "", "pficon"));
   }
   item.tooltip({html: true});
 }
@@ -42,7 +42,7 @@ function generateItem(item, status, text) {
   } else {
     item.attr('title', text);
     item.addClass('text-danger');
-    item.html(icon_text('error-circle-o', "", "pficon"));
+    item.html(fTools.iconText('error-circle-o', "", "pficon"));
   }
   item.tooltip({html: true});
 }
