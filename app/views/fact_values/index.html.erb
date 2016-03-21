@@ -7,16 +7,16 @@ end
 %>
 <% title_actions documentation_button('3.5.5FactsandtheENC') %>
 
-<table class="<%= table_css_classes('ellipsis')%>">
+<table class="<%= table_css_classes('table-fixed') %>">
   <thead>
     <tr>
       <% unless params[:host_id] %>
-        <th><%= sort :host, :as => _("Host") %></th>
+        <th class="col-md-2"><%= sort :host, :as => _("Host") %></th>
       <% end %>
       <th><%= sort :name, :as => _("Name")  %></th>
       <th><%= sort :value, :as => s_("FactValue|Value") %></th>
-      <th><%= _('Reported at') %></th>
-      <th><%= _('Actions') %></th>
+      <th class="col-md-2"><%= _('Reported at') %></th>
+      <th class="col-md-1"><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>
