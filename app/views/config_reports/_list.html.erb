@@ -1,4 +1,4 @@
-<table class="table table-bordered table-striped ellipsis">
+<table class="table table-bordered table-striped table-fixed">
   <thead>
     <tr>
       <% unless params[:host_id] %>
@@ -21,7 +21,7 @@
           <% if report.host.nil? %>
               <td></td>
           <% else %>
-              <td><%= link_to report.host, host_config_reports_path(report.host) %></td>
+              <td class="ellipsis"><%= link_to report.host, host_config_reports_path(report.host) %></td>
           <% end %>
         <% end %>
         <td><%= reported_at_column(report) %></td>
