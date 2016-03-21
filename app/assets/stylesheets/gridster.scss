@@ -19,15 +19,15 @@ $col-margin-fallback: 1.5%;
 
   @for $i from 1 through 12 {
     [data-col="#{$i + 1}"] {
-      margin-left: calc(#{percentage($i / 12)} + #{$col-margin-left});
       margin-left: #{percentage($i / 12)} + $col-margin-fallback;
+      margin-left: calc(#{percentage($i / 12)} + #{$col-margin-left});
     }
   }
 
   @for $i from 1 through 12 {
     [data-sizex="#{$i}"] {
-      width: calc(#{percentage($i / 12)} - #{$col-margin-left});
       width: #{percentage($i / 12)} - $col-margin-fallback;
+      width: calc(#{percentage($i / 12)} - #{$col-margin-left});
     }
   }
 }
@@ -119,6 +119,3 @@ $col-margin-fallback: 1.5%;
     border: 1px solid #00618a;
   }
 }
-
-
-
