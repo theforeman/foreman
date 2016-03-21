@@ -7,6 +7,16 @@ module SSO
   end
 
   def self.all
-    METHODS
+    METHODS + (@registered_methods || [])
+  end
+
+  def self.register_method(klass)
+    @registered_methods ||= []
+    @registered_methods << klass
+    klass
+  end
+
+  def self.deregister_method(klass)
+    @registered_methods.delete(klass) if @registered_methods
   end
 end

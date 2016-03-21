@@ -23,4 +23,21 @@ class SSOTest < ActiveSupport::TestCase
     available = SSO.get_available(Object.new)
     assert available.present?
   end
+
+  def test_register_method
+    assert_difference 'SSO.all.count', 1 do
+      SSO.register_method(DummyMethod)
+    end
+    assert_includes SSO.all, DummyMethod
+  ensure
+    SSO.deregister_method(DummyMethod)
+  end
+
+  def test_deregister_method
+    SSO.register_method(DummyMethod)
+    assert_difference 'SSO.all.count', -1 do
+      SSO.deregister_method(DummyMethod)
+    end
+    refute_includes SSO.all, DummyMethod
+  end
 end
