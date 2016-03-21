@@ -12,4 +12,16 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
     assert_submit_button(users_path)
     assert page.has_link? 'user12345'
   end
+
+  context "without automatic login" do
+    def login_admin; end
+
+    test "login" do
+      visit "/"
+      fill_in "login_login", :with => users(:admin).login
+      fill_in "login_password", :with => "secret"
+      click_button "Login"
+      assert_current_path hosts_path
+    end
+  end
 end
