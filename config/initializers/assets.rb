@@ -51,6 +51,8 @@ Foreman::Application.configure do |app|
                   proxy_status
                   parameter_override)
 
+  javascript += FastGettext.default_available_locales.map { |loc| "locale/#{loc}/app" }
+
   stylesheets = %w( )
 
   # Add the fonts path
