@@ -152,10 +152,11 @@ module Orchestration::DHCP
   end
 
   def queue_remove_dhcp_conflicts
-    return unless (dhcp? and overwrite?)
+    return if !dhcp? || !overwrite?
+
     logger.debug "Scheduling DHCP conflicts removal"
     queue.create(:name   => _("DHCP conflicts removal for %s") % self, :priority => 5,
-                 :action => [self, :del_dhcp_conflicts]) if dhcp_record and dhcp_record.conflicting?
+                 :action => [self, :del_dhcp_conflicts])
   end
 
   def ip_belongs_to_subnet?
