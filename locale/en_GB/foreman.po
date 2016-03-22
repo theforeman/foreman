@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-02-28 09:20+0000\n"
+"PO-Revision-Date: 2016-03-12 10:51+0000\n"
 "Last-Translator: Dominic Cleal <dominic@cleal.org>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
 "man/language/en_GB/)\n"
@@ -2753,7 +2753,7 @@ msgid "Guest OS"
 msgstr ""
 
 msgid "Hardware"
-msgstr ""
+msgstr "Hardware"
 
 msgid "Hardware Model"
 msgstr ""
@@ -3377,7 +3377,7 @@ msgid "Interface's DNS name"
 msgstr ""
 
 msgid "Interfaces"
-msgstr ""
+msgstr "Interfaces"
 
 msgid "Internal DB"
 msgstr ""
@@ -4262,7 +4262,7 @@ msgid "Netmask for this subnet"
 msgstr ""
 
 msgid "Network"
-msgstr ""
+msgstr "Network"
 
 msgid "Network Based"
 msgstr ""
@@ -6389,7 +6389,7 @@ msgid "Stop updating IP address and MAC values from Puppet facts (affects all in
 msgstr ""
 
 msgid "Storage"
-msgstr ""
+msgstr "Storage"
 
 msgid "Storage domain"
 msgstr ""
