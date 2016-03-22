@@ -17,7 +17,7 @@
     <% hosts.each do |host| %>
       <tr>
         <td class="ca">
-          <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :disabled => !authorized?, :class => 'host_select_boxes', :onclick => 'hostChecked(this)' %>
+          <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'hostChecked(this)' %>
         </td>
         <td class="ellipsis"><%= name_column(host) %>
         </td>
