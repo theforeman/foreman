@@ -1,3 +1,18 @@
+2016-03-22	Dominic Cleal <dominic@cleal.org>
+	* Release 1.11.0-RC3
+	* fixes #14041 - don't call select2 on CR form templates
+	* fixes #13980 - don't merge NIC compute attrs on New Host form
+	* i18n - extracting new, pulling from tx
+	* fixes #13352 - order dashboard widgets by ID for consistency
+	* fixes #14179 - don't merge NIC compute attrs in ComputeProfileMerge
+	* fixes #14170 - permit 'zone' parameter for GCE CR creation
+
+2016-03-22	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13066 - Improve readability of blank slate pages
+
+2016-03-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14154 - fix adrift reports show page
+
 2016-03-11	Dominic Cleal <dominic@cleal.org>
 	* Release 1.11.0-RC2
 	* i18n - extracting new, pulling from tx
