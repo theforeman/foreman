@@ -78,9 +78,9 @@
            {:onchange => 'update_puppetclasses(this)', :'data-url' => hostgroup_or_environment_selected_hosts_path,
             :'data-host-id' => @host.id, :help_inline => :indicator} %>
 
-        <%= puppet_master_fields f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
+        <%= puppet_master_fields f, true %>
 
-        <%= realm_field f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
+        <%= realm_field f, true %>
 
       </div>
 
