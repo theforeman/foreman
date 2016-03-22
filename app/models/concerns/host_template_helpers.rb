@@ -21,10 +21,6 @@ module HostTemplateHelpers
     operatingsystem.initrd(architecture)
   end
 
-  def media_path
-    operatingsystem.medium_uri(self)
-  end
-
   #returns the URL for Foreman based on the required action
   def foreman_url(action = "provision")
     # Get basic stuff
