@@ -7,7 +7,7 @@ class ComputeResource < ActiveRecord::Base
   encrypts :password
 
   attr_accessible :name, :provider, :description, :url, :set_console_password,
-    :user, :password
+    :user, :password, :display_type
 
   validates_lengths_from_database
 
@@ -268,6 +268,15 @@ class ComputeResource < ActiveRecord::Base
   # this method is overwritten for Libvirt and VMware
   def set_console_password=(setpw)
     self.attrs[:setpw] = nil
+  end
+
+  # this method is overwritten for Libvirt
+  def display_type=(_)
+  end
+
+  # this method is overwritten for Libvirt
+  def display_type
+    nil
   end
 
   def compute_profile_for(id)
