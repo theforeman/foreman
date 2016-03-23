@@ -46,4 +46,26 @@ class LibvirtTest < ActiveSupport::TestCase
       assert_equal nil, attrs[:memory]
     end
   end
+
+  describe '#display_type' do
+    let(:cr) { FactoryGirl.build(:libvirt_cr) }
+
+    test "default display type is 'vnc'" do
+      assert_nil cr.attrs[:display]
+      assert_equal 'vnc', cr.display_type
+    end
+
+    test "display type can be set" do
+      expected = 'spice'
+      cr.display_type = 'SPICE'
+      assert_equal expected, cr.attrs[:display]
+      assert_equal expected, cr.display_type
+      assert cr.valid?
+    end
+
+    test "don't allow wrong display type to be set" do
+      cr.display_type = 'teletype'
+      refute cr.valid?
+    end
+  end
 end
