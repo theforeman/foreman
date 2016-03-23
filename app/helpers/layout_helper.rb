@@ -21,7 +21,10 @@ module LayoutHelper
   end
 
   def javascript(*args)
-    content_for(:javascripts) { javascript_include_tag(*args.push("data-turbolinks-track" => true)) }
+    content_for(:javascripts) do
+      javascript_include_tag(*args.push("data-turbolinks-track" => true,
+                                        :async => true))
+    end
   end
 
   # The target should have class="collapse [out|in]" out means collapsed on load and in means expanded.

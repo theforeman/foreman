@@ -1,7 +1,3 @@
-<%= javascript("noVNC/util", "noVNC/webutil", "noVNC/base64", "noVNC/websock",
-                           "noVNC/des", "noVNC/input", "noVNC/display", "noVNC/rfb",
-                           "noVNC/jsunzip", "noVNC/ui", "noVNC") %>
-
 <% title "#{@console[:name]}" %>
 <%= title_actions(
         button_group(link_to("Ctrl-Alt-Del", "#", :id => "sendCtrlAltDelButton", :class => "btn btn-default"),

@@ -35,7 +35,7 @@ module HostsHelper
   end
 
   def nic_info_js(compute_resource)
-    javascript_include_tag("compute_resources/#{compute_resource.provider.downcase}/nic_info.js")
+    javascript "compute_resources/#{compute_resource.provider.downcase}/nic_info.js"
   end
 
   def value_hash_cache(host)
