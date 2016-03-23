@@ -43,6 +43,7 @@ module EncOutput
   def to_enc
     own_attributes = {}
     self.attributes.each do |k, v|
+      v = decrypt_field(v) if self.is_a?(Encryptable) && is_decryptable?(v)
       own_attributes[k] = primitive_value(transform(k, v)) if enc_attributes.include?(k.to_s)
     end
     own_associations = embed_associations.map { |a| [a, self.send(a).try(:to_enc)] }

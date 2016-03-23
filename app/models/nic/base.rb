@@ -3,6 +3,8 @@
 module Nic
   class Base < ActiveRecord::Base
     include Foreman::STI
+    include Encryptable
+    encrypts :password
 
     self.table_name = 'nics'
 
