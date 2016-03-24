@@ -141,34 +141,32 @@ module HostsHelper
     ((Time.zone.now - time) / 1.day).ceil.to_i
   end
 
-  def authorized?
-    authorized_for(:controller => :hosts, :action => :edit) or
-        authorized_for(:controller => :hosts, :action => :destroy)
-  end
-
   def searching?
     params[:search].empty?
   end
 
   def multiple_actions
-    actions = [
-      [_('Change Group'), select_multiple_hostgroup_hosts_path],
-      [_('Change Environment'), select_multiple_environment_hosts_path],
-      [_('Edit Parameters'), multiple_parameters_hosts_path],
-      [_('Delete Hosts'), multiple_destroy_hosts_path],
-      [_('Disable Notifications'), multiple_disable_hosts_path],
-      [_('Enable Notifications'), multiple_enable_hosts_path],
-      [_('Disassociate Hosts'), multiple_disassociate_hosts_path],
-      [_('Rebuild Config'), rebuild_config_hosts_path],
-      [_('Change Power State'), select_multiple_power_state_hosts_path]
-    ]
-    actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path]) if SETTINGS[:unattended]
-    actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun]
-    actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
-    actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
-    actions <<  [_('Change Owner'), select_multiple_owner_hosts_path] if SETTINGS[:login]
-    actions <<  [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path] if SmartProxy.unscoped.with_features("Puppet").count > 0
-    actions <<  [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path] if SmartProxy.unscoped.with_features("Puppet CA").count > 0
+    actions = []
+    if authorized_for(:controller => :hosts, :action => :edit)
+      actions.concat [
+        [_('Change Group'), select_multiple_hostgroup_hosts_path],
+        [_('Change Environment'), select_multiple_environment_hosts_path],
+        [_('Edit Parameters'), multiple_parameters_hosts_path],
+        [_('Disable Notifications'), multiple_disable_hosts_path],
+        [_('Enable Notifications'), multiple_enable_hosts_path],
+        [_('Disassociate Hosts'), multiple_disassociate_hosts_path],
+        [_('Rebuild Config'), rebuild_config_hosts_path],
+      ]
+      actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path]) if SETTINGS[:unattended]
+      actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
+      actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
+      actions <<  [_('Change Owner'), select_multiple_owner_hosts_path] if SETTINGS[:login]
+      actions <<  [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet").exists?
+      actions <<  [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet CA").exists?
+    end
+    actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun] && authorized_for(:controller => :hosts, :action => :puppetrun)
+    actions <<  [_('Change Power State'), select_multiple_power_state_hosts_path] if authorized_for(:controller => :hosts, :action => :power)
+    actions << [_('Delete Hosts'), multiple_destroy_hosts_path] if authorized_for(:controller => :hosts, :action => :destroy)
     actions
   end
 
