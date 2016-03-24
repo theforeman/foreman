@@ -18,8 +18,7 @@ Capybara.register_driver :poltergeist do |app|
     # :inspector => true
     :js_errors => true,
     :timeout => 60,
-    #disable animations to speed up the tests
-    :extensions => ["#{Rails.root}/test/integration/support/disable_animations.js"],
+    :extensions => ["#{Rails.root}/test/integration/support/poltergeist_onload_extensions.js"]
   }
   Capybara::Poltergeist::Driver.new(app, opts)
 end
