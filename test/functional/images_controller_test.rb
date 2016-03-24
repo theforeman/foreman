@@ -49,7 +49,7 @@ class ImagesControllerTest < ActionController::TestCase
     # This value is tested by the deprecation warning in application_controller
     # so we need to set it or the test will crash
     request.env['REQUEST_URI']="compute_resources/#{@image.compute_resource_id}/images"
-    get :index, { :format => :json, :compute_resource_id => @image.compute_resource_id }, set_session_user
+    get :index, { :format => :json, :compute_resource_id => @image.compute_resource_id, :operatingsystem_id => @image.operatingsystem_id, :architecture_id => @image.architecture_id }, set_session_user
     assert_response :success
     body = JSON.parse(response.body)
     assert_equal 2, body.size
