@@ -211,6 +211,9 @@ module Foreman
         child.helper helpers
       end
     end
+
+    # Use the database for sessions instead of the cookie-based default
+    config.session_store :active_record_store, :secure => !!SETTINGS[:require_ssl]
   end
 
   def self.setup_console
