@@ -366,10 +366,9 @@ function update_provisioning_image(){
   var arch_id = $('[name$="[architecture_id]"]').val();
   var os_id = $('[name$="[operatingsystem_id]"]').val();
   if((compute_id == undefined) || (compute_id == "") || (arch_id == "") || (os_id == "")) return;
-  var term = 'operatingsystem=' + os_id + ' architecture=' + arch_id;
   var image_options = $('#image_selection select').empty();
   $.ajax({
-      data:'search=' + encodeURIComponent(term),
+      data: {'operatingsystem_id': os_id, 'architecture_id': arch_id},
       type:'get',
       url: foreman_url('/compute_resources/'+compute_id+'/images'),
       dataType: 'json',
