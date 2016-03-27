@@ -29,8 +29,8 @@ class LocationIntegrationTest < ActionDispatch::IntegrationTest
     assert has_no_selector?("div.alert", :text => "with no location assigned")
     assert_new_button(locations_path,"New Location",new_location_path)
     fill_in "location_name", :with => "Raleigh"
-    assert_submit_button(locations_path)
-    assert page.has_link? "Raleigh"
+    assert_submit_button(/Raleigh/i)
+    assert page.has_link? 'Primary'
   end
 
   # content - click Assign All

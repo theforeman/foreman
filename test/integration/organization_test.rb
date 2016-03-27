@@ -29,8 +29,8 @@ class OrganizationIntegrationTest < ActionDispatch::IntegrationTest
     assert has_no_selector?("div.alert", :text => "with no organization assigned")
     assert_new_button(organizations_path,"New Organization",new_organization_path)
     fill_in "organization_name", :with => "Finance"
-    assert_submit_button(organizations_path)
-    assert page.has_link? "Finance"
+    assert_submit_button(/Finance/i)
+    assert page.has_link? 'Primary'
   end
 
   # content - click Assign All

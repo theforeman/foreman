@@ -54,7 +54,7 @@ module Foreman::Controller::TaxonomiesController
       if @count_nil_hosts > 0
         redirect_to send("step2_#{taxonomy_single}_path",@taxonomy)
       else
-        process_success(:object => @taxonomy)
+        process_success(:object => @taxonomy, :success_redirect => send("edit_#{taxonomy_single}_path", @taxonomy))
       end
     else
       process_error(:render => "taxonomies/new", :object => @taxonomy)
