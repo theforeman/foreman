@@ -200,4 +200,37 @@ class OrganizationsControllerTest < ActionController::TestCase
     User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) #2 users, all admins
     put :update, { :id => organization.id, :organization => {:name => "Topbar Org" }}, set_session_user
   end
+
+  context 'wizard' do
+    test 'redirects to step 2 if unassigned hosts exist' do
+      host = FactoryGirl.create(:host)
+      host.update_attributes(:organization => nil)
+
+      organization = FactoryGirl.create(:organization)
+      Organization.stubs(:current).returns(organization)
+
+      post :create, {:organization => {:name => "test_org"} }, set_session_user
+
+      assert_redirected_to /step2/
+      Organization.unstub(:current)
+    end
+
+    test 'redirects to step 3 if no unassigned hosts exist' do
+      post :create, {:organization => {:name => "test_org"} }, set_session_user
+
+      assert_redirected_to /edit/
+    end
+
+    test 'redirects to step 3 if no permissins for hosts' do
+      host = FactoryGirl.create(:host)
+      host.update_attributes(:organization => nil)
+
+      Host.stubs(:authorized).returns(Host.where('1=0'))
+
+      post :create, {:organization => {:name => "test_org"} }, set_session_user
+
+      assert_redirected_to /edit/
+      Host.unstub(:authorized)
+    end
+  end
 end

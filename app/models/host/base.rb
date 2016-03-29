@@ -71,8 +71,8 @@ module Host
       conditions
     end
 
-    scope :no_location,     -> { where(:location_id => nil) }
-    scope :no_organization, -> { where(:organization_id => nil) }
+    scope :no_location,     -> { rewhere(:location_id => nil) }
+    scope :no_organization, -> { rewhere(:organization_id => nil) }
 
     # primary interface is mandatory because of delegated methods so we build it if it's missing
     # similar for provision interface
