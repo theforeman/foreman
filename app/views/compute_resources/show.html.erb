@@ -17,11 +17,11 @@
 
 <div class="tab-content">
   <div class="tab-pane active" id="primary">
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped table-fixed">
       <thead>
         <tr>
-          <th><%= _("Details") %></th>
-          <th><%= _("Actions") %></th>
+          <th class="col-md-1"><%= _('Property') %></th>
+          <th class="col-md-11"><%= _('Value') %></th>
         </tr>
       </thead>
       <tbody>
@@ -32,7 +32,7 @@
         <% unless @compute_resource.description.empty? %>
           <tr>
             <td><%= _("Description") %></td>
-            <td><%= @compute_resource.description %></td>
+            <td class="ellipsis"><%= @compute_resource.description %></td>
           </tr>
         <% end %>
         <% # optional extra display elements based on type %>
