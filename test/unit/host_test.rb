@@ -3137,6 +3137,28 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  describe 'taxonomy scopes' do
+    test 'no_location overrides default scope' do
+      location = FactoryGirl.create(:location)
+      host = FactoryGirl.create(:host, :location => nil)
+      Location.stubs(:current).returns(location)
+
+      assert_nil Host.where(:id => host.id).first
+      assert_not_nil Host.no_location.where(:id => host.id).first
+      Location.unstub(:current)
+    end
+
+    test 'no_organization overrides default scope' do
+      organization = FactoryGirl.create(:organization)
+      host = FactoryGirl.create(:host, :organization => nil)
+      Organization.stubs(:current).returns(organization)
+
+      assert_nil Host.where(:id => host.id).first
+      assert_not_nil Host.no_organization.where(:id => host.id).first
+      Organization.unstub(:current)
+    end
+  end
+
   private
 
   def parse_json_fixture(relative_path)

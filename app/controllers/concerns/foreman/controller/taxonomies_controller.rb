@@ -20,7 +20,7 @@ module Foreman::Controller::TaxonomiesController
     respond_to do |format|
       format.html do
         @taxonomies = values.paginate(:page => params[:page])
-        @counter = Host.group(taxonomy_id).where(taxonomy_id => values).count
+        @counter = hosts_scope.group(taxonomy_id).where(taxonomy_id => values).count
         render 'taxonomies/index'
       end
       format.json
@@ -135,19 +135,19 @@ module Foreman::Controller::TaxonomiesController
 
   def assign_hosts
     @taxonomy_type = taxonomy_single.classify
-    @hosts = Host.authorized(:view_hosts, Host).send("no_#{taxonomy_single}").includes(included_associations).search_for(params[:search],:order => params[:order]).paginate(:page => params[:page])
+    @hosts = hosts_scope_without_taxonomy.includes(included_associations).search_for(params[:search],:order => params[:order]).paginate(:page => params[:page])
     render "hosts/assign_hosts"
   end
 
   def assign_all_hosts
-    Host.send("no_#{taxonomy_single}").update_all(taxonomy_id => @taxonomy.id)
+    hosts_scope_without_taxonomy.update_all(taxonomy_id => @taxonomy.id)
     @taxonomy.import_missing_ids
     redirect_to send("#{taxonomies_plural}_path"), :notice => _("All hosts previously with no %{single} are now assigned to %{name}") % { :single => taxonomy_single, :name => @taxonomy.name }
   end
 
   def assign_selected_hosts
     host_ids = params[taxonomy_single.to_sym][:host_ids] - ["0"]
-    @hosts = Host.where(:id => host_ids).update_all(taxonomy_id => @taxonomy.id)
+    @hosts = hosts_scope_without_taxonomy.where(:id => host_ids).update_all(taxonomy_id => @taxonomy.id)
     @taxonomy.import_missing_ids
     redirect_to send("#{taxonomies_plural}_path"), :notice => _("Selected hosts are now assigned to %s") % @taxonomy.name
   end
@@ -194,6 +194,16 @@ module Foreman::Controller::TaxonomiesController
 
   def count_nil_hosts
     return @count_nil_hosts if @count_nil_hosts
-    @count_nil_hosts = Host.where(taxonomy_id => nil).count
+    @count_nil_hosts = hosts_scope_without_taxonomy.count
+  end
+
+  private
+
+  def hosts_scope
+    Host.authorized(:view_hosts, Host)
+  end
+
+  def hosts_scope_without_taxonomy
+    hosts_scope.send("no_#{taxonomy_single}")
   end
 end

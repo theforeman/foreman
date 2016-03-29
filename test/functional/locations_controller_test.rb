@@ -211,4 +211,37 @@ class LocationsControllerTest < ActionController::TestCase
     User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) #2 users, all admins
     put :update, { :id => location.id, :location => {:name => "Topbar Loc" }}, set_session_user
   end
+
+  context 'wizard' do
+    test 'redirects to step 2 if unassigned hosts exist' do
+      host = FactoryGirl.create(:host)
+      host.update_attributes(:location => nil)
+
+      location = FactoryGirl.create(:location)
+      Location.stubs(:current).returns(location)
+
+      post :create, {:location => {:name => "test_loc"} }, set_session_user
+
+      assert_redirected_to /step2/
+      Location.unstub(:current)
+    end
+
+    test 'redirects to step 3 if no unassigned hosts exist' do
+      post :create, {:location => {:name => "test_loc"} }, set_session_user
+
+      assert_redirected_to /edit/
+    end
+
+    test 'redirects to step 3 if no permissins for hosts' do
+      host = FactoryGirl.create(:host)
+      host.update_attributes(:location => nil)
+
+      Host.stubs(:authorized).returns(Host.where('1=0'))
+
+      post :create, {:location => {:name => "test_loc"} }, set_session_user
+
+      assert_redirected_to /edit/
+      Host.unstub(:authorized)
+    end
+  end
 end
