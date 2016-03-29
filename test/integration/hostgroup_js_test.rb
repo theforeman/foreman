@@ -15,7 +15,7 @@ class HostgroupJSTest < IntegrationTestWithJavascript
 
     group.locations.reload
 
-    assert_not_nil group.locations.first{ |l| l.name == new_location.name }
+    assert_includes group.locations, new_location
   end
 
   test 'parameters change after parent update' do
@@ -39,7 +39,6 @@ class HostgroupJSTest < IntegrationTestWithJavascript
   private
 
   def select_from_list(list_id, item)
-    span = page.all(:css, "#ms-#{list_id} .ms-selectable ul li span").first{ |i| i.text == item.name }
-    span.click
+    page.find(:xpath, "//div[@id='ms-#{list_id}']//li/span[text() = '#{item.name}']").click
   end
 end
