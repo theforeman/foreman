@@ -546,6 +546,28 @@ class HostTest < ActiveSupport::TestCase
     refute host.get_status(HostStatus::ConfigurationStatus).new_record?
   end
 
+  test 'host #refresh_global_status! updates global status in database' do
+    host = FactoryGirl.build(:host)
+    config_status = host.get_status(HostStatus::ConfigurationStatus)
+    config_status.status = 1
+    config_status.save!
+    config_status.stubs(:relevant?).returns(true)
+    HostStatus::ConfigurationStatus.any_instance.stubs(:error?).returns(true)
+
+    assert_equal 0, host.global_status
+    host.refresh_global_status!
+    assert_equal 2, host.reload.global_status
+  end
+
+  test 'host #refresh_statuses updates global status in database' do
+    host = FactoryGirl.build(:host)
+    host.update_attribute(:global_status, 1)
+
+    assert_equal 1, host.global_status
+    host.refresh_statuses
+    assert_equal 0, host.reload.global_status
+  end
+
   test 'build status is updated on host validation' do
     host = FactoryGirl.build(:host)
     host.build = false
