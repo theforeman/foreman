@@ -1,6 +1,11 @@
 require 'test_helper'
 
-module Best; module Provider; class MyBest < ::ComputeResource; end; end; end
+module Best
+  module Provider
+    class MyBest < ::ComputeResource; end
+    class Libvirt < ::ComputeResource; end
+  end
+end
 
 class ComputeResourceTest < ActiveSupport::TestCase
   def setup
@@ -105,13 +110,68 @@ class ComputeResourceTest < ActiveSupport::TestCase
     end
   end
 
-  test "add compute resource" do
-    ComputeResource.register_provider(Best::Provider::MyBest)
-    assert ComputeResource.supported_providers.keys.must_include('MyBest')
-    assert ComputeResource.supported_providers.values.must_include('Best::Provider::MyBest')
-    refute ComputeResource.providers.wont_include('MyBest')
-    SETTINGS[:mybest] = true
-    assert ComputeResource.providers.must_include('MyBest')
+  test '.supported_providers returns hash of names to classes' do
+    supported = ComputeResource.supported_providers
+    assert_kind_of Hash, supported
+    supported.each do |name,klass|
+      assert klass.constantize < ComputeResource, "Class #{klass} is not a ComputeResource"
+    end
+  end
+
+  test '.registered_providers returns providers from plugins' do
+    plugin1 = mock('plugin1', :compute_resources => ['Best::Provider::MyBest'])
+    Foreman::Plugin.expects(:all).returns([plugin1])
+    assert_equal({'MyBest' => 'Best::Provider::MyBest'}, ComputeResource.registered_providers)
+  end
+
+  test '.providers returns merge of loaded builtin and registered providers' do
+    ComputeResource.expects(:registered_providers).returns({'Libvirt' => 'Best::Provider::Libvirt', 'MyBest' => 'Best::Provider::MyBest'})
+    ComputeResource.expects(:supported_providers).returns({'Libvirt' => 'Foreman::Model::Libvirt', 'EC2' => 'Foreman::Model::EC2', 'GCE' => 'Foreman::Model::GCE'})
+    SETTINGS.expects(:[]).with(:libvirt).returns(true)
+    SETTINGS.expects(:[]).with(:ec2).returns(true)
+    SETTINGS.expects(:[]).with(:gce).returns(false)
+    assert_equal(
+      {
+        'EC2' => 'Foreman::Model::EC2',
+        'Libvirt' => 'Best::Provider::Libvirt',  # prefer plugin classes
+        'MyBest' => 'Best::Provider::MyBest',
+      },
+      ComputeResource.providers
+    )
+  end
+
+  test '.all_providers returns merge of builtin and registered providers' do
+    ComputeResource.expects(:registered_providers).returns({'Libvirt' => 'Best::Provider::Libvirt', 'MyBest' => 'Best::Provider::MyBest'})
+    ComputeResource.expects(:supported_providers).returns({'Libvirt' => 'Foreman::Model::Libvirt', 'EC2' => 'Foreman::Model::EC2'})
+    assert_equal(
+      {
+        'EC2' => 'Foreman::Model::EC2',
+        'Libvirt' => 'Best::Provider::Libvirt',  # prefer plugin classes
+        'MyBest' => 'Best::Provider::MyBest',
+      },
+      ComputeResource.all_providers
+    )
+  end
+
+  test '.provider_class returns provider class names' do
+    ComputeResource.expects(:all_providers).at_least_once.returns({'Libvirt' => 'Best::Provider::Libvirt'})
+    assert_equal 'Best::Provider::Libvirt', ComputeResource.provider_class('Libvirt')
+  end
+
+  test '.new_provider requires :provider argument' do
+    e = assert_raise(Foreman::Exception) { ComputeResource.new_provider({}) }
+    assert_match /must provide a provider/, e.message
+  end
+
+  test '.new_provider instantiates provider from arguments' do
+    ComputeResource.expects(:providers).returns({'Libvirt' => 'Foreman::Model::Libvirt'})
+    assert_instance_of Foreman::Model::Libvirt, ComputeResource.new_provider(:provider => 'Libvirt')
+  end
+
+  test '.new_provider raises error for unknown provider' do
+    ComputeResource.expects(:providers).returns({'Libvirt' => 'Foreman::Model::Libvirt'})
+    e = assert_raise(Foreman::Exception) { ComputeResource.new_provider({:provider => 'Unknown'}) }
+    assert_match /unknown provider/, e.message
   end
 
   # test taxonomix methods

@@ -9,17 +9,6 @@ class ComputeResource < ActiveRecord::Base
   attr_accessible :name, :provider, :description, :url, :set_console_password,
     :user, :password
 
-  class_attribute :supported_providers
-  self.supported_providers = {
-    'Libvirt'   => 'Foreman::Model::Libvirt',
-    'Ovirt'     => 'Foreman::Model::Ovirt',
-    'EC2'       => 'Foreman::Model::EC2',
-    'Vmware'    => 'Foreman::Model::Vmware',
-    'Openstack' => 'Foreman::Model::Openstack',
-    'Rackspace' => 'Foreman::Model::Rackspace',
-    'GCE'       => 'Foreman::Model::GCE',
-  }
-
   validates_lengths_from_database
 
   audited :except => [:password, :attrs], :allow_mass_assignment => true
@@ -52,25 +41,44 @@ class ComputeResource < ActiveRecord::Base
     end
   }
 
-  def self.register_provider(provider)
-    name = provider.name.split('::').last
-    return if supported_providers.values.include?(provider) || supported_providers.keys.include?(name)
-    supported_providers[name] = provider.name
+  def self.supported_providers
+    {
+      'Libvirt'   => 'Foreman::Model::Libvirt',
+      'Ovirt'     => 'Foreman::Model::Ovirt',
+      'EC2'       => 'Foreman::Model::EC2',
+      'Vmware'    => 'Foreman::Model::Vmware',
+      'Openstack' => 'Foreman::Model::Openstack',
+      'Rackspace' => 'Foreman::Model::Rackspace',
+      'GCE'       => 'Foreman::Model::GCE',
+    }
+  end
+
+  def self.registered_providers
+    Foreman::Plugin.all.map(&:compute_resources).inject({}) do |prov_hash, providers|
+      providers.each { |provider| prov_hash.update(provider.split('::').last => provider) }
+      prov_hash
+    end
+  end
+
+  def self.all_providers
+    supported_providers.merge(registered_providers)
   end
 
   def self.providers
-    supported_providers.reject { |p,c| !SETTINGS[p.downcase.to_sym] }.keys
+    # SETTINGS contains a list of loaded CR providers set during app initialization and is based
+    # on the Bundler groups available, while all plugin CRs will be available
+    supported_providers.reject { |p,c| !SETTINGS[p.downcase.to_sym] }.merge(registered_providers)
   end
 
   def self.provider_class(name)
-    supported_providers[name]
+    all_providers[name]
   end
 
   # allows to create a specific compute class based on the provider.
   def self.new_provider(args)
     raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider = args.delete(:provider)
-    self.providers.each do |p|
-      return self.provider_class(p).constantize.new(args) if p.downcase == provider.downcase
+    self.providers.each do |provider_name, provider_class|
+      return provider_class.constantize.new(args) if provider_name.downcase == provider.downcase
     end
     raise ::Foreman::Exception.new N_("unknown provider")
   end
