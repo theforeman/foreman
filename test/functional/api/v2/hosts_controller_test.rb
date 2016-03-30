@@ -605,4 +605,21 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     get :template, { :id => managed_host.to_param, :kind => 'provitamin' }
     assert_response :not_found
   end
+
+  context 'search by hostgroup' do
+    def setup
+      @hostgroup = FactoryGirl.create(:hostgroup, :with_parent)
+      @managed_host = FactoryGirl.create(:host, :managed, :hostgroup => @hostgroup)
+    end
+
+    test "should search host by hostgroup name" do
+      get :index, { :search => "hostgroup_name = #{@hostgroup.name}" }
+      assert_equal [@managed_host], assigns(:hosts)
+    end
+
+    test "should search host by hostgroup title" do
+      get :index, { :search => "hostgroup_title = #{@hostgroup.title}" }
+      assert_equal [@managed_host], assigns(:hosts)
+    end
+  end
 end
