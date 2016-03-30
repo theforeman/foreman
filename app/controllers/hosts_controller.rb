@@ -24,7 +24,7 @@ class HostsController < ApplicationController
   before_filter :ajax_request, :only => AJAX_REQUESTS
   before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
                                           :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
-                                          :runtime, :resources, :templates, :nics, :ipmi_boot, :console,
+                                          :runtime, :resources, :nics, :ipmi_boot, :console,
                                           :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
 
   before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
@@ -272,8 +272,9 @@ class HostsController < ApplicationController
   end
 
   def templates
-    render :text => view_context.show_templates
-  rescue ActionView::Template::Error => exception
+    find_templates
+    render :partial => 'templates'
+  rescue => exception
     process_ajax_error exception, 'fetch templates information'
   end
 
@@ -890,5 +891,13 @@ class HostsController < ApplicationController
                failed_hosts.count) % {:proxy_type => proxy_type, :host_names => failed_hosts.map {|h, err| "#{h} (#{err})"}.to_sentence}
     end
     redirect_back_or_to hosts_path
+  end
+
+  def find_templates
+    find_resource
+    @templates = TemplateKind.order(:name).map do |kind|
+      @host.provisioning_template(:kind => kind.name)
+    end.compact
+    raise Foreman::Exception.new(N_("No templates found")) if @templates.empty?
   end
 end

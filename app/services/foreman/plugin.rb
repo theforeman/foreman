@@ -329,6 +329,11 @@ module Foreman #:nodoc:
       @to_prepare_callbacks << block
     end
 
+    # add human readable label for plugin's template kind with i18n support: template_labels "kind_name" => N_("Nice Name")
+    def template_labels(hash)
+      TemplateKind.add_to_jar hash
+    end
+
     private
 
     def extend_template_helpers_by_module(mod)
