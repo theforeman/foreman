@@ -860,13 +860,18 @@ class Host::Managed < Host::Base
     self.global_status = build_global_status.status
   end
 
+  def refresh_global_status!
+    refresh_global_status
+    save!
+  end
+
   def refresh_statuses
     HostStatus.status_registry.each do |status_class|
       status = get_status(status_class)
       status.refresh! if status.relevant?
     end
     host_statuses.reload
-    refresh_global_status
+    refresh_global_status!
   end
 
   def get_status(type)
