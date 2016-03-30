@@ -61,7 +61,7 @@ module SmartProxiesHelper
   end
 
   def refresh_proxy_icon(proxy, authorizer)
-    display_link_if_authorized(icon_text("refresh"), hash_for_refresh_smart_proxy_path(:id => proxy).
+    display_link_if_authorized(icon_text("refresh", "", :kind => "pficon"), hash_for_refresh_smart_proxy_path(:id => proxy).
                                                      merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => authorizer), :method => :put)
   end
 
