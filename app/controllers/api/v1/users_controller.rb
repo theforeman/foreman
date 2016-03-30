@@ -82,6 +82,12 @@ module Api
           process_response @user.destroy
         end
       end
+
+      private
+
+      def find_resource
+        editing_self? ? @user = User.current : super
+      end
     end
   end
 end
