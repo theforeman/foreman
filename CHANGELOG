@@ -1,3 +1,33 @@
+2016-03-30	Dominic Cleal <dominic@cleal.org>
+	* Release 1.10.3
+	* fixes #14041 - don't call select2 on CR form templates
+	* fixes #13980 - don't merge NIC compute attrs on New Host form
+
+2016-03-29	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #13545 - STI permission checking always using base class
+
+2016-03-29	Dominic Cleal <dominic@cleal.org>
+	* fixes #14114 - pin rake to avoid rubocop/rake 11.x incompatibility
+	* fixes #14000 - respect custom controller permissions
+	* fixes #13803 - change activated SCL to 'tfm'
+	* fixes #13866 - pin jwt for Ruby 1.9.3 compatibility
+
+2016-03-29	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14078 - Correct provision template permission names in seeds and fixtures
+	* Fixes #13929 - Pin test_after_commit to version supporting Ruby 1.9
+
+2016-03-29	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13828 - CVE-2016-2100 - only showing relevant bookmarks
+
+2016-03-29	Marek Hulan <ares@igloonet.cz>
+	* Fixes #13834 - associate puppet proxies only for puppet imports
+
+2016-03-29	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #13852 - add user_data to images api docs
+
+2016-03-08	Ori Rabin <orabin@redhat.com>
+	* Fixes #14045 - change inherit button height to match select2
+
 2016-02-23	Dominic Cleal <dominic@cleal.org>
 	* Release 1.10.2
 	* templates - sync from community-templates
