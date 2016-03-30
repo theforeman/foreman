@@ -92,13 +92,14 @@ module Foreman #:nodoc:
     end
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
-    attr_reader :id, :logging, :default_roles, :provision_methods
+    attr_reader :id, :logging, :default_roles, :provision_methods, :compute_resources
 
     def initialize(id)
       @id = id.to_sym
       @logging = Plugin::Logging.new(@id)
       @default_roles = {}
       @provision_methods = {}
+      @compute_resources = []
     end
 
     def after_initialize
@@ -254,8 +255,11 @@ module Foreman #:nodoc:
 
     # Add Compute resource
     def compute_resource(provider)
-      SETTINGS[provider.name.split('::').last.downcase.to_sym] = true
-      ComputeResource.register_provider provider
+      return if @compute_resources.include?(provider)
+      if !provider.is_a?(Class) || !(provider < ComputeResource)
+        raise ::Foreman::Exception.new(N_("Cannot register compute resource, wrong type supplied"))
+      end
+      @compute_resources << provider.name
     end
 
     def widget(template, options)

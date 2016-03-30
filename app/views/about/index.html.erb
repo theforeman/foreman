@@ -50,10 +50,10 @@
                 </tr>
               </thead>
               <tbody>
-              <% ComputeResource.supported_providers.each do |provider,klass| %>
+              <% @providers.sort_by { |prov| prov[:friendly_name].downcase }.each do |provider| %>
                 <tr>
-                  <td><%= klass.constantize.provider_friendly_name %></td>
-                  <% if ComputeResource.providers.include?(provider) %>
+                  <td><%= provider[:friendly_name] %></td>
+                  <% if provider[:status] == :installed %>
                     <td><div class="label label-success"><%= _('Installed') %></div></td>
                   <% else %>
                     <td><div class="label label-default"><%= _('Not Installed') %></div></td>
