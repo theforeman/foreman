@@ -60,9 +60,10 @@ module ComputeResourcesHelper
   end
 
   def list_providers
-    ComputeResource.providers.map do |provider|
-      [ComputeResource.provider_class(provider).constantize.provider_friendly_name, provider]
+    providers = ComputeResource.providers.map do |provider_name, provider_class|
+      [provider_class.constantize.provider_friendly_name, provider_name]
     end
+    providers.sort_by { |provider| provider.first }
   end
 
   def unset_password?

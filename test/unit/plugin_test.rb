@@ -213,11 +213,21 @@ class PluginTest < ActiveSupport::TestCase
       name 'Awesome compute'
       compute_resource Awesome::Provider::MyAwesome
     end
-    assert ComputeResource.providers.must_include 'MyAwesome'
+    assert ComputeResource.providers.keys.must_include 'MyAwesome'
+    assert ComputeResource.providers.values.must_include 'Awesome::Provider::MyAwesome'
     assert_equal ComputeResource.provider_class('MyAwesome'), 'Awesome::Provider::MyAwesome'
-    assert ComputeResource.supported_providers.keys.must_include 'MyAwesome'
-    assert ComputeResource.supported_providers.values.must_include 'Awesome::Provider::MyAwesome'
-    assert SETTINGS[:myawesome]
+    assert ComputeResource.registered_providers.keys.must_include 'MyAwesome'
+    assert ComputeResource.registered_providers.values.must_include 'Awesome::Provider::MyAwesome'
+  end
+
+  def test_invalid_compute_resource
+    e = assert_raise(Foreman::Exception) do
+      Foreman::Plugin.register :awesome_compute do
+        name 'Awesome compute'
+        compute_resource String
+      end
+    end
+    assert_match /wrong type supplied/, e.message
   end
 
   def test_add_search_path_override
