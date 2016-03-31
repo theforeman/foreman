@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-22 13:17+0000\n"
-"PO-Revision-Date: 2016-03-22 13:17+0000\n"
+"POT-Creation-Date: 2016-03-31 11:40+0100\n"
+"PO-Revision-Date: 2016-03-31 11:40+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -193,22 +193,22 @@ msgstr ""
 msgid "Error loading virtual machine information: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:205
-#: ../app/assets/javascripts/host_edit.js:458
+#: ../app/assets/javascripts/host_edit.js:206
+#: ../app/assets/javascripts/host_edit.js:459
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:571
+#: ../app/assets/javascripts/host_edit.js:572
 msgid "Please select"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:581
+#: ../app/assets/javascripts/host_edit.js:582
 #: ../app/views/hostgroups/_form.html.erb:45
 #: ../app/views/nic/_base_form.html.erb:32
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:643
+#: ../app/assets/javascripts/host_edit.js:644
 msgid "Error generating IP: %s"
 msgstr ""
 

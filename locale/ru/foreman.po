@@ -10,13 +10,13 @@
 # Evgrafov Denis <stereodenis@gmail.com>, 2014
 # Dominic Cleal <dominic@cleal.org>, 2014-2015
 # Evgrafov Denis <stereodenis@gmail.com>, 2014
-# Vladimir Pavlov <v.pavlov@i-teco.ru>, 2015
+# Vladimir Pavlov <v.pavlov@i-teco.ru>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-03-08 17:54+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2016-03-24 09:24+0000\n"
+"Last-Translator: Vladimir Pavlov <v.pavlov@i-teco.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -609,7 +609,7 @@ msgid "Architecture Distribution"
 msgstr "Архитектуры"
 
 msgid "Architecture ID"
-msgstr ""
+msgstr "Код архитектуры"
 
 msgid "Architectures"
 msgstr "Архитектуры"
@@ -1243,7 +1243,7 @@ msgid "Compute profile"
 msgstr "Вычислительный профиль"
 
 msgid "Compute profile ID"
-msgstr ""
+msgstr "Код вычислительного профиля"
 
 msgid "Compute profiles"
 msgstr "Профили"
@@ -1334,7 +1334,7 @@ msgid "Configuration"
 msgstr "Конфигурация"
 
 msgid "Configuration rebuild failed for: %s."
-msgstr ""
+msgstr "Сбой настройки пересборки для: %s."
 
 msgid "Configuration successfully rebuilt."
 msgstr "Конфигурация успешно восстановленна."
@@ -1964,7 +1964,7 @@ msgid "Domain"
 msgstr "Домен"
 
 msgid "Domain ID"
-msgstr ""
+msgstr "Код домена"
 
 msgid "Domain IDs"
 msgstr "Код домена"
@@ -2182,7 +2182,7 @@ msgid "Environment"
 msgstr "Окружение"
 
 msgid "Environment ID"
-msgstr ""
+msgstr "Код окружения"
 
 msgid "Environment IDs"
 msgstr "Код окружения"
@@ -2922,7 +2922,7 @@ msgid "Host's owner type"
 msgstr "Тип владельца узла"
 
 msgid "Host's parameters (array or indexed hash)"
-msgstr ""
+msgstr "Параметры узла (массив или индексированный хэш)"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Build"
@@ -3274,7 +3274,7 @@ msgid "Identifier of the interface to which this interface belongs, e.g. eth1. O
 msgstr "Идентификатор интерфейса к которому принадлежит этот интерфейс, например eth1. Только для виртуальных интерфейсов."
 
 msgid "Identifiers of attached interfaces, e.g. `['eth1', 'eth2']`. For bond interfaces those are the slaves. Only for bond and bridges interfaces."
-msgstr ""
+msgstr "Идентификатор подчиненного интерфейса, например ['eth1', 'eth2']. Подчиненные интерфейсы агрегированного интерфейса. Только для агрегированных интерфейсов и мостов."
 
 msgid "Idle timeout"
 msgstr ""
@@ -3789,13 +3789,13 @@ msgid "List attributes for a given storage domain"
 msgstr "Список атрибутов для данной области хранилища"
 
 msgid "List attributes for a given storage pod"
-msgstr ""
+msgstr "Список атрибутов для данной области хранилища"
 
 msgid "List available clusters for a compute resource"
 msgstr "Список доступных кластеров для вычислительного ресурса"
 
 msgid "List available flavors for a compute resource"
-msgstr ""
+msgstr "Список доступных особенностей вычислительного ресурса"
 
 msgid "List available folders for a compute resource"
 msgstr "Список доступных папок для вычислительного ресурса"
@@ -3813,10 +3813,10 @@ msgid "List available resource types."
 msgstr "Список доступных типов ресурсов."
 
 msgid "List available security groups for a compute resource"
-msgstr ""
+msgstr "Список доступных групп безопасности для вычислительного ресурса"
 
 msgid "List available zone for a compute resource"
-msgstr ""
+msgstr "Список доступных зон для вычислительного ресурса"
 
 msgid "List boot files for an operating system"
 msgstr "Список загрузочных файлов операционной системы"
@@ -3936,7 +3936,7 @@ msgid "List storage domains for a compute resource"
 msgstr "Список областей хранилища для вычислительного ресурса"
 
 msgid "List storage pods for a compute resource"
-msgstr ""
+msgstr "Список доступных хранилищ для вычислительного ресурса"
 
 msgid "List template combination"
 msgstr "Список комбинаций шаблонов"
@@ -4141,7 +4141,7 @@ msgid "Media"
 msgstr "Носитель"
 
 msgid "Media ID"
-msgstr ""
+msgstr "Код носителя"
 
 msgid "Media IDs"
 msgstr "Код носителя"
@@ -4223,7 +4223,7 @@ msgid "Mismatches Report"
 msgstr "Отчет о несоответствиях"
 
 msgid "Missing one of the required permissions: %s"
-msgstr ""
+msgstr "Отсутствует одно из требуемых разрешений: %s"
 
 msgid "Missing template '%{template}' for widget '%{widget}'."
 msgstr ""
@@ -4307,7 +4307,7 @@ msgid "Name of the host group"
 msgstr "Имя группы хостов"
 
 msgid "Name of the parameter"
-msgstr ""
+msgstr "Название параметра"
 
 msgid "Name of variable"
 msgstr "Имя переменной"
@@ -4677,7 +4677,7 @@ msgid "No reports"
 msgstr "Нет отчетов"
 
 msgid "No setting value provided."
-msgstr ""
+msgstr "Ни одного значения не предусмотрено."
 
 msgid "No smart proxies found."
 msgstr "Капсуль не найден."
@@ -4698,7 +4698,7 @@ msgid "No template found"
 msgstr "Шаблон не найден"
 
 msgid "No template with kind %{kind} for %{host}"
-msgstr ""
+msgstr "Нет шаблона с типом %{kind} для %{host}"
 
 msgid "No templates found for this host."
 msgstr "Шаблоны не найдены для этого узла."
@@ -4830,7 +4830,7 @@ msgid "OS name from facter; e.g. RedHat"
 msgstr "Фактическое имя операционной системы, например RedHat"
 
 msgid "OS' parameters (array or indexed hash)"
-msgstr ""
+msgstr "Параметры ОС (массив или индексированный хэш)"
 
 msgid "Obsolete"
 msgstr "Устарело"
@@ -4884,7 +4884,7 @@ msgid "Operating system"
 msgstr "Операционная система"
 
 msgid "Operating system ID"
-msgstr ""
+msgstr "Код операционной системы"
 
 msgid "Operating system IDs"
 msgstr "Коды операционных систем"
@@ -5076,7 +5076,7 @@ msgid "Parameter details"
 msgstr ""
 
 msgid "Parameter value"
-msgstr ""
+msgstr "Значение параметра"
 
 msgid "Parameterized classes in ENC"
 msgstr ""
@@ -5085,7 +5085,7 @@ msgid "Parameters"
 msgstr "Параметры"
 
 msgid "Parameters for host's %s facet"
-msgstr ""
+msgstr "Параметры для грани %s узла"
 
 msgid "Parameters that would be associated with hosts in this %s"
 msgstr "Параметры, которые будут сопоставлены узлам в %s"
@@ -5116,7 +5116,7 @@ msgid "Parent ID"
 msgstr ""
 
 msgid "Parent ID of the host group"
-msgstr ""
+msgstr "Родительский код для группы узлов"
 
 msgid "Parent is already selected"
 msgstr "Родитель уже выбран"
@@ -5131,7 +5131,7 @@ msgid "Partition table"
 msgstr "Таблица разделов"
 
 msgid "Partition table ID"
-msgstr ""
+msgstr "Код таблицы разделов"
 
 msgid "Partition table configuration"
 msgstr "Настройка таблицы разделов"
@@ -5303,7 +5303,7 @@ msgid "Preview"
 msgstr "Просмотр"
 
 msgid "Preview rendered provisioning template content"
-msgstr ""
+msgstr "Просмотр содержимого шаблона подготовки"
 
 msgid "Primary"
 msgstr "Основной"
@@ -5434,7 +5434,7 @@ msgid "Puppet CA"
 msgstr "Центр сертификации Puppet"
 
 msgid "Puppet CA proxy ID"
-msgstr ""
+msgstr "ID прокси CA Puppet"
 
 msgid "Puppet Class"
 msgstr "Класс Puppet"
@@ -5488,7 +5488,7 @@ msgid "Puppet interval in minutes"
 msgstr "Интервал Puppet (мин.)"
 
 msgid "Puppet proxy ID"
-msgstr ""
+msgstr "ID прокси Puppet"
 
 msgid "Puppet server"
 msgstr ""
@@ -5592,7 +5592,7 @@ msgid "Realm"
 msgstr "Область"
 
 msgid "Realm ID"
-msgstr ""
+msgstr "Код области"
 
 msgid "Realm IDs"
 msgstr "Код области"
@@ -5644,7 +5644,7 @@ msgid "Rebuild Config"
 msgstr ""
 
 msgid "Rebuild orchestration config"
-msgstr ""
+msgstr "Пересобрать настройку оркестратора"
 
 msgid "Rebuild orchestration configuration"
 msgstr ""
@@ -5805,7 +5805,7 @@ msgid "Resume"
 msgstr "Возобновить работу"
 
 msgid "Returns string representing a host status of a given type"
-msgstr ""
+msgstr "Возвращаемая строка отображает состояние узла данного типа"
 
 msgid "Reverse DNS Proxy"
 msgstr ""
@@ -5860,7 +5860,7 @@ msgid "Root password hash function to use, one of MD5, SHA256, SHA512, Base64"
 msgstr "Хэш функция для пароля суперпользователя должна быть одна из MD5, SHA256, SHA512, Base64"
 
 msgid "Root password on provisioned hosts"
-msgstr ""
+msgstr "Пароль root на подготавливаемых узлах"
 
 msgid "Run Puppet"
 msgstr "Выполнить Puppet"
@@ -6470,7 +6470,7 @@ msgid "Subnet"
 msgstr "Подсеть"
 
 msgid "Subnet ID"
-msgstr ""
+msgstr "Код подсети"
 
 msgid "Subnet IDs"
 msgstr "Код подсети"
@@ -6664,7 +6664,7 @@ msgid "Template kind"
 msgstr "Тип шаблона"
 
 msgid "Template kinds, available values: %{template_kinds}"
-msgstr ""
+msgstr "Типы шаблона, доступные значения: %{template_kinds}"
 
 msgid "Template locked"
 msgstr "Шаблон заблокирован"
@@ -6689,7 +6689,7 @@ msgid "Test Connection"
 msgstr "Проверка соединения"
 
 msgid "Test LDAP connection"
-msgstr ""
+msgstr "Проверить LDAP соединение"
 
 msgid "Test LDAP connectivity"
 msgstr ""
@@ -6698,7 +6698,7 @@ msgid "Test connection to LDAP server was successful."
 msgstr ""
 
 msgid "Test connection was successful"
-msgstr ""
+msgstr "Соединение успешно проверено"
 
 msgid "Test email"
 msgstr ""
@@ -6813,7 +6813,7 @@ msgid "The marked fields will need reviewing"
 msgstr "Проверьте выделенные поля"
 
 msgid "The method used to provision the host. Possible provision_methods may be %{provision_methods}"
-msgstr ""
+msgstr "Метод, используемый для подготовки узла. Возможные методы подготовки %{provision_methods}"
 
 msgid "The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"
 msgstr "Порядок обработки ключей подстановки до первого совпадения.<br>Допускается одновременное использование нескольких атрибутов — например, выборка <code>host group, environment</code> может выглядеть так:  <code>hostgroup = \"web servers\", environment = production</code>"
@@ -7847,10 +7847,10 @@ msgid "When editing a template, you must assign a listof operating systems which
 msgstr ""
 
 msgid "When enabled the parameter is hidden in the UI"
-msgstr ""
+msgstr "Параметр скрыт в интерфейсе, если включено"
 
 msgid "Whether or not the image supports user data"
-msgstr ""
+msgstr "Поддерживать или нет образ данных пользователя"
 
 msgid "Whether or not the template is locked for editing"
 msgstr "Заблокирован ли шаблон для редактирования"
@@ -8627,6 +8627,10 @@ msgid ""
 "* configuration\n"
 "* build\n"
 msgstr ""
+"тип состояния может быть\n"
+"* глобальный\n"
+"* настройка\n"
+"* сборка\n"
 
 msgid "stop"
 msgstr "останов"
@@ -8656,7 +8660,7 @@ msgid "unable to sign a non pending certificate"
 msgstr "сертификат должен быть в состоянии ожидания, прежде чем он сможет быть подписан"
 
 msgid "unknown parent permission for %s"
-msgstr ""
+msgstr "неизвестное родительское разрешение для %s"
 
 msgid "unknown permission %s"
 msgstr ""
