@@ -9,6 +9,10 @@ module Foreman::Model
     before_create :update_public_key
     attr_accessible :pubkey_hash, :datacenter, :uuid, :server
 
+    def self.available?
+      Fog::Compute.providers.include?(:vsphere)
+    end
+
     def self.model_name
       ComputeResource.model_name
     end

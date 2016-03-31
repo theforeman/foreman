@@ -12,6 +12,10 @@ module Foreman::Model
 
     delegate :clusters, :quotas, :templates, :to => :client
 
+    def self.available?
+      Fog::Compute.providers.include?(:ovirt)
+    end
+
     def self.model_name
       ComputeResource.model_name
     end

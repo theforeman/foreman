@@ -4,9 +4,8 @@ end
 Fog::Model.send(:include, FogExtensions::Model) if defined? Fog::Model
 
 # Fog is required by bundler, and depending on the group configuration,
-# different providers will be available - determined in config/application.rb
-# and noted in SETTINGS.
-if SETTINGS[:ec2]
+# different providers will be available.
+if Foreman::Model::EC2.available?
   require 'fog/aws'
   require 'fog/aws/models/compute/flavor'
   Fog::Compute::AWS::Flavor.send(:include, FogExtensions::AWS::Flavor)
@@ -14,7 +13,7 @@ if SETTINGS[:ec2]
   Fog::Compute::AWS::Server.send(:include, FogExtensions::AWS::Server)
 end
 
-if SETTINGS[:gce]
+if Foreman::Model::GCE.available?
   require 'fog/google'
   require 'fog/google/models/compute/image'
   Fog::Compute::Google::Image.send(:include, FogExtensions::Google::Image)
@@ -24,14 +23,14 @@ if SETTINGS[:gce]
   Fog::Compute::Google::Flavor.send(:include, FogExtensions::Google::Flavor)
 end
 
-if SETTINGS[:libvirt]
+if Foreman::Model::Libvirt.available?
   require 'fog/libvirt'
   require 'fog/libvirt/compute'
   require 'fog/libvirt/models/compute/server'
   Fog::Compute::Libvirt::Server.send(:include, FogExtensions::Libvirt::Server)
 end
 
-if SETTINGS[:ovirt]
+if Foreman::Model::Ovirt.available?
   require 'fog/ovirt'
   require 'fog/ovirt/models/compute/server'
   Fog::Compute::Ovirt::Server.send(:include, FogExtensions::Ovirt::Server)
@@ -42,7 +41,7 @@ if SETTINGS[:ovirt]
   Fog::Compute::Ovirt::Volume.send(:include, FogExtensions::Ovirt::Volume)
 end
 
-if SETTINGS[:openstack]
+if Foreman::Model::Openstack.available?
   require 'fog/openstack'
   require 'fog/openstack/compute'
   Fog::Compute::OpenStack::Real.send(:include, FogExtensions::Openstack::Core)
@@ -52,7 +51,7 @@ if SETTINGS[:openstack]
   Fog::Compute::OpenStack::Flavor.send(:include, FogExtensions::Openstack::Flavor)
 end
 
-if SETTINGS[:vmware]
+if Foreman::Model::Vmware.available?
   require 'fog/vsphere'
   require 'fog/vsphere/compute'
   require 'fog/vsphere/models/compute/server'
@@ -62,7 +61,7 @@ if SETTINGS[:vmware]
   Fog::Compute::Vsphere::Folder.send(:include, FogExtensions::Vsphere::Folder)
 end
 
-if SETTINGS[:rackspace]
+if Foreman::Model::Rackspace.available?
   require 'fog/rackspace'
   require 'fog/rackspace/models/compute_v2/server'
   Fog::Compute::RackspaceV2::Server.send(:include, FogExtensions::RackspaceV2::Server)

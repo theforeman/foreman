@@ -8,7 +8,9 @@ class AboutControllerTest < ActionController::TestCase
   end
 
   def test_registered_providers_list
-    klass_string = mock('ExampleClass', :constantize => mock('ExampleClass', :provider_friendly_name => 'Example Service'))
+    klass = mock('ExampleClass', :available? => true, :provider_friendly_name => 'Example Service')
+    klass_string = mock('ExampleClass')
+    klass_string.expects(:constantize).at_least_once.returns(klass)
     ComputeResource.expects(:registered_providers).at_least_once.returns('Example' => klass_string)
     ComputeResource.expects(:supported_providers).at_least_once.returns({})
 

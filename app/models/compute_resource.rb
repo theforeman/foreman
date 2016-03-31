@@ -1,4 +1,3 @@
-require 'fog_extensions'
 class ComputeResource < ActiveRecord::Base
   include Taxonomix
   include Encryptable
@@ -64,10 +63,17 @@ class ComputeResource < ActiveRecord::Base
     supported_providers.merge(registered_providers)
   end
 
+  # Providers in Foreman core that have optional installation should override this to check if
+  # they are installed. Plugins should not need to override this, as their dependencies should
+  # always be present.
+  def self.available?
+    true
+  end
+
   def self.providers
-    # SETTINGS contains a list of loaded CR providers set during app initialization and is based
-    # on the Bundler groups available, while all plugin CRs will be available
-    supported_providers.reject { |p,c| !SETTINGS[p.downcase.to_sym] }.merge(registered_providers)
+    supported_providers.merge(registered_providers).select do |provider_name, class_name|
+      class_name.constantize.available?
+    end
   end
 
   def self.provider_class(name)
