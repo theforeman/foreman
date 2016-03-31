@@ -11,6 +11,10 @@ module Foreman::Model
       super.merge({ :ip => :public_ip_address })
     end
 
+    def self.available?
+      Fog::Compute.providers.include?(:rackspace)
+    end
+
     def self.model_name
       ComputeResource.model_name
     end

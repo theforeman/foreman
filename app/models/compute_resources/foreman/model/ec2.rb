@@ -21,6 +21,10 @@ module Foreman::Model
       super.merge({ :ip => :vm_ip_address })
     end
 
+    def self.available?
+      Fog::Compute.providers.include?(:aws)
+    end
+
     def self.model_name
       ComputeResource.model_name
     end

@@ -9,6 +9,7 @@ require 'foreman/provision' if SETTINGS[:unattended]
 require 'foreman'
 require 'filters_helper_overrides'
 require 'English'
+require 'fog_extensions'
 
 # We may be executing something like rake db:migrate:reset, which destroys this table
 # only continue if the table exists

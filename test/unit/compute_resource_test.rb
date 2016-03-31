@@ -127,9 +127,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
   test '.providers returns merge of loaded builtin and registered providers' do
     ComputeResource.expects(:registered_providers).returns({'Libvirt' => 'Best::Provider::Libvirt', 'MyBest' => 'Best::Provider::MyBest'})
     ComputeResource.expects(:supported_providers).returns({'Libvirt' => 'Foreman::Model::Libvirt', 'EC2' => 'Foreman::Model::EC2', 'GCE' => 'Foreman::Model::GCE'})
-    SETTINGS.expects(:[]).with(:libvirt).returns(true)
-    SETTINGS.expects(:[]).with(:ec2).returns(true)
-    SETTINGS.expects(:[]).with(:gce).returns(false)
+    Fog::Compute.expects(:providers).twice.returns([:aws, :libvirt])
     assert_equal(
       {
         'EC2' => 'Foreman::Model::EC2',

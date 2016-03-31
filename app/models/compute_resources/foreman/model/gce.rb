@@ -8,6 +8,10 @@ module Foreman::Model
 
     delegate :flavors, :to => :client
 
+    def self.available?
+      Fog::Compute.providers.include?(:google)
+    end
+
     def to_label
       "#{name} (#{zone}-#{provider_friendly_name})"
     end

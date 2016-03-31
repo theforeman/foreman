@@ -35,21 +35,9 @@ else
   end
 end
 
-# For standalone CR bundler groups, check that the fog-* provider is registered
-SETTINGS[:ec2]       = Fog::Compute.providers.include?(:aws)
-SETTINGS[:gce]       = Fog::Compute.providers.include?(:google)
-SETTINGS[:libvirt]   = Fog::Compute.providers.include?(:libvirt)
-SETTINGS[:openstack] = Fog::Compute.providers.include?(:openstack)
-SETTINGS[:ovirt]     = false
-SETTINGS[:rackspace] = Fog::Compute.providers.include?(:rackspace)
-SETTINGS[:vmware]    = Fog::Compute.providers.include?(:vsphere)
-
 # CRs in fog core with extra dependencies will have those deps loaded, so then
 # load the corresponding bit of fog
-if defined?(::OVIRT)
-  require 'fog/ovirt'
-  SETTINGS[:ovirt] = Fog::Compute.providers.include?(:ovirt)
-end
+require 'fog/ovirt' if defined?(::OVIRT)
 
 require File.expand_path('../../lib/foreman.rb', __FILE__)
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)

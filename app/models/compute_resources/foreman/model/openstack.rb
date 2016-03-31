@@ -16,6 +16,10 @@ module Foreman::Model
       super.merge({ :ip => :floating_ip_address })
     end
 
+    def self.available?
+      Fog::Compute.providers.include?(:openstack)
+    end
+
     def self.model_name
       ComputeResource.model_name
     end

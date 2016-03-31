@@ -9,6 +9,10 @@ module Foreman::Model
 
     attr_accessible :display_type, :uuid
 
+    def self.available?
+      Fog::Compute.providers.include?(:libvirt)
+    end
+
     # Some getters/setters for the attrs Hash
     def display_type
       self.attrs[:display].present? ? self.attrs[:display] : 'vnc'
