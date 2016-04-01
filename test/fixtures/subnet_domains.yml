@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-one:
-  domain: mydomain
-  subnet: one
-
-two:
-  domain: yourdomain
-  subnet: two
