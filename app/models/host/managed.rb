@@ -1,6 +1,7 @@
 class Host::Managed < Host::Base
-  include Hostext::Search
   include Hostext::PowerInterface
+  include Hostext::Search
+  include Hostext::Token
   include SelectiveClone
   include HostParams
   include Facets::ManagedHostExtensions
@@ -16,7 +17,6 @@ class Host::Managed < Host::Base
   belongs_to :image
   has_many :host_statuses, :class_name => 'HostStatus::Status', :foreign_key => 'host_id', :inverse_of => :host, :dependent => :destroy
   has_one :configuration_status_object, :class_name => 'HostStatus::ConfigurationStatus', :foreign_key => 'host_id'
-  has_one :token, :foreign_key => :host_id, :dependent => :destroy
   before_destroy :remove_reports
 
   def self.complete_for(query, opts = {})
@@ -147,8 +147,6 @@ class Host::Managed < Host::Base
     end
   }
 
-  scope :for_token, ->(token) { joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
-
   scope :for_vm, ->(cr,vm) { where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity).map(&:to_s)) }
 
   scope :with_compute_resource, -> { where.not(:compute_resource_id => nil, :uuid => nil) }
@@ -256,21 +254,6 @@ class Host::Managed < Host::Base
     return unless respond_to?(:old) && old && build? && !old.build?
     clear_facts
     clear_reports
-  end
-
-  def set_token
-    return unless Setting[:token_duration] != 0
-    self.build_token(:value => Foreman.uuid,
-                     :expires => Time.now.utc + Setting[:token_duration].minutes)
-  end
-
-  def token_expired?
-    return false unless Setting[:token_duration] != 0 and self.token.present?
-    self.token.expires < Time.now.utc
-  end
-
-  def expire_token
-    self.token.delete if self.token.present?
   end
 
   # Called from the host build post install process to indicate that the base build has completed
