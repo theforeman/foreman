@@ -41,7 +41,6 @@ class LookupKey < ActiveRecord::Base
       scoped_search :on => :merge_overrides, :complete_value => {:true => true, :false => false}
       scoped_search :on => :merge_default, :complete_value => {:true => true, :false => false}
       scoped_search :on => :avoid_duplicates, :complete_value => {:true => true, :false => false}
-      scoped_search :in => :lookup_values, :on => :value, :rename => :value, :complete_value => true
     end
     super
   end
