@@ -50,7 +50,7 @@ module Nic
 
     def enc_attributes
       @enc_attributes ||= begin
-        base = super + %w(ip mac type name attrs virtual link identifier managed primary provision)
+        base = super + %w(ip ip6 mac type name attrs virtual link identifier managed primary provision)
         base += %w(tag attached_to) if virtual?
         base
       end
@@ -58,13 +58,17 @@ module Nic
 
     def embed_associations
       @embed_attributes ||= begin
-        super + %w(subnet)
+        super + %w(subnet subnet6)
       end
     end
 
-    # Copied from compute orchestraion
+    # Copied from compute orchestration
     def ip_available?
       ip.present? || (host.present? && host.compute_provides?(:ip)) # TODO revist this for VMs
+    end
+
+    def ip6_available?
+      ip6.present? || (host.present? && host.compute_provides?(:ip6)) # TODO revist this for VMs
     end
 
     def mac_available?

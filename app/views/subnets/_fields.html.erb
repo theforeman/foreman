@@ -1,20 +1,25 @@
 <%= text_f f, :name %>
+<%= selectable_f f, :type,
+  options_for_select(Subnet.types_with_form_data, @subnet.type),
+  {:label => _("Protocol")},
+  :disabled => !f.object.new_record? %>
 <%= text_f f, :network %>
-<%= text_f f, :mask, :help_inline => _("Netmask for this subnet") %>
+<%= text_f f, :cidr, :label => _("CIDR"), :help_inline => _("CIDR for this subnet") %>
 <%= text_f f, :gateway, :help_inline => _("Optional: Gateway for this subnet") %>
 <%= text_f f, :dns_primary, :help_inline => _("Optional: Primary DNS for this subnet") %>
 <%= text_f f, :dns_secondary, :help_inline => _("Optional: Secondary DNS for this subnet") %>
-<%= selectable_f f, :ipam, Subnet.ipam_modes_with_translations, {}, :data => {'disable-auto-suggest-on' => Subnet::IPAM_MODES[:none]},
+<%= selectable_f f, :ipam, Subnet.ipam_modes_with_translations_for_type(@subnet.type), {}, :data => {'disable-auto-suggest-on' => [Subnet::IPAM_MODES[:none], Subnet::IPAM_MODES[:eui64]]},
                  :label => _('IPAM'),
                  :help_inline => popover(
                          _("IP Address Management"),
-                         _("You can select one of three possible IPAM modes:<br/>" +
-                                   "<ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP</li>" +
-                                   "<li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode</li>" +
-                                   "<li><strong>None</strong> - leave IP management solely on user, no auto-suggestion</li></ul>"),
+                         _("You can select one of the IPAM modes supported by the selected IP protocol:<br/>" +
+                                   "<ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li>" +
+                                   "<li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em></li>" +
+                                   "<li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li>" +
+                                   "<li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"),
                          :'data-placement' => "top"
                  ).html_safe %>
-<div id='ipam_options' class ='<%= f.object.ipam? ? "" : "hide" %>'>
+<div id='ipam_options' class ='<%= f.object.ipam_needs_range? ? "" : "hide" %>'>
   <%= text_f f, :from, :help_inline => _("Optional: Starting IP Address for IP auto suggestion") %>
   <%= text_f f, :to,   :help_inline => _("Optional: Ending IP Address for IP auto suggestion") %>
 </div>

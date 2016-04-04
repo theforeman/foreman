@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class Api::V1::SubnetsControllerTest < ActionController::TestCase
-  valid_attrs = { :name => 'QA2', :network => '10.35.2.27', :mask => '255.255.255.0' }
+  valid_v4_attrs = { :name => 'QA2', :type => 'Subnet::Ipv4', :network => '10.35.2.27', :mask => '255.255.255.0' }
+  valid_v6_attrs = { :name => 'QA2', :type => 'Subnet::Ipv6', :network => '2001:db8::', :mask => 'ffff:ffff:ffff:ffff::', :ipam => 'None' }
 
   def test_index
     get :index
@@ -18,20 +19,29 @@ class Api::V1::SubnetsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
-  test "should create subnet" do
-    assert_difference('Subnet.count') do
-      post :create, { :subnet => valid_attrs }
+  test "should create IPv4 subnet" do
+    assert_difference('Subnet::Ipv4.count') do
+      post :create, { :subnet => valid_v4_attrs }
     end
     assert_response :success
+    assert_equal 'Subnet::Ipv4', Subnet.find_by_name('QA2').type
+  end
+
+  test "should create IPv6 subnet" do
+    assert_difference('Subnet::Ipv6.count') do
+      post :create, { :subnet => valid_v6_attrs }
+    end
+    assert_response :success
+    assert_equal 'Subnet::Ipv6', Subnet.find_by_name('QA2').type
   end
 
   test "does not create subnet with non-existent domain" do
-    post :create, { :subnet => valid_attrs.merge( :domain_ids => [1, 2] ) }
+    post :create, { :subnet => valid_v4_attrs.merge( :domain_ids => [1, 2] ) }
     assert_response :not_found
   end
 
   test "should update subnet" do
-    put :update, { :id => subnets(:one).to_param, :subnet => valid_attrs }
+    put :update, { :id => subnets(:one).to_param, :subnet => valid_v4_attrs }
     assert_response :success
   end
 

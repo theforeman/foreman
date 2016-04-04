@@ -75,6 +75,8 @@ module Hostext
       if SETTINGS[:unattended]
         scoped_search :in => :subnet,          :on => :network,     :complete_value => true, :rename => :subnet
         scoped_search :in => :subnet,          :on => :name,        :complete_value => true, :rename => 'subnet.name'
+        scoped_search :in => :subnet6,         :on => :network,     :complete_value => true, :rename => :subnet6
+        scoped_search :in => :subnet6,         :on => :name,        :complete_value => true, :rename => 'subnet6.name'
         scoped_search :on => :uuid,                                 :complete_value => true
         scoped_search :on => :build,                                :complete_value => {:true => true, :false => false}
         scoped_search :on => :installed_at,                         :complete_value => true, :only_explicit => true
@@ -221,7 +223,7 @@ module Hostext
             when 'HostParameter'
               conditions << "hosts.id = #{param.reference_id}"
             when 'SubnetParameter'
-              conditions << "nics.subnet_id = #{param.reference_id}"
+              conditions << "nics.subnet_id = #{param.reference_id} OR nics.subnet6_id = #{param.reference_id}"
           end
         end
         conditions.empty? ? [] : "( #{conditions.join(' OR ')} )"

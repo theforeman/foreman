@@ -12,8 +12,9 @@ module Foreman
     module ClassMethods
       # ensures that the correct STI object is created when :type is passed.
       def new_with_cast(*attributes, &block)
-        if (h = attributes.first).is_a?(Hash) && (type = h.with_indifferent_access.delete(:type)) && type.length > 0
-          if (klass = type.constantize) != self
+        default_type = self.respond_to?(:default_sti_class) && self.default_sti_class
+        if ((h = attributes.first).is_a?(Hash) && (type_attr = h.with_indifferent_access.delete(:type)) && type_attr.length > 0) || default_type
+          if (type = type_attr || default_type) && (klass = type.constantize) != self
             raise "Invalid type #{type}" unless klass <= self
             return klass.new(*attributes, &block)
           end

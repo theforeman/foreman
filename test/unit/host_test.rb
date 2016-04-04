@@ -319,8 +319,10 @@ class HostTest < ActiveSupport::TestCase
                                     :operatingsystemrelease => '6.2',
                                     :macaddress_eth0 => '00:00:11:22:11:22',
                                     :ipaddress_eth0 => '192.168.0.1',
+                                    :ipaddress6_eth0 => '2001:db8::1',
                                     :interfaces => 'eth0')
     assert_equal 'example.com', host.domain.name
+    assert_equal '2001:db8::1', host.primary_interface.ip6
     refute host.primary_interface.managed?
   end
 
@@ -1264,7 +1266,7 @@ class HostTest < ActiveSupport::TestCase
     test "should have only one provision interface" do
       organization = FactoryGirl.create(:organization)
       location = FactoryGirl.create(:location)
-      subnet = FactoryGirl.create(:subnet, :organizations => [organization], :locations => [location])
+      subnet = FactoryGirl.create(:subnet_ipv4, :organizations => [organization], :locations => [location])
       host = FactoryGirl.create(:host, :managed, :organization => organization,
                                 :location => location, :subnet => subnet,
                                 :ip => subnet.network.succ)
@@ -1921,7 +1923,7 @@ class HostTest < ActiveSupport::TestCase
     # Ip validations
     test "unmanaged hosts don't require an IP" do
       h=FactoryGirl.build(:host)
-      refute h.require_ip_validation?
+      refute h.require_ip4_validation?
     end
 
     test "CRs without IP attribute don't require an IP" do
@@ -1929,7 +1931,7 @@ class HostTest < ActiveSupport::TestCase
       h=FactoryGirl.build(:host, :managed,
                           :compute_resource => compute_resources(:one),
                           :compute_attributes => {:fake => "data"})
-      refute h.require_ip_validation?
+      refute h.require_ip4_validation?
     end
 
     test "CRs with IP attribute and a DNS-enabled domain do not require an IP" do
@@ -1937,50 +1939,50 @@ class HostTest < ActiveSupport::TestCase
       h=FactoryGirl.build(:host, :managed, :domain => domains(:mydomain),
                           :compute_resource => compute_resources(:openstack),
                           :compute_attributes => {:fake => "data"})
-      refute h.require_ip_validation?
+      refute h.require_ip4_validation?
     end
 
     test "hosts with a DNS-enabled Domain do require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the domain
       h=FactoryGirl.build(:host, :managed, :domain => domains(:mydomain))
-      assert h.require_ip_validation?
+      assert h.require_ip4_validation?
     end
 
     test "hosts without a DNS-enabled Domain don't require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the domain
       h=FactoryGirl.build(:host, :managed, :domain => domains(:useless))
-      refute h.require_ip_validation?
+      refute h.require_ip4_validation?
     end
 
     test "hosts with a DNS-enabled Subnet do require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet, :dns))
-      assert h.require_ip_validation?
+      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dns))
+      assert h.require_ip4_validation?
     end
 
     test "hosts with a DHCP-enabled Subnet do require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet, :dhcp))
-      assert h.require_ip_validation?
+      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dhcp))
+      assert h.require_ip4_validation?
     end
 
     test "hosts without a DNS/DHCP-enabled Subnet don't require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet, :dhcp => nil, :dns => nil))
-      refute h.require_ip_validation?
+      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dhcp => nil, :dns => nil))
+      refute h.require_ip4_validation?
     end
 
     test "with tokens enabled hosts don't require an IP" do
       Setting[:token_duration] = 30
       h=FactoryGirl.build(:host, :managed)
-      refute h.require_ip_validation?
+      refute h.require_ip4_validation?
     end
 
     test "with tokens disabled PXE build hosts do require an IP" do
       h=FactoryGirl.build(:host, :managed)
       h.expects(:pxe_build?).returns(true)
       h.stubs(:image_build?).returns(false)
-      assert h.require_ip_validation?
+      assert h.require_ip4_validation?
     end
 
     test "tokens disabled doesn't require an IP for image hosts" do
@@ -1990,7 +1992,7 @@ class HostTest < ActiveSupport::TestCase
       image = stub()
       image.expects(:user_data?).returns(false)
       h.stubs(:image).returns(image)
-      refute h.require_ip_validation?
+      refute h.require_ip4_validation?
     end
 
     test "tokens disabled requires an IP for image hosts with user data" do
@@ -2000,7 +2002,7 @@ class HostTest < ActiveSupport::TestCase
       image = stub()
       image.expects(:user_data?).returns(true)
       h.stubs(:image).returns(image)
-      assert h.require_ip_validation?
+      assert h.require_ip4_validation?
     end
 
     test "test tokens are not created until host is saved" do
@@ -2292,6 +2294,13 @@ class HostTest < ActiveSupport::TestCase
     enc = host.info
     assert_kind_of Hash, enc
     assert_equal classes, enc['classes']
+  end
+
+  test '#info ENC YAML contains ipv4 and ipv6 subnets' do
+    host = FactoryGirl.build(:host, :with_subnet, :with_ipv6_subnet)
+    enc = host.info
+    assert enc['parameters']['foreman_subnets'].any? {|s| s['type'] == 'Subnet::Ipv4'}
+    assert enc['parameters']['foreman_subnets'].any? {|s| s['type'] == 'Subnet::Ipv6'}
   end
 
   describe 'cloning' do
