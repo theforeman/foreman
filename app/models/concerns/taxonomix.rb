@@ -98,7 +98,7 @@ module Taxonomix
     # it can also be an empty array that means all taxonomies (user is not assigned to any)
     def inner_select(taxonomy, inner_method = which_ancestry_method)
       # always include ancestor_ids in inner select
-      conditions = { :taxable_type => self.name }
+      conditions = { :taxable_type => self.base_class.name }
       if taxonomy.present?
         taxonomy_ids = get_taxonomy_ids(taxonomy, inner_method)
         conditions.merge!(:taxonomy_id => taxonomy_ids)
