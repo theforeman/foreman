@@ -209,5 +209,10 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
                                       :hostgroup_id => @hg3.id,
                                       :environment_id => @ev3.id}).name
     end
+
+    test "should call build_pxe_default with allowed_helpers containing the default helpers" do
+      TemplatesController.any_instance.expects(:render_safe).with(anything, includes(*Foreman::Renderer::ALLOWED_GENERIC_HELPERS), anything).returns(true)
+      ProvisioningTemplate.build_pxe_default(TemplatesController.new)
+    end
   end
 end
