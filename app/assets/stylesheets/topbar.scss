@@ -71,7 +71,6 @@
 .navbar-outer {
   background-color: $primary_color;
   border-color: darken($primary_color, 5%);
-  height: 25px;
   min-height: 0;
   z-index: 1;
   padding: 0 40px;
@@ -103,12 +102,11 @@
 .navbar-inner {
   border-bottom: none;
   border-top: 1px solid $border_color;
-  clear: left;
+  clear: both;
   left: 0;
   min-height: 40px;
   position: absolute;
   right: 0;
-  top: 25px;
   padding: 0 40px;
 
   @include linear-gradient($primary_gradient_start, $primary_gradient_end);
