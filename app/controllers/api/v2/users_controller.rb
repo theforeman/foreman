@@ -94,6 +94,10 @@ module Api
 
       private
 
+      def find_resource
+        editing_self? ? @user = User.current : super
+      end
+
       def allowed_nested_id
         %w(auth_source_ldap_id role_id location_id organization_id usergroup_id)
       end

@@ -152,4 +152,34 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     get :show, { :id => users(:anonymous).id }
     assert_response :not_found
   end
+
+  test "#show should not allow displaying other users without proper permission" do
+    as_user :two do
+      get :show, { :id => users(:one).id }
+    end
+    assert_response :forbidden
+  end
+
+  test "#show should allow displaying myself without any special permissions" do
+    as_user :two do
+      get :show, { :id => users(:two).id }
+    end
+    assert_response :success
+  end
+
+  test "#update should not update other users without proper permission" do
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
+    as_user :two do
+      put :update, { :id => user.id, :user => valid_attrs }
+    end
+    assert_response :forbidden
+  end
+
+  test "#update should allow updating mysel without any special permissions" do
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
+    as_user user do
+      put :update, { :id => user.id, :user => valid_attrs }
+    end
+    assert_response :success
+  end
 end

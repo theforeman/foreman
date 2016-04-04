@@ -351,7 +351,10 @@ class User < ActiveRecord::Base
   def editing_self?(options = {})
     options[:controller].to_s == 'users' &&
       options[:action] =~ /edit|update/ &&
-      options[:id].to_i == self.id
+      options[:id].to_i == self.id ||
+    options[:controller].to_s =~ /\Aapi\/v\d+\/users\Z/ &&
+      options[:action] =~ /show|update/ &&
+      (options[:id].to_i == self.id || options[:id] == self.login)
   end
 
   def taxonomy_foreign_conditions
