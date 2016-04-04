@@ -44,6 +44,7 @@ module Api
           param :tenant, String, :desc => N_("for OpenStack only")
           param :server, String, :desc => N_("for VMware")
           param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
+          param :display_type, %w(VNC SPICE), :desc => N_('for Libvirt only')
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end

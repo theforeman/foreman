@@ -272,6 +272,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   test "should update boolean attribute set_console_password for Libvirt compute resource" do
     cr = compute_resources(:one)
     put :update, { :id => cr.id, :compute_resource => { :set_console_password => true } }
+    assert_response :success
     cr.reload
     assert_equal 1, cr.attrs[:setpw]
   end
@@ -279,6 +280,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   test "should update boolean attribute set_console_password for VMware compute resource" do
     cr = compute_resources(:vmware)
     put :update, { :id => cr.id, :compute_resource => { :set_console_password => true } }
+    assert_response :success
     cr.reload
     assert_equal 1, cr.attrs[:setpw]
   end
@@ -286,7 +288,16 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   test "should not update set_console_password to true for non-VMware or non-Libvirt compute resource" do
     cr = compute_resources(:openstack)
     put :update, { :id => cr.id, :compute_resource => { :set_console_password => true } }
+    assert_response :success
     cr.reload
     assert_nil cr.attrs[:setpw]
+  end
+
+  test "should not update display_type for non-Libvirt compute resource" do
+    cr = compute_resources(:openstack)
+    put :update, { :id => cr.id, :compute_resource => { :display_type => 'SPICE' } }
+    assert_response :success
+    cr.reload
+    assert_nil cr.attrs[:display]
   end
 end
