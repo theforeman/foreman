@@ -81,7 +81,7 @@ module Foreman
           if value =~ /\A[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?\Z/
             value.to_f
           else
-            cast_value_integer value
+            cast_integer
           end
         end
       end
