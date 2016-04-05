@@ -11,7 +11,9 @@ module Api
         Location.current ||= @location = Location.find_by_id(params[:location_id])
       end
       if SETTINGS[:organizations_enabled]
-        Organization.current ||= @organization = Organization.find_by_id(params[:organization_id])
+        if params[:organization_id]
+          Organization.current ||= @organization = Organization.find(params[:organization_id])
+        end
       end
     end
   end
