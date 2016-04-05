@@ -84,5 +84,12 @@ class CasterTest < ActiveSupport::TestCase
         Foreman::Parameters::Caster.new(item, :attribute_name => :foo, :to => :hash).cast!
       end
     end
+
+    test "caster raises TypeError on invalid real" do
+      item = OpenStruct.new(:foo => "blah")
+      assert_raises(TypeError) do
+        Foreman::Parameters::Caster.new(item, :attribute_name => :foo, :to => :real).cast!
+      end
+    end
   end
 end
