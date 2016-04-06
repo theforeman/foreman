@@ -52,7 +52,7 @@ module Api
           param :domain_id, :number, :desc => N_("required if host is managed and value is not inherited from host group")
           param :realm_id, :number
           param :puppet_proxy_id, :number
-          param :puppet_class_ids, Array
+          param :puppetclass_ids, Array
           param :operatingsystem_id, String, :desc => N_("required if host is managed and value is not inherited from host group")
           param :medium_id, String, :desc => N_("required if not imaged based provisioning and host is managed and value is not inherited from host group")
           param :ptable_id, :number, :desc => N_("required if host is managed and custom partition has not been defined")
