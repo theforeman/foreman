@@ -22,8 +22,8 @@ class Report < ActiveRecord::Base
     child.instance_eval do
       scoped_search :in => :host,        :on => :name,  :complete_value => true, :rename => :host
       scoped_search :in => :environment, :on => :name,  :complete_value => true, :rename => :environment
-      scoped_search :in => :messages,    :on => :value,                          :rename => :log
-      scoped_search :in => :sources,     :on => :value,                          :rename => :resource
+      scoped_search :in => :messages,    :on => :value,                          :rename => :log, :only_explicit => true
+      scoped_search :in => :sources,     :on => :value,                          :rename => :resource, :only_explicit => true
       scoped_search :in => :hostgroup,   :on => :name,  :complete_value => true, :rename => :hostgroup
       scoped_search :in => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_fullname
       scoped_search :in => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_title
