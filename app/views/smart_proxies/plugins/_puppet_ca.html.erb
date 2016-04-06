@@ -1,9 +1,9 @@
 <ul id="proxy-puppetca-tab" class="nav nav-tabs nav-tabs-pf">
   <li class="active"><a href="#ca_general"><%= _("General") %></a></li>
-  <% if authorized_via_my_scope(:smart_proxy, :view_smart_proxies_puppet_ca, @smart_proxy) %>
+  <% if authorized_for(:permission => :view_smart_proxies_puppetca, :auth_object => @smart_proxy, :authorizer => authorizer) %>
   <li><a href="#certificates"><%= _("Certificates") %></a></li>
   <% end %>
-  <% if authorized_via_my_scope(:smart_proxy, :view_smart_proxies_autosign, @smart_proxy) %>
+  <% if authorized_for(:permission => :view_smart_proxies_autosign, :auth_object => @smart_proxy, :authorizer => authorizer) %>
   <li><a href="#autosign"><%= _("Autosign entries") %></a></li>
   <% end %>
 </ul>
@@ -22,22 +22,22 @@
     </div>
     <div class="container-fluid container-cards-pf">
       <div class="row row-cards-pf">
-      <% if authorized_via_my_scope(:smart_proxy, :view_smart_proxies_puppet_ca, @smart_proxy) %>
+      <% if authorized_for(:permission => :view_smart_proxies_puppetca, :auth_object => @smart_proxy) %>
         <span data-ajax-url="<%= counts_smart_proxy_puppetca_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner%></span>
         <span data-ajax-url="<%= expiry_smart_proxy_puppetca_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner%></span>
       <% end %>
-      <% if authorized_via_my_scope(:smart_proxy, :view_smart_proxies_autosign, @smart_proxy) %>
+      <% if authorized_for(:permission => :view_smart_proxies_autosign, :auth_object => @smart_proxy, :authorizer => authorizer) %>
         <span data-ajax-url="<%= counts_smart_proxy_autosign_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner%></span>
       <% end %>
       </div>
     </div>
   </div>
-  <% if authorized_via_my_scope(:smart_proxy, :view_smart_proxies_puppet_ca, @smart_proxy) %>
+  <% if authorized_for(:permission => :view_smart_proxies_puppetca, :auth_object => @smart_proxy, :authorizer => authorizer) %>
     <div class="tab-pane" id="certificates" data-ajax-url="<%= smart_proxy_puppetca_index_path(:smart_proxy_id => @smart_proxy) %>" data-on-complete="certTable"><%= spinner %></div>
   <% end %>
-  <% if authorized_via_my_scope(:smart_proxy, :view_smart_proxies_autosign, @smart_proxy) %>
+  <% if authorized_for(:permission => :view_smart_proxies_autosign, :auth_object => @smart_proxy, :authorizer => authorizer) %>
     <div class="tab-pane" id="autosign" data-ajax-url="<%= smart_proxy_autosign_index_path(:smart_proxy_id => @smart_proxy) %>" data-on-complete="activateDatatables"><%= spinner %></div>
-    <% if authorized_via_my_scope(:smart_proxy, :create_smart_proxies_autosign, @smart_proxy) %>
+    <% if authorized_for(:permission => :create_smart_proxies_autosign, :auth_object => @smart_proxy, :authorizer => authorizer) %>
       <div data-ajax-url=<%= new_smart_proxy_autosign_path(:smart_proxy_id => @smart_proxy) %>></div>
     <% end %>
   <% end %>
