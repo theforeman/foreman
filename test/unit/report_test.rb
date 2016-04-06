@@ -121,6 +121,12 @@ class ReportTest < ActiveSupport::TestCase
 
       assert_includes ConfigReport.authorized('view_config_reports').my_reports, report
     end
+
+    test 'Inherited children can search' do
+      assert_nothing_raised NoMethodError do
+        TestReport.search_for('blah')
+      end
+    end
   end
 end
 
