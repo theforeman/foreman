@@ -1,0 +1,17 @@
+<h4 class="header">
+  <%= title = _('Latest News') %>
+</h4>
+<% if LatestNews.items.any? %>
+  <table class="table table-striped table-bordered table-fixed">
+    <% LatestNews.items.each do |item| %>
+      <tr>
+          <td class="ellipsis col-md-3"><%= link_to(item.title, item.url, :target => '_blank') %></td>
+          <td class="col-md-1"><span class="label label-primary label-pill"><%= _('%{time_ago_in_words} ago') % {:time_ago_in_words => time_ago_in_words(item.date)} if item.date %></span></td>
+      </tr>
+    <% end %>
+  </table>
+  <p><%= _('Last updated %{time_ago_in_words} ago') % {:time_ago_in_words => time_ago_in_words(LatestNews.last_updated)}%></p>
+<% else %>
+  <p><%= _("No items retrieved from the RSS feed.") %></p>
+<% end %>
+

@@ -22,7 +22,8 @@ class Setting::General < Setting
         self.set('use_gravatar', N_("Foreman will use gravatar to display user icons"), false, N_('Use Gravatar')),
         self.set('db_pending_migration', N_("Should the `foreman-rake db:migrate` be executed on the next run of the installer modules?"), true, N_('DB pending migration')),
         self.set('db_pending_seed', N_("Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"), true, N_('DB pending seed')),
-        self.set('proxy_request_timeout', N_("Max timeout for REST client requests to smart-proxy"), 60, N_('Proxy request timeout'))
+        self.set('proxy_request_timeout', N_("Max timeout for REST client requests to smart-proxy"), 60, N_('Proxy request timeout')),
+        self.set('latest_news_rss_feed', N_("RSS feed to use for the latest news widget"), 'http://theforeman.org/feed.xml', N_('Latest news RSS feed'))
       ].each { |s| self.create! s.update(:category => "Setting::General")}
     end
 
