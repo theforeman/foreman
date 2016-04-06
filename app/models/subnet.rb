@@ -12,10 +12,14 @@ class Subnet < ActiveRecord::Base
   friendly_id :name
   include Taxonomix
   include Parameterizable::ByIdName
-  include EncOutput
+  include Exportable
+
   attr_accessible :name, :type, :network, :mask, :gateway, :dns_primary, :dns_secondary, :ipam, :from,
     :to, :vlanid, :boot_mode, :dhcp_id, :dhcp, :tftp_id, :tftp, :dns_id, :dns, :domain_ids, :domain_names,
     :subnet_parameters_attributes, :cidr
+
+  attr_exportable :name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to, :boot_mode,
+    :ipam, :vlanid, :type
 
   # This casts Subnet to Subnet::Ipv4 if no type is set
   def self.new(*attributes, &block)
@@ -274,9 +278,5 @@ class Subnet < ActiveRecord::Base
     # IPAddr::InvalidAddressError is undefined for ruby 1.9
     return IPAddr::InvalidAddressError if IPAddr.const_defined?('InvalidAddressError')
     ArgumentError
-  end
-
-  def enc_attributes
-    @enc_attributes ||= %w(name type network mask cidr gateway dns_primary dns_secondary from to boot_mode ipam vlanid)
   end
 end

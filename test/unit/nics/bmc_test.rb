@@ -27,7 +27,7 @@ class BMCTest < ActiveSupport::TestCase
     end
 
     test 'BMC password is decrypted in ENC' do
-      bmc_nic_enc = @bmc_nic.to_enc
+      bmc_nic_enc = @bmc_nic.to_export
       assert_equal bmc_nic_enc['password'], 'admin'
     end
   end

@@ -402,8 +402,8 @@ class Host::Managed < Host::Base
       param["ip"]  = ip
       param["mac"] = mac
     end
-    param['foreman_subnets'] = interfaces.map(&:subnet).compact.map(&:to_enc).uniq
-    param['foreman_interfaces'] = interfaces.map(&:to_enc)
+    param['foreman_subnets'] = interfaces.map(&:subnet).compact.map(&:to_export).uniq
+    param['foreman_interfaces'] = interfaces.map(&:to_export)
     param.update self.params
 
     # Parse ERB values contained in the parameters
