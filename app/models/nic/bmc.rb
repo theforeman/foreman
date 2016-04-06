@@ -12,7 +12,7 @@ module Nic
     end
     alias_method :virtual?, :virtual
 
-    register_to_enc_transformation :type, ->(type) { type.constantize.humanized_name }
+    attr_exportable :provider, :username, :password => ->(nic) { nic.decrypt_field(nic.password) }
 
     def proxy
       proxy = bmc_proxy
@@ -36,10 +36,6 @@ module Nic
     def ensure_physical
       self.virtual = false
       true # don't stop validation chain
-    end
-
-    def enc_attributes
-      @enc_attributes ||= (super + %w(username password provider))
     end
 
     private

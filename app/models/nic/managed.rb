@@ -5,7 +5,7 @@ module Nic
     include Orchestration::DNS
     include Orchestration::TFTP
 
-    include EncOutput
+    include Exportable
     include Foreman::Renderer
 
     before_validation :set_provisioning_flag
@@ -19,7 +19,10 @@ module Nic
     delegate :operatingsystem_id, :hostgroup_id, :environment_id,
              :overwrite?, :importing_facts, :to => :host, :allow_nil => true
 
-    register_to_enc_transformation :type, ->(type) { type.constantize.humanized_name }
+    attr_exportable :ip, :mac, :name, :attrs, :virtual, :link, :identifier, :managed, :primary, :provision, :subnet,
+      :tag => ->(nic) { nic.tag if nic.virtual? },
+      :attached_to => ->(nic) { nic.attached_to if nic.virtual? },
+      :type => ->(nic) { nic.type.constantize.humanized_name }
 
     # this ensures we can create an interface even when there is no host queue
     # e.g. outside to Host nested attributes
@@ -44,22 +47,6 @@ module Nic
 
     def self.humanized_name
       N_('Interface')
-    end
-
-    private
-
-    def enc_attributes
-      @enc_attributes ||= begin
-        base = super + %w(ip mac type name attrs virtual link identifier managed primary provision)
-        base += %w(tag attached_to) if virtual?
-        base
-      end
-    end
-
-    def embed_associations
-      @embed_attributes ||= begin
-        super + %w(subnet)
-      end
     end
 
     # Copied from compute orchestraion
