@@ -13,7 +13,7 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @config_reports = resource_scope_for_index.my_reports.includes(:logs => [:source, :message])
+        @config_reports = resource_scope_for_index.my_reports
         @total = ConfigReport.my_reports.count
       end
 

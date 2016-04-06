@@ -15,7 +15,6 @@ module Api
         @reports = ConfigReport.
           authorized(:view_config_reports).
           my_reports.
-          includes(:logs => [:source, :message]).
           search_for(*search_options).paginate(paginate_options)
       end
 
