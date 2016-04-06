@@ -18,15 +18,20 @@ class Report < ActiveRecord::Base
   validates :host_id, :status, :presence => true
   validates :reported_at, :presence => true, :uniqueness => {:scope => [:host_id, :type]}
 
-  scoped_search :in => :host,        :on => :name,  :complete_value => true, :rename => :host
-  scoped_search :in => :environment, :on => :name,  :complete_value => true, :rename => :environment
-  scoped_search :in => :messages,    :on => :value,                          :rename => :log
-  scoped_search :in => :sources,     :on => :value,                          :rename => :resource
-  scoped_search :in => :hostgroup,   :on => :name,  :complete_value => true, :rename => :hostgroup
-  scoped_search :in => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_fullname
-  scoped_search :in => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_title
+  def self.inherited(child)
+    child.instance_eval do
+      scoped_search :in => :host,        :on => :name,  :complete_value => true, :rename => :host
+      scoped_search :in => :environment, :on => :name,  :complete_value => true, :rename => :environment
+      scoped_search :in => :messages,    :on => :value,                          :rename => :log
+      scoped_search :in => :sources,     :on => :value,                          :rename => :resource
+      scoped_search :in => :hostgroup,   :on => :name,  :complete_value => true, :rename => :hostgroup
+      scoped_search :in => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_fullname
+      scoped_search :in => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_title
 
-  scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc,    :rename => :reported, :only_explicit => true
+      scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc,    :rename => :reported, :only_explicit => true
+    end
+    super
+  end
 
   # returns reports for hosts in the User's filter set
   scope :my_reports, lambda {
