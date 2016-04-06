@@ -24,7 +24,7 @@
   <tbody>
     <% for proxy in @smart_proxies %>
       <tr class="proxy-show" data-url="<%= ping_smart_proxy_path(proxy) %>">
-        <td><%= link_to_if_authorized proxy.name, hash_for_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer), :title => proxy.url %></td>
+        <td><%= link_to_if_authorized proxy.name, {:action => :show, :id => proxy}, :title => proxy.url %></td>
         <% unless SETTINGS[:locations_enabled] && SETTINGS[:organizations_enabled] %>
           <td class="hidden-sm hidden-xs nbsp ellipsis"><%= proxy.url %></td>
         <% end %>
