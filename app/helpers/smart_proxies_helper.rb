@@ -47,15 +47,15 @@ module SmartProxiesHelper
   def smart_proxy_title_actions(proxy, authorizer)
     title_actions(
       button_group(
-        link_to(_("Back"), smart_proxies_path)
+        link_to(_("Back"), smart_proxies_path, :class => 'btn btn-default')
       ),
       select_action_button(_("Select Action"), {}, feature_actions(proxy, authorizer)),
       button_group(
-        display_link_if_authorized(_("Edit"), hash_for_edit_smart_proxy_path(:id => proxy))
+        display_link_if_authorized(_("Edit"), hash_for_edit_smart_proxy_path(:id => proxy), :class => 'btn btn-default')
       ),
       button_group(
         display_delete_if_authorized(hash_for_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer),
-                                     :data => {:confirm => _("Delete %s?") % proxy.name}, :class => 'btn-danger')
+                                     :data => {:confirm => _("Delete %s?") % proxy.name}, :class => 'btn btn-danger')
       )
     )
   end
