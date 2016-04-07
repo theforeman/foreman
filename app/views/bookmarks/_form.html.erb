@@ -1,7 +1,7 @@
 <%= form_for @bookmark, :url => (@bookmark.new_record? ? bookmarks_path : bookmark_path(:id => @bookmark)) do |f| %>
   <%= base_errors_for @bookmark %>
   <%= text_f f, :name %>
-  <%= textarea_f f, :query, :value => params[:query], :size => "col-md-8" , :rows=> '3' %>
+  <%= textarea_f f, :query, :size => "col-md-8" , :rows=> '3' %>
   <%= checkbox_f(f, :public, :checked => true) %>
   <%= f.hidden_field :controller %>
   <%= submit_or_cancel f %>
