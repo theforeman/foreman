@@ -48,7 +48,9 @@ module Orchestration::TFTP
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
     @host = self.host
     if build?
-      pxe_render host.provisioning_template({:kind => host.operatingsystem.template_kind})
+      pxe_template = host.provisioning_template({:kind => host.operatingsystem.template_kind})
+      failure_missing_template unless pxe_template
+      pxe_render pxe_template
     else
       if host.operatingsystem.template_kind == "PXEGrub"
         pxe_render ProvisioningTemplate.find_by_name("PXEGrub default local boot")
@@ -94,14 +96,20 @@ module Orchestration::TFTP
 
   private
 
+  def template_kind_missing?(kind = host.operatingsystem.template_kind)
+    host.provisioning_template({:kind => kind}).nil?
+  end
+
+  def failure_missing_template
+    failure _("No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings") %
+      { :template_kind => host.operatingsystem.template_kind, :os => host.operatingsystem }
+  end
+
   def validate_tftp
     return unless tftp?
     return unless host.operatingsystem
     return if Rails.env == "test"
-    if host.provisioning_template({:kind => host.operatingsystem.template_kind}).nil? && host.provisioning_template({:kind => "iPXE"}).nil?
-      failure _("No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings") %
-                { :template_kind => host.operatingsystem.template_kind, :os => host.operatingsystem }
-    end
+    failure_missing_template if (template_kind_missing? && template_kind_missing?("iPXE"))
   end
 
   def queue_tftp

@@ -60,6 +60,15 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     assert h.interfaces.first.rebuild_tftp
   end
 
+  def test_should_fail_rebuilding_when_template_is_missing
+    h = FactoryGirl.create(:host, :with_tftp_orchestration)
+    as_admin { h.update_attribute :operatingsystem, operatingsystems(:centos5_3) }
+    h.build = true
+    h.stubs(:provisioning_template).returns(nil)
+    refute h.interfaces.first.rebuild_tftp
+    assert_match /No PXELinux templates were found/, h.errors[:base].first
+  end
+
   def test_should_fail_rebuild_tftp_with_exception
     h = FactoryGirl.create(:host, :with_tftp_orchestration)
     Nic::Managed.any_instance.expects(:setTFTP).raises(StandardError, 'TFTP rebuild failed')
