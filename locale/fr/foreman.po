@@ -5,22 +5,19 @@
 # Translators:
 # Claer <transiblu@claer.hammock.fr>, 2013-2016
 # Florentin Raud <florentin.raud@gmail.com>, 2013
-# Dominic Cleal <dominic@cleal.org>, 2013
 # Dominic Cleal <dominic@cleal.org>, 2013-2015
 # Pierre-Emmanuel Dutang <dutangp@gmail.com>, 2014
 # Romain Vrignaud <rvrignaud@gmail.com>, 2013
 # Florentin Raud <florentin.raud@gmail.com>, 2013-2014
 # Frederic Schaer <frederic.schaer@cea.fr>, 2013
 # Gael Chamoulaud <gael@redhat.com>, 2013-2014
-# Gael Chamoulaud <gael@redhat.com>, 2013
-# Iounes Gardon <iounes.gardon@gmail.com>, 2013
 # Iounes Gardon <iounes.gardon@gmail.com>, 2013
 # julien IPPOLITO <stuxboulot@gmail.com>, 2016
 # Florentin Raud <florentin.raud@gmail.com>, 2013
 # Mickaël Canévet <mickael.canevet@camptocamp.com>, 2013
-# Mickaël Canévet <mickael.canevet@camptocamp.com>, 2013
 # Pierre-Emmanuel Dutang <dutangp@gmail.com>, 2014-2015
 # Romain Vrignaud <rvrignaud@gmail.com>, 2013
+# Rudy YAYON <ryayon@outlook.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
@@ -2002,7 +1999,7 @@ msgid "Error"
 msgstr "Erreur"
 
 msgid "OK"
-msgstr "Valider"
+msgstr "Validé"
 
 msgid "Invalid authenticity token"
 msgstr "Jeton d'authenticité invalide"
