@@ -370,8 +370,8 @@ module ApplicationHelper
     (obj.new_record? && obj.class.count > 0) || (!obj.new_record? && obj.class.count > 1)
   end
 
-  def documentation_button(section = "")
-    url = documentation_url section
+  def documentation_button(section = "", options = {})
+    url = documentation_url section, options
     link_to(icon_text('help', _('Documentation'), :class => 'icon-white', :kind => 'pficon'),
       url, :rel => 'external', :class => 'btn btn-info btn-docs', :target => '_blank')
   end
@@ -398,11 +398,12 @@ module ApplicationHelper
     end
   end
 
-  def documentation_url(section = "")
+  def documentation_url(section = "", options = {})
+    root_url = options[:root_url] || "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#"
     if section.empty?
       "http://www.theforeman.org/documentation.html##{SETTINGS[:version].short}"
     else
-      "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#" + section
+      root_url + section
     end
   end
 
