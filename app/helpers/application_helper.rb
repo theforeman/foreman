@@ -435,4 +435,11 @@ module ApplicationHelper
   def hosts_count(resource_name = controller.resource_name)
     @hosts_count ||= Host::Managed.reorder('').authorized.group("#{resource_name}_id").count
   end
+
+  def webpack_dev_server
+    return unless Rails.env.development?
+    host = ::Rails.configuration.webpack.dev_server.host.call
+    port = ::Rails.configuration.webpack.dev_server.port
+    javascript_include_tag "http://#{host}:#{port}/webpack-dev-server.js"
+  end
 end

@@ -34,6 +34,7 @@ gem 'responders', '~> 2.0'
 gem 'roadie-rails', '~> 1.1'
 gem 'x-editable-rails', '~> 1.5.5'
 gem 'deacon', '~> 1.0'
+gem 'webpack-rails', '~> 0.9.8'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))

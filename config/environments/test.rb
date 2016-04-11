@@ -60,4 +60,6 @@ Foreman::Application.configure do
 
   # Randomize the order test cases are executed.
   config.active_support.test_order = :random
+
+  config.webpack.dev_server.enabled = false
 end
