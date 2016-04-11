@@ -260,7 +260,7 @@ class ComputeResource < ActiveRecord::Base
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
-  # this method is overwritten for Libvirt
+  # this method is overwritten for Libvirt and OVirt
   def editable_network_interfaces?
     networks.any?
   end
