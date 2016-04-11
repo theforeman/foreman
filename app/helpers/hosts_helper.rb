@@ -357,13 +357,14 @@ module HostsHelper
         ),
         if host.supports_power?
           button_group(
-              link_to(_("Loading power state ..."), '#', :disabled => true, :id => :loading_power_state)
+              link_to(_("Loading power state ..."), '#', :disabled => true, :class => 'btn btn-default', :id => :loading_power_state)
           )
         end,
         button_group(
           if host.try(:puppet_proxy)
             link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_object => host, :permission => 'puppetrun_hosts'),
                                   :disabled => !Setting[:puppetrun],
+                                  :class => 'btn btn-default',
                                   :title    => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))
           end
         ),
