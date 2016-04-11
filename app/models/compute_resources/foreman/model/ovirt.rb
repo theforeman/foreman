@@ -185,8 +185,6 @@ module Foreman::Model
     end
 
     def create_vm(args = {})
-      #ovirt doesn't accept '.' in vm name.
-      args[:name] = args[:name].parameterize
       if (image_id = args[:image_id])
         args.merge!({:template => image_id})
       end
