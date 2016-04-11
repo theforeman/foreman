@@ -13,4 +13,5 @@ group :development do
   gem 'bullet'
   gem "parallel_tests"
   gem 'spring', '~> 1.0'
+  gem 'foreman'
 end

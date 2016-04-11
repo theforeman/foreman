@@ -1,4 +1,4 @@
-<%= javascript "jquery.cookie", "host_checkbox" %>
+<%= javascript "host_checkbox" %>
 <% assign_selected_hosts_taxonomy_path = (@taxonomy_type == "Location") ? assign_selected_hosts_location_path : assign_selected_hosts_organization_path %>
 <%= form_for taxonomy, :url => assign_selected_hosts_taxonomy_path, :method => 'PUT' do |f| %>
   <%= base_errors_for taxonomy %>

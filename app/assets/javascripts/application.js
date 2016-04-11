@@ -1,8 +1,6 @@
-//= require jquery
 //= require jquery.turbolinks
 //= require turbolinks
 //= require i18n
-//= require jquery_ujs
 //= require jquery.ui.autocomplete
 //= require scoped_search
 //= require bootstrap
@@ -17,28 +15,16 @@
 //= require jquery.gridster
 //= require hidden_values
 //= require select_on_click
-//= require select2
-//= require underscore
 //= require editor
 //= require lookup_keys
 //= require editable/bootstrap-editable
 //= require editable/rails
 
-window.foreman = window.foreman || {};
-foreman.tools = foreman.tools || {};
-foreman.tools.showSpinner = function() {
-  $("#turbolinks-progress").show();
-}
-
-foreman.tools.hideSpinner = function() {
-  $("#turbolinks-progress").hide();
-}
-
 $(document).on('ContentLoad', onContentLoad);
 
-$(document).on("page:fetch", foreman.tools.showSpinner)
+$(document).on("page:fetch", tfm.tools.showSpinner)
 
-$(document).on("page:change", foreman.tools.hideSpinner)
+$(document).on("page:change", tfm.tools.hideSpinner)
 
 $(window).bind('beforeunload', function() {
   $(".jnotify-container").remove();
@@ -261,7 +247,7 @@ function template_info(div, url) {
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $(div).html('<div class="alert alert-warning alert-dismissable">' +
-          icon_text("warning-triangle-o", "", "pficon") +
+          tfm.tools.iconText("warning-triangle-o", "", "pficon") +
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
         __('Sorry but no templates were configured.') + '</div>');
     }
@@ -396,7 +382,7 @@ function update_puppetclasses(element) {
     data = data + '&host_id=' + host_id
   }
 
-  foreman.tools.showSpinner();
+  tfm.tools.showSpinner();
   $.ajax({
     type: 'post',
     url:  url,
@@ -438,11 +424,11 @@ function typeToIcon(type) {
   switch(type)
   {
   case 'success':
-    return icon_text("ok", __('Success') + ": ", "pficon")
+    return tfm.tools.iconText("ok", __('Success') + ": ", "pficon")
   case 'warning':
-    return icon_text("warning-triangle-o", __('Warning') + ": ", "pficon")
+    return tfm.tools.iconText("warning-triangle-o", __('Warning') + ": ", "pficon")
   case 'danger':
-    return icon_text("error-circle-o", __('Error') + ": ", "pficon")
+    return tfm.tools.iconText("error-circle-o", __('Error') + ": ", "pficon")
   }
 }
 
@@ -487,14 +473,14 @@ function toggle_input_group(item) {
 }
 
 function reloadOnAjaxComplete(element) {
-  foreman.tools.hideSpinner()
+  tfm.tools.hideSpinner()
   $('[rel="twipsy"]').tooltip();
   activate_select2(':root');
 }
 
 function set_fullscreen(element){
   var exit_button = $('<div class="exit-fullscreen"><a class="btn btn-default btn-lg" href="#" onclick="exit_fullscreen(); return false;" title="'+
-    __('Exit Full Screen')+'">' + icon_text('expand','','fa') + '</a></div>');
+    __('Exit Full Screen')+'">' + tfm.tools.iconText('expand','','fa') + '</a></div>');
   element.before("<span id='fullscreen-placeholder'></span>")
          .data('position', $(window).scrollTop())
          .addClass('fullscreen')
@@ -594,13 +580,6 @@ function disableButtonToggle(item, explicit) {
   }
 
   $(item).blur();
-}
-
-function icon_text(name, inner_text, icon_class) {
-  "use strict";
-  var icon = '<span class="' + icon_class + " " + icon_class + "-" + name + '"/>'
-  icon += typeof inner_text === "" ? "" : "<strong>" + inner_text + "</strong>";
-  return icon
 }
 
 function activate_select2(container, allowClear) {

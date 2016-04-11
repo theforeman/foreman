@@ -18,7 +18,6 @@ Foreman::Application.configure do |app|
                   host_edit
                   host_edit_interfaces
                   hosts
-                  jquery.cookie
                   host_checkbox
                   nfs_visibility
                   noVNC/base64

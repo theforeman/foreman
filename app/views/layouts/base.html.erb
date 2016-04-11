@@ -16,8 +16,10 @@
     <%= yield(:stylesheets) %>
 
     <%= csrf_meta_tags %>
+    <%= javascript_include_tag *webpack_asset_paths("bundle"), "data-turbolinks-track" => true %>
     <%= javascript_include_tag "locale/#{FastGettext.locale}/app", "data-turbolinks-track" => true %>
     <%= javascript_include_tag 'application', "data-turbolinks-track" => true %>
+    <%= webpack_dev_server %>
     <%= yield(:javascripts) %>
 
     <script type="text/javascript">

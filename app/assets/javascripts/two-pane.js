@@ -60,11 +60,11 @@ function two_pane_open(item){
     url: href,
     headers: {"X-Foreman-Layout": "two-pane"},
     success: function(response){
-      foreman.tools.hideSpinner();
+      tfm.tools.hideSpinner();
       right_pane_content(response);
     },
     error: function(response){
-      foreman.tools.hideSpinner();
+      tfm.tools.hideSpinner();
       $('#content').html(response.responseText);
     }
   });
@@ -135,7 +135,7 @@ function hide_columns(){
   if ($('.two-pane-left').length == 0){
     $('.table-two-pane').wrap( "<div class='row'><div class='col-md-3 two-pane-left'></div></div>");
   }
-  foreman.tools.showSpinner();
+  tfm.tools.showSpinner();
   $('.two-pane-left').after("<div class='col-md-9 two-pane-right'></div>");
 }
 

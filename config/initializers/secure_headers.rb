@@ -13,9 +13,15 @@
     :enforce     => true,
     :default_src => 'self',
     :frame_src   => 'self',
-    :connect_src => 'self ws: wss:',
+    :connect_src => %w(self ws: wss:),
     :style_src   => 'inline self',
-    :script_src  => 'eval inline self',
-    :img_src     => ['self', '*.gravatar.com']
+    :script_src  => %w(eval inline self),
+    :img_src     => %w(self *.gravatar.com)
   }
+  if Rails.env.development? #allow webpack dev server provided assets
+    dev_server = ["http://0.0.0.0:#{::Rails.configuration.webpack.dev_server.port}",
+                  "http://localhost:#{::Rails.configuration.webpack.dev_server.port}"]
+    config.csp[:script_src] += dev_server
+    config.csp[:connect_src] += dev_server
+  end
 end
