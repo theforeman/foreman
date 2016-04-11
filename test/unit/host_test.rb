@@ -2267,6 +2267,13 @@ class HostTest < ActiveSupport::TestCase
     refute_includes enc.keys, 'environment'
   end
 
+  test '#info ENC YAML contains domain name and description' do
+    host = FactoryGirl.build(:host, :domain => FactoryGirl.build(:domain, :name => 'example.tst', :fullname => 'custom text'))
+    enc = host.info
+    assert_equal 'example.tst', enc['parameters']['domainname']
+    assert_equal 'custom text', enc['parameters']['foreman_domain_description']
+  end
+
   test "#info ENC YAML returns no puppet classes if no environment" do
     puppetclass = FactoryGirl.create(:puppetclass)
     host             = FactoryGirl.create(:host, :puppetclasses => [puppetclass])
