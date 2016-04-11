@@ -113,12 +113,11 @@ module ComputeResourcesVmsHelper
       actions << vm_power_action(vm, authorizer)
     end
 
-    actions << display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer))
+    actions << vm_delete_action(vm, authorizer)
   end
 
   def default_available_actions(vm, authorizer = nil)
-    [vm_power_action(vm, authorizer),
-     display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer))]
+    [vm_power_action(vm, authorizer), vm_delete_action(vm, authorizer)]
   end
 
   def vpc_security_group_hash(security_groups)
@@ -187,5 +186,9 @@ module ComputeResourcesVmsHelper
       ]
     end
     JSON.fast_generate(data).html_safe
+  end
+
+  def vm_delete_action(vm, authorizer = nil)
+    display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer), :class => 'btn btn-danger')
   end
 end
