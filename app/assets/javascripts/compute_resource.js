@@ -73,7 +73,7 @@ function ovirt_templateSelected(item){
         $('[id$=_cores]').val(result.cores);
         $('#network_interfaces').children('.fields').remove();
         $.each(result.interfaces, function() {add_network_interface(this);});
-        $('#volumes').children('.fields').remove();
+        $('#storage_volumes').children('.fields').remove();
         $.each(result.volumes, function() {add_volume(this);});
       },
       complete: function(){
@@ -85,14 +85,18 @@ function ovirt_templateSelected(item){
 
 // fill in the template interfaces.
 function add_network_interface(item){
-  var new_id = add_child_node($("#network_interfaces .add_nested_fields"));
-  $('[id$='+new_id+'_name]').val(item.name);
-  $('[id$='+new_id+'_network]').val(item.network);
+  var nested_fields = $("#network_interfaces .add_nested_fields");
+  // no network interfaces update when the network editing is not allowed by the compute resource
+  if (nested_fields.length > 0) {
+      var new_id = add_child_node(nested_fields);
+      $('[id$='+new_id+'_name]').val(item.name);
+      $('[id$='+new_id+'_network]').val(item.network);
+  }
 }
 
 // fill in the template volumes.
 function add_volume(item){
-  var new_id = add_child_node($("#volumes .add_nested_fields"));
+  var new_id = add_child_node($("#storage_volumes .add_nested_fields"));
   disable_element($('[id$='+new_id+'_size_gb]').val(item.size_gb));
   disable_element($('[id$='+new_id+'_storage_domain]').val(item.storage_domain));
   disable_element( $('[id$='+new_id+'_bootable_true]').attr('checked', item.bootable));
