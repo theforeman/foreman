@@ -55,6 +55,10 @@ module Foreman::Model
       client.images.select { |image| image.status.downcase == 'active' }
     end
 
+    def available_snapshots
+      client.snapshots.all
+    end
+
     def address_pools
       client.addresses.get_address_pools.map { |p| p["name"] }
     end
@@ -68,16 +72,25 @@ module Foreman::Model
       client.get_image_details(image_id).body['image']['minDisk']
     end
 
+    def snapshot_size(snapshot_id)
+      client.snapshots.get(snapshot_id).size
+    end
+
     def boot_from_volume(args = {})
-      vm_name = args[:name]
-      args[:size_gb] = image_size(args[:image_ref]) if args[:size_gb].blank?
-      volume_name = "#{vm_name}-vol0"
-      boot_vol = volume_client.volumes.create(
-        :name => volume_name, # Name attribute in OpenStack volumes API v2
-        :display_name => volume_name, # Name attribute in API v1
-        :volumeType => "Volume",
-        :size => args[:size_gb],
-        :imageRef => args[:image_ref])
+      volume_name = "#{args[:name]}-vol0"
+      volume_params = {
+        :name => volume_name,
+        :display_name => volume_name,
+        :volumeType => "Volume"
+      }
+      if args[:clone_from_snapshot] == "true"
+        volume_params[:size] = args[:size_gb].blank? ? args[:size_gb] : snapshot_size(args[:snapshot_id])
+        volume_params[:snapshot_id] = args[:snapshot_id]
+      else
+        volume_params[:size] = args[:size_gb].blank? ? args[:size_gb] :  image_size(args[:image_ref])
+        volume_params[:imageRef] = args[:imageRef]
+      end
+      boot_vol = volume_client.volumes.create(volume_params)
       @boot_vol_id = boot_vol.id.tr('"', '')
       boot_vol.wait_for { status == 'available'  }
       args[:block_device_mapping_v2] = [ {
@@ -90,7 +103,7 @@ module Foreman::Model
     end
 
     def create_vm(args = {})
-      boot_from_volume(args) if Foreman::Cast.to_bool(args[:boot_from_volume])
+      boot_from_volume(args) if (Foreman::Cast.to_bool(args[:boot_from_volume]) || Foreman::Cast.to_bool(args[:boot_from_snapshot]))
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
@@ -105,7 +118,7 @@ module Foreman::Model
       message = JSON.parse(e.response.body)['badRequest']['message'] rescue (e.to_s)
       logger.warn "failed to create vm: #{message}"
       destroy_vm vm.id if vm
-      volume_client.volumes.delete(@boot_vol_id) if args[:boot_from_volume]
+      volume_client.volumes.delete(@boot_vol_id) if (Foreman::Cast.to_bool(args[:boot_from_volume]) || Foreman::Cast.to_bool(args[:boot_from_snapshot]))
       raise message
     end
 

@@ -18,12 +18,28 @@ class OpenstackTest < ActiveSupport::TestCase
     assert_equal host, as_admin { @compute_resource.associated_host(iface) }
   end
 
-  test "boot_from_volume does not get triggered when a string 'false' is passed as argument" do
+  test "boot_from_volume does not get triggered when boot_from_volume and boot_from_snapshot set to false" do
     Fog.mock!
     @compute_resource.stubs(:key_pair).returns(mocked_key_pair)
     @compute_resource.expects(:boot_from_volume).never
     @compute_resource.create_vm(:boot_from_volume => 'false', :nics => [""],
+                                :flavor_ref => 'foo_flavor', :image_ref => 'foo_image', :boot_from_snapshot => 'false')
+  end
+
+  test "boot_from_volume triggered when boot_from_volume set to true" do
+    Fog.mock!
+    @compute_resource.stubs(:key_pair).returns(mocked_key_pair)
+    @compute_resource.expects(:boot_from_volume).once
+    @compute_resource.create_vm(:boot_from_volume => 'true', :nics => [""],
                                 :flavor_ref => 'foo_flavor', :image_ref => 'foo_image')
+  end
+
+  test "boot_from_volume triggered when boot_from_snapshot set to true" do
+    Fog.mock!
+    @compute_resource.stubs(:key_pair).returns(mocked_key_pair)
+    @compute_resource.expects(:boot_from_volume).once
+    @compute_resource.create_vm(:nics => [""], :flavor_ref => 'foo_flavor', :image_ref => 'foo_image',
+                                :boot_from_snapshot => 'true')
   end
 
   describe "find_vm_by_uuid" do
