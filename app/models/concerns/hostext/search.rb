@@ -29,6 +29,7 @@ module Hostext
 
       scoped_search :in => :model,       :on => :name,    :complete_value => true,  :rename => :model
       scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true,  :rename => :hostgroup
+      scoped_search :in => :hostgroup,   :on => :name,    :complete_enabled => false,  :rename => :hostgroup_name, :only_explicit => true
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_fullname
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_title
       scoped_search :in => :hostgroup,   :on => :id,      :complete_enabled => false, :rename => :hostgroup_id, :only_explicit => true
