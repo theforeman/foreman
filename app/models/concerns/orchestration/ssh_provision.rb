@@ -37,9 +37,10 @@ module Orchestration::SSHProvision
     @host      = self
     logger.info "generating template to upload to #{name}"
     self.template_file = unattended_render_to_temp_file(template)
+    return true
   end
 
-  def delSSHProvisionScript; end
+  def delSSHProvisionScript; return true end
 
   def setSSHWaitForResponse
     logger.info "Starting SSH provisioning script - waiting for #{provision_ip} to respond"
@@ -53,17 +54,18 @@ module Orchestration::SSHProvision
       raise ::Foreman::Exception.new(N_('Unable to find proper authentication method'))
     end
     self.client = Foreman::Provision::SSH.new provision_ip, image.username, { :template => template_file.path, :uuid => uuid }.merge(credentials)
-
+    return true
   rescue => e
     failure _("Failed to login via SSH to %{name}: %{e}") % { :name => name, :e => e }, e
   end
 
-  def delSSHWaitForResponse; end
+  def delSSHWaitForResponse; return true end
 
   def setSSHCert
     self.handle_ca
     return false if errors.any?
     logger.info "Revoked old certificates and enabled autosign"
+    return true
   end
 
   def delSSHCert
@@ -71,6 +73,7 @@ module Orchestration::SSHProvision
     if puppetca?
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
     end
+    return true
   rescue => e
     failure _("Failed to remove certificates for %{name}: %{e}") % { :name => name, :e => e }, e
   end
@@ -81,6 +84,7 @@ module Orchestration::SSHProvision
       # since we are in a after_commit callback, we need to fetch our host again, and clean up puppet ca on our own
       Host.find(id).built
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delAutosign if puppetca?
+      return true
     else
       if Setting[:clean_up_failed_deployment]
         logger.info "Deleting host #{name} because of non zero exit code of deployment script."
@@ -93,7 +97,7 @@ module Orchestration::SSHProvision
     failure _("Failed to launch script on %{name}: %{e}") % { :name => name, :e => e }, e
   end
 
-  def delSSHProvision; end
+  def delSSHProvision; return true end
 
   def validate_ssh_provisioning
     return unless ssh_provision?

@@ -74,6 +74,7 @@ module Orchestration::Compute
     logger.info "Adding Compute instance for #{name}"
     add_interfaces_to_compute_attrs
     self.vm = compute_resource.create_vm compute_attributes.merge(:name => vm_name, :provision_method => provision_method)
+    return true
   rescue => e
     failure _("Failed to create a compute %{compute_resource} instance %{name}: %{message}\n ") % { :compute_resource => compute_resource, :name => name, :message => e.message }, e
   end
@@ -102,6 +103,7 @@ module Orchestration::Compute
 
     return false if errors.any?
     logger.info "Revoked old certificates and enabled autosign for UserData"
+    return true
   end
 
   def delUserData
@@ -111,6 +113,7 @@ module Orchestration::Compute
     if puppetca?
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
     end
+    return true
   rescue => e
     failure _("Failed to remove certificates for %{name}: %{e}") % { :name => name, :e => e }, e
   end
@@ -132,7 +135,7 @@ module Orchestration::Compute
           return false unless validate_foreman_attr(value, Host, foreman_attr)
         end
       end
-      true
+      return true
     else
       failure _("failed to save %s") % name
     end
@@ -150,11 +153,12 @@ module Orchestration::Compute
         self.send(attrs[:ip]).present? || self.ip_addresses.present?
       end
     end
+    return true
   rescue => e
     failure _("Failed to get IP for %{name}: %{e}") % { :name => name, :e => e }, e
   end
 
-  def delComputeIP; end
+  def delComputeIP; return true end
 
   def delCompute
     logger.info "Removing Compute instance for #{name}"

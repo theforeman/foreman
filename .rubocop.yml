@@ -21,6 +21,11 @@ Style/HashSyntax:
     - ruby19
     - hash_rockets
 
+# Some places, especially orchestration, benefits from explicitly
+# returning value, as it encourages the importance of method return value
+Style/RedundantReturn:
+  Enabled: false
+
 Metrics/ClassLength:
   Exclude:
     - 'test/**/*'
