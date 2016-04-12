@@ -184,8 +184,10 @@ module Foreman
     end
 
     def preseed_attributes
-      @preseed_path   = @host.operatingsystem.preseed_path   @host
-      @preseed_server = @host.operatingsystem.preseed_server @host
+      if @host.operatingsystem && @host.medium && @host.architecture
+        @preseed_path   = @host.operatingsystem.preseed_path   @host
+        @preseed_server = @host.operatingsystem.preseed_server @host
+      end
     end
 
     def yast_attributes
