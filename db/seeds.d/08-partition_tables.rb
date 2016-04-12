@@ -1,4 +1,6 @@
 # Partition tables
+organizations = Organization.all
+locations = Location.all
 Ptable.without_auditing do
   [
     { :name => 'AutoYaST entire SCSI disk', :os_family => 'Suse', :source => 'autoyast/disklayout_scsi.erb' },
@@ -19,6 +21,12 @@ Ptable.without_auditing do
     p = Ptable.create({
       :layout => File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
     }.merge(input.merge(:default => true)))
+
+    if p.default?
+      p.organizations = organizations if SETTINGS[:organizations_enabled]
+      p.locations = locations if SETTINGS[:locations_enabled]
+    end
+
     raise "Unable to create partition table: #{format_errors p}" if p.nil? || p.errors.any?
   end
 end

@@ -13,6 +13,8 @@ kinds = {}
 end
 
 # Provisioning templates
+organizations = Organization.all
+locations = Location.all
 ProvisioningTemplate.without_auditing do
   [
     # Generic PXE files
@@ -79,6 +81,12 @@ ProvisioningTemplate.without_auditing do
       :snippet  => false,
       :template => File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
     }.merge(input))
+
+    if t.default?
+      t.organizations = organizations if SETTINGS[:organizations_enabled]
+      t.locations = locations if SETTINGS[:locations_enabled]
+    end
+
     raise "Unable to create template #{t.name}: #{format_errors t}" if t.nil? || t.errors.any?
   end
 end
