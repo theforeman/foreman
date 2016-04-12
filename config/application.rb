@@ -179,6 +179,10 @@ module Foreman
         end
         child.helper helpers
       end
+
+      Plugin.all.each do |plugin|
+        plugin.to_prepare_callbacks.each(&:call)
+      end
     end
 
     # Use the database for sessions instead of the cookie-based default

@@ -92,7 +92,7 @@ module Foreman #:nodoc:
     end
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
-    attr_reader :id, :logging, :default_roles, :provision_methods, :compute_resources
+    attr_reader :id, :logging, :default_roles, :provision_methods, :compute_resources, :to_prepare_callbacks
 
     def initialize(id)
       @id = id.to_sym
@@ -100,6 +100,7 @@ module Foreman #:nodoc:
       @default_roles = {}
       @provision_methods = {}
       @compute_resources = []
+      @to_prepare_callbacks = []
     end
 
     def after_initialize
@@ -245,12 +246,26 @@ module Foreman #:nodoc:
 
     # List of helper methods allowed for templates in safe mode
     def allowed_template_helpers(*helpers)
-      Foreman::Renderer::ALLOWED_HELPERS.concat(helpers)
+      in_to_prepare do
+        Foreman::Renderer::ALLOWED_HELPERS.concat(helpers).uniq!
+      end
     end
 
     # List of variables allowed for templates in safe mode
     def allowed_template_variables(*variables)
-      Foreman::Renderer::ALLOWED_VARIABLES.concat(variables)
+      in_to_prepare do
+        Foreman::Renderer::ALLOWED_VARIABLES.concat(variables).uniq!
+      end
+    end
+
+    # List of modules which public methods will be available during template rendering
+    # including safe mode
+    def extend_template_helpers(*mods)
+      in_to_prepare do
+        mods.each do |mod|
+          extend_template_helpers_by_module(mod.to_s)
+        end
+      end
     end
 
     # Add Compute resource
@@ -308,6 +323,21 @@ module Foreman #:nodoc:
 
     def register_facet(klass, name, &block)
       Facets.register(klass, name, &block)
+    end
+
+    def in_to_prepare(&block)
+      @to_prepare_callbacks << block
+    end
+
+    private
+
+    def extend_template_helpers_by_module(mod)
+      mod = mod.constantize
+
+      (TemplatesController.descendants + [ TemplatesController, UnattendedHelper ]).each do |klass|
+        klass.send(:include, mod)
+      end
+      allowed_template_helpers(*(mod.public_instance_methods - Module.public_instance_methods))
     end
   end
 end

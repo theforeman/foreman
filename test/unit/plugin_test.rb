@@ -21,6 +21,18 @@ module Awesome; module Provider; class MyAwesome < ::ComputeResource; end; end; 
 module Awesome; class FakeFacet; end; end
 
 class PluginTest < ActiveSupport::TestCase
+  module MyMod
+    def my_helper
+      'my_helper'
+    end
+
+    private
+
+    def private_helper
+      'private_helper'
+    end
+  end
+
   def setup
     @klass = Foreman::Plugin
     # In case some real plugins are installed
@@ -200,9 +212,33 @@ class PluginTest < ActiveSupport::TestCase
       allowed_template_helpers :my_helper
       allowed_template_variables :my_variable
     end
+    # simulate application start
+    @klass.find(:foo).to_prepare_callbacks.each(&:call)
 
     assert_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
     assert_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
+  ensure
+    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
+    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_variable)
+  end
+
+  def test_extend_rendering_helpers
+    refute Foreman::Renderer.public_instance_methods.include?(:my_helper)
+    refute_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
+    refute ::TemplatesController.public_instance_methods.include?(:my_helper)
+
+    @klass.register(:foo) do
+      extend_template_helpers(MyMod)
+    end
+    # simulate application start
+    @klass.find(:foo).to_prepare_callbacks.each(&:call)
+
+    assert UnattendedHelper.public_instance_methods.include?(:my_helper)
+    refute UnattendedHelper.public_instance_methods.include?(:private_helper)
+    assert_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
+    refute_includes Foreman::Renderer::ALLOWED_HELPERS, :private_helper
+    assert ::TemplatesController.public_instance_methods.include?(:my_helper)
+    refute ::TemplatesController.public_instance_methods.include?(:private_helper)
   ensure
     Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
     Foreman::Renderer::ALLOWED_HELPERS.delete(:my_variable)
