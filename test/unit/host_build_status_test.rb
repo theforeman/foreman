@@ -29,4 +29,17 @@ class HostBuildStatusTest < ActiveSupport::TestCase
   test "should be able to refresh a smart proxy" do
     assert_empty build.errors[:proxies]
   end
+
+  test "should fail if host is locked" do
+    @host.lock!(-1)
+    @build = @host.build_status_checker
+    refute_empty @build.errors[:host]
+  end
+
+  test "should not fail if host is not yet built, even if host is locked" do
+    @host.lock!(-1)
+    @host.stubs(:get_status).returns(stub(status: 1))
+    @build = @host.build_status_checker
+    assert_empty @build.errors[:host]
+  end
 end
