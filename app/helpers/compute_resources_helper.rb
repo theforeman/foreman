@@ -1,10 +1,6 @@
 module ComputeResourcesHelper
   include LookupKeysHelper
 
-  def show_console_action(state, link)
-    state ? link : ""
-  end
-
   def vm_state(vm)
     if vm.state == 'PAUSED'
       ' ' + _("Paused")
