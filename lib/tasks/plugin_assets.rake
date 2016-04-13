@@ -44,6 +44,9 @@ task 'plugin:assets:precompile', [:engine] do |t, args|
         env = Rails.application.assets
         app = Rails.application
 
+        config = Rails.application.config
+        config.assets.digest = true
+
         Rails.application.config.assets.precompile = SETTINGS[@engine.engine_name.to_sym][:assets][:precompile]
 
         env.register_engine '.scss', Sass::Rails::ScssTemplate
@@ -54,6 +57,8 @@ task 'plugin:assets:precompile', [:engine] do |t, args|
         env.context_class.class_eval do
           class_attribute :sass_config
           self.sass_config = app.config.sass
+          self.assets_prefix = config.assets.prefix
+          self.digest_assets = config.assets.digest
         end
 
         super(Rails.application)
